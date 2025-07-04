@@ -15,6 +15,7 @@ const emits = defineEmits<{
   (e: 'resizeStart', index: number, sizes: number[]): void
   (e: 'resize', index: number, sizes: number[]): void
   (e: 'resizeEnd', index: number, sizes: number[]): void
+  (e: 'collapse', index: number, type: 'start' | 'end', sizes: number[]): void
 }>()
 
 const props = defineProps(splitterProps)
@@ -24,7 +25,8 @@ const { containerEl, containerSize } = useContainer(toRef(props, 'layout'))
 const {
   removeChild: unregisterPanel,
   children: panels,
-  addChild: sortPanel,
+  addChild: registerPanel,
+  ChildrenSorter: PanelsSorter,
 } = useOrderedChildren<PanelItemState>(getCurrentInstance()!, 'ElSplitterPanel')
 
 watch(panels, () => {
@@ -56,6 +58,11 @@ const onResizeEnd = (index: number) => {
   emits('resizeEnd', index, pxSizes.value)
 }
 
+const onCollapsible = (index: number, type: 'start' | 'end') => {
+  onCollapse(index, type)
+  emits('collapse', index, type, pxSizes.value)
+}
+
 provide(
   splitterRootContextKey,
   reactive({
@@ -68,11 +75,8 @@ provide(
     onMoveStart: onResizeStart,
     onMoving: onResize,
     onMoveEnd: onResizeEnd,
-    onCollapse,
-    registerPanel: (panel: PanelItemState) => {
-      panels.value.push(panel)
-    },
-    sortPanel,
+    onCollapse: onCollapsible,
+    registerPanel,
     unregisterPanel,
   })
 )
@@ -81,6 +85,7 @@ provide(
 <template>
   <div ref="containerEl" :class="[ns.b(), ns.e(layout)]">
     <slot />
+    <panels-sorter />
     <!-- Prevent iframe touch events from breaking -->
     <div v-if="movingIndex" :class="[ns.e('mask'), ns.e(`mask-${layout}`)]" />
   </div>

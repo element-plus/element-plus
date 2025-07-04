@@ -74,6 +74,7 @@ import { union } from 'lodash-unified'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { isArray } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
+import { PICKER_BASE_INJECTION_KEY } from '../constants'
 import { panelTimeRangeProps } from '../props/panel-time-range'
 import { useTimePanel } from '../composables/use-time-panel'
 import {
@@ -98,7 +99,7 @@ const makeSelectRange = (start: number, end: number) => {
 const { t, lang } = useLocale()
 const nsTime = useNamespace('time')
 const nsPicker = useNamespace('picker')
-const pickerBase = inject('EP_PICKER_BASE') as any
+const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
 const {
   arrowControl,
   disabledHours,

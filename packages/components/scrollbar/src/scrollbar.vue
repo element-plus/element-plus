@@ -44,6 +44,7 @@ import { useNamespace } from '@element-plus/hooks'
 import Bar from './bar.vue'
 import { scrollbarContextKey } from './constants'
 import { scrollbarEmits, scrollbarProps } from './scrollbar'
+
 import type { ScrollbarDirection } from './scrollbar'
 import type { BarInstance } from './bar'
 import type { CSSProperties, StyleValue } from 'vue'
@@ -123,8 +124,6 @@ const handleScroll = () => {
   }
 }
 
-// TODO: refactor method overrides, due to script setup dts
-// @ts-nocheck
 function scrollTo(xCord: number, yCord?: number): void
 function scrollTo(options: ScrollToOptions): void
 function scrollTo(arg1: unknown, arg2?: number) {

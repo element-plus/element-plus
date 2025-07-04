@@ -1,12 +1,12 @@
 // @ts-nocheck
 import { defineComponent, markRaw, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { afterEach, beforeEach, describe, expect, it, test, vi } from 'vitest'
+import { afterEach, describe, expect, it, test, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ArrowDown, CaretTop, CircleClose } from '@element-plus/icons-vue'
 import { usePopperContainerId } from '@element-plus/hooks'
 import { hasClass } from '@element-plus/utils'
-import { ElFormItem } from '@element-plus/components/form'
+import { ElForm, ElFormItem } from '@element-plus/components/form'
 import Select from '../src/select.vue'
 import Group from '../src/option-group.vue'
 import Option from '../src/option.vue'
@@ -47,6 +47,7 @@ const _mount = (template: string, data: any = () => ({}), otherObj?) =>
         'el-option': Option,
         'el-group-option': Group,
         'el-form-item': ElFormItem,
+        'el-form': ElForm,
       },
       template,
       data,
@@ -311,13 +312,8 @@ const TAG_NAME = `${WRAPPER_CLASS_NAME} .el-tag`
 
 describe('Select', () => {
   let wrapper: ReturnType<typeof _mount>
-  beforeEach(() => {
-    // This is convenient for testing the default value label rendering when persistent is false.
-    process.env.RUN_TEST_WITH_PERSISTENT = true
-  })
   afterEach(() => {
     document.body.innerHTML = ''
-    delete process.env.RUN_TEST_WITH_PERSISTENT
   })
 
   test('create', async () => {
@@ -387,6 +383,8 @@ describe('Select', () => {
   })
 
   test('the scenario of rendering label when there is a default value and persistent is false', async () => {
+    // This is convenient for testing the default value label rendering when persistent is false.
+    process.env.RUN_TEST_WITH_PERSISTENT = 'true'
     wrapper = _mount(
       `
       <el-select v-model="value" :persistent="false">
@@ -415,9 +413,12 @@ describe('Select', () => {
     await nextTick()
 
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('双皮奶')
+    delete process.env.RUN_TEST_WITH_PERSISTENT
   })
 
   test('when there is a default value and persistent is false, render the label and dynamically modify options', async () => {
+    // This is convenient for testing the default value label rendering when persistent is false.
+    process.env.RUN_TEST_WITH_PERSISTENT = 'true'
     wrapper = _mount(
       `
       <el-select v-model="value" :persistent="false">
@@ -449,9 +450,12 @@ describe('Select', () => {
     await nextTick()
 
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('双皮奶')
+    delete process.env.RUN_TEST_WITH_PERSISTENT
   })
 
   test('multiple is true and persistent is false', async () => {
+    // This is convenient for testing the default value label rendering when persistent is false.
+    process.env.RUN_TEST_WITH_PERSISTENT = 'true'
     wrapper = _mount(
       `
       <el-select v-model="value" :persistent="false" multiple>
@@ -482,6 +486,7 @@ describe('Select', () => {
     const tags = wrapper.findAll(`.${TAG_NAME}`)
     expect(tags.length).toBe(1)
     expect(tags[0].text()).toBe('双皮奶')
+    delete process.env.RUN_TEST_WITH_PERSISTENT
   })
 
   test('multiple is true and persistent is false, render the label and dynamically modify options', async () => {
@@ -1386,6 +1391,9 @@ describe('Select', () => {
   })
 
   test('multiple select with collapseTagsTooltip', async () => {
+    // This is convenient for testing the default value label rendering when persistent is false.
+    process.env.RUN_TEST_WITH_PERSISTENT = 'true'
+
     wrapper = _mount(
       `
       <el-select v-model="selectedList" multiple collapseTags collapse-tags-tooltip placeholder="请选择">
@@ -1433,6 +1441,8 @@ describe('Select', () => {
     const tags = document.querySelectorAll('.el-select__tags-text')
     expect(tags.length).toBe(2)
     expect(tags[1].textContent).toBe(' + 2')
+
+    delete process.env.RUN_TEST_WITH_PERSISTENT
   })
 
   test('multiple select with maxCollapseTags', async () => {
@@ -2892,6 +2902,75 @@ describe('Select', () => {
     await nextTick()
     expect(wrapper.findAll('.el-tag').length).toBe(1)
   })
+
+  it('should return slot tag data correctly & dont have tag component', async () => {
+    const value = [1, 3, 5]
+    const wrapper = _mount(
+      `
+        <el-select v-model="value" multiple>
+          <el-option v-for="option in options" :value="option.value" :label="option.label"></el-option>
+          <template #tag="{ data }">
+            <span v-for="option in data" class="no-tag" :key="option.value">
+              {{ option.value }} -  {{ option.currentLabel }}
+            </span>
+          </template>
+        </el-select>
+      `,
+      () => ({
+        value,
+        multiple: true,
+        options: [
+          { label: 'Test 1', value: 1 },
+          { label: 'Test 2', value: 2 },
+          { label: 'Test 3', value: 3 },
+          { label: 'Test 4', value: 4 },
+          { label: 'Test 5', value: 5 },
+        ],
+      })
+    )
+    await nextTick()
+    const slotTagEls = wrapper.findAll('.no-tag')
+    expect(slotTagEls).toHaveLength(3)
+    expect(wrapper.find('.el-tag').exists()).toBe(false)
+    slotTagEls.forEach((el, idx) => {
+      expect(el.text()).toBe(`${value[idx]} - Test ${value[idx]}`)
+    })
+  })
+
+  it('should expose delete-tag through slot & be able to delete a value', async () => {
+    const wrapper = _mount(
+      `
+        <el-select v-model="value" multiple>
+          <el-option v-for="option in options" :value="option.value" :label="option.label"></el-option>
+          <template #tag="{ data, deleteTag }">
+            <span v-for="option in data" class="no-tag" :key="option.value" @click="deleteTag($event, option)">
+              {{ option.value }} -  {{ option.currentLabel }}
+            </span>
+          </template>
+        </el-select>
+      `,
+      () => ({
+        value: [2, 3, 5],
+        multiple: true,
+        options: [
+          { label: 'Test 1', value: 1 },
+          { label: 'Test 2', value: 2 },
+          { label: 'Test 3', value: 3 },
+          { label: 'Test 4', value: 4 },
+          { label: 'Test 5', value: 5 },
+        ],
+      })
+    )
+    await nextTick()
+    const slotTagEls = wrapper.findAll('.no-tag')
+    expect(slotTagEls).toHaveLength(3)
+    expect(wrapper.vm.value).toEqual([2, 3, 5])
+
+    await slotTagEls[0].trigger('click')
+    expect(wrapper.findAll('.no-tag')).toHaveLength(2)
+    expect(wrapper.vm.value).toEqual([3, 5])
+  })
+
   it('It should generate accessible attributes', async () => {
     wrapper = _mount(
       `<el-select v-model="value">
@@ -3275,5 +3354,80 @@ describe('Select', () => {
     expect(options[1].textContent).toBe('0')
     expect(options[2].textContent).toBe('蚵仔煎')
     expect(options[3].textContent).toBe('北京烤鸭')
+  })
+
+  test('passes disabled prop to custom #tag slot', async () => {
+    const wrapper = _mount(
+      `
+      <el-select
+        v-model="value"
+        multiple
+        :disabled="isDisabled"
+      >
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        />
+        <template #tag="{ selectDisabled }">
+          <span class="custom-tag">
+            {{ selectDisabled ? 'selectDisabled' : 'enabled' }}
+          </span>
+        </template>
+      </el-select>
+      `,
+      () => ({
+        value: ['a', 'b'],
+        isDisabled: true,
+        options: [
+          { value: 'a', label: 'A' },
+          { value: 'b', label: 'B' },
+          { value: 'c', label: 'C' },
+        ],
+      })
+    )
+
+    await nextTick()
+    expect(wrapper.find('.custom-tag').text()).toBe('selectDisabled')
+
+    await wrapper.setData({ isDisabled: false })
+    expect(wrapper.find('.custom-tag').text()).toBe('enabled')
+  })
+
+  test('disabled prop from el-form is passed to el-select and tag slot', async () => {
+    const wrapper = _mount(
+      `
+      <el-form :disabled="formDisabled">
+        <el-form-item label="Test Select">
+          <el-select v-model="value" multiple>
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+            <template #tag="{ selectDisabled }">
+              <span class="custom-tag">{{ selectDisabled ? 'selectDisabled' : 'enabled' }}</span>
+            </template>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      `,
+      () => ({
+        value: ['a'],
+        formDisabled: true,
+        options: [
+          { value: 'a', label: 'Option A' },
+          { value: 'b', label: 'Option B' },
+        ],
+      })
+    )
+
+    await nextTick()
+    expect(wrapper.find('.custom-tag').text()).toBe('selectDisabled')
+
+    await wrapper.setData({ formDisabled: false })
+    expect(wrapper.find('.custom-tag').text()).toBe('enabled')
   })
 })

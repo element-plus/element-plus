@@ -1,4 +1,4 @@
-import { isVNode, shallowRef } from 'vue'
+import { defineComponent, h, isVNode, shallowRef, triggerRef } from 'vue'
 import { flattedChildren } from '@element-plus/utils'
 
 import type { ComponentInternalInstance, VNode } from 'vue'
@@ -22,24 +22,52 @@ export const useOrderedChildren = <T extends { uid: number }>(
   vm: ComponentInternalInstance,
   childComponentName: string
 ) => {
-  const children: Record<number, T> = {}
+  const children = shallowRef<Record<number, T>>({})
   const orderedChildren = shallowRef<T[]>([])
 
-  // TODO: split into two functions: addChild and sortChildren
   const addChild = (child: T) => {
-    children[child.uid] = child
-    orderedChildren.value = getOrderedChildren(vm, childComponentName, children)
+    children.value[child.uid] = child
+    triggerRef(children)
   }
-  const removeChild = (uid: number) => {
-    delete children[uid]
-    orderedChildren.value = orderedChildren.value.filter(
-      (children) => children.uid !== uid
+
+  const removeChild = (child: T) => {
+    delete children.value[child.uid]
+    triggerRef(children)
+  }
+
+  const sortChildren = () => {
+    orderedChildren.value = getOrderedChildren(
+      vm,
+      childComponentName,
+      children.value
     )
   }
+
+  const IsolatedRenderer = (props: { render: () => VNode[] }) => {
+    return props.render()
+  }
+
+  // TODO: Refactor `el-description` before converting this to a functional component
+  const ChildrenSorter = defineComponent({
+    setup(_, { slots }) {
+      return () => {
+        sortChildren()
+
+        return slots.default
+          ? // Create a new `ReactiveEffect` to ensure `ChildrenSorter` doesn't track any extra dependencies
+            // @ts-ignore TODO: Remove this after Vue is upgraded
+            h(IsolatedRenderer, {
+              render: slots.default,
+            })
+          : null
+      }
+    },
+  })
 
   return {
     children: orderedChildren,
     addChild,
     removeChild,
+    ChildrenSorter,
   }
 }

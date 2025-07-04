@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { h, inject, ref } from 'vue'
 import { debounce } from 'lodash-unified'
 import { addClass, hasClass, removeClass } from '@element-plus/utils'
@@ -9,27 +8,29 @@ import {
   removePopper,
 } from '../util'
 import { TABLE_INJECTION_KEY } from '../tokens'
+
 import type { TableColumnCtx } from '../table-column/defaults'
 import type { TableBodyProps } from './defaults'
 import type { TableOverflowTooltipOptions } from '../util'
+import type { DefaultRow } from '../table/defaults'
 
 function isGreaterThan(a: number, b: number, epsilon = 0.03) {
   return a - b > epsilon
 }
 
-function useEvents<T>(props: Partial<TableBodyProps<T>>) {
+function useEvents<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
   const parent = inject(TABLE_INJECTION_KEY)
   const tooltipContent = ref('')
   const tooltipTrigger = ref(h('div'))
   const handleEvent = (event: Event, row: T, name: string) => {
     const table = parent
     const cell = getCell(event)
-    let column: TableColumnCtx<T>
+    let column: TableColumnCtx<T> | null = null
     const namespace = table?.vnode.el?.dataset.prefix
     if (cell) {
       column = getColumnByCell(
         {
-          columns: props.store.states.columns.value,
+          columns: props.store?.states.columns.value ?? [],
         },
         cell,
         namespace
@@ -44,17 +45,17 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
     handleEvent(event, row, 'dblclick')
   }
   const handleClick = (event: Event, row: T) => {
-    props.store.commit('setCurrentRow', row)
+    props.store?.commit('setCurrentRow', row)
     handleEvent(event, row, 'click')
   }
   const handleContextMenu = (event: Event, row: T) => {
     handleEvent(event, row, 'contextmenu')
   }
   const handleMouseEnter = debounce((index: number) => {
-    props.store.commit('setHoverRow', index)
+    props.store?.commit('setHoverRow', index)
   }, 30)
   const handleMouseLeave = debounce(() => {
-    props.store.commit('setHoverRow', null)
+    props.store?.commit('setHoverRow', null)
   }, 30)
   const getPadding = (el: HTMLElement) => {
     const style = window.getComputedStyle(el, null)
@@ -75,11 +76,12 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
     event: MouseEvent,
     toggle: (el: Element, cls: string) => void
   ) => {
-    let node = event.target.parentNode
+    let node: Node | null | undefined = (event?.target as Element | null)
+      ?.parentNode
     while (rowSpan > 1) {
       node = node?.nextSibling
       if (!node || node.nodeName !== 'TR') break
-      toggle(node, 'hover-row hover-fixed-row')
+      toggle(node as Element, 'hover-row hover-fixed-row')
       rowSpan--
     }
   }
@@ -89,22 +91,30 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
     row: T,
     tooltipOptions: TableOverflowTooltipOptions
   ) => {
+    if (!parent) return
     const table = parent
     const cell = getCell(event)
     const namespace = table?.vnode.el?.dataset.prefix
-    let column: TableColumnCtx<T>
+    let column: TableColumnCtx<T> | null = null
     if (cell) {
       column = getColumnByCell(
         {
-          columns: props.store.states.columns.value,
+          columns: props.store?.states.columns.value ?? [],
         },
         cell,
         namespace
       )
+      if (!column) {
+        return
+      }
       if (cell.rowSpan > 1) {
         toggleRowClassByCell(cell.rowSpan, event, addClass)
       }
-      const hoverState = (table.hoverState = { cell, column, row })
+      const hoverState = (table.hoverState = {
+        cell,
+        column: column as any,
+        row,
+      })
       table?.emit(
         'cell-mouse-enter',
         hoverState.row,
@@ -158,7 +168,7 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
     ) {
       createTablePopper(
         tooltipOptions,
-        cell.innerText || cell.textContent,
+        (cell?.innerText || cell?.textContent) ?? '',
         row,
         column,
         cell,
@@ -168,7 +178,7 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
       removePopper?.()
     }
   }
-  const handleCellMouseLeave = (event) => {
+  const handleCellMouseLeave = (event: MouseEvent) => {
     const cell = getCell(event)
     if (!cell) return
     if (cell.rowSpan > 1) {

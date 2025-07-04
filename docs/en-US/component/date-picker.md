@@ -194,18 +194,19 @@ Note, date time locale (month name, first day of the week ...) are also configur
 | value-on-clear ^(2.7.0)      | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)                      | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                                                                               | —             |
 | fallback-placements ^(2.8.4) | list of possible positions for Tooltip [popper.js](https://popper.js.org/docs/v2/modifiers/flip/#fallbackplacements)         | ^[arrary]`Placement[]`                                                                                                                                         | —             |
 | placement ^(2.8.4)           | position of dropdown                                                                                                         | `Placement`                                                                                                                                                    | bottom        |
+| show-week-number ^(2.10.3)   | show the week number besides the week                                                                                        | `boolean`                                                                                                                                                      | false         |
 
 ### Events
 
-| Name            | Description                                                       | Type                                                                                      |
-| --------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| change          | triggers when user confirms the value                             | ^[Function]`(val: typeof v-model) => void`                                                |
-| blur            | triggers when Input blurs                                         | ^[Function]`(e: FocusEvent) => void`                                                      |
-| focus           | triggers when Input focuses                                       | ^[Function]`(e: FocusEvent) => void`                                                      |
-| clear ^(2.7.7)  | triggers when the clear icon is clicked in a clearable DatePicker | ^[Function]`() => void`                                                                   |
-| calendar-change | triggers when the calendar selected date is changed.              | ^[Function]`(val: [Date, null \| Date]) => void`                                          |
-| panel-change    | triggers when the navigation button click.                        | ^[Function]`(date: Date \| [Date, Date], mode: 'month' \| 'year', view?: string) => void` |
-| visible-change  | triggers when the DatePicker's dropdown appears/disappears        | ^[Function]`(visibility: boolean) => void`                                                |
+| Name            | Description                                                           | Type                                                                                      |
+| --------------- | --------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| change          | triggers when user confirms the value                                 | ^[Function]`(val: typeof v-model) => void`                                                |
+| blur            | triggers when Input blurs                                             | ^[Function]`(e: FocusEvent) => void`                                                      |
+| focus           | triggers when Input focuses                                           | ^[Function]`(e: FocusEvent) => void`                                                      |
+| clear ^(2.7.7)  | triggers when the clear icon is clicked in a clearable DatePicker     | ^[Function]`() => void`                                                                   |
+| calendar-change | triggers when the calendar selected date is changed. Only for `range` | ^[Function]`(val: [Date, null \| Date]) => void`                                          |
+| panel-change    | triggers when the navigation button click.                            | ^[Function]`(date: Date \| [Date, Date], mode: 'month' \| 'year', view?: string) => void` |
+| visible-change  | triggers when the DatePicker's dropdown appears/disappears            | ^[Function]`(visibility: boolean) => void`                                                |
 
 ### Slots
 

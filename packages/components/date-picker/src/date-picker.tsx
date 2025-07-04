@@ -14,13 +14,17 @@ import {
   DEFAULT_FORMATS_DATE,
   DEFAULT_FORMATS_DATEPICKER,
   type DateModelType,
+  PICKER_POPPER_OPTIONS_INJECTION_KEY,
   type SingleOrRange,
 } from '@element-plus/components/time-picker'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { ROOT_PICKER_INJECTION_KEY } from './constants'
-
+import {
+  ROOT_PICKER_INJECTION_KEY,
+  ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY,
+} from './constants'
 import { datePickerProps } from './props/date-picker'
 import { getPanel } from './panel-utils'
+
 import type { DatePickerExpose } from './instance'
 
 dayjs.extend(localeData)
@@ -42,8 +46,11 @@ export default defineComponent({
     const isDefaultFormat = computed(() => {
       return !props.format
     })
-    provide('ElIsDefaultFormat', isDefaultFormat)
-    provide('ElPopperOptions', reactive(toRef(props, 'popperOptions')))
+    provide(ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY, isDefaultFormat)
+    provide(
+      PICKER_POPPER_OPTIONS_INJECTION_KEY,
+      reactive(toRef(props, 'popperOptions'))
+    )
     provide(ROOT_PICKER_INJECTION_KEY, {
       slots,
       pickerNs: ns,

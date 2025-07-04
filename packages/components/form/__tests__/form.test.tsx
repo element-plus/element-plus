@@ -806,6 +806,108 @@ describe('Form', () => {
     expect(inputWrapper.attributes('tabindex')).toBeUndefined()
   })
 
+  it('validate abnormal callback', async () => {
+    const form = reactive({
+      age: '20',
+    })
+
+    const wrapper = mount({
+      setup() {
+        const rules = ref({
+          age: [
+            {
+              required: true,
+              message: 'Please input age',
+              trigger: 'change',
+            },
+          ],
+        })
+        return () => (
+          <Form ref="formRef" model={form} rules={rules.value}>
+            <FormItem ref="age" prop="age" label="age">
+              <Input v-model={form.age} />
+            </FormItem>
+          </Form>
+        )
+      },
+    })
+
+    const fn = vi.fn()
+
+    await (wrapper.vm.$refs.formRef as FormInstance).validate(() => {
+      fn()
+      throw {
+        age: [
+          {
+            field: 'age',
+            fieldValue: '',
+            message: 'Please input age',
+          },
+        ],
+      }
+    })
+
+    expect(fn).toHaveBeenCalledTimes(1)
+  })
+
+  it('prop is array', async () => {
+    vi.useFakeTimers()
+    const wrapper = mount({
+      setup() {
+        const form = reactive({
+          obj: { name: '' },
+        })
+        const rules = {
+          required: true,
+          message: 'Please input name',
+          trigger: 'blur',
+        }
+        return () => (
+          <Form ref="formRef" model={form}>
+            <FormItem
+              label="Name"
+              ref="name"
+              prop={['obj', 'name']}
+              rules={rules}
+            >
+              <Input v-model={form.obj.name} />
+            </FormItem>
+          </Form>
+        )
+      },
+    })
+
+    await nextTick()
+
+    const formRef = wrapper.vm.$refs.formRef as FormInstance
+    const valid = await formRef
+      .validateField([['obj', 'name']])
+      .then(() => true)
+      .catch(() => false)
+    expect(valid).toEqual(false)
+    vi.runAllTimers()
+    await nextTick()
+    expect(wrapper.find('.is-error').exists()).toBe(true)
+    expect(wrapper.find('.el-form-item__error').text()).toBe(
+      'Please input name'
+    )
+
+    formRef.resetFields([['obj', 'name']])
+    await nextTick()
+    vi.runAllTimers()
+    await nextTick()
+    expect(wrapper.find('.is-error').exists()).toBe(false)
+
+    const field = formRef.getField(['obj', 'name'])
+    field.validateState = 'error'
+    field.validateMessage = 'name is error'
+    vi.runAllTimers()
+    await nextTick()
+    expect(wrapper.find('.is-error').exists()).toBe(true)
+    expect(wrapper.find('.el-form-item__error').text()).toBe('name is error')
+    vi.useRealTimers()
+  })
+
   describe('FormItem', () => {
     const onSuccess = vi.fn()
     const onError = vi.fn()
