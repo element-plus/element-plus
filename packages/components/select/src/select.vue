@@ -280,9 +280,9 @@
                 <el-option
                   v-for="(item, index) in options"
                   :key="index"
-                  :label="item[optionProps?.label || 'label']"
-                  :value="item[optionProps?.value || 'value']"
-                  :disabled="item[optionProps?.disabled || 'disabled']"
+                  :label="item.label"
+                  :value="item.value"
+                  :disabled="item.disabled"
                 />
               </slot>
             </el-options>
@@ -461,6 +461,14 @@ export default defineComponent({
       }
       return API.states.selected.map((i) => i.currentLabel as string)
     })
+    const optionProps = computed(() => {
+      const source = props.props || {}
+      return {
+        label: source.label ?? 'label',
+        value: source.value ?? 'value',
+        disabled: source.disabled ?? 'disabled',
+      }
+    })
     return {
       ...API,
       modelValue,
@@ -468,7 +476,7 @@ export default defineComponent({
       calculatorRef,
       inputStyle,
       options: props.options,
-      optionProps: props.props,
+      optionProps,
     }
   },
 })
