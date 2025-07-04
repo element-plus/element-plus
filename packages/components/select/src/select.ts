@@ -15,7 +15,7 @@ import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { ArrowDown, CircleClose } from '@element-plus/icons-vue'
 import { tagProps } from '@element-plus/components/tag'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { OptionFieldMap, type OptionValue, defaultProps } from './type'
+import { OptionFieldMap, type OptionValue } from './type'
 
 import type { ExtractPropTypes } from 'vue'
 import type Select from './select.vue'

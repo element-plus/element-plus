@@ -74,8 +74,3 @@ export type OptionBasic = {
 export type OptionFieldMap = {
   [K in keyof OptionProps]?: string
 }
-export const defaultProps: OptionFieldMap = {
-  label: 'label',
-  value: 'value',
-  disabled: 'disabled',
-}

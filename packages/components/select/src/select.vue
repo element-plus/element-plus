@@ -280,9 +280,9 @@
                 <el-option
                   v-for="(item, index) in options"
                   :key="index"
-                  :label="item[optionProps.label]"
-                  :value="item[optionProps.value]"
-                  :disabled="item[optionProps.disabled]"
+                  :label="item[optionProps?.label || 'label']"
+                  :value="item[optionProps?.value || 'value']"
+                  :disabled="item[optionProps?.disabled || 'disabled']"
                 />
               </slot>
             </el-options>
@@ -429,16 +429,16 @@ export default defineComponent({
       })
     }
     watch(() => {
-      const slotsContent = slots.default?.()
-      return slotsContent
+        const slotsContent = slots.default?.()
+        return slotsContent
     }, newSlot => {
-      if (props.persistent) {
-        // If persistent is true, we don't need to manually render slots.
-        return
-      }
-      manuallyRenderSlots(newSlot)
+        if (props.persistent) {
+          // If persistent is true, we don't need to manually render slots.
+          return
+        }
+        manuallyRenderSlots(newSlot)
     }, {
-      immediate: true,
+        immediate: true,
     })
 
     provide(
@@ -461,23 +461,14 @@ export default defineComponent({
       }
       return API.states.selected.map((i) => i.currentLabel as string)
     })
-    const { options, props: rawOptionProps } = toRefs(props)
-    const optionProps = computed(() => {
-      const source = rawOptionProps.value
-      return {
-        label: Reflect.get(source, 'label') ?? 'label',
-        value: Reflect.get(source, 'value') ?? 'value',
-        disabled: Reflect.get(source, 'disabled') ?? 'disabled',
-      }
-    })
     return {
       ...API,
       modelValue,
       selectedLabel,
       calculatorRef,
       inputStyle,
-      options,
-      optionProps,
+      options: props.options,
+      optionProps: props.props,
     }
   },
 })
