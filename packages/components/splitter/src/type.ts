@@ -1,9 +1,10 @@
-import type { InjectionKey, UnwrapRef } from 'vue'
+import type { InjectionKey, UnwrapRef, VNode } from 'vue'
 
 export type Layout = 'horizontal' | 'vertical'
 
 export type PanelItemState = UnwrapRef<{
   uid: number
+  getVnode: () => VNode
   el: HTMLElement
   collapsible: { start?: boolean; end?: boolean }
   max?: number | string
