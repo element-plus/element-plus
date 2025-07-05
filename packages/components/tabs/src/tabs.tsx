@@ -9,6 +9,7 @@ import {
   renderSlot,
   watch,
 } from 'vue'
+import { omit } from 'lodash-unified'
 import {
   buildProps,
   definePropType,
@@ -204,11 +205,14 @@ const Tabs = defineComponent({
       currentName,
       registerPane,
       unregisterPane,
+      nav$,
     })
 
     expose({
       currentName,
-      tabNavRef: nav$,
+      get tabNavRef() {
+        return omit(nav$.value, ['scheduleRender'])
+      },
     })
 
     return () => {
@@ -237,23 +241,18 @@ const Tabs = defineComponent({
           </div>
         ) : null
 
-      const tabNav = () => {
-        const hasLabelSlot = panes.value.some((pane) => pane.slots.label)
-        return createVNode(
-          TabNav,
-          {
-            ref: nav$,
-            currentName: currentName.value,
-            editable: props.editable,
-            type: props.type,
-            panes: panes.value,
-            stretch: props.stretch,
-            onTabClick: handleTabClick,
-            onTabRemove: handleTabRemove,
-          },
-          { $stable: !hasLabelSlot }
-        )
-      }
+      const tabNav = () => (
+        <TabNav
+          ref={nav$}
+          currentName={currentName.value}
+          editable={props.editable}
+          type={props.type}
+          panes={panes.value}
+          stretch={props.stretch}
+          onTabClick={handleTabClick}
+          onTabRemove={handleTabRemove}
+        />
+      )
 
       const header = (
         <div

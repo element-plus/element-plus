@@ -37,6 +37,14 @@ select-v2/multiple
 
 :::
 
+## Sizes
+
+:::demo Add `size` attribute to change the size of Select-V2. In addition to the default size, there are two other options: `large`, `small`.
+
+select-v2/size
+
+:::
+
 ## Hide extra tags when the selected items are too many
 
 You can collapse tags to a text by using `collapse-tags` attribute. You can check them when mouse hover collapse text by using `collapse-tags-tooltip` attribute.
