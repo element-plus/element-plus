@@ -6,19 +6,16 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import {
-  type EmitFn,
   debugWarn,
   ensureArray,
   escapeStringRegexp,
   isUndefined,
 } from '@element-plus/utils'
 import { useComposition, useFocusController } from '@element-plus/hooks'
-import {
-  type FormItemContext,
-  useFormDisabled,
-  useFormSize,
-} from '@element-plus/components/form'
+import { useFormDisabled, useFormSize } from '@element-plus/components/form'
 
+import type { EmitFn } from '@element-plus/utils'
+import type { FormItemContext } from '@element-plus/components/form'
 import type { InputTagEmits, InputTagProps } from '../input-tag'
 
 interface UseInputTagOptions {
@@ -46,6 +43,14 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
       ? false
       : (props.modelValue?.length ?? 0) >= props.max
   })
+
+  const addTagsEmit = (value: string | string[]) => {
+    const list = [...(props.modelValue ?? []), ...ensureArray(value)]
+
+    emit(UPDATE_MODEL_EVENT, list)
+    emit(CHANGE_EVENT, list)
+    emit('add-tag', value)
+  }
 
   const handleInput = (event: Event) => {
     if (inputLimit.value) {
@@ -87,14 +92,6 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
         }
         break
     }
-  }
-
-  const addTagsEmit = (value: string | string[]) => {
-    const list = [...(props.modelValue ?? []), ...ensureArray(value)]
-
-    emit(UPDATE_MODEL_EVENT, list)
-    emit(CHANGE_EVENT, list)
-    emit('add-tag', value)
   }
 
   const handlePaste = (event: ClipboardEvent) => {
