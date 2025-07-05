@@ -19,6 +19,7 @@ import {
   getCurrentInstance,
   inject,
   onBeforeUnmount,
+  onBeforeUpdate,
   reactive,
   ref,
   useSlots,
@@ -81,5 +82,9 @@ tabsRoot.registerPane(pane)
 
 onBeforeUnmount(() => {
   tabsRoot.unregisterPane(pane)
+})
+
+onBeforeUpdate(() => {
+  if (slots.label) tabsRoot.nav$.value!.scheduleRender()
 })
 </script>
