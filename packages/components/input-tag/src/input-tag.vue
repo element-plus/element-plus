@@ -52,6 +52,7 @@
           @compositionend="handleCompositionEnd"
           @input="handleInput"
           @keydown="handleKeydown"
+          @paste="handlePaste"
         />
         <span
           ref="calculatorRef"
@@ -138,6 +139,7 @@ const {
   handleDragged,
   handleInput,
   handleKeydown,
+  handlePaste,
   handleRemoveTag,
   handleClear,
   handleCompositionStart,

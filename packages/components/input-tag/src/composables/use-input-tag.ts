@@ -1,4 +1,4 @@
-import { computed, nextTick, ref, shallowRef, watch } from 'vue'
+import { computed, ref, shallowRef, watch } from 'vue'
 import {
   CHANGE_EVENT,
   EVENT_CODE,
@@ -8,6 +8,7 @@ import {
 import {
   type EmitFn,
   debugWarn,
+  ensureArray,
   escapeStringRegexp,
   isUndefined,
 } from '@element-plus/utils'
@@ -46,7 +47,7 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
       : (props.modelValue?.length ?? 0) >= props.max
   })
 
-  const handleInput = async (event: Event) => {
+  const handleInput = (event: Event) => {
     if (inputLimit.value) {
       inputValue.value = undefined
       return
@@ -54,19 +55,10 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
 
     if (isComposing.value) return
     if (props.delimiter) {
-      const regexp =
-        props.delimiter instanceof RegExp
-          ? props.delimiter
-          : new RegExp(escapeStringRegexp(props.delimiter), 'i')
-      const tags = inputValue?.value?.split(regexp) ?? []
-
-      for (let i = 0; i < tags.length; i++) {
-        const tag = tags[i]
-        if (tag.length !== inputValue.value?.length) {
-          inputValue.value = tag
-          handleAddTag()
-          if (i < tags.length - 1) await nextTick()
-        }
+      const replacement = inputValue.value?.replace(props.delimiter, '')
+      if (replacement?.length !== inputValue.value?.length) {
+        inputValue.value = replacement
+        handleAddTag()
       }
     }
     emit(INPUT_EVENT, (event.target as HTMLInputElement).value)
@@ -97,14 +89,37 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
     }
   }
 
-  const handleAddTag = () => {
-    const value = inputValue.value?.trim()
-    if (!value || inputLimit.value) return
-    const list = [...(props.modelValue ?? []), value]
+  const addTagsEmit = (value: string | string[]) => {
+    const list = [...(props.modelValue ?? []), ...ensureArray(value)]
 
     emit(UPDATE_MODEL_EVENT, list)
     emit(CHANGE_EVENT, list)
     emit('add-tag', value)
+  }
+
+  const handlePaste = (event: ClipboardEvent) => {
+    const data = event.clipboardData?.getData('text')
+    if (!data) return
+    const regexp =
+      props.delimiter instanceof RegExp
+        ? props.delimiter
+        : new RegExp(escapeStringRegexp(props.delimiter), 'i')
+
+    const tags = data.split(regexp).filter((val) => val && val !== data)
+    if (tags[0] === data) return
+    event.preventDefault()
+    if (props.max) {
+      const maxInsert = props.max - (props.modelValue?.length ?? 0)
+      tags.splice(maxInsert)
+    }
+
+    addTagsEmit(tags)
+  }
+
+  const handleAddTag = () => {
+    const value = inputValue.value?.trim()
+    if (!value || inputLimit.value) return
+    addTagsEmit(value)
     inputValue.value = undefined
   }
 
@@ -197,6 +212,7 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
     handleDragged,
     handleInput,
     handleKeydown,
+    handlePaste,
     handleAddTag,
     handleRemoveTag,
     handleClear,

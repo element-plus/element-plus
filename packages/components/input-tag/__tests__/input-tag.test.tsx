@@ -1,7 +1,10 @@
+/**
+ * @vitest-environment happy-dom
+ */
+
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
-import sleep from '@element-plus/test-utils/sleep'
 import { ComponentSize, EVENT_CODE } from '@element-plus/constants'
 import { InputTagInstance } from '@element-plus/components/input-tag'
 import FormItem from '@element-plus/components/form/src/form-item.vue'
@@ -260,11 +263,12 @@ describe('InputTag.vue', () => {
         <InputTag v-model={inputValue.value} delimiter={/\./} />
       ))
 
-      console.log('val', `${AXIOM}.${AXIOM}.${AXIOM}.${AXIOM}.`)
-      await wrapper
-        .find('input')
-        .setValue(`${AXIOM}.${AXIOM}.${AXIOM}.${AXIOM}.`)
-      await sleep()
+      const clipboardData = new DataTransfer()
+      clipboardData.setData('text', `${AXIOM}.${AXIOM}.${AXIOM}.${AXIOM}.`)
+      const evt = new ClipboardEvent('paste', { clipboardData })
+      wrapper.find('input').element?.dispatchEvent(evt)
+      await wrapper.find('input').trigger('paste')
+
       expect(wrapper.findAll('.el-tag').length).toBe(4)
       wrapper
         .findAll('.el-tag')

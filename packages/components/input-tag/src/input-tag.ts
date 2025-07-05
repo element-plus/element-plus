@@ -142,7 +142,7 @@ export const inputTagEmits = {
     isArray(value) || isUndefined(value),
   [CHANGE_EVENT]: (value?: string[]) => isArray(value) || isUndefined(value),
   [INPUT_EVENT]: (value: string) => isString(value),
-  'add-tag': (value: string) => isString(value),
+  'add-tag': (value: string | string[]) => isString(value) || isArray(value),
   'remove-tag': (value: string) => isString(value),
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
   blur: (evt: FocusEvent) => evt instanceof FocusEvent,
