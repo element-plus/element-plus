@@ -5,12 +5,7 @@ import {
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import {
-  debugWarn,
-  ensureArray,
-  escapeStringRegexp,
-  isUndefined,
-} from '@element-plus/utils'
+import { debugWarn, ensureArray, isUndefined } from '@element-plus/utils'
 import { useComposition, useFocusController } from '@element-plus/hooks'
 import { useFormDisabled, useFormSize } from '@element-plus/components/form'
 
@@ -97,12 +92,9 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
   const handlePaste = (event: ClipboardEvent) => {
     const data = event.clipboardData?.getData('text')
     if (!data) return
-    const regexp =
-      props.delimiter instanceof RegExp
-        ? props.delimiter
-        : new RegExp(escapeStringRegexp(props.delimiter), 'i')
-
-    const tags = data.split(regexp).filter((val) => val && val !== data)
+    const tags = data
+      .split(props.delimiter)
+      .filter((val) => val && val !== data)
     if (tags[0] === data) return
     event.preventDefault()
     if (props.max) {
