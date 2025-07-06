@@ -25,6 +25,7 @@ export * from './src/select'
 
 export type {
   SelectContext,
+  FlatSelectContext,
   OptionPublicInstance as SelectOptionProxy,
   OptionBasic,
 } from './src/type'

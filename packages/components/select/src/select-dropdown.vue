@@ -17,7 +17,7 @@
 import { computed, defineComponent, inject, onMounted, ref } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
 import { useNamespace } from '@element-plus/hooks'
-import { selectKey } from './token'
+import { flatSelectKey, selectKey } from './token'
 
 export default defineComponent({
   name: 'ElSelectDropdown',
@@ -25,24 +25,26 @@ export default defineComponent({
   componentName: 'ElSelectDropdown',
 
   setup() {
-    const select = inject(selectKey)!
+    const select = inject(selectKey, undefined)
+    const flatSelect = inject(flatSelectKey)!
     const ns = useNamespace('select')
 
     // computed
-    const popperClass = computed(() => select.props.popperClass)
-    const isMultiple = computed(() => select.props.multiple)
-    const isFitInputWidth = computed(() => select.props.fitInputWidth)
+    const popperClass = computed(() => flatSelect.props.popperClass)
+    const isMultiple = computed(() => flatSelect.props.multiple)
+    const isFitInputWidth = computed(() => flatSelect.props.fitInputWidth)
     const minWidth = ref('')
 
     function updateMinWidth() {
-      minWidth.value = `${select.selectRef?.offsetWidth}px`
-    }
+      minWidth.value = `${select!.selectRef?.offsetWidth}px` }
 
     onMounted(() => {
       // TODO: updatePopper
       // popper.value.update()
-      updateMinWidth()
-      useResizeObserver(select.selectRef, updateMinWidth)
+      if(select) {
+        updateMinWidth()
+        useResizeObserver(select.selectRef, updateMinWidth)
+      }
     })
 
     return {

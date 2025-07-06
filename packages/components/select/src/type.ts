@@ -11,7 +11,12 @@ import type { optionProps } from './option'
 export interface SelectGroupContext {
   disabled: boolean
 }
-export interface SelectContext {
+
+export interface SelectContext extends FlatSelectContext {
+  selectRef?: HTMLElement
+}
+
+export interface FlatSelectContext {
   props: SelectProps
   states: SelectStates
   optionsArray: OptionPublicInstance[]
@@ -20,6 +25,7 @@ export interface SelectContext {
   onOptionDestroy(key: OptionValue, vm: OptionPublicInstance): void
   handleOptionSelect(vm: OptionPublicInstance): void
 }
+
 export type SelectStates = {
   inputValue: string
   options: Map<OptionValue, OptionPublicInstance>
@@ -52,7 +58,7 @@ export interface OptionExposed {
   visible: Ref<boolean>
   hover: Ref<boolean>
   states: OptionStates
-  select: SelectContext
+  select: FlatSelectContext
   hoverItem: () => void
   updateOption: (query: string) => void
   selectOptionClick: () => void

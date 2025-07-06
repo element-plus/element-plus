@@ -2,6 +2,7 @@ import {
   computed,
   nextTick,
   onMounted,
+  provide,
   reactive,
   ref,
   watch,
@@ -9,13 +10,10 @@ import {
 } from 'vue'
 import { get, isEqual } from 'lodash-unified'
 import {
-  debugWarn,
   ensureArray,
   isArray,
   isClient,
   isFunction,
-  isIOS,
-  isNumber,
   isObject,
   isPlainObject,
   isUndefined,
@@ -27,13 +25,8 @@ import {
   useLocale,
   useNamespace,
 } from '@element-plus/hooks'
-import {
-  useFormItem,
-  useFormItemInputId,
-  useFormSize,
-} from '@element-plus/components/form'
+import { flatSelectKey } from './token'
 
-import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { ScrollbarInstance } from '@element-plus/components/scrollbar'
 import type { SelectEmits, SelectProps } from './select'
 import type { OptionPublicInstance, OptionValue, SelectStates } from './type'
@@ -42,7 +35,6 @@ export const useFlatSelect = (props: SelectProps, emit: SelectEmits) => {
   const { t } = useLocale()
   const contentId = useId()
   const nsSelect = useNamespace('select')
-  const nsInput = useNamespace('input')
 
   const states = reactive<SelectStates>({
     inputValue: '',
@@ -61,52 +53,17 @@ export const useFlatSelect = (props: SelectProps, emit: SelectEmits) => {
   })
 
   // template refs
-  const selectRef = ref<HTMLElement>()
-  const selectionRef = ref<HTMLElement>()
-  const tooltipRef = ref<TooltipInstance>()
-  const prefixRef = ref<HTMLElement>()
-  const suffixRef = ref<HTMLElement>()
   const menuRef = ref<HTMLElement>()
   const scrollbarRef = ref<ScrollbarInstance>()
   // the controller of the expanded popup
-  const expanded = ref(false)
-  const hoverOption = ref()
 
-  const { form, formItem } = useFormItem()
-  const { inputId } = useFormItemInputId(props, {
-    formItemContext: formItem,
-  })
   const { isEmptyValue } = useEmptyValues(props)
-
-  const selectDisabled = computed(() => props.disabled || !!form?.disabled)
 
   const hasModelValue = computed(() => {
     return isArray(props.modelValue)
       ? props.modelValue.length > 0
       : !isEmptyValue(props.modelValue)
   })
-
-  const needStatusIcon = computed(() => form?.statusIcon ?? false)
-
-  const showClose = computed(() => {
-    return (
-      props.clearable &&
-      !selectDisabled.value &&
-      states.inputHovering &&
-      hasModelValue.value
-    )
-  })
-  const iconComponent = computed(() =>
-    props.remote && props.filterable && !props.remoteShowSuffix
-      ? ''
-      : props.suffixIcon
-  )
-  const iconReverse = computed(() =>
-    nsSelect.is('reverse', !!(iconComponent.value && expanded.value))
-  )
-  const isRemoteSearchEmpty = computed(
-    () => props.remote && !states.inputValue && states.options.size === 0
-  )
 
   const emptyText = computed(() => {
     if (props.loading) {
@@ -172,77 +129,23 @@ export const useFlatSelect = (props: SelectProps, emit: SelectEmits) => {
     })
   }
 
-  const selectSize = useFormSize()
-
-  const collapseTagSize = computed(() =>
-    ['small'].includes(selectSize.value) ? 'small' : 'default'
-  )
-
-  const dropdownMenuVisible = computed({
-    get() {
-      return expanded.value && !isRemoteSearchEmpty.value
-    },
-    set(val: boolean) {
-      expanded.value = val
-    },
-  })
-
-  const shouldShowPlaceholder = computed(() => {
-    if (props.multiple && !isUndefined(props.modelValue)) {
-      return ensureArray(props.modelValue).length === 0 && !states.inputValue
-    }
-    const value = isArray(props.modelValue)
-      ? props.modelValue[0]
-      : props.modelValue
-    return props.filterable || isUndefined(value) ? !states.inputValue : true
-  })
-
-  const currentPlaceholder = computed(() => {
-    const _placeholder = props.placeholder ?? t('el.select.placeholder')
-    return props.multiple || !hasModelValue.value
-      ? _placeholder
-      : states.selectedLabel
-  })
-
-  // iOS Safari does not handle click events when a mouseenter event is registered and a DOM-change happens in a child
-  // We use a Vue custom event binding to only register the event on non-iOS devices
-  // ref.: https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/HandlingEvents/HandlingEvents.html
-  // Github Issue: https://github.com/vuejs/vue/issues/9859
-  const mouseEnterEventName = computed(() => (isIOS ? null : 'mouseenter'))
-
-  watch(
-    () => props.modelValue,
-    (val, oldVal) => {
-      if (props.multiple) {
-        if (props.filterable && !props.reserveKeyword) {
-          states.inputValue = ''
-          handleQueryChange('')
-        }
-      }
-      setSelected()
-      if (!isEqual(val, oldVal) && props.validateEvent) {
-        formItem?.validate('change').catch((err) => debugWarn(err))
-      }
-    },
-    {
-      flush: 'post',
-      deep: true,
-    }
-  )
-
-  watch(
-    () => expanded.value,
-    (val) => {
-      if (val) {
-        handleQueryChange(states.inputValue)
-      } else {
-        states.inputValue = ''
-        states.previousQuery = null
-        states.isBeforeHide = true
-      }
-      emit('visible-change', val)
-    }
-  )
+  //TODO: maybe remove
+  //watch(
+  //  () => props.modelValue,
+  //  (val, oldVal) => {
+  //    if (props.multiple) {
+  //      if (props.filterable && !props.reserveKeyword) {
+  //        states.inputValue = ''
+  //        handleQueryChange('')
+  //      }
+  //    }
+  //    setSelected()
+  //  },
+  //  {
+  //    flush: 'post',
+  //    deep: true,
+  //  }
+  //)
 
   watch(
     // fix `Array.prototype.push/splice/..` cannot trigger non-deep watcher
@@ -263,17 +166,6 @@ export const useFlatSelect = (props: SelectProps, emit: SelectEmits) => {
       flush: 'post',
     }
   )
-
-  watch([() => states.hoveringIndex, optionsArray], ([val]) => {
-    if (isNumber(val) && val > -1) {
-      hoverOption.value = optionsArray.value[val] || {}
-    } else {
-      hoverOption.value = {}
-    }
-    optionsArray.value.forEach((option) => {
-      option.hover = hoverOption.value === option
-    })
-  })
 
   watchEffect(() => {
     // Anything could cause options changed, then update options
@@ -417,9 +309,10 @@ export const useFlatSelect = (props: SelectProps, emit: SelectEmits) => {
     } else {
       emit(UPDATE_MODEL_EVENT, option.value)
       emitChange(option.value)
-      expanded.value = false
+      //TODO: handle in useSelect
+      //expanded.value = false
     }
-    if (expanded.value) return
+    //if (expanded.value) return
     nextTick(() => {
       scrollToOption(option)
     })
@@ -475,14 +368,6 @@ export const useFlatSelect = (props: SelectProps, emit: SelectEmits) => {
     }
   }
 
-  const handleMenuEnter = () => {
-    states.isBeforeHide = false
-    nextTick(() => {
-      scrollbarRef.value?.update()
-      scrollToOption(states.selected)
-    })
-  }
-
   const selectOption = () => {
     const option = optionsArray.value[states.hoveringIndex]
     if (option && !option.isDisabled) {
@@ -496,62 +381,6 @@ export const useFlatSelect = (props: SelectProps, emit: SelectEmits) => {
     return isObject(item.value) ? get(item.value, props.valueKey) : item.value
   }
 
-  const optionsAllDisabled = computed(() =>
-    optionsArray.value
-      .filter((option) => option.visible)
-      .every((option) => option.isDisabled)
-  )
-
-  const showTagList = computed(() => {
-    if (!props.multiple) {
-      return []
-    }
-    return props.collapseTags
-      ? states.selected.slice(0, props.maxCollapseTags)
-      : states.selected
-  })
-
-  const collapseTagList = computed(() => {
-    if (!props.multiple) {
-      return []
-    }
-    return props.collapseTags
-      ? states.selected.slice(props.maxCollapseTags)
-      : []
-  })
-
-  const navigateOptions = (direction: 'prev' | 'next') => {
-    if (!expanded.value) {
-      expanded.value = true
-      return
-    }
-    if (
-      states.options.size === 0 ||
-      filteredOptionsCount.value === 0
-      //isComposing.value
-    )
-      return
-
-    if (!optionsAllDisabled.value) {
-      if (direction === 'next') {
-        states.hoveringIndex++
-        if (states.hoveringIndex === states.options.size) {
-          states.hoveringIndex = 0
-        }
-      } else if (direction === 'prev') {
-        states.hoveringIndex--
-        if (states.hoveringIndex < 0) {
-          states.hoveringIndex = states.options.size - 1
-        }
-      }
-      const option = optionsArray.value[states.hoveringIndex]
-      if (option.isDisabled || !option.visible) {
-        navigateOptions(direction)
-      }
-      nextTick(() => scrollToOption(hoverOption.value))
-    }
-  }
-
   const popupScroll = (data: { scrollTop: number; scrollLeft: number }) => {
     emit('popup-scroll', data)
   }
@@ -560,50 +389,46 @@ export const useFlatSelect = (props: SelectProps, emit: SelectEmits) => {
     setSelected()
   })
 
-  return {
-    inputId,
+  const FLAT_SELECT_API = {
+    t,
     contentId,
     nsSelect,
-    nsInput,
     states,
     optionsArray,
-    hoverOption,
-    selectSize,
     filteredOptionsCount,
     handleOptionSelect,
     scrollToOption,
     hasModelValue,
-    shouldShowPlaceholder,
-    currentPlaceholder,
-    mouseEnterEventName,
-    needStatusIcon,
-    showClose,
-    iconComponent,
-    iconReverse,
     updateOptions,
     showNewOption,
-    collapseTagSize,
     setSelected,
-    selectDisabled,
     emptyText,
     onOptionCreate,
     onOptionDestroy,
-    handleMenuEnter,
     selectOption,
     getValueKey,
-    navigateOptions,
-    dropdownMenuVisible,
-    showTagList,
-    collapseTagList,
     popupScroll,
 
     // DOM ref
-    tooltipRef,
-    prefixRef,
-    suffixRef,
-    selectRef,
-    selectionRef,
     scrollbarRef,
     menuRef,
   }
+
+  provide(
+    flatSelectKey,
+    reactive({
+      props,
+      states,
+      optionsArray,
+      setSelected,
+      handleOptionSelect,
+      onOptionCreate,
+      onOptionDestroy,
+    })
+  )
+
+  //TODO:
+  provide('flat-select', FLAT_SELECT_API)
+
+  return FLAT_SELECT_API
 }

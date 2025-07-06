@@ -54,7 +54,15 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, getCurrentInstance, provide, reactive, toRefs, watch } from 'vue'
+//@ts-nocheck
+import {
+  computed,
+  defineComponent,
+  getCurrentInstance,
+  reactive,
+  toRefs,
+  watch,
+} from 'vue'
 import { ClickOutside } from '@element-plus/directives'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
@@ -62,13 +70,11 @@ import { flattedChildren, isArray, isObject } from '@element-plus/utils'
 import { useCalcInputWidth } from '@element-plus/hooks'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
-import { selectKey } from './token'
 import ElOptions from './options'
 import { selectProps } from './select'
 import { useFlatSelect } from './useFlatSelect'
 
-import type { VNode } from 'vue';
-import type { SelectContext } from './type'
+import type { VNode } from 'vue'
 
 const COMPONENT_NAME = 'ElSelect'
 export default defineComponent({
@@ -98,7 +104,12 @@ export default defineComponent({
     instance.appContext.config.warnHandler = (...args) => {
       // Overrides warnings about slots not being executable outside of a render function.
       // We call slot below just to simulate data when persist is false, this warning message should be ignored
-      if (!args[0] || args[0].includes('Slot "default" invoked outside of the render function')) {
+      if (
+        !args[0] ||
+        args[0].includes(
+          'Slot "default" invoked outside of the render function'
+        )
+      ) {
         return
       }
       // eslint-disable-next-line no-console
@@ -121,7 +132,8 @@ export default defineComponent({
       modelValue,
     })
 
-    const API = useFlatSelect(_props, emit)
+    //TODO:
+    //const API = useFlatSelect(_props, emit)
     const { calculatorRef, inputStyle } = useCalcInputWidth()
 
     const flatTreeSelectData = (data: any[]) => {
@@ -141,7 +153,10 @@ export default defineComponent({
       const children = flattedChildren(vnodes || []) as VNode[]
       children.forEach((item) => {
         // @ts-expect-error
-        if (isObject(item) && (item.type.name === 'ElOption' || item.type.name === 'ElTree')) {
+        if (
+          isObject(item) &&
+          (item.type.name === 'ElOption' || item.type.name === 'ElTree')
+        ) {
           // @ts-expect-error
           const _name = item.type.name
           if (_name === 'ElTree') {
@@ -150,42 +165,35 @@ export default defineComponent({
             const treeData = item.props?.data || []
             const flatData = flatTreeSelectData(treeData)
             flatData.forEach((treeItem: any) => {
-              treeItem.currentLabel = treeItem.label || (isObject(treeItem.value) ? '' : treeItem.value)
+              treeItem.currentLabel =
+                treeItem.label ||
+                (isObject(treeItem.value) ? '' : treeItem.value)
               API.onOptionCreate(treeItem)
             })
           } else if (_name === 'ElOption') {
             const obj = { ...item.props } as any
-            obj.currentLabel = obj.label || (isObject(obj.value) ? '' : obj.value)
+            obj.currentLabel =
+              obj.label || (isObject(obj.value) ? '' : obj.value)
             API.onOptionCreate(obj)
           }
         }
       })
     }
-    watch(() => {
-      const slotsContent = slots.default?.()
-      return slotsContent
-    }, newSlot => {
+    watch(
+      () => {
+        const slotsContent = slots.default?.()
+        return slotsContent
+      },
+      (newSlot) => {
         if (props.persistent) {
           // If persistent is true, we don't need to manually render slots.
           return
         }
         manuallyRenderSlots(newSlot)
-      }, {
+      },
+      {
         immediate: true,
-      })
-
-    provide(
-      selectKey,
-      reactive({
-        props: _props,
-        states: API.states,
-        selectRef: API.selectRef,
-        optionsArray: API.optionsArray,
-        setSelected: API.setSelected,
-        handleOptionSelect: API.handleOptionSelect,
-        onOptionCreate: API.onOptionCreate,
-        onOptionDestroy: API.onOptionDestroy,
-      }) satisfies SelectContext
+      }
     )
 
     const selectedLabel = computed(() => {

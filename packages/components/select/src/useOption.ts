@@ -6,31 +6,34 @@ import {
   isObject,
   throwError,
 } from '@element-plus/utils'
-import { selectGroupKey, selectKey } from './token'
+import { flatSelectKey, selectGroupKey } from './token'
 import { COMPONENT_NAME } from './option'
 
 import type { OptionInternalInstance, OptionProps, OptionStates } from './type'
 
 export function useOption(props: OptionProps, states: OptionStates) {
   // inject
-  const select = inject(selectKey)
-  if (!select) {
-    throwError(COMPONENT_NAME, 'usage: <el-select><el-option /></el-select/>')
+  const flatSelect = inject(flatSelectKey)
+  if (!flatSelect) {
+    throwError(
+      COMPONENT_NAME,
+      'usage: <el-select><el-option /></el-select/> \n or \n <el-flat-select><el-option /></el-flat-select/>'
+    )
   }
   const selectGroup = inject(selectGroupKey, { disabled: false })
 
   // computed
   const itemSelected = computed(() => {
-    return contains(ensureArray(select.props.modelValue), props.value)
+    return contains(ensureArray(flatSelect.props.modelValue), props.value)
   })
 
   const limitReached = computed(() => {
-    if (select.props.multiple) {
-      const modelValue = ensureArray(select.props.modelValue ?? [])
+    if (flatSelect.props.multiple) {
+      const modelValue = ensureArray(flatSelect.props.modelValue ?? [])
       return (
         !itemSelected.value &&
-        modelValue.length >= select.props.multipleLimit &&
-        select.props.multipleLimit > 0
+        modelValue.length >= flatSelect.props.multipleLimit &&
+        flatSelect.props.multipleLimit > 0
       )
     } else {
       return false
@@ -54,7 +57,7 @@ export function useOption(props: OptionProps, states: OptionStates) {
     if (!isObject(props.value)) {
       return arr && arr.includes(target)
     } else {
-      const valueKey = select.props.valueKey
+      const valueKey = flatSelect.props.valueKey
       return (
         arr &&
         arr.some((item) => {
@@ -66,7 +69,9 @@ export function useOption(props: OptionProps, states: OptionStates) {
 
   const hoverItem = () => {
     if (!props.disabled && !selectGroup.disabled) {
-      select.states.hoveringIndex = select.optionsArray.indexOf(instance.proxy)
+      flatSelect.states.hoveringIndex = flatSelect.optionsArray.indexOf(
+        instance.proxy
+      )
     }
   }
 
@@ -78,18 +83,18 @@ export function useOption(props: OptionProps, states: OptionStates) {
   watch(
     () => currentLabel.value,
     () => {
-      if (!props.created && !select.props.remote) select.setSelected()
+      if (!props.created && !flatSelect.props.remote) flatSelect.setSelected()
     }
   )
 
   watch(
     () => props.value,
     (val, oldVal) => {
-      const { remote, valueKey } = select.props
+      const { remote, valueKey } = flatSelect.props
       const shouldUpdate = remote ? val !== oldVal : !isEqual(val, oldVal)
       if (shouldUpdate) {
-        select.onOptionDestroy(oldVal, instance.proxy)
-        select.onOptionCreate(instance.proxy)
+        flatSelect.onOptionDestroy(oldVal, instance.proxy)
+        flatSelect.onOptionCreate(instance.proxy)
       }
 
       if (!props.created && !remote) {
@@ -101,7 +106,7 @@ export function useOption(props: OptionProps, states: OptionStates) {
         ) {
           return
         }
-        select.setSelected()
+        flatSelect.setSelected()
       }
     }
   )
@@ -115,7 +120,7 @@ export function useOption(props: OptionProps, states: OptionStates) {
   )
 
   return {
-    select,
+    select: flatSelect,
     currentLabel,
     currentValue,
     itemSelected,
