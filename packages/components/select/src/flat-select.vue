@@ -120,7 +120,7 @@ export default defineComponent({
       modelValue,
     })
 
-    const API = inject('flat-select', useFlatSelect(_props, emit))
+    const API = inject('flat-select', () => useFlatSelect(_props, emit), true)
 
     const flatTreeSelectData = (data: any[]) => {
       return data.reduce((acc, item) => {

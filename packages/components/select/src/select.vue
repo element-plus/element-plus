@@ -249,7 +249,9 @@
         </div>
       </template>
       <template #content>
-        <el-flat-select v-bind="$props" />
+        <el-flat-select v-bind="$props">
+          <slot />
+        </el-flat-select>
       </template>
     </el-tooltip>
   </div>
