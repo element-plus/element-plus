@@ -10,10 +10,7 @@ export const uploadListProps = buildProps({
     type: definePropType<UploadFiles>(Array),
     default: () => mutable([]),
   },
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
+  disabled: Boolean,
   handlePreview: {
     type: definePropType<UploadHooks['onPreview']>(Function),
     default: NOOP,

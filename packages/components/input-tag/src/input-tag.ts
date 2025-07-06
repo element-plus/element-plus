@@ -45,10 +45,7 @@ export const inputTagProps = buildProps({
   /**
    * @description whether tags can be dragged
    */
-  draggable: {
-    type: Boolean,
-    default: false,
-  },
+  draggable: Boolean,
   /**
    * @description add a tag when a delimiter is matched
    */

@@ -22,10 +22,7 @@ export const scrollbarProps = buildProps({
   /**
    * @description whether to use the native scrollbar
    */
-  native: {
-    type: Boolean,
-    default: false,
-  },
+  native: Boolean,
   /**
    * @description style of wrap
    */

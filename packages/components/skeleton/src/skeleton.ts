@@ -8,10 +8,7 @@ export const skeletonProps = buildProps({
   /**
    * @description whether showing the animation
    */
-  animated: {
-    type: Boolean,
-    default: false,
-  },
+  animated: Boolean,
   /**
    * @description how many fake items to render to the DOM
    */

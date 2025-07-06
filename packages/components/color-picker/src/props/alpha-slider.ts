@@ -8,10 +8,7 @@ export const alphaSliderProps = buildProps({
     type: definePropType<Color>(Object),
     required: true,
   },
-  vertical: {
-    type: Boolean,
-    default: false,
-  },
+  vertical: Boolean,
 } as const)
 
 export type AlphaSliderProps = ExtractPropTypes<typeof alphaSliderProps>

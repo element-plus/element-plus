@@ -81,10 +81,7 @@ export const imageViewerProps = buildProps({
   /**
    * @description show preview image progress content.
    */
-  showProgress: {
-    type: Boolean,
-    default: false,
-  },
+  showProgress: Boolean,
   /**
    * @description set HTML attribute: crossorigin.
    */

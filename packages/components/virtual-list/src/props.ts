@@ -80,10 +80,7 @@ export const virtualizedProps = buildProps({
     type: definePropType<StyleValue>([Object, String, Array]),
   },
 
-  useIsScrolling: {
-    type: Boolean,
-    default: false,
-  },
+  useIsScrolling: Boolean,
 
   width: {
     type: [Number, String],
@@ -94,10 +91,7 @@ export const virtualizedProps = buildProps({
     type: Boolean,
     default: true,
   },
-  scrollbarAlwaysOn: {
-    type: Boolean,
-    default: false,
-  },
+  scrollbarAlwaysOn: Boolean,
 } as const)
 
 export const virtualizedListProps = buildProps({

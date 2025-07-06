@@ -52,10 +52,7 @@ export const popconfirmProps = buildProps({
   /**
    * @description is hide Icon
    */
-  hideIcon: {
-    type: Boolean,
-    default: false,
-  },
+  hideIcon: Boolean,
   /**
    * @description delay of disappear, in millisecond
    */
