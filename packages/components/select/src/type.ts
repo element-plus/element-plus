@@ -4,7 +4,11 @@ import type {
   ComputedRef,
   ExtractPropTypes,
   Ref,
+  UnwrapNestedRefs,
 } from 'vue'
+import type { ScrollbarInstance } from '@element-plus/components/scrollbar'
+import type { Translator } from '@element-plus/hooks/use-locale'
+import type { UseNamespaceReturn } from '@element-plus/hooks/use-namespace'
 import type { SelectProps } from './select'
 import type { optionProps } from './option'
 
@@ -19,6 +23,28 @@ export interface SelectContext extends FlatSelectContext {
 export interface FlatSelectContext {
   props: SelectProps
   states: SelectStates
+  t: Translator
+  contentId: string
+  nsSelect: UnwrapNestedRefs<UseNamespaceReturn>
+  filteredOptionsCount: number
+  scrollToOption: (
+    option:
+      | OptionPublicInstance
+      | OptionPublicInstance[]
+      | SelectStates['selected']
+  ) => void
+  hasModelValue: boolean
+  updateOptions: () => void
+  showNewOption: boolean
+  emptyText: string | null
+  selectOption: () => void
+  getValueKey: (
+    item: OptionPublicInstance | SelectStates['selected'][number]
+  ) => any
+  popupScroll: (data: { scrollTop: number; scrollLeft: number }) => void
+  scrollbarRef: ScrollbarInstance | undefined
+  menuRef: HTMLElement | undefined
+  handleQueryChange: (val: string) => void
   optionsArray: OptionPublicInstance[]
   setSelected(): void
   onOptionCreate(vm: OptionPublicInstance): void

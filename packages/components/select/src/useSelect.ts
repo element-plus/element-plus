@@ -44,19 +44,22 @@ import {
   useFormSize,
 } from '@element-plus/components/form'
 import { selectKey } from './token'
-import { useFlatSelect } from './useFlatSelect'
 
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { SelectEmits, SelectProps } from './select'
 import type {
+  FlatSelectContext,
   OptionBasic,
   OptionPublicInstance,
   OptionValue,
   SelectStates,
 } from './type'
 
-export const useSelect = (props: SelectProps, emit: SelectEmits) => {
-  const FLAT_SELECT_API = useFlatSelect(props, emit)
+export const useSelect = (
+  props: SelectProps,
+  emit: SelectEmits,
+  FLAT_SELECT_API: FlatSelectContext
+) => {
   const {
     t,
     contentId,
@@ -471,7 +474,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
         scrollIntoView(menu as HTMLElement, target)
       }
     }
-    scrollbarRef.value?.handleScroll()
+    FLAT_SELECT_API.scrollbarRef?.handleScroll()
   }
 
   const popperRef = computed(() => {
@@ -481,7 +484,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   const handleMenuEnter = () => {
     states.isBeforeHide = false
     nextTick(() => {
-      scrollbarRef.value?.update()
+      FLAT_SELECT_API.scrollbarRef?.update()
       scrollToOption(states.selected)
     })
   }
@@ -654,14 +657,15 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   provide(
     selectKey,
     reactive({
-      props,
-      states: FLAT_SELECT_API.states,
+      //props,
+      //states: FLAT_SELECT_API.states,
       selectRef,
-      optionsArray: FLAT_SELECT_API.optionsArray,
-      setSelected: FLAT_SELECT_API.setSelected,
-      handleOptionSelect: FLAT_SELECT_API.handleOptionSelect,
-      onOptionCreate: FLAT_SELECT_API.onOptionCreate,
-      onOptionDestroy: FLAT_SELECT_API.onOptionDestroy,
+      //optionsArray: FLAT_SELECT_API.optionsArray,
+      //setSelected: FLAT_SELECT_API.setSelected,
+      //handleOptionSelect: FLAT_SELECT_API.handleOptionSelect,
+      //onOptionCreate: FLAT_SELECT_API.onOptionCreate,
+      //onOptionDestroy: FLAT_SELECT_API.onOptionDestroy,
+      ...FLAT_SELECT_API,
     })
   )
 

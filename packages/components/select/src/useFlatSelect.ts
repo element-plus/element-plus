@@ -380,20 +380,10 @@ export const useFlatSelect = (props: SelectProps, emit: FlatSelectEmits) => {
     // DOM ref
     scrollbarRef,
     menuRef,
+    props,
   }
 
-  provide(
-    flatSelectKey,
-    reactive({
-      props,
-      states,
-      optionsArray,
-      setSelected,
-      handleOptionSelect,
-      onOptionCreate,
-      onOptionDestroy,
-    })
-  )
+  provide(flatSelectKey, reactive(FLAT_SELECT_API))
 
   provide('flat-select', FLAT_SELECT_API)
 
