@@ -13,7 +13,7 @@ import {
 } from '@element-plus/constants'
 import { inputProps } from '@element-plus/components/input'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type Autocomplete from './autocomplete.vue'
 import type { Placement } from '@element-plus/components/popper'
 import type { Awaitable } from '@element-plus/utils'
@@ -114,6 +114,9 @@ export const autocompleteProps = buildProps({
   fitInputWidth: Boolean,
 } as const)
 export type AutocompleteProps = ExtractPropTypes<typeof autocompleteProps>
+export type AutocompletePropsPublic = __ExtractPublicPropTypes<
+  typeof autocompleteProps
+>
 
 export const autocompleteEmits = {
   [UPDATE_MODEL_EVENT]: (value: string) => isString(value),

@@ -4,6 +4,7 @@ import type {
   ComputedRef,
   ExtractPropTypes,
   Ref,
+  __ExtractPublicPropTypes,
 } from 'vue'
 import type { SelectProps } from './select'
 import type { optionProps } from './option'
@@ -37,6 +38,7 @@ export type SelectStates = {
   isBeforeHide: boolean
 }
 export type OptionProps = ExtractPropTypes<typeof optionProps>
+export type OptionPropsPublic = __ExtractPublicPropTypes<typeof optionProps>
 export interface OptionStates {
   index: number
   groupDisabled: boolean

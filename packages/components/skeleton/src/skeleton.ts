@@ -1,7 +1,7 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 
 import type Skeleton from './skeleton.vue'
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type { ThrottleType } from '@element-plus/hooks'
 
 export const skeletonProps = buildProps({
@@ -38,5 +38,6 @@ export const skeletonProps = buildProps({
   },
 } as const)
 export type SkeletonProps = ExtractPropTypes<typeof skeletonProps>
+export type SkeletonPropsPublic = __ExtractPublicPropTypes<typeof skeletonProps>
 
 export type SkeletonInstance = InstanceType<typeof Skeleton> & unknown
