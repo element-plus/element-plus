@@ -17,10 +17,7 @@ export const splitterPanelProps = buildProps({
     type: Boolean,
     default: true,
   },
-  collapsible: {
-    type: Boolean,
-    default: false,
-  },
+  collapsible: Boolean,
 } as const)
 
 export type SplitterPanelProps = ExtractPropTypes<typeof splitterPanelProps>

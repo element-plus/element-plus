@@ -420,10 +420,7 @@ export default {
   /**
    * @description whether to preserve expanded row content in DOM when collapsed
    */
-  preserveExpandedContent: {
-    type: Boolean,
-    default: false,
-  },
+  preserveExpandedContent: Boolean,
 }
 export type {
   SummaryMethod,

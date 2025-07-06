@@ -85,14 +85,8 @@ export const popperContentProps = buildProps({
     default: true,
   },
   pure: Boolean,
-  focusOnShow: {
-    type: Boolean,
-    default: false,
-  },
-  trapping: {
-    type: Boolean,
-    default: false,
-  },
+  focusOnShow: Boolean,
+  trapping: Boolean,
   popperClass: {
     type: definePropType<ClassType>([String, Array, Object]),
   },

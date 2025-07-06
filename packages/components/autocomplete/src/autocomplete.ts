@@ -91,17 +91,11 @@ export const autocompleteProps = buildProps({
   /**
    * @description whether to emit a `select` event on enter when there is no autocomplete match
    */
-  selectWhenUnmatched: {
-    type: Boolean,
-    default: false,
-  },
+  selectWhenUnmatched: Boolean,
   /**
    * @description whether to hide the loading icon in remote search
    */
-  hideLoading: {
-    type: Boolean,
-    default: false,
-  },
+  hideLoading: Boolean,
   /**
    * @description whether select dropdown is teleported to the body
    */
@@ -113,17 +107,11 @@ export const autocompleteProps = buildProps({
   /**
    * @description whether to highlight first item in remote search suggestions by default
    */
-  highlightFirstItem: {
-    type: Boolean,
-    default: false,
-  },
+  highlightFirstItem: Boolean,
   /**
    * @description whether the width of the dropdown is the same as the input
    */
-  fitInputWidth: {
-    type: Boolean,
-    default: false,
-  },
+  fitInputWidth: Boolean,
 } as const)
 export type AutocompleteProps = ExtractPropTypes<typeof autocompleteProps>
 

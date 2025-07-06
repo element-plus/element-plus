@@ -21,10 +21,7 @@ export default defineComponent({
     /**
      * @description whether to pick a time range
      */
-    isRange: {
-      type: Boolean,
-      default: false,
-    },
+    isRange: Boolean,
   },
   emits: [UPDATE_MODEL_EVENT],
   setup(props, ctx) {
