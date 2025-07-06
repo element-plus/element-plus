@@ -76,6 +76,7 @@ import { ElResult } from '@element-plus/components/result'
 import { ElRow } from '@element-plus/components/row'
 import { ElScrollbar } from '@element-plus/components/scrollbar'
 import {
+  ElFlatSelect,
   ElOption,
   ElOptionGroup,
   ElSelect,
@@ -184,6 +185,7 @@ export default [
   ElSelect,
   ElOption,
   ElOptionGroup,
+  ElFlatSelect,
   ElSelectV2,
   ElSkeleton,
   ElSkeletonItem,

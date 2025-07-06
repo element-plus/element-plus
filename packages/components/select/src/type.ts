@@ -14,7 +14,6 @@ export interface SelectGroupContext {
 export interface SelectContext {
   props: SelectProps
   states: SelectStates
-  selectRef: HTMLElement | undefined
   optionsArray: OptionPublicInstance[]
   setSelected(): void
   onOptionCreate(vm: OptionPublicInstance): void

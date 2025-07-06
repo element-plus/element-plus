@@ -2,6 +2,7 @@ import { withInstall, withNoopInstall } from '@element-plus/utils'
 import Select from './src/select.vue'
 import Option from './src/option.vue'
 import OptionGroup from './src/option-group.vue'
+import FlatSelect from './src/flat-select.vue'
 
 import type { SFCWithInstall } from '@element-plus/utils'
 
@@ -14,6 +15,8 @@ export const ElSelect: SFCWithInstall<typeof Select> & {
 })
 export default ElSelect
 export const ElOption: SFCWithInstall<typeof Option> = withNoopInstall(Option)
+export const ElFlatSelect: SFCWithInstall<typeof FlatSelect> =
+  withNoopInstall(FlatSelect)
 export const ElOptionGroup: SFCWithInstall<typeof OptionGroup> =
   withNoopInstall(OptionGroup)
 
