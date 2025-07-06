@@ -275,6 +275,20 @@ describe('InputTag.vue', () => {
         .forEach((tag) => expect(tag.text()).toBe(AXIOM))
       expect(inputValue.value).toEqual([AXIOM, AXIOM, AXIOM, AXIOM])
     })
+    test('should add multiple tags without paste', async () => {
+      const inputValue = ref<string[]>()
+      const wrapper = mount(() => (
+        <InputTag v-model={inputValue.value} delimiter={/\./} />
+      ))
+
+      await wrapper.find('input').setValue(`${AXIOM}.${AXIOM}.${AXIOM}`)
+
+      expect(wrapper.findAll('.el-tag').length).toBe(3)
+      wrapper
+        .findAll('.el-tag')
+        .forEach((tag) => expect(tag.text()).toBe(AXIOM))
+      expect(inputValue.value).toEqual([AXIOM, AXIOM, AXIOM])
+    })
   })
 
   describe('events', () => {

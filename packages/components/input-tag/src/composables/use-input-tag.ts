@@ -45,6 +45,21 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
     emit(UPDATE_MODEL_EVENT, list)
     emit(CHANGE_EVENT, list)
     emit('add-tag', value)
+    inputValue.value = undefined
+  }
+
+  const getDelimitedTags = (input: string) => {
+    const tags = input
+      .split(props.delimiter)
+      .filter((val) => val && val !== input)
+    if (props.max) {
+      const maxInsert = props.max - (props.modelValue?.length ?? 0)
+      tags.splice(maxInsert)
+    }
+    return {
+      tags,
+      hasDelimited: tags.length && tags[0] !== input,
+    }
   }
 
   const handleInput = (event: Event) => {
@@ -55,10 +70,9 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
 
     if (isComposing.value) return
     if (props.delimiter) {
-      const replacement = inputValue.value?.replace(props.delimiter, '')
-      if (replacement?.length !== inputValue.value?.length) {
-        inputValue.value = replacement
-        handleAddTag()
+      const { tags, hasDelimited } = getDelimitedTags(inputValue.value!)
+      if (hasDelimited) {
+        addTagsEmit(tags.length === 1 ? tags[0] : tags)
       }
     }
     emit(INPUT_EVENT, (event.target as HTMLInputElement).value)
@@ -92,24 +106,17 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
   const handlePaste = (event: ClipboardEvent) => {
     const data = event.clipboardData?.getData('text')
     if (!data) return
-    const tags = data
-      .split(props.delimiter)
-      .filter((val) => val && val !== data)
-    if (tags[0] === data) return
-    event.preventDefault()
-    if (props.max) {
-      const maxInsert = props.max - (props.modelValue?.length ?? 0)
-      tags.splice(maxInsert)
+    const { tags, hasDelimited } = getDelimitedTags(data)
+    if (hasDelimited) {
+      event.preventDefault()
+      addTagsEmit(tags)
     }
-
-    addTagsEmit(tags)
   }
 
   const handleAddTag = () => {
     const value = inputValue.value?.trim()
     if (!value || inputLimit.value) return
     addTagsEmit(value)
-    inputValue.value = undefined
   }
 
   const handleRemoveTag = (index: number) => {
