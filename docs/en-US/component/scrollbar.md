@@ -69,6 +69,7 @@ scrollbar/infinite-scroll
 | aria-label ^(2.4.0) ^(a11y)       | aria-label of view                                                                                                              | ^[string]                                                           | —       |
 | aria-orientation ^(2.4.0) ^(a11y) | aria-orientation of view                                                                                                        | ^[enum]`'horizontal' \| 'vertical'`                                 | —       |
 | tabindex ^(2.8.3)                 | tabindex of wrap container                                                                                                      | ^[number] / ^[string]                                               | —       |
+| distance ^(2.10.4)                | trigger end-reached event distance(px)                                                                                          | ^[number]                                                           | 0       |
 
 ### Events
 

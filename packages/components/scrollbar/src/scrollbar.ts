@@ -6,6 +6,13 @@ import type Scrollbar from './scrollbar.vue'
 
 export const scrollbarProps = buildProps({
   /**
+   * @description trigger distance(px)
+   */
+  distance: {
+    type: Number,
+    default: 0,
+  },
+  /**
    * @description height of scrollbar
    */
   height: {
