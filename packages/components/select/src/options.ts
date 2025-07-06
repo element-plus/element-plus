@@ -1,7 +1,7 @@
 import { defineComponent, inject } from 'vue'
 import { isEqual } from 'lodash-unified'
 import { isArray, isFunction, isString } from '@element-plus/utils'
-import { selectKey } from './token'
+import { flatSelectKey } from './token'
 
 import type { Component, VNode, VNodeNormalizedChildren } from 'vue'
 import type { OptionValue } from './type'
@@ -9,7 +9,7 @@ import type { OptionValue } from './type'
 export default defineComponent({
   name: 'ElOptions',
   setup(_, { slots }) {
-    const select = inject(selectKey)
+    const flatSelect = inject(flatSelectKey)
     let cachedValueList: OptionValue[] = []
 
     return () => {
@@ -43,8 +43,8 @@ export default defineComponent({
 
       if (!isEqual(valueList, cachedValueList)) {
         cachedValueList = valueList
-        if (select) {
-          select.states.optionValues = valueList
+        if (flatSelect) {
+          flatSelect.states.optionValues = valueList
         }
       }
 

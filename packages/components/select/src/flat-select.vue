@@ -54,20 +54,18 @@
 </template>
 
 <script lang="ts">
-//@ts-nocheck
 import {
   computed,
   defineComponent,
   getCurrentInstance,
+  inject,
   reactive,
   toRefs,
   watch,
 } from 'vue'
-import { ClickOutside } from '@element-plus/directives'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { flattedChildren, isArray, isObject } from '@element-plus/utils'
-import { useCalcInputWidth } from '@element-plus/hooks'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
 import ElOptions from './options'
@@ -86,18 +84,8 @@ export default defineComponent({
     ElOptions,
     ElScrollbar,
   },
-  directives: { ClickOutside },
   props: selectProps,
-  emits: [
-    UPDATE_MODEL_EVENT,
-    CHANGE_EVENT,
-    'remove-tag',
-    'clear',
-    'visible-change',
-    'focus',
-    'blur',
-    'popup-scroll',
-  ],
+  emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, 'popup-scroll'],
 
   setup(props, { emit, slots }) {
     const instance = getCurrentInstance()!
@@ -132,9 +120,7 @@ export default defineComponent({
       modelValue,
     })
 
-    //TODO:
-    //const API = useFlatSelect(_props, emit)
-    const { calculatorRef, inputStyle } = useCalcInputWidth()
+    const API = inject('flat-select', useFlatSelect(_props, emit))
 
     const flatTreeSelectData = (data: any[]) => {
       return data.reduce((acc, item) => {
@@ -152,9 +138,9 @@ export default defineComponent({
       // manually render and load option data here.
       const children = flattedChildren(vnodes || []) as VNode[]
       children.forEach((item) => {
-        // @ts-expect-error
         if (
           isObject(item) &&
+          // @ts-expect-error
           (item.type.name === 'ElOption' || item.type.name === 'ElTree')
         ) {
           // @ts-expect-error
@@ -196,19 +182,9 @@ export default defineComponent({
       }
     )
 
-    const selectedLabel = computed(() => {
-      if (!props.multiple) {
-        return API.states.selectedLabel
-      }
-      return API.states.selected.map((i) => i.currentLabel as string)
-    })
-
     return {
       ...API,
       modelValue,
-      selectedLabel,
-      calculatorRef,
-      inputStyle,
     }
   },
 })

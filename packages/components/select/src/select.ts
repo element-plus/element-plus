@@ -270,10 +270,13 @@ export const selectProps = buildProps({
   ...useAriaProps(['ariaLabel']),
 })
 /* eslint-disable @typescript-eslint/no-unused-vars */
-export const selectEmits = {
+export const flatSelectEmits = {
   [UPDATE_MODEL_EVENT]: (val: SelectProps['modelValue']) => true,
   [CHANGE_EVENT]: (val: SelectProps['modelValue']) => true,
   'popup-scroll': scrollbarEmits.scroll,
+}
+export const selectEmits = {
+  ...flatSelectEmits,
   'remove-tag': (val: unknown) => true,
   'visible-change': (visible: boolean) => true,
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
@@ -284,4 +287,5 @@ export const selectEmits = {
 
 export type SelectProps = ExtractPropTypes<typeof selectProps>
 export type SelectEmits = EmitFn<typeof selectEmits>
+export type FlatSelectEmits = EmitFn<typeof flatSelectEmits>
 export type SelectInstance = InstanceType<typeof Select> & unknown

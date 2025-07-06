@@ -28,10 +28,10 @@ import {
 import { flatSelectKey } from './token'
 
 import type { ScrollbarInstance } from '@element-plus/components/scrollbar'
-import type { SelectEmits, SelectProps } from './select'
+import type { FlatSelectEmits, SelectProps } from './select'
 import type { OptionPublicInstance, OptionValue, SelectStates } from './type'
 
-export const useFlatSelect = (props: SelectProps, emit: SelectEmits) => {
+export const useFlatSelect = (props: SelectProps, emit: FlatSelectEmits) => {
   const { t } = useLocale()
   const contentId = useId()
   const nsSelect = useNamespace('select')
