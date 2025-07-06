@@ -36,12 +36,13 @@ export default defineComponent({
     const minWidth = ref('')
 
     function updateMinWidth() {
-      minWidth.value = `${select!.selectRef?.offsetWidth}px` }
+      minWidth.value = `${select!.selectRef?.offsetWidth}px`
+    }
 
     onMounted(() => {
       // TODO: updatePopper
       // popper.value.update()
-      if(select) {
+      if (select) {
         updateMinWidth()
         useResizeObserver(select.selectRef, updateMinWidth)
       }

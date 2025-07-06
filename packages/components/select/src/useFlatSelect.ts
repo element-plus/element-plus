@@ -6,7 +6,6 @@ import {
   reactive,
   ref,
   watch,
-  watchEffect,
 } from 'vue'
 import { get, isEqual } from 'lodash-unified'
 import {
@@ -37,19 +36,21 @@ export const useFlatSelect = (props: SelectProps, emit: FlatSelectEmits) => {
   const nsSelect = useNamespace('select')
 
   const states = reactive<SelectStates>({
-    inputValue: '',
     options: new Map(),
     cachedOptions: new Map(),
     optionValues: [], // sorted value of options
     selected: [],
-    selectionWidth: 0,
     collapseItemWidth: 0,
-    selectedLabel: '',
     hoveringIndex: -1,
+
+    //TODO: maybe move this to useSelect
+    selectionWidth: 0,
+    selectedLabel: '',
+    inputValue: '',
+    isBeforeHide: false,
     previousQuery: null,
     inputHovering: false,
     menuVisibleOnFocus: false,
-    isBeforeHide: false,
   })
 
   // template refs
@@ -129,24 +130,6 @@ export const useFlatSelect = (props: SelectProps, emit: FlatSelectEmits) => {
     })
   }
 
-  //TODO: maybe remove
-  //watch(
-  //  () => props.modelValue,
-  //  (val, oldVal) => {
-  //    if (props.multiple) {
-  //      if (props.filterable && !props.reserveKeyword) {
-  //        states.inputValue = ''
-  //        handleQueryChange('')
-  //      }
-  //    }
-  //    setSelected()
-  //  },
-  //  {
-  //    flush: 'post',
-  //    deep: true,
-  //  }
-  //)
-
   watch(
     // fix `Array.prototype.push/splice/..` cannot trigger non-deep watcher
     // https://github.com/vuejs/vue-next/issues/2116
@@ -167,17 +150,7 @@ export const useFlatSelect = (props: SelectProps, emit: FlatSelectEmits) => {
     }
   )
 
-  watchEffect(() => {
-    // Anything could cause options changed, then update options
-    // If you want to control it by condition, write here
-    if (states.isBeforeHide) return
-    updateOptions()
-  })
-
   const handleQueryChange = (val: string) => {
-    //if (states.previousQuery === val || isComposing.value) {
-    //  return
-    //}
     states.previousQuery = val
     if (props.filterable && isFunction(props.filterMethod)) {
       props.filterMethod(val)
@@ -309,13 +282,7 @@ export const useFlatSelect = (props: SelectProps, emit: FlatSelectEmits) => {
     } else {
       emit(UPDATE_MODEL_EVENT, option.value)
       emitChange(option.value)
-      //TODO: handle in useSelect
-      //expanded.value = false
     }
-    //if (expanded.value) return
-    nextTick(() => {
-      scrollToOption(option)
-    })
   }
 
   const getValueIndex = (arr: OptionValue[], option: OptionPublicInstance) => {
@@ -397,6 +364,7 @@ export const useFlatSelect = (props: SelectProps, emit: FlatSelectEmits) => {
     optionsArray,
     filteredOptionsCount,
     handleOptionSelect,
+    handleQueryChange, // internal
     scrollToOption,
     hasModelValue,
     updateOptions,
@@ -427,7 +395,6 @@ export const useFlatSelect = (props: SelectProps, emit: FlatSelectEmits) => {
     })
   )
 
-  //TODO:
   provide('flat-select', FLAT_SELECT_API)
 
   return FLAT_SELECT_API
