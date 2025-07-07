@@ -10,10 +10,7 @@ const onItemClick = (item: any) => {
 
 <template>
   <div class="flex flex-wrap justify-between right-small">
-    <template
-      v-for="item in rightLogoSmallSponsors.concat([{} as any])"
-      :key="item.name"
-    >
+    <template v-for="item in rightLogoSmallSponsors" :key="item.name">
       <div
         v-if="!item.url"
         :class="[
