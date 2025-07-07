@@ -20,9 +20,15 @@ const sponsorLang = computed(() => sponsorLocale[lang.value])
 
 const langZhCN = 'zh-CN'
 
+const getSponsorName = (sponsor: Sponsor) => {
+  if (lang.value === langZhCN) {
+    return sponsor.name_cn || sponsor.name
+  }
+  return sponsor.name
+}
 const getSponsorSlogan = (sponsor: Sponsor) => {
   if (lang.value === langZhCN) {
-    if ('slogan_index' in sponsor && sponsor.slogan_index) {
+    if (sponsor.slogan_index) {
       return sponsor.slogan_index
     }
     return sponsor.slogan_cn || sponsor.slogan
@@ -37,23 +43,20 @@ const getSponsorSlogan = (sponsor: Sponsor) => {
     <a
       v-for="(sponsor, i) in sponsors"
       :key="i"
-      :class="[
-        'sponsor flex px-4 rounded-md',
-        'className' in sponsor && sponsor.className,
-      ]"
+      :class="['sponsor flex px-4 rounded-md', sponsor.className]"
       :href="sponsor.url"
       target="_blank"
       @click="onItemClick(sponsor)"
     >
       <img
-        :class="'isDark' in sponsor && isDark ? 'filter invert' : ''"
+        :class="sponsor.isDark && isDark ? 'filter invert' : ''"
         width="45"
         :src="sponsor.img"
         :alt="sponsor.name"
       />
       <div>
         <p>
-          <span class="name">{{ sponsor.name }}</span>
+          <span class="name">{{ getSponsorName(sponsor) }}</span>
         </p>
         <p>{{ getSponsorSlogan(sponsor) }}</p>
       </div>

@@ -1,6 +1,20 @@
-export const rightRichTextSponsors: never[] = []
+export type Sponsor = {
+  url: string
+  name_cn?: string
+  name: string
+  slogan_cn?: string
+  slogan: string
+  img: string
+  isDark?: boolean
+  imgL?: string
+  slogan_index?: string
+  banner_img?: string
+  className?: string
+}
 
-export const rightBigLogoSponsors = [
+export const rightRichTextSponsors: Sponsor[] = []
+
+export const rightBigLogoSponsors: Sponsor[] = [
   {
     name: 'CRMEB',
     img: '/images/CRMEB.png',
@@ -12,7 +26,7 @@ export const rightBigLogoSponsors = [
   },
 ]
 
-export const rightLogoSmallSponsors = [
+export const rightLogoSmallSponsors: Sponsor[] = [
   {
     name: 'BuildAdmin',
     img: '/images/buildadmin.png',
@@ -39,7 +53,7 @@ export const rightLogoSmallSponsors = [
   },
 ]
 
-export const leftCustomImgSponsors = [
+export const leftCustomImgSponsors: Sponsor[] = [
   {
     name: '美乐',
     img: '/images/mele.png',
@@ -73,10 +87,6 @@ export const platinumSponsors = [
   ...rightRichTextSponsors,
 ]
 
-export const leftLogoSponsors: never[] = []
+export const leftLogoSponsors: Sponsor[] = []
 
 export const goldSponsors = [...rightLogoSmallSponsors, ...leftLogoSponsors]
-
-export type Sponsor =
-  | typeof goldSponsors[number]
-  | typeof platinumSponsors[number]

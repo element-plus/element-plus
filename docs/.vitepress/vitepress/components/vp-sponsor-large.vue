@@ -20,7 +20,7 @@ const onItemClick = (item: any) => {
       v-for="item in leftCustomImgSponsors"
       :key="item.name"
       :href="item.url"
-      :title="`${item.name} - ${item.slogan_cn || item.slogan}`"
+      :title="`${item.name_cn || item.name} - ${item.slogan_cn || item.slogan}`"
       :class="['sponsor-large inline-flex', itemClass]"
       :style="itemStyle"
       target="_blank"
