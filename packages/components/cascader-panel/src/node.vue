@@ -51,6 +51,7 @@
       :node="node"
       :disabled="isDisabled"
       :show-radio="showRadio"
+      :check-on-click-node="checkOnClickNode"
       @handle-select-check="handleSelectCheck"
     />
     <!-- postfix -->

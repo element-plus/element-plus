@@ -19,12 +19,13 @@ export default defineComponent({
       required: true,
     },
     renderLabelFn: Function as PropType<RenderLabel>,
+    checkOnClickNode: Boolean,
     showRadio: Boolean,
     disabled: Boolean,
   },
   setup(props, { emit }) {
     const ns = useNamespace('cascader-node')
-    const { renderLabelFn, node, showRadio, disabled } = props
+    const { renderLabelFn, node, showRadio, disabled, checkOnClickNode } = props
     const { data, label: nodeLabel } = node
 
     const label = () => {
@@ -32,7 +33,7 @@ export default defineComponent({
       return isVNodeEmpty(renderLabel) ? nodeLabel : renderLabel ?? nodeLabel
     }
     function handleClick() {
-      if (showRadio || disabled) return
+      if (showRadio || disabled || !checkOnClickNode) return
       emit('handleSelectCheck', true)
     }
     return () => (
