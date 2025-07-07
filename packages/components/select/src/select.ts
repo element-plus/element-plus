@@ -16,13 +16,13 @@ import { ArrowDown, CircleClose } from '@element-plus/icons-vue'
 import { tagProps } from '@element-plus/components/tag'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type Select from './select.vue'
 import type {
   Options,
   Placement,
   PopperEffect,
 } from '@element-plus/components/popper'
-import type Select from './select.vue'
 import type { OptionValue } from './type'
 
 export const selectProps = buildProps({
@@ -289,6 +289,7 @@ export const selectEmits = {
 /* eslint-enable @typescript-eslint/no-unused-vars */
 
 export type SelectProps = ExtractPropTypes<typeof selectProps>
+export type SelectPropsPublic = __ExtractPublicPropTypes<typeof selectProps>
 export type SelectEmits = EmitFn<typeof selectEmits>
 export type SelectInstance = InstanceType<typeof Select> & unknown
 export type SelectOptionProps = {

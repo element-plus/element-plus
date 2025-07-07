@@ -7,11 +7,11 @@ import { useLang } from '../../composables/lang'
 import localeData from '../../../i18n/component/icons.json'
 import IconCategories from './icons-categories.json'
 
-import type { DefineComponent } from 'vue'
+import type { Component, DefineComponent } from 'vue'
 
 type CategoriesItem = {
   name: string
-  icons: DefineComponent[]
+  icons: (DefineComponent | Component)[]
 }
 
 const lang = useLang()
@@ -73,7 +73,7 @@ const filterCategories = computed(() => {
   return categories.value
     .map((category) => {
       const icons = category.icons.filter((icon) => {
-        return icon.name.toLowerCase().includes(query.value.toLowerCase())
+        return icon.name?.toLowerCase().includes(query.value.toLowerCase())
       })
       return { ...category, icons }
     })
