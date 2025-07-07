@@ -45,14 +45,13 @@ type PublicRequiredKeys<T> = {
 
 type PublicOptionalKeys<T> = Exclude<keyof T, PublicRequiredKeys<T>>
 
-/**
- * Extract prop types from a runtime props options object.
- * The extracted types are **public** - i.e. the expected props that can be
- * passed to component.
- */
-
 declare module 'vue' {
   // compatible with higher versions of Vue
+  /**
+   * Extract prop types from a runtime props options object.
+   * The extracted types are **public** - i.e. the expected props that can be
+   * passed to component.
+   */
   export type __ExtractPublicPropTypes<O> = {
     [K in keyof Pick<O, PublicRequiredKeys<O>>]: InferPropType<O[K]>
   } & {

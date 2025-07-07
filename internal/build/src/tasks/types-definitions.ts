@@ -67,7 +67,11 @@ export const generateTypesDefinitions = async () => {
   )
 
   const printer = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed })
-  const formattedText = printer.printFile(sourceFile)
+  let formattedText = printer.printFile(sourceFile)
+
+  // delete when upgrade to vue 3.3
+  // insert import statement at the beginning of the file
+  formattedText = `import "./utils/vue/props/util";\n${formattedText}`
 
   await writeFile(entryFilePath, formattedText, 'utf8')
 
