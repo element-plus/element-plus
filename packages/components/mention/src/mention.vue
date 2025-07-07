@@ -179,7 +179,7 @@ const handleInputKeyDown = (event: KeyboardEvent | Event) => {
           emit(UPDATE_MODEL_EVENT, newValue)
           emit(INPUT_EVENT, newValue)
           if (matchOption) {
-            emit('mention-remove', matchOption, mentionCtx.value.prefix)
+            emit('whole-remove', matchOption, mentionCtx.value.prefix)
           }
 
           const newSelectionEnd = prefixIndex
