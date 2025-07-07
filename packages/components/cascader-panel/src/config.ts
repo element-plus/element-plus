@@ -89,7 +89,7 @@ export const DefaultProps: CascaderConfig = {
    */
   checkOnClickNode: false,
   /**
-   * @description Whether to show the radio button
+   * @description Whether to show the radio or checkbox prefix
    */
   showPrefix: true,
 }
