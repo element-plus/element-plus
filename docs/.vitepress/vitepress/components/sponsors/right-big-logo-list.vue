@@ -15,7 +15,7 @@ const onItemClick = (item: any) => {
       :key="item.name"
       :href="item.url"
       :title="`${item.name_cn || item.name} - ${item.slogan_cn || item.slogan}`"
-      target="blank"
+      target="_blank"
       @click="onItemClick(item)"
     >
       <div
