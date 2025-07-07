@@ -148,10 +148,7 @@ export const cascaderProps = buildProps({
   /**
    * @description Whether to check the node when the node is clicked
    */
-  checkOnClickNode: {
-    type: Boolean,
-    default: false,
-  },
+  checkOnClickNode: Boolean,
   /**
    * @description Whether to show the radio button
    */
