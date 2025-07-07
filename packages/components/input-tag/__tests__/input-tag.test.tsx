@@ -334,6 +334,30 @@ describe('InputTag.vue', () => {
         .forEach((tag) => expect(tag.text()).toBe(AXIOM))
       expect(inputValue.value).toEqual([AXIOM])
     })
+
+    //https://github.com/element-plus/element-plus/pull/21256#issuecomment-3044699504
+    test('should split words on paste', async () => {
+      const inputValue = ref<string[]>()
+      const addTag = vi.fn()
+      const wrapper = mount(() => (
+        <InputTag
+          v-model={inputValue.value}
+          delimiter={/\./}
+          onAdd-tag={addTag}
+        />
+      ))
+      await wrapper.find('input').setValue('foo')
+      const clipboardData = new DataTransfer()
+      clipboardData.setData('text', `.${AXIOM}`)
+      const evt = new ClipboardEvent('paste', { clipboardData })
+
+      wrapper.find('input').element?.dispatchEvent(evt)
+      await wrapper.find('input').trigger('paste')
+
+      expect(addTag).toBeCalledWith(['foo', AXIOM])
+      expect(wrapper.findAll('.el-tag').length).toBe(2)
+      expect(inputValue.value).toEqual(['foo', AXIOM])
+    })
   })
 
   describe('events', () => {

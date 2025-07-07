@@ -103,7 +103,7 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
   const handlePaste = (event: ClipboardEvent) => {
     const data = event.clipboardData?.getData('text')
     if (!data) return
-    const tags = getDelimitedTags(data)
+    const tags = getDelimitedTags((inputValue.value ?? '') + data)
     if (tags.length) {
       event.preventDefault()
       addTagsEmit(tags)
