@@ -5,26 +5,28 @@ import { useLang } from '../../composables/lang'
 import sponsorLocale from '../../../i18n/component/sponsor.json'
 import { sendEvent } from '../../../config/analytics'
 
-const onItemClick = (item: any) => {
+import type { Sponsor } from '../../../config/sponsors'
+
+const onItemClick = (item: Sponsor) => {
   sendEvent('sp_click', item.name, 'index')
 }
-defineProps({
-  sponsors: Array,
-  sponsorType: String,
-})
+defineProps<{
+  sponsors: Sponsor[]
+  sponsorType: string
+}>()
 
 const lang = useLang()
 const sponsorLang = computed(() => sponsorLocale[lang.value])
 
 const langZhCN = 'zh-CN'
 
-const getSponsorName = (sponsor) => {
+const getSponsorName = (sponsor: Sponsor) => {
   if (lang.value === langZhCN) {
     return sponsor.name_cn || sponsor.name
   }
   return sponsor.name
 }
-const getSponsorSlogan = (sponsor) => {
+const getSponsorSlogan = (sponsor: Sponsor) => {
   if (lang.value === langZhCN) {
     if (sponsor.slogan_index) {
       return sponsor.slogan_index
