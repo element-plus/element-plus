@@ -29,7 +29,7 @@ import {
   useSlots,
   watch,
 } from 'vue'
-import { cloneDeep, flattenDeep, isEqual } from 'lodash-unified'
+import { flattenDeep, isEqual } from 'lodash-unified'
 import {
   castArray,
   focusNode,
@@ -107,16 +107,16 @@ const initStore = () => {
         menus.value = [store.getNodes()]
       }
       initialLoaded.value = true
-      syncCheckedValue(false, true)
+      syncCheckedValue()
     })
   } else {
-    syncCheckedValue(false, true)
+    syncCheckedValue()
   }
 }
 
 const lazyLoad: ElCascaderPanelContext['lazyLoad'] = (node, cb) => {
   const cfg = config.value
-  node! = node || new Node({}, cfg, undefined, true)
+  node = node || new Node({}, cfg, undefined, true)
   node.loading = true
 
   const resolve = (dataList?: CascaderOption[]) => {
@@ -199,17 +199,12 @@ const calculateCheckedValue = () => {
   checkedValue.value = multiple ? values : values[0]
 }
 
-const syncCheckedValue = (loaded = false, forced = false) => {
+const syncCheckedValue = (loaded = false) => {
   const { modelValue } = props
   const { lazy, multiple, checkStrictly } = config.value
   const leafOnly = !checkStrictly
 
-  if (
-    !initialLoaded.value ||
-    manualChecked ||
-    (!forced && isEqual(modelValue, checkedValue.value))
-  )
-    return
+  if (!initialLoaded.value || manualChecked) return
 
   if (lazy && !loaded) {
     const values: CascaderNodeValue[] = unique(
@@ -221,10 +216,10 @@ const syncCheckedValue = (loaded = false, forced = false) => {
 
     if (nodes.length) {
       nodes.forEach((node) => {
-        lazyLoad(node, () => syncCheckedValue(false, forced))
+        lazyLoad(node, () => syncCheckedValue(false))
       })
     } else {
-      syncCheckedValue(true, forced)
+      syncCheckedValue(true)
     }
   } else {
     const values = multiple ? castArray(modelValue) : [modelValue]
@@ -233,8 +228,8 @@ const syncCheckedValue = (loaded = false, forced = false) => {
         store?.getNodeByValue(val as CascaderNodeValue, leafOnly)
       )
     ) as Node[]
-    syncMenuState(nodes, forced)
-    checkedValue.value = cloneDeep(modelValue)
+    syncMenuState(nodes, false)
+    checkedValue.value = modelValue
   }
 }
 

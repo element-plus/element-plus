@@ -204,7 +204,7 @@
 
 <script lang="ts" setup>
 import { computed, nextTick, onMounted, ref, useAttrs, watch } from 'vue'
-import { cloneDeep, debounce } from 'lodash-unified'
+import { debounce } from 'lodash-unified'
 import { useCssVar, useResizeObserver } from '@vueuse/core'
 import {
   debugWarn,
@@ -353,9 +353,9 @@ const presentText = computed(() => {
 
 const validateState = computed(() => formItem?.validateState || '')
 
-const checkedValue = computed<CascaderValue>({
+const checkedValue = computed({
   get() {
-    return cloneDeep(props.modelValue) as CascaderValue
+    return props.modelValue
   },
   set(val) {
     // https://github.com/element-plus/element-plus/issues/17647
