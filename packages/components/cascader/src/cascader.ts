@@ -72,10 +72,7 @@ export const cascaderProps = buildProps({
   /**
    * @description native input id
    */
-  collapseTagsTooltip: {
-    type: Boolean,
-    default: false,
-  },
+  collapseTagsTooltip: Boolean,
   /**
    * @description The max height of collapse tags tooltip, in pixels. To use this, collapse-tags-tooltip must be true
    */

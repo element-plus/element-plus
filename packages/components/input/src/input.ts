@@ -8,7 +8,12 @@ import {
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 
-import type { ExtractPropTypes, HTMLAttributes, StyleValue } from 'vue'
+import type {
+  ExtractPropTypes,
+  HTMLAttributes,
+  StyleValue,
+  __ExtractPublicPropTypes,
+} from 'vue'
 
 export type InputAutoSize = { minRows?: number; maxRows?: number } | boolean
 
@@ -181,6 +186,7 @@ export const inputProps = buildProps({
   name: String,
 } as const)
 export type InputProps = ExtractPropTypes<typeof inputProps>
+export type InputPropsPublic = __ExtractPublicPropTypes<typeof inputProps>
 
 export const inputEmits = {
   [UPDATE_MODEL_EVENT]: (value: string) => isString(value),

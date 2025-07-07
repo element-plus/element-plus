@@ -40,10 +40,7 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
-    active: {
-      type: Boolean,
-      default: false,
-    },
+    active: Boolean,
   },
   emits: ['mousedown', 'focus', 'keydown'],
   setup(props, { emit }) {

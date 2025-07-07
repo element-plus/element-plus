@@ -2,7 +2,7 @@ import { buildProps } from '@element-plus/utils'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import { radioEmits } from './radio'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type RadioGroup from './radio-group.vue'
 
 export const radioGroupProps = buildProps({
@@ -59,6 +59,9 @@ export const radioGroupProps = buildProps({
   ...useAriaProps(['ariaLabel']),
 } as const)
 export type RadioGroupProps = ExtractPropTypes<typeof radioGroupProps>
+export type RadioGroupPropsPublic = __ExtractPublicPropTypes<
+  typeof radioGroupProps
+>
 
 export const radioGroupEmits = radioEmits
 export type RadioGroupEmits = typeof radioGroupEmits

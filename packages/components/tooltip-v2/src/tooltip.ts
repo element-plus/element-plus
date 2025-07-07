@@ -4,7 +4,11 @@ import { tooltipV2TriggerProps } from './trigger'
 import { tooltipV2ArrowProps } from './arrow'
 import { tooltipV2ContentProps } from './content'
 
-import type { ExtractPropTypes, TransitionProps } from 'vue'
+import type {
+  ExtractPropTypes,
+  TransitionProps,
+  __ExtractPublicPropTypes,
+} from 'vue'
 
 export const tooltipV2Props = buildProps({
   ...tooltipV2RootProps,
@@ -25,3 +29,6 @@ export const tooltipV2Props = buildProps({
 } as const)
 
 export type TooltipV2Props = ExtractPropTypes<typeof tooltipV2Props>
+export type TooltipV2PropsPublic = __ExtractPublicPropTypes<
+  typeof tooltipV2Props
+>
