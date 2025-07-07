@@ -56,10 +56,7 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
       const maxInsert = props.max - (props.modelValue?.length ?? 0)
       tags.splice(maxInsert)
     }
-    return {
-      tags,
-      hasDelimited: tags.length && tags[0] !== input,
-    }
+    return tags
   }
 
   const handleInput = (event: Event) => {
@@ -70,8 +67,8 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
 
     if (isComposing.value) return
     if (props.delimiter) {
-      const { tags, hasDelimited } = getDelimitedTags(inputValue.value!)
-      if (hasDelimited) {
+      const tags = getDelimitedTags(inputValue.value!)
+      if (tags.length) {
         addTagsEmit(tags.length === 1 ? tags[0] : tags)
       }
     }
@@ -106,8 +103,8 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
   const handlePaste = (event: ClipboardEvent) => {
     const data = event.clipboardData?.getData('text')
     if (!data) return
-    const { tags, hasDelimited } = getDelimitedTags(data)
-    if (hasDelimited) {
+    const tags = getDelimitedTags(data)
+    if (tags.length) {
       event.preventDefault()
       addTagsEmit(tags)
     }
