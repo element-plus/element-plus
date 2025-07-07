@@ -152,10 +152,7 @@ export const cascaderProps = buildProps({
   /**
    * @description Whether to show the radio button
    */
-  showRadio: {
-    type: Boolean,
-    default: true,
-  },
+  showPrefix: Boolean,
   ...useEmptyValuesProps,
 })
 

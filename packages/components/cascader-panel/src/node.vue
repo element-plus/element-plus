@@ -20,7 +20,7 @@
   >
     <!-- prefix -->
     <el-checkbox
-      v-if="multiple"
+      v-if="multiple && showPrefix"
       :model-value="node.checked"
       :indeterminate="node.indeterminate"
       :disabled="isDisabled"
@@ -28,7 +28,7 @@
       @update:model-value="handleSelectCheck"
     />
     <el-radio
-      v-else-if="checkStrictly && showRadio"
+      v-else-if="checkStrictly && showPrefix"
       :model-value="checkedNodeId"
       :label="node.uid"
       :disabled="isDisabled"
@@ -50,7 +50,6 @@
       :render-label-fn="panel.renderLabelFn"
       :node="node"
       :disabled="isDisabled"
-      :show-radio="showRadio"
       :check-on-click-node="checkOnClickNode"
       @handle-select-check="handleSelectCheck"
     />
@@ -99,7 +98,7 @@ const ns = useNamespace('cascader-node')
 const isHoverMenu = computed(() => panel.isHoverMenu)
 const multiple = computed(() => panel.config.multiple)
 const checkStrictly = computed(() => panel.config.checkStrictly)
-const showRadio = computed(() => panel.config.showRadio)
+const showPrefix = computed(() => panel.config.showPrefix)
 const checkOnClickNode = computed(() => panel.config.checkOnClickNode)
 const checkedNodeId = computed(() => panel.checkedNodes[0]?.uid)
 const isDisabled = computed(() => props.node.isDisabled)
@@ -150,10 +149,6 @@ const handleExpand = () => {
 }
 
 const handleClick = () => {
-  if (checkOnClickNode.value && !multiple.value) {
-    return handleSelectCheck(true)
-  }
-
   if (isHoverMenu.value && !isLeaf.value) return
 
   if (

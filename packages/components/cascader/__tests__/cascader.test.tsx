@@ -841,12 +841,12 @@ describe('Cascader.vue', () => {
       )
     })
 
-    it('hides radio but still selects node on click when showRadio is false', async () => {
+    it('hides radio but still selects node on click when showPrefix is false', async () => {
       const value = ref([])
       const props = {
         checkStrictly: true,
         checkOnClickNode: true,
-        showRadio: false,
+        showPrefix: false,
       }
       const wrapper = _mount(() => (
         <Cascader v-model={value.value} options={OPTIONS} props={props} />

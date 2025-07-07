@@ -91,7 +91,7 @@ export const DefaultProps: CascaderConfig = {
   /**
    * @description Whether to show the radio button
    */
-  showRadio: true,
+  showPrefix: true,
 }
 
 export const cascaderPanelProps = buildProps({

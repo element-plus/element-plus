@@ -26,7 +26,7 @@ const props2 = {
 const props3 = {
   checkStrictly: true,
   checkOnClickNode: true,
-  showRadio: false,
+  showPrefix: false,
 }
 const options = [
   {
