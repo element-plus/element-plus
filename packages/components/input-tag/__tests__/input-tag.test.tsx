@@ -1,7 +1,3 @@
-/**
- * @vitest-environment happy-dom
- */
-
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
@@ -276,11 +272,9 @@ describe('InputTag.vue', () => {
         />
       ))
 
-      const clipboardData = new DataTransfer()
-      clipboardData.setData('text', `${AXIOM}.${AXIOM}.${AXIOM}.${AXIOM}.`)
-      const evt = new ClipboardEvent('paste', { clipboardData })
-      wrapper.find('input').element?.dispatchEvent(evt)
-      await wrapper.find('input').trigger('paste')
+      await wrapper
+        .find('input')
+        .setValue(`${AXIOM}.${AXIOM}.${AXIOM}.${AXIOM}.`)
 
       const result = [AXIOM, AXIOM, AXIOM, AXIOM]
       expect(wrapper.findAll('.el-tag').length).toBe(4)
@@ -289,74 +283,6 @@ describe('InputTag.vue', () => {
         .findAll('.el-tag')
         .forEach((tag) => expect(tag.text()).toBe(AXIOM))
       expect(inputValue.value).toEqual(result)
-    })
-    test('should add multiple tags without paste', async () => {
-      const inputValue = ref<string[]>()
-      const addTag = vi.fn()
-      const wrapper = mount(() => (
-        <InputTag
-          v-model={inputValue.value}
-          delimiter={/\./}
-          onAdd-tag={addTag}
-        />
-      ))
-      await wrapper.find('input').setValue(`${AXIOM}.${AXIOM}.${AXIOM}`)
-
-      const result = [AXIOM, AXIOM, AXIOM]
-      expect(addTag).toBeCalledWith(result)
-      expect(wrapper.findAll('.el-tag').length).toBe(3)
-      wrapper
-        .findAll('.el-tag')
-        .forEach((tag) => expect(tag.text()).toBe(AXIOM))
-      expect(inputValue.value).toEqual(result)
-    })
-    test('should return single string on paste', async () => {
-      const inputValue = ref<string[]>()
-      const addTag = vi.fn()
-      const wrapper = mount(() => (
-        <InputTag
-          v-model={inputValue.value}
-          delimiter={/\./}
-          onAdd-tag={addTag}
-        />
-      ))
-
-      const clipboardData = new DataTransfer()
-      clipboardData.setData('text', `${AXIOM}.`)
-      const evt = new ClipboardEvent('paste', { clipboardData })
-      wrapper.find('input').element?.dispatchEvent(evt)
-      await wrapper.find('input').trigger('paste')
-
-      expect(addTag).toBeCalledWith(AXIOM)
-      expect(wrapper.findAll('.el-tag').length).toBe(1)
-      wrapper
-        .findAll('.el-tag')
-        .forEach((tag) => expect(tag.text()).toBe(AXIOM))
-      expect(inputValue.value).toEqual([AXIOM])
-    })
-
-    //https://github.com/element-plus/element-plus/pull/21256#issuecomment-3044699504
-    test('should split words on paste', async () => {
-      const inputValue = ref<string[]>()
-      const addTag = vi.fn()
-      const wrapper = mount(() => (
-        <InputTag
-          v-model={inputValue.value}
-          delimiter={/\./}
-          onAdd-tag={addTag}
-        />
-      ))
-      await wrapper.find('input').setValue('foo')
-      const clipboardData = new DataTransfer()
-      clipboardData.setData('text', `.${AXIOM}`)
-      const evt = new ClipboardEvent('paste', { clipboardData })
-
-      wrapper.find('input').element?.dispatchEvent(evt)
-      await wrapper.find('input').trigger('paste')
-
-      expect(addTag).toBeCalledWith(['foo', AXIOM])
-      expect(wrapper.findAll('.el-tag').length).toBe(2)
-      expect(inputValue.value).toEqual(['foo', AXIOM])
     })
   })
 

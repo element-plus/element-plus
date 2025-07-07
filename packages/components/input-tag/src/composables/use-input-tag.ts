@@ -66,8 +66,8 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
     }
 
     if (isComposing.value) return
-    if (props.delimiter) {
-      const tags = getDelimitedTags(inputValue.value!)
+    if (props.delimiter && inputValue.value) {
+      const tags = getDelimitedTags(inputValue.value)
       if (tags.length) {
         addTagsEmit(tags)
       }
@@ -97,16 +97,6 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
           handleRemoveTag(props.modelValue.length - 1)
         }
         break
-    }
-  }
-
-  const handlePaste = (event: ClipboardEvent) => {
-    const data = event.clipboardData?.getData('text')
-    if (!data) return
-    const tags = getDelimitedTags((inputValue.value ?? '') + data)
-    if (tags.length) {
-      event.preventDefault()
-      addTagsEmit(tags)
     }
   }
 
@@ -205,7 +195,6 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
     handleDragged,
     handleInput,
     handleKeydown,
-    handlePaste,
     handleAddTag,
     handleRemoveTag,
     handleClear,
