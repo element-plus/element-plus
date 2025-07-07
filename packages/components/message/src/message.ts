@@ -23,7 +23,7 @@ export const messageTypes = [
   'error',
 ] as const
 
-export type messageType = (typeof messageTypes)[number]
+export type messageType = typeof messageTypes[number]
 
 export interface MessageConfigContext {
   max?: number
