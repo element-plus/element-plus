@@ -840,5 +840,37 @@ describe('Cascader.vue', () => {
         'Zhejiang / Hangzhou'
       )
     })
+
+    it('hides radio but still selects node on click when showRadio is false', async () => {
+      const value = ref([])
+      const props = {
+        checkStrictly: true,
+        checkOnClickNode: true,
+        showRadio: false,
+      }
+      const wrapper = _mount(() => (
+        <Cascader v-model={value.value} options={OPTIONS} props={props} />
+      ))
+      const trigger = wrapper.find(TRIGGER)
+      await trigger.trigger('click')
+      await nextTick()
+      const radios = wrapper.findAll('input[type="radio"]')
+      expect(radios.length).toBe(0)
+      const nodes = document.querySelectorAll(NODE_LABEL)
+      await (nodes[0] as HTMLElement).click()
+      await nextTick()
+      const newNodes = document.querySelectorAll(NODE_LABEL)
+      const hangzhouNode = Array.from(newNodes).find((el) =>
+        el.textContent?.includes('Hangzhou')
+      )
+      expect(hangzhouNode).toBeTruthy()
+      await (hangzhouNode as HTMLElement).click()
+      await nextTick()
+      expect(value.value).toEqual(['zhejiang', 'hangzhou'])
+      const input = wrapper.find('input')
+      expect((input.element as HTMLInputElement).value).toBe(
+        'Zhejiang / Hangzhou'
+      )
+    })
   })
 })
