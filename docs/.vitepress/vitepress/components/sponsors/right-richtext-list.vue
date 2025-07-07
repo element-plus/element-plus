@@ -5,10 +5,12 @@ import { sendEvent } from '../../../config/analytics'
 import { useLang } from '../../composables/lang'
 import { isDark } from '../../composables/dark'
 
+import type { Sponsor } from '../../../config/sponsors'
+
 const lang = useLang()
 const langZhCN = 'zh-CN'
 const isZhCn = computed(() => lang.value === langZhCN)
-const onItemClick = (item: any) => {
+const onItemClick = (item: Sponsor) => {
   sendEvent('sp_click', item.name, 'right_richtext_list')
 }
 </script>

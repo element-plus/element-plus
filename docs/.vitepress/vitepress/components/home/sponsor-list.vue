@@ -7,7 +7,7 @@ import { sendEvent } from '../../../config/analytics'
 
 import type { Sponsor } from '../../../config/sponsors'
 
-const onItemClick = (item: any) => {
+const onItemClick = (item: Sponsor) => {
   sendEvent('sp_click', item.name, 'index')
 }
 defineProps<{

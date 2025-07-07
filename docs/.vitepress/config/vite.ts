@@ -28,7 +28,8 @@ const { dependencies: docsDeps } = getPackageDependencies(docPackage)
 const optimizeDeps = [...new Set([...epDeps, ...docsDeps])].filter(
   (dep) =>
     !dep.startsWith('@types/') &&
-    !['@element-plus/metadata', 'element-plus'].includes(dep)
+    !['@element-plus/metadata', 'element-plus'].includes(dep) &&
+    !['normalize.css'].includes(dep)
 )
 optimizeDeps.push(
   ...(await glob(['dayjs/plugin/*.js'], {

@@ -2,14 +2,15 @@
 import { leftCustomImgSponsors } from '../../config/sponsors'
 import { sendEvent } from '../../config/analytics'
 
-import type { CSSProperties } from 'vue'
+import type { Sponsor } from '../../config/sponsors'
+import type { StyleValue } from 'vue'
 
 defineProps<{
   itemClass?: string
-  itemStyle?: CSSProperties
+  itemStyle?: StyleValue
 }>()
 
-const onItemClick = (item: any) => {
+const onItemClick = (item: Sponsor) => {
   sendEvent('sp_click', item.name, 'left_custom_img')
 }
 </script>
