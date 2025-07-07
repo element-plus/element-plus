@@ -1,6 +1,6 @@
 import { buildProps } from '@element-plus/utils'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 
 export const emptyProps = buildProps({
   /**
@@ -24,3 +24,4 @@ export const emptyProps = buildProps({
 } as const)
 
 export type EmptyProps = ExtractPropTypes<typeof emptyProps>
+export type EmptyPropsPublic = __ExtractPublicPropTypes<typeof emptyProps>

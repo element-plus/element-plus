@@ -2,7 +2,11 @@ import { computed, defineComponent, h } from 'vue'
 import { buildProps, definePropType, isString } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 
-import type { CSSProperties, ExtractPropTypes } from 'vue'
+import type {
+  CSSProperties,
+  ExtractPropTypes,
+  __ExtractPublicPropTypes,
+} from 'vue'
 
 export const sliderMarkerProps = buildProps({
   mark: {
@@ -17,6 +21,9 @@ export const sliderMarkerProps = buildProps({
   },
 } as const)
 export type SliderMarkerProps = ExtractPropTypes<typeof sliderMarkerProps>
+export type SliderMarkerPropsPublic = __ExtractPublicPropTypes<
+  typeof sliderMarkerProps
+>
 
 export default defineComponent({
   name: 'ElSliderMarker',

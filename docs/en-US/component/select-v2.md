@@ -37,6 +37,14 @@ select-v2/multiple
 
 :::
 
+## Sizes
+
+:::demo Add `size` attribute to change the size of Select-V2. In addition to the default size, there are two other options: `large`, `small`.
+
+select-v2/size
+
+:::
+
 ## Hide extra tags when the selected items are too many
 
 You can collapse tags to a text by using `collapse-tags` attribute. You can check them when mouse hover collapse text by using `collapse-tags-tooltip` attribute.
@@ -303,16 +311,16 @@ select-v2/custom-width
 
 ### Slots
 
-| Name             | Description                           |
-| ---------------- | ------------------------------------- |
-| default          | Option renderer                       |
-| header ^(2.5.2)  | content at the top of the dropdown    |
-| footer ^(2.5.2)  | content at the bottom of the dropdown |
-| empty            | content when options is empty         |
-| prefix           | prefix content of input               |
-| tag ^(2.5.0)     | content as Select tag                 |
-| loading ^(2.5.2) | content as Select loading             |
-| label ^(2.7.4)   | content as Select label               |
+| Name             | Description                                                                                     | Subtags                                                                                                        |
+| ---------------- | ----------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| default          | Option renderer                                                                                 | —                                                                                                              |
+| header ^(2.5.2)  | content at the top of the dropdown                                                              | —                                                                                                              |
+| footer ^(2.5.2)  | content at the bottom of the dropdown                                                           | —                                                                                                              |
+| empty            | content when options is empty                                                                   | —                                                                                                              |
+| prefix           | prefix content of input                                                                         | —                                                                                                              |
+| tag ^(2.5.0)     | content as Select tag, subTags `data`, `selectDisabled` and `deleteTag` introduced in ^(2.10.3) | ^[object]`{ data: Option[], selectDisabled: boolean, deleteTag: (event: MouseEvent, option: Option) => void }` |
+| loading ^(2.5.2) | content as Select loading                                                                       | —                                                                                                              |
+| label ^(2.7.4)   | content as Select label                                                                         | —                                                                                                              |
 
 ### Exposes
 

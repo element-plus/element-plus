@@ -72,10 +72,7 @@ export const cascaderProps = buildProps({
   /**
    * @description native input id
    */
-  collapseTagsTooltip: {
-    type: Boolean,
-    default: false,
-  },
+  collapseTagsTooltip: Boolean,
   /**
    * @description The max height of collapse tags tooltip, in pixels. To use this, collapse-tags-tooltip must be true
    */
@@ -148,11 +145,12 @@ export const cascaderProps = buildProps({
   ...useEmptyValuesProps,
 })
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const emitChangeFn = (value: CascaderValue) => true
+
 export const cascaderEmits = {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  [UPDATE_MODEL_EVENT]: (_: CascaderValue) => true,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  [CHANGE_EVENT]: (_: CascaderValue) => true,
+  [UPDATE_MODEL_EVENT]: emitChangeFn,
+  [CHANGE_EVENT]: emitChangeFn,
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
   blur: (evt: FocusEvent) => evt instanceof FocusEvent,
   clear: () => true,

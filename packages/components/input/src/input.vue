@@ -34,6 +34,7 @@
           ref="input"
           :class="nsInput.e('inner')"
           v-bind="attrs"
+          :name="name"
           :minlength="minlength"
           :maxlength="maxlength"
           :type="showPassword ? (passwordVisible ? 'text' : 'password') : type"
@@ -47,6 +48,7 @@
           :form="form"
           :autofocus="autofocus"
           :role="containerRole"
+          :inputmode="inputmode"
           @compositionstart="handleCompositionStart"
           @compositionupdate="handleCompositionUpdate"
           @compositionend="handleCompositionEnd"
@@ -255,9 +257,7 @@ const _ref = computed(() => input.value || textarea.value)
 const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
   _ref,
   {
-    beforeFocus() {
-      return inputDisabled.value
-    },
+    disabled: inputDisabled,
     afterBlur() {
       if (props.validateEvent) {
         elFormItem?.validate?.('blur').catch((err) => debugWarn(err))

@@ -49,6 +49,14 @@ select/clearable
 
 :::
 
+## Sizes
+
+:::demo Add `size` attribute to change the size of Select. In addition to the default size, there are two other options: `large`, `small`.
+
+select/size
+
+:::
+
 ## Basic multiple select
 
 Multiple select uses tags to display selected options.
@@ -255,16 +263,16 @@ select/custom-label
 
 ### Select Slots
 
-| Name             | Description                           | Subtags               |
-| ---------------- | ------------------------------------- | --------------------- |
-| default          | option component list                 | Option Group / Option |
-| header ^(2.4.3)  | content at the top of the dropdown    | —                     |
-| footer ^(2.4.3)  | content at the bottom of the dropdown | —                     |
-| prefix           | content as Select prefix              | —                     |
-| empty            | content when there is no options      | —                     |
-| tag ^(2.5.0)     | content as Select tag                 | —                     |
-| loading ^(2.5.2) | content as Select loading             | —                     |
-| label ^(2.7.4)   | content as Select label               | —                     |
+| Name             | Description                                                                                     | Subtags                                                                                                                                       |
+| ---------------- | ----------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| default          | option component list                                                                           | Option Group / Option                                                                                                                         |
+| header ^(2.4.3)  | content at the top of the dropdown                                                              | —                                                                                                                                             |
+| footer ^(2.4.3)  | content at the bottom of the dropdown                                                           | —                                                                                                                                             |
+| prefix           | content as Select prefix                                                                        | —                                                                                                                                             |
+| empty            | content when there is no options                                                                | —                                                                                                                                             |
+| tag ^(2.5.0)     | content as Select tag, subTags `data`, `selectDisabled` and `deleteTag` introduced in ^(2.10.3) | ^[object]`{ data: OptionBasic[], selectDisabled: boolean, deleteTag: (event: MouseEvent, tag: OptionPublicInstance \| OptionBasic) => void }` |
+| loading ^(2.5.2) | content as Select loading                                                                       | —                                                                                                                                             |
+| label ^(2.7.4)   | content as Select label                                                                         | —                                                                                                                                             |
 
 ### Select Exposes
 

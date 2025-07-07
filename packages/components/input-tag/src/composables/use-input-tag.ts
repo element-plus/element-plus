@@ -138,9 +138,7 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
   }
 
   const { wrapperRef, isFocused } = useFocusController(inputRef, {
-    beforeFocus() {
-      return disabled.value
-    },
+    disabled,
     afterBlur() {
       if (props.saveOnBlur) {
         handleAddTag()

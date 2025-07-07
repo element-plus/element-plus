@@ -1,7 +1,7 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 import { timePanelSharedProps } from './shared'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type { Dayjs } from 'dayjs'
 
 export const panelTimeRangeProps = buildProps({
@@ -12,3 +12,6 @@ export const panelTimeRangeProps = buildProps({
 } as const)
 
 export type PanelTimeRangeProps = ExtractPropTypes<typeof panelTimeRangeProps>
+export type PanelTimeRangePropsPublic = __ExtractPublicPropTypes<
+  typeof panelTimeRangeProps
+>

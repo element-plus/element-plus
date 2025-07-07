@@ -20,7 +20,7 @@ import type {
   WritableArray,
   epPropKey,
 } from '../..'
-import type { ExtractPropTypes, PropType } from 'vue'
+import type { ExtractPropTypes, PropType, __ExtractPublicPropTypes } from 'vue'
 
 describe('Types', () => {
   it('Writable', () => {
@@ -380,6 +380,21 @@ describe('buildProp', () => {
     expectTypeOf<Extracted>().toEqualTypeOf<{
       readonly key1: string
       readonly key2: string | number
+    }>()
+  })
+
+  it('extract public', () => {
+    const props = {
+      key1: buildProp({
+        type: String,
+        default: 'value',
+      }),
+    } as const
+
+    type ExtractedPublic = __ExtractPublicPropTypes<typeof props>
+
+    expectTypeOf<ExtractedPublic>().toEqualTypeOf<{
+      readonly key1?: string | undefined
     }>()
   })
 })

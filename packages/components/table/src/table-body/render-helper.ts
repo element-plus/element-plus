@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { computed, h, inject } from 'vue'
 import { merge } from 'lodash-unified'
 import { useNamespace } from '@element-plus/hooks'
@@ -10,10 +9,19 @@ import useStyles from './styles-helper'
 import TdWrapper from './td-wrapper.vue'
 
 import type { TableBodyProps } from './defaults'
-import type { RenderRowData, TableProps, TreeNode } from '../table/defaults'
+import type {
+  DefaultRow,
+  RenderRowData,
+  Table,
+  TableColumnCtx,
+  TableProps,
+  TreeNode,
+} from '../table/defaults'
+import type { TreeData } from '../store/tree'
+import type { TableOverflowTooltipOptions } from '../util'
 
-function useRender<T>(props: Partial<TableBodyProps<T>>) {
-  const parent = inject(TABLE_INJECTION_KEY)
+function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
+  const parent = inject(TABLE_INJECTION_KEY) as Table<T>
   const ns = useNamespace('table')
   const {
     handleDoubleClick,
@@ -35,12 +43,12 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
     getColspanRealWidth,
   } = useStyles(props)
   const firstDefaultColumnIndex = computed(() => {
-    return props.store.states.columns.value.findIndex(
+    return props.store?.states.columns.value.findIndex(
       ({ type }) => type === 'default'
     )
   })
   const getKeyOfRow = (row: T, index: number) => {
-    const rowKey = (parent.props as Partial<TableProps<T>>).rowKey
+    const rowKey = (parent?.props as Partial<TableProps<T>>)?.rowKey
     if (rowKey) {
       return getRowIdentity(row, rowKey)
     }
@@ -53,12 +61,12 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
     expanded = false
   ) => {
     const { tooltipEffect, tooltipOptions, store } = props
-    const { indent, columns } = store.states
+    const { indent, columns } = store!.states
     const rowClasses = getRowClass(row, $index)
     let display = true
     if (treeRowData) {
       rowClasses.push(ns.em('row', `level-${treeRowData.level}`))
-      display = treeRowData.display
+      display = !!treeRowData.display
     }
     const displayStyle = display ? null : { display: 'none' }
     return h(
@@ -67,9 +75,9 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
         style: [displayStyle, getRowStyle(row, $index)],
         class: rowClasses,
         key: getKeyOfRow(row, $index),
-        onDblclick: ($event) => handleDoubleClick($event, row),
-        onClick: ($event) => handleClick($event, row),
-        onContextmenu: ($event) => handleContextMenu($event, row),
+        onDblclick: ($event: Event) => handleDoubleClick($event, row),
+        onClick: ($event: Event) => handleClick($event, row),
+        onContextmenu: ($event: Event) => handleContextMenu($event, row),
         onMouseenter: () => handleMouseEnter($index),
         onMouseleave: handleMouseLeave,
       },
@@ -85,8 +93,8 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
           cellIndex
         )
         const data: RenderRowData<T> = {
-          store: props.store,
-          _self: props.context || parent,
+          store: store!,
+          _self: props.context || parent!,
           column: columnData,
           row,
           $index,
@@ -95,7 +103,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
         }
         if (cellIndex === firstDefaultColumnIndex.value && treeRowData) {
           data.treeNode = {
-            indent: treeRowData.level * indent.value,
+            indent: treeRowData.level && treeRowData.level * indent.value,
             level: treeRowData.level,
           }
           if (isBoolean(treeRowData.expanded)) {
@@ -128,8 +136,12 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
             key: `${patchKey}${baseKey}`,
             rowspan,
             colspan,
-            onMouseenter: ($event) =>
-              handleCellMouseEnter($event, row, mergedTooltipOptions),
+            onMouseenter: ($event: MouseEvent) =>
+              handleCellMouseEnter(
+                $event,
+                row,
+                mergedTooltipOptions as TableOverflowTooltipOptions
+              ),
             onMouseleave: handleCellMouseLeave,
           },
           {
@@ -139,12 +151,16 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
       })
     )
   }
-  const cellChildren = (cellIndex, column, data) => {
+  const cellChildren = <T extends DefaultRow>(
+    _cellIndex: number,
+    column: TableColumnCtx<T>,
+    data: RenderRowData<T>
+  ) => {
     return column.renderCell(data)
   }
 
   const wrappedRowRender = (row: T, $index: number) => {
-    const store = props.store
+    const store = props.store!
     const { isRowExpanded, assertRowKey } = store
     const { treeData, lazyTreeNodeMap, childrenColumnName, rowKey } =
       store.states
@@ -153,7 +169,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
     if (hasExpandColumn) {
       const expanded = isRowExpanded(row)
       const tr = rowRender(row, $index, undefined, expanded)
-      const renderExpanded = parent.renderExpanded
+      const renderExpanded = parent?.renderExpanded
       if (!renderExpanded) {
         console.error('[Element Error]renderExpanded is required.')
         return tr
@@ -200,26 +216,28 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
           expanded: cur.expanded,
           level: cur.level,
           display: true,
+          noLazyChildren: undefined as boolean | undefined,
+          loading: undefined as boolean | undefined,
         }
         if (isBoolean(cur.lazy)) {
-          if (isBoolean(cur.loaded) && cur.loaded) {
+          if (treeRowData && isBoolean(cur.loaded) && cur.loaded) {
             treeRowData.noLazyChildren = !(cur.children && cur.children.length)
           }
           treeRowData.loading = cur.loading
         }
       }
-      const tmp = [rowRender(row, $index, treeRowData)]
+      const tmp = [rowRender(row, $index, treeRowData ?? undefined)]
       // 渲染嵌套数据
       if (cur) {
         // currentRow 记录的是 index，所以还需主动增加 TreeTable 的 index
         let i = 0
-        const traverse = (children, parent) => {
+        const traverse = (children: T[], parent: TreeData) => {
           if (!(children && children.length && parent)) return
           children.forEach((node) => {
             // 父节点的 display 状态影响子节点的显示状态
-            const innerTreeRowData = {
+            const innerTreeRowData: Partial<Record<string, any>> = {
               display: parent.display && parent.expanded,
-              level: parent.level + 1,
+              level: parent.level! + 1,
               expanded: false,
               noLazyChildren: false,
               loading: false,

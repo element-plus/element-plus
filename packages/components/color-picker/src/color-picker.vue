@@ -130,6 +130,7 @@ import {
   useFormSize,
 } from '@element-plus/components/form'
 import {
+  useEmptyValues,
   useFocusController,
   useLocale,
   useNamespace,
@@ -165,6 +166,7 @@ const ns = useNamespace('color')
 const { formItem } = useFormItem()
 const colorSize = useFormSize()
 const colorDisabled = useFormDisabled()
+const { valueOnClear, isEmptyValue } = useEmptyValues(props, null)
 
 const { inputId: buttonId, isLabeledByFormItem } = useFormItemInputId(props, {
   formItemContext: formItem,
@@ -178,9 +180,7 @@ const triggerRef = ref()
 const inputRef = ref()
 
 const { isFocused, handleFocus, handleBlur } = useFocusController(triggerRef, {
-  beforeFocus() {
-    return colorDisabled.value
-  },
+  disabled: colorDisabled,
   beforeBlur(event) {
     return popper.value?.isFocusInsideContent(event)
   },
@@ -287,7 +287,7 @@ function handleConfirm() {
 }
 
 function confirmValue() {
-  const value = color.value
+  const value = isEmptyValue(color.value) ? valueOnClear.value : color.value
   emit(UPDATE_MODEL_EVENT, value)
   emit(CHANGE_EVENT, value)
   if (props.validateEvent) {
@@ -309,9 +309,9 @@ function confirmValue() {
 
 function clear() {
   debounceSetShowPicker(false)
-  emit(UPDATE_MODEL_EVENT, null)
-  emit(CHANGE_EVENT, null)
-  if (props.modelValue !== null && props.validateEvent) {
+  emit(UPDATE_MODEL_EVENT, valueOnClear.value)
+  emit(CHANGE_EVENT, valueOnClear.value)
+  if (props.modelValue !== valueOnClear.value && props.validateEvent) {
     formItem?.validate('change').catch((err) => debugWarn(err))
   }
   resetColor()

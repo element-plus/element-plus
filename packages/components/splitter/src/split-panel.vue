@@ -4,8 +4,7 @@ import {
   getCurrentInstance,
   inject,
   nextTick,
-  onMounted,
-  onUnmounted,
+  onBeforeUnmount,
   reactive,
   ref,
   toRefs,
@@ -42,7 +41,6 @@ const { panels, layout, containerSize, pxSizes } = toRefs(splitterContext)
 
 const {
   registerPanel,
-  sortPanel,
   unregisterPanel,
   onCollapse,
   onMoveEnd,
@@ -51,7 +49,8 @@ const {
 } = splitterContext
 
 const panelEl = ref<HTMLDivElement>()
-const uid = getCurrentInstance()!.uid
+const instance = getCurrentInstance()!
+const uid = instance.uid
 
 const index = ref(0)
 const panel = computed(() => panels.value[index.value])
@@ -156,17 +155,15 @@ watch(
 const _panel = reactive({
   el: panelEl.value!,
   uid,
+  getVnode: () => instance.vnode,
   setIndex,
   ...props,
   collapsible: getCollapsible(props.collapsible),
 })
 
 registerPanel(_panel)
-onMounted(() => {
-  sortPanel(_panel)
-})
 
-onUnmounted(() => unregisterPanel?.(uid))
+onBeforeUnmount(() => unregisterPanel(_panel))
 </script>
 
 <template>

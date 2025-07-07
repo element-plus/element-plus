@@ -21,7 +21,7 @@ import SelectV2 from './select.vue'
 import type { Option, OptionType } from './select.types'
 import type { Props } from './useProps'
 import type { EmitFn } from '@element-plus/utils/vue/typescript'
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type {
   Options,
   Placement,
@@ -339,7 +339,9 @@ export const optionV2Emits = {
 /* eslint-enable @typescript-eslint/no-unused-vars */
 
 export type SelectV2Props = ExtractPropTypes<typeof selectV2Props>
+export type SelectV2PropsPublic = __ExtractPublicPropTypes<typeof selectV2Props>
 export type OptionV2Props = ExtractPropTypes<typeof optionV2Props>
+export type OptionV2PropsPublic = __ExtractPublicPropTypes<typeof optionV2Props>
 export type SelectV2EmitFn = EmitFn<typeof selectV2Emits>
 export type OptionV2EmitFn = EmitFn<typeof optionV2Emits>
 
