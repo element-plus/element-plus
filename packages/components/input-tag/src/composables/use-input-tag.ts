@@ -56,7 +56,7 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
       const maxInsert = props.max - (props.modelValue?.length ?? 0)
       tags.splice(maxInsert)
     }
-    return tags
+    return tags.length === 1 ? tags[0] : tags
   }
 
   const handleInput = (event: Event) => {
@@ -69,7 +69,7 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
     if (props.delimiter) {
       const tags = getDelimitedTags(inputValue.value!)
       if (tags.length) {
-        addTagsEmit(tags.length === 1 ? tags[0] : tags)
+        addTagsEmit(tags)
       }
     }
     emit(INPUT_EVENT, (event.target as HTMLInputElement).value)
