@@ -28,7 +28,8 @@ const { dependencies: docsDeps } = getPackageDependencies(docPackage)
 const optimizeDeps = [...new Set([...epDeps, ...docsDeps])].filter(
   (dep) =>
     !dep.startsWith('@types/') &&
-    !['@element-plus/metadata', 'element-plus'].includes(dep)
+    !['@element-plus/metadata', 'element-plus'].includes(dep) &&
+    !['normalize.css'].includes(dep)
 )
 optimizeDeps.push(
   ...(await glob(['dayjs/plugin/*.js'], {
@@ -93,20 +94,20 @@ export const getViteConfig = ({ mode }: { mode: string }): ViteConfig => {
 
         // allow auto import and register components used in markdown
         include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
-      }),
+      }) as Plugin,
 
       // https://github.com/antfu/unplugin-icons
       Icons({
         autoInstall: true,
-      }),
+      }) as Plugin,
 
       UnoCSS({
         inspector: false,
       }),
 
-      MarkdownTransform(),
+      MarkdownTransform() as Plugin,
       Inspect(),
-      groupIconVitePlugin(),
+      groupIconVitePlugin() as Plugin,
       env.HTTPS ? (mkcert() as Plugin) : undefined,
     ],
     optimizeDeps: {
