@@ -33,7 +33,7 @@ export default defineComponent({
     }
     function handleClick() {
       if (disabled || !checkOnClickNode) return
-      emit('handleSelectCheck', true)
+      emit('handleSelectCheck', !node.checked)
     }
     return () => (
       <span class={ns.e('label')} onClick={handleClick}>

@@ -143,13 +143,16 @@ export const cascaderProps = buildProps({
     default: true,
   },
   /**
-   * @description Whether to check the node when the node is clicked
+   * @description whether to check or uncheck node when clicking on the node
    */
   checkOnClickNode: Boolean,
   /**
-   * @description Whether to show the radio or checkbox prefix
+   * @description whether to show the radio or checkbox prefix
    */
-  showPrefix: Boolean,
+  showPrefix: {
+    type: Boolean,
+    default: true,
+  },
   ...useEmptyValuesProps,
 })
 

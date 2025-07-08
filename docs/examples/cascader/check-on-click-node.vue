@@ -1,26 +1,43 @@
 <template>
+  <el-switch
+    v-model="showPrefix"
+    active-text="show prefix"
+    inactive-text="hide prefix"
+  />
   <div class="m-4">
     <p>Click to select any level (Single mode)</p>
-    <el-cascader :options="options" :props="props1" clearable />
+    <el-cascader v-model="value" :options="options" :props="props1" clearable />
   </div>
   <div class="m-4">
     <p>Click to select any level (Multiple mode)</p>
-    <el-cascader :options="options" :props="props2" clearable />
+    <el-cascader
+      v-model="value2"
+      :options="options"
+      :props="props2"
+      clearable
+    />
   </div>
 </template>
 
 <script lang="ts" setup>
-const props1 = {
+import { computed, ref } from 'vue'
+
+const value = ref()
+const value2 = ref()
+const showPrefix = ref(true)
+
+const props1 = computed(() => ({
+  showPrefix: showPrefix.value,
   checkStrictly: true,
   checkOnClickNode: true,
-  showPrefix: false,
-}
-
-const props2 = {
+}))
+const props2 = computed(() => ({
+  showPrefix: showPrefix.value,
   multiple: true,
   checkStrictly: true,
   checkOnClickNode: true,
-}
+}))
+
 const options = [
   {
     value: 'guide',
