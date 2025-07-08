@@ -105,12 +105,12 @@ and please go to the original component to view the documentation.
 
 ### Events
 
-| Name                              | Description                                               | Type                                                         |
-| --------------------------------- | --------------------------------------------------------- | ------------------------------------------------------------ |
-| search                            | trigger when prefix hit                                   | ^[Function]`(pattern: string, prefix: string) => void`       |
-| select                            | trigger when user select the option                       | ^[Function]`(option: MentionOption, prefix: string) => void` |
-| whole-remove                      | trigger when the mention is removed and `whole` is `true` | ^[Function]`(option: MentionOption, prefix: string) => void` |
-| [input events](./input.md#events) | —                                                         | —                                                            |
+| Name                              | Description                                                                                 | Type                                                         |
+| --------------------------------- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| search                            | trigger when prefix hit                                                                     | ^[Function]`(pattern: string, prefix: string) => void`       |
+| select                            | trigger when user select the option                                                         | ^[Function]`(option: MentionOption, prefix: string) => void` |
+| whole-remove                      | trigger when a whole mention is removed and `whole` is `true` or `check-is-whole` is `true` | ^[Function]`(option: MentionOption, prefix: string) => void` |
+| [input events](./input.md#events) | —                                                                                           | —                                                            |
 
 ### Slots
 
