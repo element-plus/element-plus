@@ -1,10 +1,10 @@
 <template>
   <div class="m-4">
-    <p>Select any level of options (Single selection)</p>
+    <p>Click to select any level (Single mode)</p>
     <el-cascader :options="options" :props="props1" clearable />
   </div>
   <div class="m-4">
-    <p>Select any level of options (Multiple selection)</p>
+    <p>Click to select any level (Multiple mode)</p>
     <el-cascader :options="options" :props="props2" clearable />
   </div>
 </template>
@@ -12,13 +12,15 @@
 <script lang="ts" setup>
 const props1 = {
   checkStrictly: true,
+  checkOnClickNode: true,
+  showPrefix: false,
 }
 
 const props2 = {
   multiple: true,
   checkStrictly: true,
+  checkOnClickNode: true,
 }
-
 const options = [
   {
     value: 'guide',
