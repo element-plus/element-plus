@@ -147,7 +147,7 @@ export const cascaderProps = buildProps({
    */
   checkOnClickNode: Boolean,
   /**
-   * @description Whether to show the radio button
+   * @description Whether to show the radio or checkbox prefix
    */
   showPrefix: Boolean,
   ...useEmptyValuesProps,
