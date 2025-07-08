@@ -85,6 +85,6 @@ onBeforeUnmount(() => {
 })
 
 onBeforeUpdate(() => {
-  if (slots.label) tabsRoot.nav$.value!.scheduleRender()
+  if (slots.label) tabsRoot.nav$.value?.scheduleRender()
 })
 </script>
