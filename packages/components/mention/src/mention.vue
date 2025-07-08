@@ -178,7 +178,7 @@ const handleInputKeyDown = (event: KeyboardEvent | Event) => {
             inputValue.slice(0, prefixIndex) + inputValue.slice(splitIndex + 1)
           emit(UPDATE_MODEL_EVENT, newValue)
           emit(INPUT_EVENT, newValue)
-          emit('whole-remove', matchOption, prefix)
+          emit('whole-remove', pattern, prefix)
 
           const newSelectionEnd = prefixIndex
           nextTick(() => {
