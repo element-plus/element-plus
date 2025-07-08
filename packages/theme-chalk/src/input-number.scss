@@ -135,10 +135,34 @@
     }
   }
 
+  @include when(hover-controls) {
+    @include e((increase, decrease)) {
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+    }
+
+    &:hover {
+      @include e((increase, decrease)) {
+        opacity: 1;
+      }
+    }
+  }
+
   @include when(controls-right) {
     .#{$namespace}-input__wrapper {
       padding-left: 15px;
       padding-right: #{map.get($input-height, 'default') + 10};
+    }
+
+    &.is-hover-controls {
+      .#{$namespace}-input__wrapper {
+        padding-left: #{map.get($input-height, 'default') + 10};
+        padding-right: #{map.get($input-height, 'default') + 10};
+      }
+
+      .#{$namespace}-input__inner {
+        text-align: center;
+      }
     }
 
     @include e((increase, decrease)) {

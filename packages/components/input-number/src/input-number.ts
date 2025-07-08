@@ -81,6 +81,13 @@ export const inputNumberProps = buildProps({
     values: ['', 'right'],
   },
   /**
+   * @description whether to display control buttons when mouse moves in
+   */
+  hoverControls: {
+    type: Boolean,
+    default: false,
+  },
+  /**
    * @description value should be set when input box is cleared
    */
   valueOnClear: {
