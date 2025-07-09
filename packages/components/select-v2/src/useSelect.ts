@@ -4,6 +4,7 @@ import {
   onMounted,
   reactive,
   ref,
+  toRaw,
   watch,
   watchEffect,
 } from 'vue'
@@ -202,12 +203,12 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
 
   const filterOptions = (query: string) => {
     const regexp = new RegExp(escapeStringRegexp(query), 'i')
-    const isFilterMethodValid =
-      props.filterable && isFunction(props.filterMethod)
-    const isRemoteMethodValid = () =>
-      props.filterable && props.remote && isFunction(props.remoteMethod)
+    const { filterMethod, remoteMethod } = toRaw(props)
+    const isFilterMethodValid = props.filterable && isFunction(filterMethod)
+    const isRemoteMethodValid =
+      props.filterable && props.remote && isFunction(remoteMethod)
     const isValidOption = (o: Option): boolean => {
-      if (isFilterMethodValid || isRemoteMethodValid()) return true
+      if (isFilterMethodValid || isRemoteMethodValid) return true
       // when query was given, we should test on the label see whether the label contains the given query
       return query ? regexp.test(getLabel(o) || '') : true
     }
