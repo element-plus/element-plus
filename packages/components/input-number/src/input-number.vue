@@ -55,6 +55,7 @@
       :aria-label="ariaLabel"
       :validate-event="false"
       :inputmode="inputmode"
+      @keypress="handleKeypress"
       @keydown.up.prevent="increase"
       @keydown.down.prevent="decrease"
       @blur="handleBlur"
@@ -313,6 +314,15 @@ const setCurrentValueToModelValue = () => {
 }
 const handleWheel = (e: WheelEvent) => {
   if (document.activeElement === e.target) e.preventDefault()
+}
+
+const handleKeypress = (event: KeyboardEvent) => {
+  if (props.disableScientific) {
+    const invalidKeys = ['e', 'E']
+    if (invalidKeys.includes(event.key)) {
+      event.preventDefault()
+    }
+  }
 }
 
 watch(

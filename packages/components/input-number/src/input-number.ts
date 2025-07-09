@@ -120,6 +120,13 @@ export const inputNumberProps = buildProps({
     type: definePropType<HTMLAttributes['inputmode']>(String),
     default: undefined,
   },
+  /**
+   * @description whether to allow scientific notation (e.g. 1e5)
+   */
+  disableScientific: {
+    type: Boolean,
+    default: false,
+  },
 } as const)
 export type InputNumberProps = ExtractPropTypes<typeof inputNumberProps>
 export type InputNumberPropsPublic = __ExtractPublicPropTypes<

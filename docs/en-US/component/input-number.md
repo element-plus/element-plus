@@ -120,6 +120,7 @@ input-number/with-prefix-suffix
 | validate-event              | whether to trigger form validation               | ^[boolean]                                    | true      |
 | label ^(a11y) ^(deprecated) | same as `aria-label` in native input             | ^[string]                                     | —         |
 | inputmode ^(2.10.3)         | same as `inputmode` in native input              | ^[string]                                     | —         |
+| disableScientific ^(2.10.4) | disables input of scientific notation (e.g. 'e') | ^[boolean]                                    | false     |
 
 ### Slots
 
