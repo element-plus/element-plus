@@ -796,7 +796,7 @@ describe('CascaderPanel.vue', () => {
     expect(node!.classes('is-active')).toBe(true)
   })
 
-  test('no redirection on mutations within update event listeners', async () => {
+  test('updating modelValue during onChange will not make the menu list redirect', async () => {
     const value = ref([['shanghai']])
     const props = {
       multiple: true,

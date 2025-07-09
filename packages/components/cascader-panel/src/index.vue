@@ -194,7 +194,7 @@ const calculateCheckedValue = () => {
   const values = nodes.map((node) => node.valueByOption)
   checkedNodes.value = nodes
 
-  // Updating modelValue in @change is considered a manual operation, preventing the menu from redirecting.
+  // updating modelValue during onChange will not make the menu list redirect
   manualChecked = true
   nextTick(() => (manualChecked = false))
 
