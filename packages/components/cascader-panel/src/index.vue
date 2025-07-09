@@ -60,7 +60,6 @@ import type {
   default as CascaderNode,
   CascaderNodeValue,
   CascaderOption,
-  CascaderValue,
 } from './node'
 import type { ElCascaderPanelContext } from './types'
 import type { CascaderMenuInstance } from './instance'
@@ -83,7 +82,6 @@ const slots = useSlots()
 let store: Store
 const initialLoaded = ref(true)
 const menuList = ref<CascaderMenuInstance[]>([])
-const checkedValue = ref<CascaderValue>()
 const menus = ref<CascaderNode[][]>([])
 const expandingNode = ref<CascaderNode>()
 const checkedNodes = ref<CascaderNode[]>([])
@@ -107,10 +105,10 @@ const initStore = () => {
         menus.value = [store.getNodes()]
       }
       initialLoaded.value = true
-      syncCheckedValue()
+      syncMenu(true)
     })
   } else {
-    syncCheckedValue()
+    syncMenu(true)
   }
 }
 
@@ -158,7 +156,6 @@ const handleCheckChange: ElCascaderPanelContext['handleCheckChange'] = (
 ) => {
   const { checkStrictly, multiple } = config.value
   const oldNode = checkedNodes.value[0]
-  manualChecked = true
 
   !multiple && oldNode?.doCheck(false)
   node.doCheck(checked)
@@ -196,41 +193,46 @@ const calculateCheckedValue = () => {
   const nodes = sortByOriginalOrder(oldNodes, newNodes)
   const values = nodes.map((node) => node.valueByOption)
   checkedNodes.value = nodes
-  checkedValue.value = multiple ? values : values[0]
+
+  // Updating modelValue in @change is considered a manual operation, preventing the menu from redirecting.
+  manualChecked = true
+  nextTick(() => (manualChecked = false))
+
+  const val = multiple ? values : values[0]
+  emit(UPDATE_MODEL_EVENT, val)
+  emit(CHANGE_EVENT, val)
 }
 
-const syncCheckedValue = (loaded = false) => {
+const syncMenu = (reserveExpandingState = false) => {
+  if (!initialLoaded.value || manualChecked) return
+
   const { modelValue } = props
   const { lazy, multiple, checkStrictly } = config.value
   const leafOnly = !checkStrictly
 
-  if (!initialLoaded.value || manualChecked) return
-
-  if (lazy && !loaded) {
+  if (lazy) {
     const values: CascaderNodeValue[] = unique(
       flattenDeep(castArray(modelValue as CascaderNodeValue[]))
     )
     const nodes = values
       .map((val) => store?.getNodeByValue(val))
-      .filter((node) => !!node && !node.loaded && !node.loading) as Node[]
+      .filter((node) => node && !node.loaded && !node.loading) as Node[]
 
     if (nodes.length) {
       nodes.forEach((node) => {
-        lazyLoad(node, () => syncCheckedValue(false))
+        lazyLoad(node, () => syncMenu(reserveExpandingState))
       })
-    } else {
-      syncCheckedValue(true)
+      return
     }
-  } else {
-    const values = multiple ? castArray(modelValue) : [modelValue]
-    const nodes = unique(
-      values.map((val) =>
-        store?.getNodeByValue(val as CascaderNodeValue, leafOnly)
-      )
-    ) as Node[]
-    syncMenuState(nodes, false)
-    checkedValue.value = modelValue
   }
+
+  const values = multiple ? castArray(modelValue) : [modelValue]
+  const nodes = unique(
+    values.map((val) =>
+      store?.getNodeByValue(val as CascaderNodeValue, leafOnly)
+    )
+  ) as Node[]
+  syncMenuState(nodes, reserveExpandingState)
 }
 
 const syncMenuState = (
@@ -349,27 +351,17 @@ watch(
 watch(
   () => props.modelValue,
   () => {
-    manualChecked = false
-    syncCheckedValue()
+    const reserveExpandingState = manualChecked
+    syncMenu(reserveExpandingState)
   },
   {
     deep: true,
   }
 )
 
-watch(
-  () => checkedValue.value,
-  (val) => {
-    if (!isEqual(val, props.modelValue)) {
-      emit(UPDATE_MODEL_EVENT, val)
-      emit(CHANGE_EVENT, val)
-    }
-  }
-)
-
 onBeforeUpdate(() => (menuList.value = []))
 
-onMounted(() => !isEmpty(props.modelValue) && syncCheckedValue())
+onMounted(() => !isEmpty(props.modelValue) && syncMenu())
 
 defineExpose({
   menuList,

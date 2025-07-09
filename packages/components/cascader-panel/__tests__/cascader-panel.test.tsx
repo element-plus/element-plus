@@ -350,7 +350,7 @@ describe('CascaderPanel.vue', () => {
   })
 
   test('multiple mode', async () => {
-    const value = ref([])
+    const value = ref<CascaderValue>([])
     const props = {
       multiple: true,
     }
@@ -362,6 +362,7 @@ describe('CascaderPanel.vue', () => {
       />
     ))
 
+    const bjCheckbox = wrapper.findAll(NODE)[0].find(CHECKBOX)
     const zjNode = wrapper.findAll(NODE)[1]
     const zjCheckbox = zjNode.find(CHECKBOX)
     expect(zjCheckbox.exists()).toBe(true)
@@ -387,6 +388,17 @@ describe('CascaderPanel.vue', () => {
     expect(nbCheckbox.classes('is-checked')).toBe(false)
     expect(nbCheckbox.classes('is-checked')).toBe(false)
     expect(value.value).toEqual([])
+
+    value.value = [['zhejiang', 'ningbo']]
+    await nextTick()
+    expect(nbCheckbox.classes('is-checked')).toBe(true)
+    expect(wrapper.findAll(MENU).length).toBe(2)
+
+    // mutation methods
+    value.value.splice(0, 1, ['beijing'])
+    await nextTick()
+    expect(bjCheckbox.classes('is-checked')).toBe(true)
+    expect(wrapper.findAll(MENU).length).toBe(1)
   })
 
   test('multiple mode with disabled default value', async () => {
@@ -782,5 +794,34 @@ describe('CascaderPanel.vue', () => {
     value.value = ['zhejiang', 'ningbo']
     await nextTick()
     expect(node!.classes('is-active')).toBe(true)
+  })
+
+  test('no redirection on mutations within update event listeners', async () => {
+    const value = ref([['shanghai']])
+    const props = {
+      multiple: true,
+    }
+    const wrapper = mount(() => (
+      <CascaderPanel
+        modelValue={value.value}
+        onUpdate:modelValue={(val: any) => (value.value = val.slice(-2))}
+        options={NORMAL_OPTIONS}
+        props={props}
+      />
+    ))
+    const [bjNode, zjNode, shNode] = wrapper.findAll(NODE)
+
+    await nextTick()
+    await bjNode.find(CHECKBOX).trigger('click')
+    await zjNode.trigger('click')
+    await wrapper.findAll(MENU)[1].find(CHECKBOX).trigger('click')
+    expect(value.value).toEqual([['beijing'], ['zhejiang', 'hangzhou']])
+    await shNode.trigger('click')
+    await wrapper.findAll(MENU)[1].find(CHECKBOX).trigger('click')
+    expect(value.value).toEqual([
+      ['zhejiang', 'hangzhou'],
+      ['shanghai', 'shanghai'],
+    ])
+    expect(wrapper.findAll(MENU)[1].find(NODE).text()).toBe('Shanghai')
   })
 })
