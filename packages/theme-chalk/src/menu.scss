@@ -302,6 +302,11 @@
     .#{$namespace}-sub-menu__icon-arrow {
       display: none !important;
     }
+    .#{$namespace}-sub-menu__title {
+      padding-right: calc(
+        #{getCssVar('menu-base-level-padding')}
+      ) !important;
+    }
   }
 
   @include when(active) {
