@@ -10,6 +10,7 @@ import {
 import type {
   ExtractPropTypes,
   HTMLAttributes,
+  PropType,
   __ExtractPublicPropTypes,
 } from 'vue'
 import type InputNumber from './input-number.vue'
@@ -119,6 +120,13 @@ export const inputNumberProps = buildProps({
   inputmode: {
     type: definePropType<HTMLAttributes['inputmode']>(String),
     default: undefined,
+  },
+  /**
+   * @description alignment for the inner input text
+   */
+  align: {
+    type: String as PropType<'left' | 'right' | 'center'>,
+    default: 'center',
   },
 } as const)
 export type InputNumberProps = ExtractPropTypes<typeof inputNumberProps>

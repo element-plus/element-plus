@@ -42,6 +42,7 @@
     <el-input
       :id="id"
       ref="input"
+      :input-style="{ textAlign: align }"
       type="number"
       :step="step"
       :model-value="displayValue"
