@@ -71,7 +71,7 @@ export const generateTypesDefinitions = async () => {
 
   // delete when upgrade to vue 3.3
   // insert import statement at the beginning of the file
-  formattedText = `import "./utils/vue/props/util";\n${formattedText}`
+  formattedText = `import "./utils/vue3.3.polyfill";\n${formattedText}`
 
   await writeFile(entryFilePath, formattedText, 'utf8')
 
