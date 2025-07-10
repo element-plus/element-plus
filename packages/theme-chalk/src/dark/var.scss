@@ -5,6 +5,7 @@
 @use '../common/var.scss' as common;
 @use '../mixins/mixins.scss' as *;
 @use '../color/index.scss' as *;
+@use '../mixins/function.scss' as *;
 
 $colors: () !default;
 @each $type in common.$types {
@@ -31,11 +32,11 @@ $colors: () !default;
     (
       $type: (
         '#{$mode}-#{$number}':
-          color.mix(
+        roundColor(color.mix(
             $mix-color,
             map.get($colors, $type, 'base'),
             math.percentage(math.div($number, 10))
-          ),
+          )),
       ),
     ),
     $colors
