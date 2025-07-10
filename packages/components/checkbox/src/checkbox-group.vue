@@ -15,7 +15,7 @@
 
 <script lang="ts" setup>
 import { computed, nextTick, provide, toRefs, watch } from 'vue'
-import { pick } from 'lodash-unified'
+import { isEqual, pick } from 'lodash-unified'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { debugWarn } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
@@ -69,8 +69,8 @@ provide(checkboxGroupContextKey, {
 
 watch(
   () => props.modelValue,
-  () => {
-    if (props.validateEvent) {
+  (newVal, oldValue) => {
+    if (!isEqual(newVal, oldValue) && props.validateEvent) {
       formItem?.validate('change').catch((err) => debugWarn(err))
     }
   }
