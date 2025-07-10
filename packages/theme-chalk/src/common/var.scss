@@ -61,11 +61,11 @@ $color-info: map.get($colors, 'info', 'base') !default;
     (
       $type: (
         '#{$mode}-#{$number}':
-          color.mix(
+        roundColor(color.mix(
             $mix-color,
             map.get($colors, $type, 'base'),
             math.percentage(math.div($number, 10))
-          ),
+          )),
       ),
     ),
     $colors
