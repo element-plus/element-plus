@@ -298,14 +298,13 @@
     line-height: getCssVar('menu-sub-item-height');
   }
 
+  &.#{$namespace}-sub-menu__hide-arrow .#{$namespace}-sub-menu__title{
+    padding-right: calc(#{getCssVar('menu-base-level-padding')});
+  }
+
   @include e(hide-arrow) {
     .#{$namespace}-sub-menu__icon-arrow {
       display: none !important;
-    }
-    .#{$namespace}-sub-menu__title {
-      padding-right: calc(
-        #{getCssVar('menu-base-level-padding')}
-      ) !important;
     }
   }
 
