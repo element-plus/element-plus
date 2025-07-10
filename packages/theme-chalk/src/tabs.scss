@@ -107,7 +107,6 @@
     display: flex;
     white-space: nowrap;
     position: relative;
-    height: getCssVar('tabs', 'header-height');
     transition: transform getCssVar('transition-duration');
     float: left;
     z-index: calc(#{getCssVar('index-normal')} + 1);
@@ -414,6 +413,11 @@
 
     .#{$namespace}-tabs__item.is-right {
       justify-content: flex-start;
+    }
+  }
+  @include m((top, bottom)) {
+    .#{$namespace}-tabs__nav {
+      height: getCssVar('tabs', 'header-height');
     }
   }
   @include m(left) {
