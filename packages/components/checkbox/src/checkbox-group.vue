@@ -70,7 +70,7 @@ provide(checkboxGroupContextKey, {
 watch(
   () => props.modelValue,
   (newVal, oldValue) => {
-    if (!isEqual(newVal, oldValue) && props.validateEvent) {
+    if (props.validateEvent && !isEqual(newVal, oldValue)) {
       formItem?.validate('change').catch((err) => debugWarn(err))
     }
   }
