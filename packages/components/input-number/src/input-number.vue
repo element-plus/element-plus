@@ -6,6 +6,7 @@
       ns.is('disabled', inputNumberDisabled),
       ns.is('without-controls', !controls),
       ns.is('controls-right', controlsAtRight),
+      ns.m(align),
     ]"
     @dragstart.prevent
   >
@@ -42,7 +43,6 @@
     <el-input
       :id="id"
       ref="input"
-      :input-style="{ textAlign: align }"
       type="number"
       :step="step"
       :model-value="displayValue"

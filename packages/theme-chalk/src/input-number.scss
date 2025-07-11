@@ -29,7 +29,23 @@
       }
     }
   }
+  &--left {
+    .#{$namespace}-input__inner {
+      text-align: left;
+    }
+  }
 
+  &--right {
+    .#{$namespace}-input__inner {
+      text-align: right;
+    }
+  }
+
+  &--center {
+    .#{$namespace}-input__inner {
+      text-align: center;
+    }
+  }
   @include e((increase, decrease)) {
     display: flex;
     justify-content: center;
