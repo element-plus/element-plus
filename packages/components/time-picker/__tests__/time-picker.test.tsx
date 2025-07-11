@@ -796,6 +796,32 @@ describe('TimePicker(range)', () => {
     ).toBe(1)
   })
 
+  it('start time and end time is correct after input start time and end time', async () => {
+    const value = ref([
+      new Date(2025, 6, 11, 10, 0),
+      new Date(2025, 6, 11, 10, 10),
+    ])
+    const wrapper = mount(() => (
+      <TimePicker v-model={value.value} is-range format="YYYY-MM-DD HH:mm:ss" />
+    ))
+    const inputs = wrapper.findAll('.el-range-input')
+    await inputs[0].trigger('focus')
+    await nextTick()
+    await rAF()
+    await inputs[0].setValue('2025-07-12 10:00:00')
+    await inputs[1].trigger('focus')
+    await inputs[1].setValue('2025-07-12 10:10:00')
+    await inputs[1].trigger('blur')
+    await nextTick()
+    await rAF()
+    expect(dayjs(value.value[0]).format('YYYY-MM-DD HH:mm:ss')).toEqual(
+      '2025-07-12 10:00:00'
+    )
+    expect(dayjs(value.value[1]).format('YYYY-MM-DD HH:mm:ss')).toEqual(
+      '2025-07-12 10:10:00'
+    )
+  })
+
   describe('form item accessibility integration', () => {
     it('automatic id attachment', async () => {
       const wrapper = mount(() => (
