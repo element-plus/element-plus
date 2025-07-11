@@ -113,6 +113,10 @@ export const treeProps = buildProps({
     type: Boolean,
     default: true,
   },
+  /**
+   * @description always show scrollbar
+   */
+  scrollbarAlwaysOn: Boolean,
 } as const)
 
 export const treeNodeProps = buildProps({

@@ -177,7 +177,7 @@ const expandParentNode = (node: Node | undefined) => {
 const getFlattedNodes = (leafOnly: boolean) => store?.getFlattedNodes(leafOnly)
 
 const getCheckedNodes = (leafOnly: boolean) => {
-  return getFlattedNodes(leafOnly)?.filter(({ checked }) => checked)
+  return getFlattedNodes(leafOnly)?.filter(({ checked }) => checked !== false)
 }
 
 const clearCheckedNodes = () => {
