@@ -1,7 +1,7 @@
-import { nextTick, ref } from 'vue'
+import { nextTick, reactive, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
-import { ElFormItem } from '@element-plus/components/form'
+import { ElForm, ElFormItem } from '@element-plus/components/form'
 import Checkbox from '../src/checkbox.vue'
 import CheckboxButton from '../src/checkbox-button.vue'
 import CheckboxGroup from '../src/checkbox-group.vue'
@@ -162,6 +162,43 @@ describe('Checkbox', () => {
     expect(checkList.value).toContain('b')
   })
 
+  test('checkbox group with dynamic modelValue', async () => {
+    const form = reactive<{ checked: string }>({ checked: '' })
+    const wrapper = mount({
+      setup() {
+        return () => (
+          <ElForm model={form}>
+            <ElFormItem
+              prop="check"
+              rules={[
+                { required: true, message: 'Must has one check box checked' },
+              ]}
+            >
+              <CheckboxGroup
+                modelValue={form.checked.split(',')}
+                onUpdate:modelValue={(val: string[]) => {
+                  form.checked = val.filter(Boolean).join(',')
+                }}
+              >
+                <Checkbox label="a" value="a" ref="a"></Checkbox>
+                <Checkbox label="b" value="b" ref="b"></Checkbox>
+              </CheckboxGroup>
+            </ElFormItem>
+          </ElForm>
+        )
+      },
+    })
+    const checkboxA = wrapper.findComponent({ ref: 'a' })
+    await checkboxA.trigger('click')
+    expect(form.checked).toBe('a')
+    const checkboxB = wrapper.findComponent({ ref: 'b' })
+    await checkboxB.trigger('click')
+    expect(form.checked).toBe('a,b')
+    form.checked = ''
+    await nextTick()
+    expect(checkboxA.classes()).not.toContain('is-checked')
+    expect(checkboxB.classes()).not.toContain('is-checked')
+  })
   test('checkbox group without modelValue', async () => {
     const checkList = ref([])
     const wrapper = mount({
