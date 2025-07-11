@@ -30,6 +30,14 @@ export const rightLogoSmallSponsors = [
     slogan_cn: '开箱即用的 Vue 后台管理框架',
   },
   {
+    name: 'frsimple',
+    img: '/images/frsimple.png',
+    imgL: '/images/frsimple-l.png',
+    url: 'https://el.frsimple.com',
+    slogan: 'A simple and efficient front-end framework',
+    slogan_cn: '数智底座',
+  },
+  {
     name: 'bit',
     img: '/images/bit.svg',
     imgL: '/images/bit-l.png',
