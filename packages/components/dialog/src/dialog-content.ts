@@ -60,6 +60,7 @@ export const dialogContentProps = buildProps({
     type: String,
     default: '2',
   },
+  verticalFullscreen: Boolean,
 } as const)
 
 export const dialogContentEmits = {

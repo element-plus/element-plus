@@ -53,6 +53,7 @@
               :show-close="showClose"
               :title="title"
               :aria-level="headerAriaLevel"
+              :vertical-fullscreen="verticalFullscreen"
               @close="handleClose"
             >
               <template #header>

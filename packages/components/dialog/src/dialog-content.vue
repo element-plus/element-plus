@@ -54,7 +54,10 @@ const dialogKls = computed(() => [
   ns.is('fullscreen', props.fullscreen),
   ns.is('draggable', props.draggable),
   ns.is('align-center', props.alignCenter),
-  { [ns.m('center')]: props.center },
+  {
+    [ns.m('center')]: props.center,
+    [ns.m('fullscreen-vertical')]: props.verticalFullscreen,
+  },
 ])
 
 const composedDialogRef = composeRefs(focusTrapRef, dialogRef)
