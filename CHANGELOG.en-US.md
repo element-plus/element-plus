@@ -1,6 +1,35 @@
 ## Changelog
 
 
+### 2.10.4
+
+_2025-07-11_
+
+#### Features
+
+- Types [components] add public prop types (#21222 by @yuhengshen)
+- Components [mention] add `whole-remove` event (#21050 by @56jun)
+- Components [input-number] warn when exceeds the safe integer (#19405 by @btea)
+- Components [input-number] change the min and max default value (#21302 by @btea)
+- Components [tree-v2] add `scrollbar-always-on` attribute (#21293 by @Dsaquel)
+
+#### Bug fixes
+
+- Components [affix] correctly updateRoot when fixed (#21094 by @btnkr)
+- Components [tooltip] fix the issue where content is hidden (#21223 by @tenadolanter)
+- Components [input-tag] paste multiple delimiters (#21256 by @Dsaquel)
+- Components [tab-pane] safely access value before schedule render (#21275 by @betavs)
+- Components [select] custom warnHeandler cause memory leak (#21284 by @btea)
+- Components [select-v2] scrollbar resets to top after select item (#21257 by @SpanManX)
+- Components [tabs] correct height calculation in vertical layout (#21263 by @cszhjh)
+- Types [other] cannot find declare module types from installed packages (#21266 by @yuhengshen)
+- Components [cascader] single selection fails (#21317 by @btea)
+
+#### Refactors
+
+- Components improve component boolean type (#21260 by @cszhjh)
+- Docs partially remove typecript errors (#21099 by @Dsaquel)
+
 ### 2.10.3
 
 _2025-07-04_

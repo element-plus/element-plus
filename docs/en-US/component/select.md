@@ -49,6 +49,14 @@ select/clearable
 
 :::
 
+## Sizes
+
+:::demo Add `size` attribute to change the size of Select. In addition to the default size, there are two other options: `large`, `small`.
+
+select/size
+
+:::
+
 ## Basic multiple select
 
 Multiple select uses tags to display selected options.

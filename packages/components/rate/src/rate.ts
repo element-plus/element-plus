@@ -9,7 +9,7 @@ import {
 } from '@element-plus/utils'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 
-import type { Component, ExtractPropTypes } from 'vue'
+import type { Component, ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type Rate from './rate.vue'
 
 export const rateProps = buildProps({
@@ -149,6 +149,7 @@ export const rateProps = buildProps({
 } as const)
 
 export type RateProps = ExtractPropTypes<typeof rateProps>
+export type RatePropsPublic = __ExtractPublicPropTypes<typeof rateProps>
 
 export const rateEmits = {
   [CHANGE_EVENT]: (value: number) => isNumber(value),

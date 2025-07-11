@@ -1,7 +1,7 @@
 import { buildProps } from '@element-plus/utils'
 import { panelRangeSharedProps } from './shared'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 
 export const panelMonthRangeProps = buildProps({
   ...panelRangeSharedProps,
@@ -14,3 +14,6 @@ export const panelMonthRangeEmits = [
 ]
 
 export type PanelMonthRangeProps = ExtractPropTypes<typeof panelMonthRangeProps>
+export type PanelMonthRangePropsPublic = __ExtractPublicPropTypes<
+  typeof panelMonthRangeProps
+>

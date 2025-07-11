@@ -70,6 +70,7 @@ interface TreeProps {
   expandOnClickNode?: boolean
   checkOnClickNode?: boolean
   checkOnClickLeaf?: boolean
+  scrollbarAlwaysOn?: boolean
   currentNodeKey?: TreeKey
   filterMethod?: FilterMethod
 }
@@ -135,6 +136,7 @@ const createTree = (
         :check-on-click-leaf="checkOnClickLeaf"
         :current-node-key="currentNodeKey"
         :filter-method="filterMethod"
+        :scrollbar-always-on="scrollbarAlwaysOn"
         @node-click="onNodeClick"
         @node-drop="onNodeDrop"
         @node-expand="onNodeExpand"
@@ -168,6 +170,7 @@ const createTree = (
           checkOnClickLeaf: true,
           currentNodeKey: undefined,
           filterMethod: undefined,
+          scrollbarAlwaysOn: undefined,
           ...(options.data && options.data()),
         }
       },
@@ -1018,6 +1021,18 @@ describe('Virtual Tree', () => {
     })
     await nextTick()
     expect(wrapper.find('.custom-tree-node-content').text()).toBe('cc node-1')
+  })
+
+  test('scrollbar-always-on', async () => {
+    const { wrapper } = createTree({
+      data() {
+        return {
+          scrollbarAlwaysOn: true,
+        }
+      },
+    })
+    const el = wrapper.find('.el-virtual-scrollbar.always-on')
+    expect(el.exists()).toBe(true)
   })
 
   test('filter', async () => {

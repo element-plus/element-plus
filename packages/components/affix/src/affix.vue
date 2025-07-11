@@ -106,6 +106,18 @@ const update = () => {
   }
 }
 
+const updateRootRect = async () => {
+  if (!fixed.value) {
+    updateRoot()
+    return
+  }
+
+  fixed.value = false
+  await nextTick()
+  updateRoot()
+  fixed.value = true
+}
+
 const handleScroll = async () => {
   updateRoot()
   await nextTick()
@@ -137,6 +149,6 @@ defineExpose({
   /** @description update affix status */
   update,
   /** @description update rootRect info */
-  updateRoot,
+  updateRoot: updateRootRect,
 })
 </script>

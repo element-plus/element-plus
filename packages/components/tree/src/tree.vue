@@ -99,10 +99,7 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
-    checkDescendants: {
-      type: Boolean,
-      default: false,
-    },
+    checkDescendants: Boolean,
     autoExpandParent: {
       type: Boolean,
       default: true,
@@ -117,14 +114,8 @@ export default defineComponent({
     renderContent: {
       type: definePropType<RenderContentFunction>(Function),
     },
-    showCheckbox: {
-      type: Boolean,
-      default: false,
-    },
-    draggable: {
-      type: Boolean,
-      default: false,
-    },
+    showCheckbox: Boolean,
+    draggable: Boolean,
     allowDrag: {
       type: definePropType<AllowDragFunction>(Function),
     },
@@ -139,10 +130,7 @@ export default defineComponent({
         disabled: 'disabled',
       }),
     },
-    lazy: {
-      type: Boolean,
-      default: false,
-    },
+    lazy: Boolean,
     highlightCurrent: Boolean,
     load: Function as PropType<TreeComponentProps['load']>,
     filterNodeMethod: Function as PropType<
