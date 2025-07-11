@@ -1,7 +1,7 @@
 import { createApp, nextTick } from 'vue'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { rAF } from '@element-plus/test-utils/tick'
-import Notification, { closeAll } from '../src/notify'
+import Notification, { closeAll, updateOffsets } from '../src/notify'
 
 import type { NotificationHandle } from '../src/notification'
 import type { VNode } from 'vue'
@@ -87,6 +87,61 @@ describe('Notification on command', () => {
     await rAF()
     expect(onClose).toHaveBeenCalledTimes(notifications.length)
     expect(document.querySelectorAll(selector).length).toBe(0)
+  })
+
+  it('it should update offsets notifications', async () => {
+    // the gap size between each notification
+    const GAP_SIZE = 16
+    const height = 100
+    const notifications: NotificationHandle[] = []
+
+    for (let i = 0; i < 4; i++) {
+      notifications.push(
+        Notification({
+          duration: 0,
+        })
+      )
+
+      await nextTick()
+
+      const el = document.querySelector(`${selector}:nth-child(${i + 1})`)
+
+      // mocking offsetHeight
+      Object.defineProperty(el, 'offsetHeight', {
+        get: vi.fn(function (this: HTMLElement) {
+          return Number.parseFloat(this.style.height) || height
+        }),
+      })
+    }
+
+    // vi.runAllTicks()
+    await rAF()
+
+    const notificationEls = Array.from(
+      document.querySelectorAll<HTMLElement>(selector)
+    )
+
+    expect(notificationEls.length).toBe(4)
+
+    const getOffsets = () => notificationEls.map((el) => el?.style.top || '0')
+
+    expect(getOffsets()).toEqual(
+      Array.from({ length: 4 }).map(
+        (_, i) => `${(i + 1) * GAP_SIZE + i * height}px`
+      )
+    )
+
+    notificationEls[0]?.style.setProperty('height', '150px')
+
+    updateOffsets('top-right')
+
+    await rAF()
+
+    expect(getOffsets()).toEqual(
+      Array.from({ length: 4 }).map(
+        (_, i) => `${(i + 1) * GAP_SIZE + i * height + (i > 0 ? 50 : 0)}px`
+      )
+    )
   })
 
   it('it should be able to render all types notification', () => {
