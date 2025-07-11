@@ -16136,27 +16136,27 @@ Use attribute `size` to set additional sizes with `large` or `small`.
 
 ### Attributes
 
-| Name                        | Description                                      | Type                                          | Default   |
-| --------------------------- | ------------------------------------------------ | --------------------------------------------- | --------- |
-| model-value / v-model       | binding value                                    | ^[number] / ^[null]                           | —         |
-| min                         | the minimum allowed value                        | ^[number]                                     | -Infinity |
-| max                         | the maximum allowed value                        | ^[number]                                     | Infinity  |
-| step                        | incremental step                                 | ^[number]                                     | 1         |
-| step-strictly               | whether input value can only be multiple of step | ^[boolean]                                    | false     |
-| precision                   | precision of input value                         | ^[number]                                     | —         |
-| size                        | size of the component                            | ^[enum]`'large' \| 'default' \| 'small'`      | default   |
-| readonly ^(2.2.16)          | same as `readonly` in native input               | ^[boolean]                                    | false     |
-| disabled                    | whether the component is disabled                | ^[boolean]                                    | false     |
-| controls                    | whether to enable the control buttons            | ^[boolean]                                    | true      |
-| controls-position           | position of the control buttons                  | ^[enum]`'' \| 'right'`                        | —         |
-| name                        | same as `name` in native input                   | ^[string]                                     | —         |
-| aria-label ^(a11y) ^(2.7.2) | same as `aria-label` in native input             | ^[string]                                     | —         |
-| placeholder                 | same as `placeholder` in native input            | ^[string]                                     | —         |
-| id                          | same as `id` in native input                     | ^[string]                                     | —         |
-| value-on-clear ^(2.2.0)     | value should be set when input box is cleared    | ^[number] / ^[null] / ^[enum]`'min' \| 'max'` | —         |
-| validate-event              | whether to trigger form validation               | ^[boolean]                                    | true      |
-| label ^(a11y) ^(deprecated) | same as `aria-label` in native input             | ^[string]                                     | —         |
-| inputmode ^(2.10.3)         | same as `inputmode` in native input              | ^[string]                                     | —         |
+| Name                        | Description                                      | Type                                          | Default                 |
+| --------------------------- | ------------------------------------------------ | --------------------------------------------- | ----------------------- |
+| model-value / v-model       | binding value                                    | ^[number] / ^[null]                           | —                       |
+| min                         | the minimum allowed value                        | ^[number]                                     | Number.MAX_SAFE_INTEGER |
+| max                         | the maximum allowed value                        | ^[number]                                     | Number.MIN_SAFE_INTEGER |
+| step                        | incremental step                                 | ^[number]                                     | 1                       |
+| step-strictly               | whether input value can only be multiple of step | ^[boolean]                                    | false                   |
+| precision                   | precision of input value                         | ^[number]                                     | —                       |
+| size                        | size of the component                            | ^[enum]`'large' \| 'default' \| 'small'`      | default                 |
+| readonly ^(2.2.16)          | same as `readonly` in native input               | ^[boolean]                                    | false                   |
+| disabled                    | whether the component is disabled                | ^[boolean]                                    | false                   |
+| controls                    | whether to enable the control buttons            | ^[boolean]                                    | true                    |
+| controls-position           | position of the control buttons                  | ^[enum]`'' \| 'right'`                        | —                       |
+| name                        | same as `name` in native input                   | ^[string]                                     | —                       |
+| aria-label ^(a11y) ^(2.7.2) | same as `aria-label` in native input             | ^[string]                                     | —                       |
+| placeholder                 | same as `placeholder` in native input            | ^[string]                                     | —                       |
+| id                          | same as `id` in native input                     | ^[string]                                     | —                       |
+| value-on-clear ^(2.2.0)     | value should be set when input box is cleared    | ^[number] / ^[null] / ^[enum]`'min' \| 'max'` | —                       |
+| validate-event              | whether to trigger form validation               | ^[boolean]                                    | true                    |
+| label ^(a11y) ^(deprecated) | same as `aria-label` in native input             | ^[string]                                     | —                       |
+| inputmode ^(2.10.3)         | same as `inputmode` in native input              | ^[string]                                     | —                       |
 
 ### Slots
 
@@ -16486,15 +16486,15 @@ You can customize the prefix and suffix of the InputTag by `prefix` and `suffix`
 
 ### Events
 
-| Name       | Description                             | Type                                     |
-| ---------- | --------------------------------------- | ---------------------------------------- |
-| change     | triggers when the modelValue change     | ^[Function]`(value: string[]) => void`   |
-| input      | triggers when the input value change    | ^[Function]`(value: string) => void`     |
-| add-tag    | triggers when a tag is added            | ^[Function]`(value: string) => void`     |
-| remove-tag | triggers when a tag is removed          | ^[Function]`(value: string) => void`     |
-| focus      | triggers when InputTag focuses          | ^[Function]`(event: FocusEvent) => void` |
-| blur       | triggers when InputTag blurs            | ^[Function]`(event: FocusEvent) => void` |
-| clear      | triggers when the clear icon is clicked | ^[Function]`() => void`                  |
+| Name       | Description                             | Type                                              |
+| ---------- | --------------------------------------- | ------------------------------------------------- |
+| change     | triggers when the modelValue change     | ^[Function]`(value: string[]) => void`            |
+| input      | triggers when the input value change    | ^[Function]`(value: string) => void`              |
+| add-tag    | triggers when a tag is added            | ^[Function]`(value: string \| string []) => void` |
+| remove-tag | triggers when a tag is removed          | ^[Function]`(value: string) => void`              |
+| focus      | triggers when InputTag focuses          | ^[Function]`(event: FocusEvent) => void`          |
+| blur       | triggers when InputTag blurs            | ^[Function]`(event: FocusEvent) => void`          |
+| clear      | triggers when the clear icon is clicked | ^[Function]`() => void`                           |
 
 ### Slots
 
@@ -16723,8 +16723,6 @@ URL: https://element-plus.org/en-US/component/input
 # Input
 
 Input data using mouse or keyboard.
-
-
 
 ## Basic usage
 
@@ -18155,11 +18153,12 @@ to work with `el-form`.
 
 ### Events
 
-| Name                              | Description                         | Type                                                         |
-| --------------------------------- | ----------------------------------- | ------------------------------------------------------------ |
-| search                            | trigger when prefix hit             | ^[Function]`(pattern: string, prefix: string) => void`       |
-| select                            | trigger when user select the option | ^[Function]`(option: MentionOption, prefix: string) => void` |
-| [input events](./input.md#events) | —                                   | —                                                            |
+| Name                              | Description                                                                                 | Type                                                         |
+| --------------------------------- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| search                            | trigger when prefix hit                                                                     | ^[Function]`(pattern: string, prefix: string) => void`       |
+| select                            | trigger when user select the option                                                         | ^[Function]`(option: MentionOption, prefix: string) => void` |
+| whole-remove ^(2.10.4)            | trigger when a whole mention is removed and `whole` is `true` or `check-is-whole` is `true` | ^[Function]`(pattern: string, prefix: string) => void`       |
+| [input events](./input.md#events) | —                                                                                           | —                                                            |
 
 ### Slots
 
@@ -23563,6 +23562,10 @@ The basic multi-select selector with tags
 
 
 
+## Sizes
+
+
+
 ## Hide extra tags when the selected items are too many
 
 You can collapse tags to a text by using `collapse-tags` attribute. You can check them when mouse hover collapse text by using `collapse-tags-tooltip` attribute.
@@ -23840,28 +23843,12 @@ const options = Array.from({ length: 1000 }).map((_, idx) => ({
 ### basic-usage.vue
 ```vue
 <template>
-  <div class="flex flex-wrap gap-4 items-center">
-    <el-select-v2
-      v-model="value"
-      :options="options"
-      placeholder="Please select"
-      size="large"
-      style="width: 240px"
-    />
-    <el-select-v2
-      v-model="value"
-      :options="options"
-      placeholder="Please select"
-      style="width: 240px"
-    />
-    <el-select-v2
-      v-model="value"
-      :options="options"
-      placeholder="Please select"
-      size="small"
-      style="width: 240px"
-    />
-  </div>
+  <el-select-v2
+    v-model="value"
+    :options="options"
+    placeholder="Please select"
+    style="width: 240px"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -23875,12 +23862,6 @@ const options = Array.from({ length: 1000 }).map((_, idx) => ({
   label: `${initials[idx % 10]}${idx}`,
 }))
 </script>
-
-<style scoped>
-.example-showcase .el-select-v2 {
-  margin-right: 20px;
-}
-</style>
 
 ```
 
@@ -24863,6 +24844,53 @@ const remoteMethod = (query: string) => {
 
 ```
 
+### size.vue
+```vue
+<template>
+  <div class="flex flex-wrap gap-4 items-center">
+    <el-select-v2
+      v-model="value"
+      :options="options"
+      placeholder="Please select"
+      size="large"
+      style="width: 240px"
+    />
+    <el-select-v2
+      v-model="value"
+      :options="options"
+      placeholder="Please select"
+      style="width: 240px"
+    />
+    <el-select-v2
+      v-model="value"
+      :options="options"
+      placeholder="Please select"
+      size="small"
+      style="width: 240px"
+    />
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+
+const value = ref()
+const options = Array.from({ length: 1000 }).map((_, idx) => ({
+  value: `Option ${idx + 1}`,
+  label: `${initials[idx % 10]}${idx}`,
+}))
+</script>
+
+<style scoped>
+.example-showcase .el-select-v2 {
+  margin-right: 20px;
+}
+</style>
+
+```
+
 ### use-valueKey.vue
 ```vue
 <template>
@@ -24927,6 +24955,10 @@ Disable the whole component.
 ## Clearable single select
 
 You can clear Select using a clear icon.
+
+
+
+## Sizes
 
 
 
@@ -25179,42 +25211,14 @@ const options = [
 ### basic-usage.vue
 ```vue
 <template>
-  <div class="flex flex-wrap gap-4 items-center">
-    <el-select
-      v-model="value"
-      placeholder="Select"
-      size="large"
-      style="width: 240px"
-    >
-      <el-option
-        v-for="item in options"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-      />
-    </el-select>
-    <el-select v-model="value" placeholder="Select" style="width: 240px">
-      <el-option
-        v-for="item in options"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-      />
-    </el-select>
-    <el-select
-      v-model="value"
-      placeholder="Select"
-      size="small"
-      style="width: 240px"
-    >
-      <el-option
-        v-for="item in options"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-      />
-    </el-select>
-  </div>
+  <el-select v-model="value" placeholder="Select" style="width: 240px">
+    <el-option
+      v-for="item in options"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value"
+    />
+  </el-select>
 </template>
 
 <script lang="ts" setup>
@@ -26429,6 +26433,78 @@ const states = [
   'West Virginia',
   'Wisconsin',
   'Wyoming',
+]
+</script>
+
+```
+
+### size.vue
+```vue
+<template>
+  <div class="flex flex-wrap gap-4 items-center">
+    <el-select
+      v-model="value"
+      placeholder="Select"
+      size="large"
+      style="width: 240px"
+    >
+      <el-option
+        v-for="item in options"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value"
+      />
+    </el-select>
+    <el-select v-model="value" placeholder="Select" style="width: 240px">
+      <el-option
+        v-for="item in options"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value"
+      />
+    </el-select>
+    <el-select
+      v-model="value"
+      placeholder="Select"
+      size="small"
+      style="width: 240px"
+    >
+      <el-option
+        v-for="item in options"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value"
+      />
+    </el-select>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const value = ref('')
+
+const options = [
+  {
+    value: 'Option1',
+    label: 'Option1',
+  },
+  {
+    value: 'Option2',
+    label: 'Option2',
+  },
+  {
+    value: 'Option3',
+    label: 'Option3',
+  },
+  {
+    value: 'Option4',
+    label: 'Option4',
+  },
+  {
+    value: 'Option5',
+    label: 'Option5',
+  },
 ]
 </script>
 
@@ -37968,24 +38044,25 @@ Tree nodes can be filtered
 
 ## TreeV2 Attributes
 
-| Name                         | Description                                                                                                                                  | Type                        | Default |
-| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- | ------- |
-| data                         | tree data                                                                                                                                    | array                       | —       |
-| empty-text                   | text displayed when data is void                                                                                                             | string                      | —       |
-| props                        | configuration options, see the following table                                                                                               | object                      | —       |
-| highlight-current            | whether current node is highlighted                                                                                                          | boolean                     | false   |
-| expand-on-click-node         | whether to expand or collapse node when clicking on the node, if false, then expand or collapse node only when clicking on the arrow icon.   | boolean                     | true    |
-| check-on-click-node          | whether to check or uncheck node when clicking on the node, if false, the node can only be checked or unchecked by clicking on the checkbox. | boolean                     | false   |
-| check-on-click-leaf ^(2.9.6) | whether to check or uncheck node when clicking on leaf node (last children).                                                                 | ^[boolean]                  | true    |
-| default-expanded-keys        | array of keys of initially expanded nodes                                                                                                    | array                       | —       |
-| show-checkbox                | whether node is selectable                                                                                                                   | boolean                     | false   |
-| check-strictly               | whether checked state of a node not affects its father and child nodes when `show-checkbox` is `true`                                        | boolean                     | false   |
-| default-checked-keys         | array of keys of initially checked nodes                                                                                                     | array                       | —       |
-| current-node-key             | key of initially selected node                                                                                                               | string / number             | —       |
-| filter-method                | this function will be executed on each node when use filter method. if return `false`, tree node will be hidden.                             | Function(value, data, node) | —       |
-| indent                       | horizontal indentation of nodes in adjacent levels in pixels                                                                                 | number                      | 16      |
-| icon                         | custom tree node icon                                                                                                                        | `string \| Component`       | —       |
-| item-size ^(2.2.33)          | custom tree node height                                                                                                                      | number                      | 26      |
+| Name                          | Description                                                                                                                                  | Type                        | Default |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- | ------- |
+| data                          | tree data                                                                                                                                    | array                       | —       |
+| empty-text                    | text displayed when data is void                                                                                                             | string                      | —       |
+| props                         | configuration options, see the following table                                                                                               | object                      | —       |
+| highlight-current             | whether current node is highlighted                                                                                                          | boolean                     | false   |
+| expand-on-click-node          | whether to expand or collapse node when clicking on the node, if false, then expand or collapse node only when clicking on the arrow icon.   | boolean                     | true    |
+| check-on-click-node           | whether to check or uncheck node when clicking on the node, if false, the node can only be checked or unchecked by clicking on the checkbox. | boolean                     | false   |
+| check-on-click-leaf ^(2.9.6)  | whether to check or uncheck node when clicking on leaf node (last children).                                                                 | ^[boolean]                  | true    |
+| default-expanded-keys         | array of keys of initially expanded nodes                                                                                                    | array                       | —       |
+| show-checkbox                 | whether node is selectable                                                                                                                   | boolean                     | false   |
+| check-strictly                | whether checked state of a node not affects its father and child nodes when `show-checkbox` is `true`                                        | boolean                     | false   |
+| default-checked-keys          | array of keys of initially checked nodes                                                                                                     | array                       | —       |
+| current-node-key              | key of initially selected node                                                                                                               | string / number             | —       |
+| filter-method                 | this function will be executed on each node when use filter method. if return `false`, tree node will be hidden.                             | Function(value, data, node) | —       |
+| indent                        | horizontal indentation of nodes in adjacent levels in pixels                                                                                 | number                      | 16      |
+| icon                          | custom tree node icon                                                                                                                        | `string \| Component`       | —       |
+| item-size ^(2.2.33)           | custom tree node height                                                                                                                      | number                      | 26      |
+| scrollbar-always-on ^(2.10.4) | always show scrollbar                                                                                                                        | ^[boolean]                  | false   |
 
 ## props
 
