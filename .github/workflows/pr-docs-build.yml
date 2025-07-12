@@ -63,7 +63,7 @@ jobs:
         shell: bash
 
       - name: Set last version
-        run: pnpm update:version
+        run: pnpm update:version && pnpm gen:version
         env:
           TAG_VERSION: ${{env.TAG_VERSION}}
           GIT_HEAD: ${{env.GIT_HEAD}}

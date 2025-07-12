@@ -41,7 +41,7 @@ const currentLink = computed(() => {
           />
         </a>
         <el-tag round size="small" title="latest version">{{
-          epVersion
+          epVersion.replace('0.0.0-dev.', '')
         }}</el-tag>
       </div>
       <div class="content">
