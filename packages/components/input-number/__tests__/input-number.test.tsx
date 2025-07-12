@@ -617,16 +617,19 @@ describe('InputNumber.vue', () => {
       ['left', 'is-left'],
       ['center', 'is-center'],
       ['right', 'is-right'],
-    ])('align=%s should add class %s', async (align, expectedClass) => {
-      const num = ref(0)
-      const wrapper = mount(() => (
-        <InputNumber v-model={num.value} align={align} />
-      ))
+    ] as Array<['left' | 'center' | 'right', string]>)(
+      'align=%s should add class %s',
+      async (align, expectedClass) => {
+        const num = ref(0)
+        const wrapper = mount(() => (
+          <InputNumber v-model={num.value} align={align} />
+        ))
 
-      await nextTick()
+        await nextTick()
 
-      const root = wrapper.find('.el-input-number')
-      expect(root.classes()).toContain(expectedClass)
-    })
+        const root = wrapper.find('.el-input-number')
+        expect(root.classes()).toContain(expectedClass)
+      }
+    )
   })
 })
