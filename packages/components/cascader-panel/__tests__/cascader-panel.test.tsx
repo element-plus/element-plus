@@ -124,6 +124,29 @@ const lazyLoad: LazyLoad = (node, resolve) => {
   }, 1000)
 }
 
+describe('avoid other test case affecting this test case', () => {
+  test('check strictly in single mode with first option', async () => {
+    // #21311
+    const value = ref([])
+    const props = {
+      checkStrictly: true,
+    }
+    const wrapper = mount(() => (
+      <CascaderPanel
+        v-model={value.value}
+        options={NORMAL_OPTIONS}
+        props={props}
+      />
+    ))
+
+    const zjRadio = wrapper.findAll(RADIO)[0]
+    expect(zjRadio.exists()).toBe(true)
+
+    await zjRadio.find('input').trigger('click')
+    expect(value.value).toEqual(['beijing'])
+  })
+})
+
 describe('CascaderPanel.vue', () => {
   beforeEach(() => {
     id = 0
@@ -428,27 +451,6 @@ describe('CascaderPanel.vue', () => {
 
     await zjRadio.find('input').trigger('click')
     expect(value.value).toEqual(['zhejiang'])
-  })
-
-  test('check strictly in single mode with first option', async () => {
-    // #21311
-    const value = ref([])
-    const props = {
-      checkStrictly: true,
-    }
-    const wrapper = mount(() => (
-      <CascaderPanel
-        v-model={value.value}
-        options={NORMAL_OPTIONS}
-        props={props}
-      />
-    ))
-
-    const zjRadio = wrapper.findAll(RADIO)[0]
-    expect(zjRadio.exists()).toBe(true)
-
-    await zjRadio.find('input').trigger('click')
-    expect(value.value).toEqual(['beijing'])
   })
 
   test('check strictly in single mode with disabled options', async () => {
