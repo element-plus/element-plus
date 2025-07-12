@@ -156,6 +156,13 @@ export const selectProps = buildProps({
     default: true,
   },
   /**
+   * @description when `single` and `filter` is true, whether to preserve search value when input loses focus
+   */
+  preserveSearchInSingle: {
+    type: Boolean,
+    default: false,
+  },
+  /**
    * @description unique identity key name for value, required when value is an object
    */
   valueKey: {
