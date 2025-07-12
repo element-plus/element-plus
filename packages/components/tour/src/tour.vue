@@ -8,6 +8,7 @@
         :pos="pos"
         :z-index="mergedZIndex"
         :target-area-clickable="targetAreaClickable"
+        @click="onClickMaskClose"
       />
       <el-tour-content
         v-if="modelValue"
@@ -111,10 +112,20 @@ watch(
   }
 )
 
+const onClose = () => {
+  emit(UPDATE_MODEL_EVENT, false)
+  emit('close', current.value)
+}
+
+const onClickMaskClose = () => {
+  if (props.closeOnClickModal) {
+    onClose()
+  }
+}
+
 const onEscClose = () => {
   if (props.closeOnPressEscape) {
-    emit(UPDATE_MODEL_EVENT, false)
-    emit('close', current.value)
+    onClose()
   }
 }
 
@@ -133,12 +144,7 @@ provide(tourKey, {
   mergedType: mergedType as any,
   ns,
   slots,
-  updateModelValue(modelValue) {
-    emit(UPDATE_MODEL_EVENT, modelValue)
-  },
-  onClose() {
-    emit('close', current.value)
-  },
+  onClose,
   onFinish() {
     emit('finish')
   },

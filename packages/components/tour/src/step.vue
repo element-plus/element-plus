@@ -96,7 +96,6 @@ const {
   mergedType,
   ns,
   slots: tourSlots,
-  updateModelValue,
   onClose: tourOnClose,
   onFinish: tourOnFinish,
   onChange,
@@ -148,7 +147,6 @@ const onFinish = () => {
 }
 
 const onClose = () => {
-  updateModelValue(false)
   tourOnClose()
   emit('close')
 }

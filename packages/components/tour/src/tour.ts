@@ -105,6 +105,13 @@ export const tourProps = buildProps({
     default: 'body',
   },
   /**
+   * @description whether the Tour can be closed by clicking the mask
+   */
+  closeOnClickModal: {
+    type: Boolean,
+    default: true,
+  },
+  /**
    * @description whether the Tour can be closed by pressing ESC
    */
   closeOnPressEscape: {

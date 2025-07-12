@@ -1,8 +1,9 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { afterEach, describe, expect, test } from 'vitest'
+import { afterEach, describe, expect, test, vi } from 'vitest'
 import Tour from '../src/tour.vue'
 import TourStep from '../src/step.vue'
+import { EVENT_CODE } from '@element-plus/constants'
 
 describe('Tour.vue', () => {
   afterEach(() => {
@@ -189,5 +190,83 @@ describe('Tour.vue', () => {
 
     expect(document.querySelector('.prev-btn span')?.innerHTML).toBe('上一步')
     expect(document.querySelector('.next-btn span')?.innerHTML).toBe('下一步')
+  })
+
+  test('click mask and close', async () => {
+    const modelValue = ref(true)
+    const closeOnClickModal = ref(false)
+    const onClose = vi.fn()
+
+    const wrapper = mount({
+      setup() {
+        return () => (
+          <Tour
+            v-model={modelValue.value}
+            closeOnClickModal={closeOnClickModal.value}
+            onClose={onClose}
+          >
+            <TourStep title="first" description="cover description." />
+            <TourStep title="second" description="cover description." />
+          </Tour>
+        )
+      },
+    })
+
+    const maskEl = document.querySelector<HTMLElement>('.el-tour__mask')!
+    maskEl.click()
+    await nextTick()
+
+    expect(modelValue.value).toBe(true)
+
+    closeOnClickModal.value = true
+    await nextTick()
+
+    maskEl.click()
+    await nextTick()
+
+    expect(modelValue.value).toBe(false)
+    expect(onClose).toHaveBeenCalledTimes(1)
+
+    wrapper.unmount()
+  })
+
+  test('keyboard escape and close', async () => {
+    const modelValue = ref(true)
+    const closeOnPressEscape = ref(false)
+    const onClose = vi.fn()
+
+    const wrapper = mount({
+      setup() {
+        return () => (
+          <Tour
+            v-model={modelValue.value}
+            closeOnPressEscape={closeOnPressEscape.value}
+            onClose={onClose}
+          >
+            <TourStep title="first" description="cover description." />
+            <TourStep title="second" description="cover description." />
+          </Tour>
+        )
+      },
+    })
+
+    const event = new KeyboardEvent('keydown', {
+      code: EVENT_CODE.esc,
+    })
+    document.dispatchEvent(event)
+    await nextTick()
+
+    expect(modelValue.value).toBe(true)
+
+    closeOnPressEscape.value = true
+    await nextTick()
+
+    document.dispatchEvent(event)
+    await nextTick()
+
+    expect(modelValue.value).toBe(false)
+    expect(onClose).toHaveBeenCalledTimes(1)
+
+    wrapper.unmount()
   })
 })

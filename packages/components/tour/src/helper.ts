@@ -154,7 +154,6 @@ export interface TourContext {
   mergedType: Ref<'default' | 'primary' | undefined>
   ns: UseNamespaceReturn
   slots: SetupContext['slots']
-  updateModelValue(modelValue: boolean): void
   onClose(): void
   onFinish(): void
   onChange(): void
