@@ -176,7 +176,7 @@ describe('Checkbox', () => {
             >
               <CheckboxGroup
                 modelValue={form.checked.split(',')}
-                onUpdate:modelValue={(val: string[]) => {
+                onUpdate:modelValue={(val) => {
                   form.checked = val.filter(Boolean).join(',')
                 }}
               >
