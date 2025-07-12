@@ -286,3 +286,8 @@ export type SelectProps = ExtractPropTypes<typeof selectProps>
 export type SelectPropsPublic = __ExtractPublicPropTypes<typeof selectProps>
 export type SelectEmits = EmitFn<typeof selectEmits>
 export type SelectInstance = InstanceType<typeof Select> & unknown
+export type SelectOptionProps = {
+  value?: string
+  label?: string
+  disabled?: string
+}

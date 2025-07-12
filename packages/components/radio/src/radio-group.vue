@@ -7,7 +7,16 @@
     :aria-label="!isLabeledByFormItem ? ariaLabel || 'radio-group' : undefined"
     :aria-labelledby="isLabeledByFormItem ? formItem!.labelId : undefined"
   >
-    <slot />
+    <slot>
+      <el-radio
+        v-for="(item, index) in options"
+        :key="index"
+        :value="item[props.props?.value ?? 'value']"
+        :disabled="item[props.props?.disabled ?? 'disabled']"
+      >
+        <span>{{ item[props.props?.label ?? 'label'] }} </span>
+      </el-radio>
+    </slot>
   </div>
 </template>
 
