@@ -57,7 +57,7 @@ jobs:
         run: pnpm docs:gen-locale
 
       - name: Get version
-        run: echo "TAG_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+        run: echo "TAG_VERSION=${GITHUB_SHA}" >> $GITHUB_ENV
 
       - name: Get git head
         run: echo "GIT_HEAD=${GITHUB_SHA}" >> $GITHUB_ENV
