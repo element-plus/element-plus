@@ -29,21 +29,11 @@
       }
     }
   }
-  &--left {
-    .#{$namespace}-input__inner {
-      text-align: left;
-    }
-  }
-
-  &--right {
-    .#{$namespace}-input__inner {
-      text-align: right;
-    }
-  }
-
-  &--center {
-    .#{$namespace}-input__inner {
-      text-align: center;
+  @each $align in (left, right, center) {
+    @include when($align) {
+      .#{$namespace}-input__inner {
+        text-align: $align;
+      }
     }
   }
   @include e((increase, decrease)) {

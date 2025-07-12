@@ -6,7 +6,7 @@
       ns.is('disabled', inputNumberDisabled),
       ns.is('without-controls', !controls),
       ns.is('controls-right', controlsAtRight),
-      ns.m(align),
+      ns.is(align, !!align),
     ]"
     @dragstart.prevent
   >
