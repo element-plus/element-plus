@@ -7,7 +7,7 @@ import type { Project } from '@pnpm/find-workspace-packages'
 async function main() {
   const tagVersion = process.env.TAG_VERSION
   const gitHead = process.env.GIT_HEAD
-  if (!tagVersion || !gitHead) {
+  if (!gitHead || !tagVersion) {
     errorAndExit(
       new Error(
         'No tag version or git head were found, make sure that you set the environment variable $TAG_VERSION \n'
