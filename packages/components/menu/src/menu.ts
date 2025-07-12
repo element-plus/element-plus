@@ -12,7 +12,7 @@ import {
   watchEffect,
   withDirectives,
 } from 'vue'
-import { useResizeObserver } from '@vueuse/core'
+import { useCssVar, useResizeObserver } from '@vueuse/core'
 import { isNil } from 'lodash-unified'
 import ElIcon from '@element-plus/components/icon'
 import { More } from '@element-plus/icons-vue'
@@ -323,12 +323,57 @@ export default defineComponent({
       return menuItem.offsetWidth + marginLeft + marginRight || 0
     }
 
+    const calcMoreButtonWidth = () => {
+      if (typeof document === 'undefined') {
+        return 64
+      }
+
+      // 创建一个临时的 more 按钮元素来计算宽度
+      const tempMoreButton = document.createElement('div')
+      tempMoreButton.className = `${nsSubMenu.b()} ${nsSubMenu.e('hide-arrow')}`
+      tempMoreButton.style.position = 'absolute'
+      tempMoreButton.style.visibility = 'hidden'
+      tempMoreButton.style.pointerEvents = 'none'
+      tempMoreButton.style.display = 'inline-flex'
+      tempMoreButton.style.alignItems = 'center'
+      tempMoreButton.style.justifyContent = 'center'
+      tempMoreButton.style.height = '100%'
+      const basePadding = useCssVar(`--el-menu-base-level-padding`).value
+      tempMoreButton.style.padding = `0 ${basePadding}`
+
+      // 创建图标元素
+      const iconElement = document.createElement('i')
+      iconElement.className = nsSubMenu.e('icon-more')
+      iconElement.style.fontSize = '18px'
+      iconElement.style.width = '24px'
+      iconElement.style.textAlign = 'center'
+      iconElement.style.verticalAlign = 'middle'
+      tempMoreButton.appendChild(iconElement)
+
+      try {
+        // 添加到 DOM 中计算宽度
+        document.body.appendChild(tempMoreButton)
+        const width = tempMoreButton.offsetWidth
+        document.body.removeChild(tempMoreButton)
+        return width || 64 // 如果计算失败，返回默认值
+      } catch {
+        // 如果出现错误，清理并返回默认值
+        if (document.body.contains(tempMoreButton)) {
+          document.body.removeChild(tempMoreButton)
+        }
+        return 64
+      }
+    }
+
     const calcSliceIndex = () => {
       if (!menu.value) return -1
       const items = Array.from(menu.value?.childNodes ?? []).filter(
         (item) => item.nodeName !== '#text' || item.nodeValue
       ) as HTMLElement[]
-      const moreItemWidth = 64
+
+      // 动态计算 more 按钮的宽度
+      const moreItemWidth = calcMoreButtonWidth()
+
       const computedMenuStyle = getComputedStyle(menu.value!)
       const paddingLeft = Number.parseInt(computedMenuStyle.paddingLeft, 10)
       const paddingRight = Number.parseInt(computedMenuStyle.paddingRight, 10)
