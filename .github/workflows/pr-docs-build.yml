@@ -58,7 +58,7 @@ jobs:
 
       - name: Get version and git head
         run: |
-          echo "TAG_VERSION=${GITHUB_SHA::7}" >> $GITHUB_ENV
+          echo "TAG_VERSION=0.0.0-dev.${GITHUB_SHA::7}" >> $GITHUB_ENV
           echo "GIT_HEAD=${GITHUB_SHA}" >> $GITHUB_ENV
         shell: bash
 
