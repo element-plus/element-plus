@@ -113,6 +113,10 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
 
   const selectDisabled = computed(() => props.disabled || !!form?.disabled)
 
+  const shouldPreserveSearchValue = computed(
+    () => !props.multiple && props.filterable && props.preserveSearchInSingle
+  )
+
   const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
     disabled: selectDisabled,
     afterFocus() {
@@ -130,6 +134,9 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     afterBlur() {
       expanded.value = false
       states.menuVisibleOnFocus = false
+      if (shouldPreserveSearchValue.value) {
+        states.inputValue = states.selectedLabel
+      }
       if (props.validateEvent) {
         formItem?.validate?.('blur').catch((err) => debugWarn(err))
       }
@@ -286,6 +293,9 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
         }
       }
       setSelected()
+      if (shouldPreserveSearchValue.value) {
+        states.inputValue = states.selectedLabel
+      }
       if (!isEqual(val, oldVal) && props.validateEvent) {
         formItem?.validate('change').catch((err) => debugWarn(err))
       }
@@ -302,7 +312,9 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       if (val) {
         handleQueryChange(states.inputValue)
       } else {
-        states.inputValue = ''
+        states.inputValue = shouldPreserveSearchValue.value
+          ? states.selectedLabel
+          : ''
         states.previousQuery = null
         states.isBeforeHide = true
       }
