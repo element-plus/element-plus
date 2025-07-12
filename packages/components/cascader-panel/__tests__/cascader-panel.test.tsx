@@ -430,6 +430,27 @@ describe('CascaderPanel.vue', () => {
     expect(value.value).toEqual(['zhejiang'])
   })
 
+  test('check strictly in single mode with first option', async () => {
+    // #21311
+    const value = ref([])
+    const props = {
+      checkStrictly: true,
+    }
+    const wrapper = mount(() => (
+      <CascaderPanel
+        v-model={value.value}
+        options={NORMAL_OPTIONS}
+        props={props}
+      />
+    ))
+
+    const zjRadio = wrapper.findAll(RADIO)[0]
+    expect(zjRadio.exists()).toBe(true)
+
+    await zjRadio.find('input').trigger('click')
+    expect(value.value).toEqual(['beijing'])
+  })
+
   test('check strictly in single mode with disabled options', async () => {
     const props = {
       checkStrictly: true,
