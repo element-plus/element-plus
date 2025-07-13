@@ -75,7 +75,10 @@ const nsMenu = useNamespace('menu')
 const nsMenuItem = useNamespace('menu-item')
 if (!rootMenu) throwError(COMPONENT_NAME, 'can not inject root menu')
 
-const { parentMenu, indexPath } = useMenu(instance, toRef(props, 'index'))
+const { parentMenu, indexPath, isTooltipMenu } = useMenu(
+  instance,
+  toRef(props, 'index')
+)
 
 const subMenu = inject<SubMenuProvider>(
   `${SUB_MENU_INJECTION_KEY}${parentMenu.value.uid}`
@@ -124,11 +127,17 @@ const handleTooltipHide = () => {
 }
 
 onMounted(() => {
+  if (isTooltipMenu()) {
+    return
+  }
   subMenu.addSubMenu(item)
   rootMenu.addMenuItem(item)
 })
 
 onBeforeUnmount(() => {
+  if (isTooltipMenu()) {
+    return
+  }
   subMenu.removeSubMenu(item)
   rootMenu.removeMenuItem(item)
 })
