@@ -2,7 +2,7 @@ import { timePickerDefaultProps } from '@element-plus/components/time-picker'
 import { buildProps, definePropType } from '@element-plus/utils'
 
 import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
-import type { IDatePickerType } from '../date-picker.type'
+import type { DatePickerType } from '@element-plus/components/date-picker-panel/src/types'
 
 export const datePickerProps = buildProps({
   ...timePickerDefaultProps,
@@ -10,7 +10,7 @@ export const datePickerProps = buildProps({
    * @description type of the picker
    */
   type: {
-    type: definePropType<IDatePickerType>(String),
+    type: definePropType<DatePickerType>(String),
     default: 'date',
   },
 } as const)

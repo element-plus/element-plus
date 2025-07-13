@@ -3,6 +3,8 @@
     :class="[
       ppNs.b(),
       drpNs.b(),
+      ppNs.is('border', border),
+      ppNs.is('disabled', disabled),
       {
         'has-sidebar': $slots.sidebar || hasShortcuts,
         'has-time': showTime,
@@ -16,6 +18,7 @@
           v-for="(shortcut, key) in shortcuts"
           :key="key"
           type="button"
+          :disabled="disabled"
           :class="ppNs.e('shortcut')"
           @click="handleShortcutClick(shortcut)"
         >
@@ -28,7 +31,7 @@
             <span :class="drpNs.e('time-picker-wrap')">
               <el-input
                 size="small"
-                :disabled="rangeState.selecting"
+                :disabled="rangeState.selecting || disabled"
                 :placeholder="t('el.datepicker.startDate')"
                 :class="drpNs.e('editor')"
                 :model-value="minVisibleDate"
@@ -44,7 +47,7 @@
               <el-input
                 size="small"
                 :class="drpNs.e('editor')"
-                :disabled="rangeState.selecting"
+                :disabled="rangeState.selecting || disabled"
                 :placeholder="t('el.datepicker.startTime')"
                 :model-value="minVisibleTime"
                 :validate-event="false"
@@ -69,7 +72,7 @@
               <el-input
                 size="small"
                 :class="drpNs.e('editor')"
-                :disabled="rangeState.selecting"
+                :disabled="rangeState.selecting || disabled"
                 :placeholder="t('el.datepicker.endDate')"
                 :model-value="maxVisibleDate"
                 :readonly="!minDate"
@@ -85,7 +88,7 @@
               <el-input
                 size="small"
                 :class="drpNs.e('editor')"
-                :disabled="rangeState.selecting"
+                :disabled="rangeState.selecting || disabled"
                 :placeholder="t('el.datepicker.endTime')"
                 :model-value="maxVisibleTime"
                 :readonly="!minDate"
@@ -111,6 +114,7 @@
               :class="ppNs.e('icon-btn')"
               :aria-label="t(`el.datepicker.prevYear`)"
               class="d-arrow-left"
+              :disabled="disabled"
               @click="leftPrevYear"
             >
               <slot name="prev-year">
@@ -125,6 +129,7 @@
               :class="ppNs.e('icon-btn')"
               :aria-label="t(`el.datepicker.prevMonth`)"
               class="arrow-left"
+              :disabled="disabled"
               @click="leftPrevMonth"
             >
               <slot name="prev-month">
@@ -136,8 +141,11 @@
             <button
               v-if="unlinkPanels"
               type="button"
-              :disabled="!enableYearArrow"
-              :class="[ppNs.e('icon-btn'), { 'is-disabled': !enableYearArrow }]"
+              :disabled="!enableYearArrow || disabled"
+              :class="[
+                ppNs.e('icon-btn'),
+                ppNs.is('disabled', !enableYearArrow),
+              ]"
               :aria-label="t(`el.datepicker.nextYear`)"
               class="d-arrow-right"
               @click="leftNextYear"
@@ -154,7 +162,7 @@
               :disabled="!enableMonthArrow"
               :class="[
                 ppNs.e('icon-btn'),
-                { 'is-disabled': !enableMonthArrow },
+                ppNs.is('disabled', !enableMonthArrow),
               ]"
               :aria-label="t(`el.datepicker.nextMonth`)"
               class="arrow-right"
@@ -204,6 +212,7 @@
             :disabled-date="disabledDate"
             :cell-class-name="cellClassName"
             :show-week-number="showWeekNumber"
+            :disabled="disabled"
             @changerange="handleChangeRange"
             @pick="handleRangePick"
             @select="onSelect"
@@ -215,6 +224,7 @@
             :date="leftDate"
             :disabled-date="disabledDate"
             :parsed-value="parsedValue"
+            :disabled="disabled"
             @pick="handleLeftYearPick"
           />
           <month-table
@@ -224,16 +234,22 @@
             :date="leftDate"
             :parsed-value="parsedValue"
             :disabled-date="disabledDate"
+            :disabled="disabled"
             @pick="handleLeftMonthPick"
           />
         </div>
         <div :class="[ppNs.e('content'), drpNs.e('content')]" class="is-right">
-          <div :class="drpNs.e('header')">
+          <div
+            :class="[
+              drpNs.e('header'),
+              ppNs.is('disabled', !enableYearArrow || disabled),
+            ]"
+          >
             <button
               v-if="unlinkPanels"
               type="button"
-              :disabled="!enableYearArrow"
-              :class="[ppNs.e('icon-btn'), { 'is-disabled': !enableYearArrow }]"
+              :disabled="!enableYearArrow || disabled"
+              :class="ppNs.e('icon-btn')"
               :aria-label="t(`el.datepicker.prevYear`)"
               class="d-arrow-left"
               @click="rightPrevYear"
@@ -247,11 +263,8 @@
             <button
               v-if="unlinkPanels && rightCurrentView === 'date'"
               type="button"
-              :disabled="!enableMonthArrow"
-              :class="[
-                ppNs.e('icon-btn'),
-                { 'is-disabled': !enableMonthArrow },
-              ]"
+              :disabled="!enableMonthArrow || disabled"
+              :class="ppNs.e('icon-btn')"
               :aria-label="t(`el.datepicker.prevMonth`)"
               class="arrow-left"
               @click="rightPrevMonth"
@@ -266,6 +279,7 @@
               type="button"
               :aria-label="t(`el.datepicker.nextYear`)"
               :class="ppNs.e('icon-btn')"
+              :disabled="disabled"
               class="d-arrow-right"
               @click="rightNextYear"
             >
@@ -279,6 +293,7 @@
               v-show="rightCurrentView === 'date'"
               type="button"
               :class="ppNs.e('icon-btn')"
+              :disabled="disabled"
               :aria-label="t(`el.datepicker.nextMonth`)"
               class="arrow-right"
               @click="rightNextMonth"
@@ -327,6 +342,7 @@
             :disabled-date="disabledDate"
             :cell-class-name="cellClassName"
             :show-week-number="showWeekNumber"
+            :disabled="disabled"
             @changerange="handleChangeRange"
             @pick="handleRangePick"
             @select="onSelect"
@@ -338,6 +354,7 @@
             :date="rightDate"
             :disabled-date="disabledDate"
             :parsed-value="parsedValue"
+            :disabled="disabled"
             @pick="handleRightYearPick"
           />
           <month-table
@@ -347,6 +364,7 @@
             :date="rightDate"
             :parsed-value="parsedValue"
             :disabled-date="disabledDate"
+            :disabled="disabled"
             @pick="handleRightMonthPick"
           />
         </div>
