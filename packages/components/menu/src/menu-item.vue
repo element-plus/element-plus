@@ -17,7 +17,7 @@
       :fallback-placements="['left']"
       :persistent="rootMenu.props.persistent"
       :virtual-triggering="true"
-      :virtual-ref="menuItemRef"
+      :virtual-ref="menuTitleRef"
       @hide="handleTooltipHide"
     >
       <template #content>
@@ -25,7 +25,7 @@
       </template>
     </el-tooltip>
     <div
-      ref="menuItemRef"
+      ref="menuTitleRef"
       :class="{ [`${nsMenu.be('tooltip', 'trigger')}`]: hasTooltip }"
       @mouseenter="handleMouseenter"
     >
@@ -91,7 +91,7 @@ const hasTooltip = computed(() => {
   )
 })
 
-const menuItemRef = ref<HTMLDivElement>()
+const menuTitleRef = ref<HTMLDivElement>()
 
 const active = computed(() => props.index === rootMenu.activeIndex)
 const item: MenuItemRegistered = reactive({
