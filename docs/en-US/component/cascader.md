@@ -148,7 +148,7 @@ cascader/custom-tag
 
 :::
 
-## Click to Select Node ^(2.10.4)
+## Click to Select Node ^(2.10.5)
 
 Allows selecting nodes by clicking, with optional control visibility.
 
