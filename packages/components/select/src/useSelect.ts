@@ -1,4 +1,5 @@
 import {
+  readonly,
   Component,
   computed,
   nextTick,
@@ -48,6 +49,7 @@ import {
   useFormItemInputId,
   useFormSize,
 } from '@element-plus/components/form'
+import { useSelectModelToggle } from './select'
 
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { ScrollbarInstance } from '@element-plus/components/scrollbar'
@@ -95,6 +97,10 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   const scrollbarRef = ref<ScrollbarInstance>()
   // the controller of the expanded popup
   const expanded = ref(false)
+  //const toggleReason = ref<Event>()
+  const { show, hide, toggle } = useSelectModelToggle({
+    indicator: expanded,
+  })
   const hoverOption = ref()
 
   const { form, formItem } = useFormItem()
@@ -113,12 +119,27 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   })
 
   const selectDisabled = computed(() => props.disabled || !!form?.disabled)
+  //const controlled = computed(
+  //  () => isBoolean(props.visible) && !hasUpdateHandler.value
+  //)
+
+  //const show = () => {
+  //  if(controlled.value)
+  //}
+
+  //const hide = () => {
+
+  //}
+
+  //const toggle = () => {
+
+  //}
 
   const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
     disabled: selectDisabled,
     afterFocus() {
       if (props.automaticDropdown && !expanded.value) {
-        expanded.value = true
+        show()
         states.menuVisibleOnFocus = true
       }
     },
@@ -129,7 +150,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       )
     },
     afterBlur() {
-      expanded.value = false
+      hide()
       states.menuVisibleOnFocus = false
       if (props.validateEvent) {
         formItem?.validate?.('blur').catch((err) => debugWarn(err))
@@ -245,14 +266,14 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     ['small'].includes(selectSize.value) ? 'small' : 'default'
   )
 
-  const dropdownMenuVisible = computed({
-    get() {
-      return expanded.value && !isRemoteSearchEmpty.value
-    },
-    set(val: boolean) {
-      expanded.value = val
-    },
-  })
+  //const dropdownMenuVisible = computed({
+  //  get() {
+  //    return expanded.value && !isRemoteSearchEmpty.value
+  //  },
+  //  set(val: boolean) {
+  //    expanded.value = val
+  //  },
+  //})
 
   const shouldShowPlaceholder = computed(() => {
     if (props.multiple && !isUndefined(props.modelValue)) {
@@ -348,6 +369,12 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     // If you want to control it by condition, write here
     if (states.isBeforeHide) return
     updateOptions()
+  })
+
+  watchEffect(() => {
+    if(isRemoteSearchEmpty.value) {
+      hide()
+    }
   })
 
   const handleQueryChange = (val: string) => {
@@ -481,7 +508,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
 
   const onInputChange = () => {
     if (states.inputValue.length > 0 && !expanded.value) {
-      expanded.value = true
+      show()
     }
     handleQueryChange(states.inputValue)
   }
@@ -550,7 +577,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     emit(UPDATE_MODEL_EVENT, value)
     emitChange(value)
     states.hoveringIndex = -1
-    expanded.value = false
+    hide()
     emit('clear')
     focus()
   }
@@ -578,7 +605,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     } else {
       emit(UPDATE_MODEL_EVENT, option.value)
       emitChange(option.value)
-      expanded.value = false
+      hide()
     }
     focus()
     if (expanded.value) return
@@ -654,7 +681,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
 
   const blur = () => {
     if (expanded.value) {
-      expanded.value = false
+      hide()
       nextTick(() => inputRef.value?.blur())
       return
     }
@@ -666,7 +693,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   }
 
   const handleClickOutside = (event: Event) => {
-    expanded.value = false
+    hide()
 
     if (isFocused.value) {
       const _event = new FocusEvent('blur', event)
@@ -678,7 +705,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     if (states.inputValue.length > 0) {
       states.inputValue = ''
     } else {
-      expanded.value = false
+      hide()
     }
   }
 
@@ -693,7 +720,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       // controlled by automaticDropdown
       states.menuVisibleOnFocus = false
     } else {
-      expanded.value = !expanded.value
+      toggle()
     }
   }
 
@@ -740,7 +767,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
 
   const navigateOptions = (direction: 'prev' | 'next') => {
     if (!expanded.value) {
-      expanded.value = true
+      show()
       return
     }
     if (
@@ -821,14 +848,20 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     setSelected()
   })
 
+  const updateVisibility = (val: boolean) => {
+    if(val) return hide()
+    show()
+  }
+
   return {
     inputId,
     contentId,
     nsSelect,
+    updateVisibility,
     nsInput,
     states,
     isFocused,
-    expanded,
+    expanded: readonly(expanded),
     optionsArray,
     hoverOption,
     selectSize,
@@ -873,7 +906,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     selectOption,
     getValueKey,
     navigateOptions,
-    dropdownMenuVisible,
+    //dropdownMenuVisible,
     showTagList,
     collapseTagList,
     popupScroll,
