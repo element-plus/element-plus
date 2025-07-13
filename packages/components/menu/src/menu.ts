@@ -10,7 +10,6 @@ import {
   ref,
   watch,
   watchEffect,
-  withDirectives,
 } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
 import { isNil } from 'lodash-unified'
@@ -28,11 +27,10 @@ import {
   mutable,
 } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
-import { ClickOutside as vClickoutside } from '@element-plus/directives'
 import Menubar from './utils/menu-bar'
-import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import ElSubMenu from './sub-menu'
 import { useMenuCssVar } from './use-menu-css-var'
+import useMenuCollapseTransition from './use-menu-collapse-transition'
 import { MENU_INJECTION_KEY, SUB_MENU_INJECTION_KEY } from './tokens'
 
 import type { PopperEffect } from '@element-plus/components/popper'
@@ -40,7 +38,6 @@ import type { MenuItemClicked, MenuProvider, SubMenuProvider } from './types'
 import type { NavigationFailure, Router } from 'vue-router'
 import type {
   Component,
-  DirectiveArguments,
   ExtractPropTypes,
   VNode,
   VNodeArrayChildren,
@@ -229,6 +226,13 @@ export default defineComponent({
         (props.mode === 'vertical' && props.collapse)
     )
 
+    const expandSubMenusByIndexPath = (indexPath: string[]) => {
+      indexPath.forEach((index) => {
+        const subMenu = subMenus.value[index]
+        subMenu && openMenu(index, subMenu.indexPath)
+      })
+    }
+
     // methods
     const initMenu = () => {
       const activeItem = activeIndex.value && items.value[activeIndex.value]
@@ -238,10 +242,7 @@ export default defineComponent({
 
       // 展开该菜单项的路径上所有子菜单
       // expand all subMenus of the menu item
-      indexPath.forEach((index) => {
-        const subMenu = subMenus.value[index]
-        subMenu && openMenu(index, subMenu.indexPath)
-      })
+      expandSubMenusByIndexPath(indexPath)
     }
 
     const openMenu: MenuProvider['openMenu'] = (index, indexPath) => {
@@ -345,8 +346,6 @@ export default defineComponent({
       return sliceIndex === items.length ? -1 : sliceIndex
     }
 
-    const getIndexPath = (index: string) => subMenus.value[index].indexPath
-
     // Common computer monitor FPS is 60Hz, which means 60 redraws per second. Calculation formula: 1000ms/60 ≈ 16.67ms, In order to avoid a certain chance of repeated triggering when `resize`, set wait to 16.67 * 2 = 33.34
     const debounce = (fn: () => void, wait = 33.34) => {
       let timmer: ReturnType<typeof setTimeout> | null
@@ -372,6 +371,12 @@ export default defineComponent({
       isFirstTimeRender = false
     }
 
+    const getMenuIndexPath = (index?: string) => {
+      if (index) {
+        return items.value[index].indexPath
+      }
+      return []
+    }
     watch(
       () => props.defaultActive,
       (currentActive) => {
@@ -385,7 +390,12 @@ export default defineComponent({
     watch(
       () => props.collapse,
       (value) => {
-        if (value) openedMenus.value = []
+        if (value) {
+          openedMenus.value = []
+        } else {
+          const indexPath = getMenuIndexPath(activeIndex.value)
+          expandSubMenusByIndexPath(indexPath)
+        }
       }
     )
 
@@ -397,8 +407,6 @@ export default defineComponent({
         resizeStopper = useResizeObserver(menu, handleResize).stop
       else resizeStopper?.()
     })
-
-    const mouseInChild = ref(false)
 
     // provide
     {
@@ -442,7 +450,6 @@ export default defineComponent({
       provide<SubMenuProvider>(`${SUB_MENU_INJECTION_KEY}${instance.uid}`, {
         addSubMenu,
         removeSubMenu,
-        mouseInChild,
         level: 0,
       })
     }
@@ -469,6 +476,8 @@ export default defineComponent({
     }
 
     const ulStyle = useMenuCssVar(props, 0)
+
+    const { handleTransitionend } = useMenuCollapseTransition(props, menu)
 
     return () => {
       let slot: VNodeArrayChildren = slots.default?.() ?? []
@@ -512,47 +521,23 @@ export default defineComponent({
         }
       }
 
-      const directives: DirectiveArguments = props.closeOnClickOutside
-        ? [
-            [
-              vClickoutside,
-              () => {
-                if (!openedMenus.value.length) return
-
-                if (!mouseInChild.value) {
-                  openedMenus.value.forEach((openedMenu) =>
-                    emit('close', openedMenu, getIndexPath(openedMenu))
-                  )
-
-                  openedMenus.value = []
-                }
-              },
-            ],
-          ]
-        : []
-
-      const vMenu = withDirectives(
-        h(
-          'ul',
-          {
-            key: String(props.collapse),
-            role: 'menubar',
-            ref: menu,
-            style: ulStyle.value,
-            class: {
-              [nsMenu.b()]: true,
-              [nsMenu.m(props.mode)]: true,
-              [nsMenu.m('collapse')]: props.collapse,
-            },
+      const vMenu = h(
+        'ul',
+        {
+          role: 'menubar',
+          ref: menu,
+          style: ulStyle.value,
+          class: {
+            [nsMenu.b()]: true,
+            [nsMenu.m(props.mode)]: true,
+            [nsMenu.m('collapse')]: props.collapse,
+            'horizontal-collapse-transition':
+              props.collapseTransition && props.mode === 'vertical',
           },
-          [...slot, ...vShowMore]
-        ),
-        directives
+          onTransitionend: handleTransitionend,
+        },
+        [...slot, ...vShowMore]
       )
-
-      if (props.collapseTransition && props.mode === 'vertical') {
-        return h(ElMenuCollapseTransition, () => vMenu)
-      }
 
       return vMenu
     }

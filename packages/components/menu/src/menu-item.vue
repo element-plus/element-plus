@@ -10,27 +10,28 @@
     @click="handleClick"
   >
     <el-tooltip
-      v-if="
-        parentMenu.type.name === 'ElMenu' &&
-        rootMenu.props.collapse &&
-        $slots.title
-      "
+      v-if="hasTooltip && tooltipVisible"
+      ref="tooltipRef"
       :effect="rootMenu.props.popperEffect"
       placement="right"
       :fallback-placements="['left']"
       :persistent="rootMenu.props.persistent"
+      :virtual-triggering="true"
+      :virtual-ref="menuItemRef"
+      @hide="handleTooltipHide"
     >
       <template #content>
         <slot name="title" />
       </template>
-      <div :class="nsMenu.be('tooltip', 'trigger')">
-        <slot />
-      </div>
     </el-tooltip>
-    <template v-else>
+    <div
+      ref="menuItemRef"
+      :class="{ [`${nsMenu.be('tooltip', 'trigger')}`]: hasTooltip }"
+      @mouseenter="handleMouseenter"
+    >
       <slot />
-      <slot name="title" />
-    </template>
+    </div>
+    <slot v-if="!hasTooltip" name="title" />
   </li>
 </template>
 
@@ -40,10 +41,13 @@ import {
   computed,
   getCurrentInstance,
   inject,
+  nextTick,
   onBeforeUnmount,
   onMounted,
   reactive,
+  ref,
   toRef,
+  useSlots,
 } from 'vue'
 import ElTooltip from '@element-plus/components/tooltip'
 import { debugWarn, isPropAbsent, throwError } from '@element-plus/utils'
@@ -53,6 +57,7 @@ import { menuItemEmits, menuItemProps } from './menu-item'
 import { MENU_INJECTION_KEY, SUB_MENU_INJECTION_KEY } from './tokens'
 
 import type { MenuItemRegistered, MenuProvider, SubMenuProvider } from './types'
+import type { TooltipInstance } from '@element-plus/components/tooltip'
 
 const COMPONENT_NAME = 'ElMenuItem'
 defineOptions({
@@ -77,6 +82,17 @@ const subMenu = inject<SubMenuProvider>(
 )
 if (!subMenu) throwError(COMPONENT_NAME, 'can not inject sub menu')
 
+const slots = useSlots()
+const hasTooltip = computed(() => {
+  return (
+    parentMenu.value.type?.name === 'ElMenu' &&
+    rootMenu.props.collapse &&
+    slots.title
+  )
+})
+
+const menuItemRef = ref<HTMLDivElement>()
+
 const active = computed(() => props.index === rootMenu.activeIndex)
 const item: MenuItemRegistered = reactive({
   index: props.index,
@@ -93,6 +109,18 @@ const handleClick = () => {
     })
     emit('click', item)
   }
+}
+
+const tooltipVisible = ref(false)
+const tooltipRef = ref<TooltipInstance>()
+const handleMouseenter = async () => {
+  tooltipVisible.value = true
+  await nextTick()
+  tooltipRef.value?.onOpen()
+}
+
+const handleTooltipHide = () => {
+  tooltipVisible.value = false
 }
 
 onMounted(() => {

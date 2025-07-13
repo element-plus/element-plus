@@ -5,6 +5,7 @@ import {
   getCurrentInstance,
   h,
   inject,
+  nextTick,
   onBeforeUnmount,
   onMounted,
   provide,
@@ -14,7 +15,6 @@ import {
   watch,
   withDirectives,
 } from 'vue'
-import { useTimeoutFn } from '@vueuse/core'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElTooltip from '@element-plus/components/tooltip'
 import {
@@ -129,8 +129,6 @@ export default defineComponent({
     const items = ref<MenuProvider['items']>({})
     const subMenus = ref<MenuProvider['subMenus']>({})
 
-    let timeout: (() => void) | undefined
-    const mouseInChild = ref(false)
     const verticalTitleRef = ref<HTMLDivElement>()
     const vPopper = ref<TooltipInstance>()
 
@@ -244,59 +242,39 @@ export default defineComponent({
       })
     }
 
-    const handleMouseenter = (
-      event: MouseEvent | FocusEvent,
-      showTimeout = subMenuShowTimeout.value
-    ) => {
-      if (event.type === 'focus') return
+    const tooltipVisible = ref(false)
+    const handleMouseenter = async () => {
+      if (props.disabled) return
 
-      if (
-        (rootMenu.props.menuTrigger === 'click' &&
-          rootMenu.props.mode === 'horizontal') ||
-        (!rootMenu.props.collapse && rootMenu.props.mode === 'vertical') ||
-        props.disabled
-      ) {
-        subMenu.mouseInChild.value = true
-        return
-      }
-      subMenu.mouseInChild.value = true
-
-      timeout?.()
-      ;({ stop: timeout } = useTimeoutFn(() => {
-        rootMenu.openMenu(props.index, indexPath.value)
-      }, showTimeout))
-
-      if (appendToBody.value) {
-        parentMenu.value.vnode.el?.dispatchEvent(new MouseEvent('mouseenter'))
-      }
+      tooltipVisible.value = true
+      await nextTick()
+      vPopper.value?.onOpen()
     }
 
-    const handleMouseleave = (deepDispatch = false) => {
-      if (
-        (rootMenu.props.menuTrigger === 'click' &&
-          rootMenu.props.mode === 'horizontal') ||
-        (!rootMenu.props.collapse && rootMenu.props.mode === 'vertical')
-      ) {
-        subMenu.mouseInChild.value = false
-        return
-      }
-      timeout?.()
-      subMenu.mouseInChild.value = false
-      ;({ stop: timeout } = useTimeoutFn(
-        () =>
-          !mouseInChild.value &&
-          rootMenu.closeMenu(props.index, indexPath.value),
-        subMenuHideTimeout.value
-      ))
+    const handleTooltipHide = () => {
+      tooltipVisible.value = false
+    }
 
-      if (appendToBody.value && deepDispatch) {
-        subMenu.handleMouseleave?.(true)
+    const handleTooltipVisible = (value: boolean) => {
+      if (value) {
+        rootMenu.openMenu(props.index, indexPath.value)
+      } else {
+        rootMenu.closeMenu(props.index, indexPath.value)
       }
     }
 
     watch(
       () => rootMenu.props.collapse,
       (value) => handleCollapseToggle(Boolean(value))
+    )
+
+    watch(
+      () => opened.value,
+      (value) => {
+        if (!value) {
+          vPopper.value?.hide()
+        }
+      }
     )
 
     // provide
@@ -310,8 +288,6 @@ export default defineComponent({
       provide<SubMenuProvider>(`${SUB_MENU_INJECTION_KEY}${instance.uid}`, {
         addSubMenu,
         removeSubMenu,
-        handleMouseleave,
-        mouseInChild,
         level: subMenu.level + 1,
       })
     }
@@ -359,96 +335,92 @@ export default defineComponent({
         ),
       ]
 
-      // this render function is only used for bypass `Vue`'s compiler caused patching issue.
-      const child = rootMenu.isMenuPopup
-        ? h(
-            ElTooltip,
-            {
-              ref: vPopper,
-              visible: opened.value,
-              effect: 'light',
-              pure: true,
-              offset: subMenuPopperOffset.value,
-              showArrow: false,
-              persistent: persistent.value,
-              popperClass: subMenuPopperClass.value,
-              placement: currentPlacement.value,
-              teleported: appendToBody.value,
-              fallbackPlacements: fallbackPlacements.value,
-              transition: menuTransitionName.value,
-              gpuAcceleration: false,
-            },
-            {
-              content: () =>
-                h(
-                  'div',
-                  {
-                    class: [
-                      nsMenu.m(mode.value),
-                      nsMenu.m('popup-container'),
-                      subMenuPopperClass.value,
-                    ],
-                    onMouseenter: (evt: MouseEvent) =>
-                      handleMouseenter(evt, 100),
-                    onMouseleave: () => handleMouseleave(true),
-                    onFocus: (evt: FocusEvent) => handleMouseenter(evt, 100),
-                  },
-                  [
-                    h(
-                      'ul',
-                      {
-                        class: [
-                          nsMenu.b(),
-                          nsMenu.m('popup'),
-                          nsMenu.m(`popup-${currentPlacement.value}`),
-                        ],
-                        style: ulStyle.value,
-                      },
-                      [slots.default?.()]
-                    ),
-                  ]
-                ),
-              default: () =>
-                h(
-                  'div',
-                  {
-                    class: nsSubMenu.e('title'),
-                    onClick: handleClick,
-                  },
-                  titleTag
-                ),
-            }
-          )
-        : h(Fragment, {}, [
-            h(
-              'div',
+      const subMenuTooltip =
+        rootMenu.isMenuPopup && tooltipVisible.value
+          ? h(
+              ElTooltip,
               {
-                class: nsSubMenu.e('title'),
-                ref: verticalTitleRef,
-                onClick: handleClick,
+                ref: vPopper,
+                effect: 'light',
+                pure: true,
+                offset: subMenuPopperOffset.value,
+                showArrow: false,
+                persistent: persistent.value,
+                popperClass: subMenuPopperClass.value,
+                placement: currentPlacement.value,
+                teleported: appendToBody.value,
+                fallbackPlacements: fallbackPlacements.value,
+                transition: menuTransitionName.value,
+                showAfter: subMenuShowTimeout.value,
+                hideAfter: subMenuHideTimeout.value,
+                gpuAcceleration: false,
+                virtualTriggering: true,
+                virtualRef: verticalTitleRef.value,
+                onHide: handleTooltipHide,
+                'onUpdate:visible': handleTooltipVisible,
               },
-              titleTag
-            ),
-            h(
-              ElCollapseTransition,
-              {},
               {
-                default: () =>
-                  withDirectives(
-                    h(
-                      'ul',
-                      {
-                        role: 'menu',
-                        class: [nsMenu.b(), nsMenu.m('inline')],
-                        style: ulStyle.value,
-                      },
-                      [slots.default?.()]
-                    ),
-                    [[vShow, opened.value]]
+                content: () =>
+                  h(
+                    'div',
+                    {
+                      class: [
+                        nsMenu.m(mode.value),
+                        nsMenu.m('popup-container'),
+                        subMenuPopperClass.value,
+                      ],
+                      onMouseenter: handleMouseenter,
+                    },
+                    [
+                      h(
+                        'ul',
+                        {
+                          class: [
+                            nsMenu.b(),
+                            nsMenu.m('popup'),
+                            nsMenu.m(`popup-${currentPlacement.value}`),
+                          ],
+                          style: ulStyle.value,
+                        },
+                        [slots.default?.()]
+                      ),
+                    ]
                   ),
               }
-            ),
-          ])
+            )
+          : null
+
+      // this render function is only used for bypass `Vue`'s compiler caused patching issue.
+      const child = h(Fragment, {}, [
+        h(
+          'div',
+          {
+            class: nsSubMenu.e('title'),
+            ref: verticalTitleRef,
+            onClick: handleClick,
+          },
+          titleTag
+        ),
+        h(
+          ElCollapseTransition,
+          {},
+          {
+            default: () =>
+              withDirectives(
+                h(
+                  'ul',
+                  {
+                    role: 'menu',
+                    class: [nsMenu.b(), nsMenu.m('inline')],
+                    style: ulStyle.value,
+                  },
+                  [slots.default?.()]
+                ),
+                [[vShow, opened.value && !rootMenu.isMenuPopup]]
+              ),
+          }
+        ),
+      ])
 
       return h(
         'li',
@@ -463,10 +435,8 @@ export default defineComponent({
           ariaHaspopup: true,
           ariaExpanded: opened.value,
           onMouseenter: handleMouseenter,
-          onMouseleave: () => handleMouseleave(),
-          onFocus: handleMouseenter,
         },
-        [child]
+        [child, subMenuTooltip]
       )
     }
   },
