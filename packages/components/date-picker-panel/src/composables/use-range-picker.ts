@@ -1,4 +1,11 @@
-import { getCurrentInstance, inject, ref, unref, watch } from 'vue'
+import {
+  getCurrentInstance,
+  inject,
+  onBeforeMount,
+  ref,
+  unref,
+  watch,
+} from 'vue'
 import dayjs from 'dayjs'
 import { isArray } from '@element-plus/utils'
 import { useLocale, useNamespace } from '@element-plus/hooks'
@@ -132,7 +139,9 @@ export const useRangePicker = (
         onReset(parsedValue)
       }
     },
-    { immediate: true }
+    {
+      immediate: true,
+    }
   )
 
   watch(

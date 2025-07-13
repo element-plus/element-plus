@@ -3,9 +3,9 @@ import DateRangePickPanel from './date-picker-com/panel-date-range.vue'
 import MonthRangePickPanel from './date-picker-com/panel-month-range.vue'
 import YearRangePickPanel from './date-picker-com/panel-year-range.vue'
 
-import type { IDatePickerType } from './date-picker.type'
+import type { DatePickerType } from './types'
 
-export const getPanel = function (type: IDatePickerType) {
+export const getPanel = function (type: DatePickerType) {
   switch (type) {
     case 'daterange':
     case 'datetimerange': {

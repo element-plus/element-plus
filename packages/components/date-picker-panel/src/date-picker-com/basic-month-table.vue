@@ -147,11 +147,13 @@ const getCellStyle = (cell: MonthCell) => {
   const today = new Date()
   const month = cell.text
 
-  style.disabled = props.disabledDate
-    ? datesInMonth(props.date, year, month, lang.value).every(
-        props.disabledDate
-      )
-    : false
+  style.disabled =
+    props.disabled ||
+    (props.disabledDate
+      ? datesInMonth(props.date, year, month, lang.value).every(
+          props.disabledDate
+        )
+      : false)
   style.current =
     castArray(props.parsedValue).findIndex(
       (date) =>
@@ -212,6 +214,7 @@ const handleMouseMove = (event: MouseEvent) => {
   }
 }
 const handleMonthTableClick = (event: MouseEvent | KeyboardEvent) => {
+  if (props.disabled) return
   const target = (event.target as HTMLElement)?.closest(
     'td'
   ) as HTMLTableCellElement
