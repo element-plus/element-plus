@@ -373,7 +373,7 @@ export default defineComponent({
 
     const getMenuIndexPath = (index?: string) => {
       if (index) {
-        return items.value[index].indexPath
+        return items.value[index]?.indexPath ?? []
       }
       return []
     }
