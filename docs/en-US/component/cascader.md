@@ -274,7 +274,7 @@ cascader/check-on-click-node
 | disabled                   | specify which key of node object is used as the node's disabled                                            | ^[string]                                           | disabled |
 | leaf                       | specify which key of node object is used as the node's leaf field                                          | ^[string]                                           | leaf     |
 | hoverThreshold             | hover threshold of expanding options                                                                       | ^[number]                                           | 500      |
-| checkOnClickNode ^(2.10.4) | whether to check or uncheck node when clicking on the node                                                 | ^[boolean]                                          | false    |
+| checkOnClickNode ^(2.10.5) | whether to check or uncheck node when clicking on the node                                                 | ^[boolean]                                          | false    |
 | showPrefix ^(2.10.4)       | whether to show the radio or checkbox prefix                                                               | ^[boolean]                                          | true     |
 
 ## Type Declarations
