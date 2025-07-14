@@ -396,7 +396,7 @@ describe('other', () => {
       `<el-menu mode="horizontal" @open="onOpen">
         <el-menu-item index="1">处理中心</el-menu-item>
         <el-sub-menu index="2" ref="submenu">
-          <template slot="title">我的工作台</template>
+          <template #title>我的工作台</template>
           <el-menu-item index="2-1">选项1</el-menu-item>
           <el-menu-item index="2-2" ref="submenuItem2">选项2</el-menu-item>
           <el-menu-item index="2-3">选项3</el-menu-item>
@@ -413,9 +413,11 @@ describe('other', () => {
 
     expect(wrapper.classes()).toContain('el-menu--horizontal')
     const submenu = wrapper.findComponent({ ref: 'submenu' })
+    const submenuTitle = submenu.find('.el-sub-menu__title')
 
     vi.useFakeTimers()
     await submenu.trigger('mouseenter')
+    await submenuTitle.trigger('mouseenter')
 
     vi.runAllTimers()
     vi.useRealTimers()
