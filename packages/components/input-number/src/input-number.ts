@@ -125,7 +125,7 @@ export const inputNumberProps = buildProps({
    * @description alignment for the inner input text
    */
   align: {
-    type: String as PropType<'left' | 'right' | 'center'>,
+    type: definePropType<left' | 'right' | 'center'>(String),
     default: 'center',
   },
 } as const)
