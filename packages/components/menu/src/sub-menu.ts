@@ -300,6 +300,9 @@ export default defineComponent({
         } else {
           vPopper.value?.hide()
         }
+      },
+      {
+        immediate: true,
       }
     )
 
