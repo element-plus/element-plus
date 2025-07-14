@@ -10,7 +10,6 @@ import {
 import type {
   ExtractPropTypes,
   HTMLAttributes,
-  PropType,
   __ExtractPublicPropTypes,
 } from 'vue'
 import type InputNumber from './input-number.vue'
@@ -125,7 +124,7 @@ export const inputNumberProps = buildProps({
    * @description alignment for the inner input text
    */
   align: {
-    type: definePropType<left' | 'right' | 'center'>(String),
+    type: definePropType<'left' | 'right' | 'center'>(String),
     default: 'center',
   },
 } as const)
