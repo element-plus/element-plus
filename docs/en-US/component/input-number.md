@@ -120,7 +120,7 @@ input-number/with-prefix-suffix
 | validate-event              | whether to trigger form validation               | ^[boolean]                                    | true                    |
 | label ^(a11y) ^(deprecated) | same as `aria-label` in native input             | ^[string]                                     | —                       |
 | inputmode ^(2.10.3)         | same as `inputmode` in native input              | ^[string]                                     | —                       |
-| align ^(2.10.4)             | sets the text alignment of the input             | ^[enum]`'left' \| 'center' \| 'right'`        | 'center'                |
+| align ^(2.10.5)             | alignment for the inner input text             | ^[enum]`'left' \| 'center' \| 'right'`        | 'center'                |
 
 ### Slots
 
