@@ -26,7 +26,7 @@ export default function useMenu(
     return parent!
   })
 
-  const isTooltipMenu = () => {
+  const isTooltipMenu = computed(() => {
     let parent = instance.parent
     while (parent) {
       if (parent.type.name === 'ElTooltip') {
@@ -35,7 +35,7 @@ export default function useMenu(
       parent = parent.parent
     }
     return false
-  }
+  })
 
   return {
     parentMenu,

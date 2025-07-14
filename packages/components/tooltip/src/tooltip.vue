@@ -38,6 +38,7 @@
       :virtual-triggering="virtualTriggering"
       :z-index="zIndex"
       :append-to="appendTo"
+      :close-on-click-outside="closeOnClickOutside"
     >
       <slot name="content">
         <span v-if="rawContent" v-html="content" />

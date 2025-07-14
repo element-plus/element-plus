@@ -226,10 +226,27 @@ export default defineComponent({
       }
     }
 
-    const handleClick = () => {
+    const menuTrigger = computed(() => {
       if (
-        (rootMenu.props.menuTrigger === 'hover' &&
-          rootMenu.props.mode === 'horizontal') ||
+        rootMenu.props.menuTrigger === 'click' &&
+        rootMenu.props.mode === 'horizontal'
+      ) {
+        return 'click'
+      }
+      return 'hover'
+    })
+    const closeOnClickOutside = computed(() => {
+      if (menuTrigger.value === 'click' && rootMenu.props.closeOnClickOutside) {
+        return true
+      }
+      return false
+    })
+    const handleClick = () => {
+      if (isTooltipMenu.value) {
+        return
+      }
+      if (
+        rootMenu.props.mode === 'horizontal' ||
         (rootMenu.props.collapse && rootMenu.props.mode === 'vertical') ||
         props.disabled
       )
@@ -243,15 +260,20 @@ export default defineComponent({
     }
 
     const tooltipVisible = ref(false)
-    const handleMouseenter = async () => {
+    const mouseInTrigger = ref(false)
+    const handleMouseenter = () => {
       if (props.disabled) return
-
+      mouseInTrigger.value = true
       tooltipVisible.value = true
-      await nextTick()
-      vPopper.value?.onOpen()
+    }
+    const handleMouseleave = () => {
+      mouseInTrigger.value = false
     }
 
     const handleTooltipHide = () => {
+      if (mouseInTrigger.value) {
+        return
+      }
       tooltipVisible.value = false
     }
 
@@ -270,8 +292,12 @@ export default defineComponent({
 
     watch(
       () => opened.value,
-      (value) => {
-        if (!value) {
+      async (value) => {
+        if (value) {
+          tooltipVisible.value = true
+          await nextTick()
+          vPopper.value?.onOpen()
+        } else {
           vPopper.value?.hide()
         }
       }
@@ -299,7 +325,7 @@ export default defineComponent({
 
     // lifecycle
     onMounted(() => {
-      if (isTooltipMenu()) {
+      if (isTooltipMenu.value) {
         return
       }
       rootMenu.addSubMenu(item)
@@ -307,7 +333,7 @@ export default defineComponent({
     })
 
     onBeforeUnmount(() => {
-      if (isTooltipMenu()) {
+      if (isTooltipMenu.value) {
         return
       }
       subMenu.removeSubMenu(item)
@@ -360,6 +386,8 @@ export default defineComponent({
                 showAfter: subMenuShowTimeout.value,
                 hideAfter: subMenuHideTimeout.value,
                 gpuAcceleration: false,
+                trigger: menuTrigger.value,
+                closeOnClickOutside: closeOnClickOutside.value,
                 virtualTriggering: true,
                 virtualRef: verticalTitleRef.value,
                 onHide: handleTooltipHide,
@@ -441,6 +469,7 @@ export default defineComponent({
           ariaHaspopup: true,
           ariaExpanded: opened.value,
           onMouseenter: handleMouseenter,
+          onMouseleave: handleMouseleave,
         },
         [child, subMenuTooltip]
       )

@@ -69,7 +69,7 @@ const ns = useNamespace('tooltip')
 
 const contentRef = ref<PopperContentInstance>()
 const popperContentRef = computedEager(() => contentRef.value?.popperContentRef)
-let stopHandle: ReturnType<typeof onClickOutside>
+let stopHandle: ReturnType<typeof onClickOutside> | null = null
 const {
   controlled,
   id,
@@ -168,17 +168,18 @@ const isFocusInsideContent = (event?: FocusEvent) => {
 watch(
   () => unref(open),
   (val) => {
-    if (!val) {
-      stopHandle?.()
-    } else {
+    stopHandle?.()
+    if (val) {
       ariaHidden.value = false
-      stopHandle = onClickOutside(popperContentRef, () => {
-        if (unref(controlled)) return
-        const $trigger = unref(trigger)
-        if ($trigger !== 'hover') {
-          onClose()
-        }
-      })
+      stopHandle = props.closeOnClickOutside
+        ? onClickOutside(popperContentRef, () => {
+            if (unref(controlled)) return
+            const $trigger = unref(trigger)
+            if ($trigger !== 'hover') {
+              onClose()
+            }
+          })
+        : null
     }
   },
   {

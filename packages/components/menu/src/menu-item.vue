@@ -16,7 +16,7 @@
       placement="right"
       :fallback-placements="['left']"
       :persistent="rootMenu.props.persistent"
-      :virtual-triggering="true"
+      virtual-triggering
       :virtual-ref="triggerRef"
       @hide="handleTooltipHide"
     >
@@ -127,7 +127,7 @@ const handleTooltipHide = () => {
 }
 
 onMounted(() => {
-  if (isTooltipMenu()) {
+  if (isTooltipMenu.value) {
     return
   }
   subMenu.addSubMenu(item)
@@ -135,7 +135,7 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-  if (isTooltipMenu()) {
+  if (isTooltipMenu.value) {
     return
   }
   subMenu.removeSubMenu(item)

@@ -56,6 +56,13 @@ export const useTooltipContentProps = buildProps({
    * @description whether Tooltip is disabled
    */
   disabled: Boolean,
+  /**
+   * @description whether Tooltip is closed when clicking outside
+   */
+  closeOnClickOutside: {
+    type: Boolean,
+    default: true,
+  },
   ...useAriaProps(['ariaLabel']),
 } as const)
 

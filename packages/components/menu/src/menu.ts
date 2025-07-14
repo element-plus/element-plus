@@ -106,7 +106,10 @@ export const menuProps = buildProps({
   /**
    * @description optional, whether menu is collapsed when clicking outside
    */
-  closeOnClickOutside: Boolean,
+  closeOnClickOutside: {
+    type: Boolean,
+    default: false,
+  },
   /**
    * @description whether to enable the collapse transition
    */
