@@ -3,7 +3,7 @@
     style="max-width: 600px"
     :data="data"
     :props="props"
-    :height="208"
+    :height="200"
   >
     <template #default="{ node }">
       <el-icon class="node-icon" :class="{ 'is-leaf': node.isLeaf }">
