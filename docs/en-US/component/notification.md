@@ -100,7 +100,7 @@ ElNotification({
 })
 ```
 
-In this case you should call `ElNotification(options)`. We have also registered methods for different types, e.g. `ElNotification.success(options)`. You can call `ElNotification.closeAll()` to manually close all the instances. Additionally, you can manually update the offsets of all instances in a specific direction by calling `ElNotification.updateOffsets(position)`.
+In this case you should call `ElNotification(options)`. We have also registered methods for different types, e.g. `ElNotification.success(options)`. You can call `ElNotification.closeAll()` to manually close all the instances. In ^(2.10.5) you can manually update the offsets of all instances in a specific direction by calling `ElNotification.updateOffsets(position)`.
 
 ## App context inheritance <el-tag>> 2.0.4</el-tag>
 
