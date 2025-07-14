@@ -242,11 +242,11 @@ export default defineComponent({
       if (
         menuTrigger.value === 'click' &&
         rootMenu.props.mode === 'horizontal' &&
-        rootMenu.props.closeOnClickOutside
+        !rootMenu.props.closeOnClickOutside
       ) {
-        return true
+        return false
       }
-      return false
+      return true
     })
     const handleClick = () => {
       if (isTooltipMenu.value) {
