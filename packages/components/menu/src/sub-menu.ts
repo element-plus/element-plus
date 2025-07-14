@@ -20,6 +20,7 @@ import ElTooltip from '@element-plus/components/tooltip'
 import {
   buildProps,
   iconPropType,
+  isMobile,
   isString,
   isUndefined,
   throwError,
@@ -225,8 +226,10 @@ export default defineComponent({
         doDestroy()
       }
     }
-
     const menuTrigger = computed(() => {
+      if (isMobile()) {
+        return 'click'
+      }
       if (
         rootMenu.props.menuTrigger === 'click' &&
         rootMenu.props.mode === 'horizontal'
@@ -236,7 +239,11 @@ export default defineComponent({
       return 'hover'
     })
     const closeOnClickOutside = computed(() => {
-      if (menuTrigger.value === 'click' && rootMenu.props.closeOnClickOutside) {
+      if (
+        menuTrigger.value === 'click' &&
+        rootMenu.props.mode === 'horizontal' &&
+        rootMenu.props.closeOnClickOutside
+      ) {
         return true
       }
       return false
