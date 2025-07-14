@@ -2,6 +2,7 @@ import { createApp, nextTick } from 'vue'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { rAF } from '@element-plus/test-utils/tick'
 import Notification, { closeAll, updateOffsets } from '../src/notify'
+import defineGetter from '@element-plus/test-utils/define-getter'
 
 import type { NotificationHandle } from '../src/notification'
 import type { VNode } from 'vue'
@@ -94,24 +95,21 @@ describe('Notification on command', () => {
     const GAP_SIZE = 16
     const height = 100
     const notifications: NotificationHandle[] = []
+    const cleanups: (() => void)[] = []
 
     for (let i = 0; i < 4; i++) {
-      notifications.push(
-        Notification({
-          duration: 0,
-        })
-      )
+      notifications.push(Notification({ duration: 0 }))
 
       await nextTick()
 
-      const el = document.querySelector(`${selector}:nth-child(${i + 1})`)
+      const el = document.querySelector(`${selector}:nth-child(${i + 1})`)!
 
       // mocking offsetHeight
-      Object.defineProperty(el, 'offsetHeight', {
-        get: vi.fn(function (this: HTMLElement) {
+      cleanups.push(
+        defineGetter(el, 'offsetHeight', function (this: HTMLElement) {
           return Number.parseFloat(this.style.height) || height
-        }),
-      })
+        })
+      )
     }
 
     await rAF()
@@ -141,6 +139,8 @@ describe('Notification on command', () => {
         (_, i) => `${(i + 1) * GAP_SIZE + i * height + (i > 0 ? 50 : 0)}px`
       )
     )
+
+    cleanups.forEach((fn) => fn())
   })
 
   it('it should be able to render all types notification', () => {
