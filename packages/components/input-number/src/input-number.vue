@@ -55,9 +55,7 @@
       :aria-label="ariaLabel"
       :validate-event="false"
       :inputmode="inputmode"
-      @keypress="handleKeypress"
-      @keydown.up.prevent="increase"
-      @keydown.down.prevent="decrease"
+      @keydown="handleKeydown"
       @blur="handleBlur"
       @focus="handleFocus"
       @input="handleInput"
@@ -210,6 +208,24 @@ const ensurePrecision = (val: number, coefficient: 1 | -1 = 1) => {
   // Solve the accuracy problem of JS decimal calculation by converting the value to integer.
   return toPrecision(val + props.step * coefficient)
 }
+const handleKeydown = (event: Event) => {
+  const e = event as KeyboardEvent
+  if (props.disableScientific && ['e', 'E'].includes(e.key)) {
+    e.preventDefault()
+    return
+  }
+  const keyHandlers: Record<string, () => void> = {
+    ArrowUp: () => {
+      e.preventDefault()
+      increase()
+    },
+    ArrowDown: () => {
+      e.preventDefault()
+      decrease()
+    },
+  }
+  keyHandlers[e.key]?.()
+}
 const increase = () => {
   if (props.readonly || inputNumberDisabled.value || maxDisabled.value) return
   const value = Number(displayValue.value) || 0
@@ -328,15 +344,6 @@ const setCurrentValueToModelValue = () => {
 }
 const handleWheel = (e: WheelEvent) => {
   if (document.activeElement === e.target) e.preventDefault()
-}
-
-const handleKeypress = (event: KeyboardEvent) => {
-  if (props.disableScientific) {
-    const invalidKeys = ['e', 'E']
-    if (invalidKeys.includes(event.key)) {
-      event.preventDefault()
-    }
-  }
 }
 
 watch(
