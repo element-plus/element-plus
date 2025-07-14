@@ -1,14 +1,15 @@
 <template>
   <el-teleport :disabled="!teleported" :to="appendTo">
     <transition
+      v-if="shouldRender || !ariaHidden"
       :name="transitionClass"
+      :appear="!persistentRef"
       @after-leave="onTransitionLeave"
       @before-enter="onBeforeEnter"
       @after-enter="onAfterShow"
       @before-leave="onBeforeLeave"
     >
       <el-popper-content
-        v-if="shouldRender"
         v-show="shouldShow"
         :id="id"
         ref="contentRef"
