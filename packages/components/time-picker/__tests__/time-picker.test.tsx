@@ -809,8 +809,12 @@ describe('TimePicker(range)', () => {
     await nextTick()
     await rAF()
     await inputs[0].setValue('2025-07-12 10:00:00')
+    await inputs[0].trigger('change')
+    await nextTick()
+
     await inputs[1].trigger('focus')
     await inputs[1].setValue('2025-07-12 10:10:00')
+    await inputs[1].trigger('change')
     await inputs[1].trigger('blur')
     await nextTick()
     await rAF()
