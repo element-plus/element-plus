@@ -163,7 +163,7 @@ export interface NotifyFn {
     appContext?: null | AppContext
   ): NotificationHandle
   closeAll(): void
-  updateOffsets(position: NotificationOptions['position']): void
+  updateOffsets(position?: NotificationOptions['position']): void
   _context: AppContext | null
 }
 

@@ -170,7 +170,9 @@ export function closeAll(): void {
   }
 }
 
-export function updateOffsets(position: NotificationOptions['position']) {
+export function updateOffsets(
+  position: NotificationOptions['position'] = 'top-right'
+) {
   let verticalOffset = notifications[position][0]?.vm.props?.offset || 0
 
   for (const { vm } of notifications[position]) {
