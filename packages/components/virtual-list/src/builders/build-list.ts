@@ -519,6 +519,7 @@ const createList = ({
         scrollFrom:
           states.scrollOffset / (this.estimatedTotalSize - clientSize),
         total,
+        alwaysOn: states.scrollbarAlwaysOn,
       })
 
       const listContainer = h(
