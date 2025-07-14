@@ -114,7 +114,6 @@ describe('Notification on command', () => {
       })
     }
 
-    // vi.runAllTicks()
     await rAF()
 
     const notificationEls = Array.from(
