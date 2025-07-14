@@ -52,12 +52,10 @@ const { focusTrapRef } = inject(FOCUS_TRAP_INJECTION_KEY)!
 const dialogKls = computed(() => [
   ns.b(),
   ns.is('fullscreen', props.fullscreen),
+  ns.is('fullscreen-vertical', props.verticalFullscreen),
   ns.is('draggable', props.draggable),
   ns.is('align-center', props.alignCenter),
-  {
-    [ns.m('center')]: props.center,
-    [ns.m('fullscreen-vertical')]: props.verticalFullscreen,
-  },
+  { [ns.m('center')]: props.center },
 ])
 
 const composedDialogRef = composeRefs(focusTrapRef, dialogRef)

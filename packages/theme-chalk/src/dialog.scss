@@ -5,7 +5,15 @@
 @use 'mixins/var' as *;
 @use 'common/var' as *;
 @use 'common/popup' as *;
+@mixin dialog-fullscreen-base {
+  @include set-css-var-value('dialog-width', 100%);
+  @include set-css-var-value('dialog-margin-top', 0);
 
+  margin-bottom: 0;
+  height: 100%;
+  overflow: auto;
+  border-radius: 0px;
+}
 @include b(dialog) {
   @include set-component-css-var('dialog', $dialog);
 
@@ -28,15 +36,18 @@
   }
 
   @include when(fullscreen) {
-    @include set-css-var-value('dialog-width', 100%);
-    @include set-css-var-value('dialog-margin-top', 0);
-
-    margin-bottom: 0;
-    height: 100%;
-    overflow: auto;
-    border-radius: 0px;
+    @include dialog-fullscreen-base;
   }
+  @include when(fullscreen-vertical) {
+    @include dialog-fullscreen-base;
+    display: flex;
+    flex-direction: column;
 
+    @include e(body) {
+      flex: 1;
+      overflow: auto;
+    }
+  }
   @include e(wrapper) {
     position: fixed;
     top: 0;
@@ -124,35 +135,6 @@
 
     @include e(footer) {
       text-align: inherit;
-    }
-  }
-  &--fullscreen-vertical {
-    margin: 0 auto;
-    top: 0;
-    bottom: 0;
-    height: 100vh;
-    max-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    border-radius: 0;
-    .#{$namespace}-dialog {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      max-height: 100%;
-    }
-
-    .#{$namespace}-dialog__header {
-      flex: 0 0 auto;
-    }
-
-    .#{$namespace}-dialog__body {
-      flex: 1 1 auto;
-      overflow: auto;
-    }
-
-    .#{$namespace}-dialog__footer {
-      flex: 0 0 auto;
     }
   }
 }
