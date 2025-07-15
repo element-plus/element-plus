@@ -25,13 +25,17 @@
       </template>
     </el-tooltip>
     <div
+      v-if="hasTooltip"
       ref="triggerRef"
-      :class="{ [`${nsMenu.be('tooltip', 'trigger')}`]: hasTooltip }"
+      :class="nsMenu.be('tooltip', 'trigger')"
       @mouseenter="handleMouseenter"
     >
       <slot />
     </div>
-    <slot v-if="!hasTooltip" name="title" />
+    <template v-else>
+      <slot />
+      <slot name="title" />
+    </template>
   </li>
 </template>
 

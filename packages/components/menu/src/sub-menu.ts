@@ -218,8 +218,6 @@ export default defineComponent({
       () => props.hideTimeout ?? rootMenu.props.hideTimeout
     )
 
-    const tooltipVisible = ref(false)
-
     // methods
     const doDestroy = () =>
       vPopper.value?.popperRef?.popperInstanceRef?.destroy()
@@ -227,7 +225,6 @@ export default defineComponent({
     const handleCollapseToggle = (value: boolean) => {
       if (!value) {
         doDestroy()
-        tooltipVisible.value = false
       }
     }
 
@@ -297,6 +294,8 @@ export default defineComponent({
       }
     }
 
+    const tooltipVisible = ref(false)
+
     watch(
       () => rootMenu.props.collapse,
       (value) => handleCollapseToggle(Boolean(value))
@@ -308,6 +307,13 @@ export default defineComponent({
         if (value) {
           tooltipVisible.value = true
         }
+      }
+    )
+
+    watch(
+      () => rootMenu.isMenuPopup,
+      () => {
+        tooltipVisible.value = false
       }
     )
 
