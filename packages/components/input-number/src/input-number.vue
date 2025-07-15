@@ -93,6 +93,7 @@ import {
 import { ArrowDown, ArrowUp, Minus, Plus } from '@element-plus/icons-vue'
 import {
   CHANGE_EVENT,
+  EVENT_CODE,
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
@@ -214,12 +215,12 @@ const handleKeydown = (event: Event) => {
     e.preventDefault()
     return
   }
-  const keyHandlers: Record<string, () => void> = {
-    ArrowUp: () => {
+  const keyHandlers = {
+    [EVENT_CODE.up]: () => {
       e.preventDefault()
       increase()
     },
-    ArrowDown: () => {
+    [EVENT_CODE.down]: () => {
       e.preventDefault()
       decrease()
     },
