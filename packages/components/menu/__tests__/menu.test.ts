@@ -473,7 +473,7 @@ describe('other', () => {
 
     await nextTick()
     expect(
-      instance.$el.querySelector('.el-menu-item.is-active>div').innerHTML
+      instance.$el.querySelector('.el-menu-item.is-active').innerHTML
     ).toEqual('new')
   })
 })
