@@ -110,7 +110,7 @@ export default defineComponent({
 
   setup(props, { slots, expose }) {
     const instance = getCurrentInstance()!
-    const { indexPath, parentMenu } = useMenu(
+    const { indexPath, parentMenu, isTooltipMenu } = useMenu(
       instance,
       computed(() => props.index)
     )
@@ -335,11 +335,17 @@ export default defineComponent({
 
     // lifecycle
     onMounted(() => {
+      if (isTooltipMenu.value) {
+        return
+      }
       rootMenu.addSubMenu(item)
       subMenu.addSubMenu(item)
     })
 
     onBeforeUnmount(() => {
+      if (isTooltipMenu.value) {
+        return
+      }
       subMenu.removeSubMenu(item)
       rootMenu.removeSubMenu(item)
     })
