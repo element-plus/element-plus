@@ -30,9 +30,9 @@ import {
 import { useNamespace } from '@element-plus/hooks'
 import { ClickOutside as vClickoutside } from '@element-plus/directives'
 import Menubar from './utils/menu-bar'
-import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import ElSubMenu from './sub-menu'
 import { useMenuCssVar } from './use-menu-css-var'
+import useMenuCollapseTransition from './use-menu-collapse-transition'
 import { MENU_INJECTION_KEY, SUB_MENU_INJECTION_KEY } from './tokens'
 
 import type { PopperEffect } from '@element-plus/components/popper'
@@ -229,19 +229,21 @@ export default defineComponent({
         (props.mode === 'vertical' && props.collapse)
     )
 
+    const expandSubMenusByIndexPath = (indexPath: string[]) => {
+      indexPath.forEach((index) => {
+        const subMenu = subMenus.value[index]
+        subMenu && openMenu(index, subMenu.indexPath)
+      })
+    }
+
     // methods
     const initMenu = () => {
       const activeItem = activeIndex.value && items.value[activeIndex.value]
       if (!activeItem || props.mode === 'horizontal' || props.collapse) return
 
-      const indexPath = activeItem.indexPath
-
       // 展开该菜单项的路径上所有子菜单
       // expand all subMenus of the menu item
-      indexPath.forEach((index) => {
-        const subMenu = subMenus.value[index]
-        subMenu && openMenu(index, subMenu.indexPath)
-      })
+      expandSubMenusByIndexPath(activeItem.indexPath)
     }
 
     const openMenu: MenuProvider['openMenu'] = (index, indexPath) => {
@@ -372,6 +374,13 @@ export default defineComponent({
       isFirstTimeRender = false
     }
 
+    const getMenuIndexPath = (index?: string) => {
+      if (index) {
+        return items.value[index]?.indexPath ?? []
+      }
+      return []
+    }
+
     watch(
       () => props.defaultActive,
       (currentActive) => {
@@ -385,7 +394,12 @@ export default defineComponent({
     watch(
       () => props.collapse,
       (value) => {
-        if (value) openedMenus.value = []
+        if (value) {
+          openedMenus.value = []
+        } else {
+          const indexPath = getMenuIndexPath(activeIndex.value)
+          expandSubMenusByIndexPath(indexPath)
+        }
       }
     )
 
@@ -470,6 +484,8 @@ export default defineComponent({
 
     const ulStyle = useMenuCssVar(props, 0)
 
+    const { handleTransitionend } = useMenuCollapseTransition(props, menu)
+
     return () => {
       let slot: VNodeArrayChildren = slots.default?.() ?? []
       const vShowMore: VNode[] = []
@@ -535,7 +551,6 @@ export default defineComponent({
         h(
           'ul',
           {
-            key: String(props.collapse),
             role: 'menubar',
             ref: menu,
             style: ulStyle.value,
@@ -544,15 +559,12 @@ export default defineComponent({
               [nsMenu.m(props.mode)]: true,
               [nsMenu.m('collapse')]: props.collapse,
             },
+            onTransitionend: handleTransitionend,
           },
           [...slot, ...vShowMore]
         ),
         directives
       )
-
-      if (props.collapseTransition && props.mode === 'vertical') {
-        return h(ElMenuCollapseTransition, () => vMenu)
-      }
 
       return vMenu
     }

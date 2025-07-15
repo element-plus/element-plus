@@ -10,27 +10,28 @@
     @click="handleClick"
   >
     <el-tooltip
-      v-if="
-        parentMenu.type.name === 'ElMenu' &&
-        rootMenu.props.collapse &&
-        $slots.title
-      "
+      v-if="hasTooltip && tooltipVisible"
+      ref="tooltipRef"
       :effect="rootMenu.props.popperEffect"
       placement="right"
       :fallback-placements="['left']"
       :persistent="rootMenu.props.persistent"
+      virtual-triggering
+      :virtual-ref="triggerRef"
+      @hide="handleTooltipHide"
     >
       <template #content>
         <slot name="title" />
       </template>
-      <div :class="nsMenu.be('tooltip', 'trigger')">
-        <slot />
-      </div>
     </el-tooltip>
-    <template v-else>
+    <div
+      ref="triggerRef"
+      :class="{ [`${nsMenu.be('tooltip', 'trigger')}`]: hasTooltip }"
+      @mouseenter="handleMouseenter"
+    >
       <slot />
-      <slot name="title" />
-    </template>
+    </div>
+    <slot v-if="!hasTooltip" name="title" />
   </li>
 </template>
 
@@ -40,10 +41,13 @@ import {
   computed,
   getCurrentInstance,
   inject,
+  nextTick,
   onBeforeUnmount,
   onMounted,
   reactive,
+  ref,
   toRef,
+  useSlots,
 } from 'vue'
 import ElTooltip from '@element-plus/components/tooltip'
 import { debugWarn, isPropAbsent, throwError } from '@element-plus/utils'
@@ -53,6 +57,7 @@ import { menuItemEmits, menuItemProps } from './menu-item'
 import { MENU_INJECTION_KEY, SUB_MENU_INJECTION_KEY } from './tokens'
 
 import type { MenuItemRegistered, MenuProvider, SubMenuProvider } from './types'
+import type { TooltipInstance } from '@element-plus/components/tooltip'
 
 const COMPONENT_NAME = 'ElMenuItem'
 defineOptions({
@@ -70,12 +75,26 @@ const nsMenu = useNamespace('menu')
 const nsMenuItem = useNamespace('menu-item')
 if (!rootMenu) throwError(COMPONENT_NAME, 'can not inject root menu')
 
-const { parentMenu, indexPath } = useMenu(instance, toRef(props, 'index'))
+const { parentMenu, indexPath, isTooltipMenu } = useMenu(
+  instance,
+  toRef(props, 'index')
+)
 
 const subMenu = inject<SubMenuProvider>(
   `${SUB_MENU_INJECTION_KEY}${parentMenu.value.uid}`
 )
 if (!subMenu) throwError(COMPONENT_NAME, 'can not inject sub menu')
+
+const slots = useSlots()
+const hasTooltip = computed(() => {
+  return (
+    parentMenu.value.type?.name === 'ElMenu' &&
+    rootMenu.props.collapse &&
+    slots.title
+  )
+})
+
+const triggerRef = ref<HTMLDivElement>()
 
 const active = computed(() => props.index === rootMenu.activeIndex)
 const item: MenuItemRegistered = reactive({
@@ -95,12 +114,30 @@ const handleClick = () => {
   }
 }
 
+const tooltipVisible = ref(false)
+const tooltipRef = ref<TooltipInstance>()
+const handleMouseenter = async () => {
+  tooltipVisible.value = true
+  await nextTick()
+  tooltipRef.value?.onOpen()
+}
+
+const handleTooltipHide = () => {
+  tooltipVisible.value = false
+}
+
 onMounted(() => {
+  if (isTooltipMenu.value) {
+    return
+  }
   subMenu.addSubMenu(item)
   rootMenu.addMenuItem(item)
 })
 
 onBeforeUnmount(() => {
+  if (isTooltipMenu.value) {
+    return
+  }
   subMenu.removeSubMenu(item)
   rootMenu.removeMenuItem(item)
 })
