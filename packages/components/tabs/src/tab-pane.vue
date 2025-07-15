@@ -19,6 +19,7 @@ import {
   getCurrentInstance,
   inject,
   onBeforeUnmount,
+  onBeforeUpdate,
   reactive,
   ref,
   useSlots,
@@ -67,6 +68,7 @@ watch(active, (val) => {
 
 const pane = reactive({
   uid: instance.uid,
+  getVnode: () => instance.vnode,
   slots,
   props,
   paneName,
@@ -80,5 +82,9 @@ tabsRoot.registerPane(pane)
 
 onBeforeUnmount(() => {
   tabsRoot.unregisterPane(pane)
+})
+
+onBeforeUpdate(() => {
+  if (slots.label) tabsRoot.nav$.value?.scheduleRender()
 })
 </script>

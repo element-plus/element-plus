@@ -238,10 +238,7 @@ export default defineComponent({
     center: Boolean,
     draggable: Boolean,
     overflow: Boolean,
-    roundButton: {
-      default: false,
-      type: Boolean,
-    },
+    roundButton: Boolean,
     container: {
       type: String, // default append to body
       default: 'body',

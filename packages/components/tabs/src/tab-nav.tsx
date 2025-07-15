@@ -6,6 +6,8 @@ import {
   onMounted,
   onUpdated,
   ref,
+  shallowRef,
+  triggerRef,
   watch,
 } from 'vue'
 import {
@@ -31,6 +33,7 @@ import type {
   CSSProperties,
   ComponentPublicInstance,
   ExtractPropTypes,
+  __ExtractPublicPropTypes,
 } from 'vue'
 import type { TabBarInstance } from './tab-bar'
 import type { TabPaneName, TabsPaneContext } from './constants'
@@ -65,6 +68,7 @@ export const tabNavEmits = {
 }
 
 export type TabNavProps = ExtractPropTypes<typeof tabNavProps>
+export type TabNavPropsPublic = __ExtractPublicPropTypes<typeof tabNavProps>
 export type TabNavEmits = typeof tabNavEmits
 
 const COMPONENT_NAME = 'ElTabNav'
@@ -91,6 +95,7 @@ const TabNav = defineComponent({
     const navOffset = ref(0)
     const isFocus = ref(false)
     const focusable = ref(true)
+    const tracker = shallowRef()
 
     const sizeName = computed(() =>
       ['top', 'bottom'].includes(rootTabs.props.tabPosition)
@@ -287,6 +292,7 @@ const TabNav = defineComponent({
       focusActiveTab,
       tabListRef: nav$,
       tabBarRef,
+      scheduleRender: () => triggerRef(tracker),
     })
 
     return () => {
@@ -377,6 +383,10 @@ const TabNav = defineComponent({
         )
       })
 
+      // By tracking the value property, we can schedule a job to re-render `TabNav` when needed.
+      // Unlike `instance.update`, the scheduler ensures the job is queued only once even if we trigger it multiple times.
+      tracker.value
+
       return (
         <div
           ref={el$}
@@ -427,6 +437,7 @@ export type TabNavInstance = InstanceType<typeof TabNav> & {
   scrollToActiveTab: () => Promise<void>
   removeFocus: () => void
   focusActiveTab: () => void
+  scheduleRender: () => void
   tabListRef: HTMLDivElement | undefined
   tabBarRef: TabBarInstance | undefined
 }
