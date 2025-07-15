@@ -65,6 +65,12 @@ let stopResizeListener: (() => void) | undefined = undefined
 let wrapScrollTop = 0
 let wrapScrollLeft = 0
 let direction = '' as ScrollbarDirection
+const distanceScorllState = {
+  triggerBottom: false,
+  triggerTop: false,
+  triggerRight: false,
+  triggerLeft: false,
+}
 
 const scrollbarRef = ref<HTMLDivElement>()
 const wrapRef = ref<HTMLDivElement>()
@@ -110,17 +116,59 @@ const handleScroll = () => {
       left: wrapScrollLeft <= props.distance && prevLeft !== 0,
     }
 
+    emit('scroll', {
+      scrollTop: wrapScrollTop,
+      scrollLeft: wrapScrollLeft,
+    })
+
     if (prevTop !== wrapScrollTop) {
       direction = wrapScrollTop > prevTop ? 'bottom' : 'top'
     }
     if (prevLeft !== wrapScrollLeft) {
       direction = wrapScrollLeft > prevLeft ? 'right' : 'left'
     }
-
-    emit('scroll', {
-      scrollTop: wrapScrollTop,
-      scrollLeft: wrapScrollLeft,
-    })
+    if (props.distance) {
+      if (
+        (direction === 'bottom' && distanceScorllState.triggerBottom) ||
+        (direction === 'top' && distanceScorllState.triggerTop) ||
+        (direction === 'right' && distanceScorllState.triggerRight) ||
+        (direction === 'left' && distanceScorllState.triggerLeft)
+      ) {
+        return
+      }
+      if (direction === 'top') {
+        if (arrivedStates.top && !distanceScorllState.triggerTop) {
+          distanceScorllState.triggerTop = true
+        }
+        if (!arrivedStates.bottom && distanceScorllState.triggerBottom) {
+          distanceScorllState.triggerBottom = false
+        }
+      }
+      if (direction === 'bottom') {
+        if (arrivedStates.bottom && !distanceScorllState.triggerBottom) {
+          distanceScorllState.triggerBottom = true
+        }
+        if (!arrivedStates.top && distanceScorllState.triggerTop) {
+          distanceScorllState.triggerTop = false
+        }
+      }
+      if (direction === 'left') {
+        if (arrivedStates.left && !distanceScorllState.triggerLeft) {
+          distanceScorllState.triggerLeft = true
+        }
+        if (!arrivedStates.right && distanceScorllState.triggerRight) {
+          distanceScorllState.triggerRight = false
+        }
+      }
+      if (direction === 'right') {
+        if (arrivedStates.right && !distanceScorllState.triggerRight) {
+          distanceScorllState.triggerRight = true
+        }
+        if (!arrivedStates.left && distanceScorllState.triggerLeft) {
+          distanceScorllState.triggerLeft = false
+        }
+      }
+    }
     if (arrivedStates[direction]) emit('end-reached', direction)
   }
 }
