@@ -1,5 +1,5 @@
 import { nextTick, ref } from 'vue'
-import { mount } from '@vue/test-utils'
+import { flushPromises, mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test } from 'vitest'
 import Tour from '../src/tour.vue'
 import TourStep from '../src/step.vue'
@@ -68,6 +68,47 @@ describe('Tour.vue', () => {
     )
     wrapper.find('button').trigger('click')
     await nextTick()
+    expect(document.querySelector('.el-tour__title')?.innerHTML).toEqual(
+      'second'
+    )
+  })
+
+  test('controlled current (fixed value)', async () => {
+    const wrapper = mount({
+      setup() {
+        const current = ref(0)
+        const handleNext = () => {
+          Promise.resolve().then(() => {
+            current.value = 1
+          })
+        }
+        return () => (
+          <>
+            <Tour modelValue={true} current={current.value}>
+              <TourStep
+                title="first"
+                description="cover description."
+                nextButtonProps={{ onClick: handleNext, class: 'next-btn' }}
+              />
+              <TourStep title="second" description="cover description." />
+            </Tour>
+          </>
+        )
+      },
+    })
+
+    expect(document.querySelector('.el-tour__title')?.innerHTML).toEqual(
+      'first'
+    )
+    const tourStepOneComponent = wrapper.getComponent(TourStep)
+    const nextBtn = tourStepOneComponent.find('.next-btn')
+    nextBtn.trigger('click')
+    await nextTick()
+    // 'current' is set asynchronously, so it should still be in the first step at this point.
+    expect(document.querySelector('.el-tour__title')?.innerHTML).toEqual(
+      'first'
+    )
+    await flushPromises()
     expect(document.querySelector('.el-tour__title')?.innerHTML).toEqual(
       'second'
     )
