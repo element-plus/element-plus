@@ -611,4 +611,29 @@ describe('InputNumber.vue', () => {
     expect(wrapper.find('input').element.value).toBe(num.value.toString())
     wrapper.unmount()
   })
+  test('should prevent typing "e" or "E" when disableScientific is true', async () => {
+    const num = ref(1)
+    const wrapper = mount(() => (
+      <InputNumber v-model={num.value} disableScientific />
+    ))
+    const input = wrapper.find('input')
+    const preventDefault = vi.fn()
+    await input.trigger('keydown', {
+      key: 'e',
+      preventDefault,
+    })
+    expect(preventDefault).toHaveBeenCalled()
+    preventDefault.mockClear()
+    await input.trigger('keydown', {
+      key: 'E',
+      preventDefault,
+    })
+    expect(preventDefault).toHaveBeenCalled()
+    preventDefault.mockClear()
+    await input.trigger('keydown', {
+      key: '1',
+      preventDefault,
+    })
+    expect(preventDefault).not.toHaveBeenCalled()
+  })
 })
