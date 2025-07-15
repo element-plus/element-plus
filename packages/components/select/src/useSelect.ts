@@ -741,7 +741,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     let option = null
     // find the first enabled option
     for (const item of optionsArray.value) {
-      if (!(item.$parent as any).node.disabled) {
+      if (!(item.$parent as any).node.disabled && item.visible) {
         option = item
         break
       }
@@ -877,6 +877,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     showTagList,
     collapseTagList,
     popupScroll,
+    cachedOptions: states.cachedOptions,
 
     // computed style
     tagStyle,
