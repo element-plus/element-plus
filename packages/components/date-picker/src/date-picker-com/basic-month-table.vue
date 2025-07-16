@@ -33,7 +33,7 @@
 
 <script lang="ts" setup>
 import { computed, nextTick, ref, watch } from 'vue'
-import dayjs from 'dayjs'
+import dayjs, { type Dayjs } from 'dayjs'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { castArray, hasClass } from '@element-plus/utils'
 import { basicMonthTableProps } from '../props/basic-month-table'
@@ -49,6 +49,7 @@ type MonthCell = {
   text: number
   type: 'normal' | 'today'
   inRange: boolean
+  dayjs?: Dayjs
 }
 
 const props = defineProps(basicMonthTableProps)
@@ -132,6 +133,7 @@ const rows = computed<MonthCell[][]>(() => {
 
       cell.text = index
       cell.disabled = props.disabledDate?.(calTime.toDate()) || false
+      cell.dayjs = calTime
     }
   }
   return rows
@@ -169,6 +171,11 @@ const getCellStyle = (cell: MonthCell) => {
     if (cell.end) {
       style['end-date'] = true
     }
+  }
+
+  const customClass = props.cellClassName?.(cell.dayjs!.toDate())
+  if (customClass) {
+    style[customClass] = true
   }
   return style
 }

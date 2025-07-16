@@ -154,6 +154,7 @@
             :selection-mode="selectionMode"
             :date="innerDate"
             :disabled-date="disabledDate"
+            :cell-class-name="cellClassName"
             :parsed-value="parsedValue"
             @pick="handleYearPick"
           />
@@ -164,6 +165,7 @@
             :date="innerDate"
             :parsed-value="parsedValue"
             :disabled-date="disabledDate"
+            :cell-class-name="cellClassName"
             @pick="handleMonthPick"
           />
         </div>

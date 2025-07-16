@@ -29,7 +29,7 @@
 
 <script lang="ts" setup>
 import { computed, nextTick, ref, watch } from 'vue'
-import dayjs from 'dayjs'
+import dayjs, { type Dayjs } from 'dayjs'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { rangeArr } from '@element-plus/components/time-picker'
 import { castArray, hasClass } from '@element-plus/utils'
@@ -46,6 +46,7 @@ type YearCell = {
   text: number
   type: 'normal' | 'today'
   inRange: boolean
+  dayjs?: Dayjs
 }
 
 const datesInYear = (year: number, lang: string) => {
@@ -133,6 +134,7 @@ const rows = computed(() => {
       const cellDate = calTime.toDate()
       cell.disabled =
         (props.disabledDate && props.disabledDate(cellDate)) || false
+      cell.dayjs = calTime
       row[j] = cell
     }
   }
@@ -166,6 +168,11 @@ const getCellKls = (cell: YearCell) => {
     if (cell.end) {
       kls['end-date'] = true
     }
+  }
+
+  const customClass = props.cellClassName?.(cell.dayjs!.toDate())
+  if (customClass) {
+    kls[customClass] = true
   }
   return kls
 }
