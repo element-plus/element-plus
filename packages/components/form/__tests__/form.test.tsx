@@ -908,6 +908,57 @@ describe('Form', () => {
     vi.useRealTimers()
   })
 
+  it('should preserve form input after submit', async () => {
+    const form = reactive({
+      email: '',
+    })
+    const manualErrors = ref<{ email?: string }>({})
+    const wrapper = mount({
+      setup() {
+        const validate = async () => {
+          formRef.validate()
+          manualErrors.value = {}
+          if (!form.email.includes('@')) {
+            manualErrors.value.email = 'please enter a valid E-Mail'
+          }
+        }
+        return () => (
+          <Form ref="formRef" model={form}>
+            <FormItem
+              prop="email"
+              label="E-Mail"
+              error={manualErrors.value.email}
+            >
+              <Input
+                modelValue={form.email}
+                onUpdate:modelValue={(val) => (form.email = val)}
+              />
+            </FormItem>
+            <button onClick={validate}>submit</button>
+          </Form>
+        )
+      },
+    })
+    const formRef = wrapper.findComponent({ ref: 'formRef' }).vm as FormInstance
+    const input = wrapper.find('input')
+    const button = wrapper.find('button')
+    await input.setValue('test')
+    const field = formRef.getField(['email'])
+    field.validateState = 'error'
+    expect((input.element as HTMLInputElement).value).toBe('test')
+    await button.trigger('click')
+    await nextTick()
+    expect((input.element as HTMLInputElement).value).toBe('test')
+    expect(manualErrors.value.email).toBe('please enter a valid E-Mail')
+    await button.trigger('click')
+    await nextTick()
+    expect(manualErrors.value.email).toBe('please enter a valid E-Mail')
+    await input.setValue('test@')
+    expect((input.element as HTMLInputElement).value).toBe('test@')
+    await button.trigger('click')
+    await nextTick()
+    expect(manualErrors.value.email ?? '').toBe('')
+  })
   describe('FormItem', () => {
     const onSuccess = vi.fn()
     const onError = vi.fn()
