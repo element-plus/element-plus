@@ -144,7 +144,7 @@ const updateSelect = () => {
     try {
       // This will failed in test
       state.focusVisible = selectedItemInput.matches(':focus-visible')
-    } catch { }
+    } catch {}
   }, 100)
 }
 
