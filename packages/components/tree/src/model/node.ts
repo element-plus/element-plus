@@ -79,6 +79,15 @@ const getPropertyFromData = function (node: Node, prop: string): any {
   }
 }
 
+const setCanFocus = function (childNodes: Node[], bool: boolean): void {
+  childNodes.forEach((item) => {
+    item.canFocus = bool
+    if (item.childNodes && item.childNodes.length) {
+      setCanFocus(item.childNodes, bool)
+    }
+  })
+}
+
 let nodeIdSeed = 0
 
 class Node {
@@ -359,9 +368,7 @@ class Node {
       }
       this.expanded = true
       if (callback) callback()
-      this.childNodes.forEach((item) => {
-        item.canFocus = true
-      })
+      setCanFocus(this.childNodes, true)
     }
 
     if (this.shouldLoadData()) {
@@ -395,15 +402,7 @@ class Node {
 
   collapse(): void {
     this.expanded = false
-    const setCanFocus = (childNodes: Node[]): void => {
-      childNodes.forEach((item) => {
-        item.canFocus = false
-        if (item.childNodes && item.childNodes.length) {
-          setCanFocus(item.childNodes)
-        }
-      })
-    }
-    setCanFocus(this.childNodes)
+    setCanFocus(this.childNodes, false)
   }
 
   shouldLoadData() {
