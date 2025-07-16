@@ -121,7 +121,7 @@ export const inputNumberProps = buildProps({
     default: undefined,
   },
   /**
-   * @description whether to allow scientific notation (e.g. 'e')
+   * @description whether to disable scientific notation input (e.g. 'e', 'E')
    */
   disableScientific: Boolean,
 } as const)
