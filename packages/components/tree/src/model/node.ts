@@ -398,7 +398,9 @@ class Node {
     const setCanFocus = (childNodes: Node[]): void => {
       childNodes.forEach((item) => {
         item.canFocus = false
-        setCanFocus(item.childNodes)
+        if (item.childNodes && item.childNodes.length) {
+          setCanFocus(item.childNodes)
+        }
       })
     }
     setCanFocus(this.childNodes)
