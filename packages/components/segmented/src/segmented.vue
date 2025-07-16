@@ -130,23 +130,14 @@ const updateSelect = () => {
     state.focusVisible = false
     return
   }
-  // https://github.com/element-plus/element-plus/issues/21374
-  setTimeout(() => {
-    const rect = selectedItem.getBoundingClientRect()
-    state.isInit = true
-    if (props.direction === 'vertical') {
-      state.height = rect.height
-      state.translateY = selectedItem.offsetTop
-    } else {
-      state.width = rect.width
-      state.translateX = selectedItem.offsetLeft
-    }
-    try {
-      // This will failed in test
-      state.focusVisible = selectedItemInput.matches(':focus-visible')
-    } catch {}
-  }, 100)
-}
+  state.isInit = true
+  if (props.direction === 'vertical') {
+    state.height = selectedItem.offsetHeight
+    state.translateY = selectedItem.offsetTop
+  } else {
+    state.width = selectedItem.offsetWidth
+    state.translateX = selectedItem.offsetLeft
+  }
 
 const segmentedCls = computed(() => [
   ns.b(),
