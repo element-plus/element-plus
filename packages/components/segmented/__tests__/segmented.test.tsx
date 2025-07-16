@@ -209,4 +209,38 @@ describe('Segmented.vue', () => {
         .includes('is-disabled')
     ).toBeTruthy()
   })
+
+  test('should calculate correct size when value changes inside a dynamically scaled container', async () => {
+    const scale = ref(1)
+    const value = ref('Banana')
+    const options = ref(['Banana', 'Apple'])
+
+    const wrapper = mount(() => (
+      <div style={{ transform: `scale(${scale.value})` }}>
+        <Segmented v-model={value.value} options={options.value} />
+      </div>
+    ))
+
+    await nextTick()
+
+    let indicator = wrapper.find('.el-segmented__item-selected')
+      .element as HTMLElement
+    let selectedItem = wrapper.find('.el-segmented__item.is-selected')
+      .element as HTMLElement
+
+    // Initial check at scale: 1
+    expect(indicator.style.width).toBe(`${selectedItem.offsetWidth}px`)
+
+    // Change scale dynamically
+    scale.value = 0.5
+    await nextTick()
+
+    indicator = wrapper.find('.el-segmented__item-selected')
+      .element as HTMLElement
+    selectedItem = wrapper.find('.el-segmented__item.is-selected')
+      .element as HTMLElement
+
+    // Check width is still correct after scale and value have changed
+    expect(indicator.style.width).toBe(`${selectedItem.offsetWidth}px`)
+  })
 })
