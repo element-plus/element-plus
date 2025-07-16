@@ -1,7 +1,12 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { CaretLeft, CaretRight } from '@element-plus/icons-vue'
+import {
+  CaretLeft,
+  CaretRight,
+  DArrowLeft,
+  DArrowRight,
+} from '@element-plus/icons-vue'
 import Pagination from '../src/pagination'
 import selectDropdownVue from '../../select/src/select-dropdown.vue'
 
@@ -237,6 +242,55 @@ describe('Pagination', () => {
       pageSize.value = 50
       await nextTick()
       assertCurrent(wrapper, 2)
+    })
+
+    test('test more icon', async () => {
+      const wrapper = mount(
+        <Pagination
+          layout="pager"
+          total={100}
+          pageSize={10}
+          defaultCurrentPage={5}
+        />
+      )
+
+      assertCurrent(wrapper, 5)
+      expect(wrapper.find('.btn-quickprev').exists()).toBeTruthy()
+      expect(wrapper.find('.btn-quicknext').exists()).toBeTruthy()
+      expect(wrapper.findComponent(DArrowLeft).exists()).toBeFalsy()
+      expect(wrapper.findComponent(DArrowRight).exists()).toBeFalsy()
+
+      const quickPrev = wrapper.find('.btn-quickprev')
+
+      // Trigger hover
+      await quickPrev.trigger('mouseenter')
+      expect(wrapper.findComponent(DArrowLeft).exists()).toBeTruthy()
+
+      // Trigger click
+      await quickPrev.trigger('click')
+      assertCurrent(wrapper, 1)
+      expect(wrapper.find('.btn-quickprev').exists()).toBeFalsy()
+
+      await wrapper.find('.el-pager li:nth-child(5)').trigger('click')
+      assertCurrent(wrapper, 5)
+      expect(wrapper.find('.btn-quickprev').exists()).toBeTruthy()
+      expect(wrapper.findComponent(DArrowLeft).exists()).toBeFalsy()
+
+      const quickNext = wrapper.find('.btn-quicknext')
+
+      // Trigger hover
+      await quickNext.trigger('mouseenter')
+      expect(wrapper.findComponent(DArrowRight).exists()).toBeTruthy()
+
+      // Trigger click
+      await quickNext.trigger('click')
+      assertCurrent(wrapper, 10)
+      expect(wrapper.find('.btn-quicknext').exists()).toBeFalsy()
+
+      await wrapper.find('.el-pager li:nth-child(3)').trigger('click')
+      assertCurrent(wrapper, 5)
+      expect(wrapper.find('.btn-quicknext').exists()).toBeTruthy()
+      expect(wrapper.findComponent(DArrowRight).exists()).toBeFalsy()
     })
 
     test('test pageCount change and side effect', async () => {
