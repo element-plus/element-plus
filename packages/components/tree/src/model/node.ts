@@ -395,9 +395,13 @@ class Node {
 
   collapse(): void {
     this.expanded = false
-    this.childNodes.forEach((item) => {
-      item.canFocus = false
-    })
+    const setCanFocus = (childNodes: Node[]): void => {
+      childNodes.forEach((item) => {
+        item.canFocus = false
+        setCanFocus(item.childNodes)
+      })
+    }
+    setCanFocus(this.childNodes)
   }
 
   shouldLoadData() {
