@@ -245,14 +245,15 @@ describe('Pagination', () => {
     })
 
     test('test more icon', async () => {
-      const wrapper = mount(
+      const currentPage = ref(5)
+      const wrapper = mount(() => (
         <Pagination
+          v-model:current-page={currentPage.value}
           layout="pager"
           total={100}
           pageSize={10}
-          defaultCurrentPage={5}
         />
-      )
+      ))
 
       assertCurrent(wrapper, 5)
       expect(wrapper.find('.btn-quickprev').exists()).toBeTruthy()
@@ -260,13 +261,11 @@ describe('Pagination', () => {
       expect(wrapper.findComponent(DArrowLeft).exists()).toBeFalsy()
       expect(wrapper.findComponent(DArrowRight).exists()).toBeFalsy()
 
+      // quick prev
       const quickPrev = wrapper.find('.btn-quickprev')
-
-      // Trigger hover
       await quickPrev.trigger('mouseenter')
       expect(wrapper.findComponent(DArrowLeft).exists()).toBeTruthy()
 
-      // Trigger click
       await quickPrev.trigger('click')
       assertCurrent(wrapper, 1)
       expect(wrapper.find('.btn-quickprev').exists()).toBeFalsy()
@@ -276,13 +275,11 @@ describe('Pagination', () => {
       expect(wrapper.find('.btn-quickprev').exists()).toBeTruthy()
       expect(wrapper.findComponent(DArrowLeft).exists()).toBeFalsy()
 
+      // quick next
       const quickNext = wrapper.find('.btn-quicknext')
-
-      // Trigger hover
       await quickNext.trigger('mouseenter')
       expect(wrapper.findComponent(DArrowRight).exists()).toBeTruthy()
 
-      // Trigger click
       await quickNext.trigger('click')
       assertCurrent(wrapper, 10)
       expect(wrapper.find('.btn-quicknext').exists()).toBeFalsy()
@@ -291,6 +288,17 @@ describe('Pagination', () => {
       assertCurrent(wrapper, 5)
       expect(wrapper.find('.btn-quicknext').exists()).toBeTruthy()
       expect(wrapper.findComponent(DArrowRight).exists()).toBeFalsy()
+
+      // While hovering over the icon
+      // switching pages does not change the icon's display state or the position of the more button
+      await wrapper.find('.btn-quickprev').trigger('mouseenter')
+      expect(wrapper.findComponent(DArrowLeft).exists()).toBeTruthy()
+
+      currentPage.value = 6
+      await nextTick()
+      assertCurrent(wrapper, 6)
+      expect(wrapper.find('.btn-quickprev').exists()).toBeTruthy()
+      expect(wrapper.findComponent(DArrowLeft).exists()).toBeTruthy()
     })
 
     test('test pageCount change and side effect', async () => {

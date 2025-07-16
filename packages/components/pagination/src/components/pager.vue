@@ -70,7 +70,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watchEffect } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { DArrowLeft, DArrowRight, MoreFilled } from '@element-plus/icons-vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { CHANGE_EVENT } from '@element-plus/constants'
@@ -143,21 +143,29 @@ const nextMoreKls = computed(() => [
 ])
 
 const tabindex = computed(() => (props.disabled ? -1 : 0))
-watchEffect(() => {
-  const halfPagerCount = (props.pagerCount - 1) / 2
-  showPrevMore.value = false
-  showNextMore.value = false
-  quickPrevHover.value = false
-  quickNextHover.value = false
-  if (props.pageCount! > props.pagerCount) {
-    if (props.currentPage > props.pagerCount - halfPagerCount) {
-      showPrevMore.value = true
+watch(
+  () => [props.pageCount, props.pagerCount, props.currentPage],
+  ([pageCount, pagerCount, currentPage]) => {
+    const halfPagerCount = (props.pagerCount - 1) / 2
+    let showPrev = false
+    let showNext = false
+
+    if (pageCount! > pagerCount) {
+      if (currentPage > pagerCount - halfPagerCount) {
+        showPrev = true
+      }
+      if (currentPage < pageCount! - halfPagerCount) {
+        showNext = true
+      }
     }
-    if (props.currentPage < props.pageCount! - halfPagerCount) {
-      showNextMore.value = true
-    }
-  }
-})
+
+    quickPrevHover.value &&= showPrevMore.value
+    quickNextHover.value &&= showNextMore.value
+    showPrevMore.value = showPrev
+    showNextMore.value = showNext
+  },
+  { immediate: true }
+)
 function onMouseEnter(forward = false) {
   if (props.disabled) return
   if (forward) {
