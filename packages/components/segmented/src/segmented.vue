@@ -138,7 +138,11 @@ const updateSelect = () => {
     state.width = selectedItem.offsetWidth
     state.translateX = selectedItem.offsetLeft
   }
-
+  try {
+    // This will failed in test
+    state.focusVisible = selectedItemInput.matches(':focus-visible')
+  } catch {}
+}
 const segmentedCls = computed(() => [
   ns.b(),
   ns.m(segmentedSize.value),
