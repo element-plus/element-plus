@@ -147,6 +147,8 @@ watchEffect(() => {
   const halfPagerCount = (props.pagerCount - 1) / 2
   showPrevMore.value = false
   showNextMore.value = false
+  quickPrevHover.value = false
+  quickNextHover.value = false
   if (props.pageCount! > props.pagerCount) {
     if (props.currentPage > props.pagerCount - halfPagerCount) {
       showPrevMore.value = true
