@@ -169,7 +169,7 @@ const handleScroll = () => {
     if (prevLeft !== wrapScrollLeft) {
       direction = wrapScrollLeft > prevLeft ? 'right' : 'left'
     }
-    if (props.distance) {
+    if (props.distance > 0) {
       if (shouldSkipDirection(direction)) {
         return
       }
