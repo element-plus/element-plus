@@ -315,16 +315,7 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  getCurrentInstance,
-  onBeforeUnmount,
-  provide,
-  reactive,
-  toRefs,
-  watch,
-} from 'vue'
+import { computed, defineComponent, getCurrentInstance, provide, reactive, toRefs, watch } from 'vue'
 import { ClickOutside } from '@element-plus/directives'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
@@ -340,7 +331,7 @@ import { selectKey } from './token'
 import ElOptions from './options'
 import { selectProps } from './select'
 
-import type { VNode } from 'vue'
+import type { VNode } from 'vue';
 import type { SelectContext } from './type'
 
 const COMPONENT_NAME = 'ElSelect'
@@ -374,12 +365,7 @@ export default defineComponent({
     instance.appContext.config.warnHandler = (...args) => {
       // Overrides warnings about slots not being executable outside of a render function.
       // We call slot below just to simulate data when persist is false, this warning message should be ignored
-      if (
-        !args[0] ||
-        args[0].includes(
-          'Slot "default" invoked outside of the render function'
-        )
-      ) {
+      if (!args[0] || args[0].includes('Slot "default" invoked outside of the render function')) {
         return
       }
       // eslint-disable-next-line no-console
@@ -422,10 +408,7 @@ export default defineComponent({
       const children = flattedChildren(vnodes || []) as VNode[]
       children.forEach((item) => {
         // @ts-expect-error
-        if (
-          isObject(item) &&
-          (item.type.name === 'ElOption' || item.type.name === 'ElTree')
-        ) {
+        if (isObject(item) && (item.type.name === 'ElOption' || item.type.name === 'ElTree')) {
           // @ts-expect-error
           const _name = item.type.name
           if (_name === 'ElTree') {
@@ -434,36 +417,29 @@ export default defineComponent({
             const treeData = item.props?.data || []
             const flatData = flatTreeSelectData(treeData)
             flatData.forEach((treeItem: any) => {
-              treeItem.currentLabel =
-                treeItem.label ||
-                (isObject(treeItem.value) ? '' : treeItem.value)
+              treeItem.currentLabel = treeItem.label || (isObject(treeItem.value) ? '' : treeItem.value)
               API.onOptionCreate(treeItem)
             })
           } else if (_name === 'ElOption') {
             const obj = { ...item.props } as any
-            obj.currentLabel =
-              obj.label || (isObject(obj.value) ? '' : obj.value)
+            obj.currentLabel = obj.label || (isObject(obj.value) ? '' : obj.value)
             API.onOptionCreate(obj)
           }
         }
       })
     }
-    watch(
-      () => {
-        const slotsContent = slots.default?.()
-        return slotsContent
-      },
-      (newSlot) => {
-        if (props.persistent) {
-          // If persistent is true, we don't need to manually render slots.
-          return
-        }
-        manuallyRenderSlots(newSlot)
-      },
-      {
-        immediate: true,
+    watch(() => {
+      const slotsContent = slots.default?.()
+      return slotsContent
+    }, newSlot => {
+      if (props.persistent) {
+        // If persistent is true, we don't need to manually render slots.
+        return
       }
-    )
+      manuallyRenderSlots(newSlot)
+    }, {
+      immediate: true,
+    })
 
     provide(
       selectKey,
@@ -485,12 +461,7 @@ export default defineComponent({
       }
       return API.states.selected.map((i) => i.currentLabel as string)
     })
-
-    onBeforeUnmount(() => {
-      // https://github.com/element-plus/element-plus/issues/21279
-      instance.appContext.config.warnHandler = undefined
-    })
-
+    
     return {
       ...API,
       modelValue,
