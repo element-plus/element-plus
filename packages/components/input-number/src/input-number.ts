@@ -121,6 +121,13 @@ export const inputNumberProps = buildProps({
     default: undefined,
   },
   /**
+   * @description alignment for the inner input text
+   */
+  align: {
+    type: definePropType<'left' | 'right' | 'center'>(String),
+    default: 'center',
+  },
+  /**
    * @description whether to disable scientific notation input (e.g. 'e', 'E')
    */
   disableScientific: Boolean,
