@@ -233,25 +233,56 @@ describe('InputTag.vue', () => {
   describe('delimiter', () => {
     test('with string', async () => {
       const inputValue = ref<string[]>()
+      const addTag = vi.fn()
       const wrapper = mount(() => (
-        <InputTag v-model={inputValue.value} delimiter="," />
+        <InputTag v-model={inputValue.value} delimiter="," onAdd-tag={addTag} />
       ))
-
       await wrapper.find('input').setValue(`${AXIOM},`)
+
+      expect(addTag).toBeCalledWith(AXIOM)
       expect(wrapper.findAll('.el-tag').length).toBe(1)
       expect(wrapper.find('.el-tag').text()).toBe(AXIOM)
       expect(inputValue.value).toEqual([AXIOM])
     })
     test('with RegExp', async () => {
       const inputValue = ref<string[]>()
+      const addTag = vi.fn()
       const wrapper = mount(() => (
-        <InputTag v-model={inputValue.value} delimiter={/\./} />
+        <InputTag
+          v-model={inputValue.value}
+          delimiter={/\./}
+          onAdd-tag={addTag}
+        />
       ))
-
       await wrapper.find('input').setValue(`${AXIOM}.`)
+
+      expect(addTag).toBeCalledWith(AXIOM)
       expect(wrapper.findAll('.el-tag').length).toBe(1)
       expect(wrapper.find('.el-tag').text()).toBe(AXIOM)
       expect(inputValue.value).toEqual([AXIOM])
+    })
+    test('paste multiple delimiter', async () => {
+      const inputValue = ref<string[]>()
+      const addTag = vi.fn()
+      const wrapper = mount(() => (
+        <InputTag
+          v-model={inputValue.value}
+          delimiter={/\./}
+          onAdd-tag={addTag}
+        />
+      ))
+
+      await wrapper
+        .find('input')
+        .setValue(`${AXIOM}.${AXIOM}.${AXIOM}.${AXIOM}.`)
+
+      const result = [AXIOM, AXIOM, AXIOM, AXIOM]
+      expect(wrapper.findAll('.el-tag').length).toBe(4)
+      expect(addTag).toBeCalledWith(result)
+      wrapper
+        .findAll('.el-tag')
+        .forEach((tag) => expect(tag.text()).toBe(AXIOM))
+      expect(inputValue.value).toEqual(result)
     })
   })
 

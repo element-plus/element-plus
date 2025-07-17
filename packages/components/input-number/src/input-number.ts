@@ -38,14 +38,14 @@ export const inputNumberProps = buildProps({
    */
   max: {
     type: Number,
-    default: Number.POSITIVE_INFINITY,
+    default: Number.MAX_SAFE_INTEGER,
   },
   /**
    * @description the minimum allowed value
    */
   min: {
     type: Number,
-    default: Number.NEGATIVE_INFINITY,
+    default: Number.MIN_SAFE_INTEGER,
   },
   /**
    * @description binding value
@@ -119,6 +119,13 @@ export const inputNumberProps = buildProps({
   inputmode: {
     type: definePropType<HTMLAttributes['inputmode']>(String),
     default: undefined,
+  },
+  /**
+   * @description alignment for the inner input text
+   */
+  align: {
+    type: definePropType<'left' | 'right' | 'center'>(String),
+    default: 'center',
   },
 } as const)
 export type InputNumberProps = ExtractPropTypes<typeof inputNumberProps>

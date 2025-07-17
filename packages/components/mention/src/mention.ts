@@ -108,6 +108,8 @@ export const mentionProps = buildProps({
 
 export const mentionEmits = {
   [UPDATE_MODEL_EVENT]: (value: string) => isString(value),
+  'whole-remove': (pattern: string, prefix: string) =>
+    isString(pattern) && isString(prefix),
   input: (value: string) => isString(value),
   search: (pattern: string, prefix: string) =>
     isString(pattern) && isString(prefix),
