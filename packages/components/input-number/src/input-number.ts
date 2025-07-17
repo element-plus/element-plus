@@ -120,6 +120,13 @@ export const inputNumberProps = buildProps({
     type: definePropType<HTMLAttributes['inputmode']>(String),
     default: undefined,
   },
+  /**
+   * @description alignment for the inner input text
+   */
+  align: {
+    type: definePropType<'left' | 'right' | 'center'>(String),
+    default: 'center',
+  },
 } as const)
 export type InputNumberProps = ExtractPropTypes<typeof inputNumberProps>
 export type InputNumberPropsPublic = __ExtractPublicPropTypes<
