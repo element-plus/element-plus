@@ -71,6 +71,7 @@ const distanceScrollState = {
   triggerRight: false,
   triggerLeft: false,
 }
+type distanceScrollStateKey = keyof typeof distanceScrollState
 
 const scrollbarRef = ref<HTMLDivElement>()
 const wrapRef = ref<HTMLDivElement>()
@@ -106,12 +107,15 @@ const shouldSkipDirection = (direction: ScrollbarDirection) => {
 }
 
 const updateTriggerStatus = (arrivedStates: Record<string, boolean>) => {
-  const _updateTriggerState = (
-    arrived: boolean,
-    triggerKey: keyof typeof distanceScrollState,
-    oppositeArrived: boolean,
-    oppositeTriggerKey: keyof typeof distanceScrollState
-  ) => {
+  const _updateTriggerState = (to: string, from: string) => {
+    const arrived = arrivedStates[to]
+    const oppositeArrived = arrivedStates[from]
+    const triggerKey = `trigger${
+      to[0].toUpperCase() + to.slice(1)
+    }` as distanceScrollStateKey
+    const oppositeTriggerKey = `trigger${
+      from[0].toUpperCase() + from.slice(1)
+    }` as distanceScrollStateKey
     if (arrived && !distanceScrollState[triggerKey]) {
       distanceScrollState[triggerKey] = true
     }
@@ -121,36 +125,16 @@ const updateTriggerStatus = (arrivedStates: Record<string, boolean>) => {
   }
   // scroll bottom to top
   if (direction === 'top') {
-    _updateTriggerState(
-      arrivedStates.top,
-      'triggerTop',
-      arrivedStates.bottom,
-      'triggerBottom'
-    )
+    _updateTriggerState('top', 'bottom')
   }
   if (direction === 'bottom') {
-    _updateTriggerState(
-      arrivedStates.bottom,
-      'triggerBottom',
-      arrivedStates.top,
-      'triggerTop'
-    )
+    _updateTriggerState('bottom', 'top')
   }
   if (direction === 'left') {
-    _updateTriggerState(
-      arrivedStates.left,
-      'triggerLeft',
-      arrivedStates.right,
-      'triggerRight'
-    )
+    _updateTriggerState('left', 'right')
   }
   if (direction === 'right') {
-    _updateTriggerState(
-      arrivedStates.right,
-      'triggerRight',
-      arrivedStates.left,
-      'triggerLeft'
-    )
+    _updateTriggerState('right', 'left')
   }
 }
 
