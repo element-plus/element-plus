@@ -82,7 +82,7 @@ const getPropertyFromData = function (node: Node, prop: string): any {
 const setCanFocus = function (childNodes: Node[], focus: boolean): void {
   childNodes.forEach((item) => {
     item.canFocus = bool
-    if (item.childNodes && item.childNodes.length) {
+    if (item.childNodes.length) {
       setCanFocus(item.childNodes, bool)
     }
   })
