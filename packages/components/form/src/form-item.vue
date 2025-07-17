@@ -166,11 +166,11 @@ const hasLabel = computed<boolean>(() => {
 })
 
 const labelFor = computed<string | undefined>(() => {
-  return props.for ?? inputIds.value?.[0]
+  return props.for ?? inputIds.value[0]
 })
 
 const isGroup = computed<boolean>(() => {
-  return !labelFor.value && hasLabel.value
+  return !(props.for || inputIds.value.length !== 1) && hasLabel.value
 })
 
 const isNested = !!parentFormItemContext
