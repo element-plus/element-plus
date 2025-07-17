@@ -146,6 +146,10 @@
     font-size: 12px;
     margin: 0 5px;
   }
+
+  @include when(draggable) {
+    cursor: move;
+  }
 }
 
 @keyframes progress {

@@ -14,7 +14,12 @@
     aria-valuemin="0"
     aria-valuemax="100"
   >
-    <div v-if="type === 'line'" :class="ns.b('bar')">
+    <div
+      v-if="type === 'line'"
+      ref="barRef"
+      :class="[ns.b('bar'), ns.is('draggable', props.draggable)]"
+      @mousedown="onMouseDown"
+    >
       <div
         :class="ns.be('bar', 'outer')"
         :style="{ height: `${strokeWidth}px` }"
@@ -82,7 +87,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import {
   Check,
@@ -110,6 +115,7 @@ const STATUS_COLOR_MAP: Record<string, string> = {
 }
 
 const props = defineProps(progressProps)
+const vPercentage = defineModel<number>('percentage')
 
 const ns = useNamespace('progress')
 
@@ -231,5 +237,48 @@ const getCurrentColor = (percentage: number) => {
     }
     return colors[colors.length - 1]?.color
   }
+}
+
+const barRef = ref<HTMLElement>()
+const dragging = ref(false)
+const dragContext = {
+  left: 0,
+  width: 0,
+}
+
+function onMouseDown(e: MouseEvent) {
+  if (!props.draggable || props.type !== 'line') return
+  const { left, width } = barRef.value!.getBoundingClientRect()
+  Object.assign(dragContext, { left, width })
+  dragging.value = true
+  updatePercentage(e)
+  window.addEventListener('mousemove', onMouseMove)
+  window.addEventListener('mouseup', onMouseUp)
+}
+
+function onMouseMove(e: MouseEvent) {
+  if (dragging.value) updatePercentage(e)
+}
+
+function onMouseUp() {
+  if (!dragging.value) return
+  dragging.value = false
+  vPercentage.value = dragPercent
+  window.removeEventListener('mousemove', onMouseMove)
+  window.removeEventListener('mouseup', onMouseUp)
+}
+
+let dragPercent = 0
+function updatePercentage(e: MouseEvent) {
+  const raw = ((e.clientX - dragContext.left) / dragContext.width) * 100
+  dragPercent = Math.round(Math.max(0, Math.min(100, raw)))
+  requestAnimationFrame(() => {
+    const inner = barRef.value?.querySelector(
+      `.${ns.be('bar', 'inner')}`
+    ) as HTMLElement
+    if (inner) {
+      inner.style.width = `${dragPercent}%`
+    }
+  })
 }
 </script>

@@ -104,6 +104,10 @@ export const progressProps = buildProps({
     type: definePropType<ProgressFn>(Function),
     default: (percentage: number): string => `${percentage}%`,
   },
+  /**
+   * support dragging
+   */
+  draggable: Boolean,
 } as const)
 
 export type ProgressProps = ExtractPropTypes<typeof progressProps>
