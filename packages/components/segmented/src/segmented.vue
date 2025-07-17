@@ -143,6 +143,7 @@ const updateSelect = () => {
     state.focusVisible = selectedItemInput.matches(':focus-visible')
   } catch {}
 }
+
 const segmentedCls = computed(() => [
   ns.b(),
   ns.m(segmentedSize.value),
