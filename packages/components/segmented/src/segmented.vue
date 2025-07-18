@@ -130,13 +130,12 @@ const updateSelect = () => {
     state.focusVisible = false
     return
   }
-  const rect = selectedItem.getBoundingClientRect()
   state.isInit = true
   if (props.direction === 'vertical') {
-    state.height = rect.height
+    state.height = selectedItem.offsetHeight
     state.translateY = selectedItem.offsetTop
   } else {
-    state.width = rect.width
+    state.width = selectedItem.offsetWidth
     state.translateX = selectedItem.offsetLeft
   }
   try {

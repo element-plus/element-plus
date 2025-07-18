@@ -611,4 +611,25 @@ describe('InputNumber.vue', () => {
     expect(wrapper.find('input').element.value).toBe(num.value.toString())
     wrapper.unmount()
   })
+
+  describe('align prop class mapping', () => {
+    it.each([
+      ['left', 'is-left'],
+      ['center', 'is-center'],
+      ['right', 'is-right'],
+    ] as Array<['left' | 'center' | 'right', string]>)(
+      'align=%s should add class %s',
+      async (align, expectedClass) => {
+        const num = ref(0)
+        const wrapper = mount(() => (
+          <InputNumber v-model={num.value} align={align} />
+        ))
+
+        await nextTick()
+
+        const root = wrapper.find('.el-input-number')
+        expect(root.classes()).toContain(expectedClass)
+      }
+    )
+  })
 })
