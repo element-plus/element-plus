@@ -115,7 +115,9 @@ const STATUS_COLOR_MAP: Record<string, string> = {
 }
 
 const props = defineProps(progressProps)
-const vPercentage = defineModel<number>('percentage')
+const emit = defineEmits<{
+  (e: 'update:percentage', value: number): void
+}>()
 
 const ns = useNamespace('progress')
 
@@ -263,7 +265,7 @@ function onMouseMove(e: MouseEvent) {
 function onMouseUp() {
   if (!dragging.value) return
   dragging.value = false
-  vPercentage.value = dragPercent
+  emit('update:percentage', dragPercent)
   window.removeEventListener('mousemove', onMouseMove)
   window.removeEventListener('mouseup', onMouseUp)
 }
