@@ -159,7 +159,6 @@ const handleCheckChange: ElCascaderPanelContext['handleCheckChange'] = (
   const { checkStrictly, multiple } = config.value
   const oldNode = checkedNodes.value[0]
   manualChecked = true
-  debugger
   !multiple && oldNode?.doCheck(false)
   node.doCheck(checked)
   calculateCheckedValue()
