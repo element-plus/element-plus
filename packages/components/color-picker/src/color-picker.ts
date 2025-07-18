@@ -18,6 +18,13 @@ import type ColorPicker from './color-picker.vue'
 
 export const colorPickerProps = buildProps({
   /**
+   * @description when color-picker inactive and persistent is false, the color panel will be destroyed
+   */
+  persistent: {
+    type: Boolean,
+    default: true,
+  },
+  /**
    * @description binding value
    */
   modelValue: {
@@ -62,6 +69,10 @@ export const colorPickerProps = buildProps({
    * @description whether color-picker popper is teleported to the body
    */
   teleported: useTooltipContentProps.teleported,
+  /**
+   * @description which color-picker panel appends to
+   */
+  appendTo: useTooltipContentProps.appendTo,
   /**
    * @description predefined color options
    */
