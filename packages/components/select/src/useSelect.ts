@@ -47,6 +47,7 @@ import {
   useFormItemInputId,
   useFormSize,
 } from '@element-plus/components/form'
+import Node from '@element-plus/components/tree/src/model/node'
 
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { ScrollbarInstance } from '@element-plus/components/scrollbar'
@@ -63,6 +64,8 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   const contentId = useId()
   const nsSelect = useNamespace('select')
   const nsInput = useNamespace('input')
+  const nsTree = useNamespace('tree')
+  let lastOption: OptionPublicInstance
 
   const states = reactive<SelectStates>({
     inputValue: '',
@@ -333,6 +336,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   )
 
   watch([() => states.hoveringIndex, optionsArray], ([val]) => {
+    if (states.isUseTreeKeydown) return
     if (isNumber(val) && val > -1) {
       hoverOption.value = optionsArray.value[val] || {}
     } else {
@@ -449,6 +453,18 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   }
 
   const updateHoveringIndex = () => {
+    if (states.isUseTreeKeydown && lastOption) {
+      // Tip: 树形不是使用 optionsArray.value，因为 optionsArray.value 数据顺序不正确
+      const parentDom =
+        optionsArray.value[0].$el.parentNode.parentNode.parentNode
+      const treeItems: HTMLElement[] = Array.from(
+        parentDom!.querySelectorAll(`.${nsTree.is('focusable')}[role=treeitem]`)
+      )
+      states.hoveringIndex = treeItems.indexOf(
+        lastOption.$el.parentNode.parentNode
+      )
+      return
+    }
     states.hoveringIndex = optionsArray.value.findIndex((item) =>
       states.selected.some(
         (selected) => getValueKey(selected) === getValueKey(item)
@@ -696,10 +712,41 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     }
   }
 
+  const handleNode = (node: Node, code: string) => {
+    // Check whether it is a leaf node or the last child node
+    if (
+      (!node.childNodes.length && !node.store.lazy) ||
+      (node.store.lazy && node.isLeaf) ||
+      (node.store.checkStrictly && !['left', 'right'].includes(code))
+    ) {
+      handleOptionSelect(lastOption)
+    } else if (!node.expanded) {
+      node.expand()
+    } else if (node.expanded) {
+      node.collapse()
+    }
+  }
+
   const selectOption = () => {
     if (!expanded.value) {
       toggleMenu()
     } else {
+      if (states.isUseTreeKeydown) {
+        if (lastOption && !lastOption.isDisabled) {
+          const hasInput = lastOption.$el.parentNode.querySelector(
+            '[type="checkbox"]'
+          ) as HTMLInputElement | null
+          if (hasInput) {
+            // TODO: 这里暂时注释掉，因为触发 checkbox 不会收起下拉菜单
+            // hasInput.click()
+            handleOptionSelect(lastOption)
+          } else {
+            const node = (lastOption.$parent as any).node
+            handleNode(node, 'enter')
+          }
+        }
+        return
+      }
       const option = optionsArray.value[states.hoveringIndex]
       if (option && !option.isDisabled) {
         handleOptionSelect(option)
@@ -737,21 +784,57 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       : []
   })
 
-  const useTreeKeydown = () => {
-    let option = null
-    // find the first enabled option
-    for (const item of optionsArray.value) {
-      if (!(item.$parent as any).node.disabled && item.visible) {
-        option = item
+  const useTreeKeydown = (direction: string) => {
+    // Tip: 使用 optionsArray.value 树形数据会出现数据排序混乱的情况
+
+    const store = optionsArray.value[0].$parent.node.store
+    const parentDom = optionsArray.value[0].$el.parentNode.parentNode.parentNode
+    const treeItems: HTMLElement[] = Array.from(
+      parentDom!.querySelectorAll(`.${nsTree.is('focusable')}[role=treeitem]`)
+    )
+    const step = direction === 'next' ? 1 : -1
+    const length = treeItems.length
+    let nextIndex =
+      states.hoveringIndex === -1
+        ? direction === 'next'
+          ? 0
+          : length - 1
+        : states.hoveringIndex + step
+
+    const startIndex = nextIndex
+    while (true) {
+      if (nextIndex < 0) {
+        nextIndex = length - 1
+      } else if (nextIndex >= length) {
+        nextIndex = 0
+      }
+
+      const node = store.getNode(treeItems[nextIndex].dataset.key!)
+
+      if (node?.canFocus && node.visible) {
+        break
+      }
+
+      nextIndex += step
+
+      if (nextIndex === startIndex) {
+        nextIndex = -1
         break
       }
     }
-    if (option) {
-      option.$el.parentNode.parentNode.focus()
-    }
+    if (lastOption && lastOption.hover) lastOption.hover = false // 取消上一个选项的选中状态
+
+    // new Map 的 Key 会有 string 和 number 类型的情况，所以这里使用 tree node.key 来查询
+    const node = store.getNode(treeItems[nextIndex].dataset.key!)
+    const option = states.options.get(node.key)
+
+    option.hover = true // 设置当前选项为选中状态
+    lastOption = option // 保存上一个选中项，用于键盘操作时取消选中上一个选项
+    states.hoveringIndex = nextIndex
+    nextTick(() => scrollToOption(option))
   }
 
-  const navigateOptions = (direction: 'prev' | 'next') => {
+  const navigateOptions = (direction: 'prev' | 'next' | 'left' | 'right') => {
     if (!expanded.value) {
       expanded.value = true
       return
@@ -765,26 +848,35 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
 
     if (optionsAllDisabled.value) return
 
-    if (states.isUseTreeKeydown === false) {
-      if (direction === 'next') {
-        states.hoveringIndex++
-        if (states.hoveringIndex === states.options.size) {
-          states.hoveringIndex = 0
-        }
-      } else if (direction === 'prev') {
-        states.hoveringIndex--
-        if (states.hoveringIndex < 0) {
-          states.hoveringIndex = states.options.size - 1
-        }
+    if (direction === 'left' || direction === 'right') {
+      if (lastOption) {
+        const node = (lastOption.$parent as any).node
+        handleNode(node, direction)
       }
-      const option = optionsArray.value[states.hoveringIndex]
-      if (option.isDisabled || !option.visible) {
-        navigateOptions(direction)
-      }
-      nextTick(() => scrollToOption(hoverOption.value))
-    } else if (states.isUseTreeKeydown) {
-      useTreeKeydown()
+      return
     }
+
+    if (states.isUseTreeKeydown) {
+      useTreeKeydown(direction)
+      return
+    }
+
+    if (direction === 'next') {
+      states.hoveringIndex++
+      if (states.hoveringIndex === states.options.size) {
+        states.hoveringIndex = 0
+      }
+    } else if (direction === 'prev') {
+      states.hoveringIndex--
+      if (states.hoveringIndex < 0) {
+        states.hoveringIndex = states.options.size - 1
+      }
+    }
+    const option = optionsArray.value[states.hoveringIndex]
+    if (option.isDisabled || !option.visible) {
+      navigateOptions(direction)
+    }
+    nextTick(() => scrollToOption(hoverOption.value))
   }
 
   const getGapWidth = () => {

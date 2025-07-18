@@ -15,7 +15,7 @@ import {
 } from 'vue'
 import { isNil } from 'lodash-unified'
 import { EVENT_CODE } from '@element-plus/constants'
-import { useEscapeKeydown, useNamespace } from '@element-plus/hooks'
+import { useEscapeKeydown } from '@element-plus/hooks'
 import { isString } from '@element-plus/utils'
 import {
   createFocusOutPreventedEvent,
@@ -151,13 +151,8 @@ export default defineComponent({
     watch([forwardRef], ([forwardRef], [oldForwardRef]) => {
       if (forwardRef) {
         forwardRef.addEventListener('keydown', onKeydown)
-        // TODO: select 已经创建了 blur 和 focus 事件，应该不需要再监听 focusin 和 focusout。
-        if (
-          !forwardRef?.classList.contains(useNamespace('select').e('popper'))
-        ) {
-          forwardRef.addEventListener('focusin', onFocusIn)
-          forwardRef.addEventListener('focusout', onFocusOut)
-        }
+        forwardRef.addEventListener('focusin', onFocusIn)
+        forwardRef.addEventListener('focusout', onFocusOut)
       }
       if (oldForwardRef) {
         oldForwardRef.removeEventListener('keydown', onKeydown)

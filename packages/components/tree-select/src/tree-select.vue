@@ -68,6 +68,7 @@ export default defineComponent({
         ...pick(select.value, ['focus', 'blur', 'selectedLabel']),
       })
     })
+
     return () =>
       h(
         ElSelect,
@@ -85,9 +86,7 @@ export default defineComponent({
         {
           ...slots,
           default: () => [
-            h(CacheOptions, {
-              data: cacheOptions.value,
-            }),
+            h(CacheOptions, { data: cacheOptions.value }),
             h(
               ElTree,
               reactive({

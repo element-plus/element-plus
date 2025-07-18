@@ -24,7 +24,7 @@ export interface SelectContext {
 }
 export type SelectStates = {
   inputValue: string
-  options: Map<OptionValue, OptionPublicInstance>
+  options: Map<OptionValue, OptionPublicInstance | any>
   cachedOptions: Map<OptionValue, OptionPublicInstance>
   optionValues: OptionValue[]
   selected: OptionBasic[]

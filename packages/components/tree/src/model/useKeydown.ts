@@ -26,32 +26,6 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
     })
   })
 
-  const handleNode = (currentItem: HTMLDivElement, code: string = '') => {
-    const key = currentItem.dataset.key
-    const node = key !== undefined ? store.value.getNode(key) : null
-    if (!node) {
-      // 处理节点未找到的情况，例如 key 属性不存在
-      console.error(
-        'The node was not found, possibly because the key property does not exist.'
-      )
-      return
-    }
-
-    // Check whether it is a leaf node or the last child node
-    if (
-      (!node.childNodes.length && !node.store.lazy) ||
-      (node.store.lazy && node.isLeaf) ||
-      (node.store.checkStrictly &&
-        ![EVENT_CODE.left, EVENT_CODE.right].includes(code))
-    ) {
-      currentItem.click()
-    } else if (!node.expanded) {
-      node.expand()
-    } else if (node.expanded) {
-      node.collapse()
-    }
-  }
-
   const handleKeydown = (ev: KeyboardEvent): void => {
     const currentItem = ev.target as HTMLDivElement
     if (!currentItem.className.includes(ns.b('node'))) return
@@ -108,7 +82,7 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
     }
     if ([EVENT_CODE.left, EVENT_CODE.right].includes(code)) {
       ev.preventDefault()
-      handleNode(currentItem, ev.code)
+      currentItem.click()
     }
     const hasInput = currentItem.querySelector(
       '[type="checkbox"]'
@@ -121,9 +95,6 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
     ) {
       ev.preventDefault()
       hasInput.click()
-    } else if ([EVENT_CODE.enter, EVENT_CODE.numpadEnter].includes(code)) {
-      ev.preventDefault()
-      handleNode(currentItem)
     }
   }
 
