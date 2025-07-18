@@ -60,6 +60,8 @@ color-picker/sizes
 | id                          | ColorPicker id                                                                                                 | ^[string]                                                                                                        | —       |
 | teleported ^(2.7.2)         | whether color-picker popper is teleported to the body                                                          | ^[boolean]                                                                                                       | true    |
 | label ^(a11y) ^(deprecated) | ColorPicker aria-label                                                                                         | ^[string]                                                                                                        | —       |
+| persistent ^(2.10.5)        | when color-picker inactive and persistent is false, the color panel will be destroyed                          | ^[boolean]                                                                                                       | true    |
+| append-to ^(2.10.5)         | which element the color-picker panel appends to                                                                | ^[CSSSelector] / ^[HTMLElement]                                                                                  | -       |
 
 ### Events
 
