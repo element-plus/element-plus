@@ -17,7 +17,7 @@
     <div
       v-if="type === 'line'"
       ref="barRef"
-      :class="[ns.b('bar'), ns.is('draggable', props.draggable)]"
+      :class="[ns.b('bar'), ns.is('draggable', draggable)]"
       @mousedown="onMouseDown"
     >
       <div
