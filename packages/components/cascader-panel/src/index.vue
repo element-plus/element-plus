@@ -159,6 +159,7 @@ const handleCheckChange: ElCascaderPanelContext['handleCheckChange'] = (
   const { checkStrictly, multiple } = config.value
   const oldNode = checkedNodes.value[0]
   manualChecked = true
+
   !multiple && oldNode?.doCheck(false)
   node.doCheck(checked)
   calculateCheckedValue()
@@ -338,9 +339,19 @@ provide(
   })
 )
 
-watch([config, () => props.options], initStore, {
+watch(
+  config,
+  (newVal, oldVal) => {
+    if (isEqual(newVal, oldVal)) return
+    initStore()
+  },
+  {
+    immediate: true,
+  }
+)
+
+watch(() => props.options, initStore, {
   deep: true,
-  immediate: true,
 })
 
 watch(
