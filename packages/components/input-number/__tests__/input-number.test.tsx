@@ -633,10 +633,10 @@ describe('InputNumber.vue', () => {
     )
   })
 
-  test('should prevent typing "e" or "E" when disableScientific is true', async () => {
+  test('should prevent typing "e" or "E" when disabledScientific is true', async () => {
     const num = ref(1)
     const wrapper = mount(() => (
-      <InputNumber v-model={num.value} disableScientific />
+      <InputNumber v-model={num.value} disabledScientific />
     ))
     const input = wrapper.find('input')
     const preventDefault = vi.fn()

@@ -212,7 +212,7 @@ const ensurePrecision = (val: number, coefficient: 1 | -1 = 1) => {
 }
 const handleKeydown = (event: Event) => {
   const e = event as KeyboardEvent
-  if (props.disableScientific && ['e', 'E'].includes(e.key)) {
+  if (props.disabledScientific && ['e', 'E'].includes(e.key)) {
     e.preventDefault()
     return
   }
