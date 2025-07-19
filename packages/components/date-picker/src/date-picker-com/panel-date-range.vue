@@ -376,7 +376,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref, toRef, unref, watch } from 'vue'
+import { computed, inject, nextTick, ref, toRef, unref, watch } from 'vue'
 import dayjs from 'dayjs'
 import { ClickOutside as vClickoutside } from '@element-plus/directives'
 import { isArray } from '@element-plus/utils'
@@ -688,9 +688,16 @@ const handleRangePick = (
   maxDate.value = maxDate_
   minDate.value = minDate_
 
-  if (!close || showTime.value) return
-  handleRangeConfirm()
+  handleRangeConfirm(close)
 }
+
+watch(
+  [maxDate, minDate],
+  ([min, max]) => {
+    if (min && max) handleRangeConfirm(true)
+  },
+  { flush: 'post' }
+)
 
 const minTimePickerVisible = ref(false)
 const maxTimePickerVisible = ref(false)
@@ -800,6 +807,9 @@ const handleMinTimePick = (value: Dayjs, visible: boolean, first: boolean) => {
   if (!maxDate.value || maxDate.value.isBefore(minDate.value)) {
     maxDate.value = minDate.value
     rightDate.value = value
+    nextTick(() => {
+      onReset(props.parsedValue)
+    })
   }
 }
 
