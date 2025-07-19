@@ -90,4 +90,8 @@ export default class Store {
 
     return node_ || null
   }
+
+  updateLeafNodes(node: Node) {
+    this.leafNodes.push(node)
+  }
 }

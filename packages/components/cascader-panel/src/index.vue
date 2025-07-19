@@ -126,6 +126,9 @@ const lazyLoad: ElCascaderPanelContext['lazyLoad'] = (node, cb) => {
     _node.loading = false
     _node.loaded = true
     _node.childrenData = _node.childrenData || []
+    if (_node.isLeaf) {
+      store?.updateLeafNodes(_node)
+    }
     dataList && cb?.(dataList)
   }
 
