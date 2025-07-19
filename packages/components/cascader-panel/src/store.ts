@@ -57,7 +57,7 @@ export default class Store {
     if (nodeDataList.length > 0) {
       nodeDataList.forEach((nodeData) => this.appendNode(nodeData, parentNode))
     } else {
-      this.appendAllNodesAndLeafNodes(parentNode)
+      parentNode && parentNode.isLeaf && this.leafNodes.push(parentNode)
     }
   }
 
