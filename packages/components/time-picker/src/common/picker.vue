@@ -143,6 +143,7 @@
         :type="type"
         :default-value="defaultValue"
         :show-now="showNow"
+        :show-footer="showFooter"
         :show-week-number="showWeekNumber"
         @pick="onPick"
         @select-range="setSelectionRange"
