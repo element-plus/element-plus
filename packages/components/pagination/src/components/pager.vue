@@ -146,21 +146,17 @@ const tabindex = computed(() => (props.disabled ? -1 : 0))
 watch(
   () => [props.pageCount, props.pagerCount, props.currentPage],
   ([pageCount, pagerCount, currentPage]) => {
-    const halfPagerCount = (props.pagerCount - 1) / 2
+    const halfPagerCount = (pagerCount - 1) / 2
     let showPrev = false
     let showNext = false
 
-    if (pageCount! > pagerCount) {
-      if (currentPage > pagerCount - halfPagerCount) {
-        showPrev = true
-      }
-      if (currentPage < pageCount! - halfPagerCount) {
-        showNext = true
-      }
+    if (pageCount > pagerCount) {
+      showPrev = currentPage > pagerCount - halfPagerCount
+      showNext = currentPage < pageCount - halfPagerCount
     }
 
-    quickPrevHover.value &&= showPrevMore.value
-    quickNextHover.value &&= showNextMore.value
+    quickPrevHover.value &&= showPrev
+    quickNextHover.value &&= showNext
     showPrevMore.value = showPrev
     showNextMore.value = showNext
   },
