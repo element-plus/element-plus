@@ -4,7 +4,6 @@ import {
   onMounted,
   reactive,
   ref,
-  toRaw,
   watch,
   watchEffect,
 } from 'vue'
@@ -201,14 +200,18 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     return null
   })
 
+  const isFilterMethodValid = computed(
+    () => props.filterable && isFunction(props.filterMethod)
+  )
+  const isRemoteMethodValid = computed(
+    () => props.filterable && props.remote && isFunction(props.remoteMethod)
+  )
+
   const filterOptions = (query: string) => {
     const regexp = new RegExp(escapeStringRegexp(query), 'i')
-    const { filterMethod, remoteMethod } = toRaw(props)
-    const isFilterMethodValid = props.filterable && isFunction(filterMethod)
-    const isRemoteMethodValid =
-      props.filterable && props.remote && isFunction(remoteMethod)
+
     const isValidOption = (o: Option): boolean => {
-      if (isFilterMethodValid || isRemoteMethodValid) return true
+      if (isFilterMethodValid.value || isRemoteMethodValid.value) return true
       // when query was given, we should test on the label see whether the label contains the given query
       return query ? regexp.test(getLabel(o) || '') : true
     }
@@ -910,9 +913,13 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   // fix the problem that scrollTop is not reset in filterable mode
   watch(
     () => filteredOptions.value,
-    () => {
+    (newValue, oldValue) => {
       calculatePopperSize()
-      return menuRef.value && nextTick(menuRef.value.resetScrollTop)
+      return (
+        menuRef.value &&
+        !isEqual(newValue, oldValue) &&
+        nextTick(menuRef.value.resetScrollTop)
+      )
     }
   )
 
