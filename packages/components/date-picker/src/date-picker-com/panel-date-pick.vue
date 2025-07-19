@@ -169,7 +169,7 @@
         </div>
       </div>
     </div>
-    <div v-show="footerVisible" :class="ppNs.e('footer')">
+    <div v-if="showFooter && footerVisible" :class="ppNs.e('footer')">
       <el-button
         v-show="!isMultipleType && showNow"
         text

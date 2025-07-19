@@ -9,6 +9,7 @@ import DatePicker from '../src/date-picker'
 import type DatePickerRange from '../src/date-picker-com/panel-date-range.vue'
 import type { VueWrapper } from '@vue/test-utils'
 import type { VNode } from 'vue'
+import type { IDatePickerType } from '../src/date-picker.type'
 
 const formatStr = 'YYYY-MM-DD HH:mm:ss'
 const makeRange = (start: number, end: number) => {
@@ -1011,5 +1012,25 @@ describe('Datetimerange', () => {
 
     await input.trigger('blur')
     expect(rangePanelWrapper.vm.visible).toBe(false)
+  })
+
+  describe('should not have footer when show-footer is false', () => {
+    const footerAble: IDatePickerType[] = ['dates', 'datetime', 'datetimerange']
+    it.each(footerAble)(":type='%s'", async (t) => {
+      const showFooter = ref(true)
+      const type = ref<IDatePickerType>()
+      _mount(() => (
+        <DatePicker type={type.value} showFooter={showFooter.value} />
+      ))
+      type.value = t
+      showFooter.value = true
+      await nextTick()
+
+      expect(document.querySelector('.el-picker-panel__footer')).not.toBeNull()
+      showFooter.value = false
+      await nextTick()
+
+      expect(document.querySelector('.el-picker-panel__footer')).toBeNull()
+    })
   })
 })
