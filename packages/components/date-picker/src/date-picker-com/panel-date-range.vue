@@ -352,7 +352,7 @@
         </div>
       </div>
     </div>
-    <div v-if="showTime" :class="ppNs.e('footer')">
+    <div v-if="showFooter && showTime" :class="ppNs.e('footer')">
       <el-button
         v-if="clearable"
         text
