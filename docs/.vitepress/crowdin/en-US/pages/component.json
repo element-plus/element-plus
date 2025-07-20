@@ -134,6 +134,10 @@
         "text": "Select"
       },
       {
+        "link": "/select-icon",
+        "text": "SelectIcon"
+      },
+      {
         "link": "/select-v2",
         "text": "Virtualized Select"
       },
