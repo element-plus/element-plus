@@ -54,6 +54,14 @@ $dropdown-divider-width: 1px !default;
     cursor: not-allowed;
   }
 
+  @include e(slot-default) {
+    &.is-js-focus {
+      &:focus {
+        outline: 0;
+      }
+    }
+  }
+
   @include e(popper) {
     @include set-component-css-var('dropdown', $dropdown);
 
