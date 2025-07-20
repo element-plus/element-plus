@@ -276,7 +276,15 @@
               :created="true"
             />
             <el-options>
-              <slot />
+              <slot>
+                <el-option
+                  v-for="(item, index) in options"
+                  :key="index"
+                  :label="item[props?.label ?? 'label']"
+                  :value="item[props?.value ?? 'value']"
+                  :disabled="item[props?.disabled ?? 'disabled']"
+                />
+              </slot>
             </el-options>
           </el-scrollbar>
           <div
@@ -307,7 +315,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, getCurrentInstance, provide, reactive, toRefs, watch } from 'vue'
+import { computed, defineComponent, getCurrentInstance, onBeforeUnmount, provide, reactive, toRefs, watch } from 'vue'
 import { ClickOutside } from '@element-plus/directives'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
@@ -452,6 +460,11 @@ export default defineComponent({
         return API.states.selectedLabel
       }
       return API.states.selected.map((i) => i.currentLabel as string)
+    })
+
+    onBeforeUnmount(() => {
+      // https://github.com/element-plus/element-plus/issues/21279
+      instance.appContext.config.warnHandler = undefined
     })
 
     return {

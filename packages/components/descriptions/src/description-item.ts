@@ -3,7 +3,12 @@ import { columnAlignment } from '@element-plus/constants'
 import { buildProps } from '@element-plus/utils'
 import { COMPONENT_NAME } from './constants'
 
-import type { ExtractPropTypes, Slot, VNode } from 'vue'
+import type {
+  ExtractPropTypes,
+  Slot,
+  VNode,
+  __ExtractPublicPropTypes,
+} from 'vue'
 
 export const descriptionItemProps = buildProps({
   /**
@@ -87,6 +92,9 @@ const DescriptionItem = defineComponent({
 export default DescriptionItem
 
 export type DescriptionItemProps = ExtractPropTypes<typeof descriptionItemProps>
+export type DescriptionItemPropsPublic = __ExtractPublicPropTypes<
+  typeof descriptionItemProps
+>
 export type DescriptionItemVNode = VNode & {
   children: { [name: string]: Slot } | null
   props: Partial<DescriptionItemProps> | null

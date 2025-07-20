@@ -33,6 +33,14 @@ config-provider/link
 
 :::
 
+## Card Configurations ^(2.10.5)
+
+:::demo
+
+config-provider/card
+
+:::
+
 ## Message Configurations
 
 :::demo
@@ -104,6 +112,12 @@ In this section, you can learn how to use Config Provider to provide experimenta
 | ------------------- | ----------------------------- | ------------------------------------------------------------------------------- | ------- |
 | type ^(2.9.11)      | type                          | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'default'` | default |
 | underline ^(2.9.11) | when underlines should appear | ^[enum]`'always' \| 'hover' \| 'never' \| boolean`                              | hover   |
+
+### Card Attribute
+
+| Attribute        | Description               | Type                              | Default |
+| ---------------- | ------------------------- | --------------------------------- | ------- |
+| shadow ^(2.10.5) | when to show card shadows | ^[enum]`always \| never \| hover` | —       |
 
 ### Message Attribute
 

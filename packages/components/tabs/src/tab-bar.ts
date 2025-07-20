@@ -1,6 +1,6 @@
 import { buildProps, definePropType, mutable } from '@element-plus/utils'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type { TabPaneName, TabsPaneContext } from './constants'
 import type TabBar from './tab-bar.vue'
 
@@ -16,4 +16,5 @@ export const tabBarProps = buildProps({
 } as const)
 
 export type TabBarProps = ExtractPropTypes<typeof tabBarProps>
+export type TabBarPropsPublic = __ExtractPublicPropTypes<typeof tabBarProps>
 export type TabBarInstance = InstanceType<typeof TabBar> & unknown

@@ -160,7 +160,6 @@ declare module 'vue' {
     VpFooter: typeof import('./.vitepress/vitepress/components/globals/vp-footer.vue')['default']
     VpHamburger: typeof import('./.vitepress/vitepress/components/navbar/vp-hamburger.vue')['default']
     VpHeroContent: typeof import('./.vitepress/vitepress/components/vp-hero-content.vue')['default']
-    VpLastUpdatedAt: typeof import('./.vitepress/vitepress/components/doc-content/vp-last-updated-at.vue')['default']
     VpLink: typeof import('./.vitepress/vitepress/components/common/vp-link.vue')['default']
     VpMarkdown: typeof import('./.vitepress/vitepress/components/common/vp-markdown.vue')['default']
     VpMenu: typeof import('./.vitepress/vitepress/components/navbar/vp-menu.vue')['default']

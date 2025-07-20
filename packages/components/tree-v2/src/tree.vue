@@ -12,6 +12,7 @@
       :height="height"
       :item-size="treeNodeSize"
       :perf-mode="perfMode"
+      :scrollbar-always-on="scrollbarAlwaysOn"
     >
       <template #default="{ data, index, style }">
         <el-tree-node

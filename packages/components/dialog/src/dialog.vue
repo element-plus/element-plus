@@ -3,17 +3,16 @@
     :to="appendTo"
     :disabled="appendTo !== 'body' ? false : !appendToBody"
   >
-    <transition
-      name="dialog-fade"
-      @after-enter="afterEnter"
-      @after-leave="afterLeave"
-      @before-leave="beforeLeave"
-    >
+    <transition v-bind="transitionConfig">
       <el-overlay
         v-show="visible"
         custom-mask-event
         :mask="modal"
-        :overlay-class="modalClass"
+        :overlay-class="[
+          modalClass ?? '',
+          `${ns.namespace.value}-modal-dialog`,
+          ns.is('penetrable', penetrable),
+        ]"
         :z-index="zIndex"
       >
         <div
@@ -120,10 +119,8 @@ const {
   style,
   overlayDialogStyle,
   rendered,
+  transitionConfig,
   zIndex,
-  afterEnter,
-  afterLeave,
-  beforeLeave,
   handleClose,
   onModalClick,
   onOpenAutoFocus,
@@ -144,6 +141,10 @@ provide(dialogInjectionKey, {
 const overlayEvent = useSameTarget(onModalClick)
 
 const draggable = computed(() => props.draggable && !props.fullscreen)
+
+const penetrable = computed(
+  () => props.modalPenetrable && !props.modal && !props.fullscreen
+)
 
 const resetPosition = () => {
   dialogContentRef.value?.resetPosition()

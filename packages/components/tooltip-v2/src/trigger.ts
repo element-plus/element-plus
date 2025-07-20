@@ -1,6 +1,6 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 
 const EventHandler = {
   type: definePropType<(e: Event) => boolean | void>(Function),
@@ -16,5 +16,9 @@ export const tooltipV2TriggerProps = buildProps({
 } as const)
 
 export type TooltipV2TriggerProps = ExtractPropTypes<
+  typeof tooltipV2TriggerProps
+>
+
+export type TooltipV2TriggerPropsPublic = __ExtractPublicPropTypes<
   typeof tooltipV2TriggerProps
 >

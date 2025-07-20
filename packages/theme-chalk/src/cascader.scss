@@ -154,6 +154,16 @@
     }
   }
 
+  @include e(header) {
+    padding: map.get($cascader-dropdown, 'header-padding');
+    border-bottom: map.get($cascader-dropdown, 'border');
+  }
+
+  @include e(footer) {
+    padding: map.get($cascader-dropdown, 'footer-padding');
+    border-top: map.get($cascader-dropdown, 'border');
+  }
+
   @include e(tags) {
     position: absolute;
     left: 0;

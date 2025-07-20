@@ -57,6 +57,7 @@ import { useNodeExpandEventBroadcast } from './model/useNodeExpandEventBroadcast
 import { useDragNodeHandler } from './model/useDragNode'
 import { useKeydown } from './model/useKeydown'
 import { ROOT_TREE_INJECTION_KEY } from './tokens'
+import { isEqual } from 'lodash-unified'
 
 import type Node from './model/node'
 import type { ComponentInternalInstance, PropType } from 'vue'
@@ -99,10 +100,7 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
-    checkDescendants: {
-      type: Boolean,
-      default: false,
-    },
+    checkDescendants: Boolean,
     autoExpandParent: {
       type: Boolean,
       default: true,
@@ -117,14 +115,8 @@ export default defineComponent({
     renderContent: {
       type: definePropType<RenderContentFunction>(Function),
     },
-    showCheckbox: {
-      type: Boolean,
-      default: false,
-    },
-    draggable: {
-      type: Boolean,
-      default: false,
-    },
+    showCheckbox: Boolean,
+    draggable: Boolean,
     allowDrag: {
       type: definePropType<AllowDragFunction>(Function),
     },
@@ -139,10 +131,7 @@ export default defineComponent({
         disabled: 'disabled',
       }),
     },
-    lazy: {
-      type: Boolean,
-      default: false,
-    },
+    lazy: Boolean,
     highlightCurrent: Boolean,
     load: Function as PropType<TreeComponentProps['load']>,
     filterNodeMethod: Function as PropType<
@@ -236,7 +225,9 @@ export default defineComponent({
 
     watch(
       () => props.defaultCheckedKeys,
-      (newVal) => {
+      (newVal, oldVal) => {
+        if (isEqual(newVal, oldVal)) return
+
         store.value.setDefaultCheckedKey(newVal ?? [])
       }
     )

@@ -6,7 +6,11 @@ import {
   ensureOnlyChild,
 } from '@element-plus/utils'
 
-import type { ExtractPropTypes, VNodeArrayChildren } from 'vue'
+import type {
+  ExtractPropTypes,
+  VNodeArrayChildren,
+  __ExtractPublicPropTypes,
+} from 'vue'
 
 export type RefSetter = (el: HTMLElement | null) => void
 
@@ -16,6 +20,9 @@ export const forwardRefProps = buildProps({
 } as const)
 
 export type ForwardRefProps = ExtractPropTypes<typeof forwardRefProps>
+export type ForwardRefPropsPublic = __ExtractPublicPropTypes<
+  typeof forwardRefProps
+>
 
 // TODO: consider make this component a reusable component without the only child feature.
 export default defineComponent({

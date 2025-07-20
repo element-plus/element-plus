@@ -2,7 +2,7 @@ import { buildProps, isBoolean } from '@element-plus/utils'
 import { CHANGE_EVENT } from '@element-plus/constants'
 
 import type CheckTag from './check-tag.vue'
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 
 export const checkTagProps = buildProps({
   /**
@@ -23,6 +23,7 @@ export const checkTagProps = buildProps({
   },
 } as const)
 export type CheckTagProps = ExtractPropTypes<typeof checkTagProps>
+export type CheckTagPropsPublic = __ExtractPublicPropTypes<typeof checkTagProps>
 
 export const checkTagEmits = {
   'update:checked': (value: boolean) => isBoolean(value),

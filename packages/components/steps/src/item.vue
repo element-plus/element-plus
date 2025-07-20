@@ -62,11 +62,12 @@ import { isNumber } from '@element-plus/utils'
 import { stepProps } from './item'
 import { STEPS_INJECTION_KEY } from './tokens'
 
+import type { CSSProperties, Ref, VNode } from 'vue'
 import type { StepsProps } from './steps'
-import type { CSSProperties, Ref } from 'vue'
 
 export interface StepItemState {
   uid: number
+  getVnode: () => VNode
   currentStatus: string
   setIndex: (val: number) => void
   calcProgress: (status: string) => void
@@ -192,6 +193,7 @@ const updateStatus = (activeIndex: number) => {
 
 const stepItemState = reactive({
   uid: currentInstance.uid,
+  getVnode: () => currentInstance.vnode,
   currentStatus,
   setIndex,
   calcProgress,
