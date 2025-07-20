@@ -3,7 +3,6 @@ import type { RouteLocationRaw } from 'vue-router'
 import type { MenuProps } from './menu'
 
 export interface MenuItemRegistered {
-  $el: HTMLElement | undefined
   index: string
   indexPath: string[]
   active: boolean
