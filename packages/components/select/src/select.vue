@@ -178,8 +178,6 @@
                 aria-haspopup="listbox"
                 @keydown.down.stop.prevent="navigateOptions('next')"
                 @keydown.up.stop.prevent="navigateOptions('prev')"
-                @keydown.left.stop.prevent="navigateOptions('left')"
-                @keydown.right.stop.prevent="navigateOptions('right')"
                 @keydown.esc.stop.prevent="handleEsc"
                 @keydown.enter.stop.prevent="selectOption"
                 @keydown.delete.stop="deletePrevTag"
