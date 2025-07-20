@@ -913,13 +913,9 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   // fix the problem that scrollTop is not reset in filterable mode
   watch(
     () => filteredOptions.value,
-    (newValue, oldValue) => {
+    () => {
       calculatePopperSize()
-      return (
-        menuRef.value &&
-        !isEqual(newValue, oldValue) &&
-        nextTick(menuRef.value.resetScrollTop)
-      )
+      return menuRef.value && nextTick(menuRef.value.resetScrollTop)
     }
   )
 
