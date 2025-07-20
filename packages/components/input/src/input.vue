@@ -57,6 +57,32 @@
           @keydown="handleKeydown"
         />
 
+        <!-- tool -->
+        <span :class="nsInput.e('tool')">
+          <transition :name="`${nsInput.namespace.value}-fade-in-scale-up`">
+            <span
+              v-if="showClear || showPwdVisible"
+              :class="nsInput.e('tool-inner')"
+            >
+              <el-icon
+                v-if="showClear"
+                :class="[nsInput.e('icon'), nsInput.e('clear')]"
+                @mousedown.prevent="NOOP"
+                @click="clear"
+              >
+                <circle-close />
+              </el-icon>
+              <el-icon
+                v-if="showPwdVisible"
+                :class="[nsInput.e('icon'), nsInput.e('password')]"
+                @click="handlePasswordVisible"
+              >
+                <component :is="passwordIcon" />
+              </el-icon>
+            </span>
+          </transition>
+        </span>
+
         <!-- suffix slot -->
         <span v-if="suffixVisible" :class="nsInput.e('suffix')">
           <span :class="nsInput.e('suffix-inner')">
@@ -68,21 +94,6 @@
                 <component :is="suffixIcon" />
               </el-icon>
             </template>
-            <el-icon
-              v-if="showClear"
-              :class="[nsInput.e('icon'), nsInput.e('clear')]"
-              @mousedown.prevent="NOOP"
-              @click="clear"
-            >
-              <circle-close />
-            </el-icon>
-            <el-icon
-              v-if="showPwdVisible"
-              :class="[nsInput.e('icon'), nsInput.e('password')]"
-              @click="handlePasswordVisible"
-            >
-              <component :is="passwordIcon" />
-            </el-icon>
             <span v-if="isWordLimitVisible" :class="nsInput.e('count')">
               <span :class="nsInput.e('count-inner')">
                 {{ textLength }} / {{ maxlength }}
@@ -290,8 +301,8 @@ const showClear = computed(
     props.clearable &&
     !inputDisabled.value &&
     !props.readonly &&
-    !!nativeInputValue.value &&
-    (isFocused.value || hovering.value)
+    !!nativeInputValue.value
+  // (isFocused.value || hovering.value)
 )
 const showPwdVisible = computed(
   () => props.showPassword && !inputDisabled.value && !!nativeInputValue.value
@@ -315,8 +326,6 @@ const suffixVisible = computed(
   () =>
     !!slots.suffix ||
     !!props.suffixIcon ||
-    showClear.value ||
-    props.showPassword ||
     isWordLimitVisible.value ||
     (!!validateState.value && needStatusIcon.value)
 )
