@@ -298,7 +298,7 @@
     line-height: getCssVar('menu-sub-item-height');
   }
 
-  &.#{$namespace}-sub-menu__hide-arrow .#{$namespace}-sub-menu__title{
+  &.#{$namespace}-sub-menu__hide-arrow .#{$namespace}-sub-menu__title {
     padding-right: getCssVar('menu-base-level-padding');
   }
 
