@@ -114,6 +114,7 @@ export default defineComponent({
       instance,
       computed(() => props.index)
     )
+    const $el = ref<HTMLElement>()
     const nsMenu = useNamespace('menu')
     const nsSubMenu = useNamespace('sub-menu')
 
@@ -195,6 +196,7 @@ export default defineComponent({
     const mode = computed(() => rootMenu.props.mode)
     const persistent = computed(() => rootMenu.props.persistent)
     const item = reactive({
+      $el,
       index: props.index,
       indexPath,
       active,
@@ -238,6 +240,7 @@ export default defineComponent({
         return
 
       rootMenu.handleSubMenuClick({
+        $el: $el.value,
         index: props.index,
         indexPath: indexPath.value,
         active: active.value,
@@ -318,6 +321,7 @@ export default defineComponent({
 
     // expose
     expose({
+      $el,
       opened,
     })
 
@@ -453,6 +457,7 @@ export default defineComponent({
       return h(
         'li',
         {
+          ref: $el,
           class: [
             nsSubMenu.b(),
             nsSubMenu.is('active', active.value),

@@ -12,7 +12,7 @@ import {
   watchEffect,
   withDirectives,
 } from 'vue'
-import { useResizeObserver } from '@vueuse/core'
+import { unrefElement, useResizeObserver } from '@vueuse/core'
 import { isNil } from 'lodash-unified'
 import ElIcon from '@element-plus/components/icon'
 import { More } from '@element-plus/icons-vue'
@@ -207,6 +207,7 @@ export default defineComponent({
     const instance = getCurrentInstance()!
     const router = instance.appContext.config.globalProperties.$router as Router
     const menu = ref<HTMLUListElement>()
+    const subMenu = ref<HTMLElement>()
     const nsMenu = useNamespace('menu')
     const nsSubMenu = useNamespace('sub-menu')
 
@@ -328,7 +329,7 @@ export default defineComponent({
       const items = Array.from(menu.value?.childNodes ?? []).filter(
         (item) => item.nodeName !== '#text' || item.nodeValue
       ) as HTMLElement[]
-      const moreItemWidth = 64
+      const moreItemWidth = unrefElement(subMenu)?.clientWidth ?? 64
       const computedMenuStyle = getComputedStyle(menu.value!)
       const paddingLeft = Number.parseInt(computedMenuStyle.paddingLeft, 10)
       const paddingRight = Number.parseInt(computedMenuStyle.paddingRight, 10)
@@ -490,6 +491,7 @@ export default defineComponent({
             h(
               ElSubMenu,
               {
+                ref: subMenu,
                 index: 'sub-menu-more',
                 class: nsSubMenu.e('hide-arrow'),
                 popperOffset: props.popperOffset,
