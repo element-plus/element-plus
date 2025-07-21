@@ -104,13 +104,17 @@ export function useResize(
 
   const cacheCollapsedSize: number[] = []
   const onCollapse = (index: number, type: 'start' | 'end') => {
+    if (!cacheCollapsedSize.length) {
+      cacheCollapsedSize.push(...pxSizes.value)
+    }
+
     const currentSizes = pxSizes.value
 
     const currentIndex = type === 'start' ? index : index + 1
     const targetIndex = type === 'start' ? index + 1 : index
 
-    const currentSize = currentSizes[currentIndex]!
-    const targetSize = currentSizes[targetIndex]!
+    const currentSize = currentSizes[currentIndex]
+    const targetSize = currentSizes[targetIndex]
 
     if (currentSize !== 0 && targetSize !== 0) {
       currentSizes[currentIndex] = 0
@@ -119,7 +123,7 @@ export function useResize(
     } else {
       const totalSize = currentSize + targetSize
 
-      const targetCacheCollapsedSize = cacheCollapsedSize[index]!
+      const targetCacheCollapsedSize = cacheCollapsedSize[index]
       const currentCacheCollapsedSize = totalSize - targetCacheCollapsedSize
 
       currentSizes[targetIndex] = targetCacheCollapsedSize
