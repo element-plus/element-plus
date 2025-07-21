@@ -200,14 +200,18 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     return null
   })
 
+  const isFilterMethodValid = computed(
+    () => props.filterable && isFunction(props.filterMethod)
+  )
+  const isRemoteMethodValid = computed(
+    () => props.filterable && props.remote && isFunction(props.remoteMethod)
+  )
+
   const filterOptions = (query: string) => {
     const regexp = new RegExp(escapeStringRegexp(query), 'i')
-    const isFilterMethodValid =
-      props.filterable && isFunction(props.filterMethod)
-    const isRemoteMethodValid =
-      props.filterable && props.remote && isFunction(props.remoteMethod)
+
     const isValidOption = (o: Option): boolean => {
-      if (isFilterMethodValid || isRemoteMethodValid) return true
+      if (isFilterMethodValid.value || isRemoteMethodValid.value) return true
       // when query was given, we should test on the label see whether the label contains the given query
       return query ? regexp.test(getLabel(o) || '') : true
     }
