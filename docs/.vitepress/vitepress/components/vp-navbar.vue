@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { inBrowser, useData } from 'vitepress'
+import { version as epVersion } from 'element-plus'
 import VPNavbarSearch from './navbar/vp-search.vue'
 import VPNavbarMenu from './navbar/vp-menu.vue'
 import VPNavbarThemeToggler from './navbar/vp-theme-toggler.vue'
@@ -39,6 +40,9 @@ const currentLink = computed(() => {
             alt="Element Plus Logo"
           />
         </a>
+        <el-tag round size="small" title="latest version">{{
+          epVersion.replace('0.0.0-staging.', '')
+        }}</el-tag>
       </div>
       <div class="content">
         <VPNavbarSearch class="search" :options="theme.agolia" multilang />
