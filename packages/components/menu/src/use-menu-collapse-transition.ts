@@ -18,9 +18,6 @@ export default function useMenuCollapseTransition(
       const el = menu.value
       if (isCollapseTransition.value && el) {
         addClass(el, 'horizontal-collapse-transition')
-        if (!el.dataset) (el as any).dataset = {}
-        el.dataset.oldOverflow = el.style.overflow
-        el.style.overflow = 'hidden'
       }
     },
     {
@@ -35,10 +32,6 @@ export default function useMenuCollapseTransition(
     const el = menu.value
     if (isCollapseTransition.value && el) {
       removeClass(el, 'horizontal-collapse-transition')
-      if (el.dataset?.oldOverflow !== undefined) {
-        el.style.overflow = el.dataset.oldOverflow
-        delete el.dataset.oldOverflow
-      }
     }
   }
 
