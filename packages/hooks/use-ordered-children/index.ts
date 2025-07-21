@@ -8,7 +8,7 @@ import {
 } from 'vue'
 import { flattedChildren } from '@element-plus/utils'
 
-import type { ComponentInternalInstance, VNode } from 'vue'
+import type { Component, ComponentInternalInstance, VNode } from 'vue'
 
 type ChildEssential = {
   uid: number
@@ -23,7 +23,7 @@ const getOrderedChildren = <T>(
   const nodes = flattedChildren(vm.subTree).filter(
     (n): n is VNode =>
       isVNode(n) &&
-      (n.type as any)?.name === childComponentName &&
+      (n.type as Component)?.name === childComponentName &&
       !!n.component
   )
   const uids = nodes.map((n) => n.component!.uid)
