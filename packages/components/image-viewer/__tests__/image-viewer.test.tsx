@@ -1,8 +1,10 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, expect, test } from 'vitest'
-import { IMAGE_SUCCESS } from '@element-plus/test-utils/mock'
+import { describe, expect, test, vi } from 'vitest'
+import { IMAGE_FAIL, IMAGE_SUCCESS } from '@element-plus/test-utils/mock'
 import ImageViewer from '../src/image-viewer.vue'
+import triggerEvent from '@element-plus/test-utils/trigger-event'
+import { EVENT_CODE } from '@element-plus/constants'
 
 async function doubleWait() {
   await nextTick()
@@ -39,23 +41,48 @@ describe('<image-viewer />', () => {
     wrapper.unmount()
   })
 
+  test('image preview close-on-press-escape', async () => {
+    const onClose = vi.fn()
+    const wrapper = mount(
+      <ImageViewer
+        urlList={[IMAGE_SUCCESS]}
+        onClose={onClose}
+        closeOnPressEscape={false}
+      />
+    )
+
+    await doubleWait()
+
+    triggerEvent(document.body, 'keydown', EVENT_CODE.esc)
+    await nextTick()
+    expect(document.querySelector('.el-image-viewer__wrapper')).toBeDefined()
+
+    await wrapper.setProps({ closeOnPressEscape: true })
+    triggerEvent(document.body, 'keydown', EVENT_CODE.esc)
+    await nextTick()
+
+    expect(document.querySelector('.el-image-viewer__wrapper')).toBeNull()
+    expect(onClose).toHaveBeenCalledTimes(1)
+  })
+
   test('manually switch image', async () => {
     const wrapper = mount(
-      <ImageViewer urlList={[IMAGE_SUCCESS, IMAGE_SUCCESS]} />
+      <ImageViewer urlList={[IMAGE_SUCCESS, IMAGE_FAIL]} initialIndex={0} />
     )
 
     await doubleWait()
     const viewer = wrapper.find('.el-image-viewer__wrapper')
     expect(viewer.exists()).toBe(true)
 
-    const imgList = wrapper.findAll('.el-image-viewer__img')
-    expect(imgList[0].attributes('style')).not.contains('display: none;')
-    expect(imgList[1].attributes('style')).contains('display: none;')
+    const img = wrapper.find('.el-image-viewer__img')
+    expect(img.attributes('src')).toBe(IMAGE_SUCCESS)
 
     wrapper.vm.setActiveItem(1)
     await doubleWait()
-    expect(imgList[0].attributes('style')).contains('display: none;')
-    expect(imgList[1].attributes('style')).not.contains('display: none;')
+    expect(wrapper.find('.el-image-viewer__img').attributes('src')).toBe(
+      IMAGE_FAIL
+    )
+    expect(wrapper.findAll('.el-image-viewer__img').length).toBe(1)
     wrapper.unmount()
   })
 

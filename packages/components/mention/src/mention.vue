@@ -61,7 +61,11 @@ import { pick } from 'lodash-unified'
 import { useFocusController, useId, useNamespace } from '@element-plus/hooks'
 import ElInput, { inputProps } from '@element-plus/components/input'
 import ElTooltip from '@element-plus/components/tooltip'
-import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import {
+  EVENT_CODE,
+  INPUT_EVENT,
+  UPDATE_MODEL_EVENT,
+} from '@element-plus/constants'
 import { useFormDisabled } from '@element-plus/components/form'
 import { isFunction } from '@element-plus/utils'
 import { mentionEmits, mentionProps } from './mention'
@@ -122,6 +126,7 @@ const hoveringId = computed(() => {
 
 const handleInputChange = (value: string) => {
   emit(UPDATE_MODEL_EVENT, value)
+  emit(INPUT_EVENT, value)
   syncAfterCursorMove()
 }
 
@@ -172,6 +177,8 @@ const handleInputKeyDown = (event: KeyboardEvent | Event) => {
           const newValue =
             inputValue.slice(0, prefixIndex) + inputValue.slice(splitIndex + 1)
           emit(UPDATE_MODEL_EVENT, newValue)
+          emit(INPUT_EVENT, newValue)
+          emit('whole-remove', pattern, prefix)
 
           const newSelectionEnd = prefixIndex
           nextTick(() => {
@@ -186,9 +193,7 @@ const handleInputKeyDown = (event: KeyboardEvent | Event) => {
 }
 
 const { wrapperRef } = useFocusController(elInputRef, {
-  beforeFocus() {
-    return disabled.value
-  },
+  disabled,
   afterFocus() {
     syncAfterCursorMove()
   },
@@ -219,6 +224,7 @@ const handleSelect = (item: MentionOption) => {
     inputValue.slice(0, mentionCtx.value.start) + newMiddlePart + newEndPart
 
   emit(UPDATE_MODEL_EVENT, newValue)
+  emit(INPUT_EVENT, newValue)
   emit('select', item, mentionCtx.value.prefix)
 
   const newSelectionEnd =

@@ -27,6 +27,11 @@ tree/selectable
 
 :::
 
+:::warning
+When using show-checkbox, since `check-on-click-leaf` is true by default,
+last tree children's can be checked by clicking their nodes.
+:::
+
 ## Custom leaf node in lazy mode
 
 :::demo A node's data is not fetched until it is clicked, so the Tree cannot predict whether a node is a leaf node. That's why a drop-down button is added to each node, and if it is a leaf node, the drop-down button will disappear when clicked. That being said, you can also tell the Tree in advance whether the node is a leaf node, avoiding the render of the drop-down button before a leaf node.

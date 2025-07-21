@@ -14,7 +14,7 @@ import {
 } from '@element-plus/constants'
 import { tagProps } from '@element-plus/components/tag/src/tag'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 
 export const inputTagProps = buildProps({
   /**
@@ -45,9 +45,13 @@ export const inputTagProps = buildProps({
   /**
    * @description whether tags can be dragged
    */
-  draggable: {
-    type: Boolean,
-    default: false,
+  draggable: Boolean,
+  /**
+   * @description add a tag when a delimiter is matched
+   */
+  delimiter: {
+    type: [String, RegExp],
+    default: '',
   },
   /**
    * @description input box size
@@ -129,13 +133,14 @@ export const inputTagProps = buildProps({
   ariaLabel: String,
 } as const)
 export type InputTagProps = ExtractPropTypes<typeof inputTagProps>
+export type InputTagPropsPublic = __ExtractPublicPropTypes<typeof inputTagProps>
 
 export const inputTagEmits = {
   [UPDATE_MODEL_EVENT]: (value?: string[]) =>
     isArray(value) || isUndefined(value),
   [CHANGE_EVENT]: (value?: string[]) => isArray(value) || isUndefined(value),
   [INPUT_EVENT]: (value: string) => isString(value),
-  'add-tag': (value: string) => isString(value),
+  'add-tag': (value: string | string[]) => isString(value) || isArray(value),
   'remove-tag': (value: string) => isString(value),
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
   blur: (evt: FocusEvent) => evt instanceof FocusEvent,

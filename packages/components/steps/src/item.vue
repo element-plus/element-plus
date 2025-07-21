@@ -60,31 +60,24 @@ import { ElIcon } from '@element-plus/components/icon'
 import { Check, Close } from '@element-plus/icons-vue'
 import { isNumber } from '@element-plus/utils'
 import { stepProps } from './item'
+import { STEPS_INJECTION_KEY } from './tokens'
 
-import type { CSSProperties, Ref } from 'vue'
-
-export interface IStepsProps {
-  space: number | string
-  active: number
-  direction: string
-  alignCenter: boolean
-  simple: boolean
-  finishStatus: string
-  processStatus: string
-}
+import type { CSSProperties, Ref, VNode } from 'vue'
+import type { StepsProps } from './steps'
 
 export interface StepItemState {
   uid: number
+  getVnode: () => VNode
   currentStatus: string
   setIndex: (val: number) => void
   calcProgress: (status: string) => void
 }
 
 export interface IStepsInject {
-  props: IStepsProps
+  props: StepsProps
   steps: Ref<StepItemState[]>
   addStep: (item: StepItemState) => void
-  removeStep: (uid: number) => void
+  removeStep: (item: StepItemState) => void
 }
 
 defineOptions({
@@ -96,8 +89,8 @@ const ns = useNamespace('step')
 const index = ref(-1)
 const lineStyle = ref({})
 const internalStatus = ref('')
-const parent = inject('ElSteps') as IStepsInject
-const currentInstance = getCurrentInstance()
+const parent = inject(STEPS_INJECTION_KEY) as IStepsInject
+const currentInstance = getCurrentInstance()!
 
 onMounted(() => {
   watch(
@@ -111,10 +104,6 @@ onMounted(() => {
     },
     { immediate: true }
   )
-})
-
-onBeforeUnmount(() => {
-  parent.removeStep(stepItemState.uid)
 })
 
 const currentStatus = computed(() => {
@@ -143,7 +132,7 @@ const stepsCount = computed(() => {
 })
 
 const isLast = computed(() => {
-  return parent.steps.value[stepsCount.value - 1]?.uid === currentInstance?.uid
+  return parent.steps.value[stepsCount.value - 1]?.uid === currentInstance.uid
 })
 
 const space = computed(() => {
@@ -203,11 +192,16 @@ const updateStatus = (activeIndex: number) => {
 }
 
 const stepItemState = reactive({
-  uid: currentInstance!.uid,
+  uid: currentInstance.uid,
+  getVnode: () => currentInstance.vnode,
   currentStatus,
   setIndex,
   calcProgress,
 })
 
 parent.addStep(stepItemState)
+
+onBeforeUnmount(() => {
+  parent.removeStep(stepItemState)
+})
 </script>

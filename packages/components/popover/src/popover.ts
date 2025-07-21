@@ -4,7 +4,8 @@ import {
   useTooltipTriggerProps,
 } from '@element-plus/components/tooltip'
 import { dropdownProps } from '@element-plus/components/dropdown'
-import type { ExtractPropTypes, PropType } from 'vue'
+
+import type { ExtractPropTypes, PropType, __ExtractPublicPropTypes } from 'vue'
 import type Popover from './popover.vue'
 
 export const popoverProps = buildProps({
@@ -68,6 +69,10 @@ export const popoverProps = buildProps({
    */
   teleported: useTooltipContentProps.teleported,
   /**
+   * @description which select dropdown appends to
+   */
+  appendTo: useTooltipContentProps.appendTo,
+  /**
    * @description popover title
    */
   title: String,
@@ -125,6 +130,7 @@ export const popoverProps = buildProps({
   },
 } as const)
 export type PopoverProps = ExtractPropTypes<typeof popoverProps>
+export type PopoverPropsPublic = __ExtractPublicPropTypes<typeof popoverProps>
 
 export const popoverEmits = {
   'update:visible': (value: boolean) => isBoolean(value),

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useToc } from '../../composables/use-toc'
-
 import sponsorLocale from '../../../i18n/component/sponsor.json'
 import { useLang } from '../../composables/lang'
 import SponsorsButton from '../sponsors/sponsors-button.vue'

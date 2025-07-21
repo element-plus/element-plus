@@ -7,7 +7,9 @@ import { makeMountFunc } from '@element-plus/test-utils/make-mount'
 import { rAF } from '@element-plus/test-utils/tick'
 import { CircleClose } from '@element-plus/icons-vue'
 import { usePopperContainerId } from '@element-plus/hooks'
+import { ElForm, ElFormItem } from '@element-plus/components/form'
 import Select from '../src/select.vue'
+
 import type { Props } from '../useProps'
 
 vi.mock('lodash-unified', async () => {
@@ -24,6 +26,8 @@ vi.mock('lodash-unified', async () => {
 const _mount = makeMountFunc({
   components: {
     'el-select': Select,
+    'el-form-item': ElFormItem,
+    'el-form': ElForm,
   },
 })
 
@@ -83,6 +87,7 @@ const createSelect = (
     slots?: {
       empty?: string
       default?: string
+      tag?: string
     }
   } = {}
 ) => {
@@ -96,6 +101,12 @@ const createSelect = (
       options.slots.default &&
       `<template #default="{item}">${options.slots.default}</template>`) ||
     ''
+  const tagSlot =
+    (options.slots &&
+      options.slots.tag &&
+      `<template #tag="{ data, deleteTag }">${options.slots.tag}</template>`) ||
+    ''
+
   return _mount(
     `
       <el-select
@@ -136,6 +147,7 @@ const createSelect = (
         v-model="value">
         ${defaultSlot}
         ${emptySlot}
+        ${tagSlot}
       </el-select>
     `,
     {
@@ -1400,6 +1412,35 @@ describe('Select', () => {
     expect(result).toBeTruthy()
   })
 
+  it('the scroll position of the dropdown should be correct when use props', async () => {
+    const options = Array.from({ length: 1000 }).map((_, idx) => ({
+      value1: 999 - idx,
+      label1: `options ${999 - idx}`,
+    }))
+    const wrapper = createSelect({
+      data() {
+        return {
+          value: 500,
+          options,
+          props: {
+            label: 'label1',
+            value: 'value1',
+          },
+        }
+      },
+    })
+    await nextTick()
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+    const optionsDoms = Array.from(
+      document.querySelectorAll(`.${OPTION_ITEM_CLASS_NAME}`)
+    )
+    const result = optionsDoms.some((option) => {
+      const text = option.textContent
+      return text === 'options 499'
+    })
+    expect(result).toBeTruthy()
+  })
+
   it('emptyText error show', async () => {
     const wrapper = createSelect({
       data() {
@@ -1739,6 +1780,51 @@ describe('Select', () => {
     expect(tag.text()).toBe('label:Alabama')
   })
 
+  it('label display correctly after selecting remote search', async () => {
+    const remoteList = Array.from({ length: 200 }).map((_, idx) => {
+      return {
+        label: `${idx}`,
+        value: `remote${idx}`,
+      }
+    })
+    const options = ref([{ value: `0`, label: `Option1` }])
+    const remoteMethod = (query: string) => {
+      if (query !== '') {
+        options.value = remoteList.filter((item) => {
+          return item.label.toLowerCase().includes(query.toLowerCase())
+        })
+      }
+    }
+
+    const wrapper = createSelect({
+      data() {
+        return {
+          filterable: true,
+          remote: true,
+          options,
+          multiple: true,
+          value: ['0'],
+        }
+      },
+      methods: {
+        remoteMethod,
+      },
+    })
+
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    input.element.value = '1'
+    await input.trigger('input')
+    const optionElements = getOptions()
+    optionElements[0].click()
+    await nextTick()
+    const tags = await vi.waitUntil(() =>
+      wrapper.findAll('.el-select__tags-text')
+    )
+    expect(tags[0].text()).toBe('Option1')
+    expect(tags[1].text()).toBe('1')
+  })
+
   it('keyboard operations', async () => {
     const wrapper = createSelect({
       data() {
@@ -2070,6 +2156,73 @@ describe('Select', () => {
     expect(wrapper.findAll('.el-tag').length).toBe(1)
   })
 
+  it('should return slot tag data correctly & dont have tag component', async () => {
+    const value = [1, 3, 5]
+    const wrapper = createSelect({
+      data() {
+        return {
+          multiple: true,
+          options: [
+            { label: 'Test 1', value: 1 },
+            { label: 'Test 2', value: 2 },
+            { label: 'Test 3', value: 3 },
+            { label: 'Test 4', value: 4 },
+            { label: 'Test 5', value: 5 },
+          ],
+          value,
+        }
+      },
+      slots: {
+        tag: `
+          <span v-for="option in data" class="no-tag" :key="option.value">
+            {{ option.value }} -  {{ option.label }}
+          </span>
+        `,
+      },
+    })
+    await nextTick()
+    const slotTagEls = wrapper.findAll('.no-tag')
+    expect(slotTagEls).toHaveLength(3)
+    expect(wrapper.find('.el-tag').exists()).toBe(false)
+    slotTagEls.forEach((el, idx) => {
+      expect(el.text()).toBe(`${value[idx]} - Test ${value[idx]}`)
+    })
+  })
+
+  it('should expose delete-tag through slot & be able to delete a value', async () => {
+    const wrapper = createSelect({
+      data() {
+        return {
+          multiple: true,
+          options: [
+            { label: 'Test 1', value: 1 },
+            { label: 'Test 2', value: 2 },
+            { label: 'Test 3', value: 3 },
+            { label: 'Test 4', value: 4 },
+            { label: 'Test 5', value: 5 },
+          ],
+          value: [2, 3, 5],
+        }
+      },
+      slots: {
+        tag: `
+          <span v-for="option in data" class="no-tag" :key="option.value" @click="deleteTag($event, option)">
+            {{ option.value }} -  {{ option.label }}
+          </span>
+        `,
+      },
+    })
+
+    await nextTick()
+    const slotTagEls = wrapper.findAll('.no-tag')
+    expect(slotTagEls).toHaveLength(3)
+    expect(wrapper.vm.value).toEqual([2, 3, 5])
+
+    await slotTagEls[0].trigger('click')
+    expect(wrapper.findAll('.no-tag')).toHaveLength(2)
+    expect(wrapper.vm.value).toEqual([3, 5])
+  })
+
   it('should be trigger the click event', async () => {
     const handleClick = vi.fn()
     const wrapper = _mount(`<el-select :options="[]" @click="handleClick" />`, {
@@ -2103,6 +2256,85 @@ describe('Select', () => {
 
       const input = wrapper.find('input')
       expect(input.attributes('tabindex')).toBe('1')
+    })
+  })
+
+  describe('custom tag disabled state', () => {
+    const options = [
+      { value: 'a', label: 'A' },
+      { value: 'b', label: 'B' },
+      { value: 'c', label: 'C' },
+    ]
+
+    const createSelect = ({ disabled = false } = {}) =>
+      _mount(
+        `
+      <el-select
+        v-model="value"
+        :options="options"
+        multiple
+        :disabled="disabled"
+      >
+        <template #tag="{ selectDisabled }">
+          <span class="custom-tag">
+            {{ selectDisabled ? 'selectDisabled' : 'enabled' }}
+          </span>
+        </template>
+      </el-select>
+      `,
+        {
+          data() {
+            return {
+              value: ['a'],
+              disabled,
+              options,
+            }
+          },
+        }
+      )
+
+    it('should expose selectDisabled prop to #tag slot', async () => {
+      const wrapper = createSelect({ disabled: true })
+      await nextTick()
+      expect(wrapper.find('.custom-tag').text()).toBe('selectDisabled')
+
+      await wrapper.setData({ disabled: false })
+      await nextTick()
+      expect(wrapper.find('.custom-tag').text()).toBe('enabled')
+    })
+
+    it('should inherit disabled from el-form', async () => {
+      const wrapper = _mount(
+        `
+      <el-form :disabled="formDisabled">
+        <el-form-item>
+          <el-select v-model="value" multiple :options="options">
+            <template #tag="{ selectDisabled }">
+              <span class="custom-tag">
+                {{ selectDisabled ? 'selectDisabled' : 'enabled' }}
+              </span>
+            </template>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      `,
+        {
+          data() {
+            return {
+              value: ['a'],
+              formDisabled: true,
+              options,
+            }
+          },
+        }
+      )
+
+      await nextTick()
+      expect(wrapper.find('.custom-tag').text()).toBe('selectDisabled')
+
+      await wrapper.setData({ formDisabled: false })
+      await nextTick()
+      expect(wrapper.find('.custom-tag').text()).toBe('enabled')
     })
   })
 })

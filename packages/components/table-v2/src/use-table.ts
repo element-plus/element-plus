@@ -104,7 +104,6 @@ function useTable(props: TableV2Props) {
     mainTableHeight,
     leftTableWidth,
     rightTableWidth,
-    headerWidth,
     windowHeight,
     footerHeight,
     emptyStyle,
@@ -138,6 +137,7 @@ function useTable(props: TableV2Props) {
     )
   }
 
+  const isEndReached = ref(false)
   function onMaybeEndReached() {
     const { onEndReached } = props
     if (!onEndReached) return
@@ -147,18 +147,27 @@ function useTable(props: TableV2Props) {
     const _totalHeight = unref(rowsHeight)
     const clientHeight = unref(windowHeight)
 
-    const heightUntilEnd =
+    const remainDistance =
       _totalHeight - (scrollTop + clientHeight) + props.hScrollbarSize
 
     if (
+      !isEndReached.value &&
       unref(lastRenderedRowIndex) >= 0 &&
       _totalHeight <= scrollTop + unref(mainTableHeight) - unref(headerHeight)
     ) {
-      onEndReached(heightUntilEnd)
+      isEndReached.value = true
+      onEndReached(remainDistance)
+    } else {
+      isEndReached.value = false
     }
   }
 
   // events
+
+  watch(
+    () => unref(rowsHeight),
+    () => (isEndReached.value = false)
+  )
 
   watch(
     () => props.expandedRowKeys,
@@ -193,7 +202,6 @@ function useTable(props: TableV2Props) {
     bodyWidth,
     emptyStyle,
     rootStyle,
-    headerWidth,
     footerHeight,
     mainTableHeight,
     fixedTableHeight,

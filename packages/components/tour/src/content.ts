@@ -1,5 +1,6 @@
 import { buildProps, definePropType } from '@element-plus/utils'
-import type { ExtractPropTypes } from 'vue'
+
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type { Placement, Strategy, VirtualElement } from '@floating-ui/dom'
 
 export const tourStrategies = ['absolute', 'fixed'] as const
@@ -64,6 +65,9 @@ export const tourContentProps = buildProps({
 })
 
 export type TourContentProps = ExtractPropTypes<typeof tourContentProps>
+export type TourContentPropsPublic = __ExtractPublicPropTypes<
+  typeof tourContentProps
+>
 
 export const tourContentEmits = {
   close: () => true,

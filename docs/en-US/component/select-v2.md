@@ -37,6 +37,14 @@ select-v2/multiple
 
 :::
 
+## Sizes
+
+:::demo Add `size` attribute to change the size of Select-V2. In addition to the default size, there are two other options: `large`, `small`.
+
+select-v2/size
+
+:::
+
 ## Hide extra tags when the selected items are too many
 
 You can collapse tags to a text by using `collapse-tags` attribute. You can check them when mouse hover collapse text by using `collapse-tags-tooltip` attribute.
@@ -121,7 +129,7 @@ select-v2/custom-footer
 
 Create and select new items that are not included in select options
 
-By using the `allow-create` attribute, users can create new items by typing in the input box. Note that for `allow-create` to work, `filterable` must be `true`.
+By using the `allow-create` attribute, users can create new items by typing in the input box. Note that for `allow-create` to work, `filterable` must be `true`. This example also demonstrates `default-first-option`. When this attribute is set to `true`, you can select the first option in the current option list by hitting enter without having to navigate with mouse or arrow keys.
 
 :::tip
 
@@ -240,16 +248,18 @@ select-v2/custom-width
 | clear-icon                          | custom clear icon                                                                                                                        | ^[string] / ^[object]`Component`                                                                                                                                            | CircleClose                                    |
 | collapse-tags                       | whether to collapse tags to a text when multiple selecting                                                                               | ^[boolean]                                                                                                                                                                  | false                                          |
 | multiple-limit                      | maximum number of options user can select when multiple is true. No limit when set to 0                                                  | ^[number]                                                                                                                                                                   | 0                                              |
+| id                                  | native input id input                                                                                                                    | ^[string]                                                                                                                                                                   | —                                              |
 | name                                | the name attribute of select input                                                                                                       | ^[string]                                                                                                                                                                   | —                                              |
 | effect                              | tooltip theme, built-in theme: `dark` / `light`                                                                                          | ^[enum]`'dark' \| 'light'` / ^[string]                                                                                                                                      | light                                          |
 | autocomplete                        | autocomplete of select input                                                                                                             | ^[string]                                                                                                                                                                   | off                                            |
 | placeholder                         | placeholder                                                                                                                              | ^[string]                                                                                                                                                                   | Please select                                  |
-| filterable                          | is filterable                                                                                                                            | ^[boolean]                                                                                                                                                                  | false                                          |
+| filterable                          | whether Select is filterable                                                                                                             | ^[boolean]                                                                                                                                                                  | false                                          |
 | allow-create                        | whether creating new items is allowed. To use this, `filterable` must be true                                                            | ^[boolean]                                                                                                                                                                  | false                                          |
-| filter-method                       | custom filter method                                                                                                                     | ^[Function]`() => void`                                                                                                                                                     | —                                              |
+| filter-method                       | custom filter method, the first parameter is the current input value. To use this, `filterable` must be true method                      | ^[Function]`(query: string) => void`                                                                                                                                        | —                                              |
 | loading                             | whether Select is loading data from server                                                                                               | ^[boolean]                                                                                                                                                                  | false                                          |
 | loading-text                        | displayed text while loading data from server, default is 'Loading'                                                                      | ^[string]                                                                                                                                                                   | —                                              |
 | reserve-keyword                     | whether reserve the keyword after select filtered option.                                                                                | ^[boolean]                                                                                                                                                                  | true                                           |
+| default-first-option                | select first matching option on enter key. Use with `filterable` or `remote`                                                             | ^[boolean]                                                                                                                                                                  | false                                          |
 | no-match-text                       | displayed text when no data matches the filtering query, you can also use slot `empty`, default is 'No matching data'                    | ^[string]                                                                                                                                                                   | —                                              |
 | no-data-text                        | displayed text when there is no options, you can also use slot empty                                                                     | ^[string]                                                                                                                                                                   | No Data                                        |
 | popper-class                        | custom class name for Select's dropdown                                                                                                  | ^[string]                                                                                                                                                                   | ''                                             |
@@ -264,7 +274,7 @@ select-v2/custom-width
 | item-height                         | The height of the dropdown item                                                                                                          | ^[number]                                                                                                                                                                   | 34                                             |
 | scrollbar-always-on                 | Controls whether the scrollbar is always displayed                                                                                       | ^[boolean]                                                                                                                                                                  | false                                          |
 | remote                              | whether search data from server                                                                                                          | ^[boolean]                                                                                                                                                                  | false                                          |
-| remote-method                       | function that gets called when the input value changes. Its parameter is the current input value. To use this, `filterable` must be true | ^[Function]`(keyword: string) => void`                                                                                                                                      | —                                              |
+| remote-method                       | function that gets called when the input value changes. Its parameter is the current input value. To use this, `filterable` must be true | ^[Function]`(query: string) => void`                                                                                                                                        | —                                              |
 | validate-event                      | whether to trigger form validation                                                                                                       | ^[boolean]                                                                                                                                                                  | true                                           |
 | offset ^(2.8.8)                     | offset of the dropdown                                                                                                                   | ^[number]                                                                                                                                                                   | 12                                             |
 | show-arrow ^(2.8.8)                 | whether the dropdown has an arrow                                                                                                        | ^[boolean]                                                                                                                                                                  | true                                           |
@@ -302,16 +312,16 @@ select-v2/custom-width
 
 ### Slots
 
-| Name             | Description                           |
-| ---------------- | ------------------------------------- |
-| default          | Option renderer                       |
-| header ^(2.5.2)  | content at the top of the dropdown    |
-| footer ^(2.5.2)  | content at the bottom of the dropdown |
-| empty            | content when options is empty         |
-| prefix           | prefix content of input               |
-| tag ^(2.5.0)     | content as Select tag                 |
-| loading ^(2.5.2) | content as Select loading             |
-| label ^(2.7.4)   | content as Select label               |
+| Name             | Description                                                                                     | Subtags                                                                                                        |
+| ---------------- | ----------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| default          | Option renderer                                                                                 | —                                                                                                              |
+| header ^(2.5.2)  | content at the top of the dropdown                                                              | —                                                                                                              |
+| footer ^(2.5.2)  | content at the bottom of the dropdown                                                           | —                                                                                                              |
+| empty            | content when options is empty                                                                   | —                                                                                                              |
+| prefix           | prefix content of input                                                                         | —                                                                                                              |
+| tag ^(2.5.0)     | content as Select tag, subTags `data`, `selectDisabled` and `deleteTag` introduced in ^(2.10.3) | ^[object]`{ data: Option[], selectDisabled: boolean, deleteTag: (event: MouseEvent, option: Option) => void }` |
+| loading ^(2.5.2) | content as Select loading                                                                       | —                                                                                                              |
+| label ^(2.7.4)   | content as Select label                                                                         | —                                                                                                              |
 
 ### Exposes
 

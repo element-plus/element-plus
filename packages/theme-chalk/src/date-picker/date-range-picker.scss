@@ -50,6 +50,28 @@
     }
   }
 
+  @include e(header-label) {
+    font-size: 16px;
+    font-weight: 500;
+    padding: 0 5px;
+    line-height: 22px;
+    text-align: center;
+    cursor: pointer;
+    color: getCssVar('text-color', 'regular');
+
+    &:hover {
+      color: getCssVar('datepicker-hover-text-color');
+    }
+    &:focus-visible {
+      outline: none;
+      color: getCssVar('datepicker-hover-text-color');
+    }
+
+    &.active {
+      color: getCssVar('datepicker-active-color');
+    }
+  }
+
   @include e(content) {
     float: left;
     width: 50%;

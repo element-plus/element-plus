@@ -1,17 +1,22 @@
-// @ts-nocheck
 import { computed, getCurrentInstance, ref, unref, watch } from 'vue'
 import { isArray, isUndefined } from '@element-plus/utils'
 import { getRowIdentity, walkTreeNode } from '../util'
 
 import type { WatcherPropsData } from '.'
-import type { Table, TableProps } from '../table/defaults'
+import type { DefaultRow, Table, TableProps, TreeNode } from '../table/defaults'
 
-function useTree<T>(watcherData: WatcherPropsData<T>) {
-  const expandRowKeys = ref<string[]>([])
-  const treeData = ref<unknown>({})
+export interface TreeData extends TreeNode {
+  children?: string[]
+  lazy?: boolean
+  loaded?: boolean
+}
+
+function useTree<T extends DefaultRow>(watcherData: WatcherPropsData<T>) {
+  const expandRowKeys = ref<Array<string | number>>([])
+  const treeData = ref<Record<string, TreeData>>({})
   const indent = ref(16)
   const lazy = ref(false)
-  const lazyTreeNodeMap = ref({})
+  const lazyTreeNodeMap = ref<Record<string, T[]>>({})
   const lazyColumnIdentifier = ref('hasChildren')
   const childrenColumnName = ref('children')
   const checkStrictly = ref(false)
@@ -24,11 +29,11 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
   const normalizedLazyNode = computed(() => {
     const rowKey = watcherData.rowKey.value
     const keys = Object.keys(lazyTreeNodeMap.value)
-    const res = {}
+    const res: Record<string, { children: string[] }> = {}
     if (!keys.length) return res
     keys.forEach((key) => {
       if (lazyTreeNodeMap.value[key].length) {
-        const item = { children: [] }
+        const item: typeof res[number] = { children: [] }
         lazyTreeNodeMap.value[key].forEach((row) => {
           const currentRowKey = getRowIdentity(row, rowKey)
           item.children.push(currentRowKey)
@@ -42,45 +47,46 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
     return res
   })
 
-  const normalize = (data) => {
+  const normalize = (data: T[]) => {
     const rowKey = watcherData.rowKey.value
-    const res = {}
+    const res = new Map<string | number, TreeData>() // 使用 Map 替代 Object，解决 number key 的问题
     walkTreeNode(
       data,
       (parent, children, level) => {
-        const parentId = getRowIdentity(parent, rowKey)
+        const parentId = getRowIdentity(parent, rowKey, true)
         if (isArray(children)) {
-          res[parentId] = {
-            children: children.map((row) => getRowIdentity(row, rowKey)),
+          res.set(parentId, {
+            children: children.map((row) => row[rowKey!]),
             level,
-          }
+          })
         } else if (lazy.value) {
           // 当 children 不存在且 lazy 为 true，该节点即为懒加载的节点
-          res[parentId] = {
+          res.set(parentId, {
             children: [],
             lazy: true,
             level,
-          }
+          })
         }
       },
       childrenColumnName.value,
-      lazyColumnIdentifier.value
+      lazyColumnIdentifier.value,
+      lazy.value
     )
     return res
   }
 
   const updateTreeData = (
     ifChangeExpandRowKeys = false,
-    ifExpandAll = instance.store?.states.defaultExpandAll.value
+    ifExpandAll?: boolean
   ) => {
+    ifExpandAll ||= instance.store?.states.defaultExpandAll.value
     const nested = normalizedData.value
     const normalizedLazyNode_ = normalizedLazyNode.value
-    const keys = Object.keys(nested)
-    const newTreeData = {}
-    if (keys.length) {
+    const newTreeData: Record<string, TreeData> = {}
+    if (nested instanceof Map && nested.size) {
       const oldTreeData = unref(treeData)
-      const rootLazyRowKeys = []
-      const getExpanded = (oldValue, key) => {
+      const rootLazyRowKeys: string[] = []
+      const getExpanded = (oldValue: TreeData, key: string) => {
         if (ifChangeExpandRowKeys) {
           if (expandRowKeys.value) {
             return ifExpandAll || expandRowKeys.value.includes(key)
@@ -95,9 +101,9 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
         }
       }
       // 合并 expanded 与 display，确保数据刷新后，状态不变
-      keys.forEach((key) => {
+      nested.forEach((_, key) => {
         const oldValue = oldTreeData[key]
-        const newValue = { ...nested[key] }
+        const newValue = { ...nested.get(key) }
         newValue.expanded = getExpanded(oldValue, key)
         if (newValue.lazy) {
           const { loaded = false, loading = false } = oldValue || {}
@@ -115,7 +121,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
           const lazyNodeChildren = normalizedLazyNode_[key].children
           if (rootLazyRowKeys.includes(key)) {
             // 懒加载的 root 节点，更新一下原有的数据，原来的 children 一定是空数组
-            if (newTreeData[key].children.length !== 0) {
+            if (newTreeData[key].children?.length !== 0) {
               throw new Error('[ElTable]children must be an empty array.')
             }
             newTreeData[key].children = lazyNodeChildren
@@ -127,7 +133,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
               loading: !!loading,
               expanded: getExpanded(oldValue, key),
               children: lazyNodeChildren,
-              level: '',
+              level: undefined,
             }
           }
         })
@@ -157,11 +163,11 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
     }
   )
 
-  const updateTreeExpandKeys = (value: string[]) => {
+  const updateTreeExpandKeys = (value: (string | number)[]) => {
     expandRowKeys.value = value
     updateTreeData()
   }
-  const isUseLazy = (data): boolean => {
+  const isUseLazy = (data: TreeData) => {
     return lazy.value && data && 'loaded' in data && !data.loaded
   }
   const toggleTreeExpansion = (row: T, expanded?: boolean) => {
@@ -182,7 +188,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
     }
   }
 
-  const loadOrToggle = (row) => {
+  const loadOrToggle = (row: T) => {
     instance.store.assertRowKey()
     const rowKey = watcherData.rowKey.value
     const id = getRowIdentity(row, rowKey)
@@ -194,7 +200,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
     }
   }
 
-  const loadData = (row: T, key: string, treeNode) => {
+  const loadData = (row: T, key: string, treeNode: TreeNode) => {
     const { load } = instance.props as unknown as TableProps<T>
     if (load && !treeData.value[key].loaded) {
       treeData.value[key].loading = true

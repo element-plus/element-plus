@@ -22,10 +22,11 @@
       :gpu-acceleration="gpuAcceleration"
       :offset="offset"
       :persistent="persistent"
-      :popper-class="popperClass"
+      :popper-class="kls"
       :popper-style="popperStyle"
       :placement="placement"
       :popper-options="popperOptions"
+      :arrow-offset="arrowOffset"
       :pure="pure"
       :raw-content="rawContent"
       :reference-el="referenceEl"
@@ -42,7 +43,7 @@
         <span v-if="rawContent" v-html="content" />
         <span v-else>{{ content }}</span>
       </slot>
-      <el-popper-arrow v-if="showArrow" :arrow-offset="arrowOffset" />
+      <el-popper-arrow v-if="showArrow" />
     </el-tooltip-content>
   </el-popper>
 </template>
@@ -59,17 +60,18 @@ import {
   watch,
 } from 'vue'
 import { ElPopper, ElPopperArrow } from '@element-plus/components/popper'
-
 import { isBoolean } from '@element-plus/utils'
 import {
   useDelayedToggle,
   useId,
+  useNamespace,
   usePopperContainer,
 } from '@element-plus/hooks'
 import { TOOLTIP_INJECTION_KEY } from './constants'
 import { tooltipEmits, useTooltipModelToggle, useTooltipProps } from './tooltip'
 import ElTooltipTrigger from './trigger.vue'
 import ElTooltipContent from './content.vue'
+
 import type { TooltipContentInstance } from './content'
 import type { PopperInstance } from '@element-plus/components/popper'
 
@@ -82,6 +84,7 @@ const emit = defineEmits(tooltipEmits)
 
 usePopperContainer()
 
+const ns = useNamespace('tooltip')
 const id = useId()
 const popperRef = ref<PopperInstance>()
 const contentRef = ref<TooltipContentInstance>()
@@ -112,17 +115,17 @@ const controlled = computed(
   () => isBoolean(props.visible) && !hasUpdateHandler.value
 )
 
+const kls = computed(() => {
+  return [ns.b(), props.popperClass!]
+})
+
 provide(TOOLTIP_INJECTION_KEY, {
   controlled,
   id,
   open: readonly(open),
   trigger: toRef(props, 'trigger'),
-  onOpen: (event?: Event) => {
-    onOpen(event)
-  },
-  onClose: (event?: Event) => {
-    onClose(event)
-  },
+  onOpen,
+  onClose,
   onToggle: (event?: Event) => {
     if (unref(open)) {
       onClose(event)
@@ -182,7 +185,7 @@ defineExpose({
    */
   onOpen,
   /**
-   * @description expose onOpen function to mange el-tooltip open state
+   * @description expose onClose function to manage el-tooltip close state
    */
   onClose,
   /**
