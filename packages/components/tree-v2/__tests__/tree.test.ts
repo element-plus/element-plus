@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { nextTick } from 'vue'
+import { nextTick, ref } from 'vue'
 import { describe, expect, test, vi } from 'vitest'
 import { NOOP } from '@element-plus/utils'
 import { makeMountFunc } from '@element-plus/test-utils/make-mount'
@@ -70,6 +70,7 @@ interface TreeProps {
   expandOnClickNode?: boolean
   checkOnClickNode?: boolean
   checkOnClickLeaf?: boolean
+  scrollbarAlwaysOn?: boolean
   currentNodeKey?: TreeKey
   filterMethod?: FilterMethod
 }
@@ -135,6 +136,7 @@ const createTree = (
         :check-on-click-leaf="checkOnClickLeaf"
         :current-node-key="currentNodeKey"
         :filter-method="filterMethod"
+        :scrollbar-always-on="scrollbarAlwaysOn"
         @node-click="onNodeClick"
         @node-drop="onNodeDrop"
         @node-expand="onNodeExpand"
@@ -168,6 +170,7 @@ const createTree = (
           checkOnClickLeaf: true,
           currentNodeKey: undefined,
           filterMethod: undefined,
+          scrollbarAlwaysOn: undefined,
           ...(options.data && options.data()),
         }
       },
@@ -710,6 +713,7 @@ describe('Virtual Tree', () => {
   })
 
   test('defaultExpandedKeys', async () => {
+    const defaultExpandedKeys = ref([])
     const { wrapper } = createTree({
       data() {
         return {
@@ -754,10 +758,12 @@ describe('Virtual Tree', () => {
               label: 'node-2',
             },
           ],
-          defaultExpandedKeys: ['1'],
+          defaultExpandedKeys,
         }
       },
     })
+    await nextTick()
+    defaultExpandedKeys.value = ['1']
     await nextTick()
     const nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
     expect(nodes.length).toBe(5)
@@ -1015,6 +1021,18 @@ describe('Virtual Tree', () => {
     })
     await nextTick()
     expect(wrapper.find('.custom-tree-node-content').text()).toBe('cc node-1')
+  })
+
+  test('scrollbar-always-on', async () => {
+    const { wrapper } = createTree({
+      data() {
+        return {
+          scrollbarAlwaysOn: true,
+        }
+      },
+    })
+    const el = wrapper.find('.el-virtual-scrollbar.always-on')
+    expect(el.exists()).toBe(true)
   })
 
   test('filter', async () => {

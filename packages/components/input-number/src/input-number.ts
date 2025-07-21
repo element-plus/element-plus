@@ -7,7 +7,11 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 
-import type { ExtractPropTypes, HTMLAttributes } from 'vue'
+import type {
+  ExtractPropTypes,
+  HTMLAttributes,
+  __ExtractPublicPropTypes,
+} from 'vue'
 import type InputNumber from './input-number.vue'
 
 export const inputNumberProps = buildProps({
@@ -34,14 +38,14 @@ export const inputNumberProps = buildProps({
    */
   max: {
     type: Number,
-    default: Number.POSITIVE_INFINITY,
+    default: Number.MAX_SAFE_INTEGER,
   },
   /**
    * @description the minimum allowed value
    */
   min: {
     type: Number,
-    default: Number.NEGATIVE_INFINITY,
+    default: Number.MIN_SAFE_INTEGER,
   },
   /**
    * @description binding value
@@ -116,8 +120,22 @@ export const inputNumberProps = buildProps({
     type: definePropType<HTMLAttributes['inputmode']>(String),
     default: undefined,
   },
+  /**
+   * @description alignment for the inner input text
+   */
+  align: {
+    type: definePropType<'left' | 'right' | 'center'>(String),
+    default: 'center',
+  },
+  /**
+   * @description whether to disable scientific notation input (e.g. 'e', 'E')
+   */
+  disabledScientific: Boolean,
 } as const)
 export type InputNumberProps = ExtractPropTypes<typeof inputNumberProps>
+export type InputNumberPropsPublic = __ExtractPublicPropTypes<
+  typeof inputNumberProps
+>
 
 export const inputNumberEmits = {
   [CHANGE_EVENT]: (cur: number | undefined, prev: number | undefined) =>

@@ -421,6 +421,52 @@ describe('Cascader.vue', () => {
     expect(wrapper.find('.el-tag').classes()).toContain('el-tag--dark')
   })
 
+  test('should expose delete-tag through slot & be able to delete a value', async () => {
+    const value = ref(['hangzhou', 'wenzhou'])
+    const wrapper = _mount(() => (
+      <Cascader
+        v-model={value.value}
+        options={[
+          {
+            value: 'zhejiang',
+            label: 'Zhejiang',
+          },
+          {
+            value: 'hangzhou',
+            label: 'Hangzhou',
+          },
+          {
+            value: 'ningbo',
+            label: 'Ningbo',
+          },
+          {
+            value: 'wenzhou',
+            label: 'Wenzhou',
+          },
+        ]}
+        props={{ multiple: true }}
+      >
+        {{
+          tag: ({ data, deleteTag }: any) =>
+            data.map((option: any) => (
+              <div class="no-tag" onClick={() => deleteTag(option)}>
+                {option.text}
+              </div>
+            )),
+        }}
+      </Cascader>
+    ))
+    await nextTick()
+    const cascader = wrapper.findComponent(Cascader)
+    const tags = wrapper.findAll('.no-tag')
+    expect(tags).toHaveLength(2)
+    expect(cascader.vm.modelValue).toEqual(['hangzhou', 'wenzhou'])
+
+    await tags[0].trigger('click')
+    expect(wrapper.findAll('.no-tag')).toHaveLength(1)
+    expect(cascader.vm.modelValue).toEqual([['wenzhou']])
+  })
+
   test('filterable', async () => {
     const value = ref([])
     const wrapper = _mount(() => (
@@ -765,6 +811,49 @@ describe('Cascader.vue', () => {
       const tags = wrapper.findAll('span.el-tag')
       expect(tags.length).toBe(1)
       expect(tags[0].text()).toContain('Zhejiang')
+    })
+  })
+
+  describe('dynamic options & filterable', () => {
+    it('should render dynamic options correctly', async () => {
+      const value = ref<any[]>([])
+      const options = ref<any[]>([
+        {
+          value: 'guide',
+          label: 'Guide',
+        },
+        {
+          value: 'design',
+          label: 'Design',
+        },
+        {
+          value: 'development',
+          label: 'Development',
+        },
+      ])
+      const wrapper = _mount(() => (
+        <Cascader
+          v-model={value.value}
+          filterable
+          options={options.value}
+          teleported={false}
+        />
+      ))
+      const cascaderNodes = wrapper.findAll('.el-cascader-node')
+
+      expect(cascaderNodes.length).toBe(3)
+      expect(cascaderNodes[0].text()).toBe('Guide')
+      expect(cascaderNodes[1].text()).toBe('Design')
+      expect(cascaderNodes[2].text()).toBe('Development')
+
+      options.value.push({
+        value: 'testing',
+        label: 'Testing',
+      })
+      await nextTick()
+      const newCascaderNodes = wrapper.findAll('.el-cascader-node')
+      expect(newCascaderNodes.length).toBe(4)
+      expect(newCascaderNodes[3].text()).toBe('Testing')
     })
   })
 })

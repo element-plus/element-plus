@@ -6,7 +6,12 @@ import {
   mutable,
 } from '@element-plus/utils'
 
-import type { AppContext, ExtractPropTypes, VNode } from 'vue'
+import type {
+  AppContext,
+  ExtractPropTypes,
+  VNode,
+  __ExtractPublicPropTypes,
+} from 'vue'
 import type { Mutable } from '@element-plus/utils'
 import type MessageConstructor from './message.vue'
 
@@ -153,6 +158,7 @@ export const messageProps = buildProps({
   },
 } as const)
 export type MessageProps = ExtractPropTypes<typeof messageProps>
+export type MessagePropsPublic = __ExtractPublicPropTypes<typeof messageProps>
 
 export const messageEmits = {
   destroy: () => true,

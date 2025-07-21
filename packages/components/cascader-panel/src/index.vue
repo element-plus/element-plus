@@ -177,7 +177,7 @@ const expandParentNode = (node: Node | undefined) => {
 const getFlattedNodes = (leafOnly: boolean) => store?.getFlattedNodes(leafOnly)
 
 const getCheckedNodes = (leafOnly: boolean) => {
-  return getFlattedNodes(leafOnly)?.filter(({ checked }) => checked)
+  return getFlattedNodes(leafOnly)?.filter(({ checked }) => checked !== false)
 }
 
 const clearCheckedNodes = () => {
@@ -339,9 +339,19 @@ provide(
   })
 )
 
-watch([config, () => props.options], initStore, {
+watch(
+  config,
+  (newVal, oldVal) => {
+    if (isEqual(newVal, oldVal)) return
+    initStore()
+  },
+  {
+    immediate: true,
+  }
+)
+
+watch(() => props.options, initStore, {
   deep: true,
-  immediate: true,
 })
 
 watch(

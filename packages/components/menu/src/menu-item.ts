@@ -5,7 +5,7 @@ import {
   isString,
 } from '@element-plus/utils'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
 import type { MenuItemRegistered } from './types'
 
@@ -29,6 +29,7 @@ export const menuItemProps = buildProps({
   disabled: Boolean,
 } as const)
 export type MenuItemProps = ExtractPropTypes<typeof menuItemProps>
+export type MenuItemPropsPublic = __ExtractPublicPropTypes<typeof menuItemProps>
 
 export const menuItemEmits = {
   click: (item: MenuItemRegistered) =>

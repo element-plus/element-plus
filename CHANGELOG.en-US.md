@@ -1,6 +1,86 @@
 ## Changelog
 
 
+### 2.10.4
+
+_2025-07-11_
+
+#### Features
+
+- Types [components] add public prop types (#21222 by @yuhengshen)
+- Components [mention] add `whole-remove` event (#21050 by @56jun)
+- Components [input-number] warn when exceeds the safe integer (#19405 by @btea)
+- Components [input-number] change the min and max default value (#21302 by @btea)
+- Components [tree-v2] add `scrollbar-always-on` attribute (#21293 by @Dsaquel)
+
+#### Bug fixes
+
+- Components [affix] correctly updateRoot when fixed (#21094 by @btnkr)
+- Components [tooltip] fix the issue where content is hidden (#21223 by @tenadolanter)
+- Components [input-tag] paste multiple delimiters (#21256 by @Dsaquel)
+- Components [tab-pane] safely access value before schedule render (#21275 by @betavs)
+- Components [select] custom warnHeandler cause memory leak (#21284 by @btea)
+- Components [select-v2] scrollbar resets to top after select item (#21257 by @SpanManX)
+- Components [tabs] correct height calculation in vertical layout (#21263 by @cszhjh)
+- Types [other] cannot find declare module types from installed packages (#21266 by @yuhengshen)
+- Components [cascader] single selection fails (#21317 by @btea)
+
+#### Refactors
+
+- Components improve component boolean type (#21260 by @cszhjh)
+- Docs partially remove typecript errors (#21099 by @Dsaquel)
+
+### 2.10.3
+
+_2025-07-04_
+
+#### Features
+
+- Components [splitter] add collapse event (#21035 by @cszhjh)
+- Components [cascader] add tag slot (#20994 by @snowbitx)
+- Components [input] native inputmode prop for el-input & el-input-number (#14997 by @fratzinger)
+- Components [color-picker] add empty values attributes (#20962 by @Dsaquel)
+- Components [select] expose selectDisabled prop to #tag slot (#21093 by @baozjj)
+- Components [select/select-v2/cascader] expose more tag options (#21157 by @Dsaquel)
+
+#### Bug fixes
+
+- Components [table] tooltip compatibility edge case (#21012 by @btea)
+- Components [upload-dragger] Blink when sliding over sub elements (#21006 by @selicens)
+- Components [tabs] fix nav height for better display (#15600 by @maicss)
+- Components [tabs] match visual order to source order (#21025 by @makedopamine)
+- Components [date-picker] pass showWeekNumber to panel (#21049 by @fratzinger)
+- Components [table] fix children can't be unchecked (#20995 by @xiaohe0601)
+- Locale improve Khmer (km) locale translations (#21069 by @emravoan)
+- Components [table] render tree node (#19247 by @betavs)
+- Components [space] prevent extra spacers after empty templates (#21105 by @zhixiaotong)
+- Components [tree-v2] treeNode add `expanded` and responds to UI (#21066 by @zhixiaotong)
+- Components [color-picker] Improve modelValue prop type (#20880 by @JCL206312)
+- Components [cascader-panel] avoid multiple init invokes (#20892 by @Dsaquel)
+- Components [menu] expose updateActiveIndex type (#21129 by @cszhjh)
+- Components [table] fix the issue where the expand-row-keys property does not support the number type (#20210 by @SpanManX)
+- Components [tree-v2] props defaultExpandedKeys not reactive (#21173 by @scvzerng)
+- Components [form] increase error style priority (#21177 by @btea)
+- Components [anchor] recalculate marker style on slot update (#21180 by @Dsaquel)
+- Components [tabs] focus may still remain in pane when tabs changed (#19433 by @tolking)
+- Components [loading] element-loading-* attributes support reactivity (#15111 by @makedopamine)
+- Components [select/select-v2] apply popper-class to tag tooltip (#21212 by @btea)
+- Components [autocomplete] add placeholder prop type definition (#21206 by @yuhengshen)
+- Components [tabs] update tabs order correctly when reordering (#21064 by @w2xi)
+- Components [tabs] ensure label slot updates (#21231 by @makedopamine)
+
+#### Refactors
+
+- Components [cascader-panel] remove `@ts-nocheck` and optimize code (#20014 by @zzjiaxiang)
+- Components [tree] remove ts-nocheck (#21097 by @Dsaquel)
+- Components [table] compatible with rowKey non-existence (#21134 by @btea)
+- Hooks [useOrderedChildren] sort child components on patch (#21124 by @makedopamine)
+- Components [table] remove `@ts-nocheck` (#21139 by @Dsaquel)
+- Components [table] remove `@ts-nocheck` (#21197 by @Dsaquel)
+- Hooks [useFocusController] add disabled attribute (#21032 by @tolking)
+- Components [table] remove `@ts-nocheck` (#21200 by @Dsaquel)
+- Components [scrollbar] remove ts-nocheck (#21233 by @Dsaquel)
+
 ### 2.10.2
 
 _2025-06-13_

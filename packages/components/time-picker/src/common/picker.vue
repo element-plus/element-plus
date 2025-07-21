@@ -28,7 +28,7 @@
         ref="inputRef"
         container-role="combobox"
         :model-value="(displayValue as string)"
-        :name="name"
+        :name="(name as string | undefined)"
         :size="pickerSize"
         :disabled="pickerDisabled"
         :placeholder="placeholder"
@@ -246,9 +246,14 @@ const pickerActualVisible = ref(false)
 const valueOnOpen = ref<TimePickerDefaultProps['modelValue'] | null>(null)
 let hasJustTabExitedInput = false
 
+const pickerDisabled = computed(() => {
+  return props.disabled || !!form?.disabled
+})
+
 const { isFocused, handleFocus, handleBlur } = useFocusController(inputRef, {
+  disabled: pickerDisabled,
   beforeFocus() {
-    return props.readonly || pickerDisabled.value
+    return props.readonly
   },
   afterFocus() {
     pickerVisible.value = true
@@ -384,10 +389,6 @@ const handleOpen = () => {
 const handleClose = () => {
   pickerVisible.value = false
 }
-
-const pickerDisabled = computed(() => {
-  return props.disabled || form?.disabled
-})
 
 const parsedValue = computed(() => {
   let dayOrDays: DayOrDays

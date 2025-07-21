@@ -131,10 +131,7 @@ export default defineComponent({
     accordion: Boolean,
     renderContent: Function,
     renderAfterExpand: Boolean,
-    showCheckbox: {
-      type: Boolean,
-      default: false,
-    },
+    showCheckbox: Boolean,
   },
   emits: ['node-expand'],
   setup(props, ctx) {

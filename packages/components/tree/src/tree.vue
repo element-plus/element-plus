@@ -37,7 +37,6 @@
 </template>
 
 <script lang="ts">
-// @ts-nocheck
 import {
   computed,
   defineComponent,
@@ -47,7 +46,7 @@ import {
   ref,
   watch,
 } from 'vue'
-import { iconPropType } from '@element-plus/utils'
+import { definePropType, iconPropType } from '@element-plus/utils'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { formItemContextKey } from '@element-plus/components/form'
 import { selectKey } from '@element-plus/components/select/src/token'
@@ -63,6 +62,10 @@ import type Node from './model/node'
 import type { ComponentInternalInstance, PropType } from 'vue'
 import type { Nullable } from '@element-plus/utils'
 import type {
+  AllowDragFunction,
+  AllowDropFunction,
+  FilterValue,
+  RenderContentFunction,
   TreeComponentProps,
   TreeData,
   TreeKey,
@@ -74,7 +77,7 @@ export default defineComponent({
   components: { ElTreeNode },
   props: {
     data: {
-      type: Array,
+      type: definePropType<TreeData>(Array),
       default: () => [],
     },
     emptyText: {
@@ -96,10 +99,7 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
-    checkDescendants: {
-      type: Boolean,
-      default: false,
-    },
+    checkDescendants: Boolean,
     autoExpandParent: {
       type: Boolean,
       default: true,
@@ -111,17 +111,17 @@ export default defineComponent({
       TreeComponentProps['defaultExpandedKeys']
     >,
     currentNodeKey: [String, Number] as PropType<string | number>,
-    renderContent: Function,
-    showCheckbox: {
-      type: Boolean,
-      default: false,
+    renderContent: {
+      type: definePropType<RenderContentFunction>(Function),
     },
-    draggable: {
-      type: Boolean,
-      default: false,
+    showCheckbox: Boolean,
+    draggable: Boolean,
+    allowDrag: {
+      type: definePropType<AllowDragFunction>(Function),
     },
-    allowDrag: Function,
-    allowDrop: Function,
+    allowDrop: {
+      type: definePropType<AllowDropFunction>(Function),
+    },
     props: {
       type: Object as PropType<TreeComponentProps['props']>,
       default: () => ({
@@ -130,10 +130,7 @@ export default defineComponent({
         disabled: 'disabled',
       }),
     },
-    lazy: {
-      type: Boolean,
-      default: false,
-    },
+    lazy: Boolean,
     highlightCurrent: Boolean,
     load: Function as PropType<TreeComponentProps['load']>,
     filterNodeMethod: Function as PropType<
@@ -162,7 +159,7 @@ export default defineComponent({
     'node-drag-leave',
     'node-drag-enter',
     'node-drag-over',
-  ],
+  ] as string[],
   setup(props, ctx) {
     const { t } = useLocale()
     const ns = useNamespace('tree')
@@ -189,7 +186,7 @@ export default defineComponent({
     store.value.initialize()
 
     const root = ref<Node>(store.value.root)
-    const currentNode = ref<Node>(null)
+    const currentNode = ref<Node | null>(null)
     const el$ = ref<Nullable<HTMLElement>>(null)
     const dropIndicator$ = ref<Nullable<HTMLElement>>(null)
 
@@ -208,7 +205,7 @@ export default defineComponent({
     const isEmpty = computed(() => {
       const { childNodes } = root.value
       const hasFilteredOptions = selectInfo
-        ? selectInfo.hasFilteredOptions !== 0
+        ? (selectInfo as any).hasFilteredOptions !== 0
         : false
       return (
         (!childNodes ||
@@ -221,21 +218,21 @@ export default defineComponent({
     watch(
       () => props.currentNodeKey,
       (newVal) => {
-        store.value.setCurrentNodeKey(newVal)
+        store.value.setCurrentNodeKey(newVal ?? null)
       }
     )
 
     watch(
       () => props.defaultCheckedKeys,
       (newVal) => {
-        store.value.setDefaultCheckedKey(newVal)
+        store.value.setDefaultCheckedKey(newVal ?? [])
       }
     )
 
     watch(
       () => props.defaultExpandedKeys,
       (newVal) => {
-        store.value.setDefaultExpandedKeys(newVal)
+        store.value.setDefaultExpandedKeys(newVal ?? [])
       }
     )
 
@@ -254,7 +251,7 @@ export default defineComponent({
       }
     )
 
-    const filter = (value) => {
+    const filter = (value: FilterValue) => {
       if (!props.filterNodeMethod)
         throw new Error('[Tree] filterNodeMethod is required when filter')
       store.value.filter(value)
@@ -289,12 +286,12 @@ export default defineComponent({
       return store.value.getCheckedKeys(leafOnly)
     }
 
-    const getCurrentNode = (): TreeNodeData => {
+    const getCurrentNode = () => {
       const currentNode = store.value.getCurrentNode()
       return currentNode ? currentNode.data : null
     }
 
-    const getCurrentKey = (): any => {
+    const getCurrentKey = (): TreeKey | null => {
       if (!props.nodeKey)
         throw new Error('[Tree] nodeKey is required in getCurrentKey')
       const currentNode = getCurrentNode()
@@ -345,7 +342,7 @@ export default defineComponent({
 
       handleCurrentChange(store, ctx.emit, () => {
         broadcastExpanded()
-        store.value.setCurrentNodeKey(key, shouldAutoExpandParent)
+        store.value.setCurrentNodeKey(key ?? null, shouldAutoExpandParent)
       })
     }
 
@@ -400,7 +397,7 @@ export default defineComponent({
       root,
       currentNode,
       instance: getCurrentInstance(),
-    } as any)
+    })
 
     provide(formItemContextKey, undefined)
 

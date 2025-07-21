@@ -102,10 +102,10 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     afterComposition: (e) => onInput(e),
   })
 
+  const selectDisabled = computed(() => props.disabled || !!elForm?.disabled)
+
   const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
-    beforeFocus() {
-      return selectDisabled.value
-    },
+    disabled: selectDisabled,
     afterFocus() {
       if (props.automaticDropdown && !expanded.value) {
         expanded.value = true
@@ -137,8 +137,6 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   const filteredOptions = ref<OptionType[]>([])
   // the controller of the expanded popup
   const expanded = ref(false)
-
-  const selectDisabled = computed(() => props.disabled || elForm?.disabled)
 
   const needStatusIcon = computed(() => elForm?.statusIcon ?? false)
 
@@ -202,14 +200,18 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     return null
   })
 
+  const isFilterMethodValid = computed(
+    () => props.filterable && isFunction(props.filterMethod)
+  )
+  const isRemoteMethodValid = computed(
+    () => props.filterable && props.remote && isFunction(props.remoteMethod)
+  )
+
   const filterOptions = (query: string) => {
     const regexp = new RegExp(escapeStringRegexp(query), 'i')
-    const isFilterMethodValid =
-      props.filterable && isFunction(props.filterMethod)
-    const isRemoteMethodValid =
-      props.filterable && props.remote && isFunction(props.remoteMethod)
+
     const isValidOption = (o: Option): boolean => {
-      if (isFilterMethodValid || isRemoteMethodValid) return true
+      if (isFilterMethodValid.value || isRemoteMethodValid.value) return true
       // when query was given, we should test on the label see whether the label contains the given query
       return query ? regexp.test(getLabel(o) || '') : true
     }

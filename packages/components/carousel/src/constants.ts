@@ -1,4 +1,4 @@
-import type { InjectionKey, Ref } from 'vue'
+import type { InjectionKey, Ref, VNode } from 'vue'
 import type { CarouselItemProps } from './carousel-item'
 
 export type CarouselItemStates = {
@@ -15,6 +15,7 @@ export type CarouselItemContext = {
   props: CarouselItemProps
   states: CarouselItemStates
   uid: number
+  getVnode: () => VNode
   translateItem: (index: number, activeIndex: number, oldIndex?: number) => void
 }
 
@@ -26,7 +27,7 @@ export type CarouselContext = {
   loop: boolean
   cardScale: number
   addItem: (item: CarouselItemContext) => void
-  removeItem: (uid: number) => void
+  removeItem: (item: CarouselItemContext) => void
   setActiveItem: (index: number) => void
   setContainerHeight: (height: number) => void
 }

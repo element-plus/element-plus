@@ -1,6 +1,20 @@
-export const rightRichTextSponsors = []
+export type Sponsor = {
+  url: string
+  name_cn?: string
+  name: string
+  slogan_cn?: string
+  slogan: string
+  img: string
+  isDark?: boolean
+  imgL?: string
+  slogan_index?: string
+  banner_img?: string
+  className?: string
+}
 
-export const rightBigLogoSponsors = [
+export const rightRichTextSponsors: Sponsor[] = []
+
+export const rightBigLogoSponsors: Sponsor[] = [
   {
     name: 'CRMEB',
     img: '/images/CRMEB.png',
@@ -12,7 +26,7 @@ export const rightBigLogoSponsors = [
   },
 ]
 
-export const rightLogoSmallSponsors = [
+export const rightLogoSmallSponsors: Sponsor[] = [
   {
     name: 'BuildAdmin',
     img: '/images/buildadmin.png',
@@ -30,6 +44,14 @@ export const rightLogoSmallSponsors = [
     slogan_cn: '开箱即用的 Vue 后台管理框架',
   },
   {
+    name: 'frsimple',
+    img: '/images/frsimple.png',
+    imgL: '/images/frsimple-l.png',
+    url: 'https://el.frsimple.com',
+    slogan: 'A simple and efficient front-end framework',
+    slogan_cn: '数智底座',
+  },
+  {
     name: 'bit',
     img: '/images/bit.svg',
     imgL: '/images/bit-l.png',
@@ -39,7 +61,7 @@ export const rightLogoSmallSponsors = [
   },
 ]
 
-export const leftCustomImgSponsors = [
+export const leftCustomImgSponsors: Sponsor[] = [
   {
     name: '美乐',
     img: '/images/mele.png',
@@ -73,6 +95,6 @@ export const platinumSponsors = [
   ...rightRichTextSponsors,
 ]
 
-export const leftLogoSponsors = []
+export const leftLogoSponsors: Sponsor[] = []
 
 export const goldSponsors = [...rightLogoSmallSponsors, ...leftLogoSponsors]

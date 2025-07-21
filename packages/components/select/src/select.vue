@@ -56,7 +56,13 @@
               ),
             ]"
           >
-            <slot v-if="multiple" name="tag">
+            <slot
+              v-if="multiple"
+              name="tag"
+              :data="states.selected"
+              :delete-tag="deleteTag"
+              :select-disabled="selectDisabled"
+            >
               <div
                 v-for="item in showTagList"
                 :key="getValueKey(item)"
@@ -90,6 +96,7 @@
                 :fallback-placements="['bottom', 'top', 'right', 'left']"
                 :effect="effect"
                 placement="bottom"
+                :popper-class="popperClass"
                 :teleported="teleported"
               >
                 <template #default>
@@ -300,7 +307,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, getCurrentInstance, provide, reactive, toRefs, watch } from 'vue'
+import { computed, defineComponent, getCurrentInstance, onBeforeUnmount, provide, reactive, toRefs, watch } from 'vue'
 import { ClickOutside } from '@element-plus/directives'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
@@ -445,6 +452,11 @@ export default defineComponent({
         return API.states.selectedLabel
       }
       return API.states.selected.map((i) => i.currentLabel as string)
+    })
+
+    onBeforeUnmount(() => {
+      // https://github.com/element-plus/element-plus/issues/21279
+      instance.appContext.config.warnHandler = undefined
     })
 
     return {

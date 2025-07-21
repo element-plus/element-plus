@@ -1,6 +1,6 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type { DateCell } from '../date-picker.type'
 
 export const basicCellProps = buildProps({
@@ -10,3 +10,6 @@ export const basicCellProps = buildProps({
 } as const)
 
 export type BasicCellProps = ExtractPropTypes<typeof basicCellProps>
+export type BasicCellPropsPublic = __ExtractPublicPropTypes<
+  typeof basicCellProps
+>

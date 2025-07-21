@@ -6,7 +6,7 @@ import {
 } from '@element-plus/utils'
 import { INPUT_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 
 export type CalendarDateType =
   | 'prev-month'
@@ -35,6 +35,7 @@ export const calendarProps = buildProps({
   },
 } as const)
 export type CalendarProps = ExtractPropTypes<typeof calendarProps>
+export type CalendarPropsPublic = __ExtractPublicPropTypes<typeof calendarProps>
 
 export const calendarEmits = {
   [UPDATE_MODEL_EVENT]: (value: Date) => isDate(value),
