@@ -2,6 +2,9 @@ import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { CaretLeft, CaretRight } from '@element-plus/icons-vue'
+import sleep from '@element-plus/test-utils/sleep'
+import Jumper from '../src/components/jumper.vue'
+import Pager from '../src/components/pager.vue'
 import Pagination from '../src/pagination'
 import selectDropdownVue from '../../select/src/select-dropdown.vue'
 
@@ -288,6 +291,33 @@ describe('Pagination', () => {
       expect(count).toBe(2)
       expect(pageSizeWatcher).toHaveBeenCalled()
       assertCurrent(wrapper, 5 /* Math.ceil(100/20) */)
+    })
+
+    test('test jump to delay', async () => {
+      const currentPage = ref(1)
+      const currentPageWatcher = (val: number) => {
+        currentPage.value = val
+      }
+      const wrapper = mount(() => (
+        <Pagination
+          currentPage={currentPage.value}
+          onUpdate:current-page={currentPageWatcher}
+          total={100}
+          pageSize={10}
+          layout="prev, pager, next, jumper"
+        />
+      ))
+      const jumper = wrapper.findComponent(Jumper).vm
+      jumper.handleChange(5)
+      expect(currentPage.value).toBe(1)
+      await sleep(100)
+      expect(currentPage.value).toBe(5)
+      const page7 = wrapper.find('li[aria-label="page 7"]').element
+      const pager = wrapper.findComponent(Pager).vm
+      jumper.handleChange('')
+      expect(currentPage.value).toBe(5)
+      pager.onPagerClick({ target: page7 } as any)
+      expect(currentPage.value).toBe(7)
     })
   })
 
