@@ -185,7 +185,7 @@ defineExpose({
    */
   onOpen,
   /**
-   * @description expose onClose function to mange el-tooltip open state
+   * @description expose onClose function to manage el-tooltip close state
    */
   onClose,
   /**
