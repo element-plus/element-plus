@@ -12,7 +12,6 @@ import {
   treeEach,
   treeFind,
 } from './utils'
-import { tryFocus } from '@element-plus/components/focus-trap'
 
 import type { CacheOption } from './cache-options'
 import type { Ref } from 'vue'
@@ -263,14 +262,8 @@ export const useTree = (
         })
       })
 
-      select.value?.focus()
-
-      if (!select.value.filterable && !select.value.showCheckbox) {
-        // 保持节点的 focus 状态
-        tryFocus(
-          select.value.cachedOptions.get(data.value).$el.parentNode.parentNode,
-          true
-        )
+      if (select.value.filterable) {
+        select.value?.focus()
       }
     },
 
