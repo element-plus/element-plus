@@ -20,6 +20,7 @@ import ElTooltip from '@element-plus/components/tooltip'
 import {
   buildProps,
   iconPropType,
+  isMobile,
   isString,
   isUndefined,
   throwError,
@@ -262,9 +263,13 @@ export default defineComponent({
       subMenu.mouseInChild.value = true
 
       timeout?.()
-      ;({ stop: timeout } = useTimeoutFn(() => {
+      if (isMobile()) {
         rootMenu.openMenu(props.index, indexPath.value)
-      }, showTimeout))
+      } else {
+        ;({ stop: timeout } = useTimeoutFn(() => {
+          rootMenu.openMenu(props.index, indexPath.value)
+        }, showTimeout))
+      }
 
       if (appendToBody.value) {
         parentMenu.value.vnode.el?.dispatchEvent(new MouseEvent('mouseenter'))
