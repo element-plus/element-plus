@@ -59,10 +59,7 @@
 
         <!-- suffix slot -->
         <span v-if="suffixVisible" :class="nsInput.e('suffix')">
-          <span
-            :class="nsInput.e('suffix-inner')"
-            :style="inputDisabled ? { pointerEvents: 'none' } : {}"
-          >
+          <span :class="nsInput.e('suffix-inner')">
             <template
               v-if="!showClear || !showPwdVisible || !isWordLimitVisible"
             >
