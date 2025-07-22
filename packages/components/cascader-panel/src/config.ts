@@ -84,6 +84,14 @@ export const DefaultProps: CascaderConfig = {
    * @description hover threshold of expanding options
    */
   hoverThreshold: 500,
+  /**
+   * @description whether to check or uncheck node when clicking on the node
+   */
+  checkOnClickNode: false,
+  /**
+   * @description whether to show the radio or checkbox prefix
+   */
+  showPrefix: true,
 }
 
 export const cascaderPanelProps = buildProps({

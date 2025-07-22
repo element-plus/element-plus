@@ -148,6 +148,16 @@ cascader/custom-tag
 
 :::
 
+## Click to Select Node ^(2.10.5)
+
+Allows selecting nodes by clicking, with optional control visibility.
+
+:::demo Select nodes on click via `checkOnClickNode`. You can also hide the selection control with `showPrefix`.
+
+cascader/check-on-click-node
+
+:::
+
 ## Cascader API
 
 ### Cascader Attributes
@@ -250,20 +260,22 @@ cascader/custom-tag
 
 ## CascaderProps
 
-| Attribute      | Description                                                                                                | Type                                                | Default  |
-| -------------- | ---------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | -------- |
-| expandTrigger  | trigger mode of expanding options                                                                          | ^[enum]`'click' \| 'hover'`                         | click    |
-| multiple       | whether multiple selection is enabled                                                                      | ^[boolean]                                          | false    |
-| checkStrictly  | whether checked state of a node not affects its parent and child nodes                                     | ^[boolean]                                          | false    |
-| emitPath       | when checked nodes change, whether to emit an array of node's path, if false, only emit the value of node. | ^[boolean]                                          | true     |
-| lazy           | whether to dynamic load child nodes, use with `lazyload` attribute                                         | ^[boolean]                                          | false    |
-| lazyLoad       | method for loading child nodes data, only works when `lazy` is true                                        | ^[Function]`(node: Node, resolve: Resolve) => void` | —        |
-| value          | specify which key of node object is used as the node's value                                               | ^[string]                                           | value    |
-| label          | specify which key of node object is used as the node's label                                               | ^[string]                                           | label    |
-| children       | specify which key of node object is used as the node's children                                            | ^[string]                                           | children |
-| disabled       | specify which key of node object is used as the node's disabled                                            | ^[string]                                           | disabled |
-| leaf           | specify which key of node object is used as the node's leaf field                                          | ^[string]                                           | leaf     |
-| hoverThreshold | hover threshold of expanding options                                                                       | ^[number]                                           | 500      |
+| Attribute                  | Description                                                                                                | Type                                                | Default  |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | -------- |
+| expandTrigger              | trigger mode of expanding options                                                                          | ^[enum]`'click' \| 'hover'`                         | click    |
+| multiple                   | whether multiple selection is enabled                                                                      | ^[boolean]                                          | false    |
+| checkStrictly              | whether checked state of a node not affects its parent and child nodes                                     | ^[boolean]                                          | false    |
+| emitPath                   | when checked nodes change, whether to emit an array of node's path, if false, only emit the value of node. | ^[boolean]                                          | true     |
+| lazy                       | whether to dynamic load child nodes, use with `lazyload` attribute                                         | ^[boolean]                                          | false    |
+| lazyLoad                   | method for loading child nodes data, only works when `lazy` is true                                        | ^[Function]`(node: Node, resolve: Resolve) => void` | —        |
+| value                      | specify which key of node object is used as the node's value                                               | ^[string]                                           | value    |
+| label                      | specify which key of node object is used as the node's label                                               | ^[string]                                           | label    |
+| children                   | specify which key of node object is used as the node's children                                            | ^[string]                                           | children |
+| disabled                   | specify which key of node object is used as the node's disabled                                            | ^[string]                                           | disabled |
+| leaf                       | specify which key of node object is used as the node's leaf field                                          | ^[string]                                           | leaf     |
+| hoverThreshold             | hover threshold of expanding options                                                                       | ^[number]                                           | 500      |
+| checkOnClickNode ^(2.10.5) | whether to check or uncheck node when clicking on the node                                                 | ^[boolean]                                          | false    |
+| showPrefix ^(2.10.5)       | whether to show the radio or checkbox prefix                                                               | ^[boolean]                                          | true     |
 
 ## Type Declarations
 
