@@ -13,7 +13,7 @@ import {
   withDirectives,
 } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
-import { isNil } from 'lodash-unified'
+import { debounce, isNil } from 'lodash-unified'
 import ElIcon from '@element-plus/components/icon'
 import { More } from '@element-plus/icons-vue'
 import {
@@ -23,6 +23,7 @@ import {
   iconPropType,
   isArray,
   isObject,
+  isPromise,
   isString,
   isUndefined,
   mutable,
@@ -193,7 +194,7 @@ export const menuEmits = {
     isString(index) &&
     checkIndexPath(indexPath) &&
     isObject(item) &&
-    (isUndefined(routerResult) || routerResult instanceof Promise),
+    (isUndefined(routerResult) || isPromise(routerResult)),
 }
 export type MenuEmits = typeof menuEmits
 
@@ -348,15 +349,6 @@ export default defineComponent({
     const getIndexPath = (index: string) => subMenus.value[index].indexPath
 
     // Common computer monitor FPS is 60Hz, which means 60 redraws per second. Calculation formula: 1000ms/60 ≈ 16.67ms, In order to avoid a certain chance of repeated triggering when `resize`, set wait to 16.67 * 2 = 33.34
-    const debounce = (fn: () => void, wait = 33.34) => {
-      let timmer: ReturnType<typeof setTimeout> | null
-      return () => {
-        timmer && clearTimeout(timmer)
-        timmer = setTimeout(() => {
-          fn()
-        }, wait)
-      }
-    }
 
     let isFirstTimeRender = true
     const handleResize = () => {
@@ -368,7 +360,7 @@ export default defineComponent({
         })
       }
       // execute callback directly when first time resize to avoid shaking
-      isFirstTimeRender ? callback() : debounce(callback)()
+      isFirstTimeRender ? callback() : debounce(callback, 33.34)()
       isFirstTimeRender = false
     }
 
