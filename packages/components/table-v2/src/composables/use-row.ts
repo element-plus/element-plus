@@ -1,4 +1,11 @@
-import { computed, getCurrentInstance, ref, shallowRef, unref } from 'vue'
+import {
+  computed,
+  getCurrentInstance,
+  nextTick,
+  ref,
+  shallowRef,
+  unref,
+} from 'vue'
 import { debounce } from 'lodash-unified'
 import { isNumber } from '@element-plus/utils'
 import { FixedDir } from '../constants'
@@ -98,6 +105,22 @@ export const useRow = (
     })
     // If this is not controlled, then use this to notify changes
     props.onExpandedRowsChange?.(_expandedRowKeys)
+
+    const tableRoot = tableInstance!.vnode.el as HTMLElement
+    const hoverRow = tableRoot.querySelector(
+      `[rowkey="${String(rowKey)}"].${ns.is('hovered')}`
+    )
+    if (hoverRow) {
+      nextTick(() => {
+        onRowHovered({
+          hovered: true,
+          rowKey,
+          event: new MouseEvent('hover'),
+          rowData,
+          rowIndex,
+        })
+      })
+    }
   }
 
   const flushingRowHeights = debounce(() => {
