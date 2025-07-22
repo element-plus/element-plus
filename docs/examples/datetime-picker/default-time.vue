@@ -35,6 +35,7 @@ const defaultTime2: [Date, Date] = [
   new Date(2000, 2, 1, 8, 0, 0),
 ] // '12:00:00', '08:00:00'
 </script>
+
 <style scoped>
 .block {
   padding: 30px 0;

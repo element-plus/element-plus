@@ -21,6 +21,9 @@
       :transition="`${nsSelect.namespace.value}-zoom-in-top`"
       trigger="click"
       :persistent="persistent"
+      :append-to="appendTo"
+      :show-arrow="showArrow"
+      :offset="offset"
       @before-show="handleMenuEnter"
       @hide="states.isBeforeHide = false"
     >
@@ -53,7 +56,13 @@
               ),
             ]"
           >
-            <slot v-if="multiple" name="tag">
+            <slot
+              v-if="multiple"
+              name="tag"
+              :data="states.cachedOptions"
+              :delete-tag="deleteTag"
+              :select-disabled="selectDisabled"
+            >
               <div
                 v-for="item in showTagList"
                 :key="getValueKey(getValue(item))"
@@ -87,6 +96,7 @@
                 :fallback-placements="['bottom', 'top', 'right', 'left']"
                 :effect="effect"
                 placement="bottom"
+                :popper-class="popperClass"
                 :teleported="teleported"
               >
                 <template #default>
@@ -140,7 +150,6 @@
               </el-tooltip>
             </slot>
             <div
-              v-if="!selectDisabled"
               :class="[
                 nsSelect.e('selected-item'),
                 nsSelect.e('input-wrapper'),
@@ -153,6 +162,7 @@
                 v-model="states.inputValue"
                 :style="inputStyle"
                 :autocomplete="autocomplete"
+                :tabindex="tabindex"
                 aria-autocomplete="list"
                 aria-haspopup="listbox"
                 autocapitalize="off"
@@ -226,8 +236,12 @@
               <component :is="clearIcon" />
             </el-icon>
             <el-icon
-              v-if="validateState && validateIcon"
-              :class="[nsInput.e('icon'), nsInput.e('validateIcon')]"
+              v-if="validateState && validateIcon && needStatusIcon"
+              :class="[
+                nsInput.e('icon'),
+                nsInput.e('validateIcon'),
+                nsInput.is('loading', validateState === 'validating'),
+              ]"
             >
               <component :is="validateIcon" />
             </el-icon>
@@ -280,9 +294,10 @@ import { ClickOutside } from '@element-plus/directives'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
+import { useCalcInputWidth } from '@element-plus/hooks'
 import ElSelectMenu from './select-dropdown'
 import useSelect from './useSelect'
-import { SelectProps, selectEmits } from './defaults'
+import { selectV2Emits, selectV2Props } from './defaults'
 import { selectV2InjectionKey } from './token'
 
 export default defineComponent({
@@ -294,8 +309,8 @@ export default defineComponent({
     ElIcon,
   },
   directives: { ClickOutside },
-  props: SelectProps,
-  emits: selectEmits,
+  props: selectV2Props,
+  emits: selectV2Emits,
   setup(props, { emit }) {
     const modelValue = computed(() => {
       const { modelValue: rawModelValue, multiple } = props
@@ -315,6 +330,8 @@ export default defineComponent({
       }),
       emit
     )
+    const { calculatorRef, inputStyle } = useCalcInputWidth()
+
     provide(selectV2InjectionKey, {
       props: reactive({
         ...toRefs(props),
@@ -329,9 +346,19 @@ export default defineComponent({
       onKeyboardSelect: API.onKeyboardSelect,
     })
 
+    const selectedLabel = computed(() => {
+      if (!props.multiple) {
+        return API.states.selectedLabel
+      }
+      return API.states.cachedOptions.map((i) => i.label as string)
+    })
+
     return {
       ...API,
       modelValue,
+      selectedLabel,
+      calculatorRef,
+      inputStyle,
     }
   },
 })

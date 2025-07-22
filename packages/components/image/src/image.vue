@@ -31,6 +31,7 @@
         :zoom-rate="zoomRate"
         :min-scale="minScale"
         :max-scale="maxScale"
+        :show-progress="showProgress"
         :url-list="previewSrcList"
         :crossorigin="crossorigin"
         :hide-on-click-modal="hideOnClickModal"
@@ -42,6 +43,12 @@
         <div v-if="$slots.viewer">
           <slot name="viewer" />
         </div>
+        <template v-if="$slots.progress" #progress="progress">
+          <slot name="progress" v-bind="progress" />
+        </template>
+        <template #toolbar="toolbar">
+          <slot name="toolbar" v-bind="toolbar" />
+        </template>
       </image-viewer>
     </template>
   </div>
@@ -62,6 +69,7 @@ import { useAttrs, useLocale, useNamespace } from '@element-plus/hooks'
 import ImageViewer from '@element-plus/components/image-viewer'
 import {
   getScrollContainer,
+  isArray,
   isClient,
   isElement,
   isInContainer,
@@ -78,8 +86,6 @@ defineOptions({
 
 const props = defineProps(imageProps)
 const emit = defineEmits(imageEmits)
-
-let prevOverflow = ''
 
 const { t } = useLocale()
 const ns = useNamespace('image')
@@ -109,7 +115,6 @@ const _scrollContainer = ref<HTMLElement | Window>()
 
 const supportLoading = isClient && 'loading' in HTMLImageElement.prototype
 let stopScrollListener: (() => void) | undefined
-let stopWheelListener: (() => void) | undefined
 
 const imageKls = computed(() => [
   ns.e('inner'),
@@ -127,7 +132,7 @@ const imageStyle = computed<CSSProperties>(() => {
 
 const preview = computed(() => {
   const { previewSrcList } = props
-  return Array.isArray(previewSrcList) && previewSrcList.length > 0
+  return isArray(previewSrcList) && previewSrcList.length > 0
 })
 
 const imageIndex = computed(() => {
@@ -206,36 +211,14 @@ function removeLazyLoadListener() {
   _scrollContainer.value = undefined
 }
 
-function wheelHandler(e: WheelEvent) {
-  if (!e.ctrlKey) return
-
-  if (e.deltaY < 0) {
-    e.preventDefault()
-    return false
-  } else if (e.deltaY > 0) {
-    e.preventDefault()
-    return false
-  }
-}
-
 function clickHandler() {
   // don't show viewer when preview is false
   if (!preview.value) return
-
-  stopWheelListener = useEventListener('wheel', wheelHandler, {
-    passive: false,
-  })
-
-  // prevent body scroll
-  prevOverflow = document.body.style.overflow
-  document.body.style.overflow = 'hidden'
   showViewer.value = true
   emit('show')
 }
 
 function closeViewer() {
-  stopWheelListener?.()
-  document.body.style.overflow = prevOverflow
   showViewer.value = false
   emit('close')
 }
@@ -265,5 +248,10 @@ onMounted(() => {
   } else {
     loadImage()
   }
+})
+
+defineExpose({
+  /** @description manually open preview */
+  showPreview: clickHandler,
 })
 </script>

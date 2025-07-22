@@ -7,16 +7,6 @@ lang: en-US
 
 Input data using mouse or keyboard.
 
-:::warning
-
-Input is a controlled component, it **always shows Vue binding value**.
-
-Under normal circumstances, `input` event should be handled. Its handler should update component's binding value (or use `v-model`). Otherwise, input box's value will not change.
-
-Do not support `v-model` modifiers.
-
-:::
-
 ## Basic usage
 
 :::demo
@@ -146,21 +136,28 @@ input/length-limiting
 | resize                      | control the resizability                                                                                                               | ^[enum]`'none' \| 'both' \| 'horizontal' \| 'vertical'`                                                                                                                                                                      | —       |
 | autofocus                   | same as `autofocus` in native input                                                                                                    | ^[boolean]                                                                                                                                                                                                                   | false   |
 | form                        | same as `form` in native input                                                                                                         | `string`                                                                                                                                                                                                                     | —       |
-| label ^(a11y) ^(deprecated) | same as `aria-label` in native input                                                                                                   | ^[string]                                                                                                                                                                                                                    | —       |
 | aria-label ^(a11y) ^(2.7.2) | same as `aria-label` in native input                                                                                                   | ^[string]                                                                                                                                                                                                                    | —       |
 | tabindex                    | input tabindex                                                                                                                         | ^[string] / ^[number]                                                                                                                                                                                                        | —       |
 | validate-event              | whether to trigger form validation                                                                                                     | ^[boolean]                                                                                                                                                                                                                   | true    |
 | input-style                 | the style of the input element or textarea element                                                                                     | ^[string] / ^[object]`CSSProperties \| CSSProperties[] \| string[]`                                                                                                                                                          | {}      |
+| label ^(a11y) ^(deprecated) | same as `aria-label` in native input                                                                                                   | ^[string]                                                                                                                                                                                                                    | —       |
+| inputmode ^(2.10.3)         | same as `inputmode` in native input                                                                                                    | ^[string]                                                                                                                                                                                                                    | —       |
 
 ### Events
 
-| Name   | Description                                                                                           | Type                                           |
-| ------ | ----------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
-| blur   | triggers when Input blurs                                                                             | ^[Function]`(event: FocusEvent) => void`       |
-| focus  | triggers when Input focuses                                                                           | ^[Function]`(event: FocusEvent) => void`       |
-| change | triggers when the input box loses focus or the user presses Enter, only if the modelValue has changed | ^[Function]`(value: string \| number) => void` |
-| input  | triggers when the Input value change                                                                  | ^[Function]`(value: string \| number) => void` |
-| clear  | triggers when the Input is cleared by clicking the clear button                                       | ^[Function]`() => void`                        |
+| Name              | Description                                                                                           | Type                                                 |
+| ----------------- | ----------------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
+| blur              | triggers when Input blurs                                                                             | ^[Function]`(event: FocusEvent) => void`             |
+| focus             | triggers when Input focuses                                                                           | ^[Function]`(event: FocusEvent) => void`             |
+| change            | triggers when the input box loses focus or the user presses Enter, only if the modelValue has changed | ^[Function]`(value: string \| number) => void`       |
+| input             | triggers when the Input value change                                                                  | ^[Function]`(value: string \| number) => void`       |
+| clear             | triggers when the Input is cleared by clicking the clear button                                       | ^[Function]`() => void`                              |
+| keydown           | triggers when a key is pressed down                                                                   | ^[Function]`(event: KeyboardEvent \| Event) => void` |
+| mouseleave        | triggers when the mouse leaves the Input element                                                      | ^[Function]`(event: MouseEvent) => void`             |
+| mouseenter        | triggers when the mouse enters the Input element                                                      | ^[Function]`(event: MouseEvent) => void`             |
+| compositionstart  | triggers when the composition starts                                                                  | ^[Function]`(event: CompositionEvent) => void`       |
+| compositionupdate | triggers when the composition is updated                                                              | ^[Function]`(event: CompositionEvent) => void`       |
+| compositionend    | triggers when the composition ends                                                                    | ^[Function]`(event: CompositionEvent) => void`       |
 
 ### Slots
 

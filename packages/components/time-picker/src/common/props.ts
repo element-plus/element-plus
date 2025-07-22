@@ -8,7 +8,7 @@ import {
 import { CircleClose } from '@element-plus/icons-vue'
 import { disabledTimeListsProps } from '../props/shared'
 
-import type { Component, ExtractPropTypes } from 'vue'
+import type { Component, ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type { Options } from '@popperjs/core'
 import type { Dayjs } from 'dayjs'
 import type { Placement } from '@element-plus/components/popper'
@@ -44,7 +44,6 @@ export const timePickerDefaultProps = buildProps({
    */
   name: {
     type: definePropType<SingleOrRange<string>>([Array, String]),
-    default: '',
   },
   /**
    * @description custom class name for TimePicker's dropdown
@@ -227,9 +226,23 @@ export const timePickerDefaultProps = buildProps({
   },
   ...useEmptyValuesProps,
   ...useAriaProps(['ariaLabel']),
+  /**
+   * @description whether to show the now button
+   */
+  showNow: {
+    type: Boolean,
+    default: true,
+  },
+  /**
+   * @description whether to show the number of the calendar week
+   */
+  showWeekNumber: Boolean,
 } as const)
 
 export type TimePickerDefaultProps = ExtractPropTypes<
+  typeof timePickerDefaultProps
+>
+export type TimePickerDefaultPropsPublic = __ExtractPublicPropTypes<
   typeof timePickerDefaultProps
 >
 
@@ -244,3 +257,23 @@ export interface PickerOptions {
   handleClear: () => void
   handleFocusPicker?: () => void
 }
+
+export const timePickerRangeTriggerProps = buildProps({
+  id: {
+    type: definePropType<string[]>(Array),
+  },
+  name: {
+    type: definePropType<string[]>(Array),
+  },
+  modelValue: {
+    type: definePropType<UserInput>([Array, String]),
+  },
+  startPlaceholder: String,
+  endPlaceholder: String,
+  disabled: Boolean,
+} as const)
+
+/**
+ * @deprecated Use `timePickerRangeTriggerProps` instead. This will be removed in future versions.
+ */
+export const timePickerRngeTriggerProps = timePickerRangeTriggerProps

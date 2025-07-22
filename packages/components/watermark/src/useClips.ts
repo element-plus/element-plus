@@ -1,3 +1,5 @@
+import { isArray } from '@element-plus/utils'
+
 import type { WatermarkProps } from './watermark'
 
 export const FontGap = 3
@@ -66,7 +68,7 @@ export default function useClips() {
       ctx.fillStyle = color
       ctx.textAlign = textAlign
       ctx.textBaseline = textBaseline
-      const contents = Array.isArray(content) ? content : [content]
+      const contents = isArray(content) ? content : [content]
       contents?.forEach((item, index) => {
         ctx.fillText(
           item ?? '',

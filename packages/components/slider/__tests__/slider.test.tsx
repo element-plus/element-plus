@@ -4,6 +4,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ElFormItem } from '@element-plus/components/form'
 import Slider from '../src/slider.vue'
+
 import type { SliderProps } from '../src/slider'
 
 vi.mock('lodash-unified', async () => {
@@ -197,13 +198,13 @@ describe('Slider', () => {
       const slider = wrapper.findComponent({ name: 'ElSliderButton' })
 
       slider.vm.onKeyDown(
-        new KeyboardEvent('keydown', { key: EVENT_CODE.right })
+        new KeyboardEvent('keydown', { code: EVENT_CODE.right })
       )
       await nextTick()
       expect(value.value).toBe(1)
 
       slider.vm.onKeyDown(
-        new KeyboardEvent('keydown', { key: EVENT_CODE.left })
+        new KeyboardEvent('keydown', { code: EVENT_CODE.left })
       )
       await nextTick()
       expect(value.value).toBe(0)
@@ -215,12 +216,12 @@ describe('Slider', () => {
 
       const slider = wrapper.findComponent({ name: 'ElSliderButton' })
 
-      slider.vm.onKeyDown(new KeyboardEvent('keydown', { key: EVENT_CODE.up }))
+      slider.vm.onKeyDown(new KeyboardEvent('keydown', { code: EVENT_CODE.up }))
       await nextTick()
       expect(value.value).toBe(1)
 
       slider.vm.onKeyDown(
-        new KeyboardEvent('keydown', { key: EVENT_CODE.down })
+        new KeyboardEvent('keydown', { code: EVENT_CODE.down })
       )
       await nextTick()
       expect(value.value).toBe(0)
@@ -234,13 +235,13 @@ describe('Slider', () => {
 
       const slider = wrapper.findComponent({ name: 'ElSliderButton' })
       slider.vm.onKeyDown(
-        new KeyboardEvent('keydown', { key: EVENT_CODE.pageUp })
+        new KeyboardEvent('keydown', { code: EVENT_CODE.pageUp })
       )
       await nextTick()
       expect(value.value).toBe(3)
 
       slider.vm.onKeyDown(
-        new KeyboardEvent('keydown', { key: EVENT_CODE.pageDown })
+        new KeyboardEvent('keydown', { code: EVENT_CODE.pageDown })
       )
       await nextTick()
       expect(value.value).toBe(-1)
@@ -254,12 +255,14 @@ describe('Slider', () => {
 
       const slider = wrapper.findComponent({ name: 'ElSliderButton' })
       slider.vm.onKeyDown(
-        new KeyboardEvent('keydown', { key: EVENT_CODE.home })
+        new KeyboardEvent('keydown', { code: EVENT_CODE.home })
       )
       await nextTick()
       expect(value.value).toBe(-5)
 
-      slider.vm.onKeyDown(new KeyboardEvent('keydown', { key: EVENT_CODE.end }))
+      slider.vm.onKeyDown(
+        new KeyboardEvent('keydown', { code: EVENT_CODE.end })
+      )
       await nextTick()
       expect(value.value).toBe(10)
     })

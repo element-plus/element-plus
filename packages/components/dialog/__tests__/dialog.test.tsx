@@ -5,6 +5,8 @@ import { rAF } from '@element-plus/test-utils/tick'
 import triggerCompositeClick from '@element-plus/test-utils/composite-click'
 import { Delete } from '@element-plus/icons-vue'
 import Dialog from '../src/dialog.vue'
+import triggerEvent from '@element-plus/test-utils/trigger-event'
+import { EVENT_CODE } from '@element-plus/constants'
 
 const AXIOM = 'Rem is the best girl'
 
@@ -143,6 +145,62 @@ describe('Dialog.vue', () => {
     await nextTick()
     await wrapper.find('.el-dialog__headerbtn').trigger('click')
     expect(wrapper.vm.visible).toBe(false)
+  })
+
+  test('should render header-class, body-class and footer-class if setted', async () => {
+    const headerCls = 'test-header-class'
+    const bodyCls = 'test-body-class'
+    const footerCls = 'test-footer-class'
+    const wrapper = mount(
+      <Dialog
+        modelValue={true}
+        headerClass={headerCls}
+        bodyClass={bodyCls}
+        footerClass={footerCls}
+        v-slots={{
+          default: () => AXIOM,
+          header: () => 'header desu',
+          footer: () => 'footer desu',
+        }}
+      />
+    )
+
+    await nextTick()
+    expect(wrapper.find('.test-header-class').exists()).toBe(true)
+    expect(wrapper.find('.test-body-class').exists()).toBe(true)
+    expect(wrapper.find('.test-footer-class').exists()).toBe(true)
+
+    await wrapper.setProps({
+      headerClass: undefined,
+      bodyClass: undefined,
+      footerClass: undefined,
+    })
+
+    expect(wrapper.find('.test-header-class').exists()).toBe(false)
+    expect(wrapper.find('.test-body-class').exists()).toBe(false)
+    expect(wrapper.find('.test-footer-class').exists()).toBe(false)
+  })
+
+  test('should close the modal when pressing Escape when `closeOnPressEscape` is true', async () => {
+    const onClose = vi.fn()
+    const wrapper = mount(
+      <Dialog modelValue={true} onClose={onClose} closeOnPressEscape={false}>
+        {AXIOM}
+      </Dialog>
+    )
+
+    await nextTick()
+
+    triggerEvent(document.body, 'keydown', EVENT_CODE.esc)
+    await nextTick()
+    expect(wrapper.vm.visible).toBeTruthy()
+
+    await wrapper.setProps({ closeOnPressEscape: true })
+    triggerEvent(document.body, 'keydown', EVENT_CODE.esc)
+    await nextTick()
+
+    expect(wrapper.vm.visible).toBeFalsy()
+    expect(onClose).toHaveBeenCalledTimes(1)
   })
 
   describe('mask related', () => {

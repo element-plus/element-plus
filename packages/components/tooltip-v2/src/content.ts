@@ -2,7 +2,7 @@ import { buildProps, definePropType } from '@element-plus/utils'
 import { useAriaProps } from '@element-plus/hooks'
 
 import type { PopperEffect } from '@element-plus/components/popper'
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type { Placement, Strategy, VirtualElement } from '@floating-ui/dom'
 
 const tooltipV2Strategies = ['absolute', 'fixed'] as const
@@ -28,7 +28,7 @@ export const tooltipV2ContentProps = buildProps({
     default: 5,
   },
   effect: {
-    type: definePropType<PopperEffect | string>(String),
+    type: definePropType<PopperEffect>(String),
     default: 'light',
   },
   contentClass: String,
@@ -61,5 +61,9 @@ export const tooltipV2ContentProps = buildProps({
 } as const)
 
 export type TooltipV2ContentProps = ExtractPropTypes<
+  typeof tooltipV2ContentProps
+>
+
+export type TooltipV2ContentPropsPublic = __ExtractPublicPropTypes<
   typeof tooltipV2ContentProps
 >

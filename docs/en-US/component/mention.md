@@ -105,11 +105,12 @@ and please go to the original component to view the documentation.
 
 ### Events
 
-| Name                              | Description                         | Type                                                         |
-| --------------------------------- | ----------------------------------- | ------------------------------------------------------------ |
-| search                            | trigger when prefix hit             | ^[Function]`(pattern: string, prefix: string) => void`       |
-| select                            | trigger when user select the option | ^[Function]`(option: MentionOption, prefix: string) => void` |
-| [input events](./input.md#events) | —                                   | —                                                            |
+| Name                              | Description                                                                                 | Type                                                         |
+| --------------------------------- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| search                            | trigger when prefix hit                                                                     | ^[Function]`(pattern: string, prefix: string) => void`       |
+| select                            | trigger when user select the option                                                         | ^[Function]`(option: MentionOption, prefix: string) => void` |
+| whole-remove ^(2.10.4)            | trigger when a whole mention is removed and `whole` is `true` or `check-is-whole` is `true` | ^[Function]`(pattern: string, prefix: string) => void`       |
+| [input events](./input.md#events) | —                                                                                           | —                                                            |
 
 ### Slots
 
@@ -123,10 +124,11 @@ and please go to the original component to view the documentation.
 
 ### Exposes
 
-| Name    | Description                   | Type                                    |
-| ------- | ----------------------------- | --------------------------------------- |
-| input   | el-input component instance   | ^[object]`Ref<InputInstance \| null>`   |
-| tooltip | el-tooltip component instance | ^[object]`Ref<TooltipInstance \| null>` |
+| Name                     | Description                   | Type                                    |
+| ------------------------ | ----------------------------- | --------------------------------------- |
+| input                    | el-input component instance   | ^[object]`Ref<InputInstance \| null>`   |
+| tooltip                  | el-tooltip component instance | ^[object]`Ref<TooltipInstance \| null>` |
+| dropdownVisible ^(2.8.5) | tooltip display status        | ^[object]`ComputedRef<boolean>`         |
 
 ## Type Declarations
 

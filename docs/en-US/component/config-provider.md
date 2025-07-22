@@ -25,6 +25,14 @@ config-provider/button
 
 :::
 
+## Link Configurations ^(2.9.11)
+
+:::demo
+
+config-provider/link
+
+:::
+
 ## Message Configurations
 
 :::demo
@@ -74,7 +82,8 @@ In this section, you can learn how to use Config Provider to provide experimenta
 | size                    | global component size                                                                                                                                                  | ^[enum]`'large' \| 'default' \| 'small'`                                                                                                                                                                                                                       | default                                                                                |
 | zIndex                  | global Initial zIndex                                                                                                                                                  | ^[number]                                                                                                                                                                                                                                                      | —                                                                                      |
 | namespace               | global component className prefix (cooperated with [$namespace](https://github.com/element-plus/element-plus/blob/dev/packages/theme-chalk/src/mixins/config.scss#L1)) | ^[string]                                                                                                                                                                                                                                                      | el                                                                                     |
-| button                  | button related configuration, [see the following table](#button-attribute)                                                                                             | ^[object]`{autoInsertSpace?: boolean}`                                                                                                                                                                                                                         | see the following table                                                                |
+| button                  | button related configuration, [see the following table](#button-attribute)                                                                                             | ^[object]`{autoInsertSpace?: boolean, type?: string, plain?: boolean, round?: boolean}`                                                                                                                                                                        | see the following table                                                                |
+| link                    | link related configuration, [see the following table](#link-attribute)                                                                                                 | ^[object]`{type?: string, underline?: boolean \| string}`                                                                                                                                                                                                      | see the following table                                                                |
 | message                 | message related configuration, [see the following table](#message-attribute)                                                                                           | ^[object]`{max?: number}`                                                                                                                                                                                                                                      | see the following table                                                                |
 | experimental-features   | features at experimental stage to be added, all features are default to be set to false                                                                                | ^[object]                                                                                                                                                                                                                                                      | —                                                                                      |
 | empty-values ^(2.7.0)   | global empty values of components                                                                                                                                      | ^[array]                                                                                                                                                                                                                                                       | —                                                                                      |
@@ -82,9 +91,19 @@ In this section, you can learn how to use Config Provider to provide experimenta
 
 ### Button Attribute
 
-| Attribute       | Description                                                 | Type       | Default |
-| --------------- | ----------------------------------------------------------- | ---------- | ------- |
-| autoInsertSpace | automatically insert a space between two chinese characters | ^[boolean] | false   |
+| Attribute       | Description                                                                                                                                          | Type                                                                                      | Default |
+| --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ------- |
+| type ^(2.9.11)  | button type, when setting `color`, the latter prevails                                                                                               | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'text' (deprecated)` | —       |
+| autoInsertSpace | automatically insert a space between two chinese characters(this will only take effect when the text length is 2 and all characters are in Chinese.) | ^[boolean]                                                                                | false   |
+| plain ^(2.9.11) | determine whether it's a plain button                                                                                                                | ^[boolean]                                                                                | false   |
+| round ^(2.9.11) | determine whether it's a round button                                                                                                                | ^[boolean]                                                                                | false   |
+
+### Link Attribute
+
+| Attribute           | Description                   | Type                                                                            | Default |
+| ------------------- | ----------------------------- | ------------------------------------------------------------------------------- | ------- |
+| type ^(2.9.11)      | type                          | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'default'` | default |
+| underline ^(2.9.11) | when underlines should appear | ^[enum]`'always' \| 'hover' \| 'never' \| boolean`                              | hover   |
 
 ### Message Attribute
 
@@ -95,6 +114,7 @@ In this section, you can learn how to use Config Provider to provide experimenta
 | duration ^(2.8.2)  | display duration, millisecond. If set to 0, it will not turn off automatically | ^[number]  | —       |
 | showClose ^(2.8.2) | whether to show a close button                                                 | ^[boolean] | —       |
 | offset ^(2.8.2)    | set the distance to the top of viewport                                        | ^[number]  | —       |
+| plain ^(2.9.11)    | whether message is plain                                                       | ^[boolean] | —       |
 
 ### Config Provider Slots
 

@@ -8,8 +8,9 @@ import { nav } from './nav'
 import { mdPlugin } from './plugins'
 import { sidebars } from './sidebars'
 import { getViteConfig } from './vite'
+import { vueCompiler } from './vue-compiler'
 
-import type { UserConfigFn } from 'vitepress'
+import type { UserConfig } from 'vitepress'
 
 const buildTransformers = () => {
   const transformer = () => {
@@ -47,8 +48,8 @@ languages.forEach((lang) => {
   }
 })
 
-const setupConfig: UserConfigFn<any> = (configEnv) => {
-  const config = {
+const setupConfig = (configEnv) => {
+  const config: UserConfig<any> = {
     title: 'Element Plus',
     description: 'A Vue 3 based component library for designers and developers',
     lastUpdated: true,
@@ -78,6 +79,7 @@ const setupConfig: UserConfigFn<any> = (configEnv) => {
       config: (md) => mdPlugin(md),
     },
     vue: {
+      compiler: vueCompiler,
       template: {
         compilerOptions: {
           hoistStatic: false,

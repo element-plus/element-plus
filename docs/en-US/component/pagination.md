@@ -67,7 +67,6 @@ pagination/more-elements
 
 | Name                                | Description                                                                                                                     | Type                                                                              | Default                              |
 | ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ------------------------------------ |
-| small ^(deprecated)                 | whether to use small pagination                                                                                                 | ^[boolean]                                                                        | false                                |
 | size ^(2.7.6)                       | pagination size                                                                                                                 | ^[enum]`'large' \| 'default' \| 'small'`                                          | 'default'                            |
 | background                          | whether the buttons have a background color                                                                                     | ^[boolean]                                                                        | false                                |
 | page-size / v-model:page-size       | item count of each page                                                                                                         | ^[number]                                                                         | —                                    |
@@ -88,6 +87,7 @@ pagination/more-elements
 | disabled                            | whether Pagination is disabled                                                                                                  | ^[boolean]                                                                        | false                                |
 | teleported ^(2.3.13)                | whether Pagination select dropdown is teleported to the body                                                                    | ^[boolean]                                                                        | true                                 |
 | hide-on-single-page                 | whether to hide when there's only one page                                                                                      | ^[boolean]                                                                        | false                                |
+| small ^(deprecated)                 | whether to use small pagination                                                                                                 | ^[boolean]                                                                        | false                                |
 
 :::warning
 

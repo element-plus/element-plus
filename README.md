@@ -7,7 +7,7 @@
     <img src="https://img.shields.io/npm/v/element-plus.svg" />
   </a>
   <a href="https://github.com/element-plus/element-plus">
-    <img src="https://img.shields.io/badge/node-%20%3E%3D%2018-47c219" />
+    <img src="https://img.shields.io/badge/node-%20%3E%3D%2020-47c219" />
   </a>
   <a href="https://npmcharts.com/compare/element-plus?minimal=true">
     <img src="https://img.shields.io/npm/dm/element-plus.svg" />
@@ -72,13 +72,13 @@ You can also try Element Plus out with the components built-in playground.
         </a>
       </td>
       <td align="center" valign="middle">
-        <a href="https://www.vform666.com/" target="_blank">
-          <img width="150px" src="https://user-images.githubusercontent.com/17680888/156870588-b25a42d5-888b-4943-8b1b-5239dfd8f4d2.png">
+        <a href="https://www.jnpfsoft.com/index.html?from=elementUI" target="_blank">
+          <img width="150px" src="https://github.com/element-plus/element-plus/assets/17680888/6a044d82-c393-48ab-90b8-de0d3aad1624">
         </a>
       </td>
       <td align="center" valign="middle">
-        <a href="https://www.jnpfsoft.com/index.html?from=elementUI" target="_blank">
-          <img width="150px" src="https://github.com/element-plus/element-plus/assets/17680888/6a044d82-c393-48ab-90b8-de0d3aad1624">
+        <a href="https://vue.misboot.com/#/login?from=element-plus" target="_blank">
+          <img width="150px" src="https://github.com/user-attachments/assets/ade8e7e6-f9a4-45d5-9006-44b548599a8d">
         </a>
       </td>
       <td align="center" valign="middle">
@@ -101,8 +101,13 @@ You can also try Element Plus out with the components built-in playground.
         </a>
       </td>
       <td align="center" valign="middle">
-        <a href="http://www.i-renderer.love/home/index" target="_blank">
-          <img width="130px" src="https://github.com/element-plus/element-plus/assets/82012629/0004917d-71ad-48f9-b3ce-9299f0ff78c6">
+        <a href="https://fantastic-admin.github.io/?from=element-plus" target="_blank">
+          <img width="130px" src="https://github.com/user-attachments/assets/0dbd9c02-d132-4c9e-a162-2b5a8728fc7e">
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="https://el.frsimple.com" target="_blank">
+          <img width="130px" src="https://github.com/user-attachments/assets/27ec522b-5de2-4c61-88b9-be47ff3ccc69">
         </a>
       </td>
       <td align="center" valign="middle">
@@ -151,6 +156,12 @@ We are now lacking of experts of `Testing`, `GitHub Actions`, `PM`, if you do fe
 This project exists thanks to all the people who contribute.
 
 And thank you to all our backers! 🙏
+
+<a href="https://openomy.app/github/element-plus/element-plus" target="_blank" style="display: block; width: 100%;" align="center">
+  <img src="https://openomy.app/svg?repo=element-plus/element-plus&chart=bubble&latestMonth=3" target="_blank" alt="Contribution Leaderboard" style="display: block; width: 100%;" />
+</a>
+
+<hr />
 
 <a href="https://github.com/element-plus/element-plus/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=element-plus/element-plus" />

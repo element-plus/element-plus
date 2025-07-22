@@ -1,6 +1,6 @@
 import { buildProps } from '@element-plus/utils'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 
 export const anchorLinkProps = buildProps({
   /**
@@ -14,3 +14,6 @@ export const anchorLinkProps = buildProps({
 })
 
 export type AnchorLinkProps = ExtractPropTypes<typeof anchorLinkProps>
+export type AnchorLinkPropsPublic = __ExtractPublicPropTypes<
+  typeof anchorLinkProps
+>

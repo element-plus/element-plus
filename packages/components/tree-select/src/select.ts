@@ -4,6 +4,7 @@ import { pick } from 'lodash-unified'
 import ElSelect from '@element-plus/components/select'
 import { useNamespace } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+
 import type { Ref } from 'vue'
 import type ElTree from '@element-plus/components/tree'
 
@@ -39,6 +40,8 @@ export const useSelect = (
   const result = {
     ...pick(toRefs(props), Object.keys(ElSelect.props)),
     ...attrs,
+    class: computed(() => attrs.class),
+    style: computed(() => attrs.style),
     // attrs is not reactive, when v-model binding source changes,
     // this listener is still old, see the bug(or test 'v-model source change'):
     // https://github.com/element-plus/element-plus/issues/14204

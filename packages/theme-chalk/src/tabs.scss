@@ -33,6 +33,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
     border: 1px solid getCssVar('border-color');
     height: 20px;
     width: 20px;
@@ -414,8 +415,13 @@
       justify-content: flex-start;
     }
   }
+  @include m((top, bottom)) {
+    .#{$namespace}-tabs__nav {
+      min-height: getCssVar('tabs', 'header-height');
+    }
+  }
   @include m(left) {
-    flex-direction: row-reverse;
+    flex-direction: row;
 
     .#{$namespace}-tabs__header.is-left {
       margin-bottom: 0;
@@ -497,6 +503,11 @@
         }
       }
     }
+
+    // only for SSR
+    > .#{$namespace}-tabs__content + .#{$namespace}-tabs__header {
+      order: -1;
+    }
   }
   @include m(right) {
     .#{$namespace}-tabs__header.is-right {
@@ -571,7 +582,12 @@
     }
   }
   @include m(top) {
-    flex-direction: column-reverse;
+    flex-direction: column;
+
+    // only for SSR
+    > .#{$namespace}-tabs__content + .#{$namespace}-tabs__header {
+      order: -1;
+    }
   }
 }
 

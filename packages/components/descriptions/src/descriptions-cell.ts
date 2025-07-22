@@ -3,8 +3,8 @@ import { isNil } from 'lodash-unified'
 import { addUnit, getNormalizedProps } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { descriptionsKey } from './token'
-import type { DirectiveArguments, PropType, VNode } from 'vue'
 
+import type { DirectiveArguments, PropType, VNode } from 'vue'
 import type {
   IDescriptionsInject,
   IDescriptionsItemInject,
@@ -49,11 +49,16 @@ export default defineComponent({
     const span = item.span
     const rowspan = item.rowspan
     const align = item.align ? `is-${item.align}` : ''
-    const labelAlign = item.labelAlign ? `is-${item.labelAlign}` : '' || align
+    const labelAlign = item.labelAlign ? `is-${item.labelAlign}` : align
     const className = item.className
     const labelClassName = item.labelClassName
+    const width =
+      this.type === 'label'
+        ? item.labelWidth || this.descriptions.labelWidth || item.width
+        : item.width
+
     const style = {
-      width: addUnit(item.width),
+      width: addUnit(width),
       minWidth: addUnit(item.minWidth),
     }
     const ns = useNamespace('descriptions')
@@ -103,7 +108,12 @@ export default defineComponent({
         )
       default: {
         const label = renderLabel()
-
+        const labelStyle: Record<string, any> = {}
+        const width = addUnit(item.labelWidth || this.descriptions.labelWidth)
+        if (width) {
+          labelStyle.width = width
+          labelStyle.display = 'inline-block'
+        }
         return withDirectives(
           h(
             'td',
@@ -118,6 +128,7 @@ export default defineComponent({
                 ? h(
                     'span',
                     {
+                      style: labelStyle,
                       class: [ns.e('label'), labelClassName],
                     },
                     label

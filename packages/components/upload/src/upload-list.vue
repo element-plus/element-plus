@@ -104,6 +104,7 @@
     <slot name="append" />
   </transition-group>
 </template>
+
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
@@ -118,8 +119,8 @@ import {
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElProgress from '@element-plus/components/progress'
 import { useFormDisabled } from '@element-plus/components/form'
-
 import { uploadListEmits, uploadListProps } from './upload-list'
+
 import type { UploadFile } from './upload'
 
 defineOptions({

@@ -2,6 +2,7 @@ import type {
   ComponentInternalInstance,
   ExtractPropTypes,
   SetupContext,
+  __ExtractPublicPropTypes,
 } from 'vue'
 import type { treeEmits, treeProps } from './virtual-tree'
 
@@ -16,9 +17,14 @@ export interface TreeOptionProps {
   label?: string
   value?: string
   disabled?: string
+  class?: (
+    data: TreeNodeData,
+    node: TreeNode
+  ) => string | { [key: string]: boolean }
 }
 
 export type TreeProps = ExtractPropTypes<typeof treeProps>
+export type TreePropsPublic = __ExtractPublicPropTypes<typeof treeProps>
 
 export interface TreeNode {
   key: TreeKey
@@ -29,6 +35,7 @@ export interface TreeNode {
   disabled?: boolean
   label?: string
   isLeaf?: boolean
+  expanded?: boolean
 }
 
 export interface TreeContext {
@@ -44,7 +51,11 @@ export interface Tree {
   maxLevel: number
 }
 
-export type FilterMethod = (query: string, node: TreeNodeData) => boolean
+export type FilterMethod = (
+  query: string,
+  data: TreeNodeData,
+  node: TreeNode
+) => boolean
 
 export interface CheckedInfo {
   checkedKeys: TreeKey[]

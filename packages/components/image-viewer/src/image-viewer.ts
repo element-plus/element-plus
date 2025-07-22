@@ -5,7 +5,7 @@ import {
   mutable,
 } from '@element-plus/utils'
 
-import type { Component, ExtractPropTypes } from 'vue'
+import type { Component, ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type ImageViewer from './image-viewer.vue'
 
 export type ImageViewerAction =
@@ -79,6 +79,10 @@ export const imageViewerProps = buildProps({
     default: 7,
   },
   /**
+   * @description show preview image progress content.
+   */
+  showProgress: Boolean,
+  /**
    * @description set HTML attribute: crossorigin.
    */
   crossorigin: {
@@ -86,6 +90,9 @@ export const imageViewerProps = buildProps({
   },
 } as const)
 export type ImageViewerProps = ExtractPropTypes<typeof imageViewerProps>
+export type ImageViewerPropsPublic = __ExtractPublicPropTypes<
+  typeof imageViewerProps
+>
 
 export const imageViewerEmits = {
   close: () => true,
@@ -99,4 +106,4 @@ export interface ImageViewerMode {
   icon: Component
 }
 
-export type ImageViewerInstance = InstanceType<typeof ImageViewer>
+export type ImageViewerInstance = InstanceType<typeof ImageViewer> & unknown

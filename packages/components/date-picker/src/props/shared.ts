@@ -1,7 +1,7 @@
 import { buildProps, definePropType, isArray } from '@element-plus/utils'
 import { datePickTypes } from '@element-plus/constants'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type { Dayjs } from 'dayjs'
 import type { DatePickType } from '@element-plus/constants'
 
@@ -57,10 +57,16 @@ export const panelSharedProps = buildProps({
   },
   dateFormat: String,
   timeFormat: String,
+  showNow: {
+    type: Boolean,
+    default: true,
+  },
+  showWeekNumber: Boolean,
 } as const)
 
 export const panelRangeSharedProps = buildProps({
   unlinkPanels: Boolean,
+  visible: Boolean,
   parsedValue: {
     type: definePropType<Dayjs[]>(Array),
   },
@@ -82,5 +88,8 @@ export const rangePickerSharedEmits = {
 
 export type RangePickerSharedEmits = typeof rangePickerSharedEmits
 export type PanelRangeSharedProps = ExtractPropTypes<
+  typeof panelRangeSharedProps
+>
+export type PanelRangeSharedPropsPublic = __ExtractPublicPropTypes<
   typeof panelRangeSharedProps
 >

@@ -5,6 +5,7 @@ import dayjs from 'dayjs'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { ElFormItem } from '@element-plus/components/form'
 import DatePicker from '../src/date-picker'
+
 import type DatePickerRange from '../src/date-picker-com/panel-date-range.vue'
 import type { VueWrapper } from '@vue/test-utils'
 import type { VNode } from 'vue'
@@ -387,6 +388,30 @@ describe('Datetime Picker', () => {
     expect(timeInput.value).toBe('13:00:00')
   })
 
+  it('inherit time across different picker view', async () => {
+    const value = ref(new Date(2000, 10, 8, 10, 10))
+    const wrapper = _mount(() => (
+      <DatePicker v-model={value.value} type="datetime" />
+    ))
+
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    const headerPanel = document.querySelectorAll(
+      '.el-date-picker__header-label'
+    )
+    ;(headerPanel[1] as HTMLSpanElement).click()
+    await nextTick()
+    const firstMonth = document.querySelector(
+      '.el-month-table td'
+    ) as HTMLSpanElement
+    firstMonth.click()
+    const timeInput: HTMLInputElement = document.querySelector(
+      '.el-date-picker__time-header > span:nth-child(2) input'
+    )!
+    expect(timeInput.value).toBe('10:10:00')
+  })
+
   // fix #15196
   it('first click accuracy', async () => {
     const value = ref('')
@@ -404,6 +429,51 @@ describe('Datetime Picker', () => {
     targetDay.click()
     await nextTick()
     expect(dayjs(value.value).format('D')).toBe(dayText)
+  })
+
+  it('validate user input', async () => {
+    const value = ref('')
+    const wrapper = _mount(() => (
+      <DatePicker v-model={value.value} type="datetime" />
+    ))
+    const input = wrapper.find('input')
+    input.element.value = '999999-10-01 12:01:03'
+    await input.trigger('input')
+    await input.trigger('blur')
+    expect(value.value).toBe('')
+
+    input.element.value = '2023-10-01 12:01:03'
+    await input.trigger('input')
+    await input.trigger('blur')
+    expect(dayjs(value.value).format('YYYY-MM-DD HH:mm:ss')).toBe(
+      '2023-10-01 12:01:03'
+    )
+
+    // invalid user input not work
+    input.element.value = '999999-10-01'
+    await input.trigger('input')
+    await input.trigger('blur')
+    expect(dayjs(value.value).format('YYYY-MM-DD HH:mm:ss')).toBe(
+      '2023-10-01 12:01:03'
+    )
+  })
+
+  it('shows weekNumber', async () => {
+    const value = ref('2025-01-01')
+    _mount(() => (
+      <DatePicker v-model={value.value} type="datetime" show-week-number />
+    ))
+    await nextTick()
+    const weeks = document.querySelectorAll('td.week')
+    expect(weeks.length).toBe(6)
+    expect([...weeks].map((x) => x.textContent?.trim())).toEqual([
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+    ])
   })
 })
 
@@ -883,5 +953,29 @@ describe('Datetimerange', () => {
     expect(dayjs(value.value).format('YYYY-MM-DD HH:mm:ss')).toStrictEqual(
       '2023-01-01 12:00:00'
     )
+  })
+
+  it('shows weekNumber', async () => {
+    const value = ref([new Date(2025, 0, 1), new Date(2025, 1, 1)])
+    _mount(() => (
+      <DatePicker v-model={value.value} type="datetimerange" show-week-number />
+    ))
+    await nextTick()
+    const weeks = document.querySelectorAll('td.week')
+    expect(weeks.length).toBe(12)
+    expect([...weeks].map((x) => x.textContent?.trim())).toEqual([
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '5',
+      '6',
+      '7',
+      '8',
+      '9',
+      '10',
+    ])
   })
 })

@@ -18,7 +18,7 @@
       :effect="rootMenu.props.popperEffect"
       placement="right"
       :fallback-placements="['left']"
-      persistent
+      :persistent="rootMenu.props.persistent"
     >
       <template #content>
         <slot name="title" />
@@ -34,11 +34,10 @@
   </li>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 // @ts-nocheck
 import {
   computed,
-  defineComponent,
   getCurrentInstance,
   inject,
   onBeforeUnmount,
@@ -47,71 +46,71 @@ import {
   toRef,
 } from 'vue'
 import ElTooltip from '@element-plus/components/tooltip'
-import { throwError } from '@element-plus/utils'
+import { debugWarn, isPropAbsent, throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import useMenu from './use-menu'
 import { menuItemEmits, menuItemProps } from './menu-item'
+import { MENU_INJECTION_KEY, SUB_MENU_INJECTION_KEY } from './tokens'
 
 import type { MenuItemRegistered, MenuProvider, SubMenuProvider } from './types'
 
 const COMPONENT_NAME = 'ElMenuItem'
-export default defineComponent({
+defineOptions({
   name: COMPONENT_NAME,
-  components: {
-    ElTooltip,
-  },
+})
+const props = defineProps(menuItemProps)
+const emit = defineEmits(menuItemEmits)
 
-  props: menuItemProps,
-  emits: menuItemEmits,
+isPropAbsent(props.index) &&
+  debugWarn(COMPONENT_NAME, 'Missing required prop: "index"')
 
-  setup(props, { emit }) {
-    const instance = getCurrentInstance()!
-    const rootMenu = inject<MenuProvider>('rootMenu')
-    const nsMenu = useNamespace('menu')
-    const nsMenuItem = useNamespace('menu-item')
-    if (!rootMenu) throwError(COMPONENT_NAME, 'can not inject root menu')
+const instance = getCurrentInstance()!
+const rootMenu = inject<MenuProvider>(MENU_INJECTION_KEY)
+const nsMenu = useNamespace('menu')
+const nsMenuItem = useNamespace('menu-item')
+if (!rootMenu) throwError(COMPONENT_NAME, 'can not inject root menu')
 
-    const { parentMenu, indexPath } = useMenu(instance, toRef(props, 'index'))
+const { parentMenu, indexPath } = useMenu(instance, toRef(props, 'index'))
 
-    const subMenu = inject<SubMenuProvider>(`subMenu:${parentMenu.value.uid}`)
-    if (!subMenu) throwError(COMPONENT_NAME, 'can not inject sub menu')
+const subMenu = inject<SubMenuProvider>(
+  `${SUB_MENU_INJECTION_KEY}${parentMenu.value.uid}`
+)
+if (!subMenu) throwError(COMPONENT_NAME, 'can not inject sub menu')
 
-    const active = computed(() => props.index === rootMenu.activeIndex)
-    const item: MenuItemRegistered = reactive({
+const active = computed(() => props.index === rootMenu.activeIndex)
+const item: MenuItemRegistered = reactive({
+  index: props.index,
+  indexPath,
+  active,
+})
+
+const handleClick = () => {
+  if (!props.disabled) {
+    rootMenu.handleMenuItemClick({
       index: props.index,
-      indexPath,
-      active,
+      indexPath: indexPath.value,
+      route: props.route,
     })
+    emit('click', item)
+  }
+}
 
-    const handleClick = () => {
-      if (!props.disabled) {
-        rootMenu.handleMenuItemClick({
-          index: props.index,
-          indexPath: indexPath.value,
-          route: props.route,
-        })
-        emit('click', item)
-      }
-    }
+onMounted(() => {
+  subMenu.addSubMenu(item)
+  rootMenu.addMenuItem(item)
+})
 
-    onMounted(() => {
-      subMenu.addSubMenu(item)
-      rootMenu.addMenuItem(item)
-    })
+onBeforeUnmount(() => {
+  subMenu.removeSubMenu(item)
+  rootMenu.removeMenuItem(item)
+})
 
-    onBeforeUnmount(() => {
-      subMenu.removeSubMenu(item)
-      rootMenu.removeMenuItem(item)
-    })
-
-    return {
-      parentMenu,
-      rootMenu,
-      active,
-      nsMenu,
-      nsMenuItem,
-      handleClick,
-    }
-  },
+defineExpose({
+  parentMenu,
+  rootMenu,
+  active,
+  nsMenu,
+  nsMenuItem,
+  handleClick,
 })
 </script>

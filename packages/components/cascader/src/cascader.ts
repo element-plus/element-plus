@@ -5,6 +5,7 @@ import { useEmptyValuesProps, useSizeProp } from '@element-plus/hooks'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { tagProps } from '@element-plus/components/tag'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+
 import type {
   CascaderNode,
   CascaderValue,
@@ -71,9 +72,12 @@ export const cascaderProps = buildProps({
   /**
    * @description native input id
    */
-  collapseTagsTooltip: {
-    type: Boolean,
-    default: false,
+  collapseTagsTooltip: Boolean,
+  /**
+   * @description The max height of collapse tags tooltip, in pixels. To use this, collapse-tags-tooltip must be true
+   */
+  maxCollapseTagsTooltipHeight: {
+    type: [String, Number],
   },
   /**
    * @description debounce delay when typing filter keyword, in milliseconds
@@ -149,11 +153,12 @@ export const cascaderProps = buildProps({
   ...useEmptyValuesProps,
 })
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const emitChangeFn = (value: CascaderValue) => true
+
 export const cascaderEmits = {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  [UPDATE_MODEL_EVENT]: (_: CascaderValue) => true,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  [CHANGE_EVENT]: (_: CascaderValue) => true,
+  [UPDATE_MODEL_EVENT]: emitChangeFn,
+  [CHANGE_EVENT]: emitChangeFn,
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
   blur: (evt: FocusEvent) => evt instanceof FocusEvent,
   clear: () => true,

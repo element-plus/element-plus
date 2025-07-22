@@ -1,6 +1,5 @@
 import path from 'path'
 import Inspect from 'vite-plugin-inspect'
-import VueMacros from 'unplugin-vue-macros/vite'
 import UnoCSS from 'unocss/vite'
 import mkcert from 'vite-plugin-mkcert'
 import glob from 'fast-glob'
@@ -9,6 +8,7 @@ import Components from 'unplugin-vue-components/vite'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
 import { loadEnv } from 'vitepress'
+import { groupIconVitePlugin } from 'vitepress-plugin-group-icons'
 import {
   docPackage,
   epPackage,
@@ -16,6 +16,7 @@ import {
   projRoot,
 } from '@element-plus/build-utils'
 import { MarkdownTransform } from '../plugins/markdown-transform'
+
 import type { Plugin, UserConfig } from 'vitepress'
 
 type ViteConfig = Required<UserConfig>['vite']
@@ -27,7 +28,8 @@ const { dependencies: docsDeps } = getPackageDependencies(docPackage)
 const optimizeDeps = [...new Set([...epDeps, ...docsDeps])].filter(
   (dep) =>
     !dep.startsWith('@types/') &&
-    !['@element-plus/metadata', 'element-plus'].includes(dep)
+    !['@element-plus/metadata', 'element-plus'].includes(dep) &&
+    !['normalize.css'].includes(dep)
 )
 optimizeDeps.push(
   ...(await glob(['dayjs/plugin/*.js'], {
@@ -75,16 +77,7 @@ export const getViteConfig = ({ mode }: { mode: string }): ViteConfig => {
       alias,
     },
     plugins: [
-      VueMacros({
-        setupComponent: false,
-        setupSFC: false,
-        hoistStatic: {
-          exclude: ['./**/*.vue'],
-        },
-        plugins: {
-          vueJsx: vueJsx(),
-        },
-      }),
+      vueJsx(),
 
       // https://github.com/antfu/unplugin-vue-components
       Components({
@@ -101,15 +94,20 @@ export const getViteConfig = ({ mode }: { mode: string }): ViteConfig => {
 
         // allow auto import and register components used in markdown
         include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
-      }),
+      }) as Plugin,
 
       // https://github.com/antfu/unplugin-icons
       Icons({
         autoInstall: true,
+      }) as Plugin,
+
+      UnoCSS({
+        inspector: false,
       }),
-      UnoCSS(),
-      MarkdownTransform(),
+
+      MarkdownTransform() as Plugin,
       Inspect(),
+      groupIconVitePlugin() as Plugin,
       env.HTTPS ? (mkcert() as Plugin) : undefined,
     ],
     optimizeDeps: {

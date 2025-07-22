@@ -145,6 +145,7 @@
             :parsed-value="parsedValue"
             :disabled-date="disabledDate"
             :cell-class-name="cellClassName"
+            :show-week-number="showWeekNumber"
             @pick="handleDatePick"
           />
           <year-table
@@ -170,7 +171,7 @@
     </div>
     <div v-show="footerVisible" :class="ppNs.e('footer')">
       <el-button
-        v-show="!isMultipleType"
+        v-show="!isMultipleType && showNow"
         text
         size="small"
         :class="ppNs.e('link-btn')"
@@ -209,6 +210,7 @@ import { ClickOutside as vClickOutside } from '@element-plus/directives'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import {
+  PICKER_BASE_INJECTION_KEY,
   TimePickPanel,
   extractDateFormat,
   extractTimeFormat,
@@ -224,7 +226,12 @@ import {
 } from '@element-plus/icons-vue'
 import { TOOLTIP_INJECTION_KEY } from '@element-plus/components/tooltip'
 import { panelDatePickProps } from '../props/panel-date-pick'
-import { getValidDateOfMonth, getValidDateOfYear } from '../utils'
+import {
+  correctlyParseUserInput,
+  getValidDateOfMonth,
+  getValidDateOfYear,
+} from '../utils'
+import { ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY } from '../constants'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
@@ -252,7 +259,10 @@ const attrs = useAttrs()
 const slots = useSlots()
 
 const { t, lang } = useLocale()
-const pickerBase = inject('EP_PICKER_BASE') as any
+const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
+const isDefaultFormat = inject(
+  ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY
+) as any
 const popper = inject(TOOLTIP_INJECTION_KEY)
 const { shortcuts, disabledDate, cellClassName, defaultTime } = pickerBase.props
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
@@ -431,6 +441,7 @@ const handleMonthPick = async (
 ) => {
   if (selectionMode.value === 'month') {
     innerDate.value = getValidDateOfMonth(
+      innerDate.value,
       innerDate.value.year(),
       month as number,
       lang.value,
@@ -441,6 +452,7 @@ const handleMonthPick = async (
     emit(month as MonthsPickerEmits, keepOpen ?? true)
   } else {
     innerDate.value = getValidDateOfMonth(
+      innerDate.value,
       innerDate.value.year(),
       month as number,
       lang.value,
@@ -616,7 +628,12 @@ const handleVisibleTimeChange = (value: string) => {
 }
 
 const handleVisibleDateChange = (value: string) => {
-  const newDate = dayjs(value, dateFormat.value).locale(lang.value)
+  const newDate = correctlyParseUserInput(
+    value,
+    dateFormat.value,
+    lang.value,
+    isDefaultFormat
+  ) as Dayjs
   if (newDate.isValid()) {
     if (disabledDate && disabledDate(newDate.toDate())) {
       return
@@ -643,7 +660,12 @@ const formatToString = (value: Dayjs | Dayjs[]) => {
 }
 
 const parseUserInput = (value: Dayjs) => {
-  return dayjs(value, props.format).locale(lang.value)
+  return correctlyParseUserInput(
+    value,
+    props.format,
+    lang.value,
+    isDefaultFormat
+  )
 }
 
 const getDefaultValue = () => {
@@ -659,12 +681,17 @@ const getDefaultValue = () => {
   return parseDate
 }
 
-const handleFocusPicker = async () => {
+const handleFocusPicker = () => {
   if (['week', 'month', 'year', 'date'].includes(selectionMode.value)) {
     currentViewRef.value?.focus()
-    if (selectionMode.value === 'week') {
-      handleKeyControl(EVENT_CODE.down)
-    }
+  }
+}
+
+const _handleFocusPicker = () => {
+  handleFocusPicker()
+  // TODO: After focus the date input, the first time you use the ArrowDown keys, you cannot focus on the date cell
+  if (selectionMode.value === 'week') {
+    handleKeyControl(EVENT_CODE.down)
   }
 }
 
@@ -815,7 +842,7 @@ watch(
   (val) => {
     if (val) {
       if (isMultipleType.value) return
-      if (Array.isArray(val)) return
+      if (isArray(val)) return
       innerDate.value = val
     } else {
       innerDate.value = getDefaultValue()
@@ -827,5 +854,5 @@ watch(
 contextEmit('set-picker-option', ['isValidValue', isValidValue])
 contextEmit('set-picker-option', ['formatToString', formatToString])
 contextEmit('set-picker-option', ['parseUserInput', parseUserInput])
-contextEmit('set-picker-option', ['handleFocusPicker', handleFocusPicker])
+contextEmit('set-picker-option', ['handleFocusPicker', _handleFocusPicker])
 </script>

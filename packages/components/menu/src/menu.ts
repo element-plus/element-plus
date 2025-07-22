@@ -12,7 +12,6 @@ import {
   watchEffect,
   withDirectives,
 } from 'vue'
-
 import { useResizeObserver } from '@vueuse/core'
 import { isNil } from 'lodash-unified'
 import ElIcon from '@element-plus/components/icon'
@@ -22,8 +21,10 @@ import {
   definePropType,
   flattedChildren,
   iconPropType,
+  isArray,
   isObject,
   isString,
+  isUndefined,
   mutable,
 } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
@@ -32,8 +33,9 @@ import Menubar from './utils/menu-bar'
 import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import ElSubMenu from './sub-menu'
 import { useMenuCssVar } from './use-menu-css-var'
-import type { PopperEffect } from '@element-plus/components/popper'
+import { MENU_INJECTION_KEY, SUB_MENU_INJECTION_KEY } from './tokens'
 
+import type { PopperEffect } from '@element-plus/components/popper'
 import type { MenuItemClicked, MenuProvider, SubMenuProvider } from './types'
 import type { NavigationFailure, Router } from 'vue-router'
 import type {
@@ -42,6 +44,7 @@ import type {
   ExtractPropTypes,
   VNode,
   VNodeArrayChildren,
+  __ExtractPublicPropTypes,
 } from 'vue'
 import type { UseResizeObserverReturn } from '@vueuse/core'
 
@@ -139,7 +142,7 @@ export const menuProps = buildProps({
    * @description Tooltip theme, built-in theme: `dark` / `light` when menu is collapsed
    */
   popperEffect: {
-    type: definePropType<PopperEffect | string>(String),
+    type: definePropType<PopperEffect>(String),
     default: 'dark',
   },
   /**
@@ -160,11 +163,19 @@ export const menuProps = buildProps({
     type: Number,
     default: 300,
   },
+  /**
+   * @description when menu inactive and `persistent` is `false` , dropdown menu will be destroyed
+   */
+  persistent: {
+    type: Boolean,
+    default: true,
+  },
 } as const)
 export type MenuProps = ExtractPropTypes<typeof menuProps>
+export type MenuPropsPublic = __ExtractPublicPropTypes<typeof menuProps>
 
 const checkIndexPath = (indexPath: unknown): indexPath is string[] =>
-  Array.isArray(indexPath) && indexPath.every((path) => isString(path))
+  isArray(indexPath) && indexPath.every((path) => isString(path))
 
 export const menuEmits = {
   close: (index: string, indexPath: string[]) =>
@@ -182,7 +193,7 @@ export const menuEmits = {
     isString(index) &&
     checkIndexPath(indexPath) &&
     isObject(item) &&
-    (routerResult === undefined || routerResult instanceof Promise),
+    (isUndefined(routerResult) || routerResult instanceof Promise),
 }
 export type MenuEmits = typeof menuEmits
 
@@ -212,12 +223,11 @@ export default defineComponent({
     const subMenus = ref<MenuProvider['subMenus']>({})
 
     // computed
-    const isMenuPopup = computed<MenuProvider['isMenuPopup']>(() => {
-      return (
+    const isMenuPopup = computed<MenuProvider['isMenuPopup']>(
+      () =>
         props.mode === 'horizontal' ||
         (props.mode === 'vertical' && props.collapse)
-      )
-    })
+    )
 
     // methods
     const initMenu = () => {
@@ -265,11 +275,7 @@ export default defineComponent({
     }) => {
       const isOpened = openedMenus.value.includes(index)
 
-      if (isOpened) {
-        closeMenu(index, indexPath)
-      } else {
-        openMenu(index, indexPath)
-      }
+      isOpened ? closeMenu(index, indexPath) : openMenu(index, indexPath)
     }
 
     const handleMenuItemClick: MenuProvider['handleMenuItemClick'] = (
@@ -278,7 +284,6 @@ export default defineComponent({
       if (props.mode === 'horizontal' || props.collapse) {
         openedMenus.value = []
       }
-
       const { index, indexPath } = menuItem
       if (isNil(index) || isNil(indexPath)) return
 
@@ -308,11 +313,7 @@ export default defineComponent({
         (activeIndex.value && itemsInData[activeIndex.value]) ||
         itemsInData[props.defaultActive]
 
-      if (item) {
-        activeIndex.value = item.index
-      } else {
-        activeIndex.value = val
-      }
+      activeIndex.value = item?.index ?? val
     }
 
     const calcMenuItemWidth = (menuItem: HTMLElement) => {
@@ -325,10 +326,7 @@ export default defineComponent({
     const calcSliceIndex = () => {
       if (!menu.value) return -1
       const items = Array.from(menu.value?.childNodes ?? []).filter(
-        (item) =>
-          // remove comment type node #12634
-          item.nodeName !== '#comment' &&
-          (item.nodeName !== '#text' || item.nodeValue)
+        (item) => item.nodeName !== '#text' || item.nodeValue
       ) as HTMLElement[]
       const moreItemWidth = 64
       const computedMenuStyle = getComputedStyle(menu.value!)
@@ -338,6 +336,7 @@ export default defineComponent({
       let calcWidth = 0
       let sliceIndex = 0
       items.forEach((item, index) => {
+        if (item.nodeName === '#comment') return
         calcWidth += calcMenuItemWidth(item)
         if (calcWidth <= menuWidth - moreItemWidth) {
           sliceIndex = index + 1
@@ -418,8 +417,9 @@ export default defineComponent({
       const removeMenuItem: MenuProvider['removeMenuItem'] = (item) => {
         delete items.value[item.index]
       }
+
       provide<MenuProvider>(
-        'rootMenu',
+        MENU_INJECTION_KEY,
         reactive({
           props,
           openedMenus,
@@ -438,7 +438,8 @@ export default defineComponent({
           handleSubMenuClick,
         })
       )
-      provide<SubMenuProvider>(`subMenu:${instance.uid}`, {
+
+      provide<SubMenuProvider>(`${SUB_MENU_INJECTION_KEY}${instance.uid}`, {
         addSubMenu,
         removeSubMenu,
         mouseInChild,
@@ -462,6 +463,7 @@ export default defineComponent({
       expose({
         open,
         close,
+        updateActiveIndex,
         handleResize,
       })
     }
