@@ -149,6 +149,7 @@ export const cascaderProps = buildProps({
     type: String,
     values: ['parent', 'child'],
     default: 'child',
+  },
   /*
    * @description whether to check or uncheck node when clicking on the node
    */
