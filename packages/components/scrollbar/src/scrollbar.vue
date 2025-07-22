@@ -66,10 +66,10 @@ let wrapScrollTop = 0
 let wrapScrollLeft = 0
 let direction = '' as ScrollbarDirection
 const distanceScrollState = {
-  triggerBottom: false,
-  triggerTop: false,
-  triggerRight: false,
-  triggerLeft: false,
+  bottom: false,
+  top: false,
+  right: false,
+  left: false,
 }
 type distanceScrollStateKey = keyof typeof distanceScrollState
 
@@ -99,10 +99,10 @@ const resizeKls = computed(() => {
 
 const shouldSkipDirection = (direction: ScrollbarDirection) => {
   return (
-    (direction === 'top' && distanceScrollState.triggerTop) ||
-    (direction === 'bottom' && distanceScrollState.triggerBottom) ||
-    (direction === 'left' && distanceScrollState.triggerLeft) ||
-    (direction === 'right' && distanceScrollState.triggerRight)
+    (direction === 'top' && distanceScrollState.top) ||
+    (direction === 'bottom' && distanceScrollState.bottom) ||
+    (direction === 'left' && distanceScrollState.left) ||
+    (direction === 'right' && distanceScrollState.right)
   )
 }
 
@@ -110,12 +110,8 @@ const updateTriggerStatus = (arrivedStates: Record<string, boolean>) => {
   const _updateTriggerState = (to: string, from: string) => {
     const arrived = arrivedStates[to]
     const oppositeArrived = arrivedStates[from]
-    const triggerKey = `trigger${
-      to[0].toUpperCase() + to.slice(1)
-    }` as distanceScrollStateKey
-    const oppositeTriggerKey = `trigger${
-      from[0].toUpperCase() + from.slice(1)
-    }` as distanceScrollStateKey
+    const triggerKey = to as distanceScrollStateKey
+    const oppositeTriggerKey = from as distanceScrollStateKey
     if (arrived && !distanceScrollState[triggerKey]) {
       distanceScrollState[triggerKey] = true
     }
