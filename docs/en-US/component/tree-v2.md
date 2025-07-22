@@ -95,35 +95,35 @@ tree-v2/filter
 
 ## TreeV2 Attributes
 
-| Name                          | Description                                                                                                                                  | Type                        | Default |
-| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- | ------- |
-| data                          | tree data                                                                                                                                    | array                       | —       |
-| empty-text                    | text displayed when data is void                                                                                                             | string                      | —       |
-| props                         | configuration options, see the following table                                                                                               | object                      | —       |
-| highlight-current             | whether current node is highlighted                                                                                                          | boolean                     | false   |
-| expand-on-click-node          | whether to expand or collapse node when clicking on the node, if false, then expand or collapse node only when clicking on the arrow icon.   | boolean                     | true    |
-| check-on-click-node           | whether to check or uncheck node when clicking on the node, if false, the node can only be checked or unchecked by clicking on the checkbox. | boolean                     | false   |
-| check-on-click-leaf ^(2.9.6)  | whether to check or uncheck node when clicking on leaf node (last children).                                                                 | ^[boolean]                  | true    |
-| default-expanded-keys         | array of keys of initially expanded nodes                                                                                                    | array                       | —       |
-| show-checkbox                 | whether node is selectable                                                                                                                   | boolean                     | false   |
-| check-strictly                | whether checked state of a node not affects its father and child nodes when `show-checkbox` is `true`                                        | boolean                     | false   |
-| default-checked-keys          | array of keys of initially checked nodes                                                                                                     | array                       | —       |
-| current-node-key              | key of initially selected node                                                                                                               | string / number             | —       |
-| filter-method                 | this function will be executed on each node when use filter method. if return `false`, tree node will be hidden.                             | Function(value, data, node) | —       |
-| indent                        | horizontal indentation of nodes in adjacent levels in pixels                                                                                 | number                      | 16      |
-| icon                          | custom tree node icon                                                                                                                        | `string \| Component`       | —       |
-| item-size ^(2.2.33)           | custom tree node height                                                                                                                      | number                      | 26      |
-| scrollbar-always-on ^(2.10.4) | always show scrollbar                                                                                                                        | ^[boolean]                  | false   |
+| Name                          | Description                                                                                                                                  | Type                                                                        | Default |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | ------- |
+| data                          | tree data                                                                                                                                    | ^[object]`Array<{[key: string]: any}>`                                      | —       |
+| empty-text                    | text displayed when data is void                                                                                                             | ^[string]                                                                   | —       |
+| props                         | configuration options, see the following table                                                                                               | [props](#props)                                                             | —       |
+| highlight-current             | whether current node is highlighted                                                                                                          | ^[boolean]                                                                  | false   |
+| expand-on-click-node          | whether to expand or collapse node when clicking on the node, if false, then expand or collapse node only when clicking on the arrow icon.   | ^[boolean]                                                                  | true    |
+| check-on-click-node           | whether to check or uncheck node when clicking on the node, if false, the node can only be checked or unchecked by clicking on the checkbox. | ^[boolean]                                                                  | false   |
+| check-on-click-leaf ^(2.9.6)  | whether to check or uncheck node when clicking on leaf node (last children).                                                                 | ^[boolean]                                                                  | true    |
+| default-expanded-keys         | array of keys of initially expanded nodes                                                                                                    | ^[object]`Array<string \| number>`                                          | —       |
+| show-checkbox                 | whether node is selectable                                                                                                                   | ^[boolean]                                                                  | false   |
+| check-strictly                | whether checked state of a node not affects its father and child nodes when `show-checkbox` is `true`                                        | ^[boolean]                                                                  | false   |
+| default-checked-keys          | array of keys of initially checked nodes                                                                                                     | ^[object]`Array<string \| number>`                                          | —       |
+| current-node-key              | key of initially selected node                                                                                                               | ^[string] / ^[number]                                                       | —       |
+| filter-method                 | this function will be executed on each node when use filter method. if return `false`, tree node will be hidden.                             | ^[Function]`(query: string, data: TreeNodeData, node: TreeNode) => boolean` | —       |
+| indent                        | horizontal indentation of nodes in adjacent levels in pixels                                                                                 | ^[number]                                                                   | 16      |
+| icon                          | custom tree node icon component                                                                                                              | ^[string] / ^[Component]                                                    | —       |
+| item-size ^(2.2.33)           | custom tree node height                                                                                                                      | ^[number]                                                                   | 26      |
+| scrollbar-always-on ^(2.10.4) | always show scrollbar                                                                                                                        | ^[boolean]                                                                  | false   |
 
 ## props
 
-| Attribute      | Description                                                                          | Type                                            | Default  |
-| -------------- | ------------------------------------------------------------------------------------ | ----------------------------------------------- | -------- |
-| value          | unique identity key name for nodes, its value should be unique across the whole tree | string                                          | id       |
-| label          | specify which key of node object is used as the node's label                         | string                                          | label    |
-| children       | specify which node object is used as the node's subtree                              | string                                          | children |
-| disabled       | specify which key of node object represents if node's checkbox is disabled           | string                                          | disabled |
-| class ^(2.9.0) | custom node class name                                                               | ^[string] / ^[Function]`(data, node) => string` | —        |
+| Attribute      | Description                                                                          | Type                                                                                                | Default  |
+| -------------- | ------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------- | -------- |
+| value          | unique identity key name for nodes, its value should be unique across the whole tree | ^[string]                                                                                           | id       |
+| label          | specify which key of node object is used as the node's label                         | ^[string]                                                                                           | label    |
+| children       | specify which node object is used as the node's subtree                              | ^[string]                                                                                           | children |
+| disabled       | specify which key of node object represents if node's checkbox is disabled           | ^[string]                                                                                           | disabled |
+| class ^(2.9.0) | custom node class name                                                               | ^[string] / ^[Function]`(data: TreeNodeData, node: TreeNode) => string \| {[key: string]: boolean}` | —        |
 
 ## TreeV2 Method
 
