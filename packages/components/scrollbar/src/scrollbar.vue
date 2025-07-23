@@ -65,6 +65,13 @@ let stopResizeListener: (() => void) | undefined = undefined
 let wrapScrollTop = 0
 let wrapScrollLeft = 0
 let direction = '' as ScrollbarDirection
+const distanceScrollState = {
+  bottom: false,
+  top: false,
+  right: false,
+  left: false,
+}
+type distanceScrollStateKey = keyof typeof distanceScrollState
 
 const scrollbarRef = ref<HTMLDivElement>()
 const wrapRef = ref<HTMLDivElement>()
@@ -90,6 +97,43 @@ const resizeKls = computed(() => {
   return [ns.e('view'), props.viewClass]
 })
 
+const shouldSkipDirection = (direction: ScrollbarDirection) => {
+  return (
+    (direction === 'top' && distanceScrollState.top) ||
+    (direction === 'bottom' && distanceScrollState.bottom) ||
+    (direction === 'left' && distanceScrollState.left) ||
+    (direction === 'right' && distanceScrollState.right)
+  )
+}
+
+const updateTriggerStatus = (arrivedStates: Record<string, boolean>) => {
+  const _updateTriggerState = (to: string, from: string) => {
+    const arrived = arrivedStates[to]
+    const oppositeArrived = arrivedStates[from]
+    const triggerKey = to as distanceScrollStateKey
+    const oppositeTriggerKey = from as distanceScrollStateKey
+    if (arrived && !distanceScrollState[triggerKey]) {
+      distanceScrollState[triggerKey] = true
+    }
+    if (!oppositeArrived && distanceScrollState[oppositeTriggerKey]) {
+      distanceScrollState[oppositeTriggerKey] = false
+    }
+  }
+  // scroll bottom to top
+  if (direction === 'top') {
+    _updateTriggerState('top', 'bottom')
+  }
+  if (direction === 'bottom') {
+    _updateTriggerState('bottom', 'top')
+  }
+  if (direction === 'left') {
+    _updateTriggerState('left', 'right')
+  }
+  if (direction === 'right') {
+    _updateTriggerState('right', 'left')
+  }
+}
+
 const handleScroll = () => {
   if (wrapRef.value) {
     barRef.value?.handleScroll(wrapRef.value)
@@ -101,13 +145,19 @@ const handleScroll = () => {
     const arrivedStates = {
       bottom:
         wrapScrollTop + wrapRef.value.clientHeight >=
-        wrapRef.value.scrollHeight,
-      top: wrapScrollTop <= 0 && prevTop !== 0,
+        wrapRef.value.scrollHeight - props.distance,
+      top: wrapScrollTop <= props.distance && prevTop !== 0,
       right:
         wrapScrollLeft + wrapRef.value.clientWidth >=
-          wrapRef.value.scrollWidth && prevLeft !== wrapScrollLeft,
-      left: wrapScrollLeft <= 0 && prevLeft !== 0,
+          wrapRef.value.scrollWidth - props.distance &&
+        prevLeft !== wrapScrollLeft,
+      left: wrapScrollLeft <= props.distance && prevLeft !== 0,
     }
+
+    emit('scroll', {
+      scrollTop: wrapScrollTop,
+      scrollLeft: wrapScrollLeft,
+    })
 
     if (prevTop !== wrapScrollTop) {
       direction = wrapScrollTop > prevTop ? 'bottom' : 'top'
@@ -115,11 +165,12 @@ const handleScroll = () => {
     if (prevLeft !== wrapScrollLeft) {
       direction = wrapScrollLeft > prevLeft ? 'right' : 'left'
     }
-
-    emit('scroll', {
-      scrollTop: wrapScrollTop,
-      scrollLeft: wrapScrollLeft,
-    })
+    if (props.distance > 0) {
+      if (shouldSkipDirection(direction)) {
+        return
+      }
+      updateTriggerStatus(arrivedStates)
+    }
     if (arrivedStates[direction]) emit('end-reached', direction)
   }
 }
