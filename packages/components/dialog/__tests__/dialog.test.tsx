@@ -436,7 +436,6 @@ describe('Dialog.vue', () => {
         name: 'dialog-custom-object',
         appear: true,
         duration: 500,
-        mode: 'out-in',
         enterActiveClass: 'dialog-custom-object-enter-active',
         leaveActiveClass: 'dialog-custom-object-leave-active',
         enterFromClass: 'dialog-custom-object-enter-from',
