@@ -128,6 +128,21 @@ export const inputTagProps = buildProps({
     default: true,
   },
   /**
+   * @description whether to collapse tags to a text
+   */
+  collapseTags: Boolean,
+  /**
+   * @description whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true
+   */
+  collapseTagsTooltip: Boolean,
+  /**
+   * @description the max tags number to be shown. To use this, `collapse-tags` must be true
+   */
+  maxCollapseTags: {
+    type: Number,
+    default: 1,
+  },
+  /**
    * @description native `aria-label` attribute
    */
   ariaLabel: String,

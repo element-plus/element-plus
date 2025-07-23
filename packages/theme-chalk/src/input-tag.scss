@@ -102,6 +102,13 @@
     );
   }
 
+  @include e(input-tag-item) {
+    display: flex;
+    flex-wrap: wrap;
+    user-select: none;
+    gap: map.get($input-tag-gap, 'default');
+  }
+
   @include e(inner) {
     position: relative;
     display: flex;
