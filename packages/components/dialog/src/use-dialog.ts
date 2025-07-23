@@ -17,7 +17,7 @@ import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { addUnit, isClient } from '@element-plus/utils'
 import { useGlobalConfig } from '@element-plus/components/config-provider'
 
-import type { CSSProperties, Ref, SetupContext } from 'vue'
+import type { CSSProperties, Ref, SetupContext, TransitionProps } from 'vue'
 import type { DialogEmits, DialogProps } from './dialog'
 
 export const useDialog = (
@@ -60,6 +60,55 @@ export const useDialog = (
       return { display: 'flex' }
     }
     return {}
+  })
+
+  const transitionConfig = computed(() => {
+    if (typeof props.transition === 'string') {
+      return {
+        name: props.transition,
+        onAfterEnter: afterEnter,
+        onBeforeLeave: beforeLeave,
+        onAfterLeave: afterLeave,
+      }
+    }
+    if (props.transition && typeof props.transition === 'object') {
+      const config = { ...props.transition } as TransitionProps
+      if (config.onAfterEnter) {
+        const originalAfterEnter = config.onAfterEnter
+        config.onAfterEnter = (el: Element) => {
+          if (typeof originalAfterEnter === 'function') {
+            originalAfterEnter(el)
+          }
+          afterEnter()
+        }
+      } else {
+        config.onAfterEnter = afterEnter
+      }
+      if (config.onBeforeLeave) {
+        const originalBeforeLeave = config.onBeforeLeave
+        config.onBeforeLeave = (el: Element) => {
+          if (typeof originalBeforeLeave === 'function') {
+            originalBeforeLeave(el)
+          }
+          beforeLeave()
+        }
+      } else {
+        config.onBeforeLeave = beforeLeave
+      }
+      if (config.onAfterLeave) {
+        const originalAfterLeave = config.onAfterLeave
+        config.onAfterLeave = (el: Element) => {
+          if (typeof originalAfterLeave === 'function') {
+            originalAfterLeave(el)
+          }
+          afterLeave()
+        }
+      } else {
+        config.onAfterLeave = afterLeave
+      }
+      return config
+    }
+    return undefined
   })
 
   function afterEnter() {
@@ -208,9 +257,6 @@ export const useDialog = (
   })
 
   return {
-    afterEnter,
-    afterLeave,
-    beforeLeave,
     handleClose,
     onModalClick,
     close,
@@ -227,5 +273,6 @@ export const useDialog = (
     rendered,
     visible,
     zIndex,
+    transitionConfig,
   }
 }
