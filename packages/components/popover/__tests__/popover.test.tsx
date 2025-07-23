@@ -96,7 +96,7 @@ describe('Popover.vue', () => {
     ).toBeLessThanOrEqual(currentZIndex.value)
   })
 
-  it('defind hide method', async () => {
+  it('defined hide method', async () => {
     wrapper = _mount()
     const vm = wrapper.findComponent(Popover).vm
 
