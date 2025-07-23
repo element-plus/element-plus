@@ -290,7 +290,7 @@ export default defineComponent({
         openedMenus.value = []
       }
       const { index, indexPath } = menuItem
-      if (isNil(index) || indexPath.every((i) => !isNil(i))) return
+      if (isNil(index) || isNil(indexPath)) return
 
       if (props.router && router) {
         const route = menuItem.route || index
