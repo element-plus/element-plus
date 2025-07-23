@@ -302,10 +302,10 @@ export default defineComponent({
     // provide
     {
       const addSubMenu: SubMenuProvider['addSubMenu'] = (item) => {
-        subMenus.value[item.index] = item
+        item.index && (subMenus.value[item.index] = item)
       }
       const removeSubMenu: SubMenuProvider['removeSubMenu'] = (item) => {
-        delete subMenus.value[item.index]
+        item.index && delete subMenus.value[item.index]
       }
       provide<SubMenuProvider>(`${SUB_MENU_INJECTION_KEY}${instance.uid}`, {
         addSubMenu,
