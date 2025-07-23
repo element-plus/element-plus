@@ -14,8 +14,16 @@ import {
   useZIndex,
 } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { addUnit, isClient } from '@element-plus/utils'
+import {
+  type Arrayable,
+  addUnit,
+  isClient,
+  isFunction,
+  isObject,
+  isString,
+} from '@element-plus/utils'
 import { useGlobalConfig } from '@element-plus/components/config-provider'
+import { DEFAULT_DIALOG_TRANSITION } from './constants'
 
 import type { CSSProperties, Ref, SetupContext, TransitionProps } from 'vue'
 import type { DialogEmits, DialogProps } from './dialog'
@@ -63,52 +71,43 @@ export const useDialog = (
   })
 
   const transitionConfig = computed(() => {
-    if (typeof props.transition === 'string') {
+    const baseConfig = {
+      name: DEFAULT_DIALOG_TRANSITION,
+      onAfterEnter: afterEnter,
+      onBeforeLeave: beforeLeave,
+      onAfterLeave: afterLeave,
+    }
+    if (isString(props.transition)) {
       return {
+        ...baseConfig,
         name: props.transition,
-        onAfterEnter: afterEnter,
-        onBeforeLeave: beforeLeave,
-        onAfterLeave: afterLeave,
       }
     }
-    if (props.transition && typeof props.transition === 'object') {
+    if (isObject(props.transition)) {
       const config = { ...props.transition } as TransitionProps
-      if (config.onAfterEnter) {
-        const originalAfterEnter = config.onAfterEnter
-        config.onAfterEnter = (el: Element) => {
-          if (typeof originalAfterEnter === 'function') {
-            originalAfterEnter(el)
+      const _mergeHook = (
+        userHook: Arrayable<(el: Element) => void> | undefined,
+        defaultHook: () => void
+      ) => {
+        return (el: Element) => {
+          if (Array.isArray(userHook)) {
+            userHook.forEach((fn) => {
+              if (isFunction(fn)) fn(el)
+            })
+          } else if (isFunction(userHook)) {
+            userHook(el)
           }
-          afterEnter()
+          defaultHook()
         }
-      } else {
-        config.onAfterEnter = afterEnter
       }
-      if (config.onBeforeLeave) {
-        const originalBeforeLeave = config.onBeforeLeave
-        config.onBeforeLeave = (el: Element) => {
-          if (typeof originalBeforeLeave === 'function') {
-            originalBeforeLeave(el)
-          }
-          beforeLeave()
-        }
-      } else {
-        config.onBeforeLeave = beforeLeave
-      }
-      if (config.onAfterLeave) {
-        const originalAfterLeave = config.onAfterLeave
-        config.onAfterLeave = (el: Element) => {
-          if (typeof originalAfterLeave === 'function') {
-            originalAfterLeave(el)
-          }
-          afterLeave()
-        }
-      } else {
-        config.onAfterLeave = afterLeave
-      }
+      config.onAfterEnter = _mergeHook(config.onAfterEnter, afterEnter)
+      config.onBeforeLeave = _mergeHook(config.onBeforeLeave, beforeLeave)
+      config.onAfterLeave = _mergeHook(config.onAfterLeave, afterLeave)
+      if (!config.name) config.name = DEFAULT_DIALOG_TRANSITION
       return config
     }
-    return undefined
+
+    return baseConfig
   })
 
   function afterEnter() {
