@@ -136,7 +136,7 @@ export function getTestDataNumAndString() {
   ]
 }
 
-export function getMutliRowTestData() {
+export function getMultiRowTestData() {
   return [
     {
       id: '12987122',

@@ -85,6 +85,11 @@
       input {
         cursor: not-allowed;
       }
+
+      .#{$namespace}-select__prefix,
+      .#{$namespace}-select__suffix {
+        pointer-events: none;
+      }
     }
   }
 
