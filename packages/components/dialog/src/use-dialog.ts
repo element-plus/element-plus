@@ -15,8 +15,8 @@ import {
 } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import {
-  type Arrayable,
   addUnit,
+  isArray,
   isClient,
   isFunction,
   isObject,
@@ -26,6 +26,7 @@ import { useGlobalConfig } from '@element-plus/components/config-provider'
 import { DEFAULT_DIALOG_TRANSITION } from './constants'
 
 import type { CSSProperties, Ref, SetupContext, TransitionProps } from 'vue'
+import type { Arrayable } from '@element-plus/utils'
 import type { DialogEmits, DialogProps } from './dialog'
 
 export const useDialog = (
@@ -77,7 +78,10 @@ export const useDialog = (
       onBeforeLeave: beforeLeave,
       onAfterLeave: afterLeave,
     }
-    if (isString(props.transition)) {
+    if (
+      isString(props.transition) &&
+      props.transition !== DEFAULT_DIALOG_TRANSITION
+    ) {
       return {
         ...baseConfig,
         name: props.transition,
@@ -90,7 +94,7 @@ export const useDialog = (
         defaultHook: () => void
       ) => {
         return (el: Element) => {
-          if (Array.isArray(userHook)) {
+          if (isArray(userHook)) {
             userHook.forEach((fn) => {
               if (isFunction(fn)) fn(el)
             })
