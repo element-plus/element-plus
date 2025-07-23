@@ -406,7 +406,7 @@
     .#{$namespace}-select,
     .#{$namespace}-button {
       display: inline-block;
-      flex-grow: 1;
+      flex: 1;
       margin: 0 -20px;
     }
 
