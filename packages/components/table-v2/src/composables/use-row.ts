@@ -108,18 +108,10 @@ export const useRow = (
 
     const tableRoot = tableInstance!.vnode.el as HTMLElement
     const hoverRow = tableRoot.querySelector(
-      `[rowkey="${String(rowKey)}"].${ns.is('hovered')}`
+      `.${ns.is('hovered')}[rowkey="${String(rowKey)}"]`
     )
     if (hoverRow) {
-      nextTick(() => {
-        onRowHovered({
-          hovered: true,
-          rowKey,
-          event: new MouseEvent('hover'),
-          rowData,
-          rowIndex,
-        })
-      })
+      nextTick(() => onRowHovered({ hovered: true, rowKey }))
     }
   }
 
