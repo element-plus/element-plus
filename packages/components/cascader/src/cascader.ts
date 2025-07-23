@@ -143,14 +143,15 @@ export const cascaderProps = buildProps({
     default: true,
   },
   /**
-   * @description setting check strategy
+   * @description Use `parent` when you want things tidy (like "Entire Collection" instead of listing 100 items)
+   * Use `child` when every single item matters (like important settings)
    */
   showCheckedStrategy: {
     type: String,
     values: ['parent', 'child'],
     default: 'child',
   },
-  /*
+  /**
    * @description whether to check or uncheck node when clicking on the node
    */
   checkOnClickNode: Boolean,

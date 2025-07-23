@@ -158,6 +158,16 @@ cascader/check-on-click-node
 
 :::
 
+## Show Checked Strategy
+
+Control how selected values are displayed in multiple selection mode.
+
+:::demo In multiple selection mode, you can use `show-checked-strategy` to control how selected values are displayed. The default strategy is `child`, which shows all selected child nodes. The `parent` strategy only shows parent nodes when all their children are selected.
+
+cascader/show-checked-strategy
+
+:::
+
 ## Cascader API
 
 ### Cascader Attributes
@@ -192,6 +202,7 @@ cascader/check-on-click-node
 | fallback-placements ^(2.8.1)               | list of possible positions for Tooltip [popper.js](https://popper.js.org/docs/v2/modifiers/flip/#fallbackplacements)                                                             | ^[arrary]`Placement[]`                                                                                                                                                      | —            |
 | placement ^(2.8.1)                         | position of dropdown                                                                                                                                                             | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | bottom-start |
 | popper-append-to-body ^(deprecated)        | whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false                                                      | ^[boolean]                                                                                                                                                                  | true         |
+| show-checked-strategy                      | strategy for displaying checked nodes in multiple selection mode. Use `parent` when you want things tidy. Use `child` when every single item matters                             | ^[enum]`'parent' \| 'child'`                                                                                                                                                | child        |
 
 ### Cascader Events
 
