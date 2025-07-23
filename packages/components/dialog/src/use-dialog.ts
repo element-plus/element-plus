@@ -20,7 +20,6 @@ import {
   isClient,
   isFunction,
   isObject,
-  isString,
 } from '@element-plus/utils'
 import { useGlobalConfig } from '@element-plus/components/config-provider'
 import { DEFAULT_DIALOG_TRANSITION } from './constants'
@@ -73,19 +72,10 @@ export const useDialog = (
 
   const transitionConfig = computed(() => {
     const baseConfig = {
-      name: DEFAULT_DIALOG_TRANSITION,
+      name: props.transition,
       onAfterEnter: afterEnter,
       onBeforeLeave: beforeLeave,
       onAfterLeave: afterLeave,
-    }
-    if (
-      isString(props.transition) &&
-      props.transition !== DEFAULT_DIALOG_TRANSITION
-    ) {
-      return {
-        ...baseConfig,
-        name: props.transition,
-      }
     }
     if (isObject(props.transition)) {
       const config = { ...props.transition } as TransitionProps
