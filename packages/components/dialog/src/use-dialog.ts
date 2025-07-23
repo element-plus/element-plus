@@ -257,6 +257,9 @@ export const useDialog = (
   })
 
   return {
+    afterEnter,
+    afterLeave,
+    beforeLeave,
     handleClose,
     onModalClick,
     close,
