@@ -211,14 +211,14 @@ type MenuOpenEvent = (index: string, indexPath: string[]) => void
 type MenuCloseEvent = (index: string, indexPath: string[]) => void
 
 interface MenuItemRegistered {
-  index: string
-  indexPath: string[]
+  index: string | null
+  indexPath: (string | null)[]
   active: boolean
 }
 
 interface MenuItemClicked {
-  index: string
-  indexPath: string[]
+  index: string | null
+  indexPath: (string | null)[]
   route?: RouteLocationRaw
 }
 ```
