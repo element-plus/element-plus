@@ -4,7 +4,7 @@
     <el-cascader
       v-model="value1"
       :options="options"
-      :props="{ multiple: true }"
+      :props="props"
       show-checked-strategy="child"
       clearable
       @change="handleChange1"
@@ -18,7 +18,7 @@
     <el-cascader
       v-model="value2"
       :options="options"
-      :props="{ multiple: true }"
+      :props="props"
       show-checked-strategy="parent"
       clearable
       @change="handleChange2"
@@ -31,6 +31,9 @@ import { ref } from 'vue'
 
 const value1 = ref([])
 const value2 = ref([])
+const props = {
+  multiple: true,
+}
 
 const handleChange1 = (value) => {
   console.log('Child strategy:', value)
