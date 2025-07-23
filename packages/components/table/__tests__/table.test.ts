@@ -9,7 +9,7 @@ import ElTable from '../src/table.vue'
 import ElTableColumn from '../src/table-column'
 import {
   doubleWait,
-  getMutliRowTestData,
+  getMultiRowTestData,
   getTestData,
   getTestDataNumAndString,
   mount,
@@ -1273,7 +1273,7 @@ describe('Table.vue', () => {
       `,
       data() {
         return {
-          testData: getMutliRowTestData(),
+          testData: getMultiRowTestData(),
         }
       },
       methods: {
