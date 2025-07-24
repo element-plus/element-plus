@@ -148,6 +148,26 @@ cascader/custom-tag
 
 :::
 
+## Header of the dropdown ^(2.10.5)
+
+You can customize the header of the dropdown.
+
+:::demo Use slot to customize the content.
+
+cascader/custom-header
+
+:::
+
+## Footer of the dropdown ^(2.10.5)
+
+You can customize the footer of the dropdown.
+
+:::demo Use slot to customize the content.
+
+cascader/custom-footer
+
+:::
+
 ## Click to Select Node ^(2.10.5)
 
 Allows selecting nodes by clicking, with optional control visibility.
@@ -214,6 +234,8 @@ cascader/check-on-click-node
 | prefix ^(2.9.4)          | content as Input prefix                                                                        | —                                                         |
 | suggestion-item ^(2.9.5) | custom content for suggestion item when searching                                              | ^[object]`{ item: CascaderNode }`                         |
 | tag ^(2.10.3)            | custom tags style                                                                              | ^[object]`{ data: Tag[], deleteTag: (tag: Tag) => void }` |
+| header ^(2.10.5)         | content at the top of the dropdown                                                             | —                                                         |
+| footer ^(2.10.5)         | content at the bottom of the dropdown                                                          | —                                                         |
 
 ### Cascader Exposes
 
