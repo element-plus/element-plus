@@ -145,6 +145,12 @@ dialog/custom-animation
 
 :::
 
+:::tip
+
+Animation classes are dynamically generated based on the transition name. For granular control over animation behavior, you may explicitly define these classes. Refer to [custom-transition-classes](https://vuejs.org/guide/built-ins/transition.html#custom-transition-classes) for details.
+
+:::
+
 ## Events
 
 Open developer console (ctrl + shift + J), to see order of events.

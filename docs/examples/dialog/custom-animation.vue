@@ -57,10 +57,6 @@ const transitionConfig = computed<DialogTransition>(() => {
       appear: true,
       mode: 'out-in',
       duration: 500,
-      enterActiveClass: 'dialog-custom-object-enter-active',
-      leaveActiveClass: 'dialog-custom-object-leave-active',
-      enterFromClass: 'dialog-custom-object-enter-from',
-      leaveToClass: 'dialog-custom-object-leave-to',
     }
   }
   return `dialog-${currentAnimation.value}`
