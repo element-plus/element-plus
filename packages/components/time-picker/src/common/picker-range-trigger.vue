@@ -88,7 +88,7 @@ const handleMouseLeave = (evt: MouseEvent) => {
 }
 
 const handleTouchStart = (evt: TouchEvent) => {
-  emit('mouseenter', evt)
+  emit('touchstart', evt)
 }
 
 const handleStartInput = (evt: Event) => {
