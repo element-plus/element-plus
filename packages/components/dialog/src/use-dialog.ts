@@ -16,6 +16,7 @@ import {
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import {
   addUnit,
+  debugWarn,
   isArray,
   isClient,
   isFunction,
@@ -27,6 +28,8 @@ import { DEFAULT_DIALOG_TRANSITION } from './constants'
 import type { CSSProperties, Ref, SetupContext, TransitionProps } from 'vue'
 import type { Arrayable } from '@element-plus/utils'
 import type { DialogEmits, DialogProps } from './dialog'
+
+const COMPONENT_NAME = 'ElDialog'
 
 export const useDialog = (
   props: DialogProps,
@@ -97,7 +100,13 @@ export const useDialog = (
       config.onAfterEnter = _mergeHook(config.onAfterEnter, afterEnter)
       config.onBeforeLeave = _mergeHook(config.onBeforeLeave, beforeLeave)
       config.onAfterLeave = _mergeHook(config.onAfterLeave, afterLeave)
-      if (!config.name) config.name = DEFAULT_DIALOG_TRANSITION
+      if (!config.name) {
+        config.name = DEFAULT_DIALOG_TRANSITION
+        debugWarn(
+          COMPONENT_NAME,
+          `transition.name is missing when using object syntax, defaulting to '${DEFAULT_DIALOG_TRANSITION}'`
+        )
+      }
       return config
     }
 
