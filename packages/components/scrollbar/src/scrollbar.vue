@@ -105,7 +105,7 @@ const DIRECTION_PAIRS: Record<ScrollbarDirection, ScrollbarDirection> = {
   bottom: 'top',
   left: 'right',
   right: 'left',
-} as const
+}
 const updateTriggerStatus = (arrivedStates: Record<string, boolean>) => {
   const oppositeDirection = DIRECTION_PAIRS[direction]
   if (!oppositeDirection) return
