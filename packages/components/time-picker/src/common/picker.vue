@@ -95,7 +95,7 @@
         role="combobox"
         @click="onMouseDownInput"
         @focus="handleFocus"
-        @blur="handleTimePickerBlur"
+        @blur="handleBlur"
         @start-input="handleStartInput"
         @start-change="handleStartChange"
         @end-input="handleEndInput"
@@ -303,27 +303,6 @@ watch(pickerVisible, (val) => {
     })
   }
 })
-
-/**
- * 处理时间选择器失去焦点的事件。
- * 如果 `displayValue` 中的元素不是有效的日期，则使用 `formattedValue` 中的对应元素进行替换。
- */
-const handleTimePickerBlur = (e: FocusEvent) => {
-  if (isArray(displayValue.value) && isArray(userInput.value)) {
-    const nextUserInput: [string | null, string | null] = [...userInput.value]
-    const formattedValue = formatDayjsToString(parsedValue.value)
-    displayValue.value.forEach((item, i) => {
-      if (item) {
-        const parse = parseUserInputToDayjs(item) as Dayjs
-        if (!parse?.isValid()) {
-          nextUserInput[i] = formattedValue && formattedValue[i]
-        }
-      }
-    })
-    userInput.value = nextUserInput
-  }
-  handleBlur(e)
-}
 
 const emitChange = (
   val: TimePickerDefaultProps['modelValue'] | null,
@@ -662,13 +641,20 @@ const onUserInput = (e: string) => {
   }
 }
 
-const handleStartInput = (event: Event) => {
-  const target = event.target as HTMLInputElement
-  const parse = parseUserInputToDayjs(target.value) as Dayjs
-  // 如果时间格式不正确打开面板
+/**
+ * handle time input
+ **/
+function handleTimeInput(targetValue: string) {
+  const parse = parseUserInputToDayjs(targetValue) as Dayjs
+  // If the input is invalid, show the panel
   if (!parse?.isValid()) {
     pickerVisible.value = true
   }
+}
+
+const handleStartInput = (event: Event) => {
+  const target = event.target as HTMLInputElement
+  handleTimeInput(target.value)
   if (userInput.value) {
     userInput.value = [target.value, userInput.value[1]]
   } else {
@@ -678,6 +664,7 @@ const handleStartInput = (event: Event) => {
 
 const handleEndInput = (event: Event) => {
   const target = event.target as HTMLInputElement
+  handleTimeInput(target.value)
   if (userInput.value) {
     userInput.value = [userInput.value[0], target.value]
   } else {
