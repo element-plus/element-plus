@@ -664,6 +664,11 @@ const onUserInput = (e: string) => {
 
 const handleStartInput = (event: Event) => {
   const target = event.target as HTMLInputElement
+  const parse = parseUserInputToDayjs(target.value) as Dayjs
+  // 如果时间格式不正确打开面板
+  if (!parse?.isValid()) {
+    pickerVisible.value = true
+  }
   if (userInput.value) {
     userInput.value = [target.value, userInput.value[1]]
   } else {
