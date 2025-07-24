@@ -14,11 +14,22 @@ import {
   useZIndex,
 } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { addUnit, isClient } from '@element-plus/utils'
+import {
+  addUnit,
+  debugWarn,
+  isArray,
+  isClient,
+  isFunction,
+  isObject,
+} from '@element-plus/utils'
 import { useGlobalConfig } from '@element-plus/components/config-provider'
+import { DEFAULT_DIALOG_TRANSITION } from './constants'
 
-import type { CSSProperties, Ref, SetupContext } from 'vue'
+import type { CSSProperties, Ref, SetupContext, TransitionProps } from 'vue'
+import type { Arrayable } from '@element-plus/utils'
 import type { DialogEmits, DialogProps } from './dialog'
+
+const COMPONENT_NAME = 'ElDialog'
 
 export const useDialog = (
   props: DialogProps,
@@ -60,6 +71,46 @@ export const useDialog = (
       return { display: 'flex' }
     }
     return {}
+  })
+
+  const transitionConfig = computed(() => {
+    const baseConfig = {
+      name: props.transition,
+      onAfterEnter: afterEnter,
+      onBeforeLeave: beforeLeave,
+      onAfterLeave: afterLeave,
+    }
+    if (isObject(props.transition)) {
+      const config = { ...props.transition } as TransitionProps
+      const _mergeHook = (
+        userHook: Arrayable<(el: Element) => void> | undefined,
+        defaultHook: () => void
+      ) => {
+        return (el: Element) => {
+          if (isArray(userHook)) {
+            userHook.forEach((fn) => {
+              if (isFunction(fn)) fn(el)
+            })
+          } else if (isFunction(userHook)) {
+            userHook(el)
+          }
+          defaultHook()
+        }
+      }
+      config.onAfterEnter = _mergeHook(config.onAfterEnter, afterEnter)
+      config.onBeforeLeave = _mergeHook(config.onBeforeLeave, beforeLeave)
+      config.onAfterLeave = _mergeHook(config.onAfterLeave, afterLeave)
+      if (!config.name) {
+        config.name = DEFAULT_DIALOG_TRANSITION
+        debugWarn(
+          COMPONENT_NAME,
+          `transition.name is missing when using object syntax, fallback to '${DEFAULT_DIALOG_TRANSITION}'`
+        )
+      }
+      return config
+    }
+
+    return baseConfig
   })
 
   function afterEnter() {
@@ -227,5 +278,6 @@ export const useDialog = (
     rendered,
     visible,
     zIndex,
+    transitionConfig,
   }
 }
