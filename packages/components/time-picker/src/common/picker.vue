@@ -95,7 +95,7 @@
         role="combobox"
         @click="onMouseDownInput"
         @focus="handleFocus"
-        @blur="handleBlur"
+        @blur="handleTimePickerBlur"
         @start-input="handleStartInput"
         @start-change="handleStartChange"
         @end-input="handleEndInput"
@@ -303,6 +303,28 @@ watch(pickerVisible, (val) => {
     })
   }
 })
+
+/**
+ * 处理时间选择器失去焦点的事件。
+ * 如果 `displayValue` 中的元素不是有效的日期，则使用 `formattedValue` 中的对应元素进行替换。
+ */
+const handleTimePickerBlur = (e: FocusEvent) => {
+  if (isArray(displayValue.value) && isArray(userInput.value)) {
+    const nextUserInput: [string | null, string | null] = [...userInput.value]
+    const formattedValue = formatDayjsToString(parsedValue.value)
+    displayValue.value.forEach((item, i) => {
+      if (item) {
+        const parse = parseUserInputToDayjs(item) as Dayjs
+        if (!parse?.isValid()) {
+          nextUserInput[i] = formattedValue && formattedValue[i]
+        }
+      }
+    })
+    userInput.value = nextUserInput
+  }
+  handleBlur(e)
+}
+
 const emitChange = (
   val: TimePickerDefaultProps['modelValue'] | null,
   isClear?: boolean
