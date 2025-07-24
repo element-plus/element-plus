@@ -148,23 +148,13 @@ cascader/custom-tag
 
 :::
 
-## Header of the dropdown ^(2.10.5)
+## Custom Header & Footer of the Dropdown ^(2.10.5)
 
-You can customize the header of the dropdown.
-
-:::demo Use slot to customize the content.
-
-cascader/custom-header
-
-:::
-
-## Footer of the dropdown ^(2.10.5)
-
-You can customize the footer of the dropdown.
+You can customize both the header and footer of the dropdown using slots.
 
 :::demo Use slot to customize the content.
 
-cascader/custom-footer
+cascader/custom-header-footer
 
 :::
 

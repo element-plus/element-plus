@@ -1,24 +1,32 @@
 <template>
-  <el-cascader
-    v-model="value"
-    collapse-tags
-    collapse-tags-tooltip
-    popper-class="custom-header"
-    :max-collapse-tags="3"
-    :options="options"
-    :props="props"
-    clearable
-  >
-    <template #header>
-      <el-checkbox
-        v-model="checkAll"
-        :indeterminate="indeterminate"
-        @change="handleCheckAll"
+  <div class="demo">
+    <div>
+      <p>Custom header content</p>
+      <el-cascader
+        v-model="value"
+        popper-class="custom-header"
+        :options="options"
+        :props="props"
+        clearable
       >
-        All
-      </el-checkbox>
-    </template>
-  </el-cascader>
+        <template #header>
+          <el-checkbox
+            v-model="checkAll"
+            :indeterminate="indeterminate"
+            @change="handleCheckAll"
+          >
+            All
+          </el-checkbox>
+        </template>
+      </el-cascader>
+    </div>
+    <div>
+      <p>Custom footer content</p>
+      <el-cascader :options="options">
+        <template #footer> Footer </template>
+      </el-cascader>
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -87,6 +95,19 @@ const handleCheckAll = (val: CheckboxValueType) => {
 </script>
 
 <style>
+.demo {
+  display: flex;
+}
+
+.demo > div {
+  flex: 1;
+  text-align: center;
+}
+
+.demo > div:not(:last-child) {
+  border-right: 1px solid var(--el-border-color);
+}
+
 .custom-header {
   .el-checkbox {
     display: flex;
