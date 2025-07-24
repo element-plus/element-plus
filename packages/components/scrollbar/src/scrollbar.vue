@@ -98,12 +98,7 @@ const resizeKls = computed(() => {
 })
 
 const shouldSkipDirection = (direction: ScrollbarDirection) => {
-  return (
-    (direction === 'top' && distanceScrollState.top) ||
-    (direction === 'bottom' && distanceScrollState.bottom) ||
-    (direction === 'left' && distanceScrollState.left) ||
-    (direction === 'right' && distanceScrollState.right)
-  )
+  return distanceScrollState[direction] ?? false
 }
 
 const updateTriggerStatus = (arrivedStates: Record<string, boolean>) => {
