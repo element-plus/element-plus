@@ -104,7 +104,7 @@ export const useDialog = (
         config.name = DEFAULT_DIALOG_TRANSITION
         debugWarn(
           COMPONENT_NAME,
-          `transition.name is missing when using object syntax, defaulting to '${DEFAULT_DIALOG_TRANSITION}'`
+          `transition.name is missing when using object syntax, fallback to '${DEFAULT_DIALOG_TRANSITION}'`
         )
       }
       return config
