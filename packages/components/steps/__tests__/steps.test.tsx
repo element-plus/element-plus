@@ -193,7 +193,7 @@ describe('Steps.vue', () => {
   })
 
   test('order of step', async () => {
-    const data = ref(['first', 'second', 'thrid'])
+    const data = ref(['first', 'second', 'third'])
     const wrapper = _mount(() => (
       <Steps active={0}>
         {data.value.map((t) => (

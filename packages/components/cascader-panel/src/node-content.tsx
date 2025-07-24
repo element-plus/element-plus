@@ -19,17 +19,26 @@ export default defineComponent({
       required: true,
     },
     renderLabelFn: Function as PropType<RenderLabel>,
+    checkOnClickNode: Boolean,
+    disabled: Boolean,
   },
-  setup(props) {
+  setup(props, { emit }) {
     const ns = useNamespace('cascader-node')
-    const { renderLabelFn, node } = props
+    const { renderLabelFn, node, disabled, checkOnClickNode } = props
     const { data, label: nodeLabel } = node
 
     const label = () => {
       const renderLabel = renderLabelFn?.({ node, data })
       return isVNodeEmpty(renderLabel) ? nodeLabel : renderLabel ?? nodeLabel
     }
-
-    return () => <span class={ns.e('label')}>{label()}</span>
+    function handleClick() {
+      if (disabled || !checkOnClickNode) return
+      emit('handleSelectCheck', !node.checked)
+    }
+    return () => (
+      <span class={ns.e('label')} onClick={handleClick}>
+        {label()}
+      </span>
+    )
   },
 })

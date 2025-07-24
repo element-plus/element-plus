@@ -417,7 +417,7 @@
   }
   @include m((top, bottom)) {
     .#{$namespace}-tabs__nav {
-      height: getCssVar('tabs', 'header-height');
+      min-height: getCssVar('tabs', 'header-height');
     }
   }
   @include m(left) {
