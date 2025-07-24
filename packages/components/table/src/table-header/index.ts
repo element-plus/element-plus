@@ -91,7 +91,7 @@ export default defineComponent({
             )
             if (el) {
               const width = el.getBoundingClientRect().width
-              column.width = width
+              column.width = width || column.width
             }
           })
           saveIndexSelection.clear()
