@@ -1,9 +1,10 @@
 // @ts-nocheck
-import { computed, nextTick, toRefs, watch } from 'vue'
+import { computed, nextTick, onMounted, toRefs, watch } from 'vue'
+import { useEventListener } from '@vueuse/core'
 import { pick } from 'lodash-unified'
 import ElSelect from '@element-plus/components/select'
 import { useNamespace } from '@element-plus/hooks'
-import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
 import type { Ref } from 'vue'
 import type ElTree from '@element-plus/components/tree'
@@ -36,6 +37,28 @@ export const useSelect = (
     },
     { flush: 'post' }
   )
+
+  //TODO: remove this
+  onMounted(() => {
+    useEventListener(
+      () => select.value?.$el,
+      'keydown',
+      async (evt) => {
+        const { dropdownMenuVisible, hoverOption } = select.value!
+        if (EVENT_CODE.down === evt.key && dropdownMenuVisible) {
+          await nextTick()
+          // wait navigateOption to finish
+          setTimeout(() => {
+            // el-select-dropdown__item => el-tree-node__content => el-tree-node__content
+            hoverOption?.$el?.parentNode?.parentNode?.focus()
+          })
+        }
+      },
+      {
+        capture: true,
+      }
+    )
+  })
 
   const result = {
     ...pick(toRefs(props), Object.keys(ElSelect.props)),
