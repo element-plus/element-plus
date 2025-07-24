@@ -22,8 +22,10 @@
     </div>
     <div>
       <p>Custom footer content</p>
-      <el-cascader :options="options">
-        <template #footer> Footer </template>
+      <el-cascader v-model="value" :options="options" :props="props" clearable>
+        <template #footer>
+          <el-button link size="small" @click="handleClear"> Clear </el-button>
+        </template>
       </el-cascader>
     </div>
   </div>
@@ -91,6 +93,10 @@ watch(value, (val) => {
 const handleCheckAll = (val: CheckboxValueType) => {
   indeterminate.value = false
   value.value = val ? getAllValuePaths.value : []
+}
+
+const handleClear = () => {
+  value.value = []
 }
 </script>
 
