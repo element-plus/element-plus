@@ -206,6 +206,7 @@
     > .#{$namespace}-tabs__header {
       border-bottom: 1px solid getCssVar('border-color-light');
       height: getCssVar('tabs', 'header-height');
+      box-sizing: border-box;
     }
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__nav-wrap::after {
       content: none;
