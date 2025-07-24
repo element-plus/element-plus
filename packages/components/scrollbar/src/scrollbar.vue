@@ -191,6 +191,7 @@ const setScrollLeft = (value: number) => {
 
 const update = () => {
   barRef.value?.update()
+  distanceScrollState[direction] = false
 }
 
 watch(
