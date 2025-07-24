@@ -78,7 +78,6 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     inputHovering: false,
     menuVisibleOnFocus: false,
     isBeforeHide: false,
-    isUseTreeKeydown: false, // whether to use tree's keydown event
   })
 
   // template refs
@@ -737,20 +736,6 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       : []
   })
 
-  const useTreeKeydown = () => {
-    let option = null
-    // find the first enabled option
-    for (const item of optionsArray.value) {
-      if (!(item.$parent as any).node.disabled && item.visible) {
-        option = item
-        break
-      }
-    }
-    if (option) {
-      option.$el.parentNode.parentNode.focus()
-    }
-  }
-
   const navigateOptions = (direction: 'prev' | 'next') => {
     if (!expanded.value) {
       expanded.value = true
@@ -763,9 +748,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     )
       return
 
-    if (optionsAllDisabled.value) return
-
-    if (states.isUseTreeKeydown === false) {
+    if (!optionsAllDisabled.value) {
       if (direction === 'next') {
         states.hoveringIndex++
         if (states.hoveringIndex === states.options.size) {
@@ -782,8 +765,6 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
         navigateOptions(direction)
       }
       nextTick(() => scrollToOption(hoverOption.value))
-    } else if (states.isUseTreeKeydown) {
-      useTreeKeydown()
     }
   }
 
@@ -877,7 +858,6 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     showTagList,
     collapseTagList,
     popupScroll,
-    cachedOptions: states.cachedOptions,
 
     // computed style
     tagStyle,

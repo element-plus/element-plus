@@ -262,9 +262,7 @@ export const useTree = (
         })
       })
 
-      if (select.value.filterable) {
-        select.value?.focus()
-      }
+      select.value?.focus()
     },
 
     onNodeExpand: (data, node, e) => {
