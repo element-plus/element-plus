@@ -55,6 +55,7 @@ const value3 = ref('')
   text-align: center;
   border-right: solid 1px var(--el-border-color);
   flex: 1;
+  min-width: 300px;
 }
 .demo-datetime-picker .block:last-child {
   border-right: none;
@@ -64,5 +65,26 @@ const value3 = ref('')
   color: var(--el-text-color-secondary);
   font-size: 14px;
   margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .demo-datetime-picker .block {
+    flex: 100%;
+    border-right: none;
+    border-bottom: solid 1px var(--el-border-color);
+  }
+
+  .demo-datetime-picker .block:last-child {
+    border-bottom: none;
+  }
+
+  :deep(.el-date-editor.el-input) {
+    width: 100%;
+  }
+
+  :deep(.el-date-editor.el-input__wrapper) {
+    width: 100%;
+    max-width: 300px;
+  }
 }
 </style>
