@@ -38,19 +38,40 @@ export const useSelect = (
     { flush: 'post' }
   )
 
-  //TODO: remove this
+  const focusLastNode = (listNode) => {
+    if (listNode.at(-1).expanded && listNode.at(-1).childNodes.at(-1)) {
+      focusLastNode([listNode.at(-1).childNodes.at(-1)])
+    } else {
+      const el = tree.value.el$?.querySelector(
+        `[data-key="${listNode.at(-1).key}"]`
+      )
+      el.focus()
+      return
+    }
+  }
+
   onMounted(() => {
     useEventListener(
       () => select.value?.$el,
       'keydown',
       async (evt) => {
-        const { dropdownMenuVisible, hoverOption } = select.value!
-        if (EVENT_CODE.down === evt.key && dropdownMenuVisible) {
+        const { dropdownMenuVisible } = select.value!
+        if (
+          (EVENT_CODE.down === evt.key || EVENT_CODE.up === evt.key) &&
+          dropdownMenuVisible
+        ) {
           await nextTick()
           // wait navigateOption to finish
           setTimeout(() => {
+            if (EVENT_CODE.up === evt.key) {
+              const listNode = tree.value.store.root.childNodes
+              focusLastNode(listNode)
+              return
+            }
             // el-select-dropdown__item => el-tree-node__content => el-tree-node__content
-            hoverOption?.$el?.parentNode?.parentNode?.focus()
+            select.value.optionsArray[
+              select.value.states.hoveringIndex
+            ].$el?.parentNode?.parentNode?.focus()
           })
         }
       },
