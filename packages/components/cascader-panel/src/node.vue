@@ -123,11 +123,7 @@ const doCheck = (checked: boolean) => {
 
 const doLoad = () => {
   panel.lazyLoad(props.node, () => {
-    if (!isLeaf.value) {
-      doExpand()
-    } else {
-      handleCheck(true)
-    }
+    if (!isLeaf.value) doExpand()
   })
 }
 
