@@ -807,7 +807,7 @@ describe('CascaderPanel.vue', () => {
     expect(node!.classes('is-active')).toBe(true)
   })
 
-  test('when lazy loading returns empty data, the leaf node should be selected', async () => {
+  test('when lazy loading returns empty data, the leaf nodes can perform single selection normally', async () => {
     vi.useFakeTimers()
     const value = ref([])
     const props: CascaderProps = {
@@ -815,7 +815,9 @@ describe('CascaderPanel.vue', () => {
       lazyLoad(node, resolve) {
         const { level } = node
         if (level >= 2) {
-          resolve([])
+          setTimeout(() => {
+            resolve([])
+          }, 1000)
           return
         }
         setTimeout(() => {
@@ -847,7 +849,26 @@ describe('CascaderPanel.vue', () => {
     vi.runAllTimers()
     await nextTick()
 
+    expect(value.value).toEqual([])
+
+    await secondOption.trigger('click')
+    vi.runAllTimers()
+    await nextTick()
+
     expect(value.value).toEqual([1, 2])
+
+    const thirdOption = secondMenu.findAll(NODE)[1]
+    await thirdOption.trigger('click')
+    vi.runAllTimers()
+    await nextTick()
+
+    expect(value.value).toEqual([1, 2])
+
+    await thirdOption.trigger('click')
+    vi.runAllTimers()
+    await nextTick()
+
+    expect(value.value).toEqual([1, 3])
     vi.useRealTimers()
   })
 })
