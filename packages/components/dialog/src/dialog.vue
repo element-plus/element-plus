@@ -3,12 +3,7 @@
     :to="appendTo"
     :disabled="appendTo !== 'body' ? false : !appendToBody"
   >
-    <transition
-      name="dialog-fade"
-      @after-enter="afterEnter"
-      @after-leave="afterLeave"
-      @before-leave="beforeLeave"
-    >
+    <transition v-bind="transitionConfig">
       <el-overlay
         v-show="visible"
         custom-mask-event
@@ -120,10 +115,8 @@ const {
   style,
   overlayDialogStyle,
   rendered,
+  transitionConfig,
   zIndex,
-  afterEnter,
-  afterLeave,
-  beforeLeave,
   handleClose,
   onModalClick,
   onOpenAutoFocus,

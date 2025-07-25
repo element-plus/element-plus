@@ -116,10 +116,25 @@ const setSelectionRange = (start: number, end: number) => {
 }
 
 const changeSelectionRange = (step: number) => {
-  const list = [0, 3].concat(showSeconds.value ? [6] : [])
-  const mapping = ['hours', 'minutes'].concat(
-    showSeconds.value ? ['seconds'] : []
-  )
+  const actualFormat = props.format
+  const hourIndex = actualFormat.indexOf('HH')
+  const minuteIndex = actualFormat.indexOf('mm')
+  const secondIndex = actualFormat.indexOf('ss')
+  const list: number[] = []
+  const mapping: string[] = []
+  if (hourIndex !== -1) {
+    list.push(hourIndex)
+    mapping.push('hours')
+  }
+  if (minuteIndex !== -1) {
+    list.push(minuteIndex)
+    mapping.push('minutes')
+  }
+  if (secondIndex !== -1 && showSeconds.value) {
+    list.push(secondIndex)
+    mapping.push('seconds')
+  }
+
   const index = list.indexOf(selectionRange.value[0])
   const next = (index + step + list.length) % list.length
   timePickerOptions['start_emitSelectRange'](mapping[next])

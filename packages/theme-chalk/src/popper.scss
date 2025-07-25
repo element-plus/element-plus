@@ -15,7 +15,7 @@
   line-height: 20px;
   min-width: 10px;
   overflow-wrap: break-word;
-  word-break: break-all;
+  word-break: normal;
   visibility: visible;
 
   $arrow-selector: #{& + '__arrow'};
