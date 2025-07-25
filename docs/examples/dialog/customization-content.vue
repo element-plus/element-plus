@@ -1,11 +1,13 @@
 <template>
-  <el-button plain @click="dialogTableVisible = true">
-    Open a Table nested Dialog
-  </el-button>
+  <div class="flex flex-wrap gap-1">
+    <el-button class="!ml-0" plain @click="dialogTableVisible = true">
+      Open a Table nested Dialog
+    </el-button>
 
-  <el-button plain @click="dialogFormVisible = true">
-    Open a Form nested Dialog
-  </el-button>
+    <el-button class="!ml-0" plain @click="dialogFormVisible = true">
+      Open a Form nested Dialog
+    </el-button>
+  </div>
 
   <el-dialog v-model="dialogTableVisible" title="Shipping address" width="800">
     <el-table :data="gridData">

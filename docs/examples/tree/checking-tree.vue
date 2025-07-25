@@ -10,12 +10,12 @@
     :props="defaultProps"
   />
 
-  <div class="mt-2">
-    <el-button @click="getCheckedNodes">get by node</el-button>
-    <el-button @click="getCheckedKeys">get by key</el-button>
-    <el-button @click="setCheckedNodes">set by node</el-button>
-    <el-button @click="setCheckedKeys">set by key</el-button>
-    <el-button @click="resetChecked">reset</el-button>
+  <div class="flex flex-wrap gap-1 mt-2">
+    <el-button class="!ml-0" @click="getCheckedNodes">get by node</el-button>
+    <el-button class="!ml-0" @click="getCheckedKeys">get by key</el-button>
+    <el-button class="!ml-0" @click="setCheckedNodes">set by node</el-button>
+    <el-button class="!ml-0" @click="setCheckedKeys">set by key</el-button>
+    <el-button class="!ml-0" @click="resetChecked">reset</el-button>
   </div>
 </template>
 
