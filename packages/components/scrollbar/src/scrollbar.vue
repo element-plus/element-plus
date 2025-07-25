@@ -71,7 +71,6 @@ const distanceScrollState = {
   right: false,
   left: false,
 }
-type distanceScrollStateKey = keyof typeof distanceScrollState
 
 const scrollbarRef = ref<HTMLDivElement>()
 const wrapRef = ref<HTMLDivElement>()
@@ -98,39 +97,28 @@ const resizeKls = computed(() => {
 })
 
 const shouldSkipDirection = (direction: ScrollbarDirection) => {
-  return (
-    (direction === 'top' && distanceScrollState.top) ||
-    (direction === 'bottom' && distanceScrollState.bottom) ||
-    (direction === 'left' && distanceScrollState.left) ||
-    (direction === 'right' && distanceScrollState.right)
-  )
+  return distanceScrollState[direction] ?? false
 }
 
+const DIRECTION_PAIRS: Record<ScrollbarDirection, ScrollbarDirection> = {
+  top: 'bottom',
+  bottom: 'top',
+  left: 'right',
+  right: 'left',
+}
 const updateTriggerStatus = (arrivedStates: Record<string, boolean>) => {
-  const _updateTriggerState = (to: string, from: string) => {
-    const arrived = arrivedStates[to]
-    const oppositeArrived = arrivedStates[from]
-    const triggerKey = to as distanceScrollStateKey
-    const oppositeTriggerKey = from as distanceScrollStateKey
-    if (arrived && !distanceScrollState[triggerKey]) {
-      distanceScrollState[triggerKey] = true
-    }
-    if (!oppositeArrived && distanceScrollState[oppositeTriggerKey]) {
-      distanceScrollState[oppositeTriggerKey] = false
-    }
+  const oppositeDirection = DIRECTION_PAIRS[direction]
+  if (!oppositeDirection) return
+
+  const arrived = arrivedStates[direction]
+  const oppositeArrived = arrivedStates[oppositeDirection]
+
+  if (arrived && !distanceScrollState[direction]) {
+    distanceScrollState[direction] = true
   }
-  // scroll bottom to top
-  if (direction === 'top') {
-    _updateTriggerState('top', 'bottom')
-  }
-  if (direction === 'bottom') {
-    _updateTriggerState('bottom', 'top')
-  }
-  if (direction === 'left') {
-    _updateTriggerState('left', 'right')
-  }
-  if (direction === 'right') {
-    _updateTriggerState('right', 'left')
+
+  if (!oppositeArrived && distanceScrollState[oppositeDirection]) {
+    distanceScrollState[oppositeDirection] = false
   }
 }
 
@@ -203,6 +191,7 @@ const setScrollLeft = (value: number) => {
 
 const update = () => {
   barRef.value?.update()
+  distanceScrollState[direction] = false
 }
 
 watch(
