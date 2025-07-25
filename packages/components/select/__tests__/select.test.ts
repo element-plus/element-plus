@@ -1768,40 +1768,32 @@ describe('Select', () => {
     expect(handleBlur).toHaveBeenCalled()
   })
 
-  test('should select visiblility be controllable', async () => {
+  test('should select visiblility depends on prop "visible"', async () => {
     const visible = ref(true)
-    const onVisibleUpdate = vi.fn()
+    const onBlur = vi.fn()
     wrapper = _mount(
       `<el-select
-        v-model="value"
+        model-value=""
         :visible="visible"
-        @update:visible="onVisibleUpdate"
-      >
-        <el-option
-          v-for="item in options"
-          :label="item.label"
-          :key="item.value"
-          :value="item.value">
-          <p>{{item.label}} {{item.value}}</p>
-        </el-option>
-      </el-select>`,
+        @blur="onBlur"
+      />
+      `,
       () => ({
-        options: [
-          {
-            value: '选项1',
-            label: '黄金糕',
-          }
-        ],
-        value: [],
-        onVisibleUpdate,
+        visible,
+        onBlur,
       })
     )
-
-    const select = wrapper.findComponent({ name: 'ElSelect' })
-
+    const select = wrapper.findComponent(Select)
     expect(select.vm.expanded).toBe(true)
 
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    expect(onBlur).toHaveBeenCalled()
     expect(select.vm.expanded).toBe(true)
+
+    visible.value = false
+    await nextTick()
+    expect(select.vm.expanded).toBe(false)
   })
 
   it('should be target blur event when click outside', async () => {

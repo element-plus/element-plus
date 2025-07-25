@@ -145,6 +145,16 @@ select/allow-create
 
 :::
 
+## Controlled ^(2.10.5)
+
+Select can be controlled by the parent component, by using `visible` you can implement two way binding.
+
+:::demo
+
+select/controlled
+
+:::
+
 ## Use value-key attribute
 
 If the binding value of Select is an object, make sure to assign `value-key` as its unique identity key name.

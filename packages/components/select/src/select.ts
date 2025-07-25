@@ -34,7 +34,6 @@ import type { Props } from '@element-plus/components/select-v2/src/useProps'
 
 export const {
   useModelToggleProps: useSelectModelToggleProps,
-  useModelToggleEmits: SELECT_TOGGLE_EMIT,
   useModelToggle: useSelectModelToggle,
 } = createModelToggleComposable('visible' as const)
 

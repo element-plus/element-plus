@@ -1,5 +1,6 @@
 import { placements } from '@popperjs/core'
 import {
+  createModelToggleComposable,
   useAriaProps,
   useEmptyValuesProps,
   useSizeProp,
@@ -28,7 +29,13 @@ import type {
   PopperEffect,
 } from '@element-plus/components/popper'
 
+export const {
+  useModelToggleProps: useSelectV2ModelToggleProps,
+  useModelToggle: useSelectV2ModelToggle,
+} = createModelToggleComposable('visible' as const)
+
 export const selectV2Props = buildProps({
+  ...useSelectV2ModelToggleProps,
   /**
    * @description whether creating new items is allowed. To use this, `filterable` must be true
    */
@@ -337,6 +344,7 @@ export const selectV2Emits = {
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
   blur: (evt: FocusEvent) => evt instanceof FocusEvent,
   clear: () => true,
+  'update:visible': (visible: boolean) => true,
 }
 export const optionV2Emits = {
   hover: (index?: number) => isNumber(index),
