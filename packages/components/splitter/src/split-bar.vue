@@ -58,11 +58,11 @@ const draggerStyles = computed(() => {
 
 const draggerPseudoClass = computed(() => {
   const prefix = ns.e('dragger')
-  let className = isHorizontal.value
-    ? `${prefix}-horizontal`
-    : `${prefix}-vertical`
-  if (startPos.value) className += ` ${prefix}-active`
-  return className
+  return {
+    [`${prefix}-horizontal`]: isHorizontal.value,
+    [`${prefix}-vertical`]: !isHorizontal.value,
+    [`${prefix}-active`]: startPos.value,
+  }
 })
 
 const startPos = ref<[x: number, y: number] | null>(null)
