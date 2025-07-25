@@ -303,7 +303,6 @@ watch(pickerVisible, (val) => {
     })
   }
 })
-
 const emitChange = (
   val: TimePickerDefaultProps['modelValue'] | null,
   isClear?: boolean
@@ -632,7 +631,8 @@ const handleKeydownInput = async (event: Event | KeyboardEvent) => {
     pickerOptions.value.handleKeydownInput(event as KeyboardEvent)
   }
 }
-const onUserInput = (e: string) => {
+
+const onUserInput = (e: string | UserInput) => {
   userInput.value = e
   // Temporary fix when the picker is dismissed and the input box
   // is focused, just mimic the behavior of antdesign.
@@ -641,35 +641,24 @@ const onUserInput = (e: string) => {
   }
 }
 
-/**
- * handle time input
- **/
-function handleTimeInput(targetValue: string) {
-  const parse = parseUserInputToDayjs(targetValue) as Dayjs
-  // If the input is invalid, show the panel
-  if (!parse?.isValid()) {
-    pickerVisible.value = true
-  }
-}
-
 const handleStartInput = (event: Event) => {
   const target = event.target as HTMLInputElement
-  handleTimeInput(target.value)
   if (userInput.value) {
     userInput.value = [target.value, userInput.value[1]]
   } else {
     userInput.value = [target.value, null]
   }
+  onUserInput(userInput.value)
 }
 
 const handleEndInput = (event: Event) => {
   const target = event.target as HTMLInputElement
-  handleTimeInput(target.value)
   if (userInput.value) {
     userInput.value = [userInput.value[0], target.value]
   } else {
     userInput.value = [null, target.value]
   }
+  onUserInput(userInput.value)
 }
 
 const handleStartChange = () => {
