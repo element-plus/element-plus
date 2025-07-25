@@ -226,6 +226,7 @@ export default defineComponent({
       () => props.defaultCheckedKeys,
       (newVal, oldValue) => {
         if (JSON.stringify(newVal) === JSON.stringify(oldValue)) return
+
         store.value.setDefaultCheckedKey(newVal ?? [])
       }
     )
