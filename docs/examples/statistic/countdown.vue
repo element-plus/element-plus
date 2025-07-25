@@ -1,9 +1,9 @@
 <template>
-  <el-row>
-    <el-col :span="8">
+  <el-row :gutter="16">
+    <el-col :xs="24" :sm="12" :md="8" class="mb-4">
       <el-countdown title="Start to grab" :value="value" />
     </el-col>
-    <el-col :span="8">
+    <el-col :xs="24" :sm="12" :md="8" class="mb-4">
       <el-countdown
         title="Remaining VIP time"
         format="HH:mm:ss"
@@ -13,7 +13,7 @@
         Reset
       </el-button>
     </el-col>
-    <el-col :span="8">
+    <el-col :xs="24" :sm="12" :md="8" class="mb-4">
       <el-countdown format="DD [days] HH:mm:ss" :value="value2">
         <template #title>
           <div style="display: inline-flex; align-items: center">
@@ -50,5 +50,9 @@ function reset() {
 
 .countdown-footer {
   margin-top: 8px;
+}
+
+.mb-4 {
+  margin-bottom: 16px;
 }
 </style>
