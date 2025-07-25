@@ -1,4 +1,4 @@
-import type { InjectionKey, SetupContext } from 'vue'
+import type { ComputedRef, InjectionKey, SetupContext } from 'vue'
 import type { UseNamespaceReturn } from '@element-plus/hooks'
 
 interface DatePickerContext {
@@ -9,4 +9,6 @@ interface DatePickerContext {
 export const ROOT_PICKER_INJECTION_KEY: InjectionKey<DatePickerContext> =
   Symbol()
 
-export const ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY = 'ElIsDefaultFormat'
+export const ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY: InjectionKey<
+  ComputedRef<boolean>
+> = Symbol('ElIsDefaultFormat')

@@ -58,7 +58,7 @@ const props = defineProps(panelTimePickerProps)
 const emit = defineEmits(['pick', 'select-range', 'set-picker-option'])
 
 // Injections
-const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
+const pickerBase = inject(PICKER_BASE_INJECTION_KEY)!
 const {
   arrowControl,
   disabledHours,
@@ -67,7 +67,11 @@ const {
   defaultValue,
 } = pickerBase.props
 const { getAvailableHours, getAvailableMinutes, getAvailableSeconds } =
-  buildAvailableTimeSlotGetter(disabledHours, disabledMinutes, disabledSeconds)
+  buildAvailableTimeSlotGetter(
+    disabledHours!,
+    disabledMinutes!,
+    disabledSeconds!
+  )
 
 const ns = useNamespace('time')
 const { t, lang } = useLocale()
@@ -181,7 +185,7 @@ const formatToString = (value: Dayjs) => {
 }
 
 const getDefaultValue = () => {
-  return dayjs(defaultValue).locale(lang.value)
+  return dayjs(defaultValue as Date).locale(lang.value)
 }
 
 emit('set-picker-option', ['isValidValue', isValidValue])

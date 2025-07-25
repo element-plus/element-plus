@@ -127,10 +127,8 @@ const unit = 'year'
 const { lang } = useLocale()
 const leftDate = ref(dayjs().locale(lang.value))
 const rightDate = ref(dayjs().locale(lang.value).add(step, unit))
-const isDefaultFormat = inject(
-  ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY
-) as any
-const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
+const isDefaultFormat = inject(ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY)!
+const pickerBase = inject(PICKER_BASE_INJECTION_KEY)!
 const { shortcuts, disabledDate } = pickerBase.props
 const format = toRef(pickerBase.props, 'format')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
@@ -171,7 +169,7 @@ const {
   rightDate,
 })
 
-const hasShortcuts = computed(() => !!shortcuts.length)
+const hasShortcuts = computed(() => !!shortcuts?.length)
 
 const panelKls = computed(() => [
   ppNs.b(),
@@ -230,7 +228,7 @@ const handleRangePick = (val: RangePickValue, close = true) => {
 const parseUserInput = (value: Dayjs | Dayjs[]) => {
   return correctlyParseUserInput(
     value,
-    format.value,
+    format.value!,
     lang.value,
     isDefaultFormat
   )

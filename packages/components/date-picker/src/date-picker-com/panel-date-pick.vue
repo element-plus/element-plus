@@ -236,6 +236,7 @@ import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
 
+import type { Shortcut } from '@element-plus/components/time-picker'
 import type { SetupContext } from 'vue'
 import type { ConfigType, Dayjs } from 'dayjs'
 import type { PanelDatePickProps } from '../props/panel-date-pick'
@@ -259,10 +260,8 @@ const attrs = useAttrs()
 const slots = useSlots()
 
 const { t, lang } = useLocale()
-const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
-const isDefaultFormat = inject(
-  ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY
-) as any
+const pickerBase = inject(PICKER_BASE_INJECTION_KEY)!
+const isDefaultFormat = inject(ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY)!
 const popper = inject(TOOLTIP_INJECTION_KEY)
 const { shortcuts, disabledDate, cellClassName, defaultTime } = pickerBase.props
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
@@ -276,7 +275,7 @@ const isChangeToNow = ref(false)
 let isShortcut = false
 
 const defaultTimeD = computed(() => {
-  return dayjs(defaultTime).locale(lang.value)
+  return dayjs(defaultTime as Date).locale(lang.value)
 })
 
 const month = computed(() => {
@@ -389,18 +388,13 @@ const yearLabel = computed(() => {
   return `${year.value} ${yearTranslation}`
 })
 
-type Shortcut = {
-  value: (() => Dayjs) | Dayjs
-  onClick?: (ctx: Omit<SetupContext, 'expose'>) => void
-}
-
 const handleShortcutClick = (shortcut: Shortcut) => {
   const shortcutValue = isFunction(shortcut.value)
     ? shortcut.value()
     : shortcut.value
   if (shortcutValue) {
     isShortcut = true
-    emit(dayjs(shortcutValue).locale(lang.value))
+    emit(dayjs(shortcutValue as Date).locale(lang.value))
     return
   }
   if (shortcut.onClick) {
@@ -433,7 +427,7 @@ const keyboardMode = computed<string>(() => {
     : selectionMode.value
 })
 
-const hasShortcuts = computed(() => !!shortcuts.length)
+const hasShortcuts = computed(() => !!shortcuts?.length)
 
 const handleMonthPick = async (
   month: number | MonthsPickerEmits,
@@ -530,7 +524,7 @@ const onConfirm = () => {
     // deal with the scenario where: user opens the date time picker, then confirm without doing anything
     let result = props.parsedValue as Dayjs
     if (!result) {
-      const defaultTimeD = dayjs(defaultTime).locale(lang.value)
+      const defaultTimeD = dayjs(defaultTime as Date).locale(lang.value)
       const defaultValueD = getDefaultValue()
       result = defaultTimeD
         .year(defaultValueD.year())
@@ -669,7 +663,7 @@ const parseUserInput = (value: Dayjs) => {
 }
 
 const getDefaultValue = () => {
-  const parseDate = dayjs(defaultValue.value).locale(lang.value)
+  const parseDate = dayjs(defaultValue.value as Date).locale(lang.value)
   if (!defaultValue.value) {
     const defaultTimeDValue = defaultTimeD.value
     return dayjs()

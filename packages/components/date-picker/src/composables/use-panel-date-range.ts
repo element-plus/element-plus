@@ -25,7 +25,7 @@ export const usePanelDateRange = (
   const leftCurrentViewRef = ref<CurrentViewRef>()
   const rightCurrentView = ref<CurrentView>('date')
   const rightCurrentViewRef = ref<CurrentViewRef>()
-  const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
+  const pickerBase = inject(PICKER_BASE_INJECTION_KEY)!
   const { disabledDate } = pickerBase.props
   const { t, lang } = useLocale()
 

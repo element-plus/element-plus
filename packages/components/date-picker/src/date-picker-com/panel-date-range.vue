@@ -426,12 +426,11 @@ const emit = defineEmits([
 ])
 
 const unit = 'month'
-// FIXME: fix the type for ep picker
-const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
-const isDefaultFormat = inject(
-  ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY
-) as any
-const { disabledDate, cellClassName, defaultTime, clearable } = pickerBase.props
+const pickerBase = inject(PICKER_BASE_INJECTION_KEY)!
+const isDefaultFormat = inject(ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY)!
+
+const { disabledDate, cellClassName, defaultTime, clearable } =
+  pickerBase.props!
 const format = toRef(pickerBase.props, 'format')
 const shortcuts = toRef(pickerBase.props, 'shortcuts')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
@@ -501,7 +500,7 @@ const {
   adjustDateByView,
 } = usePanelDateRange(props, emit, leftDate, rightDate)
 
-const hasShortcuts = computed(() => !!shortcuts.value.length)
+const hasShortcuts = computed(() => !!shortcuts.value?.length)
 
 const minVisibleDate = computed(() => {
   if (dateUserInput.value.min !== null) return dateUserInput.value.min
@@ -530,11 +529,11 @@ const maxVisibleTime = computed(() => {
 })
 
 const timeFormat = computed(() => {
-  return props.timeFormat || extractTimeFormat(format.value)
+  return props.timeFormat || extractTimeFormat(format.value!)
 })
 
 const dateFormat = computed(() => {
-  return props.dateFormat || extractDateFormat(format.value)
+  return props.dateFormat || extractDateFormat(format.value!)
 })
 
 const isValidValue = (date: [Dayjs, Dayjs]) => {
@@ -659,7 +658,7 @@ const formatEmit = (emitDayjs: Dayjs | null, index?: number) => {
   if (!emitDayjs) return
   if (defaultTime) {
     const defaultTimeD = dayjs(
-      defaultTime[index as number] || defaultTime
+      (defaultTime as [Date, Date])[index as number] || defaultTime
     ).locale(lang.value)
     return defaultTimeD
       .year(emitDayjs.year())
@@ -847,7 +846,7 @@ const formatToString = (value: Dayjs | Dayjs[]) => {
 const parseUserInput = (value: Dayjs | Dayjs[]) => {
   return correctlyParseUserInput(
     value,
-    format.value,
+    format.value!,
     lang.value,
     isDefaultFormat
   )

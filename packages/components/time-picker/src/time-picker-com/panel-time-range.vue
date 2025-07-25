@@ -99,7 +99,7 @@ const makeSelectRange = (start: number, end: number) => {
 const { t, lang } = useLocale()
 const nsTime = useNamespace('time')
 const nsPicker = useNamespace('picker')
-const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
+const pickerBase = inject(PICKER_BASE_INJECTION_KEY)!
 const {
   arrowControl,
   disabledHours,
