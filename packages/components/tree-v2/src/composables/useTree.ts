@@ -180,16 +180,16 @@ export function useTree(
   function setExpandedKeys(keys: TreeKey[]) {
     const expandedKeys = new Set<TreeKey>()
     const nodeMap = tree.value!.treeNodeMap
+    const keySet = new Set(keys)
 
     for (const [key] of nodeMap) {
       let node = nodeMap.get(key)
       while (node) {
-        if (keys.includes(node.key)) {
+        if (keySet.has(node.key)) {
           if (!expandedKeys.has(node.key)) {
             expandedKeys.add(node.key)
             node.expanded = true
-            if (node.parent && !keys.includes(node.parent.key))
-              keys.push(node.parent.key)
+            if (node.parent) keySet.add(node.parent.key)
           }
         } else {
           node.expanded = false
