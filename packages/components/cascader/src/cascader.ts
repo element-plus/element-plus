@@ -120,6 +120,10 @@ export const cascaderProps = buildProps({
    */
   teleported: useTooltipContentProps.teleported,
   /**
+   * @description tooltip theme, built-in theme: `dark` / `light`
+   */
+  effect: useTooltipContentProps.effect,
+  /**
    * @description tag type
    */
   // eslint-disable-next-line vue/require-prop-types
