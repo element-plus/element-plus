@@ -181,14 +181,20 @@ export function useTree(
     const expandedKeys = new Set<TreeKey>()
     const nodeMap = tree.value!.treeNodeMap
 
-    keys.forEach((k) => {
-      let node = nodeMap.get(k)
-      while (node && !expandedKeys.has(node.key)) {
-        expandedKeys.add(node.key)
-        node.expanded = true
+    for (const [key] of nodeMap) {
+      let node = nodeMap.get(key)
+      while (node) {
+        if (keys.includes(node.key)) {
+          if (!expandedKeys.has(node.key)) {
+            expandedKeys.add(node.key)
+            node.expanded = true
+          }
+        } else {
+          node.expanded = false
+        }
         node = node.parent
       }
-    })
+    }
 
     expandedKeySet.value = expandedKeys
   }
