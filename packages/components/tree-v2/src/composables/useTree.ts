@@ -188,6 +188,8 @@ export function useTree(
           if (!expandedKeys.has(node.key)) {
             expandedKeys.add(node.key)
             node.expanded = true
+            if (node.parent && !keys.includes(node.parent.key))
+              keys.push(node.parent.key)
           }
         } else {
           node.expanded = false
