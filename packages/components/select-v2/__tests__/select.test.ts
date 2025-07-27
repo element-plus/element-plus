@@ -1480,7 +1480,7 @@ describe('Select', () => {
     expect(placeholder.text()).toBe('option_a')
   })
 
-  it('should select visiblility depends on prop "visible"', async () => {
+  it('should select visibility depends on prop "visible"', async () => {
     const visible = ref(true)
     const onBlur = vi.fn()
     const wrapper = _mount(

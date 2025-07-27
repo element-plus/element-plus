@@ -1768,7 +1768,7 @@ describe('Select', () => {
     expect(handleBlur).toHaveBeenCalled()
   })
 
-  test('should select visiblility depends on prop "visible"', async () => {
+  test('should select visibility depends on prop "visible"', async () => {
     const visible = ref(true)
     const onBlur = vi.fn()
     wrapper = _mount(
