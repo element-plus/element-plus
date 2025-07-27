@@ -225,6 +225,33 @@ describe('Dialog.vue', () => {
       await triggerCompositeClick(wrapper.find('.el-overlay-dialog'))
       expect(wrapper.vm.visible).toBe(false)
     })
+
+    test('should not click the mask to close when it is penetrable', async () => {
+      const onClick = vi.fn()
+
+      const wrapper = mount(() => (
+        <>
+          <Dialog modelValue={true} modal={false} modalPenetrable={true}>
+            {AXIOM}
+          </Dialog>
+          <button onClick={onClick}>button</button>
+        </>
+      ))
+
+      const dialog = wrapper.findComponent({ name: 'ElDialog' })
+
+      await nextTick()
+      expect(wrapper.findComponent({ name: 'ElOverlay' }).exists()).toBe(true)
+      expect(wrapper.find('.el-overlay-dialog').exists()).toBe(true)
+      expect(wrapper.find('.el-overlay-dialog').classes()).toContain(
+        'is-penetrable'
+      )
+
+      await wrapper.find('.el-overlay-dialog').trigger('click')
+      await wrapper.find('button').trigger('click')
+      expect(dialog.vm.visible).toBe(true)
+      expect(onClick).toHaveBeenCalled()
+    })
   })
 
   describe('life cycles', () => {

@@ -9,6 +9,7 @@
         custom-mask-event
         :mask="modal"
         :overlay-class="modalClass"
+        :style="{ pointerEvents: penetrable ? 'none' : 'auto' }"
         :z-index="zIndex"
       >
         <div
@@ -17,7 +18,10 @@
           :aria-label="title || undefined"
           :aria-labelledby="!title ? titleId : undefined"
           :aria-describedby="bodyId"
-          :class="`${ns.namespace.value}-overlay-dialog`"
+          :class="[
+            `${ns.namespace.value}-overlay-dialog`,
+            ns.is('penetrable', penetrable),
+          ]"
           :style="overlayDialogStyle"
           @click="overlayEvent.onClick"
           @mousedown="overlayEvent.onMousedown"
@@ -137,6 +141,10 @@ provide(dialogInjectionKey, {
 const overlayEvent = useSameTarget(onModalClick)
 
 const draggable = computed(() => props.draggable && !props.fullscreen)
+
+const penetrable = computed(
+  () => props.modalPenetrable && !props.modal && !props.fullscreen
+)
 
 const resetPosition = () => {
   dialogContentRef.value?.resetPosition()

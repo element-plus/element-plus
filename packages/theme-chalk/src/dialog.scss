@@ -135,6 +135,14 @@
   bottom: 0;
   left: 0;
   overflow: auto;
+
+  &.is-penetrable {
+    pointer-events: none;
+
+    .#{$namespace}-dialog {
+      pointer-events: auto;
+    }
+  }
 }
 
 .dialog-fade-enter-active {
