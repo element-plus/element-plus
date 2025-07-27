@@ -90,10 +90,7 @@ export const datePickerPanelProps = buildProps({
   /**
    * @description whether to show footer
    */
-  showFooter: {
-    type: Boolean,
-    default: false,
-  },
+  showFooter: Boolean,
   /**
    * @description whether to show the number of the calendar week
    */
