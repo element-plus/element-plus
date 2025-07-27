@@ -89,6 +89,10 @@ export const DefaultProps: CascaderConfig = {
    */
   checkOnClickNode: false,
   /**
+   * @description whether to check or uncheck node when clicking on leaf node (last children).
+   */
+  checkOnClickLeaf: true,
+  /**
    * @description whether to show the radio or checkbox prefix
    */
   showPrefix: true,
