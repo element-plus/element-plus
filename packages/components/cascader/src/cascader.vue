@@ -17,7 +17,8 @@
   >
     <template #default>
       <div
-        v-clickoutside:[contentRef]="() => togglePopperVisible(false)"
+        ref="wrapperRef"
+        v-clickoutside:[contentRef]="handleClickOutside"
         :class="cascaderKls"
         :style="cascaderStyle"
         @click="() => togglePopperVisible(readonly ? undefined : true)"
@@ -38,8 +39,6 @@
           @compositionstart="handleComposition"
           @compositionupdate="handleComposition"
           @compositionend="handleComposition"
-          @focus="handleFocus"
-          @blur="handleBlur"
           @input="handleInput"
         >
           <template v-if="$slots.prefix" #prefix>
@@ -90,6 +89,7 @@
               </template>
               <template v-else>
                 <el-tooltip
+                  ref="tagTooltipRef"
                   :disabled="popperVisible || !collapseTagsTooltip"
                   :fallback-placements="['bottom', 'top', 'right', 'left']"
                   placement="bottom"
@@ -141,8 +141,6 @@
             @compositionstart="handleComposition"
             @compositionupdate="handleComposition"
             @compositionend="handleComposition"
-            @focus="handleFocus"
-            @blur="handleBlur"
           />
         </div>
       </div>
@@ -230,6 +228,7 @@ import { ClickOutside as vClickoutside } from '@element-plus/directives'
 import {
   useComposition,
   useEmptyValues,
+  useFocusController,
   useLocale,
   useNamespace,
 } from '@element-plus/hooks'
@@ -297,6 +296,7 @@ const { isComposing, handleComposition } = useComposition({
 })
 
 const tooltipRef: Ref<TooltipInstance | null> = ref(null)
+const tagTooltipRef: Ref<TooltipInstance | null> = ref(null)
 const input: Ref<InputInstance | null> = ref(null)
 const tagWrapper = ref(null)
 const cascaderPanelRef: Ref<CascaderPanelInstance | null> = ref(null)
@@ -304,7 +304,6 @@ const suggestionPanel: Ref<ScrollbarInstance | null> = ref(null)
 const popperVisible = ref(false)
 const inputHover = ref(false)
 const filtering = ref(false)
-const filterFocus = ref(false)
 const inputValue = ref('')
 const searchInputValue = ref('')
 const presentTags: Ref<Tag[]> = ref([])
@@ -315,7 +314,7 @@ const cascaderStyle = computed<StyleValue>(() => {
   return attrs.style as StyleValue
 })
 
-const isDisabled = computed(() => props.disabled || form?.disabled)
+const isDisabled = computed(() => props.disabled || !!form?.disabled)
 const inputPlaceholder = computed(
   () => props.placeholder ?? t('el.cascader.placeholder')
 )
@@ -391,13 +390,37 @@ const cascaderIconKls = computed(() => {
   ]
 })
 
-const inputClass = computed(() => {
-  return nsCascader.is('focus', popperVisible.value || filterFocus.value)
-})
+const inputClass = computed(() => nsCascader.is('focus', isFocused.value))
 
 const contentRef = computed(() => {
   return tooltipRef.value?.popperRef?.contentRef
 })
+
+const { wrapperRef, isFocused, handleBlur } = useFocusController(
+  input as Ref<{ focus: () => void }>,
+  {
+    disabled: isDisabled,
+    beforeBlur(event) {
+      return (
+        tooltipRef.value?.isFocusInsideContent(event) ||
+        tagTooltipRef.value?.isFocusInsideContent(event)
+      )
+    },
+    afterBlur() {
+      if (props.validateEvent) {
+        formItem?.validate?.('blur').catch((err) => debugWarn(err))
+      }
+    },
+  }
+)
+
+const handleClickOutside = (event: Event) => {
+  if (isFocused.value) {
+    const _event = new FocusEvent('focus', event)
+    handleBlur(_event)
+  }
+  togglePopperVisible(false)
+}
 
 const togglePopperVisible = (visible?: boolean) => {
   if (isDisabled.value) return
@@ -666,20 +689,6 @@ const handleDelete = () => {
   } else {
     lastTag.hitState = true
   }
-}
-
-const handleFocus = (e: FocusEvent) => {
-  const el = e.target as HTMLInputElement
-  const name = nsCascader.e('search-input')
-  if (el.className === name) {
-    filterFocus.value = true
-  }
-  emit('focus', e)
-}
-
-const handleBlur = (e: FocusEvent) => {
-  filterFocus.value = false
-  emit('blur', e)
 }
 
 const handleFilter = debounce(() => {
