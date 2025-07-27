@@ -10,7 +10,7 @@ import type {
   CascaderNode,
   CascaderValue,
 } from '@element-plus/components/cascader-panel'
-import type { Placement } from '@element-plus/components/popper'
+import type { Placement, PopperEffect } from '@element-plus/components/popper'
 
 export const cascaderProps = buildProps({
   ...CommonProps,
@@ -119,6 +119,13 @@ export const cascaderProps = buildProps({
    * @description whether cascader popup is teleported
    */
   teleported: useTooltipContentProps.teleported,
+  /**
+   * @description tooltip theme, built-in theme: `dark` / `light`
+   */
+  effect: {
+    type: definePropType<PopperEffect>(String),
+    default: 'light',
+  },
   /**
    * @description tag type
    */
