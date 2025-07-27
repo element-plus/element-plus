@@ -61,7 +61,7 @@ const draggerPseudoClass = computed(() => {
   return {
     [`${prefix}-horizontal`]: isHorizontal.value,
     [`${prefix}-vertical`]: !isHorizontal.value,
-    [`${prefix}-active`]: startPos.value,
+    [`${prefix}-active`]: !!startPos.value,
   }
 })
 
