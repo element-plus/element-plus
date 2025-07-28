@@ -1675,6 +1675,7 @@ describe('Tree.vue', () => {
             cancelable: false,
           })
         )
+
         expect(flag).toBe(true)
         flag = false
       }
