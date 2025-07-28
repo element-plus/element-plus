@@ -11,6 +11,14 @@ export interface RepeatClickOptions {
   handler: (...args: unknown[]) => unknown
 }
 
+const handlerMap = new WeakMap<
+  HTMLElement,
+  {
+    onMouseDown: (e: MouseEvent) => void
+    clear: () => void
+  }
+>()
+
 export const vRepeatClick: ObjectDirective<
   HTMLElement,
   RepeatClickOptions | RepeatClickOptions['handler']
@@ -39,7 +47,7 @@ export const vRepeatClick: ObjectDirective<
       }
     }
 
-    el.addEventListener('mousedown', (evt: MouseEvent) => {
+    const onMouseDown = (evt: MouseEvent) => {
       if (evt.button !== 0) return
       clear()
       handler()
@@ -53,6 +61,18 @@ export const vRepeatClick: ObjectDirective<
           handler()
         }, interval)
       }, delay)
-    })
+    }
+
+    el.addEventListener('mousedown', onMouseDown)
+
+    handlerMap.set(el, { onMouseDown, clear })
+  },
+  unmounted(el) {
+    const entry = handlerMap.get(el)
+    if (entry) {
+      el.removeEventListener('mousedown', entry.onMouseDown)
+      entry.clear()
+      handlerMap.delete(el)
+    }
   },
 }

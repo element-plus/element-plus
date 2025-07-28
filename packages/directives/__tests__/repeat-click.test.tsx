@@ -51,4 +51,17 @@ describe('Directives.vue', () => {
     expect(handler).toHaveBeenCalledTimes(2)
     vi.useRealTimers()
   })
+
+  it('clear events and timers when unmounted', () => {
+    const wrapper = _mount()
+    const block = wrapper.find('#block')
+
+    vi.useFakeTimers()
+    block.trigger('mousedown')
+    wrapper.unmount()
+    vi.advanceTimersByTime(PRESS_TIME)
+    document.dispatchEvent(new MouseEvent('mouseup'))
+    expect(handler).toHaveBeenCalledTimes(1)
+    vi.useRealTimers()
+  })
 })
