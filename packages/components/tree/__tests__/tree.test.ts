@@ -1577,6 +1577,109 @@ describe('Tree.vue', () => {
     }
   })
 
+  test('expand and render-after-expand set to false', async () => {
+    const { wrapper } = getTreeVm(``, {
+      template: `
+        <div>
+          <el-tree ref="tree1" :data="data" node-key="id" :render-after-expand="false"></el-tree>
+        </div>
+      `,
+      data() {
+        return {
+          data: [
+            {
+              id: 1,
+              label: '一级 1',
+              children: [
+                {
+                  id: 11,
+                  label: '二级 1-1',
+                  children: [
+                    {
+                      id: 111,
+                      label: '三级 1-1',
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              id: 2,
+              label: '一级 2',
+              children: [
+                {
+                  id: 21,
+                  label: '二级 2-1',
+                  children: [
+                    {
+                      id: 211,
+                      label: '三级 2-1-1',
+                    },
+                  ],
+                },
+                {
+                  id: 22,
+                  label: '二级 2-2',
+                },
+              ],
+            },
+            {
+              id: 3,
+              label: '一级 3',
+              children: [
+                {
+                  id: 31,
+                  label: '二级 3-1',
+                },
+                {
+                  id: 32,
+                  label: '二级 3-2',
+                },
+              ],
+            },
+          ],
+        }
+      },
+    })
+    await nextTick()
+    let flag = false
+    function handleFocus() {
+      return () => (flag = true)
+    }
+    const fromElement = wrapper.find('div[data-key="2"]')
+    await fromElement.trigger('click')
+
+    expect(fromElement.classes('is-expanded')).toBe(true) // 判断是否已展开
+
+    const treeWrapper = wrapper.findComponent(Tree)
+
+    await sleep()
+    const tree = wrapper.findComponent({ name: 'ElTree' })
+    ;(tree.vm as InstanceType<typeof Tree>).setCurrentKey(2)
+
+    const allNodes = treeWrapper.findAll('.el-tree-node')
+    const visibleNodes = allNodes.filter((val) => {
+      const node = wrapper.vm.$refs.tree1.getNode(val.element.dataset.key)!
+      return node.parent?.expanded || node.parent?.level === 0
+    })
+    const len = visibleNodes.length
+    for (let i = 0; i < len; i++) {
+      if (visibleNodes[i + 1]) {
+        defineGetter(visibleNodes[i + 1].element, 'focus', handleFocus)
+        // 模拟按下下箭头键
+        visibleNodes[i].element.dispatchEvent(
+          new KeyboardEvent('keydown', {
+            code: 'ArrowDown',
+            bubbles: true,
+            cancelable: false,
+          })
+        )
+        expect(flag).toBe(true)
+        flag = false
+      }
+    }
+  })
+
   test('navigate with disabled', async () => {
     const wrapper = mount({
       template: `
