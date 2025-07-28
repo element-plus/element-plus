@@ -409,7 +409,7 @@ import YearTable from './basic-year-table.vue'
 import MonthTable from './basic-month-table.vue'
 import DateTable from './basic-date-table.vue'
 
-import type { Dayjs } from 'dayjs'
+import type { Dayjs, UnitTypeLong, UnitTypeShort } from 'dayjs'
 
 type ChangeType = 'min' | 'max'
 type UserInput = {
@@ -433,6 +433,7 @@ const isDefaultFormat = inject(
 ) as any
 const { disabledDate, cellClassName, defaultTime, clearable } = pickerBase.props
 const format = toRef(pickerBase.props, 'format')
+const useEndOf = toRef(pickerBase.props, 'useEndOf')
 const shortcuts = toRef(pickerBase.props, 'shortcuts')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 const { lang } = useLocale()
@@ -655,18 +656,32 @@ const showTime = computed(
   () => props.type === 'datetime' || props.type === 'datetimerange'
 )
 
-const formatEmit = (emitDayjs: Dayjs | null, index?: number) => {
-  if (!emitDayjs) return
+const formatEmitWithEndOf = (
+  emitDayjs: Dayjs | null,
+  useEndOf: UnitTypeLong | UnitTypeShort | '' = ''
+) => {
+  return emitDayjs && useEndOf ? dayjs(emitDayjs).endOf(useEndOf) : emitDayjs
+}
+
+const formatEmit = (
+  emitDayjs: Dayjs | null,
+  index?: number,
+  useEndOf: UnitTypeLong | UnitTypeShort | '' = ''
+) => {
+  if (!emitDayjs) return undefined
   if (defaultTime) {
     const defaultTimeD = dayjs(
       defaultTime[index as number] || defaultTime
     ).locale(lang.value)
-    return defaultTimeD
-      .year(emitDayjs.year())
-      .month(emitDayjs.month())
-      .date(emitDayjs.date())
+    return formatEmitWithEndOf(
+      defaultTimeD
+        .year(emitDayjs.year())
+        .month(emitDayjs.month())
+        .date(emitDayjs.date()),
+      useEndOf || ''
+    )
   }
-  return emitDayjs
+  return formatEmitWithEndOf(emitDayjs, useEndOf || '')
 }
 
 const handleRangePick = (
@@ -679,14 +694,18 @@ const handleRangePick = (
   const min_ = val.minDate
   const max_ = val.maxDate
   const minDate_ = formatEmit(min_, 0)
-  const maxDate_ = formatEmit(max_, 1)
+  const maxDate_ = formatEmit(max_, 1, useEndOf?.value ?? '')
 
   if (maxDate.value === maxDate_ && minDate.value === minDate_) {
     return
   }
-  emit('calendar-change', [min_.toDate(), max_ && max_.toDate()])
-  maxDate.value = maxDate_
-  minDate.value = minDate_
+  emit('calendar-change', [
+    min_.toDate(),
+    max_ &&
+      (useEndOf.value ? dayjs(max_).endOf(useEndOf.value) : max_).toDate(),
+  ])
+  maxDate.value = maxDate_ || undefined
+  minDate.value = minDate_ || undefined
 
   handleRangeConfirm(close)
 }
