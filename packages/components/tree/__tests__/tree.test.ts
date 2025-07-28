@@ -1646,6 +1646,7 @@ describe('Tree.vue', () => {
     function handleFocus() {
       return () => (flag = true)
     }
+
     const fromElement = wrapper.find('div[data-key="2"]')
     await fromElement.trigger('click')
 
