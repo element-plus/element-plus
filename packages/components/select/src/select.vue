@@ -8,7 +8,7 @@
   >
     <el-tooltip
       ref="tooltipRef"
-      :visible="dropdownMenuVisible"
+      :visible="expanded"
       :placement="placement"
       :teleported="teleported"
       :popper-class="[nsSelect.e('popper'), popperClass]"
@@ -92,7 +92,7 @@
               <el-tooltip
                 v-if="collapseTags && states.selected.length > maxCollapseTags"
                 ref="tagTooltipRef"
-                :disabled="dropdownMenuVisible || !collapseTagsTooltip"
+                :disabled="expanded || !collapseTagsTooltip"
                 :fallback-placements="['bottom', 'top', 'right', 'left']"
                 :effect="effect"
                 placement="bottom"
@@ -172,7 +172,7 @@
                 spellcheck="false"
                 :aria-activedescendant="hoverOption?.id || ''"
                 :aria-controls="contentId"
-                :aria-expanded="dropdownMenuVisible"
+                :aria-expanded="expanded"
                 :aria-label="ariaLabel"
                 aria-autocomplete="none"
                 aria-haspopup="listbox"
@@ -350,6 +350,7 @@ export default defineComponent({
     'focus',
     'blur',
     'popup-scroll',
+    'update:visible',
   ],
 
   setup(props, { emit, slots }) {
