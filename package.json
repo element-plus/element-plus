@@ -95,7 +95,7 @@
     "czg": "^1.11.1",
     "eslint": "^8.57.1",
     "eslint-define-config": "^1.5.1",
-    "expect-type": "^0.13.0",
+    "expect-type": "^1.2.2",
     "fast-glob": "^3.2.11",
     "happy-dom": "^17.4.4",
     "husky": "^9.0.11",
