@@ -49,7 +49,11 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
           const currentNode = store.value.getNode(
             treeItems[nextIndex].dataset.key!
           )
-          if (currentNode.canFocus && currentNode.visible) {
+          if (
+            currentNode.canFocus &&
+            currentNode.visible &&
+            (currentNode.parent?.expanded || currentNode.parent?.level === 0)
+          ) {
             break
           }
 
@@ -74,7 +78,11 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
           const currentNode = store.value.getNode(
             treeItems[nextIndex].dataset.key!
           )
-          if (currentNode.canFocus && currentNode.visible) {
+          if (
+            currentNode.canFocus &&
+            currentNode.visible &&
+            (currentNode.parent?.expanded || currentNode.parent?.level === 0)
+          ) {
             break
           }
 
