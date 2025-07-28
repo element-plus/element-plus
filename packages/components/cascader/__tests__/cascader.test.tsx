@@ -51,6 +51,7 @@ const AXIOM = 'Rem is the best girl'
 
 const TRIGGER = '.el-cascader'
 const NODE = '.el-cascader-node'
+const NODE_LABEL = '.el-cascader-node__label'
 const TAG = '.el-tag'
 const SUGGESTION_ITEM = '.el-cascader__suggestion-item'
 const SUGGESTION_PANEL = '.el-cascader__suggestion-panel'
@@ -811,6 +812,109 @@ describe('Cascader.vue', () => {
       const tags = wrapper.findAll('span.el-tag')
       expect(tags.length).toBe(1)
       expect(tags[0].text()).toContain('Zhejiang')
+    })
+  })
+
+  describe('dynamic options & filterable', () => {
+    it('should render dynamic options correctly', async () => {
+      const value = ref<any[]>([])
+      const options = ref<any[]>([
+        {
+          value: 'guide',
+          label: 'Guide',
+        },
+        {
+          value: 'design',
+          label: 'Design',
+        },
+        {
+          value: 'development',
+          label: 'Development',
+        },
+      ])
+      const wrapper = _mount(() => (
+        <Cascader
+          v-model={value.value}
+          filterable
+          options={options.value}
+          teleported={false}
+        />
+      ))
+      const cascaderNodes = wrapper.findAll('.el-cascader-node')
+
+      expect(cascaderNodes.length).toBe(3)
+      expect(cascaderNodes[0].text()).toBe('Guide')
+      expect(cascaderNodes[1].text()).toBe('Design')
+      expect(cascaderNodes[2].text()).toBe('Development')
+
+      options.value.push({
+        value: 'testing',
+        label: 'Testing',
+      })
+      await nextTick()
+      const newCascaderNodes = wrapper.findAll('.el-cascader-node')
+      expect(newCascaderNodes.length).toBe(4)
+      expect(newCascaderNodes[3].text()).toBe('Testing')
+    })
+  })
+
+  describe('Cascader - click to select node', () => {
+    it('selects parent node directly on click', async () => {
+      const value = ref([])
+      const props = { checkStrictly: true, checkOnClickNode: true }
+      const wrapper = _mount(() => (
+        <Cascader v-model={value.value} options={OPTIONS} props={props} />
+      ))
+      const trigger = wrapper.find(TRIGGER)
+      await trigger.trigger('click')
+      await nextTick()
+      const nodes = document.querySelectorAll(NODE_LABEL)
+      await (nodes[0] as HTMLElement).click()
+      await nextTick()
+      const newNodes = document.querySelectorAll(NODE_LABEL)
+      const hangzhouNode = Array.from(newNodes).find((el) =>
+        el.textContent?.includes('Hangzhou')
+      )
+      expect(hangzhouNode).toBeTruthy()
+      await (hangzhouNode as HTMLElement).click()
+      await nextTick()
+      expect(value.value).toEqual(['zhejiang', 'hangzhou'])
+      const input = wrapper.find('input')
+      expect((input.element as HTMLInputElement).value).toBe(
+        'Zhejiang / Hangzhou'
+      )
+    })
+
+    it('hides radio but still selects node on click when showPrefix is false', async () => {
+      const value = ref([])
+      const props = {
+        checkStrictly: true,
+        checkOnClickNode: true,
+        showPrefix: false,
+      }
+      const wrapper = _mount(() => (
+        <Cascader v-model={value.value} options={OPTIONS} props={props} />
+      ))
+      const trigger = wrapper.find(TRIGGER)
+      await trigger.trigger('click')
+      await nextTick()
+      const radios = wrapper.findAll('input[type="radio"]')
+      expect(radios.length).toBe(0)
+      const nodes = document.querySelectorAll(NODE_LABEL)
+      await (nodes[0] as HTMLElement).click()
+      await nextTick()
+      const newNodes = document.querySelectorAll(NODE_LABEL)
+      const hangzhouNode = Array.from(newNodes).find((el) =>
+        el.textContent?.includes('Hangzhou')
+      )
+      expect(hangzhouNode).toBeTruthy()
+      await (hangzhouNode as HTMLElement).click()
+      await nextTick()
+      expect(value.value).toEqual(['zhejiang', 'hangzhou'])
+      const input = wrapper.find('input')
+      expect((input.element as HTMLInputElement).value).toBe(
+        'Zhejiang / Hangzhou'
+      )
     })
   })
 })

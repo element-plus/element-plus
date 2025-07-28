@@ -705,6 +705,16 @@ $cascader-search-input-margin-left: map.merge(
   $cascader-search-input-margin-left
 );
 
+$cascader-dropdown: () !default;
+$cascader-dropdown: map.merge(
+  (
+    'header-padding': 10px,
+    'footer-padding': 10px,
+    'border': 1px solid getCssVar('border-color-light'),
+  ),
+  $cascader-dropdown
+);
+
 //statistic
 // css3 var in packages/theme-chalk/src/statistic.scss
 $statistic: () !default;

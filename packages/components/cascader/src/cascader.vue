@@ -10,7 +10,7 @@
     :gpu-acceleration="false"
     :placement="placement"
     :transition="`${nsCascader.namespace.value}-zoom-in-top`"
-    effect="light"
+    :effect="effect"
     pure
     :persistent="persistent"
     @hide="hideSuggestionPanel"
@@ -93,7 +93,7 @@
                   :disabled="popperVisible || !collapseTagsTooltip"
                   :fallback-placements="['bottom', 'top', 'right', 'left']"
                   placement="bottom"
-                  effect="light"
+                  :effect="effect"
                 >
                   <template #default>
                     <span>{{ tag.text }}</span>
@@ -149,6 +149,9 @@
     </template>
 
     <template #content>
+      <div v-if="$slots.header" :class="nsCascader.e('header')" @click.stop>
+        <slot name="header" />
+      </div>
       <el-cascader-panel
         v-show="!filtering"
         ref="cascaderPanelRef"
@@ -198,6 +201,9 @@
           </li>
         </slot>
       </el-scrollbar>
+      <div v-if="$slots.footer" :class="nsCascader.e('footer')" @click.stop>
+        <slot name="footer" />
+      </div>
     </template>
   </el-tooltip>
 </template>
@@ -253,8 +259,8 @@ const popperOptions: Partial<Options> = {
       name: 'arrowPosition',
       enabled: true,
       phase: 'main',
-      fn: ({ state }) => {
-        const { modifiersData, placement } = state as any
+      fn: ({ state }: any) => {
+        const { modifiersData, placement } = state
         if (['right', 'left', 'bottom', 'top'].includes(placement)) return
         if (modifiersData.arrow) {
           modifiersData.arrow.x = 35
@@ -441,10 +447,27 @@ const deleteTag = (tag: Tag) => {
   emit('removeTag', node.valueByOption)
 }
 
+const getStrategyCheckedNodes = (): CascaderNode[] => {
+  switch (props.showCheckedStrategy) {
+    case 'child':
+      return checkedNodes.value
+    case 'parent': {
+      const clickedNodes = getCheckedNodes(false)
+      const clickedNodesValue = clickedNodes!.map((o) => o.value)
+      const parentNodes = clickedNodes!.filter(
+        (o) => !o.parent || !clickedNodesValue.includes(o.parent.value)
+      )
+      return parentNodes
+    }
+    default:
+      return []
+  }
+}
+
 const calculatePresentTags = () => {
   if (!multiple.value) return
 
-  const nodes = checkedNodes.value
+  const nodes = getStrategyCheckedNodes()
   const tags: Tag[] = []
 
   const allTags: Tag[] = []
