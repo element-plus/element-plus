@@ -216,12 +216,14 @@ const handleSelect = (item: MentionOption) => {
   const inputValue = inputEl.value
   const { split } = props
 
+  const newStartPart = props.showPrefix
+    ? inputValue.slice(0, mentionCtx.value.start)
+    : inputValue.slice(0, mentionCtx.value.start - 1)
   const newEndPart = inputValue.slice(mentionCtx.value.end)
   const alreadySeparated = newEndPart.startsWith(split)
   const newMiddlePart = `${item.value}${alreadySeparated ? '' : split}`
 
-  const newValue =
-    inputValue.slice(0, mentionCtx.value.start) + newMiddlePart + newEndPart
+  const newValue = newStartPart + newMiddlePart + newEndPart
 
   emit(UPDATE_MODEL_EVENT, newValue)
   emit(INPUT_EVENT, newValue)
