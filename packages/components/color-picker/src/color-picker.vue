@@ -6,7 +6,7 @@
     :fallback-placements="['bottom', 'top', 'right', 'left']"
     :offset="0"
     :gpu-acceleration="false"
-    :popper-class="[ns.be('picker', 'panel'), ns.b('dropdown'), popperClass]"
+    :popper-class="[ns.be('picker', 'panel'), popperClass]"
     :stop-popper-mouse-event="false"
     effect="light"
     trigger="click"
@@ -17,50 +17,34 @@
     @hide="setShowPicker(false)"
   >
     <template #content>
-      <div
+      <color-picker-panel
+        ref="pickerPanel"
+        v-bind="mergeProps(passsPanelProps, $props)"
         v-click-outside:[triggerRef]="handleClickOutside"
+        :border="false"
         @keydown.esc="handleEsc"
       >
-        <div :class="ns.be('dropdown', 'main-wrapper')">
-          <hue-slider ref="hue" class="hue-slider" :color="color" vertical />
-          <sv-panel ref="sv" :color="color" />
-        </div>
-        <alpha-slider v-if="showAlpha" ref="alpha" :color="color" />
-        <predefine
-          v-if="predefine"
-          ref="predefine"
-          :enable-alpha="showAlpha"
-          :color="color"
-          :colors="predefine"
-        />
-        <div :class="ns.be('dropdown', 'btns')">
-          <span :class="ns.be('dropdown', 'value')">
-            <el-input
-              ref="inputRef"
-              v-model="customInput"
-              :validate-event="false"
+        <template #footer>
+          <div>
+            <el-button
+              :class="ns.be('footer', 'link-btn')"
+              text
               size="small"
-              @change="handleConfirm"
-            />
-          </span>
-          <el-button
-            :class="ns.be('dropdown', 'link-btn')"
-            text
-            size="small"
-            @click="clear"
-          >
-            {{ t('el.colorpicker.clear') }}
-          </el-button>
-          <el-button
-            plain
-            size="small"
-            :class="ns.be('dropdown', 'btn')"
-            @click="confirmValue"
-          >
-            {{ t('el.colorpicker.confirm') }}
-          </el-button>
-        </div>
-      </div>
+              @click="clear"
+            >
+              {{ t('el.colorpicker.clear') }}
+            </el-button>
+            <el-button
+              plain
+              size="small"
+              :class="ns.be('footer', 'btn')"
+              @click="confirmValue"
+            >
+              {{ t('el.colorpicker.confirm') }}
+            </el-button>
+          </div>
+        </template>
+      </color-picker-panel>
     </template>
     <template #default>
       <div
@@ -109,21 +93,12 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  computed,
-  nextTick,
-  onMounted,
-  provide,
-  reactive,
-  ref,
-  watch,
-} from 'vue'
-import { debounce } from 'lodash-unified'
-import { ElButton } from '@element-plus/components/button'
+import { computed, mergeProps, nextTick, provide, ref, watch } from 'vue'
+import { debounce, pick } from 'lodash-unified'
 import { ElIcon } from '@element-plus/components/icon'
 import { ClickOutside as vClickOutside } from '@element-plus/directives'
 import { ElTooltip } from '@element-plus/components/tooltip'
-import { ElInput } from '@element-plus/components/input'
+import ElButton from '@element-plus/components/button'
 import {
   useFormDisabled,
   useFormItem,
@@ -143,23 +118,25 @@ import {
 } from '@element-plus/constants'
 import { debugWarn } from '@element-plus/utils'
 import { ArrowDown, Close } from '@element-plus/icons-vue'
-import AlphaSlider from './components/alpha-slider.vue'
-import HueSlider from './components/hue-slider.vue'
-import Predefine from './components/predefine.vue'
-import SvPanel from './components/sv-panel.vue'
-import Color from './utils/color'
-import {
-  colorPickerContextKey,
-  colorPickerEmits,
-  colorPickerProps,
-} from './color-picker'
+import { colorPickerEmits, colorPickerProps } from './color-picker'
+import ColorPickerPanel, {
+  ROOT_COMMON_COLOR_INJECTION_KEY,
+  colorPickerPanelProps,
+} from '@element-plus/components/color-picker-panel'
+import Color from '@element-plus/components/color-picker-panel/src/utils/color'
+import { useCommonColor } from '@element-plus/components/color-picker-panel/src/composables/use-common-color'
 
+import type { ColorPickerPanelInstance } from '@element-plus/components/color-picker-panel'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 
 defineOptions({
   name: 'ElColorPicker',
 })
 const props = defineProps(colorPickerProps)
+mergeProps
+const passsPanelProps = computed(() =>
+  pick(props, Object.keys(colorPickerPanelProps))
+)
 const emit = defineEmits(colorPickerEmits)
 
 const { t } = useLocale()
@@ -168,17 +145,20 @@ const { formItem } = useFormItem()
 const colorSize = useFormSize()
 const colorDisabled = useFormDisabled()
 const { valueOnClear, isEmptyValue } = useEmptyValues(props, null)
-
+const commonColor = useCommonColor(props, emit)
 const { inputId: buttonId, isLabeledByFormItem } = useFormItemInputId(props, {
   formItemContext: formItem,
 })
+const { color } = commonColor
 
-const hue = ref<InstanceType<typeof HueSlider>>()
-const sv = ref<InstanceType<typeof SvPanel>>()
-const alpha = ref<InstanceType<typeof AlphaSlider>>()
 const popper = ref<TooltipInstance>()
 const triggerRef = ref()
-const inputRef = ref()
+const pickerPanel = ref<ColorPickerPanelInstance>()
+const showPicker = ref(false)
+const showPanelColor = ref(false)
+
+// active-change is used to prevent modelValue changes from triggering.
+let shouldActiveChange = true
 
 const { isFocused, handleFocus, handleBlur } = useFocusController(triggerRef, {
   disabled: colorDisabled,
@@ -190,21 +170,6 @@ const { isFocused, handleFocus, handleBlur } = useFocusController(triggerRef, {
     resetColor()
   },
 })
-
-// active-change is used to prevent modelValue changes from triggering.
-let shouldActiveChange = true
-
-const color = reactive(
-  new Color({
-    enableAlpha: props.showAlpha,
-    format: props.colorFormat || '',
-    value: props.modelValue,
-  })
-) as Color
-
-const showPicker = ref(false)
-const showPanelColor = ref(false)
-const customInput = ref('')
 
 const displayedColor = computed(() => {
   if (!props.modelValue && !showPanelColor.value) {
@@ -262,9 +227,6 @@ function resetColor() {
       color.fromString(props.modelValue)
     } else {
       color.value = ''
-      if (!currentColor.value && customInput.value) {
-        customInput.value = ''
-      }
       nextTick(() => {
         showPanelColor.value = false
       })
@@ -278,13 +240,6 @@ function handleTrigger() {
     resetColor()
   }
   debounceSetShowPicker(!showPicker.value)
-}
-
-function handleConfirm() {
-  color.fromString(customInput.value)
-  if (color.value !== customInput.value) {
-    customInput.value = color.value
-  }
 }
 
 function confirmValue() {
@@ -302,7 +257,7 @@ function confirmValue() {
       format: props.colorFormat || '',
       value: props.modelValue,
     })
-    if (!color.compare(newColor)) {
+    if (color.compare(newColor)) {
       resetColor()
     }
   })
@@ -339,7 +294,7 @@ function handleKeyDown(event: KeyboardEvent) {
       event.preventDefault()
       event.stopPropagation()
       show()
-      inputRef.value.focus()
+      pickerPanel?.value?.customInput?.focus()
       break
     case EVENT_CODE.esc:
       handleEsc(event)
@@ -355,39 +310,10 @@ function blur() {
   triggerRef.value.blur()
 }
 
-onMounted(() => {
-  if (props.modelValue) {
-    customInput.value = currentColor.value
-  }
-})
-
-watch(
-  () => props.modelValue,
-  (newVal) => {
-    if (!newVal) {
-      showPanelColor.value = false
-    } else if (newVal && newVal !== color.value) {
-      shouldActiveChange = false
-      color.fromString(newVal)
-    }
-  }
-)
-
-watch(
-  () => [props.colorFormat, props.showAlpha],
-  () => {
-    color.enableAlpha = props.showAlpha
-    color.format = props.colorFormat || color.format
-    color.doOnChange()
-    emit(UPDATE_MODEL_EVENT, color.value)
-  }
-)
-
 watch(
   () => currentColor.value,
   (val) => {
-    customInput.value = val
-    shouldActiveChange && emit('activeChange', val)
+    shouldActiveChange && emit('activeChange', val ?? null)
     shouldActiveChange = true
   }
 )
@@ -402,19 +328,18 @@ watch(
 )
 
 watch(
-  () => showPicker.value,
-  () => {
-    nextTick(() => {
-      hue.value?.update()
-      sv.value?.update()
-      alpha.value?.update()
-    })
+  () => props.modelValue,
+  (newVal) => {
+    if (!newVal) {
+      showPanelColor.value = false
+    } else if (newVal && newVal !== color.value) {
+      shouldActiveChange = false
+      color.fromString(newVal)
+    }
   }
 )
 
-provide(colorPickerContextKey, {
-  currentColor,
-})
+provide(ROOT_COMMON_COLOR_INJECTION_KEY, commonColor)
 
 defineExpose({
   /**

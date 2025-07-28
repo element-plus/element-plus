@@ -62,6 +62,7 @@ declare module 'vue' {
     OvCollapse: typeof import('./.vitepress/vitepress/components/overview-icons/ov-collapse.vue')['default']
     OvColor: typeof import('./.vitepress/vitepress/components/overview-icons/ov-color.vue')['default']
     OvColorPicker: typeof import('./.vitepress/vitepress/components/overview-icons/ov-color-picker.vue')['default']
+    OvColorPickerPanel: typeof import('./.vitepress/vitepress/components/overview-icons/ov-color-picker-panel.vue')['default']
     OvConfigProvider: typeof import('./.vitepress/vitepress/components/overview-icons/ov-config-provider.vue')['default']
     OvContainer: typeof import('./.vitepress/vitepress/components/overview-icons/ov-container.vue')['default']
     OvDatePicker: typeof import('./.vitepress/vitepress/components/overview-icons/ov-date-picker.vue')['default']

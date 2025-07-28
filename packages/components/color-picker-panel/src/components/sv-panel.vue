@@ -43,6 +43,7 @@ export default defineComponent({
       type: Object as PropType<Color>,
       required: true,
     },
+    disabled: Boolean,
   },
 
   setup(props) {
@@ -63,6 +64,8 @@ export default defineComponent({
 
     // methods
     function update() {
+      if (props.disabled) return
+
       const saturation = props.color.get('saturation')
       const value = props.color.get('value')
 
@@ -76,6 +79,8 @@ export default defineComponent({
     }
 
     function handleDrag(event: MouseEvent | TouchEvent) {
+      if (props.disabled) return
+
       const el = instance.vnode.el!
       const rect = el.getBoundingClientRect()
       const { clientX, clientY } = getClientXY(event)
@@ -103,6 +108,7 @@ export default defineComponent({
         update()
       }
     )
+
     // mounted
     onMounted(() => {
       draggable(instance.vnode.el as HTMLElement, {
