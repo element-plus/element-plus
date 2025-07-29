@@ -9,7 +9,9 @@
     "
     :aria-labelledby="isLabeledByFormItem ? formItem?.labelId : undefined"
   >
-    <slot />
+    <slot>
+      <component :is="useCompOptions(Checkbox, props)" />
+    </slot>
   </component>
 </template>
 
@@ -22,6 +24,8 @@ import { useNamespace } from '@element-plus/hooks'
 import { useFormItem, useFormItemInputId } from '@element-plus/components/form'
 import { checkboxGroupEmits, checkboxGroupProps } from './checkbox-group'
 import { checkboxGroupContextKey } from './constants'
+import { useCompOptions } from '@element-plus/hooks/use-comp-options/index.js'
+import Checkbox from './checkbox.vue'
 
 import type { CheckboxGroupValueType } from './checkbox-group'
 

@@ -1,6 +1,7 @@
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import { buildProps, definePropType, isArray } from '@element-plus/utils'
+import { SelectOptionProps } from '@element-plus/components/select/src/select'
 
 import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type checkboxGroup from './checkbox-group.vue'
@@ -53,6 +54,12 @@ export const checkboxGroupProps = buildProps({
   validateEvent: {
     type: Boolean,
     default: true,
+  },
+  options: {
+    type: definePropType<Record<string, any>[]>(Array),
+  },
+  props: {
+    type: definePropType<SelectOptionProps>(Object),
   },
   ...useAriaProps(['ariaLabel']),
 } as const)
