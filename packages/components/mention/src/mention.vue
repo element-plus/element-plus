@@ -161,17 +161,22 @@ const handleInputKeyDown = (event: KeyboardEvent | Event) => {
       event.preventDefault()
       visible.value = false
       break
-    case EVENT_CODE.backspace:
-      if (props.whole && mentionCtx.value) {
+    case EVENT_CODE.backspace: {
+      if (!props.whole) break
+
+      const inputEl = getInputEl()
+      if (!inputEl) break
+
+      if (mentionCtx.value) {
         const { splitIndex, selectionEnd, pattern, prefixIndex, prefix } =
           mentionCtx.value
-        const inputEl = getInputEl()
-        if (!inputEl) return
+
         const inputValue = inputEl.value
         const matchOption = props.options.find((item) => item.value === pattern)
         const isWhole = isFunction(props.checkIsWhole)
           ? props.checkIsWhole(pattern, prefix)
           : matchOption
+
         if (isWhole && splitIndex !== -1 && splitIndex + 1 === selectionEnd) {
           event.preventDefault()
           const newValue =
@@ -188,7 +193,52 @@ const handleInputKeyDown = (event: KeyboardEvent | Event) => {
             syncDropdownVisible()
           })
         }
+
+        break
       }
+
+      if (!props.showPrefix) {
+        const { selectionEnd } = inputEl
+        if (selectionEnd === null) break
+
+        const inputValue = inputEl.value
+        const { split } = props
+
+        if (inputValue[selectionEnd - 1] !== split) break
+
+        const spaceIndex = inputValue.lastIndexOf(' ', selectionEnd - 2)
+        const newLineIndex = inputValue.lastIndexOf('\n', selectionEnd - 2)
+        const prevSplitIndex = inputValue.lastIndexOf(split, selectionEnd - 2)
+        const splitIndex = Math.max(spaceIndex, newLineIndex, prevSplitIndex)
+
+        const pattern = inputValue.slice(splitIndex + 1, selectionEnd - 1)
+        if (!pattern) break
+
+        const matchOption = props.options.find((item) => item.value === pattern)
+        const isWhole = isFunction(props.checkIsWhole)
+          ? props.checkIsWhole(pattern, '')
+          : matchOption
+
+        if (!isWhole) break
+
+        event.preventDefault()
+
+        const newValue =
+          inputValue.slice(0, splitIndex + 1) + inputValue.slice(selectionEnd)
+
+        emit(UPDATE_MODEL_EVENT, newValue)
+        emit(INPUT_EVENT, newValue)
+        emit('whole-remove', pattern, '')
+
+        const newSelectionEnd = splitIndex + 1
+        nextTick(() => {
+          inputEl.selectionStart = newSelectionEnd
+          inputEl.selectionEnd = newSelectionEnd
+          syncDropdownVisible()
+        })
+      }
+      break
+    }
   }
 }
 
