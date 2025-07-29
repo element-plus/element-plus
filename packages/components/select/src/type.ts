@@ -67,13 +67,7 @@ export type OptionPublicInstance = ComponentPublicInstance<
 export type OptionInternalInstance = ComponentInternalInstance & {
   proxy: OptionPublicInstance
 }
-export type OptionValue =
-  | Record<PropertyKey, any>
-  | boolean
-  | number
-  | string
-  | null
-  | undefined
+export type OptionValue = OptionProps['value']
 export type OptionBasic = {
   value: OptionValue
   currentLabel: OptionPublicInstance['currentLabel']

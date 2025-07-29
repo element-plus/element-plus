@@ -1,6 +1,4 @@
-import { buildProps, definePropType } from '@element-plus/utils'
-
-import type { OptionValue } from './type'
+import { buildProps } from '@element-plus/utils'
 
 export const COMPONENT_NAME = 'ElOption'
 export const optionProps = buildProps({
@@ -8,7 +6,7 @@ export const optionProps = buildProps({
    * @description value of option
    */
   value: {
-    type: definePropType<OptionValue>([String, Number, Boolean, Object, null]),
+    type: [String, Number, Boolean, Object],
     default: undefined,
   },
   /**
