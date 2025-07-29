@@ -8,14 +8,14 @@
     :aria-labelledby="isLabeledByFormItem ? formItem!.labelId : undefined"
   >
     <slot>
-      <el-radio
+      <Radio
         v-for="(item, index) in options"
         :key="index"
         :value="item[props.props?.value ?? 'value']"
         :disabled="item[props.props?.disabled ?? 'disabled']"
       >
         <span>{{ item[props.props?.label ?? 'label'] }} </span>
-      </el-radio>
+      </Radio>
     </slot>
   </div>
 </template>
@@ -37,6 +37,7 @@ import { useId, useNamespace } from '@element-plus/hooks'
 import { debugWarn } from '@element-plus/utils'
 import { radioGroupEmits, radioGroupProps } from './radio-group'
 import { radioGroupKey } from './constants'
+import Radio from './radio.vue'
 
 import type { RadioGroupProps } from './radio-group'
 

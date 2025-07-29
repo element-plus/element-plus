@@ -61,6 +61,14 @@ radio/radio-button-group
 
 :::
 
+## Options attribute ^(2.10.5)
+
+:::demo Shortcut from basic `el-radio` usage. You can customize the alias of the `options` through the `props` attribute.
+
+radio/options
+
+:::
+
 ## Button style
 
 Radio with button styles.
