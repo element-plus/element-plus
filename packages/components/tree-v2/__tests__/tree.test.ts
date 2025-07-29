@@ -1649,7 +1649,7 @@ describe('Virtual Tree', () => {
       },
     })
     await nextTick()
-    const firstTreeNode = wrapper.find('.el-tree-node')
+    const firstTreeNode = wrapper.find(TREE_NODE_CLASS_NAME)
     await firstTreeNode.trigger('click')
     const firstExpandedNodes = wrapper.findAll('.expanded')
     expect(firstExpandedNodes.length).toBe(1)
