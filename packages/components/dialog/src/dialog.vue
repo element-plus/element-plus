@@ -8,8 +8,11 @@
         v-show="visible"
         custom-mask-event
         :mask="modal"
-        :overlay-class="modalClass"
-        :style="{ pointerEvents: penetrable ? 'none' : 'auto' }"
+        :overlay-class="[
+          modalClass ?? '',
+          `${ns.namespace.value}-modal-dialog`,
+          ns.is('penetrable', penetrable),
+        ]"
         :z-index="zIndex"
       >
         <div
@@ -18,10 +21,7 @@
           :aria-label="title || undefined"
           :aria-labelledby="!title ? titleId : undefined"
           :aria-describedby="bodyId"
-          :class="[
-            `${ns.namespace.value}-overlay-dialog`,
-            ns.is('penetrable', penetrable),
-          ]"
+          :class="`${ns.namespace.value}-overlay-dialog`"
           :style="overlayDialogStyle"
           @click="overlayEvent.onClick"
           @mousedown="overlayEvent.onMousedown"

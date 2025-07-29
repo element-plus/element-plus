@@ -128,14 +128,7 @@
   }
 }
 
-.#{$namespace}-overlay-dialog {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  overflow: auto;
-
+.#{$namespace}-modal-dialog {
   &.is-penetrable {
     pointer-events: none;
 
@@ -143,6 +136,15 @@
       pointer-events: auto;
     }
   }
+}
+
+.#{$namespace}-overlay-dialog {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: auto;
 }
 
 .dialog-fade-enter-active {
