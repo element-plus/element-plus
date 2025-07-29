@@ -38,8 +38,10 @@ tree-select/check-strictly
 :::
 
 :::warning
+
 When using show-checkbox, since `check-on-click-leaf` is true by default,
 last tree children's can be checked by clicking their nodes.
+
 :::
 
 ## Multiple Selection

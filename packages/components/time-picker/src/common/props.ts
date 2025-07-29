@@ -234,6 +234,13 @@ export const timePickerDefaultProps = buildProps({
     default: true,
   },
   /**
+   * @description whether to show footer
+   */
+  showFooter: {
+    type: Boolean,
+    default: true,
+  },
+  /**
    * @description whether to show the number of the calendar week
    */
   showWeekNumber: Boolean,
