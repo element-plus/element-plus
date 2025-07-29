@@ -241,13 +241,11 @@ describe('Dialog.vue', () => {
       const dialog = wrapper.findComponent({ name: 'ElDialog' })
 
       await nextTick()
-      expect(wrapper.findComponent({ name: 'ElOverlay' }).exists()).toBe(true)
-      expect(wrapper.find('.el-overlay-dialog').exists()).toBe(true)
-      expect(wrapper.find('.el-overlay-dialog').classes()).toContain(
-        'is-penetrable'
-      )
+      const overlay = wrapper.findComponent({ name: 'ElOverlay' })
+      expect(overlay.exists()).toBe(true)
+      expect(overlay.classes()).toContain('is-penetrable')
 
-      await wrapper.find('.el-overlay-dialog').trigger('click')
+      await overlay.trigger('click')
       await wrapper.find('button').trigger('click')
       expect(dialog.vm.visible).toBe(true)
       expect(onClick).toHaveBeenCalled()
