@@ -683,6 +683,7 @@ const handleEndChange = () => {
       values?.[0] || null,
       formatDayjsToString(value) as string,
     ]
+
     const newValue = [values?.[0] || null, value] as DayOrDays
     if (isValidValue(newValue)) {
       emitInput(dayOrDaysToDate(newValue))
