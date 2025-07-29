@@ -4,6 +4,7 @@ import { useEmptyValuesProps, useSizeProp } from '@element-plus/hooks'
 import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type { Language } from '@element-plus/locale'
 import type { ButtonConfigContext } from '@element-plus/components/button'
+import type { CardConfigContext } from '@element-plus/components/card'
 import type { MessageConfigContext } from '@element-plus/components/message'
 import type { LinkConfigContext } from '@element-plus/components/link'
 
@@ -37,7 +38,13 @@ export const configProviderProps = buildProps({
     type: definePropType<ButtonConfigContext>(Object),
   },
   /**
-   * @description link related configuration, [see the following table](link-attributes)
+   * @description card related configuration, [see the following table](link-attributes)
+   */
+  card: {
+    type: definePropType<CardConfigContext>(Object),
+  },
+  /**
+   * @description link related configuration, [see the following table](card-attributes)
    */
   link: {
     type: definePropType<LinkConfigContext>(Object),

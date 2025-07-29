@@ -7,6 +7,8 @@ import {
   mockImageEvent,
 } from '@element-plus/test-utils/mock'
 import Image from '../src/image.vue'
+import triggerEvent from '@element-plus/test-utils/trigger-event'
+import { EVENT_CODE } from '@element-plus/constants'
 
 import type { AnchorHTMLAttributes, ImgHTMLAttributes } from 'vue'
 import type { ImageProps } from '../src/image'
@@ -114,6 +116,31 @@ describe('Image.vue', () => {
     await doubleWait()
     await wrapper.find('.el-image__inner').trigger('click')
     expect(result).toBeTruthy()
+  })
+
+  test('image preview close-on-press-escape', async () => {
+    const onClose = vi.fn()
+    const wrapper = mount(
+      <Image
+        previewSrcList={Array.from<string>({ length: 3 }).fill(IMAGE_SUCCESS)}
+        onClose={onClose}
+        closeOnPressEscape={false}
+      />
+    )
+
+    await doubleWait()
+    wrapper.getCurrentComponent().exposed!.showPreview()
+
+    triggerEvent(document.body, 'keydown', EVENT_CODE.esc)
+    await nextTick()
+    expect(wrapper.vm.showViewer).toBeTruthy()
+
+    await wrapper.setProps({ closeOnPressEscape: true })
+    triggerEvent(document.body, 'keydown', EVENT_CODE.esc)
+    await nextTick()
+
+    expect(wrapper.vm.showViewer).toBeFalsy()
+    expect(onClose).toHaveBeenCalledTimes(1)
   })
 
   test('manually open preview', async () => {

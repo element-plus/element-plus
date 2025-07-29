@@ -339,6 +339,11 @@
     .#{$namespace}-input__icon {
       cursor: not-allowed;
     }
+
+    .#{$namespace}-input__prefix-inner,
+    .#{$namespace}-input__suffix-inner {
+      pointer-events: none;
+    }
   }
 
   @include when(exceed) {
@@ -401,6 +406,7 @@
     .#{$namespace}-select,
     .#{$namespace}-button {
       display: inline-block;
+      flex: 1;
       margin: 0 -20px;
     }
 

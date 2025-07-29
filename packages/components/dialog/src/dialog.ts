@@ -1,13 +1,21 @@
 import { buildProps, definePropType, isBoolean } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { teleportProps } from '@element-plus/components/teleport'
+import { DEFAULT_DIALOG_TRANSITION } from './constants'
 import { dialogContentProps } from './dialog-content'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type {
+  ExtractPropTypes,
+  TransitionProps,
+  __ExtractPublicPropTypes,
+} from 'vue'
 import type Dialog from './dialog.vue'
 
 type DoneFn = (cancel?: boolean) => void
+
 export type DialogBeforeCloseFn = (done: DoneFn) => void
+
+export type DialogTransition = string | TransitionProps
 
 export const dialogProps = buildProps({
   ...dialogContentProps,
@@ -119,6 +127,13 @@ export const dialogProps = buildProps({
   headerAriaLevel: {
     type: String,
     default: '2',
+  },
+  /**
+   * @description custom transition configuration for dialog animation, it can be a string (transition name) or an object with Vue transition props
+   */
+  transition: {
+    type: definePropType<DialogTransition>([String, Object]),
+    default: DEFAULT_DIALOG_TRANSITION,
   },
 } as const)
 

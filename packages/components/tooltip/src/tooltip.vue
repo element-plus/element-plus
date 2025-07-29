@@ -124,12 +124,8 @@ provide(TOOLTIP_INJECTION_KEY, {
   id,
   open: readonly(open),
   trigger: toRef(props, 'trigger'),
-  onOpen: (event?: Event) => {
-    onOpen(event)
-  },
-  onClose: (event?: Event) => {
-    onClose(event)
-  },
+  onOpen,
+  onClose,
   onToggle: (event?: Event) => {
     if (unref(open)) {
       onClose(event)
@@ -189,7 +185,7 @@ defineExpose({
    */
   onOpen,
   /**
-   * @description expose onOpen function to mange el-tooltip open state
+   * @description expose onClose function to manage el-tooltip close state
    */
   onClose,
   /**

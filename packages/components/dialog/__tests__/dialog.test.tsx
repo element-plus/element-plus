@@ -5,6 +5,8 @@ import { rAF } from '@element-plus/test-utils/tick'
 import triggerCompositeClick from '@element-plus/test-utils/composite-click'
 import { Delete } from '@element-plus/icons-vue'
 import Dialog from '../src/dialog.vue'
+import triggerEvent from '@element-plus/test-utils/trigger-event'
+import { EVENT_CODE } from '@element-plus/constants'
 
 const AXIOM = 'Rem is the best girl'
 
@@ -177,6 +179,28 @@ describe('Dialog.vue', () => {
     expect(wrapper.find('.test-header-class').exists()).toBe(false)
     expect(wrapper.find('.test-body-class').exists()).toBe(false)
     expect(wrapper.find('.test-footer-class').exists()).toBe(false)
+  })
+
+  test('should close the modal when pressing Escape when `closeOnPressEscape` is true', async () => {
+    const onClose = vi.fn()
+    const wrapper = mount(
+      <Dialog modelValue={true} onClose={onClose} closeOnPressEscape={false}>
+        {AXIOM}
+      </Dialog>
+    )
+
+    await nextTick()
+
+    triggerEvent(document.body, 'keydown', EVENT_CODE.esc)
+    await nextTick()
+    expect(wrapper.vm.visible).toBeTruthy()
+
+    await wrapper.setProps({ closeOnPressEscape: true })
+    triggerEvent(document.body, 'keydown', EVENT_CODE.esc)
+    await nextTick()
+
+    expect(wrapper.vm.visible).toBeFalsy()
+    expect(onClose).toHaveBeenCalledTimes(1)
   })
 
   describe('mask related', () => {
@@ -391,6 +415,49 @@ describe('Dialog.vue', () => {
       expect(dialog.attributes()['aria-describedby']).toBe(
         dialogBody.attributes().id
       )
+    })
+  })
+
+  describe('transition', () => {
+    test('dialog supports transition as string', async () => {
+      const wrapper = mount(
+        <Dialog modelValue={true} transition="slide">
+          {AXIOM}
+        </Dialog>
+      )
+      await nextTick()
+      expect(wrapper.find('.slide-enter-active').exists()).toBe(true)
+    })
+
+    test('dialog supports transition as object config', async () => {
+      vi.useRealTimers()
+      const afterEnter = vi.fn()
+      const transitionConfig = {
+        name: 'dialog-custom-object',
+        appear: true,
+        duration: 500,
+        enterActiveClass: 'dialog-custom-object-enter-active',
+        leaveActiveClass: 'dialog-custom-object-leave-active',
+        enterFromClass: 'dialog-custom-object-enter-from',
+        leaveToClass: 'dialog-custom-object-leave-to',
+        onAfterEnter: afterEnter,
+      }
+
+      const wrapper = mount(
+        <Dialog modelValue={true} transition={transitionConfig}>
+          {AXIOM}
+        </Dialog>
+      )
+
+      await nextTick()
+      expect(wrapper.find('.dialog-custom-object-enter-active').exists()).toBe(
+        true
+      )
+
+      await new Promise((resolve) => setTimeout(resolve, 500))
+      await nextTick()
+      await rAF()
+      expect(afterEnter).toHaveBeenCalled()
     })
   })
 })

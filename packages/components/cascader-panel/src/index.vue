@@ -340,16 +340,19 @@ provide(
 )
 
 watch(
-  [config, () => props.options],
+  config,
   (newVal, oldVal) => {
     if (isEqual(newVal, oldVal)) return
     initStore()
   },
   {
-    deep: true,
     immediate: true,
   }
 )
+
+watch(() => props.options, initStore, {
+  deep: true,
+})
 
 watch(
   () => props.modelValue,
