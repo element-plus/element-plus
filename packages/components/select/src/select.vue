@@ -323,13 +323,14 @@ import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { flattedChildren, isArray, isObject } from '@element-plus/utils'
-import { useCalcInputWidth } from '@element-plus/hooks'
+import { useCalcInputWidth, useOrderedChildren } from '@element-plus/hooks'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
 import { useSelect } from './useSelect'
 import { selectKey } from './token'
 import ElOptions from './options'
 import { selectProps } from './select'
+import { COMPONENT_NAME as OPTION_COMPONET_NAME } from './option'
 
 import type { VNode } from 'vue';
 import type { SelectContext } from './type'
@@ -362,6 +363,8 @@ export default defineComponent({
 
   setup(props, { emit, slots }) {
     const instance = getCurrentInstance()!
+    const { } = useOrderedChildren(instance, )
+
     instance.appContext.config.warnHandler = (...args) => {
       // Overrides warnings about slots not being executable outside of a render function.
       // We call slot below just to simulate data when persist is false, this warning message should be ignored

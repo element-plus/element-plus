@@ -4,14 +4,12 @@ import type {
   ComputedRef,
   ExtractPropTypes,
   Ref,
+  VNode,
   __ExtractPublicPropTypes,
 } from 'vue'
 import type { SelectProps } from './select'
 import type { optionProps } from './option'
 
-export interface SelectGroupContext {
-  disabled: boolean
-}
 export interface SelectContext {
   props: SelectProps
   states: SelectStates
@@ -36,6 +34,15 @@ export type SelectStates = {
   selectedLabel: string
   menuVisibleOnFocus: boolean
   isBeforeHide: boolean
+}
+
+export interface SelectGroupContext {
+  disabled: boolean
+}
+
+export type OptionContext = {
+  uid: number
+  getVnode: () => VNode
 }
 export type OptionProps = ExtractPropTypes<typeof optionProps>
 export type OptionPropsPublic = __ExtractPublicPropTypes<typeof optionProps>
