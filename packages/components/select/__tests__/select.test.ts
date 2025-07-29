@@ -1839,6 +1839,32 @@ describe('Select', () => {
     expect(vm.value).toBe('test')
   })
 
+  test('should echo a label with null as value', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="value" :empty-values="[undefined]">
+        <el-option label="test" :value="null" />
+      </el-select>`,
+      () => ({ value: null })
+    )
+    await nextTick()
+    const currentLabel = wrapper.find('span').text()
+    expect(currentLabel).toBe('test')
+  })
+
+  test('should echo a label with undefined as value', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="value" :empty-values="[null]">
+        <el-option label="test" />
+      </el-select>`,
+      () => ({ value: undefined })
+    )
+    await nextTick()
+    const currentLabel = wrapper.find('span').text()
+    expect(currentLabel).toBe('test')
+  })
+
   test('default value is null or undefined', async () => {
     wrapper = _mount(
       `

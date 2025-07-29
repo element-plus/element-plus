@@ -38,7 +38,7 @@ export const selectProps = buildProps({
    * @description binding value
    */
   modelValue: {
-    type: definePropType<OptionValue | OptionValue[] | null>([
+    type: definePropType<OptionValue | OptionValue[]>([
       Array,
       String,
       Number,
