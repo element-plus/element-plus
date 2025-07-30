@@ -425,10 +425,7 @@ export default {
   /**
    * @description whether to use native scrollbars
    */
-  nativeScrollbar: {
-    type: Boolean,
-    default: false,
-  },
+  nativeScrollbar: Boolean,
 }
 export type {
   SummaryMethod,
