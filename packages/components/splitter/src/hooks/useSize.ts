@@ -34,7 +34,18 @@ export function useSize(
 
   const percentSizes = ref<number[]>([])
 
-  watch([propSizes, panelCounts, containerSize], () => {
+  watch([propSizes, panelCounts, containerSize], (newVal, oldVal) => {
+    const mutatedPanelIndexs: number[] = []
+    const oldPropsSizes = oldVal[0]
+    for (let i = 0; i < propSizes.value.length; i++) {
+      if (propSizes.value[i] !== oldPropsSizes[i]) {
+        mutatedPanelIndexs.push(i)
+      }
+    }
+    const isNeedFreezeSize =
+      mutatedPanelIndexs.length !== 0 &&
+      mutatedPanelIndexs.length < panelCounts.value
+
     let ptgList: (number | undefined)[] = []
     let emptyCount = 0
 
@@ -59,17 +70,39 @@ export function useSize(
     }
 
     const totalPtg = ptgList.reduce<number>((acc, ptg) => acc + (ptg || 0), 0)
+    const freezedPtg = ptgList
+      .filter((ptg, index) => mutatedPanelIndexs.includes(index))
+      .reduce<number>((acc, ptg) => acc + (ptg || 0), 0)
+    const distributablePtg = isNeedFreezeSize ? 1 - freezedPtg : 1
 
-    if (totalPtg > 1 || !emptyCount) {
-      // If it is greater than 1, the scaling ratio
+    if (distributablePtg < 0) {
       const scale = 1 / totalPtg
       ptgList = ptgList.map((ptg) => (ptg === undefined ? 0 : ptg * scale))
+    } else if (emptyCount) {
+      // If has empty count, fill the empty count with the average rest
+      const avgRest = distributablePtg / emptyCount
+      ptgList = ptgList.map((ptg, index) => {
+        const isFreezed = mutatedPanelIndexs.includes(index)
+        if (isFreezed) {
+          return ptg
+        }
+        return ptg === undefined ? avgRest : ptg
+      })
     } else {
-      // If it is less than 1, the filling ratio
-      const avgRest = (1 - totalPtg) / emptyCount
-      ptgList = ptgList.map((ptg) => (ptg === undefined ? avgRest : ptg))
+      // If no empty count, scale the rest with the total percentage
+      const notMutatedPtg = ptgList
+        .filter((ptg, index) => !mutatedPanelIndexs.includes(index))
+        .reduce<number>((acc, ptg) => acc + (ptg || 0), 0)
+      const scale = distributablePtg / notMutatedPtg
+      ptgList = ptgList.map((ptg, index) => {
+        const isFreezed = mutatedPanelIndexs.includes(index)
+        debugger
+        if (isFreezed) {
+          return ptg
+        }
+        return ptg === undefined ? 0 : ptg * scale
+      })
     }
-
     percentSizes.value = ptgList as number[]
   })
 
