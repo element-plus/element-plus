@@ -15,6 +15,7 @@ import { useNamespace } from '@element-plus/hooks'
 import { useFormSize } from '@element-plus/components/form'
 import { isUndefined } from '@element-plus/utils'
 import { textProps } from './text'
+import { isEleEllipsis } from './util'
 
 defineOptions({
   name: 'ElText',
@@ -36,26 +37,11 @@ const textKls = computed(() => [
 
 const bindTitle = () => {
   const inheritTitle = useAttrs().title
-
   if (inheritTitle) return
-  let shouldAddTitle = false
-  const text = textRef.value?.textContent || ''
 
-  if (props.truncated) {
-    const width = textRef.value?.offsetWidth
-    const scrollWidth = textRef.value?.scrollWidth
-    if (width && scrollWidth && scrollWidth > width) {
-      shouldAddTitle = true
-    }
-  } else if (!isUndefined(props.lineClamp)) {
-    const height = textRef.value?.offsetHeight
-    const scrollHeight = textRef.value?.scrollHeight
-    if (height && scrollHeight && scrollHeight > height) {
-      shouldAddTitle = true
-    }
-  }
-
-  if (shouldAddTitle) {
+  const isEllipsis = textRef.value && isEleEllipsis(textRef.value)
+  if (isEllipsis) {
+    const text = textRef.value?.textContent || ''
     textRef.value?.setAttribute('title', text)
   } else {
     textRef.value?.removeAttribute('title')
