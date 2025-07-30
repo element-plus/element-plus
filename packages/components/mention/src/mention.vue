@@ -167,79 +167,81 @@ const handleInputKeyDown = (event: KeyboardEvent | Event) => {
       const inputEl = getInputEl()
       if (!inputEl) break
 
-      if (mentionCtx.value) {
-        const { splitIndex, selectionEnd, pattern, prefixIndex, prefix } =
-          mentionCtx.value
-
-        const inputValue = inputEl.value
-        const matchOption = props.options.find((item) => item.value === pattern)
-        const isWhole = isFunction(props.checkIsWhole)
-          ? props.checkIsWhole(pattern, prefix)
-          : matchOption
-
-        if (isWhole && splitIndex !== -1 && splitIndex + 1 === selectionEnd) {
-          event.preventDefault()
-          const newValue =
-            inputValue.slice(0, prefixIndex) + inputValue.slice(splitIndex + 1)
-          emit(UPDATE_MODEL_EVENT, newValue)
-          emit(INPUT_EVENT, newValue)
-          emit('whole-remove', pattern, prefix)
-
-          const newSelectionEnd = prefixIndex
-          nextTick(() => {
-            // input value is updated
-            inputEl.selectionStart = newSelectionEnd
-            inputEl.selectionEnd = newSelectionEnd
-            syncDropdownVisible()
-          })
-        }
-
+      if (props.showPrefix && mentionCtx.value) {
+        handleWholePrefixDeletion(event, inputEl, mentionCtx.value)
         break
       }
 
       if (!props.showPrefix) {
-        const { selectionEnd } = inputEl
-        if (selectionEnd === null) break
-
-        const inputValue = inputEl.value
-        const { split } = props
-
-        if (inputValue[selectionEnd - 1] !== split) break
-
-        const spaceIndex = inputValue.lastIndexOf(' ', selectionEnd - 2)
-        const newLineIndex = inputValue.lastIndexOf('\n', selectionEnd - 2)
-        const prevSplitIndex = inputValue.lastIndexOf(split, selectionEnd - 2)
-        const splitIndex = Math.max(spaceIndex, newLineIndex, prevSplitIndex)
-
-        const pattern = inputValue.slice(splitIndex + 1, selectionEnd - 1)
-        if (!pattern) break
-
-        const matchOption = props.options.find((item) => item.value === pattern)
-        const isWhole = isFunction(props.checkIsWhole)
-          ? props.checkIsWhole(pattern, '')
-          : matchOption
-
-        if (!isWhole) break
-
-        event.preventDefault()
-
-        const newValue =
-          inputValue.slice(0, splitIndex + 1) + inputValue.slice(selectionEnd)
-
-        emit(UPDATE_MODEL_EVENT, newValue)
-        emit(INPUT_EVENT, newValue)
-        emit('whole-remove', pattern, '')
-
-        const newSelectionEnd = splitIndex + 1
-        nextTick(() => {
-          inputEl.selectionStart = newSelectionEnd
-          inputEl.selectionEnd = newSelectionEnd
-          syncDropdownVisible()
-        })
+        handleWholePrefixlessDeletion(event, inputEl)
+        break
       }
+
       break
     }
   }
+}
+
+const handleWholePrefixDeletion = (
+  event: KeyboardEvent,
+  inputEl: HTMLInputElement | HTMLTextAreaElement,
+  ctx: MentionCtx
+) => {
+  const { splitIndex, selectionEnd, pattern, prefixIndex, prefix } = ctx
+  const isWhole = checkIsWhole(pattern, prefix)
+  if (!isWhole || splitIndex + 1 !== selectionEnd) return
+
+  event.preventDefault()
+  const newValue = removeRange(inputEl.value, prefixIndex, splitIndex + 1)
+  syncAfterWholeDeletion(newValue, inputEl, prefixIndex)
+}
+
+const handleWholePrefixlessDeletion = (
+  event: KeyboardEvent,
+  inputEl: HTMLInputElement | HTMLTextAreaElement
+) => {
+  const { selectionEnd } = inputEl
+  if (!selectionEnd || inputEl.value[selectionEnd - 1] !== props.split) return
+
+  const idxs = [
+    inputEl.value.lastIndexOf(' ', selectionEnd - 2),
+    inputEl.value.lastIndexOf('\n', selectionEnd - 2),
+    inputEl.value.lastIndexOf(props.split, selectionEnd - 2),
+  ]
+  const splitIndex = Math.max(...idxs)
+
+  const pattern = inputEl.value.slice(splitIndex + 1, selectionEnd - 1)
+  if (!pattern || !checkIsWhole(pattern, '')) return
+
+  event.preventDefault()
+  const newValue = removeRange(inputEl.value, splitIndex + 1, selectionEnd)
+  syncAfterWholeDeletion(newValue, inputEl, splitIndex + 1)
+}
+
+const checkIsWhole = (pattern: string, prefix: string) => {
+  const matchOption = props.options.find((o) => o.value === pattern)
+  return isFunction(props.checkIsWhole)
+    ? props.checkIsWhole(pattern, prefix)
+    : !!matchOption
+}
+
+const removeRange = (str: string, start: number, end: number) => {
+  return str.slice(0, start) + str.slice(end)
+}
+
+const syncAfterWholeDeletion = (
+  newVal: string,
+  inputEl: HTMLInputElement | HTMLTextAreaElement,
+  pos: number
+) => {
+  emit(UPDATE_MODEL_EVENT, newVal)
+  emit(INPUT_EVENT, newVal)
+
+  nextTick(() => {
+    inputEl.selectionStart = pos
+    inputEl.selectionEnd = pos
+    syncDropdownVisible()
+  })
 }
 
 const { wrapperRef } = useFocusController(elInputRef, {
