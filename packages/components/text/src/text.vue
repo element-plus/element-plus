@@ -39,8 +39,8 @@ const bindTitle = () => {
   const inheritTitle = useAttrs().title
   if (inheritTitle) return
 
-  const isEllipsis = textRef.value && isEleEllipsis(textRef.value)
-  if (isEllipsis) {
+  const isNativeEllipsis = textRef.value && isEleEllipsis(textRef.value)
+  if (isNativeEllipsis) {
     const text = textRef.value?.textContent || ''
     textRef.value?.setAttribute('title', text)
   } else {
