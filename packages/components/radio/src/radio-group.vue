@@ -37,7 +37,7 @@ import { useId, useNamespace } from '@element-plus/hooks'
 import { debugWarn } from '@element-plus/utils'
 import { radioGroupEmits, radioGroupProps } from './radio-group'
 import { radioGroupKey } from './constants'
-import Radio from './radio.vue'
+import ElRadio from './radio.vue'
 
 import type { RadioGroupProps } from './radio-group'
 
