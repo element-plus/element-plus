@@ -17,14 +17,10 @@ export function useAllowCreate(props: SelectV2Props, states: SelectStates) {
   watch(
     () => props.options,
     (options) => {
-      states.createdOptions = states.createdOptions.filter((createdOption) => {
-        const createdOptionLabel = getLabel(createdOption)
-        const isExistingOption = options.some((option) => {
-          const label = getLabel(option)
-          return createdOptionLabel === label
-        })
-        return !isExistingOption
-      })
+      const optionLabelsSet = new Set(options.map((option) => getLabel(option)))
+      states.createdOptions = states.createdOptions.filter(
+        (createdOption) => !optionLabelsSet.has(getLabel(createdOption))
+      )
     }
   )
 
