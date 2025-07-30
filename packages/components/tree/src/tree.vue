@@ -353,6 +353,10 @@ export default defineComponent({
       return store.value.getNode(data)
     }
 
+    const getRoot = (): TreeNodeData => {
+      return store.value.getRoot()
+    }
+
     const remove = (data: TreeNodeData | Node) => {
       store.value.remove(data)
     }
@@ -362,6 +366,10 @@ export default defineComponent({
       parentNode: TreeNodeData | TreeKey | Node
     ) => {
       store.value.append(data, parentNode)
+    }
+
+    const update = (data: TreeData, node: TreeNodeData | TreeKey | Node) => {
+      store.value.updateNodeChildren(data, node)
     }
 
     const insertBefore = (
@@ -387,10 +395,14 @@ export default defineComponent({
       ctx.emit('node-expand', nodeData, node, instance)
     }
 
+    const updateRootChildren = (data: TreeData) => {
+      store.value.updateRootChildren(data)
+    }
+
     const updateKeyChildren = (key: TreeKey, data: TreeData) => {
       if (!props.nodeKey)
         throw new Error('[Tree] nodeKey is required in updateKeyChild')
-      store.value.updateChildren(key, data)
+      store.value.updateKeyChildren(key, data)
     }
 
     provide(ROOT_TREE_INJECTION_KEY, {
@@ -434,11 +446,14 @@ export default defineComponent({
       setCurrentKey,
       t,
       getNode,
+      getRoot,
       remove,
       append,
+      update,
       insertBefore,
       insertAfter,
       handleNodeExpand,
+      updateRootChildren,
       updateKeyChildren,
     }
   },
