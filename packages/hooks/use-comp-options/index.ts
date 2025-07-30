@@ -1,12 +1,13 @@
-import { Component, h } from 'vue'
+import { h } from 'vue'
 
 interface SelectOptionProps {
   label?: string
   value?: string
   disabled?: string
 }
+
 export const useCompOptions = (
-  comp: Component,
+  comp: any,
   props: {
     options?: Record<string, any>[]
     props?: SelectOptionProps
@@ -15,15 +16,12 @@ export const useCompOptions = (
   return () => {
     if (!props.options) return []
     return props.options.map((item, index) => {
-      return h(
-        comp,
-        {
-          key: index,
-          value: item[props.props?.value ?? 'value'],
-          disabled: item[props.props?.disabled ?? 'disabled'],
-        },
-        item[props.props?.label ?? 'label']
-      )
+      return h(comp, {
+        key: index,
+        value: item[props.props?.value ?? 'value'],
+        disabled: item[props.props?.disabled ?? 'disabled'],
+        label: item[props.props?.label ?? 'label'],
+      })
     })
   }
 }
