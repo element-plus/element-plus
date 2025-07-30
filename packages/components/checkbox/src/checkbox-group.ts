@@ -1,10 +1,9 @@
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import { buildProps, definePropType, isArray } from '@element-plus/utils'
-
+import { SelectOptionProps } from '@element-plus/components/select/src/select'
 
 import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
-import { SelectOptionProps } from '@element-plus/components/select/src/select'
 import type checkboxGroup from './checkbox-group.vue'
 import type { CheckboxValueType } from './checkbox'
 
