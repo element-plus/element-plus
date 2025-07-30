@@ -1,9 +1,9 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import { radioEmits } from './radio'
-import { SelectOptionProps } from '@element-plus/components/select/src/select'
 
 import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { SelectOptionProps } from '@element-plus/components/select/src/select'
 import type RadioGroup from './radio-group.vue'
 
 export const radioGroupProps = buildProps({
