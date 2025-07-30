@@ -409,7 +409,7 @@ import YearTable from './basic-year-table.vue'
 import MonthTable from './basic-month-table.vue'
 import DateTable from './basic-date-table.vue'
 
-import type { Dayjs, UnitTypeLong, UnitTypeShort } from 'dayjs'
+import type { Dayjs } from 'dayjs'
 
 type ChangeType = 'min' | 'max'
 type UserInput = {
@@ -656,18 +656,13 @@ const showTime = computed(
   () => props.type === 'datetime' || props.type === 'datetimerange'
 )
 
-const formatEmitWithEndOf = (
-  emitDayjs: Dayjs | null,
-  useEndOf: UnitTypeLong | UnitTypeShort | '' = ''
-) => {
-  return emitDayjs && useEndOf ? dayjs(emitDayjs).endOf(useEndOf) : emitDayjs
+const formatEmitWithEndOf = (emitDayjs: Dayjs | null) => {
+  return emitDayjs && useEndOf?.value
+    ? dayjs(emitDayjs).endOf(useEndOf.value)
+    : emitDayjs
 }
 
-const formatEmit = (
-  emitDayjs: Dayjs | null,
-  index?: number,
-  useEndOf: UnitTypeLong | UnitTypeShort | '' = ''
-) => {
+const formatEmit = (emitDayjs: Dayjs | null, index?: number) => {
   if (!emitDayjs) return undefined
   if (defaultTime) {
     const defaultTimeD = dayjs(
@@ -678,10 +673,10 @@ const formatEmit = (
         .year(emitDayjs.year())
         .month(emitDayjs.month())
         .date(emitDayjs.date()),
-      useEndOf || ''
+      useEndOf?.value || ''
     )
   }
-  return formatEmitWithEndOf(emitDayjs, useEndOf || '')
+  return formatEmitWithEndOf(emitDayjs, useEndOf?.value || '')
 }
 
 const handleRangePick = (
@@ -694,7 +689,7 @@ const handleRangePick = (
   const min_ = val.minDate
   const max_ = val.maxDate
   const minDate_ = formatEmit(min_, 0)
-  const maxDate_ = formatEmit(max_, 1, useEndOf?.value ?? '')
+  const maxDate_ = formatEmit(max_, 1)
 
   if (maxDate.value === maxDate_ && minDate.value === minDate_) {
     return
