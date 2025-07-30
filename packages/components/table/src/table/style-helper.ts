@@ -305,6 +305,9 @@ function useStyle<T extends DefaultRow>(
           }px`,
         }
       } else {
+        if (/^(?!\d+px$).*/.test(props.maxHeight as string)) {
+          return { maxHeight: '100%' }
+        }
         return {
           maxHeight: `calc(${props.maxHeight} - ${
             headerScrollHeight.value + footerScrollHeight.value
