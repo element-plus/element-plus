@@ -69,6 +69,10 @@ export const dialogProps = buildProps({
     default: true,
   },
   /**
+   * @description whether the mask is penetrable
+   */
+  modalPenetrable: Boolean,
+  /**
    * @description the Time(milliseconds) before open
    */
   openDelay: {
