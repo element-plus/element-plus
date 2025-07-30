@@ -173,6 +173,7 @@ dialog/events
 | fullscreen                 | whether the Dialog takes up full screen                                                                                        | ^[boolean]                             | false       |
 | top                        | value for `margin-top` of Dialog CSS, default is 15vh                                                                          | ^[string]                              | ''          |
 | modal                      | whether a mask is displayed                                                                                                    | ^[boolean]                             | true        |
+| modal-penetrable ^(2.10.5) | whether the mask is penetrable. The modal attribute must be `false`.                                                           | ^[boolean]                             | false       |
 | modal-class                | custom class names for mask                                                                                                    | ^[string]                              | —           |
 | header-class ^(2.9.3)      | custom class names for header wrapper                                                                                          | ^[string]                              | —           |
 | body-class ^(2.9.3)        | custom class names for body wrapper                                                                                            | ^[string]                              | —           |

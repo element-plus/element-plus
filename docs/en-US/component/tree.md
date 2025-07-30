@@ -28,8 +28,10 @@ tree/selectable
 :::
 
 :::warning
+
 When using show-checkbox, since `check-on-click-leaf` is true by default,
 last tree children's can be checked by clicking their nodes.
+
 :::
 
 ## Custom leaf node in lazy mode

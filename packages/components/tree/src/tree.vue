@@ -57,6 +57,7 @@ import { useNodeExpandEventBroadcast } from './model/useNodeExpandEventBroadcast
 import { useDragNodeHandler } from './model/useDragNode'
 import { useKeydown } from './model/useKeydown'
 import { ROOT_TREE_INJECTION_KEY } from './tokens'
+import { isEqual } from 'lodash-unified'
 
 import type Node from './model/node'
 import type { ComponentInternalInstance, PropType } from 'vue'
@@ -224,7 +225,9 @@ export default defineComponent({
 
     watch(
       () => props.defaultCheckedKeys,
-      (newVal) => {
+      (newVal, oldVal) => {
+        if (isEqual(newVal, oldVal)) return
+
         store.value.setDefaultCheckedKey(newVal ?? [])
       }
     )
