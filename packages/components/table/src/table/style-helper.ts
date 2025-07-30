@@ -305,7 +305,7 @@ function useStyle<T extends DefaultRow>(
           }px`,
         }
       } else {
-        if (/^(?!\d+px$).*/.test(props.maxHeight as string)) {
+        if (/^(?!\d+(px|vh)$).*/.test(props.maxHeight as string)) {
           return { maxHeight: '100%' }
         }
         return {
