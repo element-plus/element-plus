@@ -106,8 +106,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       '@pnpm/types':
-        specifier: ^8.4.0
-        version: 8.4.0
+        specifier: ^1000.7.0
+        version: 1000.7.0
       '@types/fs-extra':
         specifier: ^9.0.13
         version: 9.0.13
@@ -375,8 +375,8 @@ importers:
         version: 0.11.2(esbuild@0.14.47)(rollup@2.75.7)(vite@5.4.10(@types/node@22.9.0)(sass@1.79.3)(terser@5.36.0))(vue@3.2.37)
     devDependencies:
       '@pnpm/types':
-        specifier: ^8.4.0
-        version: 8.4.0
+        specifier: ^1000.7.0
+        version: 1000.7.0
       tsx:
         specifier: ^4.19.3
         version: 4.19.3
@@ -2092,6 +2092,10 @@ packages:
   '@pnpm/render-peer-issues@2.0.5':
     resolution: {integrity: sha512-J2FOgp7HheHWE+0WwaQkR2Ab+osg0yVO8H750+7MBw2PTvUyeNMVAdgy3ddIRYRaogT90jjpJFiywxSt9kd/4g==}
     engines: {node: '>=14.6'}
+
+  '@pnpm/types@1000.7.0':
+    resolution: {integrity: sha512-1s7FvDqmOEIeFGLUj/VO8sF5lGFxeE/1WALrBpfZhDnMXY/x8FbmuygTTE5joWifebcZ8Ww8Kw2CgBoStsIevQ==}
+    engines: {node: '>=18.12'}
 
   '@pnpm/types@8.4.0':
     resolution: {integrity: sha512-sq/UdSq/jWCpYglw9SFmvR8qzUEi0p2oZIO0AHjkWWQg4Qrolf6DgD0WWmLiEP2WxHjbYeyD3ZzWzQor1+6cvw==}
@@ -7167,7 +7171,7 @@ packages:
   right-pad@1.0.1:
     resolution: {integrity: sha512-bYBjgxmkvTAfgIYy328fmkwhp39v8lwVgWhhrzxPV3yHtcSqyYKe9/XOhvW48UFjATg3VuJbpsp5822ACNvkmw==}
     engines: {node: '>= 0.10'}
-    deprecated: Please use String.prototype.padEnd() over this package.
+    deprecated: Use String.prototype.padEnd() instead
 
   rimraf@3.0.2:
     resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==}
@@ -10221,6 +10225,8 @@ snapshots:
       archy: 1.0.0
       chalk: 4.1.2
       cli-columns: 4.0.0
+
+  '@pnpm/types@1000.7.0': {}
 
   '@pnpm/types@8.4.0': {}
 
