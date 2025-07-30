@@ -94,42 +94,16 @@ export const makeList = (total: number, method?: () => number[]) => {
 export const dayOrDaysToDate = (dayOrDays: DayOrDays): DateOrDates => {
   if (isArray(dayOrDays)) {
     return dayOrDays.map((d) => {
-      // 检查是否为有效的 dayjs 对象
-      if (d && typeof d === 'object' && typeof d.toDate === 'function') {
+      if (d && d.toDate && typeof d.toDate === 'function') {
         return d.toDate()
       }
-      // 如果是字符串，尝试用 dayjs 解析
-      if (typeof d === 'string') {
-        const parsed = dayjs(d)
-        return parsed.isValid() ? parsed.toDate() : new Date()
-      }
-      // 如果已经是 Date 对象
-      if (d instanceof Date) {
-        return d
-      }
-      // 如果是 null 或 undefined，返回当前时间
-      if (d == null) {
-        return new Date()
-      }
-      // 其他情况返回当前时间
       return new Date()
     }) as [Date, Date]
   }
 
-  // 单个值的处理
-  if (
-    dayOrDays &&
-    typeof dayOrDays === 'object' &&
-    typeof dayOrDays.toDate === 'function'
-  ) {
+  if (dayOrDays && dayOrDays.toDate && typeof dayOrDays.toDate === 'function') {
     return dayOrDays.toDate()
   }
-  if (typeof dayOrDays === 'string') {
-    const parsed = dayjs(dayOrDays)
-    return parsed.isValid() ? parsed.toDate() : new Date()
-  }
-  if (dayOrDays instanceof Date) {
-    return dayOrDays
-  }
+
   return new Date()
 }

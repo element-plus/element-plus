@@ -667,7 +667,12 @@ const handleStartChange = () => {
       formatDayjsToString(value) as string,
       displayValue.value?.[1] || null,
     ]
-    const newValue = [value, values && (values[1] || null)] as DayOrDays
+
+    const endValueStr = values && values[1]
+    const endValue = endValueStr
+      ? (parseUserInputToDayjs(endValueStr) as Dayjs)
+      : null
+    const newValue = [value, endValue] as DayOrDays
     if (isValidValue(newValue)) {
       emitInput(dayOrDaysToDate(newValue))
       userInput.value = null
@@ -684,7 +689,11 @@ const handleEndChange = () => {
       formatDayjsToString(value) as string,
     ]
 
-    const newValue = [values?.[0] || null, value] as DayOrDays
+    const startValueStr = values && values[0]
+    const startValue = startValueStr
+      ? (parseUserInputToDayjs(startValueStr) as Dayjs)
+      : null
+    const newValue = [startValue, value] as DayOrDays
     if (isValidValue(newValue)) {
       emitInput(dayOrDaysToDate(newValue))
       userInput.value = null
