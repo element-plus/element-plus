@@ -9,7 +9,6 @@ export function useAllowCreate(props: SelectV2Props, states: SelectStates) {
 
   const createOptionCount = ref(0)
   const cachedSelectedOption = ref<Option>()
-  let queryLabel = ''
 
   const enableAllowCreateMode = computed(() => {
     return props.allowCreate && props.filterable
@@ -20,11 +19,11 @@ export function useAllowCreate(props: SelectV2Props, states: SelectStates) {
     (options) => {
       states.createdOptions = states.createdOptions.filter((createdOption) => {
         const createdOptionLabel = getLabel(createdOption)
-        const isExistingOption = options.some((item) => {
-          const label = getLabel(item)
+        const isExistingOption = options.some((option) => {
+          const label = getLabel(option)
           return createdOptionLabel === label
         })
-        return !isExistingOption && queryLabel === createdOptionLabel
+        return !isExistingOption && states.previousQuery === createdOptionLabel
       })
     }
   )
@@ -49,10 +48,12 @@ export function useAllowCreate(props: SelectV2Props, states: SelectStates) {
   }
 
   function createNewOption(query: string) {
-    queryLabel = query
     if (enableAllowCreateMode.value) {
       if (query && query.length > 0) {
         if (hasExistingOption(query)) {
+          states.createdOptions = states.createdOptions.filter(
+            (createdOption) => getLabel(createdOption) !== query
+          )
           return
         }
         const newOption = {
