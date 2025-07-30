@@ -1,7 +1,19 @@
-import { h } from 'vue'
+import { Component, h } from 'vue'
 
-export const useCompOptions = (comp, props) => {
+interface SelectOptionProps {
+  label?: string
+  value?: string
+  disabled?: string
+}
+export const useCompOptions = (
+  comp: Component,
+  props: {
+    options?: Record<string, any>[]
+    props?: SelectOptionProps
+  }
+) => {
   return () => {
+    if (!props.options) return []
     return props.options.map((item, index) => {
       return h(
         comp,
