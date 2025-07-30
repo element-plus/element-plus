@@ -8,7 +8,7 @@
     :aria-labelledby="isLabeledByFormItem ? formItem!.labelId : undefined"
   >
     <slot>
-      <ElRadio
+      <el-radio
         v-for="(item, index) in options"
         :key="index"
         :value="item[props.props?.value ?? 'value']"
