@@ -8,14 +8,13 @@
     :aria-labelledby="isLabeledByFormItem ? formItem!.labelId : undefined"
   >
     <slot>
-      <Radio
+      <ElRadio
         v-for="(item, index) in options"
         :key="index"
         :value="item[props.props?.value ?? 'value']"
+        :label="item[props.props?.label ?? 'label']"
         :disabled="item[props.props?.disabled ?? 'disabled']"
-      >
-        <span>{{ item[props.props?.label ?? 'label'] }} </span>
-      </Radio>
+      />
     </slot>
   </div>
 </template>
