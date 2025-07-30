@@ -160,6 +160,7 @@ interface TableProps<T extends DefaultRow> {
   tooltipFormatter?: TableOverflowTooltipFormatter<T>
   appendFilterPanelTo?: string
   scrollbarTabindex?: number | string
+  nativeScrollbar?: boolean
 }
 
 type TableTooltipData<T extends DefaultRow> = Parameters<
@@ -421,6 +422,10 @@ export default {
    * @description whether to preserve expanded row content in DOM when collapsed
    */
   preserveExpandedContent: Boolean,
+  /**
+   * @description whether to use native scrollbars
+   */
+  nativeScrollbar: Boolean,
 }
 export type {
   SummaryMethod,
