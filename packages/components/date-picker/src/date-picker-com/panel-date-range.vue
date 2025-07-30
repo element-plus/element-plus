@@ -672,11 +672,10 @@ const formatEmit = (emitDayjs: Dayjs | null, index?: number) => {
       defaultTimeD
         .year(emitDayjs.year())
         .month(emitDayjs.month())
-        .date(emitDayjs.date()),
-      useEndOf?.value || ''
+        .date(emitDayjs.date())
     )
   }
-  return formatEmitWithEndOf(emitDayjs, useEndOf?.value || '')
+  return formatEmitWithEndOf(emitDayjs)
 }
 
 const handleRangePick = (
