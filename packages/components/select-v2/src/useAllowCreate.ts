@@ -23,7 +23,7 @@ export function useAllowCreate(props: SelectV2Props, states: SelectStates) {
           const label = getLabel(option)
           return createdOptionLabel === label
         })
-        return !isExistingOption && states.previousQuery === createdOptionLabel
+        return !isExistingOption
       })
     }
   )
@@ -52,7 +52,7 @@ export function useAllowCreate(props: SelectV2Props, states: SelectStates) {
       if (query && query.length > 0) {
         if (hasExistingOption(query)) {
           states.createdOptions = states.createdOptions.filter(
-            (createdOption) => getLabel(createdOption) !== query
+            (createdOption) => getLabel(createdOption) !== states.previousQuery
           )
           return
         }
