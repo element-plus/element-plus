@@ -56,6 +56,10 @@ watch([activeLink, sidebarItem], ([active, el]) => {
   .link-text {
     margin: 0;
   }
+
+  .link-text + * {
+    margin-left: 0.5rem;
+  }
 }
 
 .link:hover .link-text {
