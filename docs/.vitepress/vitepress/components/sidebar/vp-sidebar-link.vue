@@ -42,7 +42,7 @@ watch([activeLink, sidebarItem], ([active, el]) => {
     <VersionTag
       v-if="item.promotion"
       :version="item.promotion"
-      class="!ml-2"
+      class="ml-2"
     ></VersionTag>
   </a>
 </template>
