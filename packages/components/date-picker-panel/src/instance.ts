@@ -1,5 +1,4 @@
-import type { ComponentPublicInstance } from 'vue'
-import type { DatePickerPanelProps } from './props/date-picker-panel'
+import DatePickerPanel from './date-picker-panel'
 
-export type DatePickerPanelInstance =
-  ComponentPublicInstance<DatePickerPanelProps>
+export type DatePickerPanelInstance = InstanceType<typeof DatePickerPanel> &
+  unknown

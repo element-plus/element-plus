@@ -7,11 +7,11 @@ import {
   PICKER_POPPER_OPTIONS_INJECTION_KEY,
   type SingleOrRange,
 } from '@element-plus/components/time-picker'
-import { datePickerProps } from './props/date-picker'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import ElDatePickerPanel, {
   ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY,
 } from '@element-plus/components/date-picker-panel'
+import { datePickerProps } from './props'
 
 import type { DatePickerExpose } from './instance'
 
