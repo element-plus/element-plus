@@ -38,7 +38,12 @@ watch([activeLink, sidebarItem], ([active, el]) => {
     @click="$emit('close')"
   >
     <p class="link-text">{{ item.text }}</p>
-    <VersionTag v-if="item.promotion" :version="item.promotion" />
+    <!-- eslint-disable-next-line vue/html-self-closing -->
+    <VersionTag
+      v-if="item.promotion"
+      :version="item.promotion"
+      class="!ml-2"
+    ></VersionTag>
   </a>
 </template>
 
