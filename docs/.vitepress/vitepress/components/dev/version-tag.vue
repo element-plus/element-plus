@@ -9,3 +9,9 @@ defineProps<{
     {{ version }}
   </el-tag>
 </template>
+
+<style scoped>
+.el-tag {
+  margin-left: 0.5rem;
+}
+</style>
