@@ -71,6 +71,7 @@
   @include when(loading) {
     li {
       text-align: center;
+      cursor: default;
       height: 100px;
       line-height: 100px;
       font-size: 20px;
@@ -82,8 +83,10 @@
       }
     }
 
-    & .#{$namespace}-icon-loading {
-      vertical-align: middle;
+    @include b(icon) {
+      @include when(loading) {
+        vertical-align: middle;
+      }
     }
   }
 }
