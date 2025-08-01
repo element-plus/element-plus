@@ -82,11 +82,5 @@
         background-color: getCssVar('bg-color', 'overlay');
       }
     }
-
-    @include b(icon) {
-      @include when(loading) {
-        vertical-align: middle;
-      }
-    }
   }
 }
