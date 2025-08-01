@@ -47,10 +47,13 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
       ({ type }) => type === 'default'
     )
   })
+  const rowIdSet = new Set<string>()
   const getKeyOfRow = (row: T, index: number) => {
     const rowKey = (parent?.props as Partial<TableProps<T>>)?.rowKey
     if (rowKey) {
-      return getRowIdentity(row, rowKey)
+      const rowId = getRowIdentity(row, rowKey)
+      rowIdSet.add(rowId)
+      return !rowIdSet.has(rowId) ? rowId : index
     }
     return index
   }
@@ -60,6 +63,7 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
     treeRowData?: TreeNode,
     expanded = false
   ) => {
+    rowIdSet.clear()
     const { tooltipEffect, tooltipOptions, store } = props
     const { indent, columns } = store!.states
     const rowClasses = getRowClass(row, $index)

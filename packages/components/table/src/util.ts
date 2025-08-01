@@ -187,7 +187,7 @@ export const getRowIdentity = <T extends DefaultRow>(
   if (!row) throw new Error('Row is required when get row identity')
   if (isString(rowKey)) {
     if (!rowKey.includes('.')) {
-      return `${row[rowKey]}`
+      return row[rowKey] ? `${row[rowKey]}` : ''
     }
     const key = rowKey.split('.')
     let current: any = row
@@ -196,7 +196,7 @@ export const getRowIdentity = <T extends DefaultRow>(
     }
     //TODO: "current" is now any, we just satisfies typecheck here
     // but this function can actually return a number
-    return `${current}`
+    return current ? `${current}` : ''
   } else if (isFunction(rowKey)) {
     return rowKey.call(null, row)
   }
