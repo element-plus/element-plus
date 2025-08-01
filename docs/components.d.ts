@@ -65,6 +65,7 @@ declare module 'vue' {
     OvConfigProvider: typeof import('./.vitepress/vitepress/components/overview-icons/ov-config-provider.vue')['default']
     OvContainer: typeof import('./.vitepress/vitepress/components/overview-icons/ov-container.vue')['default']
     OvDatePicker: typeof import('./.vitepress/vitepress/components/overview-icons/ov-date-picker.vue')['default']
+    OvDatePickerPanel: typeof import('./.vitepress/vitepress/components/overview-icons/ov-date-picker-panel.vue')['default']
     OvDatetimePicker: typeof import('./.vitepress/vitepress/components/overview-icons/ov-datetime-picker.vue')['default']
     OvDescriptions: typeof import('./.vitepress/vitepress/components/overview-icons/ov-descriptions.vue')['default']
     OvDialog: typeof import('./.vitepress/vitepress/components/overview-icons/ov-dialog.vue')['default']

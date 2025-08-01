@@ -1,4 +1,11 @@
-import { getCurrentInstance, inject, ref, unref, watch } from 'vue'
+import {
+  getCurrentInstance,
+  inject,
+  onBeforeMount,
+  ref,
+  unref,
+  watch,
+} from 'vue'
 import dayjs from 'dayjs'
 import { isArray } from '@element-plus/utils'
 import { useLocale, useNamespace } from '@element-plus/hooks'
@@ -128,12 +135,20 @@ export const useRangePicker = (
   watch(
     () => props.parsedValue,
     (parsedValue) => {
-      if (!props.visible || !parsedValue?.length) {
+      if (!props.visible || !(parsedValue as Dayjs[])?.length) {
         onReset(parsedValue)
       }
     },
-    { immediate: true }
+    {
+      immediate: true,
+    }
   )
+
+  onBeforeMount(() => {
+    if (props.visible) {
+      onReset(props.parsedValue)
+    }
+  })
 
   return {
     minDate,

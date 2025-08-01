@@ -7,7 +7,7 @@ import { buildPickerTable } from '../utils'
 
 import type { SetupContext } from 'vue'
 import type { Dayjs } from 'dayjs'
-import type { DateCell } from '../date-picker.type'
+import type { DateCell } from '../types'
 import type {
   BasicDateTableEmits,
   BasicDateTableProps,
@@ -322,6 +322,7 @@ export const useBasicDateTable = (
     event: FocusEvent | MouseEvent,
     isKeyboardMovement = false
   ) => {
+    if (props.disabled) return
     const target = (event.target as HTMLElement).closest('td')
 
     if (!target) return
@@ -412,7 +413,7 @@ export const useBasicDateTableDOM = (
 
   const tableKls = computed(() => [
     ns.b(),
-    { 'is-week-mode': props.selectionMode === 'week' },
+    { 'is-week-mode': props.selectionMode === 'week' && !props.disabled },
   ])
 
   const tableLabel = computed(() => t('el.datepicker.dateTablePrompt'))
@@ -447,7 +448,7 @@ export const useBasicDateTableDOM = (
       }
     }
 
-    if (cell.disabled) {
+    if (cell.disabled || props.disabled) {
       classes.push('disabled')
     }
 

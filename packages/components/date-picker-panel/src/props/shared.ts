@@ -4,6 +4,7 @@ import { datePickTypes } from '@element-plus/constants'
 import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type { Dayjs } from 'dayjs'
 import type { DatePickType } from '@element-plus/constants'
+import type { DayOrDays } from '@element-plus/components/time-picker'
 
 const selectionModes = [
   'date',
@@ -47,6 +48,7 @@ export const datePickerSharedProps = buildProps({
       selecting: false,
     }),
   },
+  disabled: Boolean,
 } as const)
 
 export const panelSharedProps = buildProps({
@@ -66,17 +68,24 @@ export const panelSharedProps = buildProps({
     default: true,
   },
   showWeekNumber: Boolean,
+  border: Boolean,
+  disabled: Boolean,
 } as const)
 
 export const panelRangeSharedProps = buildProps({
   unlinkPanels: Boolean,
-  visible: Boolean,
+  visible: {
+    type: Boolean,
+    default: true,
+  },
   showFooter: {
     type: Boolean,
     default: true,
   },
+  border: Boolean,
+  disabled: Boolean,
   parsedValue: {
-    type: definePropType<Dayjs[]>(Array),
+    type: definePropType<DayOrDays>(Array),
   },
 } as const)
 
