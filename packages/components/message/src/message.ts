@@ -25,7 +25,7 @@ export const messageTypes = [
 
 export type MessageType = typeof messageTypes[number]
 /** @deprecated please use `MessageType` instead */
-export type messageType = MessageType
+export type messageType = MessageType // will be removed in 3.0.0.
 
 export interface MessageConfigContext {
   max?: number
