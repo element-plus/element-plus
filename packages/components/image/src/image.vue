@@ -35,7 +35,7 @@
         :url-list="previewSrcList"
         :crossorigin="crossorigin"
         :hide-on-click-modal="hideOnClickModal"
-        :teleported="previewTeleported"
+        :teleported="isTeleported"
         :close-on-press-escape="closeOnPressEscape"
         @close="closeViewer"
         @switch="switchViewer"
@@ -57,6 +57,7 @@
 <script lang="ts" setup>
 import {
   computed,
+  inject,
   nextTick,
   onMounted,
   ref,
@@ -75,8 +76,8 @@ import {
   isInContainer,
   isString,
 } from '@element-plus/utils'
+import { TABLE_INJECTION_KEY } from '@element-plus/components/table/src/tokens'
 import { imageEmits, imageProps } from './image'
-
 import type { CSSProperties } from 'vue'
 
 defineOptions({
@@ -90,6 +91,9 @@ const emit = defineEmits(imageEmits)
 const { t } = useLocale()
 const ns = useNamespace('image')
 const rawAttrs = useRawAttrs()
+
+const tableParent = inject(TABLE_INJECTION_KEY, undefined)
+const isTeleported = computed(() => props.previewTeleported ?? !!tableParent)
 
 const containerAttrs = computed(() => {
   return fromPairs(
