@@ -205,6 +205,64 @@ describe('Radio group', () => {
     expect(radio.value).toEqual(3)
     expect(radio1.classes()).toContain('is-active')
   })
+
+  it('renders el-radio-group using default option fields', async () => {
+    const radio = ref(3)
+    const options = [
+      {
+        value: 3,
+        label: 'Option A',
+      },
+      {
+        value: 6,
+        label: 'Option B',
+      },
+      {
+        value: 9,
+        label: 'Option C',
+      },
+    ]
+    const wrapper = mount(() => (
+      <RadioGroup v-model={radio.value} options={options} />
+    ))
+    await nextTick()
+    const [radio1, radio2] = wrapper.findAll('.el-radio')
+    expect(radio1.classes()).toContain('is-checked')
+    await radio2.trigger('click')
+    expect(radio2.classes()).toContain('is-checked')
+    expect(radio.value).toEqual(6)
+  })
+
+  it('renders el-radio-group with custom option fields', async () => {
+    const radio = ref(3)
+    const options = [
+      {
+        id: 3,
+        label: 'Option A',
+      },
+      {
+        id: 6,
+        label: 'Option B',
+      },
+      {
+        id: 9,
+        label: 'Option C',
+      },
+    ]
+    const wrapper = mount(() => (
+      <RadioGroup
+        v-model={radio.value}
+        options={options}
+        props={{ value: 'id' }}
+      />
+    ))
+    await nextTick()
+    const [radio1, radio2] = wrapper.findAll('.el-radio')
+    expect(radio1.classes()).toContain('is-checked')
+    await radio2.trigger('click')
+    expect(radio2.classes()).toContain('is-checked')
+    expect(radio.value).toEqual(6)
+  })
 })
 
 describe('Radio Button', () => {
