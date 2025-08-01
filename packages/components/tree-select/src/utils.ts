@@ -1,5 +1,5 @@
+import { get, isObject } from 'lodash-unified'
 import { isArray } from '@element-plus/utils'
-
 import type { TreeNodeData } from '@element-plus/components/tree/src/tree.type'
 
 export function isValidValue(val: any) {
@@ -77,4 +77,8 @@ export function treeEach<T extends TreeNodeData>(
       treeEach(children, callback, getChildren, data)
     }
   }
+}
+
+export function getValueKey(item: any, valueKey: string) {
+  return isObject(item) ? get(item, valueKey) : item
 }
