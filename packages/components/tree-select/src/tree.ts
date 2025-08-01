@@ -1,7 +1,8 @@
 // @ts-nocheck
 import { computed, nextTick, toRefs, watch } from 'vue'
 import { isEqual, isNil, pick } from 'lodash-unified'
-import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { useEventListener } from '@vueuse/core'
+import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { escapeStringRegexp, isEmpty, isFunction } from '@element-plus/utils'
 import ElTree from '@element-plus/components/tree'
 import TreeSelectOption from './tree-select-option'
@@ -120,6 +121,30 @@ export const useTree = (
       return !isNil(node) && isEmpty(node.childNodes)
     })
   }
+
+  useEventListener(
+    select,
+    'keydown',
+    (e) => {
+      const { code } = e
+
+      if (
+        (code !== EVENT_CODE.enter && code !== EVENT_CODE.numpadEnter) ||
+        props.checkStrictly
+      ) {
+        return
+      }
+
+      const { hoveringIndex } = select.value?.states ?? {}
+      const option = select.value?.optionsArray[hoveringIndex]
+      const { isLeaf } = tree.value?.getNode(option?.value) ?? {}
+
+      if (!isLeaf) {
+        e.stopPropagation()
+      }
+    },
+    { capture: true }
+  )
 
   return {
     ...pick(toRefs(props), Object.keys(ElTree.props)),
