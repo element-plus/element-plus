@@ -134,7 +134,7 @@ export const timePickerDefaultProps = buildProps({
    * @description binding value, if it is an array, the length should be 2
    */
   modelValue: {
-    type: definePropType<ModelValueType>([Date, Array, String, Number]),
+    type: definePropType<ModelValueType | null>([Date, Array, String, Number]),
     default: '',
   },
   /**
