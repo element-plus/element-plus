@@ -65,8 +65,7 @@ export { default as zhCn } from './lang/zh-cn'
 export { default as zhTw } from './lang/zh-tw'
 export { default as zhHk } from './lang/zh-hk'
 export { default as zhMo } from './lang/zh-mo'
-import tj from './lang/tj'
-export { tj }
+export { default as tg } from './lang/tajik'
 
 export type TranslatePair = {
   [key: string]: string | string[] | TranslatePair

@@ -1,6 +1,5 @@
-// 塔吉克语
 export default {
-  name: 'tj',
+  name: 'tg', // 塔吉克语
   el: {
     breadcrumb: {
       label: 'Хашогин',
