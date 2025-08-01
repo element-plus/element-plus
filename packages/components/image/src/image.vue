@@ -63,17 +63,19 @@ import {
   useAttrs as useRawAttrs,
   watch,
 } from 'vue'
-import { useEventListener, useThrottleFn } from '@vueuse/core'
+import { useThrottleFn } from '@vueuse/core'
 import { fromPairs } from 'lodash-unified'
 import { useAttrs, useLocale, useNamespace } from '@element-plus/hooks'
 import ImageViewer from '@element-plus/components/image-viewer'
 import {
+  cAF,
   getScrollContainer,
   isArray,
   isClient,
   isElement,
   isInContainer,
   isString,
+  rAF,
 } from '@element-plus/utils'
 import { imageEmits, imageProps } from './image'
 
@@ -114,7 +116,7 @@ const container = ref<HTMLElement>()
 const _scrollContainer = ref<HTMLElement | Window>()
 
 const supportLoading = isClient && 'loading' in HTMLImageElement.prototype
-let stopScrollListener: (() => void) | undefined
+let cAFId: number
 
 const imageKls = computed(() => [
   ns.e('inner'),
@@ -179,6 +181,19 @@ function handleLazyLoad() {
 
 const lazyLoadHandler = useThrottleFn(handleLazyLoad, 200, true)
 
+const lazyLoadRAFHandler = () => {
+  lazyLoadHandler()
+  if (
+    !isInContainer(container.value, _scrollContainer.value) &&
+    _scrollContainer.value &&
+    container.value
+  ) {
+    cAFId = rAF(() => {
+      lazyLoadRAFHandler()
+    })
+  }
+}
+
 async function addLazyLoadListener() {
   if (!isClient) return
 
@@ -195,11 +210,7 @@ async function addLazyLoadListener() {
   }
 
   if (_scrollContainer.value) {
-    stopScrollListener = useEventListener(
-      _scrollContainer,
-      'scroll',
-      lazyLoadHandler
-    )
+    lazyLoadRAFHandler()
     setTimeout(() => handleLazyLoad(), 100)
   }
 }
@@ -207,7 +218,7 @@ async function addLazyLoadListener() {
 function removeLazyLoadListener() {
   if (!isClient || !_scrollContainer.value || !lazyLoadHandler) return
 
-  stopScrollListener?.()
+  cAF(cAFId)
   _scrollContainer.value = undefined
 }
 
