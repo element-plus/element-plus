@@ -20,14 +20,14 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watchEffect } from 'vue'
+import { ref, watch } from 'vue'
 
 import type { DatePickerType } from 'element-plus'
 
 const date = ref()
 const type = ref<DatePickerType>('date')
 
-watchEffect(() => {
+watch(type, () => {
   date.value = undefined
 })
 
