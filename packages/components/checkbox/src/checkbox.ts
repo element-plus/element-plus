@@ -5,7 +5,11 @@ import { isBoolean, isNumber, isString } from '@element-plus/utils'
 import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type Checkbox from './checkbox.vue'
 
-export type CheckboxValueType = string | number | boolean
+export type CheckboxValueType<T = unknown> =
+  | string
+  | number
+  | boolean
+  | Record<string, T>
 
 export const checkboxProps = {
   /**
