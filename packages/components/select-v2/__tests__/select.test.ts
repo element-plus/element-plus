@@ -254,6 +254,15 @@ describe('Select', () => {
     )
   })
 
+  it('should show placeholder when no model-value setted', async () => {
+    const wrapper = _mount('<el-select :options="[]"></el-select>')
+    expect(
+      wrapper
+        .find('.el-select__selected-item.el-select__placeholder > span')
+        .text()
+    ).toBe('Select')
+  })
+
   it('default value', async () => {
     const wrapper = createSelect({
       data: () => ({

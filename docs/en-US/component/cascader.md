@@ -148,33 +148,38 @@ cascader/custom-tag
 
 :::
 
-## Custom Header & Footer of the Dropdown ^(2.10.5)
-
-You can customize both the header and footer of the dropdown using slots.
-
-:::demo Use slot to customize the content.
-
-cascader/custom-header-footer
-
-:::
-
-## Click to Select Node ^(2.10.5)
-
-Allows selecting nodes by clicking, with optional control visibility.
-
-:::demo Select nodes on click via `checkOnClickNode`. You can also hide the selection control with `showPrefix`.
-
-cascader/check-on-click-node
-
-:::
-
-## Show Checked Strategy
+## Show Checked Strategy ^(2.10.5)
 
 Control how selected values are displayed in multiple selection mode.
 
 :::demo In multiple selection mode, you can use `show-checked-strategy` to control how selected values are displayed. The default strategy is `child`, which shows all selected child nodes. The `parent` strategy only shows parent nodes when all their children are selected.
 
 cascader/show-checked-strategy
+
+:::
+
+## Click to Check Node ^(2.10.5)
+
+Only using `multiple` or `checkStrictly` attributes.
+
+You can add `checkOnClickNode` to be able to click on the node in addition with the prefix icon.\
+Toggle the visibility of the prefix with `showPrefix`.
+:::tip Add `checkOnClickLeaf` to check only the leaf node (last children), enabled by default.
+:::
+
+:::demo
+
+cascader/check-on-click-node
+
+:::
+
+## Custom Header & Footer ^(2.10.5)
+
+You can customize both the header and footer of the dropdown using slots.
+
+:::demo Use slot to customize the content.
+
+cascader/custom-header-footer
 
 :::
 
@@ -186,7 +191,7 @@ cascader/show-checked-strategy
 | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
 | model-value / v-model                      | binding value                                                                                                                                                                    | ^[string]/^[number]/^[object]`string[] \| number[] \| any`                                                                                                                  | —            |
 | options                                    | data of the options, the key of `value` and `label` can be customize by `CascaderProps`.                                                                                         | ^[object]`Record<string, unknown>[]`                                                                                                                                        | —            |
-| props                                      | configuration options, see the following `CascaderProps` table.                                                                                                                  | ^[object]`CascaderProps`                                                                                                                                                    | —            |
+| [props](#cascaderprops)                    | configuration options, see the following `CascaderProps` table.                                                                                                                  | ^[object]`CascaderProps`                                                                                                                                                    | —            |
 | size                                       | size of input                                                                                                                                                                    | ^[enum]`'large' \| 'default' \| 'small'`                                                                                                                                    | —            |
 | placeholder                                | placeholder of input                                                                                                                                                             | ^[string]                                                                                                                                                                   | —            |
 | disabled                                   | whether Cascader is disabled                                                                                                                                                     | ^[boolean]                                                                                                                                                                  | —            |
@@ -253,11 +258,11 @@ cascader/show-checked-strategy
 
 ### CascaderPanel Attributes
 
-| Name                  | Description                                                                              | Type                                                       | Default |
-| --------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ------- |
-| model-value / v-model | binding value                                                                            | ^[string]/^[number]/^[object]`string[] \| number[] \| any` | —       |
-| options               | data of the options, the key of `value` and `label` can be customize by `CascaderProps`. | ^[object]`Record<string, unknown>[]`                       | —       |
-| props                 | configuration options, see the following `CascaderProps` table.                          | ^[object]`CascaderProps`                                   | —       |
+| Name                    | Description                                                                              | Type                                                       | Default |
+| ----------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ------- |
+| model-value / v-model   | binding value                                                                            | ^[string]/^[number]/^[object]`string[] \| number[] \| any` | —       |
+| options                 | data of the options, the key of `value` and `label` can be customize by `CascaderProps`. | ^[object]`Record<string, unknown>[]`                       | —       |
+| [props](#cascaderprops) | configuration options, see the following `CascaderProps` table.                          | ^[object]`CascaderProps`                                   | —       |
 
 ### CascaderPanel Events
 
@@ -299,6 +304,7 @@ cascader/show-checked-strategy
 | leaf                       | specify which key of node object is used as the node's leaf field                                          | ^[string]                                           | leaf     |
 | hoverThreshold             | hover threshold of expanding options                                                                       | ^[number]                                           | 500      |
 | checkOnClickNode ^(2.10.5) | whether to check or uncheck node when clicking on the node                                                 | ^[boolean]                                          | false    |
+| checkOnClickLeaf ^(2.10.5) | whether to check or uncheck node when clicking on leaf node (last children).                               | ^[boolean]                                          | true     |
 | showPrefix ^(2.10.5)       | whether to show the radio or checkbox prefix                                                               | ^[boolean]                                          | true     |
 
 ## Type Declarations
