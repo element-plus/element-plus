@@ -54,7 +54,11 @@ export default class Store {
   }
 
   appendNodes(nodeDataList: CascaderOption[], parentNode: Node) {
-    nodeDataList.forEach((nodeData) => this.appendNode(nodeData, parentNode))
+    if (nodeDataList.length > 0) {
+      nodeDataList.forEach((nodeData) => this.appendNode(nodeData, parentNode))
+    } else {
+      parentNode && parentNode.isLeaf && this.leafNodes.push(parentNode)
+    }
   }
 
   appendAllNodesAndLeafNodes(node: Node) {
