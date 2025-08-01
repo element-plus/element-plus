@@ -1,17 +1,9 @@
 import { getCurrentInstance, useAttrs, useSlots } from 'vue'
 import dayjs from 'dayjs'
 import { isFunction } from '@element-plus/utils'
+import { Shortcut } from '@element-plus/components/time-picker'
 
-import type { SetupContext } from 'vue'
 import type { useLocale } from '@element-plus/hooks'
-import type { RangePickerSharedEmits } from '../props/shared'
-
-// FIXME: extract this to `date-picker.ts`
-export type Shortcut = {
-  text: string
-  value: [Date, Date] | (() => [Date, Date])
-  onClick?: (ctx: Omit<SetupContext<RangePickerSharedEmits>, 'expose'>) => void
-}
 
 export const useShortcut = (lang: ReturnType<typeof useLocale>['lang']) => {
   const { emit } = getCurrentInstance()!
@@ -19,9 +11,9 @@ export const useShortcut = (lang: ReturnType<typeof useLocale>['lang']) => {
   const slots = useSlots()
 
   const handleShortcutClick = (shortcut: Shortcut) => {
-    const shortcutValues = isFunction(shortcut.value)
-      ? shortcut.value()
-      : shortcut.value
+    const shortcutValues = (
+      isFunction(shortcut.value) ? shortcut.value() : shortcut.value
+    ) as [Date, Date]
 
     if (shortcutValues) {
       emit('pick', [

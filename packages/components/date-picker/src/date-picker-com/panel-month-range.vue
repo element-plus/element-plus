@@ -139,10 +139,8 @@ const emit = defineEmits(panelMonthRangeEmits)
 const unit = 'year'
 
 const { lang } = useLocale()
-const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
-const isDefaultFormat = inject(
-  ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY
-) as any
+const pickerBase = inject(PICKER_BASE_INJECTION_KEY)!
+const isDefaultFormat = inject(ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY)!
 const { shortcuts, disabledDate } = pickerBase.props
 const format = toRef(pickerBase.props, 'format')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
@@ -169,7 +167,7 @@ const {
   onParsedValueChanged,
 })
 
-const hasShortcuts = computed(() => !!shortcuts.length)
+const hasShortcuts = computed(() => !!shortcuts?.length)
 
 const {
   leftPrevYear,
@@ -232,7 +230,7 @@ const formatToString = (value: Dayjs | Dayjs[]) => {
 const parseUserInput = (value: Dayjs | Dayjs[]) => {
   return correctlyParseUserInput(
     value,
-    format.value,
+    format.value!,
     lang.value,
     isDefaultFormat
   )

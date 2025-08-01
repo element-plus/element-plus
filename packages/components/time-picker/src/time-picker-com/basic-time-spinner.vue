@@ -103,7 +103,7 @@ import type { TimeUnit } from '../constants'
 import type { TimeList } from '../utils'
 
 const props = defineProps(basicTimeSpinnerProps)
-const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
+const pickerBase = inject(PICKER_BASE_INJECTION_KEY)!
 const { isRange, format } = pickerBase.props
 const emit = defineEmits([CHANGE_EVENT, 'select-range', 'set-option'])
 

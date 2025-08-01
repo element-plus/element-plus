@@ -7,8 +7,17 @@ import {
 } from '@element-plus/hooks'
 import { CircleClose } from '@element-plus/icons-vue'
 import { disabledTimeListsProps } from '../props/shared'
+import {
+  DisabledDateType,
+  RangePickerSharedEmits,
+} from '@element-plus/components/date-picker/src/props/shared'
 
-import type { Component, ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type {
+  Component,
+  ExtractPropTypes,
+  SetupContext,
+  __ExtractPublicPropTypes,
+} from 'vue'
 import type { Options } from '@popperjs/core'
 import type { Dayjs } from 'dayjs'
 import type { Placement } from '@element-plus/components/popper'
@@ -31,6 +40,11 @@ export type GetDisabledSeconds = (
   role: string,
   comparingDate?: Dayjs
 ) => number[]
+export type Shortcut = {
+  text: string
+  value: SingleOrRange<Date> | (() => SingleOrRange<Date>)
+  onClick?: (ctx: Omit<SetupContext<RangePickerSharedEmits>, 'expose'>) => void
+}
 
 export const timePickerDefaultProps = buildProps({
   /**
@@ -172,19 +186,19 @@ export const timePickerDefaultProps = buildProps({
    * @description a function determining if a date is disabled with that date as its parameter. Should return a Boolean
    */
   disabledDate: {
-    type: Function,
+    type: definePropType<DisabledDateType>(Function),
   },
   /**
    * @description set custom className
    */
   cellClassName: {
-    type: Function,
+    type: definePropType<(date: Date) => string>(Function),
   },
   /**
    * @description an object array to set shortcut options
    */
   shortcuts: {
-    type: Array,
+    type: definePropType<Shortcut[]>(Array),
     default: () => [],
   },
   /**

@@ -1,6 +1,14 @@
+import { ExtractPropTypes, InjectionKey } from 'vue'
+import TimePicker from './time-picker'
+
+export interface PickerBaseContext {
+  props: ExtractPropTypes<InstanceType<typeof TimePicker>['$props']>
+}
+
 export const timeUnits = ['hours', 'minutes', 'seconds'] as const
 
-export const PICKER_BASE_INJECTION_KEY = 'EP_PICKER_BASE'
+export const PICKER_BASE_INJECTION_KEY: InjectionKey<PickerBaseContext> =
+  Symbol('EP_PICKER_BASE')
 
 export const PICKER_POPPER_OPTIONS_INJECTION_KEY = 'ElPopperOptions'
 

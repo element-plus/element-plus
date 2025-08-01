@@ -5,6 +5,7 @@ import { useLocale, useNamespace } from '@element-plus/hooks'
 import { getDefaultValue, isValidRange } from '../utils'
 import { ROOT_PICKER_INJECTION_KEY } from '../constants'
 import { useShortcut } from './use-shortcut'
+import { MaybeRef } from '@vueuse/core'
 
 import type { Ref } from 'vue'
 import type { Dayjs } from 'dayjs'
@@ -17,7 +18,7 @@ type UseRangePickerProps = {
     maxDate: Dayjs | undefined
   ) => void
   defaultValue: Ref<DefaultValue>
-  defaultTime?: Ref<DefaultValue>
+  defaultTime?: MaybeRef<DefaultValue>
   leftDate: Ref<Dayjs>
   rightDate: Ref<Dayjs>
   step?: number
