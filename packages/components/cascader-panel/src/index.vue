@@ -234,7 +234,7 @@ const syncCheckedValue = (loaded = false, forced = false) => {
       )
     ) as Node[]
     syncMenuState(nodes, forced)
-    checkedValue.value = cloneDeep(modelValue)
+    checkedValue.value = cloneDeep(modelValue ?? undefined)
   }
 }
 
@@ -340,16 +340,19 @@ provide(
 )
 
 watch(
-  [config, () => props.options],
+  config,
   (newVal, oldVal) => {
     if (isEqual(newVal, oldVal)) return
     initStore()
   },
   {
-    deep: true,
     immediate: true,
   }
 )
+
+watch(() => props.options, initStore, {
+  deep: true,
+})
 
 watch(
   () => props.modelValue,

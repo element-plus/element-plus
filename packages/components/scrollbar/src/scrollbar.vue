@@ -65,6 +65,12 @@ let stopResizeListener: (() => void) | undefined = undefined
 let wrapScrollTop = 0
 let wrapScrollLeft = 0
 let direction = '' as ScrollbarDirection
+const distanceScrollState = {
+  bottom: false,
+  top: false,
+  right: false,
+  left: false,
+}
 
 const scrollbarRef = ref<HTMLDivElement>()
 const wrapRef = ref<HTMLDivElement>()
@@ -90,6 +96,32 @@ const resizeKls = computed(() => {
   return [ns.e('view'), props.viewClass]
 })
 
+const shouldSkipDirection = (direction: ScrollbarDirection) => {
+  return distanceScrollState[direction] ?? false
+}
+
+const DIRECTION_PAIRS: Record<ScrollbarDirection, ScrollbarDirection> = {
+  top: 'bottom',
+  bottom: 'top',
+  left: 'right',
+  right: 'left',
+}
+const updateTriggerStatus = (arrivedStates: Record<string, boolean>) => {
+  const oppositeDirection = DIRECTION_PAIRS[direction]
+  if (!oppositeDirection) return
+
+  const arrived = arrivedStates[direction]
+  const oppositeArrived = arrivedStates[oppositeDirection]
+
+  if (arrived && !distanceScrollState[direction]) {
+    distanceScrollState[direction] = true
+  }
+
+  if (!oppositeArrived && distanceScrollState[oppositeDirection]) {
+    distanceScrollState[oppositeDirection] = false
+  }
+}
+
 const handleScroll = () => {
   if (wrapRef.value) {
     barRef.value?.handleScroll(wrapRef.value)
@@ -101,13 +133,19 @@ const handleScroll = () => {
     const arrivedStates = {
       bottom:
         wrapScrollTop + wrapRef.value.clientHeight >=
-        wrapRef.value.scrollHeight,
-      top: wrapScrollTop <= 0 && prevTop !== 0,
+        wrapRef.value.scrollHeight - props.distance,
+      top: wrapScrollTop <= props.distance && prevTop !== 0,
       right:
         wrapScrollLeft + wrapRef.value.clientWidth >=
-          wrapRef.value.scrollWidth && prevLeft !== wrapScrollLeft,
-      left: wrapScrollLeft <= 0 && prevLeft !== 0,
+          wrapRef.value.scrollWidth - props.distance &&
+        prevLeft !== wrapScrollLeft,
+      left: wrapScrollLeft <= props.distance && prevLeft !== 0,
     }
+
+    emit('scroll', {
+      scrollTop: wrapScrollTop,
+      scrollLeft: wrapScrollLeft,
+    })
 
     if (prevTop !== wrapScrollTop) {
       direction = wrapScrollTop > prevTop ? 'bottom' : 'top'
@@ -115,11 +153,12 @@ const handleScroll = () => {
     if (prevLeft !== wrapScrollLeft) {
       direction = wrapScrollLeft > prevLeft ? 'right' : 'left'
     }
-
-    emit('scroll', {
-      scrollTop: wrapScrollTop,
-      scrollLeft: wrapScrollLeft,
-    })
+    if (props.distance > 0) {
+      if (shouldSkipDirection(direction)) {
+        return
+      }
+      updateTriggerStatus(arrivedStates)
+    }
     if (arrivedStates[direction]) emit('end-reached', direction)
   }
 }
@@ -152,6 +191,7 @@ const setScrollLeft = (value: number) => {
 
 const update = () => {
   barRef.value?.update()
+  distanceScrollState[direction] = false
 }
 
 watch(

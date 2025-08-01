@@ -1,5 +1,6 @@
 import {
   computed,
+  getCurrentInstance,
   inject,
   onMounted,
   onUnmounted,
@@ -47,6 +48,22 @@ export const useFormItemInputId = (
     disableIdManagement = ref<boolean>(false)
   }
 
+  const instance = getCurrentInstance()
+
+  const inLabel = () => {
+    let parent = instance?.parent
+    while (parent) {
+      if (parent.type.name === 'ElFormItem') {
+        return false
+      }
+      if (parent.type.name === 'ElLabelWrap') {
+        return true
+      }
+      parent = parent.parent
+    }
+    return false
+  }
+
   const inputId = ref<string>()
   let idUnwatch: WatchStopHandle | undefined = undefined
 
@@ -66,7 +83,7 @@ export const useFormItemInputId = (
       ([id, disableIdGeneration]: [string, boolean]) => {
         const newId = id ?? (!disableIdGeneration ? useId().value : undefined)
         if (newId !== inputId.value) {
-          if (formItemContext?.removeInputId) {
+          if (formItemContext?.removeInputId && !inLabel()) {
             inputId.value && formItemContext.removeInputId(inputId.value)
             if (!disableIdManagement?.value && !disableIdGeneration && newId) {
               formItemContext.addInputId(newId)

@@ -26,6 +26,15 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
     })
   })
 
+  function canNodeFocus(treeItems: HTMLElement[], nextIndex: number): boolean {
+    const currentNode = store.value.getNode(treeItems[nextIndex].dataset.key!)
+    return (
+      currentNode.canFocus &&
+      currentNode.visible &&
+      (currentNode.parent?.expanded || currentNode.parent?.level === 0)
+    )
+  }
+
   const handleKeydown = (ev: KeyboardEvent): void => {
     const currentItem = ev.target as HTMLDivElement
     if (!currentItem.className.includes(ns.b('node'))) return
@@ -46,8 +55,10 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
             : treeItems.length - 1
         const startIndex = nextIndex
         while (true) {
-          if (store.value.getNode(treeItems[nextIndex].dataset.key!).canFocus)
+          if (canNodeFocus(treeItems, nextIndex)) {
             break
+          }
+
           nextIndex--
           if (nextIndex === startIndex) {
             nextIndex = -1
@@ -66,8 +77,10 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
             : 0
         const startIndex = nextIndex
         while (true) {
-          if (store.value.getNode(treeItems[nextIndex].dataset.key!).canFocus)
+          if (canNodeFocus(treeItems, nextIndex)) {
             break
+          }
+
           nextIndex++
           if (nextIndex === startIndex) {
             nextIndex = -1

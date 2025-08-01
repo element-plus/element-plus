@@ -6,6 +6,7 @@
       ns.is('disabled', inputNumberDisabled),
       ns.is('without-controls', !controls),
       ns.is('controls-right', controlsAtRight),
+      ns.is(align, !!align),
     ]"
     @dragstart.prevent
   >
@@ -55,8 +56,7 @@
       :aria-label="ariaLabel"
       :validate-event="false"
       :inputmode="inputmode"
-      @keydown.up.prevent="increase"
-      @keydown.down.prevent="decrease"
+      @keydown="handleKeydown"
       @blur="handleBlur"
       @focus="handleFocus"
       @input="handleInput"
@@ -94,6 +94,7 @@ import {
 import { ArrowDown, ArrowUp, Minus, Plus } from '@element-plus/icons-vue'
 import {
   CHANGE_EVENT,
+  EVENT_CODE,
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
@@ -208,6 +209,24 @@ const ensurePrecision = (val: number, coefficient: 1 | -1 = 1) => {
 
   // Solve the accuracy problem of JS decimal calculation by converting the value to integer.
   return toPrecision(val + props.step * coefficient)
+}
+const handleKeydown = (event: Event) => {
+  const e = event as KeyboardEvent
+  if (props.disabledScientific && ['e', 'E'].includes(e.key)) {
+    e.preventDefault()
+    return
+  }
+  const keyHandlers = {
+    [EVENT_CODE.up]: () => {
+      e.preventDefault()
+      increase()
+    },
+    [EVENT_CODE.down]: () => {
+      e.preventDefault()
+      decrease()
+    },
+  }
+  keyHandlers[e.key]?.()
 }
 const increase = () => {
   if (props.readonly || inputNumberDisabled.value || maxDisabled.value) return
@@ -338,6 +357,13 @@ watch(
     }
   },
   { immediate: true }
+)
+
+watch(
+  () => props.precision,
+  () => {
+    data.currentValue = verifyValue(props.modelValue)
+  }
 )
 onMounted(() => {
   const { min, max, modelValue } = props

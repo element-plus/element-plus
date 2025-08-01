@@ -143,6 +143,7 @@
         :type="type"
         :default-value="defaultValue"
         :show-now="showNow"
+        :show-footer="showFooter"
         :show-week-number="showWeekNumber"
         @pick="onPick"
         @select-range="setSelectionRange"
@@ -402,7 +403,11 @@ const parsedValue = computed(() => {
         parseDate(d, props.valueFormat, lang.value)
       ) as [Dayjs, Dayjs]
     } else {
-      dayOrDays = parseDate(props.modelValue, props.valueFormat, lang.value)!
+      dayOrDays = parseDate(
+        props.modelValue ?? '',
+        props.valueFormat,
+        lang.value
+      )!
     }
   }
 

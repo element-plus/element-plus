@@ -38,7 +38,7 @@ export const selectProps = buildProps({
    * @description binding value
    */
   modelValue: {
-    type: definePropType<OptionValue | OptionValue[]>([
+    type: definePropType<OptionValue | OptionValue[] | null>([
       Array,
       String,
       Number,
@@ -120,13 +120,17 @@ export const selectProps = buildProps({
    */
   noDataText: String,
   /**
-   * @description custom remote search method
+   * @description function that gets called when the input value changes. Its parameter is the current input value. To use this, `filterable` must be true
    */
-  remoteMethod: Function,
+  remoteMethod: {
+    type: definePropType<(query: string) => void>(Function),
+  },
   /**
-   * @description custom filter method
+   * @description custom filter method, the first parameter is the current input value. To use this, `filterable` must be true
    */
-  filterMethod: Function,
+  filterMethod: {
+    type: definePropType<(query: string) => void>(Function),
+  },
   /**
    * @description whether multiple-select is activated
    */
@@ -266,6 +270,12 @@ export const selectProps = buildProps({
    * @description which element the selection dropdown appends to
    */
   appendTo: useTooltipContentProps.appendTo,
+  options: {
+    type: definePropType<Record<string, any>[]>(Array),
+  },
+  props: {
+    type: definePropType<SelectOptionProps>(Object),
+  },
   ...useEmptyValuesProps,
   ...useAriaProps(['ariaLabel']),
 })
@@ -286,3 +296,8 @@ export type SelectProps = ExtractPropTypes<typeof selectProps>
 export type SelectPropsPublic = __ExtractPublicPropTypes<typeof selectProps>
 export type SelectEmits = EmitFn<typeof selectEmits>
 export type SelectInstance = InstanceType<typeof Select> & unknown
+export type SelectOptionProps = {
+  value?: string
+  label?: string
+  disabled?: string
+}

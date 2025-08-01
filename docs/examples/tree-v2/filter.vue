@@ -11,7 +11,7 @@
     :data="data"
     :props="props"
     :filter-method="filterMethod"
-    :height="208"
+    :height="200"
   />
 </template>
 

@@ -23,7 +23,9 @@ export const messageTypes = [
   'error',
 ] as const
 
-export type messageType = typeof messageTypes[number]
+export type MessageType = typeof messageTypes[number]
+/** @deprecated please use `MessageType` instead */
+export type messageType = MessageType // will be removed in 3.0.0.
 
 export interface MessageConfigContext {
   max?: number
@@ -195,7 +197,7 @@ export interface MessageHandler {
 
 export type MessageFn = {
   (options?: MessageParams, appContext?: null | AppContext): MessageHandler
-  closeAll(type?: messageType): void
+  closeAll(type?: MessageType): void
 }
 export type MessageTypedFn = (
   options?: MessageParamsWithType,

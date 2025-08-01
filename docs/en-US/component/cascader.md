@@ -148,6 +148,41 @@ cascader/custom-tag
 
 :::
 
+## Show Checked Strategy ^(2.10.5)
+
+Control how selected values are displayed in multiple selection mode.
+
+:::demo In multiple selection mode, you can use `show-checked-strategy` to control how selected values are displayed. The default strategy is `child`, which shows all selected child nodes. The `parent` strategy only shows parent nodes when all their children are selected.
+
+cascader/show-checked-strategy
+
+:::
+
+## Click to Check Node ^(2.10.5)
+
+Only using `multiple` or `checkStrictly` attributes.
+
+You can add `checkOnClickNode` to be able to click on the node in addition with the prefix icon.\
+Toggle the visibility of the prefix with `showPrefix`.
+:::tip Add `checkOnClickLeaf` to check only the leaf node (last children), enabled by default.
+:::
+
+:::demo
+
+cascader/check-on-click-node
+
+:::
+
+## Custom Header & Footer ^(2.10.5)
+
+You can customize both the header and footer of the dropdown using slots.
+
+:::demo Use slot to customize the content.
+
+cascader/custom-header-footer
+
+:::
+
 ## Cascader API
 
 ### Cascader Attributes
@@ -156,7 +191,7 @@ cascader/custom-tag
 | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
 | model-value / v-model                      | binding value                                                                                                                                                                    | ^[string]/^[number]/^[object]`string[] \| number[] \| any`                                                                                                                  | —            |
 | options                                    | data of the options, the key of `value` and `label` can be customize by `CascaderProps`.                                                                                         | ^[object]`Record<string, unknown>[]`                                                                                                                                        | —            |
-| props                                      | configuration options, see the following `CascaderProps` table.                                                                                                                  | ^[object]`CascaderProps`                                                                                                                                                    | —            |
+| [props](#cascaderprops)                    | configuration options, see the following `CascaderProps` table.                                                                                                                  | ^[object]`CascaderProps`                                                                                                                                                    | —            |
 | size                                       | size of input                                                                                                                                                                    | ^[enum]`'large' \| 'default' \| 'small'`                                                                                                                                    | —            |
 | placeholder                                | placeholder of input                                                                                                                                                             | ^[string]                                                                                                                                                                   | —            |
 | disabled                                   | whether Cascader is disabled                                                                                                                                                     | ^[boolean]                                                                                                                                                                  | —            |
@@ -172,6 +207,7 @@ cascader/custom-tag
 | before-filter                              | hook function before filtering with the value to be filtered as its parameter. If `false` is returned or a `Promise` is returned and then is rejected, filtering will be aborted | ^[Function]`(value: string) => boolean`                                                                                                                                     | —            |
 | popper-class                               | custom class name for Cascader's dropdown                                                                                                                                        | ^[string]                                                                                                                                                                   | ''           |
 | teleported                                 | whether cascader popup is teleported                                                                                                                                             | ^[boolean]                                                                                                                                                                  | true         |
+| effect ^(2.10.5)                           | tooltip theme, built-in theme: `dark` / `light`                                                                                                                                  | ^[enum]`'dark' \| 'light'` / ^[string]                                                                                                                                      | light        |
 | tag-type                                   | tag type                                                                                                                                                                         | ^[enum]`'success' \| 'info' \| 'warning' \| 'danger'`                                                                                                                       | info         |
 | tag-effect ^(2.7.8)                        | tag effect                                                                                                                                                                       | ^[enum]`'light' \| 'dark' \| 'plain'`                                                                                                                                       | light        |
 | validate-event                             | whether to trigger form validation                                                                                                                                               | ^[boolean]                                                                                                                                                                  | true         |
@@ -182,6 +218,7 @@ cascader/custom-tag
 | fallback-placements ^(2.8.1)               | list of possible positions for Tooltip [popper.js](https://popper.js.org/docs/v2/modifiers/flip/#fallbackplacements)                                                             | ^[arrary]`Placement[]`                                                                                                                                                      | —            |
 | placement ^(2.8.1)                         | position of dropdown                                                                                                                                                             | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | bottom-start |
 | popper-append-to-body ^(deprecated)        | whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false                                                      | ^[boolean]                                                                                                                                                                  | true         |
+| show-checked-strategy ^(2.10.5)            | strategy for displaying checked nodes in multiple selection mode. Use `parent` when you want things tidy. Use `child` when every single item matters                             | ^[enum]`'parent' \| 'child'`                                                                                                                                                | child        |
 
 ### Cascader Events
 
@@ -204,6 +241,8 @@ cascader/custom-tag
 | prefix ^(2.9.4)          | content as Input prefix                                                                        | —                                                         |
 | suggestion-item ^(2.9.5) | custom content for suggestion item when searching                                              | ^[object]`{ item: CascaderNode }`                         |
 | tag ^(2.10.3)            | custom tags style                                                                              | ^[object]`{ data: Tag[], deleteTag: (tag: Tag) => void }` |
+| header ^(2.10.5)         | content at the top of the dropdown                                                             | —                                                         |
+| footer ^(2.10.5)         | content at the bottom of the dropdown                                                          | —                                                         |
 
 ### Cascader Exposes
 
@@ -219,11 +258,11 @@ cascader/custom-tag
 
 ### CascaderPanel Attributes
 
-| Name                  | Description                                                                              | Type                                                       | Default |
-| --------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ------- |
-| model-value / v-model | binding value                                                                            | ^[string]/^[number]/^[object]`string[] \| number[] \| any` | —       |
-| options               | data of the options, the key of `value` and `label` can be customize by `CascaderProps`. | ^[object]`Record<string, unknown>[]`                       | —       |
-| props                 | configuration options, see the following `CascaderProps` table.                          | ^[object]`CascaderProps`                                   | —       |
+| Name                    | Description                                                                              | Type                                                       | Default |
+| ----------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ------- |
+| model-value / v-model   | binding value                                                                            | ^[string]/^[number]/^[object]`string[] \| number[] \| any` | —       |
+| options                 | data of the options, the key of `value` and `label` can be customize by `CascaderProps`. | ^[object]`Record<string, unknown>[]`                       | —       |
+| [props](#cascaderprops) | configuration options, see the following `CascaderProps` table.                          | ^[object]`CascaderProps`                                   | —       |
 
 ### CascaderPanel Events
 
@@ -250,20 +289,23 @@ cascader/custom-tag
 
 ## CascaderProps
 
-| Attribute      | Description                                                                                                | Type                                                | Default  |
-| -------------- | ---------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | -------- |
-| expandTrigger  | trigger mode of expanding options                                                                          | ^[enum]`'click' \| 'hover'`                         | click    |
-| multiple       | whether multiple selection is enabled                                                                      | ^[boolean]                                          | false    |
-| checkStrictly  | whether checked state of a node not affects its parent and child nodes                                     | ^[boolean]                                          | false    |
-| emitPath       | when checked nodes change, whether to emit an array of node's path, if false, only emit the value of node. | ^[boolean]                                          | true     |
-| lazy           | whether to dynamic load child nodes, use with `lazyload` attribute                                         | ^[boolean]                                          | false    |
-| lazyLoad       | method for loading child nodes data, only works when `lazy` is true                                        | ^[Function]`(node: Node, resolve: Resolve) => void` | —        |
-| value          | specify which key of node object is used as the node's value                                               | ^[string]                                           | value    |
-| label          | specify which key of node object is used as the node's label                                               | ^[string]                                           | label    |
-| children       | specify which key of node object is used as the node's children                                            | ^[string]                                           | children |
-| disabled       | specify which key of node object is used as the node's disabled                                            | ^[string]                                           | disabled |
-| leaf           | specify which key of node object is used as the node's leaf field                                          | ^[string]                                           | leaf     |
-| hoverThreshold | hover threshold of expanding options                                                                       | ^[number]                                           | 500      |
+| Attribute                  | Description                                                                                                | Type                                                | Default  |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | -------- |
+| expandTrigger              | trigger mode of expanding options                                                                          | ^[enum]`'click' \| 'hover'`                         | click    |
+| multiple                   | whether multiple selection is enabled                                                                      | ^[boolean]                                          | false    |
+| checkStrictly              | whether checked state of a node not affects its parent and child nodes                                     | ^[boolean]                                          | false    |
+| emitPath                   | when checked nodes change, whether to emit an array of node's path, if false, only emit the value of node. | ^[boolean]                                          | true     |
+| lazy                       | whether to dynamic load child nodes, use with `lazyload` attribute                                         | ^[boolean]                                          | false    |
+| lazyLoad                   | method for loading child nodes data, only works when `lazy` is true                                        | ^[Function]`(node: Node, resolve: Resolve) => void` | —        |
+| value                      | specify which key of node object is used as the node's value                                               | ^[string]                                           | value    |
+| label                      | specify which key of node object is used as the node's label                                               | ^[string]                                           | label    |
+| children                   | specify which key of node object is used as the node's children                                            | ^[string]                                           | children |
+| disabled                   | specify which key of node object is used as the node's disabled                                            | ^[string]                                           | disabled |
+| leaf                       | specify which key of node object is used as the node's leaf field                                          | ^[string]                                           | leaf     |
+| hoverThreshold             | hover threshold of expanding options                                                                       | ^[number]                                           | 500      |
+| checkOnClickNode ^(2.10.5) | whether to check or uncheck node when clicking on the node                                                 | ^[boolean]                                          | false    |
+| checkOnClickLeaf ^(2.10.5) | whether to check or uncheck node when clicking on leaf node (last children).                               | ^[boolean]                                          | true     |
+| showPrefix ^(2.10.5)       | whether to show the radio or checkbox prefix                                                               | ^[boolean]                                          | true     |
 
 ## Type Declarations
 
