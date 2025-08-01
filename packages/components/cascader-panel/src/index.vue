@@ -29,7 +29,7 @@ import {
   useSlots,
   watch,
 } from 'vue'
-import { cloneDeep, flattenDeep, isEqual } from 'lodash-unified'
+import { flattenDeep, isEqual } from 'lodash-unified'
 import {
   castArray,
   focusNode,
@@ -60,7 +60,6 @@ import type {
   default as CascaderNode,
   CascaderNodeValue,
   CascaderOption,
-  CascaderValue,
 } from './node'
 import type { ElCascaderPanelContext } from './types'
 import type { CascaderMenuInstance } from './instance'
@@ -83,7 +82,6 @@ const slots = useSlots()
 let store: Store
 const initialLoaded = ref(true)
 const menuList = ref<CascaderMenuInstance[]>([])
-const checkedValue = ref<CascaderValue>()
 const menus = ref<CascaderNode[][]>([])
 const expandingNode = ref<CascaderNode>()
 const checkedNodes = ref<CascaderNode[]>([])
@@ -107,16 +105,16 @@ const initStore = () => {
         menus.value = [store.getNodes()]
       }
       initialLoaded.value = true
-      syncCheckedValue(false, true)
+      syncMenu(true)
     })
   } else {
-    syncCheckedValue(false, true)
+    syncMenu(true)
   }
 }
 
 const lazyLoad: ElCascaderPanelContext['lazyLoad'] = (node, cb) => {
   const cfg = config.value
-  node! = node || new Node({}, cfg, undefined, true)
+  node = node || new Node({}, cfg, undefined, true)
   node.loading = true
 
   const resolve = (dataList?: CascaderOption[]) => {
@@ -158,7 +156,6 @@ const handleCheckChange: ElCascaderPanelContext['handleCheckChange'] = (
 ) => {
   const { checkStrictly, multiple } = config.value
   const oldNode = checkedNodes.value[0]
-  manualChecked = true
 
   !multiple && oldNode?.doCheck(false)
   node.doCheck(checked)
@@ -196,46 +193,46 @@ const calculateCheckedValue = () => {
   const nodes = sortByOriginalOrder(oldNodes, newNodes)
   const values = nodes.map((node) => node.valueByOption)
   checkedNodes.value = nodes
-  checkedValue.value = multiple ? values : values[0]
+
+  // updating modelValue during onChange will not make the menu list redirect
+  manualChecked = true
+  nextTick(() => (manualChecked = false))
+
+  const val = multiple ? values : values[0]
+  emit(UPDATE_MODEL_EVENT, val)
+  emit(CHANGE_EVENT, val)
 }
 
-const syncCheckedValue = (loaded = false, forced = false) => {
+const syncMenu = (reserveExpandingState = false) => {
+  if (!initialLoaded.value || manualChecked) return
+
   const { modelValue } = props
   const { lazy, multiple, checkStrictly } = config.value
   const leafOnly = !checkStrictly
 
-  if (
-    !initialLoaded.value ||
-    manualChecked ||
-    (!forced && isEqual(modelValue, checkedValue.value))
-  )
-    return
-
-  if (lazy && !loaded) {
+  if (lazy) {
     const values: CascaderNodeValue[] = unique(
       flattenDeep(castArray(modelValue as CascaderNodeValue[]))
     )
     const nodes = values
       .map((val) => store?.getNodeByValue(val))
-      .filter((node) => !!node && !node.loaded && !node.loading) as Node[]
+      .filter((node) => node && !node.loaded && !node.loading) as Node[]
 
     if (nodes.length) {
       nodes.forEach((node) => {
-        lazyLoad(node, () => syncCheckedValue(false, forced))
+        lazyLoad(node, () => syncMenu(reserveExpandingState))
       })
-    } else {
-      syncCheckedValue(true, forced)
+      return
     }
-  } else {
-    const values = multiple ? castArray(modelValue) : [modelValue]
-    const nodes = unique(
-      values.map((val) =>
-        store?.getNodeByValue(val as CascaderNodeValue, leafOnly)
-      )
-    ) as Node[]
-    syncMenuState(nodes, forced)
-    checkedValue.value = cloneDeep(modelValue)
   }
+
+  const values = multiple ? castArray(modelValue) : [modelValue]
+  const nodes = unique(
+    values.map((val) =>
+      store?.getNodeByValue(val as CascaderNodeValue, leafOnly)
+    )
+  ) as Node[]
+  syncMenuState(nodes, reserveExpandingState)
 }
 
 const syncMenuState = (
@@ -357,27 +354,17 @@ watch(() => props.options, initStore, {
 watch(
   () => props.modelValue,
   () => {
-    manualChecked = false
-    syncCheckedValue()
+    const reserveExpandingState = manualChecked
+    syncMenu(reserveExpandingState)
   },
   {
     deep: true,
   }
 )
 
-watch(
-  () => checkedValue.value,
-  (val) => {
-    if (!isEqual(val, props.modelValue)) {
-      emit(UPDATE_MODEL_EVENT, val)
-      emit(CHANGE_EVENT, val)
-    }
-  }
-)
-
 onBeforeUpdate(() => (menuList.value = []))
 
-onMounted(() => !isEmpty(props.modelValue) && syncCheckedValue())
+onMounted(() => !isEmpty(props.modelValue) && syncMenu())
 
 defineExpose({
   menuList,
