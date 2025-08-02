@@ -44,8 +44,8 @@ export function useDraggable(
   let cleanups: (() => void)[] = []
 
   watch(
-    () => props.size,
-    (val) => {
+    () => [props.size, props.draggable] as const,
+    ([val]) => {
       startSize.value = getNumberSize(val, windowSize.value)
       offset.value = 0
       onMouseUp()
