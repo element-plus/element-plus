@@ -181,6 +181,12 @@ If you want to support empty string, please set `empty-values` to `[null, undefi
 
 If you want to change the clear value to `null`, please set `value-on-clear` to `null`.
 
+:::tip
+
+In ^(2.10.5) an option can take `undefined` and `null` as value. They might get treated like empty values. Make sure to handle `̀empty-values` and `value-on-clear` differently.
+
+:::
+
 :::demo
 
 select/empty-values
@@ -203,7 +209,7 @@ select/custom-label
 
 | Name                            | Description                                                                                                                              | Type                                                                                                                                                                        | Default                                                  |
 | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
-| model-value / v-model           | binding value                                                                                                                            | ^[string] / ^[number] / ^[boolean] / ^[object] / ^[array]                                                                                                                   | —                                                        |
+| model-value / v-model           | binding value                                                                                                                            | ^[enum]`string \| number \| boolean \| object \| array \| null \| undefined`                                                                                                | —                                                        |
 | multiple                        | whether multiple-select is activated                                                                                                     | ^[boolean]                                                                                                                                                                  | false                                                    |
 | options ^(2.10.5)               | data of the options, the key of `value` and `label` and `disabled` can be customize by `props`                                           | ^[array]`Array<{[key: string]: any}>`                                                                                                                                       | —                                                        |
 | props ^(2.10.5)                 | configuration options                                                                                                                    | ^[object]`{ value?: string, label?: string, disabled?: boolean}`                                                                                                            | `{value: 'value', label: 'label', disabled: 'disabled'}` |
@@ -312,11 +318,11 @@ select/custom-label
 
 ### Option Attributes
 
-| Name     | Description                                 | Type                                           | Default |
-| -------- | ------------------------------------------- | ---------------------------------------------- | ------- |
-| value    | value of option                             | ^[string] / ^[number] / ^[boolean] / ^[object] | —       |
-| label    | label of option, same as `value` if omitted | ^[string] / ^[number]                          | —       |
-| disabled | whether option is disabled                  | ^[boolean]                                     | false   |
+| Name     | Description                                 | Type                                                                   | Default |
+| -------- | ------------------------------------------- | ---------------------------------------------------------------------- | ------- |
+| value    | value of option                             | ^[enum]`string \| number \| boolean \| object \| \| null \| undefined` | —       |
+| label    | label of option, same as `value` if omitted | ^[string] / ^[number]                                                  | —       |
+| disabled | whether option is disabled                  | ^[boolean]                                                             | false   |
 
 ### Option Slots
 

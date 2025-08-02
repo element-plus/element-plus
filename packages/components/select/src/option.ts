@@ -7,7 +7,7 @@ export const optionProps = buildProps({
    */
   value: {
     type: [String, Number, Boolean, Object],
-    required: true as const,
+    default: undefined,
   },
   /**
    * @description label of option, same as `value` if omitted
