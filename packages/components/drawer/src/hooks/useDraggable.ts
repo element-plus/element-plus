@@ -1,6 +1,6 @@
 import { Ref, computed, onBeforeUnmount, ref, watch } from 'vue'
 import { DrawerProps } from '../drawer'
-import { isString } from '@element-plus/utils'
+import { addUnit, isString } from '@element-plus/utils'
 import { clamp, useEventListener, useWindowSize } from '@vueuse/core'
 import { toNumber } from 'lodash-unified'
 
@@ -86,7 +86,9 @@ export function useDraggable(
   })
 
   return {
-    size: computed(() => `${getSize.value}px`),
+    size: computed(() => {
+      return props.draggable ? `${getSize.value}px` : addUnit(props.size)
+    }),
     isDragging,
   }
 }

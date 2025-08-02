@@ -410,7 +410,7 @@ describe('Drawer', () => {
       const cleanup = defineGetter(window, 'innerWidth', '100')
       const drawerEl = renderer('50%', true).find('.el-drawer')
         .element as HTMLDivElement
-      expect(drawerEl.style.width).toEqual('50px')
+      expect(drawerEl.style.width).toEqual('50%')
       cleanup()
     })
 
@@ -418,7 +418,7 @@ describe('Drawer', () => {
       const cleanup = defineGetter(window, 'innerHeight', '100')
       const drawerEl = renderer('50%', false).find('.el-drawer')
         .element as HTMLDivElement
-      expect(drawerEl.style.height).toEqual('50px')
+      expect(drawerEl.style.height).toEqual('50%')
       cleanup()
     })
   })
@@ -498,7 +498,6 @@ describe('Drawer', () => {
       const dragger = wrapper.find('.el-drawer__dragger')
       expect(dragger.exists()).toBe(true)
       const drawerEl = wrapper.find('.el-drawer').element as HTMLDivElement
-      await nextTick()
       expect(drawerEl.style.height).toEqual('50px')
       await simulateDrag(dragger, 'vertical', 50, 100)
       expect(drawerEl.style.height).toEqual('100px')
