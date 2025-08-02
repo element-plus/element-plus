@@ -79,11 +79,29 @@ $directions: rtl, ltr, ttb, btt;
     }
   }
 
+  @include when(dragging) {
+    transition: none;
+  }
+
+  @include e(dragger) {
+    position: absolute;
+    background-color: transparent;
+    user-select: none;
+  }
+
   &.ltr,
   &.rtl {
     height: 100%;
     top: 0;
     bottom: 0;
+
+    .#{$namespace}-drawer__dragger {
+      height: 100%;
+      width: getCssVar('drawer-dragger-size');
+      top: 0;
+      bottom: 0;
+      cursor: col-resize;
+    }
   }
 
   &.ttb,
@@ -91,22 +109,46 @@ $directions: rtl, ltr, ttb, btt;
     width: 100%;
     left: 0;
     right: 0;
+
+    .#{$namespace}-drawer__dragger {
+      width: 100%;
+      height: getCssVar('drawer-dragger-size');
+      left: 0;
+      right: 0;
+      cursor: row-resize;
+    }
   }
 
   &.ltr {
     left: 0;
+
+    .#{$namespace}-drawer__dragger {
+      right: 0;
+    }
   }
 
   &.rtl {
     right: 0;
+
+    .#{$namespace}-drawer__dragger {
+      left: 0;
+    }
   }
 
   &.ttb {
     top: 0;
+
+    .#{$namespace}-drawer__dragger {
+      bottom: 0;
+    }
   }
 
   &.btt {
     bottom: 0;
+
+    .#{$namespace}-drawer__dragger {
+      top: 0;
+    }
   }
 }
 
