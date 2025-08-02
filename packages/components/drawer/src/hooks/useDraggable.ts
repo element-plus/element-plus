@@ -30,30 +30,23 @@ export function useDraggable(
     isHorizontal.value ? width.value : height.value
   )
   const getSize = computed(() => {
-    return `${clamp(
-      size.value + sign.value * offset.value,
+    return clamp(
+      startSize.value + sign.value * offset.value,
       4,
       windowSize.value
-    )}px`
+    )
   })
 
-  const size = ref(getNumberSize(props.size, windowSize.value))
+  const startSize = ref(getNumberSize(props.size, windowSize.value))
   const offset = ref(0)
   const isDragging = ref(false)
   let startPos: number[] = []
   let cleanups: (() => void)[] = []
 
-  watch(isDragging, (val) => {
-    if (!val) {
-      size.value += sign.value * offset.value
-      offset.value = 0
-    }
-  })
-
   watch(
     () => props.size,
     (val) => {
-      size.value = getNumberSize(val, windowSize.value)
+      startSize.value = getNumberSize(val, windowSize.value)
       offset.value = 0
       onMouseUp()
     }
@@ -78,6 +71,8 @@ export function useDraggable(
 
   const onMouseUp = () => {
     startPos = []
+    startSize.value = getSize.value
+    offset.value = 0
     isDragging.value = false
     cleanups.forEach((cleanup) => cleanup?.())
     cleanups = []
@@ -91,7 +86,7 @@ export function useDraggable(
   })
 
   return {
-    size: getSize,
+    size: computed(() => `${getSize.value}px`),
     isDragging,
   }
 }
