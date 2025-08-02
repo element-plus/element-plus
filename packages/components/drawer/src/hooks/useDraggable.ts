@@ -19,8 +19,13 @@ export function useDraggable(
   )
   const getNumberSize = computed(() => {
     const size = props.size
-    if (isString(size) && size.endsWith('%')) {
-      return (toNumber(size.slice(0, -1)) / 100) * getWindowSize.value
+    if (isString(size)) {
+      if (size.endsWith('%')) {
+        return (toNumber(size.slice(0, -1)) / 100) * getWindowSize.value
+      }
+      if (size.endsWith('px')) {
+        return toNumber(size.slice(0, -2))
+      }
     }
     return toNumber(size)
   })
