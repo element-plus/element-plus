@@ -54,6 +54,7 @@ export { default as sv } from './lang/sv'
 export { default as sw } from './lang/sw'
 export { default as ta } from './lang/ta'
 export { default as te } from './lang/te'
+export { default as tg } from './lang/tg'
 export { default as th } from './lang/th'
 export { default as tk } from './lang/tk'
 export { default as tr } from './lang/tr'
@@ -65,7 +66,6 @@ export { default as zhCn } from './lang/zh-cn'
 export { default as zhTw } from './lang/zh-tw'
 export { default as zhHk } from './lang/zh-hk'
 export { default as zhMo } from './lang/zh-mo'
-export { default as tg } from './lang/tajik'
 
 export type TranslatePair = {
   [key: string]: string | string[] | TranslatePair
