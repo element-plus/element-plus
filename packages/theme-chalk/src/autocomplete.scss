@@ -81,6 +81,7 @@
   @include when(loading) {
     li {
       text-align: center;
+      cursor: default;
       height: 100px;
       line-height: 100px;
       font-size: 20px;
@@ -90,10 +91,6 @@
       &:hover {
         background-color: getCssVar('bg-color', 'overlay');
       }
-    }
-
-    & .#{$namespace}-icon-loading {
-      vertical-align: middle;
     }
   }
 }
