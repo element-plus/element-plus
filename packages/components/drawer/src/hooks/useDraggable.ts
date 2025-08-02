@@ -1,8 +1,20 @@
-import { Ref, computed, ref, watch } from 'vue'
+import { Ref, computed, onBeforeUnmount, ref, watch } from 'vue'
 import { DrawerProps } from '../drawer'
-import { addUnit, isString } from '@element-plus/utils'
+import { isString } from '@element-plus/utils'
 import { clamp, useEventListener, useWindowSize } from '@vueuse/core'
 import { toNumber } from 'lodash-unified'
+
+function getNumberSize(size: number | string, windowSize: number) {
+  if (isString(size)) {
+    if (size.endsWith('%')) {
+      return (toNumber(size.slice(0, -1)) / 100) * windowSize
+    }
+    if (size.endsWith('px')) {
+      return toNumber(size.slice(0, -2))
+    }
+  }
+  return toNumber(size)
+}
 
 export function useDraggable(
   props: DrawerProps,
@@ -14,36 +26,18 @@ export function useDraggable(
   const sign = computed(() =>
     ['ltr', 'ttb'].includes(props.direction) ? 1 : -1
   )
-  const getWindowSize = computed(() =>
+  const windowSize = computed(() =>
     isHorizontal.value ? width.value : height.value
   )
-  const getNumberSize = computed(() => {
-    const size = props.size
-    if (isString(size)) {
-      if (size.endsWith('%')) {
-        return (toNumber(size.slice(0, -1)) / 100) * getWindowSize.value
-      }
-      if (size.endsWith('px')) {
-        return toNumber(size.slice(0, -2))
-      }
-    }
-    return toNumber(size)
-  })
   const getSize = computed(() => {
-    // compat
-    if (!props.draggable) {
-      return addUnit(props.size)
-    }
-
     return `${clamp(
       size.value + sign.value * offset.value,
-      0,
-      getWindowSize.value
-    )}px
-    `
+      4,
+      windowSize.value
+    )}px`
   })
 
-  const size = ref(getNumberSize.value)
+  const size = ref(getNumberSize(props.size, windowSize.value))
   const offset = ref(0)
   const isDragging = ref(false)
   let startPos: number[] = []
@@ -56,11 +50,14 @@ export function useDraggable(
     }
   })
 
-  watch(getNumberSize, (val) => {
-    size.value = val
-    offset.value = 0
-    onMouseUp()
-  })
+  watch(
+    () => props.size,
+    (val) => {
+      size.value = getNumberSize(val, windowSize.value)
+      offset.value = 0
+      onMouseUp()
+    }
+  )
 
   const onMousedown = (e: MouseEvent) => {
     if (!props.draggable) return
@@ -86,7 +83,12 @@ export function useDraggable(
     cleanups = []
   }
 
-  useEventListener(target, 'mousedown', onMousedown)
+  const cleanup = useEventListener(target, 'mousedown', onMousedown)
+
+  onBeforeUnmount(() => {
+    cleanup()
+    onMouseUp()
+  })
 
   return {
     size: getSize,
