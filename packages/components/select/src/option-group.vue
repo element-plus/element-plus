@@ -70,8 +70,8 @@ export default defineComponent({
       const nodes = ensureArray(node) as VNode[] | VNodeArrayChildren
       const children: OptionPublicInstance[] = []
 
-      nodes.forEach((child) => {
-        if (!isVNode(child)) return
+      for (const child of nodes) {
+        if (!isVNode(child)) continue
 
         if (isOption(child)) {
           children.push(child.component.proxy)
@@ -80,7 +80,7 @@ export default defineComponent({
         } else if (child.component?.subTree) {
           children.push(...flattedChildren(child.component.subTree))
         }
-      })
+      }
 
       return children
     }
