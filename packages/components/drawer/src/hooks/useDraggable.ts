@@ -35,9 +35,12 @@ export function useDraggable(
       return addUnit(props.size)
     }
 
-    return addUnit(
-      clamp(size.value + sign.value * offset.value, 0, getWindowSize.value)
-    )
+    return `${clamp(
+      size.value + sign.value * offset.value,
+      0,
+      getWindowSize.value
+    )}px
+    `
   })
 
   const size = ref(getNumberSize.value)
