@@ -37,6 +37,16 @@ input-tag/max
 
 :::
 
+## Collapse Tags
+
+Use the collapse tags attribute to merge them into one piece of text. You can use the collapse tags tooltip property to enable the behavior of hovering over collapsed text to display specific selected values. Using the collapse tags tooltip attribute will render the max attribute invalid.
+
+:::demo
+
+input-tag/collapse
+
+:::
+
 ## Disabled
 
 You can set the InputTag to be disabled.
