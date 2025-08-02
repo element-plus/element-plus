@@ -10,7 +10,7 @@ const sponsor = computed(() => sponsorLocale[lang.value])
 </script>
 
 <template>
-  <div class="doc-sidebar-content">
+  <div class="doc-s-content">
     <p class="title">{{ sponsor.sponsoredBy }}</p>
     <VPSponsorLarge />
     <VPSponsorSmall />
@@ -18,7 +18,7 @@ const sponsor = computed(() => sponsorLocale[lang.value])
 </template>
 
 <style lang="scss" scoped>
-.doc-sidebar-content {
+.doc-s-content {
   padding-bottom: 10px;
   padding-top: 0;
   .title {
