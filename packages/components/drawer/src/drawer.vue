@@ -33,10 +33,13 @@
             :aria-labelledby="!title ? titleId : undefined"
             :aria-describedby="bodyId"
             v-bind="$attrs"
-            :class="[ns.b(), direction, visible && 'open']"
-            :style="
-              isHorizontal ? 'width: ' + drawerSize : 'height: ' + drawerSize
-            "
+            :class="[
+              ns.b(),
+              direction,
+              visible && 'open',
+              ns.is('dragging', isDragging),
+            ]"
+            :style="{ [isHorizontal ? 'width' : 'height']: size }"
             role="dialog"
             @click.stop
           >
@@ -82,6 +85,12 @@
             <div v-if="$slots.footer" :class="[ns.e('footer'), footerClass]">
               <slot name="footer" />
             </div>
+            <div
+              v-if="draggable"
+              ref="draggerRef"
+              :style="{ zIndex }"
+              :class="ns.e('dragger')"
+            />
           </div>
         </el-focus-trap>
       </el-overlay>
@@ -96,10 +105,10 @@ import { ElOverlay } from '@element-plus/components/overlay'
 import ElFocusTrap from '@element-plus/components/focus-trap'
 import ElTeleport from '@element-plus/components/teleport'
 import { useDialog } from '@element-plus/components/dialog'
-import { addUnit } from '@element-plus/utils'
 import ElIcon from '@element-plus/components/icon'
 import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
 import { drawerEmits, drawerProps } from './drawer'
+import { useDraggable } from './hooks/useDraggable'
 
 defineOptions({
   name: 'ElDrawer',
@@ -123,6 +132,7 @@ useDeprecated(
 
 const drawerRef = ref<HTMLElement>()
 const focusStartRef = ref<HTMLElement>()
+const draggerRef = ref<HTMLElement>()
 const ns = useNamespace('drawer')
 const { t } = useLocale()
 const {
@@ -141,11 +151,11 @@ const {
   onCloseRequested,
   handleClose,
 } = useDialog(props, drawerRef)
+const { size, isDragging } = useDraggable(props, draggerRef)
 
 const isHorizontal = computed(
   () => props.direction === 'rtl' || props.direction === 'ltr'
 )
-const drawerSize = computed(() => addUnit(props.size))
 
 defineExpose({
   handleClose,
