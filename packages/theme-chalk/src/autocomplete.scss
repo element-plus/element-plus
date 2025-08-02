@@ -26,6 +26,16 @@
   border-radius: getCssVar('border-radius', 'base');
   box-sizing: border-box;
 
+  @include e(header) {
+    padding: 10px;
+    border-bottom: 1px solid getCssVar('border-color', 'lighter');
+  }
+
+  @include e(footer) {
+    padding: 10px;
+    border-top: 1px solid getCssVar('border-color', 'lighter');
+  }
+
   @include e(wrap) {
     max-height: 280px;
     padding: 10px 0;
