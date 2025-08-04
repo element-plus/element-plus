@@ -47,5 +47,10 @@ declare module 'vue' {
   } & {
     [K in keyof Pick<O, PublicOptionalKeys<O>>]?: InferPropType<O[K]>
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+  export interface GlobalComponents {}
 }
+
+export {}
 // delete when upgrade to vue 3.3 : end

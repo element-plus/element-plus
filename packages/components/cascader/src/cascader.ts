@@ -10,7 +10,7 @@ import type {
   CascaderNode,
   CascaderValue,
 } from '@element-plus/components/cascader-panel'
-import type { Placement } from '@element-plus/components/popper'
+import type { Placement, PopperEffect } from '@element-plus/components/popper'
 
 export const cascaderProps = buildProps({
   ...CommonProps,
@@ -120,6 +120,13 @@ export const cascaderProps = buildProps({
    */
   teleported: useTooltipContentProps.teleported,
   /**
+   * @description tooltip theme, built-in theme: `dark` / `light`
+   */
+  effect: {
+    type: definePropType<PopperEffect>(String),
+    default: 'light',
+  },
+  /**
    * @description tag type
    */
   // eslint-disable-next-line vue/require-prop-types
@@ -142,11 +149,31 @@ export const cascaderProps = buildProps({
     type: Boolean,
     default: true,
   },
+  /**
+   * @description Use `parent` when you want things tidy (like "Entire Collection" instead of listing 100 items)
+   * Use `child` when every single item matters (like important settings)
+   */
+  showCheckedStrategy: {
+    type: String,
+    values: ['parent', 'child'],
+    default: 'child',
+  },
+  /**
+   * @description whether to check or uncheck node when clicking on the node
+   */
+  checkOnClickNode: Boolean,
+  /**
+   * @description whether to show the radio or checkbox prefix
+   */
+  showPrefix: {
+    type: Boolean,
+    default: true,
+  },
   ...useEmptyValuesProps,
 })
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const emitChangeFn = (value: CascaderValue) => true
+const emitChangeFn = (value: CascaderValue | null | undefined) => true
 
 export const cascaderEmits = {
   [UPDATE_MODEL_EVENT]: emitChangeFn,

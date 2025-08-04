@@ -52,7 +52,7 @@ export const tourContentProps = buildProps({
     default: 10,
   },
   /**
-   * @description @description whether to show the arrow
+   * @description whether to show the arrow
    */
   showArrow: Boolean,
   /**

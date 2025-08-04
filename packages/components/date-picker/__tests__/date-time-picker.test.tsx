@@ -1,6 +1,6 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import dayjs from 'dayjs'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { ElFormItem } from '@element-plus/components/form'
@@ -9,6 +9,7 @@ import DatePicker from '../src/date-picker'
 import type DatePickerRange from '../src/date-picker-com/panel-date-range.vue'
 import type { VueWrapper } from '@vue/test-utils'
 import type { VNode } from 'vue'
+import type { IDatePickerType } from '../src/date-picker.type'
 
 const formatStr = 'YYYY-MM-DD HH:mm:ss'
 const makeRange = (start: number, end: number) => {
@@ -977,5 +978,59 @@ describe('Datetimerange', () => {
       '9',
       '10',
     ])
+  })
+
+  it('should emit update:model-value when two dates reached', async () => {
+    const value = ref<[Date, Date]>()
+    const onUpdateModelValue = vi.fn()
+    const wrapper = _mount(() => (
+      <DatePicker
+        v-model={value.value}
+        type="datetimerange"
+        onUpdate:modelValue={onUpdateModelValue}
+      />
+    ))
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    const cells = document.querySelectorAll(
+      '.available .el-date-table-cell'
+    ) as unknown as HTMLElement[]
+    cells[0].click()
+    await nextTick()
+    cells[1].click()
+    await nextTick()
+
+    const rangePanelWrapper = wrapper.findComponent(
+      '.el-date-range-picker'
+    ) as VueWrapper<InstanceType<typeof DatePickerRange>>
+    expect(rangePanelWrapper.exists()).toBe(true)
+    expect(rangePanelWrapper.vm.visible).toBe(true)
+    expect(value.value).toHaveLength(2)
+    expect(onUpdateModelValue).toHaveBeenCalledOnce()
+    expect(onUpdateModelValue).toHaveBeenCalledWith(value.value)
+
+    await input.trigger('blur')
+    expect(rangePanelWrapper.vm.visible).toBe(false)
+  })
+
+  describe('should not have footer when show-footer is false', () => {
+    const footerAble: IDatePickerType[] = ['dates', 'datetime', 'datetimerange']
+    it.each(footerAble)(":type='%s'", async (t) => {
+      const showFooter = ref(true)
+      const type = ref<IDatePickerType>()
+      _mount(() => (
+        <DatePicker type={type.value} showFooter={showFooter.value} />
+      ))
+      type.value = t
+      showFooter.value = true
+      await nextTick()
+
+      expect(document.querySelector('.el-picker-panel__footer')).not.toBeNull()
+      showFooter.value = false
+      await nextTick()
+
+      expect(document.querySelector('.el-picker-panel__footer')).toBeNull()
+    })
   })
 })

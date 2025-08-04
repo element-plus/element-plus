@@ -310,9 +310,6 @@ importers:
       vitepress-plugin-group-icons:
         specifier: ^1.3.4
         version: 1.3.4
-      vue:
-        specifier: ^3.4.27
-        version: 3.4.31(typescript@5.5.4)
 
   internal/build:
     dependencies:

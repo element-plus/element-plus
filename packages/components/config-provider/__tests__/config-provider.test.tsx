@@ -6,6 +6,7 @@ import Chinese from '@element-plus/locale/lang/zh-cn'
 import English from '@element-plus/locale/lang/en'
 import {
   ElButton,
+  ElCard,
   ElLink,
   ElMessage,
   ElPagination,
@@ -152,6 +153,26 @@ describe('config-provider', () => {
           )
           .exists()
       ).toBe(true)
+    })
+  })
+
+  describe('card-config', () => {
+    it('should have shadow="hover" instead of \'always\'', async () => {
+      const config = reactive({
+        shadow: 'hover',
+      })
+      const overrideShadow = ref('')
+
+      const wrapper = mount(() => (
+        <ConfigProvider card={config}>
+          <ElCard shadow={overrideShadow.value as any}>I love rem!</ElCard>
+        </ConfigProvider>
+      ))
+      await nextTick()
+      expect(wrapper.find('.el-card.is-hover-shadow').exists()).toBe(true)
+      overrideShadow.value = 'never'
+      await nextTick()
+      expect(wrapper.find('.el-card.is-never-shadow').exists()).toBe(true)
     })
   })
 

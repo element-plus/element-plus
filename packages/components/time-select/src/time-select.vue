@@ -134,11 +134,11 @@ const focus = () => {
 
 defineExpose({
   /**
-   * @description focus the Input component
+   * @description blur the Input component
    */
   blur,
   /**
-   * @description blur the Input component
+   * @description focus the Input component
    */
   focus,
 })

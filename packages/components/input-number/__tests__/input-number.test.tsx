@@ -36,6 +36,25 @@ describe('InputNumber.vue', () => {
     expect(wrapper.find('p').element.innerText).toBeUndefined()
   })
 
+  test('dynamic change the precision value should correct re-render', async () => {
+    const num = ref(123.12)
+    const precision = ref(1)
+    const wrapper = mount(() => (
+      <>
+        <InputNumber
+          modelValue={num.value}
+          placeholder="input number"
+          precision={precision.value}
+        />
+      </>
+    ))
+    await nextTick()
+    expect(wrapper.find('input').element.value).toEqual('123.1')
+    precision.value = 2
+    await nextTick()
+    expect(wrapper.find('input').element.value).toEqual('123.12')
+  })
+
   test('set modelValue undefined to display placeholder', async () => {
     const inputText = ref<number | undefined>(1)
     const wrapper = mount(() => (
@@ -610,5 +629,52 @@ describe('InputNumber.vue', () => {
     ))
     expect(wrapper.find('input').element.value).toBe(num.value.toString())
     wrapper.unmount()
+  })
+
+  describe('align prop class mapping', () => {
+    it.each([
+      ['left', 'is-left'],
+      ['center', 'is-center'],
+      ['right', 'is-right'],
+    ] as Array<['left' | 'center' | 'right', string]>)(
+      'align=%s should add class %s',
+      async (align, expectedClass) => {
+        const num = ref(0)
+        const wrapper = mount(() => (
+          <InputNumber v-model={num.value} align={align} />
+        ))
+
+        await nextTick()
+
+        const root = wrapper.find('.el-input-number')
+        expect(root.classes()).toContain(expectedClass)
+      }
+    )
+  })
+
+  test('should prevent typing "e" or "E" when disabledScientific is true', async () => {
+    const num = ref(1)
+    const wrapper = mount(() => (
+      <InputNumber v-model={num.value} disabledScientific />
+    ))
+    const input = wrapper.find('input')
+    const preventDefault = vi.fn()
+    await input.trigger('keydown', {
+      key: 'e',
+      preventDefault,
+    })
+    expect(preventDefault).toHaveBeenCalled()
+    preventDefault.mockClear()
+    await input.trigger('keydown', {
+      key: 'E',
+      preventDefault,
+    })
+    expect(preventDefault).toHaveBeenCalled()
+    preventDefault.mockClear()
+    await input.trigger('keydown', {
+      key: '1',
+      preventDefault,
+    })
+    expect(preventDefault).not.toHaveBeenCalled()
   })
 })

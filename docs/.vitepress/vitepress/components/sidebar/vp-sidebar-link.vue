@@ -38,7 +38,7 @@ watch([activeLink, sidebarItem], ([active, el]) => {
     @click="$emit('close')"
   >
     <p class="link-text">{{ item.text }}</p>
-    <VersionTag v-if="item.promotion" class="ml-2" :version="item.promotion" />
+    <VersionTag v-if="item.promotion" :version="item.promotion" />
   </a>
 </template>
 
@@ -55,6 +55,10 @@ watch([activeLink, sidebarItem], ([active, el]) => {
 
   .link-text {
     margin: 0;
+  }
+
+  .link-text + * {
+    margin-left: 0.5rem;
   }
 }
 

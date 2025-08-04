@@ -12,7 +12,8 @@
     trigger="click"
     :teleported="teleported"
     :transition="`${ns.namespace.value}-zoom-in-top`"
-    persistent
+    :persistent="persistent"
+    :append-to="appendTo"
     @hide="setShowPicker(false)"
   >
     <template #content>
