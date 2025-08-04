@@ -158,12 +158,14 @@ const handleCheckChange: ElCascaderPanelContext['handleCheckChange'] = (
   checked,
   emitClose = true
 ) => {
+  const oldNode = checkedNodes.value[0]
+  const { checkStrictly, multiple } = config.value
+  if (node === oldNode && !multiple) {
+    return
+  }
   const handleBeforeChange = props.beforeChange ?? (() => true)
   const handleChange = () => {
-    const { checkStrictly, multiple } = config.value
-    const oldNode = checkedNodes.value[0]
     manualChecked = true
-
     !multiple && oldNode?.doCheck(false)
     node.doCheck(checked)
     calculateCheckedValue()
