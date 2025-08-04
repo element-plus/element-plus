@@ -1,28 +1,39 @@
 import { computed, getCurrentInstance, inject, ref, unref } from 'vue'
 import { debugWarn, isClient, isNumber } from '@element-plus/utils'
 
-import type { InjectionKey, Ref } from 'vue'
+import type { Ref } from 'vue'
 
 export interface ElZIndexInjectionContext {
   current: number
 }
 
-const initial: ElZIndexInjectionContext = {
-  current: 0,
+// @ts-ignore
+if (!window.$$InitialZindex) {
+  // @ts-ignore
+  window.$$InitialZindex = {
+    current: 0,
+  }
 }
 
-const zIndex = ref(0)
+// @ts-ignore
+const initial: ElZIndexInjectionContext = window.$$InitialZindex
+
+// @ts-ignore
+if (!window.$$Zindex) {
+  // @ts-ignore
+  window.$$Zindex = ref(0)
+}
 
 export const defaultInitialZIndex = 2000
 
 // For SSR
-export const ZINDEX_INJECTION_KEY: InjectionKey<ElZIndexInjectionContext> =
-  Symbol('elZIndexContextKey')
+export const ZINDEX_INJECTION_KEY = 'ZINDEX_INJECTION_KEY'
 
-export const zIndexContextKey: InjectionKey<Ref<number | undefined>> =
-  Symbol('zIndexContextKey')
+export const zIndexContextKey = 'zIndexContextKey'
 
 export const useZIndex = (zIndexOverrides?: Ref<number>) => {
+  // @ts-ignore
+  const zIndex = window.$$Zindex
   const increasingInjection = getCurrentInstance()
     ? inject(ZINDEX_INJECTION_KEY, initial)
     : initial

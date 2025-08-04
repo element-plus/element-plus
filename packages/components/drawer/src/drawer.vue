@@ -98,7 +98,12 @@ import ElTeleport from '@element-plus/components/teleport'
 import { useDialog } from '@element-plus/components/dialog'
 import { addUnit } from '@element-plus/utils'
 import ElIcon from '@element-plus/components/icon'
-import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
+import {
+  useDeprecated,
+  useLocale,
+  useNamespace,
+  useScreen,
+} from '@element-plus/hooks'
 import { drawerEmits, drawerProps } from './drawer'
 
 defineOptions({
@@ -109,6 +114,8 @@ defineOptions({
 const props = defineProps(drawerProps)
 defineEmits(drawerEmits)
 const slots = useSlots()
+
+const screen = useScreen()
 
 useDeprecated(
   {
@@ -145,7 +152,14 @@ const {
 const isHorizontal = computed(
   () => props.direction === 'rtl' || props.direction === 'ltr'
 )
-const drawerSize = computed(() => addUnit(props.size))
+const drawerSize = computed(() => {
+  // 小屏幕
+  if (screen.lt.sm) {
+    return '90%'
+  } else {
+    return addUnit(props.size)
+  }
+})
 
 defineExpose({
   handleClose,

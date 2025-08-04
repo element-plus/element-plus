@@ -2,7 +2,7 @@ import { computed, inject, unref } from 'vue'
 import { buildProp } from '@element-plus/utils'
 import { componentSizes } from '@element-plus/constants'
 
-import type { InjectionKey, Ref } from 'vue'
+import type { Ref } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 
 export const useSizeProp = buildProp({
@@ -19,7 +19,7 @@ export interface SizeContext {
   size: Ref<ComponentSize>
 }
 
-export const SIZE_INJECTION_KEY: InjectionKey<SizeContext> = Symbol('size')
+export const SIZE_INJECTION_KEY = 'SIZE_INJECTION_KEY'
 
 export const useGlobalSize = () => {
   const injectedSize = inject(SIZE_INJECTION_KEY, {} as SizeContext)

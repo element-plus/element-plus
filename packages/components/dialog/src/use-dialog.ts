@@ -11,6 +11,7 @@ import {
   defaultNamespace,
   useId,
   useLockscreen,
+  useScreen,
   useZIndex,
 } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
@@ -40,6 +41,7 @@ export const useDialog = (
   let closeTimer: (() => void) | undefined = undefined
 
   const namespace = useGlobalConfig('namespace', defaultNamespace)
+  const screen = useScreen()
 
   const style = computed<CSSProperties>(() => {
     const style: CSSProperties = {}
@@ -52,12 +54,21 @@ export const useDialog = (
         style[`${varPrefix}-width`] = addUnit(props.width)
       }
     }
+    // 兼容小屏幕
+    if (screen.lt.sm) {
+      style[`${varPrefix}-width`] = '100%'
+    }
     return style
   })
 
   const overlayDialogStyle = computed<CSSProperties>(() => {
     if (props.alignCenter) {
       return { display: 'flex' }
+    }
+    if (screen.lt.sm) {
+      return {
+        padding: '16px',
+      }
     }
     return {}
   })

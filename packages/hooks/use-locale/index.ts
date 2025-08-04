@@ -3,7 +3,7 @@ import { get } from 'lodash-unified'
 import English from '@element-plus/locale/lang/en'
 
 import type { MaybeRef } from '@vueuse/core'
-import type { InjectionKey, Ref } from 'vue'
+import type { Ref } from 'vue'
 import type { Language } from '@element-plus/locale'
 
 export type TranslatorOption = Record<string, string | number>
@@ -41,8 +41,7 @@ export const buildLocaleContext = (
   }
 }
 
-export const localeContextKey: InjectionKey<Ref<Language | undefined>> =
-  Symbol('localeContextKey')
+export const localeContextKey = 'localeContextKey'
 
 export const useLocale = (localeOverrides?: Ref<Language | undefined>) => {
   const locale = localeOverrides || inject(localeContextKey, ref())!

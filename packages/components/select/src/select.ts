@@ -268,6 +268,10 @@ export const selectProps = buildProps({
   appendTo: useTooltipContentProps.appendTo,
   ...useEmptyValuesProps,
   ...useAriaProps(['ariaLabel']),
+  shiftSelect: {
+    type: Boolean,
+    default: false,
+  },
 })
 /* eslint-disable @typescript-eslint/no-unused-vars */
 export const selectEmits = {
