@@ -69,7 +69,7 @@ provide(
     panels,
     percentSizes,
     pxSizes,
-    layout: props.layout,
+    layout: toRef(props, 'layout'),
     movingIndex,
     containerSize,
     onMoveStart: onResizeStart,
