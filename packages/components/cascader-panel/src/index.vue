@@ -32,10 +32,12 @@ import {
 import { cloneDeep, flattenDeep, isEqual } from 'lodash-unified'
 import {
   castArray,
+  debugWarn,
   focusNode,
   getSibling,
   isClient,
   isEmpty,
+  isPromise,
   scrollIntoView,
   unique,
 } from '@element-plus/utils'
@@ -65,8 +67,9 @@ import type {
 import type { ElCascaderPanelContext } from './types'
 import type { CascaderMenuInstance } from './instance'
 
+const COMPONENT_NAME = 'ElCascaderPanel'
 defineOptions({
-  name: 'ElCascaderPanel',
+  name: COMPONENT_NAME,
   inheritAttrs: false,
 })
 
@@ -150,21 +153,37 @@ const expandNode: ElCascaderPanelContext['expandNode'] = (node, silent) => {
     !silent && emit('expand-change', node?.pathValues || [])
   }
 }
-
+const handleBeforeChange = props.beforeChange ?? (() => true)
 const handleCheckChange: ElCascaderPanelContext['handleCheckChange'] = (
   node,
   checked,
   emitClose = true
 ) => {
-  const { checkStrictly, multiple } = config.value
-  const oldNode = checkedNodes.value[0]
-  manualChecked = true
+  const handleChange = () => {
+    const { checkStrictly, multiple } = config.value
+    const oldNode = checkedNodes.value[0]
+    manualChecked = true
 
-  !multiple && oldNode?.doCheck(false)
-  node.doCheck(checked)
-  calculateCheckedValue()
-  emitClose && !multiple && !checkStrictly && emit('close')
-  !emitClose && !multiple && !checkStrictly && expandParentNode(node)
+    !multiple && oldNode?.doCheck(false)
+    node.doCheck(checked)
+    calculateCheckedValue()
+    emitClose && !multiple && !checkStrictly && emit('close')
+    !emitClose && !multiple && !checkStrictly && expandParentNode(node)
+  }
+  const shouldChange = handleBeforeChange(node, checked)
+  if (isPromise(shouldChange)) {
+    shouldChange
+      .then((result) => {
+        if (result) {
+          handleChange()
+        }
+      })
+      .catch((e) => {
+        debugWarn(COMPONENT_NAME, `some error occurred: ${e}`)
+      })
+  } else if (shouldChange) {
+    handleChange()
+  }
 }
 
 const expandParentNode = (node: Node | undefined) => {
