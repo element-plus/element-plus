@@ -276,7 +276,15 @@
               :created="true"
             />
             <el-options>
-              <slot />
+              <slot>
+                <el-option
+                  v-for="(item, index) in options"
+                  :key="index"
+                  :label="item[props?.label ?? 'label']"
+                  :value="item[props?.value ?? 'value']"
+                  :disabled="item[props?.disabled ?? 'disabled']"
+                />
+              </slot>
             </el-options>
           </el-scrollbar>
           <div

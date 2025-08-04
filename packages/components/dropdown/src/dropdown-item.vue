@@ -83,7 +83,9 @@ export default defineComponent({
 
         onItemEnter(e)
         if (!e.defaultPrevented) {
-          target?.focus()
+          target?.focus({
+            preventScroll: true,
+          })
         }
       })
     )

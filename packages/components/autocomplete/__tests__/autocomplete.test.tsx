@@ -279,9 +279,9 @@ describe('Autocomplete.vue', () => {
     vi.runAllTimers()
     await nextTick()
 
-    expect(document.body.querySelector('.el-icon-loading')).toBeDefined()
+    expect(document.body.querySelector('.el-icon.is-loading')).toBeDefined()
     await wrapper.setProps({ hideLoading: true })
-    expect(document.body.querySelector('.el-icon-loading')).toBeNull()
+    expect(document.body.querySelector('.el-icon.is-loading')).toBeNull()
   })
 
   test('selectWhenUnmatched', async () => {

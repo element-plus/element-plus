@@ -133,7 +133,7 @@ export const timePickerDefaultProps = buildProps({
    * @description binding value, if it is an array, the length should be 2
    */
   modelValue: {
-    type: definePropType<ModelValueType>([Date, Array, String, Number]),
+    type: definePropType<ModelValueType | null>([Date, Array, String, Number]),
     default: '',
   },
   /**
@@ -230,6 +230,13 @@ export const timePickerDefaultProps = buildProps({
    * @description whether to show the now button
    */
   showNow: {
+    type: Boolean,
+    default: true,
+  },
+  /**
+   * @description whether to show footer
+   */
+  showFooter: {
     type: Boolean,
     default: true,
   },

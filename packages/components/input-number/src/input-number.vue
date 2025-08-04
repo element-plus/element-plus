@@ -358,6 +358,13 @@ watch(
   },
   { immediate: true }
 )
+
+watch(
+  () => props.precision,
+  () => {
+    data.currentValue = verifyValue(props.modelValue)
+  }
+)
 onMounted(() => {
   const { min, max, modelValue } = props
   const innerInput = input.value?.input as HTMLInputElement

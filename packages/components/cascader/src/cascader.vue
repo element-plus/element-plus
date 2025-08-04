@@ -10,7 +10,7 @@
     :gpu-acceleration="false"
     :placement="placement"
     :transition="`${nsCascader.namespace.value}-zoom-in-top`"
-    effect="light"
+    :effect="effect"
     pure
     :persistent="persistent"
     @hide="hideSuggestionPanel"
@@ -93,7 +93,7 @@
                   :disabled="popperVisible || !collapseTagsTooltip"
                   :fallback-placements="['bottom', 'top', 'right', 'left']"
                   placement="bottom"
-                  effect="light"
+                  :effect="effect"
                 >
                   <template #default>
                     <span>{{ tag.text }}</span>
@@ -149,6 +149,9 @@
     </template>
 
     <template #content>
+      <div v-if="$slots.header" :class="nsCascader.e('header')" @click.stop>
+        <slot name="header" />
+      </div>
       <el-cascader-panel
         v-show="!filtering"
         ref="cascaderPanelRef"
@@ -198,6 +201,9 @@
           </li>
         </slot>
       </el-scrollbar>
+      <div v-if="$slots.footer" :class="nsCascader.e('footer')" @click.stop>
+        <slot name="footer" />
+      </div>
     </template>
   </el-tooltip>
 </template>
