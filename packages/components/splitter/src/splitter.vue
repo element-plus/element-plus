@@ -19,8 +19,9 @@ const emits = defineEmits<{
 }>()
 
 const props = defineProps(splitterProps)
+const layout = toRef(props, 'layout')
 
-const { containerEl, containerSize } = useContainer(toRef(props, 'layout'))
+const { containerEl, containerSize } = useContainer(layout)
 
 const {
   removeChild: unregisterPanel,
@@ -69,7 +70,7 @@ provide(
     panels,
     percentSizes,
     pxSizes,
-    layout: toRef(props, 'layout'),
+    layout,
     movingIndex,
     containerSize,
     onMoveStart: onResizeStart,
