@@ -423,7 +423,7 @@ describe('Drawer', () => {
     })
   })
 
-  describe('draggable', () => {
+  describe('resizable', () => {
     // mock mouse event
     const simulateDrag = async (
       dragger: DOMWrapper<Element>,
@@ -459,7 +459,7 @@ describe('Drawer', () => {
       const cleanup = defineGetter(window, 'innerWidth', '100')
       const wrapper = _mount(
         `
-        <el-drawer v-model='visible' direction='ltr' draggable size='50%'>
+        <el-drawer v-model='visible' direction='ltr' resizable size='50%'>
           <span>${content}</span>
         </el-drawer>
         `,
@@ -484,7 +484,7 @@ describe('Drawer', () => {
       const cleanup = defineGetter(window, 'innerHeight', '100')
       const wrapper = _mount(
         `
-        <el-drawer v-model='visible' direction='ttb' draggable size='50%'>
+        <el-drawer v-model='visible' direction='ttb' resizable size='50%'>
           <span>${content}</span>
         </el-drawer>
         `,

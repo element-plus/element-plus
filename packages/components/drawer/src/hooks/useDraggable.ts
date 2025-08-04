@@ -44,7 +44,7 @@ export function useDraggable(
   let cleanups: (() => void)[] = []
 
   watch(
-    () => [props.size, props.draggable] as const,
+    () => [props.size, props.resizable] as const,
     ([val]) => {
       startSize.value = getNumberSize(val, windowSize.value)
       offset.value = 0
@@ -53,7 +53,7 @@ export function useDraggable(
   )
 
   const onMousedown = (e: MouseEvent) => {
-    if (!props.draggable) return
+    if (!props.resizable) return
     startPos = [e.pageX, e.pageY]
     isDragging.value = true
     cleanups.push(
@@ -87,7 +87,7 @@ export function useDraggable(
 
   return {
     size: computed(() => {
-      return props.draggable ? `${getSize.value}px` : addUnit(props.size)
+      return props.resizable ? `${getSize.value}px` : addUnit(props.size)
     }),
     isDragging,
   }

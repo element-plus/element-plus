@@ -86,7 +86,7 @@
               <slot name="footer" />
             </div>
             <div
-              v-if="draggable"
+              v-if="resizable"
               ref="draggerRef"
               :style="{ zIndex }"
               :class="ns.e('dragger')"

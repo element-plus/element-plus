@@ -53,13 +53,13 @@ drawer/customization-header
 
 :::
 
-## Draggable Drawer ^(2.10.6)
+## Resizable Drawer ^(2.11.0)
 
 Try to drag the edge part.
 
-:::demo Set `draggable` to `true` to drag.
+:::demo Set `resizable` to `true` to resize.
 
-drawer/draggable-drawer
+drawer/resizable-drawer
 
 :::
 
@@ -103,7 +103,7 @@ Drawer provides an API called `destroyOnClose`, which is a flag variable that in
 | destroy-on-close           | Indicates whether children should be destroyed after Drawer closed                                                                                                                                                                                                                                           | ^[boolean]                                                                                                                                                                                     | false   |
 | modal                      | Should show shadowing layer                                                                                                                                                                                                                                                                                  | ^[boolean]                                                                                                                                                                                     | true    |
 | direction                  | Drawer's opening direction                                                                                                                                                                                                                                                                                   | ^[enum]`'rtl' \| 'ltr' \| 'ttb' \| 'btt'`                                                                                                                                                      | rtl     |
-| draggable ^(2.10.6)        | enable dragging feature for Drawer                                                                                                                                                                                                                                                                           | ^[boolean]                                                                                                                                                                                     | false   |
+| resizable ^(2.11.0)        | enable resizable feature for Drawer                                                                                                                                                                                                                                                                          | ^[boolean]                                                                                                                                                                                     | false   |
 | show-close                 | Should show close button at the top right of Drawer                                                                                                                                                                                                                                                          | ^[boolean]                                                                                                                                                                                     | true    |
 | size                       | Drawer's size, if Drawer is horizontal mode, it effects the width property, otherwise it effects the height property, when size is `number` type, it describes the size by unit of pixels; when size is `string` type, it should be used with `x%` notation, other wise it will be interpreted to pixel unit | ^[number] / ^[string]                                                                                                                                                                          | 30%     |
 | title                      | Drawer's title, can also be set by named slot, detailed descriptions can be found in the slot form                                                                                                                                                                                                           | ^[string]                                                                                                                                                                                      | —       |
