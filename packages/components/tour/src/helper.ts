@@ -150,7 +150,7 @@ export interface TourContext {
   current: Ref<number>
   total: Ref<number>
   showClose: Ref<boolean>
-  closeIcon: Ref<string | Component>
+  closeIcon: Ref<string | Component | undefined>
   mergedType: Ref<'default' | 'primary' | undefined>
   ns: UseNamespaceReturn
   slots: SetupContext['slots']
