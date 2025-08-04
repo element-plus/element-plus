@@ -1970,7 +1970,7 @@ describe('DateRangePicker', () => {
   })
 
   it('range, shows weekNumber', async () => {
-    _mount(
+    const wrapper = _mount(
       `<el-date-picker
         v-model="value"
         type="daterange"
@@ -1978,6 +1978,10 @@ describe('DateRangePicker', () => {
       />`,
       () => ({ value: [new Date(2025, 0, 1), new Date(2025, 1, 1)] })
     )
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+
     await nextTick()
     const weeks = document.querySelectorAll('td.week')
     expect(weeks.length).toBe(12)
@@ -2035,6 +2039,9 @@ describe('MonthRange', () => {
     // input text is something like date string
     expect(inputs[0].element.value.length).toBe(7)
     expect(inputs[1].element.value.length).toBe(7)
+    inputs[0].trigger('blur')
+    inputs[0].trigger('focus')
+    await nextTick()
     // reverse selection
     p1.click()
     await nextTick()
