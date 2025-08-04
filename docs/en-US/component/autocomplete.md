@@ -47,6 +47,16 @@ autocomplete/custom-loading
 
 :::
 
+## Custom Header & Footer ^(2.11.0)
+
+You can customize both the header and footer of the dropdown using slots
+
+:::demo Use slot to customize the content.
+
+autocomplete/custom-header-footer
+
+:::
+
 ## API
 
 ### Attributes
