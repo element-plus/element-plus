@@ -153,12 +153,12 @@ const expandNode: ElCascaderPanelContext['expandNode'] = (node, silent) => {
     !silent && emit('expand-change', node?.pathValues || [])
   }
 }
-const handleBeforeChange = props.beforeChange ?? (() => true)
 const handleCheckChange: ElCascaderPanelContext['handleCheckChange'] = (
   node,
   checked,
   emitClose = true
 ) => {
+  const handleBeforeChange = props.beforeChange ?? (() => true)
   const handleChange = () => {
     const { checkStrictly, multiple } = config.value
     const oldNode = checkedNodes.value[0]
