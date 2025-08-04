@@ -355,11 +355,17 @@ const validateState = computed(() => formItem?.validateState || '')
 
 const checkedValue = computed<CascaderValue>({
   get() {
+    if (props.showCheckedStrategy === 'parent') {
+      return cloneDeep(checkedNodes.value?.map((o) => o.pathValues))
+    }
     return cloneDeep(props.modelValue) as CascaderValue
   },
   set(val) {
     // https://github.com/element-plus/element-plus/issues/17647
-    const value = val ?? valueOnClear.value
+    let value = val ?? valueOnClear.value
+    if (props.showCheckedStrategy === 'parent') {
+      value = getStrategyCheckedNodes().map((o) => o.pathValues)
+    }
     emit(UPDATE_MODEL_EVENT, value)
     emit(CHANGE_EVENT, value)
     if (props.validateEvent) {
