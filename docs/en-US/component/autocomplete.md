@@ -87,16 +87,16 @@ autocomplete/custom-loading
 
 ### Slots
 
-| Name             | Description                            | Type                                     |
-| ---------------- | -------------------------------------- | ---------------------------------------- |
-| default          | custom content for input suggestions   | ^[object]`{ item: Record<string, any> }` |
-| header           | contten at tthe top of the dropdown    | -                                        |
-| footer           | contten at tthe bottom of the dropdown | -                                        |
-| prefix           | content as Input prefix                | -                                        |
-| suffix           | content as Input suffix                | -                                        |
-| prepend          | content to prepend before Input        | -                                        |
-| append           | content to append after Input          | -                                        |
-| loading ^(2.5.0) | override loading content               | -                                        |
+| Name             | Description                           | Type                                     |
+| ---------------- | ------------------------------------- | ---------------------------------------- |
+| default          | custom content for input suggestions  | ^[object]`{ item: Record<string, any> }` |
+| header ^(2.11.0) | content at the top of the dropdown    | -                                        |
+| footer ^(2.11.0) | content at the bottom of the dropdown | -                                        |
+| prefix           | content as Input prefix               | -                                        |
+| suffix           | content as Input suffix               | -                                        |
+| prepend          | content to prepend before Input       | -                                        |
+| append           | content to append after Input         | -                                        |
+| loading ^(2.5.0) | override loading content              | -                                        |
 
 ### Exposes
 
