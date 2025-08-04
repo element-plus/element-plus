@@ -81,20 +81,19 @@ $directions: rtl, ltr, ttb, btt;
   }
 }
 
-.#{$namespace}-splitter-bar__disable {
-  display: none;
-}
+.#{$namespace}-splitter-bar {
+  &__disable {
+    display: none;
+  }
 
-.#{$namespace}-drawer-fade {
-  &-enter-from,
-  &-leave-from,
-  &-enter-active,
-  &-leave-active {
-    .#{$namespace}-splitter-bar__dragger::before {
+  &__dragger {
+    &:not(&-active, &:hover)::before {
       background-color: transparent;
     }
   }
+}
 
+.#{$namespace}-drawer-fade {
   &-enter-active,
   &-leave-active {
     transition: all getCssVar('transition-duration');
