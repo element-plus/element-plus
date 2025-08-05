@@ -180,11 +180,6 @@ function useRender<T extends DefaultRow>(
         }
         if (column.showOverflowTooltip) {
           props.class = `${props.class} ${unref(ns.namespace)}-tooltip`
-          props.style = {
-            width: `${
-              (data.column.realWidth || Number(data.column.width)) - 1
-            }px`,
-          }
         }
         checkSubColumn(children)
         return h('div', props, [prefix, children])
