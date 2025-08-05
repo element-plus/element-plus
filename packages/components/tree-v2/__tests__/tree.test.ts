@@ -1093,6 +1093,7 @@ describe('Virtual Tree', () => {
     expect(nodes.map((node) => node.text()).toString()).toBe(
       ['node-1', 'node-1-1', 'node-1-1-1'].toString()
     )
+    expect(wrapper.findAll('.expanded').length).toBe(2)
   })
 
   describe('events', () => {
