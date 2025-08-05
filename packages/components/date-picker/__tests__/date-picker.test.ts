@@ -17,6 +17,8 @@ import { EVENT_CODE } from '@element-plus/constants'
 import { ElFormItem } from '@element-plus/components/form'
 import DatePicker from '../src/date-picker'
 
+import type DatePickerRange from '../src/date-picker-com/panel-date-range.vue'
+
 const _mount = (template: string, data = () => ({}), otherObj?) =>
   mount(
     {
@@ -1999,6 +2001,32 @@ describe('DateRangePicker', () => {
       '9',
       '10',
     ])
+  })
+  it('should not be visible after input two dates', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        type="daterange"
+        show-week-number
+      />`,
+      () => ({ value: [new Date(2025, 0, 1), new Date(2025, 1, 1)] })
+    )
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+
+    const rangePanelWrapper = wrapper.findComponent(
+      '.el-date-range-picker'
+    ) as VueWrapper<InstanceType<typeof DatePickerRange>>
+    expect(rangePanelWrapper.exists()).toBe(true)
+    expect(rangePanelWrapper.vm.visible).toBe(true)
+    const cells = document.querySelectorAll('.available .el-date-table-cell')
+    ;(cells[0] as HTMLElement).click()
+    await nextTick()
+    ;(cells[1] as HTMLElement).click()
+    await nextTick()
+
+    expect(rangePanelWrapper.vm.visible).toBe(false)
   })
 })
 
