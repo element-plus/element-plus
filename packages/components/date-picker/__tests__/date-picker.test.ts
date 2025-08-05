@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { nextTick } from 'vue'
-import { mount } from '@vue/test-utils'
+import { flushPromises, mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import dayjs from 'dayjs'
 import { rAF } from '@element-plus/test-utils/tick'
@@ -2003,13 +2003,20 @@ describe('DateRangePicker', () => {
     ])
   })
   it('should not be visible after input two dates', async () => {
+    const onChange = vi.fn()
+    const onUpdateModelValue = vi.fn()
     const wrapper = _mount(
       `<el-date-picker
         v-model="value"
         type="daterange"
-        show-week-number
+        @change="onChange"
+        @update:modelValue="onUpdateModelValue"
       />`,
-      () => ({ value: [new Date(2025, 0, 1), new Date(2025, 1, 1)] })
+      () => ({
+        value: [new Date(2025, 0, 1), new Date(2025, 1, 1)],
+        onChange,
+        onUpdateModelValue,
+      })
     )
     const input = wrapper.find('input')
     await input.trigger('blur')
@@ -2022,10 +2029,56 @@ describe('DateRangePicker', () => {
     expect(rangePanelWrapper.vm.visible).toBe(true)
     const cells = document.querySelectorAll('.available .el-date-table-cell')
     ;(cells[0] as HTMLElement).click()
-    await nextTick()
+    await flushPromises()
+    expect(onChange).not.toHaveBeenCalled()
+    expect(onUpdateModelValue).not.toHaveBeenCalled()
     ;(cells[1] as HTMLElement).click()
+    await flushPromises()
+
+    expect(onChange).toHaveBeenCalledOnce()
+    expect(onUpdateModelValue).toHaveBeenCalledOnce()
+    expect(rangePanelWrapper.vm.visible).toBe(false)
+  })
+
+  it('should not trigger popper dropdown on dynamic assignment', async () => {
+    const spy = vi.fn()
+    const baseValue = [new Date(2025, 0, 1), new Date(2025, 0, 2)]
+    const newVal = [new Date(2025, 0, 3), new Date(2025, 0, 4)]
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        type="daterange"
+        />
+        <button @click="changeDate">click</button>`,
+      () => ({ value: baseValue }),
+      {
+        methods: {
+          changeDate() {
+            spy()
+            this.value = newVal
+          },
+        },
+      }
+    )
+    await nextTick()
+    const rangePanelWrapper = wrapper.findComponent(
+      '.el-date-range-picker'
+    ) as VueWrapper<InstanceType<typeof DatePickerRange>>
+    const inputRange = wrapper.findAll('.el-range-input')
+    expect(rangePanelWrapper.exists()).toBe(true)
+    expect(rangePanelWrapper.vm.visible).toBe(false)
+    expect(inputRange[0].element.value).toBe('2025-01-01')
+    expect(inputRange[1].element.value).toBe('2025-01-02')
+
+    await wrapper.find('button').trigger('click')
     await nextTick()
 
+    expect(spy).toHaveBeenCalled()
+    expect(inputRange[0].element.value).toBe('2025-01-03')
+    expect(inputRange[1].element.value).toBe('2025-01-04')
+    expect(rangePanelWrapper.vm.parsedValue.map((s) => s.toDate())).toEqual(
+      newVal
+    )
     expect(rangePanelWrapper.vm.visible).toBe(false)
   })
 })
