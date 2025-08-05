@@ -694,7 +694,9 @@ const handleRangePick = (
 watch(
   [maxDate, minDate],
   ([min, max]) => {
-    if (min && max) handleRangeConfirm(true)
+    if (min && max) {
+      handleRangeConfirm(showTime.value)
+    }
   },
   { flush: 'post' }
 )
