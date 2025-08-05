@@ -7,6 +7,12 @@ lang: en-US
 
 Display multiple data with similar format. You can sort, filter, compare your data in a table.
 
+:::warning
+
+As of ^(2.11.0), customizing cell content via the default slot of `<el-table-column>` is deprecated. Please use the cell slot instead.
+
+:::
+
 ## Basic table
 
 Basic table is just for data display.
@@ -396,12 +402,13 @@ table/tooltip-formatter
 
 ### Table-column Slots
 
-| Name                 | Description                       | Type                                                               |
-| -------------------- | --------------------------------- | ------------------------------------------------------------------ |
-| default              | Custom content for table columns  | ^[object]`{ row: any, column: TableColumnCtx<T>, $index: number }` |
-| header               | Custom content for table header   | ^[object]`{ column: TableColumnCtx<T>, $index: number }`           |
-| filter-icon ^(2.7.8) | Custom content for filter icon    | ^[object]`{ filterOpened: boolean }`                               |
-| expand ^(2.10.0)     | Custom content for expand columns | ^[object]`{ expanded: boolean }`                                   |
+| Name                 | Description                       | Type                                                 |
+| -------------------- | --------------------------------- | ---------------------------------------------------- |
+| default              | include zero or more table-column | —                                                    |
+| cell                 | Custom content for table columns  | ^[object]`{ row: any, column: any, $index: number }` |
+| header               | Custom content for table header   | ^[object]`{ column: any, $index: number }`           |
+| filter-icon ^(2.7.8) | Custom content for filter icon    | ^[object]`{ filterOpened: boolean }`                 |
+| expand ^(2.10.0)     | Custom content for expand columns | ^[object]`{ expanded: boolean }`                     |
 
 ## Type Declarations
 
