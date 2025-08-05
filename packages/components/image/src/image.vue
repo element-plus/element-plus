@@ -211,6 +211,7 @@ function removeLazyLoadListener() {
   if (!isClient || !lazyLoadHandler) return
 
   stopScrollListener?.()
+  _scrollContainer.value = undefined
   stopScrollListener = undefined
 }
 
