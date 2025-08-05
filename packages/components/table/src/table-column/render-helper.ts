@@ -151,15 +151,17 @@ function useRender<T extends DefaultRow>(
           [originRenderCell(data)]
         )
       owner.value.renderExpanded = (row) => {
-        return slots.cell ? slots.cell(row) : slots.cell
+        const _render = slots.cell || slots.default
+        return _render?.(row)
       }
     } else {
       originRenderCell = originRenderCell || defaultRenderCell
       // 对 renderCell 进行包装
       column.renderCell = (data) => {
         let children: VNode | VNode[] | null = null
-        if (slots.cell) {
-          const vnodes = slots.cell(data)
+        const _render = slots.cell || slots.default
+        if (_render) {
+          const vnodes = _render(data)
           children = vnodes.some((v) => v.type !== Comment)
             ? vnodes
             : originRenderCell(data)
