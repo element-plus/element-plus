@@ -10,13 +10,14 @@ import {
   ref,
 } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
-import { isArray, isUndefined } from '@element-plus/utils'
+import { debugWarn, isArray, isString, isUndefined } from '@element-plus/utils'
 import { cellStarts } from '../config'
 import { compose, mergeOptions } from '../util'
 import useWatcher from './watcher-helper'
 import useRender from './render-helper'
 import defaultProps from './defaults'
 
+import type { VNode } from 'vue'
 import type { TableColumn, TableColumnCtx } from './defaults'
 import type { DefaultRow } from '../table/defaults'
 
@@ -180,21 +181,48 @@ export default defineComponent({
     return
   },
   render() {
-    const renderDefault = this.$slots.default?.()
-    const children = []
-    if (isArray(renderDefault)) {
-      for (const childNode of renderDefault) {
-        if (
-          (childNode.type as any)?.name === 'ElTableColumn' ||
-          childNode.shapeFlag & 2
-        ) {
-          children.push(childNode)
-        } else if (childNode.type === Fragment && isArray(childNode.children)) {
-          children.push(...childNode.children)
+    if (this.$slots.cell) return h('div')
+
+    try {
+      const renderDefault = this.$slots.default?.({
+        row: {},
+        column: {},
+        $index: -1,
+      })
+      const children = []
+      if (isArray(renderDefault)) {
+        for (const childNode of renderDefault) {
+          if (
+            (childNode.type as any)?.name === 'ElTableColumn' ||
+            childNode.shapeFlag & 2
+          ) {
+            children.push(childNode)
+          } else if (
+            childNode.type === Fragment &&
+            isArray(childNode.children)
+          ) {
+            childNode.children.forEach((vnode) => {
+              // No rendering when vnode is dynamic slot or text
+              if (
+                (vnode as VNode)?.patchFlag !== 1024 &&
+                !isString((vnode as VNode)?.children)
+              ) {
+                children.push(vnode)
+              }
+            })
+          }
         }
       }
+      const vnode = h('div', children)
+      return vnode
+    } catch {
+      debugWarn(
+        'el-table-column',
+        `[Slot] customizing cell content via the default slot will be removed in version 3.0.0. Please use the cell slot instead.
+         For more detail, please visit: https://element-plus.org/en-US/component/table.html
+        `
+      )
+      return h('div', [])
     }
-    const vnode = h('div', children)
-    return vnode
   },
 })
