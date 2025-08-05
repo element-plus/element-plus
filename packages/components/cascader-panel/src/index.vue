@@ -234,7 +234,7 @@ const syncCheckedValue = (loaded = false, forced = false) => {
       )
     ) as Node[]
     syncMenuState(nodes, forced)
-    checkedValue.value = cloneDeep(modelValue)
+    checkedValue.value = cloneDeep(modelValue ?? undefined)
   }
 }
 
