@@ -1,8 +1,19 @@
 import { isArray } from '@element-plus/utils'
 
-import type { WatermarkProps } from './watermark'
+import type { WatermarkFontType, WatermarkProps } from './watermark'
 
 export const FontGap = 3
+
+const TEXT_ALIGN_RATIO_MAP: Record<
+  Required<WatermarkFontType>['textAlign'],
+  number
+> = {
+  left: 0,
+  start: 0,
+  center: 0.5,
+  right: 1,
+  end: 1,
+}
 
 function prepareCanvas(
   width: number,
@@ -72,7 +83,7 @@ export default function useClips() {
       contents?.forEach((item, index) => {
         ctx.fillText(
           item ?? '',
-          contentWidth / 2,
+          contentWidth * TEXT_ALIGN_RATIO_MAP[textAlign],
           index * (mergedFontSize + FontGap * ratio)
         )
       })
