@@ -42,6 +42,7 @@ export interface CascaderProps {
   hoverThreshold?: number
   checkOnClickNode?: boolean
   checkOnClickLeaf?: boolean
+  closeOnSelected?: boolean
   showPrefix?: boolean
 }
 

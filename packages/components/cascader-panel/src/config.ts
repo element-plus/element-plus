@@ -93,6 +93,10 @@ export const DefaultProps: CascaderConfig = {
    */
   checkOnClickLeaf: true,
   /**
+   * @description whether to close panel when select the node, only valid when multiple=false and checkStrictly=false.
+   */
+  closeOnSelected: true,
+  /**
    * @description whether to show the radio or checkbox prefix
    */
   showPrefix: true,
