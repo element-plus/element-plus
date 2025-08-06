@@ -196,6 +196,7 @@ const calculateCheckedValue = () => {
   const nodes = sortByOriginalOrder(oldNodes, newNodes)
   const values = nodes.map((node) => node.valueByOption)
   checkedNodes.value = nodes
+  //rebuild
   checkedValue.value = multiple ? values : values[0] ?? null
 }
 
