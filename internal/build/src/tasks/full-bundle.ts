@@ -62,13 +62,13 @@ async function buildFullEntry(minify: boolean) {
         '.vue': 'ts',
       },
       define: {
-        'process.env.NODE_ENV': JSON.stringify('production'),
+        'process.env.NODE_ENV': '"production"',
       },
       treeShaking: true,
       legalComments: 'eof',
     }),
     replace({
-      'process.env.NODE_ENV': JSON.stringify('production'),
+      'process.env.NODE_ENV': '"production"',
     }),
   ]
   if (minify) {

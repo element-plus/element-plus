@@ -47,7 +47,7 @@ select/disabled
 
 :::
 
-## Clearable single select
+## Clearable
 
 You can clear Select using a clear icon.
 
