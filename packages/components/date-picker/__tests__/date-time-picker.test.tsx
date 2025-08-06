@@ -1,5 +1,5 @@
 import { nextTick, ref } from 'vue'
-import { mount } from '@vue/test-utils'
+import { flushPromises, mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import dayjs from 'dayjs'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
@@ -958,9 +958,13 @@ describe('Datetimerange', () => {
 
   it('shows weekNumber', async () => {
     const value = ref([new Date(2025, 0, 1), new Date(2025, 1, 1)])
-    _mount(() => (
+    const wrapper = _mount(() => (
       <DatePicker v-model={value.value} type="datetimerange" show-week-number />
     ))
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+
     await nextTick()
     const weeks = document.querySelectorAll('td.week')
     expect(weeks.length).toBe(12)
@@ -1032,5 +1036,47 @@ describe('Datetimerange', () => {
 
       expect(document.querySelector('.el-picker-panel__footer')).toBeNull()
     })
+  })
+
+  it('should datetimerange visibility not be trapped by setting new values', async () => {
+    const values = ref(['2025-08-02', '2025-08-02'])
+    const spy = vi.fn()
+    const onChange = () => {
+      values.value = ['2025-08-02', '2025-08-02']
+      spy()
+    }
+    const wrapper = _mount(() => (
+      <DatePicker
+        v-model={values.value}
+        type="datetimerange"
+        valueFormat="YYYY-MM-DD"
+        //@ts-expect-error
+        onChange={onChange}
+      />
+    ))
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+
+    const rangePanelWrapper = wrapper.findComponent(
+      '.el-date-range-picker'
+    ) as VueWrapper<InstanceType<typeof DatePickerRange>>
+    expect(rangePanelWrapper.exists()).toBe(true)
+    expect(rangePanelWrapper.vm.visible).toBe(true)
+
+    const cells = document.querySelectorAll('.available .el-date-table-cell')
+    ;(cells[0] as HTMLElement).click()
+    await nextTick()
+    ;(cells[1] as HTMLElement).click()
+    await nextTick()
+
+    const button = document.querySelectorAll(
+      '.el-picker-panel__footer button'
+    )![1] as HTMLButtonElement
+    button.click()
+    await flushPromises()
+
+    expect(spy).toHaveBeenCalledOnce()
+    expect(rangePanelWrapper.vm.visible).toBe(false)
   })
 })

@@ -51,7 +51,7 @@ select/disabled
 
 You can clear Select using a clear icon.
 
-:::demo Set `clearable` attribute for `el-select` and a clear icon will appear. Note that `clearable` is only for single select.
+:::demo Set `clearable` attribute for `el-select` and a clear icon will appear.
 
 select/clearable
 
