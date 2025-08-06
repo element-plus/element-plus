@@ -4,12 +4,13 @@ import type { WatermarkProps } from './watermark'
 
 export const FontGap = 3
 
+// [alignRatio, spaceRatio]
 const TEXT_ALIGN_RATIO_MAP = {
-  left: 0,
-  start: 0,
-  center: 0.5,
-  right: 1,
-  end: 1,
+  left: [0, 0.5],
+  start: [0, 0.5],
+  center: [0.5, 0],
+  right: [1, -0.5],
+  end: [1, -0.5],
 } as const
 
 function prepareCanvas(
@@ -47,7 +48,8 @@ export default function useClips() {
     height: number,
     font: Required<NonNullable<WatermarkProps['font']>>,
     gapX: number,
-    gapY: number
+    gapY: number,
+    space: number
   ): [dataURL: string, finalWidth: number, finalHeight: number] {
     // ================= Text / Image =================
     const [ctx, canvas, contentWidth, contentHeight] = prepareCanvas(
@@ -78,9 +80,10 @@ export default function useClips() {
       ctx.textBaseline = textBaseline
       const contents = isArray(content) ? content : [content]
       contents?.forEach((item, index) => {
+        const [alignRatio, spaceRatio] = TEXT_ALIGN_RATIO_MAP[textAlign]
         ctx.fillText(
           item ?? '',
-          contentWidth * TEXT_ALIGN_RATIO_MAP[textAlign],
+          contentWidth * alignRatio + space * spaceRatio,
           index * (mergedFontSize + FontGap * ratio)
         )
       })
