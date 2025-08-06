@@ -1,19 +1,16 @@
 import { isArray } from '@element-plus/utils'
 
-import type { WatermarkFontType, WatermarkProps } from './watermark'
+import type { WatermarkProps } from './watermark'
 
 export const FontGap = 3
 
-const TEXT_ALIGN_RATIO_MAP: Record<
-  Required<WatermarkFontType>['textAlign'],
-  number
-> = {
+const TEXT_ALIGN_RATIO_MAP = {
   left: 0,
   start: 0,
   center: 0.5,
   right: 1,
   end: 1,
-}
+} as const
 
 function prepareCanvas(
   width: number,
