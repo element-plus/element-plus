@@ -66,6 +66,7 @@
           :wrap-style="scrollbarStyle"
           :always="scrollbarAlwaysOn"
           :tabindex="scrollbarTabindex"
+          :native="nativeScrollbar"
           @scroll="$emit('scroll', $event)"
         >
           <table
