@@ -274,7 +274,7 @@ type FormRules<T extends MaybeRef<Record<string, any> | string> = string> =
     >
   >
 
-type FormItemValidateState = (typeof formItemValidateStates)[number]
+type FormItemValidateState = typeof formItemValidateStates[number]
 type FormItemProps = ExtractPropTypes<typeof formItemProps>
 
 type FormItemContext = FormItemProps & {
