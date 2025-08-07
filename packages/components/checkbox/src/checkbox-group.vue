@@ -10,7 +10,13 @@
     :aria-labelledby="isLabeledByFormItem ? formItem?.labelId : undefined"
   >
     <slot>
-      <component :is="useCompOptions(Checkbox, props)" />
+      <el-checkbox
+        v-for="(item, index) in checkboxOptions"
+        :key="index"
+        :value="item.value"
+        :label="item.label"
+        :disabled="item.disabled"
+      />
     </slot>
   </component>
 </template>
@@ -24,8 +30,7 @@ import { useNamespace } from '@element-plus/hooks'
 import { useFormItem, useFormItemInputId } from '@element-plus/components/form'
 import { checkboxGroupEmits, checkboxGroupProps } from './checkbox-group'
 import { checkboxGroupContextKey } from './constants'
-import Checkbox from './checkbox.vue'
-import { useCompOptions } from '@element-plus/hooks/use-comp-options'
+import ElCheckbox from './checkbox.vue'
 
 import type { CheckboxGroupValueType } from './checkbox-group'
 
@@ -55,6 +60,18 @@ const modelValue = computed({
   set(val: CheckboxGroupValueType) {
     changeEvent(val)
   },
+})
+
+const { options = [], props: propConfig } = props
+const valueKey = propConfig?.value ?? 'value'
+const labelKey = propConfig?.label ?? 'label'
+const disabledKey = propConfig?.disabled ?? 'disabled'
+const checkboxOptions = computed(() => {
+  return options.map((item) => ({
+    value: item[valueKey],
+    label: item[labelKey],
+    disabled: item[disabledKey],
+  }))
 })
 
 provide(checkboxGroupContextKey, {
