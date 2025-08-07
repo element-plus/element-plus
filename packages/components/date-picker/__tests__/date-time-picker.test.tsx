@@ -1053,9 +1053,7 @@ describe('Datetimerange', () => {
     await input.trigger('blur')
     await input.trigger('focus')
 
-    const rangePanelWrapper = wrapper.findComponent(
-      '.el-date-range-picker'
-    ) as VueWrapper<InstanceType<typeof DatePickerRange>>
+    const rangePanelWrapper = wrapper.findComponent(DatePickerRange)
     expect(rangePanelWrapper.exists()).toBe(true)
     expect(rangePanelWrapper.vm.visible).toBe(true)
 

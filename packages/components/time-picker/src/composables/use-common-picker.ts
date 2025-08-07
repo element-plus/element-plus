@@ -16,7 +16,7 @@ import type {
 } from '../common/props'
 
 interface CommonPickerProps {
-  modelValue: ModelValueType
+  modelValue: ModelValueType | null
   valueFormat?: string
 }
 type CommonPickerEmits = (
@@ -69,7 +69,11 @@ export const useCommonPicker = <
           parseDate(d, props.valueFormat, lang.value)
         ) as [Dayjs, Dayjs]
       } else {
-        dayOrDays = parseDate(props.modelValue, props.valueFormat, lang.value)!
+        dayOrDays = parseDate(
+          props.modelValue ?? '',
+          props.valueFormat,
+          lang.value
+        )!
       }
     }
 
