@@ -55,6 +55,7 @@ config-provider/message
   <summary>Supported components list</summary>
 
 - Cascader
+- ColorPicker ^(2.10.3)
 - DatePicker
 - Select
 - SelectV2
