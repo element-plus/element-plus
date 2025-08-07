@@ -488,9 +488,6 @@ describe('DatePickerPanel', () => {
         await rightCell.trigger('mousemove')
         await rightCell.trigger('click')
         await nextTick()
-        const buttons = wrapper.findAll('.el-picker-panel__footer .el-button')
-        await buttons[1].trigger('click')
-        await nextTick()
 
         expect(
           value.value.map((_) => dayjs(_).format(formatStr))
@@ -564,8 +561,6 @@ describe('DatePickerPanel', () => {
         await leftCell.trigger('click')
         await rightCell.trigger('mousemove')
         await rightCell.trigger('click')
-        const btn = wrapper.findAll('.el-picker-panel__footer .el-button')[1]
-        await btn.trigger('click')
 
         expect(
           value.value.map((_) => dayjs(_).format(formatStr))
@@ -575,7 +570,6 @@ describe('DatePickerPanel', () => {
         rightDateInput.dispatchEvent(new Event('input'))
         rightDateInput.dispatchEvent(new Event('change'))
         await nextTick()
-        await btn.trigger('click')
         expect(dayjs(value.value[0]).isBefore(value.value[1])).toBeTruthy()
       })
 
@@ -600,8 +594,6 @@ describe('DatePickerPanel', () => {
           '.el-date-range-picker__time-picker-wrap .el-time-panel .confirm'
         )
         await button.trigger('click')
-        const btn = wrapper.findAll('.el-picker-panel__footer .el-button')[1]
-        await btn.trigger('click')
         expect(value.value).not.toBe('')
       })
 
@@ -657,20 +649,12 @@ describe('DatePickerPanel', () => {
         leftDateInput.dispatchEvent(new Event('input'))
         leftDateInput.dispatchEvent(new Event('change'))
         await nextTick()
-        const btn = wrapper.findAll('.el-picker-panel__footer .el-button')[1]
-          .element as HTMLElement
-        expect(btn.getAttribute('disabled')).not.toBeUndefined() // invalid input disables button
-        btn.click()
-        await nextTick()
         const rangePanelWrapper = wrapper.findComponent(DatePickerRange)
         expect(rangePanelWrapper.exists()).toBe(true)
         expect(value.value).toBe('')
         leftDateInput.value = '2001-09-01'
         leftDateInput.dispatchEvent(new Event('input'))
         leftDateInput.dispatchEvent(new Event('change'))
-        await nextTick()
-        expect(btn.getAttribute('disabled')).not.toBeUndefined()
-        btn.click()
         await nextTick()
         expect(value.value).not.toBe('')
       })
@@ -793,8 +777,6 @@ describe('DatePickerPanel', () => {
           .find('.is-right .el-time-panel__btn.confirm')
           .trigger('click')
         await nextTick()
-        const buttons = wrapper.findAll('.el-picker-panel__footer .el-button')
-        await buttons[1].trigger('click')
 
         expect(
           value.value.map((_) => dayjs(_).format('HH:mm:ss'))
