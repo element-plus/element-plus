@@ -47,10 +47,8 @@
 
     <!-- content -->
     <node-content
-      :render-label-fn="panel.renderLabelFn"
       :node="node"
       :disabled="isDisabled"
-      :check-on-click-node="checkOnClickNode"
       @handle-select-check="handleSelectCheck"
     />
     <!-- postfix -->
@@ -99,7 +97,6 @@ const isHoverMenu = computed(() => panel.isHoverMenu)
 const multiple = computed(() => panel.config.multiple)
 const checkStrictly = computed(() => panel.config.checkStrictly)
 const showPrefix = computed(() => panel.config.showPrefix)
-const checkOnClickNode = computed(() => panel.config.checkOnClickNode)
 const checkedNodeId = computed(() => panel.checkedNodes[0]?.uid)
 const isDisabled = computed(() => props.node.isDisabled)
 const isLeaf = computed(() => props.node.isLeaf)

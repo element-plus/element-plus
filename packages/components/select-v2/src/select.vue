@@ -257,7 +257,7 @@
           :scrollbar-always-on="scrollbarAlwaysOn"
         >
           <template v-if="$slots.header" #header>
-            <div :class="nsSelect.be('dropdown', 'header')">
+            <div :class="nsSelect.be('dropdown', 'header')" @click.stop>
               <slot name="header" />
             </div>
           </template>
@@ -277,7 +277,7 @@
             </div>
           </template>
           <template v-if="$slots.footer" #footer>
-            <div :class="nsSelect.be('dropdown', 'footer')">
+            <div :class="nsSelect.be('dropdown', 'footer')" @click.stop>
               <slot name="footer" />
             </div>
           </template>
