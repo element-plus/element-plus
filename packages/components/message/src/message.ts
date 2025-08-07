@@ -23,7 +23,7 @@ export const messageTypes = [
   'error',
 ] as const
 
-export type MessageType = (typeof messageTypes)[number]
+export type MessageType = typeof messageTypes[number]
 /** @deprecated please use `MessageType` instead */
 export type messageType = MessageType // will be removed in 3.0.0.
 
