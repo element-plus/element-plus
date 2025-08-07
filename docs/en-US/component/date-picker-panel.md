@@ -81,7 +81,6 @@ Note, date time locale (month name, first day of the week ...) are also configur
 
 | Name            | Description                                                           | Type                                                                                      |
 | --------------- | --------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| change          | triggers when the user change the value                               | ^[Function]`(val: typeof v-model) => void`                                                |
 | calendar-change | triggers when the calendar selected date is changed. Only for `range` | ^[Function]`(val: [Date, null \| Date]) => void`                                          |
 | panel-change    | triggers when the navigation button click.                            | ^[Function]`(date: Date \| [Date, Date], mode: 'month' \| 'year', view?: string) => void` |
 
