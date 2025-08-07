@@ -807,7 +807,7 @@ describe('CascaderPanel.vue', () => {
     expect(node!.classes('is-active')).toBe(true)
   })
 
-  test('getCheckedNodes and clearCheckedNodes2', async () => {
+  test('ensure set null after clear', async () => {
     const handleChange = vi.fn()
     const wrapper = mount(() => (
       <CascaderPanel options={NORMAL_OPTIONS} onChange={handleChange} />
