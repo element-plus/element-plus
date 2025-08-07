@@ -80,9 +80,8 @@
                       :is="showInput ? 'label' : 'p'"
                       v-if="!dangerouslyUseHTMLString"
                       :for="showInput ? inputId : undefined"
-                    >
-                      {{ !dangerouslyUseHTMLString ? message : '' }}
-                    </component>
+                      v-text="message"
+                    />
                     <component
                       :is="showInput ? 'label' : 'p'"
                       v-else

@@ -1,21 +1,31 @@
 <template>
-  <el-switch
-    v-model="showPrefix"
-    active-text="show prefix"
-    inactive-text="hide prefix"
-  />
-  <div class="m-4">
-    <p>Click to select any level (Single mode)</p>
-    <el-cascader v-model="value" :options="options" :props="props1" clearable />
-  </div>
-  <div class="m-4">
-    <p>Click to select any level (Multiple mode)</p>
-    <el-cascader
-      v-model="value2"
-      :options="options"
-      :props="props2"
-      clearable
+  <div class="flex flex-col items-center">
+    <el-switch
+      v-model="showPrefix"
+      active-text="show prefix"
+      inactive-text="hide prefix"
     />
+    <div class="flex flex-wrap">
+      <div class="m-4">
+        <p>checkStrictly | Single mode</p>
+        <el-cascader
+          v-model="value"
+          :options="options"
+          :props="props1"
+          clearable
+        />
+      </div>
+      <div class="m-4">
+        <p>Multiple mode</p>
+        <el-cascader
+          v-model="value2"
+          show-checked-strategy="parent"
+          :options="options"
+          :props="props2"
+          clearable
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -34,7 +44,6 @@ const props1 = computed(() => ({
 const props2 = computed(() => ({
   showPrefix: showPrefix.value,
   multiple: true,
-  checkStrictly: true,
   checkOnClickNode: true,
 }))
 
