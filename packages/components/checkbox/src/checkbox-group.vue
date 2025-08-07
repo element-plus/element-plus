@@ -62,12 +62,11 @@ const modelValue = computed({
   },
 })
 
-const { options = [], props: propConfig } = props
-const valueKey = propConfig?.value ?? 'value'
-const labelKey = propConfig?.label ?? 'label'
-const disabledKey = propConfig?.disabled ?? 'disabled'
 const checkboxOptions = computed(() => {
-  return options.map((item) => ({
+  const valueKey = props.props?.value ?? 'value'
+  const labelKey = props.props?.label ?? 'label'
+  const disabledKey = props.props?.disabled ?? 'disabled'
+  return (props.options || []).map((item) => ({
     value: item[valueKey],
     label: item[labelKey],
     disabled: item[disabledKey],
