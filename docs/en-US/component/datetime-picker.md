@@ -122,7 +122,7 @@ datetime-picker/custom-icon
 
 | Name            | Description                                                           | Parameters                                                                                |
 | --------------- | --------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| change          | triggers when user confirms the value                                 | ^[Function]`(val: typeof v-model) => void`                                                |
+| change          | triggers when user confirms the value or click outside                | ^[Function]`(val: typeof v-model) => void`                                                |
 | blur            | triggers when Input blurs                                             | ^[Function]`(e: FocusEvent) => void`                                                      |
 | focus           | triggers when Input focuses                                           | ^[Function]`(e: FocusEvent) => void`                                                      |
 | clear ^(2.7.7)  | triggers when the clear icon is clicked in a clearable DateTimePicker | ^[Function]`() => void`                                                                   |
