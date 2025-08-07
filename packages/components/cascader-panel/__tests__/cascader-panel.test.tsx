@@ -806,4 +806,25 @@ describe('CascaderPanel.vue', () => {
     await nextTick()
     expect(node!.classes('is-active')).toBe(true)
   })
+
+  test('getCheckedNodes and clearCheckedNodes2', async () => {
+    const handleChange = vi.fn()
+    const wrapper = mount(() => (
+      <CascaderPanel options={NORMAL_OPTIONS} onChange={handleChange} />
+    ))
+    const vm = wrapper.findComponent(CascaderPanel).vm
+    const firstColumnItems = wrapper.findAll('.el-cascader-node')
+    const bjNode = firstColumnItems.find((node) =>
+      node.text().includes('Beijing')
+    )
+    await bjNode?.trigger('click')
+    await nextTick()
+    expect(handleChange).toHaveBeenCalledTimes(1)
+    expect(handleChange).toHaveBeenCalledWith(['beijing'])
+    vm.clearCheckedNodes()
+    await nextTick()
+    expect(handleChange).toHaveBeenCalledTimes(2)
+    expect(handleChange).toHaveBeenLastCalledWith(null)
+    expect(vm.getCheckedNodes(false)?.length).toBe(0)
+  })
 })
