@@ -19,7 +19,6 @@ const visible = ref(false)
 const enableTransition = ref(false)
 const isObjectTransition = ref(false)
 
-// 按钮引用
 const buttonRef = ref<ButtonInstance>()
 
 const globalConfig = computed<GlobalConfig>(() => {
@@ -63,6 +62,7 @@ const globalConfig = computed<GlobalConfig>(() => {
               dialogEl.style.transform = 'translate(0, 0) scale(1)'
               dialogEl.style.opacity = '1'
 
+              // wait for animation to complete
               setTimeout(done, 300)
             } else {
               done()
@@ -89,6 +89,7 @@ const globalConfig = computed<GlobalConfig>(() => {
               dialogEl.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(0.3)`
               dialogEl.style.opacity = '0'
 
+              // wait for animation to complete
               setTimeout(done, 300)
             } else {
               done()
