@@ -47,7 +47,7 @@ autocomplete/custom-loading
 
 :::
 
-## Custom Header & Footer ^(2.11.0)
+## Custom Header & Footer ^(2.10.6)
 
 You can customize both the header and footer of the dropdown using slots
 
@@ -100,8 +100,8 @@ autocomplete/custom-header-footer
 | Name             | Description                           | Type                                     |
 | ---------------- | ------------------------------------- | ---------------------------------------- |
 | default          | custom content for input suggestions  | ^[object]`{ item: Record<string, any> }` |
-| header ^(2.11.0) | content at the top of the dropdown    | -                                        |
-| footer ^(2.11.0) | content at the bottom of the dropdown | -                                        |
+| header ^(2.10.6) | content at the top of the dropdown    | -                                        |
+| footer ^(2.10.6) | content at the bottom of the dropdown | -                                        |
 | prefix           | content as Input prefix               | -                                        |
 | suffix           | content as Input suffix               | -                                        |
 | prepend          | content to prepend before Input       | -                                        |
