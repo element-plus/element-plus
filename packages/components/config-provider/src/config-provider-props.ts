@@ -32,25 +32,25 @@ export const configProviderProps = buildProps({
    */
   size: useSizeProp,
   /**
-   * @description button related configuration, [see the following table](#button-attributes)
+   * @description button related configuration, [see the following table](https://element-plus.org/en-US/component/config-provider.html#button-attribute)
    */
   button: {
     type: definePropType<ButtonConfigContext>(Object),
   },
   /**
-   * @description card related configuration, [see the following table](link-attributes)
+   * @description card related configuration, [see the following table](https://element-plus.org/en-US/component/config-provider.html#card-attribute)
    */
   card: {
     type: definePropType<CardConfigContext>(Object),
   },
   /**
-   * @description link related configuration, [see the following table](card-attributes)
+   * @description link related configuration, [see the following table](https://element-plus.org/en-US/component/config-provider.html#link-attribute)
    */
   link: {
     type: definePropType<LinkConfigContext>(Object),
   },
   /**
-   * @description features at experimental stage to be added, all features are default to be set to false                                                                                | ^[object]
+   * @description features at experimental stage to be added, all features are default to be set to false, [see the following table](https://element-plus.org/en-US/component/config-provider.html#experimental-features)                                                                            | ^[object]
    */
   experimentalFeatures: {
     type: definePropType<ExperimentalFeatures>(Object),
@@ -63,7 +63,7 @@ export const configProviderProps = buildProps({
     default: true,
   },
   /**
-   * @description message related configuration, [see the following table](#message-attributes)
+   * @description message related configuration, [see the following table](https://element-plus.org/en-US/component/config-provider.html#message-attribute)
    */
   message: {
     type: definePropType<MessageConfigContext>(Object),
