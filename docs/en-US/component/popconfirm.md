@@ -80,7 +80,7 @@ popconfirm/trigger-event
 | reference        | HTML element that triggers Popconfirm | —                                                                                |
 | actions ^(2.8.1) | content of the Popconfirm footer      | ^[object]`{ confirm: (e: MouseEvent) => void, cancel: (e: MouseEvent) => void }` |
 
-### Exposes
+### Exposes ^(2.11.0)
 
 | Name      | Description                  | Type                                        |
 | --------- | ---------------------------- | ------------------------------------------- |
