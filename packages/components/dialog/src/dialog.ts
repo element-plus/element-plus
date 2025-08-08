@@ -6,6 +6,7 @@ import { dialogContentProps } from './dialog-content'
 
 import type {
   ExtractPropTypes,
+  InjectionKey,
   TransitionProps,
   __ExtractPublicPropTypes,
 } from 'vue'
@@ -155,3 +156,12 @@ export const dialogEmits = {
 }
 export type DialogEmits = typeof dialogEmits
 export type DialogInstance = InstanceType<typeof Dialog> & unknown
+export interface DialogConfigContext {
+  alignCenter?: boolean
+  draggable?: boolean
+  overflow?: boolean
+  transition?: DialogTransition
+}
+
+export const dialogContextKey: InjectionKey<DialogConfigContext> =
+  Symbol('dialogContextKey')

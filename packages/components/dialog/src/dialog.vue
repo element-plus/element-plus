@@ -41,10 +41,10 @@
               ref="dialogContentRef"
               v-bind="$attrs"
               :center="center"
-              :align-center="alignCenter"
+              :align-center="overlayAlignCenter"
               :close-icon="closeIcon"
               :draggable="draggable"
-              :overflow="overflow"
+              :overflow="overflowViewport"
               :fullscreen="fullscreen"
               :header-class="headerClass"
               :body-class="bodyClass"
@@ -120,6 +120,7 @@ const {
   overlayDialogStyle,
   rendered,
   transitionConfig,
+  globalConfig,
   zIndex,
   handleClose,
   onModalClick,
@@ -140,7 +141,17 @@ provide(dialogInjectionKey, {
 
 const overlayEvent = useSameTarget(onModalClick)
 
-const draggable = computed(() => props.draggable && !props.fullscreen)
+const draggable = computed(
+  () => (globalConfig.value?.draggable || props.draggable) && !props.fullscreen
+)
+
+const overlayAlignCenter = computed(
+  () => globalConfig.value?.alignCenter || props.alignCenter
+)
+
+const overflowViewport = computed(
+  () => globalConfig.value?.overflow || props.overflow
+)
 
 const penetrable = computed(
   () => props.modalPenetrable && !props.modal && !props.fullscreen

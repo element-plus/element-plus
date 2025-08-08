@@ -50,7 +50,10 @@ export const useDialog = (
   let openTimer: (() => void) | undefined = undefined
   let closeTimer: (() => void) | undefined = undefined
 
-  const namespace = useGlobalConfig('namespace', defaultNamespace)
+  const config = useGlobalConfig()
+
+  const namespace = computed(() => config.value?.namespace ?? defaultNamespace)
+  const globalConfig = computed(() => config.value?.dialog)
 
   const style = computed<CSSProperties>(() => {
     const style: CSSProperties = {}
@@ -67,21 +70,22 @@ export const useDialog = (
   })
 
   const overlayDialogStyle = computed<CSSProperties>(() => {
-    if (props.alignCenter) {
+    if (globalConfig.value?.alignCenter || props.alignCenter) {
       return { display: 'flex' }
     }
     return {}
   })
 
   const transitionConfig = computed(() => {
+    const transition = globalConfig.value?.transition ?? props.transition
     const baseConfig = {
-      name: props.transition,
+      name: transition,
       onAfterEnter: afterEnter,
       onBeforeLeave: beforeLeave,
       onAfterLeave: afterLeave,
     }
-    if (isObject(props.transition)) {
-      const config = { ...props.transition } as TransitionProps
+    if (isObject(transition)) {
+      const config = { ...transition } as TransitionProps
       const _mergeHook = (
         userHook: Arrayable<(el: Element) => void> | undefined,
         defaultHook: () => void
@@ -279,5 +283,6 @@ export const useDialog = (
     visible,
     zIndex,
     transitionConfig,
+    globalConfig,
   }
 }
