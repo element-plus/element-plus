@@ -12,9 +12,8 @@ export function useDynamicClass(
   const { prefix = 'doc-content-', length = 9 } = options
 
   const generateRandomString = (len: number): string => {
-    return Array.from(
-      { length: len },
-      () => String.fromCharCode(97 + Math.floor(Math.random() * 26))
+    return Array.from({ length: len }, () =>
+      String.fromCharCode(97 + Math.floor(Math.random() * 26))
     ).join('')
   }
 
@@ -37,6 +36,6 @@ export function useDynamicClass(
 
   return {
     className,
-    dynamicClass: className
+    dynamicClass: className,
   }
 }
