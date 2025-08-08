@@ -9,7 +9,8 @@ import VPSponsorLarge from './vp-sponsor-large.vue'
 const lang = useLang()
 const sponsor = computed(() => sponsorLocale[lang.value])
 
-const { dynamicClass } = useDynamicClass((className) => `
+const { dynamicClass } = useDynamicClass(
+  (className) => `
   .${className} {
     padding-bottom: 10px;
     padding-top: 0;
@@ -19,7 +20,8 @@ const { dynamicClass } = useDynamicClass((className) => `
     font-weight: 300;
     font-size: 14px;
   }
-`)
+`
+)
 </script>
 
 <template>
@@ -29,5 +31,3 @@ const { dynamicClass } = useDynamicClass((className) => `
     <VPSponsorSmall />
   </div>
 </template>
-
-
