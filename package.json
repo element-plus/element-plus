@@ -118,6 +118,10 @@
   "engines": {
     "node": ">= 20"
   },
+  "volta": {
+    "node": ">=20",
+    "pnpm": "9.5.0"
+  },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-git"
