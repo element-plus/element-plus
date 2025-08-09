@@ -9,11 +9,11 @@
   >
     <slot>
       <el-radio
-        v-for="(item, index) in radioOptions"
+        v-for="(item, index) in props.options"
         :key="index"
-        :value="item.value"
-        :label="item.label"
-        :disabled="item.disabled"
+        :value="item[props.props?.value ?? 'value']"
+        :label="item[props.props?.label ?? 'label']"
+        :disabled="item[props.props?.disabled ?? 'disabled']"
       />
     </slot>
   </div>
@@ -59,17 +59,6 @@ const changeEvent = (value: RadioGroupProps['modelValue']) => {
   emit(UPDATE_MODEL_EVENT, value)
   nextTick(() => emit(CHANGE_EVENT, value))
 }
-
-const radioOptions = computed(() => {
-  const valueKey = props.props?.value ?? 'value'
-  const labelKey = props.props?.label ?? 'label'
-  const disabledKey = props.props?.disabled ?? 'disabled'
-  return props.options.map((item) => ({
-    value: item[valueKey],
-    label: item[labelKey],
-    disabled: item[disabledKey],
-  }))
-})
 
 onMounted(() => {
   const radios =
