@@ -21,6 +21,8 @@ const isObjectTransition = ref(false)
 
 const buttonRef = ref<ButtonInstance>()
 
+const ANIMATION_DURATION = 300
+
 const globalConfig = computed<GlobalConfig>(() => {
   let transition: DialogTransition | undefined
   if (enableTransition.value) {
@@ -58,12 +60,17 @@ const globalConfig = computed<GlobalConfig>(() => {
               // force reflow
               dialogEl.offsetHeight
 
-              dialogEl.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 1, 1)'
+              dialogEl.style.transition = `all ${ANIMATION_DURATION}ms cubic-bezier(0.4, 0, 1, 1)`
               dialogEl.style.transform = 'translate(0, 0) scale(1)'
               dialogEl.style.opacity = '1'
 
-              // wait for animation to complete
-              setTimeout(done, 300)
+              // wait for animation to complete, then cleanup inline styles to avoid affecting drag
+              setTimeout(() => {
+                dialogEl.style.transition = ''
+                dialogEl.style.transform = ''
+                dialogEl.style.opacity = ''
+                done()
+              }, ANIMATION_DURATION)
             } else {
               done()
             }
@@ -85,12 +92,17 @@ const globalConfig = computed<GlobalConfig>(() => {
                 buttonRect.height / 2 -
                 (dialogRect.top + dialogRect.height / 2)
 
-              dialogEl.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 1, 1)'
+              dialogEl.style.transition = `all ${ANIMATION_DURATION}ms cubic-bezier(0.4, 0, 1, 1)`
               dialogEl.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(0.3)`
               dialogEl.style.opacity = '0'
 
-              // wait for animation to complete
-              setTimeout(done, 300)
+              // wait for animation to complete, then cleanup inline styles
+              setTimeout(() => {
+                dialogEl.style.transition = ''
+                dialogEl.style.transform = ''
+                dialogEl.style.opacity = ''
+                done()
+              }, ANIMATION_DURATION)
             } else {
               done()
             }

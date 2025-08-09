@@ -69,15 +69,32 @@ export const useDialog = (
     return style
   })
 
+  const _draggable = computed(
+    () =>
+      (props.draggable ?? globalConfig.value?.draggable ?? false) &&
+      !props.fullscreen
+  )
+
+  const _alignCenter = computed(
+    () => props.alignCenter ?? globalConfig.value?.alignCenter ?? false
+  )
+
+  const _overflow = computed(
+    () => props.overflow ?? globalConfig.value?.overflow ?? false
+  )
+
   const overlayDialogStyle = computed<CSSProperties>(() => {
-    if (globalConfig.value?.alignCenter || props.alignCenter) {
+    if (_alignCenter.value) {
       return { display: 'flex' }
     }
     return {}
   })
 
   const transitionConfig = computed(() => {
-    const transition = globalConfig.value?.transition ?? props.transition
+    const transition =
+      props.transition ??
+      globalConfig.value?.transition ??
+      DEFAULT_DIALOG_TRANSITION
     const baseConfig = {
       name: transition,
       onAfterEnter: afterEnter,
@@ -283,6 +300,8 @@ export const useDialog = (
     visible,
     zIndex,
     transitionConfig,
-    globalConfig,
+    _draggable,
+    _alignCenter,
+    _overflow,
   }
 }

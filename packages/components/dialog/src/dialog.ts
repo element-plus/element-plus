@@ -1,7 +1,6 @@
 import { buildProps, definePropType, isBoolean } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { teleportProps } from '@element-plus/components/teleport'
-import { DEFAULT_DIALOG_TRANSITION } from './constants'
 import { dialogContentProps } from './dialog-content'
 
 import type {
@@ -138,7 +137,7 @@ export const dialogProps = buildProps({
    */
   transition: {
     type: definePropType<DialogTransition>([String, Object]),
-    default: DEFAULT_DIALOG_TRANSITION,
+    default: undefined,
   },
 } as const)
 
