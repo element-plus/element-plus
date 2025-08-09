@@ -34,7 +34,6 @@
 import { computed, inject } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import { FOCUS_TRAP_INJECTION_KEY } from '@element-plus/components/focus-trap'
-import { useGlobalConfig } from '@element-plus/components/config-provider'
 import { useDraggable, useLocale } from '@element-plus/hooks'
 import { CloseComponents, composeRefs } from '@element-plus/utils'
 import { dialogInjectionKey } from './constants'
@@ -46,7 +45,6 @@ const { Close } = CloseComponents
 defineOptions({ name: 'ElDialogContent' })
 const props = defineProps(dialogContentProps)
 defineEmits(dialogContentEmits)
-const globalConfig = useGlobalConfig('dialog')
 
 const { dialogRef, headerRef, bodyId, ns, style } = inject(dialogInjectionKey)!
 const { focusTrapRef } = inject(FOCUS_TRAP_INJECTION_KEY)!
@@ -54,19 +52,15 @@ const { focusTrapRef } = inject(FOCUS_TRAP_INJECTION_KEY)!
 const dialogKls = computed(() => [
   ns.b(),
   ns.is('fullscreen', props.fullscreen),
-  ns.is('draggable', props.draggable),
-  ns.is('align-center', props.alignCenter),
+  ns.is('draggable', !!props.draggable),
+  ns.is('align-center', !!props.alignCenter),
   { [ns.m('center')]: props.center },
 ])
 
 const composedDialogRef = composeRefs(focusTrapRef, dialogRef)
 
-const draggable = computed(
-  () => props.draggable ?? globalConfig.value?.draggable ?? false
-)
-const overflow = computed(
-  () => props.overflow ?? globalConfig.value?.overflow ?? false
-)
+const draggable = computed(() => !!props.draggable)
+const overflow = computed(() => !!props.overflow)
 const { resetPosition, updatePosition } = useDraggable(
   dialogRef,
   headerRef,
