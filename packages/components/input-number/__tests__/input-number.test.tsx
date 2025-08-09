@@ -36,6 +36,25 @@ describe('InputNumber.vue', () => {
     expect(wrapper.find('p').element.innerText).toBeUndefined()
   })
 
+  test('dynamic change the precision value should correct re-render', async () => {
+    const num = ref(123.12)
+    const precision = ref(1)
+    const wrapper = mount(() => (
+      <>
+        <InputNumber
+          modelValue={num.value}
+          placeholder="input number"
+          precision={precision.value}
+        />
+      </>
+    ))
+    await nextTick()
+    expect(wrapper.find('input').element.value).toEqual('123.1')
+    precision.value = 2
+    await nextTick()
+    expect(wrapper.find('input').element.value).toEqual('123.12')
+  })
+
   test('set modelValue undefined to display placeholder', async () => {
     const inputText = ref<number | undefined>(1)
     const wrapper = mount(() => (
