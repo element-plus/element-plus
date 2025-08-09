@@ -6,7 +6,7 @@
 import { ref } from 'vue'
 
 const radio = ref(3)
-// reload
+
 const options = [
   {
     value: 3,
