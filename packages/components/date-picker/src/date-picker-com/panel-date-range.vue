@@ -439,6 +439,7 @@ const defaultValue = toRef(pickerBase.props, 'defaultValue')
 const { lang } = useLocale()
 const leftDate = ref<Dayjs>(dayjs().locale(lang.value))
 const rightDate = ref<Dayjs>(dayjs().locale(lang.value).add(1, unit))
+let shouldBeVisible = true
 
 const {
   minDate,
@@ -701,16 +702,17 @@ const handleRangePick = (
   maxDate.value = maxDate_ || undefined
   minDate.value = minDate_ || undefined
 
-  handleRangeConfirm(close)
+  if (!showTime.value && close) {
+    close = !minDate_ || !maxDate_
+  }
+  shouldBeVisible = close
 }
 
-watch(
-  [maxDate, minDate],
-  ([min, max]) => {
-    if (min && max) handleRangeConfirm(true)
-  },
-  { flush: 'post' }
-)
+watch([maxDate, minDate], ([max, min]) => {
+  if (max && min) {
+    handleRangeConfirm(shouldBeVisible)
+  }
+})
 
 const minTimePickerVisible = ref(false)
 const maxTimePickerVisible = ref(false)

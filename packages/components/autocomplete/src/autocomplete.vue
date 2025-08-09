@@ -68,6 +68,13 @@
         }"
         role="region"
       >
+        <div
+          v-if="$slots.header"
+          :class="ns.be('suggestion', 'header')"
+          @click.stop
+        >
+          <slot name="header" />
+        </div>
         <el-scrollbar
           :id="listboxId"
           tag="ul"
@@ -96,6 +103,13 @@
             </li>
           </template>
         </el-scrollbar>
+        <div
+          v-if="$slots.footer"
+          :class="ns.be('suggestion', 'footer')"
+          @click.stop
+        >
+          <slot name="footer" />
+        </div>
       </div>
     </template>
   </el-tooltip>
