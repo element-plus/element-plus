@@ -59,7 +59,6 @@ export const radioGroupProps = buildProps({
   },
   options: {
     type: definePropType<Record<string, any>[]>(Array),
-    default: () => [],
   },
   props: {
     type: definePropType<SelectOptionProps>(Object),
