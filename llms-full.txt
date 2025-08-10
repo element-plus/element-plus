@@ -816,7 +816,7 @@ Override loading content.
 
 
 
-## Custom Header & Footer ^(2.11.0)
+## Custom Header & Footer ^(2.10.6)
 
 You can customize both the header and footer of the dropdown using slots
 
@@ -865,8 +865,8 @@ You can customize both the header and footer of the dropdown using slots
 | Name             | Description                           | Type                                     |
 | ---------------- | ------------------------------------- | ---------------------------------------- |
 | default          | custom content for input suggestions  | ^[object]`{ item: Record<string, any> }` |
-| header ^(2.11.0) | content at the top of the dropdown    | -                                        |
-| footer ^(2.11.0) | content at the bottom of the dropdown | -                                        |
+| header ^(2.10.6) | content at the top of the dropdown    | -                                        |
+| footer ^(2.10.6) | content at the bottom of the dropdown | -                                        |
 | prefix           | content as Input prefix               | -                                        |
 | suffix           | content as Input suffix               | -                                        |
 | prepend          | content to prepend before Input       | -                                        |
@@ -8160,6 +8160,10 @@ Configure i18n related properties via Config Provider, to get language switching
 
 
 
+## Dialog Configurations ^(2.11.0)
+
+
+
 ## Message Configurations
 
 
@@ -8204,6 +8208,7 @@ In this section, you can learn how to use Config Provider to provide experimenta
 | namespace               | global component className prefix (cooperated with [$namespace](https://github.com/element-plus/element-plus/blob/dev/packages/theme-chalk/src/mixins/config.scss#L1)) | ^[string]                                                                                                                                                                                                                                                      | el                                                                                     |
 | button                  | button related configuration, [see the following table](#button-attribute)                                                                                             | ^[object]`{autoInsertSpace?: boolean, type?: string, plain?: boolean, round?: boolean}`                                                                                                                                                                        | see the following table                                                                |
 | link                    | link related configuration, [see the following table](#link-attribute)                                                                                                 | ^[object]`{type?: string, underline?: boolean \| string}`                                                                                                                                                                                                      | see the following table                                                                |
+| dialog ^(2.11.0)        | dialog related configuration, [see the following table](#dialog-attribute)                                                                                             | ^[object]`{alignCenter?: boolean, draggable?: boolean, overflow?: boolean, transition?: DialogTransition}`                                                                                                                                                     | see the following table                                                                |
 | message                 | message related configuration, [see the following table](#message-attribute)                                                                                           | ^[object]`{max?: number}`                                                                                                                                                                                                                                      | see the following table                                                                |
 | experimental-features   | features at experimental stage to be added, all features are default to be set to false                                                                                | ^[object]                                                                                                                                                                                                                                                      | —                                                                                      |
 | empty-values ^(2.7.0)   | global empty values of components                                                                                                                                      | ^[array]                                                                                                                                                                                                                                                       | —                                                                                      |
@@ -8230,6 +8235,15 @@ In this section, you can learn how to use Config Provider to provide experimenta
 | Attribute        | Description               | Type                              | Default |
 | ---------------- | ------------------------- | --------------------------------- | ------- |
 | shadow ^(2.10.5) | when to show card shadows | ^[enum]`always \| never \| hover` | —       |
+
+### Dialog Attribute
+
+| Attribute              | Description                                                                                                                    | Type                                   | Default |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------- | ------- |
+| align-center ^(2.11.0) | whether to align the dialog both horizontally and vertically                                                                   | ^[boolean]                             | false   |
+| draggable ^(2.11.0)    | enable dragging feature for Dialog                                                                                             | ^[boolean]                             | false   |
+| overflow ^(2.11.0)     | draggable Dialog can overflow the viewport long                                                                                | ^[boolean]                             | false   |
+| transition ^(2.11.0)   | custom transition configuration for dialog animation. Can be a string (transition name) or an object with Vue transition props | ^[string] / ^[object]`TransitionProps` | —       |
 
 ### Message Attribute
 
@@ -8313,6 +8327,207 @@ const config = reactive({
     </el-config-provider>
   </div>
 </template>
+
+```
+
+### dialog.vue
+```vue
+<script lang="ts" setup>
+import { computed, nextTick, ref, shallowReactive } from 'vue'
+
+import type { ButtonInstance, DialogTransition } from 'element-plus'
+
+type GlobalConfig = {
+  alignCenter: boolean
+  draggable: boolean
+  overflow: boolean
+  transition?: DialogTransition
+}
+
+const config = shallowReactive<GlobalConfig>({
+  alignCenter: false,
+  draggable: false,
+  overflow: false,
+})
+const visible = ref(false)
+const enableTransition = ref(false)
+const isObjectTransition = ref(false)
+
+const buttonRef = ref<ButtonInstance>()
+
+const ANIMATION_DURATION = 300
+
+const globalConfig = computed<GlobalConfig>(() => {
+  let transition: DialogTransition | undefined
+  if (enableTransition.value) {
+    if (isObjectTransition.value) {
+      transition = {
+        css: false,
+        onBeforeEnter(el) {
+          nextTick(() => {
+            if (buttonRef.value) {
+              const buttonRect = buttonRef.value.ref!.getBoundingClientRect()
+              const dialogEl = el.querySelector('.el-dialog') as HTMLElement
+
+              if (dialogEl) {
+                const dialogRect = dialogEl.getBoundingClientRect()
+
+                const offsetX =
+                  buttonRect.left +
+                  buttonRect.width / 2 -
+                  (dialogRect.left + dialogRect.width / 2)
+                const offsetY =
+                  buttonRect.top +
+                  buttonRect.height / 2 -
+                  (dialogRect.top + dialogRect.height / 2)
+
+                dialogEl.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(0.3)`
+                dialogEl.style.opacity = '0'
+              }
+            }
+          })
+        },
+        onEnter(el, done) {
+          nextTick(() => {
+            const dialogEl = el.querySelector('.el-dialog') as HTMLElement
+            if (dialogEl) {
+              // force reflow
+              dialogEl.offsetHeight
+
+              dialogEl.style.transition = `all ${ANIMATION_DURATION}ms cubic-bezier(0.4, 0, 1, 1)`
+              dialogEl.style.transform = 'translate(0, 0) scale(1)'
+              dialogEl.style.opacity = '1'
+
+              // wait for animation to complete, then cleanup inline styles to avoid affecting drag
+              setTimeout(() => {
+                dialogEl.style.transition = ''
+                dialogEl.style.transform = ''
+                dialogEl.style.opacity = ''
+                done()
+              }, ANIMATION_DURATION)
+            } else {
+              done()
+            }
+          })
+        },
+        onLeave(el, done) {
+          const dialogEl = el.querySelector('.el-dialog') as HTMLElement
+          if (dialogEl) {
+            if (buttonRef.value) {
+              const buttonRect = buttonRef.value.ref!.getBoundingClientRect()
+              const dialogRect = dialogEl.getBoundingClientRect()
+
+              const offsetX =
+                buttonRect.left +
+                buttonRect.width / 2 -
+                (dialogRect.left + dialogRect.width / 2)
+              const offsetY =
+                buttonRect.top +
+                buttonRect.height / 2 -
+                (dialogRect.top + dialogRect.height / 2)
+
+              dialogEl.style.transition = `all ${ANIMATION_DURATION}ms cubic-bezier(0.4, 0, 1, 1)`
+              dialogEl.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(0.3)`
+              dialogEl.style.opacity = '0'
+
+              // wait for animation to complete, then cleanup inline styles
+              setTimeout(() => {
+                dialogEl.style.transition = ''
+                dialogEl.style.transform = ''
+                dialogEl.style.opacity = ''
+                done()
+              }, ANIMATION_DURATION)
+            } else {
+              done()
+            }
+          } else {
+            done()
+          }
+        },
+      }
+    } else {
+      transition = 'dialog-bounce'
+    }
+  }
+  return {
+    alignCenter: config.alignCenter,
+    draggable: config.draggable,
+    overflow: config.overflow,
+    transition,
+  }
+})
+</script>
+
+<template>
+  <div class="flex flex-col gap-4 justify-center">
+    <div class="flex items-center gap-2">
+      <el-switch v-model="config.alignCenter" active-text="alignCenter" />
+    </div>
+    <div class="flex items-center gap-4">
+      <el-switch v-model="config.draggable" active-text="draggable" />
+      <el-switch
+        v-model="config.overflow"
+        :disabled="!config.draggable"
+        active-text="overflow"
+      />
+    </div>
+    <div class="flex items-center gap-2">
+      <el-switch v-model="enableTransition" active-text="enable transition" />
+      <el-switch
+        v-model="isObjectTransition"
+        :disabled="!enableTransition"
+        active-text="transition: object"
+        inactive-text="transition: string"
+      />
+    </div>
+    <div class="flex items-center gap-2">
+      <el-button
+        ref="buttonRef"
+        type="primary"
+        size="small"
+        @click="visible = true"
+      >
+        Open Dialog
+      </el-button>
+    </div>
+    <el-config-provider :dialog="globalConfig">
+      <el-dialog v-model="visible" title="Dialog Title" destroy-on-close>
+        Dialog Content
+      </el-dialog>
+    </el-config-provider>
+    <div v-if="enableTransition" class="text-xs opacity-70">
+      <div v-if="isObjectTransition">
+        Using JavaScript controlled animation:
+        <code>{{ JSON.stringify(globalConfig.transition) }}</code>
+      </div>
+      <div v-else>
+        Using string transition name:
+        <code>{{ globalConfig.transition }}</code>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style>
+/* Bounce Animation */
+.dialog-bounce-enter-active,
+.dialog-bounce-leave-active,
+.dialog-bounce-enter-active .el-dialog,
+.dialog-bounce-leave-active .el-dialog {
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.dialog-bounce-enter-from,
+.dialog-bounce-leave-to {
+  opacity: 0;
+}
+
+.dialog-bounce-enter-from .el-dialog,
+.dialog-bounce-leave-to .el-dialog {
+  transform: scale(0.3) translateY(-50px);
+  opacity: 0;
+}
+</style>
 
 ```
 
@@ -12950,8 +13165,8 @@ import { ArrowDown } from '@element-plus/icons-vue'
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item>The Action 1st</el-dropdown-item>
-          <el-dropdown-item>The Action 2st</el-dropdown-item>
-          <el-dropdown-item>The Action 3st</el-dropdown-item>
+          <el-dropdown-item>The Action 2nd</el-dropdown-item>
+          <el-dropdown-item>The Action 3rd</el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
@@ -12960,8 +13175,8 @@ import { ArrowDown } from '@element-plus/icons-vue'
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item>The Action 1st</el-dropdown-item>
-          <el-dropdown-item>The Action 2st</el-dropdown-item>
-          <el-dropdown-item>The Action 3st</el-dropdown-item>
+          <el-dropdown-item>The Action 2nd</el-dropdown-item>
+          <el-dropdown-item>The Action 3rd</el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
@@ -12970,8 +13185,8 @@ import { ArrowDown } from '@element-plus/icons-vue'
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item>The Action 1st</el-dropdown-item>
-          <el-dropdown-item>The Action 2st</el-dropdown-item>
-          <el-dropdown-item>The Action 3st</el-dropdown-item>
+          <el-dropdown-item>The Action 2nd</el-dropdown-item>
+          <el-dropdown-item>The Action 3rd</el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
@@ -12980,8 +13195,8 @@ import { ArrowDown } from '@element-plus/icons-vue'
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item>The Action 1st</el-dropdown-item>
-          <el-dropdown-item>The Action 2st</el-dropdown-item>
-          <el-dropdown-item>The Action 3st</el-dropdown-item>
+          <el-dropdown-item>The Action 2nd</el-dropdown-item>
+          <el-dropdown-item>The Action 3rd</el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
@@ -12990,8 +13205,8 @@ import { ArrowDown } from '@element-plus/icons-vue'
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item>The Action 1st</el-dropdown-item>
-          <el-dropdown-item>The Action 2st</el-dropdown-item>
-          <el-dropdown-item>The Action 3st</el-dropdown-item>
+          <el-dropdown-item>The Action 2nd</el-dropdown-item>
+          <el-dropdown-item>The Action 3rd</el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
@@ -13000,8 +13215,8 @@ import { ArrowDown } from '@element-plus/icons-vue'
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item>The Action 1st</el-dropdown-item>
-          <el-dropdown-item>The Action 2st</el-dropdown-item>
-          <el-dropdown-item>The Action 3st</el-dropdown-item>
+          <el-dropdown-item>The Action 2nd</el-dropdown-item>
+          <el-dropdown-item>The Action 3rd</el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
