@@ -131,12 +131,12 @@ In this section, you can learn how to use Config Provider to provide experimenta
 
 ### Dialog Attribute
 
-| Attribute    | Description                                                                                                                    | Type                                   | Default |
-| ------------ | ------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------- | ------- |
-| align-center | whether to align the dialog both horizontally and vertically                                                                   | ^[boolean]                             | false   |
-| draggable    | enable dragging feature for Dialog                                                                                             | ^[boolean]                             | false   |
-| overflow     | draggable Dialog can overflow the viewport long                                                                                | ^[boolean]                             | false   |
-| transition   | custom transition configuration for dialog animation. Can be a string (transition name) or an object with Vue transition props | ^[string] / ^[object]`TransitionProps` | —       |
+| Attribute              | Description                                                                                                                    | Type                                   | Default |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------- | ------- |
+| align-center ^(2.11.0) | whether to align the dialog both horizontally and vertically                                                                   | ^[boolean]                             | false   |
+| draggable ^(2.11.0)    | enable dragging feature for Dialog                                                                                             | ^[boolean]                             | false   |
+| overflow ^(2.11.0)     | draggable Dialog can overflow the viewport long                                                                                | ^[boolean]                             | false   |
+| transition ^(2.11.0)   | custom transition configuration for dialog animation. Can be a string (transition name) or an object with Vue transition props | ^[string] / ^[object]`TransitionProps` | —       |
 
 ### Message Attribute
 
