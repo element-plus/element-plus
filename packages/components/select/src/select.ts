@@ -15,6 +15,10 @@ import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { ArrowDown, CircleClose } from '@element-plus/icons-vue'
 import { tagProps } from '@element-plus/components/tag'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import {
+  Props,
+  defaultProps,
+} from '@element-plus/components/select-v2/src/useProps'
 
 import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type Select from './select.vue'
@@ -275,6 +279,7 @@ export const selectProps = buildProps({
   },
   props: {
     type: definePropType<SelectOptionProps>(Object),
+    default: () => defaultProps,
   },
   ...useEmptyValuesProps,
   ...useAriaProps(['ariaLabel']),
@@ -296,8 +301,4 @@ export type SelectProps = ExtractPropTypes<typeof selectProps>
 export type SelectPropsPublic = __ExtractPublicPropTypes<typeof selectProps>
 export type SelectEmits = EmitFn<typeof selectEmits>
 export type SelectInstance = InstanceType<typeof Select> & unknown
-export type SelectOptionProps = {
-  value?: string
-  label?: string
-  disabled?: string
-}
+export type SelectOptionProps = Props
