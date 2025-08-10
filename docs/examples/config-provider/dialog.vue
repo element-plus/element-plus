@@ -83,14 +83,31 @@ const globalConfig = computed<GlobalConfig>(() => {
               const buttonRect = buttonRef.value.ref!.getBoundingClientRect()
               const dialogRect = dialogEl.getBoundingClientRect()
 
+              const currentTransform = dialogEl.style.transform
+              let dragOffsetX = 0
+              let dragOffsetY = 0
+
+              // avoid draggable effect
+              if (currentTransform) {
+                const translateMatch = currentTransform.match(
+                  /translate\(([^,]+),\s*([^)]+)\)/
+                )
+                if (translateMatch) {
+                  dragOffsetX = Number.parseFloat(translateMatch[1])
+                  dragOffsetY = Number.parseFloat(translateMatch[2])
+                }
+              }
+
               const offsetX =
                 buttonRect.left +
                 buttonRect.width / 2 -
-                (dialogRect.left + dialogRect.width / 2)
+                (dialogRect.left + dialogRect.width / 2) +
+                dragOffsetX
               const offsetY =
                 buttonRect.top +
                 buttonRect.height / 2 -
-                (dialogRect.top + dialogRect.height / 2)
+                (dialogRect.top + dialogRect.height / 2) +
+                dragOffsetY
 
               dialogEl.style.transition = `all ${ANIMATION_DURATION}ms cubic-bezier(0.4, 0, 1, 1)`
               dialogEl.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(0.3)`
