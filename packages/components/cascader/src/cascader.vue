@@ -416,7 +416,7 @@ const { wrapperRef, isFocused, handleBlur } = useFocusController(
 
 const handleClickOutside = (event: Event) => {
   if (isFocused.value) {
-    const _event = new FocusEvent('focus', event)
+    const _event = new FocusEvent('blur', event)
     handleBlur(_event)
   }
   togglePopperVisible(false)
