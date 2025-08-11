@@ -57,7 +57,7 @@ input-tag/clearable
 
 :::
 
-## Custom Clear Icon
+## Custom Clear Icon ^(2.11.0)
 
 You can customize the clear icon by setting the `clear-icon` attribute.
 
@@ -133,7 +133,7 @@ input-tag/prefix-suffix
 | size                  | input box size                                             | ^[enum]`'large' \| 'default' \| 'small'`                    | —           |
 | save-on-blur ^(2.9.7) | whether to save the input value when the input loses focus | ^[boolean]                                                  | true        |
 | clearable             | whether to show clear button                               | ^[boolean]                                                  | false       |
-| clear-icon            | custom clear icon component                                | ^[string] / ^[object]`Component`                            | CircleClose |
+| clear-icon ^(2.11.0)  | custom clear icon component                                | ^[string] / ^[object]`Component`                            | CircleClose |
 | disabled              | whether to disable input-tag                               | ^[boolean]                                                  | false       |
 | validate-event        | whether to trigger form validation                         | ^[boolean]                                                  | true        |
 | readonly              | same as `readonly` in native input                         | ^[boolean]                                                  | false       |
