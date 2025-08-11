@@ -1641,9 +1641,7 @@ describe('DateRangePicker', () => {
       />`,
       () => ({ value: '' })
     )
-    const rangePanelWrapper = wrapper.findComponent(
-      '.el-date-range-picker'
-    ) as VueWrapper<InstanceType<typeof DatePickerRange>>
+    const rangePanelWrapper = wrapper.findComponent(DatePickerRange)
 
     expect(rangePanelWrapper.vm.visible).toBe(false)
 
@@ -1674,9 +1672,7 @@ describe('DateRangePicker', () => {
       />`,
       () => ({ value: '' })
     )
-    const rangePanelWrapper = wrapper.findComponent(
-      '.el-date-range-picker'
-    ) as VueWrapper<InstanceType<typeof DatePickerRange>>
+    const rangePanelWrapper = wrapper.findComponent(DatePickerRange)
 
     expect(rangePanelWrapper.vm.visible).toBe(false)
 
