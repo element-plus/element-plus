@@ -37,7 +37,7 @@ cascader/clearable
 
 :::
 
-## Custom Clear Icon
+## Custom Clear Icon ^(2.11.0)
 
 You can customize the clear icon by setting the `clear-icon` attribute
 
