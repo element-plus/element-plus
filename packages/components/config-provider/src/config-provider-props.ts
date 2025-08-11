@@ -5,6 +5,7 @@ import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type { Language } from '@element-plus/locale'
 import type { ButtonConfigContext } from '@element-plus/components/button'
 import type { CardConfigContext } from '@element-plus/components/card'
+import type { DialogConfigContext } from '@element-plus/components/dialog'
 import type { MessageConfigContext } from '@element-plus/components/message'
 import type { LinkConfigContext } from '@element-plus/components/link'
 
@@ -42,6 +43,12 @@ export const configProviderProps = buildProps({
    */
   card: {
     type: definePropType<CardConfigContext>(Object),
+  },
+  /**
+   * @description dialog related configuration, [see the following table](https://element-plus.org/en-US/component/config-provider.html#dialog-attribute)
+   */
+  dialog: {
+    type: definePropType<DialogConfigContext>(Object),
   },
   /**
    * @description link related configuration, [see the following table](https://element-plus.org/en-US/component/config-provider.html#link-attribute)

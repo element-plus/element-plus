@@ -12,9 +12,18 @@ const darkMode = ref(isDark.value)
 const switchRef = ref<SwitchInstance>()
 
 watch(
+  () => isDark.value,
+  (newVal) => {
+    darkMode.value = newVal
+  }
+)
+
+watch(
   () => darkMode.value,
-  () => {
-    toggleDark()
+  (newVal) => {
+    if (newVal !== isDark.value) {
+      toggleDark()
+    }
   }
 )
 

@@ -41,6 +41,14 @@ config-provider/card
 
 :::
 
+## Dialog Configurations ^(2.11.0)
+
+:::demo
+
+config-provider/dialog
+
+:::
+
 ## Message Configurations
 
 :::demo
@@ -93,6 +101,7 @@ In this section, you can learn how to use Config Provider to provide experimenta
 | namespace               | global component className prefix (cooperated with [$namespace](https://github.com/element-plus/element-plus/blob/dev/packages/theme-chalk/src/mixins/config.scss#L1)) | ^[string]                                                                                                                                                                                                                                                      | el                                                                                     |
 | button                  | button related configuration, [see the following table](#button-attribute)                                                                                             | ^[object]`{autoInsertSpace?: boolean, type?: string, plain?: boolean, round?: boolean}`                                                                                                                                                                        | see the following table                                                                |
 | link                    | link related configuration, [see the following table](#link-attribute)                                                                                                 | ^[object]`{type?: string, underline?: boolean \| string}`                                                                                                                                                                                                      | see the following table                                                                |
+| dialog ^(2.11.0)        | dialog related configuration, [see the following table](#dialog-attribute)                                                                                             | ^[object]`{alignCenter?: boolean, draggable?: boolean, overflow?: boolean, transition?: DialogTransition}`                                                                                                                                                     | see the following table                                                                |
 | message                 | message related configuration, [see the following table](#message-attribute)                                                                                           | ^[object]`{max?: number}`                                                                                                                                                                                                                                      | see the following table                                                                |
 | experimental-features   | features at experimental stage to be added, all features are default to be set to false                                                                                | ^[object]                                                                                                                                                                                                                                                      | —                                                                                      |
 | empty-values ^(2.7.0)   | global empty values of components                                                                                                                                      | ^[array]                                                                                                                                                                                                                                                       | —                                                                                      |
@@ -119,6 +128,15 @@ In this section, you can learn how to use Config Provider to provide experimenta
 | Attribute        | Description               | Type                              | Default |
 | ---------------- | ------------------------- | --------------------------------- | ------- |
 | shadow ^(2.10.5) | when to show card shadows | ^[enum]`always \| never \| hover` | —       |
+
+### Dialog Attribute
+
+| Attribute              | Description                                                                                                                    | Type                                   | Default |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------- | ------- |
+| align-center ^(2.11.0) | whether to align the dialog both horizontally and vertically                                                                   | ^[boolean]                             | false   |
+| draggable ^(2.11.0)    | enable dragging feature for Dialog                                                                                             | ^[boolean]                             | false   |
+| overflow ^(2.11.0)     | draggable Dialog can overflow the viewport long                                                                                | ^[boolean]                             | false   |
+| transition ^(2.11.0)   | custom transition configuration for dialog animation. Can be a string (transition name) or an object with Vue transition props | ^[string] / ^[object]`TransitionProps` | —       |
 
 ### Message Attribute
 

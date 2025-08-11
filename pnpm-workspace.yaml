@@ -4,7 +4,7 @@ packages:
   - play
   - internal/*
 catalog:
-  "@ctrl/tinycolor": ^3.4.1
+  '@ctrl/tinycolor': ^3.4.1
   '@element-plus/icons-vue': ^2.3.1
   '@vue/shared': ~3.2.37
   '@vueuse/core': ^10.11.0
