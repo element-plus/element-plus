@@ -15,10 +15,7 @@ import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { ArrowDown, CircleClose } from '@element-plus/icons-vue'
 import { tagProps } from '@element-plus/components/tag'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import {
-  Props,
-  defaultProps,
-} from '@element-plus/components/select-v2/src/useProps'
+import { defaultProps } from '@element-plus/components/select-v2/src/useProps'
 
 import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type Select from './select.vue'
@@ -28,6 +25,7 @@ import type {
   PopperEffect,
 } from '@element-plus/components/popper'
 import type { OptionValue } from './type'
+import type { Props } from '@element-plus/components/select-v2/src/useProps'
 
 export const selectProps = buildProps({
   /**
