@@ -52,7 +52,7 @@ overrides:
 
 patchedDependencies:
   async-validator@4.2.5:
-    hash: cc6d77b35ed2a1683012935ca9ed998d418912785fcf78c6497d3268ac596d23
+    hash: e0c4dd1814c02f3a068c42e835b3ea18e323024025286d073d611504ed8a3b98
     path: patches/async-validator@4.2.5.patch
 
 importers:
@@ -103,7 +103,7 @@ importers:
         version: 12.0.0(typescript@5.5.4)
       async-validator:
         specifier: ^4.2.5
-        version: 4.2.5(patch_hash=cc6d77b35ed2a1683012935ca9ed998d418912785fcf78c6497d3268ac596d23)
+        version: 4.2.5(patch_hash=e0c4dd1814c02f3a068c42e835b3ea18e323024025286d073d611504ed8a3b98)
       dayjs:
         specifier: ^1.11.19
         version: 1.11.19
@@ -327,7 +327,7 @@ importers:
         version: 1.17.9(vite@7.3.0(@types/node@22.19.3)(jiti@2.6.1)(lightningcss@1.31.1)(sass-embedded@1.97.3)(sass@1.97.3)(tsx@4.21.0)(yaml@2.8.2))
       vitepress:
         specifier: ^1.2.3
-        version: 1.6.4(@algolia/client-search@5.46.0)(@types/node@22.19.3)(async-validator@4.2.5(patch_hash=cc6d77b35ed2a1683012935ca9ed998d418912785fcf78c6497d3268ac596d23))(axios@1.13.2)(change-case@5.4.4)(lightningcss@1.31.1)(nprogress@0.2.0)(postcss@8.5.6)(sass-embedded@1.97.3)(sass@1.97.3)(search-insights@2.17.3)(typescript@5.5.4)
+        version: 1.6.4(@algolia/client-search@5.46.0)(@types/node@22.19.3)(async-validator@4.2.5(patch_hash=e0c4dd1814c02f3a068c42e835b3ea18e323024025286d073d611504ed8a3b98))(axios@1.13.2)(change-case@5.4.4)(lightningcss@1.31.1)(nprogress@0.2.0)(postcss@8.5.6)(sass-embedded@1.97.3)(sass@1.97.3)(search-insights@2.17.3)(typescript@5.5.4)
       vitepress-plugin-group-icons:
         specifier: ^1.7.1
         version: 1.7.1(vite@7.3.0(@types/node@22.19.3)(jiti@2.6.1)(lightningcss@1.31.1)(sass-embedded@1.97.3)(sass@1.97.3)(tsx@4.21.0)(yaml@2.8.2))
@@ -574,7 +574,7 @@ importers:
         version: 12.0.0(typescript@5.5.4)
       async-validator:
         specifier: ^4.2.5
-        version: 4.2.5(patch_hash=cc6d77b35ed2a1683012935ca9ed998d418912785fcf78c6497d3268ac596d23)
+        version: 4.2.5(patch_hash=e0c4dd1814c02f3a068c42e835b3ea18e323024025286d073d611504ed8a3b98)
       dayjs:
         specifier: ^1.11.19
         version: 1.11.19
@@ -11242,13 +11242,13 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  '@vueuse/integrations@12.8.2(async-validator@4.2.5(patch_hash=cc6d77b35ed2a1683012935ca9ed998d418912785fcf78c6497d3268ac596d23))(axios@1.13.2)(change-case@5.4.4)(focus-trap@7.6.6)(nprogress@0.2.0)(typescript@5.5.4)':
+  '@vueuse/integrations@12.8.2(async-validator@4.2.5(patch_hash=e0c4dd1814c02f3a068c42e835b3ea18e323024025286d073d611504ed8a3b98))(axios@1.13.2)(change-case@5.4.4)(focus-trap@7.6.6)(nprogress@0.2.0)(typescript@5.5.4)':
     dependencies:
       '@vueuse/core': 12.8.2(typescript@5.5.4)
       '@vueuse/shared': 12.8.2(typescript@5.5.4)
       vue: 3.5.25(typescript@5.5.4)
     optionalDependencies:
-      async-validator: 4.2.5(patch_hash=cc6d77b35ed2a1683012935ca9ed998d418912785fcf78c6497d3268ac596d23)
+      async-validator: 4.2.5(patch_hash=e0c4dd1814c02f3a068c42e835b3ea18e323024025286d073d611504ed8a3b98)
       axios: 1.13.2(debug@4.4.3)
       change-case: 5.4.4
       focus-trap: 7.6.6
@@ -11638,7 +11638,7 @@ snapshots:
 
   async-function@1.0.0: {}
 
-  async-validator@4.2.5(patch_hash=cc6d77b35ed2a1683012935ca9ed998d418912785fcf78c6497d3268ac596d23): {}
+  async-validator@4.2.5(patch_hash=e0c4dd1814c02f3a068c42e835b3ea18e323024025286d073d611504ed8a3b98): {}
 
   asynckit@0.4.0: {}
 
@@ -12464,7 +12464,7 @@ snapshots:
       '@types/lodash': 4.17.21
       '@types/lodash-es': 4.17.12
       '@vueuse/core': 12.0.0(typescript@5.5.4)
-      async-validator: 4.2.5(patch_hash=cc6d77b35ed2a1683012935ca9ed998d418912785fcf78c6497d3268ac596d23)
+      async-validator: 4.2.5(patch_hash=e0c4dd1814c02f3a068c42e835b3ea18e323024025286d073d611504ed8a3b98)
       dayjs: 1.11.19
       lodash: 4.17.23
       lodash-es: 4.17.23
@@ -16695,7 +16695,7 @@ snapshots:
     optionalDependencies:
       vite: 7.3.0(@types/node@22.19.3)(jiti@2.6.1)(lightningcss@1.31.1)(sass-embedded@1.97.3)(sass@1.97.3)(tsx@4.21.0)(yaml@2.8.2)
 
-  vitepress@1.6.4(@algolia/client-search@5.46.0)(@types/node@22.19.3)(async-validator@4.2.5(patch_hash=cc6d77b35ed2a1683012935ca9ed998d418912785fcf78c6497d3268ac596d23))(axios@1.13.2)(change-case@5.4.4)(lightningcss@1.31.1)(nprogress@0.2.0)(postcss@8.5.6)(sass-embedded@1.97.3)(sass@1.97.3)(search-insights@2.17.3)(typescript@5.5.4):
+  vitepress@1.6.4(@algolia/client-search@5.46.0)(@types/node@22.19.3)(async-validator@4.2.5(patch_hash=e0c4dd1814c02f3a068c42e835b3ea18e323024025286d073d611504ed8a3b98))(axios@1.13.2)(change-case@5.4.4)(lightningcss@1.31.1)(nprogress@0.2.0)(postcss@8.5.6)(sass-embedded@1.97.3)(sass@1.97.3)(search-insights@2.17.3)(typescript@5.5.4):
     dependencies:
       '@docsearch/css': 3.8.2
       '@docsearch/js': 3.8.2(@algolia/client-search@5.46.0)(search-insights@2.17.3)
@@ -16708,7 +16708,7 @@ snapshots:
       '@vue/devtools-api': 7.7.9
       '@vue/shared': 3.5.27
       '@vueuse/core': 12.8.2(typescript@5.5.4)
-      '@vueuse/integrations': 12.8.2(async-validator@4.2.5(patch_hash=cc6d77b35ed2a1683012935ca9ed998d418912785fcf78c6497d3268ac596d23))(axios@1.13.2)(change-case@5.4.4)(focus-trap@7.6.6)(nprogress@0.2.0)(typescript@5.5.4)
+      '@vueuse/integrations': 12.8.2(async-validator@4.2.5(patch_hash=e0c4dd1814c02f3a068c42e835b3ea18e323024025286d073d611504ed8a3b98))(axios@1.13.2)(change-case@5.4.4)(focus-trap@7.6.6)(nprogress@0.2.0)(typescript@5.5.4)
       focus-trap: 7.6.6
       mark.js: 8.11.1
       minisearch: 7.2.0
