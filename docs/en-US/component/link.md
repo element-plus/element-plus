@@ -12,6 +12,9 @@ The `href` prop will be rendered directly to an `<a>` tag. If you pass a value s
 
 Always validate and sanitize the URL before use. For example:
 
+<details>
+<summary>Show code example</summary>
+
 ```js
 function sanitizeUrl(url) {
   const allowedProtocols = ['http:', 'https:']
@@ -23,6 +26,8 @@ function sanitizeUrl(url) {
   }
 }
 ```
+
+</details>
 
 :::
 
