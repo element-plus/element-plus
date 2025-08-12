@@ -131,5 +131,63 @@ describe('Link.vue', () => {
         expect(wrapper.attributes('rel')).toBe('noopener noreferrer')
       })
     })
+
+    it('should use user provided rel attribute directly', () => {
+      const wrapper = mount(() => (
+        <Link href="https://example.com" target="_blank" rel="external">
+          {AXIOM}
+        </Link>
+      ))
+      expect(wrapper.attributes('rel')).toBe('external')
+    })
+
+    it('should respect user rel even when target is _blank', () => {
+      const wrapper = mount(() => (
+        <Link
+          href="https://example.com"
+          target="_blank"
+          rel="noopener external"
+        >
+          {AXIOM}
+        </Link>
+      ))
+      expect(wrapper.attributes('rel')).toBe('noopener external')
+    })
+
+    it('should preserve user rel when no target specified', () => {
+      const wrapper = mount(() => (
+        <Link href="https://example.com" rel="external bookmark">
+          {AXIOM}
+        </Link>
+      ))
+      expect(wrapper.attributes('rel')).toBe('external bookmark')
+    })
+
+    it('should use empty string when user explicitly sets empty rel', () => {
+      const wrapper = mount(() => (
+        <Link href="https://example.com" target="_blank" rel="">
+          {AXIOM}
+        </Link>
+      ))
+      expect(wrapper.attributes('rel')).toBe('')
+    })
+
+    it('should preserve user rel when disabled', () => {
+      const wrapper = mount(() => (
+        <Link href="https://example.com" disabled rel="external">
+          {AXIOM}
+        </Link>
+      ))
+      expect(wrapper.attributes('rel')).toBe('external')
+    })
+
+    it('should allow user to disable security attributes by setting empty rel', () => {
+      const wrapper = mount(() => (
+        <Link href="https://example.com" target="_blank" rel="">
+          {AXIOM}
+        </Link>
+      ))
+      expect(wrapper.attributes('rel')).toBe('')
+    })
   })
 })

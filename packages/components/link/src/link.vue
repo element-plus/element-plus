@@ -45,10 +45,15 @@ const ns = useNamespace('link')
 
 const computedRel = computed(() => {
   if (!props.href || props.disabled) {
-    return undefined
+    return props.rel
   }
 
-  // Automatically add noopener noreferrer for security when target attribute is present
+  // If user explicitly set rel attribute, use it directly
+  if (props.rel !== undefined) {
+    return props.rel
+  }
+
+  // Only add security attributes when user didn't specify rel and target is not _self
   if (props.target && props.target !== '_self') {
     return 'noopener noreferrer'
   }
