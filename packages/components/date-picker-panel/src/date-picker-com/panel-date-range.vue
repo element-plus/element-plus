@@ -144,7 +144,7 @@
               :disabled="!enableYearArrow || disabled"
               :class="[
                 ppNs.e('icon-btn'),
-                ppNs.is('disabled', !enableYearArrow),
+                ppNs.is('disabled', !enableYearArrow || disabled),
               ]"
               :aria-label="t(`el.datepicker.nextYear`)"
               class="d-arrow-right"
@@ -159,10 +159,10 @@
             <button
               v-if="unlinkPanels && leftCurrentView === 'date'"
               type="button"
-              :disabled="!enableMonthArrow"
+              :disabled="!enableMonthArrow || disabled"
               :class="[
                 ppNs.e('icon-btn'),
-                ppNs.is('disabled', !enableMonthArrow),
+                ppNs.is('disabled', !enableMonthArrow || disabled),
               ]"
               :aria-label="t(`el.datepicker.nextMonth`)"
               class="arrow-right"
