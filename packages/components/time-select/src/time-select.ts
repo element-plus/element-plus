@@ -17,7 +17,9 @@ export const timeSelectProps = buildProps({
   /**
    * @description binding value
    */
-  modelValue: String,
+  modelValue: {
+    type: definePropType<string | null>(String),
+  },
   /**
    * @description whether TimeSelect is disabled
    */
@@ -75,11 +77,15 @@ export const timeSelectProps = buildProps({
   /**
    * @description minimum time, any time before this time will be disabled
    */
-  minTime: String,
+  minTime: {
+    type: definePropType<string | null>(String),
+  },
   /**
    * @description maximum time, any time after this time will be disabled
    */
-  maxTime: String,
+  maxTime: {
+    type: definePropType<string | null>(String),
+  },
   /**
    * @description whether `end` is included in options
    */

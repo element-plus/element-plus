@@ -766,7 +766,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     expanded.value = false
 
     if (isFocused.value) {
-      const _event = new FocusEvent('focus', event)
+      const _event = new FocusEvent('blur', event)
       handleBlur(_event)
     }
   }

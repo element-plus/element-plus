@@ -8,7 +8,10 @@ export const dialogContentProps = buildProps({
   /**
    * @description whether to align the dialog both horizontally and vertically
    */
-  alignCenter: Boolean,
+  alignCenter: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description custom close icon, default is Close
    */
@@ -18,11 +21,17 @@ export const dialogContentProps = buildProps({
   /**
    * @description enable dragging feature for Dialog
    */
-  draggable: Boolean,
+  draggable: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description draggable Dialog can overflow the viewport
    */
-  overflow: Boolean,
+  overflow: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description whether the Dialog takes up full screen
    */
