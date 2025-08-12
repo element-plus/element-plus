@@ -115,13 +115,14 @@ datetime-picker/custom-icon
 | empty-values ^(2.7.0)      | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations) | ^[array]                                                                                       | —                   |
 | value-on-clear ^(2.7.0)    | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)        | ^[string] / ^[number] / ^[boolean] / ^[Function]                                               | —                   |
 | show-now ^(2.8.7)          | whether to show the now button                                                                                 | ^[boolean]                                                                                     | true                |
+| show-footer ^(2.10.5)      | whether to show footer                                                                                         | ^[boolean]                                                                                     | true                |
 | show-week-number ^(2.10.3) | show the week number besides the week                                                                          | `boolean`                                                                                      | false               |
 
 ## Events
 
 | Name            | Description                                                           | Parameters                                                                                |
 | --------------- | --------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| change          | triggers when user confirms the value                                 | ^[Function]`(val: typeof v-model) => void`                                                |
+| change          | triggers when user confirms the value or click outside                | ^[Function]`(val: typeof v-model) => void`                                                |
 | blur            | triggers when Input blurs                                             | ^[Function]`(e: FocusEvent) => void`                                                      |
 | focus           | triggers when Input focuses                                           | ^[Function]`(e: FocusEvent) => void`                                                      |
 | clear ^(2.7.7)  | triggers when the clear icon is clicked in a clearable DateTimePicker | ^[Function]`() => void`                                                                   |

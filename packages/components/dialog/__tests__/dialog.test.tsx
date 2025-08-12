@@ -225,6 +225,29 @@ describe('Dialog.vue', () => {
       await triggerCompositeClick(wrapper.find('.el-overlay-dialog'))
       expect(wrapper.vm.visible).toBe(false)
     })
+
+    test('should not click the mask to close when it is penetrable', async () => {
+      const onClick = vi.fn()
+
+      const wrapper = mount(() => (
+        <>
+          <Dialog modelValue={true} modal={false} modalPenetrable={true}>
+            {AXIOM}
+          </Dialog>
+          <button onClick={onClick}>button</button>
+        </>
+      ))
+
+      const overlay = wrapper.findComponent({ name: 'ElOverlay' })
+      const dialog = wrapper.findComponent({ name: 'ElDialog' })
+      expect(overlay.exists()).toBe(true)
+      expect(overlay.classes()).toContain('is-penetrable')
+
+      await overlay.trigger('click')
+      await wrapper.find('button').trigger('click')
+      expect(dialog.vm.visible).toBe(true)
+      expect(onClick).toHaveBeenCalled()
+    })
   })
 
   describe('life cycles', () => {
@@ -415,6 +438,49 @@ describe('Dialog.vue', () => {
       expect(dialog.attributes()['aria-describedby']).toBe(
         dialogBody.attributes().id
       )
+    })
+  })
+
+  describe('transition', () => {
+    test('dialog supports transition as string', async () => {
+      const wrapper = mount(
+        <Dialog modelValue={true} transition="slide">
+          {AXIOM}
+        </Dialog>
+      )
+      await nextTick()
+      expect(wrapper.find('.slide-enter-active').exists()).toBe(true)
+    })
+
+    test('dialog supports transition as object config', async () => {
+      vi.useRealTimers()
+      const afterEnter = vi.fn()
+      const transitionConfig = {
+        name: 'dialog-custom-object',
+        appear: true,
+        duration: 500,
+        enterActiveClass: 'dialog-custom-object-enter-active',
+        leaveActiveClass: 'dialog-custom-object-leave-active',
+        enterFromClass: 'dialog-custom-object-enter-from',
+        leaveToClass: 'dialog-custom-object-leave-to',
+        onAfterEnter: afterEnter,
+      }
+
+      const wrapper = mount(
+        <Dialog modelValue={true} transition={transitionConfig}>
+          {AXIOM}
+        </Dialog>
+      )
+
+      await nextTick()
+      expect(wrapper.find('.dialog-custom-object-enter-active').exists()).toBe(
+        true
+      )
+
+      await new Promise((resolve) => setTimeout(resolve, 500))
+      await nextTick()
+      await rAF()
+      expect(afterEnter).toHaveBeenCalled()
     })
   })
 })

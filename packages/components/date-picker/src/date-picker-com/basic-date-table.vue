@@ -7,7 +7,7 @@
     role="grid"
     @click="handlePickDate"
     @mousemove="handleMouseMove"
-    @mousedown.prevent="handleMouseDown"
+    @mousedown="handleMouseDown"
     @mouseup="handleMouseUp"
   >
     <tbody ref="tbodyRef">
