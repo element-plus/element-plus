@@ -54,7 +54,7 @@ You can also try Element Plus out with the components built-in playground.
 
 #### Try it with code sandbox
 
-[![Edit element-plus](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/element-plus-demo-dxtcr)
+[![Edit element-plus](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/p/github/element-plus/element-plus-demo/main)
 
 <p align="center">
   <b>Special thanks to the generous sponsorship by:</b>
