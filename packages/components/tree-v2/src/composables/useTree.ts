@@ -189,7 +189,7 @@ export function useTree(
           if (!expandedKeys.has(node.key)) {
             expandedKeys.add(node.key)
             node.expanded = true
-            if (node.parent) keysSet.add(node.parent.key)
+            node.parent && keysSet.add(node.parent.key)
           }
         } else {
           node.expanded = false
