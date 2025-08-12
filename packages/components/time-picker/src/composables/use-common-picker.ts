@@ -53,7 +53,8 @@ export const useCommonPicker = <
       } else if (input) {
         formatted = formatter(input, props.valueFormat, lang.value)
       }
-      emit(UPDATE_MODEL_EVENT, input ? formatted : input, lang.value)
+      const emitVal = input ? formatted : input
+      emit(UPDATE_MODEL_EVENT, emitVal, lang.value)
     }
   }
 

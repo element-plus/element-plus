@@ -63,7 +63,7 @@
           :class="[
             dpNs.e('header'),
             (currentView === 'year' || currentView === 'month') &&
-              dpNs.e('header--border'),
+              dpNs.e('header--bordered'),
           ]"
         >
           <span :class="dpNs.e('prev-btn')">
