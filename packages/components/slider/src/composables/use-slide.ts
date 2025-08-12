@@ -76,7 +76,9 @@ export const useSlide = (
   const resetSize = () => {
     if (slider.value) {
       initData.sliderSize =
-        slider.value[`client${props.vertical ? 'Height' : 'Width'}`]
+        slider.value.getBoundingClientRect()[
+          `${props.vertical ? 'height' : 'width'}`
+        ]
     }
   }
 
