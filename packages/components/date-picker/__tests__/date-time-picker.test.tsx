@@ -1079,4 +1079,41 @@ describe('Datetimerange', () => {
     expect(spy).toHaveBeenCalledOnce()
     expect(rangePanelWrapper.vm.visible).toBe(false)
   })
+  it('datetimerange should be reopen successfully', async () => {
+    const values = ref()
+    const wrapper = _mount(() => (
+      <DatePicker
+        v-model={values.value}
+        type="datetimerange"
+        valueFormat="YYYY-MM-DD"
+      />
+    ))
+    const rangePanelWrapper = wrapper.findComponent(
+      '.el-date-range-picker'
+    ) as VueWrapper<InstanceType<typeof DatePickerRange>>
+
+    expect(rangePanelWrapper.vm.visible).toBe(false)
+
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+
+    expect(rangePanelWrapper.exists()).toBe(true)
+    expect(rangePanelWrapper.vm.visible).toBe(true)
+
+    const cells = document.querySelectorAll('.available .el-date-table-cell')
+    ;(cells[0] as HTMLElement).click()
+    await nextTick()
+    ;(cells[1] as HTMLElement).click()
+    await nextTick()
+    const button = document.querySelectorAll(
+      '.el-picker-panel__footer button'
+    )![1] as HTMLButtonElement
+    button.click()
+    await nextTick()
+    expect(rangePanelWrapper.vm.visible).toBe(false)
+    await input.trigger('blur')
+    await input.trigger('focus')
+    expect(rangePanelWrapper.vm.visible).toBe(true)
+  })
 })
