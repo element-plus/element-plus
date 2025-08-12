@@ -253,7 +253,7 @@ describe('Radio group', () => {
       <RadioGroup
         v-model={radio.value}
         options={options}
-        props={{ value: 'id' }}
+        radioProps={{ value: 'id' }}
       />
     ))
     await nextTick()
@@ -262,6 +262,38 @@ describe('Radio group', () => {
     await radio2.trigger('click')
     expect(radio2.classes()).toContain('is-checked')
     expect(radio.value).toEqual(6)
+  })
+
+  it('passes custom attributes from options to el-radio', () => {
+    const options = [
+      { value: 'a', label: 'A', 'data-test': 'custom-attr-1' },
+      { value: 'b', label: 'B', 'data-test': 'custom-attr-2' },
+    ]
+    const wrapper = mount(RadioGroup, {
+      props: { options },
+    })
+    const [radio1, radio2] = wrapper.findAll('.el-radio')
+    expect(radio1.attributes('data-test')).toBe('custom-attr-1')
+    expect(radio2.attributes('data-test')).toBe('custom-attr-2')
+  })
+
+  it('renders custom content with radioRenderer function', () => {
+    const options = [
+      {
+        value: 'a',
+        label: 'A',
+        render: (option, index) => `Custom: ${option.label}-${index}`,
+      },
+      { value: 'b', label: 'B' },
+    ]
+    const wrapper = mount(RadioGroup, {
+      props: {
+        options,
+      },
+    })
+    const [radio1, radio2] = wrapper.findAll('.el-radio')
+    expect(radio1.text()).toBe('Custom: A-0')
+    expect(radio2.text()).toBe('B')
   })
 })
 

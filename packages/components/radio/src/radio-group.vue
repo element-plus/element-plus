@@ -11,10 +11,20 @@
       <el-radio
         v-for="(item, index) in props.options"
         :key="index"
-        :value="item[props.props?.value ?? 'value']"
-        :label="item[props.props?.label ?? 'label']"
-        :disabled="item[props.props?.disabled ?? 'disabled']"
-      />
+        v-bind="{
+          ...item,
+          value: item[props.radioProps?.value ?? 'value'],
+          label: item[props.radioProps?.label ?? 'label'],
+          disabled: item[props.radioProps?.disabled ?? 'disabled'],
+        }"
+      >
+        <template v-if="typeof item.render === 'function'">
+          {{ item.render(item, index) }}
+        </template>
+        <template v-else>
+          {{ item[props.radioProps?.label ?? 'label'] }}
+        </template>
+      </el-radio>
     </slot>
   </div>
 </template>

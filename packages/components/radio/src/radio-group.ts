@@ -1,10 +1,14 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import { radioEmits } from './radio'
+import { ElRadio } from '@element-plus/components'
 
 import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type { SelectOptionProps } from '@element-plus/components/select/src/select'
 import type RadioGroup from './radio-group.vue'
+import type { ComponentProps } from 'vue-component-type-helpers'
+
+type Option = ComponentProps<typeof ElRadio> & Record<string, any>
 
 export const radioGroupProps = buildProps({
   /**
@@ -58,10 +62,10 @@ export const radioGroupProps = buildProps({
     default: true,
   },
   options: {
-    type: definePropType<Record<string, any>[]>(Array),
+    type: definePropType<Option[]>(Array),
     default: () => [],
   },
-  props: {
+  radioProps: {
     type: definePropType<SelectOptionProps>(Object),
   },
   ...useAriaProps(['ariaLabel']),
