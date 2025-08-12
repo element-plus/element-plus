@@ -7,12 +7,7 @@ import {
   unref,
   watchEffect,
 } from 'vue'
-import {
-  debugWarn,
-  ensureValidVNode,
-  isArray,
-  isUndefined,
-} from '@element-plus/utils'
+import { debugWarn, isArray, isUndefined } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import {
   cellForced,
@@ -164,7 +159,9 @@ function useRender<T extends DefaultRow>(
         let children: VNode | VNode[] | null = null
         if (slots.default) {
           const vnodes = slots.default(data)
-          children = ensureValidVNode(vnodes) ? vnodes : originRenderCell(data)
+          children = vnodes.some((v) => v.type !== Comment)
+            ? vnodes
+            : originRenderCell(data)
         } else {
           children = originRenderCell(data)
         }
