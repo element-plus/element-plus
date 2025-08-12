@@ -1,4 +1,4 @@
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { getPct, getPx, isPct, isPx } from './useSize'
 import { NOOP } from '@element-plus/utils'
 
@@ -37,6 +37,13 @@ export function useResize(
   const limitSizes = computed(() =>
     panels.value.map((item) => [item.min, item.max])
   )
+
+  watch(lazy, () => {
+    if (lazyOffset.value) {
+      const mouseup = new MouseEvent('mouseup', { bubbles: true })
+      window.dispatchEvent(mouseup)
+    }
+  })
 
   const onMoveStart = (index: number) => {
     lazyOffset.value = 0
