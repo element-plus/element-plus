@@ -930,7 +930,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     const { valueKey, options } = props
     const duplicateValue = new Map()
     for (const item of options) {
-      const optionValue = getValue(item)
+      const optionValue = getValueKey(item)
       let v = optionValue
       if (isObject(v)) {
         v = get(optionValue, valueKey)
