@@ -79,3 +79,10 @@ popconfirm/trigger-event
 | ---------------- | ------------------------------------- | -------------------------------------------------------------------------------- |
 | reference        | HTML element that triggers Popconfirm | —                                                                                |
 | actions ^(2.8.1) | content of the Popconfirm footer      | ^[object]`{ confirm: (e: MouseEvent) => void, cancel: (e: MouseEvent) => void }` |
+
+### Exposes
+
+| Name                | Description                  | Type                                        |
+| ------------------- | ---------------------------- | ------------------------------------------- |
+| popperRef ^(2.11.0) | el-popper component instance | ^[object]`Ref<PopperInstance \| undefined>` |
+| hide ^(2.11.0)      | hide popconfirm              | ^[Function]`() => void`                     |
