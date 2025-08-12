@@ -433,6 +433,7 @@ const isDefaultFormat = inject(
 ) as any
 const { disabledDate, cellClassName, defaultTime, clearable } = pickerBase.props
 const format = toRef(pickerBase.props, 'format')
+const useEndOf = toRef(pickerBase.props, 'useEndOf')
 const shortcuts = toRef(pickerBase.props, 'shortcuts')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 const { lang } = useLocale()
@@ -656,18 +657,26 @@ const showTime = computed(
   () => props.type === 'datetime' || props.type === 'datetimerange'
 )
 
+const formatEmitWithEndOf = (emitDayjs: Dayjs | null) => {
+  return emitDayjs && useEndOf?.value
+    ? dayjs(emitDayjs).endOf(useEndOf.value)
+    : emitDayjs
+}
+
 const formatEmit = (emitDayjs: Dayjs | null, index?: number) => {
-  if (!emitDayjs) return
+  if (!emitDayjs) return undefined
   if (defaultTime) {
     const defaultTimeD = dayjs(
       defaultTime[index as number] || defaultTime
     ).locale(lang.value)
-    return defaultTimeD
-      .year(emitDayjs.year())
-      .month(emitDayjs.month())
-      .date(emitDayjs.date())
+    return formatEmitWithEndOf(
+      defaultTimeD
+        .year(emitDayjs.year())
+        .month(emitDayjs.month())
+        .date(emitDayjs.date())
+    )
   }
-  return emitDayjs
+  return formatEmitWithEndOf(emitDayjs)
 }
 
 const handleRangePick = (
@@ -685,9 +694,13 @@ const handleRangePick = (
   if (maxDate.value === maxDate_ && minDate.value === minDate_) {
     return
   }
-  emit('calendar-change', [min_.toDate(), max_ && max_.toDate()])
-  maxDate.value = maxDate_
-  minDate.value = minDate_
+  emit('calendar-change', [
+    min_.toDate(),
+    max_ &&
+      (useEndOf.value ? dayjs(max_).endOf(useEndOf.value) : max_).toDate(),
+  ])
+  maxDate.value = maxDate_ || undefined
+  minDate.value = minDate_ || undefined
 
   if (!showTime.value && close) {
     close = !minDate_ || !maxDate_

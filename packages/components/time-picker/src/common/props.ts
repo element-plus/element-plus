@@ -7,10 +7,11 @@ import {
 } from '@element-plus/hooks'
 import { CircleClose } from '@element-plus/icons-vue'
 import { disabledTimeListsProps } from '../props/shared'
+import { dateTimeStartEndUnits } from '../constants'
 
+import type { Dayjs, UnitTypeLong, UnitTypeShort } from 'dayjs'
 import type { Component, ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type { Options } from '@popperjs/core'
-import type { Dayjs } from 'dayjs'
 import type { Placement } from '@element-plus/components/popper'
 
 export type SingleOrRange<T> = T | [T, T]
@@ -244,6 +245,14 @@ export const timePickerDefaultProps = buildProps({
    * @description whether to show the number of the calendar week
    */
   showWeekNumber: Boolean,
+  /**
+   * @description set the right range value to preferred end
+   */
+  useEndOf: {
+    type: definePropType<UnitTypeLong | UnitTypeShort | ''>(String),
+    values: dateTimeStartEndUnits,
+    required: false,
+  },
 } as const)
 
 export type TimePickerDefaultProps = ExtractPropTypes<
