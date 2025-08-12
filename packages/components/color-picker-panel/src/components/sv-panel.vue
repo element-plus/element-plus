@@ -64,8 +64,6 @@ export default defineComponent({
 
     // methods
     function update() {
-      if (props.disabled) return
-
       const saturation = props.color.get('saturation')
       const value = props.color.get('value')
 

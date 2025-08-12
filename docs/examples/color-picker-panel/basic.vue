@@ -5,5 +5,5 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-const color = ref<string>()
+const color = ref('#ff6900')
 </script>

@@ -103,7 +103,9 @@
       @include disable;
     }
     @include b(color-predefine) {
-      @include disable;
+      @include e(color-selector) {
+        @include disable;
+      }
     }
   }
 }

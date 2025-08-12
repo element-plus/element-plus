@@ -15,6 +15,22 @@ color-picker-panel/basic
 
 :::
 
+## Alpha
+
+:::demo ColorPickerPanel supports alpha channel selecting. To activate alpha selecting, just add the `show-alpha` attribute.
+
+color-picker-panel/alpha
+
+:::
+
+## Predefined colors
+
+:::demo ColorPickerPanel supports predefined color options
+
+color-picker-panel/predefined-color
+
+:::
+
 ## Border
 
 By default the color-picker-panel is bordered but in some case you don't want it.
