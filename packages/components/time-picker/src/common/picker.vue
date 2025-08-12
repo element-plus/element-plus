@@ -68,7 +68,7 @@
         </template>
         <template #suffix>
           <el-icon
-            v-if="showClose && clearIcon"
+            v-if="showClearBtn && clearIcon"
             :class="`${nsInput.e('icon')} clear-icon`"
             @mousedown.prevent="NOOP"
             @click="onClearIconClick"
@@ -244,6 +244,7 @@ const refPopper = ref<TooltipInstance>()
 const inputRef = ref<InputInstance>()
 const pickerVisible = ref(false)
 const pickerActualVisible = ref(false)
+const hovering = ref(false)
 const valueOnOpen = ref<TimePickerDefaultProps['modelValue'] | null>(null)
 let hasJustTabExitedInput = false
 
@@ -287,7 +288,7 @@ const rangeInputKls = computed(() => [
 const clearIconKls = computed(() => [
   nsInput.e('icon'),
   nsRange.e('close-icon'),
-  !showClose.value ? nsRange.e('close-icon--hidden') : '',
+  !showClearBtn.value ? nsRange.e('close-icon--hidden') : '',
 ])
 
 watch(pickerVisible, (val) => {
@@ -465,11 +466,18 @@ const triggerIcon = computed(
   () => props.prefixIcon || (isTimeLikePicker.value ? Clock : Calendar)
 )
 
-const showClose = ref(false)
+const showClearBtn = computed(
+  () =>
+    props.clearable &&
+    !pickerDisabled.value &&
+    !props.readonly &&
+    !valueIsEmpty.value &&
+    (hovering.value || isFocused.value)
+)
 
 const onClearIconClick = (event: MouseEvent) => {
   if (props.readonly || pickerDisabled.value) return
-  if (showClose.value) {
+  if (showClearBtn.value) {
     event.stopPropagation()
     // When the handleClear Function was provided, emit null will be executed inside it
     // There is no need for us to execute emit null twice. #14752
@@ -479,7 +487,6 @@ const onClearIconClick = (event: MouseEvent) => {
       emitInput(valueOnClear.value)
     }
     emitChange(valueOnClear.value, true)
-    showClose.value = false
     onHide()
   }
   emit('clear')
@@ -501,11 +508,11 @@ const onMouseDownInput = async (event: MouseEvent) => {
 const onMouseEnter = () => {
   if (props.readonly || pickerDisabled.value) return
   if (!valueIsEmpty.value && props.clearable) {
-    showClose.value = true
+    hovering.value = true
   }
 }
 const onMouseLeave = () => {
-  showClose.value = false
+  hovering.value = false
 }
 
 const onTouchStartInput = (event: TouchEvent) => {
