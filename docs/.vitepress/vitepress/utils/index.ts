@@ -46,6 +46,6 @@ export function createGitHubUrl(
 }
 
 export function createCrowdinUrl(/** zh-CN、es-ES... */ targetLang: string) {
-  // Direct project language URL format: https://crowdin.com/project/element-plus/{language}
+  // example: https://crowdin.com/project/element-plus/zh-CN
   return `https://crowdin.com/project/element-plus/${targetLang}`
 }
