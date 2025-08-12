@@ -28,8 +28,10 @@ tree-v2/selectable
 :::
 
 :::warning
+
 When using show-checkbox, since `check-on-click-leaf` is true by default,
 last tree children's can be checked by clicking their nodes.
+
 :::
 
 ## Disabled checkbox
@@ -99,7 +101,7 @@ tree-v2/filter
 | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | ------- |
 | data                          | tree data                                                                                                                                    | ^[object]`Array<{[key: string]: any}>`                                      | —       |
 | empty-text                    | text displayed when data is void                                                                                                             | ^[string]                                                                   | —       |
-| props                         | configuration options, see the following table                                                                                               | [props](#props)                                                             | —       |
+| [props](#props)               | configuration options, see the following table                                                                                               | ^[object]                                                                   | —       |
 | highlight-current             | whether current node is highlighted                                                                                                          | ^[boolean]                                                                  | false   |
 | expand-on-click-node          | whether to expand or collapse node when clicking on the node, if false, then expand or collapse node only when clicking on the arrow icon.   | ^[boolean]                                                                  | true    |
 | check-on-click-node           | whether to check or uncheck node when clicking on the node, if false, the node can only be checked or unchecked by clicking on the checkbox. | ^[boolean]                                                                  | false   |
@@ -128,32 +130,33 @@ tree-v2/filter
 ## TreeV2 Method
 
 `Tree` has the following method, which returns the currently selected array of nodes.
-| Method | Description | Parameters |
-| --------------- | ---------------------------------------- | ---------------------------------------- |
-| filter | filter all tree nodes, filtered nodes will be hidden | `(query: string)` |
-| getCheckedNodes | If the node can be selected (`show-checkbox` is `true`), it returns the currently selected array of nodes | `(leafOnly: boolean)` |
-| getCheckedKeys | If the node can be selected (`show-checkbox` is `true`), it returns the currently selected array of node's keys | `(leafOnly: boolean)` |
-| setCheckedKeys | set certain nodes to be checked | `(keys: TreeKey[])` |
-| setChecked | set node to be checked or not | `(key: TreeKey, checked: boolean)` |
-| setExpandedKeys | set certain nodes to be expanded | `(keys: TreeKey[])` |
-| getHalfCheckedNodes | If the node can be selected (`show-checkbox` is `true`), it returns the currently half selected array of nodes | — |
-| getHalfCheckedKeys | If the node can be selected (`show-checkbox` is `true`), it returns the currently half selected array of node's keys | — |
-| getCurrentKey | return the highlight node's key (undefined if no node is highlighted) | — |
-| getCurrentNode | return the highlight node's data (undefined if no node is highlighted) | — |
-| setCurrentKey | set highlighted node by key | `(key: TreeKey)` |
-| getNode | get node by key or data | `(data: TreeKey \| TreeNodeData)` |
-| expandNode | expand specified node | `(node: TreeNode)` |
-| collapseNode | collapse specified node | `(node: TreeNode)` |
-| setData | When the data is very large, using reactive data will cause the poor performance, so we provide a way to avoid this situation | `(data: TreeData)` |
-| scrollTo ^(2.8.0) | scroll to a given position | `(offset: number)` |
-| scrollToNode ^(2.8.0) | scroll to a given tree key with specified scroll strategy | `(key: TreeKey, strategy?: auto \| smart \| center \| start \| end)` |
+
+| Method                | Description                                                                                                                   | Parameters                                                           |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| filter                | filter all tree nodes, filtered nodes will be hidden                                                                          | `(query: string)`                                                    |
+| getCheckedNodes       | If the node can be selected (`show-checkbox` is `true`), it returns the currently selected array of nodes                     | `(leafOnly: boolean)`                                                |
+| getCheckedKeys        | If the node can be selected (`show-checkbox` is `true`), it returns the currently selected array of node's keys               | `(leafOnly: boolean)`                                                |
+| setCheckedKeys        | set certain nodes to be checked                                                                                               | `(keys: TreeKey[])`                                                  |
+| setChecked            | set node to be checked or not                                                                                                 | `(key: TreeKey, checked: boolean)`                                   |
+| setExpandedKeys       | set certain nodes to be expanded                                                                                              | `(keys: TreeKey[])`                                                  |
+| getHalfCheckedNodes   | If the node can be selected (`show-checkbox` is `true`), it returns the currently half selected array of nodes                | —                                                                    |
+| getHalfCheckedKeys    | If the node can be selected (`show-checkbox` is `true`), it returns the currently half selected array of node's keys          | —                                                                    |
+| getCurrentKey         | return the highlight node's key (undefined if no node is highlighted)                                                         | —                                                                    |
+| getCurrentNode        | return the highlight node's data (undefined if no node is highlighted)                                                        | —                                                                    |
+| setCurrentKey         | set highlighted node by key                                                                                                   | `(key: TreeKey)`                                                     |
+| getNode               | get node by key or data                                                                                                       | `(data: TreeKey \| TreeNodeData)`                                    |
+| expandNode            | expand specified node                                                                                                         | `(node: TreeNode)`                                                   |
+| collapseNode          | collapse specified node                                                                                                       | `(node: TreeNode)`                                                   |
+| setData               | When the data is very large, using reactive data will cause the poor performance, so we provide a way to avoid this situation | `(data: TreeData)`                                                   |
+| scrollTo ^(2.8.0)     | scroll to a given position                                                                                                    | `(offset: number)`                                                   |
+| scrollToNode ^(2.8.0) | scroll to a given tree key with specified scroll strategy                                                                     | `(key: TreeKey, strategy?: auto \| smart \| center \| start \| end)` |
 
 ## TreeV2 Events
 
 | Name               | Description                                          | Parameters                                                                                                                              |
 | ------------------ | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
 | node-click         | triggers when a node is clicked                      | `(data: TreeNodeData, node: TreeNode, e: MouseEvent)`                                                                                   |
-| node-drop ^(2.8.3) | triggers when drag someting and drop on a node       | `(data: TreeNodeData, node: TreeNode, e: DragEvent)`                                                                                    |
+| node-drop ^(2.8.3) | triggers when drag something and drop on a node      | `(data: TreeNodeData, node: TreeNode, e: DragEvent)`                                                                                    |
 | node-contextmenu   | triggers when a node is clicked by right button      | `(e: Event, data: TreeNodeData, node: TreeNode)`                                                                                        |
 | check-change       | triggers when the selected state of the node changes | `(data: TreeNodeData, checked: boolean)`                                                                                                |
 | check              | triggers after clicking the checkbox of a node       | `(data: TreeNodeData, info: { checkedKeys: TreeKey[],checkedNodes: TreeData, halfCheckedKeys: TreeKey[], halfCheckedNodes: TreeData,})` |

@@ -61,6 +61,7 @@ const emit = defineEmits(scrollbarEmits)
 const ns = useNamespace('scrollbar')
 
 let stopResizeObserver: (() => void) | undefined = undefined
+let stopWrapResizeObserver: (() => void) | undefined = undefined
 let stopResizeListener: (() => void) | undefined = undefined
 let wrapScrollTop = 0
 let wrapScrollLeft = 0
@@ -199,9 +200,11 @@ watch(
   (noresize) => {
     if (noresize) {
       stopResizeObserver?.()
+      stopWrapResizeObserver?.()
       stopResizeListener?.()
     } else {
       ;({ stop: stopResizeObserver } = useResizeObserver(resizeRef, update))
+      ;({ stop: stopWrapResizeObserver } = useResizeObserver(wrapRef, update))
       stopResizeListener = useEventListener('resize', update)
     }
   },
