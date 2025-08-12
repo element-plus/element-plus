@@ -239,7 +239,6 @@ describe('Splitter', () => {
     Object.defineProperty(mousemove, 'pageX', { value: 100 })
     window.dispatchEvent(mousemove)
     await nextTick()
-    // lazy: 拖拽过程中 size 未更新
     expect(panels[0].attributes('style')).toContain('flex-basis: 200px;')
 
     const mouseup = new MouseEvent('mouseup', { bubbles: true })
@@ -262,7 +261,6 @@ describe('Splitter', () => {
     const panels = wrapper.findAll('.el-splitter-panel')
     const splitBar = wrapper.find('.el-splitter-bar__dragger')
 
-    // 拖拽过程中，size 立即更新
     const mousedown = new MouseEvent('mousedown', { bubbles: true })
     Object.defineProperty(mousedown, 'pageX', { value: 200 })
     splitBar.element.dispatchEvent(mousedown)
