@@ -1,8 +1,9 @@
 <template>
   <a
     :class="linkKls"
-    :href="disabled || !href ? undefined : href"
-    :target="disabled || !href ? undefined : target"
+    :href="safeHref"
+    :target="safeHref ? props.target : undefined"
+    :rel="computedRel"
     @click="handleClick"
   >
     <el-icon v-if="icon"><component :is="icon" /></el-icon>
@@ -41,6 +42,27 @@ useDeprecated(
 )
 
 const ns = useNamespace('link')
+
+const computedRel = computed(() => {
+  if (!props.href || props.disabled) {
+    return undefined
+  }
+
+  // Automatically add noopener noreferrer for security when target attribute is present
+  if (props.target && props.target !== '_self') {
+    return 'noopener noreferrer'
+  }
+
+  return undefined
+})
+
+const safeHref = computed(() => {
+  if (!props.href || props.disabled) {
+    return undefined
+  }
+
+  return props.href
+})
 
 const linkKls = computed(() => [
   ns.b(),
