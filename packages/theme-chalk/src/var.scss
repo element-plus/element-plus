@@ -9,8 +9,8 @@
 
 // common
 :root {
-  @include set-css-var-value('color-white', $color-white);
-  @include set-css-var-value('color-black', $color-black);
+  @include set-css-var-value(('color-white'), $color-white);
+  @include set-css-var-value(('color-black'), $color-black);
 
   // get rgb
   @each $type in (primary, success, warning, danger, error, info) {
