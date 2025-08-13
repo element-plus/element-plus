@@ -1,11 +1,11 @@
 import { buildProps, definePropType, isBoolean } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { teleportProps } from '@element-plus/components/teleport'
-import { DEFAULT_DIALOG_TRANSITION } from './constants'
 import { dialogContentProps } from './dialog-content'
 
 import type {
   ExtractPropTypes,
+  InjectionKey,
   TransitionProps,
   __ExtractPublicPropTypes,
 } from 'vue'
@@ -68,6 +68,10 @@ export const dialogProps = buildProps({
     type: Boolean,
     default: true,
   },
+  /**
+   * @description whether the mask is penetrable
+   */
+  modalPenetrable: Boolean,
   /**
    * @description the Time(milliseconds) before open
    */
@@ -133,7 +137,7 @@ export const dialogProps = buildProps({
    */
   transition: {
     type: definePropType<DialogTransition>([String, Object]),
-    default: DEFAULT_DIALOG_TRANSITION,
+    default: undefined,
   },
 } as const)
 
@@ -151,3 +155,12 @@ export const dialogEmits = {
 }
 export type DialogEmits = typeof dialogEmits
 export type DialogInstance = InstanceType<typeof Dialog> & unknown
+export interface DialogConfigContext {
+  alignCenter?: boolean
+  draggable?: boolean
+  overflow?: boolean
+  transition?: DialogTransition
+}
+
+export const dialogContextKey: InjectionKey<DialogConfigContext> =
+  Symbol('dialogContextKey')

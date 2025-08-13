@@ -1,4 +1,4 @@
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useProps } from './useProps'
 
 import type { SelectV2Props } from './token'
@@ -13,6 +13,16 @@ export function useAllowCreate(props: SelectV2Props, states: SelectStates) {
   const enableAllowCreateMode = computed(() => {
     return props.allowCreate && props.filterable
   })
+
+  watch(
+    () => props.options,
+    (options) => {
+      const optionLabelsSet = new Set(options.map((option) => getLabel(option)))
+      states.createdOptions = states.createdOptions.filter(
+        (createdOption) => !optionLabelsSet.has(getLabel(createdOption))
+      )
+    }
+  )
 
   function hasExistingOption(query: string) {
     const hasOption = (option: Option) => getLabel(option) === query
@@ -37,6 +47,9 @@ export function useAllowCreate(props: SelectV2Props, states: SelectStates) {
     if (enableAllowCreateMode.value) {
       if (query && query.length > 0) {
         if (hasExistingOption(query)) {
+          states.createdOptions = states.createdOptions.filter(
+            (createdOption) => getLabel(createdOption) !== states.previousQuery
+          )
           return
         }
         const newOption = {

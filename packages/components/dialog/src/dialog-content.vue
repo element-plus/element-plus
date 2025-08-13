@@ -52,15 +52,15 @@ const { focusTrapRef } = inject(FOCUS_TRAP_INJECTION_KEY)!
 const dialogKls = computed(() => [
   ns.b(),
   ns.is('fullscreen', props.fullscreen),
-  ns.is('draggable', props.draggable),
-  ns.is('align-center', props.alignCenter),
+  ns.is('draggable', !!props.draggable),
+  ns.is('align-center', !!props.alignCenter),
   { [ns.m('center')]: props.center },
 ])
 
 const composedDialogRef = composeRefs(focusTrapRef, dialogRef)
 
-const draggable = computed(() => props.draggable)
-const overflow = computed(() => props.overflow)
+const draggable = computed(() => !!props.draggable)
+const overflow = computed(() => !!props.overflow)
 const { resetPosition, updatePosition } = useDraggable(
   dialogRef,
   headerRef,

@@ -14,7 +14,7 @@
       <path d="M80 56H120V124H80V56Z" fill="var(--el-fill-color-blank)" />
       <path
         d="M120 56H119.5V124H120H120.5V56H120Z"
-        fill="#CDD0D6"
+        fill="var(--el-color-info-light-5)"
         mask="url(#path-3-inside-1_2477_1001)"
       />
       <mask id="path-5-inside-2_2477_1001" fill="white">

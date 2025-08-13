@@ -1062,4 +1062,34 @@ describe('Cascader.vue', () => {
       )
     })
   })
+  it('should select leaf node when checkOnClickLeaf is enabled', async () => {
+    const value = ref([])
+    const checkOnClickLeaf = ref(true)
+    const props = { multiple: true, checkOnClickLeaf: checkOnClickLeaf.value }
+    const wrapper = _mount(() => (
+      <Cascader v-model={value.value} props={props} options={OPTIONS} />
+    ))
+    const trigger = wrapper.find(TRIGGER)
+    await trigger.trigger('click')
+    await nextTick()
+    const rootNode = document.querySelector(NODE_LABEL) as HTMLInputElement
+    rootNode?.click()
+    await nextTick()
+    expect(value.value).toHaveLength(0)
+
+    const leafNodes = document.querySelectorAll(NODE_LABEL)
+    ;(leafNodes[2] as HTMLInputElement).click()
+    await nextTick()
+
+    expect(value.value).toHaveLength(1)
+    expect(value.value).toEqual([['zhejiang', 'ningbo']])
+    ;(leafNodes[2] as HTMLInputElement).click()
+    await nextTick()
+    expect(value.value).toHaveLength(0)
+
+    checkOnClickLeaf.value = false
+    await nextTick()
+    ;(leafNodes[2] as HTMLInputElement).click()
+    expect(value.value).toHaveLength(0)
+  })
 })
