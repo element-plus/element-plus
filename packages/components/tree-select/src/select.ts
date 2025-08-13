@@ -45,7 +45,7 @@ export const useSelect = (
       const el = tree.value.el$?.querySelector(
         `[data-key="${listNode.at(-1).key}"]`
       )
-      el.focus()
+      el?.focus()
       return
     }
   }
