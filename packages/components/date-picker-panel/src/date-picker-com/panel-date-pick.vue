@@ -236,7 +236,6 @@ import {
   DArrowLeft,
   DArrowRight,
 } from '@element-plus/icons-vue'
-import { TOOLTIP_INJECTION_KEY } from '@element-plus/components/tooltip'
 import { panelDatePickProps } from '../props/panel-date-pick'
 import {
   correctlyParseUserInput,
@@ -275,7 +274,6 @@ const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
 const isDefaultFormat = inject(
   ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY
 ) as any
-const popper = inject(TOOLTIP_INJECTION_KEY, undefined)
 const { shortcuts, disabledDate, cellClassName, defaultTime } = pickerBase.props
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 
@@ -826,13 +824,6 @@ watch(
     currentView.value = 'date'
   },
   { immediate: true }
-)
-
-watch(
-  () => currentView.value,
-  () => {
-    popper?.updatePopper()
-  }
 )
 
 watch(
