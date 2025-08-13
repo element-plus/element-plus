@@ -1,8 +1,11 @@
 <template>
-  <p>
-    Enable collapsible
-    <el-switch v-model="isCollapsible" />
-  </p>
+  <el-switch
+    v-model="isCollapsible"
+    active-text="enable"
+    inactive-text="disable"
+    inline-prompt
+    class="mb-2"
+  />
   <div
     style="height: 250px; box-shadow: var(--el-border-color-light) 0px 0px 10px"
   >
