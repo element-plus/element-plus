@@ -282,7 +282,7 @@ describe('Radio group', () => {
       {
         value: 'a',
         label: 'A',
-        render: (option, index) => `Custom: ${option.label}-${index}`,
+        render: (option:{label:string}, index:number) => `Custom: ${option.label}-${index}`,
       },
       { value: 'b', label: 'B' },
     ]
