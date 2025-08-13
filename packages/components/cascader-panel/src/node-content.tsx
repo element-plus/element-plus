@@ -24,7 +24,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const ns = useNamespace('cascader-node')
     const { config, renderLabelFn } = inject(CASCADER_PANEL_INJECTION_KEY)!
-    const { checkOnClickNode, checkOnClickLeaf, multiple } = config
+    const { checkOnClickNode, checkOnClickLeaf } = config
     const { node, disabled } = props
     const { data, label: nodeLabel } = node
 
@@ -32,11 +32,12 @@ export default defineComponent({
       const renderLabel = renderLabelFn?.({ node, data })
       return isVNodeEmpty(renderLabel) ? nodeLabel : renderLabel ?? nodeLabel
     }
-    function handleClick() {
+    function handleClick(e: Event) {
       if (
-        (checkOnClickNode || (node.isLeaf && checkOnClickLeaf && multiple)) &&
+        (checkOnClickNode || (node.isLeaf && checkOnClickLeaf)) &&
         !disabled
       ) {
+        e.stopPropagation()
         emit('handleSelectCheck', !node.checked)
       }
     }
