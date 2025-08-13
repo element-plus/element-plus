@@ -158,7 +158,7 @@ const _panel = reactive({
   getVnode: () => instance.vnode,
   setIndex,
   ...props,
-  collapsible: getCollapsible(props.collapsible),
+  collapsible: computed(() => getCollapsible(props.collapsible)),
 })
 
 registerPanel(_panel)
