@@ -64,7 +64,7 @@ export const radioGroupProps = buildProps({
   options: {
     type: definePropType<Option[]>(Array),
   },
-  radioProps: {
+  optionProps: {
     type: definePropType<SelectOptionProps>(Object),
   },
   ...useAriaProps(['ariaLabel']),

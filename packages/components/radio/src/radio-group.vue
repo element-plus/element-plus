@@ -13,16 +13,16 @@
         :key="item.key ?? index"
         v-bind="{
           ...item,
-          value: item[props.radioProps?.value ?? 'value'],
-          label: item[props.radioProps?.label ?? 'label'],
-          disabled: item[props.radioProps?.disabled ?? 'disabled'],
+          value: item[props.optionProps?.value ?? 'value'],
+          label: item[props.optionProps?.label ?? 'label'],
+          disabled: item[props.optionProps?.disabled ?? 'disabled'],
         }"
       >
         <template v-if="typeof item.render === 'function'">
           {{ item.render(item, index) }}
         </template>
         <template v-else>
-          {{ item[props.radioProps?.label ?? 'label'] }}
+          {{ item[props.optionProps?.label ?? 'label'] }}
         </template>
       </el-radio>
     </slot>
