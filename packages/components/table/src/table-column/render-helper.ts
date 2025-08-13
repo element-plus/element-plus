@@ -1,4 +1,5 @@
 import {
+  Comment,
   computed,
   getCurrentInstance,
   h,
