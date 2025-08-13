@@ -94,6 +94,14 @@ export const cascaderProps = buildProps({
     default: () => true,
   },
   /**
+   * @description before-change hook before the binding value changes. If false is returned or a Promise is returned and then is rejected, changing will be aborted
+   */
+  beforeChange: {
+    type: definePropType<
+      (node: CascaderNode, checked: boolean) => Promise<boolean> | boolean
+    >(Function),
+  },
+  /**
    * @description position of dropdown
    */
   placement: {

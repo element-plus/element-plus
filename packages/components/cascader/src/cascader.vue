@@ -158,6 +158,7 @@
         v-model="checkedValue"
         :options="options"
         :props="props.props"
+        :before-change="props.beforeChange"
         :border="false"
         :render-label="$slots.default"
         @expand-change="handleExpandChange"
