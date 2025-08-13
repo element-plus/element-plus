@@ -1,6 +1,23 @@
 ## Changelog
 
 
+### 2.10.7
+
+_2025-08-12_
+
+#### Features
+
+- Project organize dependencies properly (#21683 by @jw-foss)
+- Components [config-provider] support `dialog` config (#21684 by @zhixiaotong)
+- Components [popconfirm] expose hide function and popperRef (#21681 by @catanswer)
+
+#### Bug fixes
+
+- Components [input] correct textarea height in fullscreen (#21656 by @cszhjh)
+- Components [select] click outside should lose focus (#21702 by @tolking)
+- Components [date-picker] ensure reset visibility on picker range (#21691 by @Dsaquel)
+- Components [scrollbar] resize according to container size (#21694 by @snowbitx)
+
 ### 2.10.6
 
 _2025-08-08_
