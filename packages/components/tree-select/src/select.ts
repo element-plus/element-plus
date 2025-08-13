@@ -39,8 +39,9 @@ export const useSelect = (
   )
 
   const focusLastNode = (listNode) => {
-    if (listNode.at(-1).expanded && listNode.at(-1).childNodes.at(-1)) {
-      focusLastNode([listNode.at(-1).childNodes.at(-1)])
+    const lastNode = listNode.at(-1)
+    if (lastNode.expanded && lastNode.childNodes.at(-1)) {
+      focusLastNode([lastNode.childNodes.at(-1)])
     } else {
       const el = tree.value.el$?.querySelector(
         `[data-key="${listNode.at(-1).key}"]`
