@@ -108,6 +108,7 @@ const emit = defineEmits(carouselEmits)
 const {
   root,
   activeIndex,
+  exposeActiveIndex,
   arrowDisplay,
   hasLabel,
   hover,
@@ -175,7 +176,7 @@ function handleTransitionEnd(e: TransitionEvent) {
 
 defineExpose({
   /** @description active slide index */
-  activeIndex,
+  activeIndex: exposeActiveIndex,
   /** @description manually switch slide, index of the slide to be switched to, starting from 0; or the `name` of corresponding `el-carousel-item` */
   setActiveItem,
   /** @description switch to the previous slide */
