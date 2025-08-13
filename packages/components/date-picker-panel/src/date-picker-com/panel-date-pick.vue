@@ -33,6 +33,7 @@
               :model-value="visibleDate"
               size="small"
               :validate-event="false"
+              :disabled="disabled"
               @input="(val) => (userInputDate = val)"
               @change="handleVisibleDateChange"
             />
@@ -46,6 +47,7 @@
               :model-value="visibleTime"
               size="small"
               :validate-event="false"
+              :disabled="disabled"
               @focus="onTimePickerInputFocus"
               @input="(val) => (userInputTime = val)"
               @change="handleVisibleTimeChange"
