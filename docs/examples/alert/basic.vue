@@ -5,6 +5,7 @@
     <el-alert title="Info alert" type="info" />
     <el-alert title="Warning alert" type="warning" />
     <el-alert title="Error alert" type="error" />
+    <!-- 测试 -->
   </div>
 </template>
 
