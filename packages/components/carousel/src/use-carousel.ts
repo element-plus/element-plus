@@ -127,9 +127,7 @@ export const useCarousel = (
     }
     const itemCount = items.value.length
     const oldIndex = activeIndex.value
-    if (isItemsTwoLength.value) {
-      activeIndex.value = Math.abs(index) % 2
-    } else if (index < 0) {
+    if (index < 0) {
       activeIndex.value = props.loop ? itemCount - 1 : 0
     } else if (index >= itemCount) {
       activeIndex.value = props.loop ? 0 : itemCount - 1
@@ -257,6 +255,14 @@ export const useCarousel = (
       }
     }
   )
+
+  const exposeActiveIndex = computed(() => {
+    if (isItemsTwoLength.value) {
+      return activeIndex.value % 2
+    }
+    return activeIndex.value
+  })
+
   watch(
     () => props.autoplay,
     (autoplay) => {
@@ -318,6 +324,7 @@ export const useCarousel = (
   return {
     root,
     activeIndex,
+    exposeActiveIndex,
     arrowDisplay,
     hasLabel,
     hover,
