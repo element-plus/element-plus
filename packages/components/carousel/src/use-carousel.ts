@@ -127,7 +127,9 @@ export const useCarousel = (
     }
     const itemCount = items.value.length
     const oldIndex = activeIndex.value
-    if (index < 0) {
+    if (isItemsTwoLength.value) {
+      activeIndex.value = Math.abs(index) % 2
+    } else if (index < 0) {
       activeIndex.value = props.loop ? itemCount - 1 : 0
     } else if (index >= itemCount) {
       activeIndex.value = props.loop ? 0 : itemCount - 1
