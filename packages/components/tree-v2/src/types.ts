@@ -4,6 +4,7 @@ import type {
   SetupContext,
   __ExtractPublicPropTypes,
 } from 'vue'
+import type TreeV2 from './tree.vue'
 import type { treeEmits, treeProps } from './virtual-tree'
 
 export type TreeNodeData = Record<string, any>
@@ -63,3 +64,5 @@ export interface CheckedInfo {
   halfCheckedKeys: TreeKey[]
   halfCheckedNodes: TreeData
 }
+
+export type TreeV2Instance = InstanceType<typeof TreeV2> & unknown
