@@ -14,6 +14,7 @@
         { [ns.m(type)]: type },
         ns.is('closable', showClose),
         ns.is('plain', plain),
+        ns.is('bottom', placement === 'bottom'),
         customClass,
       ]"
       :style="customStyle"
@@ -89,13 +90,15 @@ const iconComponent = computed(
   () => props.icon || TypeComponentsMap[props.type] || ''
 )
 
-const lastOffset = computed(() => getLastOffset(props.id))
-const offset = computed(
-  () => getOffsetOrSpace(props.id, props.offset) + lastOffset.value
-)
+const lastOffset = computed(() => getLastOffset(props.id, props.placement))
+const offset = computed(() => {
+  return (
+    getOffsetOrSpace(props.id, props.offset, props.placement) + lastOffset.value
+  )
+})
 const bottom = computed(() => height.value + offset.value)
 const customStyle = computed<CSSProperties>(() => ({
-  top: `${offset.value}px`,
+  [props.placement === 'bottom' ? 'bottom' : 'top']: `${offset.value}px`,
   zIndex: currentZIndex.value,
 }))
 
@@ -152,6 +155,7 @@ useResizeObserver(messageRef, () => {
 defineExpose({
   visible,
   bottom,
+  height,
   close,
 })
 </script>
