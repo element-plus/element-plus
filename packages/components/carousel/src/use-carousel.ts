@@ -256,11 +256,16 @@ export const useCarousel = (
     }
   )
 
-  const exposeActiveIndex = computed(() => {
-    if (isItemsTwoLength.value) {
-      return activeIndex.value % 2
-    }
-    return activeIndex.value
+  const exposeActiveIndex = computed({
+    get: () => {
+      if (isItemsTwoLength.value) {
+        return activeIndex.value % 2
+      }
+      return activeIndex.value
+    },
+    set: (value) => {
+      activeIndex.value = value
+    },
   })
 
   watch(
