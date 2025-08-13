@@ -11,7 +11,7 @@ import {
 import { messageConfig } from '@element-plus/components/config-provider'
 import MessageConstructor from './message.vue'
 import { messageDefaults, messageTypes } from './message'
-import { instances } from './instance'
+import { bttInstances, ttbInstances } from './instance'
 
 import type { MessageContext } from './instance'
 import type { AppContext } from 'vue'
@@ -22,6 +22,7 @@ import type {
   MessageOptions,
   MessageParams,
   MessageParamsNormalized,
+  MessagePlacement,
   MessageType,
 } from './message'
 
@@ -80,10 +81,15 @@ const normalizeOptions = (params?: MessageParams) => {
 }
 
 const closeMessage = (instance: MessageContext) => {
-  const idx = instances.indexOf(instance)
-  if (idx === -1) return
+  const placement = instance.props.placement
+  const instances: MessageContext[] =
+    placement === 'bottom' ? bttInstances : ttbInstances
 
-  instances.splice(idx, 1)
+  const idx = instances.indexOf(instance)
+  if (idx !== -1) {
+    instances.splice(idx, 1)
+  }
+
   const { handler } = instance
   handler.close()
 }
@@ -162,6 +168,8 @@ const message: MessageFn &
 
   const normalized = normalizeOptions(options)
 
+  const instances = [...bttInstances, ...ttbInstances]
+
   if (normalized.grouping && instances.length) {
     const instance = instances.find(
       ({ vnode: vm }) => vm.props?.message === normalized.message
@@ -178,8 +186,11 @@ const message: MessageFn &
   }
 
   const instance = createMessage(normalized, context)
-
-  instances.push(instance)
+  if (normalized.placement === 'bottom') {
+    bttInstances.push(instance)
+  } else {
+    ttbInstances.push(instance)
+  }
   return instance.handler
 }
 
@@ -192,7 +203,7 @@ messageTypes.forEach((type) => {
 
 export function closeAll(type?: MessageType): void {
   // Create a copy of instances to avoid modification during iteration
-  const instancesToClose = [...instances]
+  const instancesToClose = [...bttInstances, ...ttbInstances]
 
   for (const instance of instancesToClose) {
     if (!type || type === instance.props.type) {
@@ -201,7 +212,17 @@ export function closeAll(type?: MessageType): void {
   }
 }
 
+export function closeAllByPlacement(position: MessagePlacement) {
+  const instancesToClose =
+    position === 'bottom' ? [...bttInstances] : [...ttbInstances]
+
+  for (const instance of instancesToClose) {
+    instance.handler.close()
+  }
+}
+
 message.closeAll = closeAll
+message.closeAllByPlacement = closeAllByPlacement
 message._context = null
 
 export default message as Message

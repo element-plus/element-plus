@@ -23,7 +23,10 @@ export const messageTypes = [
   'error',
 ] as const
 
+export const messagePlacement = ['top', 'bottom'] as const
+
 export type MessageType = typeof messageTypes[number]
+export type MessagePlacement = typeof messagePlacement[number]
 /** @deprecated please use `MessageType` instead */
 export type messageType = MessageType // will be removed in 3.0.0.
 
@@ -48,6 +51,7 @@ export const messageDefaults = mutable({
   type: 'info',
   plain: false,
   offset: 16,
+  placement: 'top',
   zIndex: 0,
   grouping: false,
   repeatNum: 1,
@@ -138,6 +142,14 @@ export const messageProps = buildProps({
     default: messageDefaults.offset,
   },
   /**
+   * @description message placement position
+   */
+  placement: {
+    type: String,
+    values: messagePlacement,
+    default: messageDefaults.placement,
+  },
+  /**
    * @description input box size
    */
   zIndex: {
@@ -198,6 +210,7 @@ export interface MessageHandler {
 export type MessageFn = {
   (options?: MessageParams, appContext?: null | AppContext): MessageHandler
   closeAll(type?: MessageType): void
+  closeAllByPlacement(position: MessagePlacement): void
 }
 export type MessageTypedFn = (
   options?: MessageParamsWithType,

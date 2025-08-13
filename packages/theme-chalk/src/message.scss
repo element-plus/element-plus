@@ -16,10 +16,9 @@
   border-color: getCssVar('message', 'border-color');
   position: fixed;
   left: 50%;
-  top: 20px;
   transform: translateX(-50%);
   background-color: getCssVar('message', 'bg-color');
-  transition: opacity getCssVar('transition-duration'), transform 0.4s, top 0.4s;
+  transition: opacity getCssVar('transition-duration'), transform 0.4s;
   padding: getCssVar('message', 'padding');
   display: flex;
   align-items: center;
@@ -91,4 +90,10 @@
 .#{$namespace}-message-fade-leave-to {
   opacity: 0;
   transform: translate(-50%, -100%);
+}
+
+.#{$namespace}-message-fade-enter-from.is-bottom,
+.#{$namespace}-message-fade-leave-to.is-bottom {
+  opacity: 0;
+  transform: translate(-50%, 100%);
 }
