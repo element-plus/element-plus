@@ -9,6 +9,7 @@ import { debugWarn, ensureArray, isUndefined } from '@element-plus/utils'
 import { useComposition, useFocusController } from '@element-plus/hooks'
 import { useFormDisabled, useFormSize } from '@element-plus/components/form'
 
+import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { EmitFn } from '@element-plus/utils'
 import type { FormItemContext } from '@element-plus/components/form'
 import type { InputTagEmits, InputTagProps } from '../input-tag'
@@ -25,6 +26,7 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
 
   const inputRef = shallowRef<HTMLInputElement>()
   const inputValue = ref<string>()
+  const tagTooltipRef = ref<TooltipInstance>()
 
   const tagSize = computed(() => {
     return ['small'].includes(size.value) ? 'small' : 'default'
@@ -151,6 +153,9 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
 
   const { wrapperRef, isFocused } = useFocusController(inputRef, {
     disabled,
+    beforeBlur(event) {
+      return tagTooltipRef.value?.isFocusInsideContent(event)
+    },
     afterBlur() {
       if (props.saveOnBlur) {
         handleAddTag()
@@ -183,6 +188,7 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
   return {
     inputRef,
     wrapperRef,
+    tagTooltipRef,
     isFocused,
     isComposing,
     inputValue,

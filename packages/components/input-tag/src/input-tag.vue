@@ -70,6 +70,7 @@
           modelValue &&
           modelValue.length > maxCollapseTags
         "
+        ref="tagTooltipRef"
         :fallback-placements="['bottom', 'top', 'right', 'left']"
         :effect="tagEffect"
         placement="bottom"
@@ -86,23 +87,28 @@
           </el-tag>
         </template>
         <template #content>
-          <div :class="ns.e('input-tag-item')">
-            <template v-for="(item, index) in modelValue" :key="index">
+          <div :class="ns.e('input-tag-list')">
+            <div
+              v-for="(item, index) in modelValue"
+              :key="item"
+              :class="ns.e('input-tag-item')"
+            >
               <el-tag
                 v-if="index >= maxCollapseTags"
                 :size="tagSize"
                 :closable="closable"
                 :type="tagType"
                 :effect="tagEffect"
-                :draggable="closable && draggable"
                 disable-transitions
                 @close="handleRemoveTag(index)"
               >
-                <slot name="tag" :value="item" :index="index">
-                  {{ item }}
-                </slot>
+                <span :class="ns.e('tags-text')">
+                  <slot name="label" :value="item" :index="index">
+                    {{ item }}
+                  </slot>
+                </span>
               </el-tag>
-            </template>
+            </div>
           </div>
         </template>
       </el-tooltip>
@@ -172,6 +178,7 @@ import { computed, useSlots } from 'vue'
 import { CircleClose } from '@element-plus/icons-vue'
 import { useAttrs, useCalcInputWidth } from '@element-plus/hooks'
 import { NOOP, ValidateComponentsMap } from '@element-plus/utils'
+import ElTooltip from '@element-plus/components/tooltip'
 import ElIcon from '@element-plus/components/icon'
 import ElTag from '@element-plus/components/tag'
 import { useFormItem, useFormItemInputId } from '@element-plus/components/form'
@@ -205,6 +212,7 @@ const validateIcon = computed(() => {
 const {
   inputRef,
   wrapperRef,
+  tagTooltipRef,
   isFocused,
   inputValue,
   size,

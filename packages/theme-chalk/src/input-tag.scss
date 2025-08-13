@@ -102,11 +102,43 @@
     );
   }
 
+  @include e(input-tag-list) {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+    gap: map.get($input-tag-gap, 'default');
+
+    @include when(near) {
+      margin-left: map.get($select-near-margin-left, 'default');
+    }
+
+    .#{$namespace}-tag {
+      cursor: pointer;
+      border-color: transparent;
+
+      &.#{$namespace}-tag--plain {
+        border-color: getCssVar('tag', 'border-color');
+      }
+
+      .#{$namespace}-tag__content {
+        min-width: 0;
+      }
+    }
+  }
+
   @include e(input-tag-item) {
     display: flex;
     flex-wrap: wrap;
     user-select: none;
-    gap: map.get($input-tag-gap, 'default');
+  }
+
+  @include e(tags-text) {
+    display: block;
+    line-height: normal;
+    @include utils-ellipsis;
   }
 
   @include e(inner) {
