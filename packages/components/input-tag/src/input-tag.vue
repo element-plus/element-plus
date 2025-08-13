@@ -74,7 +74,7 @@
         @mousedown.prevent="NOOP"
         @click="handleClear"
       >
-        <component :is="props.clearIcon" />
+        <component :is="clearIcon" />
       </el-icon>
       <el-icon
         v-if="validateState && validateIcon && needStatusIcon"
