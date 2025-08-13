@@ -36,7 +36,7 @@ transitions/collapse
 
 ## On-demand import
 
-```ts [mian.ts]
+```ts [main.ts]
 // collapse
 import { ElCollapseTransition } from 'element-plus'
 // fade/zoom

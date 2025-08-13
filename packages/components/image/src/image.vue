@@ -63,7 +63,7 @@ import {
   useAttrs as useRawAttrs,
   watch,
 } from 'vue'
-import { useEventListener, useThrottleFn } from '@vueuse/core'
+import { useIntersectionObserver, useThrottleFn } from '@vueuse/core'
 import { fromPairs } from 'lodash-unified'
 import { useAttrs, useLocale, useNamespace } from '@element-plus/hooks'
 import ImageViewer from '@element-plus/components/image-viewer'
@@ -72,8 +72,8 @@ import {
   isArray,
   isClient,
   isElement,
-  isInContainer,
   isString,
+  isWindow,
 } from '@element-plus/utils'
 import { imageEmits, imageProps } from './image'
 
@@ -111,7 +111,7 @@ const hasLoadError = ref(false)
 const isLoading = ref(true)
 const showViewer = ref(false)
 const container = ref<HTMLElement>()
-const _scrollContainer = ref<HTMLElement | Window>()
+const _scrollContainer = ref<HTMLElement | undefined>()
 
 const supportLoading = isClient && 'loading' in HTMLImageElement.prototype
 let stopScrollListener: (() => void) | undefined
@@ -170,8 +170,8 @@ function handleError(event: Event) {
   emit('error', event)
 }
 
-function handleLazyLoad() {
-  if (isInContainer(container.value, _scrollContainer.value)) {
+function handleLazyLoad(isIntersecting: boolean) {
+  if (isIntersecting) {
     loadImage()
     removeLazyLoadListener()
   }
@@ -191,24 +191,28 @@ async function addLazyLoadListener() {
     _scrollContainer.value =
       document.querySelector<HTMLElement>(scrollContainer) ?? undefined
   } else if (container.value) {
-    _scrollContainer.value = getScrollContainer(container.value)
+    const scrollContainer = getScrollContainer(container.value)
+    _scrollContainer.value = isWindow(scrollContainer)
+      ? undefined
+      : scrollContainer
   }
 
-  if (_scrollContainer.value) {
-    stopScrollListener = useEventListener(
-      _scrollContainer,
-      'scroll',
-      lazyLoadHandler
-    )
-    setTimeout(() => handleLazyLoad(), 100)
-  }
+  const { stop } = useIntersectionObserver(
+    container,
+    ([entry]) => {
+      lazyLoadHandler(entry.isIntersecting)
+    },
+    { root: _scrollContainer }
+  )
+  stopScrollListener = stop
 }
 
 function removeLazyLoadListener() {
-  if (!isClient || !_scrollContainer.value || !lazyLoadHandler) return
+  if (!isClient || !lazyLoadHandler) return
 
   stopScrollListener?.()
   _scrollContainer.value = undefined
+  stopScrollListener = undefined
 }
 
 function clickHandler() {

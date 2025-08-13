@@ -12,7 +12,7 @@ import {
   watchEffect,
   withDirectives,
 } from 'vue'
-import { useResizeObserver } from '@vueuse/core'
+import { unrefElement, useResizeObserver } from '@vueuse/core'
 import { isNil } from 'lodash-unified'
 import ElIcon from '@element-plus/components/icon'
 import { More } from '@element-plus/icons-vue'
@@ -207,8 +207,10 @@ export default defineComponent({
     const instance = getCurrentInstance()!
     const router = instance.appContext.config.globalProperties.$router as Router
     const menu = ref<HTMLUListElement>()
+    const subMenu = ref<HTMLElement>()
     const nsMenu = useNamespace('menu')
     const nsSubMenu = useNamespace('sub-menu')
+    let moreItemWidth = 64
 
     // data
     const sliceIndex = ref(-1)
@@ -328,7 +330,6 @@ export default defineComponent({
       const items = Array.from(menu.value?.childNodes ?? []).filter(
         (item) => item.nodeName !== '#text' || item.nodeValue
       ) as HTMLElement[]
-      const moreItemWidth = 64
       const computedMenuStyle = getComputedStyle(menu.value!)
       const paddingLeft = Number.parseInt(computedMenuStyle.paddingLeft, 10)
       const paddingRight = Number.parseInt(computedMenuStyle.paddingRight, 10)
@@ -360,6 +361,8 @@ export default defineComponent({
 
     let isFirstTimeRender = true
     const handleResize = () => {
+      const el = unrefElement(subMenu)
+      if (el) moreItemWidth = calcMenuItemWidth(el) || 64
       if (sliceIndex.value === calcSliceIndex()) return
       const callback = () => {
         sliceIndex.value = -1
@@ -490,6 +493,7 @@ export default defineComponent({
             h(
               ElSubMenu,
               {
+                ref: subMenu,
                 index: 'sub-menu-more',
                 class: nsSubMenu.e('hide-arrow'),
                 popperOffset: props.popperOffset,

@@ -667,7 +667,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     expanded.value = false
 
     if (isFocused.value) {
-      const _event = new FocusEvent('focus', event)
+      const _event = new FocusEvent('blur', event)
       nextTick(() => handleBlur(_event))
     }
   }
@@ -793,10 +793,23 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   }
 
   useResizeObserver(selectionRef, resetSelectionWidth)
-  useResizeObserver(menuRef, updateTooltip)
   useResizeObserver(wrapperRef, updateTooltip)
   useResizeObserver(tagMenuRef, updateTagTooltip)
   useResizeObserver(collapseItemRef, resetCollapseItemWidth)
+
+  // #21498
+  let stop: (() => void) | undefined
+  watch(
+    () => dropdownMenuVisible.value,
+    (newVal) => {
+      if (newVal) {
+        stop = useResizeObserver(menuRef, updateTooltip).stop
+      } else {
+        stop?.()
+        stop = undefined
+      }
+    }
+  )
 
   onMounted(() => {
     setSelected()

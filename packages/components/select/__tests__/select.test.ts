@@ -1763,6 +1763,9 @@ describe('Select', () => {
       'is-focused'
     )
     expect(handleBlur).toHaveBeenCalledTimes(1)
+    expect(handleBlur.mock.calls[0]).toEqual([
+      expect.objectContaining({ type: 'blur' }),
+    ])
   })
 
   test('should not open popper when automatic-dropdown not set', async () => {
@@ -3429,5 +3432,121 @@ describe('Select', () => {
 
     await wrapper.setData({ formDisabled: false })
     expect(wrapper.find('.custom-tag').text()).toBe('enabled')
+  })
+
+  test('renders options via props', async () => {
+    wrapper = _mount(
+      `<el-select v-model="value" @change="handleChange" :options="options"/>`,
+      () => ({
+        options: [
+          {
+            value: '选项1',
+            label: '黄金糕',
+          },
+          {
+            value: '选项2',
+            label: '双皮奶',
+          },
+          {
+            value: '选项3',
+            label: '蚵仔煎',
+          },
+          {
+            value: '选项4',
+            label: '龙须面',
+          },
+          {
+            value: '选项5',
+            label: '北京烤鸭',
+          },
+        ],
+        value: '',
+        count: 0,
+      }),
+      {
+        methods: {
+          handleChange() {
+            this.count++
+          },
+        },
+      }
+    )
+
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+    const options = getOptions()
+    const vm = wrapper.vm as any
+    expect(vm.value).toBe('')
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe(
+      DEFAULT_PLACEHOLDER
+    )
+    options[2].click()
+    await nextTick()
+    expect(vm.value).toBe('选项3')
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('蚵仔煎')
+    expect(vm.count).toBe(1)
+    options[4].click()
+    await nextTick()
+    expect(vm.value).toBe('选项5')
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('北京烤鸭')
+    expect(vm.count).toBe(2)
+  })
+
+  test('renders options with custom field names', async () => {
+    wrapper = _mount(
+      `<el-select v-model="value" @change="handleChange" :options="options" :props="{
+        value:'id'
+      }"/>`,
+      () => ({
+        options: [
+          {
+            id: 1,
+            label: '黄金糕',
+          },
+          {
+            id: 2,
+            label: '双皮奶',
+          },
+          {
+            id: 3,
+            label: '蚵仔煎',
+          },
+          {
+            id: 4,
+            label: '龙须面',
+          },
+          {
+            id: 5,
+            label: '北京烤鸭',
+          },
+        ],
+        value: '',
+        count: 0,
+      }),
+      {
+        methods: {
+          handleChange() {
+            this.count++
+          },
+        },
+      }
+    )
+
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+    const options = getOptions()
+    const vm = wrapper.vm as any
+    expect(vm.value).toBe('')
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe(
+      DEFAULT_PLACEHOLDER
+    )
+    options[2].click()
+    await nextTick()
+    expect(vm.value).toBe(3)
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('蚵仔煎')
+    expect(vm.count).toBe(1)
+    options[4].click()
+    await nextTick()
+    expect(vm.value).toBe(5)
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('北京烤鸭')
+    expect(vm.count).toBe(2)
   })
 })

@@ -169,7 +169,7 @@
         </div>
       </div>
     </div>
-    <div v-show="footerVisible" :class="ppNs.e('footer')">
+    <div v-if="showFooter && footerVisible" :class="ppNs.e('footer')">
       <el-button
         v-show="!isMultipleType && showNow"
         text
@@ -343,11 +343,6 @@ const handleDatePick = async (value: DateTableEmits, keepOpen?: boolean) => {
     }
     innerDate.value = newDate
     emit(newDate, showTime.value || keepOpen)
-    // fix: https://github.com/element-plus/element-plus/issues/14728
-    if (props.type === 'datetime') {
-      await nextTick()
-      handleFocusPicker()
-    }
   } else if (selectionMode.value === 'week') {
     emit((value as WeekPickerEmits).date)
   } else if (selectionMode.value === 'dates') {

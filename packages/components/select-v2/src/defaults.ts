@@ -136,6 +136,7 @@ export const selectV2Props = buildProps({
     type: definePropType<
       any[] | string | number | boolean | Record<string, any> | any
     >([Array, String, Number, Boolean, Object]),
+    default: undefined,
   },
   /**
    * @description is multiple

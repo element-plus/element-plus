@@ -352,7 +352,7 @@
         </div>
       </div>
     </div>
-    <div v-if="showTime" :class="ppNs.e('footer')">
+    <div v-if="showFooter && showTime" :class="ppNs.e('footer')">
       <el-button
         v-if="clearable"
         text
@@ -376,7 +376,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref, toRef, unref, watch } from 'vue'
+import { computed, inject, nextTick, ref, toRef, unref, watch } from 'vue'
 import dayjs from 'dayjs'
 import { ClickOutside as vClickoutside } from '@element-plus/directives'
 import { isArray } from '@element-plus/utils'
@@ -438,6 +438,7 @@ const defaultValue = toRef(pickerBase.props, 'defaultValue')
 const { lang } = useLocale()
 const leftDate = ref<Dayjs>(dayjs().locale(lang.value))
 const rightDate = ref<Dayjs>(dayjs().locale(lang.value).add(1, unit))
+let shouldBeVisible = true
 
 const {
   minDate,
@@ -688,9 +689,18 @@ const handleRangePick = (
   maxDate.value = maxDate_
   minDate.value = minDate_
 
-  if (!close || showTime.value) return
-  handleRangeConfirm()
+  if (!showTime.value && close) {
+    close = !minDate_ || !maxDate_
+  }
+  shouldBeVisible = close
 }
+
+watch([maxDate, minDate], ([max, min]) => {
+  if (max && min) {
+    handleRangeConfirm(shouldBeVisible)
+    shouldBeVisible = true
+  }
+})
 
 const minTimePickerVisible = ref(false)
 const maxTimePickerVisible = ref(false)
@@ -800,6 +810,9 @@ const handleMinTimePick = (value: Dayjs, visible: boolean, first: boolean) => {
   if (!maxDate.value || maxDate.value.isBefore(minDate.value)) {
     maxDate.value = minDate.value
     rightDate.value = value
+    nextTick(() => {
+      onReset(props.parsedValue)
+    })
   }
 }
 

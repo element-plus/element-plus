@@ -1,11 +1,13 @@
 import { computed, defineComponent, nextTick, reactive, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import Chinese from '@element-plus/locale/lang/zh-cn'
 import English from '@element-plus/locale/lang/en'
 import {
   ElButton,
+  ElCard,
+  ElDialog,
   ElLink,
   ElMessage,
   ElPagination,
@@ -155,6 +157,26 @@ describe('config-provider', () => {
     })
   })
 
+  describe('card-config', () => {
+    it('should have shadow="hover" instead of \'always\'', async () => {
+      const config = reactive({
+        shadow: 'hover',
+      })
+      const overrideShadow = ref('')
+
+      const wrapper = mount(() => (
+        <ConfigProvider card={config}>
+          <ElCard shadow={overrideShadow.value as any}>I love rem!</ElCard>
+        </ConfigProvider>
+      ))
+      await nextTick()
+      expect(wrapper.find('.el-card.is-hover-shadow').exists()).toBe(true)
+      overrideShadow.value = 'never'
+      await nextTick()
+      expect(wrapper.find('.el-card.is-never-shadow').exists()).toBe(true)
+    })
+  })
+
   describe('link-config', () => {
     it('should have :type="success" :underline="always"', async () => {
       const config = reactive({
@@ -169,6 +191,89 @@ describe('config-provider', () => {
       ))
       await nextTick()
       expect(wrapper.find('.el-link--success.is-underline').exists()).toBe(true)
+    })
+  })
+
+  describe('dialog-config', () => {
+    it('should align overlay dialog center', async () => {
+      const config = reactive({
+        alignCenter: true,
+      })
+
+      const wrapper = mount(() => (
+        <ConfigProvider dialog={config}>
+          <ElDialog modelValue={true} title="Hello">
+            test
+          </ElDialog>
+        </ConfigProvider>
+      ))
+
+      await nextTick()
+      const overlay = wrapper.find('.el-overlay-dialog')
+      expect(overlay.exists()).toBe(true)
+      expect(overlay.attributes('style') || '').toContain('display: flex')
+    })
+
+    it('should enable draggable', async () => {
+      const config = reactive({
+        draggable: true,
+      })
+
+      const wrapper = mount(() => (
+        <ConfigProvider dialog={config}>
+          <ElDialog modelValue={true} title="Hello">
+            test
+          </ElDialog>
+        </ConfigProvider>
+      ))
+
+      await nextTick()
+      const dialog = wrapper.find('.el-dialog')
+      expect(dialog.exists()).toBe(true)
+      expect(dialog.classes()).toContain('is-draggable')
+    })
+
+    it('should use transition from global config (hooks merged and called)', async () => {
+      const afterEnter = vi.fn()
+      const beforeLeave = vi.fn()
+      const afterLeave = vi.fn()
+
+      const visible = ref(true)
+      const TestHost = defineComponent({
+        setup() {
+          return () => (
+            <ConfigProvider
+              dialog={{
+                transition: {
+                  name: 'my-dialog-transition',
+                  onAfterEnter: afterEnter,
+                  onBeforeLeave: beforeLeave,
+                  onAfterLeave: afterLeave,
+                },
+              }}
+            >
+              <ElDialog modelValue={visible.value} title="Hello">
+                content
+              </ElDialog>
+            </ConfigProvider>
+          )
+        },
+      })
+      const wrapper = mount(() => <TestHost />)
+      await nextTick()
+      await rAF()
+      await nextTick()
+      expect(afterEnter).toHaveBeenCalledTimes(1)
+
+      // trigger close to run leave hooks
+      visible.value = false
+      await nextTick()
+      await rAF()
+      await nextTick()
+      expect(beforeLeave).toHaveBeenCalledTimes(1)
+      expect(afterLeave).toHaveBeenCalledTimes(1)
+
+      wrapper.unmount()
     })
   })
 
