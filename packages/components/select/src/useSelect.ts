@@ -521,10 +521,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     }
   }
 
-  const deleteTag = (
-    event: MouseEvent,
-    tag: OptionPublicInstance | OptionBasic
-  ) => {
+  const deleteTag = (event: MouseEvent, tag: OptionBasic) => {
     const index = states.selected.indexOf(tag)
     if (index > -1 && !selectDisabled.value) {
       const value = ensureArray(props.modelValue).slice()

@@ -38,7 +38,7 @@ export function useOption(props: OptionProps, states: OptionStates) {
   })
 
   const currentLabel = computed(() => {
-    return props.label ?? (isObject(props.value) ? '' : props.value)
+    return props.label ?? (isObject(props.value) ? '' : props.value ?? '')
   })
 
   const currentValue = computed(() => {
