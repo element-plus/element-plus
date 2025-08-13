@@ -1,5 +1,5 @@
 import '@element-plus/components/base/style/css'
-import '@element-plus/theme-chalk/src/el-date-picker-panel.css'
+import '@element-plus/theme-chalk/el-date-picker-panel.css'
 import '@element-plus/components/input/style/css'
 import '@element-plus/components/scrollbar/style/css'
 import '@element-plus/components/button/style/css'
