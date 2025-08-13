@@ -1,4 +1,4 @@
-import { nextTick } from 'vue'
+import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import { ElSplitter, ElSplitterPanel } from '../index'
@@ -216,5 +216,45 @@ describe('Splitter', () => {
     await endCollapseButton.trigger('click')
     await nextTick()
     expect(onCollapse).toHaveBeenCalledWith(0, 'end', [200, 200])
+  })
+
+  it('should collapse normally when size is two-way bound and min is set', async () => {
+    const size = ref(150)
+    const wrapper = mount(() => (
+      <div style={{ width: '400px', height: '400px' }}>
+        <ElSplitter>
+          <ElSplitterPanel v-model:size={size.value} collapsible min={50}>
+            Left Panel
+          </ElSplitterPanel>
+          <ElSplitterPanel collapsible>Right Panel</ElSplitterPanel>
+        </ElSplitter>
+      </div>
+    ))
+    await nextTick()
+
+    const panels = wrapper.findAll('.el-splitter-panel')
+    const startCollapseButton = wrapper.find(
+      '.el-splitter-bar__horizontal-collapse-icon-start'
+    )
+    const endCollapseButton = wrapper.find(
+      '.el-splitter-bar__horizontal-collapse-icon-end'
+    )
+
+    // default size
+    expect(panels[0].attributes('style')).toContain('flex-basis: 150px;')
+
+    // Click collapse button
+    await startCollapseButton.trigger('click')
+    await nextTick()
+
+    // Panel should be collapsed (size = 0)
+    expect(panels[0].attributes('style')).toContain('flex-basis: 0px;')
+
+    // Click collapse button  to expand
+    await endCollapseButton.trigger('click')
+    await nextTick()
+
+    // Panel should be restored to original size
+    expect(panels[0].attributes('style')).toContain('flex-basis: 150px;')
   })
 })
