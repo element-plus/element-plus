@@ -26,7 +26,10 @@
           @focusout-prevented="onFocusoutPrevented"
           @release-requested="onCloseRequested"
         >
-          <el-splitter :layout="isHorizontal ? 'horizontal' : 'vertical'">
+          <el-splitter
+            :class="ns.b('splitter')"
+            :layout="isHorizontal ? 'horizontal' : 'vertical'"
+          >
             <el-splitter-panel
               v-if="['rtl', 'btt'].includes(direction)"
               @click="onModalClick"

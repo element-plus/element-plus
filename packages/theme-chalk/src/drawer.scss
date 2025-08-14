@@ -81,14 +81,26 @@ $directions: rtl, ltr, ttb, btt;
   }
 }
 
-.#{$namespace}-splitter-bar {
-  &__disable {
-    display: none;
-  }
+.#{$namespace}-drawer-splitter {
+  $bar: #{$namespace}-splitter-bar;
 
-  &__dragger {
-    &:not(&-active, &:hover)::before {
-      background-color: transparent;
+  > .#{$bar} {
+    .#{$bar}__disable {
+      display: none;
+    }
+
+    .#{$bar}__dragger {
+      &-horizontal::before {
+        width: 1px;
+      }
+
+      &-vertical::before {
+        height: 1px;
+      }
+
+      &:not(&-active, &:hover)::before {
+        background-color: transparent;
+      }
     }
   }
 }
@@ -97,6 +109,10 @@ $directions: rtl, ltr, ttb, btt;
   &-enter-active,
   &-leave-active {
     transition: all getCssVar('transition-duration');
+
+    .#{$namespace}-splitter-bar__dragger {
+      display: none;
+    }
   }
 
   &-enter-from,
