@@ -63,6 +63,7 @@ export const panelSharedProps = buildProps({
     type: Boolean,
     default: true,
   },
+  showConfirm: Boolean,
   showFooter: {
     type: Boolean,
     default: true,
@@ -78,6 +79,7 @@ export const panelRangeSharedProps = buildProps({
     type: Boolean,
     default: true,
   },
+  showConfirm: Boolean,
   showFooter: {
     type: Boolean,
     default: true,

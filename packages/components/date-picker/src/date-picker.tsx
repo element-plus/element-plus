@@ -3,9 +3,7 @@ import {
   CommonPicker,
   DEFAULT_FORMATS_DATE,
   DEFAULT_FORMATS_DATEPICKER,
-  type DateModelType,
   PICKER_POPPER_OPTIONS_INJECTION_KEY,
-  type SingleOrRange,
 } from '@element-plus/components/time-picker'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import ElDatePickerPanel, {
@@ -13,6 +11,10 @@ import ElDatePickerPanel, {
 } from '@element-plus/components/date-picker-panel'
 import { datePickerProps } from './props'
 
+import type {
+  DateModelType,
+  SingleOrRange,
+} from '@element-plus/components/time-picker'
 import type { DatePickerExpose } from './instance'
 
 export default defineComponent({
@@ -69,7 +71,11 @@ export default defineComponent({
         >
           {{
             default: (scopedProps: /**FIXME: remove any type */ any) => (
-              <ElDatePickerPanel border={false} {...scopedProps}>
+              <ElDatePickerPanel
+                showConfirm={false}
+                border={false}
+                {...scopedProps}
+              >
                 {slots}
               </ElDatePickerPanel>
             ),

@@ -148,6 +148,7 @@
         :type="type"
         :default-value="defaultValue"
         :show-now="showNow"
+        :show-confirm="showConfirm"
         :show-footer="showFooter"
         :show-week-number="showWeekNumber"
         @pick="onPick"

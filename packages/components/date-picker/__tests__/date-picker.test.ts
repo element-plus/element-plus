@@ -786,6 +786,20 @@ describe('DatePicker', () => {
     expect(el.textContent.includes('y')).toBeTruthy()
   })
 
+  it('should toggle visibility of confirm button through show-confirm', async () => {
+    const wrapper = _mount(`<el-date-picker type="datetime" show-confirm />`)
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    expect(
+      document.querySelectorAll('.el-picker-panel__footer button')
+    ).toHaveLength(2)
+    await wrapper.setProps({ showConfirm: false })
+    expect(
+      document.querySelectorAll('.el-picker-panel__footer button')
+    ).toHaveLength(1)
+  })
+
   it('custom content comment for type is year', async () => {
     _mount(
       `<el-date-picker
