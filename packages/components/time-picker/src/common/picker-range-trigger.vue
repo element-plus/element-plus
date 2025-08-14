@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, reactive } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { useAttrs, useFocusController, useNamespace } from '@element-plus/hooks'
 import { timePickerRangeTriggerProps } from './props'
 import { useFormItem, useFormItemInputId } from '@element-plus/components/form'
