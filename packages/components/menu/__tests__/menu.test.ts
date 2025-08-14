@@ -6,6 +6,8 @@ import Menu from '../src/menu'
 import MenuGroup from '../src/menu-item-group.vue'
 import MenuItem from '../src/menu-item.vue'
 import SubMenu from '../src/sub-menu'
+import defineGetter from '@element-plus/test-utils/define-getter'
+import { rAF } from '@element-plus/test-utils/tick'
 
 const _mount = (template: string, options = {}) =>
   mount({
@@ -475,5 +477,71 @@ describe('other', () => {
     expect(
       instance.$el.querySelector('.el-menu-item.is-active').innerHTML
     ).toEqual('new')
+  })
+
+  test('should not generate nodes from comments, issue 21750', () => {
+    const wrapper = _mount(
+      `<el-menu mode="horizontal" default-active="1">
+        <el-menu-item index="1">Workbenches</el-menu-item>
+        <el-menu-item index="2">Users</el-menu-item>
+        <!-- comment -->
+        <!-- comment -->
+        <!-- comment -->
+      </el-menu>`
+    )
+
+    expect(wrapper.findComponent({ ref: 'subMenu' }).exists()).toBeFalsy()
+  })
+
+  test('should not generate more when width is sufficient, issue 15868', async () => {
+    const itemWidth = 100
+
+    const wrapper = _mount(
+      `<el-menu mode="horizontal" default-active="1">
+        <el-menu-item index="1">选项1</el-menu-item>
+        <el-menu-item index="2">选项2</el-menu-item>
+        <el-menu-item index="3">选项3</el-menu-item>
+        <el-menu-item index="4">选项4</el-menu-item>
+        <el-menu-item index="5">选项5</el-menu-item>
+      </el-menu>`
+    )
+
+    const menu = wrapper.findComponent({ name: 'ElMenu' })
+    const menuItems = wrapper.findAllComponents({ name: 'ElMenuItem' })
+    expect(menu.exists()).toBeTruthy()
+
+    // mock size
+    vi.spyOn(window, 'getComputedStyle').mockImplementation(() => {
+      return {
+        offsetWidth: itemWidth,
+        marginLeft: 0,
+        marginRight: 0,
+        paddingLeft: 0,
+        paddingRight: 0,
+      }
+    })
+    const spy = vi
+      .spyOn(menu.element, 'clientWidth', 'get')
+      .mockReturnValue(itemWidth * 2)
+    const menuItemsCleanups = menuItems.map((item) => {
+      return defineGetter(item.element, 'offsetWidth', itemWidth)
+    })
+
+    menu.vm.$.exposed.handleResize()
+    await rAF()
+    await nextTick()
+
+    expect(wrapper.findComponent({ name: 'ElSubMenu' }).exists()).toBeTruthy()
+
+    spy.mockReturnValue(itemWidth * 6)
+    menu.vm.$.exposed.handleResize()
+
+    await rAF()
+    await nextTick()
+    expect(wrapper.findComponent({ name: 'ElSubMenu' }).exists()).toBeFalsy()
+
+    menuItemsCleanups.forEach((fn) => fn())
+    vi.restoreAllMocks()
+    spy.mockRestore()
   })
 })

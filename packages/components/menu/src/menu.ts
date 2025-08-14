@@ -550,6 +550,7 @@ export default defineComponent({
               [nsMenu.b()]: true,
               [nsMenu.m(props.mode)]: true,
               [nsMenu.m('collapse')]: props.collapse,
+              [nsMenu.is('ellipsis', props.ellipsis)]: true,
             },
           },
           [...slot, ...vShowMore]

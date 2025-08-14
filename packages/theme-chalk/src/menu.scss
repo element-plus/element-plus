@@ -86,6 +86,11 @@
 
     height: getCssVar('menu-horizontal-height');
 
+    @include when(ellipsis) {
+      overflow-x: hidden;
+      flex: 1;
+    }
+
     // reset menu-item popup height
     &.#{$namespace}-menu--popup-container {
       height: unset;
