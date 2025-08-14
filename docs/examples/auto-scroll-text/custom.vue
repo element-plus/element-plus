@@ -56,6 +56,22 @@
       :show-controls="false"
       :speed="40"
     />
+
+    <div class="sub-title my-2 text-sm text-gray-600 mt-8">
+      自定义按钮文案示例
+    </div>
+
+    <el-auto-scroll-text
+      text="这是一段很长的文本内容，当文本内容超过容器宽度时会自动横向滚动显示，支持自定义控制按钮的文案。"
+      type="info"
+      :auto-start="true"
+      :loop="true"
+      :pause-on-hover="true"
+      :show-controls="true"
+      :speed="60"
+      pause-button-text="暂停滚动"
+      reset-button-text="重新开始"
+    />
   </div>
 </template>
 

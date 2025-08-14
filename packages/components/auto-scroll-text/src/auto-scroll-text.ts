@@ -109,6 +109,20 @@ export const autoScrollTextProps = buildProps({
     values: ['light', 'dark'],
     default: 'light',
   },
+  /**
+   * @description 暂停/继续按钮文案
+   */
+  pauseButtonText: {
+    type: String,
+    default: '',
+  },
+  /**
+   * @description 重置按钮文案
+   */
+  resetButtonText: {
+    type: String,
+    default: '',
+  },
 } as const)
 
 export type AutoScrollTextProps = ExtractPropTypes<typeof autoScrollTextProps>

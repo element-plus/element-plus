@@ -91,22 +91,24 @@ auto-scroll-text/api
 
 ### Attributes
 
-| Name           | Description                               | Type                                                 | Default    |
-| -------------- | ----------------------------------------- | ---------------------------------------------------- | ---------- |
-| text           | Text content to scroll (required)         | ^[string]                                            | —          |
-| direction      | Scroll direction                          | ^[enum]`'horizontal' \| 'vertical'`                  | horizontal |
-| speed          | Scroll speed in pixels per second         | ^[number]                                            | 50         |
-| auto-start     | Whether to start scrolling automatically  | ^[boolean]                                           | true       |
-| show-controls  | Whether to show control buttons           | ^[boolean]                                           | true       |
-| loop           | Whether to loop scrolling                 | ^[boolean]                                           | true       |
-| pause-on-hover | Whether to pause scrolling on mouse hover | ^[boolean]                                           | true       |
-| title          | Alert title                               | ^[string]                                            | —          |
-| type           | Alert type                                | ^[enum]`'success' \| 'warning' \| 'info' \| 'error'` | info       |
-| description    | Alert description                         | ^[string]                                            | —          |
-| closable       | Whether Alert can be closed               | ^[boolean]                                           | false      |
-| show-icon      | Whether to show Alert icon                | ^[boolean]                                           | true       |
-| center         | Whether to center Alert content           | ^[boolean]                                           | false      |
-| effect         | Alert theme                               | ^[enum]`'light' \| 'dark'`                           | light      |
+| Name              | Description                               | Type                                                 | Default    |
+| ----------------- | ----------------------------------------- | ---------------------------------------------------- | ---------- |
+| text              | Text content to scroll (required)         | ^[string]                                            | —          |
+| direction         | Scroll direction                          | ^[enum]`'horizontal' \| 'vertical'`                  | horizontal |
+| speed             | Scroll speed in pixels per second         | ^[number]                                            | 50         |
+| auto-start        | Whether to start scrolling automatically  | ^[boolean]                                           | true       |
+| show-controls     | Whether to show control buttons           | ^[boolean]                                           | true       |
+| loop              | Whether to loop scrolling                 | ^[boolean]                                           | true       |
+| pause-on-hover    | Whether to pause scrolling on mouse hover | ^[boolean]                                           | true       |
+| title             | Alert title                               | ^[string]                                            | —          |
+| type              | Alert type                                | ^[enum]`'success' \| 'warning' \| 'info' \| 'error'` | info       |
+| description       | Alert description                         | ^[string]                                            | —          |
+| closable          | Whether Alert can be closed               | ^[boolean]                                           | false      |
+| show-icon         | Whether to show Alert icon                | ^[boolean]                                           | true       |
+| center            | Whether to center Alert content           | ^[boolean]                                           | false      |
+| effect            | Alert theme                               | ^[enum]`'light' \| 'dark'`                           | light      |
+| pause-button-text | Custom text for pause/continue button     | ^[string]                                            | —          |
+| reset-button-text | Custom text for reset button              | ^[string]                                            | —          |
 
 ### Events
 

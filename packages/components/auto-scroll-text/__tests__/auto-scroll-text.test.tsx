@@ -16,8 +16,8 @@ vi.mock('../src/auto-scroll-text.vue', () => ({
             </div>
           </div>
           <div v-if="showControls" class="el-scroll-controls">
-            <button class="el-button" @click="togglePause">{{ isPaused ? '继续' : '暂停' }}</button>
-            <button class="el-button" @click="reset">重置</button>
+            <button class="el-button" @click="togglePause">{{ isPaused ? (pauseButtonText || '继续') : (pauseButtonText || '暂停') }}</button>
+            <button class="el-button" @click="reset">{{ resetButtonText || '重置' }}</button>
           </div>
           <div v-if="closable" class="el-alert__close-btn" @click="handleClose">×</div>
         </div>
@@ -65,6 +65,14 @@ vi.mock('../src/auto-scroll-text.vue', () => ({
       loop: {
         type: Boolean,
         default: true,
+      },
+      pauseButtonText: {
+        type: String,
+        default: '',
+      },
+      resetButtonText: {
+        type: String,
+        default: '',
       },
     },
     computed: {
@@ -437,5 +445,45 @@ describe('AutoScrollText.vue', () => {
     expect(wrapper.find('.el-scroll-text').exists()).toBe(true)
     expect(wrapper.find('.el-text-item').exists()).toBe(true)
     expect(wrapper.find('.el-scroll-controls').exists()).toBe(true)
+  })
+
+  test('自定义按钮文案', () => {
+    const wrapper = createWrapper({
+      text: AXIOM,
+      pauseButtonText: '暂停滚动',
+      resetButtonText: '重新开始',
+    })
+
+    // 检查暂停/继续按钮文案
+    const pauseButton = wrapper.find(
+      '.el-scroll-controls .el-button:first-child'
+    )
+    expect(pauseButton.text()).toBe('暂停滚动')
+
+    // 检查重置按钮文案
+    const resetButton = wrapper.find(
+      '.el-scroll-controls .el-button:last-child'
+    )
+    expect(resetButton.text()).toBe('重新开始')
+  })
+
+  test('自定义按钮文案为空时使用默认文案', () => {
+    const wrapper = createWrapper({
+      text: AXIOM,
+      pauseButtonText: '',
+      resetButtonText: '',
+    })
+
+    // 检查暂停/继续按钮使用默认文案
+    const pauseButton = wrapper.find(
+      '.el-scroll-controls .el-button:first-child'
+    )
+    expect(pauseButton.text()).toBe('暂停')
+
+    // 检查重置按钮使用默认文案
+    const resetButton = wrapper.find(
+      '.el-scroll-controls .el-button:last-child'
+    )
+    expect(resetButton.text()).toBe('重置')
   })
 })

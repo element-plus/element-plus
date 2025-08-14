@@ -46,7 +46,11 @@
         text
         @click="togglePause"
       >
-        {{ isPaused ? '继续' : '暂停' }}
+        {{
+          isPaused
+            ? props.pauseButtonText || '继续'
+            : props.pauseButtonText || '暂停'
+        }}
       </el-button>
       <el-button
         size="small"
@@ -55,7 +59,7 @@
         text
         @click="resetScroll"
       >
-        重置
+        {{ props.resetButtonText || '重置' }}
       </el-button>
     </div>
   </div>
