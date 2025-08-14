@@ -1,8 +1,10 @@
-import { Ref, computed, onBeforeUnmount, ref, watch } from 'vue'
-import { DrawerProps } from '../drawer'
+import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { addUnit, isString } from '@element-plus/utils'
 import { clamp, useEventListener, useWindowSize } from '@vueuse/core'
 import { toNumber } from 'lodash-unified'
+
+import type { Ref } from 'vue'
+import type { DrawerProps } from '../drawer'
 
 function getNumberSize(size: number | string, windowSize: number) {
   if (isString(size)) {
