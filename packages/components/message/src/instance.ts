@@ -12,18 +12,13 @@ export type MessageContext = {
   props: Mutable<MessageProps>
 }
 
-export const placementInstances = shallowReactive<
-  Record<MessagePlacement, MessageContext[]>
->({} as Record<MessagePlacement, MessageContext[]>)
+export const placementInstances = shallowReactive(
+  {} as Record<MessagePlacement, MessageContext[]>
+)
 
-/**
- * Get or create message instances array for specified placement on demand
- * @param placement
- * @returns placement instances
- */
 export const getOrCreatePlacementInstances = (placement: MessagePlacement) => {
   if (!placementInstances[placement]) {
-    placementInstances[placement] = shallowReactive<MessageContext[]>([])
+    placementInstances[placement] = shallowReactive([])
   }
   return placementInstances[placement]
 }
