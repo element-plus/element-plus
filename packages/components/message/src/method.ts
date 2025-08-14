@@ -81,15 +81,19 @@ const normalizeOptions = (params?: MessageParams) => {
 }
 
 const closeMessage = (instance: MessageContext) => {
-  const placement = instance.props.placement
-  const instances: MessageContext[] =
-    placement === 'bottom' ? bttInstances : ttbInstances
-
-  const idx = instances.indexOf(instance)
+  let idx = bttInstances.indexOf(instance)
+  let skip = true
   if (idx !== -1) {
-    instances.splice(idx, 1)
+    bttInstances.splice(idx, 1)
+    skip = false
+  } else {
+    idx = ttbInstances.indexOf(instance)
+    if (idx !== -1) {
+      ttbInstances.splice(idx, 1)
+      skip = false
+    }
   }
-
+  if (skip) return
   const { handler } = instance
   handler.close()
 }
@@ -168,8 +172,13 @@ const message: MessageFn &
 
   const normalized = normalizeOptions(options)
 
-  const instances = [...bttInstances, ...ttbInstances]
+  let instances: MessageContext[]
 
+  if (normalized.placement === 'bottom') {
+    instances = bttInstances
+  } else {
+    instances = ttbInstances
+  }
   if (normalized.grouping && instances.length) {
     const instance = instances.find(
       ({ vnode: vm }) => vm.props?.message === normalized.message
@@ -186,11 +195,8 @@ const message: MessageFn &
   }
 
   const instance = createMessage(normalized, context)
-  if (normalized.placement === 'bottom') {
-    bttInstances.push(instance)
-  } else {
-    ttbInstances.push(instance)
-  }
+
+  instances.push(instance)
   return instance.handler
 }
 
@@ -213,6 +219,7 @@ export function closeAll(type?: MessageType): void {
 }
 
 export function closeAllByPlacement(position: MessagePlacement) {
+  // Create a copy of instances to avoid modification during iteration
   const instancesToClose =
     position === 'bottom' ? [...bttInstances] : [...ttbInstances]
 
