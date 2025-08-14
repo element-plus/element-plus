@@ -17,9 +17,9 @@
     @hide="setShowPicker(false)"
   >
     <template #content>
-      <color-picker-panel
-        ref="pickerPanel"
-        v-bind="mergeProps(passsPanelProps, $props)"
+      <el-color-picker-panel
+        ref="pickerPanelRef"
+        v-bind="panelProps"
         v-click-outside:[triggerRef]="handleClickOutside"
         :border="false"
         @keydown.esc="handleEsc"
@@ -44,7 +44,7 @@
             </el-button>
           </div>
         </template>
-      </color-picker-panel>
+      </el-color-picker-panel>
     </template>
     <template #default>
       <div
@@ -93,12 +93,12 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, mergeProps, nextTick, provide, ref, watch } from 'vue'
+import { computed, nextTick, provide, ref, watch } from 'vue'
 import { debounce, pick } from 'lodash-unified'
 import { ElIcon } from '@element-plus/components/icon'
 import { ClickOutside as vClickOutside } from '@element-plus/directives'
 import { ElTooltip } from '@element-plus/components/tooltip'
-import ElButton from '@element-plus/components/button'
+import { ElButton } from '@element-plus/components/button'
 import {
   useFormDisabled,
   useFormItem,
@@ -119,7 +119,8 @@ import {
 import { debugWarn } from '@element-plus/utils'
 import { ArrowDown, Close } from '@element-plus/icons-vue'
 import { colorPickerEmits, colorPickerProps } from './color-picker'
-import ColorPickerPanel, {
+import {
+  ElColorPickerPanel,
   ROOT_COMMON_COLOR_INJECTION_KEY,
   colorPickerPanelProps,
 } from '@element-plus/components/color-picker-panel'
@@ -133,10 +134,7 @@ defineOptions({
   name: 'ElColorPicker',
 })
 const props = defineProps(colorPickerProps)
-mergeProps
-const passsPanelProps = computed(() =>
-  pick(props, Object.keys(colorPickerPanelProps))
-)
+
 const emit = defineEmits(colorPickerEmits)
 
 const { t } = useLocale()
@@ -149,11 +147,10 @@ const commonColor = useCommonColor(props, emit)
 const { inputId: buttonId, isLabeledByFormItem } = useFormItemInputId(props, {
   formItemContext: formItem,
 })
-const { color } = commonColor
 
 const popper = ref<TooltipInstance>()
 const triggerRef = ref()
-const pickerPanel = ref<ColorPickerPanelInstance>()
+const pickerPanelRef = ref<ColorPickerPanelInstance>()
 const showPicker = ref(false)
 const showPanelColor = ref(false)
 
@@ -171,15 +168,21 @@ const { isFocused, handleFocus, handleBlur } = useFocusController(triggerRef, {
   },
 })
 
+const color = computed(() => pickerPanelRef.value?.color ?? commonColor.color)
+
+const panelProps = computed(() =>
+  pick(props, Object.keys(colorPickerPanelProps))
+)
+
 const displayedColor = computed(() => {
   if (!props.modelValue && !showPanelColor.value) {
     return 'transparent'
   }
-  return displayedRgb(color, props.showAlpha)
+  return displayedRgb(color.value, props.showAlpha)
 })
 
 const currentColor = computed(() => {
-  return !props.modelValue && !showPanelColor.value ? '' : color.value
+  return !props.modelValue && !showPanelColor.value ? '' : color.value.value
 })
 
 const buttonAriaLabel = computed<string | undefined>(() => {
@@ -224,9 +227,9 @@ function hide() {
 function resetColor() {
   nextTick(() => {
     if (props.modelValue) {
-      color.fromString(props.modelValue)
+      color.value.fromString(props.modelValue)
     } else {
-      color.value = ''
+      color.value.value = ''
       nextTick(() => {
         showPanelColor.value = false
       })
@@ -243,7 +246,9 @@ function handleTrigger() {
 }
 
 function confirmValue() {
-  const value = isEmptyValue(color.value) ? valueOnClear.value : color.value
+  const value = isEmptyValue(color.value.value)
+    ? valueOnClear.value
+    : color.value.value
   emit(UPDATE_MODEL_EVENT, value)
   emit(CHANGE_EVENT, value)
   if (props.validateEvent) {
@@ -257,7 +262,7 @@ function confirmValue() {
       format: props.colorFormat || '',
       value: props.modelValue,
     })
-    if (color.compare(newColor)) {
+    if (color.value.compare(newColor)) {
       resetColor()
     }
   })
@@ -294,7 +299,7 @@ function handleKeyDown(event: KeyboardEvent) {
       event.preventDefault()
       event.stopPropagation()
       show()
-      pickerPanel?.value?.customInput?.focus()
+      pickerPanelRef?.value?.customInput?.focus()
       break
     case EVENT_CODE.esc:
       handleEsc(event)
@@ -319,7 +324,7 @@ watch(
 )
 
 watch(
-  () => color.value,
+  () => color.value.value,
   () => {
     if (!props.modelValue && !showPanelColor.value) {
       showPanelColor.value = true
@@ -332,9 +337,9 @@ watch(
   (newVal) => {
     if (!newVal) {
       showPanelColor.value = false
-    } else if (newVal && newVal !== color.value) {
+    } else if (newVal && newVal !== color.value.value) {
       shouldActiveChange = false
-      color.fromString(newVal)
+      color.value.fromString(newVal)
     }
   }
 )

@@ -125,6 +125,6 @@ defineExpose({
   /**
    * @description custom input ref
    */
-  customInput: inputRef,
+  inputRef,
 })
 </script>
