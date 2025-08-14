@@ -119,19 +119,9 @@ const filterCategories = computed(() => {
 </template>
 
 <style scoped lang="scss">
-.icon-search-content {
-  position: sticky;
-  top: 60px;
-  z-index: 10;
-
-  .el-input {
-    background: var(--bg-color);
-  }
-}
-
 .demo-icon {
   &-item {
-    margin-top: 24px;
+    margin-top: 1.5rem;
 
     &:first-child {
       margin-top: 0;
@@ -142,38 +132,76 @@ const filterCategories = computed(() => {
     font-weight: 400;
     font-size: 18px;
     line-height: 26px;
+    margin-bottom: 1rem;
   }
 
   &-list {
     overflow: hidden;
     list-style: none;
-    padding: 0 !important;
-    border-left: 1px solid var(--el-border-color);
-    border-radius: 4px;
+    padding: 0;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 1px;
+      background-color: var(--el-border-color);
+      z-index: 2;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1px;
+      height: 100%;
+      background-color: var(--el-border-color);
+      z-index: 2;
+    }
 
     .icon-item {
-      &:nth-child(-n + 7) {
-        border-top: 1px solid var(--el-border-color);
-      }
-
       text-align: center;
       color: var(--el-text-color-regular);
       height: 90px;
       font-size: 13px;
-      border-right: 1px solid var(--el-border-color);
-      border-bottom: 1px solid var(--el-border-color);
+      position: relative;
       transition: background-color var(--el-transition-duration);
+
+      &::before {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 1px;
+        height: 100%;
+        background-color: var(--el-border-color);
+        z-index: 2;
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 1px;
+        background-color: var(--el-border-color);
+        z-index: 2;
+      }
 
       &:hover {
         background-color: var(--el-border-color-extra-light);
+        color: var(--brand-color-light);
 
         .el-icon {
           color: var(--brand-color-light);
         }
-
-        color: var(--brand-color-light);
       }
 
       .demo-svg-icon {
@@ -183,12 +211,57 @@ const filterCategories = computed(() => {
         justify-content: center;
         height: 100%;
         cursor: pointer;
+        padding: 0.5rem;
+        position: relative;
+        z-index: 1;
 
         .icon-name {
           margin-top: 8px;
+          word-break: break-word;
+          line-height: 1.2;
         }
       }
     }
+  }
+}
+
+.icon-search-content {
+  position: sticky;
+  top: 60px;
+  z-index: 10;
+  margin-bottom: 1.5rem;
+
+  .el-input {
+    background: var(--bg-color);
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .demo-icon-list {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .demo-icon-list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .demo-icon-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .icon-item {
+    height: 80px !important;
+    font-size: 12px !important;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .demo-icon-list {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 </style>
