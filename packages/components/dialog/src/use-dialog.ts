@@ -50,7 +50,10 @@ export const useDialog = (
   let openTimer: (() => void) | undefined = undefined
   let closeTimer: (() => void) | undefined = undefined
 
-  const namespace = useGlobalConfig('namespace', defaultNamespace)
+  const config = useGlobalConfig()
+
+  const namespace = computed(() => config.value?.namespace ?? defaultNamespace)
+  const globalConfig = computed(() => config.value?.dialog)
 
   const style = computed<CSSProperties>(() => {
     const style: CSSProperties = {}
@@ -66,22 +69,40 @@ export const useDialog = (
     return style
   })
 
+  const _draggable = computed(
+    () =>
+      (props.draggable ?? globalConfig.value?.draggable ?? false) &&
+      !props.fullscreen
+  )
+
+  const _alignCenter = computed(
+    () => props.alignCenter ?? globalConfig.value?.alignCenter ?? false
+  )
+
+  const _overflow = computed(
+    () => props.overflow ?? globalConfig.value?.overflow ?? false
+  )
+
   const overlayDialogStyle = computed<CSSProperties>(() => {
-    if (props.alignCenter) {
+    if (_alignCenter.value) {
       return { display: 'flex' }
     }
     return {}
   })
 
   const transitionConfig = computed(() => {
+    const transition =
+      props.transition ??
+      globalConfig.value?.transition ??
+      DEFAULT_DIALOG_TRANSITION
     const baseConfig = {
-      name: props.transition,
+      name: transition,
       onAfterEnter: afterEnter,
       onBeforeLeave: beforeLeave,
       onAfterLeave: afterLeave,
     }
-    if (isObject(props.transition)) {
-      const config = { ...props.transition } as TransitionProps
+    if (isObject(transition)) {
+      const config = { ...transition } as TransitionProps
       const _mergeHook = (
         userHook: Arrayable<(el: Element) => void> | undefined,
         defaultHook: () => void
@@ -279,5 +300,8 @@ export const useDialog = (
     visible,
     zIndex,
     transitionConfig,
+    _draggable,
+    _alignCenter,
+    _overflow,
   }
 }

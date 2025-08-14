@@ -47,6 +47,16 @@ autocomplete/custom-loading
 
 :::
 
+## Custom Header & Footer ^(2.10.6)
+
+You can customize both the header and footer of the dropdown using slots
+
+:::demo Use slot to customize the content.
+
+autocomplete/custom-header-footer
+
+:::
+
 ## API
 
 ### Attributes
@@ -87,14 +97,16 @@ autocomplete/custom-loading
 
 ### Slots
 
-| Name             | Description                          | Type                                     |
-| ---------------- | ------------------------------------ | ---------------------------------------- |
-| default          | custom content for input suggestions | ^[object]`{ item: Record<string, any> }` |
-| prefix           | content as Input prefix              | -                                        |
-| suffix           | content as Input suffix              | -                                        |
-| prepend          | content to prepend before Input      | -                                        |
-| append           | content to append after Input        | -                                        |
-| loading ^(2.5.0) | override loading content             | -                                        |
+| Name             | Description                           | Type                                     |
+| ---------------- | ------------------------------------- | ---------------------------------------- |
+| default          | custom content for input suggestions  | ^[object]`{ item: Record<string, any> }` |
+| header ^(2.10.6) | content at the top of the dropdown    | -                                        |
+| footer ^(2.10.6) | content at the bottom of the dropdown | -                                        |
+| prefix           | content as Input prefix               | -                                        |
+| suffix           | content as Input suffix               | -                                        |
+| prepend          | content to prepend before Input       | -                                        |
+| append           | content to append after Input         | -                                        |
+| loading ^(2.5.0) | override loading content              | -                                        |
 
 ### Exposes
 

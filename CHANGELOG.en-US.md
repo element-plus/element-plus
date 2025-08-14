@@ -1,6 +1,46 @@
 ## Changelog
 
 
+### 2.10.7
+
+_2025-08-12_
+
+#### Features
+
+- Project organize dependencies properly (#21683 by @jw-foss)
+- Components [config-provider] support `dialog` config (#21684 by @zhixiaotong)
+- Components [popconfirm] expose hide function and popperRef (#21681 by @catanswer)
+
+#### Bug fixes
+
+- Components [input] correct textarea height in fullscreen (#21656 by @cszhjh)
+- Components [select] click outside should lose focus (#21702 by @tolking)
+- Components [date-picker] ensure reset visibility on picker range (#21691 by @Dsaquel)
+- Components [scrollbar] resize according to container size (#21694 by @snowbitx)
+
+### 2.10.6
+
+_2025-08-08_
+
+#### Features
+
+- Components [autocomplete] add header and footer slot (#21594 by @catanswer)
+
+#### Bug fixes
+
+- Components [select-v2] stop the click event propagation of `header/footer` slot (#21617 by @btea)
+- Components [splitter] provide `layout` should be reactive (#21607 by @cszhjh)
+- Components [image] support lazy inside transformed containers (#21573 by @cszhjh)
+- Components [date-picker] keep datetimerange close on value change (#21625 by @Dsaquel)
+- Components [watermark] resolve text clipping caused by textAlign (#21639 by @cszhjh)
+- Components [table] render default slot only when it returns valid vnodes (#21651 by @makedopamine)
+
+#### Refactors
+
+- Components [tour] improve code style (#21586 by @thinkasany)
+- Components [tour] improve TourContext type (#21605 by @thinkasany)
+- Components [message-box] remove duplicates conditional (#21634 by @thinkasany)
+
 ### 2.10.5
 
 _2025-08-01_

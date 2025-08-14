@@ -806,4 +806,85 @@ describe('CascaderPanel.vue', () => {
     await nextTick()
     expect(node!.classes('is-active')).toBe(true)
   })
+
+  test('ensure set null after clear', async () => {
+    const handleChange = vi.fn()
+    const wrapper = mount(() => (
+      <CascaderPanel options={NORMAL_OPTIONS} onChange={handleChange} />
+    ))
+    const vm = wrapper.findComponent(CascaderPanel).vm
+    const firstColumnItems = wrapper.findAll('.el-cascader-node')
+    const bjNode = firstColumnItems.find((node) =>
+      node.text().includes('Beijing')
+    )
+    await bjNode?.trigger('click')
+    await nextTick()
+    expect(handleChange).toHaveBeenCalledTimes(1)
+    expect(handleChange).toHaveBeenCalledWith(['beijing'])
+    vm.clearCheckedNodes()
+    await nextTick()
+    expect(handleChange).toHaveBeenCalledTimes(2)
+    expect(handleChange).toHaveBeenLastCalledWith(null)
+    expect(vm.getCheckedNodes(false)?.length).toBe(0)
+  })
+
+  test('ensure only one update model value is fired on single mode', async () => {
+    const onChange = vi.fn()
+    const onUpdateModelValue = vi.fn()
+    const options = [
+      {
+        value: 'guide',
+        label: 'Guide',
+      },
+    ]
+    const wrapper = mount(() => (
+      <CascaderPanel
+        options={options}
+        onUpdate:modelValue={onUpdateModelValue}
+        onChange={onChange}
+      />
+    ))
+    const node = wrapper.find(NODE)
+    await node.trigger('click')
+    expect(onChange).toHaveBeenCalledOnce()
+    expect(onUpdateModelValue).toHaveBeenCalledOnce()
+    expect(onChange).toHaveBeenCalledWith(['guide'])
+    expect(onUpdateModelValue).toHaveBeenCalledWith(['guide'])
+  })
+
+  test('ensure only one update model value is fired on multiple mode', async () => {
+    const onChange = vi.fn()
+    const onUpdateModelValue = vi.fn()
+    const options = [
+      {
+        value: 'guide',
+        label: 'Guide',
+      },
+      {
+        value: 'guide1',
+        label: 'Guide1',
+      },
+    ]
+    const value = ref([])
+    const props = {
+      multiple: true,
+    }
+    const wrapper = mount(() => (
+      <CascaderPanel
+        v-model={value.value}
+        options={options}
+        props={props}
+        onUpdate:modelValue={onUpdateModelValue}
+        onChange={onChange}
+      />
+    ))
+
+    const node = wrapper.find('.el-cascader-node__label')
+    await node.trigger('click')
+    await nextTick()
+    expect(onChange).toHaveBeenCalledOnce()
+    expect(onUpdateModelValue).toHaveBeenCalledOnce()
+    expect(onChange).toHaveBeenCalledWith([['guide']])
+    expect(onUpdateModelValue).toHaveBeenCalledWith([['guide']])
+  })
 })
