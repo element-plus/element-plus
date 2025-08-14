@@ -15,8 +15,6 @@
   border-style: getCssVar('border-style');
   border-color: getCssVar('message', 'border-color');
   position: fixed;
-  left: 50%;
-  transform: translateX(-50%);
   background-color: getCssVar('message', 'bg-color');
   transition: opacity getCssVar('transition-duration'), transform 0.4s;
   padding: getCssVar('message', 'padding');
@@ -26,13 +24,17 @@
 
   &.is-left {
     left: 16px;
-    transform: none;
+    right: auto;
   }
 
   &.is-right {
     left: auto;
     right: 16px;
-    transform: none;
+  }
+
+  &.is-center {
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   @include when(plain) {
@@ -100,25 +102,20 @@
 .#{$namespace}-message-fade-enter-from,
 .#{$namespace}-message-fade-leave-to {
   opacity: 0;
-  transform: translate(-50%, -100%);
-}
+  
+  &:not(.is-center) {
+    transform: translateY(-100%);
+    
+    &.is-bottom {
+      transform: translateY(100%);
+    }
+  }
 
-.#{$namespace}-message-fade-enter-from.is-bottom,
-.#{$namespace}-message-fade-leave-to.is-bottom {
-  transform: translate(-50%, 100%);
+  &.is-center {
+    transform: translate(-50%, -100%);
+    
+    &.is-bottom {
+      transform: translate(-50%, 100%);
+    }
+  }
 }
-
-.#{$namespace}-message-fade-enter-from.is-left,
-.#{$namespace}-message-fade-leave-to.is-left,
-.#{$namespace}-message-fade-enter-from.is-right,
-.#{$namespace}-message-fade-leave-to.is-right {
-  transform: translateY(-100%);
-}
-
-.#{$namespace}-message-fade-enter-from.is-left.is-bottom,
-.#{$namespace}-message-fade-leave-to.is-left.is-bottom,
-.#{$namespace}-message-fade-enter-from.is-right.is-bottom,
-.#{$namespace}-message-fade-leave-to.is-right.is-bottom {
-  transform: translateY(100%);
-}
-
