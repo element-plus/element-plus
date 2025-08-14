@@ -31,18 +31,9 @@ let seed = 1
 
 // TODO: Since Notify.ts is basically the same like this file. So we could do some encapsulation against them to reduce code duplication.
 
-const normalizeOptions = (params?: MessageParams) => {
-  const options: MessageOptions =
-    !params || isString(params) || isVNode(params) || isFunction(params)
-      ? { message: params }
-      : params
-
-  const normalized = {
-    ...messageDefaults,
-    ...options,
-  }
-
-  if (!normalized.appendTo) {
+const normalizeAppendTo = (normalized: MessageOptions) => {
+  const appendTo = normalized.appendTo
+  if (!appendTo) {
     normalized.appendTo = document.body
   } else if (isString(normalized.appendTo)) {
     let appendTo = document.querySelector<HTMLElement>(normalized.appendTo)
@@ -55,9 +46,33 @@ const normalizeOptions = (params?: MessageParams) => {
       )
       appendTo = document.body
     }
-
     normalized.appendTo = appendTo
   }
+}
+
+const normalizePlacement = (normalized: MessageOptions) => {
+  if (!messagePlacement.includes(normalized.placement!)) {
+    normalized.placement = 'top'
+    debugWarn(
+      'ElMessage',
+      `Invalid placement: ${normalized.placement}. Falling back to 'top'.`
+    )
+  }
+}
+
+const normalizeOptions = (params?: MessageParams) => {
+  const options: MessageOptions =
+    !params || isString(params) || isVNode(params) || isFunction(params)
+      ? { message: params }
+      : params
+
+  const normalized: MessageOptions = {
+    ...messageDefaults,
+    ...options,
+  }
+
+  normalizeAppendTo(normalized)
+  normalizePlacement(normalized)
 
   // When grouping is configured globally,
   // if grouping is manually set when calling message individually and it is not equal to the default value,
@@ -76,13 +91,6 @@ const normalizeOptions = (params?: MessageParams) => {
   }
   if (isBoolean(messageConfig.plain) && !normalized.plain) {
     normalized.plain = messageConfig.plain
-  }
-  if (!messagePlacement.includes(normalized.placement)) {
-    normalized.placement = 'top'
-    debugWarn(
-      'ElMessage',
-      `Invalid placement: ${normalized.placement}. Falling back to 'top'.`
-    )
   }
 
   return normalized as MessageParamsNormalized
