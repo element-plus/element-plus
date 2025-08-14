@@ -20,6 +20,7 @@ import defaultProps from './defaults'
 import type { VNode } from 'vue'
 import type { TableColumn, TableColumnCtx } from './defaults'
 import type { DefaultRow } from '../table/defaults'
+import { o } from 'vitest/dist/chunks/reporters.C_zwCd4j'
 
 let columnIdSeed = 1
 
@@ -64,6 +65,9 @@ export default defineComponent({
       ('tableId' in parent && parent.tableId) ||
       ('columnId' in parent && parent.columnId)
     }_column_${columnIdSeed++}`
+    instance.columnId = columnId.value
+    instance.columnConfig = columnConfig as any
+
     onBeforeMount(() => {
       isSubColumn.value = owner.value !== parent
 
@@ -175,13 +179,21 @@ export default defineComponent({
           updateColumnOrder
         )
     })
-    instance.columnId = columnId.value
 
-    instance.columnConfig = columnConfig as any
-    return
+    return {
+      modernSlot: owner.value.modernSlot,
+    }
   },
   render() {
-    if (this.$slots.cell) return h('div')
+    const children: VNode[] = []
+    if (this.modernSlot) {
+      const vnodes = this.$slots.cell?.()
+      if (!vnodes) return h('div')
+
+      vnodes.forEach((vnode) => {})
+
+      return h('div', children)
+    }
 
     try {
       const renderDefault = this.$slots.default?.({
@@ -189,7 +201,6 @@ export default defineComponent({
         column: {},
         $index: -1,
       })
-      const children = []
       if (isArray(renderDefault)) {
         for (const childNode of renderDefault) {
           if (

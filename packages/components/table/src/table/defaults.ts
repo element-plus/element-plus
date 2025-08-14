@@ -426,6 +426,13 @@ export default {
    * @description whether to use native scrollbars
    */
   nativeScrollbar: Boolean,
+  /**
+   * @description If true, the cell slot will be used to render cell content instead of the default slot.
+   */
+  modernSlot: {
+    type: Boolean,
+    default: false,
+  },
 }
 export type {
   SummaryMethod,
