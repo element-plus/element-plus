@@ -299,7 +299,7 @@ function handleKeyDown(event: KeyboardEvent) {
       event.preventDefault()
       event.stopPropagation()
       show()
-      pickerPanelRef?.value?.customInput?.focus()
+      pickerPanelRef?.value?.inputRef?.focus()
       break
     case EVENT_CODE.esc:
       handleEsc(event)
