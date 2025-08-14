@@ -328,7 +328,9 @@ export default defineComponent({
     const calcSliceIndex = () => {
       if (!menu.value) return -1
       const items = Array.from(menu.value?.childNodes ?? []).filter(
-        (item) => item.nodeName !== '#text' || item.nodeValue
+        (item) =>
+          item.nodeName !== '#comment' &&
+          (item.nodeName !== '#text' || item.nodeValue)
       ) as HTMLElement[]
       const computedMenuStyle = getComputedStyle(menu.value!)
       const paddingLeft = Number.parseInt(computedMenuStyle.paddingLeft, 10)
@@ -337,7 +339,6 @@ export default defineComponent({
       let calcWidth = 0
       let sliceIndex = 0
       items.forEach((item, index) => {
-        if (item.nodeName === '#comment') return
         calcWidth += calcMenuItemWidth(item)
         if (calcWidth <= menuWidth - moreItemWidth) {
           sliceIndex = index + 1
