@@ -14,7 +14,7 @@
         { [ns.m(type)]: type },
         ns.is('closable', showClose),
         ns.is('plain', plain),
-        ns.is('bottom', placement.startsWith('bottom')),
+        ns.is('bottom', verticalProperty === 'bottom'),
         horizontalClass,
         customClass,
       ]"
