@@ -101,7 +101,7 @@ const bottom = computed(() => height.value + offset.value)
 const horizontalClass = computed(() => {
   if (props.placement.includes('left')) return ns.is('left')
   if (props.placement.includes('right')) return ns.is('right')
-  return ''
+  return ns.is('center')
 })
 
 const verticalProperty = computed(() =>
