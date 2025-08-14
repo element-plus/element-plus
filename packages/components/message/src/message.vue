@@ -14,7 +14,8 @@
         { [ns.m(type)]: type },
         ns.is('closable', showClose),
         ns.is('plain', plain),
-        ns.is('bottom', placement === 'bottom'),
+        ns.is('bottom', placement.startsWith('bottom')),
+        horizontalClass,
         customClass,
       ]"
       :style="customStyle"
@@ -97,8 +98,18 @@ const offset = computed(() => {
   )
 })
 const bottom = computed(() => height.value + offset.value)
+const horizontalClass = computed(() => {
+  if (props.placement.includes('left')) return ns.is('left')
+  if (props.placement.includes('right')) return ns.is('right')
+  return ''
+})
+
+const verticalProperty = computed(() =>
+  props.placement.startsWith('top') ? 'top' : 'bottom'
+)
+
 const customStyle = computed<CSSProperties>(() => ({
-  [props.placement === 'bottom' ? 'bottom' : 'top']: `${offset.value}px`,
+  [verticalProperty.value]: `${offset.value}px`,
   zIndex: currentZIndex.value,
 }))
 

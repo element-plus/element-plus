@@ -1,6 +1,7 @@
 import { createVNode, isVNode, render } from 'vue'
 import {
   debugWarn,
+  hasOwn,
   isBoolean,
   isClient,
   isElement,
@@ -10,8 +11,8 @@ import {
 } from '@element-plus/utils'
 import { messageConfig } from '@element-plus/components/config-provider'
 import MessageConstructor from './message.vue'
-import { messageDefaults, messageTypes } from './message'
-import { bttInstances, ttbInstances } from './instance'
+import { messageDefaults, messagePlacement, messageTypes } from './message'
+import { getOrCreatePlacementInstances, placementInstances } from './instance'
 
 import type { MessageContext } from './instance'
 import type { AppContext } from 'vue'
@@ -76,24 +77,24 @@ const normalizeOptions = (params?: MessageParams) => {
   if (isBoolean(messageConfig.plain) && !normalized.plain) {
     normalized.plain = messageConfig.plain
   }
+  if (!messagePlacement.includes(normalized.placement)) {
+    normalized.placement = 'top'
+    debugWarn(
+      'ElMessage',
+      `Invalid placement: ${normalized.placement}. Falling back to 'top'.`
+    )
+  }
 
   return normalized as MessageParamsNormalized
 }
 
 const closeMessage = (instance: MessageContext) => {
-  let idx = bttInstances.indexOf(instance)
-  let skip = true
-  if (idx !== -1) {
-    bttInstances.splice(idx, 1)
-    skip = false
-  } else {
-    idx = ttbInstances.indexOf(instance)
-    if (idx !== -1) {
-      ttbInstances.splice(idx, 1)
-      skip = false
-    }
-  }
-  if (skip) return
+  const placement = instance.props.placement
+  const instances = placementInstances[placement]
+
+  const idx = instances.indexOf(instance)
+  if (idx === -1) return
+  instances.splice(idx, 1)
   const { handler } = instance
   handler.close()
 }
@@ -171,14 +172,8 @@ const message: MessageFn &
   if (!isClient) return { close: () => undefined }
 
   const normalized = normalizeOptions(options)
+  const instances = getOrCreatePlacementInstances(normalized.placement)
 
-  let instances: MessageContext[]
-
-  if (normalized.placement === 'bottom') {
-    instances = bttInstances
-  } else {
-    instances = ttbInstances
-  }
   if (normalized.grouping && instances.length) {
     const instance = instances.find(
       ({ vnode: vm }) => vm.props?.message === normalized.message
@@ -208,24 +203,24 @@ messageTypes.forEach((type) => {
 })
 
 export function closeAll(type?: MessageType): void {
-  // Create a copy of instances to avoid modification during iteration
-  const instancesToClose = [...bttInstances, ...ttbInstances]
-
-  for (const instance of instancesToClose) {
-    if (!type || type === instance.props.type) {
-      instance.handler.close()
+  for (const placement in placementInstances) {
+    if (hasOwn(placementInstances, placement)) {
+      // Create a copy of instances to avoid modification during iteration
+      const instances: MessageContext[] = [...placementInstances[placement]]
+      for (const instance of instances) {
+        if (!type || type === instance.props.type) {
+          instance.handler.close()
+        }
+      }
     }
   }
 }
 
-export function closeAllByPlacement(position: MessagePlacement) {
+export function closeAllByPlacement(placement: MessagePlacement) {
+  if (!placementInstances[placement]) return
   // Create a copy of instances to avoid modification during iteration
-  const instancesToClose =
-    position === 'bottom' ? [...bttInstances] : [...ttbInstances]
-
-  for (const instance of instancesToClose) {
-    instance.handler.close()
-  }
+  const instances = [...placementInstances[placement]]
+  instances.forEach((instance) => instance.handler.close())
 }
 
 message.closeAll = closeAll

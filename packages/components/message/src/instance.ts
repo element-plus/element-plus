@@ -12,13 +12,24 @@ export type MessageContext = {
   props: Mutable<MessageProps>
 }
 
-// placement:top
-export const ttbInstances = shallowReactive<MessageContext[]>([])
-// placement:bottom
-export const bttInstances = shallowReactive<MessageContext[]>([])
+export const placementInstances = shallowReactive<
+  Record<MessagePlacement, MessageContext[]>
+>({} as Record<MessagePlacement, MessageContext[]>)
+
+/**
+ * Get or create message instances array for specified placement on demand
+ * @param placement
+ * @returns placement instances
+ */
+export const getOrCreatePlacementInstances = (placement: MessagePlacement) => {
+  if (!placementInstances[placement]) {
+    placementInstances[placement] = shallowReactive<MessageContext[]>([])
+  }
+  return placementInstances[placement]
+}
 
 export const getInstance = (id: string, placement: MessagePlacement) => {
-  const instances = placement === 'bottom' ? bttInstances : ttbInstances
+  const instances = placementInstances[placement] || []
   const idx = instances.findIndex((instance) => instance.id === id)
   const current = instances[idx]
   let prev: MessageContext | undefined
@@ -42,7 +53,7 @@ export const getOffsetOrSpace = (
   offset: number,
   placement: MessagePlacement
 ) => {
-  const instances = placement === 'bottom' ? bttInstances : ttbInstances
+  const instances = placementInstances[placement] || []
   const idx = instances.findIndex((instance) => instance.id === id)
   return idx > 0 ? 16 : offset
 }
