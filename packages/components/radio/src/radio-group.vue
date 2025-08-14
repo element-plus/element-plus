@@ -21,9 +21,6 @@
         <template v-if="typeof item.render === 'function'">
           {{ item.render(item, index) }}
         </template>
-        <template v-else>
-          {{ item[props.optionProps?.label ?? 'label'] }}
-        </template>
       </el-radio>
     </slot>
   </div>
