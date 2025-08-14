@@ -166,7 +166,6 @@ useResizeObserver(messageRef, () => {
 defineExpose({
   visible,
   bottom,
-  height,
   close,
 })
 </script>
