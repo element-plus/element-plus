@@ -269,7 +269,12 @@ describe('DatePickerPanel', () => {
       it('confirm button honors picked date', async () => {
         const value = ref(new Date(2000, 9, 1, 12, 0, 0))
         const wrapper = mount(() => (
-          <DatePickerPanel v-model={value.value} type="datetime" showFooter />
+          <DatePickerPanel
+            v-model={value.value}
+            type="datetime"
+            showFooter
+            showConfirm
+          />
         ))
 
         // changed month / year should not effect picked time

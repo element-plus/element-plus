@@ -370,7 +370,10 @@
         </div>
       </div>
     </div>
-    <div v-if="showFooter && showTime" :class="ppNs.e('footer')">
+    <div
+      v-if="showFooter && showTime && (showConfirm || clearable)"
+      :class="ppNs.e('footer')"
+    >
       <el-button
         v-if="clearable"
         text
@@ -381,7 +384,7 @@
         {{ t('el.datepicker.clear') }}
       </el-button>
       <el-button
-        v-if="hasPopper"
+        v-if="showConfirm"
         plain
         size="small"
         :class="ppNs.e('link-btn')"
@@ -415,7 +418,6 @@ import {
   DArrowLeft,
   DArrowRight,
 } from '@element-plus/icons-vue'
-import { TOOLTIP_INJECTION_KEY } from '@element-plus/components/tooltip'
 import { panelDateRangeProps } from '../props/panel-date-range'
 import { useRangePicker } from '../composables/use-range-picker'
 import {
@@ -451,7 +453,6 @@ const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
 const isDefaultFormat = inject(
   ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY
 ) as any
-const hasPopper = !!inject(TOOLTIP_INJECTION_KEY, undefined)
 const { disabledDate, cellClassName, defaultTime, clearable } = pickerBase.props
 const format = toRef(pickerBase.props, 'format')
 const shortcuts = toRef(pickerBase.props, 'shortcuts')

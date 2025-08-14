@@ -181,7 +181,10 @@
         </div>
       </div>
     </div>
-    <div v-if="showFooter && footerVisible" :class="ppNs.e('footer')">
+    <div
+      v-if="showFooter && footerVisible && footerFilled"
+      :class="ppNs.e('footer')"
+    >
       <el-button
         v-show="!isMultipleType && showNow"
         text
@@ -193,6 +196,7 @@
         {{ t('el.datepicker.now') }}
       </el-button>
       <el-button
+        v-if="showConfirm"
         plain
         size="small"
         :class="ppNs.e('link-btn')"
@@ -520,6 +524,10 @@ const footerVisible = computed(() => {
     (showMonthFooter && isMonthView)
   )
 })
+
+const footerFilled = computed(
+  () => (!isMultipleType.value && props.showNow) || props.showConfirm
+)
 
 const disabledConfirm = computed(() => {
   if (!disabledDate) return false

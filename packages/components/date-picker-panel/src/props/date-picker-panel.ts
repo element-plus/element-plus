@@ -88,6 +88,10 @@ export const datePickerPanelProps = buildProps({
     default: true,
   },
   /**
+   * @description whether to show the confirm button
+   */
+  showConfirm: Boolean,
+  /**
    * @description whether to show footer
    */
   showFooter: Boolean,
