@@ -48,7 +48,7 @@
       >
         {{
           isPaused
-            ? props.pauseButtonText || '继续'
+            ? props.resumeButtonText || '继续'
             : props.pauseButtonText || '暂停'
         }}
       </el-button>

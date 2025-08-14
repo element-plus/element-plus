@@ -16,7 +16,7 @@ vi.mock('../src/auto-scroll-text.vue', () => ({
             </div>
           </div>
           <div v-if="showControls" class="el-scroll-controls">
-            <button class="el-button" @click="togglePause">{{ isPaused ? (pauseButtonText || '继续') : (pauseButtonText || '暂停') }}</button>
+            <button class="el-button" @click="togglePause">{{ isPaused ? (resumeButtonText || '继续') : (pauseButtonText || '暂停') }}</button>
             <button class="el-button" @click="reset">{{ resetButtonText || '重置' }}</button>
           </div>
           <div v-if="closable" class="el-alert__close-btn" @click="handleClose">×</div>
@@ -67,6 +67,10 @@ vi.mock('../src/auto-scroll-text.vue', () => ({
         default: true,
       },
       pauseButtonText: {
+        type: String,
+        default: '',
+      },
+      resumeButtonText: {
         type: String,
         default: '',
       },
@@ -451,10 +455,11 @@ describe('AutoScrollText.vue', () => {
     const wrapper = createWrapper({
       text: AXIOM,
       pauseButtonText: '暂停滚动',
+      resumeButtonText: '继续滚动',
       resetButtonText: '重新开始',
     })
 
-    // 检查暂停/继续按钮文案
+    // 检查暂停按钮文案
     const pauseButton = wrapper.find(
       '.el-scroll-controls .el-button:first-child'
     )
@@ -471,6 +476,7 @@ describe('AutoScrollText.vue', () => {
     const wrapper = createWrapper({
       text: AXIOM,
       pauseButtonText: '',
+      resumeButtonText: '',
       resetButtonText: '',
     })
 
@@ -485,5 +491,27 @@ describe('AutoScrollText.vue', () => {
       '.el-scroll-controls .el-button:last-child'
     )
     expect(resetButton.text()).toBe('重置')
+  })
+
+  test('暂停和继续状态的不同文案', async () => {
+    const wrapper = createWrapper({
+      text: AXIOM,
+      pauseButtonText: '暂停滚动',
+      resumeButtonText: '继续滚动',
+    })
+
+    // 初始状态应该是暂停
+    const pauseButton = wrapper.find(
+      '.el-scroll-controls .el-button:first-child'
+    )
+    expect(pauseButton.text()).toBe('暂停滚动')
+
+    // 点击按钮切换到暂停状态
+    await pauseButton.trigger('click')
+    expect(pauseButton.text()).toBe('继续滚动')
+
+    // 再次点击按钮恢复到滚动状态
+    await pauseButton.trigger('click')
+    expect(pauseButton.text()).toBe('暂停滚动')
   })
 })

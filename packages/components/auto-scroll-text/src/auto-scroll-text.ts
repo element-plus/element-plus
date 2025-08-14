@@ -110,9 +110,16 @@ export const autoScrollTextProps = buildProps({
     default: 'light',
   },
   /**
-   * @description 暂停/继续按钮文案
+   * @description 暂停状态按钮文案
    */
   pauseButtonText: {
+    type: String,
+    default: '',
+  },
+  /**
+   * @description 继续状态按钮文案
+   */
+  resumeButtonText: {
     type: String,
     default: '',
   },

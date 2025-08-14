@@ -70,6 +70,7 @@
       :show-controls="true"
       :speed="60"
       pause-button-text="暂停滚动"
+      resume-button-text="继续滚动"
       reset-button-text="重新开始"
     />
   </div>
