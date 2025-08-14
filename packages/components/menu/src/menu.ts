@@ -479,7 +479,9 @@ export default defineComponent({
       const vShowMore: VNode[] = []
 
       if (props.mode === 'horizontal' && menu.value) {
-        const originalSlot = flattedChildren(slot) as VNodeArrayChildren
+        const originalSlot = (
+          flattedChildren(slot) as VNodeArrayChildren
+        ).filter((vnode) => (vnode as VNode)?.shapeFlag !== 8)
         const slotDefault =
           sliceIndex.value === -1
             ? originalSlot
