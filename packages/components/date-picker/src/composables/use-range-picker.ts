@@ -128,8 +128,18 @@ export const useRangePicker = (
   watch(
     () => props.parsedValue,
     (parsedValue) => {
-      if (!props.visible || !parsedValue?.length) {
+      if (!parsedValue?.length) {
         onReset(parsedValue)
+      }
+    },
+    { immediate: true }
+  )
+
+  watch(
+    () => props.visible,
+    () => {
+      if (props.visible) {
+        onReset(props.parsedValue)
       }
     },
     { immediate: true }

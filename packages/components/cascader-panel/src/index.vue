@@ -196,7 +196,7 @@ const calculateCheckedValue = () => {
   const nodes = sortByOriginalOrder(oldNodes, newNodes)
   const values = nodes.map((node) => node.valueByOption)
   checkedNodes.value = nodes
-  checkedValue.value = multiple ? values : values[0]
+  checkedValue.value = multiple ? values : values[0] ?? null
 }
 
 const syncCheckedValue = (loaded = false, forced = false) => {
@@ -234,7 +234,7 @@ const syncCheckedValue = (loaded = false, forced = false) => {
       )
     ) as Node[]
     syncMenuState(nodes, forced)
-    checkedValue.value = cloneDeep(modelValue)
+    checkedValue.value = cloneDeep(modelValue ?? undefined)
   }
 }
 

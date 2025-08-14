@@ -22,7 +22,7 @@ import type {
   MessageOptions,
   MessageParams,
   MessageParamsNormalized,
-  messageType,
+  MessageType,
 } from './message'
 
 let seed = 1
@@ -190,7 +190,7 @@ messageTypes.forEach((type) => {
   }
 })
 
-export function closeAll(type?: messageType): void {
+export function closeAll(type?: MessageType): void {
   // Create a copy of instances to avoid modification during iteration
   const instancesToClose = [...instances]
 
