@@ -24,6 +24,17 @@
   align-items: center;
   gap: 8px;
 
+  &.is-left {
+    left: 16px;
+    transform: none;
+  }
+
+  &.is-right {
+    left: auto;
+    right: 16px;
+    transform: none;
+  }
+
   @include when(plain) {
     background-color: getCssVar('bg-color', 'overlay');
     border-color: getCssVar('bg-color', 'overlay');
@@ -94,6 +105,20 @@
 
 .#{$namespace}-message-fade-enter-from.is-bottom,
 .#{$namespace}-message-fade-leave-to.is-bottom {
-  opacity: 0;
   transform: translate(-50%, 100%);
 }
+
+.#{$namespace}-message-fade-enter-from.is-left,
+.#{$namespace}-message-fade-leave-to.is-left,
+.#{$namespace}-message-fade-enter-from.is-right,
+.#{$namespace}-message-fade-leave-to.is-right {
+  transform: translateY(-100%);
+}
+
+.#{$namespace}-message-fade-enter-from.is-left.is-bottom,
+.#{$namespace}-message-fade-leave-to.is-left.is-bottom,
+.#{$namespace}-message-fade-enter-from.is-right.is-bottom,
+.#{$namespace}-message-fade-leave-to.is-right.is-bottom {
+  transform: translateY(100%);
+}
+

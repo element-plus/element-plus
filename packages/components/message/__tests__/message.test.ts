@@ -196,6 +196,30 @@ describe('Message.vue', () => {
       expect(wrapper.classes()).not.toContain('is-bottom')
     })
 
+    test('should render with top-left placement', () => {
+      const wrapper = _mount({
+        slots: { default: AXIOM },
+        props: {
+          placement: 'top-left',
+        },
+      })
+      const vm = wrapper.vm as MessageInstance
+      expect(vm.customStyle).toHaveProperty('top', '16px')
+      expect(vm.placement).toBe('top-left')
+    })
+
+    test('should render with top-right placement', () => {
+      const wrapper = _mount({
+        slots: { default: AXIOM },
+        props: {
+          placement: 'top-right',
+        },
+      })
+      const vm = wrapper.vm as MessageInstance
+      expect(vm.customStyle).toHaveProperty('top', '16px')
+      expect(vm.placement).toBe('top-right')
+    })
+
     test('should render with bottom placement', () => {
       const wrapper = _mount({
         slots: { default: AXIOM },
@@ -205,6 +229,32 @@ describe('Message.vue', () => {
       })
       const vm = wrapper.vm as MessageInstance
       expect(vm.customStyle).toHaveProperty('bottom', '16px')
+      expect(wrapper.classes()).toContain('is-bottom')
+    })
+
+    test('should render with bottom-left placement', () => {
+      const wrapper = _mount({
+        slots: { default: AXIOM },
+        props: {
+          placement: 'bottom-left',
+        },
+      })
+      const vm = wrapper.vm as MessageInstance
+      expect(vm.customStyle).toHaveProperty('bottom', '16px')
+      expect(vm.placement).toBe('bottom-left')
+      expect(wrapper.classes()).toContain('is-bottom')
+    })
+
+    test('should render with bottom-right placement', () => {
+      const wrapper = _mount({
+        slots: { default: AXIOM },
+        props: {
+          placement: 'bottom-right',
+        },
+      })
+      const vm = wrapper.vm as MessageInstance
+      expect(vm.customStyle).toHaveProperty('bottom', '16px')
+      expect(vm.placement).toBe('bottom-right')
       expect(wrapper.classes()).toContain('is-bottom')
     })
   })

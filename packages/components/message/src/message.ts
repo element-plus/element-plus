@@ -23,7 +23,14 @@ export const messageTypes = [
   'error',
 ] as const
 
-export const messagePlacement = ['top', 'bottom'] as const
+export const messagePlacement = [
+  'top',
+  'top-left',
+  'top-right',
+  'bottom',
+  'bottom-left',
+  'bottom-right',
+] as const
 
 export type MessageType = typeof messageTypes[number]
 export type MessagePlacement = typeof messagePlacement[number]
