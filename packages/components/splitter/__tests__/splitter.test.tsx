@@ -218,12 +218,17 @@ describe('Splitter', () => {
     expect(onCollapse).toHaveBeenCalledWith(0, 'end', [200, 200])
   })
 
-  it('should collapse normally when size is two-way bound and min is set', async () => {
+  it('should collapse normally when size is two-way bound and min & max is set', async () => {
     const size = ref(150)
     const wrapper = mount(() => (
       <div style={{ width: '400px', height: '400px' }}>
         <ElSplitter>
-          <ElSplitterPanel v-model:size={size.value} collapsible min={50}>
+          <ElSplitterPanel
+            v-model:size={size.value}
+            collapsible
+            min={50}
+            max={200}
+          >
             Left Panel
           </ElSplitterPanel>
           <ElSplitterPanel collapsible>Right Panel</ElSplitterPanel>
@@ -250,11 +255,18 @@ describe('Splitter', () => {
     // Panel should be collapsed (size = 0)
     expect(panels[0].attributes('style')).toContain('flex-basis: 0px;')
 
-    // Click collapse button  to expand
+    // Click collapse button to expand
     await endCollapseButton.trigger('click')
     await nextTick()
 
     // Panel should be restored to original size
     expect(panels[0].attributes('style')).toContain('flex-basis: 150px;')
+
+    // Click collapse button  to expand
+    await endCollapseButton.trigger('click')
+    await nextTick()
+
+    // Panel should be collapsed (size = 400)
+    expect(panels[0].attributes('style')).toContain('flex-basis: 400px;')
   })
 })
