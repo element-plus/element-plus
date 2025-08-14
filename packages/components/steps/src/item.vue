@@ -110,7 +110,6 @@ const currentStatus = computed(() => {
   return props.status || internalStatus.value
 })
 
-// 用于状态计算的前一步骤内部状态，不受显式status影响
 const prevInternalStatus = computed(() => {
   const prevStep = parent.steps.value[index.value - 1]
   return prevStep ? prevStep.internalStatus.value : 'wait'
