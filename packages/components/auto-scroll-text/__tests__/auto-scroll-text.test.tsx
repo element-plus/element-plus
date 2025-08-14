@@ -31,7 +31,7 @@ Object.defineProperty(HTMLElement.prototype, 'offsetHeight', {
 })
 
 // 创建测试包装器
-const createWrapper = (props = {}) => {
+const createWrapper = (props: any = { text: AXIOM }) => {
   return mount(AutoScrollText, {
     props,
   })
@@ -169,7 +169,7 @@ describe('AutoScrollText.vue', () => {
     expect(closeButton.exists()).toBe(true)
 
     // 直接调用组件的 handleClose 方法
-    await wrapper.vm.handleClose()
+    await (wrapper.vm as any).handleClose()
     expect(wrapper.emitted('close')).toBeDefined()
   })
 
