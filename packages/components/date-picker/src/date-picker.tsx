@@ -6,7 +6,8 @@ import {
   PICKER_POPPER_OPTIONS_INJECTION_KEY,
 } from '@element-plus/components/time-picker'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import ElDatePickerPanel, {
+import {
+  ElDatePickerPanel,
   ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY,
 } from '@element-plus/components/date-picker-panel'
 import { datePickerProps } from './props'
