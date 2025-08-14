@@ -11,11 +11,11 @@
   >
     <slot>
       <el-checkbox
-        v-for="(item, index) in checkboxOptions"
+        v-for="(item, index) in props.options"
         :key="index"
-        :value="item.value"
-        :label="item.label"
-        :disabled="item.disabled"
+        :value="item[props.props?.value ?? 'value']"
+        :label="item[props.props?.label ?? 'label']"
+        :disabled="item[props.props?.disabled ?? 'disabled']"
       />
     </slot>
   </component>
@@ -60,17 +60,6 @@ const modelValue = computed({
   set(val: CheckboxGroupValueType) {
     changeEvent(val)
   },
-})
-
-const checkboxOptions = computed(() => {
-  const valueKey = props.props?.value ?? 'value'
-  const labelKey = props.props?.label ?? 'label'
-  const disabledKey = props.props?.disabled ?? 'disabled'
-  return (props.options || []).map((item) => ({
-    value: item[valueKey],
-    label: item[labelKey],
-    disabled: item[disabledKey],
-  }))
 })
 
 provide(checkboxGroupContextKey, {

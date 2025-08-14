@@ -61,7 +61,7 @@ checkbox/grouping
 
 :::
 
-## Options attribute ^(2.10.5)
+## Options attribute ^(2.11.0)
 
 :::demo Shortcut from basic `el-checkbox-group` usage. You can customize the alias of the `options` through the `props` attribute.
 
@@ -161,8 +161,8 @@ checkbox/with-border
 | tag                         | element tag of the checkbox group                                                              | ^[string]                                                        | div                                                      |
 | validate-event              | whether to trigger form validation                                                             | ^[boolean]                                                       | true                                                     |
 | label ^(a11y) ^(deprecated) | native `aria-label` attribute                                                                  | ^[string]                                                        | —                                                        |
-| options ^(2.10.5)           | data of the options, the key of `value` and `label` and `disabled` can be customize by `props` | ^[array]`Array<{[key: string]: any}>`                            | —                                                        |
-| props ^(2.10.5)             | configuration options                                                                          | ^[object]`{ value?: string, label?: string, disabled?: boolean}` | `{value: 'value', label: 'label', disabled: 'disabled'}` |
+| options ^(2.11.0)           | data of the options, the key of `value` and `label` and `disabled` can be customize by `props` | ^[array]`Array<{[key: string]: any}>`                            | —                                                        |
+| props ^(2.11.0)             | configuration options                                                                          | ^[object]`{ value?: string, label?: string, disabled?: boolean}` | `{value: 'value', label: 'label', disabled: 'disabled'}` |
 
 ### CheckboxGroup Events
 
