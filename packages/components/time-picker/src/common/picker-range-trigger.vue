@@ -11,7 +11,7 @@
     <slot name="prefix" />
     <input
       v-bind="attrs"
-      :id="(id && id[0]) ?? inputId"
+      :id="inputId"
       ref="inputRef"
       :name="name && name[0]"
       :placeholder="startPlaceholder"
