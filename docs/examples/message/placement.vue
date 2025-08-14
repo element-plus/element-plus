@@ -1,20 +1,20 @@
 <template>
   <div class="flex flex-wrap gap-1">
-    <el-button class="!ml-0" :plain="true" @click="openMsg()"> top </el-button>
-    <el-button class="!ml-0" :plain="true" @click="openMsg('bottom')">
-      bottom
-    </el-button>
+    <el-button class="!ml-0" :plain="true" @click="openMsg()"> Top </el-button>
     <el-button class="!ml-0" :plain="true" @click="openMsg('top-left')">
-      top-left
+      Top Left
     </el-button>
     <el-button class="!ml-0" :plain="true" @click="openMsg('top-right')">
-      top-right
+      Top Right
+    </el-button>
+    <el-button class="!ml-0" :plain="true" @click="openMsg('bottom')">
+      Bottom
     </el-button>
     <el-button class="!ml-0" :plain="true" @click="openMsg('bottom-left')">
-      bottom-left
+      Bottom Left
     </el-button>
     <el-button class="!ml-0" :plain="true" @click="openMsg('bottom-right')">
-      bottom-right
+      Bottom Right
     </el-button>
   </div>
 </template>
