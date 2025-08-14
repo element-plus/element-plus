@@ -213,4 +213,66 @@ describe('Steps.vue', () => {
       expect(domWrapper.element.textContent).toEqual((index + 1).toString())
     })
   })
+
+  test('explicit status should not break subsequent step processStatus', async () => {
+    // 测试显式设置status="error"后不应该影响后续步骤的processStatus
+    const wrapper = _mount(() => (
+      <Steps active={1} process-status="process">
+        <Step title="Step 1" status="error" />
+        <Step title="Step 2" />
+        <Step title="Step 3" />
+      </Steps>
+    ))
+    await nextTick()
+
+    // 第一个步骤应该显示显式设置的error状态
+    expect(
+      wrapper.findAll('.el-step')[0].find('.el-step__head').classes()
+    ).toContain('is-error')
+
+    // 第二个步骤应该显示process状态（当前active=1）
+    // 修复后：即使第一个步骤显式设置了status="error"，第二个步骤仍能正确设置为process状态
+    expect(
+      wrapper.findAll('.el-step')[1].find('.el-step__head').classes()
+    ).toContain('is-process')
+
+    // 第三个步骤应该是wait状态
+    expect(
+      wrapper.findAll('.el-step')[2].find('.el-step__head').classes()
+    ).toContain('is-wait')
+  })
+
+  test('explicit status with various values should not affect flow', async () => {
+    // 测试各种显式status值都不应该影响流程状态计算
+    const wrapper = _mount(() => (
+      <Steps active={2} process-status="process" finish-status="finish">
+        <Step title="Step 1" status="success" />
+        <Step title="Step 2" status="error" />
+        <Step title="Step 3" />
+        <Step title="Step 4" />
+      </Steps>
+    ))
+    await nextTick()
+
+    // 第一个步骤显示显式的success状态
+    expect(
+      wrapper.findAll('.el-step')[0].find('.el-step__head').classes()
+    ).toContain('is-success')
+
+    // 第二个步骤显示显式的error状态
+    expect(
+      wrapper.findAll('.el-step')[1].find('.el-step__head').classes()
+    ).toContain('is-error')
+
+    // 第三个步骤应该显示process状态（当前active=2）
+    // 修复后：即使前面的步骤有显式status，第三个步骤仍能正确设置为process状态
+    expect(
+      wrapper.findAll('.el-step')[2].find('.el-step__head').classes()
+    ).toContain('is-process')
+
+    // 第四个步骤应该是wait状态
+    expect(
+      wrapper.findAll('.el-step')[3].find('.el-step__head').classes()
+    ).toContain('is-wait')
+  })
 })
