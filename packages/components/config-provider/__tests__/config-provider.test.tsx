@@ -12,6 +12,7 @@ import {
   ElMessage,
   ElPagination,
   MessageConfigContext,
+  MessagePlacement,
 } from '@element-plus/components'
 import { rAF } from '@element-plus/test-utils/tick'
 import { getStyle } from '@element-plus/utils'
@@ -401,6 +402,7 @@ describe('config-provider', () => {
       })
       const overrideConfig = reactive({
         max: 1,
+        placement: 'bottom-left' as MessagePlacement,
       })
       const open = () => {
         ElMessage('this is a message.')
@@ -419,7 +421,12 @@ describe('config-provider', () => {
       await wrapper.find('.el-button').trigger('click')
       await wrapper.find('.el-button').trigger('click')
       await nextTick()
+      const messages = document.querySelectorAll('.el-message')
       expect(document.querySelectorAll('.el-message').length).toBe(1)
+
+      const classList = messages[0].classList
+      expect(classList.contains('is-left')).toBe(true)
+      expect(classList.contains('is-bottom')).toBe(true)
     })
   })
 

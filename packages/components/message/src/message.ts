@@ -32,6 +32,8 @@ export const messagePlacement = [
   'bottom-right',
 ] as const
 
+export const MESSAGE_DEFAULT_PLACEMENT = messagePlacement[0]
+
 export type MessageType = typeof messageTypes[number]
 export type MessagePlacement = typeof messagePlacement[number]
 /** @deprecated please use `MessageType` instead */
@@ -44,6 +46,7 @@ export interface MessageConfigContext {
   offset?: number
   showClose?: boolean
   plain?: boolean
+  placement?: MessagePlacement
 }
 
 export const messageDefaults = mutable({
@@ -58,7 +61,7 @@ export const messageDefaults = mutable({
   type: 'info',
   plain: false,
   offset: 16,
-  placement: 'top',
+  placement: undefined,
   zIndex: 0,
   grouping: false,
   repeatNum: 1,

@@ -10,11 +10,15 @@
 import { reactive } from 'vue'
 import { ElMessage } from 'element-plus'
 
+import type { MessagePlacement } from 'element-plus'
+
 const config = reactive({
   max: 3,
   plain: true,
+  placement: 'bottom' as MessagePlacement,
 })
+
 const open = () => {
-  ElMessage('This is a message.')
+  ElMessage('This is a message from bottom.')
 }
 </script>
