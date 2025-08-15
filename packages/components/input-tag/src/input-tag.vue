@@ -10,25 +10,83 @@
       <slot name="prefix" />
     </div>
     <div :class="innerKls">
-      <el-tag
-        v-for="(item, index) in modelValue"
-        :key="index"
-        :size="tagSize"
-        :closable="closable"
-        :type="tagType"
+      <template v-for="(item, index) in showTagList" :key="index">
+        <el-tag
+          :size="tagSize"
+          :closable="closable"
+          :type="tagType"
+          :effect="tagEffect"
+          :draggable="closable && draggable"
+          disable-transitions
+          @close="handleRemoveTag(item)"
+          @dragstart="(event: DragEvent) => handleDragStart(event, index)"
+          @dragover="(event: DragEvent) => handleDragOver(event, index)"
+          @dragend="handleDragEnd"
+          @drop.stop
+        >
+          <slot name="tag" :value="item" :index="index">
+            {{ item }}
+          </slot>
+        </el-tag>
+        <el-tag
+          v-if="!collapseTags"
+          :size="tagSize"
+          :closable="closable"
+          :type="tagType"
+          :effect="tagEffect"
+          :draggable="closable && draggable"
+          disable-transitions
+          @close="handleRemoveTag(item)"
+          @dragstart="(event: DragEvent) => handleDragStart(event, index)"
+          @dragover="(event: DragEvent) => handleDragOver(event, index)"
+          @dragend="handleDragEnd"
+          @drop.stop
+        >
+          <slot name="tag" :value="item" :index="index">
+            {{ item }}
+          </slot>
+        </el-tag>
+      </template>
+      <el-tooltip
+        v-if="collapseTags && modelValue && modelValue.length > maxCollapseTags"
+        ref="tagTooltipRef"
+        :disabled="!collapseTagsTooltip"
+        :fallback-placements="['bottom', 'top', 'right', 'left']"
         :effect="tagEffect"
-        :draggable="closable && draggable"
-        disable-transitions
-        @close="handleRemoveTag(index)"
-        @dragstart="(event: DragEvent) => handleDragStart(event, index)"
-        @dragover="(event: DragEvent) => handleDragOver(event, index)"
-        @dragend="handleDragEnd"
-        @drop.stop
+        placement="bottom"
       >
-        <slot name="tag" :value="item" :index="index">
-          {{ item }}
-        </slot>
-      </el-tag>
+        <template #default>
+          <el-tag
+            :closable="false"
+            :size="tagSize"
+            :type="tagType"
+            :effect="tagEffect"
+            disable-transitions
+          >
+            + {{ modelValue.length - maxCollapseTags }}
+          </el-tag>
+        </template>
+        <template #content>
+          <div :class="ns.e('input-tag-list')">
+            <div
+              v-for="item in collapseTagList"
+              :key="item"
+              :class="ns.e('input-tag-item')"
+            >
+              <el-tag
+                :size="tagSize"
+                :closable="closable"
+                :type="tagType"
+                :effect="tagEffect"
+                disable-transitions
+                @close="handleRemoveTag(item)"
+              >
+                {{ item }}
+              </el-tag>
+            </div>
+          </div>
+        </template>
+      </el-tooltip>
       <div :class="ns.e('input-wrapper')">
         <input
           :id="inputId"
@@ -95,6 +153,7 @@ import { computed, useSlots } from 'vue'
 import { CircleClose } from '@element-plus/icons-vue'
 import { useAttrs, useCalcInputWidth } from '@element-plus/hooks'
 import { NOOP, ValidateComponentsMap } from '@element-plus/utils'
+import ElTooltip from '@element-plus/components/tooltip'
 import ElIcon from '@element-plus/components/icon'
 import ElTag from '@element-plus/components/tag'
 import { useFormItem, useFormItemInputId } from '@element-plus/components/form'
@@ -128,6 +187,7 @@ const validateIcon = computed(() => {
 const {
   inputRef,
   wrapperRef,
+  tagTooltipRef,
   isFocused,
   inputValue,
   size,
@@ -135,6 +195,8 @@ const {
   placeholder,
   closable,
   disabled,
+  showTagList,
+  collapseTagList,
   handleDragged,
   handleInput,
   handleKeydown,
