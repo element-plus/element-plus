@@ -64,6 +64,11 @@ const normalizePlacement = (normalized: MessageOptions) => {
   ) {
     normalized.placement = messageConfig.placement
   }
+  // if placement is not passed and global has no config, use default config
+  if (!normalized.placement) {
+    normalized.placement = MESSAGE_DEFAULT_PLACEMENT
+  }
+  // if placement is not valid, use default config
   if (!messagePlacement.includes(normalized.placement!)) {
     debugWarn(
       'ElMessage',
