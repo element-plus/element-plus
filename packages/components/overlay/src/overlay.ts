@@ -78,7 +78,7 @@ export default defineComponent({
         : h(
             'div',
             {
-              class: [ns.b(), props.overlayClass],
+              class: props.overlayClass,
               style: {
                 zIndex: props.zIndex,
                 position: 'fixed',
@@ -86,6 +86,7 @@ export default defineComponent({
                 right: '0px',
                 bottom: '0px',
                 left: '0px',
+                textAlign: 'center',
               } as CSSProperties,
             },
             [renderSlot(slots, 'default')]
