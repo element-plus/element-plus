@@ -15,7 +15,7 @@ import type { MessagePlacement } from 'element-plus'
 const config = reactive({
   max: 3,
   plain: true,
-  placement: 'bottom' as MessagePlacement,
+  placement: 'bottom',
 })
 
 const open = () => {
