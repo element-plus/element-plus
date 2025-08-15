@@ -481,7 +481,10 @@ export default defineComponent({
       if (props.mode === 'horizontal' && menu.value) {
         const originalSlot = (
           flattedChildren(slot) as VNodeArrayChildren
-        ).filter((vnode) => (vnode as VNode)?.shapeFlag !== 8)
+        ).filter((vnode) => {
+          // Filter text and comment nodes (https://github.com/vuejs/core/blob/c875019d49b4c36a88d929ccadc31ad414747c7b/packages/shared/src/shapeFlags.ts#L5)
+          return (vnode as VNode)?.shapeFlag !== 8
+        })
         const slotDefault =
           sliceIndex.value === -1
             ? originalSlot
