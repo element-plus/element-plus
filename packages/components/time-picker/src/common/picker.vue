@@ -255,9 +255,7 @@ const { isFocused, handleFocus, handleBlur } = useFocusController(inputRef, {
   beforeFocus() {
     return props.readonly
   },
-  afterFocus() {
-    pickerVisible.value = true
-  },
+
   beforeBlur(event) {
     return (
       !hasJustTabExitedInput && refPopper.value?.isFocusInsideContent(event)
