@@ -48,26 +48,6 @@ date-picker-panel/all-types
 
 :::
 
-## Date Formats
-
-Use `format` to control displayed text's format in the input box. Use `value-format` to control binding value's format.
-
-By default, the component accepts and emits a `Date` object.
-
-Check the list [here](https://day.js.org/docs/en/display/format#list-of-all-available-formats) of all available formats of Day.js.
-
-:::warning
-
-Pay attention to capitalization
-
-:::
-
-:::demo
-
-date-picker-panel/date-formats
-
-:::
-
 ## Localization
 
 The default locale of is English, if you need to use other languages, please check [Internationalization](/en-US/guide/i18n)
