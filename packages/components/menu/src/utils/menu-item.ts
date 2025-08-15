@@ -1,10 +1,9 @@
-// @ts-nocheck
 import { triggerEvent } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import SubMenu from './submenu'
 
 class MenuItem {
-  public submenu: SubMenu = null
+  public submenu: SubMenu | null
   constructor(public domNode: HTMLElement, namespace: string) {
     this.submenu = null
     this.init(namespace)
