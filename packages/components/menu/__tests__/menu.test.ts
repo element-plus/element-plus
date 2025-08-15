@@ -2,12 +2,12 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
+import { rAF } from '@element-plus/test-utils/tick'
+import defineGetter from '@element-plus/test-utils/define-getter'
 import Menu from '../src/menu'
 import MenuGroup from '../src/menu-item-group.vue'
 import MenuItem from '../src/menu-item.vue'
 import SubMenu from '../src/sub-menu'
-import defineGetter from '@element-plus/test-utils/define-getter'
-import { rAF } from '@element-plus/test-utils/tick'
 
 const _mount = (template: string, options = {}) =>
   mount({
