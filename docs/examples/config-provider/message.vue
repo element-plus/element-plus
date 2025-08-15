@@ -10,8 +10,6 @@
 import { reactive } from 'vue'
 import { ElMessage } from 'element-plus'
 
-import type { MessagePlacement } from 'element-plus'
-
 const config = reactive({
   max: 3,
   plain: true,

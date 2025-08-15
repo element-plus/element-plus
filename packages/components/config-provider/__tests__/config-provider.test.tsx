@@ -12,7 +12,6 @@ import {
   ElMessage,
   ElPagination,
   MessageConfigContext,
-  MessagePlacement,
 } from '@element-plus/components'
 import { rAF } from '@element-plus/test-utils/tick'
 import { getStyle } from '@element-plus/utils'
