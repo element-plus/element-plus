@@ -26,8 +26,23 @@ export default function useMenu(
     return parent!
   })
 
+  const isTooltipMenu = computed(() => {
+    let parent = instance.parent
+    while (parent) {
+      if (parent.type.name === 'ElMenu') {
+        return false
+      }
+      if (parent.type.name === 'ElTooltip') {
+        return true
+      }
+      parent = parent.parent
+    }
+    return false
+  })
+
   return {
     parentMenu,
     indexPath,
+    isTooltipMenu,
   }
 }
