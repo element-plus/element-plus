@@ -479,10 +479,13 @@ describe('other', () => {
     ).toEqual('new')
   })
 
-  test('should not generate nodes from comments, issue 21750', () => {
+  test('should not generate nodes from comments, issue 21750', async () => {
+    const itemWidth = 100
     const wrapper = _mount(
       `<el-menu mode="horizontal" default-active="1">
+        <!-- comment -->
         <el-menu-item index="1">Workbenches</el-menu-item>
+        <!-- comment -->
         <el-menu-item index="2">Users</el-menu-item>
         <!-- comment -->
         <!-- comment -->
@@ -490,7 +493,40 @@ describe('other', () => {
       </el-menu>`
     )
 
-    expect(wrapper.findComponent({ ref: 'subMenu' }).exists()).toBeFalsy()
+    const menu = wrapper.findComponent({ name: 'ElMenu' })
+    const menuItems = wrapper.findAllComponents({ name: 'ElMenuItem' })
+    expect(menu.exists()).toBeTruthy()
+
+    // mock size
+    const styleSpy = vi
+      .spyOn(window, 'getComputedStyle')
+      .mockImplementation(() => {
+        return {
+          offsetWidth: itemWidth,
+          marginLeft: 0,
+          marginRight: 0,
+          paddingLeft: 0,
+          paddingRight: 0,
+        }
+      })
+    const menuItemSpy = vi
+      .spyOn(menu.element, 'clientWidth', 'get')
+      .mockReturnValue(itemWidth * 10)
+    const menuItemsCleanups = menuItems.map((item) => {
+      return defineGetter(item.element, 'offsetWidth', itemWidth)
+    })
+
+    menu.vm.$.exposed.handleResize()
+    await rAF()
+    await nextTick()
+
+    expect(wrapper.findComponent({ name: 'ElSubMenu' }).exists()).toBeFalsy()
+    expect(menuItems.length).toBe(2)
+
+    wrapper.unmount()
+    menuItemsCleanups.forEach((fn) => fn())
+    styleSpy.mockRestore()
+    menuItemSpy.mockRestore()
   })
 
   test('should not generate more when width is sufficient, issue 15868', async () => {
@@ -498,10 +534,15 @@ describe('other', () => {
 
     const wrapper = _mount(
       `<el-menu mode="horizontal" default-active="1">
+        <!-- comment -->
         <el-menu-item index="1">选项1</el-menu-item>
+        <!-- comment -->
         <el-menu-item index="2">选项2</el-menu-item>
+        <!-- comment -->
         <el-menu-item index="3">选项3</el-menu-item>
+        <!-- comment -->
         <el-menu-item index="4">选项4</el-menu-item>
+        <!-- comment -->
         <el-menu-item index="5">选项5</el-menu-item>
       </el-menu>`
     )
@@ -511,16 +552,18 @@ describe('other', () => {
     expect(menu.exists()).toBeTruthy()
 
     // mock size
-    vi.spyOn(window, 'getComputedStyle').mockImplementation(() => {
-      return {
-        offsetWidth: itemWidth,
-        marginLeft: 0,
-        marginRight: 0,
-        paddingLeft: 0,
-        paddingRight: 0,
-      }
-    })
-    const spy = vi
+    const styleSpy = vi
+      .spyOn(window, 'getComputedStyle')
+      .mockImplementation(() => {
+        return {
+          offsetWidth: itemWidth,
+          marginLeft: 0,
+          marginRight: 0,
+          paddingLeft: 0,
+          paddingRight: 0,
+        }
+      })
+    const menuItemSpy = vi
       .spyOn(menu.element, 'clientWidth', 'get')
       .mockReturnValue(itemWidth * 2)
     const menuItemsCleanups = menuItems.map((item) => {
@@ -531,17 +574,20 @@ describe('other', () => {
     await rAF()
     await nextTick()
 
+    expect(menu.element.querySelectorAll('.el-menu-item').length).toBe(1)
     expect(wrapper.findComponent({ name: 'ElSubMenu' }).exists()).toBeTruthy()
 
-    spy.mockReturnValue(itemWidth * 6)
+    menuItemSpy.mockReturnValue(itemWidth * 6)
     menu.vm.$.exposed.handleResize()
 
     await rAF()
     await nextTick()
+    expect(menu.element.querySelectorAll('.el-menu-item').length).toBe(5)
     expect(wrapper.findComponent({ name: 'ElSubMenu' }).exists()).toBeFalsy()
 
+    wrapper.unmount()
     menuItemsCleanups.forEach((fn) => fn())
-    vi.restoreAllMocks()
-    spy.mockRestore()
+    styleSpy.mockRestore()
+    menuItemSpy.mockRestore()
   })
 })
