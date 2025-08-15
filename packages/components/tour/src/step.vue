@@ -156,7 +156,7 @@ const onClose = () => {
 
 const handleKeydown = (e: KeyboardEvent) => {
   const target = e.target as HTMLElement | null
-  if (!!target && target.isContentEditable) return
+  if (target?.isContentEditable) return
 
   const actions: Record<string, () => void> = {
     [EVENT_CODE.left]: () => current.value > 0 && onPrev(),
