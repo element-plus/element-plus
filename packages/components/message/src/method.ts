@@ -62,7 +62,9 @@ const normalizePlacement = (normalized: MessageOptions) => {
     isString(messageConfig.placement) &&
     messageConfig.placement
   ) {
-    normalized.placement = messageConfig.placement
+    normalized.placement = messageConfig.placement as
+      | MessagePlacement
+      | undefined
   }
   // if placement is not passed and global has no config, use default config
   if (!normalized.placement) {
