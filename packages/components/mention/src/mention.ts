@@ -34,6 +34,13 @@ export const mentionProps = buildProps({
     },
   },
   /**
+   * @description whether to show the prefix. If false, the prefix will not be shown.
+   */
+  showPrefix: {
+    type: Boolean,
+    default: true,
+  },
+  /**
    * @description character to split mentions. The string length must be exactly 1.
    */
   split: {
