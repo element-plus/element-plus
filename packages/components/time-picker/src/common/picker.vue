@@ -555,7 +555,6 @@ const winFocusHanlder = () => {
   })
 }
 const winBlurHandler = () => {
-  console.log('Window blurred')
   allowFocus = false
 }
 onMounted(() => {
