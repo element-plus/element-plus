@@ -72,11 +72,7 @@ export default defineComponent({
         >
           {{
             default: (scopedProps: /**FIXME: remove any type */ any) => (
-              <ElDatePickerPanel
-                showConfirm={false}
-                border={false}
-                {...scopedProps}
-              >
+              <ElDatePickerPanel border={false} {...scopedProps}>
                 {slots}
               </ElDatePickerPanel>
             ),
