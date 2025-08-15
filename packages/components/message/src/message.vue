@@ -54,7 +54,11 @@ import { EVENT_CODE } from '@element-plus/constants'
 import ElBadge from '@element-plus/components/badge'
 import { useGlobalComponentSettings } from '@element-plus/components/config-provider'
 import { ElIcon } from '@element-plus/components/icon'
-import { messageEmits, messageProps } from './message'
+import {
+  MESSAGE_DEFAULT_PLACEMENT,
+  messageEmits,
+  messageProps,
+} from './message'
 import { getLastOffset, getOffsetOrSpace } from './instance'
 
 import type { BadgeProps } from '@element-plus/components/badge'
@@ -91,21 +95,23 @@ const iconComponent = computed(
   () => props.icon || TypeComponentsMap[props.type] || ''
 )
 
-const lastOffset = computed(() => getLastOffset(props.id, props.placement))
+const placement = computed(() => props.placement || MESSAGE_DEFAULT_PLACEMENT)
+
+const lastOffset = computed(() => getLastOffset(props.id, placement.value))
 const offset = computed(() => {
   return (
-    getOffsetOrSpace(props.id, props.offset, props.placement) + lastOffset.value
+    getOffsetOrSpace(props.id, props.offset, placement.value) + lastOffset.value
   )
 })
 const bottom = computed(() => height.value + offset.value)
 const horizontalClass = computed(() => {
-  if (props.placement.includes('left')) return ns.is('left')
-  if (props.placement.includes('right')) return ns.is('right')
+  if (placement.value.includes('left')) return ns.is('left')
+  if (placement.value.includes('right')) return ns.is('right')
   return ns.is('center')
 })
 
 const verticalProperty = computed(() =>
-  props.placement.startsWith('top') ? 'top' : 'bottom'
+  placement.value.startsWith('top') ? 'top' : 'bottom'
 )
 
 const customStyle = computed<CSSProperties>(() => ({

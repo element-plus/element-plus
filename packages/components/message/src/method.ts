@@ -11,7 +11,12 @@ import {
 } from '@element-plus/utils'
 import { messageConfig } from '@element-plus/components/config-provider'
 import MessageConstructor from './message.vue'
-import { messageDefaults, messagePlacement, messageTypes } from './message'
+import {
+  MESSAGE_DEFAULT_PLACEMENT,
+  messageDefaults,
+  messagePlacement,
+  messageTypes,
+} from './message'
 import { getOrCreatePlacementInstances, placementInstances } from './instance'
 
 import type { MessageContext } from './instance'
@@ -51,12 +56,20 @@ const normalizeAppendTo = (normalized: MessageOptions) => {
 }
 
 const normalizePlacement = (normalized: MessageOptions) => {
+  // if placement is not passed and global has config, use global config
+  if (
+    !normalized.placement &&
+    isString(messageConfig.placement) &&
+    messageConfig.placement
+  ) {
+    normalized.placement = messageConfig.placement
+  }
   if (!messagePlacement.includes(normalized.placement!)) {
-    normalized.placement = 'top'
     debugWarn(
       'ElMessage',
-      `Invalid placement: ${normalized.placement}. Falling back to 'top'.`
+      `Invalid placement: ${normalized.placement}. Falling back to '${MESSAGE_DEFAULT_PLACEMENT}'.`
     )
+    normalized.placement = MESSAGE_DEFAULT_PLACEMENT
   }
 }
 
@@ -97,7 +110,7 @@ const normalizeOptions = (params?: MessageParams) => {
 }
 
 const closeMessage = (instance: MessageContext) => {
-  const placement = instance.props.placement
+  const placement = instance.props.placement || MESSAGE_DEFAULT_PLACEMENT
   const instances = placementInstances[placement]
 
   const idx = instances.indexOf(instance)
@@ -180,7 +193,9 @@ const message: MessageFn &
   if (!isClient) return { close: () => undefined }
 
   const normalized = normalizeOptions(options)
-  const instances = getOrCreatePlacementInstances(normalized.placement)
+  const instances = getOrCreatePlacementInstances(
+    normalized.placement || MESSAGE_DEFAULT_PLACEMENT
+  )
 
   if (normalized.grouping && instances.length) {
     const instance = instances.find(
