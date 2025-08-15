@@ -1,14 +1,10 @@
 <template>
-  <el-radio-group v-model="direction">
-    <el-radio value="ltr">left to right</el-radio>
-    <el-radio value="rtl">right to left</el-radio>
-    <el-radio value="ttb">top to bottom</el-radio>
-    <el-radio value="btt">bottom to top</el-radio>
-  </el-radio-group>
-
-  <el-button type="primary" style="margin-left: 16px" @click="visible = true">
-    Open a resizable Drawer
-  </el-button>
+  <el-segmented
+    v-model="direction"
+    :options="options"
+    size="large"
+    @change="visible = true"
+  />
 
   <el-drawer v-model="visible" :direction="direction" resizable>
     <template #header="{ titleId, titleClass }">
@@ -25,4 +21,11 @@ import type { DrawerProps } from 'element-plus'
 
 const visible = ref(false)
 const direction = ref<DrawerProps['direction']>('rtl')
+
+const options = [
+  { label: 'Top', value: 'ttb' },
+  { label: 'Right', value: 'rtl' },
+  { label: 'Bottom', value: 'btt' },
+  { label: 'Left', value: 'ltr' },
+]
 </script>
