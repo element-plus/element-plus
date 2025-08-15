@@ -402,7 +402,7 @@ describe('config-provider', () => {
       })
       const overrideConfig = reactive({
         max: 1,
-        placement: 'bottom-left' as MessagePlacement,
+        placement: 'bottom-left',
       })
       const open = () => {
         ElMessage('this is a message.')
