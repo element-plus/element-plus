@@ -103,7 +103,7 @@
 .#{$namespace}-message-fade-leave-to {
   opacity: 0;
   
-  &:not(.is-center) {
+  &:is(.is-left, .is-right) {
     transform: translateY(-100%);
     
     &.is-bottom {
