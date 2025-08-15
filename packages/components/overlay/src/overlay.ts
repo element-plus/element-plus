@@ -78,7 +78,7 @@ export default defineComponent({
         : h(
             'div',
             {
-              class: props.overlayClass,
+              class: [ns.b(), props.overlayClass],
               style: {
                 zIndex: props.zIndex,
                 position: 'fixed',
