@@ -135,12 +135,6 @@
     user-select: none;
   }
 
-  @include e(tags-text) {
-    display: block;
-    line-height: normal;
-    @include utils-ellipsis;
-  }
-
   @include e(inner) {
     position: relative;
     display: flex;

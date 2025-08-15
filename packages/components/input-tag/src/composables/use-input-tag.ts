@@ -40,6 +40,22 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
       ? false
       : (props.modelValue?.length ?? 0) >= props.max
   })
+  const showTagList = computed(() => {
+    if (!props.collapseTags) {
+      return []
+    }
+    return props.collapseTags
+      ? props.modelValue?.slice(0, props.maxCollapseTags)
+      : props.modelValue
+  })
+  const collapseTagList = computed(() => {
+    if (!props.collapseTags) {
+      return []
+    }
+    return props.collapseTags
+      ? props.modelValue?.slice(props.maxCollapseTags)
+      : []
+  })
 
   const addTagsEmit = (value: string | string[]) => {
     const list = [...(props.modelValue ?? []), ...ensureArray(value)]
@@ -96,7 +112,8 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
         if (!inputValue.value && props.modelValue?.length) {
           event.preventDefault()
           event.stopPropagation()
-          handleRemoveTag(props.modelValue.length - 1)
+          const tag = props.modelValue[props.modelValue.length - 1]
+          handleRemoveTag(tag)
         }
         break
     }
@@ -108,8 +125,9 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
     addTagsEmit(value)
   }
 
-  const handleRemoveTag = (index: number) => {
+  const handleRemoveTag = (tag: string) => {
     const value = (props.modelValue ?? []).slice()
+    const index = value.indexOf(tag)
     const [item] = value.splice(index, 1)
 
     emit(UPDATE_MODEL_EVENT, value)
@@ -198,6 +216,8 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
     closable,
     disabled,
     inputLimit,
+    showTagList,
+    collapseTagList,
     handleDragged,
     handleInput,
     handleKeydown,

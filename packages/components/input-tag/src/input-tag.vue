@@ -10,16 +10,15 @@
       <slot name="prefix" />
     </div>
     <div :class="innerKls">
-      <template v-for="(item, index) in modelValue" :key="index">
+      <template v-for="(item, index) in showTagList" :key="index">
         <el-tag
-          v-if="collapseTags && index < maxCollapseTags"
           :size="tagSize"
           :closable="closable"
           :type="tagType"
           :effect="tagEffect"
           :draggable="closable && draggable"
           disable-transitions
-          @close="handleRemoveTag(index)"
+          @close="handleRemoveTag(item)"
           @dragstart="(event: DragEvent) => handleDragStart(event, index)"
           @dragover="(event: DragEvent) => handleDragOver(event, index)"
           @dragend="handleDragEnd"
@@ -37,7 +36,7 @@
           :effect="tagEffect"
           :draggable="closable && draggable"
           disable-transitions
-          @close="handleRemoveTag(index)"
+          @close="handleRemoveTag(item)"
           @dragstart="(event: DragEvent) => handleDragStart(event, index)"
           @dragover="(event: DragEvent) => handleDragOver(event, index)"
           @dragend="handleDragEnd"
@@ -48,29 +47,10 @@
           </slot>
         </el-tag>
       </template>
-      <el-tag
-        v-if="
-          collapseTags &&
-          !collapseTagsTooltip &&
-          modelValue &&
-          modelValue.length > maxCollapseTags
-        "
-        :closable="false"
-        :size="tagSize"
-        :type="tagType"
-        :effect="tagEffect"
-        disable-transitions
-      >
-        + {{ modelValue.length - maxCollapseTags }}
-      </el-tag>
       <el-tooltip
-        v-if="
-          collapseTags &&
-          collapseTagsTooltip &&
-          modelValue &&
-          modelValue.length > maxCollapseTags
-        "
+        v-if="collapseTags && modelValue && modelValue.length > maxCollapseTags"
         ref="tagTooltipRef"
+        :disabled="!collapseTagsTooltip"
         :fallback-placements="['bottom', 'top', 'right', 'left']"
         :effect="tagEffect"
         placement="bottom"
@@ -89,24 +69,19 @@
         <template #content>
           <div :class="ns.e('input-tag-list')">
             <div
-              v-for="(item, index) in modelValue"
+              v-for="item in collapseTagList"
               :key="item"
               :class="ns.e('input-tag-item')"
             >
               <el-tag
-                v-if="index >= maxCollapseTags"
                 :size="tagSize"
                 :closable="closable"
                 :type="tagType"
                 :effect="tagEffect"
                 disable-transitions
-                @close="handleRemoveTag(index)"
+                @close="handleRemoveTag(item)"
               >
-                <span :class="ns.e('tags-text')">
-                  <slot name="label" :value="item" :index="index">
-                    {{ item }}
-                  </slot>
-                </span>
+                {{ item }}
               </el-tag>
             </div>
           </div>
@@ -220,6 +195,8 @@ const {
   placeholder,
   closable,
   disabled,
+  showTagList,
+  collapseTagList,
   handleDragged,
   handleInput,
   handleKeydown,
