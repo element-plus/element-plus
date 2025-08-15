@@ -9,7 +9,7 @@ Display multiple data with similar format. You can sort, filter, compare your da
 
 :::warning
 
-As of ^(2.11.0), customizing cell content via the default slot of `<el-table-column>` is deprecated. Please use the cell slot instead.
+As of ^(2.11.0), customizing cell content via the default slot of `<el-table-column>` is deprecated. Please use the [cell slot](#custom-column-template-with-the-cell-slot) instead.
 
 :::
 
@@ -170,6 +170,24 @@ Customize table column so it can be integrated with other components.
 :::demo You have access to the following data: row, column, $index and store (state management of Table) by [slot](https://v3.vuejs.org/guide/component-slots.html).
 
 table/custom-column
+
+:::
+
+## Custom column template with the cell slot
+
+To enable the cell slot, add the `cell-slot` atrribute to el-table.
+
+Compared to the default slot, the cell slot resolves the following issues:
+
+- Redundant slot calls while mounting el-table-column
+
+- Nested el-table-column not rendering with v-for directive
+
+- Potential memory leaks
+
+:::demo
+
+table/cell-slot
 
 :::
 
@@ -402,13 +420,13 @@ table/tooltip-formatter
 
 ### Table-column Slots
 
-| Name                 | Description                       | Type                                                 |
-| -------------------- | --------------------------------- | ---------------------------------------------------- |
-| default              | include zero or more table-column | —                                                    |
-| cell                 | Custom content for table columns  | ^[object]`{ row: any, column: any, $index: number }` |
-| header               | Custom content for table header   | ^[object]`{ column: any, $index: number }`           |
-| filter-icon ^(2.7.8) | Custom content for filter icon    | ^[object]`{ filterOpened: boolean }`                 |
-| expand ^(2.10.0)     | Custom content for expand columns | ^[object]`{ expanded: boolean }`                     |
+| Name                 | Description                       | Type                                                               |
+| -------------------- | --------------------------------- | ------------------------------------------------------------------ |
+| default              | Include zero or more table-column | ^[object]`{ row: any, column: TableColumnCtx<T>, $index: number }` |
+| cell                 | Custom content for table columns  | ^[object]`{ row: any, column: TableColumnCtx<T>, $index: number }` |
+| header               | Custom content for table header   | ^[object]`{ column: TableColumnCtx<T>, $index: number }`           |
+| filter-icon ^(2.7.8) | Custom content for filter icon    | ^[object]`{ filterOpened: boolean }`                               |
+| expand ^(2.10.0)     | Custom content for expand columns | ^[object]`{ expanded: boolean }`                                   |
 
 ## Type Declarations
 

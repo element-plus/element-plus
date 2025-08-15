@@ -426,6 +426,14 @@ export default {
    * @description whether to use native scrollbars
    */
   nativeScrollbar: Boolean,
+
+  /**
+   * @description If true, customize cell content via the cell slot instead of the default slot.
+   */
+  cellSlot: {
+    type: Boolean,
+    default: false,
+  },
 }
 export type {
   SummaryMethod,

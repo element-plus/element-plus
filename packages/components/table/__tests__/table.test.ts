@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { h, nextTick } from 'vue'
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, test, vi } from 'vitest'
 import ElCheckbox from '@element-plus/components/checkbox'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { rAF } from '@element-plus/test-utils/tick'
@@ -97,7 +97,7 @@ describe('Table.vue', () => {
       template: `
       <el-table :data="tableData">
         <el-table-column label="someLabel">
-          <template #cell="{ row }">
+          <template #default="{ row }">
             <el-checkbox-group v-model="row.checkList">
               <el-checkbox label="复选框 A" value="复选框 A"></el-checkbox>
               <el-checkbox label="复选框 B" value="复选框 B"></el-checkbox>
@@ -1491,7 +1491,7 @@ describe('Table.vue', () => {
           <el-table :data="testData" row-key="release" highlight-current-row >
             <el-table-column type="index" />
             <el-table-column type="expand">
-              <template #cell="props">
+              <template #default="props">
                 <span class="index">{{ props.$index }}</span>
                 <span class="director">{{ props.row.director }}</span>
               </template>
@@ -1966,10 +1966,10 @@ describe('Table.vue', () => {
             <button @click="hideName">hide name column</button>
             <el-table :data="testData">
               <el-table-column key="name" label="片名" v-if="showName">
-                <template #cell="{ row }"><span class="name">{{ row.name }}</span></template>
+                <template #default="{ row }"><span class="name">{{ row.name }}</span></template>
               </el-table-column>
               <el-table-column key="release" label="发行日期" >
-                <template #cell="{ row }"><span class="release">{{ row.release }}</span></template>
+                <template #default="{ row }"><span class="release">{{ row.release }}</span></template>
               </el-table-column>
             </el-table>
           </div>
@@ -2512,5 +2512,30 @@ describe('Table.vue', () => {
     expect(wrapper.find('div.cell.el-tooltip').exists()).toBe(false)
     await wrapper.setProps({ showOverflowTooltip: true })
     expect(wrapper.find('div.cell.el-tooltip').exists()).toBe(true)
+  })
+
+  test('cell-slot', async () => {
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+      template: `
+      <el-table :data="tableData" cell-slot>
+        <el-table-column>
+          <template #cell="{ row }">
+            {{ row.name }}
+          </template>
+        </el-table-column>
+      </el-table>
+      `,
+      data() {
+        return {
+          tableData: [{ name: 'dopamine' }],
+        }
+      },
+    })
+    await doubleWait()
+    expect(wrapper.find('td .cell').text()).toBe('dopamine')
   })
 })

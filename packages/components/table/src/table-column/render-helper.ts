@@ -33,6 +33,7 @@ function useRender<T extends DefaultRow>(
   const realAlign = ref<string | null>()
   const realHeaderAlign = ref<string | null | undefined>()
   const ns = useNamespace('table')
+  const cellSlot = owner.value.props.cellSlot
   watchEffect(() => {
     realAlign.value = props.align ? `is-${props.align}` : null
     // nextline help render
@@ -151,7 +152,7 @@ function useRender<T extends DefaultRow>(
           [originRenderCell(data)]
         )
       owner.value.renderExpanded = (row) => {
-        const _render = slots.cell || slots.default
+        const _render = cellSlot ? slots.cell : slots.default
         return _render?.(row)
       }
     } else {
@@ -159,7 +160,7 @@ function useRender<T extends DefaultRow>(
       // 对 renderCell 进行包装
       column.renderCell = (data) => {
         let children: VNode | VNode[] | null = null
-        const _render = slots.cell || slots.default
+        const _render = cellSlot ? slots.cell : slots.default
         if (_render) {
           const vnodes = _render(data)
           children = vnodes.some((v) => v.type !== Comment)
