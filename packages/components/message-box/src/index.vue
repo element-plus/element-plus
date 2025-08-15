@@ -120,8 +120,8 @@
                 :class="[cancelButtonClass]"
                 :round="roundButton"
                 :size="btnSize"
-                @click="handleAction('cancel')"
-                @keydown.prevent.enter="handleAction('cancel')"
+                @click="handleAction('cancel', false)"
+                @keydown.prevent.enter="handleAction('cancel', true)"
               >
                 {{ cancelButtonText || t('el.messagebox.cancel') }}
               </el-button>
@@ -135,8 +135,8 @@
                 :round="roundButton"
                 :disabled="confirmButtonDisabled"
                 :size="btnSize"
-                @click="handleAction('confirm')"
-                @keydown.prevent.enter="handleAction('confirm')"
+                @click="handleAction('confirm', false)"
+                @keydown.prevent.enter="handleAction('confirm', true)"
               >
                 {{ confirmButtonText || t('el.messagebox.confirm') }}
               </el-button>
@@ -329,6 +329,9 @@ export default defineComponent({
 
     const confirmButtonClasses = computed(() => state.confirmButtonClass)
 
+    // Add this flag to track keyboard confirm
+    const isKeyboardConfirm = ref(false)
+
     watch(
       () => state.inputValue,
       async (val) => {
@@ -390,6 +393,15 @@ export default defineComponent({
 
     function doClose() {
       if (!visible.value) return
+      // If it's a keyboard confirm, we need to prevent the next keyup event
+      if (isKeyboardConfirm.value) {
+        const handler = (e: KeyboardEvent) => {
+          e.preventDefault()
+          e.stopPropagation()
+          window.removeEventListener('keyup', handler, true)
+        }
+        window.addEventListener('keyup', handler, true)
+      }
       visible.value = false
       nextTick(() => {
         if (state.action) emit('action', state.action)
@@ -407,16 +419,17 @@ export default defineComponent({
     const handleInputEnter = (e: KeyboardEvent | Event) => {
       if (state.inputType !== 'textarea') {
         e.preventDefault()
-        return handleAction('confirm')
+        return handleAction('confirm', true)
       }
     }
 
-    const handleAction = (action: Action) => {
+    const handleAction = (action: Action, isKeyboard = false) => {
       if (props.boxType === 'prompt' && action === 'confirm' && !validate()) {
         return
       }
 
       state.action = action
+      isKeyboardConfirm.value = isKeyboard
 
       if (state.beforeClose) {
         state.beforeClose?.(action, state, doClose)
