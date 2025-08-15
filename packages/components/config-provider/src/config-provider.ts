@@ -1,12 +1,11 @@
 import { defineComponent, renderSlot, watch } from 'vue'
 import { provideGlobalConfig } from './hooks/use-global-config'
 import { configProviderProps } from './config-provider-props'
-import { MESSAGE_DEFAULT_PLACEMENT } from '@element-plus/components/message'
 
 import type { MessageConfigContext } from '@element-plus/components/message'
 
 export const messageConfig: MessageConfigContext = {
-  placement: MESSAGE_DEFAULT_PLACEMENT,
+  placement: 'top',
 }
 
 const ConfigProvider = defineComponent({
