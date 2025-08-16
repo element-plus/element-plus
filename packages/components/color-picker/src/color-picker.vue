@@ -96,6 +96,7 @@
 import { computed, nextTick, provide, ref, watch } from 'vue'
 import { debounce, pick } from 'lodash-unified'
 import { ElIcon } from '@element-plus/components/icon'
+import { reactiveComputed } from '@vueuse/core'
 import { ClickOutside as vClickOutside } from '@element-plus/directives'
 import { ElTooltip } from '@element-plus/components/tooltip'
 import { ElButton } from '@element-plus/components/button'
@@ -168,7 +169,9 @@ const { isFocused, handleFocus, handleBlur } = useFocusController(triggerRef, {
   },
 })
 
-const color = computed(() => pickerPanelRef.value?.color ?? commonColor.color)
+const color = reactiveComputed(
+  () => pickerPanelRef.value?.color ?? commonColor.color
+) as Color
 
 const panelProps = computed(() =>
   pick(props, Object.keys(colorPickerPanelProps))
@@ -178,11 +181,11 @@ const displayedColor = computed(() => {
   if (!props.modelValue && !showPanelColor.value) {
     return 'transparent'
   }
-  return displayedRgb(color.value, props.showAlpha)
+  return displayedRgb(color, props.showAlpha)
 })
 
 const currentColor = computed(() => {
-  return !props.modelValue && !showPanelColor.value ? '' : color.value.value
+  return !props.modelValue && !showPanelColor.value ? '' : color.value
 })
 
 const buttonAriaLabel = computed<string | undefined>(() => {
@@ -227,9 +230,9 @@ function hide() {
 function resetColor() {
   nextTick(() => {
     if (props.modelValue) {
-      color.value.fromString(props.modelValue)
+      color.fromString(props.modelValue)
     } else {
-      color.value.value = ''
+      color.value = ''
       nextTick(() => {
         showPanelColor.value = false
       })
@@ -246,9 +249,7 @@ function handleTrigger() {
 }
 
 function confirmValue() {
-  const value = isEmptyValue(color.value.value)
-    ? valueOnClear.value
-    : color.value.value
+  const value = isEmptyValue(color.value) ? valueOnClear.value : color.value
   emit(UPDATE_MODEL_EVENT, value)
   emit(CHANGE_EVENT, value)
   if (props.validateEvent) {
@@ -262,7 +263,7 @@ function confirmValue() {
       format: props.colorFormat || '',
       value: props.modelValue,
     })
-    if (color.value.compare(newColor)) {
+    if (color.compare(newColor)) {
       resetColor()
     }
   })
@@ -324,7 +325,7 @@ watch(
 )
 
 watch(
-  () => color.value.value,
+  () => color.value,
   () => {
     if (!props.modelValue && !showPanelColor.value) {
       showPanelColor.value = true
@@ -337,9 +338,9 @@ watch(
   (newVal) => {
     if (!newVal) {
       showPanelColor.value = false
-    } else if (newVal && newVal !== color.value.value) {
+    } else if (newVal && newVal !== color.value) {
       shouldActiveChange = false
-      color.value.fromString(newVal)
+      color.fromString(newVal)
     }
   }
 )
