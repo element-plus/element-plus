@@ -86,7 +86,6 @@ export default defineComponent({
                 right: '0px',
                 bottom: '0px',
                 left: '0px',
-                textAlign: 'center',
               } as CSSProperties,
             },
             [renderSlot(slots, 'default')]
