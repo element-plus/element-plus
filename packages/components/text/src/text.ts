@@ -1,7 +1,13 @@
-import { buildProps } from '@element-plus/utils'
+import { buildProps, definePropType } from '@element-plus/utils'
 import { componentSizes } from '@element-plus/constants'
 
 import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ElTooltipProps } from '@element-plus/components/tooltip'
+
+export interface EllipsisConfig {
+  rows?: number
+  tooltip?: Partial<ElTooltipProps> | string
+}
 
 export const textProps = buildProps({
   /**
@@ -36,6 +42,9 @@ export const textProps = buildProps({
   tag: {
     type: String,
     default: 'span',
+  },
+  ellipsis: {
+    type: definePropType<EllipsisConfig | boolean>([Object, Boolean]),
   },
 } as const)
 
