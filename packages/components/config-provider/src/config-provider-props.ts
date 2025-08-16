@@ -27,6 +27,7 @@ export const configProviderProps = buildProps({
    */
   locale: {
     type: definePropType<Language>(Object),
+    default: undefined,
   },
   /**
    * @description global component size
