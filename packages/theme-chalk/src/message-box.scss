@@ -31,7 +31,7 @@
     outline: none !important;
   }
 
-  @at-root .#{$namespace}-overlay.is-message-box {
+  @at-root .is-message-box {
     .#{$namespace}-overlay-message-box {
       text-align: center;
       position: fixed;
