@@ -997,6 +997,27 @@ describe('Select', () => {
       expect(onFocus).toHaveBeenCalledTimes(1)
     })
 
+    it('should show clear btn on focus', async () => {
+      const wrapper = createSelect({
+        data() {
+          return {
+            value: 'value1',
+            clearable: true,
+            options: [
+              {
+                value: 'value1',
+                label: 'label1',
+              },
+            ],
+          }
+        },
+      })
+      const input = wrapper.find('input')
+      await input.trigger('blur')
+      await input.trigger('focus')
+      expect(wrapper.findComponent(CircleClose).exists()).toBe(true)
+    })
+
     it('blur', async () => {
       const onBlur = vi.fn()
       const wrapper = createSelect({

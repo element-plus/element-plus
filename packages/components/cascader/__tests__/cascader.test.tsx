@@ -191,6 +191,20 @@ describe('Cascader.vue', () => {
     expect(isClear.value).toBe(true)
   })
 
+  test('should show clear btn on focus', async () => {
+    const wrapper = _mount(() => (
+      <Cascader
+        modelValue={['zhejiang', 'hangzhou']}
+        clearable
+        options={OPTIONS}
+      />
+    ))
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    expect(wrapper.findComponent(CircleClose).exists()).toBe(true)
+  })
+
   test('show last level label', async () => {
     const wrapper = _mount(() => (
       <Cascader

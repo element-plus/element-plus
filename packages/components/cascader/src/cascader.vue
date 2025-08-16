@@ -305,6 +305,7 @@ const popperVisible = ref(false)
 const inputHover = ref(false)
 const filtering = ref(false)
 const filterFocus = ref(false)
+const inputFocus = ref(false)
 const inputValue = ref('')
 const searchInputValue = ref('')
 const presentTags: Ref<Tag[]> = ref([])
@@ -341,7 +342,7 @@ const clearBtnVisible = computed(() => {
     !props.clearable ||
     isDisabled.value ||
     filtering.value ||
-    !inputHover.value
+    (!inputHover.value && !inputFocus.value)
   )
     return false
 
@@ -674,11 +675,13 @@ const handleFocus = (e: FocusEvent) => {
   if (el.className === name) {
     filterFocus.value = true
   }
+  inputFocus.value = true
   emit('focus', e)
 }
 
 const handleBlur = (e: FocusEvent) => {
   filterFocus.value = false
+  inputFocus.value = false
   emit('blur', e)
 }
 

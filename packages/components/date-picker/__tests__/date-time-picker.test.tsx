@@ -2,6 +2,7 @@ import { nextTick, ref } from 'vue'
 import { flushPromises, mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import dayjs from 'dayjs'
+import { CircleClose } from '@element-plus/icons-vue'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { ElFormItem } from '@element-plus/components/form'
 import DatePicker from '../src/date-picker'
@@ -1115,5 +1116,19 @@ describe('Datetimerange', () => {
     await input.trigger('blur')
     await input.trigger('focus')
     expect(rangePanelWrapper.vm.visible).toBe(true)
+  })
+
+  it('should show clear btn on focus', async () => {
+    const wrapper = _mount(() => (
+      <DatePicker
+        type="datetimerange"
+        modelValue={new Date(2016, 9, 10, 18, 40)}
+        clearable
+      />
+    ))
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    expect(wrapper.findComponent(CircleClose).exists()).toBe(true)
   })
 })
