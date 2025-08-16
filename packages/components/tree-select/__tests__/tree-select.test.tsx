@@ -1,7 +1,9 @@
 import { nextTick, reactive, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, expect, test, vi } from 'vitest'
+import { afterEach, describe, expect, test, vi } from 'vitest'
 import TreeSelect from '../src/tree-select.vue'
+import Tree from '@element-plus/components/tree/src/tree.vue'
+import defineGetter from '@element-plus/test-utils/define-getter'
 
 import type { RenderFunction } from 'vue'
 import type { VueWrapper } from '@vue/test-utils'
@@ -78,6 +80,11 @@ const createComponent = ({
 }
 
 describe('TreeSelect.vue', () => {
+  afterEach(() => {
+    vi.clearAllTimers()
+    vi.useRealTimers()
+    document.body.innerHTML = ''
+  })
   test('render test', async () => {
     const { wrapper, tree } = createComponent({
       props: {
@@ -482,6 +489,70 @@ describe('TreeSelect.vue', () => {
     expect(
       tree.findAll('.el-tree-node__children')[0].attributes('style')
     ).not.toContain('display: none;')
+  })
+
+  test('navigate down', async () => {
+    const { wrapper } = createComponent({
+      props: {
+        defaultExpandAll: true,
+      },
+    })
+
+    await nextTick()
+
+    let flag = false
+    function handleFocus() {
+      return () => (flag = true)
+    }
+    vi.useFakeTimers()
+    const selectWrapper = wrapper.find('.el-select__wrapper')
+    await selectWrapper.trigger('click')
+    await selectWrapper.trigger('focus')
+    const focused = wrapper.find('.is-focused')
+    expect(focused.exists()).toBe(true)
+    await selectWrapper.find('input').trigger('keydown.ArrowDown')
+    vi.runAllTimers()
+
+    expect((document.activeElement as HTMLElement).dataset.key).toBe('1')
+
+    const treeWrapper = wrapper.findComponent(Tree)
+    const allNodes = treeWrapper.findAll('.el-tree-node')
+    const len = allNodes.length
+    for (let i = 0; i < len; i++) {
+      if (allNodes[i + 1]) {
+        defineGetter(allNodes[i + 1].element, 'focus', handleFocus)
+        // 模拟按下下箭头键
+        allNodes[i].element.dispatchEvent(
+          new KeyboardEvent('keydown', {
+            code: 'ArrowDown',
+            bubbles: true,
+            cancelable: false,
+          })
+        )
+        expect(flag).toBe(true)
+        flag = false
+      }
+    }
+  })
+
+  test('navigate up', async () => {
+    const { wrapper } = createComponent({
+      props: {
+        defaultExpandAll: true,
+      },
+    })
+
+    await nextTick()
+    vi.useFakeTimers()
+    const selectWrapper = wrapper.find('.el-select__wrapper')
+    await selectWrapper.trigger('click')
+    await selectWrapper.trigger('focus')
+    const focused = wrapper.find('.is-focused')
+    expect(focused.exists()).toBe(true)
+    await selectWrapper.find('input').trigger('keydown.ArrowUp')
+    vi.runAllTimers()
+    console.log((document.activeElement as HTMLElement).dataset.key)
+    expect((document.activeElement as HTMLElement).dataset.key).toBe('111')
   })
 
   test('show correct label when child options are not rendered', async () => {
