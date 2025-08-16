@@ -20,7 +20,7 @@
 <script lang="ts">
 import { defineComponent, inject, ref, watch, watchEffect } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { colorPickerContextKey } from '../color-picker'
+import { colorPickerPanelContextKey } from '../color-picker-panel'
 import Color from '../utils/color'
 
 import type { PropType, Ref } from 'vue'
@@ -39,10 +39,11 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
+    disabled: Boolean,
   },
   setup(props) {
     const ns = useNamespace('color-predefine')
-    const { currentColor } = inject(colorPickerContextKey)!
+    const { currentColor } = inject(colorPickerPanelContextKey)!
 
     const rgbaColors = ref(parseColors(props.colors, props.color)) as Ref<
       Color[]
@@ -66,6 +67,7 @@ export default defineComponent({
     })
 
     function handleSelect(index: number) {
+      if (props.disabled) return
       props.color.fromString(props.colors[index])
     }
 

@@ -24,6 +24,7 @@ export const useAlphaSlider = (props: AlphaSliderProps) => {
   const alphaLabel = computed(() => t('el.colorpicker.alphaLabel'))
 
   function handleClick(event: MouseEvent | TouchEvent) {
+    if (props.disabled) return
     const target = event.target
 
     if (target !== thumb.value) {
@@ -33,7 +34,7 @@ export const useAlphaSlider = (props: AlphaSliderProps) => {
   }
 
   function handleDrag(event: MouseEvent | TouchEvent) {
-    if (!bar.value || !thumb.value) return
+    if (!bar.value || !thumb.value || props.disabled) return
 
     const el = instance.vnode.el as HTMLElement
     const rect = el.getBoundingClientRect()
@@ -69,6 +70,7 @@ export const useAlphaSlider = (props: AlphaSliderProps) => {
   }
 
   function handleKeydown(event: KeyboardEvent) {
+    if (props.disabled) return
     const { code, shiftKey } = event
     const step = shiftKey ? 10 : 1
 
@@ -188,7 +190,11 @@ export const useAlphaSliderDOM = (
     () => update()
   )
 
-  const rootKls = computed(() => [ns.b(), ns.is('vertical', props.vertical)])
+  const rootKls = computed(() => [
+    ns.b(),
+    ns.is('vertical', props.vertical),
+    ns.is('disabled', props.disabled),
+  ])
   const barKls = computed(() => ns.e('bar'))
   const thumbKls = computed(() => ns.e('thumb'))
   const barStyle = computed(() => ({ background: background.value }))
