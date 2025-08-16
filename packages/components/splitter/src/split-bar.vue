@@ -28,12 +28,9 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-  startCollapsible: {
-    type: Boolean,
-  },
-  endCollapsible: {
-    type: Boolean,
-  },
+  lazy: Boolean,
+  startCollapsible: Boolean,
+  endCollapsible: Boolean,
 })
 
 const emit = defineEmits(['moveStart', 'moving', 'moveEnd', 'collapse'])
@@ -143,6 +140,7 @@ const EndIcon = computed(() => (isHorizontal.value ? ArrowRight : ArrowDown))
         ns.e('dragger'),
         draggerPseudoClass,
         resizable ? '' : ns.e('disable'),
+        ns.is('lazy', resizable && lazy),
       ]"
       :style="draggerStyles"
       @mousedown="onMousedown"

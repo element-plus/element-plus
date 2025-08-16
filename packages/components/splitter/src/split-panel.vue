@@ -37,7 +37,7 @@ if (!splitterContext)
     'usage: <el-splitter><el-splitter-panel /></el-splitter/>'
   )
 
-const { panels, layout, containerSize, pxSizes } = toRefs(splitterContext)
+const { panels, layout, lazy, containerSize, pxSizes } = toRefs(splitterContext)
 
 const {
   registerPanel,
@@ -179,6 +179,7 @@ onBeforeUnmount(() => unregisterPanel(_panel))
     v-if="isShowBar"
     :index="index"
     :layout="layout"
+    :lazy="lazy"
     :resizable="isResizable"
     :start-collapsible="startCollapsible"
     :end-collapsible="endCollapsible"

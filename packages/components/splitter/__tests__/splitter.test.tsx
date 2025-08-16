@@ -269,4 +269,64 @@ describe('Splitter', () => {
     // Panel should be collapsed (size = 400)
     expect(panels[0].attributes('style')).toContain('flex-basis: 400px;')
   })
+
+  it('should not update panel size until drag ends when lazy is true', async () => {
+    const wrapper = mount(() => (
+      <div style={{ width: '400px', height: '400px' }}>
+        <ElSplitter lazy>
+          <ElSplitterPanel>Left Panel</ElSplitterPanel>
+          <ElSplitterPanel>Right Panel</ElSplitterPanel>
+        </ElSplitter>
+      </div>
+    ))
+    await nextTick()
+    const panels = wrapper.findAll('.el-splitter-panel')
+    const splitBar = wrapper.find('.el-splitter-bar__dragger')
+
+    const mousedown = new MouseEvent('mousedown', { bubbles: true })
+    Object.defineProperty(mousedown, 'pageX', { value: 200 })
+    splitBar.element.dispatchEvent(mousedown)
+
+    const mousemove = new MouseEvent('mousemove', { bubbles: true })
+    Object.defineProperty(mousemove, 'pageX', { value: 100 })
+    window.dispatchEvent(mousemove)
+    await nextTick()
+    expect(panels[0].attributes('style')).toContain('flex-basis: 200px;')
+
+    const mouseup = new MouseEvent('mouseup', { bubbles: true })
+    Object.defineProperty(mouseup, 'pageX', { value: 100 })
+    window.dispatchEvent(mouseup)
+    await nextTick()
+    expect(panels[0].attributes('style')).toContain('flex-basis: 100px;')
+  })
+
+  it('should update panel size immediately when lazy is false', async () => {
+    const wrapper = mount(() => (
+      <div style={{ width: '400px', height: '400px' }}>
+        <ElSplitter>
+          <ElSplitterPanel>Left Panel</ElSplitterPanel>
+          <ElSplitterPanel>Right Panel</ElSplitterPanel>
+        </ElSplitter>
+      </div>
+    ))
+    await nextTick()
+    const panels = wrapper.findAll('.el-splitter-panel')
+    const splitBar = wrapper.find('.el-splitter-bar__dragger')
+
+    const mousedown = new MouseEvent('mousedown', { bubbles: true })
+    Object.defineProperty(mousedown, 'pageX', { value: 200 })
+    splitBar.element.dispatchEvent(mousedown)
+
+    const mousemove = new MouseEvent('mousemove', { bubbles: true })
+    Object.defineProperty(mousemove, 'pageX', { value: 100 })
+    window.dispatchEvent(mousemove)
+    await nextTick()
+    expect(panels[0].attributes('style')).toContain('flex-basis: 100px;')
+
+    const mouseup = new MouseEvent('mouseup', { bubbles: true })
+    Object.defineProperty(mouseup, 'pageX', { value: 100 })
+    window.dispatchEvent(mouseup)
+    await nextTick()
+    expect(panels[0].attributes('style')).toContain('flex-basis: 100px;')
+  })
 })
