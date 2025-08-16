@@ -9,7 +9,15 @@
     "
     :aria-labelledby="isLabeledByFormItem ? formItem?.labelId : undefined"
   >
-    <slot />
+    <slot>
+      <el-checkbox
+        v-for="(item, index) in props.options"
+        :key="index"
+        :value="item[props.props?.value ?? 'value']"
+        :label="item[props.props?.label ?? 'label']"
+        :disabled="item[props.props?.disabled ?? 'disabled']"
+      />
+    </slot>
   </component>
 </template>
 
@@ -22,6 +30,7 @@ import { useNamespace } from '@element-plus/hooks'
 import { useFormItem, useFormItemInputId } from '@element-plus/components/form'
 import { checkboxGroupEmits, checkboxGroupProps } from './checkbox-group'
 import { checkboxGroupContextKey } from './constants'
+import ElCheckbox from './checkbox.vue'
 
 import type { CheckboxGroupValueType } from './checkbox-group'
 
