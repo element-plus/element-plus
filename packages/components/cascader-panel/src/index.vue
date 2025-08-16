@@ -122,10 +122,10 @@ const lazyLoad: ElCascaderPanelContext['lazyLoad'] = (node, cb) => {
   const resolve = (dataList?: CascaderOption[]) => {
     const _node = node as Node
     const parent = _node.root ? null : _node
-    dataList && store?.appendNodes(dataList, parent as Node)
     _node.loading = false
     _node.loaded = true
     _node.childrenData = _node.childrenData || []
+    dataList && store?.appendNodes(dataList, parent as Node)
     dataList && cb?.(dataList)
   }
 
@@ -196,7 +196,7 @@ const calculateCheckedValue = () => {
   const nodes = sortByOriginalOrder(oldNodes, newNodes)
   const values = nodes.map((node) => node.valueByOption)
   checkedNodes.value = nodes
-  checkedValue.value = multiple ? values : values[0]
+  checkedValue.value = multiple ? values : values[0] ?? null
 }
 
 const syncCheckedValue = (loaded = false, forced = false) => {

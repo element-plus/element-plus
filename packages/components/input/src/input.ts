@@ -7,6 +7,7 @@ import {
 } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
+import { CircleClose } from '@element-plus/icons-vue'
 
 import type {
   ExtractPropTypes,
@@ -116,6 +117,13 @@ export const inputProps = buildProps({
    * @description whether to show clear button
    */
   clearable: Boolean,
+  /**
+   * @description custom clear icon component
+   */
+  clearIcon: {
+    type: iconPropType,
+    default: CircleClose,
+  },
   /**
    * @description toggleable password input
    */

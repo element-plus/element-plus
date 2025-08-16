@@ -37,6 +37,16 @@ cascader/clearable
 
 :::
 
+## Custom Clear Icon ^(2.11.0)
+
+You can customize the clear icon by setting the `clear-icon` attribute
+
+:::demo
+
+cascader/clear-icon
+
+:::
+
 ## Display only the last level
 
 The input can display only the last level instead of all levels.
@@ -196,6 +206,7 @@ cascader/custom-header-footer
 | placeholder                                | placeholder of input                                                                                                                                                             | ^[string]                                                                                                                                                                   | —            |
 | disabled                                   | whether Cascader is disabled                                                                                                                                                     | ^[boolean]                                                                                                                                                                  | —            |
 | clearable                                  | whether selected value can be cleared                                                                                                                                            | ^[boolean]                                                                                                                                                                  | —            |
+| clear-icon ^(2.11.0)                       | custom clear icon component                                                                                                                                                      | ^[string] / ^[object]`Component`                                                                                                                                            | CircleClose  |
 | show-all-levels                            | whether to display all levels of the selected value in the input                                                                                                                 | ^[boolean]                                                                                                                                                                  | true         |
 | collapse-tags                              | whether to collapse tags in multiple selection mode                                                                                                                              | ^[boolean]                                                                                                                                                                  | —            |
 | collapse-tags-tooltip                      | whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true                                                                 | ^[boolean]                                                                                                                                                                  | false        |
