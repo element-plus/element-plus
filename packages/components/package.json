@@ -24,7 +24,8 @@
   "devDependencies": {
     "@element-plus/test-utils": "workspace:^",
     "@vue/test-utils": "catalog:",
-    "vue": "catalog:"
+    "vue": "catalog:",
+    "vue-component-type-helpers": "catalog:"
   },
   "types": "index.d.ts",
   "sideEffects": [

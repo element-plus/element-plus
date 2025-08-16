@@ -39,6 +39,9 @@ catalogs:
     vue:
       specifier: ~3.2.37
       version: 3.2.37
+    vue-component-type-helpers:
+      specifier: ^3.0.5
+      version: 3.0.5
 
 overrides:
   typescript: ~5.5.4
@@ -119,6 +122,9 @@ importers:
       normalize-wheel-es:
         specifier: ^1.2.0
         version: 1.2.0
+      vue-component-type-helpers:
+        specifier: 3.0.5
+        version: 3.0.5
     devDependencies:
       '@commitlint/cli':
         specifier: ^19.0.0
@@ -572,6 +578,9 @@ importers:
       vue:
         specifier: 'catalog:'
         version: 3.2.37
+      vue-component-type-helpers:
+        specifier: 'catalog:'
+        version: 3.0.5
 
   packages/constants: {}
 
@@ -7316,7 +7325,7 @@ packages:
   right-pad@1.0.1:
     resolution: {integrity: sha512-bYBjgxmkvTAfgIYy328fmkwhp39v8lwVgWhhrzxPV3yHtcSqyYKe9/XOhvW48UFjATg3VuJbpsp5822ACNvkmw==}
     engines: {node: '>= 0.10'}
-    deprecated: Please use String.prototype.padEnd() over this package.
+    deprecated: Use String.prototype.padEnd() instead
 
   rimraf@3.0.2:
     resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==}
@@ -8343,6 +8352,9 @@ packages:
 
   vscode-uri@3.0.8:
     resolution: {integrity: sha512-AyFQ0EVmsOZOlAnxoFOGOq1SQDWAB7C6aqMGS23svWAllfOaxbuFvcT8D1i8z3Gyn8fraVeZNNmN6e9bxxXkKw==}
+
+  vue-component-type-helpers@3.0.5:
+    resolution: {integrity: sha512-uoNZaJ+a1/zppa/Vgmi8zIOP2PHXDN2rT8NyF+zQRK6ZG94lNB9prcV0GdLJbY9i9lrD47JOVIH92SaiA7oJ1A==}
 
   vue-demi@0.13.1:
     resolution: {integrity: sha512-xmkJ56koG3ptpLnpgmIzk9/4nFf4CqduSJbUM0OdPoU87NwRuZ6x49OLhjSa/fC15fV+5CbEnrxU4oyE022svg==}
@@ -17336,6 +17348,8 @@ snapshots:
       - terser
 
   vscode-uri@3.0.8: {}
+
+  vue-component-type-helpers@3.0.5: {}
 
   vue-demi@0.13.1(vue@3.2.37):
     dependencies:
