@@ -32,9 +32,13 @@ export function useFilter(props: TreeProps, tree: Ref<Tree | undefined>) {
         if (filter?.(query, node.data, node)) {
           family.forEach((member) => {
             expandKeySet.add(member.key)
+            member.expanded = true
           })
-        } else if (node.isLeaf) {
-          hiddenKeys.add(node.key)
+        } else {
+          node.expanded = false
+          if (node.isLeaf) {
+            hiddenKeys.add(node.key)
+          }
         }
         const children = node.children
         if (children) {
