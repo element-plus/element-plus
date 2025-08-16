@@ -115,7 +115,7 @@ let isSizeUpdating = false
 watch(
   () => props.size,
   () => {
-    if (panel.value) {
+    if (!isSizeUpdating && panel.value) {
       const size = sizeToPx(props.size)
       const maxSize = sizeToPx(props.max)
       const minSize = sizeToPx(props.min)
@@ -124,12 +124,10 @@ watch(
       const finalSize = Math.min(Math.max(size, minSize || 0), maxSize || size)
 
       if (finalSize !== size) {
-        isSizeUpdating = true
         emits('update:size', finalSize)
       }
 
       panel.value.size = finalSize
-      nextTick(() => (isSizeUpdating = false))
     }
   }
 )
@@ -137,8 +135,10 @@ watch(
 watch(
   () => panel.value?.size,
   (val) => {
-    if (!isSizeUpdating && val !== props.size) {
+    if (val !== props.size) {
+      isSizeUpdating = true
       emits('update:size', val as number)
+      nextTick(() => (isSizeUpdating = false))
     }
   }
 )

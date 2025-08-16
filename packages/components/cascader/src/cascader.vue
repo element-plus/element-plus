@@ -52,7 +52,7 @@
               :class="[nsInput.e('icon'), 'icon-circle-close']"
               @click.stop="handleClear"
             >
-              <circle-close />
+              <component :is="clearIcon" />
             </el-icon>
             <el-icon
               v-else
@@ -238,7 +238,7 @@ import {
   EVENT_CODE,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import { ArrowDown, Check, CircleClose } from '@element-plus/icons-vue'
+import { ArrowDown, Check } from '@element-plus/icons-vue'
 import { cascaderEmits, cascaderProps } from './cascader'
 
 import type { Options } from '@element-plus/components/popper'
