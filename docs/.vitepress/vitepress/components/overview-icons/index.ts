@@ -15,6 +15,7 @@ import OvCascader from './ov-cascader.vue'
 import OvCheckbox from './ov-checkbox.vue'
 import OvColorPicker from './ov-color-picker.vue'
 import OvDatePicker from './ov-date-picker.vue'
+import OvDatePickerPanel from './ov-date-picker-panel.vue'
 import OvDatetimePicker from './ov-datetime-picker.vue'
 import OvForm from './ov-form.vue'
 import OvInputNumber from './ov-input-number.vue'
@@ -93,6 +94,7 @@ export default {
   checkbox: OvCheckbox,
   'color-picker': OvColorPicker,
   'date-picker': OvDatePicker,
+  'date-picker-panel': OvDatePickerPanel,
   'datetime-picker': OvDatetimePicker,
   form: OvForm,
   input: OvInput,

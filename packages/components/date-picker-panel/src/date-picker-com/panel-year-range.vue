@@ -8,6 +8,7 @@
           :key="key"
           type="button"
           :class="ppNs.e('shortcut')"
+          :disabled="disabled"
           @click="handleShortcutClick(shortcut)"
         >
           {{ shortcut.text }}
@@ -19,6 +20,7 @@
             <button
               type="button"
               :class="leftPanelKls.arrowLeftBtn"
+              :disabled="disabled"
               @click="leftPrevYear"
             >
               <slot name="prev-year">
@@ -28,7 +30,7 @@
             <button
               v-if="unlinkPanels"
               type="button"
-              :disabled="!enableYearArrow"
+              :disabled="!enableYearArrow || disabled"
               :class="leftPanelKls.arrowRightBtn"
               @click="leftNextYear"
             >
@@ -45,6 +47,7 @@
             :max-date="maxDate"
             :range-state="rangeState"
             :disabled-date="disabledDate"
+            :disabled="disabled"
             @changerange="handleChangeRange"
             @pick="handleRangePick"
             @select="onSelect"
@@ -55,7 +58,7 @@
             <button
               v-if="unlinkPanels"
               type="button"
-              :disabled="!enableYearArrow"
+              :disabled="!enableYearArrow || disabled"
               :class="rightPanelKls.arrowLeftBtn"
               @click="rightPrevYear"
             >
@@ -66,6 +69,7 @@
             <button
               type="button"
               :class="rightPanelKls.arrowRightBtn"
+              :disabled="disabled"
               @click="rightNextYear"
             >
               <slot name="next-year">
@@ -81,6 +85,7 @@
             :max-date="maxDate"
             :range-state="rangeState"
             :disabled-date="disabledDate"
+            :disabled="disabled"
             @changerange="handleChangeRange"
             @pick="handleRangePick"
             @select="onSelect"
@@ -176,6 +181,8 @@ const hasShortcuts = computed(() => !!shortcuts.length)
 const panelKls = computed(() => [
   ppNs.b(),
   drpNs.b(),
+  ppNs.is('border', props.border),
+  ppNs.is('disabled', props.disabled),
   {
     'has-sidebar': Boolean(useSlots().sidebar) || hasShortcuts.value,
   },

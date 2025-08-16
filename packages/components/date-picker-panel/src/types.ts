@@ -1,6 +1,6 @@
 import type { Dayjs } from 'dayjs'
 
-export declare type IDatePickerType =
+export type DatePickerType =
   | 'year'
   | 'years'
   | 'month'

@@ -1,5 +1,6 @@
 @use '../mixins/mixins' as *;
 @use '../common/var' as *;
+@use './utils.scss' as *;
 
 @include b(picker-panel) {
   color: getCssVar('text-color', 'regular');
@@ -96,12 +97,9 @@
     }
 
     @include when(disabled) {
-      color: getCssVar('text-color-disabled');
-
-      &:hover {
-        cursor: not-allowed;
-      }
+      @include disable;
     }
+
     & .#{$namespace}-icon {
       cursor: pointer;
       font-size: inherit;
@@ -110,6 +108,21 @@
 
   @include e(link-btn) {
     vertical-align: middle;
+  }
+
+  @include when(disabled) {
+    @include e(prev-btn) {
+      @include disable;
+    }
+    @include e(next-btn) {
+      @include disable;
+    }
+    @include e(icon-btn) {
+      @include disable;
+    }
+    @include e(shortcut) {
+      @include disable;
+    }
   }
 }
 
