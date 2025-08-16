@@ -179,8 +179,6 @@ export const useTree = (
       } else if (props.expandOnClickNode) {
         e.proxy.handleExpandIconClick()
       }
-      // TODO: Using this method or not makes no difference
-      // select.value?.focus()
     },
     onCheck: (data, params) => {
       // ignore when no checkbox, like only `checkOnClickNode` is true
