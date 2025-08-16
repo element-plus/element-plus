@@ -8,7 +8,8 @@ export default {
       confirm: 'Таъйид',
       clear: 'Тоза кардан',
       defaultLabel: 'Интихоби ранг',
-      description: 'Ранги ҳозира {color}, барои интихоби ранг нав Enter-ро пахш кунед',
+      description:
+        'Ранги ҳозира {color}, барои интихоби ранг нав Enter-ро пахш кунед',
       alphaLabel: 'Интихоби қимати шаффофӣ',
     },
     datepicker: {
@@ -17,9 +18,12 @@ export default {
       cancel: 'Бекор кардан',
       clear: 'Тоза кардан',
       confirm: 'Таъйид',
-      dateTablePrompt: 'Барои интихоби рӯз тугмаҳои самт ва Enter-ро истифода баред',
-      monthTablePrompt: 'Барои интихоби моҳ тугмаҳои самт ва Enter-ро истифода баред',
-      yearTablePrompt: 'Барои интихоби сол тугмаҳои самт ва Enter-ро истифода баред',
+      dateTablePrompt:
+        'Барои интихоби рӯз тугмаҳои самт ва Enter-ро истифода баред',
+      monthTablePrompt:
+        'Барои интихоби моҳ тугмаҳои самт ва Enter-ро истифода баред',
+      yearTablePrompt:
+        'Барои интихоби сол тугмаҳои самт ва Enter-ро истифода баред',
       selectedDate: 'Рӯзи интихобшуда',
       selectDate: 'Интихоби рӯз',
       selectTime: 'Интихоби вақт',
