@@ -10,14 +10,20 @@ import {
   ref,
 } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
-import { isArray, isString, isUndefined } from '@element-plus/utils'
+import {
+  ShapeFlags,
+  debugWarn,
+  isArray,
+  isString,
+  isUndefined,
+} from '@element-plus/utils'
 import { cellStarts } from '../config'
 import { compose, mergeOptions } from '../util'
 import useWatcher from './watcher-helper'
 import useRender from './render-helper'
 import defaultProps from './defaults'
 
-import type { VNode } from 'vue'
+import type { VNode, VNodeArrayChildren } from 'vue'
 import type { TableColumn, TableColumnCtx } from './defaults'
 import type { DefaultRow } from '../table/defaults'
 
@@ -64,6 +70,9 @@ export default defineComponent({
       ('tableId' in parent && parent.tableId) ||
       ('columnId' in parent && parent.columnId)
     }_column_${columnIdSeed++}`
+    instance.columnId = columnId.value
+    instance.columnConfig = columnConfig as any
+
     onBeforeMount(() => {
       isSubColumn.value = owner.value !== parent
 
@@ -175,12 +184,26 @@ export default defineComponent({
           updateColumnOrder
         )
     })
-    instance.columnId = columnId.value
 
-    instance.columnConfig = columnConfig as any
-    return
+    return {
+      cellSlot: owner.value.cellSlot,
+    }
   },
   render() {
+    const children: VNodeArrayChildren = []
+    if (this.cellSlot) {
+      const vnodes = this.$slots.default?.()
+      vnodes?.forEach((vnode) => {
+        if (vnode.shapeFlag & ShapeFlags.COMPONENT) {
+          children.push(vnode)
+        } else if (vnode.type === Fragment && isArray(vnode.children)) {
+          children.push(...vnode.children)
+        }
+      })
+
+      return h('div', children)
+    }
+
     try {
       const renderDefault = this.$slots.default?.({
         row: {},
@@ -214,6 +237,12 @@ export default defineComponent({
       const vnode = h('div', children)
       return vnode
     } catch {
+      debugWarn(
+        'el-table-column',
+        `[Slot] customizing cell content via the default slot will be removed in version 3.0.0. Please use the cell slot instead.
+         For more detail, please visit: https://element-plus.org/en-US/component/table.html
+        `
+      )
       return h('div', [])
     }
   },

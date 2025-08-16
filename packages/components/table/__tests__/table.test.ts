@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { h, nextTick } from 'vue'
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, test, vi } from 'vitest'
 import ElCheckbox from '@element-plus/components/checkbox'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { rAF } from '@element-plus/test-utils/tick'
@@ -2433,5 +2433,30 @@ describe('Table.vue', () => {
     )
 
     mockRangeRect.mockRestore()
+  })
+
+  test('cell-slot', async () => {
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+      template: `
+      <el-table :data="tableData" cell-slot>
+        <el-table-column>
+          <template #cell="{ row }">
+            {{ row.name }}
+          </template>
+        </el-table-column>
+      </el-table>
+      `,
+      data() {
+        return {
+          tableData: [{ name: 'dopamine' }],
+        }
+      },
+    })
+    await doubleWait()
+    expect(wrapper.find('td .cell').text()).toBe('dopamine')
   })
 })
