@@ -1,0 +1,106 @@
+.el-auto-scroll-text-container {
+    position: relative;
+}
+
+.el-auto-scroll-alert {
+    overflow: hidden;
+}
+
+.el-scroll-content {
+    position: relative;
+    overflow: hidden;
+    padding-right: 120px;
+    /* 为控制按钮留出空间 */
+}
+
+.el-scroll-content.el-scroll-horizontal {
+    height: 20px;
+    line-height: 20px;
+}
+
+.el-scroll-content.el-scroll-vertical {
+    height: 60px;
+    line-height: 20px;
+    overflow: hidden;
+    position: relative;
+}
+
+.el-scroll-text {
+    display: flex;
+    will-change: transform;
+}
+
+.el-scroll-text.el-scroll-horizontal {
+    white-space: nowrap;
+    flex-direction: row;
+    position: relative;
+    gap: 0;
+    display: inline-flex;
+}
+
+.el-scroll-text.el-scroll-vertical {
+    flex-direction: column;
+    height: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.el-text-item {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+}
+
+.el-scroll-horizontal .el-text-item {
+    padding: 0 10px;
+    white-space: nowrap;
+    font-size: 14px;
+    display: inline-block;
+}
+
+.el-scroll-vertical .el-text-item {
+    display: block;
+    padding: 5px 10px;
+    margin-bottom: 5px;
+}
+
+.el-scroll-controls {
+    position: absolute;
+    top: 6px;
+    right: 10px;
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.9);
+    /* 添加半透明背景 */
+    padding: 4px 8px;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    /* 添加阴影 */
+}
+
+/* 移除CSS动画，使用JavaScript控制滚动 */
+.el-scroll-horizontal .el-scroll-text,
+.el-scroll-vertical .el-scroll-text {
+    animation: none;
+}
+
+.el-scroll-vertical .el-text-item {
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .el-scroll-controls {
+        position: static;
+        margin-top: 10px;
+        justify-content: center;
+    }
+
+    .el-scroll-content.el-scroll-vertical {
+        height: 40px;
+    }
+}
