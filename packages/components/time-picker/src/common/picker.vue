@@ -32,7 +32,12 @@
         :size="pickerSize"
         :disabled="pickerDisabled"
         :placeholder="placeholder"
-        :class="[nsDate.b('editor'), nsDate.bm('editor', type), $attrs.class]"
+        :class="[
+          nsDate.b('editor'),
+          nsDate.bm('editor', type),
+          nsDate.is('focus', pickerVisible),
+          $attrs.class,
+        ]"
         :style="$attrs.style"
         :readonly="
           !editable ||
@@ -176,7 +181,11 @@ import {
   useLocale,
   useNamespace,
 } from '@element-plus/hooks'
-import { useFormItem, useFormSize } from '@element-plus/components/form'
+import {
+  useFormDisabled,
+  useFormItem,
+  useFormSize,
+} from '@element-plus/components/form'
 import ElInput from '@element-plus/components/input'
 import ElIcon from '@element-plus/components/icon'
 import ElTooltip from '@element-plus/components/tooltip'
@@ -233,7 +242,7 @@ const nsDate = useNamespace('date')
 const nsInput = useNamespace('input')
 const nsRange = useNamespace('range')
 
-const { form, formItem } = useFormItem()
+const { formItem } = useFormItem()
 const elPopperOptions = inject(
   PICKER_POPPER_OPTIONS_INJECTION_KEY,
   {} as Options
@@ -248,9 +257,7 @@ const hovering = ref(false)
 const valueOnOpen = ref<TimePickerDefaultProps['modelValue'] | null>(null)
 let hasJustTabExitedInput = false
 
-const pickerDisabled = computed(() => {
-  return props.disabled || !!form?.disabled
-})
+const pickerDisabled = useFormDisabled()
 
 const { isFocused, handleFocus, handleBlur } = useFocusController(inputRef, {
   disabled: pickerDisabled,

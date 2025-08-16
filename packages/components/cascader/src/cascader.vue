@@ -26,7 +26,7 @@
         @mouseleave="inputHover = false"
       >
         <el-input
-          ref="input"
+          ref="inputRef"
           v-model="inputValue"
           :placeholder="currentPlaceholder"
           :readonly="readonly"
@@ -90,6 +90,7 @@
               </template>
               <template v-else>
                 <el-tooltip
+                  ref="tagTooltipRef"
                   :disabled="popperVisible || !collapseTagsTooltip"
                   :fallback-placements="['bottom', 'top', 'right', 'left']"
                   placement="bottom"
@@ -225,11 +226,16 @@ import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
-import { useFormItem, useFormSize } from '@element-plus/components/form'
+import {
+  useFormDisabled,
+  useFormItem,
+  useFormSize,
+} from '@element-plus/components/form'
 import { ClickOutside as vClickoutside } from '@element-plus/directives'
 import {
   useComposition,
   useEmptyValues,
+  useFocusController,
   useLocale,
   useNamespace,
 } from '@element-plus/hooks'
@@ -287,7 +293,8 @@ const nsCascader = useNamespace('cascader')
 const nsInput = useNamespace('input')
 
 const { t } = useLocale()
-const { form, formItem } = useFormItem()
+const { formItem } = useFormItem()
+const isDisabled = useFormDisabled()
 const { valueOnClear } = useEmptyValues(props)
 const { isComposing, handleComposition } = useComposition({
   afterComposition(event) {
@@ -297,7 +304,8 @@ const { isComposing, handleComposition } = useComposition({
 })
 
 const tooltipRef: Ref<TooltipInstance | null> = ref(null)
-const input: Ref<InputInstance | null> = ref(null)
+const tagTooltipRef: Ref<TooltipInstance | null> = ref(null)
+const inputRef = ref<InputInstance>()
 const tagWrapper = ref(null)
 const cascaderPanelRef: Ref<CascaderPanelInstance | null> = ref(null)
 const suggestionPanel: Ref<ScrollbarInstance | null> = ref(null)
@@ -305,7 +313,6 @@ const popperVisible = ref(false)
 const inputHover = ref(false)
 const filtering = ref(false)
 const filterFocus = ref(false)
-const inputFocus = ref(false)
 const inputValue = ref('')
 const searchInputValue = ref('')
 const presentTags: Ref<Tag[]> = ref([])
@@ -316,7 +323,6 @@ const cascaderStyle = computed<StyleValue>(() => {
   return attrs.style as StyleValue
 })
 
-const isDisabled = computed(() => props.disabled || form?.disabled)
 const inputPlaceholder = computed(
   () => props.placeholder ?? t('el.cascader.placeholder')
 )
@@ -337,12 +343,35 @@ const searchKeyword = computed(() =>
 const checkedNodes: ComputedRef<CascaderNode[]> = computed(
   () => cascaderPanelRef.value?.checkedNodes || []
 )
+
+const { isFocused, handleBlur, handleFocus } = useFocusController(inputRef, {
+  disabled: isDisabled,
+  beforeFocus(event) {
+    const el = event.target as HTMLInputElement
+    const name = nsCascader.e('search-input')
+    if (el.className === name) {
+      filterFocus.value = true
+    }
+    return false
+  },
+  beforeBlur(event) {
+    return (
+      tooltipRef.value?.isFocusInsideContent(event) ||
+      tagTooltipRef.value?.isFocusInsideContent(event)
+    )
+  },
+  afterBlur() {
+    filterFocus.value = false
+    popperVisible.value = false
+  },
+})
+
 const clearBtnVisible = computed(() => {
   if (
     !props.clearable ||
     isDisabled.value ||
     filtering.value ||
-    (!inputHover.value && !inputFocus.value)
+    (!inputHover.value && !isFocused.value)
   )
     return false
 
@@ -407,7 +436,7 @@ const togglePopperVisible = (visible?: boolean) => {
 
   if (visible !== popperVisible.value) {
     popperVisible.value = visible
-    input.value?.input?.setAttribute('aria-expanded', `${visible}`)
+    inputRef.value?.input?.setAttribute('aria-expanded', `${visible}`)
 
     if (visible) {
       updatePopperPosition()
@@ -543,7 +572,7 @@ const focusFirstNode = () => {
 }
 
 const updateStyle = () => {
-  const inputInner = input.value?.input
+  const inputInner = inputRef.value?.input
   const tagWrapperEl = tagWrapper.value
   const suggestionPanelEl = suggestionPanel.value?.$el
 
@@ -669,22 +698,6 @@ const handleDelete = () => {
   }
 }
 
-const handleFocus = (e: FocusEvent) => {
-  const el = e.target as HTMLInputElement
-  const name = nsCascader.e('search-input')
-  if (el.className === name) {
-    filterFocus.value = true
-  }
-  inputFocus.value = true
-  emit('focus', e)
-}
-
-const handleBlur = (e: FocusEvent) => {
-  filterFocus.value = false
-  inputFocus.value = false
-  emit('blur', e)
-}
-
 const handleFilter = debounce(() => {
   const { value } = searchKeyword
 
@@ -729,7 +742,7 @@ watch(presentTags, () => {
 
 watch(realSize, async () => {
   await nextTick()
-  const inputInner = input.value!.input!
+  const inputInner = inputRef.value!.input!
   inputInitialHeight = getInputInnerHeight(inputInner) || inputInitialHeight
   updateStyle()
 })
@@ -737,7 +750,7 @@ watch(realSize, async () => {
 watch(presentText, syncPresentTextValue, { immediate: true })
 
 onMounted(() => {
-  const inputInner = input.value!.input!
+  const inputInner = inputRef.value!.input!
 
   const inputInnerHeight = getInputInnerHeight(inputInner)
 
