@@ -224,17 +224,13 @@ describe('Steps.vue', () => {
     ))
     await nextTick()
 
-    expect(
-      wrapper.findAll('.el-step')[0].find('.el-step__head').classes()
-    ).toContain('is-error')
+    const steps = wrapper.findAll('.el-step')
 
-    expect(
-      wrapper.findAll('.el-step')[1].find('.el-step__head').classes()
-    ).toContain('is-process')
+    expect(steps[0].find('.el-step__head').classes()).toContain('is-error')
 
-    expect(
-      wrapper.findAll('.el-step')[2].find('.el-step__head').classes()
-    ).toContain('is-wait')
+    expect(steps[1].find('.el-step__head').classes()).toContain('is-process')
+
+    expect(steps[2].find('.el-step__head').classes()).toContain('is-wait')
   })
 
   test('explicit status with various values should not affect flow', async () => {
