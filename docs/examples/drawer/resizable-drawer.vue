@@ -20,7 +20,7 @@ import { ref } from 'vue'
 import type { DrawerProps } from 'element-plus'
 
 const visible = ref(false)
-const direction = ref<DrawerProps['direction']>('rtl')
+const direction = ref<DrawerProps['direction']>()
 
 const options = [
   { label: 'Top', value: 'ttb' },
