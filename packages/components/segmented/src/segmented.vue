@@ -24,7 +24,7 @@
           @change="handleChange(item)"
         />
         <div :class="ns.e('item-label')">
-          <slot :item="item">{{ getLabel(item) }}</slot>
+          <slot :item="intoAny(item)">{{ getLabel(item) }}</slot>
         </div>
       </label>
     </div>
@@ -82,6 +82,8 @@ const handleChange = (item: Option) => {
 }
 
 const aliasProps = computed(() => ({ ...defaultProps, ...props.props }))
+
+const intoAny = (item: any) => item
 
 const getValue = (item: Option) => {
   return isObject(item) ? item[aliasProps.value.value] : item
