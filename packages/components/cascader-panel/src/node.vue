@@ -46,11 +46,7 @@
     </el-icon>
 
     <!-- content -->
-    <node-content
-      :node="node"
-      :disabled="isDisabled"
-      @handle-select-check="handleSelectCheck"
-    />
+    <node-content :node="node" />
     <!-- postfix -->
     <template v-if="!isLeaf">
       <el-icon v-if="node.loading" :class="[ns.is('loading'), ns.e('postfix')]">
