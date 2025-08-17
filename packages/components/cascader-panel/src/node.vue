@@ -146,7 +146,7 @@ const handleExpand = () => {
 }
 
 const handleClick = () => {
-  if (isHoverMenu.value && !isLeaf.value) return
+  if (isHoverMenu.value) return
 
   if (
     isLeaf.value &&
@@ -155,6 +155,12 @@ const handleClick = () => {
     !multiple.value
   ) {
     handleCheck(true)
+  } else if (
+    (panel.config.checkOnClickNode ||
+      (isLeaf.value && panel.config.checkOnClickLeaf)) &&
+    !isDisabled.value
+  ) {
+    handleSelectCheck(!props.node.checked)
   } else {
     handleExpand()
   }
