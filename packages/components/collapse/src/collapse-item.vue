@@ -23,7 +23,7 @@
       </slot>
     </div>
 
-    <el-collapse-transition>
+    <el-collapse-transition v-if="!disabled">
       <div
         v-show="isActive"
         :id="scopedContentId"
