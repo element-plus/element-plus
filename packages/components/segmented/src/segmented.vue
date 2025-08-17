@@ -83,6 +83,7 @@ const handleChange = (item: Option) => {
 
 const aliasProps = computed(() => ({ ...defaultProps, ...props.props }))
 
+//FIXME: remove this when vue >=3.3
 const intoAny = (item: any) => item
 
 const getValue = (item: Option) => {
