@@ -106,8 +106,7 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
         if (!inputValue.value && props.modelValue?.length) {
           event.preventDefault()
           event.stopPropagation()
-          const tag = props.modelValue[props.modelValue.length - 1]
-          handleRemoveTag(tag)
+          handleRemoveTag(props.modelValue.length - 1)
         }
         break
     }
@@ -119,9 +118,8 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
     addTagsEmit(value)
   }
 
-  const handleRemoveTag = (tag: string) => {
+  const handleRemoveTag = (index: number) => {
     const value = (props.modelValue ?? []).slice()
-    const index = value.indexOf(tag)
     const [item] = value.splice(index, 1)
 
     emit(UPDATE_MODEL_EVENT, value)

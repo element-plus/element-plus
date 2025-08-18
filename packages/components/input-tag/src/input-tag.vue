@@ -18,7 +18,7 @@
           :effect="tagEffect"
           :draggable="closable && draggable"
           disable-transitions
-          @close="handleRemoveTag(item)"
+          @close="handleRemoveTag(index)"
           @dragstart="(event: DragEvent) => handleDragStart(event, index)"
           @dragover="(event: DragEvent) => handleDragOver(event, index)"
           @dragend="handleDragEnd"
@@ -50,22 +50,18 @@
         </template>
         <template #content>
           <div :class="ns.e('input-tag-list')">
-            <div
-              v-for="item in collapseTagList"
+            <el-tag
+              v-for="(item, index) in collapseTagList"
               :key="item"
-              :class="ns.e('input-tag-item')"
+              :size="tagSize"
+              :closable="closable"
+              :type="tagType"
+              :effect="tagEffect"
+              disable-transitions
+              @close="handleRemoveTag(index + maxCollapseTags)"
             >
-              <el-tag
-                :size="tagSize"
-                :closable="closable"
-                :type="tagType"
-                :effect="tagEffect"
-                disable-transitions
-                @close="handleRemoveTag(item)"
-              >
-                {{ item }}
-              </el-tag>
-            </div>
+              {{ item }}
+            </el-tag>
           </div>
         </template>
       </el-tooltip>

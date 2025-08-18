@@ -129,12 +129,6 @@
     }
   }
 
-  @include e(input-tag-item) {
-    display: flex;
-    flex-wrap: wrap;
-    user-select: none;
-  }
-
   @include e(inner) {
     position: relative;
     display: flex;
