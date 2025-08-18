@@ -27,7 +27,7 @@
         @mouseleave="inputHover = false"
       >
         <el-input
-          ref="input"
+          ref="inputRef"
           v-model="inputValue"
           :placeholder="currentPlaceholder"
           :readonly="readonly"
@@ -223,7 +223,11 @@ import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
-import { useFormItem, useFormSize } from '@element-plus/components/form'
+import {
+  useFormDisabled,
+  useFormItem,
+  useFormSize,
+} from '@element-plus/components/form'
 import { ClickOutside as vClickoutside } from '@element-plus/directives'
 import {
   useComposition,
@@ -286,7 +290,8 @@ const nsCascader = useNamespace('cascader')
 const nsInput = useNamespace('input')
 
 const { t } = useLocale()
-const { form, formItem } = useFormItem()
+const { formItem } = useFormItem()
+const isDisabled = useFormDisabled()
 const { valueOnClear } = useEmptyValues(props)
 const { isComposing, handleComposition } = useComposition({
   afterComposition(event) {
@@ -297,7 +302,7 @@ const { isComposing, handleComposition } = useComposition({
 
 const tooltipRef: Ref<TooltipInstance | null> = ref(null)
 const tagTooltipRef: Ref<TooltipInstance | null> = ref(null)
-const input: Ref<InputInstance | null> = ref(null)
+const inputRef = ref<InputInstance>()
 const tagWrapper = ref(null)
 const cascaderPanelRef: Ref<CascaderPanelInstance | null> = ref(null)
 const suggestionPanel: Ref<ScrollbarInstance | null> = ref(null)
@@ -314,7 +319,6 @@ const cascaderStyle = computed<StyleValue>(() => {
   return attrs.style as StyleValue
 })
 
-const isDisabled = computed(() => props.disabled || !!form?.disabled)
 const inputPlaceholder = computed(
   () => props.placeholder ?? t('el.cascader.placeholder')
 )
@@ -335,12 +339,28 @@ const searchKeyword = computed(() =>
 const checkedNodes: ComputedRef<CascaderNode[]> = computed(
   () => cascaderPanelRef.value?.checkedNodes || []
 )
+
+const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
+  disabled: isDisabled,
+  beforeBlur(event) {
+    return (
+      tooltipRef.value?.isFocusInsideContent(event) ||
+      tagTooltipRef.value?.isFocusInsideContent(event)
+    )
+  },
+  afterBlur() {
+    if (props.validateEvent) {
+      formItem?.validate?.('blur').catch((err) => debugWarn(err))
+    }
+  },
+})
+
 const clearBtnVisible = computed(() => {
   if (
     !props.clearable ||
     isDisabled.value ||
     filtering.value ||
-    !inputHover.value
+    (!inputHover.value && !isFocused.value)
   )
     return false
 
@@ -396,24 +416,6 @@ const contentRef = computed(() => {
   return tooltipRef.value?.popperRef?.contentRef
 })
 
-const { wrapperRef, isFocused, handleBlur } = useFocusController(
-  input as Ref<{ focus: () => void }>,
-  {
-    disabled: isDisabled,
-    beforeBlur(event) {
-      return (
-        tooltipRef.value?.isFocusInsideContent(event) ||
-        tagTooltipRef.value?.isFocusInsideContent(event)
-      )
-    },
-    afterBlur() {
-      if (props.validateEvent) {
-        formItem?.validate?.('blur').catch((err) => debugWarn(err))
-      }
-    },
-  }
-)
-
 const handleClickOutside = (event: Event) => {
   if (isFocused.value) {
     const _event = new FocusEvent('blur', event)
@@ -429,7 +431,7 @@ const togglePopperVisible = (visible?: boolean) => {
 
   if (visible !== popperVisible.value) {
     popperVisible.value = visible
-    input.value?.input?.setAttribute('aria-expanded', `${visible}`)
+    inputRef.value?.input?.setAttribute('aria-expanded', `${visible}`)
 
     if (visible) {
       updatePopperPosition()
@@ -565,7 +567,7 @@ const focusFirstNode = () => {
 }
 
 const updateStyle = () => {
-  const inputInner = input.value?.input
+  const inputInner = inputRef.value?.input
   const tagWrapperEl = tagWrapper.value
   const suggestionPanelEl = suggestionPanel.value?.$el
 
@@ -735,7 +737,7 @@ watch(presentTags, () => {
 
 watch(realSize, async () => {
   await nextTick()
-  const inputInner = input.value!.input!
+  const inputInner = inputRef.value!.input!
   inputInitialHeight = getInputInnerHeight(inputInner) || inputInitialHeight
   updateStyle()
 })
@@ -743,7 +745,7 @@ watch(realSize, async () => {
 watch(presentText, syncPresentTextValue, { immediate: true })
 
 onMounted(() => {
-  const inputInner = input.value!.input!
+  const inputInner = inputRef.value!.input!
 
   const inputInnerHeight = getInputInnerHeight(inputInner)
 
