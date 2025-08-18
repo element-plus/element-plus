@@ -28,24 +28,6 @@
             {{ item }}
           </slot>
         </el-tag>
-        <el-tag
-          v-if="!collapseTags"
-          :size="tagSize"
-          :closable="closable"
-          :type="tagType"
-          :effect="tagEffect"
-          :draggable="closable && draggable"
-          disable-transitions
-          @close="handleRemoveTag(item)"
-          @dragstart="(event: DragEvent) => handleDragStart(event, index)"
-          @dragover="(event: DragEvent) => handleDragOver(event, index)"
-          @dragend="handleDragEnd"
-          @drop.stop
-        >
-          <slot name="tag" :value="item" :index="index">
-            {{ item }}
-          </slot>
-        </el-tag>
       </template>
       <el-tooltip
         v-if="collapseTags && modelValue && modelValue.length > maxCollapseTags"
@@ -132,7 +114,7 @@
         @mousedown.prevent="NOOP"
         @click="handleClear"
       >
-        <circle-close />
+        <component :is="clearIcon" />
       </el-icon>
       <el-icon
         v-if="validateState && validateIcon && needStatusIcon"
@@ -150,7 +132,6 @@
 
 <script lang="ts" setup>
 import { computed, useSlots } from 'vue'
-import { CircleClose } from '@element-plus/icons-vue'
 import { useAttrs, useCalcInputWidth } from '@element-plus/hooks'
 import { NOOP, ValidateComponentsMap } from '@element-plus/utils'
 import ElTooltip from '@element-plus/components/tooltip'

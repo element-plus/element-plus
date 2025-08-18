@@ -41,17 +41,11 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
       : (props.modelValue?.length ?? 0) >= props.max
   })
   const showTagList = computed(() => {
-    if (!props.collapseTags) {
-      return []
-    }
     return props.collapseTags
       ? props.modelValue?.slice(0, props.maxCollapseTags)
       : props.modelValue
   })
   const collapseTagList = computed(() => {
-    if (!props.collapseTags) {
-      return []
-    }
     return props.collapseTags
       ? props.modelValue?.slice(props.maxCollapseTags)
       : []
