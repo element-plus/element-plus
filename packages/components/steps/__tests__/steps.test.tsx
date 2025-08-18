@@ -223,13 +223,9 @@ describe('Steps.vue', () => {
       </Steps>
     ))
     await nextTick()
-
     const steps = wrapper.findAll('.el-step')
-
     expect(steps[0].find('.el-step__head').classes()).toContain('is-error')
-
     expect(steps[1].find('.el-step__head').classes()).toContain('is-process')
-
     expect(steps[2].find('.el-step__head').classes()).toContain('is-wait')
   })
 
@@ -243,15 +239,10 @@ describe('Steps.vue', () => {
       </Steps>
     ))
     await nextTick()
-
     const steps = wrapper.findAll('.el-step')
-
     expect(steps[0].find('.el-step__head').classes()).toContain('is-success')
-
     expect(steps[1].find('.el-step__head').classes()).toContain('is-error')
-
     expect(steps[2].find('.el-step__head').classes()).toContain('is-process')
-
     expect(steps[3].find('.el-step__head').classes()).toContain('is-wait')
   })
 })
