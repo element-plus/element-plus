@@ -29,6 +29,7 @@
               ns.b(),
               customClass,
               ns.is('draggable', draggable),
+              ns.is('dragging', isDragging),
               { [ns.m('center')]: center },
             ]"
             :style="customStyle"
@@ -373,7 +374,7 @@ export default defineComponent({
 
     const draggable = computed(() => props.draggable)
     const overflow = computed(() => props.overflow)
-    useDraggable(rootRef, headerRef, draggable, overflow)
+    const { isDragging } = useDraggable(rootRef, headerRef, draggable, overflow)
 
     onMounted(async () => {
       await nextTick()
@@ -497,6 +498,7 @@ export default defineComponent({
       focusStartRef,
       headerRef,
       inputRef,
+      isDragging,
       confirmRef,
       doClose, // for outside usage
       handleClose, // for out side usage

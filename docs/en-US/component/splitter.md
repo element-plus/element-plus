@@ -57,13 +57,24 @@ splitter/size
 
 :::
 
+## Lazy ^(2.11.0)
+
+When `lazy` is enabled, the panel size will not update in real time during dragging, but only after the drag ends.
+
+:::demo
+
+splitter/lazy
+
+:::
+
 ## Splitter API
 
 ### Splitter Attributes
 
-| Name   | Description                      | Type                                | Default    |
-| ------ | -------------------------------- | ----------------------------------- | ---------- |
-| layout | Layout direction of the splitter | ^[enum]`'horizontal' \| 'vertical'` | horizontal |
+| Name           | Description                      | Type                                | Default    |
+| -------------- | -------------------------------- | ----------------------------------- | ---------- |
+| layout         | Layout direction of the splitter | ^[enum]`'horizontal' \| 'vertical'` | horizontal |
+| lazy ^(2.11.0) | Whether to enable lazy mode      | ^[boolean]                          | false      |
 
 ### Splitter Events
 

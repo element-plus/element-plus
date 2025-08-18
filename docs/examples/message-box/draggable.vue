@@ -6,6 +6,9 @@
     <el-button class="!ml-0" plain @click="open2">
       Open a overflow draggable Message Box
     </el-button>
+    <el-button class="!ml-0" plain @click="open3">
+      Open a custom dragging style Message Box
+    </el-button>
   </div>
 </template>
 
@@ -62,4 +65,37 @@ const open2 = () => {
       })
     })
 }
+
+const open3 = () => {
+  ElMessageBox.confirm(
+    'This message box has custom dragging styles. Try dragging it to see the effects!',
+    'Custom Dragging Style',
+    {
+      confirmButtonText: 'OK',
+      cancelButtonText: 'Cancel',
+      type: 'info',
+      draggable: true,
+      customClass: 'custom-dragging-message-box',
+    }
+  )
+    .then(() => {
+      ElMessage({
+        type: 'success',
+        message: 'Action completed',
+      })
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'info',
+        message: 'Action canceled',
+      })
+    })
+}
 </script>
+
+<style>
+.custom-dragging-message-box.is-dragging {
+  border: 2px dashed var(--el-color-primary);
+  opacity: 0.65;
+}
+</style>

@@ -1634,6 +1634,71 @@ describe('DateRangePicker', () => {
     expect(calendarChangeValue[1]).toBeInstanceOf(Date)
   })
 
+  it('daterange should be reopen successfully', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        type='daterange'
+      />`,
+      () => ({ value: '' })
+    )
+    const rangePanelWrapper = wrapper.findComponent(
+      '.el-date-range-picker'
+    ) as VueWrapper<InstanceType<typeof DatePickerRange>>
+
+    expect(rangePanelWrapper.vm.visible).toBe(false)
+
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+
+    expect(rangePanelWrapper.exists()).toBe(true)
+    expect(rangePanelWrapper.vm.visible).toBe(true)
+
+    const cells = document.querySelectorAll('.available .el-date-table-cell')
+    ;(cells[0] as HTMLElement).click()
+    await nextTick()
+    ;(cells[1] as HTMLElement).click()
+    await nextTick()
+    expect(rangePanelWrapper.vm.visible).toBe(false)
+    await input.trigger('blur')
+    await input.trigger('focus')
+    expect(rangePanelWrapper.vm.visible).toBe(true)
+  })
+
+  it('daterange should be reopen successfully with value-format', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        type='daterange'
+        value-format="YYYY-MM-DD"
+      />`,
+      () => ({ value: '' })
+    )
+    const rangePanelWrapper = wrapper.findComponent(
+      '.el-date-range-picker'
+    ) as VueWrapper<InstanceType<typeof DatePickerRange>>
+
+    expect(rangePanelWrapper.vm.visible).toBe(false)
+
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+
+    expect(rangePanelWrapper.exists()).toBe(true)
+    expect(rangePanelWrapper.vm.visible).toBe(true)
+
+    const cells = document.querySelectorAll('.available .el-date-table-cell')
+    ;(cells[0] as HTMLElement).click()
+    await nextTick()
+    ;(cells[1] as HTMLElement).click()
+    await nextTick()
+    expect(rangePanelWrapper.vm.visible).toBe(false)
+    await input.trigger('blur')
+    await input.trigger('focus')
+    expect(rangePanelWrapper.vm.visible).toBe(true)
+  })
+
   it('reverse selection', async () => {
     const wrapper = _mount(
       `<el-date-picker
