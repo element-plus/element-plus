@@ -40,6 +40,7 @@
   &.#{$namespace}-input__wrapper {
     width: getCssVar('date-editor-width');
     height: var(#{getCssVarName('input-height')}, getCssVar('component-size'));
+    flex-grow: 0;
   }
 
   @include m((monthrange)) {
