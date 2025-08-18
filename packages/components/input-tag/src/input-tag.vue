@@ -10,25 +10,25 @@
       <slot name="prefix" />
     </div>
     <div :class="innerKls">
-      <template v-for="(item, index) in showTagList" :key="index">
-        <el-tag
-          :size="tagSize"
-          :closable="closable"
-          :type="tagType"
-          :effect="tagEffect"
-          :draggable="closable && draggable"
-          disable-transitions
-          @close="handleRemoveTag(index)"
-          @dragstart="(event: DragEvent) => handleDragStart(event, index)"
-          @dragover="(event: DragEvent) => handleDragOver(event, index)"
-          @dragend="handleDragEnd"
-          @drop.stop
-        >
-          <slot name="tag" :value="item" :index="index">
-            {{ item }}
-          </slot>
-        </el-tag>
-      </template>
+      <el-tag
+        v-for="(item, index) in showTagList"
+        :key="index"
+        :size="tagSize"
+        :closable="closable"
+        :type="tagType"
+        :effect="tagEffect"
+        :draggable="closable && draggable"
+        disable-transitions
+        @close="handleRemoveTag(index)"
+        @dragstart="(event: DragEvent) => handleDragStart(event, index)"
+        @dragover="(event: DragEvent) => handleDragOver(event, index)"
+        @dragend="handleDragEnd"
+        @drop.stop
+      >
+        <slot name="tag" :value="item" :index="index">
+          {{ item }}
+        </slot>
+      </el-tag>
       <el-tooltip
         v-if="collapseTags && modelValue && modelValue.length > maxCollapseTags"
         ref="tagTooltipRef"
