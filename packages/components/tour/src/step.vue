@@ -65,7 +65,8 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, watch } from 'vue'
+import { computed, inject, onBeforeUnmount, onMounted, watch } from 'vue'
+import { EVENT_CODE } from '@element-plus/constants'
 import { omit } from 'lodash-unified'
 import { ElButton } from '@element-plus/components/button'
 import { ElIcon } from '@element-plus/components/icon'
@@ -152,4 +153,28 @@ const onClose = () => {
   tourOnClose()
   emit('close')
 }
+
+const handleKeydown = (e: KeyboardEvent) => {
+  const target = e.target as HTMLElement | null
+  if (target?.isContentEditable) return
+
+  const actions: Record<string, () => void> = {
+    [EVENT_CODE.left]: () => current.value > 0 && onPrev(),
+    [EVENT_CODE.right]: onNext,
+  }
+
+  const action = actions[e.code]
+  if (action) {
+    e.preventDefault()
+    action()
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('keydown', handleKeydown)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('keydown', handleKeydown)
+})
 </script>

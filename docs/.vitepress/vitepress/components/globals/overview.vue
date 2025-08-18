@@ -55,7 +55,7 @@
         Icons designed by
         <el-link
           type="primary"
-          :underline="false"
+          underline="never"
           href="https://github.com/daodaozz08"
           target="_blank"
         >
@@ -63,7 +63,7 @@
         </el-link>
         <el-link
           type="primary"
-          :underline="false"
+          underline="never"
           href="https://github.com/zhiwendesign"
           target="_blank"
         >
