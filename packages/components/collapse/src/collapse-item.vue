@@ -23,7 +23,7 @@
       </slot>
     </div>
 
-    <el-collapse-transition v-if="!disabled">
+    <el-collapse-transition v-if="renderContent">
       <div
         v-show="isActive"
         :id="scopedContentId"
@@ -41,6 +41,7 @@
 </template>
 
 <script lang="ts" setup>
+import { computed } from 'vue'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElIcon from '@element-plus/components/icon'
 import { collapseItemProps } from './collapse-item'
@@ -70,6 +71,8 @@ const {
   scopedContentId,
   scopedHeadId,
 } = useCollapseItemDOM(props, { focusing, isActive, id })
+
+const renderContent = computed(() => (isActive.value ? true : !props.disabled))
 
 defineExpose({
   /** @description current collapse-item whether active */
