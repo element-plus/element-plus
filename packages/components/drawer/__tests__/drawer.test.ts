@@ -406,15 +406,15 @@ describe('Drawer', () => {
       )
 
     test('should effect height when drawer is vertical', async () => {
-      const drawerEl = renderer('50%', true).find('.el-drawer')
-        .element as HTMLDivElement
-      expect(drawerEl.style.width).toEqual('50%')
+      const wrapper = renderer('50%', true)
+      const drawerEl = wrapper.findAllComponents({ name: 'ElSplitterPanel' })[0]
+      expect(drawerEl.vm.size).toContain('50%')
     })
 
     test('should effect width when drawer is horizontal', async () => {
-      const drawerEl = renderer('50%', false).find('.el-drawer')
-        .element as HTMLDivElement
-      expect(drawerEl.style.height).toEqual('50%')
+      const wrapper = renderer('50%', false)
+      const drawerEl = wrapper.findAllComponents({ name: 'ElSplitterPanel' })[0]
+      expect(drawerEl.vm.size).toContain('50%')
     })
   })
 
