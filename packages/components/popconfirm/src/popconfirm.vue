@@ -52,7 +52,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { computed, ref, unref } from 'vue'
 import ElButton from '@element-plus/components/button'
 import ElIcon from '@element-plus/components/icon'
 import ElTooltip from '@element-plus/components/tooltip'
@@ -72,6 +72,9 @@ const emit = defineEmits(popconfirmEmits)
 const { t } = useLocale()
 const ns = useNamespace('popconfirm')
 const tooltipRef = ref<TooltipInstance>()
+const popperRef = computed(() => {
+  return unref(tooltipRef)?.popperRef
+})
 
 const hidePopper = () => {
   tooltipRef.value?.onClose?.()
@@ -98,4 +101,9 @@ const finalConfirmButtonText = computed(
 const finalCancelButtonText = computed(
   () => props.cancelButtonText || t('el.popconfirm.cancelButtonText')
 )
+
+defineExpose({
+  popperRef,
+  hide: hidePopper,
+})
 </script>

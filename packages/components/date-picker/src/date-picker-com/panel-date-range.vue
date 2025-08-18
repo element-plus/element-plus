@@ -711,6 +711,7 @@ const handleRangePick = (
 watch([maxDate, minDate], ([max, min]) => {
   if (max && min) {
     handleRangeConfirm(shouldBeVisible)
+    shouldBeVisible = true
   }
 })
 

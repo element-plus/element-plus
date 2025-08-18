@@ -74,7 +74,7 @@
         @mousedown.prevent="NOOP"
         @click="handleClear"
       >
-        <circle-close />
+        <component :is="clearIcon" />
       </el-icon>
       <el-icon
         v-if="validateState && validateIcon && needStatusIcon"
@@ -92,7 +92,6 @@
 
 <script lang="ts" setup>
 import { computed, useSlots } from 'vue'
-import { CircleClose } from '@element-plus/icons-vue'
 import { useAttrs, useCalcInputWidth } from '@element-plus/hooks'
 import { NOOP, ValidateComponentsMap } from '@element-plus/utils'
 import ElIcon from '@element-plus/components/icon'

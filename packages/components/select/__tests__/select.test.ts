@@ -1763,6 +1763,9 @@ describe('Select', () => {
       'is-focused'
     )
     expect(handleBlur).toHaveBeenCalledTimes(1)
+    expect(handleBlur.mock.calls[0]).toEqual([
+      expect.objectContaining({ type: 'blur' }),
+    ])
   })
 
   test('should not open popper when automatic-dropdown not set', async () => {
