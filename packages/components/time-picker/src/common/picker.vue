@@ -288,6 +288,8 @@ const { isFocused, handleFocus, handleBlur } = useFocusController(inputRef, {
   },
 })
 
+const hovering = ref(false)
+
 const rangeInputKls = computed(() => [
   nsDate.b('editor'),
   nsDate.bm('editor', props.type),
