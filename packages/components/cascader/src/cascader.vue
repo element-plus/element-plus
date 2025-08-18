@@ -3,7 +3,8 @@
     ref="tooltipRef"
     :visible="popperVisible"
     :teleported="teleported"
-    :popper-class="[nsCascader.e('dropdown'), popperClass]"
+    :popper-class="[nsCascader.e('dropdown'), popperClass!]"
+    :popper-style="popperStyle"
     :popper-options="popperOptions"
     :fallback-placements="fallbackPlacements"
     :stop-popper-mouse-event="false"
@@ -93,6 +94,8 @@
                   :disabled="popperVisible || !collapseTagsTooltip"
                   :fallback-placements="['bottom', 'top', 'right', 'left']"
                   placement="bottom"
+                  :popper-class="popperClass"
+                  :popper-style="popperStyle"
                   :effect="effect"
                 >
                   <template #default>

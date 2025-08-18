@@ -124,10 +124,11 @@ export const cascaderProps = buildProps({
   /**
    * @description custom class name for Cascader's dropdown
    */
-  popperClass: {
-    type: String,
-    default: '',
-  },
+  popperClass: useTooltipContentProps.popperClass,
+  /**
+   * @description custom style for Cascader's dropdown
+   */
+  popperStyle: useTooltipContentProps.popperStyle,
   /**
    * @description whether cascader popup is teleported
    */
