@@ -52,7 +52,7 @@
           <div :class="ns.e('input-tag-list')">
             <el-tag
               v-for="(item, index) in collapseTagList"
-              :key="item"
+              :key="index"
               :size="tagSize"
               :closable="closable"
               :type="tagType"
