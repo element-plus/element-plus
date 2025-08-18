@@ -3,6 +3,7 @@ import { nextTick } from 'vue'
 import { flushPromises, mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import dayjs from 'dayjs'
+import { CircleClose } from '@element-plus/icons-vue'
 import { rAF } from '@element-plus/test-utils/tick'
 import ConfigProvider from '@element-plus/components/config-provider'
 import {
@@ -276,6 +277,20 @@ describe('DatePicker', () => {
     await rAF()
     expect(changeHandler).toHaveBeenCalledTimes(1)
     expect(onChangeValue?.getTime()).toBe(new Date(2016, 9, 1).getTime())
+  })
+
+  it('should show clear btn on focus', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        clearable
+      />`,
+      () => ({ value: new Date(2016, 9, 10, 18, 40) })
+    )
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    expect(wrapper.findComponent(CircleClose).exists()).toBe(true)
   })
 
   it('emits focus on click when not currently focused', async () => {
