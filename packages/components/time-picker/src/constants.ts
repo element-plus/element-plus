@@ -1,5 +1,22 @@
 export const timeUnits = ['hours', 'minutes', 'seconds'] as const
 
+export const dateTimeStartEndUnits = [
+  'second',
+  's',
+  'minute',
+  'm',
+  'hour',
+  'h',
+  'day',
+  'd',
+  'week',
+  'w',
+  'month',
+  'M',
+  'year',
+  'y',
+] as const
+
 export const PICKER_BASE_INJECTION_KEY = 'EP_PICKER_BASE'
 
 export const PICKER_POPPER_OPTIONS_INJECTION_KEY = 'ElPopperOptions'
