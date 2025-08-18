@@ -67,7 +67,7 @@ const emit = defineEmits([
 
 const { formItem: elFormItem } = useFormItem()
 const { inputId } = useFormItemInputId(
-  reactive({ ...props, id: computed(() => props.id?.[0]) }),
+  reactive({ id: computed(() => props.id?.[0]) }),
   {
     formItemContext: elFormItem,
   }
