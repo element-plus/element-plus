@@ -71,9 +71,9 @@ splitter/lazy
 
 ### Splitter Attributes
 
-| Name           | Description                 | Type       | Default |
-| -------------- | --------------------------- | ---------- | ------- |
-| lazy ^(2.11.0) | Whether to enable lazy mode | ^[boolean] | false   |
+| Name   | Description                      | Type                                | Default    |
+| ------ | -------------------------------- | ----------------------------------- | ---------- |
+| layout | Layout direction of the splitter | ^[enum]`'horizontal' \| 'vertical'` | horizontal |
 
 ### Splitter Events
 
