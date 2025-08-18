@@ -17,6 +17,7 @@ export type PanelItemState = UnwrapRef<{
 export interface SplitterRootContext {
   panels: PanelItemState[]
   layout: Layout
+  lazy: boolean
   containerSize: number
   movingIndex: { index: number; confirmed: boolean } | null
   percentSizes: number[]
