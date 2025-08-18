@@ -69,6 +69,12 @@ splitter/lazy
 
 ## Splitter API
 
+### Splitter Attributes
+
+| Name           | Description                 | Type       | Default |
+| -------------- | --------------------------- | ---------- | ------- |
+| lazy ^(2.11.0) | Whether to enable lazy mode | ^[boolean] | false   |
+
 ### Splitter Events
 
 | Name               | Description                                                              | type                                                                          |
