@@ -3,11 +3,11 @@
 @use 'mixins/mixins' as *;
 @use 'mixins/var' as *;
 
-@include b(auto-scroll-text) {
+:root {
   @include set-component-css-var('auto-scroll-text', $auto-scroll-text);
+}
 
-  position: relative;
-
+@include b(auto-scroll-text) {
   @include e(container) {
     position: relative;
   }
@@ -19,16 +19,16 @@
   @include e(scroll-content) {
     position: relative;
     overflow: hidden;
-    padding-right: 120px; // 为控制按钮留出空间
+    padding-right: getCssVar('auto-scroll-text', 'scroll-content-padding-right'); // 为控制按钮留出空间
 
     @include m(horizontal) {
-      height: 20px;
-      line-height: 20px;
+      height: getCssVar('auto-scroll-text', 'scroll-content-horizontal-height');
+      line-height: getCssVar('auto-scroll-text', 'scroll-content-horizontal-line-height');
     }
 
     @include m(vertical) {
-      height: 60px;
-      line-height: 20px;
+      height: getCssVar('auto-scroll-text', 'scroll-content-vertical-height');
+      line-height: getCssVar('auto-scroll-text', 'scroll-content-vertical-line-height');
       overflow: hidden;
       position: relative;
     }
@@ -61,41 +61,41 @@
     padding: 0;
     margin: 0;
 
-    .#{$namespace}-scroll-horizontal & {
-      padding: 0 10px;
+    .#{$namespace}-auto-scroll-text__scroll-content--horizontal & {
+      padding: getCssVar('auto-scroll-text', 'text-item-horizontal-padding');
       white-space: nowrap;
-      font-size: getCssVar('font-size', 'base');
+      font-size: getCssVar('auto-scroll-text', 'text-item-horizontal-font-size');
       display: inline-block;
     }
 
-    .#{$namespace}-scroll-vertical & {
+    .#{$namespace}-auto-scroll-text__scroll-content--vertical & {
       display: block;
-      padding: 5px 10px;
-      margin-bottom: 10px;
+      padding: getCssVar('auto-scroll-text', 'text-item-vertical-padding');
+      margin-bottom: getCssVar('auto-scroll-text', 'text-item-vertical-margin-bottom');
     }
   }
 
   @include e(scroll-controls) {
     position: absolute;
-    top: 6px;
-    right: 10px;
+    top: getCssVar('auto-scroll-text', 'scroll-controls-top');
+    right: getCssVar('auto-scroll-text', 'scroll-controls-right');
     display: flex;
-    gap: 8px;
-    z-index: getCssVar('index', 'top');
-    background: rgba(255, 255, 255, 0.9);
-    padding: 4px 8px;
-    border-radius: getCssVar('border-radius', 'base');
-    box-shadow: getCssVar('box-shadow', 'light');
+    gap: getCssVar('auto-scroll-text', 'scroll-controls-gap');
+    z-index: getCssVar('auto-scroll-text', 'scroll-controls-z-index');
+    background: getCssVar('auto-scroll-text', 'scroll-controls-background');
+    padding: getCssVar('auto-scroll-text', 'scroll-controls-padding');
+    border-radius: getCssVar('auto-scroll-text', 'scroll-controls-border-radius');
+    box-shadow: getCssVar('auto-scroll-text', 'scroll-controls-box-shadow');
   }
 
   // 移除CSS动画，使用JavaScript控制滚动
-  .#{$namespace}-scroll-horizontal .#{$namespace}-scroll-text,
-  .#{$namespace}-scroll-vertical .#{$namespace}-scroll-text {
+  .#{$namespace}-auto-scroll-text__scroll-content--horizontal .#{$namespace}-auto-scroll-text__scroll-text,
+  .#{$namespace}-auto-scroll-text__scroll-content--vertical .#{$namespace}-auto-scroll-text__scroll-text {
     animation: none;
   }
 
   // 响应式设计
-  @include res('xs') {
+  @media (max-width: getCssVar('auto-scroll-text', 'responsive-breakpoint')) {
     @include e(scroll-controls) {
       position: static;
       margin-top: 10px;
@@ -104,7 +104,7 @@
 
     @include e(scroll-content) {
       @include m(vertical) {
-        height: 40px;
+        height: getCssVar('auto-scroll-text', 'responsive-vertical-height');
       }
     }
   }

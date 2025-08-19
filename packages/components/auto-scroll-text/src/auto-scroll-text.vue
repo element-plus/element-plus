@@ -1,5 +1,5 @@
 <template>
-  <div class="el-auto-scroll-text-container">
+  <div class="el-auto-scroll-text__container">
     <el-alert
       :title="title"
       :type="type"
@@ -9,8 +9,8 @@
       :center="center"
       :effect="effect"
       :class="[
-        'el-auto-scroll-alert',
-        `el-scroll-${direction}`,
+        'el-auto-scroll-text__alert',
+        `el-auto-scroll-text__scroll-content--${direction}`,
         { 'el-is-paused': isPaused },
       ]"
       @close="handleClose"
@@ -18,27 +18,27 @@
       <template #default>
         <div
           ref="containerRef"
-          class="el-scroll-content"
-          :class="`el-scroll-${direction}`"
+          class="el-auto-scroll-text__scroll-content"
+          :class="`el-auto-scroll-text__scroll-content--${direction}`"
           @mouseenter="pauseScroll"
           @mouseleave="resumeScroll"
         >
           <div
             ref="textRef"
-            class="el-scroll-text"
-            :class="`el-scroll-${direction}`"
+            class="el-auto-scroll-text__scroll-text"
+            :class="`el-auto-scroll-text__scroll-text--${direction}`"
             :style="scrollStyle"
           >
-            <span class="el-text-item">{{ text }}</span>
-            <span class="el-text-item">{{ text }}</span>
-            <span class="el-text-item">{{ text }}</span>
+            <span class="el-auto-scroll-text__text-item">{{ text }}</span>
+            <span class="el-auto-scroll-text__text-item">{{ text }}</span>
+            <span class="el-auto-scroll-text__text-item">{{ text }}</span>
           </div>
         </div>
       </template>
     </el-alert>
 
     <!-- 控制按钮 -->
-    <div v-if="showControls" class="el-scroll-controls">
+    <div v-if="showControls" class="el-auto-scroll-text__scroll-controls">
       <el-button
         size="small"
         :icon="isPaused ? VideoPlay : VideoPause"
