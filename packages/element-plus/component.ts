@@ -33,6 +33,7 @@ import {
   ElMain,
 } from '@element-plus/components/container'
 import { ElDatePicker } from '@element-plus/components/date-picker'
+import { ElDatePickerPanel } from '@element-plus/components/date-picker-panel'
 import {
   ElDescriptions,
   ElDescriptionsItem,
@@ -147,6 +148,7 @@ export default [
   ElHeader,
   ElMain,
   ElDatePicker,
+  ElDatePickerPanel,
   ElDescriptions,
   ElDescriptionsItem,
   ElDialog,

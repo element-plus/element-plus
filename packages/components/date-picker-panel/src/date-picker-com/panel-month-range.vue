@@ -3,6 +3,8 @@
     :class="[
       ppNs.b(),
       drpNs.b(),
+      ppNs.is('border', border),
+      ppNs.is('disabled', disabled),
       {
         'has-sidebar': Boolean($slots.sidebar) || hasShortcuts,
       },
@@ -16,6 +18,7 @@
           :key="key"
           type="button"
           :class="ppNs.e('shortcut')"
+          :disabled="disabled"
           @click="handleShortcutClick(shortcut)"
         >
           {{ shortcut.text }}
@@ -28,6 +31,7 @@
               type="button"
               :class="ppNs.e('icon-btn')"
               class="d-arrow-left"
+              :disabled="disabled"
               @click="leftPrevYear"
             >
               <slot name="prev-year">
@@ -37,7 +41,7 @@
             <button
               v-if="unlinkPanels"
               type="button"
-              :disabled="!enableYearArrow"
+              :disabled="!enableYearArrow || disabled"
               :class="[
                 ppNs.e('icon-btn'),
                 { [ppNs.is('disabled')]: !enableYearArrow },
@@ -58,6 +62,7 @@
             :max-date="maxDate"
             :range-state="rangeState"
             :disabled-date="disabledDate"
+            :disabled="disabled"
             @changerange="handleChangeRange"
             @pick="handleRangePick"
             @select="onSelect"
@@ -68,7 +73,7 @@
             <button
               v-if="unlinkPanels"
               type="button"
-              :disabled="!enableYearArrow"
+              :disabled="!enableYearArrow || disabled"
               :class="[ppNs.e('icon-btn'), { 'is-disabled': !enableYearArrow }]"
               class="d-arrow-left"
               @click="rightPrevYear"
@@ -81,6 +86,7 @@
               type="button"
               :class="ppNs.e('icon-btn')"
               class="d-arrow-right"
+              :disabled="disabled"
               @click="rightNextYear"
             >
               <slot name="next-year">
@@ -96,6 +102,7 @@
             :max-date="maxDate"
             :range-state="rangeState"
             :disabled-date="disabledDate"
+            :disabled="disabled"
             @changerange="handleChangeRange"
             @pick="handleRangePick"
             @select="onSelect"

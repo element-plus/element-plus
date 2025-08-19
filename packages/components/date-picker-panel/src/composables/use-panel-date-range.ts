@@ -67,6 +67,7 @@ export const usePanelDateRange = (
     pickerType: 'left' | 'right',
     view: 'month' | 'year'
   ) {
+    if (props.disabled) return
     const currentView =
       pickerType === 'left' ? leftCurrentView : rightCurrentView
     const currentViewRef =
@@ -81,6 +82,7 @@ export const usePanelDateRange = (
     pickerType: 'left' | 'right',
     value: number
   ) {
+    if (props.disabled) return
     const isLeftPicker = pickerType === 'left'
     const startDate = isLeftPicker ? leftDate : rightDate
     const endDate = isLeftPicker ? rightDate : leftDate
