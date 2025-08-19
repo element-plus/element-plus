@@ -1576,6 +1576,26 @@ describe('Select', () => {
     expect(handleFocus).toHaveBeenCalledTimes(1)
   })
 
+  test('should show clear btn on focus', async () => {
+    const wrapper = _mount(
+      `<el-select v-model="value" :options="options" clearable />`,
+      () => ({
+        options: [
+          {
+            value: 'value1',
+            label: 'label1',
+          },
+        ],
+        value: 'value1',
+      })
+    )
+
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    expect(wrapper.findComponent(CircleClose).exists()).toBe(true)
+  })
+
   test('event:blur', async () => {
     const handleBlur = vi.fn()
     wrapper = _mount(`<el-select @blur="handleBlur" />`, () => ({
