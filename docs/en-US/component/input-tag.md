@@ -57,6 +57,16 @@ input-tag/clearable
 
 :::
 
+## Custom Clear Icon ^(2.11.0)
+
+You can customize the clear icon by setting the `clear-icon` attribute.
+
+:::demo
+
+input-tag/clear-icon
+
+:::
+
 ## Draggable
 
 You can set whether tags can be dragged.
@@ -111,29 +121,30 @@ input-tag/prefix-suffix
 
 ### Attributes
 
-| Name                  | Description                                                | Type                                                        | Default |
-| --------------------- | ---------------------------------------------------------- | ----------------------------------------------------------- | ------- |
-| model-value / v-model | binding value                                              | ^[array]`string[]`                                          | —       |
-| max                   | max number tags that can be enter                          | ^[number]                                                   | —       |
-| tag-type              | tag type                                                   | ^[enum]`'' \| 'success' \| 'info' \| 'warning' \| 'danger'` | info    |
-| tag-effect            | tag effect                                                 | ^[enum]`'' \| 'light' \| 'dark' \| 'plain'`                 | light   |
-| trigger               | the key to trigger input tag                               | ^[enum]`'Enter' \| 'Space'`                                 | Enter   |
-| draggable             | whether tags can be dragged                                | ^[boolean]                                                  | false   |
-| delimiter ^(2.9.9)    | add a tag when a delimiter is matched                      | ^[string] / ^[regex]                                        | —       |
-| size                  | input box size                                             | ^[enum]`'large' \| 'default' \| 'small'`                    | —       |
-| save-on-blur ^(2.9.7) | whether to save the input value when the input loses focus | ^[boolean]                                                  | true    |
-| clearable             | whether to show clear button                               | ^[boolean]                                                  | false   |
-| disabled              | whether to disable input-tag                               | ^[boolean]                                                  | false   |
-| validate-event        | whether to trigger form validation                         | ^[boolean]                                                  | true    |
-| readonly              | same as `readonly` in native input                         | ^[boolean]                                                  | false   |
-| autofocus             | same as `autofocus` in native input                        | ^[boolean]                                                  | false   |
-| id                    | same as `id` in native input                               | ^[string]                                                   | —       |
-| tabindex              | same as `tabindex` in native input                         | ^[string] / ^[number]                                       | —       |
-| maxlength             | same as `maxlength` in native input                        | ^[string] / ^[number]                                       | —       |
-| minlength             | same as `minlength` in native input                        | ^[string] / ^[number]                                       | —       |
-| placeholder           | placeholder of input                                       | ^[string]                                                   | —       |
-| autocomplete          | same as `autocomplete` in native input                     | ^[string]                                                   | off     |
-| aria-label ^(a11y)    | native `aria-label` attribute                              | ^[string]                                                   | —       |
+| Name                  | Description                                                | Type                                                        | Default     |
+| --------------------- | ---------------------------------------------------------- | ----------------------------------------------------------- | ----------- |
+| model-value / v-model | binding value                                              | ^[array]`string[]`                                          | —           |
+| max                   | max number tags that can be enter                          | ^[number]                                                   | —           |
+| tag-type              | tag type                                                   | ^[enum]`'' \| 'success' \| 'info' \| 'warning' \| 'danger'` | info        |
+| tag-effect            | tag effect                                                 | ^[enum]`'' \| 'light' \| 'dark' \| 'plain'`                 | light       |
+| trigger               | the key to trigger input tag                               | ^[enum]`'Enter' \| 'Space'`                                 | Enter       |
+| draggable             | whether tags can be dragged                                | ^[boolean]                                                  | false       |
+| delimiter ^(2.9.9)    | add a tag when a delimiter is matched                      | ^[string] / ^[regex]                                        | —           |
+| size                  | input box size                                             | ^[enum]`'large' \| 'default' \| 'small'`                    | —           |
+| save-on-blur ^(2.9.7) | whether to save the input value when the input loses focus | ^[boolean]                                                  | true        |
+| clearable             | whether to show clear button                               | ^[boolean]                                                  | false       |
+| clear-icon ^(2.11.0)  | custom clear icon component                                | ^[string] / ^[object]`Component`                            | CircleClose |
+| disabled              | whether to disable input-tag                               | ^[boolean]                                                  | false       |
+| validate-event        | whether to trigger form validation                         | ^[boolean]                                                  | true        |
+| readonly              | same as `readonly` in native input                         | ^[boolean]                                                  | false       |
+| autofocus             | same as `autofocus` in native input                        | ^[boolean]                                                  | false       |
+| id                    | same as `id` in native input                               | ^[string]                                                   | —           |
+| tabindex              | same as `tabindex` in native input                         | ^[string] / ^[number]                                       | —           |
+| maxlength             | same as `maxlength` in native input                        | ^[string] / ^[number]                                       | —           |
+| minlength             | same as `minlength` in native input                        | ^[string] / ^[number]                                       | —           |
+| placeholder           | placeholder of input                                       | ^[string]                                                   | —           |
+| autocomplete          | same as `autocomplete` in native input                     | ^[string]                                                   | off         |
+| aria-label ^(a11y)    | native `aria-label` attribute                              | ^[string]                                                   | —           |
 
 ### Events
 

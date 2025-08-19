@@ -1,6 +1,8 @@
 import { nextTick, reactive, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
+import { CircleClose } from '@element-plus/icons-vue'
 import TreeSelect from '../src/tree-select.vue'
 import Tree from '@element-plus/components/tree/src/tree.vue'
 import defineGetter from '@element-plus/test-utils/define-getter'
@@ -1024,5 +1026,18 @@ describe('TreeSelect.vue', () => {
       .trigger('click')
     expect(select.vm.modelValue).toBe(2)
     expect(document.activeElement).toBe(input.element)
+  })
+
+  test('should show clear btn on focus', async () => {
+    const { wrapper } = createComponent({
+      props: {
+        modelValue: 'value1',
+        clearable: true,
+      },
+    })
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    expect(wrapper.findComponent(CircleClose).exists()).toBe(true)
   })
 })

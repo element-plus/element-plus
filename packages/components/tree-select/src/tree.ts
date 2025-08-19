@@ -15,7 +15,7 @@ import {
 
 import type { CacheOption } from './cache-options'
 import type { Ref } from 'vue'
-import type ElSelect from '@element-plus/components/select'
+import type { SelectInstance } from '@element-plus/components/select'
 import type Node from '@element-plus/components/tree/src/model/node'
 import type { TreeNodeData } from '@element-plus/components/tree/src/tree.type'
 import type { TreeInstance } from '@element-plus/components/tree'
@@ -28,7 +28,7 @@ export const useTree = (
     tree,
     key,
   }: {
-    select: Ref<InstanceType<typeof ElSelect> | undefined>
+    select: Ref<SelectInstance | undefined>
     tree: Ref<TreeInstance | undefined>
     key: Ref<string>
   }

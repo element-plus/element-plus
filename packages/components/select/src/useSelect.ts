@@ -144,12 +144,12 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
 
   const needStatusIcon = computed(() => form?.statusIcon ?? false)
 
-  const showClose = computed(() => {
+  const showClearBtn = computed(() => {
     return (
       props.clearable &&
       !selectDisabled.value &&
-      states.inputHovering &&
-      hasModelValue.value
+      hasModelValue.value &&
+      (isFocused.value || states.inputHovering)
     )
   })
   const iconComponent = computed(() =>
@@ -841,7 +841,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     currentPlaceholder,
     mouseEnterEventName,
     needStatusIcon,
-    showClose,
+    showClearBtn,
     iconComponent,
     iconReverse,
     validateState,

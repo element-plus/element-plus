@@ -806,4 +806,214 @@ describe('CascaderPanel.vue', () => {
     await nextTick()
     expect(node!.classes('is-active')).toBe(true)
   })
+
+  test('when lazy loading returns empty data, the leaf nodes can perform single selection normally', async () => {
+    vi.useFakeTimers()
+    const value = ref([])
+    const props: CascaderProps = {
+      lazy: true,
+      lazyLoad(node, resolve) {
+        const { level } = node
+        if (level >= 2) {
+          setTimeout(() => {
+            resolve([])
+          }, 1000)
+          return
+        }
+        setTimeout(() => {
+          const nodes = Array.from({ length: level + 1 }).map(() => {
+            ++id
+            return {
+              value: id,
+              label: `option${id}`,
+            }
+          })
+          resolve(nodes)
+        }, 1000)
+      },
+    }
+    const wrapper = mount(() => (
+      <CascaderPanel v-model={value.value} props={props} />
+    ))
+
+    vi.runAllTimers()
+    await nextTick()
+    const firstOption = wrapper.find(NODE)
+    await firstOption.trigger('click')
+    vi.runAllTimers()
+    await nextTick()
+
+    const secondMenu = wrapper.findAll(MENU)[1]
+    const secondOption = secondMenu.find(NODE)
+    await secondOption.trigger('click')
+    vi.runAllTimers()
+    await nextTick()
+
+    expect(value.value).toEqual([])
+
+    await secondOption.trigger('click')
+    vi.runAllTimers()
+    await nextTick()
+
+    expect(value.value).toEqual([1, 2])
+
+    const thirdOption = secondMenu.findAll(NODE)[1]
+    await thirdOption.trigger('click')
+    vi.runAllTimers()
+    await nextTick()
+
+    expect(value.value).toEqual([1, 2])
+
+    await thirdOption.trigger('click')
+    vi.runAllTimers()
+    await nextTick()
+
+    expect(value.value).toEqual([1, 3])
+    vi.useRealTimers()
+  })
+
+  test('ensure set null after clear', async () => {
+    const handleChange = vi.fn()
+    const wrapper = mount(() => (
+      <CascaderPanel options={NORMAL_OPTIONS} onChange={handleChange} />
+    ))
+    const vm = wrapper.findComponent(CascaderPanel).vm
+    const firstColumnItems = wrapper.findAll('.el-cascader-node')
+    const bjNode = firstColumnItems.find((node) =>
+      node.text().includes('Beijing')
+    )
+    await bjNode?.trigger('click')
+    await nextTick()
+    expect(handleChange).toHaveBeenCalledTimes(1)
+    expect(handleChange).toHaveBeenCalledWith(['beijing'])
+    vm.clearCheckedNodes()
+    await nextTick()
+    expect(handleChange).toHaveBeenCalledTimes(2)
+    expect(handleChange).toHaveBeenLastCalledWith(null)
+    expect(vm.getCheckedNodes(false)?.length).toBe(0)
+  })
+
+  test('ensure only one update model value is fired on single mode', async () => {
+    const onChange = vi.fn()
+    const onUpdateModelValue = vi.fn()
+    const options = [
+      {
+        value: 'guide',
+        label: 'Guide',
+      },
+    ]
+    const wrapper = mount(() => (
+      <CascaderPanel
+        options={options}
+        onUpdate:modelValue={onUpdateModelValue}
+        onChange={onChange}
+      />
+    ))
+    const node = wrapper.find(NODE)
+    await node.trigger('click')
+    expect(onChange).toHaveBeenCalledOnce()
+    expect(onUpdateModelValue).toHaveBeenCalledOnce()
+    expect(onChange).toHaveBeenCalledWith(['guide'])
+    expect(onUpdateModelValue).toHaveBeenCalledWith(['guide'])
+  })
+
+  test('ensure only one update model value is fired on multiple mode', async () => {
+    const onChange = vi.fn()
+    const onUpdateModelValue = vi.fn()
+    const options = [
+      {
+        value: 'guide',
+        label: 'Guide',
+      },
+      {
+        value: 'guide1',
+        label: 'Guide1',
+      },
+    ]
+    const value = ref([])
+    const props = {
+      multiple: true,
+    }
+    const wrapper = mount(() => (
+      <CascaderPanel
+        v-model={value.value}
+        options={options}
+        props={props}
+        onUpdate:modelValue={onUpdateModelValue}
+        onChange={onChange}
+      />
+    ))
+
+    const node = wrapper.find('.el-cascader-node__label')
+    await node.trigger('click')
+    await nextTick()
+    expect(onChange).toHaveBeenCalledOnce()
+    expect(onUpdateModelValue).toHaveBeenCalledOnce()
+    expect(onChange).toHaveBeenCalledWith([['guide']])
+    expect(onUpdateModelValue).toHaveBeenCalledWith([['guide']])
+  })
+
+  test('should allow click node to check value on multiple mode', async () => {
+    const onChange = vi.fn()
+    const onUpdateModelValue = vi.fn()
+    const options = [
+      {
+        value: 'guide',
+        label: 'Guide',
+      },
+    ]
+    const value = ref([])
+    const props = {
+      multiple: true,
+    }
+    const wrapper = mount(() => (
+      <CascaderPanel
+        v-model={value.value}
+        options={options}
+        props={props}
+        onUpdate:modelValue={onUpdateModelValue}
+        onChange={onChange}
+      />
+    ))
+
+    const node = wrapper.find('.el-cascader-node')
+    await node.trigger('click')
+    await nextTick()
+    expect(onChange).toHaveBeenCalledOnce()
+    expect(onUpdateModelValue).toHaveBeenCalledOnce()
+    expect(onChange).toHaveBeenCalledWith([['guide']])
+    expect(onUpdateModelValue).toHaveBeenCalledWith([['guide']])
+  })
+
+  test('should allow click node to check value on checkStrictly mode', async () => {
+    const onChange = vi.fn()
+    const onUpdateModelValue = vi.fn()
+    const options = [
+      {
+        value: 'guide',
+        label: 'Guide',
+      },
+    ]
+    const value = ref([])
+    const props = {
+      checkStrictly: true,
+    }
+    const wrapper = mount(() => (
+      <CascaderPanel
+        v-model={value.value}
+        options={options}
+        props={props}
+        onUpdate:modelValue={onUpdateModelValue}
+        onChange={onChange}
+      />
+    ))
+
+    const node = wrapper.find('.el-cascader-node')
+    await node.trigger('click')
+    await nextTick()
+    expect(onChange).toHaveBeenCalledOnce()
+    expect(onUpdateModelValue).toHaveBeenCalledOnce()
+    expect(onChange).toHaveBeenCalledWith(['guide'])
+    expect(onUpdateModelValue).toHaveBeenCalledWith(['guide'])
+  })
 })

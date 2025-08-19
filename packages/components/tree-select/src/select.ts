@@ -7,7 +7,8 @@ import { useNamespace } from '@element-plus/hooks'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
 import type { Ref } from 'vue'
-import type ElTree from '@element-plus/components/tree'
+import type { SelectInstance } from '@element-plus/components/select'
+import type { TreeInstance } from '@element-plus/components/tree'
 
 export const useSelect = (
   props,
@@ -17,8 +18,8 @@ export const useSelect = (
     tree,
     key,
   }: {
-    select: Ref<InstanceType<typeof ElSelect> | undefined>
-    tree: Ref<InstanceType<typeof ElTree> | undefined>
+    select: Ref<SelectInstance | undefined>
+    tree: Ref<TreeInstance | undefined>
     key: Ref<string>
   }
 ) => {

@@ -128,11 +128,13 @@ export const useRangePicker = (
   watch(
     () => props.parsedValue,
     (parsedValue) => {
-      if (!parsedValue?.length) {
+      if (!(parsedValue as [Dayjs, Dayjs])?.length) {
         onReset(parsedValue)
       }
     },
-    { immediate: true }
+    {
+      immediate: true,
+    }
   )
 
   watch(
