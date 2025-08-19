@@ -75,7 +75,7 @@ Note, date time locale (month name, first day of the week ...) are also configur
 | cell-class-name       | set custom className                                                                                  | ^[Function]`(data: Date) => string`                                                                                                                            | —          |
 | show-footer           | whether to show footer                                                                                | ^[boolean]                                                                                                                                                     | false      |
 | show-confirm          | whether to show the confirm button                                                                    | ^[boolean]                                                                                                                                                     | false      |
-| show-week-number      | show the week number besides the week                                                                 | `boolean`                                                                                                                                                      | false      |
+| show-week-number      | show the week number besides the week                                                                 | ^[boolean]                                                                                                                                                     | false      |
 
 ### Events
 
