@@ -511,11 +511,10 @@ export function createTablePopper<T extends DefaultRow>(
       vm.component.exposed.onClose()
     }
     render(null, container)
-    scrollContainer?.removeEventListener('scroll', removePopper!)
-    if (removePopper) {
-      removePopper.trigger = undefined
-      removePopper.vm = undefined
-    }
+    const currentRemovePopper = removePopper as RemovePopperFn
+    scrollContainer?.removeEventListener('scroll', currentRemovePopper)
+    currentRemovePopper.trigger = undefined
+    currentRemovePopper.vm = undefined
     removePopper = null
   }
   removePopper.trigger = trigger ?? undefined
