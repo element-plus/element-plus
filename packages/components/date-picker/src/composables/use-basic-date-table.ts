@@ -299,13 +299,15 @@ export const useBasicDateTable = (
   }
 
   const handleWeekPick = (newDate: Dayjs) => {
-    const weekNumber = newDate.week()
-    const value = `${newDate.year()}w${weekNumber}`
+    const date = newDate.startOf('week')
+    const week = date.week()
+    const year = date.weekYear()
+    const value = `${year}w${week}`
     emit('pick', {
-      year: newDate.year(),
-      week: weekNumber,
+      year,
+      week,
       value,
-      date: newDate.startOf('week'),
+      date,
     })
   }
 
