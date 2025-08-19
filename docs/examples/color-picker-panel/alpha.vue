@@ -1,5 +1,5 @@
 <template>
-  <el-color-picker-panel v-model="color" show-alpha class="box-content" />
+  <el-color-picker-panel v-model="color" show-alpha />
 </template>
 
 <script lang="ts" setup>

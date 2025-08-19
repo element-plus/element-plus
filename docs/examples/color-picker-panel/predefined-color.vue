@@ -3,7 +3,6 @@
     v-model="color"
     show-alpha
     :predefine="predefineColors"
-    class="box-content"
   />
 </template>
 

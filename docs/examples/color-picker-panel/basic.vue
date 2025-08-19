@@ -1,9 +1,9 @@
 <template>
-  <el-color-picker-panel v-model="color" class="box-content" />
+  <el-color-picker-panel v-model="color" />
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-const color = ref('#ff6900')
+const color = ref('#409EFF')
 </script>

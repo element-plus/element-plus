@@ -4,7 +4,6 @@
     disabled
     show-alpha
     :predefine="predefineColors"
-    class="box-content"
   />
 </template>
 

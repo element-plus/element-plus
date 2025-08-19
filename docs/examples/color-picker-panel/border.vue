@@ -3,19 +3,11 @@
   <el-divider />
   <div class="flex justify-center gap-4">
     <div class="p-5">
-      <el-color-picker-panel
-        v-model="value"
-        :border="false"
-        class="box-content"
-      />
+      <el-color-picker-panel v-model="value" :border="false" />
     </div>
     <el-divider class="h-auto" direction="vertical" />
     <el-card>
-      <el-color-picker-panel
-        v-model="value"
-        :border="false"
-        class="box-content"
-      />
+      <el-color-picker-panel v-model="value" :border="false" />
     </el-card>
   </div>
 </template>
