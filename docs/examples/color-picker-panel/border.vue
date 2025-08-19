@@ -15,5 +15,5 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-const value = ref<string>()
+const value = ref<string>('#ff6900')
 </script>

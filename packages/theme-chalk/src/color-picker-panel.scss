@@ -67,6 +67,7 @@
 @include b(color-picker-panel) {
   width: 300px;
   padding: 6px;
+  box-sizing: content-box;
 
   @include when(border) {
     border: solid 1px getCssVar('border-color-lighter');
