@@ -20,7 +20,7 @@ the project will install all dependencies.
 With command
 
 ```shell
-pnpm docs:dev
+pnpm docs
 ```
 
 the project will launch website for you to preview all existing component.

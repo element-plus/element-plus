@@ -56,7 +56,7 @@ Ah, now you have installed the code correctly, you can choose:
 # If you would like to modify the website source code of https://element-plus.org
 # It was made with [VitePress](https://vitepress.vuejs.org)
 pnpm docs:gen-locale # This generates locale files for your local development
-pnpm docs:dev
+pnpm docs
 ```
 
 ### Making changes to the component instead of website
