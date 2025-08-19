@@ -148,6 +148,7 @@
         :type="type"
         :default-value="defaultValue"
         :show-now="showNow"
+        :show-confirm="showConfirm"
         :show-footer="showFooter"
         :show-week-number="showWeekNumber"
         @pick="onPick"
@@ -173,12 +174,10 @@ import {
   useAttrs,
   watch,
 } from 'vue'
-import { isEqual } from 'lodash-unified'
 import { onClickOutside, unrefElement } from '@vueuse/core'
 import {
   useEmptyValues,
   useFocusController,
-  useLocale,
   useNamespace,
 } from '@element-plus/hooks'
 import {
@@ -196,11 +195,13 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import { Calendar, Clock } from '@element-plus/icons-vue'
-import { dayOrDaysToDate, formatter, parseDate, valueEquals } from '../utils'
+import { dayOrDaysToDate, valueEquals } from '../utils'
 import {
   PICKER_BASE_INJECTION_KEY,
   PICKER_POPPER_OPTIONS_INJECTION_KEY,
+  ROOT_COMMON_PICKER_INJECTION_KEY,
 } from '../constants'
+import { useCommonPicker } from '../composables/use-common-picker'
 import { timePickerDefaultProps } from './props'
 import PickerRangeTrigger from './picker-range-trigger.vue'
 
@@ -208,14 +209,7 @@ import type { InputInstance } from '@element-plus/components/input'
 import type { Dayjs } from 'dayjs'
 import type { ComponentPublicInstance, Ref } from 'vue'
 import type { Options } from '@popperjs/core'
-import type {
-  DateModelType,
-  DayOrDays,
-  PickerOptions,
-  SingleOrRange,
-  TimePickerDefaultProps,
-  UserInput,
-} from './props'
+import type { DayOrDays, TimePickerDefaultProps, UserInput } from './props'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 
 defineOptions({
@@ -236,8 +230,6 @@ const emit = defineEmits([
 ])
 const attrs = useAttrs()
 
-const { lang } = useLocale()
-
 const nsDate = useNamespace('date')
 const nsInput = useNamespace('input')
 const nsRange = useNamespace('range')
@@ -251,13 +243,28 @@ const { valueOnClear } = useEmptyValues(props, null)
 
 const refPopper = ref<TooltipInstance>()
 const inputRef = ref<InputInstance>()
-const pickerVisible = ref(false)
-const pickerActualVisible = ref(false)
-const hovering = ref(false)
 const valueOnOpen = ref<TimePickerDefaultProps['modelValue'] | null>(null)
 let hasJustTabExitedInput = false
 
 const pickerDisabled = useFormDisabled()
+
+const commonPicker = useCommonPicker(props, emit)
+const {
+  parsedValue,
+  pickerActualVisible,
+  userInput,
+  pickerVisible,
+  pickerOptions,
+  valueIsEmpty,
+  emitInput,
+  onPick,
+  //@ts-ignore
+  onSetPickerOption,
+  //@ts-ignore
+  onCalendarChange,
+  //@ts-ignore
+  onPanelChange,
+} = commonPicker
 
 const { isFocused, handleFocus, handleBlur } = useFocusController(inputRef, {
   disabled: pickerDisabled,
@@ -280,6 +287,8 @@ const { isFocused, handleFocus, handleBlur } = useFocusController(inputRef, {
       formItem?.validate('blur').catch((err) => debugWarn(err))
   },
 })
+
+const hovering = ref(false)
 
 const rangeInputKls = computed(() => [
   nsDate.b('editor'),
@@ -325,19 +334,6 @@ const emitChange = (
       formItem?.validate('change').catch((err) => debugWarn(err))
   }
 }
-const emitInput = (input: SingleOrRange<DateModelType> | null) => {
-  if (!valueEquals(props.modelValue, input)) {
-    let formatted
-    if (isArray(input)) {
-      formatted = input.map((item) =>
-        formatter(item, props.valueFormat, lang.value)
-      )
-    } else if (input) {
-      formatted = formatter(input, props.valueFormat, lang.value)
-    }
-    emit(UPDATE_MODEL_EVENT, input ? formatted : input, lang.value)
-  }
-}
 const emitKeydown = (e: KeyboardEvent) => {
   emit('keydown', e)
 }
@@ -364,19 +360,6 @@ const setSelectionRange = (start: number, end: number, pos?: 'min' | 'max') => {
   }
 }
 
-const onPick = (date: any = '', visible = false) => {
-  pickerVisible.value = visible
-  let result
-  if (isArray(date)) {
-    result = date.map((_) => _.toDate())
-  } else {
-    // clear btn emit null
-    result = date ? date.toDate() : date
-  }
-  userInput.value = null
-  emitInput(result)
-}
-
 const onBeforeShow = () => {
   pickerActualVisible.value = true
 }
@@ -398,45 +381,6 @@ const handleOpen = () => {
 const handleClose = () => {
   pickerVisible.value = false
 }
-
-const parsedValue = computed(() => {
-  let dayOrDays: DayOrDays
-  if (valueIsEmpty.value) {
-    if (pickerOptions.value.getDefaultValue) {
-      dayOrDays = pickerOptions.value.getDefaultValue()
-    }
-  } else {
-    if (isArray(props.modelValue)) {
-      dayOrDays = props.modelValue.map((d) =>
-        parseDate(d, props.valueFormat, lang.value)
-      ) as [Dayjs, Dayjs]
-    } else {
-      dayOrDays = parseDate(
-        props.modelValue ?? '',
-        props.valueFormat,
-        lang.value
-      )!
-    }
-  }
-
-  if (pickerOptions.value.getRangeAvailableTime) {
-    const availableResult = pickerOptions.value.getRangeAvailableTime(
-      dayOrDays!
-    )
-    if (!isEqual(availableResult, dayOrDays!)) {
-      dayOrDays = availableResult
-
-      // The result is corrected only when model-value exists
-      if (!valueIsEmpty.value) {
-        emitInput(dayOrDaysToDate(dayOrDays))
-      }
-    }
-  }
-  if (isArray(dayOrDays!) && dayOrDays.some((day) => !day)) {
-    dayOrDays = [] as unknown as DayOrDays
-  }
-  return dayOrDays!
-})
 
 const displayValue = computed<UserInput>(() => {
   if (!pickerOptions.value.panelReady) return ''
@@ -499,13 +443,6 @@ const onClearIconClick = (event: MouseEvent) => {
   emit('clear')
 }
 
-const valueIsEmpty = computed(() => {
-  const { modelValue } = props
-  return (
-    !modelValue || (isArray(modelValue) && !modelValue.filter(Boolean).length)
-  )
-})
-
 const onMouseDownInput = async (event: MouseEvent) => {
   if (props.readonly || pickerDisabled.value) return
   if ((event.target as HTMLElement)?.tagName !== 'INPUT' || isFocused.value) {
@@ -560,8 +497,6 @@ const stophandle = onClickOutside(
 onBeforeUnmount(() => {
   stophandle?.()
 })
-
-const userInput = ref<UserInput>(null)
 
 const handleChange = () => {
   if (userInput.value) {
@@ -711,29 +646,6 @@ const handleEndChange = () => {
   }
 }
 
-const pickerOptions = ref<Partial<PickerOptions>>({})
-// @ts-ignore
-const onSetPickerOption = <T extends keyof PickerOptions>(
-  e: [T, PickerOptions[T]]
-) => {
-  pickerOptions.value[e[0]] = e[1]
-  pickerOptions.value.panelReady = true
-}
-
-// @ts-ignore
-const onCalendarChange = (e: [Date, null | Date]) => {
-  emit('calendar-change', e)
-}
-
-// @ts-ignore
-const onPanelChange = (
-  value: [Dayjs, Dayjs],
-  mode: 'month' | 'year',
-  view: unknown
-) => {
-  emit('panel-change', value, mode, view)
-}
-
 const focus = () => {
   inputRef.value?.focus()
 }
@@ -745,6 +657,7 @@ const blur = () => {
 provide(PICKER_BASE_INJECTION_KEY, {
   props,
 })
+provide(ROOT_COMMON_PICKER_INJECTION_KEY, commonPicker)
 
 defineExpose({
   /**
