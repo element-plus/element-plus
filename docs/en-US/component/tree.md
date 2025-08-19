@@ -6,6 +6,7 @@ lang: en-US
 # Tree
 
 Display a set of data with hierarchies.
+toto
 
 ## Basic usage
 
