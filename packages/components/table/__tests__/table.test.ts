@@ -2434,4 +2434,33 @@ describe('Table.vue', () => {
 
     mockRangeRect.mockRestore()
   })
+
+  it('should dynamically update show-overflow-tooltip via root table level', async () => {
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+
+      template: `
+    <el-table :data="testData" :show-overflow-tooltip="showOverflowTooltip">
+      <el-table-column props="name" label="name"/>
+      <el-table-column prop="director" label="director" />
+      <el-table-column prop="runtime" label="runtime" />
+    </el-table>
+  `,
+
+      data() {
+        return {
+          testData: getTestData(),
+          showOverflowTooltip: false,
+        }
+      },
+    })
+
+    await doubleWait()
+    expect(wrapper.find('div.cell.el-tooltip').exists()).toBe(false)
+    await wrapper.setProps({ showOverflowTooltip: true })
+    expect(wrapper.find('div.cell.el-tooltip').exists()).toBe(true)
+  })
 })
