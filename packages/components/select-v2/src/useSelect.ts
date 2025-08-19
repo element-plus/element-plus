@@ -155,8 +155,8 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     return (
       props.clearable &&
       !selectDisabled.value &&
-      states.inputHovering &&
-      hasModelValue.value
+      hasModelValue.value &&
+      (isFocused.value || states.inputHovering)
     )
   })
 

@@ -952,4 +952,68 @@ describe('CascaderPanel.vue', () => {
     expect(onChange).toHaveBeenCalledWith([['guide']])
     expect(onUpdateModelValue).toHaveBeenCalledWith([['guide']])
   })
+
+  test('should allow click node to check value on multiple mode', async () => {
+    const onChange = vi.fn()
+    const onUpdateModelValue = vi.fn()
+    const options = [
+      {
+        value: 'guide',
+        label: 'Guide',
+      },
+    ]
+    const value = ref([])
+    const props = {
+      multiple: true,
+    }
+    const wrapper = mount(() => (
+      <CascaderPanel
+        v-model={value.value}
+        options={options}
+        props={props}
+        onUpdate:modelValue={onUpdateModelValue}
+        onChange={onChange}
+      />
+    ))
+
+    const node = wrapper.find('.el-cascader-node')
+    await node.trigger('click')
+    await nextTick()
+    expect(onChange).toHaveBeenCalledOnce()
+    expect(onUpdateModelValue).toHaveBeenCalledOnce()
+    expect(onChange).toHaveBeenCalledWith([['guide']])
+    expect(onUpdateModelValue).toHaveBeenCalledWith([['guide']])
+  })
+
+  test('should allow click node to check value on checkStrictly mode', async () => {
+    const onChange = vi.fn()
+    const onUpdateModelValue = vi.fn()
+    const options = [
+      {
+        value: 'guide',
+        label: 'Guide',
+      },
+    ]
+    const value = ref([])
+    const props = {
+      checkStrictly: true,
+    }
+    const wrapper = mount(() => (
+      <CascaderPanel
+        v-model={value.value}
+        options={options}
+        props={props}
+        onUpdate:modelValue={onUpdateModelValue}
+        onChange={onChange}
+      />
+    ))
+
+    const node = wrapper.find('.el-cascader-node')
+    await node.trigger('click')
+    await nextTick()
+    expect(onChange).toHaveBeenCalledOnce()
+    expect(onUpdateModelValue).toHaveBeenCalledOnce()
+    expect(onChange).toHaveBeenCalledWith(['guide'])
+    expect(onUpdateModelValue).toHaveBeenCalledWith(['guide'])
+  })
 })
