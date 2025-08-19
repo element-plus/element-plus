@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import ElTable from '../src/table.vue'
 import ElTableColumn from '../src/table-column'
@@ -1820,6 +1820,148 @@ describe('table column', () => {
       await doubleWait()
       wrapper.vm.$refs.table.toggleAllSelection()
       expect(result.every((item) => item)).toBeTruthy()
+      wrapper.unmount()
+    })
+  })
+
+  describe('show-overflow-tooltip toggle', () => {
+    vi.mock('../src/util', async () => {
+      const actual = await vi.importActual('../src/util')
+      return {
+        ...actual,
+        removePopper: vi.fn(),
+        createTablePopper: vi.fn(),
+      }
+    })
+
+    let utilModule: any
+
+    beforeEach(async () => {
+      utilModule = await import('../src/util')
+
+      vi.mocked(utilModule.removePopper).mockClear()
+      vi.mocked(utilModule.createTablePopper).mockClear()
+
+      vi.mocked(utilModule.removePopper).trigger = null
+
+      global.Range.prototype.getBoundingClientRect = vi.fn(() => ({
+        width: 100,
+        height: 20,
+        top: 0,
+        left: 0,
+        bottom: 20,
+        right: 100,
+        x: 0,
+        y: 0,
+        toJSON: vi.fn(),
+      }))
+
+      Element.prototype.getBoundingClientRect = vi.fn(() => ({
+        width: 50,
+        height: 20,
+        top: 0,
+        left: 0,
+        bottom: 20,
+        right: 50,
+        x: 0,
+        y: 0,
+        toJSON: vi.fn(),
+      }))
+
+      Object.defineProperty(Element.prototype, 'scrollWidth', {
+        configurable: true,
+        value: 100,
+      })
+      Object.defineProperty(Element.prototype, 'scrollHeight', {
+        configurable: true,
+        value: 20,
+      })
+    })
+
+    const createTooltipTable = (showOverflowTooltip = true) => {
+      return mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table
+            :data="tableData"
+            :show-overflow-tooltip="showOverflowTooltip"
+            style="width: 100px"
+          >
+            <el-table-column
+              prop="name"
+              label="Name"
+              width="50"
+            />
+            <el-table-column
+              prop="address"
+              label="Address"
+              width="50"
+            />
+          </el-table>
+        `,
+        data() {
+          return {
+            showOverflowTooltip,
+            tableData: [
+              {
+                name: 'Very long name that should overflow',
+                address:
+                  'Very long address that should definitely overflow the cell width',
+              },
+              {
+                name: 'Another long name',
+                address: 'Another very long address that overflows',
+              },
+            ],
+          }
+        },
+      })
+    }
+
+    it('should clean up tooltip when show-overflow-tooltip changes from true to false', async () => {
+      const wrapper = createTooltipTable(true)
+      await doubleWait()
+
+      const cells = wrapper.findAll('td')
+      expect(cells.length).toBeGreaterThan(0)
+
+      await wrapper.setData({ showOverflowTooltip: false })
+      await doubleWait()
+
+      expect(wrapper.vm.showOverflowTooltip).toBe(false)
+      wrapper.unmount()
+    })
+
+    it('should handle tooltip options object correctly', async () => {
+      const tooltipOptions = {
+        effect: 'dark',
+        placement: 'top',
+      }
+
+      const wrapper = createTooltipTable(tooltipOptions)
+      await doubleWait()
+
+      const cells = wrapper.findAll('td')
+      expect(cells.length).toBeGreaterThan(0)
+
+      await wrapper.setData({ showOverflowTooltip: false })
+      await doubleWait()
+
+      expect(wrapper.vm.showOverflowTooltip).toBe(false)
+      wrapper.unmount()
+    })
+
+    it('should not create tooltip when show-overflow-tooltip is false initially', async () => {
+      const wrapper = createTooltipTable(false)
+      await doubleWait()
+
+      const cells = wrapper.findAll('td')
+      expect(cells.length).toBeGreaterThan(0)
+
+      expect(wrapper.vm.showOverflowTooltip).toBe(false)
       wrapper.unmount()
     })
   })
