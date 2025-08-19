@@ -141,7 +141,7 @@ input-tag/prefix-suffix
 | draggable             | whether tags can be dragged                                                                                    | ^[boolean]                                                  | false       |
 | delimiter ^(2.9.9)    | add a tag when a delimiter is matched                                                                          | ^[string] / ^[regex]                                        | —           |
 | size                  | input box size                                                                                                 | ^[enum]`'large' \| 'default' \| 'small'`                    | —           |
-| collapse-tags         | whether to collapse tags to a text when multiple selecting                                                     | ^[boolean]                                                  | false       |
+| collapse-tags         | Whether to display the selected value in text                                                                  | ^[boolean]                                                  | false       |
 | collapse-tags-tooltip | whether show all selected tags when mouse hover text of collapse-tags. To use this, collapse-tags must be true | ^[boolean]                                                  | false       |
 | save-on-blur ^(2.9.7) | whether to save the input value when the input loses focus                                                     | ^[boolean]                                                  | true        |
 | clearable             | whether to show clear button                                                                                   | ^[boolean]                                                  | false       |
