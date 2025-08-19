@@ -87,6 +87,18 @@ const testDatePickerPanelChange = async (type: 'date' | 'daterange') => {
   expect(mode).toBe('year')
 }
 
+const checkDefaultTime = (
+  date: Date,
+  hours: number,
+  minutes: number,
+  seconds: number
+) => {
+  expect(date).toBeDefined()
+  expect(date.getHours()).toBe(hours)
+  expect(date.getMinutes()).toBe(minutes)
+  expect(date.getSeconds()).toBe(seconds)
+}
+
 describe('DatePicker', () => {
   it('create & custom class & style', async () => {
     const popperClassName = 'popper-class-test'
@@ -185,6 +197,117 @@ describe('DatePicker', () => {
     await nextTick()
     ;(document.querySelector('.clear-icon') as HTMLElement).click()
     expect(vm.value).toBe(null)
+  })
+
+  it('verify defaultTime', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        type="date"
+        :default-time="new Date(2011,1,1,12,0,1)"
+    />`,
+      () => ({ value: '' })
+    )
+    const handle = async () => {
+      const input = wrapper.find('input')
+      input.trigger('blur')
+      await nextTick()
+      input.trigger('focus')
+      await nextTick()
+      ;(document.querySelector('td.available') as HTMLElement).click()
+      await nextTick()
+      checkDefaultTime(new Date(wrapper.vm.value), 12, 0, 1)
+      const picker = wrapper.findComponent(CommonPicker)
+      picker.vm.showClose = true
+      await nextTick()
+    }
+    await handle()
+    await handle()
+  })
+
+  it('input date', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+      type='date'
+      v-model="value"
+      :value-format="valueFormat"
+      :default-time="new Date(2011, 1, 1, 12, 0, 1)"
+    />`,
+      () => ({
+        value: '',
+        valueFormat: 'x',
+      }),
+      {
+        methods: {
+          changeValueFormat() {
+            this.valueFormat = 'YYYY-MM-DD HH:mm:ss'
+          },
+        },
+      }
+    )
+    const handle = async () => {
+      const input = wrapper.find('input')
+      await input.setValue('2025-05-25')
+      await input.trigger('keydown', {
+        code: EVENT_CODE.enter,
+      })
+    }
+    await handle()
+    checkDefaultTime(new Date(wrapper.vm.value), 12, 0, 1)
+
+    await nextTick()
+    wrapper.vm.changeValueFormat()
+    await nextTick()
+    await handle()
+    checkDefaultTime(new Date(wrapper.vm.value), 12, 0, 1)
+  })
+
+  it('input date range date', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        type="daterange"
+        range-separator="To"
+        start-placeholder="Start date"
+        end-placeholder="End date"
+        :default-time="defaultTime"
+        value-format="YYYY-MM-DD HH:mm:ss"
+      />`,
+      () => ({
+        value: [undefined, undefined],
+        defaultTime: [
+          new Date(2000, 1, 1, 12, 5, 4),
+          new Date(2000, 1, 1, 15, 10, 20),
+        ],
+      }),
+      {
+        methods: {
+          changeValueFormat() {
+            this.valueFormat = 'YYYY-MM-DD HH:mm:ss'
+          },
+        },
+      }
+    )
+
+    const inputs = wrapper.findAll('input')
+
+    const handle = async () => {
+      await inputs[0].trigger('focus')
+
+      await nextTick()
+      const panels = document.querySelectorAll('.el-date-range-picker__content')
+      expect(panels.length).toBe(2)
+      ;(panels[0].querySelector('td.available') as HTMLElement).click()
+      await nextTick()
+      ;(panels[1].querySelector('td.available') as HTMLElement).click()
+      await nextTick()
+
+      await inputs[0].setValue('2025-05-01')
+      await inputs[0].trigger('blur')
+    }
+    await handle()
+    checkDefaultTime(new Date(wrapper.vm.value[0]), 12, 5, 4)
+    checkDefaultTime(new Date(wrapper.vm.value[1]), 15, 10, 20)
   })
 
   it('defaultValue', async () => {
