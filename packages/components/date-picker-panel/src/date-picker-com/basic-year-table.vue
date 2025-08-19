@@ -148,9 +148,11 @@ const getCellKls = (cell: YearCell) => {
   const today = dayjs().locale(lang.value)
   const year = cell.text
 
-  kls.disabled = props.disabledDate
-    ? datesInYear(year, lang.value).every(props.disabledDate)
-    : false
+  kls.disabled =
+    props.disabled ||
+    (props.disabledDate
+      ? datesInYear(year, lang.value).every(props.disabledDate)
+      : false)
 
   kls.today = today.year() === year
   kls.current =
@@ -176,6 +178,7 @@ const isSelectedCell = (cell: YearCell) => {
 }
 
 const handleYearTableClick = (event: MouseEvent | KeyboardEvent) => {
+  if (props.disabled) return
   const target = (event.target as HTMLElement)?.closest(
     'td'
   ) as HTMLTableCellElement

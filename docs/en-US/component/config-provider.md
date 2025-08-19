@@ -114,6 +114,7 @@ In this section, you can learn how to use Config Provider to provide experimenta
 | type ^(2.9.11)  | button type, when setting `color`, the latter prevails                                                                                               | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'text' (deprecated)` | —       |
 | autoInsertSpace | automatically insert a space between two chinese characters(this will only take effect when the text length is 2 and all characters are in Chinese.) | ^[boolean]                                                                                | false   |
 | plain ^(2.9.11) | determine whether it's a plain button                                                                                                                | ^[boolean]                                                                                | false   |
+| text ^(2.11.0)  | determine whether it's a text button                                                                                                                 | ^[boolean]                                                                                | false   |
 | round ^(2.9.11) | determine whether it's a round button                                                                                                                | ^[boolean]                                                                                | false   |
 
 ### Link Attribute
