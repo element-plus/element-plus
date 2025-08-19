@@ -263,7 +263,7 @@ function confirmValue() {
       format: props.colorFormat || '',
       value: props.modelValue,
     })
-    if (color.compare(newColor)) {
+    if (!color.compare(newColor)) {
       resetColor()
     }
   })
@@ -319,7 +319,7 @@ function blur() {
 watch(
   () => currentColor.value,
   (val) => {
-    shouldActiveChange && emit('activeChange', val ?? null)
+    shouldActiveChange && emit('activeChange', val)
     shouldActiveChange = true
   }
 )

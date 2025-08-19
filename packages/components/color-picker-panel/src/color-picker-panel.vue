@@ -87,7 +87,7 @@ function handleConfirm() {
 
 onMounted(() => {
   if (props.modelValue) {
-    customInput.value = props.modelValue ?? ''
+    customInput.value = color.value
   }
   nextTick(() => {
     hue.value?.update()
