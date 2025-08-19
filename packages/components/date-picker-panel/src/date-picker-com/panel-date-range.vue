@@ -406,6 +406,8 @@ import { useLocale } from '@element-plus/hooks'
 import ElButton from '@element-plus/components/button'
 import ElInput from '@element-plus/components/input'
 import {
+  DEFAULT_FORMATS_DATE,
+  DEFAULT_FORMATS_TIME,
   PICKER_BASE_INJECTION_KEY,
   TimePickPanel,
   extractDateFormat,
@@ -553,11 +555,15 @@ const maxVisibleTime = computed(() => {
 })
 
 const timeFormat = computed(() => {
-  return props.timeFormat || extractTimeFormat(format.value)
+  return (
+    props.timeFormat || extractTimeFormat(format.value) || DEFAULT_FORMATS_TIME
+  )
 })
 
 const dateFormat = computed(() => {
-  return props.dateFormat || extractDateFormat(format.value)
+  return (
+    props.dateFormat || extractDateFormat(format.value) || DEFAULT_FORMATS_DATE
+  )
 })
 
 const isValidValue = (date: [Dayjs, Dayjs]) => {
