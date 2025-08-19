@@ -1,6 +1,10 @@
 export default {
   name: 'nb-no',
   el: {
+    global: {
+      placeholder: 'Please select',
+      close: 'Close',
+    },
     breadcrumb: {
       label: 'Breadcrumb', // to be translated
     },

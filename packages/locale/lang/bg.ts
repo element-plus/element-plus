@@ -1,6 +1,10 @@
 export default {
   name: 'bg',
   el: {
+    global: {
+      placeholder: 'Избери',
+      close: 'Затвори',
+    },
     breadcrumb: {
       label: 'Breadcrumb', // to be translated
     },

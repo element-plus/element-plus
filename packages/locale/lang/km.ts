@@ -1,6 +1,10 @@
 export default {
   name: 'km',
   el: {
+    global: {
+      placeholder: 'Please select',
+      close: 'Close',
+    },
     breadcrumb: {
       label: 'ទីតាំងនៃទំព័របច្ចុប្បន្ន',
     },

@@ -1,6 +1,10 @@
 export default {
   name: 'fr',
   el: {
+    global: {
+      placeholder: 'Choisir',
+      close: 'Fermer',
+    },
     breadcrumb: {
       label: `Fil d'Ariane`,
     },
