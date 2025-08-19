@@ -41,18 +41,21 @@ import type { Dayjs } from 'dayjs'
 
 type YearCell = {
   column: number
-  row: number
+  customClass: string | undefined
   disabled: boolean
-  start: boolean
   end: boolean
-  text: number
-  type: 'normal' | 'today'
   inRange: boolean
+  row: number
+  selected: Dayjs | undefined
+  isCurrent: boolean | undefined
   isSelected: boolean
-  date?: Date
-  dayjs?: Dayjs
-  timestamp?: number
-  customClass?: string
+  start: boolean
+  text: number
+  renderText: string | undefined
+  timestamp: number | undefined
+  type: 'normal' | 'today'
+  date: Date | undefined
+  dayjs: Dayjs | undefined
 }
 
 const datesInYear = (year: number, lang: string) => {
@@ -99,6 +102,13 @@ const rows = computed(() => {
           text: -1,
           disabled: false,
           isSelected: false,
+          customClass: undefined,
+          date: undefined,
+          dayjs: undefined,
+          isCurrent: undefined,
+          selected: undefined,
+          renderText: undefined,
+          timestamp: undefined,
         }
       }
       cell.type = 'normal'
