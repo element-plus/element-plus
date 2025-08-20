@@ -8,6 +8,7 @@
     :gpu-acceleration="false"
     :popper-class="[ns.be('picker', 'panel'), popperClass]"
     :stop-popper-mouse-event="false"
+    pure
     effect="light"
     trigger="click"
     :teleported="teleported"
