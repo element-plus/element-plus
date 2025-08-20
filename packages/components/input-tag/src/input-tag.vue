@@ -60,7 +60,9 @@
               disable-transitions
               @close="handleRemoveTag(index + maxCollapseTags)"
             >
-              {{ item }}
+              <slot name="tag" :value="item" :index="index + maxCollapseTags">
+                {{ item }}
+              </slot>
             </el-tag>
           </div>
         </template>
