@@ -51,7 +51,6 @@ import {
   inject,
   onBeforeUnmount,
   onMounted,
-  reactive,
   ref,
   watch,
 } from 'vue'
@@ -62,13 +61,14 @@ import { isNumber } from '@element-plus/utils'
 import { stepProps } from './item'
 import { STEPS_INJECTION_KEY } from './tokens'
 
-import type { CSSProperties, Ref, VNode } from 'vue'
+import type { CSSProperties, ComputedRef, Ref, VNode } from 'vue'
 import type { StepsProps } from './steps'
 
 export interface StepItemState {
   uid: number
   getVnode: () => VNode
-  currentStatus: string
+  currentStatus: ComputedRef<string>
+  internalStatus: Ref<string>
   setIndex: (val: number) => void
   calcProgress: (status: string) => void
 }
@@ -110,9 +110,9 @@ const currentStatus = computed(() => {
   return props.status || internalStatus.value
 })
 
-const prevStatus = computed(() => {
+const prevInternalStatus = computed(() => {
   const prevStep = parent.steps.value[index.value - 1]
-  return prevStep ? prevStep.currentStatus : 'wait'
+  return prevStep ? prevStep.internalStatus.value : 'wait'
 })
 
 const isCenter = computed(() => {
@@ -182,7 +182,10 @@ const calcProgress = (status: string) => {
 const updateStatus = (activeIndex: number) => {
   if (activeIndex > index.value) {
     internalStatus.value = parent.props.finishStatus
-  } else if (activeIndex === index.value && prevStatus.value !== 'error') {
+  } else if (
+    activeIndex === index.value &&
+    prevInternalStatus.value !== 'error'
+  ) {
     internalStatus.value = parent.props.processStatus
   } else {
     internalStatus.value = 'wait'
@@ -191,13 +194,14 @@ const updateStatus = (activeIndex: number) => {
   if (prevChild) prevChild.calcProgress(internalStatus.value)
 }
 
-const stepItemState = reactive({
+const stepItemState: StepItemState = {
   uid: currentInstance.uid,
   getVnode: () => currentInstance.vnode,
   currentStatus,
+  internalStatus,
   setIndex,
   calcProgress,
-})
+}
 
 parent.addStep(stepItemState)
 

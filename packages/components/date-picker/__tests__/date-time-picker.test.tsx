@@ -2,14 +2,14 @@ import { nextTick, ref } from 'vue'
 import { flushPromises, mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import dayjs from 'dayjs'
+import { CircleClose } from '@element-plus/icons-vue'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { ElFormItem } from '@element-plus/components/form'
 import DatePicker from '../src/date-picker'
+import DatePickerRange from '../../date-picker-panel/src/date-picker-com/panel-date-range.vue'
 
-import type DatePickerRange from '../src/date-picker-com/panel-date-range.vue'
-import type { VueWrapper } from '@vue/test-utils'
 import type { VNode } from 'vue'
-import type { IDatePickerType } from '../src/date-picker.type'
+import type { DatePickerType } from '../../date-picker-panel/src/types'
 
 const formatStr = 'YYYY-MM-DD HH:mm:ss'
 const makeRange = (start: number, end: number) => {
@@ -704,9 +704,7 @@ describe('Datetimerange', () => {
     expect(btn.getAttribute('disabled')).not.toBeUndefined() // invalid input disables button
     btn.click()
     await nextTick()
-    const rangePanelWrapper = wrapper.findComponent(
-      '.el-date-range-picker'
-    ) as VueWrapper<InstanceType<typeof DatePickerRange>>
+    const rangePanelWrapper = wrapper.findComponent(DatePickerRange)
     expect(rangePanelWrapper.exists()).toBe(true)
     expect(rangePanelWrapper.vm.visible).toBe(true) // popper still open
     expect(value.value).toBe('')
@@ -1005,9 +1003,7 @@ describe('Datetimerange', () => {
     cells[1].click()
     await nextTick()
 
-    const rangePanelWrapper = wrapper.findComponent(
-      '.el-date-range-picker'
-    ) as VueWrapper<InstanceType<typeof DatePickerRange>>
+    const rangePanelWrapper = wrapper.findComponent(DatePickerRange)
     expect(rangePanelWrapper.exists()).toBe(true)
     expect(rangePanelWrapper.vm.visible).toBe(true)
     expect(value.value).toHaveLength(2)
@@ -1019,10 +1015,10 @@ describe('Datetimerange', () => {
   })
 
   describe('should not have footer when show-footer is false', () => {
-    const footerAble: IDatePickerType[] = ['dates', 'datetime', 'datetimerange']
+    const footerAble: DatePickerType[] = ['dates', 'datetime', 'datetimerange']
     it.each(footerAble)(":type='%s'", async (t) => {
       const showFooter = ref(true)
-      const type = ref<IDatePickerType>()
+      const type = ref<DatePickerType>()
       _mount(() => (
         <DatePicker type={type.value} showFooter={showFooter.value} />
       ))
@@ -1058,9 +1054,7 @@ describe('Datetimerange', () => {
     await input.trigger('blur')
     await input.trigger('focus')
 
-    const rangePanelWrapper = wrapper.findComponent(
-      '.el-date-range-picker'
-    ) as VueWrapper<InstanceType<typeof DatePickerRange>>
+    const rangePanelWrapper = wrapper.findComponent(DatePickerRange)
     expect(rangePanelWrapper.exists()).toBe(true)
     expect(rangePanelWrapper.vm.visible).toBe(true)
 
@@ -1088,9 +1082,7 @@ describe('Datetimerange', () => {
         valueFormat="YYYY-MM-DD"
       />
     ))
-    const rangePanelWrapper = wrapper.findComponent(
-      '.el-date-range-picker'
-    ) as VueWrapper<InstanceType<typeof DatePickerRange>>
+    const rangePanelWrapper = wrapper.findComponent(DatePickerRange)
 
     expect(rangePanelWrapper.vm.visible).toBe(false)
 
@@ -1115,5 +1107,19 @@ describe('Datetimerange', () => {
     await input.trigger('blur')
     await input.trigger('focus')
     expect(rangePanelWrapper.vm.visible).toBe(true)
+  })
+
+  it('should show clear btn on focus', async () => {
+    const wrapper = _mount(() => (
+      <DatePicker
+        type="datetimerange"
+        modelValue={new Date(2016, 9, 10, 18, 40)}
+        clearable
+      />
+    ))
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    expect(wrapper.findComponent(CircleClose).exists()).toBe(true)
   })
 })
