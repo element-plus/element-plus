@@ -4,7 +4,7 @@ import { rangeArr } from '@element-plus/components/time-picker'
 
 import type { ComputedRef } from 'vue'
 import type { Dayjs } from 'dayjs'
-import type { DateCell } from './date-picker.type'
+import type { DateCell } from './types'
 import type { DisabledDateType } from './props/shared'
 
 type DayRange = [Dayjs | undefined, Dayjs | undefined]

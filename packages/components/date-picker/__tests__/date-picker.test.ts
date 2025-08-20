@@ -17,8 +17,7 @@ import 'dayjs/locale/zh-cn'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ElFormItem } from '@element-plus/components/form'
 import DatePicker from '../src/date-picker'
-
-import type DatePickerRange from '../src/date-picker-com/panel-date-range.vue'
+import DatePickerRange from '@element-plus/components/date-picker-panel/src/date-picker-com/panel-date-range.vue'
 
 const _mount = (template: string, data = () => ({}), otherObj?) =>
   mount(
@@ -785,6 +784,20 @@ describe('DatePicker', () => {
     await nextTick()
     const el = document.querySelector('td.current .el-date-table-cell')
     expect(el.textContent.includes('y')).toBeTruthy()
+  })
+
+  it('should toggle visibility of confirm button through show-confirm', async () => {
+    const wrapper = _mount(`<el-date-picker type="datetime" show-confirm />`)
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    expect(
+      document.querySelectorAll('.el-picker-panel__footer button')
+    ).toHaveLength(2)
+    await wrapper.setProps({ showConfirm: false })
+    expect(
+      document.querySelectorAll('.el-picker-panel__footer button')
+    ).toHaveLength(1)
   })
 
   it('custom content comment for type is year', async () => {
@@ -1657,9 +1670,7 @@ describe('DateRangePicker', () => {
       />`,
       () => ({ value: '' })
     )
-    const rangePanelWrapper = wrapper.findComponent(
-      '.el-date-range-picker'
-    ) as VueWrapper<InstanceType<typeof DatePickerRange>>
+    const rangePanelWrapper = wrapper.findComponent(DatePickerRange)
 
     expect(rangePanelWrapper.vm.visible).toBe(false)
 
@@ -1690,9 +1701,7 @@ describe('DateRangePicker', () => {
       />`,
       () => ({ value: '' })
     )
-    const rangePanelWrapper = wrapper.findComponent(
-      '.el-date-range-picker'
-    ) as VueWrapper<InstanceType<typeof DatePickerRange>>
+    const rangePanelWrapper = wrapper.findComponent(DatePickerRange)
 
     expect(rangePanelWrapper.vm.visible).toBe(false)
 
@@ -2102,9 +2111,7 @@ describe('DateRangePicker', () => {
     await input.trigger('blur')
     await input.trigger('focus')
 
-    const rangePanelWrapper = wrapper.findComponent(
-      '.el-date-range-picker'
-    ) as VueWrapper<InstanceType<typeof DatePickerRange>>
+    const rangePanelWrapper = wrapper.findComponent(DatePickerRange)
     expect(rangePanelWrapper.exists()).toBe(true)
     expect(rangePanelWrapper.vm.visible).toBe(true)
     const cells = document.querySelectorAll('.available .el-date-table-cell')
@@ -2141,9 +2148,7 @@ describe('DateRangePicker', () => {
       }
     )
     await nextTick()
-    const rangePanelWrapper = wrapper.findComponent(
-      '.el-date-range-picker'
-    ) as VueWrapper<InstanceType<typeof DatePickerRange>>
+    const rangePanelWrapper = wrapper.findComponent(DatePickerRange)
     const inputRange = wrapper.findAll('.el-range-input')
     expect(rangePanelWrapper.exists()).toBe(true)
     expect(rangePanelWrapper.vm.visible).toBe(false)

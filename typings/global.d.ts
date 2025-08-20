@@ -32,6 +32,7 @@ declare module 'vue' {
     ElContainer: typeof import('element-plus')['ElContainer']
     ElConfigProvider: typeof import('element-plus')['ElConfigProvider']
     ElDatePicker: typeof import('element-plus')['ElDatePicker']
+    ElDatePickerPanel: typeof import('element-plus')['ElDatePickerPanel']
     ElDialog: typeof import('element-plus')['ElDialog']
     ElDivider: typeof import('element-plus')['ElDivider']
     ElDrawer: typeof import('element-plus')['ElDrawer']
