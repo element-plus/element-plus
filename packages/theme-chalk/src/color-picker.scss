@@ -137,9 +137,6 @@ $color-picker-size: map.merge($common-component-size, $color-picker-size);
   }
 
   @include e(panel) {
-    position: absolute;
-    z-index: 10;
-    box-sizing: content-box;
     background-color: $color-white;
     border-radius: getCssVar('border-radius-base');
     box-shadow: map.get($dropdown, 'menu-box-shadow');
