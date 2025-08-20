@@ -1,29 +1,13 @@
-import type { InjectionKey, VNode } from 'vue'
+import type { InjectionKey } from 'vue'
 import type {
+  CascaderConfig,
   default as CascaderNode,
   CascaderOption,
-  CascaderProps,
-  ExpandTrigger,
+  RenderLabel,
 } from './node'
 
-export type { CascaderNode, CascaderOption, CascaderProps, ExpandTrigger }
-
-export type CascaderNodeValue = string | number
-export type CascaderNodePathValue = CascaderNodeValue[]
-export type CascaderValue =
-  | CascaderNodeValue
-  | CascaderNodePathValue
-  | (CascaderNodeValue | CascaderNodePathValue)[]
-export type CascaderConfig = Required<CascaderProps>
-export type isDisabled = (data: CascaderOption, node: CascaderNode) => boolean
-export type isLeaf = (data: CascaderOption, node: CascaderNode) => boolean
-export type Resolve = (dataList?: CascaderOption[]) => void
-export type LazyLoad = (node: CascaderNode, resolve: Resolve) => void
-export interface RenderLabelProps {
-  node: CascaderNode
-  data: CascaderOption
-}
-export type RenderLabel = (props: RenderLabelProps) => VNode | VNode[]
+export type * from './node'
+export type { CascaderNode }
 
 export interface Tag {
   node?: CascaderNode
