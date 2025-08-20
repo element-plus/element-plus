@@ -47,6 +47,7 @@ export const useButton = (
   const _round = computed(
     () => props.round ?? globalConfig.value?.round ?? false
   )
+  const _text = computed(() => props.text ?? globalConfig.value?.text ?? false)
 
   const _props = computed(() => {
     if (props.tag === 'button') {
@@ -92,6 +93,7 @@ export const useButton = (
     _props,
     _plain,
     _round,
+    _text,
     shouldAddSpace,
     handleClick,
   }

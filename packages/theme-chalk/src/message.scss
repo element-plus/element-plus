@@ -15,15 +15,26 @@
   border-style: getCssVar('border-style');
   border-color: getCssVar('message', 'border-color');
   position: fixed;
-  left: 50%;
-  top: 20px;
-  transform: translateX(-50%);
   background-color: getCssVar('message', 'bg-color');
-  transition: opacity getCssVar('transition-duration'), transform 0.4s, top 0.4s;
+  transition: opacity getCssVar('transition-duration'), transform 0.4s, top 0.4s,
+    bottom 0.4s;
   padding: getCssVar('message', 'padding');
   display: flex;
   align-items: center;
   gap: 8px;
+
+  &.is-left {
+    left: 16px;
+  }
+
+  &.is-right {
+    right: 16px;
+  }
+
+  &.is-center {
+    left: 50%;
+    transform: translateX(-50%);
+  }
 
   @include when(plain) {
     background-color: getCssVar('bg-color', 'overlay');
@@ -90,5 +101,20 @@
 .#{$namespace}-message-fade-enter-from,
 .#{$namespace}-message-fade-leave-to {
   opacity: 0;
-  transform: translate(-50%, -100%);
+
+  &:is(.is-left, .is-right) {
+    transform: translateY(-100%);
+
+    &.is-bottom {
+      transform: translateY(100%);
+    }
+  }
+
+  &.is-center {
+    transform: translate(-50%, -100%);
+
+    &.is-bottom {
+      transform: translate(-50%, 100%);
+    }
+  }
 }
