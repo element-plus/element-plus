@@ -152,7 +152,7 @@ const handleClick = () => {
   ) {
     handleCheck(true)
   } else if (
-    (panel.config.checkOnClickNode ||
+    ((panel.config.checkOnClickNode && checkStrictly.value) ||
       (isLeaf.value && panel.config.checkOnClickLeaf)) &&
     !isDisabled.value
   ) {
