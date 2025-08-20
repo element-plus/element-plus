@@ -1,6 +1,5 @@
-import os from 'os'
 import findWorkspacePackages from '@pnpm/find-workspace-packages'
-import { projRoot } from './paths'
+import { projRoot, slash } from './paths'
 
 import type { ProjectManifest } from '@pnpm/types'
 
@@ -32,8 +31,7 @@ export const getPackageDependencies = (
 
 export const excludeFiles = (files: string[]) => {
   const excludes = ['node_modules', 'test', 'mock', 'gulpfile', 'dist']
-  const projRootPath =
-    os.platform() === 'win32' ? projRoot.replace(/\\/g, '/') : projRoot
+  const projRootPath = slash(projRoot)
   return files.filter((file) => {
     const position = file.startsWith(projRootPath) ? projRootPath.length : 0
     return !excludes.some((exclude) => file.includes(exclude, position))

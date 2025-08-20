@@ -1,5 +1,4 @@
 import path from 'path'
-import os from 'os'
 import {
   arrayToRegExp,
   getTypeSymbol,
@@ -13,6 +12,7 @@ import {
   epPackage,
   getPackageManifest,
   projRoot,
+  slash,
 } from '@element-plus/build-utils'
 
 import type { TaskFunction } from 'gulp'
@@ -202,9 +202,8 @@ export const buildHelper: TaskFunction = (done) => {
     projRoot,
     'docs/en-US/component'
   )}/!(datetime-picker|message-box|message).md`
-  if (os.platform() === 'win32') {
-    entry = entry.replace(/\\/g, '/')
-  }
+
+  entry = slash(entry)
 
   main({
     name: name!,

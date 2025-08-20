@@ -30,3 +30,11 @@ export const directivePackage = resolve(directiveRoot, 'package.json')
 export const epPackage = resolve(epRoot, 'package.json')
 export const utilPackage = resolve(utilRoot, 'package.json')
 export const docPackage = resolve(docRoot, 'package.json')
+
+const windowsSlashRE = /\\/g
+export function slash(p: string): string {
+  if (process.platform === 'win32') {
+    return p.replace(windowsSlashRE, '/')
+  }
+  return p
+}
