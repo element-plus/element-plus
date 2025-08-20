@@ -105,16 +105,14 @@ describe('DatePickerPanel', () => {
 
   describe(':type="datetime" & :type="datetimerange"', () => {
     describe(':type="datetime"', () => {
-      it('both picker show correct formated value (extract date-format and time-format from format property', async () => {
+      it('dateFormat & timeFormat', async () => {
         const value = ref(new Date(2018, 2, 5, 10, 15, 24))
-        const format = ref('YYYY/MM/DD HH:mm A')
-        const dateFormat = ref('')
-        const timeFormat = ref('')
+        const dateFormat = ref('YYYY/MM/DD')
+        const timeFormat = ref('HH:mm A')
         const wrapper = mount(() => (
           <DatePickerPanel
             v-model={value.value}
             type="datetime"
-            format={format.value}
             dateFormat={dateFormat.value}
             timeFormat={timeFormat.value}
           />
@@ -132,7 +130,8 @@ describe('DatePickerPanel', () => {
         expect(dateInput.value).toBe('2018/03/05')
         expect(timeInput.value).toBe('10:15 AM')
 
-        format.value = 'MM-DD-YYYY HH a'
+        dateFormat.value = 'MM-DD-YYYY'
+        timeFormat.value = 'HH a'
         await nextTick()
         expect(dateInput.value).toBe('03-05-2018')
         expect(timeInput.value).toBe('10 am')
@@ -264,30 +263,6 @@ describe('DatePickerPanel', () => {
         const btn = wrapper.find('.el-picker-panel__footer .is-text')
           .element as HTMLElement
         expect(btn.getAttribute('disabled')).not.toBeUndefined()
-      })
-
-      it("should date input respect the default format 'YYYY-MM-DD' when format with only time format is setted", async () => {
-        const modelValue = new Date(2000, 10, 10, 10, 10)
-        const wrapper = mount(() => (
-          <DatePickerPanel
-            v-model={modelValue}
-            format="HH:mm:ss"
-            type="datetime"
-          />
-        ))
-        const timeInput = wrapper.find('.el-date-picker__editor-wrap input')
-        expect((timeInput.element as HTMLInputElement).value).toBe('2000-11-10')
-      })
-
-      it("should time input respect the default format 'HH:mm:ss' when format with only date format is setted", async () => {
-        const modelValue = new Date(2000, 10, 10, 10, 10)
-        const wrapper = mount(() => (
-          <DatePickerPanel v-model={modelValue} format="YYYY" type="datetime" />
-        ))
-        const timeInput = wrapper.findAll(
-          '.el-date-picker__editor-wrap input'
-        )[1]
-        expect((timeInput.element as HTMLInputElement).value).toBe('10:10:00')
       })
 
       it('confirm button honors picked date', async () => {
@@ -494,14 +469,13 @@ describe('DatePickerPanel', () => {
           new Date(2000, 10, 8, 10, 10),
           new Date(2000, 10, 11, 10, 10),
         ])
-        const dateFormat = ref('')
-        const timeFormat = ref('')
+        const dateFormat = ref('YYYY/MM/DD')
+        const timeFormat = ref('HH:mm A')
         const wrapper = mount(() => (
           <DatePickerPanel
             v-model={value.value}
             type="datetimerange"
             default-time={new Date(2020, 1, 1, 1, 1, 1)}
-            format="YYYY/MM/DD HH:mm A"
             dateFormat={dateFormat.value}
             timeFormat={timeFormat.value}
             showFooter
@@ -862,42 +836,6 @@ describe('DatePickerPanel', () => {
           '9',
           '10',
         ])
-      })
-
-      it("should date input respect the default format 'YYYY-MM-DD' when format with only time format is setted", async () => {
-        const modelValue = [
-          new Date(2000, 10, 10, 10, 10),
-          new Date(2000, 10, 11, 10, 10),
-        ]
-        const wrapper = mount(() => (
-          <DatePickerPanel
-            v-model={modelValue}
-            format="HH:mm:ss"
-            type="datetimerange"
-          />
-        ))
-        const timeInput = wrapper.find(
-          '.el-date-range-picker__editors-wrap input'
-        )
-        expect((timeInput.element as HTMLInputElement).value).toBe('2000-11-10')
-      })
-
-      it("should time input respect the default format 'HH:mm:ss' when format with only date format is setted", async () => {
-        const modelValue = [
-          new Date(2000, 10, 10, 10, 10),
-          new Date(2000, 10, 11, 10, 10),
-        ]
-        const wrapper = mount(() => (
-          <DatePickerPanel
-            v-model={modelValue}
-            format="YYYY"
-            type="datetimerange"
-          />
-        ))
-        const timeInput = wrapper.findAll(
-          '.el-date-range-picker__editors-wrap input'
-        )[1]
-        expect((timeInput.element as HTMLInputElement).value).toBe('10:10:00')
       })
     })
   })

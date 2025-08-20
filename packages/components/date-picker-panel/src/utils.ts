@@ -208,7 +208,7 @@ export const correctlyParseUserInput = (
   value: string | Dayjs | Dayjs[],
   format: string,
   lang: string,
-  defaultFormat: ComputedRef<boolean>
+  defaultFormat: ComputedRef<boolean> | undefined
 ): Dayjs | Dayjs[] => {
   if (isArray(value)) {
     return value.map(
@@ -216,7 +216,9 @@ export const correctlyParseUserInput = (
     )
   }
   if (isString(value)) {
-    const dayjsValue = defaultFormat.value ? dayjs(value) : dayjs(value, format)
+    const dayjsValue = defaultFormat?.value
+      ? dayjs(value)
+      : dayjs(value, format)
     if (!dayjsValue.isValid()) {
       // return directly if not valid
       return dayjsValue

@@ -433,6 +433,7 @@ import YearTable from './basic-year-table.vue'
 import MonthTable from './basic-month-table.vue'
 import DateTable from './basic-date-table.vue'
 
+import type { Ref } from 'vue'
 import type { Dayjs } from 'dayjs'
 
 type ChangeType = 'min' | 'max'
@@ -453,10 +454,11 @@ const unit = 'month'
 // FIXME: fix the type for ep picker
 const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
 const isDefaultFormat = inject(
-  ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY
+  ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY,
+  undefined
 ) as any
 const { disabledDate, cellClassName, defaultTime, clearable } = pickerBase.props
-const format = toRef(pickerBase.props, 'format')
+const format: Ref<string | undefined> = toRef(pickerBase.props, 'format')
 const shortcuts = toRef(pickerBase.props, 'shortcuts')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 const { lang } = useLocale()
@@ -556,13 +558,17 @@ const maxVisibleTime = computed(() => {
 
 const timeFormat = computed(() => {
   return (
-    props.timeFormat || extractTimeFormat(format.value) || DEFAULT_FORMATS_TIME
+    props.timeFormat ||
+    extractTimeFormat(format.value || '') ||
+    DEFAULT_FORMATS_TIME
   )
 })
 
 const dateFormat = computed(() => {
   return (
-    props.dateFormat || extractDateFormat(format.value) || DEFAULT_FORMATS_DATE
+    props.dateFormat ||
+    extractDateFormat(format.value || '') ||
+    DEFAULT_FORMATS_DATE
   )
 })
 
@@ -888,7 +894,7 @@ const formatToString = (value: Dayjs | Dayjs[]) => {
 const parseUserInput = (value: Dayjs | Dayjs[]) => {
   return correctlyParseUserInput(
     value,
-    format.value,
+    format.value || '',
     lang.value,
     isDefaultFormat
   )
