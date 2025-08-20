@@ -66,11 +66,12 @@
 
 @include b(color-picker-panel) {
   width: 300px;
-  padding: 6px;
+  padding: 12px;
   box-sizing: content-box;
 
   @include when(border) {
     border: solid 1px getCssVar('border-color-lighter');
+    border-radius: 4px;
   }
 
   @include e(wrapper) {
@@ -129,10 +130,6 @@
     height: 20px;
     border-radius: 4px;
     cursor: pointer;
-
-    &:nth-child(10n + 1) {
-      margin-left: 0;
-    }
 
     &.selected {
       box-shadow: 0 0 3px 2px getCssVar('color-primary');
