@@ -119,12 +119,12 @@
 
   @include e(colors) {
     display: flex;
+    gap: 8px;
     flex: 1;
     flex-wrap: wrap;
   }
 
   @include e(color-selector) {
-    margin: 0 0 8px 8px;
     width: 20px;
     height: 20px;
     border-radius: 4px;
