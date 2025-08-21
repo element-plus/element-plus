@@ -301,8 +301,8 @@ const { isComposing, handleComposition } = useComposition({
 })
 
 const tooltipRef: Ref<TooltipInstance | null> = ref(null)
-//TODO: transform this [TooltipInstance] to TooltipInstance
-const tagTooltipRef: Ref<[TooltipInstance]> = ref()
+//TODO: transform [TooltipInstance] to TooltipInstance
+const tagTooltipRef = ref<[TooltipInstance]>()
 const inputRef = ref<InputInstance>()
 const tagWrapper = ref(null)
 const cascaderPanelRef: Ref<CascaderPanelInstance | null> = ref(null)
