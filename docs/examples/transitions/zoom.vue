@@ -28,13 +28,13 @@ import { ref } from 'vue'
 const show = ref(true)
 </script>
 
-<style>
+<style scoped>
 .transition-container {
   display: flex;
   margin-top: 20px;
   min-height: 100px;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 16px;
 }
 
 .transition-box {
@@ -51,13 +51,5 @@ const show = ref(true)
   justify-content: center;
   word-break: break-word;
   font-size: 14px;
-}
-
-@media screen and (max-width: 768px) {
-  .transition-box {
-    width: 150px;
-    height: 80px;
-    padding: 10px;
-  }
 }
 </style>
