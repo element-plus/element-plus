@@ -176,7 +176,6 @@ import {
   debugWarn,
   isClient,
   isObject,
-  rAF,
 } from '@element-plus/utils'
 import {
   useAttrs,
@@ -369,7 +368,7 @@ const createOnceInitResize = (resizeTextarea: () => void) => {
     const isElHidden = textarea.value?.offsetParent === null
     if (!isElHidden) {
       resizeTextarea()
-      rAF(() => (isInit = true))
+      isInit = true
     }
   }
 }
@@ -502,7 +501,7 @@ onMounted(() => {
     )
   }
   setNativeInputValue()
-  nextTick(resizeTextarea)
+  setTimeout(resizeTextarea)
 })
 
 defineExpose({
