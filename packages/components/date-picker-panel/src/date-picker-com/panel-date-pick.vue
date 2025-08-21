@@ -3,6 +3,8 @@
     :class="[
       ppNs.b(),
       dpNs.b(),
+      ppNs.is('border', border),
+      ppNs.is('disabled', disabled),
       {
         'has-sidebar': $slots.sidebar || hasShortcuts,
         'has-time': showTime,
@@ -16,6 +18,7 @@
           v-for="(shortcut, key) in shortcuts"
           :key="key"
           type="button"
+          :disabled="disabled"
           :class="ppNs.e('shortcut')"
           @click="handleShortcutClick(shortcut)"
         >
@@ -30,6 +33,7 @@
               :model-value="visibleDate"
               size="small"
               :validate-event="false"
+              :disabled="disabled"
               @input="(val) => (userInputDate = val)"
               @change="handleVisibleDateChange"
             />
@@ -43,6 +47,7 @@
               :model-value="visibleTime"
               size="small"
               :validate-event="false"
+              :disabled="disabled"
               @focus="onTimePickerInputFocus"
               @input="(val) => (userInputTime = val)"
               @change="handleVisibleTimeChange"
@@ -69,6 +74,7 @@
               :aria-label="t(`el.datepicker.prevYear`)"
               class="d-arrow-left"
               :class="ppNs.e('icon-btn')"
+              :disabled="disabled"
               @click="moveByYear(false)"
             >
               <slot name="prev-year">
@@ -81,6 +87,7 @@
               :aria-label="t(`el.datepicker.prevMonth`)"
               :class="ppNs.e('icon-btn')"
               class="arrow-left"
+              :disabled="disabled"
               @click="moveByMonth(false)"
             >
               <slot name="prev-month">
@@ -117,6 +124,7 @@
               :aria-label="t(`el.datepicker.nextMonth`)"
               :class="ppNs.e('icon-btn')"
               class="arrow-right"
+              :disabled="disabled"
               @click="moveByMonth(true)"
             >
               <slot name="next-month">
@@ -128,6 +136,7 @@
               :aria-label="t(`el.datepicker.nextYear`)"
               :class="ppNs.e('icon-btn')"
               class="d-arrow-right"
+              :disabled="disabled"
               @click="moveByYear(true)"
             >
               <slot name="next-year">
@@ -144,6 +153,7 @@
             :date="innerDate"
             :parsed-value="parsedValue"
             :disabled-date="disabledDate"
+            :disabled="disabled"
             :cell-class-name="cellClassName"
             :show-week-number="showWeekNumber"
             @pick="handleDatePick"
@@ -154,6 +164,7 @@
             :selection-mode="selectionMode"
             :date="innerDate"
             :disabled-date="disabledDate"
+            :disabled="disabled"
             :parsed-value="parsedValue"
             @pick="handleYearPick"
           />
@@ -164,12 +175,16 @@
             :date="innerDate"
             :parsed-value="parsedValue"
             :disabled-date="disabledDate"
+            :disabled="disabled"
             @pick="handleMonthPick"
           />
         </div>
       </div>
     </div>
-    <div v-if="showFooter && footerVisible" :class="ppNs.e('footer')">
+    <div
+      v-if="showFooter && footerVisible && footerFilled"
+      :class="ppNs.e('footer')"
+    >
       <el-button
         v-show="!isMultipleType && showNow"
         text
@@ -181,6 +196,7 @@
         {{ t('el.datepicker.now') }}
       </el-button>
       <el-button
+        v-if="showConfirm"
         plain
         size="small"
         :class="ppNs.e('link-btn')"
@@ -224,7 +240,6 @@ import {
   DArrowLeft,
   DArrowRight,
 } from '@element-plus/icons-vue'
-import { TOOLTIP_INJECTION_KEY } from '@element-plus/components/tooltip'
 import { panelDatePickProps } from '../props/panel-date-pick'
 import {
   correctlyParseUserInput,
@@ -263,7 +278,6 @@ const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
 const isDefaultFormat = inject(
   ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY
 ) as any
-const popper = inject(TOOLTIP_INJECTION_KEY)
 const { shortcuts, disabledDate, cellClassName, defaultTime } = pickerBase.props
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 
@@ -487,6 +501,7 @@ const handleYearPick = async (
 }
 
 const showPicker = async (view: 'month' | 'year') => {
+  if (props.disabled) return
   currentView.value = view
   await nextTick()
   handleFocusPicker()
@@ -509,6 +524,10 @@ const footerVisible = computed(() => {
     (showMonthFooter && isMonthView)
   )
 })
+
+const footerFilled = computed(
+  () => (!isMultipleType.value && props.showNow) || props.showConfirm
+)
 
 const disabledConfirm = computed(() => {
   if (!disabledDate) return false
@@ -813,13 +832,6 @@ watch(
     currentView.value = 'date'
   },
   { immediate: true }
-)
-
-watch(
-  () => currentView.value,
-  () => {
-    popper?.updatePopper()
-  }
 )
 
 watch(

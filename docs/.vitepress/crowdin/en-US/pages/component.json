@@ -92,6 +92,11 @@
         "text": "Color Picker"
       },
       {
+        "link": "/date-picker-panel",
+        "text": "Date Picker Panel",
+        "promotion": "2.11.0"
+      },
+      {
         "link": "/date-picker",
         "text": "Date Picker"
       },

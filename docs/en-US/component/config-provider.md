@@ -114,6 +114,7 @@ In this section, you can learn how to use Config Provider to provide experimenta
 | type ^(2.9.11)  | button type, when setting `color`, the latter prevails                                                                                               | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'text' (deprecated)` | —       |
 | autoInsertSpace | automatically insert a space between two chinese characters(this will only take effect when the text length is 2 and all characters are in Chinese.) | ^[boolean]                                                                                | false   |
 | plain ^(2.9.11) | determine whether it's a plain button                                                                                                                | ^[boolean]                                                                                | false   |
+| text ^(2.11.0)  | determine whether it's a text button                                                                                                                 | ^[boolean]                                                                                | false   |
 | round ^(2.9.11) | determine whether it's a round button                                                                                                                | ^[boolean]                                                                                | false   |
 
 ### Link Attribute
@@ -140,14 +141,15 @@ In this section, you can learn how to use Config Provider to provide experimenta
 
 ### Message Attribute
 
-| Attribute          | Description                                                                    | Type       | Default |
-| ------------------ | ------------------------------------------------------------------------------ | ---------- | ------- |
-| max                | the maximum number of messages that can be displayed at the same time          | ^[number]  | —       |
-| grouping ^(2.8.2)  | merge messages with the same content, type of VNode message is not supported   | ^[boolean] | —       |
-| duration ^(2.8.2)  | display duration, millisecond. If set to 0, it will not turn off automatically | ^[number]  | —       |
-| showClose ^(2.8.2) | whether to show a close button                                                 | ^[boolean] | —       |
-| offset ^(2.8.2)    | set the distance to the top of viewport                                        | ^[number]  | —       |
-| plain ^(2.9.11)    | whether message is plain                                                       | ^[boolean] | —       |
+| Attribute           | Description                                                                    | Type                                                                                       | Default |
+| ------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------- |
+| max                 | the maximum number of messages that can be displayed at the same time          | ^[number]                                                                                  | —       |
+| grouping ^(2.8.2)   | merge messages with the same content, type of VNode message is not supported   | ^[boolean]                                                                                 | —       |
+| duration ^(2.8.2)   | display duration, millisecond. If set to 0, it will not turn off automatically | ^[number]                                                                                  | —       |
+| showClose ^(2.8.2)  | whether to show a close button                                                 | ^[boolean]                                                                                 | —       |
+| offset ^(2.8.2)     | set the distance to the top of viewport                                        | ^[number]                                                                                  | —       |
+| plain ^(2.9.11)     | whether message is plain                                                       | ^[boolean]                                                                                 | —       |
+| placement ^(2.11.0) | message placement position                                                     | ^[enum]`'top' \| 'top-left' \| 'top-right' \| 'bottom' \| 'bottom-left' \| 'bottom-right'` | —       |
 
 ### Config Provider Slots
 
