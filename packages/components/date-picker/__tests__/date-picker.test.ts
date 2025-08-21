@@ -588,6 +588,64 @@ describe('DatePicker', () => {
     vi.useRealTimers()
   })
 
+  it('should have same common propreties for default slot', async () => {
+    const testCellData = (cell) => {
+      const cellProperties = [
+        'column',
+        'type',
+        'text',
+        'start',
+        'timestamp',
+        'dayjs',
+        'date',
+        'isSelected',
+        'inRange',
+        'row',
+        'customClass',
+        'end',
+      ] //TODO: we should later increase the list in order to fit DateCell perfectly
+      expect(Object.keys(cell)).toEqual(expect.arrayContaining(cellProperties))
+      const values = Object.entries(cell)
+        .filter(([key]) => cellProperties.includes(key))
+        .map(([, val]) => val)
+      for (const value of values) {
+        expect(value).toBeDefined()
+      }
+    }
+    const wrapper = _mount(
+      `
+      <el-date-picker :cellClassName="() => 'hello'">
+        <template #default="cell">
+          <div class="custom-cell" data-testid="" @click="testCellData(cell)">
+            click me
+          </div>
+        </template>
+      </el-date-picker>
+      `,
+      () => ({ testCellData })
+    )
+    const types = [
+      'year',
+      'years',
+      'month',
+      'months',
+      'date',
+      'dates',
+      'week',
+      'datetime',
+      'datetimerange',
+      'daterange',
+      'monthrange',
+      'yearrange',
+    ]
+    for (const type of types) {
+      await wrapper.setProps({ type })
+      {
+        ;(document.querySelector('.custom-cell') as HTMLElement).click()
+      }
+    }
+  })
+
   it('custom content', async () => {
     const wrapper = _mount(
       `<el-date-picker

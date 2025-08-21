@@ -48,6 +48,7 @@
             :range-state="rangeState"
             :disabled-date="disabledDate"
             :disabled="disabled"
+            :cell-class-name="cellClassName"
             @changerange="handleChangeRange"
             @pick="handleRangePick"
             @select="onSelect"
@@ -86,6 +87,7 @@
             :range-state="rangeState"
             :disabled-date="disabledDate"
             :disabled="disabled"
+            :cell-class-name="cellClassName"
             @changerange="handleChangeRange"
             @pick="handleRangePick"
             @select="onSelect"
@@ -137,7 +139,7 @@ const isDefaultFormat = inject(
   undefined
 ) as any
 const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
-const { shortcuts, disabledDate } = pickerBase.props
+const { shortcuts, disabledDate, cellClassName } = pickerBase.props
 const format = toRef(pickerBase.props, 'format')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 

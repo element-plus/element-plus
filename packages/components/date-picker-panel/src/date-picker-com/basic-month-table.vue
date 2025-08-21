@@ -11,11 +11,11 @@
         <td
           v-for="(cell, key_) in row"
           :key="key_"
-          :ref="(el) => isSelectedCell(cell) && (currentCellRef = el as HTMLElement)"
+          :ref="(el) => cell.isSelected && (currentCellRef = el as HTMLElement)"
           :class="getCellStyle(cell)"
-          :aria-selected="`${isSelectedCell(cell)}`"
+          :aria-selected="!!cell.isSelected"
           :aria-label="t(`el.datepicker.month${+cell.text + 1}`)"
-          :tabindex="isSelectedCell(cell) ? 0 : -1"
+          :tabindex="cell.isSelected ? 0 : -1"
           @keydown.space.prevent.stop="handleMonthTableClick"
           @keydown.enter.prevent.stop="handleMonthTableClick"
         >
@@ -40,15 +40,25 @@ import { basicMonthTableProps } from '../props/basic-month-table'
 import { datesInMonth, getValidDateOfMonth } from '../utils'
 import ElDatePickerCell from './basic-cell-render'
 
+import type { Dayjs } from 'dayjs'
+
 type MonthCell = {
   column: number
-  row: number
+  customClass: string | undefined
   disabled: boolean
-  start: boolean
   end: boolean
-  text: number
-  type: 'normal' | 'today'
   inRange: boolean
+  row: number
+  selected: Dayjs | undefined
+  isCurrent: boolean | undefined
+  isSelected: boolean
+  start: boolean
+  text: number
+  renderText: string | undefined
+  timestamp: number | undefined
+  date: Date | undefined
+  dayjs: Dayjs | undefined
+  type: 'normal' | 'today'
 }
 
 const props = defineProps(basicMonthTableProps)
@@ -66,11 +76,7 @@ const months = ref(
     .monthsShort()
     .map((_) => _.toLowerCase())
 )
-const tableRows = ref<MonthCell[][]>([
-  [] as MonthCell[],
-  [] as MonthCell[],
-  [] as MonthCell[],
-])
+const tableRows = ref<MonthCell[][]>([[], [], []])
 const lastRow = ref<number>()
 const lastColumn = ref<number>()
 const rows = computed<MonthCell[][]>(() => {
@@ -90,6 +96,14 @@ const rows = computed<MonthCell[][]>(() => {
         end: false,
         text: -1,
         disabled: false,
+        isSelected: false,
+        customClass: undefined,
+        date: undefined,
+        dayjs: undefined,
+        isCurrent: undefined,
+        selected: undefined,
+        renderText: undefined,
+        timestamp: undefined,
       })
 
       cell.type = 'normal'
@@ -130,8 +144,14 @@ const rows = computed<MonthCell[][]>(() => {
         cell.type = 'today'
       }
 
+      const cellDate = calTime.toDate()
       cell.text = index
-      cell.disabled = props.disabledDate?.(calTime.toDate()) || false
+      cell.disabled = props.disabledDate?.(cellDate) || false
+      cell.date = cellDate
+      cell.customClass = props.cellClassName?.(cellDate)
+      cell.dayjs = calTime
+      cell.timestamp = calTime.valueOf()
+      cell.isSelected = isSelectedCell(cell)
     }
   }
   return rows
@@ -161,6 +181,9 @@ const getCellStyle = (cell: MonthCell) => {
     ) >= 0
   style.today = today.getFullYear() === year && today.getMonth() === month
 
+  if (cell.customClass) {
+    style[cell.customClass] = true
+  }
   if (cell.inRange) {
     style['in-range'] = true
 
