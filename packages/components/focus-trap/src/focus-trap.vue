@@ -51,7 +51,7 @@ export default defineComponent({
       default: 'first',
     },
     // should focus on the previously focused element #21783
-    focusLastEl: {
+    focusOnLastEl: {
       type: Boolean,
       default: true,
     },
@@ -291,7 +291,7 @@ export default defineComponent({
         trapContainer.addEventListener(FOCUS_AFTER_RELEASED, releaseOnFocus)
         trapContainer.dispatchEvent(releasedEvent)
         if (
-          props.focusLastEl &&
+          props.focusOnLastEl &&
           !releasedEvent.defaultPrevented &&
           (focusReason.value == 'keyboard' ||
             !isFocusCausedByUserEvent() ||

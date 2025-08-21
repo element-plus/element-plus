@@ -38,7 +38,7 @@
       :virtual-triggering="virtualTriggering"
       :z-index="zIndex"
       :append-to="appendTo"
-      :focus-last-el="focusLastEl"
+      :focus-on-last-el="focusOnLastEl"
     >
       <slot name="content">
         <span v-if="rawContent" v-html="content" />

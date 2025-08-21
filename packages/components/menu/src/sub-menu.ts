@@ -377,7 +377,7 @@ export default defineComponent({
               fallbackPlacements: fallbackPlacements.value,
               transition: menuTransitionName.value,
               gpuAcceleration: false,
-              focusLastEl: false,
+              focusOnLastEl: false,
             },
             {
               content: () =>

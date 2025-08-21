@@ -112,7 +112,7 @@ export const popperContentProps = buildProps({
   },
   virtualTriggering: Boolean,
   zIndex: Number,
-  focusLastEl: {
+  focusOnLastEl: {
     type: Boolean,
     default: true,
   },

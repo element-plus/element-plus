@@ -33,7 +33,7 @@
         :trigger-target-el="triggerTargetEl"
         :visible="shouldShow"
         :z-index="zIndex"
-        :focus-last-el="focusLastEl"
+        :focus-on-last-el="focusOnLastEl"
         @mouseenter="onContentEnter"
         @mouseleave="onContentLeave"
         @blur="onBlur"
