@@ -304,7 +304,8 @@ const { isComposing, handleComposition } = useComposition({
 })
 
 const tooltipRef: Ref<TooltipInstance | null> = ref(null)
-const tagTooltipRef: Ref<TooltipInstance | null> = ref(null)
+//TODO: transform [TooltipInstance] to TooltipInstance
+const tagTooltipRef = ref<[TooltipInstance]>()
 const inputRef = ref<InputInstance>()
 const tagWrapper = ref(null)
 const cascaderPanelRef: Ref<CascaderPanelInstance | null> = ref(null)
@@ -348,7 +349,7 @@ const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
   beforeBlur(event) {
     return (
       tooltipRef.value?.isFocusInsideContent(event) ||
-      tagTooltipRef.value?.isFocusInsideContent(event)
+      tagTooltipRef.value?.[0]?.isFocusInsideContent(event)
     )
   },
   afterBlur() {
