@@ -61,6 +61,7 @@ function useWatcher<T extends DefaultRow>(
       'showOverflowTooltip',
       'tooltipFormatter',
     ]
+    const parentProps = ['showOverflowTooltip']
     const aliases: Record<string, string> = {
       property: 'prop',
       align: 'realAlign',
@@ -74,6 +75,16 @@ function useWatcher<T extends DefaultRow>(
           () => props_[columnKey],
           (newVal) => {
             instance.columnConfig.value[key as never] = newVal
+          }
+        )
+      }
+    })
+    parentProps.forEach((key) => {
+      if (hasOwn(owner.value.props, key)) {
+        watch(
+          () => owner.value.props[key],
+          (newVal) => {
+            instance.columnConfig.value[key] = newVal as never
           }
         )
       }
