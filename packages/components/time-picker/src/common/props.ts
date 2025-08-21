@@ -5,6 +5,7 @@ import {
   useEmptyValuesProps,
   useSizeProp,
 } from '@element-plus/hooks'
+import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { CircleClose } from '@element-plus/icons-vue'
 import { disabledTimeListsProps } from '../props/shared'
 
@@ -48,10 +49,11 @@ export const timePickerDefaultProps = buildProps({
   /**
    * @description custom class name for TimePicker's dropdown
    */
-  popperClass: {
-    type: String,
-    default: '',
-  },
+  popperClass: useTooltipContentProps.popperClass,
+  /**
+   * @description custom style for TimePicker's dropdown
+   */
+  popperStyle: useTooltipContentProps.popperStyle,
   /**
    * @description format of the displayed value in the input box
    */

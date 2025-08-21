@@ -87,9 +87,10 @@ describe('Avatar.vue', () => {
     expect(wrapper.vm.hasLoadError).toBe(false)
     await wrapper.setProps({ src: IMAGE_FAIL })
     // wait error event trigger
-    await nextTick()
+    await flushPromises()
     expect(wrapper.vm.hasLoadError).toBe(true)
     await wrapper.setProps({ src: IMAGE_SUCCESS })
+    await flushPromises()
     expect(wrapper.vm.hasLoadError).toBe(false)
     expect(wrapper.find('img').exists()).toBe(true)
   })

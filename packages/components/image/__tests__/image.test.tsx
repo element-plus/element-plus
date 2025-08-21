@@ -244,10 +244,10 @@ describe('Image.vue', () => {
         },
       })
       expect(wrapper.find('.el-image__placeholder').exists()).toBe(true)
-      await doubleWait()
+      await flushPromises()
       expect(wrapper.find('.el-image__inner').exists()).toBe(true)
       expect(wrapper.find('img').exists()).toBe(true)
-      await nextTick()
+      await flushPromises()
       expect(wrapper.find('.el-image__placeholder').exists()).toBe(false)
       expect(wrapper.find('.el-image__error').exists()).toBe(false)
     })
@@ -297,7 +297,7 @@ describe('Image.vue', () => {
         onLoad: handleLoad,
       }
       const wrapper = mount(() => <Image {...props} />)
-      await doubleWait()
+      await flushPromises()
       expect(wrapper.find('.el-image__inner').exists()).toBe(true)
       expect(handleLoad).toBeCalled()
     })
