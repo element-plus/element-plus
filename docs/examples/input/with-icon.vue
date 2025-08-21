@@ -87,14 +87,5 @@ const input4 = ref('')
   .responsive-input {
     width: 100%;
   }
-
-  :deep(.el-input) {
-    width: 100%;
-  }
-
-  :deep(.el-input__wrapper) {
-    width: 100%;
-    max-width: 100%;
-  }
 }
 </style>
