@@ -485,7 +485,6 @@ describe('InputTag.vue', () => {
       ))
 
       const tags = wrapper.findAll('.el-tag')
-      // 应该只显示一个标签和一个数字统计
       expect(tags.length).toBe(2)
       expect(tags[0].text()).toBe('tag1')
       expect(tags[1].text()).toBe('+ 4')
@@ -505,11 +504,9 @@ describe('InputTag.vue', () => {
       expect(tags[0].text()).toBe('tag1')
       expect(tags[1].text()).toBe('+ 4')
 
-      // 模拟鼠标悬停触发 tooltip
       await tags[1].trigger('mouseenter')
       await nextTick()
 
-      // 验证是否有 tooltip 显示额外的标签
       const tooltip = wrapper.findComponent({ name: 'ElTooltip' })
       expect(tooltip.exists()).toBe(true)
     })
@@ -524,7 +521,6 @@ describe('InputTag.vue', () => {
       ))
 
       const tags = wrapper.findAll('.el-tag')
-      // 应该显示3个标签和一个数字统计
       expect(tags.length).toBe(4)
       expect(tags[0].text()).toBe('tag1')
       expect(tags[1].text()).toBe('tag2')
