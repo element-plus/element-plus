@@ -84,12 +84,7 @@ const item: MenuItemRegistered = reactive({
   active,
 })
 
-const handleClick = ($event: Event) => {
-  if ($event.target.tabIndex === -1) {
-    setTimeout(() => {
-      parentMenu.value.subTree.el.focus()
-    })
-  }
+const handleClick = () => {
   if (!props.disabled) {
     rootMenu.handleMenuItemClick({
       index: props.index,

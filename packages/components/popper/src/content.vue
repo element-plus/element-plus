@@ -13,6 +13,7 @@
       :trap-on-focus-in="true"
       :focus-trap-el="contentRef"
       :focus-start-el="focusStartRef"
+      :focus-last-el="focusLastEl"
       @focus-after-trapped="onFocusAfterTrapped"
       @focus-after-released="onFocusAfterReleased"
       @focusin="onFocusInTrap"
