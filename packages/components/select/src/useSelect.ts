@@ -778,7 +778,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   // computed style
   const tagStyle = computed(() => {
     const gapWidth = getGapWidth()
-    const inputSlotWidth = gapWidth + MINIMUM_INPUT_WIDTH
+    const inputSlotWidth = props.filterable ? gapWidth + MINIMUM_INPUT_WIDTH : 0
     const maxWidth =
       collapseItemRef.value && props.maxCollapseTags === 1
         ? states.selectionWidth -
