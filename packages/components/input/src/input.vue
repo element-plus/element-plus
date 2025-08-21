@@ -176,6 +176,7 @@ import {
   debugWarn,
   isClient,
   isObject,
+  rAF,
 } from '@element-plus/utils'
 import {
   useAttrs,
@@ -368,7 +369,7 @@ const createOnceInitResize = (resizeTextarea: () => void) => {
     const isElHidden = textarea.value?.offsetParent === null
     if (!isElHidden) {
       resizeTextarea()
-      isInit = true
+      rAF(() => (isInit = true))
     }
   }
 }
