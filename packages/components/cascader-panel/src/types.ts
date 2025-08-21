@@ -1,7 +1,8 @@
 import type { InjectionKey, VNode } from 'vue'
+import type { Nullable } from '@element-plus/utils'
 import type { default as CascaderNode } from './node'
 
-export type { CascaderNode }
+export type { CascaderNode, Nullable }
 export type CascaderNodeValue = string | number
 export type CascaderNodePathValue = CascaderNodeValue[]
 export type CascaderValue =
@@ -44,8 +45,6 @@ export interface CascaderProps {
   checkOnClickLeaf?: boolean
   showPrefix?: boolean
 }
-
-export type Nullable<T> = null | T
 
 export interface Tag {
   node?: CascaderNode
