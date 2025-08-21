@@ -148,7 +148,8 @@ const unit = 'year'
 const { lang } = useLocale()
 const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
 const isDefaultFormat = inject(
-  ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY
+  ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY,
+  undefined
 ) as any
 const { shortcuts, disabledDate } = pickerBase.props
 const format = toRef(pickerBase.props, 'format')

@@ -133,7 +133,8 @@ const { lang } = useLocale()
 const leftDate = ref(dayjs().locale(lang.value))
 const rightDate = ref(dayjs().locale(lang.value).add(step, unit))
 const isDefaultFormat = inject(
-  ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY
+  ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY,
+  undefined
 ) as any
 const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
 const { shortcuts, disabledDate } = pickerBase.props

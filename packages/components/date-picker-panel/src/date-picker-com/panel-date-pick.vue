@@ -226,6 +226,8 @@ import { ClickOutside as vClickOutside } from '@element-plus/directives'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import {
+  DEFAULT_FORMATS_DATE,
+  DEFAULT_FORMATS_TIME,
   PICKER_BASE_INJECTION_KEY,
   TimePickPanel,
   extractDateFormat,
@@ -276,7 +278,8 @@ const slots = useSlots()
 const { t, lang } = useLocale()
 const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
 const isDefaultFormat = inject(
-  ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY
+  ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY,
+  undefined
 ) as any
 const { shortcuts, disabledDate, cellClassName, defaultTime } = pickerBase.props
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
@@ -576,11 +579,15 @@ const changeToNow = () => {
 }
 
 const timeFormat = computed(() => {
-  return props.timeFormat || extractTimeFormat(props.format)
+  return (
+    props.timeFormat || extractTimeFormat(props.format) || DEFAULT_FORMATS_TIME
+  )
 })
 
 const dateFormat = computed(() => {
-  return props.dateFormat || extractDateFormat(props.format)
+  return (
+    props.dateFormat || extractDateFormat(props.format) || DEFAULT_FORMATS_DATE
+  )
 })
 
 const visibleTime = computed(() => {
