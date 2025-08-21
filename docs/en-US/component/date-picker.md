@@ -139,10 +139,10 @@ interface DateCell {
   end: boolean
   inRange: boolean
   row: number
-  selected?: Dayjs
-  isCurrent?: boolean
+  selected: Dayjs | undefined
+  isCurrent: boolean | undefined
   isSelected: boolean
-  renderText?: string
+  renderText: string | undefined
   start: boolean
   text: number
   timestamp: number
