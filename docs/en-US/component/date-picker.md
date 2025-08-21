@@ -134,7 +134,7 @@ For data details, please refer:
 ```ts
 interface DateCell {
   column: number
-  customClass?: string
+  customClass: string | undefined
   disabled: boolean
   end: boolean
   inRange: boolean
