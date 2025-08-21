@@ -10,7 +10,8 @@
       ref="tooltipRef"
       :visible="dropdownMenuVisible"
       :teleported="teleported"
-      :popper-class="[nsSelect.e('popper'), popperClass]"
+      :popper-class="[nsSelect.e('popper'), popperClass!]"
+      :popper-style="popperStyle"
       :gpu-acceleration="false"
       :stop-popper-mouse-event="false"
       :popper-options="popperOptions"
@@ -97,6 +98,7 @@
                 :effect="effect"
                 placement="bottom"
                 :popper-class="popperClass"
+                :popper-style="popperStyle"
                 :teleported="teleported"
               >
                 <template #default>

@@ -1,6 +1,8 @@
 <template>
-  <el-button plain @click="open">Common VNode</el-button>
-  <el-button plain @click="open1">Dynamic props</el-button>
+  <div class="flex flex-wrap gap-1">
+    <el-button class="!ml-0" plain @click="open">Common VNode</el-button>
+    <el-button class="!ml-0" plain @click="open1">Dynamic props</el-button>
+  </div>
 </template>
 
 <script lang="ts" setup>
