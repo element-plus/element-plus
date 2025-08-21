@@ -4,20 +4,20 @@ import type { FunctionalComponent, Ref } from 'vue'
 import type { TableV2GridProps } from '../grid'
 import type { TableGridInstance } from '../table-grid'
 
-type LeftTableProps = TableV2GridProps & {
+type RightTableProps = TableV2GridProps & {
   rightTableRef: Ref<TableGridInstance | undefined>
 }
 
-const LeftTable: FunctionalComponent<LeftTableProps> = (props, { slots }) => {
+const RightTable: FunctionalComponent<RightTableProps> = (props, { slots }) => {
   if (!props.columns.length) return
 
   const { rightTableRef, ...rest } = props
 
   return (
-    <Table ref={rightTableRef} {...rest}>
+    <Table table-location="right" ref={rightTableRef} {...rest}>
       {slots}
     </Table>
   )
 }
 
-export default LeftTable
+export default RightTable

@@ -14,7 +14,7 @@ const MainTable: FunctionalComponent<MainTableRendererProps> = (
 ) => {
   const { mainTableRef, ...rest } = props
   return (
-    <Table ref={mainTableRef} {...rest}>
+    <Table table-location="main" ref={mainTableRef} {...rest}>
       {slots}
     </Table>
   )
