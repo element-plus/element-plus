@@ -145,8 +145,4 @@ import {
 .red {
   color: var(--el-color-error);
 }
-
-.mb-4 {
-  margin-bottom: 16px;
-}
 </style>

@@ -1,9 +1,9 @@
 <template>
   <el-row :gutter="16">
-    <el-col :xs="24" :sm="12" :md="6" class="mb-4">
+    <el-col :xs="24" :sm="12" :md="6" class="text-center mb-4">
       <el-statistic title="Daily active users" :value="268500" />
     </el-col>
-    <el-col :xs="24" :sm="12" :md="6" class="mb-4">
+    <el-col :xs="24" :sm="12" :md="6" class="text-center mb-4">
       <el-statistic :value="138">
         <template #title>
           <div style="display: inline-flex; align-items: center">
@@ -16,10 +16,10 @@
         <template #suffix>/100</template>
       </el-statistic>
     </el-col>
-    <el-col :xs="24" :sm="12" :md="6" class="mb-4">
+    <el-col :xs="24" :sm="12" :md="6" class="text-center mb-4">
       <el-statistic title="Total Transactions" :value="outputValue" />
     </el-col>
-    <el-col :xs="24" :sm="12" :md="6" class="mb-4">
+    <el-col :xs="24" :sm="12" :md="6" class="text-center mb-4">
       <el-statistic title="Feedback number" :value="562">
         <template #suffix>
           <el-icon style="vertical-align: -0.125em">
@@ -42,12 +42,3 @@ const outputValue = useTransition(source, {
 })
 source.value = 172000
 </script>
-
-<style scoped>
-.el-col {
-  text-align: center;
-}
-.mb-4 {
-  margin-bottom: 16px;
-}
-</style>
