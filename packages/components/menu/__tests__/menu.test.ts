@@ -421,6 +421,7 @@ describe('other', () => {
 
     vi.runAllTimers()
     vi.useRealTimers()
+    vi.clearAllTimers()
 
     expect(onOpen).toHaveBeenCalled()
   })
