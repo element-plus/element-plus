@@ -282,7 +282,7 @@ describe('Image.vue', () => {
       }
       await flushPromises()
       // expect no new error event to be emitted
-      expect(wrapper.emitted('error')?.length).toBe(errorCountBefore)
+      expect(wrapper.emitted('error')?.length || 0).toBe(errorCountBefore)
 
       expect(wrapper.find('.el-image__inner').exists()).toBe(true)
       expect(wrapper.find('img').exists()).toBe(true)

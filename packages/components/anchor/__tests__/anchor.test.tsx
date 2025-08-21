@@ -1,9 +1,27 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, expect, test, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { CHANGE_EVENT } from '@element-plus/constants'
 import Anchor from '../src/anchor.vue'
 import AnchorLink from '../src/anchor-link.vue'
+
+// ignore the slot warning
+const originalWarn = console.warn
+beforeEach(() => {
+  console.warn = (message: string, ...args: any[]) => {
+    if (
+      typeof message === 'string' &&
+      message.includes('Slot "default" invoked outside of the render function')
+    ) {
+      return
+    }
+    originalWarn(message, ...args)
+  }
+})
+
+afterEach(() => {
+  console.warn = originalWarn
+})
 
 let id = 0
 
