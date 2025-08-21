@@ -81,37 +81,22 @@ export function useSize(
       ptgList = ptgList.map((ptg) => (ptg === undefined ? 0 : ptg * scale))
     } else if (emptyCount > 0) {
       // If has empty count, fill the empty count with the average rest
-      const notEmptyPtg = ptgList.reduce<number>(
-        (acc, ptg) => (ptg === undefined ? acc : acc + ptg),
-        0
+      ptgList = assignPtgToEmpty(
+        ptgList,
+        distributablePtg,
+        emptyCount,
+        isNeedFreezeSize,
+        mutatedPanelIndexs
       )
-      const avgRest = (distributablePtg - notEmptyPtg) / emptyCount
-      ptgList = ptgList.map((ptg, index) => {
-        if (isNeedFreezeSize) {
-          const isFreezed = mutatedPanelIndexs.includes(index)
-          if (isFreezed) {
-            return ptg
-          }
-        }
-        return ptg === undefined ? avgRest : ptg
-      })
     } else {
       // If no empty count, scale the rest with the total percentage
-      const notMutatedPtg = ptgList
-        .filter((ptg, index) => !mutatedPanelIndexs.includes(index))
-        .reduce<number>((acc, ptg) => acc + (ptg || 0), 0)
-      const scale = isNeedFreezeSize
-        ? distributablePtg / notMutatedPtg
-        : 1 / totalPtg
-      ptgList = ptgList.map((ptg, index) => {
-        if (isNeedFreezeSize) {
-          const isFreezed = mutatedPanelIndexs.includes(index)
-          if (isFreezed) {
-            return ptg
-          }
-        }
-        return ptg === undefined ? 0 : ptg * scale
-      })
+      ptgList = assignPtgScale(
+        ptgList,
+        mutatedPanelIndexs,
+        isNeedFreezeSize,
+        distributablePtg,
+        totalPtg
+      )
     }
     percentSizes.value = ptgList as number[]
   })
@@ -120,4 +105,52 @@ export function useSize(
   const pxSizes = computed(() => percentSizes.value.map(ptg2px))
 
   return { percentSizes, pxSizes }
+}
+function assignPtgScale(
+  ptgList: (number | undefined)[],
+  mutatedPanelIndexs: number[],
+  isNeedFreezeSize: boolean,
+  distributablePtg: number,
+  totalPtg: number
+) {
+  const notMutatedPtg = ptgList
+    .filter((ptg, index) => !mutatedPanelIndexs.includes(index))
+    .reduce<number>((acc, ptg) => acc + (ptg || 0), 0)
+  const scale = isNeedFreezeSize
+    ? distributablePtg / notMutatedPtg
+    : 1 / totalPtg
+  ptgList = ptgList.map((ptg, index) => {
+    if (isNeedFreezeSize) {
+      const isFreezed = mutatedPanelIndexs.includes(index)
+      if (isFreezed) {
+        return ptg
+      }
+    }
+    return ptg === undefined ? 0 : ptg * scale
+  })
+  return ptgList
+}
+
+function assignPtgToEmpty(
+  ptgList: (number | undefined)[],
+  distributablePtg: number,
+  emptyCount: number,
+  isNeedFreezeSize: boolean,
+  mutatedPanelIndexs: number[]
+) {
+  const notEmptyPtg = ptgList.reduce<number>(
+    (acc, ptg) => (ptg === undefined ? acc : acc + ptg),
+    0
+  )
+  const avgRest = (distributablePtg - notEmptyPtg) / emptyCount
+  ptgList = ptgList.map((ptg, index) => {
+    if (isNeedFreezeSize) {
+      const isFreezed = mutatedPanelIndexs.includes(index)
+      if (isFreezed) {
+        return ptg
+      }
+    }
+    return ptg === undefined ? avgRest : ptg
+  })
+  return ptgList
 }
