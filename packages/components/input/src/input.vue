@@ -367,7 +367,7 @@ const createOnceInitResize = (resizeTextarea: () => void) => {
     if (isInit || !props.autosize) return
     const isElHidden = textarea.value?.offsetParent === null
     if (!isElHidden) {
-      resizeTextarea()
+      setTimeout(resizeTextarea)
       isInit = true
     }
   }
@@ -501,7 +501,7 @@ onMounted(() => {
     )
   }
   setNativeInputValue()
-  setTimeout(resizeTextarea)
+  nextTick(resizeTextarea)
 })
 
 defineExpose({
