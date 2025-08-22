@@ -12,6 +12,7 @@
       :placement="placement"
       :teleported="teleported"
       :popper-class="[nsSelect.e('popper'), popperClass]"
+      :popper-style="popperStyle"
       :popper-options="popperOptions"
       :fallback-placements="fallbackPlacements"
       :effect="effect"
@@ -97,6 +98,7 @@
                 :effect="effect"
                 placement="bottom"
                 :popper-class="popperClass"
+                :popper-style="popperStyle"
                 :teleported="teleported"
               >
                 <template #default>

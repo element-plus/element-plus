@@ -507,8 +507,14 @@ export function createTablePopper<T extends DefaultRow>(
   vm.component!.exposed!.onOpen()
   const scrollContainer = parentNode?.querySelector(`.${ns}-scrollbar__wrap`)
   removePopper = () => {
+    if (vm.component?.exposed?.onClose) {
+      vm.component.exposed.onClose()
+    }
     render(null, container)
-    scrollContainer?.removeEventListener('scroll', removePopper!)
+    const currentRemovePopper = removePopper as RemovePopperFn
+    scrollContainer?.removeEventListener('scroll', currentRemovePopper)
+    currentRemovePopper.trigger = undefined
+    currentRemovePopper.vm = undefined
     removePopper = null
   }
   removePopper.trigger = trigger ?? undefined

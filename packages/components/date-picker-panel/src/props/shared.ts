@@ -23,8 +23,12 @@ export type RangeState = {
 }
 
 export type DisabledDateType = (date: Date) => boolean
+export type CellClassNameType = (date: Date) => string
 
 export const datePickerSharedProps = buildProps({
+  cellClassName: {
+    type: definePropType<CellClassNameType>(Function),
+  },
   disabledDate: {
     type: definePropType<DisabledDateType>(Function),
   },

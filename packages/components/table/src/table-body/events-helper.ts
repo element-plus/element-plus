@@ -125,6 +125,9 @@ function useEvents<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
     }
 
     if (!tooltipOptions) {
+      if (removePopper?.trigger === cell) {
+        removePopper?.()
+      }
       return
     }
 
