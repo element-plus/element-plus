@@ -31,6 +31,7 @@
             loop
             :trapped="visible"
             focus-start-el="container"
+            :focus-on-last-el="focusOnLastEl"
             @focus-after-trapped="onOpenAutoFocus"
             @focus-after-released="onCloseAutoFocus"
             @focusout-prevented="onFocusoutPrevented"

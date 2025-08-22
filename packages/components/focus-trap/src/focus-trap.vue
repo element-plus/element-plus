@@ -50,7 +50,9 @@ export default defineComponent({
       type: [Object, String] as PropType<'container' | 'first' | HTMLElement>,
       default: 'first',
     },
-    // should focus on the previously focused element #21783
+    /**
+     * @description should focus on the previously focused element #21783
+     */
     focusOnLastEl: {
       type: Boolean,
       default: true,

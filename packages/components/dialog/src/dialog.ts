@@ -139,6 +139,13 @@ export const dialogProps = buildProps({
     type: definePropType<DialogTransition>([String, Object]),
     default: undefined,
   },
+  /**
+   * @description should focus on the previously focused element
+   */
+  focusOnLastEl: {
+    type: Boolean,
+    default: true,
+  },
 } as const)
 
 export type DialogProps = ExtractPropTypes<typeof dialogProps>
