@@ -180,7 +180,7 @@ import {
 } from 'vue'
 import { debounce } from 'lodash-unified'
 import { Mousewheel } from '@element-plus/directives'
-import { useLocale, useNamespace } from '@element-plus/hooks'
+import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import { createStore } from './store/helper'
 import TableLayout from './table-layout'
@@ -234,6 +234,18 @@ export default defineComponent({
     'scroll',
   ],
   setup(props) {
+    useDeprecated(
+      {
+        from: 'Customizing cell content via the default slot',
+        replacement: 'the cell slot',
+        version: '3.0.0',
+        scope: 'el-table',
+        type: 'Slot',
+        ref: 'https://element-plus.org/en-US/component/table.html',
+      },
+      computed(() => !props.cellSlot)
+    )
+
     type Row = typeof props.data[number]
     const { t } = useLocale()
     const ns = useNamespace('table')

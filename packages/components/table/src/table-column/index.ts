@@ -10,13 +10,7 @@ import {
   ref,
 } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
-import {
-  ShapeFlags,
-  debugWarn,
-  isArray,
-  isString,
-  isUndefined,
-} from '@element-plus/utils'
+import { ShapeFlags, isArray, isString, isUndefined } from '@element-plus/utils'
 import { cellStarts } from '../config'
 import { compose, mergeOptions } from '../util'
 import useWatcher from './watcher-helper'
@@ -237,12 +231,6 @@ export default defineComponent({
       const vnode = h('div', children)
       return vnode
     } catch {
-      debugWarn(
-        'el-table-column',
-        `[Slot] customizing cell content via the default slot will be removed in version 3.0.0. Please use the cell slot instead.
-         For more detail, please visit: https://element-plus.org/en-US/component/table.html
-        `
-      )
       return h('div', [])
     }
   },
