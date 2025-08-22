@@ -1378,11 +1378,11 @@ app.component(ElCollapseTransition.name, ElCollapseTransition)
   <div>
     <el-button @click="show = !show">Click Me</el-button>
 
-    <div style="margin-top: 20px">
+    <div style="margin-top: 20px; height: 210px">
       <el-collapse-transition>
-        <div v-show="show" style="height: 400px">
+        <div v-show="show">
           <div class="transition-box">el-collapse-transition</div>
-          <div class="transition-box">el-collapse-transition</div>
+          <div class="transition-box mt-[10px]">el-collapse-transition</div>
         </div>
       </el-collapse-transition>
     </div>
@@ -1395,18 +1395,16 @@ import { ref } from 'vue'
 const show = ref(true)
 </script>
 
-<style>
+<style scoped>
 .transition-box {
-  margin-bottom: 10px;
   width: 200px;
   height: 100px;
-  border-radius: 4px;
-  background-color: #409eff;
+  border-radius: var(--el-border-radius-base);
+  background-color: var(--el-color-primary);
   text-align: center;
   color: #fff;
   padding: 40px 20px;
   box-sizing: border-box;
-  margin-right: 20px;
 }
 </style>
 
@@ -1418,7 +1416,7 @@ const show = ref(true)
   <div>
     <el-button @click="show = !show">Click Me</el-button>
 
-    <div style="display: flex; margin-top: 20px; height: 100px">
+    <div class="fade-container">
       <transition name="el-fade-in-linear">
         <div v-show="show" class="transition-box">.el-fade-in-linear</div>
       </transition>
@@ -1435,18 +1433,24 @@ import { ref } from 'vue'
 const show = ref(true)
 </script>
 
-<style>
+<style scoped>
+.fade-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  min-height: 100px;
+  margin-top: 20px;
+}
+
 .transition-box {
-  margin-bottom: 10px;
   width: 200px;
   height: 100px;
-  border-radius: 4px;
-  background-color: #409eff;
+  border-radius: var(--el-border-radius-base);
+  background-color: var(--el-color-primary);
   text-align: center;
   color: #fff;
   padding: 40px 20px;
   box-sizing: border-box;
-  margin-right: 20px;
 }
 </style>
 
@@ -1458,7 +1462,7 @@ const show = ref(true)
   <div>
     <el-button @click="show = !show">Click Me</el-button>
 
-    <div style="display: flex; margin-top: 20px; height: 100px">
+    <div class="transition-container">
       <transition name="el-zoom-in-left">
         <div v-show="show" class="transition-box">.el-zoom-in-left</div>
       </transition>
@@ -1484,18 +1488,29 @@ import { ref } from 'vue'
 const show = ref(true)
 </script>
 
-<style>
+<style scoped>
+.transition-container {
+  display: flex;
+  margin-top: 20px;
+  min-height: 100px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
 .transition-box {
-  margin-bottom: 10px;
   width: 200px;
   height: 100px;
-  border-radius: 4px;
-  background-color: #409eff;
+  border-radius: var(--el-border-radius-base);
+  background-color: var(--el-color-primary);
   text-align: center;
   color: #fff;
-  padding: 40px 20px;
+  padding: 20px;
   box-sizing: border-box;
-  margin-right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  word-break: break-word;
+  font-size: 14px;
 }
 </style>
 
@@ -2532,30 +2547,26 @@ onMounted(() => {
 ### autocomplete.vue
 ```vue
 <template>
-  <div class="flex gap-4">
-    <div>
-      <div class="sub-title my-2 text-sm text-gray-600">
-        list suggestions when activated
-      </div>
+  <div class="demo-autocomplete">
+    <div class="demo-block">
+      <div class="demo-title">list suggestions when activated</div>
       <el-autocomplete
         v-model="state1"
         :fetch-suggestions="querySearch"
         clearable
-        class="inline-input w-50"
+        class="w-50"
         placeholder="Please Input"
         @select="handleSelect"
       />
     </div>
-    <div>
-      <div class="sub-title my-2 text-sm text-gray-600">
-        list suggestions on input
-      </div>
+    <div class="demo-block">
+      <div class="demo-title">list suggestions on input</div>
       <el-autocomplete
         v-model="state2"
         :fetch-suggestions="querySearch"
         :trigger-on-focus="false"
         clearable
-        class="inline-input w-50"
+        class="w-50"
         placeholder="Please Input"
         @select="handleSelect"
       />
@@ -2609,6 +2620,38 @@ onMounted(() => {
   restaurants.value = loadAll()
 })
 </script>
+
+<style scoped>
+.demo-autocomplete {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.demo-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.demo-title {
+  font-size: 0.875rem;
+  color: var(--el-text-color-secondary);
+  min-height: 2.5em;
+  display: flex;
+  align-items: center;
+}
+
+@media screen and (max-width: 768px) {
+  .demo-autocomplete {
+    gap: 1rem;
+  }
+
+  .demo-block {
+    width: 100%;
+  }
+}
+</style>
 
 ```
 
@@ -2726,12 +2769,13 @@ const handleClear = () => {
 ### custom-loading.vue
 ```vue
 <template>
-  <div class="flex gap-4">
-    <div>
-      <div class="sub-title my-2 text-sm text-gray-600">loading icon1</div>
+  <div class="demo-autocomplete">
+    <div class="demo-block">
+      <div class="demo-title">loading icon1</div>
       <el-autocomplete
         v-model="state"
         :fetch-suggestions="querySearchAsync"
+        class="w-50"
         placeholder="Please input"
         @select="handleSelect"
       >
@@ -2742,11 +2786,12 @@ const handleClear = () => {
         </template>
       </el-autocomplete>
     </div>
-    <div>
-      <div class="sub-title my-2 text-sm text-gray-600">loading icon2</div>
+    <div class="demo-block">
+      <div class="demo-title">loading icon2</div>
       <el-autocomplete
         v-model="state"
         :fetch-suggestions="querySearchAsync"
+        class="w-50"
         placeholder="Please input"
         @select="handleSelect"
       >
@@ -2822,6 +2867,37 @@ onMounted(() => {
   links.value = loadAll()
 })
 </script>
+
+<style scoped>
+.demo-autocomplete {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.demo-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.demo-title {
+  font-size: 0.875rem;
+  color: var(--el-text-color-secondary);
+  min-height: 2.5em;
+  display: flex;
+  align-items: center;
+}
+
+@media screen and (max-width: 768px) {
+  .demo-autocomplete {
+    gap: 1rem;
+  }
+  .demo-block {
+    width: 100%;
+  }
+}
+</style>
 
 <style>
 .circular {
@@ -3024,7 +3100,7 @@ Set how the image fit its container for an image avatar, same as [object-fit](ht
 ```vue
 <template>
   <el-row class="demo-avatar demo-basic">
-    <el-col :span="12">
+    <el-col :lg="12" :md="12">
       <div class="sub-title">circle</div>
       <div class="demo-basic--circle">
         <div class="block">
@@ -3035,7 +3111,7 @@ Set how the image fit its container for an image avatar, same as [object-fit](ht
         </div>
       </div>
     </el-col>
-    <el-col :span="12">
+    <el-col :lg="12" :md="12">
       <div class="sub-title">square</div>
       <div class="demo-basic--circle">
         <div class="block">
@@ -3086,6 +3162,11 @@ const { circleUrl, squareUrl, sizeList } = toRefs(state)
 }
 .demo-basic .el-col:not(:last-child) {
   border-right: 1px solid var(--el-border-color);
+}
+@media screen and (max-width: 992px) {
+  .demo-basic .el-col:not(:last-child) {
+    border-right: none;
+  }
 }
 </style>
 
@@ -3932,40 +4013,42 @@ We will calculate hover color & active color automatically.
 ### basic.vue
 ```vue
 <template>
-  <div class="mb-4">
-    <el-button>Default</el-button>
-    <el-button type="primary">Primary</el-button>
-    <el-button type="success">Success</el-button>
-    <el-button type="info">Info</el-button>
-    <el-button type="warning">Warning</el-button>
-    <el-button type="danger">Danger</el-button>
-  </div>
+  <div class="button-example">
+    <div class="button-row">
+      <el-button>Default</el-button>
+      <el-button type="primary">Primary</el-button>
+      <el-button type="success">Success</el-button>
+      <el-button type="info">Info</el-button>
+      <el-button type="warning">Warning</el-button>
+      <el-button type="danger">Danger</el-button>
+    </div>
 
-  <div class="mb-4">
-    <el-button plain>Plain</el-button>
-    <el-button type="primary" plain>Primary</el-button>
-    <el-button type="success" plain>Success</el-button>
-    <el-button type="info" plain>Info</el-button>
-    <el-button type="warning" plain>Warning</el-button>
-    <el-button type="danger" plain>Danger</el-button>
-  </div>
+    <div class="button-row">
+      <el-button plain>Plain</el-button>
+      <el-button type="primary" plain>Primary</el-button>
+      <el-button type="success" plain>Success</el-button>
+      <el-button type="info" plain>Info</el-button>
+      <el-button type="warning" plain>Warning</el-button>
+      <el-button type="danger" plain>Danger</el-button>
+    </div>
 
-  <div class="mb-4">
-    <el-button round>Round</el-button>
-    <el-button type="primary" round>Primary</el-button>
-    <el-button type="success" round>Success</el-button>
-    <el-button type="info" round>Info</el-button>
-    <el-button type="warning" round>Warning</el-button>
-    <el-button type="danger" round>Danger</el-button>
-  </div>
+    <div class="button-row">
+      <el-button round>Round</el-button>
+      <el-button type="primary" round>Primary</el-button>
+      <el-button type="success" round>Success</el-button>
+      <el-button type="info" round>Info</el-button>
+      <el-button type="warning" round>Warning</el-button>
+      <el-button type="danger" round>Danger</el-button>
+    </div>
 
-  <div>
-    <el-button :icon="Search" circle />
-    <el-button type="primary" :icon="Edit" circle />
-    <el-button type="success" :icon="Check" circle />
-    <el-button type="info" :icon="Message" circle />
-    <el-button type="warning" :icon="Star" circle />
-    <el-button type="danger" :icon="Delete" circle />
+    <div class="button-row">
+      <el-button :icon="Search" circle />
+      <el-button type="primary" :icon="Edit" circle />
+      <el-button type="success" :icon="Check" circle />
+      <el-button type="info" :icon="Message" circle />
+      <el-button type="warning" :icon="Star" circle />
+      <el-button type="danger" :icon="Delete" circle />
+    </div>
   </div>
 </template>
 
@@ -3979,6 +4062,25 @@ import {
   Star,
 } from '@element-plus/icons-vue'
 </script>
+
+<style scoped>
+.button-example {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+.button-row > * {
+  margin: 0;
+}
+</style>
 
 ```
 
@@ -4005,24 +4107,45 @@ import { isDark } from '~/composables/dark'
 ### disabled.vue
 ```vue
 <template>
-  <div class="mb-4">
-    <el-button disabled>Default</el-button>
-    <el-button type="primary" disabled>Primary</el-button>
-    <el-button type="success" disabled>Success</el-button>
-    <el-button type="info" disabled>Info</el-button>
-    <el-button type="warning" disabled>Warning</el-button>
-    <el-button type="danger" disabled>Danger</el-button>
-  </div>
+  <div class="button-example">
+    <div class="button-row">
+      <el-button disabled>Default</el-button>
+      <el-button type="primary" disabled>Primary</el-button>
+      <el-button type="success" disabled>Success</el-button>
+      <el-button type="info" disabled>Info</el-button>
+      <el-button type="warning" disabled>Warning</el-button>
+      <el-button type="danger" disabled>Danger</el-button>
+    </div>
 
-  <div>
-    <el-button plain disabled>Plain</el-button>
-    <el-button type="primary" plain disabled>Primary</el-button>
-    <el-button type="success" plain disabled>Success</el-button>
-    <el-button type="info" plain disabled>Info</el-button>
-    <el-button type="warning" plain disabled>Warning</el-button>
-    <el-button type="danger" plain disabled>Danger</el-button>
+    <div class="button-row">
+      <el-button plain disabled>Plain</el-button>
+      <el-button type="primary" plain disabled>Primary</el-button>
+      <el-button type="success" plain disabled>Success</el-button>
+      <el-button type="info" plain disabled>Info</el-button>
+      <el-button type="warning" plain disabled>Warning</el-button>
+      <el-button type="danger" plain disabled>Danger</el-button>
+    </div>
   </div>
 </template>
+
+<style scoped>
+.button-example {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+.button-row > * {
+  margin: 0;
+}
+</style>
 
 ```
 
@@ -4952,6 +5075,12 @@ Set `clearable` attribute for `el-cascader` and a clear icon will appear when se
 
 
 
+## Custom Clear Icon ^(2.11.0)
+
+You can customize the clear icon by setting the `clear-icon` attribute
+
+
+
 ## Display only the last level
 
 The input can display only the last level instead of all levels.
@@ -5062,6 +5191,7 @@ You can customize both the header and footer of the dropdown using slots.
 | placeholder                                | placeholder of input                                                                                                                                                             | ^[string]                                                                                                                                                                   | —            |
 | disabled                                   | whether Cascader is disabled                                                                                                                                                     | ^[boolean]                                                                                                                                                                  | —            |
 | clearable                                  | whether selected value can be cleared                                                                                                                                            | ^[boolean]                                                                                                                                                                  | —            |
+| clear-icon ^(2.11.0)                       | custom clear icon component                                                                                                                                                      | ^[string] / ^[object]`Component`                                                                                                                                            | CircleClose  |
 | show-all-levels                            | whether to display all levels of the selected value in the input                                                                                                                 | ^[boolean]                                                                                                                                                                  | true         |
 | collapse-tags                              | whether to collapse tags in multiple selection mode                                                                                                                              | ^[boolean]                                                                                                                                                                  | —            |
 | collapse-tags-tooltip                      | whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true                                                                 | ^[boolean]                                                                                                                                                                  | false        |
@@ -5072,6 +5202,7 @@ You can customize both the header and footer of the dropdown using slots.
 | debounce                                   | debounce delay when typing filter keyword, in milliseconds                                                                                                                       | ^[number]                                                                                                                                                                   | 300          |
 | before-filter                              | hook function before filtering with the value to be filtered as its parameter. If `false` is returned or a `Promise` is returned and then is rejected, filtering will be aborted | ^[Function]`(value: string) => boolean`                                                                                                                                     | —            |
 | popper-class                               | custom class name for Cascader's dropdown                                                                                                                                        | ^[string]                                                                                                                                                                   | ''           |
+| popper-style                               | custom style for Cascader's dropdown                                                                                                                                             | ^[string] / ^[object]                                                                                                                                                       | —            |
 | teleported                                 | whether cascader popup is teleported                                                                                                                                             | ^[boolean]                                                                                                                                                                  | true         |
 | effect ^(2.10.5)                           | tooltip theme, built-in theme: `dark` / `light`                                                                                                                                  | ^[enum]`'dark' \| 'light'` / ^[string]                                                                                                                                      | light        |
 | tag-type                                   | tag type                                                                                                                                                                         | ^[enum]`'success' \| 'info' \| 'warning' \| 'danger'`                                                                                                                       | info         |
@@ -5983,6 +6114,36 @@ const options = [
       {
         value: 'axure',
         label: 'Axure Components',
+      },
+    ],
+  },
+]
+</script>
+
+```
+
+### clear-icon.vue
+```vue
+<template>
+  <el-cascader
+    :options="options"
+    clearable
+    :clear-icon="CloseBold"
+    placeholder="Custom clear icon"
+  />
+</template>
+
+<script lang="ts" setup>
+import { CloseBold } from '@element-plus/icons-vue'
+
+const options = [
+  {
+    value: 'guide',
+    label: 'Guide',
+    children: [
+      {
+        value: 'disciplines',
+        label: 'Disciplines',
       },
     ],
   },
@@ -9424,6 +9585,187 @@ const beforeCollapse = (): Promise<boolean> => {
 
 
 ---
+Title: ColorPickerPanel
+URL: https://element-plus.org/en-US/component/color-picker-panel
+---
+
+# ColorPickerPanel ^(beta)
+
+`ColorPickerPanel` is the core component of `ColorPicker`.
+
+## Basic usage
+
+
+
+## Alpha
+
+
+
+## Predefined colors
+
+
+
+## Border
+
+By default the color-picker-panel is bordered but in some case you don't want it.
+
+
+
+## Disabled
+
+The `disabled` attribute determines if the color picker is fully disabled.
+
+
+
+## API
+
+### Attributes
+
+| Name                  | Description                          | Type                                                                                                             | Default |
+| --------------------- | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------- | ------- |
+| model-value / v-model | binding value                        | ^[string]                                                                                                        | —       |
+| border                | whether the color picker is bordered | ^[boolean]                                                                                                       | true    |
+| disabled              | whether to disable the color picker  | ^[boolean]                                                                                                       | false   |
+| show-alpha            | whether to display the alpha slider  | ^[boolean]                                                                                                       | false   |
+| color-format          | color format of v-model              | ^[enum]`'hsl' \| 'hsv' \| 'hex' \| 'rgb' \| 'hex' (when show-alpha is false) \| 'rgb' (when show-alpha is true)` | —       |
+| predefine             | predefined color options             | ^[object]`string[]`                                                                                              | —       |
+
+### Exposes
+
+| Name     | Description          | Type                     |
+| -------- | -------------------- | ------------------------ |
+| color    | current color object | ^[object]`Color`         |
+| inputRef | custom input ref     | ^[object]`InputInstance` |
+
+## Vue Examples
+
+### alpha.vue
+```vue
+<template>
+  <el-color-picker-panel v-model="color" show-alpha />
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const color = ref('rgba(19, 206, 102, 0.8)')
+</script>
+
+```
+
+### basic.vue
+```vue
+<template>
+  <el-color-picker-panel v-model="color" />
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const color = ref('#409EFF')
+</script>
+
+```
+
+### border.vue
+```vue
+<template>
+  <div ref="containerRef">
+    <div class="text-center">No border:</div>
+    <el-divider />
+    <div class="flex flex-wrap justify-center gap-4">
+      <div class="p-5">
+        <el-color-picker-panel v-model="value" :border="false" />
+      </div>
+      <el-divider
+        class="h-auto"
+        :direction="isNarrow ? 'horizontal' : 'vertical'"
+      />
+      <el-card>
+        <el-color-picker-panel v-model="value" :border="false" />
+      </el-card>
+    </div>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { computed, ref } from 'vue'
+import { useElementSize } from '@vueuse/core'
+
+const value = ref('#ff6900')
+const containerRef = ref<HTMLElement>()
+
+const { width } = useElementSize(containerRef)
+
+const isNarrow = computed(() => width.value < 815)
+</script>
+
+```
+
+### disabled.vue
+```vue
+<template>
+  <el-color-picker-panel
+    v-model="color"
+    disabled
+    show-alpha
+    :predefine="predefineColors"
+  />
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const color = ref('#ff6900')
+const predefineColors = [
+  '#ff4500',
+  '#ff8c00',
+  '#ffd700',
+  '#90ee90',
+  '#00ced1',
+  '#1e90ff',
+  '#c71585',
+]
+</script>
+
+```
+
+### predefined-color.vue
+```vue
+<template>
+  <el-color-picker-panel
+    v-model="color"
+    show-alpha
+    :predefine="predefineColors"
+  />
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const color = ref('rgba(255, 69, 0, 0.68)')
+const predefineColors = [
+  '#ff4500',
+  '#ff8c00',
+  '#ffd700',
+  '#90ee90',
+  '#00ced1',
+  '#1e90ff',
+  '#c71585',
+  'rgba(255, 69, 0, 0.68)',
+  'rgb(255, 120, 0)',
+  'hsv(51, 100, 98)',
+  'hsva(120, 40, 94, 0.5)',
+  'hsl(181, 100%, 37%)',
+  'hsla(209, 100%, 56%, 0.73)',
+  '#c7158577',
+]
+</script>
+
+```
+
+
+---
 Title: ColorPicker
 URL: https://element-plus.org/en-US/component/color-picker
 ---
@@ -9583,7 +9925,7 @@ const predefineColors = ref([
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-const color = ref('409EFF')
+const color = ref('#409EFF')
 </script>
 
 <style>
@@ -9765,6 +10107,7 @@ In this section, you can learn how to use Config Provider to provide experimenta
 | type ^(2.9.11)  | button type, when setting `color`, the latter prevails                                                                                               | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'text' (deprecated)` | —       |
 | autoInsertSpace | automatically insert a space between two chinese characters(this will only take effect when the text length is 2 and all characters are in Chinese.) | ^[boolean]                                                                                | false   |
 | plain ^(2.9.11) | determine whether it's a plain button                                                                                                                | ^[boolean]                                                                                | false   |
+| text ^(2.11.0)  | determine whether it's a text button                                                                                                                 | ^[boolean]                                                                                | false   |
 | round ^(2.9.11) | determine whether it's a round button                                                                                                                | ^[boolean]                                                                                | false   |
 
 ### Link Attribute
@@ -9791,14 +10134,15 @@ In this section, you can learn how to use Config Provider to provide experimenta
 
 ### Message Attribute
 
-| Attribute          | Description                                                                    | Type       | Default |
-| ------------------ | ------------------------------------------------------------------------------ | ---------- | ------- |
-| max                | the maximum number of messages that can be displayed at the same time          | ^[number]  | —       |
-| grouping ^(2.8.2)  | merge messages with the same content, type of VNode message is not supported   | ^[boolean] | —       |
-| duration ^(2.8.2)  | display duration, millisecond. If set to 0, it will not turn off automatically | ^[number]  | —       |
-| showClose ^(2.8.2) | whether to show a close button                                                 | ^[boolean] | —       |
-| offset ^(2.8.2)    | set the distance to the top of viewport                                        | ^[number]  | —       |
-| plain ^(2.9.11)    | whether message is plain                                                       | ^[boolean] | —       |
+| Attribute           | Description                                                                    | Type                                                                                       | Default |
+| ------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------- |
+| max                 | the maximum number of messages that can be displayed at the same time          | ^[number]                                                                                  | —       |
+| grouping ^(2.8.2)   | merge messages with the same content, type of VNode message is not supported   | ^[boolean]                                                                                 | —       |
+| duration ^(2.8.2)   | display duration, millisecond. If set to 0, it will not turn off automatically | ^[number]                                                                                  | —       |
+| showClose ^(2.8.2)  | whether to show a close button                                                 | ^[boolean]                                                                                 | —       |
+| offset ^(2.8.2)     | set the distance to the top of viewport                                        | ^[number]                                                                                  | —       |
+| plain ^(2.9.11)     | whether message is plain                                                       | ^[boolean]                                                                                 | —       |
+| placement ^(2.11.0) | message placement position                                                     | ^[enum]`'top' \| 'top-left' \| 'top-right' \| 'bottom' \| 'bottom-left' \| 'bottom-right'` | —       |
 
 ### Config Provider Slots
 
@@ -9818,6 +10162,7 @@ In this section, you can learn how to use Config Provider to provide experimenta
       </el-checkbox>
       <el-checkbox v-model="config.plain"> plain </el-checkbox>
       <el-checkbox v-model="config.round"> round </el-checkbox>
+      <el-checkbox v-model="config.text"> text </el-checkbox>
       <el-select v-model="config.type" class="ml-5" style="max-width: 150px">
         <el-option
           v-for="type in buttonTypes.filter(Boolean)"
@@ -9842,6 +10187,7 @@ const config = reactive({
   type: 'default',
   plain: true,
   round: true,
+  text: false,
 })
 </script>
 
@@ -10226,9 +10572,11 @@ import { ElMessage } from 'element-plus'
 const config = reactive({
   max: 3,
   plain: true,
+  placement: 'bottom',
 })
+
 const open = () => {
-  ElMessage('This is a message.')
+  ElMessage('This is a message from bottom.')
 }
 </script>
 
@@ -10619,6 +10967,231 @@ const tableData = ref(Array.from({ length: 20 }).fill(item))
 
 
 ---
+Title: DatePickerPanel
+URL: https://element-plus.org/en-US/component/date-picker-panel
+---
+
+# DatePickerPanel ^(beta)
+
+`DatePickerPanel` is the core component of `DatePicker`.
+
+## Enter Date
+
+Basic date picker measured by 'day'.
+
+
+
+## Border
+
+By default the date-picker-panel is bordered but in some case you don't want it.
+For example `DatePicker` don't inherit `border`.
+
+
+
+## Disabled
+
+The `disabled` attribute determines if the date picker is fully disabled.
+
+
+
+## Types
+
+The measurement is determined by the `type` attribute.
+
+
+
+## Localization
+
+The default locale of is English, if you need to use other languages, please check [Internationalization](/en-US/guide/i18n)
+
+Note, date time locale (month name, first day of the week ...) are also configured in localization.
+
+## API
+
+### Attributes
+
+| Name                  | Description                                                                                           | Type                                                                                                                                                           | Default    |
+| --------------------- | ----------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| model-value / v-model | binding value, if it is an array, the length should be 2                                              | ^[number] / ^[string] / ^[object]`Date \| [Date, Date] \| [string, string]`                                                                                    | ''         |
+| border                | whether the date picker is bordered                                                                   | ^[boolean]                                                                                                                                                     | true       |
+| disabled              | whether DatePicker is disabled                                                                        | ^[boolean]                                                                                                                                                     | false      |
+| clearable             | whether to show clear button                                                                          | ^[boolean]                                                                                                                                                     | true       |
+| type                  | type of the picker                                                                                    | ^[enum]`'year' \| 'years' \|'month' \| 'months' \| 'date' \| 'dates' \| 'datetime' \| 'week' \| 'datetimerange' \| 'daterange' \| 'monthrange' \| 'yearrange'` | date       |
+| default-value         | optional, default date of the calendar                                                                | ^[object]`Date \| [Date, Date]`                                                                                                                                | —          |
+| default-time          | optional, the time value to use when selecting date range                                             | ^[object]`Date \| [Date, Date]`                                                                                                                                | —          |
+| value-format          | optional, format of binding value. If not specified, the binding value will be a Date object          | ^[string]                                                                                                                                                      | —          |
+| date-format           | optional, format of the date displayed in input's inner panel                                         | ^[string] see [date formats](https://day.js.org/docs/en/display/format)                                                                                        | YYYY-MM-DD |
+| time-format           | optional, format of the time displayed in input's inner panel                                         | ^[string] see [date formats](https://day.js.org/docs/en/display/format)                                                                                        | HH:mm:ss   |
+| unlink-panels         | unlink two date-panels in range-picker                                                                | ^[boolean]                                                                                                                                                     | false      |
+| disabled-date         | a function determining if a date is disabled with that date as its parameter. Should return a Boolean | ^[Function]`(data: Date) => boolean`                                                                                                                           | —          |
+| shortcuts             | an object array to set shortcut options                                                               | ^[object]`Array<{ text: string, value: Date \| Function }>`                                                                                                    | []         |
+| cell-class-name       | set custom className                                                                                  | ^[Function]`(data: Date) => string`                                                                                                                            | —          |
+| show-footer           | whether to show footer                                                                                | ^[boolean]                                                                                                                                                     | false      |
+| show-confirm          | whether to show the confirm button                                                                    | ^[boolean]                                                                                                                                                     | false      |
+| show-week-number      | show the week number besides the week                                                                 | ^[boolean]                                                                                                                                                     | false      |
+
+### Events
+
+| Name            | Description                                                           | Type                                                                                      |
+| --------------- | --------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| calendar-change | triggers when the calendar selected date is changed. Only for `range` | ^[Function]`(val: [Date, null \| Date]) => void`                                          |
+| panel-change    | triggers when the navigation button click.                            | ^[Function]`(date: Date \| [Date, Date], mode: 'month' \| 'year', view?: string) => void` |
+
+### Slots
+
+| Name       | Description         |
+| ---------- | ------------------- |
+| default    | custom cell content |
+| prev-month | prev month icon     |
+| next-month | next month icon     |
+| prev-year  | prev year icon      |
+| next-year  | next year icon      |
+
+## Vue Examples
+
+### all-types.vue
+```vue
+<template>
+  <div>
+    <div class="flex gap-4">
+      <div class="flex flex-col basis-150px gap-1">
+        <span>Type:</span>
+        <el-select v-model="type">
+          <el-option
+            v-for="optionType in types"
+            :key="optionType"
+            :value="optionType"
+          />
+        </el-select>
+      </div>
+    </div>
+    <el-divider />
+    <div class="flex justify-center">
+      <el-date-picker-panel v-model="date" :type="type" />
+    </div>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { ref, watch } from 'vue'
+
+import type { DatePickerType } from 'element-plus'
+
+const date = ref()
+const type = ref<DatePickerType>('date')
+
+watch(type, () => {
+  date.value = undefined
+})
+
+const types: DatePickerType[] = [
+  'year',
+  'years',
+  'month',
+  'months',
+  'date',
+  'dates',
+  'week',
+  'datetime',
+  'datetimerange',
+  'daterange',
+  'monthrange',
+  'yearrange',
+]
+</script>
+
+```
+
+### basic.vue
+```vue
+<template>
+  <div class="flex justify-center">
+    <el-date-picker-panel v-model="value" />
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const value = ref()
+</script>
+
+```
+
+### border.vue
+```vue
+<template>
+  <div
+    ref="containerRef"
+    :class="['date-picker--example', { 'is-narrow': isNarrow }]"
+  >
+    <div class="text-center">No border:</div>
+    <el-divider />
+    <div class="date-picker--flex-container">
+      <div class="p-[20px]">
+        <el-date-picker-panel v-model="value" :border="false" />
+      </div>
+      <el-divider
+        class="divider"
+        :direction="isNarrow ? 'horizontal' : 'vertical'"
+      />
+      <el-card>
+        <el-date-picker-panel v-model="value" :border="false" />
+      </el-card>
+    </div>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { computed, ref } from 'vue'
+import { useElementSize } from '@vueuse/core'
+
+const value = ref()
+const containerRef = ref<HTMLElement>()
+
+const { width } = useElementSize(containerRef)
+
+const isNarrow = computed(() => width.value < 815)
+</script>
+
+<style scoped>
+.date-picker--flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+}
+.divider {
+  height: auto;
+}
+</style>
+
+```
+
+### disabled.vue
+```vue
+<template>
+  <div class="flex flex-col items-center">
+    <el-switch
+      v-model="disabled"
+      active-text="Disabled"
+      inactive-text="Enabled"
+    />
+    <el-date-picker-panel v-model="value" :disabled="disabled" />
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const value = ref()
+const disabled = ref(true)
+</script>
+
+```
+
+
+---
 Title: DatePicker
 URL: https://element-plus.org/en-US/component/date-picker
 ---
@@ -10706,14 +11279,15 @@ For data details, please refer:
 ```ts
 interface DateCell {
   column: number
-  customClass: string
+  customClass: string | undefined
   disabled: boolean
   end: boolean
   inRange: boolean
   row: number
-  selected: Dayjs
-  isCurrent: boolean
+  selected: Dayjs | undefined
+  isCurrent: boolean | undefined
   isSelected: boolean
+  renderText: string | undefined
   start: boolean
   text: number
   timestamp: number
@@ -10747,6 +11321,7 @@ Note, date time locale (month name, first day of the week ...) are also configur
 | type                         | type of the picker                                                                                                           | ^[enum]`'year' \| 'years' \|'month' \| 'months' \| 'date' \| 'dates' \| 'datetime' \| 'week' \| 'datetimerange' \| 'daterange' \| 'monthrange' \| 'yearrange'` | date          |
 | format                       | format of the displayed value in the input box                                                                               | ^[string] see [date formats](/en-US/component/date-picker#date-formats)                                                                                        | YYYY-MM-DD    |
 | popper-class                 | custom class name for DatePicker's dropdown                                                                                  | ^[string]                                                                                                                                                      | —             |
+| popper-style                 | custom style for DatePicker's dropdown                                                                                       | ^[string] / ^[object]                                                                                                                                          | —             |
 | popper-options               | Customized popper option see more at [popper.js](https://popper.js.org/docs/v2/)                                             | ^[object]`Partial<PopperOptions>`                                                                                                                              | {}            |
 | range-separator              | range separator                                                                                                              | ^[string]                                                                                                                                                      | '-'           |
 | default-value                | optional, default date of the calendar                                                                                       | ^[object]`Date \| [Date, Date]`                                                                                                                                | —             |
@@ -10767,6 +11342,7 @@ Note, date time locale (month name, first day of the week ...) are also configur
 | fallback-placements ^(2.8.4) | list of possible positions for Tooltip [popper.js](https://popper.js.org/docs/v2/modifiers/flip/#fallbackplacements)         | ^[array]`Placement[]`                                                                                                                                          | —             |
 | placement ^(2.8.4)           | position of dropdown                                                                                                         | `Placement`                                                                                                                                                    | bottom        |
 | show-footer ^(2.10.5)        | whether to show footer                                                                                                       | ^[boolean]                                                                                                                                                     | true          |
+| show-confirm ^(2.11.0)       | whether to show the confirm button                                                                                           | ^[boolean]                                                                                                                                                     | true          |
 | show-week-number ^(2.10.3)   | show the week number besides the week                                                                                        | `boolean`                                                                                                                                                      | false         |
 
 ### Events
@@ -10889,7 +11465,12 @@ const isHoliday = ({ dayjs }) => {
 <style scoped>
 .demo-date-picker {
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.demo-date-picker > * {
+  margin: 0 !important;
 }
 
 .cell {
@@ -10924,6 +11505,12 @@ const isHoliday = ({ dayjs }) => {
   bottom: 0px;
   left: 50%;
   transform: translateX(-50%);
+}
+
+@media screen and (max-width: 768px) {
+  .demo-date-picker {
+    gap: 1.5rem;
+  }
 }
 </style>
 
@@ -11161,41 +11748,64 @@ const value4 = ref('')
   width: 100%;
   padding: 0;
   flex-wrap: wrap;
-}
-
-.demo-date-picker-icon .block {
-  padding: 30px 0;
-  text-align: center;
-  border-right: solid 1px var(--el-border-color);
-  flex: 1;
-}
-
-.demo-date-picker-icon .block:last-child {
-  border-right: none;
+  gap: 1px;
 }
 
 .demo-date-picker-icon .container {
   flex: 1;
+  min-width: 400px;
   border-right: solid 1px var(--el-border-color);
-}
-
-.demo-date-picker-icon .container .block {
-  border-right: none;
-}
-
-.demo-date-picker-icon .container .block:last-child {
-  border-top: solid 1px var(--el-border-color);
+  display: flex;
+  flex-direction: column;
 }
 
 .demo-date-picker-icon .container:last-child {
   border-right: none;
 }
 
+.demo-date-picker-icon .block {
+  padding: 1.5rem 0;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.demo-date-picker-icon .block:not(:first-child) {
+  border-top: solid 1px var(--el-border-color);
+}
+
 .demo-date-picker-icon .demonstration {
   display: block;
   color: var(--el-text-color-secondary);
   font-size: 14px;
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+@media screen and (max-width: 1200px) {
+  .demo-date-picker-icon {
+    gap: 0;
+  }
+
+  .demo-date-picker-icon .container {
+    flex: 0 0 100%;
+    min-width: auto;
+    border-right: none;
+  }
+
+  .demo-date-picker-icon .container:not(:last-child) {
+    border-bottom: solid 1px var(--el-border-color);
+  }
+
+  .demo-date-picker-icon .block {
+    padding: 1rem 0;
+  }
+
+  .demo-date-picker-icon .block:not(:first-child) {
+    position: relative;
+    margin-top: -1px;
+  }
 }
 </style>
 
@@ -11309,20 +11919,58 @@ const value3 = ref('')
   padding: 0;
   flex-wrap: wrap;
 }
+
 .demo-date-picker .block {
-  padding: 30px 0;
+  padding: 1.5rem 0;
   text-align: center;
   border-right: solid 1px var(--el-border-color);
   flex: 1;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
+
 .demo-date-picker .block:last-child {
   border-right: none;
 }
+
 .demo-date-picker .demonstration {
   display: block;
   color: var(--el-text-color-secondary);
   font-size: 14px;
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+@media screen and (max-width: 1200px) {
+  .demo-date-picker .block {
+    flex: 0 0 50%;
+    border-bottom: solid 1px var(--el-border-color);
+  }
+
+  .demo-date-picker .block:nth-child(2n) {
+    border-right: none;
+  }
+
+  .demo-date-picker .block:nth-last-child(-n + 2):nth-child(2n + 1),
+  .demo-date-picker .block:last-child {
+    border-bottom: none;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .demo-date-picker .block {
+    flex: 0 0 100%;
+    padding: 1rem 0;
+    min-width: auto;
+    border-right: none;
+    border-bottom: solid 1px var(--el-border-color);
+  }
+
+  .demo-date-picker .block:last-child {
+    border-bottom: none;
+  }
 }
 </style>
 
@@ -11331,7 +11979,7 @@ const value3 = ref('')
 ### date-range.vue
 ```vue
 <template>
-  <el-radio-group v-model="size" aria-label="size control">
+  <el-radio-group v-model="size" aria-label="size control" class="mb-4">
     <el-radio-button value="large">large</el-radio-button>
     <el-radio-button value="default">default</el-radio-button>
     <el-radio-button value="small">small</el-radio-button>
@@ -11412,10 +12060,14 @@ const shortcuts = [
 }
 
 .demo-date-picker .block {
-  padding: 30px 0;
+  padding: 1.5rem 0;
   text-align: center;
   border-right: solid 1px var(--el-border-color);
   flex: 1;
+  min-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .demo-date-picker .block:last-child {
@@ -11426,7 +12078,21 @@ const shortcuts = [
   display: block;
   color: var(--el-text-color-secondary);
   font-size: 14px;
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
+}
+
+@media screen and (max-width: 1200px) {
+  .demo-date-picker .block {
+    flex: 0 0 100%;
+    padding: 1rem 0;
+    min-width: auto;
+    border-right: none;
+    border-bottom: solid 1px var(--el-border-color);
+  }
+
+  .demo-date-picker .block:last-child {
+    border-bottom: none;
+  }
 }
 </style>
 
@@ -11520,20 +12186,41 @@ const value2 = ref('')
   padding: 0;
   flex-wrap: wrap;
 }
+
 .demo-date-picker .block {
-  padding: 30px 0;
+  padding: 1.5rem 0;
   text-align: center;
   border-right: solid 1px var(--el-border-color);
   flex: 1;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
+
 .demo-date-picker .block:last-child {
   border-right: none;
 }
+
 .demo-date-picker .demonstration {
   display: block;
   color: var(--el-text-color-secondary);
   font-size: 14px;
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
+}
+
+@media screen and (max-width: 768px) {
+  .demo-date-picker .block {
+    flex: 0 0 100%;
+    padding: 1rem 0;
+    min-width: auto;
+    border-right: none;
+    border-bottom: solid 1px var(--el-border-color);
+  }
+
+  .demo-date-picker .block:last-child {
+    border-bottom: none;
+  }
 }
 </style>
 
@@ -11542,7 +12229,7 @@ const value2 = ref('')
 ### enter-date.vue
 ```vue
 <template>
-  <el-radio-group v-model="size" aria-label="size control">
+  <el-radio-group v-model="size" aria-label="size control" class="mb-4">
     <el-radio-button value="large">large</el-radio-button>
     <el-radio-button value="default">default</el-radio-button>
     <el-radio-button value="small">small</el-radio-button>
@@ -11616,10 +12303,11 @@ const disabledDate = (time: Date) => {
 }
 
 .demo-date-picker .block {
-  padding: 30px 0;
+  padding: 1.5rem 0;
   text-align: center;
   border-right: solid 1px var(--el-border-color);
   flex: 1;
+  min-width: 300px;
 }
 
 .demo-date-picker .block:last-child {
@@ -11630,7 +12318,21 @@ const disabledDate = (time: Date) => {
   display: block;
   color: var(--el-text-color-secondary);
   font-size: 14px;
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
+}
+
+@media screen and (max-width: 768px) {
+  .demo-date-picker .block {
+    flex: 0 0 100%;
+    padding: 1rem 0;
+    min-width: auto;
+    border-right: none;
+    border-bottom: solid 1px var(--el-border-color);
+  }
+
+  .demo-date-picker .block:last-child {
+    border-bottom: none;
+  }
 }
 </style>
 
@@ -11703,20 +12405,38 @@ const shortcuts = [
   padding: 0;
   flex-wrap: wrap;
 }
+
 .demo-date-picker .block {
-  padding: 30px 0;
+  padding: 1.5rem 0;
   text-align: center;
   border-right: solid 1px var(--el-border-color);
   flex: 1;
+  min-width: 300px;
 }
+
 .demo-date-picker .block:last-child {
   border-right: none;
 }
+
 .demo-date-picker .demonstration {
   display: block;
   color: var(--el-text-color-secondary);
   font-size: 14px;
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
+}
+
+@media screen and (max-width: 768px) {
+  .demo-date-picker .block {
+    flex: 0 0 100%;
+    padding: 1rem 0;
+    min-width: auto;
+    border-right: none;
+    border-bottom: solid 1px var(--el-border-color);
+  }
+
+  .demo-date-picker .block:last-child {
+    border-bottom: none;
+  }
 }
 </style>
 
@@ -11803,39 +12523,51 @@ const value6 = ref('')
   flex-wrap: wrap;
 }
 
-.demo-date-picker .block {
-  padding: 30px 0;
-  text-align: center;
-  border-right: solid 1px var(--el-border-color);
-  flex: 1;
-}
-
-.demo-date-picker .block:last-child {
-  border-right: none;
-}
-
 .demo-date-picker .container {
   flex: 1;
+  min-width: 300px;
   border-right: solid 1px var(--el-border-color);
-}
-
-.demo-date-picker .container .block {
-  border-right: none;
-}
-
-.demo-date-picker .container .block:last-child {
-  border-top: solid 1px var(--el-border-color);
 }
 
 .demo-date-picker .container:last-child {
   border-right: none;
 }
 
+.demo-date-picker .block {
+  padding: 1.5rem 0;
+  text-align: center;
+}
+
+.demo-date-picker .container .block:last-child {
+  border-top: solid 1px var(--el-border-color);
+}
+
 .demo-date-picker .demonstration {
   display: block;
   color: var(--el-text-color-secondary);
   font-size: 14px;
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
+}
+
+@media screen and (max-width: 768px) {
+  .demo-date-picker .container {
+    flex: 0 0 100%;
+    min-width: auto;
+    border-right: none;
+    border-bottom: solid 1px var(--el-border-color);
+  }
+
+  .demo-date-picker .container:last-child {
+    border-bottom: none;
+  }
+
+  .demo-date-picker .block {
+    padding: 1rem 0;
+  }
+
+  .demo-date-picker .container .block:last-child {
+    border-top: solid 1px var(--el-border-color);
+  }
 }
 </style>
 
@@ -11911,20 +12643,38 @@ const shortcuts = [
   padding: 0;
   flex-wrap: wrap;
 }
+
 .demo-date-picker .block {
-  padding: 30px 0;
+  padding: 1.5rem 0;
   text-align: center;
   border-right: solid 1px var(--el-border-color);
   flex: 1;
+  min-width: 300px;
 }
+
 .demo-date-picker .block:last-child {
   border-right: none;
 }
+
 .demo-date-picker .demonstration {
   display: block;
   color: var(--el-text-color-secondary);
   font-size: 14px;
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
+}
+
+@media screen and (max-width: 768px) {
+  .demo-date-picker .block {
+    flex: 0 0 100%;
+    padding: 1rem 0;
+    min-width: auto;
+    border-right: none;
+    border-bottom: solid 1px var(--el-border-color);
+  }
+
+  .demo-date-picker .block:last-child {
+    border-bottom: none;
+  }
 }
 </style>
 
@@ -11995,12 +12745,13 @@ Custom icons available with slots.
 | type                       | type of the picker                                                                                             | ^[enum]`'year' \| 'month' \| 'date' \| 'datetime' \| 'week' \| 'datetimerange' \| 'daterange'` | date                |
 | format                     | format of the displayed value in the input box                                                                 | ^[string] see [date formats](/en-US/component/date-picker#date-formats)                        | YYYY-MM-DD HH:mm:ss |
 | popper-class               | custom class name for DateTimePicker's dropdown                                                                | ^[string]                                                                                      | —                   |
+| popper-style               | custom style for DateTimePicker's dropdown                                                                     | ^[string] / ^[object]                                                                          | —                   |
 | range-separator            | range separator                                                                                                | ^[string]                                                                                      | '-'                 |
 | default-value              | optional, default date of the calendar                                                                         | ^[object]`Date \| [Date, Date]`                                                                | —                   |
 | default-time               | the default time value after picking a date. Time `00:00:00` will be used if not specified                     | ^[object]`Date \| [Date, Date]`                                                                | —                   |
 | value-format               | optional, format of binding value. If not specified, the binding value will be a Date object                   | ^[string] see [date formats](https://day.js.org/docs/en/display/format)                        | —                   |
-| date-format ^(2.4.0)       | optional, format of the date displayed value in TimePicker's dropdown                                          | ^[string] see [date formats](https://day.js.org/docs/en/display/format)                        | —                   |
-| time-format ^(2.4.0)       | optional, format of the time displayed value in TimePicker's dropdown                                          | ^[string] see [date formats](https://day.js.org/docs/en/display/format)                        | —                   |
+| date-format ^(2.4.0)       | optional, format of the date displayed in input's inner panel                                                  | ^[string] see [date formats](https://day.js.org/docs/en/display/format)                        | YYYY-MM-DD          |
+| time-format ^(2.4.0)       | optional, format of the time displayed in input's inner panel                                                  | ^[string] see [date formats](https://day.js.org/docs/en/display/format)                        | HH:mm:ss            |
 | id                         | same as `id` in native input                                                                                   | ^[string] / ^[object]`[string, string]`                                                        | —                   |
 | name                       | same as `name` in native input                                                                                 | ^[string]                                                                                      | —                   |
 | unlink-panels              | unlink two date-panels in range-picker                                                                         | ^[boolean]                                                                                     | false               |
@@ -12017,6 +12768,7 @@ Custom icons available with slots.
 | value-on-clear ^(2.7.0)    | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)        | ^[string] / ^[number] / ^[boolean] / ^[Function]                                               | —                   |
 | show-now ^(2.8.7)          | whether to show the now button                                                                                 | ^[boolean]                                                                                     | true                |
 | show-footer ^(2.10.5)      | whether to show footer                                                                                         | ^[boolean]                                                                                     | true                |
+| show-confirm ^(2.11.0)     | whether to show the confirm button                                                                             | ^[boolean]                                                                                     | true                |
 | show-week-number ^(2.10.3) | show the week number besides the week                                                                          | `boolean`                                                                                      | false               |
 
 ## Events
@@ -12183,10 +12935,36 @@ const value2 = ref('')
 .demo-datetime-picker-icon .block {
   padding: 30px 0;
   text-align: center;
+  min-width: 300px;
+  flex: 1;
 }
 .line {
   width: 1px;
   background-color: var(--el-border-color);
+}
+
+@media (max-width: 768px) {
+  .demo-datetime-picker-icon .block {
+    flex: 100%;
+    border-bottom: solid 1px var(--el-border-color);
+  }
+
+  .demo-datetime-picker-icon .block:last-child {
+    border-bottom: none;
+  }
+
+  .line {
+    display: none;
+  }
+
+  :deep(.el-date-editor.el-input) {
+    width: 100%;
+  }
+
+  :deep(.el-date-editor.el-input__wrapper) {
+    width: 100%;
+    max-width: 300px;
+  }
 }
 </style>
 
@@ -12240,10 +13018,36 @@ const value2 = ref('')
 .demo-datetime-picker .block {
   padding: 30px 0;
   text-align: center;
+  min-width: 300px;
+  flex: 1;
 }
 .line {
   width: 1px;
   background-color: var(--el-border-color);
+}
+
+@media (max-width: 768px) {
+  .demo-datetime-picker .block {
+    flex: 100%;
+    border-bottom: solid 1px var(--el-border-color);
+  }
+
+  .demo-datetime-picker .block:last-child {
+    border-bottom: none;
+  }
+
+  .line {
+    display: none;
+  }
+
+  :deep(.el-date-editor.el-input) {
+    width: 100%;
+  }
+
+  :deep(.el-date-editor.el-input__wrapper) {
+    width: 100%;
+    max-width: 300px;
+  }
 }
 </style>
 
@@ -12308,6 +13112,7 @@ const value3 = ref('')
   text-align: center;
   border-right: solid 1px var(--el-border-color);
   flex: 1;
+  min-width: 300px;
 }
 .demo-datetime-picker .block:last-child {
   border-right: none;
@@ -12318,6 +13123,27 @@ const value3 = ref('')
   font-size: 14px;
   margin-bottom: 20px;
 }
+
+@media (max-width: 768px) {
+  .demo-datetime-picker .block {
+    flex: 100%;
+    border-right: none;
+    border-bottom: solid 1px var(--el-border-color);
+  }
+
+  .demo-datetime-picker .block:last-child {
+    border-bottom: none;
+  }
+
+  :deep(.el-date-editor.el-input) {
+    width: 100%;
+  }
+
+  :deep(.el-date-editor.el-input__wrapper) {
+    width: 100%;
+    max-width: 300px;
+  }
+}
 </style>
 
 ```
@@ -12325,26 +13151,28 @@ const value3 = ref('')
 ### date-and-time-range.vue
 ```vue
 <template>
-  <div class="block">
-    <span class="demonstration">Default</span>
-    <el-date-picker
-      v-model="value1"
-      type="datetimerange"
-      range-separator="To"
-      start-placeholder="Start date"
-      end-placeholder="End date"
-    />
-  </div>
-  <div class="block">
-    <span class="demonstration">With shortcuts</span>
-    <el-date-picker
-      v-model="value2"
-      type="datetimerange"
-      :shortcuts="shortcuts"
-      range-separator="To"
-      start-placeholder="Start date"
-      end-placeholder="End date"
-    />
+  <div class="demo-datetime-picker">
+    <div class="block">
+      <span class="demonstration">Default</span>
+      <el-date-picker
+        v-model="value1"
+        type="datetimerange"
+        range-separator="To"
+        start-placeholder="Start date"
+        end-placeholder="End date"
+      />
+    </div>
+    <div class="block">
+      <span class="demonstration">With shortcuts</span>
+      <el-date-picker
+        v-model="value2"
+        type="datetimerange"
+        :shortcuts="shortcuts"
+        range-separator="To"
+        start-placeholder="Start date"
+        end-placeholder="End date"
+      />
+    </div>
   </div>
 </template>
 
@@ -12389,20 +13217,51 @@ const shortcuts = [
 </script>
 
 <style scoped>
+.demo-datetime-picker {
+  display: flex;
+  width: 100%;
+  padding: 0;
+  flex-wrap: wrap;
+}
+
 .block {
   padding: 30px 0;
   text-align: center;
   border-right: solid 1px var(--el-border-color);
   flex: 1;
+  min-width: 300px;
 }
+
 .block:last-child {
   border-right: none;
 }
+
 .block .demonstration {
   display: block;
   color: var(--el-text-color-secondary);
   font-size: 14px;
   margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .block {
+    flex: 100%;
+    border-right: none;
+    border-bottom: solid 1px var(--el-border-color);
+  }
+
+  .block:last-child {
+    border-bottom: none;
+  }
+
+  :deep(.el-date-editor.el-input) {
+    width: 100%;
+  }
+
+  :deep(.el-date-editor.el-input__wrapper) {
+    width: 100%;
+    max-width: 300px;
+  }
 }
 </style>
 
@@ -12485,6 +13344,7 @@ const shortcuts = [
   text-align: center;
   border-right: solid 1px var(--el-border-color);
   flex: 1;
+  min-width: 300px;
 }
 .demo-datetime-picker .block:last-child {
   border-right: none;
@@ -12495,6 +13355,27 @@ const shortcuts = [
   font-size: 14px;
   margin-bottom: 20px;
 }
+
+@media (max-width: 768px) {
+  .demo-datetime-picker .block {
+    flex: 100%;
+    border-right: none;
+    border-bottom: solid 1px var(--el-border-color);
+  }
+
+  .demo-datetime-picker .block:last-child {
+    border-bottom: none;
+  }
+
+  :deep(.el-date-editor.el-input) {
+    width: 100%;
+  }
+
+  :deep(.el-date-editor.el-input__wrapper) {
+    width: 100%;
+    max-width: 300px;
+  }
+}
 </style>
 
 ```
@@ -12502,27 +13383,29 @@ const shortcuts = [
 ### default-time.vue
 ```vue
 <template>
-  <div class="block">
-    <span class="demonstration">Start and end date time 12:00:00</span>
-    <el-date-picker
-      v-model="value1"
-      type="datetimerange"
-      start-placeholder="Start Date"
-      end-placeholder="End Date"
-      :default-time="defaultTime1"
-    />
-  </div>
-  <div class="block">
-    <span class="demonstration">
-      Start date time 12:00:00, end date time 08:00:00
-    </span>
-    <el-date-picker
-      v-model="value2"
-      type="datetimerange"
-      start-placeholder="Start Date"
-      end-placeholder="End Date"
-      :default-time="defaultTime2"
-    />
+  <div class="demo-datetime-picker">
+    <div class="block">
+      <span class="demonstration">Start and end date time 12:00:00</span>
+      <el-date-picker
+        v-model="value1"
+        type="datetimerange"
+        start-placeholder="Start Date"
+        end-placeholder="End Date"
+        :default-time="defaultTime1"
+      />
+    </div>
+    <div class="block">
+      <span class="demonstration">
+        Start date time 12:00:00, end date time 08:00:00
+      </span>
+      <el-date-picker
+        v-model="value2"
+        type="datetimerange"
+        start-placeholder="Start Date"
+        end-placeholder="End Date"
+        :default-time="defaultTime2"
+      />
+    </div>
   </div>
 </template>
 
@@ -12540,20 +13423,51 @@ const defaultTime2: [Date, Date] = [
 </script>
 
 <style scoped>
+.demo-datetime-picker {
+  display: flex;
+  width: 100%;
+  padding: 0;
+  flex-wrap: wrap;
+}
+
 .block {
   padding: 30px 0;
   text-align: center;
   border-right: solid 1px var(--el-border-color);
   flex: 1;
+  min-width: 300px;
 }
+
 .block:last-child {
   border-right: none;
 }
+
 .block .demonstration {
   display: block;
   color: var(--el-text-color-secondary);
   font-size: 14px;
   margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .block {
+    flex: 100%;
+    border-right: none;
+    border-bottom: solid 1px var(--el-border-color);
+  }
+
+  .block:last-child {
+    border-bottom: none;
+  }
+
+  :deep(.el-date-editor.el-input) {
+    width: 100%;
+  }
+
+  :deep(.el-date-editor.el-input__wrapper) {
+    width: 100%;
+    max-width: 300px;
+  }
 }
 </style>
 
@@ -13429,13 +14343,15 @@ code {
 ### customization-content.vue
 ```vue
 <template>
-  <el-button plain @click="dialogTableVisible = true">
-    Open a Table nested Dialog
-  </el-button>
+  <div class="flex flex-wrap gap-1">
+    <el-button class="!ml-0" plain @click="dialogTableVisible = true">
+      Open a Table nested Dialog
+    </el-button>
 
-  <el-button plain @click="dialogFormVisible = true">
-    Open a Form nested Dialog
-  </el-button>
+    <el-button class="!ml-0" plain @click="dialogFormVisible = true">
+      Open a Form nested Dialog
+    </el-button>
+  </div>
 
   <el-dialog v-model="dialogTableVisible" title="Shipping address" width="800">
     <el-table :data="gridData">
@@ -13594,13 +14510,17 @@ const centerDialogVisible = ref(false)
 ### draggable-dialog.vue
 ```vue
 <template>
-  <el-button plain @click="dialogVisible = true">
-    Open a draggable Dialog
-  </el-button>
-
-  <el-button plain @click="dialogOverflowVisible = true">
-    Open a overflow draggable Dialog
-  </el-button>
+  <div class="flex flex-wrap gap-1">
+    <el-button class="!ml-0" plain @click="dialogVisible = true">
+      Open a draggable Dialog
+    </el-button>
+    <el-button class="!ml-0" plain @click="dialogOverflowVisible = true">
+      Open a overflow draggable Dialog
+    </el-button>
+    <el-button class="!ml-0" plain @click="customDraggingVisible = true">
+      Open a custom dragging style Dialog
+    </el-button>
+  </div>
 
   <el-dialog v-model="dialogVisible" title="Tips" width="500" draggable>
     <span>It's a draggable Dialog</span>
@@ -13631,6 +14551,27 @@ const centerDialogVisible = ref(false)
       </div>
     </template>
   </el-dialog>
+
+  <el-dialog
+    v-model="customDraggingVisible"
+    class="custom-dragging-style"
+    title="Custom Dragging Style"
+    width="500"
+    draggable
+  >
+    <span
+      >This dialog has custom dragging styles. Try dragging it to see the
+      effects!</span
+    >
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button @click="customDraggingVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="customDraggingVisible = false">
+          Confirm
+        </el-button>
+      </div>
+    </template>
+  </el-dialog>
 </template>
 
 <script lang="ts" setup>
@@ -13638,7 +14579,15 @@ import { ref } from 'vue'
 
 const dialogVisible = ref(false)
 const dialogOverflowVisible = ref(false)
+const customDraggingVisible = ref(false)
 </script>
+
+<style scoped>
+:global(.custom-dragging-style.is-dragging) {
+  border: 2px dashed var(--el-color-primary);
+  opacity: 0.65;
+}
+</style>
 
 ```
 
@@ -13935,6 +14884,12 @@ The `header` slot can be used to customize the area where the title is displayed
 
 
 
+## Resizable Drawer ^(2.11.0)
+
+Try to drag the edge part.
+
+
+
 ## Nested Drawer
 
 You can also have multiple layer of `Drawer` just like `Dialog`.
@@ -13963,6 +14918,7 @@ You can also have multiple layer of `Drawer` just like `Dialog`.
 | destroy-on-close           | Indicates whether children should be destroyed after Drawer closed                                                                                                                                                                                                                                           | ^[boolean]                                                                                                                                                                                     | false   |
 | modal                      | Should show shadowing layer                                                                                                                                                                                                                                                                                  | ^[boolean]                                                                                                                                                                                     | true    |
 | direction                  | Drawer's opening direction                                                                                                                                                                                                                                                                                   | ^[enum]`'rtl' \| 'ltr' \| 'ttb' \| 'btt'`                                                                                                                                                      | rtl     |
+| resizable ^(2.11.0)        | enable resizable feature for Drawer                                                                                                                                                                                                                                                                          | ^[boolean]                                                                                                                                                                                     | false   |
 | show-close                 | Should show close button at the top right of Drawer                                                                                                                                                                                                                                                          | ^[boolean]                                                                                                                                                                                     | true    |
 | size                       | Drawer's size, if Drawer is horizontal mode, it effects the width property, otherwise it effects the height property, when size is `number` type, it describes the size by unit of pixels; when size is `string` type, it should be used with `x%` notation, other wise it will be interpreted to pixel unit | ^[number] / ^[string]                                                                                                                                                                          | 30%     |
 | title                      | Drawer's title, can also be set by named slot, detailed descriptions can be found in the slot form                                                                                                                                                                                                           | ^[string]                                                                                                                                                                                      | —       |
@@ -14309,6 +15265,42 @@ const handleClose = (done: () => void) => {
 import { ref } from 'vue'
 
 const drawer = ref(false)
+</script>
+
+```
+
+### resizable-drawer.vue
+```vue
+<template>
+  <el-segmented
+    v-model="direction"
+    :options="options"
+    size="large"
+    @change="visible = true"
+  />
+
+  <el-drawer v-model="visible" :direction="direction" resizable>
+    <template #header="{ titleId, titleClass }">
+      <h4 :id="titleId" :class="titleClass">This is a custom header!</h4>
+    </template>
+    This is drawer content.
+  </el-drawer>
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+import type { DrawerProps } from 'element-plus'
+
+const visible = ref(false)
+const direction = ref<DrawerProps['direction']>()
+
+const options = [
+  { label: 'Top', value: 'ttb' },
+  { label: 'Right', value: 'rtl' },
+  { label: 'Bottom', value: 'btt' },
+  { label: 'Left', value: 'ltr' },
+]
 </script>
 
 ```
@@ -16499,6 +17491,7 @@ const url =
   border-right: solid 1px var(--el-border-color);
   display: inline-block;
   width: 20%;
+  min-width: 100px;
   box-sizing: border-box;
   vertical-align: top;
 }
@@ -17165,30 +18158,31 @@ const handleChange = (value: number | undefined) => {
 ### controlled.vue
 ```vue
 <template>
-  <el-input-number
-    v-model="num"
-    :min="1"
-    :max="10"
-    controls-position="right"
-    size="large"
-    @change="handleChange"
-  />
-  <el-input-number
-    v-model="num"
-    class="mx-4"
-    :min="1"
-    :max="10"
-    controls-position="right"
-    @change="handleChange"
-  />
-  <el-input-number
-    v-model="num"
-    :min="1"
-    :max="10"
-    size="small"
-    controls-position="right"
-    @change="handleChange"
-  />
+  <div class="flex flex-wrap items-center gap-4">
+    <el-input-number
+      v-model="num"
+      :min="1"
+      :max="10"
+      controls-position="right"
+      size="large"
+      @change="handleChange"
+    />
+    <el-input-number
+      v-model="num"
+      :min="1"
+      :max="10"
+      controls-position="right"
+      @change="handleChange"
+    />
+    <el-input-number
+      v-model="num"
+      :min="1"
+      :max="10"
+      size="small"
+      controls-position="right"
+      @change="handleChange"
+    />
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -17279,9 +18273,11 @@ const num = ref(1)
 ### size.vue
 ```vue
 <template>
-  <el-input-number v-model="num1" size="large" />
-  <el-input-number v-model="num2" class="mx-4" />
-  <el-input-number v-model="num3" size="small" />
+  <div class="flex flex-wrap items-center gap-4">
+    <el-input-number v-model="num1" size="large" />
+    <el-input-number v-model="num2" />
+    <el-input-number v-model="num3" size="small" />
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -17375,6 +18371,12 @@ You can set a limit on the number of tags that can be added.
 
 
 
+## Collapse Tags ^(2.11.0)
+
+Use the collapse tags attribute to merge them into one piece of text. You can use the collapse tags tooltip property to enable the behavior of hovering over collapsed text to display specific selected values. Using the collapse tags tooltip attribute will render the max attribute invalid.
+
+
+
 ## Disabled
 
 You can set the InputTag to be disabled.
@@ -17384,6 +18386,12 @@ You can set the InputTag to be disabled.
 ## Clearable
 
 You can set whether to show the clear button.
+
+
+
+## Custom Clear Icon ^(2.11.0)
+
+You can customize the clear icon by setting the `clear-icon` attribute.
 
 
 
@@ -17421,29 +18429,33 @@ You can customize the prefix and suffix of the InputTag by `prefix` and `suffix`
 
 ### Attributes
 
-| Name                  | Description                                                | Type                                                        | Default |
-| --------------------- | ---------------------------------------------------------- | ----------------------------------------------------------- | ------- |
-| model-value / v-model | binding value                                              | ^[array]`string[]`                                          | —       |
-| max                   | max number tags that can be enter                          | ^[number]                                                   | —       |
-| tag-type              | tag type                                                   | ^[enum]`'' \| 'success' \| 'info' \| 'warning' \| 'danger'` | info    |
-| tag-effect            | tag effect                                                 | ^[enum]`'' \| 'light' \| 'dark' \| 'plain'`                 | light   |
-| trigger               | the key to trigger input tag                               | ^[enum]`'Enter' \| 'Space'`                                 | Enter   |
-| draggable             | whether tags can be dragged                                | ^[boolean]                                                  | false   |
-| delimiter ^(2.9.9)    | add a tag when a delimiter is matched                      | ^[string] / ^[regex]                                        | —       |
-| size                  | input box size                                             | ^[enum]`'large' \| 'default' \| 'small'`                    | —       |
-| save-on-blur ^(2.9.7) | whether to save the input value when the input loses focus | ^[boolean]                                                  | true    |
-| clearable             | whether to show clear button                               | ^[boolean]                                                  | false   |
-| disabled              | whether to disable input-tag                               | ^[boolean]                                                  | false   |
-| validate-event        | whether to trigger form validation                         | ^[boolean]                                                  | true    |
-| readonly              | same as `readonly` in native input                         | ^[boolean]                                                  | false   |
-| autofocus             | same as `autofocus` in native input                        | ^[boolean]                                                  | false   |
-| id                    | same as `id` in native input                               | ^[string]                                                   | —       |
-| tabindex              | same as `tabindex` in native input                         | ^[string] / ^[number]                                       | —       |
-| maxlength             | same as `maxlength` in native input                        | ^[string] / ^[number]                                       | —       |
-| minlength             | same as `minlength` in native input                        | ^[string] / ^[number]                                       | —       |
-| placeholder           | placeholder of input                                       | ^[string]                                                   | —       |
-| autocomplete          | same as `autocomplete` in native input                     | ^[string]                                                   | off     |
-| aria-label ^(a11y)    | native `aria-label` attribute                              | ^[string]                                                   | —       |
+| Name                            | Description                                                                                                    | Type                                                        | Default     |
+| ------------------------------- | -------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ----------- |
+| model-value / v-model           | binding value                                                                                                  | ^[array]`string[]`                                          | —           |
+| max                             | max number tags that can be enter                                                                              | ^[number]                                                   | —           |
+| tag-type                        | tag type                                                                                                       | ^[enum]`'' \| 'success' \| 'info' \| 'warning' \| 'danger'` | info        |
+| tag-effect                      | tag effect                                                                                                     | ^[enum]`'' \| 'light' \| 'dark' \| 'plain'`                 | light       |
+| trigger                         | the key to trigger input tag                                                                                   | ^[enum]`'Enter' \| 'Space'`                                 | Enter       |
+| draggable                       | whether tags can be dragged                                                                                    | ^[boolean]                                                  | false       |
+| delimiter ^(2.9.9)              | add a tag when a delimiter is matched                                                                          | ^[string] / ^[regex]                                        | —           |
+| size                            | input box size                                                                                                 | ^[enum]`'large' \| 'default' \| 'small'`                    | —           |
+| collapse-tags ^(2.11.0)         | whether to collapse tags to a text when multiple selecting                                                     | ^[boolean]                                                  | false       |
+| collapse-tags-tooltip ^(2.11.0) | whether show all selected tags when mouse hover text of collapse-tags. To use this, collapse-tags must be true | ^[boolean]                                                  | false       |
+| save-on-blur ^(2.9.7)           | whether to save the input value when the input loses focus                                                     | ^[boolean]                                                  | true        |
+| clearable                       | whether to show clear button                                                                                   | ^[boolean]                                                  | false       |
+| clear-icon ^(2.11.0)            | custom clear icon component                                                                                    | ^[string] / ^[object]`Component`                            | CircleClose |
+| disabled                        | whether to disable input-tag                                                                                   | ^[boolean]                                                  | false       |
+| validate-event                  | whether to trigger form validation                                                                             | ^[boolean]                                                  | true        |
+| readonly                        | same as `readonly` in native input                                                                             | ^[boolean]                                                  | false       |
+| autofocus                       | same as `autofocus` in native input                                                                            | ^[boolean]                                                  | false       |
+| id                              | same as `id` in native input                                                                                   | ^[string]                                                   | —           |
+| tabindex                        | same as `tabindex` in native input                                                                             | ^[string] / ^[number]                                       | —           |
+| max-collapse-tags ^(2.11.0)     | the max tags number to be shown. To use this, collapse-tags must be true                                       | ^[number]                                                   | 1           |
+| maxlength                       | same as `maxlength` in native input                                                                            | ^[string] / ^[number]                                       | —           |
+| minlength                       | same as `minlength` in native input                                                                            | ^[string] / ^[number]                                       | —           |
+| placeholder                     | placeholder of input                                                                                           | ^[string]                                                   | —           |
+| autocomplete                    | same as `autocomplete` in native input                                                                         | ^[string]                                                   | off         |
+| aria-label ^(a11y)              | native `aria-label` attribute                                                                                  | ^[string]                                                   | —           |
 
 ### Events
 
@@ -17492,6 +18504,26 @@ const input = ref<string[]>()
 
 ```
 
+### clear-icon.vue
+```vue
+<template>
+  <el-input-tag
+    v-model="input"
+    clearable
+    :clear-icon="CloseBold"
+    placeholder="Custom clear icon"
+  />
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+import { CloseBold } from '@element-plus/icons-vue'
+
+const input = ref<string[]>(['custom', 'clear', 'icon'])
+</script>
+
+```
+
 ### clearable.vue
 ```vue
 <template>
@@ -17502,6 +18534,47 @@ const input = ref<string[]>()
 import { ref } from 'vue'
 
 const input = ref<string[]>(['tag1', 'tag2', 'tag3'])
+</script>
+
+```
+
+### collapse.vue
+```vue
+<template>
+  <div class="m-4">
+    <p>use collapse-tags</p>
+    <el-input-tag
+      v-model="input1"
+      collapse-tags
+      placeholder="Please input"
+      aria-label="Please click the Enter key after input"
+    />
+    <p>use collapse-tags-tooltip</p>
+    <el-input-tag
+      v-model="input2"
+      collapse-tags
+      collapse-tags-tooltip
+      placeholder="Please input"
+      aria-label="Please click the Enter key after input"
+    />
+    <p>use max-collapse-tags</p>
+    <el-input-tag
+      v-model="input3"
+      collapse-tags
+      collapse-tags-tooltip
+      :max-collapse-tags="3"
+      placeholder="Please input"
+      aria-label="Please click the Enter key after input"
+    />
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const input1 = ref<string[]>()
+const input2 = ref<string[]>()
+const input3 = ref<string[]>()
 </script>
 
 ```
@@ -17697,6 +18770,10 @@ Input data using mouse or keyboard.
 
 
 
+## Custom Clear Icon ^(2.11.0)
+
+
+
 ## Formatter
 
 Display value within it's situation with `formatter`, and we usually use `parser` at the same time.
@@ -17743,39 +18820,40 @@ Prepend or append an element, generally a label or a button.
 
 ### Attributes
 
-| Name                        | Description                                                                                                                            | Type                                                                                                                                                                                                                         | Default |
-| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
-| type                        | type of input                                                                                                                          | ^[string]`'text' \| 'textarea' \| 'password' \| 'button' \| 'checkbox' \| 'file' \| 'number' \| 'radio' \| ...` [native input types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types) | text    |
-| model-value / v-model       | binding value                                                                                                                          | ^[string] / ^[number]                                                                                                                                                                                                        | —       |
-| maxlength                   | same as `maxlength` in native input                                                                                                    | ^[string] / ^[number]                                                                                                                                                                                                        | —       |
-| minlength                   | same as `minlength` in native input                                                                                                    | ^[string] / ^[number]                                                                                                                                                                                                        | —       |
-| show-word-limit             | whether show word count, only works when `type` is 'text' or 'textarea'                                                                | ^[boolean]                                                                                                                                                                                                                   | false   |
-| placeholder                 | placeholder of Input                                                                                                                   | ^[string]                                                                                                                                                                                                                    | —       |
-| clearable                   | whether to show clear button, only works when `type` is not 'textarea'                                                                 | ^[boolean]                                                                                                                                                                                                                   | false   |
-| formatter                   | specifies the format of the value presented input.(only works when `type` is 'text')                                                   | ^[Function]`(value: string \| number) => string`                                                                                                                                                                             | —       |
-| parser                      | specifies the value extracted from formatter input.(only works when `type` is 'text')                                                  | ^[Function]`(value: string) => string`                                                                                                                                                                                       | —       |
-| show-password               | whether to show toggleable password input                                                                                              | ^[boolean]                                                                                                                                                                                                                   | false   |
-| disabled                    | whether Input is disabled                                                                                                              | ^[boolean]                                                                                                                                                                                                                   | false   |
-| size                        | size of Input, works when `type` is not 'textarea'                                                                                     | ^[enum]`'large' \| 'default' \| 'small'`                                                                                                                                                                                     | —       |
-| prefix-icon                 | prefix icon component                                                                                                                  | ^[string] / ^[Component]                                                                                                                                                                                                     | —       |
-| suffix-icon                 | suffix icon component                                                                                                                  | ^[string] / ^[Component]                                                                                                                                                                                                     | —       |
-| rows                        | number of rows of textarea, only works when `type` is 'textarea'                                                                       | ^[number]                                                                                                                                                                                                                    | 2       |
-| autosize                    | whether textarea has an adaptive height, only works when `type` is 'textarea'. Can accept an object, e.g. `{ minRows: 2, maxRows: 6 }` | ^[boolean] / ^[object]`{ minRows?: number, maxRows?: number }`                                                                                                                                                               | false   |
-| autocomplete                | same as `autocomplete` in native input                                                                                                 | ^[string]                                                                                                                                                                                                                    | off     |
-| name                        | same as `name` in native input                                                                                                         | ^[string]                                                                                                                                                                                                                    | —       |
-| readonly                    | same as `readonly` in native input                                                                                                     | ^[boolean]                                                                                                                                                                                                                   | false   |
-| max                         | same as `max` in native input                                                                                                          | —                                                                                                                                                                                                                            | —       |
-| min                         | same as `min` in native input                                                                                                          | —                                                                                                                                                                                                                            | —       |
-| step                        | same as `step` in native input                                                                                                         | —                                                                                                                                                                                                                            | —       |
-| resize                      | control the resizability                                                                                                               | ^[enum]`'none' \| 'both' \| 'horizontal' \| 'vertical'`                                                                                                                                                                      | —       |
-| autofocus                   | same as `autofocus` in native input                                                                                                    | ^[boolean]                                                                                                                                                                                                                   | false   |
-| form                        | same as `form` in native input                                                                                                         | `string`                                                                                                                                                                                                                     | —       |
-| aria-label ^(a11y) ^(2.7.2) | same as `aria-label` in native input                                                                                                   | ^[string]                                                                                                                                                                                                                    | —       |
-| tabindex                    | input tabindex                                                                                                                         | ^[string] / ^[number]                                                                                                                                                                                                        | —       |
-| validate-event              | whether to trigger form validation                                                                                                     | ^[boolean]                                                                                                                                                                                                                   | true    |
-| input-style                 | the style of the input element or textarea element                                                                                     | ^[string] / ^[object]`CSSProperties \| CSSProperties[] \| string[]`                                                                                                                                                          | {}      |
-| label ^(a11y) ^(deprecated) | same as `aria-label` in native input                                                                                                   | ^[string]                                                                                                                                                                                                                    | —       |
-| inputmode ^(2.10.3)         | same as `inputmode` in native input                                                                                                    | ^[string]                                                                                                                                                                                                                    | —       |
+| Name                        | Description                                                                                                                            | Type                                                                                                                                                                                                                         | Default     |
+| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| type                        | type of input                                                                                                                          | ^[string]`'text' \| 'textarea' \| 'password' \| 'button' \| 'checkbox' \| 'file' \| 'number' \| 'radio' \| ...` [native input types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types) | text        |
+| model-value / v-model       | binding value                                                                                                                          | ^[string] / ^[number]                                                                                                                                                                                                        | —           |
+| maxlength                   | same as `maxlength` in native input                                                                                                    | ^[string] / ^[number]                                                                                                                                                                                                        | —           |
+| minlength                   | same as `minlength` in native input                                                                                                    | ^[string] / ^[number]                                                                                                                                                                                                        | —           |
+| show-word-limit             | whether show word count, only works when `type` is 'text' or 'textarea'                                                                | ^[boolean]                                                                                                                                                                                                                   | false       |
+| placeholder                 | placeholder of Input                                                                                                                   | ^[string]                                                                                                                                                                                                                    | —           |
+| clearable                   | whether to show clear button, only works when `type` is not 'textarea'                                                                 | ^[boolean]                                                                                                                                                                                                                   | false       |
+| clear-icon ^(2.11.0)        | custom clear icon component                                                                                                            | ^[string] / ^[object]`Component`                                                                                                                                                                                             | CircleClose |
+| formatter                   | specifies the format of the value presented input.(only works when `type` is 'text')                                                   | ^[Function]`(value: string \| number) => string`                                                                                                                                                                             | —           |
+| parser                      | specifies the value extracted from formatter input.(only works when `type` is 'text')                                                  | ^[Function]`(value: string) => string`                                                                                                                                                                                       | —           |
+| show-password               | whether to show toggleable password input                                                                                              | ^[boolean]                                                                                                                                                                                                                   | false       |
+| disabled                    | whether Input is disabled                                                                                                              | ^[boolean]                                                                                                                                                                                                                   | false       |
+| size                        | size of Input, works when `type` is not 'textarea'                                                                                     | ^[enum]`'large' \| 'default' \| 'small'`                                                                                                                                                                                     | —           |
+| prefix-icon                 | prefix icon component                                                                                                                  | ^[string] / ^[Component]                                                                                                                                                                                                     | —           |
+| suffix-icon                 | suffix icon component                                                                                                                  | ^[string] / ^[Component]                                                                                                                                                                                                     | —           |
+| rows                        | number of rows of textarea, only works when `type` is 'textarea'                                                                       | ^[number]                                                                                                                                                                                                                    | 2           |
+| autosize                    | whether textarea has an adaptive height, only works when `type` is 'textarea'. Can accept an object, e.g. `{ minRows: 2, maxRows: 6 }` | ^[boolean] / ^[object]`{ minRows?: number, maxRows?: number }`                                                                                                                                                               | false       |
+| autocomplete                | same as `autocomplete` in native input                                                                                                 | ^[string]                                                                                                                                                                                                                    | off         |
+| name                        | same as `name` in native input                                                                                                         | ^[string]                                                                                                                                                                                                                    | —           |
+| readonly                    | same as `readonly` in native input                                                                                                     | ^[boolean]                                                                                                                                                                                                                   | false       |
+| max                         | same as `max` in native input                                                                                                          | —                                                                                                                                                                                                                            | —           |
+| min                         | same as `min` in native input                                                                                                          | —                                                                                                                                                                                                                            | —           |
+| step                        | same as `step` in native input                                                                                                         | —                                                                                                                                                                                                                            | —           |
+| resize                      | control the resizability                                                                                                               | ^[enum]`'none' \| 'both' \| 'horizontal' \| 'vertical'`                                                                                                                                                                      | —           |
+| autofocus                   | same as `autofocus` in native input                                                                                                    | ^[boolean]                                                                                                                                                                                                                   | false       |
+| form                        | same as `form` in native input                                                                                                         | `string`                                                                                                                                                                                                                     | —           |
+| aria-label ^(a11y) ^(2.7.2) | same as `aria-label` in native input                                                                                                   | ^[string]                                                                                                                                                                                                                    | —           |
+| tabindex                    | input tabindex                                                                                                                         | ^[string] / ^[number]                                                                                                                                                                                                        | —           |
+| validate-event              | whether to trigger form validation                                                                                                     | ^[boolean]                                                                                                                                                                                                                   | true        |
+| input-style                 | the style of the input element or textarea element                                                                                     | ^[string] / ^[object]`CSSProperties \| CSSProperties[] \| string[]`                                                                                                                                                          | {}          |
+| label ^(a11y) ^(deprecated) | same as `aria-label` in native input                                                                                                   | ^[string]                                                                                                                                                                                                                    | —           |
+| inputmode ^(2.10.3)         | same as `inputmode` in native input                                                                                                    | ^[string]                                                                                                                                                                                                                    | —           |
 
 ### Events
 
@@ -17870,6 +18948,26 @@ const textarea2 = ref('')
 import { ref } from 'vue'
 
 const input = ref('')
+</script>
+
+```
+
+### clear-icon.vue
+```vue
+<template>
+  <el-input
+    v-model="input"
+    clearable
+    :clear-icon="CloseBold"
+    placeholder="Custom clear icon"
+  />
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+import { CloseBold } from '@element-plus/icons-vue'
+
+const input = ref('Custom clear icon')
 </script>
 
 ```
@@ -18164,37 +19262,47 @@ const input3 = ref('')
 ### with-icon.vue
 ```vue
 <template>
-  <div class="flex gap-4 mb-4">
-    <span>Using attributes</span>
-    <el-input
-      v-model="input1"
-      style="width: 240px"
-      placeholder="Pick a date"
-      :suffix-icon="Calendar"
-    />
-    <el-input
-      v-model="input2"
-      style="width: 240px"
-      placeholder="Type something"
-      :prefix-icon="Search"
-    />
-  </div>
-  <div class="flex gap-4">
-    <span>Using slots</span>
-    <el-input v-model="input3" style="width: 240px" placeholder="Pick a date">
-      <template #suffix>
-        <el-icon class="el-input__icon"><calendar /></el-icon>
-      </template>
-    </el-input>
-    <el-input
-      v-model="input4"
-      style="width: 240px"
-      placeholder="Type something"
-    >
-      <template #prefix>
-        <el-icon class="el-input__icon"><search /></el-icon>
-      </template>
-    </el-input>
+  <div class="demo-input-with-icon">
+    <div class="input-group">
+      <span class="label">Using attributes</span>
+      <div class="input-container">
+        <el-input
+          v-model="input1"
+          class="responsive-input"
+          placeholder="Pick a date"
+          :suffix-icon="Calendar"
+        />
+        <el-input
+          v-model="input2"
+          class="responsive-input"
+          placeholder="Type something"
+          :prefix-icon="Search"
+        />
+      </div>
+    </div>
+    <div class="input-group">
+      <span class="label">Using slots</span>
+      <div class="input-container">
+        <el-input
+          v-model="input3"
+          class="responsive-input"
+          placeholder="Pick a date"
+        >
+          <template #suffix>
+            <el-icon class="el-input__icon"><calendar /></el-icon>
+          </template>
+        </el-input>
+        <el-input
+          v-model="input4"
+          class="responsive-input"
+          placeholder="Type something"
+        >
+          <template #prefix>
+            <el-icon class="el-input__icon"><search /></el-icon>
+          </template>
+        </el-input>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -18207,6 +19315,43 @@ const input2 = ref('')
 const input3 = ref('')
 const input4 = ref('')
 </script>
+
+<style scoped>
+.demo-input-with-icon {
+  width: 100%;
+}
+
+.input-group {
+  margin-bottom: 1.5rem;
+}
+
+.label {
+  display: block;
+  margin-bottom: 1rem;
+  color: var(--el-text-color-regular);
+}
+
+.input-container {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.responsive-input {
+  width: 240px;
+}
+
+@media (max-width: 768px) {
+  .input-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .responsive-input {
+    width: 100%;
+  }
+}
+</style>
 
 ```
 
@@ -18620,6 +19765,8 @@ URL: https://element-plus.org/en-US/component/link
 # Link
 
 Text hyperlink
+
+
 
 ## Basic
 
@@ -19579,6 +20726,7 @@ Menu with popperOffset will override Submenu's `popper-offset`.
 | -------------------------- | ---------------------------------------------------------------------- | ------------------------------------ |
 | open                       | open a specific sub-menu, the param is index of the sub-menu to open   | ^[Function]`(index: string) => void` |
 | close                      | close a specific sub-menu, the param is index of the sub-menu to close | ^[Function]`(index: string) => void` |
+| handleResize               | manually trigger menu width recalculation                              | ^[Function]`() => void`              |
 | updateActiveIndex ^(2.9.8) | set index of active menu                                               | ^[Function]`(index: string) => void` |
 
 ## SubMenu API
@@ -20403,10 +21551,17 @@ const open = () => {
 ### draggable.vue
 ```vue
 <template>
-  <el-button plain @click="open">Open a draggable Message Box</el-button>
-  <el-button plain @click="open2">
-    Open a overflow draggable Message Box
-  </el-button>
+  <div class="flex flex-wrap gap-1">
+    <el-button class="!ml-0" plain @click="open">
+      Open a draggable Message Box
+    </el-button>
+    <el-button class="!ml-0" plain @click="open2">
+      Open a overflow draggable Message Box
+    </el-button>
+    <el-button class="!ml-0" plain @click="open3">
+      Open a custom dragging style Message Box
+    </el-button>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -20462,7 +21617,40 @@ const open2 = () => {
       })
     })
 }
+
+const open3 = () => {
+  ElMessageBox.confirm(
+    'This message box has custom dragging styles. Try dragging it to see the effects!',
+    'Custom Dragging Style',
+    {
+      confirmButtonText: 'OK',
+      cancelButtonText: 'Cancel',
+      type: 'info',
+      draggable: true,
+      customClass: 'custom-dragging-message-box',
+    }
+  )
+    .then(() => {
+      ElMessage({
+        type: 'success',
+        message: 'Action completed',
+      })
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'info',
+        message: 'Action canceled',
+      })
+    })
+}
 </script>
+
+<style>
+.custom-dragging-message-box.is-dragging {
+  border: 2px dashed var(--el-color-primary);
+  opacity: 0.65;
+}
+</style>
 
 ```
 
@@ -20525,8 +21713,10 @@ const open = () => {
 ### use-vnode.vue
 ```vue
 <template>
-  <el-button plain @click="open">Common VNode</el-button>
-  <el-button plain @click="open1">Dynamic props</el-button>
+  <div class="flex flex-wrap gap-1">
+    <el-button class="!ml-0" plain @click="open">Common VNode</el-button>
+    <el-button class="!ml-0" plain @click="open1">Dynamic props</el-button>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -20573,7 +21763,7 @@ Used to show feedback after an activity. The difference with Notification is tha
 
 ## Basic usage
 
-Displays at the top, and disappears after 3 seconds.
+Displays at the top by default, and disappears after 3 seconds. You can control the position using the `placement` property.
 
 
 
@@ -20606,6 +21796,12 @@ A close button can be added.
 ## Grouping
 
 merge messages with the same content.
+
+
+
+## Placement ^(2.11.0)
+
+Control the position where messages appear. Messages can be displayed at the top (default) or other placements of the viewport.
 
 
 
@@ -20642,21 +21838,22 @@ ElMessage({}, appContext)
 
 ### Options
 
-| Name                     | Description                                                                                          | Type                                                                       | Default |
-| ------------------------ | ---------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ------- |
-| message                  | message text                                                                                         | ^[string] / ^[VNode] / ^[Function]`() => VNode`                            | ''      |
-| type                     | message type                                                                                         | ^[enum]`'primary' (2.9.11) \| 'success' \| 'warning' \| 'info' \| 'error'` | info    |
-| plain ^(2.6.3)           | whether message is plain                                                                             | ^[boolean]                                                                 | false   |
-| icon                     | custom icon component, overrides `type`                                                              | ^[string] / ^[Component]                                                   | —       |
-| dangerouslyUseHTMLString | whether `message` is treated as HTML string                                                          | ^[boolean]                                                                 | false   |
-| customClass              | custom class name for Message                                                                        | ^[string]                                                                  | ''      |
-| duration                 | display duration, millisecond. If set to 0, it will not turn off automatically                       | ^[number]                                                                  | 3000    |
-| showClose                | whether to show a close button                                                                       | ^[boolean]                                                                 | false   |
-| onClose                  | callback function when closed with the message instance as the parameter                             | ^[Function]`() => void`                                                    | —       |
-| offset                   | set the distance to the top of viewport                                                              | ^[number]                                                                  | 16      |
-| appendTo                 | set the root element for the message, default to `document.body`                                     | ^[CSSSelector] / ^[HTMLElement]                                            | —       |
-| grouping                 | merge messages with the same content, type of VNode message is not supported                         | ^[boolean]                                                                 | false   |
-| repeatNum                | The number of repetitions, similar to badge, is used as the initial number when used with `grouping` | ^[number]                                                                  | 1       |
+| Name                     | Description                                                                                            | Type                                                                                       | Default |
+| ------------------------ | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------- |
+| message                  | message text                                                                                           | ^[string] / ^[VNode] / ^[Function]`() => VNode`                                            | ''      |
+| type                     | message type                                                                                           | ^[enum]`'primary' (2.9.11) \| 'success' \| 'warning' \| 'info' \| 'error'`                 | info    |
+| plain ^(2.6.3)           | whether message is plain                                                                               | ^[boolean]                                                                                 | false   |
+| icon                     | custom icon component, overrides `type`                                                                | ^[string] / ^[Component]                                                                   | —       |
+| dangerouslyUseHTMLString | whether `message` is treated as HTML string                                                            | ^[boolean]                                                                                 | false   |
+| customClass              | custom class name for Message                                                                          | ^[string]                                                                                  | ''      |
+| duration                 | display duration, millisecond. If set to 0, it will not turn off automatically                         | ^[number]                                                                                  | 3000    |
+| showClose                | whether to show a close button                                                                         | ^[boolean]                                                                                 | false   |
+| onClose                  | callback function when closed with the message instance as the parameter                               | ^[Function]`() => void`                                                                    | —       |
+| offset                   | set the distance to the viewport edge (top when placement is 'top', bottom when placement is 'bottom') | ^[number]                                                                                  | 16      |
+| placement ^(2.11.0)      | message placement position                                                                             | ^[enum]`'top' \| 'top-left' \| 'top-right' \| 'bottom' \| 'bottom-left' \| 'bottom-right'` | top     |
+| appendTo                 | set the root element for the message, default to `document.body`                                       | ^[CSSSelector] / ^[HTMLElement]                                                            | —       |
+| grouping                 | merge messages with the same content, type of VNode message is not supported                           | ^[boolean]                                                                                 | false   |
+| repeatNum                | The number of repetitions, similar to badge, is used as the initial number when used with `grouping`   | ^[number]                                                                                  | 1       |
 
 ### Methods
 
@@ -20671,8 +21868,12 @@ ElMessage({}, appContext)
 ### basic.vue
 ```vue
 <template>
-  <el-button :plain="true" @click="open">Show message</el-button>
-  <el-button :plain="true" @click="openVn">VNode</el-button>
+  <div class="flex flex-wrap gap-1">
+    <el-button class="!ml-0" :plain="true" @click="open">
+      Show message
+    </el-button>
+    <el-button class="!ml-0" :plain="true" @click="openVn">VNode</el-button>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -20698,12 +21899,16 @@ const openVn = () => {
 ### closable.vue
 ```vue
 <template>
-  <el-button :plain="true" @click="open6">Primary</el-button>
-  <el-button :plain="true" @click="open2">Success</el-button>
-  <el-button :plain="true" @click="open3">Warning</el-button>
-  <el-button :plain="true" @click="open1">Info</el-button>
-  <el-button :plain="true" @click="open4">Error</el-button>
-  <el-button :plain="true" @click="open5">Won't close automatically</el-button>
+  <div class="flex flex-wrap gap-1">
+    <el-button class="!ml-0" :plain="true" @click="open6">Primary</el-button>
+    <el-button class="!ml-0" :plain="true" @click="open2">Success</el-button>
+    <el-button class="!ml-0" :plain="true" @click="open3">Warning</el-button>
+    <el-button class="!ml-0" :plain="true" @click="open1">Info</el-button>
+    <el-button class="!ml-0" :plain="true" @click="open4">Error</el-button>
+    <el-button class="!ml-0" :plain="true" @click="open5">
+      Won't close automatically
+    </el-button>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -20757,11 +21962,13 @@ const open6 = () => {
 ### different-types.vue
 ```vue
 <template>
-  <el-button :plain="true" @click="open5">Primary</el-button>
-  <el-button :plain="true" @click="open2">Success</el-button>
-  <el-button :plain="true" @click="open3">Warning</el-button>
-  <el-button :plain="true" @click="open1">Info</el-button>
-  <el-button :plain="true" @click="open4">Error</el-button>
+  <div class="flex flex-wrap gap-1">
+    <el-button class="!ml-0" :plain="true" @click="open5">Primary</el-button>
+    <el-button class="!ml-0" :plain="true" @click="open2">Success</el-button>
+    <el-button class="!ml-0" :plain="true" @click="open3">Warning</el-button>
+    <el-button class="!ml-0" :plain="true" @click="open1">Info</el-button>
+    <el-button class="!ml-0" :plain="true" @click="open4">Error</el-button>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -20812,14 +22019,92 @@ const open = () => {
 
 ```
 
+### placement.vue
+```vue
+<template>
+  <div class="flex flex-wrap gap-1">
+    <el-button class="!ml-0" :plain="true" @click="openMsg()"> Top </el-button>
+    <el-button class="!ml-0" :plain="true" @click="openMsg('top-left')">
+      Top Left
+    </el-button>
+    <el-button class="!ml-0" :plain="true" @click="openMsg('top-right')">
+      Top Right
+    </el-button>
+    <el-button class="!ml-0" :plain="true" @click="openMsg('bottom')">
+      Bottom
+    </el-button>
+    <el-button class="!ml-0" :plain="true" @click="openMsg('bottom-left')">
+      Bottom Left
+    </el-button>
+    <el-button class="!ml-0" :plain="true" @click="openMsg('bottom-right')">
+      Bottom Right
+    </el-button>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { ElMessage } from 'element-plus'
+
+import type { MessagePlacement, MessageType } from 'element-plus'
+
+let topCount = 0
+let bottomCount = 0
+let topLeftCount = 0
+let topRightCount = 0
+let bottomLeftCount = 0
+let bottomRightCount = 0
+
+const openMsg = (placement: MessagePlacement = 'top') => {
+  let count = 0
+  let type: MessageType = 'success'
+
+  switch (placement) {
+    case 'top':
+      count = ++topCount
+      type = 'success'
+      break
+    case 'bottom':
+      count = ++bottomCount
+      type = 'warning'
+      break
+    case 'top-left':
+      count = ++topLeftCount
+      type = 'info'
+      break
+    case 'top-right':
+      count = ++topRightCount
+      type = 'primary'
+      break
+    case 'bottom-left':
+      count = ++bottomLeftCount
+      type = 'warning'
+      break
+    case 'bottom-right':
+      count = ++bottomRightCount
+      type = 'error'
+      break
+  }
+
+  ElMessage({
+    message: `This is a message from the ${placement} ${count}`,
+    type,
+    placement,
+  })
+}
+</script>
+
+```
+
 ### plain.vue
 ```vue
 <template>
-  <el-button :plain="true" @click="open5">Primary</el-button>
-  <el-button :plain="true" @click="open1">Success</el-button>
-  <el-button :plain="true" @click="open2">Warning</el-button>
-  <el-button :plain="true" @click="open3">Info</el-button>
-  <el-button :plain="true" @click="open4">Error</el-button>
+  <div class="flex flex-wrap gap-1">
+    <el-button class="!ml-0" :plain="true" @click="open5">Primary</el-button>
+    <el-button class="!ml-0" :plain="true" @click="open1">Success</el-button>
+    <el-button class="!ml-0" :plain="true" @click="open2">Warning</el-button>
+    <el-button class="!ml-0" :plain="true" @click="open3">Info</el-button>
+    <el-button class="!ml-0" :plain="true" @click="open4">Error</el-button>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -21008,8 +22293,14 @@ ElNotification({}, appContext)
 ### basic.vue
 ```vue
 <template>
-  <el-button plain @click="open1"> Closes automatically </el-button>
-  <el-button plain @click="open2"> Won't close automatically </el-button>
+  <div class="flex flex-wrap gap-1">
+    <el-button class="!ml-0" plain @click="open1">
+      Closes automatically
+    </el-button>
+    <el-button class="!ml-0" plain @click="open2">
+      Won't close automatically
+    </el-button>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -21037,11 +22328,13 @@ const open2 = () => {
 ### different-types.vue
 ```vue
 <template>
-  <el-button plain @click="open5">Primary</el-button>
-  <el-button plain @click="open1">Success</el-button>
-  <el-button plain @click="open2">Warning</el-button>
-  <el-button plain @click="open3">Info</el-button>
-  <el-button plain @click="open4">Error</el-button>
+  <div class="flex flex-wrap gap-1">
+    <el-button class="!ml-0" plain @click="open5">Primary</el-button>
+    <el-button class="!ml-0" plain @click="open1">Success</el-button>
+    <el-button class="!ml-0" plain @click="open2">Warning</el-button>
+    <el-button class="!ml-0" plain @click="open3">Info</el-button>
+    <el-button class="!ml-0" plain @click="open4">Error</el-button>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -21133,10 +22426,12 @@ const open = () => {
 ### positioning.vue
 ```vue
 <template>
-  <el-button plain @click="open1"> Top Right </el-button>
-  <el-button plain @click="open2"> Bottom Right </el-button>
-  <el-button plain @click="open3"> Bottom Left </el-button>
-  <el-button plain @click="open4"> Top Left </el-button>
+  <div class="flex flex-wrap gap-1">
+    <el-button class="!ml-0" plain @click="open1"> Top Right </el-button>
+    <el-button class="!ml-0" plain @click="open2"> Bottom Right </el-button>
+    <el-button class="!ml-0" plain @click="open3"> Bottom Left </el-button>
+    <el-button class="!ml-0" plain @click="open4"> Top Left </el-button>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -21199,8 +22494,10 @@ const open = () => {
 ### use-vnode.vue
 ```vue
 <template>
-  <el-button plain @click="open">Common VNode</el-button>
-  <el-button plain @click="open1">Dynamic props</el-button>
+  <div class="flex flex-wrap gap-1">
+    <el-button class="!ml-0" plain @click="open">Common VNode</el-button>
+    <el-button class="!ml-0" plain @click="open1">Dynamic props</el-button>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -22330,12 +23627,14 @@ const visible = ref(false)
 </template>
 
 <script setup lang="ts">
-import { ref, unref } from 'vue'
+import { ref } from 'vue'
 import { ClickOutside as vClickOutside } from 'element-plus'
 
-const popoverRef = ref()
+import type { PopoverInstance } from 'element-plus'
+
+const popoverRef = ref<PopoverInstance>()
 const onClickOutside = () => {
-  unref(popoverRef).popperRef?.delayHide?.()
+  popoverRef.value?.hide()
 }
 </script>
 
@@ -22625,13 +23924,15 @@ const visible = ref(false)
 </template>
 
 <script setup lang="ts">
-import { ref, unref } from 'vue'
+import { ref } from 'vue'
 import { ClickOutside as vClickOutside } from 'element-plus'
 
+import type { PopoverInstance } from 'element-plus'
+
 const buttonRef = ref()
-const popoverRef = ref()
+const popoverRef = ref<PopoverInstance>()
 const onClickOutside = () => {
-  unref(popoverRef).popperRef?.delayHide?.()
+  popoverRef.value?.hide()
 }
 </script>
 
@@ -24676,7 +25977,8 @@ The width of dropdown box is calculated by default based on the value of `label`
 | default-first-option                | select first matching option on enter key. Use with `filterable` or `remote`                                                             | ^[boolean]                                                                                                                                                                  | false                                          |
 | no-match-text                       | displayed text when no data matches the filtering query, you can also use slot `empty`, default is 'No matching data'                    | ^[string]                                                                                                                                                                   | —                                              |
 | no-data-text                        | displayed text when there is no options, you can also use slot empty                                                                     | ^[string]                                                                                                                                                                   | No Data                                        |
-| popper-class                        | custom class name for Select's dropdown                                                                                                  | ^[string]                                                                                                                                                                   | ''                                             |
+| popper-class                        | custom class name for Select's dropdown                                                                                                  | ^[string] / ^[object]                                                                                                                                                       | ''                                             |
+| popper-style ^(2.11.0)              | custom style for Select's dropdown                                                                                                       | ^[string] / ^[object]                                                                                                                                                       | —                                              |
 | teleported                          | whether select dropdown is teleported, if `true` it will be teleported to where `append-to` sets                                         | ^[boolean]                                                                                                                                                                  | true                                           |
 | append-to ^(2.8.8)                  | which element the select dropdown appends to                                                                                             | ^[CSSSelector] / ^[HTMLElement]                                                                                                                                             | —                                              |
 | persistent                          | when select dropdown is inactive and `persistent` is `false`, select dropdown will be destroyed                                          | ^[boolean]                                                                                                                                                                  | true                                           |
@@ -24904,12 +26206,11 @@ const options = Array.from({ length: 1000 }).map((_, idx) => ({
 
 <script lang="ts" setup>
 import { nextTick, ref } from 'vue'
-import { ElSelectV2 } from 'element-plus'
 
-import type { CheckboxValueType } from 'element-plus'
+import type { CheckboxValueType, SelectV2Instance } from 'element-plus'
 
 const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
-const select = ref<InstanceType<typeof ElSelectV2>>()
+const select = ref<SelectV2Instance>()
 const isAdding = ref(false)
 const value = ref<CheckboxValueType[]>([])
 const optionName = ref('')
@@ -26020,60 +27321,70 @@ You can customize label.
 
 ### Select Attributes
 
-| Name                            | Description                                                                                                                              | Type                                                                                                                                                                        | Default                                                  |
-| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
-| model-value / v-model           | binding value                                                                                                                            | ^[string] / ^[number] / ^[boolean] / ^[object] / ^[array]                                                                                                                   | —                                                        |
-| multiple                        | whether multiple-select is activated                                                                                                     | ^[boolean]                                                                                                                                                                  | false                                                    |
-| options ^(2.10.5)               | data of the options, the key of `value` and `label` and `disabled` can be customize by `props`                                           | ^[array]`Array<{[key: string]: any}>`                                                                                                                                       | —                                                        |
-| props ^(2.10.5)                 | configuration options                                                                                                                    | ^[object]`{ value?: string, label?: string, disabled?: boolean}`                                                                                                            | `{value: 'value', label: 'label', disabled: 'disabled'}` |
-| disabled                        | whether Select is disabled                                                                                                               | ^[boolean]                                                                                                                                                                  | false                                                    |
-| value-key                       | unique identity key name for value, required when value is an object                                                                     | ^[string]                                                                                                                                                                   | value                                                    |
-| size                            | size of Input                                                                                                                            | ^[enum]`'' \| 'large' \| 'default' \| 'small'`                                                                                                                              | —                                                        |
-| clearable                       | whether select can be cleared                                                                                                            | ^[boolean]                                                                                                                                                                  | false                                                    |
-| collapse-tags                   | whether to collapse tags to a text when multiple selecting                                                                               | ^[boolean]                                                                                                                                                                  | false                                                    |
-| collapse-tags-tooltip ^(2.3.0)  | whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true                         | ^[boolean]                                                                                                                                                                  | false                                                    |
-| multiple-limit                  | maximum number of options user can select when `multiple` is `true`. No limit when set to 0                                              | ^[number]                                                                                                                                                                   | 0                                                        |
-| id                              | native input id input                                                                                                                    | ^[string]                                                                                                                                                                   | —                                                        |
-| name                            | the name attribute of select input                                                                                                       | ^[string]                                                                                                                                                                   | —                                                        |
-| effect                          | tooltip theme, built-in theme: `dark` / `light`                                                                                          | ^[enum]`'dark' \| 'light'` / ^[string]                                                                                                                                      | light                                                    |
-| autocomplete                    | the autocomplete attribute of select input                                                                                               | ^[string]                                                                                                                                                                   | off                                                      |
-| placeholder                     | placeholder, default is 'Select'                                                                                                         | ^[string]                                                                                                                                                                   | —                                                        |
-| filterable                      | whether Select is filterable                                                                                                             | ^[boolean]                                                                                                                                                                  | false                                                    |
-| allow-create                    | whether creating new items is allowed. To use this, `filterable` must be true                                                            | ^[boolean]                                                                                                                                                                  | false                                                    |
-| filter-method                   | custom filter method, the first parameter is the current input value. To use this, `filterable` must be true                             | ^[Function]`(query: string) => void`                                                                                                                                        | —                                                        |
-| remote                          | whether options are loaded from server                                                                                                   | ^[boolean]                                                                                                                                                                  | false                                                    |
-| remote-method                   | function that gets called when the input value changes. Its parameter is the current input value. To use this, `filterable` must be true | ^[Function]`(query: string) => void`                                                                                                                                        | —                                                        |
-| remote-show-suffix              | in remote search method show suffix icon                                                                                                 | ^[boolean]                                                                                                                                                                  | false                                                    |
-| loading                         | whether Select is loading data from server                                                                                               | ^[boolean]                                                                                                                                                                  | false                                                    |
-| loading-text                    | displayed text while loading data from server, default is 'Loading'                                                                      | ^[string]                                                                                                                                                                   | —                                                        |
-| no-match-text                   | displayed text when no data matches the filtering query, you can also use slot `empty`, default is 'No matching data'                    | ^[string]                                                                                                                                                                   | —                                                        |
-| no-data-text                    | displayed text when there is no options, you can also use slot `empty`, default is 'No data'                                             | ^[string]                                                                                                                                                                   | —                                                        |
-| popper-class                    | custom class name for Select's dropdown                                                                                                  | ^[string]                                                                                                                                                                   | ''                                                       |
-| reserve-keyword                 | when `multiple` and `filterable` is true, whether to reserve current keyword after selecting an option                                   | ^[boolean]                                                                                                                                                                  | true                                                     |
-| default-first-option            | select first matching option on enter key. Use with `filterable` or `remote`                                                             | ^[boolean]                                                                                                                                                                  | false                                                    |
-| teleported                      | whether select dropdown is teleported, if `true` it will be teleported to where `append-to` sets                                         | ^[boolean]                                                                                                                                                                  | true                                                     |
-| append-to ^(2.8.4)              | which element the select dropdown appends to                                                                                             | ^[CSSSelector] / ^[HTMLElement]                                                                                                                                             | —                                                        |
-| persistent                      | when select dropdown is inactive and `persistent` is `false`, select dropdown will be destroyed                                          | ^[boolean]                                                                                                                                                                  | true                                                     |
-| automatic-dropdown              | for non-filterable Select, this prop decides if the option menu pops up when the input is focused                                        | ^[boolean]                                                                                                                                                                  | false                                                    |
-| clear-icon                      | custom clear icon component                                                                                                              | ^[string] / ^[object]`Component`                                                                                                                                            | CircleClose                                              |
-| fit-input-width                 | whether the width of the dropdown is the same as the input                                                                               | ^[boolean]                                                                                                                                                                  | false                                                    |
-| suffix-icon                     | custom suffix icon component                                                                                                             | ^[string] / ^[object]`Component`                                                                                                                                            | ArrowDown                                                |
-| tag-type                        | tag type                                                                                                                                 | ^[enum]`'' \| 'success' \| 'info' \| 'warning' \| 'danger'`                                                                                                                 | info                                                     |
-| tag-effect ^(2.7.7)             | tag effect                                                                                                                               | ^[enum]`'' \| 'light' \| 'dark' \| 'plain'`                                                                                                                                 | light                                                    |
-| validate-event                  | whether to trigger form validation                                                                                                       | ^[boolean]                                                                                                                                                                  | true                                                     |
-| offset ^(2.8.8)                 | offset of the dropdown                                                                                                                   | ^[number]                                                                                                                                                                   | 12                                                       |
-| show-arrow ^(2.8.8)             | whether the dropdown has an arrow                                                                                                        | ^[boolean]                                                                                                                                                                  | true                                                     |
-| placement ^(2.2.17)             | position of dropdown                                                                                                                     | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | bottom-start                                             |
-| fallback-placements ^(2.5.6)    | list of possible positions for dropdown [popper.js](https://popper.js.org/docs/v2/modifiers/flip/#fallbackplacements)                    | ^[array]`Placement[]`                                                                                                                                                       | ['bottom-start', 'top-start', 'right', 'left']           |
-| max-collapse-tags ^(2.3.0)      | the max tags number to be shown. To use this, `collapse-tags` must be true                                                               | ^[number]                                                                                                                                                                   | 1                                                        |
-| popper-options                  | [popper.js](https://popper.js.org/docs/v2/) parameters                                                                                   | ^[object]refer to [popper.js](https://popper.js.org/docs/v2/) doc                                                                                                           | {}                                                       |
-| aria-label ^(a11y)              | same as `aria-label` in native input                                                                                                     | ^[string]                                                                                                                                                                   | —                                                        |
-| empty-values ^(2.7.0)           | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations)                           | ^[array]                                                                                                                                                                    | —                                                        |
-| value-on-clear ^(2.7.0)         | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)                                  | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                                                                                            | —                                                        |
-| suffix-transition ^(deprecated) | animation when dropdown appears/disappears icon                                                                                          | ^[boolean]                                                                                                                                                                  | true                                                     |
-| tabindex ^(2.9.0)               | tabindex for input                                                                                                                       | ^[string] / ^[number]                                                                                                                                                       | —                                                        |
+| Name                            | Description                                                                                                                              | Type                                                                                                                                                                        | Default                                        |
+| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
+| model-value / v-model           | binding value                                                                                                                            | ^[string] / ^[number] / ^[boolean] / ^[object] / ^[array]                                                                                                                   | —                                              |
+| multiple                        | whether multiple-select is activated                                                                                                     | ^[boolean]                                                                                                                                                                  | false                                          |
+| options ^(2.10.5)               | data of the options, the key of `value` and `label` and `disabled` can be customize by `props`                                           | ^[array]`Array<{[key: string]: any}>`                                                                                                                                       | —                                              |
+| [props](#props) ^(2.10.5)       | configuration options                                                                                                                    | ^[object]                                                                                                                                                                   | —                                              |
+| disabled                        | whether Select is disabled                                                                                                               | ^[boolean]                                                                                                                                                                  | false                                          |
+| value-key                       | unique identity key name for value, required when value is an object                                                                     | ^[string]                                                                                                                                                                   | value                                          |
+| size                            | size of Input                                                                                                                            | ^[enum]`'' \| 'large' \| 'default' \| 'small'`                                                                                                                              | —                                              |
+| clearable                       | whether select can be cleared                                                                                                            | ^[boolean]                                                                                                                                                                  | false                                          |
+| collapse-tags                   | whether to collapse tags to a text when multiple selecting                                                                               | ^[boolean]                                                                                                                                                                  | false                                          |
+| collapse-tags-tooltip ^(2.3.0)  | whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true                         | ^[boolean]                                                                                                                                                                  | false                                          |
+| multiple-limit                  | maximum number of options user can select when `multiple` is `true`. No limit when set to 0                                              | ^[number]                                                                                                                                                                   | 0                                              |
+| id                              | native input id input                                                                                                                    | ^[string]                                                                                                                                                                   | —                                              |
+| name                            | the name attribute of select input                                                                                                       | ^[string]                                                                                                                                                                   | —                                              |
+| effect                          | tooltip theme, built-in theme: `dark` / `light`                                                                                          | ^[enum]`'dark' \| 'light'` / ^[string]                                                                                                                                      | light                                          |
+| autocomplete                    | the autocomplete attribute of select input                                                                                               | ^[string]                                                                                                                                                                   | off                                            |
+| placeholder                     | placeholder, default is 'Select'                                                                                                         | ^[string]                                                                                                                                                                   | —                                              |
+| filterable                      | whether Select is filterable                                                                                                             | ^[boolean]                                                                                                                                                                  | false                                          |
+| allow-create                    | whether creating new items is allowed. To use this, `filterable` must be true                                                            | ^[boolean]                                                                                                                                                                  | false                                          |
+| filter-method                   | custom filter method, the first parameter is the current input value. To use this, `filterable` must be true                             | ^[Function]`(query: string) => void`                                                                                                                                        | —                                              |
+| remote                          | whether options are loaded from server                                                                                                   | ^[boolean]                                                                                                                                                                  | false                                          |
+| remote-method                   | function that gets called when the input value changes. Its parameter is the current input value. To use this, `filterable` must be true | ^[Function]`(query: string) => void`                                                                                                                                        | —                                              |
+| remote-show-suffix              | in remote search method show suffix icon                                                                                                 | ^[boolean]                                                                                                                                                                  | false                                          |
+| loading                         | whether Select is loading data from server                                                                                               | ^[boolean]                                                                                                                                                                  | false                                          |
+| loading-text                    | displayed text while loading data from server, default is 'Loading'                                                                      | ^[string]                                                                                                                                                                   | —                                              |
+| no-match-text                   | displayed text when no data matches the filtering query, you can also use slot `empty`, default is 'No matching data'                    | ^[string]                                                                                                                                                                   | —                                              |
+| no-data-text                    | displayed text when there is no options, you can also use slot `empty`, default is 'No data'                                             | ^[string]                                                                                                                                                                   | —                                              |
+| popper-class                    | custom class name for Select's dropdown                                                                                                  | ^[string]                                                                                                                                                                   | ''                                             |
+| popper-style ^(2.11.0)          | custom style for Select's dropdown                                                                                                       | ^[string] / ^[object]                                                                                                                                                       | —                                              |
+| reserve-keyword                 | when `multiple` and `filterable` is true, whether to reserve current keyword after selecting an option                                   | ^[boolean]                                                                                                                                                                  | true                                           |
+| default-first-option            | select first matching option on enter key. Use with `filterable` or `remote`                                                             | ^[boolean]                                                                                                                                                                  | false                                          |
+| teleported                      | whether select dropdown is teleported, if `true` it will be teleported to where `append-to` sets                                         | ^[boolean]                                                                                                                                                                  | true                                           |
+| append-to ^(2.8.4)              | which element the select dropdown appends to                                                                                             | ^[CSSSelector] / ^[HTMLElement]                                                                                                                                             | —                                              |
+| persistent                      | when select dropdown is inactive and `persistent` is `false`, select dropdown will be destroyed                                          | ^[boolean]                                                                                                                                                                  | true                                           |
+| automatic-dropdown              | for non-filterable Select, this prop decides if the option menu pops up when the input is focused                                        | ^[boolean]                                                                                                                                                                  | false                                          |
+| clear-icon                      | custom clear icon component                                                                                                              | ^[string] / ^[object]`Component`                                                                                                                                            | CircleClose                                    |
+| fit-input-width                 | whether the width of the dropdown is the same as the input                                                                               | ^[boolean]                                                                                                                                                                  | false                                          |
+| suffix-icon                     | custom suffix icon component                                                                                                             | ^[string] / ^[object]`Component`                                                                                                                                            | ArrowDown                                      |
+| tag-type                        | tag type                                                                                                                                 | ^[enum]`'' \| 'success' \| 'info' \| 'warning' \| 'danger'`                                                                                                                 | info                                           |
+| tag-effect ^(2.7.7)             | tag effect                                                                                                                               | ^[enum]`'' \| 'light' \| 'dark' \| 'plain'`                                                                                                                                 | light                                          |
+| validate-event                  | whether to trigger form validation                                                                                                       | ^[boolean]                                                                                                                                                                  | true                                           |
+| offset ^(2.8.8)                 | offset of the dropdown                                                                                                                   | ^[number]                                                                                                                                                                   | 12                                             |
+| show-arrow ^(2.8.8)             | whether the dropdown has an arrow                                                                                                        | ^[boolean]                                                                                                                                                                  | true                                           |
+| placement ^(2.2.17)             | position of dropdown                                                                                                                     | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | bottom-start                                   |
+| fallback-placements ^(2.5.6)    | list of possible positions for dropdown [popper.js](https://popper.js.org/docs/v2/modifiers/flip/#fallbackplacements)                    | ^[array]`Placement[]`                                                                                                                                                       | ['bottom-start', 'top-start', 'right', 'left'] |
+| max-collapse-tags ^(2.3.0)      | the max tags number to be shown. To use this, `collapse-tags` must be true                                                               | ^[number]                                                                                                                                                                   | 1                                              |
+| popper-options                  | [popper.js](https://popper.js.org/docs/v2/) parameters                                                                                   | ^[object]refer to [popper.js](https://popper.js.org/docs/v2/) doc                                                                                                           | {}                                             |
+| aria-label ^(a11y)              | same as `aria-label` in native input                                                                                                     | ^[string]                                                                                                                                                                   | —                                              |
+| empty-values ^(2.7.0)           | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations)                           | ^[array]                                                                                                                                                                    | —                                              |
+| value-on-clear ^(2.7.0)         | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)                                  | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                                                                                            | —                                              |
+| suffix-transition ^(deprecated) | animation when dropdown appears/disappears icon                                                                                          | ^[boolean]                                                                                                                                                                  | true                                           |
+| tabindex ^(2.9.0)               | tabindex for input                                                                                                                       | ^[string] / ^[number]                                                                                                                                                       | —                                              |
 
 
+
+### props
+
+| Attribute         | Description                                                     | Type      | Default  |
+| ----------------- | --------------------------------------------------------------- | --------- | -------- |
+| value             | specify which key of node object is used as the node's value    | ^[string] | value    |
+| label             | specify which key of node object is used as the node's label    | ^[string] | label    |
+| options ^(2.11.0) | specify which key of node object is used as the node's children | ^[string] | options  |
+| disabled          | specify which key of node object is used as the node's disabled | ^[string] | disabled |
 
 ### Select Events
 
@@ -28904,13 +30215,20 @@ When either panel disables `resizable`, dragging will be disabled.
 
 
 
+## Lazy ^(2.11.0)
+
+When `lazy` is enabled, the panel size will not update in real time during dragging, but only after the drag ends.
+
+
+
 ## Splitter API
 
 ### Splitter Attributes
 
-| Name   | Description                      | Type                                | Default    |
-| ------ | -------------------------------- | ----------------------------------- | ---------- |
-| layout | Layout direction of the splitter | ^[enum]`'horizontal' \| 'vertical'` | horizontal |
+| Name           | Description                      | Type                                | Default    |
+| -------------- | -------------------------------- | ----------------------------------- | ---------- |
+| layout         | Layout direction of the splitter | ^[enum]`'horizontal' \| 'vertical'` | horizontal |
+| lazy ^(2.11.0) | Whether to enable lazy mode      | ^[boolean]                          | false      |
 
 ### Splitter Events
 
@@ -28980,25 +30298,32 @@ When either panel disables `resizable`, dragging will be disabled.
 ### collapsible.vue
 ```vue
 <template>
+  <el-switch
+    v-model="isCollapsible"
+    active-text="enable"
+    inactive-text="disable"
+    inline-prompt
+    class="mb-2"
+  />
   <div
     style="height: 250px; box-shadow: var(--el-border-color-light) 0px 0px 10px"
   >
     <el-splitter>
-      <el-splitter-panel collapsible min="50">
+      <el-splitter-panel :collapsible="isCollapsible" min="50">
         <div class="demo-panel">1</div>
       </el-splitter-panel>
-      <el-splitter-panel collapsible>
+      <el-splitter-panel :collapsible="isCollapsible">
         <div class="demo-panel">2</div>
       </el-splitter-panel>
       <el-splitter-panel>
         <div class="demo-panel">3</div>
       </el-splitter-panel>
-      <el-splitter-panel collapsible>
+      <el-splitter-panel :collapsible="isCollapsible">
         <el-splitter layout="vertical">
-          <el-splitter-panel collapsible>
+          <el-splitter-panel :collapsible="isCollapsible">
             <div class="demo-panel">4</div>
           </el-splitter-panel>
-          <el-splitter-panel collapsible>
+          <el-splitter-panel :collapsible="isCollapsible">
             <div class="demo-panel">5</div>
           </el-splitter-panel>
         </el-splitter>
@@ -29006,6 +30331,12 @@ When either panel disables `resizable`, dragging will be disabled.
     </el-splitter>
   </div>
 </template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const isCollapsible = ref(true)
+</script>
 
 <style scoped>
 .demo-panel {
@@ -29052,6 +30383,37 @@ import { ref } from 'vue'
 
 const resizable = ref(false)
 </script>
+
+<style scoped>
+.demo-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+</style>
+
+```
+
+### lazy.vue
+```vue
+<template>
+  <div
+    style="height: 250px; box-shadow: var(--el-border-color-light) 0px 0px 10px"
+  >
+    <el-splitter lazy>
+      <el-splitter-panel collapsible min="50">
+        <div class="demo-panel">1</div>
+      </el-splitter-panel>
+      <el-splitter-panel collapsible>
+        <div class="demo-panel">2</div>
+      </el-splitter-panel>
+      <el-splitter-panel collapsible>
+        <div class="demo-panel">3</div>
+      </el-splitter-panel>
+    </el-splitter>
+  </div>
+</template>
 
 <style scoped>
 .demo-panel {
@@ -29237,11 +30599,11 @@ Display statistics.
 ### basic.vue
 ```vue
 <template>
-  <el-row>
-    <el-col :span="6">
+  <el-row :gutter="16">
+    <el-col :xs="24" :sm="12" :md="6" class="text-center mb-4">
       <el-statistic title="Daily active users" :value="268500" />
     </el-col>
-    <el-col :span="6">
+    <el-col :xs="24" :sm="12" :md="6" class="text-center mb-4">
       <el-statistic :value="138">
         <template #title>
           <div style="display: inline-flex; align-items: center">
@@ -29254,10 +30616,10 @@ Display statistics.
         <template #suffix>/100</template>
       </el-statistic>
     </el-col>
-    <el-col :span="6">
+    <el-col :xs="24" :sm="12" :md="6" class="text-center mb-4">
       <el-statistic title="Total Transactions" :value="outputValue" />
     </el-col>
-    <el-col :span="6">
+    <el-col :xs="24" :sm="12" :md="6" class="text-center mb-4">
       <el-statistic title="Feedback number" :value="562">
         <template #suffix>
           <el-icon style="vertical-align: -0.125em">
@@ -29281,19 +30643,13 @@ const outputValue = useTransition(source, {
 source.value = 172000
 </script>
 
-<style scoped>
-.el-col {
-  text-align: center;
-}
-</style>
-
 ```
 
 ### card.vue
 ```vue
 <template>
   <el-row :gutter="16">
-    <el-col :span="8">
+    <el-col :xs="24" :sm="12" :md="8" class="mb-4">
       <div class="statistic-card">
         <el-statistic :value="98500">
           <template #title>
@@ -29324,7 +30680,7 @@ source.value = 172000
         </div>
       </div>
     </el-col>
-    <el-col :span="8">
+    <el-col :xs="24" :sm="12" :md="8" class="mb-4">
       <div class="statistic-card">
         <el-statistic :value="693700">
           <template #title>
@@ -29355,7 +30711,7 @@ source.value = 172000
         </div>
       </div>
     </el-col>
-    <el-col :span="8">
+    <el-col :xs="24" :sm="12" :md="8" class="mb-4">
       <div class="statistic-card">
         <el-statistic :value="72000" title="New transactions today">
           <template #title>
@@ -29445,11 +30801,11 @@ import {
 ### countdown.vue
 ```vue
 <template>
-  <el-row>
-    <el-col :span="8">
+  <el-row :gutter="16">
+    <el-col :xs="24" :sm="12" :md="8" class="text-center mb-4">
       <el-countdown title="Start to grab" :value="value" />
     </el-col>
-    <el-col :span="8">
+    <el-col :xs="24" :sm="12" :md="8" class="text-center mb-4">
       <el-countdown
         title="Remaining VIP time"
         format="HH:mm:ss"
@@ -29459,7 +30815,7 @@ import {
         Reset
       </el-button>
     </el-col>
-    <el-col :span="8">
+    <el-col :xs="24" :sm="12" :md="8" class="text-center mb-4">
       <el-countdown format="DD [days] HH:mm:ss" :value="value2">
         <template #title>
           <div style="display: inline-flex; align-items: center">
@@ -29490,10 +30846,6 @@ function reset() {
 </script>
 
 <style scoped>
-.el-col {
-  text-align: center;
-}
-
 .countdown-footer {
   margin-top: 8px;
 }
@@ -36176,6 +37528,7 @@ Can pick an arbitrary time range.
 | is-range                    | whether to pick a time range                                                                                   | ^[boolean]                                                                                      | false       |
 | arrow-control               | whether to pick time using arrow buttons                                                                       | ^[boolean]                                                                                      | false       |
 | popper-class                | custom class name for TimePicker's dropdown                                                                    | ^[string]                                                                                       | ''          |
+| popper-style                | custom style for TimePicker's dropdown                                                                         | ^[string] / ^[object]                                                                           | —           |
 | range-separator             | range separator                                                                                                | ^[string]                                                                                       | '-'         |
 | format                      | format of the displayed value in the input box                                                                 | ^[string] see [date formats](/en-US/component/date-picker#date-formats)                         | —           |
 | default-value               | optional, default date of the calendar                                                                         | ^[Date] / ^[object]`[Date, Date]`                                                               | —           |
@@ -36466,12 +37819,11 @@ const value = ref('')
 ### time-range.vue
 ```vue
 <template>
-  <div class="demo-time-range">
+  <div class="demo-time-range flex flex-wrap gap-4">
     <el-time-select
       v-model="startTime"
       style="width: 240px"
       :max-time="endTime"
-      class="mr-4"
       placeholder="Start time"
       start="08:30"
       step="00:15"
@@ -37140,6 +38492,7 @@ onMounted(() => {
 <style scoped>
 .target {
   position: relative;
+  margin-top: 20px;
 }
 </style>
 
@@ -38327,6 +39680,15 @@ Lazy loading of tree nodes, suitable for large data lists.
 
 
 
+## Use node-key attribute
+
+By default the `modelValue` is looking for the `value` key.
+For a different data structure `node-key` must be provided to work normally.
+
+
+
+
+
 ## API
 
 ### Attributes
@@ -38942,6 +40304,44 @@ const data = [
             label: 'Level three 3-2-1',
           },
         ],
+      },
+    ],
+  },
+]
+</script>
+
+```
+
+### node-key.vue
+```vue
+<template>
+  <el-tree-select
+    v-model="value"
+    style="width: 240px"
+    :data="data"
+    node-key="id"
+    show-checkbox
+    multiple
+    default-expand-all
+  />
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const value = ref([2])
+const data = [
+  {
+    id: 1,
+    label: 'Level one 1',
+    children: [
+      {
+        id: 2,
+        label: 'Level two 1-1',
+      },
+      {
+        id: 3,
+        label: 'Level two 1-2',
       },
     ],
   },
@@ -39652,9 +41052,8 @@ const data = createData(4, 30, 40)
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { ElTreeV2 } from 'element-plus'
 
-import type { TreeNodeData } from 'element-plus'
+import type { TreeNodeData, TreeV2Instance } from 'element-plus'
 
 interface Tree {
   id: string
@@ -39689,7 +41088,7 @@ const createData = (
 }
 
 const query = ref('')
-const treeRef = ref<InstanceType<typeof ElTreeV2>>()
+const treeRef = ref<TreeV2Instance>()
 const data = createData(4, 30, 5)
 const props = {
   value: 'id',
@@ -40122,12 +41521,12 @@ const defaultProps = {
     :props="defaultProps"
   />
 
-  <div class="mt-2">
-    <el-button @click="getCheckedNodes">get by node</el-button>
-    <el-button @click="getCheckedKeys">get by key</el-button>
-    <el-button @click="setCheckedNodes">set by node</el-button>
-    <el-button @click="setCheckedKeys">set by key</el-button>
-    <el-button @click="resetChecked">reset</el-button>
+  <div class="flex flex-wrap gap-1 mt-2">
+    <el-button class="!ml-0" @click="getCheckedNodes">get by node</el-button>
+    <el-button class="!ml-0" @click="getCheckedKeys">get by key</el-button>
+    <el-button class="!ml-0" @click="setCheckedNodes">set by node</el-button>
+    <el-button class="!ml-0" @click="setCheckedKeys">set by key</el-button>
+    <el-button class="!ml-0" @click="resetChecked">reset</el-button>
   </div>
 </template>
 
