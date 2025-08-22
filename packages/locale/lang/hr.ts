@@ -37,7 +37,6 @@ export default {
       month10: 'Listopad',
       month11: 'Studeni',
       month12: 'Prosinac',
-      week: 'tjedan',
       weeks: {
         sun: 'Ned',
         mon: 'Pon',
@@ -114,10 +113,10 @@ export default {
     transfer: {
       noMatch: 'Nema pronađenih podataka',
       noData: 'Nema podataka',
-      titles: ['Lista 1', 'Lista 2'], // to be translated
-      filterPlaceholder: 'Unesite ključnu riječ', // to be translated
-      noCheckedFormat: '{total} stavki', // to be translated
-      hasCheckedFormat: '{checked}/{total} checked', // to be translated
+      titles: ['Lista 1', 'Lista 2'],
+      filterPlaceholder: 'Unesite ključnu riječ',
+      noCheckedFormat: '{total} stavki',
+      hasCheckedFormat: '{checked}/{total} checked',
     },
     image: {
       error: 'FAILED', // to be translated

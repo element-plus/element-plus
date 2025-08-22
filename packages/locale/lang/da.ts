@@ -37,7 +37,6 @@ export default {
       month10: 'Oktober',
       month11: 'November',
       month12: 'December',
-      week: 'uge',
       weeks: {
         sun: 'Søn',
         mon: 'Man',

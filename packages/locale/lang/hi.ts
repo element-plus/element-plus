@@ -48,7 +48,6 @@ export default {
       month10: 'अक्टूबर',
       month11: 'नवंबर',
       month12: 'दिसंबर',
-      week: 'सप्ताह',
       weeks: {
         sun: 'रवि',
         mon: 'सोम',

@@ -37,7 +37,6 @@ export default {
       month10: 'октобар',
       month11: 'новембар',
       month12: 'децембар',
-      week: 'седмица',
       weeks: {
         sun: 'Нед',
         mon: 'Пон',
@@ -114,7 +113,7 @@ export default {
     transfer: {
       noMatch: 'Нема резултата',
       noData: 'Нема података',
-      titles: ['Листа 1', 'Листа 2'], // to be translated
+      titles: ['Листа 1', 'Листа 2'],
       filterPlaceholder: 'Унеси кључну реч',
       noCheckedFormat: '{total} ставки',
       hasCheckedFormat: '{checked}/{total} обележених',

@@ -25,7 +25,6 @@ export default {
       prevMonth: 'Letzter Monat',
       nextMonth: 'Nächster Monat',
       day: 'Tag',
-      week: 'Woche',
       month: 'Monat',
       year: '',
       month1: 'Januar',

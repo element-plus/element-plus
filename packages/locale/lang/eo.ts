@@ -37,7 +37,6 @@ export default {
       month10: 'Oktobro',
       month11: 'Novembro',
       month12: 'Decembro',
-      week: 'Semajno',
       weeks: {
         sun: 'Dim',
         mon: 'Lun',

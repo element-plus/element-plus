@@ -48,7 +48,6 @@ export default {
       month10: 'Oktober',
       month11: 'November',
       month12: 'Disember',
-      week: 'minggu',
       weeks: {
         sun: 'Ahd',
         mon: 'Isn',

@@ -37,7 +37,6 @@ export default {
       month10: 'Oktyabr',
       month11: 'Noyabr',
       month12: 'Dekabr',
-      week: 'həftə',
       weeks: {
         sun: 'Baz',
         mon: 'B.e',
@@ -120,14 +119,14 @@ export default {
       hasCheckedFormat: '{checked}/{total} seçildi',
     },
     image: {
-      error: 'SƏHV', // to be translated
+      error: 'SƏHV',
     },
     pageHeader: {
-      title: 'Geri', // to be translated
+      title: 'Geri',
     },
     popconfirm: {
-      confirmButtonText: 'Bəli', // to be translated
-      cancelButtonText: 'Xeyr', // to be translated
+      confirmButtonText: 'Bəli',
+      cancelButtonText: 'Xeyr',
     },
     empty: {
       description: 'Məlumat yoxdur',

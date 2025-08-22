@@ -37,7 +37,6 @@ export default {
       month10: 'אוקטובר',
       month11: 'נובמבר',
       month12: 'דצמבר',
-      week: 'שבוע',
       weeks: {
         sun: 'א׳',
         mon: 'ב׳',

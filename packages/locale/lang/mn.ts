@@ -37,7 +37,6 @@ export default {
       month10: '10 сар',
       month11: '11 сар',
       month12: '12 сар',
-      week: 'Долоо хоног',
       weeks: {
         sun: 'Ням',
         mon: 'Дав',

@@ -45,7 +45,6 @@ export default {
       month10: 'گەڵاڕێزان',
       month11: 'سەرماوەز',
       month12: 'بەفرانبار',
-      week: 'هەفت',
       weeks: {
         sun: 'یەکشەممە',
         mon: 'دووشەممە',
@@ -152,16 +151,16 @@ export default {
     transfer: {
       noMatch: 'هیچ داتای هاوتا نیە',
       noData: 'هیچ داتا نیە',
-      titles: ['لیستی 1', 'لیستی 2'], // to be translated
-      filterPlaceholder: 'کلیلەوشە داخڵ بکە', // to be translated
-      noCheckedFormat: '{total} دانە', // to be translated
-      hasCheckedFormat: '{checked}/{total} هەڵبژێردراوە', // to be translated
+      titles: ['لیستی 1', 'لیستی 2'],
+      filterPlaceholder: 'کلیلەوشە داخڵ بکە',
+      noCheckedFormat: '{total} دانە',
+      hasCheckedFormat: '{checked}/{total} هەڵبژێردراوە',
     },
     image: {
       error: 'شکستی هێنا',
     },
     pageHeader: {
-      title: 'گەڕانەوە', // to be translated
+      title: 'گەڕانەوە',
     },
     popconfirm: {
       confirmButtonText: 'بەڵێ',

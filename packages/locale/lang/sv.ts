@@ -128,7 +128,7 @@ export default {
       error: 'FAILED', // to be translated
     },
     pageHeader: {
-      title: 'Bakåt', // to be translated
+      title: 'Bakåt',
     },
     popconfirm: {
       confirmButtonText: 'Ja',

@@ -37,7 +37,6 @@ export default {
       month10: 'Oktabr',
       month11: 'Noyabr',
       month12: 'Dekabr',
-      week: 'Hafta',
       weeks: {
         sun: 'Yak',
         mon: 'Dush',

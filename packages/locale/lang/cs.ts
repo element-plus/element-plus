@@ -25,7 +25,6 @@ export default {
       prevMonth: 'Předchozí měsíc',
       nextMonth: 'Příští měsíc',
       day: 'Den',
-      week: 'Týden',
       month: 'Měsíc',
       year: 'Rok',
       month1: 'Leden',

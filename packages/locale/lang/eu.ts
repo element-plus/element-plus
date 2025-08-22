@@ -119,10 +119,10 @@ export default {
     transfer: {
       noMatch: 'Bat datorren daturik ez',
       noData: 'Daturik ez',
-      titles: ['Zerrenda 1', 'Zerrenda 2'], // to be translated
-      filterPlaceholder: 'Sartu gako-hitza', // to be translated
-      noCheckedFormat: '{total} elementu', // to be translated
-      hasCheckedFormat: '{checked}/{total} hautatuta', // to be translated
+      titles: ['Zerrenda 1', 'Zerrenda 2'],
+      filterPlaceholder: 'Sartu gako-hitza',
+      noCheckedFormat: '{total} elementu',
+      hasCheckedFormat: '{checked}/{total} hautatuta',
     },
     image: {
       error: 'FAILED', // to be translated

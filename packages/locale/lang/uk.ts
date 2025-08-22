@@ -37,7 +37,6 @@ export default {
       month10: 'Жовтень',
       month11: 'Листопад',
       month12: 'Грудень',
-      week: 'тиждень',
       weeks: {
         sun: 'Нд',
         mon: 'Пн',

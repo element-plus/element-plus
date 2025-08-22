@@ -43,7 +43,6 @@ export default {
       month10: 'أكتوبر',
       month11: 'نوفمبر',
       month12: 'ديسمبر',
-      week: 'أسبوع',
       weeks: {
         sun: 'الأحد',
         mon: 'الأثنين',

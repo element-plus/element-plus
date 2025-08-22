@@ -46,7 +46,6 @@ export default {
       month10: 'mwezi wa kumi',
       month11: 'mwezi wa kumi na moja',
       month12: 'mwezi wa kumi na mbili',
-      week: 'siku saba',
       weeks: {
         sun: 'jpili',
         mon: 'jtatu',

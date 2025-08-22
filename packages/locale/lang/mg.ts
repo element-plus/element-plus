@@ -37,7 +37,6 @@ export default {
       month10: 'Oktobra',
       month11: 'Novambra',
       month12: 'Desambra',
-      week: 'herinandro',
       weeks: {
         sun: 'Lad',
         mon: 'Ala',
@@ -116,16 +115,16 @@ export default {
     transfer: {
       noMatch: 'Tsy misy angona mifanentana',
       noData: 'Tsy misy angona',
-      titles: ['Lisitra 1', 'Lisitra 2'], // to be translated
-      filterPlaceholder: 'Ampidiro teny fanalahidy', // to be translated
-      noCheckedFormat: '{total} zavatra', // to be translated
-      hasCheckedFormat: '{checked}/{total} voamarina', // to be translated
+      titles: ['Lisitra 1', 'Lisitra 2'],
+      filterPlaceholder: 'Ampidiro teny fanalahidy',
+      noCheckedFormat: '{total} zavatra',
+      hasCheckedFormat: '{checked}/{total} voamarina',
     },
     image: {
       error: 'TSY NAHOMBY',
     },
     pageHeader: {
-      title: 'Miverina', // to be translated
+      title: 'Miverina',
     },
     popconfirm: {
       confirmButtonText: 'Eny',
