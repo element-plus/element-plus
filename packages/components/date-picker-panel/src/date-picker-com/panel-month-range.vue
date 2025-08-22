@@ -63,6 +63,7 @@
             :range-state="rangeState"
             :disabled-date="disabledDate"
             :disabled="disabled"
+            :cell-class-name="cellClassName"
             @changerange="handleChangeRange"
             @pick="handleRangePick"
             @select="onSelect"
@@ -103,6 +104,7 @@
             :range-state="rangeState"
             :disabled-date="disabledDate"
             :disabled="disabled"
+            :cell-class-name="cellClassName"
             @changerange="handleChangeRange"
             @pick="handleRangePick"
             @select="onSelect"
@@ -148,9 +150,10 @@ const unit = 'year'
 const { lang } = useLocale()
 const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
 const isDefaultFormat = inject(
-  ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY
+  ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY,
+  undefined
 ) as any
-const { shortcuts, disabledDate } = pickerBase.props
+const { shortcuts, disabledDate, cellClassName } = pickerBase.props
 const format = toRef(pickerBase.props, 'format')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 const leftDate = ref(dayjs().locale(lang.value))

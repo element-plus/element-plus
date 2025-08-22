@@ -30,11 +30,11 @@
         <td
           v-for="(cell, columnKey) in row"
           :key="`${rowKey}.${columnKey}`"
-          :ref="(el) => !isUnmounting && isSelectedCell(cell) && (currentCellRef = el as HTMLElement)"
+          :ref="(el) => !isUnmounting && cell.isSelected && (currentCellRef = el as HTMLElement)"
           :class="getCellClasses(cell)"
           :aria-current="cell.isCurrent ? 'date' : undefined"
           :aria-selected="cell.isCurrent"
-          :tabindex="isSelectedCell(cell) ? 0 : -1"
+          :tabindex="cell.isSelected ? 0 : -1"
           @focus="handleFocus"
         >
           <el-date-picker-cell :cell="cell" />
@@ -68,7 +68,6 @@ const {
   focus,
   isCurrent,
   isWeekActive,
-  isSelectedCell,
 
   handlePickDate,
   handleMouseUp,

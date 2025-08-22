@@ -131,6 +131,35 @@ describe('Datetime Picker', () => {
     expect(dayjs(value.value).diff(dayjs()) < 10).toBeTruthy()
   })
 
+  it("should date input respect the default format 'YYYY-MM-DD' when format with only time format is setted", async () => {
+    const modelValue = new Date(2000, 10, 10, 10, 10)
+    const wrapper = mount(() => (
+      <DatePicker v-model={modelValue} format="HH:mm:ss" type="datetime" />
+    ))
+
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    const timeInput = document.querySelector(
+      '.el-date-picker__editor-wrap input'
+    )
+    expect((timeInput as HTMLInputElement).value).toBe('2000-11-10')
+  })
+
+  it("should time input respect the default format 'HH:mm:ss' when format with only date format is setted", async () => {
+    const modelValue = new Date(2000, 10, 10, 10, 10)
+    const wrapper = mount(() => (
+      <DatePicker v-model={modelValue} format="YYYY" type="datetime" />
+    ))
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    const timeInput = document.querySelectorAll(
+      '.el-date-picker__editor-wrap input'
+    )[1]
+    expect((timeInput as HTMLInputElement).value).toBe('10:10:00')
+  })
+
   it('time-picker select && input time && input date', async () => {
     const value = ref('')
     const wrapper = _mount(() => (
@@ -1121,5 +1150,38 @@ describe('Datetimerange', () => {
     await input.trigger('blur')
     await input.trigger('focus')
     expect(wrapper.findComponent(CircleClose).exists()).toBe(true)
+  })
+  it("should date input respect the default format 'YYYY-MM-DD' when format with only time format is setted", async () => {
+    const modelValue = [
+      new Date(2000, 10, 10, 10, 10),
+      new Date(2000, 10, 11, 10, 10),
+    ]
+    const wrapper = mount(() => (
+      <DatePicker v-model={modelValue} format="HH:mm:ss" type="datetimerange" />
+    ))
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    const timeInput = document.querySelector(
+      '.el-date-range-picker__editors-wrap input'
+    )
+    expect((timeInput as HTMLInputElement).value).toBe('2000-11-10')
+  })
+
+  it("should time input respect the default format 'HH:mm:ss' when format with only date format is setted", async () => {
+    const modelValue = [
+      new Date(2000, 10, 10, 10, 10),
+      new Date(2000, 10, 11, 10, 10),
+    ]
+    const wrapper = mount(() => (
+      <DatePicker v-model={modelValue} format="YYYY" type="datetimerange" />
+    ))
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    const timeInput = document.querySelectorAll(
+      '.el-date-range-picker__editors-wrap input'
+    )[1]
+    expect((timeInput as HTMLInputElement).value).toBe('10:10:00')
   })
 })
