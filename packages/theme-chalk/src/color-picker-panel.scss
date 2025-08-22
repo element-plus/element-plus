@@ -68,6 +68,7 @@
   width: 300px;
   padding: 12px;
   box-sizing: content-box;
+  background: getCssVar('bg-color', 'overlay');
 
   @include when(border) {
     border: solid 1px getCssVar('border-color-lighter');
