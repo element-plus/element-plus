@@ -180,7 +180,7 @@ export default defineComponent({
     })
 
     return {
-      cellSlot: owner.value.cellSlot,
+      cellSlot: owner.value.props.cellSlot,
     }
   },
   render() {
