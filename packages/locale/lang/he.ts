@@ -7,6 +7,10 @@ export default {
     colorpicker: {
       confirm: 'אישור',
       clear: 'נקה',
+      defaultLabel: 'color picker', // to be translated
+      description:
+        'current color is {color}. press enter to select a new color.', // to be translated
+      alphaLabel: 'pick alpha value', // to be translated
     },
     datepicker: {
       now: 'כעת',
@@ -14,6 +18,11 @@ export default {
       cancel: 'בטל',
       clear: 'נקה',
       confirm: 'אישור',
+      dateTablePrompt:
+        'Use the arrow keys and enter to select the day of the month', // to be translated
+      monthTablePrompt: 'Use the arrow keys and enter to select the month', // to be translated
+      yearTablePrompt: 'Use the arrow keys and enter to select the year', // to be translated
+      selectedDate: 'Selected date', // to be translated
       selectDate: 'בחר תאריך',
       selectTime: 'בחר זמן',
       startDate: 'תאריך התחלה',
@@ -46,6 +55,15 @@ export default {
         fri: 'ו׳',
         sat: 'שבת',
       },
+      weeksFull: {
+        sun: 'Sunday', // to be translated
+        mon: 'Monday', // to be translated
+        tue: 'Tuesday', // to be translated
+        wed: 'Wednesday', // to be translated
+        thu: 'Thursday', // to be translated
+        fri: 'Friday', // to be translated
+        sat: 'Saturday', // to be translated
+      },
       months: {
         jan: 'ינואר',
         feb: 'פברואר',
@@ -61,6 +79,10 @@ export default {
         dec: 'דצמבר',
       },
     },
+    inputNumber: {
+      decrease: 'decrease number', // to be translated
+      increase: 'increase number', // to be translated
+    },
     select: {
       loading: 'טוען',
       noMatch: 'לא נמצאה התאמה',
@@ -69,6 +91,9 @@ export default {
     },
     mention: {
       loading: 'טוען',
+    },
+    dropdown: {
+      toggleDropdown: 'Toggle Dropdown', // to be translated
     },
     cascader: {
       noMatch: 'לא נמצאה התאמה',
@@ -87,12 +112,21 @@ export default {
       currentPage: 'page {pager}', // to be translated
       prevPages: 'Previous {pager} pages', // to be translated
       nextPages: 'Next {pager} pages', // to be translated
+      deprecationWarning:
+        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
+    },
+    dialog: {
+      close: 'Close this dialog', // to be translated
+    },
+    drawer: {
+      close: 'Close this dialog', // to be translated
     },
     messagebox: {
       title: 'הודעה',
       confirm: 'אישור',
       cancel: 'בטל',
       error: 'קלט לא תקין',
+      close: 'Close this dialog', // to be translated
     },
     upload: {
       deleteTip: 'לחץ כדי למחוק',
@@ -100,12 +134,22 @@ export default {
       preview: 'תצוגה מקדימה',
       continue: 'המשך',
     },
+    slider: {
+      defaultLabel: 'slider between {min} and {max}', // to be translated
+      defaultRangeStartLabel: 'pick start value', // to be translated
+      defaultRangeEndLabel: 'pick end value', // to be translated
+    },
     table: {
       emptyText: 'אין נתונים',
       confirmFilter: 'אישור',
       resetFilter: 'נקה',
       clearFilter: 'הכל',
       sumText: 'סך הכל',
+    },
+    tour: {
+      next: 'Next', // to be translated
+      previous: 'Previous', // to be translated
+      finish: 'Finish', // to be translated
     },
     tree: {
       emptyText: 'אין נתונים',

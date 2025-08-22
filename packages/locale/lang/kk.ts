@@ -7,6 +7,10 @@ export default {
     colorpicker: {
       confirm: 'Қабылдау',
       clear: 'Тазалау',
+      defaultLabel: 'color picker', // to be translated
+      description:
+        'current color is {color}. press enter to select a new color.', // to be translated
+      alphaLabel: 'pick alpha value', // to be translated
     },
     datepicker: {
       now: 'Қазір',
@@ -14,6 +18,11 @@ export default {
       cancel: 'Болдырмау',
       clear: 'Тазалау',
       confirm: 'Қабылдау',
+      dateTablePrompt:
+        'Use the arrow keys and enter to select the day of the month', // to be translated
+      monthTablePrompt: 'Use the arrow keys and enter to select the month', // to be translated
+      yearTablePrompt: 'Use the arrow keys and enter to select the year', // to be translated
+      selectedDate: 'Selected date', // to be translated
       selectDate: 'Күнді таңдаңыз',
       selectTime: 'Сағатты таңдаңыз',
       startDate: 'Басталу күні',
@@ -46,6 +55,15 @@ export default {
         fri: 'Жұм',
         sat: 'Сен',
       },
+      weeksFull: {
+        sun: 'Sunday', // to be translated
+        mon: 'Monday', // to be translated
+        tue: 'Tuesday', // to be translated
+        wed: 'Wednesday', // to be translated
+        thu: 'Thursday', // to be translated
+        fri: 'Friday', // to be translated
+        sat: 'Saturday', // to be translated
+      },
       months: {
         jan: 'Қаң',
         feb: 'Ақп',
@@ -61,6 +79,10 @@ export default {
         dec: 'Жел',
       },
     },
+    inputNumber: {
+      decrease: 'decrease number', // to be translated
+      increase: 'increase number', // to be translated
+    },
     select: {
       loading: 'Жүктелуде',
       noMatch: 'Сәйкес деректер жоқ',
@@ -69,6 +91,9 @@ export default {
     },
     mention: {
       loading: 'Жүктелуде',
+    },
+    dropdown: {
+      toggleDropdown: 'Toggle Dropdown', // to be translated
     },
     cascader: {
       noMatch: 'Сәйкес деректер жоқ',
@@ -87,12 +112,21 @@ export default {
       currentPage: 'page {pager}', // to be translated
       prevPages: 'Previous {pager} pages', // to be translated
       nextPages: 'Next {pager} pages', // to be translated
+      deprecationWarning:
+        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
+    },
+    dialog: {
+      close: 'Close this dialog', // to be translated
+    },
+    drawer: {
+      close: 'Close this dialog', // to be translated
     },
     messagebox: {
       title: 'Хабар',
       confirm: 'Қабылдау',
       cancel: 'Болдырмау',
       error: 'Жарамсыз енгізулер',
+      close: 'Close this dialog', // to be translated
     },
     upload: {
       deleteTip: 'Өшіруді басып өшіріңіз',
@@ -100,12 +134,22 @@ export default {
       preview: 'Алдын ала қарау',
       continue: 'Жалғастыру',
     },
+    slider: {
+      defaultLabel: 'slider between {min} and {max}', // to be translated
+      defaultRangeStartLabel: 'pick start value', // to be translated
+      defaultRangeEndLabel: 'pick end value', // to be translated
+    },
     table: {
       emptyText: 'Деректер жоқ',
       confirmFilter: 'Қабылдау',
       resetFilter: 'Қалпына келтіру',
       clearFilter: 'Барлығы',
       sumText: 'Сомасы',
+    },
+    tour: {
+      next: 'Next', // to be translated
+      previous: 'Previous', // to be translated
+      finish: 'Finish', // to be translated
     },
     tree: {
       emptyText: 'Деректер жоқ',

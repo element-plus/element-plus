@@ -10,6 +10,7 @@ export default {
       defaultLabel: 'kichagua rangi',
       description:
         'rangi ya sasa ni {color}. bonyeza kitufe cha kuingia ili kuchagua rangi mpya.',
+      alphaLabel: 'pick alpha value', // to be translated
     },
     datepicker: {
       now: 'sasa',
@@ -145,6 +146,11 @@ export default {
       resetFilter: 'weka upya',
       clearFilter: 'zote',
       sumText: 'jumla',
+    },
+    tour: {
+      next: 'Next', // to be translated
+      previous: 'Previous', // to be translated
+      finish: 'Finish', // to be translated
     },
     tree: {
       emptyText: 'hakuna data',

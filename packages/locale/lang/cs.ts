@@ -7,6 +7,10 @@ export default {
     colorpicker: {
       confirm: 'OK',
       clear: 'Vymazat',
+      defaultLabel: 'color picker', // to be translated
+      description:
+        'current color is {color}. press enter to select a new color.', // to be translated
+      alphaLabel: 'pick alpha value', // to be translated
     },
     datepicker: {
       now: 'Teď',
@@ -14,6 +18,11 @@ export default {
       cancel: 'Zrušit',
       clear: 'Vymazat',
       confirm: 'OK',
+      dateTablePrompt:
+        'Use the arrow keys and enter to select the day of the month', // to be translated
+      monthTablePrompt: 'Use the arrow keys and enter to select the month', // to be translated
+      yearTablePrompt: 'Use the arrow keys and enter to select the year', // to be translated
+      selectedDate: 'Selected date', // to be translated
       selectDate: 'Vybrat datum',
       selectTime: 'Vybrat čas',
       startDate: 'Datum začátku',
@@ -24,8 +33,6 @@ export default {
       nextYear: 'Příští rok',
       prevMonth: 'Předchozí měsíc',
       nextMonth: 'Příští měsíc',
-      day: 'Den',
-      month: 'Měsíc',
       year: 'Rok',
       month1: 'Leden',
       month2: 'Únor',
@@ -48,6 +55,15 @@ export default {
         fri: 'Pá',
         sat: 'So',
       },
+      weeksFull: {
+        sun: 'Sunday', // to be translated
+        mon: 'Monday', // to be translated
+        tue: 'Tuesday', // to be translated
+        wed: 'Wednesday', // to be translated
+        thu: 'Thursday', // to be translated
+        fri: 'Friday', // to be translated
+        sat: 'Saturday', // to be translated
+      },
       months: {
         jan: 'Led',
         feb: 'Úno',
@@ -62,6 +78,12 @@ export default {
         nov: 'Lis',
         dec: 'Pro',
       },
+      day: 'Den',
+      month: 'Měsíc',
+    },
+    inputNumber: {
+      decrease: 'decrease number', // to be translated
+      increase: 'increase number', // to be translated
     },
     select: {
       loading: 'Načítání',
@@ -71,6 +93,9 @@ export default {
     },
     mention: {
       loading: 'Načítání',
+    },
+    dropdown: {
+      toggleDropdown: 'Toggle Dropdown', // to be translated
     },
     cascader: {
       noMatch: 'Žádná shoda',
@@ -89,12 +114,21 @@ export default {
       currentPage: 'page {pager}', // to be translated
       prevPages: 'Previous {pager} pages', // to be translated
       nextPages: 'Next {pager} pages', // to be translated
+      deprecationWarning:
+        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
+    },
+    dialog: {
+      close: 'Close this dialog', // to be translated
+    },
+    drawer: {
+      close: 'Close this dialog', // to be translated
     },
     messagebox: {
       title: 'Zpráva',
       confirm: 'OK',
       cancel: 'Zrušit',
       error: 'Neplatný vstup',
+      close: 'Close this dialog', // to be translated
     },
     upload: {
       deleteTip: 'Stisknout pro smazání',
@@ -102,12 +136,22 @@ export default {
       preview: 'Náhled',
       continue: 'Pokračovat',
     },
+    slider: {
+      defaultLabel: 'slider between {min} and {max}', // to be translated
+      defaultRangeStartLabel: 'pick start value', // to be translated
+      defaultRangeEndLabel: 'pick end value', // to be translated
+    },
     table: {
       emptyText: 'Žádná data',
       confirmFilter: 'Potvrdit',
       resetFilter: 'Resetovat',
       clearFilter: 'Vše',
       sumText: 'Celkem',
+    },
+    tour: {
+      next: 'Next', // to be translated
+      previous: 'Previous', // to be translated
+      finish: 'Finish', // to be translated
     },
     tree: {
       emptyText: 'Žádná data',

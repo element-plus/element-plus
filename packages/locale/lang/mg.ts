@@ -7,6 +7,10 @@ export default {
     colorpicker: {
       confirm: 'ENY',
       clear: 'Fafana',
+      defaultLabel: 'color picker', // to be translated
+      description:
+        'current color is {color}. press enter to select a new color.', // to be translated
+      alphaLabel: 'pick alpha value', // to be translated
     },
     datepicker: {
       now: 'Zao',
@@ -14,6 +18,11 @@ export default {
       cancel: 'Hanafoana',
       clear: 'Fafana',
       confirm: 'ENY',
+      dateTablePrompt:
+        'Use the arrow keys and enter to select the day of the month', // to be translated
+      monthTablePrompt: 'Use the arrow keys and enter to select the month', // to be translated
+      yearTablePrompt: 'Use the arrow keys and enter to select the year', // to be translated
+      selectedDate: 'Selected date', // to be translated
       selectDate: 'Misafidy daty',
       selectTime: 'Misafidy ora',
       startDate: 'Daty fanombohana',
@@ -46,6 +55,15 @@ export default {
         fri: 'Zom',
         sat: 'Sab',
       },
+      weeksFull: {
+        sun: 'Sunday', // to be translated
+        mon: 'Monday', // to be translated
+        tue: 'Tuesday', // to be translated
+        wed: 'Wednesday', // to be translated
+        thu: 'Thursday', // to be translated
+        fri: 'Friday', // to be translated
+        sat: 'Saturday', // to be translated
+      },
       months: {
         jan: 'Jan',
         feb: 'Feb',
@@ -61,6 +79,10 @@ export default {
         dec: 'Des',
       },
     },
+    inputNumber: {
+      decrease: 'decrease number', // to be translated
+      increase: 'increase number', // to be translated
+    },
     select: {
       loading: 'Eo ampiandrasana',
       noMatch: 'Tsy misy angona mifanentana',
@@ -69,6 +91,9 @@ export default {
     },
     mention: {
       loading: 'Eo ampiandrasana',
+    },
+    dropdown: {
+      toggleDropdown: 'Toggle Dropdown', // to be translated
     },
     cascader: {
       noMatch: 'Tsy misy angona mifanentana',
@@ -90,11 +115,18 @@ export default {
       deprecationWarning:
         'Fampiasana tsy ampiasaina intsony no hita, azafady mba jereo ny tahirin-kevitra el-pagination raha mila fanazavana fanampiny',
     },
+    dialog: {
+      close: 'Close this dialog', // to be translated
+    },
+    drawer: {
+      close: 'Close this dialog', // to be translated
+    },
     messagebox: {
       title: 'Hafatra',
       confirm: 'ENY',
       cancel: 'Hanafoana',
       error: 'Fampidirana tsy ara-dalàna',
+      close: 'Close this dialog', // to be translated
     },
     upload: {
       deleteTip: 'tsindrio fafana raha hanala',
@@ -102,12 +134,22 @@ export default {
       preview: 'Topi-maso',
       continue: 'Hanoy',
     },
+    slider: {
+      defaultLabel: 'slider between {min} and {max}', // to be translated
+      defaultRangeStartLabel: 'pick start value', // to be translated
+      defaultRangeEndLabel: 'pick end value', // to be translated
+    },
     table: {
       emptyText: 'Tsy misy angona',
       confirmFilter: 'Manamarina',
       resetFilter: 'Averina',
       clearFilter: 'Rehetra',
       sumText: 'Atambatra',
+    },
+    tour: {
+      next: 'Next', // to be translated
+      previous: 'Previous', // to be translated
+      finish: 'Finish', // to be translated
     },
     tree: {
       emptyText: 'Tsy misy angona',

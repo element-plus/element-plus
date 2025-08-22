@@ -10,6 +10,7 @@ export default {
       defaultLabel: 'هەڵبژاردنی ڕەنگ',
       description:
         'ڕەنگی ئێستا {color}. ئینتەر دابگرە بۆ هەڵبژاردنی ڕەنگی نوێ.',
+      alphaLabel: 'pick alpha value', // to be translated
     },
     datepicker: {
       now: 'ئێستا',
@@ -144,6 +145,11 @@ export default {
       resetFilter: 'جێگیرکردنەوە',
       clearFilter: 'هەموو',
       sumText: 'کۆ',
+    },
+    tour: {
+      next: 'Next', // to be translated
+      previous: 'Previous', // to be translated
+      finish: 'Finish', // to be translated
     },
     tree: {
       emptyText: 'هیچ داتا نیە',

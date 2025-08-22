@@ -2,7 +2,7 @@ export default {
   name: 'fr',
   el: {
     breadcrumb: {
-      label: `Fil d'Ariane`,
+      label: "Fil d'Ariane",
     },
     colorpicker: {
       confirm: 'Confirmer',
@@ -10,6 +10,7 @@ export default {
       defaultLabel: 'color picker',
       description:
         'La couleur actuelle est {color}. Appuyer sur Entrée pour sélectionner une nouvelle couleur.',
+      alphaLabel: 'pick alpha value', // to be translated
     },
     datepicker: {
       now: 'Maintenant',
@@ -34,7 +35,7 @@ export default {
       nextYear: 'Année suivante',
       prevMonth: 'Mois précédent',
       nextMonth: 'Mois suivant',
-      year: '', // In french, like in english, we don't say "Année" after the year number.
+      year: '',
       month1: 'Janvier',
       month2: 'Février',
       month3: 'Mars',
@@ -92,6 +93,9 @@ export default {
     },
     mention: {
       loading: 'Chargement',
+    },
+    dropdown: {
+      toggleDropdown: 'Toggle Dropdown', // to be translated
     },
     cascader: {
       noMatch: 'Aucune correspondance',

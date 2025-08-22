@@ -126,9 +126,10 @@ export default {
     messagebox: {
       title: 'Mesej',
       confirm: 'OK',
-      Batal: 'Dibatalkan',
+      cancel: 'Cancel', // to be translated
       error: 'Input haram',
       close: 'Tutup dialog ini',
+      Batal: 'Dibatalkan',
     },
     upload: {
       deleteTip: 'tekan padam untuk mengalih keluar',
@@ -172,6 +173,7 @@ export default {
     },
     popconfirm: {
       confirmButtonText: 'Ya',
+      cancelButtonText: 'No', // to be translated
       BatalButtonText: 'Tidak',
     },
     carousel: {
