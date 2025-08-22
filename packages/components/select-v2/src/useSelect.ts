@@ -25,7 +25,6 @@ import {
   isUndefined,
 } from '@element-plus/utils'
 import {
-  MINIMUM_INPUT_WIDTH,
   useComposition,
   useEmptyValues,
   useFocusController,
@@ -35,6 +34,7 @@ import {
 import {
   CHANGE_EVENT,
   EVENT_CODE,
+  MINIMUM_INPUT_WIDTH,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import {

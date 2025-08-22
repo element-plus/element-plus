@@ -1,7 +1,6 @@
 import { computed, ref, shallowRef } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
-
-export const MINIMUM_INPUT_WIDTH = 11
+import { MINIMUM_INPUT_WIDTH } from '@element-plus/constants'
 
 export function useCalcInputWidth() {
   const calculatorRef = shallowRef<HTMLElement>()
