@@ -1,4 +1,4 @@
-import { nextTick } from 'vue'
+import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import { ElSplitter, ElSplitterPanel } from '../index'
@@ -216,5 +216,117 @@ describe('Splitter', () => {
     await endCollapseButton.trigger('click')
     await nextTick()
     expect(onCollapse).toHaveBeenCalledWith(0, 'end', [200, 200])
+  })
+
+  it('should collapse normally when size is two-way bound and min & max is set', async () => {
+    const size = ref(150)
+    const wrapper = mount(() => (
+      <div style={{ width: '400px', height: '400px' }}>
+        <ElSplitter>
+          <ElSplitterPanel
+            v-model:size={size.value}
+            collapsible
+            min={50}
+            max={200}
+          >
+            Left Panel
+          </ElSplitterPanel>
+          <ElSplitterPanel collapsible>Right Panel</ElSplitterPanel>
+        </ElSplitter>
+      </div>
+    ))
+    await nextTick()
+
+    const panels = wrapper.findAll('.el-splitter-panel')
+    const startCollapseButton = wrapper.find(
+      '.el-splitter-bar__horizontal-collapse-icon-start'
+    )
+    const endCollapseButton = wrapper.find(
+      '.el-splitter-bar__horizontal-collapse-icon-end'
+    )
+
+    // default size
+    expect(panels[0].attributes('style')).toContain('flex-basis: 150px;')
+
+    // Click collapse button
+    await startCollapseButton.trigger('click')
+    await nextTick()
+
+    // Panel should be collapsed (size = 0)
+    expect(panels[0].attributes('style')).toContain('flex-basis: 0px;')
+
+    // Click collapse button to expand
+    await endCollapseButton.trigger('click')
+    await nextTick()
+
+    // Panel should be restored to original size
+    expect(panels[0].attributes('style')).toContain('flex-basis: 150px;')
+
+    // Click collapse button  to expand
+    await endCollapseButton.trigger('click')
+    await nextTick()
+
+    // Panel should be collapsed (size = 400)
+    expect(panels[0].attributes('style')).toContain('flex-basis: 400px;')
+  })
+
+  it('should not update panel size until drag ends when lazy is true', async () => {
+    const wrapper = mount(() => (
+      <div style={{ width: '400px', height: '400px' }}>
+        <ElSplitter lazy>
+          <ElSplitterPanel>Left Panel</ElSplitterPanel>
+          <ElSplitterPanel>Right Panel</ElSplitterPanel>
+        </ElSplitter>
+      </div>
+    ))
+    await nextTick()
+    const panels = wrapper.findAll('.el-splitter-panel')
+    const splitBar = wrapper.find('.el-splitter-bar__dragger')
+
+    const mousedown = new MouseEvent('mousedown', { bubbles: true })
+    Object.defineProperty(mousedown, 'pageX', { value: 200 })
+    splitBar.element.dispatchEvent(mousedown)
+
+    const mousemove = new MouseEvent('mousemove', { bubbles: true })
+    Object.defineProperty(mousemove, 'pageX', { value: 100 })
+    window.dispatchEvent(mousemove)
+    await nextTick()
+    expect(panels[0].attributes('style')).toContain('flex-basis: 200px;')
+
+    const mouseup = new MouseEvent('mouseup', { bubbles: true })
+    Object.defineProperty(mouseup, 'pageX', { value: 100 })
+    window.dispatchEvent(mouseup)
+    await nextTick()
+    expect(panels[0].attributes('style')).toContain('flex-basis: 100px;')
+  })
+
+  it('should update panel size immediately when lazy is false', async () => {
+    const wrapper = mount(() => (
+      <div style={{ width: '400px', height: '400px' }}>
+        <ElSplitter>
+          <ElSplitterPanel>Left Panel</ElSplitterPanel>
+          <ElSplitterPanel>Right Panel</ElSplitterPanel>
+        </ElSplitter>
+      </div>
+    ))
+    await nextTick()
+    const panels = wrapper.findAll('.el-splitter-panel')
+    const splitBar = wrapper.find('.el-splitter-bar__dragger')
+
+    const mousedown = new MouseEvent('mousedown', { bubbles: true })
+    Object.defineProperty(mousedown, 'pageX', { value: 200 })
+    splitBar.element.dispatchEvent(mousedown)
+
+    const mousemove = new MouseEvent('mousemove', { bubbles: true })
+    Object.defineProperty(mousemove, 'pageX', { value: 100 })
+    window.dispatchEvent(mousemove)
+    await nextTick()
+    expect(panels[0].attributes('style')).toContain('flex-basis: 100px;')
+
+    const mouseup = new MouseEvent('mouseup', { bubbles: true })
+    Object.defineProperty(mouseup, 'pageX', { value: 100 })
+    window.dispatchEvent(mouseup)
+    await nextTick()
+    expect(panels[0].attributes('style')).toContain('flex-basis: 100px;')
   })
 })

@@ -54,7 +54,7 @@ You can also try Element Plus out with the components built-in playground.
 
 #### Try it with code sandbox
 
-[![Edit element-plus](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/element-plus-demo-dxtcr)
+[![Edit element-plus](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/p/github/element-plus/element-plus-demo/main)
 
 <p align="center">
   <b>Special thanks to the generous sponsorship by:</b>
@@ -103,11 +103,6 @@ You can also try Element Plus out with the components built-in playground.
       <td align="center" valign="middle">
         <a href="https://fantastic-admin.github.io/?from=element-plus" target="_blank">
           <img width="130px" src="https://github.com/user-attachments/assets/0dbd9c02-d132-4c9e-a162-2b5a8728fc7e">
-        </a>
-      </td>
-      <td align="center" valign="middle">
-        <a href="https://el.frsimple.com" target="_blank">
-          <img width="130px" src="https://github.com/user-attachments/assets/27ec522b-5de2-4c61-88b9-be47ff3ccc69">
         </a>
       </td>
       <td align="center" valign="middle">
