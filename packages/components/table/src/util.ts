@@ -676,3 +676,50 @@ export const ensurePosition = (
     style[key] = `${style[key]}px` as any
   }
 }
+
+export const getFixedColumnOffsetWithSpan = <T extends DefaultRow>(
+  columnIndex: number,
+  fixed: string | boolean | undefined,
+  store: any,
+  row: T,
+  rowIndex: number,
+  getSpan: (
+    row: T,
+    column: TableColumnCtx<T>,
+    rowIndex: number,
+    columnIndex: number
+  ) => { rowspan: number; colspan: number }
+) => {
+  const {
+    direction,
+    start = 0,
+    after = 0,
+  } = isFixedColumn(columnIndex, fixed, store)
+  if (!direction) return
+
+  const styles: CSSProperties = {}
+  const columns = store.states.columns.value
+  const isLeft = direction === 'left'
+
+  if (isLeft) {
+    let totalWidth = 0
+    for (let i = 0; i < start; i++) {
+      const { rowspan, colspan } = getSpan(row, columns[i], rowIndex, i)
+      if (rowspan > 0 && colspan > 0) {
+        totalWidth += Number(columns[i].realWidth || columns[i].width)
+      }
+    }
+    styles.left = totalWidth
+  } else {
+    let totalWidth = 0
+    for (let i = after + 1; i < columns.length; i++) {
+      const { rowspan, colspan } = getSpan(row, columns[i], rowIndex, i)
+      if (rowspan > 0 && colspan > 0) {
+        totalWidth += Number(columns[i].realWidth || columns[i].width)
+      }
+    }
+    styles.right = totalWidth
+  }
+
+  return styles
+}
