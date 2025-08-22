@@ -10,19 +10,15 @@ import type { DatePickerType } from '../types'
 
 export const datePickerPanelProps = buildProps({
   /**
-   * @description format of the displayed value in the input box (in datetime/datetimerange mode)
-   */
-  format: String,
-  /**
    * @description optional, format of binding value. If not specified, the binding value will be a Date object
    */
   valueFormat: String,
   /**
-   * @description optional, format of the date displayed value in TimePicker's dropdown
+   * @description optional, format of the date displayed in input's inner panel
    */
   dateFormat: String,
   /**
-   * @description optional, format of the time displayed value in TimePicker's dropdown
+   * @description optional, format of the time displayed in input's inner panel
    */
   timeFormat: String,
   /**

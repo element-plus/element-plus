@@ -105,16 +105,14 @@ describe('DatePickerPanel', () => {
 
   describe(':type="datetime" & :type="datetimerange"', () => {
     describe(':type="datetime"', () => {
-      it('both picker show correct formated value (extract date-format and time-format from format property', async () => {
+      it('dateFormat & timeFormat', async () => {
         const value = ref(new Date(2018, 2, 5, 10, 15, 24))
-        const format = ref('YYYY/MM/DD HH:mm A')
-        const dateFormat = ref('')
-        const timeFormat = ref('')
+        const dateFormat = ref('YYYY/MM/DD')
+        const timeFormat = ref('HH:mm A')
         const wrapper = mount(() => (
           <DatePickerPanel
             v-model={value.value}
             type="datetime"
-            format={format.value}
             dateFormat={dateFormat.value}
             timeFormat={timeFormat.value}
           />
@@ -132,7 +130,8 @@ describe('DatePickerPanel', () => {
         expect(dateInput.value).toBe('2018/03/05')
         expect(timeInput.value).toBe('10:15 AM')
 
-        format.value = 'MM-DD-YYYY HH a'
+        dateFormat.value = 'MM-DD-YYYY'
+        timeFormat.value = 'HH a'
         await nextTick()
         expect(dateInput.value).toBe('03-05-2018')
         expect(timeInput.value).toBe('10 am')
@@ -470,14 +469,13 @@ describe('DatePickerPanel', () => {
           new Date(2000, 10, 8, 10, 10),
           new Date(2000, 10, 11, 10, 10),
         ])
-        const dateFormat = ref('')
-        const timeFormat = ref('')
+        const dateFormat = ref('YYYY/MM/DD')
+        const timeFormat = ref('HH:mm A')
         const wrapper = mount(() => (
           <DatePickerPanel
             v-model={value.value}
             type="datetimerange"
             default-time={new Date(2020, 1, 1, 1, 1, 1)}
-            format="YYYY/MM/DD HH:mm A"
             dateFormat={dateFormat.value}
             timeFormat={timeFormat.value}
             showFooter
