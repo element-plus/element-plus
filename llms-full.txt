@@ -3625,7 +3625,7 @@ You can customize both the header and footer of the dropdown using slots.
 
 | Name                                       | Description                                                                                                                                                                      | Type                                                                                                                                                                        | Default      |
 | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| model-value / v-model                      | binding value                                                                                                                                                                    | ^[string] / ^[number] / ^[object]`string[] \| number[] \| any`                                                                                                              | —            |
+| model-value / v-model                      | binding value                                                                                                                                                                    | ^[string] / ^[number]`string[] \| number[] \| any`                                                                                                                          | —            |
 | options                                    | data of the options, the key of `value` and `label` can be customize by `CascaderProps`.                                                                                         | ^[object]`CascaderOption[]`                                                                                                                                                 | —            |
 | [props](#cascaderprops)                    | configuration options, see the following `CascaderProps` table.                                                                                                                  | ^[object]`CascaderProps`                                                                                                                                                    | —            |
 | size                                       | size of input                                                                                                                                                                    | ^[enum]`'large' \| 'default' \| 'small'`                                                                                                                                    | —            |
@@ -3696,11 +3696,11 @@ You can customize both the header and footer of the dropdown using slots.
 
 ### CascaderPanel Attributes
 
-| Name                    | Description                                                                              | Type                                                       | Default |
-| ----------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ------- |
-| model-value / v-model   | binding value                                                                            | ^[string]/^[number]/^[object]`string[] \| number[] \| any` | —       |
-| options                 | data of the options, the key of `value` and `label` can be customize by `CascaderProps`. | ^[object]`CascaderOption[]`                                | —       |
-| [props](#cascaderprops) | configuration options, see the following `CascaderProps` table.                          | ^[object]`CascaderProps`                                   | —       |
+| Name                    | Description                                                                              | Type                                             | Default |
+| ----------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------ | ------- |
+| model-value / v-model   | binding value                                                                            | ^[string]/^[number]`string[] \| number[] \| any` | —       |
+| options                 | data of the options, the key of `value` and `label` can be customize by `CascaderProps`. | ^[object]`CascaderOption[]`                      | —       |
+| [props](#cascaderprops) | configuration options, see the following `CascaderProps` table.                          | ^[object]`CascaderProps`                         | —       |
 
 ### CascaderPanel Events
 
