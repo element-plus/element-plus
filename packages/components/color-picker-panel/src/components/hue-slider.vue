@@ -38,10 +38,12 @@ export default defineComponent({
     },
 
     vertical: Boolean,
+    disabled: Boolean,
   },
   setup(props) {
     const ns = useNamespace('color-hue-slider')
     const instance = getCurrentInstance()!
+
     // ref
     const thumb = ref<HTMLElement>()
     const bar = ref<HTMLElement>()
@@ -62,6 +64,7 @@ export default defineComponent({
 
     // methods
     function handleClick(event: MouseEvent | TouchEvent) {
+      if (props.disabled) return
       const target = event.target
 
       if (target !== thumb.value) {
@@ -70,7 +73,7 @@ export default defineComponent({
     }
 
     function handleDrag(event: MouseEvent | TouchEvent) {
-      if (!bar.value || !thumb.value) return
+      if (!bar.value || !thumb.value || props.disabled) return
 
       const el = instance.vnode.el as HTMLElement
       const rect = el.getBoundingClientRect()
@@ -135,7 +138,7 @@ export default defineComponent({
 
     // mounded
     onMounted(() => {
-      if (!bar.value || !thumb.value) return
+      if (!bar.value || !thumb.value || props.disabled) return
 
       const dragConfig = {
         drag: (event: MouseEvent | TouchEvent) => {
