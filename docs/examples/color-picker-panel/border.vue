@@ -21,7 +21,7 @@
 import { computed, ref } from 'vue'
 import { useElementSize } from '@vueuse/core'
 
-const value = ref<string>('#ff6900')
+const value = ref('#ff6900')
 const containerRef = ref<HTMLElement>()
 
 const { width } = useElementSize(containerRef)
