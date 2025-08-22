@@ -1,6 +1,53 @@
 ## Changelog
 
 
+### 2.11.0
+
+_2025-08-22_
+
+#### Features
+
+- Components [tour] support keyboard switching steps (#21766 by @thinkasany)
+- Components [select] add support for option groups in `options` (#21692 by @cszhjh)
+- Components add custom clear icon (#21699 by @a869246700)
+- Components add isDragging to useDraggable for dialog/message-box (#21703 by @zhixiaotong)
+- Components [splitter] add `lazy` prop (#21730 by @cszhjh)
+- Components [drawer] add `resizable` prop (#21608 by @cszhjh)
+- Components unify clear btn display on focus (#21732 by @Dsaquel)
+- Components [date-picker-panel] externalize `date-picker` core component (#21331 by @Dsaquel)
+- Components [config-provider/button] add text prop (#21806 by @Dsaquel)
+- Components [message] add `placement` option & method (#21747 by @zhixiaotong)
+- Components [cascader/select/date-picker] add popper-style (#21807 by @Dsaquel)
+- Components [input-tag] add `collapse-*` prop (#21477 by @eighty-cents)
+- Components [color-picker-panel] externalize `color-picker` core component (#21668 by @Dsaquel)
+
+#### Bug fixes
+
+- Components [carousel] special case `activeIndex` is inaccurate (#21736 by @jevin98)
+- Components [splitter] `collapsible` does not take effect dynamically (#21742 by @thinkasany)
+- Components [cascader-panel] ensure set null after clear (#21652 by @snowbitx)
+- Components [menu] skip comment nodes in ellipsis (#21751 by @cszhjh)
+- Components [cascader] issue when lazy loading returns leaf nodes (#21414 by @keeplearning66)
+- Components [splitter] collapse works with two-way size and min & max (#21738 by @cszhjh)
+- Components [segmented] wrap options item slot to any (#21794 by @Dsaquel)
+- Components [steps] dynamic status step exception (#21753 by @dhj-l)
+- Components [cascader] correctly handle focus and blur events (#21510 by @cszhjh)
+- Components [input] add `work-break` to `CONTEXT_STYLE` (#21809 by @Dsaquel)
+- Components [slider] correctly reset sliderSize (#21812 by @cszhjh)
+- Components [radio-group] prop-value cause ivalidate loop (#21814 by @cactuser-Lu)
+- Components [table] make root `show-overflow-tooltip` dynamic (#21823 by @Dsaquel)
+- Components [table] show-overflow-tooltip dynamic switch (#21811 by @dhj-l)
+- Build  path compatible with Windows platform (#21423 by @Monday1997)
+- Components [cascader] treat `tagTooltipRef` as array (#21826 by @Dsaquel)
+- Components [date-picker] add missing data slot (#19839 by @Dsaquel)
+- Components [select & select-v2] avoid line break when input is empty (#21844 by @micaiguai)
+- Components [color-picker-panel] sync bg-color with date-picker-panel (#21859 by @Dsaquel)
+
+#### Refactors
+
+- Components export `TreeV2Instance` & optimize type usage (#21718 by @zhixiaotong)
+- Components [cascader-panel] unify click node (#21796 by @Dsaquel)
+
 ### 2.10.7
 
 _2025-08-12_
