@@ -7,8 +7,6 @@ import type {
   CascaderOption,
 } from './types'
 
-export type * from './types'
-
 type ChildrenData = CascaderOption[] | undefined
 
 let uid = 0

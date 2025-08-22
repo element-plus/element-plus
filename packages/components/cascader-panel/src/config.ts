@@ -10,7 +10,7 @@ import type {
   CascaderProps,
   CascaderValue,
   RenderLabel,
-} from './node'
+} from './types'
 
 export const CommonProps = buildProps({
   /**
