@@ -430,10 +430,7 @@ export default {
   /**
    * @description If true, customize cell content via the cell slot instead of the default slot.
    */
-  cellSlot: {
-    type: Boolean,
-    default: false,
-  },
+  cellSlot: Boolean,
 }
 export type {
   SummaryMethod,

@@ -173,7 +173,7 @@ table/custom-column
 
 :::
 
-## Custom column template with the cell slot
+## Custom column template with the cell slot ^(2.11.0)
 
 To enable the cell slot, add the `cell-slot` atrribute to el-table.
 
@@ -417,7 +417,7 @@ table/tooltip-formatter
 | filter-method              | data filtering method. If `filter-multiple` is on, this method will be called multiple times for each row, and a row will display if one of the calls returns `true`                                               | ^[function]`(value: any, row: any, column: TableColumnCtx<T>) => void`                                                                                                      | —                                 |
 | filtered-value             | filter value for selected data, might be useful when table header is rendered with `render-header`                                                                                                                 | ^[object]`string[]`                                                                                                                                                         | —                                 |
 | tooltip-formatter ^(2.9.4) | customize tooltip content when using `show-overflow-tooltip`                                                                                                                                                       | ^[Function]`(data: { row: any, column: TableColumnCtx<T>, cellValue: any }) => VNode \| string`                                                                             | —                                 |
-| cellSlot ^(2.11.0)         | whether to enable the cell slot                                                                                                                                                                                    | ^[boolean]                                                                                                                                                                  | false                             |
+| cell-slot ^(2.11.0)         | whether to enable the cell slot                                                                                                                                                                                    | ^[boolean]                                                                                                                                                                  | false                             |
 
 ### Table-column Slots
 
