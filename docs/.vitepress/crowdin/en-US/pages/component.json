@@ -92,6 +92,11 @@
         "text": "Checkbox"
       },
       {
+        "link": "/color-picker-panel",
+        "text": "Color Picker Panel",
+        "promotion": "2.11.0"
+      },
+      {
         "link": "/color-picker",
         "text": "Color Picker"
       },

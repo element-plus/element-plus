@@ -78,7 +78,7 @@ const ScrollBar = defineComponent({
       const SCROLLBAR_MAX_SIZE = trackSize.value / 3
       return Math.floor(
         Math.min(
-          Math.max(ratio * trackSize.value, SCROLLBAR_MIN_SIZE),
+          Math.max((ratio * trackSize.value) / 100, SCROLLBAR_MIN_SIZE),
           SCROLLBAR_MAX_SIZE
         )
       )

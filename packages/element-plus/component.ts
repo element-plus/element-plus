@@ -23,6 +23,7 @@ import {
 import { ElCol } from '@element-plus/components/col'
 import { ElCollapse, ElCollapseItem } from '@element-plus/components/collapse'
 import { ElCollapseTransition } from '@element-plus/components/collapse-transition'
+import { ElColorPickerPanel } from '@element-plus/components/color-picker-panel'
 import { ElColorPicker } from '@element-plus/components/color-picker'
 import { ElConfigProvider } from '@element-plus/components/config-provider'
 import {
@@ -140,6 +141,7 @@ export default [
   ElCollapse,
   ElCollapseItem,
   ElCollapseTransition,
+  ElColorPickerPanel,
   ElColorPicker,
   ElConfigProvider,
   ElContainer,
