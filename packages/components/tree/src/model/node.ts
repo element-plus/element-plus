@@ -459,8 +459,8 @@ class Node {
           if (!all) {
             nextTick(() => {
               this.checked = all
-              this.indeterminate = half
             })
+            this.indeterminate = half
           }
         }
       }
