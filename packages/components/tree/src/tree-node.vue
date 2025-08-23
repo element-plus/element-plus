@@ -300,7 +300,7 @@ export default defineComponent({
     }
 
     const handleUpdateModelValue = (value: CheckboxValueType) => {
-      props.node.setChecked(value as boolean)
+      props.node.setCheckedToUpdateProps(value as boolean)
     }
 
     const handleChildNodeExpand = (
