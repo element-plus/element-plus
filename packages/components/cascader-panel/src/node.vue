@@ -142,6 +142,8 @@ const handleExpand = () => {
 }
 
 const handleClick = () => {
+  if (isHoverMenu.value) return
+
   if (
     isLeaf.value &&
     !isDisabled.value &&
