@@ -442,7 +442,9 @@ class Node {
       const { all, allWithoutDisable } = getChildState(this.childNodes)
 
       if (!this.isLeaf && !all && allWithoutDisable) {
-        this.checked = false
+        nextTick(() => {
+          this.checked = false
+        })
         value = false
       }
 
