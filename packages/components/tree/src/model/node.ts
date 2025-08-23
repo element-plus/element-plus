@@ -1,4 +1,4 @@
-import { reactive } from 'vue'
+import { nextTick, reactive } from 'vue'
 import { isNil } from 'lodash-unified'
 import {
   hasOwn,
@@ -457,8 +457,10 @@ class Node {
           }
           const { half, all } = getChildState(childNodes)
           if (!all) {
-            this.checked = all
-            this.indeterminate = half
+            nextTick(() => {
+              this.checked = all
+              this.indeterminate = half
+            })
           }
         }
       }
