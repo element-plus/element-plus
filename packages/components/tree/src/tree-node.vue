@@ -49,6 +49,7 @@
         :disabled="!!node.disabled"
         @click.stop
         @change="handleCheckChange"
+        @update:model-value="handleUpdateModelValue"
       />
       <el-icon
         v-if="node.loading"
@@ -298,6 +299,10 @@ export default defineComponent({
       })
     }
 
+    const handleUpdateModelValue = (value: CheckboxValueType) => {
+      props.node.setChecked(value as boolean)
+    }
+
     const handleChildNodeExpand = (
       nodeData: TreeNodeData,
       node: Node,
@@ -351,6 +356,7 @@ export default defineComponent({
       handleDrop,
       handleDragEnd,
       CaretRight,
+      handleUpdateModelValue,
     }
   },
 })
