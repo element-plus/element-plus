@@ -10,7 +10,7 @@ import type {
   CascaderProps,
   CascaderValue,
   LazyLoad,
-} from '../src/node'
+} from '../src/types'
 
 const NORMAL_OPTIONS = [
   {
