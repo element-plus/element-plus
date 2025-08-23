@@ -291,6 +291,41 @@ describe('CascaderPanel.vue', () => {
     expect(wrapper.findAll(MENU).length).toBe(2)
   })
 
+  test('click to select in hover mode', async () => {
+    const handleChange = vi.fn()
+    const value = ref([])
+    const props: CascaderProps = { expandTrigger: 'hover' }
+    const wrapper = mount(() => (
+      <CascaderPanel
+        v-model={value.value}
+        options={NORMAL_OPTIONS}
+        props={props}
+        onChange={handleChange}
+      />
+    ))
+
+    const [bjNode, zjNode, , gdNode] = wrapper.findAll(NODE)
+
+    await bjNode.trigger('click')
+    expect(handleChange).toBeCalledTimes(1)
+    expect(value.value).toEqual(['beijing'])
+
+    await zjNode.trigger('mouseenter')
+    expect(wrapper.findAll(MENU).length).toBe(2)
+
+    const secondMenu = wrapper.findAll(MENU)[1]
+    const hzNode = secondMenu.find(NODE)
+    await hzNode.trigger('click')
+    expect(handleChange).toBeCalledTimes(2)
+    expect(value.value).toEqual(['zhejiang', 'hangzhou'])
+
+    await gdNode.trigger('click')
+    expect(handleChange).toBeCalledTimes(3)
+    expect(value.value).toEqual(['guangdong'])
+
+    expect(wrapper.findAll(MENU).length).toBe(1)
+  })
+
   test('emit value only', async () => {
     const value = ref('shanghai')
     const props = { emitPath: false }

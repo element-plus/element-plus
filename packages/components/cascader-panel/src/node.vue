@@ -142,8 +142,6 @@ const handleExpand = () => {
 }
 
 const handleClick = () => {
-  if (isHoverMenu.value) return
-
   if (
     isLeaf.value &&
     !isDisabled.value &&
@@ -157,7 +155,7 @@ const handleClick = () => {
     !isDisabled.value
   ) {
     handleSelectCheck(!props.node.checked)
-  } else {
+  } else if (!isHoverMenu.value) {
     handleExpand()
   }
 }
