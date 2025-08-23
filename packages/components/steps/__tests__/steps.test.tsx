@@ -213,4 +213,36 @@ describe('Steps.vue', () => {
       expect(domWrapper.element.textContent).toEqual((index + 1).toString())
     })
   })
+
+  test('explicit status should not break subsequent step processStatus', async () => {
+    const wrapper = _mount(() => (
+      <Steps active={1} process-status="process">
+        <Step title="Step 1" status="error" />
+        <Step title="Step 2" />
+        <Step title="Step 3" />
+      </Steps>
+    ))
+    await nextTick()
+    const steps = wrapper.findAll('.el-step')
+    expect(steps[0].find('.el-step__head').classes()).toContain('is-error')
+    expect(steps[1].find('.el-step__head').classes()).toContain('is-process')
+    expect(steps[2].find('.el-step__head').classes()).toContain('is-wait')
+  })
+
+  test('explicit status with various values should not affect flow', async () => {
+    const wrapper = _mount(() => (
+      <Steps active={2} process-status="process" finish-status="finish">
+        <Step title="Step 1" status="success" />
+        <Step title="Step 2" status="error" />
+        <Step title="Step 3" />
+        <Step title="Step 4" />
+      </Steps>
+    ))
+    await nextTick()
+    const steps = wrapper.findAll('.el-step')
+    expect(steps[0].find('.el-step__head').classes()).toContain('is-success')
+    expect(steps[1].find('.el-step__head').classes()).toContain('is-error')
+    expect(steps[2].find('.el-step__head').classes()).toContain('is-process')
+    expect(steps[3].find('.el-step__head').classes()).toContain('is-wait')
+  })
 })

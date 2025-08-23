@@ -23,7 +23,7 @@
     border: none;
     display: flex;
     align-items: center;
-    height: getCssVar('collapse-header-height');
+    min-height: getCssVar('collapse-header-height');
     line-height: getCssVar('collapse-header-height');
     background-color: getCssVar('collapse-header-bg-color');
     color: getCssVar('collapse-header-text-color');

@@ -9,7 +9,8 @@ $directions: rtl, ltr, ttb, btt;
 }
 
 @include b(drawer) {
-  position: absolute;
+  width: 100%;
+  height: 100%;
   box-sizing: border-box;
   background-color: getCssVar('drawer', 'bg-color');
   display: flex;
@@ -78,35 +79,29 @@ $directions: rtl, ltr, ttb, btt;
       box-sizing: border-box;
     }
   }
+}
 
-  &.ltr,
-  &.rtl {
-    height: 100%;
-    top: 0;
-    bottom: 0;
-  }
+.#{$namespace}-drawer-splitter {
+  $bar: #{$namespace}-splitter-bar;
 
-  &.ttb,
-  &.btt {
-    width: 100%;
-    left: 0;
-    right: 0;
-  }
+  > .#{$bar} {
+    .#{$bar}__disable {
+      display: none;
+    }
 
-  &.ltr {
-    left: 0;
-  }
+    .#{$bar}__dragger {
+      &-horizontal::before {
+        width: 1px;
+      }
 
-  &.rtl {
-    right: 0;
-  }
+      &-vertical::before {
+        height: 1px;
+      }
 
-  &.ttb {
-    top: 0;
-  }
-
-  &.btt {
-    bottom: 0;
+      &:not(&-active, &:hover)::before {
+        background-color: transparent;
+      }
+    }
   }
 }
 
@@ -114,6 +109,10 @@ $directions: rtl, ltr, ttb, btt;
   &-enter-active,
   &-leave-active {
     transition: all getCssVar('transition-duration');
+
+    .#{$namespace}-splitter-bar__dragger {
+      display: none;
+    }
   }
 
   &-enter-from,

@@ -1,5 +1,12 @@
 <script setup lang="ts">
-import { getCurrentInstance, provide, reactive, toRef, watch } from 'vue'
+import {
+  computed,
+  getCurrentInstance,
+  provide,
+  reactive,
+  toRef,
+  watch,
+} from 'vue'
 import { useNamespace, useOrderedChildren } from '@element-plus/hooks'
 import { useContainer, useResize, useSize } from './hooks'
 import { splitterProps } from './splitter'
@@ -20,6 +27,7 @@ const emits = defineEmits<{
 
 const props = defineProps(splitterProps)
 const layout = toRef(props, 'layout')
+const lazy = toRef(props, 'lazy')
 
 const { containerEl, containerSize } = useContainer(layout)
 
@@ -38,11 +46,22 @@ watch(panels, () => {
 
 const { percentSizes, pxSizes } = useSize(panels, containerSize)
 
-const { onMoveStart, onMoving, onMoveEnd, onCollapse, movingIndex } = useResize(
-  panels,
-  containerSize,
-  pxSizes
-)
+const {
+  lazyOffset,
+  movingIndex,
+  onMoveStart,
+  onMoving,
+  onMoveEnd,
+  onCollapse,
+} = useResize(panels, containerSize, pxSizes, lazy)
+
+const splitterStyles = computed(() => {
+  return {
+    [`--${ns.b()}-bar-offset`]: lazy.value
+      ? `${lazyOffset.value}px`
+      : undefined,
+  }
+})
 
 const onResizeStart = (index: number) => {
   onMoveStart(index)
@@ -51,7 +70,10 @@ const onResizeStart = (index: number) => {
 
 const onResize = (index: number, offset: number) => {
   onMoving(index, offset)
-  emits('resize', index, pxSizes.value)
+
+  if (!lazy.value) {
+    emits('resize', index, pxSizes.value)
+  }
 }
 
 const onResizeEnd = (index: number) => {
@@ -71,6 +93,7 @@ provide(
     percentSizes,
     pxSizes,
     layout,
+    lazy,
     movingIndex,
     containerSize,
     onMoveStart: onResizeStart,
@@ -84,7 +107,11 @@ provide(
 </script>
 
 <template>
-  <div ref="containerEl" :class="[ns.b(), ns.e(layout)]">
+  <div
+    ref="containerEl"
+    :class="[ns.b(), ns.e(layout)]"
+    :style="splitterStyles"
+  >
     <slot />
     <panels-sorter />
     <!-- Prevent iframe touch events from breaking -->
