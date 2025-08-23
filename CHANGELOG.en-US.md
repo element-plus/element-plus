@@ -1,6 +1,15 @@
 ## Changelog
 
 
+### 2.11.1
+
+_2025-08-23_
+
+#### Bug fixes
+
+- Components scrollbar fix thumb size calculation error (#21849 by @micaiguai)
+- Components [color-picker] fix color-picker-panel style path (#21867 by @cszhjh)
+
 ### 2.11.0
 
 _2025-08-22_
