@@ -1106,4 +1106,28 @@ describe('Cascader.vue', () => {
     ;(leafNodes[2] as HTMLInputElement).click()
     expect(value.value).toHaveLength(0)
   })
+
+  test('should keep panel active when checkOnClickNode=true with checkStrictly=false', async () => {
+    const props = {
+      checkOnClickNode: true,
+      checkStrictly: false,
+    }
+    const visibleChange = vi.fn()
+    const wrapper = mount(() => (
+      <Cascader
+        options={OPTIONS}
+        props={props}
+        onVisibleChange={visibleChange}
+      />
+    ))
+    expect(visibleChange).not.toBeCalled()
+    const trigger = wrapper.find(TRIGGER)
+    await trigger.trigger('click')
+    await nextTick()
+    expect(visibleChange).toBeCalledTimes(1)
+    const rootNode = document.querySelector(NODE_LABEL) as HTMLInputElement
+    rootNode?.click()
+    await nextTick()
+    expect(visibleChange).toBeCalledTimes(1)
+  })
 })
