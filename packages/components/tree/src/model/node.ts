@@ -91,6 +91,8 @@ const reInitChecked = function (
     node.indeterminate = false
   }
 
+  updateNodeElementPartially(node, $el, half, all)
+
   const parent = node.parent
   if (!parent || parent.level === 0) return
   else updateNodeElementPartially(node.parent!, $el, half, all)
