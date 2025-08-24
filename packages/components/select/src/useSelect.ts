@@ -430,6 +430,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
         : cachedOption.value === value
       if (isEqualValue) {
         option = {
+          index: optionsArray.value.indexOf(cachedOption),
           value,
           currentLabel: cachedOption.currentLabel,
           get isDisabled() {
@@ -442,6 +443,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     if (option) return option
     const label = isObjectValue ? value.label : value ?? ''
     const newOption = {
+      index: -1,
       value,
       currentLabel: label,
     }
@@ -522,10 +524,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     }
   }
 
-  const deleteTag = (
-    event: MouseEvent,
-    tag: OptionPublicInstance | OptionBasic
-  ) => {
+  const deleteTag = (event: MouseEvent, tag: OptionBasic) => {
     const index = states.selected.indexOf(tag)
     if (index > -1 && !selectDisabled.value) {
       const value = ensureArray(props.modelValue).slice()
@@ -876,6 +875,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     showTagList,
     collapseTagList,
     popupScroll,
+    getOption,
 
     // computed style
     tagStyle,

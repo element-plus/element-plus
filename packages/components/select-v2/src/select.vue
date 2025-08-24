@@ -81,6 +81,9 @@
                   <span :class="nsSelect.e('tags-text')">
                     <slot
                       name="label"
+                      :index="
+                        allOptionsValueMap.get(getValue(item))?.index ?? -1
+                      "
                       :label="getLabel(item)"
                       :value="getValue(item)"
                     >
@@ -139,6 +142,10 @@
                         <span :class="nsSelect.e('tags-text')">
                           <slot
                             name="label"
+                            :index="
+                              allOptionsValueMap.get(getValue(selected))
+                                ?.index ?? -1
+                            "
                             :label="getLabel(selected)"
                             :value="getValue(selected)"
                           >
@@ -210,6 +217,7 @@
               <slot
                 v-if="hasModelValue"
                 name="label"
+                :index="allOptionsValueMap.get(modelValue)?.index ?? -1"
                 :label="currentPlaceholder"
                 :value="modelValue"
               >

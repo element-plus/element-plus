@@ -972,6 +972,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     popupHeight,
     debounce,
     allOptions,
+    allOptionsValueMap,
     filteredOptions,
     iconComponent,
     iconReverse,
