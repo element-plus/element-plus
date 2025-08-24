@@ -428,4 +428,219 @@ describe('Collapse.vue', () => {
       expect(collapseItem.vm.isActive).toBe(false)
     })
   })
+
+  describe('Disabled CollapseItem', () => {
+    test('disabled collapse item should not toggle on click', async () => {
+      const wrapper = mount({
+        data() {
+          return {
+            activeNames: ['1'],
+          }
+        },
+        render() {
+          return (
+            <Collapse v-model={this.activeNames}>
+              <CollapseItem title="enabled" name="1">
+                <div class="content">Enabled content</div>
+              </CollapseItem>
+              <CollapseItem title="disabled" name="2" disabled>
+                <div class="content">Disabled content</div>
+              </CollapseItem>
+            </Collapse>
+          )
+        },
+      })
+
+      const vm = wrapper.vm
+      const collapseWrapper = wrapper.findComponent(Collapse)
+      const collapseItemWrappers = collapseWrapper.findAllComponents(
+        CollapseItem
+      ) as VueWrapper<CollapseItemInstance>[]
+      const collapseItemHeaderEls = vm.$el.querySelectorAll(
+        '.el-collapse-item__header'
+      )
+
+      // Initially, first item is active, second is not
+      expect(collapseItemWrappers[0].vm.isActive).toBe(true)
+      expect(collapseItemWrappers[1].vm.isActive).toBe(false)
+
+      // Click on disabled item should not toggle it
+      collapseItemHeaderEls[1].click()
+      await nextTick()
+      expect(collapseItemWrappers[1].vm.isActive).toBe(false)
+      expect(vm.activeNames).toEqual(['1'])
+
+      // Click on enabled item should still work
+      collapseItemHeaderEls[0].click()
+      await nextTick()
+      expect(collapseItemWrappers[0].vm.isActive).toBe(false)
+      expect(vm.activeNames).toEqual([])
+    })
+
+    test('disabled collapse item should not toggle on keyboard enter', async () => {
+      const wrapper = mount({
+        data() {
+          return {
+            activeNames: [],
+          }
+        },
+        render() {
+          return (
+            <Collapse v-model={this.activeNames}>
+              <CollapseItem title="enabled" name="1">
+                <div class="content">Enabled content</div>
+              </CollapseItem>
+              <CollapseItem title="disabled" name="2" disabled>
+                <div class="content">Disabled content</div>
+              </CollapseItem>
+            </Collapse>
+          )
+        },
+      })
+
+      const vm = wrapper.vm
+      const collapseWrapper = wrapper.findComponent(Collapse)
+      const collapseItemWrappers = collapseWrapper.findAllComponents(
+        CollapseItem
+      ) as VueWrapper<CollapseItemInstance>[]
+      const collapseItemHeaderEls = vm.$el.querySelectorAll(
+        '.el-collapse-item__header'
+      )
+
+      // Initially, both items are not active
+      expect(collapseItemWrappers[0].vm.isActive).toBe(false)
+      expect(collapseItemWrappers[1].vm.isActive).toBe(false)
+
+      // Press enter on disabled item should not toggle it
+      await collapseItemHeaderEls[1].dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter' })
+      )
+      await nextTick()
+      expect(collapseItemWrappers[1].vm.isActive).toBe(false)
+      expect(vm.activeNames).toEqual([])
+
+      // Press enter on enabled item should work
+      await collapseItemHeaderEls[0].dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter' })
+      )
+      await nextTick()
+      expect(collapseItemWrappers[0].vm.isActive).toBe(true)
+      expect(vm.activeNames).toEqual(['1'])
+    })
+
+    test('disabled collapse item should not toggle on keyboard space', async () => {
+      const wrapper = mount({
+        data() {
+          return {
+            activeNames: [],
+          }
+        },
+        render() {
+          return (
+            <Collapse v-model={this.activeNames}>
+              <CollapseItem title="enabled" name="1">
+                <div class="content">Enabled content</div>
+              </CollapseItem>
+              <CollapseItem title="disabled" name="2" disabled>
+                <div class="content">Disabled content</div>
+              </CollapseItem>
+            </Collapse>
+          )
+        },
+      })
+
+      const vm = wrapper.vm
+      const collapseWrapper = wrapper.findComponent(Collapse)
+      const collapseItemWrappers = collapseWrapper.findAllComponents(
+        CollapseItem
+      ) as VueWrapper<CollapseItemInstance>[]
+      const collapseItemHeaderEls = vm.$el.querySelectorAll(
+        '.el-collapse-item__header'
+      )
+
+      // Initially, both items are not active
+      expect(collapseItemWrappers[0].vm.isActive).toBe(false)
+      expect(collapseItemWrappers[1].vm.isActive).toBe(false)
+
+      // Press space on disabled item should not toggle it
+      await collapseItemHeaderEls[1].dispatchEvent(
+        new KeyboardEvent('keydown', { key: ' ', code: 'Space' })
+      )
+      await nextTick()
+      expect(collapseItemWrappers[1].vm.isActive).toBe(false)
+      expect(vm.activeNames).toEqual([])
+
+      // Press space on enabled item should work
+      await collapseItemHeaderEls[0].dispatchEvent(
+        new KeyboardEvent('keydown', { key: ' ', code: 'Space' })
+      )
+      await nextTick()
+      expect(collapseItemWrappers[0].vm.isActive).toBe(true)
+      expect(vm.activeNames).toEqual(['1'])
+    })
+
+    test('disabled collapse item should have correct tabindex', async () => {
+      const wrapper = mount({
+        data() {
+          return {
+            activeNames: [],
+          }
+        },
+        render() {
+          return (
+            <Collapse v-model={this.activeNames}>
+              <CollapseItem title="enabled" name="1">
+                <div class="content">Enabled content</div>
+              </CollapseItem>
+              <CollapseItem title="disabled" name="2" disabled>
+                <div class="content">Disabled content</div>
+              </CollapseItem>
+            </Collapse>
+          )
+        },
+      })
+
+      const vm = wrapper.vm
+      const collapseItemHeaderEls = vm.$el.querySelectorAll(
+        '.el-collapse-item__header'
+      )
+
+      // Enabled item should have tabindex="0"
+      expect(collapseItemHeaderEls[0].getAttribute('tabindex')).toBe('0')
+
+      // Disabled item should have tabindex="-1"
+      expect(collapseItemHeaderEls[1].getAttribute('tabindex')).toBe('-1')
+    })
+
+    test('disabled collapse item should have correct CSS class', async () => {
+      const wrapper = mount({
+        data() {
+          return {
+            activeNames: [],
+          }
+        },
+        render() {
+          return (
+            <Collapse v-model={this.activeNames}>
+              <CollapseItem title="enabled" name="1">
+                <div class="content">Enabled content</div>
+              </CollapseItem>
+              <CollapseItem title="disabled" name="2" disabled>
+                <div class="content">Disabled content</div>
+              </CollapseItem>
+            </Collapse>
+          )
+        },
+      })
+
+      const collapseWrapper = wrapper.findComponent(Collapse)
+      const collapseItems = collapseWrapper.findAll('.el-collapse-item')
+
+      // Enabled item should not have disabled class
+      expect(collapseItems[0].classes()).not.toContain('is-disabled')
+
+      // Disabled item should have disabled class
+      expect(collapseItems[1].classes()).toContain('is-disabled')
+    })
+  })
 })
