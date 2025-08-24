@@ -1,4 +1,1587 @@
 ---
+Title: Changelog
+URL: https://element-plus.org/en-US/guide/changelog
+---
+
+<style scoped lang="scss">
+@at-root .hero-content {
+  padding: 32px;
+}
+</style>
+
+# Changelog
+
+Element Plus team uses **weekly** release strategy under normal circumstance, but critical bug fixes would require hotfix so the actual release number **could be** more than 1 per week.
+
+On this page you can only see the latest 30 records of our [Changelog](https://github.com/element-plus/element-plus/blob/dev/CHANGELOG.en-US.md).
+
+You can see the [Upgrade Changes](https://github.com/element-plus/element-plus/issues/15834) after version ^(2.5.0).
+
+<VpChangelog />
+
+---
+Title: Commit Examples
+URL: https://element-plus.org/en-US/guide/commit-examples
+---
+
+# Commit Examples
+
+## Why this chapter exists
+
+Please refer to [Conventional Commits](https://www.conventionalcommits.org/) for more information.
+
+A good commit message enables us:
+
+1. To understand what the contributor is trying to do
+2. Automatically generates change log
+
+### Rule for writing commit message
+
+```md
+# (If applied, this commit will...) <subject> (Max 72 characters)
+
+# |<---- Using a Maximum Of 72 Characters ---->|
+
+# Explain why this change is being made
+
+# |<---- Try To Limit Each Line to a Maximum Of 72 Characters ---->|
+
+# Provide links or keys to any relevant tickets, articles or other resources
+
+# Use issues and merge requests' full URLs instead of short references,
+
+# as they are displayed as plain text outside of GitLab
+
+# --- COMMIT END ---
+
+# --------------------
+
+# Remember to
+
+# Capitalize the subject line
+
+# Use the imperative mood in the subject line
+
+# Do not end the subject line with a period
+
+# Subject must contain at least 3 words
+
+# Separate subject from body with a blank line
+
+# Commits that change 30 or more lines across at least 3 files should
+
+# describe these changes in the commit body
+
+# Do not use Emojis
+
+# Use the body to explain what and why vs. how
+
+# Can use multiple lines with "-" for bullet points in body
+
+# For more information: https://chris.beams.io/posts/git-commit/
+
+# --------------------
+```
+
+### Template for commit messages
+
+Below is a template commit message for your reference.
+
+```md
+feat(components): [button] I did something with button
+
+Blank between subject and body is expected.(period is expected)
+Describes your change in one line or multi-line.
+Capitalize your first letter when starting a new line
+Please do not exceeds 72 characters per line, because that would be harder to comprehend.
+
+- You can also add bullet list symbol for better layout
+```
+
+For the subject header, the format is:
+
+```
+[type](scope): [messages]
+```
+
+You can checkout the allowed values for **type** and **scope** in [commitlint.config.js](https://github.com/element-plus/element-plus/blob/c2ee36a7fc72b17742d43ecdff4e2912c416141d/commitlint.config.js#L57),
+
+### Useful links
+
+[Keeping git commit history clean](https://about.gitlab.com/blog/2018/06/07/keeping-git-commit-history-clean/)
+
+---
+Title: Dark Mode
+URL: https://element-plus.org/en-US/guide/dark-mode
+---
+
+# Dark Mode ^(2.2.0)
+
+After a long time, Element Plus supports dark mode!
+
+We extracted and unified all necessary variables to make it possible to implement based on CSS Vars.
+
+## How to enable it?
+
+First you can create a switch to toggle `dark` class of html.
+
+> If you only need dark mode, just add `dark` class for html.
+
+```html
+<html class="dark">
+  <head></head>
+  <body></body>
+</html>
+```
+
+> If you want to toggle it, i recommend [useDark | VueUse](https://vueuse.org/core/useDark/).
+
+Then, you can quickly enable it with just one line of code to import CSS in your entry.
+
+```ts [main.ts]
+// if you just want to import css
+import 'element-plus/theme-chalk/dark/css-vars.css'
+```
+
+> If you want an example, you can refer to [element-plus-vite-starter](https://github.com/element-plus/element-plus-vite-starter).
+
+## Custom variables
+
+### By CSS
+
+Just override it by CSS Vars.
+
+For example, new file `styles/dark/css-vars.css`:
+
+```css
+html.dark {
+  /* custom dark bg color */
+  --el-bg-color: #626aef;
+}
+```
+
+Import it after styles of Element Plus:
+
+```ts [main.ts]
+import 'element-plus/theme-chalk/dark/css-vars.css'
+import './styles/dark/css-vars.css'
+```
+
+### By SCSS
+
+If you use scss, you can also import scss file to compile.
+
+> You can refer [Theming](./theming.md) to get more info.
+
+```scss [styles/element/index.scss]
+/*just override what you need*/
+@forward 'element-plus/theme-chalk/src/dark/var.scss' with (
+  $bg-color: (
+    'page': #0a0a0a,
+    '': #626aef,
+    'overlay': #1d1e1f,
+  )
+);
+```
+
+```ts [main.ts]
+import './styles/element/index.scss'
+
+// or just want to import scss?
+// import 'element-plus/theme-chalk/src/dark/css-vars.scss'
+```
+
+---
+Title: Design Disciplines
+URL: https://element-plus.org/en-US/guide/design
+---
+
+# Design Disciplines
+
+<design-guide />
+
+## Consistency
+
+- **Consistent with real life:** in line with the process and logic of real life,
+  and comply with languages and habits that the users are used to.
+
+- **Consistent within interface:** all elements should be consistent, such as:
+  design style, icons and texts, position of elements, etc.
+
+## Feedback
+
+- **Operation feedback:** enable the users to clearly perceive their operations
+  by style updates and interactive effects.
+
+- **Visual feedback:** reflect current state by updating or
+  rearranging elements of the page.
+
+## Efficiency
+
+- **Simplify the process:** keep operating process simple and intuitive.
+
+- **Definite and clear:** enunciate your intentions clearly so
+  that the users can quickly understand and make decisions.
+
+- **Easy to identify:** the interface should be straightforward,
+  which helps the users to identify and frees them from memorizing and recalling.
+
+## Controllability
+
+- **Decision making:** giving advice about operations is acceptable, but do not
+  make decisions for the users.
+
+- **Controlled consequences:** users should be granted the freedom to operate,
+  including canceling, aborting or terminating current operation.
+
+---
+Title: Development FAQ
+URL: https://element-plus.org/en-US/guide/dev-faq
+---
+
+# Development FAQ
+
+Here are the problems that are easy to encounter in development.
+
+## If you encounter dependency related issues
+
+```shell
+rm -rf node_modules
+pnpm i
+```
+
+## Link local dependencies
+
+```shell
+# get dist
+pnpm build
+cd dist/element-plus
+# set cur element-plus to global `node_modules`
+pnpm link --global
+# for esm we also need link element-plus for dist
+pnpm link --global element-plus
+
+# go to your project, link to `element-plus`
+cd your-project
+pnpm link --global element-plus
+```
+
+> More info see [pnpm link](https://pnpm.io/cli/link).
+
+## Theme
+
+We should not write Chinese comments in scss files.
+
+It will generate warning `@charset "UTF-8";` in the header of css file when built with vite.
+
+> More info see [#3219](https://github.com/element-plus/element-plus/issues/3219).
+
+---
+Title: Local Development
+URL: https://element-plus.org/en-US/guide/dev-guide
+---
+
+# Local Development
+
+## Bootstrap project
+
+With command
+
+```shell
+pnpm i
+```
+
+the project will install all dependencies.
+
+## Website preview
+
+With command
+
+```shell
+pnpm docs:dev
+```
+
+the project will launch website for you to preview all existing component.
+
+## Local development
+
+See [Local development guide](https://github.com/element-plus/element-plus/blob/dev/CONTRIBUTING.md)
+
+1. With command
+
+```shell
+pnpm dev
+```
+
+will start the local development environment.
+
+2. Add your component into `play/src/App.vue`
+
+```vue [App.vue]
+<template>
+  <ComponentYouAreDeveloping />
+</template>
+
+<script setup lang="ts">
+// make sure this component is registered in @element-plus/components
+</script>
+```
+
+Modify `App.vue` file per your needs to get things work.
+
+---
+Title: Internationalization
+URL: https://element-plus.org/en-US/guide/i18n
+---
+
+# Internationalization
+
+Element Plus components are using English **by default**, if you wish you use other
+languages, you can get you answer by keep reading.
+
+## Global configuration
+
+Element Plus provides global configurations
+
+```ts [main.ts]
+import ElementPlus from 'element-plus'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
+
+app.use(ElementPlus, {
+  locale: zhCn,
+})
+```
+
+## ConfigProvider
+
+Element Plus also provides a Vue component [ConfigProvider](/en-US/component/config-provider)
+for globally configuring locale and other settings.
+
+```vue [App.vue]
+<template>
+  <el-config-provider :locale="zhCn">
+    <app />
+  </el-config-provider>
+</template>
+
+<script setup lang="ts">
+import { ElConfigProvider } from 'element-plus'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
+</script>
+```
+
+## Date and time localization
+
+We use [Day.js](https://day.js.org/docs/en/i18n/i18n) library to manage date and time in components like `DatePicker`. It is important to set a proper locale in Day.js to make the internationalization fully works. You have to import Day.js's locale config separately.
+
+```ts
+import 'dayjs/locale/zh-cn'
+```
+
+## CDN Usage
+
+If you are using Element Plus via CDN, then you need to do this, let's again take
+unpkg as an example
+
+```html
+<script src="//unpkg.com/element-plus/dist/locale/zh-cn"></script>
+<script>
+  app.use(ElementPlus, {
+    locale: ElementPlusLocaleZhCn,
+  })
+</script>
+```
+
+Full documentation refer to: [ConfigProvider](/en-US/component/config-provider)
+
+[Supported Language List](https://github.com/element-plus/element-plus/tree/dev/packages/locale/lang)
+
+<ul class="language-list">
+  <li>Simplified Chinese (zh-cn)</li>
+  <li>American English (en)</li>
+  <li>Azerbaijani (az)</li>
+  <li>German (de)</li>
+  <li>Portuguese (pt)</li>
+  <li>Spanish (es)</li>
+  <li>Danish (da)</li>
+  <li>French (fr)</li>
+  <li>Norwegian (nb-NO)</li>
+  <li>Traditional Chinese (zh-tw)</li>
+  <li>Italian (it)</li>
+  <li>Korean (ko)</li>
+  <li>Japanese (ja)</li>
+  <li>Dutch (nl)</li>
+  <li>Vietnamese (vi)</li>
+  <li>Russian (ru)</li>
+  <li>Turkish (tr)</li>
+  <li>Brazilian Portuguese (pt-br)</li>
+  <li>Farsi (fa)</li>
+  <li>Thai (th)</li>
+  <li>Indonesian (id)</li>
+  <li>Bulgarian (bg)</li>
+  <li>Pashto (pa)</li>
+  <li>Polish (pl)</li>
+  <li>Finnish (fi)</li>
+  <li>Swedish (sv)</li>
+  <li>Greek (el)</li>
+  <li>Slovak (sk)</li>
+  <li>Catalunya (ca)</li>
+  <li>Czech (cs)</li>
+  <li>Ukrainian (uk)</li>
+  <li>Turkmen (tk)</li>
+  <li>Tamil (ta)</li>
+  <li>Latvian (lv)</li>
+  <li>Afrikaans (af)</li>
+  <li>Estonian (et)</li>
+  <li>Slovenian (sl)</li>
+  <li>Arabic (ar)</li>
+  <li>Hebrew (he)</li>
+  <li>Lao (lo)</li>
+  <li>Lithuanian (lt)</li>
+  <li>Mongolian (mn)</li>
+  <li>Kazakh (kk)</li>
+  <li>Hungarian (hu)</li>
+  <li>Romanian (ro)</li>
+  <li>Kurdish (ku)</li>
+  <li>Kurdish (ckb)</li>
+  <li>Uighur (ug-cn)</li>
+  <li>Khmer (km)</li>
+  <li>Serbian (sr)</li>
+  <li>Basque (eu)</li>
+  <li>Kyrgyz (ky)</li>
+  <li>Armenian (hy-am)</li>
+  <li>Croatian (hr)</li>
+  <li>Esperanto (eo)</li>
+  <li>Bengali (bn)</li>
+  <li>Malay (ms)</li>
+  <li>Madagascar (mg)</li>
+  <li>Swahili (sw)</li>
+  <li>Uzbek (uz-uz)</li>
+  <li>Egyptian Arabic (ar-eg)</li>
+  <li>Burmese (my)</li>
+  <li>Hindi (hi)</li>
+  <li>Norsk (no)</li>
+  <li>Hongkong Chinese (zh-hk)</li>
+  <li>Macau Chinese (zh-mo)</li>
+  <li>Telugu (te)</li>
+</ul>
+
+If you need any other languages, [PR](https://github.com/element-plus/element-plus/pulls)
+is always welcomed, you only need to add a language file at
+[here](https://github.com/element-plus/element-plus/tree/dev/packages/locale/lang).
+
+<style>
+  .language-list {
+    list-style: disc
+  }
+</style>
+
+---
+Title: Installation
+URL: https://element-plus.org/en-US/guide/installation
+---
+
+# Installation
+
+## Compatibility ^(2.5.0)
+
+Element Plus can run on browsers that support last 2 versions.
+
+If you really need to support outdated browsers, please add [Babel](https://babeljs.io/) and Polyfill yourself.
+
+Since Vue 3 no longer supports IE11, Element Plus does not support IE either.
+
+| version | ![Chrome](https://cdn.jsdelivr.net/npm/@browser-logos/chrome/chrome_32x32.png) <br> Chrome | ![IE](https://cdn.jsdelivr.net/npm/@browser-logos/edge/edge_32x32.png) <br> Edge | ![Firefox](https://cdn.jsdelivr.net/npm/@browser-logos/firefox/firefox_32x32.png) <br> Firefox | ![Safari](https://cdn.jsdelivr.net/npm/@browser-logos/safari/safari_32x32.png) <br> Safari |
+| ------- | ------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| < 2.5.0 | Chrome ≥ 64                                                                                | Edge ≥ 79                                                                        | Firefox ≥ 78                                                                                   | Safari ≥ 12                                                                                |
+| 2.5.0 + | Chrome ≥ 85                                                                                | Edge ≥ 85                                                                        | Firefox ≥ 79                                                                                   | Safari ≥ 14.1                                                                              |
+
+### Sass
+
+Version `2.8.5` and later, the minimum compatible version of [Sass](https://github.com/sass) is `1.79.0`.
+
+If your terminal prompts `legacy JS API Deprecation Warning`, you can configure the following code in [vite.config.ts](https://vitejs.dev/config/shared-options.html#css-preprocessoroptions).
+
+```ts{3}
+css: {
+  preprocessorOptions: {
+    scss: { api: 'modern-compiler' },
+  }
+}
+```
+
+### Version
+
+Element Plus is currently in a rapid development iteration. [![ElementPlus version badge](https://img.shields.io/npm/v/element-plus.svg?style=flat-square)](https://www.npmjs.org/package/element-plus)
+
+In addition, every commit and PR on the dev branch will be published to [pkg.pr.new](https://github.com/stackblitz-labs/pkg.pr.new), if you want to use some unpublished content, you can refer to [here](https://github.com/element-plus/element-plus/issues/18433#issuecomment-2392618431).
+
+## Using Package Manager
+
+**We recommend using the package manager (NPM, [Yarn](https://classic.yarnpkg.com/lang/en/), [pnpm](https://pnpm.io/)) to install Element Plus**,
+so that you can utilize bundlers like [Vite](https://vitejs.dev) and
+[webpack](https://webpack.js.org/).
+
+Choose a package manager you like.
+
+::: code-group
+
+```shell [npm]
+$ npm install element-plus --save
+```
+
+```shell [yarn]
+$ yarn add element-plus
+```
+
+```shell [pnpm]
+$ pnpm install element-plus
+```
+
+:::
+
+If your network environment is not good, it is recommended to use a mirror registry [cnpm](https://github.com/cnpm/cnpm) or [npmmirror](https://npmmirror.com/).
+
+```shell
+npm config set registry https://registry.npmmirror.com
+```
+
+## Import in Browser
+
+Import Element Plus through browser HTML tags directly, and use global variable `ElementPlus`.
+
+According to different CDN providers, there are different introduction methods.
+Here we use [unpkg](https://unpkg.com) and [jsDelivr](https://jsdelivr.com) as example.
+You can also use other CDN providers.
+
+### unpkg
+
+```html
+<head>
+  <!-- Import style -->
+  <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css" />
+  <!-- Import Vue 3 -->
+  <script src="//unpkg.com/vue@3"></script>
+  <!-- Import component library -->
+  <script src="//unpkg.com/element-plus"></script>
+</head>
+```
+
+### jsDelivr
+
+```html
+<head>
+  <!-- Import style -->
+  <link
+    rel="stylesheet"
+    href="//cdn.jsdelivr.net/npm/element-plus/dist/index.css"
+  />
+  <!-- Import Vue 3 -->
+  <script src="//cdn.jsdelivr.net/npm/vue@3"></script>
+  <!-- Import component library -->
+  <script src="//cdn.jsdelivr.net/npm/element-plus"></script>
+</head>
+```
+
+
+
+## Hello World
+
+With CDN, we can easily use Element Plus to
+write a Hello World page. [Online Demo](https://codepen.io/iamkun/pen/YzWMaVr)
+
+<iframe height="469" style="width: 100%;" scrolling="no" title="YzWMaVr" src="https://codepen.io/iamkun/embed/YzWMaVr?height=469&theme-id=light&default-tab=html,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/iamkun/pen/YzWMaVr'>YzWMaVr</a> by iamkun
+  (<a href='https://codepen.io/iamkun'>@iamkun</a>) on <a href='https://codepen.io'>CodePen</a>.
+</iframe>
+
+If you are installing via package manager and want to use it with
+a packaging tool, please read the
+next section: [Quick Start](/en-US/guide/quickstart).
+
+---
+Title: Migration
+URL: https://element-plus.org/en-US/guide/migration
+---
+
+# Migration
+
+[This guide](https://github.com/element-plus/element-plus/discussions/5658) will help you upgrade from Element 2.x to Element Plus.
+
+## Vue 3 migration build
+
+You may encounter some issues when using Element Plus with Vue 3 migration build. Some of the components rely on Vue 3 internal API's. It's worth trying to adjust compatConfig mode to 3, either globally or [per component in your project](https://v3-migration.vuejs.org/migration-build.html).
+
+## Migration Tool :hammer_and_wrench:
+
+We have made a migration tool for you to migrate your project from [Element UI](https://element.eleme.io) to Element Plus.
+You can find the [gogo code migration tool](https://github.com/thx/gogocode/tree/main/packages/gogocode-plugin-element) here.
+
+We have tested this on [Vue Element Admin](https://github.com/PanJiaChen/vue-element-admin) (Vue 2 + Element UI). You can find the transpiled code [here](https://github.com/gogocodeio/vue-element-admin).
+
+<style scoped>
+  details {
+    margin-top: 8px;
+  }
+</style>
+
+---
+Title: Custom namespace
+URL: https://element-plus.org/en-US/guide/namespace
+---
+
+## Custom namespace ^(2.2.0)
+
+
+
+Default namespace is `el`.
+In special cases, we may need to customize its namespace.
+
+Since we use sass to write styles, if you want to customize all namespaces.
+We have to assume that you already use sass.
+
+You must set `ElConfigProvider` and scss `$namespace` at the same time.
+
+### Set `ElConfigProvider`
+
+Use `ElConfigProvider` wrap your root component.
+
+```vue [App.vue]
+<template>
+  <el-config-provider namespace="ep">
+    <!-- ... -->
+  </el-config-provider>
+</template>
+```
+
+### Set Scss & Css Vars
+
+Create `styles/element/index.scss`:
+
+```scss [styles/element/index.scss]
+// we can add this to custom namespace, default is 'el'
+@forward 'element-plus/theme-chalk/src/mixins/config.scss' with (
+  $namespace: 'ep'
+);
+// ...
+```
+
+Import `styles/element/index.scss` in `vite.config.ts`:
+
+> The same is true for webpack, which needs to be set in `preprocessorOptions`.
+
+```ts [vite.config.ts]
+import { defineConfig } from 'vite'
+// https://vitejs.dev/config/
+export default defineConfig({
+  // ...
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@use "~/styles/element/index.scss" as *;`,
+      },
+    },
+  },
+  // ...
+})
+```
+
+That's all.
+
+---
+Title: Navigation
+URL: https://element-plus.org/en-US/guide/nav
+---
+
+<style>
+:root {
+  --categories-c-bg: #F9FAFC;
+  --categories-c-page: #E5E9F2;
+  --categories-c-overlay: white;
+  --categories-c-text: #99A9BF;
+  --categories-c-icon: #E5E9F2;
+  --categories-c-line: #E5E9F2;
+}
+
+.dark {
+  --categories-c-bg: #1D1E1F;
+  --categories-c-page: #0A0A0A;
+  --categories-c-overlay: #141414;
+  --categories-c-text: #53637A;
+  --categories-c-icon: #2F333D;
+  --categories-c-line: #242529;
+}
+</style>
+
+# Navigation
+
+Navigation focuses on solving the users' problems of where to go and how to get
+there. Generally it can be categorized into 'sidebar navigation' and 'top navigation'.
+
+## Choose the right navigation
+
+An appropriate navigation gives users a smooth experience, while an inappropriate
+one leads to confusion. Here are the differences between sidebar navigation and
+top navigation.
+
+## Side Navigation
+
+Affix the navigation at the left edge, thus improves its visibility, making it
+easier to switch between pages. In this case, the top area of the page holds
+commonly used tools, e.g. search bar, help button, notice button, etc. Suitable
+for background management or utility websites.
+
+### Level 1 categories
+
+Suitable for simply structured sites with only one level of pages. No breadcrumb is needed.
+
+<L1Categories />
+
+### Level 2 categories
+
+Sidebar displays up to two levels of navigation. Breadcrumbs are recommended in
+combination of second level navigation, making it easier for the users to locate
+and navigate.
+
+<L2Categories />
+
+### Level 3 categories
+
+Suitable for complicated utility websites. The left sidebar holds first level
+navigation, and the middle column displays second level navigation or other utility
+options.
+
+<L3Categories />
+
+## Top Navigation
+
+Conforms to the normal browsing order from top to bottom, which makes things more
+natural. The navigation amount and text length are limited to the width of the top.
+
+Suitable for sites with few navigation and large chunks.
+
+<TopNavigationExample />
+
+---
+Title: Quick Start
+URL: https://element-plus.org/en-US/guide/quickstart
+---
+
+# Quick Start
+
+This section describes how to use Element Plus in your project.
+
+## Usage
+
+### Full Import
+
+If you don’t care about the bundle size so much, it’s more convenient to use full import.
+
+```ts [main.ts]
+import { createApp } from 'vue'
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
+import App from './App.vue'
+
+const app = createApp(App)
+
+app.use(ElementPlus)
+app.mount('#app')
+```
+
+#### Volar support
+
+If you use volar, please add the global component type definition to `compilerOptions.types` in `tsconfig.json`.
+
+```json [tsconfig.json]
+{
+  "compilerOptions": {
+    // ...
+    "types": ["element-plus/global"]
+  }
+}
+```
+
+### On-demand Import
+
+You need to use an additional plugin to import components you used.
+
+#### Auto import <el-tag type="primary" style="vertical-align: middle;" effect="dark" size="small">Recommend</el-tag>
+
+First you need to install `unplugin-vue-components` and `unplugin-auto-import`.
+
+::: code-group
+
+```shell [npm]
+$ npm install -D unplugin-vue-components unplugin-auto-import
+```
+
+```shell [yarn]
+$ yarn add -D unplugin-vue-components unplugin-auto-import
+```
+
+```shell [pnpm]
+$ pnpm install -D unplugin-vue-components unplugin-auto-import
+```
+
+:::
+
+Then add the code below into your `Vite` or `Webpack` config file.
+
+##### Vite
+
+```ts [vite.config.ts]
+import { defineConfig } from 'vite'
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+
+export default defineConfig({
+  // ...
+  plugins: [
+    // ...
+    AutoImport({
+      resolvers: [ElementPlusResolver()],
+    }),
+    Components({
+      resolvers: [ElementPlusResolver()],
+    }),
+  ],
+})
+```
+
+##### Webpack
+
+```js [webpack.config.js]
+const AutoImport = require('unplugin-auto-import/webpack')
+const Components = require('unplugin-vue-components/webpack')
+const { ElementPlusResolver } = require('unplugin-vue-components/resolvers')
+
+module.exports = {
+  // ...
+  plugins: [
+    AutoImport({
+      resolvers: [ElementPlusResolver()],
+    }),
+    Components({
+      resolvers: [ElementPlusResolver()],
+    }),
+  ],
+}
+```
+
+For more bundlers ([Rollup](https://rollupjs.org/), [Vue CLI](https://cli.vuejs.org/)) and configs please reference [unplugin-vue-components](https://github.com/antfu/unplugin-vue-components#installation) and [unplugin-auto-import](https://github.com/antfu/unplugin-auto-import#install).
+
+#### Nuxt
+
+For Nuxt users, you only need to install `@element-plus/nuxt`.
+
+::: code-group
+
+```shell [npm]
+$ npm install -D @element-plus/nuxt
+```
+
+```shell [yarn]
+$ yarn add -D @element-plus/nuxt
+```
+
+```shell [pnpm]
+$ pnpm install -D @element-plus/nuxt
+```
+
+:::
+
+Then add the code below into your config file.
+
+```ts [nuxt.config.ts]
+export default defineNuxtConfig({
+  modules: ['@element-plus/nuxt'],
+})
+```
+
+Refer to the [docs](https://github.com/element-plus/element-plus-nuxt#readme) for how to configure it.
+
+### Manually import
+
+Element Plus provides out of box [Tree Shaking](https://webpack.js.org/guides/tree-shaking/)
+functionalities based on ES Module.
+
+But you need install [unplugin-element-plus](https://github.com/element-plus/unplugin-element-plus) for style import.
+And refer to the [docs](https://github.com/element-plus/unplugin-element-plus#readme) for how to configure it.
+
+```vue [App.vue]
+<template>
+  <el-button>I am ElButton</el-button>
+</template>
+
+<script>
+import { ElButton } from 'element-plus'
+
+export default {
+  components: { ElButton },
+}
+</script>
+```
+
+```ts [vite.config.ts]
+import { defineConfig } from 'vite'
+import ElementPlus from 'unplugin-element-plus/vite'
+
+export default defineConfig({
+  // ...
+  plugins: [ElementPlus()],
+})
+```
+
+## Starter Template
+
+We provide a [Vite Template](https://github.com/element-plus/element-plus-vite-starter).
+
+For Nuxt users we have a [Nuxt Template](https://github.com/element-plus/element-plus-nuxt-starter).
+
+For Laravel users we have a [Laravel Template](https://github.com/element-plus/element-plus-in-laravel-starter).
+
+## Global Configuration
+
+When registering Element Plus, you can pass a global config object with `size` and
+`zIndex` to set the default `size` for form components, and `zIndex` for
+popup components, the default value for `zIndex` is `2000`.
+
+Full import:
+
+```ts [main.ts]
+import { createApp } from 'vue'
+import ElementPlus from 'element-plus'
+import App from './App.vue'
+
+const app = createApp(App)
+app.use(ElementPlus, { size: 'small', zIndex: 3000 })
+```
+
+On-demand:
+
+```vue [App.vue]
+<template>
+  <el-config-provider :size="size" :z-index="zIndex">
+    <app />
+  </el-config-provider>
+</template>
+
+<script>
+import { defineComponent } from 'vue'
+import { ElConfigProvider } from 'element-plus'
+
+export default defineComponent({
+  components: {
+    ElConfigProvider,
+  },
+  setup() {
+    return {
+      zIndex: 3000,
+      size: 'small',
+    }
+  },
+})
+</script>
+```
+
+## Using Nuxt.js
+
+We can also use [Nuxt.js](https://nuxt.com):
+
+<div class="glitch-embed-wrap" style="height: 420px; width: 100%;">
+  <iframe src="https://glitch.com/edit/#!/element-plus-nuxt-starter?path=components%2FExamples.vue%3A1%3A0" alt="nuxt-element-plus on glitch" style="height: 100%; width: 100%; border: 0;"></iframe>
+</div>
+
+## Let's Get Started
+
+You can bootstrap your project from now on. For each components usage, please
+refer to [the individual component documentation](https://element-plus.org/en-US/component/button.html).
+
+---
+Title: Server-Side Rendering (SSR)
+URL: https://element-plus.org/en-US/guide/ssr
+---
+
+# Server-Side Rendering (SSR)
+
+When using Element Plus for SSR development, you need to carry out special handling during SSR to avoid hydrate errors.
+
+
+
+## Provide an ID
+
+The provided value is used to generate the unique ID in Element Plus.
+Because the different IDs are prone to hydrate errors in SSR, in order to ensure that the server side and client side generate the same ID, we need to inject the `ID_injection_key` into Vue.
+
+```ts [main.ts]
+// irrelevant code omitted
+import { createApp } from 'vue'
+import { ID_INJECTION_KEY } from 'element-plus'
+import App from './App.vue'
+
+const app = createApp(App)
+app.provide(ID_INJECTION_KEY, {
+  prefix: 1024,
+  current: 0,
+})
+```
+
+## Provide ZIndex
+
+When you using SSR for development, you may encounter hydration errors caused by `z-index`. In this case, we recommend injecting an initial value to avoid such errors.
+
+```ts [main.ts]
+// irrelevant code omitted
+import { createApp } from 'vue'
+import { ZINDEX_INJECTION_KEY } from 'element-plus'
+import App from './App.vue'
+
+const app = createApp(App)
+app.provide(ZINDEX_INJECTION_KEY, { current: 0 })
+```
+
+## Teleports
+
+[Teleport](https://vuejs.org/guide/scaling-up/ssr.html#teleports) is used internally by multiple components in Element Plus (eg. ElDialog, ElDrawer, ElTooltip, ElDropdown, ElSelect, ElDatePicker ...), so special handling is required during SSR.
+
+### Render the Teleport on the mount
+
+An easier solution is to conditionally render the Teleport on the mount.
+
+For example, use the `ClientOnly` component in Nuxt.
+
+```html
+<client-only>
+  <el-tooltip content="the tooltip content">
+    <el-button>tooltip</el-button>
+  </el-tooltip>
+</client-only>
+```
+
+or
+
+```vue
+<script setup>
+import { ref } from 'vue'
+
+const isClient = ref(false)
+
+onMounted(() => {
+  isClient.value = true
+})
+</script>
+
+<template>
+  <el-tooltip v-if="isClient" content="the tooltip content">
+    <el-button>tooltip</el-button>
+  </el-tooltip>
+</template>
+```
+
+### Inject the teleport markup
+
+Another way is to inject the teleport markup into the correct location in your final page HTML.
+
+You need to inject the teleport markup close to the `<body>` tag.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Element Plus</title>
+    <!--preload-links-->
+  </head>
+  <body>
+    <!--app-teleports-->
+    <div id="app"><!--app-html--></div>
+    <script type="module" src="/src/entry-client.js"></script>
+  </body>
+</html>
+```
+
+
+
+```js [src/entry-server.js]
+// irrelevant code omitted
+import { renderToString } from 'vue/server-renderer'
+import { createApp } from './main'
+
+export async function render(url, manifest) {
+  // ...
+  const ctx = {}
+  const html = await renderToString(app, ctx)
+  const preloadLinks = renderPreloadLinks(ctx.modules, manifest)
+  const teleports = renderTeleports(ctx.teleports)
+
+  return [html, preloadLinks, teleports]
+}
+
+function renderTeleports(teleports) {
+  if (!teleports) return ''
+  return Object.entries(teleports).reduce((all, [key, value]) => {
+    if (key.startsWith('#el-popper-container-')) {
+      return `${all}<div id="${key.slice(1)}">${value}</div>`
+    }
+    return all
+  }, teleports.body || '')
+}
+```
+
+```js [server.js or prerender.js]
+// irrelevant code omitted
+const [appHtml, preloadLinks, teleports] = await render(url, manifest)
+
+const html = template
+  .replace('<!--preload-links-->', preloadLinks)
+  .replace('<!--app-html-->', appHtml)
+  .replace(/(\n|\r\n)\s*<!--app-teleports-->/, teleports)
+```
+
+---
+Title: Custom theme
+URL: https://element-plus.org/en-US/guide/theming
+---
+
+# Custom theme
+
+Element Plus uses BEM-styled CSS so that you can override styles easily. But if
+you need to replace styles at a large scale, e.g. change the theme color from
+blue to orange or green, maybe overriding them one by one is not a good idea.
+
+We provide four ways to change the style variables.
+
+## Change theme color
+
+These are examples about custom theme.
+
+- Full import: [element-plus-vite-starter](https://github.com/element-plus/element-plus-vite-starter)
+- On demand: [unplugin-element-plus/examples/vite](https://github.com/element-plus/unplugin-element-plus)
+
+### By SCSS variables
+
+`theme-chalk` is written in SCSS.
+You can find SCSS variables in [`packages/theme-chalk/src/common/var.scss`](https://github.com/element-plus/element-plus/blob/dev/packages/theme-chalk/src/common/var.scss).
+
+
+
+```scss
+$colors: () !default;
+$colors: map.deep-merge(
+  (
+    'white': #ffffff,
+    'black': #000000,
+    'primary': (
+      'base': #409eff,
+    ),
+    'success': (
+      'base': #67c23a,
+    ),
+    'warning': (
+      'base': #e6a23c,
+    ),
+    'danger': (
+      'base': #f56c6c,
+    ),
+    'error': (
+      'base': #f56c6c,
+    ),
+    'info': (
+      'base': #909399,
+    ),
+  ),
+  $colors
+);
+```
+
+### How to override it?
+
+If your project also uses SCSS, you can directly change Element Plus style variables. Create a new style file, e.g. `styles/element/index.scss`:
+
+
+
+```scss [styles/element/index.scss]
+/* just override what you need */
+@forward 'element-plus/theme-chalk/src/common/var.scss' with (
+  $colors: (
+    'primary': (
+      'base': green,
+    ),
+  )
+);
+
+// If you just import on demand, you can ignore the following content.
+// if you want to import all styles:
+// @use "element-plus/theme-chalk/src/index.scss" as *;
+```
+
+Then in the entry file of your project, import this style file instead of Element's built CSS:
+
+
+
+Create a `element/index.scss` to combine your variables and variables of element-plus. (If you import them in ts, they will not be combined.)
+
+
+
+```ts [main.ts]
+import { createApp } from 'vue'
+import './styles/element/index.scss'
+import ElementPlus from 'element-plus'
+import App from './App.vue'
+
+const app = createApp(App)
+app.use(ElementPlus)
+```
+
+If you are using vite, and you want to custom theme when importing on demand.
+
+Use `scss.additionalData` to compile variables with scss of every component.
+
+```ts [vite.config.ts]
+import path from 'path'
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+// You can also use unplugin-vue-components
+// import Components from 'unplugin-vue-components/vite'
+// import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+// or use unplugin-element-plus
+import ElementPlus from 'unplugin-element-plus/vite'
+
+export default defineConfig({
+  resolve: {
+    alias: {
+      '~/': `${path.resolve(__dirname, 'src')}/`,
+    },
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@use "~/styles/element/index.scss" as *;`,
+      },
+    },
+  },
+  plugins: [
+    vue(),
+    // use unplugin-vue-components
+    // Components({
+    //   resolvers: [
+    //     ElementPlusResolver({
+    //       importStyle: "sass",
+    //       // directives: true,
+    //       // version: "2.1.5",
+    //     }),
+    //   ],
+    // }),
+    // or use unplugin-element-plus
+    ElementPlus({
+      useSource: true,
+    }),
+  ],
+})
+```
+
+If you are using webpack, and you want to custom theme when importing on demand.
+
+```js [webpack.config.js]
+// use unplugin-element-plus
+
+import ElementPlus from 'unplugin-element-plus/webpack'
+
+export default defineConfig({
+  css: {
+    loaderOptions: {
+      scss: {
+        additionalData: `@use "~/styles/element/index.scss" as *;`,
+      },
+    },
+  },
+  plugins: [
+    ElementPlus({
+      useSource: true,
+    }),
+  ],
+})
+```
+
+### By CSS Variable
+
+CSS Variables is a very useful feature, already supported by almost all browsers. (IE: Wait?)
+
+> Learn more from [Using CSS custom properties (variables) | MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties)
+
+We have used css variables to reconstruct the style system of almost all components.
+
+
+
+This means you can dynamically change individual variables inside the component to better customize it without having to modify scss and recompile it.
+
+> In the future, the css variable names and role documentation for each component will be written to each component.
+
+Like this:
+
+```css
+:root {
+  --el-color-primary: green;
+}
+```
+
+If you just want to customize a particular component, just add inline styles for certain components individually.
+
+```html
+<el-tag style="--el-tag-bg-color: red">Tag</el-tag>
+```
+
+For performance reasons, it is more recommended to custom css variables under a class rather than the global `:root`.
+
+```css
+.custom-class {
+  --el-tag-bg-color: red;
+}
+```
+
+If you want to control css var by script, try this:
+
+```ts
+// document.documentElement is global
+const el = document.documentElement
+// const el = document.getElementById('xxx')
+
+// get css var
+getComputedStyle(el).getPropertyValue(`--el-color-primary`)
+
+// set css var
+el.style['--el-color-primary'] = 'red'
+```
+
+If you want a more elegant way, check this out.
+[useCssVar | VueUse](https://vueuse.org/core/usecssvar/)
+
+---
+Title: Built-in Transition
+URL: https://element-plus.org/en-US/guide/transitions
+---
+
+# Built-in Transition
+
+You can use Element's built-in transitions directly.
+Before that, please read the [transition docs](https://vuejs.org/guide/built-ins/transition.html).
+
+## Fade
+
+
+
+## Zoom
+
+
+
+## Collapse
+
+For collapse effect, use the `el-collapse-transition` component.
+
+
+
+## On-demand import
+
+```ts [main.ts]
+// collapse
+import { ElCollapseTransition } from 'element-plus'
+// fade/zoom
+import 'element-plus/theme-chalk/base.css'
+import App from './App.vue'
+
+const app = createApp(App)
+app.component(ElCollapseTransition.name, ElCollapseTransition)
+```
+
+## Vue Examples
+
+### collapse.vue
+```vue
+<template>
+  <div>
+    <el-button @click="show = !show">Click Me</el-button>
+
+    <div style="margin-top: 20px; height: 210px">
+      <el-collapse-transition>
+        <div v-show="show">
+          <div class="transition-box">el-collapse-transition</div>
+          <div class="transition-box mt-[10px]">el-collapse-transition</div>
+        </div>
+      </el-collapse-transition>
+    </div>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const show = ref(true)
+</script>
+
+<style scoped>
+.transition-box {
+  width: 200px;
+  height: 100px;
+  border-radius: var(--el-border-radius-base);
+  background-color: var(--el-color-primary);
+  text-align: center;
+  color: #fff;
+  padding: 40px 20px;
+  box-sizing: border-box;
+}
+</style>
+
+```
+
+### fade.vue
+```vue
+<template>
+  <div>
+    <el-button @click="show = !show">Click Me</el-button>
+
+    <div class="fade-container">
+      <transition name="el-fade-in-linear">
+        <div v-show="show" class="transition-box">.el-fade-in-linear</div>
+      </transition>
+      <transition name="el-fade-in">
+        <div v-show="show" class="transition-box">.el-fade-in</div>
+      </transition>
+    </div>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const show = ref(true)
+</script>
+
+<style scoped>
+.fade-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  min-height: 100px;
+  margin-top: 20px;
+}
+
+.transition-box {
+  width: 200px;
+  height: 100px;
+  border-radius: var(--el-border-radius-base);
+  background-color: var(--el-color-primary);
+  text-align: center;
+  color: #fff;
+  padding: 40px 20px;
+  box-sizing: border-box;
+}
+</style>
+
+```
+
+### zoom.vue
+```vue
+<template>
+  <div>
+    <el-button @click="show = !show">Click Me</el-button>
+
+    <div class="transition-container">
+      <transition name="el-zoom-in-left">
+        <div v-show="show" class="transition-box">.el-zoom-in-left</div>
+      </transition>
+
+      <transition name="el-zoom-in-center">
+        <div v-show="show" class="transition-box">.el-zoom-in-center</div>
+      </transition>
+
+      <transition name="el-zoom-in-top">
+        <div v-show="show" class="transition-box">.el-zoom-in-top</div>
+      </transition>
+
+      <transition name="el-zoom-in-bottom">
+        <div v-show="show" class="transition-box">.el-zoom-in-bottom</div>
+      </transition>
+    </div>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const show = ref(true)
+</script>
+
+<style scoped>
+.transition-container {
+  display: flex;
+  margin-top: 20px;
+  min-height: 100px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.transition-box {
+  width: 200px;
+  height: 100px;
+  border-radius: var(--el-border-radius-base);
+  background-color: var(--el-color-primary);
+  text-align: center;
+  color: #fff;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  word-break: break-word;
+  font-size: 14px;
+}
+</style>
+
+```
+
+
+---
+Title: Translation
+URL: https://element-plus.org/en-US/guide/translation
+---
+
+# Translation
+
+## Documentation
+
+In this chapter, we will discuss how to help translating the documentation of Element Plus.
+
+### Background
+
+Before we did the upgrade of the documentation architecture, each documentation update needs 5 languages,
+which most of the contributors use online translator for their non-native languages,
+sometimes it would be not only inaccurate but also stressful to them.
+
+So we decided to give the documentation site an upgrade.
+
+- From webpack to Vite
+- From manually maintained to automated
+
+We took [Crowdin](https://crowdin.com) as our first step to make the documentation site more automated.
+
+### How do I translate the documentation?
+
+1. Create an account on [Crowdin](https://crowdin.com), it is recommended that you use your GitHub account to authorize Crowdin.
+2. Go to [Element Plus](https://crowdin.com/project/element-plus) project.
+3. Choose the language you want to contribute to.
+4. Find the file you want to translate.
+5. Do the translation.
+
+That simple, and the UI is very intuitive to use, you should have no trouble using it.
+After you submit your work, it would be online once the translation is approved by proofreader.
+
+### How can I become a proofreader?
+
+You can [raise an issue](https://crowdin.com/project/element-plus/discussions) on Crowdin to us for
+becoming a proofreader of the language you wish to be.
+
+---
 Title: Affix
 URL: https://element-plus.org/en-US/component/affix
 ---
@@ -41947,1562 +43530,3 @@ watch(
 
 ```
 
-
----
-Title: Changelog
-URL: https://element-plus.org/en-US/guide/changelog
----
-
-<style scoped lang="scss">
-@at-root .hero-content {
-  padding: 32px;
-}
-</style>
-
-# Changelog
-
-Element Plus team uses **weekly** release strategy under normal circumstance, but critical bug fixes would require hotfix so the actual release number **could be** more than 1 per week.
-
-On this page you can only see the latest 30 records of our [Changelog](https://github.com/element-plus/element-plus/blob/dev/CHANGELOG.en-US.md).
-
-You can see the [Upgrade Changes](https://github.com/element-plus/element-plus/issues/15834) after version ^(2.5.0).
-
-<VpChangelog />
-
----
-Title: Commit Examples
-URL: https://element-plus.org/en-US/guide/commit-examples
----
-
-# Commit Examples
-
-## Why this chapter exists
-
-Please refer to [Conventional Commits](https://www.conventionalcommits.org/) for more information.
-
-A good commit message enables us:
-
-1. To understand what the contributor is trying to do
-2. Automatically generates change log
-
-### Rule for writing commit message
-
-```md
-# (If applied, this commit will...) <subject> (Max 72 characters)
-
-# |<---- Using a Maximum Of 72 Characters ---->|
-
-# Explain why this change is being made
-
-# |<---- Try To Limit Each Line to a Maximum Of 72 Characters ---->|
-
-# Provide links or keys to any relevant tickets, articles or other resources
-
-# Use issues and merge requests' full URLs instead of short references,
-
-# as they are displayed as plain text outside of GitLab
-
-# --- COMMIT END ---
-
-# --------------------
-
-# Remember to
-
-# Capitalize the subject line
-
-# Use the imperative mood in the subject line
-
-# Do not end the subject line with a period
-
-# Subject must contain at least 3 words
-
-# Separate subject from body with a blank line
-
-# Commits that change 30 or more lines across at least 3 files should
-
-# describe these changes in the commit body
-
-# Do not use Emojis
-
-# Use the body to explain what and why vs. how
-
-# Can use multiple lines with "-" for bullet points in body
-
-# For more information: https://chris.beams.io/posts/git-commit/
-
-# --------------------
-```
-
-### Template for commit messages
-
-Below is a template commit message for your reference.
-
-```md
-feat(components): [button] I did something with button
-
-Blank between subject and body is expected.(period is expected)
-Describes your change in one line or multi-line.
-Capitalize your first letter when starting a new line
-Please do not exceeds 72 characters per line, because that would be harder to comprehend.
-
-- You can also add bullet list symbol for better layout
-```
-
-For the subject header, the format is:
-
-```
-[type](scope): [messages]
-```
-
-You can checkout the allowed values for **type** and **scope** in [commitlint.config.js](https://github.com/element-plus/element-plus/blob/c2ee36a7fc72b17742d43ecdff4e2912c416141d/commitlint.config.js#L57),
-
-### Useful links
-
-[Keeping git commit history clean](https://about.gitlab.com/blog/2018/06/07/keeping-git-commit-history-clean/)
-
----
-Title: Dark Mode
-URL: https://element-plus.org/en-US/guide/dark-mode
----
-
-# Dark Mode ^(2.2.0)
-
-After a long time, Element Plus supports dark mode!
-
-We extracted and unified all necessary variables to make it possible to implement based on CSS Vars.
-
-## How to enable it?
-
-First you can create a switch to toggle `dark` class of html.
-
-> If you only need dark mode, just add `dark` class for html.
-
-```html
-<html class="dark">
-  <head></head>
-  <body></body>
-</html>
-```
-
-> If you want to toggle it, i recommend [useDark | VueUse](https://vueuse.org/core/useDark/).
-
-Then, you can quickly enable it with just one line of code to import CSS in your entry.
-
-```ts [main.ts]
-// if you just want to import css
-import 'element-plus/theme-chalk/dark/css-vars.css'
-```
-
-> If you want an example, you can refer to [element-plus-vite-starter](https://github.com/element-plus/element-plus-vite-starter).
-
-## Custom variables
-
-### By CSS
-
-Just override it by CSS Vars.
-
-For example, new file `styles/dark/css-vars.css`:
-
-```css
-html.dark {
-  /* custom dark bg color */
-  --el-bg-color: #626aef;
-}
-```
-
-Import it after styles of Element Plus:
-
-```ts [main.ts]
-import 'element-plus/theme-chalk/dark/css-vars.css'
-import './styles/dark/css-vars.css'
-```
-
-### By SCSS
-
-If you use scss, you can also import scss file to compile.
-
-> You can refer [Theming](./theming.md) to get more info.
-
-```scss [styles/element/index.scss]
-/*just override what you need*/
-@forward 'element-plus/theme-chalk/src/dark/var.scss' with (
-  $bg-color: (
-    'page': #0a0a0a,
-    '': #626aef,
-    'overlay': #1d1e1f,
-  )
-);
-```
-
-```ts [main.ts]
-import './styles/element/index.scss'
-
-// or just want to import scss?
-// import 'element-plus/theme-chalk/src/dark/css-vars.scss'
-```
-
----
-Title: Design Disciplines
-URL: https://element-plus.org/en-US/guide/design
----
-
-# Design Disciplines
-
-<design-guide />
-
-## Consistency
-
-- **Consistent with real life:** in line with the process and logic of real life,
-  and comply with languages and habits that the users are used to.
-
-- **Consistent within interface:** all elements should be consistent, such as:
-  design style, icons and texts, position of elements, etc.
-
-## Feedback
-
-- **Operation feedback:** enable the users to clearly perceive their operations
-  by style updates and interactive effects.
-
-- **Visual feedback:** reflect current state by updating or
-  rearranging elements of the page.
-
-## Efficiency
-
-- **Simplify the process:** keep operating process simple and intuitive.
-
-- **Definite and clear:** enunciate your intentions clearly so
-  that the users can quickly understand and make decisions.
-
-- **Easy to identify:** the interface should be straightforward,
-  which helps the users to identify and frees them from memorizing and recalling.
-
-## Controllability
-
-- **Decision making:** giving advice about operations is acceptable, but do not
-  make decisions for the users.
-
-- **Controlled consequences:** users should be granted the freedom to operate,
-  including canceling, aborting or terminating current operation.
-
----
-Title: Development FAQ
-URL: https://element-plus.org/en-US/guide/dev-faq
----
-
-# Development FAQ
-
-Here are the problems that are easy to encounter in development.
-
-## If you encounter dependency related issues
-
-```shell
-rm -rf node_modules
-pnpm i
-```
-
-## Link local dependencies
-
-```shell
-# get dist
-pnpm build
-cd dist/element-plus
-# set cur element-plus to global `node_modules`
-pnpm link --global
-# for esm we also need link element-plus for dist
-pnpm link --global element-plus
-
-# go to your project, link to `element-plus`
-cd your-project
-pnpm link --global element-plus
-```
-
-> More info see [pnpm link](https://pnpm.io/cli/link).
-
-## Theme
-
-We should not write Chinese comments in scss files.
-
-It will generate warning `@charset "UTF-8";` in the header of css file when built with vite.
-
-> More info see [#3219](https://github.com/element-plus/element-plus/issues/3219).
-
----
-Title: Local Development
-URL: https://element-plus.org/en-US/guide/dev-guide
----
-
-# Local Development
-
-## Bootstrap project
-
-With command
-
-```shell
-pnpm i
-```
-
-the project will install all dependencies.
-
-## Website preview
-
-With command
-
-```shell
-pnpm docs:dev
-```
-
-the project will launch website for you to preview all existing component.
-
-## Local development
-
-See [Local development guide](https://github.com/element-plus/element-plus/blob/dev/CONTRIBUTING.md)
-
-1. With command
-
-```shell
-pnpm dev
-```
-
-will start the local development environment.
-
-2. Add your component into `play/src/App.vue`
-
-```vue [App.vue]
-<template>
-  <ComponentYouAreDeveloping />
-</template>
-
-<script setup lang="ts">
-// make sure this component is registered in @element-plus/components
-</script>
-```
-
-Modify `App.vue` file per your needs to get things work.
-
----
-Title: Internationalization
-URL: https://element-plus.org/en-US/guide/i18n
----
-
-# Internationalization
-
-Element Plus components are using English **by default**, if you wish you use other
-languages, you can get you answer by keep reading.
-
-## Global configuration
-
-Element Plus provides global configurations
-
-```ts [main.ts]
-import ElementPlus from 'element-plus'
-import zhCn from 'element-plus/es/locale/lang/zh-cn'
-
-app.use(ElementPlus, {
-  locale: zhCn,
-})
-```
-
-## ConfigProvider
-
-Element Plus also provides a Vue component [ConfigProvider](/en-US/component/config-provider)
-for globally configuring locale and other settings.
-
-```vue [App.vue]
-<template>
-  <el-config-provider :locale="zhCn">
-    <app />
-  </el-config-provider>
-</template>
-
-<script setup lang="ts">
-import { ElConfigProvider } from 'element-plus'
-import zhCn from 'element-plus/es/locale/lang/zh-cn'
-</script>
-```
-
-## Date and time localization
-
-We use [Day.js](https://day.js.org/docs/en/i18n/i18n) library to manage date and time in components like `DatePicker`. It is important to set a proper locale in Day.js to make the internationalization fully works. You have to import Day.js's locale config separately.
-
-```ts
-import 'dayjs/locale/zh-cn'
-```
-
-## CDN Usage
-
-If you are using Element Plus via CDN, then you need to do this, let's again take
-unpkg as an example
-
-```html
-<script src="//unpkg.com/element-plus/dist/locale/zh-cn"></script>
-<script>
-  app.use(ElementPlus, {
-    locale: ElementPlusLocaleZhCn,
-  })
-</script>
-```
-
-Full documentation refer to: [ConfigProvider](/en-US/component/config-provider)
-
-[Supported Language List](https://github.com/element-plus/element-plus/tree/dev/packages/locale/lang)
-
-<ul class="language-list">
-  <li>Simplified Chinese (zh-cn)</li>
-  <li>American English (en)</li>
-  <li>Azerbaijani (az)</li>
-  <li>German (de)</li>
-  <li>Portuguese (pt)</li>
-  <li>Spanish (es)</li>
-  <li>Danish (da)</li>
-  <li>French (fr)</li>
-  <li>Norwegian (nb-NO)</li>
-  <li>Traditional Chinese (zh-tw)</li>
-  <li>Italian (it)</li>
-  <li>Korean (ko)</li>
-  <li>Japanese (ja)</li>
-  <li>Dutch (nl)</li>
-  <li>Vietnamese (vi)</li>
-  <li>Russian (ru)</li>
-  <li>Turkish (tr)</li>
-  <li>Brazilian Portuguese (pt-br)</li>
-  <li>Farsi (fa)</li>
-  <li>Thai (th)</li>
-  <li>Indonesian (id)</li>
-  <li>Bulgarian (bg)</li>
-  <li>Pashto (pa)</li>
-  <li>Polish (pl)</li>
-  <li>Finnish (fi)</li>
-  <li>Swedish (sv)</li>
-  <li>Greek (el)</li>
-  <li>Slovak (sk)</li>
-  <li>Catalunya (ca)</li>
-  <li>Czech (cs)</li>
-  <li>Ukrainian (uk)</li>
-  <li>Turkmen (tk)</li>
-  <li>Tamil (ta)</li>
-  <li>Latvian (lv)</li>
-  <li>Afrikaans (af)</li>
-  <li>Estonian (et)</li>
-  <li>Slovenian (sl)</li>
-  <li>Arabic (ar)</li>
-  <li>Hebrew (he)</li>
-  <li>Lao (lo)</li>
-  <li>Lithuanian (lt)</li>
-  <li>Mongolian (mn)</li>
-  <li>Kazakh (kk)</li>
-  <li>Hungarian (hu)</li>
-  <li>Romanian (ro)</li>
-  <li>Kurdish (ku)</li>
-  <li>Kurdish (ckb)</li>
-  <li>Uighur (ug-cn)</li>
-  <li>Khmer (km)</li>
-  <li>Serbian (sr)</li>
-  <li>Basque (eu)</li>
-  <li>Kyrgyz (ky)</li>
-  <li>Armenian (hy-am)</li>
-  <li>Croatian (hr)</li>
-  <li>Esperanto (eo)</li>
-  <li>Bengali (bn)</li>
-  <li>Malay (ms)</li>
-  <li>Madagascar (mg)</li>
-  <li>Swahili (sw)</li>
-  <li>Uzbek (uz-uz)</li>
-  <li>Egyptian Arabic (ar-eg)</li>
-  <li>Burmese (my)</li>
-  <li>Hindi (hi)</li>
-  <li>Norsk (no)</li>
-  <li>Hongkong Chinese (zh-hk)</li>
-  <li>Macau Chinese (zh-mo)</li>
-  <li>Telugu (te)</li>
-</ul>
-
-If you need any other languages, [PR](https://github.com/element-plus/element-plus/pulls)
-is always welcomed, you only need to add a language file at
-[here](https://github.com/element-plus/element-plus/tree/dev/packages/locale/lang).
-
-<style>
-  .language-list {
-    list-style: disc
-  }
-</style>
-
----
-Title: Installation
-URL: https://element-plus.org/en-US/guide/installation
----
-
-# Installation
-
-## Compatibility ^(2.5.0)
-
-Element Plus can run on browsers that support last 2 versions.
-
-If you really need to support outdated browsers, please add [Babel](https://babeljs.io/) and Polyfill yourself.
-
-Since Vue 3 no longer supports IE11, Element Plus does not support IE either.
-
-| version | ![Chrome](https://cdn.jsdelivr.net/npm/@browser-logos/chrome/chrome_32x32.png) <br> Chrome | ![IE](https://cdn.jsdelivr.net/npm/@browser-logos/edge/edge_32x32.png) <br> Edge | ![Firefox](https://cdn.jsdelivr.net/npm/@browser-logos/firefox/firefox_32x32.png) <br> Firefox | ![Safari](https://cdn.jsdelivr.net/npm/@browser-logos/safari/safari_32x32.png) <br> Safari |
-| ------- | ------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| < 2.5.0 | Chrome ≥ 64                                                                                | Edge ≥ 79                                                                        | Firefox ≥ 78                                                                                   | Safari ≥ 12                                                                                |
-| 2.5.0 + | Chrome ≥ 85                                                                                | Edge ≥ 85                                                                        | Firefox ≥ 79                                                                                   | Safari ≥ 14.1                                                                              |
-
-### Sass
-
-Version `2.8.5` and later, the minimum compatible version of [Sass](https://github.com/sass) is `1.79.0`.
-
-If your terminal prompts `legacy JS API Deprecation Warning`, you can configure the following code in [vite.config.ts](https://vitejs.dev/config/shared-options.html#css-preprocessoroptions).
-
-```ts{3}
-css: {
-  preprocessorOptions: {
-    scss: { api: 'modern-compiler' },
-  }
-}
-```
-
-### Version
-
-Element Plus is currently in a rapid development iteration. [![ElementPlus version badge](https://img.shields.io/npm/v/element-plus.svg?style=flat-square)](https://www.npmjs.org/package/element-plus)
-
-In addition, every commit and PR on the dev branch will be published to [pkg.pr.new](https://github.com/stackblitz-labs/pkg.pr.new), if you want to use some unpublished content, you can refer to [here](https://github.com/element-plus/element-plus/issues/18433#issuecomment-2392618431).
-
-## Using Package Manager
-
-**We recommend using the package manager (NPM, [Yarn](https://classic.yarnpkg.com/lang/en/), [pnpm](https://pnpm.io/)) to install Element Plus**,
-so that you can utilize bundlers like [Vite](https://vitejs.dev) and
-[webpack](https://webpack.js.org/).
-
-Choose a package manager you like.
-
-::: code-group
-
-```shell [npm]
-$ npm install element-plus --save
-```
-
-```shell [yarn]
-$ yarn add element-plus
-```
-
-```shell [pnpm]
-$ pnpm install element-plus
-```
-
-:::
-
-If your network environment is not good, it is recommended to use a mirror registry [cnpm](https://github.com/cnpm/cnpm) or [npmmirror](https://npmmirror.com/).
-
-```shell
-npm config set registry https://registry.npmmirror.com
-```
-
-## Import in Browser
-
-Import Element Plus through browser HTML tags directly, and use global variable `ElementPlus`.
-
-According to different CDN providers, there are different introduction methods.
-Here we use [unpkg](https://unpkg.com) and [jsDelivr](https://jsdelivr.com) as example.
-You can also use other CDN providers.
-
-### unpkg
-
-```html
-<head>
-  <!-- Import style -->
-  <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css" />
-  <!-- Import Vue 3 -->
-  <script src="//unpkg.com/vue@3"></script>
-  <!-- Import component library -->
-  <script src="//unpkg.com/element-plus"></script>
-</head>
-```
-
-### jsDelivr
-
-```html
-<head>
-  <!-- Import style -->
-  <link
-    rel="stylesheet"
-    href="//cdn.jsdelivr.net/npm/element-plus/dist/index.css"
-  />
-  <!-- Import Vue 3 -->
-  <script src="//cdn.jsdelivr.net/npm/vue@3"></script>
-  <!-- Import component library -->
-  <script src="//cdn.jsdelivr.net/npm/element-plus"></script>
-</head>
-```
-
-
-
-## Hello World
-
-With CDN, we can easily use Element Plus to
-write a Hello World page. [Online Demo](https://codepen.io/iamkun/pen/YzWMaVr)
-
-<iframe height="469" style="width: 100%;" scrolling="no" title="YzWMaVr" src="https://codepen.io/iamkun/embed/YzWMaVr?height=469&theme-id=light&default-tab=html,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href='https://codepen.io/iamkun/pen/YzWMaVr'>YzWMaVr</a> by iamkun
-  (<a href='https://codepen.io/iamkun'>@iamkun</a>) on <a href='https://codepen.io'>CodePen</a>.
-</iframe>
-
-If you are installing via package manager and want to use it with
-a packaging tool, please read the
-next section: [Quick Start](/en-US/guide/quickstart).
-
----
-Title: Migration
-URL: https://element-plus.org/en-US/guide/migration
----
-
-# Migration
-
-[This guide](https://github.com/element-plus/element-plus/discussions/5658) will help you upgrade from Element 2.x to Element Plus.
-
-## Vue 3 migration build
-
-You may encounter some issues when using Element Plus with Vue 3 migration build. Some of the components rely on Vue 3 internal API's. It's worth trying to adjust compatConfig mode to 3, either globally or [per component in your project](https://v3-migration.vuejs.org/migration-build.html).
-
-## Migration Tool :hammer_and_wrench:
-
-We have made a migration tool for you to migrate your project from [Element UI](https://element.eleme.io) to Element Plus.
-You can find the [gogo code migration tool](https://github.com/thx/gogocode/tree/main/packages/gogocode-plugin-element) here.
-
-We have tested this on [Vue Element Admin](https://github.com/PanJiaChen/vue-element-admin) (Vue 2 + Element UI). You can find the transpiled code [here](https://github.com/gogocodeio/vue-element-admin).
-
-<style scoped>
-  details {
-    margin-top: 8px;
-  }
-</style>
-
----
-Title: Custom namespace
-URL: https://element-plus.org/en-US/guide/namespace
----
-
-## Custom namespace ^(2.2.0)
-
-
-
-Default namespace is `el`.
-In special cases, we may need to customize its namespace.
-
-Since we use sass to write styles, if you want to customize all namespaces.
-We have to assume that you already use sass.
-
-You must set `ElConfigProvider` and scss `$namespace` at the same time.
-
-### Set `ElConfigProvider`
-
-Use `ElConfigProvider` wrap your root component.
-
-```vue [App.vue]
-<template>
-  <el-config-provider namespace="ep">
-    <!-- ... -->
-  </el-config-provider>
-</template>
-```
-
-### Set Scss & Css Vars
-
-Create `styles/element/index.scss`:
-
-```scss [styles/element/index.scss]
-// we can add this to custom namespace, default is 'el'
-@forward 'element-plus/theme-chalk/src/mixins/config.scss' with (
-  $namespace: 'ep'
-);
-// ...
-```
-
-Import `styles/element/index.scss` in `vite.config.ts`:
-
-> The same is true for webpack, which needs to be set in `preprocessorOptions`.
-
-```ts [vite.config.ts]
-import { defineConfig } from 'vite'
-// https://vitejs.dev/config/
-export default defineConfig({
-  // ...
-  css: {
-    preprocessorOptions: {
-      scss: {
-        additionalData: `@use "~/styles/element/index.scss" as *;`,
-      },
-    },
-  },
-  // ...
-})
-```
-
-That's all.
-
----
-Title: Navigation
-URL: https://element-plus.org/en-US/guide/nav
----
-
-<style>
-:root {
-  --categories-c-bg: #F9FAFC;
-  --categories-c-page: #E5E9F2;
-  --categories-c-overlay: white;
-  --categories-c-text: #99A9BF;
-  --categories-c-icon: #E5E9F2;
-  --categories-c-line: #E5E9F2;
-}
-
-.dark {
-  --categories-c-bg: #1D1E1F;
-  --categories-c-page: #0A0A0A;
-  --categories-c-overlay: #141414;
-  --categories-c-text: #53637A;
-  --categories-c-icon: #2F333D;
-  --categories-c-line: #242529;
-}
-</style>
-
-# Navigation
-
-Navigation focuses on solving the users' problems of where to go and how to get
-there. Generally it can be categorized into 'sidebar navigation' and 'top navigation'.
-
-## Choose the right navigation
-
-An appropriate navigation gives users a smooth experience, while an inappropriate
-one leads to confusion. Here are the differences between sidebar navigation and
-top navigation.
-
-## Side Navigation
-
-Affix the navigation at the left edge, thus improves its visibility, making it
-easier to switch between pages. In this case, the top area of the page holds
-commonly used tools, e.g. search bar, help button, notice button, etc. Suitable
-for background management or utility websites.
-
-### Level 1 categories
-
-Suitable for simply structured sites with only one level of pages. No breadcrumb is needed.
-
-<L1Categories />
-
-### Level 2 categories
-
-Sidebar displays up to two levels of navigation. Breadcrumbs are recommended in
-combination of second level navigation, making it easier for the users to locate
-and navigate.
-
-<L2Categories />
-
-### Level 3 categories
-
-Suitable for complicated utility websites. The left sidebar holds first level
-navigation, and the middle column displays second level navigation or other utility
-options.
-
-<L3Categories />
-
-## Top Navigation
-
-Conforms to the normal browsing order from top to bottom, which makes things more
-natural. The navigation amount and text length are limited to the width of the top.
-
-Suitable for sites with few navigation and large chunks.
-
-<TopNavigationExample />
-
----
-Title: Quick Start
-URL: https://element-plus.org/en-US/guide/quickstart
----
-
-# Quick Start
-
-This section describes how to use Element Plus in your project.
-
-## Usage
-
-### Full Import
-
-If you don’t care about the bundle size so much, it’s more convenient to use full import.
-
-```ts [main.ts]
-import { createApp } from 'vue'
-import ElementPlus from 'element-plus'
-import 'element-plus/dist/index.css'
-import App from './App.vue'
-
-const app = createApp(App)
-
-app.use(ElementPlus)
-app.mount('#app')
-```
-
-#### Volar support
-
-If you use volar, please add the global component type definition to `compilerOptions.types` in `tsconfig.json`.
-
-```json [tsconfig.json]
-{
-  "compilerOptions": {
-    // ...
-    "types": ["element-plus/global"]
-  }
-}
-```
-
-### On-demand Import
-
-You need to use an additional plugin to import components you used.
-
-#### Auto import <el-tag type="primary" style="vertical-align: middle;" effect="dark" size="small">Recommend</el-tag>
-
-First you need to install `unplugin-vue-components` and `unplugin-auto-import`.
-
-```shell
-npm install -D unplugin-vue-components unplugin-auto-import
-```
-
-Then add the code below into your `Vite` or `Webpack` config file.
-
-##### Vite
-
-```ts [vite.config.ts]
-import { defineConfig } from 'vite'
-import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
-
-export default defineConfig({
-  // ...
-  plugins: [
-    // ...
-    AutoImport({
-      resolvers: [ElementPlusResolver()],
-    }),
-    Components({
-      resolvers: [ElementPlusResolver()],
-    }),
-  ],
-})
-```
-
-##### Webpack
-
-```js [webpack.config.js]
-const AutoImport = require('unplugin-auto-import/webpack')
-const Components = require('unplugin-vue-components/webpack')
-const { ElementPlusResolver } = require('unplugin-vue-components/resolvers')
-
-module.exports = {
-  // ...
-  plugins: [
-    AutoImport({
-      resolvers: [ElementPlusResolver()],
-    }),
-    Components({
-      resolvers: [ElementPlusResolver()],
-    }),
-  ],
-}
-```
-
-For more bundlers ([Rollup](https://rollupjs.org/), [Vue CLI](https://cli.vuejs.org/)) and configs please reference [unplugin-vue-components](https://github.com/antfu/unplugin-vue-components#installation) and [unplugin-auto-import](https://github.com/antfu/unplugin-auto-import#install).
-
-#### Nuxt
-
-For Nuxt users, you only need to install `@element-plus/nuxt`.
-
-```shell
-npm install -D @element-plus/nuxt
-```
-
-Then add the code below into your config file.
-
-```ts [nuxt.config.ts]
-export default defineNuxtConfig({
-  modules: ['@element-plus/nuxt'],
-})
-```
-
-Refer to the [docs](https://github.com/element-plus/element-plus-nuxt#readme) for how to configure it.
-
-### Manually import
-
-Element Plus provides out of box [Tree Shaking](https://webpack.js.org/guides/tree-shaking/)
-functionalities based on ES Module.
-
-But you need install [unplugin-element-plus](https://github.com/element-plus/unplugin-element-plus) for style import.
-And refer to the [docs](https://github.com/element-plus/unplugin-element-plus#readme) for how to configure it.
-
-```vue [App.vue]
-<template>
-  <el-button>I am ElButton</el-button>
-</template>
-
-<script>
-import { ElButton } from 'element-plus'
-
-export default {
-  components: { ElButton },
-}
-</script>
-```
-
-```ts [vite.config.ts]
-import { defineConfig } from 'vite'
-import ElementPlus from 'unplugin-element-plus/vite'
-
-export default defineConfig({
-  // ...
-  plugins: [ElementPlus()],
-})
-```
-
-## Starter Template
-
-We provide a [Vite Template](https://github.com/element-plus/element-plus-vite-starter).
-
-For Nuxt users we have a [Nuxt Template](https://github.com/element-plus/element-plus-nuxt-starter).
-
-For Laravel users we have a [Laravel Template](https://github.com/element-plus/element-plus-in-laravel-starter).
-
-## Global Configuration
-
-When registering Element Plus, you can pass a global config object with `size` and
-`zIndex` to set the default `size` for form components, and `zIndex` for
-popup components, the default value for `zIndex` is `2000`.
-
-Full import:
-
-```ts [main.ts]
-import { createApp } from 'vue'
-import ElementPlus from 'element-plus'
-import App from './App.vue'
-
-const app = createApp(App)
-app.use(ElementPlus, { size: 'small', zIndex: 3000 })
-```
-
-On-demand:
-
-```vue [App.vue]
-<template>
-  <el-config-provider :size="size" :z-index="zIndex">
-    <app />
-  </el-config-provider>
-</template>
-
-<script>
-import { defineComponent } from 'vue'
-import { ElConfigProvider } from 'element-plus'
-
-export default defineComponent({
-  components: {
-    ElConfigProvider,
-  },
-  setup() {
-    return {
-      zIndex: 3000,
-      size: 'small',
-    }
-  },
-})
-</script>
-```
-
-## Using Nuxt.js
-
-We can also use [Nuxt.js](https://nuxt.com):
-
-<div class="glitch-embed-wrap" style="height: 420px; width: 100%;">
-  <iframe src="https://glitch.com/edit/#!/element-plus-nuxt-starter?path=components%2FExamples.vue%3A1%3A0" alt="nuxt-element-plus on glitch" style="height: 100%; width: 100%; border: 0;"></iframe>
-</div>
-
-## Let's Get Started
-
-You can bootstrap your project from now on. For each components usage, please
-refer to [the individual component documentation](https://element-plus.org/en-US/component/button.html).
-
----
-Title: Server-Side Rendering (SSR)
-URL: https://element-plus.org/en-US/guide/ssr
----
-
-# Server-Side Rendering (SSR)
-
-When using Element Plus for SSR development, you need to carry out special handling during SSR to avoid hydrate errors.
-
-
-
-## Provide an ID
-
-The provided value is used to generate the unique ID in Element Plus.
-Because the different IDs are prone to hydrate errors in SSR, in order to ensure that the server side and client side generate the same ID, we need to inject the `ID_injection_key` into Vue.
-
-```ts [main.ts]
-// irrelevant code omitted
-import { createApp } from 'vue'
-import { ID_INJECTION_KEY } from 'element-plus'
-import App from './App.vue'
-
-const app = createApp(App)
-app.provide(ID_INJECTION_KEY, {
-  prefix: 1024,
-  current: 0,
-})
-```
-
-## Provide ZIndex
-
-When you using SSR for development, you may encounter hydration errors caused by `z-index`. In this case, we recommend injecting an initial value to avoid such errors.
-
-```ts [main.ts]
-// irrelevant code omitted
-import { createApp } from 'vue'
-import { ZINDEX_INJECTION_KEY } from 'element-plus'
-import App from './App.vue'
-
-const app = createApp(App)
-app.provide(ZINDEX_INJECTION_KEY, { current: 0 })
-```
-
-## Teleports
-
-[Teleport](https://vuejs.org/guide/scaling-up/ssr.html#teleports) is used internally by multiple components in Element Plus (eg. ElDialog, ElDrawer, ElTooltip, ElDropdown, ElSelect, ElDatePicker ...), so special handling is required during SSR.
-
-### Render the Teleport on the mount
-
-An easier solution is to conditionally render the Teleport on the mount.
-
-For example, use the `ClientOnly` component in Nuxt.
-
-```html
-<client-only>
-  <el-tooltip content="the tooltip content">
-    <el-button>tooltip</el-button>
-  </el-tooltip>
-</client-only>
-```
-
-or
-
-```vue
-<script setup>
-import { ref } from 'vue'
-
-const isClient = ref(false)
-
-onMounted(() => {
-  isClient.value = true
-})
-</script>
-
-<template>
-  <el-tooltip v-if="isClient" content="the tooltip content">
-    <el-button>tooltip</el-button>
-  </el-tooltip>
-</template>
-```
-
-### Inject the teleport markup
-
-Another way is to inject the teleport markup into the correct location in your final page HTML.
-
-You need to inject the teleport markup close to the `<body>` tag.
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Element Plus</title>
-    <!--preload-links-->
-  </head>
-  <body>
-    <!--app-teleports-->
-    <div id="app"><!--app-html--></div>
-    <script type="module" src="/src/entry-client.js"></script>
-  </body>
-</html>
-```
-
-
-
-```js [src/entry-server.js]
-// irrelevant code omitted
-import { renderToString } from 'vue/server-renderer'
-import { createApp } from './main'
-
-export async function render(url, manifest) {
-  // ...
-  const ctx = {}
-  const html = await renderToString(app, ctx)
-  const preloadLinks = renderPreloadLinks(ctx.modules, manifest)
-  const teleports = renderTeleports(ctx.teleports)
-
-  return [html, preloadLinks, teleports]
-}
-
-function renderTeleports(teleports) {
-  if (!teleports) return ''
-  return Object.entries(teleports).reduce((all, [key, value]) => {
-    if (key.startsWith('#el-popper-container-')) {
-      return `${all}<div id="${key.slice(1)}">${value}</div>`
-    }
-    return all
-  }, teleports.body || '')
-}
-```
-
-```js [server.js or prerender.js]
-// irrelevant code omitted
-const [appHtml, preloadLinks, teleports] = await render(url, manifest)
-
-const html = template
-  .replace('<!--preload-links-->', preloadLinks)
-  .replace('<!--app-html-->', appHtml)
-  .replace(/(\n|\r\n)\s*<!--app-teleports-->/, teleports)
-```
-
----
-Title: Custom theme
-URL: https://element-plus.org/en-US/guide/theming
----
-
-# Custom theme
-
-Element Plus uses BEM-styled CSS so that you can override styles easily. But if
-you need to replace styles at a large scale, e.g. change the theme color from
-blue to orange or green, maybe overriding them one by one is not a good idea.
-
-We provide four ways to change the style variables.
-
-## Change theme color
-
-These are examples about custom theme.
-
-- Full import: [element-plus-vite-starter](https://github.com/element-plus/element-plus-vite-starter)
-- On demand: [unplugin-element-plus/examples/vite](https://github.com/element-plus/unplugin-element-plus)
-
-### By SCSS variables
-
-`theme-chalk` is written in SCSS.
-You can find SCSS variables in [`packages/theme-chalk/src/common/var.scss`](https://github.com/element-plus/element-plus/blob/dev/packages/theme-chalk/src/common/var.scss).
-
-
-
-```scss
-$colors: () !default;
-$colors: map.deep-merge(
-  (
-    'white': #ffffff,
-    'black': #000000,
-    'primary': (
-      'base': #409eff,
-    ),
-    'success': (
-      'base': #67c23a,
-    ),
-    'warning': (
-      'base': #e6a23c,
-    ),
-    'danger': (
-      'base': #f56c6c,
-    ),
-    'error': (
-      'base': #f56c6c,
-    ),
-    'info': (
-      'base': #909399,
-    ),
-  ),
-  $colors
-);
-```
-
-### How to override it?
-
-If your project also uses SCSS, you can directly change Element Plus style variables. Create a new style file, e.g. `styles/element/index.scss`:
-
-
-
-```scss [styles/element/index.scss]
-/* just override what you need */
-@forward 'element-plus/theme-chalk/src/common/var.scss' with (
-  $colors: (
-    'primary': (
-      'base': green,
-    ),
-  )
-);
-
-// If you just import on demand, you can ignore the following content.
-// if you want to import all styles:
-// @use "element-plus/theme-chalk/src/index.scss" as *;
-```
-
-Then in the entry file of your project, import this style file instead of Element's built CSS:
-
-
-
-Create a `element/index.scss` to combine your variables and variables of element-plus. (If you import them in ts, they will not be combined.)
-
-
-
-```ts [main.ts]
-import { createApp } from 'vue'
-import './styles/element/index.scss'
-import ElementPlus from 'element-plus'
-import App from './App.vue'
-
-const app = createApp(App)
-app.use(ElementPlus)
-```
-
-If you are using vite, and you want to custom theme when importing on demand.
-
-Use `scss.additionalData` to compile variables with scss of every component.
-
-```ts [vite.config.ts]
-import path from 'path'
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-// You can also use unplugin-vue-components
-// import Components from 'unplugin-vue-components/vite'
-// import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
-// or use unplugin-element-plus
-import ElementPlus from 'unplugin-element-plus/vite'
-
-export default defineConfig({
-  resolve: {
-    alias: {
-      '~/': `${path.resolve(__dirname, 'src')}/`,
-    },
-  },
-  css: {
-    preprocessorOptions: {
-      scss: {
-        additionalData: `@use "~/styles/element/index.scss" as *;`,
-      },
-    },
-  },
-  plugins: [
-    vue(),
-    // use unplugin-vue-components
-    // Components({
-    //   resolvers: [
-    //     ElementPlusResolver({
-    //       importStyle: "sass",
-    //       // directives: true,
-    //       // version: "2.1.5",
-    //     }),
-    //   ],
-    // }),
-    // or use unplugin-element-plus
-    ElementPlus({
-      useSource: true,
-    }),
-  ],
-})
-```
-
-If you are using webpack, and you want to custom theme when importing on demand.
-
-```js [webpack.config.js]
-// use unplugin-element-plus
-
-import ElementPlus from 'unplugin-element-plus/webpack'
-
-export default defineConfig({
-  css: {
-    loaderOptions: {
-      scss: {
-        additionalData: `@use "~/styles/element/index.scss" as *;`,
-      },
-    },
-  },
-  plugins: [
-    ElementPlus({
-      useSource: true,
-    }),
-  ],
-})
-```
-
-### By CSS Variable
-
-CSS Variables is a very useful feature, already supported by almost all browsers. (IE: Wait?)
-
-> Learn more from [Using CSS custom properties (variables) | MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties)
-
-We have used css variables to reconstruct the style system of almost all components.
-
-
-
-This means you can dynamically change individual variables inside the component to better customize it without having to modify scss and recompile it.
-
-> In the future, the css variable names and role documentation for each component will be written to each component.
-
-Like this:
-
-```css
-:root {
-  --el-color-primary: green;
-}
-```
-
-If you just want to customize a particular component, just add inline styles for certain components individually.
-
-```html
-<el-tag style="--el-tag-bg-color: red">Tag</el-tag>
-```
-
-For performance reasons, it is more recommended to custom css variables under a class rather than the global `:root`.
-
-```css
-.custom-class {
-  --el-tag-bg-color: red;
-}
-```
-
-If you want to control css var by script, try this:
-
-```ts
-// document.documentElement is global
-const el = document.documentElement
-// const el = document.getElementById('xxx')
-
-// get css var
-getComputedStyle(el).getPropertyValue(`--el-color-primary`)
-
-// set css var
-el.style['--el-color-primary'] = 'red'
-```
-
-If you want a more elegant way, check this out.
-[useCssVar | VueUse](https://vueuse.org/core/usecssvar/)
-
----
-Title: Built-in Transition
-URL: https://element-plus.org/en-US/guide/transitions
----
-
-# Built-in Transition
-
-You can use Element's built-in transitions directly.
-Before that, please read the [transition docs](https://vuejs.org/guide/built-ins/transition.html).
-
-## Fade
-
-
-
-## Zoom
-
-
-
-## Collapse
-
-For collapse effect, use the `el-collapse-transition` component.
-
-
-
-## On-demand import
-
-```ts [main.ts]
-// collapse
-import { ElCollapseTransition } from 'element-plus'
-// fade/zoom
-import 'element-plus/theme-chalk/base.css'
-import App from './App.vue'
-
-const app = createApp(App)
-app.component(ElCollapseTransition.name, ElCollapseTransition)
-```
-
-## Vue Examples
-
-### collapse.vue
-```vue
-<template>
-  <div>
-    <el-button @click="show = !show">Click Me</el-button>
-
-    <div style="margin-top: 20px; height: 210px">
-      <el-collapse-transition>
-        <div v-show="show">
-          <div class="transition-box">el-collapse-transition</div>
-          <div class="transition-box mt-[10px]">el-collapse-transition</div>
-        </div>
-      </el-collapse-transition>
-    </div>
-  </div>
-</template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-
-const show = ref(true)
-</script>
-
-<style scoped>
-.transition-box {
-  width: 200px;
-  height: 100px;
-  border-radius: var(--el-border-radius-base);
-  background-color: var(--el-color-primary);
-  text-align: center;
-  color: #fff;
-  padding: 40px 20px;
-  box-sizing: border-box;
-}
-</style>
-
-```
-
-### fade.vue
-```vue
-<template>
-  <div>
-    <el-button @click="show = !show">Click Me</el-button>
-
-    <div class="fade-container">
-      <transition name="el-fade-in-linear">
-        <div v-show="show" class="transition-box">.el-fade-in-linear</div>
-      </transition>
-      <transition name="el-fade-in">
-        <div v-show="show" class="transition-box">.el-fade-in</div>
-      </transition>
-    </div>
-  </div>
-</template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-
-const show = ref(true)
-</script>
-
-<style scoped>
-.fade-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  min-height: 100px;
-  margin-top: 20px;
-}
-
-.transition-box {
-  width: 200px;
-  height: 100px;
-  border-radius: var(--el-border-radius-base);
-  background-color: var(--el-color-primary);
-  text-align: center;
-  color: #fff;
-  padding: 40px 20px;
-  box-sizing: border-box;
-}
-</style>
-
-```
-
-### zoom.vue
-```vue
-<template>
-  <div>
-    <el-button @click="show = !show">Click Me</el-button>
-
-    <div class="transition-container">
-      <transition name="el-zoom-in-left">
-        <div v-show="show" class="transition-box">.el-zoom-in-left</div>
-      </transition>
-
-      <transition name="el-zoom-in-center">
-        <div v-show="show" class="transition-box">.el-zoom-in-center</div>
-      </transition>
-
-      <transition name="el-zoom-in-top">
-        <div v-show="show" class="transition-box">.el-zoom-in-top</div>
-      </transition>
-
-      <transition name="el-zoom-in-bottom">
-        <div v-show="show" class="transition-box">.el-zoom-in-bottom</div>
-      </transition>
-    </div>
-  </div>
-</template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-
-const show = ref(true)
-</script>
-
-<style scoped>
-.transition-container {
-  display: flex;
-  margin-top: 20px;
-  min-height: 100px;
-  flex-wrap: wrap;
-  gap: 16px;
-}
-
-.transition-box {
-  width: 200px;
-  height: 100px;
-  border-radius: var(--el-border-radius-base);
-  background-color: var(--el-color-primary);
-  text-align: center;
-  color: #fff;
-  padding: 20px;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  word-break: break-word;
-  font-size: 14px;
-}
-</style>
-
-```
-
-
----
-Title: Translation
-URL: https://element-plus.org/en-US/guide/translation
----
-
-# Translation
-
-## Documentation
-
-In this chapter, we will discuss how to help translating the documentation of Element Plus.
-
-### Background
-
-Before we did the upgrade of the documentation architecture, each documentation update needs 5 languages,
-which most of the contributors use online translator for their non-native languages,
-sometimes it would be not only inaccurate but also stressful to them.
-
-So we decided to give the documentation site an upgrade.
-
-- From webpack to Vite
-- From manually maintained to automated
-
-We took [Crowdin](https://crowdin.com) as our first step to make the documentation site more automated.
-
-### How do I translate the documentation?
-
-1. Create an account on [Crowdin](https://crowdin.com), it is recommended that you use your GitHub account to authorize Crowdin.
-2. Go to [Element Plus](https://crowdin.com/project/element-plus) project.
-3. Choose the language you want to contribute to.
-4. Find the file you want to translate.
-5. Do the translation.
-
-That simple, and the UI is very intuitive to use, you should have no trouble using it.
-After you submit your work, it would be online once the translation is approved by proofreader.
-
-### How can I become a proofreader?
-
-You can [raise an issue](https://crowdin.com/project/element-plus/discussions) on Crowdin to us for
-becoming a proofreader of the language you wish to be.
