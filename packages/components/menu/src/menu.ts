@@ -178,15 +178,15 @@ const checkIndexPath = (indexPath: unknown): indexPath is string[] =>
   isArray(indexPath) && indexPath.every((path) => isString(path))
 
 export const menuEmits = {
-  close: (index: string, indexPath: string[]) =>
+  close: (index: string | null, indexPath: (string | null)[]) =>
     isString(index) && checkIndexPath(indexPath),
 
-  open: (index: string, indexPath: string[]) =>
+  open: (index: string | null, indexPath: (string | null)[]) =>
     isString(index) && checkIndexPath(indexPath),
 
   select: (
-    index: string,
-    indexPath: string[],
+    index: string | null,
+    indexPath: (string | null)[],
     item: MenuItemClicked,
     routerResult?: Promise<void | NavigationFailure>
   ) =>
@@ -241,12 +241,15 @@ export default defineComponent({
       // 展开该菜单项的路径上所有子菜单
       // expand all subMenus of the menu item
       indexPath.forEach((index) => {
-        const subMenu = subMenus.value[index]
-        subMenu && openMenu(index, subMenu.indexPath)
+        if (index) {
+          const subMenu = subMenus.value[index]
+          subMenu && openMenu(index, subMenu.indexPath)
+        }
       })
     }
 
     const openMenu: MenuProvider['openMenu'] = (index, indexPath) => {
+      if (!index) return
       if (openedMenus.value.includes(index)) return
       // 将不在该菜单路径下的其余菜单收起
       // collapse all menu that are not under current menu item
@@ -259,7 +262,8 @@ export default defineComponent({
       emit('open', index, indexPath)
     }
 
-    const close = (index: string) => {
+    const close = (index: string | null) => {
+      if (!index) return
       const i = openedMenus.value.indexOf(index)
       if (i !== -1) {
         openedMenus.value.splice(i, 1)
@@ -275,6 +279,7 @@ export default defineComponent({
       index,
       indexPath,
     }) => {
+      if (!index) return
       const isOpened = openedMenus.value.includes(index)
 
       isOpened ? closeMenu(index, indexPath) : openMenu(index, indexPath)
@@ -407,19 +412,19 @@ export default defineComponent({
     // provide
     {
       const addSubMenu: MenuProvider['addSubMenu'] = (item) => {
-        subMenus.value[item.index] = item
+        item.index && (subMenus.value[item.index] = item)
       }
 
       const removeSubMenu: MenuProvider['removeSubMenu'] = (item) => {
-        delete subMenus.value[item.index]
+        item.index && delete subMenus.value[item.index]
       }
 
       const addMenuItem: MenuProvider['addMenuItem'] = (item) => {
-        items.value[item.index] = item
+        item.index && (items.value[item.index] = item)
       }
 
       const removeMenuItem: MenuProvider['removeMenuItem'] = (item) => {
-        delete items.value[item.index]
+        item.index && delete items.value[item.index]
       }
 
       provide<MenuProvider>(
