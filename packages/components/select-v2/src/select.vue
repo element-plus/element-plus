@@ -81,9 +81,7 @@
                   <span :class="nsSelect.e('tags-text')">
                     <slot
                       name="label"
-                      :index="
-                        allOptionsValueMap.get(getValue(item))?.index ?? -1
-                      "
+                      :index="getIndex(item)"
                       :label="getLabel(item)"
                       :value="getValue(item)"
                     >
@@ -142,10 +140,7 @@
                         <span :class="nsSelect.e('tags-text')">
                           <slot
                             name="label"
-                            :index="
-                              allOptionsValueMap.get(getValue(selected))
-                                ?.index ?? -1
-                            "
+                            :index="getIndex(selected)"
                             :label="getLabel(selected)"
                             :value="getValue(selected)"
                           >
