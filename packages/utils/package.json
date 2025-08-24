@@ -16,7 +16,7 @@
   "devDependencies": {
     "@vue/shared": "catalog:",
     "@vue/test-utils": "catalog:",
-    "expect-type": "^0.13.0",
+    "expect-type": "^1.2.2",
     "type-fest": "catalog:",
     "vue": "catalog:"
   }
