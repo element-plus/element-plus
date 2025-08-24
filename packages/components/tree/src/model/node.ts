@@ -21,7 +21,38 @@ import type {
   TreeNodeOptions,
 } from '../tree.type'
 
-export const getChildState = (node: Node[]): TreeNodeChildState => {
+/**
+ * 当有节点 disabled=true，并在半选状态下 checkbox 为 checked=false，当再次点击节点时变为 checked=true，是导致节点需要点击两次才会更新状态的原因；
+ * 解决办法：在半选状态下 input 的 checked 应为 true，当再次点击时 checked 就会变为 false；
+ **/
+const updateNodeElementPartially = (
+  node: Node,
+  $el: Element | null | undefined,
+  half?: boolean,
+  all?: boolean
+) => {
+  if ($el && !all && node.store.isAnyDisabledNode) {
+    const treeNodeEl = $el.querySelector(
+      `.el-tree-node[data-key="${node.key || node.id}"]`
+    )
+    const nodeContentEl = treeNodeEl?.querySelector('.el-tree-node__content')
+    const checkbox = nodeContentEl?.querySelector(
+      '.el-checkbox__original'
+    ) as HTMLInputElement
+    if (checkbox) {
+      if (!node.indeterminate && !checkbox?.indeterminate && !node.checked)
+        return
+
+      checkbox.checked =
+        !half && !checkbox?.indeterminate ? node.checked : !!half
+    }
+  }
+}
+
+export const getChildState = (
+  node: Node[],
+  $el?: Element | null
+): TreeNodeChildState => {
   let all = true
   let none = true
   let allWithoutDisable = true
@@ -36,15 +67,16 @@ export const getChildState = (node: Node[]): TreeNodeChildState => {
     if (n.checked !== false || n.indeterminate) {
       none = false
     }
+    updateNodeElementPartially(n, $el, !all && !none, all)
   }
 
   return { all, none, allWithoutDisable, half: !all && !none }
 }
 
-const reInitChecked = function (node: Node): void {
+const reInitChecked = function (node: Node, $el?: Element | null): void {
   if (node.childNodes.length === 0 || node.loading) return
 
-  const { all, none, half } = getChildState(node.childNodes)
+  const { all, none, half } = getChildState(node.childNodes, $el)
   if (all) {
     node.checked = true
     node.indeterminate = false
@@ -58,9 +90,10 @@ const reInitChecked = function (node: Node): void {
 
   const parent = node.parent
   if (!parent || parent.level === 0) return
+  else updateNodeElementPartially(node.parent!, $el, half, all)
 
   if (!node.store.checkStrictly) {
-    reInitChecked(parent)
+    reInitChecked(parent, $el)
   }
 }
 
@@ -102,7 +135,6 @@ class Node {
   isLeafByUser: boolean | undefined = undefined
   isLeaf: boolean | undefined = undefined
   canFocus: boolean
-
   level: number
   loaded: boolean
   childNodes: Node[]
@@ -455,7 +487,7 @@ class Node {
             const isCheck = child.disabled ? child.checked : passValue
             child.setChecked(isCheck, deep, true, passValue)
           }
-          const { half, all } = getChildState(childNodes)
+          const { half, all } = getChildState(childNodes, this.store.el$)
           if (!all) {
             this.checked = all
             this.indeterminate = half
@@ -468,7 +500,7 @@ class Node {
         this.loadData(
           () => {
             handleDescendants()
-            reInitChecked(this)
+            reInitChecked(this, this.store.el$)
           },
           {
             checked: value !== false,
@@ -484,7 +516,7 @@ class Node {
     if (!parent || parent.level === 0) return
 
     if (!recursion) {
-      reInitChecked(parent)
+      reInitChecked(parent, this.store.el$)
     }
   }
 
