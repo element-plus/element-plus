@@ -1,4 +1,4 @@
-import { reactive } from 'vue'
+import { Ref, reactive } from 'vue'
 import { isNil } from 'lodash-unified'
 import {
   hasOwn,
@@ -27,12 +27,12 @@ import type {
  **/
 const updateNodeElementPartially = (
   node: Node,
-  $el: Element | null | undefined,
+  $el: Ref<Nullable<HTMLElement>> | HTMLElement | undefined,
   half?: boolean,
   all?: boolean
 ) => {
   if ($el && !all && node.store.isAnyDisabledNode) {
-    const treeNodeEl = $el.querySelector(
+    const treeNodeEl = ($el as HTMLElement).querySelector(
       `.el-tree-node[data-key="${node.key || node.id}"]`
     )
     const nodeContentEl = treeNodeEl?.querySelector('.el-tree-node__content')
@@ -51,7 +51,7 @@ const updateNodeElementPartially = (
 
 export const getChildState = (
   node: Node[],
-  $el?: Element | null
+  $el?: Ref<Nullable<HTMLElement>> | HTMLElement
 ): TreeNodeChildState => {
   let all = true
   let none = true
@@ -73,7 +73,10 @@ export const getChildState = (
   return { all, none, allWithoutDisable, half: !all && !none }
 }
 
-const reInitChecked = function (node: Node, $el?: Element | null): void {
+const reInitChecked = function (
+  node: Node,
+  $el?: Ref<Nullable<HTMLElement>> | HTMLElement
+): void {
   if (node.childNodes.length === 0 || node.loading) return
 
   const { all, none, half } = getChildState(node.childNodes, $el)
@@ -135,6 +138,7 @@ class Node {
   isLeafByUser: boolean | undefined = undefined
   isLeaf: boolean | undefined = undefined
   canFocus: boolean
+
   level: number
   loaded: boolean
   childNodes: Node[]

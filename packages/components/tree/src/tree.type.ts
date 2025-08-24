@@ -8,7 +8,6 @@ import type {
 } from 'vue'
 import type Node from './model/node'
 import type TreeStore from './model/tree-store'
-import type { Nullable } from '@element-plus/utils'
 
 export interface RootTreeType {
   ctx: SetupContext<any>
@@ -57,7 +56,7 @@ export interface TreeStoreOptions {
   autoExpandParent: boolean
   defaultExpandAll: boolean
   filterNodeMethod?: FilterNodeMethodFunction
-  el$?: Nullable<HTMLElement> | undefined
+  el$?: any
 }
 export interface TreeOptionProps {
   children?: string

@@ -1,12 +1,6 @@
 import { nextTick } from 'vue'
 import { isNil } from 'lodash-unified'
-import {
-  NOOP,
-  type Nullable,
-  hasOwn,
-  isObject,
-  isPropAbsent,
-} from '@element-plus/utils'
+import { NOOP, hasOwn, isObject, isPropAbsent } from '@element-plus/utils'
 import Node from './node'
 import { getNodeKey } from './util'
 
@@ -40,7 +34,7 @@ export default class TreeStore {
   checkDescendants = false
   props!: TreeOptionProps
   isAnyDisabledNode: boolean = false // Are there any disabled nodes
-  el$?: Nullable<HTMLElement> = undefined
+  el$: any
 
   constructor(options: TreeStoreOptions) {
     this.currentNode = null
