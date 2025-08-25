@@ -134,14 +134,15 @@ For data details, please refer:
 ```ts
 interface DateCell {
   column: number
-  customClass: string
+  customClass: string | undefined
   disabled: boolean
   end: boolean
   inRange: boolean
   row: number
-  selected: Dayjs
-  isCurrent: boolean
+  selected: Dayjs | undefined
+  isCurrent: boolean | undefined
   isSelected: boolean
+  renderText: string | undefined
   start: boolean
   text: number
   timestamp: number
@@ -175,6 +176,7 @@ Note, date time locale (month name, first day of the week ...) are also configur
 | type                         | type of the picker                                                                                                           | ^[enum]`'year' \| 'years' \|'month' \| 'months' \| 'date' \| 'dates' \| 'datetime' \| 'week' \| 'datetimerange' \| 'daterange' \| 'monthrange' \| 'yearrange'` | date          |
 | format                       | format of the displayed value in the input box                                                                               | ^[string] see [date formats](/en-US/component/date-picker#date-formats)                                                                                        | YYYY-MM-DD    |
 | popper-class                 | custom class name for DatePicker's dropdown                                                                                  | ^[string]                                                                                                                                                      | —             |
+| popper-style                 | custom style for DatePicker's dropdown                                                                                       | ^[string] / ^[object]                                                                                                                                          | —             |
 | popper-options               | Customized popper option see more at [popper.js](https://popper.js.org/docs/v2/)                                             | ^[object]`Partial<PopperOptions>`                                                                                                                              | {}            |
 | range-separator              | range separator                                                                                                              | ^[string]                                                                                                                                                      | '-'           |
 | default-value                | optional, default date of the calendar                                                                                       | ^[object]`Date \| [Date, Date]`                                                                                                                                | —             |
@@ -194,7 +196,8 @@ Note, date time locale (month name, first day of the week ...) are also configur
 | value-on-clear ^(2.7.0)      | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)                      | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                                                                               | —             |
 | fallback-placements ^(2.8.4) | list of possible positions for Tooltip [popper.js](https://popper.js.org/docs/v2/modifiers/flip/#fallbackplacements)         | ^[array]`Placement[]`                                                                                                                                          | —             |
 | placement ^(2.8.4)           | position of dropdown                                                                                                         | `Placement`                                                                                                                                                    | bottom        |
-| show-footer ^(2.10.5)        | whether to show footer                                                                                                       | ^[boolean]                                                                                                                                                     | true          |
+| show-footer ^(2.10.5)        | whether to show footer where the date picker is one ^[enum]`'dates' \| 'months' \| 'years' \| 'datetime' \| 'datetimerange'` | ^[boolean]                                                                                                                                                     | true          |
+| show-confirm ^(2.11.0)       | whether to show the confirm button                                                                                           | ^[boolean]                                                                                                                                                     | true          |
 | show-week-number ^(2.10.3)   | show the week number besides the week                                                                                        | `boolean`                                                                                                                                                      | false         |
 
 ### Events

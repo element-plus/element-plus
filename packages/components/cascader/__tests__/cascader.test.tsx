@@ -191,6 +191,40 @@ describe('Cascader.vue', () => {
     expect(isClear.value).toBe(true)
   })
 
+  test('should support object as value', async () => {
+    const options = [
+      {
+        label: 'label1',
+        children: [
+          {
+            label: 'label2',
+            value: { val: 'val2' },
+          },
+        ],
+      },
+    ]
+    const wrapper = mount(() => (
+      <Cascader modelValue={{ val: 'val2' }} options={options} />
+    ))
+
+    await nextTick()
+    expect(wrapper.find('input').element.value).toBe('label1 / label2')
+  })
+
+  test('should show clear btn on focus', async () => {
+    const wrapper = _mount(() => (
+      <Cascader
+        modelValue={['zhejiang', 'hangzhou']}
+        clearable
+        options={OPTIONS}
+      />
+    ))
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    expect(wrapper.findComponent(CircleClose).exists()).toBe(true)
+  })
+
   test('show last level label', async () => {
     const wrapper = _mount(() => (
       <Cascader
@@ -670,6 +704,151 @@ describe('Cascader.vue', () => {
     }
   })
 
+  test('event:focus', async () => {
+    const handleFocus = vi.fn()
+    const wrapper = _mount(() => <Cascader onFocus={handleFocus} />)
+    const cascader = wrapper.find(TRIGGER)
+    const input = cascader.find('input')
+
+    expect(input.exists()).toBe(true)
+    await input.trigger('focus')
+    expect(handleFocus).toHaveBeenCalledTimes(1)
+  })
+
+  test('event:blur', async () => {
+    const handleBlur = vi.fn()
+    const wrapper = _mount(() => <Cascader onBlur={handleBlur} />)
+    const cascader = wrapper.find(TRIGGER)
+    const input = cascader.find('input')
+
+    expect(input.exists()).toBe(true)
+    await input.trigger('blur')
+    expect(handleBlur).toHaveBeenCalledTimes(1)
+  })
+
+  test('event:focus & blur for clearable', async () => {
+    const value = ref([['zhejiang', 'hangzhou']])
+    const handleFocus = vi.fn()
+    const handleBlur = vi.fn()
+
+    const wrapper = _mount(() => (
+      <Cascader
+        v-model={value.value}
+        options={OPTIONS}
+        props={{ multiple: true }}
+        clearable
+        onBlur={handleBlur}
+        onFocus={handleFocus}
+      />
+    ))
+
+    const cascader = wrapper.find(TRIGGER)
+    await cascader.trigger('mouseenter')
+
+    const iconClear = wrapper.findComponent(CircleClose)
+    expect(iconClear.exists()).toBe(true)
+    await iconClear.trigger('click')
+    expect(value.value).toStrictEqual([])
+    expect(handleFocus).toHaveBeenCalledTimes(1)
+    expect(handleBlur).not.toHaveBeenCalled()
+
+    const firstNode = document.querySelector(`.el-checkbox`) as HTMLElement
+    firstNode.click()
+    await nextTick()
+    await cascader.trigger('mouseenter')
+    await iconClear.trigger('click')
+    expect(handleFocus).toHaveBeenCalledTimes(1)
+    expect(handleBlur).not.toHaveBeenCalled()
+
+    const input = cascader.find('input')
+    await input.trigger('blur')
+    expect(handleBlur).toHaveBeenCalled()
+  })
+
+  test('event:focus & blur for multiple & filterable select', async () => {
+    const handleFocus = vi.fn()
+    const handleBlur = vi.fn()
+
+    const wrapper = _mount(() => (
+      <Cascader
+        options={OPTIONS}
+        props={{ multiple: true }}
+        filterable
+        onBlur={handleBlur}
+        onFocus={handleFocus}
+      />
+    ))
+    const cascader = wrapper.find(TRIGGER)
+    const input = cascader.find('input')
+
+    expect(input.exists()).toBe(true)
+    await input.trigger('focus')
+    expect(handleFocus).toHaveBeenCalled()
+    await input.trigger('blur')
+    expect(handleBlur).toHaveBeenCalled()
+
+    await input.trigger('focus')
+    expect(handleFocus).toHaveBeenCalledTimes(2)
+    await input.trigger('blur')
+    expect(handleBlur).toHaveBeenCalled()
+  })
+
+  test('event:focus & blur for multiple tag close', async () => {
+    const value = ref([
+      ['zhejiang', 'hangzhou'],
+      ['zhejiang', 'ningbo'],
+    ])
+    const handleFocus = vi.fn()
+    const handleBlur = vi.fn()
+
+    const wrapper = _mount(() => (
+      <Cascader
+        v-model={value.value}
+        options={OPTIONS}
+        props={{ multiple: true }}
+        filterable
+        onBlur={handleBlur}
+        onFocus={handleFocus}
+      />
+    ))
+
+    const cascader = wrapper.find(TRIGGER)
+    const input = cascader.find('input')
+
+    await input.trigger('focus')
+    expect(handleFocus).toHaveBeenCalledTimes(1)
+    const tagCloseIcons = wrapper.findAll('.el-tag__close')
+    await tagCloseIcons[1].trigger('click')
+    await tagCloseIcons[0].trigger('click')
+    expect(handleFocus).toHaveBeenCalledTimes(1)
+    expect(handleBlur).not.toHaveBeenCalled()
+    await input.trigger('blur')
+    expect(handleBlur).toHaveBeenCalled()
+  })
+
+  test('should be target blur event when click outside', async () => {
+    const handleBlur = vi.fn()
+    const wrapper = _mount(() => (
+      <>
+        <Cascader options={OPTIONS} onBlur={handleBlur} />
+        <button>button</button>
+      </>
+    ))
+    const cascader = wrapper.find(TRIGGER)
+    const input = cascader.find('input')
+    await input.trigger('focus')
+
+    const inputWrapper = wrapper.find('.el-input')
+
+    expect(inputWrapper.classes()).toContain('is-focus')
+
+    await wrapper.find('button').trigger('mousedown')
+    await wrapper.find('button').trigger('mouseup')
+
+    expect(inputWrapper.classes()).not.toContain('is-focus')
+    expect(handleBlur).toHaveBeenCalledTimes(1)
+  })
+
   describe('render empty slot', () => {
     it('correct render panel empty slot', async () => {
       const wrapper = _mount(() => (
@@ -946,5 +1125,29 @@ describe('Cascader.vue', () => {
     await nextTick()
     ;(leafNodes[2] as HTMLInputElement).click()
     expect(value.value).toHaveLength(0)
+  })
+
+  test('should keep panel active when checkOnClickNode=true with checkStrictly=false', async () => {
+    const props = {
+      checkOnClickNode: true,
+      checkStrictly: false,
+    }
+    const visibleChange = vi.fn()
+    const wrapper = mount(() => (
+      <Cascader
+        options={OPTIONS}
+        props={props}
+        onVisibleChange={visibleChange}
+      />
+    ))
+    expect(visibleChange).not.toBeCalled()
+    const trigger = wrapper.find(TRIGGER)
+    await trigger.trigger('click')
+    await nextTick()
+    expect(visibleChange).toBeCalledTimes(1)
+    const rootNode = document.querySelector(NODE_LABEL) as HTMLInputElement
+    rootNode?.click()
+    await nextTick()
+    expect(visibleChange).toBeCalledTimes(1)
   })
 })

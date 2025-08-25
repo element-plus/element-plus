@@ -72,7 +72,10 @@ export const buttonProps = buildProps({
   /**
    * @description determine whether it's a text button
    */
-  text: Boolean,
+  text: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description determine whether it's a link button
    */
@@ -133,6 +136,7 @@ export type ButtonNativeType = ButtonProps['nativeType']
 export interface ButtonConfigContext {
   type?: string
   plain?: boolean
+  text?: boolean
   round?: boolean
   autoInsertSpace?: boolean
 }

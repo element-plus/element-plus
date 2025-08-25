@@ -43,6 +43,7 @@ import { useId, useNamespace } from '@element-plus/hooks'
 import { debugWarn } from '@element-plus/utils'
 import { radioGroupEmits, radioGroupProps } from './radio-group'
 import { radioGroupKey } from './constants'
+import { isEqual } from 'lodash-unified'
 import ElRadio from './radio.vue'
 
 import type { RadioGroupProps } from './radio-group'
@@ -91,8 +92,8 @@ provide(
 
 watch(
   () => props.modelValue,
-  () => {
-    if (props.validateEvent) {
+  (newVal, oldValue) => {
+    if (props.validateEvent && !isEqual(newVal, oldValue)) {
       formItem?.validate('change').catch((err) => debugWarn(err))
     }
   }

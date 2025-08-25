@@ -96,6 +96,25 @@ tree-select/lazy
 
 :::
 
+## Use node-key attribute
+
+By default the `modelValue` is looking for the `value` key.
+For a different data structure `node-key` must be provided to work normally.
+
+:::tip
+
+1. `node-key` should be unique across the whole tree.
+2. `value-key` have the same objective as `node-key`.
+3. Contrary to the select component, the tree-select can't retrieve an object value.
+
+:::
+
+:::demo
+
+tree-select/node-key
+
+:::
+
 ## API
 
 ### Attributes
