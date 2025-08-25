@@ -33,7 +33,7 @@ export type UploadListPropsPublic = __ExtractPublicPropTypes<
   typeof uploadListProps
 >
 export const uploadListEmits = {
-  remove: (file: UploadFile) => !!file,
+  remove: (file: UploadFile, index: number) => !!file || index,
 }
 export type UploadListEmits = typeof uploadListEmits
 export type UploadListInstance = InstanceType<typeof UploadList> & unknown
