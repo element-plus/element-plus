@@ -7,7 +7,22 @@
     :aria-label="!isLabeledByFormItem ? ariaLabel || 'radio-group' : undefined"
     :aria-labelledby="isLabeledByFormItem ? formItem!.labelId : undefined"
   >
-    <slot />
+    <slot>
+      <el-radio
+        v-for="(item, index) in props.options"
+        :key="item.key ?? index"
+        v-bind="{
+          ...item,
+          value: item[props.optionProps?.value ?? 'value'],
+          label: item[props.optionProps?.label ?? 'label'],
+          disabled: item[props.optionProps?.disabled ?? 'disabled'],
+        }"
+      >
+        <template v-if="typeof item.render === 'function'">
+          {{ item.render(item, index) }}
+        </template>
+      </el-radio>
+    </slot>
   </div>
 </template>
 
@@ -29,6 +44,7 @@ import { debugWarn } from '@element-plus/utils'
 import { radioGroupEmits, radioGroupProps } from './radio-group'
 import { radioGroupKey } from './constants'
 import { isEqual } from 'lodash-unified'
+import ElRadio from './radio.vue'
 
 import type { RadioGroupProps } from './radio-group'
 
