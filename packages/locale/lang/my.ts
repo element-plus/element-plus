@@ -48,7 +48,6 @@ export default {
       month10: 'အောက်တိုဘာ',
       month11: 'နိုဝင်ဘာ',
       month12: 'ဒီဇင်ဘာ',
-      week: 'ရက်သတ္တပတ်',
       weeks: {
         sun: 'နွေ',
         mon: 'လာ',

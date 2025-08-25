@@ -7,6 +7,10 @@ export default {
     colorpicker: {
       confirm: 'OK',
       clear: 'クリア',
+      defaultLabel: 'color picker', // to be translated
+      description:
+        'current color is {color}. press enter to select a new color.', // to be translated
+      alphaLabel: 'pick alpha value', // to be translated
     },
     datepicker: {
       now: '現在',
@@ -14,6 +18,11 @@ export default {
       cancel: 'キャンセル',
       clear: 'クリア',
       confirm: 'OK',
+      dateTablePrompt:
+        'Use the arrow keys and enter to select the day of the month', // to be translated
+      monthTablePrompt: 'Use the arrow keys and enter to select the month', // to be translated
+      yearTablePrompt: 'Use the arrow keys and enter to select the year', // to be translated
+      selectedDate: 'Selected date', // to be translated
       selectDate: '日付を選択',
       selectTime: '時間を選択',
       startDate: '開始日',
@@ -37,7 +46,6 @@ export default {
       month10: '10月',
       month11: '11月',
       month12: '12月',
-      // week: '週次',
       weeks: {
         sun: '日',
         mon: '月',
@@ -46,6 +54,15 @@ export default {
         thu: '木',
         fri: '金',
         sat: '土',
+      },
+      weeksFull: {
+        sun: 'Sunday', // to be translated
+        mon: 'Monday', // to be translated
+        tue: 'Tuesday', // to be translated
+        wed: 'Wednesday', // to be translated
+        thu: 'Thursday', // to be translated
+        fri: 'Friday', // to be translated
+        sat: 'Saturday', // to be translated
       },
       months: {
         jan: '1月',
@@ -62,6 +79,10 @@ export default {
         dec: '12月',
       },
     },
+    inputNumber: {
+      decrease: 'decrease number', // to be translated
+      increase: 'increase number', // to be translated
+    },
     select: {
       loading: 'ロード中',
       noMatch: 'データなし',
@@ -70,6 +91,9 @@ export default {
     },
     mention: {
       loading: 'ロード中',
+    },
+    dropdown: {
+      toggleDropdown: 'Toggle Dropdown', // to be translated
     },
     cascader: {
       noMatch: 'データなし',
@@ -88,18 +112,32 @@ export default {
       currentPage: 'page {pager}', // to be translated
       prevPages: 'Previous {pager} pages', // to be translated
       nextPages: 'Next {pager} pages', // to be translated
+      deprecationWarning:
+        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
+    },
+    dialog: {
+      close: 'Close this dialog', // to be translated
+    },
+    drawer: {
+      close: 'Close this dialog', // to be translated
     },
     messagebox: {
       title: 'メッセージ',
       confirm: 'OK',
       cancel: 'キャンセル',
       error: '正しくない入力',
+      close: 'Close this dialog', // to be translated
     },
     upload: {
       deleteTip: 'Delキーを押して削除する',
       delete: '削除する',
       preview: 'プレビュー',
       continue: '続行する',
+    },
+    slider: {
+      defaultLabel: 'slider between {min} and {max}', // to be translated
+      defaultRangeStartLabel: 'pick start value', // to be translated
+      defaultRangeEndLabel: 'pick end value', // to be translated
     },
     table: {
       emptyText: 'データなし',

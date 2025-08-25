@@ -48,7 +48,6 @@ export default {
       month10: 'اکتبر',
       month11: 'نوامبر',
       month12: 'دسامبر',
-      week: 'هفته',
       weeks: {
         sun: 'یک‌شنبه',
         mon: 'دوشنبه',
