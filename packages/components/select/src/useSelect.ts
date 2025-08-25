@@ -46,6 +46,7 @@ import {
   useNamespace,
 } from '@element-plus/hooks'
 import {
+  useFormDisabled,
   useFormItem,
   useFormItemInputId,
   useFormSize,
@@ -108,7 +109,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   })
   const hoverOption = ref()
 
-  const selectDisabled = computed(() => props.disabled || !!form?.disabled)
+  const selectDisabled = useFormDisabled()
 
   const controlled = computed(
     () => isBoolean(props.visible) && !hasUpdateHandler.value
@@ -839,7 +840,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   // #21498
   let stop: (() => void) | undefined
   watch(
-    () => dropdownMenuVisible.value,
+    () => expanded.value,
     (newVal) => {
       if (newVal) {
         stop = useResizeObserver(menuRef, updateTooltip).stop

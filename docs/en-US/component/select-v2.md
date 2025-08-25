@@ -143,7 +143,7 @@ select-v2/allow-create
 
 :::
 
-## Controlled ^(2.10.5)
+## Controlled ^(2.11.2)
 
 Select-V2 can be controlled by the parent component, by using `visible` you can implement two way binding.
 
@@ -251,7 +251,7 @@ select-v2/custom-width
 | options                             | data of the options, the key of `value` and `label` can be customize by `props`                                                          | ^[array]                                                                                                                                                                    | —                                              |
 | [props](#props) ^(2.4.2)            | configuration options, see the following table                                                                                           | ^[object]                                                                                                                                                                   | —                                              |
 | multiple                            | is multiple                                                                                                                              | ^[boolean]                                                                                                                                                                  | false                                          |
-| visible / v-model:visible ^(2.10.5) | visibility of SelectV2                                                                                                                   | ^[boolean]                                                                                                                                                                  | —                                              |
+| visible / v-model:visible ^(2.11.2) | visibility of SelectV2                                                                                                                   | ^[boolean]                                                                                                                                                                  | —                                              |
 | disabled                            | is disabled                                                                                                                              | ^[boolean]                                                                                                                                                                  | false                                          |
 | value-key                           | unique identity key name for value, required when value is an object                                                                     | ^[string]                                                                                                                                                                   | value                                          |
 | size                                | size of component                                                                                                                        | ^[enum]`'' \| 'large' \| 'default' \| 'small'`                                                                                                                              | ''                                             |
