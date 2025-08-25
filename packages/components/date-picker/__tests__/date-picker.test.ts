@@ -1,8 +1,9 @@
 // @ts-nocheck
 import { nextTick } from 'vue'
-import { mount } from '@vue/test-utils'
+import { flushPromises, mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import dayjs from 'dayjs'
+import { CircleClose } from '@element-plus/icons-vue'
 import { rAF } from '@element-plus/test-utils/tick'
 import ConfigProvider from '@element-plus/components/config-provider'
 import {
@@ -16,6 +17,7 @@ import 'dayjs/locale/zh-cn'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ElFormItem } from '@element-plus/components/form'
 import DatePicker from '../src/date-picker'
+import DatePickerRange from '@element-plus/components/date-picker-panel/src/date-picker-com/panel-date-range.vue'
 
 const _mount = (template: string, data = () => ({}), otherObj?) =>
   mount(
@@ -274,6 +276,20 @@ describe('DatePicker', () => {
     await rAF()
     expect(changeHandler).toHaveBeenCalledTimes(1)
     expect(onChangeValue?.getTime()).toBe(new Date(2016, 9, 1).getTime())
+  })
+
+  it('should show clear btn on focus', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        clearable
+      />`,
+      () => ({ value: new Date(2016, 9, 10, 18, 40) })
+    )
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    expect(wrapper.findComponent(CircleClose).exists()).toBe(true)
   })
 
   it('emits focus on click when not currently focused', async () => {
@@ -572,6 +588,64 @@ describe('DatePicker', () => {
     vi.useRealTimers()
   })
 
+  it('should have same common propreties for default slot', async () => {
+    const testCellData = (cell) => {
+      const cellProperties = [
+        'column',
+        'type',
+        'text',
+        'start',
+        'timestamp',
+        'dayjs',
+        'date',
+        'isSelected',
+        'inRange',
+        'row',
+        'customClass',
+        'end',
+      ] //TODO: we should later increase the list in order to fit DateCell perfectly
+      expect(Object.keys(cell)).toEqual(expect.arrayContaining(cellProperties))
+      const values = Object.entries(cell)
+        .filter(([key]) => cellProperties.includes(key))
+        .map(([, val]) => val)
+      for (const value of values) {
+        expect(value).toBeDefined()
+      }
+    }
+    const wrapper = _mount(
+      `
+      <el-date-picker :cellClassName="() => 'hello'">
+        <template #default="cell">
+          <div class="custom-cell" data-testid="" @click="testCellData(cell)">
+            click me
+          </div>
+        </template>
+      </el-date-picker>
+      `,
+      () => ({ testCellData })
+    )
+    const types = [
+      'year',
+      'years',
+      'month',
+      'months',
+      'date',
+      'dates',
+      'week',
+      'datetime',
+      'datetimerange',
+      'daterange',
+      'monthrange',
+      'yearrange',
+    ]
+    for (const type of types) {
+      await wrapper.setProps({ type })
+      {
+        ;(document.querySelector('.custom-cell') as HTMLElement).click()
+      }
+    }
+  })
+
   it('custom content', async () => {
     const wrapper = _mount(
       `<el-date-picker
@@ -768,6 +842,20 @@ describe('DatePicker', () => {
     await nextTick()
     const el = document.querySelector('td.current .el-date-table-cell')
     expect(el.textContent.includes('y')).toBeTruthy()
+  })
+
+  it('should toggle visibility of confirm button through show-confirm', async () => {
+    const wrapper = _mount(`<el-date-picker type="datetime" show-confirm />`)
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    expect(
+      document.querySelectorAll('.el-picker-panel__footer button')
+    ).toHaveLength(2)
+    await wrapper.setProps({ showConfirm: false })
+    expect(
+      document.querySelectorAll('.el-picker-panel__footer button')
+    ).toHaveLength(1)
   })
 
   it('custom content comment for type is year', async () => {
@@ -1632,6 +1720,67 @@ describe('DateRangePicker', () => {
     expect(calendarChangeValue[1]).toBeInstanceOf(Date)
   })
 
+  it('daterange should be reopen successfully', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        type='daterange'
+      />`,
+      () => ({ value: '' })
+    )
+    const rangePanelWrapper = wrapper.findComponent(DatePickerRange)
+
+    expect(rangePanelWrapper.vm.visible).toBe(false)
+
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+
+    expect(rangePanelWrapper.exists()).toBe(true)
+    expect(rangePanelWrapper.vm.visible).toBe(true)
+
+    const cells = document.querySelectorAll('.available .el-date-table-cell')
+    ;(cells[0] as HTMLElement).click()
+    await nextTick()
+    ;(cells[1] as HTMLElement).click()
+    await nextTick()
+    expect(rangePanelWrapper.vm.visible).toBe(false)
+    await input.trigger('blur')
+    await input.trigger('focus')
+    expect(rangePanelWrapper.vm.visible).toBe(true)
+  })
+
+  it('daterange should be reopen successfully with value-format', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        type='daterange'
+        value-format="YYYY-MM-DD"
+      />`,
+      () => ({ value: '' })
+    )
+    const rangePanelWrapper = wrapper.findComponent(DatePickerRange)
+
+    expect(rangePanelWrapper.vm.visible).toBe(false)
+
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+
+    expect(rangePanelWrapper.exists()).toBe(true)
+    expect(rangePanelWrapper.vm.visible).toBe(true)
+
+    const cells = document.querySelectorAll('.available .el-date-table-cell')
+    ;(cells[0] as HTMLElement).click()
+    await nextTick()
+    ;(cells[1] as HTMLElement).click()
+    await nextTick()
+    expect(rangePanelWrapper.vm.visible).toBe(false)
+    await input.trigger('blur')
+    await input.trigger('focus')
+    expect(rangePanelWrapper.vm.visible).toBe(true)
+  })
+
   it('reverse selection', async () => {
     const wrapper = _mount(
       `<el-date-picker
@@ -1970,7 +2119,7 @@ describe('DateRangePicker', () => {
   })
 
   it('range, shows weekNumber', async () => {
-    _mount(
+    const wrapper = _mount(
       `<el-date-picker
         v-model="value"
         type="daterange"
@@ -1978,6 +2127,10 @@ describe('DateRangePicker', () => {
       />`,
       () => ({ value: [new Date(2025, 0, 1), new Date(2025, 1, 1)] })
     )
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+
     await nextTick()
     const weeks = document.querySelectorAll('td.week')
     expect(weeks.length).toBe(12)
@@ -1995,6 +2148,81 @@ describe('DateRangePicker', () => {
       '9',
       '10',
     ])
+  })
+  it('should not be visible after input two dates', async () => {
+    const onChange = vi.fn()
+    const onUpdateModelValue = vi.fn()
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        type="daterange"
+        @change="onChange"
+        @update:modelValue="onUpdateModelValue"
+      />`,
+      () => ({
+        value: [new Date(2025, 0, 1), new Date(2025, 1, 1)],
+        onChange,
+        onUpdateModelValue,
+      })
+    )
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+
+    const rangePanelWrapper = wrapper.findComponent(DatePickerRange)
+    expect(rangePanelWrapper.exists()).toBe(true)
+    expect(rangePanelWrapper.vm.visible).toBe(true)
+    const cells = document.querySelectorAll('.available .el-date-table-cell')
+    ;(cells[0] as HTMLElement).click()
+    await flushPromises()
+    expect(onChange).not.toHaveBeenCalled()
+    expect(onUpdateModelValue).not.toHaveBeenCalled()
+    ;(cells[1] as HTMLElement).click()
+    await flushPromises()
+
+    expect(onChange).toHaveBeenCalledOnce()
+    expect(onUpdateModelValue).toHaveBeenCalledOnce()
+    expect(rangePanelWrapper.vm.visible).toBe(false)
+  })
+
+  it('should not trigger popper dropdown on dynamic assignment', async () => {
+    const spy = vi.fn()
+    const baseValue = [new Date(2025, 0, 1), new Date(2025, 0, 2)]
+    const newVal = [new Date(2025, 0, 3), new Date(2025, 0, 4)]
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        type="daterange"
+        />
+        <button @click="changeDate">click</button>`,
+      () => ({ value: baseValue }),
+      {
+        methods: {
+          changeDate() {
+            spy()
+            this.value = newVal
+          },
+        },
+      }
+    )
+    await nextTick()
+    const rangePanelWrapper = wrapper.findComponent(DatePickerRange)
+    const inputRange = wrapper.findAll('.el-range-input')
+    expect(rangePanelWrapper.exists()).toBe(true)
+    expect(rangePanelWrapper.vm.visible).toBe(false)
+    expect(inputRange[0].element.value).toBe('2025-01-01')
+    expect(inputRange[1].element.value).toBe('2025-01-02')
+
+    await wrapper.find('button').trigger('click')
+    await nextTick()
+
+    expect(spy).toHaveBeenCalled()
+    expect(inputRange[0].element.value).toBe('2025-01-03')
+    expect(inputRange[1].element.value).toBe('2025-01-04')
+    expect(rangePanelWrapper.vm.parsedValue.map((s) => s.toDate())).toEqual(
+      newVal
+    )
+    expect(rangePanelWrapper.vm.visible).toBe(false)
   })
 })
 
@@ -2035,6 +2263,9 @@ describe('MonthRange', () => {
     // input text is something like date string
     expect(inputs[0].element.value.length).toBe(7)
     expect(inputs[1].element.value.length).toBe(7)
+    inputs[0].trigger('blur')
+    inputs[0].trigger('focus')
+    await nextTick()
     // reverse selection
     p1.click()
     await nextTick()

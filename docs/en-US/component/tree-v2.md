@@ -95,7 +95,9 @@ tree-v2/filter
 
 :::
 
-## TreeV2 Attributes
+## TreeV2 API
+
+### TreeV2 Attributes
 
 | Name                          | Description                                                                                                                                  | Type                                                                        | Default |
 | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | ------- |
@@ -117,7 +119,7 @@ tree-v2/filter
 | item-size ^(2.2.33)           | custom tree node height                                                                                                                      | ^[number]                                                                   | 26      |
 | scrollbar-always-on ^(2.10.4) | always show scrollbar                                                                                                                        | ^[boolean]                                                                  | false   |
 
-## props
+### props
 
 | Attribute      | Description                                                                          | Type                                                                                                | Default  |
 | -------------- | ------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------- | -------- |
@@ -127,35 +129,36 @@ tree-v2/filter
 | disabled       | specify which key of node object represents if node's checkbox is disabled           | ^[string]                                                                                           | disabled |
 | class ^(2.9.0) | custom node class name                                                               | ^[string] / ^[Function]`(data: TreeNodeData, node: TreeNode) => string \| {[key: string]: boolean}` | —        |
 
-## TreeV2 Method
+### TreeV2 Method
 
 `Tree` has the following method, which returns the currently selected array of nodes.
-| Method | Description | Parameters |
-| --------------- | ---------------------------------------- | ---------------------------------------- |
-| filter | filter all tree nodes, filtered nodes will be hidden | `(query: string)` |
-| getCheckedNodes | If the node can be selected (`show-checkbox` is `true`), it returns the currently selected array of nodes | `(leafOnly: boolean)` |
-| getCheckedKeys | If the node can be selected (`show-checkbox` is `true`), it returns the currently selected array of node's keys | `(leafOnly: boolean)` |
-| setCheckedKeys | set certain nodes to be checked | `(keys: TreeKey[])` |
-| setChecked | set node to be checked or not | `(key: TreeKey, checked: boolean)` |
-| setExpandedKeys | set certain nodes to be expanded | `(keys: TreeKey[])` |
-| getHalfCheckedNodes | If the node can be selected (`show-checkbox` is `true`), it returns the currently half selected array of nodes | — |
-| getHalfCheckedKeys | If the node can be selected (`show-checkbox` is `true`), it returns the currently half selected array of node's keys | — |
-| getCurrentKey | return the highlight node's key (undefined if no node is highlighted) | — |
-| getCurrentNode | return the highlight node's data (undefined if no node is highlighted) | — |
-| setCurrentKey | set highlighted node by key | `(key: TreeKey)` |
-| getNode | get node by key or data | `(data: TreeKey \| TreeNodeData)` |
-| expandNode | expand specified node | `(node: TreeNode)` |
-| collapseNode | collapse specified node | `(node: TreeNode)` |
-| setData | When the data is very large, using reactive data will cause the poor performance, so we provide a way to avoid this situation | `(data: TreeData)` |
-| scrollTo ^(2.8.0) | scroll to a given position | `(offset: number)` |
-| scrollToNode ^(2.8.0) | scroll to a given tree key with specified scroll strategy | `(key: TreeKey, strategy?: auto \| smart \| center \| start \| end)` |
 
-## TreeV2 Events
+| Method                | Description                                                                                                                   | Parameters                                                           |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| filter                | filter all tree nodes, filtered nodes will be hidden                                                                          | `(query: string)`                                                    |
+| getCheckedNodes       | If the node can be selected (`show-checkbox` is `true`), it returns the currently selected array of nodes                     | `(leafOnly: boolean)`                                                |
+| getCheckedKeys        | If the node can be selected (`show-checkbox` is `true`), it returns the currently selected array of node's keys               | `(leafOnly: boolean)`                                                |
+| setCheckedKeys        | set certain nodes to be checked                                                                                               | `(keys: TreeKey[])`                                                  |
+| setChecked            | set node to be checked or not                                                                                                 | `(key: TreeKey, checked: boolean)`                                   |
+| setExpandedKeys       | set certain nodes to be expanded                                                                                              | `(keys: TreeKey[])`                                                  |
+| getHalfCheckedNodes   | If the node can be selected (`show-checkbox` is `true`), it returns the currently half selected array of nodes                | —                                                                    |
+| getHalfCheckedKeys    | If the node can be selected (`show-checkbox` is `true`), it returns the currently half selected array of node's keys          | —                                                                    |
+| getCurrentKey         | return the highlight node's key (undefined if no node is highlighted)                                                         | —                                                                    |
+| getCurrentNode        | return the highlight node's data (undefined if no node is highlighted)                                                        | —                                                                    |
+| setCurrentKey         | set highlighted node by key                                                                                                   | `(key: TreeKey)`                                                     |
+| getNode               | get node by key or data                                                                                                       | `(data: TreeKey \| TreeNodeData)`                                    |
+| expandNode            | expand specified node                                                                                                         | `(node: TreeNode)`                                                   |
+| collapseNode          | collapse specified node                                                                                                       | `(node: TreeNode)`                                                   |
+| setData               | When the data is very large, using reactive data will cause the poor performance, so we provide a way to avoid this situation | `(data: TreeData)`                                                   |
+| scrollTo ^(2.8.0)     | scroll to a given position                                                                                                    | `(offset: number)`                                                   |
+| scrollToNode ^(2.8.0) | scroll to a given tree key with specified scroll strategy                                                                     | `(key: TreeKey, strategy?: auto \| smart \| center \| start \| end)` |
+
+### TreeV2 Events
 
 | Name               | Description                                          | Parameters                                                                                                                              |
 | ------------------ | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
 | node-click         | triggers when a node is clicked                      | `(data: TreeNodeData, node: TreeNode, e: MouseEvent)`                                                                                   |
-| node-drop ^(2.8.3) | triggers when drag someting and drop on a node       | `(data: TreeNodeData, node: TreeNode, e: DragEvent)`                                                                                    |
+| node-drop ^(2.8.3) | triggers when drag something and drop on a node      | `(data: TreeNodeData, node: TreeNode, e: DragEvent)`                                                                                    |
 | node-contextmenu   | triggers when a node is clicked by right button      | `(e: Event, data: TreeNodeData, node: TreeNode)`                                                                                        |
 | check-change       | triggers when the selected state of the node changes | `(data: TreeNodeData, checked: boolean)`                                                                                                |
 | check              | triggers after clicking the checkbox of a node       | `(data: TreeNodeData, info: { checkedKeys: TreeKey[],checkedNodes: TreeData, halfCheckedKeys: TreeKey[], halfCheckedNodes: TreeData,})` |
@@ -163,7 +166,7 @@ tree-v2/filter
 | node-expand        | triggers when current node open                      | `(data: TreeNodeData, node: TreeNode)`                                                                                                  |
 | node-collapse      | triggers when current node close                     | `(data: TreeNodeData, node: TreeNode)`                                                                                                  |
 
-## TreeV2 Slots
+### TreeV2 Slots
 
 | Name           | Description                                                                                    |
 | -------------- | ---------------------------------------------------------------------------------------------- |

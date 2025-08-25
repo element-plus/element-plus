@@ -12,6 +12,7 @@
       :placement="placement"
       :teleported="teleported"
       :popper-class="[nsSelect.e('popper'), popperClass]"
+      :popper-style="popperStyle"
       :popper-options="popperOptions"
       :fallback-placements="fallbackPlacements"
       :effect="effect"
@@ -97,6 +98,7 @@
                 :effect="effect"
                 placement="bottom"
                 :popper-class="popperClass"
+                :popper-style="popperStyle"
                 :teleported="teleported"
               >
                 <template #default>
@@ -219,13 +221,13 @@
           </div>
           <div ref="suffixRef" :class="nsSelect.e('suffix')">
             <el-icon
-              v-if="iconComponent && !showClose"
+              v-if="iconComponent && !showClearBtn"
               :class="[nsSelect.e('caret'), nsSelect.e('icon'), iconReverse]"
             >
               <component :is="iconComponent" />
             </el-icon>
             <el-icon
-              v-if="showClose && clearIcon"
+              v-if="showClearBtn && clearIcon"
               :class="[
                 nsSelect.e('caret'),
                 nsSelect.e('icon'),
@@ -277,13 +279,20 @@
             />
             <el-options>
               <slot>
-                <el-option
-                  v-for="(item, index) in options"
-                  :key="index"
-                  :label="item[props?.label ?? 'label']"
-                  :value="item[props?.value ?? 'value']"
-                  :disabled="item[props?.disabled ?? 'disabled']"
-                />
+                <template v-for="(option, index) in options" :key="index">
+                  <el-option-group
+                    v-if="getOptions(option)?.length"
+                    :label="getLabel(option)"
+                    :disabled="getDisabled(option)"
+                  >
+                    <el-option
+                      v-for="item in getOptions(option)"
+                      :key="getValue(item)"
+                      v-bind="getOptionProps(item)"
+                    />
+                  </el-option-group>
+                  <el-option v-else v-bind="getOptionProps(option)" />
+                </template>
               </slot>
             </el-options>
           </el-scrollbar>
@@ -324,12 +333,14 @@ import ElIcon from '@element-plus/components/icon'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { flattedChildren, isArray, isObject } from '@element-plus/utils'
 import { useCalcInputWidth } from '@element-plus/hooks'
+import { useProps } from '@element-plus/components/select-v2/src/useProps'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
 import { useSelect } from './useSelect'
 import { selectKey } from './token'
 import ElOptions from './options'
 import { selectProps } from './select'
+import ElOptionGroup from './option-group.vue';
 
 import type { VNode } from 'vue';
 import type { SelectContext } from './type'
@@ -342,6 +353,7 @@ export default defineComponent({
     ElSelectMenu,
     ElOption,
     ElOptions,
+    ElOptionGroup,
     ElTag,
     ElScrollbar,
     ElTooltip,
@@ -390,6 +402,13 @@ export default defineComponent({
 
     const API = useSelect(_props, emit)
     const { calculatorRef, inputStyle } = useCalcInputWidth()
+    const { getLabel, getValue, getOptions, getDisabled } = useProps(props)
+
+    const getOptionProps = (option: Record<string, any>) => ({
+      label: getLabel(option),
+      value: getValue(option),
+      disabled: getDisabled(option)
+    })
 
     const flatTreeSelectData = (data: any[]) => {
       return data.reduce((acc, item) => {
@@ -473,6 +492,11 @@ export default defineComponent({
       selectedLabel,
       calculatorRef,
       inputStyle,
+      getLabel,
+      getValue,
+      getOptions,
+      getDisabled,
+      getOptionProps,
     }
   },
 })
