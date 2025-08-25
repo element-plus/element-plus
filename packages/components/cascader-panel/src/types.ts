@@ -3,7 +3,7 @@ import type { Nullable } from '@element-plus/utils'
 import type { default as CascaderNode } from './node'
 
 export type { CascaderNode, Nullable }
-export type CascaderNodeValue = string | number
+export type CascaderNodeValue = string | number | Record<string, any>
 export type CascaderNodePathValue = CascaderNodeValue[]
 export type CascaderValue =
   | CascaderNodeValue

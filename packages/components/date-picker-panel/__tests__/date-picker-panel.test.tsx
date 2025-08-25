@@ -105,16 +105,14 @@ describe('DatePickerPanel', () => {
 
   describe(':type="datetime" & :type="datetimerange"', () => {
     describe(':type="datetime"', () => {
-      it('both picker show correct formated value (extract date-format and time-format from format property', async () => {
+      it('dateFormat & timeFormat', async () => {
         const value = ref(new Date(2018, 2, 5, 10, 15, 24))
-        const format = ref('YYYY/MM/DD HH:mm A')
-        const dateFormat = ref('')
-        const timeFormat = ref('')
+        const dateFormat = ref('YYYY/MM/DD')
+        const timeFormat = ref('HH:mm A')
         const wrapper = mount(() => (
           <DatePickerPanel
             v-model={value.value}
             type="datetime"
-            format={format.value}
             dateFormat={dateFormat.value}
             timeFormat={timeFormat.value}
           />
@@ -132,7 +130,8 @@ describe('DatePickerPanel', () => {
         expect(dateInput.value).toBe('2018/03/05')
         expect(timeInput.value).toBe('10:15 AM')
 
-        format.value = 'MM-DD-YYYY HH a'
+        dateFormat.value = 'MM-DD-YYYY'
+        timeFormat.value = 'HH a'
         await nextTick()
         expect(dateInput.value).toBe('03-05-2018')
         expect(timeInput.value).toBe('10 am')
@@ -470,14 +469,13 @@ describe('DatePickerPanel', () => {
           new Date(2000, 10, 8, 10, 10),
           new Date(2000, 10, 11, 10, 10),
         ])
-        const dateFormat = ref('')
-        const timeFormat = ref('')
+        const dateFormat = ref('YYYY/MM/DD')
+        const timeFormat = ref('HH:mm A')
         const wrapper = mount(() => (
           <DatePickerPanel
             v-model={value.value}
             type="datetimerange"
             default-time={new Date(2020, 1, 1, 1, 1, 1)}
-            format="YYYY/MM/DD HH:mm A"
             dateFormat={dateFormat.value}
             timeFormat={timeFormat.value}
             showFooter
@@ -838,6 +836,40 @@ describe('DatePickerPanel', () => {
           '9',
           '10',
         ])
+      })
+
+      it('should not duplicate panels on update inner input nor change panels', async () => {
+        const value = ref([new Date(2025, 0, 1), new Date(2025, 0, 5)])
+        const wrapper = mount(() => (
+          <DatePickerPanel v-model={value.value} type="datetimerange" />
+        ))
+        await nextTick()
+        let pickerss = wrapper.findAll(
+          '.el-date-range-picker__time-header .el-date-range-picker__editors-wrap'
+        )
+        const leftDateInput = pickerss[0].find(
+          '.el-date-range-picker__time-picker-wrap:nth-child(1) input'
+        ).element as HTMLInputElement
+        const rightDateInput = pickerss[1].find(
+          '.el-date-range-picker__time-picker-wrap:nth-child(1) input'
+        ).element as HTMLInputElement
+        expect(leftDateInput.value).toBe('2025-01-01')
+        expect(rightDateInput.value).toBe('2025-01-05')
+        rightDateInput.value = '2025-01-06'
+        rightDateInput.dispatchEvent(new Event('input'))
+        rightDateInput.dispatchEvent(new Event('change'))
+        await nextTick()
+        expect(value.value[1]).toStrictEqual(new Date(2025, 0, 6))
+        pickerss = wrapper.findAll('.el-date-range-picker__header')
+        const leftHeader = pickerss[0].findAll(
+          '.el-date-range-picker__header-label'
+        )[1]
+        const rightHeader = pickerss[1].findAll(
+          '.el-date-range-picker__header-label'
+        )[1]
+
+        expect(leftHeader.text()).toBe('January')
+        expect(rightHeader.text()).toBe('February')
       })
     })
   })

@@ -3,7 +3,8 @@
     ref="tooltipRef"
     :visible="popperVisible"
     :teleported="teleported"
-    :popper-class="[nsCascader.e('dropdown'), popperClass]"
+    :popper-class="[nsCascader.e('dropdown'), popperClass!]"
+    :popper-style="popperStyle"
     :popper-options="popperOptions"
     :fallback-placements="fallbackPlacements"
     :stop-popper-mouse-event="false"
@@ -93,6 +94,8 @@
                   :disabled="popperVisible || !collapseTagsTooltip"
                   :fallback-placements="['bottom', 'top', 'right', 'left']"
                   placement="bottom"
+                  :popper-class="popperClass"
+                  :popper-style="popperStyle"
                   :effect="effect"
                 >
                   <template #default>
@@ -301,7 +304,8 @@ const { isComposing, handleComposition } = useComposition({
 })
 
 const tooltipRef: Ref<TooltipInstance | null> = ref(null)
-const tagTooltipRef: Ref<TooltipInstance | null> = ref(null)
+//TODO: transform [TooltipInstance] to TooltipInstance
+const tagTooltipRef = ref<[TooltipInstance]>()
 const inputRef = ref<InputInstance>()
 const tagWrapper = ref(null)
 const cascaderPanelRef: Ref<CascaderPanelInstance | null> = ref(null)
@@ -345,7 +349,7 @@ const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
   beforeBlur(event) {
     return (
       tooltipRef.value?.isFocusInsideContent(event) ||
-      tagTooltipRef.value?.isFocusInsideContent(event)
+      tagTooltipRef.value?.[0]?.isFocusInsideContent(event)
     )
   },
   afterBlur() {

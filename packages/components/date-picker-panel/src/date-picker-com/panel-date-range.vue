@@ -406,6 +406,8 @@ import { useLocale } from '@element-plus/hooks'
 import ElButton from '@element-plus/components/button'
 import ElInput from '@element-plus/components/input'
 import {
+  DEFAULT_FORMATS_DATE,
+  DEFAULT_FORMATS_TIME,
   PICKER_BASE_INJECTION_KEY,
   TimePickPanel,
   extractDateFormat,
@@ -431,6 +433,7 @@ import YearTable from './basic-year-table.vue'
 import MonthTable from './basic-month-table.vue'
 import DateTable from './basic-date-table.vue'
 
+import type { Ref } from 'vue'
 import type { Dayjs } from 'dayjs'
 
 type ChangeType = 'min' | 'max'
@@ -451,10 +454,11 @@ const unit = 'month'
 // FIXME: fix the type for ep picker
 const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
 const isDefaultFormat = inject(
-  ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY
+  ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY,
+  undefined
 ) as any
 const { disabledDate, cellClassName, defaultTime, clearable } = pickerBase.props
-const format = toRef(pickerBase.props, 'format')
+const format: Ref<string | undefined> = toRef(pickerBase.props, 'format')
 const shortcuts = toRef(pickerBase.props, 'shortcuts')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 const { lang } = useLocale()
@@ -472,7 +476,7 @@ const {
   handleRangeConfirm,
   handleShortcutClick,
   onSelect,
-  onReset,
+  parseValue,
   t,
 } = useRangePicker(props, {
   defaultValue,
@@ -480,14 +484,14 @@ const {
   leftDate,
   rightDate,
   unit,
-  onParsedValueChanged,
+  sortDates,
 })
 
 watch(
   () => props.visible,
   (visible) => {
     if (!visible && rangeState.value.selecting) {
-      onReset(props.parsedValue)
+      parseValue(props.parsedValue)
       onSelect(false)
     }
   }
@@ -553,11 +557,19 @@ const maxVisibleTime = computed(() => {
 })
 
 const timeFormat = computed(() => {
-  return props.timeFormat || extractTimeFormat(format.value)
+  return (
+    props.timeFormat ||
+    extractTimeFormat(format.value || '') ||
+    DEFAULT_FORMATS_TIME
+  )
 })
 
 const dateFormat = computed(() => {
-  return props.dateFormat || extractDateFormat(format.value)
+  return (
+    props.dateFormat ||
+    extractDateFormat(format.value || '') ||
+    DEFAULT_FORMATS_DATE
+  )
 })
 
 const isValidValue = (date: [Dayjs, Dayjs]) => {
@@ -769,6 +781,7 @@ const handleDateInput = (value: string | null, type: ChangeType) => {
         minDate.value = maxDate.value.subtract(1, 'month')
       }
     }
+    sortDates(minDate.value, maxDate.value)
   }
 }
 
@@ -833,7 +846,7 @@ const handleMinTimePick = (value: Dayjs, visible: boolean, first: boolean) => {
     maxDate.value = minDate.value
     rightDate.value = value
     nextTick(() => {
-      onReset(props.parsedValue)
+      parseValue(props.parsedValue)
     })
   }
 }
@@ -882,16 +895,13 @@ const formatToString = (value: Dayjs | Dayjs[]) => {
 const parseUserInput = (value: Dayjs | Dayjs[]) => {
   return correctlyParseUserInput(
     value,
-    format.value,
+    format.value || '',
     lang.value,
     isDefaultFormat
   )
 }
 
-function onParsedValueChanged(
-  minDate: Dayjs | undefined,
-  maxDate: Dayjs | undefined
-) {
+function sortDates(minDate: Dayjs | undefined, maxDate: Dayjs | undefined) {
   if (props.unlinkPanels && maxDate) {
     const minDateYear = minDate?.year() || 0
     const minDateMonth = minDate?.month() || 0

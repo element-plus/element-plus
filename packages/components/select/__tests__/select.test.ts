@@ -34,6 +34,7 @@ interface SelectProps {
   automaticDropdown?: boolean
   multipleLimit?: number
   popperClass?: string
+  popperStyle?: string
   defaultFirstOption?: boolean
   fitInputWidth?: boolean
   size?: 'small' | 'default' | 'large'
@@ -127,6 +128,7 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
       :multiple="multiple"
       :multiple-limit="multipleLimit"
       :popper-class="popperClass"
+      :popper-style="popperStyle"
       :clearable="clearable"
       :default-first-option="defaultFirstOption"
       :filterable="filterable"
@@ -158,6 +160,7 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
       collapseTags: configs.collapseTags,
       allowCreate: configs.allowCreate,
       popperClass: configs.popperClass,
+      popperStyle: configs.popperStyle,
       automaticDropdown: configs.automaticDropdown,
       fitInputWidth: configs.fitInputWidth,
       loading: false,
@@ -349,6 +352,12 @@ describe('Select', () => {
     wrapper = getSelectVm({ popperClass: 'custom-dropdown' })
     const dropdown = wrapper.findComponent({ name: 'ElSelectDropdown' })
     expect(dropdown.classes()).toContain('custom-dropdown')
+  })
+
+  test('custom popper style', async () => {
+    wrapper = getSelectVm({ popperStyle: 'background: red;' })
+    const popper = document.querySelector('.el-popper') as HTMLElement
+    expect(popper.style.background).toBe('red')
   })
 
   test('default value', async () => {
