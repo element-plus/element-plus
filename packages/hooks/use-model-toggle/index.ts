@@ -1,4 +1,4 @@
-import { computed, getCurrentInstance, onMounted, watch } from 'vue'
+import { computed, getCurrentInstance, onMounted, unref, watch } from 'vue'
 import {
   buildProp,
   definePropType,
@@ -50,6 +50,7 @@ export const createModelToggleComposable = <T extends string>(name: T) => {
     indicator,
     toggleReason,
     shouldHideWhenRouteChanges,
+    disabled,
     shouldProceed,
     onShow,
     onHide,
@@ -62,10 +63,21 @@ export const createModelToggleComposable = <T extends string>(name: T) => {
     const hasUpdateHandler = computed(() =>
       isFunction(props[updateEventKeyRaw])
     )
+    const isDisabled = computed(() => props.disabled || disabled?.value)
     // when it matches the default value we say this is absent
     // though this could be mistakenly passed from the user but we need to rule out that
     // condition
     const isModelBindingAbsent = computed(() => props[name] === null)
+
+    const controlled = computed(
+      () => isBoolean(props[name]) && !hasUpdateHandler.value
+    )
+
+    const stopWhenControlledOrDisabled = () => {
+      if (unref(controlled) || isDisabled.value) {
+        return true
+      }
+    }
 
     const doShow = (event?: Event) => {
       if (indicator.value === true) {
@@ -97,7 +109,7 @@ export const createModelToggleComposable = <T extends string>(name: T) => {
 
     const show = (event?: Event) => {
       if (
-        props.disabled === true ||
+        stopWhenControlledOrDisabled() ||
         (isFunction(shouldProceed) && !shouldProceed())
       )
         return
@@ -114,7 +126,7 @@ export const createModelToggleComposable = <T extends string>(name: T) => {
     }
 
     const hide = (event?: Event) => {
-      if (props.disabled === true || !isClient) return
+      if (stopWhenControlledOrDisabled() || !isClient) return
 
       const shouldEmit = hasUpdateHandler.value && isClient
 
@@ -129,7 +141,7 @@ export const createModelToggleComposable = <T extends string>(name: T) => {
 
     const onChange = (val: boolean) => {
       if (!isBoolean(val)) return
-      if (props.disabled && val) {
+      if (isDisabled.value && val) {
         if (hasUpdateHandler.value) {
           emit(updateEventKey, false)
         }
@@ -143,6 +155,7 @@ export const createModelToggleComposable = <T extends string>(name: T) => {
     }
 
     const toggle = () => {
+      if (stopWhenControlledOrDisabled()) return
       if (indicator.value) {
         hide()
       } else {
@@ -205,6 +218,7 @@ export type ModelToggleParams = {
   indicator: Ref<boolean>
   toggleReason?: Ref<Event | undefined>
   shouldHideWhenRouteChanges?: Ref<boolean>
+  disabled?: Ref<boolean>
   shouldProceed?: () => boolean
   onShow?: (event?: Event) => void
   onHide?: (event?: Event) => void

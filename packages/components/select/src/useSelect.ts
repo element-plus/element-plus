@@ -21,7 +21,6 @@ import {
   debugWarn,
   ensureArray,
   isArray,
-  isBoolean,
   isClient,
   isFunction,
   isIOS,
@@ -68,6 +67,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   const contentId = useId()
   const nsSelect = useNamespace('select')
   const nsInput = useNamespace('input')
+  const selectDisabled = useFormDisabled()
 
   const states = reactive<SelectStates>({
     inputValue: '',
@@ -97,44 +97,12 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   const tagMenuRef = ref<HTMLElement>()
   const collapseItemRef = ref<HTMLElement>()
   const scrollbarRef = ref<ScrollbarInstance>()
-  // the controller of the expanded popup
   const expanded = ref(false)
-  const {
-    show: _show,
-    hide: _hide,
-    toggle: _toggle,
-    hasUpdateHandler,
-  } = useSelectModelToggle({
+  const { show, hide, toggle } = useSelectModelToggle({
     indicator: expanded,
+    disabled: selectDisabled,
   })
   const hoverOption = ref()
-
-  const selectDisabled = useFormDisabled()
-
-  const controlled = computed(
-    () => isBoolean(props.visible) && !hasUpdateHandler.value
-  )
-
-  const stopWhenControlledOrDisabled = () => {
-    if (unref(controlled) || selectDisabled.value) {
-      return true
-    }
-  }
-
-  const show = () => {
-    if (stopWhenControlledOrDisabled()) return
-    _show()
-  }
-
-  const hide = () => {
-    if (stopWhenControlledOrDisabled()) return
-    _hide()
-  }
-
-  const toggle = () => {
-    if (stopWhenControlledOrDisabled()) return
-    _toggle()
-  }
 
   const { form, formItem } = useFormItem()
   const { inputId } = useFormItemInputId(props, {

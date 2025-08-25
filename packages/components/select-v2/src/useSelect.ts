@@ -20,7 +20,6 @@ import {
   debugWarn,
   escapeStringRegexp,
   isArray,
-  isBoolean,
   isFunction,
   isNumber,
   isObject,
@@ -40,6 +39,7 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import {
+  useFormDisabled,
   useFormItem,
   useFormItemInputId,
   useFormSize,
@@ -96,7 +96,6 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   const tagMenuRef = ref<HTMLElement>()
   const collapseItemRef = ref<HTMLElement>()
   const filteredOptions = ref<OptionType[]>([])
-  // the controller of the expanded popup
   const expanded = ref(false)
 
   const {
@@ -108,41 +107,12 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     afterComposition: (e) => onInput(e),
   })
 
-  const selectDisabled = computed(() => props.disabled || !!elForm?.disabled)
+  const selectDisabled = useFormDisabled()
 
-  const {
-    show: _show,
-    hide: _hide,
-    toggle: _toggle,
-    hasUpdateHandler,
-  } = useSelectV2ModelToggle({
+  const { show, hide, toggle } = useSelectV2ModelToggle({
     indicator: expanded,
+    disabled: selectDisabled,
   })
-
-  const controlled = computed(
-    () => isBoolean(props.visible) && !hasUpdateHandler.value
-  )
-
-  const stopWhenControlledOrDisabled = () => {
-    if (unref(controlled) || selectDisabled.value) {
-      return true
-    }
-  }
-
-  const show = () => {
-    if (stopWhenControlledOrDisabled()) return
-    _show()
-  }
-
-  const hide = () => {
-    if (stopWhenControlledOrDisabled()) return
-    _hide()
-  }
-
-  const toggle = () => {
-    if (stopWhenControlledOrDisabled()) return
-    _toggle()
-  }
 
   const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
     disabled: selectDisabled,
