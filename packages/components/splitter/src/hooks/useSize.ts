@@ -37,9 +37,11 @@ export function useSize(
   watch([propSizes, panelCounts, containerSize], (newVal, oldVal) => {
     const mutatedPanelIndexs: number[] = []
     const oldPropsSizes = oldVal[0]
-    for (let i = 0; i < propSizes.value.length; i++) {
-      if (propSizes.value[i] !== oldPropsSizes[i]) {
-        mutatedPanelIndexs.push(i)
+    if (oldPropsSizes) {
+      for (const [i, oldPropsSize] of oldPropsSizes.entries()) {
+        if (oldPropsSize !== newVal[0][i]) {
+          mutatedPanelIndexs.push(i)
+        }
       }
     }
     const isNeedFreezeSize =

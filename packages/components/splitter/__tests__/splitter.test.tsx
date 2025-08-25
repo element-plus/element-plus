@@ -1,5 +1,5 @@
 import { nextTick, ref } from 'vue'
-import { mount } from '@vue/test-utils'
+import { VueWrapper, mount } from '@vue/test-utils'
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import { ElSplitter, ElSplitterPanel } from '../index'
 
@@ -7,6 +7,32 @@ import { ElSplitter, ElSplitterPanel } from '../index'
 vi.mock('@vueuse/core', () => {
   return import('./__mocks__/vueuse')
 })
+
+// mock mouse event
+const simulateDrag = async (
+  wrapper: VueWrapper<any>,
+  startPos: number,
+  endPos: number
+) => {
+  const splitBar = wrapper.find('.el-splitter-bar__dragger')
+
+  // Simulate mouse down
+  const mousedown = new MouseEvent('mousedown', { bubbles: true })
+  Object.defineProperty(mousedown, 'pageX', { value: startPos })
+  splitBar.element.dispatchEvent(mousedown)
+
+  // Simulate mouse move
+  const mousemove = new MouseEvent('mousemove', { bubbles: true })
+  Object.defineProperty(mousemove, 'pageX', { value: endPos })
+  window.dispatchEvent(mousemove)
+
+  // Simulate mouse up
+  const mouseup = new MouseEvent('mouseup', { bubbles: true })
+  Object.defineProperty(mouseup, 'pageX', { value: endPos })
+  window.dispatchEvent(mouseup)
+
+  await nextTick()
+}
 
 describe('Splitter', () => {
   const mockResizeObserver = vi.fn(() => ({
@@ -63,34 +89,12 @@ describe('Splitter', () => {
     // default size
     expect(panels[0].attributes('style')).toContain('flex-basis: 150px;')
 
-    // mock mouse event
-    const simulateDrag = async (startPos: number, endPos: number) => {
-      const splitBar = wrapper.find('.el-splitter-bar__dragger')
-
-      // Simulate mouse down
-      const mousedown = new MouseEvent('mousedown', { bubbles: true })
-      Object.defineProperty(mousedown, 'pageX', { value: startPos })
-      splitBar.element.dispatchEvent(mousedown)
-
-      // Simulate mouse move
-      const mousemove = new MouseEvent('mousemove', { bubbles: true })
-      Object.defineProperty(mousemove, 'pageX', { value: endPos })
-      window.dispatchEvent(mousemove)
-
-      // Simulate mouse up
-      const mouseup = new MouseEvent('mouseup', { bubbles: true })
-      Object.defineProperty(mouseup, 'pageX', { value: endPos })
-      window.dispatchEvent(mouseup)
-
-      await nextTick()
-    }
-
     // Test min size constraint: drag left to minimum value 100px
-    await simulateDrag(150, 50)
+    await simulateDrag(wrapper, 150, 50)
     expect(panels[0].attributes('style')).toContain('flex-basis: 100px;')
 
     // Test max size constraint: drag right to maximum value 200px
-    await simulateDrag(50, 150)
+    await simulateDrag(wrapper, 50, 150)
     expect(panels[0].attributes('style')).toContain('flex-basis: 200px;')
   })
 
@@ -328,5 +332,35 @@ describe('Splitter', () => {
     window.dispatchEvent(mouseup)
     await nextTick()
     expect(panels[0].attributes('style')).toContain('flex-basis: 100px;')
+  })
+
+  it("should show the correct size if a panel lacks an initial size, and then another panel's size changes", async () => {
+    const size = ref(40)
+    const wrapper = mount(() => (
+      <div style={{ width: '400px', height: '400px' }}>
+        <ElSplitter>
+          <ElSplitterPanel
+            size={size.value}
+            onUpdate:size={(val) => (size.value = val)}
+          >
+            Left Panel
+          </ElSplitterPanel>
+          <ElSplitterPanel>Right Panel</ElSplitterPanel>
+        </ElSplitter>
+      </div>
+    ))
+    await nextTick()
+    const panels = wrapper.findAll('.el-splitter-panel')
+
+    // default size
+    expect(panels[0].attributes('style')).toContain('flex-basis: 40px;')
+
+    // test drag to change size
+    await simulateDrag(wrapper, 40, 300)
+    expect(panels[0].attributes('style')).toContain('flex-basis: 300px;')
+
+    size.value = 40
+    await nextTick()
+    expect(panels[0].attributes('style')).toContain('flex-basis: 40px;')
   })
 })
