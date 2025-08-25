@@ -20,7 +20,7 @@ the project will install all dependencies.
 With command
 
 ```shell
-pnpm run docs
+pnpm docs:dev
 ```
 
 the project will launch website for you to preview all existing component.
@@ -32,7 +32,7 @@ See [Local development guide](https://github.com/element-plus/element-plus/blob/
 1. With command
 
 ```shell
-pnpm run dev
+pnpm dev
 ```
 
 will start the local development environment.
