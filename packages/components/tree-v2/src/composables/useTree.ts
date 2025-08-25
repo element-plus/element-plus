@@ -181,6 +181,12 @@ export function useTree(
     const expandedKeys = new Set<TreeKey>()
     const nodeMap = tree.value!.treeNodeMap
 
+    expandedKeySet.value.forEach((key) => {
+      const node = nodeMap.get(key)!
+      expandedKeySet.value.delete(node.key)
+      node.expanded = false
+    })
+
     keys.forEach((k) => {
       let node = nodeMap.get(k)
       while (node && !expandedKeys.has(node.key)) {
