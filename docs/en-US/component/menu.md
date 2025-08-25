@@ -114,6 +114,7 @@ menu/popper-offset
 | -------------------------- | ---------------------------------------------------------------------- | ------------------------------------ |
 | open                       | open a specific sub-menu, the param is index of the sub-menu to open   | ^[Function]`(index: string) => void` |
 | close                      | close a specific sub-menu, the param is index of the sub-menu to close | ^[Function]`(index: string) => void` |
+| handleResize               | manually trigger menu width recalculation                              | ^[Function]`() => void`              |
 | updateActiveIndex ^(2.9.8) | set index of active menu                                               | ^[Function]`(index: string) => void` |
 
 ## SubMenu API

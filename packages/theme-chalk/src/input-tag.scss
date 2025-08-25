@@ -102,6 +102,33 @@
     );
   }
 
+  @include e(input-tag-list) {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+    gap: map.get($input-tag-gap, 'default');
+
+    @include when(near) {
+      margin-left: map.get($select-near-margin-left, 'default');
+    }
+
+    .#{$namespace}-tag {
+      cursor: pointer;
+      border-color: transparent;
+
+      &.#{$namespace}-tag--plain {
+        border-color: getCssVar('tag', 'border-color');
+      }
+
+      .#{$namespace}-tag__content {
+        min-width: 0;
+      }
+    }
+  }
+
   @include e(inner) {
     position: relative;
     display: flex;

@@ -9,6 +9,7 @@ export const splitterProps = buildProps({
     default: 'horizontal',
     values: ['horizontal', 'vertical'] as const,
   },
+  lazy: Boolean,
 } as const)
 
 export type SplitterProps = ExtractPropTypes<typeof splitterProps>
