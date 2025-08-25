@@ -48,7 +48,6 @@
 import { computed, inject, onBeforeUnmount, ref, unref, watch } from 'vue'
 import { computedEager, onClickOutside } from '@vueuse/core'
 import { useNamespace, usePopperContainerId } from '@element-plus/hooks'
-import { composeEventHandlers } from '@element-plus/utils'
 import { ElPopperContent } from '@element-plus/components/popper'
 import ElTeleport from '@element-plus/components/teleport'
 import { tryFocus } from '@element-plus/components/focus-trap'
@@ -71,7 +70,6 @@ const contentRef = ref<PopperContentInstance>()
 const popperContentRef = computedEager(() => contentRef.value?.popperContentRef)
 let stopHandle: ReturnType<typeof onClickOutside>
 const {
-  controlled,
   id,
   open,
   trigger,
@@ -122,21 +120,17 @@ const onTransitionLeave = () => {
   ariaHidden.value = true
 }
 
-const stopWhenControlled = () => {
-  if (unref(controlled)) return true
-}
-
-const onContentEnter = composeEventHandlers(stopWhenControlled, () => {
+const onContentEnter = () => {
   if (props.enterable && unref(trigger) === 'hover') {
     onOpen()
   }
-})
+}
 
-const onContentLeave = composeEventHandlers(stopWhenControlled, () => {
+const onContentLeave = () => {
   if (unref(trigger) === 'hover') {
     onClose()
   }
-})
+}
 
 const onBeforeEnter = () => {
   contentRef.value?.updatePopper?.()
@@ -173,7 +167,6 @@ watch(
     } else {
       ariaHidden.value = false
       stopHandle = onClickOutside(popperContentRef, () => {
-        if (unref(controlled)) return
         const $trigger = unref(trigger)
         if ($trigger !== 'hover') {
           onClose()

@@ -12,7 +12,6 @@ const AXIOM = 'rem is the best girl'
 
 describe('<ElTooltipTrigger />', () => {
   const {
-    controlled,
     id,
     open,
     onOpen,
@@ -26,7 +25,6 @@ describe('<ElTooltipTrigger />', () => {
 
   const defaultProvide = {
     [TOOLTIP_INJECTION_KEY as symbol]: {
-      controlled,
       id,
       open,
       onOpen,
@@ -59,7 +57,6 @@ describe('<ElTooltipTrigger />', () => {
 
   afterEach(() => {
     open.value = false
-    controlled.value = false
     wrapper?.unmount()
     document.body.innerHTML = ''
   })
@@ -74,7 +71,6 @@ describe('<ElTooltipTrigger />', () => {
     describe('controlled', () => {
       it('should not trigger anything when tooltip is controlled', async () => {
         wrapper = createComponent()
-        controlled.value = true
         await nextTick()
 
         const { vm } = wrapper.findComponent(
@@ -95,11 +91,13 @@ describe('<ElTooltipTrigger />', () => {
         const mouseenterEvt = new MouseEvent('mouseenter')
         vm.onMouseenter(mouseenterEvt)
         await nextTick()
-        expect(onOpen).not.toHaveBeenCalled()
+        expect(onOpen).toHaveBeenCalled()
+        expect(open.value).toBe(false)
         const mouseleaveEvt = new MouseEvent('mouseleave')
         vm.onMouseleave(mouseleaveEvt)
         await nextTick()
-        expect(onClose).not.toHaveBeenCalled()
+        expect(onClose).toHaveBeenCalled()
+        expect(open.value).toBe(false)
         const contextmenuEvt = new MouseEvent('contextmenu')
         vm.onContextMenu(contextmenuEvt)
         await nextTick()
@@ -111,6 +109,7 @@ describe('<ElTooltipTrigger />', () => {
         vm.onKeydown(keyboardEvt)
         await nextTick()
         expect(onToggle).not.toHaveBeenCalled()
+        expect(open.value).toBe(false)
       })
     })
 

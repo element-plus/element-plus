@@ -60,7 +60,6 @@ import {
   watch,
 } from 'vue'
 import { ElPopper, ElPopperArrow } from '@element-plus/components/popper'
-import { isBoolean } from '@element-plus/utils'
 import {
   useDelayedToggle,
   useId,
@@ -98,7 +97,7 @@ const updatePopper = () => {
 const open = ref(false)
 const toggleReason = ref<Event>()
 
-const { show, hide, hasUpdateHandler } = useTooltipModelToggle({
+const { show, hide } = useTooltipModelToggle({
   indicator: open,
   toggleReason,
 })
@@ -111,16 +110,11 @@ const { onOpen, onClose } = useDelayedToggle({
   close: hide,
 })
 
-const controlled = computed(
-  () => isBoolean(props.visible) && !hasUpdateHandler.value
-)
-
 const kls = computed(() => {
   return [ns.b(), props.popperClass!]
 })
 
 provide(TOOLTIP_INJECTION_KEY, {
-  controlled,
   id,
   open: readonly(open),
   trigger: toRef(props, 'trigger'),

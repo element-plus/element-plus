@@ -4,6 +4,7 @@ import {
   onMounted,
   reactive,
   ref,
+  unref,
   watch,
   watchEffect,
 } from 'vue'
@@ -38,16 +39,17 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import {
+  useFormDisabled,
   useFormItem,
   useFormItemInputId,
   useFormSize,
 } from '@element-plus/components/form'
 import { useAllowCreate } from './useAllowCreate'
 import { useProps } from './useProps'
+import { type SelectV2EmitFn, useSelectV2ModelToggle } from './defaults'
 
 import type { Option, OptionType, SelectStates } from './select.types'
 import type { SelectV2Props } from './token'
-import type { SelectV2EmitFn } from './defaults'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { SelectDropdownInstance } from './select-dropdown'
 
@@ -93,6 +95,8 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   const menuRef = ref<SelectDropdownInstance>()
   const tagMenuRef = ref<HTMLElement>()
   const collapseItemRef = ref<HTMLElement>()
+  const filteredOptions = ref<OptionType[]>([])
+  const expanded = ref(false)
 
   const {
     isComposing,
@@ -103,13 +107,18 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     afterComposition: (e) => onInput(e),
   })
 
-  const selectDisabled = computed(() => props.disabled || !!elForm?.disabled)
+  const selectDisabled = useFormDisabled()
+
+  const { show, hide, toggle } = useSelectV2ModelToggle({
+    indicator: expanded,
+    disabled: selectDisabled,
+  })
 
   const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
     disabled: selectDisabled,
     afterFocus() {
       if (props.automaticDropdown && !expanded.value) {
-        expanded.value = true
+        show()
         states.menuVisibleOnFocus = true
       }
     },
@@ -120,7 +129,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
       )
     },
     afterBlur() {
-      expanded.value = false
+      hide()
       states.menuVisibleOnFocus = false
       if (props.validateEvent) {
         elFormItem?.validate?.('blur').catch((err) => debugWarn(err))
@@ -134,10 +143,6 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     if (props.loading) return false
     return props.options.length > 0 || states.createdOptions.length > 0
   })
-
-  const filteredOptions = ref<OptionType[]>([])
-  // the controller of the expanded popup
-  const expanded = ref(false)
 
   const needStatusIcon = computed(() => elForm?.statusIcon ?? false)
 
@@ -384,15 +389,6 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     return -1
   })
 
-  const dropdownMenuVisible = computed({
-    get() {
-      return expanded.value && emptyText.value !== false
-    },
-    set(val: boolean) {
-      expanded.value = val
-    },
-  })
-
   const showTagList = computed(() => {
     if (!props.multiple) {
       return []
@@ -427,13 +423,13 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
       // controlled by automaticDropdown
       states.menuVisibleOnFocus = false
     } else {
-      expanded.value = !expanded.value
+      toggle()
     }
   }
 
   const onInputChange = () => {
     if (states.inputValue.length > 0 && !expanded.value) {
-      expanded.value = true
+      show()
     }
     createNewOption(states.inputValue)
     nextTick(() => {
@@ -590,7 +586,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     } else {
       states.selectedLabel = getLabel(option)
       update(getValue(option))
-      expanded.value = false
+      hide()
       selectNewOption(option)
       if (!option.created) {
         clearAllNewOption()
@@ -624,7 +620,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
 
   const blur = () => {
     if (expanded.value) {
-      expanded.value = false
+      hide()
       nextTick(() => inputRef.value?.blur())
       return
     }
@@ -636,7 +632,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     if (states.inputValue.length > 0) {
       states.inputValue = ''
     } else {
-      expanded.value = false
+      hide()
     }
   }
 
@@ -677,7 +673,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
 
     states.selectedLabel = ''
 
-    expanded.value = false
+    hide()
     update(emptyValue)
     emit('clear')
     clearAllNewOption()
@@ -768,7 +764,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   }
 
   const handleClickOutside = (event: Event) => {
-    expanded.value = false
+    hide()
 
     if (isFocused.value) {
       const _event = new FocusEvent('blur', event)
@@ -935,6 +931,12 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   })
 
   watchEffect(() => {
+    if (unref(expanded) && emptyText.value === false) {
+      hide()
+    }
+  })
+
+  watchEffect(() => {
     const { valueKey, options } = props
     const duplicateValue = new Map()
     for (const item of options) {
@@ -982,7 +984,6 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     tagStyle,
     collapseTagStyle,
     popperSize,
-    dropdownMenuVisible,
     hasModelValue,
     shouldShowPlaceholder,
     selectDisabled,

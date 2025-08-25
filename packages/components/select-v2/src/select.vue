@@ -8,7 +8,7 @@
   >
     <el-tooltip
       ref="tooltipRef"
-      :visible="dropdownMenuVisible"
+      :visible="expanded"
       :teleported="teleported"
       :popper-class="[nsSelect.e('popper'), popperClass!]"
       :popper-style="popperStyle"
@@ -94,7 +94,7 @@
               <el-tooltip
                 v-if="collapseTags && modelValue.length > maxCollapseTags"
                 ref="tagTooltipRef"
-                :disabled="dropdownMenuVisible || !collapseTagsTooltip"
+                :disabled="expanded || !collapseTagsTooltip"
                 :fallback-placements="['bottom', 'top', 'right', 'left']"
                 :effect="effect"
                 placement="bottom"

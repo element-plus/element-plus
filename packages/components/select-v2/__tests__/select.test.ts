@@ -1480,6 +1480,38 @@ describe('Select', () => {
     expect(placeholder.text()).toBe('option_a')
   })
 
+  it('should select visibility depends on prop "visible"', async () => {
+    const visible = ref(true)
+    const onBlur = vi.fn()
+    const wrapper = _mount(
+      `<el-select
+        model-value=""
+        :visible="visible"
+        :options="[]"
+        @blur="onBlur"
+      />
+      `,
+      {
+        data: () => ({
+          visible,
+          onBlur,
+        }),
+      }
+    )
+
+    const select = wrapper.findComponent(Select)
+    expect(select.vm.expanded).toBe(true)
+
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    expect(onBlur).toHaveBeenCalled()
+    expect(select.vm.expanded).toBe(true)
+
+    visible.value = false
+    await nextTick()
+    expect(select.vm.expanded).toBe(false)
+  })
+
   it('the scroll position of the dropdown should be correct when value is 0', async () => {
     const options = Array.from({ length: 1000 }).map((_, idx) => ({
       value: 999 - idx,
