@@ -199,7 +199,7 @@ cascader/custom-header-footer
 
 | Name                                       | Description                                                                                                                                                                      | Type                                                                                                                                                                        | Default      |
 | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| model-value / v-model                      | binding value                                                                                                                                                                    | ^[string] / ^[number]`string[] \| number[] \| any`                                                                                                                          | —            |
+| model-value / v-model                      | binding value                                                                                                                                                                    | ^[string] / ^[number] /^[object]`string[] \| number[] \| any`                                                                                                               | —            |
 | options                                    | data of the options, the key of `value` and `label` can be customize by `CascaderProps`.                                                                                         | ^[object]`CascaderOption[]`                                                                                                                                                 | —            |
 | [props](#cascaderprops)                    | configuration options, see the following `CascaderProps` table.                                                                                                                  | ^[object]`CascaderProps`                                                                                                                                                    | —            |
 | size                                       | size of input                                                                                                                                                                    | ^[enum]`'large' \| 'default' \| 'small'`                                                                                                                                    | —            |
@@ -270,11 +270,11 @@ cascader/custom-header-footer
 
 ### CascaderPanel Attributes
 
-| Name                    | Description                                                                              | Type                                             | Default |
-| ----------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------ | ------- |
-| model-value / v-model   | binding value                                                                            | ^[string]/^[number]`string[] \| number[] \| any` | —       |
-| options                 | data of the options, the key of `value` and `label` can be customize by `CascaderProps`. | ^[object]`CascaderOption[]`                      | —       |
-| [props](#cascaderprops) | configuration options, see the following `CascaderProps` table.                          | ^[object]`CascaderProps`                         | —       |
+| Name                    | Description                                                                              | Type                                                       | Default |
+| ----------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ------- |
+| model-value / v-model   | binding value                                                                            | ^[string]/^[number]/^[object]`string[] \| number[] \| any` | —       |
+| options                 | data of the options, the key of `value` and `label` can be customize by `CascaderProps`. | ^[object]`CascaderOption[]`                                | —       |
+| [props](#cascaderprops) | configuration options, see the following `CascaderProps` table.                          | ^[object]`CascaderProps`                                   | —       |
 
 ### CascaderPanel Events
 

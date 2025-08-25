@@ -191,6 +191,26 @@ describe('Cascader.vue', () => {
     expect(isClear.value).toBe(true)
   })
 
+  test('should support object as value', async () => {
+    const options = [
+      {
+        label: 'label1',
+        children: [
+          {
+            label: 'label2',
+            value: { val: 'val2' },
+          },
+        ],
+      },
+    ]
+    const wrapper = mount(() => (
+      <Cascader modelValue={{ val: 'val2' }} options={options} />
+    ))
+
+    await nextTick()
+    expect(wrapper.find('input').element.value).toBe('label1 / label2')
+  })
+
   test('should show clear btn on focus', async () => {
     const wrapper = _mount(() => (
       <Cascader
@@ -1105,5 +1125,29 @@ describe('Cascader.vue', () => {
     await nextTick()
     ;(leafNodes[2] as HTMLInputElement).click()
     expect(value.value).toHaveLength(0)
+  })
+
+  test('should keep panel active when checkOnClickNode=true with checkStrictly=false', async () => {
+    const props = {
+      checkOnClickNode: true,
+      checkStrictly: false,
+    }
+    const visibleChange = vi.fn()
+    const wrapper = mount(() => (
+      <Cascader
+        options={OPTIONS}
+        props={props}
+        onVisibleChange={visibleChange}
+      />
+    ))
+    expect(visibleChange).not.toBeCalled()
+    const trigger = wrapper.find(TRIGGER)
+    await trigger.trigger('click')
+    await nextTick()
+    expect(visibleChange).toBeCalledTimes(1)
+    const rootNode = document.querySelector(NODE_LABEL) as HTMLInputElement
+    rootNode?.click()
+    await nextTick()
+    expect(visibleChange).toBeCalledTimes(1)
   })
 })
