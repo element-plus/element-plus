@@ -1665,3 +1665,33 @@ $breakpoints-spec: (
   'lg-and-down': '(max-width: #{$xl - 1})',
   'xl-only': '(min-width: #{$xl})',
 ) !default;
+
+// Auto-scroll-text
+// css3 var in packages/theme-chalk/src/auto-scroll-text.scss
+$auto-scroll-text: () !default;
+$auto-scroll-text: map.merge(
+  (
+    'container-padding': 0,
+    'alert-overflow': hidden,
+    'scroll-content-padding-right': 120px,
+    'scroll-content-horizontal-height': 44px,
+    'scroll-content-horizontal-line-height': 44px,
+    'scroll-content-vertical-height': 60px,
+    'scroll-content-vertical-line-height': 20px,
+    'text-item-horizontal-padding': 0 10px,
+    'text-item-vertical-padding': 5px 10px,
+    'text-item-vertical-margin-bottom': 10px,
+    'text-item-horizontal-font-size': 14px,
+    'scroll-controls-top': 6px,
+    'scroll-controls-right': 10px,
+    'scroll-controls-gap': 8px,
+    'scroll-controls-z-index': 10,
+    'scroll-controls-padding': 4px 8px,
+    'scroll-controls-background': rgba(255, 255, 255, 0.9),
+    'scroll-controls-border-radius': 4px,
+    'scroll-controls-box-shadow': 0 2px 8px rgba(0, 0, 0, 0.1),
+    'responsive-breakpoint': 768px,
+    'responsive-vertical-height': 40px,
+  ),
+  $auto-scroll-text
+);
