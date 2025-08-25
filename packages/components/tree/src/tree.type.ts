@@ -56,6 +56,7 @@ export interface TreeStoreOptions {
   autoExpandParent: boolean
   defaultExpandAll: boolean
   filterNodeMethod?: FilterNodeMethodFunction
+  el$?: any
 }
 export interface TreeOptionProps {
   children?: string

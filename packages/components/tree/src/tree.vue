@@ -166,6 +166,8 @@ export default defineComponent({
     const ns = useNamespace('tree')
     const selectInfo = inject(selectKey, null)
 
+    const el$ = ref<Nullable<HTMLElement>>(null)
+
     const store = ref<TreeStore>(
       new TreeStore({
         key: props.nodeKey,
@@ -181,6 +183,7 @@ export default defineComponent({
         autoExpandParent: props.autoExpandParent,
         defaultExpandAll: props.defaultExpandAll,
         filterNodeMethod: props.filterNodeMethod,
+        el$,
       })
     )
 
@@ -188,7 +191,6 @@ export default defineComponent({
 
     const root = ref<Node>(store.value.root)
     const currentNode = ref<Node | null>(null)
-    const el$ = ref<Nullable<HTMLElement>>(null)
     const dropIndicator$ = ref<Nullable<HTMLElement>>(null)
 
     const { broadcastExpanded } = useNodeExpandEventBroadcast(props)
