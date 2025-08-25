@@ -427,6 +427,10 @@ class Node {
     this.isLeaf = false
   }
 
+  setCheckedToUpdateProps(value?: boolean | string) {
+    this.checked = value === true
+  }
+
   setChecked(
     value?: boolean | string,
     deep?: boolean,
