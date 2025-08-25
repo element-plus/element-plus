@@ -45,9 +45,7 @@ const getBarStyle = (): CSSProperties => {
     const $el = props.tabRefs[tab.paneName]
     if (!$el) return false
 
-    if (!tab.active) {
-      return true
-    }
+    if (!tab.active) return true
 
     offset = $el[`offset${capitalize(position)}`]
     tabSize = $el[`client${capitalize(sizeName)}`]
