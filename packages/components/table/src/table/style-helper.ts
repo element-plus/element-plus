@@ -122,7 +122,7 @@ function useStyle<T extends DefaultRow>(
     await nextTick()
     store.updateColumns()
     bindEvents()
-    requestAnimationFrame(doLayout)
+    doLayout()
 
     const el: HTMLElement = table.vnode.el as HTMLElement
     const tableHeader: HTMLElement = table.refs.headerWrapper
