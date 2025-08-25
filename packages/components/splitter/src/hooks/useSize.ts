@@ -35,15 +35,10 @@ export function useSize(
   const percentSizes = ref<number[]>([])
 
   watch([propSizes, panelCounts, containerSize], (newVal, oldVal) => {
-    const mutatedPanelIndexs: number[] = []
-    const oldPropsSizes = oldVal[0]
-    if (oldPropsSizes) {
-      for (const [i, oldPropsSize] of oldPropsSizes.entries()) {
-        if (oldPropsSize !== newVal[0][i]) {
-          mutatedPanelIndexs.push(i)
-        }
-      }
-    }
+    const mutatedPanelIndexs: number[] = getMutatedPanelIndexs(
+      oldVal[0],
+      newVal[0]
+    )
     const isNeedFreezeSize =
       mutatedPanelIndexs.length > 0 &&
       mutatedPanelIndexs.length < panelCounts.value
@@ -54,26 +49,16 @@ export function useSize(
     // Convert the passed props size to a percentage
     for (let i = 0; i < panelCounts.value; i += 1) {
       const itemSize = panels.value[i]?.size
-
-      if (isPct(itemSize)) {
-        ptgList[i] = getPct(itemSize)
-      } else if (isPx(itemSize)) {
-        ptgList[i] = getPx(itemSize) / containerSize.value
-      } else if (itemSize || itemSize === 0) {
-        const num = Number(itemSize)
-
-        if (!Number.isNaN(num)) {
-          ptgList[i] = num / containerSize.value
-        }
-      } else {
+      const ptg = parsePtg(itemSize, containerSize.value)
+      if (ptg === undefined) {
         emptyCount += 1
-        ptgList[i] = undefined
       }
+      ptgList[i] = ptg
     }
     let freezedPtg: number = 0
     if (isNeedFreezeSize) {
       freezedPtg = ptgList
-        .filter((ptg, index) => mutatedPanelIndexs.includes(index))
+        .filter((_, index) => mutatedPanelIndexs.includes(index))
         .reduce<number>((acc, ptg) => acc + (ptg || 0), 0)
     }
     const totalPtg = ptgList.reduce<number>((acc, ptg) => acc + (ptg || 0), 0)
@@ -108,6 +93,22 @@ export function useSize(
 
   return { percentSizes, pxSizes }
 }
+
+function getMutatedPanelIndexs(
+  oldVal: (string | number | undefined)[],
+  newVal: (string | number | undefined)[]
+) {
+  const indexs: number[] = []
+  if (oldVal) {
+    for (const [i, oldPropsSize] of oldVal.entries()) {
+      if (oldPropsSize !== newVal[i]) {
+        indexs.push(i)
+      }
+    }
+  }
+  return indexs
+}
+
 function assignPtgScale(
   ptgList: (number | undefined)[],
   mutatedPanelIndexs: number[],
@@ -155,4 +156,24 @@ function assignPtgToEmpty(
     return ptg === undefined ? avgRest : ptg
   })
   return ptgList
+}
+
+function parsePtg(
+  itemSize: number | string | undefined,
+  containerSize: number
+) {
+  if (isPct(itemSize)) {
+    return getPct(itemSize)
+  }
+
+  if (isPx(itemSize)) {
+    return getPx(itemSize) / containerSize
+  }
+
+  if (itemSize || itemSize === 0) {
+    const num = Number(itemSize)
+    return Number.isNaN(num) ? undefined : num / containerSize
+  }
+
+  return undefined
 }
