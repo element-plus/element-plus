@@ -228,6 +228,7 @@ const TableGrid = defineComponent({
         headerWidth,
         height,
         width,
+        tableLocation,
 
         getRowHeight,
         onScroll,
@@ -265,6 +266,7 @@ const TableGrid = defineComponent({
             onScroll={onScroll}
             onItemRendered={onItemRendered}
             perfMode={false}
+            table-location={tableLocation}
           >
             {{
               default: (params: GridDefaultSlotParams) => {
@@ -307,6 +309,7 @@ export default TableGrid
 export type TableGridRowSlotParams = {
   columns: TableV2GridProps['columns']
   rowData: any
+  tableLocation: 'main' | 'left' | 'right'
 } & GridDefaultSlotParams
 
 export type TableGridInstance = InstanceType<typeof TableGrid> &
