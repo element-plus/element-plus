@@ -475,9 +475,7 @@ describe('other', () => {
     instance.active = '2'
 
     await nextTick()
-    expect(
-      instance.$el.querySelector('.el-menu-item.is-active').innerHTML
-    ).toEqual('new')
+    expect(wrapper.find('.el-menu-item.is-active').text()).toEqual('new')
   })
 
   test('should not generate nodes from comments, issue 21750', async () => {
