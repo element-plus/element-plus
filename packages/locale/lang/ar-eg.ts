@@ -1,6 +1,10 @@
 export default {
   name: 'ar-eg',
   el: {
+    global: {
+      placeholder: 'إختر',
+      close: 'أغلق',
+    },
     breadcrumb: {
       label: 'Breadcrumb', // to be translated
     },

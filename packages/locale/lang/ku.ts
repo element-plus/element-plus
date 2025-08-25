@@ -1,6 +1,10 @@
 export default {
   name: 'ku',
   el: {
+    global: {
+      placeholder: 'Please select',
+      close: 'Close',
+    },
     breadcrumb: {
       label: 'Breadcrumb', // to be translated
     },

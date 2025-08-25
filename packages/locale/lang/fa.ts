@@ -1,6 +1,10 @@
 export default {
   name: 'fa',
   el: {
+    global: {
+      placeholder: 'Please select',
+      close: 'Close',
+    },
     breadcrumb: {
       label: 'مسیر راهنما',
     },

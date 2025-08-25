@@ -1,6 +1,10 @@
 export default {
   name: 'zh-tw',
   el: {
+    global: {
+      placeholder: '請選擇',
+      close: '關閉',
+    },
     breadcrumb: {
       label: '面包屑',
     },

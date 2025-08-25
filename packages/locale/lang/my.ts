@@ -1,6 +1,10 @@
 export default {
   name: 'my',
   el: {
+    global: {
+      placeholder: 'Please select',
+      close: 'Close',
+    },
     breadcrumb: {
       label: 'ဘရတ်ဒ်ခရမ်',
     },

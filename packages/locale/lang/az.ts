@@ -1,6 +1,10 @@
 export default {
   name: 'az',
   el: {
+    global: {
+      placeholder: 'Seç',
+      close: 'Close',
+    },
     breadcrumb: {
       label: 'Breadcrumb', // to be translated
     },
