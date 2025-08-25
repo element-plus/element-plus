@@ -12,6 +12,7 @@
     "vue": "catalog:"
   },
   "dependencies": {
+    "@element-plus/utils": "workspace:^",
     "@floating-ui/dom": "^1.0.1",
     "@popperjs/core": "catalog:",
     "@vueuse/core": "catalog:",
