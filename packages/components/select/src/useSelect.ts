@@ -430,7 +430,9 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
         : cachedOption.value === value
       if (isEqualValue) {
         option = {
-          index: optionsArray.value.indexOf(cachedOption),
+          index: optionsArray.value
+            .filter((opt) => !opt.created)
+            .indexOf(cachedOption),
           value,
           currentLabel: cachedOption.currentLabel,
           get isDisabled() {
