@@ -11,11 +11,9 @@
   >
     <slot>
       <el-checkbox
-        v-for="(item, index) in props.options"
+        v-for="(option, index) in props.options"
         :key="index"
-        :value="item[props.props?.value ?? 'value']"
-        :label="item[props.props?.label ?? 'label']"
-        :disabled="item[props.props?.disabled ?? 'disabled']"
+        v-bind="getOptionProps(option)"
       />
     </slot>
   </component>
@@ -31,6 +29,7 @@ import { useFormItem, useFormItemInputId } from '@element-plus/components/form'
 import { checkboxGroupEmits, checkboxGroupProps } from './checkbox-group'
 import { checkboxGroupContextKey } from './constants'
 import ElCheckbox from './checkbox.vue'
+import { useProps } from '@element-plus/components/select-v2/src/useProps'
 
 import type { CheckboxGroupValueType } from './checkbox-group'
 
@@ -60,6 +59,14 @@ const modelValue = computed({
   set(val: CheckboxGroupValueType) {
     changeEvent(val)
   },
+})
+
+const { getLabel, getValue, getDisabled } = useProps(props)
+
+const getOptionProps = (option: Record<string, any>) => ({
+  label: getLabel(option),
+  value: getValue(option),
+  disabled: getDisabled(option),
 })
 
 provide(checkboxGroupContextKey, {

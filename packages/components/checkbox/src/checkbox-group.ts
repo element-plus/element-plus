@@ -1,7 +1,6 @@
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import { buildProps, definePropType, isArray } from '@element-plus/utils'
-import { SelectOptionProps } from '@element-plus/components/select/src/select'
 
 import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type checkboxGroup from './checkbox-group.vue'
@@ -59,7 +58,8 @@ export const checkboxGroupProps = buildProps({
     type: definePropType<Record<string, any>[]>(Array),
   },
   props: {
-    type: definePropType<SelectOptionProps>(Object),
+    type: definePropType<CheckboxOptionProps>(Object),
+    default: () => defaultProps,
   },
   ...useAriaProps(['ariaLabel']),
 } as const)
@@ -75,3 +75,20 @@ export type CheckboxGroupPropsPublic = __ExtractPublicPropTypes<
 >
 export type CheckboxGroupEmits = typeof checkboxGroupEmits
 export type CheckboxGroupInstance = InstanceType<typeof checkboxGroup> & unknown
+export interface Props {
+  label?: string
+  value?: string
+  disabled?: string
+  options?: string
+}
+
+export const defaultProps: Required<Omit<Props, 'options'>> = {
+  label: 'label',
+  value: 'value',
+  disabled: 'disabled',
+}
+export type CheckboxOptionProps = {
+  value?: string
+  label?: string
+  disabled?: string
+}
