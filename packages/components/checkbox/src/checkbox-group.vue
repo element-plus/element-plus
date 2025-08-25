@@ -26,10 +26,10 @@ import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { debugWarn } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { useFormItem, useFormItemInputId } from '@element-plus/components/form'
+import { useProps } from '@element-plus/components/select-v2/src/useProps'
 import { checkboxGroupEmits, checkboxGroupProps } from './checkbox-group'
 import { checkboxGroupContextKey } from './constants'
 import ElCheckbox from './checkbox.vue'
-import { useProps } from '@element-plus/components/select-v2/src/useProps'
 
 import type { CheckboxGroupValueType } from './checkbox-group'
 

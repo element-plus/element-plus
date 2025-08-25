@@ -75,14 +75,14 @@ export type CheckboxGroupPropsPublic = __ExtractPublicPropTypes<
 >
 export type CheckboxGroupEmits = typeof checkboxGroupEmits
 export type CheckboxGroupInstance = InstanceType<typeof checkboxGroup> & unknown
-export interface Props {
+interface Props {
   label?: string
   value?: string
   disabled?: string
   options?: string
 }
 
-export const defaultProps: Required<Omit<Props, 'options'>> = {
+const defaultProps: Required<Omit<Props, 'options'>> = {
   label: 'label',
   value: 'value',
   disabled: 'disabled',
