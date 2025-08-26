@@ -65,8 +65,7 @@
     "lodash-es": "^4.17.21",
     "lodash-unified": "^1.0.2",
     "memoize-one": "^6.0.0",
-    "normalize-wheel-es": "^1.2.0",
-    "vue-component-type-helpers": "3.0.5"
+    "normalize-wheel-es": "^1.2.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.0.0",
