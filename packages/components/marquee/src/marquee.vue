@@ -13,14 +13,10 @@
         :class="`el-marquee__scroll-text--${direction}`"
         :style="scrollStyle"
       >
-        <!-- 原始内容 -->
-        <slot />
-        <!-- 副本内容，用于无缝滚动 -->
-        <slot />
-        <!-- 副本内容，用于无缝滚动 -->
-        <slot />
-        <!-- 副本内容，用于无缝滚动 -->
-        <slot />
+        <!-- 动态生成所需数量的副本 -->
+        <template v-for="index in requiredCopies" :key="index">
+          <slot />
+        </template>
       </div>
     </div>
 
@@ -89,6 +85,57 @@ const scrollStyle = computed(() => {
   }
 })
 
+// 计算单份内容的尺寸（所有 marquee-item 的总尺寸）
+const singleContentSize = computed(() => {
+  if (props.direction === 'horizontal') {
+    // 计算所有子元素的总宽度
+    let totalWidth = 0
+    if (textRef.value) {
+      const children = Array.from(textRef.value.children) as HTMLElement[]
+      totalWidth = children.reduce(
+        (sum, child) => sum + (child.offsetWidth || 0),
+        0
+      )
+    }
+    return totalWidth
+  } else {
+    // 计算所有子元素的总高度
+    let totalHeight = 0
+    if (textRef.value) {
+      const children = Array.from(textRef.value.children) as HTMLElement[]
+      totalHeight = children.reduce(
+        (sum, child) => sum + (child.offsetHeight || 0),
+        0
+      )
+    }
+    return totalHeight
+  }
+})
+
+// 计算容器尺寸
+const containerSize = computed(() => {
+  if (props.direction === 'horizontal') {
+    return containerRef.value?.offsetWidth || 0
+  } else {
+    return containerRef.value?.offsetHeight || 0
+  }
+})
+
+// 计算所需的副本数量
+const requiredCopies = computed(() => {
+  const singleSize = singleContentSize.value
+  const containerSizeValue = containerSize.value
+
+  if (singleSize === 0 || containerSizeValue === 0) {
+    return 1 // 默认至少1份
+  }
+
+  // 计算所需副本数量：容器尺寸 + 单份内容尺寸 / 单份内容尺寸
+  // 确保总内容能覆盖容器 + 至少一份完整内容
+  const copies = Math.ceil((containerSizeValue + singleSize) / singleSize)
+  return Math.max(copies, 2) // 至少2份内容
+})
+
 // 计算是否需要滚动
 const shouldScroll = computed(() => {
   if (props.direction === 'horizontal') {
@@ -121,10 +168,9 @@ const startScroll = (force = false) => {
 
       // 检查是否需要重置位置
       if (props.direction === 'horizontal') {
-        const textWidth = textRef.value?.offsetWidth || 0
+        const singleWidth = singleContentSize.value
         // 横向滚动：当第一个副本完全滚出容器时重置
-        // 由于有4份内容，每份占 textWidth/4，当滚动到 textWidth/4 时重置
-        if (scrollPosition.value >= textWidth / 4) {
+        if (scrollPosition.value >= singleWidth) {
           if (props.loop) {
             // 无缝滚动：重置到第二个副本的开始位置，实现无缝衔接
             scrollPosition.value = 0
@@ -135,13 +181,13 @@ const startScroll = (force = false) => {
           }
         }
       } else {
-        const textHeight = textRef.value?.offsetHeight || 0
+        const singleHeight = singleContentSize.value
         const containerHeight = containerRef.value?.offsetHeight || 0
 
         // 竖向滚动：当第一个副本完全滚出容器时重置
         if (
-          textHeight > containerHeight &&
-          scrollPosition.value >= textHeight / 4
+          singleHeight > containerHeight &&
+          scrollPosition.value >= singleHeight
         ) {
           if (props.loop) {
             // 无缝滚动：重置到第二个副本的开始位置
@@ -276,6 +322,12 @@ defineExpose({
   scrollPosition,
   /** @description 是否需要滚动 */
   shouldScroll,
+  /** @description 单份内容尺寸 */
+  singleContentSize,
+  /** @description 容器尺寸 */
+  containerSize,
+  /** @description 所需副本数量 */
+  requiredCopies,
   /** @description 暂停滚动 */
   pauseScroll,
   /** @description 恢复滚动 */

@@ -116,13 +116,16 @@ marquee/api
 
 ### Exposed Properties
 
-| Name           | Description                 | Type                      |
-| -------------- | --------------------------- | ------------------------- |
-| isPaused       | Current pause state         | ^`[Ref]<boolean>`         |
-| scrollPosition | Current scroll position     | ^`[Ref]<number>`          |
-| shouldScroll   | Whether scrolling is needed | ^`[ComputedRef]<boolean>` |
-| containerRef   | Container element reference | ^`[Ref]<HTMLElement>`     |
-| textRef        | Text element reference      | ^`[Ref]<HTMLElement>`     |
+| Name              | Description                                    | Type                      |
+| ----------------- | ---------------------------------------------- | ------------------------- |
+| isPaused          | Current pause state                            | ^`[Ref]<boolean>`         |
+| scrollPosition    | Current scroll position                        | ^`[Ref]<number>`          |
+| shouldScroll      | Whether scrolling is needed                    | ^`[ComputedRef]<boolean>` |
+| singleContentSize | Total size of all marquee-item components      | ^`[ComputedRef]<number>`  |
+| containerSize     | Container dimensions                           | ^`[ComputedRef]<number>`  |
+| requiredCopies    | Number of copies needed for seamless scrolling | ^`[ComputedRef]<number>`  |
+| containerRef      | Container element reference                    | ^`[Ref]<HTMLElement>`     |
+| textRef           | Text element reference                         | ^`[Ref]<HTMLElement>`     |
 
 ### Slots
 
@@ -161,12 +164,48 @@ type ScrollDirection = 'horizontal' | 'vertical'
 
 - **Automatic Scrolling**: Automatically detects when content exceeds container and starts scrolling
 - **Bidirectional Support**: Supports both horizontal and vertical scrolling
-- **Seamless Loop**: Smooth infinite scrolling with seamless transitions
+- **Smart Seamless Loop**: Dynamically calculates required copies for seamless infinite scrolling
+- **Multi-Item Support**: Efficiently handles multiple marquee-item components with automatic size calculation
 - **Interactive Control**: Built-in control buttons and mouse hover pause
 - **Event System**: Comprehensive event system for scroll state changes
 - **Performance Optimized**: Uses requestAnimationFrame for smooth animations
 - **Responsive Design**: Automatically adapts to container size changes
 - **TypeScript Support**: Full TypeScript support with comprehensive type definitions
+
+## Seamless Scrolling Mechanism
+
+The Marquee component implements an intelligent seamless scrolling mechanism that automatically calculates the optimal number of content copies needed for smooth infinite scrolling.
+
+### How It Works
+
+1. **Dynamic Copy Calculation**: The component automatically calculates the required number of copies based on:
+
+   - Container dimensions (width/height)
+   - Total content size (sum of all marquee-item dimensions)
+   - Mathematical formula: `Math.ceil((containerSize + contentSize) / contentSize)`
+
+2. **Multi-Item Support**: When using multiple `el-marquee-item` components:
+
+   ```vue
+   <el-marquee>
+     <el-marquee-item>Item 1</el-marquee-item>
+     <el-marquee-item>Item 2</el-marquee-item>
+     <el-marquee-item>Item 3</el-marquee-item>
+   </el-marquee>
+   ```
+
+   The component automatically calculates the total width/height of all items combined.
+
+3. **Seamless Transition**: When the first copy completely scrolls out of view, the position resets to show the second copy, creating a seamless loop effect.
+
+4. **Performance Optimization**: Only creates the minimum number of copies needed, avoiding unnecessary DOM elements.
+
+### Technical Details
+
+- **Copy Generation**: Uses `v-for` to dynamically generate required copies
+- **Size Calculation**: Iterates through all child elements to calculate total dimensions
+- **Reset Timing**: Precisely resets position when first copy exits viewport
+- **Memory Efficient**: Minimal memory footprint with optimal copy count
 
 ## Use Cases
 
