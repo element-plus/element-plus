@@ -27,9 +27,9 @@ import { debugWarn } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { useFormItem, useFormItemInputId } from '@element-plus/components/form'
 import {
+  checkboxDefaultProps,
   checkboxGroupEmits,
   checkboxGroupProps,
-  defaultProps,
 } from './checkbox-group'
 import { checkboxGroupContextKey } from './constants'
 import ElCheckbox from './checkbox.vue'
@@ -65,7 +65,7 @@ const modelValue = computed({
 })
 
 const aliasProps = computed(() => ({
-  ...defaultProps,
+  ...checkboxDefaultProps,
   ...props.props,
 }))
 const getOptionProps = (option: Record<string, any>) => ({

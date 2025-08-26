@@ -59,7 +59,7 @@ export const checkboxGroupProps = buildProps({
   },
   props: {
     type: definePropType<CheckboxOptionProps>(Object),
-    default: () => defaultProps,
+    default: () => checkboxDefaultProps,
   },
   ...useAriaProps(['ariaLabel']),
 } as const)
@@ -82,7 +82,7 @@ interface Props {
   options?: string
 }
 
-export const defaultProps: Required<Omit<Props, 'options'>> = {
+export const checkboxDefaultProps: Required<Omit<Props, 'options'>> = {
   label: 'label',
   value: 'value',
   disabled: 'disabled',
