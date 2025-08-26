@@ -81,6 +81,7 @@
                   <span :class="nsSelect.e('tags-text')">
                     <slot
                       name="label"
+                      :index="item.index"
                       :label="item.currentLabel"
                       :value="item.value"
                     >
@@ -139,6 +140,7 @@
                         <span :class="nsSelect.e('tags-text')">
                           <slot
                             name="label"
+                            :index="item.index"
                             :label="item.currentLabel"
                             :value="item.value"
                           >
@@ -211,6 +213,7 @@
               <slot
                 v-if="hasModelValue"
                 name="label"
+                :index="getOption(modelValue!).index"
                 :label="currentPlaceholder"
                 :value="modelValue"
               >
