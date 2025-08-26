@@ -3,7 +3,7 @@
   "version": "0.0.5",
   "description": "Element Plus composables",
   "license": "MIT",
-  "main": "index.ts",
+  "main": "dist/bundle.js",
   "module": "index.ts",
   "unpkg": "index.js",
   "jsdelivr": "index.js",

@@ -56,15 +56,6 @@ importers:
       '@element-plus/components':
         specifier: workspace:*
         version: link:packages/components
-      '@element-plus/constants':
-        specifier: workspace:*
-        version: link:packages/constants
-      '@element-plus/directives':
-        specifier: workspace:*
-        version: link:packages/directives
-      '@element-plus/hooks':
-        specifier: workspace:*
-        version: link:packages/hooks
       '@element-plus/icons-vue':
         specifier: ^2.3.1
         version: 2.3.1(vue@3.2.37)
@@ -599,9 +590,24 @@ importers:
       '@ctrl/tinycolor':
         specifier: ^3.4.1
         version: 3.4.1
+      '@element-plus/components':
+        specifier: workspace:*
+        version: link:../components
+      '@element-plus/constants':
+        specifier: workspace:*
+        version: link:../constants
+      '@element-plus/directives':
+        specifier: workspace:*
+        version: link:../directives
+      '@element-plus/hooks':
+        specifier: workspace:*
+        version: link:../hooks
       '@element-plus/icons-vue':
         specifier: ^2.3.1
         version: 2.3.1(vue@3.2.37)
+      '@element-plus/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@floating-ui/dom':
         specifier: ^1.0.1
         version: 1.0.1

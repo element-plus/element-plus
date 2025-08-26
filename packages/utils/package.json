@@ -2,7 +2,7 @@
   "name": "@element-plus/utils",
   "private": true,
   "license": "MIT",
-  "main": "index.ts",
+  "main": "dist/bundle.js",
   "peerDependencies": {
     "@vue/shared": "catalog:",
     "vue": "catalog:"
