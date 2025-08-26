@@ -1,0 +1,12 @@
+{
+  "name": "@element-plus/locale",
+  "version": "0.0.5",
+  "description": "Element Plus locale",
+  "license": "MIT",
+  "main": "index.ts",
+  "module": "index.ts",
+  "unpkg": "index.js",
+  "jsdelivr": "index.js",
+  "types": "index.d.ts",
+  "gitHead": "c69724230befa8fede0e6b9c37fb0b7e39fd7cdd"
+}

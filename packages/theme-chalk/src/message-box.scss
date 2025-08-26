@@ -1,0 +1,214 @@
+@use 'sass:map';
+
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
+@use 'common/popup' as *;
+
+@include b(message-box) {
+  @include set-component-css-var('messagebox', $messagebox);
+}
+
+@include b(message-box) {
+  display: inline-block;
+  position: relative;
+  max-width: getCssVar('messagebox-width');
+  width: 100%;
+  padding: getCssVar('messagebox-padding-primary');
+  vertical-align: middle;
+  background-color: getCssVar('bg-color');
+  border-radius: getCssVar('messagebox-border-radius');
+  font-size: getCssVar('messagebox-font-size');
+  box-shadow: getCssVar('messagebox-box-shadow');
+  text-align: left;
+  overflow: hidden;
+  backface-visibility: hidden;
+  // To avoid small screen overflowing, see #11919
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+
+  &:focus {
+    outline: none !important;
+  }
+
+  @at-root .is-message-box {
+    .#{$namespace}-overlay-message-box {
+      text-align: center;
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      padding: 16px;
+      overflow: auto;
+
+      &::after {
+        content: '';
+        display: inline-block;
+        height: 100%;
+        width: 0;
+        vertical-align: middle;
+      }
+    }
+  }
+
+  @include when(draggable) {
+    @include e(header) {
+      cursor: move;
+      user-select: none;
+    }
+  }
+
+  @include e(header) {
+    padding-bottom: getCssVar('messagebox-padding-primary');
+
+    &.show-close {
+      padding-right: calc(
+        getCssVar('messagebox-padding-primary') +
+          var(
+            #{getCssVarName('message-close-size')},
+            map.get($message, 'close-size')
+          )
+      );
+    }
+  }
+
+  @include e(title) {
+    font-size: getCssVar('messagebox-font-size');
+    line-height: getCssVar('messagebox-font-line-height');
+    color: getCssVar('messagebox-title-color');
+  }
+
+  @include e(headerbtn) {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: var(
+      #{getCssVarName('message-close-size')},
+      map.get($message, 'close-size')
+    );
+    cursor: pointer;
+
+    .#{$namespace}-message-box__close {
+      color: getCssVar('color-info');
+      font-size: inherit;
+    }
+
+    &:focus,
+    &:hover {
+      .#{$namespace}-message-box__close {
+        color: getCssVar('color-primary');
+      }
+    }
+  }
+
+  @include e(content) {
+    color: getCssVar('messagebox-content-color');
+    font-size: getCssVar('messagebox-content-font-size');
+  }
+
+  @include e(container) {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  @include e(input) {
+    padding-top: 12px;
+
+    & div.invalid > input {
+      border-color: getCssVar('color-error');
+
+      &:focus {
+        border-color: getCssVar('color-error');
+      }
+    }
+  }
+
+  @include e(status) {
+    font-size: 24px;
+
+    @each $type in (primary, success, info, warning, error) {
+      &.#{$namespace}-message-box-icon--#{$type} {
+        @include css-var-from-global(('messagebox', 'color'), ('color', $type));
+        color: getCssVar('messagebox-color');
+      }
+    }
+  }
+
+  @include e(message) {
+    margin: 0;
+    min-width: 0;
+
+    & p {
+      margin: 0;
+      line-height: getCssVar('messagebox-font-line-height');
+    }
+  }
+
+  @include e(errormsg) {
+    color: getCssVar('color-error');
+    font-size: getCssVar('messagebox-error-font-size');
+    line-height: getCssVar('messagebox-font-line-height');
+  }
+
+  @include e(btns) {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+    padding-top: getCssVar('messagebox-padding-primary');
+  }
+
+  // centerAlign 布局
+  @include m(center) {
+    @include e(title) {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    @include e(status) {
+      font-size: inherit;
+    }
+
+    @include e(btns) {
+      justify-content: center;
+    }
+
+    @include e(container) {
+      justify-content: center;
+    }
+  }
+}
+
+.fade-in-linear-enter-active {
+  .#{$namespace}-overlay-message-box {
+    animation: msgbox-fade-in getCssVar('transition-duration');
+  }
+}
+
+.fade-in-linear-leave-active {
+  .#{$namespace}-overlay-message-box {
+    animation: msgbox-fade-in getCssVar('transition-duration') reverse;
+  }
+}
+
+@keyframes msgbox-fade-in {
+  0% {
+    transform: translate3d(0, -20px, 0);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}

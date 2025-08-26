@@ -1,0 +1,120 @@
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
+
+@include b(message) {
+  @include set-component-css-var('message', $message);
+}
+
+@include b(message) {
+  width: fit-content;
+  max-width: calc(100% - 32px);
+  box-sizing: border-box;
+  border-radius: getCssVar('border-radius-base');
+  border-width: getCssVar('border-width');
+  border-style: getCssVar('border-style');
+  border-color: getCssVar('message', 'border-color');
+  position: fixed;
+  background-color: getCssVar('message', 'bg-color');
+  transition: opacity getCssVar('transition-duration'), transform 0.4s, top 0.4s,
+    bottom 0.4s;
+  padding: getCssVar('message', 'padding');
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  &.is-left {
+    left: 16px;
+  }
+
+  &.is-right {
+    right: 16px;
+  }
+
+  &.is-center {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  @include when(plain) {
+    background-color: getCssVar('bg-color', 'overlay');
+    border-color: getCssVar('bg-color', 'overlay');
+    box-shadow: getCssVar('box-shadow-light');
+  }
+
+  p {
+    margin: 0;
+  }
+
+  @each $type in (primary, success, info, warning, error) {
+    @include m($type) {
+      @include css-var-from-global(
+        ('message', 'bg-color'),
+        ('color', $type, 'light-9')
+      );
+      @include css-var-from-global(
+        ('message', 'border-color'),
+        ('color', $type, 'light-8')
+      );
+      @include css-var-from-global(('message', 'text-color'), ('color', $type));
+
+      .#{$namespace}-message__content {
+        color: getCssVar('message', 'text-color');
+        overflow-wrap: break-word;
+      }
+    }
+
+    & .#{$namespace}-message-icon--#{$type} {
+      color: getCssVar('message', 'text-color');
+    }
+  }
+
+  .#{$namespace}-message__badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+  }
+
+  @include e(content) {
+    padding: 0;
+    font-size: 14px;
+    line-height: 1;
+    &:focus {
+      outline-width: 0;
+    }
+  }
+
+  & .#{$namespace}-message__closeBtn {
+    cursor: pointer;
+    color: getCssVar('message', 'close-icon-color');
+    font-size: getCssVar('message', 'close-size');
+
+    &:focus {
+      outline-width: 0;
+    }
+    &:hover {
+      color: getCssVar('message', 'close-hover-color');
+    }
+  }
+}
+
+.#{$namespace}-message-fade-enter-from,
+.#{$namespace}-message-fade-leave-to {
+  opacity: 0;
+
+  &:is(.is-left, .is-right) {
+    transform: translateY(-100%);
+
+    &.is-bottom {
+      transform: translateY(100%);
+    }
+  }
+
+  &.is-center {
+    transform: translate(-50%, -100%);
+
+    &.is-bottom {
+      transform: translate(-50%, 100%);
+    }
+  }
+}

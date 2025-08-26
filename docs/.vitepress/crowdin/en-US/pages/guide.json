@@ -1,0 +1,83 @@
+{
+  "intro": {
+    "text": "Basics",
+    "children": [
+      {
+        "text": "Design",
+        "link": "/guide/design"
+      },
+      {
+        "text": "Navigation",
+        "link": "/guide/nav"
+      },
+      {
+        "text": "Installation",
+        "link": "/guide/installation"
+      },
+      {
+        "text": "Quick Start",
+        "link": "/guide/quickstart"
+      }
+    ]
+  },
+  "advanced": {
+    "text": "Advanced",
+    "children": [
+      {
+        "text": "i18n",
+        "link": "/guide/i18n"
+      },
+      {
+        "text": "Migration from ElementUI",
+        "link": "/guide/migration"
+      },
+      {
+        "text": "Theming",
+        "link": "/guide/theming"
+      },
+      {
+        "text": "Dark Mode",
+        "link": "/guide/dark-mode",
+        "promotion": "2.2.0"
+      },
+      {
+        "text": "Custom Namespace",
+        "link": "/guide/namespace",
+        "promotion": "2.2.0"
+      },
+      {
+        "text": "SSR",
+        "link": "/guide/ssr"
+      },
+      {
+        "text": "Built-in Transitions",
+        "link": "/guide/transitions"
+      },
+      {
+        "text": "Changelog",
+        "link": "/guide/changelog"
+      }
+    ]
+  },
+  "development": {
+    "text": "Development",
+    "children": [
+      {
+        "text": "Development Guide",
+        "link": "/guide/dev-guide"
+      },
+      {
+        "text": "Development FAQ",
+        "link": "/guide/dev-faq"
+      },
+      {
+        "text": "Commit Examples",
+        "link": "/guide/commit-examples"
+      },
+      {
+        "text": "Translation",
+        "link": "/guide/translation"
+      }
+    ]
+  }
+}

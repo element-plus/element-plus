@@ -1,0 +1,22 @@
+# Editor directories and files
+.idea
+
+# Package Manager
+node_modules
+.pnpm-debug.log*
+
+# System
+.DS_Store
+
+# Bundle
+dist
+coverage
+packages/element-plus/version.ts
+
+# local env files
+*.local
+.eslintcache
+cypress/screenshots/*
+cypress/videos/*
+tmp
+docs/.vitepress/cache

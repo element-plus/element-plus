@@ -1,0 +1,337 @@
+@use './mixins' as *;
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+html {
+  line-height: 1.4;
+  font-size: 16px;
+  text-size-adjust: 100%;
+  font-family: var(--font-family);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  width: 100%;
+  min-width: 320px;
+  min-height: 100vh;
+  line-height: 1.4;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+  direction: ltr;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color var(--el-transition-duration-fast);
+}
+
+main {
+  display: block;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  line-height: 1.25;
+}
+
+.doc-content {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    display: flex;
+    align-items: center;
+    position: relative;
+
+    // Special case for handling tagged header.
+    .el-tag,
+    .vp-tag {
+      margin-left: 8px;
+    }
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+strong,
+b {
+  font-weight: 600;
+}
+
+h1:hover .header-anchor,
+h1:focus .header-anchor,
+h2:hover .header-anchor,
+h2:focus .header-anchor,
+h3:hover .header-anchor,
+h3:focus .header-anchor,
+h4:hover .header-anchor,
+h4:focus .header-anchor,
+h5:hover .header-anchor,
+h5:focus .header-anchor,
+h6:hover .header-anchor,
+h6:focus .header-anchor {
+  opacity: 1;
+}
+
+h1 {
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+  font-size: 1.9rem;
+}
+
+@include respond-to('sm') {
+  h1 {
+    font-size: 2.2rem;
+  }
+}
+
+h2 {
+  margin-top: 2.25rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.3rem;
+  line-height: 1.25;
+  font-size: 1.65rem;
+  /* overflow-x: auto; */
+}
+
+h2 + h3 {
+  margin-top: 1.5rem;
+}
+
+h3 {
+  margin-top: 2rem;
+  font-size: 1.35rem;
+}
+
+h4 {
+  font-size: 1.15rem;
+}
+
+p,
+ol,
+ul {
+  margin: 1rem 0;
+  line-height: 1.7;
+}
+
+a,
+area,
+button,
+[role='button'],
+input,
+label,
+select,
+summary,
+textarea {
+  touch-action: manipulation;
+}
+
+button.reset-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+a {
+  font-weight: 500;
+  text-decoration: inherit;
+  color: var(--brand-color);
+
+  &.header-anchor {
+    color: var(--brand-color);
+  }
+}
+
+a.header-anchor {
+  position: absolute;
+  margin-top: 0.125em;
+  margin-left: -0.87em;
+  padding-right: 0.23em;
+  font-size: 0.85em;
+  opacity: 0;
+
+  &:hover,
+  :focus {
+    text-decoration: none;
+  }
+}
+
+figure {
+  margin: 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+ul,
+ol {
+  padding-left: 1.25em;
+}
+
+li > ul,
+li > ol {
+  margin: 0;
+}
+
+.doc-content > div .vp-table {
+  width: 100%;
+  overflow-y: hidden;
+  overflow-x: auto;
+  margin-bottom: 45px;
+
+  & > table {
+    border-collapse: collapse;
+    width: 100%;
+    background-color: var(--bg-color);
+    font-size: 14px;
+    line-height: 1.5em;
+
+    tr {
+      td:nth-child(2) {
+        font-family: var(--font-family);
+      }
+    }
+
+    th,
+    td {
+      white-space: nowrap;
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+      padding: 0.6em 1em;
+      text-align: left;
+      max-width: 250px;
+      white-space: pre-wrap;
+    }
+
+    thead tr:first-child th {
+      border-top: none;
+    }
+
+    tbody tr td:first-child {
+      font-family: var(--font-family-mono);
+    }
+  }
+}
+
+blockquote {
+  margin: 1rem 0;
+  border-left: 0.2rem solid var(--el-border-color);
+  padding: 0.25rem 0 0.25rem 1rem;
+  font-size: 1rem;
+  color: var(--text-color-lighter);
+}
+
+blockquote > p {
+  margin: 0;
+}
+
+form {
+  margin: 0;
+}
+
+details {
+  interpolate-size: allow-keywords;
+
+  &::details-content {
+    content-visibility: auto;
+    height: 0;
+    overflow: hidden;
+    transition: height ease 0.3s;
+  }
+
+  summary {
+    margin: 16px 0;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+}
+
+details[open]::details-content {
+  height: auto;
+}
+
+#nprogress .bar {
+  background: var(--brand-color) !important;
+}
+
+.custom-block {
+  .custom-block-title {
+    font-weight: 700;
+  }
+
+  p:not(.custom-block-title) {
+    font-size: 0.9rem;
+  }
+
+  &.tip {
+    padding: 8px 16px;
+    background-color: var(--block-tip-bg-color);
+    border-radius: 4px;
+    border-left: 5px solid var(--el-color-primary);
+    margin: 20px 0;
+  }
+
+  &.warning {
+    padding: 8px 16px;
+    background-color: var(--block-warning-bg-color);
+    border-radius: 4px;
+    border-left: 5px solid var(--el-color-danger);
+    margin: 20px 0;
+  }
+}
+
+.visually-hidden {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 2147483646;
+}
+
+.dark::view-transition-old(root) {
+  z-index: 2147483646;
+}
+
+.dark::view-transition-new(root) {
+  z-index: 1;
+}

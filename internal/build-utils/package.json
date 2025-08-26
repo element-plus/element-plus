@@ -1,0 +1,33 @@
+{
+  "name": "@element-plus/build-utils",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Build utils for Element Plus",
+  "keywords": [
+    "element-plus"
+  ],
+  "license": "MIT",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "scripts": {
+    "build": "unbuild",
+    "dev": "pnpm run stub",
+    "stub": "unbuild --stub"
+  },
+  "dependencies": {
+    "@pnpm/find-workspace-packages": "^4.0.16",
+    "@pnpm/logger": "^4.0.0",
+    "consola": "^2.15.3"
+  },
+  "devDependencies": {
+    "unbuild": "^2.0.0"
+  }
+}

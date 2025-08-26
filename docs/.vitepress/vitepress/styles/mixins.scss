@@ -1,0 +1,31 @@
+@use 'sass:map';
+
+@use './vars' as *;
+
+@mixin with-bg {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: border-color var(--el-transition-duration),
+    background-color var(--el-transition-duration-fast);
+}
+
+@mixin with-border {
+  border-bottom: 1px solid var(--border-color);
+}
+
+$breakpoints: (
+  'sm': #{$breakpoint-sm},
+  'md': #{$breakpoint-md},
+  'lg': #{$breakpoint-lg},
+  'xlg': #{$breakpoint-xlg},
+  'xxl': #{$breakpoint-xxl},
+  'max': #{$breakpoint-max},
+) !default;
+
+@mixin respond-to($breakpoint) {
+  @if #{map.has-key($breakpoints, $breakpoint)} {
+    @media screen and (min-width: #{map.get($breakpoints, $breakpoint)}) {
+      @content;
+    }
+  }
+}

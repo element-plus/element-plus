@@ -1,0 +1,28 @@
+{
+  extends: ['config:base', 'schedule:weekly', 'group:allNonMajor'],
+  labels: ['dependencies'],
+  rangeStrategy: 'bump',
+  packageRules: [
+    {
+      depTypeList: ['peerDependencies'],
+      enabled: false,
+    },
+  ],
+  ignoreDeps: [
+    'node',
+    'csstype',
+
+    // pure esm
+    'chalk',
+
+    // test
+    'cypress',
+    'jsdom',
+
+    // https://github.com/vitest-dev/vitest/pull/1340
+    'vitest',
+
+    // can't work in v0.34.0
+    'unocss',
+  ],
+}

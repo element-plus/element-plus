@@ -1,0 +1,60 @@
+@use 'mixins/mixins' as *;
+@use 'common/var' as *;
+
+@include b(check-tag) {
+  background-color: getCssVar('color', 'info', 'light-9');
+  border-radius: getCssVar('border-radius', 'base');
+  color: getCssVar('color', 'info');
+  cursor: pointer;
+  display: inline-block;
+  font-size: getCssVar('font-size', 'base');
+  line-height: getCssVar('font-size', 'base');
+  padding: 7px 15px;
+  transition: getCssVar('transition', 'all');
+  font-weight: bold;
+
+  &:hover {
+    background-color: getCssVar('color', 'info', 'light-7');
+  }
+
+  @each $type in $types {
+    &.#{bem('check-tag', '', $type)} {
+      @include when(checked) {
+        background-color: getCssVar('color', $type, 'light-8');
+        color: getCssVar('color', $type);
+
+        &:hover {
+          background-color: getCssVar('color', $type, 'light-7');
+        }
+
+        @include when(disabled) {
+          background-color: getCssVar('color', $type, 'light-8');
+          color: getCssVar('disabled-text-color');
+          cursor: not-allowed;
+
+          &:hover {
+            background-color: getCssVar('color', $type, 'light-8');
+          }
+        }
+      }
+
+      @include when(disabled) {
+        @if $type == 'primary' {
+          background-color: getCssVar('color', 'info', 'light-9');
+        } @else {
+          background-color: getCssVar('color', $type, 'light-9');
+        }
+        color: getCssVar('disabled-text-color');
+        cursor: not-allowed;
+
+        &:hover {
+          @if $type == 'primary' {
+            background-color: getCssVar('color', 'info', 'light-9');
+          } @else {
+            background-color: getCssVar('color', $type, 'light-9');
+          }
+        }
+      }
+    }
+  }
+}

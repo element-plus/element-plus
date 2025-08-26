@@ -1,0 +1,54 @@
+name: Issue Inactive
+
+on:
+  schedule:
+    # GMT+8 00:00
+    - cron: '0 16 * * *'
+
+jobs:
+  close-issues:
+    runs-on: ubuntu-latest
+    if: ${{ github.repository_owner == 'element-plus' }}
+    steps:
+      - name: need reproduction
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: 'close-issues'
+          labels: 'need reproduction'
+          inactive-day: 3
+
+      - name: needs more info
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: 'close-issues'
+          labels: 'needs more info'
+          inactive-day: 3
+          body: |
+            Since the issue was labeled with `needs-more-info`, but no response in 3 days. This issue will be closed. If you have any questions, you can comment and reply.
+            由于该 issue 被标记为需要更多信息，却 3 天未收到回应。现关闭 issue，若有任何问题，可评论回复。
+
+  lock-issues:
+    runs-on: ubuntu-latest
+    if: ${{ github.repository_owner == 'element-plus' }}
+    steps:
+      - name: lock-issues
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: 'lock-issues'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-state: closed
+          inactive-day: 30
+          body: |
+            This issue has been automatically locked since there has not been any recent activity after it was closed. Please open a new issue for related bugs.
+
+            此 issue 已被自动锁定，因为关闭后没有任何近期活动。如果有相关 bug，请重新创建一个新 issue。
+
+  check-inactive:
+    runs-on: ubuntu-latest
+    if: ${{ github.repository_owner == 'element-plus' }}
+    steps:
+      - name: check-inactive
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: 'check-inactive'
+          inactive-day: 30

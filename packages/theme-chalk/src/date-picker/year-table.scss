@@ -1,0 +1,108 @@
+@use '../mixins/mixins' as *;
+@use '../common/var' as *;
+
+@include b(year-table) {
+  font-size: 12px;
+  margin: -1px;
+  border-collapse: collapse;
+
+  .#{$namespace}-icon {
+    color: getCssVar('datepicker', 'icon-color');
+  }
+
+  td {
+    width: 68px;
+    text-align: center;
+    padding: 8px 0px;
+    cursor: pointer;
+    position: relative;
+
+    @include b(date-table-cell) {
+      height: 48px;
+      padding: 6px 0;
+      box-sizing: border-box;
+    }
+
+    &.today {
+      .#{$namespace}-date-table-cell__text {
+        color: getCssVar('color', 'primary');
+        font-weight: bold;
+      }
+
+      &.start-date .#{$namespace}-date-table-cell__text,
+      &.end-date .#{$namespace}-date-table-cell__text {
+        color: $color-white;
+      }
+    }
+
+    &.disabled .#{$namespace}-date-table-cell__text {
+      background-color: getCssVar('fill-color', 'light');
+      cursor: not-allowed;
+      color: getCssVar('text-color', 'placeholder');
+
+      &:hover {
+        color: getCssVar('text-color', 'placeholder');
+      }
+    }
+
+    @include b(date-table-cell__text) {
+      width: 60px;
+      height: 36px;
+      display: block;
+      line-height: 36px;
+      color: getCssVar('datepicker-text-color');
+      border-radius: 18px;
+      margin: 0 auto;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+
+      &:hover {
+        color: getCssVar('datepicker-hover-text-color');
+      }
+    }
+
+    &.in-range .#{$namespace}-date-table-cell {
+      background-color: getCssVar('datepicker-inrange-bg-color');
+
+      &:hover {
+        background-color: getCssVar('datepicker-inrange-hover-bg-color');
+      }
+    }
+
+    &.start-date .#{$namespace}-date-table-cell,
+    &.end-date .#{$namespace}-date-table-cell {
+      color: $color-white;
+    }
+
+    &.start-date .#{$namespace}-date-table-cell__text,
+    &.end-date .#{$namespace}-date-table-cell__text {
+      color: $color-white;
+      background-color: getCssVar('datepicker-active-color');
+    }
+
+    &.start-date .#{$namespace}-date-table-cell {
+      border-top-left-radius: 24px;
+      border-bottom-left-radius: 24px;
+    }
+
+    &.end-date .#{$namespace}-date-table-cell {
+      border-top-right-radius: 24px;
+      border-bottom-right-radius: 24px;
+    }
+
+    &.current:not(.disabled) .#{$namespace}-date-table-cell__text {
+      color: $color-white;
+      background-color: getCssVar('datepicker-active-color');
+    }
+
+    &:focus-visible {
+      outline: none;
+
+      .#{$namespace}-date-table-cell__text {
+        outline: 2px solid getCssVar('datepicker-active-color');
+        outline-offset: 1px;
+      }
+    }
+  }
+}

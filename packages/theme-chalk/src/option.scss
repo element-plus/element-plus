@@ -1,0 +1,71 @@
+@use 'sass:map';
+
+@use 'mixins/mixins' as *;
+@use 'common/var' as *;
+
+$checked-icon: "data:image/svg+xml;utf8,%3Csvg class='icon' width='200' height='200' viewBox='0 0 1024 1024' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='currentColor' d='M406.656 706.944L195.84 496.256a32 32 0 10-45.248 45.248l256 256 512-512a32 32 0 00-45.248-45.248L406.592 706.944z'%3E%3C/path%3E%3C/svg%3E";
+
+@mixin checked-icon {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  border-top: none;
+  border-right: none;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: map.get($select-option, 'selected-text-color');
+  mask: url('#{$checked-icon}') no-repeat;
+  mask-size: 100% 100%;
+  -webkit-mask: url('#{$checked-icon}') no-repeat;
+  -webkit-mask-size: 100% 100%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+}
+
+@include b(select-dropdown) {
+  @include e(item) {
+    font-size: map.get($select, 'font-size');
+    // 20 as the padding of option item, 12 as the size of ✓ icon size
+    padding: 0 #{20 + 12}px 0 20px;
+    position: relative;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: map.get($select-option, 'text-color');
+    height: map.get($select-option, 'height');
+    line-height: map.get($select-option, 'height');
+    box-sizing: border-box;
+    cursor: pointer;
+
+    @include when(hovering) {
+      background-color: map.get($select-option, 'hover-background');
+    }
+
+    @include when(selected) {
+      color: map.get($select-option, 'selected-text-color');
+      font-weight: bold;
+    }
+
+    @include when(disabled) {
+      color: map.get($select-option, 'disabled-color');
+      cursor: not-allowed;
+      background-color: unset;
+    }
+  }
+
+  @include when(multiple) {
+    .#{$namespace}-select-dropdown__item.is-selected {
+      &::after {
+        @include checked-icon;
+      }
+    }
+
+    .#{$namespace}-select-dropdown__item.is-disabled {
+      &::after {
+        background-color: map.get($select-option, 'disabled-color');
+      }
+    }
+  }
+}

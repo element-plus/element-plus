@@ -1,0 +1,7 @@
+dist
+node_modules
+coverage
+CHANGELOG.en-US.md
+pnpm-lock.yaml
+docs/components.d.ts
+docs/.vitepress/cache

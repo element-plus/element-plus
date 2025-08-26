@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitAny": false,
+    "skipLibCheck": true,
+    "lib": ["ESNext", "DOM"],
+    "paths": {
+      "element-plus": ["../packages/element-plus"],
+      "~/*": ["./.vitepress/vitepress/*"]
+    },
+    "types": ["unplugin-icons/types/vue"],
+    "jsx": "preserve"
+  },
+  "include": ["**/*", ".vitepress/**/*", "../typings/global.d.ts"],
+  "exclude": ["node_modules"]
+}

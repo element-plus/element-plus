@@ -1,0 +1,34 @@
+@use '../mixins' as *;
+@use './table-of-content';
+
+.doc-content-wrapper {
+  --vp-content-width: 800px;
+
+  padding: 32px 24px;
+
+  .doc-content-container {
+    .doc-content {
+      width: 100%;
+    }
+
+    @include respond-to('xxl') {
+      min-width: var(--vp-content-width);
+      width: 100%;
+    }
+  }
+
+  @include respond-to('md') {
+    padding: 48px 32px;
+  }
+  @include respond-to('lg') {
+    padding: 48px 32px;
+  }
+  @include respond-to('xxl') {
+    padding: 64px 0 48px 64px;
+    display: flex;
+  }
+  @include respond-to('max') {
+    padding: 64px 0 48px 64px;
+    display: flex;
+  }
+}

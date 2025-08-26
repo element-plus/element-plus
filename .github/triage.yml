@@ -1,0 +1,11 @@
+---
+autoAssignWhenPRCreated: true
+firstTimePRLabels:
+  - 1st contribution
+labelsWhenPROpened:
+  - Needs Review
+firstTimePRGreetings: |
+  👋 @{user}, seems like this is your first time contribution to {repo}.
+  Please make sure that you have read our [guidelines](#{guideline_url}) and [code of conduct]({coc_url}) before making a contribution.
+firstPRMergeComment: >
+  Thank you for your contribution!

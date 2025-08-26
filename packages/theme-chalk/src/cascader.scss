@@ -1,0 +1,257 @@
+@use 'sass:map';
+
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
+
+@mixin cascader-tag-normal($background-color) {
+  .#{$namespace}-tag {
+    display: inline-flex;
+    align-items: center;
+    max-width: 100%;
+    text-overflow: ellipsis;
+    background: $background-color;
+
+    &.#{$namespace}-tag--dark,
+    &.#{$namespace}-tag--plain {
+      background-color: getCssVar('tag', 'bg-color');
+    }
+
+    &:not(.is-hit) {
+      border-color: transparent;
+
+      &.#{$namespace}-tag--dark,
+      &.#{$namespace}-tag--plain {
+        border-color: getCssVar('tag', 'border-color');
+      }
+    }
+
+    > span {
+      flex: 1;
+      line-height: normal;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .#{$namespace}-icon-close {
+      flex: none;
+      background-color: getCssVar('text-color', 'placeholder');
+      color: getCssVar('color-white');
+
+      &:hover {
+        background-color: getCssVar('text-color', 'secondary');
+      }
+    }
+
+    & + input {
+      margin-left: 0;
+    }
+  }
+}
+
+@include b(cascader) {
+  @include set-component-css-var('cascader', $cascader);
+
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  font-size: getCssVar('font-size', 'base');
+  line-height: map.get($input-height, 'default');
+  outline: none;
+
+  &:not(.is-disabled):hover {
+    .#{$namespace}-input__wrapper {
+      cursor: pointer;
+      box-shadow: 0 0 0 1px getCssVar('input', 'hover-border-color') inset;
+    }
+  }
+
+  .#{$namespace}-input {
+    display: flex;
+    cursor: pointer;
+
+    .#{$namespace}-input__inner {
+      text-overflow: ellipsis;
+      cursor: pointer;
+    }
+
+    .#{$namespace}-input__suffix-inner {
+      .#{$namespace}-icon {
+        svg {
+          vertical-align: middle;
+        }
+      }
+    }
+
+    .icon-arrow-down {
+      transition: transform getCssVar('transition-duration');
+      font-size: 14px;
+
+      @include when(reverse) {
+        transform: rotateZ(180deg);
+      }
+    }
+
+    .icon-circle-close:hover {
+      color: var(
+        #{getCssVarName('input', 'clear-hover-color')},
+        map.get($input, 'clear-hover-color')
+      );
+    }
+
+    @include when(focus) {
+      .#{$namespace}-input__wrapper {
+        box-shadow: 0 0 0 1px
+          var(
+            #{getCssVarName('input', 'focus-border-color')},
+            map.get($input, 'focus-border-color')
+          )
+          inset;
+      }
+    }
+  }
+
+  @each $size in (large, small) {
+    @include m($size) {
+      font-size: map.get($input-font-size, $size);
+      line-height: map.get($input-height, $size);
+
+      @include e(tags) {
+        gap: map.get($cascader-item-gap, $size);
+        padding: map.get($cascader-wrapper-padding, $size);
+      }
+
+      @include e(search-input) {
+        height: map.get($cascader-item-height, $size);
+        margin-left: map.get($cascader-search-input-margin-left, $size);
+      }
+    }
+  }
+
+  @include when(disabled) {
+    .#{$namespace}-cascader__label {
+      z-index: calc(getCssVar('index', 'normal') + 1);
+      color: getCssVar('disabled-text-color');
+    }
+  }
+
+  @include e(dropdown) {
+    @include set-component-css-var('cascader', $cascader);
+  }
+
+  @include e(dropdown) {
+    font-size: getCssVar('cascader-menu-font-size');
+    border-radius: getCssVar('cascader-menu-radius');
+
+    @include picker-popper(
+      getCssVar('cascader-menu-fill'),
+      getCssVar('cascader-menu-border'),
+      getCssVar('cascader-menu-shadow')
+    );
+
+    &.#{$namespace}-popper {
+      box-shadow: getCssVar('cascader-menu-shadow');
+    }
+  }
+
+  @include e(header) {
+    padding: map.get($cascader-dropdown, 'header-padding');
+    border-bottom: map.get($cascader-dropdown, 'border');
+  }
+
+  @include e(footer) {
+    padding: map.get($cascader-dropdown, 'footer-padding');
+    border-top: map.get($cascader-dropdown, 'border');
+  }
+
+  @include e(tags) {
+    position: absolute;
+    left: 0;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-wrap: wrap;
+    padding: map.get($cascader-wrapper-padding, 'default');
+    gap: map.get($cascader-item-gap, 'default');
+    line-height: normal;
+    text-align: left;
+    box-sizing: border-box;
+    @include cascader-tag-normal(getCssVar('cascader-tag-background'));
+
+    &.is-validate {
+      right: 55px;
+    }
+  }
+
+  @include e(collapse-tags) {
+    white-space: normal;
+    z-index: getCssVar('index-normal');
+    @include cascader-tag-normal(getCssVar('fill-color'));
+
+    .#{$namespace}-tag {
+      margin: 2px 0;
+    }
+  }
+
+  @include e(suggestion-panel) {
+    border-radius: getCssVar('cascader-menu', 'radius');
+  }
+
+  @include e(suggestion-list) {
+    max-height: 204px;
+    margin: 0;
+    padding: 6px 0;
+    font-size: getCssVar('font-size', 'base');
+    color: getCssVar('cascader-menu', 'text-color');
+    text-align: center;
+  }
+
+  @include e(suggestion-item) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 34px;
+    padding: 0 15px;
+    text-align: left;
+    outline: none;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+      background: getCssVar('cascader-node', 'background-hover');
+    }
+
+    &.is-checked {
+      color: getCssVar('cascader', 'menu-selected-text-color');
+      font-weight: bold;
+    }
+
+    > span {
+      margin-right: 10px;
+    }
+  }
+
+  @include e(empty-text) {
+    margin: 10px 0;
+    color: getCssVar('cascader', 'color-empty');
+  }
+
+  @include e(search-input) {
+    flex: 1;
+    height: map.get($cascader-item-height, 'default');
+    min-width: 60px;
+    margin-left: map.get($cascader-search-input-margin-left, 'default');
+    padding: 0;
+    color: getCssVar('cascader', 'menu-text-color');
+    border: none;
+    outline: none;
+    box-sizing: border-box;
+    background: transparent;
+
+    &::placeholder {
+      // two input overlap
+      color: transparent;
+    }
+  }
+}

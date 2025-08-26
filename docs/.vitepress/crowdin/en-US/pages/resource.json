@@ -1,0 +1,18 @@
+{
+  "title": "Resources",
+  "lineOne": "More resources are still under development. ",
+  "lineTwo": "If you are interested in participating in the design of Element Plus, be our guest to contact us via <span><a href=\"mailto:element-plus@outlook.com\" target=\"_blank\">element-plus@outlook.com</a></span>.",
+  "download": "Download",
+  "axure": "2022 Axure Components",
+  "axureIntro": "By importing Element Plus in Axure, you can easily apply all the components we provide during interaction design.",
+  "sketch": "2022 Sketch Template",
+  "sketchIntro": "Newly designed Sketch component library in 2022 with full components for Element Plus to improve design efficiency while keeping a unified visual style.",
+  "figma": "2022 Figma Template",
+  "figmaIntro": "Newly designed Figma component library in 2022 with new features such as Auto-layout and Variants.",
+  "figmaVariables": "2023 Figma Variables",
+  "figmaVariablesIntro": "Components all use variables to quickly switch between dark and light modes.",
+  "figma2023": "2023 Figma UI Kit",
+  "figma2023Intro": "Components designed using Figma's latest variable configuration provide Light/Dark/Dark Alpha theme switching to help you quickly build interface designs.",
+  "masterGo2024": "2024 MasterGo UI Kit",
+  "masterGo2024Intro": "MasterGo component library with optimized adaptive layouts, more complete component states, and variant switching."
+}

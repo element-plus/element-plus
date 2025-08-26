@@ -1,0 +1,52 @@
+@use '../mixins' as *;
+
+.menu-hamburger {
+  width: 20px;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  justify-content: center;
+  height: var(--nav-height);
+  margin: 0 14px;
+
+  > span {
+    background-color: var(--text-color);
+    border-radius: 10px;
+    height: 2px;
+    margin: 2px 0;
+    transition: var(--el-transition-all);
+    width: 100%;
+    &.hamburger {
+      &-1 {
+        width: 50%;
+      }
+      &-3 {
+        width: 75%;
+      }
+    }
+  }
+
+  &.active {
+    .hamburger {
+      &-1 {
+        transform-origin: bottom;
+        transform: rotatez(45deg) translate(13px, 0px);
+      }
+
+      &-2 {
+        transform-origin: top;
+        transform: rotatez(-45deg);
+      }
+
+      &-3 {
+        transform-origin: bottom;
+        width: 50%;
+        transform: translate(2px, -10px) rotatez(45deg);
+      }
+    }
+  }
+
+  @include respond-to('md') {
+    display: none;
+  }
+}

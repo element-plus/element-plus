@@ -1,0 +1,21 @@
+{
+  "name": "@element-plus/play",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "postinstall": "node ./scripts/init.mjs"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
+    "vue": "^3.2.37"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.1.4",
+    "unplugin-vue-components": "0.27.4",
+    "vite": "^5.4.10",
+    "vite-plugin-inspect": "^0.8.7",
+    "vite-plugin-mkcert": "^1.17.6"
+  }
+}

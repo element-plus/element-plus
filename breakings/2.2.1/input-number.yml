@@ -1,0 +1,12 @@
+- scope: 'component'
+  name: 'el-input-number'
+  type: 'props'
+  version: '2.2.1'
+  commit_hash: '2577b06'
+  description: |
+    Add a default value setter on clear input number value. When clear event occurs, the value will be set to the
+    value from the new API.
+  props:
+    - api: 'value-on-clear'
+      before: ''
+      after: '"min" | "max" | null | number'

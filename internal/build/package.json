@@ -1,0 +1,45 @@
+{
+  "name": "@element-plus/build",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Build Toolchain for Element Plus",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "start": "gulp --require tsx/dist/loader.cjs -f gulpfile.ts",
+    "dev": "pnpm run stub",
+    "stub": "unbuild --stub"
+  },
+  "peerDependencies": {
+    "vue": "^3.2.25"
+  },
+  "dependencies": {
+    "@element-plus/build-constants": "workspace:*",
+    "@microsoft/api-extractor": "^7.52.5",
+    "@pnpm/find-workspace-packages": "^4.0.16",
+    "@pnpm/logger": "^4.0.0",
+    "@rollup/plugin-commonjs": "^22.0.1",
+    "@rollup/plugin-node-resolve": "^13.3.0",
+    "@rollup/plugin-replace": "^5.0.5",
+    "@vitejs/plugin-vue": "^2.3.3",
+    "@vitejs/plugin-vue-jsx": "^1.3.10",
+    "chalk": "^5.0.1",
+    "components-helper": "^2.1.4",
+    "consola": "^2.15.3",
+    "esbuild": "^0.14.47",
+    "fast-glob": "^3.2.11",
+    "fs-extra": "^10.1.0",
+    "gulp": "^4.0.2",
+    "lodash": "^4.17.21",
+    "rollup": "^2.75.7",
+    "rollup-plugin-esbuild": "^4.9.1",
+    "unplugin-vue-macros": "^0.11.2"
+  },
+  "devDependencies": {
+    "@pnpm/types": "^8.4.0",
+    "tsx": "^4.19.3",
+    "unbuild": "^2.0.0",
+    "vue": "^3.2.37"
+  }
+}

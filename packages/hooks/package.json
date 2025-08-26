@@ -1,0 +1,24 @@
+{
+  "name": "@element-plus/hooks",
+  "version": "0.0.5",
+  "description": "Element Plus composables",
+  "license": "MIT",
+  "main": "index.ts",
+  "module": "index.ts",
+  "unpkg": "index.js",
+  "jsdelivr": "index.js",
+  "types": "index.d.ts",
+  "peerDependencies": {
+    "vue": "catalog:"
+  },
+  "dependencies": {
+    "@floating-ui/dom": "^1.0.1",
+    "@popperjs/core": "catalog:",
+    "@vueuse/core": "catalog:",
+    "lodash-unified": "catalog:"
+  },
+  "devDependencies": {
+    "@vue/test-utils": "catalog:",
+    "vue": "catalog:"
+  }
+}

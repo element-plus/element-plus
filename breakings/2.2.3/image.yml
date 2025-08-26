@@ -1,0 +1,12 @@
+- scope: 'component'
+  name: 'el-image'
+  type: 'props'
+  version: '2.2.3'
+  commit_hash: '7a48556'
+  description: |
+    Per [HTMLImageElement.loading Request](https://github.com/element-plus/element-plus/issues/7841),
+    Add [native loading](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#attr-loading) support for Image components.
+  props:
+    - api: 'loading'
+      before: ''
+      after: '"eager" | "lazy"'
