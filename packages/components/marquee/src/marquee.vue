@@ -1,44 +1,31 @@
 <template>
-  <div class="el-auto-scroll-text__container">
-    <el-alert
-      :title="title"
-      :type="type"
-      :description="description"
-      :closable="closable"
-      :show-icon="showIcon"
-      :center="center"
-      :effect="effect"
-      :class="[
-        'el-auto-scroll-text__alert',
-        `el-auto-scroll-text__scroll-content--${direction}`,
-        { 'el-is-paused': isPaused },
-      ]"
-      @close="handleClose"
+  <div class="el-marquee__container">
+    <div
+      ref="containerRef"
+      class="el-marquee__scroll-content"
+      :class="`el-marquee__scroll-content--${direction}`"
+      @mouseenter="pauseScroll"
+      @mouseleave="resumeScroll"
     >
-      <template #default>
-        <div
-          ref="containerRef"
-          class="el-auto-scroll-text__scroll-content"
-          :class="`el-auto-scroll-text__scroll-content--${direction}`"
-          @mouseenter="pauseScroll"
-          @mouseleave="resumeScroll"
-        >
-          <div
-            ref="textRef"
-            class="el-auto-scroll-text__scroll-text"
-            :class="`el-auto-scroll-text__scroll-text--${direction}`"
-            :style="scrollStyle"
-          >
-            <span class="el-auto-scroll-text__text-item">{{ text }}</span>
-            <span class="el-auto-scroll-text__text-item">{{ text }}</span>
-            <span class="el-auto-scroll-text__text-item">{{ text }}</span>
-          </div>
-        </div>
-      </template>
-    </el-alert>
+      <div
+        ref="textRef"
+        class="el-marquee__scroll-text"
+        :class="`el-marquee__scroll-text--${direction}`"
+        :style="scrollStyle"
+      >
+        <!-- 原始内容 -->
+        <slot />
+        <!-- 副本内容，用于无缝滚动 -->
+        <slot />
+        <!-- 副本内容，用于无缝滚动 -->
+        <slot />
+        <!-- 副本内容，用于无缝滚动 -->
+        <slot />
+      </div>
+    </div>
 
     <!-- 控制按钮 -->
-    <div v-if="showControls" class="el-auto-scroll-text__scroll-controls">
+    <div v-if="showControls" class="el-marquee__scroll-controls">
       <el-button
         size="small"
         :icon="isPaused ? VideoPlay : VideoPause"
@@ -68,18 +55,17 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { Refresh, VideoPause, VideoPlay } from '@element-plus/icons-vue'
-import ElAlert from '@element-plus/components/alert'
 import ElButton from '@element-plus/components/button'
-import { autoScrollTextEmits, autoScrollTextProps } from './auto-scroll-text'
+import { marqueeEmits, marqueeProps } from './marquee'
 
-const COMPONENT_NAME = 'ElAutoScrollText'
+const COMPONENT_NAME = 'ElMarquee'
 defineOptions({
   name: COMPONENT_NAME,
   inheritAttrs: false,
 })
 
-const props = defineProps(autoScrollTextProps)
-const emit = defineEmits(autoScrollTextEmits)
+const props = defineProps(marqueeProps)
+const emit = defineEmits(marqueeEmits)
 
 // 响应式数据
 const isPaused = ref(false)
@@ -136,10 +122,11 @@ const startScroll = (force = false) => {
       // 检查是否需要重置位置
       if (props.direction === 'horizontal') {
         const textWidth = textRef.value?.offsetWidth || 0
-        // 横向滚动：当第一个文本完全滚出容器时重置
-        if (scrollPosition.value > textWidth / 3) {
+        // 横向滚动：当第一个副本完全滚出容器时重置
+        // 由于有4份内容，每份占 textWidth/4，当滚动到 textWidth/4 时重置
+        if (scrollPosition.value >= textWidth / 4) {
           if (props.loop) {
-            // 无缝滚动：重置到开始位置，第二个文本无缝衔接
+            // 无缝滚动：重置到第二个副本的开始位置，实现无缝衔接
             scrollPosition.value = 0
           } else {
             isPaused.value = true
@@ -151,13 +138,13 @@ const startScroll = (force = false) => {
         const textHeight = textRef.value?.offsetHeight || 0
         const containerHeight = containerRef.value?.offsetHeight || 0
 
-        // 竖向滚动：当文本完全滚出容器时重置
+        // 竖向滚动：当第一个副本完全滚出容器时重置
         if (
           textHeight > containerHeight &&
-          scrollPosition.value >= textHeight
+          scrollPosition.value >= textHeight / 4
         ) {
           if (props.loop) {
-            // 无缝滚动：重置到开始位置
+            // 无缝滚动：重置到第二个副本的开始位置
             scrollPosition.value = 0
           } else {
             isPaused.value = true
@@ -241,11 +228,6 @@ const resetScroll = () => {
   }
 }
 
-// 处理关闭事件
-const handleClose = () => {
-  emit('close')
-}
-
 // 生命周期
 onMounted(async () => {
   // 强制等待 DOM 更新完成
@@ -264,17 +246,6 @@ onMounted(async () => {
 onUnmounted(() => {
   stopScroll()
 })
-
-// 监听文本变化，重置滚动位置
-watch(
-  () => props.text,
-  () => {
-    scrollPosition.value = 0
-    if (!isPaused.value && props.autoStart && shouldScroll.value) {
-      startScroll()
-    }
-  }
-)
 
 // 监听方向变化，重置滚动位置
 watch(

@@ -45,8 +45,8 @@
         "promotion": "2.3.0"
       },
       {
-        "link": "/auto-scroll-text",
-        "text": "Auto Scroll Text"
+        "link": "/marquee",
+        "text": "Marquee"
       },
       {
         "link": "/scrollbar",

@@ -1,20 +1,10 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 
 import type { ComputedRef, ExtractPropTypes, Ref } from 'vue'
-import type AutoScrollText from './auto-scroll-text.vue'
 
 export type ScrollDirection = 'horizontal' | 'vertical'
-export type AlertType = 'success' | 'warning' | 'info' | 'error'
-export type AlertEffect = 'light' | 'dark'
 
-export const autoScrollTextProps = buildProps({
-  /**
-   * @description 滚动文本内容
-   */
-  text: {
-    type: String,
-    required: true,
-  },
+export const marqueeProps = buildProps({
   /**
    * @description 滚动方向
    */
@@ -59,57 +49,6 @@ export const autoScrollTextProps = buildProps({
     default: true,
   },
   /**
-   * @description Alert 标题
-   */
-  title: {
-    type: String,
-    default: '',
-  },
-  /**
-   * @description Alert 类型
-   */
-  type: {
-    type: definePropType<AlertType>(String),
-    values: ['success', 'warning', 'info', 'error'],
-    default: 'info',
-  },
-  /**
-   * @description Alert 描述
-   */
-  description: {
-    type: String,
-    default: '',
-  },
-  /**
-   * @description 是否可关闭
-   */
-  closable: {
-    type: Boolean,
-    default: false,
-  },
-  /**
-   * @description 是否显示图标
-   */
-  showIcon: {
-    type: Boolean,
-    default: true,
-  },
-  /**
-   * @description 是否居中
-   */
-  center: {
-    type: Boolean,
-    default: false,
-  },
-  /**
-   * @description Alert 主题
-   */
-  effect: {
-    type: definePropType<AlertEffect>(String),
-    values: ['light', 'dark'],
-    default: 'light',
-  },
-  /**
    * @description 暂停状态按钮文案
    */
   pauseButtonText: {
@@ -132,22 +71,19 @@ export const autoScrollTextProps = buildProps({
   },
 } as const)
 
-export type AutoScrollTextProps = ExtractPropTypes<typeof autoScrollTextProps>
-export type AutoScrollTextPropsPublic = ExtractPropTypes<
-  typeof autoScrollTextProps
->
+export type MarqueeProps = ExtractPropTypes<typeof marqueeProps>
+export type MarqueePropsPublic = ExtractPropTypes<typeof marqueeProps>
 
-export const autoScrollTextEmits = {
-  close: () => true,
+export const marqueeEmits = {
   scrollStart: () => true,
   scrollPause: () => true,
   scrollResume: () => true,
   scrollEnd: () => true,
 }
 
-export type AutoScrollTextEmits = typeof autoScrollTextEmits
+export type MarqueeEmits = typeof marqueeEmits
 
-export type AutoScrollTextInstance = InstanceType<typeof AutoScrollText> & {
+export type MarqueeInstance = {
   /** 当前是否暂停 */
   isPaused: Ref<boolean>
   /** 当前滚动位置 */
