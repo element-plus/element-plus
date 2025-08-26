@@ -13,9 +13,7 @@
         :key="item.key ?? index"
         v-bind="{
           ...item,
-          value: item[props.optionProps?.value ?? 'value'],
-          label: item[props.optionProps?.label ?? 'label'],
-          disabled: item[props.optionProps?.disabled ?? 'disabled'],
+          ...getOptionProps(item),
         }"
       >
         <template v-if="typeof item.render === 'function'">
@@ -41,7 +39,11 @@ import { useFormItem, useFormItemInputId } from '@element-plus/components/form'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useId, useNamespace } from '@element-plus/hooks'
 import { debugWarn } from '@element-plus/utils'
-import { radioGroupEmits, radioGroupProps } from './radio-group'
+import {
+  radioDefaultProps,
+  radioGroupEmits,
+  radioGroupProps,
+} from './radio-group'
 import { radioGroupKey } from './constants'
 import { isEqual } from 'lodash-unified'
 import ElRadio from './radio.vue'
@@ -79,6 +81,16 @@ onMounted(() => {
 
 const name = computed(() => {
   return props.name || radioId.value
+})
+
+const aliasProps = computed(() => ({
+  ...radioDefaultProps,
+  ...props.optionProps,
+}))
+const getOptionProps = (option: Record<string, any>) => ({
+  label: option[aliasProps.value.label],
+  value: option[aliasProps.value.value],
+  disabled: option[aliasProps.value.disabled],
 })
 
 provide(

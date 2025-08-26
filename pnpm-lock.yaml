@@ -4,45 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-catalogs:
-  default:
-    '@ctrl/tinycolor':
-      specifier: ^3.4.1
-      version: 3.6.1
-    '@element-plus/icons-vue':
-      specifier: ^2.3.1
-      version: 2.3.1
-    '@popperjs/core':
-      specifier: npm:@sxzz/popperjs-es@^2.11.7
-      version: 2.11.7
-    '@vue/shared':
-      specifier: ~3.2.37
-      version: 3.2.39
-    '@vue/test-utils':
-      specifier: ^2.0.0
-      version: 2.0.0
-    '@vueuse/core':
-      specifier: ^10.11.0
-      version: 10.11.0
-    csstype:
-      specifier: ^2.6.20
-      version: 2.6.20
-    lodash-unified:
-      specifier: ^1.0.2
-      version: 1.0.3
-    normalize-wheel-es:
-      specifier: ^1.2.0
-      version: 1.2.0
-    type-fest:
-      specifier: ^2.14.0
-      version: 2.14.0
-    vue:
-      specifier: ~3.2.37
-      version: 3.2.37
-    vue-component-type-helpers:
-      specifier: ^3.0.5
-      version: 3.0.5
-
 overrides:
   typescript: ~5.5.4
   jwa: ^1.4.2
@@ -122,9 +83,6 @@ importers:
       normalize-wheel-es:
         specifier: ^1.2.0
         version: 1.2.0
-      vue-component-type-helpers:
-        specifier: 3.0.5
-        version: 3.0.5
     devDependencies:
       '@commitlint/cli':
         specifier: ^19.0.0
@@ -538,69 +496,16 @@ importers:
 
   packages/components:
     dependencies:
-      '@ctrl/tinycolor':
-        specifier: 'catalog:'
-        version: 3.6.1
-      '@element-plus/constants':
-        specifier: workspace:^
-        version: link:../constants
-      '@element-plus/directives':
-        specifier: workspace:^
-        version: link:../directives
-      '@element-plus/hooks':
-        specifier: workspace:^
-        version: link:../hooks
-      '@element-plus/icons-vue':
-        specifier: 'catalog:'
-        version: 2.3.1(vue@3.2.37)
-      '@element-plus/utils':
-        specifier: workspace:^
-        version: link:../utils
-      '@popperjs/core':
-        specifier: 'catalog:'
-        version: '@sxzz/popperjs-es@2.11.7'
-      '@vueuse/core':
-        specifier: 'catalog:'
-        version: 10.11.0(vue@3.2.37)
-      csstype:
-        specifier: 'catalog:'
-        version: 2.6.20
-      lodash-unified:
-        specifier: 'catalog:'
-        version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.21)(lodash@4.17.21)
-    devDependencies:
-      '@element-plus/test-utils':
-        specifier: workspace:^
-        version: link:../test-utils
-      '@vue/test-utils':
-        specifier: 'catalog:'
-        version: 2.0.0(vue@3.2.37)
       vue:
-        specifier: 'catalog:'
+        specifier: ^3.2.0
         version: 3.2.37
-      vue-component-type-helpers:
-        specifier: 'catalog:'
-        version: 3.0.5
 
   packages/constants: {}
 
   packages/directives:
     dependencies:
-      '@element-plus/constants':
-        specifier: workspace:^
-        version: link:../constants
-      '@element-plus/utils':
-        specifier: workspace:^
-        version: link:../utils
-      normalize-wheel-es:
-        specifier: 'catalog:'
-        version: 1.2.0
-    devDependencies:
-      '@vue/test-utils':
-        specifier: 'catalog:'
-        version: 2.0.0(vue@3.2.37)
       vue:
-        specifier: 'catalog:'
+        specifier: ^3.2.0
         version: 3.2.37
 
   packages/element-plus:
@@ -666,39 +571,13 @@ importers:
 
   packages/hooks:
     dependencies:
-      '@floating-ui/dom':
-        specifier: ^1.0.1
-        version: 1.6.8
-      '@popperjs/core':
-        specifier: 'catalog:'
-        version: '@sxzz/popperjs-es@2.11.7'
-      '@vueuse/core':
-        specifier: 'catalog:'
-        version: 10.11.0(vue@3.2.37)
-      lodash-unified:
-        specifier: 'catalog:'
-        version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.21)(lodash@4.17.21)
-    devDependencies:
-      '@vue/test-utils':
-        specifier: 'catalog:'
-        version: 2.0.0(vue@3.2.37)
       vue:
-        specifier: 'catalog:'
+        specifier: ^3.2.0
         version: 3.2.37
 
   packages/locale: {}
 
-  packages/test-utils:
-    dependencies:
-      '@vue/test-utils':
-        specifier: 'catalog:'
-        version: 2.0.0(vue@3.2.37)
-      lodash-unified:
-        specifier: 'catalog:'
-        version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.21)(lodash@4.17.21)
-      vue:
-        specifier: 'catalog:'
-        version: 3.2.37
+  packages/test-utils: {}
 
   packages/theme-chalk:
     devDependencies:
@@ -735,33 +614,8 @@ importers:
 
   packages/utils:
     dependencies:
-      '@element-plus/constants':
-        specifier: workspace:^
-        version: link:../constants
-      '@element-plus/icons-vue':
-        specifier: 'catalog:'
-        version: 2.3.1(vue@3.2.37)
-      '@vueuse/core':
-        specifier: 'catalog:'
-        version: 10.11.0(vue@3.2.37)
-      lodash-unified:
-        specifier: 'catalog:'
-        version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.21)(lodash@4.17.21)
-    devDependencies:
-      '@vue/shared':
-        specifier: 'catalog:'
-        version: 3.2.39
-      '@vue/test-utils':
-        specifier: 'catalog:'
-        version: 2.0.0(vue@3.2.37)
-      expect-type:
-        specifier: ^0.13.0
-        version: 0.13.0
-      type-fest:
-        specifier: 'catalog:'
-        version: 2.14.0
       vue:
-        specifier: 'catalog:'
+        specifier: ^3.2.0
         version: 3.2.37
 
   play:
@@ -7325,7 +7179,7 @@ packages:
   right-pad@1.0.1:
     resolution: {integrity: sha512-bYBjgxmkvTAfgIYy328fmkwhp39v8lwVgWhhrzxPV3yHtcSqyYKe9/XOhvW48UFjATg3VuJbpsp5822ACNvkmw==}
     engines: {node: '>= 0.10'}
-    deprecated: Use String.prototype.padEnd() instead
+    deprecated: Please use String.prototype.padEnd() over this package.
 
   rimraf@3.0.2:
     resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==}
@@ -8352,9 +8206,6 @@ packages:
 
   vscode-uri@3.0.8:
     resolution: {integrity: sha512-AyFQ0EVmsOZOlAnxoFOGOq1SQDWAB7C6aqMGS23svWAllfOaxbuFvcT8D1i8z3Gyn8fraVeZNNmN6e9bxxXkKw==}
-
-  vue-component-type-helpers@3.0.5:
-    resolution: {integrity: sha512-uoNZaJ+a1/zppa/Vgmi8zIOP2PHXDN2rT8NyF+zQRK6ZG94lNB9prcV0GdLJbY9i9lrD47JOVIH92SaiA7oJ1A==}
 
   vue-demi@0.13.1:
     resolution: {integrity: sha512-xmkJ56koG3ptpLnpgmIzk9/4nFf4CqduSJbUM0OdPoU87NwRuZ6x49OLhjSa/fC15fV+5CbEnrxU4oyE022svg==}
@@ -11435,7 +11286,7 @@ snapshots:
       '@babel/parser': 7.24.1
       '@vue-macros/common': 1.10.1(rollup@4.24.4)(vue@3.2.37)
       '@vue/compiler-core': 3.4.31
-      '@vue/shared': 3.5.13
+      '@vue/shared': 3.4.31
       magic-string: 0.30.10
       unplugin: 1.10.0
       vue: 3.2.37
@@ -11725,7 +11576,7 @@ snapshots:
     dependencies:
       '@volar/language-core': 2.4.8
       '@vue/compiler-dom': 3.5.12
-      '@vue/shared': 3.5.13
+      '@vue/shared': 3.5.12
       computeds: 0.0.1
       minimatch: 9.0.5
       muggle-string: 0.4.1
@@ -11815,7 +11666,8 @@ snapshots:
 
   '@vue/shared@3.5.12': {}
 
-  '@vue/shared@3.5.13': {}
+  '@vue/shared@3.5.13':
+    optional: true
 
   '@vue/test-utils@2.0.0(vue@3.2.37)':
     dependencies:
@@ -17348,8 +17200,6 @@ snapshots:
       - terser
 
   vscode-uri@3.0.8: {}
-
-  vue-component-type-helpers@3.0.5: {}
 
   vue-demi@0.13.1(vue@3.2.37):
     dependencies:
