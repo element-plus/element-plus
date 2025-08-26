@@ -11,9 +11,9 @@
   >
     <slot>
       <el-checkbox
-        v-for="(option, index) in props.options"
+        v-for="(item, index) in props.options"
         :key="index"
-        v-bind="getOptionProps(option)"
+        v-bind="getOptionProps(item)"
       />
     </slot>
   </component>
