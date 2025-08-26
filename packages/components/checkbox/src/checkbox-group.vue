@@ -66,7 +66,7 @@ const modelValue = computed({
 
 const aliasProps = computed(() => ({
   ...checkboxDefaultProps,
-  ...props.props,
+  ...props.optionProps,
 }))
 const getOptionProps = (option: Record<string, any>) => ({
   label: option[aliasProps.value.label],

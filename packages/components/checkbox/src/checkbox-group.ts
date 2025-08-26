@@ -57,7 +57,7 @@ export const checkboxGroupProps = buildProps({
   options: {
     type: definePropType<Record<string, any>[]>(Array),
   },
-  props: {
+  optionProps: {
     type: definePropType<CheckboxOptionProps>(Object),
     default: () => checkboxDefaultProps,
   },
