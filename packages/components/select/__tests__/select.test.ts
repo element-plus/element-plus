@@ -2895,6 +2895,69 @@ describe('Select', () => {
     // after deletion, an el-tag still exist
     expect(wrapper.findAll('.el-tag').length).toBe(1)
   })
+
+  it('should render label slot with index', async () => {
+    const wrapper = _mount(
+      `
+      <el-select :model-value="'foo'">
+        <el-option
+          label="foo"
+          value="foo"
+        >
+        </el-option>
+        <template #label="{ label, index }">{{ label }} = {{ index }}</template>
+      </el-select>
+    `
+    )
+    await nextTick()
+    const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()
+    expect(placeholder).toBe('foo = 0')
+  })
+
+  it('should label slot render dynamic index', async () => {
+    const value = ref(['Option1'])
+    const options = ref([
+      {
+        value: 'Option1',
+        label: 'Label1',
+      },
+      {
+        value: 'Option2',
+        label: 'Label2',
+      },
+    ])
+    const wrapper = _mount(
+      `
+        <el-select v-model="value" multiple>
+          <el-option
+            v-for="option in options"
+            :key="option.value"
+            :value="option.value"
+            :label="option.label"
+          />
+          <template #label="{ label, index }">{{ label }} = {{ index }}</template>
+        </el-select>
+      `,
+      () => ({
+        value,
+        options,
+      })
+    )
+    await nextTick()
+    const tag = wrapper.find('.el-tag')
+    expect(tag.text()).toBe('Label1 = 0')
+    options.value.shift()
+    await nextTick()
+    expect(tag.text()).toBe('Label1 = -1')
+    options.value.push({ value: 'Option3', label: 'Label3' })
+    await nextTick()
+    value.value.push('Option2', 'Option3')
+    await nextTick()
+    const tags = wrapper.findAll('.el-tag')
+    expect(tags[1].text()).toBe('Label2 = 0')
+    expect(tags[2].text()).toBe('Label3 = 1')
+  })
+
   it('should ensure that isDisabled is fresh to prevent selected tag from being cleared', async () => {
     const disabled = ref(false)
     const wrapper = _mount(
