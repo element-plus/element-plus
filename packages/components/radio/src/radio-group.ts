@@ -75,7 +75,7 @@ export type RadioGroupEmits = typeof radioGroupEmits
 export type RadioGroupInstance = InstanceType<typeof RadioGroup> & unknown
 
 type ElRadioProps = ExtractPropTypes<typeof radioProps>
-type Option = ElRadioProps & Record<string, any>
+type Option = Partial<ElRadioProps> & Record<string, any>
 interface Props {
   label?: string
   value?: string
