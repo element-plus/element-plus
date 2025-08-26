@@ -1093,6 +1093,7 @@ describe('Virtual Tree', () => {
     expect(nodes.map((node) => node.text()).toString()).toBe(
       ['node-1', 'node-1-1', 'node-1-1-1'].toString()
     )
+    expect(wrapper.findAll('.expanded').length).toBe(2)
   })
 
   describe('events', () => {
@@ -1586,5 +1587,76 @@ describe('Virtual Tree', () => {
       treeVm.scrollTo(100)
       expect(scrollTo).toHaveBeenCalledWith(100)
     })
+  })
+
+  test('icon display should be normal when expanding nodes using setExpandedKeys', async () => {
+    const { treeRef, wrapper } = createTree({
+      data() {
+        return {
+          height: 400,
+          data: [
+            {
+              id: '1',
+              label: 'node-1',
+              children: [
+                {
+                  id: '1-1',
+                  label: 'node-1-1',
+                  children: [
+                    {
+                      id: '1-1-1',
+                      label: 'node-1-1-1',
+                      children: [
+                        {
+                          id: '1-1-1-1',
+                          label: 'node-1-1-1-1',
+                        },
+                        {
+                          id: '1-1-1-2',
+                          label: 'node-1-1-1-2',
+                        },
+                      ],
+                    },
+                    {
+                      id: '1-1-2',
+                      label: 'node-1-1-2',
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              id: '2',
+              label: 'node-2',
+              children: [
+                {
+                  id: '2-1',
+                  label: 'node-2-1',
+                  children: [
+                    {
+                      id: '2-1-1',
+                      label: 'node-2-1-1',
+                    },
+                    {
+                      id: '2-1-2',
+                      label: 'node-2-1-2',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        }
+      },
+    })
+    await nextTick()
+    const firstTreeNode = wrapper.find(TREE_NODE_CLASS_NAME)
+    await firstTreeNode.trigger('click')
+    const firstExpandedNodes = wrapper.findAll('.expanded')
+    expect(firstExpandedNodes.length).toBe(1)
+    treeRef.setExpandedKeys(['2-1'])
+    await nextTick()
+    const secondExpandedNodes = wrapper.findAll('.expanded')
+    expect(secondExpandedNodes.length).toBe(2)
   })
 })

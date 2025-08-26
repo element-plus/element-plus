@@ -1,10 +1,11 @@
 <template>
-  <div class="flex gap-4">
-    <div>
-      <div class="sub-title my-2 text-sm text-gray-600">loading icon1</div>
+  <div class="demo-autocomplete">
+    <div class="demo-block">
+      <div class="demo-title">loading icon1</div>
       <el-autocomplete
         v-model="state"
         :fetch-suggestions="querySearchAsync"
+        class="w-50"
         placeholder="Please input"
         @select="handleSelect"
       >
@@ -15,11 +16,12 @@
         </template>
       </el-autocomplete>
     </div>
-    <div>
-      <div class="sub-title my-2 text-sm text-gray-600">loading icon2</div>
+    <div class="demo-block">
+      <div class="demo-title">loading icon2</div>
       <el-autocomplete
         v-model="state"
         :fetch-suggestions="querySearchAsync"
+        class="w-50"
         placeholder="Please input"
         @select="handleSelect"
       >
@@ -95,6 +97,37 @@ onMounted(() => {
   links.value = loadAll()
 })
 </script>
+
+<style scoped>
+.demo-autocomplete {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.demo-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.demo-title {
+  font-size: 0.875rem;
+  color: var(--el-text-color-secondary);
+  min-height: 2.5em;
+  display: flex;
+  align-items: center;
+}
+
+@media screen and (max-width: 768px) {
+  .demo-autocomplete {
+    gap: 1rem;
+  }
+  .demo-block {
+    width: 100%;
+  }
+}
+</style>
 
 <style>
 .circular {

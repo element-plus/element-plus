@@ -34,6 +34,7 @@ interface SelectProps {
   automaticDropdown?: boolean
   multipleLimit?: number
   popperClass?: string
+  popperStyle?: string
   defaultFirstOption?: boolean
   fitInputWidth?: boolean
   size?: 'small' | 'default' | 'large'
@@ -127,6 +128,7 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
       :multiple="multiple"
       :multiple-limit="multipleLimit"
       :popper-class="popperClass"
+      :popper-style="popperStyle"
       :clearable="clearable"
       :default-first-option="defaultFirstOption"
       :filterable="filterable"
@@ -158,6 +160,7 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
       collapseTags: configs.collapseTags,
       allowCreate: configs.allowCreate,
       popperClass: configs.popperClass,
+      popperStyle: configs.popperStyle,
       automaticDropdown: configs.automaticDropdown,
       fitInputWidth: configs.fitInputWidth,
       loading: false,
@@ -349,6 +352,12 @@ describe('Select', () => {
     wrapper = getSelectVm({ popperClass: 'custom-dropdown' })
     const dropdown = wrapper.findComponent({ name: 'ElSelectDropdown' })
     expect(dropdown.classes()).toContain('custom-dropdown')
+  })
+
+  test('custom popper style', async () => {
+    wrapper = getSelectVm({ popperStyle: 'background: red;' })
+    const popper = document.querySelector('.el-popper') as HTMLElement
+    expect(popper.style.background).toBe('red')
   })
 
   test('default value', async () => {
@@ -1574,6 +1583,26 @@ describe('Select', () => {
     expect(input.exists()).toBe(true)
     await input.trigger('focus')
     expect(handleFocus).toHaveBeenCalledTimes(1)
+  })
+
+  test('should show clear btn on focus', async () => {
+    const wrapper = _mount(
+      `<el-select v-model="value" :options="options" clearable />`,
+      () => ({
+        options: [
+          {
+            value: 'value1',
+            label: 'label1',
+          },
+        ],
+        value: 'value1',
+      })
+    )
+
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    expect(wrapper.findComponent(CircleClose).exists()).toBe(true)
   })
 
   test('event:blur', async () => {
@@ -2866,6 +2895,69 @@ describe('Select', () => {
     // after deletion, an el-tag still exist
     expect(wrapper.findAll('.el-tag').length).toBe(1)
   })
+
+  it('should render label slot with index', async () => {
+    const wrapper = _mount(
+      `
+      <el-select :model-value="'foo'">
+        <el-option
+          label="foo"
+          value="foo"
+        >
+        </el-option>
+        <template #label="{ label, index }">{{ label }} = {{ index }}</template>
+      </el-select>
+    `
+    )
+    await nextTick()
+    const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()
+    expect(placeholder).toBe('foo = 0')
+  })
+
+  it('should label slot render dynamic index', async () => {
+    const value = ref(['Option1'])
+    const options = ref([
+      {
+        value: 'Option1',
+        label: 'Label1',
+      },
+      {
+        value: 'Option2',
+        label: 'Label2',
+      },
+    ])
+    const wrapper = _mount(
+      `
+        <el-select v-model="value" multiple>
+          <el-option
+            v-for="option in options"
+            :key="option.value"
+            :value="option.value"
+            :label="option.label"
+          />
+          <template #label="{ label, index }">{{ label }} = {{ index }}</template>
+        </el-select>
+      `,
+      () => ({
+        value,
+        options,
+      })
+    )
+    await nextTick()
+    const tag = wrapper.find('.el-tag')
+    expect(tag.text()).toBe('Label1 = 0')
+    options.value.shift()
+    await nextTick()
+    expect(tag.text()).toBe('Label1 = -1')
+    options.value.push({ value: 'Option3', label: 'Label3' })
+    await nextTick()
+    value.value.push('Option2', 'Option3')
+    await nextTick()
+    const tags = wrapper.findAll('.el-tag')
+    expect(tags[1].text()).toBe('Label2 = 0')
+    expect(tags[2].text()).toBe('Label3 = 1')
+  })
+
   it('should ensure that isDisabled is fresh to prevent selected tag from being cleared', async () => {
     const disabled = ref(false)
     const wrapper = _mount(

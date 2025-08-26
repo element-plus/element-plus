@@ -46,11 +46,7 @@
     </el-icon>
 
     <!-- content -->
-    <node-content
-      :node="node"
-      :disabled="isDisabled"
-      @handle-select-check="handleSelectCheck"
-    />
+    <node-content :node="node" />
     <!-- postfix -->
     <template v-if="!isLeaf">
       <el-icon v-if="node.loading" :class="[ns.is('loading'), ns.e('postfix')]">
@@ -146,8 +142,6 @@ const handleExpand = () => {
 }
 
 const handleClick = () => {
-  if (isHoverMenu.value && !isLeaf.value) return
-
   if (
     isLeaf.value &&
     !isDisabled.value &&
@@ -155,7 +149,14 @@ const handleClick = () => {
     !multiple.value
   ) {
     handleCheck(true)
-  } else {
+  } else if (
+    ((panel.config.checkOnClickNode &&
+      (multiple.value || checkStrictly.value)) ||
+      (isLeaf.value && panel.config.checkOnClickLeaf)) &&
+    !isDisabled.value
+  ) {
+    handleSelectCheck(!props.node.checked)
+  } else if (!isHoverMenu.value) {
     handleExpand()
   }
 }

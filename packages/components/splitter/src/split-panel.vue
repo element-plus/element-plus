@@ -37,7 +37,7 @@ if (!splitterContext)
     'usage: <el-splitter><el-splitter-panel /></el-splitter/>'
   )
 
-const { panels, layout, containerSize, pxSizes } = toRefs(splitterContext)
+const { panels, layout, lazy, containerSize, pxSizes } = toRefs(splitterContext)
 
 const {
   registerPanel,
@@ -116,6 +116,11 @@ watch(
   () => props.size,
   () => {
     if (!isSizeUpdating && panel.value) {
+      if (!containerSize.value) {
+        panel.value.size = props.size
+        return
+      }
+
       const size = sizeToPx(props.size)
       const maxSize = sizeToPx(props.max)
       const minSize = sizeToPx(props.min)
@@ -179,6 +184,7 @@ onBeforeUnmount(() => unregisterPanel(_panel))
     v-if="isShowBar"
     :index="index"
     :layout="layout"
+    :lazy="lazy"
     :resizable="isResizable"
     :start-collapsible="startCollapsible"
     :end-collapsible="endCollapsible"

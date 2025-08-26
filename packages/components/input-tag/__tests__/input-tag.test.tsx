@@ -475,5 +475,57 @@ describe('InputTag.vue', () => {
       expect(input.attributes().id).toBe('input-tag')
       expect(formItemLabel.attributes().for).toBe(input.attributes().id)
     })
+
+    test('collapseTags', async () => {
+      const wrapper = mount(() => (
+        <InputTag
+          modelValue={['tag1', 'tag2', 'tag3', 'tag4', 'tag5']}
+          collapseTags
+        />
+      ))
+
+      const tags = wrapper.findAll('.el-tag')
+      expect(tags.length).toBe(2)
+      expect(tags[0].text()).toBe('tag1')
+      expect(tags[1].text()).toBe('+ 4')
+    })
+
+    test('collapseTagsTooltip', async () => {
+      const wrapper = mount(() => (
+        <InputTag
+          modelValue={['tag1', 'tag2', 'tag3', 'tag4', 'tag5']}
+          collapseTags
+          collapseTagsTooltip
+        />
+      ))
+
+      const tags = wrapper.findAll('.el-tag')
+      expect(tags.length).toBe(2)
+      expect(tags[0].text()).toBe('tag1')
+      expect(tags[1].text()).toBe('+ 4')
+
+      await tags[1].trigger('mouseenter')
+      await nextTick()
+
+      const tooltip = wrapper.findComponent({ name: 'ElTooltip' })
+      expect(tooltip.exists()).toBe(true)
+    })
+
+    test('maxCollapseTags', async () => {
+      const wrapper = mount(() => (
+        <InputTag
+          modelValue={['tag1', 'tag2', 'tag3', 'tag4', 'tag5']}
+          collapseTags
+          maxCollapseTags={3}
+        />
+      ))
+
+      const tags = wrapper.findAll('.el-tag')
+      expect(tags.length).toBe(4)
+      expect(tags[0].text()).toBe('tag1')
+      expect(tags[1].text()).toBe('tag2')
+      expect(tags[2].text()).toBe('tag3')
+      expect(tags[3].text()).toBe('+ 2')
+    })
   })
 })
