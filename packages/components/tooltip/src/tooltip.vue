@@ -6,6 +6,7 @@
       :trigger-keys="triggerKeys"
       :virtual-ref="virtualRef"
       :virtual-triggering="virtualTriggering"
+      :focus-on-hover="focusOnHover"
     >
       <slot v-if="$slots.default" />
     </el-tooltip-trigger>

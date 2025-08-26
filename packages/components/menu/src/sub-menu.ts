@@ -5,6 +5,7 @@ import {
   getCurrentInstance,
   h,
   inject,
+  nextTick,
   onBeforeUnmount,
   onMounted,
   provide,
@@ -19,6 +20,7 @@ import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElTooltip from '@element-plus/components/tooltip'
 import {
   buildProps,
+  focusElement,
   iconPropType,
   isString,
   isUndefined,
@@ -268,6 +270,15 @@ export default defineComponent({
 
       if (appendToBody.value) {
         parentMenu.value.vnode.el?.dispatchEvent(new MouseEvent('mouseenter'))
+      }
+
+      if (event.type === 'mouseenter' && event.target) {
+        nextTick(() => {
+          focusElement(event.target as HTMLElement, {
+            preventScroll: true,
+            focusVisible: false,
+          })
+        })
       }
     }
 
