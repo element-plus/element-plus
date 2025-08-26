@@ -82,7 +82,7 @@ interface Props {
   options?: string
 }
 
-const defaultProps: Required<Omit<Props, 'options'>> = {
+export const defaultProps: Required<Omit<Props, 'options'>> = {
   label: 'label',
   value: 'value',
   disabled: 'disabled',
