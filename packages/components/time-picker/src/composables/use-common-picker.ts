@@ -53,10 +53,8 @@ export const useCommonPicker = <
       } else if (input) {
         formatted = formatter(input, props.valueFormat, lang.value)
       }
-      if (!formatted || !valueEquals(props.modelValue, formatted)) {
-        const emitVal = input ? formatted : input
-        emit(UPDATE_MODEL_EVENT, emitVal, lang.value)
-      }
+      const emitVal = input ? formatted : input
+      emit(UPDATE_MODEL_EVENT, emitVal, lang.value)
     }
   }
 
