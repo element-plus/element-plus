@@ -123,6 +123,50 @@ describe('table column', () => {
       wrapper.unmount()
     })
 
+    it('fixed column offset with spanMethod', async () => {
+      const wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+      <el-table :data="testData" :span-method="spanMethod">
+        <el-table-column prop="id" label="ID" width="80" fixed="left" />
+        <el-table-column prop="name" label="姓名" width="120" fixed="left" />
+        <el-table-column prop="age" label="年龄" width="100" />
+        <el-table-column prop="address" label="地址" width="200" />
+      </el-table>
+    `,
+        data() {
+          return {
+            testData: [
+              { id: 1, name: '张三', age: 18, address: '北京' },
+              { id: 2, name: '李四', age: 20, address: '上海' },
+            ],
+          }
+        },
+        methods: {
+          spanMethod({ columnIndex }) {
+            if (columnIndex === 0) return [0, 0]
+            if (columnIndex === 1) return [1, 2]
+            return [1, 1]
+          },
+        },
+      })
+
+      await doubleWait()
+      const leftFixedBodyColumns = wrapper.findAll(
+        '.el-table__body .el-table-fixed-column--left'
+      )
+      expect(getComputedStyle(leftFixedBodyColumns.at(0).element).left).toBe(
+        '0px'
+      )
+      expect(getComputedStyle(leftFixedBodyColumns.at(1).element).left).toBe(
+        '0px'
+      )
+      wrapper.unmount()
+    })
+
     it('resizable', async () => {
       const wrapper = createTable(
         'resizable',
