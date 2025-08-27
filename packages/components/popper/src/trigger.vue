@@ -143,7 +143,11 @@ onBeforeUnmount(() => {
     TRIGGER_ELE_EVENTS.forEach((eventName) => {
       const handler = props[eventName]
       if (handler) {
-        el.removeEventListener(eventName.slice(2).toLowerCase(), handler)
+        el.removeEventListener(
+          eventName.slice(2).toLowerCase(),
+          handler,
+          ['onFocus', 'onBlur'].includes(eventName)
+        )
       }
     })
     triggerRef.value = undefined
