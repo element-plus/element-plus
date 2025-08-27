@@ -397,25 +397,34 @@ describe('Splitter', () => {
         </ElSplitter>
       </div>
     ))
+
+    const dragAndSetSize = async (
+      start: number,
+      end: number,
+      newSize: number
+    ) => {
+      await simulateDrag(wrapper, start, end)
+      expect(panels[0].attributes('style')).toContain(`flex-basis: ${end}px;`)
+
+      size.value = newSize
+      await nextTick()
+      expect(panels[0].attributes('style')).toContain(
+        `flex-basis: ${newSize}px;`
+      )
+    }
+
     await nextTick()
     const panels = wrapper.findAll('.el-splitter-panel')
 
     // default size
     expect(panels[0].attributes('style')).toContain('flex-basis: 40px;')
 
-    await simulateDrag(wrapper, 40, 20)
-    expect(panels[0].attributes('style')).toContain('flex-basis: 20px;')
+    await dragAndSetSize(40, 20, 40)
 
-    size.value = 40
-    await nextTick()
-    expect(panels[0].attributes('style')).toContain('flex-basis: 40px;')
+    await dragAndSetSize(40, 0, 40)
 
-    // test drag to change size
-    await simulateDrag(wrapper, 40, 300)
-    expect(panels[0].attributes('style')).toContain('flex-basis: 300px;')
+    await dragAndSetSize(40, 300, 40)
 
-    size.value = 40
-    await nextTick()
-    expect(panels[0].attributes('style')).toContain('flex-basis: 40px;')
+    await dragAndSetSize(40, 400, 40)
   })
 })
