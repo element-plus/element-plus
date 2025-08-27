@@ -27,6 +27,7 @@
           @release-requested="onCloseRequested"
         >
           <el-splitter
+            ref="splitterRef"
             :class="ns.b('splitter')"
             :layout="isHorizontal ? 'horizontal' : 'vertical'"
           >
@@ -34,7 +35,12 @@
               v-if="['rtl', 'btt'].includes(direction)"
               @click="onModalClick"
             />
-            <el-splitter-panel :resizable="resizable" :size="drawerSize">
+            <el-splitter-panel
+              :resizable="resizable"
+              :size="drawerSize"
+              :min="getDrawerLimitSize.min"
+              :max="getDrawerLimitSize.max"
+            >
               <div
                 ref="drawerRef"
                 aria-modal="true"
@@ -123,6 +129,9 @@ import ElIcon from '@element-plus/components/icon'
 import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
 import { drawerEmits, drawerProps } from './drawer'
 import { addUnit } from '@element-plus/utils'
+import { isPct } from '@element-plus/components/splitter/src/hooks'
+import { clamp } from 'lodash-unified'
+import { useElementSize } from '@vueuse/core'
 
 defineOptions({
   name: 'ElDrawer',
@@ -146,6 +155,7 @@ useDeprecated(
 
 const drawerRef = ref<HTMLElement>()
 const focusStartRef = ref<HTMLElement>()
+const splitterRef = ref()
 const ns = useNamespace('drawer')
 const { t } = useLocale()
 const {
@@ -165,10 +175,38 @@ const {
   handleClose,
 } = useDialog(props, drawerRef)
 
+const { width: splitterWidth } = useElementSize(splitterRef)
+
 const isHorizontal = computed(
   () => props.direction === 'rtl' || props.direction === 'ltr'
 )
-const drawerSize = computed(() => addUnit(props.size))
+
+const getDrawerLimitSize = computed(() => {
+  const { minWidth, maxWidth, minHeight, maxHeight } = drawerRef.value
+    ? getComputedStyle(drawerRef.value)
+    : {}
+
+  return {
+    min: isHorizontal.value ? minWidth : minHeight,
+    max: isHorizontal.value ? maxWidth : maxHeight,
+  }
+})
+
+const drawerSize = computed(() => {
+  const { min, max } = getDrawerLimitSize.value
+  const minSize = sizeToPx(min ?? 0)
+  const maxSize = sizeToPx(max ?? splitterWidth.value)
+
+  // FIXME: If the splitter accounts for min and max during initialization, just return addUnit(props.size).
+  return addUnit(clamp(sizeToPx(props.size), minSize, maxSize))
+})
+
+const sizeToPx = (size: string | number) => {
+  if (isPct(size)) {
+    return (Number.parseFloat(size) / 100) * splitterWidth.value
+  }
+  return Number.parseFloat(`${size}`)
+}
 
 defineExpose({
   handleClose,

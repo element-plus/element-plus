@@ -163,6 +163,8 @@ const _panel = reactive({
   getVnode: () => instance.vnode,
   setIndex,
   ...props,
+  min: computed(() => props.min),
+  max: computed(() => props.max),
   collapsible: computed(() => getCollapsible(props.collapsible)),
 })
 
