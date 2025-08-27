@@ -114,11 +114,9 @@ function getMutatedPanelIndexes(
   newVal: (string | number | undefined)[]
 ) {
   const indexes: number[] = []
-  if (oldVal) {
-    for (const [i, oldPropsSize] of oldVal.entries()) {
-      if (oldPropsSize !== newVal[i]) {
-        indexes.push(i)
-      }
+  for (const [i, oldPropsSize] of oldVal.entries()) {
+    if (oldPropsSize !== newVal[i]) {
+      indexes.push(i)
     }
   }
   return indexes
