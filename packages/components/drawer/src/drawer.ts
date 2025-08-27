@@ -15,6 +15,13 @@ export const drawerProps = buildProps({
     type: [String, Number],
     default: '30%',
   },
+  min: {
+    type: [String, Number],
+  },
+  max: {
+    type: [String, Number],
+  },
+  lazy: Boolean,
   withHeader: {
     type: Boolean,
     default: true,

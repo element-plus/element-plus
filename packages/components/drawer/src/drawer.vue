@@ -29,12 +29,18 @@
           <el-splitter
             :class="ns.b('splitter')"
             :layout="isHorizontal ? 'horizontal' : 'vertical'"
+            :lazy="lazy"
           >
             <el-splitter-panel
               v-if="['rtl', 'btt'].includes(direction)"
               @click="onModalClick"
             />
-            <el-splitter-panel :resizable="resizable" :size="drawerSize">
+            <el-splitter-panel
+              :resizable="resizable"
+              :size="drawerSize"
+              :min="min"
+              :max="max"
+            >
               <div
                 ref="drawerRef"
                 aria-modal="true"
