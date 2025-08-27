@@ -97,7 +97,8 @@ onMounted(() => {
             )
             ;(prevEl as HTMLElement)?.removeEventListener?.(
               eventName.slice(2).toLowerCase(),
-              handler
+              handler,
+              ['onFocus', 'onBlur'].includes(eventName)
             )
           }
         })
