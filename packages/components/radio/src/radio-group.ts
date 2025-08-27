@@ -76,13 +76,8 @@ export type RadioGroupInstance = InstanceType<typeof RadioGroup> & unknown
 
 type ElRadioProps = ExtractPropTypes<typeof radioProps>
 type Option = Partial<ElRadioProps> & Record<string, any>
-interface Props {
-  label?: string
-  value?: string
-  disabled?: string
-  options?: string
-}
-export const radioDefaultProps: Required<Omit<Props, 'options'>> = {
+
+export const radioDefaultProps: Required<radioOptionProp>> = {
   label: 'label',
   value: 'value',
   disabled: 'disabled',
