@@ -119,11 +119,11 @@ describe('<ElTooltip />', () => {
       expect(wrapper.emitted()).toHaveProperty('hide')
     })
 
-    it('should focus on trigger element when trigger contains hover and focusOnHover is true', async () => {
+    it('should focus on trigger element when trigger contains hover and focusOnTarget is true', async () => {
       wrapper = createComponent(
         {
           trigger: 'hover',
-          focusOnHover: true,
+          focusOnTarget: true,
         },
         content
       )
@@ -144,11 +144,11 @@ describe('<ElTooltip />', () => {
       expect(wrapper.emitted()).toHaveProperty('show')
     })
 
-    it('should not focus on trigger element when trigger contains hover and focusOnHover is false', async () => {
+    it('should not focus on trigger element when trigger contains hover and focusOnTarget is false', async () => {
       wrapper = createComponent(
         {
           trigger: 'hover',
-          focusOnHover: false,
+          focusOnTarget: false,
         },
         content
       )

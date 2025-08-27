@@ -19,7 +19,7 @@
       placement="right"
       :fallback-placements="['left']"
       :persistent="rootMenu.props.persistent"
-      focus-on-hover
+      focus-on-target
     >
       <template #content>
         <slot name="title" />

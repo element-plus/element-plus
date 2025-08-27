@@ -53,7 +53,7 @@ const onMouseenter = composeEventHandlers(
   whenTrigger(trigger, 'hover', (e) => {
     onOpen(e)
 
-    if (props.focusOnHover && e.target) {
+    if (props.focusOnTarget && e.target) {
       nextTick(() => {
         focusElement(e.target as HTMLElement, {
           preventScroll: true,
