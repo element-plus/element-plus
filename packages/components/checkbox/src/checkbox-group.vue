@@ -68,11 +68,14 @@ const aliasProps = computed(() => ({
   ...checkboxDefaultProps,
   ...props.optionProps,
 }))
-const getOptionProps = (option: Record<string, any>) => ({
-  label: option[aliasProps.value.label],
-  value: option[aliasProps.value.value],
-  disabled: option[aliasProps.value.disabled],
-})
+const getOptionProps = (option: Record<string, any>) => {
+  const base = {
+    label: option[aliasProps.value.label],
+    value: option[aliasProps.value.value],
+    disabled: option[aliasProps.value.disabled],
+  }
+  return { ...option, ...base }
+}
 
 provide(checkboxGroupContextKey, {
   ...pick(toRefs(props), [
