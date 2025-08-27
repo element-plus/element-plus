@@ -5,6 +5,7 @@ import {
   useEmptyValuesProps,
   useSizeProp,
 } from '@element-plus/hooks'
+import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { CircleClose } from '@element-plus/icons-vue'
 import { disabledTimeListsProps } from '../props/shared'
 
@@ -48,10 +49,11 @@ export const timePickerDefaultProps = buildProps({
   /**
    * @description custom class name for TimePicker's dropdown
    */
-  popperClass: {
-    type: String,
-    default: '',
-  },
+  popperClass: useTooltipContentProps.popperClass,
+  /**
+   * @description custom style for TimePicker's dropdown
+   */
+  popperStyle: useTooltipContentProps.popperStyle,
   /**
    * @description format of the displayed value in the input box
    */
@@ -61,11 +63,11 @@ export const timePickerDefaultProps = buildProps({
    */
   valueFormat: String,
   /**
-   * @description optional, format of the date displayed value in TimePicker's dropdown
+   * @description optional, format of the date displayed in input's inner panel
    */
   dateFormat: String,
   /**
-   * @description optional, format of the time displayed value in TimePicker's dropdown
+   * @description optional, format of the time displayed in input's inner panel
    */
   timeFormat: String,
   /**
@@ -133,7 +135,7 @@ export const timePickerDefaultProps = buildProps({
    * @description binding value, if it is an array, the length should be 2
    */
   modelValue: {
-    type: definePropType<ModelValueType>([Date, Array, String, Number]),
+    type: definePropType<ModelValueType | null>([Date, Array, String, Number]),
     default: '',
   },
   /**
@@ -230,6 +232,20 @@ export const timePickerDefaultProps = buildProps({
    * @description whether to show the now button
    */
   showNow: {
+    type: Boolean,
+    default: true,
+  },
+  /**
+   * @description whether to show footer
+   */
+  showConfirm: {
+    type: Boolean,
+    default: true,
+  },
+  /**
+   * @description whether to show footer
+   */
+  showFooter: {
     type: Boolean,
     default: true,
   },

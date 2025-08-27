@@ -74,7 +74,7 @@
               @mousedown.prevent="NOOP"
               @click="clear"
             >
-              <circle-close />
+              <component :is="clearIcon" />
             </el-icon>
             <el-icon
               v-if="showPwdVisible"
@@ -163,11 +163,7 @@ import {
 import { useResizeObserver } from '@vueuse/core'
 import { isNil } from 'lodash-unified'
 import { ElIcon } from '@element-plus/components/icon'
-import {
-  CircleClose,
-  Hide as IconHide,
-  View as IconView,
-} from '@element-plus/icons-vue'
+import { Hide as IconHide, View as IconView } from '@element-plus/icons-vue'
 import {
   useFormDisabled,
   useFormItem,
@@ -371,7 +367,7 @@ const createOnceInitResize = (resizeTextarea: () => void) => {
     if (isInit || !props.autosize) return
     const isElHidden = textarea.value?.offsetParent === null
     if (!isElHidden) {
-      resizeTextarea()
+      setTimeout(resizeTextarea)
       isInit = true
     }
   }

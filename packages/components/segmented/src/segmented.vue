@@ -24,7 +24,7 @@
           @change="handleChange(item)"
         />
         <div :class="ns.e('item-label')">
-          <slot :item="item">{{ getLabel(item) }}</slot>
+          <slot :item="intoAny(item)">{{ getLabel(item) }}</slot>
         </div>
       </label>
     </div>
@@ -83,6 +83,9 @@ const handleChange = (item: Option) => {
 
 const aliasProps = computed(() => ({ ...defaultProps, ...props.props }))
 
+//FIXME: remove this when vue >=3.3
+const intoAny = (item: any) => item
+
 const getValue = (item: Option) => {
   return isObject(item) ? item[aliasProps.value.value] : item
 }
@@ -130,13 +133,12 @@ const updateSelect = () => {
     state.focusVisible = false
     return
   }
-  const rect = selectedItem.getBoundingClientRect()
   state.isInit = true
   if (props.direction === 'vertical') {
-    state.height = rect.height
+    state.height = selectedItem.offsetHeight
     state.translateY = selectedItem.offsetTop
   } else {
-    state.width = rect.width
+    state.width = selectedItem.offsetWidth
     state.translateX = selectedItem.offsetLeft
   }
   try {

@@ -508,7 +508,7 @@ function useWatcher<T extends DefaultRow>() {
     rowKey,
   })
   // 适配层，expand-row-keys 在 Expand 与 TreeTable 中都有使用
-  const setExpandRowKeysAdapter = (val: (string | number)[]) => {
+  const setExpandRowKeysAdapter = (val: string[]) => {
     // 这里会触发额外的计算，但为了兼容性，暂时这么做
     setExpandRowKeys(val)
     updateTreeExpandKeys(val)

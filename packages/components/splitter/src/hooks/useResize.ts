@@ -1,5 +1,6 @@
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { getPct, getPx, isPct, isPx } from './useSize'
+import { NOOP } from '@element-plus/utils'
 
 import type { ComputedRef, Ref } from 'vue'
 import type { PanelItemState } from '../type'
@@ -7,7 +8,8 @@ import type { PanelItemState } from '../type'
 export function useResize(
   panels: Ref<PanelItemState[]>,
   containerSize: ComputedRef<number>,
-  pxSizes: ComputedRef<number[]>
+  pxSizes: ComputedRef<number[]>,
+  lazy: Ref<boolean>
 ) {
   const ptg2px = (ptg: number) => ptg * containerSize.value || 0
 
@@ -23,18 +25,28 @@ export function useResize(
     return str ?? defaultLimit
   }
 
+  const lazyOffset = ref(0)
   const movingIndex = ref<{
     index: number
     confirmed: boolean
   } | null>(null)
 
   let cachePxSizes: number[] = []
+  let updatePanelSizes = NOOP
 
   const limitSizes = computed(() =>
     panels.value.map((item) => [item.min, item.max])
   )
 
+  watch(lazy, () => {
+    if (lazyOffset.value) {
+      const mouseup = new MouseEvent('mouseup', { bubbles: true })
+      window.dispatchEvent(mouseup)
+    }
+  })
+
   const onMoveStart = (index: number) => {
+    lazyOffset.value = 0
     movingIndex.value = { index, confirmed: false }
     cachePxSizes = pxSizes.value
   }
@@ -91,26 +103,43 @@ export function useResize(
 
     numSizes[mergedIndex]! += mergedOffset
     numSizes[nextIndex]! -= mergedOffset
+    lazyOffset.value = mergedOffset
 
-    panels.value.forEach((panel, index) => {
-      panel.size = numSizes[index]
-    })
+    updatePanelSizes = () => {
+      panels.value.forEach((panel, index) => {
+        panel.size = numSizes[index]
+      })
+      updatePanelSizes = NOOP
+    }
+
+    if (!lazy.value) {
+      updatePanelSizes()
+    }
   }
 
   const onMoveEnd = () => {
+    if (lazy.value) {
+      updatePanelSizes()
+    }
+
+    lazyOffset.value = 0
     movingIndex.value = null
     cachePxSizes = []
   }
 
   const cacheCollapsedSize: number[] = []
   const onCollapse = (index: number, type: 'start' | 'end') => {
+    if (!cacheCollapsedSize.length) {
+      cacheCollapsedSize.push(...pxSizes.value)
+    }
+
     const currentSizes = pxSizes.value
 
     const currentIndex = type === 'start' ? index : index + 1
     const targetIndex = type === 'start' ? index + 1 : index
 
-    const currentSize = currentSizes[currentIndex]!
-    const targetSize = currentSizes[targetIndex]!
+    const currentSize = currentSizes[currentIndex]
+    const targetSize = currentSizes[targetIndex]
 
     if (currentSize !== 0 && targetSize !== 0) {
       currentSizes[currentIndex] = 0
@@ -119,7 +148,7 @@ export function useResize(
     } else {
       const totalSize = currentSize + targetSize
 
-      const targetCacheCollapsedSize = cacheCollapsedSize[index]!
+      const targetCacheCollapsedSize = cacheCollapsedSize[index]
       const currentCacheCollapsedSize = totalSize - targetCacheCollapsedSize
 
       currentSizes[targetIndex] = targetCacheCollapsedSize
@@ -131,5 +160,12 @@ export function useResize(
     })
   }
 
-  return { onMoveStart, onMoving, onMoveEnd, movingIndex, onCollapse }
+  return {
+    lazyOffset,
+    onMoveStart,
+    onMoving,
+    onMoveEnd,
+    movingIndex,
+    onCollapse,
+  }
 }

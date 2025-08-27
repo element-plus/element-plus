@@ -21,6 +21,14 @@ select/basic-usage
 
 :::
 
+## Options attribute ^(2.10.5)
+
+:::demo Shortcut from basic `el-option` usage. You can customize the alias of the `options` through the `props` attribute.
+
+select/options
+
+:::
+
 ## Disabled option
 
 :::demo Set the value of `disabled` in `el-option` to `true` to disable this option.
@@ -39,11 +47,11 @@ select/disabled
 
 :::
 
-## Clearable single select
+## Clearable
 
 You can clear Select using a clear icon.
 
-:::demo Set `clearable` attribute for `el-select` and a clear icon will appear. Note that `clearable` is only for single select.
+:::demo Set `clearable` attribute for `el-select` and a clear icon will appear.
 
 select/clearable
 
@@ -197,6 +205,8 @@ select/custom-label
 | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
 | model-value / v-model           | binding value                                                                                                                            | ^[string] / ^[number] / ^[boolean] / ^[object] / ^[array]                                                                                                                   | —                                              |
 | multiple                        | whether multiple-select is activated                                                                                                     | ^[boolean]                                                                                                                                                                  | false                                          |
+| options ^(2.10.5)               | data of the options, the key of `value` and `label` and `disabled` can be customize by `props`                                           | ^[array]`Array<{[key: string]: any}>`                                                                                                                                       | —                                              |
+| [props](#props) ^(2.10.5)       | configuration options                                                                                                                    | ^[object]                                                                                                                                                                   | —                                              |
 | disabled                        | whether Select is disabled                                                                                                               | ^[boolean]                                                                                                                                                                  | false                                          |
 | value-key                       | unique identity key name for value, required when value is an object                                                                     | ^[string]                                                                                                                                                                   | value                                          |
 | size                            | size of Input                                                                                                                            | ^[enum]`'' \| 'large' \| 'default' \| 'small'`                                                                                                                              | —                                              |
@@ -220,6 +230,7 @@ select/custom-label
 | no-match-text                   | displayed text when no data matches the filtering query, you can also use slot `empty`, default is 'No matching data'                    | ^[string]                                                                                                                                                                   | —                                              |
 | no-data-text                    | displayed text when there is no options, you can also use slot `empty`, default is 'No data'                                             | ^[string]                                                                                                                                                                   | —                                              |
 | popper-class                    | custom class name for Select's dropdown                                                                                                  | ^[string]                                                                                                                                                                   | ''                                             |
+| popper-style ^(2.11.0)          | custom style for Select's dropdown                                                                                                       | ^[string] / ^[object]                                                                                                                                                       | —                                              |
 | reserve-keyword                 | when `multiple` and `filterable` is true, whether to reserve current keyword after selecting an option                                   | ^[boolean]                                                                                                                                                                  | true                                           |
 | default-first-option            | select first matching option on enter key. Use with `filterable` or `remote`                                                             | ^[boolean]                                                                                                                                                                  | false                                          |
 | teleported                      | whether select dropdown is teleported, if `true` it will be teleported to where `append-to` sets                                         | ^[boolean]                                                                                                                                                                  | true                                           |
@@ -250,6 +261,15 @@ select/custom-label
 
 :::
 
+### props
+
+| Attribute         | Description                                                     | Type      | Default  |
+| ----------------- | --------------------------------------------------------------- | --------- | -------- |
+| value             | specify which key of node object is used as the node's value    | ^[string] | value    |
+| label             | specify which key of node object is used as the node's label    | ^[string] | label    |
+| options ^(2.11.0) | specify which key of node object is used as the node's children | ^[string] | options  |
+| disabled          | specify which key of node object is used as the node's disabled | ^[string] | disabled |
+
 ### Select Events
 
 | Name                  | Description                                                   | Type                                                                |
@@ -264,16 +284,16 @@ select/custom-label
 
 ### Select Slots
 
-| Name             | Description                                                                                     | Subtags                                                                                                                                       |
-| ---------------- | ----------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| default          | option component list                                                                           | Option Group / Option                                                                                                                         |
-| header ^(2.4.3)  | content at the top of the dropdown                                                              | —                                                                                                                                             |
-| footer ^(2.4.3)  | content at the bottom of the dropdown                                                           | —                                                                                                                                             |
-| prefix           | content as Select prefix                                                                        | —                                                                                                                                             |
-| empty            | content when there is no options                                                                | —                                                                                                                                             |
-| tag ^(2.5.0)     | content as Select tag, subTags `data`, `selectDisabled` and `deleteTag` introduced in ^(2.10.3) | ^[object]`{ data: OptionBasic[], selectDisabled: boolean, deleteTag: (event: MouseEvent, tag: OptionPublicInstance \| OptionBasic) => void }` |
-| loading ^(2.5.2) | content as Select loading                                                                       | —                                                                                                                                             |
-| label ^(2.7.4)   | content as Select label                                                                         | —                                                                                                                                             |
+| Name             | Description                                                                                     | Subtags                                                                                                               |
+| ---------------- | ----------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| default          | option component list                                                                           | Option Group / Option                                                                                                 |
+| header ^(2.4.3)  | content at the top of the dropdown                                                              | —                                                                                                                     |
+| footer ^(2.4.3)  | content at the bottom of the dropdown                                                           | —                                                                                                                     |
+| prefix           | content as Select prefix                                                                        | —                                                                                                                     |
+| empty            | content when there is no options                                                                | —                                                                                                                     |
+| tag ^(2.5.0)     | content as Select tag, subTags `data`, `selectDisabled` and `deleteTag` introduced in ^(2.10.3) | ^[object]`{ data: OptionBasic[], selectDisabled: boolean, deleteTag: (event: MouseEvent, tag: OptionBasic) => void }` |
+| loading ^(2.5.2) | content as Select loading                                                                       | —                                                                                                                     |
+| label ^(2.7.4)   | content as Select label. `index` introduced in ^(2.11.2)                                        | ^[object]`{ index: number, label: string \| any, value: string \| any }`                                              |
 
 ### Select Exposes
 

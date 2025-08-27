@@ -9,9 +9,8 @@ import ElTable from '../src/table.vue'
 import ElTableColumn from '../src/table-column'
 import {
   doubleWait,
-  getMutliRowTestData,
+  getMultiRowTestData,
   getTestData,
-  getTestDataNumAndString,
   mount,
 } from './table-test-common'
 
@@ -1273,7 +1272,7 @@ describe('Table.vue', () => {
       `,
       data() {
         return {
-          testData: getMutliRowTestData(),
+          testData: getMultiRowTestData(),
         }
       },
       methods: {
@@ -1722,6 +1721,14 @@ describe('Table.vue', () => {
       expect(wrapper.findAll('.el-table__row').length).toEqual(8)
       expect(spy.mock.calls[0][0]).toBeInstanceOf(Object)
       expect(spy.mock.calls[0][1]).toBeTruthy()
+
+      const iconTr = expandIcon.element.closest('tr')
+      expect(iconTr.classList).toContain('el-table__row--level-0')
+      const firstChildRow = iconTr.nextElementSibling
+      expect(firstChildRow.classList).toContain('el-table__row--level-1')
+      const indent = firstChildRow.querySelector('.el-table__indent')
+      expect(indent).toBeTruthy()
+      expect(indent.style.paddingLeft).toEqual('16px')
     })
 
     it('tree-props & default-expand-all with dynamic data', async () => {
@@ -1946,72 +1953,6 @@ describe('Table.vue', () => {
       expect(expandIcon.classes()).not.toContain(
         'el-table__expand-icon--expanded'
       )
-    })
-
-    it('expand-row-keys number and string', async () => {
-      wrapper = mount({
-        components: {
-          ElTable,
-          ElTableColumn,
-        },
-        template: `
-          <el-table :data="testData" row-key="id" :expand-row-keys="[2, 3, '31']">
-            <el-table-column prop="name" label="片名" />
-            <el-table-column prop="release" label="发行日期" />
-            <el-table-column prop="director" label="导演" />
-            <el-table-column prop="runtime" label="时长（分）" />
-          </el-table>
-        `,
-        data() {
-          return {
-            testData: getTestDataNumAndString(),
-          }
-        },
-      })
-      await doubleWait()
-      // 查找所有 level-1 的行
-      const level1Rows = wrapper.findAll('.el-table__row--level-1')
-
-      // 遍历每一行并检查其样式是否不为 display: none;
-      level1Rows.forEach((row) => {
-        const rowStyle = row.attributes('style')
-        if (rowStyle) {
-          expect(rowStyle).not.toContain('display: none;') // 期望样式不包含 display: none;
-        }
-      })
-    })
-
-    it('expand-row-keys multi-level number and string', async () => {
-      wrapper = mount({
-        components: {
-          ElTable,
-          ElTableColumn,
-        },
-        template: `
-          <el-table :data="testData" row-key="test.id" :expand-row-keys="[2, 3, '31']">
-            <el-table-column prop="name" label="片名" />
-            <el-table-column prop="release" label="发行日期" />
-            <el-table-column prop="director" label="导演" />
-            <el-table-column prop="runtime" label="时长（分）" />
-          </el-table>
-        `,
-        data() {
-          return {
-            testData: getTestDataNumAndString(),
-          }
-        },
-      })
-      await doubleWait()
-      // 查找所有 level-1 的行
-      const level1Rows = wrapper.findAll('.el-table__row--level-1')
-
-      // 遍历每一行并检查其样式是否不为 display: none;
-      level1Rows.forEach((row) => {
-        const rowStyle = row.attributes('style')
-        if (rowStyle) {
-          expect(rowStyle).not.toContain('display: none;') // 期望样式不包含 display: none;
-        }
-      })
     })
 
     it('v-if on el-table-column should patch correctly', async () => {
@@ -2396,6 +2337,56 @@ describe('Table.vue', () => {
     mockCellRect2.mockRestore()
   })
 
+  it('should cleanup tooltip dynamically', async () => {
+    const mockRangeRect = vi
+      .spyOn(Range.prototype, 'getBoundingClientRect')
+      .mockReturnValue({
+        width: 150,
+        height: 30,
+      } as DOMRect)
+
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+      template: `
+        <el-table :data="testData">
+          <el-table-column :show-overflow-tooltip="showOverflowTooltip" class-name="overflow_tooltip" prop="name" label="name"/>
+        </el-table>
+      `,
+
+      data() {
+        return {
+          testData: getTestData(),
+          showOverflowTooltip: true,
+        }
+      },
+    })
+
+    await doubleWait()
+    const tr = wrapper.findAll('.overflow_tooltip')
+    const mockCellRect = vi
+      .spyOn(tr[1].find('.cell').element, 'getBoundingClientRect')
+      .mockReturnValue({
+        width: 100,
+        height: 30,
+      } as DOMRect)
+    await tr[1].trigger('mouseenter')
+    await rAF()
+    expect(wrapper.find('.el-popper').exists()).toBe(true)
+    await wrapper.setData({ showOverflowTooltip: false })
+    await tr[1].trigger('mouseleave')
+    await rAF()
+    await tr[1].trigger('mouseenter')
+    await rAF()
+    expect(wrapper.find('.el-popper').exists()).toBe(false)
+
+    mockRangeRect.mockRestore()
+    mockCellRect.mockRestore()
+    wrapper.unmount()
+  })
+
   it('use-tooltip-formatter', async () => {
     const testData = getTestData() as any
     const mockRangeRect = vi
@@ -2492,5 +2483,34 @@ describe('Table.vue', () => {
     )
 
     mockRangeRect.mockRestore()
+  })
+
+  it('should dynamically update show-overflow-tooltip via root table level', async () => {
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+
+      template: `
+    <el-table :data="testData" :show-overflow-tooltip="showOverflowTooltip">
+      <el-table-column props="name" label="name"/>
+      <el-table-column prop="director" label="director" />
+      <el-table-column prop="runtime" label="runtime" />
+    </el-table>
+  `,
+
+      data() {
+        return {
+          testData: getTestData(),
+          showOverflowTooltip: false,
+        }
+      },
+    })
+
+    await doubleWait()
+    expect(wrapper.find('div.cell.el-tooltip').exists()).toBe(false)
+    await wrapper.setProps({ showOverflowTooltip: true })
+    expect(wrapper.find('div.cell.el-tooltip').exists()).toBe(true)
   })
 })

@@ -8,15 +8,17 @@ import {
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
-import type {
-  ComputedRef,
-  ExtractPropTypes,
-  InjectionKey,
-  __ExtractPublicPropTypes,
-} from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type ColorPicker from './color-picker.vue'
 
 export const colorPickerProps = buildProps({
+  /**
+   * @description when color-picker inactive and persistent is false, the color panel will be destroyed
+   */
+  persistent: {
+    type: Boolean,
+    default: true,
+  },
   /**
    * @description binding value
    */
@@ -63,6 +65,10 @@ export const colorPickerProps = buildProps({
    */
   teleported: useTooltipContentProps.teleported,
   /**
+   * @description which color-picker panel appends to
+   */
+  appendTo: useTooltipContentProps.appendTo,
+  /**
    * @description predefined color options
    */
   predefine: {
@@ -92,11 +98,3 @@ export type ColorPickerPropsPublic = __ExtractPublicPropTypes<
 >
 export type ColorPickerEmits = typeof colorPickerEmits
 export type ColorPickerInstance = InstanceType<typeof ColorPicker> & unknown
-
-export interface ColorPickerContext {
-  currentColor: ComputedRef<string>
-}
-
-export const colorPickerContextKey: InjectionKey<ColorPickerContext> = Symbol(
-  'colorPickerContextKey'
-)

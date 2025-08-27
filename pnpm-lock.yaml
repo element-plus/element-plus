@@ -4,6 +4,42 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+catalogs:
+  default:
+    '@ctrl/tinycolor':
+      specifier: ^3.4.1
+      version: 3.6.1
+    '@element-plus/icons-vue':
+      specifier: ^2.3.1
+      version: 2.3.1
+    '@popperjs/core':
+      specifier: npm:@sxzz/popperjs-es@^2.11.7
+      version: 2.11.7
+    '@vue/shared':
+      specifier: ~3.2.37
+      version: 3.2.39
+    '@vue/test-utils':
+      specifier: ^2.0.0
+      version: 2.0.0
+    '@vueuse/core':
+      specifier: ^10.11.0
+      version: 10.11.0
+    csstype:
+      specifier: ^2.6.20
+      version: 2.6.20
+    lodash-unified:
+      specifier: ^1.0.2
+      version: 1.0.3
+    normalize-wheel-es:
+      specifier: ^1.2.0
+      version: 1.2.0
+    type-fest:
+      specifier: ^2.14.0
+      version: 2.14.0
+    vue:
+      specifier: ~3.2.37
+      version: 3.2.37
+
 overrides:
   typescript: ~5.5.4
   jwa: ^1.4.2
@@ -193,8 +229,8 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1
       rimraf:
-        specifier: ^3.0.2
-        version: 3.0.2
+        specifier: ^4.4.1
+        version: 4.4.1
       sass:
         specifier: ^1.79.3
         version: 1.79.3
@@ -310,9 +346,6 @@ importers:
       vitepress-plugin-group-icons:
         specifier: ^1.3.4
         version: 1.3.4
-      vue:
-        specifier: ^3.4.27
-        version: 3.4.31(typescript@5.5.4)
 
   internal/build:
     dependencies:
@@ -499,16 +532,66 @@ importers:
 
   packages/components:
     dependencies:
+      '@ctrl/tinycolor':
+        specifier: 'catalog:'
+        version: 3.6.1
+      '@element-plus/constants':
+        specifier: workspace:^
+        version: link:../constants
+      '@element-plus/directives':
+        specifier: workspace:^
+        version: link:../directives
+      '@element-plus/hooks':
+        specifier: workspace:^
+        version: link:../hooks
+      '@element-plus/icons-vue':
+        specifier: 'catalog:'
+        version: 2.3.1(vue@3.2.37)
+      '@element-plus/utils':
+        specifier: workspace:^
+        version: link:../utils
+      '@popperjs/core':
+        specifier: 'catalog:'
+        version: '@sxzz/popperjs-es@2.11.7'
+      '@vueuse/core':
+        specifier: 'catalog:'
+        version: 10.11.0(vue@3.2.37)
+      csstype:
+        specifier: 'catalog:'
+        version: 2.6.20
+      lodash-unified:
+        specifier: 'catalog:'
+        version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.21)(lodash@4.17.21)
+    devDependencies:
+      '@element-plus/test-utils':
+        specifier: workspace:^
+        version: link:../test-utils
+      '@vue/test-utils':
+        specifier: 'catalog:'
+        version: 2.0.0(vue@3.2.37)
       vue:
-        specifier: ^3.2.0
+        specifier: 'catalog:'
         version: 3.2.37
 
   packages/constants: {}
 
   packages/directives:
     dependencies:
+      '@element-plus/constants':
+        specifier: workspace:^
+        version: link:../constants
+      '@element-plus/utils':
+        specifier: workspace:^
+        version: link:../utils
+      normalize-wheel-es:
+        specifier: 'catalog:'
+        version: 1.2.0
+    devDependencies:
+      '@vue/test-utils':
+        specifier: 'catalog:'
+        version: 2.0.0(vue@3.2.37)
       vue:
-        specifier: ^3.2.0
+        specifier: 'catalog:'
         version: 3.2.37
 
   packages/element-plus:
@@ -574,13 +657,39 @@ importers:
 
   packages/hooks:
     dependencies:
+      '@floating-ui/dom':
+        specifier: ^1.0.1
+        version: 1.6.8
+      '@popperjs/core':
+        specifier: 'catalog:'
+        version: '@sxzz/popperjs-es@2.11.7'
+      '@vueuse/core':
+        specifier: 'catalog:'
+        version: 10.11.0(vue@3.2.37)
+      lodash-unified:
+        specifier: 'catalog:'
+        version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.21)(lodash@4.17.21)
+    devDependencies:
+      '@vue/test-utils':
+        specifier: 'catalog:'
+        version: 2.0.0(vue@3.2.37)
       vue:
-        specifier: ^3.2.0
+        specifier: 'catalog:'
         version: 3.2.37
 
   packages/locale: {}
 
-  packages/test-utils: {}
+  packages/test-utils:
+    dependencies:
+      '@vue/test-utils':
+        specifier: 'catalog:'
+        version: 2.0.0(vue@3.2.37)
+      lodash-unified:
+        specifier: 'catalog:'
+        version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.21)(lodash@4.17.21)
+      vue:
+        specifier: 'catalog:'
+        version: 3.2.37
 
   packages/theme-chalk:
     devDependencies:
@@ -617,8 +726,33 @@ importers:
 
   packages/utils:
     dependencies:
+      '@element-plus/constants':
+        specifier: workspace:^
+        version: link:../constants
+      '@element-plus/icons-vue':
+        specifier: 'catalog:'
+        version: 2.3.1(vue@3.2.37)
+      '@vueuse/core':
+        specifier: 'catalog:'
+        version: 10.11.0(vue@3.2.37)
+      lodash-unified:
+        specifier: 'catalog:'
+        version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.21)(lodash@4.17.21)
+    devDependencies:
+      '@vue/shared':
+        specifier: 'catalog:'
+        version: 3.2.39
+      '@vue/test-utils':
+        specifier: 'catalog:'
+        version: 2.0.0(vue@3.2.37)
+      expect-type:
+        specifier: ^0.13.0
+        version: 0.13.0
+      type-fest:
+        specifier: 'catalog:'
+        version: 2.14.0
       vue:
-        specifier: ^3.2.0
+        specifier: 'catalog:'
         version: 3.2.37
 
   play:
@@ -5066,6 +5200,10 @@ packages:
     engines: {node: '>=12'}
     deprecated: Glob versions prior to v9 are no longer supported
 
+  glob@9.3.5:
+    resolution: {integrity: sha512-e1LleDykUz2Iu+MTYdkSsuWX8lvAjAcs0Xef0lNIu0S2wOAzuTxCJtcd9S3cijlwYF18EsU3rzb8jPVobxDh9Q==}
+    engines: {node: '>=16 || 14 >=14.17'}
+
   global-directory@4.0.1:
     resolution: {integrity: sha512-wHTUcDUoZ1H5/0iVqEudYW4/kAlN5cZ3j/bXn0Dpbizl9iaUVeWSHqiOjsgk6OW2bkLclbBjzewBz6weQ1zA2Q==}
     engines: {node: '>=18'}
@@ -6038,6 +6176,10 @@ packages:
     resolution: {integrity: sha512-lKwV/1brpG6mBUFHtb7NUmtABCb2WZZmm2wNiOA5hAb8VdCS4B3dtMWyvcoViccwAW/COERjXLt0zP1zXUN26g==}
     engines: {node: '>=10'}
 
+  minimatch@8.0.4:
+    resolution: {integrity: sha512-W0Wvr9HyFXZRGIDgCicunpQ299OKXs9RgZfaukz4qAW/pJhcpUfupc9c+OObPOFueNy8VSrZgEmDtk6Kh4WzDA==}
+    engines: {node: '>=16 || 14 >=14.17'}
+
   minimatch@9.0.5:
     resolution: {integrity: sha512-G6T0ZX48xgozx7587koeX9Ys2NYy6Gmv//P89sEte9V9whIapMNF4idKxnW2QtCcLiTWlb/wfCabAtAFWhhBow==}
     engines: {node: '>=16 || 14 >=14.17'}
@@ -6050,6 +6192,10 @@ packages:
 
   minipass@3.3.6:
     resolution: {integrity: sha512-DxiNidxSEK+tHG6zOIklvNOwm3hvCrbUrdtzY74U6HKTJxvIDfOUL5W5P2Ghd3DTkhhKPYGqeNUIh5qcM4YBfw==}
+    engines: {node: '>=8'}
+
+  minipass@4.2.8:
+    resolution: {integrity: sha512-fNzuVyifolSLFL4NzpF+wEF4qrgqaaKX0haXPQEdQ7NKAN+WecoKMHV09YcuL/DHxrUsYQOK3MiuDf7Ip2OXfQ==}
     engines: {node: '>=8'}
 
   minipass@5.0.0:
@@ -7175,6 +7321,11 @@ packages:
   rimraf@3.0.2:
     resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==}
     deprecated: Rimraf versions prior to v4 are no longer supported
+    hasBin: true
+
+  rimraf@4.4.1:
+    resolution: {integrity: sha512-Gk8NlF062+T9CqNGn6h4tls3k6T1+/nXdOcSZVikNVtlRdYpA7wRJJMoXmuvOnLW844rPjdQ7JgXCYM6PPC/og==}
+    engines: {node: '>=14'}
     hasBin: true
 
   rollup-plugin-dts@6.1.1:
@@ -11272,7 +11423,7 @@ snapshots:
       '@babel/parser': 7.24.1
       '@vue-macros/common': 1.10.1(rollup@4.24.4)(vue@3.2.37)
       '@vue/compiler-core': 3.4.31
-      '@vue/shared': 3.4.31
+      '@vue/shared': 3.5.13
       magic-string: 0.30.10
       unplugin: 1.10.0
       vue: 3.2.37
@@ -11562,7 +11713,7 @@ snapshots:
     dependencies:
       '@volar/language-core': 2.4.8
       '@vue/compiler-dom': 3.5.12
-      '@vue/shared': 3.5.12
+      '@vue/shared': 3.5.13
       computeds: 0.0.1
       minimatch: 9.0.5
       muggle-string: 0.4.1
@@ -11652,8 +11803,7 @@ snapshots:
 
   '@vue/shared@3.5.12': {}
 
-  '@vue/shared@3.5.13':
-    optional: true
+  '@vue/shared@3.5.13': {}
 
   '@vue/test-utils@2.0.0(vue@3.2.37)':
     dependencies:
@@ -13814,6 +13964,13 @@ snapshots:
       minimatch: 5.1.6
       once: 1.4.0
 
+  glob@9.3.5:
+    dependencies:
+      fs.realpath: 1.0.0
+      minimatch: 8.0.4
+      minipass: 4.2.8
+      path-scurry: 1.11.1
+
   global-directory@4.0.1:
     dependencies:
       ini: 4.1.1
@@ -14788,6 +14945,10 @@ snapshots:
     dependencies:
       brace-expansion: 2.0.1
 
+  minimatch@8.0.4:
+    dependencies:
+      brace-expansion: 2.0.1
+
   minimatch@9.0.5:
     dependencies:
       brace-expansion: 2.0.1
@@ -14799,6 +14960,8 @@ snapshots:
   minipass@3.3.6:
     dependencies:
       yallist: 4.0.0
+
+  minipass@4.2.8: {}
 
   minipass@5.0.0: {}
 
@@ -15889,6 +16052,10 @@ snapshots:
   rimraf@3.0.2:
     dependencies:
       glob: 7.2.3
+
+  rimraf@4.4.1:
+    dependencies:
+      glob: 9.3.5
 
   rollup-plugin-dts@6.1.1(rollup@3.29.4)(typescript@5.5.4):
     dependencies:

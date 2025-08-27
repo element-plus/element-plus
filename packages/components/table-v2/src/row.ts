@@ -15,10 +15,10 @@ export type RowExpandParams = {
 } & RowCommonParams
 
 export type RowHoverParams = {
-  event: MouseEvent
+  event?: MouseEvent
   hovered: boolean
   rowKey: KeyType
-} & RowCommonParams
+} & Partial<RowCommonParams>
 
 export type RowEventHandlerParams = {
   rowKey: KeyType

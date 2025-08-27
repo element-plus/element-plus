@@ -2,7 +2,7 @@ import { isArray, isEmpty, isFunction, isUndefined } from '@element-plus/utils'
 
 import type { VNode } from 'vue'
 
-export type CascaderNodeValue = string | number
+export type CascaderNodeValue = string | number | Record<string, any>
 export type CascaderNodePathValue = CascaderNodeValue[]
 export type CascaderValue =
   | CascaderNodeValue
@@ -40,6 +40,9 @@ export interface CascaderProps {
   disabled?: string | isDisabled
   leaf?: string | isLeaf
   hoverThreshold?: number
+  checkOnClickNode?: boolean
+  checkOnClickLeaf?: boolean
+  showPrefix?: boolean
 }
 
 export type Nullable<T> = null | T

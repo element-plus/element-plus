@@ -136,6 +136,7 @@ export const selectV2Props = buildProps({
     type: definePropType<
       any[] | string | number | boolean | Record<string, any> | any
     >([Array, String, Number, Boolean, Object]),
+    default: undefined,
   },
   /**
    * @description is multiple
@@ -200,10 +201,11 @@ export const selectV2Props = buildProps({
   /**
    * @description custom class name for Select's dropdown
    */
-  popperClass: {
-    type: String,
-    default: '',
-  },
+  popperClass: useTooltipContentProps.popperClass,
+  /**
+   * @description custom style for Select's dropdown
+   */
+  popperStyle: useTooltipContentProps.popperStyle,
   /**
    * @description [popper.js](https://popper.js.org/docs/v2/) parameters
    */
