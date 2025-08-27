@@ -92,6 +92,13 @@ export const timePickerDefaultProps = buildProps({
     default: CircleClose,
   },
   /**
+   * @description when select dropdown is inactive and `persistent` is `false`, select dropdown will be destroyed
+   */
+  persistent: {
+    type: Boolean,
+    default: true,
+  },
+  /**
    * @description whether the input is editable
    */
   editable: {
@@ -266,7 +273,6 @@ export interface PickerOptions {
   isValidValue: (date: DayOrDays) => boolean
   handleKeydownInput: (event: KeyboardEvent) => void
   parseUserInput: (value: UserInput) => DayOrDays
-  formatToString: (value: DayOrDays) => UserInput
   getRangeAvailableTime: (date: DayOrDays) => DayOrDays
   getDefaultValue: () => DayOrDays
   panelReady: boolean

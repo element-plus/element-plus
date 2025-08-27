@@ -96,3 +96,9 @@ export const dayOrDaysToDate = (dayOrDays: DayOrDays): DateOrDates => {
     ? (dayOrDays.map((d) => d.toDate()) as [Date, Date])
     : dayOrDays.toDate()
 }
+
+export const formatToString = (value: Dayjs[] | Dayjs, format?: string) => {
+  return isArray(value)
+    ? value.map((day) => day.format(format))
+    : value.format(format)
+}

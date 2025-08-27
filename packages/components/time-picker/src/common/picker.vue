@@ -17,7 +17,7 @@
     :placement="placement"
     :stop-popper-mouse-event="false"
     :hide-after="0"
-    persistent
+    :persistent="persistent"
     @before-show="onBeforeShow"
     @show="onShow"
     @hide="onHide"
@@ -196,7 +196,7 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import { Calendar, Clock } from '@element-plus/icons-vue'
-import { dayOrDaysToDate, valueEquals } from '../utils'
+import { dayOrDaysToDate, formatToString, valueEquals } from '../utils'
 import {
   PICKER_BASE_INJECTION_KEY,
   PICKER_POPPER_OPTIONS_INJECTION_KEY,
@@ -384,7 +384,6 @@ const handleClose = () => {
 }
 
 const displayValue = computed<UserInput>(() => {
-  if (!pickerOptions.value.panelReady) return ''
   const formattedValue = formatDayjsToString(parsedValue.value)
   if (isArray(userInput.value)) {
     return [
@@ -508,8 +507,7 @@ const handleChange = () => {
         userInput.value = null
       }
     }
-  }
-  if (userInput.value === '') {
+  } else if (userInput.value === '') {
     emitInput(valueOnClear.value)
     emitChange(valueOnClear.value, true)
     userInput.value = null
@@ -523,7 +521,7 @@ const parseUserInputToDayjs = (value: UserInput) => {
 
 const formatDayjsToString = (value: DayOrDays) => {
   if (!value) return null
-  return pickerOptions.value.formatToString!(value)
+  return formatToString(value, props.format) as UserInput
 }
 
 const isValidValue = (value: DayOrDays) => {

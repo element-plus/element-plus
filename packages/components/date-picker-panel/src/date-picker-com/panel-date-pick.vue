@@ -676,12 +676,6 @@ const isValidValue = (date: unknown) => {
   )
 }
 
-const formatToString = (value: Dayjs | Dayjs[]) => {
-  return isArray(value)
-    ? (value as Dayjs[]).map((_) => _.format(props.format))
-    : (value as Dayjs).format(props.format)
-}
-
 const parseUserInput = (value: Dayjs) => {
   return correctlyParseUserInput(
     value,
@@ -868,7 +862,6 @@ watch(
 )
 
 contextEmit('set-picker-option', ['isValidValue', isValidValue])
-contextEmit('set-picker-option', ['formatToString', formatToString])
 contextEmit('set-picker-option', ['parseUserInput', parseUserInput])
 contextEmit('set-picker-option', ['handleFocusPicker', _handleFocusPicker])
 </script>
