@@ -84,6 +84,7 @@ $directions: rtl, ltr, ttb, btt;
 .#{$namespace}-drawer-splitter {
   $bar: #{$namespace}-splitter-bar;
   $panel: #{$namespace}-splitter-panel;
+
   > .#{$bar} {
     .#{$bar}__disable {
       display: none;
