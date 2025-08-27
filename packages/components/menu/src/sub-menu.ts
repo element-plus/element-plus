@@ -458,25 +458,27 @@ export default defineComponent({
           },
           titleTag
         ),
-        h(
-          ElCollapseTransition,
-          {},
-          {
-            default: () =>
-              withDirectives(
-                h(
-                  'ul',
-                  {
-                    role: 'menu',
-                    class: [nsMenu.b(), nsMenu.m('inline')],
-                    style: ulStyle.value,
-                  },
-                  [slots.default?.()]
-                ),
-                [[vShow, opened.value && !rootMenu.isMenuPopup]]
-              ),
-          }
-        ),
+        !rootMenu.isMenuPopup
+          ? h(
+              ElCollapseTransition,
+              {},
+              {
+                default: () =>
+                  withDirectives(
+                    h(
+                      'ul',
+                      {
+                        role: 'menu',
+                        class: [nsMenu.b(), nsMenu.m('inline')],
+                        style: ulStyle.value,
+                      },
+                      [slots.default?.()]
+                    ),
+                    [[vShow, opened.value]]
+                  ),
+              }
+            )
+          : null,
       ])
 
       return h(
