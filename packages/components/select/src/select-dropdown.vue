@@ -35,7 +35,7 @@ export default defineComponent({
     const minWidth = ref('')
 
     function updateMinWidth() {
-      minWidth.value = `${select.selectRef?.offsetWidth}px`
+      minWidth.value = `${select.selectRef?.offsetWidth! - 2}px`
     }
 
     onMounted(() => {

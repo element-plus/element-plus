@@ -1128,10 +1128,10 @@ describe('Select', () => {
       .mockReturnValue(selectRect as DOMRect)
     const dropdown = wrapper.findComponent({ name: 'ElSelectDropdown' })
     dropdown.vm.minWidth = `${
-      selectRef.element.getBoundingClientRect().width
+      selectRef.element.getBoundingClientRect().width - 2
     }px`
     await nextTick()
-    expect(dropdown.element.style.width).toBe('221px')
+    expect(dropdown.element.style.width).toBe('219px')
     mockSelectWidth.mockRestore()
   })
 
