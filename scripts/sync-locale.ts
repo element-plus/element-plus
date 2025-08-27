@@ -5,21 +5,21 @@ import consola from 'consola'
 import { isArray, isObject, isString } from 'lodash-unified'
 import { localeRoot, normalizePath } from '@element-plus/build-utils'
 
-interface LocaleObject {
-  [key: string]: LocaleObject | string | Array<string>
+type TranslatePair = {
+  [key: string]: string | string[] | TranslatePair
 }
 
 const langRoot = resolve(localeRoot, 'lang')
 const enFile = normalizePath(resolve(langRoot, 'en.ts'))
 const localePath = normalizePath(resolve(`${langRoot}/!(en).ts`))
 const commentInfo = '// to be translated'
+const untranslatedRexExp = new RegExp(
+  `\\w+:(\\s+|\\n\\s+).*,?\\s*${commentInfo}$`,
+  'gm'
+)
 
-function parseLocaleFile(content: string): LocaleObject {
+function parseLocaleFile(content: string): TranslatePair {
   try {
-    const untranslatedRexExp = new RegExp(
-      `\\w+:(\\s+|\\n\\s+).*,?\\s*${commentInfo}$`,
-      'gm'
-    )
     const objectContent = content
       .replace(/^export\s+default\s+/, '')
       .replace(/;\s*$/, '')
@@ -33,11 +33,11 @@ function parseLocaleFile(content: string): LocaleObject {
 }
 
 function mergeLocaleObjects(
-  source: LocaleObject,
-  target: LocaleObject,
+  source: TranslatePair,
+  target: TranslatePair,
   path = ''
-): LocaleObject {
-  const result: LocaleObject = {}
+): TranslatePair {
+  const result: TranslatePair = {}
 
   Object.entries(source).forEach(([key, value]) => {
     const currentPath = path ? `${path}.${key}` : key
@@ -58,8 +58,8 @@ function mergeLocaleObjects(
     } else if (isObject(value)) {
       if (isObject(target[key]) && !isArray(target[key])) {
         result[key] = mergeLocaleObjects(
-          value as LocaleObject,
-          target[key] as LocaleObject,
+          value as TranslatePair,
+          target[key] as TranslatePair,
           currentPath
         )
       } else {
@@ -111,7 +111,7 @@ function mergeLocaleArrays(
   return result
 }
 
-function addTranslationComments(obj: LocaleObject): LocaleObject {
+function addTranslationComments(obj: TranslatePair): TranslatePair {
   return Object.entries(obj).reduce((all, [key, value]) => {
     if (isArray(value)) {
       all[key] = value.map((item) => `${item} ${commentInfo}`)
@@ -122,10 +122,10 @@ function addTranslationComments(obj: LocaleObject): LocaleObject {
     }
 
     return all
-  }, {} as LocaleObject)
+  }, {} as TranslatePair)
 }
 
-function objectToTypescript(obj: LocaleObject, indent = 0): string {
+function objectToTypescript(obj: TranslatePair, indent = 0): string {
   const spaces = '  '.repeat(indent)
   const items: string[] = []
 
@@ -153,7 +153,7 @@ function objectToTypescript(obj: LocaleObject, indent = 0): string {
     } else if (isObject(value)) {
       items.push(
         `${spaces}  ${key}: {\n${objectToTypescript(
-          value as LocaleObject,
+          value as TranslatePair,
           indent + 1
         )}\n${spaces}  },`
       )
@@ -172,11 +172,11 @@ function objectToTypescript(obj: LocaleObject, indent = 0): string {
   return items.join('\n')
 }
 
-function generateTypescriptFile(obj: LocaleObject): string {
+function generateTypescriptFile(obj: TranslatePair): string {
   return `export default {\n${objectToTypescript(obj)}\n}\n`
 }
 
-function countKeys(obj: LocaleObject): number {
+function countKeys(obj: TranslatePair): number {
   return Object.values(obj).reduce((all, value) => {
     if (isObject(value) && !isArray(value)) {
       all += countKeys(value)
@@ -189,7 +189,7 @@ function countKeys(obj: LocaleObject): number {
 }
 
 function main() {
-  consola.start('Starting English additions synchronization...')
+  consola.start('Starting to synchronize content from English files...')
 
   const enContent = readFileSync(enFile, 'utf-8')
   const enObject = parseLocaleFile(enContent)
@@ -207,14 +207,14 @@ function main() {
     try {
       const content = readFileSync(filePath, 'utf-8')
       const targetObject = parseLocaleFile(content)
-      const originalKeys = countKeys(targetObject.el as LocaleObject)
+      const originalKeys = countKeys(targetObject.el as TranslatePair)
 
       targetObject.el = mergeLocaleObjects(
-        enObject.el as LocaleObject,
-        targetObject.el as LocaleObject
+        enObject.el as TranslatePair,
+        targetObject.el as TranslatePair
       )
 
-      const newKeys = countKeys(targetObject.el as LocaleObject)
+      const newKeys = countKeys(targetObject.el as TranslatePair)
       const addedKeys = newKeys - originalKeys
 
       if (addedKeys > 0) {
