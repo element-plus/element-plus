@@ -114,7 +114,8 @@ export const useHandlers = (
   }
 
   const handleRemove: UploadContentProps['onRemove'] = async (
-    file
+    file,
+    index
   ): Promise<void> => {
     const uploadFile = file instanceof File ? getFile(file) : file
     if (!uploadFile) throwError(SCOPE, 'file to be removed not found')
@@ -122,12 +123,16 @@ export const useHandlers = (
     const doRemove = (file: UploadFile) => {
       abort(file)
       removeFile(file)
-      props.onRemove(file, uploadFiles.value)
+      props.onRemove(file, uploadFiles.value, index)
       revokeFileObjectURL(file)
     }
 
     if (props.beforeRemove) {
-      const before = await props.beforeRemove(uploadFile, uploadFiles.value)
+      const before = await props.beforeRemove(
+        uploadFile,
+        uploadFiles.value,
+        index
+      )
       if (before !== false) doRemove(uploadFile)
     } else {
       doRemove(uploadFile)
@@ -137,7 +142,7 @@ export const useHandlers = (
   function submit() {
     uploadFiles.value
       .filter(({ status }) => status === 'ready')
-      .forEach(({ raw }) => raw && uploadRef.value?.upload(raw))
+      .forEach(({ raw }, index) => raw && uploadRef.value?.upload(raw, index))
   }
 
   watch(

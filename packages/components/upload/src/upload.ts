@@ -55,11 +55,16 @@ export interface UploadHooks {
   ) => Awaitable<void | undefined | null | boolean | File | Blob>
   beforeRemove: (
     uploadFile: UploadFile,
-    uploadFiles: UploadFiles
+    uploadFiles: UploadFiles,
+    index: number
   ) => Awaitable<boolean>
-  onRemove: (uploadFile: UploadFile, uploadFiles: UploadFiles) => void
+  onRemove: (
+    uploadFile: UploadFile,
+    uploadFiles: UploadFiles,
+    index: number
+  ) => void
   onChange: (uploadFile: UploadFile, uploadFiles: UploadFiles) => void
-  onPreview: (uploadFile: UploadFile) => void
+  onPreview: (uploadFile: UploadFile, index: number) => void
   onSuccess: (
     response: any,
     uploadFile: UploadFile,
