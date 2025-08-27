@@ -689,7 +689,7 @@ export const getFixedColumnOffsetWithSpan = <T extends DefaultRow>(
     rowIndex: number,
     columnIndex: number
   ) => { rowspan: number; colspan: number }
-) => {
+): CSSProperties | undefined => {
   const {
     direction,
     start = 0,
@@ -697,29 +697,20 @@ export const getFixedColumnOffsetWithSpan = <T extends DefaultRow>(
   } = isFixedColumn(columnIndex, fixed, store)
   if (!direction) return
 
-  const styles: CSSProperties = {}
   const columns = store.states.columns.value
   const isLeft = direction === 'left'
 
-  if (isLeft) {
-    let totalWidth = 0
-    for (let i = 0; i < start; i++) {
-      const { rowspan, colspan } = getSpan(row, columns[i], rowIndex, i)
-      if (rowspan > 0 && colspan > 0) {
-        totalWidth += Number(columns[i].realWidth || columns[i].width)
-      }
+  const [startIndex, endIndex] = isLeft
+    ? [0, start]
+    : [after + 1, columns.length]
+
+  let totalWidth = 0
+  for (let i = startIndex; i < endIndex; i++) {
+    const { rowspan, colspan } = getSpan(row, columns[i], rowIndex, i)
+    if (rowspan > 0 && colspan > 0) {
+      totalWidth = getOffset(totalWidth, columns[i])
     }
-    styles.left = totalWidth
-  } else {
-    let totalWidth = 0
-    for (let i = after + 1; i < columns.length; i++) {
-      const { rowspan, colspan } = getSpan(row, columns[i], rowIndex, i)
-      if (rowspan > 0 && colspan > 0) {
-        totalWidth += Number(columns[i].realWidth || columns[i].width)
-      }
-    }
-    styles.right = totalWidth
   }
 
-  return styles
+  return { [isLeft ? 'left' : 'right']: totalWidth }
 }
