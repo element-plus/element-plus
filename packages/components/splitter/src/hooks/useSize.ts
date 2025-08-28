@@ -40,9 +40,9 @@ export function useSize(
       return
     }
     let ptgList: (number | undefined)[] = initPtgList(
-      panelCounts,
-      panels,
-      containerSize
+      panelCounts.value,
+      panels.value,
+      containerSize.value
     )
 
     const emptyCount = ptgList.filter((ptg) => isEmptyPtg(ptg)).length
@@ -96,14 +96,14 @@ function isEmptyPtg(ptg: number | undefined): ptg is undefined | 0 {
 
 // Convert the passed props size to a percentage
 function initPtgList(
-  panelCounts: ComputedRef<number>,
-  panels: Ref<PanelItemState[]>,
-  containerSize: ComputedRef<number>
+  panelCounts: number,
+  panels: PanelItemState[],
+  containerSize: number
 ) {
   const ptgList: (number | undefined)[] = []
-  for (let i = 0; i < panelCounts.value; i += 1) {
-    const itemSize = panels.value[i]?.size
-    const ptg = parsePtg(itemSize, containerSize.value)
+  for (let i = 0; i < panelCounts; i++) {
+    const itemSize = panels[i]?.size
+    const ptg = parsePtg(itemSize, containerSize)
     ptgList[i] = ptg
   }
   return ptgList
