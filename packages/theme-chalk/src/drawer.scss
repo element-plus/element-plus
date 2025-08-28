@@ -19,6 +19,11 @@ $directions: rtl, ltr, ttb, btt;
 
   transition: all getCssVar('transition-duration');
 
+  &.is-resizing {
+    transition: none !important;
+    cursor: col-resize;
+  }
+
   @each $direction in $directions {
     .#{$direction} {
       transform: translate(0, 0);

@@ -33,7 +33,12 @@
             :aria-labelledby="!title ? titleId : undefined"
             :aria-describedby="bodyId"
             v-bind="$attrs"
-            :class="[ns.b(), direction, visible && 'open']"
+            :class="[
+              ns.b(),
+              direction,
+              visible && 'open',
+              ns.is('resizing', isResizing),
+            ]"
             :style="
               isHorizontal ? 'width: ' + drawerSize : 'height: ' + drawerSize
             "
@@ -100,6 +105,7 @@ import { addUnit } from '@element-plus/utils'
 import ElIcon from '@element-plus/components/icon'
 import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
 import { drawerEmits, drawerProps } from './drawer'
+import { useDragResize } from './hooks/useResize'
 
 defineOptions({
   name: 'ElDrawer',
@@ -145,7 +151,10 @@ const {
 const isHorizontal = computed(
   () => props.direction === 'rtl' || props.direction === 'ltr'
 )
-const drawerSize = computed(() => addUnit(props.size))
+const drawerSize = computed(() => addUnit(resizeSize.value || props.size))
+const { resizeSize, isResizing, resizeEvent } = useDragResize(drawerRef)
+
+props.resizable && resizeEvent()
 
 defineExpose({
   handleClose,
