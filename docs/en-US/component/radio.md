@@ -61,7 +61,7 @@ radio/radio-button-group
 
 :::
 
-## Options attribute ^(2.11.0)
+## Options attribute ^(2.11.2)
 
 :::demo Shortcut from basic `el-radio-group` usage. You can customize the alias of the `options` through the `props` attribute.
 
