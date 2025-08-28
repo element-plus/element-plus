@@ -55,26 +55,28 @@
                   v-if="withHeader"
                   :class="[ns.e('header'), headerClass]"
                 >
-                  <slot
-                    v-if="!$slots.title"
-                    name="header"
-                    :close="handleClose"
-                    :title-id="titleId"
-                    :title-class="ns.e('title')"
-                  >
-                    <span
-                      v-if="!$slots.title"
-                      :id="titleId"
-                      role="heading"
-                      :aria-level="headerAriaLevel"
-                      :class="ns.e('title')"
+                  <template v-if="!$slots.title">
+                    <slot
+                      name="header"
+                      :close="handleClose"
+                      :title-id="titleId"
+                      :title-class="ns.e('title')"
                     >
-                      {{ title }}
-                    </span>
-                  </slot>
-                  <slot v-else name="title">
-                    <!-- DEPRECATED SLOT -->
-                  </slot>
+                      <span
+                        :id="titleId"
+                        role="heading"
+                        :aria-level="headerAriaLevel"
+                        :class="ns.e('title')"
+                      >
+                        {{ title }}
+                      </span>
+                    </slot>
+                  </template>
+                  <template v-else>
+                    <slot name="title">
+                      <!-- DEPRECATED SLOT -->
+                    </slot>
+                  </template>
                   <button
                     v-if="showClose"
                     :aria-label="t('el.drawer.close')"
