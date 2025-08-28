@@ -476,7 +476,7 @@ const {
   handleRangeConfirm,
   handleShortcutClick,
   onSelect,
-  onReset,
+  parseValue,
   t,
 } = useRangePicker(props, {
   defaultValue,
@@ -484,14 +484,14 @@ const {
   leftDate,
   rightDate,
   unit,
-  onParsedValueChanged,
+  sortDates,
 })
 
 watch(
   () => props.visible,
   (visible) => {
     if (!visible && rangeState.value.selecting) {
-      onReset(props.parsedValue)
+      parseValue(props.parsedValue)
       onSelect(false)
     }
   }
@@ -781,6 +781,7 @@ const handleDateInput = (value: string | null, type: ChangeType) => {
         minDate.value = maxDate.value.subtract(1, 'month')
       }
     }
+    sortDates(minDate.value, maxDate.value)
   }
 }
 
@@ -845,7 +846,7 @@ const handleMinTimePick = (value: Dayjs, visible: boolean, first: boolean) => {
     maxDate.value = minDate.value
     rightDate.value = value
     nextTick(() => {
-      onReset(props.parsedValue)
+      parseValue(props.parsedValue)
     })
   }
 }
@@ -900,10 +901,7 @@ const parseUserInput = (value: Dayjs | Dayjs[]) => {
   )
 }
 
-function onParsedValueChanged(
-  minDate: Dayjs | undefined,
-  maxDate: Dayjs | undefined
-) {
+function sortDates(minDate: Dayjs | undefined, maxDate: Dayjs | undefined) {
   if (props.unlinkPanels && maxDate) {
     const minDateYear = minDate?.year() || 0
     const minDateMonth = minDate?.month() || 0

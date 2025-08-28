@@ -88,44 +88,42 @@ onMounted(async () => {
 
 <template>
   <div class="App">
-    <el-config-provider :z-index="100">
-      <VPSkipLink />
-      <VPOverlay
-        class="overlay"
-        :show="isSidebarOpen"
-        @click="toggleSidebar(false)"
-      />
-      <VPNav />
-      <VPSubNav
-        v-if="hasSidebar"
-        :is-sidebar-open="isSidebarOpen"
-        @open-menu="toggleSidebar(true)"
-      />
-      <VPSidebar :open="isSidebarOpen" @close="toggleSidebar(false)">
-        <template #top>
-          <VPSponsors />
-        </template>
-        <template #bottom>
-          <slot name="sidebar-bottom" />
-        </template>
-      </VPSidebar>
-      <VPContent>
-        <template #content-top>
-          <slot name="content-top" />
-        </template>
-        <template #content-bottom>
-          <slot name="content-bottom" />
-        </template>
-        <template #aside-top>
-          <slot name="aside-top" />
-        </template>
-        <template #aside-mid>
-          <slot name="aside-mid" />
-        </template>
-        <template #aside-bottom>
-          <slot name="aside-bottom" />
-        </template>
-      </VPContent>
-    </el-config-provider>
+    <VPSkipLink />
+    <VPOverlay
+      class="overlay"
+      :show="isSidebarOpen"
+      @click="toggleSidebar(false)"
+    />
+    <VPNav />
+    <VPSubNav
+      v-if="hasSidebar"
+      :is-sidebar-open="isSidebarOpen"
+      @open-menu="toggleSidebar(true)"
+    />
+    <VPSidebar :open="isSidebarOpen" @close="toggleSidebar(false)">
+      <template #top>
+        <VPSponsors />
+      </template>
+      <template #bottom>
+        <slot name="sidebar-bottom" />
+      </template>
+    </VPSidebar>
+    <VPContent>
+      <template #content-top>
+        <slot name="content-top" />
+      </template>
+      <template #content-bottom>
+        <slot name="content-bottom" />
+      </template>
+      <template #aside-top>
+        <slot name="aside-top" />
+      </template>
+      <template #aside-mid>
+        <slot name="aside-mid" />
+      </template>
+      <template #aside-bottom>
+        <slot name="aside-bottom" />
+      </template>
+    </VPContent>
   </div>
 </template>
