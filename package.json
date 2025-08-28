@@ -39,7 +39,8 @@
     "stub": "pnpm run -r --parallel stub",
     "prepare": "husky",
     "postinstall": "pnpm stub && concurrently \"pnpm gen:version\" \"pnpm run -C internal/metadata dev\"",
-    "dev2": "node ./scripts/dev.js"
+    "dev2": "node ./scripts/dev.js constants utils hooks directives components element-plus",
+    "dev3": "node ./scripts/dev2.js"
   },
   "peerDependencies": {
     "vue": "^3.2.0"

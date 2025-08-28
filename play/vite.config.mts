@@ -37,18 +37,22 @@ export default defineConfig(async ({ mode }) => {
       alias: [
         {
           find: /^element-plus(\/(es|lib))?$/,
-          replacement: path.resolve(epRoot, 'index.ts'),
+          replacement: path.resolve(epRoot, 'dist/bundle.js'),
         },
+        // {
+        //   find: /^element-plus(\/(es|lib))?$/,
+        //   replacement: path.resolve(epRoot, 'index.ts'),
+        // },
         {
-          find: /^element-plus\/(es|lib)\/(.*)$/,
-          replacement: `${pkgRoot}/$2`,
+          find: /^element-plus\/es\/components\/(.*)\/style\/(.*)$/,
+          replacement: `${pkgRoot}/components/$1/style/$2`,
         },
       ],
     },
     server: {
       port: 3000,
       host: true,
-      https: !!env.HTTPS ? {} : false,
+      https: {}
     },
     build: {
       sourcemap: true,
@@ -75,7 +79,7 @@ export default defineConfig(async ({ mode }) => {
     ],
 
     optimizeDeps: {
-      include: ['vue', '@vue/shared', ...dependencies, ...optimizeDeps],
+      include: ['vue', '@vue/shared', ...dependencies],
     },
     esbuild: {
       target: 'chrome64',

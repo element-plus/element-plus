@@ -2,8 +2,8 @@
   "name": "@element-plus/components",
   "version": "0.0.5",
   "description": "all components are settled here",
-  "main": "index.ts",
-  "module": "index.ts",
+  "main": "dist/bundle.js",
+  "module": "dist/bundle.js",
   "unpkg": "index.js",
   "jsdelivr": "index.js",
   "peerDependencies": {

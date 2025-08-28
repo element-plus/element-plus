@@ -1,4 +1,4 @@
-import { provideGlobalConfig } from '@element-plus/components/config-provider'
+import { provideGlobalConfig } from '@element-plus/components'
 import { INSTALLED_KEY } from '@element-plus/constants'
 import { version } from './version'
 

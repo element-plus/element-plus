@@ -4,7 +4,7 @@
   "description": "Element Plus directives",
   "license": "MIT",
   "main": "dist/bundle.js",
-  "module": "index.ts",
+  "module": "dist/bundle.js",
   "unpkg": "index.js",
   "jsdelivr": "index.js",
   "peerDependencies": {
