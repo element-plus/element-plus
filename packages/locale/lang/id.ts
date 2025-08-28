@@ -7,6 +7,10 @@ export default {
     colorpicker: {
       confirm: 'Pilih',
       clear: 'Kosongkan',
+      defaultLabel: 'color picker', // to be translated
+      description:
+        'current color is {color}. press enter to select a new color.', // to be translated
+      alphaLabel: 'pick alpha value', // to be translated
     },
     datepicker: {
       now: 'Sekarang',
@@ -14,6 +18,11 @@ export default {
       cancel: 'Batal',
       clear: 'Kosongkan',
       confirm: 'Ya',
+      dateTablePrompt:
+        'Use the arrow keys and enter to select the day of the month', // to be translated
+      monthTablePrompt: 'Use the arrow keys and enter to select the month', // to be translated
+      yearTablePrompt: 'Use the arrow keys and enter to select the year', // to be translated
+      selectedDate: 'Selected date', // to be translated
       selectDate: 'Pilih tanggal',
       selectTime: 'Pilih waktu',
       startDate: 'Tanggal Mulai',
@@ -37,7 +46,6 @@ export default {
       month10: 'Oktober',
       month11: 'November',
       month12: 'Desember',
-      week: 'Minggu',
       weeks: {
         sun: 'Min',
         mon: 'Sen',
@@ -46,6 +54,15 @@ export default {
         thu: 'Kam',
         fri: 'Jum',
         sat: 'Sab',
+      },
+      weeksFull: {
+        sun: 'Sunday', // to be translated
+        mon: 'Monday', // to be translated
+        tue: 'Tuesday', // to be translated
+        wed: 'Wednesday', // to be translated
+        thu: 'Thursday', // to be translated
+        fri: 'Friday', // to be translated
+        sat: 'Saturday', // to be translated
       },
       months: {
         jan: 'Jan',
@@ -62,6 +79,10 @@ export default {
         dec: 'Des',
       },
     },
+    inputNumber: {
+      decrease: 'decrease number', // to be translated
+      increase: 'increase number', // to be translated
+    },
     select: {
       loading: 'Memuat',
       noMatch: 'Tidak ada data yg cocok',
@@ -70,6 +91,9 @@ export default {
     },
     mention: {
       loading: 'Memuat',
+    },
+    dropdown: {
+      toggleDropdown: 'Toggle Dropdown', // to be translated
     },
     cascader: {
       noMatch: 'Tidak ada data yg cocok',
@@ -91,11 +115,18 @@ export default {
       deprecationWarning:
         'Penggunaan yang tidak akan digunakan lagi terdeteksi, silakan lihat dokumentasi el-pagination untuk lebih jelasnya',
     },
+    dialog: {
+      close: 'Close this dialog', // to be translated
+    },
+    drawer: {
+      close: 'Close this dialog', // to be translated
+    },
     messagebox: {
       title: 'Pesan',
       confirm: 'Ya',
       cancel: 'Batal',
       error: 'Masukan ilegal',
+      close: 'Close this dialog', // to be translated
     },
     upload: {
       deleteTip: 'Tekan hapus untuk melanjutkan',
@@ -103,12 +134,22 @@ export default {
       preview: 'Pratinjau',
       continue: 'Lanjutkan',
     },
+    slider: {
+      defaultLabel: 'slider between {min} and {max}', // to be translated
+      defaultRangeStartLabel: 'pick start value', // to be translated
+      defaultRangeEndLabel: 'pick end value', // to be translated
+    },
     table: {
       emptyText: 'Tidak ada data',
       confirmFilter: 'Konfirmasi',
       resetFilter: 'Atur ulang',
       clearFilter: 'Semua',
       sumText: 'Jumlah',
+    },
+    tour: {
+      next: 'Next', // to be translated
+      previous: 'Previous', // to be translated
+      finish: 'Finish', // to be translated
     },
     tree: {
       emptyText: 'Tidak ada data',
