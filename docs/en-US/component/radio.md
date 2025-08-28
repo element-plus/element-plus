@@ -139,8 +139,8 @@ radio/with-borders
 | name                        | native `name` attribute                                                                        | ^[string]                                                        | —       |
 | id                          | native `id` attribute                                                                          | ^[string]                                                        | —       |
 | label ^(a11y) ^(deprecated) | same as `aria-label` in RadioGroup                                                             | ^[string]                                                        | —       |
-| options ^(2.11.0)           | data of the options, the key of `value` and `label` and `disabled` can be customize by `props` | ^[array]`Array<{[key: string]: any}>`                            | —       |
-| props ^(2.11.0)             | configuration options                                                                          | ^[object]`{ value?: string, label?: string, disabled?: boolean}` |
+| options ^(2.11.2)           | data of the options, the key of `value` and `label` and `disabled` can be customize by `props` | ^[array]`Array<{[key: string]: any}>`                            | —       |
+| props ^(2.11.2)             | configuration options                                                                          | ^[object]`{ value?: string, label?: string, disabled?: boolean}` |
 
 ### RadioGroup Events
 
