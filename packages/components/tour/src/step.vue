@@ -1,7 +1,7 @@
 <template>
   <button
     v-if="mergedShowClose"
-    aria-label="Close"
+    :aria-label="t('el.global.close')"
     :class="ns.e('closebtn')"
     type="button"
     @click="onClose"

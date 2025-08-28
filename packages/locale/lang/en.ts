@@ -1,6 +1,10 @@
 export default {
   name: 'en',
   el: {
+    global: {
+      placeholder: 'Please select',
+      close: 'Close',
+    },
     breadcrumb: {
       label: 'Breadcrumb',
     },
