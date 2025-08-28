@@ -85,7 +85,7 @@ const name = computed(() => {
 
 const aliasProps = computed(() => ({
   ...radioDefaultProps,
-  ...props.optionProps,
+  ...props.props,
 }))
 const getOptionProps = (option: Record<string, any>) => {
   const base = {

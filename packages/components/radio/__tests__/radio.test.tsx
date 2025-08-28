@@ -253,7 +253,7 @@ describe('Radio group', () => {
       <RadioGroup
         v-model={radio.value}
         options={options}
-        optionProps={{ value: 'id' }}
+        props={{ value: 'id' }}
       />
     ))
     await nextTick()
