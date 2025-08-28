@@ -150,6 +150,7 @@ export default {
       next: 'Next',
       previous: 'Previous',
       finish: 'Finish',
+      close: 'Close this dialog',
     },
     tree: {
       emptyText: 'No Data',

@@ -150,6 +150,7 @@ export default {
       next: 'Hurrengoa',
       previous: 'Aurrekoa',
       finish: 'Bukatu',
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'Daturik ez',

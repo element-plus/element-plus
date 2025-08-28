@@ -150,6 +150,7 @@ export default {
       next: 'Tiếp',
       previous: 'Trước',
       finish: 'Hoàn thành',
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'Không có dữ liệu',

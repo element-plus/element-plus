@@ -151,6 +151,7 @@ export default {
       next: 'తదుపరి',
       previous: 'గత',
       finish: 'ముగించు',
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'డేటా లేదు',

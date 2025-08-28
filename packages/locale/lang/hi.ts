@@ -152,6 +152,7 @@ export default {
       next: 'अगला',
       previous: 'पिछला',
       finish: 'पूरा करें',
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'कोई डेटा नहीं है',

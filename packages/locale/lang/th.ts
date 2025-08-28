@@ -150,6 +150,7 @@ export default {
       next: 'ถัดไป',
       previous: 'ย้อนกลับ',
       finish: 'เสร็จสิ้น',
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'ไม่พบข้อมูล',
