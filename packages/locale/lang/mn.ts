@@ -7,6 +7,10 @@ export default {
     colorpicker: {
       confirm: 'Тийм',
       clear: 'Цэвэрлэх',
+      defaultLabel: 'color picker', // to be translated
+      description:
+        'current color is {color}. press enter to select a new color.', // to be translated
+      alphaLabel: 'pick alpha value', // to be translated
     },
     datepicker: {
       now: 'Одоо',
@@ -14,6 +18,11 @@ export default {
       cancel: 'Болих',
       clear: 'Цэвэрлэх',
       confirm: 'Тийм',
+      dateTablePrompt:
+        'Use the arrow keys and enter to select the day of the month', // to be translated
+      monthTablePrompt: 'Use the arrow keys and enter to select the month', // to be translated
+      yearTablePrompt: 'Use the arrow keys and enter to select the year', // to be translated
+      selectedDate: 'Selected date', // to be translated
       selectDate: 'Огноог сонго',
       selectTime: 'Цагийг сонго',
       startDate: 'Эхлэх огноо',
@@ -37,7 +46,6 @@ export default {
       month10: '10 сар',
       month11: '11 сар',
       month12: '12 сар',
-      week: 'Долоо хоног',
       weeks: {
         sun: 'Ням',
         mon: 'Дав',
@@ -46,6 +54,15 @@ export default {
         thu: 'Пүр',
         fri: 'Баа',
         sat: 'Бям',
+      },
+      weeksFull: {
+        sun: 'Sunday', // to be translated
+        mon: 'Monday', // to be translated
+        tue: 'Tuesday', // to be translated
+        wed: 'Wednesday', // to be translated
+        thu: 'Thursday', // to be translated
+        fri: 'Friday', // to be translated
+        sat: 'Saturday', // to be translated
       },
       months: {
         jan: '1 сар',
@@ -62,6 +79,10 @@ export default {
         dec: '12 сар',
       },
     },
+    inputNumber: {
+      decrease: 'decrease number', // to be translated
+      increase: 'increase number', // to be translated
+    },
     select: {
       loading: 'Ачаалж байна',
       noMatch: 'Тохирох өгөгдөл байхгүй',
@@ -70,6 +91,9 @@ export default {
     },
     mention: {
       loading: 'Ачаалж байна',
+    },
+    dropdown: {
+      toggleDropdown: 'Toggle Dropdown', // to be translated
     },
     cascader: {
       noMatch: 'Тохирох өгөгдөл байхгүй',
@@ -88,12 +112,21 @@ export default {
       currentPage: 'page {pager}', // to be translated
       prevPages: 'Previous {pager} pages', // to be translated
       nextPages: 'Next {pager} pages', // to be translated
+      deprecationWarning:
+        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
+    },
+    dialog: {
+      close: 'Close this dialog', // to be translated
+    },
+    drawer: {
+      close: 'Close this dialog', // to be translated
     },
     messagebox: {
       title: 'Зурвас',
       confirm: 'Тийм',
       cancel: 'Болих',
       error: 'Буруу утга',
+      close: 'Close this dialog', // to be translated
     },
     upload: {
       deleteTip: 'Устгахын дарж арилга',
@@ -101,12 +134,22 @@ export default {
       preview: 'Өмнөх',
       continue: 'Үргэлжлүүлэх',
     },
+    slider: {
+      defaultLabel: 'slider between {min} and {max}', // to be translated
+      defaultRangeStartLabel: 'pick start value', // to be translated
+      defaultRangeEndLabel: 'pick end value', // to be translated
+    },
     table: {
       emptyText: 'Өгөгдөл байхгүй',
       confirmFilter: 'Зөвшөөрөх',
       resetFilter: 'Цэвэрлэх',
       clearFilter: 'Бүгд',
       sumText: 'Нийт',
+    },
+    tour: {
+      next: 'Next', // to be translated
+      previous: 'Previous', // to be translated
+      finish: 'Finish', // to be translated
     },
     tree: {
       emptyText: 'Өгөгдөл байхгүй',
