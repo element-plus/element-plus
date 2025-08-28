@@ -63,7 +63,7 @@ checkbox/grouping
 
 ## Options attribute ^(2.11.2)
 
-:::demo Shortcut from basic `el-checkbox-group` usage. You can customize the alias of the `options` through the `optionProps` attribute.
+:::demo Shortcut from basic `el-checkbox-group` usage. You can customize the alias of the `options` through the `props` attribute.
 
 checkbox/options
 
