@@ -18,6 +18,7 @@ import { computed, defineComponent, inject, onMounted, ref } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
 import { useNamespace } from '@element-plus/hooks'
 import { selectKey } from './token'
+import { BORDER_HORIZONTAL_WIDTH } from '@element-plus/constants'
 
 export default defineComponent({
   name: 'ElSelectDropdown',
@@ -36,7 +37,9 @@ export default defineComponent({
 
     function updateMinWidth() {
       if (select.selectRef?.offsetWidth) {
-        minWidth.value = `${select.selectRef?.offsetWidth - 2}px`
+        minWidth.value = `${
+          select.selectRef?.offsetWidth - BORDER_HORIZONTAL_WIDTH
+        }px`
       } else {
         minWidth.value = ''
       }
