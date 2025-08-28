@@ -153,6 +153,7 @@ export default {
       next: 'Seterusnya',
       previous: 'Sebelumnya',
       finish: 'Selesai',
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'Tiada Data',
