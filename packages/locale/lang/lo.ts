@@ -44,7 +44,6 @@ export default {
       month10: 'ຕຸລາ',
       month11: 'ພະຈິກ',
       month12: 'ທັນວາ',
-      week: 'ອາທິດ',
       weeks: {
         sun: 'ອາ',
         mon: 'ຈ',
