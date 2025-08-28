@@ -12,10 +12,7 @@ import type { PanelRangeSharedProps, RangeState } from '../props/shared'
 import type { DefaultValue } from '../utils'
 
 type UseRangePickerProps = {
-  onParsedValueChanged: (
-    minDate: Dayjs | undefined,
-    maxDate: Dayjs | undefined
-  ) => void
+  sortDates: (minDate: Dayjs | undefined, maxDate: Dayjs | undefined) => void
   defaultValue: Ref<DefaultValue>
   defaultTime?: Ref<DefaultValue>
   leftDate: Ref<Dayjs>
@@ -34,7 +31,7 @@ export const useRangePicker = (
     step,
     unit,
 
-    onParsedValueChanged,
+    sortDates,
   }: UseRangePickerProps
 ) => {
   const { emit } = getCurrentInstance()!
@@ -70,13 +67,13 @@ export const useRangePicker = (
     }
   }
 
-  const onReset = (parsedValue: PanelRangeSharedProps['parsedValue']) => {
+  const parseValue = (parsedValue: PanelRangeSharedProps['parsedValue']) => {
     if (isArray(parsedValue) && parsedValue.length === 2) {
       const [start, end] = parsedValue
       minDate.value = start
       leftDate.value = start
       maxDate.value = end
-      onParsedValueChanged(unref(minDate), unref(maxDate))
+      sortDates(unref(minDate), unref(maxDate))
     } else {
       restoreDefault()
     }
@@ -129,7 +126,7 @@ export const useRangePicker = (
     () => props.parsedValue,
     (parsedValue) => {
       if (!(parsedValue as [Dayjs, Dayjs])?.length) {
-        onReset(parsedValue)
+        parseValue(parsedValue)
       }
     },
     {
@@ -141,7 +138,7 @@ export const useRangePicker = (
     () => props.visible,
     () => {
       if (props.visible) {
-        onReset(props.parsedValue)
+        parseValue(props.parsedValue)
       }
     },
     { immediate: true }
@@ -159,7 +156,7 @@ export const useRangePicker = (
     handleRangeConfirm,
     handleShortcutClick,
     onSelect,
-    onReset,
+    parseValue,
     t,
   }
 }
