@@ -2,7 +2,7 @@ import { computed, ref, watch } from 'vue'
 import { isString } from '@element-plus/utils'
 
 import type { ComputedRef, Ref } from 'vue'
-import type { PanelItemState } from '../type'
+import type { OutOfBoundState, PanelItemState } from '../type'
 
 export function getPct(str: string) {
   return Number(str.slice(0, -1)) / 100
@@ -30,19 +30,29 @@ export function useSize(
 ) {
   const propSizes = computed(() => panels.value.map((i) => i.size))
 
-  const panelCounts = computed(() => panels.value.length)
+  const panelCount = computed(() => panels.value.length)
 
   const percentSizes = ref<number[]>([])
 
-  watch([propSizes, panelCounts, containerSize], (newVal, oldVal) => {
+  const sections = computed<[number, number][]>(() => {
+    return panels.value.map((panel) => {
+      return [
+        panel.min ? parsePtg(panel.min, containerSize.value) : 0,
+        panel.max ? parsePtg(panel.max, containerSize.value) : 1,
+      ]
+    })
+  })
+
+  watch([propSizes, panelCount, containerSize], (newVal, oldVal) => {
     if (containerSize.value === 0) {
-      percentSizes.value = Array.of(panelCounts.value).fill(0)
+      percentSizes.value = Array.of(panelCount.value).fill(0)
       return
     }
-    let ptgList: (number | undefined)[] = initPtgList(
-      panelCounts.value,
+    let { ptgList, outOfBoundStates } = initPtgList(
+      panelCount.value,
       panels.value,
-      containerSize.value
+      containerSize.value,
+      sections.value
     )
 
     const emptyCount = ptgList.filter((ptg) => isEmptyPtg(ptg)).length
@@ -56,11 +66,9 @@ export function useSize(
     )
     const isNeedFreezeSize =
       mutatedPanelIndexes.length > 0 &&
-      mutatedPanelIndexes.length < panelCounts.value
-
+      mutatedPanelIndexes.length < panelCount.value
     if (mutatedPtg > 1) {
-      const scale = 1 / totalPtg
-      ptgList = ptgList.map((ptg) => (isEmptyPtg(ptg) ? 0 : ptg * scale))
+      ptgList = assignPtgSquash({ totalPtg, ptgList, outOfBoundStates })
     } else if (emptyCount > 0) {
       // If has empty count, fill the empty count with the average rest
       ptgList = assignPtgToEmpty({
@@ -90,23 +98,59 @@ export function useSize(
   return { percentSizes, pxSizes }
 }
 
+function assignPtgSquash({
+  totalPtg,
+  ptgList,
+  outOfBoundStates,
+}: {
+  totalPtg: number
+  ptgList: number[]
+  outOfBoundStates: OutOfBoundState[]
+}) {
+  const approachBoundPtg = ptgList.reduce((acc, ptg, index) => {
+    if (outOfBoundStates[index] !== undefined) {
+      return acc + ptg
+    }
+    return acc
+  }, 0)
+  const scale = (1 - approachBoundPtg) / (totalPtg - approachBoundPtg)
+  ptgList = ptgList.map((ptg, index) => {
+    if (outOfBoundStates[index] !== undefined) {
+      return ptg
+    }
+    return isEmptyPtg(ptg) ? 0 : ptg * scale
+  })
+  return ptgList
+}
+
 function isEmptyPtg(ptg: number | undefined): ptg is undefined | 0 {
   return ptg === undefined || ptg === 0
 }
 
 // Convert the passed props size to a percentage
 function initPtgList(
-  panelCounts: number,
+  panelCount: number,
   panels: PanelItemState[],
-  containerSize: number
+  containerSize: number,
+  sections: [number, number][]
 ) {
-  const ptgList: (number | undefined)[] = []
-  for (let i = 0; i < panelCounts; i++) {
+  const ptgList: number[] = []
+  const outOfBoundStates: OutOfBoundState[] = []
+  for (let i = 0; i < panelCount; i += 1) {
+    const [min, max] = sections[i]
     const itemSize = panels[i]?.size
-    const ptg = parsePtg(itemSize, containerSize)
+    let ptg = parsePtg(itemSize, containerSize)
+    if (ptg < min) {
+      ptg = min
+      outOfBoundStates[i] = 0
+    }
+    if (ptg > max) {
+      ptg = max
+      outOfBoundStates[i] = 1
+    }
     ptgList[i] = ptg
   }
-  return ptgList
+  return { ptgList, outOfBoundStates }
 }
 
 function getMutatedPanelIndexes(
@@ -130,17 +174,17 @@ function assignPtgScale({
   notMutatedPtg,
   mutatedPtg,
 }: {
-  ptgList: (number | undefined)[]
+  ptgList: number[]
   mutatedPanelIndexes: number[]
   isNeedFreezeSize: boolean
   totalPtg: number
   notMutatedPtg: number
   mutatedPtg: number
 }) {
-  const distributablePtg = isNeedFreezeSize ? 1 - mutatedPtg : 1
+  const remainPtg = isNeedFreezeSize ? 1 - mutatedPtg : 1
   const scale = isNeedFreezeSize
-    ? distributablePtg / notMutatedPtg
-    : distributablePtg / totalPtg
+    ? remainPtg / notMutatedPtg
+    : remainPtg / totalPtg
   ptgList = ptgList.map((ptg, index) => {
     if (isNeedFreezeSize && mutatedPanelIndexes.includes(index)) {
       return ptg
@@ -157,14 +201,14 @@ function assignPtgToEmpty({
   mutatedPanelIndexes,
   totalPtg,
 }: {
-  ptgList: (number | undefined)[]
+  ptgList: number[]
   emptyCount: number
   isNeedFreezeSize: boolean
   mutatedPanelIndexes: number[]
   totalPtg: number
 }) {
-  const distributablePtg = 1 - totalPtg
-  const avgRest = distributablePtg / emptyCount
+  const remainPtg = 1 - totalPtg
+  const avgRest = remainPtg / emptyCount
   ptgList = ptgList.map((ptg, index) => {
     if (isNeedFreezeSize && mutatedPanelIndexes.includes(index)) {
       return ptg
@@ -188,10 +232,10 @@ function parsePtg(
 
   if (itemSize || itemSize === 0) {
     const num = Number(itemSize)
-    return Number.isNaN(num) ? undefined : num / containerSize
+    return Number.isNaN(num) ? 0 : num / containerSize
   }
 
-  return undefined
+  return 0
 }
 
 function groupPtgs(

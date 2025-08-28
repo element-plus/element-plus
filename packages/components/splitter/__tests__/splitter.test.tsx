@@ -305,21 +305,14 @@ describe('Splitter', () => {
     await nextTick()
 
     // Panel should be collapsed (size = 0)
-    expect(panels[0].attributes('style')).toContain('flex-basis: 0px;')
+    expect(panels[0].attributes('style')).toContain('flex-basis: 50px;')
 
     // Click collapse button to expand
     await endCollapseButton.trigger('click')
     await nextTick()
 
     // Panel should be restored to original size
-    expect(panels[0].attributes('style')).toContain('flex-basis: 150px;')
-
-    // Click collapse button  to expand
-    await endCollapseButton.trigger('click')
-    await nextTick()
-
-    // Panel should be collapsed (size = 400)
-    expect(panels[0].attributes('style')).toContain('flex-basis: 400px;')
+    expect(panels[0].attributes('style')).toContain('flex-basis: 200px;')
   })
 
   it('should not update panel size until drag ends when lazy is true', async () => {

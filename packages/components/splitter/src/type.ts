@@ -33,3 +33,8 @@ export interface SplitterRootContext {
 export const splitterRootContextKey: InjectionKey<SplitterRootContext> = Symbol(
   'splitterRootContextKey'
 )
+
+// undefined is a valid value
+// 0: out of bound to the min
+// 1: out of bound to the max
+export type OutOfBoundState = undefined | 0 | 1
