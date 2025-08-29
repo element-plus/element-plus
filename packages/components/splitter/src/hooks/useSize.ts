@@ -41,7 +41,7 @@ export function useSize(
     // Convert the passed props size to a percentage
     for (let i = 0; i < panelCounts.value; i += 1) {
       const itemSize = panels.value[i]?.size
-      
+
       if (isPct(itemSize)) {
         ptgList[i] = getPct(itemSize)
       } else if (isPx(itemSize)) {
