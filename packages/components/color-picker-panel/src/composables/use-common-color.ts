@@ -11,7 +11,7 @@ type CommonColorEmits = (event: 'update:modelValue', ...args: any[]) => void
 
 export const useCommonColor = <
   P extends CommonColorProps,
-  E extends CommonColorEmits
+  E extends CommonColorEmits,
 >(
   props: P,
   emit: E

@@ -903,7 +903,7 @@ describe('Cascader.vue', () => {
       const wrapper = _mount(() => (
         <Cascader options={OPTIONS}>
           {{
-            default: () => false && <div>{AXIOM}</div>,
+            default: () => false,
           }}
         </Cascader>
       ))

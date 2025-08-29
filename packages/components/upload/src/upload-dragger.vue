@@ -22,7 +22,7 @@ import type { UploadRawFile } from './upload'
 const COMPONENT_NAME = 'ElUploadDrag'
 
 defineOptions({
-  name: COMPONENT_NAME,
+  name: 'ElUploadDrag',
 })
 
 defineProps(uploadDraggerProps)

@@ -102,7 +102,7 @@ export const mentionProps = buildProps({
    */
   popperOptions: {
     type: definePropType<Partial<Options>>(Object),
-    default: () => ({} as Partial<Options>),
+    default: () => ({}) as Partial<Options>,
   },
 })
 

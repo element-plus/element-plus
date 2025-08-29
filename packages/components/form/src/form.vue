@@ -25,7 +25,7 @@ import type { FormItemProp } from './form-item'
 
 const COMPONENT_NAME = 'ElForm'
 defineOptions({
-  name: COMPONENT_NAME,
+  name: 'ElForm',
 })
 const props = defineProps(formProps)
 const emit = defineEmits(formEmits)
