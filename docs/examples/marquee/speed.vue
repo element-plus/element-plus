@@ -9,11 +9,7 @@
     </div>
 
     <el-marquee :speed="currentSpeed">
-      <el-marquee-item
-        >当前速度：{{
-          currentSpeed
-        }}px/s，这是一个速度可调节的跑马灯示例</el-marquee-item
-      >
+      当前速度：{{ currentSpeed }}px/s，这是一个速度可调节的跑马灯示例
     </el-marquee>
 
     <h3>自定义速度</h3>
@@ -28,16 +24,14 @@
       <span class="speed-unit">px/s</span>
     </div>
     <el-marquee :speed="customSpeed">
-      <el-marquee-item
-        >自定义速度：{{ customSpeed }}px/s 的跑马灯内容</el-marquee-item
-      >
+      自定义速度：{{ customSpeed }}px/s 的跑马灯内容
     </el-marquee>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import { ElButton, ElInputNumber, ElMarquee, ElMarqueeItem } from 'element-plus'
+import { ElButton, ElInputNumber, ElMarquee } from 'element-plus'
 
 const currentSpeed = ref(50)
 const customSpeed = ref(80)
@@ -56,9 +50,9 @@ const customSpeed = ref(80)
 
 .el-marquee {
   margin-bottom: 20px;
-  border: 1px solid #e4e7ed;
-  border-radius: 4px;
   padding: 10px;
+  background-color: #f5f7fa;
+  border-radius: 4px;
 }
 
 .speed-controls {

@@ -7,9 +7,7 @@
       @scroll-resume="handleScrollResume"
       @scroll-end="handleScrollEnd"
     >
-      <el-marquee-item
-        >这是一个带有事件监听的跑马灯，请查看控制台输出</el-marquee-item
-      >
+      这是一个带有事件监听的跑马灯，请查看控制台输出
     </el-marquee>
 
     <h3>事件状态显示</h3>
@@ -54,7 +52,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { ElButton, ElMarquee, ElMarqueeItem, ElTag } from 'element-plus'
+import { ElButton, ElMarquee, ElTag } from 'element-plus'
 
 const eventStatus = ref({
   scrollStart: false,
@@ -138,9 +136,9 @@ const clearLogs = () => {
 
 .el-marquee {
   margin-bottom: 20px;
-  border: 1px solid #e4e7ed;
-  border-radius: 4px;
   padding: 10px;
+  background-color: #f5f7fa;
+  border-radius: 4px;
 }
 
 .event-status {

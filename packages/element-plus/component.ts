@@ -112,7 +112,6 @@ import { ElSegmented } from '@element-plus/components/segmented'
 import { ElMention } from '@element-plus/components/mention'
 import { ElSplitter, ElSplitterPanel } from '@element-plus/components/splitter'
 import { ElMarquee } from '@element-plus/components/marquee'
-import { ElMarqueeItem } from '@element-plus/components/marquee-item'
 
 import type { Plugin } from 'vue'
 
@@ -228,5 +227,4 @@ export default [
   ElSplitter,
   ElSplitterPanel,
   ElMarquee,
-  ElMarqueeItem,
 ] as Plugin[]

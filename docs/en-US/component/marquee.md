@@ -11,7 +11,7 @@ Automatically scrolls content when it exceeds the container size, supporting bot
 
 The Marquee component automatically scrolls content when it exceeds the container dimensions, supporting both horizontal and vertical directions.
 
-:::demo Use `el-marquee-item` to wrap content, `direction` to set scroll direction, and `speed` to control scroll speed.
+:::demo Use the `el-marquee` component directly with your content. Set `direction` to control scroll direction and `speed` to control scroll speed.
 
 marquee/basic
 
@@ -81,17 +81,13 @@ marquee/api
 
 ### Attributes
 
-| Name               | Description                               | Type                                | Default    |
-| ------------------ | ----------------------------------------- | ----------------------------------- | ---------- |
-| direction          | Scroll direction                          | ^[enum]`'horizontal' \| 'vertical'` | horizontal |
-| speed              | Scroll speed in pixels per second         | ^[number]                           | 50         |
-| auto-start         | Whether to start scrolling automatically  | ^[boolean]                          | true       |
-| show-controls      | Whether to show control buttons           | ^[boolean]                          | true       |
-| loop               | Whether to loop scrolling                 | ^[boolean]                          | true       |
-| pause-on-hover     | Whether to pause scrolling on mouse hover | ^[boolean]                          | true       |
-| pause-button-text  | Custom text for pause button              | ^[string]                           | —          |
-| resume-button-text | Custom text for resume button             | ^[string]                           | —          |
-| reset-button-text  | Custom text for reset button              | ^[string]                           | —          |
+| Name           | Description                               | Type                                | Default    |
+| -------------- | ----------------------------------------- | ----------------------------------- | ---------- |
+| direction      | Scroll direction                          | ^[enum]`'horizontal' \| 'vertical'` | horizontal |
+| speed          | Scroll speed in pixels per second         | ^[number]                           | 50         |
+| auto-start     | Whether to start scrolling automatically  | ^[boolean]                          | true       |
+| loop           | Whether to loop scrolling                 | ^[boolean]                          | true       |
+| pause-on-hover | Whether to pause scrolling on mouse hover | ^[boolean]                          | true       |
 
 ### Events
 
@@ -121,7 +117,7 @@ marquee/api
 | isPaused          | Current pause state                            | ^`[Ref]<boolean>`         |
 | scrollPosition    | Current scroll position                        | ^`[Ref]<number>`          |
 | shouldScroll      | Whether scrolling is needed                    | ^`[ComputedRef]<boolean>` |
-| singleContentSize | Total size of all marquee-item components      | ^`[ComputedRef]<number>`  |
+| singleContentSize | Total size of all content                      | ^`[ComputedRef]<number>`  |
 | containerSize     | Container dimensions                           | ^`[ComputedRef]<number>`  |
 | requiredCopies    | Number of copies needed for seamless scrolling | ^`[ComputedRef]<number>`  |
 | containerRef      | Container element reference                    | ^`[Ref]<HTMLElement>`     |
@@ -146,27 +142,13 @@ interface ScrollStatus {
 type ScrollDirection = 'horizontal' | 'vertical'
 ```
 
-## MarqueeItem API
-
-### Attributes
-
-| Name  | Description | Type      | Default |
-| ----- | ----------- | --------- | ------- |
-| label | Item label  | ^[string] | —       |
-
-### Events
-
-| Name  | Description            | Callback Parameters |
-| ----- | ---------------------- | ------------------- |
-| click | Triggered when clicked | —                   |
-
 ## Features
 
 - **Automatic Scrolling**: Automatically detects when content exceeds container and starts scrolling
 - **Bidirectional Support**: Supports both horizontal and vertical scrolling
 - **Smart Seamless Loop**: Dynamically calculates required copies for seamless infinite scrolling
-- **Multi-Item Support**: Efficiently handles multiple marquee-item components with automatic size calculation
-- **Interactive Control**: Built-in control buttons and mouse hover pause
+- **Content Flexibility**: Accepts any content through slots for maximum flexibility
+- **Interactive Control**: Mouse hover pause and programmatic control methods
 - **Event System**: Comprehensive event system for scroll state changes
 - **Performance Optimized**: Uses requestAnimationFrame for smooth animations
 - **Responsive Design**: Automatically adapts to container size changes
@@ -181,20 +163,20 @@ The Marquee component implements an intelligent seamless scrolling mechanism tha
 1. **Dynamic Copy Calculation**: The component automatically calculates the required number of copies based on:
 
    - Container dimensions (width/height)
-   - Total content size (sum of all marquee-item dimensions)
+   - Total content size (sum of all child element dimensions)
    - Mathematical formula: `Math.ceil((containerSize + contentSize) / contentSize)`
 
-2. **Multi-Item Support**: When using multiple `el-marquee-item` components:
+2. **Content Flexibility**: You can put any content directly inside the marquee:
 
    ```vue
    <el-marquee>
-     <el-marquee-item>Item 1</el-marquee-item>
-     <el-marquee-item>Item 2</el-marquee-item>
-     <el-marquee-item>Item 3</el-marquee-item>
+     <span>Your content here</span>
+     <img src="image.jpg" alt="Image" />
+     <div>More content</div>
    </el-marquee>
    ```
 
-   The component automatically calculates the total width/height of all items combined.
+   The component automatically calculates the total width/height of all child elements combined.
 
 3. **Seamless Transition**: When the first copy completely scrolls out of view, the position resets to show the second copy, creating a seamless loop effect.
 

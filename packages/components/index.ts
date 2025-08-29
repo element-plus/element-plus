@@ -79,7 +79,6 @@ export * from './segmented'
 export * from './mention'
 export * from './splitter'
 export * from './marquee'
-export * from './marquee-item'
 
 // plugins
 export * from './infinite-scroll'

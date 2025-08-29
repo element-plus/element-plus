@@ -8,31 +8,30 @@
 }
 
 @include b(marquee) {
-  @include e(container) {
-    position: relative;
-  }
+  position: relative;
+  overflow: hidden;
 
-  @include e(scroll-content) {
-    position: relative;
-    overflow: hidden;
-    padding-right: getCssVar('marquee', 'scroll-content-padding-right'); // 为控制按钮留出空间
-
-    @include m(horizontal) {
-      height: getCssVar('marquee', 'scroll-content-horizontal-height');
-      line-height: getCssVar('marquee', 'scroll-content-horizontal-line-height');
-    }
-
-    @include m(vertical) {
-      height: getCssVar('marquee', 'scroll-content-vertical-height');
-      line-height: getCssVar('marquee', 'scroll-content-vertical-line-height');
-      overflow: hidden;
-      position: relative;
-    }
-  }
-
-  @include e(scroll-text) {
+  @include m(horizontal) {
+    height: getCssVar('marquee', 'scroll-content-horizontal-height');
+    line-height: getCssVar('marquee', 'scroll-content-horizontal-line-height');
     display: flex;
-    will-change: transform;
+    align-items: center;
+  }
+
+  @include m(vertical) {
+    height: getCssVar('marquee', 'scroll-content-vertical-height');
+    line-height: getCssVar('marquee', 'scroll-content-vertical-line-height');
+    display: flex;
+    align-items: center;
+  }
+
+  @include e(content) {
+    display: flex;
+    align-items: center;
+    // 添加硬件加速，提升滚动性能
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
 
     @include m(horizontal) {
       white-space: nowrap;
@@ -40,6 +39,29 @@
       position: relative;
       gap: 0;
       display: inline-flex;
+      align-items: center;
+      
+      // 确保副本紧密排列，避免间隙
+      & > * {
+        flex-shrink: 0;
+        margin: 0;
+        padding: 0;
+      }
+      
+      // 处理副本内多个元素的情况
+      .el-marquee__copy {
+        display: inline-flex;
+        align-items: center;
+        gap: 0;
+        margin: 0;
+        padding: 0;
+        
+        & > * {
+          flex-shrink: 0;
+          margin: 0;
+          padding: 0;
+        }
+      }
     }
 
     @include m(vertical) {
@@ -49,40 +71,51 @@
       top: 0;
       left: 0;
       right: 0;
+      align-items: center;
+      gap: 0;
+      
+      // 确保副本紧密排列，避免间隙
+      & > * {
+        flex-shrink: 0;
+        margin: 0;
+        padding: 0;
+      }
+      
+      // 处理副本内多个元素的情况
+      .el-marquee__copy {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+        margin: 0;
+        padding: 0;
+        
+        & > * {
+          flex-shrink: 0;
+          margin: 0;
+          padding: 0;
+        }
+      }
     }
   }
 
-  @include e(scroll-controls) {
-    position: absolute;
-    top: getCssVar('marquee', 'scroll-controls-top');
-    right: getCssVar('marquee', 'scroll-controls-right');
-    display: flex;
-    gap: getCssVar('marquee', 'scroll-controls-gap');
-    z-index: getCssVar('marquee', 'scroll-controls-z-index');
-    background: getCssVar('marquee', 'scroll-controls-background');
-    padding: getCssVar('marquee', 'scroll-controls-padding');
-    border-radius: getCssVar('marquee', 'scroll-controls-border-radius');
-    box-shadow: getCssVar('marquee', 'scroll-controls-box-shadow');
+  // 副本样式
+  @include e(copy) {
+    flex-shrink: 0;
+    margin: 0;
+    padding: 0;
   }
 
   // 移除CSS动画，使用JavaScript控制滚动
-  .#{$namespace}-marquee__scroll-content--horizontal .#{$namespace}-marquee__scroll-text,
-  .#{$namespace}-marquee__scroll-content--vertical .#{$namespace}-marquee__scroll-text {
+  .#{$namespace}-marquee__content--horizontal,
+  .#{$namespace}-marquee__content--vertical {
     animation: none;
   }
 
   // 响应式设计
   @media (max-width: getCssVar('marquee', 'responsive-breakpoint')) {
-    @include e(scroll-controls) {
-      position: static;
-      margin-top: 10px;
-      justify-content: center;
-    }
-
-    @include e(scroll-content) {
-      @include m(vertical) {
-        height: getCssVar('marquee', 'responsive-vertical-height');
-      }
+    @include m(vertical) {
+      height: getCssVar('marquee', 'responsive-vertical-height');
     }
   }
 }

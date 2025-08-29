@@ -28,13 +28,6 @@ export const marqueeProps = buildProps({
     default: true,
   },
   /**
-   * @description 是否显示控制按钮
-   */
-  showControls: {
-    type: Boolean,
-    default: true,
-  },
-  /**
    * @description 是否循环滚动
    */
   loop: {
@@ -47,27 +40,6 @@ export const marqueeProps = buildProps({
   pauseOnHover: {
     type: Boolean,
     default: true,
-  },
-  /**
-   * @description 暂停状态按钮文案
-   */
-  pauseButtonText: {
-    type: String,
-    default: '',
-  },
-  /**
-   * @description 继续状态按钮文案
-   */
-  resumeButtonText: {
-    type: String,
-    default: '',
-  },
-  /**
-   * @description 重置按钮文案
-   */
-  resetButtonText: {
-    type: String,
-    default: '',
   },
 } as const)
 

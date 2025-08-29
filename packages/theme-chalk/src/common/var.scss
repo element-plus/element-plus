@@ -1690,21 +1690,3 @@ $marquee: map.merge(
   ),
   $marquee
 );
-
-// Marquee Item
-// css3 var in packages/theme-chalk/src/marquee-item.scss
-$marquee-item: () !default;
-$marquee-item: map.merge(
-  (
-    'horizontal-padding': 0 10px,
-    'vertical-padding': 5px 10px,
-    'vertical-margin-bottom': 10px,
-    'horizontal-font-size': 14px,
-    'responsive-breakpoint': 768px,
-    'responsive-horizontal-padding': 0 8px,
-    'responsive-vertical-padding': 4px 8px,
-    'responsive-horizontal-font-size': 13px,
-    'responsive-vertical-margin-bottom': 8px,
-  ),
-  $marquee-item
-);
