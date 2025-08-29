@@ -37,7 +37,7 @@
               ns.b(),
               direction,
               visible && 'open',
-              ns.is('resizing', isResizing),
+              ns.is('resizing', isResizing && isAnimationComplete),
             ]"
             :style="
               isHorizontal ? 'width: ' + drawerSize : 'height: ' + drawerSize
@@ -134,6 +134,7 @@ const focusStartRef = ref<HTMLElement>()
 const ns = useNamespace('drawer')
 const { t } = useLocale()
 const {
+  isAnimationComplete,
   afterEnter,
   afterLeave,
   beforeLeave,
@@ -151,7 +152,7 @@ const {
 } = useDialog(props, drawerRef)
 
 const drawerSize = computed(() => addUnit(resizeSize.value || props.size))
-const { isHorizontal, resizeSize, isResizing, resizeEvent } = useDragResize(
+const { isHorizontal, isResizing, resizeSize, resizeEvent } = useDragResize(
   props,
   drawerRef
 )

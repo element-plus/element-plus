@@ -46,6 +46,7 @@ export const useDialog = (
   const closed = ref(false)
   const rendered = ref(false) // when destroyOnClose is true, we initialize it as false vise versa
   const zIndex = ref(props.zIndex ?? nextZIndex())
+  const isAnimationComplete = ref(false)
 
   let openTimer: (() => void) | undefined = undefined
   let closeTimer: (() => void) | undefined = undefined
@@ -135,10 +136,12 @@ export const useDialog = (
   })
 
   function afterEnter() {
+    isAnimationComplete.value = true
     emit('opened')
   }
 
   function afterLeave() {
+    isAnimationComplete.value = false
     emit('closed')
     emit(UPDATE_MODEL_EVENT, false)
     if (props.destroyOnClose) {
@@ -280,6 +283,7 @@ export const useDialog = (
   })
 
   return {
+    isAnimationComplete,
     afterEnter,
     afterLeave,
     beforeLeave,
