@@ -97,13 +97,13 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, useSlots, watch, watchEffect } from 'vue'
+import { computed, onUnmounted, ref, useSlots, watchEffect } from 'vue'
 import { Close } from '@element-plus/icons-vue'
 import { ElOverlay } from '@element-plus/components/overlay'
 import ElFocusTrap from '@element-plus/components/focus-trap'
 import ElTeleport from '@element-plus/components/teleport'
 import { useDialog } from '@element-plus/components/dialog'
-import { addUnit } from '@element-plus/utils'
+import { addUnit, isUndefined } from '@element-plus/utils'
 import ElIcon from '@element-plus/components/icon'
 import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
 import { drawerEmits, drawerProps } from './drawer'
@@ -157,17 +157,16 @@ const { isHorizontal, isResizing, resizeSize, resizeEvent } = useDragResize(
   drawerRef
 )
 
-watchEffect((onCleanup) => {
-  if (props.resizable) {
-    const cleanup = resizeEvent()
-    onCleanup(cleanup)
+let cleanup: (() => void) | undefined
 
-    watch(
-      () => props.size,
-      () => (resizeSize.value = 0)
-    )
-  }
+watchEffect(() => {
+  cleanup?.()
+  cleanup =
+    props.resizable && isAnimationComplete.value ? resizeEvent() : undefined
+  if (!isUndefined(props.size)) resizeSize.value = 0
 })
+
+onUnmounted(() => cleanup?.())
 
 defineExpose({
   handleClose,
