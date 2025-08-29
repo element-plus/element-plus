@@ -25,8 +25,7 @@ image/placeholder
 
 ## Load Failed
 
-:::demo Custom failed content when error occurs to image load by `slot = error`
-
+:::demo Custom failed content when error occurs to image load by `slot = error`. `Image Preview` can be used, starting from version ^(2.11.2)
 image/load-failed
 
 :::
@@ -154,6 +153,7 @@ image/custom-progress
 | Name             | Description                                                                                       | Type                                 |
 | ---------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------ |
 | close            | trigger when clicking on close button or when `hide-on-click-modal` enabled clicking on backdrop. | ^[Function]`() => void`              |
+| error ^(2.11.2)  | same as native error.                                                                             | ^[Function]`(e: Event) => void`      |
 | switch           | trigger when switching images.                                                                    | ^[Function]`(index: number) => void` |
 | rotate ^(2.3.13) | trigger when rotating images.                                                                     | ^[Function]`(deg: number) => void`   |
 

@@ -96,6 +96,7 @@ export type ImageViewerPropsPublic = __ExtractPublicPropTypes<
 
 export const imageViewerEmits = {
   close: () => true,
+  error: (evt: Event) => evt instanceof Event,
   switch: (index: number) => isNumber(index),
   rotate: (deg: number) => isNumber(deg),
 }
