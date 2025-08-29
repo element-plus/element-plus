@@ -139,7 +139,7 @@
             :class="nsCascader.e('search-input')"
             :placeholder="presentText ? '' : inputPlaceholder"
             @input="(e) => handleInput(searchInputValue, e as KeyboardEvent)"
-            @click.stop="togglePopperVisible(true)"
+            @click.stop="togglePopperVisible()"
             @keydown.delete="handleDelete"
             @compositionstart="handleComposition"
             @compositionupdate="handleComposition"
