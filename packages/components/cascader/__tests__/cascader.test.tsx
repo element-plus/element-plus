@@ -1035,6 +1035,24 @@ describe('Cascader.vue', () => {
       expect(newCascaderNodes.length).toBe(4)
       expect(newCascaderNodes[3].text()).toBe('Testing')
     })
+
+    it('should toggle when clicking the input', async () => {
+      const handleVisibleChange = vi.fn()
+      const wrapper = _mount(() => (
+        <Cascader
+          filterable
+          options={OPTIONS}
+          onVisibleChange={handleVisibleChange}
+        />
+      ))
+
+      const input = wrapper.find('input')
+
+      await input.trigger('click')
+      expect(handleVisibleChange).toBeCalledWith(true)
+      await input.trigger('click')
+      expect(handleVisibleChange).toBeCalledWith(false)
+    })
   })
 
   describe('Cascader - click to select node', () => {
