@@ -41,7 +41,6 @@ export function useSize(
     // Convert the passed props size to a percentage
     for (let i = 0; i < panelCounts.value; i += 1) {
       const itemSize = panels.value[i]?.size
-
       if (isPct(itemSize)) {
         ptgList[i] = getPct(itemSize)
       } else if (isPx(itemSize)) {
@@ -59,15 +58,33 @@ export function useSize(
     }
 
     const totalPtg = ptgList.reduce<number>((acc, ptg) => acc + (ptg || 0), 0)
-
-    if (totalPtg > 1 || !emptyCount) {
-      // If it is greater than 1, the scaling ratio
-      const scale = 1 / totalPtg
-      ptgList = ptgList.map((ptg) => (ptg === undefined ? 0 : ptg * scale))
+    const hasRawSize = panels.value.some((p) => p.rawSize !== undefined)
+    if (hasRawSize && !emptyCount) {
+      const fixedIndexs = []
+      const flexIndexs = []
+      panels.value.forEach((panel, index) => {
+        if (panel.rawSize != null) {
+          fixedIndexs.push(index)
+        } else {
+          flexIndexs.push(index)
+        }
+      })
+      const fixedTotal = fixedIndexs.reduce((sum, i) => sum + ptgList[i], 0)
+      const restTotal = 1 - fixedTotal
+      const flexTotal = flexIndexs.reduce((sum, i) => sum + ptgList[i], 0)
+      flexIndexs.forEach((i) => {
+        ptgList[i] = (ptgList[i] / flexTotal) * restTotal
+      })
     } else {
-      // If it is less than 1, the filling ratio
-      const avgRest = (1 - totalPtg) / emptyCount
-      ptgList = ptgList.map((ptg) => (ptg === undefined ? avgRest : ptg))
+      if (totalPtg > 1 || !emptyCount) {
+        // If it is greater than 1, the scaling ratio
+        const scale = 1 / totalPtg
+        ptgList = ptgList.map((ptg) => (ptg === undefined ? 0 : ptg * scale))
+      } else {
+        // If it is less than 1, the filling ratio
+        const avgRest = (1 - totalPtg) / emptyCount
+        ptgList = ptgList.map((ptg) => (ptg === undefined ? avgRest : ptg))
+      }
     }
 
     percentSizes.value = ptgList as number[]
