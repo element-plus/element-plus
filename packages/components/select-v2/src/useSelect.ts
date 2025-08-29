@@ -34,6 +34,7 @@ import {
 import {
   CHANGE_EVENT,
   EVENT_CODE,
+  MINIMUM_INPUT_WIDTH,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import {
@@ -155,8 +156,8 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     return (
       props.clearable &&
       !selectDisabled.value &&
-      states.inputHovering &&
-      hasModelValue.value
+      hasModelValue.value &&
+      (isFocused.value || states.inputHovering)
     )
   })
 
@@ -323,10 +324,14 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   // computed style
   const tagStyle = computed(() => {
     const gapWidth = getGapWidth()
+    const inputSlotWidth = props.filterable ? gapWidth + MINIMUM_INPUT_WIDTH : 0
     const maxWidth =
       collapseItemRef.value && props.maxCollapseTags === 1
-        ? states.selectionWidth - states.collapseItemWidth - gapWidth
-        : states.selectionWidth
+        ? states.selectionWidth -
+          states.collapseItemWidth -
+          gapWidth -
+          inputSlotWidth
+        : states.selectionWidth - inputSlotWidth
     return { maxWidth: `${maxWidth}px` }
   })
 
@@ -808,6 +813,9 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     }
   }
 
+  const getIndex = (option: Option) =>
+    allOptionsValueMap.value.get(getValue(option))?.index ?? -1
+
   const initStates = (needUpdateSelectedLabel = false) => {
     if (props.multiple) {
       if ((props.modelValue as Array<any>).length > 0) {
@@ -967,6 +975,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     popupHeight,
     debounce,
     allOptions,
+    allOptionsValueMap,
     filteredOptions,
     iconComponent,
     iconReverse,
@@ -1012,6 +1021,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     getValue,
     getDisabled,
     getValueKey,
+    getIndex,
     handleClear,
     handleClickOutside,
     handleDel,

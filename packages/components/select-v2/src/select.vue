@@ -10,7 +10,8 @@
       ref="tooltipRef"
       :visible="dropdownMenuVisible"
       :teleported="teleported"
-      :popper-class="[nsSelect.e('popper'), popperClass]"
+      :popper-class="[nsSelect.e('popper'), popperClass!]"
+      :popper-style="popperStyle"
       :gpu-acceleration="false"
       :stop-popper-mouse-event="false"
       :popper-options="popperOptions"
@@ -80,6 +81,7 @@
                   <span :class="nsSelect.e('tags-text')">
                     <slot
                       name="label"
+                      :index="getIndex(item)"
                       :label="getLabel(item)"
                       :value="getValue(item)"
                     >
@@ -97,6 +99,7 @@
                 :effect="effect"
                 placement="bottom"
                 :popper-class="popperClass"
+                :popper-style="popperStyle"
                 :teleported="teleported"
               >
                 <template #default>
@@ -137,6 +140,7 @@
                         <span :class="nsSelect.e('tags-text')">
                           <slot
                             name="label"
+                            :index="getIndex(selected)"
                             :label="getLabel(selected)"
                             :value="getValue(selected)"
                           >
@@ -208,6 +212,7 @@
               <slot
                 v-if="hasModelValue"
                 name="label"
+                :index="allOptionsValueMap.get(modelValue)?.index ?? -1"
                 :label="currentPlaceholder"
                 :value="modelValue"
               >

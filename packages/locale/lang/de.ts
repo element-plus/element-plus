@@ -7,6 +7,10 @@ export default {
     colorpicker: {
       confirm: 'OK',
       clear: 'Leeren',
+      defaultLabel: 'color picker', // to be translated
+      description:
+        'current color is {color}. press enter to select a new color.', // to be translated
+      alphaLabel: 'pick alpha value', // to be translated
     },
     datepicker: {
       now: 'Jetzt',
@@ -14,6 +18,11 @@ export default {
       cancel: 'Abbrechen',
       clear: 'Leeren',
       confirm: 'OK',
+      dateTablePrompt:
+        'Use the arrow keys and enter to select the day of the month', // to be translated
+      monthTablePrompt: 'Use the arrow keys and enter to select the month', // to be translated
+      yearTablePrompt: 'Use the arrow keys and enter to select the year', // to be translated
+      selectedDate: 'Selected date', // to be translated
       selectDate: 'Datum wählen',
       selectTime: 'Uhrzeit wählen',
       startDate: 'Startdatum',
@@ -24,9 +33,6 @@ export default {
       nextYear: 'Nächtes Jahr',
       prevMonth: 'Letzter Monat',
       nextMonth: 'Nächster Monat',
-      day: 'Tag',
-      week: 'Woche',
-      month: 'Monat',
       year: '',
       month1: 'Januar',
       month2: 'Februar',
@@ -49,6 +55,15 @@ export default {
         fri: 'Fr',
         sat: 'Sa',
       },
+      weeksFull: {
+        sun: 'Sunday', // to be translated
+        mon: 'Monday', // to be translated
+        tue: 'Tuesday', // to be translated
+        wed: 'Wednesday', // to be translated
+        thu: 'Thursday', // to be translated
+        fri: 'Friday', // to be translated
+        sat: 'Saturday', // to be translated
+      },
       months: {
         jan: 'Jan',
         feb: 'Feb',
@@ -63,6 +78,12 @@ export default {
         nov: 'Nov',
         dec: 'Dez',
       },
+      day: 'Tag',
+      month: 'Monat',
+    },
+    inputNumber: {
+      decrease: 'decrease number', // to be translated
+      increase: 'increase number', // to be translated
     },
     select: {
       loading: 'Lädt.',
@@ -72,6 +93,9 @@ export default {
     },
     mention: {
       loading: 'Lädt.',
+    },
+    dropdown: {
+      toggleDropdown: 'Toggle Dropdown', // to be translated
     },
     cascader: {
       noMatch: 'Nichts gefunden.',
@@ -90,17 +114,32 @@ export default {
       currentPage: 'Seite {pager}',
       prevPages: 'Vorherige {pager} Seiten',
       nextPages: 'Nächste {pager} Seiten',
+      deprecationWarning:
+        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
+    },
+    dialog: {
+      close: 'Close this dialog', // to be translated
+    },
+    drawer: {
+      close: 'Close this dialog', // to be translated
     },
     messagebox: {
+      title: 'Message', // to be translated
       confirm: 'OK',
       cancel: 'Abbrechen',
       error: 'Fehler',
+      close: 'Close this dialog', // to be translated
     },
     upload: {
       deleteTip: 'Klicke löschen zum entfernen',
       delete: 'Löschen',
       preview: 'Vorschau',
       continue: 'Fortsetzen',
+    },
+    slider: {
+      defaultLabel: 'slider between {min} and {max}', // to be translated
+      defaultRangeStartLabel: 'pick start value', // to be translated
+      defaultRangeEndLabel: 'pick end value', // to be translated
     },
     table: {
       emptyText: 'Keine Daten',
@@ -113,6 +152,7 @@ export default {
       next: 'Weiter',
       previous: 'Zurück',
       finish: 'Fertig',
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'Keine Einträge',
