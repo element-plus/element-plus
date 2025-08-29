@@ -11,6 +11,7 @@ export type PanelItemState = UnwrapRef<{
   min?: number | string
   resizable: boolean
   size?: number | string
+  rawSize?: number | string
   setIndex: (val: number) => void
 }>
 

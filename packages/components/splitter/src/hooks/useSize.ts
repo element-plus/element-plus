@@ -60,8 +60,8 @@ export function useSize(
     const totalPtg = ptgList.reduce<number>((acc, ptg) => acc + (ptg || 0), 0)
     const hasRawSize = panels.value.some((p) => p.rawSize !== undefined)
     if (hasRawSize && !emptyCount) {
-      const fixedIndexs = []
-      const flexIndexs = []
+      const fixedIndexs: number[] = []
+      const flexIndexs: number[] = []
       panels.value.forEach((panel, index) => {
         if (panel.rawSize != null) {
           fixedIndexs.push(index)
