@@ -55,7 +55,7 @@ const ns = useNamespace('calendar')
 
 const COMPONENT_NAME = 'ElCalendar'
 defineOptions({
-  name: COMPONENT_NAME,
+  name: 'ElCalendar',
 })
 
 const props = defineProps(calendarProps)

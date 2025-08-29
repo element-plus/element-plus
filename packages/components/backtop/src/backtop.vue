@@ -24,7 +24,7 @@ import { useBackTop } from './use-backtop'
 const COMPONENT_NAME = 'ElBacktop'
 
 defineOptions({
-  name: COMPONENT_NAME,
+  name: 'ElBacktop',
 })
 
 const props = defineProps(backtopProps)

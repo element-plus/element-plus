@@ -57,7 +57,7 @@ import type { MenuItemRegistered, MenuProvider, SubMenuProvider } from './types'
 
 const COMPONENT_NAME = 'ElMenuItem'
 defineOptions({
-  name: COMPONENT_NAME,
+  name: 'ElMenuItem',
 })
 const props = defineProps(menuItemProps)
 const emit = defineEmits(menuItemEmits)

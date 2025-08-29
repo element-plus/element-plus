@@ -22,7 +22,7 @@ const ns = useNamespace('splitter-panel')
 
 const COMPONENT_NAME = 'ElSplitterPanel'
 defineOptions({
-  name: COMPONENT_NAME,
+  name: 'ElSplitterPanel',
 })
 
 const props = defineProps(splitterPanelProps)
