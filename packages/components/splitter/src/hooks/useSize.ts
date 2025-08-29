@@ -69,11 +69,17 @@ export function useSize(
           flexIndexs.push(index)
         }
       })
-      const fixedTotal = fixedIndexs.reduce((sum, i) => sum + ptgList[i], 0)
+      const fixedTotal = fixedIndexs.reduce(
+        (sum, i) => sum + (ptgList[i] ?? 0),
+        0
+      )
       const restTotal = 1 - fixedTotal
-      const flexTotal = flexIndexs.reduce((sum, i) => sum + ptgList[i], 0)
+      const flexTotal = flexIndexs.reduce(
+        (sum, i) => sum + (ptgList[i] ?? 0),
+        0
+      )
       flexIndexs.forEach((i) => {
-        ptgList[i] = (ptgList[i] / flexTotal) * restTotal
+        ptgList[i] = ((ptgList[i] ?? 0) / flexTotal) * restTotal
       })
     } else {
       if (totalPtg > 1 || !emptyCount) {
