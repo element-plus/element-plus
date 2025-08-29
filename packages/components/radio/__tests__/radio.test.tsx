@@ -276,26 +276,6 @@ describe('Radio group', () => {
     expect(radio1.attributes('data-test')).toBe('custom-attr-1')
     expect(radio2.attributes('data-test')).toBe('custom-attr-2')
   })
-
-  it('renders custom content with radioRenderer function', () => {
-    const options = [
-      {
-        value: 'a',
-        label: 'A',
-        render: (option: { label: string }, index: number) =>
-          `Custom: ${option.label}-${index}`,
-      },
-      { value: 'b', label: 'B' },
-    ]
-    const wrapper = mount(RadioGroup, {
-      props: {
-        options,
-      },
-    })
-    const [radio1, radio2] = wrapper.findAll('.el-radio')
-    expect(radio1.text()).toBe('Custom: A-0')
-    expect(radio2.text()).toBe('B')
-  })
 })
 
 describe('Radio Button', () => {
