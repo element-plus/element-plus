@@ -8,17 +8,10 @@
     :aria-labelledby="isLabeledByFormItem ? formItem!.labelId : undefined"
   >
     <slot>
-      <el-radio
         v-for="(item, index) in props.options"
-        :key="item.key ?? index"
-        v-bind="{
-          ...item,
-          ...getOptionProps(item),
-        }"
+        :key="index"
+        v-bind="getOptionProps(item)"
       >
-        <template v-if="typeof item.render === 'function'">
-          {{ item.render(item, index) }}
-        </template>
       </el-radio>
     </slot>
   </div>
