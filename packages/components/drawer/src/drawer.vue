@@ -97,7 +97,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, useSlots } from 'vue'
+import { computed, ref, useSlots, watch, watchEffect } from 'vue'
 import { Close } from '@element-plus/icons-vue'
 import { ElOverlay } from '@element-plus/components/overlay'
 import ElFocusTrap from '@element-plus/components/focus-trap'
@@ -107,7 +107,7 @@ import { addUnit } from '@element-plus/utils'
 import ElIcon from '@element-plus/components/icon'
 import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
 import { drawerEmits, drawerProps } from './drawer'
-import { useDragResize } from './hooks/useResize'
+import { useDragResize } from './composables/useResize'
 
 defineOptions({
   name: 'ElDrawer',
@@ -150,13 +150,23 @@ const {
   handleClose,
 } = useDialog(props, drawerRef)
 
-const isHorizontal = computed(
-  () => props.direction === 'rtl' || props.direction === 'ltr'
-)
 const drawerSize = computed(() => addUnit(resizeSize.value || props.size))
-const { resizeSize, isResizing, resizeEvent } = useDragResize(drawerRef)
+const { isHorizontal, resizeSize, isResizing, resizeEvent } = useDragResize(
+  props,
+  drawerRef
+)
 
-props.resizable && resizeEvent()
+watchEffect((onCleanup) => {
+  if (props.resizable) {
+    const cleanup = resizeEvent()
+    onCleanup(cleanup)
+
+    watch(
+      () => props.size,
+      () => (resizeSize.value = 0)
+    )
+  }
+})
 
 defineExpose({
   handleClose,

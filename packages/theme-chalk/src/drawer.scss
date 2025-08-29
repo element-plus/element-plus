@@ -96,6 +96,10 @@ $directions: rtl, ltr, ttb, btt;
     width: 100%;
     left: 0;
     right: 0;
+
+    &.is-resizing {
+      cursor: row-resize;
+    }
   }
 
   &.ltr {
