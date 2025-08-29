@@ -19,7 +19,8 @@
     "@popperjs/core": "catalog:",
     "@vueuse/core": "catalog:",
     "csstype": "catalog:",
-    "lodash-unified": "catalog:"
+    "lodash-unified": "catalog:",
+    "memoize-one": "6.0.0"
   },
   "devDependencies": {
     "@element-plus/test-utils": "workspace:^",

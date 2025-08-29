@@ -101,9 +101,6 @@ importers:
       lodash-unified:
         specifier: ^1.0.2
         version: 1.0.2(@types/lodash-es@4.17.6)(lodash-es@4.17.21)(lodash@4.17.21)
-      memoize-one:
-        specifier: ^6.0.0
-        version: 6.0.0
       normalize-wheel-es:
         specifier: ^1.2.0
         version: 1.2.0
@@ -553,6 +550,9 @@ importers:
       lodash-unified:
         specifier: 'catalog:'
         version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.21)(lodash@4.17.21)
+      memoize-one:
+        specifier: 6.0.0
+        version: 6.0.0
     devDependencies:
       '@element-plus/test-utils':
         specifier: workspace:^

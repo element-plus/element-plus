@@ -32,6 +32,7 @@ const options = targets.map((target, index) => {
       VueMacros({
         setupComponent: false,
         setupSFC: false,
+        shortVmodel: false,
         plugins: {
           vue: vue({
             isProduction: true,

@@ -78,9 +78,9 @@ export default defineConfig(async ({ mode }) => {
       Inspect(),
     ],
 
-    optimizeDeps: {
-      include: ['vue', '@vue/shared', ...dependencies],
-    },
+    // optimizeDeps: {
+    //   include: ['vue', '@vue/shared', ...dependencies],
+    // },
     esbuild: {
       target: 'chrome64',
     },
