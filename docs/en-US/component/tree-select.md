@@ -108,6 +108,7 @@ and please go to the original component to view the documentation.
 | ------------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------ | ------- |
 | cacheData ^(2.2.26) | The cached data of the lazy node, the structure is the same as the data, used to get the label of the unloaded data | ^[object]`CacheOption[]` | []      |
 
+| showToplevelNode | You can choose whether to return to the top-level node | ^[boolean] | false |
 ## Type Declarations
 
 <details>

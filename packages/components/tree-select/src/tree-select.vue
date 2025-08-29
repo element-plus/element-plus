@@ -22,6 +22,10 @@ export default defineComponent({
       type: Array,
       default: () => [],
     },
+    showToplevelNode: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props, context) {
     const { slots, expose } = context
