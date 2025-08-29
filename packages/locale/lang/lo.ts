@@ -148,6 +148,7 @@ export default {
       next: 'ຖັດໄປ',
       previous: 'ຍ້ອນກັບ',
       finish: 'ສຳເລັດ',
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'ບໍ່ມີຂໍ້ມູນ',

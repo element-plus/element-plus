@@ -152,6 +152,7 @@ export default {
       next: 'بعدی',
       previous: 'قبلی',
       finish: 'پایان',
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'داده‌ای موجود نیست',

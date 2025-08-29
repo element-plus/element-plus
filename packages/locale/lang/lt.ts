@@ -150,6 +150,7 @@ export default {
       next: 'Kitas',
       previous: 'Ankstesnis',
       finish: 'Baigti',
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'Nėra duomenų',

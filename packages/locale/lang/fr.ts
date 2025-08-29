@@ -152,6 +152,7 @@ export default {
       next: 'suivant',
       previous: 'précédent',
       finish: 'fin',
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'Aucune donnée',

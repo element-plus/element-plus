@@ -150,6 +150,7 @@ export default {
       next: 'Далі',
       previous: 'Назад',
       finish: 'Завершити',
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'Немає даних',

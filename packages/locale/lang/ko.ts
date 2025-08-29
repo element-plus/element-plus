@@ -150,6 +150,7 @@ export default {
       next: '다음',
       previous: '이전',
       finish: '종료',
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: '데이터 없음',
