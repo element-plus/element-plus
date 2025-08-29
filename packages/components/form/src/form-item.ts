@@ -72,7 +72,10 @@ export const formItemProps = buildProps({
   /**
    * @description Inline style validate message.
    */
-  inlineMessage: Boolean,
+  inlineMessage: {
+    type: [Boolean, String],
+    default: '',
+  },
   /**
    * @description Whether to show the error message.
    */
