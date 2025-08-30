@@ -9,6 +9,7 @@ export default {
       clear: 'إزالة',
       defaultLabel: 'إختر اللون',
       description: 'اللون الحالي هو {color}. اضفط انتر لاختيار لون جديد',
+      alphaLabel: 'pick alpha value', // to be translated
     },
     datepicker: {
       now: 'الآن',
@@ -20,6 +21,7 @@ export default {
         'استخدم مفاتيح الاسهم و اضغط انتر لاختيار اليوم المراد من الشهر',
       monthTablePrompt: 'استخدم مفاتيح الاسهم واضغط انتر لاختيار الشهر',
       yearTablePrompt: 'استخدم مفاتيح الاسهم واضغط انتر لاختيار السنة',
+      selectedDate: 'Selected date', // to be translated
       selectDate: 'إختر التاريخ',
       selectTime: 'إختر الوقت',
       startDate: 'تاريخ البدء',
@@ -43,7 +45,6 @@ export default {
       month10: 'تشرين الاول',
       month11: 'تشرين الثاني',
       month12: 'كانون الاول',
-      week: 'أسبوع',
       weeks: {
         sun: 'الأحد',
         mon: 'الأثنين',
@@ -52,6 +53,15 @@ export default {
         thu: 'الخميس',
         fri: 'الجمعة',
         sat: 'السبت',
+      },
+      weeksFull: {
+        sun: 'Sunday', // to be translated
+        mon: 'Monday', // to be translated
+        tue: 'Tuesday', // to be translated
+        wed: 'Wednesday', // to be translated
+        thu: 'Thursday', // to be translated
+        fri: 'Friday', // to be translated
+        sat: 'Saturday', // to be translated
       },
       months: {
         jan: 'كانون الثاني',
@@ -101,6 +111,8 @@ export default {
       currentPage: 'page {pager}', // to be translated
       prevPages: 'Previous {pager} pages', // to be translated
       nextPages: 'Next {pager} pages', // to be translated
+      deprecationWarning:
+        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
     },
     dialog: {
       close: 'أغلق هذا التبويب',
@@ -121,12 +133,23 @@ export default {
       preview: 'عرض',
       continue: 'إستمرار',
     },
+    slider: {
+      defaultLabel: 'slider between {min} and {max}', // to be translated
+      defaultRangeStartLabel: 'pick start value', // to be translated
+      defaultRangeEndLabel: 'pick end value', // to be translated
+    },
     table: {
       emptyText: 'لايوجد بيانات',
       confirmFilter: 'تأكيد',
       resetFilter: 'حذف',
       clearFilter: 'الكل',
       sumText: 'المجموع',
+    },
+    tour: {
+      next: 'Next', // to be translated
+      previous: 'Previous', // to be translated
+      finish: 'Finish', // to be translated
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'لايوجد بيانات',
