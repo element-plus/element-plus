@@ -2,6 +2,12 @@
   <el-select
     v-model="value"
     :options="options"
+    :props="{
+      value: 'id',
+      label: 'label',
+      options: 'options',
+      disabled: 'disabled',
+    }"
     placeholder="Select"
     style="width: 240px"
   />
@@ -14,23 +20,25 @@ const value = ref('')
 
 const options = [
   {
-    value: 'Option1',
+    id: 'Option1',
     label: 'Option1',
   },
   {
-    value: 'Option2',
+    id: 'Option2',
     label: 'Option2',
+    disabled: true,
   },
   {
-    value: 'Option3',
+    id: 'Option3',
     label: 'Option3',
   },
   {
-    value: 'Option4',
+    id: 'Option4',
     label: 'Option4',
+    disabled: true,
   },
   {
-    value: 'Option5',
+    id: 'Option5',
     label: 'Option5',
   },
 ]
