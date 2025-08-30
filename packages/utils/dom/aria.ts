@@ -110,7 +110,7 @@ export const getSibling = (
 
 export const focusElement = (
   el?: HTMLElement | { focus: () => void } | null,
-  options?: FocusOptions & { focusVisible?: boolean } // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#focusvisible
+  options?: FocusOptions
 ) => {
   if (!el || !el.focus) return
   let cleanup: boolean = false

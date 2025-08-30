@@ -274,10 +274,7 @@ export default defineComponent({
 
       if (event.type === 'mouseenter' && event.target) {
         nextTick(() => {
-          focusElement(event.target as HTMLElement, {
-            preventScroll: true,
-            focusVisible: false,
-          })
+          focusElement(event.target as HTMLElement, { preventScroll: true })
         })
       }
     }

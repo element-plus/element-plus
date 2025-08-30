@@ -55,10 +55,7 @@ const onMouseenter = composeEventHandlers(
 
     if (props.focusOnTarget && e.target) {
       nextTick(() => {
-        focusElement(e.target as HTMLElement, {
-          preventScroll: true,
-          focusVisible: false,
-        })
+        focusElement(e.target as HTMLElement, { preventScroll: true })
       })
     }
   })
