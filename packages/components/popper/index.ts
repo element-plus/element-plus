@@ -17,4 +17,4 @@ export * from './src/content'
 export * from './src/arrow'
 export * from './src/constants'
 
-export type { Placement, Options, State } from '@popperjs/core'
+export type { Placement, Options } from '@popperjs/core'
