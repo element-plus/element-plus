@@ -9,7 +9,7 @@ Display multiple data with similar format. You can sort, filter, compare your da
 
 :::warning
 
-As of ^(2.11.0), customizing cell content via the default slot of `<el-table-column>` is deprecated. Please use the [cell slot](#custom-column-template-with-the-cell-slot) instead.
+As of ^(2.12.0), customizing cell content via the default slot of `<el-table-column>` is deprecated. Please use the [cell slot](#custom-column-template-with-the-cell-slot) instead.
 
 :::
 
@@ -173,7 +173,7 @@ table/custom-column
 
 :::
 
-## Custom column template with the cell slot ^(2.11.0)
+## Custom column template with the cell slot ^(2.12.0)
 
 To enable the cell slot, add the `cell-slot` atrribute to el-table.
 
@@ -417,14 +417,14 @@ table/tooltip-formatter
 | filter-method              | data filtering method. If `filter-multiple` is on, this method will be called multiple times for each row, and a row will display if one of the calls returns `true`                                               | ^[function]`(value: any, row: any, column: TableColumnCtx<T>) => void`                                                                                                      | —                                 |
 | filtered-value             | filter value for selected data, might be useful when table header is rendered with `render-header`                                                                                                                 | ^[object]`string[]`                                                                                                                                                         | —                                 |
 | tooltip-formatter ^(2.9.4) | customize tooltip content when using `show-overflow-tooltip`                                                                                                                                                       | ^[Function]`(data: { row: any, column: TableColumnCtx<T>, cellValue: any }) => VNode \| string`                                                                             | —                                 |
-| cell-slot ^(2.11.0)         | whether to enable the cell slot                                                                                                                                                                                    | ^[boolean]                                                                                                                                                                  | false                             |
+| cell-slot ^(2.12.0)        | whether to enable the cell slot                                                                                                                                                                                    | ^[boolean]                                                                                                                                                                  | false                             |
 
 ### Table-column Slots
 
 | Name                 | Description                       | Type                                                               |
 | -------------------- | --------------------------------- | ------------------------------------------------------------------ |
 | default              | Include zero or more table-column | ^[object]`{ row: any, column: TableColumnCtx<T>, $index: number }` |
-| cell ^(2.11.0)       | Custom content for table columns  | ^[object]`{ row: any, column: TableColumnCtx<T>, $index: number }` |
+| cell ^(2.12.0)       | Custom content for table columns  | ^[object]`{ row: any, column: TableColumnCtx<T>, $index: number }` |
 | header               | Custom content for table header   | ^[object]`{ column: TableColumnCtx<T>, $index: number }`           |
 | filter-icon ^(2.7.8) | Custom content for filter icon    | ^[object]`{ filterOpened: boolean }`                               |
 | expand ^(2.10.0)     | Custom content for expand columns | ^[object]`{ expanded: boolean }`                                   |

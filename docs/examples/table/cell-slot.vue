@@ -10,32 +10,40 @@
         </div>
       </template>
     </el-table-column>
-    <el-table-column label="Name" width="180">
-      <template #cell="scope">
-        <el-popover effect="light" trigger="hover" placement="top" width="auto">
-          <template #default>
-            <div>name: {{ scope.row.name }}</div>
-            <div>address: {{ scope.row.address }}</div>
-          </template>
-          <template #reference>
-            <el-tag>{{ scope.row.name }}</el-tag>
-          </template>
-        </el-popover>
-      </template>
-    </el-table-column>
-    <el-table-column label="Operations">
-      <template #cell="scope">
-        <el-button size="small" @click="handleEdit(scope.$index, scope.row)">
-          Edit
-        </el-button>
-        <el-button
-          size="small"
-          type="danger"
-          @click="handleDelete(scope.$index, scope.row)"
-        >
-          Delete
-        </el-button>
-      </template>
+    <el-table-column label="Delivery Info">
+      <el-table-column label="Name" width="180">
+        <template #cell="scope">
+          <el-popover
+            effect="light"
+            trigger="hover"
+            placement="top"
+            width="auto"
+          >
+            <template #default>
+              <div>name: {{ scope.row.name }}</div>
+              <div>address: {{ scope.row.address }}</div>
+            </template>
+            <template #reference>
+              <el-tag>{{ scope.row.name }}</el-tag>
+            </template>
+          </el-popover>
+        </template>
+      </el-table-column>
+      <el-table-column prop="address" label="Address Info" width="180" />
+      <el-table-column label="Operations">
+        <template #cell="scope">
+          <el-button size="small" @click="handleEdit(scope.$index, scope.row)">
+            Edit
+          </el-button>
+          <el-button
+            size="small"
+            type="danger"
+            @click="handleDelete(scope.$index, scope.row)"
+          >
+            Delete
+          </el-button>
+        </template>
+      </el-table-column>
     </el-table-column>
   </el-table>
 </template>
