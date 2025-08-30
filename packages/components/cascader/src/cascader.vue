@@ -247,8 +247,7 @@ import {
 import { ArrowDown, Check } from '@element-plus/icons-vue'
 import { cascaderEmits, cascaderProps } from './cascader'
 
-import type { Options } from '@element-plus/components/popper'
-import type { State } from '@popperjs/core'
+import type { Options, State } from '@element-plus/components/popper'
 import type { ComputedRef, Ref, StyleValue } from 'vue'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { InputInstance } from '@element-plus/components/input'
