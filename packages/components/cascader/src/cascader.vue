@@ -247,7 +247,7 @@ import {
 import { ArrowDown, Check } from '@element-plus/icons-vue'
 import { cascaderEmits, cascaderProps } from './cascader'
 
-import type { Options } from '@element-plus/components/popper'
+import type { Options, State } from '@element-plus/components/popper'
 import type { ComputedRef, Ref, StyleValue } from 'vue'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { InputInstance } from '@element-plus/components/input'
@@ -265,7 +265,7 @@ const popperOptions: Partial<Options> = {
       name: 'arrowPosition',
       enabled: true,
       phase: 'main',
-      fn: ({ state }: any) => {
+      fn: ({ state }: { state: State }) => {
         const { modifiersData, placement } = state
         if (['right', 'left', 'bottom', 'top'].includes(placement)) return
         if (modifiersData.arrow) {
