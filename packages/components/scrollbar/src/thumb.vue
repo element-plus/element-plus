@@ -66,8 +66,19 @@ const offsetRatio = computed(
     instance.value![bar.value.offset] ** 2 /
     scrollbar.wrapElement![bar.value.scrollSize] /
     props.ratio /
-    thumb.value![bar.value.offset]
+    thumb.value![bar.value.offset] /
+    getScaleRatio()
 )
+
+const getScaleRatio = () => {
+  const el = scrollbar.wrapElement
+  if (!el || !el[bar.value.offset]) {
+    return 1
+  }
+
+  const rect = el.getBoundingClientRect()
+  return rect[bar.value.size] / el[bar.value.offset]
+}
 
 const clickThumbHandler = (e: MouseEvent) => {
   // prevent click event of middle and right button
