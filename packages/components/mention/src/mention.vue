@@ -71,6 +71,7 @@ import { isFunction } from '@element-plus/utils'
 import { mentionEmits, mentionProps } from './mention'
 import { getCursorPosition, getMentionCtx } from './helper'
 import ElMentionDropdown from './mention-dropdown.vue'
+import { useProps } from './useProps'
 
 import type { Placement } from '@popperjs/core'
 import type { CSSProperties } from 'vue'
@@ -108,10 +109,22 @@ const computedFallbackPlacements = computed<Placement[]>(() =>
   props.showArrow ? ['bottom', 'top'] : ['bottom-start', 'top-start']
 )
 
+const { getValue, getLabel, getDisabled } = useProps(props)
+
+const getNewOption = (option: MentionOption) => ({
+  label: getLabel(option),
+  value: getValue(option),
+  disabled: getDisabled(option),
+})
+
 const filteredOptions = computed(() => {
   const { filterOption, options } = props
-  if (!mentionCtx.value || !filterOption) return options
-  return options.filter((option) =>
+  const newOptions = options.map((option) => {
+    const newOption = getNewOption(option)
+    return { ...option, ...newOption }
+  })
+  if (!mentionCtx.value || !filterOption) return newOptions
+  return newOptions.filter((option) =>
     filterOption(mentionCtx.value!.pattern, option)
   )
 })
@@ -209,6 +222,13 @@ const handleInputMouseDown = () => {
   syncAfterCursorMove()
 }
 
+// Ensure that the original option passed by users is returned
+const getOriginalOption = (mentionOption: MentionOption) => {
+  return props.options.find((option: MentionOption) => {
+    return mentionOption.value === getValue(option)
+  })
+}
+
 const handleSelect = (item: MentionOption) => {
   if (!mentionCtx.value) return
   const inputEl = getInputEl()
@@ -225,7 +245,7 @@ const handleSelect = (item: MentionOption) => {
 
   emit(UPDATE_MODEL_EVENT, newValue)
   emit(INPUT_EVENT, newValue)
-  emit('select', item, mentionCtx.value.prefix)
+  emit('select', getOriginalOption(item)!, mentionCtx.value.prefix)
 
   const newSelectionEnd =
     mentionCtx.value.start + newMiddlePart.length + (alreadySeparated ? 1 : 0)

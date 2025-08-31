@@ -146,4 +146,49 @@ describe('Mention.vue', () => {
     expect(option.attributes('aria-disabled')).toBe('true')
     expect(option.classes()).toContain('is-disabled')
   })
+
+  test('should work with `props` prop', async () => {
+    const options = [
+      {
+        id: 'Fuphoenixes',
+        name: 'Fuphoenixes',
+        unable: true,
+      },
+      {
+        id: 'kooriookami',
+        name: 'kooriookami',
+        unable: false,
+      },
+      {
+        id: 'Jeremy',
+        name: 'Jeremy',
+        unable: true,
+      },
+      {
+        id: 'btea',
+        name: 'btea',
+        unable: false,
+      },
+    ]
+    const props = { value: 'id', label: 'name', disabled: 'unable' }
+
+    const wrapper = mount(Mention, {
+      attachTo: document.body,
+      props: {
+        options,
+        props,
+      },
+    })
+
+    wrapper.find('input').element.focus()
+    wrapper.find('input').setValue('@')
+
+    vi.advanceTimersByTime(150)
+    await nextTick()
+    expect(document.querySelector('.el-mention-dropdown')).not.toEqual(null)
+    expect(document.querySelectorAll('.el-mention-dropdown__item').length).toBe(
+      4
+    )
+    expect(document.querySelectorAll('.is-disabled').length).toBe(2)
+  })
 })

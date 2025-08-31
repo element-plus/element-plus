@@ -7,6 +7,7 @@ import {
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { inputProps } from '@element-plus/components/input'
 import { filterOption } from './helper'
+import { type MentionOptionProps, mentionDefaultProps } from './useProps'
 
 import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type Mention from './mention.vue'
@@ -103,6 +104,13 @@ export const mentionProps = buildProps({
   popperOptions: {
     type: definePropType<Partial<Options>>(Object),
     default: () => ({} as Partial<Options>),
+  },
+  /**
+   * @description configuration options
+   */
+  props: {
+    type: definePropType<MentionOptionProps>(Object),
+    default: () => mentionDefaultProps,
   },
 })
 
