@@ -30,7 +30,6 @@ export function useProps(props: Pick<MentionProps, 'props'>) {
     get(option, aliasProps.value.disabled)
 
   return {
-    aliasProps,
     getLabel,
     getValue,
     getDisabled,
