@@ -54,6 +54,7 @@ popconfirm/trigger-event
 | Name                | Description                                                                         | Type                                                                         | Default        |
 | ------------------- | ----------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | -------------- |
 | title               | Title                                                                               | ^[string]                                                                    | —              |
+| effect ^(2.11.2)    | Tooltip theme, built-in theme: `dark` / `light`                                     | ^[enum]`'dark' \| 'light'` / ^[string]                                       | light          |
 | confirm-button-text | Confirm button text                                                                 | ^[string]                                                                    | —              |
 | cancel-button-text  | Cancel button text                                                                  | ^[string]                                                                    | —              |
 | confirm-button-type | Confirm button type                                                                 | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'text'` | primary        |
