@@ -689,11 +689,14 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     // To keep the state updated we set it here to true
     if (isIOS) states.inputHovering = true
 
+    const shouldToggle = !isFocused.value && !states.menuVisibleOnFocus
+
+    if (isFocused.value || shouldToggle) {
+      expanded.value = isFocused.value ? true : !expanded.value
+    }
+
     if (states.menuVisibleOnFocus) {
-      // controlled by automaticDropdown
       states.menuVisibleOnFocus = false
-    } else {
-      expanded.value = !expanded.value
     }
   }
 
