@@ -95,7 +95,7 @@
     "csstype": "^2.6.20",
     "cz-git": "^1.11.1",
     "czg": "^1.11.1",
-    "eslint": "^8.57.1",
+    "eslint": "^9.34.0",
     "eslint-define-config": "^1.5.1",
     "expect-type": "^0.13.0",
     "fast-glob": "^3.2.11",
