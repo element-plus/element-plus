@@ -2,7 +2,7 @@
   <el-tooltip
     ref="tooltipRef"
     trigger="click"
-    effect="light"
+    :effect="effect"
     v-bind="$attrs"
     :popper-class="`${ns.namespace.value}-popover`"
     :popper-style="style"
