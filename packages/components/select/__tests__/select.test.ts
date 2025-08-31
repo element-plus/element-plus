@@ -1768,6 +1768,34 @@ describe('Select', () => {
     expect(handleBlur).toHaveBeenCalled()
   })
 
+  test('should select visibility depends on prop "visible"', async () => {
+    const visible = ref(true)
+    const onBlur = vi.fn()
+    wrapper = _mount(
+      `<el-select
+        model-value=""
+        :visible="visible"
+        @blur="onBlur"
+      />
+      `,
+      () => ({
+        visible,
+        onBlur,
+      })
+    )
+    const select = wrapper.findComponent(Select)
+    expect(select.vm.expanded).toBe(true)
+
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    expect(onBlur).toHaveBeenCalled()
+    expect(select.vm.expanded).toBe(true)
+
+    visible.value = false
+    await nextTick()
+    expect(select.vm.expanded).toBe(false)
+  })
+
   it('should be target blur event when click outside', async () => {
     const handleBlur = vi.fn()
     wrapper = _mount(

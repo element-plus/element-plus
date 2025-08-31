@@ -172,11 +172,14 @@ describe('<ElTooltipContent />', () => {
         expect(onOpen).not.toHaveBeenCalled()
         const enterEvent = new MouseEvent('mouseenter')
         vm.onContentEnter(enterEvent)
-        expect(onOpen).not.toHaveBeenCalled()
+        expect(open.value).toBe(true)
+        expect(onOpen).toHaveBeenCalled()
+        expect(open.value).toBe(true)
         const leaveEvent = new MouseEvent('mouseleave')
-        expect(onClose).not.toHaveBeenCalled()
         vm.onContentLeave(leaveEvent)
-        expect(onClose).not.toHaveBeenCalled()
+        expect(open.value).toBe(true)
+        expect(onClose).toHaveBeenCalled()
+        expect(open.value).toBe(true)
       })
 
       describe('onCloseOutside', () => {
@@ -200,7 +203,9 @@ describe('<ElTooltipContent />', () => {
 
           document.body.click()
           await nextTick()
-          expect(onClose).not.toHaveBeenCalled()
+          expect(open.value).toBe(true)
+          expect(onClose).toHaveBeenCalled()
+          expect(open.value).toBe(true)
         })
 
         it('should close component after click outside', async () => {

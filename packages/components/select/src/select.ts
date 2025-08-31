@@ -1,6 +1,7 @@
 import { placements } from '@popperjs/core'
 import { scrollbarEmits } from '@element-plus/components/scrollbar'
 import {
+  createModelToggleComposable,
   useAriaProps,
   useEmptyValuesProps,
   useSizeProp,
@@ -31,7 +32,13 @@ import type {
 import type { OptionValue } from './type'
 import type { Props } from '@element-plus/components/select-v2/src/useProps'
 
+export const {
+  useModelToggleProps: useSelectModelToggleProps,
+  useModelToggle: useSelectModelToggle,
+} = createModelToggleComposable('visible' as const)
+
 export const selectProps = buildProps({
+  ...useSelectModelToggleProps,
   /**
    * @description the name attribute of select input
    */
@@ -302,6 +309,7 @@ export const selectEmits = {
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
   blur: (evt: FocusEvent) => evt instanceof FocusEvent,
   clear: () => true,
+  'update:visible': (visible: boolean) => true,
 }
 /* eslint-enable @typescript-eslint/no-unused-vars */
 
