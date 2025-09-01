@@ -528,4 +528,27 @@ describe('InputTag.vue', () => {
       expect(tags[3].text()).toBe('+ 2')
     })
   })
+
+  test('collapse-tag-click', async () => {
+    const onCollapseClick = vi.fn()
+    const wrapper = mount(() => (
+      <InputTag
+        modelValue={['tag1', 'tag2', 'tag3', 'tag4']}
+        collapseTags
+        maxCollapseTags={2}
+        onCollapse-tag-click={onCollapseClick}
+      />
+    ))
+
+    const tags = wrapper.findAll('.el-tag')
+    const collapseTag = tags[2]
+    expect(collapseTag.text()).toBe('+ 2')
+
+    await collapseTag.trigger('click')
+
+    expect(onCollapseClick).toHaveBeenCalledOnce()
+    const [evt, list] = onCollapseClick.mock.calls[0]
+    expect(evt).toBeInstanceOf(MouseEvent)
+    expect(list).toEqual(['tag3', 'tag4'])
+  })
 })

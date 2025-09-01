@@ -169,5 +169,11 @@ export const inputTagEmits = {
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
   blur: (evt: FocusEvent) => evt instanceof FocusEvent,
   clear: () => true,
+  'collapse-tag-click': (
+    evt: MouseEvent,
+    collapseTagList: string[] | undefined
+  ) =>
+    evt instanceof MouseEvent &&
+    (isArray(collapseTagList) || isUndefined(collapseTagList)),
 }
 export type InputTagEmits = typeof inputTagEmits
