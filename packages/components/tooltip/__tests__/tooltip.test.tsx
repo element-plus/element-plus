@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { rAF } from '@element-plus/test-utils/tick'
 import { ElPopperTrigger } from '@element-plus/components/popper'
+import { ElInput } from '@element-plus/components/input'
 import Tooltip from '../src/tooltip.vue'
 
 import type { VNode } from 'vue'
@@ -92,6 +93,35 @@ describe('<ElTooltip />', () => {
       expect(wrapper.emitted()).toHaveProperty('hide')
     })
 
+    it('should respond to focus trigger correctly', async () => {
+      wrapper = createComponent(
+        {
+          trigger: 'focus',
+        },
+        content
+      )
+      await nextTick()
+
+      const trigger$ = findTrigger()
+      const triggerEl = trigger$.find('.el-tooltip__trigger')
+
+      vi.useFakeTimers()
+      await triggerEl.trigger('focus')
+      vi.runAllTimers()
+      vi.useRealTimers()
+      await rAF()
+
+      expect(wrapper.emitted()).toHaveProperty('show')
+
+      vi.useFakeTimers()
+      await triggerEl.trigger('blur')
+      vi.runAllTimers()
+      vi.useRealTimers()
+      await rAF()
+
+      expect(wrapper.emitted()).toHaveProperty('hide')
+    })
+
     it('should be able to toggle visibility of tooltip content', async () => {
       wrapper = createComponent(
         {
@@ -116,6 +146,42 @@ describe('<ElTooltip />', () => {
       vi.runAllTimers()
       vi.useRealTimers()
       await rAF()
+      expect(wrapper.emitted()).toHaveProperty('hide')
+    })
+
+    it('should show tooltip when input is focused with trigger="focus"', async () => {
+      wrapper = mount(
+        <Tooltip
+          trigger="focus"
+          content={content}
+          v-slots={{
+            default: () => <ElInput placeholder="Focus me" />,
+          }}
+        />,
+        {
+          attachTo: document.body,
+        }
+      )
+      await nextTick()
+
+      const trigger$ = findTrigger()
+      const inputEl = trigger$.find('input')
+
+      vi.useFakeTimers()
+      await inputEl.trigger('focus')
+      vi.runAllTimers()
+      vi.useRealTimers()
+      await rAF()
+
+      expect(wrapper.emitted()).toHaveProperty('show')
+      expect(document.querySelector('.el-popper')).toBeTruthy()
+
+      vi.useFakeTimers()
+      await inputEl.trigger('blur')
+      vi.runAllTimers()
+      vi.useRealTimers()
+      await rAF()
+
       expect(wrapper.emitted()).toHaveProperty('hide')
     })
 
