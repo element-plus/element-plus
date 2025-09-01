@@ -71,7 +71,6 @@ describe('Popconfirm.vue', () => {
 
     triggerEvent(document.body, 'keydown', EVENT_CODE.esc)
     await nextTick()
-
     expect(onCancel).toHaveBeenCalledTimes(1)
   })
 
