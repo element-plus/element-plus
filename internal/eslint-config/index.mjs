@@ -1,6 +1,6 @@
 import eslint from '@eslint/js'
 import globals from 'globals'
-import tseslint from 'typescript-eslint'
+import tseslint, { parser as tsParser } from 'typescript-eslint'
 import eslintPluginUnicorn from 'eslint-plugin-unicorn'
 import importPlugin from 'eslint-plugin-import'
 import eslintPluginJsonc from 'eslint-plugin-jsonc'
@@ -316,7 +316,7 @@ export default tseslint.config(
     files: ['*.vue', '**/*.vue'],
     languageOptions: {
       parserOptions: {
-        parser: '@typescript-eslint/parser',
+        parser: tsParser,
         extraFileExtensions: ['.vue'],
         ecmaFeatures: {
           jsx: true,
