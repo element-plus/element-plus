@@ -173,8 +173,10 @@ watch(
       ariaHidden.value = false
       stopHandle = onClickOutside(popperContentRef, () => {
         if (unref(controlled)) return
-        const $trigger = unref(trigger)
-        if ($trigger !== 'hover') {
+        const needClose = castArray(unref(trigger)).every((item) => {
+          return item !== 'hover' && item !== 'focus'
+        })
+        if (needClose) {
           onClose()
         }
       })
