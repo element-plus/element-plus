@@ -100,8 +100,7 @@ const cancel = (e: MouseEvent | KeyboardEvent) => {
 }
 
 const onCloseRequested = (event: KeyboardEvent) => {
-  if (props.closeOnPressEscape) {
-    if (event.code === EVENT_CODE.esc) {
+  if (props.closeOnPressEscape && event.code === EVENT_CODE.esc) {
       cancel(event)
     }
   }
