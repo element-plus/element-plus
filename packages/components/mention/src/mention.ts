@@ -7,7 +7,6 @@ import {
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { inputProps } from '@element-plus/components/input'
 import { filterOption } from './helper'
-import { type MentionOptionProps, mentionDefaultProps } from './useProps'
 
 import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type Mention from './mention.vue'
@@ -133,3 +132,15 @@ export type MentionPropsPublic = __ExtractPublicPropTypes<typeof mentionProps>
 export type MentionInstance = InstanceType<typeof Mention> & unknown
 
 export type { MentionOption } from './types'
+
+export type MentionOptionProps = {
+  value?: string
+  label?: string
+  disabled?: string
+}
+
+export const mentionDefaultProps: Required<MentionOptionProps> = {
+  value: 'value',
+  label: 'label',
+  disabled: 'disabled',
+}

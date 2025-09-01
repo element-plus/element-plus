@@ -68,10 +68,9 @@ import {
 } from '@element-plus/constants'
 import { useFormDisabled } from '@element-plus/components/form'
 import { isFunction } from '@element-plus/utils'
-import { mentionEmits, mentionProps } from './mention'
+import { mentionDefaultProps, mentionEmits, mentionProps } from './mention'
 import { getCursorPosition, getMentionCtx } from './helper'
 import ElMentionDropdown from './mention-dropdown.vue'
-import { useProps } from './useProps'
 
 import type { Placement } from '@popperjs/core'
 import type { CSSProperties } from 'vue'
@@ -109,22 +108,32 @@ const computedFallbackPlacements = computed<Placement[]>(() =>
   props.showArrow ? ['bottom', 'top'] : ['bottom-start', 'top-start']
 )
 
-const { getValue, getLabel, getDisabled } = useProps(props)
+const aliasProps = computed(() => ({
+  ...mentionDefaultProps,
+  ...props.props,
+}))
 
-const getNewOption = (option: MentionOption) => ({
-  label: getLabel(option),
-  value: getValue(option),
-  disabled: getDisabled(option),
-})
+const getNewOption = (option: MentionOption) => {
+  const base = {
+    label: option[aliasProps.value.label],
+    value: option[aliasProps.value.value],
+    disabled: option[aliasProps.value.disabled],
+  }
+  return { ...option, ...base }
+}
 
-const filteredOptions = computed(() => {
-  const { filterOption, options } = props
-  const newOptions = options.map((option) => {
+const newOptions = computed(() => {
+  const { options } = props
+  return options.map((option) => {
     const newOption = getNewOption(option)
     return { ...option, ...newOption }
   })
-  if (!mentionCtx.value || !filterOption) return newOptions
-  return newOptions.filter((option) =>
+})
+
+const filteredOptions = computed(() => {
+  const { filterOption } = props
+  if (!mentionCtx.value || !filterOption) return newOptions.value
+  return newOptions.value.filter((option) =>
     filterOption(mentionCtx.value!.pattern, option)
   )
 })
@@ -225,7 +234,7 @@ const handleInputMouseDown = () => {
 // Ensure that the original option passed by users is returned
 const getOriginalOption = (mentionOption: MentionOption) => {
   return props.options.find((option: MentionOption) => {
-    return mentionOption.value === getValue(option)
+    return mentionOption.value === option[aliasProps.value.value]
   })
 }
 
