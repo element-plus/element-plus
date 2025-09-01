@@ -114,9 +114,16 @@ export const useTree = (
   })
 
   const getChildCheckedKeys = () => {
-    return tree.value?.getCheckedKeys().filter((checkedKey) => {
-      const node = tree.value?.getNode(checkedKey) as Node
-      return !isNil(node) && isEmpty(node.childNodes)
+    const checkedKeys = tree.value?.getCheckedKeys()
+    const checkedSet = new Set(checkedKeys)
+    return checkedKeys.filter((checkedNode) => {
+      const node = tree.value?.getNode(checkedNode) as Node
+      if (isNil(node)) return false
+      if (props.showParentTag) {
+        return !checkedSet.has(node.parent?.key)
+      } else {
+        return isEmpty(node.childNodes)
+      }
     })
   }
 

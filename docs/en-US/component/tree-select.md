@@ -108,6 +108,8 @@ and please go to the original component to view the documentation.
 | ------------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------ | ------- |
 | cacheData ^(2.2.26) | The cached data of the lazy node, the structure is the same as the data, used to get the label of the unloaded data | ^[object]`CacheOption[]` | []      |
 
+| show-parent-tag | In multiple selection mode with checkboxes, determines whether to display the parent tag itself instead of all its child tags when the parent node is selected. | boolean | false |
+
 ## Type Declarations
 
 <details>
