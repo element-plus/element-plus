@@ -5,6 +5,7 @@ import { describe, expect, test, vi } from 'vitest'
 import { rAF } from '@element-plus/test-utils/tick'
 import Drawer from '../src/drawer.vue'
 import Button from '../../button/src/button.vue'
+import defineGetter from '@element-plus/test-utils/define-getter'
 
 const _mount = (template: string, data, otherObj?) =>
   mount({
@@ -405,16 +406,103 @@ describe('Drawer', () => {
         })
       )
 
-    test('should effect width when drawer is vertical', async () => {
+    test('should effect height when drawer is vertical', async () => {
+      const cleanup = defineGetter(window, 'innerWidth', '100')
       const drawerEl = renderer('50%', true).find('.el-drawer')
         .element as HTMLDivElement
       expect(drawerEl.style.width).toEqual('50%')
+      cleanup()
     })
 
-    test('should effect height when drawer is horizontal', async () => {
+    test('should effect width when drawer is horizontal', async () => {
+      const cleanup = defineGetter(window, 'innerHeight', '100')
       const drawerEl = renderer('50%', false).find('.el-drawer')
         .element as HTMLDivElement
       expect(drawerEl.style.height).toEqual('50%')
+      cleanup()
+    })
+  })
+
+  describe('resizable', () => {
+    // mock mouse event
+    const simulateDrag = async (
+      dragger: DOMWrapper<Element>,
+      direction: 'horizontal' | 'vertical',
+      startPos: number,
+      endPos: number
+    ) => {
+      const prop = direction === 'horizontal' ? 'pageX' : 'pageY'
+
+      // Simulate mouse down
+      const mousedown = new MouseEvent('mousedown', { bubbles: true })
+      const mousedownCleanup = defineGetter(mousedown, prop, startPos)
+      dragger.element.dispatchEvent(mousedown)
+
+      // Simulate mouse move
+      const mousemove = new MouseEvent('mousemove', { bubbles: true })
+      const mousemoveCleanup = defineGetter(mousemove, prop, endPos)
+      window.dispatchEvent(mousemove)
+
+      // Simulate mouse up
+      const mouseup = new MouseEvent('mouseup', { bubbles: true })
+      const mouseupCleanup = defineGetter(mouseup, prop, endPos)
+      window.dispatchEvent(mouseup)
+
+      await nextTick()
+
+      mousedownCleanup()
+      mousemoveCleanup()
+      mouseupCleanup()
+    }
+
+    test('should be dragged horizontally', async () => {
+      const cleanup = defineGetter(window, 'innerWidth', '100')
+      const wrapper = _mount(
+        `
+        <el-drawer v-model='visible' direction='ltr' resizable size='50%'>
+          <span>${content}</span>
+        </el-drawer>
+        `,
+        () => ({
+          visible: true,
+        })
+      )
+
+      await nextTick()
+
+      const dragger = wrapper.find('.el-drawer__dragger')
+      expect(dragger.exists()).toBe(true)
+      const drawerEl = wrapper.find('.el-drawer').element as HTMLDivElement
+      expect(drawerEl.style.width).toEqual('50px')
+      await simulateDrag(dragger, 'horizontal', 50, 100)
+      expect(drawerEl.style.width).toEqual('100px')
+
+      cleanup()
+    })
+
+    test('should be dragged vertically', async () => {
+      const cleanup = defineGetter(window, 'innerHeight', '100')
+      const wrapper = _mount(
+        `
+        <el-drawer v-model='visible' direction='ttb' resizable size='50%'>
+          <span>${content}</span>
+        </el-drawer>
+        `,
+        () => ({
+          visible: true,
+        })
+      )
+
+      await nextTick()
+
+      const dragger = wrapper.find('.el-drawer__dragger')
+      expect(dragger.exists()).toBe(true)
+      const drawerEl = wrapper.find('.el-drawer').element as HTMLDivElement
+      expect(drawerEl.style.height).toEqual('50px')
+      await simulateDrag(dragger, 'vertical', 50, 100)
+      expect(drawerEl.style.height).toEqual('100px')
+
+      cleanup()
     })
   })
 
@@ -482,268 +570,6 @@ describe('Drawer', () => {
       expect(drawerDialog.attributes()['aria-describedby']).toBe(
         drawerBody.attributes().id
       )
-    })
-  })
-
-  describe('resizable', () => {
-    test('should change size when dragging', async () => {
-      const wrapper = _mount(
-        `
-        <el-drawer
-          :title='title'
-          v-model='visible'
-          :resizable='true'
-          size='400px'>
-          <span>${content}</span>
-        </el-drawer>
-        `,
-        () => ({
-          title,
-          visible: true,
-        })
-      )
-
-      await nextTick()
-      await rAF()
-      await nextTick()
-
-      const drawerVm = wrapper.findComponent(Drawer).vm as any
-      if (drawerVm.afterEnter) drawerVm.afterEnter()
-      await nextTick()
-
-      const drawerEl = wrapper.find('.el-drawer').element as HTMLDivElement
-      expect(drawerEl.style.width).toBe('400px')
-
-      Object.defineProperty(window, 'innerWidth', {
-        value: 1200,
-        writable: true,
-      })
-      Object.defineProperty(drawerEl, 'offsetWidth', {
-        value: 400,
-        writable: true,
-      })
-
-      const mockRect = {
-        left: 800,
-        right: 1200,
-        top: 0,
-        bottom: 600,
-        width: 400,
-        height: 600,
-      }
-      vi.spyOn(drawerEl, 'getBoundingClientRect').mockReturnValue(
-        mockRect as DOMRect
-      )
-
-      const startX = mockRect.left + 5
-      const startY = mockRect.top + 100
-
-      drawerEl.dispatchEvent(
-        new MouseEvent('mousemove', {
-          clientX: startX,
-          clientY: startY,
-          bubbles: true,
-        })
-      )
-      await nextTick()
-      expect(wrapper.find('.el-drawer.is-resizing').exists()).toBe(true)
-
-      drawerEl.dispatchEvent(
-        new MouseEvent('mousedown', {
-          clientX: startX,
-          clientY: startY,
-          bubbles: true,
-        })
-      )
-      await nextTick()
-
-      const newX = startX - 50
-      document.dispatchEvent(
-        new MouseEvent('mousemove', {
-          clientX: newX,
-          clientY: startY,
-          bubbles: true,
-        })
-      )
-      await nextTick()
-
-      document.dispatchEvent(
-        new MouseEvent('mouseup', {
-          clientX: newX,
-          clientY: startY,
-          bubbles: true,
-        })
-      )
-      await nextTick()
-
-      expect(drawerEl.style.width).toBe('450px')
-    })
-
-    test('should handle resize for different directions', async () => {
-      const directions = ['ltr', 'rtl', 'ttb', 'btt'] as const
-
-      for (const direction of directions) {
-        const wrapper = _mount(
-          `
-          <el-drawer
-            :title='title'
-            v-model='visible'
-            :direction='direction'
-            :resizable='true'
-            size='400px'>
-            <span>${content}</span>
-          </el-drawer>
-          `,
-          () => ({
-            title,
-            visible: true,
-            direction,
-          })
-        )
-
-        await nextTick()
-        await rAF()
-        await nextTick()
-
-        const drawer = wrapper.vm.$refs as any
-        if (drawer && drawer.afterEnter) {
-          drawer.afterEnter()
-        }
-        await nextTick()
-
-        const drawerEl = wrapper.find('.el-drawer').element as HTMLDivElement
-        const rect = drawerEl.getBoundingClientRect()
-
-        let clientX: number, clientY: number
-
-        switch (direction) {
-          case 'ltr':
-            clientX = rect.right - 5
-            clientY = rect.top + 100
-            break
-          case 'rtl':
-            clientX = rect.left + 5
-            clientY = rect.top + 100
-            break
-          case 'ttb':
-            clientX = rect.left + 100
-            clientY = rect.bottom - 5
-            break
-          case 'btt':
-            clientX = rect.left + 100
-            clientY = rect.top + 5
-            break
-        }
-
-        const mouseMoveEvent = new MouseEvent('mousemove', {
-          clientX,
-          clientY,
-        })
-
-        drawerEl.dispatchEvent(mouseMoveEvent)
-        await nextTick()
-
-        expect(wrapper.find('.el-drawer.is-resizing').exists()).toBe(true)
-
-        wrapper.unmount()
-      }
-    })
-
-    test('should apply correct CSS class for resizing state', async () => {
-      const wrapper = _mount(
-        `
-        <el-drawer
-          :title='title'
-          v-model='visible'
-          :resizable='true'
-          size='400px'>
-          <span>${content}</span>
-        </el-drawer>
-        `,
-        () => ({
-          title,
-          visible: true,
-        })
-      )
-
-      await nextTick()
-      await rAF()
-      await nextTick()
-
-      const drawer = wrapper.vm.$refs as any
-      if (drawer && drawer.afterEnter) {
-        drawer.afterEnter()
-      }
-      await nextTick()
-
-      const drawerEl = wrapper.find('.el-drawer').element as HTMLDivElement
-
-      expect(wrapper.find('.el-drawer.is-resizing').exists()).toBe(false)
-
-      const mouseMoveEvent = new MouseEvent('mousemove', {
-        clientX: drawerEl.getBoundingClientRect().left + 5,
-        clientY: drawerEl.getBoundingClientRect().top + 100,
-      })
-
-      drawerEl.dispatchEvent(mouseMoveEvent)
-      await nextTick()
-
-      expect(wrapper.find('.el-drawer.is-resizing').exists()).toBe(true)
-
-      const mouseLeaveEvent = new MouseEvent('mouseleave')
-      drawerEl.dispatchEvent(mouseLeaveEvent)
-      await nextTick()
-
-      expect(wrapper.find('.el-drawer.is-resizing').exists()).toBe(false)
-    })
-
-    test('should remove resize functionality when resizable becomes false', async () => {
-      const wrapper = _mount(
-        `
-        <el-drawer
-          :title='title'
-          v-model='visible'
-          :resizable='resizable'
-          size='400px'>
-          <span>${content}</span>
-        </el-drawer>
-        `,
-        () => ({
-          title,
-          visible: true,
-          resizable: true,
-        })
-      )
-
-      await nextTick()
-      await rAF()
-      await nextTick()
-
-      const drawer = wrapper.vm.$refs as any
-      if (drawer && drawer.afterEnter) {
-        drawer.afterEnter()
-      }
-      await nextTick()
-
-      const vm = wrapper.vm as any
-      const drawerEl = wrapper.find('.el-drawer').element as HTMLDivElement
-
-      const mouseMoveEvent = new MouseEvent('mousemove', {
-        clientX: drawerEl.getBoundingClientRect().left + 5,
-        clientY: drawerEl.getBoundingClientRect().top + 100,
-      })
-      drawerEl.dispatchEvent(mouseMoveEvent)
-      await nextTick()
-
-      expect(wrapper.find('.el-drawer.is-resizing').exists()).toBe(true)
-
-      vm.resizable = false
-      await nextTick()
-
-      drawerEl.dispatchEvent(mouseMoveEvent)
-      await nextTick()
-
-      expect(wrapper.find('.el-drawer.is-resizing').exists()).toBe(false)
     })
   })
 })

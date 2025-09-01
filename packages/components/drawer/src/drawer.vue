@@ -12,7 +12,7 @@
       <el-overlay
         v-show="visible"
         :mask="modal"
-        :overlay-class="modalClass"
+        :overlay-class="[ns.is('drawer'), modalClass ?? '']"
         :z-index="zIndex"
         @click="onModalClick"
       >
@@ -37,11 +37,9 @@
               ns.b(),
               direction,
               visible && 'open',
-              ns.is('resizing', isResizing && isAnimationComplete),
+              ns.is('dragging', isDragging),
             ]"
-            :style="
-              isHorizontal ? 'width: ' + drawerSize : 'height: ' + drawerSize
-            "
+            :style="{ [isHorizontal ? 'width' : 'height']: size }"
             role="dialog"
             @click.stop
           >
@@ -89,6 +87,12 @@
             <div v-if="$slots.footer" :class="[ns.e('footer'), footerClass]">
               <slot name="footer" />
             </div>
+            <div
+              v-if="resizable"
+              ref="draggerRef"
+              :style="{ zIndex }"
+              :class="ns.e('dragger')"
+            />
           </div>
         </el-focus-trap>
       </el-overlay>
@@ -97,17 +101,16 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onUnmounted, ref, useSlots, watchEffect } from 'vue'
+import { computed, ref, useSlots } from 'vue'
 import { Close } from '@element-plus/icons-vue'
 import { ElOverlay } from '@element-plus/components/overlay'
 import ElFocusTrap from '@element-plus/components/focus-trap'
 import ElTeleport from '@element-plus/components/teleport'
 import { useDialog } from '@element-plus/components/dialog'
-import { addUnit, isUndefined } from '@element-plus/utils'
 import ElIcon from '@element-plus/components/icon'
 import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
 import { drawerEmits, drawerProps } from './drawer'
-import { useDragResize } from './composables/useResize'
+import { useDraggable } from './composables/useDraggable'
 
 defineOptions({
   name: 'ElDrawer',
@@ -131,10 +134,11 @@ useDeprecated(
 
 const drawerRef = ref<HTMLElement>()
 const focusStartRef = ref<HTMLElement>()
+const draggerRef = ref<HTMLElement>()
 const ns = useNamespace('drawer')
 const { t } = useLocale()
+
 const {
-  isAnimationComplete,
   afterEnter,
   afterLeave,
   beforeLeave,
@@ -151,22 +155,7 @@ const {
   handleClose,
 } = useDialog(props, drawerRef)
 
-const drawerSize = computed(() => addUnit(resizeSize.value || props.size))
-const { isHorizontal, isResizing, resizeSize, resizeEvent } = useDragResize(
-  props,
-  drawerRef
-)
-
-let cleanup: (() => void) | undefined
-
-watchEffect(() => {
-  cleanup?.()
-  cleanup =
-    props.resizable && isAnimationComplete.value ? resizeEvent() : undefined
-  if (!isUndefined(props.size)) resizeSize.value = 0
-})
-
-onUnmounted(() => cleanup?.())
+const { isHorizontal, size, isDragging } = useDraggable(props, draggerRef)
 
 defineExpose({
   handleClose,
