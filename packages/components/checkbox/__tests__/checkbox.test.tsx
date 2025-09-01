@@ -162,6 +162,30 @@ describe('Checkbox', () => {
     expect(checkList.value).toContain('b')
   })
 
+  test('checkbox group renders from options', async () => {
+    const checkedValues = ref(['b'])
+    const options = [
+      { value: 'a', label: 'Option A' },
+      { value: 'b', label: 'Option B' },
+      { value: 'c', label: 'Option C', disabled: true },
+    ]
+    const wrapper = mount(() => (
+      <CheckboxGroup v-model={checkedValues.value} options={options} />
+    ))
+    await nextTick()
+    const checkboxes = wrapper.findAll('.el-checkbox')
+    expect(checkboxes[1].classes()).toContain('is-checked')
+    await checkboxes[0].trigger('click')
+    expect(checkedValues.value).toEqual(['b', 'a'])
+    expect(checkboxes[0].classes()).toContain('is-checked')
+    await checkboxes[1].trigger('click')
+    expect(checkedValues.value).toEqual(['a'])
+    expect(checkboxes[1].classes()).not.toContain('is-checked')
+    await checkboxes[2].trigger('click')
+    expect(checkedValues.value).toEqual(['a'])
+    expect(checkboxes[2].classes()).toContain('is-disabled')
+  })
+
   test('checkbox group with dynamic modelValue', async () => {
     const form = reactive<{ checked: string }>({ checked: '' })
     const wrapper = mount({

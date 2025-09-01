@@ -9,7 +9,13 @@
     "
     :aria-labelledby="isLabeledByFormItem ? formItem?.labelId : undefined"
   >
-    <slot />
+    <slot>
+      <el-checkbox
+        v-for="(item, index) in props.options"
+        :key="index"
+        v-bind="getOptionProps(item)"
+      />
+    </slot>
   </component>
 </template>
 
@@ -20,8 +26,13 @@ import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { debugWarn } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { useFormItem, useFormItemInputId } from '@element-plus/components/form'
-import { checkboxGroupEmits, checkboxGroupProps } from './checkbox-group'
+import {
+  checkboxDefaultProps,
+  checkboxGroupEmits,
+  checkboxGroupProps,
+} from './checkbox-group'
 import { checkboxGroupContextKey } from './constants'
+import ElCheckbox from './checkbox.vue'
 
 import type { CheckboxGroupValueType } from './checkbox-group'
 
@@ -52,6 +63,19 @@ const modelValue = computed({
     changeEvent(val)
   },
 })
+
+const aliasProps = computed(() => ({
+  ...checkboxDefaultProps,
+  ...props.props,
+}))
+const getOptionProps = (option: Record<string, any>) => {
+  const base = {
+    label: option[aliasProps.value.label],
+    value: option[aliasProps.value.value],
+    disabled: option[aliasProps.value.disabled],
+  }
+  return { ...option, ...base }
+}
 
 provide(checkboxGroupContextKey, {
   ...pick(toRefs(props), [

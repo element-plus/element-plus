@@ -61,6 +61,13 @@ export const popconfirmProps = buildProps({
     default: 200,
   },
   /**
+   * @description Tooltip theme, built-in theme: `dark` / `light`
+   */
+  effect: {
+    ...useTooltipContentProps.effect,
+    default: 'light',
+  },
+  /**
    * @description whether popconfirm is teleported to the body
    */
   teleported: useTooltipContentProps.teleported,

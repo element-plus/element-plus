@@ -257,7 +257,7 @@
         <el-select-menu
           ref="menuRef"
           :data="filteredOptions"
-          :width="popperSize"
+          :width="popperSize - BORDER_HORIZONTAL_WIDTH"
           :hovering-index="states.hoveringIndex"
           :scrollbar-always-on="scrollbarAlwaysOn"
         >
@@ -304,6 +304,7 @@ import ElSelectMenu from './select-dropdown'
 import useSelect from './useSelect'
 import { selectV2Emits, selectV2Props } from './defaults'
 import { selectV2InjectionKey } from './token'
+import { BORDER_HORIZONTAL_WIDTH } from '@element-plus/constants'
 
 export default defineComponent({
   name: 'ElSelectV2',
@@ -364,6 +365,7 @@ export default defineComponent({
       selectedLabel,
       calculatorRef,
       inputStyle,
+      BORDER_HORIZONTAL_WIDTH,
     }
   },
 })

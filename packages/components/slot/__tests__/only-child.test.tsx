@@ -119,7 +119,7 @@ describe('ElOnlyChild', () => {
     await nextTick()
 
     expect(debugWarn).toHaveBeenCalledTimes(1)
-    expect(wrapper.text()).toBe('')
+    expect(wrapper.text()).toBe(AXIOM)
   })
 
   it('should render nothing when no children provided', async () => {
@@ -128,5 +128,13 @@ describe('ElOnlyChild', () => {
 
     expect(debugWarn).not.toHaveBeenCalled()
     expect(wrapper.text()).toBe('')
+  })
+
+  it('should warns about having multiple children', async () => {
+    wrapper = createComponent(() => [h(Fragment, null, [AXIOM, AXIOM])])
+    await nextTick()
+
+    expect(debugWarn).toHaveBeenCalledTimes(1)
+    expect(wrapper.text()).toBe(AXIOM)
   })
 })
