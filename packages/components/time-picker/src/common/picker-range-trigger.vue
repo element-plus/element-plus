@@ -1,9 +1,11 @@
 <template>
-  <!-- prettier-ignore-attribute :style -->
   <div
     ref="wrapperRef"
     :class="[nsDate.is('active', isFocused), $attrs.class]"
-    :style="($attrs.style as CSSProperties)"
+    :style="
+      // https://github.com/vuejs/language-tools/issues/2104#issuecomment-3092541527
+      $attrs.style as CSSProperties
+    "
     @click="handleClick"
     @mouseenter="handleMouseEnter"
     @mouseleave="handleMouseLeave"
