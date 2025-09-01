@@ -125,8 +125,7 @@ const getNewOption = (option: MentionOption) => {
 const newOptions = computed(() => {
   const { options } = props
   return options.map((option) => {
-    const newOption = getNewOption(option)
-    return { ...option, ...newOption }
+    return getNewOption(option)
   })
 })
 
