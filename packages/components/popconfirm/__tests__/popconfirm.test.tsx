@@ -4,6 +4,8 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { rAF } from '@element-plus/test-utils/tick'
 import { usePopperContainerId } from '@element-plus/hooks'
 import Popconfirm from '../src/popconfirm.vue'
+import triggerEvent from '@element-plus/test-utils/trigger-event'
+import { EVENT_CODE } from '@element-plus/constants'
 
 const AXIOM = 'rem is the best girl'
 const FUN = 'dQw4w9WgXcQ'
@@ -38,6 +40,39 @@ describe('Popconfirm.vue', () => {
     expect(
       document.querySelector(selector)!.getAttribute('style')
     ).not.toContain('display: none')
+  })
+
+  it('should close the Popconfirm when pressing Escape', async () => {
+    const onCancel = vi.fn()
+
+    const wrapper = mount({
+      setup() {
+        return () => (
+          <Popconfirm
+            closeOnPressEscape={false}
+            onCancel={onCancel}
+            v-slots={{
+              reference: () => <div class="reference">{AXIOM}</div>,
+            }}
+          />
+        )
+      },
+    })
+
+    await wrapper.find('.reference').trigger('click')
+    await nextTick()
+    await rAF()
+
+    triggerEvent(document.body, 'keydown', EVENT_CODE.esc)
+    await nextTick()
+    expect(onCancel).toHaveBeenCalledTimes(0)
+
+    await wrapper.setProps({ closeOnPressEscape: true })
+
+    triggerEvent(document.body, 'keydown', EVENT_CODE.esc)
+    await nextTick()
+
+    expect(onCancel).toHaveBeenCalledTimes(1)
   })
 
   describe('teleported API', () => {
