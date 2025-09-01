@@ -23,13 +23,14 @@
     @hide="onHide"
   >
     <template #default>
+      <!-- prettier-ignore-attribute :id :model-value :name -->
       <el-input
         v-if="!isRangeInput"
-        :id="id as string"
+        :id="(id as string)"
         ref="inputRef"
         container-role="combobox"
-        :model-value="displayValue as string"
-        :name="name as string"
+        :model-value="(displayValue as string)"
+        :name="(name as string | undefined)"
         :size="pickerSize"
         :disabled="pickerDisabled"
         :placeholder="placeholder"
@@ -83,12 +84,13 @@
           </el-icon>
         </template>
       </el-input>
+      <!-- prettier-ignore-attribute :id :name -->
       <picker-range-trigger
         v-else
-        :id="id as string[]"
+        :id="(id as string[])"
         ref="inputRef"
         :model-value="displayValue"
-        :name="name as string[]"
+        :name="(name as string[])"
         :disabled="pickerDisabled"
         :readonly="!editable || readonly"
         :start-placeholder="startPlaceholder"
