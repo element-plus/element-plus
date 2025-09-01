@@ -48,7 +48,11 @@
 import { computed, inject, onBeforeUnmount, ref, unref, watch } from 'vue'
 import { computedEager, onClickOutside } from '@vueuse/core'
 import { useNamespace, usePopperContainerId } from '@element-plus/hooks'
-import { composeEventHandlers, focusElement } from '@element-plus/utils'
+import {
+  castArray,
+  composeEventHandlers,
+  focusElement,
+} from '@element-plus/utils'
 import { ElPopperContent } from '@element-plus/components/popper'
 import ElTeleport from '@element-plus/components/teleport'
 import { TOOLTIP_INJECTION_KEY } from './constants'
