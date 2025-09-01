@@ -2,12 +2,7 @@
   <el-select
     v-model="value"
     :options="options"
-    :props="{
-      value: 'id',
-      label: 'label',
-      options: 'options',
-      disabled: 'disabled',
-    }"
+    :props="props"
     placeholder="Select"
     style="width: 240px"
   />
@@ -17,6 +12,13 @@
 import { ref } from 'vue'
 
 const value = ref('')
+
+const props = {
+  value: 'id',
+  label: 'label',
+  options: 'options',
+  disabled: 'disabled',
+}
 
 const options = [
   {
