@@ -28,7 +28,7 @@
         :enterable="enterable"
         :pure="pure"
         :popper-class="popperClass"
-        :popper-style="[popperStyle, contentStyle]"
+        :popper-style="[popperStyle!, contentStyle]"
         :reference-el="referenceEl"
         :trigger-target-el="triggerTargetEl"
         :visible="shouldShow"
@@ -48,7 +48,7 @@
 import { computed, inject, onBeforeUnmount, ref, unref, watch } from 'vue'
 import { computedEager, onClickOutside } from '@vueuse/core'
 import { useNamespace, usePopperContainerId } from '@element-plus/hooks'
-import { composeEventHandlers } from '@element-plus/utils'
+import { castArray, composeEventHandlers } from '@element-plus/utils'
 import { ElPopperContent } from '@element-plus/components/popper'
 import ElTeleport from '@element-plus/components/teleport'
 import { tryFocus } from '@element-plus/components/focus-trap'
@@ -112,7 +112,7 @@ const appendTo = computed(() => {
   return props.appendTo || selector.value
 })
 
-const contentStyle = computed(() => (props.style ?? {}) as any)
+const contentStyle = computed(() => props.style ?? {})
 
 const ariaHidden = ref(true)
 
@@ -174,8 +174,10 @@ watch(
       ariaHidden.value = false
       stopHandle = onClickOutside(popperContentRef, () => {
         if (unref(controlled)) return
-        const $trigger = unref(trigger)
-        if ($trigger !== 'hover') {
+        const needClose = castArray(unref(trigger)).every((item) => {
+          return item !== 'hover' && item !== 'focus'
+        })
+        if (needClose) {
           onClose()
         }
       })

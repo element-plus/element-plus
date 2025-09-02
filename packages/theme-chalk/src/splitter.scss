@@ -18,10 +18,10 @@
     bottom: 0;
   }
   @include e(mask-horizontal) {
-    cursor: col-resize;
+    cursor: ew-resize;
   }
   @include e(mask-vertical) {
-    cursor: row-resize;
+    cursor: ns-resize;
   }
 
   @include e(horizontal) {
