@@ -28,7 +28,7 @@
         :enterable="enterable"
         :pure="pure"
         :popper-class="popperClass"
-        :popper-style="[popperStyle, contentStyle]"
+        :popper-style="[popperStyle!, contentStyle]"
         :reference-el="referenceEl"
         :trigger-target-el="triggerTargetEl"
         :visible="shouldShow"
@@ -112,7 +112,7 @@ const appendTo = computed(() => {
   return props.appendTo || selector.value
 })
 
-const contentStyle = computed(() => (props.style ?? {}) as any)
+const contentStyle = computed(() => props.style ?? {})
 
 const ariaHidden = ref(true)
 
