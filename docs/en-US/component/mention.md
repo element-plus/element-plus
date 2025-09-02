@@ -144,8 +144,11 @@ type MentionOption = {
   [key: string]: any
 }
 
-type MentionOptionProps = {
-  [K in keyof Pick<MentionOption, 'value' | 'label' | 'disabled'>]: string
+export type MentionOptionProps = {
+  value?: string
+  label?: string
+  disabled?: string
+  [key: string]: string | undefined
 }
 ```
 

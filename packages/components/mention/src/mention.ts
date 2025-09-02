@@ -135,7 +135,10 @@ export type MentionInstance = InstanceType<typeof Mention> & unknown
 export type { MentionOption } from './types'
 
 export type MentionOptionProps = {
-  [K in keyof Pick<MentionOption, 'value' | 'label' | 'disabled'>]: string
+  value?: string
+  label?: string
+  disabled?: string
+  [key: string]: string | undefined
 }
 
 export const mentionDefaultProps: Required<MentionOptionProps> = {
