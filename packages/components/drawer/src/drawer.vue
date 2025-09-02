@@ -37,7 +37,7 @@
               ns.b(),
               direction,
               visible && 'open',
-              ns.is('dragging', isDragging),
+              ns.is('dragging', isResizing),
             ]"
             :style="{ [isHorizontal ? 'width' : 'height']: size }"
             role="dialog"
@@ -110,7 +110,7 @@ import { useDialog } from '@element-plus/components/dialog'
 import ElIcon from '@element-plus/components/icon'
 import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
 import { drawerEmits, drawerProps } from './drawer'
-import { useDraggable } from './composables/useDraggable'
+import { useResizable } from './composables/useResizable'
 
 defineOptions({
   name: 'ElDrawer',
@@ -155,7 +155,7 @@ const {
   handleClose,
 } = useDialog(props, drawerRef)
 
-const { isHorizontal, size, isDragging } = useDraggable(props, draggerRef)
+const { isHorizontal, size, isResizing } = useResizable(props, draggerRef)
 
 defineExpose({
   handleClose,

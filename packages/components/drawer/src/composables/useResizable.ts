@@ -18,7 +18,7 @@ function getNumberSize(size: number | string, windowSize: number) {
   return toNumber(size)
 }
 
-export function useDraggable(
+export function useResizable(
   props: DrawerProps,
   target: Ref<HTMLElement | undefined>
 ) {
@@ -41,7 +41,7 @@ export function useDraggable(
 
   const startSize = ref(getNumberSize(props.size, windowSize.value))
   const offset = ref(0)
-  const isDragging = ref(false)
+  const isResizing = ref(false)
   let startPos: number[] = []
   let cleanups: (() => void)[] = []
 
@@ -57,7 +57,7 @@ export function useDraggable(
   const onMousedown = (e: MouseEvent) => {
     if (!props.resizable) return
     startPos = [e.pageX, e.pageY]
-    isDragging.value = true
+    isResizing.value = true
     cleanups.push(
       useEventListener(window, 'mouseup', onMouseUp),
       useEventListener(window, 'mousemove', onMouseMove)
@@ -75,7 +75,7 @@ export function useDraggable(
     startPos = []
     startSize.value = getSize.value
     offset.value = 0
-    isDragging.value = false
+    isResizing.value = false
     cleanups.forEach((cleanup) => cleanup?.())
     cleanups = []
   }
@@ -91,7 +91,7 @@ export function useDraggable(
     size: computed(() => {
       return props.resizable ? `${getSize.value}px` : addUnit(props.size)
     }),
-    isDragging,
+    isResizing,
     isHorizontal,
   }
 }
