@@ -146,6 +146,7 @@
         :date-format="dateFormat"
         :time-format="timeFormat"
         :unlink-panels="unlinkPanels"
+        :unlink-time-picker="unlinkTimePicker"
         :type="type"
         :default-value="defaultValue"
         :show-now="showNow"
