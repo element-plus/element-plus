@@ -120,8 +120,7 @@ export const mentionEmits = {
   input: (value: string) => isString(value),
   search: (pattern: string, prefix: string) =>
     isString(pattern) && isString(prefix),
-  select: (option: MentionOption, prefix: string) =>
-    isString(option.value) && isString(prefix),
+  select: (option: MentionOption, prefix: string) => isString(prefix),
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
   blur: (evt: FocusEvent) => evt instanceof FocusEvent,
 }

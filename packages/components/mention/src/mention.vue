@@ -113,7 +113,7 @@ const aliasProps = computed(() => ({
   ...props.props,
 }))
 
-const getNewOption = (option: MentionOption) => {
+const mapOption = (option: MentionOption) => {
   const base = {
     label: option[aliasProps.value.label],
     value: option[aliasProps.value.value],
@@ -122,17 +122,12 @@ const getNewOption = (option: MentionOption) => {
   return { ...option, ...base }
 }
 
-const newOptions = computed(() => {
-  const { options } = props
-  return options.map((option) => {
-    return getNewOption(option)
-  })
-})
+const options = computed(() => props.options.map((option) => mapOption(option)))
 
 const filteredOptions = computed(() => {
   const { filterOption } = props
-  if (!mentionCtx.value || !filterOption) return newOptions.value
-  return newOptions.value.filter((option) =>
+  if (!mentionCtx.value || !filterOption) return options.value
+  return options.value.filter((option) =>
     filterOption(mentionCtx.value!.pattern, option)
   )
 })
