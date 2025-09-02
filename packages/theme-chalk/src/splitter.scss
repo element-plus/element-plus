@@ -37,12 +37,6 @@
   flex: none;
   position: relative;
   user-select: none;
-  .is-disabled {
-    cursor: auto;
-    &::before {
-      background-color: getCssVar('border-color-light');
-    }
-  }
 
   @include e(dragger) {
     z-index: 1;
@@ -70,7 +64,7 @@
     }
 
     &:hover {
-      &::before:not(.is-disabled) {
+      &:not(.is-disabled)::before {
         background-color: getCssVar('color-primary-light-5');
       }
     }
