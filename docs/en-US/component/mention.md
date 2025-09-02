@@ -145,9 +145,7 @@ type MentionOption = {
 }
 
 type MentionOptionProps = {
-  value?: string
-  label?: string
-  disabled?: string
+  [K in keyof Pick<MentionOption, 'value' | 'label' | 'disabled'>]: string
 }
 ```
 
