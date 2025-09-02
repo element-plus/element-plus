@@ -2,6 +2,7 @@ import {
   buildProps,
   definePropType,
   isFunction,
+  isObject,
   isString,
 } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
@@ -120,7 +121,8 @@ export const mentionEmits = {
   input: (value: string) => isString(value),
   search: (pattern: string, prefix: string) =>
     isString(pattern) && isString(prefix),
-  select: (option: MentionOption, prefix: string) => isString(prefix),
+  select: (option: MentionOption, prefix: string) =>
+    isObject(option) && isString(prefix),
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
   blur: (evt: FocusEvent) => evt instanceof FocusEvent,
 }
@@ -133,9 +135,7 @@ export type MentionInstance = InstanceType<typeof Mention> & unknown
 export type { MentionOption } from './types'
 
 export type MentionOptionProps = {
-  value?: string
-  label?: string
-  disabled?: string
+  [K in keyof Pick<MentionOption, 'value' | 'label' | 'disabled'>]: string
 }
 
 export const mentionDefaultProps: Required<MentionOptionProps> = {

@@ -184,7 +184,7 @@ const handleInputKeyDown = (event: KeyboardEvent | Event) => {
         const inputEl = getInputEl()
         if (!inputEl) return
         const inputValue = inputEl.value
-        const matchOption = props.options.find((item) => item.value === pattern)
+        const matchOption = options.value.find((item) => item.value === pattern)
         const isWhole = isFunction(props.checkIsWhole)
           ? props.checkIsWhole(pattern, prefix)
           : matchOption
