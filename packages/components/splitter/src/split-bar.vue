@@ -143,7 +143,7 @@ const EndIcon = computed(() => (isHorizontal.value ? ArrowRight : ArrowDown))
       :class="[
         ns.e('dragger'),
         draggerPseudoClass,
-        resizable ? '' : ns.is('disabled'),
+       ns.is('disabled', !resizable),
         ns.is('lazy', resizable && lazy),
       ]"
       :style="draggerStyles"
