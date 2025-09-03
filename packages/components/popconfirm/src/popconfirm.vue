@@ -62,7 +62,6 @@ import { useLocale, useNamespace } from '@element-plus/hooks'
 import { addUnit } from '@element-plus/utils'
 import { popconfirmEmits, popconfirmProps } from './popconfirm'
 import ElFocusTrap from '@element-plus/components/focus-trap'
-import { EVENT_CODE } from '@element-plus/constants'
 
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 
