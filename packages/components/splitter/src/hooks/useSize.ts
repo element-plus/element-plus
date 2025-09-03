@@ -92,15 +92,15 @@ export function useSize(
       if (offset === 0) {
         return
       }
-      const boundFlag = offset < 0 ? PanelSizeFlags.MIN : PanelSizeFlags.MAX
+      const minOrMaxFlag = offset < 0 ? PanelSizeFlags.MIN : PanelSizeFlags.MAX
       const lockOrder = [
         (flag: PanelSizeFlags) => !(flag & PanelSizeFlags.NOT_MATCH_SIZED),
         (flag: PanelSizeFlags) =>
           flag & PanelSizeFlags.SIZED ||
-          flag & boundFlag ||
+          flag & minOrMaxFlag ||
           flag & PanelSizeFlags.MUTATED,
         (flag: PanelSizeFlags) =>
-          flag & boundFlag || flag & PanelSizeFlags.MUTATED,
+          flag & minOrMaxFlag || flag & PanelSizeFlags.MUTATED,
         (flag: PanelSizeFlags) => flag & PanelSizeFlags.MUTATED,
         () => false,
       ]
@@ -239,17 +239,26 @@ function initFlags(
     }
   })
   ptgs.forEach((ptg, index) => {
-    const [min, max] = sections[index]
+    let [min, max] = sections[index]
+    min = min ?? 0
+    max = max ?? 1
+    const propsPtg = propPtgs[index]
     if (ptg === (min ?? 0)) {
       flags[index] = flags[index] | PanelSizeFlags.MIN
     }
     if (ptg === (max ?? 1)) {
       flags[index] = flags[index] | PanelSizeFlags.MAX
     }
-    if (propPtgs[index] !== undefined) {
+    if (propsPtg !== undefined) {
       flags[index] = flags[index] | PanelSizeFlags.SIZED
     }
-    if (flags[index] & PanelSizeFlags.SIZED && ptg !== propPtgs[index]) {
+    const propPtgValid =
+      propsPtg !== undefined && propsPtg >= min && propsPtg <= max
+    if (
+      flags[index] & PanelSizeFlags.SIZED &&
+      ptg !== propsPtg &&
+      propPtgValid
+    ) {
       flags[index] = flags[index] | PanelSizeFlags.NOT_MATCH_SIZED
     }
   })

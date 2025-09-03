@@ -418,6 +418,7 @@ describe('Splitter', () => {
 
     // default size
     expect(panels[0].attributes('style')).toContain('flex-basis: 40px;')
+
     await dragAndSetSize(40, 20, 40)
 
     await dragAndSetSize(40, 0, 40)
