@@ -83,7 +83,7 @@
           </div>
           <!-- CANVAS -->
           <div :class="ns.e('canvas')">
-            <slot v-if="loadError" name="error">
+            <slot v-if="loadError" name="viewer-error">
               <div :class="ns.e('error')">{{ t('el.image.error') }}</div>
             </slot>
             <img

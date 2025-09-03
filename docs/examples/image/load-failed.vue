@@ -19,7 +19,7 @@
     </div>
     <div class="block">
       <el-image :src="url" :preview-src-list="srcList" show-progress>
-        <template #error>
+        <template #viewer-error>
           <div class="image-slot">
             <el-icon><icon-picture /></el-icon>
           </div>
