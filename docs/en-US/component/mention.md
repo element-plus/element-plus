@@ -89,7 +89,7 @@ and please go to the original component to view the documentation.
 | Name                                 | Description                                                                            | Type                                                                         | Default                                                |
 | ------------------------------------ | -------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------ |
 | options                              | mention options list                                                                   | ^[array]`MentionOption[]`                                                    | `[]`                                                   |
-| props ^(2.11.2)                      | configuration options                                                                  | ^[object]`MentionOptionProps`                                                | `{value: 'value',label: 'label',disabled: 'disabled'}` |
+| props ^(2.11.2)                      | configuration options                                                                  | ^[object]`MentionOptionProps`                                                | `{value: 'value', label: 'label', disabled: 'disabled'}` |
 | prefix                               | prefix character to trigger mentions. The string length must be exactly 1              | ^[string] \| ^[array]`string[]`                                              | `'@'`                                                  |
 | split                                | character to split mentions. The string length must be exactly 1                       | ^[string]                                                                    | `' '`                                                  |
 | filter-option                        | customize filter option logic                                                          | ^[false] \| ^[Function]`(pattern: string, option: MentionOption) => boolean` | —                                                      |
@@ -144,7 +144,7 @@ type MentionOption = {
   [key: string]: any
 }
 
-export type MentionOptionProps = {
+type MentionOptionProps = {
   value?: string
   label?: string
   disabled?: string

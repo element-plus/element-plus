@@ -122,7 +122,7 @@ const mapOption = (option: MentionOption) => {
   return { ...option, ...base }
 }
 
-const options = computed(() => props.options.map((option) => mapOption(option)))
+const options = computed(() => props.options.map(mapOption))
 
 const filteredOptions = computed(() => {
   const { filterOption } = props
