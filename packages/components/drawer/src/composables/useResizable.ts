@@ -1,22 +1,9 @@
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
-import { addUnit, isString } from '@element-plus/utils'
+import { addUnit } from '@element-plus/utils'
 import { clamp, useEventListener, useWindowSize } from '@vueuse/core'
-import { toNumber } from 'lodash-unified'
 
 import type { Ref } from 'vue'
 import type { DrawerProps } from '../drawer'
-
-function getNumberSize(size: number | string, windowSize: number) {
-  if (isString(size)) {
-    if (size.endsWith('%')) {
-      return (toNumber(size.slice(0, -1)) / 100) * windowSize
-    }
-    if (size.endsWith('px')) {
-      return toNumber(size.slice(0, -2))
-    }
-  }
-  return toNumber(size)
-}
 
 export function useResizable(
   props: DrawerProps,
@@ -39,16 +26,26 @@ export function useResizable(
     )
   })
 
-  const startSize = ref(getNumberSize(props.size, windowSize.value))
+  const startSize = ref(0)
   const offset = ref(0)
   const isResizing = ref(false)
+  const hasStartedDragging = ref(false)
   let startPos: number[] = []
   let cleanups: (() => void)[] = []
 
+  const getActualSize = () => {
+    const drawerEl = target.value?.closest('[aria-modal="true"]') as HTMLElement
+    if (drawerEl) {
+      return isHorizontal.value ? drawerEl.offsetWidth : drawerEl.offsetHeight
+    }
+    return 100
+  }
+
   watch(
     () => [props.size, props.resizable] as const,
-    ([val]) => {
-      startSize.value = getNumberSize(val, windowSize.value)
+    () => {
+      hasStartedDragging.value = false
+      startSize.value = 0
       offset.value = 0
       onMouseUp()
     }
@@ -56,6 +53,12 @@ export function useResizable(
 
   const onMousedown = (e: MouseEvent) => {
     if (!props.resizable) return
+
+    if (!hasStartedDragging.value) {
+      startSize.value = getActualSize()
+      hasStartedDragging.value = true
+    }
+
     startPos = [e.pageX, e.pageY]
     isResizing.value = true
     cleanups.push(
@@ -89,7 +92,9 @@ export function useResizable(
 
   return {
     size: computed(() => {
-      return props.resizable ? `${getSize.value}px` : addUnit(props.size)
+      return hasStartedDragging.value
+        ? `${getSize.value}px`
+        : addUnit(props.size)
     }),
     isResizing,
     isHorizontal,
