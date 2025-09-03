@@ -161,35 +161,87 @@ const handleInputKeyDown = (event: KeyboardEvent | Event) => {
       event.preventDefault()
       visible.value = false
       break
-    case EVENT_CODE.backspace:
-      if (props.whole && mentionCtx.value) {
-        const { splitIndex, selectionEnd, pattern, prefixIndex, prefix } =
-          mentionCtx.value
-        const inputEl = getInputEl()
-        if (!inputEl) return
-        const inputValue = inputEl.value
-        const matchOption = props.options.find((item) => item.value === pattern)
-        const isWhole = isFunction(props.checkIsWhole)
-          ? props.checkIsWhole(pattern, prefix)
-          : matchOption
-        if (isWhole && splitIndex !== -1 && splitIndex + 1 === selectionEnd) {
-          event.preventDefault()
-          const newValue =
-            inputValue.slice(0, prefixIndex) + inputValue.slice(splitIndex + 1)
-          emit(UPDATE_MODEL_EVENT, newValue)
-          emit(INPUT_EVENT, newValue)
-          emit('whole-remove', pattern, prefix)
+    case EVENT_CODE.backspace: {
+      if (!props.whole) break
 
-          const newSelectionEnd = prefixIndex
-          nextTick(() => {
-            // input value is updated
-            inputEl.selectionStart = newSelectionEnd
-            inputEl.selectionEnd = newSelectionEnd
-            syncDropdownVisible()
-          })
-        }
+      const inputEl = getInputEl()
+      if (!inputEl) break
+
+      if (props.showPrefix && mentionCtx.value) {
+        handleWholePrefixDeletion(event, inputEl, mentionCtx.value)
+        break
       }
+
+      if (!props.showPrefix) {
+        handleWholePrefixlessDeletion(event, inputEl)
+        break
+      }
+
+      break
+    }
   }
+}
+
+const handleWholePrefixDeletion = (
+  event: KeyboardEvent,
+  inputEl: HTMLInputElement | HTMLTextAreaElement,
+  ctx: MentionCtx
+) => {
+  const { splitIndex, selectionEnd, pattern, prefixIndex, prefix } = ctx
+  const isWhole = checkIsWhole(pattern, prefix)
+  if (!isWhole || splitIndex + 1 !== selectionEnd) return
+
+  event.preventDefault()
+  const newValue = removeRange(inputEl.value, prefixIndex, splitIndex + 1)
+  syncAfterWholeDeletion(newValue, inputEl, prefixIndex)
+}
+
+const handleWholePrefixlessDeletion = (
+  event: KeyboardEvent,
+  inputEl: HTMLInputElement | HTMLTextAreaElement
+) => {
+  const { selectionEnd } = inputEl
+  if (!selectionEnd || inputEl.value[selectionEnd - 1] !== props.split) return
+
+  const idxs = [
+    inputEl.value.lastIndexOf(' ', selectionEnd - 2),
+    inputEl.value.lastIndexOf('\n', selectionEnd - 2),
+    inputEl.value.lastIndexOf(props.split, selectionEnd - 2),
+  ]
+  const splitIndex = Math.max(...idxs)
+
+  const pattern = inputEl.value.slice(splitIndex + 1, selectionEnd - 1)
+  if (!pattern || !checkIsWhole(pattern, '')) return
+
+  event.preventDefault()
+  const newValue = removeRange(inputEl.value, splitIndex + 1, selectionEnd)
+  syncAfterWholeDeletion(newValue, inputEl, splitIndex + 1)
+}
+
+const checkIsWhole = (pattern: string, prefix: string) => {
+  const matchOption = props.options.find((o) => o.value === pattern)
+  return isFunction(props.checkIsWhole)
+    ? props.checkIsWhole(pattern, prefix)
+    : !!matchOption
+}
+
+const removeRange = (str: string, start: number, end: number) => {
+  return str.slice(0, start) + str.slice(end)
+}
+
+const syncAfterWholeDeletion = (
+  newVal: string,
+  inputEl: HTMLInputElement | HTMLTextAreaElement,
+  pos: number
+) => {
+  emit(UPDATE_MODEL_EVENT, newVal)
+  emit(INPUT_EVENT, newVal)
+
+  nextTick(() => {
+    inputEl.selectionStart = pos
+    inputEl.selectionEnd = pos
+    syncDropdownVisible()
+  })
 }
 
 const { wrapperRef } = useFocusController(elInputRef, {
@@ -216,12 +268,14 @@ const handleSelect = (item: MentionOption) => {
   const inputValue = inputEl.value
   const { split } = props
 
+  const newStartPart = props.showPrefix
+    ? inputValue.slice(0, mentionCtx.value.start)
+    : inputValue.slice(0, mentionCtx.value.start - 1)
   const newEndPart = inputValue.slice(mentionCtx.value.end)
   const alreadySeparated = newEndPart.startsWith(split)
   const newMiddlePart = `${item.value}${alreadySeparated ? '' : split}`
 
-  const newValue =
-    inputValue.slice(0, mentionCtx.value.start) + newMiddlePart + newEndPart
+  const newValue = newStartPart + newMiddlePart + newEndPart
 
   emit(UPDATE_MODEL_EVENT, newValue)
   emit(INPUT_EVENT, newValue)
