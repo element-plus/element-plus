@@ -560,6 +560,12 @@ enum SortOrder {
   DESC = 'desc',
 }
 
+enum Alignment {
+  LEFT = 'left',
+  CENTER = 'center',
+  RIGHT = 'right',
+}
+
 type SortBy = { key: KeyType; Order: SortOrder }
 type SortState = Record<KeyType, SortOrder>
 ```

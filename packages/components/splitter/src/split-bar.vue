@@ -48,7 +48,7 @@ const draggerStyles = computed(() => {
   return {
     width: isHorizontal.value ? '16px' : '100%',
     height: isHorizontal.value ? '100%' : '16px',
-    cursor: isHorizontal.value ? 'col-resize' : 'row-resize',
+    cursor: isHorizontal.value ? 'ew-resize' : 'ns-resize',
     touchAction: 'none',
   }
 })
