@@ -473,7 +473,11 @@ describe('Drawer', () => {
       const dragger = wrapper.find('.el-drawer__dragger')
       expect(dragger.exists()).toBe(true)
       const drawerEl = wrapper.find('.el-drawer').element as HTMLDivElement
-      expect(drawerEl.style.width).toEqual('50px')
+      expect(drawerEl.style.width).toEqual('50%')
+      Object.defineProperty(drawerEl, 'offsetWidth', {
+        value: 50,
+        configurable: true,
+      })
       await simulateDrag(dragger, 'horizontal', 50, 100)
       expect(drawerEl.style.width).toEqual('100px')
 
@@ -498,7 +502,11 @@ describe('Drawer', () => {
       const dragger = wrapper.find('.el-drawer__dragger')
       expect(dragger.exists()).toBe(true)
       const drawerEl = wrapper.find('.el-drawer').element as HTMLDivElement
-      expect(drawerEl.style.height).toEqual('50px')
+      expect(drawerEl.style.height).toEqual('50%')
+      Object.defineProperty(drawerEl, 'offsetHeight', {
+        value: 50,
+        configurable: true,
+      })
       await simulateDrag(dragger, 'vertical', 50, 100)
       expect(drawerEl.style.height).toEqual('100px')
 
