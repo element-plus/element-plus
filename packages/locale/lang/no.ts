@@ -87,11 +87,11 @@ export default {
       noData: 'Ingen data',
       placeholder: 'Velg',
     },
-    dropdown: {
-      toggleDropdown: 'Vis/skjul nedtrekksmeny',
-    },
     mention: {
       loading: 'Laster',
+    },
+    dropdown: {
+      toggleDropdown: 'Vis/skjul nedtrekksmeny',
     },
     cascader: {
       noMatch: 'Ingen treff',
@@ -148,6 +148,7 @@ export default {
       next: 'Neste',
       previous: 'Forrige',
       finish: 'Avslutt omvisning',
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'Ingen data',

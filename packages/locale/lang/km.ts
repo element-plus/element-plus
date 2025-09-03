@@ -48,7 +48,6 @@ export default {
       month10: 'ខែតុលា',
       month11: 'ខែវិច្ឆិកា',
       month12: 'ខែធ្នូ',
-      // week: 'សប្តាហ៍',
       weeks: {
         sun: 'អាទិត្យ',
         mon: 'ច័ន្ទ',
@@ -92,11 +91,11 @@ export default {
       noData: 'គ្មានទិន្នន័យ',
       placeholder: 'សូមជ្រើសរើស',
     },
-    dropdown: {
-      toggleDropdown: 'បើកបិទផ្ទាំងជម្រើស',
-    },
     mention: {
       loading: 'កំពុងដំណើរការ',
+    },
+    dropdown: {
+      toggleDropdown: 'បើកបិទផ្ទាំងជម្រើស',
     },
     cascader: {
       noMatch: 'គ្មានទិន្នន័យដែលត្រូវគ្នា',
@@ -153,6 +152,7 @@ export default {
       next: 'បន្ទាប់',
       previous: 'ថយក្រោយ',
       finish: 'បញ្ចប់ការណែនាំ',
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'គ្មានទិន្នន័យ',

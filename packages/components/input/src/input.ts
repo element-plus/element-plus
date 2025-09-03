@@ -82,7 +82,7 @@ export const inputProps = buildProps({
    * @description native input autocomplete
    */
   autocomplete: {
-    type: String,
+    type: definePropType<HTMLInputElement['autocomplete']>(String),
     default: 'off',
   },
   /**
