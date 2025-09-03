@@ -25,10 +25,10 @@ import {
   throwError,
 } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
-import { ArrowDown, ArrowRight } from '@element-plus/icons-vue'
 import { ElIcon } from '@element-plus/components/icon'
 import useMenu from './use-menu'
 import { useMenuCssVar } from './use-menu-css-var'
+import { useSubMenuIcon } from './use-sub-menu-icon'
 import { MENU_INJECTION_KEY, SUB_MENU_INJECTION_KEY } from './tokens'
 
 import type { Placement } from '@element-plus/components/popper'
@@ -135,26 +135,24 @@ export default defineComponent({
     const vPopper = ref<TooltipInstance>()
 
     // computed
+    const isFirstLevel = computed(() => subMenu.level === 0)
+    const mode = computed(() => rootMenu.props.mode)
+    const opened = computed(() => rootMenu.openedMenus.includes(props.index))
+
     const currentPlacement = computed<Placement>(() =>
       mode.value === 'horizontal' && isFirstLevel.value
         ? 'bottom-start'
         : 'right-start'
     )
-    const subMenuTitleIcon = computed(() => {
-      return (mode.value === 'horizontal' && isFirstLevel.value) ||
-        (mode.value === 'vertical' && !rootMenu.props.collapse)
-        ? props.expandCloseIcon && props.expandOpenIcon
-          ? opened.value
-            ? props.expandOpenIcon
-            : props.expandCloseIcon
-          : ArrowDown
-        : props.collapseCloseIcon && props.collapseOpenIcon
-        ? opened.value
-          ? props.collapseOpenIcon
-          : props.collapseCloseIcon
-        : ArrowRight
+
+    const { subMenuTitleIcon } = useSubMenuIcon({
+      props,
+      opened,
+      mode,
+      isFirstLevel,
+      isCollapsed: computed(() => rootMenu.props.collapse),
     })
-    const isFirstLevel = computed(() => subMenu.level === 0)
+
     const appendToBody = computed(() => {
       const value = props.teleported
       return isUndefined(value) ? isFirstLevel.value : value
@@ -185,14 +183,12 @@ export default defineComponent({
             'top-end',
           ]
     )
-    const opened = computed(() => rootMenu.openedMenus.includes(props.index))
     const active = computed(() =>
       [...Object.values(items.value), ...Object.values(subMenus.value)].some(
         ({ active }) => active
       )
     )
 
-    const mode = computed(() => rootMenu.props.mode)
     const persistent = computed(() => rootMenu.props.persistent)
     const item = reactive({
       index: props.index,
