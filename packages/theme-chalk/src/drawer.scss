@@ -111,7 +111,7 @@ $directions: rtl, ltr, ttb, btt;
     top: 0;
     bottom: 0;
 
-    .#{$namespace}-drawer__dragger {
+    > .#{$namespace}-drawer__dragger {
       height: 100%;
       width: getCssVar('drawer-dragger-size');
       top: 0;
@@ -132,7 +132,7 @@ $directions: rtl, ltr, ttb, btt;
     left: 0;
     right: 0;
 
-    .#{$namespace}-drawer__dragger {
+    > .#{$namespace}-drawer__dragger {
       width: 100%;
       height: getCssVar('drawer-dragger-size');
       left: 0;
@@ -150,7 +150,7 @@ $directions: rtl, ltr, ttb, btt;
   &.ltr {
     left: 0;
 
-    .#{$namespace}-drawer__dragger {
+    > .#{$namespace}-drawer__dragger {
       right: 0;
 
       &::before {
@@ -162,7 +162,7 @@ $directions: rtl, ltr, ttb, btt;
   &.rtl {
     right: 0;
 
-    .#{$namespace}-drawer__dragger {
+    > .#{$namespace}-drawer__dragger {
       left: 0;
 
       &::before {
@@ -174,7 +174,7 @@ $directions: rtl, ltr, ttb, btt;
   &.ttb {
     top: 0;
 
-    .#{$namespace}-drawer__dragger {
+    > .#{$namespace}-drawer__dragger {
       bottom: 0;
 
       &::before {
@@ -186,7 +186,7 @@ $directions: rtl, ltr, ttb, btt;
   &.btt {
     bottom: 0;
 
-    .#{$namespace}-drawer__dragger {
+    > .#{$namespace}-drawer__dragger {
       top: 0;
 
       &::before {
