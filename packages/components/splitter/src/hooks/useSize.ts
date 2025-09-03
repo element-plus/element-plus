@@ -114,23 +114,26 @@ export function useSize(
             if (locked) {
               return undefined
             }
+            let result
             if (lockOrderIndex === 0) {
               const propPtg = propPtgs[index] ?? 0
-              return offset < 0
-                ? ptg > propPtg
-                  ? ptg - propPtg
+              result =
+                offset < 0
+                  ? ptg > propPtg
+                    ? ptg - propPtg
+                    : 0
+                  : ptg < propPtg
+                  ? propPtg - ptg
                   : 0
-                : ptg < propPtg
-                ? propPtg - ptg
-                : 0
             }
             if (lockOrderIndex > 0 && lockOrderIndex <= 2) {
               const [min, max] = sections[index]
-              return offset < 0 ? ptg - (min ?? 0) : (max ?? 1) - ptg
+              result = offset < 0 ? ptg - (min ?? 0) : (max ?? 1) - ptg
             }
             if (lockOrderIndex > 2) {
-              return ptg
+              result = ptg
             }
+            return result === 0 ? undefined : result
           },
         })
         const needConsumePtg =
