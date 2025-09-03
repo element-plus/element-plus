@@ -1731,7 +1731,6 @@ describe('DateRangePicker', () => {
         onUpdateModelValue,
       })
     )
-    await nextTick()
     await wrapper.find('.el-date-editor').trigger('click')
     expect(onUpdateModelValue).not.toHaveBeenCalled()
   })
