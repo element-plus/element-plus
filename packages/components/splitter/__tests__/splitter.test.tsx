@@ -114,8 +114,8 @@ describe('Splitter', () => {
 
     const panelComps = wrapper.findComponent({ name: 'ElSplitter' }).vm.panels
 
-    expect(panelComps[0].size).toBeUndefined()
-    expect(panelComps[1].size).toBe('80%')
+    expect(panelComps[0].size).toBe(0)
+    expect(panelComps[1].size).toBe(0)
 
     mockSize.mockRestore()
   })
@@ -235,7 +235,7 @@ describe('Splitter', () => {
 
     expect(onResizeStart).toHaveBeenCalledWith(0, [200, 200])
     expect(onResize).toHaveBeenCalledTimes(2)
-    expect(onResize.mock.calls[0]).toEqual([0, [200, 200]])
+    expect(onResize.mock.calls[0]).toEqual([0, [100, 300]])
     expect(onResize.mock.calls[1]).toEqual([0, [100, 300]])
     expect(onResizeEnd).toHaveBeenCalledWith(0, [100, 300])
   })
@@ -418,7 +418,6 @@ describe('Splitter', () => {
 
     // default size
     expect(panels[0].attributes('style')).toContain('flex-basis: 40px;')
-
     await dragAndSetSize(40, 20, 40)
 
     await dragAndSetSize(40, 0, 40)

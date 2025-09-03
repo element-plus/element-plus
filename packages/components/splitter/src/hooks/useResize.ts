@@ -101,6 +101,18 @@ export function useResize(
       mergedOffset = numSizes[nextIndex]! - endMaxSize
     }
 
+    // If panel not within the range of min and max, forbid moving.
+    const leftPanelValid =
+      numSizes[mergedIndex]! + mergedOffset >= startMinSize &&
+      numSizes[mergedIndex]! + mergedOffset <= startMaxSize
+    const rightPanelValid =
+      numSizes[nextIndex]! - mergedOffset >= endMinSize &&
+      numSizes[nextIndex]! - mergedOffset <= endMaxSize
+    const valid = leftPanelValid && rightPanelValid
+    if (!valid) {
+      return
+    }
+
     numSizes[mergedIndex]! += mergedOffset
     numSizes[nextIndex]! -= mergedOffset
     lazyOffset.value = mergedOffset
