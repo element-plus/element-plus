@@ -272,12 +272,17 @@ function setCurrentValue(value: number, event?: MouseEvent) {
   if (rateDisabled.value) {
     return
   }
+  let setValue = value
   if (props.allowHalf && event) {
     pointerAtLeftHalf.value =
       event.offsetX * 2 <= iconClientWidths.value[value - 1]
-    currentValue.value = pointerAtLeftHalf.value ? value - 0.5 : value
-  } else {
-    currentValue.value = value
+    setValue = pointerAtLeftHalf.value ? value - 0.5 : value
+  }
+  if (currentValue.value !== setValue) {
+    currentValue.value = setValue
+    if (props.hoverChange === true) {
+      emitValue(setValue)
+    }
   }
   hoverIndex.value = value
 }
