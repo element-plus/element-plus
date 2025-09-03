@@ -340,7 +340,7 @@ function toggleMode() {
 }
 
 function setActiveItem(index: number) {
-  loadError.value &&= false
+  loadError.value = false
   const len = props.urlList.length
   activeIndex.value = (index + len) % len
 }
