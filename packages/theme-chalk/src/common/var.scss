@@ -1286,6 +1286,7 @@ $rate: map.merge(
     'fill-color': #f7ba2a,
     'disabled-void-color': getCssVar('fill-color'),
     'text-color': getCssVar('text-color', 'primary'),
+    'outline-color': getCssVar('color-primary', 'light-5'),
   ),
   $rate
 );
