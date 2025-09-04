@@ -1,4 +1,4 @@
-import { nextTick, ref } from 'vue'
+import { createVNode, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import Loading from '../src/service'
@@ -7,6 +7,8 @@ import ElInput from '../../input'
 
 import type { VNode } from 'vue'
 import type { LoadingInstance } from '../src/loading'
+
+const AXIOM = 'Rem is the best girl'
 
 function destroyLoadingInstance(loadingInstance: LoadingInstance) {
   if (!loadingInstance) return
@@ -144,6 +146,15 @@ describe('Loading', () => {
   test('create service', async () => {
     loadingInstance = Loading()
     expect(document.querySelector('.el-loading-mask')).toBeTruthy()
+  })
+
+  test('accept VNode as text', async () => {
+    loadingInstance = Loading({
+      text: createVNode('div', { 'data-testid': 'my-loading' }, AXIOM),
+    })
+    const loadingText = document.querySelector('[data-testid="my-loading"]')
+    expect(loadingText).not.toBeNull()
+    expect(loadingText?.textContent).toBe(AXIOM)
   })
 
   test('close service', async () => {

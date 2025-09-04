@@ -83,7 +83,7 @@ export const cascaderProps = buildProps({
     default: 1,
   },
   /**
-   * @description native input id
+   * @description whether show all selected tags when mouse hover text of collapse-tags. To use this, collapse-tags must be true
    */
   collapseTagsTooltip: Boolean,
   /**

@@ -92,11 +92,13 @@ onMounted(() => {
           if (handler) {
             ;(el as HTMLElement).addEventListener(
               eventName.slice(2).toLowerCase(),
-              handler
+              handler,
+              ['onFocus', 'onBlur'].includes(eventName)
             )
             ;(prevEl as HTMLElement)?.removeEventListener?.(
               eventName.slice(2).toLowerCase(),
-              handler
+              handler,
+              ['onFocus', 'onBlur'].includes(eventName)
             )
           }
         })
@@ -142,7 +144,11 @@ onBeforeUnmount(() => {
     TRIGGER_ELE_EVENTS.forEach((eventName) => {
       const handler = props[eventName]
       if (handler) {
-        el.removeEventListener(eventName.slice(2).toLowerCase(), handler)
+        el.removeEventListener(
+          eventName.slice(2).toLowerCase(),
+          handler,
+          ['onFocus', 'onBlur'].includes(eventName)
+        )
       }
     })
     triggerRef.value = undefined

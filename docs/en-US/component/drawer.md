@@ -59,7 +59,7 @@ Try to drag the edge part.
 
 :::demo Set `resizable` to `true` to resize.
 
-drawer/resizable-drawer
+drawer/resizable
 
 :::
 

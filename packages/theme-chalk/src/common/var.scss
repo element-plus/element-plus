@@ -1200,6 +1200,7 @@ $drawer: map.merge(
     'bg-color':
       var(#{getCssVarName('dialog', 'bg-color')}, #{getCssVar('bg-color')}),
     'padding-primary': var(#{getCssVarName('dialog', 'padding-primary')}, 20px),
+    'dragger-size': 8px,
   ),
   $drawer
 );
@@ -1286,6 +1287,7 @@ $rate: map.merge(
     'fill-color': #f7ba2a,
     'disabled-void-color': getCssVar('fill-color'),
     'text-color': getCssVar('text-color', 'primary'),
+    'outline-color': getCssVar('color-primary', 'light-5'),
   ),
   $rate
 );

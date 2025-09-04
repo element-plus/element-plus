@@ -36,6 +36,17 @@ $rate-size: map.merge(
     outline: none;
   }
 
+  &:focus-visible {
+    @include e(item) {
+      & .#{bem('rate', 'icon')} {
+        @include when(focus-visible) {
+          outline: 2px solid getCssVar('rate', 'outline-color');
+          transition: outline-offset 0s, outline 0s;
+        }
+      }
+    }
+  }
+
   @include e(item) {
     cursor: pointer;
     display: inline-block;

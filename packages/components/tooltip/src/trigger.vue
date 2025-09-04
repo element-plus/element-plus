@@ -18,9 +18,9 @@
 </template>
 
 <script lang="ts" setup>
-import { inject, ref, toRef, unref } from 'vue'
+import { inject, nextTick, ref, toRef, unref } from 'vue'
 import { ElPopperTrigger } from '@element-plus/components/popper'
-import { composeEventHandlers } from '@element-plus/utils'
+import { composeEventHandlers, focusElement } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { TOOLTIP_INJECTION_KEY } from './constants'
 import { useTooltipTriggerProps } from './trigger'
@@ -50,7 +50,15 @@ const stopWhenControlledOrDisabled = () => {
 const trigger = toRef(props, 'trigger')
 const onMouseenter = composeEventHandlers(
   stopWhenControlledOrDisabled,
-  whenTrigger(trigger, 'hover', onOpen)
+  whenTrigger(trigger, 'hover', (e) => {
+    onOpen(e)
+
+    if (props.focusOnTarget && e.target) {
+      nextTick(() => {
+        focusElement(e.target as HTMLElement, { preventScroll: true })
+      })
+    }
+  })
 )
 const onMouseleave = composeEventHandlers(
   stopWhenControlledOrDisabled,

@@ -97,11 +97,11 @@ const TabNav = defineComponent({
     const focusable = ref(true)
     const tracker = shallowRef()
 
-    const sizeName = computed(() =>
+    const isHorizontal = computed(() =>
       ['top', 'bottom'].includes(rootTabs.props.tabPosition)
-        ? 'width'
-        : 'height'
     )
+
+    const sizeName = computed(() => (isHorizontal.value ? 'width' : 'height'))
     const navStyle = computed<CSSProperties>(() => {
       const dir = sizeName.value === 'width' ? 'X' : 'Y'
       return {
@@ -152,18 +152,16 @@ const TabNav = defineComponent({
       if (!activeTab) return
 
       const navScroll = navScroll$.value
-      const isHorizontal = ['top', 'bottom'].includes(
-        rootTabs.props.tabPosition
-      )
+
       const activeTabBounding = activeTab.getBoundingClientRect()
       const navScrollBounding = navScroll.getBoundingClientRect()
-      const maxOffset = isHorizontal
+      const maxOffset = isHorizontal.value
         ? nav.offsetWidth - navScrollBounding.width
         : nav.offsetHeight - navScrollBounding.height
       const currentOffset = navOffset.value
       let newOffset = currentOffset
 
-      if (isHorizontal) {
+      if (isHorizontal.value) {
         if (activeTabBounding.left < navScrollBounding.left) {
           newOffset =
             currentOffset - (navScrollBounding.left - activeTabBounding.left)

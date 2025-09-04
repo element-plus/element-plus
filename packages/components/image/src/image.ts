@@ -29,7 +29,7 @@ export const imageProps = buildProps({
     default: '',
   },
   /**
-   * @description Indicates how the browser should load the image, same as [native](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#attr-loading)
+   * @description Indicates how the browser should load the image, same as [native](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/img#loading)
    */
   loading: {
     type: String,

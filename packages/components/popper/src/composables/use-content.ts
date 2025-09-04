@@ -67,7 +67,7 @@ export const usePopperContent = (props: PopperContentProps) => {
 
   onMounted(() => {
     watch(
-      () => unref(computedReference)?.getBoundingClientRect(),
+      () => unref(computedReference)?.getBoundingClientRect?.(),
       () => {
         update()
       }

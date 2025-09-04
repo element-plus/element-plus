@@ -29,6 +29,7 @@
           ns.e('icon'),
           { hover: hoverIndex === item },
           ns.is('active', item <= currentValue),
+          ns.is('focus-visible', item === Math.ceil(currentValue || 1)),
         ]"
       >
         <template v-if="!showDecimalIcon(item)">

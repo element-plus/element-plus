@@ -18,10 +18,10 @@
     bottom: 0;
   }
   @include e(mask-horizontal) {
-    cursor: col-resize;
+    cursor: ew-resize;
   }
   @include e(mask-vertical) {
-    cursor: row-resize;
+    cursor: ns-resize;
   }
 
   @include e(horizontal) {
@@ -37,12 +37,7 @@
   flex: none;
   position: relative;
   user-select: none;
-  @include e(disable) {
-    cursor: auto !important;
-    &::before {
-      background-color: getCssVar('border-color-light') !important;
-    }
-  }
+
   @include e(dragger) {
     z-index: 1;
     position: absolute;
@@ -69,7 +64,7 @@
     }
 
     &:hover {
-      &::before {
+      &:not(.is-disabled)::before {
         background-color: getCssVar('color-primary-light-5');
       }
     }

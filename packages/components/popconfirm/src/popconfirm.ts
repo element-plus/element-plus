@@ -82,6 +82,13 @@ export const popconfirmProps = buildProps({
     type: [String, Number],
     default: 150,
   },
+  /**
+   * @description whether the popConfirm can be closed by pressing ESC
+   */
+  closeOnPressEscape: {
+    type: Boolean,
+    default: true,
+  },
 } as const)
 
 export const popconfirmEmits = {
@@ -92,7 +99,8 @@ export const popconfirmEmits = {
   /**
    * @description triggers when click cancel button
    */
-  cancel: (e: MouseEvent) => e instanceof MouseEvent,
+  cancel: (e: MouseEvent | KeyboardEvent) =>
+    e instanceof MouseEvent || e instanceof KeyboardEvent,
 }
 
 export type PopconfirmEmits = typeof popconfirmEmits
