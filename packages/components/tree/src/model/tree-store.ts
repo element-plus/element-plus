@@ -306,12 +306,9 @@ export default class TreeStore {
     leafOnly = false,
     checkedKeys: { [key: string]: boolean }
   ) {
-    console.log('_setCheckedKeys', key, leafOnly, checkedKeys)
     const allNodes = this._getAllNodes().sort((a, b) => a.level - b.level)
-    console.log('allNodes', allNodes)
     const cache: Record<TreeKey, boolean> = Object.create(null)
     const keys = Object.keys(checkedKeys)
-    console.log('keys', keys)
     allNodes.forEach((node) => node.setChecked(false, false))
     const cacheCheckedChild = (node: Node) => {
       node.childNodes.forEach((child) => {
@@ -370,7 +367,6 @@ export default class TreeStore {
   }
 
   setCheckedKeys(keys: TreeKey[], leafOnly = false): void {
-    console.log('setCheckedKeys', keys, leafOnly)
     this.defaultCheckedKeys = keys
     const key = this.key
     const checkedKeys: Record<TreeKey, boolean> = {}
