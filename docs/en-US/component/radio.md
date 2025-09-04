@@ -61,6 +61,14 @@ radio/radio-button-group
 
 :::
 
+## Options attribute ^(2.11.2)
+
+:::demo Shortcut from basic `el-radio-group` usage. You can customize the alias of the `options` through the `props` attribute.
+
+radio/options
+
+:::
+
 ## Button style
 
 Radio with button styles.
@@ -119,18 +127,20 @@ radio/with-borders
 
 ### RadioGroup Attributes
 
-| Name                        | Description                                       | Type                               | Default |
-| --------------------------- | ------------------------------------------------- | ---------------------------------- | ------- |
-| model-value / v-model       | binding value                                     | ^[string] / ^[number] / ^[boolean] | —       |
-| size                        | the size of radio buttons or bordered radios      | ^[string]                          | default |
-| disabled                    | whether the nesting radios are disabled           | ^[boolean]                         | false   |
-| validate-event              | whether to trigger form validation                | ^[boolean]                         | true    |
-| text-color                  | font color when button is active                  | ^[string]                          | #ffffff |
-| fill                        | border and background color when button is active | ^[string]                          | #409eff |
-| aria-label ^(a11y) ^(2.7.2) | same as `aria-label` in RadioGroup                | ^[string]                          | —       |
-| name                        | native `name` attribute                           | ^[string]                          | —       |
-| id                          | native `id` attribute                             | ^[string]                          | —       |
-| label ^(a11y) ^(deprecated) | same as `aria-label` in RadioGroup                | ^[string]                          | —       |
+| Name                        | Description                                                                                    | Type                                                             | Default |
+| --------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- | ------- |
+| model-value / v-model       | binding value                                                                                  | ^[string] / ^[number] / ^[boolean]                               | —       |
+| size                        | the size of radio buttons or bordered radios                                                   | ^[string]                                                        | default |
+| disabled                    | whether the nesting radios are disabled                                                        | ^[boolean]                                                       | false   |
+| validate-event              | whether to trigger form validation                                                             | ^[boolean]                                                       | true    |
+| text-color                  | font color when button is active                                                               | ^[string]                                                        | #ffffff |
+| fill                        | border and background color when button is active                                              | ^[string]                                                        | #409eff |
+| aria-label ^(a11y) ^(2.7.2) | same as `aria-label` in RadioGroup                                                             | ^[string]                                                        | —       |
+| name                        | native `name` attribute                                                                        | ^[string]                                                        | —       |
+| id                          | native `id` attribute                                                                          | ^[string]                                                        | —       |
+| label ^(a11y) ^(deprecated) | same as `aria-label` in RadioGroup                                                             | ^[string]                                                        | —       |
+| options ^(2.11.2)           | data of the options, the key of `value` and `label` and `disabled` can be customize by `props` | ^[array]`Array<{[key: string]: any}>`                            | —       |
+| props ^(2.11.2)             | configuration options                                                                          | ^[object]`{ value?: string, label?: string, disabled?: boolean}` |
 
 ### RadioGroup Events
 
