@@ -28,8 +28,6 @@ export const useStyles = (
     return fixed ? Math.max(Math.round(unref(columnsTotalWidth)), ret) : ret
   })
 
-  const headerWidth = computed(() => unref(bodyWidth) + props.vScrollbarSize)
-
   const mainTableHeight = computed(() => {
     const { height = 0, maxHeight = 0, footerHeight, hScrollbarSize } = props
 
@@ -102,7 +100,6 @@ export const useStyles = (
     mainTableHeight,
     leftTableWidth,
     rightTableWidth,
-    headerWidth,
     windowHeight,
     footerHeight,
     emptyStyle,

@@ -35,6 +35,7 @@ import { ElTooltip } from '@element-plus/components/tooltip'
 import { useNamespace } from '@element-plus/hooks'
 import { useSliderButton } from './composables'
 import { sliderButtonEmits, sliderButtonProps } from './button'
+
 import type { SliderButtonInitData } from './button'
 
 defineOptions({

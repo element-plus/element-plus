@@ -1,8 +1,9 @@
 <script lang="ts">
 import { defineComponent, h, inject, renderSlot } from 'vue'
 import ElText from '@element-plus/components/text'
-
 import { useNamespace } from '@element-plus/hooks'
+import { NODE_INSTANCE_INJECTION_KEY, ROOT_TREE_INJECTION_KEY } from './tokens'
+
 import type { ComponentInternalInstance } from 'vue'
 import type { RootTreeType } from './tree.type'
 
@@ -17,8 +18,10 @@ export default defineComponent({
   },
   setup(props) {
     const ns = useNamespace('tree')
-    const nodeInstance = inject<ComponentInternalInstance>('NodeInstance')
-    const tree = inject<RootTreeType>('RootTree')!
+    const nodeInstance = inject<ComponentInternalInstance>(
+      NODE_INSTANCE_INJECTION_KEY
+    )
+    const tree = inject<RootTreeType>(ROOT_TREE_INJECTION_KEY)!
     return () => {
       const node = props.node
       const { data, store } = node

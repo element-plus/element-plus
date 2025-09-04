@@ -48,7 +48,6 @@ export default {
       month10: 'अक्टूबर',
       month11: 'नवंबर',
       month12: 'दिसंबर',
-      week: 'सप्ताह',
       weeks: {
         sun: 'रवि',
         mon: 'सोम',
@@ -153,6 +152,7 @@ export default {
       next: 'अगला',
       previous: 'पिछला',
       finish: 'पूरा करें',
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'कोई डेटा नहीं है',

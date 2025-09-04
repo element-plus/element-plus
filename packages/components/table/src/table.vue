@@ -66,6 +66,7 @@
           :wrap-style="scrollbarStyle"
           :always="scrollbarAlwaysOn"
           :tabindex="scrollbarTabindex"
+          :native="nativeScrollbar"
           @scroll="$emit('scroll', $event)"
         >
           <table
@@ -170,7 +171,6 @@
 </template>
 
 <script lang="ts">
-// @ts-nocheck
 import {
   computed,
   defineComponent,
@@ -275,7 +275,6 @@ export default defineComponent({
       handleHeaderFooterMousewheel,
       tableSize,
       emptyBlockStyle,
-      handleFixedMousewheel,
       resizeProxyVisible,
       bodyWidth,
       resizeState,
@@ -336,7 +335,6 @@ export default defineComponent({
       tableBodyStyles,
       emptyBlockStyle,
       debouncedUpdateLayout,
-      handleFixedMousewheel,
       /**
        * @description used in single selection Table, set a certain row selected. If called without any parameter, it will clear selection
        */

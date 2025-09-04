@@ -1,8 +1,11 @@
 <template>
-  <el-button :plain="true" @click="open1">Success</el-button>
-  <el-button :plain="true" @click="open2">Warning</el-button>
-  <el-button :plain="true" @click="open3">Message</el-button>
-  <el-button :plain="true" @click="open4">Error</el-button>
+  <div class="flex flex-wrap gap-1">
+    <el-button class="!ml-0" :plain="true" @click="open5">Primary</el-button>
+    <el-button class="!ml-0" :plain="true" @click="open1">Success</el-button>
+    <el-button class="!ml-0" :plain="true" @click="open2">Warning</el-button>
+    <el-button class="!ml-0" :plain="true" @click="open3">Info</el-button>
+    <el-button class="!ml-0" :plain="true" @click="open4">Error</el-button>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -24,7 +27,7 @@ const open2 = () => {
 }
 const open3 = () => {
   ElMessage({
-    message: 'This is a message.',
+    message: 'This is a info message.',
     type: 'info',
     plain: true,
   })
@@ -33,6 +36,13 @@ const open4 = () => {
   ElMessage({
     message: 'Oops, this is a error message.',
     type: 'error',
+    plain: true,
+  })
+}
+const open5 = () => {
+  ElMessage({
+    message: 'This is a primary message.',
+    type: 'primary',
     plain: true,
   })
 }

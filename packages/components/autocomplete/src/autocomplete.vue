@@ -29,12 +29,9 @@
     >
       <el-input
         ref="inputRef"
-        v-bind="attrs"
-        :clearable="clearable"
-        :disabled="disabled"
-        :name="name"
+        v-bind="mergeProps(passInputProps, $attrs)"
         :model-value="modelValue"
-        :aria-label="ariaLabel"
+        :disabled="disabled"
         @input="handleInput"
         @change="handleChange"
         @focus="handleFocus"
@@ -71,6 +68,13 @@
         }"
         role="region"
       >
+        <div
+          v-if="$slots.header"
+          :class="ns.be('suggestion', 'header')"
+          @click.stop
+        >
+          <slot name="header" />
+        </div>
         <el-scrollbar
           :id="listboxId"
           tag="ul"
@@ -99,6 +103,13 @@
             </li>
           </template>
         </el-scrollbar>
+        <div
+          v-if="$slots.footer"
+          :class="ns.be('suggestion', 'footer')"
+          @click.stop
+        >
+          <slot name="footer" />
+        </div>
       </div>
     </template>
   </el-tooltip>
@@ -107,29 +118,30 @@
 <script lang="ts" setup>
 import {
   computed,
+  mergeProps,
   onBeforeUnmount,
   onMounted,
   ref,
   useAttrs as useRawAttrs,
 } from 'vue'
-import { debounce } from 'lodash-unified'
+import { debounce, pick } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
 import { Loading } from '@element-plus/icons-vue'
-import { useAttrs, useId, useNamespace } from '@element-plus/hooks'
+import { useId, useNamespace } from '@element-plus/hooks'
 import { isArray, throwError } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import ElInput from '@element-plus/components/input'
+import ElInput, { inputProps } from '@element-plus/components/input'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElIcon from '@element-plus/components/icon'
 import { useFormDisabled } from '@element-plus/components/form'
 import { autocompleteEmits, autocompleteProps } from './autocomplete'
-import type { AutocompleteData } from './autocomplete'
 
+import type { AutocompleteData } from './autocomplete'
 import type { StyleValue } from 'vue'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { InputInstance } from '@element-plus/components/input'
@@ -143,7 +155,8 @@ defineOptions({
 const props = defineProps(autocompleteProps)
 const emit = defineEmits(autocompleteEmits)
 
-const attrs = useAttrs()
+const passInputProps = computed(() => pick(props, Object.keys(inputProps)))
+
 const rawAttrs = useRawAttrs()
 const disabled = useFormDisabled()
 const ns = useNamespace('autocomplete')

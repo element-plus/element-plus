@@ -2,17 +2,17 @@
 import { rightLogoSmallSponsors } from '../../../config/sponsors'
 import { sendEvent } from '../../../config/analytics'
 import { isDark } from '../../composables/dark'
-const onItemClick = (item: any) => {
+
+import type { Sponsor } from '../../../config/sponsors'
+
+const onItemClick = (item: Sponsor) => {
   sendEvent('sp_click', item.name, 'right_logo_small')
 }
 </script>
 
 <template>
   <div class="flex flex-wrap justify-between right-small">
-    <template
-      v-for="item in rightLogoSmallSponsors.concat([{} as any])"
-      :key="item.name"
-    >
+    <template v-for="item in rightLogoSmallSponsors" :key="item.name">
       <div
         v-if="!item.url"
         :class="[

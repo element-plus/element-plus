@@ -18,6 +18,7 @@ import { isArray, isUndefined } from '@element-plus/utils'
 import { watermarkProps } from './watermark'
 import { getPixelRatio, getStyleStr, reRendering } from './utils'
 import useClips, { FontGap } from './useClips'
+
 import type { WatermarkProps } from './watermark'
 import type { CSSProperties } from 'vue'
 
@@ -111,6 +112,7 @@ const appendWatermark = (base64Url: string, markWidth: number) => {
 const getMarkSize = (ctx: CanvasRenderingContext2D) => {
   let defaultWidth = 120
   let defaultHeight = 64
+  let space = 0
 
   const { image, content, width, height, rotate } = props
 
@@ -143,12 +145,12 @@ const getMarkSize = (ctx: CanvasRenderingContext2D) => {
       maxHeight * contents.length + (contents.length - 1) * FontGap
 
     const angle = (Math.PI / 180) * Number(rotate)
-    const space = Math.ceil(Math.abs(Math.sin(angle) * defaultHeight) / 2)
+    space = Math.ceil(Math.abs(Math.sin(angle) * defaultHeight) / 2)
 
     defaultWidth += space
   }
 
-  return [width ?? defaultWidth, height ?? defaultHeight] as const
+  return [width ?? defaultWidth, height ?? defaultHeight, space] as const
 }
 
 const getClips = useClips()
@@ -166,7 +168,7 @@ const renderWatermark = () => {
     }
 
     const ratio = getPixelRatio()
-    const [markWidth, markHeight] = getMarkSize(ctx)
+    const [markWidth, markHeight, space] = getMarkSize(ctx)
 
     const drawCanvas = (
       drawContent?: NonNullable<WatermarkProps['content']> | HTMLImageElement
@@ -187,7 +189,8 @@ const renderWatermark = () => {
           textBaseline: textBaseline.value,
         },
         gapX.value,
-        gapY.value
+        gapY.value,
+        space
       )
 
       appendWatermark(textClips, clipWidth)

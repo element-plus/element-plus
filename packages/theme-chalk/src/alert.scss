@@ -37,7 +37,7 @@
     justify-content: center;
   }
 
-  @each $type in (success, info, warning, error) {
+  @each $type in (primary, success, info, warning, error) {
     @include m($type) {
       @include css-var-from-global(
         ('alert', 'bg-color'),

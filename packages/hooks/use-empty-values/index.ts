@@ -1,5 +1,10 @@
 import { computed, getCurrentInstance, inject, ref } from 'vue'
-import { buildProps, debugWarn, isFunction } from '@element-plus/utils'
+import {
+  buildProps,
+  debugWarn,
+  definePropType,
+  isFunction,
+} from '@element-plus/utils'
 
 import type { ExtractPropTypes, InjectionKey, Ref } from 'vue'
 
@@ -20,9 +25,15 @@ export const useEmptyValuesProps = buildProps({
    * @description return value when cleared, if you want to set `undefined`, use `() => undefined`
    */
   valueOnClear: {
-    type: [String, Number, Boolean, Function],
+    /* eslint-disable-next-line @typescript-eslint/no-unsafe-function-type */
+    type: definePropType<string | number | boolean | Function | null>([
+      String,
+      Number,
+      Boolean,
+      Function,
+    ]),
     default: undefined,
-    validator: (val: any) => (isFunction(val) ? !val() : !val),
+    validator: (val: unknown) => (isFunction(val) ? !val() : !val),
   },
 } as const)
 
@@ -52,7 +63,7 @@ export const useEmptyValues = (
     return defaultValue !== undefined ? defaultValue : DEFAULT_VALUE_ON_CLEAR
   })
 
-  const isEmptyValue = (value: any) => {
+  const isEmptyValue = (value: unknown) => {
     return emptyValues.value.includes(value)
   }
 

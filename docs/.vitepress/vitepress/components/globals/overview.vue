@@ -55,11 +55,19 @@
         Icons designed by
         <el-link
           type="primary"
-          :underline="false"
+          underline="never"
           href="https://github.com/daodaozz08"
           target="_blank"
         >
           @叨叨
+        </el-link>
+        <el-link
+          type="primary"
+          underline="never"
+          href="https://github.com/zhiwendesign"
+          target="_blank"
+        >
+          @卡卡
         </el-link>
       </p>
     </div>
@@ -71,7 +79,9 @@ import { computed, nextTick, onMounted, ref } from 'vue'
 import { useRouter } from 'vitepress'
 import { Search } from '@element-plus/icons-vue'
 import overviewLocale from '../../../i18n/component/overview.json'
+
 import type { InputInstance } from 'element-plus'
+
 import { useSidebar } from '~/composables/sidebar'
 import { useLang } from '~/composables/lang'
 import overviewIcons from '~/components/overview-icons'
@@ -189,7 +199,10 @@ onMounted(() => {
     }
 
     .designed-by {
-      text-align: right;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 5px;
       font-size: 14px;
     }
   }

@@ -1,7 +1,7 @@
 import { isEqual } from 'lodash-unified'
+import { type Nullable, isPropAbsent } from '@element-plus/utils'
 import Node from './node'
 
-import type { Nullable } from '@element-plus/utils'
 import type {
   CascaderConfig,
   CascaderNodePathValue,
@@ -54,7 +54,11 @@ export default class Store {
   }
 
   appendNodes(nodeDataList: CascaderOption[], parentNode: Node) {
-    nodeDataList.forEach((nodeData) => this.appendNode(nodeData, parentNode))
+    if (nodeDataList.length > 0) {
+      nodeDataList.forEach((nodeData) => this.appendNode(nodeData, parentNode))
+    } else {
+      parentNode && parentNode.isLeaf && this.leafNodes.push(parentNode)
+    }
   }
 
   appendAllNodesAndLeafNodes(node: Node) {
@@ -72,7 +76,7 @@ export default class Store {
     value: CascaderNodeValue | CascaderNodePathValue,
     leafOnly = false
   ): Nullable<Node> {
-    if (!value && value !== 0) return null
+    if (isPropAbsent(value)) return null
 
     const node = this.getFlattedNodes(leafOnly).find(
       (node) => isEqual(node.value, value) || isEqual(node.pathValues, value)

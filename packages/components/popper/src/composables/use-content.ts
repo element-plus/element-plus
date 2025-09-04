@@ -17,7 +17,7 @@ export const usePopperContent = (props: PopperContentProps) => {
   )!
 
   const arrowRef = ref<HTMLElement>()
-  const arrowOffset = ref<number>()
+  const arrowOffset = computed(() => props.arrowOffset)
 
   const eventListenerModifier = computed(() => {
     return {
@@ -67,7 +67,7 @@ export const usePopperContent = (props: PopperContentProps) => {
 
   onMounted(() => {
     watch(
-      () => unref(computedReference)?.getBoundingClientRect(),
+      () => unref(computedReference)?.getBoundingClientRect?.(),
       () => {
         update()
       }

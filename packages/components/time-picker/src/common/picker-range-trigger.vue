@@ -11,7 +11,7 @@
     <slot name="prefix" />
     <input
       v-bind="attrs"
-      :id="id && id[0]"
+      :id="inputId"
       ref="inputRef"
       :name="name && name[0]"
       :placeholder="startPlaceholder"
@@ -39,9 +39,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { useAttrs, useFocusController, useNamespace } from '@element-plus/hooks'
 import { timePickerRangeTriggerProps } from './props'
+import { useFormItem, useFormItemInputId } from '@element-plus/components/form'
+
 import type { CSSProperties } from 'vue'
 
 defineOptions({
@@ -49,7 +51,7 @@ defineOptions({
   inheritAttrs: false,
 })
 
-defineProps(timePickerRangeTriggerProps)
+const props = defineProps(timePickerRangeTriggerProps)
 const emit = defineEmits([
   'mouseenter',
   'mouseleave',
@@ -63,6 +65,14 @@ const emit = defineEmits([
   'endChange',
 ])
 
+const { formItem } = useFormItem()
+const { inputId } = useFormItemInputId(
+  reactive({ id: computed(() => props.id?.[0]) }),
+  {
+    formItemContext: formItem,
+  }
+)
+
 const attrs = useAttrs()
 const nsDate = useNamespace('date')
 const nsRange = useNamespace('range')
@@ -70,7 +80,9 @@ const nsRange = useNamespace('range')
 const inputRef = ref<HTMLInputElement>()
 const endInputRef = ref<HTMLInputElement>()
 
-const { wrapperRef, isFocused } = useFocusController(inputRef)
+const { wrapperRef, isFocused } = useFocusController(inputRef, {
+  disabled: computed(() => props.disabled),
+})
 
 const handleClick = (evt: MouseEvent) => {
   emit('click', evt)
@@ -85,7 +97,7 @@ const handleMouseLeave = (evt: MouseEvent) => {
 }
 
 const handleTouchStart = (evt: TouchEvent) => {
-  emit('mouseenter', evt)
+  emit('touchstart', evt)
 }
 
 const handleStartInput = (evt: Event) => {

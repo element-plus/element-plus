@@ -6,6 +6,8 @@ import {
   onMounted,
   onUpdated,
   ref,
+  shallowRef,
+  triggerRef,
   watch,
 } from 'vue'
 import {
@@ -27,9 +29,14 @@ import { useNamespace } from '@element-plus/hooks'
 import TabBar from './tab-bar.vue'
 import { tabsRootContextKey } from './constants'
 
-import type { CSSProperties, ExtractPropTypes } from 'vue'
-import type { TabsPaneContext } from './constants'
-import type { TabPaneName } from './tabs'
+import type {
+  CSSProperties,
+  ComponentPublicInstance,
+  ExtractPropTypes,
+  __ExtractPublicPropTypes,
+} from 'vue'
+import type { TabBarInstance } from './tab-bar'
+import type { TabPaneName, TabsPaneContext } from './constants'
 
 interface Scrollable {
   next?: boolean
@@ -61,6 +68,7 @@ export const tabNavEmits = {
 }
 
 export type TabNavProps = ExtractPropTypes<typeof tabNavProps>
+export type TabNavPropsPublic = __ExtractPublicPropTypes<typeof tabNavProps>
 export type TabNavEmits = typeof tabNavEmits
 
 const COMPONENT_NAME = 'ElTabNav'
@@ -79,19 +87,21 @@ const TabNav = defineComponent({
     const navScroll$ = ref<HTMLDivElement>()
     const nav$ = ref<HTMLDivElement>()
     const el$ = ref<HTMLDivElement>()
+    const tabRefsMap = ref<{ [key: TabPaneName]: HTMLDivElement }>({})
 
-    const tabBarRef = ref<InstanceType<typeof TabBar>>()
+    const tabBarRef = ref<TabBarInstance>()
 
     const scrollable = ref<false | Scrollable>(false)
     const navOffset = ref(0)
     const isFocus = ref(false)
     const focusable = ref(true)
+    const tracker = shallowRef()
 
-    const sizeName = computed(() =>
+    const isHorizontal = computed(() =>
       ['top', 'bottom'].includes(rootTabs.props.tabPosition)
-        ? 'width'
-        : 'height'
     )
+
+    const sizeName = computed(() => (isHorizontal.value ? 'width' : 'height'))
     const navStyle = computed<CSSProperties>(() => {
       const dir = sizeName.value === 'width' ? 'X' : 'Y'
       return {
@@ -138,22 +148,20 @@ const TabNav = defineComponent({
 
       await nextTick()
 
-      const activeTab = el$.value.querySelector('.is-active')
+      const activeTab = tabRefsMap.value[props.currentName]
       if (!activeTab) return
 
       const navScroll = navScroll$.value
-      const isHorizontal = ['top', 'bottom'].includes(
-        rootTabs.props.tabPosition
-      )
+
       const activeTabBounding = activeTab.getBoundingClientRect()
       const navScrollBounding = navScroll.getBoundingClientRect()
-      const maxOffset = isHorizontal
+      const maxOffset = isHorizontal.value
         ? nav.offsetWidth - navScrollBounding.width
         : nav.offsetHeight - navScrollBounding.height
       const currentOffset = navOffset.value
       let newOffset = currentOffset
 
-      if (isHorizontal) {
+      if (isHorizontal.value) {
         if (activeTabBounding.left < navScrollBounding.left) {
           newOffset =
             currentOffset - (navScrollBounding.left - activeTabBounding.left)
@@ -242,6 +250,20 @@ const TabNav = defineComponent({
     }
     const removeFocus = () => (isFocus.value = false)
 
+    const setRefs = (
+      el: Element | ComponentPublicInstance | null,
+      key: TabPaneName
+    ) => {
+      tabRefsMap.value[key] = el as HTMLDivElement
+    }
+
+    const focusActiveTab = async () => {
+      await nextTick()
+
+      const activeTab = tabRefsMap.value[props.currentName]
+      activeTab?.focus({ preventScroll: true })
+    }
+
     watch(visibility, (visibility) => {
       if (visibility === 'hidden') {
         focusable.value = false
@@ -265,7 +287,10 @@ const TabNav = defineComponent({
     expose({
       scrollToActiveTab,
       removeFocus,
+      focusActiveTab,
       tabListRef: nav$,
+      tabBarRef,
+      scheduleRender: () => triggerRef(tracker),
     })
 
     return () => {
@@ -320,7 +345,7 @@ const TabNav = defineComponent({
 
         return (
           <div
-            ref={`tab-${uid}`}
+            ref={(el) => setRefs(el, tabName)}
             class={[
               ns.e('item'),
               ns.is(rootTabs.props.tabPosition),
@@ -356,6 +381,10 @@ const TabNav = defineComponent({
         )
       })
 
+      // By tracking the value property, we can schedule a job to re-render `TabNav` when needed.
+      // Unlike `instance.update`, the scheduler ensures the job is queued only once even if we trigger it multiple times.
+      tracker.value
+
       return (
         <div
           ref={el$}
@@ -367,28 +396,34 @@ const TabNav = defineComponent({
         >
           {scrollBtn}
           <div class={ns.e('nav-scroll')} ref={navScroll$}>
-            <div
-              class={[
-                ns.e('nav'),
-                ns.is(rootTabs.props.tabPosition),
-                ns.is(
-                  'stretch',
-                  props.stretch &&
-                    ['top', 'bottom'].includes(rootTabs.props.tabPosition)
-                ),
-              ]}
-              ref={nav$}
-              style={navStyle.value}
-              role="tablist"
-              onKeydown={changeTab}
-            >
-              {...[
-                !props.type ? (
-                  <TabBar ref={tabBarRef} tabs={[...props.panes]} />
-                ) : null,
-                tabs,
-              ]}
-            </div>
+            {props.panes.length > 0 ? (
+              <div
+                class={[
+                  ns.e('nav'),
+                  ns.is(rootTabs.props.tabPosition),
+                  ns.is(
+                    'stretch',
+                    props.stretch &&
+                      ['top', 'bottom'].includes(rootTabs.props.tabPosition)
+                  ),
+                ]}
+                ref={nav$}
+                style={navStyle.value}
+                role="tablist"
+                onKeydown={changeTab}
+              >
+                {...[
+                  !props.type ? (
+                    <TabBar
+                      ref={tabBarRef}
+                      tabs={[...props.panes]}
+                      tabRefs={tabRefsMap.value}
+                    />
+                  ) : null,
+                  tabs,
+                ]}
+              </div>
+            ) : null}
           </div>
         </div>
       )
@@ -399,6 +434,10 @@ const TabNav = defineComponent({
 export type TabNavInstance = InstanceType<typeof TabNav> & {
   scrollToActiveTab: () => Promise<void>
   removeFocus: () => void
+  focusActiveTab: () => void
+  scheduleRender: () => void
   tabListRef: HTMLDivElement | undefined
-} & unknown
+  tabBarRef: TabBarInstance | undefined
+}
+
 export default TabNav

@@ -71,7 +71,7 @@ switch/loading
 
 :::
 
-## prevent switching
+## Prevent switching
 
 :::demo set the `before-change` property, If `false` is returned or a `Promise` is returned and then is rejected, will stop switching.
 
@@ -79,7 +79,7 @@ switch/prevent-switching
 
 :::
 
-## custom action icon ^(2.3.9)
+## Custom action icon ^(2.3.9)
 
 :::demo You can add `active-action-icon` and `inactive-active-icon` attribute to show icons.
 
@@ -87,7 +87,7 @@ switch/custom-action-icon
 
 :::
 
-## custom action slot ^(2.4.4)
+## Custom action slot ^(2.4.4)
 
 :::demo You can use `active-action` and `inactive-action` slot to customize action.
 
@@ -117,7 +117,7 @@ switch/custom-action-slot
 | inactive-value                | switch value when in `off` state                                                                                                                | ^[boolean] / ^[string] / ^[number]             | false   |
 | name                          | input name of Switch                                                                                                                            | ^[string]                                      | ''      |
 | validate-event                | whether to trigger form validation                                                                                                              | ^[boolean]                                     | true    |
-| before-change                 | before-change hook before the switch state changes. If `false` is returned or a `Promise` is returned and then is rejected, will stop switching | ^[Function]`() => Promise<boolean> \| boolen`  | —       |
+| before-change                 | before-change hook before the switch state changes. If `false` is returned or a `Promise` is returned and then is rejected, will stop switching | ^[Function]`() => Promise<boolean> \| boolean` | —       |
 | id                            | id for input                                                                                                                                    | ^[string]                                      | —       |
 | tabindex                      | tabindex for input                                                                                                                              | ^[string] / ^[number]                          | —       |
 | aria-label ^(a11y) ^(2.7.2)   | same as `aria-label` in native input                                                                                                            | ^[string]                                      | —       |

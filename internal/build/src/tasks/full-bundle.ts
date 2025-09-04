@@ -25,6 +25,7 @@ import {
   writeBundles,
 } from '../utils'
 import { target } from '../build-info'
+
 import type { TaskFunction } from 'gulp'
 import type { Plugin } from 'rollup'
 
@@ -61,13 +62,13 @@ async function buildFullEntry(minify: boolean) {
         '.vue': 'ts',
       },
       define: {
-        'process.env.NODE_ENV': JSON.stringify('production'),
+        'process.env.NODE_ENV': '"production"',
       },
       treeShaking: true,
       legalComments: 'eof',
     }),
     replace({
-      'process.env.NODE_ENV': JSON.stringify('production'),
+      'process.env.NODE_ENV': '"production"',
     }),
   ]
   if (minify) {
