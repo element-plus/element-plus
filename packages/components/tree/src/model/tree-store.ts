@@ -323,7 +323,7 @@ export default class TreeStore {
       const nodeKey: string = node.data[key].toString()
       const checked = keys.includes(nodeKey)
       if (!checked) {
-        if (node.checked && !cache[nodeKey]) {
+        if (node.checked && cache[nodeKey]) {
           node.setChecked(false, false)
         }
         continue
