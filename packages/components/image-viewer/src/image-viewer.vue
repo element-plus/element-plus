@@ -90,7 +90,7 @@
                 :src="url"
                 :style="imgStyle"
                 :class="ns.e('img')"
-                :crossorigin="crossorigin"
+                v-bind="imgAttrs"
                 @load="handleImgLoad"
                 @error="handleImgError"
                 @mousedown="handleMouseDown"
@@ -116,10 +116,10 @@ import {
   watch,
 } from 'vue'
 import { useEventListener } from '@vueuse/core'
-import { throttle } from 'lodash-unified'
+import { fromPairs, throttle } from 'lodash-unified'
 import { useLocale, useNamespace, useZIndex } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/constants'
-import { keysOf } from '@element-plus/utils'
+import { entriesOf, keysOf } from '@element-plus/utils'
 import ElFocusTrap from '@element-plus/components/focus-trap'
 import ElTeleport from '@element-plus/components/teleport'
 import ElIcon from '@element-plus/components/icon'
@@ -135,7 +135,9 @@ import {
   ZoomOut,
 } from '@element-plus/icons-vue'
 import { imageViewerEmits, imageViewerProps } from './image-viewer'
+import { rawImageProps } from './raw-image-props'
 
+import type { RawImagePropsKeys } from './raw-image-props'
 import type { CSSProperties } from 'vue'
 import type { ImageViewerAction, ImageViewerMode } from './image-viewer'
 
@@ -159,7 +161,6 @@ const emit = defineEmits(imageViewerEmits)
 
 let stopWheelListener: (() => void) | undefined
 let prevOverflow = ''
-
 const { t } = useLocale()
 const ns = useNamespace('image-viewer')
 const { nextZIndex } = useZIndex()
@@ -167,6 +168,16 @@ const wrapper = ref<HTMLDivElement>()
 const imgRefs = ref<HTMLImageElement[]>([])
 
 const scopeEventListener = effectScope()
+
+const rawImagePropsKeys = keysOf(rawImageProps)
+const imgAttrs = computed(() =>
+  fromPairs(
+    entriesOf(props).filter(
+      ([key]) =>
+        key !== 'src' && rawImagePropsKeys.includes(key as RawImagePropsKeys)
+    )
+  )
+)
 
 const loading = ref(true)
 const activeIndex = ref(props.initialIndex)

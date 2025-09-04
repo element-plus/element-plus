@@ -4,6 +4,7 @@ import {
   isNumber,
   mutable,
 } from '@element-plus/utils'
+import { rawImageProps } from './raw-image-props'
 
 import type { Component, ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type ImageViewer from './image-viewer.vue'
@@ -13,8 +14,8 @@ export type ImageViewerAction =
   | 'zoomOut'
   | 'clockwise'
   | 'anticlockwise'
-
 export const imageViewerProps = buildProps({
+  ...rawImageProps,
   /**
    * @description preview link list.
    */
@@ -82,12 +83,6 @@ export const imageViewerProps = buildProps({
    * @description show preview image progress content.
    */
   showProgress: Boolean,
-  /**
-   * @description set HTML attribute: crossorigin.
-   */
-  crossorigin: {
-    type: definePropType<'anonymous' | 'use-credentials' | ''>(String),
-  },
 } as const)
 export type ImageViewerProps = ExtractPropTypes<typeof imageViewerProps>
 export type ImageViewerPropsPublic = __ExtractPublicPropTypes<

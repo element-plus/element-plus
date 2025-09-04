@@ -4,22 +4,17 @@ import {
   isNumber,
   mutable,
 } from '@element-plus/utils'
+import { rawImageProps } from '@element-plus/components/image-viewer'
 
 import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type Image from './image.vue'
 
 export const imageProps = buildProps({
+  ...rawImageProps,
   /**
    * @description when enabling preview, use this flag to control whether clicking on backdrop can exit preview mode.
    */
   hideOnClickModal: Boolean,
-  /**
-   * @description image source, same as native.
-   */
-  src: {
-    type: String,
-    default: '',
-  },
   /**
    * @description indicate how the image should be resized to fit its container, same as [object-fit](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit).
    */
@@ -27,13 +22,6 @@ export const imageProps = buildProps({
     type: String,
     values: ['', 'contain', 'cover', 'fill', 'none', 'scale-down'],
     default: '',
-  },
-  /**
-   * @description Indicates how the browser should load the image, same as [native](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/img#loading)
-   */
-  loading: {
-    type: String,
-    values: ['eager', 'lazy'],
   },
   /**
    * @description whether to use lazy load.
@@ -108,12 +96,6 @@ export const imageProps = buildProps({
    * @description show preview image progress content.
    */
   showProgress: Boolean,
-  /**
-   * @description set HTML attribute: crossorigin.
-   */
-  crossorigin: {
-    type: definePropType<'anonymous' | 'use-credentials' | ''>(String),
-  },
 } as const)
 export type ImageProps = ExtractPropTypes<typeof imageProps>
 export type ImagePropsPublic = __ExtractPublicPropTypes<typeof imageProps>
