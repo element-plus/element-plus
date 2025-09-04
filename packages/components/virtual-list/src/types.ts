@@ -1,4 +1,5 @@
 import { BACKWARD, FORWARD } from './defaults'
+
 import type { CSSProperties, ComponentInternalInstance, Ref } from 'vue'
 
 export type Instance = ComponentInternalInstance
