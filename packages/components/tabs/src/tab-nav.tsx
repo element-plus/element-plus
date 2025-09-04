@@ -318,9 +318,9 @@ const TabNav = defineComponent({
         draggedTargetIndex.value = null
         return
       }
-      const newOrder = [
-        ...rootTabs.tabPanes.value.map((pane) => pane.paneName),
-      ].filter((name): name is TabPaneName => name !== undefined)
+      const newOrder = rootTabs.tabPanes.value
+        .map((pane) => pane.paneName)
+        .filter((name): name is TabPaneName => name !== undefined)
       if (!newOrder) return
       const [draggedItem] = newOrder.splice(draggedIndex.value, 1)
       newOrder.splice(draggedTargetIndex.value, 0, draggedItem)
