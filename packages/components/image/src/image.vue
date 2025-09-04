@@ -22,35 +22,33 @@
         </slot>
       </div>
     </template>
-    <template v-if="preview">
-      <image-viewer
-        v-if="showViewer"
-        :z-index="zIndex"
-        :initial-index="imageIndex"
-        :infinite="infinite"
-        :zoom-rate="zoomRate"
-        :min-scale="minScale"
-        :max-scale="maxScale"
-        :show-progress="showProgress"
-        :url-list="previewSrcList"
-        :crossorigin="crossorigin"
-        :hide-on-click-modal="hideOnClickModal"
-        :teleported="previewTeleported"
-        :close-on-press-escape="closeOnPressEscape"
-        @close="closeViewer"
-        @switch="switchViewer"
-      >
-        <div v-if="$slots.viewer">
-          <slot name="viewer" />
-        </div>
-        <template v-if="$slots.progress" #progress="progress">
-          <slot name="progress" v-bind="progress" />
-        </template>
-        <template #toolbar="toolbar">
-          <slot name="toolbar" v-bind="toolbar" />
-        </template>
-      </image-viewer>
-    </template>
+    <image-viewer
+      v-if="showViewer && preview"
+      :z-index="zIndex"
+      :initial-index="imageIndex"
+      :infinite="infinite"
+      :zoom-rate="zoomRate"
+      :min-scale="minScale"
+      :max-scale="maxScale"
+      :show-progress="showProgress"
+      :url-list="previewSrcList"
+      :crossorigin="crossorigin"
+      :hide-on-click-modal="hideOnClickModal"
+      :teleported="previewTeleported"
+      :close-on-press-escape="closeOnPressEscape"
+      @close="closeViewer"
+      @switch="switchViewer"
+    >
+      <template #viewer>
+        <slot name="viewer" />
+      </template>
+      <template v-if="$slots.progress" #progress="progress">
+        <slot name="progress" v-bind="progress" />
+      </template>
+      <template #toolbar="toolbar">
+        <slot name="toolbar" v-bind="toolbar" />
+      </template>
+    </image-viewer>
   </div>
 </template>
 
@@ -61,6 +59,7 @@ import {
   onMounted,
   ref,
   useAttrs as useRawAttrs,
+  useSlots,
   watch,
 } from 'vue'
 import { useIntersectionObserver, useThrottleFn } from '@vueuse/core'
@@ -69,7 +68,6 @@ import { useAttrs, useLocale, useNamespace } from '@element-plus/hooks'
 import ImageViewer from '@element-plus/components/image-viewer'
 import {
   getScrollContainer,
-  isArray,
   isClient,
   isElement,
   isString,
@@ -90,6 +88,7 @@ const emit = defineEmits(imageEmits)
 const { t } = useLocale()
 const ns = useNamespace('image')
 const rawAttrs = useRawAttrs()
+const slots = useSlots()
 
 const containerAttrs = computed(() => {
   return fromPairs(
@@ -130,10 +129,9 @@ const imageStyle = computed<CSSProperties>(() => {
   return {}
 })
 
-const preview = computed(() => {
-  const { previewSrcList } = props
-  return isArray(previewSrcList) && previewSrcList.length > 0
-})
+const preview = computed(
+  () => props.previewSrcList.length > 0 || !!slots.viewer
+)
 
 const imageIndex = computed(() => {
   const { previewSrcList, initialIndex } = props
