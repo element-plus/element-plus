@@ -95,13 +95,13 @@ if (isClient) {
   const rawProps = getCurrentInstance()?.vnode?.props ?? {}
 
   if (
-    !['showAfter', 'show-after', 'show-After'].some((key) =>
+    ['showAfter', 'show-after', 'show-After'].some((key) =>
       hasOwn(rawProps, key)
     )
   ) {
-    open()
-  } else {
     onOpen()
+  } else {
+    open()
   }
 }
 </script>
