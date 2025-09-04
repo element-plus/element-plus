@@ -75,7 +75,7 @@
         >
           <slot name="tag" :data="allPresentTags" :delete-tag="deleteTag">
             <el-tag
-              v-for="tag in presentTags"
+              v-for="tag in showTagList"
               :key="tag.key"
               :type="tagType"
               :size="tagSize"
@@ -88,50 +88,58 @@
               <template v-if="tag.isCollapseTag === false">
                 <span>{{ tag.text }}</span>
               </template>
-              <template v-else>
-                <el-tooltip
-                  ref="tagTooltipRef"
-                  :disabled="popperVisible || !collapseTagsTooltip"
-                  :fallback-placements="['bottom', 'top', 'right', 'left']"
-                  placement="bottom"
-                  :popper-class="popperClass"
-                  :popper-style="popperStyle"
-                  :effect="effect"
-                >
-                  <template #default>
-                    <span>{{ tag.text }}</span>
-                  </template>
-                  <template #content>
-                    <el-scrollbar :max-height="maxCollapseTagsTooltipHeight">
-                      <div :class="nsCascader.e('collapse-tags')">
-                        <div
-                          v-for="(tag2, idx) in allPresentTags.slice(
-                            maxCollapseTags
-                          )"
-                          :key="idx"
-                          :class="nsCascader.e('collapse-tag')"
-                        >
-                          <el-tag
-                            :key="tag2.key"
-                            class="in-tooltip"
-                            :type="tagType"
-                            :size="tagSize"
-                            :effect="tagEffect"
-                            :hit="tag2.hitState"
-                            :closable="tag2.closable"
-                            disable-transitions
-                            @close="deleteTag(tag2)"
-                          >
-                            <span>{{ tag2.text }}</span>
-                          </el-tag>
-                        </div>
-                      </div>
-                    </el-scrollbar>
-                  </template>
-                </el-tooltip>
-              </template>
             </el-tag>
           </slot>
+          <el-tooltip
+            v-if="collapseTags && allPresentTags.length > maxCollapseTags"
+            ref="tagTooltipRef"
+            :disabled="popperVisible || !collapseTagsTooltip"
+            :fallback-placements="['bottom', 'top', 'right', 'left']"
+            placement="bottom"
+            :popper-class="popperClass"
+            :popper-style="popperStyle"
+            :effect="effect"
+            :persistent="persistent"
+          >
+            <template #default>
+              <el-tag
+                :closable="false"
+                :size="tagSize"
+                :type="tagType"
+                :effect="tagEffect"
+                disable-transitions
+              >
+                <span :class="nsCascader.e('tags-text')">
+                  + {{ allPresentTags.length - maxCollapseTags }}
+                </span>
+              </el-tag>
+            </template>
+            <template #content>
+              <el-scrollbar :max-height="maxCollapseTagsTooltipHeight">
+                <div :class="nsCascader.e('collapse-tags')">
+                  <div
+                    v-for="(tag, idx) in collapseTagList"
+                    :key="idx"
+                    :class="nsCascader.e('collapse-tag')"
+                  >
+                    <el-tag
+                      :key="tag.key"
+                      class="in-tooltip"
+                      :type="tagType"
+                      :size="tagSize"
+                      :effect="tagEffect"
+                      :hit="tag.hitState"
+                      :closable="tag.closable"
+                      disable-transitions
+                      @close="deleteTag(tag)"
+                    >
+                      <span>{{ tag.text }}</span>
+                    </el-tag>
+                  </div>
+                </div>
+              </el-scrollbar>
+            </template>
+          </el-tooltip>
           <input
             v-if="filterable && !isDisabled"
             v-model="searchInputValue"
@@ -248,7 +256,7 @@ import { ArrowDown, Check } from '@element-plus/icons-vue'
 import { cascaderEmits, cascaderProps } from './cascader'
 
 import type { Options } from '@element-plus/components/popper'
-import type { ComputedRef, Ref, StyleValue } from 'vue'
+import type { ComputedRef, StyleValue } from 'vue'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { InputInstance } from '@element-plus/components/input'
 import type { ScrollbarInstance } from '@element-plus/components/scrollbar'
@@ -303,23 +311,39 @@ const { isComposing, handleComposition } = useComposition({
   },
 })
 
-const tooltipRef: Ref<TooltipInstance | null> = ref(null)
-//TODO: transform [TooltipInstance] to TooltipInstance
-const tagTooltipRef = ref<[TooltipInstance]>()
+const tooltipRef = ref<TooltipInstance>()
+const tagTooltipRef = ref<TooltipInstance>()
 const inputRef = ref<InputInstance>()
-const tagWrapper = ref(null)
-const cascaderPanelRef: Ref<CascaderPanelInstance | null> = ref(null)
-const suggestionPanel: Ref<ScrollbarInstance | null> = ref(null)
+const tagWrapper = ref<HTMLDivElement>()
+const cascaderPanelRef = ref<CascaderPanelInstance>()
+const suggestionPanel = ref<ScrollbarInstance>()
 const popperVisible = ref(false)
 const inputHover = ref(false)
 const filtering = ref(false)
 const inputValue = ref('')
 const searchInputValue = ref('')
-const presentTags: Ref<Tag[]> = ref([])
-const allPresentTags: Ref<Tag[]> = ref([])
-const suggestions: Ref<CascaderNode[]> = ref([])
+const allPresentTags = ref<Tag[]>([])
+const suggestions = ref<CascaderNode[]>([])
 
-const cascaderStyle = computed<StyleValue>(() => {
+const showTagList = computed(() => {
+  if (!props.props.multiple) {
+    return []
+  }
+  return props.collapseTags
+    ? allPresentTags.value.slice(0, props.maxCollapseTags)
+    : allPresentTags.value
+})
+
+const collapseTagList = computed(() => {
+  if (!props.props.multiple) {
+    return []
+  }
+  return props.collapseTags
+    ? allPresentTags.value.slice(props.maxCollapseTags)
+    : []
+})
+
+const cascaderStyle = computed(() => {
   return attrs.style as StyleValue
 })
 
@@ -327,7 +351,7 @@ const inputPlaceholder = computed(
   () => props.placeholder ?? t('el.cascader.placeholder')
 )
 const currentPlaceholder = computed(() =>
-  searchInputValue.value || presentTags.value.length > 0 || isComposing.value
+  searchInputValue.value || allPresentTags.value.length > 0 || isComposing.value
     ? ''
     : inputPlaceholder.value
 )
@@ -349,7 +373,7 @@ const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
   beforeBlur(event) {
     return (
       tooltipRef.value?.isFocusInsideContent(event) ||
-      tagTooltipRef.value?.[0]?.isFocusInsideContent(event)
+      tagTooltipRef.value?.isFocusInsideContent(event)
     )
   },
   afterBlur() {
@@ -498,34 +522,10 @@ const calculatePresentTags = () => {
   if (!multiple.value) return
 
   const nodes = getStrategyCheckedNodes()
-  const tags: Tag[] = []
 
   const allTags: Tag[] = []
   nodes.forEach((node) => allTags.push(genTag(node)))
   allPresentTags.value = allTags
-
-  if (nodes.length) {
-    nodes
-      .slice(0, props.maxCollapseTags)
-      .forEach((node) => tags.push(genTag(node)))
-    const rest = nodes.slice(props.maxCollapseTags)
-    const restCount = rest.length
-
-    if (restCount) {
-      if (props.collapseTags) {
-        tags.push({
-          key: -1,
-          text: `+ ${restCount}`,
-          closable: false,
-          isCollapseTag: true,
-        })
-      } else {
-        rest.forEach((node) => tags.push(genTag(node)))
-      }
-    }
-  }
-
-  presentTags.value = tags
 }
 
 const calculateSuggestions = () => {
@@ -539,9 +539,6 @@ const calculateSuggestions = () => {
     })
 
   if (multiple.value) {
-    presentTags.value.forEach((tag) => {
-      tag.hitState = false
-    })
     allPresentTags.value.forEach((tag) => {
       tag.hitState = false
     })
@@ -589,7 +586,7 @@ const updateStyle = () => {
     const { offsetHeight } = tagWrapperEl
     // 2 is el-input__wrapper padding
     const height =
-      presentTags.value.length > 0
+      allPresentTags.value.length > 0
         ? `${Math.max(offsetHeight, inputInitialHeight) - 2}px`
         : `${inputInitialHeight}px`
     inputInner.style.height = height
@@ -684,7 +681,7 @@ const handleSuggestionKeyDown = (e: KeyboardEvent) => {
 }
 
 const handleDelete = () => {
-  const tags = presentTags.value
+  const tags = allPresentTags.value
   const lastTag = tags[tags.length - 1]
   pressDeleteCount = searchInputValue.value ? 0 : pressDeleteCount + 1
 
@@ -741,7 +738,7 @@ watch(
   calculatePresentTags
 )
 
-watch(presentTags, () => {
+watch(allPresentTags, () => {
   nextTick(() => updateStyle())
 })
 
