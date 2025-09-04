@@ -1,5 +1,6 @@
 import type { VNode } from 'vue'
 import type { MaybeRef } from '@vueuse/core'
+import type { LoadingInstance } from './loading'
 
 export type LoadingOptionsResolved = {
   parent: LoadingParentElement
@@ -50,3 +51,5 @@ export type LoadingOptions = Partial<
 export interface LoadingParentElement extends HTMLElement {
   vLoadingAddClassList?: () => void
 }
+
+export { LoadingInstance }
