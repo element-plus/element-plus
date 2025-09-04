@@ -65,6 +65,7 @@ export const tabNavEmits = {
   tabClick: (tab: TabsPaneContext, tabName: TabPaneName, ev: Event) =>
     ev instanceof Event,
   tabRemove: (tab: TabsPaneContext, ev: Event) => ev instanceof Event,
+  tabsOrderChange: (order: TabPaneName[]) => Array.isArray(order),
 }
 
 export type TabNavProps = ExtractPropTypes<typeof tabNavProps>
@@ -96,6 +97,9 @@ const TabNav = defineComponent({
     const isFocus = ref(false)
     const focusable = ref(true)
     const tracker = shallowRef()
+
+    const draggedIndex = ref<null | number>(null)
+    const draggedTargetIndex = ref<null | number>(null)
 
     const isHorizontal = computed(() =>
       ['top', 'bottom'].includes(rootTabs.props.tabPosition)
@@ -264,6 +268,65 @@ const TabNav = defineComponent({
       activeTab?.focus({ preventScroll: true })
     }
 
+    const handleDragstart = (tabName: TabPaneName) => {
+      if (rootTabs.props.draggable == true) {
+        draggedIndex.value = rootTabs.tabPanes.value.findIndex(
+          (pane) => pane.paneName == tabName
+        )
+      }
+    }
+
+    const handleDragover = (ev: DragEvent) => {
+      ev.preventDefault()
+      if (draggedIndex.value === null) return
+      const container = nav$.value
+      if (!container) return
+      const containerRect = container?.getBoundingClientRect()
+      const x = ev.clientX - containerRect.left + container.scrollLeft
+      let newIndex = 0
+      let accumulatedWidth = 0
+      rootTabs.tabPanes.value.forEach((pane, index: number) => {
+        const tabName = pane.props.name ?? pane.index ?? `${index}`
+        const tabElement = tabRefsMap.value[tabName]
+        if (!tabElement) return
+
+        const rect = tabElement.getBoundingClientRect()
+        if (rect.width === 0 || rect.height === 0) return
+        const computedStyle = window.getComputedStyle(tabElement)
+        const marginLeft = Number.parseFloat(computedStyle.marginLeft) || 0
+        const marginRight = Number.parseFloat(computedStyle.marginRight) || 0
+        const totalWidth = rect.width + marginLeft + marginRight
+        if (x > accumulatedWidth + totalWidth / 2) newIndex = index + 1
+        accumulatedWidth += totalWidth
+      })
+      draggedTargetIndex.value = Math.max(
+        0,
+        Math.min(newIndex, rootTabs.tabPanes.value.length)
+      )
+    }
+
+    const handleDragdrop = () => {
+      if (draggedIndex.value === null || draggedTargetIndex.value === null)
+        return
+      const source = draggedIndex.value
+      let target = draggedTargetIndex.value
+      if (target > source) {
+        target -= 1 // fix ubound
+      }
+      if (source === target) {
+        draggedIndex.value = null
+        draggedTargetIndex.value = null
+        return
+      }
+      const newOrder = [
+        ...rootTabs.tabPanes.value.map((pane) => pane.paneName),
+      ].filter((name): name is TabPaneName => name !== undefined)
+      if (!newOrder) return
+      const [draggedItem] = newOrder.splice(draggedIndex.value, 1)
+      newOrder.splice(draggedTargetIndex.value, 0, draggedItem)
+      emit('tabsOrderChange', newOrder)
+    }
+
     watch(visibility, (visibility) => {
       if (visibility === 'hidden') {
         focusable.value = false
@@ -354,6 +417,7 @@ const TabNav = defineComponent({
               ns.is('closable', closable),
               ns.is('focus', isFocus.value),
             ]}
+            draggable={rootTabs.props.draggable}
             id={`tab-${tabName}`}
             key={`tab-${uid}`}
             aria-controls={`pane-${tabName}`}
@@ -375,6 +439,9 @@ const TabNav = defineComponent({
                 emit('tabRemove', pane, ev)
               }
             }}
+            onDragstart={() => handleDragstart(tabName)}
+            onDragover={(ev: DragEvent) => handleDragover(ev)}
+            onDrop={() => handleDragdrop()}
           >
             {...[tabLabelContent, btnClose]}
           </div>

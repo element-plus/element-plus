@@ -27,6 +27,7 @@ export type TabsPaneContext = UnwrapRef<{
 export interface TabsRootContext {
   props: TabsProps
   currentName: Ref<TabPaneName>
+  tabPanes: Ref<TabsPaneContext[]>
   registerPane: (pane: TabsPaneContext) => void
   unregisterPane: (pane: TabsPaneContext) => void
   nav$: Ref<TabNavInstance | undefined>
