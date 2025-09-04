@@ -11,7 +11,7 @@
   >
     <el-cascader-node
       v-for="node in nodes"
-      :key="node.uid"
+      :key="(node.value as any)"
       :node="node"
       :menu-id="menuId"
       @expand="handleExpand"
