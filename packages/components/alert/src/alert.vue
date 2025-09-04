@@ -44,11 +44,12 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, toRef, useSlots } from 'vue'
+import { computed, getCurrentInstance, ref, toRef, useSlots } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import {
   TypeComponents,
   TypeComponentsMap,
+  hasOwn,
   isClient,
 } from '@element-plus/utils'
 import { useDelayedToggle, useNamespace } from '@element-plus/hooks'
@@ -91,6 +92,16 @@ const { onOpen, onClose } = useDelayedToggle({
 })
 
 if (isClient) {
-  onOpen()
+  const rawProps = getCurrentInstance()?.vnode?.props ?? {}
+
+  if (
+    !['showAfter', 'show-after', 'show-After'].some((key) =>
+      hasOwn(rawProps, key)
+    )
+  ) {
+    visible.value = true
+  } else {
+    onOpen()
+  }
 }
 </script>
