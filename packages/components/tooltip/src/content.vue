@@ -28,7 +28,7 @@
         :enterable="enterable"
         :pure="pure"
         :popper-class="popperClass"
-        :popper-style="[popperStyle, contentStyle]"
+        :popper-style="[popperStyle!, contentStyle]"
         :reference-el="referenceEl"
         :trigger-target-el="triggerTargetEl"
         :visible="shouldShow"
@@ -48,10 +48,13 @@
 import { computed, inject, onBeforeUnmount, ref, unref, watch } from 'vue'
 import { computedEager, onClickOutside } from '@vueuse/core'
 import { useNamespace, usePopperContainerId } from '@element-plus/hooks'
-import { castArray, composeEventHandlers } from '@element-plus/utils'
+import {
+  castArray,
+  composeEventHandlers,
+  focusElement,
+} from '@element-plus/utils'
 import { ElPopperContent } from '@element-plus/components/popper'
 import ElTeleport from '@element-plus/components/teleport'
-import { tryFocus } from '@element-plus/components/focus-trap'
 import { TOOLTIP_INJECTION_KEY } from './constants'
 import { useTooltipContentProps } from './content'
 
@@ -112,13 +115,13 @@ const appendTo = computed(() => {
   return props.appendTo || selector.value
 })
 
-const contentStyle = computed(() => (props.style ?? {}) as any)
+const contentStyle = computed(() => props.style ?? {})
 
 const ariaHidden = ref(true)
 
 const onTransitionLeave = () => {
   onHide()
-  isFocusInsideContent() && tryFocus(document.body)
+  isFocusInsideContent() && focusElement(document.body, { preventScroll: true })
   ariaHidden.value = true
 }
 
