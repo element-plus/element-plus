@@ -46,17 +46,26 @@ export const useDelayedToggle = ({
     cancelTimeout: cancelTimeoutForAutoClose,
   } = useTimeout()
 
-  const onOpen = (event?: Event) => {
-    registerTimeout(() => {
+  const onOpen = (event?: Event, immediate = false) => {
+    if (immediate) {
       open(event)
+    }
 
-      const _autoClose = unref(autoClose)
-      if (isNumber(_autoClose) && _autoClose > 0) {
-        registerTimeoutForAutoClose(() => {
-          close(event)
-        }, _autoClose)
-      }
-    }, unref(showAfter))
+    registerTimeout(
+      () => {
+        if (!immediate) {
+          open(event)
+        }
+
+        const _autoClose = unref(autoClose)
+        if (isNumber(_autoClose) && _autoClose > 0) {
+          registerTimeoutForAutoClose(() => {
+            close(event)
+          }, _autoClose)
+        }
+      },
+      immediate ? 0 : unref(showAfter)
+    )
   }
 
   const onClose = (event?: Event) => {

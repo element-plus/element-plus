@@ -93,15 +93,10 @@ const { onOpen, onClose } = useDelayedToggle({
 
 if (isClient) {
   const rawProps = getCurrentInstance()?.vnode?.props ?? {}
+  const immediate = ['showAfter', 'show-after', 'show-After'].every(
+    (key) => !hasOwn(rawProps, key)
+  )
 
-  if (
-    ['showAfter', 'show-after', 'show-After'].some((key) =>
-      hasOwn(rawProps, key)
-    )
-  ) {
-    onOpen()
-  } else {
-    open()
-  }
+  onOpen(undefined, immediate)
 }
 </script>
