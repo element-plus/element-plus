@@ -79,6 +79,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     inputHovering: false,
     menuVisibleOnFocus: false,
     isBeforeHide: false,
+    createdOptions: [],
   })
 
   // template refs
@@ -570,6 +571,11 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       emit(UPDATE_MODEL_EVENT, value)
       emitChange(value)
       if (option.created) {
+        const label = (option.currentLabel as any) ?? option.value
+        states.createdOptions.push({
+          value: option.value,
+          label: String(label),
+        })
         handleQueryChange('')
       }
       if (props.filterable && !props.reserveKeyword) {
@@ -578,6 +584,13 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     } else {
       emit(UPDATE_MODEL_EVENT, option.value)
       emitChange(option.value)
+      if (option.created) {
+        const label = (option.currentLabel as any) ?? option.value
+        states.createdOptions.push({
+          value: option.value,
+          label: String(label),
+        })
+      }
       expanded.value = false
     }
     focus()
