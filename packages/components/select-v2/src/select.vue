@@ -81,6 +81,7 @@
                   <span :class="nsSelect.e('tags-text')">
                     <slot
                       name="label"
+                      :index="getIndex(item)"
                       :label="getLabel(item)"
                       :value="getValue(item)"
                     >
@@ -139,6 +140,7 @@
                         <span :class="nsSelect.e('tags-text')">
                           <slot
                             name="label"
+                            :index="getIndex(selected)"
                             :label="getLabel(selected)"
                             :value="getValue(selected)"
                           >
@@ -210,6 +212,7 @@
               <slot
                 v-if="hasModelValue"
                 name="label"
+                :index="allOptionsValueMap.get(modelValue)?.index ?? -1"
                 :label="currentPlaceholder"
                 :value="modelValue"
               >
@@ -254,7 +257,7 @@
         <el-select-menu
           ref="menuRef"
           :data="filteredOptions"
-          :width="popperSize"
+          :width="popperSize - BORDER_HORIZONTAL_WIDTH"
           :hovering-index="states.hoveringIndex"
           :scrollbar-always-on="scrollbarAlwaysOn"
         >
@@ -301,6 +304,7 @@ import ElSelectMenu from './select-dropdown'
 import useSelect from './useSelect'
 import { selectV2Emits, selectV2Props } from './defaults'
 import { selectV2InjectionKey } from './token'
+import { BORDER_HORIZONTAL_WIDTH } from '@element-plus/constants'
 
 export default defineComponent({
   name: 'ElSelectV2',
@@ -361,6 +365,7 @@ export default defineComponent({
       selectedLabel,
       calculatorRef,
       inputStyle,
+      BORDER_HORIZONTAL_WIDTH,
     }
   },
 })

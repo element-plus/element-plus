@@ -48,7 +48,6 @@ export default {
       month10: 'اکتبر',
       month11: 'نوامبر',
       month12: 'دسامبر',
-      week: 'هفته',
       weeks: {
         sun: 'یک‌شنبه',
         mon: 'دوشنبه',
@@ -153,6 +152,7 @@ export default {
       next: 'بعدی',
       previous: 'قبلی',
       finish: 'پایان',
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'داده‌ای موجود نیست',

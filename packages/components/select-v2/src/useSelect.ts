@@ -813,6 +813,9 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     }
   }
 
+  const getIndex = (option: Option) =>
+    allOptionsValueMap.value.get(getValue(option))?.index ?? -1
+
   const initStates = (needUpdateSelectedLabel = false) => {
     if (props.multiple) {
       if ((props.modelValue as Array<any>).length > 0) {
@@ -972,6 +975,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     popupHeight,
     debounce,
     allOptions,
+    allOptionsValueMap,
     filteredOptions,
     iconComponent,
     iconReverse,
@@ -1017,6 +1021,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     getValue,
     getDisabled,
     getValueKey,
+    getIndex,
     handleClear,
     handleClickOutside,
     handleDel,
