@@ -187,6 +187,11 @@ const copyCode = async () => {
     padding: 1.5rem;
     margin: 0.5px;
     background-color: var(--bg-color);
+    border-radius: var(--el-border-radius-base);
+    overflow: auto;
+    &:has(.el-affix) {
+      overflow: visible;
+    }
   }
 
   .op-btns {

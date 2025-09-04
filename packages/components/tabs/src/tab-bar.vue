@@ -7,16 +7,9 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  getCurrentInstance,
-  inject,
-  nextTick,
-  onBeforeUnmount,
-  ref,
-  watch,
-} from 'vue'
+import { inject, nextTick, onBeforeUnmount, ref, watch } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
-import { capitalize, throwError } from '@element-plus/utils'
+import { capitalize, isUndefined, throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { tabsRootContextKey } from './constants'
 import { tabBarProps } from './tab-bar'
@@ -29,7 +22,6 @@ defineOptions({
 })
 const props = defineProps(tabBarProps)
 
-const instance = getCurrentInstance()!
 const rootTabs = inject(tabsRootContextKey)
 if (!rootTabs) throwError(COMPONENT_NAME, '<el-tabs><el-tab-bar /></el-tabs>')
 
@@ -49,7 +41,8 @@ const getBarStyle = (): CSSProperties => {
   const position = sizeDir === 'x' ? 'left' : 'top'
 
   props.tabs.every((tab) => {
-    const $el = instance.parent?.refs?.[`tab-${tab.uid}`] as HTMLElement
+    if (isUndefined(tab.paneName)) return false
+    const $el = props.tabRefs[tab.paneName]
     if (!$el) return false
 
     if (!tab.active) {
@@ -78,20 +71,14 @@ const getBarStyle = (): CSSProperties => {
 
 const update = () => (barStyle.value = getBarStyle())
 
-const saveObserver = [] as ReturnType<typeof useResizeObserver>[]
+const tabObservers = [] as ReturnType<typeof useResizeObserver>[]
 const observerTabs = () => {
-  saveObserver.forEach((observer) => observer.stop())
-  saveObserver.length = 0
-  const list = instance.parent?.refs as Record<string, HTMLElement>
-  if (!list) return
-  for (const key in list) {
-    if (key.startsWith('tab-')) {
-      const _el = list[key]
-      if (_el) {
-        saveObserver.push(useResizeObserver(_el, update))
-      }
-    }
-  }
+  tabObservers.forEach((observer) => observer.stop())
+  tabObservers.length = 0
+
+  Object.values(props.tabRefs).forEach((tab) => {
+    tabObservers.push(useResizeObserver(tab, update))
+  })
 }
 
 watch(
@@ -104,12 +91,12 @@ watch(
   },
   { immediate: true }
 )
-const barObserever = useResizeObserver(barRef, () => update())
+const barObserver = useResizeObserver(barRef, () => update())
 
 onBeforeUnmount(() => {
-  saveObserver.forEach((observer) => observer.stop())
-  saveObserver.length = 0
-  barObserever.stop()
+  tabObservers.forEach((observer) => observer.stop())
+  tabObservers.length = 0
+  barObserver.stop()
 })
 
 defineExpose({

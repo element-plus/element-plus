@@ -22,6 +22,7 @@ import {
   isFunction,
   isNumber,
   isObject,
+  isUndefined,
 } from '@element-plus/utils'
 import {
   useComposition,
@@ -33,6 +34,7 @@ import {
 import {
   CHANGE_EVENT,
   EVENT_CODE,
+  MINIMUM_INPUT_WIDTH,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import {
@@ -40,18 +42,16 @@ import {
   useFormItemInputId,
   useFormSize,
 } from '@element-plus/components/form'
-
-import { ArrowDown } from '@element-plus/icons-vue'
 import { useAllowCreate } from './useAllowCreate'
 import { useProps } from './useProps'
 
 import type { Option, OptionType, SelectStates } from './select.types'
-import type { ISelectV2Props } from './token'
-import type { SelectEmitFn } from './defaults'
+import type { SelectV2Props } from './token'
+import type { SelectV2EmitFn } from './defaults'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { SelectDropdownInstance } from './select-dropdown'
 
-const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
+const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   // inject
   const { t } = useLocale()
   const nsSelect = useNamespace('select')
@@ -103,10 +103,10 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
     afterComposition: (e) => onInput(e),
   })
 
+  const selectDisabled = computed(() => props.disabled || !!elForm?.disabled)
+
   const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
-    beforeFocus() {
-      return selectDisabled.value
-    },
+    disabled: selectDisabled,
     afterFocus() {
       if (props.automaticDropdown && !expanded.value) {
         expanded.value = true
@@ -122,6 +122,9 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
     afterBlur() {
       expanded.value = false
       states.menuVisibleOnFocus = false
+      if (props.validateEvent) {
+        elFormItem?.validate?.('blur').catch((err) => debugWarn(err))
+      }
     },
   })
 
@@ -135,8 +138,6 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
   const filteredOptions = ref<OptionType[]>([])
   // the controller of the expanded popup
   const expanded = ref(false)
-
-  const selectDisabled = computed(() => props.disabled || elForm?.disabled)
 
   const needStatusIcon = computed(() => elForm?.statusIcon ?? false)
 
@@ -155,13 +156,13 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
     return (
       props.clearable &&
       !selectDisabled.value &&
-      states.inputHovering &&
-      hasModelValue.value
+      hasModelValue.value &&
+      (isFocused.value || states.inputHovering)
     )
   })
 
   const iconComponent = computed(() =>
-    props.remote && props.filterable ? '' : ArrowDown
+    props.remote && props.filterable ? '' : props.suffixIcon
   )
 
   const iconReverse = computed(
@@ -200,14 +201,18 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
     return null
   })
 
+  const isFilterMethodValid = computed(
+    () => props.filterable && isFunction(props.filterMethod)
+  )
+  const isRemoteMethodValid = computed(
+    () => props.filterable && props.remote && isFunction(props.remoteMethod)
+  )
+
   const filterOptions = (query: string) => {
     const regexp = new RegExp(escapeStringRegexp(query), 'i')
-    const isFilterMethodValid =
-      props.filterable && isFunction(props.filterMethod)
-    const isRemoteMethodValid =
-      props.filterable && props.remote && isFunction(props.remoteMethod)
+
     const isValidOption = (o: Option): boolean => {
-      if (isFilterMethodValid || isRemoteMethodValid) return true
+      if (isFilterMethodValid.value || isRemoteMethodValid.value) return true
       // when query was given, we should test on the label see whether the label contains the given query
       return query ? regexp.test(getLabel(o) || '') : true
     }
@@ -299,7 +304,10 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
     const padding =
       Number.parseFloat(style.paddingLeft) +
       Number.parseFloat(style.paddingRight)
-    ctx.font = style.font
+    ctx.font = `bold ${style.font.replace(
+      new RegExp(`\\b${style.fontWeight}\\b`),
+      ''
+    )}`
     const maxWidth = filteredOptions.value.reduce((max, option) => {
       const metrics = ctx.measureText(getLabel(option))
       return Math.max(metrics.width, max)
@@ -316,10 +324,14 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
   // computed style
   const tagStyle = computed(() => {
     const gapWidth = getGapWidth()
+    const inputSlotWidth = props.filterable ? gapWidth + MINIMUM_INPUT_WIDTH : 0
     const maxWidth =
       collapseItemRef.value && props.maxCollapseTags === 1
-        ? states.selectionWidth - states.collapseItemWidth - gapWidth
-        : states.selectionWidth
+        ? states.selectionWidth -
+          states.collapseItemWidth -
+          gapWidth -
+          inputSlotWidth
+        : states.selectionWidth - inputSlotWidth
     return { maxWidth: `${maxWidth}px` }
   })
 
@@ -424,7 +436,9 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
       expanded.value = true
     }
     createNewOption(states.inputValue)
-    handleQueryChange(states.inputValue)
+    nextTick(() => {
+      handleQueryChange(states.inputValue)
+    })
   }
 
   const debouncedOnInputChange = lodashDebounce(onInputChange, debounce.value)
@@ -486,6 +500,21 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
     emit(UPDATE_MODEL_EVENT, val)
     emitChange(val)
     states.previousValue = props.multiple ? String(val) : val
+
+    nextTick(() => {
+      if (props.multiple && isArray(props.modelValue)) {
+        const cachedOptions = states.cachedOptions.slice()
+        const selectedOptions = props.modelValue.map((value) =>
+          getOption(value, cachedOptions)
+        )
+
+        if (!isEqual(states.cachedOptions, selectedOptions)) {
+          states.cachedOptions = selectedOptions
+        }
+      } else {
+        initStates(true)
+      }
+    })
   }
 
   const getValueIndex = (arr: unknown[] = [], value: unknown) => {
@@ -513,7 +542,9 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
   }
 
   const resetSelectionWidth = () => {
-    states.selectionWidth = selectionRef.value!.getBoundingClientRect().width
+    states.selectionWidth = Number.parseFloat(
+      window.getComputedStyle(selectionRef.value!).width
+    )
   }
 
   const resetCollapseItemWidth = () => {
@@ -548,14 +579,6 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
         selectedOptions = [...selectedOptions, getValue(option)]
         states.cachedOptions.push(option)
         selectNewOption(option)
-
-        nextTick(() => {
-          const isModelChanged = isEqual(selectedOptions, props.modelValue)
-
-          if (!isModelChanged) {
-            states.cachedOptions.pop()
-          }
-        })
       }
       update(selectedOptions)
       if (option.created) {
@@ -652,11 +675,8 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
       emptyValue = valueOnClear.value
     }
 
-    if (props.multiple) {
-      states.cachedOptions = []
-    } else {
-      states.selectedLabel = ''
-    }
+    states.selectedLabel = ''
+
     expanded.value = false
     update(emptyValue)
     emit('clear')
@@ -681,7 +701,7 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
     if (!expanded.value) {
       return toggleMenu()
     }
-    if (hoveringIndex === undefined) {
+    if (isUndefined(hoveringIndex)) {
       hoveringIndex = states.hoveringIndex
     }
     let newIndex = -1
@@ -726,12 +746,13 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
   const updateHoveringIndex = () => {
     if (!props.multiple) {
       states.hoveringIndex = filteredOptions.value.findIndex((item) => {
-        return getValueKey(item) === getValueKey(props.modelValue)
+        return getValueKey(getValue(item)) === getValueKey(props.modelValue)
       })
     } else {
       states.hoveringIndex = filteredOptions.value.findIndex((item) =>
         props.modelValue.some(
-          (modelValue: unknown) => getValueKey(modelValue) === getValueKey(item)
+          (modelValue: unknown) =>
+            getValueKey(modelValue) === getValueKey(getValue(item))
         )
       )
     }
@@ -750,7 +771,7 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
     expanded.value = false
 
     if (isFocused.value) {
-      const _event = new FocusEvent('focus', event)
+      const _event = new FocusEvent('blur', event)
       handleBlur(_event)
     }
   }
@@ -791,6 +812,9 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
       [aliasProps.value.label]: value,
     }
   }
+
+  const getIndex = (option: Option) =>
+    allOptionsValueMap.value.get(getValue(option))?.index ?? -1
 
   const initStates = (needUpdateSelectedLabel = false) => {
     if (props.multiple) {
@@ -951,6 +975,7 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
     popupHeight,
     debounce,
     allOptions,
+    allOptionsValueMap,
     filteredOptions,
     iconComponent,
     iconReverse,
@@ -996,6 +1021,7 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
     getValue,
     getDisabled,
     getValueKey,
+    getIndex,
     handleClear,
     handleClickOutside,
     handleDel,

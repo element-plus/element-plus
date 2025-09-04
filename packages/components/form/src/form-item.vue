@@ -60,7 +60,6 @@ import {
   isArray,
   isBoolean,
   isFunction,
-  isString,
 } from '@element-plus/utils'
 import { useId, useNamespace } from '@element-plus/hooks'
 import { useFormSize } from './hooks'
@@ -159,7 +158,7 @@ const validateClasses = computed(() => [
 
 const propString = computed(() => {
   if (!props.prop) return ''
-  return isString(props.prop) ? props.prop : props.prop.join('.')
+  return isArray(props.prop) ? props.prop.join('.') : props.prop
 })
 
 const hasLabel = computed<boolean>(() => {
@@ -168,7 +167,7 @@ const hasLabel = computed<boolean>(() => {
 
 const labelFor = computed<string | undefined>(() => {
   return (
-    props.for || (inputIds.value.length === 1 ? inputIds.value[0] : undefined)
+    props.for ?? (inputIds.value.length === 1 ? inputIds.value[0] : undefined)
   )
 })
 
@@ -209,7 +208,7 @@ const normalizedRules = computed(() => {
   if (required !== undefined) {
     const requiredRules = rules
       .map((rule, i) => [rule, i] as const)
-      .filter(([rule]) => Object.keys(rule).includes('required'))
+      .filter(([rule]) => 'required' in rule)
 
     if (requiredRules.length > 0) {
       for (const [rule, i] of requiredRules) {
@@ -294,7 +293,7 @@ const doValidate = async (rules: RuleItem[]): Promise<true> => {
       return true as const
     })
     .catch((err: FormValidateFailure) => {
-      onValidationFailed(err as FormValidateFailure)
+      onValidationFailed(err)
       return Promise.reject(err)
     })
 }
@@ -382,6 +381,7 @@ const context: FormItemContext = reactive({
   ...toRefs(props),
   $el: formItemRef,
   size: _size,
+  validateMessage,
   validateState,
   labelId,
   inputIds,
@@ -393,6 +393,7 @@ const context: FormItemContext = reactive({
   resetField,
   clearValidate,
   validate,
+  propString,
 })
 
 provide(formItemContextKey, context)

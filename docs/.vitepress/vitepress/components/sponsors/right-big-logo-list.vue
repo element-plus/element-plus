@@ -3,7 +3,9 @@ import { rightBigLogoSponsors } from '../../../config/sponsors'
 import { sendEvent } from '../../../config/analytics'
 import { isDark } from '../../composables/dark'
 
-const onItemClick = (item: any) => {
+import type { Sponsor } from '../../../config/sponsors'
+
+const onItemClick = (item: Sponsor) => {
   sendEvent('sp_click', item.name, 'right_richtext_list')
 }
 </script>

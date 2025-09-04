@@ -26,63 +26,87 @@
           @focusout-prevented="onFocusoutPrevented"
           @release-requested="onCloseRequested"
         >
-          <div
-            ref="drawerRef"
-            aria-modal="true"
-            :aria-label="title || undefined"
-            :aria-labelledby="!title ? titleId : undefined"
-            :aria-describedby="bodyId"
-            v-bind="$attrs"
-            :class="[ns.b(), direction, visible && 'open']"
-            :style="
-              isHorizontal ? 'width: ' + drawerSize : 'height: ' + drawerSize
-            "
-            role="dialog"
-            @click.stop
+          <el-splitter
+            :class="ns.b('splitter')"
+            :layout="isHorizontal ? 'horizontal' : 'vertical'"
           >
-            <span ref="focusStartRef" :class="ns.e('sr-focus')" tabindex="-1" />
-            <header v-if="withHeader" :class="[ns.e('header'), headerClass]">
-              <slot
-                v-if="!$slots.title"
-                name="header"
-                :close="handleClose"
-                :title-id="titleId"
-                :title-class="ns.e('title')"
+            <el-splitter-panel
+              v-if="['rtl', 'btt'].includes(direction)"
+              @click="onModalClick"
+            />
+            <el-splitter-panel :resizable="resizable" :size="drawerSize">
+              <div
+                ref="drawerRef"
+                aria-modal="true"
+                :aria-label="title || undefined"
+                :aria-labelledby="!title ? titleId : undefined"
+                :aria-describedby="bodyId"
+                v-bind="$attrs"
+                :class="[ns.b(), direction, visible && 'open']"
+                role="dialog"
+                @click.stop
               >
                 <span
-                  v-if="!$slots.title"
-                  :id="titleId"
-                  role="heading"
-                  :aria-level="headerAriaLevel"
-                  :class="ns.e('title')"
+                  ref="focusStartRef"
+                  :class="ns.e('sr-focus')"
+                  tabindex="-1"
+                />
+                <header
+                  v-if="withHeader"
+                  :class="[ns.e('header'), headerClass]"
                 >
-                  {{ title }}
-                </span>
-              </slot>
-              <slot v-else name="title">
-                <!-- DEPRECATED SLOT -->
-              </slot>
-              <button
-                v-if="showClose"
-                :aria-label="t('el.drawer.close')"
-                :class="ns.e('close-btn')"
-                type="button"
-                @click="handleClose"
-              >
-                <el-icon :class="ns.e('close')">
-                  <close />
-                </el-icon>
-              </button>
-            </header>
-            <template v-if="rendered">
-              <div :id="bodyId" :class="[ns.e('body'), bodyClass]">
-                <slot />
+                  <template v-if="!$slots.title">
+                    <slot
+                      name="header"
+                      :close="handleClose"
+                      :title-id="titleId"
+                      :title-class="ns.e('title')"
+                    >
+                      <span
+                        :id="titleId"
+                        role="heading"
+                        :aria-level="headerAriaLevel"
+                        :class="ns.e('title')"
+                      >
+                        {{ title }}
+                      </span>
+                    </slot>
+                  </template>
+                  <template v-else>
+                    <slot name="title">
+                      <!-- DEPRECATED SLOT -->
+                    </slot>
+                  </template>
+                  <button
+                    v-if="showClose"
+                    :aria-label="t('el.drawer.close')"
+                    :class="ns.e('close-btn')"
+                    type="button"
+                    @click="handleClose"
+                  >
+                    <el-icon :class="ns.e('close')">
+                      <close />
+                    </el-icon>
+                  </button>
+                </header>
+                <template v-if="rendered">
+                  <div :id="bodyId" :class="[ns.e('body'), bodyClass]">
+                    <slot />
+                  </div>
+                </template>
+                <div
+                  v-if="$slots.footer"
+                  :class="[ns.e('footer'), footerClass]"
+                >
+                  <slot name="footer" />
+                </div>
               </div>
-            </template>
-            <div v-if="$slots.footer" :class="[ns.e('footer'), footerClass]">
-              <slot name="footer" />
-            </div>
-          </div>
+            </el-splitter-panel>
+            <el-splitter-panel
+              v-if="['ltr', 'ttb'].includes(direction)"
+              @click="onModalClick"
+            />
+          </el-splitter>
         </el-focus-trap>
       </el-overlay>
     </transition>
@@ -92,15 +116,15 @@
 <script lang="ts" setup>
 import { computed, ref, useSlots } from 'vue'
 import { Close } from '@element-plus/icons-vue'
-
 import { ElOverlay } from '@element-plus/components/overlay'
 import ElFocusTrap from '@element-plus/components/focus-trap'
 import ElTeleport from '@element-plus/components/teleport'
+import ElSplitter, { ElSplitterPanel } from '@element-plus/components/splitter'
 import { useDialog } from '@element-plus/components/dialog'
-import { addUnit } from '@element-plus/utils'
 import ElIcon from '@element-plus/components/icon'
 import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
 import { drawerEmits, drawerProps } from './drawer'
+import { addUnit } from '@element-plus/utils'
 
 defineOptions({
   name: 'ElDrawer',

@@ -9,10 +9,11 @@ import ElTable from '../src/table.vue'
 import ElTableColumn from '../src/table-column'
 import {
   doubleWait,
-  getMutliRowTestData,
+  getMultiRowTestData,
   getTestData,
   mount,
 } from './table-test-common'
+
 import type { VueWrapper } from '@vue/test-utils'
 import type { ComponentPublicInstance } from 'vue'
 
@@ -1271,7 +1272,7 @@ describe('Table.vue', () => {
       `,
       data() {
         return {
-          testData: getMutliRowTestData(),
+          testData: getMultiRowTestData(),
         }
       },
       methods: {
@@ -1720,6 +1721,175 @@ describe('Table.vue', () => {
       expect(wrapper.findAll('.el-table__row').length).toEqual(8)
       expect(spy.mock.calls[0][0]).toBeInstanceOf(Object)
       expect(spy.mock.calls[0][1]).toBeTruthy()
+
+      const iconTr = expandIcon.element.closest('tr')
+      expect(iconTr.classList).toContain('el-table__row--level-0')
+      const firstChildRow = iconTr.nextElementSibling
+      expect(firstChildRow.classList).toContain('el-table__row--level-1')
+      const indent = firstChildRow.querySelector('.el-table__indent')
+      expect(indent).toBeTruthy()
+      expect(indent.style.paddingLeft).toEqual('16px')
+    })
+
+    it('tree-props & default-expand-all with dynamic data', async () => {
+      wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table
+            :data="testData" default-expand-all row-key="id"
+            >
+            <el-table-column prop="name" label="片名" />
+            <el-table-column prop="release" label="发行日期" />
+            <el-table-column prop="director" label="导演" />
+            <el-table-column prop="runtime" label="时长（分）" />
+          </el-table>
+        `,
+        data() {
+          return {
+            testData: [],
+          }
+        },
+        methods: {
+          setData() {
+            this.testData = [
+              {
+                id: 1,
+                name: 'Toy Story',
+                release: '1995-11-22',
+                director: 'John Lasseter',
+                runtime: 80,
+                children: [
+                  {
+                    id: 11,
+                    name: 'Toy Story',
+                    release: '1995-11-22',
+                    director: 'John Lasseter',
+                    runtime: 80,
+                  },
+                  {
+                    id: 12,
+                    name: 'Toy Story',
+                    release: '1995-11-22',
+                    director: 'John Lasseter',
+                    runtime: 80,
+                  },
+                ],
+              },
+              {
+                id: 2,
+                name: "A Bug's Life",
+                release: '1998-11-25',
+                director: 'John Lasseter',
+                runtime: 95,
+                children: [
+                  {
+                    id: 21,
+                    name: "A Bug's Life",
+                    release: '1998-11-25',
+                    director: 'John Lasseter',
+                    runtime: 95,
+                  },
+                  {
+                    id: 22,
+                    name: "A Bug's Life",
+                    release: '1998-11-25',
+                    director: 'John Lasseter',
+                    runtime: 95,
+                  },
+                ],
+              },
+            ]
+          },
+        },
+      })
+      await doubleWait()
+      let childRows = wrapper.findAll('.el-table__row--level-1')
+      expect(childRows.length).toEqual(0)
+      wrapper.vm.setData()
+      await doubleWait()
+
+      childRows = wrapper.findAll('.el-table__row--level-1')
+      childRows.forEach((item) => {
+        expect(item.attributes('style')).toBeUndefined()
+      })
+    })
+
+    it('tree-props & update expandRowKeys', async () => {
+      wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table :data="testData" row-key="release" :expand-row-keys="expandRowKeys">
+            <el-table-column prop="name" label="片名" />
+            <el-table-column prop="release" label="发行日期" />
+            <el-table-column prop="edit" label="修改">
+              <template #default="{row}">
+                <button class="edit" @click="row.release =Date.now()">click</button>
+              </template>
+            </el-table-column>
+          </el-table>
+        `,
+        data() {
+          const testData = [
+            {
+              id: 1,
+              name: 'Toy Story',
+              release: '1995-11-22',
+              children: [
+                { id: 11, name: 'Toy Story Session 1' },
+                { id: 12, name: 'Toy Story Session 2' },
+              ],
+            },
+            {
+              id: 2,
+              name: 'The Matrix',
+              release: '1999-3-31',
+              director: 'The Wachowskis',
+              children: [
+                { id: 21, name: "The Matrix' Session 1" },
+                { id: 22, name: "The Matrix' Session 2" },
+              ],
+            },
+          ]
+          return {
+            testData,
+            expandRowKeys: ['1995-11-22'],
+          }
+        },
+        methods: {
+          update(list: string[]) {
+            this.expandRowKeys = list
+          },
+        },
+      })
+
+      await doubleWait()
+      let childRows = wrapper.findAll('.el-table__row--level-1')
+      expect(childRows.length).toEqual(4)
+      childRows.forEach((item, index) => {
+        if (index < 2) {
+          expect(item.attributes('style')).toBeUndefined()
+        } else {
+          expect(item.attributes('style')).toContain('display: none')
+        }
+      })
+      wrapper.vm.update([])
+      await doubleWait()
+      childRows = wrapper.findAll('.el-table__row--level-1')
+      childRows.forEach((item) => {
+        expect(item.attributes('style')).toContain('display: none')
+      })
+      wrapper.vm.update(['1995-11-22', '1999-3-31'])
+      await doubleWait()
+      childRows = wrapper.findAll('.el-table__row--level-1')
+      childRows.forEach((item) => {
+        expect(item.attributes('style')).toContain('')
+      })
     })
 
     it('expand-row-keys & toggleRowExpansion', async () => {
@@ -2167,6 +2337,56 @@ describe('Table.vue', () => {
     mockCellRect2.mockRestore()
   })
 
+  it('should cleanup tooltip dynamically', async () => {
+    const mockRangeRect = vi
+      .spyOn(Range.prototype, 'getBoundingClientRect')
+      .mockReturnValue({
+        width: 150,
+        height: 30,
+      } as DOMRect)
+
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+      template: `
+        <el-table :data="testData">
+          <el-table-column :show-overflow-tooltip="showOverflowTooltip" class-name="overflow_tooltip" prop="name" label="name"/>
+        </el-table>
+      `,
+
+      data() {
+        return {
+          testData: getTestData(),
+          showOverflowTooltip: true,
+        }
+      },
+    })
+
+    await doubleWait()
+    const tr = wrapper.findAll('.overflow_tooltip')
+    const mockCellRect = vi
+      .spyOn(tr[1].find('.cell').element, 'getBoundingClientRect')
+      .mockReturnValue({
+        width: 100,
+        height: 30,
+      } as DOMRect)
+    await tr[1].trigger('mouseenter')
+    await rAF()
+    expect(wrapper.find('.el-popper').exists()).toBe(true)
+    await wrapper.setData({ showOverflowTooltip: false })
+    await tr[1].trigger('mouseleave')
+    await rAF()
+    await tr[1].trigger('mouseenter')
+    await rAF()
+    expect(wrapper.find('.el-popper').exists()).toBe(false)
+
+    mockRangeRect.mockRestore()
+    mockCellRect.mockRestore()
+    wrapper.unmount()
+  })
+
   it('use-tooltip-formatter', async () => {
     const testData = getTestData() as any
     const mockRangeRect = vi
@@ -2263,5 +2483,34 @@ describe('Table.vue', () => {
     )
 
     mockRangeRect.mockRestore()
+  })
+
+  it('should dynamically update show-overflow-tooltip via root table level', async () => {
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+
+      template: `
+    <el-table :data="testData" :show-overflow-tooltip="showOverflowTooltip">
+      <el-table-column props="name" label="name"/>
+      <el-table-column prop="director" label="director" />
+      <el-table-column prop="runtime" label="runtime" />
+    </el-table>
+  `,
+
+      data() {
+        return {
+          testData: getTestData(),
+          showOverflowTooltip: false,
+        }
+      },
+    })
+
+    await doubleWait()
+    expect(wrapper.find('div.cell.el-tooltip').exists()).toBe(false)
+    await wrapper.setProps({ showOverflowTooltip: true })
+    expect(wrapper.find('div.cell.el-tooltip').exists()).toBe(true)
   })
 })

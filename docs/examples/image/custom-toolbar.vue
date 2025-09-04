@@ -5,6 +5,7 @@
       :src="url"
       :preview-src-list="srcList"
       fit="cover"
+      show-progress
     >
       <template
         #toolbar="{ actions, prev, next, reset, activeIndex, setActiveItem }"
@@ -36,7 +37,7 @@
 </template>
 
 <script lang="ts" setup>
-import ElIcon from '@element-plus/components/icon'
+import { ElIcon } from 'element-plus'
 import {
   Back,
   DArrowRight,

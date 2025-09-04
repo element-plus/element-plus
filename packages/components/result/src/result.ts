@@ -5,10 +5,12 @@ import {
   InfoFilled,
   WarningFilled,
 } from '@element-plus/icons-vue'
-import type { Component, ExtractPropTypes } from 'vue'
+
+import type { Component, ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type Result from './result.vue'
 
 export const IconMap = {
+  primary: 'icon-primary',
   success: 'icon-success',
   warning: 'icon-warning',
   error: 'icon-error',
@@ -19,6 +21,7 @@ export const IconComponentMap: Record<
   typeof IconMap[keyof typeof IconMap],
   Component
 > = {
+  [IconMap.primary]: InfoFilled,
   [IconMap.success]: CircleCheckFilled,
   [IconMap.warning]: WarningFilled,
   [IconMap.error]: CircleCloseFilled,
@@ -45,11 +48,12 @@ export const resultProps = buildProps({
    */
   icon: {
     type: String,
-    values: ['success', 'warning', 'info', 'error'],
+    values: ['primary', 'success', 'warning', 'info', 'error'],
     default: 'info',
   },
 } as const)
 
 export type ResultProps = ExtractPropTypes<typeof resultProps>
+export type ResultPropsPublic = __ExtractPublicPropTypes<typeof resultProps>
 
 export type ResultInstance = InstanceType<typeof Result> & unknown

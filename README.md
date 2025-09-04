@@ -7,7 +7,7 @@
     <img src="https://img.shields.io/npm/v/element-plus.svg" />
   </a>
   <a href="https://github.com/element-plus/element-plus">
-    <img src="https://img.shields.io/badge/node-%20%3E%3D%2018-47c219" />
+    <img src="https://img.shields.io/badge/node-%20%3E%3D%2020-47c219" />
   </a>
   <a href="https://npmcharts.com/compare/element-plus?minimal=true">
     <img src="https://img.shields.io/npm/dm/element-plus.svg" />
@@ -54,7 +54,7 @@ You can also try Element Plus out with the components built-in playground.
 
 #### Try it with code sandbox
 
-[![Edit element-plus](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/element-plus-demo-dxtcr)
+[![Edit element-plus](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/p/github/element-plus/element-plus-demo/main)
 
 <p align="center">
   <b>Special thanks to the generous sponsorship by:</b>
@@ -151,6 +151,12 @@ We are now lacking of experts of `Testing`, `GitHub Actions`, `PM`, if you do fe
 This project exists thanks to all the people who contribute.
 
 And thank you to all our backers! 🙏
+
+<a href="https://openomy.app/github/element-plus/element-plus" target="_blank" style="display: block; width: 100%;" align="center">
+  <img src="https://openomy.app/svg?repo=element-plus/element-plus&chart=bubble&latestMonth=3" target="_blank" alt="Contribution Leaderboard" style="display: block; width: 100%;" />
+</a>
+
+<hr />
 
 <a href="https://github.com/element-plus/element-plus/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=element-plus/element-plus" />

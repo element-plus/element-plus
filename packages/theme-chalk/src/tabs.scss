@@ -206,6 +206,7 @@
     > .#{$namespace}-tabs__header {
       border-bottom: 1px solid getCssVar('border-color-light');
       height: getCssVar('tabs', 'header-height');
+      box-sizing: border-box;
     }
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__nav-wrap::after {
       content: none;
@@ -229,6 +230,7 @@
       transform-origin: 100% 50%;
     }
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__item {
+      margin-top: -1px;
       border-bottom: 1px solid transparent;
       border-left: 1px solid getCssVar('border-color-light');
       transition: color getCssVar('transition-duration')
@@ -416,7 +418,7 @@
     }
   }
   @include m(left) {
-    flex-direction: row-reverse;
+    flex-direction: row;
 
     .#{$namespace}-tabs__header.is-left {
       margin-bottom: 0;
@@ -498,6 +500,11 @@
         }
       }
     }
+
+    // only for SSR
+    > .#{$namespace}-tabs__content + .#{$namespace}-tabs__header {
+      order: -1;
+    }
   }
   @include m(right) {
     .#{$namespace}-tabs__header.is-right {
@@ -572,7 +579,12 @@
     }
   }
   @include m(top) {
-    flex-direction: column-reverse;
+    flex-direction: column;
+
+    // only for SSR
+    > .#{$namespace}-tabs__content + .#{$namespace}-tabs__header {
+      order: -1;
+    }
   }
 }
 

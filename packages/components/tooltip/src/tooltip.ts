@@ -3,9 +3,9 @@ import { createModelToggleComposable } from '@element-plus/hooks'
 import { popperArrowProps, popperProps } from '@element-plus/components/popper'
 import { useTooltipContentProps } from './content'
 import { useTooltipTriggerProps } from './trigger'
-import type Tooltip from './tooltip.vue'
 
-import type { ExtractPropTypes } from 'vue'
+import type Tooltip from './tooltip.vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 
 export const {
   useModelToggleProps: useTooltipModelToggleProps,
@@ -39,5 +39,8 @@ export const tooltipEmits = [
 ]
 
 export type ElTooltipProps = ExtractPropTypes<typeof useTooltipProps>
+export type ElTooltipPropsPublic = __ExtractPublicPropTypes<
+  typeof useTooltipProps
+>
 
 export type TooltipInstance = InstanceType<typeof Tooltip> & unknown

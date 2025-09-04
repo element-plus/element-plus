@@ -173,6 +173,7 @@ tooltip/append-to
 | offset                    | offset of the Tooltip                                                                                                                                   | ^[number]                                                                                                                                                                   | 12                |
 | transition                | animation name                                                                                                                                          | ^[string]                                                                                                                                                                   | —                 |
 | popper-options            | [popper.js](https://popper.js.org/docs/v2/) parameters                                                                                                  | ^[object]refer to [popper.js](https://popper.js.org/docs/v2/) doc                                                                                                           | {}                |
+| arrow-offset ^(2.9.10)    | Controls the offset (padding) of the tooltip’s arrow relative to the popper.                                                                            | ^[number]                                                                                                                                                                   | 5                 |
 | show-after                | delay of appearance, in millisecond                                                                                                                     | ^[number]                                                                                                                                                                   | 0                 |
 | show-arrow                | whether the tooltip content has an arrow                                                                                                                | ^[boolean]                                                                                                                                                                  | true              |
 | hide-after                | delay of disappear, in millisecond                                                                                                                      | ^[number]                                                                                                                                                                   | 200               |
@@ -186,6 +187,7 @@ tooltip/append-to
 | trigger-keys              | When you click the mouse to focus on the trigger element, you can define a set of keyboard codes to control the display of tooltip through the keyboard | ^[Array]                                                                                                                                                                    | ['Enter','Space'] |
 | persistent                | when tooltip inactive and `persistent` is `false` , popconfirm will be destroyed                                                                        | ^[boolean]                                                                                                                                                                  | —                 |
 | aria-label ^(a11y)        | same as `aria-label`                                                                                                                                    | ^[string]                                                                                                                                                                   | —                 |
+| focus-on-target ^(2.11.2) | when triggering tooltips through hover, whether to focus the trigger element, which improves accessibility                                              | ^[boolean]                                                                                                                                                                  | false             |
 
 ### Slots
 
@@ -205,3 +207,17 @@ tooltip/append-to
 | onOpen               | expose onOpen function to mange el-tooltip open state             | ^[Function]`(event?: Event \| undefined) => void`   |
 | onClose              | expose onClose function to mange el-tooltip open state            | ^[Function]`(event?: Event \| undefined) => void`   |
 | hide                 | expose hide function                                              | ^[Function]`(event?: Event \| undefined) => void`   |
+
+## FAQ
+
+#### How to allow spaces in the input box when tooltip is nested?
+
+Typical issue: [#20907](https://github.com/element-plus/element-plus/issues/20907)
+
+```vue
+<template>
+  <el-tooltip content="tooltip content" placement="top" :trigger-keys="[]">
+    <el-input v-model="value" placeholder="" />
+  </el-tooltip>
+</template>
+```

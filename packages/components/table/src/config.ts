@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { h } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { ElIcon } from '@element-plus/components/icon'
@@ -8,12 +7,12 @@ import { getProp, isBoolean, isFunction, isNumber } from '@element-plus/utils'
 import type { VNode } from 'vue'
 import type { TableColumnCtx } from './table-column/defaults'
 import type { Store } from './store'
-import type { TreeNode } from './table/defaults'
+import type { DefaultRow, TreeNode } from './table/defaults'
 
 const defaultClassNames = {
   selection: 'table-column--selection',
   expand: 'table__expand-column',
-}
+} as const
 
 export const cellStarts = {
   default: {
@@ -39,14 +38,20 @@ export const cellStarts = {
   },
 }
 
-export const getDefaultClassName = (type) => {
-  return defaultClassNames[type] || ''
+export const getDefaultClassName = (type: string) => {
+  return defaultClassNames[type as keyof typeof defaultClassNames] || ''
 }
 
 // 这些选项不应该被覆盖
 export const cellForced = {
   selection: {
-    renderHeader<T>({ store, column }: { store: Store<T> }) {
+    renderHeader<T extends DefaultRow>({
+      store,
+      column,
+    }: {
+      store: Store<T>
+      column: TableColumnCtx<T>
+    }) {
       function isDisabled() {
         return store.states.data.value && store.states.data.value.length === 0
       }
@@ -56,12 +61,12 @@ export const cellForced = {
         indeterminate:
           store.states.selection.value.length > 0 &&
           !store.states.isAllSelected.value,
-        'onUpdate:modelValue': store.toggleAllSelection,
+        'onUpdate:modelValue': store.toggleAllSelection ?? undefined,
         modelValue: store.states.isAllSelected.value,
         ariaLabel: column.label,
       })
     },
-    renderCell<T>({
+    renderCell<T extends DefaultRow>({
       row,
       column,
       store,
@@ -70,7 +75,7 @@ export const cellForced = {
       row: T
       column: TableColumnCtx<T>
       store: Store<T>
-      $index: string
+      $index: number
     }) {
       return h(ElCheckbox, {
         disabled: column.selectable
@@ -89,10 +94,14 @@ export const cellForced = {
     resizable: false,
   },
   index: {
-    renderHeader<T>({ column }: { column: TableColumnCtx<T> }) {
+    renderHeader<T extends DefaultRow>({
+      column,
+    }: {
+      column: TableColumnCtx<T>
+    }) {
       return column.label || '#'
     },
-    renderCell<T>({
+    renderCell<T extends DefaultRow>({
       column,
       $index,
     }: {
@@ -112,21 +121,28 @@ export const cellForced = {
     sortable: false,
   },
   expand: {
-    renderHeader<T>({ column }: { column: TableColumnCtx<T> }) {
+    renderHeader<T extends DefaultRow>({
+      column,
+    }: {
+      column: TableColumnCtx<T>
+    }) {
       return column.label || ''
     },
-    renderCell<T>({
+    renderCell<T extends DefaultRow>({
+      column,
       row,
       store,
       expanded,
     }: {
+      column: TableColumnCtx<T>
       row: T
       store: Store<T>
       expanded: boolean
     }) {
       const { ns } = store
       const classes = [ns.e('expand-icon')]
-      if (expanded) {
+
+      if (!column.renderExpand && expanded) {
         classes.push(ns.em('expand-icon', 'expanded'))
       }
       const callback = function (e: Event) {
@@ -141,6 +157,14 @@ export const cellForced = {
         },
         {
           default: () => {
+            if (column.renderExpand) {
+              return [
+                column.renderExpand({
+                  expanded,
+                }),
+              ]
+            }
+
             return [
               h(ElIcon, null, {
                 default: () => {
@@ -157,7 +181,7 @@ export const cellForced = {
   },
 }
 
-export function defaultRenderCell<T>({
+export function defaultRenderCell<T extends DefaultRow>({
   row,
   column,
   $index,
@@ -174,7 +198,7 @@ export function defaultRenderCell<T>({
   return value?.toString?.() || ''
 }
 
-export function treeCellPrefix<T>(
+export function treeCellPrefix<T extends DefaultRow>(
   {
     row,
     treeNode,
@@ -198,7 +222,7 @@ export function treeCellPrefix<T>(
     return null
   }
   const ele: VNode[] = []
-  const callback = function (e) {
+  const callback = function (e: Event) {
     e.stopPropagation()
     if (treeNode.loading) {
       return

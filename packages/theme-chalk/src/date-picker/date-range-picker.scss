@@ -1,6 +1,7 @@
 @use '../mixins/mixins' as *;
 @use '../common/var' as *;
 @use '../mixins/var' as *;
+@use './utils.scss' as *;
 
 @include b(date-range-picker) {
   @include set-component-css-var('datepicker', $datepicker);
@@ -47,6 +48,28 @@
       font-size: 16px;
       font-weight: 500;
       margin-right: 50px;
+    }
+  }
+
+  @include e(header-label) {
+    font-size: 16px;
+    font-weight: 500;
+    padding: 0 5px;
+    line-height: 22px;
+    text-align: center;
+    cursor: pointer;
+    color: getCssVar('text-color', 'regular');
+
+    &:hover {
+      color: getCssVar('datepicker-hover-text-color');
+    }
+    &:focus-visible {
+      outline: none;
+      color: getCssVar('datepicker-hover-text-color');
+    }
+
+    &.active {
+      color: getCssVar('datepicker-active-color');
     }
   }
 
@@ -108,6 +131,11 @@
     }
     .#{$namespace}-time-panel {
       position: absolute;
+    }
+  }
+  @include when(disabled) {
+    @include e(header-label) {
+      @include disable;
     }
   }
 }
