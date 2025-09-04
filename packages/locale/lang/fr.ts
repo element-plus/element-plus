@@ -10,7 +10,7 @@ export default {
       defaultLabel: 'color picker',
       description:
         'La couleur actuelle est {color}. Appuyer sur Entrée pour sélectionner une nouvelle couleur.',
-      alphaLabel: 'pick alpha value', // to be translated
+      alphaLabel: 'Choisir la valeur alpha',
     },
     datepicker: {
       now: 'Maintenant',
@@ -95,7 +95,7 @@ export default {
       loading: 'Chargement',
     },
     dropdown: {
-      toggleDropdown: 'Toggle Dropdown', // to be translated
+      toggleDropdown: 'Basculer la liste déroulante',
     },
     cascader: {
       noMatch: 'Aucune correspondance',
@@ -152,7 +152,7 @@ export default {
       next: 'suivant',
       previous: 'précédent',
       finish: 'fin',
-      close: 'Close this dialog', // to be translated
+      close: 'Fermer la boîte de dialogue',
     },
     tree: {
       emptyText: 'Aucune donnée',
