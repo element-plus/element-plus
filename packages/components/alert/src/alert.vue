@@ -99,7 +99,7 @@ if (isClient) {
       hasOwn(rawProps, key)
     )
   ) {
-    visible.value = true
+    open()
   } else {
     onOpen()
   }
