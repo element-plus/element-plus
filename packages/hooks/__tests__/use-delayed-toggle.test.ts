@@ -180,4 +180,30 @@ describe('use-delayed-toggle', () => {
     expect(cbOpen).toHaveBeenCalledTimes(1)
     expect(cbClose).toHaveBeenCalledTimes(1)
   })
+
+  it('should autoClose correctly when opened immediately', () => {
+    const cbOpen = vi.fn()
+    const cbClose = vi.fn()
+    const { onOpen } = useDelayedToggle({
+      open: cbOpen,
+      close: cbClose,
+      showAfter: ref(0),
+      hideAfter: ref(0),
+      autoClose: ref(100),
+    })
+
+    expect(cbOpen).not.toHaveBeenCalled()
+    expect(cbClose).not.toHaveBeenCalled()
+
+    onOpen(undefined, true)
+    expect(cbOpen).toHaveBeenCalled()
+    vi.advanceTimersByTime(50)
+    expect(cbClose).not.toHaveBeenCalled()
+    vi.advanceTimersByTime(50)
+    expect(cbClose).toHaveBeenCalled()
+
+    vi.runAllTimers()
+    expect(cbOpen).toHaveBeenCalledTimes(1)
+    expect(cbClose).toHaveBeenCalledTimes(1)
+  })
 })
