@@ -24,3 +24,4 @@ export default ElLoading
 export { vLoading, vLoading as ElLoadingDirective, Loading as ElLoadingService }
 
 export * from './src/types'
+export type { LoadingInstance } from './src/loading'
