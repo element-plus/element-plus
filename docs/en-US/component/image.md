@@ -151,7 +151,7 @@ image/custom-progress
 | Name             | Description                                                                                       | Type                                 |
 | ---------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------ |
 | close            | trigger when clicking on close button or when `hide-on-click-modal` enabled clicking on backdrop. | ^[Function]`() => void`              |
-| error ^(2.11.2)  | same as native error.                                                                             | ^[Function]`(e: Event) => void`      |
+| error ^(2.11.3)  | same as native error.                                                                             | ^[Function]`(e: Event) => void`      |
 | switch           | trigger when switching images.                                                                    | ^[Function]`(index: number) => void` |
 | rotate ^(2.3.13) | trigger when rotating images.                                                                     | ^[Function]`(deg: number) => void`   |
 
@@ -162,7 +162,7 @@ image/custom-progress
 | viewer                 | custom content                                                         | -                                                                                                                                                                                                                 |
 | progress ^(2.9.4)      | custom progress content (Priority is higher than `show-progress` prop) | ^[object]`{ activeIndex: number, total: number }`                                                                                                                                                                 |
 | toolbar ^(2.9.4)       | custom toolbar content                                                 | ^[object]`{actions: (action: ImageViewerAction, options?: ImageViewerActionOptions ) => void, prev: ()=> void, next: () => void,reset: () => void, activeIndex: number }, setActiveItem: (index: number) => void` |
-| viewer-error ^(2.11.2) | custom image load failed content.                                      | -                                                                                                                                                                                                                 |
+| viewer-error ^(2.11.3) | custom image load failed content.                                      | -                                                                                                                                                                                                                 |
 
 ### Image Viewer Exposes
 
