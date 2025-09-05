@@ -1,8 +1,7 @@
 import { get, set } from 'lodash-unified'
 
 import type { Entries } from 'type-fest'
-
-type Arrayable<T> = T | T[]
+import type { Arrayable } from '.'
 
 export const keysOf = <T extends object>(arr: T) =>
   Object.keys(arr) as Array<keyof T>
