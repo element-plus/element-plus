@@ -91,6 +91,7 @@ describe('Alert.vue', () => {
   test('should open immediately when not using show-after, issue #22012', async () => {
     const wrapper = mount(<Alert title={AXIOM} style={{ display: 'none' }} />)
 
+    expect(wrapper.vm.visible).toBeTruthy()
     expect(wrapper.find('.el-alert').attributes('style')).toContain(
       'display: none'
     )
