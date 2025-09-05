@@ -729,6 +729,18 @@ const handleRangePick = (
   shouldBeVisible = close
 }
 
+watch(
+  () => props.parsedValue,
+  (value) => {
+    const [max, min] = value as [Dayjs, Dayjs]
+
+    if (max && min) {
+      maxDate.value = max
+      minDate.value = min
+    }
+  }
+)
+
 watch([maxDate, minDate], ([max, min]) => {
   if (max && min) {
     handleRangeConfirm(shouldBeVisible)
