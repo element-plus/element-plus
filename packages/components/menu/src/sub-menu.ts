@@ -137,26 +137,30 @@ export default defineComponent({
     const vPopper = ref<TooltipInstance>()
 
     // computed
+    const isFirstLevel = computed(() => subMenu.level === 0)
     const currentPlacement = computed<Placement>(() =>
       mode.value === 'horizontal' && isFirstLevel.value
         ? 'bottom-start'
         : 'right-start'
     )
     const subMenuTitleIcon = computed(() => {
-      return (mode.value === 'horizontal' && isFirstLevel.value) ||
+      const isExpandedMode =
+        (mode.value === 'horizontal' && isFirstLevel.value) ||
         (mode.value === 'vertical' && !rootMenu.props.collapse)
-        ? props.expandCloseIcon && props.expandOpenIcon
-          ? opened.value
-            ? props.expandOpenIcon
-            : props.expandCloseIcon
-          : ArrowDown
-        : props.collapseCloseIcon && props.collapseOpenIcon
-        ? opened.value
-          ? props.collapseOpenIcon
-          : props.collapseCloseIcon
-        : ArrowRight
+
+      if (isExpandedMode) {
+        if (props.expandCloseIcon && props.expandOpenIcon) {
+          return opened.value ? props.expandOpenIcon : props.expandCloseIcon
+        }
+        return ArrowDown
+      } else {
+        if (props.collapseCloseIcon && props.collapseOpenIcon) {
+          return opened.value ? props.collapseOpenIcon : props.collapseCloseIcon
+        }
+        return ArrowRight
+      }
     })
-    const isFirstLevel = computed(() => subMenu.level === 0)
+
     const appendToBody = computed(() => {
       const value = props.teleported
       return isUndefined(value) ? isFirstLevel.value : value
