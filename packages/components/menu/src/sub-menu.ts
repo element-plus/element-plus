@@ -135,6 +135,7 @@ export default defineComponent({
     const vPopper = ref<TooltipInstance>()
 
     // computed
+    const isFirstLevel = computed(() => subMenu.level === 0)
     const currentPlacement = computed<Placement>(() =>
       mode.value === 'horizontal' && isFirstLevel.value
         ? 'bottom-start'
@@ -157,7 +158,7 @@ export default defineComponent({
         return ArrowRight
       }
     })
-    const isFirstLevel = computed(() => subMenu.level === 0)
+
     const appendToBody = computed(() => {
       const value = props.teleported
       return isUndefined(value) ? isFirstLevel.value : value
