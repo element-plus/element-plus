@@ -1,6 +1,8 @@
-import { isElement } from '..'
-
 const FOCUSABLE_ELEMENT_SELECTORS = `a[href],button:not([disabled]),button:not([hidden]),:not([tabindex="-1"]),input:not([disabled]),input:not([type="hidden"]),select:not([disabled]),textarea:not([disabled])`
+
+const isHTMLElement = (el: any): el is HTMLElement => {
+  return el && typeof el === 'object' && 'nodeType' in el
+}
 
 /**
  * Determine if the testing element is visible on screen no matter if its on the viewport or not
@@ -115,14 +117,14 @@ export const focusElement = (
   if (!el || !el.focus) return
   let cleanup: boolean = false
 
-  if (isElement(el) && !isFocusable(el) && !el.getAttribute('tabindex')) {
+  if (isHTMLElement(el) && !isFocusable(el) && !el.getAttribute('tabindex')) {
     el.setAttribute('tabindex', '-1')
     cleanup = true
   }
 
   el.focus(options)
 
-  if (isElement(el) && cleanup) {
+  if (isHTMLElement(el) && cleanup) {
     el.removeAttribute('tabindex')
   }
 }
