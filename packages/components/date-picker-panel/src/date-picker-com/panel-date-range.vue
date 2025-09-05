@@ -732,12 +732,12 @@ const handleRangePick = (
 watch(
   () => props.parsedValue,
   (value) => {
+    if (!value) return
+
     const [max, min] = value as [Dayjs, Dayjs]
 
-    if (max && min) {
-      maxDate.value = max
-      minDate.value = min
-    }
+    maxDate.value = max
+    minDate.value = min
   }
 )
 
