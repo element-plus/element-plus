@@ -1,5 +1,3 @@
-import { isElement } from '../types'
-
 const FOCUSABLE_ELEMENT_SELECTORS = `a[href],button:not([disabled]),button:not([hidden]),:not([tabindex="-1"]),input:not([disabled]),input:not([type="hidden"]),select:not([disabled]),textarea:not([disabled])`
 
 /**
@@ -113,18 +111,18 @@ export const focusElement = (
   options?: FocusOptions
 ) => {
   if (!el || !el.focus) return
-  let cleanup: boolean = false
+  // let cleanup: boolean = false
 
-  if (isElement(el) && !isFocusable(el) && !el.getAttribute('tabindex')) {
-    el.setAttribute('tabindex', '-1')
-    cleanup = true
-  }
+  // if (isElement(el) && !isFocusable(el) && !el.getAttribute('tabindex')) {
+  //   el.setAttribute('tabindex', '-1')
+  //   cleanup = true
+  // }
 
   el.focus(options)
 
-  if (isElement(el) && cleanup) {
-    el.removeAttribute('tabindex')
-  }
+  // if (isElement(el) && cleanup) {
+  //   el.removeAttribute('tabindex')
+  // }
 }
 
 export const focusNode = (el: HTMLElement) => {
