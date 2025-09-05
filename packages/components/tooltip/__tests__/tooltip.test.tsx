@@ -184,5 +184,55 @@ describe('<ElTooltip />', () => {
 
       expect(wrapper.emitted()).toHaveProperty('hide')
     })
+
+    it('should focus on trigger element when trigger contains hover and focusOnTarget is true', async () => {
+      wrapper = createComponent(
+        {
+          trigger: 'hover',
+          focusOnTarget: true,
+        },
+        content
+      )
+      await nextTick()
+
+      const trigger$ = findTrigger()
+      const triggerEl = trigger$.find('.el-tooltip__trigger')
+
+      expect(document.activeElement).not.toBe(triggerEl.element)
+
+      vi.useFakeTimers()
+      await triggerEl.trigger('mouseenter')
+      vi.runAllTimers()
+      vi.useRealTimers()
+      await rAF()
+
+      expect(document.activeElement).toBe(triggerEl.element)
+      expect(wrapper.emitted()).toHaveProperty('show')
+    })
+
+    it('should not focus on trigger element when trigger contains hover and focusOnTarget is false', async () => {
+      wrapper = createComponent(
+        {
+          trigger: 'hover',
+          focusOnTarget: false,
+        },
+        content
+      )
+      await nextTick()
+
+      const trigger$ = findTrigger()
+      const triggerEl = trigger$.find('.el-tooltip__trigger')
+
+      expect(document.activeElement).not.toBe(triggerEl.element)
+
+      vi.useFakeTimers()
+      await triggerEl.trigger('mouseenter')
+      vi.runAllTimers()
+      vi.useRealTimers()
+      await rAF()
+
+      expect(document.activeElement).not.toBe(triggerEl.element)
+      expect(wrapper.emitted()).toHaveProperty('show')
+    })
   })
 })
