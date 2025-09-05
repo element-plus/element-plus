@@ -162,7 +162,6 @@ import {
   inject,
   nextTick,
   onBeforeUnmount,
-  onMounted,
   provide,
   ref,
   unref,
@@ -252,15 +251,13 @@ const pickerDisabled = computed(() => {
   return props.disabled || !!form?.disabled
 })
 
-let allowFocus = true
-
 const { isFocused, handleFocus, handleBlur } = useFocusController(inputRef, {
   disabled: pickerDisabled,
   beforeFocus() {
     return props.readonly
   },
   afterFocus() {
-    if (!allowFocus) return
+    if (!props.automaticDropdown) return
     pickerVisible.value = true
   },
   beforeBlur(event) {
@@ -547,24 +544,8 @@ const stophandle = onClickOutside(
   }
 )
 
-const winFocusHanlder = () => {
-  // When the window loses focus and is refocused,
-  // let the input be focused first and prevent the default popup from appearing.
-  setTimeout(() => {
-    allowFocus = true
-  })
-}
-const winBlurHandler = () => {
-  allowFocus = false
-}
-onMounted(() => {
-  window.addEventListener('focus', winFocusHanlder)
-  window.addEventListener('blur', winBlurHandler)
-})
 onBeforeUnmount(() => {
   stophandle?.()
-  window.removeEventListener('focus', winFocusHanlder)
-  window.removeEventListener('blur', winBlurHandler)
 })
 
 const userInput = ref<UserInput>(null)
