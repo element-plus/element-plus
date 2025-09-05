@@ -97,6 +97,10 @@ if (isClient) {
     (key) => !hasOwn(rawProps, key)
   )
 
-  onOpen(undefined, immediate)
+  if (immediate) {
+    visible.value = true
+  }
+
+  onOpen()
 }
 </script>
