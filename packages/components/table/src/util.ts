@@ -304,7 +304,8 @@ export function toggleRowStatus<T extends DefaultRow>(
   tableTreeProps?: TreeProps,
   selectable?: ((row: T, index: number) => boolean) | null,
   rowIndex?: number,
-  rowKey?: string | null
+  rowKey?: string | null,
+  ignoreChildren: boolean = false
 ): boolean {
   let _rowIndex = rowIndex ?? 0
   let changed = false
@@ -357,6 +358,7 @@ export function toggleRowStatus<T extends DefaultRow>(
   }
 
   if (
+    !ignoreChildren &&
     !tableTreeProps?.checkStrictly &&
     tableTreeProps?.children &&
     isArray(row[tableTreeProps.children])

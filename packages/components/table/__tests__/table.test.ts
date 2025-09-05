@@ -2077,6 +2077,36 @@ describe('Table.vue', () => {
       wrapper.findAll('.el-checkbox')[0].trigger('click')
       await doubleWait()
       expect(wrapper.vm.selected.length).toEqual(getTestData().length + 2)
+      wrapper.findAll('.el-checkbox')[0].trigger('click')
+      await doubleWait()
+
+      await (wrapper.vm.treeProps.checkStrictly = false)
+      wrapper.findAll('.el-checkbox')[3].trigger('click')
+      await doubleWait()
+      expect(
+        wrapper.findAll('.el-checkbox')[2].find('.el-checkbox__input').classes()
+      ).toContain('is-indeterminate')
+      wrapper.findAll('.el-checkbox')[4].trigger('click')
+      await doubleWait()
+      expect(wrapper.findAll('.el-checkbox')[4].classes()).toContain(
+        'is-checked'
+      )
+      expect(wrapper.findAll('.el-checkbox')[2].classes()).toContain(
+        'is-checked'
+      )
+      wrapper.findAll('.el-checkbox')[3].trigger('click')
+      await doubleWait()
+      expect(
+        wrapper.findAll('.el-checkbox')[2].find('.el-checkbox__input').classes()
+      ).toContain('is-indeterminate')
+      wrapper.findAll('.el-checkbox')[4].trigger('click')
+      await doubleWait()
+      expect(
+        wrapper.findAll('.el-checkbox')[2].find('.el-checkbox__input').classes()
+      ).not.toContain('is-checked')
+      expect(wrapper.findAll('.el-checkbox')[2].classes()).not.toContain(
+        'is-indeterminate'
+      )
     })
   })
 
