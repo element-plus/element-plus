@@ -10,8 +10,8 @@ catalogs:
       specifier: ^3.4.1
       version: 3.6.1
     '@element-plus/icons-vue':
-      specifier: ^2.3.1
-      version: 2.3.1
+      specifier: ^2.3.2
+      version: 2.3.2
     '@popperjs/core':
       specifier: npm:@sxzz/popperjs-es@^2.11.7
       version: 2.11.7
@@ -28,7 +28,7 @@ catalogs:
       specifier: ^2.6.20
       version: 2.6.20
     lodash-unified:
-      specifier: ^1.0.2
+      specifier: ^1.0.3
       version: 1.0.3
     normalize-wheel-es:
       specifier: ^1.2.0
@@ -546,7 +546,7 @@ importers:
         version: link:../hooks
       '@element-plus/icons-vue':
         specifier: 'catalog:'
-        version: 2.3.1(vue@3.2.37)
+        version: 2.3.2(vue@3.2.37)
       '@element-plus/utils':
         specifier: workspace:^
         version: link:../utils
@@ -731,7 +731,7 @@ importers:
         version: link:../constants
       '@element-plus/icons-vue':
         specifier: 'catalog:'
-        version: 2.3.1(vue@3.2.37)
+        version: 2.3.2(vue@3.2.37)
       '@vueuse/core':
         specifier: 'catalog:'
         version: 10.11.1(vue@3.2.37)
