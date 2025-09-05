@@ -329,6 +329,31 @@ will start the local development environment.
 
 Modify `App.vue` file per your needs to get things work.
 
+## The following commands are also useful during development
+
+### Generate component template
+
+With command
+
+```shell
+pnpm gen <component-name>
+# eg.
+pnpm gen awesome
+pnpm gen awesome-button
+```
+
+will generate a component template in `packages/components/awesome` and `packages/components/awesome-button` directory.
+
+### Sync locale files
+
+With command
+
+```shell
+pnpm locale:sync
+```
+
+will sync the new fields from the `en.ts` locale file to other locale files and add the comment `// to be translated`.
+
 ---
 Title: Internationalization
 URL: https://element-plus.org/en-US/guide/i18n
@@ -2434,14 +2459,14 @@ You can customize both the header and footer of the dropdown using slots
 
 ### Events
 
-| Name   | Description                                                     | Type                                                  |
-| ------ | --------------------------------------------------------------- | ----------------------------------------------------- |
-| blur   | triggers when Input blurs                                       | ^[Function]`(event: FocusEvent) => void`              |
-| focus  | triggers when Input focuses                                     | ^[Function]`(event: FocusEvent) => void`              |
-| input  | triggers when the Input value change                            | ^[Function]`(value: string \| number) => void`        |
-| clear  | triggers when the Input is cleared by clicking the clear button | ^[Function]`() => void`                               |
-| select | triggers when a suggestion is clicked                           | ^[Function]`(item: typeof modelValue \| any) => void` |
-| change | triggers when the icon inside Input value change                | ^[Function]`(value: string \| number) => void`        |
+| Name   | Description                                                     | Type                                             |
+| ------ | --------------------------------------------------------------- | ------------------------------------------------ |
+| blur   | triggers when Input blurs                                       | ^[Function]`(event: FocusEvent) => void`         |
+| focus  | triggers when Input focuses                                     | ^[Function]`(event: FocusEvent) => void`         |
+| input  | triggers when the Input value change                            | ^[Function]`(value: string \| number) => void`   |
+| clear  | triggers when the Input is cleared by clicking the clear button | ^[Function]`() => void`                          |
+| select | triggers when a suggestion is clicked                           | ^[Function]`(item: Record<string, any>) => void` |
+| change | triggers when the icon inside Input value change                | ^[Function]`(value: string \| number) => void`   |
 
 ### Slots
 
@@ -5208,7 +5233,7 @@ You can customize both the header and footer of the dropdown using slots.
 
 | Name                                       | Description                                                                                                                                                                      | Type                                                                                                                                                                        | Default      |
 | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| model-value / v-model                      | binding value                                                                                                                                                                    | ^[string] / ^[number]`string[] \| number[] \| any`                                                                                                                          | —            |
+| model-value / v-model                      | binding value                                                                                                                                                                    | ^[string] / ^[number] /^[object]`string[] \| number[] \| any`                                                                                                               | —            |
 | options                                    | data of the options, the key of `value` and `label` can be customize by `CascaderProps`.                                                                                         | ^[object]`CascaderOption[]`                                                                                                                                                 | —            |
 | [props](#cascaderprops)                    | configuration options, see the following `CascaderProps` table.                                                                                                                  | ^[object]`CascaderProps`                                                                                                                                                    | —            |
 | size                                       | size of input                                                                                                                                                                    | ^[enum]`'large' \| 'default' \| 'small'`                                                                                                                                    | —            |
@@ -5279,11 +5304,11 @@ You can customize both the header and footer of the dropdown using slots.
 
 ### CascaderPanel Attributes
 
-| Name                    | Description                                                                              | Type                                             | Default |
-| ----------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------ | ------- |
-| model-value / v-model   | binding value                                                                            | ^[string]/^[number]`string[] \| number[] \| any` | —       |
-| options                 | data of the options, the key of `value` and `label` can be customize by `CascaderProps`. | ^[object]`CascaderOption[]`                      | —       |
-| [props](#cascaderprops) | configuration options, see the following `CascaderProps` table.                          | ^[object]`CascaderProps`                         | —       |
+| Name                    | Description                                                                              | Type                                                       | Default |
+| ----------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ------- |
+| model-value / v-model   | binding value                                                                            | ^[string]/^[number]/^[object]`string[] \| number[] \| any` | —       |
+| options                 | data of the options, the key of `value` and `label` can be customize by `CascaderProps`. | ^[object]`CascaderOption[]`                                | —       |
+| [props](#cascaderprops) | configuration options, see the following `CascaderProps` table.                          | ^[object]`CascaderProps`                                   | —       |
 
 ### CascaderPanel Events
 
@@ -8731,6 +8756,10 @@ It is used for multiple checkboxes which are bound in one group, and indicates w
 
 
 
+## Options attribute ^(2.11.2)
+
+
+
 ## Indeterminate
 
 The `indeterminate` property can help you to achieve a 'check all' effect.
@@ -8794,19 +8823,21 @@ Checkbox with button styles.
 
 ### CheckboxGroup Attributes
 
-| Name                        | Description                                       | Type                                     | Default |
-| --------------------------- | ------------------------------------------------- | ---------------------------------------- | ------- |
-| model-value / v-model       | binding value                                     | ^[object]`string[] \| number[]`          | []      |
-| size                        | size of checkbox                                  | ^[enum]`'large' \| 'default' \| 'small'` | —       |
-| disabled                    | whether the nesting checkboxes are disabled       | ^[boolean]                               | false   |
-| min                         | minimum number of checkbox checked                | ^[number]                                | —       |
-| max                         | maximum number of checkbox checked                | ^[number]                                | —       |
-| aria-label ^(a11y) ^(2.7.2) | native `aria-label` attribute                     | ^[string]                                | —       |
-| text-color                  | font color when button is active                  | ^[string]                                | #ffffff |
-| fill                        | border and background color when button is active | ^[string]                                | #409eff |
-| tag                         | element tag of the checkbox group                 | ^[string]                                | div     |
-| validate-event              | whether to trigger form validation                | ^[boolean]                               | true    |
-| label ^(a11y) ^(deprecated) | native `aria-label` attribute                     | ^[string]                                | —       |
+| Name                        | Description                                                                                    | Type                                                             | Default                                                  |
+| --------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- | -------------------------------------------------------- |
+| model-value / v-model       | binding value                                                                                  | ^[object]`string[] \| number[]`                                  | []                                                       |
+| size                        | size of checkbox                                                                               | ^[enum]`'large' \| 'default' \| 'small'`                         | —                                                        |
+| disabled                    | whether the nesting checkboxes are disabled                                                    | ^[boolean]                                                       | false                                                    |
+| min                         | minimum number of checkbox checked                                                             | ^[number]                                                        | —                                                        |
+| max                         | maximum number of checkbox checked                                                             | ^[number]                                                        | —                                                        |
+| aria-label ^(a11y) ^(2.7.2) | native `aria-label` attribute                                                                  | ^[string]                                                        | —                                                        |
+| text-color                  | font color when button is active                                                               | ^[string]                                                        | #ffffff                                                  |
+| fill                        | border and background color when button is active                                              | ^[string]                                                        | #409eff                                                  |
+| tag                         | element tag of the checkbox group                                                              | ^[string]                                                        | div                                                      |
+| validate-event              | whether to trigger form validation                                                             | ^[boolean]                                                       | true                                                     |
+| label ^(a11y) ^(deprecated) | native `aria-label` attribute                                                                  | ^[string]                                                        | —                                                        |
+| options ^(2.11.2)           | data of the options, the key of `value` and `label` and `disabled` can be customize by `props` | ^[array]`Array<{[key: string]: any}>`                            | —                                                        |
+| props ^(2.11.2)             | configuration options                                                                          | ^[object]`{ value?: string, label?: string, disabled?: boolean}` | `{value: 'value', label: 'label', disabled: 'disabled'}` |
 
 ### CheckboxGroup Events
 
@@ -9028,6 +9059,31 @@ import { ref } from 'vue'
 
 const checkedCities = ref(['Shanghai', 'Beijing'])
 const cities = ['Shanghai', 'Beijing', 'Guangzhou', 'Shenzhen']
+</script>
+
+```
+
+### options.vue
+```vue
+<template>
+  <el-checkbox-group v-model="checkList" :options="options" />
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const checkList = ref(['Value selected and disabled', 'Value A'])
+const options = [
+  { label: 'Option A', value: 'Value A' },
+  { label: 'Option B', value: 'Value B' },
+  { label: 'Option C', value: 'Value C' },
+  { label: 'disabled', value: 'Value disabled', disabled: true },
+  {
+    label: 'selected and disabled',
+    value: 'Value selected and disabled',
+    disabled: true,
+  },
+]
 </script>
 
 ```
@@ -9645,14 +9701,14 @@ The `disabled` attribute determines if the color picker is fully disabled.
 
 ### Attributes
 
-| Name                  | Description                          | Type                                                                                                             | Default |
-| --------------------- | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------- | ------- |
-| model-value / v-model | binding value                        | ^[string]                                                                                                        | —       |
-| border                | whether the color picker is bordered | ^[boolean]                                                                                                       | true    |
-| disabled              | whether to disable the color picker  | ^[boolean]                                                                                                       | false   |
-| show-alpha            | whether to display the alpha slider  | ^[boolean]                                                                                                       | false   |
-| color-format          | color format of v-model              | ^[enum]`'hsl' \| 'hsv' \| 'hex' \| 'rgb' \| 'hex' (when show-alpha is false) \| 'rgb' (when show-alpha is true)` | —       |
-| predefine             | predefined color options             | ^[object]`string[]`                                                                                              | —       |
+| Name                  | Description                                | Type                                                                                                             | Default |
+| --------------------- | ------------------------------------------ | ---------------------------------------------------------------------------------------------------------------- | ------- |
+| model-value / v-model | binding value                              | ^[string]                                                                                                        | —       |
+| border                | whether the color picker panel is bordered | ^[boolean]                                                                                                       | true    |
+| disabled              | whether to disable the color picker        | ^[boolean]                                                                                                       | false   |
+| show-alpha            | whether to display the alpha slider        | ^[boolean]                                                                                                       | false   |
+| color-format          | color format of v-model                    | ^[enum]`'hsl' \| 'hsv' \| 'hex' \| 'rgb' \| 'hex' (when show-alpha is false) \| 'rgb' (when show-alpha is true)` | —       |
+| predefine             | predefined color options                   | ^[object]`string[]`                                                                                              | —       |
 
 ### Exposes
 
@@ -11034,25 +11090,25 @@ Note, date time locale (month name, first day of the week ...) are also configur
 
 ### Attributes
 
-| Name                  | Description                                                                                           | Type                                                                                                                                                           | Default    |
-| --------------------- | ----------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
-| model-value / v-model | binding value, if it is an array, the length should be 2                                              | ^[number] / ^[string] / ^[object]`Date \| [Date, Date] \| [string, string]`                                                                                    | ''         |
-| border                | whether the date picker is bordered                                                                   | ^[boolean]                                                                                                                                                     | true       |
-| disabled              | whether DatePicker is disabled                                                                        | ^[boolean]                                                                                                                                                     | false      |
-| clearable             | whether to show clear button                                                                          | ^[boolean]                                                                                                                                                     | true       |
-| type                  | type of the picker                                                                                    | ^[enum]`'year' \| 'years' \|'month' \| 'months' \| 'date' \| 'dates' \| 'datetime' \| 'week' \| 'datetimerange' \| 'daterange' \| 'monthrange' \| 'yearrange'` | date       |
-| default-value         | optional, default date of the calendar                                                                | ^[object]`Date \| [Date, Date]`                                                                                                                                | —          |
-| default-time          | optional, the time value to use when selecting date range                                             | ^[object]`Date \| [Date, Date]`                                                                                                                                | —          |
-| value-format          | optional, format of binding value. If not specified, the binding value will be a Date object          | ^[string]                                                                                                                                                      | —          |
-| date-format           | optional, format of the date displayed in input's inner panel                                         | ^[string] see [date formats](https://day.js.org/docs/en/display/format)                                                                                        | YYYY-MM-DD |
-| time-format           | optional, format of the time displayed in input's inner panel                                         | ^[string] see [date formats](https://day.js.org/docs/en/display/format)                                                                                        | HH:mm:ss   |
-| unlink-panels         | unlink two date-panels in range-picker                                                                | ^[boolean]                                                                                                                                                     | false      |
-| disabled-date         | a function determining if a date is disabled with that date as its parameter. Should return a Boolean | ^[Function]`(data: Date) => boolean`                                                                                                                           | —          |
-| shortcuts             | an object array to set shortcut options                                                               | ^[object]`Array<{ text: string, value: Date \| Function }>`                                                                                                    | []         |
-| cell-class-name       | set custom className                                                                                  | ^[Function]`(data: Date) => string`                                                                                                                            | —          |
-| show-footer           | whether to show footer                                                                                | ^[boolean]                                                                                                                                                     | false      |
-| show-confirm          | whether to show the confirm button                                                                    | ^[boolean]                                                                                                                                                     | false      |
-| show-week-number      | show the week number besides the week                                                                 | ^[boolean]                                                                                                                                                     | false      |
+| Name                  | Description                                                                                                                  | Type                                                                                                                                                           | Default    |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| model-value / v-model | binding value, if it is an array, the length should be 2                                                                     | ^[number] / ^[string] / ^[object]`Date \| [Date, Date] \| [string, string]`                                                                                    | ''         |
+| border                | whether the date picker is bordered                                                                                          | ^[boolean]                                                                                                                                                     | true       |
+| disabled              | whether DatePicker is disabled                                                                                               | ^[boolean]                                                                                                                                                     | false      |
+| clearable             | whether to show clear button                                                                                                 | ^[boolean]                                                                                                                                                     | true       |
+| type                  | type of the picker                                                                                                           | ^[enum]`'year' \| 'years' \|'month' \| 'months' \| 'date' \| 'dates' \| 'datetime' \| 'week' \| 'datetimerange' \| 'daterange' \| 'monthrange' \| 'yearrange'` | date       |
+| default-value         | optional, default date of the calendar                                                                                       | ^[object]`Date \| [Date, Date]`                                                                                                                                | —          |
+| default-time          | optional, the time value to use when selecting date range                                                                    | ^[object]`Date \| [Date, Date]`                                                                                                                                | —          |
+| value-format          | optional, format of binding value. If not specified, the binding value will be a Date object                                 | ^[string]                                                                                                                                                      | —          |
+| date-format           | optional, format of the date displayed in input's inner panel                                                                | ^[string] see [date formats](https://day.js.org/docs/en/display/format)                                                                                        | YYYY-MM-DD |
+| time-format           | optional, format of the time displayed in input's inner panel                                                                | ^[string] see [date formats](https://day.js.org/docs/en/display/format)                                                                                        | HH:mm:ss   |
+| unlink-panels         | unlink two date-panels in range-picker                                                                                       | ^[boolean]                                                                                                                                                     | false      |
+| disabled-date         | a function determining if a date is disabled with that date as its parameter. Should return a Boolean                        | ^[Function]`(data: Date) => boolean`                                                                                                                           | —          |
+| shortcuts             | an object array to set shortcut options                                                                                      | ^[object]`Array<{ text: string, value: Date \| Function }>`                                                                                                    | []         |
+| cell-class-name       | set custom className                                                                                                         | ^[Function]`(data: Date) => string`                                                                                                                            | —          |
+| show-footer           | whether to show footer where the date picker is one ^[enum]`'dates' \| 'months' \| 'years' \| 'datetime' \| 'datetimerange'` | ^[boolean]                                                                                                                                                     | false      |
+| show-confirm          | whether to show the confirm button                                                                                           | ^[boolean]                                                                                                                                                     | false      |
+| show-week-number      | show the week number besides the week                                                                                        | ^[boolean]                                                                                                                                                     | false      |
 
 ### Events
 
@@ -11365,7 +11421,7 @@ Note, date time locale (month name, first day of the week ...) are also configur
 | value-on-clear ^(2.7.0)      | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)                      | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                                                                               | —             |
 | fallback-placements ^(2.8.4) | list of possible positions for Tooltip [popper.js](https://popper.js.org/docs/v2/modifiers/flip/#fallbackplacements)         | ^[array]`Placement[]`                                                                                                                                          | —             |
 | placement ^(2.8.4)           | position of dropdown                                                                                                         | `Placement`                                                                                                                                                    | bottom        |
-| show-footer ^(2.10.5)        | whether to show footer                                                                                                       | ^[boolean]                                                                                                                                                     | true          |
+| show-footer ^(2.10.5)        | whether to show footer where the date picker is one ^[enum]`'dates' \| 'months' \| 'years' \| 'datetime' \| 'datetimerange'` | ^[boolean]                                                                                                                                                     | true          |
 | show-confirm ^(2.11.0)       | whether to show the confirm button                                                                                           | ^[boolean]                                                                                                                                                     | true          |
 | show-week-number ^(2.10.3)   | show the week number besides the week                                                                                        | `boolean`                                                                                                                                                      | false         |
 
@@ -12791,7 +12847,7 @@ Custom icons available with slots.
 | empty-values ^(2.7.0)      | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations) | ^[array]                                                                                       | —                   |
 | value-on-clear ^(2.7.0)    | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)        | ^[string] / ^[number] / ^[boolean] / ^[Function]                                               | —                   |
 | show-now ^(2.8.7)          | whether to show the now button                                                                                 | ^[boolean]                                                                                     | true                |
-| show-footer ^(2.10.5)      | whether to show footer                                                                                         | ^[boolean]                                                                                     | true                |
+| show-footer ^(2.10.5)      | whether to show footer where the date picker is one ^[enum]`'datetime' \| 'datetimerange'`                     | ^[boolean]                                                                                     | true                |
 | show-confirm ^(2.11.0)     | whether to show the confirm button                                                                             | ^[boolean]                                                                                     | true                |
 | show-week-number ^(2.10.3) | show the week number besides the week                                                                          | `boolean`                                                                                      | false               |
 
@@ -15071,12 +15127,12 @@ function confirmClick() {
 ### customization-content.vue
 ```vue
 <template>
-  <el-button text @click="table = true"
-    >Open Drawer with nested table</el-button
-  >
-  <el-button text @click="dialog = true"
-    >Open Drawer with nested form</el-button
-  >
+  <el-button text @click="table = true">
+    Open Drawer with nested table
+  </el-button>
+  <el-button text @click="dialog = true">
+    Open Drawer with nested form
+  </el-button>
   <el-drawer
     v-model="table"
     title="I have a nested table inside!"
@@ -15234,9 +15290,7 @@ const visible = ref(false)
 ### nested-drawer.vue
 ```vue
 <template>
-  <el-button type="primary" style="margin-left: 16px" @click="drawer = true">
-    open
-  </el-button>
+  <el-button type="primary" @click="drawer = true"> open </el-button>
 
   <el-drawer v-model="drawer" title="I'm outer Drawer" size="50%">
     <div>
@@ -15276,9 +15330,7 @@ const handleClose = (done: () => void) => {
 ### no-title.vue
 ```vue
 <template>
-  <el-button type="primary" style="margin-left: 16px" @click="drawer = true">
-    open
-  </el-button>
+  <el-button type="primary" @click="drawer = true"> open </el-button>
 
   <el-drawer v-model="drawer" title="I am the title" :with-header="false">
     <span>Hi there!</span>
@@ -15293,20 +15345,17 @@ const drawer = ref(false)
 
 ```
 
-### resizable-drawer.vue
+### resizable.vue
 ```vue
 <template>
-  <el-segmented
-    v-model="direction"
-    :options="options"
-    size="large"
-    @change="visible = true"
-  />
+  <el-radio-group v-model="direction" @change="drawer = true">
+    <el-radio-button value="ttb">top</el-radio-button>
+    <el-radio-button value="rtl">right</el-radio-button>
+    <el-radio-button value="btt">bottom</el-radio-button>
+    <el-radio-button value="ltr">left</el-radio-button>
+  </el-radio-group>
 
-  <el-drawer v-model="visible" :direction="direction" resizable>
-    <template #header="{ titleId, titleClass }">
-      <h4 :id="titleId" :class="titleClass">This is a custom header!</h4>
-    </template>
+  <el-drawer v-model="drawer" :direction="direction" resizable>
     This is drawer content.
   </el-drawer>
 </template>
@@ -15316,15 +15365,8 @@ import { ref } from 'vue'
 
 import type { DrawerProps } from 'element-plus'
 
-const visible = ref(false)
 const direction = ref<DrawerProps['direction']>()
-
-const options = [
-  { label: 'Top', value: 'ttb' },
-  { label: 'Right', value: 'rtl' },
-  { label: 'Bottom', value: 'btt' },
-  { label: 'Left', value: 'ltr' },
-]
+const drawer = ref(false)
 </script>
 
 ```
@@ -16146,7 +16188,7 @@ When only a single input (or related control such as select or checkbox) is insi
 | rules                   | Validation rules of form, see the [following table](#formitemrule), more advanced usage at [async-validator](https://github.com/yiminghe/async-validator).             | ^[object]`Arrayable<FormItemRule>`                  | —       |
 | error                   | Field error message, set its value and the field will validate error and show this message immediately.                                                                | ^[string]                                           | —       |
 | show-message            | Whether to show the error message.                                                                                                                                     | ^[boolean]                                          | true    |
-| inline-message          | Inline style validate message.                                                                                                                                         | ^[string] / ^[boolean]                              | ''      |
+| inline-message          | Inline style validate message.                                                                                                                                         | ^[boolean]                                          | false   |
 | size                    | Control the size of components in this form-item.                                                                                                                      | ^[enum]`'' \| 'large' \| 'default' \| 'small'`      | —       |
 | for                     | Same as for in native label.                                                                                                                                           | ^[string]                                           | —       |
 | validate-status         | Validation state of formItem.                                                                                                                                          | ^[enum]`'' \| 'error' \| 'validating' \| 'success'` | —       |
@@ -23183,20 +23225,22 @@ Click the button to trigger the event
 
 ### Attributes
 
-| Name                | Description                                                                         | Type                                                                         | Default        |
-| ------------------- | ----------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | -------------- |
-| title               | Title                                                                               | ^[string]                                                                    | —              |
-| confirm-button-text | Confirm button text                                                                 | ^[string]                                                                    | —              |
-| cancel-button-text  | Cancel button text                                                                  | ^[string]                                                                    | —              |
-| confirm-button-type | Confirm button type                                                                 | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'text'` | primary        |
-| cancel-button-type  | Cancel button type                                                                  | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'text'` | text           |
-| icon                | Icon Component                                                                      | ^[string] / ^[Component]                                                     | QuestionFilled |
-| icon-color          | Icon color                                                                          | ^[string]                                                                    | #f90           |
-| hide-icon           | is hide Icon                                                                        | ^[boolean]                                                                   | false          |
-| hide-after          | delay of disappear, in millisecond                                                  | ^[number]                                                                    | 200            |
-| teleported          | whether popconfirm is teleported to the body                                        | ^[boolean]                                                                   | true           |
-| persistent          | when popconfirm inactive and `persistent` is `false` , popconfirm will be destroyed | ^[boolean]                                                                   | false          |
-| width               | popconfirm width, min width 150px                                                   | ^[string] / ^[number]                                                        | 150            |
+| Name                            | Description                                                                         | Type                                                                         | Default        |
+| ------------------------------- | ----------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | -------------- |
+| title                           | Title                                                                               | ^[string]                                                                    | —              |
+| effect ^(2.11.2)                | Tooltip theme, built-in theme: `dark` / `light`                                     | ^[enum]`'dark' \| 'light'` / ^[string]                                       | light          |
+| close-on-press-escape ^(2.11.2) | whether the popConfirm can be closed by pressing ESC                                | ^[boolean]                                                                   | true           |
+| confirm-button-text             | Confirm button text                                                                 | ^[string]                                                                    | —              |
+| cancel-button-text              | Cancel button text                                                                  | ^[string]                                                                    | —              |
+| confirm-button-type             | Confirm button type                                                                 | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'text'` | primary        |
+| cancel-button-type              | Cancel button type                                                                  | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'text'` | text           |
+| icon                            | Icon Component                                                                      | ^[string] / ^[Component]                                                     | QuestionFilled |
+| icon-color                      | Icon color                                                                          | ^[string]                                                                    | #f90           |
+| hide-icon                       | is hide Icon                                                                        | ^[boolean]                                                                   | false          |
+| hide-after                      | delay of disappear, in millisecond                                                  | ^[number]                                                                    | 200            |
+| teleported                      | whether popconfirm is teleported to the body                                        | ^[boolean]                                                                   | true           |
+| persistent                      | when popconfirm inactive and `persistent` is `false` , popconfirm will be destroyed | ^[boolean]                                                                   | false          |
+| width                           | popconfirm width, min width 150px                                                   | ^[string] / ^[number]                                                        | 150            |
 
 ### Events
 
@@ -24442,6 +24486,10 @@ Suitable for choosing from some mutually exclusive options.
 
 
 
+## Options attribute ^(2.11.2)
+
+
+
 ## Button style
 
 Radio with button styles.
@@ -24488,18 +24536,20 @@ Radio with button styles.
 
 ### RadioGroup Attributes
 
-| Name                        | Description                                       | Type                               | Default |
-| --------------------------- | ------------------------------------------------- | ---------------------------------- | ------- |
-| model-value / v-model       | binding value                                     | ^[string] / ^[number] / ^[boolean] | —       |
-| size                        | the size of radio buttons or bordered radios      | ^[string]                          | default |
-| disabled                    | whether the nesting radios are disabled           | ^[boolean]                         | false   |
-| validate-event              | whether to trigger form validation                | ^[boolean]                         | true    |
-| text-color                  | font color when button is active                  | ^[string]                          | #ffffff |
-| fill                        | border and background color when button is active | ^[string]                          | #409eff |
-| aria-label ^(a11y) ^(2.7.2) | same as `aria-label` in RadioGroup                | ^[string]                          | —       |
-| name                        | native `name` attribute                           | ^[string]                          | —       |
-| id                          | native `id` attribute                             | ^[string]                          | —       |
-| label ^(a11y) ^(deprecated) | same as `aria-label` in RadioGroup                | ^[string]                          | —       |
+| Name                        | Description                                                                                    | Type                                                             | Default                                                  |
+| --------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- | -------------------------------------------------------- |
+| model-value / v-model       | binding value                                                                                  | ^[string] / ^[number] / ^[boolean]                               | —                                                        |
+| size                        | the size of radio buttons or bordered radios                                                   | ^[string]                                                        | default                                                  |
+| disabled                    | whether the nesting radios are disabled                                                        | ^[boolean]                                                       | false                                                    |
+| validate-event              | whether to trigger form validation                                                             | ^[boolean]                                                       | true                                                     |
+| text-color                  | font color when button is active                                                               | ^[string]                                                        | #ffffff                                                  |
+| fill                        | border and background color when button is active                                              | ^[string]                                                        | #409eff                                                  |
+| aria-label ^(a11y) ^(2.7.2) | same as `aria-label` in RadioGroup                                                             | ^[string]                                                        | —                                                        |
+| name                        | native `name` attribute                                                                        | ^[string]                                                        | —                                                        |
+| id                          | native `id` attribute                                                                          | ^[string]                                                        | —                                                        |
+| label ^(a11y) ^(deprecated) | same as `aria-label` in RadioGroup                                                             | ^[string]                                                        | —                                                        |
+| options ^(2.11.2)           | data of the options, the key of `value` and `label` and `disabled` can be customize by `props` | ^[array]`Array<{[key: string]: any}>`                            | —                                                        |
+| props ^(2.11.2)             | configuration options                                                                          | ^[object]`{ value?: string, label?: string, disabled?: boolean}` | `{value: 'value', label: 'label', disabled: 'disabled'}` |
 
 ### RadioGroup Events
 
@@ -24660,6 +24710,35 @@ const radio3 = ref('New York')
 import { ref } from 'vue'
 
 const radio = ref('selected and disabled')
+</script>
+
+```
+
+### options.vue
+```vue
+<template>
+  <el-radio-group v-model="radio" :options="options" />
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const radio = ref(3)
+
+const options = [
+  {
+    value: 3,
+    label: 'Option A',
+  },
+  {
+    value: 6,
+    label: 'Option B',
+  },
+  {
+    value: 9,
+    label: 'Option C',
+  },
+]
 </script>
 
 ```
@@ -26061,7 +26140,7 @@ The width of dropdown box is calculated by default based on the value of `label`
 | prefix           | prefix content of input                                                                         | —                                                                                                              |
 | tag ^(2.5.0)     | content as Select tag, subTags `data`, `selectDisabled` and `deleteTag` introduced in ^(2.10.3) | ^[object]`{ data: Option[], selectDisabled: boolean, deleteTag: (event: MouseEvent, option: Option) => void }` |
 | loading ^(2.5.2) | content as Select loading                                                                       | —                                                                                                              |
-| label ^(2.7.4)   | content as Select label                                                                         | —                                                                                                              |
+| label ^(2.7.4)   | content as Select label. `index` introduced in ^(2.11.2)                                        | ^[object]`{ index: number, label: string \| any, value: string \| any }`                                       |
 
 ### Exposes
 
@@ -27424,16 +27503,16 @@ You can customize label.
 
 ### Select Slots
 
-| Name             | Description                                                                                     | Subtags                                                                                                                                       |
-| ---------------- | ----------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| default          | option component list                                                                           | Option Group / Option                                                                                                                         |
-| header ^(2.4.3)  | content at the top of the dropdown                                                              | —                                                                                                                                             |
-| footer ^(2.4.3)  | content at the bottom of the dropdown                                                           | —                                                                                                                                             |
-| prefix           | content as Select prefix                                                                        | —                                                                                                                                             |
-| empty            | content when there is no options                                                                | —                                                                                                                                             |
-| tag ^(2.5.0)     | content as Select tag, subTags `data`, `selectDisabled` and `deleteTag` introduced in ^(2.10.3) | ^[object]`{ data: OptionBasic[], selectDisabled: boolean, deleteTag: (event: MouseEvent, tag: OptionPublicInstance \| OptionBasic) => void }` |
-| loading ^(2.5.2) | content as Select loading                                                                       | —                                                                                                                                             |
-| label ^(2.7.4)   | content as Select label                                                                         | —                                                                                                                                             |
+| Name             | Description                                                                                     | Subtags                                                                                                               |
+| ---------------- | ----------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| default          | option component list                                                                           | Option Group / Option                                                                                                 |
+| header ^(2.4.3)  | content at the top of the dropdown                                                              | —                                                                                                                     |
+| footer ^(2.4.3)  | content at the bottom of the dropdown                                                           | —                                                                                                                     |
+| prefix           | content as Select prefix                                                                        | —                                                                                                                     |
+| empty            | content when there is no options                                                                | —                                                                                                                     |
+| tag ^(2.5.0)     | content as Select tag, subTags `data`, `selectDisabled` and `deleteTag` introduced in ^(2.10.3) | ^[object]`{ data: OptionBasic[], selectDisabled: boolean, deleteTag: (event: MouseEvent, tag: OptionBasic) => void }` |
+| loading ^(2.5.2) | content as Select loading                                                                       | —                                                                                                                     |
+| label ^(2.7.4)   | content as Select label. `index` introduced in ^(2.11.2)                                        | ^[object]`{ index: number, label: string \| any, value: string \| any }`                                              |
 
 ### Select Exposes
 
@@ -28617,6 +28696,7 @@ const options = [
   <el-select
     v-model="value"
     :options="options"
+    :props="props"
     placeholder="Select"
     style="width: 240px"
   />
@@ -28627,25 +28707,34 @@ import { ref } from 'vue'
 
 const value = ref('')
 
+const props = {
+  value: 'id',
+  label: 'label',
+  options: 'options',
+  disabled: 'disabled',
+}
+
 const options = [
   {
-    value: 'Option1',
+    id: 'Option1',
     label: 'Option1',
   },
   {
-    value: 'Option2',
+    id: 'Option2',
     label: 'Option2',
+    disabled: true,
   },
   {
-    value: 'Option3',
+    id: 'Option3',
     label: 'Option3',
   },
   {
-    value: 'Option4',
+    id: 'Option4',
     label: 'Option4',
+    disabled: true,
   },
   {
-    value: 'Option5',
+    id: 'Option5',
     label: 'Option5',
   },
 ]
@@ -31912,6 +32001,12 @@ type ColumnSortParam<T> = { column: Column<T>; key: KeyType; order: SortOrder }
 enum SortOrder {
   ASC = 'asc',
   DESC = 'desc',
+}
+
+enum Alignment {
+  LEFT = 'left',
+  CENTER = 'center',
+  RIGHT = 'right',
 }
 
 type SortBy = { key: KeyType; Order: SortOrder }
@@ -38403,6 +38498,7 @@ You must wait for the DOM to be mounted before using `targetElement`.
 | trigger-keys              | When you click the mouse to focus on the trigger element, you can define a set of keyboard codes to control the display of tooltip through the keyboard | ^[Array]                                                                                                                                                                    | ['Enter','Space'] |
 | persistent                | when tooltip inactive and `persistent` is `false` , popconfirm will be destroyed                                                                        | ^[boolean]                                                                                                                                                                  | —                 |
 | aria-label ^(a11y)        | same as `aria-label`                                                                                                                                    | ^[string]                                                                                                                                                                   | —                 |
+| focus-on-target ^(2.11.2) | when triggering tooltips through hover, whether to focus the trigger element, which improves accessibility                                              | ^[boolean]                                                                                                                                                                  | false             |
 
 ### Slots
 
@@ -40544,7 +40640,9 @@ Tree nodes can be filtered
 
 
 
-## TreeV2 Attributes
+## TreeV2 API
+
+### TreeV2 Attributes
 
 | Name                          | Description                                                                                                                                  | Type                                                                        | Default |
 | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | ------- |
@@ -40565,8 +40663,9 @@ Tree nodes can be filtered
 | icon                          | custom tree node icon component                                                                                                              | ^[string] / ^[Component]                                                    | —       |
 | item-size ^(2.2.33)           | custom tree node height                                                                                                                      | ^[number]                                                                   | 26      |
 | scrollbar-always-on ^(2.10.4) | always show scrollbar                                                                                                                        | ^[boolean]                                                                  | false   |
+| height                        | height of the tree                                                                                                                           | ^[number]                                                                   | 200     |
 
-## props
+### props
 
 | Attribute      | Description                                                                          | Type                                                                                                | Default  |
 | -------------- | ------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------- | -------- |
@@ -40576,7 +40675,7 @@ Tree nodes can be filtered
 | disabled       | specify which key of node object represents if node's checkbox is disabled           | ^[string]                                                                                           | disabled |
 | class ^(2.9.0) | custom node class name                                                               | ^[string] / ^[Function]`(data: TreeNodeData, node: TreeNode) => string \| {[key: string]: boolean}` | —        |
 
-## TreeV2 Method
+### TreeV2 Method
 
 `Tree` has the following method, which returns the currently selected array of nodes.
 
@@ -40600,7 +40699,7 @@ Tree nodes can be filtered
 | scrollTo ^(2.8.0)     | scroll to a given position                                                                                                    | `(offset: number)`                                                   |
 | scrollToNode ^(2.8.0) | scroll to a given tree key with specified scroll strategy                                                                     | `(key: TreeKey, strategy?: auto \| smart \| center \| start \| end)` |
 
-## TreeV2 Events
+### TreeV2 Events
 
 | Name               | Description                                          | Parameters                                                                                                                              |
 | ------------------ | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
@@ -40613,7 +40712,7 @@ Tree nodes can be filtered
 | node-expand        | triggers when current node open                      | `(data: TreeNodeData, node: TreeNode)`                                                                                                  |
 | node-collapse      | triggers when current node close                     | `(data: TreeNodeData, node: TreeNode)`                                                                                                  |
 
-## TreeV2 Slots
+### TreeV2 Slots
 
 | Name           | Description                                                                                    |
 | -------------- | ---------------------------------------------------------------------------------------------- |
@@ -41264,7 +41363,9 @@ You can drag and drop Tree nodes by adding a `draggable` attribute.
 
 
 
-## Attributes
+## Tree API
+
+### Attributes
 
 | Name                         | Description                                                                                                                                                                                                                                                                                                                                                                 | Type                                                   | Default |
 | ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ | ------- |
@@ -41295,7 +41396,7 @@ You can drag and drop Tree nodes by adding a `draggable` attribute.
 | allow-drag                   | this function will be executed before dragging a node. If `false` is returned, the node can not be dragged                                                                                                                                                                                                                                                                  | ^[Function]`(node) => boolean`                         | —       |
 | allow-drop                   | this function will be executed before the dragging node is dropped. If `false` is returned, the dragging node can not be dropped at the target node. `type` has three possible values: 'prev' (inserting the dragging node before the target node), 'inner' (inserting the dragging node to the target node) and 'next' (inserting the dragging node after the target node) | ^[Function]`(draggingNode, dropNode, type) => boolean` | —       |
 
-## props
+### props
 
 | Attribute | Description                                                                   | Type                                             | Default |
 | --------- | ----------------------------------------------------------------------------- | ------------------------------------------------ | ------- |
@@ -41305,7 +41406,7 @@ You can drag and drop Tree nodes by adding a `draggable` attribute.
 | isLeaf    | specify whether the node is a leaf node, only works when lazy load is enabled | ^[string] / ^[Function]`(data, node) => boolean` | —       |
 | class     | custom node class name                                                        | ^[string] / ^[Function]`(data, node) => string`  | —       |
 
-## Method
+### Method
 
 `Tree` has the following method, which returns the currently selected array of nodes.
 
@@ -41330,7 +41431,7 @@ You can drag and drop Tree nodes by adding a `draggable` attribute.
 | insertBefore        | insert a node before a given node in the tree                                                                        | (data, refNode) 1. node's data to be inserted 2. reference node's data, key or node                                                                                                                                                                                                         |
 | insertAfter         | insert a node after a given node in the tree                                                                         | (data, refNode) 1. node's data to be inserted 2. reference node's data, key or node                                                                                                                                                                                                         |
 
-## Events
+### Events
 
 | Name             | Description                                               | Parameters                                                                                                                                                                                       |
 | ---------------- | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -41348,7 +41449,7 @@ You can drag and drop Tree nodes by adding a `draggable` attribute.
 | node-drag-end    | triggers when dragging ends                               | four parameters: node object corresponding to the dragging node, node object corresponding to the dragging end node (may be `undefined`), node drop type (before / after / inner), event.        |
 | node-drop        | triggers after the dragging node is dropped               | four parameters: node object corresponding to the dragging node, node object corresponding to the dropped node, node drop type (before / after / inner), event.                                  |
 
-## Slots
+### Slots
 
 | Name           | Description                                                            |
 | -------------- | ---------------------------------------------------------------------- |
