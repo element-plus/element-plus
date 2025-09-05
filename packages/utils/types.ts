@@ -22,7 +22,7 @@ export const isEmpty = (val: unknown) =>
   (isObject(val) && !Object.keys(val).length)
 
 export const isElement = (e: unknown): e is Element => {
-  if (typeof Element === 'undefined') return false
+  if (typeof window === 'undefined') return false
   return e instanceof Element
 }
 
