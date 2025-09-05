@@ -44,6 +44,7 @@
             :type="tagType"
             :effect="tagEffect"
             disable-transitions
+            @click="$emit('collapse-tag-click', $event, collapseTagList)"
           >
             + {{ modelValue.length - maxCollapseTags }}
           </el-tag>
