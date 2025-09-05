@@ -12,6 +12,7 @@
       :placement="placement"
       :teleported="teleported"
       :popper-class="[nsSelect.e('popper'), popperClass]"
+      :popper-style="popperStyle"
       :popper-options="popperOptions"
       :fallback-placements="fallbackPlacements"
       :effect="effect"
@@ -80,6 +81,7 @@
                   <span :class="nsSelect.e('tags-text')">
                     <slot
                       name="label"
+                      :index="item.index"
                       :label="item.currentLabel"
                       :value="item.value"
                     >
@@ -97,6 +99,7 @@
                 :effect="effect"
                 placement="bottom"
                 :popper-class="popperClass"
+                :popper-style="popperStyle"
                 :teleported="teleported"
               >
                 <template #default>
@@ -137,6 +140,7 @@
                         <span :class="nsSelect.e('tags-text')">
                           <slot
                             name="label"
+                            :index="item.index"
                             :label="item.currentLabel"
                             :value="item.value"
                           >
@@ -209,6 +213,7 @@
               <slot
                 v-if="hasModelValue"
                 name="label"
+                :index="getOption(modelValue!).index"
                 :label="currentPlaceholder"
                 :value="modelValue"
               >
@@ -219,13 +224,13 @@
           </div>
           <div ref="suffixRef" :class="nsSelect.e('suffix')">
             <el-icon
-              v-if="iconComponent && !showClose"
+              v-if="iconComponent && !showClearBtn"
               :class="[nsSelect.e('caret'), nsSelect.e('icon'), iconReverse]"
             >
               <component :is="iconComponent" />
             </el-icon>
             <el-icon
-              v-if="showClose && clearIcon"
+              v-if="showClearBtn && clearIcon"
               :class="[
                 nsSelect.e('caret'),
                 nsSelect.e('icon'),

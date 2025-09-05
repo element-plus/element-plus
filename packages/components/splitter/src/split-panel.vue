@@ -116,6 +116,11 @@ watch(
   () => props.size,
   () => {
     if (!isSizeUpdating && panel.value) {
+      if (!containerSize.value) {
+        panel.value.size = props.size
+        return
+      }
+
       const size = sizeToPx(props.size)
       const maxSize = sizeToPx(props.max)
       const minSize = sizeToPx(props.min)

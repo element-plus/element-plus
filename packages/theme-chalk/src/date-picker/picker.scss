@@ -36,6 +36,12 @@
     }
   }
 
+  @include when(focus) {
+    .#{$namespace}-input__wrapper {
+      @include inset-input-border(#{getCssVar('input', 'focus-border-color')});
+    }
+  }
+
   &.#{$namespace}-input,
   &.#{$namespace}-input__wrapper {
     width: getCssVar('date-editor-width');

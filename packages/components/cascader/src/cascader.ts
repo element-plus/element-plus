@@ -83,7 +83,7 @@ export const cascaderProps = buildProps({
     default: 1,
   },
   /**
-   * @description native input id
+   * @description whether show all selected tags when mouse hover text of collapse-tags. To use this, collapse-tags must be true
    */
   collapseTagsTooltip: Boolean,
   /**
@@ -124,10 +124,11 @@ export const cascaderProps = buildProps({
   /**
    * @description custom class name for Cascader's dropdown
    */
-  popperClass: {
-    type: String,
-    default: '',
-  },
+  popperClass: useTooltipContentProps.popperClass,
+  /**
+   * @description custom style for Cascader's dropdown
+   */
+  popperStyle: useTooltipContentProps.popperStyle,
   /**
    * @description whether cascader popup is teleported
    */

@@ -61,6 +61,13 @@ export const popconfirmProps = buildProps({
     default: 200,
   },
   /**
+   * @description Tooltip theme, built-in theme: `dark` / `light`
+   */
+  effect: {
+    ...useTooltipContentProps.effect,
+    default: 'light',
+  },
+  /**
    * @description whether popconfirm is teleported to the body
    */
   teleported: useTooltipContentProps.teleported,
@@ -75,6 +82,13 @@ export const popconfirmProps = buildProps({
     type: [String, Number],
     default: 150,
   },
+  /**
+   * @description whether the popConfirm can be closed by pressing ESC
+   */
+  closeOnPressEscape: {
+    type: Boolean,
+    default: true,
+  },
 } as const)
 
 export const popconfirmEmits = {
@@ -85,7 +99,8 @@ export const popconfirmEmits = {
   /**
    * @description triggers when click cancel button
    */
-  cancel: (e: MouseEvent) => e instanceof MouseEvent,
+  cancel: (e: MouseEvent | KeyboardEvent) =>
+    e instanceof MouseEvent || e instanceof KeyboardEvent,
 }
 
 export type PopconfirmEmits = typeof popconfirmEmits
