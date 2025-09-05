@@ -187,6 +187,7 @@ tooltip/append-to
 | trigger-keys              | When you click the mouse to focus on the trigger element, you can define a set of keyboard codes to control the display of tooltip through the keyboard | ^[Array]                                                                                                                                                                    | ['Enter','Space'] |
 | persistent                | when tooltip inactive and `persistent` is `false` , popconfirm will be destroyed                                                                        | ^[boolean]                                                                                                                                                                  | —                 |
 | aria-label ^(a11y)        | same as `aria-label`                                                                                                                                    | ^[string]                                                                                                                                                                   | —                 |
+| focus-on-target ^(2.11.2) | when triggering tooltips through hover, whether to focus the trigger element, which improves accessibility                                              | ^[boolean]                                                                                                                                                                  | false             |
 
 ### Slots
 
