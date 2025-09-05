@@ -27,6 +27,10 @@ export const useTooltipTriggerProps = buildProps({
     type: definePropType<string[]>(Array),
     default: () => [EVENT_CODE.enter, EVENT_CODE.numpadEnter, EVENT_CODE.space],
   },
+  /**
+   * @description when triggering tooltips through hover, whether to focus the trigger element, which improves accessibility
+   */
+  focusOnTarget: Boolean,
 } as const)
 
 export type ElTooltipTriggerProps = ExtractPropTypes<

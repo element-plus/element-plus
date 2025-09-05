@@ -1720,6 +1720,21 @@ describe('DateRangePicker', () => {
     expect(calendarChangeValue[1]).toBeInstanceOf(Date)
   })
 
+  it('should not emit update:model-value when open the date-picker', async () => {
+    const onUpdateModelValue = vi.fn()
+    const wrapper = _mount(
+      `
+        <el-date-picker :model-value="value" type="daterange" @update:modelValue="onUpdateModelValue" />
+      `,
+      () => ({
+        value: ['2024', '2025'],
+        onUpdateModelValue,
+      })
+    )
+    await wrapper.find('.el-date-editor').trigger('click')
+    expect(onUpdateModelValue).not.toHaveBeenCalled()
+  })
+
   it('daterange should be reopen successfully', async () => {
     const wrapper = _mount(
       `<el-date-picker

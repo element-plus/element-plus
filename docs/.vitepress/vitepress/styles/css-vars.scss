@@ -2,7 +2,6 @@
 
 // css variables
 :root {
-  --base-layout-z-index: 1000;
   // layouts
   --vp-screen-max-width: 1376px;
 
@@ -49,11 +48,11 @@
   --content-min-width: 16rem;
   --content-max-width: 48rem;
 
-  --nav-z-index: calc(var(--base-layout-z-index) + 12);
-  --sub-nav-z-index: calc(var(--base-layout-z-index) + 11);
-  --sidebar-z-index: calc(var(--base-layout-z-index) + 11);
-  --sidebar-z-index-mobile: calc(var(--base-layout-z-index) + 31);
-  --overlay-z-index: calc(var(--base-layout-z-index) + 30);
+  --nav-z-index: 12;
+  --sub-nav-z-index: 11;
+  --sidebar-z-index: 11;
+  --sidebar-z-index-mobile: 31;
+  --overlay-z-index: 30;
   // --dropdown-z-index: 22;
 
   // code block vars
