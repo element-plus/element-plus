@@ -22,8 +22,8 @@ catalogs:
       specifier: ^2.0.0
       version: 2.0.0
     '@vueuse/core':
-      specifier: ^10.11.0
-      version: 10.11.0
+      specifier: ^10.11.1
+      version: 10.11.1
     csstype:
       specifier: ^2.6.20
       version: 2.6.20
@@ -66,8 +66,8 @@ importers:
         specifier: workspace:*
         version: link:packages/hooks
       '@element-plus/icons-vue':
-        specifier: ^2.3.1
-        version: 2.3.1(vue@3.2.37)
+        specifier: ^2.3.2
+        version: 2.3.2(vue@3.2.37)
       '@element-plus/locale':
         specifier: workspace:*
         version: link:packages/locale
@@ -87,20 +87,20 @@ importers:
         specifier: npm:@sxzz/popperjs-es@^2.11.7
         version: '@sxzz/popperjs-es@2.11.7'
       '@types/lodash':
-        specifier: ^4.14.182
-        version: 4.14.182
+        specifier: ^4.17.20
+        version: 4.17.20
       '@types/lodash-es':
-        specifier: ^4.17.6
-        version: 4.17.6
+        specifier: ^4.17.12
+        version: 4.17.12
       '@vueuse/core':
-        specifier: ^10.11.0
-        version: 10.11.0(vue@3.2.37)
+        specifier: ^10.11.1
+        version: 10.11.1(vue@3.2.37)
       async-validator:
         specifier: ^4.2.5
         version: 4.2.5(patch_hash=wdmp4xlpil2odxo3rasjmxbdfm)
       dayjs:
-        specifier: ^1.11.13
-        version: 1.11.13
+        specifier: ^1.11.18
+        version: 1.11.18
       escape-html:
         specifier: ^1.0.3
         version: 1.0.3
@@ -111,8 +111,8 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       lodash-unified:
-        specifier: ^1.0.2
-        version: 1.0.2(@types/lodash-es@4.17.6)(lodash-es@4.17.21)(lodash@4.17.21)
+        specifier: ^1.0.3
+        version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.21)(lodash@4.17.21)
       memoize-one:
         specifier: ^6.0.0
         version: 6.0.0
@@ -245,7 +245,7 @@ importers:
         version: 5.5.4
       unplugin-vue-macros:
         specifier: ^2.7.11
-        version: 2.7.11(@vueuse/core@10.11.0(vue@3.2.37))(esbuild@0.25.2)(rollup@4.24.4)(typescript@5.5.4)(vue@3.2.37)
+        version: 2.7.11(@vueuse/core@10.11.1(vue@3.2.37))(esbuild@0.25.2)(rollup@4.24.4)(typescript@5.5.4)(vue@3.2.37)
       vitest:
         specifier: ^2.0.5
         version: 2.0.5(@types/node@22.9.0)(@vitest/ui@2.0.5)(happy-dom@17.4.4)(jsdom@16.4.0)(sass@1.79.3)(terser@5.36.0)
@@ -274,8 +274,8 @@ importers:
         specifier: ^3.2.37
         version: 3.2.37
       '@vueuse/core':
-        specifier: ^9.1.0
-        version: 9.1.0(vue@3.4.31(typescript@5.5.4))
+        specifier: ^10.11.1
+        version: 10.11.1(vue@3.4.31(typescript@5.5.4))
       clipboard-copy:
         specifier: ^4.0.1
         version: 4.0.1
@@ -555,7 +555,7 @@ importers:
         version: '@sxzz/popperjs-es@2.11.7'
       '@vueuse/core':
         specifier: 'catalog:'
-        version: 10.11.0(vue@3.2.37)
+        version: 10.11.1(vue@3.2.37)
       csstype:
         specifier: 'catalog:'
         version: 2.6.20
@@ -665,7 +665,7 @@ importers:
         version: '@sxzz/popperjs-es@2.11.7'
       '@vueuse/core':
         specifier: 'catalog:'
-        version: 10.11.0(vue@3.2.37)
+        version: 10.11.1(vue@3.2.37)
       lodash-unified:
         specifier: 'catalog:'
         version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.21)(lodash@4.17.21)
@@ -734,7 +734,7 @@ importers:
         version: 2.3.1(vue@3.2.37)
       '@vueuse/core':
         specifier: 'catalog:'
-        version: 10.11.0(vue@3.2.37)
+        version: 10.11.1(vue@3.2.37)
       lodash-unified:
         specifier: 'catalog:'
         version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.21)(lodash@4.17.21)
@@ -1374,6 +1374,11 @@ packages:
 
   '@element-plus/icons-vue@2.3.1':
     resolution: {integrity: sha512-XxVUZv48RZAd87ucGS48jPf6pKu0yV5UCg9f4FFwtrYxXOwWuVJo6wOvSLKEoMQKjv8GsX/mhP6UsC1lRwbUWg==}
+    peerDependencies:
+      vue: ^3.2.0
+
+  '@element-plus/icons-vue@2.3.2':
+    resolution: {integrity: sha512-OzIuTaIfC8QXEPmJvB4Y4kw34rSXdCJzxcD1kFStBvr8bK6X1zQAYDo0CNMjojnfTqRQCJ0I7prlErcoRiET2A==}
     peerDependencies:
       vue: ^3.2.0
 
@@ -2607,6 +2612,9 @@ packages:
   '@types/lodash@4.14.184':
     resolution: {integrity: sha512-RoZphVtHbxPZizt4IcILciSWiC6dcn+eZ8oX9IWEYfDMcocdd42f7NPI6fQj+6zI8y4E0L7gu2pcZKLGTRaV9Q==}
 
+  '@types/lodash@4.17.20':
+    resolution: {integrity: sha512-H3MHACvFUEiujabxhaI/ImO6gUrd8oOurg7LQtS7mbwIXA/cUqWrvBsaeJ23aZEPk1TAYkurjfMbSELfoCXlGA==}
+
   '@types/lodash@4.17.7':
     resolution: {integrity: sha512-8wTvZawATi/lsmNu10/j2hk1KEP0IvjubqPE3cu1Xz7xfXXt5oCq3SNUz4fMIP4XGF9Ky+Ue2tBA3hcS7LSBlA==}
 
@@ -3333,6 +3341,9 @@ packages:
   '@vueuse/core@10.11.0':
     resolution: {integrity: sha512-x3sD4Mkm7PJ+pcq3HX8PLPBadXCAlSDR/waK87dz0gQE+qJnaaFhc/dZVfJz+IUYzTMVGum2QlR7ImiJQN4s6g==}
 
+  '@vueuse/core@10.11.1':
+    resolution: {integrity: sha512-guoy26JQktXPcz+0n3GukWIy/JDNKti9v6VEMu6kV2sYBsWuGiTU8OWdg+ADfUbHg3/3DlqySDe7JmdHrktiww==}
+
   '@vueuse/core@9.1.0':
     resolution: {integrity: sha512-BIroqvXEqt826aE9r3K5cox1zobuPuAzdYJ36kouC2TVhlXvFKIILgFVWrpp9HZPwB3aLzasmG3K87q7TSyXZg==}
 
@@ -3380,11 +3391,17 @@ packages:
   '@vueuse/metadata@10.11.0':
     resolution: {integrity: sha512-kQX7l6l8dVWNqlqyN3ePW3KmjCQO3ZMgXuBMddIu83CmucrsBfXlH+JoviYyRBws/yLTQO8g3Pbw+bdIoVm4oQ==}
 
+  '@vueuse/metadata@10.11.1':
+    resolution: {integrity: sha512-IGa5FXd003Ug1qAZmyE8wF3sJ81xGLSqTqtQ6jaVfkeZ4i5kS2mwQF61yhVqojRnenVew5PldLyRgvdl4YYuSw==}
+
   '@vueuse/metadata@9.1.0':
     resolution: {integrity: sha512-8OEhlog1iaAGTD3LICZ8oBGQdYeMwByvXetOtAOZCJOzyCRSwqwdggTsmVZZ1rkgYIEqgUBk942AsAPwM21s6A==}
 
   '@vueuse/shared@10.11.0':
     resolution: {integrity: sha512-fyNoIXEq3PfX1L3NkNhtVQUSRtqYwJtJg+Bp9rIzculIZWHTkKSysujrOk2J+NrRulLTQH9+3gGSfYLWSEWU1A==}
+
+  '@vueuse/shared@10.11.1':
+    resolution: {integrity: sha512-LHpC8711VFZlDaYUXEBbFBCQ7GS3dVU9mjOhhMhXP6txTV4EhYQg/KGnQuvt/sPAtoUKq7VVUnL6mVtFoL42sA==}
 
   '@vueuse/shared@9.1.0':
     resolution: {integrity: sha512-pB/3njQu4tfJJ78ajELNda0yMG6lKfpToQW7Soe09CprF1k3QuyoNi1tBNvo75wBDJWD+LOnr+c4B5HZ39jY/Q==}
@@ -4260,6 +4277,9 @@ packages:
 
   dayjs@1.11.13:
     resolution: {integrity: sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==}
+
+  dayjs@1.11.18:
+    resolution: {integrity: sha512-zFBQ7WFRvVRhKcWoUh+ZA1g2HVgUbsZm9sbddh8EC5iv93sui8DVVz1Npvz+r6meo9VKfa8NyLWBsQK1VvIKPA==}
 
   de-indent@1.0.2:
     resolution: {integrity: sha512-e/1zu3xH5MQryN2zdVaF0OrdNLUbvWxzMbi+iNA6Bky7l1RoP8a2fIbRocyHclXt/arDrrR6lL3TqFD9pMQTsg==}
@@ -9487,6 +9507,10 @@ snapshots:
     dependencies:
       vue: 3.4.31(typescript@5.5.4)
 
+  '@element-plus/icons-vue@2.3.2(vue@3.2.37)':
+    dependencies:
+      vue: 3.2.37
+
   '@emnapi/core@1.4.3':
     dependencies:
       '@emnapi/wasi-threads': 1.0.2
@@ -10713,7 +10737,7 @@ snapshots:
 
   '@types/lodash-es@4.17.12':
     dependencies:
-      '@types/lodash': 4.17.7
+      '@types/lodash': 4.17.20
 
   '@types/lodash-es@4.17.6':
     dependencies:
@@ -10722,6 +10746,8 @@ snapshots:
   '@types/lodash@4.14.182': {}
 
   '@types/lodash@4.14.184': {}
+
+  '@types/lodash@4.17.20': {}
 
   '@types/lodash@4.17.7': {}
 
@@ -11285,13 +11311,13 @@ snapshots:
       - vite
       - webpack
 
-  '@vue-macros/define-models@1.2.2(@vueuse/core@10.11.0(vue@3.2.37))(rollup@4.24.4)(vue@3.2.37)':
+  '@vue-macros/define-models@1.2.2(@vueuse/core@10.11.1(vue@3.2.37))(rollup@4.24.4)(vue@3.2.37)':
     dependencies:
       '@vue-macros/common': 1.10.1(rollup@4.24.4)(vue@3.2.37)
       ast-walker-scope: 0.5.0(rollup@4.24.4)
       unplugin: 1.10.0
     optionalDependencies:
-      '@vueuse/core': 10.11.0(vue@3.2.37)
+      '@vueuse/core': 10.11.1(vue@3.2.37)
     transitivePeerDependencies:
       - rollup
       - vue
@@ -11813,21 +11839,31 @@ snapshots:
     optionalDependencies:
       '@types/node': 22.9.0
 
-  '@vueuse/core@10.11.0(vue@3.2.37)':
-    dependencies:
-      '@types/web-bluetooth': 0.0.20
-      '@vueuse/metadata': 10.11.0
-      '@vueuse/shared': 10.11.0(vue@3.2.37)
-      vue-demi: 0.14.8(vue@3.2.37)
-    transitivePeerDependencies:
-      - '@vue/composition-api'
-      - vue
-
   '@vueuse/core@10.11.0(vue@3.4.31(typescript@5.5.4))':
     dependencies:
       '@types/web-bluetooth': 0.0.20
       '@vueuse/metadata': 10.11.0
       '@vueuse/shared': 10.11.0(vue@3.4.31(typescript@5.5.4))
+      vue-demi: 0.14.8(vue@3.4.31(typescript@5.5.4))
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
+
+  '@vueuse/core@10.11.1(vue@3.2.37)':
+    dependencies:
+      '@types/web-bluetooth': 0.0.20
+      '@vueuse/metadata': 10.11.1
+      '@vueuse/shared': 10.11.1(vue@3.2.37)
+      vue-demi: 0.14.8(vue@3.2.37)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
+
+  '@vueuse/core@10.11.1(vue@3.4.31(typescript@5.5.4))':
+    dependencies:
+      '@types/web-bluetooth': 0.0.20
+      '@vueuse/metadata': 10.11.1
+      '@vueuse/shared': 10.11.1(vue@3.4.31(typescript@5.5.4))
       vue-demi: 0.14.8(vue@3.4.31(typescript@5.5.4))
     transitivePeerDependencies:
       - '@vue/composition-api'
@@ -11869,16 +11905,25 @@ snapshots:
 
   '@vueuse/metadata@10.11.0': {}
 
+  '@vueuse/metadata@10.11.1': {}
+
   '@vueuse/metadata@9.1.0': {}
 
-  '@vueuse/shared@10.11.0(vue@3.2.37)':
+  '@vueuse/shared@10.11.0(vue@3.4.31(typescript@5.5.4))':
+    dependencies:
+      vue-demi: 0.14.8(vue@3.4.31(typescript@5.5.4))
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
+
+  '@vueuse/shared@10.11.1(vue@3.2.37)':
     dependencies:
       vue-demi: 0.14.8(vue@3.2.37)
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
 
-  '@vueuse/shared@10.11.0(vue@3.4.31(typescript@5.5.4))':
+  '@vueuse/shared@10.11.1(vue@3.4.31(typescript@5.5.4))':
     dependencies:
       vue-demi: 0.14.8(vue@3.4.31(typescript@5.5.4))
     transitivePeerDependencies:
@@ -12906,6 +12951,8 @@ snapshots:
   date-fns@2.28.0: {}
 
   dayjs@1.11.13: {}
+
+  dayjs@1.11.18: {}
 
   de-indent@1.0.2: {}
 
@@ -16942,14 +16989,14 @@ snapshots:
       - vite
       - webpack
 
-  unplugin-vue-macros@2.7.11(@vueuse/core@10.11.0(vue@3.2.37))(esbuild@0.25.2)(rollup@4.24.4)(typescript@5.5.4)(vue@3.2.37):
+  unplugin-vue-macros@2.7.11(@vueuse/core@10.11.1(vue@3.2.37))(esbuild@0.25.2)(rollup@4.24.4)(typescript@5.5.4)(vue@3.2.37):
     dependencies:
       '@vue-macros/better-define': 1.7.3(rollup@4.24.4)(vue@3.2.37)
       '@vue-macros/boolean-prop': 0.3.2(rollup@4.24.4)(vue@3.2.37)
       '@vue-macros/chain-call': 0.2.2(rollup@4.24.4)(vue@3.2.37)
       '@vue-macros/common': 1.10.1(rollup@4.24.4)(vue@3.2.37)
       '@vue-macros/define-emit': 0.2.3(rollup@4.24.4)(vue@3.2.37)
-      '@vue-macros/define-models': 1.2.2(@vueuse/core@10.11.0(vue@3.2.37))(rollup@4.24.4)(vue@3.2.37)
+      '@vue-macros/define-models': 1.2.2(@vueuse/core@10.11.1(vue@3.2.37))(rollup@4.24.4)(vue@3.2.37)
       '@vue-macros/define-prop': 0.3.3(rollup@4.24.4)(vue@3.2.37)
       '@vue-macros/define-props': 2.0.3(@vue-macros/reactivity-transform@0.4.3(rollup@4.24.4)(vue@3.2.37))(rollup@4.24.4)(vue@3.2.37)
       '@vue-macros/define-props-refs': 1.2.2(rollup@4.24.4)(vue@3.2.37)
@@ -17262,7 +17309,7 @@ snapshots:
       '@vitejs/plugin-vue': 5.0.5(vite@5.3.3(@types/node@22.9.0)(sass@1.79.3)(terser@5.36.0))(vue@3.4.31(typescript@5.5.4))
       '@vue/devtools-api': 7.3.5
       '@vue/shared': 3.4.31
-      '@vueuse/core': 10.11.0(vue@3.4.31(typescript@5.5.4))
+      '@vueuse/core': 10.11.1(vue@3.4.31(typescript@5.5.4))
       '@vueuse/integrations': 10.11.0(async-validator@4.2.5(patch_hash=wdmp4xlpil2odxo3rasjmxbdfm))(axios@1.7.7)(focus-trap@7.5.4)(nprogress@0.2.0)(vue@3.4.31(typescript@5.5.4))
       focus-trap: 7.5.4
       mark.js: 8.11.1
