@@ -22,8 +22,13 @@ export const isEmpty = (val: unknown) =>
   (isObject(val) && !Object.keys(val).length)
 
 export const isElement = (e: unknown): e is Element => {
-  if (typeof window === 'undefined') return false
-  return e instanceof Element
+  return (
+    typeof window !== 'undefined' &&
+    e != null &&
+    typeof e === 'object' &&
+    'nodeType' in e &&
+    (e as any).nodeType === 1
+  )
 }
 
 export const isPropAbsent = (prop: unknown): prop is null | undefined =>
