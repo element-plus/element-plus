@@ -194,14 +194,12 @@ describe('Dropdown', () => {
         Right click
       </el-button>
       <el-dropdown
-      ref="dropdownRef"
+        ref="dropdownRef"
         popper-class="virtual-ref-cls"
         :virtual-ref="triggerRef"
         virtual-triggering
-        placement="bottom"
         :popper-options="popperOptions"
       >
-        dropdown
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item>Apple</el-dropdown-item>
