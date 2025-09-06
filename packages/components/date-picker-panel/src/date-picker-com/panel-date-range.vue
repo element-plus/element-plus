@@ -464,7 +464,6 @@ const defaultValue = toRef(pickerBase.props, 'defaultValue')
 const { lang } = useLocale()
 const leftDate = ref<Dayjs>(dayjs().locale(lang.value))
 const rightDate = ref<Dayjs>(dayjs().locale(lang.value).add(1, unit))
-let shouldBeVisible = true
 
 const {
   minDate,
@@ -726,15 +725,8 @@ const handleRangePick = (
   if (!showTime.value && close) {
     close = !minDate_ || !maxDate_
   }
-  shouldBeVisible = close
+  handleRangeConfirm(close)
 }
-
-watch([maxDate, minDate], ([max, min]) => {
-  if (max && min) {
-    handleRangeConfirm(shouldBeVisible)
-    shouldBeVisible = true
-  }
-})
 
 const minTimePickerVisible = ref(false)
 const maxTimePickerVisible = ref(false)
@@ -782,6 +774,7 @@ const handleDateInput = (value: string | null, type: ChangeType) => {
       }
     }
     sortDates(minDate.value, maxDate.value)
+    handleRangeConfirm(true)
   }
 }
 
@@ -826,6 +819,7 @@ const handleTimeChange = (_value: string | null, type: ChangeType) => {
       minDate.value = maxDate.value
     }
   }
+  handleRangeConfirm(true)
 }
 
 const handleMinTimePick = (value: Dayjs, visible: boolean, first: boolean) => {
@@ -849,6 +843,7 @@ const handleMinTimePick = (value: Dayjs, visible: boolean, first: boolean) => {
       parseValue(props.parsedValue)
     })
   }
+  handleRangeConfirm(true)
 }
 
 const handleMaxTimePick = (
@@ -872,6 +867,7 @@ const handleMaxTimePick = (
   if (maxDate.value && maxDate.value.isBefore(minDate.value)) {
     minDate.value = maxDate.value
   }
+  handleRangeConfirm(true)
 }
 
 const handleClear = () => {
@@ -887,6 +883,8 @@ const handleClear = () => {
   rightDate.value = leftDate.value.add(1, 'month')
   maxDate.value = undefined
   minDate.value = undefined
+
+  handleRangeConfirm(true)
   emit('pick', valueOnClear)
 }
 

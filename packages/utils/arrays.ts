@@ -2,6 +2,10 @@ import { isArray } from './types'
 
 export const unique = <T>(arr: T[]) => [...new Set(arr)]
 
+export const extractFirst = <T>(arr: T | T[]): T => {
+  return isArray(arr) ? arr[0] : arr
+}
+
 type Many<T> = T | ReadonlyArray<T>
 // TODO: rename to `ensureArray`
 /** like `_.castArray`, except falsy value returns empty array. */
