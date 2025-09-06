@@ -8,9 +8,9 @@
   </el-card>
   <el-dropdown
     ref="dropdownRef"
-    :virtual-triggering="true"
     :virtual-ref="triggerRef"
     :show-arrow="false"
+    virtual-triggering
     trigger="contextmenu"
     placement="bottom-start"
   >
@@ -55,13 +55,13 @@ const handleClick = () => {
 }
 
 const handleContextmenu = (event: MouseEvent) => {
-  event.preventDefault()
-  dropdownRef.value?.handleOpen()
   const { clientX, clientY } = event
   position.value = DOMRect.fromRect({
     x: clientX,
     y: clientY,
   })
+  event.preventDefault()
+  dropdownRef.value?.handleOpen()
 }
 </script>
 
@@ -71,6 +71,5 @@ const handleContextmenu = (event: MouseEvent) => {
   justify-content: center;
   align-items: center;
   height: 200px;
-  background-color: var(--bg-color);
 }
 </style>
