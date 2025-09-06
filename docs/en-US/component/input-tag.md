@@ -167,7 +167,7 @@ input-tag/prefix-suffix
 | input      | triggers when the input value change    | ^[Function]`(value: string) => void`                                     |
 | add-tag    | triggers when a tag is added            | ^[Function]`(value: string \| string []) => void`                        |
 | remove-tag | triggers when a tag is removed          | ^[Function]`(value: string, index: number) => void`                      |
-| drag-tag   | triggers when a tag is dragged          | ^[Function]`(oldIndex: number, newIndex: number, value: string) => void` |
+| drag-tag ^(2.11.3)  | triggers when a tag is dragged          | ^[Function]`(oldIndex: number, newIndex: number, value: string) => void` |
 | focus      | triggers when InputTag focuses          | ^[Function]`(event: FocusEvent) => void`                                 |
 | blur       | triggers when InputTag blurs            | ^[Function]`(event: FocusEvent) => void`                                 |
 | clear      | triggers when the clear icon is clicked | ^[Function]`() => void`                                                  |
