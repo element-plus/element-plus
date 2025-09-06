@@ -10,6 +10,9 @@
     ref="dropdownRef"
     :virtual-ref="triggerRef"
     :show-arrow="false"
+    :popper-options="{
+      modifiers: [{ name: 'offset', options: { offset: [0, 0] } }],
+    }"
     virtual-triggering
     trigger="contextmenu"
     placement="bottom-start"
