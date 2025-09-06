@@ -190,10 +190,17 @@ describe('Dropdown', () => {
   test('virtual ref', async () => {
     const wrapper = _mount(
       `
-      <el-button @click="handleClick" @contextmenu="handleContextmenu">
+      <el-button style="height: 400px; width: 400px" @click="handleClick" @contextmenu="handleContextmenu">
         Right click
       </el-button>
-      <el-dropdown popper-class="virtual-ref-cls" ref="dropdownRef" :virtual-ref="triggerRef" virtual-triggering>
+      <el-dropdown
+      ref="dropdownRef"
+        popper-class="virtual-ref-cls"
+        :virtual-ref="triggerRef"
+        virtual-triggering
+        placement="bottom"
+        :popper-options="popperOptions"
+      >
         dropdown
         <template #dropdown>
           <el-dropdown-menu>
@@ -207,11 +214,22 @@ describe('Dropdown', () => {
       function () {
         return {
           dropdownRef: null,
+          popperOptions: {
+            modifiers: [
+              { name: 'offset', options: { offset: [0, 0] } },
+              { name: 'flip', options: { fallbackPlacements: ['bottom'] } },
+            ],
+          },
           position: {
             top: 0,
             left: 0,
             bottom: 0,
             right: 0,
+            x: 0,
+            y: 0,
+            width: 0,
+            height: 0,
+            toJSON: () => {},
           },
           triggerRef: {
             getBoundingClientRect: () => this.position,
@@ -227,8 +245,13 @@ describe('Dropdown', () => {
             event.preventDefault()
             const { clientX, clientY } = event
             this.position = {
+              ...this.position,
               top: clientY,
               left: clientX,
+              x: clientX,
+              y: clientY,
+              right: clientX,
+              bottom: clientY,
             }
             this.$refs.dropdownRef?.handleOpen()
           },
@@ -250,7 +273,11 @@ describe('Dropdown', () => {
     })
     vi.runAllTimers()
     expect(content.open).toBe(true)
+    const dropdownEl = document.querySelector('.virtual-ref-cls')
+    const dropdownStyle = getComputedStyle(dropdownEl)
 
+    expect(dropdownStyle.left).toBe('100px')
+    expect(dropdownStyle.top).toBe('100px')
     await triggerElm.trigger('click')
     vi.runAllTimers()
     expect(content.open).toBe(false)
