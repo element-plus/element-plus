@@ -240,7 +240,7 @@ const elPopperOptions = inject(
   PICKER_POPPER_OPTIONS_INJECTION_KEY,
   {} as Options
 )
-const { valueOnClear } = useEmptyValues(props, null)
+const emptyValues = useEmptyValues(props, null)
 
 const refPopper = ref<TooltipInstance>()
 const inputRef = ref<InputInstance>()
@@ -436,9 +436,9 @@ const onClearIconClick = (event: MouseEvent) => {
     if (pickerOptions.value.handleClear) {
       pickerOptions.value.handleClear()
     } else {
-      emitInput(valueOnClear.value)
+      emitInput(emptyValues.valueOnClear.value)
     }
-    emitChange(valueOnClear.value, true)
+    emitChange(emptyValues.valueOnClear.value, true)
     onHide()
   }
   emit('clear')
@@ -510,8 +510,8 @@ const handleChange = () => {
     }
   }
   if (userInput.value === '') {
-    emitInput(valueOnClear.value)
-    emitChange(valueOnClear.value, true)
+    emitInput(emptyValues.valueOnClear.value)
+    emitChange(emptyValues.valueOnClear.value, true)
     userInput.value = null
   }
 }
@@ -657,6 +657,7 @@ const blur = () => {
 
 provide(PICKER_BASE_INJECTION_KEY, {
   props,
+  emptyValues,
 })
 provide(ROOT_COMMON_PICKER_INJECTION_KEY, commonPicker)
 

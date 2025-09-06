@@ -3,8 +3,10 @@ import {
   buildProps,
   debugWarn,
   definePropType,
+  isArray,
   isFunction,
 } from '@element-plus/utils'
+import { isEqual } from 'lodash-unified'
 
 import type { ExtractPropTypes, InjectionKey, Ref } from 'vue'
 
@@ -33,7 +35,13 @@ export const useEmptyValuesProps = buildProps({
       Function,
     ]),
     default: undefined,
-    validator: (val: unknown) => (isFunction(val) ? !val() : !val),
+    validator: (val: unknown) => {
+      val = isFunction(val) ? val() : val
+      if (isArray(val)) {
+        return val.every((item) => !item)
+      }
+      return !val
+    },
   },
 } as const)
 
@@ -67,7 +75,15 @@ export const useEmptyValues = (
     return emptyValues.value.includes(value)
   }
 
-  if (!emptyValues.value.includes(valueOnClear.value)) {
+  let valueOnClearValid = true
+  if (isArray(valueOnClear.value)) {
+    valueOnClearValid = emptyValues.value.some((emptyValue) => {
+      return isEqual(valueOnClear.value, emptyValue)
+    })
+  } else {
+    valueOnClearValid = emptyValues.value.includes(valueOnClear.value)
+  }
+  if (!valueOnClearValid) {
     debugWarn(SCOPE, 'value-on-clear should be a value of empty-values')
   }
 
