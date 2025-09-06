@@ -10,9 +10,10 @@
     </el-image>
     <el-image show-progress :src="url" :preview-src-list="srcList" />
     <el-image :src="url" :preview-src-list="srcList" show-progress>
-      <template #viewer-error>
+      <template #viewer-error="{ activeIndex, src }">
         <div class="image-slot">
           <el-icon><icon-picture /></el-icon>
+          <div>current index: {{ activeIndex }} src: {{ src }}</div>
         </div>
       </template>
     </el-image>
@@ -23,7 +24,7 @@
 import { Picture as IconPicture } from '@element-plus/icons-vue'
 
 const srcList = [
-  'error',
+  'https://errorSrc',
   'https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg',
 ]
 const url =
@@ -41,6 +42,7 @@ const url =
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   width: 100%;
   height: 100%;
   color: var(--el-text-color-secondary);

@@ -49,8 +49,8 @@
         <template #toolbar="toolbar">
           <slot name="toolbar" v-bind="toolbar" />
         </template>
-        <template #viewer-error>
-          <slot name="viewer-error" />
+        <template #viewer-error="viewerError">
+          <slot name="viewer-error" v-bind="viewerError" />
         </template>
       </image-viewer>
     </template>
