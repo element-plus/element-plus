@@ -87,7 +87,7 @@ dropdown/sizes
 
 :::
 
-## Virtual triggering
+## Virtual triggering ^(2.11.3)
 
 Sometimes we want to render the dropdown on some other trigger element, we can separate the trigger and the content.
 
