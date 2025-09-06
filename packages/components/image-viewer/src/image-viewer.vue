@@ -94,6 +94,7 @@
             <img
               v-else
               ref="imgRef"
+              :key="currentImg"
               :src="currentImg"
               :style="imgStyle"
               :class="ns.e('img')"
