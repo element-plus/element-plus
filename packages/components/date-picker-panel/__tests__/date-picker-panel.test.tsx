@@ -461,6 +461,24 @@ describe('DatePickerPanel', () => {
           '6',
         ])
       })
+
+      it('should handle array value without errors', async () => {
+        const value = ref(['2025-09-01'])
+        const wrapper = mount(() => (
+          <DatePickerPanel v-model={value.value} type="datetime" />
+        ))
+        await nextTick()
+
+        const dateInput = wrapper.find(
+          '.el-date-picker__time-header > span:nth-child(1) input'
+        ).element as HTMLInputElement
+        expect(dateInput.value).toBe('2025-09-01')
+
+        const timeInput = wrapper.find(
+          '.el-date-picker__time-header > span:nth-child(2) input'
+        ).element as HTMLInputElement
+        expect(timeInput.value).toBe('00:00:00')
+      })
     })
 
     describe(':type="datetimerange"', () => {
