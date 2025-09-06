@@ -187,6 +187,76 @@ describe('Dropdown', () => {
     expect(content.open).toBe(true)
   })
 
+  test('virtual ref', async () => {
+    const wrapper = _mount(
+      `
+      <el-button @click="handleClick" @contextmenu="handleContextmenu">
+        Right click
+      </el-button>
+      <el-dropdown popper-class="virtual-ref-cls" ref="dropdownRef" :virtual-ref="triggerRef" virtual-triggering>
+        dropdown
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item>Apple</el-dropdown-item>
+            <el-dropdown-item>Orange</el-dropdown-item>
+            <el-dropdown-item>Cherry</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+      `,
+      function () {
+        return {
+          dropdownRef: null,
+          position: {
+            top: 0,
+            left: 0,
+            bottom: 0,
+            right: 0,
+          },
+          triggerRef: {
+            getBoundingClientRect: () => this.position,
+          },
+        }
+      },
+      {
+        methods: {
+          handleClick() {
+            this.$refs.dropdownRef?.handleClose()
+          },
+          handleContextmenu(event: MouseEvent) {
+            event.preventDefault()
+            const { clientX, clientY } = event
+            this.position = {
+              top: clientY,
+              left: clientX,
+            }
+            this.$refs.dropdownRef?.handleOpen()
+          },
+        },
+      }
+    )
+
+    await nextTick()
+    const content = wrapper.findComponent(ElTooltip).vm as InstanceType<
+      typeof ElTooltip
+    >
+    const triggerElm = wrapper.find('.el-button')
+
+    expect(content.open).toBe(false)
+    vi.useFakeTimers()
+    await triggerElm.trigger('contextmenu', {
+      clientX: 100,
+      clientY: 100,
+    })
+    vi.runAllTimers()
+    expect(content.open).toBe(true)
+
+    await triggerElm.trigger('click')
+    vi.runAllTimers()
+    expect(content.open).toBe(false)
+    vi.useRealTimers()
+  })
+
   test('handleOpen and handleClose', async () => {
     const wrapper = _mount(
       `
