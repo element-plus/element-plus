@@ -365,6 +365,7 @@ const handleDatePick = async (value: DateTableEmits, keepOpen?: boolean) => {
     emit(newDate, showTime.value || keepOpen)
   } else if (selectionMode.value === 'week') {
     emit((value as WeekPickerEmits).date)
+    handlePanelChange('week')
   } else if (selectionMode.value === 'dates') {
     emit(value as DatesPickerEmits, true) // set true to keep panel open
   }
@@ -821,7 +822,7 @@ const handleKeyControl = (code: string) => {
   }
 }
 
-const handlePanelChange = (mode: 'month' | 'year') => {
+const handlePanelChange = (mode: 'month' | 'year' | 'week') => {
   contextEmit('panel-change', innerDate.value.toDate(), mode, currentView.value)
 }
 

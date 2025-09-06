@@ -112,7 +112,7 @@ export const useCommonPicker = <
 
   const onPanelChange = (
     value: [Dayjs, Dayjs],
-    mode: 'month' | 'year',
+    mode: 'month' | 'year' | 'week',
     view: unknown
   ) => {
     emit('panel-change', value, mode, view)
