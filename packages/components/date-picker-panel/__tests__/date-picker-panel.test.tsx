@@ -891,25 +891,4 @@ describe('DatePickerPanel', () => {
       })
     })
   })
-
-  describe('panel-change events', () => {
-    const types: DatePickerType[] = ['year', 'month', 'week']
-    it.each(types)(
-      ":type='%s' should trigger panel-change event",
-      async (type) => {
-        const onPanelChange = vi.fn()
-        const wrapper = mount(() => (
-          <DatePickerPanel type={type} onPanel-change={onPanelChange} />
-        ))
-        const firstCell = wrapper.find('.el-date-table-cell')
-        expect(firstCell.exists()).toBe(true)
-        await firstCell.trigger('click')
-        await nextTick()
-        expect(onPanelChange).toHaveBeenCalled()
-        const [current, panelType] = onPanelChange.mock.calls[0]
-        expect(panelType).toBe(type)
-        expect(current).toBeInstanceOf(Date)
-      }
-    )
-  })
 })
