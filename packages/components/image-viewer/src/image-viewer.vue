@@ -84,13 +84,11 @@
           <!-- CANVAS -->
           <div :class="ns.e('canvas')">
             <slot
-              v-if="loadError"
+              v-if="loadError && $slots['viewer-error']"
               name="viewer-error"
               :active-index="activeIndex"
               :src="currentImg"
-            >
-              <div :class="ns.e('error')">{{ t('el.image.error') }}</div>
-            </slot>
+            />
             <img
               v-else
               ref="imgRef"
@@ -298,6 +296,7 @@ function handleImgError(e: Event) {
   loadError.value = true
   loading.value = false
   emit('error', e)
+  ;(e.target as HTMLImageElement).alt = t('el.image.error')
 }
 
 function handleMouseDown(e: MouseEvent) {

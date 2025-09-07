@@ -8,12 +8,14 @@
         </div>
       </template>
     </el-image>
-    <el-image show-progress :src="url" :preview-src-list="srcList" />
     <el-image :src="url" :preview-src-list="srcList" show-progress>
       <template #viewer-error="{ activeIndex, src }">
         <div class="image-slot">
           <el-icon><icon-picture /></el-icon>
-          <div>current index: {{ activeIndex }} src: {{ src }}</div>
+          <span>
+            this is viewer-error slot. current index: {{ activeIndex }} src:
+            {{ src }}
+          </span>
         </div>
       </template>
     </el-image>
