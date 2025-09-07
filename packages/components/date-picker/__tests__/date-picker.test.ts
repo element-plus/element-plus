@@ -2539,7 +2539,7 @@ describe('MonthRange', () => {
         v-model="yearValue"
         type="year"
         :disabled-date="validateYear"
-        @panel-change="onPick"
+        @update:model-value="onPick"
       />`,
       () => ({
         yearValue: '2022',
