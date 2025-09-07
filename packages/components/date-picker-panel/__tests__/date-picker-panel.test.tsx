@@ -461,6 +461,24 @@ describe('DatePickerPanel', () => {
           '6',
         ])
       })
+
+      it('should handle array value without errors', async () => {
+        const value = ref(['2025-09-01'])
+        const wrapper = mount(() => (
+          <DatePickerPanel v-model={value.value} type="datetime" />
+        ))
+        await nextTick()
+
+        const dateInput = wrapper.find(
+          '.el-date-picker__time-header > span:nth-child(1) input'
+        ).element as HTMLInputElement
+        expect(dateInput.value).toBe('2025-09-01')
+
+        const timeInput = wrapper.find(
+          '.el-date-picker__time-header > span:nth-child(2) input'
+        ).element as HTMLInputElement
+        expect(timeInput.value).toBe('00:00:00')
+      })
     })
 
     describe(':type="datetimerange"', () => {
@@ -836,6 +854,40 @@ describe('DatePickerPanel', () => {
           '9',
           '10',
         ])
+      })
+
+      it('should not duplicate panels on update inner input nor change panels', async () => {
+        const value = ref([new Date(2025, 0, 1), new Date(2025, 0, 5)])
+        const wrapper = mount(() => (
+          <DatePickerPanel v-model={value.value} type="datetimerange" />
+        ))
+        await nextTick()
+        let pickerss = wrapper.findAll(
+          '.el-date-range-picker__time-header .el-date-range-picker__editors-wrap'
+        )
+        const leftDateInput = pickerss[0].find(
+          '.el-date-range-picker__time-picker-wrap:nth-child(1) input'
+        ).element as HTMLInputElement
+        const rightDateInput = pickerss[1].find(
+          '.el-date-range-picker__time-picker-wrap:nth-child(1) input'
+        ).element as HTMLInputElement
+        expect(leftDateInput.value).toBe('2025-01-01')
+        expect(rightDateInput.value).toBe('2025-01-05')
+        rightDateInput.value = '2025-01-06'
+        rightDateInput.dispatchEvent(new Event('input'))
+        rightDateInput.dispatchEvent(new Event('change'))
+        await nextTick()
+        expect(value.value[1]).toStrictEqual(new Date(2025, 0, 6))
+        pickerss = wrapper.findAll('.el-date-range-picker__header')
+        const leftHeader = pickerss[0].findAll(
+          '.el-date-range-picker__header-label'
+        )[1]
+        const rightHeader = pickerss[1].findAll(
+          '.el-date-range-picker__header-label'
+        )[1]
+
+        expect(leftHeader.text()).toBe('January')
+        expect(rightHeader.text()).toBe('February')
       })
     })
   })

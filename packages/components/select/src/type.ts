@@ -69,6 +69,7 @@ export type OptionInternalInstance = ComponentInternalInstance & {
 }
 export type OptionValue = OptionProps['value']
 export type OptionBasic = {
+  index: number
   value: OptionValue
   currentLabel: OptionPublicInstance['currentLabel']
   isDisabled?: OptionPublicInstance['isDisabled']

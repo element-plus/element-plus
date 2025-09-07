@@ -59,7 +59,7 @@ Try to drag the edge part.
 
 :::demo Set `resizable` to `true` to resize.
 
-drawer/resizable-drawer
+drawer/resizable
 
 :::
 
@@ -81,7 +81,7 @@ The content inside Drawer should be lazy rendered, which means that the content 
 
 :::tip
 
-Drawer provides an API called `destroyOnClose`, which is a flag variable that indicates should destroy the children content inside Drawer after Drawer was closed. You can use this API when you need your `mounted` life cycle to be called every time the Drawer opens.
+Drawer provides an API called `destroy-on-close`, which is a flag variable that indicates should destroy the children content inside Drawer after Drawer was closed. You can use this API when you need your `mounted` life cycle to be called every time the Drawer opens.
 
 :::
 

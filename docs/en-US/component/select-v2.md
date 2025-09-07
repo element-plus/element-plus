@@ -322,7 +322,7 @@ select-v2/custom-width
 | prefix           | prefix content of input                                                                         | —                                                                                                              |
 | tag ^(2.5.0)     | content as Select tag, subTags `data`, `selectDisabled` and `deleteTag` introduced in ^(2.10.3) | ^[object]`{ data: Option[], selectDisabled: boolean, deleteTag: (event: MouseEvent, option: Option) => void }` |
 | loading ^(2.5.2) | content as Select loading                                                                       | —                                                                                                              |
-| label ^(2.7.4)   | content as Select label                                                                         | —                                                                                                              |
+| label ^(2.7.4)   | content as Select label. `index` introduced in ^(2.11.2)                                        | ^[object]`{ index: number, label: string \| any, value: string \| any }`                                       |
 
 ### Exposes
 

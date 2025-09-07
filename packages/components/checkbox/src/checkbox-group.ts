@@ -4,7 +4,7 @@ import { buildProps, definePropType, isArray } from '@element-plus/utils'
 
 import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type checkboxGroup from './checkbox-group.vue'
-import type { CheckboxValueType } from './checkbox'
+import type { CheckboxPropsPublic, CheckboxValueType } from './checkbox'
 
 export type CheckboxGroupValueType = Exclude<CheckboxValueType, boolean>[]
 
@@ -54,6 +54,13 @@ export const checkboxGroupProps = buildProps({
     type: Boolean,
     default: true,
   },
+  options: {
+    type: definePropType<CheckboxOption[]>(Array),
+  },
+  props: {
+    type: definePropType<CheckboxOptionProps>(Object),
+    default: () => checkboxDefaultProps,
+  },
   ...useAriaProps(['ariaLabel']),
 } as const)
 
@@ -68,3 +75,16 @@ export type CheckboxGroupPropsPublic = __ExtractPublicPropTypes<
 >
 export type CheckboxGroupEmits = typeof checkboxGroupEmits
 export type CheckboxGroupInstance = InstanceType<typeof checkboxGroup> & unknown
+
+export type CheckboxOption = CheckboxPropsPublic & Record<string, any>
+
+type CheckboxOptionProps = {
+  value?: string
+  label?: string
+  disabled?: string
+}
+export const checkboxDefaultProps: Required<CheckboxOptionProps> = {
+  label: 'label',
+  value: 'value',
+  disabled: 'disabled',
+}
