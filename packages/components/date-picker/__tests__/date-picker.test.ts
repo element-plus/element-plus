@@ -1096,6 +1096,54 @@ describe('DatePicker', () => {
       expect(changeHandler).toHaveBeenCalledTimes(1)
     })
   })
+
+  it('should handle array value for datetime type without errors', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        type="datetime"
+      />`,
+      () => ({ value: ['2025-09-01'] })
+    )
+
+    await nextTick()
+    const input = wrapper.find('input')
+    expect(input.element.value).toBe('2025-09-01 00:00:00')
+
+    await input.trigger('focus')
+    await nextTick()
+
+    const dateInput = document.querySelector(
+      '.el-date-picker__time-header > span:nth-child(1) input'
+    ) as HTMLInputElement
+    const timeInput = document.querySelector(
+      '.el-date-picker__time-header > span:nth-child(2) input'
+    ) as HTMLInputElement
+
+    expect(dateInput?.value).toBe('2025-09-01')
+    expect(timeInput?.value).toBe('00:00:00')
+  })
+
+  it('should convert array value to proper format when changed', async () => {
+    const wrapper = _mount(
+      `<el-date-picker v-model="value" type="datetime" />`,
+      () => ({ value: ['2025-09-04'] })
+    )
+
+    const originalValue = wrapper.vm.value
+    expect(originalValue).toEqual(['2025-09-04'])
+
+    const input = wrapper.find('input')
+    await input.trigger('focus')
+    await nextTick()
+
+    const dateCell = document.querySelector('.el-date-table td.available')
+    await (dateCell as HTMLElement)?.click()
+    await nextTick()
+
+    expect(wrapper.vm.value).not.toEqual(['2025-09-04'])
+    expect(Array.isArray(wrapper.vm.value)).toBe(false)
+  })
 })
 
 describe('DatePicker Navigation', () => {
