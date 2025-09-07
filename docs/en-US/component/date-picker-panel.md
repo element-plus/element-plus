@@ -80,10 +80,10 @@ Note, date time locale (month name, first day of the week ...) are also configur
 
 ### Events
 
-| Name            | Description                                                           | Type                                                                                      |
-| --------------- | --------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| calendar-change | triggers when the calendar selected date is changed. Only for `range` | ^[Function]`(val: [Date, null \| Date]) => void`                                          |
-| panel-change    | triggers when the navigation button click.                            | ^[Function]`(date: Date \| [Date, Date], mode: 'month' \| 'year', view?: string) => void` |
+| Name            | Description                                                           | Type                                                                                               |
+| --------------- | --------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| calendar-change | triggers when the calendar selected date is changed. Only for `range` | ^[Function]`(val: [Date, null \| Date]) => void`                                                   |
+| panel-change    | triggers when the navigation button click.                            | ^[Function]`(date: Date \| [Date, Date], mode: 'month' \| 'year'\| 'week', view?: string) => void` |
 
 ### Slots
 
