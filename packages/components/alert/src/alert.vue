@@ -54,8 +54,6 @@ import {
 import { useDelayedToggle, useNamespace } from '@element-plus/hooks'
 import { alertEmits, alertProps } from './alert'
 
-import type { Ref } from 'vue'
-
 const { Close } = TypeComponents
 
 defineOptions({
@@ -85,7 +83,7 @@ const close = (event?: Event) => {
 }
 
 const { onOpen, onClose } = useDelayedToggle({
-  showAfter: toRef(props, 'showAfter') as Ref<number>,
+  showAfter: toRef(props, 'showAfter', 0),
   hideAfter: toRef(props, 'hideAfter'),
   autoClose: toRef(props, 'autoClose'),
   open,
