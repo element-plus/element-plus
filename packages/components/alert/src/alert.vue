@@ -50,6 +50,7 @@ import {
   TypeComponents,
   TypeComponentsMap,
   isClient,
+  isUndefined,
 } from '@element-plus/utils'
 import { useDelayedToggle, useNamespace } from '@element-plus/hooks'
 import { alertEmits, alertProps } from './alert'
