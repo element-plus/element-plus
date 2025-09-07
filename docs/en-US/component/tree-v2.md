@@ -118,6 +118,7 @@ tree-v2/filter
 | icon                          | custom tree node icon component                                                                                                              | ^[string] / ^[Component]                                                    | —       |
 | item-size ^(2.2.33)           | custom tree node height                                                                                                                      | ^[number]                                                                   | 26      |
 | scrollbar-always-on ^(2.10.4) | always show scrollbar                                                                                                                        | ^[boolean]                                                                  | false   |
+| height                        | height of the tree                                                                                                                           | ^[number]                                                                   | 200     |
 
 ### props
 

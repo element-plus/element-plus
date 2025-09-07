@@ -5,6 +5,7 @@ import { describe, expect, test, vi } from 'vitest'
 import { rAF } from '@element-plus/test-utils/tick'
 import Drawer from '../src/drawer.vue'
 import Button from '../../button/src/button.vue'
+import defineGetter from '@element-plus/test-utils/define-getter'
 
 const _mount = (template: string, data, otherObj?) =>
   mount({
@@ -406,15 +407,110 @@ describe('Drawer', () => {
       )
 
     test('should effect height when drawer is vertical', async () => {
-      const wrapper = renderer('50%', true)
-      const drawerEl = wrapper.findAllComponents({ name: 'ElSplitterPanel' })[0]
-      expect(drawerEl.vm.size).toContain('50%')
+      const cleanup = defineGetter(window, 'innerWidth', '100')
+      const drawerEl = renderer('50%', true).find('.el-drawer')
+        .element as HTMLDivElement
+      expect(drawerEl.style.width).toEqual('50%')
+      cleanup()
     })
 
     test('should effect width when drawer is horizontal', async () => {
-      const wrapper = renderer('50%', false)
-      const drawerEl = wrapper.findAllComponents({ name: 'ElSplitterPanel' })[0]
-      expect(drawerEl.vm.size).toContain('50%')
+      const cleanup = defineGetter(window, 'innerHeight', '100')
+      const drawerEl = renderer('50%', false).find('.el-drawer')
+        .element as HTMLDivElement
+      expect(drawerEl.style.height).toEqual('50%')
+      cleanup()
+    })
+  })
+
+  describe('resizable', () => {
+    // mock mouse event
+    const simulateDrag = async (
+      dragger: DOMWrapper<Element>,
+      direction: 'horizontal' | 'vertical',
+      startPos: number,
+      endPos: number
+    ) => {
+      const prop = direction === 'horizontal' ? 'pageX' : 'pageY'
+
+      // Simulate mouse down
+      const mousedown = new MouseEvent('mousedown', { bubbles: true })
+      const mousedownCleanup = defineGetter(mousedown, prop, startPos)
+      dragger.element.dispatchEvent(mousedown)
+
+      // Simulate mouse move
+      const mousemove = new MouseEvent('mousemove', { bubbles: true })
+      const mousemoveCleanup = defineGetter(mousemove, prop, endPos)
+      window.dispatchEvent(mousemove)
+
+      // Simulate mouse up
+      const mouseup = new MouseEvent('mouseup', { bubbles: true })
+      const mouseupCleanup = defineGetter(mouseup, prop, endPos)
+      window.dispatchEvent(mouseup)
+
+      await nextTick()
+
+      mousedownCleanup()
+      mousemoveCleanup()
+      mouseupCleanup()
+    }
+
+    test('should be dragged horizontally', async () => {
+      const cleanup = defineGetter(window, 'innerWidth', '100')
+      const wrapper = _mount(
+        `
+        <el-drawer v-model='visible' direction='ltr' resizable size='50%'>
+          <span>${content}</span>
+        </el-drawer>
+        `,
+        () => ({
+          visible: true,
+        })
+      )
+
+      await nextTick()
+
+      const dragger = wrapper.find('.el-drawer__dragger')
+      expect(dragger.exists()).toBe(true)
+      const drawerEl = wrapper.find('.el-drawer').element as HTMLDivElement
+      expect(drawerEl.style.width).toEqual('50%')
+      Object.defineProperty(drawerEl, 'offsetWidth', {
+        value: 50,
+        configurable: true,
+      })
+      await simulateDrag(dragger, 'horizontal', 50, 100)
+      expect(drawerEl.style.width).toEqual('100px')
+
+      cleanup()
+    })
+
+    test('should be dragged vertically', async () => {
+      const cleanup = defineGetter(window, 'innerHeight', '100')
+      const wrapper = _mount(
+        `
+        <el-drawer v-model='visible' direction='ttb' resizable size='50%'>
+          <span>${content}</span>
+        </el-drawer>
+        `,
+        () => ({
+          visible: true,
+        })
+      )
+
+      await nextTick()
+
+      const dragger = wrapper.find('.el-drawer__dragger')
+      expect(dragger.exists()).toBe(true)
+      const drawerEl = wrapper.find('.el-drawer').element as HTMLDivElement
+      expect(drawerEl.style.height).toEqual('50%')
+      Object.defineProperty(drawerEl, 'offsetHeight', {
+        value: 50,
+        configurable: true,
+      })
+      await simulateDrag(dragger, 'vertical', 50, 100)
+      expect(drawerEl.style.height).toEqual('100px')
+
+      cleanup()
     })
   })
 

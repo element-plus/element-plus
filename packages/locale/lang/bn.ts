@@ -150,6 +150,7 @@ export default {
       next: 'Next', // to be translated
       previous: 'Previous', // to be translated
       finish: 'Finish', // to be translated
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'কোন ডাটা নেই',

@@ -150,6 +150,7 @@ export default {
       next: '次へ',
       previous: '前へ',
       finish: 'ツアー終了',
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'データなし',

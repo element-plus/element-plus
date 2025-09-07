@@ -152,6 +152,7 @@ export default {
       next: 'နောက်သို့',
       previous: 'ရှေ့သို့',
       finish: 'ပြီးပြီ',
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'ဒေတာမရှိပါ',
