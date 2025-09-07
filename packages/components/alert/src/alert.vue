@@ -66,7 +66,7 @@ const slots = useSlots()
 
 const ns = useNamespace('alert')
 
-const visible = ref(props.showAfter === undefined)
+const visible = ref(isUndefined(props.showAfter))
 
 const iconComponent = computed(() => TypeComponentsMap[props.type])
 
