@@ -2551,7 +2551,6 @@ describe('MonthRange', () => {
           }
         },
         onPick(e) {
-          console.log('rebuild')
           return pickHandler(e)
         },
       })
