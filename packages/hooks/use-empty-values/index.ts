@@ -72,18 +72,18 @@ export const useEmptyValues = (
   })
 
   const isEmptyValue = (value: unknown) => {
-    return emptyValues.value.includes(value)
+    let result = true
+    if (isArray(value)) {
+      result = emptyValues.value.some((emptyValue) => {
+        return isEqual(value, emptyValue)
+      })
+    } else {
+      result = emptyValues.value.includes(value)
+    }
+    return result
   }
 
-  let valueOnClearValid = true
-  if (isArray(valueOnClear.value)) {
-    valueOnClearValid = emptyValues.value.some((emptyValue) => {
-      return isEqual(valueOnClear.value, emptyValue)
-    })
-  } else {
-    valueOnClearValid = emptyValues.value.includes(valueOnClear.value)
-  }
-  if (!valueOnClearValid) {
+  if (!isEmptyValue(valueOnClear.value)) {
     debugWarn(SCOPE, 'value-on-clear should be a value of empty-values')
   }
 
