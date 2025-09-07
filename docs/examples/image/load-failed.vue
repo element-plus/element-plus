@@ -44,14 +44,7 @@
 import { ref } from 'vue'
 import { Picture as IconPicture } from '@element-plus/icons-vue'
 
-import type { ImageInstance } from 'element-plus'
-
-const imageRef = ref<ImageInstance>()
 const showPreview = ref(false)
-
-const handleClick = () => {
-  imageRef.value!.showPreview()
-}
 
 const srcList = [
   'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
