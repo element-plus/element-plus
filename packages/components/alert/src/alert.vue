@@ -44,16 +44,17 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, getCurrentInstance, ref, toRef, useSlots } from 'vue'
+import { computed, ref, toRef, useSlots } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import {
   TypeComponents,
   TypeComponentsMap,
-  hasOwn,
   isClient,
 } from '@element-plus/utils'
 import { useDelayedToggle, useNamespace } from '@element-plus/hooks'
 import { alertEmits, alertProps } from './alert'
+
+import type { Ref } from 'vue'
 
 const { Close } = TypeComponents
 
@@ -67,7 +68,7 @@ const slots = useSlots()
 
 const ns = useNamespace('alert')
 
-const visible = ref(false)
+const visible = ref(props.showAfter === undefined)
 
 const iconComponent = computed(() => TypeComponentsMap[props.type])
 
@@ -84,7 +85,7 @@ const close = (event?: Event) => {
 }
 
 const { onOpen, onClose } = useDelayedToggle({
-  showAfter: toRef(props, 'showAfter'),
+  showAfter: toRef(props, 'showAfter') as Ref<number>,
   hideAfter: toRef(props, 'hideAfter'),
   autoClose: toRef(props, 'autoClose'),
   open,
@@ -92,15 +93,6 @@ const { onOpen, onClose } = useDelayedToggle({
 })
 
 if (isClient) {
-  const rawProps = getCurrentInstance()?.vnode?.props ?? {}
-  const immediate = ['showAfter', 'show-after', 'show-After'].every(
-    (key) => !hasOwn(rawProps, key)
-  )
-
-  if (immediate) {
-    visible.value = true
-  }
-
   onOpen()
 }
 </script>
