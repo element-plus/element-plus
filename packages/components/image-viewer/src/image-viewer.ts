@@ -4,6 +4,7 @@ import {
   isNumber,
   mutable,
 } from '@element-plus/utils'
+import { omit } from 'lodash-unified'
 import { rawImageProps } from './raw-image-props'
 
 import type { Component, ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
@@ -15,7 +16,7 @@ export type ImageViewerAction =
   | 'clockwise'
   | 'anticlockwise'
 export const imageViewerProps = buildProps({
-  ...rawImageProps,
+  ...omit(rawImageProps, ['src']),
   /**
    * @description preview link list.
    */

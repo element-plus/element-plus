@@ -97,7 +97,7 @@ const rawAttrs = useRawAttrs()
 const CONTAINER_SAVE_ATTR = /^(data-|on[A-Z])/i
 const containerAttrs = computed(() => {
   return fromPairs(
-    Object.entries(rawAttrs).filter(
+    entriesOf(rawAttrs).filter(
       ([key]) => CONTAINER_SAVE_ATTR.test(key) || ['id', 'style'].includes(key)
     )
   )

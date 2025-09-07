@@ -172,9 +172,8 @@ const scopeEventListener = effectScope()
 const rawImagePropsKeys = keysOf(rawImageProps)
 const imgAttrs = computed(() =>
   fromPairs(
-    entriesOf(props).filter(
-      ([key]) =>
-        key !== 'src' && rawImagePropsKeys.includes(key as RawImagePropsKeys)
+    entriesOf(props).filter(([key]) =>
+      rawImagePropsKeys.includes(key as RawImagePropsKeys)
     )
   )
 )
