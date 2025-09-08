@@ -33,6 +33,7 @@
         :max-scale="maxScale"
         :show-progress="showProgress"
         :url-list="previewSrcList"
+        :initial-scale="initialScale"
         :crossorigin="crossorigin"
         :hide-on-click-modal="hideOnClickModal"
         :teleported="previewTeleported"

@@ -91,6 +91,13 @@ export const imageProps = buildProps({
     default: 1.2,
   },
   /**
+   * @description initial preview image scale.
+   */
+  initialScale: {
+    type: Number,
+    default: 1,
+  },
+  /**
    * @description the min scale of the image viewer zoom event.
    */
   minScale: {
