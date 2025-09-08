@@ -146,4 +146,8 @@ describe('Mention.vue', () => {
     expect(option.attributes('aria-disabled')).toBe('true')
     expect(option.classes()).toContain('is-disabled')
   })
+
+  test('should ensure the cursor position is correct', async () => {
+    // TODO
+  })
 })

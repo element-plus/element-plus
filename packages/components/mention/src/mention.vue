@@ -259,14 +259,13 @@ const syncCursor = () => {
 
   const caretPosition = getCursorPosition(inputEl)
   const inputRect = inputEl.getBoundingClientRect()
-  const elInputRect = elInputRef.value!.$el.getBoundingClientRect()
 
   cursorStyle.value = {
-    position: 'absolute',
+    position: 'fixed',
     width: 0,
     height: `${caretPosition.height}px`,
-    left: `${caretPosition.left + inputRect.left - elInputRect.left}px`,
-    top: `${caretPosition.top + inputRect.top - elInputRect.top}px`,
+    left: `${caretPosition.left + inputRect.left}px`,
+    top: `${caretPosition.top + inputRect.top}px`,
   }
 }
 
