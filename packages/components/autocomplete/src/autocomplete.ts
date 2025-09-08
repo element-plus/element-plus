@@ -2,6 +2,7 @@ import {
   NOOP,
   buildProps,
   definePropType,
+  isNumber,
   isObject,
   isString,
 } from '@element-plus/utils'
@@ -119,9 +120,11 @@ export type AutocompletePropsPublic = __ExtractPublicPropTypes<
 >
 
 export const autocompleteEmits = {
-  [UPDATE_MODEL_EVENT]: (value: string) => isString(value),
-  [INPUT_EVENT]: (value: string) => isString(value),
-  [CHANGE_EVENT]: (value: string) => isString(value),
+  [UPDATE_MODEL_EVENT]: (value: string | number) =>
+    isString(value) || isNumber(value),
+  [INPUT_EVENT]: (value: string | number) => isString(value) || isNumber(value),
+  [CHANGE_EVENT]: (value: string | number) =>
+    isString(value) || isNumber(value),
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
   blur: (evt: FocusEvent) => evt instanceof FocusEvent,
   clear: () => true,

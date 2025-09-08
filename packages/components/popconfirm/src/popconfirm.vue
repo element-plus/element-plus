@@ -12,38 +12,40 @@
     :persistent="persistent"
   >
     <template #content>
-      <div :class="ns.b()">
-        <div :class="ns.e('main')">
-          <el-icon
-            v-if="!hideIcon && icon"
-            :class="ns.e('icon')"
-            :style="{ color: iconColor }"
-          >
-            <component :is="icon" />
-          </el-icon>
-          {{ title }}
-        </div>
-        <div :class="ns.e('action')">
-          <slot name="actions" :confirm="confirm" :cancel="cancel">
-            <el-button
-              size="small"
-              :type="cancelButtonType === 'text' ? '' : cancelButtonType"
-              :text="cancelButtonType === 'text'"
-              @click="cancel"
+      <el-focus-trap loop trapped @release-requested="onCloseRequested">
+        <div :class="ns.b()">
+          <div :class="ns.e('main')">
+            <el-icon
+              v-if="!hideIcon && icon"
+              :class="ns.e('icon')"
+              :style="{ color: iconColor }"
             >
-              {{ finalCancelButtonText }}
-            </el-button>
-            <el-button
-              size="small"
-              :type="confirmButtonType === 'text' ? '' : confirmButtonType"
-              :text="confirmButtonType === 'text'"
-              @click="confirm"
-            >
-              {{ finalConfirmButtonText }}
-            </el-button>
-          </slot>
+              <component :is="icon" />
+            </el-icon>
+            {{ title }}
+          </div>
+          <div :class="ns.e('action')">
+            <slot name="actions" :confirm="confirm" :cancel="cancel">
+              <el-button
+                size="small"
+                :type="cancelButtonType === 'text' ? '' : cancelButtonType"
+                :text="cancelButtonType === 'text'"
+                @click="cancel"
+              >
+                {{ finalCancelButtonText }}
+              </el-button>
+              <el-button
+                size="small"
+                :type="confirmButtonType === 'text' ? '' : confirmButtonType"
+                :text="confirmButtonType === 'text'"
+                @click="confirm"
+              >
+                {{ finalConfirmButtonText }}
+              </el-button>
+            </slot>
+          </div>
         </div>
-      </div>
+      </el-focus-trap>
     </template>
     <template v-if="$slots.reference">
       <slot name="reference" />
@@ -59,6 +61,7 @@ import ElTooltip from '@element-plus/components/tooltip'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { addUnit } from '@element-plus/utils'
 import { popconfirmEmits, popconfirmProps } from './popconfirm'
+import ElFocusTrap from '@element-plus/components/focus-trap'
 
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 
@@ -90,9 +93,15 @@ const confirm = (e: MouseEvent) => {
   emit('confirm', e)
   hidePopper()
 }
-const cancel = (e: MouseEvent) => {
+const cancel = (e: MouseEvent | KeyboardEvent) => {
   emit('cancel', e)
   hidePopper()
+}
+
+const onCloseRequested = (event: KeyboardEvent) => {
+  if (props.closeOnPressEscape) {
+    cancel(event)
+  }
 }
 
 const finalConfirmButtonText = computed(

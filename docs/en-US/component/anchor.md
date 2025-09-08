@@ -95,7 +95,7 @@ anchor/affix
 | change | callback when the step changes             | ^[Function]`(href: string) => void`                 |
 | click  | Triggered when the user clicks on the link | ^[Function]`(e: MouseEvent, href?: string) => void` |
 
-### Anchor Methods
+### Anchor Exposes
 
 | Name     | Description                               | Type                                |
 | -------- | ----------------------------------------- | ----------------------------------- |
