@@ -24,6 +24,7 @@
       #{getCssVarName('button-bg-color')},
       map.get($button, 'bg-color')
     );
+
     outline: getCssVar('border');
     font-weight: var(
       #{getCssVarName('button-font-weight')},
