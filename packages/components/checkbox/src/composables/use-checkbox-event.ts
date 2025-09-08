@@ -60,10 +60,12 @@ export const useCheckboxEvent = (
       )
       if (!hasLabel) {
         model.value = getLabeledValue(
-          [false, props.falseValue, props.falseLabel].includes(model.value)
+          [false, props.falseValue, props.falseLabel].includes(
+            model.value as string | number | boolean
+          )
         )
         await nextTick()
-        emitChangeEvent(model.value, e)
+        emitChangeEvent(model.value as string | number | boolean, e)
       }
     }
   }

@@ -15,8 +15,12 @@ export const useCheckboxDisabled = ({
     const max = checkboxGroup?.max?.value
     const min = checkboxGroup?.min?.value
     return (
-      (!isUndefined(max) && model.value.length >= max && !isChecked.value) ||
-      (!isUndefined(min) && model.value.length <= min && isChecked.value)
+      (!isUndefined(max) &&
+        (model.value as any[]).length >= max &&
+        !isChecked.value) ||
+      (!isUndefined(min) &&
+        (model.value as any[]).length <= min &&
+        isChecked.value)
     )
   })
 
