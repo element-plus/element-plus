@@ -48,7 +48,11 @@ const draggerStyles = computed(() => {
   return {
     width: isHorizontal.value ? '16px' : '100%',
     height: isHorizontal.value ? '100%' : '16px',
-    cursor: isHorizontal.value ? 'ew-resize' : 'ns-resize',
+    cursor: !props.resizable
+      ? 'auto'
+      : isHorizontal.value
+      ? 'ew-resize'
+      : 'ns-resize',
     touchAction: 'none',
   }
 })
@@ -139,7 +143,7 @@ const EndIcon = computed(() => (isHorizontal.value ? ArrowRight : ArrowDown))
       :class="[
         ns.e('dragger'),
         draggerPseudoClass,
-        resizable ? '' : ns.e('disable'),
+        ns.is('disabled', !resizable),
         ns.is('lazy', resizable && lazy),
       ]"
       :style="draggerStyles"

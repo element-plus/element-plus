@@ -1,20 +1,21 @@
 <template>
-  <el-checkbox-group v-model="checkList" :options="options" />
+  <el-checkbox-group v-model="checkList" :options="options" :props="props" />
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
 
 const checkList = ref(['Value selected and disabled', 'Value A'])
+const props = { label: 'name', value: 'id', disabled: 'unable' }
 const options = [
-  { label: 'Option A', value: 'Value A' },
-  { label: 'Option B', value: 'Value B' },
-  { label: 'Option C', value: 'Value C' },
-  { label: 'disabled', value: 'Value disabled', disabled: true },
+  { name: 'Option A', id: 'Value A' },
+  { name: 'Option B', id: 'Value B' },
+  { name: 'Option C', id: 'Value C' },
+  { name: 'disabled', id: 'Value disabled', unable: true },
   {
-    label: 'selected and disabled',
-    value: 'Value selected and disabled',
-    disabled: true,
+    name: 'selected and disabled',
+    id: 'Value selected and disabled',
+    unable: true,
   },
 ]
 </script>
