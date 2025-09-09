@@ -11,7 +11,7 @@ export const useCheckboxModel = (props: CheckboxProps) => {
   const checkboxGroup = inject(checkboxGroupContextKey, undefined)
   const isGroup = computed(() => isUndefined(checkboxGroup) === false)
   const isLimitExceeded = ref(false)
-  const model = computed({
+  const model = computed<any>({
     get() {
       return isGroup.value
         ? checkboxGroup?.modelValue?.value
@@ -23,7 +23,7 @@ export const useCheckboxModel = (props: CheckboxProps) => {
         isLimitExceeded.value =
           checkboxGroup?.max?.value !== undefined &&
           val.length > checkboxGroup?.max.value &&
-          val.length > (model.value as any[]).length
+          val.length > model.value.length
         isLimitExceeded.value === false && checkboxGroup?.changeEvent?.(val)
       } else {
         emit(UPDATE_MODEL_EVENT, val)
