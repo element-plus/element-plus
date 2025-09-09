@@ -3,7 +3,7 @@
     <input
       :id="inputId"
       v-model="model"
-      :class="ns.e('original')"
+      :class="ns.be('button', 'original')"
       type="checkbox"
       :indeterminate="indeterminate"
       :name="name"
