@@ -421,7 +421,7 @@ $select-option: map.merge(
   (
     'text-color': getCssVar('text-color-regular'),
     'disabled-color': getCssVar('text-color-placeholder'),
-    'height': 34px,
+    'min-height': 34px,
     'hover-background': getCssVar('fill-color', 'light'),
     'selected-text-color': getCssVar('color-primary'),
   ),
