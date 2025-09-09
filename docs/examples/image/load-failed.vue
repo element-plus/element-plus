@@ -10,10 +10,10 @@
     </el-image>
     <el-image :src="url" :preview-src-list="srcList" show-progress>
       <template #viewer-error="{ activeIndex, src }">
-        <div class="image-slot">
+        <div class="image-slot viewer-error">
           <el-icon><icon-picture /></el-icon>
           <span>
-            this is viewer-error slot. current index: {{ activeIndex }} src:
+            this is viewer-error slot. current index: {{ activeIndex }}. src:
             {{ src }}
           </span>
         </div>
@@ -28,10 +28,10 @@
       @close="showPreview = false"
     >
       <template #viewer-error="{ activeIndex, src }">
-        <div class="image-slot">
+        <div class="image-slot viewer-error">
           <el-icon><icon-picture /></el-icon>
           <span>
-            this is viewer-error slot. current index: {{ activeIndex }} src:
+            this is viewer-error slot. current index: {{ activeIndex }}. src:
             {{ src }}
           </span>
         </div>
@@ -68,7 +68,6 @@ const url =
   flex-direction: column;
   width: 100%;
   height: 100%;
-  color: var(--el-text-color-secondary);
   font-size: 30px;
 }
 .demo-image__error .image-slot .el-icon {
@@ -76,5 +75,8 @@ const url =
 }
 .image-viewer-slot {
   background: var(--el-fill-color-light);
+}
+.viewer-error {
+  color: #000;
 }
 </style>
