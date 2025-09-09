@@ -5,7 +5,6 @@
       v-model="model"
       :class="ns.be('button', 'original')"
       type="checkbox"
-      :indeterminate="indeterminate"
       :name="name"
       :tabindex="tabindex"
       :disabled="isDisabled"
