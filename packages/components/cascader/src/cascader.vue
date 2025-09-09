@@ -218,7 +218,6 @@ import {
   focusNode,
   getSibling,
   isClient,
-  isNumber,
   isPromise,
 } from '@element-plus/utils'
 import ElCascaderPanel from '@element-plus/components/cascader-panel'
@@ -532,7 +531,7 @@ const calculatePresentTags = () => {
 watch(
   () => props.maxCollapseTags,
   (val) => {
-    if (isNumber(val) && val > 0) {
+    if (val >= 0) {
       calculatePresentTags()
     }
   }
