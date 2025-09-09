@@ -43,7 +43,7 @@ import ElIcon from '@element-plus/components/icon'
 import ElCascaderNode from './node.vue'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
 
-import type { default as CascaderNode } from './node'
+import type { CascaderNode } from './types'
 import type { PropType } from 'vue'
 
 defineOptions({

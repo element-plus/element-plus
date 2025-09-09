@@ -7,7 +7,7 @@ import type {
   CascaderNodePathValue,
   CascaderNodeValue,
   CascaderOption,
-} from './node'
+} from './types'
 
 const flatNodes = (nodes: Node[], leafOnly: boolean) => {
   return nodes.reduce((res, node) => {

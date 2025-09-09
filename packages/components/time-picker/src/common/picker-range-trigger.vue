@@ -14,7 +14,7 @@
     <slot name="prefix" />
     <input
       v-bind="attrs"
-      :id="id && id[0]"
+      :id="inputId"
       ref="inputRef"
       :name="name && name[0]"
       :placeholder="startPlaceholder"
@@ -42,9 +42,10 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { useAttrs, useFocusController, useNamespace } from '@element-plus/hooks'
 import { timePickerRangeTriggerProps } from './props'
+import { useFormItem, useFormItemInputId } from '@element-plus/components/form'
 
 import type { CSSProperties } from 'vue'
 
@@ -66,6 +67,14 @@ const emit = defineEmits([
   'startChange',
   'endChange',
 ])
+
+const { formItem } = useFormItem()
+const { inputId } = useFormItemInputId(
+  reactive({ id: computed(() => props.id?.[0]) }),
+  {
+    formItemContext: formItem,
+  }
+)
 
 const attrs = useAttrs()
 const nsDate = useNamespace('date')
