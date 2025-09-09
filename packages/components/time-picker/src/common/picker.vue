@@ -292,6 +292,7 @@ const clearIconKls = computed(() => [
 ])
 
 watch(pickerVisible, (val) => {
+  console.log('pickerVisible', val)
   if (!val) {
     userInput.value = null
     nextTick(() => {
@@ -495,7 +496,11 @@ const valueIsEmpty = computed(() => {
 
 const onMouseDownInput = async (event: MouseEvent) => {
   if (props.readonly || pickerDisabled.value) return
-  if ((event.target as HTMLElement)?.tagName !== 'INPUT' || isFocused.value) {
+  if (
+    (event.target as HTMLElement)?.tagName !== 'INPUT' ||
+    isFocused.value ||
+    !props.automaticDropdown
+  ) {
     pickerVisible.value = true
   }
 }
@@ -513,7 +518,8 @@ const onTouchStartInput = (event: TouchEvent) => {
   if (props.readonly || pickerDisabled.value) return
   if (
     (event.touches[0].target as HTMLElement)?.tagName !== 'INPUT' ||
-    isFocused.value
+    isFocused.value ||
+    !props.automaticDropdown
   ) {
     pickerVisible.value = true
   }
