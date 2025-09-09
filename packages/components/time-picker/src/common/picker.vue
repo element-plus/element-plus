@@ -292,7 +292,6 @@ const clearIconKls = computed(() => [
 ])
 
 watch(pickerVisible, (val) => {
-  console.log('pickerVisible', val)
   if (!val) {
     userInput.value = null
     nextTick(() => {
