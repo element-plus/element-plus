@@ -375,14 +375,14 @@ describe('InputTag.vue', () => {
 
       await wrapper.find('.el-tag__close').trigger('click')
       expect(handleTagRemove).toHaveBeenCalledOnce()
-      expect(handleTagRemove).toHaveBeenCalledWith(AXIOM)
+      expect(handleTagRemove).toHaveBeenCalledWith(AXIOM, 0)
       expect(inputValue.value).toEqual([AXIOM])
 
       await wrapper
         .find('input')
         .trigger('keydown', { code: EVENT_CODE.backspace })
       expect(handleTagRemove).toHaveBeenCalledTimes(2)
-      expect(handleTagRemove).toHaveBeenCalledWith(AXIOM)
+      expect(handleTagRemove).toHaveBeenNthCalledWith(2, AXIOM, 0)
       expect(inputValue.value).toEqual([])
 
       await wrapper

@@ -58,6 +58,10 @@ export const alertProps = buildProps({
     default: 'light',
   },
   ...useDelayedToggleProps,
+  /**
+   * @description delay of appearance, in millisecond
+   */
+  showAfter: Number,
 } as const)
 export type AlertProps = ExtractPropTypes<typeof alertProps>
 export type AlertPropsPublic = __ExtractPublicPropTypes<typeof alertProps>

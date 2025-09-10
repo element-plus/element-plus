@@ -50,6 +50,7 @@ import {
   TypeComponents,
   TypeComponentsMap,
   isClient,
+  isUndefined,
 } from '@element-plus/utils'
 import { useDelayedToggle, useNamespace } from '@element-plus/hooks'
 import { alertEmits, alertProps } from './alert'
@@ -66,7 +67,7 @@ const slots = useSlots()
 
 const ns = useNamespace('alert')
 
-const visible = ref(false)
+const visible = ref(isUndefined(props.showAfter))
 
 const iconComponent = computed(() => TypeComponentsMap[props.type])
 
@@ -83,7 +84,7 @@ const close = (event?: Event) => {
 }
 
 const { onOpen, onClose } = useDelayedToggle({
-  showAfter: toRef(props, 'showAfter'),
+  showAfter: toRef(props, 'showAfter', 0),
   hideAfter: toRef(props, 'hideAfter'),
   autoClose: toRef(props, 'autoClose'),
   open,

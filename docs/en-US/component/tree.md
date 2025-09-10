@@ -171,7 +171,7 @@ tree/draggable
 | isLeaf    | specify whether the node is a leaf node, only works when lazy load is enabled | ^[string] / ^[Function]`(data, node) => boolean` | —       |
 | class     | custom node class name                                                        | ^[string] / ^[Function]`(data, node) => string`  | —       |
 
-### Method
+### Exposes
 
 `Tree` has the following method, which returns the currently selected array of nodes.
 

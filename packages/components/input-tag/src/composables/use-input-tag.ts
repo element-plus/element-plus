@@ -124,7 +124,7 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
 
     emit(UPDATE_MODEL_EVENT, value)
     emit(CHANGE_EVENT, value)
-    emit('remove-tag', item)
+    emit('remove-tag', item, index)
   }
 
   const handleClear = () => {
@@ -151,6 +151,7 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
     value.splice(dropIndex + step, 0, draggedItem)
     emit(UPDATE_MODEL_EVENT, value)
     emit(CHANGE_EVENT, value)
+    emit('drag-tag', draggingIndex, dropIndex + step, draggedItem)
   }
 
   const focus = () => {

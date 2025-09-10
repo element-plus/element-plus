@@ -236,7 +236,7 @@ import {
   extractTimeFormat,
 } from '@element-plus/components/time-picker'
 import { ElIcon } from '@element-plus/components/icon'
-import { isArray, isFunction } from '@element-plus/utils'
+import { extractFirst, isArray, isFunction } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import {
   ArrowLeft,
@@ -347,8 +347,9 @@ const emit = (value: Dayjs | Dayjs[], ...args: any[]) => {
 const handleDatePick = async (value: DateTableEmits, keepOpen?: boolean) => {
   if (selectionMode.value === 'date') {
     value = value as Dayjs
-    let newDate = props.parsedValue
-      ? (props.parsedValue as Dayjs)
+    const parsedDateValue = extractFirst(props.parsedValue)
+    let newDate = parsedDateValue
+      ? parsedDateValue
           .year(value.year())
           .month(value.month())
           .date(value.date())
@@ -547,7 +548,7 @@ const onConfirm = () => {
     emit(props.parsedValue as Dayjs[])
   } else {
     // deal with the scenario where: user opens the date time picker, then confirm without doing anything
-    let result = props.parsedValue as Dayjs
+    let result = extractFirst(props.parsedValue)
     if (!result) {
       const defaultTimeD = dayjs(defaultTime).locale(lang.value)
       const defaultValueD = getDefaultValue()
@@ -595,17 +596,15 @@ const dateFormat = computed(() => {
 const visibleTime = computed(() => {
   if (userInputTime.value) return userInputTime.value
   if (!props.parsedValue && !defaultValue.value) return
-  return ((props.parsedValue || innerDate.value) as Dayjs).format(
-    timeFormat.value
-  )
+  const dateValue = extractFirst(props.parsedValue) || innerDate.value
+  return dateValue.format(timeFormat.value)
 })
 
 const visibleDate = computed(() => {
   if (userInputDate.value) return userInputDate.value
   if (!props.parsedValue && !defaultValue.value) return
-  return ((props.parsedValue || innerDate.value) as Dayjs).format(
-    dateFormat.value
-  )
+  const dateValue = extractFirst(props.parsedValue) || innerDate.value
+  return dateValue.format(dateFormat.value)
 })
 
 const timePickerVisible = ref(false)
@@ -629,8 +628,9 @@ const getUnits = (date: Dayjs) => {
 
 const handleTimePick = (value: Dayjs, visible: boolean, first: boolean) => {
   const { hour, minute, second } = getUnits(value)
-  const newDate = props.parsedValue
-    ? (props.parsedValue as Dayjs).hour(hour).minute(minute).second(second)
+  const parsedDateValue = extractFirst(props.parsedValue)
+  const newDate = parsedDateValue
+    ? parsedDateValue.hour(hour).minute(minute).second(second)
     : value
   innerDate.value = newDate
   emit(innerDate.value, true)

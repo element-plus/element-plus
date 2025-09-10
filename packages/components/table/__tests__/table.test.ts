@@ -200,6 +200,56 @@ describe('Table.vue', () => {
       wrapper.unmount()
     })
 
+    it('should display stripe correctly when row is expanded and closed', async () => {
+      const tableData = [
+        {
+          id: '1',
+          children: [
+            {
+              id: '1-1',
+            },
+          ],
+        },
+        {
+          id: '2',
+        },
+      ]
+      const wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table
+            :data="tableData"
+            row-key="id"
+            stripe
+            default-expand-all
+          >
+            <el-table-column prop="id" label="id" sortable />
+          </el-table>
+        `,
+        data() {
+          return {
+            tableData,
+          }
+        },
+      })
+      await doubleWait()
+      const expandTrigger = wrapper.find('.el-table__expand-icon')
+      const rows = wrapper.findAll('.el-table__row')
+      expect(rows.length).toBe(3)
+      expect(rows[0].classes()).not.toContain('el-table__row--striped')
+      expect(rows[1].classes()).toContain('el-table__row--striped')
+      expect(rows[2].classes()).not.toContain('el-table__row--striped')
+      expandTrigger.trigger('click')
+      await doubleWait()
+      expect(rows[0].classes()).not.toContain('el-table__row--striped')
+      expect(rows[1].classes()).not.toContain('el-table__row--striped')
+      expect(rows[2].classes()).toContain('el-table__row--striped')
+      wrapper.unmount()
+    })
+
     it('border', async () => {
       const wrapper = createTable('border')
       await doubleWait()

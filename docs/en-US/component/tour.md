@@ -108,6 +108,8 @@ tour-step component configuration with the same name has higher priority
 | finish | callback function on finished  | ^[Function]`() => void`                |
 | change | callback when the step changes | ^[Function]`(current: number) => void` |
 
+## TourStep API
+
 ### TourStep Attributes
 
 | Property                 | Description                                                                                                                                                                                            | Type                                                                                                                                                                        | Default   |

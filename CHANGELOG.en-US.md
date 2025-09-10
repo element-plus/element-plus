@@ -1,6 +1,58 @@
 ## Changelog
 
 
+### 2.11.2
+
+_2025-09-05_
+
+#### Features
+
+- Components [select/v2] add index to label slot (#21884 by @Dsaquel)
+- Components [tour] add close locale (#21934 by @thinkasany)
+- Components [container] add validation for the direction prop (#16734 by @chenyuqiua)
+- Components [checkbox-group] support options (#21545 by @snowbitx)
+- Components [popConfirm] support effect (#21965 by @thinkasany)
+- Components [rate] accessibility enhancement (#22013 by @tolking)
+- Components [popConfirm] add `close-on-press-escape` prop (#21981 by @thinkasany)
+- Components [tooltip] add `focus-on-target` prop (#21905 by @tolking)
+- Components [loading] export `LoadingInstance` (#22027 by @jevin98)
+- Components [radio-group] support options prop rendering (#21543 by @snowbitx)
+
+#### Bug fixes
+
+- Components [cascader-panel] enable node selection in hover mode (#21878 by @DDDDD12138)
+- Components [cascader] keep panel open on checkOnClickNode (#21831 by @oooah)
+- Components [cascader] allow object type in modelValue (#21880 by @Dsaquel)
+- Components [input-tag] add missing Tooltip style (#21887 by @cszhjh)
+- Components [date-picker-panel] remove duplicate panels on inner date input change (#21888 by @Dsaquel)
+- Components [splitter] keep panel size when container size is 0 (#21893 by @cszhjh)
+- Components [tree-v2] icon display is abnormal when expanding nodes (#21506 by @keeplearning66)
+- Components [textarea] fix `autosize` in Splitter (#21840 by @cszhjh)
+- Components [notification] correctly read the first offset (#21904 by @cszhjh)
+- Components [select/v2] width of drop-down panel exceeds the input (#21910 by @FrontEndDog)
+- Components [form] inline-message of form-item defaults to undefined (#21944 by @keeplearning66)
+- Components [onlyChild] no warning when there are multiple child (#21958 by @tolking)
+- Components [popper] unable to capture focus event (#21908 by @tolking)
+- Components [popover] empty node execution error (#21991 by @LasyIsLazy)
+- Components [table-v2] add missing `LEFT` member in Alignment (#22010 by @Dsaquel)
+- Components [loading] accept type VNode for text property (#22025 by @Dsaquel)
+- Components [focus-trap] destory el ref (#21916 by @btea)
+- Components [time-picker] range type add id automatically (#21746 by @catanswer)
+- Components [autocomplete] type declaration error (#15261 by @betavs)
+- Circular deps cause build size increase (#22051 by @warmthsea)
+
+#### Refactors
+
+- Components [drawer] improve slot template (#21906 by @thinkasany)
+- Components [cascader] adjust the ts type (#21963 by @lxKylin)
+- Components [cascader] adjust the ts type (#21966 by @thinkasany)
+- Components improve tooltip type (#21999 by @thinkasany)
+- Components [tabs] extract logical reuse (#22006 by @lxKylin)
+- Components [splitter] disabled class and style (#22001 by @thinkasany)
+- Components [drawer] resizable (#21932 by @warmthsea)
+- Components [date-picker-panel] emit after input instead of watch (#21899 by @a92126)
+- Components [menu] optimize condition judgment (#22020 by @lxKylin)
+
 ### 2.11.1
 
 _2025-08-23_

@@ -77,7 +77,9 @@ datetime-picker/custom-icon
 
 :::
 
-## Attributes
+## API
+
+### Attributes
 
 | Name                       | Description                                                                                                    | Type                                                                                           | Default             |
 | -------------------------- | -------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ------------------- |
@@ -120,7 +122,7 @@ datetime-picker/custom-icon
 | show-confirm ^(2.11.0)     | whether to show the confirm button                                                                             | ^[boolean]                                                                                     | true                |
 | show-week-number ^(2.10.3) | show the week number besides the week                                                                          | `boolean`                                                                                      | false               |
 
-## Events
+### Events
 
 | Name            | Description                                                           | Parameters                                                                                |
 | --------------- | --------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
@@ -132,7 +134,7 @@ datetime-picker/custom-icon
 | panel-change    | triggers when the navigation button click.                            | ^[Function]`(date: Date \| [Date, Date], mode: 'month' \| 'year', view?: string) => void` |
 | visible-change  | triggers when the DateTimePicker's dropdown appears/disappears        | ^[Function]`(visibility: boolean) => void`                                                |
 
-## Slots
+### Slots
 
 | Name                | Description                    |
 | ------------------- | ------------------------------ |
@@ -143,7 +145,7 @@ datetime-picker/custom-icon
 | prev-year ^(2.8.0)  | prev year icon                 |
 | next-year ^(2.8.0)  | next year icon                 |
 
-## Exposes
+### Exposes
 
 | Method        | Description                    | Type                    |
 | ------------- | ------------------------------ | ----------------------- |
