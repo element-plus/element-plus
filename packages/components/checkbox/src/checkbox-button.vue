@@ -1,7 +1,6 @@
 <template>
   <label :class="labelKls">
     <input
-      :id="inputId"
       v-model="model"
       :class="ns.be('button', 'original')"
       type="checkbox"
