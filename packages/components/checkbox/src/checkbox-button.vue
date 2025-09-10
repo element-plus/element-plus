@@ -42,7 +42,6 @@ defineEmits(checkboxEmits)
 const slots = useSlots()
 
 const {
-  inputId,
   isFocused,
   isChecked,
   isDisabled,
