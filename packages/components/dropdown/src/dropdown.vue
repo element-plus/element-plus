@@ -21,7 +21,7 @@
       :virtual-ref="virtualRef ?? triggeringElementRef"
       :virtual-triggering="virtualTriggering || splitButton"
       :disabled="disabled"
-      :transition="`${ns.namespace.value}-zoom-in-top`"
+      :transition="transition ?? `${ns.namespace.value}-zoom-in-top`"
       :teleported="teleported"
       pure
       focus-on-target

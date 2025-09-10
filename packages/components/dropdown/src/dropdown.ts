@@ -161,6 +161,10 @@ export const dropdownProps = buildProps({
     type: Boolean,
     default: true,
   },
+  /**
+   * @description animation name
+   */
+  transition: useTooltipContentProps.transition,
 } as const)
 
 export const dropdownItemProps = buildProps({
