@@ -53,6 +53,10 @@ $checked-icon: "data:image/svg+xml;utf8,%3Csvg class='icon' width='200' height='
       cursor: not-allowed;
       background-color: unset;
     }
+
+    & > * {
+      line-height: normal;
+    }
   }
 
   @include when(multiple) {
