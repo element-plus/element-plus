@@ -65,7 +65,7 @@ export default defineComponent({
           'insertBefore',
           'insertAfter',
         ]),
-        ...pick(select.value, ['focus', 'blur', 'selectedLabel']),
+        ...pick(select.value, ['focus', 'blur', 'selectedLabel', 'toggleMenu']),
       })
     })
 
