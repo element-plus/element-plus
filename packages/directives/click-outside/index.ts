@@ -78,8 +78,8 @@ function createDocumentHandler(
   }
 }
 
-const ClickOutside: ObjectDirective = {
-  beforeMount(el: HTMLElement, binding: DirectiveBinding) {
+const ClickOutside: ObjectDirective<HTMLElement, any, string, any> = {
+  beforeMount(el, binding) {
     // there could be multiple handlers on the element
     if (!nodeList.has(el)) {
       nodeList.set(el, [])
@@ -90,7 +90,7 @@ const ClickOutside: ObjectDirective = {
       bindingFn: binding.value,
     })
   },
-  updated(el: HTMLElement, binding: DirectiveBinding) {
+  updated(el, binding) {
     if (!nodeList.has(el)) {
       nodeList.set(el, [])
     }
@@ -111,7 +111,7 @@ const ClickOutside: ObjectDirective = {
       handlers.push(newHandler)
     }
   },
-  unmounted(el: HTMLElement) {
+  unmounted(el) {
     // remove all listeners when a component unmounted
     nodeList.delete(el)
   },
