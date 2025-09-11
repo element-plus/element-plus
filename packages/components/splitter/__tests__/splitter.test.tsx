@@ -4,10 +4,38 @@ import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import { ElSplitter, ElSplitterPanel } from '../index'
 import { useElementSize } from './__mocks__/vueuse'
 
+import type { VueWrapper } from '@vue/test-utils'
+
 // jsdom does not support useElementSize and useResizeObserver so mock
 vi.mock('@vueuse/core', () => {
   return import('./__mocks__/vueuse')
 })
+
+// mock mouse event
+const simulateDrag = async (
+  wrapper: VueWrapper<any>,
+  startPos: number,
+  endPos: number
+) => {
+  const splitBar = wrapper.find('.el-splitter-bar__dragger')
+
+  // Simulate mouse down
+  const mousedown = new MouseEvent('mousedown', { bubbles: true })
+  Object.defineProperty(mousedown, 'pageX', { value: startPos })
+  splitBar.element.dispatchEvent(mousedown)
+
+  // Simulate mouse move
+  const mousemove = new MouseEvent('mousemove', { bubbles: true })
+  Object.defineProperty(mousemove, 'pageX', { value: endPos })
+  window.dispatchEvent(mousemove)
+
+  // Simulate mouse up
+  const mouseup = new MouseEvent('mouseup', { bubbles: true })
+  Object.defineProperty(mouseup, 'pageX', { value: endPos })
+  window.dispatchEvent(mouseup)
+
+  await nextTick()
+}
 
 describe('Splitter', () => {
   const mockResizeObserver = vi.fn(() => ({
@@ -86,8 +114,8 @@ describe('Splitter', () => {
 
     const panelComps = wrapper.findComponent({ name: 'ElSplitter' }).vm.panels
 
-    expect(panelComps[0].size).toBeUndefined()
-    expect(panelComps[1].size).toBe('80%')
+    expect(panelComps[0].size).toBe(0)
+    expect(panelComps[1].size).toBe(0)
 
     mockSize.mockRestore()
   })
@@ -109,34 +137,12 @@ describe('Splitter', () => {
     // default size
     expect(panels[0].attributes('style')).toContain('flex-basis: 150px;')
 
-    // mock mouse event
-    const simulateDrag = async (startPos: number, endPos: number) => {
-      const splitBar = wrapper.find('.el-splitter-bar__dragger')
-
-      // Simulate mouse down
-      const mousedown = new MouseEvent('mousedown', { bubbles: true })
-      Object.defineProperty(mousedown, 'pageX', { value: startPos })
-      splitBar.element.dispatchEvent(mousedown)
-
-      // Simulate mouse move
-      const mousemove = new MouseEvent('mousemove', { bubbles: true })
-      Object.defineProperty(mousemove, 'pageX', { value: endPos })
-      window.dispatchEvent(mousemove)
-
-      // Simulate mouse up
-      const mouseup = new MouseEvent('mouseup', { bubbles: true })
-      Object.defineProperty(mouseup, 'pageX', { value: endPos })
-      window.dispatchEvent(mouseup)
-
-      await nextTick()
-    }
-
     // Test min size constraint: drag left to minimum value 100px
-    await simulateDrag(150, 50)
+    await simulateDrag(wrapper, 150, 50)
     expect(panels[0].attributes('style')).toContain('flex-basis: 100px;')
 
     // Test max size constraint: drag right to maximum value 200px
-    await simulateDrag(50, 150)
+    await simulateDrag(wrapper, 50, 150)
     expect(panels[0].attributes('style')).toContain('flex-basis: 200px;')
   })
 
@@ -229,7 +235,7 @@ describe('Splitter', () => {
 
     expect(onResizeStart).toHaveBeenCalledWith(0, [200, 200])
     expect(onResize).toHaveBeenCalledTimes(2)
-    expect(onResize.mock.calls[0]).toEqual([0, [200, 200]])
+    expect(onResize.mock.calls[0]).toEqual([0, [100, 300]])
     expect(onResize.mock.calls[1]).toEqual([0, [100, 300]])
     expect(onResizeEnd).toHaveBeenCalledWith(0, [100, 300])
   })
@@ -374,5 +380,51 @@ describe('Splitter', () => {
     window.dispatchEvent(mouseup)
     await nextTick()
     expect(panels[0].attributes('style')).toContain('flex-basis: 100px;')
+  })
+
+  it("should show the correct size if a panel lacks an initial size, and then another panel's size changes", async () => {
+    const size = ref(40)
+    const wrapper = mount(() => (
+      <div style={{ width: '400px', height: '400px' }}>
+        <ElSplitter>
+          <ElSplitterPanel
+            size={size.value}
+            onUpdate:size={(val) => (size.value = val)}
+          >
+            Left Panel
+          </ElSplitterPanel>
+          <ElSplitterPanel>Right Panel</ElSplitterPanel>
+        </ElSplitter>
+      </div>
+    ))
+
+    const dragAndSetSize = async (
+      start: number,
+      end: number,
+      newSize: number
+    ) => {
+      await simulateDrag(wrapper, start, end)
+      expect(panels[0].attributes('style')).toContain(`flex-basis: ${end}px;`)
+
+      size.value = newSize
+      await nextTick()
+      expect(panels[0].attributes('style')).toContain(
+        `flex-basis: ${newSize}px;`
+      )
+    }
+
+    await nextTick()
+    const panels = wrapper.findAll('.el-splitter-panel')
+
+    // default size
+    expect(panels[0].attributes('style')).toContain('flex-basis: 40px;')
+
+    await dragAndSetSize(40, 20, 40)
+
+    await dragAndSetSize(40, 0, 40)
+
+    await dragAndSetSize(40, 300, 40)
+
+    await dragAndSetSize(40, 400, 40)
   })
 })
