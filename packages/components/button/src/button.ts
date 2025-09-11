@@ -2,7 +2,7 @@ import { useSizeProp } from '@element-plus/hooks'
 import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 import { Loading } from '@element-plus/icons-vue'
 
-import type { Component, ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { Component, ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 
 export const buttonTypes = [
   'default',
@@ -127,7 +127,7 @@ export const buttonEmits = {
 }
 
 export type ButtonProps = ExtractPropTypes<typeof buttonProps>
-export type ButtonPropsPublic = __ExtractPublicPropTypes<typeof buttonProps>
+export type ButtonPropsPublic = ExtractPublicPropTypes<typeof buttonProps>
 export type ButtonEmits = typeof buttonEmits
 
 export type ButtonType = ButtonProps['type']

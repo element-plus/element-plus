@@ -1,11 +1,7 @@
 import { buildProps, definePropType, isNumber } from '@element-plus/utils'
 import { CHANGE_EVENT } from '@element-plus/constants'
 
-import type {
-  ExtractPropTypes,
-  StyleValue,
-  __ExtractPublicPropTypes,
-} from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes, StyleValue } from 'vue'
 import type { Dayjs } from 'dayjs'
 import type Countdown from './countdown.vue'
 
@@ -44,9 +40,7 @@ export const countdownProps = buildProps({
   },
 } as const)
 export type CountdownProps = ExtractPropTypes<typeof countdownProps>
-export type CountdownPropsPublic = __ExtractPublicPropTypes<
-  typeof countdownProps
->
+export type CountdownPropsPublic = ExtractPublicPropTypes<typeof countdownProps>
 
 export const countdownEmits = {
   finish: () => true,

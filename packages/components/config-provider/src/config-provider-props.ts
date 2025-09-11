@@ -1,7 +1,7 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 import { useEmptyValuesProps, useSizeProp } from '@element-plus/hooks'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type { Language } from '@element-plus/locale'
 import type { ButtonConfigContext } from '@element-plus/components/button'
 import type { CardConfigContext } from '@element-plus/components/card'
@@ -89,6 +89,6 @@ export const configProviderProps = buildProps({
   ...useEmptyValuesProps,
 } as const)
 export type ConfigProviderProps = ExtractPropTypes<typeof configProviderProps>
-export type ConfigProviderPropsPublic = __ExtractPublicPropTypes<
+export type ConfigProviderPropsPublic = ExtractPublicPropTypes<
   typeof configProviderProps
 >

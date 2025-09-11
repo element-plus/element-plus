@@ -5,7 +5,7 @@ import { useNamespace, useSameTarget } from '@element-plus/hooks'
 import type {
   CSSProperties,
   ExtractPropTypes,
-  __ExtractPublicPropTypes,
+  ExtractPublicPropTypes,
 } from 'vue'
 import type { ZIndexProperty } from 'csstype'
 
@@ -27,7 +27,7 @@ export const overlayProps = buildProps({
   },
 } as const)
 export type OverlayProps = ExtractPropTypes<typeof overlayProps>
-export type OverlayPropsPublic = __ExtractPublicPropTypes<typeof overlayProps>
+export type OverlayPropsPublic = ExtractPublicPropTypes<typeof overlayProps>
 
 export const overlayEmits = {
   click: (evt: MouseEvent) => evt instanceof MouseEvent,

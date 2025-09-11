@@ -16,7 +16,7 @@ import type { EmitFn } from '@element-plus/utils'
 import type {
   CSSProperties,
   ExtractPropTypes,
-  __ExtractPublicPropTypes,
+  ExtractPublicPropTypes,
 } from 'vue'
 import type Select from './select.vue'
 import type {
@@ -302,7 +302,7 @@ export const selectEmits = {
 /* eslint-enable @typescript-eslint/no-unused-vars */
 
 export type SelectProps = ExtractPropTypes<typeof selectProps>
-export type SelectPropsPublic = __ExtractPublicPropTypes<typeof selectProps>
+export type SelectPropsPublic = ExtractPublicPropTypes<typeof selectProps>
 export type SelectEmits = EmitFn<typeof selectEmits>
 export type SelectInstance = InstanceType<typeof Select> & unknown
 export type SelectOptionProps = Props
