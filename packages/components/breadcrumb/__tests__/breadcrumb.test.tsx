@@ -14,6 +14,7 @@ const _mount = (render: () => VNode, $router = {}) =>
       },
       config: {
         globalProperties: {
+          // @ts-ignore
           $router,
         },
       },

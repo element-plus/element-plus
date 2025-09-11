@@ -22,7 +22,7 @@ const mountTrigger = (props = {}) =>
         [POPPER_INJECTION_KEY as symbol]: popperInjection,
       },
     },
-  })
+  }) as unknown as VueWrapper<PopperTriggerInstance>
 
 describe('<ElPopperTrigger />', () => {
   let wrapper: VueWrapper<PopperTriggerInstance>

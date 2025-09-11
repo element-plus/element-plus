@@ -90,11 +90,14 @@ onMounted(() => {
         TRIGGER_ELE_EVENTS.forEach((eventName) => {
           const handler = props[eventName]
           if (handler) {
+            // It's not worth doing type gymnastics here
+            // @ts-ignore
             ;(el as HTMLElement).addEventListener(
               eventName.slice(2).toLowerCase(),
               handler,
               ['onFocus', 'onBlur'].includes(eventName)
             )
+            // @ts-ignore
             ;(prevEl as HTMLElement)?.removeEventListener?.(
               eventName.slice(2).toLowerCase(),
               handler,
@@ -144,6 +147,7 @@ onBeforeUnmount(() => {
     TRIGGER_ELE_EVENTS.forEach((eventName) => {
       const handler = props[eventName]
       if (handler) {
+        // @ts-ignore
         el.removeEventListener(
           eventName.slice(2).toLowerCase(),
           handler,

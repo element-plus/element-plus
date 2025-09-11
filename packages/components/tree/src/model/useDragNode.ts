@@ -12,7 +12,7 @@ import type {
 import type TreeStore from './tree-store'
 import type Node from './node'
 
-interface TreeNode {
+export interface TreeNode {
   node: Node
   $el?: HTMLElement
 }
