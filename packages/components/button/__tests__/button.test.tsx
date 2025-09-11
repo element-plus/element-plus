@@ -2,9 +2,10 @@ import { markRaw, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, test } from 'vitest'
 import { Loading, Search } from '@element-plus/icons-vue'
-
+import Form from '@element-plus/components/form'
 import Button from '../src/button.vue'
 import ButtonGroup from '../src/button-group.vue'
+
 import type { ComponentSize } from '@element-plus/constants'
 
 const AXIOM = 'Rem is the best girl'
@@ -161,6 +162,20 @@ describe('Button.vue', () => {
 
     expect(wrapper.find('.custom-loading').exists()).toBeTruthy()
   })
+
+  it('tag', () => {
+    const link = 'https://github.com/element-plus/element-plus'
+    const wrapper = mount(() => (
+      // @ts-ignore
+      <Button tag="a" href={link}>
+        {AXIOM}
+      </Button>
+    ))
+
+    expect(wrapper.text()).toEqual(AXIOM)
+    expect(wrapper.element.nodeName).toBe('A')
+    expect(wrapper.attributes('href')).toBe(link)
+  })
 })
 describe('Button Group', () => {
   it('create', () => {
@@ -245,5 +260,73 @@ describe('Button Group', () => {
     expect(wrapper.find('.el-button span').classes()).toContain(
       'el-button__text--expand'
     )
+  })
+
+  it('should use props of form', async () => {
+    const wrapper = mount({
+      setup: () => () =>
+        (
+          <Form size="large" disabled>
+            <Button
+              v-slots={{
+                default: () => AXIOM,
+              }}
+            />
+          </Form>
+        ),
+    })
+    const btn = wrapper.findComponent(Button)
+    expect(btn.classes()).toContain('el-button--large')
+    expect(btn.classes()).toContain('is-disabled')
+    await btn.trigger('click')
+    expect(btn.emitted('click')).toBeUndefined()
+  })
+
+  it('should use size of form-item', async () => {
+    const wrapper = mount({
+      setup: () => () =>
+        (
+          <Form size="large" disabled>
+            <Form.FormItem size="small">
+              <Button
+                v-slots={{
+                  default: () => AXIOM,
+                }}
+              />
+            </Form.FormItem>
+          </Form>
+        ),
+    })
+    const btn = wrapper.findComponent(Button)
+    expect(btn.classes()).toContain('el-button--small')
+  })
+
+  it('use custom tag disabled click not triggered', async () => {
+    const isLoaing = ref(false)
+    const isDisabled = ref(false)
+    const wrapper = mount(() => (
+      <div>
+        <Button
+          tag="div"
+          loading={isLoaing.value}
+          disabled={isDisabled.value}
+        ></Button>
+      </div>
+    ))
+    const btn = wrapper.findComponent(Button)
+    isDisabled.value = true
+    await nextTick()
+    await btn.trigger('click')
+    expect(wrapper.emitted('click')).toBeUndefined()
+    isLoaing.value = true
+    isDisabled.value = false
+    await nextTick()
+    await btn.trigger('click')
+    expect(wrapper.emitted('click')).toBeUndefined()
+    isLoaing.value = false
+    isDisabled.value = false
+    await nextTick()
+    await btn.trigger('click')
+    expect(wrapper.emitted('click')).toHaveLength(1)
   })
 })

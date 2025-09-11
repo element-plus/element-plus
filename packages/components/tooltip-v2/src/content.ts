@@ -1,6 +1,8 @@
 import { buildProps, definePropType } from '@element-plus/utils'
+import { useAriaProps } from '@element-plus/hooks'
 
-import type { ExtractPropTypes } from 'vue'
+import type { PopperEffect } from '@element-plus/components/popper'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type { Placement, Strategy, VirtualElement } from '@floating-ui/dom'
 
 const tooltipV2Strategies = ['absolute', 'fixed'] as const
@@ -21,14 +23,13 @@ const tooltipV2Placements = [
 ] as const
 
 export const tooltipV2ContentProps = buildProps({
-  ariaLabel: String,
   arrowPadding: {
     type: definePropType<number>(Number),
     default: 5,
   },
   effect: {
-    type: String,
-    default: '',
+    type: definePropType<PopperEffect>(String),
+    default: 'light',
   },
   contentClass: String,
   /**
@@ -55,12 +56,14 @@ export const tooltipV2ContentProps = buildProps({
     values: tooltipV2Strategies,
     default: 'absolute',
   },
-  showArrow: {
-    type: Boolean,
-    default: false,
-  },
+  showArrow: Boolean,
+  ...useAriaProps(['ariaLabel']),
 } as const)
 
 export type TooltipV2ContentProps = ExtractPropTypes<
+  typeof tooltipV2ContentProps
+>
+
+export type TooltipV2ContentPropsPublic = __ExtractPublicPropTypes<
   typeof tooltipV2ContentProps
 >

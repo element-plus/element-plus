@@ -30,7 +30,7 @@ $radio-font-size: map.merge(
   outline: none;
   font-size: getCssVar('font-size', 'base');
   user-select: none;
-  margin-right: 32px;
+  margin-right: 30px;
   height: map.get($radio-height, 'default');
 
   @each $size in (large, small) {
@@ -125,6 +125,7 @@ $radio-font-size: map.merge(
         background: map.get($radio-checked, 'icon-color');
 
         &::after {
+          background-color: getCssVar('color-white');
           transform: translate(-50%, -50%) scale(1);
         }
       }
@@ -159,7 +160,6 @@ $radio-font-size: map.merge(
       width: 4px;
       height: 4px;
       border-radius: getCssVar('radio-input-border-radius');
-      background-color: getCssVar('color-white');
       content: '';
       position: absolute;
       left: 50%;

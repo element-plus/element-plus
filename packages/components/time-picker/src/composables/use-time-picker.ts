@@ -3,15 +3,10 @@ import { makeList } from '../utils'
 
 import type { Dayjs } from 'dayjs'
 import type {
-  GetDisabledHoursState,
-  GetDisabledMinutesState,
-  GetDisabledSecondsState,
-} from '../types'
-import type {
   GetDisabledHours,
   GetDisabledMinutes,
   GetDisabledSeconds,
-} from '../props/shared'
+} from '../common/props'
 
 const makeAvailableArr = (disabledList: boolean[]): number[] => {
   const trueOrNumber = (isDisabled: boolean, index: number) =>
@@ -69,19 +64,15 @@ export const buildAvailableTimeSlotGetter = (
     disabledSeconds
   )
 
-  const getAvailableHours: GetDisabledHoursState = (role, compare?) => {
+  const getAvailableHours: GetDisabledHours = (role, compare?) => {
     return makeAvailableArr(getHoursList(role, compare))
   }
 
-  const getAvailableMinutes: GetDisabledMinutesState = (
-    hour,
-    role,
-    compare?
-  ) => {
+  const getAvailableMinutes: GetDisabledMinutes = (hour, role, compare?) => {
     return makeAvailableArr(getMinutesList(hour, role, compare))
   }
 
-  const getAvailableSeconds: GetDisabledSecondsState = (
+  const getAvailableSeconds: GetDisabledSeconds = (
     hour,
     minute,
     role,

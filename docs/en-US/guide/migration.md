@@ -9,7 +9,7 @@ lang: en-US
 
 ## Vue 3 migration build
 
-You may encounter some issues when using Element Plus with Vue 3 migration build. Some of the components rely on Vue 3 internal API's. It's worth trying to adjust compatConfig mode to 3, either globally or [per component in your project](https://v3.vuejs.org/guide/migration/migration-build.html#per-component-config).
+You may encounter some issues when using Element Plus with Vue 3 migration build. Some of the components rely on Vue 3 internal API's. It's worth trying to adjust compatConfig mode to 3, either globally or [per component in your project](https://v3-migration.vuejs.org/migration-build.html).
 
 ## Migration Tool :hammer_and_wrench:
 

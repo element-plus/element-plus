@@ -15,7 +15,9 @@ const sidebarItem = ref<HTMLElement>()
 
 const route = useRoute()
 
-const activeLink = computed<boolean>(() => isActive(route, props.item.link))
+const activeLink = computed<boolean>(() =>
+  isActive(route.data.relativePath, props.item.link)
+)
 
 watch([activeLink, sidebarItem], ([active, el]) => {
   if (active && el) {
@@ -36,7 +38,7 @@ watch([activeLink, sidebarItem], ([active, el]) => {
     @click="$emit('close')"
   >
     <p class="link-text">{{ item.text }}</p>
-    <VersionTag v-if="item.promotion" class="ml-2" :version="item.promotion" />
+    <VersionTag v-if="item.promotion" :version="item.promotion" />
   </a>
 </template>
 
@@ -53,6 +55,10 @@ watch([activeLink, sidebarItem], ([active, el]) => {
 
   .link-text {
     margin: 0;
+  }
+
+  .link-text + * {
+    margin-left: 0.5rem;
   }
 }
 

@@ -1,9 +1,16 @@
 export default {
   name: 'nl',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'Bevestig',
       clear: 'Wissen',
+      defaultLabel: 'color picker', // to be translated
+      description:
+        'current color is {color}. press enter to select a new color.', // to be translated
+      alphaLabel: 'pick alpha value', // to be translated
     },
     datepicker: {
       now: 'Nu',
@@ -11,6 +18,11 @@ export default {
       cancel: 'Annuleren',
       clear: 'Legen',
       confirm: 'Bevestig',
+      dateTablePrompt:
+        'Use the arrow keys and enter to select the day of the month', // to be translated
+      monthTablePrompt: 'Use the arrow keys and enter to select the month', // to be translated
+      yearTablePrompt: 'Use the arrow keys and enter to select the year', // to be translated
+      selectedDate: 'Selected date', // to be translated
       selectDate: 'Selecteer datum',
       selectTime: 'Selecteer tijd',
       startDate: 'Startdatum',
@@ -34,7 +46,6 @@ export default {
       month10: 'oktober',
       month11: 'november',
       month12: 'december',
-      // week: 'week',
       weeks: {
         sun: 'Zo',
         mon: 'Ma',
@@ -43,6 +54,15 @@ export default {
         thu: 'Do',
         fri: 'Vr',
         sat: 'Za',
+      },
+      weeksFull: {
+        sun: 'Sunday', // to be translated
+        mon: 'Monday', // to be translated
+        tue: 'Tuesday', // to be translated
+        wed: 'Wednesday', // to be translated
+        thu: 'Thursday', // to be translated
+        fri: 'Friday', // to be translated
+        sat: 'Saturday', // to be translated
       },
       months: {
         jan: 'jan',
@@ -59,11 +79,21 @@ export default {
         dec: 'dec',
       },
     },
+    inputNumber: {
+      decrease: 'decrease number', // to be translated
+      increase: 'increase number', // to be translated
+    },
     select: {
       loading: 'Laden',
       noMatch: 'Geen overeenkomende resultaten',
       noData: 'Geen data',
       placeholder: 'Selecteer',
+    },
+    mention: {
+      loading: 'Laden',
+    },
+    dropdown: {
+      toggleDropdown: 'Toggle Dropdown', // to be translated
     },
     cascader: {
       noMatch: 'Geen overeenkomende resultaten',
@@ -82,12 +112,21 @@ export default {
       currentPage: 'page {pager}', // to be translated
       prevPages: 'Previous {pager} pages', // to be translated
       nextPages: 'Next {pager} pages', // to be translated
+      deprecationWarning:
+        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
+    },
+    dialog: {
+      close: 'Close this dialog', // to be translated
+    },
+    drawer: {
+      close: 'Close this dialog', // to be translated
     },
     messagebox: {
       title: 'Bericht',
       confirm: 'Bevestig',
       cancel: 'Annuleren',
       error: 'Ongeldige invoer',
+      close: 'Close this dialog', // to be translated
     },
     upload: {
       deleteTip: 'Kies verwijder om te wissen',
@@ -95,12 +134,23 @@ export default {
       preview: 'Voorbeeld',
       continue: 'Doorgaan',
     },
+    slider: {
+      defaultLabel: 'slider between {min} and {max}', // to be translated
+      defaultRangeStartLabel: 'pick start value', // to be translated
+      defaultRangeEndLabel: 'pick end value', // to be translated
+    },
     table: {
       emptyText: 'Geen data',
       confirmFilter: 'Bevestigen',
       resetFilter: 'Reset',
       clearFilter: 'Alles',
       sumText: 'Som',
+    },
+    tour: {
+      next: 'Next', // to be translated
+      previous: 'Previous', // to be translated
+      finish: 'Finish', // to be translated
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'Geen data',
@@ -114,14 +164,19 @@ export default {
       hasCheckedFormat: '{checked}/{total} geselecteerd',
     },
     image: {
-      error: 'FAILED', // to be translated
+      error: 'MISLUKT',
     },
     pageHeader: {
-      title: 'Back', // to be translated
+      title: 'Terug',
     },
     popconfirm: {
-      confirmButtonText: 'Yes', // to be translated
-      cancelButtonText: 'No', // to be translated
+      confirmButtonText: 'Ja',
+      cancelButtonText: 'Nee',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

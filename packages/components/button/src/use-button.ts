@@ -34,10 +34,32 @@ export const useButton = (
   const _ref = ref<HTMLButtonElement>()
   const slots = useSlots()
 
-  const _type = computed(() => props.type || buttonGroupContext?.type || '')
+  const _type = computed(
+    () =>
+      props.type || buttonGroupContext?.type || globalConfig.value?.type || ''
+  )
   const autoInsertSpace = computed(
     () => props.autoInsertSpace ?? globalConfig.value?.autoInsertSpace ?? false
   )
+  const _plain = computed(
+    () => props.plain ?? globalConfig.value?.plain ?? false
+  )
+  const _round = computed(
+    () => props.round ?? globalConfig.value?.round ?? false
+  )
+  const _text = computed(() => props.text ?? globalConfig.value?.text ?? false)
+
+  const _props = computed(() => {
+    if (props.tag === 'button') {
+      return {
+        ariaDisabled: _disabled.value || props.loading,
+        disabled: _disabled.value || props.loading,
+        autofocus: props.autofocus,
+        type: props.nativeType,
+      }
+    }
+    return {}
+  })
 
   // add space between two characters in Chinese
   const shouldAddSpace = computed(() => {
@@ -53,6 +75,10 @@ export const useButton = (
   })
 
   const handleClick = (evt: MouseEvent) => {
+    if (_disabled.value || props.loading) {
+      evt.stopPropagation()
+      return
+    }
     if (props.nativeType === 'reset') {
       form?.resetFields()
     }
@@ -64,6 +90,10 @@ export const useButton = (
     _size,
     _type,
     _ref,
+    _props,
+    _plain,
+    _round,
+    _text,
     shouldAddSpace,
     handleClick,
   }

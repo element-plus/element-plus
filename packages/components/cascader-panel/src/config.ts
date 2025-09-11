@@ -1,19 +1,23 @@
 import { computed } from 'vue'
-import { NOOP } from '@vue/shared'
-import { buildProps, definePropType } from '@element-plus/utils'
+import { NOOP, buildProps, definePropType } from '@element-plus/utils'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+
+import type { PropType } from 'vue'
 import type {
   CascaderConfig,
+  CascaderNodePathValue,
   CascaderOption,
   CascaderProps,
   CascaderValue,
-} from './node'
+  RenderLabel,
+} from './types'
 
 export const CommonProps = buildProps({
   /**
    * @description specify which key of node object is used as the node's value
    */
   modelValue: {
-    type: definePropType<CascaderValue>([Number, String, Array]),
+    type: definePropType<CascaderValue | null>([Number, String, Array, Object]),
   },
   /**
    * @description data of the options, the key of `value` and `label` can be customize by `CascaderProps`.
@@ -80,6 +84,39 @@ export const DefaultProps: CascaderConfig = {
    * @description hover threshold of expanding options
    */
   hoverThreshold: 500,
+  /**
+   * @description whether to check or uncheck node when clicking on the node
+   */
+  checkOnClickNode: false,
+  /**
+   * @description whether to check or uncheck node when clicking on leaf node (last children).
+   */
+  checkOnClickLeaf: true,
+  /**
+   * @description whether to show the radio or checkbox prefix
+   */
+  showPrefix: true,
+}
+
+export const cascaderPanelProps = buildProps({
+  ...CommonProps,
+  border: {
+    type: Boolean,
+    default: true,
+  },
+  renderLabel: {
+    type: Function as PropType<RenderLabel>,
+  },
+})
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const emitChangeFn = (value: CascaderValue | undefined | null) => true
+
+export const cascaderPanelEmits = {
+  [UPDATE_MODEL_EVENT]: emitChangeFn,
+  [CHANGE_EVENT]: emitChangeFn,
+  close: () => true,
+  'expand-change': (value: CascaderNodePathValue) => value,
 }
 
 export const useCascaderConfig = (props: { props: CascaderProps }) => {

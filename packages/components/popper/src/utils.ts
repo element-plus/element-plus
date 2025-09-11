@@ -1,4 +1,5 @@
-import { isClient, unrefElement } from '@vueuse/core'
+import { unrefElement } from '@vueuse/core'
+import { isClient } from '@element-plus/utils'
 
 import type { ComponentPublicInstance } from 'vue'
 import type { MaybeRef } from '@vueuse/core'
@@ -42,10 +43,10 @@ function genModifiers(options: PopperCoreConfigProps) {
       name: 'preventOverflow',
       options: {
         padding: {
-          top: 2,
-          bottom: 2,
-          left: 5,
-          right: 5,
+          top: 0,
+          bottom: 0,
+          left: 0,
+          right: 0,
         },
       },
     },

@@ -1,9 +1,16 @@
 export default {
   name: 'da',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'OK',
       clear: 'Ryd',
+      defaultLabel: 'color picker', // to be translated
+      description:
+        'current color is {color}. press enter to select a new color.', // to be translated
+      alphaLabel: 'pick alpha value', // to be translated
     },
     datepicker: {
       now: 'Nu',
@@ -11,6 +18,11 @@ export default {
       cancel: 'Annuller',
       clear: 'Ryd',
       confirm: 'OK',
+      dateTablePrompt:
+        'Use the arrow keys and enter to select the day of the month', // to be translated
+      monthTablePrompt: 'Use the arrow keys and enter to select the month', // to be translated
+      yearTablePrompt: 'Use the arrow keys and enter to select the year', // to be translated
+      selectedDate: 'Selected date', // to be translated
       selectDate: 'Vælg dato',
       selectTime: 'Vælg tidspunkt',
       startDate: 'Startdato',
@@ -34,7 +46,6 @@ export default {
       month10: 'Oktober',
       month11: 'November',
       month12: 'December',
-      week: 'uge',
       weeks: {
         sun: 'Søn',
         mon: 'Man',
@@ -43,6 +54,15 @@ export default {
         thu: 'Tor',
         fri: 'Fre',
         sat: 'Lør',
+      },
+      weeksFull: {
+        sun: 'Sunday', // to be translated
+        mon: 'Monday', // to be translated
+        tue: 'Tuesday', // to be translated
+        wed: 'Wednesday', // to be translated
+        thu: 'Thursday', // to be translated
+        fri: 'Friday', // to be translated
+        sat: 'Saturday', // to be translated
       },
       months: {
         jan: 'Jan',
@@ -59,11 +79,21 @@ export default {
         dec: 'Dec',
       },
     },
+    inputNumber: {
+      decrease: 'decrease number', // to be translated
+      increase: 'increase number', // to be translated
+    },
     select: {
       loading: 'Henter',
       noMatch: 'Ingen matchende data',
       noData: 'Ingen data',
       placeholder: 'Vælg',
+    },
+    mention: {
+      loading: 'Henter',
+    },
+    dropdown: {
+      toggleDropdown: 'Toggle Dropdown', // to be translated
     },
     cascader: {
       noMatch: 'Ingen matchende data',
@@ -82,11 +112,21 @@ export default {
       currentPage: 'page {pager}', // to be translated
       prevPages: 'Previous {pager} pages', // to be translated
       nextPages: 'Next {pager} pages', // to be translated
+      deprecationWarning:
+        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
+    },
+    dialog: {
+      close: 'Close this dialog', // to be translated
+    },
+    drawer: {
+      close: 'Close this dialog', // to be translated
     },
     messagebox: {
+      title: 'Message', // to be translated
       confirm: 'OK',
       cancel: 'Annuller',
       error: 'Ugyldig input',
+      close: 'Close this dialog', // to be translated
     },
     upload: {
       deleteTip: 'tryk slet for at fjerne',
@@ -94,12 +134,23 @@ export default {
       preview: 'Forhåndsvisning',
       continue: 'Fortsæt',
     },
+    slider: {
+      defaultLabel: 'slider between {min} and {max}', // to be translated
+      defaultRangeStartLabel: 'pick start value', // to be translated
+      defaultRangeEndLabel: 'pick end value', // to be translated
+    },
     table: {
       emptyText: 'Ingen data',
       confirmFilter: 'Bekræft',
       resetFilter: 'Nulstil',
       clearFilter: 'Alle',
       sumText: 'Sum',
+    },
+    tour: {
+      next: 'Next', // to be translated
+      previous: 'Previous', // to be translated
+      finish: 'Finish', // to be translated
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'Ingen data',
@@ -121,6 +172,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

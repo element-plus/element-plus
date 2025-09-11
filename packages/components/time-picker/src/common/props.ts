@@ -1,15 +1,22 @@
+import { placements } from '@popperjs/core'
 import { buildProps, definePropType } from '@element-plus/utils'
-import { useSizeProp } from '@element-plus/hooks'
+import {
+  useAriaProps,
+  useEmptyValuesProps,
+  useSizeProp,
+} from '@element-plus/hooks'
+import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { CircleClose } from '@element-plus/icons-vue'
 import { disabledTimeListsProps } from '../props/shared'
 
-import type { Component, ExtractPropTypes } from 'vue'
+import type { Component, ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type { Options } from '@popperjs/core'
 import type { Dayjs } from 'dayjs'
+import type { Placement } from '@element-plus/components/popper'
 
 export type SingleOrRange<T> = T | [T, T]
 export type DateModelType = number | string | Date
-export type ModelValueType = SingleOrRange<DateModelType>
+export type ModelValueType = SingleOrRange<DateModelType> | string[]
 export type DayOrDays = SingleOrRange<Dayjs>
 export type DateOrDates = SingleOrRange<Date>
 export type UserInput = SingleOrRange<string | null>
@@ -27,107 +34,231 @@ export type GetDisabledSeconds = (
 ) => number[]
 
 export const timePickerDefaultProps = buildProps({
+  /**
+   * @description same as `id` in native input
+   */
   id: {
     type: definePropType<SingleOrRange<string>>([Array, String]),
   },
+  /**
+   * @description same as `name` in native input
+   */
   name: {
     type: definePropType<SingleOrRange<string>>([Array, String]),
-    default: '',
   },
-  popperClass: {
-    type: String,
-    default: '',
-  },
+  /**
+   * @description custom class name for TimePicker's dropdown
+   */
+  popperClass: useTooltipContentProps.popperClass,
+  /**
+   * @description custom style for TimePicker's dropdown
+   */
+  popperStyle: useTooltipContentProps.popperStyle,
+  /**
+   * @description format of the displayed value in the input box
+   */
   format: String,
+  /**
+   * @description optional, format of binding value. If not specified, the binding value will be a Date object
+   */
   valueFormat: String,
+  /**
+   * @description optional, format of the date displayed in input's inner panel
+   */
+  dateFormat: String,
+  /**
+   * @description optional, format of the time displayed in input's inner panel
+   */
+  timeFormat: String,
+  /**
+   * @description type of the picker
+   */
   type: {
     type: String,
     default: '',
   },
+  /**
+   * @description whether to show clear button
+   */
   clearable: {
     type: Boolean,
     default: true,
   },
+  /**
+   * @description Custom clear icon component
+   */
   clearIcon: {
     type: definePropType<string | Component>([String, Object]),
     default: CircleClose,
   },
+  /**
+   * @description whether the input is editable
+   */
   editable: {
     type: Boolean,
     default: true,
   },
+  /**
+   * @description Custom prefix icon component
+   */
   prefixIcon: {
     type: definePropType<string | Component>([String, Object]),
     default: '',
   },
+  /**
+   * @description size of Input
+   */
   size: useSizeProp,
-  readonly: {
-    type: Boolean,
-    default: false,
-  },
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
+  /**
+   * @description whether TimePicker is read only
+   */
+  readonly: Boolean,
+  /**
+   * @description whether TimePicker is disabled
+   */
+  disabled: Boolean,
+  /**
+   * @description placeholder in non-range mode
+   */
   placeholder: {
     type: String,
     default: '',
   },
+  /**
+   * @description [popper.js](https://popper.js.org/docs/v2/) parameters
+   */
   popperOptions: {
     type: definePropType<Partial<Options>>(Object),
     default: () => ({}),
   },
+  /**
+   * @description binding value, if it is an array, the length should be 2
+   */
   modelValue: {
-    type: definePropType<ModelValueType>([Date, Array, String, Number]),
+    type: definePropType<ModelValueType | null>([Date, Array, String, Number]),
     default: '',
   },
+  /**
+   * @description range separator
+   */
   rangeSeparator: {
     type: String,
     default: '-',
   },
+  /**
+   * @description placeholder for the start date in range mode
+   */
   startPlaceholder: String,
+  /**
+   * @description placeholder for the end date in range mode
+   */
   endPlaceholder: String,
+  /**
+   * @description optional, default date of the calendar
+   */
   defaultValue: {
     type: definePropType<SingleOrRange<Date>>([Date, Array]),
   },
+  /**
+   * @description optional, the time value to use when selecting date range
+   */
   defaultTime: {
     type: definePropType<SingleOrRange<Date>>([Date, Array]),
   },
-  isRange: {
-    type: Boolean,
-    default: false,
-  },
+  /**
+   * @description whether to pick a time range
+   */
+  isRange: Boolean,
   ...disabledTimeListsProps,
+  /**
+   * @description a function determining if a date is disabled with that date as its parameter. Should return a Boolean
+   */
   disabledDate: {
     type: Function,
   },
+  /**
+   * @description set custom className
+   */
   cellClassName: {
     type: Function,
   },
+  /**
+   * @description an object array to set shortcut options
+   */
   shortcuts: {
     type: Array,
     default: () => [],
   },
-  arrowControl: {
-    type: Boolean,
-    default: false,
-  },
-  label: {
-    type: String,
-    default: undefined,
-  },
+  /**
+   * @description whether to pick time using arrow buttons
+   */
+  arrowControl: Boolean,
+  /**
+   * @description input tabindex
+   */
   tabindex: {
     type: definePropType<string | number>([String, Number]),
     default: 0,
   },
+  /**
+   * @description whether to trigger form validation
+   */
   validateEvent: {
     type: Boolean,
     default: true,
   },
+  /**
+   * @description unlink two date-panels in range-picker
+   */
   unlinkPanels: Boolean,
+  /**
+   * @description position of dropdown
+   */
+  placement: {
+    type: definePropType<Placement>(String),
+    values: placements,
+    default: 'bottom',
+  },
+  /**
+   * @description list of possible positions for dropdown
+   */
+  fallbackPlacements: {
+    type: definePropType<Placement[]>(Array),
+    default: ['bottom', 'top', 'right', 'left'],
+  },
+  ...useEmptyValuesProps,
+  ...useAriaProps(['ariaLabel']),
+  /**
+   * @description whether to show the now button
+   */
+  showNow: {
+    type: Boolean,
+    default: true,
+  },
+  /**
+   * @description whether to show footer
+   */
+  showConfirm: {
+    type: Boolean,
+    default: true,
+  },
+  /**
+   * @description whether to show footer
+   */
+  showFooter: {
+    type: Boolean,
+    default: true,
+  },
+  /**
+   * @description whether to show the number of the calendar week
+   */
+  showWeekNumber: Boolean,
 } as const)
 
 export type TimePickerDefaultProps = ExtractPropTypes<
+  typeof timePickerDefaultProps
+>
+export type TimePickerDefaultPropsPublic = __ExtractPublicPropTypes<
   typeof timePickerDefaultProps
 >
 
@@ -142,3 +273,23 @@ export interface PickerOptions {
   handleClear: () => void
   handleFocusPicker?: () => void
 }
+
+export const timePickerRangeTriggerProps = buildProps({
+  id: {
+    type: definePropType<string[]>(Array),
+  },
+  name: {
+    type: definePropType<string[]>(Array),
+  },
+  modelValue: {
+    type: definePropType<UserInput>([Array, String]),
+  },
+  startPlaceholder: String,
+  endPlaceholder: String,
+  disabled: Boolean,
+} as const)
+
+/**
+ * @deprecated Use `timePickerRangeTriggerProps` instead. This will be removed in future versions.
+ */
+export const timePickerRngeTriggerProps = timePickerRangeTriggerProps

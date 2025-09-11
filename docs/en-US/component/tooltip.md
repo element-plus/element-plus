@@ -7,12 +7,6 @@ lang: en-US
 
 Display prompt information for mouse hover.
 
-:::tip
-
-This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
-
-:::
-
 ## Basic usage
 
 Tooltip has 9 placements.
@@ -138,11 +132,27 @@ tooltip/controlled
 
 ## Animations
 
-Tooltip can be customized animated, you can set the desired animation function as you desired.
+Tooltip can be customized animated, you can set the desired animation use `transition`.
+
+:::tip
+
+Transition Classes, more information can be found at [Vue Transition](https://vuejs.org/guide/built-ins/transition.html#css-based-transitions).
+
+:::
 
 :::demo
 
 tooltip/animations
+
+:::
+
+## Use the `append-to`
+
+You must wait for the DOM to be mounted before using `targetElement`.
+
+:::demo
+
+tooltip/append-to
 
 :::
 
@@ -157,11 +167,13 @@ tooltip/animations
 | content                   | display content, can be overridden by `slot#content`                                                                                                    | ^[string]                                                                                                                                                                   | ''                |
 | raw-content               | whether `content` is treated as HTML string                                                                                                             | ^[boolean]                                                                                                                                                                  | false             |
 | placement                 | position of Tooltip                                                                                                                                     | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | bottom            |
+| fallback-placements       | list of possible positions for Tooltip [popper.js](https://popper.js.org/docs/v2/modifiers/flip/#fallbackplacements)                                    | ^[array]`Placement[]`                                                                                                                                                       | —                 |
 | visible / v-model:visible | visibility of Tooltip                                                                                                                                   | ^[boolean]                                                                                                                                                                  | —                 |
 | disabled                  | whether Tooltip is disabled                                                                                                                             | ^[boolean]                                                                                                                                                                  | —                 |
 | offset                    | offset of the Tooltip                                                                                                                                   | ^[number]                                                                                                                                                                   | 12                |
 | transition                | animation name                                                                                                                                          | ^[string]                                                                                                                                                                   | —                 |
 | popper-options            | [popper.js](https://popper.js.org/docs/v2/) parameters                                                                                                  | ^[object]refer to [popper.js](https://popper.js.org/docs/v2/) doc                                                                                                           | {}                |
+| arrow-offset ^(2.9.10)    | Controls the offset (padding) of the tooltip’s arrow relative to the popper.                                                                            | ^[number]                                                                                                                                                                   | 5                 |
 | show-after                | delay of appearance, in millisecond                                                                                                                     | ^[number]                                                                                                                                                                   | 0                 |
 | show-arrow                | whether the tooltip content has an arrow                                                                                                                | ^[boolean]                                                                                                                                                                  | true              |
 | hide-after                | delay of disappear, in millisecond                                                                                                                      | ^[number]                                                                                                                                                                   | 200               |
@@ -174,7 +186,8 @@ tooltip/animations
 | virtual-ref               | Indicates the reference element to which the tooltip is attached                                                                                        | ^[HTMLElement]                                                                                                                                                              | —                 |
 | trigger-keys              | When you click the mouse to focus on the trigger element, you can define a set of keyboard codes to control the display of tooltip through the keyboard | ^[Array]                                                                                                                                                                    | ['Enter','Space'] |
 | persistent                | when tooltip inactive and `persistent` is `false` , popconfirm will be destroyed                                                                        | ^[boolean]                                                                                                                                                                  | —                 |
-| aria-label^[a11y]         | same as `aria-label`                                                                                                                                    | ^[string]                                                                                                                                                                   | —                 |
+| aria-label ^(a11y)        | same as `aria-label`                                                                                                                                    | ^[string]                                                                                                                                                                   | —                 |
+| focus-on-target ^(2.11.2) | when triggering tooltips through hover, whether to focus the trigger element, which improves accessibility                                              | ^[boolean]                                                                                                                                                                  | false             |
 
 ### Slots
 
@@ -185,12 +198,26 @@ tooltip/animations
 
 ### Exposes
 
-| Name                 | Description                                                       | Type                                              |
-| -------------------- | ----------------------------------------------------------------- | ------------------------------------------------- |
-| popperRef            | el-popper component instance                                      | ^[objcet]`Ref<PopperInstance \| null>`            |
-| contentRef           | el-tooltip-content component instance                             | ^[objcet]`Ref<TooltipContentInstance \| null>`    |
-| isFocusInsideContent | validate current focus event is trigger inside el-tooltip-content | ^[Function]`() => boolean \| undefined`           |
-| updatePopper         | update el-popper component instance                               | ^[Function]`() => void`                           |
-| onOpen               | expose onOpen function to mange el-tooltip open state             | ^[Function]`(event?: Event \| undefined) => void` |
-| onClose              | expose onClose function to mange el-tooltip open state             | ^[Function]`(event?: Event \| undefined) => void` |
-| hide                 | expose hide function                                              | ^[Function]`(event?: Event \| undefined) => void` |
+| Name                 | Description                                                       | Type                                                |
+| -------------------- | ----------------------------------------------------------------- | --------------------------------------------------- |
+| popperRef            | el-popper component instance                                      | ^[object]`Ref<PopperInstance \| undefined>`         |
+| contentRef           | el-tooltip-content component instance                             | ^[object]`Ref<TooltipContentInstance \| undefined>` |
+| isFocusInsideContent | validate current focus event is trigger inside el-tooltip-content | ^[Function]`() => boolean \| undefined`             |
+| updatePopper         | update el-popper component instance                               | ^[Function]`() => void`                             |
+| onOpen               | expose onOpen function to mange el-tooltip open state             | ^[Function]`(event?: Event \| undefined) => void`   |
+| onClose              | expose onClose function to mange el-tooltip open state            | ^[Function]`(event?: Event \| undefined) => void`   |
+| hide                 | expose hide function                                              | ^[Function]`(event?: Event \| undefined) => void`   |
+
+## FAQ
+
+#### How to allow spaces in the input box when tooltip is nested?
+
+Typical issue: [#20907](https://github.com/element-plus/element-plus/issues/20907)
+
+```vue
+<template>
+  <el-tooltip content="tooltip content" placement="top" :trigger-keys="[]">
+    <el-input v-model="value" placeholder="" />
+  </el-tooltip>
+</template>
+```

@@ -25,20 +25,11 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  inject,
-  onBeforeUnmount,
-  onMounted,
-  provide,
-  ref,
-  unref,
-  watch,
-} from 'vue'
-import { NOOP } from '@vue/shared'
+import { inject, onBeforeUnmount, onMounted, provide, unref, watch } from 'vue'
 import { isNil } from 'lodash-unified'
+import { NOOP, isElement } from '@element-plus/utils'
 import ElFocusTrap from '@element-plus/components/focus-trap'
 import { formItemContextKey } from '@element-plus/components/form'
-import { isElement } from '@element-plus/utils'
 import { POPPER_CONTENT_INJECTION_KEY } from './constants'
 import { popperContentEmits, popperContentProps } from './content'
 import {
@@ -85,18 +76,13 @@ const {
 })
 
 const formItemContext = inject(formItemContextKey, undefined)
-const arrowOffset = ref<number>()
 
 provide(POPPER_CONTENT_INJECTION_KEY, {
   arrowStyle,
   arrowRef,
-  arrowOffset,
 })
 
-if (
-  formItemContext &&
-  (formItemContext.addInputId || formItemContext.removeInputId)
-) {
+if (formItemContext) {
   // disallow auto-id from inside popper content
   provide(formItemContextKey, {
     ...formItemContext,

@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { triggerEvent } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
+
 import type MenuItem from './menu-item'
 
 class SubMenu {
@@ -47,6 +48,7 @@ class SubMenu {
             break
           }
           case EVENT_CODE.enter:
+          case EVENT_CODE.numpadEnter:
           case EVENT_CODE.space: {
             prevDef = true
             ;(event.currentTarget as HTMLElement).click()

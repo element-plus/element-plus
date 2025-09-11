@@ -1,13 +1,47 @@
-export const rightRichTextSponsors = []
+export type Sponsor = {
+  url: string
+  name_cn?: string
+  name: string
+  slogan_cn?: string
+  slogan: string
+  img: string
+  isDark?: boolean
+  imgL?: string
+  slogan_index?: string
+  banner_img?: string
+  className?: string
+}
 
-export const rightLogoSmallSponsors = [
+export const rightRichTextSponsors: Sponsor[] = []
+
+export const rightBigLogoSponsors: Sponsor[] = [
+  {
+    name: 'CRMEB',
+    img: '/images/CRMEB.png',
+    imgL: '/images/CRMEB-l.png',
+    url: 'http://github.crmeb.net/u/Elementyouce',
+    slogan: 'High-quality open source mall system',
+    slogan_cn: '高品质开源商城系统 累计服务40W+开发者',
+    slogan_index: '高品质开源商城系统累计服务40W+开发者',
+  },
+]
+
+export const rightLogoSmallSponsors: Sponsor[] = [
   {
     name: 'BuildAdmin',
-    img: '/images/sponsors/buildadmin.png',
-    imgL: '/images/sponsors/buildadmin-l.png',
-    url: 'https://wonderful-code.gitee.io/?from=element-plus',
-    slogan: 'Vue3 opensource admin system',
+    img: '/images/buildadmin.png',
+    imgL: '/images/buildadmin-l.png',
+    url: 'https://doc.buildadmin.com/?from=element-plus',
+    slogan: 'Vue3 open source admin system',
     slogan_cn: 'Vue3企业级开源后台管理系统',
+  },
+  {
+    name: 'Fantastic-admin',
+    img: '/images/fantastic-admin.png',
+    imgL: '/images/fantastic-admin-l.png',
+    url: 'https://fantastic-admin.github.io/?from=element-plus',
+    slogan: 'An out-of-the-box backend framework',
+    slogan_cn: '开箱即用的 Vue 后台管理框架',
   },
   {
     name: 'bit',
@@ -19,23 +53,14 @@ export const rightLogoSmallSponsors = [
   },
 ]
 
-export const leftCustomImgSponsors = [
+export const leftCustomImgSponsors: Sponsor[] = [
   {
-    name: 'JSDesign',
-    name_cn: '即时设计',
-    img: '/images/js-design.png',
-    url: 'https://js.design?source=element-plus',
-    slogan: 'Professional online UI design tool',
-    slogan_cn: '专业在线UI设计工具',
-    banner_img: '/images/js-design-banner.jpg',
-  },
-  {
-    name: 'VForm',
-    img: '/images/vform.png',
-    url: 'https://vform666.com/vform3.html?from=element_plus',
-    slogan: 'Vue 2/3 Visual/Low-Code Forms',
-    slogan_cn: 'Vue 2/3 可视化低代码表单',
-    banner_img: '/images/vform-banner.png',
+    name: '美乐',
+    img: '/images/mele.png',
+    url: 'https://melecode.com/prom.html',
+    slogan: 'Enterprise-level low-code development platform',
+    slogan_cn: '企业级全栈低代码开发平台',
+    banner_img: '/images/mele-banner.png',
   },
   {
     name: 'JNPF',
@@ -44,15 +69,24 @@ export const leftCustomImgSponsors = [
     slogan: 'JNPF low code development platform to develop simple!',
     slogan_cn: 'JNPF 低代码开发平台，让开发变得简单！',
     className: 'jnpf',
-    banner_img: '/images/sponsors/jnpfsoft.jpg',
+    banner_img: '/images/jnpfsoft.png',
+  },
+  {
+    name: 'MISBoot',
+    img: '/images/misboot-logo.png',
+    banner_img: '/images/misboot-left.png',
+    url: 'https://vue.misboot.com/#/login?from=element-plus',
+    slogan: 'Low code development platform built on Element Plus',
+    slogan_cn: '基于Element Plus构建的低代码开发平台',
   },
 ]
 
 export const platinumSponsors = [
   ...leftCustomImgSponsors,
+  ...rightBigLogoSponsors,
   ...rightRichTextSponsors,
 ]
 
-export const leftLogoSponsors = []
+export const leftLogoSponsors: Sponsor[] = []
 
 export const goldSponsors = [...rightLogoSmallSponsors, ...leftLogoSponsors]

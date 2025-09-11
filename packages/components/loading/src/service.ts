@@ -1,21 +1,23 @@
 // @ts-nocheck
 import { nextTick } from 'vue'
-import { isString } from '@vue/shared'
-import { isClient } from '@vueuse/core'
-import { addClass, getStyle, removeClass } from '@element-plus/utils'
+import {
+  addClass,
+  getStyle,
+  isClient,
+  isString,
+  removeClass,
+} from '@element-plus/utils'
 import { createLoadingComponent } from './loading'
 
 import type { UseNamespaceReturn, UseZIndexReturn } from '@element-plus/hooks'
 import type { LoadingInstance } from './loading'
 import type { LoadingOptionsResolved } from '..'
 import type { LoadingOptions } from './types'
-import type { CSSProperties } from 'vue'
+import type { AppContext, CSSProperties } from 'vue'
 
 let fullscreenInstance: LoadingInstance | undefined = undefined
 
-export const Loading = function (
-  options: LoadingOptions = {}
-): LoadingInstance {
+const Loading = function (options: LoadingOptions = {}): LoadingInstance {
   if (!isClient) return undefined as any
 
   const resolved = resolveOptions(options)
@@ -24,13 +26,16 @@ export const Loading = function (
     return fullscreenInstance
   }
 
-  const instance = createLoadingComponent({
-    ...resolved,
-    closed: () => {
-      resolved.closed?.()
-      if (resolved.fullscreen) fullscreenInstance = undefined
+  const instance = createLoadingComponent(
+    {
+      ...resolved,
+      closed: () => {
+        resolved.closed?.()
+        if (resolved.fullscreen) fullscreenInstance = undefined
+      },
     },
-  })
+    Loading._context
+  )
 
   addStyle(resolved, resolved.parent, instance)
   addClassList(resolved, resolved.parent, instance)
@@ -85,6 +90,8 @@ const resolveOptions = (options: LoadingOptions): LoadingOptionsResolved => {
     lock: options.lock ?? false,
     customClass: options.customClass || '',
     visible: options.visible ?? true,
+    beforeClose: options.beforeClose,
+    closed: options.closed,
     target,
   }
 }
@@ -94,7 +101,10 @@ const addStyle = async (
   parent: HTMLElement,
   instance: LoadingInstance
 ) => {
-  const { nextZIndex } = (instance.vm as any).zIndex as UseZIndexReturn
+  // Compatible with the instance data format of vue@3.2.12 and earlier versions #12351
+  const { nextZIndex } =
+    ((instance.vm as any).zIndex as UseZIndexReturn) ||
+    (instance.vm as any)._.exposed.zIndex
 
   const maskStyle: CSSProperties = {}
   if (options.fullscreen) {
@@ -136,7 +146,10 @@ const addClassList = (
   parent: HTMLElement,
   instance: LoadingInstance
 ) => {
-  const ns = (instance.vm as any).ns as UseNamespaceReturn
+  // Compatible with the instance data format of vue@3.2.12 and earlier versions #12351
+  const ns =
+    ((instance.vm as any).ns as UseNamespaceReturn) ||
+    (instance.vm as any)._.exposed.ns
 
   if (
     !['absolute', 'fixed', 'sticky'].includes(instance.originalPosition.value)
@@ -151,3 +164,6 @@ const addClassList = (
     removeClass(parent, ns.bm('parent', 'hidden'))
   }
 }
+
+Loading._context = null as AppContext | null
+export default Loading

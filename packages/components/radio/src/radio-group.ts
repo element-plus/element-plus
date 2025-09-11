@@ -1,7 +1,9 @@
-import { buildProps } from '@element-plus/utils'
-import { useSizeProp } from '@element-plus/hooks'
+import { buildProps, definePropType } from '@element-plus/utils'
+import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import { radioEmits } from './radio'
-import type { ExtractPropTypes } from '@vue/runtime-core'
+
+import type { RadioPropsPublic } from './radio'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type RadioGroup from './radio-group.vue'
 
 export const radioGroupProps = buildProps({
@@ -25,7 +27,7 @@ export const radioGroupProps = buildProps({
    */
   modelValue: {
     type: [String, Number, Boolean],
-    default: '',
+    default: undefined,
   },
   /**
    * @description border and background color when button is active
@@ -33,13 +35,6 @@ export const radioGroupProps = buildProps({
   fill: {
     type: String,
     default: '',
-  },
-  /**
-   * @description same as `aria-label` in RadioGroup
-   */
-  label: {
-    type: String,
-    default: undefined,
   },
   /**
    * @description font color when button is active
@@ -62,9 +57,33 @@ export const radioGroupProps = buildProps({
     type: Boolean,
     default: true,
   },
+  options: {
+    type: definePropType<radioOption[]>(Array),
+  },
+  props: {
+    type: definePropType<radioOptionProp>(Object),
+    default: () => radioDefaultProps,
+  },
+  ...useAriaProps(['ariaLabel']),
 } as const)
 export type RadioGroupProps = ExtractPropTypes<typeof radioGroupProps>
+export type RadioGroupPropsPublic = __ExtractPublicPropTypes<
+  typeof radioGroupProps
+>
 
 export const radioGroupEmits = radioEmits
 export type RadioGroupEmits = typeof radioGroupEmits
-export type RadioGroupInstance = InstanceType<typeof RadioGroup>
+export type RadioGroupInstance = InstanceType<typeof RadioGroup> & unknown
+
+export type radioOption = RadioPropsPublic & Record<string, any>
+
+export const radioDefaultProps: Required<radioOptionProp> = {
+  label: 'label',
+  value: 'value',
+  disabled: 'disabled',
+}
+export type radioOptionProp = {
+  value?: string
+  label?: string
+  disabled?: string
+}

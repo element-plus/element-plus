@@ -2,7 +2,6 @@ import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
 import { CircleClose } from '@element-plus/icons-vue'
-
 import Progress from '../src/progress.vue'
 
 describe('Progress.vue', () => {
@@ -68,6 +67,21 @@ describe('Progress.vue', () => {
     expect(
       wrapper.find('.el-progress-bar__inner').attributes('style')
     ).toContain('background-color: rgb(255, 255, 255);')
+  })
+
+  test('striped', () => {
+    const wrapper = mount(() => <Progress striped />)
+
+    expect(wrapper.find('.el-progress-bar__inner--striped').exists()).toBe(true)
+  })
+
+  test('striped flow', () => {
+    const wrapper = mount(() => <Progress striped striped-flow />)
+
+    expect(wrapper.find('.el-progress-bar__inner--striped').exists()).toBe(true)
+    expect(wrapper.find('.el-progress-bar__inner--striped-flow').exists()).toBe(
+      true
+    )
   })
 
   test('color is function', async () => {

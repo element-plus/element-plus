@@ -73,11 +73,27 @@
     }
   }
 
+  &:not(.#{$namespace}-menu--collapse) .#{$namespace}-sub-menu__title {
+    padding-right: calc(
+      #{getCssVar('menu-base-level-padding')} + #{getCssVar('menu-icon-width')}
+    );
+  }
+
   @include m(horizontal) {
     display: flex;
     flex-wrap: nowrap;
-    border-bottom: solid 1px getCssVar('menu-border-color');
     border-right: none;
+
+    height: getCssVar('menu-horizontal-height');
+
+    // reset menu-item popup height
+    &.#{$namespace}-menu--popup-container {
+      height: unset;
+    }
+
+    &.#{$namespace}-menu {
+      border-bottom: solid 1px getCssVar('menu-border-color');
+    }
 
     & > .#{$namespace}-menu-item {
       display: inline-flex;
@@ -93,12 +109,8 @@
       a:hover {
         color: inherit;
       }
-
-      &:not(.is-disabled):hover,
-      &:not(.is-disabled):focus {
-        background-color: #fff;
-      }
     }
+
     & > .#{$namespace}-sub-menu {
       &:focus,
       &:hover {
@@ -124,10 +136,11 @@
         color: getCssVar('menu-text-color');
 
         &:hover {
-          background-color: getCssVar('bg-color', 'overlay');
+          background-color: getCssVar('menu-bg-color');
         }
       }
     }
+
     & .#{$namespace}-menu {
       & .#{$namespace}-menu-item,
       & .#{$namespace}-sub-menu__title {
@@ -135,6 +148,7 @@
         display: flex;
         align-items: center;
         height: getCssVar('menu-horizontal-sub-item-height');
+        line-height: getCssVar('menu-horizontal-sub-item-height');
         padding: 0 10px;
         color: getCssVar('menu-text-color');
       }
@@ -144,21 +158,31 @@
       }
 
       & .#{$namespace}-menu-item.is-active,
-      & .#{$namespace}-sub-menu.is-active > .#{$namespace}-sub-menu__title {
+      & .#{$namespace}-menu-item.is-active:hover,
+      & .#{$namespace}-sub-menu.is-active > .#{$namespace}-sub-menu__title,
+      &
+        .#{$namespace}-sub-menu.is-active
+        > .#{$namespace}-sub-menu__title:hover {
         color: getCssVar('menu-active-color');
       }
     }
+
     & .#{$namespace}-menu-item:not(.is-disabled):hover,
     & .#{$namespace}-menu-item:not(.is-disabled):focus {
       outline: none;
-      color: getCssVar('menu-hover-text-color');
+      color: getCssVarWithDefault(
+        'menu-active-color',
+        getCssVar('menu-hover-text-color')
+      );
       background-color: getCssVar('menu-hover-bg-color');
     }
+
     & > .#{$namespace}-menu-item.is-active {
       border-bottom: 2px solid getCssVar('menu-active-color');
       color: getCssVar('menu-active-color') !important;
     }
   }
+
   @include m(collapse) {
     width: calc(
       #{getCssVar('menu-icon-width')} + #{getCssVar('menu-base-level-padding')} *
@@ -198,7 +222,14 @@
     .#{$namespace}-menu .#{$namespace}-sub-menu {
       min-width: 200px;
     }
+
+    .#{$namespace}-sub-menu {
+      &.is-active .#{$namespace}-sub-menu__title {
+        color: getCssVar('menu-active-color');
+      }
+    }
   }
+
   @include m(popup) {
     z-index: 100;
     min-width: 200px;
@@ -223,12 +254,15 @@
     font-size: 18px;
     vertical-align: middle;
   }
+
   @include when(active) {
     color: getCssVar('menu-active-color');
+
     i {
       color: inherit;
     }
   }
+
   .#{$namespace}-menu-tooltip__trigger {
     position: absolute;
     left: 0;
@@ -249,31 +283,37 @@
 
   @include e(title) {
     @include menu-item;
-    padding-right: calc(
-      #{getCssVar('menu-base-level-padding')} + #{getCssVar('menu-icon-width')}
-    );
 
     &:hover {
       background-color: getCssVar('menu-hover-bg-color');
     }
   }
+
   & .#{$namespace}-menu {
     border: none;
   }
+
   & .#{$namespace}-menu-item {
     height: getCssVar('menu-sub-item-height');
     line-height: getCssVar('menu-sub-item-height');
   }
+
+  &.#{$namespace}-sub-menu__hide-arrow .#{$namespace}-sub-menu__title {
+    padding-right: getCssVar('menu-base-level-padding');
+  }
+
   @include e(hide-arrow) {
     .#{$namespace}-sub-menu__icon-arrow {
       display: none !important;
     }
   }
+
   @include when(active) {
     .#{$namespace}-sub-menu__title {
       border-bottom-color: getCssVar('menu-active-color');
     }
   }
+
   @include when(disabled) {
     .#{$namespace}-sub-menu__title,
     .#{$namespace}-menu-item {
@@ -282,6 +322,7 @@
       background: none !important;
     }
   }
+
   .#{$namespace}-icon {
     vertical-align: middle;
     margin-right: 5px;
@@ -293,6 +334,7 @@
       margin-right: 0 !important;
     }
   }
+
   .#{$namespace}-sub-menu__icon-arrow {
     position: absolute;
     top: 50%;
@@ -309,6 +351,7 @@
   > ul {
     padding: 0;
   }
+
   @include e(title) {
     padding: 7px 0 7px getCssVar('menu-base-level-padding');
     line-height: normal;

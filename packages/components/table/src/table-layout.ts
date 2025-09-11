@@ -1,15 +1,15 @@
-// @ts-nocheck
 import { isRef, nextTick, ref } from 'vue'
-import { isClient } from '@vueuse/core'
-import { hasOwn } from '@element-plus/utils'
+import { isNull } from 'lodash-unified'
+import { hasOwn, isClient, isNumber, isString } from '@element-plus/utils'
 import { parseHeight } from './util'
-import type { Ref } from 'vue'
 
+import type { Ref } from 'vue'
 import type { TableColumnCtx } from './table-column/defaults'
 import type { TableHeader } from './table-header'
-import type { Table } from './table/defaults'
+import type { DefaultRow, Table } from './table/defaults'
 import type { Store } from './store'
-class TableLayout<T> {
+
+class TableLayout<T extends DefaultRow> {
   observers: TableHeader[]
   table: Table<T>
   store: Store<T>
@@ -23,15 +23,15 @@ class TableLayout<T> {
   bodyWidth: Ref<null | number>
   fixedWidth: Ref<null | number>
   rightFixedWidth: Ref<null | number>
-  tableHeight: Ref<null | number>
-  headerHeight: Ref<null | number> // Table Header Height
-  appendHeight: Ref<null | number> // Append Slot Height
-  footerHeight: Ref<null | number> // Table Footer Height
+  tableHeight!: Ref<null | number>
+  headerHeight!: Ref<null | number> // Table Header Height
+  appendHeight!: Ref<null | number> // Append Slot Height
+  footerHeight!: Ref<null | number> // Table Footer Height
   gutterWidth: number
   constructor(options: Record<string, any>) {
     this.observers = []
-    this.table = null
-    this.store = null
+    this.table = null as unknown as Table<T>
+    this.store = null as unknown as Store<T>
     this.columns = []
     this.fit = true
     this.showHeader = true
@@ -45,9 +45,9 @@ class TableLayout<T> {
     for (const name in options) {
       if (hasOwn(options, name)) {
         if (isRef(this[name])) {
-          this[name as string].value = options[name]
+          ;(this[name] as Ref).value = options[name]
         } else {
-          this[name as string] = options[name]
+          this[name as keyof typeof this] = options[name]
         }
       }
     }
@@ -65,7 +65,7 @@ class TableLayout<T> {
      * When the height is not initialized, it is null.
      * After the table is initialized, when the height is not configured, the height is 0.
      */
-    if (height === null) return false
+    if (isNull(height)) return false
     const scrollBarRef = this.table.refs.scrollBarRef
     if (this.table.vnode.el && scrollBarRef?.wrapRef) {
       let scrollY = true
@@ -78,30 +78,32 @@ class TableLayout<T> {
     return false
   }
 
-  setHeight(value: string | number, prop = 'height') {
+  setHeight(value: string | number | null, prop = 'height') {
     if (!isClient) return
     const el = this.table.vnode.el
     value = parseHeight(value)
     this.height.value = Number(value)
 
-    if (!el && (value || value === 0))
-      return nextTick(() => this.setHeight(value, prop))
+    if (!el && (value || value === 0)) {
+      nextTick(() => this.setHeight(value, prop))
+      return
+    }
 
-    if (typeof value === 'number') {
+    if (el && isNumber(value)) {
       el.style[prop] = `${value}px`
       this.updateElsHeight()
-    } else if (typeof value === 'string') {
+    } else if (el && isString(value)) {
       el.style[prop] = value
       this.updateElsHeight()
     }
   }
 
-  setMaxHeight(value: string | number) {
+  setMaxHeight(value: string | number | null) {
     this.setHeight(value, 'max-height')
   }
 
   getFlattenColumns(): TableColumnCtx<T>[] {
-    const flattenColumns = []
+    const flattenColumns: TableColumnCtx<T>[] = []
     const columns = this.table.store.states.columns.value
     columns.forEach((column) => {
       if (column.isColumnGroup) {
@@ -127,7 +129,7 @@ class TableLayout<T> {
       if (getComputedStyle(headerChild).display === 'none') {
         return true
       }
-      headerChild = headerChild.parentElement
+      headerChild = headerChild.parentElement!
     }
     return false
   }
@@ -135,17 +137,16 @@ class TableLayout<T> {
   updateColumnsWidth() {
     if (!isClient) return
     const fit = this.fit
-    const bodyWidth = this.table.vnode.el.clientWidth
+    const bodyWidth = this.table.vnode.el?.clientWidth
     let bodyMinWidth = 0
 
     const flattenColumns = this.getFlattenColumns()
     const flexColumns = flattenColumns.filter(
-      (column) => typeof column.width !== 'number'
+      (column) => !isNumber(column.width)
     )
     flattenColumns.forEach((column) => {
       // Clean those columns whose width changed from flex to unflex
-      if (typeof column.width === 'number' && column.realWidth)
-        column.realWidth = null
+      if (isNumber(column.width) && column.realWidth) column.realWidth = null
     })
     if (flexColumns.length > 0 && fit) {
       flattenColumns.forEach((column) => {
@@ -245,10 +246,10 @@ class TableLayout<T> {
     observers.forEach((observer) => {
       switch (event) {
         case 'columns':
-          observer.state?.onColumnsChange(this)
+          observer.state?.onColumnsChange(this as TableLayout<DefaultRow>)
           break
         case 'scrollable':
-          observer.state?.onScrollableChange(this)
+          observer.state?.onScrollableChange(this as TableLayout<DefaultRow>)
           break
         default:
           throw new Error(`Table Layout don't have event ${event}.`)

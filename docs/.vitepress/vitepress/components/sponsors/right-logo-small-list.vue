@@ -2,22 +2,22 @@
 import { rightLogoSmallSponsors } from '../../../config/sponsors'
 import { sendEvent } from '../../../config/analytics'
 import { isDark } from '../../composables/dark'
-const onItemClick = (item: any) => {
+
+import type { Sponsor } from '../../../config/sponsors'
+
+const onItemClick = (item: Sponsor) => {
   sendEvent('sp_click', item.name, 'right_logo_small')
 }
 </script>
 
 <template>
-  <div class="m-t-16px flex flex-wrap justify-between">
-    <template
-      v-for="item in rightLogoSmallSponsors.concat([{} as any])"
-      :key="item.name"
-    >
+  <div class="flex flex-wrap justify-between right-small">
+    <template v-for="item in rightLogoSmallSponsors" :key="item.name">
       <div
         v-if="!item.url"
         :class="[
           isDark && '!bg-#262729 color-$text-color-placeholder',
-          'flex bg-#F9F9F9 rd-0px h-40px w-89px justify-center items-center',
+          'flex bg-#F9F9F9 rd-0px h-42px w-95px justify-center items-center',
         ]"
       >
         <div class="color-#ddd text-13px cursor-default">Your logo</div>
@@ -34,7 +34,7 @@ const onItemClick = (item: any) => {
         <div
           :class="[
             isDark && '!bg-#262729',
-            'flex m-b-2px bg-#F9F9F9 rd-0px h-40px w-89px justify-center items-center',
+            'flex m-b-4px bg-#F9F9F9 rd-0px h-42px w-95px justify-center items-center',
           ]"
         >
           <img :src="item.imgL" :alt="item.name" />
@@ -43,3 +43,9 @@ const onItemClick = (item: any) => {
     </template>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.right-small {
+  margin-top: 16px;
+}
+</style>

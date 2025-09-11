@@ -6,6 +6,7 @@
     :fallback-placements="['bottom-start', 'top-start']"
     :popper-class="[ns.e('popper'), popperClass]"
     :teleported="teleported"
+    :append-to="appendTo"
     :gpu-acceleration="false"
     pure
     manual-mode
@@ -13,6 +14,7 @@
     trigger="click"
     :transition="`${ns.namespace.value}-zoom-in-top`"
     persistent
+    role="listbox"
     @before-show="onSuggestionShow"
     @hide="onHide"
   >
@@ -27,11 +29,9 @@
     >
       <el-input
         ref="inputRef"
-        v-bind="attrs"
-        :clearable="clearable"
-        :disabled="disabled"
-        :name="name"
+        v-bind="mergeProps(passInputProps, $attrs)"
         :model-value="modelValue"
+        :disabled="disabled"
         @input="handleInput"
         @change="handleChange"
         @focus="handleFocus"
@@ -68,6 +68,13 @@
         }"
         role="region"
       >
+        <div
+          v-if="$slots.header"
+          :class="ns.be('suggestion', 'header')"
+          @click.stop
+        >
+          <slot name="header" />
+        </div>
         <el-scrollbar
           :id="listboxId"
           tag="ul"
@@ -76,9 +83,11 @@
           role="listbox"
         >
           <li v-if="suggestionLoading">
-            <el-icon :class="ns.is('loading')">
-              <Loading />
-            </el-icon>
+            <slot name="loading">
+              <el-icon :class="ns.is('loading')">
+                <Loading />
+              </el-icon>
+            </slot>
           </li>
           <template v-else>
             <li
@@ -94,6 +103,13 @@
             </li>
           </template>
         </el-scrollbar>
+        <div
+          v-if="$slots.footer"
+          :class="ns.be('suggestion', 'footer')"
+          @click.stop
+        >
+          <slot name="footer" />
+        </div>
       </div>
     </template>
   </el-tooltip>
@@ -102,29 +118,30 @@
 <script lang="ts" setup>
 import {
   computed,
-  nextTick,
+  mergeProps,
+  onBeforeUnmount,
   onMounted,
   ref,
   useAttrs as useRawAttrs,
 } from 'vue'
-import { debounce } from 'lodash-unified'
+import { debounce, pick } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
 import { Loading } from '@element-plus/icons-vue'
-import { useAttrs, useNamespace } from '@element-plus/hooks'
-import { generateId, isArray, throwError } from '@element-plus/utils'
+import { useId, useNamespace } from '@element-plus/hooks'
+import { isArray, throwError } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import ElInput from '@element-plus/components/input'
+import ElInput, { inputProps } from '@element-plus/components/input'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElIcon from '@element-plus/components/icon'
 import { useFormDisabled } from '@element-plus/components/form'
 import { autocompleteEmits, autocompleteProps } from './autocomplete'
-import type { AutocompleteData } from './autocomplete'
 
+import type { AutocompleteData } from './autocomplete'
 import type { StyleValue } from 'vue'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { InputInstance } from '@element-plus/components/input'
@@ -138,7 +155,8 @@ defineOptions({
 const props = defineProps(autocompleteProps)
 const emit = defineEmits(autocompleteEmits)
 
-const attrs = useAttrs()
+const passInputProps = computed(() => pick(props, Object.keys(inputProps)))
+
 const rawAttrs = useRawAttrs()
 const disabled = useFormDisabled()
 const ns = useNamespace('autocomplete')
@@ -157,7 +175,7 @@ const activated = ref(false)
 const suggestionDisabled = ref(false)
 const loading = ref(false)
 
-const listboxId = computed(() => ns.b(String(generateId())))
+const listboxId = useId()
 const styles = computed(() => rawAttrs.style as StyleValue)
 
 const suggestionVisible = computed(() => {
@@ -176,8 +194,7 @@ const refInput = computed<HTMLInputElement[]>(() => {
   return []
 })
 
-const onSuggestionShow = async () => {
-  await nextTick()
+const onSuggestionShow = () => {
   if (suggestionVisible.value) {
     dropdownWidth.value = `${inputRef.value!.$el.offsetWidth}px`
   }
@@ -240,7 +257,7 @@ const handleMouseDown = (event: MouseEvent) => {
   }
 }
 
-const handleChange = (value: string) => {
+const handleChange = (value: string | number) => {
   emit(CHANGE_EVENT, value)
 }
 
@@ -248,9 +265,9 @@ const handleFocus = (evt: FocusEvent) => {
   if (!ignoreFocusEvent) {
     activated.value = true
     emit('focus', evt)
-
+    const queryString = props.modelValue ?? ''
     if (props.triggerOnFocus && !readonly) {
-      debouncedGetData(String(props.modelValue))
+      debouncedGetData(String(queryString))
     }
   } else {
     ignoreFocusEvent = false
@@ -353,8 +370,14 @@ const highlight = (index: number) => {
   )
 }
 
-onClickOutside(listboxRef, () => {
+const stopHandle = onClickOutside(listboxRef, () => {
+  // Prevent closing if focus is inside popper content
+  if (popperRef.value?.isFocusInsideContent()) return
   suggestionVisible.value && close()
+})
+
+onBeforeUnmount(() => {
+  stopHandle?.()
 })
 
 onMounted(() => {
@@ -395,5 +418,7 @@ defineExpose({
   close,
   /** @description highlight an item in a suggestion */
   highlight,
+  /** @description loading suggestion list */
+  getData,
 })
 </script>

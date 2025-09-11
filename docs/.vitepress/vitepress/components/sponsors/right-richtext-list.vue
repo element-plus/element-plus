@@ -4,16 +4,19 @@ import { rightRichTextSponsors } from '../../../config/sponsors'
 import { sendEvent } from '../../../config/analytics'
 import { useLang } from '../../composables/lang'
 import { isDark } from '../../composables/dark'
+
+import type { Sponsor } from '../../../config/sponsors'
+
 const lang = useLang()
 const langZhCN = 'zh-CN'
 const isZhCn = computed(() => lang.value === langZhCN)
-const onItemClick = (item: any) => {
+const onItemClick = (item: Sponsor) => {
   sendEvent('sp_click', item.name, 'right_richtext_list')
 }
 </script>
 
 <template>
-  <div class="m-t-16px">
+  <div class="right-rich">
     <a
       v-for="item in rightRichTextSponsors"
       :key="item.name"
@@ -46,7 +49,7 @@ const onItemClick = (item: any) => {
           </div>
           <div
             :class="[
-              'm-t-2px font-400 text-12px color-#909399',
+              'm-t-2px font-400 text-12px color-#909399 break-all',
               isDark && '!color-#A3A6AD',
             ]"
           >
@@ -57,3 +60,9 @@ const onItemClick = (item: any) => {
     </a>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.right-rich {
+  margin-top: 16px;
+}
+</style>

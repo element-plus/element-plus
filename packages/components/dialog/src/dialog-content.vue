@@ -1,20 +1,11 @@
 <template>
-  <div
-    :ref="composedDialogRef"
-    :class="[
-      ns.b(),
-      ns.is('fullscreen', fullscreen),
-      ns.is('draggable', draggable),
-      ns.is('align-center', alignCenter),
-      { [ns.m('center')]: center },
-      customClass,
-    ]"
-    :style="style"
-    tabindex="-1"
-  >
-    <header ref="headerRef" :class="ns.e('header')">
+  <div :ref="composedDialogRef" :class="dialogKls" :style="style" tabindex="-1">
+    <header
+      ref="headerRef"
+      :class="[ns.e('header'), headerClass, { 'show-close': showClose }]"
+    >
       <slot name="header">
-        <span role="heading" :class="ns.e('title')">
+        <span role="heading" :aria-level="ariaLevel" :class="ns.e('title')">
           {{ title }}
         </span>
       </slot>
@@ -30,10 +21,10 @@
         </el-icon>
       </button>
     </header>
-    <div :id="bodyId" :class="ns.e('body')">
+    <div :id="bodyId" :class="[ns.e('body'), bodyClass]">
       <slot />
     </div>
-    <footer v-if="$slots.footer" :class="ns.e('footer')">
+    <footer v-if="$slots.footer" :class="[ns.e('footer'), footerClass]">
       <slot name="footer" />
     </footer>
   </div>
@@ -60,6 +51,26 @@ const { focusTrapRef } = inject(FOCUS_TRAP_INJECTION_KEY)!
 
 const composedDialogRef = composeRefs(focusTrapRef, dialogRef)
 
-const draggable = computed(() => props.draggable)
-useDraggable(dialogRef, headerRef, draggable)
+const draggable = computed(() => !!props.draggable)
+const overflow = computed(() => !!props.overflow)
+const { resetPosition, updatePosition, isDragging } = useDraggable(
+  dialogRef,
+  headerRef,
+  draggable,
+  overflow
+)
+
+const dialogKls = computed(() => [
+  ns.b(),
+  ns.is('fullscreen', props.fullscreen),
+  ns.is('draggable', draggable.value),
+  ns.is('dragging', isDragging.value),
+  ns.is('align-center', !!props.alignCenter),
+  { [ns.m('center')]: props.center },
+])
+
+defineExpose({
+  resetPosition,
+  updatePosition,
+})
 </script>

@@ -1,9 +1,16 @@
 export default {
   name: 'fi',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'OK',
       clear: 'Tyhjennä',
+      defaultLabel: 'color picker', // to be translated
+      description:
+        'current color is {color}. press enter to select a new color.', // to be translated
+      alphaLabel: 'pick alpha value', // to be translated
     },
     datepicker: {
       now: 'Nyt',
@@ -11,6 +18,11 @@ export default {
       cancel: 'Peruuta',
       clear: 'Tyhjennä',
       confirm: 'OK',
+      dateTablePrompt:
+        'Use the arrow keys and enter to select the day of the month', // to be translated
+      monthTablePrompt: 'Use the arrow keys and enter to select the month', // to be translated
+      yearTablePrompt: 'Use the arrow keys and enter to select the year', // to be translated
+      selectedDate: 'Selected date', // to be translated
       selectDate: 'Valitse päivä',
       selectTime: 'Valitse aika',
       startDate: 'Aloituspäivä',
@@ -34,7 +46,6 @@ export default {
       month10: 'lokakuu',
       month11: 'marraskuu',
       month12: 'joulukuu',
-      // week: 'week',
       weeks: {
         sun: 'su',
         mon: 'ma',
@@ -43,6 +54,15 @@ export default {
         thu: 'to',
         fri: 'pe',
         sat: 'la',
+      },
+      weeksFull: {
+        sun: 'Sunday', // to be translated
+        mon: 'Monday', // to be translated
+        tue: 'Tuesday', // to be translated
+        wed: 'Wednesday', // to be translated
+        thu: 'Thursday', // to be translated
+        fri: 'Friday', // to be translated
+        sat: 'Saturday', // to be translated
       },
       months: {
         jan: 'tammi',
@@ -59,11 +79,21 @@ export default {
         dec: 'joulu',
       },
     },
+    inputNumber: {
+      decrease: 'decrease number', // to be translated
+      increase: 'increase number', // to be translated
+    },
     select: {
       loading: 'Lataa',
       noMatch: 'Ei vastaavia tietoja',
       noData: 'Ei tietoja',
       placeholder: 'Valitse',
+    },
+    mention: {
+      loading: 'Lataa',
+    },
+    dropdown: {
+      toggleDropdown: 'Toggle Dropdown', // to be translated
     },
     cascader: {
       noMatch: 'Ei vastaavia tietoja',
@@ -82,12 +112,21 @@ export default {
       currentPage: 'page {pager}', // to be translated
       prevPages: 'Previous {pager} pages', // to be translated
       nextPages: 'Next {pager} pages', // to be translated
+      deprecationWarning:
+        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
+    },
+    dialog: {
+      close: 'Close this dialog', // to be translated
+    },
+    drawer: {
+      close: 'Close this dialog', // to be translated
     },
     messagebox: {
       title: 'Viesti',
       confirm: 'OK',
       cancel: 'Peruuta',
       error: 'Virheellinen syöte',
+      close: 'Close this dialog', // to be translated
     },
     upload: {
       deleteTip: 'Poista Delete-näppäimellä',
@@ -95,12 +134,23 @@ export default {
       preview: 'Esikatsele',
       continue: 'Jatka',
     },
+    slider: {
+      defaultLabel: 'slider between {min} and {max}', // to be translated
+      defaultRangeStartLabel: 'pick start value', // to be translated
+      defaultRangeEndLabel: 'pick end value', // to be translated
+    },
     table: {
       emptyText: 'Ei tietoja',
       confirmFilter: 'Vahvista',
       resetFilter: 'Tyhjennä',
       clearFilter: 'Kaikki',
       sumText: 'Summa',
+    },
+    tour: {
+      next: 'Next', // to be translated
+      previous: 'Previous', // to be translated
+      finish: 'Finish', // to be translated
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'Ei tietoja',
@@ -122,6 +172,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

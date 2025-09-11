@@ -1,5 +1,3 @@
-@use 'sass:map';
-
 // CSS3 var
 @use 'common/var' as *;
 @use 'mixins/var' as *;
@@ -47,9 +45,6 @@
 // for light
 :root {
   color-scheme: light;
-
-  @include set-css-var-value('color-white', $color-white);
-  @include set-css-var-value('color-black', $color-black);
 
   // --el-color-#{$type}
   // --el-color-#{$type}-light-{$i}

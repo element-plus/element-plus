@@ -1,12 +1,11 @@
 import { onBeforeUnmount, onMounted } from 'vue'
-import { isClient } from '@vueuse/core'
+import { isClient } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 
 let registeredEscapeHandlers: ((e: KeyboardEvent) => void)[] = []
 
-const cachedHandler = (e: Event) => {
-  const event = e as KeyboardEvent
-  if (event.key === EVENT_CODE.esc) {
+const cachedHandler = (event: KeyboardEvent) => {
+  if (event.code === EVENT_CODE.esc) {
     registeredEscapeHandlers.forEach((registeredHandler) =>
       registeredHandler(event)
     )

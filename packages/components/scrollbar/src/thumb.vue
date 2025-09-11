@@ -5,6 +5,7 @@
       ref="instance"
       :class="[ns.e('bar'), ns.is(bar.key)]"
       @mousedown="clickTrackHandler"
+      @click.stop
     >
       <div
         ref="thumb"
@@ -18,8 +19,8 @@
 
 <script lang="ts" setup>
 import { computed, inject, onBeforeUnmount, ref, toRef } from 'vue'
-import { isClient, useEventListener } from '@vueuse/core'
-import { throwError } from '@element-plus/utils'
+import { useEventListener } from '@vueuse/core'
+import { isClient, throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { scrollbarContextKey } from './constants'
 import { BAR_MAP, renderThumbStyle } from './util'
@@ -41,6 +42,8 @@ const visible = ref(false)
 
 let cursorDown = false
 let cursorLeave = false
+let baseScrollHeight = 0
+let baseScrollWidth = 0
 let originalOnSelectStart:
   | ((this: GlobalEventHandlers, ev: Event) => any)
   | null = isClient ? document.onselectstart : null
@@ -101,6 +104,8 @@ const clickTrackHandler = (e: MouseEvent) => {
 const startDrag = (e: MouseEvent) => {
   e.stopImmediatePropagation()
   cursorDown = true
+  baseScrollHeight = scrollbar.wrapElement.scrollHeight
+  baseScrollWidth = scrollbar.wrapElement.scrollWidth
   document.addEventListener('mousemove', mouseMoveDocumentHandler)
   document.addEventListener('mouseup', mouseUpDocumentHandler)
   originalOnSelectStart = document.onselectstart
@@ -122,9 +127,14 @@ const mouseMoveDocumentHandler = (e: MouseEvent) => {
   const thumbPositionPercentage =
     ((offset - thumbClickPosition) * 100 * offsetRatio.value) /
     instance.value[bar.value.offset]
-  scrollbar.wrapElement[bar.value.scroll] =
-    (thumbPositionPercentage * scrollbar.wrapElement[bar.value.scrollSize]) /
-    100
+
+  if (bar.value.scroll === 'scrollLeft') {
+    scrollbar.wrapElement[bar.value.scroll] =
+      (thumbPositionPercentage * baseScrollWidth) / 100
+  } else {
+    scrollbar.wrapElement[bar.value.scroll] =
+      (thumbPositionPercentage * baseScrollHeight) / 100
+  }
 }
 
 const mouseUpDocumentHandler = () => {

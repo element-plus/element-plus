@@ -1,4 +1,13 @@
 {
+  "overview": {
+    "text": "Overview",
+    "children": [
+      {
+        "link": "/overview",
+        "text": "Overview"
+      }
+    ]
+  },
   "basic": {
     "text": "Basic",
     "children": [
@@ -32,7 +41,8 @@
       },
       {
         "link": "/text",
-        "text": "Text"
+        "text": "Text",
+        "promotion": "2.3.0"
       },
       {
         "link": "/scrollbar",
@@ -41,6 +51,11 @@
       {
         "link": "/space",
         "text": "Space"
+      },
+      {
+        "link": "/splitter",
+        "text": "Splitter",
+        "promotion": "2.10.0"
       },
       {
         "link": "/typography",
@@ -73,8 +88,18 @@
         "text": "Checkbox"
       },
       {
+        "link": "/color-picker-panel",
+        "text": "Color Picker Panel",
+        "promotion": "2.11.0"
+      },
+      {
         "link": "/color-picker",
         "text": "Color Picker"
+      },
+      {
+        "link": "/date-picker-panel",
+        "text": "Date Picker Panel",
+        "promotion": "2.11.0"
       },
       {
         "link": "/date-picker",
@@ -95,6 +120,16 @@
       {
         "link": "/input-number",
         "text": "Input Number"
+      },
+      {
+        "link": "/input-tag",
+        "text": "Input Tag",
+        "promotion": "2.9.0"
+      },
+      {
+        "link": "/mention",
+        "text": "Mention",
+        "promotion": "2.8.0"
       },
       {
         "link": "/radio",
@@ -131,6 +166,11 @@
       {
         "link": "/transfer",
         "text": "Transfer"
+      },
+      {
+        "link": "/tree-select",
+        "text": "TreeSelect",
+        "promotion": "2.1.8"
       },
       {
         "link": "/upload",
@@ -215,13 +255,13 @@
         "text": "Timeline"
       },
       {
-        "link": "/tree",
-        "text": "Tree"
+        "link": "/tour",
+        "text": "Tour",
+        "promotion": "2.5.0"
       },
       {
-        "link": "/tree-select",
-        "text": "TreeSelect",
-        "promotion": "2.1.8"
+        "link": "/tree",
+        "text": "Tree"
       },
       {
         "link": "/tree-v2",
@@ -231,6 +271,11 @@
         "link": "/statistic",
         "text": "Statistic",
         "promotion": "2.2.30"
+      },
+      {
+        "link": "/segmented",
+        "text": "Segmented",
+        "promotion": "2.7.0"
       }
     ]
   },
@@ -240,6 +285,11 @@
       {
         "link": "/affix",
         "text": "Affix"
+      },
+      {
+        "link": "/anchor",
+        "text": "Anchor",
+        "promotion": "2.6.0"
       },
       {
         "link": "/backtop",
@@ -322,6 +372,11 @@
       {
         "link": "/divider",
         "text": "Divider"
+      },
+      {
+        "link": "/watermark",
+        "text": "Watermark",
+        "promotion": "2.4.0"
       }
     ]
   }

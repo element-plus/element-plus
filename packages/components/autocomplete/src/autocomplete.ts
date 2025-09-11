@@ -1,7 +1,8 @@
-import { NOOP } from '@vue/shared'
 import {
+  NOOP,
   buildProps,
   definePropType,
+  isNumber,
   isObject,
   isString,
 } from '@element-plus/utils'
@@ -11,8 +12,9 @@ import {
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
+import { inputProps } from '@element-plus/components/input'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type Autocomplete from './autocomplete.vue'
 import type { Placement } from '@element-plus/components/popper'
 import type { Awaitable } from '@element-plus/utils'
@@ -29,6 +31,7 @@ export type AutocompleteFetchSuggestions =
   | AutocompleteData
 
 export const autocompleteProps = buildProps({
+  ...inputProps,
   /**
    * @description key name of the input suggestion object for display
    */
@@ -51,7 +54,7 @@ export const autocompleteProps = buildProps({
     default: 300,
   },
   /**
-   * @description the placeholder of Autocomplete
+   * @description placement of the popup menu
    */
   placement: {
     type: definePropType<Placement>(String),
@@ -89,63 +92,39 @@ export const autocompleteProps = buildProps({
   /**
    * @description whether to emit a `select` event on enter when there is no autocomplete match
    */
-  selectWhenUnmatched: {
-    type: Boolean,
-    default: false,
-  },
+  selectWhenUnmatched: Boolean,
   /**
    * @description whether to hide the loading icon in remote search
    */
-  hideLoading: {
-    type: Boolean,
-    default: false,
-  },
+  hideLoading: Boolean,
   /**
-   * @description label text
+   * @description whether select dropdown is teleported to the body
    */
-  label: {
-    type: String,
-  },
   teleported: useTooltipContentProps.teleported,
+  /**
+   * @description which select dropdown appends to
+   */
+  appendTo: useTooltipContentProps.appendTo,
   /**
    * @description whether to highlight first item in remote search suggestions by default
    */
-  highlightFirstItem: {
-    type: Boolean,
-    default: false,
-  },
+  highlightFirstItem: Boolean,
   /**
    * @description whether the width of the dropdown is the same as the input
    */
-  fitInputWidth: {
-    type: Boolean,
-    default: false,
-  },
-  /**
-   * @description whether to show clear button
-   */
-  clearable: {
-    type: Boolean,
-    default: false,
-  },
-  /**
-   * @description whether to disable
-   */
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
-  /**
-   * @description same as `name` in native input
-   */
-  name: String,
+  fitInputWidth: Boolean,
 } as const)
 export type AutocompleteProps = ExtractPropTypes<typeof autocompleteProps>
+export type AutocompletePropsPublic = __ExtractPublicPropTypes<
+  typeof autocompleteProps
+>
 
 export const autocompleteEmits = {
-  [UPDATE_MODEL_EVENT]: (value: string) => isString(value),
-  [INPUT_EVENT]: (value: string) => isString(value),
-  [CHANGE_EVENT]: (value: string) => isString(value),
+  [UPDATE_MODEL_EVENT]: (value: string | number) =>
+    isString(value) || isNumber(value),
+  [INPUT_EVENT]: (value: string | number) => isString(value) || isNumber(value),
+  [CHANGE_EVENT]: (value: string | number) =>
+    isString(value) || isNumber(value),
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
   blur: (evt: FocusEvent) => evt instanceof FocusEvent,
   clear: () => true,
@@ -153,4 +132,4 @@ export const autocompleteEmits = {
 }
 export type AutocompleteEmits = typeof autocompleteEmits
 
-export type AutocompleteInstance = InstanceType<typeof Autocomplete>
+export type AutocompleteInstance = InstanceType<typeof Autocomplete> & unknown

@@ -3,7 +3,7 @@
     :id="inputId"
     :class="[rateClasses, ns.is('disabled', rateDisabled)]"
     role="slider"
-    :aria-label="!isLabeledByFormItem ? label || 'rating' : undefined"
+    :aria-label="!isLabeledByFormItem ? ariaLabel || 'rating' : undefined"
     :aria-labelledby="
       isLabeledByFormItem ? formItemContext?.labelId : undefined
     "
@@ -24,34 +24,48 @@
       @click="selectValue(item)"
     >
       <el-icon
+        ref="iconRefs"
         :class="[
           ns.e('icon'),
           { hover: hoverIndex === item },
           ns.is('active', item <= currentValue),
+          ns.is('focus-visible', item === Math.ceil(currentValue || 1)),
         ]"
       >
         <template v-if="!showDecimalIcon(item)">
           <component :is="activeComponent" v-show="item <= currentValue" />
-          <component :is="voidComponent" v-show="!(item <= currentValue)" />
+          <component :is="voidComponent" v-show="item > currentValue" />
         </template>
-        <el-icon
-          v-if="showDecimalIcon(item)"
-          :style="decimalStyle"
-          :class="[ns.e('icon'), ns.e('decimal')]"
-        >
-          <component :is="decimalIconComponent" />
-        </el-icon>
+        <template v-else>
+          <component :is="voidComponent" :class="[ns.em('decimal', 'box')]" />
+          <el-icon
+            :style="decimalStyle"
+            :class="[ns.e('icon'), ns.e('decimal')]"
+          >
+            <component :is="decimalIconComponent" />
+          </el-icon>
+        </template>
       </el-icon>
     </span>
-    <span v-if="showText || showScore" :class="ns.e('text')">
+    <span
+      v-if="showText || showScore"
+      :class="ns.e('text')"
+      :style="{ color: textColor }"
+    >
       {{ text }}
     </span>
   </div>
 </template>
+
 <script lang="ts" setup>
 import { computed, inject, markRaw, ref, watch } from 'vue'
-import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { hasClass, isArray, isObject, isString } from '@element-plus/utils'
+import { clamp } from 'lodash-unified'
+import {
+  CHANGE_EVENT,
+  EVENT_CODE,
+  UPDATE_MODEL_EVENT,
+} from '@element-plus/constants'
+import { isArray, isObject, isString } from '@element-plus/utils'
 import {
   formContextKey,
   formItemContextKey,
@@ -61,8 +75,9 @@ import {
 import { ElIcon } from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
 import { rateEmits, rateProps } from './rate'
-import type { iconPropType } from '@element-plus/utils'
+
 import type { CSSProperties, Component } from 'vue'
+import type { IconInstance } from '@element-plus/components/icon'
 
 function getValueFromMap<T>(
   value: number,
@@ -103,6 +118,10 @@ const currentValue = ref(props.modelValue)
 const hoverIndex = ref(-1)
 const pointerAtLeftHalf = ref(true)
 
+const iconRefs = ref<IconInstance[]>([])
+const iconClientWidths = computed<number[]>(() =>
+  iconRefs.value.map((icon) => icon.$el.clientWidth)
+)
 const rateClasses = computed(() => [ns.b(), ns.m(rateSize.value)])
 const rateDisabled = computed(() => props.disabled || formContext?.disabled)
 const rateStyles = computed(() => {
@@ -177,10 +196,10 @@ const voidComponent = computed(() =>
   rateDisabled.value
     ? isString(props.disabledVoidIcon)
       ? props.disabledVoidIcon
-      : (markRaw(props.disabledVoidIcon) as typeof iconPropType)
+      : (markRaw(props.disabledVoidIcon) as Component)
     : isString(props.voidIcon)
     ? props.voidIcon
-    : (markRaw(props.voidIcon) as typeof iconPropType)
+    : (markRaw(props.voidIcon) as Component)
 )
 const activeComponent = computed(() =>
   getValueFromMap(currentValue.value, componentMap.value)
@@ -208,7 +227,7 @@ function emitValue(value: number) {
 
   emit(UPDATE_MODEL_EVENT, value)
   if (props.modelValue !== value) {
-    emit('change', value)
+    emit(CHANGE_EVENT, value)
   }
 }
 
@@ -227,29 +246,25 @@ function handleKey(e: KeyboardEvent) {
   if (rateDisabled.value) {
     return
   }
-  let _currentValue = currentValue.value
   const code = e.code
+  const step = props.allowHalf ? 0.5 : 1
+  let _currentValue = currentValue.value
+
   if (code === EVENT_CODE.up || code === EVENT_CODE.right) {
-    if (props.allowHalf) {
-      _currentValue += 0.5
-    } else {
-      _currentValue += 1
-    }
-    e.stopPropagation()
-    e.preventDefault()
+    _currentValue += step
   } else if (code === EVENT_CODE.left || code === EVENT_CODE.down) {
-    if (props.allowHalf) {
-      _currentValue -= 0.5
-    } else {
-      _currentValue -= 1
-    }
-    e.stopPropagation()
-    e.preventDefault()
+    _currentValue -= step
   }
-  _currentValue = _currentValue < 0 ? 0 : _currentValue
-  _currentValue = _currentValue > props.max ? props.max : _currentValue
+  _currentValue = clamp(_currentValue, 0, props.max)
+
+  if (_currentValue === currentValue.value) {
+    return
+  }
+
+  e.stopPropagation()
+  e.preventDefault()
   emit(UPDATE_MODEL_EVENT, _currentValue)
-  emit('change', _currentValue)
+  emit(CHANGE_EVENT, _currentValue)
   return _currentValue
 }
 
@@ -258,15 +273,8 @@ function setCurrentValue(value: number, event?: MouseEvent) {
     return
   }
   if (props.allowHalf && event) {
-    // TODO: use cache via computed https://github.com/element-plus/element-plus/pull/5456#discussion_r786472092
-    let target = event.target as HTMLElement
-    if (hasClass(target, ns.e('item'))) {
-      target = target.querySelector(`.${ns.e('icon')}`)!
-    }
-    if (target.clientWidth === 0 || hasClass(target, ns.e('decimal'))) {
-      target = target.parentNode as HTMLElement
-    }
-    pointerAtLeftHalf.value = event.offsetX * 2 <= target.clientWidth
+    pointerAtLeftHalf.value =
+      event.offsetX * 2 <= iconClientWidths.value[value - 1]
     currentValue.value = pointerAtLeftHalf.value ? value - 0.5 : value
   } else {
     currentValue.value = value

@@ -4,8 +4,10 @@ import { afterEach, describe, expect, test, vi } from 'vitest'
 import defineGetter from '@element-plus/test-utils/define-getter'
 import { ElFormItem as FormItem } from '@element-plus/components/form'
 import Input from '../src/input.vue'
+
 import type { CSSProperties } from 'vue'
-import type { InputAutoSize, InputInstance, InputProps } from '../src/input'
+import type { InputAutoSize, InputProps } from '../src/input'
+import type { InputInstance } from '../src/instance'
 
 describe('Input.vue', () => {
   afterEach(() => {
@@ -47,10 +49,15 @@ describe('Input.vue', () => {
     expect(inputElm.element.value).toBe('')
   })
 
-  test('disabled', () => {
+  test('disabled', async () => {
     const wrapper = mount(() => <Input disabled />)
     const inputElm = wrapper.find('input')
     expect(inputElm.element.disabled).not.toBeNull()
+
+    // trigger click should not focus #18012
+    inputElm.trigger('click')
+    await nextTick()
+    expect(inputElm.element.className.includes('is-focus')).toBe(false)
   })
 
   describe('test emoji', () => {
@@ -146,7 +153,9 @@ describe('Input.vue', () => {
   })
 
   test('rows', () => {
-    const wrapper = mount(() => <Input type="textarea" rows={3} />)
+    const wrapper = mount(() => {
+      return <Input type="textarea" rows={3} />
+    })
     expect(wrapper.find('textarea').element.rows).toEqual(3)
   })
 
@@ -252,7 +261,7 @@ describe('Input.vue', () => {
     `)
   })
 
-  test('use formatter and parser', () => {
+  test('use formatter and parser', async () => {
     const val = ref('10000')
     const formatter = (val: string) => {
       return val.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
@@ -261,13 +270,33 @@ describe('Input.vue', () => {
       return val.replace(/\$\s?|(,*)/g, '')
     }
 
+    const _val = ref('')
+    const handleEvent = (val: string) => (_val.value = val)
+
     const wrapper = mount(() => (
-      <Input v-model={val.value} formatter={formatter} parser={parser} />
+      <Input
+        v-model={val.value}
+        formatter={formatter}
+        parser={parser}
+        onInput={handleEvent}
+        onChange={handleEvent}
+      />
     ))
 
     const vm = wrapper.vm
-    expect(vm.$el.querySelector('input').value).toEqual('10000')
+    const event = new Event('input', { bubbles: true })
+    expect(vm.$el.querySelector('input').value).toEqual('10,000')
     expect(vm.$el.querySelector('input').value).not.toEqual('1000')
+    vm.$el.querySelector('input').value = '1,000,000'
+
+    vm.$el
+      .querySelector('input')
+      .dispatchEvent(new Event('change', { bubbles: true }))
+    expect(_val.value).toEqual('1000000')
+
+    vm.$el.querySelector('input').dispatchEvent(event)
+    expect(val.value).toEqual('1000000')
+    expect(_val.value).toEqual('1000000')
   })
 
   describe('Input Methods', () => {
@@ -325,21 +354,67 @@ describe('Input.vue', () => {
     const handleFocus = vi.fn()
     const handleBlur = vi.fn()
 
-    test('event:focus & blur', async () => {
+    test('event:focus', async () => {
       const content = ref('')
       const wrapper = mount(() => (
         <Input
           placeholder="请输入内容"
           modelValue={content.value}
           onFocus={handleFocus}
-          onBlur={handleBlur}
         />
       ))
 
       const input = wrapper.find('input')
 
       await input.trigger('focus')
-      expect(handleFocus).toBeCalled()
+      expect(handleFocus).toHaveBeenCalledOnce()
+    })
+
+    test('event:blur', async () => {
+      const content = ref('')
+      const wrapper = mount(() => (
+        <Input
+          placeholder="请输入内容"
+          modelValue={content.value}
+          onBlur={handleBlur}
+        />
+      ))
+
+      const input = wrapper.find('input')
+
+      await input.trigger('blur')
+      expect(handleBlur).toHaveBeenCalledOnce()
+    })
+
+    test('textarea & event:focus', async () => {
+      const content = ref('')
+      const wrapper = mount(() => (
+        <Input
+          type="textarea"
+          placeholder="请输入内容"
+          modelValue={content.value}
+          onFocus={handleFocus}
+        />
+      ))
+
+      const input = wrapper.find('textarea')
+
+      await input.trigger('focus')
+      expect(handleFocus).toHaveBeenCalledOnce()
+    })
+
+    test('textarea & event:blur', async () => {
+      const content = ref('')
+      const wrapper = mount(() => (
+        <Input
+          type="textarea"
+          placeholder="请输入内容"
+          modelValue={content.value}
+          onBlur={handleBlur}
+        />
+      ))
+
+      const input = wrapper.find('textarea')
 
       await input.trigger('blur')
       expect(handleBlur).toBeCalled()
@@ -491,6 +566,30 @@ describe('Input.vue', () => {
     await icon.trigger('click')
     const d0 = icon.find('path').element.getAttribute('d')
     expect(d !== d0).toBeTruthy()
+  })
+
+  test('show / hide password', async () => {
+    const password = ref('123456')
+    const wrapper = mount(() => (
+      <Input type="password" modelValue={password.value} show-password />
+    ))
+
+    const icon = wrapper.find('.el-input__icon.el-input__password')
+    const input = wrapper.find('input')
+
+    expect(input.element.value).toBe('123456')
+    expect(input.element.selectionStart).toBe(6)
+    expect(input.element.selectionEnd).toBe(6)
+
+    await icon.trigger('click')
+    expect(input.element.value).toBe('123456')
+    expect(input.element.selectionStart).toBe(6)
+    expect(input.element.selectionEnd).toBe(6)
+
+    await input.element.setSelectionRange(1, 4)
+    await icon.trigger('click')
+    expect(input.element.selectionStart).toBe(1)
+    expect(input.element.selectionEnd).toBe(4)
   })
 
   describe('form item accessibility integration', () => {

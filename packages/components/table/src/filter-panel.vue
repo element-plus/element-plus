@@ -9,8 +9,9 @@
     teleported
     effect="light"
     pure
-    :popper-class="ns.b()"
+    :popper-class="filterClassName"
     persistent
+    :append-to="appendTo"
   >
     <template #content>
       <div v-if="multiple">
@@ -23,7 +24,7 @@
               <el-checkbox
                 v-for="filter in filters"
                 :key="filter.value"
-                :label="filter.value"
+                :value="filter.value"
               >
                 {{ filter.text }}
               </el-checkbox>
@@ -49,8 +50,7 @@
           :class="[
             ns.e('list-item'),
             {
-              [ns.is('active')]:
-                filterValue === undefined || filterValue === null,
+              [ns.is('active')]: isPropAbsent(filterValue),
             },
           ]"
           @click="handleSelect(null)"
@@ -78,8 +78,10 @@
         @click="showFilterPanel"
       >
         <el-icon>
-          <arrow-up v-if="column.filterOpened" />
-          <arrow-down v-else />
+          <slot name="filter-icon">
+            <arrow-up v-if="column?.filterOpened" />
+            <arrow-down v-else />
+          </slot>
         </el-icon>
       </span>
     </template>
@@ -87,17 +89,21 @@
 </template>
 
 <script lang="ts">
-// @ts-nocheck
 import { computed, defineComponent, getCurrentInstance, ref, watch } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { ClickOutside } from '@element-plus/directives'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import ElTooltip from '@element-plus/components/tooltip'
+import ElTooltip, {
+  useTooltipContentProps,
+} from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
-import type { Placement } from '@element-plus/components/popper'
+import { isPropAbsent } from '@element-plus/utils'
 
+import type { DefaultRow } from './table/defaults'
+import type { TooltipInstance } from '@element-plus/components/tooltip'
+import type { Placement } from '@element-plus/components/popper'
 import type { PropType, WritableComputedRef } from 'vue'
 import type { TableColumnCtx } from './table-column/defaults'
 import type { TableHeader } from './table-header'
@@ -123,33 +129,40 @@ export default defineComponent({
       default: 'bottom-start',
     },
     store: {
-      type: Object as PropType<Store<unknown>>,
+      type: Object as PropType<Store<DefaultRow>>,
     },
     column: {
-      type: Object as PropType<TableColumnCtx<unknown>>,
+      type: Object as PropType<TableColumnCtx<DefaultRow>>,
     },
     upDataColumn: {
       type: Function,
     },
+    appendTo: useTooltipContentProps.appendTo,
   },
   setup(props) {
     const instance = getCurrentInstance()
     const { t } = useLocale()
     const ns = useNamespace('table-filter')
     const parent = instance?.parent as TableHeader
-    if (!parent.filterPanels.value[props.column.id]) {
+    if (props.column && !parent.filterPanels.value[props.column.id]) {
       parent.filterPanels.value[props.column.id] = instance
     }
     const tooltipVisible = ref(false)
-    const tooltip = ref<InstanceType<typeof ElTooltip> | null>(null)
+    const tooltip = ref<TooltipInstance | null>(null)
     const filters = computed(() => {
       return props.column && props.column.filters
     })
+    const filterClassName = computed(() => {
+      if (props.column && props.column.filterClassName) {
+        return `${ns.b()} ${props.column.filterClassName}`
+      }
+      return ns.b()
+    })
     const filterValue = computed({
       get: () => (props.column?.filteredValue || [])[0],
-      set: (value: string) => {
+      set: (value?: string | null) => {
         if (filteredValue.value) {
-          if (typeof value !== 'undefined' && value !== null) {
+          if (!isPropAbsent(value)) {
             filteredValue.value.splice(0, 1, value)
           } else {
             filteredValue.value.splice(0, 1)
@@ -157,16 +170,16 @@ export default defineComponent({
         }
       },
     })
-    const filteredValue: WritableComputedRef<unknown[]> = computed({
+    const filteredValue: WritableComputedRef<string[]> = computed({
       get() {
         if (props.column) {
           return props.column.filteredValue || []
         }
         return []
       },
-      set(value: unknown[]) {
+      set(value: string[]) {
         if (props.column) {
-          props.upDataColumn('filteredValue', value)
+          props.upDataColumn?.('filteredValue', value)
         }
       },
     })
@@ -176,7 +189,7 @@ export default defineComponent({
       }
       return true
     })
-    const isActive = (filter) => {
+    const isActive = (filter: { value: string; text: string }) => {
       return filter.value === filterValue.value
     }
     const hidden = () => {
@@ -198,9 +211,9 @@ export default defineComponent({
       confirmFilter(filteredValue.value)
       hidden()
     }
-    const handleSelect = (_filterValue?: string) => {
-      filterValue.value = _filterValue
-      if (typeof _filterValue !== 'undefined' && _filterValue !== null) {
+    const handleSelect = (_filterValue?: string | null) => {
+      filterValue.value = _filterValue!
+      if (!isPropAbsent(_filterValue)) {
         confirmFilter(filteredValue.value)
       } else {
         confirmFilter([])
@@ -208,18 +221,17 @@ export default defineComponent({
       hidden()
     }
     const confirmFilter = (filteredValue: unknown[]) => {
-      props.store.commit('filterChange', {
+      props.store?.commit('filterChange', {
         column: props.column,
         values: filteredValue,
       })
-      props.store.updateAllSelected()
+      props.store?.updateAllSelected()
     }
     watch(
       tooltipVisible,
       (value) => {
-        // todo
         if (props.column) {
-          props.upDataColumn('filterOpened', value)
+          props.upDataColumn?.('filterOpened', value)
         }
       },
       {
@@ -234,12 +246,14 @@ export default defineComponent({
     return {
       tooltipVisible,
       multiple,
+      filterClassName,
       filteredValue,
       filterValue,
       filters,
       handleConfirm,
       handleReset,
       handleSelect,
+      isPropAbsent,
       isActive,
       t,
       ns,

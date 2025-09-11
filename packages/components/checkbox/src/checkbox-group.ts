@@ -1,10 +1,10 @@
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { useSizeProp } from '@element-plus/hooks'
+import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import { buildProps, definePropType, isArray } from '@element-plus/utils'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type checkboxGroup from './checkbox-group.vue'
-import type { CheckboxValueType } from './checkbox'
+import type { CheckboxPropsPublic, CheckboxValueType } from './checkbox'
 
 export type CheckboxGroupValueType = Exclude<CheckboxValueType, boolean>[]
 
@@ -33,10 +33,6 @@ export const checkboxGroupProps = buildProps({
    */
   size: useSizeProp,
   /**
-   * @description label for screen reader
-   */
-  label: String,
-  /**
    * @description border and background color when button is active
    */
   fill: String,
@@ -58,6 +54,14 @@ export const checkboxGroupProps = buildProps({
     type: Boolean,
     default: true,
   },
+  options: {
+    type: definePropType<CheckboxOption[]>(Array),
+  },
+  props: {
+    type: definePropType<CheckboxOptionProps>(Object),
+    default: () => checkboxDefaultProps,
+  },
+  ...useAriaProps(['ariaLabel']),
 } as const)
 
 export const checkboxGroupEmits = {
@@ -66,5 +70,21 @@ export const checkboxGroupEmits = {
 }
 
 export type CheckboxGroupProps = ExtractPropTypes<typeof checkboxGroupProps>
+export type CheckboxGroupPropsPublic = __ExtractPublicPropTypes<
+  typeof checkboxGroupProps
+>
 export type CheckboxGroupEmits = typeof checkboxGroupEmits
-export type CheckboxGroupInstance = InstanceType<typeof checkboxGroup>
+export type CheckboxGroupInstance = InstanceType<typeof checkboxGroup> & unknown
+
+export type CheckboxOption = CheckboxPropsPublic & Record<string, any>
+
+type CheckboxOptionProps = {
+  value?: string
+  label?: string
+  disabled?: string
+}
+export const checkboxDefaultProps: Required<CheckboxOptionProps> = {
+  label: 'label',
+  value: 'value',
+  disabled: 'disabled',
+}
