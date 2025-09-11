@@ -4,7 +4,7 @@ import { tooltipV2Sides } from './common'
 import type {
   CSSProperties,
   ExtractPropTypes,
-  __ExtractPublicPropTypes,
+  ExtractPublicPropTypes,
 } from 'vue'
 import type { TooltipV2Sides } from './common'
 
@@ -32,6 +32,6 @@ export const tooltipV2ArrowSpecialProps = buildProps({
 } as const)
 
 export type TooltipV2ArrowProps = ExtractPropTypes<typeof tooltipV2ArrowProps>
-export type TooltipV2ArrowPropsPublic = __ExtractPublicPropTypes<
+export type TooltipV2ArrowPropsPublic = ExtractPublicPropTypes<
   typeof tooltipV2ArrowProps
 >

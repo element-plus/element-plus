@@ -6,8 +6,8 @@ import { tooltipV2ContentProps } from './content'
 
 import type {
   ExtractPropTypes,
+  ExtractPublicPropTypes,
   TransitionProps,
-  __ExtractPublicPropTypes,
 } from 'vue'
 
 export const tooltipV2Props = buildProps({
@@ -29,6 +29,4 @@ export const tooltipV2Props = buildProps({
 } as const)
 
 export type TooltipV2Props = ExtractPropTypes<typeof tooltipV2Props>
-export type TooltipV2PropsPublic = __ExtractPublicPropTypes<
-  typeof tooltipV2Props
->
+export type TooltipV2PropsPublic = ExtractPublicPropTypes<typeof tooltipV2Props>

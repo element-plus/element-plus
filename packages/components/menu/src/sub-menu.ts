@@ -37,8 +37,8 @@ import type { Placement } from '@element-plus/components/popper'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type {
   ExtractPropTypes,
+  ExtractPublicPropTypes,
   VNodeArrayChildren,
-  __ExtractPublicPropTypes,
 } from 'vue'
 import type { MenuProvider, SubMenuProvider } from './types'
 
@@ -103,7 +103,7 @@ export const subMenuProps = buildProps({
   },
 } as const)
 export type SubMenuProps = ExtractPropTypes<typeof subMenuProps>
-export type SubMenuPropsPublic = __ExtractPublicPropTypes<typeof subMenuProps>
+export type SubMenuPropsPublic = ExtractPublicPropTypes<typeof subMenuProps>
 
 const COMPONENT_NAME = 'ElSubMenu'
 export default defineComponent({

@@ -19,7 +19,7 @@ import { tableV2GridProps } from './grid'
 import type {
   CSSProperties,
   ExtractPropTypes,
-  __ExtractPublicPropTypes,
+  ExtractPublicPropTypes,
 } from 'vue'
 import type { SortOrder } from './constants'
 import type {
@@ -205,4 +205,4 @@ export const tableV2Props = buildProps({
 } as const)
 
 export type TableV2Props = ExtractPropTypes<typeof tableV2Props>
-export type TableV2PropsPublic = __ExtractPublicPropTypes<typeof tableV2Props>
+export type TableV2PropsPublic = ExtractPublicPropTypes<typeof tableV2Props>

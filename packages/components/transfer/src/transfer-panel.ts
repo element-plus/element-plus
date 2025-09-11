@@ -1,7 +1,7 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 import { transferCheckedChangeFn, transferProps } from './transfer'
 
-import type { ExtractPropTypes, VNode, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes, VNode } from 'vue'
 import type { TransferDataItem, TransferKey } from './transfer'
 import type TransferPanel from './transfer-panel.vue'
 
@@ -30,7 +30,7 @@ export const transferPanelProps = buildProps({
   props: transferProps.props,
 } as const)
 export type TransferPanelProps = ExtractPropTypes<typeof transferPanelProps>
-export type TransferPanelPropsPublic = __ExtractPublicPropTypes<
+export type TransferPanelPropsPublic = ExtractPublicPropTypes<
   typeof transferPanelProps
 >
 

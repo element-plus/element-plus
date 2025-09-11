@@ -3,7 +3,7 @@ import { ajaxUpload } from './ajax'
 
 import type { Awaitable, Mutable } from '@element-plus/utils'
 import type { UploadAjaxError } from './ajax'
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type Upload from './upload.vue'
 
 export const uploadListTypes = ['text', 'picture', 'picture-card'] as const
@@ -256,6 +256,6 @@ export const uploadProps = buildProps({
 } as const)
 
 export type UploadProps = ExtractPropTypes<typeof uploadProps>
-export type UploadPropsPublic = __ExtractPublicPropTypes<typeof uploadProps>
+export type UploadPropsPublic = ExtractPublicPropTypes<typeof uploadProps>
 
 export type UploadInstance = InstanceType<typeof Upload> & unknown

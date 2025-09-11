@@ -1,6 +1,6 @@
 import { buildProps } from '@element-plus/utils'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type Row from './row.vue'
 
 export const RowJustify = [
@@ -47,5 +47,5 @@ export const rowProps = buildProps({
 } as const)
 
 export type RowProps = ExtractPropTypes<typeof rowProps>
-export type RowPropsPublic = __ExtractPublicPropTypes<typeof rowProps>
+export type RowPropsPublic = ExtractPublicPropTypes<typeof rowProps>
 export type RowInstance = InstanceType<typeof Row> & unknown

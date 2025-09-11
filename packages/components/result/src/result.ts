@@ -6,7 +6,7 @@ import {
   WarningFilled,
 } from '@element-plus/icons-vue'
 
-import type { Component, ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { Component, ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type Result from './result.vue'
 
 export const IconMap = {
@@ -54,6 +54,6 @@ export const resultProps = buildProps({
 } as const)
 
 export type ResultProps = ExtractPropTypes<typeof resultProps>
-export type ResultPropsPublic = __ExtractPublicPropTypes<typeof resultProps>
+export type ResultPropsPublic = ExtractPublicPropTypes<typeof resultProps>
 
 export type ResultInstance = InstanceType<typeof Result> & unknown

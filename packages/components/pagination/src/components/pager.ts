@@ -1,6 +1,6 @@
 import { buildProps } from '@element-plus/utils'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type Pager from './pager.vue'
 
 export const paginationPagerProps = buildProps({
@@ -20,7 +20,7 @@ export const paginationPagerProps = buildProps({
 } as const)
 
 export type PaginationPagerProps = ExtractPropTypes<typeof paginationPagerProps>
-export type PaginationPagerPropsPublic = __ExtractPublicPropTypes<
+export type PaginationPagerPropsPublic = ExtractPublicPropTypes<
   typeof paginationPagerProps
 >
 
