@@ -7,7 +7,6 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import Inspect from 'vite-plugin-inspect'
 import mkcert from 'vite-plugin-mkcert'
 import glob from 'fast-glob'
-import VueMacros from 'unplugin-vue-macros/vite'
 import {
   epPackage,
   epRoot,
@@ -54,14 +53,8 @@ export default defineConfig(async ({ mode }) => {
       sourcemap: true,
     },
     plugins: [
-      VueMacros({
-        setupComponent: false,
-        setupSFC: false,
-        plugins: {
-          vue: vue(),
-          vueJsx: vueJsx(),
-        },
-      }),
+      vue(),
+      vueJsx(),
       Components({
         include: `${__dirname}/**`,
         resolvers: ElementPlusResolver({

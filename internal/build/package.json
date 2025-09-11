@@ -11,9 +11,6 @@
     "dev": "pnpm run stub",
     "stub": "unbuild --stub"
   },
-  "peerDependencies": {
-    "vue": "^3.2.25"
-  },
   "dependencies": {
     "@element-plus/build-constants": "workspace:*",
     "@microsoft/api-extractor": "^7.52.5",
@@ -33,13 +30,11 @@
     "gulp": "^4.0.2",
     "lodash": "^4.17.21",
     "rollup": "^2.75.7",
-    "rollup-plugin-esbuild": "^4.9.1",
-    "unplugin-vue-macros": "^0.11.2"
+    "rollup-plugin-esbuild": "^4.9.1"
   },
   "devDependencies": {
     "@pnpm/types": "^8.4.0",
     "tsx": "^4.19.3",
-    "unbuild": "^2.0.0",
-    "vue": "^3.2.37"
+    "unbuild": "^2.0.0"
   }
 }
