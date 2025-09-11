@@ -68,7 +68,7 @@ import {
 } from '@element-plus/constants'
 import { useFormDisabled } from '@element-plus/components/form'
 import { isFunction } from '@element-plus/utils'
-import { mentionEmits, mentionProps } from './mention'
+import { mentionDefaultProps, mentionEmits, mentionProps } from './mention'
 import { getCursorPosition, getMentionCtx } from './helper'
 import ElMentionDropdown from './mention-dropdown.vue'
 
@@ -108,10 +108,26 @@ const computedFallbackPlacements = computed<Placement[]>(() =>
   props.showArrow ? ['bottom', 'top'] : ['bottom-start', 'top-start']
 )
 
+const aliasProps = computed(() => ({
+  ...mentionDefaultProps,
+  ...props.props,
+}))
+
+const mapOption = (option: MentionOption) => {
+  const base = {
+    label: option[aliasProps.value.label],
+    value: option[aliasProps.value.value],
+    disabled: option[aliasProps.value.disabled],
+  }
+  return { ...option, ...base }
+}
+
+const options = computed(() => props.options.map(mapOption))
+
 const filteredOptions = computed(() => {
-  const { filterOption, options } = props
-  if (!mentionCtx.value || !filterOption) return options
-  return options.filter((option) =>
+  const { filterOption } = props
+  if (!mentionCtx.value || !filterOption) return options.value
+  return options.value.filter((option) =>
     filterOption(mentionCtx.value!.pattern, option)
   )
 })
@@ -168,7 +184,7 @@ const handleInputKeyDown = (event: KeyboardEvent | Event) => {
         const inputEl = getInputEl()
         if (!inputEl) return
         const inputValue = inputEl.value
-        const matchOption = props.options.find((item) => item.value === pattern)
+        const matchOption = options.value.find((item) => item.value === pattern)
         const isWhole = isFunction(props.checkIsWhole)
           ? props.checkIsWhole(pattern, prefix)
           : matchOption
@@ -209,6 +225,13 @@ const handleInputMouseDown = () => {
   syncAfterCursorMove()
 }
 
+// Ensure that the original option passed by users is returned
+const getOriginalOption = (mentionOption: MentionOption) => {
+  return props.options.find((option: MentionOption) => {
+    return mentionOption.value === option[aliasProps.value.value]
+  })
+}
+
 const handleSelect = (item: MentionOption) => {
   if (!mentionCtx.value) return
   const inputEl = getInputEl()
@@ -225,7 +248,7 @@ const handleSelect = (item: MentionOption) => {
 
   emit(UPDATE_MODEL_EVENT, newValue)
   emit(INPUT_EVENT, newValue)
-  emit('select', item, mentionCtx.value.prefix)
+  emit('select', getOriginalOption(item)!, mentionCtx.value.prefix)
 
   const newSelectionEnd =
     mentionCtx.value.start + newMiddlePart.length + (alreadySeparated ? 1 : 0)
