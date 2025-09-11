@@ -1,7 +1,7 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 import { disabledTimeListsProps } from '../props/shared'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type { Dayjs } from 'dayjs'
 
 export const basicTimeSpinnerProps = buildProps({
@@ -29,6 +29,6 @@ export const basicTimeSpinnerProps = buildProps({
 export type BasicTimeSpinnerProps = ExtractPropTypes<
   typeof basicTimeSpinnerProps
 >
-export type BasicTimeSpinnerPropsPublic = __ExtractPublicPropTypes<
+export type BasicTimeSpinnerPropsPublic = ExtractPublicPropTypes<
   typeof basicTimeSpinnerProps
 >

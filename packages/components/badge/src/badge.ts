@@ -1,10 +1,6 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 
-import type {
-  ExtractPropTypes,
-  StyleValue,
-  __ExtractPublicPropTypes,
-} from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes, StyleValue } from 'vue'
 
 export const badgeProps = buildProps({
   /**
@@ -69,4 +65,4 @@ export const badgeProps = buildProps({
   },
 } as const)
 export type BadgeProps = ExtractPropTypes<typeof badgeProps>
-export type BadgePropsPublic = __ExtractPublicPropTypes<typeof badgeProps>
+export type BadgePropsPublic = ExtractPublicPropTypes<typeof badgeProps>

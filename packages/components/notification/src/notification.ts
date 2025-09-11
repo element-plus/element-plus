@@ -4,8 +4,8 @@ import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 import type {
   AppContext,
   ExtractPropTypes,
+  ExtractPublicPropTypes,
   VNode,
-  __ExtractPublicPropTypes,
 } from 'vue'
 import type Notification from './notification.vue'
 
@@ -124,7 +124,7 @@ export const notificationProps = buildProps({
   },
 } as const)
 export type NotificationProps = ExtractPropTypes<typeof notificationProps>
-export type NotificationPropsPublic = __ExtractPublicPropTypes<
+export type NotificationPropsPublic = ExtractPublicPropTypes<
   typeof notificationProps
 >
 

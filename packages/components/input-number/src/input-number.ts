@@ -9,8 +9,8 @@ import {
 
 import type {
   ExtractPropTypes,
+  ExtractPublicPropTypes,
   HTMLAttributes,
-  __ExtractPublicPropTypes,
 } from 'vue'
 import type InputNumber from './input-number.vue'
 
@@ -84,7 +84,7 @@ export const inputNumberProps = buildProps({
    * @description value should be set when input box is cleared
    */
   valueOnClear: {
-    type: [String, Number, null],
+    type: definePropType<'min' | 'max' | number | null>([String, Number, null]),
     validator: (val: 'min' | 'max' | number | null) =>
       val === null || isNumber(val) || ['min', 'max'].includes(val),
     default: null,
@@ -133,7 +133,7 @@ export const inputNumberProps = buildProps({
   disabledScientific: Boolean,
 } as const)
 export type InputNumberProps = ExtractPropTypes<typeof inputNumberProps>
-export type InputNumberPropsPublic = __ExtractPublicPropTypes<
+export type InputNumberPropsPublic = ExtractPublicPropTypes<
   typeof inputNumberProps
 >
 
