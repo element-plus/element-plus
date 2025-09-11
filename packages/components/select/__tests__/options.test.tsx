@@ -4,7 +4,7 @@ import { afterEach, describe, it } from 'vitest'
 import Options from '../src/options'
 import Select from '../src/select.vue'
 
-import type { PropType } from 'vue'
+import type { PropType, Slots } from 'vue'
 import type { VueWrapper } from '@vue/test-utils'
 
 describe('options', () => {
@@ -35,7 +35,7 @@ describe('options', () => {
 
   const createWrapper = (slots = {}) => {
     wrapper = mount(
-      (_, { slots }) => (
+      (_: unknown, { slots }: { slots: Slots }) => (
         <Select>
           <Options>{slots?.default?.()}</Options>
         </Select>

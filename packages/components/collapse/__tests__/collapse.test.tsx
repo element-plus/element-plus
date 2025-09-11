@@ -1,4 +1,4 @@
-import { nextTick, ref } from 'vue'
+import { defineComponent, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import { debugWarn } from '@element-plus/utils'
@@ -21,31 +21,33 @@ describe('Collapse.vue', () => {
   })
 
   test('create', async () => {
-    const wrapper = mount({
-      data() {
-        return {
-          activeNames: ['1'],
-        }
-      },
-      render() {
-        return (
-          <Collapse v-model={this.activeNames}>
-            <CollapseItem title="title1" name="1">
-              <div class="content">111</div>
-            </CollapseItem>
-            <CollapseItem title="title2" name="2">
-              <div class="content">222</div>
-            </CollapseItem>
-            <CollapseItem title="title3" name="3">
-              <div class="content">333</div>
-            </CollapseItem>
-            <CollapseItem title="title4" name="4">
-              <div class="content">444</div>
-            </CollapseItem>
-          </Collapse>
-        )
-      },
-    })
+    const wrapper = mount(
+      defineComponent({
+        data() {
+          return {
+            activeNames: ['1'],
+          }
+        },
+        render() {
+          return (
+            <Collapse v-model={this.activeNames}>
+              <CollapseItem title="title1" name="1">
+                <div class="content">111</div>
+              </CollapseItem>
+              <CollapseItem title="title2" name="2">
+                <div class="content">222</div>
+              </CollapseItem>
+              <CollapseItem title="title3" name="3">
+                <div class="content">333</div>
+              </CollapseItem>
+              <CollapseItem title="title4" name="4">
+                <div class="content">444</div>
+              </CollapseItem>
+            </Collapse>
+          )
+        },
+      })
+    )
 
     const vm = wrapper.vm
     const collapseWrapper = wrapper.findComponent(Collapse)
@@ -67,31 +69,33 @@ describe('Collapse.vue', () => {
   })
 
   test('accordion', async () => {
-    const wrapper = mount({
-      data() {
-        return {
-          activeNames: ['1'],
-        }
-      },
-      render() {
-        return (
-          <Collapse accordion v-model={this.activeNames}>
-            <CollapseItem title="title1" name="1">
-              <div class="content">111</div>
-            </CollapseItem>
-            <CollapseItem title="title2" name="2">
-              <div class="content">222</div>
-            </CollapseItem>
-            <CollapseItem title="title3" name="3">
-              <div class="content">333</div>
-            </CollapseItem>
-            <CollapseItem title="title4" name="4">
-              <div class="content">444</div>
-            </CollapseItem>
-          </Collapse>
-        )
-      },
-    })
+    const wrapper = mount(
+      defineComponent({
+        data() {
+          return {
+            activeNames: ['1'],
+          }
+        },
+        render() {
+          return (
+            <Collapse accordion v-model={this.activeNames}>
+              <CollapseItem title="title1" name="1">
+                <div class="content">111</div>
+              </CollapseItem>
+              <CollapseItem title="title2" name="2">
+                <div class="content">222</div>
+              </CollapseItem>
+              <CollapseItem title="title3" name="3">
+                <div class="content">333</div>
+              </CollapseItem>
+              <CollapseItem title="title4" name="4">
+                <div class="content">444</div>
+              </CollapseItem>
+            </Collapse>
+          )
+        },
+      })
+    )
 
     const vm = wrapper.vm
     const collapseWrapper = wrapper.findComponent(Collapse)
@@ -115,31 +119,33 @@ describe('Collapse.vue', () => {
 
   test('event:change', async () => {
     const onChange = vi.fn()
-    const wrapper = mount({
-      data() {
-        return {
-          activeNames: ['1'],
-        }
-      },
-      render() {
-        return (
-          <Collapse v-model={this.activeNames} onChange={onChange}>
-            <CollapseItem title="title1" name="1">
-              <div class="content">111</div>
-            </CollapseItem>
-            <CollapseItem title="title2" name="2">
-              <div class="content">222</div>
-            </CollapseItem>
-            <CollapseItem title="title3" name="3">
-              <div class="content">333</div>
-            </CollapseItem>
-            <CollapseItem title="title4" name="4">
-              <div class="content">444</div>
-            </CollapseItem>
-          </Collapse>
-        )
-      },
-    })
+    const wrapper = mount(
+      defineComponent({
+        data() {
+          return {
+            activeNames: ['1'],
+          }
+        },
+        render() {
+          return (
+            <Collapse v-model={this.activeNames} onChange={onChange}>
+              <CollapseItem title="title1" name="1">
+                <div class="content">111</div>
+              </CollapseItem>
+              <CollapseItem title="title2" name="2">
+                <div class="content">222</div>
+              </CollapseItem>
+              <CollapseItem title="title3" name="3">
+                <div class="content">333</div>
+              </CollapseItem>
+              <CollapseItem title="title4" name="4">
+                <div class="content">444</div>
+              </CollapseItem>
+            </Collapse>
+          )
+        },
+      })
+    )
 
     const vm = wrapper.vm
     const collapseWrapper = wrapper.findComponent(Collapse)
@@ -166,34 +172,36 @@ describe('Collapse.vue', () => {
   })
 
   test('deep watch modelValue', async () => {
-    const wrapper = mount({
-      data() {
-        return {
-          activeNames: ['1'],
-        }
-      },
-      mounted() {
-        this.activeNames.push('2')
-      },
-      render() {
-        return (
-          <Collapse v-model={this.activeNames}>
-            <CollapseItem title="title1" name="1">
-              <div class="content">111</div>
-            </CollapseItem>
-            <CollapseItem title="title2" name="2">
-              <div class="content">222</div>
-            </CollapseItem>
-            <CollapseItem title="title3" name="3">
-              <div class="content">333</div>
-            </CollapseItem>
-            <CollapseItem title="title4" name="4">
-              <div class="content">444</div>
-            </CollapseItem>
-          </Collapse>
-        )
-      },
-    })
+    const wrapper = mount(
+      defineComponent({
+        data() {
+          return {
+            activeNames: ['1'],
+          }
+        },
+        mounted() {
+          this.activeNames.push('2')
+        },
+        render() {
+          return (
+            <Collapse v-model={this.activeNames}>
+              <CollapseItem title="title1" name="1">
+                <div class="content">111</div>
+              </CollapseItem>
+              <CollapseItem title="title2" name="2">
+                <div class="content">222</div>
+              </CollapseItem>
+              <CollapseItem title="title3" name="3">
+                <div class="content">333</div>
+              </CollapseItem>
+              <CollapseItem title="title4" name="4">
+                <div class="content">444</div>
+              </CollapseItem>
+            </Collapse>
+          )
+        },
+      })
+    )
 
     await nextTick()
     const collapseWrapper = wrapper.findComponent(Collapse)
@@ -344,40 +352,42 @@ describe('Collapse.vue', () => {
 
   describe('Nested Input Interaction', () => {
     const createWrapper = (withInput: boolean = false) => {
-      return mount({
-        data: () => ({
-          activeNames: ['1'],
-          inputText: '',
-        }),
-        render() {
-          return (
-            <Collapse v-model={this.activeNames}>
-              <CollapseItem
-                name="1"
-                v-slots={{
-                  title: () => (
-                    <div>
-                      {withInput ? (
-                        <Input
-                          data-testid="test-input"
-                          v-model={this.inputText}
-                        />
-                      ) : (
-                        'title1'
-                      )}
-                    </div>
-                  ),
-                }}
-              >
-                <div class="content">111</div>
-              </CollapseItem>
-              <CollapseItem name="2" title="title2">
-                <div class="content">222</div>
-              </CollapseItem>
-            </Collapse>
-          )
-        },
-      })
+      return mount(
+        defineComponent({
+          data: () => ({
+            activeNames: ['1'],
+            inputText: '',
+          }),
+          render() {
+            return (
+              <Collapse v-model={this.activeNames}>
+                <CollapseItem
+                  name="1"
+                  v-slots={{
+                    title: () => (
+                      <div>
+                        {withInput ? (
+                          <Input
+                            data-testid="test-input"
+                            v-model={this.inputText}
+                          />
+                        ) : (
+                          'title1'
+                        )}
+                      </div>
+                    ),
+                  }}
+                >
+                  <div class="content">111</div>
+                </CollapseItem>
+                <CollapseItem name="2" title="title2">
+                  <div class="content">222</div>
+                </CollapseItem>
+              </Collapse>
+            )
+          },
+        })
+      )
     }
 
     test('should not toggle collapse when clicking on input', async () => {

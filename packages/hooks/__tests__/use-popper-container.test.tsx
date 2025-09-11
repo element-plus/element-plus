@@ -1,4 +1,4 @@
-import { defineComponent, nextTick } from 'vue'
+import { DefineComponent, defineComponent, nextTick } from 'vue'
 import { config, mount, shallowMount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import * as vueuse from '@vueuse/core'
@@ -24,7 +24,7 @@ const mountComponent = () =>
         expose(exposes)
         return () => <div>{AXIOM}</div>
       },
-    })
+    }) as DefineComponent<unknown, ReturnType<typeof usePopperContainer>>
   )
 
 describe('usePopperContainer', () => {

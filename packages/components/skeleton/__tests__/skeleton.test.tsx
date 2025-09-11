@@ -3,8 +3,6 @@ import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import Skeleton from '../src/skeleton.vue'
 
-import type { SkeletonInstance } from '../src/skeleton'
-
 const AXIOM = 'AXIOM is the best girl'
 
 describe('Skeleton.vue', () => {
@@ -76,13 +74,13 @@ describe('Skeleton.vue', () => {
   it('should throttle rendering', async () => {
     const wrapper = mount(<Skeleton throttle={500} />)
 
-    expect((wrapper.vm as SkeletonInstance).uiLoading).toBe(false)
+    expect(wrapper.vm.uiLoading).toBe(false)
 
     vi.runAllTimers()
 
     await nextTick()
 
-    expect((wrapper.vm as SkeletonInstance).uiLoading).toBe(true)
+    expect(wrapper.vm.uiLoading).toBe(true)
   })
 
   it('should throttle object rendering', async () => {
@@ -90,7 +88,7 @@ describe('Skeleton.vue', () => {
       <Skeleton throttle={{ trailing: 500, initVal: true }} loading={true} />
     )
 
-    expect((wrapper.vm as SkeletonInstance).uiLoading).toBe(true)
+    expect(wrapper.vm.uiLoading).toBe(true)
 
     await wrapper.setProps({
       loading: false,
@@ -100,6 +98,6 @@ describe('Skeleton.vue', () => {
 
     await nextTick()
 
-    expect((wrapper.vm as SkeletonInstance).uiLoading).toBe(false)
+    expect(wrapper.vm.uiLoading).toBe(false)
   })
 })

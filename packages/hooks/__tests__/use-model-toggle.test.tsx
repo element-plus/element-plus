@@ -158,6 +158,7 @@ describe('use-model-toggle', () => {
       global: {
         config: {
           globalProperties: {
+            // @ts-ignore
             $route: router,
           },
         },

@@ -1,8 +1,11 @@
 import { defineComponent, inject, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
-import { POPPER_INJECTION_KEY } from '@element-plus/components/popper'
+import { POPPER_INJECTION_KEY } from '../src/constants'
 import ElPopper from '../src/popper.vue'
+
+import type { VueWrapper } from '@vue/test-utils'
+import type { PopperInstance } from '../src/popper'
 
 const AXIOM = 'rem is the best girl'
 
@@ -19,7 +22,7 @@ describe('<ElPopper />', () => {
       <ElPopper>
         <TestChild />
       </ElPopper>
-    )
+    ) as unknown as VueWrapper<PopperInstance>
 
     await nextTick()
 

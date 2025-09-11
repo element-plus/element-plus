@@ -1,11 +1,13 @@
-import { nextTick } from 'vue'
+import { defineComponent, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { rAF } from '@element-plus/test-utils/tick'
 import { usePopperContainerId } from '@element-plus/hooks'
-import Popconfirm from '../src/popconfirm.vue'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { EVENT_CODE } from '@element-plus/constants'
+import Popconfirm from '../src/popconfirm.vue'
+
+import type { PopconfirmPropsPublic } from '../src/popconfirm'
 
 const AXIOM = 'rem is the best girl'
 const FUN = 'dQw4w9WgXcQ'
@@ -45,19 +47,21 @@ describe('Popconfirm.vue', () => {
   it('should close the Popconfirm when pressing Escape', async () => {
     const onCancel = vi.fn()
 
-    const wrapper = mount({
-      setup() {
-        return () => (
-          <Popconfirm
-            closeOnPressEscape={false}
-            onCancel={onCancel}
-            v-slots={{
-              reference: () => <div class="reference">{AXIOM}</div>,
-            }}
-          />
-        )
-      },
-    })
+    const wrapper = mount(
+      defineComponent<PopconfirmPropsPublic>({
+        setup() {
+          return () => (
+            <Popconfirm
+              closeOnPressEscape={false}
+              onCancel={onCancel}
+              v-slots={{
+                reference: () => <div class="reference">{AXIOM}</div>,
+              }}
+            />
+          )
+        },
+      })
+    )
 
     await wrapper.find('.reference').trigger('click')
     await nextTick()

@@ -440,7 +440,8 @@ const togglePopperVisible = (visible?: boolean) => {
 
     if (visible) {
       updatePopperPosition()
-      nextTick(cascaderPanelRef.value?.scrollToExpandingNode)
+      cascaderPanelRef.value &&
+        nextTick(cascaderPanelRef.value.scrollToExpandingNode)
     } else if (props.filterable) {
       syncPresentTextValue()
     }

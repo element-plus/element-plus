@@ -11,7 +11,8 @@ import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { EVENT_CODE } from '@element-plus/constants'
 
 import type { AnchorHTMLAttributes, ImgHTMLAttributes } from 'vue'
-import type { ImageProps } from '../src/image'
+import type { VueWrapper } from '@vue/test-utils'
+import type { ImageInstance, ImageProps } from '../src/image'
 
 type ElImageProps = ImgHTMLAttributes &
   AnchorHTMLAttributes &
@@ -164,6 +165,7 @@ describe('Image.vue', () => {
       })
     )
     await doubleWait()
+    // @ts-ignore
     wrapper.vm.$refs.imageRef.showPreview()
     await doubleWait()
     expect(wrapper.find('.el-image-viewer__img').attributes('src')).toBe(
@@ -187,8 +189,9 @@ describe('Image.vue', () => {
         url,
         srcList,
       })
-    )
+    ) as unknown as VueWrapper<ImageInstance>
     await doubleWait()
+    // @ts-ignore
     wrapper.vm.$refs.imageRef.showPreview()
     await doubleWait()
     expect(wrapper.find('.el-image-viewer__progress').exists()).toBe(false)
@@ -216,8 +219,9 @@ describe('Image.vue', () => {
         url,
         srcList,
       })
-    )
+    ) as unknown as VueWrapper<ImageInstance>
     await doubleWait()
+    // @ts-ignore
     wrapper.vm.$refs.imageRef.showPreview()
     await doubleWait()
     expect(wrapper.find('.el-image-viewer__progress').exists()).toBe(true)
