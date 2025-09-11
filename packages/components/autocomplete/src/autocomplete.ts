@@ -14,7 +14,7 @@ import {
 } from '@element-plus/constants'
 import { inputProps } from '@element-plus/components/input'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type Autocomplete from './autocomplete.vue'
 import type { Placement } from '@element-plus/components/popper'
 import type { Awaitable } from '@element-plus/utils'
@@ -123,7 +123,7 @@ export const autocompleteProps = buildProps({
   },
 } as const)
 export type AutocompleteProps = ExtractPropTypes<typeof autocompleteProps>
-export type AutocompletePropsPublic = __ExtractPublicPropTypes<
+export type AutocompletePropsPublic = ExtractPublicPropTypes<
   typeof autocompleteProps
 >
 

@@ -8,7 +8,7 @@ import type {
   CSSProperties,
   Component,
   ExtractPropTypes,
-  __ExtractPublicPropTypes,
+  ExtractPublicPropTypes,
 } from 'vue'
 
 export const timeSelectProps = buildProps({
@@ -130,7 +130,7 @@ export const timeSelectProps = buildProps({
 } as const)
 
 export type TimeSelectProps = ExtractPropTypes<typeof timeSelectProps>
-export type TimeSelectPropsPublic = __ExtractPublicPropTypes<
+export type TimeSelectPropsPublic = ExtractPublicPropTypes<
   typeof timeSelectProps
 >
 

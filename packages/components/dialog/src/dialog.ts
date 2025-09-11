@@ -5,9 +5,9 @@ import { dialogContentProps } from './dialog-content'
 
 import type {
   ExtractPropTypes,
+  ExtractPublicPropTypes,
   InjectionKey,
   TransitionProps,
-  __ExtractPublicPropTypes,
 } from 'vue'
 import type Dialog from './dialog.vue'
 
@@ -142,7 +142,7 @@ export const dialogProps = buildProps({
 } as const)
 
 export type DialogProps = ExtractPropTypes<typeof dialogProps>
-export type DialogPropsPublic = __ExtractPublicPropTypes<typeof dialogProps>
+export type DialogPropsPublic = ExtractPublicPropTypes<typeof dialogProps>
 
 export const dialogEmits = {
   open: () => true,

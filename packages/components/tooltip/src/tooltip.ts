@@ -5,7 +5,7 @@ import { useTooltipContentProps } from './content'
 import { useTooltipTriggerProps } from './trigger'
 
 import type Tooltip from './tooltip.vue'
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 
 export const {
   useModelToggleProps: useTooltipModelToggleProps,
@@ -39,7 +39,7 @@ export const tooltipEmits = [
 ]
 
 export type ElTooltipProps = ExtractPropTypes<typeof useTooltipProps>
-export type ElTooltipPropsPublic = __ExtractPublicPropTypes<
+export type ElTooltipPropsPublic = ExtractPublicPropTypes<
   typeof useTooltipProps
 >
 

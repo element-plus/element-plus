@@ -1,7 +1,7 @@
 import { componentSizes } from '@element-plus/constants'
 import { buildProps, definePropType } from '@element-plus/utils'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type { Arrayable } from '@element-plus/utils'
 import type { FormItemRule } from './types'
 
@@ -92,4 +92,4 @@ export const formItemProps = buildProps({
   },
 } as const)
 export type FormItemProps = ExtractPropTypes<typeof formItemProps>
-export type FormItemPropsPublic = __ExtractPublicPropTypes<typeof formItemProps>
+export type FormItemPropsPublic = ExtractPublicPropTypes<typeof formItemProps>
