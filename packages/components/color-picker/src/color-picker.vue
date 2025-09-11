@@ -355,7 +355,7 @@ watch(
 watch(
   () => showPicker.value,
   () => {
-    nextTick(pickerPanelRef.value?.update)
+    pickerPanelRef.value && nextTick(pickerPanelRef.value.update)
   }
 )
 
