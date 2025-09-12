@@ -3,10 +3,10 @@ import { computed, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import dayjs from 'dayjs'
+import { CircleClose } from '@element-plus/icons-vue'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { rAF } from '@element-plus/test-utils/tick'
 import { ElFormItem } from '@element-plus/components/form'
-import sleep from '@element-plus/test-utils/sleep'
 import TimePicker from '../src/time-picker'
 import Picker from '../src/common/picker.vue'
 
@@ -47,6 +47,16 @@ describe('TimePicker', () => {
     const outterInput = wrapper.find('.el-input')
     expect(outterInput.classes()).toContain('customClass')
     expect(outterInput.attributes().style).toBeDefined()
+  })
+
+  it('should show clear btn on focus', async () => {
+    const wrapper = mount(() => (
+      <TimePicker modelValue={new Date()} clearable />
+    ))
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    expect(wrapper.findComponent(CircleClose).exists()).toBe(true)
   })
 
   it('set format && default value && set AM/PM spinner && no $attr to panel', async () => {
@@ -443,6 +453,8 @@ describe('TimePicker', () => {
   })
 
   it('can auto skip when disabled', async () => {
+    vi.useFakeTimers()
+
     const disabledHours = () => [
       0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 23,
     ]
@@ -482,19 +494,24 @@ describe('TimePicker', () => {
     const testTime = 130
     hoursElArrowDown.dispatchEvent(mousedownEvt)
     hoursElArrowDown.dispatchEvent(mouseupEvt)
-    await sleep(testTime)
+    vi.advanceTimersByTime(testTime)
+    await nextTick()
     activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
     expect(activeHours).toEqual(21)
     hoursElArrowDown.dispatchEvent(mousedownEvt)
     hoursElArrowDown.dispatchEvent(mouseupEvt)
-    await sleep(testTime)
+    vi.advanceTimersByTime(testTime)
+    await nextTick()
     activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
     expect(activeHours).toEqual(22)
     hoursElArrowDown.dispatchEvent(new MouseEvent('mousedown'))
     hoursElArrowDown.dispatchEvent(new MouseEvent('mouseup'))
-    await sleep(testTime)
+    vi.advanceTimersByTime(testTime)
+    await nextTick()
     activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
     expect(activeHours).toEqual(20)
+
+    vi.useRealTimers()
   })
 })
 

@@ -28,6 +28,7 @@
 
     > span {
       flex: 1;
+      line-height: normal;
       overflow: hidden;
       text-overflow: ellipsis;
     }
@@ -76,8 +77,6 @@
 
     .#{$namespace}-input__suffix-inner {
       .#{$namespace}-icon {
-        height: calc(100% - 2px);
-
         svg {
           vertical-align: middle;
         }
@@ -155,6 +154,16 @@
     }
   }
 
+  @include e(header) {
+    padding: map.get($cascader-dropdown, 'header-padding');
+    border-bottom: map.get($cascader-dropdown, 'border');
+  }
+
+  @include e(footer) {
+    padding: map.get($cascader-dropdown, 'footer-padding');
+    border-top: map.get($cascader-dropdown, 'border');
+  }
+
   @include e(tags) {
     position: absolute;
     left: 0;
@@ -179,6 +188,10 @@
     white-space: normal;
     z-index: getCssVar('index-normal');
     @include cascader-tag-normal(getCssVar('fill-color'));
+
+    .#{$namespace}-tag {
+      margin: 2px 0;
+    }
   }
 
   @include e(suggestion-panel) {

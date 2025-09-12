@@ -15,8 +15,8 @@ export default {
     datepicker: {
       now: 'Sekarang',
       today: 'Hari ini',
-      Batal: 'Batal',
-      clear: 'Jelas',
+      cancel: 'Batal',
+      clear: 'Padam',
       confirm: 'OK',
       dateTablePrompt:
         'Gunakan kekunci anak panah dan masukkan untuk memilih hari dalam bulan tersebut',
@@ -35,7 +35,7 @@ export default {
       nextYear: 'Tahun Depan',
       prevMonth: 'Bulan Sebelumnya',
       nextMonth: 'Bulan Depan',
-      year: 'tahun',
+      year: '',
       month1: 'Januari',
       month2: 'Februari',
       month3: 'Mac',
@@ -48,15 +48,14 @@ export default {
       month10: 'Oktober',
       month11: 'November',
       month12: 'Disember',
-      week: 'minggu',
       weeks: {
-        sun: 'Sun',
-        mon: 'Mon',
-        tue: 'Tue',
-        wed: 'Wed',
-        thu: 'Thu',
-        fri: 'Fri',
-        sat: 'Sat',
+        sun: 'Ahd',
+        mon: 'Isn',
+        tue: 'Sel',
+        wed: 'Rab',
+        thu: 'Kha',
+        fri: 'Jum',
+        sat: 'Sab',
       },
       weeksFull: {
         sun: 'Ahad',
@@ -127,9 +126,10 @@ export default {
     messagebox: {
       title: 'Mesej',
       confirm: 'OK',
-      Batal: 'Dibatalkan',
+      cancel: 'Cancel', // to be translated
       error: 'Input haram',
       close: 'Tutup dialog ini',
+      Batal: 'Dibatalkan',
     },
     upload: {
       deleteTip: 'tekan padam untuk mengalih keluar',
@@ -153,6 +153,7 @@ export default {
       next: 'Seterusnya',
       previous: 'Sebelumnya',
       finish: 'Selesai',
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'Tiada Data',
@@ -169,10 +170,11 @@ export default {
       error: 'FAILED',
     },
     pageHeader: {
-      title: 'Belakang',
+      title: 'Kembali',
     },
     popconfirm: {
       confirmButtonText: 'Ya',
+      cancelButtonText: 'No', // to be translated
       BatalButtonText: 'Tidak',
     },
     carousel: {

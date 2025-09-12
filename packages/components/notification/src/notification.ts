@@ -1,9 +1,16 @@
+import { Close } from '@element-plus/icons-vue'
 import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 
-import type { AppContext, ExtractPropTypes, VNode } from 'vue'
+import type {
+  AppContext,
+  ExtractPropTypes,
+  VNode,
+  __ExtractPublicPropTypes,
+} from 'vue'
 import type Notification from './notification.vue'
 
 export const notificationTypes = [
+  'primary',
   'success',
   'info',
   'warning',
@@ -108,15 +115,25 @@ export const notificationProps = buildProps({
    * @description initial zIndex
    */
   zIndex: Number,
+  /**
+   * @description custom close icon, default is Close
+   */
+  closeIcon: {
+    type: iconPropType,
+    default: Close,
+  },
 } as const)
 export type NotificationProps = ExtractPropTypes<typeof notificationProps>
+export type NotificationPropsPublic = __ExtractPublicPropTypes<
+  typeof notificationProps
+>
 
 export const notificationEmits = {
   destroy: () => true,
 }
 export type NotificationEmits = typeof notificationEmits
 
-export type NotificationInstance = InstanceType<typeof Notification>
+export type NotificationInstance = InstanceType<typeof Notification> & unknown
 
 export type NotificationOptions = Omit<NotificationProps, 'id' | 'onClose'> & {
   /**
@@ -146,6 +163,7 @@ export interface NotifyFn {
     appContext?: null | AppContext
   ): NotificationHandle
   closeAll(): void
+  updateOffsets(position?: NotificationOptions['position']): void
   _context: AppContext | null
 }
 
@@ -155,6 +173,7 @@ export type NotifyTypedFn = (
 ) => NotificationHandle
 
 export interface Notify extends NotifyFn {
+  primary: NotifyTypedFn
   success: NotifyTypedFn
   warning: NotifyTypedFn
   error: NotifyTypedFn

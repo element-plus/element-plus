@@ -2,7 +2,8 @@ import { buttonTypes } from '@element-plus/components/button'
 import { QuestionFilled } from '@element-plus/icons-vue'
 import { buildProps, iconPropType } from '@element-plus/utils'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
-import type { ExtractPropTypes } from 'vue'
+
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type Popconfirm from './popconfirm.vue'
 
 export const popconfirmProps = buildProps({
@@ -51,16 +52,20 @@ export const popconfirmProps = buildProps({
   /**
    * @description is hide Icon
    */
-  hideIcon: {
-    type: Boolean,
-    default: false,
-  },
+  hideIcon: Boolean,
   /**
    * @description delay of disappear, in millisecond
    */
   hideAfter: {
     type: Number,
     default: 200,
+  },
+  /**
+   * @description Tooltip theme, built-in theme: `dark` / `light`
+   */
+  effect: {
+    ...useTooltipContentProps.effect,
+    default: 'light',
   },
   /**
    * @description whether popconfirm is teleported to the body
@@ -77,6 +82,13 @@ export const popconfirmProps = buildProps({
     type: [String, Number],
     default: 150,
   },
+  /**
+   * @description whether the popConfirm can be closed by pressing ESC
+   */
+  closeOnPressEscape: {
+    type: Boolean,
+    default: true,
+  },
 } as const)
 
 export const popconfirmEmits = {
@@ -87,11 +99,15 @@ export const popconfirmEmits = {
   /**
    * @description triggers when click cancel button
    */
-  cancel: (e: MouseEvent) => e instanceof MouseEvent,
+  cancel: (e: MouseEvent | KeyboardEvent) =>
+    e instanceof MouseEvent || e instanceof KeyboardEvent,
 }
 
 export type PopconfirmEmits = typeof popconfirmEmits
 
 export type PopconfirmProps = ExtractPropTypes<typeof popconfirmProps>
+export type PopconfirmPropsPublic = __ExtractPublicPropTypes<
+  typeof popconfirmProps
+>
 
-export type PopconfirmInstance = InstanceType<typeof Popconfirm>
+export type PopconfirmInstance = InstanceType<typeof Popconfirm> & unknown

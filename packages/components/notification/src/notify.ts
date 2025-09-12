@@ -170,7 +170,20 @@ export function closeAll(): void {
   }
 }
 
+export function updateOffsets(
+  position: NotificationOptions['position'] = 'top-right'
+) {
+  let verticalOffset =
+    notifications[position][0]?.vm.component?.props?.offset || 0
+
+  for (const { vm } of notifications[position]) {
+    vm.component!.props.offset = verticalOffset
+    verticalOffset += (vm.el?.offsetHeight || 0) + GAP_SIZE
+  }
+}
+
 notify.closeAll = closeAll
+notify.updateOffsets = updateOffsets
 notify._context = null
 
 export default notify as Notify

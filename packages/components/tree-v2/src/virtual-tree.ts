@@ -5,6 +5,7 @@ import {
   isBoolean,
   mutable,
 } from '@element-plus/utils'
+
 import type { CheckboxValueType } from '@element-plus/components/checkbox'
 import type { InjectionKey } from 'vue'
 import type { TreeNodeData } from '@element-plus/components/tree/src/tree.type'
@@ -69,24 +70,15 @@ export const treeProps = buildProps({
         class: TreeOptionsEnum.CLASS,
       } as const),
   },
-  highlightCurrent: {
-    type: Boolean,
-    default: false,
-  },
-  showCheckbox: {
-    type: Boolean,
-    default: false,
-  },
+  highlightCurrent: Boolean,
+  showCheckbox: Boolean,
   defaultCheckedKeys: {
     type: definePropType<TreeKey[]>(Array),
     default: () => mutable([] as const),
   },
   // Whether checked state of a node not affects its father and
   // child nodes when show-checkbox is true
-  checkStrictly: {
-    type: Boolean,
-    default: false,
-  },
+  checkStrictly: Boolean,
   defaultExpandedKeys: {
     type: definePropType<TreeKey[]>(Array),
     default: () => mutable([] as const),
@@ -103,18 +95,16 @@ export const treeProps = buildProps({
     type: Boolean,
     default: true,
   },
-  checkOnClickNode: {
+  checkOnClickNode: Boolean,
+  checkOnClickLeaf: {
     type: Boolean,
-    default: false,
+    default: true,
   },
   currentNodeKey: {
     type: definePropType<TreeKey>([String, Number]),
   },
   // TODO need to optimization
-  accordion: {
-    type: Boolean,
-    default: false,
-  },
+  accordion: Boolean,
   filterMethod: {
     type: definePropType<FilterMethod>(Function),
   },
@@ -123,6 +113,10 @@ export const treeProps = buildProps({
     type: Boolean,
     default: true,
   },
+  /**
+   * @description always show scrollbar
+   */
+  scrollbarAlwaysOn: Boolean,
 } as const)
 
 export const treeNodeProps = buildProps({
@@ -130,34 +124,13 @@ export const treeNodeProps = buildProps({
     type: definePropType<TreeNode>(Object),
     default: () => mutable(EMPTY_NODE),
   },
-  expanded: {
-    type: Boolean,
-    default: false,
-  },
-  checked: {
-    type: Boolean,
-    default: false,
-  },
-  indeterminate: {
-    type: Boolean,
-    default: false,
-  },
-  showCheckbox: {
-    type: Boolean,
-    default: false,
-  },
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
-  current: {
-    type: Boolean,
-    default: false,
-  },
-  hiddenExpandIcon: {
-    type: Boolean,
-    default: false,
-  },
+  expanded: Boolean,
+  checked: Boolean,
+  indeterminate: Boolean,
+  showCheckbox: Boolean,
+  disabled: Boolean,
+  current: Boolean,
+  hiddenExpandIcon: Boolean,
   itemSize,
 } as const)
 

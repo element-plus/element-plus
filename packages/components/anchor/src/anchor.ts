@@ -5,7 +5,7 @@ import {
   isUndefined,
 } from '@element-plus/utils'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type Anchor from './anchor.vue'
 
 export const anchorProps = buildProps({
@@ -63,14 +63,12 @@ export const anchorProps = buildProps({
   /**
    * @description Scroll whether link is selected at the top
    */
-  selectScrollTop: {
-    type: Boolean,
-    default: false,
-  },
+  selectScrollTop: Boolean,
 })
 
 export type AnchorProps = ExtractPropTypes<typeof anchorProps>
-export type AnchorInstance = InstanceType<typeof Anchor>
+export type AnchorPropsPublic = __ExtractPublicPropTypes<typeof anchorProps>
+export type AnchorInstance = InstanceType<typeof Anchor> & unknown
 
 export const anchorEmits = {
   change: (href: string) => isString(href),

@@ -2,11 +2,12 @@
 import '@docsearch/css'
 import { getCurrentInstance, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vitepress'
+//@ts-expect-error
 import docsearch from '@docsearch/js'
 import { isClient } from '@vueuse/core'
 import { useLang } from '../../composables/lang'
-// import type { DefaultTheme } from '../config'
 import searchLocale from '../../../i18n/component/search.json'
+
 import type { DocSearchHit } from '@docsearch/react/dist/esm/types'
 
 const props = defineProps<{

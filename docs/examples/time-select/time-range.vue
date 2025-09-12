@@ -1,10 +1,9 @@
 <template>
-  <div class="demo-time-range">
+  <div class="demo-time-range flex flex-wrap gap-4">
     <el-time-select
       v-model="startTime"
       style="width: 240px"
       :max-time="endTime"
-      class="mr-4"
       placeholder="Start time"
       start="08:30"
       step="00:15"

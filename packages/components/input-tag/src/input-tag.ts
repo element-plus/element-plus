@@ -1,6 +1,7 @@
 import {
   buildProps,
   definePropType,
+  iconPropType,
   isArray,
   isString,
   isUndefined,
@@ -13,8 +14,9 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import { tagProps } from '@element-plus/components/tag/src/tag'
+import { CircleClose } from '@element-plus/icons-vue'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 
 export const inputTagProps = buildProps({
   /**
@@ -45,9 +47,13 @@ export const inputTagProps = buildProps({
   /**
    * @description whether tags can be dragged
    */
-  draggable: {
-    type: Boolean,
-    default: false,
+  draggable: Boolean,
+  /**
+   * @description add a tag when a delimiter is matched
+   */
+  delimiter: {
+    type: [String, RegExp],
+    default: '',
   },
   /**
    * @description input box size
@@ -57,6 +63,13 @@ export const inputTagProps = buildProps({
    * @description whether to show clear button
    */
   clearable: Boolean,
+  /**
+   * @description custom clear icon component
+   */
+  clearIcon: {
+    type: iconPropType,
+    default: CircleClose,
+  },
   /**
    * @description whether to disable input-tag
    */
@@ -113,8 +126,30 @@ export const inputTagProps = buildProps({
    * @description native input autocomplete
    */
   autocomplete: {
-    type: String,
+    type: definePropType<HTMLInputElement['autocomplete']>(String),
     default: 'off',
+  },
+  /**
+   * @description whether to save the input value when the input loses focus
+   */
+  saveOnBlur: {
+    type: Boolean,
+    default: true,
+  },
+  /**
+   * @description whether to collapse tags to a text
+   */
+  collapseTags: Boolean,
+  /**
+   * @description whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true
+   */
+  collapseTagsTooltip: Boolean,
+  /**
+   * @description the max tags number to be shown. To use this, `collapse-tags` must be true
+   */
+  maxCollapseTags: {
+    type: Number,
+    default: 1,
   },
   /**
    * @description native `aria-label` attribute
@@ -122,13 +157,14 @@ export const inputTagProps = buildProps({
   ariaLabel: String,
 } as const)
 export type InputTagProps = ExtractPropTypes<typeof inputTagProps>
+export type InputTagPropsPublic = __ExtractPublicPropTypes<typeof inputTagProps>
 
 export const inputTagEmits = {
   [UPDATE_MODEL_EVENT]: (value?: string[]) =>
     isArray(value) || isUndefined(value),
   [CHANGE_EVENT]: (value?: string[]) => isArray(value) || isUndefined(value),
   [INPUT_EVENT]: (value: string) => isString(value),
-  'add-tag': (value: string) => isString(value),
+  'add-tag': (value: string | string[]) => isString(value) || isArray(value),
   'remove-tag': (value: string) => isString(value),
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
   blur: (evt: FocusEvent) => evt instanceof FocusEvent,

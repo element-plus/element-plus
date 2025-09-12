@@ -7,7 +7,13 @@
     :aria-label="!isLabeledByFormItem ? ariaLabel || 'radio-group' : undefined"
     :aria-labelledby="isLabeledByFormItem ? formItem!.labelId : undefined"
   >
-    <slot />
+    <slot>
+      <el-radio
+        v-for="(item, index) in props.options"
+        :key="index"
+        v-bind="getOptionProps(item)"
+      />
+    </slot>
   </div>
 </template>
 
@@ -23,11 +29,17 @@ import {
   watch,
 } from 'vue'
 import { useFormItem, useFormItemInputId } from '@element-plus/components/form'
-import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useId, useNamespace } from '@element-plus/hooks'
 import { debugWarn } from '@element-plus/utils'
-import { radioGroupEmits, radioGroupProps } from './radio-group'
+import {
+  radioDefaultProps,
+  radioGroupEmits,
+  radioGroupProps,
+} from './radio-group'
 import { radioGroupKey } from './constants'
+import { isEqual } from 'lodash-unified'
+import ElRadio from './radio.vue'
 
 import type { RadioGroupProps } from './radio-group'
 
@@ -48,7 +60,7 @@ const { inputId: groupId, isLabeledByFormItem } = useFormItemInputId(props, {
 
 const changeEvent = (value: RadioGroupProps['modelValue']) => {
   emit(UPDATE_MODEL_EVENT, value)
-  nextTick(() => emit('change', value))
+  nextTick(() => emit(CHANGE_EVENT, value))
 }
 
 onMounted(() => {
@@ -64,6 +76,19 @@ const name = computed(() => {
   return props.name || radioId.value
 })
 
+const aliasProps = computed(() => ({
+  ...radioDefaultProps,
+  ...props.props,
+}))
+const getOptionProps = (option: Record<string, any>) => {
+  const base = {
+    label: option[aliasProps.value.label],
+    value: option[aliasProps.value.value],
+    disabled: option[aliasProps.value.disabled],
+  }
+  return { ...option, ...base }
+}
+
 provide(
   radioGroupKey,
   reactive({
@@ -75,8 +100,8 @@ provide(
 
 watch(
   () => props.modelValue,
-  () => {
-    if (props.validateEvent) {
+  (newVal, oldValue) => {
+    if (props.validateEvent && !isEqual(newVal, oldValue)) {
       formItem?.validate('change').catch((err) => debugWarn(err))
     }
   }

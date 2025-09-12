@@ -14,10 +14,11 @@ import {
   watch,
 } from 'vue'
 import { useMutationObserver } from '@vueuse/core'
-import { isArray } from '@element-plus/utils'
+import { isArray, isUndefined } from '@element-plus/utils'
 import { watermarkProps } from './watermark'
 import { getPixelRatio, getStyleStr, reRendering } from './utils'
 import useClips, { FontGap } from './useClips'
+
 import type { WatermarkProps } from './watermark'
 import type { CSSProperties } from 'vue'
 
@@ -111,30 +112,45 @@ const appendWatermark = (base64Url: string, markWidth: number) => {
 const getMarkSize = (ctx: CanvasRenderingContext2D) => {
   let defaultWidth = 120
   let defaultHeight = 64
-  const image = props.image
-  const content = props.content
-  const width = props.width
-  const height = props.height
+  let space = 0
+
+  const { image, content, width, height, rotate } = props
+
   if (!image && ctx.measureText) {
     ctx.font = `${Number(fontSize.value)}px ${fontFamily.value}`
-    const contents = isArray(content) ? content : [content]
-    const sizes = contents.map((item) => {
-      const metrics = ctx.measureText(item!)
 
-      return [
-        metrics.width,
-        // Using `actualBoundingBoxAscent` to be compatible with lower version browsers (eg: Firefox < 116)
-        metrics.fontBoundingBoxAscent !== undefined
-          ? metrics.fontBoundingBoxAscent + metrics.fontBoundingBoxDescent
-          : metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent,
-      ]
+    const contents = isArray(content) ? content : [content]
+    let maxWidth = 0
+    let maxHeight = 0
+
+    contents.forEach((item) => {
+      const {
+        width,
+        fontBoundingBoxAscent,
+        fontBoundingBoxDescent,
+        actualBoundingBoxAscent,
+        actualBoundingBoxDescent,
+      } = ctx.measureText(item!)
+      // Using `actualBoundingBoxAscent` to be compatible with lower version browsers (eg: Firefox < 116)
+      const height = isUndefined(fontBoundingBoxAscent)
+        ? actualBoundingBoxAscent + actualBoundingBoxDescent
+        : fontBoundingBoxAscent + fontBoundingBoxDescent
+
+      if (width > maxWidth) maxWidth = Math.ceil(width)
+      if (height > maxHeight) maxHeight = Math.ceil(height)
     })
-    defaultWidth = Math.ceil(Math.max(...sizes.map((size) => size[0])))
+
+    defaultWidth = maxWidth
     defaultHeight =
-      Math.ceil(Math.max(...sizes.map((size) => size[1]))) * contents.length +
-      (contents.length - 1) * FontGap
+      maxHeight * contents.length + (contents.length - 1) * FontGap
+
+    const angle = (Math.PI / 180) * Number(rotate)
+    space = Math.ceil(Math.abs(Math.sin(angle) * defaultHeight) / 2)
+
+    defaultWidth += space
   }
-  return [width ?? defaultWidth, height ?? defaultHeight] as const
+
+  return [width ?? defaultWidth, height ?? defaultHeight, space] as const
 }
 
 const getClips = useClips()
@@ -152,7 +168,7 @@ const renderWatermark = () => {
     }
 
     const ratio = getPixelRatio()
-    const [markWidth, markHeight] = getMarkSize(ctx)
+    const [markWidth, markHeight, space] = getMarkSize(ctx)
 
     const drawCanvas = (
       drawContent?: NonNullable<WatermarkProps['content']> | HTMLImageElement
@@ -173,7 +189,8 @@ const renderWatermark = () => {
           textBaseline: textBaseline.value,
         },
         gapX.value,
-        gapY.value
+        gapY.value,
+        space
       )
 
       appendWatermark(textClips, clipWidth)

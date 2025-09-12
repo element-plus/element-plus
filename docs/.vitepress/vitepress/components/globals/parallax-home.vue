@@ -6,7 +6,11 @@ import homeLocale from '../../../i18n/pages/home.json'
 import HomeSponsors from '../home/home-sponsors.vue'
 import HomeCards from '../home/home-cards.vue'
 import HomeFooter from './vp-footer.vue'
+
 import type { CSSProperties } from 'vue'
+
+import { isDark } from '~/composables/dark'
+
 const target = ref<HTMLElement | null>(null)
 const parallax = reactive(useParallax(target))
 const jumbotronRedOffset = ref(0)
@@ -137,7 +141,7 @@ useEventListener(window, 'scroll', handleScroll)
       </div>
     </div>
     <img
-      src="/images/theme-index-blue.png"
+      :src="`/images/theme-index-blue${isDark ? '-dark' : ''}.png`"
       alt="banner"
       class="mobile-banner"
     />
@@ -236,30 +240,24 @@ useEventListener(window, 'scroll', handleScroll)
 
   @media screen and (max-width: 959px) {
     .jumbotron {
-      display: none !important;
-    }
-
-    .mobile-banner {
-      margin-top: 10px;
-      display: inline-block;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .jumbotron {
-      width: 50%;
-      display: flex;
-      margin: auto;
-      justify-content: center;
-      align-items: center;
-
       .parallax-container {
-        width: 100%;
+        width: 700px;
+        margin: 0 auto;
       }
     }
   }
 
   @media (max-width: 768px) {
+    .jumbotron {
+      display: none !important;
+    }
+
+    .mobile-banner {
+      display: inline-block;
+      margin-top: 25px;
+      margin-bottom: -15px;
+    }
+
     .banner-stars {
       display: none;
     }

@@ -2,7 +2,7 @@
 
 import { buildProps } from '@element-plus/utils'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type Popper from './popper.vue'
 
 const effects = ['light', 'dark'] as const
@@ -38,8 +38,9 @@ export const popperProps = buildProps({
 } as const)
 
 export type PopperProps = ExtractPropTypes<typeof popperProps>
+export type PopperPropsPublic = __ExtractPublicPropTypes<typeof popperProps>
 
-export type PopperInstance = InstanceType<typeof Popper>
+export type PopperInstance = InstanceType<typeof Popper> & unknown
 
 /** @deprecated use `popperProps` instead, and it will be deprecated in the next major version */
 export const usePopperProps = popperProps

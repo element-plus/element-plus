@@ -40,10 +40,7 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
-    active: {
-      type: Boolean,
-      default: false,
-    },
+    active: Boolean,
   },
   emits: ['mousedown', 'focus', 'keydown'],
   setup(props, { emit }) {
@@ -58,7 +55,7 @@ export default defineComponent({
     )!
 
     const id = useId()
-    const rovingFocusGroupItemRef = ref<HTMLElement | null>(null)
+    const rovingFocusGroupItemRef = ref<HTMLElement>()
 
     const handleMousedown = composeEventHandlers(
       (e: Event) => {
