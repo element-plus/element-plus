@@ -80,9 +80,7 @@ const onResize = (index: number, offset: number) => {
 const onResizeEnd = async (index: number) => {
   onMoveEnd()
 
-  if (lazy.value) {
-    await nextTick()
-  }
+  await nextTick()
 
   emits('resizeEnd', index, pxSizes.value)
 }
