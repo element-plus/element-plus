@@ -126,9 +126,10 @@ export const useRangePicker = (
   watch(
     () => props.parsedValue,
     (parsedValue) => {
-      if (!(parsedValue as [Dayjs, Dayjs])?.length) {
-        parseValue(parsedValue)
-      } else if (!isEqual(parsedValue, [minDate.value, maxDate.value])) {
+      if (
+        !(parsedValue as [Dayjs, Dayjs])?.length ||
+        !isEqual(parsedValue, [minDate.value, maxDate.value])
+      ) {
         parseValue(parsedValue)
       }
     },
