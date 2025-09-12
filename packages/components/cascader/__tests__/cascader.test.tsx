@@ -307,6 +307,48 @@ describe('Cascader.vue', () => {
     expect(tooltipTags[1].textContent).toBe('Zhejiang / Wenzhou')
   })
 
+  test('dynamic max collapse tags', async () => {
+    const props = { multiple: true }
+    const max = ref(2)
+    const wrapper = _mount(() => (
+      <Cascader
+        modelValue={[
+          ['zhejiang', 'hangzhou'],
+          ['zhejiang', 'ningbo'],
+          ['zhejiang', 'wenzhou'],
+        ]}
+        collapseTags
+        collapseTagsTooltip
+        props={props}
+        options={OPTIONS}
+        maxCollapseTags={max.value}
+      />
+    ))
+
+    await nextTick()
+    const tags = wrapper.findAll(TAG)
+    const [firstTag, secondTag, thirdTag] = tags
+    expect(tags.length).toBe(3)
+    expect(firstTag.text()).toBe('Zhejiang / Hangzhou')
+    expect(secondTag.text()).toBe('Zhejiang / Ningbo')
+    expect(thirdTag.text()).toBe('+ 1')
+    const tooltipTags = document.querySelectorAll(
+      `.el-cascader__collapse-tags ${TAG}`
+    )
+    expect(tooltipTags.length).toBe(1)
+    max.value = 1
+    await nextTick()
+    const _tags = wrapper.findAll(TAG)
+    const [_firstTag, _secondTag] = _tags
+    expect(_tags.length).toBe(2)
+    expect(_firstTag.text()).toBe('Zhejiang / Hangzhou')
+    expect(_secondTag.text()).toBe('+ 2')
+    const _tooltipTags = document.querySelectorAll(
+      `.el-cascader__collapse-tags ${TAG}`
+    )
+    expect(_tooltipTags.length).toBe(2)
+  })
+
   test('max collapse tags', async () => {
     const props = { multiple: true }
     const wrapper = _mount(() => (
