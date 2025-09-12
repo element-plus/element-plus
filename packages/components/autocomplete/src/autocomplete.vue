@@ -363,7 +363,7 @@ const highlight = (index: number) => {
     suggestion.scrollTop -= scrollHeight
   }
   highlightedIndex.value = index
-  inputRef.value!.ref!.setAttribute(
+  inputRef.value?.ref?.setAttribute(
     'aria-activedescendant',
     `${listboxId.value}-item-${highlightedIndex.value}`
   )
