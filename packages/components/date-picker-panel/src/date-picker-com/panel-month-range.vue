@@ -58,8 +58,8 @@
               :class="dpNs.e('header-label')"
               aria-live="polite"
               tabindex="0"
-              @keydown.enter="handleLeftYearLabelClick"
-              @click="handleLeftYearLabelClick"
+              @keydown.enter="handleYearLabelClick"
+              @click="handleYearLabelClick"
             >
               {{ leftLabel }}
             </span>
@@ -80,13 +80,11 @@
             @select="onSelect"
           />
           <year-table
-            v-if="currentView === 'year' && yearSelectionSide === 'left'"
+            v-if="currentView === 'year'"
             ref="leftTableRef"
             selection-mode="year"
             :date="leftDate"
-            :parsed-value="
-              selectedYear ? dayjs().year(selectedYear) : undefined
-            "
+            :parsed-value="leftDate"
             :disabled-date="disabledDate"
             :disabled="disabled"
             :cell-class-name="cellClassName"
@@ -126,8 +124,8 @@
               :class="dpNs.e('header-label')"
               aria-live="polite"
               tabindex="0"
-              @keydown.enter="handleRightYearLabelClick"
-              @click="handleRightYearLabelClick"
+              @keydown.enter="handleYearLabelClick"
+              @click="handleYearLabelClick"
             >
               {{ rightLabel }}
             </span>
@@ -148,13 +146,11 @@
             @select="onSelect"
           />
           <year-table
-            v-if="currentView === 'year' && yearSelectionSide === 'right'"
+            v-if="currentView === 'year'"
             ref="rightTableRef"
             selection-mode="year"
             :date="rightDate"
-            :parsed-value="
-              selectedYear ? dayjs().year(selectedYear) : undefined
-            "
+            :parsed-value="rightDate"
             :disabled-date="disabledDate"
             :disabled="disabled"
             :cell-class-name="cellClassName"
@@ -217,9 +213,6 @@ const leftTableRef = ref<{ focus?: () => void }>()
 const rightTableRef = ref<{ focus?: () => void }>()
 // 保存切换视图前的 rangeState 状态
 const savedRangeState = ref<{ selecting: boolean; endDate: any } | null>(null)
-// 年份选择状态管理
-const yearSelectionSide = ref<'left' | 'right' | null>(null)
-const selectedYear = ref<number | null>(null)
 
 const {
   minDate,
@@ -259,44 +252,22 @@ const {
 })
 
 const handleFocusPicker = () => {
-  if (currentView.value === 'month') {
+  if (currentView.value === 'month' || currentView.value === 'year') {
     leftTableRef.value?.focus?.()
-  } else if (currentView.value === 'year') {
-    // 年份视图时，焦点到正在选择的那一侧
-    if (yearSelectionSide.value === 'left') {
-      leftTableRef.value?.focus?.()
-    } else if (yearSelectionSide.value === 'right') {
-      rightTableRef.value?.focus?.()
-    }
   }
 }
 
-const handleLeftYearLabelClick = async (event: Event) => {
+const handleYearLabelClick = async (event: Event) => {
   // 彻底阻止事件冒泡和默认行为
   event.stopPropagation()
   event.preventDefault()
   event.stopImmediatePropagation()
 
-  yearSelectionSide.value = 'left'
-  selectedYear.value = leftDate.value.year()
-  await showPicker('year')
-}
-
-const handleRightYearLabelClick = async (event: Event) => {
-  // 彻底阻止事件冒泡和默认行为
-  event.stopPropagation()
-  event.preventDefault()
-  event.stopImmediatePropagation()
-
-  yearSelectionSide.value = 'right'
-  selectedYear.value = rightDate.value.year()
   await showPicker('year')
 }
 
 const handleLeftYearPick = async (year: number) => {
   leftDate.value = leftDate.value.year(year)
-  selectedYear.value = null
-  yearSelectionSide.value = null
 
   // 切换回月份视图
   await showPicker('month')
@@ -304,8 +275,6 @@ const handleLeftYearPick = async (year: number) => {
 
 const handleRightYearPick = async (year: number) => {
   rightDate.value = rightDate.value.year(year)
-  selectedYear.value = null
-  yearSelectionSide.value = null
 
   // 切换回月份视图
   await showPicker('month')
@@ -336,9 +305,6 @@ const showPicker = async (view: 'month' | 'year', event?: Event) => {
     rangeState.value.selecting = savedRangeState.value.selecting
     rangeState.value.endDate = savedRangeState.value.endDate
     savedRangeState.value = null
-    // 清理年份选择状态
-    yearSelectionSide.value = null
-    selectedYear.value = null
   }
 
   currentView.value = view
