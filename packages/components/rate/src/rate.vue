@@ -82,9 +82,13 @@ import {
 import { ElIcon } from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
 import { rateEmits, rateProps } from './rate'
+import { useEventListener } from '@vueuse/core'
 
 import type { CSSProperties, Component } from 'vue'
 import type { IconInstance } from '@element-plus/components/icon'
+
+// ensure that currentValue is reset when the mouse moves out of the iframe.
+useEventListener(document, 'mouseleave', resetCurrentValue)
 
 function getValueFromMap<T>(
   value: number,
