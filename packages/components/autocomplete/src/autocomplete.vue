@@ -380,7 +380,8 @@ onBeforeUnmount(() => {
 })
 
 onMounted(() => {
-  const inputElement = inputRef.value!.ref!
+  const inputElement = inputRef.value?.ref
+  if (!inputElement) return
   ;[
     { key: 'role', value: 'textbox' },
     { key: 'aria-autocomplete', value: 'list' },
