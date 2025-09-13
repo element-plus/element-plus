@@ -21,7 +21,7 @@
           :name="name"
           :disabled="getDisabled(item)"
           :checked="getSelected(item)"
-          @change="handleChange(item, $event)"
+          @change="handleChange($event, item)"
         />
         <div :class="ns.e('item-label')">
           <slot :item="intoAny(item)">{{ getLabel(item) }}</slot>
