@@ -1767,6 +1767,20 @@ describe('DatePicker keyboard events', () => {
     const attr2 = popperEl2.getAttribute('aria-hidden')
     expect(attr2).toEqual('true')
   })
+
+  it('should be able to enter in date picker table through keyboard navigation', async () => {
+    const wrapper = _mount('<el-date-picker v-model="value" />', () => ({
+      value: '',
+    }))
+    await nextTick()
+    const input = wrapper.find('.el-input__inner')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    await nextTick()
+    await input.trigger('keydown.down')
+    //console.log(document.querySelector('.current')?.textContent)
+    expect(document.querySelector('.current')?.textContent).toBe('1')
+  })
 })
 
 describe('DateRangePicker', () => {
