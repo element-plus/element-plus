@@ -79,7 +79,6 @@ const handleChange = (evt: Event, item: Option) => {
   const value = getValue(item)
   emit(UPDATE_MODEL_EVENT, value)
   emit(CHANGE_EVENT, value)
-
   ;(evt.target as HTMLInputElement).checked = value === props.modelValue
 }
 
