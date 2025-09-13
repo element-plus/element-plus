@@ -80,16 +80,7 @@ const handleChange = (item: Option, evt: Event) => {
   emit(UPDATE_MODEL_EVENT, value)
   emit(CHANGE_EVENT, value)
 
-  if (!getSelected(item)) {
-    evt.target && ((evt.target as HTMLInputElement).checked = false)
-    if (!segmentedRef.value) return
-    const selectedItemInput = segmentedRef.value.querySelector(
-      '.is-selected input'
-    ) as HTMLInputElement
-    if (selectedItemInput) {
-      selectedItemInput.checked = true
-    }
-  }
+  ;(evt.target as HTMLInputElement).checked = value === props.modelValue
 }
 
 const aliasProps = computed(() => ({ ...defaultProps, ...props.props }))
