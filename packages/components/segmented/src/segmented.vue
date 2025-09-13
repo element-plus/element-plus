@@ -75,7 +75,7 @@ const state = reactive({
   focusVisible: false,
 })
 
-const handleChange = (item: Option, evt: Event) => {
+const handleChange = (evt: Event, item: Option) => {
   const value = getValue(item)
   emit(UPDATE_MODEL_EVENT, value)
   emit(CHANGE_EVENT, value)
