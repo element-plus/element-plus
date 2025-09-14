@@ -105,6 +105,8 @@ image/custom-progress
 | max-scale ^(2.4.0)     | the max scale of the image viewer zoom event.                                                                                                     | ^[number]                                                               | 7       |
 | show-progress ^(2.9.4) | whether to display the preview image progress content.                                                                                            | ^[boolean]                                                              | false   |
 
+start `2.11.2` version, you can use img other [attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/img#attributes), when you allow big image preview, them fallthrough behavior into the big image.
+
 ### Image Events
 
 | Name   | Description                                                                                       | Type                                 |
@@ -148,6 +150,8 @@ image/custom-progress
 | max-scale ^(2.4.0)     | the max scale of the image viewer zoom event.                                                                                 | ^[number]             | 7       |
 | close-on-press-escape  | whether the image-viewer can be closed by pressing ESC.                                                                       | ^[boolean]            | true    |
 | show-progress ^(2.9.4) | whether to display the preview image progress content                                                                         | ^[boolean]            | false   |
+
+start `2.11.2` version, you can use img other [attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/img#attributes)
 
 ### Image Viewer Events
 

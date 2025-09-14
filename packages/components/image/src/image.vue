@@ -8,10 +8,8 @@
         v-if="imageSrc !== undefined"
         v-bind="imgAttrs"
         :src="imageSrc"
-        :loading="loading"
         :style="imageStyle"
         :class="imageKls"
-        :crossorigin="crossorigin"
         @click="clickHandler"
         @load="handleLoad"
         @error="handleError"
@@ -25,6 +23,7 @@
     <template v-if="preview">
       <image-viewer
         v-if="showViewer"
+        v-bind="imgAttrs"
         :z-index="zIndex"
         :initial-index="imageIndex"
         :infinite="infinite"
@@ -33,7 +32,6 @@
         :max-scale="maxScale"
         :show-progress="showProgress"
         :url-list="previewSrcList"
-        :crossorigin="crossorigin"
         :hide-on-click-modal="hideOnClickModal"
         :teleported="previewTeleported"
         :close-on-press-escape="closeOnPressEscape"
@@ -64,19 +62,24 @@ import {
   watch,
 } from 'vue'
 import { useIntersectionObserver, useThrottleFn } from '@vueuse/core'
-import { fromPairs } from 'lodash-unified'
-import { useAttrs, useLocale, useNamespace } from '@element-plus/hooks'
-import ImageViewer from '@element-plus/components/image-viewer'
 import {
+  entriesOf,
   getScrollContainer,
   isArray,
   isClient,
   isElement,
   isString,
   isWindow,
+  keysOf,
 } from '@element-plus/utils'
+import { fromPairs } from 'lodash-unified'
+import ImageViewer, {
+  rawImageProps,
+} from '@element-plus/components/image-viewer'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import { imageEmits, imageProps } from './image'
 
+import type { RawImagePropsKeys } from '@element-plus/components/image-viewer'
 import type { CSSProperties } from 'vue'
 
 defineOptions({
@@ -91,20 +94,24 @@ const { t } = useLocale()
 const ns = useNamespace('image')
 const rawAttrs = useRawAttrs()
 
+const CONTAINER_SAVE_ATTR = /^(data-|on[A-Z])/i
 const containerAttrs = computed(() => {
   return fromPairs(
-    Object.entries(rawAttrs).filter(
-      ([key]) => /^(data-|on[A-Z])/i.test(key) || ['id', 'style'].includes(key)
+    entriesOf(rawAttrs).filter(
+      ([key]) => CONTAINER_SAVE_ATTR.test(key) || ['id', 'style'].includes(key)
     )
   )
 })
 
-const imgAttrs = useAttrs({
-  excludeListeners: true,
-  excludeKeys: computed<string[]>(() => {
-    return Object.keys(containerAttrs.value)
-  }),
-})
+const rawImagePropsKeys = keysOf(rawImageProps)
+const imgAttrs = computed(() =>
+  fromPairs(
+    entriesOf(props).filter(
+      ([key]) =>
+        key !== 'src' && rawImagePropsKeys.includes(key as RawImagePropsKeys)
+    )
+  )
+)
 
 const imageSrc = ref<string | undefined>()
 const hasLoadError = ref(false)

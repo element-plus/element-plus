@@ -8,3 +8,4 @@ export const ElImageViewer: SFCWithInstall<typeof ImageViewer> =
 export default ElImageViewer
 
 export * from './src/image-viewer'
+export * from './src/raw-image-props'
