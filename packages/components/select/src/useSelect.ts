@@ -576,7 +576,8 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
         states.inputValue = ''
       }
     } else {
-      emit(UPDATE_MODEL_EVENT, option.value)
+      !isEqual(props.modelValue, option.value) &&
+        emit(UPDATE_MODEL_EVENT, option.value)
       emitChange(option.value)
       expanded.value = false
     }
