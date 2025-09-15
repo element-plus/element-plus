@@ -86,7 +86,6 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
     'collapseTags',
     'automaticDropdown',
     'fitInputWidth',
-    'keyLoop',
   ].forEach((config) => {
     configs[config] = configs[config] || false
   })
@@ -172,7 +171,7 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
       remoteMethod: configs.remoteMethod,
       value: configs.multiple ? [] : '',
       size: configs.size || 'default',
-      keyLoop: configs.keyLoop, // 传递 keyLoop
+      keyLoop: configs.keyLoop,
     })
   )
 }
