@@ -67,8 +67,8 @@ export default defineComponent({
           'insertAfter',
         ]),
         ...pick(select.value, ['focus', 'blur', 'selectedLabel']),
-        tree: tree.value,
-        select: select.value,
+        treeRef: tree.value,
+        selectRef: select.value,
       })
     })
 
