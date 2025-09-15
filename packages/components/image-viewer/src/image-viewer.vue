@@ -115,7 +115,7 @@ import {
   shallowRef,
   watch,
 } from 'vue'
-import { useEventListener } from '@vueuse/core'
+import { clamp, useEventListener } from '@vueuse/core'
 import { throttle } from 'lodash-unified'
 import { useLocale, useNamespace, useZIndex } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/constants'
@@ -170,7 +170,7 @@ const scopeEventListener = effectScope()
 
 const initialScaleClamped = computed(() => {
   const { initialScale, minScale, maxScale } = props
-  return Math.max(minScale, Math.min(maxScale, initialScale))
+  return clamp(initialScale, minScale, maxScale)
 })
 
 const loading = ref(true)
@@ -415,6 +415,13 @@ function wheelHandler(e: WheelEvent) {
     return false
   }
 }
+
+watch(
+  () => initialScaleClamped.value,
+  (val) => {
+    transform.value.scale = val
+  }
+)
 
 watch(currentImg, () => {
   nextTick(() => {
