@@ -15,7 +15,7 @@
       :trigger-keys="triggerKeys"
       :trigger-target-el="contentRef"
       :show-after="trigger === 'hover' ? showTimeout : 0"
-      :hide-after="wrapHideTimeout"
+      :hide-after="trigger === 'hover' ? hideTimeout : 0"
       :stop-popper-mouse-event="false"
       :virtual-ref="triggeringElementRef"
       :virtual-triggering="splitButton"
@@ -97,7 +97,6 @@ import {
   computed,
   defineComponent,
   getCurrentInstance,
-  nextTick,
   provide,
   ref,
   toRef,
@@ -112,7 +111,7 @@ import { ElOnlyChild } from '@element-plus/components/slot'
 import { useFormSize } from '@element-plus/components/form'
 import { addUnit, ensureArray } from '@element-plus/utils'
 import { ArrowDown } from '@element-plus/icons-vue'
-import { useId, useLocale, useNamespace, useTimeout } from '@element-plus/hooks'
+import { useId, useLocale, useNamespace } from '@element-plus/hooks'
 import { ElCollection as ElDropdownCollection, dropdownProps } from './dropdown'
 import {
   DROPDOWN_INJECTION_KEY,
@@ -161,29 +160,12 @@ export default defineComponent({
     const defaultTriggerId = useId().value
     const triggerId = computed<string>(() => props.id || defaultTriggerId)
 
-    const { registerTimeout } = useTimeout()
-    const isClearTimeout = ref(false)
-    const wrapHideTimeout = computed(() => {
-      if (props.trigger === 'hover' && !isClearTimeout.value) {
-        return props.hideTimeout
-      }
-      return 0
-    })
-
     function handleClick() {
-      handleClose()
+      popperRef.value?.onClose(undefined, 0)
     }
 
     function handleClose() {
-      if (props.trigger === 'hover') {
-        isClearTimeout.value = true
-      }
-      nextTick(() => {
-        popperRef.value?.onClose()
-        registerTimeout(() => {
-          isClearTimeout.value = false
-        })
-      })
+      popperRef.value?.onClose()
     }
 
     function handleOpen() {
@@ -276,7 +258,6 @@ export default defineComponent({
       handleCurrentTabIdChange,
       handlerMainButtonClick,
       handleEntryFocus,
-      wrapHideTimeout,
       handleClose,
       handleOpen,
       handleBeforeShowTooltip,
