@@ -50,7 +50,7 @@
             </slot>
           </div>
           <!-- ACTIONS -->
-          <div :class="[ns.e('btn'), ns.e('actions')]">
+          <div v-if="!$slots.viewer" :class="[ns.e('btn'), ns.e('actions')]">
             <div :class="ns.e('actions__inner')">
               <slot
                 name="toolbar"
@@ -83,7 +83,8 @@
           </div>
           <!-- CANVAS -->
           <div :class="ns.e('canvas')">
-            <template v-for="(url, i) in urlList" :key="i">
+            <slot v-if="$slots.viewer" name="viewer" />
+            <template v-for="(url, i) in urlList" v-else :key="i">
               <img
                 v-if="i === activeIndex"
                 :ref="(el) => (imgRefs[i] = el as HTMLImageElement)"
@@ -97,7 +98,6 @@
               />
             </template>
           </div>
-          <slot />
         </el-focus-trap>
       </div>
     </transition>
