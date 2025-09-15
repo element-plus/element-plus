@@ -86,6 +86,7 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
     'collapseTags',
     'automaticDropdown',
     'fitInputWidth',
+    'keyLoop',
   ].forEach((config) => {
     configs[config] = configs[config] || false
   })
@@ -140,7 +141,9 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
       :remoteMethod="remoteMethod"
       :automatic-dropdown="automaticDropdown"
       :size="size"
-      :fit-input-width="fitInputWidth">
+      :fit-input-width="fitInputWidth"
+      :key-loop="keyLoop"
+      >
       <el-option
         v-for="item in options"
         :label="item.label"
@@ -169,6 +172,7 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
       remoteMethod: configs.remoteMethod,
       value: configs.multiple ? [] : '',
       size: configs.size || 'default',
+      keyLoop: configs.keyLoop, // 传递 keyLoop
     })
   )
 }
@@ -3640,5 +3644,17 @@ describe('Select', () => {
     expect(vm.value).toBe(5)
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('北京烤鸭')
     expect(vm.count).toBe(2)
+  })
+
+  test('keyboard navigation should not loop when keyLoop is false', async () => {
+    wrapper = getSelectVm({ keyLoop: false })
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const vm = select.vm as any
+    vm.states.hoveringIndex = vm.states.options.size - 1
+    vm.navigateOptions('next')
+    expect(vm.states.hoveringIndex).toBe(vm.states.options.size - 1)
+    vm.states.hoveringIndex = 0
+    vm.navigateOptions('prev')
+    expect(vm.states.hoveringIndex).toBe(0)
   })
 })
