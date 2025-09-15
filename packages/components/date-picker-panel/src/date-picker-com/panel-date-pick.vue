@@ -345,8 +345,7 @@ const emit = (value: Dayjs | Dayjs[], ...args: any[]) => {
   isShortcut = false
 }
 const handleDatePick = async (value: DateTableEmits, keepOpen?: boolean) => {
-  if (selectionMode.value === 'date') {
-    value = value as Dayjs
+  if (selectionMode.value === 'date' && dayjs.isDayjs(value)) {
     const parsedDateValue = extractFirst(props.parsedValue)
     let newDate = parsedDateValue
       ? parsedDateValue
@@ -431,7 +430,7 @@ const selectionMode = computed<DatePickType>(() => {
   const { type } = props
   if (['week', 'month', 'months', 'year', 'years', 'dates'].includes(type))
     return type
-  return 'date' as DatePickType
+  return 'date'
 })
 
 const isMultipleType = computed(() => {
@@ -678,8 +677,8 @@ const isValidValue = (date: unknown) => {
 
 const formatToString = (value: Dayjs | Dayjs[]) => {
   return isArray(value)
-    ? (value as Dayjs[]).map((_) => _.format(props.format))
-    : (value as Dayjs).format(props.format)
+    ? value.map((_) => _.format(props.format))
+    : value.format(props.format)
 }
 
 const parseUserInput = (value: Dayjs) => {
