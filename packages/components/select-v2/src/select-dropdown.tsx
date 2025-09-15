@@ -41,6 +41,8 @@ const props = {
   },
   hoveringIndex: Number,
   width: Number,
+  id: String,
+  ariaLabel: String,
 }
 interface SelectDropdownExposed {
   listRef: Ref<FixedSizeListInstance | DynamicSizeListInstance | undefined>
@@ -277,6 +279,13 @@ export default defineComponent({
               height={height}
               width={width}
               total={data.length}
+              innerElement="ul"
+              innerProps={{
+                id: props.id,
+                role: 'listbox',
+                'aria-label': props.ariaLabel,
+                'aria-orientation': 'vertical',
+              }}
               // @ts-ignore - dts problem
               onKeydown={onKeydown}
             >
