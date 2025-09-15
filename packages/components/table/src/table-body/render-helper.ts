@@ -42,6 +42,9 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
     getSpan,
     getColspanRealWidth,
   } = useStyles(props)
+
+  let displayIndex = -1
+
   const firstDefaultColumnIndex = computed(() => {
     return props.store?.states.columns.value.findIndex(
       ({ type }) => type === 'default'
@@ -62,12 +65,19 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
   ) => {
     const { tooltipEffect, tooltipOptions, store } = props
     const { indent, columns } = store!.states
-    const rowClasses = getRowClass(row, $index)
+    const rowClasses = []
     let display = true
     if (treeRowData) {
       rowClasses.push(ns.em('row', `level-${treeRowData.level}`))
       display = !!treeRowData.display
     }
+    if ($index === 0) {
+      displayIndex = -1
+    }
+    if (props.stripe && display) {
+      displayIndex++
+    }
+    rowClasses.push(...getRowClass(row, $index, displayIndex))
     const displayStyle = display ? null : { display: 'none' }
     return h(
       'tr',
