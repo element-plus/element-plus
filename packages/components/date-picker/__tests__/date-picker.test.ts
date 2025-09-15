@@ -1023,6 +1023,75 @@ describe('DatePicker', () => {
       expect(popper.getAttribute('aria-hidden')).toBe('false')
     })
 
+    it('should append set dates when model value change on daterange', async () => {
+      const wrapper = _mount(
+        `<el-date-picker
+          type="daterange"
+          date-format="YYYY-MM-DD"
+          value-format="YYYY-MM-DD"
+        />`
+      )
+      await nextTick()
+      await wrapper.find('.el-date-editor').trigger('click')
+      let startDate = document.querySelector('td.start-date')
+      let endDate = document.querySelector('td.end-date')
+      expect(startDate).toBeNull()
+      expect(endDate).toBeNull()
+      await wrapper.setProps({ modelValue: ['2025-09-05', '2025-09-25'] })
+      startDate = document.querySelector('td.start-date')
+      endDate = document.querySelector('td.end-date')
+      expect(startDate).not.toBeNull()
+      expect(endDate).not.toBeNull()
+      expect(startDate.textContent).toBe('5')
+      expect(endDate.textContent).toBe('25')
+    })
+
+    it('should append set dates when model value change on monthrange', async () => {
+      const wrapper = _mount(
+        `<el-date-picker
+          type="monthrange"
+          date-format="YYYY-MM"
+          value-format="YYYY-MM"
+        />`
+      )
+      await nextTick()
+      await wrapper.find('.el-date-editor').trigger('click')
+      let startDate = document.querySelector('td.start-date')
+      let endDate = document.querySelector('td.end-date')
+      expect(startDate).toBeNull()
+      expect(endDate).toBeNull()
+      await wrapper.setProps({ modelValue: ['2025-09', '2025-10'] })
+      startDate = document.querySelector('td.start-date')
+      endDate = document.querySelector('td.end-date')
+      expect(startDate).not.toBeNull()
+      expect(endDate).not.toBeNull()
+      expect(startDate.textContent).toBe('Sep')
+      expect(endDate.textContent).toBe('Oct')
+    })
+
+    it('should append set dates when model value change on yearrange', async () => {
+      const wrapper = _mount(
+        `<el-date-picker
+          type="yearrange"
+          date-format="YYYY"
+          value-format="YYYY"
+        />`
+      )
+      await nextTick()
+      await wrapper.find('.el-date-editor').trigger('click')
+      let startDate = document.querySelector('td.start-date')
+      let endDate = document.querySelector('td.end-date')
+      expect(startDate).toBeNull()
+      expect(endDate).toBeNull()
+      await wrapper.setProps({ modelValue: ['2025', '2026'] })
+      startDate = document.querySelector('td.start-date')
+      endDate = document.querySelector('td.end-date')
+      expect(startDate).not.toBeNull()
+      expect(endDate).not.toBeNull()
+      expect(startDate.textContent).toBe('2025')
+      expect(endDate.textContent).toBe('2026')
+    })
+
     it('should generate aria attributes for range', async () => {
       const wrapper = _mount(
         `<el-date-picker

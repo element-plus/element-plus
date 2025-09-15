@@ -17,6 +17,16 @@ mention/basic
 
 :::
 
+## Props ^(2.11.3)
+
+You can customize the alias of the `options` through the `props` attribute.
+
+:::demo
+
+mention/props
+
+:::
+
 ## Textarea
 
 The input type can be set to `textarea`.

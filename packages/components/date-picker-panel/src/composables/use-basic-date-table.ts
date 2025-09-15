@@ -76,10 +76,8 @@ export const useBasicDateTable = (
     }
   })
 
-  const selectedDate = computed(() => {
-    return props.selectionMode === 'dates'
-      ? (castArray(props.parsedValue) as Dayjs[])
-      : ([] as Dayjs[])
+  const selectedDate = computed<Dayjs[]>(() => {
+    return props.selectionMode === 'dates' ? castArray(props.parsedValue!) : []
   })
 
   // Return value indicates should the counter be incremented
