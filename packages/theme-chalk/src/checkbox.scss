@@ -119,6 +119,8 @@ $checkbox-bordered-input-width: map.merge(
     position: relative;
 
     @include when(disabled) {
+      cursor: not-allowed;
+
       .#{$namespace}-checkbox__inner {
         background-color: getCssVar('checkbox-disabled-input-fill');
         border-color: getCssVar('checkbox-disabled-border-color');
