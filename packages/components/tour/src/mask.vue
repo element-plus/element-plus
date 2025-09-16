@@ -14,6 +14,7 @@
 <script setup lang="ts">
 import { computed, inject, toRef } from 'vue'
 import { useLockscreen } from '@element-plus/hooks'
+import { useWindowSize } from '@vueuse/core'
 import { maskProps } from './mask'
 import { tourKey } from './helper'
 
@@ -39,9 +40,11 @@ const roundInfo = computed(() => {
   }
 })
 
+const { width: windowWidth, height: windowHeight } = useWindowSize()
+
 const path = computed(() => {
-  const width = window.innerWidth
-  const height = window.innerHeight
+  const width = windowWidth.value
+  const height = windowHeight.value
   const info = roundInfo.value
   const _path = `M${width},0 L0,0 L0,${height} L${width},${height} L${width},0 Z`
   const _radius = radius.value

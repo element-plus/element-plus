@@ -149,8 +149,20 @@ export function useDragNodeHandler({
     const treePosition = el$.value!.getBoundingClientRect()
 
     let dropType: NodeDropType
-    const prevPercent = dropPrev ? (dropInner ? 0.25 : dropNext ? 0.45 : 1) : -1
-    const nextPercent = dropNext ? (dropInner ? 0.75 : dropPrev ? 0.55 : 0) : 1
+    const prevPercent = dropPrev
+      ? dropInner
+        ? 0.25
+        : dropNext
+        ? 0.45
+        : 1
+      : Number.NEGATIVE_INFINITY
+    const nextPercent = dropNext
+      ? dropInner
+        ? 0.75
+        : dropPrev
+        ? 0.55
+        : 0
+      : Number.POSITIVE_INFINITY
 
     let indicatorTop = -9999
     const distance = event.clientY - targetPosition.top

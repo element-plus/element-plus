@@ -2,6 +2,7 @@
 import {
   computed,
   getCurrentInstance,
+  nextTick,
   provide,
   reactive,
   toRef,
@@ -76,8 +77,9 @@ const onResize = (index: number, offset: number) => {
   }
 }
 
-const onResizeEnd = (index: number) => {
+const onResizeEnd = async (index: number) => {
   onMoveEnd()
+  await nextTick()
   emits('resizeEnd', index, pxSizes.value)
 }
 
