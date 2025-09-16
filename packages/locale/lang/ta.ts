@@ -7,6 +7,10 @@ export default {
     colorpicker: {
       confirm: 'உறுதி செய்',
       clear: 'தெளிவாக்கு',
+      defaultLabel: 'color picker', // to be translated
+      description:
+        'current color is {color}. press enter to select a new color.', // to be translated
+      alphaLabel: 'pick alpha value', // to be translated
     },
     datepicker: {
       now: 'தற்போது',
@@ -14,6 +18,11 @@ export default {
       cancel: 'ரத்து செய்',
       clear: 'சரி',
       confirm: 'உறுதி செய்',
+      dateTablePrompt:
+        'Use the arrow keys and enter to select the day of the month', // to be translated
+      monthTablePrompt: 'Use the arrow keys and enter to select the month', // to be translated
+      yearTablePrompt: 'Use the arrow keys and enter to select the year', // to be translated
+      selectedDate: 'Selected date', // to be translated
       selectDate: 'தேதியை தேர்வு செய்',
       selectTime: 'நேரத்தை தேர்வு செய்',
       startDate: 'தொடங்கும் நாள்',
@@ -46,6 +55,15 @@ export default {
         fri: 'வெள்ளி',
         sat: 'சனி',
       },
+      weeksFull: {
+        sun: 'Sunday', // to be translated
+        mon: 'Monday', // to be translated
+        tue: 'Tuesday', // to be translated
+        wed: 'Wednesday', // to be translated
+        thu: 'Thursday', // to be translated
+        fri: 'Friday', // to be translated
+        sat: 'Saturday', // to be translated
+      },
       months: {
         jan: 'ஜனவரி',
         feb: 'பிப்ரவரி',
@@ -61,6 +79,10 @@ export default {
         dec: 'டிசம்பர்',
       },
     },
+    inputNumber: {
+      decrease: 'decrease number', // to be translated
+      increase: 'increase number', // to be translated
+    },
     select: {
       loading: 'தயாராகிக்கொண்டிருக்கிறது',
       noMatch: 'பொருத்தமான தரவு கிடைக்கவில்லை',
@@ -69,6 +91,9 @@ export default {
     },
     mention: {
       loading: 'தயாராகிக்கொண்டிருக்கிறது',
+    },
+    dropdown: {
+      toggleDropdown: 'Toggle Dropdown', // to be translated
     },
     cascader: {
       noMatch: 'பொருத்தமான தரவு கிடைக்கவில்லை',
@@ -87,12 +112,21 @@ export default {
       currentPage: 'page {pager}', // to be translated
       prevPages: 'Previous {pager} pages', // to be translated
       nextPages: 'Next {pager} pages', // to be translated
+      deprecationWarning:
+        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
+    },
+    dialog: {
+      close: 'Close this dialog', // to be translated
+    },
+    drawer: {
+      close: 'Close this dialog', // to be translated
     },
     messagebox: {
       title: 'செய்தி',
       confirm: 'உறுதி செய்',
       cancel: 'ரத்து செய்',
       error: 'பொருத்தாமில்லாத உள்ளீடு',
+      close: 'Close this dialog', // to be translated
     },
     upload: {
       deleteTip: 'press delete to remove', // to be translated
@@ -100,12 +134,23 @@ export default {
       preview: 'முன்னோட்டம் பார்',
       continue: 'தொடரு',
     },
+    slider: {
+      defaultLabel: 'slider between {min} and {max}', // to be translated
+      defaultRangeStartLabel: 'pick start value', // to be translated
+      defaultRangeEndLabel: 'pick end value', // to be translated
+    },
     table: {
       emptyText: 'தரவு இல்லை',
       confirmFilter: 'உறுதி செய்',
       resetFilter: 'புதுமாற்றம் செய்',
       clearFilter: 'அனைத்தும்',
       sumText: 'கூட்டு',
+    },
+    tour: {
+      next: 'Next', // to be translated
+      previous: 'Previous', // to be translated
+      finish: 'Finish', // to be translated
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'தரவு இல்லை',

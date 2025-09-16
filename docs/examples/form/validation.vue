@@ -5,9 +5,6 @@
     :model="ruleForm"
     :rules="rules"
     label-width="auto"
-    class="demo-ruleForm"
-    :size="formSize"
-    status-icon
   >
     <el-form-item label="Activity name" prop="name">
       <el-input v-model="ruleForm.name" />
@@ -93,7 +90,8 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
-import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
+
+import type { FormInstance, FormRules } from 'element-plus'
 
 interface RuleForm {
   name: string
@@ -108,7 +106,6 @@ interface RuleForm {
   desc: string
 }
 
-const formSize = ref<ComponentSize>('default')
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive<RuleForm>({
   name: 'Hello',

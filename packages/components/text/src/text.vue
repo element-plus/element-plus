@@ -34,12 +34,13 @@ const textKls = computed(() => [
   ns.is('line-clamp', !isUndefined(props.lineClamp)),
 ])
 
-const inheritTitle = useAttrs().title
-
 const bindTitle = () => {
+  const inheritTitle = useAttrs().title
+
   if (inheritTitle) return
   let shouldAddTitle = false
   const text = textRef.value?.textContent || ''
+
   if (props.truncated) {
     const width = textRef.value?.offsetWidth
     const scrollWidth = textRef.value?.scrollWidth
@@ -53,10 +54,11 @@ const bindTitle = () => {
       shouldAddTitle = true
     }
   }
+
   if (shouldAddTitle) {
-    textRef.value!.setAttribute('title', text)
+    textRef.value?.setAttribute('title', text)
   } else {
-    textRef.value!.removeAttribute('title')
+    textRef.value?.removeAttribute('title')
   }
 }
 

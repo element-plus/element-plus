@@ -1,6 +1,7 @@
 <template>
   <slot :handle-keydown="onKeydown" />
 </template>
+
 <script lang="ts">
 import {
   defineComponent,
@@ -295,6 +296,8 @@ export default defineComponent({
 
         trapContainer.removeEventListener(FOCUS_AFTER_RELEASED, releaseOnFocus)
         focusableStack.remove(focusLayer)
+        lastFocusBeforeTrapped = null
+        lastFocusAfterTrapped = null
       }
     }
 

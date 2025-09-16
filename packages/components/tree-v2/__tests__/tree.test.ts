@@ -1,9 +1,10 @@
 // @ts-nocheck
-import { nextTick } from 'vue'
+import { nextTick, ref } from 'vue'
 import { describe, expect, test, vi } from 'vitest'
 import { NOOP } from '@element-plus/utils'
 import { makeMountFunc } from '@element-plus/test-utils/make-mount'
 import Tree from '../src/tree.vue'
+
 import type {
   FilterMethod,
   TreeData,
@@ -69,6 +70,7 @@ interface TreeProps {
   expandOnClickNode?: boolean
   checkOnClickNode?: boolean
   checkOnClickLeaf?: boolean
+  scrollbarAlwaysOn?: boolean
   currentNodeKey?: TreeKey
   filterMethod?: FilterMethod
 }
@@ -134,6 +136,7 @@ const createTree = (
         :check-on-click-leaf="checkOnClickLeaf"
         :current-node-key="currentNodeKey"
         :filter-method="filterMethod"
+        :scrollbar-always-on="scrollbarAlwaysOn"
         @node-click="onNodeClick"
         @node-drop="onNodeDrop"
         @node-expand="onNodeExpand"
@@ -167,6 +170,7 @@ const createTree = (
           checkOnClickLeaf: true,
           currentNodeKey: undefined,
           filterMethod: undefined,
+          scrollbarAlwaysOn: undefined,
           ...(options.data && options.data()),
         }
       },
@@ -709,6 +713,7 @@ describe('Virtual Tree', () => {
   })
 
   test('defaultExpandedKeys', async () => {
+    const defaultExpandedKeys = ref([])
     const { wrapper } = createTree({
       data() {
         return {
@@ -753,10 +758,12 @@ describe('Virtual Tree', () => {
               label: 'node-2',
             },
           ],
-          defaultExpandedKeys: ['1'],
+          defaultExpandedKeys,
         }
       },
     })
+    await nextTick()
+    defaultExpandedKeys.value = ['1']
     await nextTick()
     const nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
     expect(nodes.length).toBe(5)
@@ -1016,6 +1023,18 @@ describe('Virtual Tree', () => {
     expect(wrapper.find('.custom-tree-node-content').text()).toBe('cc node-1')
   })
 
+  test('scrollbar-always-on', async () => {
+    const { wrapper } = createTree({
+      data() {
+        return {
+          scrollbarAlwaysOn: true,
+        }
+      },
+    })
+    const el = wrapper.find('.el-virtual-scrollbar.always-on')
+    expect(el.exists()).toBe(true)
+  })
+
   test('filter', async () => {
     const { treeRef, wrapper } = createTree({
       data() {
@@ -1074,6 +1093,7 @@ describe('Virtual Tree', () => {
     expect(nodes.map((node) => node.text()).toString()).toBe(
       ['node-1', 'node-1-1', 'node-1-1-1'].toString()
     )
+    expect(wrapper.findAll('.expanded').length).toBe(2)
   })
 
   describe('events', () => {
@@ -1567,5 +1587,76 @@ describe('Virtual Tree', () => {
       treeVm.scrollTo(100)
       expect(scrollTo).toHaveBeenCalledWith(100)
     })
+  })
+
+  test('icon display should be normal when expanding nodes using setExpandedKeys', async () => {
+    const { treeRef, wrapper } = createTree({
+      data() {
+        return {
+          height: 400,
+          data: [
+            {
+              id: '1',
+              label: 'node-1',
+              children: [
+                {
+                  id: '1-1',
+                  label: 'node-1-1',
+                  children: [
+                    {
+                      id: '1-1-1',
+                      label: 'node-1-1-1',
+                      children: [
+                        {
+                          id: '1-1-1-1',
+                          label: 'node-1-1-1-1',
+                        },
+                        {
+                          id: '1-1-1-2',
+                          label: 'node-1-1-1-2',
+                        },
+                      ],
+                    },
+                    {
+                      id: '1-1-2',
+                      label: 'node-1-1-2',
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              id: '2',
+              label: 'node-2',
+              children: [
+                {
+                  id: '2-1',
+                  label: 'node-2-1',
+                  children: [
+                    {
+                      id: '2-1-1',
+                      label: 'node-2-1-1',
+                    },
+                    {
+                      id: '2-1-2',
+                      label: 'node-2-1-2',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        }
+      },
+    })
+    await nextTick()
+    const firstTreeNode = wrapper.find(TREE_NODE_CLASS_NAME)
+    await firstTreeNode.trigger('click')
+    const firstExpandedNodes = wrapper.findAll('.expanded')
+    expect(firstExpandedNodes.length).toBe(1)
+    treeRef.setExpandedKeys(['2-1'])
+    await nextTick()
+    const secondExpandedNodes = wrapper.findAll('.expanded')
+    expect(secondExpandedNodes.length).toBe(2)
   })
 })

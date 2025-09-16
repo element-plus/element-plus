@@ -17,6 +17,16 @@ mention/basic
 
 :::
 
+## Props ^(2.11.3)
+
+You can customize the alias of the `options` through the `props` attribute.
+
+:::demo
+
+mention/props
+
+:::
+
 ## Textarea
 
 The input type can be set to `textarea`.
@@ -86,30 +96,32 @@ and please go to the original component to view the documentation.
 
 ### Attributes
 
-| Name                                 | Description                                                                            | Type                                                                         | Default    |
-| ------------------------------------ | -------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------- |
-| options                              | mention options list                                                                   | ^[array]`MentionOption[]`                                                    | `[]`       |
-| prefix                               | prefix character to trigger mentions. The string length must be exactly 1              | ^[string] \| ^[array]`string[]`                                              | `'@'`      |
-| split                                | character to split mentions. The string length must be exactly 1                       | ^[string]                                                                    | `' '`      |
-| filter-option                        | customize filter option logic                                                          | ^[false] \| ^[Function]`(pattern: string, option: MentionOption) => boolean` | —          |
-| placement                            | set popup placement                                                                    | ^[string]`'bottom' \| 'top'`                                                 | `'bottom'` |
-| show-arrow                           | whether the dropdown panel has an arrow                                                | ^[boolean]                                                                   | `false`    |
-| offset                               | offset of the dropdown panel                                                           | ^[number]                                                                    | `0`        |
-| whole                                | when backspace is pressed to delete, whether the mention content is deleted as a whole | ^[boolean]                                                                   | `false`    |
-| check-is-whole                       | when backspace is pressed to delete, check if the mention is a whole                   | ^[Function]`(pattern: string, prefix: string) => boolean`                    | —          |
-| loading                              | whether the dropdown panel of mentions is in a loading state                           | ^[boolean]                                                                   | `false`    |
-| model-value / v-model                | input value                                                                            | ^[string]                                                                    | —          |
-| popper-class                         | custom class name for dropdown panel                                                   | ^[string]                                                                    | —          |
-| popper-options                       | [popper.js](https://popper.js.org/docs/v2/) parameters                                 | ^[object] refer to [popper.js doc](https://popper.js.org/docs/v2/)           | —          |
-| [input props](./input.md#attributes) | —                                                                                      | —                                                                            | —          |
+| Name                                 | Description                                                                            | Type                                                                         | Default                                                  |
+| ------------------------------------ | -------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | -------------------------------------------------------- |
+| options                              | mention options list                                                                   | ^[array]`MentionOption[]`                                                    | `[]`                                                     |
+| props ^(2.11.3)                      | configuration options                                                                  | ^[object]`MentionOptionProps`                                                | `{value: 'value', label: 'label', disabled: 'disabled'}` |
+| prefix                               | prefix character to trigger mentions. The string length must be exactly 1              | ^[string] \| ^[array]`string[]`                                              | `'@'`                                                    |
+| split                                | character to split mentions. The string length must be exactly 1                       | ^[string]                                                                    | `' '`                                                    |
+| filter-option                        | customize filter option logic                                                          | ^[false] \| ^[Function]`(pattern: string, option: MentionOption) => boolean` | —                                                        |
+| placement                            | set popup placement                                                                    | ^[string]`'bottom' \| 'top'`                                                 | `'bottom'`                                               |
+| show-arrow                           | whether the dropdown panel has an arrow                                                | ^[boolean]                                                                   | `false`                                                  |
+| offset                               | offset of the dropdown panel                                                           | ^[number]                                                                    | `0`                                                      |
+| whole                                | when backspace is pressed to delete, whether the mention content is deleted as a whole | ^[boolean]                                                                   | `false`                                                  |
+| check-is-whole                       | when backspace is pressed to delete, check if the mention is a whole                   | ^[Function]`(pattern: string, prefix: string) => boolean`                    | —                                                        |
+| loading                              | whether the dropdown panel of mentions is in a loading state                           | ^[boolean]                                                                   | `false`                                                  |
+| model-value / v-model                | input value                                                                            | ^[string]                                                                    | —                                                        |
+| popper-class                         | custom class name for dropdown panel                                                   | ^[string]                                                                    | —                                                        |
+| popper-options                       | [popper.js](https://popper.js.org/docs/v2/) parameters                                 | ^[object] refer to [popper.js doc](https://popper.js.org/docs/v2/)           | —                                                        |
+| [input props](./input.md#attributes) | —                                                                                      | —                                                                            | —                                                        |
 
 ### Events
 
-| Name                              | Description                         | Type                                                         |
-| --------------------------------- | ----------------------------------- | ------------------------------------------------------------ |
-| search                            | trigger when prefix hit             | ^[Function]`(pattern: string, prefix: string) => void`       |
-| select                            | trigger when user select the option | ^[Function]`(option: MentionOption, prefix: string) => void` |
-| [input events](./input.md#events) | —                                   | —                                                            |
+| Name                              | Description                                                                                 | Type                                                         |
+| --------------------------------- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| search                            | trigger when prefix hit                                                                     | ^[Function]`(pattern: string, prefix: string) => void`       |
+| select                            | trigger when user select the option                                                         | ^[Function]`(option: MentionOption, prefix: string) => void` |
+| whole-remove ^(2.10.4)            | trigger when a whole mention is removed and `whole` is `true` or `check-is-whole` is `true` | ^[Function]`(pattern: string, prefix: string) => void`       |
+| [input events](./input.md#events) | —                                                                                           | —                                                            |
 
 ### Slots
 
@@ -136,10 +148,17 @@ and please go to the original component to view the documentation.
 
 ```ts
 type MentionOption = {
-  value: string
+  value?: string
   label?: string
   disabled?: boolean
   [key: string]: any
+}
+
+type MentionOptionProps = {
+  value?: string
+  label?: string
+  disabled?: string
+  [key: string]: string | undefined
 }
 ```
 

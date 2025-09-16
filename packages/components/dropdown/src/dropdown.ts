@@ -5,8 +5,8 @@ import {
   useTooltipContentProps,
   useTooltipTriggerProps,
 } from '@element-plus/components/tooltip'
-
 import { type Placement, roleTypes } from '@element-plus/components/popper'
+
 import type { Options } from '@popperjs/core'
 import type { ButtonProps, ButtonType } from '@element-plus/components/button'
 import type { ComponentInternalInstance, ComputedRef } from 'vue'
@@ -38,6 +38,14 @@ export const dropdownProps = buildProps({
       EVENT_CODE.down,
     ],
   },
+  /**
+   * @description Indicates whether virtual triggering is enabled
+   */
+  virtualTriggering: useTooltipTriggerProps.virtualTriggering,
+  /**
+   * @description Indicates the reference element to which the dropdown is attached
+   */
+  virtualRef: useTooltipTriggerProps.virtualRef,
   effect: {
     ...useTooltipContentProps.effect,
     default: 'light',
@@ -82,6 +90,13 @@ export const dropdownProps = buildProps({
     default: true,
   },
   loop: {
+    type: Boolean,
+    default: true,
+  },
+  /**
+   * @description whether the tooltip content has an arrow
+   */
+  showArrow: {
     type: Boolean,
     default: true,
   },
@@ -133,7 +148,7 @@ export const dropdownProps = buildProps({
     default: 'menu',
   },
   buttonProps: {
-    type: definePropType<ButtonProps>(Object),
+    type: definePropType<Partial<ButtonProps>>(Object),
   },
   /**
    * @description whether the dropdown popup is teleported to the body

@@ -1,6 +1,6 @@
 import { buildProps } from '@element-plus/utils'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 
 /**
  * TODO: make this under constants or tokens
@@ -10,6 +10,9 @@ export const tooltipV2CommonProps = buildProps({
 } as const)
 
 export type TooltipV2CommonProps = ExtractPropTypes<typeof tooltipV2CommonProps>
+export type TooltipV2CommonPropsPublic = __ExtractPublicPropTypes<
+  typeof tooltipV2CommonProps
+>
 
 export enum TooltipV2Sides {
   top = 'top',

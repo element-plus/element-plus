@@ -1,5 +1,5 @@
 export type MentionOption = {
-  value: string
+  value?: string
   label?: string
   disabled?: boolean
   [key: string]: any

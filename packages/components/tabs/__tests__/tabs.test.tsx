@@ -5,8 +5,11 @@ import { EVENT_CODE } from '@element-plus/constants'
 import Tabs from '../src/tabs'
 import TabPane from '../src/tab-pane.vue'
 import TabNav from '../src/tab-nav'
-import type { TabPaneName } from '../src/tabs'
-import type { TabsPaneContext } from '@element-plus/components/tabs'
+
+import type {
+  TabPaneName,
+  TabsPaneContext,
+} from '@element-plus/components/tabs'
 
 const Comp = defineComponent({
   components: {
@@ -836,5 +839,190 @@ describe('Tabs.vue', () => {
 
     await flushPromises()
     expect(activeName.value).toBe('tab2')
+  })
+
+  test('event order: tabClick -> update:modelValue -> tabChange', async () => {
+    const events: string[] = []
+    const handleTabClick = vi.fn(() => {
+      events.push('tabClick')
+    })
+    const handleUpdateModelValue = vi.fn(() => {
+      events.push('update:modelValue')
+    })
+    const handleTabChange = vi.fn(() => {
+      events.push('tabChange')
+    })
+
+    const activeName = ref('tab1')
+    const wrapper = mount(() => (
+      <Tabs
+        v-model={activeName.value}
+        onTabClick={handleTabClick}
+        onUpdate:modelValue={handleUpdateModelValue}
+        onTabChange={handleTabChange}
+      >
+        <TabPane name="tab1" label="tab1">
+          Tab 1 content
+        </TabPane>
+        <TabPane name="tab2" label="tab2">
+          Tab 2 content
+        </TabPane>
+      </Tabs>
+    ))
+
+    await nextTick()
+
+    const navWrapper = wrapper.findComponent(TabNav)
+    const navItemsWrapper = navWrapper.findAll('.el-tabs__item')
+
+    // Click on the second tab
+    await navItemsWrapper[1].trigger('click')
+
+    // Verify all events have been called
+    expect(handleTabClick).toHaveBeenCalledTimes(1)
+    expect(handleUpdateModelValue).toHaveBeenCalledTimes(1)
+    expect(handleTabChange).toHaveBeenCalledTimes(1)
+
+    // Verify the event call order
+    expect(events).toEqual(['tabClick', 'update:modelValue', 'tabChange'])
+  })
+
+  test('event order with beforeLeave: tabClick -> update:modelValue -> tabChange', async () => {
+    const events: string[] = []
+    const handleTabClick = vi.fn(() => {
+      events.push('tabClick')
+    })
+    const handleUpdateModelValue = vi.fn(() => {
+      events.push('update:modelValue')
+    })
+    const handleTabChange = vi.fn(() => {
+      events.push('tabChange')
+    })
+
+    // Create a beforeLeave function that uses a timer
+    const beforeLeave = () =>
+      new Promise<void>((resolve) => setTimeout(resolve, 100))
+
+    const activeName = ref('tab1')
+    const wrapper = mount(() => (
+      <Tabs
+        v-model={activeName.value}
+        onTabClick={handleTabClick}
+        onUpdate:modelValue={handleUpdateModelValue}
+        onTabChange={handleTabChange}
+        beforeLeave={beforeLeave}
+      >
+        <TabPane name="tab1" label="tab1">
+          Tab 1 content
+        </TabPane>
+        <TabPane name="tab2" label="tab2">
+          Tab 2 content
+        </TabPane>
+      </Tabs>
+    ))
+
+    await nextTick()
+
+    const navWrapper = wrapper.findComponent(TabNav)
+    const navItemsWrapper = navWrapper.findAll('.el-tabs__item')
+
+    // Click on the second tab
+    await navItemsWrapper[1].trigger('click')
+
+    // Verify only tabClick is called immediately
+    expect(handleTabClick).toHaveBeenCalledTimes(1)
+    expect(handleUpdateModelValue).toHaveBeenCalledTimes(0)
+    expect(handleTabChange).toHaveBeenCalledTimes(0)
+    expect(events).toEqual(['tabClick'])
+
+    // Verify the model value has not been updated yet (waiting for timer)
+    expect(activeName.value).toBe('tab1')
+
+    // Fast-forward time to trigger the setTimeout callback
+    await beforeLeave()
+    await flushPromises()
+
+    // Verify all events have been called in the correct order
+    expect(handleUpdateModelValue).toHaveBeenCalledTimes(1)
+    expect(handleTabChange).toHaveBeenCalledTimes(1)
+    expect(events).toEqual(['tabClick', 'update:modelValue', 'tabChange'])
+
+    // Verify the model value has been updated
+    expect(activeName.value).toBe('tab2')
+  })
+
+  test('tab order should update when v-for array is reordered', async () => {
+    const itemList = ref([
+      { key: 'a', value: 'A' },
+      { key: 'b', value: 'B' },
+      { key: 'c', value: 'C' },
+      { key: 'd', value: 'D' },
+    ])
+
+    const wrapper = mount(() => (
+      <Tabs>
+        {itemList.value.map((item) => (
+          <TabPane key={item.key} label={item.value}></TabPane>
+        ))}
+      </Tabs>
+    ))
+
+    await nextTick()
+
+    const navWrapper = wrapper.findComponent(TabNav)
+    let navItemsWrapper = navWrapper.findAll('.el-tabs__item')
+
+    // Check initial order
+    expect(navItemsWrapper[0].text()).toContain('A')
+    expect(navItemsWrapper[1].text()).toContain('B')
+    expect(navItemsWrapper[2].text()).toContain('C')
+    expect(navItemsWrapper[3].text()).toContain('D')
+
+    // Reverse the array
+    itemList.value.reverse()
+
+    await nextTick()
+
+    navItemsWrapper = navWrapper.findAll('.el-tabs__item')
+
+    // Check that the order has updated
+    expect(navItemsWrapper[0].text()).toContain('D')
+    expect(navItemsWrapper[1].text()).toContain('C')
+    expect(navItemsWrapper[2].text()).toContain('B')
+    expect(navItemsWrapper[3].text()).toContain('A')
+  })
+
+  test('label slot references an element in array', async () => {
+    const tabs = ref(['foo'])
+    const Comp = () =>
+      tabs.value.map((tab) => (
+        <TabPane>
+          {{
+            label: () => tab,
+          }}
+        </TabPane>
+      ))
+    const wrapper = mount(() => [
+      <Tabs>
+        {tabs.value.map((tab) => (
+          <TabPane>
+            {{
+              label: () => tab,
+            }}
+          </TabPane>
+        ))}
+      </Tabs>,
+      <Tabs>{Comp}</Tabs>,
+    ])
+
+    tabs.value = await new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(['bar'])
+      })
+    })
+    await nextTick()
+    wrapper
+      .findAll('.el-tabs__item')
+      .forEach((item) => expect(item.text()).toBe('bar'))
   })
 })

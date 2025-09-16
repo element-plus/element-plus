@@ -1,6 +1,7 @@
 <template>
   <transition
     :name="ns.b('fade')"
+    @before-enter="isStartTransition = true"
     @before-leave="onClose"
     @after-leave="$emit('destroy')"
   >
@@ -11,9 +12,10 @@
       :class="[
         ns.b(),
         { [ns.m(type)]: type },
-        ns.is('center', center),
         ns.is('closable', showClose),
         ns.is('plain', plain),
+        ns.is('bottom', verticalProperty === 'bottom'),
+        horizontalClass,
         customClass,
       ]"
       :style="customStyle"
@@ -45,15 +47,20 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import { useEventListener, useResizeObserver, useTimeoutFn } from '@vueuse/core'
 import { TypeComponents, TypeComponentsMap } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import ElBadge from '@element-plus/components/badge'
 import { useGlobalComponentSettings } from '@element-plus/components/config-provider'
 import { ElIcon } from '@element-plus/components/icon'
-import { messageEmits, messageProps } from './message'
+import {
+  MESSAGE_DEFAULT_PLACEMENT,
+  messageEmits,
+  messageProps,
+} from './message'
 import { getLastOffset, getOffsetOrSpace } from './instance'
+
 import type { BadgeProps } from '@element-plus/components/badge'
 import type { CSSProperties } from 'vue'
 
@@ -64,7 +71,9 @@ defineOptions({
 })
 
 const props = defineProps(messageProps)
-defineEmits(messageEmits)
+const emit = defineEmits(messageEmits)
+
+const isStartTransition = ref(false)
 
 const { ns, zIndex } = useGlobalComponentSettings('message')
 const { currentZIndex, nextZIndex } = zIndex
@@ -86,13 +95,27 @@ const iconComponent = computed(
   () => props.icon || TypeComponentsMap[props.type] || ''
 )
 
-const lastOffset = computed(() => getLastOffset(props.id))
-const offset = computed(
-  () => getOffsetOrSpace(props.id, props.offset) + lastOffset.value
+const placement = computed(() => props.placement || MESSAGE_DEFAULT_PLACEMENT)
+
+const lastOffset = computed(() => getLastOffset(props.id, placement.value))
+const offset = computed(() => {
+  return (
+    getOffsetOrSpace(props.id, props.offset, placement.value) + lastOffset.value
+  )
+})
+const bottom = computed(() => height.value + offset.value)
+const horizontalClass = computed(() => {
+  if (placement.value.includes('left')) return ns.is('left')
+  if (placement.value.includes('right')) return ns.is('right')
+  return ns.is('center')
+})
+
+const verticalProperty = computed(() =>
+  placement.value.startsWith('top') ? 'top' : 'bottom'
 )
-const bottom = computed((): number => height.value + offset.value)
+
 const customStyle = computed<CSSProperties>(() => ({
-  top: `${offset.value}px`,
+  [verticalProperty.value]: `${offset.value}px`,
   zIndex: currentZIndex.value,
 }))
 
@@ -109,6 +132,14 @@ function clearTimer() {
 
 function close() {
   visible.value = false
+
+  // if the message has never started a transition, we can destroy it immediately
+  nextTick(() => {
+    if (!isStartTransition.value) {
+      props.onClose?.()
+      emit('destroy')
+    }
+  })
 }
 
 function keydown({ code }: KeyboardEvent) {

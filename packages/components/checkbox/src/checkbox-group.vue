@@ -9,19 +9,30 @@
     "
     :aria-labelledby="isLabeledByFormItem ? formItem?.labelId : undefined"
   >
-    <slot />
+    <slot>
+      <el-checkbox
+        v-for="(item, index) in props.options"
+        :key="index"
+        v-bind="getOptionProps(item)"
+      />
+    </slot>
   </component>
 </template>
 
 <script lang="ts" setup>
 import { computed, nextTick, provide, toRefs, watch } from 'vue'
-import { pick } from 'lodash-unified'
-import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { isEqual, pick } from 'lodash-unified'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { debugWarn } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { useFormItem, useFormItemInputId } from '@element-plus/components/form'
-import { checkboxGroupEmits, checkboxGroupProps } from './checkbox-group'
+import {
+  checkboxDefaultProps,
+  checkboxGroupEmits,
+  checkboxGroupProps,
+} from './checkbox-group'
 import { checkboxGroupContextKey } from './constants'
+import ElCheckbox from './checkbox.vue'
 
 import type { CheckboxGroupValueType } from './checkbox-group'
 
@@ -41,7 +52,7 @@ const { inputId: groupId, isLabeledByFormItem } = useFormItemInputId(props, {
 const changeEvent = async (value: CheckboxGroupValueType) => {
   emit(UPDATE_MODEL_EVENT, value)
   await nextTick()
-  emit('change', value)
+  emit(CHANGE_EVENT, value)
 }
 
 const modelValue = computed({
@@ -52,6 +63,19 @@ const modelValue = computed({
     changeEvent(val)
   },
 })
+
+const aliasProps = computed(() => ({
+  ...checkboxDefaultProps,
+  ...props.props,
+}))
+const getOptionProps = (option: Record<string, any>) => {
+  const base = {
+    label: option[aliasProps.value.label],
+    value: option[aliasProps.value.value],
+    disabled: option[aliasProps.value.disabled],
+  }
+  return { ...option, ...base }
+}
 
 provide(checkboxGroupContextKey, {
   ...pick(toRefs(props), [
@@ -69,8 +93,8 @@ provide(checkboxGroupContextKey, {
 
 watch(
   () => props.modelValue,
-  () => {
-    if (props.validateEvent) {
+  (newVal, oldValue) => {
+    if (props.validateEvent && !isEqual(newVal, oldValue)) {
       formItem?.validate('change').catch((err) => debugWarn(err))
     }
   }

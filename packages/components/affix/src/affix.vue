@@ -7,7 +7,15 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref, shallowRef, watch, watchEffect } from 'vue'
+import {
+  computed,
+  nextTick,
+  onMounted,
+  ref,
+  shallowRef,
+  watch,
+  watchEffect,
+} from 'vue'
 import {
   useElementBounding,
   useEventListener,
@@ -15,14 +23,15 @@ import {
 } from '@vueuse/core'
 import { addUnit, getScrollContainer, throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
+import { CHANGE_EVENT } from '@element-plus/constants'
 import { affixEmits, affixProps } from './affix'
+
 import type { CSSProperties } from 'vue'
 
 const COMPONENT_NAME = 'ElAffix'
 defineOptions({
   name: COMPONENT_NAME,
 })
-
 const props = defineProps(affixProps)
 const emit = defineEmits(affixEmits)
 
@@ -97,15 +106,28 @@ const update = () => {
   }
 }
 
-const handleScroll = () => {
+const updateRootRect = async () => {
+  if (!fixed.value) {
+    updateRoot()
+    return
+  }
+
+  fixed.value = false
+  await nextTick()
   updateRoot()
+  fixed.value = true
+}
+
+const handleScroll = async () => {
+  updateRoot()
+  await nextTick()
   emit('scroll', {
     scrollTop: scrollTop.value,
     fixed: fixed.value,
   })
 }
 
-watch(fixed, (val) => emit('change', val))
+watch(fixed, (val) => emit(CHANGE_EVENT, val))
 
 onMounted(() => {
   if (props.target) {
@@ -127,6 +149,6 @@ defineExpose({
   /** @description update affix status */
   update,
   /** @description update rootRect info */
-  updateRoot,
+  updateRoot: updateRootRect,
 })
 </script>

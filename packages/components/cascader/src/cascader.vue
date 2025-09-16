@@ -3,21 +3,23 @@
     ref="tooltipRef"
     :visible="popperVisible"
     :teleported="teleported"
-    :popper-class="[nsCascader.e('dropdown'), popperClass]"
+    :popper-class="[nsCascader.e('dropdown'), popperClass!]"
+    :popper-style="popperStyle"
     :popper-options="popperOptions"
     :fallback-placements="fallbackPlacements"
     :stop-popper-mouse-event="false"
     :gpu-acceleration="false"
     :placement="placement"
     :transition="`${nsCascader.namespace.value}-zoom-in-top`"
-    effect="light"
+    :effect="effect"
     pure
     :persistent="persistent"
     @hide="hideSuggestionPanel"
   >
     <template #default>
       <div
-        v-clickoutside:[contentRef]="() => togglePopperVisible(false)"
+        ref="wrapperRef"
+        v-clickoutside:[contentRef]="handleClickOutside"
         :class="cascaderKls"
         :style="cascaderStyle"
         @click="() => togglePopperVisible(readonly ? undefined : true)"
@@ -26,7 +28,7 @@
         @mouseleave="inputHover = false"
       >
         <el-input
-          ref="input"
+          ref="inputRef"
           v-model="inputValue"
           :placeholder="currentPlaceholder"
           :readonly="readonly"
@@ -38,8 +40,6 @@
           @compositionstart="handleComposition"
           @compositionupdate="handleComposition"
           @compositionend="handleComposition"
-          @focus="handleFocus"
-          @blur="handleBlur"
           @input="handleInput"
         >
           <template v-if="$slots.prefix" #prefix>
@@ -52,7 +52,7 @@
               :class="[nsInput.e('icon'), 'icon-circle-close']"
               @click.stop="handleClear"
             >
-              <circle-close />
+              <component :is="clearIcon" />
             </el-icon>
             <el-icon
               v-else
@@ -73,58 +73,65 @@
             nsCascader.is('validate', Boolean(validateState)),
           ]"
         >
-          <el-tag
-            v-for="tag in presentTags"
-            :key="tag.key"
-            :type="tagType"
-            :size="tagSize"
-            :effect="tagEffect"
-            :hit="tag.hitState"
-            :closable="tag.closable"
-            disable-transitions
-            @close="deleteTag(tag)"
-          >
-            <template v-if="tag.isCollapseTag === false">
-              <span>{{ tag.text }}</span>
-            </template>
-            <template v-else>
-              <el-tooltip
-                :disabled="popperVisible || !collapseTagsTooltip"
-                :fallback-placements="['bottom', 'top', 'right', 'left']"
-                placement="bottom"
-                effect="light"
-              >
-                <template #default>
-                  <span>{{ tag.text }}</span>
-                </template>
-                <template #content>
-                  <div :class="nsCascader.e('collapse-tags')">
-                    <div
-                      v-for="(tag2, idx) in allPresentTags.slice(
-                        maxCollapseTags
-                      )"
-                      :key="idx"
-                      :class="nsCascader.e('collapse-tag')"
-                    >
-                      <el-tag
-                        :key="tag2.key"
-                        class="in-tooltip"
-                        :type="tagType"
-                        :size="tagSize"
-                        :effect="tagEffect"
-                        :hit="tag2.hitState"
-                        :closable="tag2.closable"
-                        disable-transitions
-                        @close="deleteTag(tag2)"
-                      >
-                        <span>{{ tag2.text }}</span>
-                      </el-tag>
-                    </div>
-                  </div>
-                </template>
-              </el-tooltip>
-            </template>
-          </el-tag>
+          <slot name="tag" :data="allPresentTags" :delete-tag="deleteTag">
+            <el-tag
+              v-for="tag in presentTags"
+              :key="tag.key"
+              :type="tagType"
+              :size="tagSize"
+              :effect="tagEffect"
+              :hit="tag.hitState"
+              :closable="tag.closable"
+              disable-transitions
+              @close="deleteTag(tag)"
+            >
+              <template v-if="tag.isCollapseTag === false">
+                <span>{{ tag.text }}</span>
+              </template>
+              <template v-else>
+                <el-tooltip
+                  ref="tagTooltipRef"
+                  :disabled="popperVisible || !collapseTagsTooltip"
+                  :fallback-placements="['bottom', 'top', 'right', 'left']"
+                  placement="bottom"
+                  :popper-class="popperClass"
+                  :popper-style="popperStyle"
+                  :effect="effect"
+                >
+                  <template #default>
+                    <span>{{ tag.text }}</span>
+                  </template>
+                  <template #content>
+                    <el-scrollbar :max-height="maxCollapseTagsTooltipHeight">
+                      <div :class="nsCascader.e('collapse-tags')">
+                        <div
+                          v-for="(tag2, idx) in allPresentTags.slice(
+                            maxCollapseTags
+                          )"
+                          :key="idx"
+                          :class="nsCascader.e('collapse-tag')"
+                        >
+                          <el-tag
+                            :key="tag2.key"
+                            class="in-tooltip"
+                            :type="tagType"
+                            :size="tagSize"
+                            :effect="tagEffect"
+                            :hit="tag2.hitState"
+                            :closable="tag2.closable"
+                            disable-transitions
+                            @close="deleteTag(tag2)"
+                          >
+                            <span>{{ tag2.text }}</span>
+                          </el-tag>
+                        </div>
+                      </div>
+                    </el-scrollbar>
+                  </template>
+                </el-tooltip>
+              </template>
+            </el-tag>
+          </slot>
           <input
             v-if="filterable && !isDisabled"
             v-model="searchInputValue"
@@ -137,14 +144,15 @@
             @compositionstart="handleComposition"
             @compositionupdate="handleComposition"
             @compositionend="handleComposition"
-            @focus="handleFocus"
-            @blur="handleBlur"
           />
         </div>
       </div>
     </template>
 
     <template #content>
+      <div v-if="$slots.header" :class="nsCascader.e('header')" @click.stop>
+        <slot name="header" />
+      </div>
       <el-cascader-panel
         v-show="!filtering"
         ref="cascaderPanelRef"
@@ -194,6 +202,9 @@
           </li>
         </slot>
       </el-scrollbar>
+      <div v-if="$slots.footer" :class="nsCascader.e('footer')" @click.stop>
+        <slot name="footer" />
+      </div>
     </template>
   </el-tooltip>
 </template>
@@ -215,11 +226,16 @@ import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
-import { useFormItem, useFormSize } from '@element-plus/components/form'
+import {
+  useFormDisabled,
+  useFormItem,
+  useFormSize,
+} from '@element-plus/components/form'
 import { ClickOutside as vClickoutside } from '@element-plus/directives'
 import {
   useComposition,
   useEmptyValues,
+  useFocusController,
   useLocale,
   useNamespace,
 } from '@element-plus/hooks'
@@ -228,7 +244,7 @@ import {
   EVENT_CODE,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import { ArrowDown, Check, CircleClose } from '@element-plus/icons-vue'
+import { ArrowDown, Check } from '@element-plus/icons-vue'
 import { cascaderEmits, cascaderProps } from './cascader'
 
 import type { Options } from '@element-plus/components/popper'
@@ -250,9 +266,11 @@ const popperOptions: Partial<Options> = {
       enabled: true,
       phase: 'main',
       fn: ({ state }) => {
-        const { modifiersData, placement } = state as any
+        const { modifiersData, placement } = state
         if (['right', 'left', 'bottom', 'top'].includes(placement)) return
-        modifiersData.arrow.x = 35
+        if (modifiersData.arrow) {
+          modifiersData.arrow.x = 35
+        }
       },
       requires: ['arrow'],
     },
@@ -275,7 +293,8 @@ const nsCascader = useNamespace('cascader')
 const nsInput = useNamespace('input')
 
 const { t } = useLocale()
-const { form, formItem } = useFormItem()
+const { formItem } = useFormItem()
+const isDisabled = useFormDisabled()
 const { valueOnClear } = useEmptyValues(props)
 const { isComposing, handleComposition } = useComposition({
   afterComposition(event) {
@@ -285,14 +304,15 @@ const { isComposing, handleComposition } = useComposition({
 })
 
 const tooltipRef: Ref<TooltipInstance | null> = ref(null)
-const input: Ref<InputInstance | null> = ref(null)
+//TODO: transform [TooltipInstance] to TooltipInstance
+const tagTooltipRef = ref<[TooltipInstance]>()
+const inputRef = ref<InputInstance>()
 const tagWrapper = ref(null)
 const cascaderPanelRef: Ref<CascaderPanelInstance | null> = ref(null)
 const suggestionPanel: Ref<ScrollbarInstance | null> = ref(null)
 const popperVisible = ref(false)
 const inputHover = ref(false)
 const filtering = ref(false)
-const filterFocus = ref(false)
 const inputValue = ref('')
 const searchInputValue = ref('')
 const presentTags: Ref<Tag[]> = ref([])
@@ -303,9 +323,8 @@ const cascaderStyle = computed<StyleValue>(() => {
   return attrs.style as StyleValue
 })
 
-const isDisabled = computed(() => props.disabled || form?.disabled)
 const inputPlaceholder = computed(
-  () => props.placeholder || t('el.cascader.placeholder')
+  () => props.placeholder ?? t('el.cascader.placeholder')
 )
 const currentPlaceholder = computed(() =>
   searchInputValue.value || presentTags.value.length > 0 || isComposing.value
@@ -324,12 +343,29 @@ const searchKeyword = computed(() =>
 const checkedNodes: ComputedRef<CascaderNode[]> = computed(
   () => cascaderPanelRef.value?.checkedNodes || []
 )
+
+const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
+  disabled: isDisabled,
+  beforeBlur(event) {
+    return (
+      tooltipRef.value?.isFocusInsideContent(event) ||
+      tagTooltipRef.value?.[0]?.isFocusInsideContent(event)
+    )
+  },
+  afterBlur() {
+    popperVisible.value = false
+    if (props.validateEvent) {
+      formItem?.validate?.('blur').catch((err) => debugWarn(err))
+    }
+  },
+})
+
 const clearBtnVisible = computed(() => {
   if (
     !props.clearable ||
     isDisabled.value ||
     filtering.value ||
-    !inputHover.value
+    (!inputHover.value && !isFocused.value)
   )
     return false
 
@@ -379,13 +415,19 @@ const cascaderIconKls = computed(() => {
   ]
 })
 
-const inputClass = computed(() => {
-  return nsCascader.is('focus', popperVisible.value || filterFocus.value)
-})
+const inputClass = computed(() => nsCascader.is('focus', isFocused.value))
 
 const contentRef = computed(() => {
   return tooltipRef.value?.popperRef?.contentRef
 })
+
+const handleClickOutside = (event: Event) => {
+  if (isFocused.value) {
+    const _event = new FocusEvent('blur', event)
+    handleBlur(_event)
+  }
+  togglePopperVisible(false)
+}
 
 const togglePopperVisible = (visible?: boolean) => {
   if (isDisabled.value) return
@@ -394,7 +436,7 @@ const togglePopperVisible = (visible?: boolean) => {
 
   if (visible !== popperVisible.value) {
     popperVisible.value = visible
-    input.value?.input?.setAttribute('aria-expanded', `${visible}`)
+    inputRef.value?.input?.setAttribute('aria-expanded', `${visible}`)
 
     if (visible) {
       updatePopperPosition()
@@ -435,10 +477,27 @@ const deleteTag = (tag: Tag) => {
   emit('removeTag', node.valueByOption)
 }
 
+const getStrategyCheckedNodes = (): CascaderNode[] => {
+  switch (props.showCheckedStrategy) {
+    case 'child':
+      return checkedNodes.value
+    case 'parent': {
+      const clickedNodes = getCheckedNodes(false)
+      const clickedNodesValue = clickedNodes!.map((o) => o.value)
+      const parentNodes = clickedNodes!.filter(
+        (o) => !o.parent || !clickedNodesValue.includes(o.parent.value)
+      )
+      return parentNodes
+    }
+    default:
+      return []
+  }
+}
+
 const calculatePresentTags = () => {
   if (!multiple.value) return
 
-  const nodes = checkedNodes.value
+  const nodes = getStrategyCheckedNodes()
   const tags: Tag[] = []
 
   const allTags: Tag[] = []
@@ -513,7 +572,7 @@ const focusFirstNode = () => {
 }
 
 const updateStyle = () => {
-  const inputInner = input.value?.input
+  const inputInner = inputRef.value?.input
   const tagWrapperEl = tagWrapper.value
   const suggestionPanelEl = suggestionPanel.value?.$el
 
@@ -639,20 +698,6 @@ const handleDelete = () => {
   }
 }
 
-const handleFocus = (e: FocusEvent) => {
-  const el = e.target as HTMLInputElement
-  const name = nsCascader.e('search-input')
-  if (el.className === name) {
-    filterFocus.value = true
-  }
-  emit('focus', e)
-}
-
-const handleBlur = (e: FocusEvent) => {
-  filterFocus.value = false
-  emit('blur', e)
-}
-
 const handleFilter = debounce(() => {
   const { value } = searchKeyword
 
@@ -687,7 +732,12 @@ const getInputInnerHeight = (inputInner: HTMLElement): number =>
 watch(filtering, updatePopperPosition)
 
 watch(
-  [checkedNodes, isDisabled, () => props.collapseTags],
+  [
+    checkedNodes,
+    isDisabled,
+    () => props.collapseTags,
+    () => props.maxCollapseTags,
+  ],
   calculatePresentTags
 )
 
@@ -697,7 +747,7 @@ watch(presentTags, () => {
 
 watch(realSize, async () => {
   await nextTick()
-  const inputInner = input.value!.input!
+  const inputInner = inputRef.value!.input!
   inputInitialHeight = getInputInnerHeight(inputInner) || inputInitialHeight
   updateStyle()
 })
@@ -705,7 +755,7 @@ watch(realSize, async () => {
 watch(presentText, syncPresentTextValue, { immediate: true })
 
 onMounted(() => {
-  const inputInner = input.value!.input!
+  const inputInner = inputRef.value!.input!
 
   const inputInnerHeight = getInputInnerHeight(inputInner)
 

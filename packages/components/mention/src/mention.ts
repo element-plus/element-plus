@@ -2,13 +2,14 @@ import {
   buildProps,
   definePropType,
   isFunction,
+  isObject,
   isString,
 } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { inputProps } from '@element-plus/components/input'
 import { filterOption } from './helper'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type Mention from './mention.vue'
 import type { MentionOption } from './types'
 import type { Options } from '@element-plus/components/popper'
@@ -104,20 +105,44 @@ export const mentionProps = buildProps({
     type: definePropType<Partial<Options>>(Object),
     default: () => ({} as Partial<Options>),
   },
+  /**
+   * @description configuration options
+   */
+  props: {
+    type: definePropType<MentionOptionProps>(Object),
+    default: () => mentionDefaultProps,
+  },
 })
 
 export const mentionEmits = {
   [UPDATE_MODEL_EVENT]: (value: string) => isString(value),
+  'whole-remove': (pattern: string, prefix: string) =>
+    isString(pattern) && isString(prefix),
+  input: (value: string) => isString(value),
   search: (pattern: string, prefix: string) =>
     isString(pattern) && isString(prefix),
   select: (option: MentionOption, prefix: string) =>
-    isString(option.value) && isString(prefix),
+    isObject(option) && isString(prefix),
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
   blur: (evt: FocusEvent) => evt instanceof FocusEvent,
 }
 
 export type MentionEmits = typeof mentionEmits
 export type MentionProps = ExtractPropTypes<typeof mentionProps>
-export type MentionInstance = InstanceType<typeof Mention>
+export type MentionPropsPublic = __ExtractPublicPropTypes<typeof mentionProps>
+export type MentionInstance = InstanceType<typeof Mention> & unknown
 
 export type { MentionOption } from './types'
+
+export type MentionOptionProps = {
+  value?: string
+  label?: string
+  disabled?: string
+  [key: string]: string | undefined
+}
+
+export const mentionDefaultProps: Required<MentionOptionProps> = {
+  value: 'value',
+  label: 'label',
+  disabled: 'disabled',
+}
