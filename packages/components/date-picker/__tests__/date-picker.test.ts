@@ -10,6 +10,7 @@ import {
   CommonPicker,
   PICKER_POPPER_OPTIONS_INJECTION_KEY,
 } from '@element-plus/components/time-picker'
+import triggerEvent from '@element-plus/test-utils/trigger-event'
 import Input from '@element-plus/components/input'
 import zhCn from '@element-plus/locale/lang/zh-cn'
 import enUs from '@element-plus/locale/lang/en'
@@ -1769,16 +1770,17 @@ describe('DatePicker keyboard events', () => {
   })
 
   it('should be able to enter in date picker table through keyboard navigation', async () => {
-    const wrapper = _mount('<el-date-picker v-model="value" />', () => ({
+    _mount('<el-date-picker v-model="value" type="date" />', () => ({
       value: '',
     }))
     await nextTick()
-    const input = wrapper.find('.el-input__inner')
-    await input.trigger('blur')
-    await input.trigger('focus')
+    const input = document.querySelector<HTMLInputElement>('input')
+    input.blur()
     await nextTick()
-    await input.trigger('keydown.down')
-    //console.log(document.querySelector('.current')?.textContent)
+    input.focus()
+    await nextTick()
+    triggerEvent(input, 'keydown', EVENT_CODE.down)
+    await nextTick()
     expect(document.querySelector('.current')?.textContent).toBe('1')
   })
 })
