@@ -99,9 +99,9 @@ dropdown/virtual-trigger
 
 ## Scrollbar Configuration ^(2.11.3)
 
-When dropdown contains many items, a scrollbar will be displayed. You can control the scrollbar behavior through the `scrollbar` configuration object.
+When dropdown contains many items and a height (`height` or `max-height`) is specified, a scrollbar will be displayed. You can control the scrollbar behavior through the `scrollbar-props` configuration object.
 
-:::demo Use the `scrollbar` object to configure scrollbar properties like `height` and `native`.
+:::demo Use the `scrollbar-props` object to configure scrollbar properties like `height`, `max-height` and `native`. Note that either `height` or `max-height` must be specified for the scrollbar to appear.
 
 dropdown/scrollbar-config
 
