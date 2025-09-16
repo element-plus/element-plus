@@ -3,13 +3,13 @@ import type { RouteLocationRaw } from 'vue-router'
 import type { MenuProps } from './menu'
 
 export interface MenuItemRegistered {
-  index: string
-  indexPath: string[]
+  index: string | null
+  indexPath: (string | null)[]
   active: boolean
 }
 export interface MenuItemClicked {
-  index: string
-  indexPath: string[]
+  index: string | null
+  indexPath: (string | null)[]
   route?: RouteLocationRaw
 }
 
@@ -26,8 +26,8 @@ export interface MenuProvider {
   addSubMenu: (item: MenuItemRegistered) => void
   removeSubMenu: (item: MenuItemRegistered) => void
 
-  openMenu: (index: string, indexPath: string[]) => void
-  closeMenu: (index: string, indexPath: string[]) => void
+  openMenu: (index: string | null, indexPath: (string | null)[]) => void
+  closeMenu: (index: string | null, indexPath: (string | null)[]) => void
 
   handleMenuItemClick: (item: MenuItemClicked) => void
   handleSubMenuClick: (subMenu: MenuItemRegistered) => void

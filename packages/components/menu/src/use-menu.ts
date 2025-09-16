@@ -4,7 +4,7 @@ import type { ComponentInternalInstance, Ref } from 'vue'
 
 export default function useMenu(
   instance: ComponentInternalInstance,
-  currentIndex: Ref<string>
+  currentIndex: Ref<string | null>
 ) {
   const indexPath = computed(() => {
     let parent = instance.parent!
