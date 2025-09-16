@@ -1,0 +1,27 @@
+@use 'mixins/mixins' as *;
+@use 'common/var' as *;
+@use 'sass:map';
+
+@include b(tag-nav) {
+  box-sizing: border-box;
+  height: map.get($tagnav, 'height');
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+  min-width: 0;
+  width: 100%;
+  gap: map.get($tagnav, 'gap');
+  padding: 0 6px;
+  background-color: getCssVar('fill-color', 'light');
+  border-bottom: 1px solid getCssVar('border-color-light');
+
+  @include when(no-scroll-bar) {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}

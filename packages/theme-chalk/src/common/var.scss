@@ -1147,6 +1147,17 @@ $tag-icon-size: map.merge(
   $tag-icon-size
 );
 
+// TagNav
+// css3 var in packages/theme-chalk/src/tagnav.scss
+$tagnav: () !default;
+$tagnav: map.merge(
+    (
+      'height': 38px,
+      'gap': 6px,
+    ),
+    $tagnav
+);
+
 // Text
 // css3 var in packages/theme-chalk/src/text.scss
 $text: () !default;

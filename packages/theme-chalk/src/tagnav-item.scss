@@ -1,0 +1,16 @@
+@use 'mixins/mixins' as *;
+@use 'common/var' as *;
+@use 'element-plus/theme-chalk/src/tag' as *;
+
+@include b(tag-nav-item){
+  @extend .el-tag;
+
+  @include e(placeholder) {
+    width: 60px;
+    height: 28px;
+    background-color: getCssVar('bg-color', 'overlay');
+    border: 2px dashed  getCssVar('color-primary');
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+}

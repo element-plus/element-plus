@@ -5,6 +5,7 @@ import {
   onMounted,
   shallowRef,
   triggerRef,
+  watch,
 } from 'vue'
 import { flattedChildren } from '@element-plus/utils'
 
@@ -107,6 +108,8 @@ export const useOrderedChildren = <T extends ChildEssential>(
       }
     },
   })
+
+  watch(children, sortChildren, { deep: true }) // watch and updated
 
   return {
     children: orderedChildren,

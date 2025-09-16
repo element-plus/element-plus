@@ -110,6 +110,10 @@ export const rateProps = buildProps({
    */
   showScore: Boolean,
   /**
+   * @description whether immediately change the current score when mouse hover at the rate
+   */
+  hoverChange: Boolean,
+  /**
    * @description color of texts
    */
   textColor: {

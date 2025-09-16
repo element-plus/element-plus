@@ -111,6 +111,7 @@ import { ElAnchor, ElAnchorLink } from '@element-plus/components/anchor'
 import { ElSegmented } from '@element-plus/components/segmented'
 import { ElMention } from '@element-plus/components/mention'
 import { ElSplitter, ElSplitterPanel } from '@element-plus/components/splitter'
+import { ElTagNav, ElTagNavItem } from '@element-plus/components/tag-nav'
 
 import type { Plugin } from 'vue'
 
@@ -225,4 +226,6 @@ export default [
   ElMention,
   ElSplitter,
   ElSplitterPanel,
+  ElTagNav,
+  ElTagNavItem,
 ] as Plugin[]
