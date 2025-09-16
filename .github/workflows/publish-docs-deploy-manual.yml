@@ -69,7 +69,7 @@ jobs:
           git-config-email: element-plus@outlook.com
           commit-message: website deploy
 
-      - name: Deploy to vercel
+      - name: Deploy to Vercel
         uses: JamesIves/github-pages-deploy-action@v4.4.1
         with:
           token: ${{ secrets.EP_BOT_TOKEN }}
@@ -79,7 +79,12 @@ jobs:
           git-config-name: ElementPlusBot
           git-config-email: element-plus@outlook.com
 
-      - name: Sync
-        env:
-          TRIGGERSYNCURL: ${{ secrets.TRIGGERSYNCURL }}
-        run: curl -k "$TRIGGERSYNCURL"
+      - name: Deploy to Vercel Main
+        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        with:
+          token: ${{ secrets.EP_BOT_TOKEN }}
+          branch: main
+          folder: docs/.vitepress/dist
+          repository-name: element-plus/vercel-publish-main
+          git-config-name: ElementPlusBot
+          git-config-email: element-plus@outlook.com
