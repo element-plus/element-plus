@@ -36,6 +36,7 @@
           :wrap-style="wrapStyle"
           tag="div"
           :view-class="ns.e('list')"
+          v-bind="scrollbarProps"
         >
           <el-roving-focus-group
             :loop="loop"
@@ -251,6 +252,7 @@ export default defineComponent({
       t,
       ns,
       scrollbar,
+      scrollbarProps: toRef(props, 'scrollbarProps'),
       wrapStyle,
       dropdownTriggerKls,
       dropdownSize,

@@ -7,10 +7,11 @@ import {
 } from '@element-plus/components/tooltip'
 import { type Placement, roleTypes } from '@element-plus/components/popper'
 
+import type { ComponentInternalInstance, ComputedRef } from 'vue'
 import type { Options } from '@popperjs/core'
 import type { ButtonProps, ButtonType } from '@element-plus/components/button'
-import type { ComponentInternalInstance, ComputedRef } from 'vue'
 import type { Nullable } from '@element-plus/utils'
+import type { ScrollbarProps } from '@element-plus/components/scrollbar'
 
 export interface IElDropdownInstance {
   instance?: ComponentInternalInstance
@@ -160,6 +161,14 @@ export const dropdownProps = buildProps({
   persistent: {
     type: Boolean,
     default: true,
+  },
+  /**
+   * @description scrollbar configuration for dropdown menu
+   */
+  scrollbarProps: {
+    type: definePropType<
+      Partial<Omit<ScrollbarProps, 'tag' | 'viewClass' | 'wrapStyle'>>
+    >(Object),
   },
 } as const)
 

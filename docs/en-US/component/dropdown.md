@@ -97,6 +97,16 @@ dropdown/virtual-trigger
 
 :::
 
+## Scrollbar Configuration ^(2.11.3)
+
+When dropdown contains many items, a scrollbar will be displayed. You can control the scrollbar behavior through the `scrollbar` configuration object.
+
+:::demo Use the `scrollbar` object to configure scrollbar properties like `height` and `native`.
+
+dropdown/scrollbar-config
+
+:::
+
 ## Dropdown API
 
 ### Dropdown Attributes
@@ -124,6 +134,7 @@ dropdown/virtual-trigger
 | popper-options               | [popper.js](https://popper.js.org/docs/v2/) parameters                                                                | ^[object]                                                                                                    | `{modifiers: [{name: 'computeStyles',options: {gpuAcceleration: false}}]}` |
 | teleported ^(2.2.20)         | whether the dropdown popup is teleported to the body                                                                  | ^[boolean]                                                                                                   | true                                                                       |
 | persistent ^(2.9.5)          | when dropdown inactive and `persistent` is `false` , dropdown menu will be destroyed                                  | ^[boolean]                                                                                                   | true                                                                       |
+| scrollbar-props ^(2.11.3)    | scrollbar configuration for dropdown menu                                                                             | ^[object]`Partial<Omit<ScrollbarProps, 'tag' \| 'viewClass' \| 'wrapStyle'>>`                                | —                                                                          |
 
 ### Dropdown Slots
 
