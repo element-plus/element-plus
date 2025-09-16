@@ -51,8 +51,8 @@ const draggerStyles = computed(() => {
     cursor: !props.resizable
       ? 'auto'
       : isHorizontal.value
-      ? 'ew-resize'
-      : 'ns-resize',
+        ? 'ew-resize'
+        : 'ns-resize',
     touchAction: 'none',
   }
 })

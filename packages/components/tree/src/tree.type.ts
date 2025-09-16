@@ -126,3 +126,5 @@ export interface TreeComponentProps {
 }
 
 export type NodeDropType = 'before' | 'after' | 'inner' | 'none'
+
+export type { DragEvents } from './model/useDragNode'
