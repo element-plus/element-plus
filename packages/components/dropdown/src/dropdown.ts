@@ -163,7 +163,7 @@ export const dropdownProps = buildProps({
     default: true,
   },
   /**
-   * @description scrollbar configuration except height/maxHeight (dropdown height is controlled by max-height prop)
+   * @description scrollbar configuration except `height`/`max-height`/`tag`
    */
   scrollbarProps: {
     type: definePropType<
