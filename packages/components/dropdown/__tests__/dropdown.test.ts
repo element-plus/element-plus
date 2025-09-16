@@ -910,4 +910,53 @@ describe('Dropdown', () => {
       expect(document.body.querySelector(selector.value).innerHTML).toBe('')
     })
   })
+
+  test('hover trigger: click dropdown-item should close immediately', async () => {
+    const wrapper = _mount(
+      `
+      <el-dropdown trigger="hover" :hide-timeout="3000">
+        <span class="el-dropdown-link">
+          dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+        </span>
+        <template #dropdown>
+          <el-dropdown-menu ref="menu">
+            <el-dropdown-item ref="item">Apple</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+      `,
+      () => ({})
+    )
+
+    await nextTick()
+    const content = wrapper.findComponent(ElTooltip).vm as InstanceType<
+      typeof ElTooltip
+    >
+    vi.useFakeTimers()
+    const triggerElm = wrapper.find('.el-tooltip__trigger')
+    expect(content.open).toBe(false)
+    await triggerElm.trigger(MOUSE_ENTER_EVENT)
+    vi.runAllTimers()
+    await nextTick()
+    expect(content.open).toBe(true)
+
+    const menu = wrapper.findComponent({ ref: 'menu' })
+    await menu.trigger(MOUSE_ENTER_EVENT)
+
+    const item = wrapper
+      .findComponent({ ref: 'item' })
+      .findComponent({ name: 'DropdownItemImpl' })
+      .find('.el-dropdown-menu__item')
+
+    await item.trigger('click')
+    await nextTick()
+    vi.advanceTimersByTime(100)
+    expect(content.open).toBe(false)
+
+    await triggerElm.trigger(MOUSE_ENTER_EVENT)
+    vi.runAllTimers()
+    await nextTick()
+    expect(content.open).toBe(true)
+    vi.useRealTimers()
+  })
 })
