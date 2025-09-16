@@ -73,7 +73,7 @@
             nsCascader.is('validate', Boolean(validateState)),
           ]"
         >
-          <slot name="tag" :data="allPresentTags" :delete-tag="deleteTag">
+          <slot name="tag" :data="tags" :delete-tag="deleteTag">
             <el-tag
               v-for="tag in showTagList"
               :key="tag.key"
@@ -91,7 +91,7 @@
             </el-tag>
           </slot>
           <el-tooltip
-            v-if="collapseTags && allPresentTags.length > maxCollapseTags"
+            v-if="collapseTags && tags.length > maxCollapseTags"
             ref="tagTooltipRef"
             :disabled="popperVisible || !collapseTagsTooltip"
             :fallback-placements="['bottom', 'top', 'right', 'left']"
@@ -110,7 +110,7 @@
                 disable-transitions
               >
                 <span :class="nsCascader.e('tags-text')">
-                  + {{ allPresentTags.length - maxCollapseTags }}
+                  + {{ tags.length - maxCollapseTags }}
                 </span>
               </el-tag>
             </template>
@@ -322,7 +322,7 @@ const inputHover = ref(false)
 const filtering = ref(false)
 const inputValue = ref('')
 const searchInputValue = ref('')
-const allPresentTags = ref<Tag[]>([])
+const tags = ref<Tag[]>([])
 const suggestions = ref<CascaderNode[]>([])
 
 const showTagList = computed(() => {
@@ -330,17 +330,15 @@ const showTagList = computed(() => {
     return []
   }
   return props.collapseTags
-    ? allPresentTags.value.slice(0, props.maxCollapseTags)
-    : allPresentTags.value
+    ? tags.value.slice(0, props.maxCollapseTags)
+    : tags.value
 })
 
 const collapseTagList = computed(() => {
   if (!props.props.multiple) {
     return []
   }
-  return props.collapseTags
-    ? allPresentTags.value.slice(props.maxCollapseTags)
-    : []
+  return props.collapseTags ? tags.value.slice(props.maxCollapseTags) : []
 })
 
 const cascaderStyle = computed(() => {
@@ -351,7 +349,7 @@ const inputPlaceholder = computed(
   () => props.placeholder ?? t('el.cascader.placeholder')
 )
 const currentPlaceholder = computed(() =>
-  searchInputValue.value || allPresentTags.value.length > 0 || isComposing.value
+  searchInputValue.value || tags.value.length > 0 || isComposing.value
     ? ''
     : inputPlaceholder.value
 )
@@ -525,7 +523,7 @@ const calculatePresentTags = () => {
 
   const allTags: Tag[] = []
   nodes.forEach((node) => allTags.push(genTag(node)))
-  allPresentTags.value = allTags
+  tags.value = allTags
 }
 
 const calculateSuggestions = () => {
@@ -539,7 +537,7 @@ const calculateSuggestions = () => {
     })
 
   if (multiple.value) {
-    allPresentTags.value.forEach((tag) => {
+    tags.value.forEach((tag) => {
       tag.hitState = false
     })
   }
@@ -586,7 +584,7 @@ const updateStyle = () => {
     const { offsetHeight } = tagWrapperEl
     // 2 is el-input__wrapper padding
     const height =
-      allPresentTags.value.length > 0
+      tags.value.length > 0
         ? `${Math.max(offsetHeight, inputInitialHeight) - 2}px`
         : `${inputInitialHeight}px`
     inputInner.style.height = height
@@ -681,11 +679,14 @@ const handleSuggestionKeyDown = (e: KeyboardEvent) => {
 }
 
 const handleDelete = () => {
-  const tags = allPresentTags.value
-  const lastTag = tags[tags.length - 1]
+  const lastTag = tags.value[tags.value.length - 1]
   pressDeleteCount = searchInputValue.value ? 0 : pressDeleteCount + 1
 
-  if (!lastTag || !pressDeleteCount || (props.collapseTags && tags.length > 1))
+  if (
+    !lastTag ||
+    !pressDeleteCount ||
+    (props.collapseTags && tags.value.length > 1)
+  )
     return
 
   if (lastTag.hitState) {
@@ -738,7 +739,7 @@ watch(
   calculatePresentTags
 )
 
-watch(allPresentTags, () => {
+watch(tags, () => {
   nextTick(() => updateStyle())
 })
 
