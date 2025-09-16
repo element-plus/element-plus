@@ -518,6 +518,64 @@ describe('Dropdown', () => {
     )
   })
 
+  test('scrollbar props', async () => {
+    const testScrollbarProps = async (
+      maxHeight,
+      scrollbarProps,
+      hasHiddenDefaultClass
+    ) => {
+      const wrapper = _mount(
+        `
+        <el-dropdown ref="b" max-height="${maxHeight}" :scrollbar-props="${JSON.stringify(
+          scrollbarProps
+        ).replace(/"/g, "'")}">
+          <span class="el-dropdown-link" ref="a">
+            dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item>Apple</el-dropdown-item>
+              <el-dropdown-item>Orange</el-dropdown-item>
+              <el-dropdown-item>Cherry</el-dropdown-item>
+              <el-dropdown-item disabled>Peach</el-dropdown-item>
+              <el-dropdown-item divided>Pear</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+        `,
+        () => ({})
+      )
+      await nextTick()
+      const scrollbar = wrapper
+        .findComponent({
+          ref: 'b',
+        })
+        .findComponent({ ref: 'scrollbar' })
+
+      const wrapStyle = scrollbar
+        .find('.el-scrollbar__wrap')
+        .attributes('style')
+      expect(wrapStyle).toBeDefined()
+      expect(wrapStyle).toContain(`max-height: ${maxHeight};`)
+
+      if (hasHiddenDefaultClass) {
+        expect(scrollbar.find('.el-scrollbar__wrap').classes()).toContain(
+          'el-scrollbar__wrap--hidden-default'
+        )
+      } else {
+        expect(scrollbar.find('.el-scrollbar__wrap').classes()).not.toContain(
+          'el-scrollbar__wrap--hidden-default'
+        )
+      }
+    }
+
+    // always=true
+    await testScrollbarProps('100px', { always: true }, true)
+
+    // native=true
+    await testScrollbarProps('120px', { native: true }, false)
+  })
+
   test('tooltip debounce', async () => {
     const wrapper = _mount(
       `

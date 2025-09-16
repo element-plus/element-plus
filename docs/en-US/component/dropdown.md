@@ -99,9 +99,9 @@ dropdown/virtual-trigger
 
 ## Scrollbar Configuration ^(2.11.3)
 
-When dropdown contains many items and a height (`height` or `max-height`) is specified, a scrollbar will be displayed. You can control the scrollbar behavior through the `scrollbar-props` configuration object.
+Dropdown's height is controlled by the `max-height` property. You can customize scrollbar behavior using the `scrollbar-props` configuration object.
 
-:::demo Use the `scrollbar-props` object to configure scrollbar properties like `height`, `max-height` and `native`. Note that either `height` or `max-height` must be specified for the scrollbar to appear.
+:::demo Use `max-height` to set dropdown height and `scrollbar-props` to configure scrollbar appearance and behavior.
 
 dropdown/scrollbar-config
 
@@ -134,7 +134,7 @@ dropdown/scrollbar-config
 | popper-options               | [popper.js](https://popper.js.org/docs/v2/) parameters                                                                | ^[object]                                                                                                    | `{modifiers: [{name: 'computeStyles',options: {gpuAcceleration: false}}]}` |
 | teleported ^(2.2.20)         | whether the dropdown popup is teleported to the body                                                                  | ^[boolean]                                                                                                   | true                                                                       |
 | persistent ^(2.9.5)          | when dropdown inactive and `persistent` is `false` , dropdown menu will be destroyed                                  | ^[boolean]                                                                                                   | true                                                                       |
-| scrollbar-props ^(2.11.3)    | scrollbar configuration for dropdown menu                                                                             | ^[object]`Partial<Omit<ScrollbarProps, 'tag' \| 'viewClass' \| 'wrapStyle'>>`                                | —                                                                          |
+| scrollbar-props ^(2.11.3)    | scrollbar configuration except height/maxHeight (dropdown height is controlled by max-height prop)                    | ^[object]`Partial<Omit<ScrollbarProps, 'tag' \| 'height' \| 'maxHeight'>>`                                   | `{}`                                                                       |
 
 ### Dropdown Slots
 

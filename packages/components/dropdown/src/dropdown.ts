@@ -163,11 +163,11 @@ export const dropdownProps = buildProps({
     default: true,
   },
   /**
-   * @description scrollbar configuration for dropdown menu, either `height` or `max-height` must be specified for the scrollbar to appear
+   * @description scrollbar configuration except height/maxHeight (dropdown height is controlled by max-height prop)
    */
   scrollbarProps: {
     type: definePropType<
-      Partial<Omit<ScrollbarProps, 'tag' | 'viewClass' | 'wrapStyle'>>
+      Partial<Omit<ScrollbarProps, 'tag' | 'height' | 'maxHeight'>>
     >(Object),
   },
 } as const)
