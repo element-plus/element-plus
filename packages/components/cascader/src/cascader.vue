@@ -353,9 +353,10 @@ const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
     )
   },
   afterBlur() {
-    nextTick(() => {
-      popperVisible.value = false
-    })
+    popperVisible.value = false
+    if (props.filterable) {
+      syncPresentTextValue()
+    }
     if (props.validateEvent) {
       formItem?.validate?.('blur').catch((err) => debugWarn(err))
     }
@@ -443,8 +444,6 @@ const togglePopperVisible = (visible?: boolean) => {
     if (visible) {
       updatePopperPosition()
       nextTick(cascaderPanelRef.value?.scrollToExpandingNode)
-    } else if (props.filterable) {
-      syncPresentTextValue()
     }
 
     emit('visibleChange', visible)
