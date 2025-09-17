@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import { useEventListener, useParallax, useThrottleFn } from '@vueuse/core'
 import { useLang } from '../../composables/lang'
 import homeLocale from '../../../i18n/pages/home.json'
@@ -113,7 +113,9 @@ const handleScroll = useThrottleFn(() => {
   }
 }, 10)
 
-useEventListener(window, 'scroll', handleScroll)
+onMounted(() => {
+  useEventListener(window, 'scroll', handleScroll)
+})
 </script>
 
 <template>
