@@ -10,7 +10,7 @@ concurrency:
 
 jobs:
   lint:
-    name: Lint & Typecheck
+    name: Lint
     runs-on: ubuntu-latest
 
     steps:
