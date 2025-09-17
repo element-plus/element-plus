@@ -25,8 +25,7 @@ image/placeholder
 
 ## Load Failed
 
-:::demo Custom failed content when error occurs to image load by `slot = error`
-
+:::demo Custom failed content when error occurs to image load by `slot = error` and `slot = viewer-error`.
 image/load-failed
 
 :::
@@ -118,13 +117,11 @@ image/custom-progress
 
 ### Image Slots
 
-| Name              | Description                                                                                | Type                                                                                                                                                                                                              |
-| ----------------- | ------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| placeholder       | custom placeholder content when image hasn't loaded yet.                                   | -                                                                                                                                                                                                                 |
-| error             | custom image load failed content.                                                          | -                                                                                                                                                                                                                 |
-| viewer            | custom content when image preview.                                                         | -                                                                                                                                                                                                                 |
-| progress ^(2.9.4) | custom progress content when image preview. (Priority is higher than `show-progress` prop) | ^[object]`{ activeIndex: number, total: number }`                                                                                                                                                                 |
-| toolbar ^(2.9.4)  | custom toolbar content when image preview.                                                 | ^[object]`{actions: (action: ImageViewerAction, options?: ImageViewerActionOptions ) => void, prev: ()=> void, next: () => void,reset: () => void, activeIndex: number }, setActiveItem: (index: number) => void` |
+| Name                                      | Description                                                           | Type |
+| ----------------------------------------- | --------------------------------------------------------------------- | ---- |
+| placeholder                               | custom placeholder content when image hasn't loaded yet.              | -    |
+| error                                     | custom image load failed content.                                     | -    |
+| [image viewer slots](#image-viewer-slots) | when you allow big image preview, image viewer slots all can be used. | -    |
 
 ### Image Exposes
 
@@ -156,8 +153,18 @@ image/custom-progress
 | Name             | Description                                                                                       | Type                                 |
 | ---------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------ |
 | close            | trigger when clicking on close button or when `hide-on-click-modal` enabled clicking on backdrop. | ^[Function]`() => void`              |
+| error ^(2.11.3)  | same as native error.                                                                             | ^[Function]`(e: Event) => void`      |
 | switch           | trigger when switching images.                                                                    | ^[Function]`(index: number) => void` |
 | rotate ^(2.3.13) | trigger when rotating images.                                                                     | ^[Function]`(deg: number) => void`   |
+
+### Image Viewer Slots
+
+| Name                   | Description                                                            | Type                                                                                                                                                                                                              |
+| ---------------------- | ---------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| viewer                 | custom content                                                         | -                                                                                                                                                                                                                 |
+| progress ^(2.9.4)      | custom progress content (Priority is higher than `show-progress` prop) | ^[object]`{ activeIndex: number, total: number }`                                                                                                                                                                 |
+| toolbar ^(2.9.4)       | custom toolbar content                                                 | ^[object]`{actions: (action: ImageViewerAction, options?: ImageViewerActionOptions ) => void, prev: ()=> void, next: () => void,reset: () => void, activeIndex: number }, setActiveItem: (index: number) => void` |
+| viewer-error ^(2.11.3) | custom image load failed content.                                      | ^[object]`{ activeIndex: number, src: string }`                                                                                                                                                                   |
 
 ### Image Viewer Exposes
 

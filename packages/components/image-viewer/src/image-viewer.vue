@@ -83,19 +83,24 @@
           </div>
           <!-- CANVAS -->
           <div :class="ns.e('canvas')">
-            <template v-for="(url, i) in urlList" :key="i">
-              <img
-                v-if="i === activeIndex"
-                :ref="(el) => (imgRefs[i] = el as HTMLImageElement)"
-                :src="url"
-                :style="imgStyle"
-                :class="ns.e('img')"
-                :crossorigin="crossorigin"
-                @load="handleImgLoad"
-                @error="handleImgError"
-                @mousedown="handleMouseDown"
-              />
-            </template>
+            <slot
+              v-if="loadError && $slots['viewer-error']"
+              name="viewer-error"
+              :active-index="activeIndex"
+              :src="currentImg"
+            />
+            <img
+              v-else
+              ref="imgRef"
+              :key="currentImg"
+              :src="currentImg"
+              :style="imgStyle"
+              :class="ns.e('img')"
+              :crossorigin="crossorigin"
+              @load="handleImgLoad"
+              @error="handleImgError"
+              @mousedown="handleMouseDown"
+            />
           </div>
           <slot />
         </el-focus-trap>
@@ -164,7 +169,7 @@ const { t } = useLocale()
 const ns = useNamespace('image-viewer')
 const { nextZIndex } = useZIndex()
 const wrapper = ref<HTMLDivElement>()
-const imgRefs = ref<HTMLImageElement[]>([])
+const imgRef = ref<HTMLImageElement>()
 
 const scopeEventListener = effectScope()
 
@@ -174,6 +179,7 @@ const scaleClamped = computed(() => {
 })
 
 const loading = ref(true)
+const loadError = ref(false)
 const activeIndex = ref(props.initialIndex)
 const mode = shallowRef<ImageViewerMode>(modes.CONTAIN)
 const transform = ref({
@@ -292,7 +298,9 @@ function handleImgLoad() {
 }
 
 function handleImgError(e: Event) {
+  loadError.value = true
   loading.value = false
+  emit('error', e)
   ;(e.target as HTMLImageElement).alt = t('el.image.error')
 }
 
@@ -330,7 +338,7 @@ function reset() {
 }
 
 function toggleMode() {
-  if (loading.value) return
+  if (loading.value || loadError.value) return
 
   const modeNames = keysOf(modes)
   const modeValues = Object.values(modes)
@@ -342,6 +350,7 @@ function toggleMode() {
 }
 
 function setActiveItem(index: number) {
+  loadError.value = false
   const len = props.urlList.length
   activeIndex.value = (index + len) % len
 }
@@ -357,7 +366,7 @@ function next() {
 }
 
 function handleActions(action: ImageViewerAction, options = {}) {
-  if (loading.value) return
+  if (loading.value || loadError.value) return
   const { minScale, maxScale } = props
   const { zoomRate, rotateDeg, enableTransition } = {
     zoomRate: props.zoomRate,
@@ -425,7 +434,7 @@ watch(
 
 watch(currentImg, () => {
   nextTick(() => {
-    const $img = imgRefs.value[0]
+    const $img = imgRef.value
     if (!$img?.complete) {
       loading.value = true
     }
