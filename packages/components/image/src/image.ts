@@ -91,7 +91,7 @@ export const imageProps = buildProps({
     default: 1.2,
   },
   /**
-   * @description initial preview image scale.
+   * @description preview image scale.
    */
   scale: {
     type: Number,
