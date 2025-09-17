@@ -353,7 +353,6 @@ const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
     )
   },
   afterBlur() {
-    popperVisible.value = false
     if (props.validateEvent) {
       formItem?.validate?.('blur').catch((err) => debugWarn(err))
     }

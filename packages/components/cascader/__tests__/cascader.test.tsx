@@ -70,7 +70,10 @@ describe('Cascader.vue', () => {
   test('toggle popper visible', async () => {
     const handleVisibleChange = vi.fn()
     const wrapper = _mount(() => (
-      <Cascader onVisibleChange={handleVisibleChange} />
+      <>
+        <Cascader onVisibleChange={handleVisibleChange} />
+        <button></button>
+      </>
     ))
 
     const trigger = wrapper.find(TRIGGER)
@@ -78,12 +81,14 @@ describe('Cascader.vue', () => {
 
     await trigger.trigger('click')
     expect(dropdown.style.display).not.toBe('none')
-    expect(handleVisibleChange).toBeCalledWith(true)
+    expect(handleVisibleChange).toHaveBeenLastCalledWith(true)
     await trigger.trigger('click')
-    expect(handleVisibleChange).toBeCalledWith(false)
+    expect(handleVisibleChange).toHaveBeenLastCalledWith(false)
     await trigger.trigger('click')
-    document.body.click()
-    expect(handleVisibleChange).toBeCalledWith(false)
+    expect(handleVisibleChange).toHaveBeenLastCalledWith(true)
+    await wrapper.find('button').trigger('mousedown')
+    await wrapper.find('button').trigger('mouseup')
+    expect(handleVisibleChange).toHaveBeenLastCalledWith(false)
   })
 
   test('expand and check', async () => {
