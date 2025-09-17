@@ -1659,4 +1659,54 @@ describe('Virtual Tree', () => {
     const secondExpandedNodes = wrapper.findAll('.expanded')
     expect(secondExpandedNodes.length).toBe(2)
   })
+
+  test('call collapseNode/expandNode icon status error', async () => {
+    const { treeRef, wrapper } = createTree({
+      data() {
+        return {
+          expandOnClickNode: false,
+          highlightCurrent: true,
+          data: [
+            {
+              id: '1',
+              label: 'Level one 1',
+              children: [
+                {
+                  id: '1-1',
+                  label: 'Level two 1-1',
+                },
+              ],
+            },
+          ],
+        }
+      },
+      methods: {
+        toggleExpand(node) {
+          if (node.expanded) {
+            treeRef.collapseNode(node)
+          } else {
+            treeRef.expandNode(node)
+          }
+        },
+      },
+      slots: {
+        default: `<div class='dblclick-node' @dblclick="toggleExpand(node)">{{ node.label }}</div>`,
+      },
+    })
+
+    await nextTick()
+    const dblclickNode = wrapper.find('.dblclick-node')
+
+    await dblclickNode.trigger('dblclick')
+    await nextTick()
+    const iconWrapper = wrapper.findAll(TREE_NODE_EXPAND_ICON_CLASS_NAME)
+    expect(iconWrapper.length).toBe(2)
+    expect(iconWrapper[0].classes()).toContain('expanded')
+
+    await dblclickNode.trigger('dblclick')
+    await nextTick()
+    const iconWrapper1 = wrapper.findAll(TREE_NODE_EXPAND_ICON_CLASS_NAME)
+    expect(iconWrapper1.length).toBe(1)
+    expect(iconWrapper1[0].classes()).not.toContain('expanded')
+  })
 })
