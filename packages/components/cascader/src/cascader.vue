@@ -85,9 +85,7 @@
               disable-transitions
               @close="deleteTag(tag)"
             >
-              <template v-if="tag.isCollapseTag === false">
-                <span>{{ tag.text }}</span>
-              </template>
+              <span>{{ tag.text }}</span>
             </el-tag>
           </slot>
           <el-tooltip
@@ -488,7 +486,6 @@ const genTag = (node: CascaderNode): Tag => {
     text: node.calcText(showAllLevels, separator),
     hitState: false,
     closable: !isDisabled.value && !node.isDisabled,
-    isCollapseTag: false,
   }
 }
 
