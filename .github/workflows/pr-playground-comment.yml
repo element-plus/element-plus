@@ -1,0 +1,34 @@
+name: PR Playground Comment
+
+on:
+  workflow_run:
+    workflows: ['PR Docs Build']
+    types: [completed]
+
+jobs:
+  comment-playground:
+    name: Comment Playground
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Download pr number
+        uses: dawidd6/action-download-artifact@v9
+        with:
+          workflow: ${{ github.event.workflow.id }}
+          run_id: ${{ github.event.workflow_run.id }}
+          name: pr
+
+      - name: Output pr number
+        id: pr
+        run: echo "id=$(<pr.txt)" >> $GITHUB_OUTPUT
+
+      - name: Comment playground link
+        uses: actions-cool/maintain-one-comment@v3.1.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body: |
+            🧪 Playground Preview: https://element-plus.run/?pr=${{ steps.pr.outputs.id }}
+            Please comment the example via this playground if needed.
+            <!-- ELEMENT_PLUS_PLAYGROUND -->
+          body-include: '<!-- ELEMENT_PLUS_PLAYGROUND -->'
+          number: ${{ steps.pr.outputs.id }}
