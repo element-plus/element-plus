@@ -107,7 +107,7 @@ module.exports = defineConfig({
       rules: {
         '@typescript-eslint/consistent-type-imports': [
           'error',
-          { disallowTypeAnnotations: true },
+          { disallowTypeAnnotations: false },
         ],
       },
     },
@@ -126,7 +126,7 @@ module.exports = defineConfig({
         'no-undef': 'off',
         '@typescript-eslint/consistent-type-imports': [
           'error',
-          { disallowTypeAnnotations: true },
+          { disallowTypeAnnotations: false },
         ],
       },
     },
