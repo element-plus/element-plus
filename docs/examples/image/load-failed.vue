@@ -66,9 +66,9 @@ const url =
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: 100%;
-  height: 100%;
   font-size: 30px;
+  height: 200px;
+  background: #fff;
 }
 .demo-image__error .image-slot .el-icon {
   font-size: 30px;
