@@ -1,4 +1,4 @@
-name: 🧹 Lint and Typecheck
+name: 🧹 Lint & Typecheck
 
 on:
   pull_request:
@@ -10,7 +10,7 @@ concurrency:
 
 jobs:
   lint:
-    name: Lint and Typecheck
+    name: Lint & Typecheck
     runs-on: ubuntu-latest
 
     steps:
