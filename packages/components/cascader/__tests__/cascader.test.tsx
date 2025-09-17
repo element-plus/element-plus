@@ -81,14 +81,14 @@ describe('Cascader.vue', () => {
 
     await trigger.trigger('click')
     expect(dropdown.style.display).not.toBe('none')
-    expect(handleVisibleChange).toHaveBeenLastCalledWith(true)
+    expect(handleVisibleChange).toHaveBeenNthCalledWith(1, true)
     await trigger.trigger('click')
-    expect(handleVisibleChange).toHaveBeenLastCalledWith(false)
+    expect(handleVisibleChange).toHaveBeenNthCalledWith(2, false)
     await trigger.trigger('click')
-    expect(handleVisibleChange).toHaveBeenLastCalledWith(true)
+    expect(handleVisibleChange).toHaveBeenNthCalledWith(3, true)
     await wrapper.find('button').trigger('mousedown')
     await wrapper.find('button').trigger('mouseup')
-    expect(handleVisibleChange).toHaveBeenLastCalledWith(false)
+    expect(handleVisibleChange).toHaveBeenNthCalledWith(4, false)
   })
 
   test('expand and check', async () => {
