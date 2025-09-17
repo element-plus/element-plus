@@ -257,6 +257,13 @@ export const useBasicDateTable = (
     }
   }
 
+  const isSelectedCell = (cell: DateCell) => {
+    return (
+      (!unref(hasCurrent) && cell?.text === 1 && cell.type === 'normal') ||
+      cell.isCurrent
+    )
+  }
+
   const handleFocus = (event: FocusEvent) => {
     if (focusWithClick || unref(hasCurrent) || props.selectionMode !== 'date')
       return
@@ -382,6 +389,7 @@ export const useBasicDateTable = (
     focus,
     isCurrent,
     isWeekActive,
+    isSelectedCell,
 
     handlePickDate,
     handleMouseUp,
