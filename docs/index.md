@@ -4,7 +4,7 @@ lang: en-US
 page: true
 ---
 
-<!-- Placeholder -->
+<ParallaxHome />
 
 <script setup lang="ts">
 import { useRouter } from 'vitepress'
@@ -19,6 +19,6 @@ onMounted(() => {
     if (path === '/') {
       router.go('/en-US/')
     }
-  }, 500)
+  }, 200)
 })
 </script>
