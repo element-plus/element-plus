@@ -1,6 +1,8 @@
-import { ComputedRef, Ref, ref, unref } from 'vue'
+import { ref, unref } from 'vue'
 import { useEventListener } from '@vueuse/core'
-import { GridScrollOptions, GridStates } from '../types'
+
+import type { ComputedRef, Ref } from 'vue'
+import type { GridScrollOptions, GridStates } from '../types'
 
 export const useGardTouch = (
   windowRef: Ref<HTMLElement | undefined>,
