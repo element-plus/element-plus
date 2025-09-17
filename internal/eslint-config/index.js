@@ -103,6 +103,15 @@ module.exports = defineConfig({
       },
     },
     {
+      files: ['*.ts'],
+      rules: {
+        '@typescript-eslint/consistent-type-imports': [
+          'error',
+          { disallowTypeAnnotations: false },
+        ],
+      },
+    },
+    {
       files: ['*.vue'],
       parser: 'vue-eslint-parser',
       parserOptions: {
