@@ -115,7 +115,7 @@ import {
   shallowRef,
   watch,
 } from 'vue'
-import { useEventListener } from '@vueuse/core'
+import { clamp, useEventListener } from '@vueuse/core'
 import { throttle } from 'lodash-unified'
 import { useLocale, useNamespace, useZIndex } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/constants'
@@ -168,11 +168,16 @@ const imgRefs = ref<HTMLImageElement[]>([])
 
 const scopeEventListener = effectScope()
 
+const scaleClamped = computed(() => {
+  const { scale, minScale, maxScale } = props
+  return clamp(scale, minScale, maxScale)
+})
+
 const loading = ref(true)
 const activeIndex = ref(props.initialIndex)
 const mode = shallowRef<ImageViewerMode>(modes.CONTAIN)
 const transform = ref({
-  scale: 1,
+  scale: scaleClamped.value,
   deg: 0,
   offsetX: 0,
   offsetY: 0,
@@ -316,7 +321,7 @@ function handleMouseDown(e: MouseEvent) {
 
 function reset() {
   transform.value = {
-    scale: 1,
+    scale: scaleClamped.value,
     deg: 0,
     offsetX: 0,
     offsetY: 0,
@@ -410,6 +415,13 @@ function wheelHandler(e: WheelEvent) {
     return false
   }
 }
+
+watch(
+  () => scaleClamped.value,
+  (val) => {
+    transform.value.scale = val
+  }
+)
 
 watch(currentImg, () => {
   nextTick(() => {
