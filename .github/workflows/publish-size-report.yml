@@ -12,7 +12,7 @@ jobs:
       CI_JOB_NUMBER: 1
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
