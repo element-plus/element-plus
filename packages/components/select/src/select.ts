@@ -6,7 +6,7 @@ import {
   useSizeProp,
 } from '@element-plus/hooks'
 import {
-  EmitFn,
+  type EmitFn,
   buildProps,
   definePropType,
   iconPropType,
