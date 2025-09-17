@@ -67,7 +67,7 @@ export const imageViewerProps = buildProps({
   /**
    * @description initial preview image scale.
    */
-  initialScale: {
+  scale: {
     type: Number,
     default: 1,
   },

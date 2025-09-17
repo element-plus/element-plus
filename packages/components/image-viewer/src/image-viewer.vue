@@ -168,16 +168,16 @@ const imgRefs = ref<HTMLImageElement[]>([])
 
 const scopeEventListener = effectScope()
 
-const initialScaleClamped = computed(() => {
-  const { initialScale, minScale, maxScale } = props
-  return clamp(initialScale, minScale, maxScale)
+const scaleClamped = computed(() => {
+  const { scale, minScale, maxScale } = props
+  return clamp(scale, minScale, maxScale)
 })
 
 const loading = ref(true)
 const activeIndex = ref(props.initialIndex)
 const mode = shallowRef<ImageViewerMode>(modes.CONTAIN)
 const transform = ref({
-  scale: initialScaleClamped.value,
+  scale: scaleClamped.value,
   deg: 0,
   offsetX: 0,
   offsetY: 0,
@@ -321,7 +321,7 @@ function handleMouseDown(e: MouseEvent) {
 
 function reset() {
   transform.value = {
-    scale: initialScaleClamped.value,
+    scale: scaleClamped.value,
     deg: 0,
     offsetX: 0,
     offsetY: 0,
@@ -417,7 +417,7 @@ function wheelHandler(e: WheelEvent) {
 }
 
 watch(
-  () => initialScaleClamped.value,
+  () => scaleClamped.value,
   (val) => {
     transform.value.scale = val
   }
