@@ -49,3 +49,7 @@ export function createCrowdinUrl(/** zh-CN、es-ES... */ targetLang: string) {
   // example: https://crowdin.com/project/element-plus/zh-CN
   return `https://crowdin.com/project/element-plus/${targetLang}`
 }
+
+export function isClient() {
+  return typeof window !== 'undefined'
+}
