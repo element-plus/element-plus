@@ -160,6 +160,24 @@ describe('DatePicker', () => {
     expect(vm.value).toBeDefined()
   })
 
+  it('cleared value should match the value-on-clear prop', async () => {
+    const value = ['2025-01-01', '2025-01-02']
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        type="daterange"
+        :empty-values="[[]]"
+        :value-on-clear="() => []"
+    />`,
+      () => ({ value })
+    )
+    await nextTick()
+    expect(wrapper.vm.value).toEqual(value)
+    const clearBtn = wrapper.find('.el-range__close-icon')
+    clearBtn.trigger('click')
+    expect(wrapper.vm.value).toEqual([])
+  })
+
   it('defaultTime and clear value', async () => {
     const wrapper = _mount(
       `<el-date-picker

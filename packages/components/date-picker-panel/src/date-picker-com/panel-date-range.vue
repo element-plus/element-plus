@@ -871,6 +871,10 @@ const handleMaxTimePick = (
 }
 
 const handleClear = () => {
+  let valueOnClear = null
+  if (pickerBase?.emptyValues) {
+    valueOnClear = pickerBase.emptyValues.valueOnClear.value
+  }
   leftDate.value = getDefaultValue(unref(defaultValue), {
     lang: unref(lang),
     unit: 'month',
@@ -881,7 +885,7 @@ const handleClear = () => {
   minDate.value = undefined
 
   handleRangeConfirm(true)
-  emit('pick', null)
+  emit('pick', valueOnClear)
 }
 
 const formatToString = (value: Dayjs | Dayjs[]) => {
