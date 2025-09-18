@@ -99,7 +99,7 @@ table/fixed-header-with-fluid-header
 
 When the data structure is complex, you can use group header to show the data hierarchy.
 
-:::demo Only need to place el-table-column inside a el-table-column, you can achieve group header.
+:::demo Only need to place el-table-column inside a el-table-column, you can achieve group header.if you need to build a custom recursive component, you can explicitly pass `defineComponent({ __isTableColumn: true })` to mark it as a valid `el-table-column` component.
 
 table/grouping-header
 
