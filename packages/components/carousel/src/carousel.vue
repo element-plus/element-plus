@@ -135,7 +135,7 @@ const ns = useNamespace('carousel')
 const { t } = useLocale()
 
 const carouselClasses = computed(() => {
-  const classes = [ns.b(), ns.m(props.direction)]
+  const classes: string[] = [ns.b(), ns.m(props.direction)]
   if (unref(isCardType)) {
     classes.push(ns.m('card'))
   }
@@ -143,7 +143,10 @@ const carouselClasses = computed(() => {
 })
 
 const indicatorsClasses = computed(() => {
-  const classes = [ns.e('indicators'), ns.em('indicators', props.direction)]
+  const classes: string[] = [
+    ns.e('indicators'),
+    ns.em('indicators', props.direction),
+  ]
   if (unref(hasLabel)) {
     classes.push(ns.em('indicators', 'labels'))
   }

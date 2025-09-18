@@ -28,7 +28,7 @@ function useStyles<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
   }
 
   const getRowClass = (row: T, rowIndex: number, displayIndex: number) => {
-    const classes = [ns.e('row')]
+    const classes: string[] = [ns.e('row')]
     if (
       parent?.props.highlightCurrentRow &&
       row === props.store?.states.currentRow.value

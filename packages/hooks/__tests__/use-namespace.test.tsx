@@ -1,6 +1,6 @@
 import { computed, defineComponent, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, assertType, beforeEach, describe, expect, it } from 'vitest'
 import { useNamespace } from '..'
 
 import type { VueWrapper } from '@vue/test-utils'
@@ -99,5 +99,69 @@ describe('use-namespace', () => {
     )
 
     expect(vm.namespace).toBe(overrides)
+  })
+
+  it('type assertion', () => {
+    const ns = useNamespace('table')
+    const ns2 = useNamespace(
+      'table',
+      computed(() => 'override')
+    )
+
+    assertType<'override'>(ns2.namespace.value)
+
+    assertType<'el-table'>(ns.b())
+    assertType<'el-table'>(ns.b(''))
+    assertType<'el-table'>(ns.b(undefined))
+    assertType<'el-table-body'>(ns.b('body'))
+
+    assertType<''>(ns.e())
+    assertType<''>(ns.e(''))
+    assertType<''>(ns.e(undefined))
+    assertType<'el-table__content'>(ns.e('content'))
+
+    assertType<''>(ns.m())
+    assertType<''>(ns.m(''))
+    assertType<''>(ns.m(undefined))
+    assertType<'el-table--active'>(ns.m('active'))
+
+    assertType<''>(ns.be())
+    assertType<'el-table-content__active'>(ns.be('content', 'active'))
+
+    assertType<''>(ns.em())
+    assertType<'el-table__content--active'>(ns.em('content', 'active'))
+
+    assertType<''>(ns.bem())
+    assertType<'el-table-body__content--active'>(
+      ns.bem('body', 'content', 'active')
+    )
+
+    assertType<'is-focus'>(ns.is('focus'))
+    assertType<''>(ns.is('focus', undefined))
+    assertType<'is-focus'>(ns.is('focus', true))
+    assertType<''>(ns.is('focus', false))
+    assertType<'' | 'is-focus'>(ns.is('focus', false as boolean))
+
+    assertType<{
+      '--el-border-style': string
+      '--el-border-width': string
+    }>(
+      ns.cssVar({
+        'border-style': 'solid',
+        'border-width': '',
+      })
+    )
+    assertType<{
+      '--el-table-text-color': string
+      '--el-table-active-color': string
+    }>(
+      ns.cssVarBlock({
+        'text-color': '#409eff',
+        'active-color': '',
+      })
+    )
+
+    assertType<'--el-table'>(ns.cssVarName('table'))
+    assertType<'--el-table-body'>(ns.cssVarBlockName('body'))
   })
 })

@@ -140,7 +140,7 @@ export const cellForced = {
       expanded: boolean
     }) {
       const { ns } = store
-      const classes = [ns.e('expand-icon')]
+      const classes: string[] = [ns.e('expand-icon')]
 
       if (!column.renderExpand && expanded) {
         classes.push(ns.em('expand-icon', 'expanded'))

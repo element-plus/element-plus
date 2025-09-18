@@ -37,7 +37,7 @@ const hasLoadError = ref(false)
 
 const avatarClass = computed(() => {
   const { size, icon, shape } = props
-  const classList = [ns.b()]
+  const classList: string[] = [ns.b()]
   if (isString(size)) classList.push(ns.m(size))
   if (icon) classList.push(ns.m('icon'))
   if (shape) classList.push(ns.m(shape))
