@@ -26,6 +26,7 @@ image/placeholder
 ## Load Failed
 
 :::demo Custom failed content when error occurs to image load by `slot = error` and `slot = viewer-error`.
+
 image/load-failed
 
 :::
