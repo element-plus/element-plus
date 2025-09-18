@@ -39,7 +39,7 @@
         @clear="handleClear"
         @keydown.up.prevent="highlight(highlightedIndex - 1)"
         @keydown.down.prevent="highlight(highlightedIndex + 1)"
-        @keydown.enter="handleKeyEnter"
+        @keydown.enter.prevent="handleKeyEnter"
         @keydown.tab="close"
         @keydown.esc="handleKeyEscape"
         @mousedown="handleMouseDown"
