@@ -77,6 +77,10 @@ export const tabsProps = buildProps({
    * @description whether width of tab automatically fits its container
    */
   stretch: Boolean,
+  /**
+   * @description whether the tabs are draggable.
+   */
+  draggable: Boolean,
 } as const)
 export type TabsProps = ExtractPropTypes<typeof tabsProps>
 export type TabsPropsPublic = __ExtractPublicPropTypes<typeof tabsProps>
@@ -92,6 +96,8 @@ export const tabsEmits = {
     ['remove', 'add'].includes(action),
   tabRemove: (name: TabPaneName) => isPaneName(name),
   tabAdd: () => true,
+  tabsOrderChange: (order: TabPaneName[]) =>
+    Array.isArray(order) && order.every(isPaneName),
 }
 export type TabsEmits = typeof tabsEmits
 
@@ -174,6 +180,10 @@ const Tabs = defineComponent({
       emit('tabAdd')
     }
 
+    const handleOrderChange = (order: TabPaneName[]) => {
+      emit('tabsOrderChange', order)
+    }
+
     const swapChildren = (
       vnode: VNode & {
         el: HTMLDivElement
@@ -203,6 +213,7 @@ const Tabs = defineComponent({
     provide(tabsRootContextKey, {
       props,
       currentName,
+      tabPanes: panes,
       registerPane,
       unregisterPane,
       nav$,
@@ -251,6 +262,7 @@ const Tabs = defineComponent({
           stretch={props.stretch}
           onTabClick={handleTabClick}
           onTabRemove={handleTabRemove}
+          onTabsOrderChange={handleOrderChange}
         />
       )
 
