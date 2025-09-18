@@ -3,7 +3,7 @@
     v-model="value"
     style="width: 240px"
     start="08:30"
-    step="00:15"
+    step="00:12"
     end="18:30"
     placeholder="Select time"
   />
