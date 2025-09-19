@@ -362,7 +362,9 @@ const TabNav = defineComponent({
         const uid = pane.uid
         const disabled = pane.props.disabled
         const tabName = pane.props.name ?? pane.index ?? `${index}`
-        const closable = !disabled && (pane.isClosable || props.editable)
+        const closable =
+          !disabled &&
+          (pane.isClosable || (pane.props.closable !== false && props.editable))
         pane.index = `${index}`
 
         const btnClose = closable ? (
