@@ -294,6 +294,10 @@ const handleClear = () => {
 }
 
 const handleKeyEnter = async () => {
+  if (inputRef.value?.isComposing) {
+    return
+  }
+
   if (
     suggestionVisible.value &&
     highlightedIndex.value >= 0 &&
@@ -363,8 +367,7 @@ const highlight = (index: number) => {
     suggestion.scrollTop -= scrollHeight
   }
   highlightedIndex.value = index
-  // TODO: use Volar generate dts to fix it.
-  ;(inputRef.value as any).ref!.setAttribute(
+  inputRef.value?.ref?.setAttribute(
     'aria-activedescendant',
     `${listboxId.value}-item-${highlightedIndex.value}`
   )
@@ -381,16 +384,19 @@ onBeforeUnmount(() => {
 })
 
 onMounted(() => {
-  // TODO: use Volar generate dts to fix it.
-  ;(inputRef.value as any).ref!.setAttribute('role', 'textbox')
-  ;(inputRef.value as any).ref!.setAttribute('aria-autocomplete', 'list')
-  ;(inputRef.value as any).ref!.setAttribute('aria-controls', 'id')
-  ;(inputRef.value as any).ref!.setAttribute(
-    'aria-activedescendant',
-    `${listboxId.value}-item-${highlightedIndex.value}`
-  )
+  const inputElement = inputRef.value?.ref
+  if (!inputElement) return
+  ;[
+    { key: 'role', value: 'textbox' },
+    { key: 'aria-autocomplete', value: 'list' },
+    { key: 'aria-controls', value: 'id' },
+    {
+      key: 'aria-activedescendant',
+      value: `${listboxId.value}-item-${highlightedIndex.value}`,
+    },
+  ].forEach(({ key, value }) => inputElement.setAttribute(key, value))
   // get readonly attr
-  readonly = (inputRef.value as any).ref!.hasAttribute('readonly')
+  readonly = inputElement.hasAttribute('readonly')
 })
 
 defineExpose({

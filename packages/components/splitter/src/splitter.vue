@@ -2,6 +2,7 @@
 import {
   computed,
   getCurrentInstance,
+  nextTick,
   provide,
   reactive,
   toRef,
@@ -10,7 +11,9 @@ import {
 import { useNamespace, useOrderedChildren } from '@element-plus/hooks'
 import { useContainer, useResize, useSize } from './hooks'
 import { splitterProps } from './splitter'
-import { type PanelItemState, splitterRootContextKey } from './type'
+import { splitterRootContextKey } from './type'
+
+import type { PanelItemState } from './type'
 
 const ns = useNamespace('splitter')
 
@@ -76,8 +79,9 @@ const onResize = (index: number, offset: number) => {
   }
 }
 
-const onResizeEnd = (index: number) => {
+const onResizeEnd = async (index: number) => {
   onMoveEnd()
+  await nextTick()
   emits('resizeEnd', index, pxSizes.value)
 }
 
