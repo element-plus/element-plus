@@ -81,6 +81,9 @@ export const tableV2RowProps = buildProps({
     type: Number,
     required: true,
   },
+  tableLocation: {
+    type: definePropType<'main' | 'left' | 'right'>(String),
+  },
   /**
    * Unique item key
    */

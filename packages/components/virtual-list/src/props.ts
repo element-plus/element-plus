@@ -138,6 +138,9 @@ export const virtualizedGridProps = buildProps({
   estimatedRowHeight: estimatedItemSize,
   initScrollLeft: initScrollOffset,
   initScrollTop: initScrollOffset,
+  tableLocation: {
+    type: definePropType<'main' | 'left' | 'right'>(String),
+  },
   itemKey: {
     type: definePropType<GridItemKeyGetter>(Function),
     default: ({
