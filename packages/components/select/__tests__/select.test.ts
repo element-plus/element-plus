@@ -2135,7 +2135,7 @@ describe('Select', () => {
     const vm = wrapper.vm as any
     wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
     await nextTick()
-    vm.options[1].disabled = true
+    vm._.data.options[1].disabled = true
     await nextTick()
     const options = getOptions()
     expect(options[0].className).not.toContain('is-disabled')
@@ -2427,7 +2427,7 @@ describe('Select', () => {
     await nextTick()
     expect(wrapper.findAll('.el-tag').length).toBe(1)
 
-    vm.modelValue.splice(0, 1)
+    vm._.data.modelValue.splice(0, 1)
 
     await nextTick()
     expect(wrapper.findAll('.el-tag').length).toBe(0)
