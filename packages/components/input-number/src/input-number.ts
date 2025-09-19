@@ -131,6 +131,10 @@ export const inputNumberProps = buildProps({
    * @description whether to disable scientific notation input (e.g. 'e', 'E')
    */
   disabledScientific: Boolean,
+  /**
+   * @description whether to show clear button
+   */
+  clearable: Boolean,
 } as const)
 export type InputNumberProps = ExtractPropTypes<typeof inputNumberProps>
 export type InputNumberPropsPublic = __ExtractPublicPropTypes<
