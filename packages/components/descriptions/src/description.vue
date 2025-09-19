@@ -1,10 +1,13 @@
 <template>
   <div :class="descriptionKls">
-    <div v-if="showHeader" :class="ns.e('header')">
-      <div v-if="showTitle" :class="ns.e('title')">
+    <div
+      v-if="title || extra || $slots.title || $slots.extra"
+      :class="ns.e('header')"
+    >
+      <div v-if="title || $slots.title" :class="ns.e('title')">
         <slot name="title">{{ title }}</slot>
       </div>
-      <div v-if="showExtra" :class="ns.e('extra')">
+      <div v-if="extra || $slots.extra" :class="ns.e('extra')">
         <slot name="extra">{{ extra }}</slot>
       </div>
     </div>
@@ -49,12 +52,6 @@ const slots = useSlots()
 provide(descriptionsKey, props as IDescriptionsInject)
 
 const descriptionKls = computed(() => [ns.b(), ns.m(descriptionsSize.value)])
-
-const showHeader = computed(
-  () => !!(props.title || props.extra || slots.title || slots.extra)
-)
-const showTitle = computed(() => !!(props.title || slots.title))
-const showExtra = computed(() => !!(props.extra || slots.extra))
 
 const filledNode = (
   node: DescriptionItemVNode,
