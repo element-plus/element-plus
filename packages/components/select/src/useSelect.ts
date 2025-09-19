@@ -753,13 +753,15 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
 
     if (!optionsAllDisabled.value) {
       if (direction === 'next') {
-        states.hoveringIndex++
-        if (states.hoveringIndex === states.options.size) {
+        if (states.hoveringIndex < states.options.size - 1) {
+          states.hoveringIndex++
+        } else if (props.keyLoop) {
           states.hoveringIndex = 0
         }
       } else if (direction === 'prev') {
-        states.hoveringIndex--
-        if (states.hoveringIndex < 0) {
+        if (states.hoveringIndex > 0) {
+          states.hoveringIndex--
+        } else if (props.keyLoop) {
           states.hoveringIndex = states.options.size - 1
         }
       }
