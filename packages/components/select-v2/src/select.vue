@@ -100,6 +100,7 @@
                 placement="bottom"
                 :popper-class="popperClass"
                 :popper-style="popperStyle"
+                :popper-options="popperOptions"
                 :teleported="teleported"
               >
                 <template #default>
