@@ -44,7 +44,7 @@
           :content-id="contentId"
           :aria-label="ariaLabel"
           @select="handleSelect"
-          @click.stop="elInputRef?.focus"
+          @click.stop="elInputRef?.focus()"
         >
           <template v-for="(_, name) in $slots" #[name]="slotProps">
             <slot :name="name" v-bind="slotProps" />
