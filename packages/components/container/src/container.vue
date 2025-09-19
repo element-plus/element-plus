@@ -9,7 +9,7 @@ import { computed, useSlots } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { buildProps } from '@element-plus/utils'
 
-import type { Component, VNode } from 'vue'
+import type { Component } from 'vue'
 
 defineOptions({
   name: 'ElContainer',
@@ -31,19 +31,11 @@ const slots = useSlots()
 const ns = useNamespace('container')
 
 const isVertical = computed(() => {
-  if (props.direction === 'vertical') {
-    return true
-  } else if (props.direction === 'horizontal') {
-    return false
-  }
-  if (slots && slots.default) {
-    const vNodes: VNode[] = slots.default()
-    return vNodes.some((vNode) => {
-      const tag = (vNode.type as Component).name
-      return tag === 'ElHeader' || tag === 'ElFooter'
-    })
-  } else {
-    return false
-  }
+  if (props.direction === 'vertical') return true
+  if (props.direction === 'horizontal' || !slots || !slots.default) return false
+  return slots.default().some((vNode) => {
+    const tag = (vNode.type as Component).name
+    return tag === 'ElHeader' || tag === 'ElFooter'
+  })
 })
 </script>
