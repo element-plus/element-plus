@@ -517,4 +517,28 @@ describe('Color-picker-panel', () => {
     ).toBe('#00ff00')
     wrapper.unmount()
   })
+
+  it('control hue changes through keyboard', async () => {
+    const color = ref('#409eff')
+    const wrapper = mount(() => <ColorPickerPanel v-model={color.value} />)
+
+    const alphaSlider = wrapper.findComponent('.el-color-hue-slider')
+    await alphaSlider.find('.el-color-hue-slider__thumb').trigger('keydown', {
+      key: EVENT_CODE.down,
+      code: EVENT_CODE.down,
+    })
+    await alphaSlider.find('.el-color-hue-slider__thumb').trigger('keydown', {
+      key: EVENT_CODE.left,
+      code: EVENT_CODE.left,
+    })
+    const input = wrapper.find<HTMLInputElement>('input').element
+    expect(input!.value).toEqual('#4099ff')
+
+    await alphaSlider.find('.el-color-hue-slider__thumb').trigger('keydown', {
+      key: EVENT_CODE.up,
+      code: EVENT_CODE.up,
+    })
+    expect(input!.value).toEqual('#409cff')
+    wrapper.unmount()
+  })
 })
