@@ -167,6 +167,9 @@ const { isFocused, handleFocus, handleBlur } = useFocusController(triggerRef, {
   afterBlur() {
     setShowPicker(false)
     resetColor()
+    if (props.validateEvent) {
+      formItem?.validate?.('blur').catch((err) => debugWarn(err))
+    }
   },
 })
 
