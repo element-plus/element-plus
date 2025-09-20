@@ -53,9 +53,20 @@
                 <el-icon><d-arrow-right /></el-icon>
               </slot>
             </button>
-            <div>{{ leftLabel }}</div>
+            <span
+              role="button"
+              :class="dpNs.e('header-label')"
+              aria-live="polite"
+              tabindex="0"
+              @keydown.enter="handleYearLabelClick"
+              @click="handleYearLabelClick"
+            >
+              {{ leftLabel }}
+            </span>
           </div>
           <month-table
+            v-if="currentView === 'month'"
+            ref="leftTableRef"
             selection-mode="range"
             :date="leftDate"
             :min-date="minDate"
@@ -67,6 +78,17 @@
             @changerange="handleChangeRange"
             @pick="handleRangePick"
             @select="onSelect"
+          />
+          <year-table
+            v-if="currentView === 'year'"
+            ref="leftTableRef"
+            selection-mode="year"
+            :date="leftDate"
+            :parsed-value="leftDate"
+            :disabled-date="disabledDate"
+            :disabled="disabled"
+            :cell-class-name="cellClassName"
+            @pick="handleLeftYearPick"
           />
         </div>
         <div :class="[ppNs.e('content'), drpNs.e('content')]" class="is-right">
@@ -94,9 +116,20 @@
                 <el-icon><d-arrow-right /></el-icon>
               </slot>
             </button>
-            <div>{{ rightLabel }}</div>
+            <span
+              role="button"
+              :class="dpNs.e('header-label')"
+              aria-live="polite"
+              tabindex="0"
+              @keydown.enter="handleYearLabelClick"
+              @click="handleYearLabelClick"
+            >
+              {{ rightLabel }}
+            </span>
           </div>
           <month-table
+            v-if="currentView === 'month'"
+            ref="rightTableRef"
             selection-mode="range"
             :date="rightDate"
             :min-date="minDate"
@@ -109,6 +142,17 @@
             @pick="handleRangePick"
             @select="onSelect"
           />
+          <year-table
+            v-if="currentView === 'year'"
+            ref="rightTableRef"
+            selection-mode="year"
+            :date="rightDate"
+            :parsed-value="rightDate"
+            :disabled-date="disabledDate"
+            :disabled="disabled"
+            :cell-class-name="cellClassName"
+            @pick="handleRightYearPick"
+          />
         </div>
       </div>
     </div>
@@ -116,11 +160,11 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref, toRef, unref, watch } from 'vue'
+import { computed, inject, nextTick, ref, toRef, unref, watch } from 'vue'
 import dayjs from 'dayjs'
 import ElIcon from '@element-plus/components/icon'
 import { isArray } from '@element-plus/utils'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
 import { PICKER_BASE_INJECTION_KEY } from '@element-plus/components/time-picker'
 import {
@@ -136,6 +180,7 @@ import { useMonthRangeHeader } from '../composables/use-month-range-header'
 import { useRangePicker } from '../composables/use-range-picker'
 import { ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY } from '../constants'
 import MonthTable from './basic-month-table.vue'
+import YearTable from './basic-year-table.vue'
 
 import type { Dayjs } from 'dayjs'
 
@@ -149,6 +194,7 @@ const unit = 'year'
 
 const { lang } = useLocale()
 const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
+const dpNs = useNamespace('date-picker')
 const isDefaultFormat = inject(
   ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY,
   undefined
@@ -158,6 +204,11 @@ const format = toRef(pickerBase.props, 'format')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 const leftDate = ref(dayjs().locale(lang.value))
 const rightDate = ref(dayjs().locale(lang.value).add(1, unit))
+const currentView = ref('month')
+const leftTableRef = ref<{ focus?: () => void }>()
+const rightTableRef = ref<{ focus?: () => void }>()
+// 保存切换视图前的 rangeState 状态
+const savedRangeState = ref<{ selecting: boolean; endDate: any } | null>(null)
 
 const {
   minDate,
@@ -195,6 +246,67 @@ const {
   leftDate,
   rightDate,
 })
+
+const handleFocusPicker = () => {
+  if (currentView.value === 'month' || currentView.value === 'year') {
+    leftTableRef.value?.focus?.()
+  }
+}
+
+const handleYearLabelClick = async (event: Event) => {
+  // 彻底阻止事件冒泡和默认行为
+  event.stopPropagation()
+  event.preventDefault()
+  event.stopImmediatePropagation()
+
+  await showPicker('year')
+}
+
+const handleLeftYearPick = async (year: number) => {
+  leftDate.value = leftDate.value.year(year)
+
+  // 切换回月份视图
+  await showPicker('month')
+}
+
+const handleRightYearPick = async (year: number) => {
+  rightDate.value = rightDate.value.year(year)
+
+  // 切换回月份视图
+  await showPicker('month')
+}
+
+const showPicker = async (view: 'month' | 'year', event?: Event) => {
+  if (event) {
+    event.stopPropagation()
+    event.preventDefault()
+  }
+  if (props.disabled) return
+
+  // 如果从月份视图切换到年份视图，保存当前的 rangeState
+  if (currentView.value === 'month' && view === 'year') {
+    savedRangeState.value = {
+      selecting: rangeState.value.selecting,
+      endDate: rangeState.value.endDate,
+    }
+    // 重置 rangeState 以避免在年份视图中触发月份选择逻辑
+    onSelect(false)
+  }
+  // 如果从年份视图切换回月份视图，恢复之前的 rangeState
+  else if (
+    currentView.value === 'year' &&
+    view === 'month' &&
+    savedRangeState.value
+  ) {
+    rangeState.value.selecting = savedRangeState.value.selecting
+    rangeState.value.endDate = savedRangeState.value.endDate
+    savedRangeState.value = null
+  }
+
+  currentView.value = view
+  await nextTick()
+  handleFocusPicker()
+}
 
 const enableYearArrow = computed(() => {
   return props.unlinkPanels && rightYear.value > leftYear.value + 1
