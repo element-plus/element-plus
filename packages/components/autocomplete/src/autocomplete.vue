@@ -94,7 +94,11 @@
               v-for="(item, index) in suggestions"
               :id="`${listboxId}-item-${index}`"
               :key="index"
-              :class="{ highlighted: highlightedIndex === index }"
+              :aria-disabled="item.disabled"
+              :class="[
+                { highlighted: highlightedIndex === index },
+                ns.is('disabled', item.disabled),
+              ]"
               role="option"
               :aria-selected="highlightedIndex === index"
               @click="handleSelect(item)"
@@ -332,6 +336,7 @@ const blur = () => {
 }
 
 const handleSelect = async (item: any) => {
+  if (item.disabled) return
   emit(INPUT_EVENT, item[props.valueKey])
   emit(UPDATE_MODEL_EVENT, item[props.valueKey])
   emit('select', item)
