@@ -10,6 +10,9 @@ export default {
       defaultLabel: 'Fargevelger',
       description: 'Nåværende farge {color}, velg ny farge med Enter-tasten',
       alphaLabel: 'Velg verdi for gjennomsiktighet',
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
     },
     datepicker: {
       now: 'Nå',

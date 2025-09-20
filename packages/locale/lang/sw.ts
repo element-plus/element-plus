@@ -11,6 +11,9 @@ export default {
       description:
         'rangi ya sasa ni {color}. bonyeza kitufe cha kuingia ili kuchagua rangi mpya.',
       alphaLabel: 'pick alpha value', // to be translated
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
     },
     datepicker: {
       now: 'sasa',
