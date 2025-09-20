@@ -101,6 +101,7 @@
                 :popper-class="popperClass"
                 :popper-style="popperStyle"
                 :teleported="teleported"
+                :popper-options="popperOptions"
               >
                 <template #default>
                   <div
