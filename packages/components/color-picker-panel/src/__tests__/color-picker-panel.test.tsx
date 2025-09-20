@@ -517,4 +517,26 @@ describe('Color-picker-panel', () => {
     ).toBe('#00ff00')
     wrapper.unmount()
   })
+
+  it('should clear the color when color is empty', async () => {
+    const color = ref<string | undefined>('#20a0ff')
+    const wrapper = mount(() => <ColorPickerPanel v-model={color.value} />)
+
+    await nextTick()
+    const input = wrapper.find<HTMLInputElement>('input')
+    expect(input.element.value.trim()).toEqual('#20a0ff')
+
+    color.value = ''
+    await nextTick()
+    expect(input.element.value).toBe('')
+
+    color.value = '#00ff00'
+    await nextTick()
+    expect(input.element.value.trim()).toEqual('#00ff00')
+
+    color.value = undefined
+    await nextTick()
+    expect(input.element.value).toBe('')
+    wrapper.unmount()
+  })
 })
