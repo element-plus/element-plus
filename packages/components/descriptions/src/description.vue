@@ -4,10 +4,10 @@
       v-if="title || extra || $slots.title || $slots.extra"
       :class="ns.e('header')"
     >
-      <div :class="ns.e('title')">
+      <div v-if="title || $slots.title" :class="ns.e('title')">
         <slot name="title">{{ title }}</slot>
       </div>
-      <div :class="ns.e('extra')">
+      <div v-if="extra || $slots.extra" :class="ns.e('extra')">
         <slot name="extra">{{ extra }}</slot>
       </div>
     </div>
