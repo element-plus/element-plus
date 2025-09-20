@@ -493,7 +493,7 @@ describe('Color-picker-panel', () => {
     ).toBe('rgb(0, 255, 0)')
     wrapper.unmount()
   })
-  
+
   it('should update the selected color when the showAlpha prop changes', async () => {
     const color = ref('#00ff00aa')
     const showAlpha = ref(true)
@@ -540,7 +540,7 @@ describe('Color-picker-panel', () => {
     expect(input.element.value).toBe('')
     wrapper.unmount()
   })
-  
+
   it('control hue changes through keyboard', async () => {
     const color = ref('#409eff')
     const wrapper = mount(() => <ColorPickerPanel v-model={color.value} />)
