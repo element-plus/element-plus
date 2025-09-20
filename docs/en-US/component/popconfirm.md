@@ -67,6 +67,8 @@ popconfirm/trigger-event
 | teleported                      | whether popconfirm is teleported to the body                                        | ^[boolean]                                                                   | true           |
 | persistent                      | when popconfirm inactive and `persistent` is `false` , popconfirm will be destroyed | ^[boolean]                                                                   | false          |
 | width                           | popconfirm width, min width 150px                                                   | ^[string] / ^[number]                                                        | 150            |
+| virtual-triggering              | Indicates whether virtual triggering is enabled                                     | ^[boolean]                                                                   | —              |
+| virtual-ref                     | Indicates the reference element to which the popover is attached                    | ^[HTMLElement]                                                               | —              |
 
 ### Events
 
