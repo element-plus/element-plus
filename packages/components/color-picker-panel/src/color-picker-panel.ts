@@ -6,9 +6,13 @@ import type {
   ComputedRef,
   ExtractPropTypes,
   InjectionKey,
+  Ref,
   __ExtractPublicPropTypes,
 } from 'vue'
 import type ColorPickerPanel from './color-picker-panel.vue'
+import type AlphaSlider from './components/alpha-slider.vue'
+import type HueSlider from './components/hue-slider.vue'
+import type SvPanel from './components/sv-panel.vue'
 import type Color from './utils/color'
 
 export const colorPickerPanelProps = buildProps({
@@ -65,6 +69,10 @@ export interface ColorPickerPanelContext {
 
 export interface CommonColorContext {
   color: Color
+  hueRef: Ref<InstanceType<typeof HueSlider>>
+  svRef: Ref<InstanceType<typeof SvPanel>>
+  alphaRef: Ref<InstanceType<typeof AlphaSlider>>
+  updateComposites: () => void
 }
 
 export const ROOT_COMMON_COLOR_INJECTION_KEY: InjectionKey<CommonColorContext> =

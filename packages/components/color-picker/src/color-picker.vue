@@ -352,6 +352,13 @@ watch(
   }
 )
 
+watch(
+  () => showPicker.value,
+  () => {
+    nextTick(commonColor.updateComposites)
+  }
+)
+
 provide(ROOT_COMMON_COLOR_INJECTION_KEY, commonColor)
 
 defineExpose({
