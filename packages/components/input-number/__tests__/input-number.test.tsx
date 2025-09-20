@@ -184,13 +184,17 @@ describe('InputNumber.vue', () => {
     const num = ref(6)
     const errorHandler = vi.fn()
 
-    mount(() => <InputNumber v-model={num.value} min={10} max={8} />, {
-      global: {
-        config: {
-          errorHandler,
+    try {
+      mount(() => <InputNumber v-model={num.value} min={10} max={8} />, {
+        global: {
+          config: {
+            errorHandler,
+          },
         },
-      },
-    })
+      })
+    } catch {
+      // suppress error
+    }
     expect(errorHandler).toHaveBeenCalled()
     const [error] = errorHandler.mock.calls[0]
     expect(error.message).toEqual(

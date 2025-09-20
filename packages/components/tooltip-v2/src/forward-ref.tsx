@@ -8,8 +8,8 @@ import {
 
 import type {
   ExtractPropTypes,
+  ExtractPublicPropTypes,
   VNodeArrayChildren,
-  __ExtractPublicPropTypes,
 } from 'vue'
 
 export type RefSetter = (el: HTMLElement | null) => void
@@ -20,7 +20,7 @@ export const forwardRefProps = buildProps({
 } as const)
 
 export type ForwardRefProps = ExtractPropTypes<typeof forwardRefProps>
-export type ForwardRefPropsPublic = __ExtractPublicPropTypes<
+export type ForwardRefPropsPublic = ExtractPublicPropTypes<
   typeof forwardRefProps
 >
 

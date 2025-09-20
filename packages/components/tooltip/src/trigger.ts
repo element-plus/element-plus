@@ -3,7 +3,7 @@ import { popperTriggerProps } from '@element-plus/components/popper'
 import { EVENT_CODE } from '@element-plus/constants'
 
 import type { Arrayable } from '@element-plus/utils'
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 
 export type TooltipTriggerType = 'hover' | 'focus' | 'click' | 'contextmenu'
 
@@ -37,6 +37,6 @@ export type ElTooltipTriggerProps = ExtractPropTypes<
   typeof useTooltipTriggerProps
 >
 
-export type ElTooltipTriggerPropsPublic = __ExtractPublicPropTypes<
+export type ElTooltipTriggerPropsPublic = ExtractPublicPropTypes<
   typeof useTooltipTriggerProps
 >

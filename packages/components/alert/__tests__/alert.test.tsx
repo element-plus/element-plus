@@ -71,6 +71,7 @@ describe('Alert.vue', () => {
     )
 
     expect(onClose).toHaveBeenCalledTimes(0)
+    // @ts-ignore
     wrapper.vm.onClose()
     vi.advanceTimersByTime(100)
     expect(onClose).toHaveBeenCalledTimes(1)

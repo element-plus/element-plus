@@ -7,6 +7,8 @@ import { ElInput } from '@element-plus/components/input'
 import Tooltip from '../src/tooltip.vue'
 
 import type { VNode } from 'vue'
+import type { VueWrapper } from '@vue/test-utils'
+import type { TooltipInstance } from '../src/tooltip'
 
 vi.mock('@element-plus/utils/error', () => ({
   debugWarn: vi.fn(),
@@ -27,7 +29,7 @@ describe('<ElTooltip />', () => {
       {
         attachTo: document.body,
       }
-    )
+    ) as unknown as VueWrapper<TooltipInstance>
   let wrapper: ReturnType<typeof createComponent>
   const findTrigger = () => wrapper.findComponent(ElPopperTrigger)
 
@@ -161,7 +163,7 @@ describe('<ElTooltip />', () => {
         {
           attachTo: document.body,
         }
-      )
+      ) as unknown as VueWrapper<TooltipInstance>
       await nextTick()
 
       const trigger$ = findTrigger()

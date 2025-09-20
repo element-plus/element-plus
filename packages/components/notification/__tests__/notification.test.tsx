@@ -8,12 +8,8 @@ import { notificationTypes } from '../src/notification'
 import Notification from '../src/notification.vue'
 
 import type { VNode } from 'vue'
-import type { VueWrapper } from '@vue/test-utils'
 import type { MockInstance } from 'vitest'
-import type {
-  NotificationInstance,
-  NotificationProps,
-} from '../src/notification'
+import type { NotificationProps } from '../src/notification'
 
 const AXIOM = 'Rem is the best girl'
 
@@ -120,10 +116,8 @@ describe('Notification.vue', () => {
 
   describe('Notification.type', () => {
     test('should be able to render typed notification', () => {
-      let wrapper: VueWrapper<NotificationInstance>
-
       for (const type of notificationTypes) {
-        wrapper = _mount({
+        const wrapper = _mount({
           props: {
             type,
           },

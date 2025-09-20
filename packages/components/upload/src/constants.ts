@@ -1,7 +1,7 @@
-import type { ComputedRef, InjectionKey } from 'vue'
+import type { InjectionKey, Ref } from 'vue'
 
 export interface UploadContext {
-  accept: ComputedRef<string>
+  accept: Ref<string>
 }
 
 export const uploadContextKey: InjectionKey<UploadContext> =

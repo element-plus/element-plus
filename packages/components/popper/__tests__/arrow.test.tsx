@@ -18,7 +18,7 @@ const mountArrow = () =>
         [POPPER_CONTENT_INJECTION_KEY as symbol]: popperContentInjection,
       },
     },
-  })
+  }) as unknown as VueWrapper<PopperArrowInstance>
 
 describe('<ElPopperArrow />', () => {
   let wrapper: VueWrapper<PopperArrowInstance>

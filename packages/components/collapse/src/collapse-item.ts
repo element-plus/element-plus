@@ -1,7 +1,7 @@
 import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 import { ArrowRight } from '@element-plus/icons-vue'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type { CollapseActiveName } from './collapse'
 
 export const collapseItemProps = buildProps({
@@ -32,6 +32,6 @@ export const collapseItemProps = buildProps({
   disabled: Boolean,
 } as const)
 export type CollapseItemProps = ExtractPropTypes<typeof collapseItemProps>
-export type CollapseItemPropsPublic = __ExtractPublicPropTypes<
+export type CollapseItemPropsPublic = ExtractPublicPropTypes<
   typeof collapseItemProps
 >
