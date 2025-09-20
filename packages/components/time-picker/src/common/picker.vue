@@ -305,7 +305,7 @@ const rangeInputKls = computed(() => [
 const clearIconKls = computed(() => [
   nsInput.e('icon'),
   nsRange.e('close-icon'),
-  !showClearBtn.value ? nsRange.e('close-icon--hidden') : '',
+  !showClearBtn.value ? nsRange.em('close-icon', 'hidden') : '',
 ])
 
 watch(pickerVisible, (val) => {

@@ -60,7 +60,7 @@ const {
 
 const splitterStyles = computed(() => {
   return {
-    [`--${ns.b()}-bar-offset`]: lazy.value
+    [ns.cssVarBlockName('bar-offset')]: lazy.value
       ? `${lazyOffset.value}px`
       : undefined,
   }
