@@ -7,6 +7,12 @@ lang: en-US
 
 Display multiple data with similar format. You can sort, filter, compare your data in a table.
 
+:::warning
+
+As of ^(2.12.0), customizing cell content via the default slot of `<el-table-column>` is deprecated. Please use the [cell slot](#custom-column-template-with-the-cell-slot) instead.
+
+:::
+
 ## Basic table
 
 Basic table is just for data display.
@@ -164,6 +170,24 @@ Customize table column so it can be integrated with other components.
 :::demo You have access to the following data: row, column, $index and store (state management of Table) by [slot](https://v3.vuejs.org/guide/component-slots.html).
 
 table/custom-column
+
+:::
+
+## Custom column template with the cell slot ^(2.12.0)
+
+To enable the cell slot, add the `cell-slot` atrribute to el-table.
+
+Compared to the default slot, the cell slot resolves the following issues:
+
+- Redundant slot calls while mounting el-table-column
+
+- Nested el-table-column not rendering with v-for directive
+
+- Potential memory leaks
+
+:::demo
+
+table/cell-slot
 
 :::
 
@@ -393,12 +417,14 @@ table/tooltip-formatter
 | filter-method              | data filtering method. If `filter-multiple` is on, this method will be called multiple times for each row, and a row will display if one of the calls returns `true`                                               | ^[function]`(value: any, row: any, column: TableColumnCtx<T>) => void`                                                                                                      | —                                 |
 | filtered-value             | filter value for selected data, might be useful when table header is rendered with `render-header`                                                                                                                 | ^[object]`string[]`                                                                                                                                                         | —                                 |
 | tooltip-formatter ^(2.9.4) | customize tooltip content when using `show-overflow-tooltip`                                                                                                                                                       | ^[Function]`(data: { row: any, column: TableColumnCtx<T>, cellValue: any }) => VNode \| string`                                                                             | —                                 |
+| cell-slot ^(2.12.0)        | whether to enable the cell slot                                                                                                                                                                                    | ^[boolean]                                                                                                                                                                  | false                             |
 
 ### Table-column Slots
 
 | Name                 | Description                       | Type                                                               |
 | -------------------- | --------------------------------- | ------------------------------------------------------------------ |
-| default              | Custom content for table columns  | ^[object]`{ row: any, column: TableColumnCtx<T>, $index: number }` |
+| default              | Include zero or more table-column | ^[object]`{ row: any, column: TableColumnCtx<T>, $index: number }` |
+| cell ^(2.12.0)       | Custom content for table columns  | ^[object]`{ row: any, column: TableColumnCtx<T>, $index: number }` |
 | header               | Custom content for table header   | ^[object]`{ column: TableColumnCtx<T>, $index: number }`           |
 | filter-icon ^(2.7.8) | Custom content for filter icon    | ^[object]`{ filterOpened: boolean }`                               |
 | expand ^(2.10.0)     | Custom content for expand columns | ^[object]`{ expanded: boolean }`                                   |
