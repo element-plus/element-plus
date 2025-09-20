@@ -118,7 +118,7 @@ import {
   EVENT_CODE,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import { debugWarn } from '@element-plus/utils'
+import { debugWarn, getEventCode } from '@element-plus/utils'
 import { ArrowDown, Close } from '@element-plus/icons-vue'
 import { colorPickerEmits, colorPickerProps } from './color-picker'
 import {
@@ -297,7 +297,9 @@ function handleEsc(event: KeyboardEvent) {
 }
 
 function handleKeyDown(event: KeyboardEvent) {
-  switch (event.code) {
+  const code = getEventCode(event)
+
+  switch (code) {
     case EVENT_CODE.enter:
     case EVENT_CODE.numpadEnter:
     case EVENT_CODE.space:

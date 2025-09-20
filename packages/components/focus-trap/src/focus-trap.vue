@@ -16,7 +16,7 @@ import {
 import { isNil } from 'lodash-unified'
 import { EVENT_CODE } from '@element-plus/constants'
 import { useEscapeKeydown } from '@element-plus/hooks'
-import { isString } from '@element-plus/utils'
+import { getEventCode, isString } from '@element-plus/utils'
 import {
   createFocusOutPreventedEvent,
   focusFirstDescendant,
@@ -86,8 +86,9 @@ export default defineComponent({
       if (!props.loop && !props.trapped) return
       if (focusLayer.paused) return
 
-      const { code, altKey, ctrlKey, metaKey, currentTarget, shiftKey } = e
+      const { altKey, ctrlKey, metaKey, currentTarget, shiftKey } = e
       const { loop } = props
+      const code = getEventCode(e)
       const isTabbing =
         code === EVENT_CODE.tab && !altKey && !ctrlKey && !metaKey
 

@@ -222,6 +222,7 @@ import { useCssVar, useResizeObserver } from '@vueuse/core'
 import {
   debugWarn,
   focusNode,
+  getEventCode,
   getSibling,
   isClient,
   isPromise,
@@ -600,8 +601,9 @@ const handleExpandChange = (value: CascaderValue) => {
 
 const handleKeyDown = (e: KeyboardEvent) => {
   if (isComposing.value) return
+  const code = getEventCode(e)
 
-  switch (e.code) {
+  switch (code) {
     case EVENT_CODE.enter:
     case EVENT_CODE.numpadEnter:
       togglePopperVisible()
