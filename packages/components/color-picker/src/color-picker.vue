@@ -6,7 +6,8 @@
     :fallback-placements="['bottom', 'top', 'right', 'left']"
     :offset="0"
     :gpu-acceleration="false"
-    :popper-class="[ns.be('picker', 'panel'), popperClass]"
+    :popper-class="[ns.be('picker', 'panel'), popperClass!]"
+    :popper-style="popperStyle"
     :stop-popper-mouse-event="false"
     pure
     effect="light"

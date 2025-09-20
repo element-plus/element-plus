@@ -78,10 +78,11 @@ export const autocompleteProps = buildProps({
   /**
    * @description custom class name for autocomplete's dropdown
    */
-  popperClass: {
-    type: String,
-    default: '',
-  },
+  popperClass: useTooltipContentProps.popperClass,
+  /**
+   * @description custom style for autocomplete's dropdown
+   */
+  popperStyle: useTooltipContentProps.popperStyle,
   /**
    * @description whether show suggestions when input focus
    */
