@@ -34,6 +34,7 @@ import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import ElSubMenu from './sub-menu'
 import { useMenuCssVar } from './use-menu-css-var'
 import { MENU_INJECTION_KEY, SUB_MENU_INJECTION_KEY } from './tokens'
+import { useTooltipContentProps } from '@element-plus/components/tooltip'
 
 import type { PopperEffect } from '@element-plus/components/popper'
 import type { MenuItemClicked, MenuProvider, SubMenuProvider } from './types'
@@ -148,7 +149,11 @@ export const menuProps = buildProps({
   /**
    * @description custom class name for all popup menus
    */
-  popperClass: String,
+  popperClass: useTooltipContentProps.popperClass,
+  /**
+   * @description custom style for all popup menus
+   */
+  popperStyle: useTooltipContentProps.popperStyle,
   /**
    * @description control timeout for all menus before showing
    */

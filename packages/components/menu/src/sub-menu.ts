@@ -17,7 +17,9 @@ import {
 } from 'vue'
 import { useTimeoutFn } from '@vueuse/core'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
-import ElTooltip from '@element-plus/components/tooltip'
+import ElTooltip, {
+  useTooltipContentProps,
+} from '@element-plus/components/tooltip'
 import {
   buildProps,
   focusElement,
@@ -61,7 +63,11 @@ export const subMenuProps = buildProps({
   /**
    * @description custom class name for the popup menu
    */
-  popperClass: String,
+  popperClass: useTooltipContentProps.popperClass,
+  /**
+   * @description custom style for the popup menu
+   */
+  popperStyle: useTooltipContentProps.popperStyle,
   /**
    * @description whether the sub-menu is disabled
    */
@@ -214,6 +220,10 @@ export default defineComponent({
 
     const subMenuPopperClass = computed(
       () => props.popperClass ?? rootMenu.props.popperClass
+    )
+
+    const subMenuPopperStyle = computed(
+      () => props.popperStyle ?? rootMenu.props.popperStyle
     )
 
     const subMenuShowTimeout = computed(
@@ -384,6 +394,7 @@ export default defineComponent({
               showArrow: false,
               persistent: persistent.value,
               popperClass: subMenuPopperClass.value,
+              popperStyle: subMenuPopperStyle.value,
               placement: currentPlacement.value,
               teleported: appendToBody.value,
               fallbackPlacements: fallbackPlacements.value,
