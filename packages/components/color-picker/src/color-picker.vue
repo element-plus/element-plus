@@ -355,7 +355,7 @@ watch(
 watch(
   () => showPicker.value,
   () => {
-    nextTick(commonColor.updateComposites)
+    nextTick(pickerPanelRef.value?.update)
   }
 )
 

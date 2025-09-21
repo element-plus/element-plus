@@ -66,10 +66,13 @@ const emit = defineEmits(colorPickerPanelEmits)
 
 const ns = useNamespace('color-picker-panel')
 const disabled = useFormDisabled()
+const hueRef = ref<InstanceType<typeof HueSlider>>()
+const svRef = ref<InstanceType<typeof SvPanel>>()
+const alphaRef = ref<InstanceType<typeof AlphaSlider>>()
 const inputRef = ref<InputInstance>()
 const customInput = ref('')
 
-const { color, hueRef, svRef, alphaRef, updateComposites } = inject(
+const { color } = inject(
   ROOT_COMMON_COLOR_INJECTION_KEY,
   () => useCommonColor(props, emit),
   true
@@ -82,11 +85,17 @@ function handleConfirm() {
   }
 }
 
+function update() {
+  hueRef.value?.update()
+  svRef.value?.update()
+  alphaRef.value?.update()
+}
+
 onMounted(() => {
   if (props.modelValue) {
     customInput.value = color.value
   }
-  nextTick(updateComposites)
+  nextTick(update)
 })
 
 watch(
@@ -119,5 +128,9 @@ defineExpose({
    * @description custom input ref
    */
   inputRef,
+  /**
+   * @description update sub components
+   */
+  update,
 })
 </script>

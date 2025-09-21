@@ -1,10 +1,6 @@
-import { reactive, ref, watch } from 'vue'
+import { reactive, watch } from 'vue'
 import Color from '../utils/color'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-
-import type AlphaSlider from '../components/alpha-slider.vue'
-import type HueSlider from '../components/hue-slider.vue'
-import type SvPanel from '../components/sv-panel.vue'
 
 type CommonColorProps = {
   modelValue?: string | null
@@ -20,10 +16,6 @@ export const useCommonColor = <
   props: P,
   emit: E
 ) => {
-  const hueRef = ref<InstanceType<typeof HueSlider>>()
-  const svRef = ref<InstanceType<typeof SvPanel>>()
-  const alphaRef = ref<InstanceType<typeof AlphaSlider>>()
-
   const color = reactive(
     new Color({
       enableAlpha: props.showAlpha,
@@ -31,12 +23,6 @@ export const useCommonColor = <
       value: props.modelValue,
     })
   ) as Color
-
-  function updateComposites() {
-    hueRef.value?.update()
-    svRef.value?.update()
-    alphaRef.value?.update()
-  }
 
   watch(
     () => [props.colorFormat, props.showAlpha],
@@ -49,10 +35,6 @@ export const useCommonColor = <
   )
 
   return {
-    hueRef,
-    svRef,
-    alphaRef,
-    updateComposites,
     color,
   }
 }
