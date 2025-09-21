@@ -42,7 +42,7 @@ import { computed, inject, ref } from 'vue'
 import dayjs from 'dayjs'
 import { EVENT_CODE } from '@element-plus/constants'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import { isUndefined } from '@element-plus/utils'
+import { getEventCode, isUndefined } from '@element-plus/utils'
 import { PICKER_BASE_INJECTION_KEY } from '../constants'
 import { panelTimePickerProps } from '../props/panel-time-picker'
 import { useTimePanel } from '../composables/use-time-panel'
@@ -141,7 +141,7 @@ const changeSelectionRange = (step: number) => {
 }
 
 const handleKeydown = (event: KeyboardEvent) => {
-  const code = event.code
+  const code = getEventCode(event)
 
   const { left, right, up, down } = EVENT_CODE
 
