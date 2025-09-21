@@ -6,9 +6,6 @@ settings:
 
 catalogs:
   default:
-    '@vueuse/core':
-      specifier: ^10.11.0
-      version: 10.11.0
     vue:
       specifier: ^3.5.21
       version: 3.5.21
@@ -25,73 +22,6 @@ patchedDependencies:
 importers:
 
   .:
-    dependencies:
-      '@element-plus/components':
-        specifier: workspace:*
-        version: link:packages/components
-      '@element-plus/constants':
-        specifier: workspace:*
-        version: link:packages/constants
-      '@element-plus/directives':
-        specifier: workspace:*
-        version: link:packages/directives
-      '@element-plus/hooks':
-        specifier: workspace:*
-        version: link:packages/hooks
-      '@element-plus/icons-vue':
-        specifier: ^2.3.1
-        version: 2.3.1(vue@3.5.21(typescript@5.5.4))
-      '@element-plus/locale':
-        specifier: workspace:*
-        version: link:packages/locale
-      '@element-plus/test-utils':
-        specifier: workspace:*
-        version: link:packages/test-utils
-      '@element-plus/theme-chalk':
-        specifier: workspace:*
-        version: link:packages/theme-chalk
-      '@element-plus/utils':
-        specifier: workspace:*
-        version: link:packages/utils
-      '@floating-ui/dom':
-        specifier: ^1.0.1
-        version: 1.0.1
-      '@popperjs/core':
-        specifier: npm:@sxzz/popperjs-es@^2.11.7
-        version: '@sxzz/popperjs-es@2.11.7'
-      '@types/lodash':
-        specifier: ^4.14.182
-        version: 4.14.182
-      '@types/lodash-es':
-        specifier: ^4.17.6
-        version: 4.17.6
-      '@vueuse/core':
-        specifier: 'catalog:'
-        version: 10.11.0(vue@3.5.21(typescript@5.5.4))
-      async-validator:
-        specifier: ^4.2.5
-        version: 4.2.5(patch_hash=wdmp4xlpil2odxo3rasjmxbdfm)
-      dayjs:
-        specifier: ^1.11.18
-        version: 1.11.18
-      escape-html:
-        specifier: ^1.0.3
-        version: 1.0.3
-      lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
-      lodash-es:
-        specifier: ^4.17.21
-        version: 4.17.21
-      lodash-unified:
-        specifier: ^1.0.2
-        version: 1.0.2(@types/lodash-es@4.17.6)(lodash-es@4.17.21)(lodash@4.17.21)
-      memoize-one:
-        specifier: ^6.0.0
-        version: 6.0.0
-      normalize-wheel-es:
-        specifier: ^1.2.0
-        version: 1.2.0
     devDependencies:
       '@commitlint/cli':
         specifier: ^19.0.0
@@ -3868,9 +3798,6 @@ packages:
 
   dayjs@1.11.13:
     resolution: {integrity: sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==}
-
-  dayjs@1.11.18:
-    resolution: {integrity: sha512-zFBQ7WFRvVRhKcWoUh+ZA1g2HVgUbsZm9sbddh8EC5iv93sui8DVVz1Npvz+r6meo9VKfa8NyLWBsQK1VvIKPA==}
 
   de-indent@1.0.2:
     resolution: {integrity: sha512-e/1zu3xH5MQryN2zdVaF0OrdNLUbvWxzMbi+iNA6Bky7l1RoP8a2fIbRocyHclXt/arDrrR6lL3TqFD9pMQTsg==}
@@ -11831,8 +11758,6 @@ snapshots:
   date-fns@2.28.0: {}
 
   dayjs@1.11.13: {}
-
-  dayjs@1.11.18: {}
 
   de-indent@1.0.2: {}
 
