@@ -565,7 +565,9 @@ const handleKeydownInput = async (event: Event | KeyboardEvent) => {
   }
 
   if (code === EVENT_CODE.enter || code === EVENT_CODE.numpadEnter) {
-    if (
+    if (!pickerVisible.value) {
+      pickerVisible.value = true
+    } else if (
       userInput.value === null ||
       userInput.value === '' ||
       isValidValue(parseUserInputToDayjs(displayValue.value) as DayOrDays)
@@ -573,6 +575,7 @@ const handleKeydownInput = async (event: Event | KeyboardEvent) => {
       handleChange()
       pickerVisible.value = false
     }
+    event.preventDefault()
     event.stopPropagation()
     return
   }

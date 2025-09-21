@@ -165,7 +165,10 @@ const handleInputKeyDown = (event: KeyboardEvent | Event) => {
       break
     case EVENT_CODE.enter:
     case EVENT_CODE.numpadEnter:
-      if (!visible.value) return
+      if (!visible.value) {
+        props.type !== 'textarea' && syncAfterCursorMove()
+        return
+      }
       event.preventDefault()
       if (dropdownRef.value?.hoverOption) {
         dropdownRef.value?.selectHoverOption()

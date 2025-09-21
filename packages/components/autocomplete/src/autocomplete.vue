@@ -40,7 +40,7 @@
         @clear="handleClear"
         @keydown.up.prevent="highlight(highlightedIndex - 1)"
         @keydown.down.prevent="highlight(highlightedIndex + 1)"
-        @keydown.enter="handleKeyEnter"
+        @keydown.enter.prevent="handleKeyEnter"
         @keydown.tab="close"
         @keydown.esc="handleKeyEscape"
         @mousedown="handleMouseDown"
@@ -305,10 +305,14 @@ const handleKeyEnter = async () => {
     highlightedIndex.value < suggestions.value.length
   ) {
     handleSelect(suggestions.value[highlightedIndex.value])
-  } else if (props.selectWhenUnmatched) {
-    emit('select', { value: props.modelValue })
-    suggestions.value = []
-    highlightedIndex.value = -1
+  } else {
+    if (props.selectWhenUnmatched) {
+      emit('select', { value: props.modelValue })
+      suggestions.value = []
+      highlightedIndex.value = -1
+    }
+    activated.value = true
+    debouncedGetData(String(props.modelValue))
   }
 }
 
