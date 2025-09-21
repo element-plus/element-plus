@@ -654,7 +654,7 @@ const handleSuggestionClick = (node: CascaderNode) => {
 
 const handleSuggestionKeyDown = (e: KeyboardEvent) => {
   const target = e.target as HTMLElement
-  const { code } = e
+  const code = getEventCode(e)
 
   switch (code) {
     case EVENT_CODE.up:

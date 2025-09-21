@@ -408,10 +408,10 @@ const TabNav = defineComponent({
               emit('tabClick', pane, tabName, ev)
             }}
             onKeydown={(ev: KeyboardEvent) => {
+              const code = getEventCode(ev)
               if (
                 closable &&
-                (ev.code === EVENT_CODE.delete ||
-                  ev.code === EVENT_CODE.backspace)
+                (code === EVENT_CODE.delete || code === EVENT_CODE.backspace)
               ) {
                 emit('tabRemove', pane, ev)
               }
