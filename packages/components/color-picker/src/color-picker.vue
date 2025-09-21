@@ -6,7 +6,8 @@
     :fallback-placements="['bottom', 'top', 'right', 'left']"
     :offset="0"
     :gpu-acceleration="false"
-    :popper-class="[ns.be('picker', 'panel'), popperClass]"
+    :popper-class="[ns.be('picker', 'panel'), popperClass!]"
+    :popper-style="popperStyle"
     :stop-popper-mouse-event="false"
     pure
     effect="light"
@@ -118,7 +119,7 @@ import {
   EVENT_CODE,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import { debugWarn } from '@element-plus/utils'
+import { debugWarn, getEventCode } from '@element-plus/utils'
 import { ArrowDown, Close } from '@element-plus/icons-vue'
 import { colorPickerEmits, colorPickerProps } from './color-picker'
 import {
@@ -167,6 +168,9 @@ const { isFocused, handleFocus, handleBlur } = useFocusController(triggerRef, {
   afterBlur() {
     setShowPicker(false)
     resetColor()
+    if (props.validateEvent) {
+      formItem?.validate?.('blur').catch((err) => debugWarn(err))
+    }
   },
 })
 
@@ -294,7 +298,9 @@ function handleEsc(event: KeyboardEvent) {
 }
 
 function handleKeyDown(event: KeyboardEvent) {
-  switch (event.code) {
+  const code = getEventCode(event)
+
+  switch (code) {
     case EVENT_CODE.enter:
     case EVENT_CODE.numpadEnter:
     case EVENT_CODE.space:

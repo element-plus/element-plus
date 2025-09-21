@@ -20,6 +20,7 @@ import {
   buildProps,
   capitalize,
   definePropType,
+  getEventCode,
   mutable,
   throwError,
 } from '@element-plus/utils'
@@ -248,9 +249,10 @@ const TabNav = defineComponent({
     }
 
     const changeTab = (event: KeyboardEvent) => {
+      const code = getEventCode(event)
       let step = 0
 
-      switch (event.code) {
+      switch (code) {
         case EVENT_CODE.left:
         case EVENT_CODE.up:
           step = -1
@@ -362,7 +364,9 @@ const TabNav = defineComponent({
         const uid = pane.uid
         const disabled = pane.props.disabled
         const tabName = pane.props.name ?? pane.index ?? `${index}`
-        const closable = !disabled && (pane.isClosable || props.editable)
+        const closable =
+          !disabled &&
+          (pane.isClosable || (pane.props.closable !== false && props.editable))
         pane.index = `${index}`
 
         const btnClose = closable ? (

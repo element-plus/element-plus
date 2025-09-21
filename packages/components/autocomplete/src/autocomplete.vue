@@ -4,7 +4,8 @@
     :visible="suggestionVisible"
     :placement="placement"
     :fallback-placements="['bottom-start', 'top-start']"
-    :popper-class="[ns.e('popper'), popperClass]"
+    :popper-class="[ns.e('popper'), popperClass!]"
+    :popper-style="popperStyle"
     :teleported="teleported"
     :append-to="appendTo"
     :gpu-acceleration="false"
@@ -294,6 +295,10 @@ const handleClear = () => {
 }
 
 const handleKeyEnter = async () => {
+  if (inputRef.value?.isComposing) {
+    return
+  }
+
   if (
     suggestionVisible.value &&
     highlightedIndex.value >= 0 &&

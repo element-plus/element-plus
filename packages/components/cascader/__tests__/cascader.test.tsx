@@ -461,7 +461,7 @@ describe('Cascader.vue', () => {
     const scrollbar = scrollbars[0]
     expect(scrollbar).toBeDefined()
     expect(scrollbar?.vm.maxHeight).toBe(200)
-    const tooltip = await collapseTag.getComponent(ElTooltip)
+    const tooltip = wrapper.findComponent(ElTooltip)
     expect(tooltip).toBeDefined()
     await tooltip.trigger('hover')
     expect(

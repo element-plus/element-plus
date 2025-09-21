@@ -189,7 +189,7 @@ import {
 import ElInput from '@element-plus/components/input'
 import ElIcon from '@element-plus/components/icon'
 import ElTooltip from '@element-plus/components/tooltip'
-import { NOOP, debugWarn, isArray } from '@element-plus/utils'
+import { NOOP, debugWarn, getEventCode, isArray } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
   EVENT_CODE,
@@ -240,7 +240,7 @@ const elPopperOptions = inject(
   PICKER_POPPER_OPTIONS_INJECTION_KEY,
   {} as Options
 )
-const { valueOnClear } = useEmptyValues(props, null)
+const emptyValues = useEmptyValues(props, null)
 
 const refPopper = ref<TooltipInstance>()
 const inputRef = ref<InputInstance>()
@@ -305,7 +305,7 @@ const rangeInputKls = computed(() => [
 const clearIconKls = computed(() => [
   nsInput.e('icon'),
   nsRange.e('close-icon'),
-  !showClearBtn.value ? nsRange.e('close-icon--hidden') : '',
+  !showClearBtn.value ? nsRange.em('close-icon', 'hidden') : '',
 ])
 
 watch(pickerVisible, (val) => {
@@ -436,9 +436,9 @@ const onClearIconClick = (event: MouseEvent) => {
     if (pickerOptions.value.handleClear) {
       pickerOptions.value.handleClear()
     } else {
-      emitInput(valueOnClear.value)
+      emitInput(emptyValues.valueOnClear.value)
     }
-    emitChange(valueOnClear.value, true)
+    emitChange(emptyValues.valueOnClear.value, true)
     onHide()
   }
   emit('clear')
@@ -510,8 +510,8 @@ const handleChange = () => {
     }
   }
   if (userInput.value === '') {
-    emitInput(valueOnClear.value)
-    emitChange(valueOnClear.value, true)
+    emitInput(emptyValues.valueOnClear.value)
+    emitChange(emptyValues.valueOnClear.value, true)
     userInput.value = null
   }
 }
@@ -533,7 +533,7 @@ const isValidValue = (value: DayOrDays) => {
 const handleKeydownInput = async (event: Event | KeyboardEvent) => {
   if (props.readonly || pickerDisabled.value) return
 
-  const { code } = event as KeyboardEvent
+  const code = getEventCode(event as KeyboardEvent)
   emitKeydown(event as KeyboardEvent)
   if (code === EVENT_CODE.esc) {
     if (pickerVisible.value === true) {
@@ -657,6 +657,7 @@ const blur = () => {
 
 provide(PICKER_BASE_INJECTION_KEY, {
   props,
+  emptyValues,
 })
 provide(ROOT_COMMON_PICKER_INJECTION_KEY, commonPicker)
 

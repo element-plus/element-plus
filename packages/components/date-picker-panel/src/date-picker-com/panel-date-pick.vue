@@ -65,7 +65,7 @@
           :class="[
             dpNs.e('header'),
             (currentView === 'year' || currentView === 'month') &&
-              dpNs.e('header--bordered'),
+              dpNs.em('header', 'bordered'),
           ]"
         >
           <span :class="dpNs.e('prev-btn')">
@@ -236,7 +236,12 @@ import {
   extractTimeFormat,
 } from '@element-plus/components/time-picker'
 import { ElIcon } from '@element-plus/components/icon'
-import { extractFirst, isArray, isFunction } from '@element-plus/utils'
+import {
+  extractFirst,
+  getEventCode,
+  isArray,
+  isFunction,
+} from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import {
   ArrowLeft,
@@ -345,8 +350,7 @@ const emit = (value: Dayjs | Dayjs[], ...args: any[]) => {
   isShortcut = false
 }
 const handleDatePick = async (value: DateTableEmits, keepOpen?: boolean) => {
-  if (selectionMode.value === 'date') {
-    value = value as Dayjs
+  if (selectionMode.value === 'date' && dayjs.isDayjs(value)) {
     const parsedDateValue = extractFirst(props.parsedValue)
     let newDate = parsedDateValue
       ? parsedDateValue
@@ -431,7 +435,7 @@ const selectionMode = computed<DatePickType>(() => {
   const { type } = props
   if (['week', 'month', 'months', 'year', 'years', 'dates'].includes(type))
     return type
-  return 'date' as DatePickType
+  return 'date'
 })
 
 const isMultipleType = computed(() => {
@@ -678,8 +682,8 @@ const isValidValue = (date: unknown) => {
 
 const formatToString = (value: Dayjs | Dayjs[]) => {
   return isArray(value)
-    ? (value as Dayjs[]).map((_) => _.format(props.format))
-    : (value as Dayjs).format(props.format)
+    ? value.map((_) => _.format(props.format))
+    : value.format(props.format)
 }
 
 const parseUserInput = (value: Dayjs) => {
@@ -719,7 +723,8 @@ const _handleFocusPicker = () => {
 }
 
 const handleKeydownTable = (event: KeyboardEvent) => {
-  const { code } = event
+  const code = getEventCode(event)
+
   const validCode = [
     EVENT_CODE.up,
     EVENT_CODE.down,
