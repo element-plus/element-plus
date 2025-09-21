@@ -6,7 +6,7 @@ import {
   shallowRef,
   watch,
 } from 'vue'
-import { addUnit, getClientXY } from '@element-plus/utils'
+import { addUnit, getClientXY, getEventCode } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/constants'
 import { draggable } from '../utils/draggable'
@@ -74,7 +74,8 @@ export const useSlider = (
 
   function handleKeydown(event: KeyboardEvent) {
     if (props.disabled) return
-    const { code, shiftKey } = event
+    const { shiftKey } = event
+    const code = getEventCode(event)
     const step = shiftKey ? 10 : 1
     // NOTE: The hue slider is opposite in direction to the regular slider, so the hue slider has been reversed here.
     // But this is not the best way to handle it.
