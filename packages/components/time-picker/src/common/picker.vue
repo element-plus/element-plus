@@ -566,7 +566,6 @@ const handleKeydownInput = async (event: Event | KeyboardEvent) => {
 
   if (code === EVENT_CODE.enter || code === EVENT_CODE.numpadEnter) {
     if (!pickerVisible.value) {
-      event.preventDefault()
       pickerVisible.value = true
     } else if (
       userInput.value === null ||
@@ -576,6 +575,7 @@ const handleKeydownInput = async (event: Event | KeyboardEvent) => {
       handleChange()
       pickerVisible.value = false
     }
+    event.preventDefault()
     event.stopPropagation()
     return
   }
