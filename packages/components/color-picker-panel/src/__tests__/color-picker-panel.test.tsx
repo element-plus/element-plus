@@ -125,7 +125,7 @@ describe('Color-picker-panel', () => {
       expect(updateModelValue).not.toHaveBeenCalled()
     })
     it('sv panel disabled', async () => {
-      const svPanelWrapper = wrapper.findComponent({ ref: 'sv' })
+      const svPanelWrapper = wrapper.findComponent({ ref: 'svRef' })
       ;(svPanelWrapper.vm as ColorPickerVM).handleDrag({
         type: 'mousemove',
         clientX: 0,
@@ -331,7 +331,7 @@ describe('Color-picker-panel', () => {
     ))
     const wrapper = _wrapper.findComponent(ColorPickerPanel)
 
-    const svPanelWrapper = wrapper.findComponent({ ref: 'sv' })
+    const svPanelWrapper = wrapper.findComponent({ ref: 'svRef' })
     ;(svPanelWrapper.vm as ColorPickerVM).handleDrag({
       type: 'mousemove',
       clientX: 0,
@@ -433,7 +433,7 @@ describe('Color-picker-panel', () => {
         .find('.el-color-predefine__color-selector:nth-child(4)')
         .classes()
     ).toContain('selected')
-    const hueSlideWrapper = colorPickerWrapper.findComponent({ ref: 'hue' })
+    const hueSlideWrapper = colorPickerWrapper.findComponent({ ref: 'hueRef' })
     const hueSlideDom = hueSlideWrapper.element
     const thumbDom = hueSlideWrapper.find<HTMLElement>(
       '.el-color-hue-slider__thumb'

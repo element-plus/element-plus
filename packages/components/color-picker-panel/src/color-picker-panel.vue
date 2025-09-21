@@ -2,17 +2,17 @@
   <div :class="[ns.b(), ns.is('disabled', disabled), ns.is('border', border)]">
     <div :class="ns.e('wrapper')">
       <hue-slider
-        ref="hue"
+        ref="hueRef"
         class="hue-slider"
         :color="color"
         vertical
         :disabled="disabled"
       />
-      <sv-panel ref="sv" :color="color" :disabled="disabled" />
+      <sv-panel ref="svRef" :color="color" :disabled="disabled" />
     </div>
     <alpha-slider
       v-if="showAlpha"
-      ref="alpha"
+      ref="alphaRef"
       :color="color"
       :disabled="disabled"
     />
@@ -66,9 +66,9 @@ const emit = defineEmits(colorPickerPanelEmits)
 
 const ns = useNamespace('color-picker-panel')
 const disabled = useFormDisabled()
-const hue = ref<InstanceType<typeof HueSlider>>()
-const sv = ref<InstanceType<typeof SvPanel>>()
-const alpha = ref<InstanceType<typeof AlphaSlider>>()
+const hueRef = ref<InstanceType<typeof HueSlider>>()
+const svRef = ref<InstanceType<typeof SvPanel>>()
+const alphaRef = ref<InstanceType<typeof AlphaSlider>>()
 const inputRef = ref<InputInstance>()
 const customInput = ref('')
 
@@ -85,15 +85,17 @@ function handleConfirm() {
   }
 }
 
+function update() {
+  hueRef.value?.update()
+  svRef.value?.update()
+  alphaRef.value?.update()
+}
+
 onMounted(() => {
   if (props.modelValue) {
     customInput.value = color.value
   }
-  nextTick(() => {
-    hue.value?.update()
-    sv.value?.update()
-    alpha.value?.update()
-  })
+  nextTick(update)
 })
 
 watch(
@@ -126,5 +128,9 @@ defineExpose({
    * @description custom input ref
    */
   inputRef,
+  /**
+   * @description update sub components
+   */
+  update,
 })
 </script>

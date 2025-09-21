@@ -352,6 +352,13 @@ watch(
   }
 )
 
+watch(
+  () => showPicker.value,
+  () => {
+    nextTick(pickerPanelRef.value?.update)
+  }
+)
+
 provide(ROOT_COMMON_COLOR_INJECTION_KEY, commonColor)
 
 defineExpose({
