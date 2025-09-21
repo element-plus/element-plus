@@ -99,8 +99,8 @@ onMounted(() => {
 watch(
   () => props.modelValue,
   (newVal) => {
-    if (newVal && newVal !== color.value) {
-      color.fromString(newVal)
+    if (newVal !== color.value) {
+      newVal ? color.fromString(newVal) : color.clear()
     }
   }
 )

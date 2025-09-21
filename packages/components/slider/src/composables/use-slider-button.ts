@@ -2,6 +2,7 @@ import { computed, inject, nextTick, ref, watch } from 'vue'
 import { debounce } from 'lodash-unified'
 import { useEventListener } from '@vueuse/core'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { getEventCode } from '@element-plus/utils'
 import { sliderContextKey } from '../constants'
 
 import type { CSSProperties, ComputedRef, Ref, SetupContext } from 'vue'
@@ -149,9 +150,10 @@ export const useSliderButton = (
   }
 
   const onKeyDown = (event: KeyboardEvent) => {
+    const code = getEventCode(event)
     let isPreventDefault = true
 
-    switch (event.code) {
+    switch (code) {
       case EVENT_CODE.left:
       case EVENT_CODE.down:
         onLeftKeyDown()
