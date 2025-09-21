@@ -34,12 +34,12 @@ import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import ElSubMenu from './sub-menu'
 import { useMenuCssVar } from './use-menu-css-var'
 import { MENU_INJECTION_KEY, SUB_MENU_INJECTION_KEY } from './tokens'
-import { useTooltipContentProps } from '@element-plus/components/tooltip'
 
 import type { PopperEffect } from '@element-plus/components/popper'
 import type { MenuItemClicked, MenuProvider, SubMenuProvider } from './types'
 import type { NavigationFailure, Router } from 'vue-router'
 import type {
+  CSSProperties,
   Component,
   DirectiveArguments,
   ExtractPropTypes,
@@ -149,11 +149,13 @@ export const menuProps = buildProps({
   /**
    * @description custom class name for all popup menus
    */
-  popperClass: useTooltipContentProps.popperClass,
+  popperClass: String,
   /**
    * @description custom style for all popup menus
    */
-  popperStyle: useTooltipContentProps.popperStyle,
+  popperStyle: {
+    type: definePropType<string | CSSProperties>([String, Object]),
+  },
   /**
    * @description control timeout for all menus before showing
    */

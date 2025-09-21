@@ -17,11 +17,10 @@ import {
 } from 'vue'
 import { useTimeoutFn } from '@vueuse/core'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
-import ElTooltip, {
-  useTooltipContentProps,
-} from '@element-plus/components/tooltip'
+import ElTooltip from '@element-plus/components/tooltip'
 import {
   buildProps,
+  definePropType,
   focusElement,
   iconPropType,
   isString,
@@ -38,6 +37,7 @@ import { MENU_INJECTION_KEY, SUB_MENU_INJECTION_KEY } from './tokens'
 import type { Placement } from '@element-plus/components/popper'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type {
+  CSSProperties,
   ExtractPropTypes,
   VNodeArrayChildren,
   __ExtractPublicPropTypes,
@@ -63,11 +63,13 @@ export const subMenuProps = buildProps({
   /**
    * @description custom class name for the popup menu
    */
-  popperClass: useTooltipContentProps.popperClass,
+  popperClass: String,
   /**
    * @description custom style for the popup menu
    */
-  popperStyle: useTooltipContentProps.popperStyle,
+  popperStyle: {
+    type: definePropType<string | CSSProperties>([String, Object]),
+  },
   /**
    * @description whether the sub-menu is disabled
    */
