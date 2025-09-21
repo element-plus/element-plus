@@ -124,7 +124,7 @@ import { clamp, useEventListener } from '@vueuse/core'
 import { throttle } from 'lodash-unified'
 import { useLocale, useNamespace, useZIndex } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/constants'
-import { keysOf } from '@element-plus/utils'
+import { getEventCode, keysOf } from '@element-plus/utils'
 import ElFocusTrap from '@element-plus/components/focus-trap'
 import ElTeleport from '@element-plus/components/teleport'
 import ElIcon from '@element-plus/components/icon'
@@ -248,7 +248,9 @@ function hide() {
 
 function registerEventListener() {
   const keydownHandler = throttle((e: KeyboardEvent) => {
-    switch (e.code) {
+    const code = getEventCode(e)
+
+    switch (code) {
       // ESC
       case EVENT_CODE.esc:
         props.closeOnPressEscape && hide()

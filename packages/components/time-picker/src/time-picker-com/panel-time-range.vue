@@ -72,7 +72,7 @@ import { computed, inject, ref, unref } from 'vue'
 import dayjs from 'dayjs'
 import { union } from 'lodash-unified'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import { isArray } from '@element-plus/utils'
+import { getEventCode, isArray } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { PICKER_BASE_INJECTION_KEY } from '../constants'
 import { panelTimeRangeProps } from '../props/panel-time-range'
@@ -193,7 +193,7 @@ const changeSelectionRange = (step: number) => {
 }
 
 const handleKeydown = (event: KeyboardEvent) => {
-  const code = event.code
+  const code = getEventCode(event)
 
   const { left, right, up, down } = EVENT_CODE
 
