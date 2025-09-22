@@ -189,7 +189,7 @@ import {
 import ElInput from '@element-plus/components/input'
 import ElIcon from '@element-plus/components/icon'
 import ElTooltip from '@element-plus/components/tooltip'
-import { NOOP, debugWarn, isArray } from '@element-plus/utils'
+import { NOOP, debugWarn, getEventCode, isArray } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
   EVENT_CODE,
@@ -305,7 +305,7 @@ const rangeInputKls = computed(() => [
 const clearIconKls = computed(() => [
   nsInput.e('icon'),
   nsRange.e('close-icon'),
-  !showClearBtn.value ? nsRange.e('close-icon--hidden') : '',
+  !showClearBtn.value ? nsRange.em('close-icon', 'hidden') : '',
 ])
 
 watch(pickerVisible, (val) => {
@@ -533,7 +533,7 @@ const isValidValue = (value: DayOrDays) => {
 const handleKeydownInput = async (event: Event | KeyboardEvent) => {
   if (props.readonly || pickerDisabled.value) return
 
-  const { code } = event as KeyboardEvent
+  const code = getEventCode(event as KeyboardEvent)
   emitKeydown(event as KeyboardEvent)
   if (code === EVENT_CODE.esc) {
     if (pickerVisible.value === true) {
@@ -565,7 +565,9 @@ const handleKeydownInput = async (event: Event | KeyboardEvent) => {
   }
 
   if (code === EVENT_CODE.enter || code === EVENT_CODE.numpadEnter) {
-    if (
+    if (!pickerVisible.value) {
+      pickerVisible.value = true
+    } else if (
       userInput.value === null ||
       userInput.value === '' ||
       isValidValue(parseUserInputToDayjs(displayValue.value) as DayOrDays)
@@ -573,6 +575,7 @@ const handleKeydownInput = async (event: Event | KeyboardEvent) => {
       handleChange()
       pickerVisible.value = false
     }
+    event.preventDefault()
     event.stopPropagation()
     return
   }

@@ -125,7 +125,7 @@ describe('Color-picker-panel', () => {
       expect(updateModelValue).not.toHaveBeenCalled()
     })
     it('sv panel disabled', async () => {
-      const svPanelWrapper = wrapper.findComponent({ ref: 'sv' })
+      const svPanelWrapper = wrapper.findComponent({ ref: 'svRef' })
       ;(svPanelWrapper.vm as ColorPickerVM).handleDrag({
         type: 'mousemove',
         clientX: 0,
@@ -331,7 +331,7 @@ describe('Color-picker-panel', () => {
     ))
     const wrapper = _wrapper.findComponent(ColorPickerPanel)
 
-    const svPanelWrapper = wrapper.findComponent({ ref: 'sv' })
+    const svPanelWrapper = wrapper.findComponent({ ref: 'svRef' })
     ;(svPanelWrapper.vm as ColorPickerVM).handleDrag({
       type: 'mousemove',
       clientX: 0,
@@ -433,7 +433,7 @@ describe('Color-picker-panel', () => {
         .find('.el-color-predefine__color-selector:nth-child(4)')
         .classes()
     ).toContain('selected')
-    const hueSlideWrapper = colorPickerWrapper.findComponent({ ref: 'hue' })
+    const hueSlideWrapper = colorPickerWrapper.findComponent({ ref: 'hueRef' })
     const hueSlideDom = hueSlideWrapper.element
     const thumbDom = hueSlideWrapper.find<HTMLElement>(
       '.el-color-hue-slider__thumb'
@@ -515,6 +515,28 @@ describe('Color-picker-panel', () => {
     expect(
       customInput.find<HTMLInputElement>('.el-input__inner').element.value
     ).toBe('#00ff00')
+    wrapper.unmount()
+  })
+
+  it('should clear the color when color is empty', async () => {
+    const color = ref<string | undefined>('#20a0ff')
+    const wrapper = mount(() => <ColorPickerPanel v-model={color.value} />)
+
+    await nextTick()
+    const input = wrapper.find<HTMLInputElement>('input')
+    expect(input.element.value.trim()).toEqual('#20a0ff')
+
+    color.value = ''
+    await nextTick()
+    expect(input.element.value).toBe('')
+
+    color.value = '#00ff00'
+    await nextTick()
+    expect(input.element.value.trim()).toEqual('#00ff00')
+
+    color.value = undefined
+    await nextTick()
+    expect(input.element.value).toBe('')
     wrapper.unmount()
   })
 })

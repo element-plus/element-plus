@@ -65,7 +65,7 @@
           :class="[
             dpNs.e('header'),
             (currentView === 'year' || currentView === 'month') &&
-              dpNs.e('header--bordered'),
+              dpNs.em('header', 'bordered'),
           ]"
         >
           <span :class="dpNs.e('prev-btn')">
@@ -236,7 +236,12 @@ import {
   extractTimeFormat,
 } from '@element-plus/components/time-picker'
 import { ElIcon } from '@element-plus/components/icon'
-import { extractFirst, isArray, isFunction } from '@element-plus/utils'
+import {
+  extractFirst,
+  getEventCode,
+  isArray,
+  isFunction,
+} from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import {
   ArrowLeft,
@@ -718,7 +723,8 @@ const _handleFocusPicker = () => {
 }
 
 const handleKeydownTable = (event: KeyboardEvent) => {
-  const { code } = event
+  const code = getEventCode(event)
+
   const validCode = [
     EVENT_CODE.up,
     EVENT_CODE.down,

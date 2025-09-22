@@ -6,7 +6,7 @@ import {
   shallowRef,
   watch,
 } from 'vue'
-import { addUnit, getClientXY } from '@element-plus/utils'
+import { addUnit, getClientXY, getEventCode } from '@element-plus/utils'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/constants'
 import { draggable } from '../utils/draggable'
@@ -71,7 +71,8 @@ export const useAlphaSlider = (props: AlphaSliderProps) => {
 
   function handleKeydown(event: KeyboardEvent) {
     if (props.disabled) return
-    const { code, shiftKey } = event
+    const { shiftKey } = event
+    const code = getEventCode(event)
     const step = shiftKey ? 10 : 1
 
     switch (code) {
