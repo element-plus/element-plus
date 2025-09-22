@@ -348,12 +348,11 @@ const highlight = (index: number) => {
   if (!suggestionVisible.value || loading.value) return
 
   if (index < 0) {
-    highlightedIndex.value = -1
-    return
+    index = suggestions.value.length - 1
   }
 
   if (index >= suggestions.value.length) {
-    index = suggestions.value.length - 1
+    index = 0
   }
   const suggestion = regionRef.value!.querySelector(
     `.${ns.be('suggestion', 'wrap')}`
