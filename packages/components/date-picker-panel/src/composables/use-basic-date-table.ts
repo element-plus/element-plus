@@ -46,7 +46,9 @@ export const useBasicDateTable = (
 
   const startDate = computed(() => {
     const startDayOfMonth = props.date.startOf('month')
-    return startDayOfMonth.subtract(startDayOfMonth.day() || 7, 'day')
+    const startDayInWeek = startDayOfMonth.day()
+    const offset = startDayInWeek >= firstDayOfWeek ? startDayInWeek - firstDayOfWeek : startDayInWeek + 7 - firstDayOfWeek
+    return startDayOfMonth.subtract(offset, 'day')
   })
 
   const WEEKS = computed(() => {
