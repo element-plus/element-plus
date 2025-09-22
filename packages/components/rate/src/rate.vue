@@ -32,19 +32,26 @@
           ns.is('focus-visible', item === Math.ceil(currentValue || 1)),
         ]"
       >
-        <template v-if="!showDecimalIcon(item)">
-          <component :is="activeComponent" v-show="item <= currentValue" />
-          <component :is="voidComponent" v-show="item > currentValue" />
-        </template>
-        <template v-else>
-          <component :is="voidComponent" :class="[ns.em('decimal', 'box')]" />
-          <el-icon
-            :style="decimalStyle"
-            :class="[ns.e('icon'), ns.e('decimal')]"
-          >
-            <component :is="decimalIconComponent" />
-          </el-icon>
-        </template>
+        <component
+          :is="activeComponent"
+          v-show="!showDecimalIcon(item) && item <= currentValue"
+        />
+        <component
+          :is="voidComponent"
+          v-show="!showDecimalIcon(item) && item > currentValue"
+        />
+        <component
+          :is="voidComponent"
+          v-show="showDecimalIcon(item)"
+          :class="[ns.em('decimal', 'box')]"
+        />
+        <el-icon
+          v-show="showDecimalIcon(item)"
+          :style="decimalStyle"
+          :class="[ns.e('icon'), ns.e('decimal')]"
+        >
+          <component :is="decimalIconComponent" />
+        </el-icon>
       </el-icon>
     </span>
     <span
@@ -65,7 +72,7 @@ import {
   EVENT_CODE,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import { isArray, isObject, isString } from '@element-plus/utils'
+import { getEventCode, isArray, isObject, isString } from '@element-plus/utils'
 import {
   formContextKey,
   formItemContextKey,
@@ -246,15 +253,21 @@ function handleKey(e: KeyboardEvent) {
   if (rateDisabled.value) {
     return
   }
-  const code = e.code
+  const code = getEventCode(e)
   const step = props.allowHalf ? 0.5 : 1
   let _currentValue = currentValue.value
 
-  if (code === EVENT_CODE.up || code === EVENT_CODE.right) {
-    _currentValue += step
-  } else if (code === EVENT_CODE.left || code === EVENT_CODE.down) {
-    _currentValue -= step
+  switch (code) {
+    case EVENT_CODE.up:
+    case EVENT_CODE.right:
+      _currentValue += step
+      break
+    case EVENT_CODE.left:
+    case EVENT_CODE.down:
+      _currentValue -= step
+      break
   }
+
   _currentValue = clamp(_currentValue, 0, props.max)
 
   if (_currentValue === currentValue.value) {

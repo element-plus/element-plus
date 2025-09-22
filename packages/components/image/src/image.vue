@@ -22,33 +22,39 @@
         </slot>
       </div>
     </template>
-    <image-viewer
-      v-if="showViewer && preview"
-      :z-index="zIndex"
-      :initial-index="imageIndex"
-      :infinite="infinite"
-      :zoom-rate="zoomRate"
-      :min-scale="minScale"
-      :max-scale="maxScale"
-      :show-progress="showProgress"
-      :url-list="previewSrcList"
-      :crossorigin="crossorigin"
-      :hide-on-click-modal="hideOnClickModal"
-      :teleported="previewTeleported"
-      :close-on-press-escape="closeOnPressEscape"
-      @close="closeViewer"
-      @switch="switchViewer"
-    >
-      <template v-if="$slots.viewer" #viewer>
-        <slot name="viewer" />
-      </template>
-      <template v-if="$slots.progress" #progress="progress">
-        <slot name="progress" v-bind="progress" />
-      </template>
-      <template #toolbar="toolbar">
-        <slot name="toolbar" v-bind="toolbar" />
-      </template>
-    </image-viewer>
+    <template v-if="preview && preview">
+      <image-viewer
+        v-if="showViewer"
+        :z-index="zIndex"
+        :initial-index="imageIndex"
+        :infinite="infinite"
+        :zoom-rate="zoomRate"
+        :min-scale="minScale"
+        :max-scale="maxScale"
+        :show-progress="showProgress"
+        :url-list="previewSrcList"
+        :scale="scale"
+        :crossorigin="crossorigin"
+        :hide-on-click-modal="hideOnClickModal"
+        :teleported="previewTeleported"
+        :close-on-press-escape="closeOnPressEscape"
+        @close="closeViewer"
+        @switch="switchViewer"
+      >
+        <div v-if="$slots.viewer">
+          <slot name="viewer" />
+        </div>
+        <template v-if="$slots.progress" #progress="progress">
+          <slot name="progress" v-bind="progress" />
+        </template>
+        <template #toolbar="toolbar">
+          <slot name="toolbar" v-bind="toolbar" />
+        </template>
+        <template v-if="$slots['viewer-error']" #viewer-error="viewerError">
+          <slot name="viewer-error" v-bind="viewerError" />
+        </template>
+      </image-viewer>
+    </template>
   </div>
 </template>
 

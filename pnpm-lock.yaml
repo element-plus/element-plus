@@ -99,8 +99,8 @@ importers:
         specifier: ^4.2.5
         version: 4.2.5(patch_hash=wdmp4xlpil2odxo3rasjmxbdfm)
       dayjs:
-        specifier: ^1.11.13
-        version: 1.11.13
+        specifier: ^1.11.18
+        version: 1.11.18
       escape-html:
         specifier: ^1.0.3
         version: 1.0.3
@@ -4260,6 +4260,9 @@ packages:
 
   dayjs@1.11.13:
     resolution: {integrity: sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==}
+
+  dayjs@1.11.18:
+    resolution: {integrity: sha512-zFBQ7WFRvVRhKcWoUh+ZA1g2HVgUbsZm9sbddh8EC5iv93sui8DVVz1Npvz+r6meo9VKfa8NyLWBsQK1VvIKPA==}
 
   de-indent@1.0.2:
     resolution: {integrity: sha512-e/1zu3xH5MQryN2zdVaF0OrdNLUbvWxzMbi+iNA6Bky7l1RoP8a2fIbRocyHclXt/arDrrR6lL3TqFD9pMQTsg==}
@@ -12906,6 +12909,8 @@ snapshots:
   date-fns@2.28.0: {}
 
   dayjs@1.11.13: {}
+
+  dayjs@1.11.18: {}
 
   de-indent@1.0.2: {}
 

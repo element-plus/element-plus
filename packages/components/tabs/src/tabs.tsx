@@ -13,6 +13,7 @@ import { omit } from 'lodash-unified'
 import {
   buildProps,
   definePropType,
+  getEventCode,
   isNumber,
   isString,
   isUndefined,
@@ -174,6 +175,12 @@ const Tabs = defineComponent({
       emit('tabAdd')
     }
 
+    const handleKeydown = (event: KeyboardEvent) => {
+      const code = getEventCode(event)
+      if ([EVENT_CODE.enter, EVENT_CODE.numpadEnter].includes(code))
+        handleTabAdd()
+    }
+
     const swapChildren = (
       vnode: VNode & {
         el: HTMLDivElement
@@ -226,10 +233,7 @@ const Tabs = defineComponent({
             ]}
             tabindex="0"
             onClick={handleTabAdd}
-            onKeydown={(ev: KeyboardEvent) => {
-              if ([EVENT_CODE.enter, EVENT_CODE.numpadEnter].includes(ev.code))
-                handleTabAdd()
-            }}
+            onKeydown={handleKeydown}
           >
             {addSlot ? (
               renderSlot(slots, 'add-icon')
