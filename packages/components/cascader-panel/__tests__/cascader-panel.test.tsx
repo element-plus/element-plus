@@ -598,6 +598,45 @@ describe('CascaderPanel.vue', () => {
     vi.useRealTimers()
   })
 
+  test('lazy load with loaded fails', async () => {
+    vi.useFakeTimers()
+    const value = ref([])
+    const props: CascaderProps = {
+      lazy: true,
+      lazyLoad(node, resolve, reject) {
+        const { level } = node
+        setTimeout(() => {
+          const nodes = Array.from({ length: level + 1 }).map(() => ({
+            value: ++id,
+            label: `option${id}`,
+            leaf: level >= 2,
+          }))
+          if (level === 1) {
+            // Simulate loading failure for the second level nodes
+            reject()
+            return
+          }
+          resolve(nodes)
+        }, 1000)
+      },
+    }
+    const wrapper = mount(() => (
+      <CascaderPanel v-model={value.value} props={props} />
+    ))
+
+    vi.runAllTimers()
+    await nextTick()
+    const firstOption = wrapper.find(NODE)
+    expect(firstOption.exists()).toBe(true)
+    await firstOption.trigger('click')
+    expect(firstOption.findComponent(Loading).exists()).toBe(true)
+    vi.runAllTimers()
+    await nextTick()
+    expect(firstOption.findComponent(Loading).exists()).toBe(false)
+    expect(wrapper.findAll(MENU).length).toBe(1)
+    vi.useRealTimers()
+  })
+
   test('lazy load with default primitive value', async () => {
     vi.useFakeTimers()
     const props = {

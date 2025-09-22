@@ -130,7 +130,12 @@ const lazyLoad: ElCascaderPanelContext['lazyLoad'] = (node, cb) => {
     dataList && cb?.(dataList)
   }
 
-  cfg.lazyLoad(node, resolve)
+  const reject = () => {
+    node!.loading = false
+    node!.loaded = false
+  }
+
+  cfg.lazyLoad(node, resolve, reject)
 }
 
 const expandNode: ElCascaderPanelContext['expandNode'] = (node, silent) => {
