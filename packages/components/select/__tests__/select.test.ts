@@ -171,7 +171,7 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
       remoteMethod: configs.remoteMethod,
       value: configs.multiple ? [] : '',
       size: configs.size || 'default',
-      keyLoop: configs.keyLoop,
+      loopNavigation: configs.loopNavigation,
     })
   )
 }
