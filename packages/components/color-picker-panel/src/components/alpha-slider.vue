@@ -21,7 +21,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useLocale } from '@element-plus/hooks'
-import { sliderProps } from '../props/slider'
+import { alphaSliderProps } from '../props/slider'
 import { useSlider, useSliderDOM } from '../composables/use-slider'
 
 const COMPONENT_NAME = 'ElColorAlphaSlider'
@@ -30,7 +30,7 @@ defineOptions({
   name: COMPONENT_NAME,
 })
 
-const props = defineProps(sliderProps)
+const props = defineProps(alphaSliderProps)
 const minValue = 0
 const maxValue = 100
 
