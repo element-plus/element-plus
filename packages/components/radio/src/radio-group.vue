@@ -92,7 +92,7 @@ const getOptionProps = (option: Record<string, any>) => {
 }
 
 const optionComponent = computed(() =>
-  props.optionComponent === 'button' ? ElRadioButton : ElRadio
+  props.optionComponent === 'ElRadioButton' ? ElRadioButton : ElRadio
 )
 
 provide(

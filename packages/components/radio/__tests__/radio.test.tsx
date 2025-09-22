@@ -284,7 +284,7 @@ describe('Radio group', () => {
       <RadioGroup
         v-model={radio.value}
         options={options}
-        optionComponent="button"
+        optionComponent="ElRadioButton"
       />
     ))
     await nextTick()
@@ -307,7 +307,7 @@ describe('Radio group', () => {
         v-model={radio.value}
         options={options}
         props={{ value: 'id', disabled: 'disabled' }}
-        optionComponent="button"
+        optionComponent="ElRadioButton"
       />
     ))
     await nextTick()
