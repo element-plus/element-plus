@@ -35,6 +35,13 @@ export type GetDisabledSeconds = (
 
 export const timePickerDefaultProps = buildProps({
   /**
+   * @description this prop decides if the date picker panel pops up when the input is focused
+   */
+  automaticDropdown: {
+    type: Boolean,
+    default: true,
+  },
+  /**
    * @description same as `id` in native input
    */
   id: {
