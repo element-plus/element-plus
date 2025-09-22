@@ -659,19 +659,19 @@ describe('InputNumber.vue', () => {
     ))
     const input = wrapper.find('input')
     const preventDefault = vi.fn()
-    await input.trigger('keydown', {
+    await input.trigger('keyup', {
       key: 'e',
       preventDefault,
     })
     expect(preventDefault).toHaveBeenCalled()
     preventDefault.mockClear()
-    await input.trigger('keydown', {
+    await input.trigger('keyup', {
       key: 'E',
       preventDefault,
     })
     expect(preventDefault).toHaveBeenCalled()
     preventDefault.mockClear()
-    await input.trigger('keydown', {
+    await input.trigger('keyup', {
       key: '1',
       preventDefault,
     })

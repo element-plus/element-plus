@@ -1,5 +1,4 @@
 import {
-  Component,
   computed,
   nextTick,
   onMounted,
@@ -19,6 +18,7 @@ import {
   ValidateComponentsMap,
   debugWarn,
   ensureArray,
+  getEventCode,
   isArray,
   isClient,
   isFunction,
@@ -49,6 +49,7 @@ import {
   useFormSize,
 } from '@element-plus/components/form'
 
+import type { Component } from 'vue'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { ScrollbarInstance } from '@element-plus/components/scrollbar'
 import type { SelectEmits, SelectProps } from './select'
@@ -512,8 +513,9 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     })
 
   const deletePrevTag = (e: KeyboardEvent) => {
+    const code = getEventCode(e)
     if (!props.multiple) return
-    if (e.code === EVENT_CODE.delete) return
+    if (code === EVENT_CODE.delete) return
     if ((e.target as HTMLInputElement).value.length <= 0) {
       const value = ensureArray(props.modelValue).slice()
       const lastNotDisabledIndex = getLastNotDisabledIndex(value)

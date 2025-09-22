@@ -1,4 +1,4 @@
-name: 🧪 Unit Test
+name: 🧹 Lint & Typecheck
 
 on:
   pull_request:
@@ -9,23 +9,17 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
-    name: Unit Test (${{ matrix.node-name }})
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [20, 22, 24]
-        include:
-          - node-version: 20
-            node-name: LTS
-          - node-version: 22
-            node-name: Current
-          - node-version: 24
-            node-name: New
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Add dev branch
+        run: git branch dev origin/dev
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -33,7 +27,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 20
 
       - name: Get pnpm store directory
         id: pnpm-cache
@@ -51,5 +45,8 @@ jobs:
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
 
-      - name: Test
-        run: pnpm test
+      - name: Lint
+        run: pnpm lint
+
+      - name: Type Check
+        run: pnpm typecheck

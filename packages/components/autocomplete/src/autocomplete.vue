@@ -4,7 +4,8 @@
     :visible="suggestionVisible"
     :placement="placement"
     :fallback-placements="['bottom-start', 'top-start']"
-    :popper-class="[ns.e('popper'), popperClass]"
+    :popper-class="[ns.e('popper'), popperClass!]"
+    :popper-style="popperStyle"
     :teleported="teleported"
     :append-to="appendTo"
     :gpu-acceleration="false"
@@ -39,7 +40,7 @@
         @clear="handleClear"
         @keydown.up.prevent="highlight(highlightedIndex - 1)"
         @keydown.down.prevent="highlight(highlightedIndex + 1)"
-        @keydown.enter="handleKeyEnter"
+        @keydown.enter.prevent="handleKeyEnter"
         @keydown.tab="close"
         @keydown.esc="handleKeyEscape"
         @mousedown="handleMouseDown"
@@ -294,16 +295,24 @@ const handleClear = () => {
 }
 
 const handleKeyEnter = async () => {
+  if (inputRef.value?.isComposing) {
+    return
+  }
+
   if (
     suggestionVisible.value &&
     highlightedIndex.value >= 0 &&
     highlightedIndex.value < suggestions.value.length
   ) {
     handleSelect(suggestions.value[highlightedIndex.value])
-  } else if (props.selectWhenUnmatched) {
-    emit('select', { value: props.modelValue })
-    suggestions.value = []
-    highlightedIndex.value = -1
+  } else {
+    if (props.selectWhenUnmatched) {
+      emit('select', { value: props.modelValue })
+      suggestions.value = []
+      highlightedIndex.value = -1
+    }
+    activated.value = true
+    debouncedGetData(String(props.modelValue))
   }
 }
 

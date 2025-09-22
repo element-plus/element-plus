@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { triggerEvent } from '@element-plus/utils'
+import { getEventCode, triggerEvent } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 
 import type MenuItem from './menu-item'
@@ -31,8 +31,10 @@ class SubMenu {
     const parentNode = this.parent.domNode
     Array.prototype.forEach.call(this.subMenuItems, (el: Element) => {
       el.addEventListener('keydown', (event: KeyboardEvent) => {
+        const code = getEventCode(event)
         let prevDef = false
-        switch (event.code) {
+
+        switch (code) {
           case EVENT_CODE.down: {
             this.gotoSubIndex(this.subIndex + 1)
             prevDef = true
