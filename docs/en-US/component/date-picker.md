@@ -196,6 +196,7 @@ Note, date time locale (month name, first day of the week ...) are also configur
 | placement ^(2.8.4)           | position of dropdown                                                                                                         | `Placement`                                                                                                                                                    | bottom        |
 | show-footer ^(2.10.5)        | whether to show footer                                                                                                       | ^[boolean]                                                                                                                                                     | true          |
 | show-week-number ^(2.10.3)   | show the week number besides the week                                                                                        | `boolean`                                                                                                                                                      | false         |
+| automatic-dropdown ^(2.11.4) | this prop decides if the date picker panel pops up when the input is focused                                                 | boolean                                                                                                                                                        | true          |
 
 ### Events
 
