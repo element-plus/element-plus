@@ -568,7 +568,7 @@ importers:
         version: 3.4.1
       '@element-plus/icons-vue':
         specifier: ^2.3.2
-        version: 2.3.2(vue@3.4.31(typescript@5.5.4))
+        version: 2.3.2(vue@3.5.22(typescript@5.5.4))
       '@floating-ui/dom':
         specifier: ^1.0.1
         version: 1.0.1
@@ -583,7 +583,7 @@ importers:
         version: 4.17.12
       '@vueuse/core':
         specifier: 'catalog:'
-        version: 10.11.0(vue@3.4.31(typescript@5.5.4))
+        version: 10.11.0(vue@3.5.22(typescript@5.5.4))
       async-validator:
         specifier: ^4.2.5
         version: 4.2.5(patch_hash=wdmp4xlpil2odxo3rasjmxbdfm)
@@ -606,8 +606,8 @@ importers:
         specifier: ^1.2.0
         version: 1.2.0
       vue:
-        specifier: ^3.2.0
-        version: 3.4.31(typescript@5.5.4)
+        specifier: ^3.3.0
+        version: 3.5.22(typescript@5.5.4)
     devDependencies:
       '@types/node':
         specifier: '*'
@@ -617,7 +617,7 @@ importers:
         version: 2.6.20
       vue-router:
         specifier: ^4.0.16
-        version: 4.0.16(vue@3.4.31(typescript@5.5.4))
+        version: 4.0.16(vue@3.5.22(typescript@5.5.4))
 
   packages/hooks:
     dependencies:
@@ -17307,11 +17307,6 @@ snapshots:
 
   vue-flow-layout@0.1.1(vue@3.4.31(typescript@5.5.4)):
     dependencies:
-      vue: 3.4.31(typescript@5.5.4)
-
-  vue-router@4.0.16(vue@3.4.31(typescript@5.5.4)):
-    dependencies:
-      '@vue/devtools-api': 6.1.4
       vue: 3.4.31(typescript@5.5.4)
 
   vue-router@4.0.16(vue@3.5.22(typescript@5.5.4)):
