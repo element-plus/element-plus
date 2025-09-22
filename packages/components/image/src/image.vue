@@ -22,7 +22,7 @@
         </slot>
       </div>
     </template>
-    <template v-if="preview && preview">
+    <template v-if="preview">
       <image-viewer
         v-if="showViewer"
         :z-index="zIndex"

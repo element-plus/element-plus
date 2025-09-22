@@ -25,7 +25,7 @@
           </span>
 
           <!-- ARROW -->
-          <template v-if="!isSingle">
+          <template v-if="showArrow">
             <span :class="arrowPrevKls" @click="prev">
               <el-icon>
                 <ArrowLeft />
@@ -120,6 +120,7 @@ import {
   onMounted,
   ref,
   shallowRef,
+  useSlots,
   watch,
 } from 'vue'
 import { clamp, useEventListener } from '@vueuse/core'
@@ -167,6 +168,7 @@ const emit = defineEmits(imageViewerEmits)
 let stopWheelListener: (() => void) | undefined
 let prevOverflow = ''
 
+const slots = useSlots()
 const { t } = useLocale()
 const ns = useNamespace('image-viewer')
 const { nextZIndex } = useZIndex()
@@ -193,10 +195,7 @@ const transform = ref({
 })
 const zIndex = ref(props.zIndex ?? nextZIndex())
 
-const isSingle = computed(() => {
-  const { urlList } = props
-  return urlList.length <= 1
-})
+const showArrow = computed(() => props.urlList.length > 1 && !slots.viewer)
 
 const isFirst = computed(() => activeIndex.value === 0)
 
