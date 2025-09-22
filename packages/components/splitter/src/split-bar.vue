@@ -28,12 +28,9 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-  startCollapsible: {
-    type: Boolean,
-  },
-  endCollapsible: {
-    type: Boolean,
-  },
+  lazy: Boolean,
+  startCollapsible: Boolean,
+  endCollapsible: Boolean,
 })
 
 const emit = defineEmits(['moveStart', 'moving', 'moveEnd', 'collapse'])
@@ -51,7 +48,11 @@ const draggerStyles = computed(() => {
   return {
     width: isHorizontal.value ? '16px' : '100%',
     height: isHorizontal.value ? '100%' : '16px',
-    cursor: isHorizontal.value ? 'col-resize' : 'row-resize',
+    cursor: !props.resizable
+      ? 'auto'
+      : isHorizontal.value
+      ? 'ew-resize'
+      : 'ns-resize',
     touchAction: 'none',
   }
 })
@@ -142,7 +143,8 @@ const EndIcon = computed(() => (isHorizontal.value ? ArrowRight : ArrowDown))
       :class="[
         ns.e('dragger'),
         draggerPseudoClass,
-        resizable ? '' : ns.e('disable'),
+        ns.is('disabled', !resizable),
+        ns.is('lazy', resizable && lazy),
       ]"
       :style="draggerStyles"
       @mousedown="onMousedown"

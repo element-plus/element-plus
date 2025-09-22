@@ -95,7 +95,9 @@ tree-v2/filter
 
 :::
 
-## TreeV2 Attributes
+## TreeV2 API
+
+### TreeV2 Attributes
 
 | Name                          | Description                                                                                                                                  | Type                                                                        | Default |
 | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | ------- |
@@ -116,8 +118,9 @@ tree-v2/filter
 | icon                          | custom tree node icon component                                                                                                              | ^[string] / ^[Component]                                                    | —       |
 | item-size ^(2.2.33)           | custom tree node height                                                                                                                      | ^[number]                                                                   | 26      |
 | scrollbar-always-on ^(2.10.4) | always show scrollbar                                                                                                                        | ^[boolean]                                                                  | false   |
+| height                        | height of the tree                                                                                                                           | ^[number]                                                                   | 200     |
 
-## props
+### props
 
 | Attribute      | Description                                                                          | Type                                                                                                | Default  |
 | -------------- | ------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------- | -------- |
@@ -127,7 +130,7 @@ tree-v2/filter
 | disabled       | specify which key of node object represents if node's checkbox is disabled           | ^[string]                                                                                           | disabled |
 | class ^(2.9.0) | custom node class name                                                               | ^[string] / ^[Function]`(data: TreeNodeData, node: TreeNode) => string \| {[key: string]: boolean}` | —        |
 
-## TreeV2 Method
+### TreeV2 Exposes
 
 `Tree` has the following method, which returns the currently selected array of nodes.
 
@@ -151,7 +154,7 @@ tree-v2/filter
 | scrollTo ^(2.8.0)     | scroll to a given position                                                                                                    | `(offset: number)`                                                   |
 | scrollToNode ^(2.8.0) | scroll to a given tree key with specified scroll strategy                                                                     | `(key: TreeKey, strategy?: auto \| smart \| center \| start \| end)` |
 
-## TreeV2 Events
+### TreeV2 Events
 
 | Name               | Description                                          | Parameters                                                                                                                              |
 | ------------------ | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
@@ -164,9 +167,9 @@ tree-v2/filter
 | node-expand        | triggers when current node open                      | `(data: TreeNodeData, node: TreeNode)`                                                                                                  |
 | node-collapse      | triggers when current node close                     | `(data: TreeNodeData, node: TreeNode)`                                                                                                  |
 
-## TreeV2 Slots
+### TreeV2 Slots
 
 | Name           | Description                                                                                    |
 | -------------- | ---------------------------------------------------------------------------------------------- |
-| -              | Custom content for tree nodes. The scope parameter is `{ node: TreeNode, data: TreeNodeData }` |
+| default        | Custom content for tree nodes. The scope parameter is `{ node: TreeNode, data: TreeNodeData }` |
 | empty ^(2.9.0) | empty you can customize content when data is empty.                                            |

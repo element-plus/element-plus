@@ -33,6 +33,7 @@ import { cloneDeep, flattenDeep, isEqual } from 'lodash-unified'
 import {
   castArray,
   focusNode,
+  getEventCode,
   getSibling,
   isClient,
   isEmpty,
@@ -57,12 +58,12 @@ import { checkNode, getMenuIndex, sortByOriginalOrder } from './utils'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
 
 import type {
-  default as CascaderNode,
+  CascaderNode,
   CascaderNodeValue,
   CascaderOption,
   CascaderValue,
-} from './node'
-import type { ElCascaderPanelContext } from './types'
+  ElCascaderPanelContext,
+} from './types'
 import type { CascaderMenuInstance } from './instance'
 
 defineOptions({
@@ -122,10 +123,10 @@ const lazyLoad: ElCascaderPanelContext['lazyLoad'] = (node, cb) => {
   const resolve = (dataList?: CascaderOption[]) => {
     const _node = node as Node
     const parent = _node.root ? null : _node
-    dataList && store?.appendNodes(dataList, parent as Node)
     _node.loading = false
     _node.loaded = true
     _node.childrenData = _node.childrenData || []
+    dataList && store?.appendNodes(dataList, parent as Node)
     dataList && cb?.(dataList)
   }
 
@@ -283,7 +284,7 @@ const scrollToExpandingNode = () => {
 
 const handleKeyDown = (e: KeyboardEvent) => {
   const target = e.target as HTMLElement
-  const { code } = e
+  const code = getEventCode(e)
 
   switch (code) {
     case EVENT_CODE.up:

@@ -16,8 +16,8 @@ import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { ArrowDown, CircleClose } from '@element-plus/icons-vue'
 import { tagProps } from '../../tag'
 import { defaultProps } from './useProps'
-import SelectV2 from './select.vue'
 
+import type SelectV2 from './select.vue'
 import type { Option, OptionType } from './select.types'
 import type { Props } from './useProps'
 import type { EmitFn } from '@element-plus/utils/vue/typescript'
@@ -201,10 +201,11 @@ export const selectV2Props = buildProps({
   /**
    * @description custom class name for Select's dropdown
    */
-  popperClass: {
-    type: String,
-    default: '',
-  },
+  popperClass: useTooltipContentProps.popperClass,
+  /**
+   * @description custom style for Select's dropdown
+   */
+  popperStyle: useTooltipContentProps.popperStyle,
   /**
    * @description [popper.js](https://popper.js.org/docs/v2/) parameters
    */

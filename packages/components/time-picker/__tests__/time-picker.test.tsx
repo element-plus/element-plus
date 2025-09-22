@@ -3,9 +3,11 @@ import { computed, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import dayjs from 'dayjs'
+import { CircleClose } from '@element-plus/icons-vue'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { rAF } from '@element-plus/test-utils/tick'
 import { ElFormItem } from '@element-plus/components/form'
+import { EVENT_CODE } from '@element-plus/constants'
 import TimePicker from '../src/time-picker'
 import Picker from '../src/common/picker.vue'
 
@@ -46,6 +48,16 @@ describe('TimePicker', () => {
     const outterInput = wrapper.find('.el-input')
     expect(outterInput.classes()).toContain('customClass')
     expect(outterInput.attributes().style).toBeDefined()
+  })
+
+  it('should show clear btn on focus', async () => {
+    const wrapper = mount(() => (
+      <TimePicker modelValue={new Date()} clearable />
+    ))
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    expect(wrapper.findComponent(CircleClose).exists()).toBe(true)
   })
 
   it('set format && default value && set AM/PM spinner && no $attr to panel', async () => {
@@ -239,6 +251,31 @@ describe('TimePicker', () => {
     await nextTick()
     await nextTick() // onchange is triggered by props.modelValue update
     expect(changeHandler).toHaveBeenCalledTimes(1)
+  })
+
+  it('trigger on enter visible change', async () => {
+    const handleVisibleChange = vi.fn()
+    const value = ref(new Date(2016, 9, 10, 18, 40))
+
+    const wrapper = mount(() => (
+      <TimePicker v-model={value.value} onVisibleChange={handleVisibleChange} />
+    ))
+
+    const input = wrapper.find('input')
+    input.trigger('focus')
+    await nextTick()
+    await rAF()
+    expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+
+    input.trigger('keydown', { code: EVENT_CODE.esc })
+    await nextTick()
+    await rAF()
+    expect(handleVisibleChange).toHaveBeenCalledTimes(2)
+
+    input.trigger('keydown', { code: EVENT_CODE.enter })
+    await nextTick()
+    await rAF()
+    expect(handleVisibleChange).toHaveBeenCalledTimes(3)
   })
 
   it('selectableRange ', async () => {

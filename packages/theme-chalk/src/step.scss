@@ -212,6 +212,10 @@
         width: 24px;
       }
     }
+
+    @include e(description) {
+      padding-right: 0;
+    }
   }
 
   @include when(center) {

@@ -2,6 +2,7 @@ import {
   NOOP,
   buildProps,
   definePropType,
+  isNumber,
   isObject,
   isString,
 } from '@element-plus/utils'
@@ -77,10 +78,11 @@ export const autocompleteProps = buildProps({
   /**
    * @description custom class name for autocomplete's dropdown
    */
-  popperClass: {
-    type: String,
-    default: '',
-  },
+  popperClass: useTooltipContentProps.popperClass,
+  /**
+   * @description custom style for autocomplete's dropdown
+   */
+  popperStyle: useTooltipContentProps.popperStyle,
   /**
    * @description whether show suggestions when input focus
    */
@@ -119,9 +121,11 @@ export type AutocompletePropsPublic = __ExtractPublicPropTypes<
 >
 
 export const autocompleteEmits = {
-  [UPDATE_MODEL_EVENT]: (value: string) => isString(value),
-  [INPUT_EVENT]: (value: string) => isString(value),
-  [CHANGE_EVENT]: (value: string) => isString(value),
+  [UPDATE_MODEL_EVENT]: (value: string | number) =>
+    isString(value) || isNumber(value),
+  [INPUT_EVENT]: (value: string | number) => isString(value) || isNumber(value),
+  [CHANGE_EVENT]: (value: string | number) =>
+    isString(value) || isNumber(value),
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
   blur: (evt: FocusEvent) => evt instanceof FocusEvent,
   clear: () => true,

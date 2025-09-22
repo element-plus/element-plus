@@ -4,6 +4,10 @@
 
 $directions: rtl, ltr, ttb, btt;
 
+.#{$namespace}-overlay.is-drawer {
+  overflow: hidden;
+}
+
 @include b(drawer) {
   @include set-component-css-var('drawer', $drawer);
 }
@@ -15,8 +19,6 @@ $directions: rtl, ltr, ttb, btt;
   display: flex;
   flex-direction: column;
   box-shadow: getCssVar('box-shadow', 'dark');
-  overflow: hidden;
-
   transition: all getCssVar('transition-duration');
 
   @each $direction in $directions {
@@ -36,6 +38,7 @@ $directions: rtl, ltr, ttb, btt;
     margin-bottom: 32px;
     padding: getCssVar('drawer-padding-primary');
     padding-bottom: 0;
+    overflow: hidden;
     & > :first-child {
       flex: 1;
     }
@@ -52,6 +55,7 @@ $directions: rtl, ltr, ttb, btt;
     padding: getCssVar('drawer-padding-primary');
     padding-top: 10px;
     text-align: right;
+    overflow: hidden;
   }
 
   &__close-btn {
@@ -79,11 +83,47 @@ $directions: rtl, ltr, ttb, btt;
     }
   }
 
+  @include when(dragging) {
+    transition: none;
+  }
+
+  @include e(dragger) {
+    position: absolute;
+    background-color: transparent;
+    user-select: none;
+    transition: all 0.2s;
+
+    &::before {
+      content: '';
+      position: absolute;
+      background-color: transparent;
+      transition: all 0.2s;
+    }
+
+    &:hover::before {
+      background-color: getCssVar('color-primary');
+    }
+  }
+
   &.ltr,
   &.rtl {
     height: 100%;
     top: 0;
     bottom: 0;
+
+    > .#{$namespace}-drawer__dragger {
+      height: 100%;
+      width: getCssVar('drawer-dragger-size');
+      top: 0;
+      bottom: 0;
+      cursor: ew-resize;
+
+      &::before {
+        top: 0;
+        bottom: 0;
+        width: 3px;
+      }
+    }
   }
 
   &.ttb,
@@ -91,22 +131,68 @@ $directions: rtl, ltr, ttb, btt;
     width: 100%;
     left: 0;
     right: 0;
+
+    > .#{$namespace}-drawer__dragger {
+      width: 100%;
+      height: getCssVar('drawer-dragger-size');
+      left: 0;
+      right: 0;
+      cursor: ns-resize;
+
+      &::before {
+        left: 0;
+        right: 0;
+        height: 3px;
+      }
+    }
   }
 
   &.ltr {
     left: 0;
+
+    > .#{$namespace}-drawer__dragger {
+      right: 0;
+
+      &::before {
+        right: -2px;
+      }
+    }
   }
 
   &.rtl {
     right: 0;
+
+    > .#{$namespace}-drawer__dragger {
+      left: 0;
+
+      &::before {
+        left: -2px;
+      }
+    }
   }
 
   &.ttb {
     top: 0;
+
+    > .#{$namespace}-drawer__dragger {
+      bottom: 0;
+
+      &::before {
+        bottom: -2px;
+      }
+    }
   }
 
   &.btt {
     bottom: 0;
+
+    > .#{$namespace}-drawer__dragger {
+      top: 0;
+
+      &::before {
+        top: -2px;
+      }
+    }
   }
 }
 

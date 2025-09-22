@@ -3,7 +3,8 @@
     ref="tooltipRef"
     :visible="popperVisible"
     :teleported="teleported"
-    :popper-class="[nsCascader.e('dropdown'), popperClass]"
+    :popper-class="[nsCascader.e('dropdown'), popperClass!]"
+    :popper-style="popperStyle"
     :popper-options="popperOptions"
     :fallback-placements="fallbackPlacements"
     :stop-popper-mouse-event="false"
@@ -17,7 +18,8 @@
   >
     <template #default>
       <div
-        v-clickoutside:[contentRef]="() => togglePopperVisible(false)"
+        ref="wrapperRef"
+        v-clickoutside:[contentRef]="handleClickOutside"
         :class="cascaderKls"
         :style="cascaderStyle"
         @click="() => togglePopperVisible(readonly ? undefined : true)"
@@ -26,7 +28,7 @@
         @mouseleave="inputHover = false"
       >
         <el-input
-          ref="input"
+          ref="inputRef"
           v-model="inputValue"
           :placeholder="currentPlaceholder"
           :readonly="readonly"
@@ -38,8 +40,6 @@
           @compositionstart="handleComposition"
           @compositionupdate="handleComposition"
           @compositionend="handleComposition"
-          @focus="handleFocus"
-          @blur="handleBlur"
           @input="handleInput"
         >
           <template v-if="$slots.prefix" #prefix>
@@ -52,7 +52,7 @@
               :class="[nsInput.e('icon'), 'icon-circle-close']"
               @click.stop="handleClear"
             >
-              <circle-close />
+              <component :is="clearIcon" />
             </el-icon>
             <el-icon
               v-else
@@ -73,9 +73,9 @@
             nsCascader.is('validate', Boolean(validateState)),
           ]"
         >
-          <slot name="tag" :data="allPresentTags" :delete-tag="deleteTag">
+          <slot name="tag" :data="tags" :delete-tag="deleteTag">
             <el-tag
-              v-for="tag in presentTags"
+              v-for="tag in showTagList"
               :key="tag.key"
               :type="tagType"
               :size="tagSize"
@@ -85,50 +85,59 @@
               disable-transitions
               @close="deleteTag(tag)"
             >
-              <template v-if="tag.isCollapseTag === false">
-                <span>{{ tag.text }}</span>
-              </template>
-              <template v-else>
-                <el-tooltip
-                  :disabled="popperVisible || !collapseTagsTooltip"
-                  :fallback-placements="['bottom', 'top', 'right', 'left']"
-                  placement="bottom"
-                  :effect="effect"
-                >
-                  <template #default>
-                    <span>{{ tag.text }}</span>
-                  </template>
-                  <template #content>
-                    <el-scrollbar :max-height="maxCollapseTagsTooltipHeight">
-                      <div :class="nsCascader.e('collapse-tags')">
-                        <div
-                          v-for="(tag2, idx) in allPresentTags.slice(
-                            maxCollapseTags
-                          )"
-                          :key="idx"
-                          :class="nsCascader.e('collapse-tag')"
-                        >
-                          <el-tag
-                            :key="tag2.key"
-                            class="in-tooltip"
-                            :type="tagType"
-                            :size="tagSize"
-                            :effect="tagEffect"
-                            :hit="tag2.hitState"
-                            :closable="tag2.closable"
-                            disable-transitions
-                            @close="deleteTag(tag2)"
-                          >
-                            <span>{{ tag2.text }}</span>
-                          </el-tag>
-                        </div>
-                      </div>
-                    </el-scrollbar>
-                  </template>
-                </el-tooltip>
-              </template>
+              <span>{{ tag.text }}</span>
             </el-tag>
           </slot>
+          <el-tooltip
+            v-if="collapseTags && tags.length > maxCollapseTags"
+            ref="tagTooltipRef"
+            :disabled="popperVisible || !collapseTagsTooltip"
+            :fallback-placements="['bottom', 'top', 'right', 'left']"
+            placement="bottom"
+            :popper-class="popperClass"
+            :popper-style="popperStyle"
+            :effect="effect"
+            :persistent="persistent"
+          >
+            <template #default>
+              <el-tag
+                :closable="false"
+                :size="tagSize"
+                :type="tagType"
+                :effect="tagEffect"
+                disable-transitions
+              >
+                <span :class="nsCascader.e('tags-text')">
+                  + {{ tags.length - maxCollapseTags }}
+                </span>
+              </el-tag>
+            </template>
+            <template #content>
+              <el-scrollbar :max-height="maxCollapseTagsTooltipHeight">
+                <div :class="nsCascader.e('collapse-tags')">
+                  <div
+                    v-for="(tag, idx) in collapseTagList"
+                    :key="idx"
+                    :class="nsCascader.e('collapse-tag')"
+                  >
+                    <el-tag
+                      :key="tag.key"
+                      class="in-tooltip"
+                      :type="tagType"
+                      :size="tagSize"
+                      :effect="tagEffect"
+                      :hit="tag.hitState"
+                      :closable="tag.closable"
+                      disable-transitions
+                      @close="deleteTag(tag)"
+                    >
+                      <span>{{ tag.text }}</span>
+                    </el-tag>
+                  </div>
+                </div>
+              </el-scrollbar>
+            </template>
+          </el-tooltip>
           <input
             v-if="filterable && !isDisabled"
             v-model="searchInputValue"
@@ -141,8 +150,6 @@
             @compositionstart="handleComposition"
             @compositionupdate="handleComposition"
             @compositionend="handleComposition"
-            @focus="handleFocus"
-            @blur="handleBlur"
           />
         </div>
       </div>
@@ -215,6 +222,7 @@ import { useCssVar, useResizeObserver } from '@vueuse/core'
 import {
   debugWarn,
   focusNode,
+  getEventCode,
   getSibling,
   isClient,
   isPromise,
@@ -225,11 +233,16 @@ import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
-import { useFormItem, useFormSize } from '@element-plus/components/form'
+import {
+  useFormDisabled,
+  useFormItem,
+  useFormSize,
+} from '@element-plus/components/form'
 import { ClickOutside as vClickoutside } from '@element-plus/directives'
 import {
   useComposition,
   useEmptyValues,
+  useFocusController,
   useLocale,
   useNamespace,
 } from '@element-plus/hooks'
@@ -238,11 +251,11 @@ import {
   EVENT_CODE,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import { ArrowDown, Check, CircleClose } from '@element-plus/icons-vue'
+import { ArrowDown, Check } from '@element-plus/icons-vue'
 import { cascaderEmits, cascaderProps } from './cascader'
 
 import type { Options } from '@element-plus/components/popper'
-import type { ComputedRef, Ref, StyleValue } from 'vue'
+import type { ComputedRef, StyleValue } from 'vue'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { InputInstance } from '@element-plus/components/input'
 import type { ScrollbarInstance } from '@element-plus/components/scrollbar'
@@ -259,7 +272,7 @@ const popperOptions: Partial<Options> = {
       name: 'arrowPosition',
       enabled: true,
       phase: 'main',
-      fn: ({ state }: any) => {
+      fn: ({ state }) => {
         const { modifiersData, placement } = state
         if (['right', 'left', 'bottom', 'top'].includes(placement)) return
         if (modifiersData.arrow) {
@@ -287,7 +300,8 @@ const nsCascader = useNamespace('cascader')
 const nsInput = useNamespace('input')
 
 const { t } = useLocale()
-const { form, formItem } = useFormItem()
+const { formItem } = useFormItem()
+const isDisabled = useFormDisabled()
 const { valueOnClear } = useEmptyValues(props)
 const { isComposing, handleComposition } = useComposition({
   afterComposition(event) {
@@ -296,31 +310,45 @@ const { isComposing, handleComposition } = useComposition({
   },
 })
 
-const tooltipRef: Ref<TooltipInstance | null> = ref(null)
-const input: Ref<InputInstance | null> = ref(null)
-const tagWrapper = ref(null)
-const cascaderPanelRef: Ref<CascaderPanelInstance | null> = ref(null)
-const suggestionPanel: Ref<ScrollbarInstance | null> = ref(null)
+const tooltipRef = ref<TooltipInstance>()
+const tagTooltipRef = ref<TooltipInstance>()
+const inputRef = ref<InputInstance>()
+const tagWrapper = ref<HTMLDivElement>()
+const cascaderPanelRef = ref<CascaderPanelInstance>()
+const suggestionPanel = ref<ScrollbarInstance>()
 const popperVisible = ref(false)
 const inputHover = ref(false)
 const filtering = ref(false)
-const filterFocus = ref(false)
 const inputValue = ref('')
 const searchInputValue = ref('')
-const presentTags: Ref<Tag[]> = ref([])
-const allPresentTags: Ref<Tag[]> = ref([])
-const suggestions: Ref<CascaderNode[]> = ref([])
+const tags = ref<Tag[]>([])
+const suggestions = ref<CascaderNode[]>([])
 
-const cascaderStyle = computed<StyleValue>(() => {
+const showTagList = computed(() => {
+  if (!props.props.multiple) {
+    return []
+  }
+  return props.collapseTags
+    ? tags.value.slice(0, props.maxCollapseTags)
+    : tags.value
+})
+
+const collapseTagList = computed(() => {
+  if (!props.props.multiple) {
+    return []
+  }
+  return props.collapseTags ? tags.value.slice(props.maxCollapseTags) : []
+})
+
+const cascaderStyle = computed(() => {
   return attrs.style as StyleValue
 })
 
-const isDisabled = computed(() => props.disabled || form?.disabled)
 const inputPlaceholder = computed(
   () => props.placeholder ?? t('el.cascader.placeholder')
 )
 const currentPlaceholder = computed(() =>
-  searchInputValue.value || presentTags.value.length > 0 || isComposing.value
+  searchInputValue.value || tags.value.length > 0 || isComposing.value
     ? ''
     : inputPlaceholder.value
 )
@@ -336,12 +364,28 @@ const searchKeyword = computed(() =>
 const checkedNodes: ComputedRef<CascaderNode[]> = computed(
   () => cascaderPanelRef.value?.checkedNodes || []
 )
+
+const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
+  disabled: isDisabled,
+  beforeBlur(event) {
+    return (
+      tooltipRef.value?.isFocusInsideContent(event) ||
+      tagTooltipRef.value?.isFocusInsideContent(event)
+    )
+  },
+  afterBlur() {
+    if (props.validateEvent) {
+      formItem?.validate?.('blur').catch((err) => debugWarn(err))
+    }
+  },
+})
+
 const clearBtnVisible = computed(() => {
   if (
     !props.clearable ||
     isDisabled.value ||
     filtering.value ||
-    !inputHover.value
+    (!inputHover.value && !isFocused.value)
   )
     return false
 
@@ -391,13 +435,19 @@ const cascaderIconKls = computed(() => {
   ]
 })
 
-const inputClass = computed(() => {
-  return nsCascader.is('focus', popperVisible.value || filterFocus.value)
-})
+const inputClass = computed(() => nsCascader.is('focus', isFocused.value))
 
 const contentRef = computed(() => {
   return tooltipRef.value?.popperRef?.contentRef
 })
+
+const handleClickOutside = (event: Event) => {
+  if (isFocused.value) {
+    const _event = new FocusEvent('blur', event)
+    handleBlur(_event)
+  }
+  togglePopperVisible(false)
+}
 
 const togglePopperVisible = (visible?: boolean) => {
   if (isDisabled.value) return
@@ -406,7 +456,7 @@ const togglePopperVisible = (visible?: boolean) => {
 
   if (visible !== popperVisible.value) {
     popperVisible.value = visible
-    input.value?.input?.setAttribute('aria-expanded', `${visible}`)
+    inputRef.value?.input?.setAttribute('aria-expanded', `${visible}`)
 
     if (visible) {
       updatePopperPosition()
@@ -436,7 +486,6 @@ const genTag = (node: CascaderNode): Tag => {
     text: node.calcText(showAllLevels, separator),
     hitState: false,
     closable: !isDisabled.value && !node.isDisabled,
-    isCollapseTag: false,
   }
 }
 
@@ -468,34 +517,10 @@ const calculatePresentTags = () => {
   if (!multiple.value) return
 
   const nodes = getStrategyCheckedNodes()
-  const tags: Tag[] = []
 
   const allTags: Tag[] = []
   nodes.forEach((node) => allTags.push(genTag(node)))
-  allPresentTags.value = allTags
-
-  if (nodes.length) {
-    nodes
-      .slice(0, props.maxCollapseTags)
-      .forEach((node) => tags.push(genTag(node)))
-    const rest = nodes.slice(props.maxCollapseTags)
-    const restCount = rest.length
-
-    if (restCount) {
-      if (props.collapseTags) {
-        tags.push({
-          key: -1,
-          text: `+ ${restCount}`,
-          closable: false,
-          isCollapseTag: true,
-        })
-      } else {
-        rest.forEach((node) => tags.push(genTag(node)))
-      }
-    }
-  }
-
-  presentTags.value = tags
+  tags.value = allTags
 }
 
 const calculateSuggestions = () => {
@@ -509,10 +534,7 @@ const calculateSuggestions = () => {
     })
 
   if (multiple.value) {
-    presentTags.value.forEach((tag) => {
-      tag.hitState = false
-    })
-    allPresentTags.value.forEach((tag) => {
+    tags.value.forEach((tag) => {
       tag.hitState = false
     })
   }
@@ -542,7 +564,7 @@ const focusFirstNode = () => {
 }
 
 const updateStyle = () => {
-  const inputInner = input.value?.input
+  const inputInner = inputRef.value?.input
   const tagWrapperEl = tagWrapper.value
   const suggestionPanelEl = suggestionPanel.value?.$el
 
@@ -559,7 +581,7 @@ const updateStyle = () => {
     const { offsetHeight } = tagWrapperEl
     // 2 is el-input__wrapper padding
     const height =
-      presentTags.value.length > 0
+      tags.value.length > 0
         ? `${Math.max(offsetHeight, inputInitialHeight) - 2}px`
         : `${inputInitialHeight}px`
     inputInner.style.height = height
@@ -578,8 +600,9 @@ const handleExpandChange = (value: CascaderValue) => {
 
 const handleKeyDown = (e: KeyboardEvent) => {
   if (isComposing.value) return
+  const code = getEventCode(e)
 
-  switch (e.code) {
+  switch (code) {
     case EVENT_CODE.enter:
     case EVENT_CODE.numpadEnter:
       togglePopperVisible()
@@ -630,7 +653,7 @@ const handleSuggestionClick = (node: CascaderNode) => {
 
 const handleSuggestionKeyDown = (e: KeyboardEvent) => {
   const target = e.target as HTMLElement
-  const { code } = e
+  const code = getEventCode(e)
 
   switch (code) {
     case EVENT_CODE.up:
@@ -654,11 +677,14 @@ const handleSuggestionKeyDown = (e: KeyboardEvent) => {
 }
 
 const handleDelete = () => {
-  const tags = presentTags.value
-  const lastTag = tags[tags.length - 1]
+  const lastTag = tags.value[tags.value.length - 1]
   pressDeleteCount = searchInputValue.value ? 0 : pressDeleteCount + 1
 
-  if (!lastTag || !pressDeleteCount || (props.collapseTags && tags.length > 1))
+  if (
+    !lastTag ||
+    !pressDeleteCount ||
+    (props.collapseTags && tags.value.length > 1)
+  )
     return
 
   if (lastTag.hitState) {
@@ -666,20 +692,6 @@ const handleDelete = () => {
   } else {
     lastTag.hitState = true
   }
-}
-
-const handleFocus = (e: FocusEvent) => {
-  const el = e.target as HTMLInputElement
-  const name = nsCascader.e('search-input')
-  if (el.className === name) {
-    filterFocus.value = true
-  }
-  emit('focus', e)
-}
-
-const handleBlur = (e: FocusEvent) => {
-  filterFocus.value = false
-  emit('blur', e)
 }
 
 const handleFilter = debounce(() => {
@@ -716,17 +728,22 @@ const getInputInnerHeight = (inputInner: HTMLElement): number =>
 watch(filtering, updatePopperPosition)
 
 watch(
-  [checkedNodes, isDisabled, () => props.collapseTags],
+  [
+    checkedNodes,
+    isDisabled,
+    () => props.collapseTags,
+    () => props.maxCollapseTags,
+  ],
   calculatePresentTags
 )
 
-watch(presentTags, () => {
+watch(tags, () => {
   nextTick(() => updateStyle())
 })
 
 watch(realSize, async () => {
   await nextTick()
-  const inputInner = input.value!.input!
+  const inputInner = inputRef.value!.input!
   inputInitialHeight = getInputInnerHeight(inputInner) || inputInitialHeight
   updateStyle()
 })
@@ -734,7 +751,7 @@ watch(realSize, async () => {
 watch(presentText, syncPresentTextValue, { immediate: true })
 
 onMounted(() => {
-  const inputInner = input.value!.input!
+  const inputInner = inputRef.value!.input!
 
   const inputInnerHeight = getInputInnerHeight(inputInner)
 
