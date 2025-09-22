@@ -364,9 +364,8 @@ describe('Autocomplete.vue', () => {
     expect(document.body.querySelector('.highlighted')).toBeDefined()
   })
 
-  test('keyboard operations', async () => {
-    vi.useFakeTimers()
-    const wrapper = _mount({ debounce: 10 }, 'arr')
+  test('keyboard navigation should loop when loopNavigation is true', async () => {
+    const wrapper = _mount({ debounce: 10, loopNavigation: true }, 'arr')
     await nextTick()
 
     const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
@@ -389,6 +388,36 @@ describe('Autocomplete.vue', () => {
     expect(target.highlightedIndex).toBe(0)
 
     await input.trigger('keydown.up')
+    expect(target.highlightedIndex).toBe(length - 1)
+  })
+
+  test('keyboard navigation should not loop when loopNavigation is false', async () => {
+    const wrapper = _mount({ debounce: 10, loopNavigation: false }, 'arr')
+    await nextTick()
+
+    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
+      typeof Autocomplete
+    >
+    const input = wrapper.find('input')
+
+    await input.trigger('focus')
+    vi.runAllTimers()
+    await nextTick()
+
+    const length = target.suggestions.length
+
+    await input.trigger('keydown.down')
+    expect(target.highlightedIndex).toBe(0)
+
+    await input.trigger('keydown.up')
+    expect(target.highlightedIndex).toBe(-1)
+
+    for (let i = 0; i < length; i++) {
+      await input.trigger('keydown.down')
+      expect(target.highlightedIndex).toBe(i)
+    }
+
+    await input.trigger('keydown.down')
     expect(target.highlightedIndex).toBe(length - 1)
   })
 
