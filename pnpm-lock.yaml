@@ -6,9 +6,42 @@ settings:
 
 catalogs:
   default:
+    '@ctrl/tinycolor':
+      specifier: ^3.4.1
+      version: 3.6.1
+    '@element-plus/icons-vue':
+      specifier: ^2.3.1
+      version: 2.3.1
+    '@popperjs/core':
+      specifier: npm:@sxzz/popperjs-es@^2.11.7
+      version: 2.11.7
+    '@vitejs/plugin-vue':
+      specifier: ^5.1.4
+      version: 5.1.4
+    '@vitejs/plugin-vue-jsx':
+      specifier: ^4.0.1
+      version: 4.0.1
+    '@vue/shared':
+      specifier: ^3.5.21
+      version: 3.5.21
+    '@vue/test-utils':
+      specifier: ^2.4.6
+      version: 2.4.6
     '@vueuse/core':
       specifier: ^10.11.0
       version: 10.11.0
+    csstype:
+      specifier: ^2.6.20
+      version: 2.6.20
+    lodash-unified:
+      specifier: ^1.0.2
+      version: 1.0.3
+    normalize-wheel-es:
+      specifier: ^1.2.0
+      version: 1.2.0
+    type-fest:
+      specifier: ^2.14.0
+      version: 2.14.0
     vue:
       specifier: ^3.5.21
       version: 3.5.21
@@ -131,7 +164,7 @@ importers:
         version: 22.9.0
       '@vitest/coverage-v8':
         specifier: ^2.0.5
-        version: 2.0.5(vitest@2.0.5(@types/node@22.9.0)(@vitest/ui@2.0.5)(happy-dom@17.4.4)(jsdom@16.4.0)(sass@1.79.3)(terser@5.36.0))
+        version: 2.0.5(vitest@2.0.5)
       '@vitest/ui':
         specifier: ^2.0.5
         version: 2.0.5(vitest@2.0.5)
@@ -594,7 +627,7 @@ importers:
         specifier: ^1.2.0
         version: 1.2.0
       vue:
-        specifier: ^3.2.0
+        specifier: ^3.3.0
         version: 3.5.21(typescript@5.5.4)
     devDependencies:
       '@types/node':
@@ -10552,7 +10585,7 @@ snapshots:
       vite: 5.4.10(@types/node@22.9.0)(sass@1.79.3)(terser@5.36.0)
       vue: 3.5.21(typescript@5.5.4)
 
-  '@vitest/coverage-v8@2.0.5(vitest@2.0.5(@types/node@22.9.0)(@vitest/ui@2.0.5)(happy-dom@17.4.4)(jsdom@16.4.0)(sass@1.79.3)(terser@5.36.0))':
+  '@vitest/coverage-v8@2.0.5(vitest@2.0.5)':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@bcoe/v8-coverage': 0.2.3
@@ -15955,7 +15988,7 @@ snapshots:
   vite-node@2.0.5(@types/node@22.9.0)(sass@1.79.3)(terser@5.36.0):
     dependencies:
       cac: 6.7.14
-      debug: 4.4.0
+      debug: 4.4.1
       pathe: 1.1.2
       tinyrainbow: 1.2.0
       vite: 5.4.10(@types/node@22.9.0)(sass@1.79.3)(terser@5.36.0)
