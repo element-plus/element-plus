@@ -95,3 +95,26 @@ time-picker/range
 | blur                  | blur the TimePicker component  | ^[Function]`() => void` |
 | handleOpen ^(2.2.16)  | open the TimePicker popper     | ^[Function]`() => void` |
 | handleClose ^(2.2.16) | close the TimePicker popper    | ^[Function]`() => void` |
+
+## Type Declarations
+
+<details>
+  <summary>Show declarations</summary>
+
+```ts
+type Placement =
+  | 'top'
+  | 'top-start'
+  | 'top-end'
+  | 'bottom'
+  | 'bottom-start'
+  | 'bottom-end'
+  | 'left'
+  | 'left-start'
+  | 'left-end'
+  | 'right'
+  | 'right-start'
+  | 'right-end'
+```
+
+</details>

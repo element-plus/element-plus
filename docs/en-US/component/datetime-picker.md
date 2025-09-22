@@ -154,3 +154,26 @@ datetime-picker/custom-icon
 | ------------- | ------------------------------ | ----------------------- |
 | focus         | focus the DatePicker component | ^[Function]`() => void` |
 | blur ^(2.8.7) | blur the DatePicker component  | ^[Function]`() => void` |
+
+## Type Declarations
+
+<details>
+  <summary>Show declarations</summary>
+
+```ts
+type Placement =
+  | 'top'
+  | 'top-start'
+  | 'top-end'
+  | 'bottom'
+  | 'bottom-start'
+  | 'bottom-end'
+  | 'left'
+  | 'left-start'
+  | 'left-end'
+  | 'right'
+  | 'right-start'
+  | 'right-end'
+```
+
+</details>
