@@ -141,7 +141,7 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
       :automatic-dropdown="automaticDropdown"
       :size="size"
       :fit-input-width="fitInputWidth"
-      :key-loop="keyLoop"
+      :loop-navigation="loopNavigation"
       >
       <el-option
         v-for="item in options"
@@ -3645,8 +3645,8 @@ describe('Select', () => {
     expect(vm.count).toBe(2)
   })
 
-  test('keyboard navigation should not loop when keyLoop is false', async () => {
-    wrapper = getSelectVm({ keyLoop: false })
+  test('keyboard navigation should not loop when loopNavigation is false', async () => {
+    wrapper = getSelectVm({ loopNavigation: false })
     const select = wrapper.findComponent({ name: 'ElSelect' })
     const vm = select.vm as any
     vm.states.hoveringIndex = vm.states.options.size - 1

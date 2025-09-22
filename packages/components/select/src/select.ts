@@ -292,7 +292,7 @@ export const selectProps = buildProps({
   /**
    * @description whether keyboard navigation loops from end to start
    */
-  keyLoop: {
+  loopNavigation: {
     type: Boolean,
     default: true,
   },

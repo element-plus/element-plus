@@ -755,13 +755,13 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       if (direction === 'next') {
         if (states.hoveringIndex < states.options.size - 1) {
           states.hoveringIndex++
-        } else if (props.keyLoop) {
+        } else if (props.loopNavigation) {
           states.hoveringIndex = 0
         }
       } else if (direction === 'prev') {
         if (states.hoveringIndex > 0) {
           states.hoveringIndex--
-        } else if (props.keyLoop) {
+        } else if (props.loopNavigation) {
           states.hoveringIndex = states.options.size - 1
         }
       }
