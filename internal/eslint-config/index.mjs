@@ -313,6 +313,15 @@ export default tseslint.config(
     },
   },
   {
+    files: ['*.ts'],
+    rules: {
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        { disallowTypeAnnotations: false },
+      ],
+    },
+  },
+  {
     files: ['*.vue', '**/*.vue'],
     languageOptions: {
       parserOptions: {
