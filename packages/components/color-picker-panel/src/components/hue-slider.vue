@@ -21,14 +21,14 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useLocale } from '@element-plus/hooks'
-import { hueSliderEmits } from '../props/slider'
+import { hueSliderProps } from '../props/slider'
 import { useSlider, useSliderDOM } from '../composables/use-slider'
 
 defineOptions({
   name: 'ElColorHueSlider',
 })
 
-const props = defineProps(hueSliderEmits)
+const props = defineProps(hueSliderProps)
 const minValue = 0
 const maxValue = 360
 

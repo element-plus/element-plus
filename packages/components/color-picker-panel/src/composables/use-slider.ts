@@ -11,7 +11,7 @@ import { useNamespace } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/constants'
 import { draggable } from '../utils/draggable'
 
-import type { SliderProps } from '../props/slider'
+import type { AlphaSliderProps } from '../props/slider'
 
 interface UseSliderOptions {
   key: 'hue' | 'alpha'
@@ -20,7 +20,7 @@ interface UseSliderOptions {
 }
 
 export const useSlider = (
-  props: SliderProps,
+  props: AlphaSliderProps,
   { key, minValue, maxValue }: UseSliderOptions
 ) => {
   const instance = getCurrentInstance()!
@@ -77,7 +77,7 @@ export const useSlider = (
     const { shiftKey } = event
     const code = getEventCode(event)
     const step = shiftKey ? 10 : 1
-    // NOTE: The hue slider is opposite in direction to the regular slider, so the hue slider has been reversed here.
+    // NOTE: The hue-slider is opposite in direction to the regular slider, so the hue slider has been reversed here.
     // But this is not the best way to handle it.
     const reverse = key === 'hue' ? -1 : 1
     let isPreventDefault = true
@@ -138,7 +138,7 @@ interface UseSliderDOMOptions
 }
 
 export const useSliderDOM = (
-  props: SliderProps,
+  props: AlphaSliderProps,
   {
     namespace,
     maxValue,
