@@ -9,7 +9,7 @@ import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { CircleClose } from '@element-plus/icons-vue'
 import { disabledTimeListsProps } from '../props/shared'
 
-import type { Component, ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { Component, ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type { Options } from '@popperjs/core'
 import type { Dayjs } from 'dayjs'
 import type { Placement } from '@element-plus/components/popper'
@@ -265,7 +265,7 @@ export const timePickerDefaultProps = buildProps({
 export type TimePickerDefaultProps = ExtractPropTypes<
   typeof timePickerDefaultProps
 >
-export type TimePickerDefaultPropsPublic = __ExtractPublicPropTypes<
+export type TimePickerDefaultPropsPublic = ExtractPublicPropTypes<
   typeof timePickerDefaultProps
 >
 

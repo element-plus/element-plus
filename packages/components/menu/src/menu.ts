@@ -42,9 +42,9 @@ import type {
   Component,
   DirectiveArguments,
   ExtractPropTypes,
+  ExtractPublicPropTypes,
   VNode,
   VNodeArrayChildren,
-  __ExtractPublicPropTypes,
 } from 'vue'
 import type { UseResizeObserverReturn } from '@vueuse/core'
 
@@ -172,7 +172,7 @@ export const menuProps = buildProps({
   },
 } as const)
 export type MenuProps = ExtractPropTypes<typeof menuProps>
-export type MenuPropsPublic = __ExtractPublicPropTypes<typeof menuProps>
+export type MenuPropsPublic = ExtractPublicPropTypes<typeof menuProps>
 
 const checkIndexPath = (indexPath: unknown): indexPath is string[] =>
   isArray(indexPath) && indexPath.every((path) => isString(path))

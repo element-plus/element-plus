@@ -5,8 +5,8 @@ import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import type {
   ComputedRef,
   ExtractPropTypes,
+  ExtractPublicPropTypes,
   InjectionKey,
-  __ExtractPublicPropTypes,
 } from 'vue'
 import type ColorPickerPanel from './color-picker-panel.vue'
 import type Color from './utils/color'
@@ -52,7 +52,7 @@ export const colorPickerPanelEmits = {
 export type ColorPickerPanelProps = ExtractPropTypes<
   typeof colorPickerPanelProps
 >
-export type ColorPickerPanelPropsPublic = __ExtractPublicPropTypes<
+export type ColorPickerPanelPropsPublic = ExtractPublicPropTypes<
   typeof colorPickerPanelProps
 >
 export type ColorPickerPanelEmits = typeof colorPickerPanelEmits

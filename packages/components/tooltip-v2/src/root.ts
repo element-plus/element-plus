@@ -1,6 +1,6 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 
 type StateUpdater = (state: boolean) => void
 
@@ -23,6 +23,6 @@ export const tooltipV2RootProps = buildProps({
 } as const)
 
 export type TooltipV2RootProps = ExtractPropTypes<typeof tooltipV2RootProps>
-export type TooltipV2RootPropsPublic = __ExtractPublicPropTypes<
+export type TooltipV2RootPropsPublic = ExtractPublicPropTypes<
   typeof tooltipV2RootProps
 >
