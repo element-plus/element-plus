@@ -19,6 +19,7 @@
     "@popperjs/core": "catalog:",
     "@vueuse/core": "catalog:",
     "csstype": "catalog:",
+    "dayjs": "catalog:",
     "lodash-unified": "catalog:"
   },
   "devDependencies": {

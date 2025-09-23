@@ -6,6 +6,45 @@ settings:
 
 catalogs:
   default:
+    '@ctrl/tinycolor':
+      specifier: ^3.4.1
+      version: 3.6.1
+    '@element-plus/icons-vue':
+      specifier: ^2.3.1
+      version: 2.3.1
+    '@popperjs/core':
+      specifier: npm:@sxzz/popperjs-es@^2.11.7
+      version: 2.11.7
+    '@vitejs/plugin-vue':
+      specifier: ^5.1.4
+      version: 5.1.4
+    '@vitejs/plugin-vue-jsx':
+      specifier: ^4.0.1
+      version: 4.0.1
+    '@vue/shared':
+      specifier: ^3.5.21
+      version: 3.5.21
+    '@vue/test-utils':
+      specifier: ^2.4.6
+      version: 2.4.6
+    '@vueuse/core':
+      specifier: ^10.11.0
+      version: 10.11.0
+    csstype:
+      specifier: ^2.6.20
+      version: 2.6.20
+    dayjs:
+      specifier: ^1.11.18
+      version: 1.11.18
+    lodash-unified:
+      specifier: ^1.0.2
+      version: 1.0.3
+    normalize-wheel-es:
+      specifier: ^1.2.0
+      version: 1.2.0
+    type-fest:
+      specifier: ^2.14.0
+      version: 2.14.0
     vue:
       specifier: ^3.5.21
       version: 3.5.21
@@ -441,6 +480,9 @@ importers:
       csstype:
         specifier: 'catalog:'
         version: 2.6.20
+      dayjs:
+        specifier: 'catalog:'
+        version: 1.11.18
       lodash-unified:
         specifier: 'catalog:'
         version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.21)(lodash@4.17.21)
@@ -503,8 +545,8 @@ importers:
         specifier: ^4.2.5
         version: 4.2.5(patch_hash=wdmp4xlpil2odxo3rasjmxbdfm)
       dayjs:
-        specifier: ^1.11.13
-        version: 1.11.13
+        specifier: 'catalog:'
+        version: 1.11.18
       escape-html:
         specifier: ^1.0.3
         version: 1.0.3
@@ -539,6 +581,9 @@ importers:
 
   packages/hooks:
     dependencies:
+      '@element-plus/utils':
+        specifier: workspace:^
+        version: link:../utils
       '@floating-ui/dom':
         specifier: ^1.0.1
         version: 1.6.8
@@ -3798,6 +3843,9 @@ packages:
 
   dayjs@1.11.13:
     resolution: {integrity: sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==}
+
+  dayjs@1.11.18:
+    resolution: {integrity: sha512-zFBQ7WFRvVRhKcWoUh+ZA1g2HVgUbsZm9sbddh8EC5iv93sui8DVVz1Npvz+r6meo9VKfa8NyLWBsQK1VvIKPA==}
 
   de-indent@1.0.2:
     resolution: {integrity: sha512-e/1zu3xH5MQryN2zdVaF0OrdNLUbvWxzMbi+iNA6Bky7l1RoP8a2fIbRocyHclXt/arDrrR6lL3TqFD9pMQTsg==}
@@ -11758,6 +11806,8 @@ snapshots:
   date-fns@2.28.0: {}
 
   dayjs@1.11.13: {}
+
+  dayjs@1.11.18: {}
 
   de-indent@1.0.2: {}
 

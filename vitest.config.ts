@@ -25,5 +25,8 @@ export default defineConfig({
         'ssr-testing/**',
       ],
     },
+    alias: {
+      '@element-plus/components': '/packages/components',
+    },
   },
 })
