@@ -142,7 +142,7 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
       :size="size"
       :fit-input-width="fitInputWidth"
       :loop-navigation="loopNavigation"
-      >
+    >
       <el-option
         v-for="item in options"
         :label="item.label"
