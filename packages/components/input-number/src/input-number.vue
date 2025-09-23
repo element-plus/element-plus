@@ -56,7 +56,7 @@
       :aria-label="ariaLabel"
       :validate-event="false"
       :inputmode="inputmode"
-      @keydown="handleKeydown"
+      @keyup="handleKeydown"
       @blur="handleBlur"
       @focus="handleFocus"
       @input="handleInput"
@@ -86,6 +86,8 @@ import { vRepeatClick } from '@element-plus/directives'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import {
   debugWarn,
+  getEventCode,
+  getEventKey,
   isNumber,
   isString,
   isUndefined,
@@ -210,23 +212,27 @@ const ensurePrecision = (val: number, coefficient: 1 | -1 = 1) => {
   // Solve the accuracy problem of JS decimal calculation by converting the value to integer.
   return toPrecision(val + props.step * coefficient)
 }
-const handleKeydown = (event: Event) => {
-  const e = event as KeyboardEvent
-  if (props.disabledScientific && ['e', 'E'].includes(e.key)) {
-    e.preventDefault()
+const handleKeydown = (event: KeyboardEvent | Event) => {
+  const code = getEventCode(event as KeyboardEvent)
+  const key = getEventKey(event as KeyboardEvent)
+
+  if (props.disabledScientific && ['e', 'E'].includes(key)) {
+    event.preventDefault()
     return
   }
-  const keyHandlers = {
-    [EVENT_CODE.up]: () => {
-      e.preventDefault()
+
+  switch (code) {
+    case EVENT_CODE.up: {
+      event.preventDefault()
       increase()
-    },
-    [EVENT_CODE.down]: () => {
-      e.preventDefault()
+      break
+    }
+    case EVENT_CODE.down: {
+      event.preventDefault()
       decrease()
-    },
+      break
+    }
   }
-  keyHandlers[e.key]?.()
 }
 const increase = () => {
   if (props.readonly || inputNumberDisabled.value || maxDisabled.value) return

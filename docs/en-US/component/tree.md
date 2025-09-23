@@ -218,5 +218,5 @@ tree/draggable
 
 | Name           | Description                                                            |
 | -------------- | ---------------------------------------------------------------------- |
-| —              | Custom content for tree nodes. The scope parameter is `{ node, data }` |
+| default        | Custom content for tree nodes. The scope parameter is `{ node, data }` |
 | empty ^(2.3.4) | empty you can customize content when data is empty.                    |

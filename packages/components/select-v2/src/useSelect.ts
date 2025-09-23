@@ -18,6 +18,7 @@ import {
   ValidateComponentsMap,
   debugWarn,
   escapeStringRegexp,
+  getEventCode,
   isArray,
   isFunction,
   isNumber,
@@ -652,8 +653,9 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     )
 
   const handleDel = (e: KeyboardEvent) => {
+    const code = getEventCode(e)
     if (!props.multiple) return
-    if (e.code === EVENT_CODE.delete) return
+    if (code === EVENT_CODE.delete) return
     if (states.inputValue.length === 0) {
       e.preventDefault()
       const selected = (props.modelValue as Array<any>).slice()

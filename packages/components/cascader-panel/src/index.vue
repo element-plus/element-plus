@@ -33,6 +33,7 @@ import { cloneDeep, flattenDeep, isEqual } from 'lodash-unified'
 import {
   castArray,
   focusNode,
+  getEventCode,
   getSibling,
   isClient,
   isEmpty,
@@ -283,7 +284,7 @@ const scrollToExpandingNode = () => {
 
 const handleKeyDown = (e: KeyboardEvent) => {
   const target = e.target as HTMLElement
-  const { code } = e
+  const code = getEventCode(e)
 
   switch (code) {
     case EVENT_CODE.up:

@@ -8,7 +8,7 @@ import {
   watch,
 } from 'vue'
 import { get } from 'lodash-unified'
-import { isIOS, isObject, isUndefined } from '@element-plus/utils'
+import { getEventCode, isIOS, isObject, isUndefined } from '@element-plus/utils'
 import {
   DynamicSizeList,
   FixedSizeList,
@@ -224,7 +224,7 @@ export default defineComponent({
     }
 
     const onKeydown = (e: KeyboardEvent) => {
-      const { code } = e
+      const code = getEventCode(e)
       const { tab, esc, down, up, enter, numpadEnter } = EVENT_CODE
       if ([esc, down, up, enter, numpadEnter].includes(code)) {
         e.preventDefault()
