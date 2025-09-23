@@ -25,7 +25,7 @@
           </span>
 
           <!-- ARROW -->
-          <template v-if="!!urlList.length && !$slots.viewer">
+          <template v-if="urlList.length > 1 && !$slots.viewer">
             <span :class="arrowPrevKls" @click="prev">
               <el-icon>
                 <ArrowLeft />
