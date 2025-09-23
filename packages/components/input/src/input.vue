@@ -198,7 +198,7 @@ type TargetElement = HTMLInputElement | HTMLTextAreaElement
 
 const COMPONENT_NAME = 'ElInput'
 defineOptions({
-  name: 'ElInput',
+  name: COMPONENT_NAME,
   inheritAttrs: false,
 })
 const props = defineProps(inputProps)

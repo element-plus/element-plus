@@ -149,7 +149,7 @@ import type { InputInstance } from '@element-plus/components/input'
 
 const COMPONENT_NAME = 'ElAutocomplete'
 defineOptions({
-  name: 'ElAutocomplete',
+  name: COMPONENT_NAME,
   inheritAttrs: false,
 })
 

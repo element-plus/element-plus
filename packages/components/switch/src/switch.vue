@@ -100,7 +100,7 @@ import type { CSSProperties } from 'vue'
 
 const COMPONENT_NAME = 'ElSwitch'
 defineOptions({
-  name: 'ElSwitch',
+  name: COMPONENT_NAME,
 })
 
 const props = defineProps(switchProps)

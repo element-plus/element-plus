@@ -100,7 +100,7 @@ import { useCarousel } from './use-carousel'
 
 const COMPONENT_NAME = 'ElCarousel'
 defineOptions({
-  name: 'ElCarousel',
+  name: COMPONENT_NAME,
 })
 
 const props = defineProps(carouselProps)

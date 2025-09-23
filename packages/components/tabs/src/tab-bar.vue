@@ -18,7 +18,7 @@ import type { CSSProperties } from 'vue'
 
 const COMPONENT_NAME = 'ElTabBar'
 defineOptions({
-  name: 'ElTabBar',
+  name: COMPONENT_NAME,
 })
 const props = defineProps(tabBarProps)
 

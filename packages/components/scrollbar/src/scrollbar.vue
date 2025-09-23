@@ -52,7 +52,7 @@ import type { CSSProperties, StyleValue } from 'vue'
 const COMPONENT_NAME = 'ElScrollbar'
 
 defineOptions({
-  name: 'ElScrollbar',
+  name: COMPONENT_NAME,
 })
 
 const props = defineProps(scrollbarProps)
