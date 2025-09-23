@@ -38,7 +38,7 @@ import type { IDescriptionsInject } from './descriptions.type'
 import type { DescriptionItemVNode } from './description-item'
 
 defineOptions({
-  name: COMPONENT_NAME,
+  name: 'ElDescriptions',
 })
 
 const props = defineProps(descriptionProps)
