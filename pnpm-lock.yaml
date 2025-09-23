@@ -87,11 +87,11 @@ importers:
         specifier: npm:@sxzz/popperjs-es@^2.11.7
         version: '@sxzz/popperjs-es@2.11.7'
       '@types/lodash':
-        specifier: ^4.14.182
-        version: 4.14.182
+        specifier: ^4.17.20
+        version: 4.17.20
       '@types/lodash-es':
-        specifier: ^4.17.6
-        version: 4.17.6
+        specifier: ^4.17.12
+        version: 4.17.12
       '@vueuse/core':
         specifier: ^10.11.0
         version: 10.11.0(vue@3.2.37)
@@ -111,8 +111,8 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       lodash-unified:
-        specifier: ^1.0.2
-        version: 1.0.2(@types/lodash-es@4.17.6)(lodash-es@4.17.21)(lodash@4.17.21)
+        specifier: ^1.0.3
+        version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.21)(lodash@4.17.21)
       memoize-one:
         specifier: ^6.0.0
         version: 6.0.0
@@ -2606,6 +2606,9 @@ packages:
 
   '@types/lodash@4.14.184':
     resolution: {integrity: sha512-RoZphVtHbxPZizt4IcILciSWiC6dcn+eZ8oX9IWEYfDMcocdd42f7NPI6fQj+6zI8y4E0L7gu2pcZKLGTRaV9Q==}
+
+  '@types/lodash@4.17.20':
+    resolution: {integrity: sha512-H3MHACvFUEiujabxhaI/ImO6gUrd8oOurg7LQtS7mbwIXA/cUqWrvBsaeJ23aZEPk1TAYkurjfMbSELfoCXlGA==}
 
   '@types/lodash@4.17.7':
     resolution: {integrity: sha512-8wTvZawATi/lsmNu10/j2hk1KEP0IvjubqPE3cu1Xz7xfXXt5oCq3SNUz4fMIP4XGF9Ky+Ue2tBA3hcS7LSBlA==}
@@ -10716,7 +10719,7 @@ snapshots:
 
   '@types/lodash-es@4.17.12':
     dependencies:
-      '@types/lodash': 4.17.7
+      '@types/lodash': 4.17.20
 
   '@types/lodash-es@4.17.6':
     dependencies:
@@ -10725,6 +10728,8 @@ snapshots:
   '@types/lodash@4.14.182': {}
 
   '@types/lodash@4.14.184': {}
+
+  '@types/lodash@4.17.20': {}
 
   '@types/lodash@4.17.7': {}
 
