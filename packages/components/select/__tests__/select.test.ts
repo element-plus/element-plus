@@ -3658,6 +3658,19 @@ describe('Select', () => {
     expect(selectVm.states.hoveringIndex).toBe(0)
   })
 
+  test('keyboard navigation should not loop when loopNavigation is true', async () => {
+    wrapper = getSelectVm({ loopNavigation: true })
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const selectVm = select.vm as any
+    selectVm.states.hoveringIndex = selectVm.states.options.size - 1
+    selectVm.navigateOptions('next')
+    expect(selectVm.states.hoveringIndex).toBe(selectVm.states.options.size - 1)
+    selectVm.navigateOptions('next')
+    expect(selectVm.states.hoveringIndex).toBe(0)
+    selectVm.navigateOptions('prev')
+    expect(selectVm.states.hoveringIndex).toBe(selectVm.states.options.size - 1)
+  })
+
   test('keyboard navigation should not loop with filterable and allowCreate', async () => {
     wrapper = _mount(
       `<el-select
@@ -3690,6 +3703,8 @@ describe('Select', () => {
     const input = wrapper.find('input')
     await input.trigger('click')
     expect(selectVm.states.hoveringIndex).toBe(0)
+    selectVm.navigateOptions('prev')
+    expect(selectVm.states.hoveringIndex).toBe(0)
     selectVm.navigateOptions('next')
     expect(selectVm.states.hoveringIndex).toBe(1)
     selectVm.navigateOptions('next')
@@ -3702,7 +3717,6 @@ describe('Select', () => {
     await nextTick()
     expect(selectVm.optionsArray.length).toBe(5)
     expect(selectVm.states.hoveringIndex).toBe(4)
-    selectVm.navigateOptions('prev')
     selectVm.navigateOptions('prev')
     expect(selectVm.states.hoveringIndex).toBe(4)
     selectVm.navigateOptions('next')
