@@ -477,7 +477,10 @@ describe('DatePicker', () => {
         },
       })
     )
+    await nextTick()
+
     const input = wrapper.findAll('input')[1]
+    await input.element.focus()
     input.element.value = '2001-10-01'
     await input.trigger('input')
     await input.trigger('change')
