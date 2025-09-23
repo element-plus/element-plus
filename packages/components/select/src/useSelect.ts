@@ -741,6 +741,12 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       : []
   })
 
+  const getLastVisibleIndex = () =>
+    optionsArray.value.map((item) => item.visible).lastIndexOf(true)
+
+  const getFirstVisibleIndex = () =>
+    optionsArray.value.findIndex((item) => item.visible)
+
   const navigateOptions = (direction: 'prev' | 'next') => {
     if (!expanded.value) {
       expanded.value = true
@@ -754,19 +760,27 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       return
 
     if (!optionsAllDisabled.value) {
+      const firsVisibletIndex = getFirstVisibleIndex()
+      const lastVisibleIndex = getLastVisibleIndex()
+
       if (direction === 'next') {
-        if (states.hoveringIndex < states.options.size - 1) {
+        if (states.hoveringIndex === lastVisibleIndex) {
+          if (props.loopNavigation) {
+            states.hoveringIndex = firsVisibletIndex
+          }
+        } else {
           states.hoveringIndex++
-        } else if (props.loopNavigation) {
-          states.hoveringIndex = 0
         }
       } else if (direction === 'prev') {
-        if (states.hoveringIndex > 0) {
+        if (states.hoveringIndex === firsVisibletIndex) {
+          if (props.loopNavigation) {
+            states.hoveringIndex = lastVisibleIndex
+          }
+        } else {
           states.hoveringIndex--
-        } else if (props.loopNavigation) {
-          states.hoveringIndex = states.options.size - 1
         }
       }
+
       const option = optionsArray.value[states.hoveringIndex]
       if (option.isDisabled || !option.visible) {
         navigateOptions(direction)
