@@ -7,8 +7,9 @@ import eslintPluginJsonc from 'eslint-plugin-jsonc'
 import markdown from 'eslint-plugin-markdown'
 import pluginVue from 'eslint-plugin-vue'
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
+import { defineConfig } from 'eslint/config'
 
-export default tseslint.config(
+export default defineConfig(
   {
     languageOptions: {
       ecmaVersion: 'latest',
