@@ -7,7 +7,7 @@
 }
 
 @include b(message) {
-  width: max-content;
+  width: fit-content;
   max-width: calc(100% - 32px);
   box-sizing: border-box;
   border-radius: getCssVar('border-radius-base');
@@ -32,8 +32,9 @@
   }
 
   &.is-center {
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0;
+    right: 0;
+    margin: 0 auto;
   }
 
   @include when(plain) {
@@ -101,20 +102,9 @@
 .#{$namespace}-message-fade-enter-from,
 .#{$namespace}-message-fade-leave-to {
   opacity: 0;
+  transform: translateY(-100%);
 
-  &:is(.is-left, .is-right) {
-    transform: translateY(-100%);
-
-    &.is-bottom {
-      transform: translateY(100%);
-    }
-  }
-
-  &.is-center {
-    transform: translate(-50%, -100%);
-
-    &.is-bottom {
-      transform: translate(-50%, 100%);
-    }
+  &.is-bottom {
+    transform: translateY(100%);
   }
 }
