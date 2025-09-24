@@ -19,4 +19,5 @@ catalog:
   '@vitejs/plugin-vue': ^5.1.4
   '@vitejs/plugin-vue-jsx': ^4.0.1
   'dayjs': ^1.11.18
+  'async-validator': ^4.2.5
   # vitest: ^2.0.5

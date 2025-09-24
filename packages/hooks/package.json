@@ -12,6 +12,7 @@
     "vue": "catalog:"
   },
   "dependencies": {
+    "@element-plus/constants": "workspace:^",
     "@element-plus/utils": "workspace:^",
     "@floating-ui/dom": "^1.0.1",
     "@popperjs/core": "catalog:",
@@ -19,6 +20,8 @@
     "lodash-unified": "catalog:"
   },
   "devDependencies": {
+    "@element-plus/locale": "workspace:^",
+    "@element-plus/test-utils": "workspace:^",
     "@vue/test-utils": "catalog:",
     "vue": "catalog:"
   }

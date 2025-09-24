@@ -87,7 +87,7 @@
     "@types/lodash": "^4.14.182",
     "@types/lodash-es": "^4.17.6",
     "@vueuse/core": "catalog:",
-    "async-validator": "^4.2.5",
+    "async-validator": "catalog:",
     "dayjs": "catalog:",
     "escape-html": "^1.0.3",
     "lodash": "^4.17.21",

@@ -20,7 +20,8 @@
     "@vueuse/core": "catalog:",
     "csstype": "catalog:",
     "dayjs": "catalog:",
-    "lodash-unified": "catalog:"
+    "lodash-unified": "catalog:",
+    "async-validator": "catalog:"
   },
   "devDependencies": {
     "@element-plus/test-utils": "workspace:^",

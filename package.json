@@ -83,7 +83,10 @@
     "vitest": "^2.0.5",
     "vue": "catalog:",
     "vue-router": "^4.0.16",
-    "vue-tsc": "^3.0.6"
+    "vue-tsc": "^3.0.6",
+    "@vue/test-utils": "catalog:",
+    "@vitejs/plugin-vue": "catalog:",
+    "@vitejs/plugin-vue-jsx": "catalog:"
   },
   "engines": {
     "node": ">= 20"
