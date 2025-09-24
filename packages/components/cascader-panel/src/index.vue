@@ -381,6 +381,11 @@ watch(
   }
 )
 
+const loadLazyRootNodes = () => {
+  if (initialLoaded.value) return
+  initStore()
+}
+
 onBeforeUpdate(() => (menuList.value = []))
 
 onMounted(() => !isEmpty(props.modelValue) && syncCheckedValue())
@@ -402,5 +407,6 @@ defineExpose({
   clearCheckedNodes,
   calculateCheckedValue,
   scrollToExpandingNode,
+  loadLazyRootNodes,
 })
 </script>
