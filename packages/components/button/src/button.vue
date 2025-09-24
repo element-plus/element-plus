@@ -5,7 +5,7 @@
     v-bind="_props"
     :class="buttonKls"
     :style="buttonStyle"
-    :aria-disabled="disabled"
+    :aria-disabled="_disabled"
     :aria-busy="loading"
     @click="handleClick"
   >
