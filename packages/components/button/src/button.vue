@@ -39,7 +39,7 @@ import { useButtonCustomStyle } from './button-custom'
 defineOptions({
   name: 'ElButton',
 })
-console.log('test deploy')
+
 const props = defineProps(buttonProps)
 const emit = defineEmits(buttonEmits)
 
