@@ -5,9 +5,9 @@
   "description": "ESLint Config",
   "license": "MIT",
   "files": [
-    "index.mjs"
+    "index.js"
   ],
-  "main": "index.mjs",
+  "main": "index.js",
   "publishConfig": {
     "access": "public"
   },
