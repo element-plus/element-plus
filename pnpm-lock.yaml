@@ -12,6 +12,9 @@ catalogs:
     '@element-plus/icons-vue':
       specifier: ^2.3.1
       version: 2.3.1
+    '@floating-ui/dom':
+      specifier: ^1.0.1
+      version: 1.6.8
     '@popperjs/core':
       specifier: npm:@sxzz/popperjs-es@^2.11.7
       version: 2.11.7
@@ -42,6 +45,9 @@ catalogs:
     lodash-unified:
       specifier: ^1.0.2
       version: 1.0.3
+    memoize-one:
+      specifier: ^6.0.0
+      version: 6.0.0
     normalize-wheel-es:
       specifier: ^1.2.0
       version: 1.2.0
@@ -109,7 +115,7 @@ importers:
         version: 4.0.1(vite@5.4.10(@types/node@22.9.0)(sass@1.79.3)(terser@5.36.0))(vue@3.5.21(typescript@5.5.4))
       '@vitest/coverage-v8':
         specifier: ^2.0.5
-        version: 2.0.5(vitest@2.0.5)
+        version: 2.0.5(vitest@2.0.5(@types/node@22.9.0)(@vitest/ui@2.0.5)(happy-dom@17.4.4)(jsdom@16.4.0)(sass@1.79.3)(terser@5.36.0))
       '@vitest/ui':
         specifier: ^2.0.5
         version: 2.0.5(vitest@2.0.5)
@@ -483,6 +489,9 @@ importers:
       '@element-plus/utils':
         specifier: workspace:^
         version: link:../utils
+      '@floating-ui/dom':
+        specifier: 'catalog:'
+        version: 1.6.8
       '@popperjs/core':
         specifier: 'catalog:'
         version: '@sxzz/popperjs-es@2.11.7'
@@ -501,7 +510,13 @@ importers:
       lodash-unified:
         specifier: 'catalog:'
         version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.21)(lodash@4.17.21)
+      memoize-one:
+        specifier: 'catalog:'
+        version: 6.0.0
     devDependencies:
+      '@element-plus/locale':
+        specifier: workspace:^
+        version: link:../locale
       '@element-plus/test-utils':
         specifier: workspace:^
         version: link:../test-utils
@@ -542,8 +557,8 @@ importers:
         specifier: ^2.3.1
         version: 2.3.1(vue@3.5.21(typescript@5.5.4))
       '@floating-ui/dom':
-        specifier: ^1.0.1
-        version: 1.0.1
+        specifier: 'catalog:'
+        version: 1.6.8
       '@popperjs/core':
         specifier: npm:@sxzz/popperjs-es@^2.11.7
         version: '@sxzz/popperjs-es@2.11.7'
@@ -575,7 +590,7 @@ importers:
         specifier: ^1.0.2
         version: 1.0.2(@types/lodash-es@4.17.6)(lodash-es@4.17.21)(lodash@4.17.21)
       memoize-one:
-        specifier: ^6.0.0
+        specifier: 'catalog:'
         version: 6.0.0
       normalize-wheel-es:
         specifier: ^1.2.0
@@ -603,7 +618,7 @@ importers:
         specifier: workspace:^
         version: link:../utils
       '@floating-ui/dom':
-        specifier: ^1.0.1
+        specifier: 'catalog:'
         version: 1.6.8
       '@popperjs/core':
         specifier: 'catalog:'
@@ -1682,14 +1697,8 @@ packages:
     resolution: {integrity: sha512-d9zaMRSTIKDLhctzH12MtXvJKSSUhaHcjV+2Z+GK+EEY7XKpP5yR4x+N3TAcHTcu963nIr+TMcCb4DBCYX1z6Q==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
 
-  '@floating-ui/core@1.0.1':
-    resolution: {integrity: sha512-bO37brCPfteXQfFY0DyNDGB3+IMe4j150KFQcgJ5aBP295p9nBGeHEs/p0czrRbtlHq4Px/yoPXO/+dOCcF4uA==}
-
   '@floating-ui/core@1.6.5':
     resolution: {integrity: sha512-8GrTWmoFhm5BsMZOTHeGD2/0FLKLQQHvO/ZmQga4tKempYRLz8aqJGqXVuQgisnMObq2YZ2SgkwctN1LOOxcqA==}
-
-  '@floating-ui/dom@1.0.1':
-    resolution: {integrity: sha512-wBDiLUKWU8QNPNOTAFHiIAkBv1KlHauG2AhqjSeh2H+wR8PX+AArXfz8NkRexH5PgMJMmSOS70YS89AbWYh5dA==}
 
   '@floating-ui/dom@1.6.8':
     resolution: {integrity: sha512-kx62rP19VZ767Q653wsP1XZCGIirkE09E0QUGNYTM/ttbbQHqcGPdSfWFxUyyNLc/W6aoJRBajOSXhP6GXjC0Q==}
@@ -9144,15 +9153,9 @@ snapshots:
 
   '@eslint/js@8.57.1': {}
 
-  '@floating-ui/core@1.0.1': {}
-
   '@floating-ui/core@1.6.5':
     dependencies:
       '@floating-ui/utils': 0.2.5
-
-  '@floating-ui/dom@1.0.1':
-    dependencies:
-      '@floating-ui/core': 1.0.1
 
   '@floating-ui/dom@1.6.8':
     dependencies:
@@ -10551,7 +10554,7 @@ snapshots:
       vite: 5.4.10(@types/node@22.9.0)(sass@1.79.3)(terser@5.36.0)
       vue: 3.5.21(typescript@5.5.4)
 
-  '@vitest/coverage-v8@2.0.5(vitest@2.0.5)':
+  '@vitest/coverage-v8@2.0.5(vitest@2.0.5(@types/node@22.9.0)(@vitest/ui@2.0.5)(happy-dom@17.4.4)(jsdom@16.4.0)(sass@1.79.3)(terser@5.36.0))':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@bcoe/v8-coverage': 0.2.3

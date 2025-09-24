@@ -14,7 +14,7 @@
   "dependencies": {
     "@element-plus/constants": "workspace:^",
     "@element-plus/utils": "workspace:^",
-    "@floating-ui/dom": "^1.0.1",
+    "@floating-ui/dom": "catalog:",
     "@popperjs/core": "catalog:",
     "@vueuse/core": "catalog:",
     "lodash-unified": "catalog:"
