@@ -98,7 +98,7 @@ const confirm = (e: MouseEvent) => {
   emit('confirm', e)
   hidePopper()
 }
-const cancel = (e: MouseEvent | KeyboardEvent) => {
+const cancel = (e: MouseEvent) => {
   emit('cancel', e)
   hidePopper()
 }
