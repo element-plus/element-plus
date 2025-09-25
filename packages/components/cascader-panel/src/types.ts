@@ -52,7 +52,6 @@ export interface Tag {
   text: string
   hitState?: boolean
   closable: boolean
-  isCollapseTag: boolean
 }
 
 export interface ElCascaderPanelContext {

@@ -1,6 +1,47 @@
 ## Changelog
 
 
+### 2.11.3
+
+_2025-09-19_
+
+#### Features
+
+- Components [input-tag] add drag-tag event (#22038 by @ll-huihui)
+- Components [dropdown] add `virtual-ref / virtual-triggering / show-arrow` props (#22056 by @cszhjh)
+- Components [tabs] support scrolling via mouse wheel (#22024 by @cszhjh)
+- Components [mention] support props prop (#21980 by @keeplearning66)
+- Components [select/v2] avoid unnecessary model updates when value unchanged (#20123 by @DDDDD12138)
+- Components [tree-select] expose `treeRef` & `selectRef` instances (#22147 by @Dsaquel)
+- Components [image-viewer] add `initial-scale` prop (#22071 by @catanswer)
+- Components [image-viewer] add `error` slot (#21961 by @zzjiaxiang)
+
+#### Bug fixes
+
+- Components [date-picker]: use array modelValue `datetime` type debacle (#22033 by @warmthsea)
+- Components [table] fix table display error in stripe mode (#22022 by @micaiguai)
+- Components [alert] show immediately when `showAfter` not needed (#22028 by @cszhjh)
+- Components [mention] correct cursor position (#22070 by @cszhjh)
+- Components [cascader] response to change in `maxCollapseTags` (#22087 by @btea)
+- Components [splitter] `resize-end` event `sizes` value is not the latest (#22125 by @Bigpawn)
+- Components [date-picker-panel] sync panel with model-value (#22123 by @Dsaquel)
+- Components [tree] correctly determine the drop type of tree node (#21717 by @ben-lau)
+- Components [tour] make path responsive to window size (#22145 by @cszhjh)
+- Components [rate] ensure the logic of mouseleave work (#22060 by @micaiguai)
+- Components [checkbox/radio] add missing style (#22151 by @cszhjh)
+- Components [autocomplete] avoid option selection by enter in IME (#21245 by @cszhjh)
+- Components [dropdown]: hover trigger click item close stuck (#22078 by @warmthsea)
+- Components [date-picker-panel] sync clear value with `valueOnClear` (#22059 by @micaiguai)
+- Components [date-picker] keyboard navigation (#22192 by @Dsaquel)
+- Components [tabs] give priority to the `closable` prop of tab-pane (#22187 by @cszhjh)
+- Style(theme-chalk): fix el-step padding-right in vertical layout (#22141 by @duyidao)
+
+#### Refactors
+
+- Components [checkout] reduce repetitive code in templates (#22072 by @lxKylin)
+- Components [checkbox] reduce repetitive code in templates (#22094 by @lxKylin)
+- Components [autocomplete] remove `any` type (#22127 by @cszhjh)
+
 ### 2.11.2
 
 _2025-09-05_
