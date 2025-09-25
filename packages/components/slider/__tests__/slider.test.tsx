@@ -520,27 +520,17 @@ describe('Slider', () => {
     ))
 
     const slider = wrapper.findComponent({ name: 'ElSlider' })
-    const mockRectLeft = vi
-      .spyOn(
-        wrapper.find('.el-slider__runway').element,
-        'getBoundingClientRect'
-      )
-      .mockImplementation(() => {
-        return {
-          left: 0,
-        } as DOMRect
-      })
-    const mockClientWidth = vi
-      .spyOn(wrapper.find('.el-slider__runway').element, 'clientWidth', 'get')
-      .mockImplementation(() => 200)
-
+    const mockRect = mockBoundingClientRect(
+      wrapper.find('.el-slider__runway').element,
+      { width: 200, left: 0 }
+    )
     expect(data.value).toBe(0)
     slider.vm.onSliderClick(new MouseEvent('mousedown', { clientX: 100 }))
     expect(value.value).toBe(0)
     await nextTick()
+    console.log(data.value)
     expect(data.value === 50).toBeTruthy()
-    mockRectLeft.mockRestore()
-    mockClientWidth.mockRestore()
+    mockRect.mockRestore()
   })
 
   describe('range', () => {
