@@ -327,26 +327,26 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, getCurrentInstance, onBeforeUnmount, provide, reactive, toRefs, watch } from "vue";
-import { ClickOutside } from "@element-plus/directives";
-import ElTooltip from "@element-plus/components/tooltip";
-import ElScrollbar from "@element-plus/components/scrollbar";
-import ElTag from "@element-plus/components/tag";
-import ElIcon from "@element-plus/components/icon";
-import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from "@element-plus/constants";
-import { flattedChildren, isArray, isObject } from "@element-plus/utils";
-import { useCalcInputWidth } from "@element-plus/hooks";
-import { useProps } from "@element-plus/components/select-v2/src/useProps";
-import ElOption from "./option.vue";
-import ElSelectMenu from "./select-dropdown.vue";
-import { useSelect } from "./useSelect";
-import { selectKey } from "./token";
-import ElOptions from "./options";
-import { selectProps } from "./select";
-import ElOptionGroup from "./option-group.vue";
+import { computed, defineComponent, getCurrentInstance, onBeforeUnmount, provide, reactive, toRefs, watch } from 'vue'
+import { ClickOutside } from '@element-plus/directives'
+import ElTooltip from '@element-plus/components/tooltip'
+import ElScrollbar from '@element-plus/components/scrollbar'
+import ElTag from '@element-plus/components/tag'
+import ElIcon from '@element-plus/components/icon'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { flattedChildren, isArray, isObject } from '@element-plus/utils'
+import { useCalcInputWidth } from '@element-plus/hooks'
+import { useProps } from '@element-plus/components/select-v2/src/useProps'
+import ElOption from './option.vue'
+import ElSelectMenu from './select-dropdown.vue'
+import { useSelect } from './useSelect'
+import { selectKey } from './token'
+import ElOptions from './options'
+import { selectProps } from './select'
+import ElOptionGroup from './option-group.vue';
 
-import type { VNode } from "vue";
-import type { SelectContext } from "./type";
+import type { VNode } from 'vue';
+import type { SelectContext } from './type'
 
 const COMPONENT_NAME = 'ElSelect'
 export default defineComponent({
@@ -450,9 +450,7 @@ export default defineComponent({
         }
       })
     }
-    watch(() => {
-      return [slots.default?.(), modelValue.value];
-    }, newSlot => {
+    watch(() => [slots.default?.(), modelValue.value], newSlot => {
       if (props.persistent) {
         // If persistent is true, we don't need to manually render slots.
         return
