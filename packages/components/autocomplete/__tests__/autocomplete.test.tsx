@@ -10,6 +10,7 @@ import { usePopperContainerId } from '@element-plus/hooks'
 import { ElFormItem as FormItem } from '@element-plus/components/form'
 import Autocomplete from '../src/autocomplete.vue'
 import { AutocompleteFetchSuggestionsCallback } from '../src/autocomplete'
+import { EVENT_CODE } from '@element-plus/constants'
 
 vi.unmock('lodash')
 
@@ -380,14 +381,14 @@ describe('Autocomplete.vue', () => {
     const length = target.suggestions.length
 
     for (let i = 0; i < length; i++) {
-      await input.trigger('keydown.down')
+      await input.trigger('keydown', { key: EVENT_CODE.down })
       expect(target.highlightedIndex).toBe(i)
     }
 
-    await input.trigger('keydown.down')
+    await input.trigger('keydown', { key: EVENT_CODE.down })
     expect(target.highlightedIndex).toBe(0)
 
-    await input.trigger('keydown.up')
+    await input.trigger('keydown', { key: EVENT_CODE.up })
     expect(target.highlightedIndex).toBe(length - 1)
   })
 
@@ -406,18 +407,18 @@ describe('Autocomplete.vue', () => {
 
     const length = target.suggestions.length
 
-    await input.trigger('keydown.down')
+    await input.trigger('keydown', { key: EVENT_CODE.down })
     expect(target.highlightedIndex).toBe(0)
 
-    await input.trigger('keydown.up')
+    await input.trigger('keydown', { key: EVENT_CODE.up })
     expect(target.highlightedIndex).toBe(-1)
 
     for (let i = 0; i < length; i++) {
-      await input.trigger('keydown.down')
+      await input.trigger('keydown', { key: EVENT_CODE.down })
       expect(target.highlightedIndex).toBe(i)
     }
 
-    await input.trigger('keydown.down')
+    await input.trigger('keydown', { key: EVENT_CODE.down })
     expect(target.highlightedIndex).toBe(length - 1)
   })
 

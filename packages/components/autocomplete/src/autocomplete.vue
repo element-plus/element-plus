@@ -38,11 +38,7 @@
         @focus="handleFocus"
         @blur="handleBlur"
         @clear="handleClear"
-        @keydown.up.prevent="highlight(highlightedIndex - 1)"
-        @keydown.down.prevent="highlight(highlightedIndex + 1)"
-        @keydown.enter.prevent="handleKeyEnter"
-        @keydown.tab="close"
-        @keydown.esc="handleKeyEscape"
+        @keydown="handleKeydown"
         @mousedown="handleMouseDown"
       >
         <template v-if="$slots.prepend" #prepend>
@@ -132,6 +128,7 @@ import { useId, useNamespace } from '@element-plus/hooks'
 import { isArray, throwError } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
+  EVENT_CODE,
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
@@ -386,6 +383,37 @@ const stopHandle = onClickOutside(listboxRef, () => {
   if (popperRef.value?.isFocusInsideContent()) return
   suggestionVisible.value && close()
 })
+
+const handleKeydown = (event: Event) => {
+  const e = event as KeyboardEvent
+  const keyHandlers = {
+    [EVENT_CODE.up]: () => {
+      e.preventDefault()
+      highlight(highlightedIndex.value - 1)
+    },
+    [EVENT_CODE.down]: () => {
+      e.preventDefault()
+      highlight(highlightedIndex.value + 1)
+    },
+    [EVENT_CODE.enter]: () => {
+      e.preventDefault()
+      handleKeyEnter()
+    },
+    [EVENT_CODE.tab]: () => {
+      close()
+    },
+    [EVENT_CODE.esc]: () => {
+      handleKeyEscape(e)
+    },
+    [EVENT_CODE.home]: () => {
+      highlight(0)
+    },
+    [EVENT_CODE.end]: () => {
+      highlight(suggestions.value.length - 1)
+    },
+  }
+  keyHandlers[e.key]?.()
+}
 
 onBeforeUnmount(() => {
   stopHandle?.()
