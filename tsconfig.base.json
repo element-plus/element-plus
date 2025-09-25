@@ -26,7 +26,6 @@
       "@element-plus/locale": ["packages/locale"],
       "@element-plus/locale/*": ["packages/locale/*"],
       "element-plus": ["packages/element-plus"]
-    },
-    "preserveSymlinks": true
+    }
   }
 }
