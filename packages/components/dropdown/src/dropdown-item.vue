@@ -15,6 +15,7 @@
     </el-roving-focus-item>
   </el-dropdown-collection-item>
 </template>
+
 <script lang="ts">
 import {
   computed,
@@ -82,7 +83,9 @@ export default defineComponent({
 
         onItemEnter(e)
         if (!e.defaultPrevented) {
-          target?.focus()
+          target?.focus({
+            preventScroll: true,
+          })
         }
       })
     )

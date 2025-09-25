@@ -86,6 +86,9 @@ describe('useId warns in non-client environment with default idInjection', async
       ref: vi.fn(),
       computed: vi.fn(),
     }))
+    vi.doMock('@vueuse/core', () => ({
+      computedEager: vi.fn(),
+    }))
     vi.doMock('@element-plus/utils', () => ({
       debugWarn: mockWarn,
       isClient: mockIsClient,

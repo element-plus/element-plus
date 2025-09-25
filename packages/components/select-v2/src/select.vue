@@ -10,7 +10,8 @@
       ref="tooltipRef"
       :visible="dropdownMenuVisible"
       :teleported="teleported"
-      :popper-class="[nsSelect.e('popper'), popperClass]"
+      :popper-class="[nsSelect.e('popper'), popperClass!]"
+      :popper-style="popperStyle"
       :gpu-acceleration="false"
       :stop-popper-mouse-event="false"
       :popper-options="popperOptions"
@@ -21,6 +22,9 @@
       :transition="`${nsSelect.namespace.value}-zoom-in-top`"
       trigger="click"
       :persistent="persistent"
+      :append-to="appendTo"
+      :show-arrow="showArrow"
+      :offset="offset"
       @before-show="handleMenuEnter"
       @hide="states.isBeforeHide = false"
     >
@@ -53,7 +57,13 @@
               ),
             ]"
           >
-            <slot v-if="multiple" name="tag">
+            <slot
+              v-if="multiple"
+              name="tag"
+              :data="states.cachedOptions"
+              :delete-tag="deleteTag"
+              :select-disabled="selectDisabled"
+            >
               <div
                 v-for="item in showTagList"
                 :key="getValueKey(getValue(item))"
@@ -71,6 +81,7 @@
                   <span :class="nsSelect.e('tags-text')">
                     <slot
                       name="label"
+                      :index="getIndex(item)"
                       :label="getLabel(item)"
                       :value="getValue(item)"
                     >
@@ -87,6 +98,8 @@
                 :fallback-placements="['bottom', 'top', 'right', 'left']"
                 :effect="effect"
                 placement="bottom"
+                :popper-class="popperClass"
+                :popper-style="popperStyle"
                 :teleported="teleported"
               >
                 <template #default>
@@ -127,6 +140,7 @@
                         <span :class="nsSelect.e('tags-text')">
                           <slot
                             name="label"
+                            :index="getIndex(selected)"
                             :label="getLabel(selected)"
                             :value="getValue(selected)"
                           >
@@ -140,7 +154,6 @@
               </el-tooltip>
             </slot>
             <div
-              v-if="!selectDisabled"
               :class="[
                 nsSelect.e('selected-item'),
                 nsSelect.e('input-wrapper'),
@@ -153,6 +166,7 @@
                 v-model="states.inputValue"
                 :style="inputStyle"
                 :autocomplete="autocomplete"
+                :tabindex="tabindex"
                 aria-autocomplete="list"
                 aria-haspopup="listbox"
                 autocapitalize="off"
@@ -198,6 +212,7 @@
               <slot
                 v-if="hasModelValue"
                 name="label"
+                :index="allOptionsValueMap.get(modelValue)?.index ?? -1"
                 :label="currentPlaceholder"
                 :value="modelValue"
               >
@@ -226,8 +241,12 @@
               <component :is="clearIcon" />
             </el-icon>
             <el-icon
-              v-if="validateState && validateIcon"
-              :class="[nsInput.e('icon'), nsInput.e('validateIcon')]"
+              v-if="validateState && validateIcon && needStatusIcon"
+              :class="[
+                nsInput.e('icon'),
+                nsInput.e('validateIcon'),
+                nsInput.is('loading', validateState === 'validating'),
+              ]"
             >
               <component :is="validateIcon" />
             </el-icon>
@@ -238,12 +257,12 @@
         <el-select-menu
           ref="menuRef"
           :data="filteredOptions"
-          :width="popperSize"
+          :width="popperSize - BORDER_HORIZONTAL_WIDTH"
           :hovering-index="states.hoveringIndex"
           :scrollbar-always-on="scrollbarAlwaysOn"
         >
           <template v-if="$slots.header" #header>
-            <div :class="nsSelect.be('dropdown', 'header')">
+            <div :class="nsSelect.be('dropdown', 'header')" @click.stop>
               <slot name="header" />
             </div>
           </template>
@@ -263,7 +282,7 @@
             </div>
           </template>
           <template v-if="$slots.footer" #footer>
-            <div :class="nsSelect.be('dropdown', 'footer')">
+            <div :class="nsSelect.be('dropdown', 'footer')" @click.stop>
               <slot name="footer" />
             </div>
           </template>
@@ -280,11 +299,12 @@ import { ClickOutside } from '@element-plus/directives'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
-import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { useCalcInputWidth } from '@element-plus/hooks'
 import ElSelectMenu from './select-dropdown'
 import useSelect from './useSelect'
-import { SelectProps } from './defaults'
+import { selectV2Emits, selectV2Props } from './defaults'
 import { selectV2InjectionKey } from './token'
+import { BORDER_HORIZONTAL_WIDTH } from '@element-plus/constants'
 
 export default defineComponent({
   name: 'ElSelectV2',
@@ -295,17 +315,8 @@ export default defineComponent({
     ElIcon,
   },
   directives: { ClickOutside },
-  props: SelectProps,
-  emits: [
-    UPDATE_MODEL_EVENT,
-    CHANGE_EVENT,
-    'remove-tag',
-    'clear',
-    'visible-change',
-    'focus',
-    'blur',
-  ],
-
+  props: selectV2Props,
+  emits: selectV2Emits,
   setup(props, { emit }) {
     const modelValue = computed(() => {
       const { modelValue: rawModelValue, multiple } = props
@@ -325,23 +336,36 @@ export default defineComponent({
       }),
       emit
     )
-    // TODO, remove the any cast to align the actual API.
+    const { calculatorRef, inputStyle } = useCalcInputWidth()
+
     provide(selectV2InjectionKey, {
       props: reactive({
         ...toRefs(props),
         height: API.popupHeight,
         modelValue,
       }),
+      expanded: API.expanded,
       tooltipRef: API.tooltipRef,
       onSelect: API.onSelect,
       onHover: API.onHover,
       onKeyboardNavigate: API.onKeyboardNavigate,
       onKeyboardSelect: API.onKeyboardSelect,
-    } as any)
+    })
+
+    const selectedLabel = computed(() => {
+      if (!props.multiple) {
+        return API.states.selectedLabel
+      }
+      return API.states.cachedOptions.map((i) => i.label as string)
+    })
 
     return {
       ...API,
       modelValue,
+      selectedLabel,
+      calculatorRef,
+      inputStyle,
+      BORDER_HORIZONTAL_WIDTH,
     }
   },
 })

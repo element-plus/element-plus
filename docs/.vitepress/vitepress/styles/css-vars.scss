@@ -39,15 +39,6 @@
   /* Screen Size */
   --vp-screen-max-width: 1362px;
 
-  @include respond-to('xxl') {
-    --vp-sidebar-width-small: 234px;
-  }
-
-  @include respond-to('max') {
-    --vp-screen-max-width: 1482px;
-    --vp-sidebar-width-small: 290px;
-  }
-
   // sidebar
   --vp-sidebar-width-mobile: 320px;
   --vp-sidebar-width-small: 266px;
@@ -79,6 +70,15 @@
 
   // link
   --link-active-bg-color: rgba(var(--el-color-primary-rgb), 0.1);
+
+  @include respond-to('xxl') {
+    --vp-sidebar-width-small: 234px;
+  }
+
+  @include respond-to('max') {
+    --vp-screen-max-width: 1482px;
+    --vp-sidebar-width-small: 290px;
+  }
 }
 
 .dark {

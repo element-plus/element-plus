@@ -1,8 +1,3 @@
-import fs from 'fs'
-import path from 'path'
-import { vpRoot } from '@element-plus/build-utils'
-import { languages } from '../utils/lang'
-
 import type { HeadConfig } from 'vitepress'
 
 export const head: HeadConfig[] = [
@@ -12,43 +7,6 @@ export const head: HeadConfig[] = [
       rel: 'icon',
       href: '/images/element-plus-logo-small.svg',
       type: 'image/svg+xm',
-    },
-  ],
-  [
-    'link',
-    {
-      rel: 'apple-touch-icon',
-      href: '/apple-touch-icon.png',
-      sizes: '180x180',
-    },
-  ],
-  [
-    'link',
-    {
-      rel: 'mask-icon',
-      href: '/safari-pinned-tab.svg',
-      color: '#5bbad5',
-    },
-  ],
-  [
-    'meta',
-    {
-      name: 'theme-color',
-      content: '#ffffff',
-    },
-  ],
-  [
-    'meta',
-    {
-      name: 'msapplication-TileColor',
-      content: '#409eff',
-    },
-  ],
-  [
-    'meta',
-    {
-      name: 'msapplication-config',
-      content: '/browserconfig.xml',
     },
   ],
   [
@@ -80,14 +38,12 @@ export const head: HeadConfig[] = [
     },
   ],
   [
-    'script',
-    {},
-    `;(() => {
-      window.supportedLangs = ${JSON.stringify(languages)}
-    })()`,
+    'meta',
+    {
+      name: 'baidu-site-verification',
+      content: 'codeva-q5gBxYcfOs',
+    },
   ],
-
-  ['script', {}, fs.readFileSync(path.resolve(vpRoot, 'lang.js'), 'utf-8')],
   [
     'script',
     {
@@ -99,14 +55,9 @@ export const head: HeadConfig[] = [
     'script',
     {},
     `if ('serviceWorker' in navigator) {
-      navigator.serviceWorker
-        .register('/sw.js')
-        .then(function(registration) {
-          console.log(registration);
-        })
-        .catch(function(err) {
-          console.log(err);
-        });
+      navigator.serviceWorker.getRegistrations().then((registrations) => {
+        registrations.forEach(sw => sw.unregister())
+      })
     }`,
   ],
   [
@@ -152,9 +103,3 @@ gtag('config', 'UA-175337989-1');`,
     `,
   ],
 ]
-
-head.push([
-  'script',
-  {},
-  fs.readFileSync(path.resolve(vpRoot, 'dark-mode.js'), 'utf-8'),
-])

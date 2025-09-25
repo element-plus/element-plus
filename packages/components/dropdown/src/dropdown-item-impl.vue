@@ -3,7 +3,6 @@
     v-if="divided"
     role="separator"
     :class="ns.bem('menu', 'item', 'divided')"
-    v-bind="$attrs"
   />
   <li
     :ref="itemRef"
@@ -27,7 +26,6 @@
 </template>
 
 <script lang="ts">
-// @ts-nocheck
 import { computed, defineComponent, inject } from 'vue'
 import {
   ROVING_FOCUS_GROUP_ITEM_INJECTION_KEY,
@@ -36,7 +34,11 @@ import {
 import { COLLECTION_ITEM_SIGN } from '@element-plus/components/collection'
 import { ElIcon } from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
-import { composeEventHandlers, composeRefs } from '@element-plus/utils'
+import {
+  composeEventHandlers,
+  composeRefs,
+  getEventCode,
+} from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import {
   DROPDOWN_COLLECTION_ITEM_INJECTION_KEY,
@@ -90,8 +92,13 @@ export default defineComponent({
     })
 
     const handleKeydown = composeEventHandlers((e: KeyboardEvent) => {
-      const { code } = e
-      if (code === EVENT_CODE.enter || code === EVENT_CODE.space) {
+      const code = getEventCode(e)
+
+      if (
+        [EVENT_CODE.enter, EVENT_CODE.numpadEnter, EVENT_CODE.space].includes(
+          code
+        )
+      ) {
         e.preventDefault()
         e.stopImmediatePropagation()
         emit('clickimpl', e)

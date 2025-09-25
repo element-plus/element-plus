@@ -14,10 +14,14 @@
     <slot />
   </ul>
 </template>
+
 <script lang="ts">
-// @ts-nocheck
 import { computed, defineComponent, inject, unref } from 'vue'
-import { composeEventHandlers, composeRefs } from '@element-plus/utils'
+import {
+  composeEventHandlers,
+  composeRefs,
+  getEventCode,
+} from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { FOCUS_TRAP_INJECTION_KEY } from '@element-plus/components/focus-trap'
 import {
@@ -89,7 +93,9 @@ export default defineComponent({
         props.onKeydown?.(e)
       },
       (e) => {
-        const { currentTarget, code, target } = e
+        const { currentTarget, target } = e
+        const code = getEventCode(e)
+
         const isKeydownContained = (currentTarget as Node).contains(
           target as Node
         )

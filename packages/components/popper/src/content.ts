@@ -1,9 +1,14 @@
 import { placements } from '@popperjs/core'
 import { buildProps, definePropType } from '@element-plus/utils'
 import { useAriaProps } from '@element-plus/hooks'
+import { popperArrowProps } from './arrow'
 
 import type { PopperEffect } from './popper'
-import type { ExtractPropTypes, StyleValue } from 'vue'
+import type {
+  ExtractPropTypes,
+  StyleValue,
+  __ExtractPublicPropTypes,
+} from 'vue'
 import type { Options, Placement } from '@popperjs/core'
 import type { Measurable } from './constants'
 import type Content from './content.vue'
@@ -63,9 +68,13 @@ export const popperCoreConfigProps = buildProps({
 export type PopperCoreConfigProps = ExtractPropTypes<
   typeof popperCoreConfigProps
 >
+export type PopperCoreConfigPropsPublic = __ExtractPublicPropTypes<
+  typeof popperCoreConfigProps
+>
 
 export const popperContentProps = buildProps({
   ...popperCoreConfigProps,
+  ...popperArrowProps,
   id: String,
   style: {
     type: definePropType<StyleValue>([String, Array, Object]),
@@ -74,7 +83,7 @@ export const popperContentProps = buildProps({
     type: definePropType<ClassType>([String, Array, Object]),
   },
   effect: {
-    type: definePropType<PopperEffect | string>(String),
+    type: definePropType<PopperEffect>(String),
     default: 'dark',
   },
   visible: Boolean,
@@ -83,14 +92,8 @@ export const popperContentProps = buildProps({
     default: true,
   },
   pure: Boolean,
-  focusOnShow: {
-    type: Boolean,
-    default: false,
-  },
-  trapping: {
-    type: Boolean,
-    default: false,
-  },
+  focusOnShow: Boolean,
+  trapping: Boolean,
   popperClass: {
     type: definePropType<ClassType>([String, Array, Object]),
   },
@@ -112,6 +115,9 @@ export const popperContentProps = buildProps({
   ...useAriaProps(['ariaLabel']),
 } as const)
 export type PopperContentProps = ExtractPropTypes<typeof popperContentProps>
+export type PopperContentPropsPublic = __ExtractPublicPropTypes<
+  typeof popperContentProps
+>
 
 export const popperContentEmits = {
   mouseenter: (evt: MouseEvent) => evt instanceof MouseEvent,
@@ -122,7 +128,7 @@ export const popperContentEmits = {
 }
 export type PopperContentEmits = typeof popperContentEmits
 
-export type PopperContentInstance = InstanceType<typeof Content>
+export type PopperContentInstance = InstanceType<typeof Content> & unknown
 
 /** @deprecated use `popperCoreConfigProps` instead, and it will be deprecated in the next major version */
 export const usePopperCoreConfigProps = popperCoreConfigProps

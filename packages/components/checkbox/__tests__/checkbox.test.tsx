@@ -1,7 +1,7 @@
-import { nextTick, ref } from 'vue'
+import { nextTick, reactive, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
-import { ElFormItem } from '@element-plus/components/form'
+import { ElForm, ElFormItem } from '@element-plus/components/form'
 import Checkbox from '../src/checkbox.vue'
 import CheckboxButton from '../src/checkbox-button.vue'
 import CheckboxGroup from '../src/checkbox-group.vue'
@@ -162,6 +162,67 @@ describe('Checkbox', () => {
     expect(checkList.value).toContain('b')
   })
 
+  test('checkbox group renders from options', async () => {
+    const checkedValues = ref(['b'])
+    const options = [
+      { value: 'a', label: 'Option A' },
+      { value: 'b', label: 'Option B' },
+      { value: 'c', label: 'Option C', disabled: true },
+    ]
+    const wrapper = mount(() => (
+      <CheckboxGroup v-model={checkedValues.value} options={options} />
+    ))
+    await nextTick()
+    const checkboxes = wrapper.findAll('.el-checkbox')
+    expect(checkboxes[1].classes()).toContain('is-checked')
+    await checkboxes[0].trigger('click')
+    expect(checkedValues.value).toEqual(['b', 'a'])
+    expect(checkboxes[0].classes()).toContain('is-checked')
+    await checkboxes[1].trigger('click')
+    expect(checkedValues.value).toEqual(['a'])
+    expect(checkboxes[1].classes()).not.toContain('is-checked')
+    await checkboxes[2].trigger('click')
+    expect(checkedValues.value).toEqual(['a'])
+    expect(checkboxes[2].classes()).toContain('is-disabled')
+  })
+
+  test('checkbox group with dynamic modelValue', async () => {
+    const form = reactive<{ checked: string }>({ checked: '' })
+    const wrapper = mount({
+      setup() {
+        return () => (
+          <ElForm model={form}>
+            <ElFormItem
+              prop="check"
+              rules={[
+                { required: true, message: 'Must has one check box checked' },
+              ]}
+            >
+              <CheckboxGroup
+                modelValue={form.checked.split(',')}
+                onUpdate:modelValue={(val) => {
+                  form.checked = val.filter(Boolean).join(',')
+                }}
+              >
+                <Checkbox label="a" value="a" ref="a"></Checkbox>
+                <Checkbox label="b" value="b" ref="b"></Checkbox>
+              </CheckboxGroup>
+            </ElFormItem>
+          </ElForm>
+        )
+      },
+    })
+    const checkboxA = wrapper.findComponent({ ref: 'a' })
+    await checkboxA.trigger('click')
+    expect(form.checked).toBe('a')
+    const checkboxB = wrapper.findComponent({ ref: 'b' })
+    await checkboxB.trigger('click')
+    expect(form.checked).toBe('a,b')
+    form.checked = ''
+    await nextTick()
+    expect(checkboxA.classes()).not.toContain('is-checked')
+    expect(checkboxB.classes()).not.toContain('is-checked')
+  })
   test('checkbox group without modelValue', async () => {
     const checkList = ref([])
     const wrapper = mount({
@@ -272,6 +333,80 @@ describe('Checkbox', () => {
       await nextTick()
       expect(checked.value).toBe(0)
       await wrapper.trigger('click')
+      await nextTick()
+      expect(checked.value).toBe('a')
+    })
+  })
+
+  describe('true/false-value ', () => {
+    test('without true/false-value attribute', async () => {
+      const checked = ref(true)
+
+      const wrapper = mount(() => (
+        <ElFormItem label="test">
+          <Checkbox v-model={checked.value} />
+        </ElFormItem>
+      ))
+
+      const checkbox = wrapper.findComponent(Checkbox)
+      await checkbox.trigger('click')
+      await nextTick()
+      expect(checked.value).toBe(false)
+      await checkbox.trigger('click')
+      await nextTick()
+      expect(checked.value).toBe(true)
+    })
+
+    test('without true-value attribute', async () => {
+      const checked = ref(true)
+
+      const wrapper = mount(() => (
+        <ElFormItem label="test">
+          <Checkbox v-model={checked.value} falseValue={'a'} />
+        </ElFormItem>
+      ))
+
+      const checkbox = wrapper.findComponent(Checkbox)
+      await checkbox.trigger('click')
+      await nextTick()
+      expect(checked.value).toBe('a')
+      await checkbox.trigger('click')
+      await nextTick()
+      expect(checked.value).toBe(true)
+    })
+
+    test('without false-value attribute', async () => {
+      const checked = ref(true)
+
+      const wrapper = mount(() => (
+        <ElFormItem label="test">
+          <Checkbox v-model={checked.value} trueValue={'a'} />
+        </ElFormItem>
+      ))
+
+      const checkbox = wrapper.findComponent(Checkbox)
+      await checkbox.trigger('click')
+      await nextTick()
+      expect(checked.value).toBe(false)
+      await checkbox.trigger('click')
+      await nextTick()
+      expect(checked.value).toBe('a')
+    })
+
+    test('with true/false-value attribute', async () => {
+      const checked = ref(true)
+
+      const wrapper = mount(() => (
+        <ElFormItem label="test">
+          <Checkbox v-model={checked.value} trueValue={'a'} falseValue={1} />
+        </ElFormItem>
+      ))
+
+      const checkbox = wrapper.findComponent(Checkbox)
+      await checkbox.trigger('click')
+      await nextTick()
+      expect(checked.value).toBe(1)
+      await checkbox.trigger('click')
       await nextTick()
       expect(checked.value).toBe('a')
     })

@@ -9,10 +9,12 @@
     role="dialog"
     teleported
     :transition="`${nsDate.namespace.value}-zoom-in-top`"
-    :popper-class="[`${nsDate.namespace.value}-picker__popper`, popperClass]"
+    :popper-class="[`${nsDate.namespace.value}-picker__popper`, popperClass!]"
+    :popper-style="popperStyle"
     :popper-options="elPopperOptions"
-    :fallback-placements="['bottom', 'top', 'right', 'left']"
+    :fallback-placements="fallbackPlacements"
     :gpu-acceleration="false"
+    :placement="placement"
     :stop-popper-mouse-event="false"
     :hide-after="0"
     persistent
@@ -27,11 +29,16 @@
         ref="inputRef"
         container-role="combobox"
         :model-value="(displayValue as string)"
-        :name="name"
+        :name="(name as string | undefined)"
         :size="pickerSize"
         :disabled="pickerDisabled"
         :placeholder="placeholder"
-        :class="[nsDate.b('editor'), nsDate.bm('editor', type), $attrs.class]"
+        :class="[
+          nsDate.b('editor'),
+          nsDate.bm('editor', type),
+          nsDate.is('focus', pickerVisible),
+          $attrs.class,
+        ]"
         :style="$attrs.style"
         :readonly="
           !editable ||
@@ -45,12 +52,9 @@
         :tabindex="tabindex"
         :validate-event="false"
         @input="onUserInput"
-        @focus="handleFocusInput"
-        @blur="handleBlurInput"
-        @keydown="
-          //
-          handleKeydownInput as any
-        "
+        @focus="handleFocus"
+        @blur="handleBlur"
+        @keydown="handleKeydownInput"
         @change="handleChange"
         @mousedown="onMouseDownInput"
         @mouseenter="onMouseEnter"
@@ -70,74 +74,68 @@
         </template>
         <template #suffix>
           <el-icon
-            v-if="showClose && clearIcon"
+            v-if="showClearBtn && clearIcon"
             :class="`${nsInput.e('icon')} clear-icon`"
-            @click.stop="onClearIconClick"
+            @mousedown.prevent="NOOP"
+            @click="onClearIconClick"
           >
             <component :is="clearIcon" />
           </el-icon>
         </template>
       </el-input>
-      <div
+      <picker-range-trigger
         v-else
+        :id="(id as string[] | undefined)"
         ref="inputRef"
+        :model-value="displayValue"
+        :name="(name as string[] | undefined)"
+        :disabled="pickerDisabled"
+        :readonly="!editable || readonly"
+        :start-placeholder="startPlaceholder"
+        :end-placeholder="endPlaceholder"
         :class="rangeInputKls"
-        :style="($attrs.style as any)"
-        @click="handleFocusInput"
+        :style="$attrs.style"
+        :aria-label="ariaLabel"
+        :tabindex="tabindex"
+        autocomplete="off"
+        role="combobox"
+        @click="onMouseDownInput"
+        @focus="handleFocus"
+        @blur="handleBlur"
+        @start-input="handleStartInput"
+        @start-change="handleStartChange"
+        @end-input="handleEndInput"
+        @end-change="handleEndChange"
+        @mousedown="onMouseDownInput"
         @mouseenter="onMouseEnter"
         @mouseleave="onMouseLeave"
         @touchstart.passive="onTouchStartInput"
         @keydown="handleKeydownInput"
       >
-        <el-icon
-          v-if="triggerIcon"
-          :class="[nsInput.e('icon'), nsRange.e('icon')]"
-          @mousedown.prevent="onMouseDownInput"
-          @touchstart.passive="onTouchStartInput"
-        >
-          <component :is="triggerIcon" />
-        </el-icon>
-        <input
-          :id="id && id[0]"
-          autocomplete="off"
-          :name="name && name[0]"
-          :placeholder="startPlaceholder"
-          :value="displayValue && displayValue[0]"
-          :disabled="pickerDisabled"
-          :readonly="!editable || readonly"
-          :class="nsRange.b('input')"
-          @mousedown="onMouseDownInput"
-          @input="handleStartInput"
-          @change="handleStartChange"
-          @focus="handleFocusInput"
-          @blur="handleBlurInput"
-        />
-        <slot name="range-separator">
-          <span :class="nsRange.b('separator')">{{ rangeSeparator }}</span>
-        </slot>
-        <input
-          :id="id && id[1]"
-          autocomplete="off"
-          :name="name && name[1]"
-          :placeholder="endPlaceholder"
-          :value="displayValue && displayValue[1]"
-          :disabled="pickerDisabled"
-          :readonly="!editable || readonly"
-          :class="nsRange.b('input')"
-          @mousedown="onMouseDownInput"
-          @focus="handleFocusInput"
-          @blur="handleBlurInput"
-          @input="handleEndInput"
-          @change="handleEndChange"
-        />
-        <el-icon
-          v-if="clearIcon"
-          :class="clearIconKls"
-          @click="onClearIconClick"
-        >
-          <component :is="clearIcon" />
-        </el-icon>
-      </div>
+        <template #prefix>
+          <el-icon
+            v-if="triggerIcon"
+            :class="[nsInput.e('icon'), nsRange.e('icon')]"
+          >
+            <component :is="triggerIcon" />
+          </el-icon>
+        </template>
+        <template #range-separator>
+          <slot name="range-separator">
+            <span :class="nsRange.b('separator')">{{ rangeSeparator }}</span>
+          </slot>
+        </template>
+        <template #suffix>
+          <el-icon
+            v-if="clearIcon"
+            :class="clearIconKls"
+            @mousedown.prevent="NOOP"
+            @click="onClearIconClick"
+          >
+            <component :is="clearIcon" />
+          </el-icon>
+        </template>
+      </picker-range-trigger>
     </template>
     <template #content>
       <slot
@@ -150,17 +148,21 @@
         :unlink-panels="unlinkPanels"
         :type="type"
         :default-value="defaultValue"
+        :show-now="showNow"
+        :show-confirm="showConfirm"
+        :show-footer="showFooter"
+        :show-week-number="showWeekNumber"
         @pick="onPick"
         @select-range="setSelectionRange"
         @set-picker-option="onSetPickerOption"
         @calendar-change="onCalendarChange"
         @panel-change="onPanelChange"
-        @keydown="onKeydownPopperContent"
         @mousedown.stop
       />
     </template>
   </el-tooltip>
 </template>
+
 <script lang="ts" setup>
 import {
   computed,
@@ -173,34 +175,43 @@ import {
   useAttrs,
   watch,
 } from 'vue'
-import { isEqual } from 'lodash-unified'
-import { onClickOutside } from '@vueuse/core'
-import { useEmptyValues, useLocale, useNamespace } from '@element-plus/hooks'
-import { useFormItem, useFormSize } from '@element-plus/components/form'
+import { onClickOutside, unrefElement } from '@vueuse/core'
+import {
+  useEmptyValues,
+  useFocusController,
+  useNamespace,
+} from '@element-plus/hooks'
+import {
+  useFormDisabled,
+  useFormItem,
+  useFormSize,
+} from '@element-plus/components/form'
 import ElInput from '@element-plus/components/input'
 import ElIcon from '@element-plus/components/icon'
 import ElTooltip from '@element-plus/components/tooltip'
-import { debugWarn, isArray } from '@element-plus/utils'
-import { EVENT_CODE } from '@element-plus/constants'
+import { NOOP, debugWarn, getEventCode, isArray } from '@element-plus/utils'
+import {
+  CHANGE_EVENT,
+  EVENT_CODE,
+  UPDATE_MODEL_EVENT,
+} from '@element-plus/constants'
 import { Calendar, Clock } from '@element-plus/icons-vue'
-import { formatter, parseDate, valueEquals } from '../utils'
+import { dayOrDaysToDate, valueEquals } from '../utils'
+import {
+  PICKER_BASE_INJECTION_KEY,
+  PICKER_POPPER_OPTIONS_INJECTION_KEY,
+  ROOT_COMMON_PICKER_INJECTION_KEY,
+} from '../constants'
+import { useCommonPicker } from '../composables/use-common-picker'
 import { timePickerDefaultProps } from './props'
+import PickerRangeTrigger from './picker-range-trigger.vue'
 
+import type { InputInstance } from '@element-plus/components/input'
 import type { Dayjs } from 'dayjs'
-import type { ComponentPublicInstance } from 'vue'
+import type { ComponentPublicInstance, Ref } from 'vue'
 import type { Options } from '@popperjs/core'
-import type {
-  DateModelType,
-  DateOrDates,
-  DayOrDays,
-  PickerOptions,
-  SingleOrRange,
-  TimePickerDefaultProps,
-  UserInput,
-} from './props'
+import type { DayOrDays, TimePickerDefaultProps, UserInput } from './props'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
-
-// Date object and string
 
 defineOptions({
   name: 'Picker',
@@ -208,8 +219,8 @@ defineOptions({
 
 const props = defineProps(timePickerDefaultProps)
 const emit = defineEmits([
-  'update:modelValue',
-  'change',
+  UPDATE_MODEL_EVENT,
+  CHANGE_EVENT,
   'focus',
   'blur',
   'clear',
@@ -220,24 +231,66 @@ const emit = defineEmits([
 ])
 const attrs = useAttrs()
 
-const { lang } = useLocale()
-
 const nsDate = useNamespace('date')
 const nsInput = useNamespace('input')
 const nsRange = useNamespace('range')
 
-const { form, formItem } = useFormItem()
-const elPopperOptions = inject('ElPopperOptions', {} as Options)
-const { valueOnClear } = useEmptyValues(props, null)
+const { formItem } = useFormItem()
+const elPopperOptions = inject(
+  PICKER_POPPER_OPTIONS_INJECTION_KEY,
+  {} as Options
+)
+const emptyValues = useEmptyValues(props, null)
 
 const refPopper = ref<TooltipInstance>()
-const inputRef = ref<HTMLElement | ComponentPublicInstance>()
-const pickerVisible = ref(false)
-const pickerActualVisible = ref(false)
+const inputRef = ref<InputInstance>()
 const valueOnOpen = ref<TimePickerDefaultProps['modelValue'] | null>(null)
-
 let hasJustTabExitedInput = false
-let ignoreFocusEvent = false
+
+const pickerDisabled = useFormDisabled()
+
+const commonPicker = useCommonPicker(props, emit)
+const {
+  parsedValue,
+  pickerActualVisible,
+  userInput,
+  pickerVisible,
+  pickerOptions,
+  valueIsEmpty,
+  emitInput,
+  onPick,
+  //@ts-ignore
+  onSetPickerOption,
+  //@ts-ignore
+  onCalendarChange,
+  //@ts-ignore
+  onPanelChange,
+} = commonPicker
+
+const { isFocused, handleFocus, handleBlur } = useFocusController(inputRef, {
+  disabled: pickerDisabled,
+  beforeFocus() {
+    return props.readonly
+  },
+  afterFocus() {
+    if (!props.automaticDropdown) return
+    pickerVisible.value = true
+  },
+  beforeBlur(event) {
+    return (
+      !hasJustTabExitedInput && refPopper.value?.isFocusInsideContent(event)
+    )
+  },
+  afterBlur() {
+    handleChange()
+    pickerVisible.value = false
+    hasJustTabExitedInput = false
+    props.validateEvent &&
+      formItem?.validate('blur').catch((err) => debugWarn(err))
+  },
+})
+
+const hovering = ref(false)
 
 const rangeInputKls = computed(() => [
   nsDate.b('editor'),
@@ -253,7 +306,7 @@ const rangeInputKls = computed(() => [
 const clearIconKls = computed(() => [
   nsInput.e('icon'),
   nsRange.e('close-icon'),
-  !showClose.value ? nsRange.e('close-icon--hidden') : '',
+  !showClearBtn.value ? nsRange.em('close-icon', 'hidden') : '',
 ])
 
 watch(pickerVisible, (val) => {
@@ -276,22 +329,11 @@ const emitChange = (
 ) => {
   // determine user real change only
   if (isClear || !valueEquals(val, valueOnOpen.value)) {
-    emit('change', val)
+    emit(CHANGE_EVENT, val)
+    // Set the value of valueOnOpen when clearing to avoid triggering change events multiple times.
+    isClear && (valueOnOpen.value = val)
     props.validateEvent &&
       formItem?.validate('change').catch((err) => debugWarn(err))
-  }
-}
-const emitInput = (input: SingleOrRange<DateModelType | Dayjs> | null) => {
-  if (!valueEquals(props.modelValue, input)) {
-    let formatted
-    if (isArray(input)) {
-      formatted = input.map((item) =>
-        formatter(item, props.valueFormat, lang.value)
-      )
-    } else if (input) {
-      formatted = formatter(input, props.valueFormat, lang.value)
-    }
-    emit('update:modelValue', input ? formatted : input, lang.value)
   }
 }
 const emitKeydown = (e: KeyboardEvent) => {
@@ -300,14 +342,14 @@ const emitKeydown = (e: KeyboardEvent) => {
 
 const refInput = computed<HTMLInputElement[]>(() => {
   if (inputRef.value) {
-    const _r = isRangeInput.value
-      ? inputRef.value
-      : (inputRef.value as any as ComponentPublicInstance).$el
-    return Array.from<HTMLInputElement>(_r.querySelectorAll('input'))
+    return Array.from<HTMLInputElement>(
+      inputRef.value.$el.querySelectorAll('input')
+    )
   }
   return []
 })
 
+// @ts-ignore
 const setSelectionRange = (start: number, end: number, pos?: 'min' | 'max') => {
   const _inputs = refInput.value
   if (!_inputs.length) return
@@ -319,28 +361,6 @@ const setSelectionRange = (start: number, end: number, pos?: 'min' | 'max') => {
     _inputs[1].focus()
   }
 }
-const focusOnInputBox = () => {
-  focus(true, true)
-  nextTick(() => {
-    ignoreFocusEvent = false
-  })
-}
-
-const onPick = (date: any = '', visible = false) => {
-  if (!visible) {
-    ignoreFocusEvent = true
-  }
-  pickerVisible.value = visible
-  let result
-  if (isArray(date)) {
-    result = date.map((_) => _.toDate())
-  } else {
-    // clear btn emit null
-    result = date ? date.toDate() : date
-  }
-  userInput.value = null
-  emitInput(result)
-}
 
 const onBeforeShow = () => {
   pickerActualVisible.value = true
@@ -350,16 +370,9 @@ const onShow = () => {
   emit('visible-change', true)
 }
 
-const onKeydownPopperContent = (event: KeyboardEvent) => {
-  if ((event as KeyboardEvent)?.key === EVENT_CODE.esc) {
-    focus(true, true)
-  }
-}
-
 const onHide = () => {
   pickerActualVisible.value = false
   pickerVisible.value = false
-  ignoreFocusEvent = false
   emit('visible-change', false)
 }
 
@@ -370,105 +383,6 @@ const handleOpen = () => {
 const handleClose = () => {
   pickerVisible.value = false
 }
-
-const focus = (focusStartInput = true, isIgnoreFocusEvent = false) => {
-  ignoreFocusEvent = isIgnoreFocusEvent
-  const [leftInput, rightInput] = unref(refInput)
-  let input = leftInput
-  if (!focusStartInput && isRangeInput.value) {
-    input = rightInput
-  }
-  if (input) {
-    input.focus()
-  }
-}
-
-const handleFocusInput = (e?: FocusEvent) => {
-  if (
-    props.readonly ||
-    pickerDisabled.value ||
-    pickerVisible.value ||
-    ignoreFocusEvent
-  ) {
-    return
-  }
-  pickerVisible.value = true
-  emit('focus', e)
-}
-
-let currentHandleBlurDeferCallback:
-  | (() => Promise<void> | undefined)
-  | undefined = undefined
-
-// Check if document.activeElement is inside popper or any input before popper close
-const handleBlurInput = (e?: FocusEvent) => {
-  const handleBlurDefer = async () => {
-    setTimeout(() => {
-      if (currentHandleBlurDeferCallback === handleBlurDefer) {
-        if (
-          !(
-            refPopper.value?.isFocusInsideContent() && !hasJustTabExitedInput
-          ) &&
-          refInput.value.filter((input) => {
-            return input.contains(document.activeElement)
-          }).length === 0
-        ) {
-          handleChange()
-          pickerVisible.value = false
-          emit('blur', e)
-          props.validateEvent &&
-            formItem?.validate('blur').catch((err) => debugWarn(err))
-        }
-        hasJustTabExitedInput = false
-      }
-    }, 0)
-  }
-  currentHandleBlurDeferCallback = handleBlurDefer
-  handleBlurDefer()
-}
-
-const pickerDisabled = computed(() => {
-  return props.disabled || form?.disabled
-})
-
-const parsedValue = computed(() => {
-  let dayOrDays: DayOrDays
-  if (valueIsEmpty.value) {
-    if (pickerOptions.value.getDefaultValue) {
-      dayOrDays = pickerOptions.value.getDefaultValue()
-    }
-  } else {
-    if (isArray(props.modelValue)) {
-      dayOrDays = props.modelValue.map((d) =>
-        parseDate(d, props.valueFormat, lang.value)
-      ) as [Dayjs, Dayjs]
-    } else {
-      dayOrDays = parseDate(props.modelValue, props.valueFormat, lang.value)!
-    }
-  }
-
-  if (pickerOptions.value.getRangeAvailableTime) {
-    const availableResult = pickerOptions.value.getRangeAvailableTime(
-      dayOrDays!
-    )
-    if (!isEqual(availableResult, dayOrDays!)) {
-      dayOrDays = availableResult
-
-      // The result is corrected only when model-value exists
-      if (!valueIsEmpty.value) {
-        emitInput(
-          (isArray(dayOrDays)
-            ? dayOrDays.map((_) => _.toDate())
-            : dayOrDays.toDate()) as SingleOrRange<Date>
-        )
-      }
-    }
-  }
-  if (isArray(dayOrDays!) && dayOrDays.some((day) => !day)) {
-    dayOrDays = [] as unknown as DayOrDays
-  }
-  return dayOrDays!
-})
 
 const displayValue = computed<UserInput>(() => {
   if (!pickerOptions.value.panelReady) return ''
@@ -505,39 +419,38 @@ const triggerIcon = computed(
   () => props.prefixIcon || (isTimeLikePicker.value ? Clock : Calendar)
 )
 
-const showClose = ref(false)
+const showClearBtn = computed(
+  () =>
+    props.clearable &&
+    !pickerDisabled.value &&
+    !props.readonly &&
+    !valueIsEmpty.value &&
+    (hovering.value || isFocused.value)
+)
 
 const onClearIconClick = (event: MouseEvent) => {
   if (props.readonly || pickerDisabled.value) return
-  if (showClose.value) {
+  if (showClearBtn.value) {
     event.stopPropagation()
-    focusOnInputBox()
     // When the handleClear Function was provided, emit null will be executed inside it
     // There is no need for us to execute emit null twice. #14752
     if (pickerOptions.value.handleClear) {
       pickerOptions.value.handleClear()
     } else {
-      emitInput(valueOnClear.value)
+      emitInput(emptyValues.valueOnClear.value)
     }
-    emitChange(valueOnClear.value, true)
-    showClose.value = false
-    pickerVisible.value = false
+    emitChange(emptyValues.valueOnClear.value, true)
+    onHide()
   }
   emit('clear')
 }
-
-const valueIsEmpty = computed(() => {
-  const { modelValue } = props
-  return (
-    !modelValue || (isArray(modelValue) && !modelValue.filter(Boolean).length)
-  )
-})
 
 const onMouseDownInput = async (event: MouseEvent) => {
   if (props.readonly || pickerDisabled.value) return
   if (
     (event.target as HTMLElement)?.tagName !== 'INPUT' ||
-    refInput.value.includes(document.activeElement as HTMLInputElement)
+    isFocused.value ||
+    !props.automaticDropdown
   ) {
     pickerVisible.value = true
   }
@@ -545,21 +458,24 @@ const onMouseDownInput = async (event: MouseEvent) => {
 const onMouseEnter = () => {
   if (props.readonly || pickerDisabled.value) return
   if (!valueIsEmpty.value && props.clearable) {
-    showClose.value = true
+    hovering.value = true
   }
 }
 const onMouseLeave = () => {
-  showClose.value = false
+  hovering.value = false
 }
+
 const onTouchStartInput = (event: TouchEvent) => {
   if (props.readonly || pickerDisabled.value) return
   if (
     (event.touches[0].target as HTMLElement)?.tagName !== 'INPUT' ||
-    refInput.value.includes(document.activeElement as HTMLInputElement)
+    isFocused.value ||
+    !props.automaticDropdown
   ) {
     pickerVisible.value = true
   }
 }
+
 const isRangeInput = computed(() => {
   return props.type.includes('range')
 })
@@ -567,51 +483,41 @@ const isRangeInput = computed(() => {
 const pickerSize = useFormSize()
 
 const popperEl = computed(() => unref(refPopper)?.popperRef?.contentRef)
-const actualInputRef = computed(() => {
-  if (unref(isRangeInput)) {
-    return unref(inputRef)
+
+const stophandle = onClickOutside(
+  inputRef as Ref<ComponentPublicInstance>,
+  (e: PointerEvent) => {
+    const unrefedPopperEl = unref(popperEl)
+    const inputEl = unrefElement(inputRef as Ref<ComponentPublicInstance>)
+    if (
+      (unrefedPopperEl &&
+        (e.target === unrefedPopperEl ||
+          e.composedPath().includes(unrefedPopperEl))) ||
+      e.target === inputEl ||
+      (inputEl && e.composedPath().includes(inputEl))
+    )
+      return
+    pickerVisible.value = false
   }
-
-  return (unref(inputRef) as ComponentPublicInstance)?.$el
-})
-
-const stophandle = onClickOutside(actualInputRef, (e: PointerEvent) => {
-  const unrefedPopperEl = unref(popperEl)
-  const inputEl = unref(actualInputRef)
-  if (
-    (unrefedPopperEl &&
-      (e.target === unrefedPopperEl ||
-        e.composedPath().includes(unrefedPopperEl))) ||
-    e.target === inputEl ||
-    e.composedPath().includes(inputEl)
-  )
-    return
-  pickerVisible.value = false
-})
+)
 
 onBeforeUnmount(() => {
   stophandle?.()
 })
-
-const userInput = ref<UserInput>(null)
 
 const handleChange = () => {
   if (userInput.value) {
     const value = parseUserInputToDayjs(displayValue.value)
     if (value) {
       if (isValidValue(value)) {
-        emitInput(
-          (isArray(value)
-            ? value.map((_) => _.toDate())
-            : value.toDate()) as DateOrDates
-        )
+        emitInput(dayOrDaysToDate(value))
         userInput.value = null
       }
     }
   }
   if (userInput.value === '') {
-    emitInput(valueOnClear.value)
-    emitChange(valueOnClear.value)
+    emitInput(emptyValues.valueOnClear.value)
+    emitChange(emptyValues.valueOnClear.value, true)
     userInput.value = null
   }
 }
@@ -630,11 +536,11 @@ const isValidValue = (value: DayOrDays) => {
   return pickerOptions.value.isValidValue!(value)
 }
 
-const handleKeydownInput = async (event: KeyboardEvent) => {
+const handleKeydownInput = async (event: Event | KeyboardEvent) => {
   if (props.readonly || pickerDisabled.value) return
 
-  const { code } = event
-  emitKeydown(event)
+  const code = getEventCode(event as KeyboardEvent)
+  emitKeydown(event as KeyboardEvent)
   if (code === EVENT_CODE.esc) {
     if (pickerVisible.value === true) {
       pickerVisible.value = false
@@ -665,7 +571,9 @@ const handleKeydownInput = async (event: KeyboardEvent) => {
   }
 
   if (code === EVENT_CODE.enter || code === EVENT_CODE.numpadEnter) {
-    if (
+    if (!pickerVisible.value) {
+      pickerVisible.value = true
+    } else if (
       userInput.value === null ||
       userInput.value === '' ||
       isValidValue(parseUserInputToDayjs(displayValue.value) as DayOrDays)
@@ -673,6 +581,7 @@ const handleKeydownInput = async (event: KeyboardEvent) => {
       handleChange()
       pickerVisible.value = false
     }
+    event.preventDefault()
     event.stopPropagation()
     return
   }
@@ -683,7 +592,7 @@ const handleKeydownInput = async (event: KeyboardEvent) => {
     return
   }
   if (pickerOptions.value.handleKeydownInput) {
-    pickerOptions.value.handleKeydownInput(event)
+    pickerOptions.value.handleKeydownInput(event as KeyboardEvent)
   }
 }
 const onUserInput = (e: string) => {
@@ -724,7 +633,7 @@ const handleStartChange = () => {
     ]
     const newValue = [value, parsedVal && (parsedVal[1] || null)] as DayOrDays
     if (isValidValue(newValue)) {
-      emitInput(newValue)
+      emitInput(dayOrDaysToDate(newValue))
       userInput.value = null
     }
   }
@@ -741,35 +650,25 @@ const handleEndChange = () => {
     ]
     const newValue = [parsedVal && parsedVal[0], value] as DayOrDays
     if (isValidValue(newValue)) {
-      emitInput(newValue)
+      emitInput(dayOrDaysToDate(newValue))
       userInput.value = null
     }
   }
 }
 
-const pickerOptions = ref<Partial<PickerOptions>>({})
-const onSetPickerOption = <T extends keyof PickerOptions>(
-  e: [T, PickerOptions[T]]
-) => {
-  pickerOptions.value[e[0]] = e[1]
-  pickerOptions.value.panelReady = true
+const focus = () => {
+  inputRef.value?.focus()
 }
 
-const onCalendarChange = (e: [Date, null | Date]) => {
-  emit('calendar-change', e)
+const blur = () => {
+  inputRef.value?.blur()
 }
 
-const onPanelChange = (
-  value: [Dayjs, Dayjs],
-  mode: 'month' | 'year',
-  view: unknown
-) => {
-  emit('panel-change', value, mode, view)
-}
-
-provide('EP_PICKER_BASE', {
+provide(PICKER_BASE_INJECTION_KEY, {
   props,
+  emptyValues,
 })
+provide(ROOT_COMMON_PICKER_INJECTION_KEY, commonPicker)
 
 defineExpose({
   /**
@@ -777,13 +676,9 @@ defineExpose({
    */
   focus,
   /**
-   * @description emit focus event
+   * @description blur input box.
    */
-  handleFocusInput,
-  /**
-   * @description emit blur event
-   */
-  handleBlurInput,
+  blur,
   /**
    * @description opens picker
    */

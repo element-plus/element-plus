@@ -2,7 +2,7 @@
   <template v-if="uiLoading">
     <div :class="[ns.b(), ns.is('animated', animated)]" v-bind="$attrs">
       <template v-for="i in count" :key="i">
-        <slot v-if="loading" :key="i" name="template">
+        <slot v-if="uiLoading" :key="i" name="template">
           <el-skeleton-item :class="ns.is('first')" variant="p" />
           <el-skeleton-item
             v-for="item in rows"

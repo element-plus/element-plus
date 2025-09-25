@@ -20,10 +20,13 @@ const ns = useNamespace('check-tag')
 const containerKls = computed(() => [
   ns.b(),
   ns.is('checked', props.checked),
+  ns.is('disabled', props.disabled),
   ns.m(props.type || 'primary'),
 ])
 
 const handleChange = () => {
+  if (props.disabled) return
+
   const checked = !props.checked
   emit(CHANGE_EVENT, checked)
   emit('update:checked', checked)

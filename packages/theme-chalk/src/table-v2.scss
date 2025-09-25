@@ -52,7 +52,7 @@
 }
 
 @include b('table-v2') {
-  font-size: 14px;
+  font-size: getCssVar('font-size', 'base');
 
   * {
     box-sizing: border-box;
@@ -110,6 +110,10 @@
   @include e('header') {
     position: relative;
     overflow: hidden;
+
+    .#{$namespace}-checkbox {
+      z-index: 0;
+    }
   }
 
   @include e('footer') {

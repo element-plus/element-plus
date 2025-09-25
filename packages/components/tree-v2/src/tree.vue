@@ -12,13 +12,14 @@
       :height="height"
       :item-size="treeNodeSize"
       :perf-mode="perfMode"
+      :scrollbar-always-on="scrollbarAlwaysOn"
     >
       <template #default="{ data, index, style }">
         <el-tree-node
           :key="data[index].key"
           :style="style"
           :node="data[index]"
-          :expanded="isExpanded(data[index])"
+          :expanded="data[index].expanded"
           :show-checkbox="showCheckbox"
           :checked="isChecked(data[index])"
           :indeterminate="isIndeterminate(data[index])"
@@ -29,13 +30,16 @@
           @click="handleNodeClick"
           @toggle="toggleExpand"
           @check="handleNodeCheck"
+          @drop="handleNodeDrop"
         />
       </template>
     </fixed-size-list>
     <div v-else :class="ns.e('empty-block')">
-      <span :class="ns.e('empty-text')">{{
-        emptyText ?? t('el.tree.emptyText')
-      }}</span>
+      <slot name="empty">
+        <span :class="ns.e('empty-text')">
+          {{ emptyText ?? t('el.tree.emptyText') }}
+        </span>
+      </slot>
     </div>
   </div>
 </template>
@@ -76,13 +80,13 @@ const {
   isNotEmpty,
   listRef,
   toggleExpand,
-  isExpanded,
   isIndeterminate,
   isChecked,
   isDisabled,
   isCurrent,
   isForceHiddenExpandIcon,
   handleNodeClick,
+  handleNodeDrop,
   handleNodeCheck,
   // expose
   toggleCheckbox,

@@ -10,15 +10,19 @@ import type { Browser } from 'puppeteer'
 
 const projectRoot = process.cwd()
 const testRoot = path.resolve(projectRoot, 'ssr-testing')
-const demoRoot = path.resolve(testRoot, 'cases')
+const demoRoot = path.resolve(testRoot, 'cases').replace(/\\/g, '/')
 describe('Cypress Button', () => {
   let browser: Browser
   beforeAll(async () => {
-    browser = await puppeteer.launch()
+    browser = await puppeteer.launch({
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    })
   })
 
   afterAll(() => {
-    browser.close()
+    if (browser) {
+      browser.close()
+    }
   })
 
   describe('when initialized', () => {

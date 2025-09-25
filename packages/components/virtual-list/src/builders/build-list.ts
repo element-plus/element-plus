@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   Fragment,
   computed,
@@ -62,7 +61,7 @@ const createList = ({
 
       const dynamicSizeCache = ref(initCache(props, instance))
 
-      const getItemStyleCache = useCache()
+      const getItemStyleCache = useCache<CSSProperties>()
       // refs
       // here windowRef and innerRef can be type of HTMLElement
       // or user defined component type, depends on the type passed
@@ -161,7 +160,7 @@ const createList = ({
         },
         (offset) => {
           ;(
-            scrollbarRef.value as any as {
+            scrollbarRef.value as {
               onMouseUp: () => void
             }
           ).onMouseUp?.()
@@ -346,12 +345,9 @@ const createList = ({
         return style
       }
 
-      // TODO:
-      // perf optimization here, reset isScrolling with debounce.
+      // TODO: perf optimization here, reset isScrolling with debounce.
 
       const resetIsScrolling = () => {
-        // timer = null
-
         states.value.isScrolling = false
         nextTick(() => {
           getItemStyleCache.value(-1, null, null)
@@ -418,7 +414,7 @@ const createList = ({
       })
 
       onActivated(() => {
-        unref(windowRef).scrollTop = unref(states).scrollOffset
+        unref(windowRef)!.scrollTop = unref(states).scrollOffset
       })
 
       const api = {
@@ -523,6 +519,7 @@ const createList = ({
         scrollFrom:
           states.scrollOffset / (this.estimatedTotalSize - clientSize),
         total,
+        alwaysOn: states.scrollbarAlwaysOn,
       })
 
       const listContainer = h(

@@ -1,29 +1,13 @@
 <template>
   <label :class="labelKls">
     <input
-      v-if="trueValue || falseValue || trueLabel || falseLabel"
       v-model="model"
       :class="ns.be('button', 'original')"
       type="checkbox"
       :name="name"
       :tabindex="tabindex"
       :disabled="isDisabled"
-      :true-value="trueValue ?? trueLabel"
-      :false-value="falseValue ?? falseLabel"
-      @change="handleChange"
-      @focus="isFocused = true"
-      @blur="isFocused = false"
-      @click.stop
-    />
-    <input
-      v-else
-      v-model="model"
-      :class="ns.be('button', 'original')"
-      type="checkbox"
-      :name="name"
-      :tabindex="tabindex"
-      :disabled="isDisabled"
-      :value="actualValue"
+      v-bind="inputBindings"
       @change="handleChange"
       @focus="isFocused = true"
       @blur="isFocused = false"
@@ -66,6 +50,24 @@ const {
   actualValue,
   handleChange,
 } = useCheckbox(props, slots)
+
+const inputBindings = computed(() => {
+  if (
+    props.trueValue ||
+    props.falseValue ||
+    props.trueLabel ||
+    props.falseLabel
+  ) {
+    return {
+      'true-value': props.trueValue ?? props.trueLabel ?? true,
+      'false-value': props.falseValue ?? props.falseLabel ?? false,
+    }
+  }
+  return {
+    value: actualValue.value,
+  }
+})
+
 const checkboxGroup = inject(checkboxGroupContextKey, undefined)
 const ns = useNamespace('checkbox')
 

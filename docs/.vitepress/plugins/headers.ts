@@ -1,12 +1,13 @@
 import { resolveHeadersFromTokens, slugify } from '@mdit-vue/shared'
-import type MarkdownIt from 'markdown-it'
+
+import type { MarkdownRenderer } from 'vitepress'
 
 /**
  * Get markdown headers info
  *
  * Extract them into env
  */
-export default (md: MarkdownIt): void => {
+export default (md: MarkdownRenderer): void => {
   // extract headers to env
   const render = md.renderer.render.bind(md.renderer)
 
@@ -18,6 +19,10 @@ export default (md: MarkdownIt): void => {
       shouldAllowNested: false,
       shouldEscapeText: false,
       slugify,
+    })
+    // remove space before <
+    env.headers.forEach((header) => {
+      header.title = header.title.replace(/\s+</g, '<')
     })
     return render(tokens, options, env)
   }

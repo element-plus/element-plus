@@ -6,6 +6,7 @@ import {
 } from '@element-plus/constants'
 import { useFormItem } from '@element-plus/components/form'
 import { isArray } from '@element-plus/utils'
+
 import type { Arrayable } from '@element-plus/utils'
 import type { CSSProperties, Ref, SetupContext } from 'vue'
 import type { SliderEmits, SliderInitData, SliderProps } from '../slider'
@@ -75,8 +76,8 @@ export const useSlide = (
 
   const resetSize = () => {
     if (slider.value) {
-      initData.sliderSize =
-        slider.value[`client${props.vertical ? 'Height' : 'Width'}`]
+      const rect = slider.value.getBoundingClientRect()
+      initData.sliderSize = rect[props.vertical ? 'height' : 'width']
     }
   }
 
@@ -219,7 +220,10 @@ export const useSlide = (
 
   const onSliderMarkerDown = (position: number) => {
     if (sliderDisabled.value || initData.dragging) return
-    setPosition(position)
+    const buttonRef = setPosition(position)
+    if (buttonRef) {
+      emitChange()
+    }
   }
 
   return {

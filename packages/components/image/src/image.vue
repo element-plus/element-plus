@@ -31,7 +31,9 @@
         :zoom-rate="zoomRate"
         :min-scale="minScale"
         :max-scale="maxScale"
+        :show-progress="showProgress"
         :url-list="previewSrcList"
+        :scale="scale"
         :crossorigin="crossorigin"
         :hide-on-click-modal="hideOnClickModal"
         :teleported="previewTeleported"
@@ -42,6 +44,15 @@
         <div v-if="$slots.viewer">
           <slot name="viewer" />
         </div>
+        <template v-if="$slots.progress" #progress="progress">
+          <slot name="progress" v-bind="progress" />
+        </template>
+        <template #toolbar="toolbar">
+          <slot name="toolbar" v-bind="toolbar" />
+        </template>
+        <template v-if="$slots['viewer-error']" #viewer-error="viewerError">
+          <slot name="viewer-error" v-bind="viewerError" />
+        </template>
       </image-viewer>
     </template>
   </div>
@@ -56,16 +67,17 @@ import {
   useAttrs as useRawAttrs,
   watch,
 } from 'vue'
-import { useEventListener, useThrottleFn } from '@vueuse/core'
+import { useIntersectionObserver, useThrottleFn } from '@vueuse/core'
 import { fromPairs } from 'lodash-unified'
 import { useAttrs, useLocale, useNamespace } from '@element-plus/hooks'
 import ImageViewer from '@element-plus/components/image-viewer'
 import {
   getScrollContainer,
+  isArray,
   isClient,
   isElement,
-  isInContainer,
   isString,
+  isWindow,
 } from '@element-plus/utils'
 import { imageEmits, imageProps } from './image'
 
@@ -78,8 +90,6 @@ defineOptions({
 
 const props = defineProps(imageProps)
 const emit = defineEmits(imageEmits)
-
-let prevOverflow = ''
 
 const { t } = useLocale()
 const ns = useNamespace('image')
@@ -105,11 +115,10 @@ const hasLoadError = ref(false)
 const isLoading = ref(true)
 const showViewer = ref(false)
 const container = ref<HTMLElement>()
-const _scrollContainer = ref<HTMLElement | Window>()
+const _scrollContainer = ref<HTMLElement | undefined>()
 
 const supportLoading = isClient && 'loading' in HTMLImageElement.prototype
 let stopScrollListener: (() => void) | undefined
-let stopWheelListener: (() => void) | undefined
 
 const imageKls = computed(() => [
   ns.e('inner'),
@@ -127,7 +136,7 @@ const imageStyle = computed<CSSProperties>(() => {
 
 const preview = computed(() => {
   const { previewSrcList } = props
-  return Array.isArray(previewSrcList) && previewSrcList.length > 0
+  return isArray(previewSrcList) && previewSrcList.length > 0
 })
 
 const imageIndex = computed(() => {
@@ -165,8 +174,8 @@ function handleError(event: Event) {
   emit('error', event)
 }
 
-function handleLazyLoad() {
-  if (isInContainer(container.value, _scrollContainer.value)) {
+function handleLazyLoad(isIntersecting: boolean) {
+  if (isIntersecting) {
     loadImage()
     removeLazyLoadListener()
   }
@@ -186,56 +195,38 @@ async function addLazyLoadListener() {
     _scrollContainer.value =
       document.querySelector<HTMLElement>(scrollContainer) ?? undefined
   } else if (container.value) {
-    _scrollContainer.value = getScrollContainer(container.value)
+    const scrollContainer = getScrollContainer(container.value)
+    _scrollContainer.value = isWindow(scrollContainer)
+      ? undefined
+      : scrollContainer
   }
 
-  if (_scrollContainer.value) {
-    stopScrollListener = useEventListener(
-      _scrollContainer,
-      'scroll',
-      lazyLoadHandler
-    )
-    setTimeout(() => handleLazyLoad(), 100)
-  }
+  const { stop } = useIntersectionObserver(
+    container,
+    ([entry]) => {
+      lazyLoadHandler(entry.isIntersecting)
+    },
+    { root: _scrollContainer }
+  )
+  stopScrollListener = stop
 }
 
 function removeLazyLoadListener() {
-  if (!isClient || !_scrollContainer.value || !lazyLoadHandler) return
+  if (!isClient || !lazyLoadHandler) return
 
   stopScrollListener?.()
   _scrollContainer.value = undefined
-}
-
-function wheelHandler(e: WheelEvent) {
-  if (!e.ctrlKey) return
-
-  if (e.deltaY < 0) {
-    e.preventDefault()
-    return false
-  } else if (e.deltaY > 0) {
-    e.preventDefault()
-    return false
-  }
+  stopScrollListener = undefined
 }
 
 function clickHandler() {
   // don't show viewer when preview is false
   if (!preview.value) return
-
-  stopWheelListener = useEventListener('wheel', wheelHandler, {
-    passive: false,
-  })
-
-  // prevent body scroll
-  prevOverflow = document.body.style.overflow
-  document.body.style.overflow = 'hidden'
   showViewer.value = true
   emit('show')
 }
 
 function closeViewer() {
-  stopWheelListener?.()
-  document.body.style.overflow = prevOverflow
   showViewer.value = false
   emit('close')
 }
@@ -265,5 +256,10 @@ onMounted(() => {
   } else {
     loadImage()
   }
+})
+
+defineExpose({
+  /** @description manually open preview */
+  showPreview: clickHandler,
 })
 </script>

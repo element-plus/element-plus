@@ -29,6 +29,7 @@
               ns.b(),
               customClass,
               ns.is('draggable', draggable),
+              ns.is('dragging', isDragging),
               { [ns.m('center')]: center },
             ]"
             :style="customStyle"
@@ -62,7 +63,7 @@
                 "
               >
                 <el-icon :class="ns.e('close')">
-                  <close />
+                  <component :is="closeIcon || 'close'" />
                 </el-icon>
               </button>
             </div>
@@ -80,9 +81,8 @@
                       :is="showInput ? 'label' : 'p'"
                       v-if="!dangerouslyUseHTMLString"
                       :for="showInput ? inputId : undefined"
-                    >
-                      {{ !dangerouslyUseHTMLString ? message : '' }}
-                    </component>
+                      v-text="message"
+                    />
                     <component
                       :is="showInput ? 'label' : 'p'"
                       v-else
@@ -148,8 +148,8 @@
     </el-overlay>
   </transition>
 </template>
+
 <script lang="ts">
-// @ts-nocheck
 import {
   computed,
   defineComponent,
@@ -175,6 +175,8 @@ import { ElOverlay } from '@element-plus/components/overlay'
 import {
   TypeComponents,
   TypeComponentsMap,
+  isFunction,
+  isString,
   isValidComponentSize,
 } from '@element-plus/utils'
 import { ElIcon } from '@element-plus/components/icon'
@@ -236,10 +238,7 @@ export default defineComponent({
     center: Boolean,
     draggable: Boolean,
     overflow: Boolean,
-    roundButton: {
-      default: false,
-      type: Boolean,
-    },
+    roundButton: Boolean,
     container: {
       type: String, // default append to body
       default: 'body',
@@ -281,13 +280,14 @@ export default defineComponent({
       dangerouslyUseHTMLString: false,
       distinguishCancelAndClose: false,
       icon: '',
+      closeIcon: '',
       inputPattern: null,
       inputPlaceholder: '',
       inputType: 'text',
-      inputValue: null,
-      inputValidator: null,
+      inputValue: '',
+      inputValidator: undefined,
       inputErrorMessage: '',
-      message: null,
+      message: '',
       modalFade: true,
       modalClass: '',
       showCancelButton: false,
@@ -317,9 +317,10 @@ export default defineComponent({
     const contentId = useId()
     const inputId = useId()
 
-    const iconComponent = computed(
-      () => state.icon || TypeComponentsMap[state.type] || ''
-    )
+    const iconComponent = computed(() => {
+      const type = state.type
+      return state.icon || (type && TypeComponentsMap[type]) || ''
+    })
     const hasMessage = computed(() => !!state.message)
     const rootRef = ref<HTMLElement>()
     const headerRef = ref<HTMLElement>()
@@ -333,7 +334,7 @@ export default defineComponent({
       () => state.inputValue,
       async (val) => {
         await nextTick()
-        if (props.boxType === 'prompt' && val !== null) {
+        if (props.boxType === 'prompt' && val) {
           validate()
         }
       },
@@ -373,7 +374,7 @@ export default defineComponent({
 
     const draggable = computed(() => props.draggable)
     const overflow = computed(() => props.overflow)
-    useDraggable(rootRef, headerRef, draggable, overflow)
+    const { isDragging } = useDraggable(rootRef, headerRef, draggable, overflow)
 
     onMounted(async () => {
       await nextTick()
@@ -404,7 +405,7 @@ export default defineComponent({
 
     const overlayEvent = useSameTarget(handleWrapperClick)
 
-    const handleInputEnter = (e: KeyboardEvent) => {
+    const handleInputEnter = (e: KeyboardEvent | Event) => {
       if (state.inputType !== 'textarea') {
         e.preventDefault()
         return handleAction('confirm')
@@ -435,7 +436,7 @@ export default defineComponent({
           return false
         }
         const inputValidator = state.inputValidator
-        if (typeof inputValidator === 'function') {
+        if (isFunction(inputValidator)) {
           const validateResult = inputValidator(state.inputValue)
           if (validateResult === false) {
             state.editorErrorMessage =
@@ -443,7 +444,7 @@ export default defineComponent({
             state.validateError = true
             return false
           }
-          if (typeof validateResult === 'string') {
+          if (isString(validateResult)) {
             state.editorErrorMessage = validateResult
             state.validateError = true
             return false
@@ -456,8 +457,8 @@ export default defineComponent({
     }
 
     const getInputElement = () => {
-      const inputRefs = inputRef.value.$refs
-      return (inputRefs.input || inputRefs.textarea) as HTMLElement
+      const inputRefs = inputRef.value?.$refs
+      return (inputRefs?.input ?? inputRefs?.textarea) as HTMLElement
     }
 
     const handleClose = () => {
@@ -468,7 +469,7 @@ export default defineComponent({
     // any other message box and close any other dialog-ish elements
     // e.g. Dialog has a close on press esc feature, and when it closes, it calls
     // props.beforeClose method to make a intermediate state by callout a message box
-    // for some verification or alerting. then if we allow global event liek this
+    // for some verification or alerting. then if we allow global event like this
     // to dispatch, it could callout another message box.
     const onCloseRequested = () => {
       if (props.closeOnPressEscape) {
@@ -497,6 +498,7 @@ export default defineComponent({
       focusStartRef,
       headerRef,
       inputRef,
+      isDragging,
       confirmRef,
       doClose, // for outside usage
       handleClose, // for out side usage

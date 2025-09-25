@@ -1,6 +1,6 @@
-import type MarkdownIt from 'markdown-it'
+import type { MarkdownRenderer } from 'vitepress'
 
-export default (md: MarkdownIt): void => {
+export default (md: MarkdownRenderer): void => {
   md.inline.ruler.before('emphasis', 'tag', (state, silent) => {
     const tagRegExp = /^\^\(([^)]*)\)/
     const str = state.src.slice(state.pos, state.posMax)
@@ -21,7 +21,7 @@ export default (md: MarkdownIt): void => {
     const tagClass = ['beta', 'deprecated', 'a11y', 'required'].includes(value)
       ? value
       : ''
-    token.content = `<span class="vp-tag ${tagClass}">${value}</span>`
+    token.content = `<span class="vp-tag ml-1 ${tagClass}">${value}</span>`
     token.level = state.level
     state.pos += result[0].length
 

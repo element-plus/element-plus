@@ -23,15 +23,16 @@ import {
   useNamespace,
   useSizeProp,
 } from '@element-plus/hooks'
+import { CHANGE_EVENT } from '@element-plus/constants'
 import { elPaginationKey } from './constants'
-
 import Prev from './components/prev.vue'
 import Next from './components/next.vue'
 import Sizes from './components/sizes.vue'
 import Jumper from './components/jumper.vue'
 import Total from './components/total.vue'
 import Pager from './components/pager.vue'
-import type { ExtractPropTypes, VNode } from 'vue'
+
+import type { ExtractPropTypes, VNode, __ExtractPublicPropTypes } from 'vue'
 /**
  * It it user's responsibility to guarantee that the value of props.total... is number
  * (same as pageSize, defaultPageSize, currentPage, defaultCurrentPage, pageCount)
@@ -168,8 +169,15 @@ export const paginationProps = buildProps({
    * @description whether to hide when there's only one page
    */
   hideOnSinglePage: Boolean,
+  /**
+   * @description which element the size dropdown appends to.
+   */
+  appendSizeTo: String,
 } as const)
 export type PaginationProps = ExtractPropTypes<typeof paginationProps>
+export type PaginationPropsPublic = __ExtractPublicPropTypes<
+  typeof paginationProps
+>
 
 export const paginationEmits = {
   'update:current-page': (val: number) => isNumber(val),
@@ -314,7 +322,7 @@ export default defineComponent({
     watch(
       [currentPageBridge, pageSizeBridge],
       (value) => {
-        emit('change', ...value)
+        emit(CHANGE_EVENT, ...value)
       },
       { flush: 'post' }
     )
@@ -410,6 +418,7 @@ export default defineComponent({
           disabled: props.disabled,
           teleported: props.teleported,
           size: _size.value,
+          appendSizeTo: props.appendSizeTo,
         }),
         slot: slots?.default?.() ?? null,
         total: h(Total, { total: isAbsent(props.total) ? 0 : props.total }),

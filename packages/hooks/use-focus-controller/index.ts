@@ -1,9 +1,19 @@
-import { getCurrentInstance, onMounted, ref, shallowRef } from 'vue'
+import {
+  getCurrentInstance,
+  onMounted,
+  ref,
+  shallowRef,
+  unref,
+  watch,
+} from 'vue'
 import { useEventListener } from '@vueuse/core'
-import { isElement, isFunction } from '@element-plus/utils'
+import { isElement, isFocusable, isFunction } from '@element-plus/utils'
+
 import type { ShallowRef } from 'vue'
+import type { MaybeRef } from '@vueuse/core'
 
 interface UseFocusControllerOptions {
+  disabled?: MaybeRef<boolean>
   /**
    * return true to cancel focus
    * @param event FocusEvent
@@ -21,6 +31,7 @@ interface UseFocusControllerOptions {
 export function useFocusController<T extends { focus: () => void }>(
   target: ShallowRef<T | undefined>,
   {
+    disabled,
     beforeFocus,
     afterFocus,
     beforeBlur,
@@ -34,7 +45,8 @@ export function useFocusController<T extends { focus: () => void }>(
 
   const handleFocus = (event: FocusEvent) => {
     const cancelFocus = isFunction(beforeFocus) ? beforeFocus(event) : false
-    if (cancelFocus || isFocused.value) return
+    if (unref(disabled) || isFocused.value || cancelFocus) return
+
     isFocused.value = true
     emit('focus', event)
     afterFocus?.()
@@ -43,9 +55,10 @@ export function useFocusController<T extends { focus: () => void }>(
   const handleBlur = (event: FocusEvent) => {
     const cancelBlur = isFunction(beforeBlur) ? beforeBlur(event) : false
     if (
-      cancelBlur ||
+      unref(disabled) ||
       (event.relatedTarget &&
-        wrapperRef.value?.contains(event.relatedTarget as Node))
+        wrapperRef.value?.contains(event.relatedTarget as Node)) ||
+      cancelBlur
     )
       return
 
@@ -54,15 +67,26 @@ export function useFocusController<T extends { focus: () => void }>(
     afterBlur?.()
   }
 
-  const handleClick = () => {
+  const handleClick = (event: Event) => {
     if (
-      wrapperRef.value?.contains(document.activeElement) &&
-      wrapperRef.value !== document.activeElement
+      unref(disabled) ||
+      isFocusable(event.target as HTMLElement) ||
+      (wrapperRef.value?.contains(document.activeElement) &&
+        wrapperRef.value !== document.activeElement)
     )
       return
 
     target.value?.focus()
   }
+
+  watch([wrapperRef, () => unref(disabled)], ([el, disabled]) => {
+    if (!el) return
+    if (disabled) {
+      el.removeAttribute('tabindex')
+    } else {
+      el.setAttribute('tabindex', '-1')
+    }
+  })
 
   useEventListener(wrapperRef, 'focus', handleFocus, true)
   useEventListener(wrapperRef, 'blur', handleBlur, true)

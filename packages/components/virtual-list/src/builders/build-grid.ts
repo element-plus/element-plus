@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   Fragment,
   computed,
@@ -36,6 +35,7 @@ import {
   RTL_OFFSET_POS_DESC,
   SCROLL_EVT,
 } from '../defaults'
+
 import type {
   CSSProperties,
   Ref,
@@ -51,6 +51,7 @@ import type {
   ScrollbarExpose,
 } from '../types'
 import type { VirtualizedGridProps } from '../props'
+import type { DynamicSizeGridInstance } from '../components/dynamic-size-grid.ts'
 
 const createGrid = ({
   name,
@@ -411,7 +412,7 @@ const createGrid = ({
             alignment,
             _states.scrollLeft,
             _cache,
-            estimatedWidth > props.width! ? scrollBarWidth : 0
+            estimatedWidth > (props.width as number) ? scrollBarWidth : 0
           ),
           scrollTop: getRowOffset(
             props,
@@ -419,15 +420,12 @@ const createGrid = ({
             alignment,
             _states.scrollTop,
             _cache,
-            estimatedHeight > props.height! ? scrollBarWidth : 0
+            estimatedHeight > (props.height as number) ? scrollBarWidth : 0
           ),
         })
       }
 
-      const getItemStyle = (
-        rowIndex: number,
-        columnIndex: number
-      ): CSSProperties => {
+      const getItemStyle = (rowIndex: number, columnIndex: number) => {
         const { columnWidth, direction, rowHeight } = props
         const itemStyleCache = getItemStyleCache.value(
           clearCache && columnWidth,
@@ -439,7 +437,7 @@ const createGrid = ({
         const key = `${rowIndex},${columnIndex}`
 
         if (hasOwn(itemStyleCache, key)) {
-          return itemStyleCache[key]
+          return itemStyleCache[key] as CSSProperties
         } else {
           const [, left] = getColumnPosition(props, columnIndex, unref(cache))
           const _cache = unref(cache)
@@ -457,15 +455,13 @@ const createGrid = ({
             width: `${width}px`,
           }
 
-          return itemStyleCache[key]
+          return itemStyleCache[key] as CSSProperties
         }
       }
 
       // TODO: debounce setting is scrolling.
 
       const resetIsScrolling = () => {
-        // timer = null
-
         states.value.isScrolling = false
         nextTick(() => {
           getItemStyleCache.value(-1, null, null)
@@ -521,7 +517,7 @@ const createGrid = ({
       }
 
       const { resetAfterColumnIndex, resetAfterRowIndex, resetAfter } =
-        instance.proxy as any
+        instance.proxy as DynamicSizeGridInstance
 
       expose({
         windowRef,

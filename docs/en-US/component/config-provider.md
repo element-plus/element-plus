@@ -25,6 +25,30 @@ config-provider/button
 
 :::
 
+## Link Configurations ^(2.9.11)
+
+:::demo
+
+config-provider/link
+
+:::
+
+## Card Configurations ^(2.10.5)
+
+:::demo
+
+config-provider/card
+
+:::
+
+## Dialog Configurations ^(2.10.7)
+
+:::demo
+
+config-provider/dialog
+
+:::
+
 ## Message Configurations
 
 :::demo
@@ -39,6 +63,7 @@ config-provider/message
   <summary>Supported components list</summary>
 
 - Cascader
+- ColorPicker ^(2.10.3)
 - DatePicker
 - Select
 - SelectV2
@@ -74,7 +99,9 @@ In this section, you can learn how to use Config Provider to provide experimenta
 | size                    | global component size                                                                                                                                                  | ^[enum]`'large' \| 'default' \| 'small'`                                                                                                                                                                                                                       | default                                                                                |
 | zIndex                  | global Initial zIndex                                                                                                                                                  | ^[number]                                                                                                                                                                                                                                                      | —                                                                                      |
 | namespace               | global component className prefix (cooperated with [$namespace](https://github.com/element-plus/element-plus/blob/dev/packages/theme-chalk/src/mixins/config.scss#L1)) | ^[string]                                                                                                                                                                                                                                                      | el                                                                                     |
-| button                  | button related configuration, [see the following table](#button-attribute)                                                                                             | ^[object]`{autoInsertSpace?: boolean}`                                                                                                                                                                                                                         | see the following table                                                                |
+| button                  | button related configuration, [see the following table](#button-attribute)                                                                                             | ^[object]`{autoInsertSpace?: boolean, type?: string, plain?: boolean, round?: boolean}`                                                                                                                                                                        | see the following table                                                                |
+| link                    | link related configuration, [see the following table](#link-attribute)                                                                                                 | ^[object]`{type?: string, underline?: boolean \| string}`                                                                                                                                                                                                      | see the following table                                                                |
+| dialog ^(2.10.7)        | dialog related configuration, [see the following table](#dialog-attribute)                                                                                             | ^[object]`{alignCenter?: boolean, draggable?: boolean, overflow?: boolean, transition?: DialogTransition}`                                                                                                                                                     | see the following table                                                                |
 | message                 | message related configuration, [see the following table](#message-attribute)                                                                                           | ^[object]`{max?: number}`                                                                                                                                                                                                                                      | see the following table                                                                |
 | experimental-features   | features at experimental stage to be added, all features are default to be set to false                                                                                | ^[object]                                                                                                                                                                                                                                                      | —                                                                                      |
 | empty-values ^(2.7.0)   | global empty values of components                                                                                                                                      | ^[array]                                                                                                                                                                                                                                                       | —                                                                                      |
@@ -82,15 +109,47 @@ In this section, you can learn how to use Config Provider to provide experimenta
 
 ### Button Attribute
 
-| Attribute       | Description                                                 | Type       | Default |
-| --------------- | ----------------------------------------------------------- | ---------- | ------- |
-| autoInsertSpace | automatically insert a space between two chinese characters | ^[boolean] | false   |
+| Attribute       | Description                                                                                                                                          | Type                                                                                      | Default |
+| --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ------- |
+| type ^(2.9.11)  | button type, when setting `color`, the latter prevails                                                                                               | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'text' (deprecated)` | —       |
+| autoInsertSpace | automatically insert a space between two chinese characters(this will only take effect when the text length is 2 and all characters are in Chinese.) | ^[boolean]                                                                                | false   |
+| plain ^(2.9.11) | determine whether it's a plain button                                                                                                                | ^[boolean]                                                                                | false   |
+| text ^(2.11.0)  | determine whether it's a text button                                                                                                                 | ^[boolean]                                                                                | false   |
+| round ^(2.9.11) | determine whether it's a round button                                                                                                                | ^[boolean]                                                                                | false   |
+
+### Link Attribute
+
+| Attribute           | Description                   | Type                                                                            | Default |
+| ------------------- | ----------------------------- | ------------------------------------------------------------------------------- | ------- |
+| type ^(2.9.11)      | type                          | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'default'` | default |
+| underline ^(2.9.11) | when underlines should appear | ^[enum]`'always' \| 'hover' \| 'never' \| boolean`                              | hover   |
+
+### Card Attribute
+
+| Attribute        | Description               | Type                              | Default |
+| ---------------- | ------------------------- | --------------------------------- | ------- |
+| shadow ^(2.10.5) | when to show card shadows | ^[enum]`always \| never \| hover` | —       |
+
+### Dialog Attribute
+
+| Attribute              | Description                                                                                                                    | Type                                   | Default |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------- | ------- |
+| align-center ^(2.10.7) | whether to align the dialog both horizontally and vertically                                                                   | ^[boolean]                             | false   |
+| draggable ^(2.10.7)    | enable dragging feature for Dialog                                                                                             | ^[boolean]                             | false   |
+| overflow ^(2.10.7)     | draggable Dialog can overflow the viewport long                                                                                | ^[boolean]                             | false   |
+| transition ^(2.10.7)   | custom transition configuration for dialog animation. Can be a string (transition name) or an object with Vue transition props | ^[string] / ^[object]`TransitionProps` | —       |
 
 ### Message Attribute
 
-| Attribute | Description                                                           | Type      | Default |
-| --------- | --------------------------------------------------------------------- | --------- | ------- |
-| max       | the maximum number of messages that can be displayed at the same time | ^[number] | —       |
+| Attribute           | Description                                                                    | Type                                                                                       | Default |
+| ------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------- |
+| max                 | the maximum number of messages that can be displayed at the same time          | ^[number]                                                                                  | —       |
+| grouping ^(2.8.2)   | merge messages with the same content, type of VNode message is not supported   | ^[boolean]                                                                                 | —       |
+| duration ^(2.8.2)   | display duration, millisecond. If set to 0, it will not turn off automatically | ^[number]                                                                                  | —       |
+| showClose ^(2.8.2)  | whether to show a close button                                                 | ^[boolean]                                                                                 | —       |
+| offset ^(2.8.2)     | set the distance to the top of viewport                                        | ^[number]                                                                                  | —       |
+| plain ^(2.9.11)     | whether message is plain                                                       | ^[boolean]                                                                                 | —       |
+| placement ^(2.11.0) | message placement position                                                     | ^[enum]`'top' \| 'top-left' \| 'top-right' \| 'bottom' \| 'bottom-left' \| 'bottom-right'` | —       |
 
 ### Config Provider Slots
 

@@ -2,11 +2,12 @@
 import '@docsearch/css'
 import { getCurrentInstance, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vitepress'
+//@ts-expect-error
 import docsearch from '@docsearch/js'
 import { isClient } from '@vueuse/core'
 import { useLang } from '../../composables/lang'
-// import type { DefaultTheme } from '../config'
 import searchLocale from '../../../i18n/component/search.json'
+
 import type { DocSearchHit } from '@docsearch/react/dist/esm/types'
 
 const props = defineProps<{
@@ -194,6 +195,7 @@ function initialize(userOptions: any) {
   --docsearch-modal-shadow: var(--el-box-shadow);
 
   transition: background-color var(--el-transition-duration-fast);
+  background-color: transparent;
 
   &.DocSearch-Container {
     z-index: 20000;
@@ -230,8 +232,6 @@ function initialize(userOptions: any) {
       }
     }
   }
-
-  background-color: transparent;
 
   @include respond-to('md') {
     background-color: var(--docsearch-searchbox-background);

@@ -18,6 +18,7 @@ watch(
   }
 )
 </script>
+
 <template>
   <el-watermark :font="font" :content="['Element+', 'Element Plus']">
     <div style="height: 500px" />

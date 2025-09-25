@@ -2,6 +2,7 @@ import { computed, inject, nextTick, ref, watch } from 'vue'
 import { debounce } from 'lodash-unified'
 import { useEventListener } from '@vueuse/core'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { getEventCode } from '@element-plus/utils'
 import { sliderContextKey } from '../constants'
 
 import type { CSSProperties, ComputedRef, Ref, SetupContext } from 'vue'
@@ -12,8 +13,6 @@ import type {
   SliderButtonProps,
 } from '../button'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
-
-const { left, down, right, up, home, end, pageUp, pageDown } = EVENT_CODE
 
 const useTooltip = (
   props: SliderButtonProps,
@@ -63,6 +62,7 @@ export const useSliderButton = (
     max,
     step,
     showTooltip,
+    persistent,
     precision,
     sliderSize,
     formatTooltip,
@@ -147,22 +147,35 @@ export const useSliderButton = (
   }
 
   const onKeyDown = (event: KeyboardEvent) => {
+    const code = getEventCode(event)
     let isPreventDefault = true
-    if ([left, down].includes(event.key)) {
-      onLeftKeyDown()
-    } else if ([right, up].includes(event.key)) {
-      onRightKeyDown()
-    } else if (event.key === home) {
-      onHomeKeyDown()
-    } else if (event.key === end) {
-      onEndKeyDown()
-    } else if (event.key === pageDown) {
-      onPageDownKeyDown()
-    } else if (event.key === pageUp) {
-      onPageUpKeyDown()
-    } else {
-      isPreventDefault = false
+
+    switch (code) {
+      case EVENT_CODE.left:
+      case EVENT_CODE.down:
+        onLeftKeyDown()
+        break
+      case EVENT_CODE.right:
+      case EVENT_CODE.up:
+        onRightKeyDown()
+        break
+      case EVENT_CODE.home:
+        onHomeKeyDown()
+        break
+      case EVENT_CODE.end:
+        onEndKeyDown()
+        break
+      case EVENT_CODE.pageDown:
+        onPageDownKeyDown()
+        break
+      case EVENT_CODE.pageUp:
+        onPageUpKeyDown()
+        break
+      default:
+        isPreventDefault = false
+        break
     }
+
     isPreventDefault && event.preventDefault()
   }
 
@@ -275,6 +288,7 @@ export const useSliderButton = (
     tooltip,
     tooltipVisible,
     showTooltip,
+    persistent,
     wrapperStyle,
     formatValue,
     handleMouseEnter,

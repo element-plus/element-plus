@@ -9,7 +9,7 @@
       ns.is('created', created),
       ns.is('hovering', hovering),
     ]"
-    @mouseenter="hoverItem"
+    @mousemove="hoverItem"
     @click.stop="selectOptionClick"
   >
     <slot :item="item" :index="index" :disabled="disabled">
@@ -23,12 +23,12 @@ import { defineComponent, inject } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { useOption } from './useOption'
 import { useProps } from './useProps'
-import { OptionProps } from './defaults'
+import { optionV2Emits, optionV2Props } from './defaults'
 import { selectV2InjectionKey } from './token'
 
 export default defineComponent({
-  props: OptionProps,
-  emits: ['select', 'hover'],
+  props: optionV2Props,
+  emits: optionV2Emits,
   setup(props, { emit }) {
     const select = inject(selectV2InjectionKey)!
     const ns = useNamespace('select')

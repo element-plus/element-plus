@@ -117,6 +117,7 @@ describe('useFocusController', () => {
 
     await nextTick()
     expect(wrapper.find('span').text()).toBe('false')
+    expect(wrapper.find('div').attributes('tabindex')).toBe('-1')
     expect(focusHandler).not.toHaveBeenCalled()
     expect(blurHandler).not.toHaveBeenCalled()
 
@@ -223,5 +224,35 @@ describe('useFocusController', () => {
     expect(wrapper.emitted()).toHaveProperty('blur')
     expect(wrapper.find('span').text()).toBe('false')
     expect(blurHandler).toHaveBeenCalled()
+  })
+
+  it('It will decide whether to trigger focus and blur based on the disabled state', async () => {
+    const disabled = ref(true)
+    const wrapper = mount({
+      emits: ['focus', 'blur'],
+      setup() {
+        const targetRef = ref()
+        const { isFocused, wrapperRef } = useFocusController(targetRef, {
+          disabled,
+        })
+
+        return () => (
+          <div ref={wrapperRef}>
+            <input ref={targetRef} />
+            <span>{String(isFocused.value)}</span>
+          </div>
+        )
+      },
+    })
+
+    await wrapper.find('input').trigger('focus')
+    expect(wrapper.emitted()).not.toHaveProperty('focus')
+    expect(wrapper.find('span').text()).toBe('false')
+
+    disabled.value = false
+    await nextTick()
+    await wrapper.find('input').trigger('focus')
+    expect(wrapper.emitted()).toHaveProperty('focus')
+    expect(wrapper.find('span').text()).toBe('true')
   })
 })
