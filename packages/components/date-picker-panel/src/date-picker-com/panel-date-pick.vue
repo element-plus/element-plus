@@ -484,9 +484,7 @@ const handleMonthPick = async (
     )
     currentView.value = 'date'
     if (['month', 'year', 'date', 'week'].includes(selectionMode.value)) {
-      emit(innerDate.value, true)
-      await nextTick()
-      handleFocusPicker()
+      // TODO: fallback focus into basic date table
     }
   }
   handlePanelChange('month')
@@ -507,9 +505,7 @@ const handleYearPick = async (
     innerDate.value = getValidDateOfYear(data, lang.value, disabledDate)
     currentView.value = 'month'
     if (['month', 'year', 'date', 'week'].includes(selectionMode.value)) {
-      emit(innerDate.value, true)
-      await nextTick()
-      handleFocusPicker()
+      // TODO: fallback focus into basic month table
     }
   }
   handlePanelChange('year')
