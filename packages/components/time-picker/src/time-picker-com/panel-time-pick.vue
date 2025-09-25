@@ -8,7 +8,10 @@
           :arrow-control="arrowControl"
           :show-seconds="showSeconds"
           :am-pm-mode="amPmMode"
-          :spinner-date="parsedValue as any"
+          :spinner-date="
+            // https://github.com/vuejs/language-tools/issues/2104#issuecomment-3092541527
+            parsedValue as any
+          "
           :disabled-hours="disabledHours"
           :disabled-minutes="disabledMinutes"
           :disabled-seconds="disabledSeconds"

@@ -31,7 +31,10 @@
         "
         ref="inputRef"
         container-role="combobox"
-        :model-value="displayValue as string"
+        :model-value="
+          // https://github.com/vuejs/language-tools/issues/2104#issuecomment-3092541527
+          displayValue as string
+        "
         :name="
           // https://github.com/vuejs/language-tools/issues/2104#issuecomment-3092541527
           name as string
