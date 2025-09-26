@@ -968,4 +968,23 @@ describe('TreeSelect.vue', () => {
     await input.trigger('focus')
     expect(wrapper.findComponent(CircleClose).exists()).toBe(true)
   })
+
+  test('render slot `empty`', async () => {
+    const { wrapper, tree } = createComponent({
+      props: {
+        data: [],
+      },
+      slots: {
+        empty: () => <div class="empty-slot">EmptySlot</div>,
+      },
+    })
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    expect(
+      document.querySelector<HTMLElement>('.empty-slot')?.textContent
+    ).toBe('EmptySlot')
+    expect(tree.find('.el-tree').exists()).toBe(true)
+    expect(tree.find('.el-tree__empty-block').exists()).toBe(false)
+  })
 })
