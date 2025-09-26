@@ -90,10 +90,19 @@ export default defineComponent({
       })
     )
 
-    const handlePointerLeave = composeEventHandlers((e: PointerEvent) => {
-      emit('pointerleave', e)
-      return e.defaultPrevented
-    }, whenMouse(onItemLeave))
+    const handlePointerLeave = composeEventHandlers(
+      (e: PointerEvent) => {
+        emit('pointerleave', e)
+        return e.defaultPrevented
+      },
+      whenMouse((e) => {
+        const target = e.currentTarget as HTMLElement
+        if (target === document.activeElement) {
+          target?.blur()
+        }
+        onItemLeave(e)
+      })
+    )
 
     const handleClick = composeEventHandlers(
       (e: PointerEvent) => {
