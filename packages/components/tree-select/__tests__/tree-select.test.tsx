@@ -972,6 +972,7 @@ describe('TreeSelect.vue', () => {
   test('render slot `empty`', async () => {
     const { wrapper, tree } = createComponent({
       props: {
+        modelValue: '',
         data: [],
       },
       slots: {
