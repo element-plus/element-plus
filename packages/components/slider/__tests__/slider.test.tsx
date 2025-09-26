@@ -339,7 +339,7 @@ describe('Slider', () => {
       wrapper.find('.el-slider__runway').element,
       { width: 200 }
     )
-    const slider = wrapper.findComponent({ name: 'ElSlider' })
+    const slider = wrapper.findComponent(Slider)
     slider.vm.onSliderClick(new MouseEvent('mousedown', { clientX: 100 }))
     await nextTick()
     expect(value.value > 0).toBeTruthy()
@@ -357,7 +357,7 @@ describe('Slider', () => {
       </div>
     ))
 
-    const slider = wrapper.findComponent({ name: 'ElSlider' })
+    const slider = wrapper.findComponent(Slider)
     const mockRect = mockBoundingClientRect(
       wrapper.find('.el-slider__runway').element,
       { width: 200, left: 0 }
@@ -381,7 +381,7 @@ describe('Slider', () => {
       </div>
     ))
 
-    const slider = wrapper.findComponent({ name: 'ElSlider' })
+    const slider = wrapper.findComponent(Slider)
     const mockRect = mockBoundingClientRect(
       wrapper.find('.el-slider__runway').element,
       { width: 200, left: 0 }
@@ -519,7 +519,7 @@ describe('Slider', () => {
       </div>
     ))
 
-    const slider = wrapper.findComponent({ name: 'ElSlider' })
+    const slider = wrapper.findComponent(Slider)
     const mockRect = mockBoundingClientRect(
       wrapper.find('.el-slider__runway').element,
       { width: 200, left: 0 }
@@ -528,7 +528,6 @@ describe('Slider', () => {
     slider.vm.onSliderClick(new MouseEvent('mousedown', { clientX: 100 }))
     expect(value.value).toBe(0)
     await nextTick()
-    console.log(data.value)
     expect(data.value === 50).toBeTruthy()
     mockRect.mockRestore()
   })
