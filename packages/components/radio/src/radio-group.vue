@@ -9,7 +9,7 @@
   >
     <slot>
       <el-radio
-        v-for="(item, index) in props.options"
+        v-for="(item, index) in options"
         :key="index"
         v-bind="getOptionProps(item)"
       />
