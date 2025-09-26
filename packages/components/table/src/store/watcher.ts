@@ -109,6 +109,35 @@ function useWatcher<T extends DefaultRow>() {
     }
   )
 
+  const checkRowsCheckedStatus = (rows: T[]) => {
+    let rowIndex = 0
+    let selectedCount = 0
+
+    const checkSelectedStatus = (data: T[]) => {
+      for (const row of data) {
+        const isRowSelectable =
+          selectable.value && selectable.value.call(null, row, rowIndex)
+
+        if (!isSelected(row)) {
+          if (!selectable.value || isRowSelectable) {
+            return false
+          }
+        } else {
+          selectedCount++
+        }
+        rowIndex++
+        const children = instance.store.getChildren(row)
+        if (children?.length && !checkSelectedStatus(children)) {
+          return false
+        }
+      }
+      return true
+    }
+
+    const isAllSelected = checkSelectedStatus(rows || [])
+    return { selectedCount, isAllSelected }
+  }
+
   // 检查 rowKey 是否存在
   const assertRowKey = () => {
     if (!rowKey.value) throw new Error('[ElTable] prop row-key is required')
@@ -187,6 +216,32 @@ function useWatcher<T extends DefaultRow>() {
     }
   }
 
+  const getChildren = (row: T) => {
+    const childrenColumnName = instance?.store?.states?.childrenColumnName.value
+    const result: T[] | undefined = row[childrenColumnName]
+    return result
+  }
+
+  const getParentRow = (row: T, parentRow?: T) => {
+    let target: T | undefined
+    const children: T[] = parentRow ? getChildren(parentRow) ?? [] : data.value
+    const result = children?.find(
+      (item) =>
+        getRowIdentity(row, rowKey.value) === getRowIdentity(item, rowKey.value)
+    )
+    if (result) {
+      target = parentRow
+    } else {
+      for (const _row of children) {
+        target = getParentRow(row, _row)
+        if (target) {
+          break
+        }
+      }
+    }
+    return target
+  }
+
   // 选择
   const isSelected = (row: T) => {
     if (selectedMap.value) {
@@ -194,6 +249,27 @@ function useWatcher<T extends DefaultRow>() {
     } else {
       return selection.value.includes(row)
     }
+  }
+
+  const isIndeterminate = (row: T) => {
+    const children = getChildren(row)
+    if (!children?.length) {
+      return false
+    }
+    const selected = isSelected(row)
+    if (selected) {
+      return false
+    }
+    if (instance?.store?.states?.checkStrictly.value) {
+      return false
+    }
+    let selectedCount = 0
+    for (const row of children) {
+      if (isSelected(row)) {
+        selectedCount++
+      }
+    }
+    return selectedCount > 0 && selectedCount < children.length
   }
 
   const clearSelection = () => {
@@ -236,7 +312,8 @@ function useWatcher<T extends DefaultRow>() {
     row: T,
     selected?: boolean,
     emitChange = true,
-    ignoreSelectable = false
+    ignoreSelectable = false,
+    ignoreChildren = false
   ) => {
     const treeProps = {
       children: instance?.store?.states?.childrenColumnName.value,
@@ -249,7 +326,8 @@ function useWatcher<T extends DefaultRow>() {
       treeProps,
       ignoreSelectable ? undefined : selectable.value,
       data.value.indexOf(row),
-      rowKey.value
+      rowKey.value,
+      ignoreChildren
     )
     if (changed) {
       const newSelection = (selection.value || []).slice()
@@ -312,36 +390,27 @@ function useWatcher<T extends DefaultRow>() {
       return
     }
 
-    const { childrenColumnName } = instance.store.states
-    let rowIndex = 0
-    let selectedCount = 0
+    const { selectedCount, isAllSelected: _isAllSelected } =
+      checkRowsCheckedStatus(data.value)
+    isAllSelected.value = selectedCount === 0 ? false : _isAllSelected
+  }
 
-    const checkSelectedStatus = (data: T[]) => {
-      for (const row of data) {
-        const isRowSelectable =
-          selectable.value && selectable.value.call(null, row, rowIndex)
+  const updateParentSelected = (row: T) => {
+    const parentRow = getParentRow(row)
 
-        if (!isSelected(row)) {
-          if (!selectable.value || isRowSelectable) {
-            return false
-          }
-        } else {
-          selectedCount++
-        }
-        rowIndex++
-
-        if (
-          row[childrenColumnName.value]?.length &&
-          !checkSelectedStatus(row[childrenColumnName.value])
-        ) {
-          return false
-        }
-      }
-      return true
+    if (parentRow === undefined) {
+      return
     }
-
-    const isAllSelected_ = checkSelectedStatus(data.value || [])
-    isAllSelected.value = selectedCount === 0 ? false : isAllSelected_
+    const children = instance.store.getChildren(parentRow) ?? []
+    const { selectedCount, isAllSelected: _isAllSelected } =
+      checkRowsCheckedStatus(children)
+    toggleRowSelection(
+      parentRow,
+      selectedCount === 0 ? false : _isAllSelected,
+      true,
+      false,
+      true
+    )
   }
 
   const getChildrenCount = (rowKey: string) => {
@@ -529,6 +598,7 @@ function useWatcher<T extends DefaultRow>() {
     updateColumns,
     scheduleLayout,
     isSelected,
+    isIndeterminate,
     clearSelection,
     cleanSelection,
     getSelectionRows,
@@ -536,6 +606,7 @@ function useWatcher<T extends DefaultRow>() {
     _toggleAllSelection,
     toggleAllSelection: null as (() => void) | null,
     updateAllSelected,
+    updateParentSelected,
     updateFilters,
     updateCurrentRow,
     updateSort,
@@ -554,6 +625,7 @@ function useWatcher<T extends DefaultRow>() {
     loadOrToggle,
     updateTreeData,
     updateKeyChildren,
+    getChildren,
     states: {
       tableSize,
       rowKey,

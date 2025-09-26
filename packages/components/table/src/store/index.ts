@@ -204,6 +204,9 @@ function useStore<T extends DefaultRow>() {
     rowSelectedChanged(_states: StoreStates, row: T) {
       instance.store.toggleRowSelection(row)
       instance.store.updateAllSelected()
+      if (!instance?.store?.states?.checkStrictly.value) {
+        instance.store.updateParentSelected(row)
+      }
     },
 
     setHoverRow(states: StoreStates, row: T) {
