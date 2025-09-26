@@ -134,7 +134,7 @@ export const useSlide = (
     emit(INPUT_EVENT, val)
   }
 
-  const emitChange = async () => {
+  const emitChange = () => {
     emit(
       CHANGE_EVENT,
       props.range ? [minValue.value, maxValue.value] : initData.firstValue
