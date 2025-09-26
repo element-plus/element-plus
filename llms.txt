@@ -93,7 +93,6 @@
 - [TimePicker](https://element-plus.org/en-US/component/time-picker)
 - [TimeSelect](https://element-plus.org/en-US/component/time-select)
 - [Timeline](https://element-plus.org/en-US/component/timeline)
-- [Tooltip V2](https://element-plus.org/en-US/component/tooltip-v2)
 - [Tooltip](https://element-plus.org/en-US/component/tooltip)
 - [Tour](https://element-plus.org/en-US/component/tour)
 - [Transfer](https://element-plus.org/en-US/component/transfer)

@@ -2449,12 +2449,14 @@ You can customize both the header and footer of the dropdown using slots
 | name                                 | same as `name` in native input                                                                                             | ^[string]                                                                                 | —            |
 | aria-label ^(a11y) ^(2.7.2)          | native `aria-label` attribute                                                                                              | ^[string]                                                                                 | —            |
 | hide-loading                         | whether to hide the loading icon in remote search                                                                          | ^[boolean]                                                                                | false        |
-| popper-class                         | custom class name for autocomplete's dropdown                                                                              | ^[string]                                                                                 | —            |
+| popper-class                         | custom class name for autocomplete's dropdown                                                                              | ^[string] / ^[object]                                                                     | ''           |
+| popper-style ^(2.11.4)               | custom style for autocomplete's dropdown                                                                                   | ^[string] / ^[object]                                                                     | —            |
 | teleported                           | whether select dropdown is teleported to the body                                                                          | ^[boolean]                                                                                | true         |
 | append-to ^(2.9.9)                   | which select dropdown appends to                                                                                           | ^[CSSSelector] / ^[HTMLElement]                                                           | —            |
 | highlight-first-item                 | whether to highlight first item in remote search suggestions by default                                                    | ^[boolean]                                                                                | false        |
 | fit-input-width                      | whether the width of the dropdown is the same as the input                                                                 | ^[boolean]                                                                                | false        |
 | popper-append-to-body ^(deprecated)  | whether to append the dropdown to body. If the positioning of the dropdown is wrong, you can try to set this prop to false | ^[boolean]                                                                                | false        |
+| loop-navigation ^(2.11.4)            | whether keyboard navigation loops from end to start                                                                        | ^[boolean]                                                                                | true         |
 | [input props](./input.md#attributes) | —                                                                                                                          | —                                                                                         | —            |
 
 ### Events
@@ -5250,8 +5252,8 @@ You can customize both the header and footer of the dropdown using slots.
 | filter-method                              | customize search logic, the first parameter is `node`, the second is `keyword`, and need return a boolean value indicating whether it hits.                                      | ^[Function]`(node: CascaderNode, keyword: string) => boolean`                                                                                                               | —            |
 | debounce                                   | debounce delay when typing filter keyword, in milliseconds                                                                                                                       | ^[number]                                                                                                                                                                   | 300          |
 | before-filter                              | hook function before filtering with the value to be filtered as its parameter. If `false` is returned or a `Promise` is returned and then is rejected, filtering will be aborted | ^[Function]`(value: string) => boolean`                                                                                                                                     | —            |
-| popper-class                               | custom class name for Cascader's dropdown                                                                                                                                        | ^[string]                                                                                                                                                                   | ''           |
-| popper-style                               | custom style for Cascader's dropdown                                                                                                                                             | ^[string] / ^[object]                                                                                                                                                       | —            |
+| popper-class                               | custom class name for Cascader's dropdown and tags' tooltip                                                                                                                      | ^[string]                                                                                                                                                                   | ''           |
+| popper-style                               | custom style for Cascader's dropdown and tags' tooltip                                                                                                                           | ^[string] / ^[object]                                                                                                                                                       | —            |
 | teleported                                 | whether cascader popup is teleported                                                                                                                                             | ^[boolean]                                                                                                                                                                  | true         |
 | effect ^(2.10.5)                           | tooltip theme, built-in theme: `dark` / `light`                                                                                                                                  | ^[enum]`'dark' \| 'light'` / ^[string]                                                                                                                                      | light        |
 | tag-type                                   | tag type                                                                                                                                                                         | ^[enum]`'success' \| 'info' \| 'warning' \| 'danger'`                                                                                                                       | info         |
@@ -9713,10 +9715,11 @@ The `disabled` attribute determines if the color picker is fully disabled.
 
 ### Exposes
 
-| Name     | Description          | Type                     |
-| -------- | -------------------- | ------------------------ |
-| color    | current color object | ^[object]`Color`         |
-| inputRef | custom input ref     | ^[object]`InputInstance` |
+| Name             | Description           | Type                     |
+| ---------------- | --------------------- | ------------------------ |
+| color            | current color object  | ^[object]`Color`         |
+| inputRef         | custom input ref      | ^[object]`InputInstance` |
+| update ^(2.11.4) | update sub components | ^[Function]`() => void`  |
 
 ## Vue Examples
 
@@ -9882,7 +9885,8 @@ ColorPicker is a color selector supporting multiple color formats.
 | size                        | size of ColorPicker                                                                                            | ^[enum]`'large' \| 'default' \| 'small'`                                                                         | —       |
 | show-alpha                  | whether to display the alpha slider                                                                            | ^[boolean]                                                                                                       | false   |
 | color-format                | color format of v-model                                                                                        | ^[enum]`'hsl' \| 'hsv' \| 'hex' \| 'rgb' \| 'hex' (when show-alpha is false) \| 'rgb' (when show-alpha is true)` | —       |
-| popper-class                | custom class name for ColorPicker's dropdown                                                                   | ^[string]                                                                                                        | —       |
+| popper-class                | custom class name for ColorPicker's dropdown                                                                   | ^[string]                                                                                                        | ''      |
+| popper-style ^(2.11.4)      | custom style for ColorPicker's dropdown                                                                        | ^[string] / ^[object]                                                                                            | —       |
 | predefine                   | predefined color options                                                                                       | ^[object]`string[]`                                                                                              | —       |
 | validate-event              | whether to trigger form validation                                                                             | ^[boolean]                                                                                                       | true    |
 | tabindex                    | ColorPicker tabindex                                                                                           | ^[string] / ^[number]                                                                                            | 0       |
@@ -10679,8 +10683,8 @@ const open = () => {
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
-import en from 'element-plus/dist/locale/en.mjs'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
+import en from 'element-plus/es/locale/lang/en'
 
 const language = ref('zh-cn')
 const locale = computed(() => (language.value === 'zh-cn' ? zhCn : en))
@@ -11388,43 +11392,44 @@ Note, date time locale (month name, first day of the week ...) are also configur
 
 ### Attributes
 
-| Name                         | Description                                                                                                                  | Type                                                                                                                                                           | Default       |
-| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
-| model-value / v-model        | binding value, if it is an array, the length should be 2                                                                     | ^[number] / ^[string] / ^[object]`Date \| [Date, Date] \| [string, string]`                                                                                    | ''            |
-| readonly                     | whether DatePicker is read only                                                                                              | ^[boolean]                                                                                                                                                     | false         |
-| disabled                     | whether DatePicker is disabled                                                                                               | ^[boolean]                                                                                                                                                     | false         |
-| size                         | size of Input                                                                                                                | ^[enum]`'' \| 'large' \| 'default' \| 'small'`                                                                                                                 | —             |
-| editable                     | whether the input is editable                                                                                                | ^[boolean]                                                                                                                                                     | true          |
-| clearable                    | whether to show clear button                                                                                                 | ^[boolean]                                                                                                                                                     | true          |
-| placeholder                  | placeholder in non-range mode                                                                                                | ^[string]                                                                                                                                                      | ''            |
-| start-placeholder            | placeholder for the start date in range mode                                                                                 | ^[string]                                                                                                                                                      | —             |
-| end-placeholder              | placeholder for the end date in range mode                                                                                   | ^[string]                                                                                                                                                      | —             |
-| type                         | type of the picker                                                                                                           | ^[enum]`'year' \| 'years' \|'month' \| 'months' \| 'date' \| 'dates' \| 'datetime' \| 'week' \| 'datetimerange' \| 'daterange' \| 'monthrange' \| 'yearrange'` | date          |
-| format                       | format of the displayed value in the input box                                                                               | ^[string] see [date formats](/en-US/component/date-picker#date-formats)                                                                                        | YYYY-MM-DD    |
-| popper-class                 | custom class name for DatePicker's dropdown                                                                                  | ^[string]                                                                                                                                                      | —             |
-| popper-style                 | custom style for DatePicker's dropdown                                                                                       | ^[string] / ^[object]                                                                                                                                          | —             |
-| popper-options               | Customized popper option see more at [popper.js](https://popper.js.org/docs/v2/)                                             | ^[object]`Partial<PopperOptions>`                                                                                                                              | {}            |
-| range-separator              | range separator                                                                                                              | ^[string]                                                                                                                                                      | '-'           |
-| default-value                | optional, default date of the calendar                                                                                       | ^[object]`Date \| [Date, Date]`                                                                                                                                | —             |
-| default-time                 | optional, the time value to use when selecting date range                                                                    | ^[object]`Date \| [Date, Date]`                                                                                                                                | —             |
-| value-format                 | optional, format of binding value. If not specified, the binding value will be a Date object                                 | ^[string] see [date formats](/en-US/component/date-picker#date-formats)                                                                                        | —             |
-| id                           | same as `id` in native input                                                                                                 | ^[string] / ^[object]`[string, string]`                                                                                                                        | —             |
-| name                         | same as `name` in native input                                                                                               | ^[string] / ^[object]`[string, string]`                                                                                                                        | ''            |
-| unlink-panels                | unlink two date-panels in range-picker                                                                                       | ^[boolean]                                                                                                                                                     | false         |
-| prefix-icon                  | custom prefix icon component. By default, if the value of `type` is `TimeLikeType`, the value is `Clock`, else is `Calendar` | ^[string] / ^[object]`Component`                                                                                                                               | ''            |
-| clear-icon                   | custom clear icon component                                                                                                  | ^[string] / ^[object]`Component`                                                                                                                               | `CircleClose` |
-| validate-event               | whether to trigger form validation                                                                                           | ^[boolean]                                                                                                                                                     | true          |
-| disabled-date                | a function determining if a date is disabled with that date as its parameter. Should return a Boolean                        | ^[Function]`(data: Date) => boolean`                                                                                                                           | —             |
-| shortcuts                    | an object array to set shortcut options                                                                                      | ^[object]`Array<{ text: string, value: Date \| Function }>`                                                                                                    | []            |
-| cell-class-name              | set custom className                                                                                                         | ^[Function]`(data: Date) => string`                                                                                                                            | —             |
-| teleported                   | whether date-picker dropdown is teleported to the body                                                                       | ^[boolean]                                                                                                                                                     | true          |
-| empty-values ^(2.7.0)        | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations)               | ^[array]                                                                                                                                                       | —             |
-| value-on-clear ^(2.7.0)      | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)                      | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                                                                               | —             |
-| fallback-placements ^(2.8.4) | list of possible positions for Tooltip [popper.js](https://popper.js.org/docs/v2/modifiers/flip/#fallbackplacements)         | ^[array]`Placement[]`                                                                                                                                          | —             |
-| placement ^(2.8.4)           | position of dropdown                                                                                                         | `Placement`                                                                                                                                                    | bottom        |
-| show-footer ^(2.10.5)        | whether to show footer where the date picker is one ^[enum]`'dates' \| 'months' \| 'years' \| 'datetime' \| 'datetimerange'` | ^[boolean]                                                                                                                                                     | true          |
-| show-confirm ^(2.11.0)       | whether to show the confirm button                                                                                           | ^[boolean]                                                                                                                                                     | true          |
-| show-week-number ^(2.10.3)   | show the week number besides the week                                                                                        | `boolean`                                                                                                                                                      | false         |
+| Name                         | Description                                                                                                                           | Type                                                                                                                                                           | Default                            |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
+| model-value / v-model        | binding value, if it is an array, the length should be 2                                                                              | ^[number] / ^[string] / ^[object]`Date \| [Date, Date] \| [string, string]`                                                                                    | ''                                 |
+| readonly                     | whether DatePicker is read only                                                                                                       | ^[boolean]                                                                                                                                                     | false                              |
+| disabled                     | whether DatePicker is disabled                                                                                                        | ^[boolean]                                                                                                                                                     | false                              |
+| size                         | size of Input                                                                                                                         | ^[enum]`'' \| 'large' \| 'default' \| 'small'`                                                                                                                 | —                                  |
+| editable                     | whether the input is editable                                                                                                         | ^[boolean]                                                                                                                                                     | true                               |
+| clearable                    | whether to show clear button                                                                                                          | ^[boolean]                                                                                                                                                     | true                               |
+| placeholder                  | placeholder in non-range mode                                                                                                         | ^[string]                                                                                                                                                      | ''                                 |
+| start-placeholder            | placeholder for the start date in range mode                                                                                          | ^[string]                                                                                                                                                      | —                                  |
+| end-placeholder              | placeholder for the end date in range mode                                                                                            | ^[string]                                                                                                                                                      | —                                  |
+| type                         | type of the picker                                                                                                                    | ^[enum]`'year' \| 'years' \|'month' \| 'months' \| 'date' \| 'dates' \| 'datetime' \| 'week' \| 'datetimerange' \| 'daterange' \| 'monthrange' \| 'yearrange'` | date                               |
+| format                       | format of the displayed value in the input box                                                                                        | ^[string] see [date formats](/en-US/component/date-picker#date-formats)                                                                                        | YYYY-MM-DD                         |
+| popper-class                 | custom class name for DatePicker's dropdown                                                                                           | ^[string]                                                                                                                                                      | —                                  |
+| popper-style                 | custom style for DatePicker's dropdown                                                                                                | ^[string] / ^[object]                                                                                                                                          | —                                  |
+| popper-options               | Customized popper option see more at [popper.js](https://popper.js.org/docs/v2/)                                                      | ^[object]`Partial<PopperOptions>`                                                                                                                              | {}                                 |
+| range-separator              | range separator                                                                                                                       | ^[string]                                                                                                                                                      | '-'                                |
+| default-value                | optional, default date of the calendar                                                                                                | ^[object]`Date \| [Date, Date]`                                                                                                                                | —                                  |
+| default-time                 | optional, the time value to use when selecting date range                                                                             | ^[object]`Date \| [Date, Date]`                                                                                                                                | —                                  |
+| value-format                 | optional, format of binding value. If not specified, the binding value will be a Date object                                          | ^[string] see [date formats](/en-US/component/date-picker#date-formats)                                                                                        | —                                  |
+| id                           | same as `id` in native input                                                                                                          | ^[string] / ^[object]`[string, string]`                                                                                                                        | —                                  |
+| name                         | same as `name` in native input                                                                                                        | ^[string] / ^[object]`[string, string]`                                                                                                                        | ''                                 |
+| unlink-panels                | unlink two date-panels in range-picker                                                                                                | ^[boolean]                                                                                                                                                     | false                              |
+| prefix-icon                  | custom prefix icon component. By default, if the value of `type` is `TimeLikeType`, the value is `Clock`, else is `Calendar`          | ^[string] / ^[object]`Component`                                                                                                                               | ''                                 |
+| clear-icon                   | custom clear icon component                                                                                                           | ^[string] / ^[object]`Component`                                                                                                                               | `CircleClose`                      |
+| validate-event               | whether to trigger form validation                                                                                                    | ^[boolean]                                                                                                                                                     | true                               |
+| disabled-date                | a function determining if a date is disabled with that date as its parameter. Should return a Boolean                                 | ^[Function]`(data: Date) => boolean`                                                                                                                           | —                                  |
+| shortcuts                    | an object array to set shortcut options                                                                                               | ^[object]`Array<{ text: string, value: Date \| Function }>`                                                                                                    | []                                 |
+| cell-class-name              | set custom className                                                                                                                  | ^[Function]`(data: Date) => string`                                                                                                                            | —                                  |
+| teleported                   | whether date-picker dropdown is teleported to the body                                                                                | ^[boolean]                                                                                                                                                     | true                               |
+| empty-values ^(2.7.0)        | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations)                        | ^[array]                                                                                                                                                       | —                                  |
+| value-on-clear ^(2.7.0)      | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)                               | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                                                                               | —                                  |
+| fallback-placements ^(2.8.4) | list of possible positions for Tooltip [popper.js](https://popper.js.org/docs/v2/modifiers/flip/#fallbackplacements)                  | ^[array]`Placement[]`                                                                                                                                          | ['bottom', 'top', 'right', 'left'] |
+| placement ^(2.8.4)           | position of dropdown                                                                                                                  | `Placement`                                                                                                                                                    | bottom                             |
+| show-footer ^(2.10.5)        | whether to show footer                                                                                                                | ^[boolean]                                                                                                                                                     | true                               |
+| show-confirm ^(2.11.0)       | whether to show the confirm button                                                                                                    | ^[boolean]                                                                                                                                                     | true                               |
+| show-week-number ^(2.10.3)   | show the week number besides the week                                                                                                 | ^[boolean]                                                                                                                                                     | false                              |
+| automatic-dropdown ^(2.11.4) | this prop decides if the date picker panel pops up when the input is focused. (The default value will be set to false in version 3.0) | ^[boolean]                                                                                                                                                     | true                               |
 
 ### Events
 
@@ -12813,46 +12818,49 @@ Custom icons available with slots.
 
 ### Attributes
 
-| Name                       | Description                                                                                                    | Type                                                                                           | Default             |
-| -------------------------- | -------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ------------------- |
-| model-value / v-model      | binding value, if it is an array, the length should be 2                                                       | ^[number] / ^[string] / ^[object]`Date \| [Date, Date] \| [string, string]`                    | —                   |
-| readonly                   | whether DatePicker is read only                                                                                | ^[boolean]                                                                                     | false               |
-| disabled                   | whether DatePicker is disabled                                                                                 | ^[boolean]                                                                                     | false               |
-| editable                   | whether the input is editable                                                                                  | ^[boolean]                                                                                     | true                |
-| clearable                  | whether to show clear button                                                                                   | ^[boolean]                                                                                     | true                |
-| size                       | size of Input                                                                                                  | ^[enum]`'large' \| 'default' \| 'small'`                                                       | default             |
-| placeholder                | placeholder in non-range mode                                                                                  | ^[string]                                                                                      | —                   |
-| start-placeholder          | placeholder for the start date in range mode                                                                   | ^[string]                                                                                      | —                   |
-| end-placeholder            | placeholder for the end date in range mode                                                                     | ^[string]                                                                                      | —                   |
-| arrow-control              | whether to pick time using arrow buttons                                                                       | ^[boolean]                                                                                     | false               |
-| type                       | type of the picker                                                                                             | ^[enum]`'year' \| 'month' \| 'date' \| 'datetime' \| 'week' \| 'datetimerange' \| 'daterange'` | date                |
-| format                     | format of the displayed value in the input box                                                                 | ^[string] see [date formats](/en-US/component/date-picker#date-formats)                        | YYYY-MM-DD HH:mm:ss |
-| popper-class               | custom class name for DateTimePicker's dropdown                                                                | ^[string]                                                                                      | —                   |
-| popper-style               | custom style for DateTimePicker's dropdown                                                                     | ^[string] / ^[object]                                                                          | —                   |
-| range-separator            | range separator                                                                                                | ^[string]                                                                                      | '-'                 |
-| default-value              | optional, default date of the calendar                                                                         | ^[object]`Date \| [Date, Date]`                                                                | —                   |
-| default-time               | the default time value after picking a date. Time `00:00:00` will be used if not specified                     | ^[object]`Date \| [Date, Date]`                                                                | —                   |
-| value-format               | optional, format of binding value. If not specified, the binding value will be a Date object                   | ^[string] see [date formats](https://day.js.org/docs/en/display/format)                        | —                   |
-| date-format ^(2.4.0)       | optional, format of the date displayed in input's inner panel                                                  | ^[string] see [date formats](https://day.js.org/docs/en/display/format)                        | YYYY-MM-DD          |
-| time-format ^(2.4.0)       | optional, format of the time displayed in input's inner panel                                                  | ^[string] see [date formats](https://day.js.org/docs/en/display/format)                        | HH:mm:ss            |
-| id                         | same as `id` in native input                                                                                   | ^[string] / ^[object]`[string, string]`                                                        | —                   |
-| name                       | same as `name` in native input                                                                                 | ^[string]                                                                                      | —                   |
-| unlink-panels              | unlink two date-panels in range-picker                                                                         | ^[boolean]                                                                                     | false               |
-| prefix-icon                | Custom prefix icon component                                                                                   | ^[string] / `Component`                                                                        | Date                |
-| clear-icon                 | Custom clear icon component                                                                                    | ^[string] / `Component`                                                                        | CircleClose         |
-| shortcuts                  | an object array to set shortcut options                                                                        | ^[object]`Array<{ text: string, value: Date \| Function }>`                                    | —                   |
-| disabled-date              | a function determining if a date is disabled with that date as its parameter. Should return a Boolean          | ^[Function]`(data: Date) => boolean`                                                           | —                   |
-| disabled-hours             | To specify the array of hours that cannot be selected                                                          | ^[Function]`(role: string, comparingDate?: Dayjs) => number[]`                                 | —                   |
-| disabled-minutes           | To specify the array of minutes that cannot be selected                                                        | ^[Function]`(hour: number, role: string, comparingDate?: Dayjs) => number[]`                   | —                   |
-| disabled-seconds           | To specify the array of seconds that cannot be selected                                                        | ^[Function]`(hour: number, minute: number, role: string, comparingDate?: Dayjs) => number[]`   | —                   |
-| cell-class-name            | set custom className                                                                                           | ^[Function]`(data: Date) => string`                                                            | —                   |
-| teleported                 | whether datetime-picker dropdown is teleported to the body                                                     | ^[boolean]                                                                                     | true                |
-| empty-values ^(2.7.0)      | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations) | ^[array]                                                                                       | —                   |
-| value-on-clear ^(2.7.0)    | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)        | ^[string] / ^[number] / ^[boolean] / ^[Function]                                               | —                   |
-| show-now ^(2.8.7)          | whether to show the now button                                                                                 | ^[boolean]                                                                                     | true                |
-| show-footer ^(2.10.5)      | whether to show footer where the date picker is one ^[enum]`'datetime' \| 'datetimerange'`                     | ^[boolean]                                                                                     | true                |
-| show-confirm ^(2.11.0)     | whether to show the confirm button                                                                             | ^[boolean]                                                                                     | true                |
-| show-week-number ^(2.10.3) | show the week number besides the week                                                                          | `boolean`                                                                                      | false               |
+| Name                         | Description                                                                                                          | Type                                                                                           | Default                            |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------- |
+| model-value / v-model        | binding value, if it is an array, the length should be 2                                                             | ^[number] / ^[string] / ^[object]`Date \| [Date, Date] \| [string, string]`                    | —                                  |
+| readonly                     | whether DatePicker is read only                                                                                      | ^[boolean]                                                                                     | false                              |
+| disabled                     | whether DatePicker is disabled                                                                                       | ^[boolean]                                                                                     | false                              |
+| editable                     | whether the input is editable                                                                                        | ^[boolean]                                                                                     | true                               |
+| clearable                    | whether to show clear button                                                                                         | ^[boolean]                                                                                     | true                               |
+| size                         | size of Input                                                                                                        | ^[enum]`'large' \| 'default' \| 'small'`                                                       | default                            |
+| placeholder                  | placeholder in non-range mode                                                                                        | ^[string]                                                                                      | —                                  |
+| start-placeholder            | placeholder for the start date in range mode                                                                         | ^[string]                                                                                      | —                                  |
+| end-placeholder              | placeholder for the end date in range mode                                                                           | ^[string]                                                                                      | —                                  |
+| arrow-control                | whether to pick time using arrow buttons                                                                             | ^[boolean]                                                                                     | false                              |
+| type                         | type of the picker                                                                                                   | ^[enum]`'year' \| 'month' \| 'date' \| 'datetime' \| 'week' \| 'datetimerange' \| 'daterange'` | date                               |
+| format                       | format of the displayed value in the input box                                                                       | ^[string] see [date formats](/en-US/component/date-picker#date-formats)                        | YYYY-MM-DD HH:mm:ss                |
+| popper-class                 | custom class name for DateTimePicker's dropdown                                                                      | ^[string]                                                                                      | —                                  |
+| popper-style                 | custom style for DateTimePicker's dropdown                                                                           | ^[string] / ^[object]                                                                          | —                                  |
+| popper-options               | Customized popper option see more at [popper.js](https://popper.js.org/docs/v2/)                                     | ^[object]`Partial<PopperOptions>`                                                              | {}                                 |
+| fallback-placements ^(2.8.4) | list of possible positions for Tooltip [popper.js](https://popper.js.org/docs/v2/modifiers/flip/#fallbackplacements) | ^[array]`Placement[]`                                                                          | ['bottom', 'top', 'right', 'left'] |
+| placement ^(2.8.4)           | position of dropdown                                                                                                 | `Placement`                                                                                    | bottom                             |
+| range-separator              | range separator                                                                                                      | ^[string]                                                                                      | '-'                                |
+| default-value                | optional, default date of the calendar                                                                               | ^[object]`Date \| [Date, Date]`                                                                | —                                  |
+| default-time                 | the default time value after picking a date. Time `00:00:00` will be used if not specified                           | ^[object]`Date \| [Date, Date]`                                                                | —                                  |
+| value-format                 | optional, format of binding value. If not specified, the binding value will be a Date object                         | ^[string] see [date formats](https://day.js.org/docs/en/display/format)                        | —                                  |
+| date-format ^(2.4.0)         | optional, format of the date displayed in input's inner panel                                                        | ^[string] see [date formats](https://day.js.org/docs/en/display/format)                        | YYYY-MM-DD                         |
+| time-format ^(2.4.0)         | optional, format of the time displayed in input's inner panel                                                        | ^[string] see [date formats](https://day.js.org/docs/en/display/format)                        | HH:mm:ss                           |
+| id                           | same as `id` in native input                                                                                         | ^[string] / ^[object]`[string, string]`                                                        | —                                  |
+| name                         | same as `name` in native input                                                                                       | ^[string]                                                                                      | —                                  |
+| unlink-panels                | unlink two date-panels in range-picker                                                                               | ^[boolean]                                                                                     | false                              |
+| prefix-icon                  | Custom prefix icon component                                                                                         | ^[string] / `Component`                                                                        | Date                               |
+| clear-icon                   | Custom clear icon component                                                                                          | ^[string] / `Component`                                                                        | CircleClose                        |
+| shortcuts                    | an object array to set shortcut options                                                                              | ^[object]`Array<{ text: string, value: Date \| Function }>`                                    | —                                  |
+| disabled-date                | a function determining if a date is disabled with that date as its parameter. Should return a Boolean                | ^[Function]`(data: Date) => boolean`                                                           | —                                  |
+| disabled-hours               | To specify the array of hours that cannot be selected                                                                | ^[Function]`(role: string, comparingDate?: Dayjs) => number[]`                                 | —                                  |
+| disabled-minutes             | To specify the array of minutes that cannot be selected                                                              | ^[Function]`(hour: number, role: string, comparingDate?: Dayjs) => number[]`                   | —                                  |
+| disabled-seconds             | To specify the array of seconds that cannot be selected                                                              | ^[Function]`(hour: number, minute: number, role: string, comparingDate?: Dayjs) => number[]`   | —                                  |
+| cell-class-name              | set custom className                                                                                                 | ^[Function]`(data: Date) => string`                                                            | —                                  |
+| teleported                   | whether datetime-picker dropdown is teleported to the body                                                           | ^[boolean]                                                                                     | true                               |
+| empty-values ^(2.7.0)        | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations)       | ^[array]                                                                                       | —                                  |
+| value-on-clear ^(2.7.0)      | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)              | ^[string] / ^[number] / ^[boolean] / ^[Function]                                               | —                                  |
+| show-now ^(2.8.7)            | whether to show the now button                                                                                       | ^[boolean]                                                                                     | true                               |
+| show-footer ^(2.10.5)        | whether to show footer where the date picker is one ^[enum]`'datetime' \| 'datetimerange'`                           | ^[boolean]                                                                                     | true                               |
+| show-confirm ^(2.11.0)       | whether to show the confirm button                                                                                   | ^[boolean]                                                                                     | true                               |
+| show-week-number ^(2.10.3)   | show the week number besides the week                                                                                | `boolean`                                                                                      | false                              |
 
 ### Events
 
@@ -12883,6 +12891,29 @@ Custom icons available with slots.
 | ------------- | ------------------------------ | ----------------------- |
 | focus         | focus the DatePicker component | ^[Function]`() => void` |
 | blur ^(2.8.7) | blur the DatePicker component  | ^[Function]`() => void` |
+
+## Type Declarations
+
+<details>
+  <summary>Show declarations</summary>
+
+```ts
+type Placement =
+  | 'top'
+  | 'top-start'
+  | 'top-end'
+  | 'bottom'
+  | 'bottom-start'
+  | 'bottom-end'
+  | 'left'
+  | 'left-start'
+  | 'left-end'
+  | 'right'
+  | 'right-start'
+  | 'right-end'
+```
+
+</details>
 
 ## Vue Examples
 
@@ -20193,20 +20224,20 @@ ElLoading.service({}, appContext)
 
 ### Options
 
-| Name                 | Description                                                                                                                                                              | Type                       | Default       |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------- | ------------- |
-| target               | the DOM node Loading needs to cover. Accepts a DOM object or a string. If it's a string, it will be passed to `document.querySelector` to get the corresponding DOM node | ^[string] / ^[HTMLElement] | document.body |
-| body                 | same as the `body` modifier of `v-loading`                                                                                                                               | ^[boolean]                 | false         |
-| fullscreen           | same as the `fullscreen` modifier of `v-loading`                                                                                                                         | ^[boolean]                 | true          |
-| lock                 | same as the `lock` modifier of `v-loading`                                                                                                                               | ^[boolean]                 | false         |
-| text                 | loading text that displays under the spinner                                                                                                                             | ^[string]                  | —             |
-| spinner              | class name of the custom spinner                                                                                                                                         | ^[string]                  | —             |
-| background           | background color of the mask                                                                                                                                             | ^[string]                  | —             |
-| customClass          | custom class name for loading                                                                                                                                            | ^[string]                  | —             |
-| svg                  | custom SVG element to override the default loading spinner                                                                                                               | ^[string]                  | —             |
-| svgViewBox           | sets the viewBox attribute for loading svg element                                                                                                                       | ^[string]                  | —             |
-| beforeClose ^(2.7.8) | Function executed before loading attempts to close. If this function returns false, the closing process will be aborted. Otherwise, the loading will close.              | ^[Function]`() => boolean` | —             |
-| closed ^(2.7.8)      | Function triggered after loading has completely closed                                                                                                                   | ^[Function]`() => void`    | —             |
+| Name                 | Description                                                                                                                                                              | Type                                     | Default       |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------- | ------------- |
+| target               | the DOM node Loading needs to cover. Accepts a DOM object or a string. If it's a string, it will be passed to `document.querySelector` to get the corresponding DOM node | ^[string] / ^[HTMLElement]               | document.body |
+| body                 | same as the `body` modifier of `v-loading`                                                                                                                               | ^[boolean]                               | false         |
+| fullscreen           | same as the `fullscreen` modifier of `v-loading`                                                                                                                         | ^[boolean]                               | true          |
+| lock                 | same as the `lock` modifier of `v-loading`                                                                                                                               | ^[boolean]                               | false         |
+| text                 | loading text that displays under the spinner                                                                                                                             | ^[string] / ^[VNode] / ^[array]`VNode[]` | —             |
+| spinner              | class name of the custom spinner                                                                                                                                         | ^[string]                                | —             |
+| background           | background color of the mask                                                                                                                                             | ^[string]                                | —             |
+| customClass          | custom class name for loading                                                                                                                                            | ^[string]                                | —             |
+| svg                  | custom SVG element to override the default loading spinner                                                                                                               | ^[string]                                | —             |
+| svgViewBox           | sets the viewBox attribute for loading svg element                                                                                                                       | ^[string]                                | —             |
+| beforeClose ^(2.7.8) | Function executed before loading attempts to close. If this function returns false, the closing process will be aborted. Otherwise, the loading will close.              | ^[Function]`() => boolean`               | —             |
+| closed ^(2.7.8)      | Function triggered after loading has completely closed                                                                                                                   | ^[Function]`() => void`                  | —             |
 
 ### Directives
 
@@ -21551,6 +21582,7 @@ The corresponding methods are: `ElMessageBox`, `ElMessageBox.alert`, `ElMessageB
 | closeIcon ^(2.9.5)                | custom close icon component, default is Close                                                                                            | ^[string] / ^[Component]                                                           | ''                                               |
 | customClass                       | custom class name for MessageBox                                                                                                         | ^[string]                                                                          | ''                                               |
 | customStyle                       | custom inline style for MessageBox                                                                                                       | ^[CSSProperties]                                                                   | {}                                               |
+| modal                             | whether a mask is displayed                                                                                                              | ^[boolean]                                                                         | true                                             |
 | modalClass                        | custom class names for mask                                                                                                              | string                                                                             | —                                                |
 | callback                          | MessageBox closing callback if you don't prefer Promise                                                                                  | ^[Function]`(value: string, action: Action) => any \| (action: Action) => any`     | null                                             |
 | showClose                         | whether to show close icon of MessageBox                                                                                                 | ^[boolean]                                                                         | true                                             |
@@ -23407,22 +23439,23 @@ Click the button to trigger the event
 
 ### Attributes
 
-| Name                            | Description                                                                         | Type                                                                         | Default        |
-| ------------------------------- | ----------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | -------------- |
-| title                           | Title                                                                               | ^[string]                                                                    | —              |
-| effect ^(2.11.2)                | Tooltip theme, built-in theme: `dark` / `light`                                     | ^[enum]`'dark' \| 'light'` / ^[string]                                       | light          |
-| close-on-press-escape ^(2.11.2) | whether the popConfirm can be closed by pressing ESC                                | ^[boolean]                                                                   | true           |
-| confirm-button-text             | Confirm button text                                                                 | ^[string]                                                                    | —              |
-| cancel-button-text              | Cancel button text                                                                  | ^[string]                                                                    | —              |
-| confirm-button-type             | Confirm button type                                                                 | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'text'` | primary        |
-| cancel-button-type              | Cancel button type                                                                  | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'text'` | text           |
-| icon                            | Icon Component                                                                      | ^[string] / ^[Component]                                                     | QuestionFilled |
-| icon-color                      | Icon color                                                                          | ^[string]                                                                    | #f90           |
-| hide-icon                       | is hide Icon                                                                        | ^[boolean]                                                                   | false          |
-| hide-after                      | delay of disappear, in millisecond                                                  | ^[number]                                                                    | 200            |
-| teleported                      | whether popconfirm is teleported to the body                                        | ^[boolean]                                                                   | true           |
-| persistent                      | when popconfirm inactive and `persistent` is `false` , popconfirm will be destroyed | ^[boolean]                                                                   | false          |
-| width                           | popconfirm width, min width 150px                                                   | ^[string] / ^[number]                                                        | 150            |
+| Name                               | Description                                                                                         | Type                                                                         | Default        |
+| ---------------------------------- | --------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | -------------- |
+| title                              | Title                                                                                               | ^[string]                                                                    | —              |
+| effect ^(2.11.2)                   | Tooltip theme, built-in theme: `dark` / `light`                                                     | ^[enum]`'dark' \| 'light'` / ^[string]                                       | light          |
+| close-on-press-escape ^(2.11.2)    | whether the popConfirm can be closed by pressing ESC                                                | ^[boolean]                                                                   | true           |
+| confirm-button-text                | Confirm button text                                                                                 | ^[string]                                                                    | —              |
+| cancel-button-text                 | Cancel button text                                                                                  | ^[string]                                                                    | —              |
+| confirm-button-type                | Confirm button type                                                                                 | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'text'` | primary        |
+| cancel-button-type                 | Cancel button type                                                                                  | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'text'` | text           |
+| icon                               | Icon Component                                                                                      | ^[string] / ^[Component]                                                     | QuestionFilled |
+| icon-color                         | Icon color                                                                                          | ^[string]                                                                    | #f90           |
+| hide-icon                          | is hide Icon                                                                                        | ^[boolean]                                                                   | false          |
+| hide-after                         | delay of disappear, in millisecond                                                                  | ^[number]                                                                    | 200            |
+| teleported                         | whether popconfirm is teleported to the body                                                        | ^[boolean]                                                                   | true           |
+| persistent                         | when popconfirm inactive and `persistent` is `false` , popconfirm will be destroyed                 | ^[boolean]                                                                   | false          |
+| width                              | popconfirm width, min width 150px                                                                   | ^[string] / ^[number]                                                        | 150            |
+| [tooltip](./tooltip.md#attributes) | Inherits all attributes from Tooltip, except: `popper-class`, `popper-style`, `fallback-placements` | —                                                                            | —              |
 
 ### Events
 
@@ -23724,32 +23757,33 @@ complicated, you may refer to the virtual triggering for more information.
 
 ### Attributes
 
-| Name                      | Description                                                                                                                                                              | Type                                                                                                                                                                        | Default                                                                    |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| trigger                   | how the popover is triggered                                                                                                                                             | ^[enum]`'click' \| 'focus' \| 'hover' \| 'contextmenu'`                                                                                                                     | hover                                                                      |
-| trigger-keys ^(2.9.8)     | When you click the mouse to focus on the trigger element, you can define a set of keyboard codes to control the display of popover through the keyboard                  | ^[Array]                                                                                                                                                                    | ['Enter','Space']                                                          |
-| title                     | popover title                                                                                                                                                            | ^[string]                                                                                                                                                                   | —                                                                          |
-| effect                    | Tooltip theme, built-in theme: `dark` / `light`                                                                                                                          | ^[enum]`'dark' \| 'light'` / ^[string]                                                                                                                                      | light                                                                      |
-| content                   | popover content, can be replaced with a default `slot`                                                                                                                   | ^[string]                                                                                                                                                                   | ''                                                                         |
-| width                     | popover width                                                                                                                                                            | ^[string] / ^[number]                                                                                                                                                       | 150                                                                        |
-| placement                 | popover placement                                                                                                                                                        | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | bottom                                                                     |
-| disabled                  | whether Popover is disabled                                                                                                                                              | ^[boolean]                                                                                                                                                                  | false                                                                      |
-| visible / v-model:visible | whether popover is visible                                                                                                                                               | ^[boolean] / ^[null]                                                                                                                                                        | null                                                                       |
-| offset                    | popover offset, `Popover` is built with `Tooltip`, offset of `Popover` is `undefined`, but offset of `Tooltip` is 12                                                     | ^[number]                                                                                                                                                                   | undefined                                                                  |
-| transition                | popover transition animation, the default is el-fade-in-linear                                                                                                           | ^[string]                                                                                                                                                                   | —                                                                          |
-| show-arrow                | whether a tooltip arrow is displayed or not. For more info, please refer to [ElPopper](https://github.com/element-plus/element-plus/tree/dev/packages/components/popper) | ^[boolean]                                                                                                                                                                  | true                                                                       |
-| popper-options            | parameters for [popper.js](https://popper.js.org/docs/v2/)                                                                                                               | ^[object]                                                                                                                                                                   | `{modifiers: [{name: 'computeStyles',options: {gpuAcceleration: false}}]}` |
-| popper-class              | custom class name for popover                                                                                                                                            | ^[string]                                                                                                                                                                   | —                                                                          |
-| popper-style              | custom style for popover                                                                                                                                                 | ^[string] / ^[object]                                                                                                                                                       | —                                                                          |
-| show-after                | delay of appearance, in millisecond                                                                                                                                      | ^[number]                                                                                                                                                                   | 0                                                                          |
-| hide-after                | delay of disappear, in millisecond                                                                                                                                       | ^[number]                                                                                                                                                                   | 200                                                                        |
-| auto-close                | timeout in milliseconds to hide tooltip                                                                                                                                  | ^[number]                                                                                                                                                                   | 0                                                                          |
-| tabindex                  | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) of Popover                                                                      | ^[number] / ^[string]                                                                                                                                                       | 0                                                                          |
-| teleported                | whether popover dropdown is teleported to the body                                                                                                                       | ^[boolean]                                                                                                                                                                  | true                                                                       |
-| append-to ^(2.9.10)       | which element the popover CONTENT appends to                                                                                                                             | ^[CSSSelector] / ^[HTMLElement]                                                                                                                                             | body                                                                       |
-| persistent                | when popover inactive and `persistent` is `false` , popover will be destroyed                                                                                            | ^[boolean]                                                                                                                                                                  | true                                                                       |
-| virtual-triggering        | Indicates whether virtual triggering is enabled                                                                                                                          | ^[boolean]                                                                                                                                                                  | —                                                                          |
-| virtual-ref               | Indicates the reference element to which the popover is attached                                                                                                         | ^[HTMLElement]                                                                                                                                                              | —                                                                          |
+| Name                               | Description                                                                                                                                                              | Type                                                                                                                                                                        | Default                                                                    |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| trigger                            | how the popover is triggered                                                                                                                                             | ^[enum]`'click' \| 'focus' \| 'hover' \| 'contextmenu'`                                                                                                                     | hover                                                                      |
+| trigger-keys ^(2.9.8)              | When you click the mouse to focus on the trigger element, you can define a set of keyboard codes to control the display of popover through the keyboard                  | ^[Array]                                                                                                                                                                    | ['Enter','Space']                                                          |
+| title                              | popover title                                                                                                                                                            | ^[string]                                                                                                                                                                   | —                                                                          |
+| effect                             | Tooltip theme, built-in theme: `dark` / `light`                                                                                                                          | ^[enum]`'dark' \| 'light'` / ^[string]                                                                                                                                      | light                                                                      |
+| content                            | popover content, can be replaced with a default `slot`                                                                                                                   | ^[string]                                                                                                                                                                   | ''                                                                         |
+| width                              | popover width                                                                                                                                                            | ^[string] / ^[number]                                                                                                                                                       | 150                                                                        |
+| placement                          | popover placement                                                                                                                                                        | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | bottom                                                                     |
+| disabled                           | whether Popover is disabled                                                                                                                                              | ^[boolean]                                                                                                                                                                  | false                                                                      |
+| visible / v-model:visible          | whether popover is visible                                                                                                                                               | ^[boolean] / ^[null]                                                                                                                                                        | null                                                                       |
+| offset                             | popover offset, `Popover` is built with `Tooltip`, offset of `Popover` is `undefined`, but offset of `Tooltip` is 12                                                     | ^[number]                                                                                                                                                                   | undefined                                                                  |
+| transition                         | popover transition animation, the default is el-fade-in-linear                                                                                                           | ^[string]                                                                                                                                                                   | —                                                                          |
+| show-arrow                         | whether a tooltip arrow is displayed or not. For more info, please refer to [ElPopper](https://github.com/element-plus/element-plus/tree/dev/packages/components/popper) | ^[boolean]                                                                                                                                                                  | true                                                                       |
+| popper-options                     | parameters for [popper.js](https://popper.js.org/docs/v2/)                                                                                                               | ^[object]                                                                                                                                                                   | `{modifiers: [{name: 'computeStyles',options: {gpuAcceleration: false}}]}` |
+| popper-class                       | custom class name for popover                                                                                                                                            | ^[string]                                                                                                                                                                   | —                                                                          |
+| popper-style                       | custom style for popover                                                                                                                                                 | ^[string] / ^[object]                                                                                                                                                       | —                                                                          |
+| show-after                         | delay of appearance, in millisecond                                                                                                                                      | ^[number]                                                                                                                                                                   | 0                                                                          |
+| hide-after                         | delay of disappear, in millisecond                                                                                                                                       | ^[number]                                                                                                                                                                   | 200                                                                        |
+| auto-close                         | timeout in milliseconds to hide tooltip                                                                                                                                  | ^[number]                                                                                                                                                                   | 0                                                                          |
+| tabindex                           | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) of Popover                                                                      | ^[number] / ^[string]                                                                                                                                                       | 0                                                                          |
+| teleported                         | whether popover dropdown is teleported to the body                                                                                                                       | ^[boolean]                                                                                                                                                                  | true                                                                       |
+| append-to ^(2.9.10)                | which element the popover CONTENT appends to                                                                                                                             | ^[CSSSelector] / ^[HTMLElement]                                                                                                                                             | body                                                                       |
+| persistent                         | when popover inactive and `persistent` is `false` , popover will be destroyed                                                                                            | ^[boolean]                                                                                                                                                                  | true                                                                       |
+| virtual-triggering                 | Indicates whether virtual triggering is enabled                                                                                                                          | ^[boolean]                                                                                                                                                                  | —                                                                          |
+| virtual-ref                        | Indicates the reference element to which the popover is attached                                                                                                         | ^[HTMLElement]                                                                                                                                                              | —                                                                          |
+| [tooltip](./tooltip.md#attributes) | Inherits all attributes from Tooltip                                                                                                                                     | —                                                                                                                                                                           | —                                                                          |
 
 ### Slots
 
@@ -26216,8 +26250,8 @@ The width of dropdown box is calculated by default based on the value of `label`
 | default-first-option                | select first matching option on enter key. Use with `filterable` or `remote`                                                             | ^[boolean]                                                                                                                                                                  | false                                          |
 | no-match-text                       | displayed text when no data matches the filtering query, you can also use slot `empty`, default is 'No matching data'                    | ^[string]                                                                                                                                                                   | —                                              |
 | no-data-text                        | displayed text when there is no options, you can also use slot empty                                                                     | ^[string]                                                                                                                                                                   | No Data                                        |
-| popper-class                        | custom class name for Select's dropdown                                                                                                  | ^[string] / ^[object]                                                                                                                                                       | ''                                             |
-| popper-style ^(2.11.0)              | custom style for Select's dropdown                                                                                                       | ^[string] / ^[object]                                                                                                                                                       | —                                              |
+| popper-class                        | custom class name for Select's dropdown and tags' tooltip                                                                                | ^[string] / ^[object]                                                                                                                                                       | ''                                             |
+| popper-style ^(2.11.0)              | custom style for Select's dropdown and tags' tooltip                                                                                     | ^[string] / ^[object]                                                                                                                                                       | —                                              |
 | teleported                          | whether select dropdown is teleported, if `true` it will be teleported to where `append-to` sets                                         | ^[boolean]                                                                                                                                                                  | true                                           |
 | append-to ^(2.8.8)                  | which element the select dropdown appends to                                                                                             | ^[CSSSelector] / ^[HTMLElement]                                                                                                                                             | —                                              |
 | persistent                          | when select dropdown is inactive and `persistent` is `false`, select dropdown will be destroyed                                          | ^[boolean]                                                                                                                                                                  | true                                           |
@@ -27588,8 +27622,8 @@ You can customize label.
 | loading-text                    | displayed text while loading data from server, default is 'Loading'                                                                      | ^[string]                                                                                                                                                                   | —                                              |
 | no-match-text                   | displayed text when no data matches the filtering query, you can also use slot `empty`, default is 'No matching data'                    | ^[string]                                                                                                                                                                   | —                                              |
 | no-data-text                    | displayed text when there is no options, you can also use slot `empty`, default is 'No data'                                             | ^[string]                                                                                                                                                                   | —                                              |
-| popper-class                    | custom class name for Select's dropdown                                                                                                  | ^[string]                                                                                                                                                                   | ''                                             |
-| popper-style ^(2.11.0)          | custom style for Select's dropdown                                                                                                       | ^[string] / ^[object]                                                                                                                                                       | —                                              |
+| popper-class                    | custom class name for Select's dropdown and tags' tooltip                                                                                | ^[string]                                                                                                                                                                   | ''                                             |
+| popper-style ^(2.11.0)          | custom style for Select's dropdown and tags' tooltip                                                                                     | ^[string] / ^[object]                                                                                                                                                       | —                                              |
 | reserve-keyword                 | when `multiple` and `filterable` is true, whether to reserve current keyword after selecting an option                                   | ^[boolean]                                                                                                                                                                  | true                                           |
 | default-first-option            | select first matching option on enter key. Use with `filterable` or `remote`                                                             | ^[boolean]                                                                                                                                                                  | false                                          |
 | teleported                      | whether select dropdown is teleported, if `true` it will be teleported to where `append-to` sets                                         | ^[boolean]                                                                                                                                                                  | true                                           |
@@ -37771,38 +37805,41 @@ Can pick an arbitrary time range.
 
 ### Attributes
 
-| Name                        | Description                                                                                                    | Type                                                                                            | Default     |
-| --------------------------- | -------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------- |
-| model-value / v-model       | binding value, if it is an array, the length should be 2                                                       | ^[number] / ^[string] / ^[object]`Date \| [Date, Date] \| [number, number] \| [string, string]` | ''          |
-| readonly                    | whether TimePicker is read only                                                                                | ^[boolean]                                                                                      | false       |
-| disabled                    | whether TimePicker is disabled                                                                                 | ^[boolean]                                                                                      | false       |
-| editable                    | whether the input is editable                                                                                  | ^[boolean]                                                                                      | true        |
-| clearable                   | whether to show clear button                                                                                   | ^[boolean]                                                                                      | true        |
-| size                        | size of Input                                                                                                  | ^[enum]`'large' \| 'default' \| 'small'`                                                        | —           |
-| placeholder                 | placeholder in non-range mode                                                                                  | ^[string]                                                                                       | ''          |
-| start-placeholder           | placeholder for the start time in range mode                                                                   | ^[string]                                                                                       | —           |
-| end-placeholder             | placeholder for the end time in range mode                                                                     | ^[string]                                                                                       | —           |
-| is-range                    | whether to pick a time range                                                                                   | ^[boolean]                                                                                      | false       |
-| arrow-control               | whether to pick time using arrow buttons                                                                       | ^[boolean]                                                                                      | false       |
-| popper-class                | custom class name for TimePicker's dropdown                                                                    | ^[string]                                                                                       | ''          |
-| popper-style                | custom style for TimePicker's dropdown                                                                         | ^[string] / ^[object]                                                                           | —           |
-| range-separator             | range separator                                                                                                | ^[string]                                                                                       | '-'         |
-| format                      | format of the displayed value in the input box                                                                 | ^[string] see [date formats](/en-US/component/date-picker#date-formats)                         | —           |
-| default-value               | optional, default date of the calendar                                                                         | ^[Date] / ^[object]`[Date, Date]`                                                               | —           |
-| value-format                | optional, format of binding value. If not specified, the binding value will be a Date object                   | ^[string] see [date formats](/en-US/component/date-picker#date-formats)                         | —           |
-| id                          | same as `id` in native input                                                                                   | ^[string] / ^[object]`[string, string]`                                                         | —           |
-| name                        | same as `name` in native input                                                                                 | ^[string]                                                                                       | ''          |
-| aria-label ^(a11y) ^(2.7.2) | same as `aria-label` in native input                                                                           | ^[string]                                                                                       | —           |
-| prefix-icon                 | Custom prefix icon component                                                                                   | ^[string] / ^[Component]                                                                        | Clock       |
-| clear-icon                  | Custom clear icon component                                                                                    | ^[string] / ^[Component]                                                                        | CircleClose |
-| disabled-hours              | To specify the array of hours that cannot be selected                                                          | ^[Function]`(role: string, comparingDate?: Dayjs) => number[]`                                  | —           |
-| disabled-minutes            | To specify the array of minutes that cannot be selected                                                        | ^[Function]`(hour: number, role: string, comparingDate?: Dayjs) => number[]`                    | —           |
-| disabled-seconds            | To specify the array of seconds that cannot be selected                                                        | ^[Function]`(hour: number, minute: number, role: string, comparingDate?: Dayjs) => number[]`    | —           |
-| teleported                  | whether time-picker dropdown is teleported to the body                                                         | ^[boolean]                                                                                      | true        |
-| tabindex                    | input tabindex                                                                                                 | ^[string] / ^[number]                                                                           | 0           |
-| empty-values ^(2.7.0)       | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations) | ^[array]                                                                                        | —           |
-| value-on-clear ^(2.7.0)     | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)        | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                | —           |
-| label ^(a11y) ^(deprecated) | same as `aria-label` in native input                                                                           | ^[string]                                                                                       | —           |
+| Name                         | Description                                                                                                          | Type                                                                                            | Default                            |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ---------------------------------- |
+| model-value / v-model        | binding value, if it is an array, the length should be 2                                                             | ^[number] / ^[string] / ^[object]`Date \| [Date, Date] \| [number, number] \| [string, string]` | ''                                 |
+| readonly                     | whether TimePicker is read only                                                                                      | ^[boolean]                                                                                      | false                              |
+| disabled                     | whether TimePicker is disabled                                                                                       | ^[boolean]                                                                                      | false                              |
+| editable                     | whether the input is editable                                                                                        | ^[boolean]                                                                                      | true                               |
+| clearable                    | whether to show clear button                                                                                         | ^[boolean]                                                                                      | true                               |
+| size                         | size of Input                                                                                                        | ^[enum]`'large' \| 'default' \| 'small'`                                                        | —                                  |
+| placeholder                  | placeholder in non-range mode                                                                                        | ^[string]                                                                                       | ''                                 |
+| start-placeholder            | placeholder for the start time in range mode                                                                         | ^[string]                                                                                       | —                                  |
+| end-placeholder              | placeholder for the end time in range mode                                                                           | ^[string]                                                                                       | —                                  |
+| is-range                     | whether to pick a time range                                                                                         | ^[boolean]                                                                                      | false                              |
+| arrow-control                | whether to pick time using arrow buttons                                                                             | ^[boolean]                                                                                      | false                              |
+| popper-class                 | custom class name for TimePicker's dropdown                                                                          | ^[string]                                                                                       | ''                                 |
+| popper-style                 | custom style for TimePicker's dropdown                                                                               | ^[string] / ^[object]                                                                           | —                                  |
+| popper-options               | Customized popper option see more at [popper.js](https://popper.js.org/docs/v2/)                                     | ^[object]`Partial<PopperOptions>`                                                               | {}                                 |
+| fallback-placements ^(2.8.4) | list of possible positions for Tooltip [popper.js](https://popper.js.org/docs/v2/modifiers/flip/#fallbackplacements) | ^[array]`Placement[]`                                                                           | ['bottom', 'top', 'right', 'left'] |
+| placement ^(2.8.4)           | position of dropdown                                                                                                 | `Placement`                                                                                     | bottom                             |
+| range-separator              | range separator                                                                                                      | ^[string]                                                                                       | '-'                                |
+| format                       | format of the displayed value in the input box                                                                       | ^[string] see [date formats](/en-US/component/date-picker#date-formats)                         | —                                  |
+| default-value                | optional, default date of the calendar                                                                               | ^[Date] / ^[object]`[Date, Date]`                                                               | —                                  |
+| value-format                 | optional, format of binding value. If not specified, the binding value will be a Date object                         | ^[string] see [date formats](/en-US/component/date-picker#date-formats)                         | —                                  |
+| id                           | same as `id` in native input                                                                                         | ^[string] / ^[object]`[string, string]`                                                         | —                                  |
+| name                         | same as `name` in native input                                                                                       | ^[string]                                                                                       | ''                                 |
+| aria-label ^(a11y) ^(2.7.2)  | same as `aria-label` in native input                                                                                 | ^[string]                                                                                       | —                                  |
+| prefix-icon                  | Custom prefix icon component                                                                                         | ^[string] / ^[Component]                                                                        | Clock                              |
+| clear-icon                   | Custom clear icon component                                                                                          | ^[string] / ^[Component]                                                                        | CircleClose                        |
+| disabled-hours               | To specify the array of hours that cannot be selected                                                                | ^[Function]`(role: string, comparingDate?: Dayjs) => number[]`                                  | —                                  |
+| disabled-minutes             | To specify the array of minutes that cannot be selected                                                              | ^[Function]`(hour: number, role: string, comparingDate?: Dayjs) => number[]`                    | —                                  |
+| disabled-seconds             | To specify the array of seconds that cannot be selected                                                              | ^[Function]`(hour: number, minute: number, role: string, comparingDate?: Dayjs) => number[]`    | —                                  |
+| teleported                   | whether time-picker dropdown is teleported to the body                                                               | ^[boolean]                                                                                      | true                               |
+| tabindex                     | input tabindex                                                                                                       | ^[string] / ^[number]                                                                           | 0                                  |
+| empty-values ^(2.7.0)        | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations)       | ^[array]                                                                                        | —                                  |
+| value-on-clear ^(2.7.0)      | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)              | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                | —                                  |
+| label ^(a11y) ^(deprecated)  | same as `aria-label` in native input                                                                                 | ^[string]                                                                                       | —                                  |
 
 ### Events
 
@@ -37822,6 +37859,29 @@ Can pick an arbitrary time range.
 | blur                  | blur the TimePicker component  | ^[Function]`() => void` |
 | handleOpen ^(2.2.16)  | open the TimePicker popper     | ^[Function]`() => void` |
 | handleClose ^(2.2.16) | close the TimePicker popper    | ^[Function]`() => void` |
+
+## Type Declarations
+
+<details>
+  <summary>Show declarations</summary>
+
+```ts
+type Placement =
+  | 'top'
+  | 'top-start'
+  | 'top-end'
+  | 'bottom'
+  | 'bottom-start'
+  | 'bottom-end'
+  | 'left'
+  | 'left-start'
+  | 'left-end'
+  | 'right'
+  | 'right-start'
+  | 'right-end'
+```
+
+</details>
 
 ## Vue Examples
 
@@ -38011,6 +38071,8 @@ If start( end ) time is picked at first, then the status of end( start ) time's 
 | format                    | set format of time                                                                                             | ^[string] see [formats](https://day.js.org/docs/en/display/format#list-of-all-available-formats) | HH:mm       |
 | empty-values ^(2.7.0)     | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations) | ^[array]                                                                                         | —           |
 | value-on-clear ^(2.7.0)   | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)        | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                 | —           |
+| popper-class ^(2.11.4)    | custom class name for TimeSelect's dropdown                                                                    | ^[string]                                                                                        | ''          |
+| popper-style ^(2.11.4)    | custom style for TimeSelect's dropdown                                                                         | ^[string] / ^[object]                                                                            | —           |
 
 ### Events
 
@@ -38324,200 +38386,6 @@ const activities: ActivityType[] = [
 
 
 ---
-Title: Tooltip V2
-URL: https://element-plus.org/en-US/component/tooltip-v2
----
-
-# Tooltip V2
-
-For the existing tooltip, it has too many APIs which is not very intuitive and accessible, so we created this much simpler tooltip, which does only one simple thing - showing tooltip. The structure of having a tooltip is kind of the same, but the API is different. In this version we have provided the components individually, you can compose your own tooltip by using the components.
-
-## Basic usage
-
-**Hover** or **tab** on the icon to see the tooltip.
-
-
-
-## Accessible tooltip
-
-
-
-## Transition / Animation
-
-You may set transition/animation via `CSS` animation/transition or [Transition](https://vuejs.org/guide/built-ins/transition.html#transition) component for your tooltip content when opening.
-
-
-
-
-
-### Full transition
-
-Of course, you can have full transition for your tooltip content. But this requires using [Transition](https://vuejs.org/guide/built-ins/transition.html#transition) component, checkout the demo below.
-
-
-
-## Render to the root element
-
-By default, unlike [tooltip v1](./tooltip.md), the tooltip will be rendered to the body element. **tooltip v2** will render to where the trigger/reference element is. But you can still render to to the root element by using `Teleport` component.
-
-
-
-## With arrow
-
-
-
-<!-- ## Composing your own tooltip
-
-## Tooltip V2 APIs
-
-### Tooltip Root
-
-### Tooltip Trigger
-
-### Tooltip Content
-
-### Tooltip Arrow
-
-### Tooltip Reference -->
-
-## Vue Examples
-
-### a11y.vue
-```vue
-<template>
-  <el-tooltip-v2 :aria-label="title">
-    <template #trigger>
-      <el-button>
-        <el-icon><Delete /></el-icon>
-      </el-button>
-    </template>
-    {{ content }}
-  </el-tooltip-v2>
-</template>
-
-<script setup lang="ts">
-import { Delete } from '@element-plus/icons-vue'
-
-const content = 'Delete'
-const title = 'Delete item'
-</script>
-
-```
-
-### arrow.vue
-```vue
-<template>
-  <el-tooltip-v2 aria-label="content" show-arrow always-on placement="top">
-    <template #trigger>
-      <el-button circle>
-        <el-icon><Plus /></el-icon>
-      </el-button>
-    </template>
-    Basic tooltip
-  </el-tooltip-v2>
-</template>
-
-<script setup lang="ts">
-import { Plus } from '@element-plus/icons-vue'
-</script>
-
-```
-
-### basic-usage.vue
-```vue
-<template>
-  <el-tooltip-v2 aria-label="content" placement="left">
-    <template #trigger>
-      <el-button circle>
-        <el-icon><Plus /></el-icon>
-      </el-button>
-    </template>
-    Basic tooltip
-  </el-tooltip-v2>
-</template>
-
-<script setup lang="ts">
-import { Plus } from '@element-plus/icons-vue'
-</script>
-
-```
-
-### full-transition.vue
-```vue
-<template>
-  <el-tooltip-v2 full-transition :transition-props="transitionProps">
-    <template #trigger>
-      <el-button circle>
-        <el-icon><Plus /></el-icon>
-      </el-button>
-    </template>
-    <div>content</div>
-  </el-tooltip-v2>
-</template>
-
-<script setup lang="ts">
-import { Plus } from '@element-plus/icons-vue'
-
-const transitionProps = {
-  name: 'el-fade-in-linear',
-}
-</script>
-
-```
-
-### render-to-root.vue
-```vue
-<template>
-  <el-tooltip-v2 aria-label="content" teleported to="body">
-    <template #trigger>
-      <el-button>hover me</el-button>
-    </template>
-    <div>I am attached to document.body</div>
-  </el-tooltip-v2>
-</template>
-
-```
-
-### transition.vue
-```vue
-<template>
-  <!-- eslint-disable vue/require-toggle-inside-transition  -->
-  <el-tooltip-v2 aria-label="content" placement="top" content-class="scale-in">
-    <template #trigger>
-      <el-button circle>
-        <el-icon><Plus /></el-icon>
-      </el-button>
-    </template>
-    <div>content</div>
-  </el-tooltip-v2>
-</template>
-
-<script setup lang="ts">
-import { Plus } from '@element-plus/icons-vue'
-</script>
-
-<style>
-@keyframes scale-in {
-  0% {
-    opacity: 0;
-    transform: scale(0);
-  }
-
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-.el-tooltip-v2__content.scale-in {
-  animation: scale-in var(--el-transition-duration) ease-out forwards;
-}
-</style>
-
-```
-
-
----
 Title: Tooltip
 URL: https://element-plus.org/en-US/component/tooltip
 ---
@@ -38628,6 +38496,7 @@ You must wait for the DOM to be mounted before using `targetElement`.
 | hide-after                | delay of disappear, in millisecond                                                                                                                      | ^[number]                                                                                                                                                                   | 200               |
 | auto-close                | timeout in milliseconds to hide tooltip                                                                                                                 | ^[number]                                                                                                                                                                   | 0                 |
 | popper-class              | custom class name for Tooltip's popper                                                                                                                  | ^[string]                                                                                                                                                                   | —                 |
+| popper-style              | custom style for Tooltip's popper                                                                                                                       | ^[string] / ^[object]                                                                                                                                                       | —                 |
 | enterable                 | whether the mouse can enter the tooltip                                                                                                                 | ^[boolean]                                                                                                                                                                  | true              |
 | teleported                | whether tooltip content is teleported, if `true` it will be teleported to where `append-to` sets                                                        | ^[boolean]                                                                                                                                                                  | true              |
 | trigger                   | How should the tooltip be triggered (to show)                                                                                                           | ^[enum]`'hover' \| 'click' \| 'focus' \| 'contextmenu'`                                                                                                                     | hover             |
@@ -40886,7 +40755,7 @@ Tree nodes can be filtered
 
 | Name           | Description                                                                                    |
 | -------------- | ---------------------------------------------------------------------------------------------- |
-| -              | Custom content for tree nodes. The scope parameter is `{ node: TreeNode, data: TreeNodeData }` |
+| default        | Custom content for tree nodes. The scope parameter is `{ node: TreeNode, data: TreeNodeData }` |
 | empty ^(2.9.0) | empty you can customize content when data is empty.                                            |
 
 ## Vue Examples
@@ -41623,7 +41492,7 @@ You can drag and drop Tree nodes by adding a `draggable` attribute.
 
 | Name           | Description                                                            |
 | -------------- | ---------------------------------------------------------------------- |
-| —              | Custom content for tree nodes. The scope parameter is `{ node, data }` |
+| default        | Custom content for tree nodes. The scope parameter is `{ node, data }` |
 | empty ^(2.3.4) | empty you can customize content when data is empty.                    |
 
 ## Vue Examples
