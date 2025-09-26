@@ -470,15 +470,19 @@ export default defineComponent({
         }
       })
     }
-    watch(() => [slots.default?.(), modelValue.value], () => {
-      if (props.persistent) {
-        // If persistent is true, we don't need to manually render slots.
-        return
+    watch(
+      () => [slots.default?.(), modelValue.value],
+      () => {
+        if (props.persistent) {
+          // If persistent is true, we don't need to manually render slots.
+          return
+        }
+        manuallyRenderSlots(slots.default?.())
+      },
+      {
+        immediate: true,
       }
-      manuallyRenderSlots(slots.default?.())
-    }, {
-      immediate: true,
-    })
+    )
 
     provide(
       selectKey,
