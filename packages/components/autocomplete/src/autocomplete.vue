@@ -125,7 +125,7 @@ import { debounce, pick } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
 import { Loading } from '@element-plus/icons-vue'
 import { useId, useNamespace } from '@element-plus/hooks'
-import { isArray, throwError } from '@element-plus/utils'
+import { getEventCode, isArray, throwError } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
   EVENT_CODE,
@@ -400,8 +400,8 @@ const stopHandle = onClickOutside(listboxRef, () => {
   suggestionVisible.value && close()
 })
 
-const handleKeydown = (event: Event) => {
-  const e = event as KeyboardEvent
+const handleKeydown = (e: KeyboardEvent | Event) => {
+  const code = getEventCode(e as KeyboardEvent)
   const keyHandlers = {
     [EVENT_CODE.up]: () => {
       e.preventDefault()
@@ -436,7 +436,7 @@ const handleKeydown = (event: Event) => {
       highlight(calcPageIndex(1))
     },
   }
-  keyHandlers[e.key]?.()
+  keyHandlers[code]?.()
 }
 
 onBeforeUnmount(() => {
