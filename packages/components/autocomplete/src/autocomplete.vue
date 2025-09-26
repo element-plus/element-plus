@@ -355,21 +355,16 @@ const highlight = (index: number) => {
   if (index >= suggestions.value.length) {
     index = props.loopNavigation ? 0 : suggestions.value.length - 1
   }
-  const suggestion = regionRef.value!.querySelector(
-    `.${ns.be('suggestion', 'wrap')}`
-  )!
-  const suggestionList = suggestion.querySelectorAll<HTMLElement>(
-    `.${ns.be('suggestion', 'list')} li`
-  )!
+  const [suggestion, suggestionList] = getSuggestionContext()
   const highlightItem = suggestionList[index]
   const scrollTop = suggestion.scrollTop
   const { offsetTop, scrollHeight } = highlightItem
 
   if (offsetTop + scrollHeight > scrollTop + suggestion.clientHeight) {
-    suggestion.scrollTop += scrollHeight
+    suggestion.scrollTop = offsetTop + scrollHeight - suggestion.clientHeight
   }
   if (offsetTop < scrollTop) {
-    suggestion.scrollTop -= scrollHeight
+    suggestion.scrollTop = offsetTop
   }
   highlightedIndex.value = index
   inputRef.value?.ref?.setAttribute(
@@ -377,7 +372,28 @@ const highlight = (index: number) => {
     `${listboxId.value}-item-${highlightedIndex.value}`
   )
 }
+const getSuggestionContext = () => {
+  const suggestion = regionRef.value!.querySelector(
+    `.${ns.be('suggestion', 'wrap')}`
+  )!
+  const suggestionList = suggestion.querySelectorAll<HTMLElement>(
+    `.${ns.be('suggestion', 'list')} li`
+  )
+  return [suggestion, suggestionList] as const
+}
 
+const calcPageIndex = (direction: number) => {
+  const [suggestion, suggestionList] = getSuggestionContext()
+  if (!suggestionList.length) return highlightedIndex.value
+
+  const itemHeight = suggestionList[0].offsetHeight
+  const visibleCount = Math.floor(suggestion.clientHeight / itemHeight)
+
+  const target = highlightedIndex.value + direction * visibleCount
+  return direction === 1
+    ? Math.min(target, suggestions.value.length - 1)
+    : Math.max(target, 0)
+}
 const stopHandle = onClickOutside(listboxRef, () => {
   // Prevent closing if focus is inside popper content
   if (popperRef.value?.isFocusInsideContent()) return
@@ -410,6 +426,14 @@ const handleKeydown = (event: Event) => {
     },
     [EVENT_CODE.end]: () => {
       highlight(suggestions.value.length - 1)
+    },
+    [EVENT_CODE.pageUp]: () => {
+      e.preventDefault()
+      highlight(calcPageIndex(-1))
+    },
+    [EVENT_CODE.pageDown]: () => {
+      e.preventDefault()
+      highlight(calcPageIndex(1))
     },
   }
   keyHandlers[e.key]?.()
