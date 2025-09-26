@@ -34,6 +34,7 @@ type RowRendererProps = TableGridRowSlotParams &
   > & {
     ns: UseNamespaceReturn
     tableInstance?: ComponentInternalInstance
+    tableLocation: 'main' | 'left' | 'right'
   }
 
 const RowRenderer: FunctionalComponent<RowRendererProps> = (
@@ -59,6 +60,7 @@ const RowRenderer: FunctionalComponent<RowRendererProps> = (
     ns,
     onRowHovered,
     onRowExpanded,
+    tableLocation,
   } = props
 
   const rowKls = tryCall(rowClass, { columns, rowData, rowIndex }, '')
@@ -98,6 +100,7 @@ const RowRenderer: FunctionalComponent<RowRendererProps> = (
     rowKey: _rowKey,
     rowEventHandlers,
     style,
+    tableLocation,
   }
 
   const handlerMouseEnter = (e: MouseEvent) => {

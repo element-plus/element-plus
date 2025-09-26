@@ -14,7 +14,7 @@ const LeftTable: FunctionalComponent<LeftTableProps> = (props, { slots }) => {
   const { leftTableRef, ...rest } = props
 
   return (
-    <Table ref={leftTableRef} {...rest}>
+    <Table table-location="left" ref={leftTableRef} {...rest}>
       {slots}
     </Table>
   )
