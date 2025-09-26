@@ -70,7 +70,7 @@ import { EVENT_CODE } from '@element-plus/constants'
 import { omit } from 'lodash-unified'
 import { ElButton } from '@element-plus/components/button'
 import { ElIcon } from '@element-plus/components/icon'
-import { CloseComponents } from '@element-plus/utils'
+import { CloseComponents, getEventCode } from '@element-plus/utils'
 import { useLocale } from '@element-plus/hooks'
 import { tourStepEmits, tourStepProps } from './step'
 import { tourKey } from './helper'
@@ -157,16 +157,17 @@ const onClose = () => {
 const handleKeydown = (e: KeyboardEvent) => {
   const target = e.target as HTMLElement | null
   if (target?.isContentEditable) return
+  const code = getEventCode(e)
 
-  const actions: Record<string, () => void> = {
-    [EVENT_CODE.left]: () => current.value > 0 && onPrev(),
-    [EVENT_CODE.right]: onNext,
-  }
-
-  const action = actions[e.code]
-  if (action) {
-    e.preventDefault()
-    action()
+  switch (code) {
+    case EVENT_CODE.left:
+      e.preventDefault()
+      current.value > 0 && onPrev()
+      break
+    case EVENT_CODE.right:
+      e.preventDefault()
+      onNext()
+      break
   }
 }
 
