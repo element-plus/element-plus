@@ -137,6 +137,9 @@ const lazyLoad: ElCascaderPanelContext['lazyLoad'] = (node, cb) => {
   const reject = () => {
     node!.loading = false
     node!.loaded = false
+    if (node!.level === 0) {
+      initialLoaded.value = true
+    }
   }
 
   cfg.lazyLoad(node, resolve, reject)
