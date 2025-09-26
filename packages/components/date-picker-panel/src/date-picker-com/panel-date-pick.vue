@@ -500,7 +500,8 @@ const handleYearPick = async (
     innerDate.value = getValidDateOfYear(data, lang.value, disabledDate)
     currentView.value = 'month'
     if (['month', 'year', 'date', 'week'].includes(selectionMode.value)) {
-      // TODO: fallback focus into basic month table
+      await nextTick()
+      handleFocusPicker()
     }
   }
   handlePanelChange('year')
