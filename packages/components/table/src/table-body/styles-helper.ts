@@ -4,6 +4,7 @@ import { isArray, isFunction, isObject, isString } from '@element-plus/utils'
 import {
   ensurePosition,
   getFixedColumnOffset,
+  getFixedColumnOffsetWithSpan,
   getFixedColumnsClass,
 } from '../util'
 import { TABLE_INJECTION_KEY } from '../tokens'
@@ -68,11 +69,19 @@ function useStyles<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
         column,
       })
     }
-    const fixedStyle = getFixedColumnOffset(
-      columnIndex,
-      props?.fixed,
-      props.store
-    )
+
+    const fn = parent?.props.spanMethod
+    const fixedStyle = isFunction(fn)
+      ? getFixedColumnOffsetWithSpan(
+          columnIndex,
+          column.fixed,
+          props.store,
+          row,
+          rowIndex,
+          getSpan
+        )
+      : getFixedColumnOffset(columnIndex, column.fixed, props.store)
+
     ensurePosition(fixedStyle, 'left')
     ensurePosition(fixedStyle, 'right')
     return Object.assign({}, cellStyles, fixedStyle)
@@ -139,17 +148,41 @@ function useStyles<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
   const getColspanRealWidth = (
     columns: TableColumnCtx<T>[],
     colspan: number,
-    index: number
+    columnIndex: number,
+    row: T,
+    rowIndex: number
   ): number => {
     if (colspan < 1) {
-      return columns[index].realWidth!
+      return columns[columnIndex].realWidth!
     }
-    const widthArr = columns
-      .map(({ realWidth, width }) => realWidth || width)
-      .slice(index, index + colspan)
-    return Number(
-      widthArr.reduce((acc, width) => Number(acc) + Number(width), -1)
-    )
+
+    const spanMethod = parent?.props.spanMethod
+    if (!isFunction(spanMethod)) {
+      const widthArr = columns
+        .map(({ realWidth, width }) => realWidth || width)
+        .slice(columnIndex, columnIndex + colspan)
+      return Number(
+        widthArr.reduce((acc, width) => Number(acc) + Number(width))
+      )
+    }
+
+    let hiddenColumnsCount = 0
+    for (let i = 0; i < columnIndex; i++) {
+      const { rowspan, colspan } = getSpan(row, columns[i], rowIndex, i)
+      if (rowspan === 0 || colspan === 0) {
+        hiddenColumnsCount++
+      }
+    }
+
+    const physicalStartIndex = columnIndex - hiddenColumnsCount
+    let totalWidth = 0
+    for (let i = 0; i < colspan; i++) {
+      const physicalIndex = physicalStartIndex + i
+      const column = columns[physicalIndex]
+      totalWidth += Number(column.realWidth || column.width)
+    }
+
+    return totalWidth
   }
 
   return {
