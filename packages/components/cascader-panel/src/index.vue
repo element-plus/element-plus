@@ -129,14 +129,14 @@ const lazyLoad: ElCascaderPanelContext['lazyLoad'] = (node, cb) => {
     _node.childrenData = _node.childrenData || []
     dataList && store?.appendNodes(dataList, parent as Node)
     dataList && cb?.(dataList)
+    if (node.level === 0) {
+      initialLoadedOnce.value = true
+    }
   }
 
   const reject = () => {
     node!.loading = false
     node!.loaded = false
-    if (node.level === 0) {
-      initialLoaded.value = true
-    }
   }
 
   cfg.lazyLoad(node, resolve, reject)
