@@ -31,12 +31,7 @@
       @before-hide="handleBeforeHideTooltip"
     >
       <template #content>
-        <el-scrollbar
-          ref="scrollbar"
-          :wrap-style="wrapStyle"
-          tag="div"
-          :view-class="ns.e('list')"
-        >
+        <el-scrollbar ref="scrollbar" tag="div" v-bind="scrollbarProps">
           <el-roving-focus-group
             :loop="loop"
             :current-tab-id="currentTabId"
@@ -120,7 +115,6 @@ import {
 } from './tokens'
 
 import type { TooltipInstance } from '@element-plus/components/tooltip'
-import type { CSSProperties } from 'vue'
 
 const { ButtonGroup: ElButtonGroup } = ElButton
 
@@ -152,9 +146,25 @@ export default defineComponent({
     const currentTabId = ref<string | null>(null)
     const isUsingKeyboard = ref(false)
 
-    const wrapStyle = computed<CSSProperties>(() => ({
-      maxHeight: addUnit(props.maxHeight),
-    }))
+    const _scrollbarProps = computed(() => {
+      const {
+        wrapStyle = {},
+        viewClass,
+        ...restProps
+      } = props.scrollbarProps || {}
+
+      const mergedWrapStyle = {
+        ...(typeof wrapStyle === 'object' ? wrapStyle : {}),
+        maxHeight: addUnit(props.maxHeight),
+      }
+
+      return {
+        ...restProps,
+        wrapStyle: mergedWrapStyle,
+        viewClass: viewClass ? `${ns.e('list')} ${viewClass}` : ns.e('list'),
+      }
+    })
+
     const dropdownTriggerKls = computed(() => [ns.m(dropdownSize.value)])
     const trigger = computed(() => ensureArray(props.trigger))
 
@@ -251,7 +261,7 @@ export default defineComponent({
       t,
       ns,
       scrollbar,
-      wrapStyle,
+      scrollbarProps: _scrollbarProps,
       dropdownTriggerKls,
       dropdownSize,
       triggerId,
