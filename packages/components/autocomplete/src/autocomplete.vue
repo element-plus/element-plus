@@ -402,41 +402,42 @@ const stopHandle = onClickOutside(listboxRef, () => {
 
 const handleKeydown = (e: KeyboardEvent | Event) => {
   const code = getEventCode(e as KeyboardEvent)
-  const keyHandlers = {
-    [EVENT_CODE.up]: () => {
+  switch (code) {
+    case EVENT_CODE.up:
       e.preventDefault()
       highlight(highlightedIndex.value - 1)
-    },
-    [EVENT_CODE.down]: () => {
+      break
+    case EVENT_CODE.down:
       e.preventDefault()
       highlight(highlightedIndex.value + 1)
-    },
-    [EVENT_CODE.enter]: () => {
+      break
+    case EVENT_CODE.enter:
       e.preventDefault()
       handleKeyEnter()
-    },
-    [EVENT_CODE.tab]: () => {
+      break
+    case EVENT_CODE.tab:
       close()
-    },
-    [EVENT_CODE.esc]: () => {
+      break
+    case EVENT_CODE.esc:
       handleKeyEscape(e)
-    },
-    [EVENT_CODE.home]: () => {
+      break
+    case EVENT_CODE.home:
+      e.preventDefault()
       highlight(0)
-    },
-    [EVENT_CODE.end]: () => {
+      break
+    case EVENT_CODE.end:
+      e.preventDefault()
       highlight(suggestions.value.length - 1)
-    },
-    [EVENT_CODE.pageUp]: () => {
+      break
+    case EVENT_CODE.pageUp:
       e.preventDefault()
       highlight(calcPageIndex(-1))
-    },
-    [EVENT_CODE.pageDown]: () => {
+      break
+    case EVENT_CODE.pageDown:
       e.preventDefault()
       highlight(calcPageIndex(1))
-    },
+      break
   }
-  keyHandlers[code]?.()
 }
 
 onBeforeUnmount(() => {
