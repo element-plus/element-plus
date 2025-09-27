@@ -382,18 +382,6 @@ const getSuggestionContext = () => {
   return [suggestion, suggestionList] as const
 }
 
-const calcPageIndex = (direction: number) => {
-  const [suggestion, suggestionList] = getSuggestionContext()
-  if (!suggestionList.length) return highlightedIndex.value
-
-  const itemHeight = suggestionList[0].offsetHeight
-  const visibleCount = Math.floor(suggestion.clientHeight / itemHeight)
-
-  const target = highlightedIndex.value + direction * visibleCount
-  return direction === 1
-    ? Math.min(target, suggestions.value.length - 1)
-    : Math.max(target, 0)
-}
 const stopHandle = onClickOutside(listboxRef, () => {
   // Prevent closing if focus is inside popper content
   if (popperRef.value?.isFocusInsideContent()) return
@@ -431,11 +419,13 @@ const handleKeydown = (e: KeyboardEvent | Event) => {
       break
     case EVENT_CODE.pageUp:
       e.preventDefault()
-      highlight(calcPageIndex(-1))
+      highlight(Math.max(0, highlightedIndex.value - 10))
       break
     case EVENT_CODE.pageDown:
       e.preventDefault()
-      highlight(calcPageIndex(1))
+      highlight(
+        Math.min(suggestions.value.length - 1, highlightedIndex.value + 10)
+      )
       break
   }
 }
