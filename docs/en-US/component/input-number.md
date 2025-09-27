@@ -95,6 +95,14 @@ input-number/with-prefix-suffix
 
 :::
 
+## Clearable
+
+:::demo Make the Input clearable with the `clearable` attribute.
+
+input-number/clearable
+
+:::
+
 ## API
 
 ### Attributes
@@ -122,6 +130,7 @@ input-number/with-prefix-suffix
 | inputmode ^(2.10.3)           | same as `inputmode` in native input              | ^[string]                                     | —                       |
 | align ^(2.10.5)               | alignment for the inner input text               | ^[enum]`'left' \| 'center' \| 'right'`        | 'center'                |
 | disabled-scientific ^(2.10.5) | disables input of scientific notation (e.g. 'e') | ^[boolean]                                    | false                   |
+| clearable                     | whether to show clear button                     | ^[boolean]                                    | false                   |
 
 ### Slots
 
