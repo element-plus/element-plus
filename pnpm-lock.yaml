@@ -28,7 +28,7 @@ catalogs:
       specifier: ^2.6.20
       version: 2.6.20
     lodash-unified:
-      specifier: ^1.0.2
+      specifier: ^1.0.3
       version: 1.0.3
     normalize-wheel-es:
       specifier: ^1.2.0
@@ -621,8 +621,8 @@ importers:
         specifier: ^4.2.5
         version: 4.2.5(patch_hash=wdmp4xlpil2odxo3rasjmxbdfm)
       dayjs:
-        specifier: ^1.11.13
-        version: 1.11.13
+        specifier: ^1.11.18
+        version: 1.11.18
       escape-html:
         specifier: ^1.0.3
         version: 1.0.3
