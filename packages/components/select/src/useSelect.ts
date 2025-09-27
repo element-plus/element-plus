@@ -386,17 +386,30 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
    * - if there's no user-created option in list, just find the first one as usual
    *   (NOTE: exclude options that are disabled or in disabled-group)
    */
-  const checkDefaultFirstOption = () => {
+  const getEdgeVisibleIndex = (type: 'first' | 'last') => {
     const optionsInDropdown = optionsArray.value.filter(
-      (n) => n.visible && !n.disabled && !n.states.groupDisabled
+      (n) =>
+        n.visible &&
+        !n.disabled &&
+        !n.states.groupDisabled &&
+        (type === 'first' ? true : !n.created)
     )
+
     const userCreatedOption = optionsInDropdown.find((n) => n.created)
-    const firstOriginOption = optionsInDropdown[0]
     const valueList = optionsArray.value.map((item) => item.value)
-    states.hoveringIndex = getValueIndex(
-      valueList,
-      userCreatedOption || firstOriginOption
-    )
+
+    if (type === 'first') {
+      return getValueIndex(valueList, userCreatedOption || optionsInDropdown[0])
+    } else {
+      return getValueIndex(
+        valueList,
+        optionsInDropdown[optionsInDropdown.length - 1] || userCreatedOption
+      )
+    }
+  }
+
+  const checkDefaultFirstOption = () => {
+    states.hoveringIndex = getEdgeVisibleIndex('first')
   }
 
   const setSelected = () => {
@@ -755,16 +768,31 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
 
     if (!optionsAllDisabled.value) {
       if (direction === 'next') {
+        if (
+          !props.loopNavigation &&
+          states.hoveringIndex === getEdgeVisibleIndex('last')
+        ) {
+          return
+        }
+
         states.hoveringIndex++
         if (states.hoveringIndex === states.options.size) {
           states.hoveringIndex = 0
         }
       } else if (direction === 'prev') {
+        if (
+          !props.loopNavigation &&
+          states.hoveringIndex === getEdgeVisibleIndex('first')
+        ) {
+          return
+        }
+
         states.hoveringIndex--
         if (states.hoveringIndex < 0) {
           states.hoveringIndex = states.options.size - 1
         }
       }
+
       const option = optionsArray.value[states.hoveringIndex]
       if (option.isDisabled || !option.visible) {
         navigateOptions(direction)

@@ -140,7 +140,9 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
       :remoteMethod="remoteMethod"
       :automatic-dropdown="automaticDropdown"
       :size="size"
-      :fit-input-width="fitInputWidth">
+      :fit-input-width="fitInputWidth"
+      :loop-navigation="loopNavigation"
+    >
       <el-option
         v-for="item in options"
         :label="item.label"
@@ -169,6 +171,7 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
       remoteMethod: configs.remoteMethod,
       value: configs.multiple ? [] : '',
       size: configs.size || 'default',
+      loopNavigation: configs.loopNavigation,
     })
   )
 }
@@ -272,8 +275,9 @@ const getGroupSelectVm = (configs: SelectProps = {}, options?) => {
       :loading="loading"
       :remoteMethod="remoteMethod"
       :automatic-dropdown="automaticDropdown"
-      :fit-input-width="fitInputWidth">
-     <el-group-option
+      :fit-input-width="fitInputWidth"
+    >
+      <el-group-option
         v-for="group in options"
         :key="group.label"
         :disabled="group.disabled"
@@ -3645,5 +3649,89 @@ describe('Select', () => {
     expect(vm.value).toBe(5)
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('北京烤鸭')
     expect(vm.count).toBe(2)
+  })
+
+  test('keyboard navigation should not loop when loopNavigation is false', async () => {
+    wrapper = getSelectVm({ loopNavigation: false })
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const selectVm = select.vm as any
+    selectVm.states.hoveringIndex = selectVm.states.options.size - 1
+    selectVm.navigateOptions('next')
+    expect(selectVm.states.hoveringIndex).toBe(selectVm.states.options.size - 1)
+    selectVm.states.hoveringIndex = 0
+    selectVm.navigateOptions('prev')
+    expect(selectVm.states.hoveringIndex).toBe(0)
+  })
+
+  test('keyboard navigation should not loop when loopNavigation is true', async () => {
+    wrapper = getSelectVm({ loopNavigation: true })
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const selectVm = select.vm as any
+    selectVm.states.hoveringIndex = selectVm.states.options.size - 1
+    selectVm.navigateOptions('next')
+    expect(selectVm.states.hoveringIndex).toBe(selectVm.states.options.size - 1)
+    selectVm.navigateOptions('next')
+    expect(selectVm.states.hoveringIndex).toBe(0)
+    selectVm.navigateOptions('prev')
+    expect(selectVm.states.hoveringIndex).toBe(selectVm.states.options.size - 1)
+  })
+
+  test('keyboard navigation should not loop with filterable and allowCreate', async () => {
+    wrapper = _mount(
+      `<el-select
+        v-model="value"
+        multiple
+        filterable
+        allow-create
+        default-first-option
+        :reserve-keyword="false"
+        :loop-navigation="false"
+        :options="options"
+      />`,
+      () => ({
+        options: [
+          { value: 'HTML', label: 'HTML' },
+          { value: 'CSS', label: 'CSS' },
+          { value: 'JavaScript', label: 'JavaScript' },
+          { value: 'Julia', label: 'Julia', disabled: true },
+        ],
+        value: [],
+      })
+    )
+
+    const vm = wrapper.vm as any
+    expect(vm.value).toStrictEqual([])
+
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const selectVm = select.vm as any
+
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    expect(selectVm.states.hoveringIndex).toBe(0)
+    selectVm.navigateOptions('prev')
+    expect(selectVm.states.hoveringIndex).toBe(0)
+    selectVm.navigateOptions('next')
+    expect(selectVm.states.hoveringIndex).toBe(1)
+    selectVm.navigateOptions('next')
+    expect(selectVm.states.hoveringIndex).toBe(2)
+    selectVm.navigateOptions('next')
+    expect(selectVm.states.hoveringIndex).toBe(2)
+
+    await input.setValue('j')
+    await input.trigger('input')
+    await nextTick()
+    expect(selectVm.optionsArray.length).toBe(5)
+    expect(selectVm.states.hoveringIndex).toBe(4)
+    selectVm.navigateOptions('prev')
+    expect(selectVm.states.hoveringIndex).toBe(4)
+    selectVm.navigateOptions('next')
+    selectVm.navigateOptions('next')
+    expect(selectVm.states.hoveringIndex).toBe(2)
+    selectVm.navigateOptions('prev')
+    expect(selectVm.states.hoveringIndex).toBe(4)
+
+    await input.trigger('keydown.enter')
+    await nextTick()
+    expect(vm.value).toStrictEqual(['j'])
   })
 })
