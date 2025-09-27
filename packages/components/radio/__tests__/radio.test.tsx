@@ -264,7 +264,7 @@ describe('Radio group', () => {
     expect(radio.value).toEqual(6)
   })
 
-  it('renders el-radio-group using default option fields with radio-button1', async () => {
+  it('renders el-radio-group using default option fields with radio-button', async () => {
     const radio = ref(3)
     const options = [
       {
