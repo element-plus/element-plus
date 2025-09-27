@@ -750,6 +750,15 @@ watch(realSize, async () => {
 
 watch(presentText, syncPresentTextValue, { immediate: true })
 
+watch(
+  () => popperVisible.value,
+  (val) => {
+    if (val && props.props.lazy && props.props.lazyLoad) {
+      cascaderPanelRef.value?.loadLazyRootNodes()
+    }
+  }
+)
+
 onMounted(() => {
   const inputInner = inputRef.value!.input!
 

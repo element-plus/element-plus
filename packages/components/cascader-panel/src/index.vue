@@ -83,6 +83,7 @@ const slots = useSlots()
 
 let store: Store
 const initialLoaded = ref(true)
+const initialLoadedOnce = ref(false)
 const menuList = ref<CascaderMenuInstance[]>([])
 const checkedValue = ref<CascaderValue>()
 const menus = ref<CascaderNode[][]>([])
@@ -128,9 +129,20 @@ const lazyLoad: ElCascaderPanelContext['lazyLoad'] = (node, cb) => {
     _node.childrenData = _node.childrenData || []
     dataList && store?.appendNodes(dataList, parent as Node)
     dataList && cb?.(dataList)
+    if (node.level === 0) {
+      initialLoadedOnce.value = true
+    }
   }
 
-  cfg.lazyLoad(node, resolve)
+  const reject = () => {
+    node!.loading = false
+    node!.loaded = false
+    if (node!.level === 0) {
+      initialLoaded.value = true
+    }
+  }
+
+  cfg.lazyLoad(node, resolve, reject)
 }
 
 const expandNode: ElCascaderPanelContext['expandNode'] = (node, silent) => {
@@ -376,6 +388,11 @@ watch(
   }
 )
 
+const loadLazyRootNodes = () => {
+  if (initialLoadedOnce.value) return
+  initStore()
+}
+
 onBeforeUpdate(() => (menuList.value = []))
 
 onMounted(() => !isEmpty(props.modelValue) && syncCheckedValue())
@@ -397,5 +414,6 @@ defineExpose({
   clearCheckedNodes,
   calculateCheckedValue,
   scrollToExpandingNode,
+  loadLazyRootNodes,
 })
 </script>
