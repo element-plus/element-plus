@@ -60,7 +60,9 @@ $button-icon-span-gap: map.merge(
   &:focus-visible {
     outline: 2px solid getCssVar('button', 'outline-color');
     outline-offset: 1px;
-    transition: outline-offset 0s, outline 0s;
+    transition:
+      outline-offset 0s,
+      outline 0s;
   }
 
   > span {
@@ -172,7 +174,9 @@ $button-icon-span-gap: map.merge(
       &:focus-visible {
         outline: 2px solid getCssVar('button', 'outline-color');
         outline-offset: 1px;
-        transition: outline-offset 0s, outline 0s;
+        transition:
+          outline-offset 0s,
+          outline 0s;
       }
 
       &:active {

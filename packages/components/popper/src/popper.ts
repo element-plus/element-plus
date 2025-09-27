@@ -25,9 +25,9 @@ export const roleTypes = [
 ] as const
 
 export type PopperEffect =
-  | typeof effects[number]
+  | (typeof effects)[number]
   | (string & NonNullable<unknown>)
-export type PopperTrigger = typeof triggers[number]
+export type PopperTrigger = (typeof triggers)[number]
 
 export const popperProps = buildProps({
   role: {

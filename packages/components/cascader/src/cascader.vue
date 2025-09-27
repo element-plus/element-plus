@@ -283,10 +283,9 @@ const popperOptions: Partial<Options> = {
     },
   ],
 }
-const COMPONENT_NAME = 'ElCascader'
 
 defineOptions({
-  name: COMPONENT_NAME,
+  name: 'ElCascader',
 })
 
 const props = defineProps(cascaderProps)
