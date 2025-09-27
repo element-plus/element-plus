@@ -32,7 +32,12 @@ import Jumper from './components/jumper.vue'
 import Total from './components/total.vue'
 import Pager from './components/pager.vue'
 
-import type { ExtractPropTypes, VNode, __ExtractPublicPropTypes } from 'vue'
+import type {
+  CSSProperties,
+  ExtractPropTypes,
+  VNode,
+  __ExtractPublicPropTypes,
+} from 'vue'
 /**
  * It it user's responsibility to guarantee that the value of props.total... is number
  * (same as pageSize, defaultPageSize, currentPage, defaultCurrentPage, pageCount)
@@ -113,6 +118,12 @@ export const paginationProps = buildProps({
   popperClass: {
     type: String,
     default: '',
+  },
+  /**
+   * @description custom style for the page size Select's dropdown
+   */
+  popperStyle: {
+    type: definePropType<string | CSSProperties>([String, Object]),
   },
   /**
    * @description text for the prev button
@@ -415,6 +426,7 @@ export default defineComponent({
           pageSize: pageSizeBridge.value,
           pageSizes: props.pageSizes,
           popperClass: props.popperClass,
+          popperStyle: props.popperStyle,
           disabled: props.disabled,
           teleported: props.teleported,
           size: _size.value,

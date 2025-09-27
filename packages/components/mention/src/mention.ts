@@ -8,6 +8,7 @@ import {
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { inputProps } from '@element-plus/components/input'
 import { filterOption } from './helper'
+import { useTooltipContentProps } from '@element-plus/components/tooltip'
 
 import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type Mention from './mention.vue'
@@ -94,10 +95,11 @@ export const mentionProps = buildProps({
   /**
    * @description custom class name for dropdown panel
    */
-  popperClass: {
-    type: String,
-    default: '',
-  },
+  popperClass: useTooltipContentProps.popperClass,
+  /**
+   * @description custom style for dropdown panel
+   */
+  popperStyle: useTooltipContentProps.popperStyle,
   /**
    * @description [popper.js](https://popper.js.org/docs/v2/) parameters
    */
