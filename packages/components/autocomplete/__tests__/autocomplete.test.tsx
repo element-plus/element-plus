@@ -381,7 +381,7 @@ describe('Autocomplete.vue', () => {
     const length = target.suggestions.length
 
     for (let i = 0; i < length; i++) {
-      await input.trigger('keydown', { key: EVENT_CODE.down })
+      await input.trigger('keydown', { code: EVENT_CODE.down })
       expect(target.highlightedIndex).toBe(i)
     }
 
