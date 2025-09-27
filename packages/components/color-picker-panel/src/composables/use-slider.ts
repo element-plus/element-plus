@@ -7,21 +7,28 @@ import {
   watch,
 } from 'vue'
 import { addUnit, getClientXY, getEventCode } from '@element-plus/utils'
-import { useLocale, useNamespace } from '@element-plus/hooks'
+import { useNamespace } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/constants'
 import { draggable } from '../utils/draggable'
 
-import type { AlphaSliderProps } from '../props/alpha-slider'
+import type { AlphaSliderProps } from '../props/slider'
 
-export const useAlphaSlider = (props: AlphaSliderProps) => {
+interface UseSliderOptions {
+  key: 'hue' | 'alpha'
+  minValue: number
+  maxValue: number
+}
+
+export const useSlider = (
+  props: AlphaSliderProps,
+  { key, minValue, maxValue }: UseSliderOptions
+) => {
   const instance = getCurrentInstance()!
-  const { t } = useLocale()
 
   const thumb = shallowRef<HTMLElement>()
   const bar = shallowRef<HTMLElement>()
 
-  const alpha = computed(() => props.color.get('alpha'))
-  const alphaLabel = computed(() => t('el.colorpicker.alphaLabel'))
+  const currentValue = computed(() => props.color.get(key))
 
   function handleClick(event: MouseEvent | TouchEvent) {
     if (props.disabled) return
@@ -39,34 +46,30 @@ export const useAlphaSlider = (props: AlphaSliderProps) => {
     const el = instance.vnode.el as HTMLElement
     const rect = el.getBoundingClientRect()
     const { clientX, clientY } = getClientXY(event)
+    let value
 
     if (!props.vertical) {
       let left = clientX - rect.left
       left = Math.max(thumb.value.offsetWidth / 2, left)
       left = Math.min(left, rect.width - thumb.value.offsetWidth / 2)
 
-      props.color.set(
-        'alpha',
-        Math.round(
-          ((left - thumb.value.offsetWidth / 2) /
-            (rect.width - thumb.value.offsetWidth)) *
-            100
-        )
+      value = Math.round(
+        ((left - thumb.value.offsetWidth / 2) /
+          (rect.width - thumb.value.offsetWidth)) *
+          maxValue
       )
     } else {
       let top = clientY - rect.top
       top = Math.max(thumb.value.offsetHeight / 2, top)
       top = Math.min(top, rect.height - thumb.value.offsetHeight / 2)
 
-      props.color.set(
-        'alpha',
-        Math.round(
-          ((top - thumb.value.offsetHeight / 2) /
-            (rect.height - thumb.value.offsetHeight)) *
-            100
-        )
+      value = Math.round(
+        ((top - thumb.value.offsetHeight / 2) /
+          (rect.height - thumb.value.offsetHeight)) *
+          maxValue
       )
     }
+    props.color.set(key, value)
   }
 
   function handleKeydown(event: KeyboardEvent) {
@@ -74,52 +77,80 @@ export const useAlphaSlider = (props: AlphaSliderProps) => {
     const { shiftKey } = event
     const code = getEventCode(event)
     const step = shiftKey ? 10 : 1
+    // NOTE: The hue-slider is opposite in direction to the regular slider, so the hue slider has been reversed here.
+    // But this is not the best way to handle it.
+    const reverse = key === 'hue' ? -1 : 1
+    let isPreventDefault = true
 
     switch (code) {
       case EVENT_CODE.left:
       case EVENT_CODE.down:
-        event.preventDefault()
-        event.stopPropagation()
-        incrementPosition(-step)
+        incrementPosition(-step * reverse)
         break
       case EVENT_CODE.right:
       case EVENT_CODE.up:
-        event.preventDefault()
-        event.stopPropagation()
-        incrementPosition(step)
+        incrementPosition(step * reverse)
+        break
+      case EVENT_CODE.home:
+        props.color.set(key, key === 'hue' ? maxValue : minValue)
+        break
+      case EVENT_CODE.end:
+        props.color.set(key, key === 'hue' ? minValue : maxValue)
+        break
+      case EVENT_CODE.pageDown:
+        incrementPosition(-4 * reverse)
+        break
+      case EVENT_CODE.pageUp:
+        incrementPosition(4 * reverse)
+        break
+      default:
+        isPreventDefault = false
         break
     }
+
+    isPreventDefault && event.preventDefault()
   }
 
   function incrementPosition(step: number) {
-    let next = alpha.value + step
-    next = next < 0 ? 0 : next > 100 ? 100 : next
-    props.color.set('alpha', next)
+    let next = currentValue.value + step
+    next = next < minValue ? minValue : next > maxValue ? maxValue : next
+    props.color.set(key, next)
   }
 
   return {
     thumb,
     bar,
-    alpha,
-    alphaLabel,
+    currentValue,
     handleDrag,
     handleClick,
     handleKeydown,
   }
 }
 
-export const useAlphaSliderDOM = (
+interface UseSliderDOMOptions
+  extends Pick<
+    ReturnType<typeof useSlider>,
+    'bar' | 'thumb' | 'currentValue' | 'handleDrag'
+  > {
+  namespace: string
+  maxValue: number
+  getBackground?: () => string
+}
+
+export const useSliderDOM = (
   props: AlphaSliderProps,
   {
+    namespace,
+    maxValue,
     bar,
     thumb,
+    currentValue,
     handleDrag,
-  }: Pick<ReturnType<typeof useAlphaSlider>, 'bar' | 'thumb' | 'handleDrag'>
+    getBackground,
+  }: UseSliderDOMOptions
 ) => {
   const instance = getCurrentInstance()!
-
-  const ns = useNamespace('color-alpha-slider')
-  // refs
+  const ns = useNamespace(namespace)
 
   const thumbLeft = ref(0)
   const thumbTop = ref(0)
@@ -130,11 +161,11 @@ export const useAlphaSliderDOM = (
 
     if (props.vertical) return 0
     const el = instance.vnode.el
-    const alpha = props.color.get('alpha')
+    const value = currentValue.value
 
     if (!el) return 0
     return Math.round(
-      (alpha * (el.offsetWidth - thumb.value.offsetWidth / 2)) / 100
+      (value * (el.offsetWidth - thumb.value.offsetWidth / 2)) / maxValue
     )
   }
 
@@ -143,26 +174,18 @@ export const useAlphaSliderDOM = (
 
     const el = instance.vnode.el
     if (!props.vertical) return 0
-    const alpha = props.color.get('alpha')
+    const value = currentValue.value
 
     if (!el) return 0
     return Math.round(
-      (alpha * (el.offsetHeight - thumb.value.offsetHeight / 2)) / 100
+      (value * (el.offsetHeight - thumb.value.offsetHeight / 2)) / maxValue
     )
-  }
-
-  function getBackground() {
-    if (props.color && props.color.value) {
-      const { r, g, b } = props.color.toRgb()
-      return `linear-gradient(to right, rgba(${r}, ${g}, ${b}, 0) 0%, rgba(${r}, ${g}, ${b}, 1) 100%)`
-    }
-    return ''
   }
 
   function update() {
     thumbLeft.value = getThumbLeft()
     thumbTop.value = getThumbTop()
-    background.value = getBackground()
+    background.value = getBackground?.()
   }
 
   onMounted(() => {
@@ -182,10 +205,8 @@ export const useAlphaSliderDOM = (
     update()
   })
 
-  watch(
-    () => props.color.get('alpha'),
-    () => update()
-  )
+  watch(currentValue, () => update())
+
   watch(
     () => props.color.value,
     () => update()
@@ -204,5 +225,14 @@ export const useAlphaSliderDOM = (
     top: addUnit(thumbTop.value),
   }))
 
-  return { rootKls, barKls, barStyle, thumbKls, thumbStyle, update }
+  return {
+    rootKls,
+    barKls,
+    barStyle,
+    thumbKls,
+    thumbStyle,
+    thumbLeft,
+    thumbTop,
+    update,
+  }
 }

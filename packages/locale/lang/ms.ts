@@ -11,6 +11,9 @@ export default {
       description:
         'warna semasa ialah {warna}. tekan enter untuk memilih warna baharu.',
       alphaLabel: 'pilih nilai alfa',
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
     },
     datepicker: {
       now: 'Sekarang',

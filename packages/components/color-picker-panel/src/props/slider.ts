@@ -11,8 +11,11 @@ export const alphaSliderProps = buildProps({
   vertical: Boolean,
   disabled: Boolean,
 } as const)
+export const hueSliderProps = alphaSliderProps
 
 export type AlphaSliderProps = ExtractPropTypes<typeof alphaSliderProps>
 export type AlphaSliderPropsPublic = __ExtractPublicPropTypes<
   typeof alphaSliderProps
 >
+export type HueSliderEmits = AlphaSliderProps
+export type HueSliderProps = AlphaSliderPropsPublic

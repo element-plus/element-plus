@@ -11,6 +11,9 @@ export default {
       description:
         'current color is {color}. press enter to select a new color.',
       alphaLabel: 'pick alpha value',
+      alphaDescription: 'alpha {alpha}, current color is {color}',
+      hueLabel: 'pick hue value',
+      hueDescription: 'hue {hue}, current color is {color}',
     },
     datepicker: {
       now: 'Now',

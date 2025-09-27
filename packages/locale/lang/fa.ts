@@ -11,6 +11,9 @@ export default {
       description:
         'رنگ فعلی {color} است. برای انتخاب رنگ جدید، اینتر را فشار دهید.',
       alphaLabel: 'مقدار آلفا را انتخاب کنید',
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
     },
     datepicker: {
       now: 'اکنون',

@@ -11,6 +11,9 @@ export default {
       description:
         'ڕەنگی ئێستا {color}. ئینتەر دابگرە بۆ هەڵبژاردنی ڕەنگی نوێ.',
       alphaLabel: 'pick alpha value', // to be translated
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
     },
     datepicker: {
       now: 'ئێستا',
