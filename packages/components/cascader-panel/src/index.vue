@@ -165,7 +165,7 @@ const handleCheckChange: ElCascaderPanelContext['handleCheckChange'] = (
   node.doCheck(checked)
   calculateCheckedValue()
   emitClose && !multiple && !checkStrictly && emit('close')
-  !emitClose && !multiple && !checkStrictly && expandParentNode(node)
+  !emitClose && !multiple && expandParentNode(node)
 }
 
 const expandParentNode = (node: Node | undefined) => {
