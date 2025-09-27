@@ -264,6 +264,21 @@ describe('Radio group', () => {
     expect(radio.value).toEqual(6)
   })
 
+  it('should avoid passing alias fields to el-radio', async () => {
+    const modelValue = ref(1)
+    const options = [{ value: '3', name: 'Option A' }]
+    const wrapper = mount(() => (
+      <RadioGroup
+        v-model={modelValue.value}
+        options={options}
+        props={{ label: 'name' }}
+      />
+    ))
+    await nextTick()
+    const radio = wrapper.find('.el-radio')
+    expect(radio.find('input').attributes('name')).not.toBe('Option A')
+  })
+
   it('passes custom attributes from options to el-radio', () => {
     const options = [
       { value: 'a', label: 'A', 'data-test': 'custom-attr-1' },

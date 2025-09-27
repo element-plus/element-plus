@@ -186,6 +186,21 @@ describe('Checkbox', () => {
     expect(checkboxes[2].classes()).toContain('is-disabled')
   })
 
+  test('should avoid passing alias fields to el-checkbox', async () => {
+    const modelValue = ref(1)
+    const options = [{ value: '3', name: 'Option A' }]
+    const wrapper = mount(() => (
+      <CheckboxGroup
+        v-model={modelValue.value}
+        options={options}
+        props={{ value: 'name' }}
+      />
+    ))
+    await nextTick()
+    const checkbox = wrapper.find('.el-checkbox')
+    expect(checkbox.find('input').attributes('name')).not.toBe('Option A')
+  })
+
   test('checkbox group with dynamic modelValue', async () => {
     const form = reactive<{ checked: string }>({ checked: '' })
     const wrapper = mount({
