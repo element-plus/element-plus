@@ -21,7 +21,7 @@
 
 <script lang="ts" setup>
 import { computed, nextTick, provide, toRefs, watch } from 'vue'
-import { isEqual, pick } from 'lodash-unified'
+import { isEqual, omit, pick } from 'lodash-unified'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { debugWarn } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
@@ -69,12 +69,13 @@ const aliasProps = computed(() => ({
   ...props.props,
 }))
 const getOptionProps = (option: Record<string, any>) => {
+  const { label, value, disabled } = aliasProps.value
   const base = {
-    label: option[aliasProps.value.label],
-    value: option[aliasProps.value.value],
-    disabled: option[aliasProps.value.disabled],
+    label: option[label],
+    value: option[value],
+    disabled: option[disabled],
   }
-  return { ...option, ...base }
+  return { ...omit(option, [label, value, disabled]), ...base }
 }
 
 provide(checkboxGroupContextKey, {
