@@ -28,7 +28,7 @@
         inactiveText
       }}</span>
     </span>
-    <span ref="core" :class="ns.e('core')" :style="coreStyle">
+    <span :class="ns.e('core')" :style="coreStyle">
       <div v-if="inlinePrompt" :class="ns.e('inner')">
         <template v-if="activeIcon || inactiveIcon">
           <el-icon :class="ns.is('icon')">
@@ -72,7 +72,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, nextTick, onMounted, ref, watch } from 'vue'
+import { computed, nextTick, onMounted, ref, shallowRef, watch } from 'vue'
 import {
   addUnit,
   debugWarn,
@@ -116,8 +116,7 @@ const { inputId } = useFormItemInputId(props, {
 
 const switchDisabled = useFormDisabled(computed(() => props.loading))
 const isControlled = ref(props.modelValue !== false)
-const input = ref<HTMLInputElement>()
-const core = ref<HTMLSpanElement>()
+const input = shallowRef<HTMLInputElement>()
 
 const switchKls = computed(() => [
   ns.b(),
