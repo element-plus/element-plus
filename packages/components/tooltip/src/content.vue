@@ -176,15 +176,19 @@ watch(
       stopHandle?.()
     } else {
       ariaHidden.value = false
-      stopHandle = onClickOutside(popperContentRef, () => {
-        if (unref(controlled)) return
-        const needClose = castArray(unref(trigger)).every((item) => {
-          return item !== 'hover' && item !== 'focus'
-        })
-        if (needClose) {
-          onClose()
-        }
-      })
+      stopHandle = onClickOutside(
+        popperContentRef,
+        () => {
+          if (unref(controlled)) return
+          const needClose = castArray(unref(trigger)).every((item) => {
+            return item !== 'hover' && item !== 'focus'
+          })
+          if (needClose) {
+            onClose()
+          }
+        },
+        { detectIframe: true }
+      )
     }
   },
   {
