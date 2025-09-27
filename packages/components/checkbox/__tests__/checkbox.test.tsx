@@ -193,7 +193,7 @@ describe('Checkbox', () => {
       <CheckboxGroup
         v-model={modelValue.value}
         options={options}
-        props={{ value: 'name' }}
+        props={{ label: 'name' }}
       />
     ))
     await nextTick()
