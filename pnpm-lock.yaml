@@ -10,8 +10,8 @@ catalogs:
       specifier: ^3.4.1
       version: 3.6.1
     '@element-plus/icons-vue':
-      specifier: ^2.3.1
-      version: 2.3.1
+      specifier: ^2.3.2
+      version: 2.3.2
     '@popperjs/core':
       specifier: npm:@sxzz/popperjs-es@^2.11.7
       version: 2.11.7
@@ -66,8 +66,8 @@ importers:
         specifier: workspace:*
         version: link:packages/hooks
       '@element-plus/icons-vue':
-        specifier: ^2.3.1
-        version: 2.3.1(vue@3.2.37)
+        specifier: ^2.3.2
+        version: 2.3.2(vue@3.2.37)
       '@element-plus/locale':
         specifier: workspace:*
         version: link:packages/locale
@@ -265,8 +265,8 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@element-plus/icons-vue':
-        specifier: ^2.3.1
-        version: 2.3.1(vue@3.4.31(typescript@5.5.4))
+        specifier: ^2.3.2
+        version: 2.3.2(vue@3.4.31(typescript@5.5.4))
       '@element-plus/metadata':
         specifier: workspace:*
         version: link:../internal/metadata
@@ -546,7 +546,7 @@ importers:
         version: link:../hooks
       '@element-plus/icons-vue':
         specifier: 'catalog:'
-        version: 2.3.1(vue@3.2.37)
+        version: 2.3.2(vue@3.2.37)
       '@element-plus/utils':
         specifier: workspace:^
         version: link:../utils
@@ -600,8 +600,8 @@ importers:
         specifier: ^3.4.1
         version: 3.4.1
       '@element-plus/icons-vue':
-        specifier: ^2.3.1
-        version: 2.3.1(vue@3.2.37)
+        specifier: ^2.3.2
+        version: 2.3.2(vue@3.2.37)
       '@floating-ui/dom':
         specifier: ^1.0.1
         version: 1.0.1
@@ -731,7 +731,7 @@ importers:
         version: link:../constants
       '@element-plus/icons-vue':
         specifier: 'catalog:'
-        version: 2.3.1(vue@3.2.37)
+        version: 2.3.2(vue@3.2.37)
       '@vueuse/core':
         specifier: 'catalog:'
         version: 10.11.0(vue@3.2.37)
@@ -758,8 +758,8 @@ importers:
   play:
     dependencies:
       '@element-plus/icons-vue':
-        specifier: ^2.3.1
-        version: 2.3.1(vue@3.2.37)
+        specifier: ^2.3.2
+        version: 2.3.2(vue@3.2.37)
       vue:
         specifier: ^3.2.37
         version: 3.2.37
@@ -1372,8 +1372,8 @@ packages:
       search-insights:
         optional: true
 
-  '@element-plus/icons-vue@2.3.1':
-    resolution: {integrity: sha512-XxVUZv48RZAd87ucGS48jPf6pKu0yV5UCg9f4FFwtrYxXOwWuVJo6wOvSLKEoMQKjv8GsX/mhP6UsC1lRwbUWg==}
+  '@element-plus/icons-vue@2.3.2':
+    resolution: {integrity: sha512-OzIuTaIfC8QXEPmJvB4Y4kw34rSXdCJzxcD1kFStBvr8bK6X1zQAYDo0CNMjojnfTqRQCJ0I7prlErcoRiET2A==}
     peerDependencies:
       vue: ^3.2.0
 
@@ -9469,11 +9469,11 @@ snapshots:
     transitivePeerDependencies:
       - '@algolia/client-search'
 
-  '@element-plus/icons-vue@2.3.1(vue@3.2.37)':
+  '@element-plus/icons-vue@2.3.2(vue@3.2.37)':
     dependencies:
       vue: 3.2.37
 
-  '@element-plus/icons-vue@2.3.1(vue@3.4.31(typescript@5.5.4))':
+  '@element-plus/icons-vue@2.3.2(vue@3.4.31(typescript@5.5.4))':
     dependencies:
       vue: 3.4.31(typescript@5.5.4)
 
@@ -13061,7 +13061,7 @@ snapshots:
   element-plus@2.8.1(vue@3.4.31(typescript@5.5.4)):
     dependencies:
       '@ctrl/tinycolor': 3.6.1
-      '@element-plus/icons-vue': 2.3.1(vue@3.4.31(typescript@5.5.4))
+      '@element-plus/icons-vue': 2.3.2(vue@3.4.31(typescript@5.5.4))
       '@floating-ui/dom': 1.6.8
       '@popperjs/core': '@sxzz/popperjs-es@2.11.7'
       '@types/lodash': 4.17.7

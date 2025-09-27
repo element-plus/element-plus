@@ -5,7 +5,7 @@ packages:
   - internal/*
 catalog:
   '@ctrl/tinycolor': ^3.4.1
-  '@element-plus/icons-vue': ^2.3.1
+  '@element-plus/icons-vue': ^2.3.2
   '@vue/shared': ~3.2.37
   '@vueuse/core': ^10.11.0
   '@vue/test-utils': ^2.0.0
