@@ -2,7 +2,6 @@ import { isEqual } from 'lodash-unified'
 import { isPropAbsent } from '@element-plus/utils'
 import Node from './node'
 
-import type { Nullable } from '@element-plus/utils'
 import type {
   CascaderConfig,
   CascaderNodePathValue,
@@ -76,7 +75,7 @@ export default class Store {
   getNodeByValue(
     value: CascaderNodeValue | CascaderNodePathValue,
     leafOnly = false
-  ): Nullable<Node> {
+  ): Node | null {
     if (isPropAbsent(value)) return null
 
     const node = this.getFlattedNodes(leafOnly).find(
@@ -86,7 +85,7 @@ export default class Store {
     return node || null
   }
 
-  getSameNode(node: Node): Nullable<Node> {
+  getSameNode(node: Node): Node | null {
     if (!node) return null
 
     const node_ = this.getFlattedNodes(false).find(
