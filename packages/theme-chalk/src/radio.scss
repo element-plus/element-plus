@@ -39,6 +39,10 @@ $radio-font-size: map.merge(
     }
   }
 
+  @include when(disabled) {
+    cursor: not-allowed;
+  }
+
   @include when(bordered) {
     padding: 0 map.get($checkbox-bordered-padding-right, 'default')-$border-width
       0 map.get($checkbox-bordered-padding-left, 'default')-$border-width;
@@ -52,7 +56,6 @@ $radio-font-size: map.merge(
     }
 
     &.is-disabled {
-      cursor: not-allowed;
       border-color: getCssVar('border-color-lighter');
     }
 
@@ -89,6 +92,8 @@ $radio-font-size: map.merge(
     vertical-align: middle;
 
     @include when(disabled) {
+      cursor: not-allowed;
+
       .#{$namespace}-radio__inner {
         background-color: map.get($radio-disabled, 'input-fill');
         border-color: map.get($radio-disabled, 'input-border-color');
