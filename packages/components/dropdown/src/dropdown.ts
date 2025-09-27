@@ -11,7 +11,6 @@ import type { Placement } from '@element-plus/components/popper'
 import type { Options } from '@popperjs/core'
 import type { ButtonProps, ButtonType } from '@element-plus/components/button'
 import type { ComponentInternalInstance, ComputedRef } from 'vue'
-import type { Nullable } from '@element-plus/utils'
 
 export interface IElDropdownInstance {
   instance?: ComponentInternalInstance
@@ -22,7 +21,7 @@ export interface IElDropdownInstance {
   hide?: () => void
   trigger?: ComputedRef<string>
   hideOnClick?: ComputedRef<boolean>
-  triggerElm?: ComputedRef<Nullable<HTMLButtonElement>>
+  triggerElm?: ComputedRef<HTMLButtonElement>
 }
 
 export const dropdownProps = buildProps({
