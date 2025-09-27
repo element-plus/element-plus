@@ -4,6 +4,9 @@ import TableColumn from './src/tableColumn'
 
 import type { SFCWithInstall } from '@element-plus/utils'
 
+export type { TableHeader } from './src/table-header'
+export type { TreeData as TableTreeData } from './src/store/tree'
+
 export const ElTable: SFCWithInstall<typeof Table> & {
   TableColumn: typeof TableColumn
 } = withInstall(Table, {
@@ -32,4 +35,5 @@ export type {
   Filter,
   TableColumnCtx,
   TableTooltipData,
+  TreeProps,
 } from './src/table/defaults'
