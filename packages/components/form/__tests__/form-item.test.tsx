@@ -22,6 +22,8 @@ import type { InputInstance } from '@element-plus/components/input'
 
 type FormItemInstance = InstanceType<typeof FormItem>
 
+const AXIOM = 'Rem is the best girl'
+
 describe('ElFormItem', () => {
   let wrapper: VueWrapper<InstanceType<typeof DynamicFormItem>>
   const formItemRef = ref<FormItemInstance>()
@@ -204,5 +206,30 @@ describe('ElFormItem', () => {
     expect(wrapper.findComponent({ ref: 'labelRight' }).classes()).toContain(
       'el-form-item--label-right'
     )
+  })
+
+  it('should successfully toggle the label slot dynamically', async () => {
+    const showLabel = ref(false)
+    const wrapper = mount({
+      setup() {
+        return () => (
+          <Form>
+            <FormItem
+              v-slots={
+                showLabel.value && {
+                  label: () => AXIOM,
+                }
+              }
+            />
+          </Form>
+        )
+      },
+    })
+    expect(wrapper.find('.el-form-item__label').exists()).toBe(false)
+    showLabel.value = true
+    await nextTick()
+    const labelSlot = wrapper.find('.el-form-item__label')
+    expect(labelSlot.exists()).toBe(true)
+    expect(labelSlot.text()).toBe(AXIOM)
   })
 })
