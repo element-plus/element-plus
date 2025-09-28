@@ -58,15 +58,15 @@
               :class="dpNs.e('header-label')"
               aria-live="polite"
               tabindex="0"
-              @keydown.enter="handleYearLabelClick"
-              @click="handleYearLabelClick"
+              @keydown.enter="showLeftPicker('year')"
+              @click="showLeftPicker('year')"
             >
               {{ leftLabel }}
             </span>
           </div>
           <month-table
-            v-if="currentView === 'month'"
-            ref="leftTableRef"
+            v-if="leftCurrentView === 'month'"
+            ref="leftCurrentViewRef"
             selection-mode="range"
             :date="leftDate"
             :min-date="minDate"
@@ -80,8 +80,8 @@
             @select="onSelect"
           />
           <year-table
-            v-if="currentView === 'year'"
-            ref="leftTableRef"
+            v-if="leftCurrentView === 'year'"
+            ref="leftCurrentViewRef"
             selection-mode="year"
             :date="leftDate"
             :parsed-value="leftDate"
@@ -121,15 +121,15 @@
               :class="dpNs.e('header-label')"
               aria-live="polite"
               tabindex="0"
-              @keydown.enter="handleYearLabelClick"
-              @click="handleYearLabelClick"
+              @keydown.enter="showRightPicker('year')"
+              @click="showRightPicker('year')"
             >
               {{ rightLabel }}
             </span>
           </div>
           <month-table
-            v-if="currentView === 'month'"
-            ref="rightTableRef"
+            v-if="rightCurrentView === 'month'"
+            ref="rightCurrentViewRef"
             selection-mode="range"
             :date="rightDate"
             :min-date="minDate"
@@ -143,8 +143,8 @@
             @select="onSelect"
           />
           <year-table
-            v-if="currentView === 'year'"
-            ref="rightTableRef"
+            v-if="rightCurrentView === 'year'"
+            ref="rightCurrentViewRef"
             selection-mode="year"
             :date="rightDate"
             :parsed-value="rightDate"
@@ -160,7 +160,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, nextTick, ref, toRef, unref, watch } from 'vue'
+import { computed, inject, ref, toRef, unref, watch } from 'vue'
 import dayjs from 'dayjs'
 import ElIcon from '@element-plus/components/icon'
 import { isArray } from '@element-plus/utils'
@@ -178,6 +178,7 @@ import {
 } from '../props/panel-month-range'
 import { useMonthRangeHeader } from '../composables/use-month-range-header'
 import { useRangePicker } from '../composables/use-range-picker'
+import { usePanelDateRange } from '../composables/use-panel-date-range'
 import { ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY } from '../constants'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
@@ -204,11 +205,6 @@ const format = toRef(pickerBase.props, 'format')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 const leftDate = ref(dayjs().locale(lang.value))
 const rightDate = ref(dayjs().locale(lang.value).add(1, unit))
-const currentView = ref('month')
-const leftTableRef = ref<{ focus?: () => void }>()
-const rightTableRef = ref<{ focus?: () => void }>()
-// 保存切换视图前的 rangeState 状态
-const savedRangeState = ref<{ selecting: boolean; endDate: any } | null>(null)
 
 const {
   minDate,
@@ -247,66 +243,25 @@ const {
   rightDate,
 })
 
-const handleFocusPicker = () => {
-  if (currentView.value === 'month' || currentView.value === 'year') {
-    leftTableRef.value?.focus?.()
-  }
+const panelProps = {
+  ...props,
+  type: 'monthrange' as const,
+  showNow: true,
+  showWeekNumber: false,
 }
+const {
+  leftCurrentView,
+  rightCurrentView,
+  leftCurrentViewRef,
+  rightCurrentViewRef,
+  showLeftPicker,
+  showRightPicker,
+  handleLeftYearPick,
+  handleRightYearPick,
+} = usePanelDateRange(panelProps, emit, leftDate, rightDate)
 
-const handleYearLabelClick = async (event: Event) => {
-  // 彻底阻止事件冒泡和默认行为
-  event.stopPropagation()
-  event.preventDefault()
-  event.stopImmediatePropagation()
-
-  await showPicker('year')
-}
-
-const handleLeftYearPick = async (year: number) => {
-  leftDate.value = leftDate.value.year(year)
-
-  // 切换回月份视图
-  await showPicker('month')
-}
-
-const handleRightYearPick = async (year: number) => {
-  rightDate.value = rightDate.value.year(year)
-
-  // 切换回月份视图
-  await showPicker('month')
-}
-
-const showPicker = async (view: 'month' | 'year', event?: Event) => {
-  if (event) {
-    event.stopPropagation()
-    event.preventDefault()
-  }
-  if (props.disabled) return
-
-  // 如果从月份视图切换到年份视图，保存当前的 rangeState
-  if (currentView.value === 'month' && view === 'year') {
-    savedRangeState.value = {
-      selecting: rangeState.value.selecting,
-      endDate: rangeState.value.endDate,
-    }
-    // 重置 rangeState 以避免在年份视图中触发月份选择逻辑
-    onSelect(false)
-  }
-  // 如果从年份视图切换回月份视图，恢复之前的 rangeState
-  else if (
-    currentView.value === 'year' &&
-    view === 'month' &&
-    savedRangeState.value
-  ) {
-    rangeState.value.selecting = savedRangeState.value.selecting
-    rangeState.value.endDate = savedRangeState.value.endDate
-    savedRangeState.value = null
-  }
-
-  currentView.value = view
-  await nextTick()
-  handleFocusPicker()
-}
+leftCurrentView.value = 'month'
+rightCurrentView.value = 'month'
 
 const enableYearArrow = computed(() => {
   return props.unlinkPanels && rightYear.value > leftYear.value + 1
@@ -318,10 +273,6 @@ type RangePickValue = {
 }
 
 const handleRangePick = (val: RangePickValue, close = true) => {
-  // const defaultTime = props.defaultTime || []
-  // const minDate_ = modifyWithTimeString(val.minDate, defaultTime[0])
-  // const maxDate_ = modifyWithTimeString(val.maxDate, defaultTime[1])
-  // todo
   const minDate_ = val.minDate
   const maxDate_ = val.maxDate
   if (maxDate.value === maxDate_ && minDate.value === minDate_) {
