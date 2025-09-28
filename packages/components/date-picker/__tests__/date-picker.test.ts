@@ -2889,4 +2889,57 @@ describe('YearRange', () => {
       (wrapper.findComponent(CommonPicker).vm as any).elPopperOptions
     ).toEqual(ElPopperOptions)
   })
+
+  describe('should show default value when persistent is false', () => {
+    it('type:date', async () => {
+      const wrapper = _mount(
+        `<el-date-picker
+          v-model="value"
+          format="YYYY-MM-DD"
+          :persistent="false"
+          />`,
+        () => ({
+          value: '2025-01-01',
+        })
+      )
+      await nextTick()
+      const input = wrapper.find('input')
+      expect(input.element.value).toBe('2025-01-01')
+    })
+
+    it('type:datetime', async () => {
+      const wrapper = _mount(
+        `<el-date-picker
+          v-model="value"
+          type="datetime"
+          format="YYYY-MM-DD HH:mm:ss"
+          :persistent="false"
+          />`,
+        () => ({
+          value: new Date(2025, 0, 1, 14, 50, 10),
+        })
+      )
+      await nextTick()
+      const input = wrapper.find('input')
+      expect(input.element.value).toBe('2025-01-01 14:50:10')
+    })
+
+    it('type:daterange', async () => {
+      const wrapper = _mount(
+        `<el-date-picker
+          v-model="value"
+          type="daterange"
+          format="YYYY-MM-DD"
+          :persistent="false"
+          />`,
+        () => ({
+          value: [new Date(2025, 0, 1), new Date(2025, 0, 15)],
+        })
+      )
+      await nextTick()
+      const inputs = wrapper.findAll('input')
+      expect(inputs[0].element.value).toBe('2025-01-01')
+      expect(inputs[1].element.value).toBe('2025-01-15')
+    })
+  })
 })
