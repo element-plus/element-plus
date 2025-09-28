@@ -71,6 +71,7 @@ watermark/custom
 | fontSize     | font size     | ^[number]                                                                            | 16              |
 | fontWeight   | font weight   | ^[enum]`'normal' \| 'light' \| 'weight' \| number`                                   | normal          |
 | fontFamily   | font family   | ^[string]                                                                            | sans-serif      |
+| fontGap      | font gap      | ^[number]                                                                            | 3               |
 | fontStyle    | font style    | ^[enum]`'none' \| 'normal' \| 'italic' \| 'oblique'`                                 | normal          |
 | textAlign    | text align    | ^[enum]`'left' \| 'right' \| 'center' \| 'start' \| 'end' `                          | center          |
 | textBaseline | text baseline | ^[enum]`'top' \| 'hanging' \| 'middle' \| 'alphabetic' \| 'ideographic' \| 'bottom'` | hanging         |
