@@ -92,7 +92,18 @@ export const makeList = (total: number, method?: () => number[]) => {
 }
 
 export const dayOrDaysToDate = (dayOrDays: DayOrDays): DateOrDates => {
-  return isArray(dayOrDays)
-    ? (dayOrDays.map((d) => d.toDate()) as [Date, Date])
-    : dayOrDays.toDate()
+  if (isArray(dayOrDays)) {
+    return dayOrDays.map((d) => {
+      if (d && d.toDate && typeof d.toDate === 'function') {
+        return d.toDate()
+      }
+      return new Date()
+    }) as [Date, Date]
+  }
+
+  if (dayOrDays && dayOrDays.toDate && typeof dayOrDays.toDate === 'function') {
+    return dayOrDays.toDate()
+  }
+
+  return new Date()
 }

@@ -625,13 +625,17 @@ const handleEndInput = (event: Event) => {
 const handleStartChange = () => {
   const values = userInput.value as string[]
   const value = parseUserInputToDayjs(values && values[0]) as Dayjs
-  const parsedVal = unref(parsedValue) as [Dayjs, Dayjs]
   if (value && value.isValid()) {
     userInput.value = [
       formatDayjsToString(value) as string,
       displayValue.value?.[1] || null,
     ]
-    const newValue = [value, parsedVal && (parsedVal[1] || null)] as DayOrDays
+
+    const endValueStr = values && values[1]
+    const endValue = endValueStr
+      ? (parseUserInputToDayjs(endValueStr) as Dayjs)
+      : null
+    const newValue = [value, endValue] as DayOrDays
     if (isValidValue(newValue)) {
       emitInput(dayOrDaysToDate(newValue))
       userInput.value = null
@@ -642,13 +646,17 @@ const handleStartChange = () => {
 const handleEndChange = () => {
   const values = unref(userInput) as string[]
   const value = parseUserInputToDayjs(values && values[1]) as Dayjs
-  const parsedVal = unref(parsedValue) as [Dayjs, Dayjs]
   if (value && value.isValid()) {
     userInput.value = [
-      unref(displayValue)?.[0] || null,
+      values?.[0] || null,
       formatDayjsToString(value) as string,
     ]
-    const newValue = [parsedVal && parsedVal[0], value] as DayOrDays
+
+    const startValueStr = values && values[0]
+    const startValue = startValueStr
+      ? (parseUserInputToDayjs(startValueStr) as Dayjs)
+      : null
+    const newValue = [startValue, value] as DayOrDays
     if (isValidValue(newValue)) {
       emitInput(dayOrDaysToDate(newValue))
       userInput.value = null
