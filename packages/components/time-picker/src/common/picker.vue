@@ -385,7 +385,7 @@ const handleClose = () => {
 }
 
 const displayValue = computed<UserInput>(() => {
-  const formattedValue = formatDayjsToString(parsedValue.value)
+  const formattedValue = formatToString(parsedValue.value)
   if (isArray(userInput.value)) {
     return [
       userInput.value[0] || (formattedValue && formattedValue[0]) || '',
