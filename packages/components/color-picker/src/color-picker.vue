@@ -282,7 +282,7 @@ function clear() {
 
 function validateFormItem(trigger: 'blur' | 'change') {
   if (props.validateEvent) {
-    formItem?.validate(trigger).catch((err) => debugWarn(err))
+    formItem?.validate(trigger).catch(debugWarn)
   }
 }
 
