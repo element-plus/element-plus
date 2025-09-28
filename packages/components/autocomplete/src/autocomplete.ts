@@ -78,10 +78,11 @@ export const autocompleteProps = buildProps({
   /**
    * @description custom class name for autocomplete's dropdown
    */
-  popperClass: {
-    type: String,
-    default: '',
-  },
+  popperClass: useTooltipContentProps.popperClass,
+  /**
+   * @description custom style for autocomplete's dropdown
+   */
+  popperStyle: useTooltipContentProps.popperStyle,
   /**
    * @description whether show suggestions when input focus
    */
@@ -113,6 +114,13 @@ export const autocompleteProps = buildProps({
    * @description whether the width of the dropdown is the same as the input
    */
   fitInputWidth: Boolean,
+  /**
+   * @description whether keyboard navigation loops from end to start
+   */
+  loopNavigation: {
+    type: Boolean,
+    default: true,
+  },
 } as const)
 export type AutocompleteProps = ExtractPropTypes<typeof autocompleteProps>
 export type AutocompletePropsPublic = __ExtractPublicPropTypes<

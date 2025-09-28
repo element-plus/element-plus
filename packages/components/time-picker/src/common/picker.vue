@@ -189,7 +189,7 @@ import {
 import ElInput from '@element-plus/components/input'
 import ElIcon from '@element-plus/components/icon'
 import ElTooltip from '@element-plus/components/tooltip'
-import { NOOP, debugWarn, isArray } from '@element-plus/utils'
+import { NOOP, debugWarn, getEventCode, isArray } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
   EVENT_CODE,
@@ -273,6 +273,7 @@ const { isFocused, handleFocus, handleBlur } = useFocusController(inputRef, {
     return props.readonly
   },
   afterFocus() {
+    if (!props.automaticDropdown) return
     pickerVisible.value = true
   },
   beforeBlur(event) {
@@ -446,7 +447,11 @@ const onClearIconClick = (event: MouseEvent) => {
 
 const onMouseDownInput = async (event: MouseEvent) => {
   if (props.readonly || pickerDisabled.value) return
-  if ((event.target as HTMLElement)?.tagName !== 'INPUT' || isFocused.value) {
+  if (
+    (event.target as HTMLElement)?.tagName !== 'INPUT' ||
+    isFocused.value ||
+    !props.automaticDropdown
+  ) {
     pickerVisible.value = true
   }
 }
@@ -464,7 +469,8 @@ const onTouchStartInput = (event: TouchEvent) => {
   if (props.readonly || pickerDisabled.value) return
   if (
     (event.touches[0].target as HTMLElement)?.tagName !== 'INPUT' ||
-    isFocused.value
+    isFocused.value ||
+    !props.automaticDropdown
   ) {
     pickerVisible.value = true
   }
@@ -533,7 +539,7 @@ const isValidValue = (value: DayOrDays) => {
 const handleKeydownInput = async (event: Event | KeyboardEvent) => {
   if (props.readonly || pickerDisabled.value) return
 
-  const { code } = event as KeyboardEvent
+  const code = getEventCode(event as KeyboardEvent)
   emitKeydown(event as KeyboardEvent)
   if (code === EVENT_CODE.esc) {
     if (pickerVisible.value === true) {
@@ -565,7 +571,9 @@ const handleKeydownInput = async (event: Event | KeyboardEvent) => {
   }
 
   if (code === EVENT_CODE.enter || code === EVENT_CODE.numpadEnter) {
-    if (
+    if (!pickerVisible.value) {
+      pickerVisible.value = true
+    } else if (
       userInput.value === null ||
       userInput.value === '' ||
       isValidValue(parseUserInputToDayjs(displayValue.value) as DayOrDays)
@@ -573,6 +581,7 @@ const handleKeydownInput = async (event: Event | KeyboardEvent) => {
       handleChange()
       pickerVisible.value = false
     }
+    event.preventDefault()
     event.stopPropagation()
     return
   }

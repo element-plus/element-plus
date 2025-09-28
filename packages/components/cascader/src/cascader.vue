@@ -222,6 +222,7 @@ import { useCssVar, useResizeObserver } from '@vueuse/core'
 import {
   debugWarn,
   focusNode,
+  getEventCode,
   getSibling,
   isClient,
   isPromise,
@@ -373,7 +374,6 @@ const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
     )
   },
   afterBlur() {
-    popperVisible.value = false
     if (props.validateEvent) {
       formItem?.validate?.('blur').catch((err) => debugWarn(err))
     }
@@ -600,8 +600,9 @@ const handleExpandChange = (value: CascaderValue) => {
 
 const handleKeyDown = (e: KeyboardEvent) => {
   if (isComposing.value) return
+  const code = getEventCode(e)
 
-  switch (e.code) {
+  switch (code) {
     case EVENT_CODE.enter:
     case EVENT_CODE.numpadEnter:
       togglePopperVisible()
@@ -652,7 +653,7 @@ const handleSuggestionClick = (node: CascaderNode) => {
 
 const handleSuggestionKeyDown = (e: KeyboardEvent) => {
   const target = e.target as HTMLElement
-  const { code } = e
+  const code = getEventCode(e)
 
   switch (code) {
     case EVENT_CODE.up:

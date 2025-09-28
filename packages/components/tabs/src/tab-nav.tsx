@@ -20,6 +20,7 @@ import {
   buildProps,
   capitalize,
   definePropType,
+  getEventCode,
   mutable,
   throwError,
 } from '@element-plus/utils'
@@ -248,9 +249,10 @@ const TabNav = defineComponent({
     }
 
     const changeTab = (event: KeyboardEvent) => {
+      const code = getEventCode(event)
       let step = 0
 
-      switch (event.code) {
+      switch (code) {
         case EVENT_CODE.left:
         case EVENT_CODE.up:
           step = -1
@@ -406,10 +408,10 @@ const TabNav = defineComponent({
               emit('tabClick', pane, tabName, ev)
             }}
             onKeydown={(ev: KeyboardEvent) => {
+              const code = getEventCode(ev)
               if (
                 closable &&
-                (ev.code === EVENT_CODE.delete ||
-                  ev.code === EVENT_CODE.backspace)
+                (code === EVENT_CODE.delete || code === EVENT_CODE.backspace)
               ) {
                 emit('tabRemove', pane, ev)
               }

@@ -171,5 +171,5 @@ tree-v2/filter
 
 | Name           | Description                                                                                    |
 | -------------- | ---------------------------------------------------------------------------------------------- |
-| -              | Custom content for tree nodes. The scope parameter is `{ node: TreeNode, data: TreeNodeData }` |
+| default        | Custom content for tree nodes. The scope parameter is `{ node: TreeNode, data: TreeNodeData }` |
 | empty ^(2.9.0) | empty you can customize content when data is empty.                                            |
