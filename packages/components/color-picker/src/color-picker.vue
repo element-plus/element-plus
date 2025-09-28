@@ -168,9 +168,7 @@ const { isFocused, handleFocus, handleBlur } = useFocusController(triggerRef, {
   afterBlur() {
     setShowPicker(false)
     resetColor()
-    if (props.validateEvent) {
-      formItem?.validate?.('blur').catch((err) => debugWarn(err))
-    }
+    validateFormItem('blur')
   },
 })
 
@@ -257,9 +255,7 @@ function confirmValue() {
   const value = isEmptyValue(color.value) ? valueOnClear.value : color.value
   emit(UPDATE_MODEL_EVENT, value)
   emit(CHANGE_EVENT, value)
-  if (props.validateEvent) {
-    formItem?.validate('change').catch((err) => debugWarn(err))
-  }
+  validateFormItem('change')
   debounceSetShowPicker(false)
   // check if modelValue change, if not change, then reset color.
   nextTick(() => {
@@ -278,10 +274,16 @@ function clear() {
   debounceSetShowPicker(false)
   emit(UPDATE_MODEL_EVENT, valueOnClear.value)
   emit(CHANGE_EVENT, valueOnClear.value)
-  if (props.modelValue !== valueOnClear.value && props.validateEvent) {
-    formItem?.validate('change').catch((err) => debugWarn(err))
+  if (props.modelValue !== valueOnClear.value) {
+    validateFormItem('change')
   }
   resetColor()
+}
+
+function validateFormItem(trigger: 'blur' | 'change') {
+  if (props.validateEvent) {
+    formItem?.validate(trigger).catch((err) => debugWarn(err))
+  }
 }
 
 function handleClickOutside() {
