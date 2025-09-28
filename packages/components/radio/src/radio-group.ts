@@ -64,10 +64,10 @@ export const radioGroupProps = buildProps({
     type: definePropType<radioOptionProp>(Object),
     default: () => radioDefaultProps,
   },
-  optionComponent: {
+  type: {
     type: String,
-    values: ['ElRadio', 'ElRadioButton'] as const,
-    default: 'ElRadio',
+    values: ['radio', 'button'] as const,
+    default: 'radio',
   },
   ...useAriaProps(['ariaLabel']),
 } as const)

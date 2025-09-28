@@ -281,11 +281,7 @@ describe('Radio group', () => {
       },
     ]
     const wrapper = mount(() => (
-      <RadioGroup
-        v-model={radio.value}
-        options={options}
-        optionComponent="ElRadioButton"
-      />
+      <RadioGroup v-model={radio.value} options={options} type="button" />
     ))
     await nextTick()
     const [btn1, btn2] = wrapper.findAll('.el-radio-button')
@@ -307,7 +303,7 @@ describe('Radio group', () => {
         v-model={radio.value}
         options={options}
         props={{ value: 'id', disabled: 'disabled' }}
-        optionComponent="ElRadioButton"
+        type="button"
       />
     ))
     await nextTick()
