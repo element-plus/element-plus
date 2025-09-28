@@ -256,9 +256,23 @@ const {
   rightCurrentViewRef,
   showLeftPicker,
   showRightPicker,
-  handleLeftYearPick,
-  handleRightYearPick,
 } = usePanelDateRange(panelProps, emit, leftDate, rightDate)
+
+const handleLeftYearPick = (year: number) => {
+  leftDate.value = leftDate.value.year(year)
+  if (!props.unlinkPanels) {
+    rightDate.value = leftDate.value.add(1, 'year')
+  }
+  leftCurrentView.value = 'month'
+}
+
+const handleRightYearPick = (year: number) => {
+  rightDate.value = rightDate.value.year(year)
+  if (!props.unlinkPanels) {
+    leftDate.value = rightDate.value.subtract(1, 'year')
+  }
+  rightCurrentView.value = 'month'
+}
 
 leftCurrentView.value = 'month'
 rightCurrentView.value = 'month'
