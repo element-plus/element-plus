@@ -385,7 +385,6 @@ const handleClose = () => {
 }
 
 const displayValue = computed<UserInput>(() => {
-  if (!pickerOptions.value.panelReady) return ''
   const formattedValue = formatDayjsToString(parsedValue.value)
   if (isArray(userInput.value)) {
     return [
@@ -529,7 +528,12 @@ const parseUserInputToDayjs = (value: UserInput) => {
 
 const formatDayjsToString = (value: DayOrDays) => {
   if (!value) return null
-  return pickerOptions.value.formatToString!(value)
+  if (!pickerOptions.value.formatToString) {
+    return isArray(value)
+      ? (value.map((_) => _.format(props.format)) as [string, string])
+      : value.format(props.format)
+  }
+  return pickerOptions.value.formatToString(value)
 }
 
 const isValidValue = (value: DayOrDays) => {
