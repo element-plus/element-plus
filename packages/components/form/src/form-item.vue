@@ -11,7 +11,7 @@
     >
       <component
         :is="labelFor ? 'label' : 'div'"
-        v-if="hasLabel"
+        v-if="!!(label || $slots.label)"
         :id="labelId"
         :for="labelFor"
         :class="ns.e('label')"
