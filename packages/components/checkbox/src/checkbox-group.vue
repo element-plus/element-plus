@@ -11,7 +11,7 @@
   >
     <slot>
       <component
-        :is="optionComponent"
+        :is="optionComponent"1
         v-for="(item, index) in options"
         :key="index"
         v-bind="getOptionProps(item)"
