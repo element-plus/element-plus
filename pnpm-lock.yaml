@@ -101,9 +101,6 @@ importers:
       dayjs:
         specifier: ^1.11.18
         version: 1.11.18
-      escape-html:
-        specifier: ^1.0.3
-        version: 1.0.3
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -316,9 +313,6 @@ importers:
       consola:
         specifier: ^2.15.3
         version: 2.15.3
-      escape-html:
-        specifier: ^1.0.3
-        version: 1.0.3
       fast-glob:
         specifier: ^3.2.11
         version: 3.2.11
@@ -623,9 +617,6 @@ importers:
       dayjs:
         specifier: ^1.11.18
         version: 1.11.18
-      escape-html:
-        specifier: ^1.0.3
-        version: 1.0.3
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
