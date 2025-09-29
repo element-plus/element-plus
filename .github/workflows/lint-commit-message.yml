@@ -44,29 +44,71 @@ jobs:
 
       - name: Lint commit
         id: lint_commit
-        run: |
-          echo "${{ github.event.pull_request.title }}" | pnpm run lint:commit || echo "failed=true" >> $GITHUB_OUTPUT
+        run: echo "${{ github.event.pull_request.title }}" | pnpm run lint:commit || echo "failed=true" >> $GITHUB_OUTPUT
 
       - name: Set success result
         if: ${{ steps.lint_commit.outputs.failed != 'true' }}
-        uses: actions-awesome/pr-helper@1.1.1
+        uses: actions/github-script@v7
         with:
-          actions: 'maintain-comment, add-labels, remove-labels'
-          token: ${{ github.token }}
-          labels-to-remove: 'CommitMessage::Unqualified'
-          body-filter: '<!-- ELEMENT_PLUS_COMMIT_LINT -->'
-          pr-number: ${{ github.event.number }}
+          github-token: ${{ github.token }}
+          script: |
+            const prNumber = context.issue.number;
+            try {
+              await github.rest.issues.removeLabel({
+                ...context.repo,
+                issue_number: prNumber,
+                name: "CommitMessage::Unqualified"
+              });
+            } catch (e) {
+              console.log("No label to remove");
+            }
+
+            const { data: comments } = await github.rest.issues.listComments({
+              ...context.repo,
+              issue_number: prNumber
+            });
+
+            const oldComment = comments.find(c => c.body?.includes("<!-- ELEMENT_PLUS_COMMIT_LINT -->"));
+            if (oldComment) {
+              await github.rest.issues.deleteComment({
+                ...context.repo,
+                comment_id: oldComment.id
+              });
+            }
 
       - name: Set failed result
         if: ${{ steps.lint_commit.outputs.failed == 'true' }}
-        uses: actions-awesome/pr-helper@1.1.1
+        uses: actions/github-script@v7
         with:
-          actions: 'remove-labels, add-labels, maintain-comment'
-          labels-to-add: 'CommitMessage::Unqualified'
-          token: ${{ github.token }}
-          pr-number: ${{ github.event.number }}
-          comment-body: |
-            Hello, @${{ github.event.pull_request.user.login }}, your PR title does not meet the standards, please refer to [commit-history](https://github.com/element-plus/element-plus/commits/dev/) or [docs-examples](https://element-plus.org/en-US/guide/commit-examples.html) make changes.
-            你好，@${{ github.event.pull_request.user.login }}，你的 PR 标题不符合规范，请参考 [提交历史](https://github.com/element-plus/element-plus/commits/dev/) 或者 [文档示例](https://element-plus.org/en-US/guide/commit-examples.html) 进行修改。
-            <!-- ELEMENT_PLUS_COMMIT_LINT -->
-          body-filter: '<!-- ELEMENT_PLUS_COMMIT_LINT -->'
+          github-token: ${{ github.token }}
+          script: |
+            const prNumber = context.issue.number;
+            await github.rest.issues.addLabels({
+              ...context.repo,
+              issue_number: prNumber,
+              labels: ["CommitMessage::Unqualified"]
+            });
+
+            const { data: comments } = await github.rest.issues.listComments({
+              ...context.repo,
+              issue_number: prNumber
+            });
+
+            const body = `Hello, @${context.payload.pull_request.user.login}, your PR title does not meet the standards, please refer to [commit-history](https://github.com/element-plus/element-plus/commits/dev/) or [docs-examples](https://element-plus.org/en-US/guide/commit-examples.html) make changes.
+            你好，@${context.payload.pull_request.user.login}，你的 PR 标题不符合规范，请参考 [提交历史](https://github.com/element-plus/element-plus/commits/dev/) 或者 [文档示例](https://element-plus.org/en-US/guide/commit-examples.html) 进行修改。
+            <!-- ELEMENT_PLUS_COMMIT_LINT -->`;
+
+            const oldComment = comments.find(c => c.body?.includes("<!-- ELEMENT_PLUS_COMMIT_LINT -->"));
+            if (oldComment) {
+              await github.rest.issues.updateComment({
+                ...context.repo,
+                comment_id: oldComment.id,
+                body
+              });
+            } else {
+              await github.rest.issues.createComment({
+                ...context.repo,
+                issue_number: prNumber,
+                body
+              });
+            }
