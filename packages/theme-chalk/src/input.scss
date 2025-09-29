@@ -92,10 +92,10 @@
   & .#{$namespace}-input__count {
     color: getCssVar('color-info');
     background: getCssVar('fill-color', 'blank');
+    position: absolute;
     font-size: 12px;
     padding-top: 2px;
     right: 0;
-    position: absolute;
     bottom: -14px;
     line-height: 1;
   }
