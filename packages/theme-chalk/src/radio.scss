@@ -40,8 +40,9 @@ $radio-font-size: map.merge(
   }
 
   @include when(bordered) {
-    padding: 0 map.get($checkbox-bordered-padding-right, 'default')-$border-width
-      0 map.get($checkbox-bordered-padding-left, 'default')-$border-width;
+    padding: 0
+      map.get($checkbox-bordered-padding-right, 'default')-$border-width 0
+      map.get($checkbox-bordered-padding-left, 'default')-$border-width;
 
     border-radius: getCssVar('border-radius-base');
     border: getCssVar('border');

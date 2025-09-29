@@ -153,15 +153,15 @@ export function useDragNodeHandler({
       ? dropInner
         ? 0.25
         : dropNext
-        ? 0.45
-        : 1
+          ? 0.45
+          : 1
       : Number.NEGATIVE_INFINITY
     const nextPercent = dropNext
       ? dropInner
         ? 0.75
         : dropPrev
-        ? 0.55
-        : 0
+          ? 0.55
+          : 0
       : Number.POSITIVE_INFINITY
 
     let indicatorTop = -9999
