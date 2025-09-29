@@ -14,7 +14,7 @@ export const tryCall = <T>(
   params: T extends (...args: infer K) => unknown ? K : any,
   defaultRet = {}
 ) => {
-  return isFunction(fLike) ? fLike(params) : fLike ?? defaultRet
+  return isFunction(fLike) ? fLike(params) : (fLike ?? defaultRet)
 }
 
 export const enforceUnit = (style: CSSProperties) => {

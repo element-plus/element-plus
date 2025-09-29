@@ -39,7 +39,7 @@ import {
   radioGroupProps,
 } from './radio-group'
 import { radioGroupKey } from './constants'
-import { isEqual } from 'lodash-unified'
+import { isEqual, omit } from 'lodash-unified'
 import ElRadio from './radio.vue'
 import ElRadioButton from './radio-button.vue'
 
@@ -83,12 +83,13 @@ const aliasProps = computed(() => ({
   ...props.props,
 }))
 const getOptionProps = (option: Record<string, any>) => {
+  const { label, value, disabled } = aliasProps.value
   const base = {
-    label: option[aliasProps.value.label],
-    value: option[aliasProps.value.value],
-    disabled: option[aliasProps.value.disabled],
+    label: option[label],
+    value: option[value],
+    disabled: option[disabled],
   }
-  return { ...option, ...base }
+  return { ...omit(option, [label, value, disabled]), ...base }
 }
 
 const optionComponent = computed(() =>

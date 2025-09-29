@@ -13,7 +13,6 @@ export const getWorkspaceNames = async (dir = projRoot) => {
 }
 
 export const getPackageManifest = (pkgPath: string) => {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
   return require(pkgPath) as ProjectManifest
 }
 
