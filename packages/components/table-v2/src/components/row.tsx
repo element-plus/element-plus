@@ -159,6 +159,13 @@ const TableV2Row = defineComponent({
         style,
       } = props
 
+      const styleProperty = Object.assign({}, style, {
+        transform: `translateY(${style?.top ?? '0px'})`,
+      })
+      if (styleProperty.top) {
+        delete styleProperty.top
+      }
+
       let ColumnCells: ColumnCellsType = columns.map((column, columnIndex) => {
         const expandable =
           isArray(rowData.children) &&
@@ -203,13 +210,13 @@ const TableV2Row = defineComponent({
 
       if (unref(measurable)) {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { height, ...exceptHeightStyle } = style || {}
+        const { height, ...exceptHeightStyle } = styleProperty || {}
         const _measured = unref(measured)
         return (
           <div
             ref={rowRef}
             class={props.class}
-            style={_measured ? style : exceptHeightStyle}
+            style={_measured ? styleProperty : exceptHeightStyle}
             role="row"
             {...attrs}
             {...unref(eventHandlers)}
@@ -224,7 +231,7 @@ const TableV2Row = defineComponent({
           {...attrs}
           ref={rowRef}
           class={props.class}
-          style={style}
+          style={styleProperty}
           role="row"
           {...unref(eventHandlers)}
         >
