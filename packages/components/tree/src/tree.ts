@@ -1,4 +1,4 @@
-import { definePropType, iconPropType } from '@element-plus/utils'
+import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 
 import type { PropType } from 'vue'
 import type {
@@ -9,7 +9,7 @@ import type {
   TreeData,
 } from './tree.type'
 
-export const treeProps = {
+export const treeProps = buildProps({
   data: {
     type: definePropType<TreeData>(Array),
     default: () => [],
@@ -38,13 +38,15 @@ export const treeProps = {
     type: Boolean,
     default: true,
   },
-  defaultCheckedKeys: Array as PropType<
-    TreeComponentProps['defaultCheckedKeys']
-  >,
-  defaultExpandedKeys: Array as PropType<
-    TreeComponentProps['defaultExpandedKeys']
-  >,
-  currentNodeKey: [String, Number] as PropType<string | number>,
+  defaultCheckedKeys: {
+    type: Array as PropType<TreeComponentProps['defaultCheckedKeys']>,
+  },
+  defaultExpandedKeys: {
+    type: Array as PropType<TreeComponentProps['defaultExpandedKeys']>,
+  },
+  currentNodeKey: {
+    type: [String, Number] as PropType<string | number>,
+  },
   renderContent: {
     type: definePropType<RenderContentFunction>(Function),
   },
@@ -66,10 +68,12 @@ export const treeProps = {
   },
   lazy: Boolean,
   highlightCurrent: Boolean,
-  load: Function as PropType<TreeComponentProps['load']>,
-  filterNodeMethod: Function as PropType<
-    TreeComponentProps['filterNodeMethod']
-  >,
+  load: {
+    type: Function as PropType<TreeComponentProps['load']>,
+  },
+  filterNodeMethod: {
+    type: Function as PropType<TreeComponentProps['filterNodeMethod']>,
+  },
   accordion: Boolean,
   indent: {
     type: Number,
@@ -78,4 +82,4 @@ export const treeProps = {
   icon: {
     type: iconPropType,
   },
-} as const
+} as const)
