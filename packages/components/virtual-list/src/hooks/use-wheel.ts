@@ -1,8 +1,13 @@
 import { cAF, isFirefox, rAF } from '@element-plus/utils'
-import { HORIZONTAL } from '../defaults'
+import { HORIZONTAL, VERTICAL } from '../defaults'
 
 import type { ComputedRef } from 'vue'
 import type { LayoutDirection } from '../types'
+
+const LayoutKeys = {
+  [HORIZONTAL]: 'deltaX',
+  [VERTICAL]: 'deltaY',
+} as const
 
 interface ListWheelState {
   atStartEdge: ComputedRef<boolean> // exclusive to reachEnd
@@ -29,15 +34,7 @@ const useWheel = (
   const onWheel = (e: WheelEvent) => {
     cAF(frameHandle)
 
-    let newOffset = 0
-    const { deltaX, deltaY } = e
-    const absX = Math.abs(e.deltaX)
-    const absY = Math.abs(e.deltaY)
-    if (absX === absY) {
-      newOffset = layout.value === HORIZONTAL ? deltaX : deltaY
-    } else {
-      newOffset = absX > absY ? deltaX : deltaY
-    }
+    const newOffset = e[LayoutKeys[layout.value]]
 
     if (hasReachedEdge(offset) && hasReachedEdge(offset + newOffset)) return
 
