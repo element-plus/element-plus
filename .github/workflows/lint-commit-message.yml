@@ -83,12 +83,16 @@ jobs:
           github-token: ${{ github.token }}
           script: |
             const prNumber = context.issue.number;
-            await github.rest.issues.addLabels({
-              ...context.repo,
-              issue_number: prNumber,
-              labels: ["CommitMessage::Unqualified"]
-            });
-
+            try {
+              await github.rest.issues.addLabels({
+                ...context.repo,
+                issue_number: prNumber,
+                labels: ["CommitMessage::Unqualified"]
+              });
+            }
+            catch (e) {
+              console.log(e);
+            }
             const { data: comments } = await github.rest.issues.listComments({
               ...context.repo,
               issue_number: prNumber
