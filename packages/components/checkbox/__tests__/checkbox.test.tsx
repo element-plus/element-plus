@@ -202,7 +202,6 @@ describe('Checkbox', () => {
     ))
     await nextTick()
     const checkboxes = wrapper.findAll('.el-checkbox-button')
-    console.log(checkboxes[1].classes())
     expect(checkboxes[1].classes()).toContain('is-checked')
     await checkboxes[0].trigger('click')
     expect(checkedValues.value).toEqual(['b', 'a'])
