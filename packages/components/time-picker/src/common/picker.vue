@@ -25,11 +25,20 @@
     <template #default>
       <el-input
         v-if="!isRangeInput"
-        :id="(id as string | undefined)"
+        :id="
+          // https://github.com/vuejs/language-tools/issues/2104#issuecomment-3092541527
+          id as string
+        "
         ref="inputRef"
         container-role="combobox"
-        :model-value="(displayValue as string)"
-        :name="(name as string | undefined)"
+        :model-value="
+          // https://github.com/vuejs/language-tools/issues/2104#issuecomment-3092541527
+          displayValue as string
+        "
+        :name="
+          // https://github.com/vuejs/language-tools/issues/2104#issuecomment-3092541527
+          name as string
+        "
         :size="pickerSize"
         :disabled="pickerDisabled"
         :placeholder="placeholder"
@@ -85,10 +94,16 @@
       </el-input>
       <picker-range-trigger
         v-else
-        :id="(id as string[] | undefined)"
+        :id="
+          // https://github.com/vuejs/language-tools/issues/2104#issuecomment-3092541527
+          id as string[]
+        "
         ref="inputRef"
         :model-value="displayValue"
-        :name="(name as string[] | undefined)"
+        :name="
+          // https://github.com/vuejs/language-tools/issues/2104#issuecomment-3092541527
+          name as string[]
+        "
         :disabled="pickerDisabled"
         :readonly="!editable || readonly"
         :start-placeholder="startPlaceholder"
