@@ -36,4 +36,6 @@ export const isStringNumber = (val: string): boolean => {
   return !Number.isNaN(Number(val))
 }
 
+export const isEmpltyString = (val: unknown): val is '' => val === ''
+
 export const isWindow = (val: unknown): val is Window => val === window

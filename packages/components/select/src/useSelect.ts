@@ -21,6 +21,7 @@ import {
   getEventCode,
   isArray,
   isClient,
+  isEmpltyString,
   isFunction,
   isIOS,
   isNumber,
@@ -141,7 +142,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   const hasModelValue = computed(() => {
     return isArray(props.modelValue)
       ? props.modelValue.length > 0
-      : !isEmptyValue(props.modelValue)
+      : !isEmptyValue(props.modelValue) || isEmpltyString(props.modelValue)
   })
 
   const needStatusIcon = computed(() => form?.statusIcon ?? false)
