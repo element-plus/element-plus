@@ -93,8 +93,11 @@
     color: getCssVar('color-info');
     background: getCssVar('fill-color', 'blank');
     font-size: 12px;
-    line-height: 20px;
-    text-align: right;
+    padding-top: 2px;
+    right: 0;
+    position: absolute;
+    bottom: -14px;
+    line-height: 1;
   }
 
   @include when(disabled) {
