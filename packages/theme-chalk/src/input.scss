@@ -92,11 +92,9 @@
   & .#{$namespace}-input__count {
     color: getCssVar('color-info');
     background: getCssVar('fill-color', 'blank');
-    position: absolute;
     font-size: 12px;
-    line-height: 14px;
-    bottom: 5px;
-    right: 10px;
+    line-height: 20px;
+    text-align: right;
   }
 
   @include when(disabled) {
@@ -160,7 +158,6 @@
     .#{$namespace}-input__count-inner {
       background: getCssVar('fill-color', 'blank');
       line-height: initial;
-      display: inline-block;
       padding-left: 8px;
     }
   }

@@ -137,13 +137,13 @@
         @change="handleChange"
         @keydown="handleKeydown"
       />
-      <span
+      <div
         v-if="isWordLimitVisible"
         :style="countStyle"
         :class="nsInput.e('count')"
       >
         {{ textLength }} / {{ maxlength }}
-      </span>
+      </div>
     </template>
   </div>
 </template>
