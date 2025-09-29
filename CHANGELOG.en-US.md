@@ -1,6 +1,38 @@
 ## Changelog
 
 
+### 2.11.4
+
+_2025-09-26_
+
+#### Features
+
+- Components [color-picker] add validation on blur event (#22247 by @tolking)
+- Components [autocomplete/time-select/color-picker] add popper-style (#22263 by @keeplearning66)
+- Components [date-picker] add `automatic-dropdown` prop (#21764 by @btea)
+- Components [autocomplete] add `loopNavigation` attributes (#22281 by @cszhjh)
+- Components [select-v2] accessibility enhancement (#22153 by @tolking)
+
+#### Bug fixes
+
+- Components [color-picker-panel] display error when clear the color (#22260 by @tolking)
+- The KeyboardEvent.code is always empty string on Android (#22228 by @tolking)
+- Components [loading] add missing `context` param (#22262 by @cszhjh)
+- Components [loading] allow `setText` to accept VNode type (#22264 by @cszhjh)
+- Components [cascader] resolve `visibleChange` not triggered on Popper hide (#22206 by @cszhjh)
+- Components replace KeyboardEvent.code with getEventCode (#22268 by @cszhjh)
+- Components [color-picker] incorrect thumb offset (#22266 by @Dsaquel)
+- Improvement(components):  trigger `enter` open tooltip (#19830 by @warmthsea)
+- Style(theme-chalk): same height across pickers for range date pickers (#22277 by @Dsaquel)
+- Style(components): [message] fix container width adaptation (#22308 by @cszhjh)
+
+#### Refactors
+
+- Components [cascader] externalize tooltip tag from v-for (#22191 by @Dsaquel)
+- Components unify BEM & CSS vars via helpers (#22226 by @cszhjh)
+- Remove `tooltip-v2` `visual-hidden` components (#22252 by @warmthsea)
+- Remove unused code related to tooltip-v2 (#22304 by @Dsaquel)
+
 ### 2.11.3
 
 _2025-09-19_

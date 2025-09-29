@@ -73,7 +73,7 @@ jobs:
         run: echo "//registry.npmjs.com/:_authToken=${{ secrets.NPM_PUBLISH_TOKEN }}" >> ./.npmrc
 
       - name: Update npm
-        run: npm install npm@9 -g
+        run: npm install npm@11.6.1 -g
 
       - name: Build&publish
         run: sh ./scripts/publish.sh

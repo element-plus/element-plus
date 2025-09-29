@@ -444,7 +444,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       }
     }
     if (option) return option
-    const label = isObjectValue ? value.label : value ?? ''
+    const label = isObjectValue ? value.label : (value ?? '')
     const newOption = {
       index: -1,
       value,

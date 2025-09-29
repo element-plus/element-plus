@@ -10,11 +10,11 @@ import type Popover from './popover.vue'
 
 export const popoverProps = buildProps({
   /**
-   * @description how the popover is triggered
+   * @description how the popover is triggered, not valid in controlled mode
    */
   trigger: useTooltipTriggerProps.trigger,
   /**
-   * @description When you click the mouse to focus on the trigger element, you can define a set of keyboard codes to control the display of popover through the keyboard
+   * @description When you click the mouse to focus on the trigger element, you can define a set of keyboard codes to control the display of popover through the keyboard, not valid in controlled mode
    */
   triggerKeys: useTooltipTriggerProps.triggerKeys,
   /**
@@ -91,21 +91,21 @@ export const popoverProps = buildProps({
     default: undefined,
   },
   /**
-   * @description delay of appearance, in millisecond
+   * @description delay of appearance, in millisecond, not valid in controlled mode
    */
   showAfter: {
     type: Number,
     default: 0,
   },
   /**
-   * @description delay of disappear, in millisecond
+   * @description delay of disappear, in millisecond, not valid in controlled mode
    */
   hideAfter: {
     type: Number,
     default: 200,
   },
   /**
-   * @description timeout in milliseconds to hide tooltip
+   * @description timeout in milliseconds to hide tooltip, not valid in controlled mode
    */
   autoClose: {
     type: Number,

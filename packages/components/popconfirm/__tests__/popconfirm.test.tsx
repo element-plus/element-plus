@@ -43,14 +43,11 @@ describe('Popconfirm.vue', () => {
   })
 
   it('should close the Popconfirm when pressing Escape', async () => {
-    const onCancel = vi.fn()
-
     const wrapper = mount({
       setup() {
         return () => (
           <Popconfirm
-            closeOnPressEscape={false}
-            onCancel={onCancel}
+            hide-after={0}
             v-slots={{
               reference: () => <div class="reference">{AXIOM}</div>,
             }}
@@ -65,13 +62,11 @@ describe('Popconfirm.vue', () => {
 
     triggerEvent(document.body, 'keydown', EVENT_CODE.esc)
     await nextTick()
-    expect(onCancel).toHaveBeenCalledTimes(0)
+    await rAF()
 
-    await wrapper.setProps({ closeOnPressEscape: true })
-
-    triggerEvent(document.body, 'keydown', EVENT_CODE.esc)
-    await nextTick()
-    expect(onCancel).toHaveBeenCalledTimes(1)
+    expect(document.querySelector(selector)!.getAttribute('style')).toContain(
+      'display: none'
+    )
   })
 
   describe('teleported API', () => {
