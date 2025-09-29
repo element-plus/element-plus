@@ -6,12 +6,13 @@ on:
 
 jobs:
   lint:
-    runs-on: ubuntu-latest
-    # if pull request title is D2M, then skip this job
+    runs-on:
+      ubuntu-latest
+      # if pull request title is D2M, then skip this job
     if: ${{ !contains(github.event.pull_request.title, 'D2M') }}
     continue-on-error: true
     outputs:
-      failed: ${{ steps.lint_commit.outputs.failed == 'true' }}
+      failed: ${{ steps.lint_commit.outputs.failed }}
     env:
       PULL_REQUEST_NUMBER: ${{ github.event.number }}
 
@@ -28,8 +29,7 @@ jobs:
 
       - name: Get pnpm store directory
         id: pnpm-cache
-        run: |
-          echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
+        run: echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
 
       - uses: actions/cache@v4
         name: Setup pnpm cache
@@ -44,7 +44,8 @@ jobs:
 
       - name: Lint commit
         id: lint_commit
-        run: echo "${{ github.event.pull_request.title }}" | pnpm run lint:commit || echo "failed=true" >> $GITHUB_OUTPUT
+        run: |
+          echo "${{ github.event.pull_request.title }}" | pnpm run lint:commit || echo "failed=true" >> $GITHUB_OUTPUT
 
       - name: Set success result
         if: ${{ steps.lint_commit.outputs.failed != 'true' }}
