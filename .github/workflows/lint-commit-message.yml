@@ -60,7 +60,7 @@ jobs:
                 name: "CommitMessage::Unqualified"
               });
             } catch (e) {
-              console.log("No label to remove");
+              console.log("No label to remove", e);
             }
 
             const { data: comments } = await github.rest.issues.listComments({
