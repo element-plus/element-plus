@@ -77,14 +77,12 @@
 
   /* Picture Card for Wall */
   @include m(picture-card) {
-    @include set-css-var-value(('upload', 'picture-card', 'size'), 148px);
-
     background-color: getCssVar('fill-color', 'lighter');
     border: 1px dashed getCssVar('border-color', 'darker');
     border-radius: 6px;
     box-sizing: border-box;
-    width: getCssVar('upload', 'picture-card', 'size');
-    height: getCssVar('upload', 'picture-card', 'size');
+    width: getCssVarWithDefault('upload-picture-card-size', 148px);
+    height: getCssVarWithDefault('upload-picture-card-size', 148px);
     cursor: pointer;
     vertical-align: top;
 
@@ -343,8 +341,6 @@
 
   // upload-list
   @include m(picture-card) {
-    @include set-css-var-value(('upload-list', 'picture-card', 'size'), 148px);
-
     display: inline-flex;
     flex-wrap: wrap;
     margin: 0;
@@ -355,8 +351,8 @@
       border: 1px solid getCssVar('border-color');
       border-radius: 6px;
       box-sizing: border-box;
-      width: getCssVar('upload-list', 'picture-card', 'size');
-      height: getCssVar('upload-list', 'picture-card', 'size');
+      width: getCssVar('upload-list-picture-card-size', 148px);
+      height: getCssVar('upload-list-picture-card-size', 148px);
       margin: 0 8px 8px 0;
       padding: 0;
 
