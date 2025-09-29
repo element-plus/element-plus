@@ -11,6 +11,8 @@ jobs:
       # if pull request title is D2M, then skip this job
     if: ${{ !contains(github.event.pull_request.title, 'D2M') }}
     continue-on-error: true
+    permissions:
+      pull-requests: write
     outputs:
       failed: ${{ steps.lint_commit.outputs.failed }}
     env:
