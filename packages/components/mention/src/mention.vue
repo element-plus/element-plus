@@ -23,7 +23,8 @@
     <el-tooltip
       ref="tooltipRef"
       :visible="dropdownVisible"
-      :popper-class="[ns.e('popper'), popperClass]"
+      :popper-class="[ns.e('popper'), popperClass!]"
+      :popper-style="popperStyle"
       :popper-options="popperOptions"
       :placement="computedPlacement"
       :fallback-placements="computedFallbackPlacements"
