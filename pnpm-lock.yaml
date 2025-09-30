@@ -12,6 +12,9 @@ catalogs:
     '@element-plus/icons-vue':
       specifier: ^2.3.2
       version: 2.3.2
+    '@floating-ui/dom':
+      specifier: ^1.0.1
+      version: 1.6.8
     '@popperjs/core':
       specifier: npm:@sxzz/popperjs-es@^2.11.7
       version: 2.11.7
@@ -30,12 +33,21 @@ catalogs:
     '@vueuse/core':
       specifier: ^10.11.0
       version: 10.11.0
+    async-validator:
+      specifier: ^4.2.5
+      version: 4.2.5
     csstype:
       specifier: ^2.6.20
       version: 2.6.20
+    dayjs:
+      specifier: ^1.11.18
+      version: 1.11.18
     lodash-unified:
       specifier: ^1.0.3
       version: 1.0.3
+    memoize-one:
+      specifier: ^6.0.0
+      version: 6.0.0
     normalize-wheel-es:
       specifier: ^1.2.0
       version: 1.2.0
@@ -58,70 +70,6 @@ patchedDependencies:
 importers:
 
   .:
-    dependencies:
-      '@element-plus/components':
-        specifier: workspace:*
-        version: link:packages/components
-      '@element-plus/constants':
-        specifier: workspace:*
-        version: link:packages/constants
-      '@element-plus/directives':
-        specifier: workspace:*
-        version: link:packages/directives
-      '@element-plus/hooks':
-        specifier: workspace:*
-        version: link:packages/hooks
-      '@element-plus/icons-vue':
-        specifier: ^2.3.2
-        version: 2.3.2(vue@3.5.22(typescript@5.5.4))
-      '@element-plus/locale':
-        specifier: workspace:*
-        version: link:packages/locale
-      '@element-plus/test-utils':
-        specifier: workspace:*
-        version: link:packages/test-utils
-      '@element-plus/theme-chalk':
-        specifier: workspace:*
-        version: link:packages/theme-chalk
-      '@element-plus/utils':
-        specifier: workspace:*
-        version: link:packages/utils
-      '@floating-ui/dom':
-        specifier: ^1.0.1
-        version: 1.0.1
-      '@popperjs/core':
-        specifier: npm:@sxzz/popperjs-es@^2.11.7
-        version: '@sxzz/popperjs-es@2.11.7'
-      '@types/lodash':
-        specifier: ^4.17.20
-        version: 4.17.20
-      '@types/lodash-es':
-        specifier: ^4.17.12
-        version: 4.17.12
-      '@vueuse/core':
-        specifier: 'catalog:'
-        version: 10.11.0(vue@3.5.22(typescript@5.5.4))
-      async-validator:
-        specifier: ^4.2.5
-        version: 4.2.5(patch_hash=wdmp4xlpil2odxo3rasjmxbdfm)
-      dayjs:
-        specifier: ^1.11.18
-        version: 1.11.18
-      lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
-      lodash-es:
-        specifier: ^4.17.21
-        version: 4.17.21
-      lodash-unified:
-        specifier: ^1.0.3
-        version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.21)(lodash@4.17.21)
-      memoize-one:
-        specifier: ^6.0.0
-        version: 6.0.0
-      normalize-wheel-es:
-        specifier: ^1.2.0
-        version: 1.2.0
     devDependencies:
       '@commitlint/cli':
         specifier: ^19.0.0
@@ -159,12 +107,21 @@ importers:
       '@types/node':
         specifier: ^22.9.0
         version: 22.9.0
+      '@vitejs/plugin-vue':
+        specifier: 'catalog:'
+        version: 5.1.4(vite@5.4.10(@types/node@22.9.0)(sass@1.79.3)(terser@5.36.0))(vue@3.5.22(typescript@5.5.4))
+      '@vitejs/plugin-vue-jsx':
+        specifier: 'catalog:'
+        version: 4.0.1(vite@5.4.10(@types/node@22.9.0)(sass@1.79.3)(terser@5.36.0))(vue@3.5.22(typescript@5.5.4))
       '@vitest/coverage-v8':
         specifier: ^2.0.5
-        version: 2.0.5(vitest@2.0.5(@types/node@22.9.0)(@vitest/ui@2.0.5)(happy-dom@17.4.4)(jsdom@16.4.0)(sass@1.79.3)(terser@5.36.0))
+        version: 2.0.5(vitest@2.0.5)
       '@vitest/ui':
         specifier: ^2.0.5
         version: 2.0.5(vitest@2.0.5)
+      '@vue/test-utils':
+        specifier: 'catalog:'
+        version: 2.4.6
       c8:
         specifier: ^7.11.3
         version: 7.11.3
@@ -517,19 +474,34 @@ importers:
       '@element-plus/utils':
         specifier: workspace:^
         version: link:../utils
+      '@floating-ui/dom':
+        specifier: 'catalog:'
+        version: 1.6.8
       '@popperjs/core':
         specifier: 'catalog:'
         version: '@sxzz/popperjs-es@2.11.7'
       '@vueuse/core':
         specifier: 'catalog:'
         version: 10.11.0(vue@3.5.22(typescript@5.5.4))
+      async-validator:
+        specifier: 'catalog:'
+        version: 4.2.5(patch_hash=wdmp4xlpil2odxo3rasjmxbdfm)
       csstype:
         specifier: 'catalog:'
         version: 2.6.20
+      dayjs:
+        specifier: 'catalog:'
+        version: 1.11.18
       lodash-unified:
         specifier: 'catalog:'
         version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.21)(lodash@4.17.21)
+      memoize-one:
+        specifier: 'catalog:'
+        version: 6.0.0
     devDependencies:
+      '@element-plus/locale':
+        specifier: workspace:^
+        version: link:../locale
       '@element-plus/test-utils':
         specifier: workspace:^
         version: link:../test-utils
@@ -570,8 +542,8 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2(vue@3.5.22(typescript@5.5.4))
       '@floating-ui/dom':
-        specifier: ^1.0.1
-        version: 1.0.1
+        specifier: 'catalog:'
+        version: 1.6.8
       '@popperjs/core':
         specifier: npm:@sxzz/popperjs-es@^2.11.7
         version: '@sxzz/popperjs-es@2.11.7'
@@ -585,11 +557,14 @@ importers:
         specifier: 'catalog:'
         version: 10.11.0(vue@3.5.22(typescript@5.5.4))
       async-validator:
-        specifier: ^4.2.5
+        specifier: 'catalog:'
         version: 4.2.5(patch_hash=wdmp4xlpil2odxo3rasjmxbdfm)
       dayjs:
-        specifier: ^1.11.18
+        specifier: 'catalog:'
         version: 1.11.18
+      escape-html:
+        specifier: ^1.0.3
+        version: 1.0.3
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -600,7 +575,7 @@ importers:
         specifier: ^1.0.3
         version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.21)(lodash@4.17.21)
       memoize-one:
-        specifier: ^6.0.0
+        specifier: 'catalog:'
         version: 6.0.0
       normalize-wheel-es:
         specifier: ^1.2.0
@@ -621,8 +596,14 @@ importers:
 
   packages/hooks:
     dependencies:
+      '@element-plus/constants':
+        specifier: workspace:^
+        version: link:../constants
+      '@element-plus/utils':
+        specifier: workspace:^
+        version: link:../utils
       '@floating-ui/dom':
-        specifier: ^1.0.1
+        specifier: 'catalog:'
         version: 1.6.8
       '@popperjs/core':
         specifier: 'catalog:'
@@ -634,6 +615,12 @@ importers:
         specifier: 'catalog:'
         version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.21)(lodash@4.17.21)
     devDependencies:
+      '@element-plus/locale':
+        specifier: workspace:^
+        version: link:../locale
+      '@element-plus/test-utils':
+        specifier: workspace:^
+        version: link:../test-utils
       '@vue/test-utils':
         specifier: 'catalog:'
         version: 2.4.6
@@ -1801,14 +1788,8 @@ packages:
     resolution: {integrity: sha512-Z5kJ+wU3oA7MMIqVR9tyZRtjYPr4OC004Q4Rw7pgOKUOKkJfZ3O24nz3WYfGRpMDNmcOi3TwQOmgm7B7Tpii0w==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@floating-ui/core@1.0.1':
-    resolution: {integrity: sha512-bO37brCPfteXQfFY0DyNDGB3+IMe4j150KFQcgJ5aBP295p9nBGeHEs/p0czrRbtlHq4Px/yoPXO/+dOCcF4uA==}
-
   '@floating-ui/core@1.6.5':
     resolution: {integrity: sha512-8GrTWmoFhm5BsMZOTHeGD2/0FLKLQQHvO/ZmQga4tKempYRLz8aqJGqXVuQgisnMObq2YZ2SgkwctN1LOOxcqA==}
-
-  '@floating-ui/dom@1.0.1':
-    resolution: {integrity: sha512-wBDiLUKWU8QNPNOTAFHiIAkBv1KlHauG2AhqjSeh2H+wR8PX+AArXfz8NkRexH5PgMJMmSOS70YS89AbWYh5dA==}
 
   '@floating-ui/dom@1.6.8':
     resolution: {integrity: sha512-kx62rP19VZ767Q653wsP1XZCGIirkE09E0QUGNYTM/ttbbQHqcGPdSfWFxUyyNLc/W6aoJRBajOSXhP6GXjC0Q==}
@@ -9692,15 +9673,9 @@ snapshots:
       '@eslint/core': 0.15.2
       levn: 0.4.1
 
-  '@floating-ui/core@1.0.1': {}
-
   '@floating-ui/core@1.6.5':
     dependencies:
       '@floating-ui/utils': 0.2.5
-
-  '@floating-ui/dom@1.0.1':
-    dependencies:
-      '@floating-ui/core': 1.0.1
 
   '@floating-ui/dom@1.6.8':
     dependencies:
@@ -11044,7 +11019,7 @@ snapshots:
       vite: 5.4.10(@types/node@22.9.0)(sass@1.79.3)(terser@5.36.0)
       vue: 3.5.22(typescript@5.5.4)
 
-  '@vitest/coverage-v8@2.0.5(vitest@2.0.5(@types/node@22.9.0)(@vitest/ui@2.0.5)(happy-dom@17.4.4)(jsdom@16.4.0)(sass@1.79.3)(terser@5.36.0))':
+  '@vitest/coverage-v8@2.0.5(vitest@2.0.5)':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@bcoe/v8-coverage': 0.2.3

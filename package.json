@@ -42,29 +42,6 @@
     "prepare": "husky",
     "postinstall": "pnpm stub && concurrently \"pnpm gen:version\" \"pnpm run -C internal/metadata dev\""
   },
-  "dependencies": {
-    "@element-plus/components": "workspace:*",
-    "@element-plus/constants": "workspace:*",
-    "@element-plus/directives": "workspace:*",
-    "@element-plus/hooks": "workspace:*",
-    "@element-plus/icons-vue": "^2.3.2",
-    "@element-plus/locale": "workspace:*",
-    "@element-plus/test-utils": "workspace:*",
-    "@element-plus/theme-chalk": "workspace:*",
-    "@element-plus/utils": "workspace:*",
-    "@floating-ui/dom": "^1.0.1",
-    "@popperjs/core": "npm:@sxzz/popperjs-es@^2.11.7",
-    "@types/lodash": "^4.17.20",
-    "@types/lodash-es": "^4.17.12",
-    "@vueuse/core": "catalog:",
-    "async-validator": "^4.2.5",
-    "dayjs": "^1.11.18",
-    "lodash": "^4.17.21",
-    "lodash-es": "^4.17.21",
-    "lodash-unified": "^1.0.3",
-    "memoize-one": "^6.0.0",
-    "normalize-wheel-es": "^1.2.0"
-  },
   "devDependencies": {
     "@commitlint/cli": "^19.0.0",
     "@commitlint/config-conventional": "^19.0.0",
@@ -105,7 +82,10 @@
     "vitest": "^2.0.5",
     "vue": "catalog:",
     "vue-router": "^4.0.16",
-    "vue-tsc": "^3.1.0"
+    "vue-tsc": "^3.1.0",
+    "@vue/test-utils": "catalog:",
+    "@vitejs/plugin-vue": "catalog:",
+    "@vitejs/plugin-vue-jsx": "catalog:"
   },
   "engines": {
     "node": ">= 20"

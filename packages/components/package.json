@@ -19,9 +19,14 @@
     "@popperjs/core": "catalog:",
     "@vueuse/core": "catalog:",
     "csstype": "catalog:",
-    "lodash-unified": "catalog:"
+    "dayjs": "catalog:",
+    "lodash-unified": "catalog:",
+    "async-validator": "catalog:",
+    "@floating-ui/dom": "catalog:",
+    "memoize-one": "catalog:"
   },
   "devDependencies": {
+    "@element-plus/locale": "workspace:^",
     "@element-plus/test-utils": "workspace:^",
     "@vue/test-utils": "catalog:",
     "vue": "catalog:"
