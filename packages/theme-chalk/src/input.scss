@@ -5,22 +5,32 @@
 @use 'common/var' as *;
 
 @mixin inset-prepend-border($color) {
-  box-shadow: 1px 0 0 0 $color inset, 0 1px 0 0 $color inset,
+  box-shadow:
+    1px 0 0 0 $color inset,
+    0 1px 0 0 $color inset,
     0 -1px 0 0 $color inset;
 }
 
 @mixin inset-append-border($color) {
-  box-shadow: 0 1px 0 0 $color inset, 0 -1px 0 0 $color inset,
+  box-shadow:
+    0 1px 0 0 $color inset,
+    0 -1px 0 0 $color inset,
     -1px 0 0 0 $color inset;
 }
 
 @mixin inset-prepend-input-border($color) {
-  box-shadow: 1px 0 0 0 $color inset, 1px 0 0 0 $color, 0 1px 0 0 $color inset,
+  box-shadow:
+    1px 0 0 0 $color inset,
+    1px 0 0 0 $color,
+    0 1px 0 0 $color inset,
     0 -1px 0 0 $color inset !important;
 }
 
 @mixin inset-append-input-border($color) {
-  box-shadow: -1px 0 0 0 $color, -1px 0 0 0 $color inset, 0 1px 0 0 $color inset,
+  box-shadow:
+    -1px 0 0 0 $color,
+    -1px 0 0 0 $color inset,
+    0 1px 0 0 $color inset,
     0 -1px 0 0 $color inset !important;
 }
 
@@ -176,7 +186,8 @@
     flex-grow: 1;
     align-items: center;
     justify-content: center;
-    padding: $border-width map.get($input-padding-horizontal, 'default')-$border-width;
+    padding: $border-width
+      map.get($input-padding-horizontal, 'default')-$border-width;
     background-color: var(
       #{getCssVarName('input-bg-color')},
       map.get($input, 'bg-color')
@@ -213,7 +224,8 @@
         var(
             #{getCssVarName('input-height')},
             #{map.get($input-height, 'default')}
-          ) - $border-width * 2
+          ) -
+          $border-width * 2
       )
     );
   }
@@ -371,7 +383,8 @@
       font-size: map.get($input-font-size, $size);
 
       @include e(wrapper) {
-        padding: $border-width map.get($input-padding-horizontal, $size)-$border-width;
+        padding: $border-width
+          map.get($input-padding-horizontal, $size)-$border-width;
       }
       & {
         @include set-css-var-value(
@@ -380,7 +393,8 @@
             var(
                 #{getCssVarName('input-height')},
                 #{map.get($input-height, $size)}
-              ) - $border-width * 2
+              ) -
+              $border-width * 2
           )
         );
       }

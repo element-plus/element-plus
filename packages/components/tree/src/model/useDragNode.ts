@@ -147,21 +147,21 @@ export function useDragNodeHandler({
       .querySelector(`.${ns.be('node', 'content')}`)!
       .getBoundingClientRect()
     const treePosition = el$.value!.getBoundingClientRect()
-
+    const treeScrollTop = el$.value!.scrollTop
     let dropType: NodeDropType
     const prevPercent = dropPrev
       ? dropInner
         ? 0.25
         : dropNext
-        ? 0.45
-        : 1
+          ? 0.45
+          : 1
       : Number.NEGATIVE_INFINITY
     const nextPercent = dropNext
       ? dropInner
         ? 0.75
         : dropPrev
-        ? 0.55
-        : 0
+          ? 0.55
+          : 0
       : Number.POSITIVE_INFINITY
 
     let indicatorTop = -9999
@@ -181,9 +181,9 @@ export function useDragNodeHandler({
       .getBoundingClientRect()
     const dropIndicator = dropIndicator$.value
     if (dropType === 'before') {
-      indicatorTop = iconPosition.top - treePosition.top
+      indicatorTop = iconPosition.top - treePosition.top + treeScrollTop
     } else if (dropType === 'after') {
-      indicatorTop = iconPosition.bottom - treePosition.top
+      indicatorTop = iconPosition.bottom - treePosition.top + treeScrollTop
     }
     dropIndicator!.style.top = `${indicatorTop}px`
     dropIndicator!.style.left = `${iconPosition.right - treePosition.left}px`
