@@ -16,6 +16,15 @@
     show-word-limit
     type="textarea"
   />
+  <div style="margin: 20px 0" />
+  <el-input
+    v-model="textarea"
+    maxlength="30"
+    style="width: 240px"
+    placeholder="Please input"
+    show-word-limit="outside"
+    type="textarea"
+  />
 </template>
 
 <script lang="ts" setup>

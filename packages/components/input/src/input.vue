@@ -140,7 +140,10 @@
       <span
         v-if="isWordLimitVisible"
         :style="countStyle"
-        :class="nsInput.e('count')"
+        :class="[
+          nsInput.e('count'),
+          showWordLimit === 'outside' ? nsInput.e('count-outside') : '',
+        ]"
       >
         {{ textLength }} / {{ maxlength }}
       </span>

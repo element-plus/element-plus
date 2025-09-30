@@ -12,6 +12,7 @@ import { CircleClose } from '@element-plus/icons-vue'
 import type {
   ExtractPropTypes,
   HTMLAttributes,
+  PropType,
   StyleValue,
   __ExtractPublicPropTypes,
 } from 'vue'
@@ -131,7 +132,10 @@ export const inputProps = buildProps({
   /**
    * @description word count
    */
-  showWordLimit: Boolean,
+  showWordLimit: {
+    type: [Boolean, String] as PropType<boolean | 'outside' | 'inside'>,
+    default: false,
+  },
   /**
    * @description suffix icon
    */
