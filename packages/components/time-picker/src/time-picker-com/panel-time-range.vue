@@ -293,14 +293,6 @@ const parseUserInput = (days: Dayjs[] | Dayjs) => {
   return dayjs(days, props.format).locale(lang.value)
 }
 
-const formatToString = (days: Dayjs[] | Dayjs) => {
-  if (!days) return null
-  if (isArray(days)) {
-    return days.map((d) => d.format(props.format))
-  }
-  return days.format(props.format)
-}
-
 const getDefaultValue = () => {
   if (isArray(defaultValue)) {
     return defaultValue.map((d: Date) => dayjs(d).locale(lang.value))
@@ -309,7 +301,6 @@ const getDefaultValue = () => {
   return [defaultDay, defaultDay.add(60, 'm')]
 }
 
-emit('set-picker-option', ['formatToString', formatToString])
 emit('set-picker-option', ['parseUserInput', parseUserInput])
 emit('set-picker-option', ['isValidValue', isValidValue])
 emit('set-picker-option', ['handleKeydownInput', handleKeydown])
