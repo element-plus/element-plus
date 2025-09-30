@@ -76,7 +76,7 @@
 
 <script lang="ts" setup>
 import { computed, nextTick, onMounted, ref } from 'vue'
-import { useRouter } from 'vitepress'
+import { useRouter, withBase } from 'vitepress'
 import { Search } from '@element-plus/icons-vue'
 import overviewLocale from '../../../i18n/component/overview.json'
 
@@ -111,7 +111,7 @@ const filteredSidebars = computed(() =>
 )
 
 const toPage = (link: string) => {
-  router.go(link)
+  router.go(withBase(link))
 }
 
 const getIcon = (link: string) => {
