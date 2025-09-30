@@ -7,6 +7,7 @@ import { CircleClose } from '@element-plus/icons-vue'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { rAF } from '@element-plus/test-utils/tick'
 import { ElFormItem } from '@element-plus/components/form'
+import { EVENT_CODE } from '@element-plus/constants'
 import TimePicker from '../src/time-picker'
 import Picker from '../src/common/picker.vue'
 
@@ -250,6 +251,31 @@ describe('TimePicker', () => {
     await nextTick()
     await nextTick() // onchange is triggered by props.modelValue update
     expect(changeHandler).toHaveBeenCalledTimes(1)
+  })
+
+  it('trigger on enter visible change', async () => {
+    const handleVisibleChange = vi.fn()
+    const value = ref(new Date(2016, 9, 10, 18, 40))
+
+    const wrapper = mount(() => (
+      <TimePicker v-model={value.value} onVisibleChange={handleVisibleChange} />
+    ))
+
+    const input = wrapper.find('input')
+    input.trigger('focus')
+    await nextTick()
+    await rAF()
+    expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+
+    input.trigger('keydown', { code: EVENT_CODE.esc })
+    await nextTick()
+    await rAF()
+    expect(handleVisibleChange).toHaveBeenCalledTimes(2)
+
+    input.trigger('keydown', { code: EVENT_CODE.enter })
+    await nextTick()
+    await rAF()
+    expect(handleVisibleChange).toHaveBeenCalledTimes(3)
   })
 
   it('selectableRange ', async () => {
@@ -1043,5 +1069,21 @@ describe('TimePicker(range)', () => {
       expect(popper?.getAttribute('aria-hidden')).toBe('false')
       expect(popper?.getAttribute('aria-modal')).toBe('false')
     })
+  })
+
+  it('should show default value when persistent is false', async () => {
+    const format = ref('hh-mm:ss A')
+    const value = ref(new Date(2016, 9, 10, 18, 40))
+    const wrapper = mount(() => (
+      <TimePicker
+        format={format.value}
+        persistent={false}
+        v-model={value.value}
+      />
+    ))
+
+    await nextTick()
+    const input = wrapper.find('input')
+    expect(input.element.value).toBe('06-40:00 PM') // format
   })
 })

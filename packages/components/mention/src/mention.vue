@@ -23,7 +23,8 @@
     <el-tooltip
       ref="tooltipRef"
       :visible="dropdownVisible"
-      :popper-class="[ns.e('popper'), popperClass]"
+      :popper-class="[ns.e('popper'), popperClass!]"
+      :popper-style="popperStyle"
       :popper-options="popperOptions"
       :placement="computedPlacement"
       :fallback-placements="computedFallbackPlacements"
@@ -67,7 +68,7 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import { useFormDisabled } from '@element-plus/components/form'
-import { isFunction } from '@element-plus/utils'
+import { getEventCode, isFunction } from '@element-plus/utils'
 import { mentionDefaultProps, mentionEmits, mentionProps } from './mention'
 import { getCursorPosition, getMentionCtx } from './helper'
 import ElMentionDropdown from './mention-dropdown.vue'
@@ -147,9 +148,10 @@ const handleInputChange = (value: string) => {
 }
 
 const handleInputKeyDown = (event: KeyboardEvent | Event) => {
-  if (!('code' in event) || elInputRef.value?.isComposing) return
+  if (elInputRef.value?.isComposing) return
+  const code = getEventCode(event as KeyboardEvent)
 
-  switch (event.code) {
+  switch (code) {
     case EVENT_CODE.left:
     case EVENT_CODE.right:
       syncAfterCursorMove()
@@ -159,12 +161,15 @@ const handleInputKeyDown = (event: KeyboardEvent | Event) => {
       if (!visible.value) return
       event.preventDefault()
       dropdownRef.value?.navigateOptions(
-        event.code === EVENT_CODE.up ? 'prev' : 'next'
+        code === EVENT_CODE.up ? 'prev' : 'next'
       )
       break
     case EVENT_CODE.enter:
     case EVENT_CODE.numpadEnter:
-      if (!visible.value) return
+      if (!visible.value) {
+        props.type !== 'textarea' && syncAfterCursorMove()
+        return
+      }
       event.preventDefault()
       if (dropdownRef.value?.hoverOption) {
         dropdownRef.value?.selectHoverOption()

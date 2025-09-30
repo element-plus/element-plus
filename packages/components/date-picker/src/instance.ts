@@ -1,4 +1,4 @@
-import DatePicker from './date-picker'
+import type DatePicker from './date-picker'
 
 export type DatePickerInstance = InstanceType<typeof DatePicker> & unknown
 export type DatePickerExpose = {

@@ -11,7 +11,9 @@ import {
 import { useNamespace, useOrderedChildren } from '@element-plus/hooks'
 import { useContainer, useResize, useSize } from './hooks'
 import { splitterProps } from './splitter'
-import { type PanelItemState, splitterRootContextKey } from './type'
+import { splitterRootContextKey } from './type'
+
+import type { PanelItemState } from './type'
 
 const ns = useNamespace('splitter')
 
@@ -58,7 +60,7 @@ const {
 
 const splitterStyles = computed(() => {
   return {
-    [`--${ns.b()}-bar-offset`]: lazy.value
+    [ns.cssVarBlockName('bar-offset')]: lazy.value
       ? `${lazyOffset.value}px`
       : undefined,
   }

@@ -5,8 +5,9 @@ import {
   useTooltipContentProps,
   useTooltipTriggerProps,
 } from '@element-plus/components/tooltip'
-import { type Placement, roleTypes } from '@element-plus/components/popper'
+import { roleTypes } from '@element-plus/components/popper'
 
+import type { Placement } from '@element-plus/components/popper'
 import type { Options } from '@popperjs/core'
 import type { ButtonProps, ButtonType } from '@element-plus/components/button'
 import type { ComponentInternalInstance, ComputedRef } from 'vue'
@@ -131,10 +132,11 @@ export const dropdownProps = buildProps({
   /**
    * @description custom class name for Dropdown's dropdown
    */
-  popperClass: {
-    type: String,
-    default: '',
-  },
+  popperClass: useTooltipContentProps.popperClass,
+  /**
+   * @description custom style for Dropdown's dropdown
+   */
+  popperStyle: useTooltipContentProps.popperStyle,
   /**
    * @description whether to disable
    */

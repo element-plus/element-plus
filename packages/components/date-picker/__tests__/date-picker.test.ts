@@ -10,6 +10,7 @@ import {
   CommonPicker,
   PICKER_POPPER_OPTIONS_INJECTION_KEY,
 } from '@element-plus/components/time-picker'
+import triggerEvent from '@element-plus/test-utils/trigger-event'
 import Input from '@element-plus/components/input'
 import zhCn from '@element-plus/locale/lang/zh-cn'
 import enUs from '@element-plus/locale/lang/en'
@@ -158,6 +159,24 @@ describe('DatePicker', () => {
     await nextTick()
     const vm = wrapper.vm as any
     expect(vm.value).toBeDefined()
+  })
+
+  it('cleared value should match the value-on-clear prop', async () => {
+    const value = ['2025-01-01', '2025-01-02']
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        type="daterange"
+        :empty-values="[[]]"
+        :value-on-clear="() => []"
+    />`,
+      () => ({ value })
+    )
+    await nextTick()
+    expect(wrapper.vm.value).toEqual(value)
+    const clearBtn = wrapper.find('.el-range__close-icon')
+    clearBtn.trigger('click')
+    expect(wrapper.vm.value).toEqual([])
   })
 
   it('defaultTime and clear value', async () => {
@@ -1767,6 +1786,21 @@ describe('DatePicker keyboard events', () => {
     const attr2 = popperEl2.getAttribute('aria-hidden')
     expect(attr2).toEqual('true')
   })
+
+  it('should be able to enter in date picker table through keyboard navigation', async () => {
+    _mount('<el-date-picker v-model="value" type="date" />', () => ({
+      value: '',
+    }))
+    await nextTick()
+    const input = document.querySelector<HTMLInputElement>('input')
+    input.blur()
+    await nextTick()
+    input.focus()
+    await nextTick()
+    triggerEvent(input, 'keydown', EVENT_CODE.down)
+    await nextTick()
+    expect(document.querySelector('.current')?.textContent).toBe('1')
+  })
 })
 
 describe('DateRangePicker', () => {
@@ -2854,5 +2888,58 @@ describe('YearRange', () => {
     expect(
       (wrapper.findComponent(CommonPicker).vm as any).elPopperOptions
     ).toEqual(ElPopperOptions)
+  })
+
+  describe('should show default value when persistent is false', () => {
+    it('type:date', async () => {
+      const wrapper = _mount(
+        `<el-date-picker
+          v-model="value"
+          format="YYYY-MM-DD"
+          :persistent="false"
+          />`,
+        () => ({
+          value: '2025-01-01',
+        })
+      )
+      await nextTick()
+      const input = wrapper.find('input')
+      expect(input.element.value).toBe('2025-01-01')
+    })
+
+    it('type:datetime', async () => {
+      const wrapper = _mount(
+        `<el-date-picker
+          v-model="value"
+          type="datetime"
+          format="YYYY-MM-DD HH:mm:ss"
+          :persistent="false"
+          />`,
+        () => ({
+          value: new Date(2025, 0, 1, 14, 50, 10),
+        })
+      )
+      await nextTick()
+      const input = wrapper.find('input')
+      expect(input.element.value).toBe('2025-01-01 14:50:10')
+    })
+
+    it('type:daterange', async () => {
+      const wrapper = _mount(
+        `<el-date-picker
+          v-model="value"
+          type="daterange"
+          format="YYYY-MM-DD"
+          :persistent="false"
+          />`,
+        () => ({
+          value: [new Date(2025, 0, 1), new Date(2025, 0, 15)],
+        })
+      )
+      await nextTick()
+      const inputs = wrapper.findAll('input')
+      expect(inputs[0].element.value).toBe('2025-01-01')
+      expect(inputs[1].element.value).toBe('2025-01-15')
+    })
   })
 })

@@ -7,16 +7,17 @@
       :fallback-placements="['bottom', 'top']"
       :popper-options="popperOptions"
       :gpu-acceleration="false"
-      :hide-after="trigger === 'hover' ? hideTimeout : 0"
       :manual-mode="true"
       :placement="placement"
-      :popper-class="[ns.e('popper'), popperClass]"
+      :popper-class="[ns.e('popper'), popperClass!]"
+      :popper-style="popperStyle"
       :reference-element="referenceElementRef?.$el"
       :trigger="trigger"
       :trigger-keys="triggerKeys"
       :trigger-target-el="contentRef"
       :show-arrow="showArrow"
       :show-after="trigger === 'hover' ? showTimeout : 0"
+      :hide-after="trigger === 'hover' ? hideTimeout : 0"
       :stop-popper-mouse-event="false"
       :virtual-ref="virtualRef ?? triggeringElementRef"
       :virtual-triggering="virtualTriggering || splitButton"
@@ -162,7 +163,7 @@ export default defineComponent({
     const triggerId = computed<string>(() => props.id || defaultTriggerId)
 
     function handleClick() {
-      handleClose()
+      popperRef.value?.onClose(undefined, 0)
     }
 
     function handleClose() {
