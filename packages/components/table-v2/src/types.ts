@@ -133,5 +133,5 @@ export type SimpleFunctionalComponentProps<T extends object> = {
 } & T
 
 export type SimpleFunctionalComponent<
-  E extends object = { [key: string]: any }
+  E extends object = { [key: string]: any },
 > = FunctionalComponent<SimpleFunctionalComponentProps<E>>

@@ -184,8 +184,8 @@ function initialize(userOptions: any) {
   // --docsearch-key-shadow: rgba(125, 125, 125, 0.3);
   --docsearch-footer-height: 44px;
   --docsearch-footer-background: var(--bg-color);
-  --docsearch-footer-shadow: 0 -1px 0 0 #e0e3e8,
-    0 -3px 6px 0 rgba(69, 98, 155, 0.12);
+  --docsearch-footer-shadow:
+    0 -1px 0 0 #e0e3e8, 0 -3px 6px 0 rgba(69, 98, 155, 0.12);
   --docsearch-searchbox-background: rgba(var(--bg-color-rgb), 0.8);
   --docsearch-searchbox-focus-background: var(--bg-color-mute);
   --docsearch-searchbox-shadow: inset 0 0 0 2px var(--brand-color);

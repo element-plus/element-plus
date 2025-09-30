@@ -11,7 +11,7 @@
     >
       <component
         :is="labelFor ? 'label' : 'div'"
-        v-if="hasLabel"
+        v-if="!!(label || $slots.label)"
         :id="labelId"
         :for="labelFor"
         :class="ns.e('label')"
@@ -270,7 +270,7 @@ const onValidationFailed = (error: FormValidateFailure) => {
 
   setValidationState('error')
   validateMessage.value = errors
-    ? errors?.[0]?.message ?? `${props.prop} is required`
+    ? (errors?.[0]?.message ?? `${props.prop} is required`)
     : ''
 
   formContext?.emit('validate', props.prop!, false, validateMessage.value)
