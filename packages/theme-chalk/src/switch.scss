@@ -160,7 +160,8 @@ $switch-content-padding: map.merge(
     box-sizing: border-box;
     background: getCssVar('switch-off-color');
     cursor: pointer;
-    transition: border-color getCssVar('transition-duration'),
+    transition:
+      border-color getCssVar('transition-duration'),
       background-color getCssVar('transition-duration');
 
     .#{$namespace}-switch__inner {
@@ -171,10 +172,8 @@ $switch-content-padding: map.merge(
       justify-content: center;
       align-items: center;
       overflow: hidden;
-      padding: 0 #{map.get($switch-content-padding, 'default')} 0 calc(#{map.get(
-              $switch-button-size,
-              'default'
-            )} + 2px);
+      padding: 0 #{map.get($switch-content-padding, 'default')} 0
+        calc(#{map.get($switch-button-size, 'default')} + 2px);
 
       .is-icon,
       .is-text {
@@ -214,10 +213,8 @@ $switch-content-padding: map.merge(
       }
 
       .#{$namespace}-switch__inner {
-        padding: 0 calc(#{map.get($switch-button-size, 'default')} + 2px) 0 #{map.get(
-            $switch-content-padding,
-            'default'
-          )};
+        padding: 0 calc(#{map.get($switch-button-size, 'default')} + 2px) 0
+          #{map.get($switch-content-padding, 'default')};
       }
     }
   }
@@ -269,10 +266,8 @@ $switch-content-padding: map.merge(
 
         .#{$namespace}-switch__inner {
           height: map.get($switch-button-size, $size);
-          padding: 0 #{map.get($switch-content-padding, $size)} 0 calc(#{map.get(
-                  $switch-button-size,
-                  $size
-                )} + 2px);
+          padding: 0 #{map.get($switch-content-padding, $size)} 0
+            calc(#{map.get($switch-button-size, $size)} + 2px);
         }
 
         .#{$namespace}-switch__action {
@@ -288,10 +283,8 @@ $switch-content-padding: map.merge(
           }
 
           .#{$namespace}-switch__inner {
-            padding: 0 calc(#{map.get($switch-button-size, $size)} + 2px) 0 #{map.get(
-                $switch-content-padding,
-                $size
-              )};
+            padding: 0 calc(#{map.get($switch-button-size, $size)} + 2px) 0
+              #{map.get($switch-content-padding, $size)};
           }
         }
       }
