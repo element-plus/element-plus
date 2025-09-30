@@ -8,7 +8,8 @@
     :aria-labelledby="isLabeledByFormItem ? formItem!.labelId : undefined"
   >
     <slot>
-      <el-radio
+      <component
+        :is="optionComponent"
         v-for="(item, index) in options"
         :key="index"
         v-bind="getOptionProps(item)"
@@ -40,6 +41,7 @@ import {
 import { radioGroupKey } from './constants'
 import { isEqual, omit } from 'lodash-unified'
 import ElRadio from './radio.vue'
+import ElRadioButton from './radio-button.vue'
 
 import type { RadioGroupProps } from './radio-group'
 
@@ -89,6 +91,10 @@ const getOptionProps = (option: Record<string, any>) => {
   }
   return { ...omit(option, [label, value, disabled]), ...base }
 }
+
+const optionComponent = computed(() =>
+  props.type === 'button' ? ElRadioButton : ElRadio
+)
 
 provide(
   radioGroupKey,
