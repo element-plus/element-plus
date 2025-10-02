@@ -9,7 +9,7 @@
           ns.em('content', type),
           ns.is('fixed', !!$slots.default),
           ns.is('dot', isDot),
-          ns.is('hide-zero', !showZero && props.value === 0),
+          ns.is('hide-zero', !showZero && value === 0),
           badgeClass,
         ]"
         :style="style"
