@@ -142,6 +142,12 @@ Drawer provides an API called `destroy-on-close`, which is a flag variable that 
 | footer              | Drawer footer Section                                                                          |
 | title ^(deprecated) | Works the same as the header slot. Use that instead.                                           |
 
+:::warning
+
+`title` has been **deprecated**, and **will be** removed in ^(3.0.0), please use `header`.
+
+:::
+
 ### Exposes
 
 | Name        | Description                                                     |
