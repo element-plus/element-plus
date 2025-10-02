@@ -23,9 +23,15 @@ const toTranslation = () => {
               v-for="l in langs"
               :key="l"
               :class="{ language: true, selected: l === lang }"
-              @click="switchLang(l)"
             >
-              {{ languageMap[l] }}
+              <a
+                :href="`/${l}${
+                  router.route.path.replace(/^\/[^\/]+/, '') || '/'
+                }`"
+                @click.prevent="switchLang(l)"
+              >
+                {{ languageMap[l] }}
+              </a>
             </ElDropdownItem>
             <ElDropdownItem class="language selected" @click="toTranslation">
               {{ locale.help }}
