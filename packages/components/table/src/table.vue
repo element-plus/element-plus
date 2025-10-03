@@ -56,6 +56,9 @@
             :append-filter-panel-to="appendFilterPanelTo"
             :allow-drag-last-column="allowDragLastColumn"
             @set-drag-visible="setDragVisible"
+            @header-cell-drag-end="
+              nativeScrollbar ? addHeaderPlaceholder : null
+            "
           />
         </table>
       </div>
@@ -67,7 +70,7 @@
           :always="scrollbarAlwaysOn"
           :tabindex="scrollbarTabindex"
           :native="nativeScrollbar"
-          @scroll="$emit('scroll', $event)"
+          @scroll="handleScroll"
         >
           <table
             ref="tableBody"
@@ -195,6 +198,7 @@ import defaultProps from './table/defaults'
 import { TABLE_INJECTION_KEY } from './tokens'
 import { hColgroup } from './h-helper'
 import { useScrollbar } from './composables/use-scrollbar'
+import { useTableScrollbarFix } from './composables/use-native-scrollbar-fix'
 
 import type { Table } from './table/defaults'
 
@@ -233,7 +237,7 @@ export default defineComponent({
     'expand-change',
     'scroll',
   ],
-  setup(props) {
+  setup(props, { emit }) {
     type Row = (typeof props.data)[number]
     const { t } = useLocale()
     const ns = useNamespace('table')
@@ -251,9 +255,6 @@ export default defineComponent({
 
     const isEmpty = computed(() => (store.states.data.value || []).length === 0)
 
-    /**
-     * open functions
-     */
     const {
       setCurrentRow,
       getSelectionRows,
@@ -312,6 +313,16 @@ export default defineComponent({
 
     useKeyRender(table)
 
+    const { addHeaderPlaceholder, handleScroll } = useTableScrollbarFix(
+      table,
+      props.nativeScrollbar,
+      setScrollLeft,
+      setScrollTop,
+      layout,
+      doLayout,
+      emit as (event: string, ...args: any[]) => void
+    )
+
     onBeforeUnmount(() => {
       debouncedUpdateLayout.cancel()
     })
@@ -351,9 +362,6 @@ export default defineComponent({
        * @description used in multiple selection Table, clear user selection
        */
       clearSelection,
-      /**
-       * @description clear filters of the columns whose `columnKey` are passed in. If no params, clear all filters
-       */
       clearFilter,
       /**
        * @description used in multiple selection Table, toggle select all and deselect all
@@ -363,9 +371,6 @@ export default defineComponent({
        * @description used in expandable Table or tree Table, toggle if a certain row is expanded. With the second parameter, you can directly set if this row is expanded or collapsed
        */
       toggleRowExpansion,
-      /**
-       * @description clear sorting, restore data to the original order
-       */
       clearSort,
       /**
        * @description refresh the layout of Table. When the visibility of Table changes, you may need to call this method to get a correct layout
@@ -387,6 +392,8 @@ export default defineComponent({
       tableLayout,
       scrollbarViewStyle,
       scrollbarStyle,
+      addHeaderPlaceholder,
+      handleScroll,
       scrollBarRef,
       /**
        * @description scrolls to a particular set of coordinates
