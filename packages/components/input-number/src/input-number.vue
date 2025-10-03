@@ -57,6 +57,7 @@
       :validate-event="false"
       :inputmode="inputmode"
       @keydown="handleKeydown"
+      @keyup="handleKeyup"
       @blur="handleBlur"
       @focus="handleFocus"
       @input="handleInput"
@@ -221,19 +222,25 @@ const handleKeydown = (event: KeyboardEvent | Event) => {
     return
   }
 
-  if (event.type === 'keydown') {
-    switch (code) {
-      case EVENT_CODE.up: {
-        event.preventDefault()
-        increase()
-        break
-      }
-      case EVENT_CODE.down: {
-        event.preventDefault()
-        decrease()
-        break
-      }
+  switch (code) {
+    case EVENT_CODE.up: {
+      event.preventDefault()
+      increase()
+      break
     }
+    case EVENT_CODE.down: {
+      event.preventDefault()
+      decrease()
+      break
+    }
+  }
+}
+const handleKeyup = (event: KeyboardEvent | Event) => {
+  const key = getEventKey(event as KeyboardEvent)
+
+  if (props.disabledScientific && ['e', 'E'].includes(key)) {
+    event.preventDefault()
+    return
   }
 }
 const increase = () => {
