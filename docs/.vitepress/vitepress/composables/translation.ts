@@ -1,5 +1,5 @@
 import { computed } from 'vue'
-import { useRoute, useRouter } from 'vitepress'
+import { useData, useRoute, useRouter, withBase } from 'vitepress'
 import { useStorage } from '@vueuse/core'
 import { PREFERRED_LANG_KEY } from '../constant'
 import langs from '../../i18n/lang.json'
@@ -10,6 +10,7 @@ export const useTranslation = () => {
   const route = useRoute()
   const router = useRouter()
   const lang = useLang()
+  const { site } = useData()
 
   const languageMap = {
     'en-US': 'English',
@@ -40,19 +41,18 @@ export const useTranslation = () => {
   const language = useStorage(PREFERRED_LANG_KEY, 'en-US')
 
   const getTargetUrl = (lang: string) => {
-    const firstSlash = route.path.indexOf('/', 1)
+    const firstSlash = route.path.indexOf('/', site.value.base.length)
     return firstSlash === -1
-      ? `/${lang}`
+      ? `/${lang}/`
       : `/${lang}/${route.path.slice(firstSlash + 1)}`
   }
 
   const switchLang = (targetLang: string) => {
     if (lang.value === targetLang) return
-
     language.value = targetLang
-    const goTo: string = getTargetUrl(targetLang)
 
-    router.go(goTo)
+    const goTo: string = getTargetUrl(targetLang)
+    router.go(withBase(goTo))
   }
 
   return {

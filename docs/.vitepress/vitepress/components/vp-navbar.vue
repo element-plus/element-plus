@@ -15,14 +15,14 @@ defineProps<{
 
 defineEmits(['toggle'])
 
-const { theme, page } = useData()
+const { theme, page, site } = useData()
 
 const currentLink = computed(() => {
   if (!inBrowser) {
     return `/${page.value?.frontmatter?.lang || ''}/`
   }
   const existLangIndex = theme.value.langs.findIndex((lang) =>
-    window?.location?.pathname.startsWith(`/${lang}`)
+    window?.location?.pathname.startsWith(`${site.value.base}${lang}`)
   )
 
   return existLangIndex === -1 ? '/' : `/${theme.value.langs[existLangIndex]}/`
