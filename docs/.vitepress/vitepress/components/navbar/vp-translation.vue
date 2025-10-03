@@ -3,7 +3,8 @@ import { useRouter, withBase } from 'vitepress'
 import { useTranslation } from '../../composables/translation'
 
 const router = useRouter()
-const { switchLang, languageMap, langs, lang, locale } = useTranslation()
+const { getTargetUrl, switchLang, languageMap, langs, lang, locale } =
+  useTranslation()
 
 const toTranslation = () => {
   router.go(withBase(`/${lang.value}/guide/translation`))
@@ -19,17 +20,22 @@ const toTranslation = () => {
         </ElIcon>
         <template #dropdown>
           <ElDropdownMenu>
-            <ElDropdownItem
-              v-for="l in langs"
-              :key="l"
-              :class="{ language: true, selected: l === lang }"
-              @click="switchLang(l)"
-            >
-              {{ languageMap[l] }}
-            </ElDropdownItem>
-            <ElDropdownItem class="language selected" @click="toTranslation">
-              {{ locale.help }}
-            </ElDropdownItem>
+            <a v-for="l in langs" :key="l" :href="getTargetUrl(l)">
+              <ElDropdownItem
+                :class="{ language: true, selected: l === lang }"
+                @click.stop="switchLang(l)"
+              >
+                {{ languageMap[l] }}
+              </ElDropdownItem>
+            </a>
+            <a :href="`/${lang}/guide/translation`">
+              <ElDropdownItem
+                class="language selected"
+                @click.stop="toTranslation"
+              >
+                {{ locale.help }}
+              </ElDropdownItem>
+            </a>
           </ElDropdownMenu>
         </template>
       </ElDropdown>
