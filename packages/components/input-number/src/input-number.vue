@@ -57,7 +57,6 @@
       :validate-event="false"
       :inputmode="inputmode"
       @keydown="handleKeydown"
-      @keyup="handleKeydown"
       @blur="handleBlur"
       @focus="handleFocus"
       @input="handleInput"
