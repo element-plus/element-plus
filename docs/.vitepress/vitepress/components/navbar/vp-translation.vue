@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { useRouter } from 'vitepress'
+import { useRouter, withBase } from 'vitepress'
 import { useTranslation } from '../../composables/translation'
 
 const router = useRouter()
 const { switchLang, languageMap, langs, lang, locale } = useTranslation()
 
 const toTranslation = () => {
-  router.go(`/${lang.value}/guide/translation`)
+  router.go(withBase(`/${lang.value}/guide/translation`))
 }
 </script>
 
