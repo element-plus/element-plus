@@ -1,4 +1,4 @@
-import type { ComponentInternalInstance, PropType, Ref, VNode } from 'vue'
+import type { ComponentInternalInstance, ExtractPublicPropTypes, PropType, Ref, VNode } from 'vue'
 import type { DefaultRow, Table, TableSortOrder } from '../table/defaults'
 import type {
   TableOverflowTooltipFormatter,
@@ -91,9 +91,7 @@ interface TableColumn<T extends DefaultRow> extends ComponentInternalInstance {
   columnConfig: Ref<Partial<TableColumnCtx<T>>>
 }
 
-export type { Filters, FilterMethods, TableColumnCtx, TableColumn, ValueOf }
-
-export default {
+const defaultProps = <T extends DefaultRow>() => ({
   /**
    * @description type of the column. If set to `selection`, the column will display checkbox. If set to `index`, the column will display index of the row (staring from 1). If set to `expand`, the column will display expand icon
    */
@@ -138,7 +136,7 @@ export default {
   /**
    * @description render function for table header of this column
    */
-  renderHeader: Function as PropType<TableColumnCtx<any>['renderHeader']>,
+  renderHeader: Function as PropType<TableColumnCtx<T>['renderHeader']>,
   /**
    * @description whether column can be sorted. Remote sorting can be done by setting this attribute to 'custom' and listening to the `sort-change` event of Table
    */
@@ -149,11 +147,11 @@ export default {
   /**
    * @description sorting method, works when `sortable` is `true`. Should return a number, just like Array.sort
    */
-  sortMethod: Function as PropType<TableColumnCtx<any>['sortMethod']>,
+  sortMethod: Function as PropType<TableColumnCtx<T>['sortMethod']>,
   /**
    * @description specify which property to sort by, works when `sortable` is `true` and `sort-method` is `undefined`. If set to an Array, the column will sequentially sort by the next property if the previous one is equal
    */
-  sortBy: [String, Function, Array] as PropType<TableColumnCtx<any>['sortBy']>,
+  sortBy: [String, Function, Array] as PropType<TableColumnCtx<T>['sortBy']>,
   /**
    * @description whether column width can be resized, works when `border` of `el-table` is `true`
    */
@@ -178,7 +176,7 @@ export default {
    */
   showOverflowTooltip: {
     type: [Boolean, Object] as PropType<
-      TableColumnCtx<any>['showOverflowTooltip']
+      TableColumnCtx<T>['showOverflowTooltip']
     >,
     default: undefined,
   },
@@ -186,7 +184,7 @@ export default {
    * @description function that formats cell tooltip content, works when `show-overflow-tooltip` is `true`
    */
   tooltipFormatter: Function as PropType<
-    TableColumnCtx<any>['tooltipFormatter']
+    TableColumnCtx<T>['tooltipFormatter']
   >,
   /**
    * @description whether column is fixed at left / right. Will be fixed at left if `true`
@@ -195,11 +193,11 @@ export default {
   /**
    * @description function that formats cell content
    */
-  formatter: Function as PropType<TableColumnCtx<any>['formatter']>,
+  formatter: Function as PropType<TableColumnCtx<T>['formatter']>,
   /**
    * @description function that determines if a certain row can be selected, works when `type` is 'selection'
    */
-  selectable: Function as PropType<TableColumnCtx<any>['selectable']>,
+  selectable: Function as PropType<TableColumnCtx<T>['selectable']>,
   /**
    * @description whether to reserve selection after data refreshing, works when `type` is 'selection'. Note that `row-key` is required for this to work
    */
@@ -207,15 +205,15 @@ export default {
   /**
    * @description data filtering method. If `filter-multiple` is on, this method will be called multiple times for each row, and a row will display if one of the calls returns `true`
    */
-  filterMethod: Function as PropType<TableColumnCtx<any>['filterMethod']>,
+  filterMethod: Function as PropType<TableColumnCtx<T>['filterMethod']>,
   /**
    * @description filter value for selected data, might be useful when table header is rendered with `render-header`
    */
-  filteredValue: Array as PropType<TableColumnCtx<any>['filteredValue']>,
+  filteredValue: Array as PropType<TableColumnCtx<T>['filteredValue']>,
   /**
    * @description an array of data filtering options. For each element in this array, `text` and `value` are required
    */
-  filters: Array as PropType<TableColumnCtx<any>['filters']>,
+  filters: Array as PropType<TableColumnCtx<T>['filters']>,
   /**
    * @description placement for the filter dropdown
    */
@@ -234,19 +232,25 @@ export default {
   /**
    * @description customize indices for each row, works on columns with `type=index`
    */
-  index: [Number, Function] as PropType<TableColumnCtx<any>['index']>,
+  index: [Number, Function] as PropType<TableColumnCtx<T>['index']>,
   /**
    * @description the order of the sorting strategies used when sorting the data, works when `sortable` is `true`. Accepts an array, as the user clicks on the header, the column is sorted in order of the elements in the array
    */
   sortOrders: {
-    type: Array as PropType<TableColumnCtx<any>['sortOrders']>,
+    type: Array as PropType<TableColumnCtx<T>['sortOrders']>,
     default: () => {
       return ['ascending', 'descending', null]
     },
-    validator: (val: TableColumnCtx<any>['sortOrders']) => {
+    validator: (val: TableColumnCtx<T>['sortOrders']) => {
       return val.every((order: TableSortOrder | null) =>
         ['ascending', 'descending', null].includes(order)
       )
     },
   },
-}
+})
+
+type TableColumnProps<T extends DefaultRow> = ExtractPublicPropTypes<ReturnType<typeof defaultProps<T>>>
+
+export type { Filters, FilterMethods, TableColumnCtx, TableColumn, ValueOf, TableColumnProps }
+
+export default defaultProps()

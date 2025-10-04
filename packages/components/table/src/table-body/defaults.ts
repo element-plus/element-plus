@@ -1,4 +1,4 @@
-import type { PropType } from 'vue'
+import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { Store } from '../store'
 import type {
   ColumnCls,
@@ -8,42 +8,44 @@ import type {
 } from '../table/defaults'
 import type { TableOverflowTooltipOptions } from '../util'
 
-interface TableBodyProps<T extends DefaultRow> {
-  store: Store<T>
-  stripe?: boolean
-  context: Table<T>
-  rowClassName: ColumnCls<T>
-  rowStyle: ColumnStyle<T>
-  fixed: string
-  highlight: boolean
-  tooltipEffect?: string
-  tooltipOptions?: TableOverflowTooltipOptions
-}
+//interface TableBodyProps<T extends DefaultRow> {
+//  store: Store<T>
+//  stripe?: boolean
+//  context: Table<T>
+//  rowClassName: ColumnCls<T>
+//  rowStyle: ColumnStyle<T>
+//  fixed: string
+//  highlight: boolean
+//  tooltipEffect?: string
+//  tooltipOptions?: TableOverflowTooltipOptions
+//}
 
-const defaultProps = {
+const defaultProps = <T extends DefaultRow>() => ({
   store: {
     required: true,
-    type: Object as PropType<TableBodyProps<any>['store']>,
+    type: Object as PropType<Store<T>>,
   },
   stripe: Boolean,
   tooltipEffect: String,
   tooltipOptions: {
-    type: Object as PropType<TableBodyProps<any>['tooltipOptions']>,
+    type: Object as PropType<TableOverflowTooltipOptions>,
   },
   context: {
     default: () => ({}),
-    type: Object as PropType<TableBodyProps<any>['context']>,
+    type: Object as PropType<Table<T>>,
   },
   rowClassName: [String, Function] as PropType<
-    TableBodyProps<any>['rowClassName']
+    ColumnCls<T>
   >,
-  rowStyle: [Object, Function] as PropType<TableBodyProps<any>['rowStyle']>,
+  rowStyle: [Object, Function] as PropType<ColumnStyle<T>>,
   fixed: {
     type: String,
     default: '',
   },
   highlight: Boolean,
-}
+})
 
-export { TableBodyProps }
-export default defaultProps
+type TableBodyProps<T extends DefaultRow> = ExtractPublicPropTypes<ReturnType<typeof defaultProps<T>>>
+
+export type { TableBodyProps }
+export default defaultProps()
