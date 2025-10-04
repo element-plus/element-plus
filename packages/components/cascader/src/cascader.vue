@@ -283,10 +283,9 @@ const popperOptions: Partial<Options> = {
     },
   ],
 }
-const COMPONENT_NAME = 'ElCascader'
 
 defineOptions({
-  name: COMPONENT_NAME,
+  name: 'ElCascader',
 })
 
 const props = defineProps(cascaderProps)
@@ -653,7 +652,7 @@ const handleSuggestionClick = (node: CascaderNode) => {
 
 const handleSuggestionKeyDown = (e: KeyboardEvent) => {
   const target = e.target as HTMLElement
-  const { code } = e
+  const code = getEventCode(e)
 
   switch (code) {
     case EVENT_CODE.up:
@@ -749,6 +748,15 @@ watch(realSize, async () => {
 })
 
 watch(presentText, syncPresentTextValue, { immediate: true })
+
+watch(
+  () => popperVisible.value,
+  (val) => {
+    if (val && props.props.lazy && props.props.lazyLoad) {
+      cascaderPanelRef.value?.loadLazyRootNodes()
+    }
+  }
+)
 
 onMounted(() => {
   const inputInner = inputRef.value!.input!

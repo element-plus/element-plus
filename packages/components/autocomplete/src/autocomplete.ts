@@ -114,6 +114,13 @@ export const autocompleteProps = buildProps({
    * @description whether the width of the dropdown is the same as the input
    */
   fitInputWidth: Boolean,
+  /**
+   * @description whether keyboard navigation loops from end to start
+   */
+  loopNavigation: {
+    type: Boolean,
+    default: true,
+  },
 } as const)
 export type AutocompleteProps = ExtractPropTypes<typeof autocompleteProps>
 export type AutocompletePropsPublic = __ExtractPublicPropTypes<

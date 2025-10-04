@@ -680,12 +680,6 @@ const isValidValue = (date: unknown) => {
   )
 }
 
-const formatToString = (value: Dayjs | Dayjs[]) => {
-  return isArray(value)
-    ? value.map((_) => _.format(props.format))
-    : value.format(props.format)
-}
-
 const parseUserInput = (value: Dayjs) => {
   return correctlyParseUserInput(
     value,
@@ -814,7 +808,7 @@ const handleKeyControl = (code: string) => {
       newDate,
       isFunction(map[code])
         ? (map[code] as unknown as KeyControlMappingCallableOffset)(newDate)
-        : (map[code] as number) ?? 0
+        : ((map[code] as number) ?? 0)
     )
     if (disabledDate && disabledDate(newDate)) {
       break
@@ -873,7 +867,6 @@ watch(
 )
 
 contextEmit('set-picker-option', ['isValidValue', isValidValue])
-contextEmit('set-picker-option', ['formatToString', formatToString])
 contextEmit('set-picker-option', ['parseUserInput', parseUserInput])
 contextEmit('set-picker-option', ['handleFocusPicker', _handleFocusPicker])
 </script>

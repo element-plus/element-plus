@@ -425,7 +425,7 @@ describe('Select', () => {
     delete process.env.RUN_TEST_WITH_PERSISTENT
   })
 
-  test('when there is a default value and persistent is false, render the label and dynamically modify options', async () => {
+  test('when there is a default value and persistent is false, render the label and dynamically modify options and modelValue', async () => {
     // This is convenient for testing the default value label rendering when persistent is false.
     process.env.RUN_TEST_WITH_PERSISTENT = 'true'
     wrapper = _mount(
@@ -459,6 +459,11 @@ describe('Select', () => {
     await nextTick()
 
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('双皮奶')
+
+    vm.value = '选项1'
+    await nextTick()
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('黄金糕')
+
     delete process.env.RUN_TEST_WITH_PERSISTENT
   })
 

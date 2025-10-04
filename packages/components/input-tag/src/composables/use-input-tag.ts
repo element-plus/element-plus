@@ -152,8 +152,8 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
       dropIndex > draggingIndex && type === 'before'
         ? -1
         : dropIndex < draggingIndex && type === 'after'
-        ? 1
-        : 0
+          ? 1
+          : 0
 
     value.splice(dropIndex + step, 0, draggedItem)
     emit(UPDATE_MODEL_EVENT, value)

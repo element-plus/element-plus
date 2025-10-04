@@ -373,7 +373,7 @@ const TabNav = defineComponent({
           <ElIcon
             class="is-icon-close"
             // `onClick` not exist when generate dts
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+
             // @ts-ignore
             onClick={(ev: MouseEvent) => emit('tabRemove', pane, ev)}
           >
@@ -408,10 +408,10 @@ const TabNav = defineComponent({
               emit('tabClick', pane, tabName, ev)
             }}
             onKeydown={(ev: KeyboardEvent) => {
+              const code = getEventCode(ev)
               if (
                 closable &&
-                (ev.code === EVENT_CODE.delete ||
-                  ev.code === EVENT_CODE.backspace)
+                (code === EVENT_CODE.delete || code === EVENT_CODE.backspace)
               ) {
                 emit('tabRemove', pane, ev)
               }

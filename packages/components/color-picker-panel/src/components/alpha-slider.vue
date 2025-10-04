@@ -24,10 +24,8 @@ import { useLocale } from '@element-plus/hooks'
 import { alphaSliderProps } from '../props/slider'
 import { useSlider, useSliderDOM } from '../composables/use-slider'
 
-const COMPONENT_NAME = 'ElColorAlphaSlider'
-
 defineOptions({
-  name: COMPONENT_NAME,
+  name: 'ElColorAlphaSlider',
 })
 
 const props = defineProps(alphaSliderProps)
