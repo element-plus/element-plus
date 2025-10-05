@@ -143,6 +143,28 @@ describe('TimePicker', () => {
     expect(value.value).toBeInstanceOf(Date)
   })
 
+  it('should correctly cancel value after opened twice', async () => {
+    const value = ref()
+    const wrapper = mount(() => <TimePicker v-model={value.value} />)
+
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    document
+      .querySelector<HTMLButtonElement>('.el-time-panel__btn.cancel')
+      .click()
+    await nextTick()
+    expect(value.value).toBeUndefined()
+
+    await input.trigger('blur')
+    await input.trigger('focus')
+    document
+      .querySelector<HTMLButtonElement>('.el-time-panel__btn.cancel')
+      .click()
+    await nextTick()
+    expect(value.value).toBeUndefined()
+  })
+
   it('should update oldValue when visible change', async () => {
     const value = ref(new Date(2016, 9, 10, 18, 40))
     const wrapper = mount(() => <TimePicker v-model={value.value} />)
