@@ -384,9 +384,8 @@ const setNativeInputValue = () => {
   input.value = formatterValue
 }
 
-const formatValue = (event: Event) => {
+const formatValue = (value: string) => {
   const { trim, number } = props.modelModifiers
-  let { value } = event.target as TargetElement
   if (trim) {
     value = value.trim()
   }
@@ -411,7 +410,7 @@ const handleInput = async (event: Event) => {
     return
   }
 
-  value = formatValue(event)
+  value = formatValue(value)
 
   // hack for https://github.com/ElemeFE/element/issues/8548
   // should remove the following line when we don't support IE
@@ -443,7 +442,7 @@ const handleInput = async (event: Event) => {
 const handleChange = async (event: Event) => {
   let { value } = event.target as TargetElement
 
-  value = formatValue(event)
+  value = formatValue(value)
   if (props.modelModifiers.lazy) {
     emit(UPDATE_MODEL_EVENT, value)
   }
@@ -515,18 +514,17 @@ watch(nativeInputValue, (newValue) => {
   }
   const { trim, number, lazy } = props.modelModifiers
   const elValue = _ref.value.value
-  const _newValue = String(newValue)
   const displayValue =
     (number || props.type === 'number') && !/^0\d/.test(elValue)
       ? `${looseToNumber(elValue)}`
       : elValue
 
-  if (displayValue === _newValue) {
+  if (displayValue === newValue) {
     return
   }
 
   if (document.activeElement === _ref.value && _ref.value.type !== 'range') {
-    if (lazy || (trim && displayValue.trim() === _newValue)) {
+    if (lazy || (trim && displayValue.trim() === newValue)) {
       return
     }
   }
