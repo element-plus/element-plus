@@ -24,7 +24,7 @@
     "build": "pnpm run -C internal/build start",
     "build:theme": "pnpm run -C packages/theme-chalk build",
     "format": "prettier --write --experimental-cli .",
-    "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx,.md,.json --max-warnings 0 --cache",
+    "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx,.md,.json --max-warnings 0 --cache --concurrency=auto",
     "lint:fix": "pnpm run lint --fix",
     "lint:commit": "commitlint",
     "typecheck": "pnpm run \"/^typecheck:/\"",
@@ -145,7 +145,7 @@
   },
   "lint-staged": {
     "*.{vue,js,ts,jsx,tsx,md,json}": [
-      "eslint --fix",
+      "eslint --fix --concurrency=auto",
       "prettier --write --experimental-cli"
     ]
   }
