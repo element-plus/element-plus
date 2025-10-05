@@ -414,7 +414,7 @@ const handleInput = async (event: Event) => {
 
   // hack for https://github.com/ElemeFE/element/issues/8548
   // should remove the following line when we don't support IE
-  if (String(value) === String(nativeInputValue.value)) {
+  if (String(value) === nativeInputValue.value) {
     // preserve native features while being compatible with #9501
     if (props.formatter) {
       setNativeInputValue()
