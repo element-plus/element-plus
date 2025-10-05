@@ -16,6 +16,11 @@ import type {
   __ExtractPublicPropTypes,
 } from 'vue'
 
+export type InputModelModifiers = {
+  lazy?: boolean
+  number?: boolean
+  trim?: boolean
+}
 export type InputAutoSize = { minRows?: number; maxRows?: number } | boolean
 
 export const inputProps = buildProps({
@@ -44,6 +49,10 @@ export const inputProps = buildProps({
       Object,
     ]),
     default: '',
+  },
+  modelModifiers: {
+    type: definePropType<InputModelModifiers>(Object),
+    default: () => ({}),
   },
   /**
    * @description same as `maxlength` in native input

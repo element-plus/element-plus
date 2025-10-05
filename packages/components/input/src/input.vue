@@ -189,7 +189,7 @@ import {
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import { calcTextareaHeight } from './utils'
+import { calcTextareaHeight, looseToNumber } from './utils'
 import { inputEmits, inputProps } from './input'
 
 import type { StyleValue } from 'vue'
@@ -384,43 +384,73 @@ const setNativeInputValue = () => {
   input.value = formatterValue
 }
 
-const handleInput = async (event: Event) => {
-  recordCursor()
-
+const formatValue = (event: Event) => {
+  const { trim, number } = props.modelModifiers
   let { value } = event.target as TargetElement
-
+  if (trim) {
+    value = value.trim()
+  }
+  if (number) {
+    value = `${looseToNumber(value)}`
+  }
   if (props.formatter && props.parser) {
     value = props.parser(value)
   }
+  return value
+}
 
+const handleInput = async (event: Event) => {
   // should not emit input during composition
   // see: https://github.com/ElemeFE/element/issues/10516
   if (isComposing.value) return
 
-  // hack for https://github.com/ElemeFE/element/issues/8548
-  // should remove the following line when we don't support IE
-  if (value === nativeInputValue.value) {
-    setNativeInputValue()
+  const { lazy } = props.modelModifiers
+  let { value } = event.target as TargetElement
+  if (lazy) {
+    emit(INPUT_EVENT, value)
     return
   }
 
+  value = formatValue(event)
+
+  // hack for https://github.com/ElemeFE/element/issues/8548
+  // should remove the following line when we don't support IE
+  if (String(value) === String(nativeInputValue.value)) {
+    // preserve native features while being compatible with #9501
+    if (props.formatter) {
+      setNativeInputValue()
+    }
+    return
+  }
+
+  recordCursor()
   emit(UPDATE_MODEL_EVENT, value)
   emit(INPUT_EVENT, value)
 
   // ensure native input value is controlled
   // see: https://github.com/ElemeFE/element/issues/12850
   await nextTick()
-  setNativeInputValue()
+
+  if (
+    (props.formatter && props.parser) ||
+    !Object.keys(props.modelModifiers).length
+  ) {
+    setNativeInputValue()
+  }
   setCursor()
 }
 
-const handleChange = (event: Event) => {
+const handleChange = async (event: Event) => {
   let { value } = event.target as TargetElement
 
-  if (props.formatter && props.parser) {
-    value = props.parser(value)
+  value = formatValue(event)
+  if (props.modelModifiers.lazy) {
+    emit(UPDATE_MODEL_EVENT, value)
   }
   emit(CHANGE_EVENT, value)
+
+  await nextTick()
+  setNativeInputValue()
 }
 
 const {
@@ -479,7 +509,30 @@ watch(
 // native input value is set explicitly
 // do not use v-model / :value in template
 // see: https://github.com/ElemeFE/element/issues/14521
-watch(nativeInputValue, () => setNativeInputValue())
+watch(nativeInputValue, (newValue) => {
+  if (!_ref.value) {
+    return
+  }
+  const { trim, number, lazy } = props.modelModifiers
+  const elValue = _ref.value.value
+  const _newValue = String(newValue)
+  const displayValue =
+    (number || props.type === 'number') && !/^0\d/.test(elValue)
+      ? `${looseToNumber(elValue)}`
+      : elValue
+
+  if (displayValue === _newValue) {
+    return
+  }
+
+  if (document.activeElement === _ref.value && _ref.value.type !== 'range') {
+    if (lazy || (trim && displayValue.trim() === _newValue)) {
+      return
+    }
+  }
+
+  setNativeInputValue()
+})
 
 // when change between <input> and <textarea>,
 // update DOM dependent value and styles
