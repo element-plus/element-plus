@@ -512,7 +512,7 @@ watch(nativeInputValue, (newValue) => {
   if (!_ref.value) {
     return
   }
-  const { trim, number, lazy } = props.modelModifiers
+  const { trim, number } = props.modelModifiers
   const elValue = _ref.value.value
   const displayValue =
     (number || props.type === 'number') && !/^0\d/.test(elValue)
@@ -524,7 +524,7 @@ watch(nativeInputValue, (newValue) => {
   }
 
   if (document.activeElement === _ref.value && _ref.value.type !== 'range') {
-    if (lazy || (trim && displayValue.trim() === newValue)) {
+    if (trim && displayValue.trim() === newValue) {
       return
     }
   }
