@@ -8,7 +8,10 @@
           :arrow-control="arrowControl"
           :show-seconds="showSeconds"
           :am-pm-mode="amPmMode"
-          :spinner-date="(parsedValue as any)"
+          :spinner-date="
+            // https://github.com/vuejs/language-tools/issues/2104#issuecomment-3092541527
+            parsedValue as any
+          "
           :disabled-hours="disabledHours"
           :disabled-minutes="disabledMinutes"
           :disabled-seconds="disabledSeconds"
@@ -175,17 +178,11 @@ const parseUserInput = (value: Dayjs) => {
   return dayjs(value, props.format).locale(lang.value)
 }
 
-const formatToString = (value: Dayjs) => {
-  if (!value) return null
-  return value.format(props.format)
-}
-
 const getDefaultValue = () => {
   return dayjs(defaultValue).locale(lang.value)
 }
 
 emit('set-picker-option', ['isValidValue', isValidValue])
-emit('set-picker-option', ['formatToString', formatToString])
 emit('set-picker-option', ['parseUserInput', parseUserInput])
 emit('set-picker-option', ['handleKeydownInput', handleKeydown])
 emit('set-picker-option', ['getRangeAvailableTime', getRangeAvailableTime])

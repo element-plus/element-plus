@@ -16,7 +16,10 @@
   border-color: getCssVar('message', 'border-color');
   position: fixed;
   background-color: getCssVar('message', 'bg-color');
-  transition: opacity getCssVar('transition-duration'), transform 0.4s, top 0.4s,
+  transition:
+    opacity getCssVar('transition-duration'),
+    transform 0.4s,
+    top 0.4s,
     bottom 0.4s;
   padding: getCssVar('message', 'padding');
   display: flex;

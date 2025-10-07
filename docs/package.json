@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@docsearch/js": "^3.1.0",
-    "@element-plus/icons-vue": "^2.3.1",
+    "@element-plus/icons-vue": "^2.3.2",
     "@element-plus/metadata": "workspace:*",
     "@vue/shared": "^3.2.37",
     "@vueuse/core": "^9.1.0",
@@ -30,7 +30,6 @@
     "@vitejs/plugin-vue-jsx": "^4.0.1",
     "chalk": "^4.1.2",
     "consola": "^2.15.3",
-    "escape-html": "^1.0.3",
     "fast-glob": "^3.2.11",
     "markdown-it-container": "^3.0.0",
     "unocss": "66.0.0",
