@@ -58,31 +58,17 @@ export default defineComponent({
     const rovingFocusGroupItemRef = ref<HTMLElement>()
 
     const handleMousedown = composeEventHandlers(
-      (e: Event) => {
-        emit('mousedown', e)
-      },
-      (e) => {
-        if (!props.focusable) {
-          e.preventDefault()
-        } else {
-          onItemFocus(unref(id))
-        }
-      }
+      (e: Event) => emit('mousedown', e),
+      (e) => (!props.focusable ? e.preventDefault() : onItemFocus(unref(id)))
     )
 
     const handleFocus = composeEventHandlers(
-      (e: Event) => {
-        emit('focus', e)
-      },
-      () => {
-        onItemFocus(unref(id))
-      }
+      (e: Event) => emit('focus', e),
+      () => onItemFocus(unref(id))
     )
 
     const handleKeydown = composeEventHandlers(
-      (e: Event) => {
-        emit('keydown', e)
-      },
+      (e: Event) => emit('keydown', e),
       (e) => {
         const { shiftKey, target, currentTarget } = e as KeyboardEvent
         const code = getEventCode(e as KeyboardEvent)
@@ -112,10 +98,10 @@ export default defineComponent({
               if (focusIntent === 'prev') {
                 elements.reverse()
               }
-              const currentIdx = elements.indexOf(currentTarget as HTMLElement)
+              const idx = elements.indexOf(currentTarget as HTMLElement) + 1
               elements = loop.value
-                ? reorderArray(elements, currentIdx + 1)
-                : elements.slice(currentIdx + 1)
+                ? reorderArray(elements, idx)
+                : elements.slice(idx)
               break
             }
             default: {
@@ -123,9 +109,7 @@ export default defineComponent({
             }
           }
 
-          nextTick(() => {
-            focusFirst(elements)
-          })
+          nextTick(() => focusFirst(elements))
         }
       }
     )

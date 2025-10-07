@@ -39,21 +39,17 @@ export const getFocusIntent = (
   const code = getEventCode(event)
   const key = getDirectionAwareKey(code, dir)
   if (
-    orientation === 'vertical' &&
-    [EVENT_CODE.left, EVENT_CODE.right].includes(key)
-  )
-    return undefined
-  if (
-    orientation === 'horizontal' &&
-    [EVENT_CODE.up, EVENT_CODE.down].includes(key)
+    (orientation === 'vertical' &&
+      [EVENT_CODE.left, EVENT_CODE.right].includes(key)) ||
+    (orientation === 'horizontal' &&
+      [EVENT_CODE.up, EVENT_CODE.down].includes(key))
   )
     return undefined
   return MAP_KEY_TO_FOCUS_INTENT[key]
 }
 
-export const reorderArray = <T>(array: T[], atIdx: number) => {
-  return array.map((_, idx) => array[(idx + atIdx) % array.length])
-}
+export const reorderArray = <T>(array: T[], atIdx: number) =>
+  array.map((_, idx) => array[(idx + atIdx) % array.length])
 
 export const focusFirst = (elements: HTMLElement[]) => {
   const { activeElement: prevActive } = document

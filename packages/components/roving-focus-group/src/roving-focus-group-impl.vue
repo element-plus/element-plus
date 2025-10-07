@@ -45,38 +45,28 @@ export default defineComponent({
       ROVING_FOCUS_COLLECTION_INJECTION_KEY,
       undefined
     )!
-    const rovingFocusGroupRootStyle = computed(() => {
-      // casting to any for fix compiler error since HTMLElement.StyleValue does not
-      // support CSSProperties
-      return [
-        {
-          outline: 'none',
-        },
-        props.style as StyleValue,
-      ] as any
-    })
+    const rovingFocusGroupRootStyle = computed(
+      () =>
+        [
+          {
+            outline: 'none',
+          },
+          props.style as StyleValue,
+        ] as any
+    )
 
-    const onItemFocus = (tabbedId: string) => {
+    const onItemFocus = (tabbedId: string) =>
       emit(CURRENT_TAB_ID_CHANGE_EVT, tabbedId)
-    }
 
-    const onItemShiftTab = () => {
-      isBackingOut.value = true
-    }
+    const onItemShiftTab = () => (isBackingOut.value = true)
 
     const onMousedown = composeEventHandlers(
-      (e: Event) => {
-        props.onMousedown?.(e)
-      },
-      () => {
-        isClickFocus.value = true
-      }
+      (e: Event) => props.onMousedown?.(e),
+      () => (isClickFocus.value = true)
     )
 
     const onFocus = composeEventHandlers(
-      (e: FocusEvent) => {
-        props.onFocus?.(e)
-      },
+      (e: FocusEvent) => props.onFocus?.(e),
       (e) => {
         const isKeyboardFocus = !unref(isClickFocus)
         const { target, currentTarget } = e
@@ -111,12 +101,8 @@ export default defineComponent({
     )
 
     const onBlur = composeEventHandlers(
-      (e: Event) => {
-        props.onBlur?.(e)
-      },
-      () => {
-        isBackingOut.value = false
-      }
+      (e: Event) => props.onBlur?.(e),
+      () => (isBackingOut.value = false)
     )
 
     const handleEntryFocus = (...args: any[]) => {
@@ -142,9 +128,7 @@ export default defineComponent({
 
     watch(
       () => props.currentTabId,
-      (val) => {
-        currentTabbedId.value = val ?? null
-      }
+      (val) => (currentTabbedId.value = val ?? null)
     )
 
     useEventListener(rovingFocusGroupRef, ENTRY_FOCUS_EVT, handleEntryFocus)
