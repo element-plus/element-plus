@@ -10,6 +10,7 @@ import { ElFormItem } from '@element-plus/components/form'
 import { EVENT_CODE } from '@element-plus/constants'
 import TimePicker from '../src/time-picker'
 import Picker from '../src/common/picker.vue'
+import PanelTimePick from '../src/time-picker-com/panel-time-pick.vue'
 
 const makeRange = (start, end) => {
   const result = []
@@ -146,22 +147,17 @@ describe('TimePicker', () => {
   it('should correctly cancel value after opened twice', async () => {
     const value = ref()
     const wrapper = mount(() => <TimePicker v-model={value.value} />)
+    const picker = wrapper.findComponent(PanelTimePick)
 
     const input = wrapper.find('input')
     await input.trigger('blur')
     await input.trigger('focus')
-    document
-      .querySelector<HTMLButtonElement>('.el-time-panel__btn.cancel')
-      .click()
-    await nextTick()
+    await picker.find('.el-time-panel__btn.cancel').trigger('click')
     expect(value.value).toBeUndefined()
 
     await input.trigger('blur')
     await input.trigger('focus')
-    document
-      .querySelector<HTMLButtonElement>('.el-time-panel__btn.cancel')
-      .click()
-    await nextTick()
+    await picker.find('.el-time-panel__btn.cancel').trigger('click')
     expect(value.value).toBeUndefined()
   })
 
