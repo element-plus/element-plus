@@ -18,28 +18,36 @@
       @keydown.enter="switchValue"
     />
     <span
-      v-if="!inlinePrompt && (inactiveIcon || inactiveText)"
+      v-if="!inlinePrompt && (inactiveIcon || inactiveText || $slots.inactive)"
       :class="labelLeftKls"
     >
-      <el-icon v-if="inactiveIcon">
-        <component :is="inactiveIcon" />
-      </el-icon>
-      <span v-if="!inactiveIcon && inactiveText" :aria-hidden="checked">{{
-        inactiveText
-      }}</span>
+      <slot name="inactive">
+        <el-icon v-if="inactiveIcon">
+          <component :is="inactiveIcon" />
+        </el-icon>
+        <span v-if="!inactiveIcon && inactiveText" :aria-hidden="checked">{{
+          inactiveText
+        }}</span>
+      </slot>
     </span>
     <span :class="ns.e('core')" :style="coreStyle">
       <div v-if="inlinePrompt" :class="ns.e('inner')">
-        <template v-if="activeIcon || inactiveIcon">
-          <el-icon :class="ns.is('icon')">
-            <component :is="checked ? activeIcon : inactiveIcon" />
-          </el-icon>
-        </template>
-        <template v-else-if="activeText || inactiveText">
-          <span :class="ns.is('text')" :aria-hidden="!checked">
-            {{ checked ? activeText : inactiveText }}
-          </span>
-        </template>
+        <slot v-if="!checked" name="inactive">
+          <div :class="ns.e('inner--wrapper')">
+            <el-icon v-if="inactiveIcon">
+              <component :is="inactiveIcon" />
+            </el-icon>
+            <span v-if="!inactiveIcon && inactiveText">{{ inactiveText }}</span>
+          </div>
+        </slot>
+        <slot v-else name="active">
+          <div :class="ns.e('inner--wrapper')">
+            <el-icon v-if="activeIcon">
+              <component :is="activeIcon" />
+            </el-icon>
+            <span v-if="!activeIcon && activeText">{{ activeText }}</span>
+          </div>
+        </slot>
       </div>
       <div :class="ns.e('action')">
         <el-icon v-if="loading" :class="ns.is('loading')">
@@ -58,15 +66,17 @@
       </div>
     </span>
     <span
-      v-if="!inlinePrompt && (activeIcon || activeText)"
+      v-if="!inlinePrompt && (activeIcon || activeText || $slots.active)"
       :class="labelRightKls"
     >
-      <el-icon v-if="activeIcon">
-        <component :is="activeIcon" />
-      </el-icon>
-      <span v-if="!activeIcon && activeText" :aria-hidden="!checked">{{
-        activeText
-      }}</span>
+      <slot name="active">
+        <el-icon v-if="activeIcon">
+          <component :is="activeIcon" />
+        </el-icon>
+        <span v-if="!activeIcon && activeText" :aria-hidden="!checked">{{
+          activeText
+        }}</span>
+      </slot>
     </span>
   </div>
 </template>
