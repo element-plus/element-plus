@@ -68,7 +68,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref, unref } from 'vue'
+import { computed, inject, nextTick, ref, unref } from 'vue'
 import dayjs from 'dayjs'
 import { union } from 'lodash-unified'
 import { useLocale, useNamespace } from '@element-plus/hooks'
@@ -125,7 +125,11 @@ const startTime = computed(() => props.parsedValue![0])
 const endTime = computed(() => props.parsedValue![1])
 const oldValue = useOldValue(props)
 const handleCancel = () => {
-  emit('pick', oldValue.value, false)
+  const old = oldValue.value
+  emit('pick', old, false)
+  nextTick(() => {
+    oldValue.value = old
+  })
 }
 const showSeconds = computed(() => {
   return props.format.includes('ss')
