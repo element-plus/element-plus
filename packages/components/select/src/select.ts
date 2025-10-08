@@ -285,6 +285,13 @@ export const selectProps = buildProps({
     type: definePropType<SelectOptionProps>(Object),
     default: () => defaultProps,
   },
+  /**
+   * @description whether keyboard navigation loops from end to start
+   */
+  loopNavigation: {
+    type: Boolean,
+    default: true,
+  },
   ...useEmptyValuesProps,
   ...useAriaProps(['ariaLabel']),
 })
