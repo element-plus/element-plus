@@ -16,7 +16,7 @@ import type { TaskFunction } from 'gulp'
 import type { OutputOptions, Plugin } from 'rollup'
 
 const plugins: Plugin[] = [
-  ElementPlusAlias(),
+  // ElementPlusAlias(),
   vue() as Plugin,
   vueJsx() as Plugin,
   nodeResolve({
@@ -97,6 +97,6 @@ async function buildModulesStyles() {
 }
 
 export const buildModules: TaskFunction = series(
-  withTaskName('buildModulesComponents', buildModulesComponents),
+  // withTaskName('buildModulesComponents', buildModulesComponents),
   withTaskName('buildModulesStyles', buildModulesStyles)
 )
