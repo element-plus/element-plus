@@ -16,13 +16,13 @@ Next section is for those who wants to help develop Element Plus.
 
 You should have:
 
-Node.js >= 18
+Node.js >= 20
 
 pnpm >= 9.5
 
 Git > 2.20
 
-Some of our compiled code relies on features introduced in Node.js >= 18, so you will need to install that version or a newer one.
+Some of our compiled code relies on features introduced in Node.js >= 20, so you will need to install that version or a newer one.
 
 ## Clone the Repository
 
