@@ -79,12 +79,24 @@
   }
 
   @include e(expand-icon) {
-    position: relative;
     cursor: pointer;
     color: getCssVar('text-color', 'regular');
     font-size: 12px;
+    line-height: 12px;
     transition: transform getCssVar('transition-duration-fast') ease-in-out;
-    height: 20px;
+    transform-origin: center;
+    padding: 0;
+    margin: 0;
+    width: 19px;
+    height: 19px;
+    background-color: transparent;
+    border: none;
+    border-radius: getCssVar('border-radius', 'base');
+    outline: none;
+
+    &:focus-visible {
+      outline: 2px solid getCssVar('table', 'focus-border-color');
+    }
 
     @include m(expanded) {
       transform: rotate(90deg);
@@ -664,7 +676,6 @@
     .#{$namespace}-table__expand-icon {
       display: inline-block;
       width: 12px;
-      line-height: 12px;
       height: 12px;
       text-align: center;
       margin-right: 8px;

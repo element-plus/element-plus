@@ -222,6 +222,7 @@ export default defineComponent({
                 colspan: column.colSpan,
                 key: `${column.id}-thead`,
                 rowspan: column.rowSpan,
+                scope: column.colSpan > 1 ? 'colgroup' : 'col',
                 style: getHeaderCellStyle(
                   rowIndex,
                   cellIndex,
