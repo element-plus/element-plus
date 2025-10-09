@@ -40,20 +40,18 @@ export const useTranslation = () => {
 
   const language = useStorage(PREFERRED_LANG_KEY, 'en-US')
 
+  const getTargetUrl = (lang: string) => {
+    const firstSlash = route.path.indexOf('/', site.value.base.length)
+    return firstSlash === -1
+      ? `/${lang}/`
+      : `/${lang}/${route.path.slice(firstSlash + 1)}`
+  }
+
   const switchLang = (targetLang: string) => {
     if (lang.value === targetLang) return
-
     language.value = targetLang
 
-    const firstSlash = route.path.indexOf('/', site.value.base.length)
-
-    let goTo: string
-    if (firstSlash === -1) {
-      goTo = `/${targetLang}/`
-    } else {
-      goTo = `/${targetLang}/${route.path.slice(firstSlash + 1)}`
-    }
-
+    const goTo: string = getTargetUrl(targetLang)
     router.go(withBase(goTo))
   }
 
@@ -62,6 +60,7 @@ export const useTranslation = () => {
     languageMap,
     langs: langsRef,
     lang,
+    getTargetUrl,
     switchLang,
   }
 }

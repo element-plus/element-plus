@@ -56,7 +56,7 @@
       :aria-label="ariaLabel"
       :validate-event="false"
       :inputmode="inputmode"
-      @keyup="handleKeydown"
+      @keydown="handleKeydown"
       @blur="handleBlur"
       @focus="handleFocus"
       @input="handleInput"
