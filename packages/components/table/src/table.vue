@@ -253,6 +253,10 @@ export default defineComponent({
     })
     table.layout = layout
 
+    /**
+     * open functions
+     */
+
     const isEmpty = computed(() => (store.states.data.value || []).length === 0)
 
     const {
@@ -260,6 +264,9 @@ export default defineComponent({
       getSelectionRows,
       toggleRowSelection,
       clearSelection,
+      /**
+       * @description clear filters of the columns whose `columnKey` are passed in. If no params, clear all filters
+       */
       clearFilter,
       toggleAllSelection,
       toggleRowExpansion,
