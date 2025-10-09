@@ -107,7 +107,7 @@
     line-height: 14px;
     bottom: 5px;
     right: 10px;
-    &.#{$namespace}-input__count-outside {
+    @include when(outside) {
       padding-top: 2px;
       line-height: 1;
       top: 100%;
