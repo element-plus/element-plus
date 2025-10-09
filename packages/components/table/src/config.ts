@@ -148,10 +148,10 @@ export const cellForced = {
         'button',
         {
           type: 'button',
-          ariaLabel: store.t(
+          'aria-label': store.t(
             expanded ? 'el.table.collapseRowLabel' : 'el.table.expandRowLabel'
           ),
-          ariaExpanded: expanded,
+          'aria-expanded': expanded,
           class: classes,
           onClick: callback,
         },
@@ -251,12 +251,13 @@ export function treeCellPrefix<T extends DefaultRow>(
       h(
         'button',
         {
-          ariaLabel: store.t(
+          type: 'button',
+          'aria-label': store.t(
             treeNode.expanded
               ? 'el.table.collapseRowLabel'
               : 'el.table.expandRowLabel'
           ),
-          ariaExpanded: treeNode.expanded,
+          'aria-expanded': treeNode.expanded,
           class: expandClasses,
           onClick: callback,
         },
