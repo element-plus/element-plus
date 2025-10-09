@@ -74,7 +74,7 @@ jobs:
         run: echo "//registry.npmjs.com/:_authToken=${{ secrets.NPM_PUBLISH_TOKEN }}" >> ./.npmrc
 
       - name: Update npm
-        run: npm install npm@9 -g
+        run: npm install npm@11.6.1 -g
 
       - name: Set Nightly
         run: sh ./scripts/nightly.sh
@@ -82,7 +82,6 @@ jobs:
       - name: Build & publish
         run: sh ./scripts/publish.sh
         env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_PUBLISH_TOKEN}}
           TAG_VERSION: 0.0.${{ steps.date.outputs.date }}
           GIT_HEAD: ${{env.GIT_HEAD}}
           REGISTRY: https://registry.npmjs.com/

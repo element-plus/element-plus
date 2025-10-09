@@ -1,5 +1,5 @@
 import { nextTick } from 'vue'
-import { mount } from '@vue/test-utils'
+import { flushPromises, mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import {
   IMAGE_FAIL,
@@ -229,6 +229,38 @@ describe('Image.vue', () => {
     expect(wrapper.find('.el-image-viewer__progress').exists()).toBe(true)
   })
 
+  test('custom viewer load failed slot', async () => {
+    const url = IMAGE_SUCCESS
+    const srcList = ['error']
+    const wrapper = _mount(
+      `
+      <el-image
+        ref="imageRef"
+        :src="url"
+        :preview-src-list="srcList"
+      >
+        <template #viewer-error>
+          <div class="load-failed-slot">
+            load failed slot
+          </div>
+        </template>
+      </el-image>`,
+      () => ({
+        url,
+        srcList,
+      })
+    )
+
+    await doubleWait()
+    wrapper.vm.$refs.imageRef.showPreview()
+    await doubleWait()
+
+    const img = wrapper.find('.el-image-viewer__canvas img')
+    await img.trigger('error')
+    await doubleWait()
+    expect(wrapper.find('.load-failed-slot').exists()).toBe(true)
+  })
+
   describe('load', () => {
     mockImageEvent()
 
@@ -244,10 +276,10 @@ describe('Image.vue', () => {
         },
       })
       expect(wrapper.find('.el-image__placeholder').exists()).toBe(true)
-      await doubleWait()
+      await flushPromises()
       expect(wrapper.find('.el-image__inner').exists()).toBe(true)
       expect(wrapper.find('img').exists()).toBe(true)
-      await nextTick()
+      await flushPromises()
       expect(wrapper.find('.el-image__placeholder').exists()).toBe(false)
       expect(wrapper.find('.el-image__error').exists()).toBe(false)
     })
@@ -271,12 +303,19 @@ describe('Image.vue', () => {
           src: IMAGE_FAIL,
         },
       })
-      wrapper.setProps({
-        src: IMAGE_SUCCESS,
-      })
-      expect(wrapper.find('.el-image__placeholder').exists()).toBe(true)
-      await doubleWait()
-      expect(wrapper.emitted('error')).toBeUndefined()
+      await flushPromises()
+      const errorCountBefore = wrapper.emitted('error')?.length || 0
+
+      await wrapper.setProps({ src: IMAGE_SUCCESS })
+      await nextTick()
+      const img = wrapper.find('img')
+      if (img.exists()) {
+        await img.trigger('load')
+      }
+      await flushPromises()
+      // expect no new error event to be emitted
+      expect(wrapper.emitted('error')?.length).toBe(errorCountBefore)
+
       expect(wrapper.find('.el-image__inner').exists()).toBe(true)
       expect(wrapper.find('img').exists()).toBe(true)
       expect(wrapper.find('.el-image__placeholder').exists()).toBe(false)
@@ -290,7 +329,7 @@ describe('Image.vue', () => {
         onLoad: handleLoad,
       }
       const wrapper = mount(() => <Image {...props} />)
-      await doubleWait()
+      await flushPromises()
       expect(wrapper.find('.el-image__inner').exists()).toBe(true)
       expect(handleLoad).toBeCalled()
     })

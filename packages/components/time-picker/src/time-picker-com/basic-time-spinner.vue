@@ -179,18 +179,26 @@ const getAmPmFlag = (hour: number) => {
 
 const emitSelectRange = (type: TimeUnit) => {
   let range = [0, 0]
-  if (!format || format === DEFAULT_FORMATS_TIME) {
-    switch (type) {
-      case 'hours':
-        range = [0, 2]
-        break
-      case 'minutes':
-        range = [3, 5]
-        break
-      case 'seconds':
-        range = [6, 8]
-        break
-    }
+  const actualFormat = format || DEFAULT_FORMATS_TIME
+  const hourIndex = actualFormat.indexOf('HH')
+  const minuteIndex = actualFormat.indexOf('mm')
+  const secondIndex = actualFormat.indexOf('ss')
+  switch (type) {
+    case 'hours':
+      if (hourIndex !== -1) {
+        range = [hourIndex, hourIndex + 2]
+      }
+      break
+    case 'minutes':
+      if (minuteIndex !== -1) {
+        range = [minuteIndex, minuteIndex + 2]
+      }
+      break
+    case 'seconds':
+      if (secondIndex !== -1) {
+        range = [secondIndex, secondIndex + 2]
+      }
+      break
   }
   const [left, right] = range
 

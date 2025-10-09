@@ -20,7 +20,7 @@
   >
     <!-- prefix -->
     <el-checkbox
-      v-if="multiple"
+      v-if="multiple && showPrefix"
       :model-value="node.checked"
       :indeterminate="node.indeterminate"
       :disabled="isDisabled"
@@ -28,7 +28,7 @@
       @update:model-value="handleSelectCheck"
     />
     <el-radio
-      v-else-if="checkStrictly"
+      v-else-if="checkStrictly && showPrefix"
       :model-value="checkedNodeId"
       :label="node.uid"
       :disabled="isDisabled"
@@ -45,8 +45,8 @@
       <check />
     </el-icon>
 
-    <node-content :render-label-fn="panel.renderLabelFn" :node="node" />
-
+    <!-- content -->
+    <node-content :node="node" />
     <!-- postfix -->
     <template v-if="!isLeaf">
       <el-icon v-if="node.loading" :class="[ns.is('loading'), ns.e('postfix')]">
@@ -69,7 +69,7 @@ import { ArrowRight, Check, Loading } from '@element-plus/icons-vue'
 import NodeContent from './node-content'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
 
-import type { default as CascaderNode } from './node'
+import type { CascaderNode } from './types'
 import type { PropType } from 'vue'
 import type { CheckboxValueType } from '@element-plus/components/checkbox'
 
@@ -92,6 +92,7 @@ const ns = useNamespace('cascader-node')
 const isHoverMenu = computed(() => panel.isHoverMenu)
 const multiple = computed(() => panel.config.multiple)
 const checkStrictly = computed(() => panel.config.checkStrictly)
+const showPrefix = computed(() => panel.config.showPrefix)
 const checkedNodeId = computed(() => panel.checkedNodes[0]?.uid)
 const isDisabled = computed(() => props.node.isDisabled)
 const isLeaf = computed(() => props.node.isLeaf)
@@ -141,8 +142,6 @@ const handleExpand = () => {
 }
 
 const handleClick = () => {
-  if (isHoverMenu.value && !isLeaf.value) return
-
   if (
     isLeaf.value &&
     !isDisabled.value &&
@@ -150,7 +149,14 @@ const handleClick = () => {
     !multiple.value
   ) {
     handleCheck(true)
-  } else {
+  } else if (
+    ((panel.config.checkOnClickNode &&
+      (multiple.value || checkStrictly.value)) ||
+      (isLeaf.value && panel.config.checkOnClickLeaf)) &&
+    !isDisabled.value
+  ) {
+    handleSelectCheck(!props.node.checked)
+  } else if (!isHoverMenu.value) {
     handleExpand()
   }
 }

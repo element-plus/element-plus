@@ -12,9 +12,18 @@ const darkMode = ref(isDark.value)
 const switchRef = ref<SwitchInstance>()
 
 watch(
+  () => isDark.value,
+  (newVal) => {
+    darkMode.value = newVal
+  }
+)
+
+watch(
   () => darkMode.value,
-  () => {
-    toggleDark()
+  (newVal) => {
+    if (newVal !== isDark.value) {
+      toggleDark()
+    }
   }
 )
 
@@ -61,6 +70,7 @@ const beforeChange = () => {
         {
           duration: 400,
           easing: 'ease-in',
+          fill: 'both',
           pseudoElement: isDark.value
             ? '::view-transition-old(root)'
             : '::view-transition-new(root)',

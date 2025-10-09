@@ -7,22 +7,25 @@
       :fallback-placements="['bottom', 'top']"
       :popper-options="popperOptions"
       :gpu-acceleration="false"
-      :hide-after="trigger === 'hover' ? hideTimeout : 0"
       :manual-mode="true"
       :placement="placement"
-      :popper-class="[ns.e('popper'), popperClass]"
+      :popper-class="[ns.e('popper'), popperClass!]"
+      :popper-style="popperStyle"
       :reference-element="referenceElementRef?.$el"
       :trigger="trigger"
       :trigger-keys="triggerKeys"
       :trigger-target-el="contentRef"
+      :show-arrow="showArrow"
       :show-after="trigger === 'hover' ? showTimeout : 0"
+      :hide-after="trigger === 'hover' ? hideTimeout : 0"
       :stop-popper-mouse-event="false"
-      :virtual-ref="triggeringElementRef"
-      :virtual-triggering="splitButton"
+      :virtual-ref="virtualRef ?? triggeringElementRef"
+      :virtual-triggering="virtualTriggering || splitButton"
       :disabled="disabled"
       :transition="`${ns.namespace.value}-zoom-in-top`"
       :teleported="teleported"
       pure
+      focus-on-target
       :persistent="persistent"
       @before-show="handleBeforeShowTooltip"
       @show="handleShowTooltip"
@@ -96,12 +99,10 @@ import {
   computed,
   defineComponent,
   getCurrentInstance,
-  onBeforeUnmount,
   provide,
   ref,
   toRef,
   unref,
-  watch,
 } from 'vue'
 import ElButton from '@element-plus/components/button'
 import ElTooltip from '@element-plus/components/tooltip'
@@ -161,49 +162,8 @@ export default defineComponent({
     const defaultTriggerId = useId().value
     const triggerId = computed<string>(() => props.id || defaultTriggerId)
 
-    // The goal of this code is to focus on the tooltip triggering element when it is hovered.
-    // This is a temporary fix for where closing the dropdown through pointerleave event focuses on a
-    // completely different element. For a permanent solution, remove all calls to any "element.focus()"
-    // that are triggered through pointer enter/leave events.
-    watch(
-      [triggeringElementRef, trigger],
-      ([triggeringElement, trigger], [prevTriggeringElement]) => {
-        if (prevTriggeringElement?.$el?.removeEventListener) {
-          prevTriggeringElement.$el.removeEventListener(
-            'pointerenter',
-            onAutofocusTriggerEnter
-          )
-        }
-        if (triggeringElement?.$el?.removeEventListener) {
-          triggeringElement.$el.removeEventListener(
-            'pointerenter',
-            onAutofocusTriggerEnter
-          )
-        }
-        if (
-          triggeringElement?.$el?.addEventListener &&
-          trigger.includes('hover')
-        ) {
-          triggeringElement.$el.addEventListener(
-            'pointerenter',
-            onAutofocusTriggerEnter
-          )
-        }
-      },
-      { immediate: true }
-    )
-
-    onBeforeUnmount(() => {
-      if (triggeringElementRef.value?.$el?.removeEventListener) {
-        triggeringElementRef.value.$el.removeEventListener(
-          'pointerenter',
-          onAutofocusTriggerEnter
-        )
-      }
-    })
-
     function handleClick() {
-      handleClose()
+      popperRef.value?.onClose(undefined, 0)
     }
 
     function handleClose() {
@@ -220,10 +180,6 @@ export default defineComponent({
       emit('command', ...args)
     }
 
-    function onAutofocusTriggerEnter() {
-      triggeringElementRef.value?.$el?.focus()
-    }
-
     function onItemEnter() {
       // NOOP for now
     }
@@ -231,7 +187,10 @@ export default defineComponent({
     function onItemLeave() {
       const contentEl = unref(contentRef)
 
-      trigger.value.includes('hover') && contentEl?.focus()
+      trigger.value.includes('hover') &&
+        contentEl?.focus({
+          preventScroll: true,
+        })
       currentTabId.value = null
     }
 

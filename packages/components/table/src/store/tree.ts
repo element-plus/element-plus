@@ -12,7 +12,7 @@ export interface TreeData extends TreeNode {
 }
 
 function useTree<T extends DefaultRow>(watcherData: WatcherPropsData<T>) {
-  const expandRowKeys = ref<Array<string | number>>([])
+  const expandRowKeys = ref<Array<string>>([])
   const treeData = ref<Record<string, TreeData>>({})
   const indent = ref(16)
   const lazy = ref(false)
@@ -33,7 +33,7 @@ function useTree<T extends DefaultRow>(watcherData: WatcherPropsData<T>) {
     if (!keys.length) return res
     keys.forEach((key) => {
       if (lazyTreeNodeMap.value[key].length) {
-        const item: typeof res[number] = { children: [] }
+        const item: (typeof res)[number] = { children: [] }
         lazyTreeNodeMap.value[key].forEach((row) => {
           const currentRowKey = getRowIdentity(row, rowKey)
           item.children.push(currentRowKey)
@@ -49,23 +49,23 @@ function useTree<T extends DefaultRow>(watcherData: WatcherPropsData<T>) {
 
   const normalize = (data: T[]) => {
     const rowKey = watcherData.rowKey.value
-    const res = new Map<string | number, TreeData>() // 使用 Map 替代 Object，解决 number key 的问题
+    const res = {} as Record<string, TreeData>
     walkTreeNode(
       data,
       (parent, children, level) => {
-        const parentId = getRowIdentity(parent, rowKey, true)
+        const parentId = getRowIdentity(parent, rowKey)
         if (isArray(children)) {
-          res.set(parentId, {
-            children: children.map((row) => row[rowKey!]),
+          res[parentId] = {
+            children: children.map((row) => getRowIdentity(row, rowKey)),
             level,
-          })
+          }
         } else if (lazy.value) {
           // 当 children 不存在且 lazy 为 true，该节点即为懒加载的节点
-          res.set(parentId, {
+          res[parentId] = {
             children: [],
             lazy: true,
             level,
-          })
+          }
         }
       },
       childrenColumnName.value,
@@ -82,8 +82,9 @@ function useTree<T extends DefaultRow>(watcherData: WatcherPropsData<T>) {
     ifExpandAll ||= instance.store?.states.defaultExpandAll.value
     const nested = normalizedData.value
     const normalizedLazyNode_ = normalizedLazyNode.value
+    const keys = Object.keys(nested)
     const newTreeData: Record<string, TreeData> = {}
-    if (nested instanceof Map && nested.size) {
+    if (keys.length) {
       const oldTreeData = unref(treeData)
       const rootLazyRowKeys: string[] = []
       const getExpanded = (oldValue: TreeData, key: string) => {
@@ -101,9 +102,9 @@ function useTree<T extends DefaultRow>(watcherData: WatcherPropsData<T>) {
         }
       }
       // 合并 expanded 与 display，确保数据刷新后，状态不变
-      nested.forEach((_, key) => {
+      keys.forEach((key) => {
         const oldValue = oldTreeData[key]
-        const newValue = { ...nested.get(key) }
+        const newValue = { ...nested[key] }
         newValue.expanded = getExpanded(oldValue, key)
         if (newValue.lazy) {
           const { loaded = false, loading = false } = oldValue || {}
@@ -163,7 +164,7 @@ function useTree<T extends DefaultRow>(watcherData: WatcherPropsData<T>) {
     }
   )
 
-  const updateTreeExpandKeys = (value: (string | number)[]) => {
+  const updateTreeExpandKeys = (value: string[]) => {
     expandRowKeys.value = value
     updateTreeData()
   }

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
+import { withBase } from 'vitepress'
 import { useEventListener, useParallax, useThrottleFn } from '@vueuse/core'
 import { useLang } from '../../composables/lang'
 import homeLocale from '../../../i18n/pages/home.json'
@@ -113,7 +114,9 @@ const handleScroll = useThrottleFn(() => {
   }
 }, 10)
 
-useEventListener(window, 'scroll', handleScroll)
+onMounted(() => {
+  useEventListener(window, 'scroll', handleScroll)
+})
 </script>
 
 <template>
@@ -141,7 +144,7 @@ useEventListener(window, 'scroll', handleScroll)
       </div>
     </div>
     <img
-      :src="`/images/theme-index-blue${isDark ? '-dark' : ''}.png`"
+      :src="withBase(`/images/theme-index-blue${isDark ? '-dark' : ''}.png`)"
       alt="banner"
       class="mobile-banner"
     />

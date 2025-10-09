@@ -1,6 +1,7 @@
 @use '../mixins/mixins' as *;
 @use '../common/var' as *;
 @use '../mixins/var' as *;
+@use './utils.scss' as *;
 
 @include b(date-range-picker) {
   @include set-component-css-var('datepicker', $datepicker);
@@ -73,7 +74,7 @@
   }
 
   @include e(content) {
-    float: left;
+    display: table-cell;
     width: 50%;
     box-sizing: border-box;
     margin: 0;
@@ -130,6 +131,11 @@
     }
     .#{$namespace}-time-panel {
       position: absolute;
+    }
+  }
+  @include when(disabled) {
+    @include e(header-label) {
+      @include disable;
     }
   }
 }

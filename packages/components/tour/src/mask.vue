@@ -1,18 +1,5 @@
 <template>
-  <div
-    v-if="visible"
-    :class="ns.e('mask')"
-    :style="({
-    position: 'fixed',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    zIndex,
-    pointerEvents: pos && targetAreaClickable ? 'none' : 'auto',
-  } as any)"
-    v-bind="$attrs"
-  >
+  <div v-if="visible" :class="ns.e('mask')" :style="maskStyle" v-bind="$attrs">
     <svg
       :style="{
         width: '100%',
@@ -27,6 +14,7 @@
 <script setup lang="ts">
 import { computed, inject, toRef } from 'vue'
 import { useLockscreen } from '@element-plus/hooks'
+import { useWindowSize } from '@vueuse/core'
 import { maskProps } from './mask'
 import { tourKey } from './helper'
 
@@ -52,9 +40,11 @@ const roundInfo = computed(() => {
   }
 })
 
+const { width: windowWidth, height: windowHeight } = useWindowSize()
+
 const path = computed(() => {
-  const width = window.innerWidth
-  const height = window.innerHeight
+  const width = windowWidth.value
+  const height = windowHeight.value
   const info = roundInfo.value
   const _path = `M${width},0 L0,0 L0,${height} L${width},${height} L${width},0 Z`
   const _radius = radius.value
@@ -69,13 +59,21 @@ const path = computed(() => {
     : _path
 })
 
-const pathStyle = computed<CSSProperties>(() => {
-  return {
-    fill: props.fill,
-    pointerEvents: 'auto',
-    cursor: 'auto',
-  }
-})
+const maskStyle = computed<CSSProperties>(() => ({
+  position: 'fixed',
+  left: 0,
+  right: 0,
+  top: 0,
+  bottom: 0,
+  zIndex: props.zIndex,
+  pointerEvents: props.pos && props.targetAreaClickable ? 'none' : 'auto',
+}))
+
+const pathStyle = computed<CSSProperties>(() => ({
+  fill: props.fill,
+  pointerEvents: 'auto',
+  cursor: 'auto',
+}))
 
 useLockscreen(toRef(props, 'visible'), {
   ns,

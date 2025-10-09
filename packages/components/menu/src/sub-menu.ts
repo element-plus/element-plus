@@ -5,6 +5,7 @@ import {
   getCurrentInstance,
   h,
   inject,
+  nextTick,
   onBeforeUnmount,
   onMounted,
   provide,
@@ -19,6 +20,8 @@ import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElTooltip from '@element-plus/components/tooltip'
 import {
   buildProps,
+  definePropType,
+  focusElement,
   iconPropType,
   isString,
   isUndefined,
@@ -34,6 +37,7 @@ import { MENU_INJECTION_KEY, SUB_MENU_INJECTION_KEY } from './tokens'
 import type { Placement } from '@element-plus/components/popper'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type {
+  CSSProperties,
   ExtractPropTypes,
   VNodeArrayChildren,
   __ExtractPublicPropTypes,
@@ -60,6 +64,12 @@ export const subMenuProps = buildProps({
    * @description custom class name for the popup menu
    */
   popperClass: String,
+  /**
+   * @description custom style for the popup menu
+   */
+  popperStyle: {
+    type: definePropType<string | CSSProperties>([String, Object]),
+  },
   /**
    * @description whether the sub-menu is disabled
    */
@@ -135,26 +145,30 @@ export default defineComponent({
     const vPopper = ref<TooltipInstance>()
 
     // computed
+    const isFirstLevel = computed(() => subMenu.level === 0)
     const currentPlacement = computed<Placement>(() =>
       mode.value === 'horizontal' && isFirstLevel.value
         ? 'bottom-start'
         : 'right-start'
     )
     const subMenuTitleIcon = computed(() => {
-      return (mode.value === 'horizontal' && isFirstLevel.value) ||
+      const isExpandedMode =
+        (mode.value === 'horizontal' && isFirstLevel.value) ||
         (mode.value === 'vertical' && !rootMenu.props.collapse)
-        ? props.expandCloseIcon && props.expandOpenIcon
-          ? opened.value
-            ? props.expandOpenIcon
-            : props.expandCloseIcon
-          : ArrowDown
-        : props.collapseCloseIcon && props.collapseOpenIcon
-        ? opened.value
-          ? props.collapseOpenIcon
-          : props.collapseCloseIcon
-        : ArrowRight
+
+      if (isExpandedMode) {
+        if (props.expandCloseIcon && props.expandOpenIcon) {
+          return opened.value ? props.expandOpenIcon : props.expandCloseIcon
+        }
+        return ArrowDown
+      } else {
+        if (props.collapseCloseIcon && props.collapseOpenIcon) {
+          return opened.value ? props.collapseOpenIcon : props.collapseCloseIcon
+        }
+        return ArrowRight
+      }
     })
-    const isFirstLevel = computed(() => subMenu.level === 0)
+
     const appendToBody = computed(() => {
       const value = props.teleported
       return isUndefined(value) ? isFirstLevel.value : value
@@ -208,6 +222,10 @@ export default defineComponent({
 
     const subMenuPopperClass = computed(
       () => props.popperClass ?? rootMenu.props.popperClass
+    )
+
+    const subMenuPopperStyle = computed(
+      () => props.popperStyle ?? rootMenu.props.popperStyle
     )
 
     const subMenuShowTimeout = computed(
@@ -268,6 +286,12 @@ export default defineComponent({
 
       if (appendToBody.value) {
         parentMenu.value.vnode.el?.dispatchEvent(new MouseEvent('mouseenter'))
+      }
+
+      if (event.type === 'mouseenter' && event.target) {
+        nextTick(() => {
+          focusElement(event.target as HTMLElement, { preventScroll: true })
+        })
       }
     }
 
@@ -372,6 +396,7 @@ export default defineComponent({
               showArrow: false,
               persistent: persistent.value,
               popperClass: subMenuPopperClass.value,
+              popperStyle: subMenuPopperStyle.value,
               placement: currentPlacement.value,
               teleported: appendToBody.value,
               fallbackPlacements: fallbackPlacements.value,

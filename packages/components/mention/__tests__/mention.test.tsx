@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import Form from '@element-plus/components/form'
 import Mention from '../src/mention.vue'
+import * as helper from '../src/helper'
 
 describe('Mention.vue', () => {
   beforeEach(() => {
@@ -130,12 +131,11 @@ describe('Mention.vue', () => {
 
   test('should use props of form', async () => {
     const wrapper = mount({
-      setup: () => () =>
-        (
-          <Form disabled>
-            <Mention options={options} />
-          </Form>
-        ),
+      setup: () => () => (
+        <Form disabled>
+          <Mention options={options} />
+        </Form>
+      ),
     })
 
     const dropdown = wrapper.findComponent({ name: 'ElMentionDropdown' })
@@ -145,5 +145,119 @@ describe('Mention.vue', () => {
     expect(wrapper.find('input').attributes()).toHaveProperty('disabled')
     expect(option.attributes('aria-disabled')).toBe('true')
     expect(option.classes()).toContain('is-disabled')
+  })
+
+  test('should work with `props` prop', async () => {
+    const options = [
+      {
+        id: 'Fuphoenixes',
+        name: 'Fuphoenixes',
+        unable: true,
+      },
+      {
+        id: 'kooriookami',
+        name: 'kooriookami',
+        unable: false,
+      },
+      {
+        id: 'Jeremy',
+        name: 'Jeremy',
+        unable: true,
+      },
+      {
+        id: 'btea',
+        name: 'btea',
+        unable: false,
+      },
+    ]
+    const props = { value: 'id', label: 'name', disabled: 'unable' }
+
+    const wrapper = mount(Mention, {
+      attachTo: document.body,
+      props: {
+        options,
+        props,
+      },
+    })
+
+    wrapper.find('input').element.focus()
+    wrapper.find('input').setValue('@')
+
+    vi.advanceTimersByTime(150)
+    await nextTick()
+    expect(document.querySelector('.el-mention-dropdown')).not.toEqual(null)
+    expect(document.querySelectorAll('.el-mention-dropdown__item').length).toBe(
+      4
+    )
+    expect(document.querySelectorAll('.is-disabled').length).toBe(2)
+  })
+
+  test('should ensure the cursor position is correct', async () => {
+    vi.spyOn(helper, 'getCursorPosition').mockReturnValue({
+      top: 7,
+      left: 14,
+      height: 21,
+    })
+
+    const wrapper = mount(Mention, {
+      attachTo: document.body,
+      props: { options, style: { marginTop: '100px', marginLeft: '100px' } },
+    })
+
+    const elInputEl = wrapper.find('.el-input').element
+    const inputEl = wrapper.find('input').element
+
+    const mockBoundingClientRect = (
+      el: Element,
+      rect: Partial<DOMRect> = {}
+    ) => {
+      const defaultRect: DOMRect = {
+        x: 0,
+        y: 0,
+        width: 100,
+        height: 100,
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0,
+        toJSON: () => {},
+      }
+
+      return vi
+        .spyOn(el, 'getBoundingClientRect')
+        .mockReturnValue(Object.assign(defaultRect, rect))
+    }
+
+    // Actual information obtained on the browser
+    mockBoundingClientRect(elInputEl, {
+      width: 320,
+      height: 32,
+      left: 100,
+      x: 100,
+      top: 100,
+      y: 100,
+    })
+    mockBoundingClientRect(inputEl, {
+      width: 298,
+      height: 30,
+      left: 111,
+      x: 111,
+      top: 101,
+      y: 101,
+    })
+
+    inputEl.focus()
+    await wrapper.find('input').setValue('@')
+    vi.advanceTimersByTime(150)
+    await nextTick()
+
+    const cursorStyles = wrapper
+      .find('.el-tooltip__trigger')
+      .attributes('style')
+
+    expect(cursorStyles).toContain('left: 125px')
+    expect(cursorStyles).toContain('top: 108px')
+
+    vi.restoreAllMocks()
   })
 })

@@ -66,6 +66,7 @@
           :wrap-style="scrollbarStyle"
           :always="scrollbarAlwaysOn"
           :tabindex="scrollbarTabindex"
+          :native="nativeScrollbar"
           @scroll="$emit('scroll', $event)"
         >
           <table
@@ -233,7 +234,7 @@ export default defineComponent({
     'scroll',
   ],
   setup(props) {
-    type Row = typeof props.data[number]
+    type Row = (typeof props.data)[number]
     const { t } = useLocale()
     const ns = useNamespace('table')
     const table = getCurrentInstance() as Table<Row>

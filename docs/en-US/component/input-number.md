@@ -102,8 +102,8 @@ input-number/with-prefix-suffix
 | Name                          | Description                                      | Type                                          | Default                 |
 | ----------------------------- | ------------------------------------------------ | --------------------------------------------- | ----------------------- |
 | model-value / v-model         | binding value                                    | ^[number] / ^[null]                           | —                       |
-| min                           | the minimum allowed value                        | ^[number]                                     | Number.MAX_SAFE_INTEGER |
-| max                           | the maximum allowed value                        | ^[number]                                     | Number.MIN_SAFE_INTEGER |
+| min                           | the minimum allowed value                        | ^[number]                                     | Number.MIN_SAFE_INTEGER |
+| max                           | the maximum allowed value                        | ^[number]                                     | Number.MAX_SAFE_INTEGER |
 | step                          | incremental step                                 | ^[number]                                     | 1                       |
 | step-strictly                 | whether input value can only be multiple of step | ^[boolean]                                    | false                   |
 | precision                     | precision of input value                         | ^[number]                                     | —                       |
