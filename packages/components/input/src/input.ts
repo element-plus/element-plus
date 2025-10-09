@@ -50,6 +50,9 @@ export const inputProps = buildProps({
     ]),
     default: '',
   },
+  /**
+   * @description v-model modifiers, reference [Vue modifiers](https://vuejs.org/guide/essentials/forms.html#modifiers)
+   */
   modelModifiers: {
     type: definePropType<InputModelModifiers>(Object),
     default: () => ({}),
