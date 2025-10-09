@@ -145,6 +145,10 @@ export default {
       resetFilter: 'রিসেট',
       clearFilter: 'সব',
       sumText: 'সারাংশ',
+      selectAllLabel: 'Select all rows', // to be translated
+      selectRowLabel: 'Select this row', // to be translated
+      expandRowLabel: 'Expand this row', // to be translated
+      collapseRowLabel: 'Collapse this row', // to be translated
     },
     tour: {
       next: 'Next', // to be translated

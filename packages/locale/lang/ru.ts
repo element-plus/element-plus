@@ -145,6 +145,10 @@ export default {
       resetFilter: 'Сбросить',
       clearFilter: 'Все',
       sumText: 'Сумма',
+      selectAllLabel: 'Select all rows', // to be translated
+      selectRowLabel: 'Select this row', // to be translated
+      expandRowLabel: 'Expand this row', // to be translated
+      collapseRowLabel: 'Collapse this row', // to be translated
     },
     tour: {
       next: 'Далее',

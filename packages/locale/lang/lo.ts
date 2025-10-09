@@ -143,6 +143,10 @@ export default {
       resetFilter: 'ຄືນຄ່າໃໝ່',
       clearFilter: 'ທັງໝົດ',
       sumText: 'ຜົນລວມ',
+      selectAllLabel: 'Select all rows', // to be translated
+      selectRowLabel: 'Select this row', // to be translated
+      expandRowLabel: 'Expand this row', // to be translated
+      collapseRowLabel: 'Collapse this row', // to be translated
     },
     tour: {
       next: 'ຖັດໄປ',

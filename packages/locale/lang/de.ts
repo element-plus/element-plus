@@ -147,6 +147,10 @@ export default {
       resetFilter: 'Zurücksetzen',
       clearFilter: 'Alles ',
       sumText: 'Summe',
+      selectAllLabel: 'Select all rows', // to be translated
+      selectRowLabel: 'Select this row', // to be translated
+      expandRowLabel: 'Expand this row', // to be translated
+      collapseRowLabel: 'Collapse this row', // to be translated
     },
     tour: {
       next: 'Weiter',

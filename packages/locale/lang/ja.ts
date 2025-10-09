@@ -145,6 +145,10 @@ export default {
       resetFilter: '初期化',
       clearFilter: 'すべて',
       sumText: '合計',
+      selectAllLabel: 'Select all rows', // to be translated
+      selectRowLabel: 'Select this row', // to be translated
+      expandRowLabel: 'Expand this row', // to be translated
+      collapseRowLabel: 'Collapse this row', // to be translated
     },
     tour: {
       next: '次へ',

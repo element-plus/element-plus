@@ -145,6 +145,10 @@ export default {
       resetFilter: 'புதுமாற்றம் செய்',
       clearFilter: 'அனைத்தும்',
       sumText: 'கூட்டு',
+      selectAllLabel: 'Select all rows', // to be translated
+      selectRowLabel: 'Select this row', // to be translated
+      expandRowLabel: 'Expand this row', // to be translated
+      collapseRowLabel: 'Collapse this row', // to be translated
     },
     tour: {
       next: 'Next', // to be translated

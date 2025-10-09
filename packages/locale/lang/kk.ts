@@ -145,6 +145,10 @@ export default {
       resetFilter: 'Қалпына келтіру',
       clearFilter: 'Барлығы',
       sumText: 'Сомасы',
+      selectAllLabel: 'Select all rows', // to be translated
+      selectRowLabel: 'Select this row', // to be translated
+      expandRowLabel: 'Expand this row', // to be translated
+      collapseRowLabel: 'Collapse this row', // to be translated
     },
     tour: {
       next: 'Next', // to be translated

@@ -44,7 +44,6 @@ export default {
       month10: '10 月',
       month11: '11 月',
       month12: '12 月',
-      // week: '周次',
       weeks: {
         sun: '日',
         mon: '一',
@@ -88,11 +87,11 @@ export default {
       noData: '无数据',
       placeholder: '请选择',
     },
-    dropdown: {
-      toggleDropdown: '切换下拉选项',
-    },
     mention: {
       loading: '加载中',
+    },
+    dropdown: {
+      toggleDropdown: '切换下拉选项',
     },
     cascader: {
       noMatch: '无匹配数据',
@@ -144,6 +143,10 @@ export default {
       resetFilter: '重置',
       clearFilter: '全部',
       sumText: '合计',
+      selectAllLabel: '选择所有行',
+      selectRowLabel: '选择当前行',
+      expandRowLabel: '展开当前行',
+      collapseRowLabel: '收起当前行',
     },
     tour: {
       next: '下一步',
