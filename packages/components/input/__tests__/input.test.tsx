@@ -650,9 +650,7 @@ describe('Input.vue', () => {
     const wordLimit = wrapper.find('.el-input__count')
     await nextTick()
     expect(wordLimit.exists()).toBe(true)
-    expect(
-      wordLimit.element.className.includes('el-input__count-outside')
-    ).toBeTruthy()
+    expect(wordLimit.element.className.includes('is-outside')).toBeTruthy()
   })
 
   // TODO: validateEvent & input containes select cases should be added after the rest components finished
