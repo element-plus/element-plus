@@ -380,7 +380,6 @@ export default defineComponent({
       }
       // execute callback directly when first time resize to avoid shaking
       isFirstTimeRender ? callback() : debounce(callback)()
-
       isFirstTimeRender = false
     }
 
