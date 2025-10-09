@@ -23,7 +23,6 @@ import {
   iconPropType,
   isArray,
   isObject,
-  isPromise,
   isString,
   isUndefined,
   mutable,
@@ -201,7 +200,7 @@ export const menuEmits = {
     isString(index) &&
     checkIndexPath(indexPath) &&
     isObject(item) &&
-    (isUndefined(routerResult) || isPromise(routerResult)),
+    (isUndefined(routerResult) || routerResult instanceof Promise),
 }
 export type MenuEmits = typeof menuEmits
 
@@ -380,7 +379,8 @@ export default defineComponent({
         })
       }
       // execute callback directly when first time resize to avoid shaking
-      isFirstTimeRender ? callback() : debounce(callback, 33.34)()
+      isFirstTimeRender ? callback() : debounce(callback)()
+
       isFirstTimeRender = false
     }
 
