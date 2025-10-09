@@ -2,6 +2,7 @@ import { getCurrentInstance, inject, ref, unref, watch } from 'vue'
 import dayjs from 'dayjs'
 import { isArray } from '@element-plus/utils'
 import { useLocale, useNamespace } from '@element-plus/hooks'
+import { isEqual } from 'lodash-unified'
 import { getDefaultValue, isValidRange } from '../utils'
 import { ROOT_PICKER_INJECTION_KEY } from '../constants'
 import { useShortcut } from './use-shortcut'
@@ -125,7 +126,10 @@ export const useRangePicker = (
   watch(
     () => props.parsedValue,
     (parsedValue) => {
-      if (!(parsedValue as [Dayjs, Dayjs])?.length) {
+      if (
+        !(parsedValue as [Dayjs, Dayjs])?.length ||
+        !isEqual(parsedValue, [minDate.value, maxDate.value])
+      ) {
         parseValue(parsedValue)
       }
     },

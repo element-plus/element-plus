@@ -5,8 +5,9 @@ import {
   useTooltipContentProps,
   useTooltipTriggerProps,
 } from '@element-plus/components/tooltip'
-import { type Placement, roleTypes } from '@element-plus/components/popper'
+import { roleTypes } from '@element-plus/components/popper'
 
+import type { Placement } from '@element-plus/components/popper'
 import type { Options } from '@popperjs/core'
 import type { ButtonProps, ButtonType } from '@element-plus/components/button'
 import type { ComponentInternalInstance, ComputedRef } from 'vue'
@@ -38,6 +39,14 @@ export const dropdownProps = buildProps({
       EVENT_CODE.down,
     ],
   },
+  /**
+   * @description Indicates whether virtual triggering is enabled
+   */
+  virtualTriggering: useTooltipTriggerProps.virtualTriggering,
+  /**
+   * @description Indicates the reference element to which the dropdown is attached
+   */
+  virtualRef: useTooltipTriggerProps.virtualRef,
   effect: {
     ...useTooltipContentProps.effect,
     default: 'light',
@@ -86,6 +95,13 @@ export const dropdownProps = buildProps({
     default: true,
   },
   /**
+   * @description whether the tooltip content has an arrow
+   */
+  showArrow: {
+    type: Boolean,
+    default: true,
+  },
+  /**
    * @description delay time before show a dropdown (only works when trigger is `hover`)
    */
   showTimeout: {
@@ -116,10 +132,11 @@ export const dropdownProps = buildProps({
   /**
    * @description custom class name for Dropdown's dropdown
    */
-  popperClass: {
-    type: String,
-    default: '',
-  },
+  popperClass: useTooltipContentProps.popperClass,
+  /**
+   * @description custom style for Dropdown's dropdown
+   */
+  popperStyle: useTooltipContentProps.popperStyle,
   /**
    * @description whether to disable
    */

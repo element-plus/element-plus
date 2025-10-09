@@ -66,7 +66,8 @@ color-picker-panel/disabled
 
 ### Exposes
 
-| Name     | Description          | Type                     |
-| -------- | -------------------- | ------------------------ |
-| color    | current color object | ^[object]`Color`         |
-| inputRef | custom input ref     | ^[object]`InputInstance` |
+| Name             | Description           | Type                     |
+| ---------------- | --------------------- | ------------------------ |
+| color            | current color object  | ^[object]`Color`         |
+| inputRef         | custom input ref      | ^[object]`InputInstance` |
+| update ^(2.11.4) | update sub components | ^[Function]`() => void`  |

@@ -59,7 +59,7 @@ Try to drag the edge part.
 
 :::demo Set `resizable` to `true` to resize.
 
-drawer/resizable-drawer
+drawer/resizable
 
 :::
 
@@ -141,6 +141,12 @@ Drawer provides an API called `destroy-on-close`, which is a flag variable that 
 | header              | Drawer header section; Replacing this removes the title, but does not remove the close button. |
 | footer              | Drawer footer Section                                                                          |
 | title ^(deprecated) | Works the same as the header slot. Use that instead.                                           |
+
+:::warning
+
+`title` has been **deprecated**, and **will be** removed in ^(3.0.0), please use `header`.
+
+:::
 
 ### Exposes
 
