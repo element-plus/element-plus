@@ -228,12 +228,8 @@ const {
 const hasShortcuts = computed(() => !!shortcuts.length)
 
 const {
-  leftPrevYear,
-  rightNextYear,
-  leftNextYear,
-  rightPrevYear,
-  leftLabel,
-  rightLabel,
+  leftLabel: baseLeftLabel,
+  rightLabel: baseRightLabel,
   leftYear,
   rightYear,
 } = useMonthRangeHeader({
@@ -257,10 +253,74 @@ const {
   showRightPicker,
 } = usePanelDateRange(panelProps, emit, leftDate, rightDate)
 
+const leftPrevYear = () => {
+  const isYearView = leftCurrentView.value === 'year'
+  const step = isYearView ? 10 : 1
+  leftDate.value = leftDate.value.subtract(step, 'year')
+  if (!props.unlinkPanels) {
+    const interval = isYearView ? 10 : 1
+    rightDate.value = leftDate.value.add(interval, 'year')
+  } else if (isYearView) {
+    rightDate.value = leftDate.value.add(10, 'year')
+  }
+}
+
+const rightNextYear = () => {
+  const isYearView = rightCurrentView.value === 'year'
+  const step = isYearView ? 10 : 1
+  if (!props.unlinkPanels) {
+    const interval = isYearView ? 10 : 1
+    leftDate.value = rightDate.value.subtract(interval, 'year')
+  } else if (isYearView) {
+    leftDate.value = rightDate.value.subtract(10, 'year')
+  }
+  rightDate.value = rightDate.value.add(step, 'year')
+}
+
+const leftNextYear = () => {
+  const isYearView = leftCurrentView.value === 'year'
+  const step = isYearView ? 10 : 1
+  leftDate.value = leftDate.value.add(step, 'year')
+  if (!props.unlinkPanels) {
+    const interval = isYearView ? 10 : 1
+    rightDate.value = leftDate.value.add(interval, 'year')
+  } else if (isYearView) {
+    rightDate.value = leftDate.value.add(10, 'year')
+  }
+}
+
+const rightPrevYear = () => {
+  const isYearView = rightCurrentView.value === 'year'
+  const step = isYearView ? 10 : 1
+  rightDate.value = rightDate.value.subtract(step, 'year')
+  if (!props.unlinkPanels) {
+    const interval = isYearView ? 10 : 1
+    leftDate.value = rightDate.value.subtract(interval, 'year')
+  } else if (isYearView) {
+    leftDate.value = rightDate.value.subtract(10, 'year')
+  }
+}
+
+const leftLabel = computed(() => {
+  if (leftCurrentView.value === 'year') {
+    return `${leftDate.value.year()}`
+  }
+  return baseLeftLabel.value
+})
+
+const rightLabel = computed(() => {
+  if (rightCurrentView.value === 'year') {
+    return `${rightDate.value.year()}`
+  }
+  return baseRightLabel.value
+})
+
 const handleLeftYearPick = (year: number) => {
   leftDate.value = leftDate.value.year(year)
   if (!props.unlinkPanels) {
-    rightDate.value = leftDate.value.add(1, 'year')
+    const isYearView = leftCurrentView.value === 'year'
+    const interval = isYearView ? 10 : 1
+    rightDate.value = leftDate.value.add(interval, 'year')
   }
   leftCurrentView.value = 'month'
 }
@@ -268,7 +328,9 @@ const handleLeftYearPick = (year: number) => {
 const handleRightYearPick = (year: number) => {
   rightDate.value = rightDate.value.year(year)
   if (!props.unlinkPanels) {
-    leftDate.value = rightDate.value.subtract(1, 'year')
+    const isYearView = rightCurrentView.value === 'year'
+    const interval = isYearView ? 10 : 1
+    leftDate.value = rightDate.value.subtract(interval, 'year')
   }
   rightCurrentView.value = 'month'
 }
