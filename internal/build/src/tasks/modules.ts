@@ -16,7 +16,7 @@ import type { TaskFunction } from 'gulp'
 import type { OutputOptions, Plugin } from 'rollup'
 
 const plugins: Plugin[] = [
-  // ElementPlusAlias(),
+  ElementPlusAlias(),
   vue() as Plugin,
   vueJsx() as Plugin,
   nodeResolve({

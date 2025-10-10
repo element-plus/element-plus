@@ -1,19 +1,46 @@
-import { PKG_NAME, PKG_PREFIX } from '@element-plus/build-constants'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
-import type { Plugin } from 'rollup'
+import type { PartialResolvedId, Plugin } from 'rollup'
 
+type AliasOption = Pick<PartialResolvedId, 'external'> & {
+  replacement: string
+}
+
+const cwd = path.resolve()
+const rootPath = path.resolve(cwd, '../../')
+const alias: Record<string, AliasOption> = {
+  '@element-plus/components': {
+    replacement: path.resolve(rootPath, 'packages/components'),
+  },
+  '@element-plus/constants': {
+    replacement: path.resolve(rootPath, 'packages/constants'),
+  },
+  '@element-plus/directives': {
+    replacement: path.resolve(rootPath, 'packages/directives'),
+  },
+  '@element-plus/hooks': {
+    replacement: path.resolve(rootPath, 'packages/hooks'),
+  },
+  '@element-plus/utils': {
+    replacement: path.resolve(rootPath, 'packages/utils'),
+  },
+  '@element-plus/theme-chalk': {
+    replacement: 'element-plus/theme-chalk',
+    external: 'absolute',
+  },
+}
+const packages = Object.keys(alias) as (keyof typeof alias)[]
 export function ElementPlusAlias(): Plugin {
-  const themeChalk = 'theme-chalk'
-  const sourceThemeChalk = `${PKG_PREFIX}/${themeChalk}` as const
-  const bundleThemeChalk = `${PKG_NAME}/${themeChalk}` as const
-
   return {
-    name: 'theme-chalk-module-resolver',
+    name: 'element-plus-alias',
     resolveId(id) {
-      if (!id.startsWith(sourceThemeChalk)) return
-      return {
-        id: id.replaceAll(sourceThemeChalk, bundleThemeChalk),
-        external: 'absolute',
+      const packageName = packages.find((p) => id.startsWith(p))
+      if (packageName) {
+        return {
+          id: id.replace(packageName, alias[packageName].replacement),
+          external: alias[packageName].external,
+        }
       }
     },
   }
