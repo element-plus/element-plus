@@ -1,6 +1,6 @@
 import { buildProps, iconPropType } from '@element-plus/utils'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type TimelineItem from './timeline-item.vue'
 
 export const timelineItemProps = buildProps({
@@ -62,7 +62,7 @@ export const timelineItemProps = buildProps({
   hollow: Boolean,
 } as const)
 export type TimelineItemProps = ExtractPropTypes<typeof timelineItemProps>
-export type TimelineItemPropsPublic = __ExtractPublicPropTypes<
+export type TimelineItemPropsPublic = ExtractPublicPropTypes<
   typeof timelineItemProps
 >
 

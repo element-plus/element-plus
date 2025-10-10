@@ -4,7 +4,7 @@ import { useAriaProps, useDelayedToggleProps } from '@element-plus/hooks'
 import { teleportProps } from '@element-plus/components/teleport'
 
 import type TooltipContent from './content.vue'
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 
 export const useTooltipContentProps = buildProps({
   ...useDelayedToggleProps,
@@ -62,7 +62,7 @@ export const useTooltipContentProps = buildProps({
 export type ElTooltipContentProps = ExtractPropTypes<
   typeof useTooltipContentProps
 >
-export type ElTooltipContentPropsPublic = __ExtractPublicPropTypes<
+export type ElTooltipContentPropsPublic = ExtractPublicPropTypes<
   typeof useTooltipContentProps
 >
 

@@ -6,14 +6,16 @@ packages:
 catalog:
   '@ctrl/tinycolor': ^3.4.1
   '@element-plus/icons-vue': ^2.3.2
-  '@vue/shared': ~3.2.37
+  '@vue/shared': ^3.5.22
   '@vueuse/core': ^10.11.0
-  '@vue/test-utils': ^2.0.0
+  '@vue/test-utils': ^2.4.6
   'lodash-unified': ^1.0.3
   'type-fest': ^2.14.0
   '@popperjs/core': npm:@sxzz/popperjs-es@^2.11.7
   'normalize-wheel-es': ^1.2.0
   csstype: ^2.6.20
   '@floating-ui/dom': ^1.0.1
-  vue: ~3.2.37
+  vue: ^3.5.22
+  '@vitejs/plugin-vue': ^5.1.4
+  '@vitejs/plugin-vue-jsx': ^4.0.1
   # vitest: ^2.0.5

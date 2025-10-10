@@ -9,7 +9,7 @@ import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
 import type { Option } from './types'
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type Segmented from './segmented.vue'
 
 export interface Props {
@@ -81,9 +81,7 @@ export const segmentedProps = buildProps({
 })
 
 export type SegmentedProps = ExtractPropTypes<typeof segmentedProps>
-export type SegmentedPropsPublic = __ExtractPublicPropTypes<
-  typeof segmentedProps
->
+export type SegmentedPropsPublic = ExtractPublicPropTypes<typeof segmentedProps>
 
 export const segmentedEmits = {
   [UPDATE_MODEL_EVENT]: (val: any) =>

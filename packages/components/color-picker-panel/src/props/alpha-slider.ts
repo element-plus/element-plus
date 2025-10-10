@@ -1,6 +1,6 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type Color from '../utils/color'
 
 export const alphaSliderProps = buildProps({
@@ -13,6 +13,6 @@ export const alphaSliderProps = buildProps({
 } as const)
 
 export type AlphaSliderProps = ExtractPropTypes<typeof alphaSliderProps>
-export type AlphaSliderPropsPublic = __ExtractPublicPropTypes<
+export type AlphaSliderPropsPublic = ExtractPublicPropTypes<
   typeof alphaSliderProps
 >

@@ -1,7 +1,7 @@
 import { buildProps } from '@element-plus/utils'
 import { dialogEmits, dialogProps } from '@element-plus/components/dialog'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 
 export const drawerProps = buildProps({
   ...dialogProps,
@@ -30,6 +30,6 @@ export const drawerProps = buildProps({
 } as const)
 
 export type DrawerProps = ExtractPropTypes<typeof drawerProps>
-export type DrawerPropsPublic = __ExtractPublicPropTypes<typeof drawerProps>
+export type DrawerPropsPublic = ExtractPublicPropTypes<typeof drawerProps>
 
 export const drawerEmits = dialogEmits

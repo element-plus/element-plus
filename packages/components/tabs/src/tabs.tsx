@@ -25,7 +25,7 @@ import { useNamespace, useOrderedChildren } from '@element-plus/hooks'
 import { tabsRootContextKey } from './constants'
 import TabNav from './tab-nav'
 
-import type { ExtractPropTypes, VNode, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes, VNode } from 'vue'
 import type { Awaitable } from '@element-plus/utils'
 import type { TabNavInstance } from './tab-nav'
 import type { TabPaneName, TabsPaneContext } from './constants'
@@ -80,7 +80,7 @@ export const tabsProps = buildProps({
   stretch: Boolean,
 } as const)
 export type TabsProps = ExtractPropTypes<typeof tabsProps>
-export type TabsPropsPublic = __ExtractPublicPropTypes<typeof tabsProps>
+export type TabsPropsPublic = ExtractPublicPropTypes<typeof tabsProps>
 
 const isPaneName = (value: unknown): value is string | number =>
   isString(value) || isNumber(value)

@@ -90,7 +90,9 @@ const renderContent: RenderContentFunction = (h, { node, data }) => {
             link: true,
             onClick: () => append(data),
           },
-          'Append '
+          {
+            default: () => 'Append',
+          }
         ),
         h(
           ElButton,
@@ -100,7 +102,9 @@ const renderContent: RenderContentFunction = (h, { node, data }) => {
             style: 'margin-left: 4px',
             onClick: () => remove(node, data),
           },
-          'Delete'
+          {
+            default: () => 'Delete',
+          }
         ),
       ]),
     ]

@@ -6,8 +6,12 @@ import TreeSelect from '../src/tree-select.vue'
 
 import type { RenderFunction } from 'vue'
 import type { VueWrapper } from '@vue/test-utils'
-import type ElSelect from '@element-plus/components/select'
-import type ElTree from '@element-plus/components/tree'
+import type { SelectInstance } from '../../select'
+import type { TreeInstance } from '../../tree'
+
+type TreeSelectInstance = InstanceType<typeof TreeSelect> & {
+  getCheckedKeys: TreeInstance['getCheckedKeys']
+}
 
 const createComponent = ({
   slots = {},
@@ -16,7 +20,7 @@ const createComponent = ({
   slots?: Record<string, any>
   props?: (typeof TreeSelect)['props']
 } = {}) => {
-  const wrapperRef = ref<InstanceType<typeof TreeSelect>>()
+  const wrapperRef = ref<TreeSelectInstance>()
   const defaultData = ref([
     {
       value: 1,
@@ -50,9 +54,7 @@ const createComponent = ({
           <TreeSelect
             {...bindProps}
             onUpdate:modelValue={(val: string) => (bindProps.modelValue = val)}
-            ref={(val: InstanceType<typeof TreeSelect>) =>
-              (wrapperRef.value = val)
-            }
+            ref={(val: TreeSelectInstance) => (wrapperRef.value = val)}
             v-slots={slots}
           />
         )
@@ -61,20 +63,18 @@ const createComponent = ({
     {
       attachTo: 'body',
     }
-  )
+  ) as unknown as VueWrapper<TreeSelectInstance>
 
   return {
     wrapper,
     getWrapperRef: () =>
-      new Promise<InstanceType<typeof TreeSelect>>((resolve) =>
+      new Promise<TreeSelectInstance>((resolve) =>
         nextTick(() => resolve(wrapperRef.value!))
       ),
-    select: wrapper.findComponent({ name: 'ElSelect' }) as VueWrapper<
-      InstanceType<typeof ElSelect>
-    >,
-    tree: wrapper.findComponent({ name: 'ElTree' }) as VueWrapper<
-      InstanceType<typeof ElTree>
-    >,
+    select: wrapper.findComponent({
+      name: 'ElSelect',
+    }) as VueWrapper<SelectInstance>,
+    tree: wrapper.findComponent({ name: 'ElTree' }) as VueWrapper<TreeInstance>,
   }
 }
 
@@ -913,6 +913,7 @@ describe('TreeSelect.vue', () => {
     expect(spy1).toBeCalledWith(1)
 
     const spy2 = vi.fn()
+    // @ts-ignore
     wrapper.vm.data = [{ value: 1, handleModelValue: spy2 }]
     await nextTick()
 

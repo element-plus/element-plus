@@ -1,7 +1,7 @@
 import { buildProps } from '@element-plus/utils'
 import { radioPropsBase } from './radio'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type RadioButton from './radio-button.vue'
 
 export const radioButtonProps = buildProps({
@@ -9,7 +9,7 @@ export const radioButtonProps = buildProps({
 } as const)
 
 export type RadioButtonProps = ExtractPropTypes<typeof radioButtonProps>
-export type RadioButtonPropsPublic = __ExtractPublicPropTypes<
+export type RadioButtonPropsPublic = ExtractPublicPropTypes<
   typeof radioButtonProps
 >
 export type RadioButtonInstance = InstanceType<typeof RadioButton> & unknown
