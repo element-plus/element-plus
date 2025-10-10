@@ -47,7 +47,7 @@ export const useSelect = (
       const el = tree.value.el$?.querySelector(
         `[data-key="${listNode.at(-1).key}"]`
       )
-      el?.focus()
+      el?.focus({ preventScroll: true })
       return
     }
   }
@@ -57,9 +57,10 @@ export const useSelect = (
       () => select.value?.$el,
       'keydown',
       async (evt) => {
+        const code = getEventCode(evt)
         const { dropdownMenuVisible } = select.value!
         if (
-          (EVENT_CODE.down === evt.key || EVENT_CODE.up === evt.key) &&
+          ([EVENT_CODE.down, EVENT_CODE.up].includes(code)) &&
           dropdownMenuVisible
         ) {
           await nextTick()

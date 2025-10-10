@@ -511,7 +511,7 @@ describe('TreeSelect.vue', () => {
     await selectWrapper.trigger('focus')
     const focused = wrapper.find('.is-focused')
     expect(focused.exists()).toBe(true)
-    await selectWrapper.find('input').trigger('keydown.ArrowDown')
+    await selectWrapper.find('input').trigger('keydown', { code: EVENT_CODE.down })
     vi.runAllTimers()
 
     expect((document.activeElement as HTMLElement).dataset.key).toBe('1')
@@ -525,7 +525,7 @@ describe('TreeSelect.vue', () => {
         // 模拟按下下箭头键
         allNodes[i].element.dispatchEvent(
           new KeyboardEvent('keydown', {
-            code: 'ArrowDown',
+            code: EVENT_CODE.down,
             bubbles: true,
             cancelable: false,
           })
