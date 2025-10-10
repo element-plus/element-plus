@@ -22,4 +22,3 @@ catalog:
   csstype: ^2.6.20
   '@floating-ui/dom': ^1.0.1
   vue: ~3.2.37
-  # vitest: ^2.0.5
