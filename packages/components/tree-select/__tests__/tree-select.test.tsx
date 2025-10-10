@@ -5,6 +5,7 @@ import { CircleClose } from '@element-plus/icons-vue'
 import TreeSelect from '../src/tree-select.vue'
 import Tree from '@element-plus/components/tree/src/tree.vue'
 import defineGetter from '@element-plus/test-utils/define-getter'
+import { EVENT_CODE } from '@element-plus/constants'
 
 import type { RenderFunction } from 'vue'
 import type { VueWrapper } from '@vue/test-utils'
@@ -511,7 +512,9 @@ describe('TreeSelect.vue', () => {
     await selectWrapper.trigger('focus')
     const focused = wrapper.find('.is-focused')
     expect(focused.exists()).toBe(true)
-    await selectWrapper.find('input').trigger('keydown', { code: EVENT_CODE.down })
+    await selectWrapper
+      .find('input')
+      .trigger('keydown', { key: EVENT_CODE.down })
     vi.runAllTimers()
 
     expect((document.activeElement as HTMLElement).dataset.key).toBe('1')
@@ -550,9 +553,8 @@ describe('TreeSelect.vue', () => {
     await selectWrapper.trigger('focus')
     const focused = wrapper.find('.is-focused')
     expect(focused.exists()).toBe(true)
-    await selectWrapper.find('input').trigger('keydown.ArrowUp')
+    await selectWrapper.find('input').trigger('keydown', { key: EVENT_CODE.up })
     vi.runAllTimers()
-    console.log((document.activeElement as HTMLElement).dataset.key)
     expect((document.activeElement as HTMLElement).dataset.key).toBe('111')
   })
 

@@ -5,6 +5,7 @@ import { pick } from 'lodash-unified'
 import ElSelect from '@element-plus/components/select'
 import { useNamespace } from '@element-plus/hooks'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { getEventCode } from '@element-plus/utils'
 
 import type { Ref } from 'vue'
 import type { SelectInstance } from '@element-plus/components/select'
@@ -60,7 +61,7 @@ export const useSelect = (
         const code = getEventCode(evt)
         const { dropdownMenuVisible } = select.value!
         if (
-          ([EVENT_CODE.down, EVENT_CODE.up].includes(code)) &&
+          [EVENT_CODE.down, EVENT_CODE.up].includes(code) &&
           dropdownMenuVisible
         ) {
           await nextTick()
