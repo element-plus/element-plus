@@ -17,10 +17,9 @@
 </template>
 
 <script lang="ts" setup>
-// eslint-disable-next-line no-restricted-imports
-import type { DragEvents } from 'element-plus/es/components/tree/src/model/useDragNode'
 import type {
   AllowDropType,
+  DragEvents,
   NodeDropType,
   RenderContentContext,
 } from 'element-plus'

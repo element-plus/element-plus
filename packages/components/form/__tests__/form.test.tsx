@@ -530,7 +530,6 @@ describe('Form', () => {
             ref="formRef"
             model={form}
             rules={rules}
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-expect-error
             onSubmit="return false"
           >
@@ -595,7 +594,6 @@ describe('Form', () => {
             model={form}
             rules={rules}
             scrollToError
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-expect-error
             onSubmit="return false"
           >

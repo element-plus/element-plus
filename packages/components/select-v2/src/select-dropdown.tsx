@@ -8,7 +8,7 @@ import {
   watch,
 } from 'vue'
 import { get } from 'lodash-unified'
-import { isIOS, isObject, isUndefined } from '@element-plus/utils'
+import { getEventCode, isIOS, isObject, isUndefined } from '@element-plus/utils'
 import {
   DynamicSizeList,
   FixedSizeList,
@@ -41,6 +41,8 @@ const props = {
   },
   hoveringIndex: Number,
   width: Number,
+  id: String,
+  ariaLabel: String,
 }
 interface SelectDropdownExposed {
   listRef: Ref<FixedSizeListInstance | DynamicSizeListInstance | undefined>
@@ -224,7 +226,7 @@ export default defineComponent({
     }
 
     const onKeydown = (e: KeyboardEvent) => {
-      const { code } = e
+      const code = getEventCode(e)
       const { tab, esc, down, up, enter, numpadEnter } = EVENT_CODE
       if ([esc, down, up, enter, numpadEnter].includes(code)) {
         e.preventDefault()
@@ -277,6 +279,13 @@ export default defineComponent({
               height={height}
               width={width}
               total={data.length}
+              innerElement="ul"
+              innerProps={{
+                id: props.id,
+                role: 'listbox',
+                'aria-label': props.ariaLabel,
+                'aria-orientation': 'vertical',
+              }}
               // @ts-ignore - dts problem
               onKeydown={onKeydown}
             >

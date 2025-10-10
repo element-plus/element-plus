@@ -2,6 +2,7 @@ import { onMounted, onUpdated } from 'vue'
 import { useEventListener } from '@vueuse/core'
 import { EVENT_CODE } from '@element-plus/constants'
 import { useNamespace } from '@element-plus/hooks'
+import { getEventCode } from '@element-plus/utils'
 
 import type TreeStore from './tree-store'
 import type { Ref } from 'vue'
@@ -38,7 +39,7 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
   const handleKeydown = (ev: KeyboardEvent): void => {
     const currentItem = ev.target as HTMLDivElement
     if (!currentItem.className.includes(ns.b('node'))) return
-    const code = ev.code
+    const code = getEventCode(ev)
     const treeItems: HTMLElement[] = Array.from(
       el$.value!.querySelectorAll(`.${ns.is('focusable')}[role=treeitem]`)
     )
@@ -51,8 +52,8 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
           currentIndex === -1
             ? 0
             : currentIndex !== 0
-            ? currentIndex - 1
-            : treeItems.length - 1
+              ? currentIndex - 1
+              : treeItems.length - 1
         const startIndex = nextIndex
         while (true) {
           if (canNodeFocus(treeItems, nextIndex)) {
@@ -73,8 +74,8 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
           currentIndex === -1
             ? 0
             : currentIndex < treeItems.length - 1
-            ? currentIndex + 1
-            : 0
+              ? currentIndex + 1
+              : 0
         const startIndex = nextIndex
         while (true) {
           if (canNodeFocus(treeItems, nextIndex)) {

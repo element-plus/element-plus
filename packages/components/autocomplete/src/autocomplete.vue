@@ -4,7 +4,8 @@
     :visible="suggestionVisible"
     :placement="placement"
     :fallback-placements="['bottom-start', 'top-start']"
-    :popper-class="[ns.e('popper'), popperClass]"
+    :popper-class="[ns.e('popper'), popperClass!]"
+    :popper-style="popperStyle"
     :teleported="teleported"
     :append-to="appendTo"
     :gpu-acceleration="false"
@@ -39,7 +40,7 @@
         @clear="handleClear"
         @keydown.up.prevent="highlight(highlightedIndex - 1)"
         @keydown.down.prevent="highlight(highlightedIndex + 1)"
-        @keydown.enter="handleKeyEnter"
+        @keydown.enter.prevent="handleKeyEnter"
         @keydown.tab="close"
         @keydown.esc="handleKeyEscape"
         @mousedown="handleMouseDown"
@@ -294,16 +295,24 @@ const handleClear = () => {
 }
 
 const handleKeyEnter = async () => {
+  if (inputRef.value?.isComposing) {
+    return
+  }
+
   if (
     suggestionVisible.value &&
     highlightedIndex.value >= 0 &&
     highlightedIndex.value < suggestions.value.length
   ) {
     handleSelect(suggestions.value[highlightedIndex.value])
-  } else if (props.selectWhenUnmatched) {
-    emit('select', { value: props.modelValue })
-    suggestions.value = []
-    highlightedIndex.value = -1
+  } else {
+    if (props.selectWhenUnmatched) {
+      emit('select', { value: props.modelValue })
+      suggestions.value = []
+      highlightedIndex.value = -1
+    }
+    activated.value = true
+    debouncedGetData(String(props.modelValue))
   }
 }
 
@@ -339,12 +348,15 @@ const highlight = (index: number) => {
   if (!suggestionVisible.value || loading.value) return
 
   if (index < 0) {
-    highlightedIndex.value = -1
-    return
+    if (!props.loopNavigation) {
+      highlightedIndex.value = -1
+      return
+    }
+    index = suggestions.value.length - 1
   }
 
   if (index >= suggestions.value.length) {
-    index = suggestions.value.length - 1
+    index = props.loopNavigation ? 0 : suggestions.value.length - 1
   }
   const suggestion = regionRef.value!.querySelector(
     `.${ns.be('suggestion', 'wrap')}`
@@ -363,8 +375,7 @@ const highlight = (index: number) => {
     suggestion.scrollTop -= scrollHeight
   }
   highlightedIndex.value = index
-  // TODO: use Volar generate dts to fix it.
-  ;(inputRef.value as any).ref!.setAttribute(
+  inputRef.value?.ref?.setAttribute(
     'aria-activedescendant',
     `${listboxId.value}-item-${highlightedIndex.value}`
   )
@@ -381,16 +392,19 @@ onBeforeUnmount(() => {
 })
 
 onMounted(() => {
-  // TODO: use Volar generate dts to fix it.
-  ;(inputRef.value as any).ref!.setAttribute('role', 'textbox')
-  ;(inputRef.value as any).ref!.setAttribute('aria-autocomplete', 'list')
-  ;(inputRef.value as any).ref!.setAttribute('aria-controls', 'id')
-  ;(inputRef.value as any).ref!.setAttribute(
-    'aria-activedescendant',
-    `${listboxId.value}-item-${highlightedIndex.value}`
-  )
+  const inputElement = inputRef.value?.ref
+  if (!inputElement) return
+  ;[
+    { key: 'role', value: 'textbox' },
+    { key: 'aria-autocomplete', value: 'list' },
+    { key: 'aria-controls', value: 'id' },
+    {
+      key: 'aria-activedescendant',
+      value: `${listboxId.value}-item-${highlightedIndex.value}`,
+    },
+  ].forEach(({ key, value }) => inputElement.setAttribute(key, value))
   // get readonly attr
-  readonly = (inputRef.value as any).ref!.hasAttribute('readonly')
+  readonly = inputElement.hasAttribute('readonly')
 })
 
 defineExpose({

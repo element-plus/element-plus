@@ -171,7 +171,7 @@ tree/draggable
 | isLeaf    | specify whether the node is a leaf node, only works when lazy load is enabled | ^[string] / ^[Function]`(data, node) => boolean` | —       |
 | class     | custom node class name                                                        | ^[string] / ^[Function]`(data, node) => string`  | —       |
 
-### Method
+### Exposes
 
 `Tree` has the following method, which returns the currently selected array of nodes.
 
@@ -218,5 +218,5 @@ tree/draggable
 
 | Name           | Description                                                            |
 | -------------- | ---------------------------------------------------------------------- |
-| —              | Custom content for tree nodes. The scope parameter is `{ node, data }` |
+| default        | Custom content for tree nodes. The scope parameter is `{ node, data }` |
 | empty ^(2.3.4) | empty you can customize content when data is empty.                    |

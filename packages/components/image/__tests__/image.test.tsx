@@ -229,6 +229,38 @@ describe('Image.vue', () => {
     expect(wrapper.find('.el-image-viewer__progress').exists()).toBe(true)
   })
 
+  test('custom viewer load failed slot', async () => {
+    const url = IMAGE_SUCCESS
+    const srcList = ['error']
+    const wrapper = _mount(
+      `
+      <el-image
+        ref="imageRef"
+        :src="url"
+        :preview-src-list="srcList"
+      >
+        <template #viewer-error>
+          <div class="load-failed-slot">
+            load failed slot
+          </div>
+        </template>
+      </el-image>`,
+      () => ({
+        url,
+        srcList,
+      })
+    )
+
+    await doubleWait()
+    wrapper.vm.$refs.imageRef.showPreview()
+    await doubleWait()
+
+    const img = wrapper.find('.el-image-viewer__canvas img')
+    await img.trigger('error')
+    await doubleWait()
+    expect(wrapper.find('.load-failed-slot').exists()).toBe(true)
+  })
+
   describe('load', () => {
     mockImageEvent()
 

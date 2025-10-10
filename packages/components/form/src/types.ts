@@ -21,7 +21,7 @@ export interface FormItemRule extends RuleItem {
 }
 
 export type FormRules<
-  T extends MaybeRef<Record<string, any> | string> = string
+  T extends MaybeRef<Record<string, any> | string> = string,
 > = Partial<
   Record<
     UnwrapRef<T> extends string ? UnwrapRef<T> : FieldPath<UnwrapRef<T>>,

@@ -1,24 +1,25 @@
 <template>
-  <el-radio-group v-model="radio" :options="options" />
+  <el-radio-group v-model="radio" :options="options" :props="props" />
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
 
 const radio = ref(3)
-
+const props = { value: 'id', label: 'name', disabled: 'unable' }
 const options = [
   {
-    value: 3,
-    label: 'Option A',
+    id: 3,
+    name: 'Option A',
   },
   {
-    value: 6,
-    label: 'Option B',
+    id: 6,
+    name: 'Option B',
   },
   {
-    value: 9,
-    label: 'Option C',
+    id: 9,
+    name: 'Option C',
+    unable: true,
   },
 ]
 </script>
