@@ -9,14 +9,14 @@ import esbuild from 'rollup-plugin-esbuild'
 import glob from 'fast-glob'
 import { epRoot, excludeFiles, pkgRoot } from '@element-plus/build-utils'
 import { generateExternal, withTaskName, writeBundles } from '../utils'
-import { ThemeChalkModuleResolver } from '../plugins/theme-chalk-module-resolver'
+import { ElementPlusAlias } from '../plugins/element-plus-alias'
 import { buildConfigEntries, target } from '../build-info'
-import { alias } from '../alias'
 
 import type { TaskFunction } from 'gulp'
 import type { OutputOptions, Plugin } from 'rollup'
 
 const plugins: Plugin[] = [
+  // ElementPlusAlias(),
   vue() as Plugin,
   vueJsx() as Plugin,
   nodeResolve({
@@ -76,9 +76,8 @@ async function buildModulesStyles() {
   )
   const bundle = await rollup({
     input,
-    plugins: [ThemeChalkModuleResolver(), ...plugins],
+    plugins,
     treeshake: false,
-    alias,
   })
 
   await writeBundles(

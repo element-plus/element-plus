@@ -16,7 +16,7 @@ import {
 } from '@element-plus/build-constants'
 import { epOutput, epRoot, localeRoot } from '@element-plus/build-utils'
 import { version } from '../../../../packages/element-plus/version'
-import { ThemeChalkModuleResolver } from '../plugins/theme-chalk-module-resolver'
+import { ElementPlusAlias } from '../plugins/element-plus-alias'
 import {
   formatBundleFilename,
   generateExternal,
@@ -32,7 +32,7 @@ const banner = `/*! ${PKG_BRAND_NAME} v${version} */\n`
 
 async function buildFullEntry(minify: boolean) {
   const plugins: Plugin[] = [
-    ThemeChalkModuleResolver(),
+    ElementPlusAlias(),
     vue() as Plugin,
     vueJsx() as Plugin,
     nodeResolve({
