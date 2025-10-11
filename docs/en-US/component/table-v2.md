@@ -293,7 +293,9 @@ table-v2/manual-scroll
 
 :::
 
-## TableV2 Attributes
+## TableV2 API
+
+### TableV2 Attributes
 
 | Name                      | Description                                                                                                                | Type                                                   | Default   |
 | ------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ | --------- |
@@ -329,7 +331,7 @@ table-v2/manual-scroll
 | sort-by                   | Sort indicator                                                                                                             | `object`\<[SortBy](#typings)\>                         | {}        |
 | sort-state                | Multiple sort indicator                                                                                                    | `object`\<[SortState](#typings)\>                      | undefined |
 
-## TableV2 Slots
+### TableV2 Slots
 
 | Name        | Params                                      |
 | ----------- | ------------------------------------------- |
@@ -341,7 +343,7 @@ table-v2/manual-scroll
 | empty       | —                                           |
 | overlay     | —                                           |
 
-## TableV2 Events
+### TableV2 Events
 
 | Name                 | Description                                                                                                                     | Parameters                                    |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- |
@@ -352,9 +354,9 @@ table-v2/manual-scroll
 | rows-rendered        | Invoked when rows are rendered                                                                                                  | `object`\<[RowsRenderedParams](#typings)\>    |
 | row-expand           | Invoked when expand/collapse the tree node by clicking the arrow icon                                                           | `object`\<[RowExpandParams](#typings)\>       |
 
-## TableV2 Methods
+### TableV2 Exposes
 
-| Event Name   | Description                                          | Parameters                                                                             |
+| Method       | Description                                          | Parameters                                                                             |
 | ------------ | ---------------------------------------------------- | -------------------------------------------------------------------------------------- |
 | scrollTo     | Scroll to a given position                           | ^[Function]`(param: {scrollLeft?: number, scrollTop?: number}) => void`                |
 | scrollToLeft | Scroll to a given horizontal position                | ^[Function]`(scrollLeft: number) => void`                                              |
@@ -367,7 +369,7 @@ Note that these are `JavaScript` Objects, so you **CANNOT USE** kebab-case for t
 
 :::
 
-## Column Attribute
+### Column Attribute
 
 | Name               | Description                                                           | Type                                                                                                                                                                 | Default |
 | ------------------ | --------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
@@ -558,6 +560,12 @@ type ColumnSortParam<T> = { column: Column<T>; key: KeyType; order: SortOrder }
 enum SortOrder {
   ASC = 'asc',
   DESC = 'desc',
+}
+
+enum Alignment {
+  LEFT = 'left',
+  CENTER = 'center',
+  RIGHT = 'right',
 }
 
 type SortBy = { key: KeyType; Order: SortOrder }

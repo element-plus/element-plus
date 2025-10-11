@@ -3,11 +3,19 @@ import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { teleportProps } from '@element-plus/components/teleport'
 import { dialogContentProps } from './dialog-content'
 
-import type { ExtractPropTypes } from 'vue'
+import type {
+  ExtractPropTypes,
+  InjectionKey,
+  TransitionProps,
+  __ExtractPublicPropTypes,
+} from 'vue'
 import type Dialog from './dialog.vue'
 
 type DoneFn = (cancel?: boolean) => void
+
 export type DialogBeforeCloseFn = (done: DoneFn) => void
+
+export type DialogTransition = string | TransitionProps
 
 export const dialogProps = buildProps({
   ...dialogContentProps,
@@ -60,6 +68,10 @@ export const dialogProps = buildProps({
     type: Boolean,
     default: true,
   },
+  /**
+   * @description whether the mask is penetrable
+   */
+  modalPenetrable: Boolean,
   /**
    * @description the Time(milliseconds) before open
    */
@@ -120,9 +132,17 @@ export const dialogProps = buildProps({
     type: String,
     default: '2',
   },
+  /**
+   * @description custom transition configuration for dialog animation, it can be a string (transition name) or an object with Vue transition props
+   */
+  transition: {
+    type: definePropType<DialogTransition>([String, Object]),
+    default: undefined,
+  },
 } as const)
 
 export type DialogProps = ExtractPropTypes<typeof dialogProps>
+export type DialogPropsPublic = __ExtractPublicPropTypes<typeof dialogProps>
 
 export const dialogEmits = {
   open: () => true,
@@ -135,3 +155,12 @@ export const dialogEmits = {
 }
 export type DialogEmits = typeof dialogEmits
 export type DialogInstance = InstanceType<typeof Dialog> & unknown
+export interface DialogConfigContext {
+  alignCenter?: boolean
+  draggable?: boolean
+  overflow?: boolean
+  transition?: DialogTransition
+}
+
+export const dialogContextKey: InjectionKey<DialogConfigContext> =
+  Symbol('dialogContextKey')

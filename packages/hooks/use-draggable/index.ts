@@ -1,5 +1,6 @@
-import { onBeforeUnmount, onMounted, watchEffect } from 'vue'
+import { onBeforeUnmount, onMounted, ref, watchEffect } from 'vue'
 import { addUnit } from '@element-plus/utils'
+
 import type { ComputedRef, Ref } from 'vue'
 
 export const useDraggable = (
@@ -12,6 +13,8 @@ export const useDraggable = (
     offsetX: 0,
     offsetY: 0,
   }
+
+  const isDragging = ref(false)
 
   const adjustPosition = (moveX: number, moveY: number) => {
     if (targetRef.value) {
@@ -28,7 +31,11 @@ export const useDraggable = (
       const minLeft = -targetLeft + offsetX
       const minTop = -targetTop + offsetY
       const maxLeft = clientWidth - targetLeft - targetWidth + offsetX
-      const maxTop = clientHeight - targetTop - targetHeight + offsetY
+      const maxTop =
+        clientHeight -
+        targetTop -
+        (targetHeight < clientHeight ? targetHeight : 0) +
+        offsetY
 
       if (!overflow?.value) {
         moveX = Math.min(Math.max(moveX, minLeft), maxLeft)
@@ -50,6 +57,9 @@ export const useDraggable = (
     const { offsetX, offsetY } = transform
 
     const onMousemove = (e: MouseEvent) => {
+      if (!isDragging.value) {
+        isDragging.value = true
+      }
       const moveX = offsetX + e.clientX - downX
       const moveY = offsetY + e.clientY - downY
 
@@ -57,6 +67,7 @@ export const useDraggable = (
     }
 
     const onMouseup = () => {
+      isDragging.value = false
       document.removeEventListener('mousemove', onMousemove)
       document.removeEventListener('mouseup', onMouseup)
     }
@@ -109,6 +120,7 @@ export const useDraggable = (
   })
 
   return {
+    isDragging,
     resetPosition,
     updatePosition,
   }

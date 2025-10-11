@@ -1,6 +1,20 @@
-export const rightRichTextSponsors = []
+export type Sponsor = {
+  url: string
+  name_cn?: string
+  name: string
+  slogan_cn?: string
+  slogan: string
+  img: string
+  isDark?: boolean
+  imgL?: string
+  slogan_index?: string
+  banner_img?: string
+  className?: string
+}
 
-export const rightBigLogoSponsors = [
+export const rightRichTextSponsors: Sponsor[] = []
+
+export const rightBigLogoSponsors: Sponsor[] = [
   {
     name: 'CRMEB',
     img: '/images/CRMEB.png',
@@ -12,7 +26,7 @@ export const rightBigLogoSponsors = [
   },
 ]
 
-export const rightLogoSmallSponsors = [
+export const rightLogoSmallSponsors: Sponsor[] = [
   {
     name: 'BuildAdmin',
     img: '/images/buildadmin.png',
@@ -20,14 +34,6 @@ export const rightLogoSmallSponsors = [
     url: 'https://doc.buildadmin.com/?from=element-plus',
     slogan: 'Vue3 open source admin system',
     slogan_cn: 'Vue3企业级开源后台管理系统',
-  },
-  {
-    name: 'Fantastic-admin',
-    img: '/images/fantastic-admin.png',
-    imgL: '/images/fantastic-admin-l.png',
-    url: 'https://fantastic-admin.github.io/?from=element-plus',
-    slogan: 'An out-of-the-box backend framework',
-    slogan_cn: '开箱即用的 Vue 后台管理框架',
   },
   {
     name: 'bit',
@@ -39,7 +45,7 @@ export const rightLogoSmallSponsors = [
   },
 ]
 
-export const leftCustomImgSponsors = [
+export const leftCustomImgSponsors: Sponsor[] = [
   {
     name: '美乐',
     img: '/images/mele.png',
@@ -57,14 +63,6 @@ export const leftCustomImgSponsors = [
     className: 'jnpf',
     banner_img: '/images/jnpfsoft.png',
   },
-  {
-    name: 'MISBoot',
-    img: '/images/misboot-logo.png',
-    banner_img: '/images/misboot-left.png',
-    url: 'https://vue.misboot.com/#/login?from=element-plus',
-    slogan: 'Low code development platform built on Element Plus',
-    slogan_cn: '基于Element Plus构建的低代码开发平台',
-  },
 ]
 
 export const platinumSponsors = [
@@ -73,6 +71,6 @@ export const platinumSponsors = [
   ...rightRichTextSponsors,
 ]
 
-export const leftLogoSponsors = []
+export const leftLogoSponsors: Sponsor[] = []
 
 export const goldSponsors = [...rightLogoSmallSponsors, ...leftLogoSponsors]

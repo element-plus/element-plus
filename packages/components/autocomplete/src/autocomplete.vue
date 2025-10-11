@@ -4,7 +4,8 @@
     :visible="suggestionVisible"
     :placement="placement"
     :fallback-placements="['bottom-start', 'top-start']"
-    :popper-class="[ns.e('popper'), popperClass]"
+    :popper-class="[ns.e('popper'), popperClass!]"
+    :popper-style="popperStyle"
     :teleported="teleported"
     :append-to="appendTo"
     :gpu-acceleration="false"
@@ -29,12 +30,9 @@
     >
       <el-input
         ref="inputRef"
-        v-bind="attrs"
-        :clearable="clearable"
-        :disabled="disabled"
-        :name="name"
+        v-bind="mergeProps(passInputProps, $attrs)"
         :model-value="modelValue"
-        :aria-label="ariaLabel"
+        :disabled="disabled"
         @input="handleInput"
         @change="handleChange"
         @focus="handleFocus"
@@ -42,7 +40,7 @@
         @clear="handleClear"
         @keydown.up.prevent="highlight(highlightedIndex - 1)"
         @keydown.down.prevent="highlight(highlightedIndex + 1)"
-        @keydown.enter="handleKeyEnter"
+        @keydown.enter.prevent="handleKeyEnter"
         @keydown.tab="close"
         @keydown.esc="handleKeyEscape"
         @mousedown="handleMouseDown"
@@ -71,6 +69,13 @@
         }"
         role="region"
       >
+        <div
+          v-if="$slots.header"
+          :class="ns.be('suggestion', 'header')"
+          @click.stop
+        >
+          <slot name="header" />
+        </div>
         <el-scrollbar
           :id="listboxId"
           tag="ul"
@@ -99,6 +104,13 @@
             </li>
           </template>
         </el-scrollbar>
+        <div
+          v-if="$slots.footer"
+          :class="ns.be('suggestion', 'footer')"
+          @click.stop
+        >
+          <slot name="footer" />
+        </div>
       </div>
     </template>
   </el-tooltip>
@@ -107,29 +119,30 @@
 <script lang="ts" setup>
 import {
   computed,
+  mergeProps,
   onBeforeUnmount,
   onMounted,
   ref,
   useAttrs as useRawAttrs,
 } from 'vue'
-import { debounce } from 'lodash-unified'
+import { debounce, pick } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
 import { Loading } from '@element-plus/icons-vue'
-import { useAttrs, useId, useNamespace } from '@element-plus/hooks'
+import { useId, useNamespace } from '@element-plus/hooks'
 import { isArray, throwError } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import ElInput from '@element-plus/components/input'
+import ElInput, { inputProps } from '@element-plus/components/input'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElIcon from '@element-plus/components/icon'
 import { useFormDisabled } from '@element-plus/components/form'
 import { autocompleteEmits, autocompleteProps } from './autocomplete'
-import type { AutocompleteData } from './autocomplete'
 
+import type { AutocompleteData } from './autocomplete'
 import type { StyleValue } from 'vue'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { InputInstance } from '@element-plus/components/input'
@@ -143,7 +156,8 @@ defineOptions({
 const props = defineProps(autocompleteProps)
 const emit = defineEmits(autocompleteEmits)
 
-const attrs = useAttrs()
+const passInputProps = computed(() => pick(props, Object.keys(inputProps)))
+
 const rawAttrs = useRawAttrs()
 const disabled = useFormDisabled()
 const ns = useNamespace('autocomplete')
@@ -244,7 +258,7 @@ const handleMouseDown = (event: MouseEvent) => {
   }
 }
 
-const handleChange = (value: string) => {
+const handleChange = (value: string | number) => {
   emit(CHANGE_EVENT, value)
 }
 
@@ -281,16 +295,24 @@ const handleClear = () => {
 }
 
 const handleKeyEnter = async () => {
+  if (inputRef.value?.isComposing) {
+    return
+  }
+
   if (
     suggestionVisible.value &&
     highlightedIndex.value >= 0 &&
     highlightedIndex.value < suggestions.value.length
   ) {
     handleSelect(suggestions.value[highlightedIndex.value])
-  } else if (props.selectWhenUnmatched) {
-    emit('select', { value: props.modelValue })
-    suggestions.value = []
-    highlightedIndex.value = -1
+  } else {
+    if (props.selectWhenUnmatched) {
+      emit('select', { value: props.modelValue })
+      suggestions.value = []
+      highlightedIndex.value = -1
+    }
+    activated.value = true
+    debouncedGetData(String(props.modelValue))
   }
 }
 
@@ -326,12 +348,15 @@ const highlight = (index: number) => {
   if (!suggestionVisible.value || loading.value) return
 
   if (index < 0) {
-    highlightedIndex.value = -1
-    return
+    if (!props.loopNavigation) {
+      highlightedIndex.value = -1
+      return
+    }
+    index = suggestions.value.length - 1
   }
 
   if (index >= suggestions.value.length) {
-    index = suggestions.value.length - 1
+    index = props.loopNavigation ? 0 : suggestions.value.length - 1
   }
   const suggestion = regionRef.value!.querySelector(
     `.${ns.be('suggestion', 'wrap')}`
@@ -350,8 +375,7 @@ const highlight = (index: number) => {
     suggestion.scrollTop -= scrollHeight
   }
   highlightedIndex.value = index
-  // TODO: use Volar generate dts to fix it.
-  ;(inputRef.value as any).ref!.setAttribute(
+  inputRef.value?.ref?.setAttribute(
     'aria-activedescendant',
     `${listboxId.value}-item-${highlightedIndex.value}`
   )
@@ -368,16 +392,19 @@ onBeforeUnmount(() => {
 })
 
 onMounted(() => {
-  // TODO: use Volar generate dts to fix it.
-  ;(inputRef.value as any).ref!.setAttribute('role', 'textbox')
-  ;(inputRef.value as any).ref!.setAttribute('aria-autocomplete', 'list')
-  ;(inputRef.value as any).ref!.setAttribute('aria-controls', 'id')
-  ;(inputRef.value as any).ref!.setAttribute(
-    'aria-activedescendant',
-    `${listboxId.value}-item-${highlightedIndex.value}`
-  )
+  const inputElement = inputRef.value?.ref
+  if (!inputElement) return
+  ;[
+    { key: 'role', value: 'textbox' },
+    { key: 'aria-autocomplete', value: 'list' },
+    { key: 'aria-controls', value: 'id' },
+    {
+      key: 'aria-activedescendant',
+      value: `${listboxId.value}-item-${highlightedIndex.value}`,
+    },
+  ].forEach(({ key, value }) => inputElement.setAttribute(key, value))
   // get readonly attr
-  readonly = (inputRef.value as any).ref!.hasAttribute('readonly')
+  readonly = inputElement.hasAttribute('readonly')
 })
 
 defineExpose({

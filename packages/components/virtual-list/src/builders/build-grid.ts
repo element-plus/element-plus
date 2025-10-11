@@ -4,6 +4,7 @@ import {
   defineComponent,
   getCurrentInstance,
   h,
+  mergeProps,
   nextTick,
   onMounted,
   ref,
@@ -35,6 +36,7 @@ import {
   RTL_OFFSET_POS_DESC,
   SCROLL_EVT,
 } from '../defaults'
+
 import type {
   CSSProperties,
   Ref,
@@ -619,10 +621,10 @@ const createGrid = ({
         return [
           h(
             Inner,
-            {
+            mergeProps(props.innerProps, {
               style: unref(innerStyle),
               ref: innerRef,
-            },
+            }),
             !isString(Inner)
               ? {
                   default: () => children,

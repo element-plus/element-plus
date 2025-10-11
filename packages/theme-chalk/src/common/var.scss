@@ -60,11 +60,12 @@ $color-info: map.get($colors, 'info', 'base') !default;
   $colors: map.deep-merge(
     (
       $type: (
-        '#{$mode}-#{$number}':
-          color.mix(
-            $mix-color,
-            map.get($colors, $type, 'base'),
-            math.percentage(math.div($number, 10))
+        '#{$mode}-#{$number}': roundColor(
+            color.mix(
+              $mix-color,
+              map.get($colors, $type, 'base'),
+              math.percentage(math.div($number, 10))
+            )
           ),
       ),
     ),
@@ -556,8 +557,7 @@ $notification: map.merge(
     'shadow': getCssVar('box-shadow-light'),
     'border-color': getCssVar('border-color-lighter'),
     'icon-size': 24px,
-    'close-font-size':
-      var(
+    'close-font-size': var(
         #{getCssVarName('message-close-size')},
         map.get($message, 'close-size')
       ),
@@ -701,6 +701,16 @@ $cascader-search-input-margin-left: map.merge(
     'small': 5px,
   ),
   $cascader-search-input-margin-left
+);
+
+$cascader-dropdown: () !default;
+$cascader-dropdown: map.merge(
+  (
+    'header-padding': 10px,
+    'footer-padding': 10px,
+    'border': 1px solid getCssVar('border-color-light'),
+  ),
+  $cascader-dropdown
 );
 
 //statistic
@@ -1185,9 +1195,12 @@ $dropdown: map.merge(
 $drawer: () !default;
 $drawer: map.merge(
   (
-    'bg-color':
-      var(#{getCssVarName('dialog', 'bg-color')}, #{getCssVar('bg-color')}),
+    'bg-color': var(
+        #{getCssVarName('dialog', 'bg-color')},
+        #{getCssVar('bg-color')}
+      ),
     'padding-primary': var(#{getCssVarName('dialog', 'padding-primary')}, 20px),
+    'dragger-size': 8px,
   ),
   $drawer
 );
@@ -1274,6 +1287,7 @@ $rate: map.merge(
     'fill-color': #f7ba2a,
     'disabled-void-color': getCssVar('fill-color'),
     'text-color': getCssVar('text-color', 'primary'),
+    'outline-color': getCssVar('color-primary', 'light-5'),
   ),
   $rate
 );
@@ -1449,8 +1463,7 @@ $link-text-color: () !default;
 $calendar: () !default;
 $calendar: map.merge(
   (
-    'border':
-      var(
+    'border': var(
         #{getCssVarName('table-border')},
         1px solid #{getCssVar('border-color-lighter')}
       ),

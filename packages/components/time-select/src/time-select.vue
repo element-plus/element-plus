@@ -12,6 +12,8 @@
     :filterable="editable"
     :empty-values="emptyValues"
     :value-on-clear="valueOnClear"
+    :popper-class="popperClass"
+    :popper-style="popperStyle"
     @update:model-value="(event) => $emit(UPDATE_MODEL_EVENT, event)"
     @change="(event) => $emit(CHANGE_EVENT, event)"
     @blur="(event) => $emit('blur', event)"
@@ -42,7 +44,6 @@ import { useFormDisabled } from '@element-plus/components/form'
 import ElIcon from '@element-plus/components/icon'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-
 import { timeSelectProps } from './time-select'
 import { compareTime, formatTime, nextTime, parseTime } from './utils'
 
@@ -135,11 +136,11 @@ const focus = () => {
 
 defineExpose({
   /**
-   * @description focus the Input component
+   * @description blur the Input component
    */
   blur,
   /**
-   * @description blur the Input component
+   * @description focus the Input component
    */
   focus,
 })

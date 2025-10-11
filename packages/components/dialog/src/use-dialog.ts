@@ -7,8 +7,6 @@ import {
   watch,
 } from 'vue'
 import { useTimeoutFn } from '@vueuse/core'
-
-import { isUndefined } from 'lodash-unified'
 import {
   defaultNamespace,
   useId,
@@ -16,11 +14,22 @@ import {
   useZIndex,
 } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { addUnit, isClient } from '@element-plus/utils'
+import {
+  addUnit,
+  debugWarn,
+  isArray,
+  isClient,
+  isFunction,
+  isObject,
+} from '@element-plus/utils'
 import { useGlobalConfig } from '@element-plus/components/config-provider'
+import { DEFAULT_DIALOG_TRANSITION } from './constants'
 
-import type { CSSProperties, Ref, SetupContext } from 'vue'
+import type { CSSProperties, Ref, SetupContext, TransitionProps } from 'vue'
+import type { Arrayable } from '@element-plus/utils'
 import type { DialogEmits, DialogProps } from './dialog'
+
+const COMPONENT_NAME = 'ElDialog'
 
 export const useDialog = (
   props: DialogProps,
@@ -35,13 +44,16 @@ export const useDialog = (
   const bodyId = useId()
   const visible = ref(false)
   const closed = ref(false)
-  const rendered = ref(false) // when desctroyOnClose is true, we initialize it as false vise versa
+  const rendered = ref(false) // when destroyOnClose is true, we initialize it as false vise versa
   const zIndex = ref(props.zIndex ?? nextZIndex())
 
   let openTimer: (() => void) | undefined = undefined
   let closeTimer: (() => void) | undefined = undefined
 
-  const namespace = useGlobalConfig('namespace', defaultNamespace)
+  const config = useGlobalConfig()
+
+  const namespace = computed(() => config.value?.namespace ?? defaultNamespace)
+  const globalConfig = computed(() => config.value?.dialog)
 
   const style = computed<CSSProperties>(() => {
     const style: CSSProperties = {}
@@ -57,11 +69,69 @@ export const useDialog = (
     return style
   })
 
+  const _draggable = computed(
+    () =>
+      (props.draggable ?? globalConfig.value?.draggable ?? false) &&
+      !props.fullscreen
+  )
+
+  const _alignCenter = computed(
+    () => props.alignCenter ?? globalConfig.value?.alignCenter ?? false
+  )
+
+  const _overflow = computed(
+    () => props.overflow ?? globalConfig.value?.overflow ?? false
+  )
+
   const overlayDialogStyle = computed<CSSProperties>(() => {
-    if (props.alignCenter) {
+    if (_alignCenter.value) {
       return { display: 'flex' }
     }
     return {}
+  })
+
+  const transitionConfig = computed(() => {
+    const transition =
+      props.transition ??
+      globalConfig.value?.transition ??
+      DEFAULT_DIALOG_TRANSITION
+    const baseConfig = {
+      name: transition,
+      onAfterEnter: afterEnter,
+      onBeforeLeave: beforeLeave,
+      onAfterLeave: afterLeave,
+    }
+    if (isObject(transition)) {
+      const config = { ...transition } as TransitionProps
+      const _mergeHook = (
+        userHook: Arrayable<(el: Element) => void> | undefined,
+        defaultHook: () => void
+      ) => {
+        return (el: Element) => {
+          if (isArray(userHook)) {
+            userHook.forEach((fn) => {
+              if (isFunction(fn)) fn(el)
+            })
+          } else if (isFunction(userHook)) {
+            userHook(el)
+          }
+          defaultHook()
+        }
+      }
+      config.onAfterEnter = _mergeHook(config.onAfterEnter, afterEnter)
+      config.onBeforeLeave = _mergeHook(config.onBeforeLeave, beforeLeave)
+      config.onAfterLeave = _mergeHook(config.onAfterLeave, afterLeave)
+      if (!config.name) {
+        config.name = DEFAULT_DIALOG_TRANSITION
+        debugWarn(
+          COMPONENT_NAME,
+          `transition.name is missing when using object syntax, fallback to '${DEFAULT_DIALOG_TRANSITION}'`
+        )
+      }
+      return config
+    }
+
+    return baseConfig
   })
 
   function afterEnter() {
@@ -156,13 +226,20 @@ export const useDialog = (
   }
 
   watch(
+    () => props.zIndex,
+    () => {
+      zIndex.value = props.zIndex ?? nextZIndex()
+    }
+  )
+
+  watch(
     () => props.modelValue,
     (val) => {
       if (val) {
         closed.value = false
         open()
         rendered.value = true // enables lazy rendering
-        zIndex.value = isUndefined(props.zIndex) ? nextZIndex() : zIndex.value++
+        zIndex.value = props.zIndex ?? nextZIndex()
         // this.$el.addEventListener('scroll', this.updatePopper)
         nextTick(() => {
           emit('open')
@@ -222,5 +299,9 @@ export const useDialog = (
     rendered,
     visible,
     zIndex,
+    transitionConfig,
+    _draggable,
+    _alignCenter,
+    _overflow,
   }
 }

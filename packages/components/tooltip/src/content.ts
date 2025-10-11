@@ -1,10 +1,10 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 import { popperContentProps } from '@element-plus/components/popper'
 import { useAriaProps, useDelayedToggleProps } from '@element-plus/hooks'
-
 import { teleportProps } from '@element-plus/components/teleport'
+
 import type TooltipContent from './content.vue'
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 
 export const useTooltipContentProps = buildProps({
   ...useDelayedToggleProps,
@@ -60,6 +60,9 @@ export const useTooltipContentProps = buildProps({
 } as const)
 
 export type ElTooltipContentProps = ExtractPropTypes<
+  typeof useTooltipContentProps
+>
+export type ElTooltipContentPropsPublic = __ExtractPublicPropTypes<
   typeof useTooltipContentProps
 >
 

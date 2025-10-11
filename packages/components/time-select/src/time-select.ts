@@ -1,9 +1,15 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 import { CircleClose, Clock } from '@element-plus/icons-vue'
 import { useEmptyValuesProps, useSizeProp } from '@element-plus/hooks'
+
 import type { PopperEffect } from '@element-plus/components/popper'
 import type TimeSelect from './time-select.vue'
-import type { Component, ExtractPropTypes } from 'vue'
+import type {
+  CSSProperties,
+  Component,
+  ExtractPropTypes,
+  __ExtractPublicPropTypes,
+} from 'vue'
 
 export const timeSelectProps = buildProps({
   /**
@@ -16,7 +22,9 @@ export const timeSelectProps = buildProps({
   /**
    * @description binding value
    */
-  modelValue: String,
+  modelValue: {
+    type: definePropType<string | null>(String),
+  },
   /**
    * @description whether TimeSelect is disabled
    */
@@ -74,18 +82,19 @@ export const timeSelectProps = buildProps({
   /**
    * @description minimum time, any time before this time will be disabled
    */
-  minTime: String,
+  minTime: {
+    type: definePropType<string | null>(String),
+  },
   /**
    * @description maximum time, any time after this time will be disabled
    */
-  maxTime: String,
+  maxTime: {
+    type: definePropType<string | null>(String),
+  },
   /**
    * @description whether `end` is included in options
    */
-  includeEndTime: {
-    type: Boolean,
-    default: false,
-  },
+  includeEndTime: Boolean,
   /**
    * @description same as `name` in native input
    */
@@ -104,9 +113,25 @@ export const timeSelectProps = buildProps({
     type: definePropType<string | Component>([String, Object]),
     default: () => CircleClose,
   },
+  /**
+   * @description custom class name for TimeSelect's dropdown
+   */
+  popperClass: {
+    type: String,
+    default: '',
+  },
+  /**
+   * @description custom style for TimeSelect's dropdown
+   */
+  popperStyle: {
+    type: definePropType<string | CSSProperties>([String, Object]),
+  },
   ...useEmptyValuesProps,
 } as const)
 
 export type TimeSelectProps = ExtractPropTypes<typeof timeSelectProps>
+export type TimeSelectPropsPublic = __ExtractPublicPropTypes<
+  typeof timeSelectProps
+>
 
 export type TimeSelectInstance = InstanceType<typeof TimeSelect> & unknown
