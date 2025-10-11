@@ -676,10 +676,8 @@
   [class*='#{$namespace}-table__row--level'] {
     .#{$namespace}-table__expand-icon {
       display: inline-block;
-      width: 12px;
-      height: 12px;
+      width: 20px;
       text-align: center;
-      margin-right: 8px;
     }
   }
 
