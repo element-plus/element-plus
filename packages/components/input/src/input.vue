@@ -142,7 +142,7 @@
         :style="countStyle"
         :class="[
           nsInput.e('count'),
-          nsInput.is('outside', showWordLimit === 'outside'),
+          nsInput.is('outside', wordLimitPosition === 'outside'),
         ]"
       >
         {{ textLength }} / {{ maxlength }}

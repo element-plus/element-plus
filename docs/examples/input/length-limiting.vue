@@ -22,7 +22,8 @@
     maxlength="30"
     style="width: 240px"
     placeholder="Please input"
-    show-word-limit="outside"
+    show-word-limit
+    word-limit-position="outside"
     type="textarea"
   />
 </template>

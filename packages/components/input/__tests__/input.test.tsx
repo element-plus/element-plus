@@ -641,7 +641,8 @@ describe('Input.vue', () => {
     const wrapper = mount(() => (
       <Input
         placeholder="请输入内容"
-        showWordLimit="outside"
+        showWordLimit
+        wordLimitPosition="outside"
         maxlength={30}
         type="textarea"
       />

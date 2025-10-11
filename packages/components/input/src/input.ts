@@ -131,10 +131,14 @@ export const inputProps = buildProps({
   /**
    * @description word count
    */
-  showWordLimit: {
-    type: [Boolean, String],
-    values: [false, true, 'outside', 'inside'],
-    default: false,
+  showWordLimit: Boolean,
+  /**
+   * @description word count position, valid when `show-word-limit` is true
+   */
+  wordLimitPosition: {
+    type: String,
+    values: ['inside', 'outside'],
+    default: 'inside',
   },
   /**
    * @description suffix icon
