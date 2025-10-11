@@ -11,7 +11,7 @@
     >
       <component
         :is="labelFor ? 'label' : 'div'"
-        v-if="hasLabel"
+        v-if="!!(label || $slots.label)"
         :id="labelId"
         :for="labelFor"
         :class="ns.e('label')"
@@ -60,7 +60,6 @@ import {
   isArray,
   isBoolean,
   isFunction,
-  isString,
 } from '@element-plus/utils'
 import { useId, useNamespace } from '@element-plus/hooks'
 import { useFormSize } from './hooks'
@@ -159,7 +158,7 @@ const validateClasses = computed(() => [
 
 const propString = computed(() => {
   if (!props.prop) return ''
-  return isString(props.prop) ? props.prop : props.prop.join('.')
+  return isArray(props.prop) ? props.prop.join('.') : props.prop
 })
 
 const hasLabel = computed<boolean>(() => {
@@ -209,7 +208,7 @@ const normalizedRules = computed(() => {
   if (required !== undefined) {
     const requiredRules = rules
       .map((rule, i) => [rule, i] as const)
-      .filter(([rule]) => Object.keys(rule).includes('required'))
+      .filter(([rule]) => 'required' in rule)
 
     if (requiredRules.length > 0) {
       for (const [rule, i] of requiredRules) {
@@ -271,7 +270,7 @@ const onValidationFailed = (error: FormValidateFailure) => {
 
   setValidationState('error')
   validateMessage.value = errors
-    ? errors?.[0]?.message ?? `${props.prop} is required`
+    ? (errors?.[0]?.message ?? `${props.prop} is required`)
     : ''
 
   formContext?.emit('validate', props.prop!, false, validateMessage.value)
@@ -382,6 +381,7 @@ const context: FormItemContext = reactive({
   ...toRefs(props),
   $el: formItemRef,
   size: _size,
+  validateMessage,
   validateState,
   labelId,
   inputIds,
@@ -393,6 +393,7 @@ const context: FormItemContext = reactive({
   resetField,
   clearValidate,
   validate,
+  propString,
 })
 
 provide(formItemContextKey, context)

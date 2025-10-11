@@ -50,7 +50,7 @@
         @change="handleCheckChange"
         @click.stop
       />
-      <el-node-content :node="node" />
+      <el-node-content :node="{ ...node, expanded }" />
     </div>
   </div>
 </template>
@@ -69,6 +69,7 @@ import {
   treeNodeEmits,
   treeNodeProps,
 } from './virtual-tree'
+
 import type { CheckboxValueType } from '@element-plus/components/checkbox'
 import type { TreeNode } from './types'
 

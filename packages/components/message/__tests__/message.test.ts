@@ -6,6 +6,7 @@ import { TypeComponentsMap } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import Message from '../src/message.vue'
 import { messageTypes } from '../src/message'
+
 import type { CSSProperties, Component, ComponentPublicInstance } from 'vue'
 
 const AXIOM = 'Rem is the best girl'
@@ -14,6 +15,8 @@ type MessageInstance = ComponentPublicInstance<{
   visible: boolean
   iconComponent: string | Component
   customStyle: CSSProperties
+  placement?: 'top' | 'bottom'
+  offset: number
 }>
 
 const onClose = vi.fn()
@@ -180,6 +183,79 @@ describe('Message.vue', () => {
       await rAF()
 
       expect(onClose).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  describe('placement', () => {
+    test('should render with top placement by default', () => {
+      const wrapper = _mount({
+        slots: { default: AXIOM },
+      })
+      const vm = wrapper.vm as MessageInstance
+      expect(vm.customStyle).toHaveProperty('top', '16px')
+      expect(wrapper.classes()).not.toContain('is-bottom')
+    })
+
+    test('should render with top-left placement', () => {
+      const wrapper = _mount({
+        slots: { default: AXIOM },
+        props: {
+          placement: 'top-left',
+        },
+      })
+      const vm = wrapper.vm as MessageInstance
+      expect(vm.customStyle).toHaveProperty('top', '16px')
+      expect(vm.placement).toBe('top-left')
+    })
+
+    test('should render with top-right placement', () => {
+      const wrapper = _mount({
+        slots: { default: AXIOM },
+        props: {
+          placement: 'top-right',
+        },
+      })
+      const vm = wrapper.vm as MessageInstance
+      expect(vm.customStyle).toHaveProperty('top', '16px')
+      expect(vm.placement).toBe('top-right')
+    })
+
+    test('should render with bottom placement', () => {
+      const wrapper = _mount({
+        slots: { default: AXIOM },
+        props: {
+          placement: 'bottom',
+        },
+      })
+      const vm = wrapper.vm as MessageInstance
+      expect(vm.customStyle).toHaveProperty('bottom', '16px')
+      expect(wrapper.classes()).toContain('is-bottom')
+    })
+
+    test('should render with bottom-left placement', () => {
+      const wrapper = _mount({
+        slots: { default: AXIOM },
+        props: {
+          placement: 'bottom-left',
+        },
+      })
+      const vm = wrapper.vm as MessageInstance
+      expect(vm.customStyle).toHaveProperty('bottom', '16px')
+      expect(vm.placement).toBe('bottom-left')
+      expect(wrapper.classes()).toContain('is-bottom')
+    })
+
+    test('should render with bottom-right placement', () => {
+      const wrapper = _mount({
+        slots: { default: AXIOM },
+        props: {
+          placement: 'bottom-right',
+        },
+      })
+      const vm = wrapper.vm as MessageInstance
+      expect(vm.customStyle).toHaveProperty('bottom', '16px')
+      expect(vm.placement).toBe('bottom-right')
+      expect(wrapper.classes()).toContain('is-bottom')
     })
   })
 })

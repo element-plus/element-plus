@@ -30,20 +30,18 @@ describe('InputTag.vue', () => {
     const wrapper = mount(() => <InputTag v-model={inputValue.value} />)
 
     await wrapper.find('input').setValue(AXIOM)
-    await wrapper.find('input').trigger('keydown', { code: EVENT_CODE.enter })
+    await wrapper.find('input').trigger('keyup', { code: EVENT_CODE.enter })
     expect(wrapper.findAll('.el-tag').length).toBe(1)
     expect(wrapper.find('.el-tag').text()).toBe(AXIOM)
     expect(inputValue.value).toEqual([AXIOM])
 
     await wrapper.find('input').setValue('--')
-    await wrapper.find('input').trigger('keydown', { code: EVENT_CODE.enter })
+    await wrapper.find('input').trigger('keyup', { code: EVENT_CODE.enter })
     expect(wrapper.findAll('.el-tag').length).toBe(2)
     expect(wrapper.findAll('.el-tag')[1].text()).toBe('--')
     expect(inputValue.value).toEqual([AXIOM, '--'])
 
-    await wrapper
-      .find('input')
-      .trigger('keydown', { code: EVENT_CODE.backspace })
+    await wrapper.find('input').trigger('keyup', { code: EVENT_CODE.backspace })
     expect(wrapper.findAll('.el-tag').length).toBe(1)
     expect(wrapper.find('.el-tag').text()).toBe(AXIOM)
     expect(inputValue.value).toEqual([AXIOM])
@@ -59,10 +57,10 @@ describe('InputTag.vue', () => {
     ))
 
     await wrapper.find('input').setValue(AXIOM)
-    await wrapper.find('input').trigger('keydown', { code: EVENT_CODE.enter })
+    await wrapper.find('input').trigger('keyup', { code: EVENT_CODE.enter })
     expect(wrapper.findAll('.el-tag').length).toBe(0)
 
-    await wrapper.find('input').trigger('keydown', { code: EVENT_CODE.space })
+    await wrapper.find('input').trigger('keyup', { code: EVENT_CODE.space })
     expect(wrapper.findAll('.el-tag').length).toBe(1)
     expect(wrapper.find('.el-tag').text()).toBe(AXIOM)
   })
@@ -74,7 +72,7 @@ describe('InputTag.vue', () => {
     expect(wrapper.findAll('.el-tag').length).toBe(1)
 
     await wrapper.find('input').setValue(AXIOM)
-    await wrapper.find('input').trigger('keydown', { code: EVENT_CODE.enter })
+    await wrapper.find('input').trigger('keyup', { code: EVENT_CODE.enter })
     expect(wrapper.findAll('.el-tag').length).toBe(1)
   })
 
@@ -136,7 +134,7 @@ describe('InputTag.vue', () => {
     )
 
     await wrapper.find('input').setValue('Rem')
-    await wrapper.find('input').trigger('keydown', { code: EVENT_CODE.enter })
+    await wrapper.find('input').trigger('keyup', { code: EVENT_CODE.enter })
     expect(wrapper.find('input').element.placeholder).toMatchInlineSnapshot(
       `""`
     )
@@ -233,25 +231,56 @@ describe('InputTag.vue', () => {
   describe('delimiter', () => {
     test('with string', async () => {
       const inputValue = ref<string[]>()
+      const addTag = vi.fn()
       const wrapper = mount(() => (
-        <InputTag v-model={inputValue.value} delimiter="," />
+        <InputTag v-model={inputValue.value} delimiter="," onAdd-tag={addTag} />
       ))
-
       await wrapper.find('input').setValue(`${AXIOM},`)
+
+      expect(addTag).toBeCalledWith(AXIOM)
       expect(wrapper.findAll('.el-tag').length).toBe(1)
       expect(wrapper.find('.el-tag').text()).toBe(AXIOM)
       expect(inputValue.value).toEqual([AXIOM])
     })
     test('with RegExp', async () => {
       const inputValue = ref<string[]>()
+      const addTag = vi.fn()
       const wrapper = mount(() => (
-        <InputTag v-model={inputValue.value} delimiter={/\./} />
+        <InputTag
+          v-model={inputValue.value}
+          delimiter={/\./}
+          onAdd-tag={addTag}
+        />
       ))
-
       await wrapper.find('input').setValue(`${AXIOM}.`)
+
+      expect(addTag).toBeCalledWith(AXIOM)
       expect(wrapper.findAll('.el-tag').length).toBe(1)
       expect(wrapper.find('.el-tag').text()).toBe(AXIOM)
       expect(inputValue.value).toEqual([AXIOM])
+    })
+    test('paste multiple delimiter', async () => {
+      const inputValue = ref<string[]>()
+      const addTag = vi.fn()
+      const wrapper = mount(() => (
+        <InputTag
+          v-model={inputValue.value}
+          delimiter={/\./}
+          onAdd-tag={addTag}
+        />
+      ))
+
+      await wrapper
+        .find('input')
+        .setValue(`${AXIOM}.${AXIOM}.${AXIOM}.${AXIOM}.`)
+
+      const result = [AXIOM, AXIOM, AXIOM, AXIOM]
+      expect(wrapper.findAll('.el-tag').length).toBe(4)
+      expect(addTag).toBeCalledWith(result)
+      wrapper
+        .findAll('.el-tag')
+        .forEach((tag) => expect(tag.text()).toBe(AXIOM))
+      expect(inputValue.value).toEqual(result)
     })
   })
 
@@ -283,13 +312,13 @@ describe('InputTag.vue', () => {
       ))
 
       await wrapper.find('input').setValue(AXIOM)
-      await wrapper.find('input').trigger('keydown', { code: EVENT_CODE.enter })
+      await wrapper.find('input').trigger('keyup', { code: EVENT_CODE.enter })
       expect(handleModelValue).toHaveBeenCalledOnce()
       expect(handleModelValue).toHaveBeenCalledWith([AXIOM])
 
       await wrapper
         .find('input')
-        .trigger('keydown', { code: EVENT_CODE.backspace })
+        .trigger('keyup', { code: EVENT_CODE.backspace })
       expect(handleModelValue).toHaveBeenCalledTimes(2)
       expect(handleModelValue).toHaveBeenCalledWith([])
     })
@@ -302,13 +331,13 @@ describe('InputTag.vue', () => {
       ))
 
       await wrapper.find('input').setValue(AXIOM)
-      await wrapper.find('input').trigger('keydown', { code: EVENT_CODE.enter })
+      await wrapper.find('input').trigger('keyup', { code: EVENT_CODE.enter })
       expect(handleChange).toHaveBeenCalledOnce()
       expect(handleChange).toHaveBeenCalledWith([AXIOM])
 
       await wrapper
         .find('input')
-        .trigger('keydown', { code: EVENT_CODE.backspace })
+        .trigger('keyup', { code: EVENT_CODE.backspace })
       expect(handleChange).toHaveBeenCalledTimes(2)
       expect(handleChange).toHaveBeenCalledWith([])
     })
@@ -330,7 +359,7 @@ describe('InputTag.vue', () => {
       ))
 
       await wrapper.find('input').setValue(AXIOM)
-      await wrapper.find('input').trigger('keydown', { code: EVENT_CODE.enter })
+      await wrapper.find('input').trigger('keyup', { code: EVENT_CODE.enter })
       expect(handleTagAdd).toHaveBeenCalledOnce()
       expect(handleTagAdd).toHaveBeenCalledWith(AXIOM)
     })
@@ -344,19 +373,19 @@ describe('InputTag.vue', () => {
 
       await wrapper.find('.el-tag__close').trigger('click')
       expect(handleTagRemove).toHaveBeenCalledOnce()
-      expect(handleTagRemove).toHaveBeenCalledWith(AXIOM)
+      expect(handleTagRemove).toHaveBeenCalledWith(AXIOM, 0)
       expect(inputValue.value).toEqual([AXIOM])
 
       await wrapper
         .find('input')
-        .trigger('keydown', { code: EVENT_CODE.backspace })
+        .trigger('keyup', { code: EVENT_CODE.backspace })
       expect(handleTagRemove).toHaveBeenCalledTimes(2)
-      expect(handleTagRemove).toHaveBeenCalledWith(AXIOM)
+      expect(handleTagRemove).toHaveBeenNthCalledWith(2, AXIOM, 0)
       expect(inputValue.value).toEqual([])
 
       await wrapper
         .find('input')
-        .trigger('keydown', { code: EVENT_CODE.backspace })
+        .trigger('keyup', { code: EVENT_CODE.backspace })
       expect(handleTagRemove).toHaveBeenCalledTimes(2)
     })
 
@@ -443,6 +472,58 @@ describe('InputTag.vue', () => {
       expect(formItem.attributes().role).toBeFalsy()
       expect(input.attributes().id).toBe('input-tag')
       expect(formItemLabel.attributes().for).toBe(input.attributes().id)
+    })
+
+    test('collapseTags', async () => {
+      const wrapper = mount(() => (
+        <InputTag
+          modelValue={['tag1', 'tag2', 'tag3', 'tag4', 'tag5']}
+          collapseTags
+        />
+      ))
+
+      const tags = wrapper.findAll('.el-tag')
+      expect(tags.length).toBe(2)
+      expect(tags[0].text()).toBe('tag1')
+      expect(tags[1].text()).toBe('+ 4')
+    })
+
+    test('collapseTagsTooltip', async () => {
+      const wrapper = mount(() => (
+        <InputTag
+          modelValue={['tag1', 'tag2', 'tag3', 'tag4', 'tag5']}
+          collapseTags
+          collapseTagsTooltip
+        />
+      ))
+
+      const tags = wrapper.findAll('.el-tag')
+      expect(tags.length).toBe(2)
+      expect(tags[0].text()).toBe('tag1')
+      expect(tags[1].text()).toBe('+ 4')
+
+      await tags[1].trigger('mouseenter')
+      await nextTick()
+
+      const tooltip = wrapper.findComponent({ name: 'ElTooltip' })
+      expect(tooltip.exists()).toBe(true)
+    })
+
+    test('maxCollapseTags', async () => {
+      const wrapper = mount(() => (
+        <InputTag
+          modelValue={['tag1', 'tag2', 'tag3', 'tag4', 'tag5']}
+          collapseTags
+          maxCollapseTags={3}
+        />
+      ))
+
+      const tags = wrapper.findAll('.el-tag')
+      expect(tags.length).toBe(4)
+      expect(tags[0].text()).toBe('tag1')
+      expect(tags[1].text()).toBe('tag2')
+      expect(tags[2].text()).toBe('tag3')
+      expect(tags[3].text()).toBe('+ 2')
     })
   })
 })

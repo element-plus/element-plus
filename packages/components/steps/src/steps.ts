@@ -1,7 +1,8 @@
 import { CHANGE_EVENT } from '@element-plus/constants'
 import { buildProps, isNumber } from '@element-plus/utils'
+
 import type Steps from './steps.vue'
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 
 export const stepsProps = buildProps({
   /**
@@ -56,6 +57,7 @@ export const stepsProps = buildProps({
   },
 } as const)
 export type StepsProps = ExtractPropTypes<typeof stepsProps>
+export type StepsPropsPublic = __ExtractPublicPropTypes<typeof stepsProps>
 
 export const stepsEmits = {
   [CHANGE_EVENT]: (newVal: number, oldVal: number) =>

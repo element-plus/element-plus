@@ -149,6 +149,7 @@ export default {
       next: '下一步',
       previous: '上一步',
       finish: '結束導覽',
+      close: '關閉此對話框',
     },
     tree: {
       emptyText: '暫無資料',

@@ -1,7 +1,8 @@
 import { useSizeProp } from '@element-plus/hooks'
 import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 import { Loading } from '@element-plus/icons-vue'
-import type { Component, ExtractPropTypes } from 'vue'
+
+import type { Component, ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 
 export const buttonTypes = [
   'default',
@@ -71,7 +72,10 @@ export const buttonProps = buildProps({
   /**
    * @description determine whether it's a text button
    */
-  text: Boolean,
+  text: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description determine whether it's a link button
    */
@@ -123,6 +127,7 @@ export const buttonEmits = {
 }
 
 export type ButtonProps = ExtractPropTypes<typeof buttonProps>
+export type ButtonPropsPublic = __ExtractPublicPropTypes<typeof buttonProps>
 export type ButtonEmits = typeof buttonEmits
 
 export type ButtonType = ButtonProps['type']
@@ -131,6 +136,7 @@ export type ButtonNativeType = ButtonProps['nativeType']
 export interface ButtonConfigContext {
   type?: string
   plain?: boolean
+  text?: boolean
   round?: boolean
   autoInsertSpace?: boolean
 }

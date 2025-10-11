@@ -48,7 +48,7 @@ const formClasses = computed(() => {
 })
 
 const getField: FormContext['getField'] = (prop) => {
-  return fields.find((field) => field.prop === prop)
+  return filterFields(fields, [prop])[0]
 }
 
 const addField: FormContext['addField'] = (field) => {
@@ -108,7 +108,7 @@ const doValidateField = async (
   for (const field of fields) {
     try {
       await field.validate('')
-      if (field.validateState === 'error') field.resetField()
+      if (field.validateState === 'error' && !field.error) field.resetField()
     } catch (fields) {
       validationErrors = {
         ...validationErrors,
@@ -125,9 +125,10 @@ const validateField: FormContext['validateField'] = async (
   modelProps = [],
   callback
 ) => {
+  let result = false
   const shouldThrow = !isFunction(callback)
   try {
-    const result = await doValidateField(modelProps)
+    result = await doValidateField(modelProps)
     // When result is false meaning that the fields are not validatable
     if (result === true) {
       await callback?.(result)
@@ -148,13 +149,13 @@ const validateField: FormContext['validateField'] = async (
         formItem?.scrollIntoView(props.scrollIntoViewOptions)
       }
     }
-    await callback?.(false, invalidFields)
+    !result && (await callback?.(false, invalidFields))
     return shouldThrow && Promise.reject(invalidFields)
   }
 }
 
 const scrollToField = (prop: FormItemProp) => {
-  const field = filterFields(fields, prop)[0]
+  const field = getField(prop)
   if (field) {
     field.$el?.scrollIntoView(props.scrollIntoViewOptions)
   }
@@ -208,6 +209,10 @@ defineExpose({
    * @description Scroll to the specified fields.
    */
   scrollToField,
+  /**
+   * @description Get a field context.
+   */
+  getField,
   /**
    * @description All fields context.
    */

@@ -11,8 +11,9 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
+
 import type { Arrayable } from '@element-plus/utils'
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type { SliderMarkerProps } from './marker'
 import type Slider from './slider.vue'
 
@@ -178,6 +179,7 @@ export const sliderProps = buildProps({
   ...useAriaProps(['ariaLabel']),
 } as const)
 export type SliderProps = ExtractPropTypes<typeof sliderProps>
+export type SliderPropsPublic = __ExtractPublicPropTypes<typeof sliderProps>
 
 const isValidValue = (value: Arrayable<number>) =>
   isNumber(value) || (isArray(value) && value.every(isNumber))

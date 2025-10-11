@@ -75,7 +75,7 @@ alert/icon-description
 
 :::
 
-## With Delayed Attributes ^(2.9.12)
+## With Delayed Attributes ^(2.10.0)
 
 :::demo At last, this is an example with delayed attributes.
 
@@ -97,15 +97,15 @@ alert/delayed
 | close-text           | customized close button text.            | ^[string]                                                                  | —       |
 | show-icon            | whether a type icon is displayed.        | ^[boolean]                                                                 | false   |
 | effect               | theme style.                             | ^[enum]`'light' \| 'dark'`                                                 | light   |
-| show-after ^(2.9.12) | delay of appearance, in millisecond      | ^[number]                                                                  | 0       |
-| hide-after ^(2.9.12) | delay of disappear, in millisecond       | ^[number]                                                                  | 200     |
-| auto-close ^(2.9.12) | timeout in milliseconds to hide alert    | ^[number]                                                                  | 0       |
+| show-after ^(2.10.0) | delay of appearance, in millisecond      | ^[number]                                                                  | 0       |
+| hide-after ^(2.10.0) | delay of disappear, in millisecond       | ^[number]                                                                  | 200     |
+| auto-close ^(2.10.0) | timeout in milliseconds to hide alert    | ^[number]                                                                  | 0       |
 
 ### Events
 
 | Name           | Description                   | Type                                 |
 | -------------- | ----------------------------- | ------------------------------------ |
-| open ^(2.9.12) | trigger when alert is opened. | ^[Function]`() => void`              |
+| open ^(2.10.0) | trigger when alert is opened. | ^[Function]`() => void`              |
 | close          | trigger when alert is closed. | ^[Function]`(event?: Event) => void` |
 
 ### Slots

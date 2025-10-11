@@ -23,26 +23,30 @@
           </el-tag>
         </p>
         <div class="card-content">
-          <el-card
+          <a
             v-for="(item, index) in group.children"
             :key="index"
             tabindex="0"
-            shadow="hover"
-            @click="toPage(item.link)"
-            @keydown.enter="toPage(item.link)"
+            :href="withBase(item.link)"
           >
-            <template #header>
-              <el-text truncated>{{ item.text }}</el-text>
-              <span v-if="item.promotion" class="vp-tag">
-                {{ item.promotion }}
-              </span>
-            </template>
+            <el-card
+              shadow="hover"
+              @click.stop="toPage(item.link)"
+              @keydown.enter="toPage(item.link)"
+            >
+              <template #header>
+                <el-text truncated>{{ item.text }}</el-text>
+                <span v-if="item.promotion" class="vp-tag">
+                  {{ item.promotion }}
+                </span>
+              </template>
 
-            <template #default>
-              <component :is="getIcon(item.link)" v-if="getIcon(item.link)" />
-              <span v-else>Todo</span>
-            </template>
-          </el-card>
+              <template #default>
+                <component :is="getIcon(item.link)" v-if="getIcon(item.link)" />
+                <span v-else>Todo</span>
+              </template>
+            </el-card>
+          </a>
         </div>
       </div>
 
@@ -55,7 +59,7 @@
         Icons designed by
         <el-link
           type="primary"
-          :underline="false"
+          underline="never"
           href="https://github.com/daodaozz08"
           target="_blank"
         >
@@ -63,7 +67,7 @@
         </el-link>
         <el-link
           type="primary"
-          :underline="false"
+          underline="never"
           href="https://github.com/zhiwendesign"
           target="_blank"
         >
@@ -76,10 +80,12 @@
 
 <script lang="ts" setup>
 import { computed, nextTick, onMounted, ref } from 'vue'
-import { useRouter } from 'vitepress'
+import { useRouter, withBase } from 'vitepress'
 import { Search } from '@element-plus/icons-vue'
 import overviewLocale from '../../../i18n/component/overview.json'
+
 import type { InputInstance } from 'element-plus'
+
 import { useSidebar } from '~/composables/sidebar'
 import { useLang } from '~/composables/lang'
 import overviewIcons from '~/components/overview-icons'
@@ -109,7 +115,7 @@ const filteredSidebars = computed(() =>
 )
 
 const toPage = (link: string) => {
-  router.go(link)
+  router.go(withBase(link))
 }
 
 const getIcon = (link: string) => {
@@ -156,14 +162,18 @@ onMounted(() => {
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
         gap: 16px;
 
-        :deep(.el-card) {
-          cursor: pointer;
-          transition: none;
-
+        a {
+          border-radius: 4px;
           &:focus-visible {
             outline: 2px solid var(--el-color-primary);
             outline-offset: 1px;
           }
+        }
+
+        :deep(.el-card) {
+          width: 100%;
+          cursor: pointer;
+          transition: none;
 
           .el-card__header {
             display: flex;

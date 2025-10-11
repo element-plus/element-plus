@@ -1,9 +1,19 @@
 <script setup lang="ts">
-import { getCurrentInstance, provide, reactive, toRef, watch } from 'vue'
+import {
+  computed,
+  getCurrentInstance,
+  nextTick,
+  provide,
+  reactive,
+  toRef,
+  watch,
+} from 'vue'
 import { useNamespace, useOrderedChildren } from '@element-plus/hooks'
 import { useContainer, useResize, useSize } from './hooks'
 import { splitterProps } from './splitter'
-import { type PanelItemState, splitterRootContextKey } from './type'
+import { splitterRootContextKey } from './type'
+
+import type { PanelItemState } from './type'
 
 const ns = useNamespace('splitter')
 
@@ -15,16 +25,20 @@ const emits = defineEmits<{
   (e: 'resizeStart', index: number, sizes: number[]): void
   (e: 'resize', index: number, sizes: number[]): void
   (e: 'resizeEnd', index: number, sizes: number[]): void
+  (e: 'collapse', index: number, type: 'start' | 'end', sizes: number[]): void
 }>()
 
 const props = defineProps(splitterProps)
+const layout = toRef(props, 'layout')
+const lazy = toRef(props, 'lazy')
 
-const { containerEl, containerSize } = useContainer(toRef(props, 'layout'))
+const { containerEl, containerSize } = useContainer(layout)
 
 const {
   removeChild: unregisterPanel,
   children: panels,
-  addChild: sortPanel,
+  addChild: registerPanel,
+  ChildrenSorter: PanelsSorter,
 } = useOrderedChildren<PanelItemState>(getCurrentInstance()!, 'ElSplitterPanel')
 
 watch(panels, () => {
@@ -35,11 +49,22 @@ watch(panels, () => {
 
 const { percentSizes, pxSizes } = useSize(panels, containerSize)
 
-const { onMoveStart, onMoving, onMoveEnd, onCollapse, movingIndex } = useResize(
-  panels,
-  containerSize,
-  pxSizes
-)
+const {
+  lazyOffset,
+  movingIndex,
+  onMoveStart,
+  onMoving,
+  onMoveEnd,
+  onCollapse,
+} = useResize(panels, containerSize, pxSizes, lazy)
+
+const splitterStyles = computed(() => {
+  return {
+    [ns.cssVarBlockName('bar-offset')]: lazy.value
+      ? `${lazyOffset.value}px`
+      : undefined,
+  }
+})
 
 const onResizeStart = (index: number) => {
   onMoveStart(index)
@@ -48,12 +73,21 @@ const onResizeStart = (index: number) => {
 
 const onResize = (index: number, offset: number) => {
   onMoving(index, offset)
-  emits('resize', index, pxSizes.value)
+
+  if (!lazy.value) {
+    emits('resize', index, pxSizes.value)
+  }
 }
 
-const onResizeEnd = (index: number) => {
+const onResizeEnd = async (index: number) => {
   onMoveEnd()
+  await nextTick()
   emits('resizeEnd', index, pxSizes.value)
+}
+
+const onCollapsible = (index: number, type: 'start' | 'end') => {
+  onCollapse(index, type)
+  emits('collapse', index, type, pxSizes.value)
 }
 
 provide(
@@ -62,25 +96,28 @@ provide(
     panels,
     percentSizes,
     pxSizes,
-    layout: props.layout,
+    layout,
+    lazy,
     movingIndex,
     containerSize,
     onMoveStart: onResizeStart,
     onMoving: onResize,
     onMoveEnd: onResizeEnd,
-    onCollapse,
-    registerPanel: (panel: PanelItemState) => {
-      panels.value.push(panel)
-    },
-    sortPanel,
+    onCollapse: onCollapsible,
+    registerPanel,
     unregisterPanel,
   })
 )
 </script>
 
 <template>
-  <div ref="containerEl" :class="[ns.b(), ns.e(layout)]">
+  <div
+    ref="containerEl"
+    :class="[ns.b(), ns.e(layout)]"
+    :style="splitterStyles"
+  >
     <slot />
+    <panels-sorter />
     <!-- Prevent iframe touch events from breaking -->
     <div v-if="movingIndex" :class="[ns.e('mask'), ns.e(`mask-${layout}`)]" />
   </div>

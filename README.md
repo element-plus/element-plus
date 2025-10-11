@@ -7,7 +7,7 @@
     <img src="https://img.shields.io/npm/v/element-plus.svg" />
   </a>
   <a href="https://github.com/element-plus/element-plus">
-    <img src="https://img.shields.io/badge/node-%20%3E%3D%2018-47c219" />
+    <img src="https://img.shields.io/badge/node-%20%3E%3D%2020-47c219" />
   </a>
   <a href="https://npmcharts.com/compare/element-plus?minimal=true">
     <img src="https://img.shields.io/npm/dm/element-plus.svg" />
@@ -54,7 +54,7 @@ You can also try Element Plus out with the components built-in playground.
 
 #### Try it with code sandbox
 
-[![Edit element-plus](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/element-plus-demo-dxtcr)
+[![Edit element-plus](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/p/github/element-plus/element-plus-demo/main)
 
 <p align="center">
   <b>Special thanks to the generous sponsorship by:</b>
@@ -77,11 +77,6 @@ You can also try Element Plus out with the components built-in playground.
         </a>
       </td>
       <td align="center" valign="middle">
-        <a href="https://vue.misboot.com/#/login?from=element-plus" target="_blank">
-          <img width="150px" src="https://github.com/user-attachments/assets/ade8e7e6-f9a4-45d5-9006-44b548599a8d">
-        </a>
-      </td>
-      <td align="center" valign="middle">
         <a href="http://github.crmeb.net/u/Element?from=element-plus" target="_blank">
           <img width="150px" src="https://github.com/user-attachments/assets/18079452-986c-4c6e-84ec-fb6175c26567">
         </a>
@@ -98,11 +93,6 @@ You can also try Element Plus out with the components built-in playground.
       <td align="center" valign="middle">
         <a href="https://doc.buildadmin.com/?from=element-plus" target="_blank">
           <img width="130px" src="https://user-images.githubusercontent.com/17680888/173179536-30e35fd1-cd5a-482a-bc41-9d5f0aa66fd4.png">
-        </a>
-      </td>
-      <td align="center" valign="middle">
-        <a href="https://fantastic-admin.github.io/?from=element-plus" target="_blank">
-          <img width="130px" src="https://github.com/user-attachments/assets/0dbd9c02-d132-4c9e-a162-2b5a8728fc7e">
         </a>
       </td>
       <td align="center" valign="middle">

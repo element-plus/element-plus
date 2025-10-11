@@ -46,9 +46,21 @@ You need to use an additional plugin to import components you used.
 
 First you need to install `unplugin-vue-components` and `unplugin-auto-import`.
 
-```shell
-npm install -D unplugin-vue-components unplugin-auto-import
+::: code-group
+
+```shell [npm]
+$ npm install -D unplugin-vue-components unplugin-auto-import
 ```
+
+```shell [yarn]
+$ yarn add -D unplugin-vue-components unplugin-auto-import
+```
+
+```shell [pnpm]
+$ pnpm install -D unplugin-vue-components unplugin-auto-import
+```
+
+:::
 
 Then add the code below into your `Vite` or `Webpack` config file.
 
@@ -100,9 +112,21 @@ For more bundlers ([Rollup](https://rollupjs.org/), [Vue CLI](https://cli.vuejs.
 
 For Nuxt users, you only need to install `@element-plus/nuxt`.
 
-```shell
-npm install -D @element-plus/nuxt
+::: code-group
+
+```shell [npm]
+$ npm install -D @element-plus/nuxt
 ```
+
+```shell [yarn]
+$ yarn add -D @element-plus/nuxt
+```
+
+```shell [pnpm]
+$ pnpm install -D @element-plus/nuxt
+```
+
+:::
 
 Then add the code below into your config file.
 
@@ -129,6 +153,7 @@ And refer to the [docs](https://github.com/element-plus/unplugin-element-plus#re
 
 <script>
 import { ElButton } from 'element-plus'
+
 export default {
   components: { ElButton },
 }

@@ -2,7 +2,7 @@
 
 import { buildProps } from '@element-plus/utils'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type Popper from './popper.vue'
 
 const effects = ['light', 'dark'] as const
@@ -25,9 +25,9 @@ export const roleTypes = [
 ] as const
 
 export type PopperEffect =
-  | typeof effects[number]
+  | (typeof effects)[number]
   | (string & NonNullable<unknown>)
-export type PopperTrigger = typeof triggers[number]
+export type PopperTrigger = (typeof triggers)[number]
 
 export const popperProps = buildProps({
   role: {
@@ -38,6 +38,7 @@ export const popperProps = buildProps({
 } as const)
 
 export type PopperProps = ExtractPropTypes<typeof popperProps>
+export type PopperPropsPublic = __ExtractPublicPropTypes<typeof popperProps>
 
 export type PopperInstance = InstanceType<typeof Popper> & unknown
 

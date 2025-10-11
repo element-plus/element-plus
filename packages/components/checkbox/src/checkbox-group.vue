@@ -9,19 +9,32 @@
     "
     :aria-labelledby="isLabeledByFormItem ? formItem?.labelId : undefined"
   >
-    <slot />
+    <slot>
+      <component
+        :is="optionComponent"
+        v-for="(item, index) in options"
+        :key="index"
+        v-bind="getOptionProps(item)"
+      />
+    </slot>
   </component>
 </template>
 
 <script lang="ts" setup>
 import { computed, nextTick, provide, toRefs, watch } from 'vue'
-import { pick } from 'lodash-unified'
+import { isEqual, omit, pick } from 'lodash-unified'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { debugWarn } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { useFormItem, useFormItemInputId } from '@element-plus/components/form'
-import { checkboxGroupEmits, checkboxGroupProps } from './checkbox-group'
+import {
+  checkboxDefaultProps,
+  checkboxGroupEmits,
+  checkboxGroupProps,
+} from './checkbox-group'
 import { checkboxGroupContextKey } from './constants'
+import ElCheckbox from './checkbox.vue'
+import ElCheckboxButton from './checkbox-button.vue'
 
 import type { CheckboxGroupValueType } from './checkbox-group'
 
@@ -53,6 +66,24 @@ const modelValue = computed({
   },
 })
 
+const aliasProps = computed(() => ({
+  ...checkboxDefaultProps,
+  ...props.props,
+}))
+const getOptionProps = (option: Record<string, any>) => {
+  const { label, value, disabled } = aliasProps.value
+  const base = {
+    label: option[label],
+    value: option[value],
+    disabled: option[disabled],
+  }
+  return { ...omit(option, [label, value, disabled]), ...base }
+}
+
+const optionComponent = computed(() =>
+  props.type === 'button' ? ElCheckboxButton : ElCheckbox
+)
+
 provide(checkboxGroupContextKey, {
   ...pick(toRefs(props), [
     'size',
@@ -69,8 +100,8 @@ provide(checkboxGroupContextKey, {
 
 watch(
   () => props.modelValue,
-  () => {
-    if (props.validateEvent) {
+  (newVal, oldValue) => {
+    if (props.validateEvent && !isEqual(newVal, oldValue)) {
       formItem?.validate('change').catch((err) => debugWarn(err))
     }
   }

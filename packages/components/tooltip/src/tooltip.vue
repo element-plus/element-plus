@@ -6,6 +6,7 @@
       :trigger-keys="triggerKeys"
       :virtual-ref="virtualRef"
       :virtual-triggering="virtualTriggering"
+      :focus-on-target="focusOnTarget"
     >
       <slot v-if="$slots.default" />
     </el-tooltip-trigger>
@@ -38,6 +39,7 @@
       :virtual-triggering="virtualTriggering"
       :z-index="zIndex"
       :append-to="appendTo"
+      :loop="loop"
     >
       <slot name="content">
         <span v-if="rawContent" v-html="content" />
@@ -60,7 +62,6 @@ import {
   watch,
 } from 'vue'
 import { ElPopper, ElPopperArrow } from '@element-plus/components/popper'
-
 import { isBoolean } from '@element-plus/utils'
 import {
   useDelayedToggle,
@@ -72,6 +73,7 @@ import { TOOLTIP_INJECTION_KEY } from './constants'
 import { tooltipEmits, useTooltipModelToggle, useTooltipProps } from './tooltip'
 import ElTooltipTrigger from './trigger.vue'
 import ElTooltipContent from './content.vue'
+
 import type { TooltipContentInstance } from './content'
 import type { PopperInstance } from '@element-plus/components/popper'
 
@@ -124,12 +126,8 @@ provide(TOOLTIP_INJECTION_KEY, {
   id,
   open: readonly(open),
   trigger: toRef(props, 'trigger'),
-  onOpen: (event?: Event) => {
-    onOpen(event)
-  },
-  onClose: (event?: Event) => {
-    onClose(event)
-  },
+  onOpen,
+  onClose,
   onToggle: (event?: Event) => {
     if (unref(open)) {
       onClose(event)
@@ -189,7 +187,7 @@ defineExpose({
    */
   onOpen,
   /**
-   * @description expose onOpen function to mange el-tooltip open state
+   * @description expose onClose function to manage el-tooltip close state
    */
   onClose,
   /**

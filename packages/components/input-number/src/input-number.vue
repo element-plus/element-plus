@@ -6,6 +6,7 @@
       ns.is('disabled', inputNumberDisabled),
       ns.is('without-controls', !controls),
       ns.is('controls-right', controlsAtRight),
+      ns.is(align, !!align),
     ]"
     @dragstart.prevent
   >
@@ -54,8 +55,8 @@
       :name="name"
       :aria-label="ariaLabel"
       :validate-event="false"
-      @keydown.up.prevent="increase"
-      @keydown.down.prevent="decrease"
+      :inputmode="inputmode"
+      @keydown="handleKeydown"
       @blur="handleBlur"
       @focus="handleFocus"
       @input="handleInput"
@@ -85,6 +86,8 @@ import { vRepeatClick } from '@element-plus/directives'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import {
   debugWarn,
+  getEventCode,
+  getEventKey,
   isNumber,
   isString,
   isUndefined,
@@ -93,6 +96,7 @@ import {
 import { ArrowDown, ArrowUp, Minus, Plus } from '@element-plus/icons-vue'
 import {
   CHANGE_EVENT,
+  EVENT_CODE,
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
@@ -191,8 +195,44 @@ const getPrecision = (value: number | null | undefined) => {
 }
 const ensurePrecision = (val: number, coefficient: 1 | -1 = 1) => {
   if (!isNumber(val)) return data.currentValue
+  if (val >= Number.MAX_SAFE_INTEGER && coefficient === 1) {
+    debugWarn(
+      'InputNumber',
+      'The value has reached the maximum safe integer limit.'
+    )
+    return val
+  } else if (val <= Number.MIN_SAFE_INTEGER && coefficient === -1) {
+    debugWarn(
+      'InputNumber',
+      'The value has reached the minimum safe integer limit.'
+    )
+    return val
+  }
+
   // Solve the accuracy problem of JS decimal calculation by converting the value to integer.
   return toPrecision(val + props.step * coefficient)
+}
+const handleKeydown = (event: KeyboardEvent | Event) => {
+  const code = getEventCode(event as KeyboardEvent)
+  const key = getEventKey(event as KeyboardEvent)
+
+  if (props.disabledScientific && ['e', 'E'].includes(key)) {
+    event.preventDefault()
+    return
+  }
+
+  switch (code) {
+    case EVENT_CODE.up: {
+      event.preventDefault()
+      increase()
+      break
+    }
+    case EVENT_CODE.down: {
+      event.preventDefault()
+      decrease()
+      break
+    }
+  }
 }
 const increase = () => {
   if (props.readonly || inputNumberDisabled.value || maxDisabled.value) return
@@ -323,6 +363,13 @@ watch(
     }
   },
   { immediate: true }
+)
+
+watch(
+  () => props.precision,
+  () => {
+    data.currentValue = verifyValue(props.modelValue)
+  }
 )
 onMounted(() => {
   const { min, max, modelValue } = props

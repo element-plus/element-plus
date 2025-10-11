@@ -8,7 +8,7 @@
     :aria-label="!isLabeledByFormItem ? ariaLabel || 'segmented' : undefined"
     :aria-labelledby="isLabeledByFormItem ? formItem!.labelId : undefined"
   >
-    <div :class="[ns.e('group'), ns.m(props.direction)]">
+    <div :class="[ns.e('group'), ns.m(direction)]">
       <div :style="selectedStyle" :class="selectedCls" />
       <label
         v-for="(item, index) in options"
@@ -24,7 +24,7 @@
           @change="handleChange(item)"
         />
         <div :class="ns.e('item-label')">
-          <slot :item="item">{{ getLabel(item) }}</slot>
+          <slot :item="intoAny(item)">{{ getLabel(item) }}</slot>
         </div>
       </label>
     </div>
@@ -44,6 +44,7 @@ import {
 import { debugWarn, isObject } from '@element-plus/utils'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { defaultProps, segmentedEmits, segmentedProps } from './segmented'
+
 import type { Option } from './types'
 
 defineOptions({
@@ -81,6 +82,9 @@ const handleChange = (item: Option) => {
 }
 
 const aliasProps = computed(() => ({ ...defaultProps, ...props.props }))
+
+//FIXME: remove this when vue >=3.3
+const intoAny = (item: any) => item
 
 const getValue = (item: Option) => {
   return isObject(item) ? item[aliasProps.value.value] : item
@@ -129,13 +133,12 @@ const updateSelect = () => {
     state.focusVisible = false
     return
   }
-  const rect = selectedItem.getBoundingClientRect()
   state.isInit = true
   if (props.direction === 'vertical') {
-    state.height = rect.height
+    state.height = selectedItem.offsetHeight
     state.translateY = selectedItem.offsetTop
   } else {
-    state.width = rect.width
+    state.width = selectedItem.offsetWidth
     state.translateX = selectedItem.offsetLeft
   }
   try {

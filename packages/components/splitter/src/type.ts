@@ -1,9 +1,10 @@
-import type { InjectionKey, UnwrapRef } from 'vue'
+import type { InjectionKey, UnwrapRef, VNode } from 'vue'
 
 export type Layout = 'horizontal' | 'vertical'
 
 export type PanelItemState = UnwrapRef<{
   uid: number
+  getVnode: () => VNode
   el: HTMLElement
   collapsible: { start?: boolean; end?: boolean }
   max?: number | string
@@ -16,15 +17,15 @@ export type PanelItemState = UnwrapRef<{
 export interface SplitterRootContext {
   panels: PanelItemState[]
   layout: Layout
+  lazy: boolean
   containerSize: number
   movingIndex: { index: number; confirmed: boolean } | null
   percentSizes: number[]
   pxSizes: number[]
   registerPanel: (pane: PanelItemState) => void
-  sortPanel: (pane: PanelItemState) => void
-  unregisterPanel: (uid: number) => void
+  unregisterPanel: (pane: PanelItemState) => void
   onCollapse: (index: number, type: 'start' | 'end') => void
-  onMoveEnd: () => void
+  onMoveEnd: (index: number) => Promise<void>
   onMoveStart: (index: number) => void
   onMoving: (index: number, offset: number) => void
 }

@@ -57,21 +57,33 @@ splitter/size
 
 :::
 
+## Lazy ^(2.11.0)
+
+When `lazy` is enabled, the panel size will not update in real time during dragging, but only after the drag ends.
+
+:::demo
+
+splitter/lazy
+
+:::
+
 ## Splitter API
 
 ### Splitter Attributes
 
-| Name   | Description                      | Type                                | Default    |
-| ------ | -------------------------------- | ----------------------------------- | ---------- |
-| layout | Layout direction of the splitter | ^[enum]`'horizontal' \| 'vertical'` | horizontal |
+| Name           | Description                      | Type                                | Default    |
+| -------------- | -------------------------------- | ----------------------------------- | ---------- |
+| layout         | Layout direction of the splitter | ^[enum]`'horizontal' \| 'vertical'` | horizontal |
+| lazy ^(2.11.0) | Whether to enable lazy mode      | ^[boolean]                          | false      |
 
 ### Splitter Events
 
-| Name         | Description                                                              | type                                                  |
-| ------------ | ------------------------------------------------------------------------ | ----------------------------------------------------- |
-| resize-start | Triggered when starting to resize a panel, `index` is the drag bar index | ^[Function]`(index: number, sizes: number[]) => void` |
-| resize       | Triggered while resizing a panel, `index` is the drag bar index          | ^[Function]`(index: number, sizes: number[]) => void` |
-| resize-end   | Triggered when panel resizing ends, `index` is the drag bar index        | ^[Function]`(index: number, sizes: number[]) => void` |
+| Name               | Description                                                              | type                                                                          |
+| ------------------ | ------------------------------------------------------------------------ | ----------------------------------------------------------------------------- |
+| resize-start       | Triggered when starting to resize a panel, `index` is the drag bar index | ^[Function]`(index: number, sizes: number[]) => void`                         |
+| resize             | Triggered while resizing a panel, `index` is the drag bar index          | ^[Function]`(index: number, sizes: number[]) => void`                         |
+| resize-end         | Triggered when panel resizing ends, `index` is the drag bar index        | ^[Function]`(index: number, sizes: number[]) => void`                         |
+| collapse ^(2.10.3) | Triggered when a panel is collapsed, `index` is the drag bar index       | ^[Function]`(index: number, type: 'start' \| 'end', sizes: number[]) => void` |
 
 ## SplitterPanel API
 

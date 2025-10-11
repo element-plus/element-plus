@@ -9,7 +9,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-const color = ref('409EFF')
+const color = ref('#409EFF')
 </script>
 
 <style>

@@ -1,5 +1,5 @@
 import { markRaw, nextTick } from 'vue'
-import { mount } from '@vue/test-utils'
+import { flushPromises, mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
 import { User } from '@element-plus/icons-vue'
 import {
@@ -7,7 +7,6 @@ import {
   IMAGE_SUCCESS,
   mockImageEvent,
 } from '@element-plus/test-utils/mock'
-
 import Avatar from '../src/avatar.vue'
 
 describe('Avatar.vue', () => {
@@ -55,7 +54,12 @@ describe('Avatar.vue', () => {
     )
 
     await nextTick()
-    wrapper.emitted('error') && expect(wrapper.emitted('error')).toBeDefined()
+    const img = wrapper.find('img')
+    if (img.exists()) {
+      await img.trigger('error')
+    }
+    await flushPromises()
+    expect(wrapper.emitted('error')).toBeDefined()
     await nextTick()
     expect(wrapper.text()).toBe('fallback')
     expect(wrapper.find('img').exists()).toBe(false)
@@ -83,9 +87,10 @@ describe('Avatar.vue', () => {
     expect(wrapper.vm.hasLoadError).toBe(false)
     await wrapper.setProps({ src: IMAGE_FAIL })
     // wait error event trigger
-    await nextTick()
+    await flushPromises()
     expect(wrapper.vm.hasLoadError).toBe(true)
     await wrapper.setProps({ src: IMAGE_SUCCESS })
+    await flushPromises()
     expect(wrapper.vm.hasLoadError).toBe(false)
     expect(wrapper.find('img').exists()).toBe(true)
   })

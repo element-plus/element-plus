@@ -16,7 +16,11 @@ import { tableV2RowProps } from './row'
 import { tableV2HeaderProps } from './header'
 import { tableV2GridProps } from './grid'
 
-import type { CSSProperties, ExtractPropTypes } from 'vue'
+import type {
+  CSSProperties,
+  ExtractPropTypes,
+  __ExtractPublicPropTypes,
+} from 'vue'
 import type { SortOrder } from './constants'
 import type {
   Column,
@@ -175,7 +179,7 @@ export const tableV2Props = buildProps({
    */
   sortBy: {
     type: definePropType<SortBy>(Object),
-    default: () => ({} as { key: KeyType; order: SortOrder }),
+    default: () => ({}) as { key: KeyType; order: SortOrder },
   },
   sortState: {
     type: definePropType<SortState>(Object),
@@ -201,3 +205,4 @@ export const tableV2Props = buildProps({
 } as const)
 
 export type TableV2Props = ExtractPropTypes<typeof tableV2Props>
+export type TableV2PropsPublic = __ExtractPublicPropTypes<typeof tableV2Props>

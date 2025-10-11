@@ -7,7 +7,8 @@ import {
   mutable,
 } from '@element-plus/utils'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import type { ExtractPropTypes } from 'vue'
+
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type { Arrayable, Awaitable } from '@element-plus/utils'
 
 export type CollapseActiveName = string | number
@@ -47,6 +48,7 @@ export const collapseProps = buildProps({
   },
 } as const)
 export type CollapseProps = ExtractPropTypes<typeof collapseProps>
+export type CollapsePropsPublic = __ExtractPublicPropTypes<typeof collapseProps>
 
 export const collapseEmits = {
   [UPDATE_MODEL_EVENT]: emitChangeFn,

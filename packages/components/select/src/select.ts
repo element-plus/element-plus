@@ -5,18 +5,19 @@ import {
   useEmptyValuesProps,
   useSizeProp,
 } from '@element-plus/hooks'
-import {
-  EmitFn,
-  buildProps,
-  definePropType,
-  iconPropType,
-} from '@element-plus/utils'
+import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { ArrowDown, CircleClose } from '@element-plus/icons-vue'
 import { tagProps } from '@element-plus/components/tag'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { defaultProps } from '@element-plus/components/select-v2/src/useProps'
 
-import type { ExtractPropTypes } from 'vue'
+import type { EmitFn } from '@element-plus/utils'
+import type {
+  CSSProperties,
+  ExtractPropTypes,
+  __ExtractPublicPropTypes,
+} from 'vue'
 import type Select from './select.vue'
 import type {
   Options,
@@ -24,6 +25,7 @@ import type {
   PopperEffect,
 } from '@element-plus/components/popper'
 import type { OptionValue } from './type'
+import type { Props } from '@element-plus/components/select-v2/src/useProps'
 
 export const selectProps = buildProps({
   /**
@@ -38,7 +40,7 @@ export const selectProps = buildProps({
    * @description binding value
    */
   modelValue: {
-    type: definePropType<OptionValue | OptionValue[]>([
+    type: definePropType<OptionValue | OptionValue[] | null>([
       Array,
       String,
       Number,
@@ -97,11 +99,17 @@ export const selectProps = buildProps({
     default: '',
   },
   /**
+   * @description custom style for Select's dropdown
+   */
+  popperStyle: {
+    type: definePropType<string | CSSProperties>([String, Object]),
+  },
+  /**
    * @description [popper.js](https://popper.js.org/docs/v2/) parameters
    */
   popperOptions: {
     type: definePropType<Partial<Options>>(Object),
-    default: () => ({} as Partial<Options>),
+    default: () => ({}) as Partial<Options>,
   },
   /**
    * @description whether options are loaded from server
@@ -120,13 +128,17 @@ export const selectProps = buildProps({
    */
   noDataText: String,
   /**
-   * @description custom remote search method
+   * @description function that gets called when the input value changes. Its parameter is the current input value. To use this, `filterable` must be true
    */
-  remoteMethod: Function,
+  remoteMethod: {
+    type: definePropType<(query: string) => void>(Function),
+  },
   /**
-   * @description custom filter method
+   * @description custom filter method, the first parameter is the current input value. To use this, `filterable` must be true
    */
-  filterMethod: Function,
+  filterMethod: {
+    type: definePropType<(query: string) => void>(Function),
+  },
   /**
    * @description whether multiple-select is activated
    */
@@ -209,7 +221,7 @@ export const selectProps = buildProps({
   /**
    * @description tag type
    */
-  // eslint-disable-next-line vue/require-prop-types
+
   tagType: { ...tagProps.type, default: 'info' },
   /**
    * @description tag effect
@@ -266,6 +278,13 @@ export const selectProps = buildProps({
    * @description which element the selection dropdown appends to
    */
   appendTo: useTooltipContentProps.appendTo,
+  options: {
+    type: definePropType<Record<string, any>[]>(Array),
+  },
+  props: {
+    type: definePropType<SelectOptionProps>(Object),
+    default: () => defaultProps,
+  },
   ...useEmptyValuesProps,
   ...useAriaProps(['ariaLabel']),
 })
@@ -283,5 +302,7 @@ export const selectEmits = {
 /* eslint-enable @typescript-eslint/no-unused-vars */
 
 export type SelectProps = ExtractPropTypes<typeof selectProps>
+export type SelectPropsPublic = __ExtractPublicPropTypes<typeof selectProps>
 export type SelectEmits = EmitFn<typeof selectEmits>
 export type SelectInstance = InstanceType<typeof Select> & unknown
+export type SelectOptionProps = Props

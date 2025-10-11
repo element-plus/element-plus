@@ -204,9 +204,9 @@ const TableV2 = defineComponent({
         scrollbarStartGap: 2,
         scrollbarEndGap: vScrollbarSize,
         width: rightColumnsWidth,
-        style: `--${unref(
-          ns.namespace
-        )}-table-scrollbar-size: ${vScrollbarSize}px` as unknown as CSSProperties,
+        style: `${ns.cssVarName(
+          'table-scrollbar-size'
+        )}: ${vScrollbarSize}px` as unknown as CSSProperties,
         useIsScrolling,
         getRowHeight,
         onScroll: onVerticalScroll,

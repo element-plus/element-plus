@@ -1,0 +1,288 @@
+@use 'mixins/mixins' as *;
+@use 'common/var' as *;
+
+@mixin disable {
+  cursor: not-allowed;
+  opacity: 0.3;
+}
+
+@mixin alpha-bg {
+  background-image:
+    linear-gradient(
+      45deg,
+      getCssVar('color-picker', 'alpha-bg-a') 25%,
+      getCssVar('color-picker', 'alpha-bg-b') 25%
+    ),
+    linear-gradient(
+      135deg,
+      getCssVar('color-picker', 'alpha-bg-a') 25%,
+      getCssVar('color-picker', 'alpha-bg-b') 25%
+    ),
+    linear-gradient(
+      45deg,
+      getCssVar('color-picker', 'alpha-bg-b') 75%,
+      getCssVar('color-picker', 'alpha-bg-a') 75%
+    ),
+    linear-gradient(
+      135deg,
+      getCssVar('color-picker', 'alpha-bg-b') 75%,
+      getCssVar('color-picker', 'alpha-bg-a') 75%
+    );
+  background-size: 12px 12px;
+  background-position:
+    0 0,
+    6px 0,
+    6px -6px,
+    0 6px;
+}
+
+@mixin color-picker-thumb {
+  position: absolute;
+  cursor: pointer;
+  box-sizing: border-box;
+  left: 0;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  border-radius: 1px;
+  background: #fff;
+  border: 1px solid getCssVar('border-color', 'lighter');
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
+  z-index: 1;
+
+  &:focus-visible {
+    outline: 2px solid getCssVar('color-primary');
+    outline-offset: 1px;
+  }
+}
+
+@mixin bar-background($side: right) {
+  background: linear-gradient(
+    to $side,
+    #f00 0%,
+    #ff0 17%,
+    #0f0 33%,
+    #0ff 50%,
+    #00f 67%,
+    #f0f 83%,
+    #f00 100%
+  );
+}
+
+@include b(color-picker-panel) {
+  width: 300px;
+  padding: 12px;
+  box-sizing: content-box;
+  background: getCssVar('bg-color', 'overlay');
+
+  @include when(border) {
+    border: solid 1px getCssVar('border-color-lighter');
+    border-radius: 4px;
+  }
+
+  @include e(wrapper) {
+    margin-bottom: 6px;
+
+    @include e(footer) {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 12px;
+      text-align: right;
+      @include b(input) {
+        line-height: 26px;
+        font-size: 12px;
+        color: $color-black;
+        width: 160px;
+      }
+    }
+  }
+
+  @include when(disabled) {
+    @include b(color-svpanel) {
+      @include disable;
+    }
+    @include b(color-hue-slider) {
+      @include disable;
+    }
+    @include e(thumb) {
+      cursor: not-allowed;
+    }
+    @include b(color-alpha-slider) {
+      @include disable;
+    }
+    @include b(color-predefine) {
+      @include e(color-selector) {
+        @include disable;
+      }
+    }
+  }
+}
+
+@include b(color-predefine) {
+  display: flex;
+  font-size: 12px;
+  margin-top: 8px;
+  width: 280px;
+
+  @include e(colors) {
+    display: flex;
+    gap: 8px;
+    flex: 1;
+    flex-wrap: wrap;
+  }
+
+  @include e(color-selector) {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &.selected {
+      box-shadow: 0 0 3px 2px getCssVar('color-primary');
+    }
+
+    > div {
+      display: flex;
+      height: 100%;
+      border-radius: 3px;
+    }
+
+    @include when(alpha) {
+      background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAIAAADZF8uwAAAAGUlEQVQYV2M4gwH+YwCGIasIUwhT25BVBADtzYNYrHvv4gAAAABJRU5ErkJggg==);
+    }
+  }
+}
+
+@include b(color-hue-slider) {
+  position: relative;
+  box-sizing: border-box;
+  width: 280px;
+  height: 12px;
+  background-color: #f00;
+  padding: 0 2px;
+  float: right;
+
+  @include e(bar) {
+    position: relative;
+    @include bar-background;
+    height: 100%;
+  }
+
+  @include e(thumb) {
+    @include color-picker-thumb;
+  }
+
+  @include when(vertical) {
+    width: 12px;
+    height: 180px;
+    padding: 2px 0;
+
+    .#{$namespace}-color-hue-slider__bar {
+      @include bar-background(bottom);
+    }
+
+    .#{$namespace}-color-hue-slider__thumb {
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 4px;
+    }
+  }
+}
+
+@include b(color-svpanel) {
+  position: relative;
+  width: 280px;
+  height: 180px;
+
+  @include e(('white', 'black')) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  @include e('white') {
+    background: linear-gradient(to right, #fff, rgba(255, 255, 255, 0));
+  }
+
+  @include e('black') {
+    background: linear-gradient(to top, #000, rgba(0, 0, 0, 0));
+  }
+
+  @include e(cursor) {
+    position: absolute;
+
+    > div {
+      cursor: head;
+      width: 4px;
+      height: 4px;
+      box-shadow:
+        0 0 0 1.5px #fff,
+        inset 0 0 1px 1px rgba(0, 0, 0, 0.3),
+        0 0 1px 2px rgba(0, 0, 0, 0.4);
+      border-radius: 50%;
+      transform: translate(-2px, -2px);
+    }
+  }
+}
+
+@include b(color-alpha-slider) {
+  position: relative;
+  box-sizing: border-box;
+  width: 280px;
+  height: 12px;
+  @include alpha-bg;
+
+  @include when(disabled) {
+    @include e(thumb) {
+      cursor: not-allowed;
+    }
+  }
+
+  @include e(bar) {
+    position: relative;
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0) 0%,
+      getCssVar('bg-color') 100%
+    );
+    height: 100%;
+  }
+
+  @include e(thumb) {
+    @include color-picker-thumb;
+  }
+
+  @include when(vertical) {
+    width: 20px;
+    height: 180px;
+
+    .#{$namespace}-color-alpha-slider__bar {
+      background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 1) 100%
+      );
+    }
+
+    .#{$namespace}-color-alpha-slider__thumb {
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 4px;
+    }
+  }
+}
+
+.#{bem('color-picker-panel')} {
+  @include set-css-var-value(('color-picker', 'alpha-bg-a'), '#ccc');
+  @include set-css-var-value(('color-picker', 'alpha-bg-b'), 'transparent');
+}
+
+.dark {
+  .#{bem('color-picker-panel')} {
+    @include set-css-var-value(('color-picker', 'alpha-bg-a'), '#333333');
+  }
+}

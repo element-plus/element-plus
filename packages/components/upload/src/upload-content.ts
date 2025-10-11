@@ -1,7 +1,7 @@
 import { NOOP, buildProps, definePropType } from '@element-plus/utils'
 import { uploadBaseProps } from './upload'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type {
   UploadFile,
   UploadHooks,
@@ -19,9 +19,7 @@ export const uploadContentProps = buildProps({
     default: NOOP,
   },
   onRemove: {
-    type: definePropType<
-      (file: UploadFile | UploadRawFile, rawFile?: UploadRawFile) => void
-    >(Function),
+    type: definePropType<(file: UploadFile | UploadRawFile) => void>(Function),
     default: NOOP,
   },
   onStart: {
@@ -53,5 +51,8 @@ export const uploadContentProps = buildProps({
 } as const)
 
 export type UploadContentProps = ExtractPropTypes<typeof uploadContentProps>
+export type UploadContentPropsPublic = __ExtractPublicPropTypes<
+  typeof uploadContentProps
+>
 
 export type UploadContentInstance = InstanceType<typeof UploadContent> & unknown

@@ -1,6 +1,7 @@
 import { withInstall, withNoopInstall } from '@element-plus/utils'
 import Button from './src/button.vue'
 import ButtonGroup from './src/button-group.vue'
+
 import type { SFCWithInstall } from '@element-plus/utils'
 
 export const ElButton: SFCWithInstall<typeof Button> & {

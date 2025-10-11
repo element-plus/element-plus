@@ -6,6 +6,7 @@ import { Checked, CircleClose, Hide, View } from '@element-plus/icons-vue'
 import { ElFormItem } from '@element-plus/components/form'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import Switch from '../src/switch.vue'
+
 import type { VueWrapper } from '@vue/test-utils'
 import type { SwitchInstance } from '../src/switch'
 
@@ -361,20 +362,19 @@ describe('Switch.vue', () => {
     test('custom switch action slots', async () => {
       const value = ref(true)
       const wrapper = mount({
-        setup: () => () =>
-          (
-            <Switch
-              v-model={value.value}
-              v-slots={{
-                'active-action': () => (
-                  <span class="custom-active-action">T</span>
-                ),
-                'inactive-action': () => (
-                  <span class="custom-inactive-action">F</span>
-                ),
-              }}
-            />
-          ),
+        setup: () => () => (
+          <Switch
+            v-model={value.value}
+            v-slots={{
+              'active-action': () => (
+                <span class="custom-active-action">T</span>
+              ),
+              'inactive-action': () => (
+                <span class="custom-inactive-action">F</span>
+              ),
+            }}
+          />
+        ),
       })
       await nextTick()
 

@@ -5,8 +5,11 @@ import { EVENT_CODE } from '@element-plus/constants'
 import Tabs from '../src/tabs'
 import TabPane from '../src/tab-pane.vue'
 import TabNav from '../src/tab-nav'
-import type { TabPaneName } from '../src/tabs'
-import type { TabsPaneContext } from '@element-plus/components/tabs'
+
+import type {
+  TabPaneName,
+  TabsPaneContext,
+} from '@element-plus/components/tabs'
 
 const Comp = defineComponent({
   components: {
@@ -195,6 +198,7 @@ describe('Tabs.vue', () => {
         title: 'Tab 3',
         name: '3',
         content: 'Tab 3 content',
+        closable: false,
       },
     ])
     const tabIndex = ref(3)
@@ -237,7 +241,12 @@ describe('Tabs.vue', () => {
         onEdit={handleTabsEdit}
       >
         {editableTabs.value.map((tab) => (
-          <TabPane key={tab.name} label={tab.title} name={tab.name}>
+          <TabPane
+            key={tab.name}
+            label={tab.title}
+            name={tab.name}
+            closable={tab.closable}
+          >
             {tab.content}
           </TabPane>
         ))}
@@ -253,6 +262,8 @@ describe('Tabs.vue', () => {
     expect(navItemsWrapper.length).toEqual(3)
     expect(panesWrapper.length).toEqual(3)
     expect(navItemsWrapper[1].classes('is-active')).toBe(true)
+    expect(navWrapper.findAll('.is-icon-close').length).toEqual(2)
+    expect(navItemsWrapper[2].find('.is-icon-close').exists()).toBeFalsy()
 
     // remove one tab, check panes length
     await navItemsWrapper[1].find('.is-icon-close').trigger('click')
@@ -261,6 +272,8 @@ describe('Tabs.vue', () => {
     navItemsWrapper = navWrapper.findAll('.el-tabs__item')
     expect(navItemsWrapper.length).toEqual(2)
     expect(panesWrapper.length).toEqual(2)
+    expect(navWrapper.findAll('.is-icon-close').length).toEqual(1)
+    expect(navItemsWrapper[1].find('.is-icon-close').exists()).toBeFalsy()
 
     // add one tab, check panes length and current tab
     await wrapper.find('.el-tabs__new-tab').trigger('click')
@@ -271,6 +284,8 @@ describe('Tabs.vue', () => {
     expect(navItemsWrapper.length).toEqual(3)
     expect(panesWrapper.length).toEqual(3)
     expect(navItemsWrapper[2].classes('is-active')).toBe(true)
+    expect(navWrapper.findAll('.is-icon-close').length).toEqual(2)
+    expect(navItemsWrapper[1].find('.is-icon-close').exists()).toBeFalsy()
   })
 
   test('addable & closable', async () => {
@@ -395,12 +410,12 @@ describe('Tabs.vue', () => {
 
   test('closable in tab-pane', async () => {
     const wrapper = mount(() => (
-      <Tabs type="card" ref="tabs">
-        <TabPane label="label-1" closable>
+      <Tabs type="card" ref="tabs" closable={true}>
+        <TabPane label="label-1" closable={false}>
           A
         </TabPane>
         <TabPane label="label-2">B</TabPane>
-        <TabPane label="label-3" closable>
+        <TabPane label="label-3" closable={false}>
           C
         </TabPane>
         <TabPane label="label-4">D</TabPane>
@@ -408,9 +423,12 @@ describe('Tabs.vue', () => {
     ))
 
     const navWrapper = wrapper.findComponent(TabNav)
+    const navItemsWrapper = navWrapper.findAll('.el-tabs__item')
     await nextTick()
 
     expect(navWrapper.findAll('.is-icon-close').length).toBe(2)
+    expect(navItemsWrapper[0].find('.is-icon-close').exists()).toBeFalsy()
+    expect(navItemsWrapper[2].find('.is-icon-close').exists()).toBeFalsy()
   })
 
   test('disabled', async () => {
@@ -946,5 +964,80 @@ describe('Tabs.vue', () => {
 
     // Verify the model value has been updated
     expect(activeName.value).toBe('tab2')
+  })
+
+  test('tab order should update when v-for array is reordered', async () => {
+    const itemList = ref([
+      { key: 'a', value: 'A' },
+      { key: 'b', value: 'B' },
+      { key: 'c', value: 'C' },
+      { key: 'd', value: 'D' },
+    ])
+
+    const wrapper = mount(() => (
+      <Tabs>
+        {itemList.value.map((item) => (
+          <TabPane key={item.key} label={item.value}></TabPane>
+        ))}
+      </Tabs>
+    ))
+
+    await nextTick()
+
+    const navWrapper = wrapper.findComponent(TabNav)
+    let navItemsWrapper = navWrapper.findAll('.el-tabs__item')
+
+    // Check initial order
+    expect(navItemsWrapper[0].text()).toContain('A')
+    expect(navItemsWrapper[1].text()).toContain('B')
+    expect(navItemsWrapper[2].text()).toContain('C')
+    expect(navItemsWrapper[3].text()).toContain('D')
+
+    // Reverse the array
+    itemList.value.reverse()
+
+    await nextTick()
+
+    navItemsWrapper = navWrapper.findAll('.el-tabs__item')
+
+    // Check that the order has updated
+    expect(navItemsWrapper[0].text()).toContain('D')
+    expect(navItemsWrapper[1].text()).toContain('C')
+    expect(navItemsWrapper[2].text()).toContain('B')
+    expect(navItemsWrapper[3].text()).toContain('A')
+  })
+
+  test('label slot references an element in array', async () => {
+    const tabs = ref(['foo'])
+    const Comp = () =>
+      tabs.value.map((tab) => (
+        <TabPane>
+          {{
+            label: () => tab,
+          }}
+        </TabPane>
+      ))
+    const wrapper = mount(() => [
+      <Tabs>
+        {tabs.value.map((tab) => (
+          <TabPane>
+            {{
+              label: () => tab,
+            }}
+          </TabPane>
+        ))}
+      </Tabs>,
+      <Tabs>{Comp}</Tabs>,
+    ])
+
+    tabs.value = await new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(['bar'])
+      })
+    })
+    await nextTick()
+    wrapper
+      .findAll('.el-tabs__item')
+      .forEach((item) => expect(item.text()).toBe('bar'))
   })
 })
