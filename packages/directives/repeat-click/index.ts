@@ -7,7 +7,7 @@ export const REPEAT_DELAY = 600
 const SCOPE = '_RepeatClick'
 
 interface RepeatClickEl extends HTMLElement {
-  [SCOPE]: {
+  [SCOPE]: null | {
     start?: (evt: MouseEvent) => void
     clear?: () => void
   }
