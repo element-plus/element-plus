@@ -383,6 +383,54 @@ describe('Switch.vue', () => {
       expect(actionWrapper.find('.custom-active-action').exists()).toBeTruthy()
     })
 
+    test('should render correctly custom active & inactive slots', async () => {
+      const value = ref(true)
+      const activeText = 'active'
+      const inactiveText = 'inactive'
+      const wrapper = mount({
+        setup: () => () => (
+          <Switch
+            v-model={value.value}
+            v-slots={{
+              active: () => <span class="custom-active">{activeText}</span>,
+              inactive: () => (
+                <span class="custom-inactive">{inactiveText}</span>
+              ),
+            }}
+          />
+        ),
+      })
+      await nextTick()
+
+      expect(wrapper.find('.custom-active').text()).toBe(activeText)
+      expect(wrapper.find('.custom-inactive').text()).toBe(inactiveText)
+    })
+
+    test('should render correctly custom active & inactive slots when inline-prompt is true', async () => {
+      const value = ref(true)
+      const activeText = 'active'
+      const inactiveText = 'inactive'
+      const wrapper = mount({
+        setup: () => () => (
+          <Switch
+            v-model={value.value}
+            inlinePrompt
+            v-slots={{
+              active: () => <span class="custom-active">{activeText}</span>,
+              inactive: () => (
+                <span class="custom-inactive">{inactiveText}</span>
+              ),
+            }}
+          />
+        ),
+      })
+      await nextTick()
+
+      expect(wrapper.find('.custom-active').text()).toBe(activeText)
+      value.value = false
+      await nextTick()
+      expect(wrapper.find('.custom-inactive').text()).toBe(inactiveText)
+    })
     test('The disabled state of a component has higher priority than that of a form', async () => {
       const wrapper = mount(() => (
         <ElForm disabled>
