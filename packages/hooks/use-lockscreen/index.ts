@@ -4,7 +4,6 @@ import {
   getScrollBarWidth,
   getStyle,
   hasClass,
-  isClient,
   removeClass,
   throwError,
 } from '@element-plus/utils'
@@ -37,10 +36,6 @@ export const useLockscreen = (
   const ns = options.ns || useNamespace('popup')
 
   const hiddenCls = computed(() => ns.bm('parent', 'hidden'))
-
-  if (!isClient) {
-    return
-  }
 
   let scrollBarWidth = 0
   let withoutHiddenClass = false
