@@ -44,7 +44,7 @@ export const vRepeatClick: ObjectDirective<
       clear()
       handler()
 
-      document.addEventListener('mouseup', () => clear(), {
+      el.addEventListener('mouseup', () => clear(), {
         once: true,
       })
 
