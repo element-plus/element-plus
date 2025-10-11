@@ -75,6 +75,6 @@ export const vRepeatClick: ObjectDirective<
       clear()
       document.removeEventListener('mouseup', clear)
     }
-    el[SCOPE] = {}
+    el[SCOPE] = null
   },
 }
