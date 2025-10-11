@@ -81,8 +81,8 @@
     border: 1px dashed getCssVar('border-color', 'darker');
     border-radius: 6px;
     box-sizing: border-box;
-    width: getCssVar('upload-picture-card-size');
-    height: getCssVar('upload-picture-card-size');
+    width: getCssVar('upload', 'picture-card', 'size');
+    height: getCssVar('upload', 'picture-card', 'size');
     cursor: pointer;
     vertical-align: top;
 
@@ -355,8 +355,8 @@
       border: 1px solid getCssVar('border-color');
       border-radius: 6px;
       box-sizing: border-box;
-      width: getCssVar('upload-picture-card-size');
-      height: getCssVar('upload-picture-card-size');
+      width: getCssVar('upload', 'picture-card', 'size');
+      height: getCssVar('upload', 'picture-card', 'size');
       margin: 0 8px 8px 0;
       padding: 0;
 
