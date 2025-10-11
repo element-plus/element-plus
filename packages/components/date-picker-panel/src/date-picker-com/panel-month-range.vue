@@ -2,7 +2,7 @@
   <div
     :class="[
       ppNs.b(),
-      drpNs.b(),
+      isYearView ? dpNs.b() : drpNs.b(),
       ppNs.is('border', border),
       ppNs.is('disabled', disabled),
       {
@@ -10,7 +10,50 @@
       },
     ]"
   >
-    <div :class="ppNs.e('body-wrapper')">
+    <div v-if="isYearView" :class="ppNs.e('body')">
+      <div :class="[ppNs.e('content'), drpNs.e('content')]">
+        <div :class="drpNs.e('header')">
+          <button
+            type="button"
+            :class="ppNs.e('icon-btn')"
+            class="d-arrow-left"
+            :disabled="disabled"
+            @click="prevYearRange"
+          >
+            <slot name="prev-year">
+              <el-icon><d-arrow-left /></el-icon>
+            </slot>
+          </button>
+          <span :class="dpNs.e('header-label')">
+            {{ yearRangeLabel }}
+          </span>
+          <button
+            type="button"
+            :class="ppNs.e('icon-btn')"
+            class="d-arrow-right"
+            :disabled="disabled"
+            @click="nextYearRange"
+          >
+            <slot name="next-year">
+              <el-icon><d-arrow-right /></el-icon>
+            </slot>
+          </button>
+        </div>
+        <year-table
+          ref="leftCurrentViewRef"
+          selection-mode="range"
+          :date="leftCurrentView === 'year' ? leftDate : rightDate"
+          :min-date="minDate"
+          :max-date="maxDate"
+          :range-state="rangeState"
+          :disabled-date="disabledDate"
+          :disabled="disabled"
+          :cell-class-name="cellClassName"
+          @pick="handleYearRangePick"
+        />
+      </div>
+    </div>
+    <div v-else :class="ppNs.e('body-wrapper')">
       <slot name="sidebar" :class="ppNs.e('sidebar')" />
       <div v-if="hasShortcuts" :class="ppNs.e('sidebar')">
         <button
@@ -24,6 +67,7 @@
           {{ shortcut.text }}
         </button>
       </div>
+
       <div :class="ppNs.e('body')">
         <div :class="[ppNs.e('content'), drpNs.e('content')]" class="is-left">
           <div :class="drpNs.e('header')">
@@ -65,7 +109,6 @@
             </span>
           </div>
           <month-table
-            v-if="leftCurrentView === 'month'"
             ref="leftCurrentViewRef"
             selection-mode="range"
             :date="leftDate"
@@ -78,17 +121,6 @@
             @changerange="handleChangeRange"
             @pick="handleRangePick"
             @select="onSelect"
-          />
-          <year-table
-            v-if="leftCurrentView === 'year'"
-            ref="leftCurrentViewRef"
-            selection-mode="year"
-            :date="leftDate"
-            :parsed-value="leftDate"
-            :disabled-date="disabledDate"
-            :disabled="disabled"
-            :cell-class-name="cellClassName"
-            @pick="handleLeftYearPick"
           />
         </div>
         <div :class="[ppNs.e('content'), drpNs.e('content')]" class="is-right">
@@ -128,7 +160,6 @@
             </span>
           </div>
           <month-table
-            v-if="rightCurrentView === 'month'"
             ref="rightCurrentViewRef"
             selection-mode="range"
             :date="rightDate"
@@ -141,17 +172,6 @@
             @changerange="handleChangeRange"
             @pick="handleRangePick"
             @select="onSelect"
-          />
-          <year-table
-            v-if="rightCurrentView === 'year'"
-            ref="rightCurrentViewRef"
-            selection-mode="year"
-            :date="rightDate"
-            :parsed-value="rightDate"
-            :disabled-date="disabledDate"
-            :disabled="disabled"
-            :cell-class-name="cellClassName"
-            @pick="handleRightYearPick"
           />
         </div>
       </div>
@@ -253,50 +273,61 @@ const {
   showRightPicker,
 } = usePanelDateRange(panelProps, emit, leftDate, rightDate)
 
+const isYearView = computed(() => {
+  return leftCurrentView.value === 'year' || rightCurrentView.value === 'year'
+})
+
 const leftPrevYear = () => {
-  const isYearView = leftCurrentView.value === 'year'
-  const step = isYearView ? 10 : 1
+  const isAnyYearView =
+    leftCurrentView.value === 'year' || rightCurrentView.value === 'year'
+  const step = isAnyYearView ? 10 : 1
   leftDate.value = leftDate.value.subtract(step, 'year')
   if (!props.unlinkPanels) {
-    const interval = isYearView ? 10 : 1
+    const interval = isAnyYearView ? 10 : 1
     rightDate.value = leftDate.value.add(interval, 'year')
-  } else if (isYearView) {
+  } else if (isAnyYearView) {
     rightDate.value = leftDate.value.add(10, 'year')
   }
 }
 
 const rightNextYear = () => {
-  const isYearView = rightCurrentView.value === 'year'
-  const step = isYearView ? 10 : 1
+  const isAnyYearView =
+    leftCurrentView.value === 'year' || rightCurrentView.value === 'year'
+  const step = isAnyYearView ? 10 : 1
   if (!props.unlinkPanels) {
-    const interval = isYearView ? 10 : 1
-    leftDate.value = rightDate.value.subtract(interval, 'year')
-  } else if (isYearView) {
+    const interval = isAnyYearView ? 10 : 1
+    leftDate.value = leftDate.value.add(step, 'year')
+    rightDate.value = leftDate.value.add(interval, 'year')
+  } else if (isAnyYearView) {
     leftDate.value = rightDate.value.subtract(10, 'year')
+    rightDate.value = rightDate.value.add(step, 'year')
+  } else {
+    rightDate.value = rightDate.value.add(step, 'year')
   }
-  rightDate.value = rightDate.value.add(step, 'year')
 }
 
 const leftNextYear = () => {
-  const isYearView = leftCurrentView.value === 'year'
-  const step = isYearView ? 10 : 1
+  const isAnyYearView =
+    leftCurrentView.value === 'year' || rightCurrentView.value === 'year'
+  const step = isAnyYearView ? 10 : 1
   leftDate.value = leftDate.value.add(step, 'year')
   if (!props.unlinkPanels) {
-    const interval = isYearView ? 10 : 1
+    const interval = isAnyYearView ? 10 : 1
     rightDate.value = leftDate.value.add(interval, 'year')
-  } else if (isYearView) {
+  } else if (isAnyYearView) {
     rightDate.value = leftDate.value.add(10, 'year')
   }
 }
 
 const rightPrevYear = () => {
-  const isYearView = rightCurrentView.value === 'year'
-  const step = isYearView ? 10 : 1
+  const isAnyYearView =
+    leftCurrentView.value === 'year' || rightCurrentView.value === 'year'
+  const step = isAnyYearView ? 10 : 1
   rightDate.value = rightDate.value.subtract(step, 'year')
   if (!props.unlinkPanels) {
-    const interval = isYearView ? 10 : 1
+    const interval = isAnyYearView ? 10 : 1
     leftDate.value = rightDate.value.subtract(interval, 'year')
-  } else if (isYearView) {
+  } else if (isAnyYearView) {
     leftDate.value = rightDate.value.subtract(10, 'year')
   }
 }
@@ -315,23 +346,54 @@ const rightLabel = computed(() => {
   return baseRightLabel.value
 })
 
-const handleLeftYearPick = (year: number) => {
-  leftDate.value = leftDate.value.year(year)
-  if (!props.unlinkPanels) {
-    const isYearView = leftCurrentView.value === 'year'
-    const interval = isYearView ? 10 : 1
-    rightDate.value = leftDate.value.add(interval, 'year')
+const yearRangeLabel = computed(() => {
+  const date =
+    leftCurrentView.value === 'year' ? leftDate.value : rightDate.value
+  const startYear = Math.floor(date.year() / 10) * 10
+  return `${startYear}年-${startYear + 9}年`
+})
+
+const prevYearRange = () => {
+  const date =
+    leftCurrentView.value === 'year' ? leftDate.value : rightDate.value
+  const startYear = Math.floor(date.year() / 10) * 10
+  const newDate = date.year(startYear - 10)
+  if (leftCurrentView.value === 'year') {
+    leftDate.value = newDate
+  } else {
+    rightDate.value = newDate
   }
-  leftCurrentView.value = 'month'
 }
 
-const handleRightYearPick = (year: number) => {
-  rightDate.value = rightDate.value.year(year)
-  if (!props.unlinkPanels) {
-    const isYearView = rightCurrentView.value === 'year'
-    const interval = isYearView ? 10 : 1
-    leftDate.value = rightDate.value.subtract(interval, 'year')
+const nextYearRange = () => {
+  const date =
+    leftCurrentView.value === 'year' ? leftDate.value : rightDate.value
+  const startYear = Math.floor(date.year() / 10) * 10
+  const newDate = date.year(startYear + 10)
+  if (leftCurrentView.value === 'year') {
+    leftDate.value = newDate
+  } else {
+    rightDate.value = newDate
   }
+}
+
+const handleYearRangePick = (val: any) => {
+  const year = val.minDate.year()
+
+  if (leftCurrentView.value === 'year') {
+    leftDate.value = leftDate.value.year(year)
+    if (!props.unlinkPanels) {
+      const interval = 1
+      rightDate.value = leftDate.value.add(interval, 'year')
+    }
+  } else {
+    rightDate.value = rightDate.value.year(year)
+    if (!props.unlinkPanels) {
+      const interval = 1
+      leftDate.value = rightDate.value.subtract(interval, 'year')
+    }
+  }
+  leftCurrentView.value = 'month'
   rightCurrentView.value = 'month'
 }
 
@@ -387,7 +449,9 @@ function sortDates(minDate: Dayjs | undefined, maxDate: Dayjs | undefined) {
     rightDate.value =
       minDateYear === maxDateYear ? maxDate.add(1, unit) : maxDate
   } else {
-    rightDate.value = leftDate.value.add(1, unit)
+    const currentInterval = rightDate.value.diff(leftDate.value, 'year')
+    const interval = currentInterval >= 10 ? 10 : 1
+    rightDate.value = leftDate.value.add(interval, unit)
   }
 }
 
@@ -398,8 +462,17 @@ watch(
       parseValue(props.parsedValue)
       onSelect(false)
     }
+
+    if (visible) {
+      leftCurrentView.value = 'month'
+      rightCurrentView.value = 'month'
+    }
   }
 )
+
+watch(isYearView, () => {
+  emit('update-popper')
+})
 
 emit('set-picker-option', ['isValidValue', isValidRange])
 emit('set-picker-option', ['parseUserInput', parseUserInput])
