@@ -1565,7 +1565,10 @@ $upload: map.merge(
   (
     'dragger-padding-horizontal': 40px,
     'dragger-padding-vertical': 10px,
-    'list-picture-card-size': 148px,
+    'list-picture-card-size': var(
+        #{getCssVarName('upload', 'picture-card-size')}
+      ),
+    'picture-card-size': 148px,
   ),
   $upload
 );

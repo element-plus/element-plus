@@ -81,8 +81,8 @@
     border: 1px dashed getCssVar('border-color', 'darker');
     border-radius: 6px;
     box-sizing: border-box;
-    width: getCssVar('upload-list', 'picture-card', 'size');
-    height: getCssVar('upload-list', 'picture-card', 'size');
+    width: getCssVar('upload', 'picture-card', 'size');
+    height: getCssVar('upload', 'picture-card', 'size');
     cursor: pointer;
     vertical-align: top;
 
