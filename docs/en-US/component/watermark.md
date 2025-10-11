@@ -68,7 +68,7 @@ watermark/custom
 | Name              | Description   | Type                                                                                 | Default         |
 | ----------------- | ------------- | ------------------------------------------------------------------------------------ | --------------- |
 | color             | font color    | ^[string]                                                                            | rgba(0,0,0,.15) |
-| fontSize          | font size     | ^[number]                                                                            | 16              |
+| fontSize          | font size     | ^[number] / ^[string]                                                                | 16              |
 | fontWeight        | font weight   | ^[enum]`'normal' \| 'light' \| 'weight' \| number`                                   | normal          |
 | fontFamily        | font family   | ^[string]                                                                            | sans-serif      |
 | fontGap ^(2.11.5) | font gap      | ^[number]                                                                            | 3               |
