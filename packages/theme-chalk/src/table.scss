@@ -87,8 +87,8 @@
     transform-origin: center;
     padding: 0;
     margin: 0;
-    width: 19px;
-    height: 19px;
+    width: min(23px, 100%);
+    height: 23px;
     background-color: transparent;
     border: none;
     border-radius: getCssVar('border-radius', 'base');
@@ -96,6 +96,7 @@
 
     &:focus-visible {
       outline: 2px solid getCssVar('table', 'focus-border-color');
+      outline-offset: -2px;
     }
 
     @include m(expanded) {
