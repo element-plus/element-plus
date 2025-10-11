@@ -18,14 +18,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - run: npm i -g --force corepack && corepack enable
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          # cache: 'pnpm'
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v4
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
         run: pnpm install
