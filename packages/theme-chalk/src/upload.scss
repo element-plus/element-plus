@@ -81,8 +81,8 @@
     border: 1px dashed getCssVar('border-color', 'darker');
     border-radius: 6px;
     box-sizing: border-box;
-    width: getCssVarWithDefault('upload-picture-card-size', 148px);
-    height: getCssVarWithDefault('upload-picture-card-size', 148px);
+    width: getCssVar('upload-picture-card-size');
+    height: getCssVar('upload-picture-card-size');
     cursor: pointer;
     vertical-align: top;
 
@@ -163,6 +163,10 @@
     background-color: getCssVar('color', 'primary', 'light-9');
     border: 2px dashed getCssVar('color-primary');
   }
+}
+
+@include b(upload-list) {
+  @include set-component-css-var('upload', $upload);
 }
 
 @include b(upload-list) {
@@ -351,8 +355,8 @@
       border: 1px solid getCssVar('border-color');
       border-radius: 6px;
       box-sizing: border-box;
-      width: getCssVar('upload-list-picture-card-size', 148px);
-      height: getCssVar('upload-list-picture-card-size', 148px);
+      width: getCssVar('upload-picture-card-size');
+      height: getCssVar('upload-picture-card-size');
       margin: 0 8px 8px 0;
       padding: 0;
 
