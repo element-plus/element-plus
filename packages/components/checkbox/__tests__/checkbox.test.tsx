@@ -186,6 +186,34 @@ describe('Checkbox', () => {
     expect(checkboxes[2].classes()).toContain('is-disabled')
   })
 
+  test('checkbox group renders from options with checkbox-button', async () => {
+    const checkedValues = ref(['b'])
+    const options = [
+      { value: 'a', label: 'Option A' },
+      { value: 'b', label: 'Option B' },
+      { value: 'c', label: 'Option C', disabled: true },
+    ]
+    const wrapper = mount(() => (
+      <CheckboxGroup
+        v-model={checkedValues.value}
+        options={options}
+        type="button"
+      />
+    ))
+    await nextTick()
+    const checkboxes = wrapper.findAll('.el-checkbox-button')
+    expect(checkboxes[1].classes()).toContain('is-checked')
+    await checkboxes[0].trigger('click')
+    expect(checkedValues.value).toEqual(['b', 'a'])
+    expect(checkboxes[0].classes()).toContain('is-checked')
+    await checkboxes[1].trigger('click')
+    expect(checkedValues.value).toEqual(['a'])
+    expect(checkboxes[1].classes()).not.toContain('is-checked')
+    await checkboxes[2].trigger('click')
+    expect(checkedValues.value).toEqual(['a'])
+    expect(checkboxes[2].classes()).toContain('is-disabled')
+  })
+
   test('should avoid passing alias fields to el-checkbox', async () => {
     const modelValue = ref(1)
     const options = [{ value: '3', name: 'Option A' }]
