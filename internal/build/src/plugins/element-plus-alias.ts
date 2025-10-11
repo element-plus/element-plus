@@ -1,5 +1,5 @@
 import path from 'node:path'
-import { fileURLToPath } from 'node:url'
+import fs from 'node:fs'
 
 import type { PartialResolvedId, Plugin } from 'rollup'
 
@@ -36,12 +36,31 @@ export function ElementPlusAlias(): Plugin {
     name: 'element-plus-alias',
     resolveId(id) {
       const packageName = packages.find((p) => id.startsWith(p))
-      if (packageName) {
-        return {
-          id: id.replace(packageName, alias[packageName].replacement),
-          external: alias[packageName].external,
-        }
+      if (!packageName) return
+
+      const aliasOption = alias[packageName]
+      id = id.replace(packageName, aliasOption.replacement)
+      if (packageName === '@element-plus/components') {
+        id = isDirectory(id) ? `${id}/index.ts` : `${id}.ts`
+      } else if (packageName !== '@element-plus/theme-chalk') {
+        id = `${id}/index.ts`
+      }
+
+      return {
+        id,
+        external: aliasOption.external,
       }
     },
   }
+}
+
+function isDirectory(dir: string) {
+  let stat
+  try {
+    stat = fs.statSync(dir, { throwIfNoEntry: false })
+  } catch (e) {
+    if (e && (e.code === 'ENOENT' || e.code === 'ENOTDIR')) return false
+    throw e
+  }
+  return stat && stat.isDirectory()
 }
