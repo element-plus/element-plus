@@ -32,22 +32,22 @@
     </span>
     <span :class="ns.e('core')" :style="coreStyle">
       <div v-if="inlinePrompt" :class="ns.e('inner')">
-        <slot v-if="!checked" name="inactive">
-          <div :class="ns.e('inner--wrapper')">
+        <div v-if="!checked" :class="ns.e('inner-wrapper')">
+          <slot name="inactive">
             <el-icon v-if="inactiveIcon">
               <component :is="inactiveIcon" />
             </el-icon>
             <span v-if="!inactiveIcon && inactiveText">{{ inactiveText }}</span>
-          </div>
-        </slot>
-        <slot v-else name="active">
-          <div :class="ns.e('inner--wrapper')">
+          </slot>
+        </div>
+        <div v-else :class="ns.e('inner-wrapper')">
+          <slot name="active">
             <el-icon v-if="activeIcon">
               <component :is="activeIcon" />
             </el-icon>
             <span v-if="!activeIcon && activeText">{{ activeText }}</span>
-          </div>
-        </slot>
+          </slot>
+        </div>
       </div>
       <div :class="ns.e('action')">
         <el-icon v-if="loading" :class="ns.is('loading')">
