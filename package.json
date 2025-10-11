@@ -119,8 +119,7 @@
     "node": ">= 20"
   },
   "volta": {
-    "node": ">=20",
-    "pnpm": "10.18.2"
+    "node": ">=20"
   },
   "config": {
     "commitizen": {
