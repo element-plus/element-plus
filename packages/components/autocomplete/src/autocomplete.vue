@@ -38,11 +38,7 @@
         @focus="handleFocus"
         @blur="handleBlur"
         @clear="handleClear"
-        @keydown.up.prevent="highlight(highlightedIndex - 1)"
-        @keydown.down.prevent="highlight(highlightedIndex + 1)"
-        @keydown.enter.prevent="handleKeyEnter"
-        @keydown.tab="close"
-        @keydown.esc="handleKeyEscape"
+        @keydown="handleKeydown"
         @mousedown="handleMouseDown"
       >
         <template v-if="$slots.prepend" #prepend>
@@ -129,9 +125,10 @@ import { debounce, pick } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
 import { Loading } from '@element-plus/icons-vue'
 import { useId, useNamespace } from '@element-plus/hooks'
-import { isArray, throwError } from '@element-plus/utils'
+import { getEventCode, isArray, throwError } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
+  EVENT_CODE,
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
@@ -358,21 +355,16 @@ const highlight = (index: number) => {
   if (index >= suggestions.value.length) {
     index = props.loopNavigation ? 0 : suggestions.value.length - 1
   }
-  const suggestion = regionRef.value!.querySelector(
-    `.${ns.be('suggestion', 'wrap')}`
-  )!
-  const suggestionList = suggestion.querySelectorAll<HTMLElement>(
-    `.${ns.be('suggestion', 'list')} li`
-  )!
+  const [suggestion, suggestionList] = getSuggestionContext()
   const highlightItem = suggestionList[index]
   const scrollTop = suggestion.scrollTop
   const { offsetTop, scrollHeight } = highlightItem
 
   if (offsetTop + scrollHeight > scrollTop + suggestion.clientHeight) {
-    suggestion.scrollTop += scrollHeight
+    suggestion.scrollTop = offsetTop + scrollHeight - suggestion.clientHeight
   }
   if (offsetTop < scrollTop) {
-    suggestion.scrollTop -= scrollHeight
+    suggestion.scrollTop = offsetTop
   }
   highlightedIndex.value = index
   inputRef.value?.ref?.setAttribute(
@@ -380,12 +372,63 @@ const highlight = (index: number) => {
     `${listboxId.value}-item-${highlightedIndex.value}`
   )
 }
+const getSuggestionContext = () => {
+  const suggestion = regionRef.value!.querySelector(
+    `.${ns.be('suggestion', 'wrap')}`
+  )!
+  const suggestionList = suggestion.querySelectorAll<HTMLElement>(
+    `.${ns.be('suggestion', 'list')} li`
+  )
+  return [suggestion, suggestionList] as const
+}
 
 const stopHandle = onClickOutside(listboxRef, () => {
   // Prevent closing if focus is inside popper content
   if (popperRef.value?.isFocusInsideContent()) return
   suggestionVisible.value && close()
 })
+
+const handleKeydown = (e: KeyboardEvent | Event) => {
+  const code = getEventCode(e as KeyboardEvent)
+  switch (code) {
+    case EVENT_CODE.up:
+      e.preventDefault()
+      highlight(highlightedIndex.value - 1)
+      break
+    case EVENT_CODE.down:
+      e.preventDefault()
+      highlight(highlightedIndex.value + 1)
+      break
+    case EVENT_CODE.enter:
+      e.preventDefault()
+      handleKeyEnter()
+      break
+    case EVENT_CODE.tab:
+      close()
+      break
+    case EVENT_CODE.esc:
+      handleKeyEscape(e)
+      break
+    case EVENT_CODE.home:
+      e.preventDefault()
+      highlight(0)
+      break
+    case EVENT_CODE.end:
+      e.preventDefault()
+      highlight(suggestions.value.length - 1)
+      break
+    case EVENT_CODE.pageUp:
+      e.preventDefault()
+      highlight(Math.max(0, highlightedIndex.value - 10))
+      break
+    case EVENT_CODE.pageDown:
+      e.preventDefault()
+      highlight(
+        Math.min(suggestions.value.length - 1, highlightedIndex.value + 10)
+      )
+      break
+  }
+}
 
 onBeforeUnmount(() => {
   stopHandle?.()
