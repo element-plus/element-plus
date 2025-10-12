@@ -3689,7 +3689,7 @@ describe('Select', () => {
   })
 
   test('keyboard navigation with Home, End, PageUp, PageDown', async () => {
-    const options = Array.from({ length: 20 }).map((_, i) => ({
+    const options = Array.from({ length: 21 }).map((_, i) => ({
       value: `value-${i}`,
       label: `Option ${i}`,
     }))
@@ -3727,7 +3727,7 @@ describe('Select', () => {
     await input.trigger('keydown', { code: EVENT_CODE.home })
     expect(target.states.hoveringIndex).toBe(0)
     await input.trigger('keydown', { code: EVENT_CODE.end })
-    expect(target.states.hoveringIndex).toBe(target.states.options.size)
+    expect(target.states.hoveringIndex).toBe(20)
     await input.trigger('keydown', { code: EVENT_CODE.home })
     expect(target.states.hoveringIndex).toBe(0)
     await input.trigger('keydown', { code: EVENT_CODE.pageDown })

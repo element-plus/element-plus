@@ -815,7 +815,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
         break
       case EVENT_CODE.end:
         if (!ensureExpanded()) return
-        focusOption(states.options.size)
+        focusOption(states.options.size - 1)
         break
       case EVENT_CODE.pageUp:
         if (!ensureExpanded()) return
@@ -823,7 +823,9 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
         break
       case EVENT_CODE.pageDown:
         if (!ensureExpanded()) return
-        focusOption(Math.min(states.options.size, states.hoveringIndex + 10))
+        focusOption(
+          Math.min(states.options.size - 1, states.hoveringIndex + 10)
+        )
         break
     }
   }
