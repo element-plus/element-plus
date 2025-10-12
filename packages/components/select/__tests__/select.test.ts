@@ -1559,7 +1559,7 @@ describe('Select', () => {
     expect(vm.value.length).toBe(1)
 
     const input = wrapper.find('input')
-    input.trigger('keydown.delete')
+    input.trigger('keydown', { code: EVENT_CODE.backspace })
     expect(vm.value.length).toBe(0)
     expect(handleRemoveTag).toHaveBeenLastCalledWith('选项1')
   })
@@ -3686,5 +3686,61 @@ describe('Select', () => {
     const input = wrapper.find('input')
     await input.trigger('click')
     expect(selectVm.dropdownMenuVisible).toBeTruthy()
+  })
+
+  test('keyboard navigation with Home, End, PageUp, PageDown', async () => {
+    const options = Array.from({ length: 20 }).map((_, i) => ({
+      value: `value-${i}`,
+      label: `Option ${i}`,
+    }))
+
+    const wrapper = _mount(
+      `
+    <el-select
+      ref="select"
+      v-model="value"
+      filterable
+    >
+      <el-option
+        v-for="item in options"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value"
+      />
+    </el-select>
+    `,
+      () => ({
+        value: '',
+        options,
+      })
+    )
+
+    await nextTick()
+    const vm = wrapper.vm as any
+    const target = vm.$refs.select
+    const input = wrapper.find('input')
+    await input.trigger('focus')
+    await input.trigger('keydown', { code: EVENT_CODE.down })
+    await nextTick()
+    await input.trigger('keydown', { code: EVENT_CODE.home })
+    expect(target.states.hoveringIndex).toBe(0)
+    await input.trigger('keydown', { code: EVENT_CODE.home })
+    expect(target.states.hoveringIndex).toBe(0)
+    await input.trigger('keydown', { code: EVENT_CODE.end })
+    expect(target.states.hoveringIndex).toBe(target.states.options.size)
+    await input.trigger('keydown', { code: EVENT_CODE.home })
+    expect(target.states.hoveringIndex).toBe(0)
+    await input.trigger('keydown', { code: EVENT_CODE.pageDown })
+    expect(target.states.hoveringIndex).toBe(10)
+    await input.trigger('keydown', { code: EVENT_CODE.pageDown })
+    expect(target.states.hoveringIndex).toBe(20)
+    await input.trigger('keydown', { code: EVENT_CODE.pageDown })
+    expect(target.states.hoveringIndex).toBe(20)
+    await input.trigger('keydown', { code: EVENT_CODE.pageUp })
+    expect(target.states.hoveringIndex).toBe(10)
+    await input.trigger('keydown', { code: EVENT_CODE.pageUp })
+    expect(target.states.hoveringIndex).toBe(0)
+    await input.trigger('keydown', { code: EVENT_CODE.pageUp })
+    expect(target.states.hoveringIndex).toBe(0)
   })
 })
