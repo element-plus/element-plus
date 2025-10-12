@@ -149,6 +149,7 @@ export default {
       next: '下一步',
       previous: '上一步',
       finish: '结束导览',
+      close: '关闭此对话框',
     },
     tree: {
       emptyText: '暂无数据',

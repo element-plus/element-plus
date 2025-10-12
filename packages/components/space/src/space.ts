@@ -1,4 +1,5 @@
 import {
+  Comment,
   createTextVNode,
   createVNode,
   defineComponent,
@@ -25,6 +26,7 @@ import type {
   VNode,
   VNodeArrayChildren,
   VNodeChild,
+  __ExtractPublicPropTypes,
 } from 'vue'
 import type { Arrayable } from '@element-plus/utils'
 import type { AlignItemsProperty } from 'csstype'
@@ -107,6 +109,7 @@ export const spaceProps = buildProps({
   },
 } as const)
 export type SpaceProps = ExtractPropTypes<typeof spaceProps>
+export type SpacePropsPublic = __ExtractPublicPropTypes<typeof spaceProps>
 
 const Space = defineComponent({
   name: 'ElSpace',
@@ -136,21 +139,25 @@ const Space = defineComponent({
                   extractedChildren
                 )
               } else {
-                extractedChildren.push(
-                  createVNode(
-                    Item,
-                    {
-                      style: itemStyle.value,
-                      prefixCls,
-                      key: `nested-${parentKey + key}`,
-                    },
-                    {
-                      default: () => [nested],
-                    },
-                    PatchFlags.PROPS | PatchFlags.STYLE,
-                    ['style', 'prefixCls']
+                if (isVNode(nested) && nested?.type === Comment) {
+                  extractedChildren.push(nested)
+                } else {
+                  extractedChildren.push(
+                    createVNode(
+                      Item,
+                      {
+                        style: itemStyle.value,
+                        prefixCls,
+                        key: `nested-${parentKey + key}`,
+                      },
+                      {
+                        default: () => [nested],
+                      },
+                      PatchFlags.PROPS | PatchFlags.STYLE,
+                      ['style', 'prefixCls']
+                    )
                   )
-                )
+                }
               }
             })
           }

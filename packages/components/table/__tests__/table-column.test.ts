@@ -3,7 +3,12 @@ import { describe, expect, it, vi } from 'vitest'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import ElTable from '../src/table.vue'
 import ElTableColumn from '../src/table-column'
-import { doubleWait, getTestData, mount } from './table-test-common'
+import {
+  doubleWait,
+  getMultiRowTestData,
+  getTestData,
+  mount,
+} from './table-test-common'
 
 vi.mock('lodash-unified', async () => {
   return {
@@ -291,8 +296,8 @@ describe('table column', () => {
 
         // #19581
         it('The index parameters of the selectable function should be the same as the index of the row', async () => {
-          const expectIndexs = []
-          const actualIndexs = []
+          const expectIndexes = []
+          const actualIndexes = []
           const wrapper = mount({
             components: {
               ElTable,
@@ -322,8 +327,8 @@ describe('table column', () => {
                 const expectIndex = this.testData.findIndex(
                   (item) => item.id === row.id
                 )
-                expectIndexs.push(expectIndex)
-                actualIndexs.push(index)
+                expectIndexes.push(expectIndex)
+                actualIndexes.push(index)
                 return true
               },
             },
@@ -335,7 +340,7 @@ describe('table column', () => {
           })
           await doubleWait()
 
-          expect(expectIndexs).toEqual(actualIndexs)
+          expect(expectIndexes).toEqual(actualIndexes)
           expect(wrapper.vm.selected.length).toBe(wrapper.vm.testData.length)
         })
 
@@ -423,6 +428,119 @@ describe('table column', () => {
 
           selectionKeys = getSelection().map((item) => item.id)
           expect(selectionKeys).toEqual([0, 1])
+        })
+
+        it('reserve selection', async () => {
+          const wrapper = mount({
+            components: {
+              ElTable,
+              ElTableColumn,
+            },
+            template: `
+              <el-table
+                :data="testData"
+                row-key="id"
+                default-expand-all
+              >
+                <el-table-column type="selection" reserve-selection />
+                <el-table-column prop="name" label="name" />
+                <el-table-column prop="release" label="release" />
+                <el-table-column prop="director" label="director" />
+                <el-table-column prop="runtime" label="runtime" />
+              </el-table>
+            `,
+            data() {
+              return { testData: [] }
+            },
+            created() {
+              this.updateTestData(1)
+            },
+            methods: {
+              getTestData(page) {
+                switch (page) {
+                  case 1: {
+                    const data = getTestData()
+                    data[1].children = [
+                      {
+                        id: 21,
+                        name: "A Bug's Life copy 1",
+                        release: '1998-11-25-1',
+                        director: 'John Lasseter',
+                        runtime: 95,
+                      },
+                      {
+                        id: 22,
+                        name: "A Bug's Life copy 2",
+                        release: '1998-11-25-2',
+                        director: 'John Lasseter',
+                        runtime: 95,
+                      },
+                    ]
+                    return data
+                  }
+                  case 2: {
+                    return getMultiRowTestData()
+                  }
+                }
+                return []
+              },
+              updateTestData(page) {
+                this.testData = this.getTestData(page)
+              },
+            },
+          })
+
+          await doubleWait()
+
+          wrapper.findAll('.el-checkbox')[1].trigger('click')
+          await doubleWait()
+          expect(wrapper.findAll('.el-checkbox.is-checked')).toHaveLength(1)
+          expect(wrapper.findAll('.el-checkbox')[1].classes()).include(
+            'is-checked'
+          )
+
+          wrapper.vm.updateTestData(2)
+          await doubleWait()
+          expect(wrapper.findAll('.el-checkbox.is-checked')).toHaveLength(0)
+
+          wrapper.vm.updateTestData(1)
+          await doubleWait()
+          expect(wrapper.findAll('.el-checkbox.is-checked')).toHaveLength(1)
+          expect(wrapper.findAll('.el-checkbox')[1].classes()).include(
+            'is-checked'
+          )
+
+          wrapper.findAll('.el-checkbox')[1].trigger('click')
+          await doubleWait()
+          expect(wrapper.findAll('.el-checkbox.is-checked')).toHaveLength(0)
+
+          // test children
+
+          wrapper.findAll('.el-checkbox')[3].trigger('click')
+          await doubleWait()
+          expect(wrapper.findAll('.el-checkbox.is-checked')).toHaveLength(1)
+          expect(wrapper.findAll('.el-checkbox')[3].classes()).include(
+            'is-checked'
+          )
+
+          wrapper.vm.updateTestData(2)
+          await doubleWait()
+          expect(wrapper.findAll('.el-checkbox.is-checked')).toHaveLength(0)
+
+          wrapper.vm.updateTestData(1)
+          await doubleWait()
+          expect(wrapper.findAll('.el-checkbox.is-checked')).toHaveLength(1)
+          expect(wrapper.findAll('.el-checkbox')[3].classes()).include(
+            'is-checked'
+          )
+
+          // #20987
+
+          wrapper.findAll('.el-checkbox')[3].trigger('click')
+          await doubleWait()
+          expect(wrapper.findAll('.el-checkbox.is-checked')).toHaveLength(0)
+
+          wrapper.unmount()
         })
       })
 
@@ -1181,7 +1299,7 @@ describe('table column', () => {
     })
   })
 
-  describe('dynamic column attribtes', () => {
+  describe('dynamic column attributes', () => {
     it('label', async () => {
       const wrapper = mount({
         components: {
@@ -1473,6 +1591,53 @@ describe('table column', () => {
       )
 
       wrapper.unmount()
+    })
+
+    it('correct render selection column when it is not in the first', async () => {
+      const wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table :data="data">
+            <el-table-column fixed="left" prop="name" />
+            <el-table-column fixed="left" type="selection" />
+            <el-table-column fixed="left" prop="date" />
+          </el-table>
+        `,
+
+        data() {
+          const data = [
+            {
+              date: '2016-05-03',
+              name: 'Tom',
+              address: 'No. 189, Grove St, Los Angeles',
+            },
+            {
+              date: '2016-05-02',
+              name: 'Tom',
+              address: 'No. 189, Grove St, Los Angeles',
+            },
+            {
+              date: '2016-05-04',
+              name: 'Tom',
+              address: 'No. 189, Grove St, Los Angeles',
+            },
+            {
+              date: '2016-05-01',
+              name: 'Tom',
+              address: 'No. 189, Grove St, Los Angeles',
+            },
+          ]
+          return {
+            data,
+          }
+        },
+      })
+
+      await doubleWait()
+      expect(wrapper.findAll('.el-table-column--selection').length).toEqual(5)
     })
 
     it('prop', async () => {

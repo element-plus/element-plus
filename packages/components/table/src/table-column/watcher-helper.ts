@@ -1,25 +1,25 @@
-// @ts-nocheck
 import { getCurrentInstance, watch } from 'vue'
 import { hasOwn } from '@element-plus/utils'
 import { parseMinWidth, parseWidth } from '../util'
 
 import type { ComputedRef } from 'vue'
+import type { DefaultRow } from '../table/defaults'
 import type { TableColumn, TableColumnCtx, ValueOf } from './defaults'
 
-function getAllAliases(props, aliases) {
+function getAllAliases(props: string[], aliases: Record<string, string>) {
   return props.reduce((prev, cur) => {
-    prev[cur] = cur
+    prev[cur as keyof typeof prev] = cur
     return prev
   }, aliases)
 }
-function useWatcher<T>(
+function useWatcher<T extends DefaultRow>(
   owner: ComputedRef<any>,
   props_: Partial<TableColumnCtx<T>>
 ) {
   const instance = getCurrentInstance() as TableColumn<T>
   const registerComplexWatchers = () => {
     const props = ['fixed']
-    const aliases = {
+    const aliases: Record<string, string> = {
       realWidth: 'width',
       realMinWidth: 'minWidth',
     }
@@ -37,8 +37,8 @@ function useWatcher<T>(
             if (columnKey === 'minWidth' && key === 'realMinWidth') {
               value = parseMinWidth(newVal)
             }
-            instance.columnConfig.value[columnKey as any] = value
-            instance.columnConfig.value[key] = value
+            instance.columnConfig.value[columnKey as never] = value as never
+            instance.columnConfig.value[key as never] = value as never
             const updateColumns = columnKey === 'fixed'
             owner.value.store.scheduleLayout(updateColumns)
           }
@@ -60,8 +60,10 @@ function useWatcher<T>(
       'filterClassName',
       'showOverflowTooltip',
       'tooltipFormatter',
+      'resizable',
     ]
-    const aliases = {
+    const parentProps = ['showOverflowTooltip']
+    const aliases: Record<string, string> = {
       property: 'prop',
       align: 'realAlign',
       headerAlign: 'realHeaderAlign',
@@ -73,7 +75,17 @@ function useWatcher<T>(
         watch(
           () => props_[columnKey],
           (newVal) => {
-            instance.columnConfig.value[key] = newVal
+            instance.columnConfig.value[key as never] = newVal
+          }
+        )
+      }
+    })
+    parentProps.forEach((key) => {
+      if (hasOwn(owner.value.props, key)) {
+        watch(
+          () => owner.value.props[key],
+          (newVal) => {
+            instance.columnConfig.value[key] = newVal as never
           }
         )
       }

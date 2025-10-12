@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   defineComponent,
   getCurrentInstance,
@@ -28,8 +27,8 @@ export default defineComponent({
       useRender(props)
     const { onColumnsChange, onScrollableChange } = useLayoutObserver(parent!)
 
-    const hoveredCellList = []
-    watch(props.store.states.hoverRow, (newVal: any, oldVal: any) => {
+    const hoveredCellList: HTMLTableCellElement[] = []
+    watch(props.store?.states.hoverRow, (newVal: any, oldVal: any) => {
       const el = instance?.vnode.el as HTMLElement
       const rows = Array.from(el?.children || []).filter((e) =>
         e?.classList.contains(`${ns.e('row')}`)
@@ -37,7 +36,8 @@ export default defineComponent({
 
       // hover rowSpan > 1 choose the whole row
       let rowNum = newVal
-      const childNodes = rows[rowNum]?.childNodes
+      const childNodes = rows[rowNum]
+        ?.childNodes as NodeListOf<HTMLTableCellElement>
       if (childNodes?.length) {
         let control = 0
         const indexes = Array.from(childNodes).reduce((acc, item, index) => {
@@ -50,13 +50,15 @@ export default defineComponent({
           }
           control > 0 && control--
           return acc
-        }, [])
+        }, [] as number[])
 
         indexes.forEach((rowIndex) => {
           rowNum = newVal
           while (rowNum > 0) {
             // find from previous
-            const preChildNodes = rows[rowNum - 1]?.childNodes
+            const preChildNodes = rows[rowNum - 1]
+              ?.childNodes as NodeListOf<HTMLTableCellElement>
+
             if (
               preChildNodes[rowIndex] &&
               preChildNodes[rowIndex].nodeName === 'TD' &&
@@ -73,7 +75,7 @@ export default defineComponent({
         hoveredCellList.forEach((item) => removeClass(item, 'hover-cell'))
         hoveredCellList.length = 0
       }
-      if (!props.store.states.isComplex.value || !isClient) return
+      if (!props.store?.states.isComplex.value || !isClient) return
 
       rAF(() => {
         // just get first level children; fix #9723
@@ -104,7 +106,7 @@ export default defineComponent({
   },
   render() {
     const { wrappedRowRender, store } = this
-    const data = store.states.data.value || []
+    const data = store?.states.data.value || []
     // Why do we need tabIndex: -1 ?
     // If you set the tabindex attribute on an element ,
     // then its child content cannot be scrolled with the arrow keys,
@@ -112,7 +114,7 @@ export default defineComponent({
     // See https://github.com/facebook/react/issues/25462#issuecomment-1274775248 or https://developer.mozilla.org/zh-CN/docs/Web/HTML/Global_attributes/tabindex
     return h('tbody', { tabIndex: -1 }, [
       data.reduce((acc: VNode[], row) => {
-        return acc.concat(wrappedRowRender(row, acc.length))
+        return acc.concat(wrappedRowRender(row, acc.length) as VNode[])
       }, []),
     ])
   },

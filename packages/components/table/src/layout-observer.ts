@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   computed,
   getCurrentInstance,
@@ -10,9 +9,9 @@ import {
 
 import type { TableHeader } from './table-header'
 import type TableLayout from './table-layout'
-import type { Table } from './table/defaults'
+import type { DefaultRow, Table, TableColumnCtx } from './table/defaults'
 
-function useLayoutObserver<T>(root: Table<T>) {
+function useLayoutObserver<T extends DefaultRow>(root: Table<T>) {
   const instance = getCurrentInstance() as TableHeader
   onBeforeMount(() => {
     tableLayout.value.addObserver(instance)
@@ -39,7 +38,7 @@ function useLayoutObserver<T>(root: Table<T>) {
     const cols = root.vnode.el?.querySelectorAll('colgroup > col') || []
     if (!cols.length) return
     const flattenColumns = layout.getFlattenColumns()
-    const columnsMap = {}
+    const columnsMap: Record<string, TableColumnCtx<T>> = {}
     flattenColumns.forEach((column) => {
       columnsMap[column.id] = column
     })

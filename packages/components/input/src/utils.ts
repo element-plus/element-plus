@@ -28,6 +28,7 @@ const CONTEXT_STYLE = [
   'padding-right',
   'border-width',
   'box-sizing',
+  'word-break',
 ]
 
 type NodeStyle = {
@@ -70,7 +71,7 @@ export function calcTextareaHeight(
 ): TextAreaHeight {
   if (!hiddenTextarea) {
     hiddenTextarea = document.createElement('textarea')
-    document.body.appendChild(hiddenTextarea)
+    ;(targetElement.parentNode ?? document.body).appendChild(hiddenTextarea)
   }
 
   const { paddingSize, borderSize, boxSizing, contextStyle } =

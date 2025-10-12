@@ -9,7 +9,7 @@
           ns.em('content', type),
           ns.is('fixed', !!$slots.default),
           ns.is('dot', isDot),
-          ns.is('hide-zero', !showZero && props.value === 0),
+          ns.is('hide-zero', !showZero && value === 0),
           badgeClass,
         ]"
         :style="style"
@@ -27,6 +27,7 @@ import { computed } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { addUnit, isNumber } from '@element-plus/utils'
 import { badgeProps } from './badge'
+
 import type { StyleValue } from 'vue'
 
 defineOptions({

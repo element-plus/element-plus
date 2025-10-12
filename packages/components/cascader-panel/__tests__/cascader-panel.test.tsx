@@ -10,7 +10,7 @@ import type {
   CascaderProps,
   CascaderValue,
   LazyLoad,
-} from '../src/node'
+} from '../src/types'
 
 const NORMAL_OPTIONS = [
   {
@@ -123,6 +123,29 @@ const lazyLoad: LazyLoad = (node, resolve) => {
     resolve(nodes)
   }, 1000)
 }
+
+describe('avoid other test case affecting this test case', () => {
+  test('check strictly in single mode with first option', async () => {
+    // #21311
+    const value = ref([])
+    const props = {
+      checkStrictly: true,
+    }
+    const wrapper = mount(() => (
+      <CascaderPanel
+        v-model={value.value}
+        options={NORMAL_OPTIONS}
+        props={props}
+      />
+    ))
+
+    const zjRadio = wrapper.findAll(RADIO)[0]
+    expect(zjRadio.exists()).toBe(true)
+
+    await zjRadio.find('input').trigger('click')
+    expect(value.value).toEqual(['beijing'])
+  })
+})
 
 describe('CascaderPanel.vue', () => {
   beforeEach(() => {
@@ -268,6 +291,41 @@ describe('CascaderPanel.vue', () => {
     expect(wrapper.findAll(MENU).length).toBe(2)
   })
 
+  test('click to select in hover mode', async () => {
+    const handleChange = vi.fn()
+    const value = ref([])
+    const props: CascaderProps = { expandTrigger: 'hover' }
+    const wrapper = mount(() => (
+      <CascaderPanel
+        v-model={value.value}
+        options={NORMAL_OPTIONS}
+        props={props}
+        onChange={handleChange}
+      />
+    ))
+
+    const [bjNode, zjNode, , gdNode] = wrapper.findAll(NODE)
+
+    await bjNode.trigger('click')
+    expect(handleChange).toBeCalledTimes(1)
+    expect(value.value).toEqual(['beijing'])
+
+    await zjNode.trigger('mouseenter')
+    expect(wrapper.findAll(MENU).length).toBe(2)
+
+    const secondMenu = wrapper.findAll(MENU)[1]
+    const hzNode = secondMenu.find(NODE)
+    await hzNode.trigger('click')
+    expect(handleChange).toBeCalledTimes(2)
+    expect(value.value).toEqual(['zhejiang', 'hangzhou'])
+
+    await gdNode.trigger('click')
+    expect(handleChange).toBeCalledTimes(3)
+    expect(value.value).toEqual(['guangdong'])
+
+    expect(wrapper.findAll(MENU).length).toBe(1)
+  })
+
   test('emit value only', async () => {
     const value = ref('shanghai')
     const props = { emitPath: false }
@@ -286,6 +344,38 @@ describe('CascaderPanel.vue', () => {
 
     await wrapper.find(NODE).trigger('click')
     expect(value.value).toBe('beijing')
+  })
+
+  test('value can be an empty string', async () => {
+    const value = ref('')
+    const options = [
+      {
+        label: 'all',
+        value: '',
+      },
+      {
+        label: 'label one',
+        value: '1',
+      },
+      {
+        label: 'label two',
+        value: '2',
+      },
+    ]
+    const props = { checkStrictly: true, emitPath: false }
+    const wrapper = mount(() => (
+      <CascaderPanel v-model={value.value} options={options} props={props} />
+    ))
+
+    await nextTick()
+
+    const node = wrapper.findAll(MENU)[0].find(NODE)
+    const radio = node.find(RADIO)
+    expect(node.classes('is-active')).toBe(true)
+    expect(radio.classes('is-checked')).toBe(true)
+
+    await wrapper.findAll(RADIO)[1].trigger('click')
+    expect(value.value).toBe('1')
   })
 
   test('emit value only, issue 1531', async () => {
@@ -455,7 +545,7 @@ describe('CascaderPanel.vue', () => {
       label: 'name',
       children: 'areas',
       disabled: 'invalid',
-      leaf: (data: typeof CUSTOM_PROPS_OPTIONS[0]) => !data.areas?.length,
+      leaf: (data: (typeof CUSTOM_PROPS_OPTIONS)[0]) => !data.areas?.length,
     }
     const wrapper = mount(() => (
       <CascaderPanel
@@ -505,6 +595,128 @@ describe('CascaderPanel.vue', () => {
 
     await secondMenu.find(NODE).trigger('click')
     expect(value.value).toEqual([1, 2])
+    vi.useRealTimers()
+  })
+
+  test('lazy load with loaded fails', async () => {
+    vi.useFakeTimers()
+    const value = ref([])
+    const props: CascaderProps = {
+      lazy: true,
+      lazyLoad(node, resolve, reject) {
+        const { level } = node
+        setTimeout(() => {
+          const nodes = Array.from({ length: level + 1 }).map(() => ({
+            value: ++id,
+            label: `option${id}`,
+            leaf: level >= 2,
+          }))
+          if (level === 1) {
+            // Simulate loading failure for the second level nodes
+            reject()
+            return
+          }
+          resolve(nodes)
+        }, 1000)
+      },
+    }
+    const wrapper = mount(() => (
+      <CascaderPanel v-model={value.value} props={props} />
+    ))
+
+    vi.runAllTimers()
+    await nextTick()
+    const firstOption = wrapper.find(NODE)
+    expect(firstOption.exists()).toBe(true)
+    await firstOption.trigger('click')
+    expect(firstOption.findComponent(Loading).exists()).toBe(true)
+    vi.runAllTimers()
+    await nextTick()
+    expect(firstOption.findComponent(Loading).exists()).toBe(false)
+    expect(wrapper.findAll(MENU).length).toBe(1)
+    vi.useRealTimers()
+  })
+
+  test('lazy load with first level loaded fails', async () => {
+    vi.useFakeTimers()
+    const value = ref([])
+    const props: CascaderProps = {
+      lazy: true,
+      lazyLoad(node, resolve, reject) {
+        const { level } = node
+        setTimeout(() => {
+          const nodes = Array.from({ length: level + 1 }).map(() => ({
+            value: ++id,
+            label: `option${id}`,
+            leaf: level >= 2,
+          }))
+          if (level === 0) {
+            // Simulate loading failure for the first level nodes
+            reject()
+            return
+          }
+          resolve(nodes)
+        }, 1000)
+      },
+    }
+    const wrapper = mount(() => (
+      <CascaderPanel v-model={value.value} props={props} />
+    ))
+
+    vi.runAllTimers()
+    await nextTick()
+    const firstOption = wrapper.find(NODE)
+    expect(firstOption.exists()).toBe(false)
+    expect(wrapper.findAll(MENU).length).toBe(1)
+    expect(wrapper.findComponent(Loading).exists()).toBe(false)
+    expect(wrapper.find('.is-empty').exists()).toBe(true)
+    vi.useRealTimers()
+  })
+
+  test('lazy load with first and second level loaded success and third level loaded fails', async () => {
+    vi.useFakeTimers()
+    const value = ref([])
+    const props: CascaderProps = {
+      lazy: true,
+      lazyLoad(node, resolve, reject) {
+        const { level } = node
+        setTimeout(() => {
+          const nodes = Array.from({ length: level + 1 }).map(() => ({
+            value: ++id,
+            label: `option${id}`,
+            leaf: level >= 2,
+          }))
+          if (level === 2) {
+            // Simulate loading failure for the second level nodes
+            reject()
+            return
+          }
+          resolve(nodes)
+        }, 1000)
+      },
+    }
+    const wrapper = mount(() => (
+      <CascaderPanel v-model={value.value} props={props} />
+    ))
+
+    vi.runAllTimers()
+    await nextTick()
+    const firstOption = wrapper.find(NODE)
+    expect(firstOption.exists()).toBe(true)
+    await firstOption.trigger('click')
+    expect(firstOption.findComponent(Loading).exists()).toBe(true)
+    vi.runAllTimers()
+    await nextTick()
+    expect(firstOption.findComponent(Loading).exists()).toBe(false)
+    expect(wrapper.findAll(MENU).length).toBe(2)
+    const secondMenu = wrapper.findAll(MENU)[1]
+    const secondOption = secondMenu.find(NODE)
+    await secondOption.trigger('click')
+    expect(secondOption.findComponent(Loading).exists()).toBe(true)
+    vi.runAllTimers()
+    await nextTick()
+    expect(secondOption.findComponent(Loading).exists()).toBe(false)
+    expect(wrapper.findAll(MENU).length).toBe(2)
     vi.useRealTimers()
   })
 
@@ -750,5 +962,215 @@ describe('CascaderPanel.vue', () => {
     value.value = ['zhejiang', 'ningbo']
     await nextTick()
     expect(node!.classes('is-active')).toBe(true)
+  })
+
+  test('when lazy loading returns empty data, the leaf nodes can perform single selection normally', async () => {
+    vi.useFakeTimers()
+    const value = ref([])
+    const props: CascaderProps = {
+      lazy: true,
+      lazyLoad(node, resolve) {
+        const { level } = node
+        if (level >= 2) {
+          setTimeout(() => {
+            resolve([])
+          }, 1000)
+          return
+        }
+        setTimeout(() => {
+          const nodes = Array.from({ length: level + 1 }).map(() => {
+            ++id
+            return {
+              value: id,
+              label: `option${id}`,
+            }
+          })
+          resolve(nodes)
+        }, 1000)
+      },
+    }
+    const wrapper = mount(() => (
+      <CascaderPanel v-model={value.value} props={props} />
+    ))
+
+    vi.runAllTimers()
+    await nextTick()
+    const firstOption = wrapper.find(NODE)
+    await firstOption.trigger('click')
+    vi.runAllTimers()
+    await nextTick()
+
+    const secondMenu = wrapper.findAll(MENU)[1]
+    const secondOption = secondMenu.find(NODE)
+    await secondOption.trigger('click')
+    vi.runAllTimers()
+    await nextTick()
+
+    expect(value.value).toEqual([])
+
+    await secondOption.trigger('click')
+    vi.runAllTimers()
+    await nextTick()
+
+    expect(value.value).toEqual([1, 2])
+
+    const thirdOption = secondMenu.findAll(NODE)[1]
+    await thirdOption.trigger('click')
+    vi.runAllTimers()
+    await nextTick()
+
+    expect(value.value).toEqual([1, 2])
+
+    await thirdOption.trigger('click')
+    vi.runAllTimers()
+    await nextTick()
+
+    expect(value.value).toEqual([1, 3])
+    vi.useRealTimers()
+  })
+
+  test('ensure set null after clear', async () => {
+    const handleChange = vi.fn()
+    const wrapper = mount(() => (
+      <CascaderPanel options={NORMAL_OPTIONS} onChange={handleChange} />
+    ))
+    const vm = wrapper.findComponent(CascaderPanel).vm
+    const firstColumnItems = wrapper.findAll('.el-cascader-node')
+    const bjNode = firstColumnItems.find((node) =>
+      node.text().includes('Beijing')
+    )
+    await bjNode?.trigger('click')
+    await nextTick()
+    expect(handleChange).toHaveBeenCalledTimes(1)
+    expect(handleChange).toHaveBeenCalledWith(['beijing'])
+    vm.clearCheckedNodes()
+    await nextTick()
+    expect(handleChange).toHaveBeenCalledTimes(2)
+    expect(handleChange).toHaveBeenLastCalledWith(null)
+    expect(vm.getCheckedNodes(false)?.length).toBe(0)
+  })
+
+  test('ensure only one update model value is fired on single mode', async () => {
+    const onChange = vi.fn()
+    const onUpdateModelValue = vi.fn()
+    const options = [
+      {
+        value: 'guide',
+        label: 'Guide',
+      },
+    ]
+    const wrapper = mount(() => (
+      <CascaderPanel
+        options={options}
+        onUpdate:modelValue={onUpdateModelValue}
+        onChange={onChange}
+      />
+    ))
+    const node = wrapper.find(NODE)
+    await node.trigger('click')
+    expect(onChange).toHaveBeenCalledOnce()
+    expect(onUpdateModelValue).toHaveBeenCalledOnce()
+    expect(onChange).toHaveBeenCalledWith(['guide'])
+    expect(onUpdateModelValue).toHaveBeenCalledWith(['guide'])
+  })
+
+  test('ensure only one update model value is fired on multiple mode', async () => {
+    const onChange = vi.fn()
+    const onUpdateModelValue = vi.fn()
+    const options = [
+      {
+        value: 'guide',
+        label: 'Guide',
+      },
+      {
+        value: 'guide1',
+        label: 'Guide1',
+      },
+    ]
+    const value = ref([])
+    const props = {
+      multiple: true,
+    }
+    const wrapper = mount(() => (
+      <CascaderPanel
+        v-model={value.value}
+        options={options}
+        props={props}
+        onUpdate:modelValue={onUpdateModelValue}
+        onChange={onChange}
+      />
+    ))
+
+    const node = wrapper.find('.el-cascader-node__label')
+    await node.trigger('click')
+    await nextTick()
+    expect(onChange).toHaveBeenCalledOnce()
+    expect(onUpdateModelValue).toHaveBeenCalledOnce()
+    expect(onChange).toHaveBeenCalledWith([['guide']])
+    expect(onUpdateModelValue).toHaveBeenCalledWith([['guide']])
+  })
+
+  test('should allow click node to check value on multiple mode', async () => {
+    const onChange = vi.fn()
+    const onUpdateModelValue = vi.fn()
+    const options = [
+      {
+        value: 'guide',
+        label: 'Guide',
+      },
+    ]
+    const value = ref([])
+    const props = {
+      multiple: true,
+    }
+    const wrapper = mount(() => (
+      <CascaderPanel
+        v-model={value.value}
+        options={options}
+        props={props}
+        onUpdate:modelValue={onUpdateModelValue}
+        onChange={onChange}
+      />
+    ))
+
+    const node = wrapper.find('.el-cascader-node')
+    await node.trigger('click')
+    await nextTick()
+    expect(onChange).toHaveBeenCalledOnce()
+    expect(onUpdateModelValue).toHaveBeenCalledOnce()
+    expect(onChange).toHaveBeenCalledWith([['guide']])
+    expect(onUpdateModelValue).toHaveBeenCalledWith([['guide']])
+  })
+
+  test('should allow click node to check value on checkStrictly mode', async () => {
+    const onChange = vi.fn()
+    const onUpdateModelValue = vi.fn()
+    const options = [
+      {
+        value: 'guide',
+        label: 'Guide',
+      },
+    ]
+    const value = ref([])
+    const props = {
+      checkStrictly: true,
+    }
+    const wrapper = mount(() => (
+      <CascaderPanel
+        v-model={value.value}
+        options={options}
+        props={props}
+        onUpdate:modelValue={onUpdateModelValue}
+        onChange={onChange}
+      />
+    ))
+
+    const node = wrapper.find('.el-cascader-node')
+    await node.trigger('click')
+    await nextTick()
+    expect(onChange).toHaveBeenCalledOnce()
+    expect(onUpdateModelValue).toHaveBeenCalledOnce()
+    expect(onChange).toHaveBeenCalledWith(['guide'])
+    expect(onUpdateModelValue).toHaveBeenCalledWith(['guide'])
   })
 })

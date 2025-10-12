@@ -4,6 +4,7 @@ import { afterEach, describe, expect, test, vi } from 'vitest'
 import defineGetter from '@element-plus/test-utils/define-getter'
 import { ElFormItem as FormItem } from '@element-plus/components/form'
 import Input from '../src/input.vue'
+
 import type { CSSProperties } from 'vue'
 import type { InputAutoSize, InputProps } from '../src/input'
 import type { InputInstance } from '../src/instance'
@@ -326,15 +327,14 @@ describe('Input.vue', () => {
     test('method:resizeTextarea', async () => {
       const text = ref('TEXT:resizeTextarea')
       const wrapper = mount({
-        setup: () => () =>
-          (
-            <Input
-              ref="textarea"
-              autosize={{ minRows: 1, maxRows: 1 }}
-              type="textarea"
-              v-model={text.value}
-            />
-          ),
+        setup: () => () => (
+          <Input
+            ref="textarea"
+            autosize={{ minRows: 1, maxRows: 1 }}
+            type="textarea"
+            v-model={text.value}
+          />
+        ),
       })
       const refTextarea = wrapper.vm.$refs.textarea as InputInstance
 

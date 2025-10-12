@@ -7,7 +7,7 @@ import {
   isString,
 } from '@element-plus/utils'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type { FormItemProp } from './form-item'
 import type { FormRules } from './types'
 
@@ -105,11 +105,15 @@ export const formProps = buildProps({
    * @description When validation fails, it scrolls to the first error item based on the scrollIntoView option.
    */
   scrollIntoViewOptions: {
-    type: [Object, Boolean],
+    type: definePropType<ScrollIntoViewOptions | boolean>([Object, Boolean]),
+    default: true,
   },
 } as const)
 export type FormProps = ExtractPropTypes<typeof formProps>
+export type FormPropsPublic = __ExtractPublicPropTypes<typeof formProps>
+
 export type FormMetaProps = ExtractPropTypes<typeof formMetaProps>
+export type FormMetaPropsPublic = __ExtractPublicPropTypes<typeof formMetaProps>
 
 export const formEmits = {
   validate: (prop: FormItemProp, isValid: boolean, message: string) =>
