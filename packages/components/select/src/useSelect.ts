@@ -773,6 +773,61 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     }
   }
 
+  const ensureExpanded = () => {
+    if (!expanded.value) {
+      expanded.value = true
+      return false
+    }
+    return !(
+      states.options.size === 0 ||
+      filteredOptionsCount.value === 0 ||
+      isComposing.value ||
+      optionsAllDisabled.value
+    )
+  }
+
+  const focusOption = (index: number) => {
+    states.hoveringIndex = index
+    nextTick(() => scrollToOption(hoverOption.value))
+  }
+
+  const handleKeydown = (e: KeyboardEvent) => {
+    const code = getEventCode(e)
+    switch (code) {
+      case EVENT_CODE.up:
+        navigateOptions('prev')
+        break
+      case EVENT_CODE.down:
+        navigateOptions('next')
+        break
+      case EVENT_CODE.enter:
+        selectOption()
+        break
+      case EVENT_CODE.esc:
+        handleEsc()
+        break
+      case EVENT_CODE.backspace:
+        deletePrevTag(e)
+        return
+      case EVENT_CODE.home:
+        if (!ensureExpanded()) return
+        focusOption(0)
+        break
+      case EVENT_CODE.end:
+        if (!ensureExpanded()) return
+        focusOption(states.options.size)
+        break
+      case EVENT_CODE.pageUp:
+        if (!ensureExpanded()) return
+        focusOption(Math.max(0, states.hoveringIndex - 10))
+        break
+      case EVENT_CODE.pageDown:
+        if (!ensureExpanded()) return
+        focusOption(Math.min(states.options.size, states.hoveringIndex + 10))
+        break
+    }
+  }
+
   const getGapWidth = () => {
     if (!selectionRef.value) return 0
     const style = window.getComputedStyle(selectionRef.value)
@@ -864,6 +919,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     handleCompositionStart,
     handleCompositionUpdate,
     handleCompositionEnd,
+    handleKeydown,
     onOptionCreate,
     onOptionDestroy,
     handleMenuEnter,
