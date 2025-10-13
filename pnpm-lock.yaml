@@ -12088,7 +12088,7 @@ snapshots:
 
   '@vue/compiler-core@3.5.21':
     dependencies:
-      '@babel/parser': 7.28.4
+      '@babel/parser': 7.28.5
       '@vue/shared': 3.5.21
       entities: 4.5.0
       estree-walker: 2.0.2
