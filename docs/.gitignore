@@ -1,7 +1,6 @@
 .vitepress/i18n/*
 .vitepress/crowdin/*
 !.vitepress/crowdin/en-US
-stub/*
 public/llms.txt
 public/llms-full.txt
 temp
