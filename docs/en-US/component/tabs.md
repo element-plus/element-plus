@@ -168,3 +168,11 @@ type TabBarInstance = InstanceType<typeof TabBar> & {
 ```
 
 </details>
+
+## FAQ
+
+#### How to use sortable/draggable tabs ?
+
+We exposed the necessary information to implement it yourself.
+You can use a native way to do it, [demo](https://tinyurl.com/2jkyw82j).
+Or using [SortableJs](https://github.com/SortableJS/Sortable), [demo](https://tinyurl.com/2r8js24y).

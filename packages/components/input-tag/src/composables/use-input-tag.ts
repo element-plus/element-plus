@@ -5,7 +5,12 @@ import {
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import { debugWarn, ensureArray, isUndefined } from '@element-plus/utils'
+import {
+  debugWarn,
+  ensureArray,
+  getEventCode,
+  isUndefined,
+} from '@element-plus/utils'
 import { useComposition, useFocusController } from '@element-plus/hooks'
 import { useFormDisabled, useFormSize } from '@element-plus/components/form'
 
@@ -89,7 +94,9 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
 
   const handleKeydown = (event: KeyboardEvent) => {
     if (isComposing.value) return
-    switch (event.code) {
+    const code = getEventCode(event)
+
+    switch (code) {
       case props.trigger:
         event.preventDefault()
         event.stopPropagation()
@@ -124,7 +131,7 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
 
     emit(UPDATE_MODEL_EVENT, value)
     emit(CHANGE_EVENT, value)
-    emit('remove-tag', item)
+    emit('remove-tag', item, index)
   }
 
   const handleClear = () => {
@@ -145,12 +152,13 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
       dropIndex > draggingIndex && type === 'before'
         ? -1
         : dropIndex < draggingIndex && type === 'after'
-        ? 1
-        : 0
+          ? 1
+          : 0
 
     value.splice(dropIndex + step, 0, draggedItem)
     emit(UPDATE_MODEL_EVENT, value)
     emit(CHANGE_EVENT, value)
+    emit('drag-tag', draggingIndex, dropIndex + step, draggedItem)
   }
 
   const focus = () => {

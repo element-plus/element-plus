@@ -11,7 +11,7 @@ export const formItemValidateStates = [
   'validating',
   'success',
 ] as const
-export type FormItemValidateState = typeof formItemValidateStates[number]
+export type FormItemValidateState = (typeof formItemValidateStates)[number]
 
 export type FormItemProp = Arrayable<string>
 
@@ -73,8 +73,8 @@ export const formItemProps = buildProps({
    * @description Inline style validate message.
    */
   inlineMessage: {
-    type: [String, Boolean],
-    default: '',
+    type: Boolean,
+    default: undefined,
   },
   /**
    * @description Whether to show the error message.

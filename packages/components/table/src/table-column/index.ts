@@ -74,8 +74,8 @@ export default defineComponent({
         type === 'selection'
           ? false
           : isUndefined(props.showOverflowTooltip)
-          ? parent.props.showOverflowTooltip
-          : props.showOverflowTooltip
+            ? parent.props.showOverflowTooltip
+            : props.showOverflowTooltip
       const tooltipFormatter = isUndefined(props.tooltipFormatter)
         ? parent.props.tooltipFormatter
         : props.tooltipFormatter

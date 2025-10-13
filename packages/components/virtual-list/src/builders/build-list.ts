@@ -4,6 +4,7 @@ import {
   defineComponent,
   getCurrentInstance,
   h,
+  mergeProps,
   nextTick,
   onActivated,
   onMounted,
@@ -498,10 +499,10 @@ const createList = ({
       const InnerNode = [
         h(
           Inner as VNode,
-          {
+          mergeProps(ctx.innerProps, {
             style: innerStyle,
             ref: 'innerRef',
-          },
+          }),
           !isString(Inner)
             ? {
                 default: () => children,

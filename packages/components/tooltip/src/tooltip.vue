@@ -6,6 +6,7 @@
       :trigger-keys="triggerKeys"
       :virtual-ref="virtualRef"
       :virtual-triggering="virtualTriggering"
+      :focus-on-target="focusOnTarget"
     >
       <slot v-if="$slots.default" />
     </el-tooltip-trigger>
@@ -38,6 +39,7 @@
       :virtual-triggering="virtualTriggering"
       :z-index="zIndex"
       :append-to="appendTo"
+      :loop="loop"
     >
       <slot name="content">
         <span v-if="rawContent" v-html="content" />

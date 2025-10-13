@@ -26,6 +26,7 @@ describe('withInstall', () => {
       },
     }
 
+    // eslint-disable-next-line vue/one-component-per-file
     const app = createApp({})
     const componentWithInstall = withInstall(mainComponent, extraComponents)
 
@@ -85,6 +86,7 @@ describe('withInstallDirective', () => {
       unmounted: () => null,
     }
 
+    // eslint-disable-next-line vue/one-component-per-file
     const app = createApp({})
     const directiveWithInstall = withInstallDirective(
       directive,

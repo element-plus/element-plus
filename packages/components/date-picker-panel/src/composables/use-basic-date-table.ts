@@ -76,10 +76,8 @@ export const useBasicDateTable = (
     }
   })
 
-  const selectedDate = computed(() => {
-    return props.selectionMode === 'dates'
-      ? (castArray(props.parsedValue) as Dayjs[])
-      : ([] as Dayjs[])
+  const selectedDate = computed<Dayjs[]>(() => {
+    return props.selectionMode === 'dates' ? castArray(props.parsedValue!) : []
   })
 
   // Return value indicates should the counter be incremented
@@ -259,6 +257,13 @@ export const useBasicDateTable = (
     }
   }
 
+  const isSelectedCell = (cell: DateCell) => {
+    return (
+      (!unref(hasCurrent) && cell?.text === 1 && cell.type === 'normal') ||
+      cell.isCurrent
+    )
+  }
+
   const handleFocus = (event: FocusEvent) => {
     if (focusWithClick || unref(hasCurrent) || props.selectionMode !== 'date')
       return
@@ -384,6 +389,7 @@ export const useBasicDateTable = (
     focus,
     isCurrent,
     isWeekActive,
+    isSelectedCell,
 
     handlePickDate,
     handleMouseUp,

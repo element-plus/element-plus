@@ -70,6 +70,7 @@ const beforeChange = () => {
         {
           duration: 400,
           easing: 'ease-in',
+          fill: 'both',
           pseudoElement: isDark.value
             ? '::view-transition-old(root)'
             : '::view-transition-new(root)',
