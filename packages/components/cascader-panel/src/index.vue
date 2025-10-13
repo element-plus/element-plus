@@ -89,9 +89,6 @@ const checkedValue = ref<CascaderValue>()
 const menus = ref<CascaderNode[][]>([])
 const expandingNode = ref<CascaderNode>()
 const checkedNodes = ref<CascaderNode[]>([])
-const propsOptionsOldAndNewVal = ref<
-  [CascaderOption[] | undefined, CascaderOption[] | undefined]
->([undefined, undefined])
 
 const isHoverMenu = computed(() => config.value.expandTrigger === 'hover')
 const renderLabelFn = computed(() => props.renderLabel || slots.default)
@@ -355,21 +352,6 @@ provide(
   })
 )
 
-// backup props.options
-watch(
-  () => props.options,
-  (newVal) => {
-    propsOptionsOldAndNewVal.value = [
-      propsOptionsOldAndNewVal.value[1],
-      cloneDeep(newVal),
-    ]
-  },
-  {
-    immediate: true,
-    deep: true,
-  }
-)
-
 watch(
   config,
   (newVal, oldVal) => {
@@ -383,9 +365,8 @@ watch(
 
 watch(
   () => props.options,
-  () => {
-    const [oldVal, newVal] = propsOptionsOldAndNewVal.value
-    if (isEqual(newVal, oldVal)) return
+  (newVal, oldVal) => {
+    if (newVal !== oldVal && isEqual(newVal, oldVal)) return
     initStore()
   },
   {
