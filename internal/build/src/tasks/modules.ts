@@ -7,7 +7,12 @@ import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import esbuild from 'rollup-plugin-esbuild'
 import glob from 'fast-glob'
-import { epRoot, excludeFiles, pkgRoot } from '@element-plus/build-utils'
+import {
+  compRoot,
+  epRoot,
+  excludeFiles,
+  pkgRoot,
+} from '@element-plus/build-utils'
 import { generateExternal, withTaskName, writeBundles } from '../utils'
 import { ElementPlusAlias } from '../plugins/element-plus-alias'
 import { buildConfigEntries, target } from '../build-info'
@@ -68,8 +73,8 @@ async function buildModulesComponents() {
 
 async function buildModulesStyles() {
   const input = excludeFiles(
-    await glob('**/style/(index|css).ts', {
-      cwd: pkgRoot,
+    await glob('*/style/(index|css).ts', {
+      cwd: compRoot,
       absolute: true,
       onlyFiles: true,
     })
@@ -82,12 +87,11 @@ async function buildModulesStyles() {
 
   await writeBundles(
     bundle,
-    buildConfigEntries.map(([module, config]): OutputOptions => {
+    buildConfigEntries.map(([_, config]): OutputOptions => {
       return {
         format: config.format,
         dir: path.resolve(config.output.path, 'components'),
         preserveModules: true,
-        preserveModulesRoot: epRoot,
         entryFileNames: `[name].${config.ext}`,
       }
     })
@@ -95,6 +99,6 @@ async function buildModulesStyles() {
 }
 
 export const buildModules: TaskFunction = series(
-  // withTaskName('buildModulesComponents', buildModulesComponents),
+  withTaskName('buildModulesComponents', buildModulesComponents),
   withTaskName('buildModulesStyles', buildModulesStyles)
 )

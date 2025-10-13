@@ -49,8 +49,8 @@ export default series(
   withTaskName('createOutput', () => mkdir(epOutput, { recursive: true })),
 
   parallel(
-    runTask('buildModules')
-    // runTask('buildFullBundle'),
+    // runTask('buildModules')
+    runTask('buildFullBundle')
     // runTask('generateTypesDefinitions'),
     // runTask('buildHelper'),
     // series(

@@ -25,6 +25,9 @@ const alias: Record<string, AliasOption> = {
   '@element-plus/utils': {
     replacement: path.join(rootPath, 'packages/utils'),
   },
+  '@element-plus/locale': {
+    replacement: path.join(rootPath, 'packages/locale'),
+  },
   '@element-plus/theme-chalk': {
     replacement: 'element-plus/theme-chalk',
     external: 'absolute',
@@ -41,12 +44,10 @@ export function ElementPlusAlias(): Plugin {
 
       const aliasOption = alias[packageName]
       id = id.replace(packageName, aliasOption.replacement)
-      if (packageName === '@element-plus/components') {
+      if (packageName !== '@element-plus/theme-chalk') {
         id = isDirectory(id)
           ? path.join(id, 'index.ts')
           : path.normalize(`${id}.ts`)
-      } else if (packageName !== '@element-plus/theme-chalk') {
-        id = path.join(id, 'index.ts')
       }
 
       return {
