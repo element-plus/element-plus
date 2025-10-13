@@ -4,7 +4,6 @@ import { beforeEach, describe, expect, test, vi } from 'vitest'
 import { Check, Loading } from '@element-plus/icons-vue'
 import CascaderPanel from '../src/index.vue'
 import Node from '../src/node.vue'
-import { ElCascaderPanel } from '@element-plus/components'
 
 import type {
   CascaderOption,
