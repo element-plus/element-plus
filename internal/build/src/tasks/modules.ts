@@ -68,7 +68,7 @@ async function buildModulesComponents() {
 
 async function buildModulesStyles() {
   const input = excludeFiles(
-    await glob('**/style/(index|css).{js,ts,vue}', {
+    await glob('**/style/(index|css).ts', {
       cwd: pkgRoot,
       absolute: true,
       onlyFiles: true,
@@ -86,10 +86,8 @@ async function buildModulesStyles() {
       return {
         format: config.format,
         dir: path.resolve(config.output.path, 'components'),
-        exports: module === 'cjs' ? 'named' : undefined,
         preserveModules: true,
         preserveModulesRoot: epRoot,
-        sourcemap: true,
         entryFileNames: `[name].${config.ext}`,
       }
     })

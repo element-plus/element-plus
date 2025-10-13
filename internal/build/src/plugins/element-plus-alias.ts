@@ -1,4 +1,4 @@
-import path from 'node:path'
+import path from 'path'
 import fs from 'node:fs'
 
 import type { PartialResolvedId, Plugin } from 'rollup'
@@ -11,19 +11,19 @@ const cwd = path.resolve()
 const rootPath = path.resolve(cwd, '../../')
 const alias: Record<string, AliasOption> = {
   '@element-plus/components': {
-    replacement: path.resolve(rootPath, 'packages/components'),
+    replacement: path.join(rootPath, 'packages/components'),
   },
   '@element-plus/constants': {
-    replacement: path.resolve(rootPath, 'packages/constants'),
+    replacement: path.join(rootPath, 'packages/constants'),
   },
   '@element-plus/directives': {
-    replacement: path.resolve(rootPath, 'packages/directives'),
+    replacement: path.join(rootPath, 'packages/directives'),
   },
   '@element-plus/hooks': {
-    replacement: path.resolve(rootPath, 'packages/hooks'),
+    replacement: path.join(rootPath, 'packages/hooks'),
   },
   '@element-plus/utils': {
-    replacement: path.resolve(rootPath, 'packages/utils'),
+    replacement: path.join(rootPath, 'packages/utils'),
   },
   '@element-plus/theme-chalk': {
     replacement: 'element-plus/theme-chalk',
@@ -31,19 +31,22 @@ const alias: Record<string, AliasOption> = {
   },
 }
 const packages = Object.keys(alias) as (keyof typeof alias)[]
+
 export function ElementPlusAlias(): Plugin {
   return {
     name: 'element-plus-alias',
-    resolveId(id) {
+    async resolveId(id) {
       const packageName = packages.find((p) => id.startsWith(p))
       if (!packageName) return
 
       const aliasOption = alias[packageName]
       id = id.replace(packageName, aliasOption.replacement)
       if (packageName === '@element-plus/components') {
-        id = isDirectory(id) ? `${id}/index.ts` : `${id}.ts`
+        id = isDirectory(id)
+          ? path.join(id, 'index.ts')
+          : path.normalize(`${id}.ts`)
       } else if (packageName !== '@element-plus/theme-chalk') {
-        id = `${id}/index.ts`
+        id = path.join(id, 'index.ts')
       }
 
       return {
@@ -55,12 +58,6 @@ export function ElementPlusAlias(): Plugin {
 }
 
 function isDirectory(dir: string) {
-  let stat
-  try {
-    stat = fs.statSync(dir, { throwIfNoEntry: false })
-  } catch (e) {
-    if (e && (e.code === 'ENOENT' || e.code === 'ENOTDIR')) return false
-    throw e
-  }
-  return stat && stat.isDirectory()
+  const stat = fs.statSync(dir, { throwIfNoEntry: false })
+  return stat?.isDirectory() ?? false
 }
