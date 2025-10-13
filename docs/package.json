@@ -7,7 +7,8 @@
     "serve": "NODE_ENV=production vitepress serve . --port 5001",
     "gen-llms": "tsx .vitepress/build/generate-llms.ts",
     "gen-locale": "rimraf .vitepress/i18n && tsx .vitepress/build/crowdin-generate.ts",
-    "crowdin-credentials": "tsx .vitepress/build/crowdin-credentials.ts"
+    "crowdin-credentials": "tsx .vitepress/build/crowdin-credentials.ts",
+    "stub": "mkdir -p ./stub/types__react && echo 'export {}' > ./stub/types__react/index.d.ts"
   },
   "dependencies": {
     "@docsearch/js": "^3.1.0",
