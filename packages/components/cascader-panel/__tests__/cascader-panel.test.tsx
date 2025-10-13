@@ -1191,7 +1191,7 @@ describe('CascaderPanel.vue', () => {
       return (
         <div onClick={withModifiers(() => (foo.value = '1'), ['capture'])}>
           {foo.value}
-          <ElCascaderPanel options={[option]} />
+          <CascaderPanel options={[option]} />
         </div>
       )
     })
