@@ -2,7 +2,7 @@
 import { defineComponent, markRaw, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, test, vi } from 'vitest'
-import { EVENT_CODE } from '@element-plus/constants'
+import { BORDER_HORIZONTAL_WIDTH, EVENT_CODE } from '@element-plus/constants'
 import { ArrowDown, CaretTop, CircleClose } from '@element-plus/icons-vue'
 import { usePopperContainerId } from '@element-plus/hooks'
 import { hasClass } from '@element-plus/utils'
@@ -425,7 +425,7 @@ describe('Select', () => {
     delete process.env.RUN_TEST_WITH_PERSISTENT
   })
 
-  test('when there is a default value and persistent is false, render the label and dynamically modify options', async () => {
+  test('when there is a default value and persistent is false, render the label and dynamically modify options and modelValue', async () => {
     // This is convenient for testing the default value label rendering when persistent is false.
     process.env.RUN_TEST_WITH_PERSISTENT = 'true'
     wrapper = _mount(
@@ -459,6 +459,11 @@ describe('Select', () => {
     await nextTick()
 
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('双皮奶')
+
+    vm.value = '选项1'
+    await nextTick()
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('黄金糕')
+
     delete process.env.RUN_TEST_WITH_PERSISTENT
   })
 
@@ -1128,10 +1133,10 @@ describe('Select', () => {
       .mockReturnValue(selectRect as DOMRect)
     const dropdown = wrapper.findComponent({ name: 'ElSelectDropdown' })
     dropdown.vm.minWidth = `${
-      selectRef.element.getBoundingClientRect().width
+      selectRef.element.getBoundingClientRect().width - BORDER_HORIZONTAL_WIDTH
     }px`
     await nextTick()
-    expect(dropdown.element.style.width).toBe('221px')
+    expect(dropdown.element.style.width).toBe('219px')
     mockSelectWidth.mockRestore()
   })
 
@@ -2895,6 +2900,69 @@ describe('Select', () => {
     // after deletion, an el-tag still exist
     expect(wrapper.findAll('.el-tag').length).toBe(1)
   })
+
+  it('should render label slot with index', async () => {
+    const wrapper = _mount(
+      `
+      <el-select :model-value="'foo'">
+        <el-option
+          label="foo"
+          value="foo"
+        >
+        </el-option>
+        <template #label="{ label, index }">{{ label }} = {{ index }}</template>
+      </el-select>
+    `
+    )
+    await nextTick()
+    const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()
+    expect(placeholder).toBe('foo = 0')
+  })
+
+  it('should label slot render dynamic index', async () => {
+    const value = ref(['Option1'])
+    const options = ref([
+      {
+        value: 'Option1',
+        label: 'Label1',
+      },
+      {
+        value: 'Option2',
+        label: 'Label2',
+      },
+    ])
+    const wrapper = _mount(
+      `
+        <el-select v-model="value" multiple>
+          <el-option
+            v-for="option in options"
+            :key="option.value"
+            :value="option.value"
+            :label="option.label"
+          />
+          <template #label="{ label, index }">{{ label }} = {{ index }}</template>
+        </el-select>
+      `,
+      () => ({
+        value,
+        options,
+      })
+    )
+    await nextTick()
+    const tag = wrapper.find('.el-tag')
+    expect(tag.text()).toBe('Label1 = 0')
+    options.value.shift()
+    await nextTick()
+    expect(tag.text()).toBe('Label1 = -1')
+    options.value.push({ value: 'Option3', label: 'Label3' })
+    await nextTick()
+    value.value.push('Option2', 'Option3')
+    await nextTick()
+    const tags = wrapper.findAll('.el-tag')
+    expect(tags[1].text()).toBe('Label2 = 0')
+    expect(tags[2].text()).toBe('Label3 = 1')
+  })
+
   it('should ensure that isDisabled is fresh to prevent selected tag from being cleared', async () => {
     const disabled = ref(false)
     const wrapper = _mount(
@@ -3577,5 +3645,46 @@ describe('Select', () => {
     expect(vm.value).toBe(5)
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('北京烤鸭')
     expect(vm.count).toBe(2)
+  })
+
+  test('loading appears on first click when remote', async () => {
+    wrapper = _mount(
+      `
+      <el-select
+        v-model="value"
+        filterable
+        remote
+        :remote-method="remoteMethod"
+        :loading="loading"
+      >
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item"
+        />
+      </el-select>`,
+      () => ({
+        options: [],
+        value: '',
+        loading: false,
+      }),
+      {
+        methods: {
+          remoteMethod() {
+            this.loading = true
+            setTimeout(() => {
+              this.loading = false
+            }, 1000)
+          },
+        },
+      }
+    )
+
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const selectVm = select.vm as any
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    expect(selectVm.dropdownMenuVisible).toBeTruthy()
   })
 })

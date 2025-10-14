@@ -14,19 +14,23 @@ export const useTooltipTriggerProps = buildProps({
    */
   disabled: Boolean,
   /**
-   * @description How should the tooltip be triggered (to show)
+   * @description How should the tooltip be triggered (to show), not valid in controlled mode
    */
   trigger: {
     type: definePropType<Arrayable<TooltipTriggerType>>([String, Array]),
     default: 'hover',
   },
   /**
-   * @description When you click the mouse to focus on the trigger element, you can define a set of keyboard codes to control the display of tooltip through the keyboard
+   * @description When you click the mouse to focus on the trigger element, you can define a set of keyboard codes to control the display of tooltip through the keyboard, not valid in controlled mode
    */
   triggerKeys: {
     type: definePropType<string[]>(Array),
     default: () => [EVENT_CODE.enter, EVENT_CODE.numpadEnter, EVENT_CODE.space],
   },
+  /**
+   * @description when triggering tooltips through hover, whether to focus the trigger element, which improves accessibility
+   */
+  focusOnTarget: Boolean,
 } as const)
 
 export type ElTooltipTriggerProps = ExtractPropTypes<

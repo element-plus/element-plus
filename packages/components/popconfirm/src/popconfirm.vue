@@ -2,7 +2,7 @@
   <el-tooltip
     ref="tooltipRef"
     trigger="click"
-    effect="light"
+    :effect="effect"
     v-bind="$attrs"
     :popper-class="`${ns.namespace.value}-popover`"
     :popper-style="style"
@@ -10,9 +10,11 @@
     :fallback-placements="['bottom', 'top', 'right', 'left']"
     :hide-after="hideAfter"
     :persistent="persistent"
+    loop
+    @show="showPopper"
   >
     <template #content>
-      <div :class="ns.b()">
+      <div ref="rootRef" tabindex="-1" :class="ns.b()">
         <div :class="ns.e('main')">
           <el-icon
             v-if="!hideIcon && icon"
@@ -72,9 +74,15 @@ const emit = defineEmits(popconfirmEmits)
 const { t } = useLocale()
 const ns = useNamespace('popconfirm')
 const tooltipRef = ref<TooltipInstance>()
+const rootRef = ref<HTMLElement>()
+
 const popperRef = computed(() => {
   return unref(tooltipRef)?.popperRef
 })
+
+const showPopper = () => {
+  rootRef.value?.focus?.()
+}
 
 const hidePopper = () => {
   tooltipRef.value?.onClose?.()

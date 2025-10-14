@@ -2,6 +2,7 @@ import { getCurrentInstance, inject, ref, unref, watch } from 'vue'
 import dayjs from 'dayjs'
 import { isArray } from '@element-plus/utils'
 import { useLocale, useNamespace } from '@element-plus/hooks'
+import { isEqual } from 'lodash-unified'
 import { getDefaultValue, isValidRange } from '../utils'
 import { ROOT_PICKER_INJECTION_KEY } from '../constants'
 import { useShortcut } from './use-shortcut'
@@ -12,10 +13,7 @@ import type { PanelRangeSharedProps, RangeState } from '../props/shared'
 import type { DefaultValue } from '../utils'
 
 type UseRangePickerProps = {
-  onParsedValueChanged: (
-    minDate: Dayjs | undefined,
-    maxDate: Dayjs | undefined
-  ) => void
+  sortDates: (minDate: Dayjs | undefined, maxDate: Dayjs | undefined) => void
   defaultValue: Ref<DefaultValue>
   defaultTime?: Ref<DefaultValue>
   leftDate: Ref<Dayjs>
@@ -34,7 +32,7 @@ export const useRangePicker = (
     step,
     unit,
 
-    onParsedValueChanged,
+    sortDates,
   }: UseRangePickerProps
 ) => {
   const { emit } = getCurrentInstance()!
@@ -70,13 +68,13 @@ export const useRangePicker = (
     }
   }
 
-  const onReset = (parsedValue: PanelRangeSharedProps['parsedValue']) => {
+  const parseValue = (parsedValue: PanelRangeSharedProps['parsedValue']) => {
     if (isArray(parsedValue) && parsedValue.length === 2) {
       const [start, end] = parsedValue
       minDate.value = start
       leftDate.value = start
       maxDate.value = end
-      onParsedValueChanged(unref(minDate), unref(maxDate))
+      sortDates(unref(minDate), unref(maxDate))
     } else {
       restoreDefault()
     }
@@ -128,8 +126,11 @@ export const useRangePicker = (
   watch(
     () => props.parsedValue,
     (parsedValue) => {
-      if (!(parsedValue as [Dayjs, Dayjs])?.length) {
-        onReset(parsedValue)
+      if (
+        !(parsedValue as [Dayjs, Dayjs])?.length ||
+        !isEqual(parsedValue, [minDate.value, maxDate.value])
+      ) {
+        parseValue(parsedValue)
       }
     },
     {
@@ -141,7 +142,7 @@ export const useRangePicker = (
     () => props.visible,
     () => {
       if (props.visible) {
-        onReset(props.parsedValue)
+        parseValue(props.parsedValue)
       }
     },
     { immediate: true }
@@ -159,7 +160,7 @@ export const useRangePicker = (
     handleRangeConfirm,
     handleShortcutClick,
     onSelect,
-    onReset,
+    parseValue,
     t,
   }
 }

@@ -401,7 +401,6 @@
 import { computed, inject, nextTick, ref, toRef, unref, watch } from 'vue'
 import dayjs from 'dayjs'
 import { ClickOutside as vClickoutside } from '@element-plus/directives'
-import { isArray } from '@element-plus/utils'
 import { useLocale } from '@element-plus/hooks'
 import ElButton from '@element-plus/components/button'
 import ElInput from '@element-plus/components/input'
@@ -464,7 +463,6 @@ const defaultValue = toRef(pickerBase.props, 'defaultValue')
 const { lang } = useLocale()
 const leftDate = ref<Dayjs>(dayjs().locale(lang.value))
 const rightDate = ref<Dayjs>(dayjs().locale(lang.value).add(1, unit))
-let shouldBeVisible = true
 
 const {
   minDate,
@@ -476,7 +474,7 @@ const {
   handleRangeConfirm,
   handleShortcutClick,
   onSelect,
-  onReset,
+  parseValue,
   t,
 } = useRangePicker(props, {
   defaultValue,
@@ -484,14 +482,14 @@ const {
   leftDate,
   rightDate,
   unit,
-  onParsedValueChanged,
+  sortDates,
 })
 
 watch(
   () => props.visible,
   (visible) => {
     if (!visible && rangeState.value.selecting) {
-      onReset(props.parsedValue)
+      parseValue(props.parsedValue)
       onSelect(false)
     }
   }
@@ -726,15 +724,8 @@ const handleRangePick = (
   if (!showTime.value && close) {
     close = !minDate_ || !maxDate_
   }
-  shouldBeVisible = close
+  handleRangeConfirm(close)
 }
-
-watch([maxDate, minDate], ([max, min]) => {
-  if (max && min) {
-    handleRangeConfirm(shouldBeVisible)
-    shouldBeVisible = true
-  }
-})
 
 const minTimePickerVisible = ref(false)
 const maxTimePickerVisible = ref(false)
@@ -781,6 +772,8 @@ const handleDateInput = (value: string | null, type: ChangeType) => {
         minDate.value = maxDate.value.subtract(1, 'month')
       }
     }
+    sortDates(minDate.value, maxDate.value)
+    handleRangeConfirm(true)
   }
 }
 
@@ -825,6 +818,7 @@ const handleTimeChange = (_value: string | null, type: ChangeType) => {
       minDate.value = maxDate.value
     }
   }
+  handleRangeConfirm(true)
 }
 
 const handleMinTimePick = (value: Dayjs, visible: boolean, first: boolean) => {
@@ -845,9 +839,10 @@ const handleMinTimePick = (value: Dayjs, visible: boolean, first: boolean) => {
     maxDate.value = minDate.value
     rightDate.value = value
     nextTick(() => {
-      onReset(props.parsedValue)
+      parseValue(props.parsedValue)
     })
   }
+  handleRangeConfirm(true)
 }
 
 const handleMaxTimePick = (
@@ -871,9 +866,14 @@ const handleMaxTimePick = (
   if (maxDate.value && maxDate.value.isBefore(minDate.value)) {
     minDate.value = maxDate.value
   }
+  handleRangeConfirm(true)
 }
 
 const handleClear = () => {
+  let valueOnClear = null
+  if (pickerBase?.emptyValues) {
+    valueOnClear = pickerBase.emptyValues.valueOnClear.value
+  }
   leftDate.value = getDefaultValue(unref(defaultValue), {
     lang: unref(lang),
     unit: 'month',
@@ -882,13 +882,9 @@ const handleClear = () => {
   rightDate.value = leftDate.value.add(1, 'month')
   maxDate.value = undefined
   minDate.value = undefined
-  emit('pick', null)
-}
 
-const formatToString = (value: Dayjs | Dayjs[]) => {
-  return isArray(value)
-    ? value.map((_) => _.format(format.value))
-    : value.format(format.value)
+  handleRangeConfirm(true)
+  emit('pick', valueOnClear)
 }
 
 const parseUserInput = (value: Dayjs | Dayjs[]) => {
@@ -900,10 +896,7 @@ const parseUserInput = (value: Dayjs | Dayjs[]) => {
   )
 }
 
-function onParsedValueChanged(
-  minDate: Dayjs | undefined,
-  maxDate: Dayjs | undefined
-) {
+function sortDates(minDate: Dayjs | undefined, maxDate: Dayjs | undefined) {
   if (props.unlinkPanels && maxDate) {
     const minDateYear = minDate?.year() || 0
     const minDateMonth = minDate?.month() || 0
@@ -926,6 +919,5 @@ function onParsedValueChanged(
 
 emit('set-picker-option', ['isValidValue', isValidValue])
 emit('set-picker-option', ['parseUserInput', parseUserInput])
-emit('set-picker-option', ['formatToString', formatToString])
 emit('set-picker-option', ['handleClear', handleClear])
 </script>

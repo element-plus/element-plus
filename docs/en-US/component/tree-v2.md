@@ -118,6 +118,7 @@ tree-v2/filter
 | icon                          | custom tree node icon component                                                                                                              | ^[string] / ^[Component]                                                    | —       |
 | item-size ^(2.2.33)           | custom tree node height                                                                                                                      | ^[number]                                                                   | 26      |
 | scrollbar-always-on ^(2.10.4) | always show scrollbar                                                                                                                        | ^[boolean]                                                                  | false   |
+| height                        | height of the tree                                                                                                                           | ^[number]                                                                   | 200     |
 
 ### props
 
@@ -129,7 +130,7 @@ tree-v2/filter
 | disabled       | specify which key of node object represents if node's checkbox is disabled           | ^[string]                                                                                           | disabled |
 | class ^(2.9.0) | custom node class name                                                               | ^[string] / ^[Function]`(data: TreeNodeData, node: TreeNode) => string \| {[key: string]: boolean}` | —        |
 
-### TreeV2 Method
+### TreeV2 Exposes
 
 `Tree` has the following method, which returns the currently selected array of nodes.
 
@@ -170,5 +171,5 @@ tree-v2/filter
 
 | Name           | Description                                                                                    |
 | -------------- | ---------------------------------------------------------------------------------------------- |
-| -              | Custom content for tree nodes. The scope parameter is `{ node: TreeNode, data: TreeNodeData }` |
+| default        | Custom content for tree nodes. The scope parameter is `{ node: TreeNode, data: TreeNodeData }` |
 | empty ^(2.9.0) | empty you can customize content when data is empty.                                            |

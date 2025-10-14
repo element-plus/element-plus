@@ -10,6 +10,7 @@ export default {
       defaultLabel: 'kichagua rangi',
       description:
         'rangi ya sasa ni {color}. bonyeza kitufe cha kuingia ili kuchagua rangi mpya.',
+      alphaLabel: 'pick alpha value', // to be translated
     },
     datepicker: {
       now: 'sasa',
@@ -46,7 +47,6 @@ export default {
       month10: 'mwezi wa kumi',
       month11: 'mwezi wa kumi na moja',
       month12: 'mwezi wa kumi na mbili',
-      week: 'siku saba',
       weeks: {
         sun: 'jpili',
         mon: 'jtatu',
@@ -146,6 +146,12 @@ export default {
       resetFilter: 'weka upya',
       clearFilter: 'zote',
       sumText: 'jumla',
+    },
+    tour: {
+      next: 'Next', // to be translated
+      previous: 'Previous', // to be translated
+      finish: 'Finish', // to be translated
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'hakuna data',

@@ -119,7 +119,6 @@
 import { computed, inject, ref, toRef, unref, watch } from 'vue'
 import dayjs from 'dayjs'
 import ElIcon from '@element-plus/components/icon'
-import { isArray } from '@element-plus/utils'
 import { useLocale } from '@element-plus/hooks'
 import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
 import { PICKER_BASE_INJECTION_KEY } from '@element-plus/components/time-picker'
@@ -170,13 +169,13 @@ const {
   handleRangeConfirm,
   handleShortcutClick,
   onSelect,
-  onReset,
+  parseValue,
 } = useRangePicker(props, {
   defaultValue,
   leftDate,
   rightDate,
   unit,
-  onParsedValueChanged,
+  sortDates,
 })
 
 const hasShortcuts = computed(() => !!shortcuts.length)
@@ -233,12 +232,6 @@ const handleClear = () => {
   emit('pick', null)
 }
 
-const formatToString = (value: Dayjs | Dayjs[]) => {
-  return isArray(value)
-    ? value.map((_) => _.format(format.value))
-    : value.format(format.value)
-}
-
 const parseUserInput = (value: Dayjs | Dayjs[]) => {
   return correctlyParseUserInput(
     value,
@@ -248,10 +241,7 @@ const parseUserInput = (value: Dayjs | Dayjs[]) => {
   )
 }
 
-function onParsedValueChanged(
-  minDate: Dayjs | undefined,
-  maxDate: Dayjs | undefined
-) {
+function sortDates(minDate: Dayjs | undefined, maxDate: Dayjs | undefined) {
   if (props.unlinkPanels && maxDate) {
     const minDateYear = minDate?.year() || 0
     const maxDateYear = maxDate.year()
@@ -266,14 +256,13 @@ watch(
   () => props.visible,
   (visible) => {
     if (!visible && rangeState.value.selecting) {
-      onReset(props.parsedValue)
+      parseValue(props.parsedValue)
       onSelect(false)
     }
   }
 )
 
 emit('set-picker-option', ['isValidValue', isValidRange])
-emit('set-picker-option', ['formatToString', formatToString])
 emit('set-picker-option', ['parseUserInput', parseUserInput])
 emit('set-picker-option', ['handleClear', handleClear])
 </script>

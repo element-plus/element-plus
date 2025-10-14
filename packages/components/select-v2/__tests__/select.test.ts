@@ -87,6 +87,7 @@ const createSelect = (
     slots?: {
       empty?: string
       default?: string
+      label?: string
       tag?: string
     }
   } = {}
@@ -100,6 +101,11 @@ const createSelect = (
     (options.slots &&
       options.slots.default &&
       `<template #default="{item}">${options.slots.default}</template>`) ||
+    ''
+  const labelSlot =
+    (options.slots &&
+      options.slots.label &&
+      `<template #label="{ index, label, value }">${options.slots.label}</template>`) ||
     ''
   const tagSlot =
     (options.slots &&
@@ -147,6 +153,7 @@ const createSelect = (
         v-model="value">
         ${defaultSlot}
         ${emptySlot}
+        ${labelSlot}
         ${tagSlot}
       </el-select>
     `,
@@ -1280,6 +1287,62 @@ describe('Select', () => {
     ).toBeTruthy()
   })
 
+  it('should render label slot with index', async () => {
+    const wrapper = createSelect({
+      data() {
+        return {
+          value: 'foo',
+          options: [{ label: 'foo', value: 'foo' }],
+        }
+      },
+      slots: {
+        label: '{{ label }} = {{ index }}',
+      },
+    })
+    await nextTick()
+    const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()
+    expect(placeholder).toBe('foo = 0')
+  })
+
+  it('should label slot render dynamic index', async () => {
+    const value = ref(['Option1'])
+    const options = ref([
+      {
+        value: 'Option1',
+        label: 'Label1',
+      },
+      {
+        value: 'Option2',
+        label: 'Label2',
+      },
+    ])
+    const wrapper = createSelect({
+      data() {
+        return {
+          value: value.value,
+          options: options.value,
+          multiple: true,
+        }
+      },
+      slots: {
+        label: '{{ label }} = {{ index }}',
+      },
+    })
+    await nextTick()
+    const tag = wrapper.find('.el-tag')
+    expect(tag.text()).toBe('Label1 = 0')
+    options.value.shift()
+    await nextTick()
+    expect(tag.text()).toBe('Label1 = -1')
+    options.value.push({ value: 'Option3', label: 'Label3' })
+    await nextTick()
+    value.value.push('Option2', 'Option3')
+    await nextTick()
+    const tags = wrapper.findAll('.el-tag')
+    expect(tags[1].text()).toBe('Label2 = 0')
+    expect(tags[2].text()).toBe('Label3 = 1')
+  })
+
   it('should set placeholder to label of selected option when filterable is true and multiple is false', async () => {
     const wrapper = createSelect({
       data() {
@@ -2267,14 +2330,46 @@ describe('Select', () => {
 
   describe('It should generate accessible attributes', () => {
     it('create', async () => {
-      const wrapper = createSelect()
+      const options = [
+        { value: 'a', label: 'A' },
+        { value: 'b', label: 'B', disabled: true },
+        { value: 'c', label: 'C' },
+      ]
 
+      const wrapper = createSelect({
+        data() {
+          return {
+            value: 'a',
+            options,
+          }
+        },
+      })
+
+      const dropdown = wrapper.findComponent({ name: 'ElSelectDropdown' })
       const input = wrapper.find('input')
+      const list = dropdown.find('.el-select-dropdown__list > ul')
+      const option = dropdown.find('.el-select-dropdown__item')
+      const disabledOption = dropdown.find(
+        '.el-select-dropdown__item:nth-child(2)'
+      )
+
       expect(input.attributes('role')).toBe('combobox')
       expect(input.attributes('tabindex')).toBe('0')
-      expect(input.attributes('aria-autocomplete')).toBe('list')
+      expect(input.attributes('aria-autocomplete')).toBe('none')
+      expect(input.attributes('aria-controls')).toBe(list.attributes('id'))
       expect(input.attributes('aria-expanded')).toBe('false')
       expect(input.attributes('aria-haspopup')).toBe('listbox')
+      expect(input.attributes('aria-activedescendant')).toBe('')
+
+      expect(list.attributes('id')).toBeTruthy()
+      expect(list.attributes('role')).toBe('listbox')
+      expect(list.attributes('aria-orientation')).toBe('vertical')
+
+      expect(option.attributes('id')).toBeTruthy()
+      expect(option.attributes('role')).toBe('option')
+      expect(option.attributes('aria-disabled')).toBe(undefined)
+      expect(option.attributes('aria-selected')).toBe('true')
+      expect(disabledOption.attributes('aria-disabled')).toBe('true')
     })
 
     it('tabindex', () => {

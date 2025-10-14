@@ -9,6 +9,7 @@ export interface WatermarkFontType {
   fontWeight?: 'normal' | 'light' | 'weight' | number
   fontStyle?: 'none' | 'normal' | 'italic' | 'oblique'
   fontFamily?: string
+  fontGap?: number
   textAlign?: 'start' | 'end' | 'left' | 'right' | 'center'
   textBaseline?:
     | 'top'

@@ -1184,4 +1184,18 @@ describe('Datetimerange', () => {
     )[1]
     expect((timeInput as HTMLInputElement).value).toBe('10:10:00')
   })
+
+  it('should not emit update:model-value on panel open when value format as string', async () => {
+    const modelValue = ['2025-09-01', '2025-09-07']
+    const onUpdateModelValue = vi.fn()
+    const wrapper = _mount(() => (
+      <DatePicker
+        modelValue={modelValue}
+        type="datetimerange"
+        onUpdate:modelValue={onUpdateModelValue}
+      />
+    ))
+    await wrapper.find('.el-date-editor').trigger('click')
+    expect(onUpdateModelValue).not.toHaveBeenCalled()
+  })
 })

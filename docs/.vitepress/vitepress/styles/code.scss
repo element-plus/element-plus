@@ -17,7 +17,9 @@ samp {
   border-radius: 4px;
   padding: 0.15rem 0.5rem;
   background-color: var(--el-fill-color-light);
-  transition: color 0.25s, background-color 0.5s;
+  transition:
+    color 0.25s,
+    background-color 0.5s;
   font-size: 14px;
 }
 
@@ -138,12 +140,16 @@ samp {
 .doc-content [class*='language-'] .has-focused-lines .line:not(.has-focus) {
   filter: blur(0.095rem);
   opacity: 0.4;
-  transition: filter 0.35s, opacity 0.35s;
+  transition:
+    filter 0.35s,
+    opacity 0.35s;
 }
 
 .doc-content [class*='language-'] .has-focused-lines .line:not(.has-focus) {
   opacity: 0.7;
-  transition: filter 0.35s, opacity 0.35s;
+  transition:
+    filter 0.35s,
+    opacity 0.35s;
 }
 
 .doc-content
@@ -194,7 +200,9 @@ samp {
   line-height: var(--vp-code-line-height);
   font-size: var(--vp-code-font-size);
   color: var(--vp-code-line-number-color);
-  transition: border-color 0.5s, color 0.5s;
+  transition:
+    border-color 0.5s,
+    color 0.5s;
 }
 
 .doc-content [class*='language-'] > button.copy {
@@ -216,7 +224,10 @@ samp {
   background-position: 50%;
   background-size: 20px;
   background-repeat: no-repeat;
-  transition: border-color 0.25s, background-color 0.25s, opacity 0.25s;
+  transition:
+    border-color 0.25s,
+    background-color 0.25s,
+    opacity 0.25s;
 }
 
 .doc-content [class*='language-']:hover > button.copy,
@@ -272,7 +283,9 @@ samp {
   font-size: 12px;
   font-weight: 500;
   color: var(--vp-code-lang-color);
-  transition: color 0.4s, opacity 0.4s;
+  transition:
+    color 0.4s,
+    opacity 0.4s;
 }
 
 .doc-content [class*='language-']:hover > button.copy + span.lang,
