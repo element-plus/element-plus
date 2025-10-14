@@ -637,7 +637,7 @@ describe('Input.vue', () => {
     })
   })
 
-  test('show-word-limit-outside-position', async () => {
+  test('textarea-show-word-limit-outside-position', async () => {
     const wrapper = mount(() => (
       <Input
         placeholder="请输入内容"
@@ -645,6 +645,22 @@ describe('Input.vue', () => {
         wordLimitPosition="outside"
         maxlength={30}
         type="textarea"
+      />
+    ))
+
+    const wordLimit = wrapper.find('.el-input__count')
+    await nextTick()
+    expect(wordLimit.exists()).toBe(true)
+    expect(wordLimit.element.className.includes('is-outside')).toBeTruthy()
+  })
+
+  test('input-show-word-limit-outside-position', async () => {
+    const wrapper = mount(() => (
+      <Input
+        placeholder="请输入内容"
+        showWordLimit
+        wordLimitPosition="outside"
+        maxlength={30}
       />
     ))
 
