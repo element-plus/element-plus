@@ -184,10 +184,8 @@
     }
     @include when(outside) {
       height: unset;
-      background: transparent;
       position: absolute;
       padding-top: 2px;
-      line-height: 1;
       top: 100%;
       right: 0;
       .#{$namespace}-input__count-inner {
