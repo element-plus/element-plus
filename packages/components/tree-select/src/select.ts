@@ -67,7 +67,7 @@ export const useSelect = (
           await nextTick()
           // wait navigateOption to finish
           setTimeout(() => {
-            if (EVENT_CODE.up === evt.key) {
+            if (EVENT_CODE.up === code) {
               const listNode = tree.value.store.root.childNodes
               focusLastNode(listNode)
               return
@@ -75,7 +75,7 @@ export const useSelect = (
             // el-select-dropdown__item => el-tree-node__content => el-tree-node__content
             select.value.optionsArray[
               select.value.states.hoveringIndex
-            ].$el?.parentNode?.parentNode?.focus()
+            ].$el?.parentNode?.parentNode?.focus({ preventScroll: true })
           })
         }
       },
