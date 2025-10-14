@@ -76,7 +76,7 @@ describe('Input.vue', () => {
       const nativeInput = inputElm.element
       expect(nativeInput.value).toMatchInlineSnapshot(`"12🌚"`)
 
-      const elCount = wrapper.find('.el-input__count')
+      const elCount = wrapper.find('.el-input__count-inner')
       expect(elCount.exists()).toBe(true)
       expect(elCount.text()).toMatchInlineSnapshot(`"4 / 4"`)
 

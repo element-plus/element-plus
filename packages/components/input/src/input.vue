@@ -90,7 +90,9 @@
                 nsInput.is('outside', wordLimitPosition === 'outside'),
               ]"
             >
-              {{ textLength }} / {{ maxlength }}
+              <span :class="nsInput.e('count-inner')">
+                {{ textLength }} / {{ maxlength }}
+              </span>
             </span>
             <el-icon
               v-if="validateState && validateIcon && needStatusIcon"

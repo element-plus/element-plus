@@ -170,14 +170,18 @@
   }
 
   & .#{$namespace}-input__count {
-    color: getCssVar('color-info');
-    background: getCssVar('fill-color', 'blank');
-    display: inline-flex;
     height: 100%;
-    line-height: 14px;
+    display: inline-flex;
     align-items: center;
+    color: getCssVar('color-info');
     font-size: 12px;
 
+    .#{$namespace}-input__count-inner {
+      background: getCssVar('fill-color', 'blank');
+      line-height: initial;
+      display: inline-block;
+      padding-left: 8px;
+    }
     @include when(outside) {
       height: unset;
       background: transparent;
@@ -186,6 +190,11 @@
       line-height: 1;
       top: 100%;
       right: 0;
+      .#{$namespace}-input__count-inner {
+        background: transparent;
+        padding-left: 0px;
+        line-height: 1;
+      }
     }
   }
 
@@ -291,13 +300,6 @@
       );
       transition: all getCssVar('transition-duration');
       pointer-events: none;
-      @if $slot == prefix {
-        margin-right: 8px;
-      }
-
-      @if $slot == suffix {
-        margin-left: 8px;
-      }
     }
 
     @include e(#{$slot}-inner) {
@@ -305,7 +307,23 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+
+      @if $slot == prefix {
+        > :last-child {
+          margin-right: 8px;
+        }
+
+        > :first-child {
+          &,
+          &.#{$namespace}-input__icon {
+            margin-left: 0;
+          }
+        }
+      } @else {
+        > :first-child {
+          margin-left: 8px;
+        }
+      }
     }
   }
 
@@ -316,6 +334,7 @@
     justify-content: center;
     align-items: center;
     transition: all getCssVar('transition-duration');
+    margin-left: 8px;
   }
 
   @include e(validateIcon) {
