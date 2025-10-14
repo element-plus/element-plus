@@ -170,10 +170,12 @@
   }
 
   & .#{$namespace}-input__count {
+    color: getCssVar('color-info');
+    background: getCssVar('fill-color', 'blank');
     display: inline-flex;
     height: 100%;
+    line-height: 14px;
     align-items: center;
-    color: getCssVar('color-info');
     font-size: 12px;
 
     @include when(outside) {
