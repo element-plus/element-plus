@@ -83,10 +83,14 @@
             >
               <component :is="passwordIcon" />
             </el-icon>
-            <span v-if="isWordLimitVisible" :class="nsInput.e('count')">
-              <span :class="nsInput.e('count-inner')">
-                {{ textLength }} / {{ maxlength }}
-              </span>
+            <span
+              v-if="isWordLimitVisible"
+              :class="[
+                nsInput.e('count'),
+                nsInput.is('outside', wordLimitPosition === 'outside'),
+              ]"
+            >
+              {{ textLength }} / {{ maxlength }}
             </span>
             <el-icon
               v-if="validateState && validateIcon && needStatusIcon"
