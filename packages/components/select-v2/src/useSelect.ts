@@ -179,7 +179,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     return ValidateComponentsMap[validateState.value]
   })
 
-  const debounce = computed(() => (props.remote ? 300 : 0))
+  const debounce = computed(() => (props.remote ? props.debounce : 0))
 
   // filteredOptions includes flatten the data into one dimensional array.
   const emptyText = computed(() => {

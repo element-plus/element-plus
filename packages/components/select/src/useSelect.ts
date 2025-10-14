@@ -170,7 +170,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       (ValidateComponentsMap[validateState.value] as Component)
   )
 
-  const debounce = computed(() => (props.remote ? 300 : 0))
+  const debounce = computed(() => (props.remote ? props.debounce : 0))
 
   const isRemoteSearchEmpty = computed(
     () => props.remote && !states.inputValue && states.options.size === 0
