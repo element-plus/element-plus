@@ -107,7 +107,7 @@ input/various-size
 
 ## Limit length
 
-:::demo `maxlength` and `minlength` attributes of input, they declare a limit on the number of characters a user can input. The "number of characters" is measured using JavaScript string length.Setting the `maxlength` prop for a text or textarea type of Input can limit the length of input value, allows you to show word count by setting `show-word-limit` to `true` at the same time. In ^(2.11.5), You can set `word-limit-position` to `outside` to display the word count outside the textarea.
+:::demo `maxlength` and `minlength` attributes of input, they declare a limit on the number of characters a user can input. The "number of characters" is measured using JavaScript string length.Setting the `maxlength` prop for a text or textarea type of Input can limit the length of input value, allows you to show word count by setting `show-word-limit` to `true` at the same time. In ^(2.11.5), You can set `word-limit-position` to `outside` to display the word count outside the input.
 input/length-limiting
 
 :::
