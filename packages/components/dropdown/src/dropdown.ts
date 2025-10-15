@@ -47,7 +47,7 @@ export const dropdownProps = buildProps({
    */
   virtualRef: useTooltipTriggerProps.virtualRef,
   /**
-   * @description 	Tooltip theme, built-in theme: dark / light
+   * @description Tooltip theme, built-in theme: `dark` / `light`
    */
   effect: {
     ...useTooltipContentProps.effect,
