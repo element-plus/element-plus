@@ -91,8 +91,8 @@ const lineStyle = ref({})
 const internalStatus = ref('')
 const parent = inject(STEPS_INJECTION_KEY) as IStepsInject
 const currentInstance = getCurrentInstance()!
-const stepDiff = ref(0)
-const beforeActive = ref(0)
+let stepDiff = 0
+let beforeActive = 0
 
 onMounted(() => {
   watch(
