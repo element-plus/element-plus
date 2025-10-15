@@ -10,7 +10,7 @@ import type { Browser } from 'puppeteer'
 
 const projectRoot = process.cwd()
 const testRoot = path.resolve(projectRoot, 'ssr-testing')
-const demoRoot = path.resolve(testRoot, 'cases')
+const demoRoot = path.resolve(testRoot, 'cases').replace(/\\/g, '/')
 describe('Cypress Button', () => {
   let browser: Browser
   beforeAll(async () => {

@@ -1,6 +1,11 @@
 import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 import { tourContentProps } from './content'
-import type { CSSProperties, ExtractPropTypes } from 'vue'
+
+import type {
+  CSSProperties,
+  ExtractPropTypes,
+  __ExtractPublicPropTypes,
+} from 'vue'
 import type { TourBtnProps, TourMask } from './types'
 
 export const tourStepProps = buildProps({
@@ -85,6 +90,7 @@ export const tourStepProps = buildProps({
 })
 
 export type TourStepProps = ExtractPropTypes<typeof tourStepProps>
+export type TourStepPropsPublic = __ExtractPublicPropTypes<typeof tourStepProps>
 
 export const tourStepEmits = {
   close: () => true,

@@ -175,6 +175,7 @@ interface UploadProgressEvent extends ProgressEvent {
 
 interface UploadRawFile extends File {
   uid: number
+  isDirectory?: boolean
 }
 
 interface UploadRequestOptions {
@@ -182,7 +183,7 @@ interface UploadRequestOptions {
   method: string
   data: Record<string, string | Blob | [string | Blob, string]>
   filename: string
-  file: File
+  file: UploadRawFile
   headers: Headers | Record<string, string | number | null | undefined>
   onError: (evt: UploadAjaxError) => void
   onProgress: (evt: UploadProgressEvent) => void

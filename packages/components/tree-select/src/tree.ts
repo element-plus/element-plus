@@ -12,9 +12,10 @@ import {
   treeEach,
   treeFind,
 } from './utils'
+
 import type { CacheOption } from './cache-options'
 import type { Ref } from 'vue'
-import type ElSelect from '@element-plus/components/select'
+import type { SelectInstance } from '@element-plus/components/select'
 import type Node from '@element-plus/components/tree/src/model/node'
 import type { TreeNodeData } from '@element-plus/components/tree/src/tree.type'
 import type { TreeInstance } from '@element-plus/components/tree'
@@ -27,13 +28,13 @@ export const useTree = (
     tree,
     key,
   }: {
-    select: Ref<InstanceType<typeof ElSelect> | undefined>
+    select: Ref<SelectInstance | undefined>
     tree: Ref<TreeInstance | undefined>
     key: Ref<string>
   }
 ) => {
   watch(
-    () => props.modelValue,
+    [() => props.modelValue, tree],
     () => {
       if (props.showCheckbox) {
         nextTick(() => {
@@ -150,8 +151,8 @@ export const useTree = (
         props.renderContent
           ? () => props.renderContent(h, { node, data, store })
           : slots.default
-          ? () => slots.default({ node, data, store })
-          : undefined
+            ? () => slots.default({ node, data, store })
+            : undefined
       )
     },
     filterNodeMethod: (value, data, node) => {
@@ -208,8 +209,8 @@ export const useTree = (
           props.multiple
             ? checkedKeys
             : checkedKeys.includes(dataValue)
-            ? dataValue
-            : undefined
+              ? dataValue
+              : undefined
         )
       }
       // only can select leaf node

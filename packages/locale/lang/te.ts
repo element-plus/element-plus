@@ -11,6 +11,9 @@ export default {
       description:
         'ప్రస్తుత రంగు {color}. కొత్త రంగును ఎంచుకోవడానికి ఎంటర్ నొక్కండి.',
       alphaLabel: 'అల్ఫా విలువను ఎంచుకోండి',
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
     },
     datepicker: {
       now: 'ఇప్పుడు',
@@ -47,7 +50,6 @@ export default {
       month10: 'అక్టోబర్',
       month11: 'నవంబర్',
       month12: 'డిసెంబర్',
-      week: 'వారం',
       weeks: {
         sun: 'ఆది',
         mon: 'సోమ',
@@ -152,6 +154,7 @@ export default {
       next: 'తదుపరి',
       previous: 'గత',
       finish: 'ముగించు',
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'డేటా లేదు',

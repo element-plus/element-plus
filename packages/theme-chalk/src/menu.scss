@@ -15,7 +15,8 @@
   list-style: none;
   cursor: pointer;
   position: relative;
-  transition: border-color getCssVar('transition-duration'),
+  transition:
+    border-color getCssVar('transition-duration'),
     background-color getCssVar('transition-duration'),
     color getCssVar('transition-duration');
   box-sizing: border-box;
@@ -60,7 +61,9 @@
   box-sizing: border-box;
 
   @include m(vertical) {
-    &:not(.#{$namespace}-menu--collapse):not(.#{$namespace}-menu--popup-container) {
+    &:not(.#{$namespace}-menu--collapse):not(
+        .#{$namespace}-menu--popup-container
+      ) {
       & .#{$namespace}-menu-item,
       & .#{$namespace}-sub-menu__title,
       & .#{$namespace}-menu-item-group__title {
@@ -85,6 +88,7 @@
     border-right: none;
 
     height: getCssVar('menu-horizontal-height');
+
     // reset menu-item popup height
     &.#{$namespace}-menu--popup-container {
       height: unset;
@@ -109,6 +113,7 @@
         color: inherit;
       }
     }
+
     & > .#{$namespace}-sub-menu {
       &:focus,
       &:hover {
@@ -138,6 +143,7 @@
         }
       }
     }
+
     & .#{$namespace}-menu {
       & .#{$namespace}-menu-item,
       & .#{$namespace}-sub-menu__title {
@@ -155,25 +161,35 @@
       }
 
       & .#{$namespace}-menu-item.is-active,
-      & .#{$namespace}-sub-menu.is-active > .#{$namespace}-sub-menu__title {
+      & .#{$namespace}-menu-item.is-active:hover,
+      & .#{$namespace}-sub-menu.is-active > .#{$namespace}-sub-menu__title,
+      &
+        .#{$namespace}-sub-menu.is-active
+        > .#{$namespace}-sub-menu__title:hover {
         color: getCssVar('menu-active-color');
       }
     }
+
     & .#{$namespace}-menu-item:not(.is-disabled):hover,
     & .#{$namespace}-menu-item:not(.is-disabled):focus {
       outline: none;
-      color: getCssVar('menu-hover-text-color');
+      color: getCssVarWithDefault(
+        'menu-active-color',
+        getCssVar('menu-hover-text-color')
+      );
       background-color: getCssVar('menu-hover-bg-color');
     }
+
     & > .#{$namespace}-menu-item.is-active {
       border-bottom: 2px solid getCssVar('menu-active-color');
       color: getCssVar('menu-active-color') !important;
     }
   }
+
   @include m(collapse) {
     width: calc(
-      #{getCssVar('menu-icon-width')} + #{getCssVar('menu-base-level-padding')} *
-        2
+      #{getCssVar('menu-icon-width')} +
+        #{getCssVar('menu-base-level-padding')} * 2
     );
 
     > .#{$namespace}-menu-item,
@@ -216,6 +232,7 @@
       }
     }
   }
+
   @include m(popup) {
     z-index: 100;
     min-width: 200px;
@@ -240,12 +257,15 @@
     font-size: 18px;
     vertical-align: middle;
   }
+
   @include when(active) {
     color: getCssVar('menu-active-color');
+
     i {
       color: inherit;
     }
   }
+
   .#{$namespace}-menu-tooltip__trigger {
     position: absolute;
     left: 0;
@@ -271,23 +291,32 @@
       background-color: getCssVar('menu-hover-bg-color');
     }
   }
+
   & .#{$namespace}-menu {
     border: none;
   }
+
   & .#{$namespace}-menu-item {
     height: getCssVar('menu-sub-item-height');
     line-height: getCssVar('menu-sub-item-height');
   }
+
+  &.#{$namespace}-sub-menu__hide-arrow .#{$namespace}-sub-menu__title {
+    padding-right: getCssVar('menu-base-level-padding');
+  }
+
   @include e(hide-arrow) {
     .#{$namespace}-sub-menu__icon-arrow {
       display: none !important;
     }
   }
+
   @include when(active) {
     .#{$namespace}-sub-menu__title {
       border-bottom-color: getCssVar('menu-active-color');
     }
   }
+
   @include when(disabled) {
     .#{$namespace}-sub-menu__title,
     .#{$namespace}-menu-item {
@@ -296,6 +325,7 @@
       background: none !important;
     }
   }
+
   .#{$namespace}-icon {
     vertical-align: middle;
     margin-right: 5px;
@@ -307,6 +337,7 @@
       margin-right: 0 !important;
     }
   }
+
   .#{$namespace}-sub-menu__icon-arrow {
     position: absolute;
     top: 50%;
@@ -323,6 +354,7 @@
   > ul {
     padding: 0;
   }
+
   @include e(title) {
     padding: 7px 0 7px getCssVar('menu-base-level-padding');
     line-height: normal;

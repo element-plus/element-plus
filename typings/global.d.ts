@@ -1,3 +1,4 @@
+/* prettier-ignore */
 declare module 'vue' {
   // GlobalComponents for Volar
   export interface GlobalComponents {
@@ -28,10 +29,12 @@ declare module 'vue' {
     ElCollapse: typeof import('element-plus')['ElCollapse']
     ElCollapseItem: typeof import('element-plus')['ElCollapseItem']
     ElCollapseTransition: typeof import('element-plus')['ElCollapseTransition']
+    ElColorPickerPanel: typeof import('element-plus')['ElColorPickerPanel']
     ElColorPicker: typeof import('element-plus')['ElColorPicker']
     ElContainer: typeof import('element-plus')['ElContainer']
     ElConfigProvider: typeof import('element-plus')['ElConfigProvider']
     ElDatePicker: typeof import('element-plus')['ElDatePicker']
+    ElDatePickerPanel: typeof import('element-plus')['ElDatePickerPanel']
     ElDialog: typeof import('element-plus')['ElDialog']
     ElDivider: typeof import('element-plus')['ElDivider']
     ElDrawer: typeof import('element-plus')['ElDrawer']
@@ -106,6 +109,8 @@ declare module 'vue' {
     ElTourStep: typeof import('element-plus')['ElTourStep']
     ElSegmented: typeof import('element-plus')['ElSegmented']
     ElMention: typeof import('element-plus')['ElMention']
+    ElSplitter: typeof import('element-plus')['ElSplitter']
+    ElSplitterPanel: typeof import('element-plus')['ElSplitterPanel']
   }
 
   interface ComponentCustomProperties {

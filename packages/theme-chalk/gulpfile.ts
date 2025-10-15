@@ -1,7 +1,7 @@
 import path from 'path'
 import { Transform } from 'stream'
 import chalk from 'chalk'
-import { type TaskFunction, dest, parallel, series, src } from 'gulp'
+import { dest, parallel, series, src } from 'gulp'
 import gulpSass from 'gulp-sass'
 import dartSass from 'sass'
 import autoprefixer from 'gulp-autoprefixer'
@@ -10,6 +10,8 @@ import consola from 'consola'
 import postcss from 'postcss'
 import cssnano from 'cssnano'
 import { epOutput } from '@element-plus/build-utils'
+
+import type { TaskFunction } from 'gulp'
 import type Vinly from 'vinyl'
 
 const distFolder = path.resolve(__dirname, 'dist')

@@ -9,6 +9,7 @@
     @mouseleave="(e) => $emit('mouseleave', e)"
   >
     <el-focus-trap
+      :loop="loop"
       :trapped="trapped"
       :trap-on-focus-in="true"
       :focus-trap-el="contentRef"
@@ -25,15 +26,7 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  inject,
-  onBeforeUnmount,
-  onMounted,
-  provide,
-  ref,
-  unref,
-  watch,
-} from 'vue'
+import { inject, onBeforeUnmount, onMounted, provide, unref, watch } from 'vue'
 import { isNil } from 'lodash-unified'
 import { NOOP, isElement } from '@element-plus/utils'
 import ElFocusTrap from '@element-plus/components/focus-trap'
@@ -84,12 +77,10 @@ const {
 })
 
 const formItemContext = inject(formItemContextKey, undefined)
-const arrowOffset = ref<number>()
 
 provide(POPPER_CONTENT_INJECTION_KEY, {
   arrowStyle,
   arrowRef,
-  arrowOffset,
 })
 
 if (formItemContext) {

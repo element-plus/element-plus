@@ -1,49 +1,37 @@
-import { defineComponent, provide, reactive, ref, toRef } from 'vue'
-import dayjs from 'dayjs'
-import customParseFormat from 'dayjs/plugin/customParseFormat.js'
-import advancedFormat from 'dayjs/plugin/advancedFormat.js'
-import localeData from 'dayjs/plugin/localeData.js'
-import weekOfYear from 'dayjs/plugin/weekOfYear.js'
-import weekYear from 'dayjs/plugin/weekYear.js'
-import dayOfYear from 'dayjs/plugin/dayOfYear.js'
-import isSameOrAfter from 'dayjs/plugin/isSameOrAfter.js'
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore.js'
-import { useNamespace } from '@element-plus/hooks'
+import { computed, defineComponent, provide, reactive, ref, toRef } from 'vue'
 import {
   CommonPicker,
   DEFAULT_FORMATS_DATE,
   DEFAULT_FORMATS_DATEPICKER,
-  type DateModelType,
-  type SingleOrRange,
+  PICKER_POPPER_OPTIONS_INJECTION_KEY,
 } from '@element-plus/components/time-picker'
-import { ROOT_PICKER_INJECTION_KEY } from './constants'
+import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import {
+  ElDatePickerPanel,
+  ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY,
+} from '@element-plus/components/date-picker-panel'
+import { datePickerProps } from './props'
 
-import { datePickerProps } from './props/date-picker'
-import { getPanel } from './panel-utils'
+import type {
+  DateModelType,
+  SingleOrRange,
+} from '@element-plus/components/time-picker'
 import type { DatePickerExpose } from './instance'
-
-dayjs.extend(localeData)
-dayjs.extend(advancedFormat)
-dayjs.extend(customParseFormat)
-dayjs.extend(weekOfYear)
-dayjs.extend(weekYear)
-dayjs.extend(dayOfYear)
-dayjs.extend(isSameOrAfter)
-dayjs.extend(isSameOrBefore)
 
 export default defineComponent({
   name: 'ElDatePicker',
   install: null,
   props: datePickerProps,
-  emits: ['update:modelValue'],
+  emits: [UPDATE_MODEL_EVENT],
   setup(props, { expose, emit, slots }) {
-    const ns = useNamespace('picker-panel')
-
-    provide('ElPopperOptions', reactive(toRef(props, 'popperOptions')))
-    provide(ROOT_PICKER_INJECTION_KEY, {
-      slots,
-      pickerNs: ns,
+    const isDefaultFormat = computed(() => {
+      return !props.format
     })
+    provide(ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY, isDefaultFormat)
+    provide(
+      PICKER_POPPER_OPTIONS_INJECTION_KEY,
+      reactive(toRef(props, 'popperOptions'))
+    )
 
     const commonPicker = ref<InstanceType<typeof CommonPicker>>()
     const refProps: DatePickerExpose = {
@@ -64,7 +52,7 @@ export default defineComponent({
     expose(refProps)
 
     const onModelValueUpdated = (val: SingleOrRange<DateModelType> | null) => {
-      emit('update:modelValue', val)
+      emit(UPDATE_MODEL_EVENT, val)
     }
 
     return () => {
@@ -73,8 +61,6 @@ export default defineComponent({
       const format =
         props.format ??
         (DEFAULT_FORMATS_DATEPICKER[props.type] || DEFAULT_FORMATS_DATE)
-
-      const Component = getPanel(props.type)
 
       return (
         <CommonPicker
@@ -86,14 +72,9 @@ export default defineComponent({
         >
           {{
             default: (scopedProps: /**FIXME: remove any type */ any) => (
-              <Component {...scopedProps}>
-                {{
-                  'prev-month': slots['prev-month'],
-                  'next-month': slots['next-month'],
-                  'prev-year': slots['prev-year'],
-                  'next-year': slots['next-year'],
-                }}
-              </Component>
+              <ElDatePickerPanel border={false} {...scopedProps}>
+                {slots}
+              </ElDatePickerPanel>
             ),
             'range-separator': slots['range-separator'],
           }}

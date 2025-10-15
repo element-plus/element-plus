@@ -5,7 +5,7 @@ import {
   mutable,
 } from '@element-plus/utils'
 
-import type { Component, ExtractPropTypes } from 'vue'
+import type { Component, ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type ImageViewer from './image-viewer.vue'
 
 export type ImageViewerAction =
@@ -65,6 +65,13 @@ export const imageViewerProps = buildProps({
     default: 1.2,
   },
   /**
+   * @description preview image scale.
+   */
+  scale: {
+    type: Number,
+    default: 1,
+  },
+  /**
    * @description the min scale of the image viewer zoom event.
    */
   minScale: {
@@ -81,10 +88,7 @@ export const imageViewerProps = buildProps({
   /**
    * @description show preview image progress content.
    */
-  showProgress: {
-    type: Boolean,
-    default: false,
-  },
+  showProgress: Boolean,
   /**
    * @description set HTML attribute: crossorigin.
    */
@@ -93,9 +97,13 @@ export const imageViewerProps = buildProps({
   },
 } as const)
 export type ImageViewerProps = ExtractPropTypes<typeof imageViewerProps>
+export type ImageViewerPropsPublic = __ExtractPublicPropTypes<
+  typeof imageViewerProps
+>
 
 export const imageViewerEmits = {
   close: () => true,
+  error: (evt: Event) => evt instanceof Event,
   switch: (index: number) => isNumber(index),
   rotate: (deg: number) => isNumber(deg),
 }
@@ -106,4 +114,4 @@ export interface ImageViewerMode {
   icon: Component
 }
 
-export type ImageViewerInstance = InstanceType<typeof ImageViewer>
+export type ImageViewerInstance = InstanceType<typeof ImageViewer> & unknown

@@ -43,19 +43,19 @@ export interface TreeStoreNodesMap {
   [key: string]: Node
 }
 export interface TreeStoreOptions {
-  key: TreeKey
+  key?: TreeKey
   data: TreeData
   lazy: boolean
   props: TreeOptionProps
-  load: LoadFunction
-  currentNodeKey: TreeKey
+  load?: LoadFunction
+  currentNodeKey?: TreeKey
   checkStrictly: boolean
   checkDescendants: boolean
-  defaultCheckedKeys: TreeKey[]
-  defaultExpandedKeys: TreeKey[]
+  defaultCheckedKeys?: TreeKey[]
+  defaultExpandedKeys?: TreeKey[]
   autoExpandParent: boolean
   defaultExpandAll: boolean
-  filterNodeMethod: FilterNodeMethodFunction
+  filterNodeMethod?: FilterNodeMethodFunction
 }
 export interface TreeOptionProps {
   children?: string
@@ -104,6 +104,7 @@ export interface TreeComponentProps {
   expandOnClickNode: boolean
   defaultExpandAll: boolean
   checkOnClickNode: boolean
+  checkOnClickLeaf: boolean
   checkDescendants: boolean
   autoExpandParent: boolean
   defaultCheckedKeys: TreeKey[]
@@ -125,3 +126,5 @@ export interface TreeComponentProps {
 }
 
 export type NodeDropType = 'before' | 'after' | 'inner' | 'none'
+
+export type { DragEvents } from './model/useDragNode'

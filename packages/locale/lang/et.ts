@@ -7,6 +7,13 @@ export default {
     colorpicker: {
       confirm: 'OK',
       clear: 'Tühjenda',
+      defaultLabel: 'color picker', // to be translated
+      description:
+        'current color is {color}. press enter to select a new color.', // to be translated
+      alphaLabel: 'pick alpha value', // to be translated
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
     },
     datepicker: {
       now: 'Praegu',
@@ -14,6 +21,11 @@ export default {
       cancel: 'Tühista',
       clear: 'Tühjenda',
       confirm: 'OK',
+      dateTablePrompt:
+        'Use the arrow keys and enter to select the day of the month', // to be translated
+      monthTablePrompt: 'Use the arrow keys and enter to select the month', // to be translated
+      yearTablePrompt: 'Use the arrow keys and enter to select the year', // to be translated
+      selectedDate: 'Selected date', // to be translated
       selectDate: 'Vali kuupäev',
       selectTime: 'Vali kellaaeg',
       startDate: 'Alguskuupäev',
@@ -37,7 +49,6 @@ export default {
       month10: 'Oktoober',
       month11: 'November',
       month12: 'Detsember',
-      // week: 'nädal',
       weeks: {
         sun: 'P',
         mon: 'E',
@@ -46,6 +57,15 @@ export default {
         thu: 'N',
         fri: 'R',
         sat: 'L',
+      },
+      weeksFull: {
+        sun: 'Sunday', // to be translated
+        mon: 'Monday', // to be translated
+        tue: 'Tuesday', // to be translated
+        wed: 'Wednesday', // to be translated
+        thu: 'Thursday', // to be translated
+        fri: 'Friday', // to be translated
+        sat: 'Saturday', // to be translated
       },
       months: {
         jan: 'Jaan',
@@ -62,6 +82,10 @@ export default {
         dec: 'Dets',
       },
     },
+    inputNumber: {
+      decrease: 'decrease number', // to be translated
+      increase: 'increase number', // to be translated
+    },
     select: {
       loading: 'Laadimine',
       noMatch: 'Sobivad andmed puuduvad',
@@ -70,6 +94,9 @@ export default {
     },
     mention: {
       loading: 'Laadimine',
+    },
+    dropdown: {
+      toggleDropdown: 'Toggle Dropdown', // to be translated
     },
     cascader: {
       noMatch: 'Sobivad andmed puuduvad',
@@ -88,12 +115,21 @@ export default {
       currentPage: 'page {pager}', // to be translated
       prevPages: 'Previous {pager} pages', // to be translated
       nextPages: 'Next {pager} pages', // to be translated
+      deprecationWarning:
+        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
+    },
+    dialog: {
+      close: 'Close this dialog', // to be translated
+    },
+    drawer: {
+      close: 'Close this dialog', // to be translated
     },
     messagebox: {
       title: 'Teade',
       confirm: 'OK',
       cancel: 'Tühista',
       error: 'Vigane sisend',
+      close: 'Close this dialog', // to be translated
     },
     upload: {
       deleteTip: 'Vajuta "Kustuta", et eemaldada',
@@ -101,12 +137,23 @@ export default {
       preview: 'Eelvaate',
       continue: 'Jätka',
     },
+    slider: {
+      defaultLabel: 'slider between {min} and {max}', // to be translated
+      defaultRangeStartLabel: 'pick start value', // to be translated
+      defaultRangeEndLabel: 'pick end value', // to be translated
+    },
     table: {
       emptyText: 'Andmed puuduvad',
       confirmFilter: 'Kinnita',
       resetFilter: 'Taasta',
       clearFilter: 'Kõik',
       sumText: 'Summa',
+    },
+    tour: {
+      next: 'Next', // to be translated
+      previous: 'Previous', // to be translated
+      finish: 'Finish', // to be translated
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'Andmed puuduvad',

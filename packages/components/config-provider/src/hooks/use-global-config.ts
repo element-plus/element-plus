@@ -25,7 +25,7 @@ const globalConfig = ref<ConfigProviderContext>()
 
 export function useGlobalConfig<
   K extends keyof ConfigProviderContext,
-  D extends ConfigProviderContext[K]
+  D extends ConfigProviderContext[K],
 >(
   key: K,
   defaultValue?: D

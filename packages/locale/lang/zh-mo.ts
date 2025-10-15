@@ -10,6 +10,9 @@ export default {
       defaultLabel: '顏色選擇器',
       description: '當前顏色為 {color}。按 Enter 鍵選擇新顏色。',
       alphaLabel: '選擇透明度的值',
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
     },
     datepicker: {
       now: '現在',
@@ -44,7 +47,6 @@ export default {
       month10: '10 月',
       month11: '11 月',
       month12: '12 月',
-      // week: '周次',
       weeks: {
         sun: '日',
         mon: '一',
@@ -124,7 +126,7 @@ export default {
       title: '提示',
       confirm: '確定',
       cancel: '取消',
-      error: '輸入的資料不符規定!',
+      error: '輸入的資料不符合規定!',
       close: '關閉此對話框',
     },
     upload: {
@@ -149,6 +151,7 @@ export default {
       next: '下一步',
       previous: '上一步',
       finish: '結束導覽',
+      close: '關閉此對話框',
     },
     tree: {
       emptyText: '暫無資料',

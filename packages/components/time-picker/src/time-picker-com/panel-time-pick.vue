@@ -8,7 +8,10 @@
           :arrow-control="arrowControl"
           :show-seconds="showSeconds"
           :am-pm-mode="amPmMode"
-          :spinner-date="(parsedValue as any)"
+          :spinner-date="
+            // https://github.com/vuejs/language-tools/issues/2104#issuecomment-3092541527
+            parsedValue as any
+          "
           :disabled-hours="disabledHours"
           :disabled-minutes="disabledMinutes"
           :disabled-seconds="disabledSeconds"
@@ -38,11 +41,12 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref } from 'vue'
+import { computed, inject, nextTick, ref } from 'vue'
 import dayjs from 'dayjs'
 import { EVENT_CODE } from '@element-plus/constants'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import { isUndefined } from '@element-plus/utils'
+import { getEventCode, isUndefined } from '@element-plus/utils'
+import { PICKER_BASE_INJECTION_KEY } from '../constants'
 import { panelTimePickerProps } from '../props/panel-time-picker'
 import { useTimePanel } from '../composables/use-time-panel'
 import {
@@ -57,7 +61,7 @@ const props = defineProps(panelTimePickerProps)
 const emit = defineEmits(['pick', 'select-range', 'set-picker-option'])
 
 // Injections
-const pickerBase = inject('EP_PICKER_BASE') as any
+const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
 const {
   arrowControl,
   disabledHours,
@@ -94,7 +98,11 @@ const isValidValue = (_date: Dayjs) => {
   return parsedDate.isSame(result)
 }
 const handleCancel = () => {
-  emit('pick', oldValue.value, false)
+  const old = oldValue.value
+  emit('pick', old, false)
+  nextTick(() => {
+    oldValue.value = old
+  })
 }
 const handleConfirm = (visible = false, first = false) => {
   if (first) return
@@ -115,17 +123,32 @@ const setSelectionRange = (start: number, end: number) => {
 }
 
 const changeSelectionRange = (step: number) => {
-  const list = [0, 3].concat(showSeconds.value ? [6] : [])
-  const mapping = ['hours', 'minutes'].concat(
-    showSeconds.value ? ['seconds'] : []
-  )
+  const actualFormat = props.format
+  const hourIndex = actualFormat.indexOf('HH')
+  const minuteIndex = actualFormat.indexOf('mm')
+  const secondIndex = actualFormat.indexOf('ss')
+  const list: number[] = []
+  const mapping: string[] = []
+  if (hourIndex !== -1) {
+    list.push(hourIndex)
+    mapping.push('hours')
+  }
+  if (minuteIndex !== -1) {
+    list.push(minuteIndex)
+    mapping.push('minutes')
+  }
+  if (secondIndex !== -1 && showSeconds.value) {
+    list.push(secondIndex)
+    mapping.push('seconds')
+  }
+
   const index = list.indexOf(selectionRange.value[0])
   const next = (index + step + list.length) % list.length
   timePickerOptions['start_emitSelectRange'](mapping[next])
 }
 
 const handleKeydown = (event: KeyboardEvent) => {
-  const code = event.code
+  const code = getEventCode(event)
 
   const { left, right, up, down } = EVENT_CODE
 
@@ -159,17 +182,11 @@ const parseUserInput = (value: Dayjs) => {
   return dayjs(value, props.format).locale(lang.value)
 }
 
-const formatToString = (value: Dayjs) => {
-  if (!value) return null
-  return value.format(props.format)
-}
-
 const getDefaultValue = () => {
   return dayjs(defaultValue).locale(lang.value)
 }
 
 emit('set-picker-option', ['isValidValue', isValidValue])
-emit('set-picker-option', ['formatToString', formatToString])
 emit('set-picker-option', ['parseUserInput', parseUserInput])
 emit('set-picker-option', ['handleKeydownInput', handleKeydown])
 emit('set-picker-option', ['getRangeAvailableTime', getRangeAvailableTime])

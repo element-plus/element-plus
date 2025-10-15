@@ -12,13 +12,14 @@
       :height="height"
       :item-size="treeNodeSize"
       :perf-mode="perfMode"
+      :scrollbar-always-on="scrollbarAlwaysOn"
     >
       <template #default="{ data, index, style }">
         <el-tree-node
           :key="data[index].key"
           :style="style"
           :node="data[index]"
-          :expanded="isExpanded(data[index])"
+          :expanded="data[index].expanded"
           :show-checkbox="showCheckbox"
           :checked="isChecked(data[index])"
           :indeterminate="isIndeterminate(data[index])"
@@ -79,7 +80,6 @@ const {
   isNotEmpty,
   listRef,
   toggleExpand,
-  isExpanded,
   isIndeterminate,
   isChecked,
   isDisabled,

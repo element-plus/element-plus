@@ -7,6 +7,13 @@ export default {
     colorpicker: {
       confirm: 'Ados',
       clear: 'Garbitu',
+      defaultLabel: 'color picker', // to be translated
+      description:
+        'current color is {color}. press enter to select a new color.', // to be translated
+      alphaLabel: 'pick alpha value', // to be translated
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
     },
     datepicker: {
       now: 'Orain',
@@ -14,6 +21,11 @@ export default {
       cancel: 'Utzi',
       clear: 'Garbitu',
       confirm: 'Ados',
+      dateTablePrompt:
+        'Use the arrow keys and enter to select the day of the month', // to be translated
+      monthTablePrompt: 'Use the arrow keys and enter to select the month', // to be translated
+      yearTablePrompt: 'Use the arrow keys and enter to select the year', // to be translated
+      selectedDate: 'Selected date', // to be translated
       selectDate: 'Hautatu data',
       selectTime: 'Hautatu ordua',
       startDate: 'Hasierako data',
@@ -37,7 +49,6 @@ export default {
       month10: 'Urria',
       month11: 'Azaroa',
       month12: 'Abendua',
-      // week: 'astea',
       weeks: {
         sun: 'ig.',
         mon: 'al.',
@@ -46,6 +57,15 @@ export default {
         thu: 'og.',
         fri: 'ol.',
         sat: 'lr.',
+      },
+      weeksFull: {
+        sun: 'Sunday', // to be translated
+        mon: 'Monday', // to be translated
+        tue: 'Tuesday', // to be translated
+        wed: 'Wednesday', // to be translated
+        thu: 'Thursday', // to be translated
+        fri: 'Friday', // to be translated
+        sat: 'Saturday', // to be translated
       },
       months: {
         jan: 'urt',
@@ -62,6 +82,10 @@ export default {
         dec: 'abe',
       },
     },
+    inputNumber: {
+      decrease: 'decrease number', // to be translated
+      increase: 'increase number', // to be translated
+    },
     select: {
       loading: 'Kargatzen',
       noMatch: 'Bat datorren daturik ez',
@@ -70,6 +94,9 @@ export default {
     },
     mention: {
       loading: 'Kargatzen',
+    },
+    dropdown: {
+      toggleDropdown: 'Toggle Dropdown', // to be translated
     },
     cascader: {
       noMatch: 'Bat datorren daturik ez',
@@ -88,18 +115,32 @@ export default {
       currentPage: 'page {pager}', // to be translated
       prevPages: 'Previous {pager} pages', // to be translated
       nextPages: 'Next {pager} pages', // to be translated
+      deprecationWarning:
+        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
+    },
+    dialog: {
+      close: 'Close this dialog', // to be translated
+    },
+    drawer: {
+      close: 'Close this dialog', // to be translated
     },
     messagebox: {
       title: 'Mezua',
       confirm: 'Ados',
       cancel: 'Utzi',
       error: 'Sarrera baliogabea',
+      close: 'Close this dialog', // to be translated
     },
     upload: {
       deleteTip: 'sakatu Ezabatu kentzeko',
       delete: 'Ezabatu',
       preview: 'Aurrebista',
       continue: 'Jarraitu',
+    },
+    slider: {
+      defaultLabel: 'slider between {min} and {max}', // to be translated
+      defaultRangeStartLabel: 'pick start value', // to be translated
+      defaultRangeEndLabel: 'pick end value', // to be translated
     },
     table: {
       emptyText: 'Daturik ez',
@@ -112,6 +153,7 @@ export default {
       next: 'Hurrengoa',
       previous: 'Aurrekoa',
       finish: 'Bukatu',
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'Daturik ez',
@@ -119,10 +161,10 @@ export default {
     transfer: {
       noMatch: 'Bat datorren daturik ez',
       noData: 'Daturik ez',
-      titles: ['Zerrenda 1', 'Zerrenda 2'], // to be translated
-      filterPlaceholder: 'Sartu gako-hitza', // to be translated
-      noCheckedFormat: '{total} elementu', // to be translated
-      hasCheckedFormat: '{checked}/{total} hautatuta', // to be translated
+      titles: ['Zerrenda 1', 'Zerrenda 2'],
+      filterPlaceholder: 'Sartu gako-hitza',
+      noCheckedFormat: '{total} elementu',
+      hasCheckedFormat: '{checked}/{total} hautatuta',
     },
     image: {
       error: 'FAILED', // to be translated

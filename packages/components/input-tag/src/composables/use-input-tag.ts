@@ -5,13 +5,18 @@ import {
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import { type EmitFn, debugWarn, isUndefined } from '@element-plus/utils'
-import { useComposition, useFocusController } from '@element-plus/hooks'
 import {
-  type FormItemContext,
-  useFormDisabled,
-  useFormSize,
-} from '@element-plus/components/form'
+  debugWarn,
+  ensureArray,
+  getEventCode,
+  isUndefined,
+} from '@element-plus/utils'
+import { useComposition, useFocusController } from '@element-plus/hooks'
+import { useFormDisabled, useFormSize } from '@element-plus/components/form'
+
+import type { TooltipInstance } from '@element-plus/components/tooltip'
+import type { EmitFn } from '@element-plus/utils'
+import type { FormItemContext } from '@element-plus/components/form'
 import type { InputTagEmits, InputTagProps } from '../input-tag'
 
 interface UseInputTagOptions {
@@ -26,6 +31,7 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
 
   const inputRef = shallowRef<HTMLInputElement>()
   const inputValue = ref<string>()
+  const tagTooltipRef = ref<TooltipInstance>()
 
   const tagSize = computed(() => {
     return ['small'].includes(size.value) ? 'small' : 'default'
@@ -39,6 +45,36 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
       ? false
       : (props.modelValue?.length ?? 0) >= props.max
   })
+  const showTagList = computed(() => {
+    return props.collapseTags
+      ? props.modelValue?.slice(0, props.maxCollapseTags)
+      : props.modelValue
+  })
+  const collapseTagList = computed(() => {
+    return props.collapseTags
+      ? props.modelValue?.slice(props.maxCollapseTags)
+      : []
+  })
+
+  const addTagsEmit = (value: string | string[]) => {
+    const list = [...(props.modelValue ?? []), ...ensureArray(value)]
+
+    emit(UPDATE_MODEL_EVENT, list)
+    emit(CHANGE_EVENT, list)
+    emit('add-tag', value)
+    inputValue.value = undefined
+  }
+
+  const getDelimitedTags = (input: string) => {
+    const tags = input
+      .split(props.delimiter)
+      .filter((val) => val && val !== input)
+    if (props.max) {
+      const maxInsert = props.max - (props.modelValue?.length ?? 0)
+      tags.splice(maxInsert)
+    }
+    return tags.length === 1 ? tags[0] : tags
+  }
 
   const handleInput = (event: Event) => {
     if (inputLimit.value) {
@@ -47,12 +83,20 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
     }
 
     if (isComposing.value) return
+    if (props.delimiter && inputValue.value) {
+      const tags = getDelimitedTags(inputValue.value)
+      if (tags.length) {
+        addTagsEmit(tags)
+      }
+    }
     emit(INPUT_EVENT, (event.target as HTMLInputElement).value)
   }
 
   const handleKeydown = (event: KeyboardEvent) => {
     if (isComposing.value) return
-    switch (event.code) {
+    const code = getEventCode(event)
+
+    switch (code) {
       case props.trigger:
         event.preventDefault()
         event.stopPropagation()
@@ -78,12 +122,7 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
   const handleAddTag = () => {
     const value = inputValue.value?.trim()
     if (!value || inputLimit.value) return
-    const list = [...(props.modelValue ?? []), value]
-
-    emit(UPDATE_MODEL_EVENT, list)
-    emit(CHANGE_EVENT, list)
-    emit('add-tag', value)
-    inputValue.value = undefined
+    addTagsEmit(value)
   }
 
   const handleRemoveTag = (index: number) => {
@@ -92,7 +131,7 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
 
     emit(UPDATE_MODEL_EVENT, value)
     emit(CHANGE_EVENT, value)
-    emit('remove-tag', item)
+    emit('remove-tag', item, index)
   }
 
   const handleClear = () => {
@@ -113,12 +152,13 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
       dropIndex > draggingIndex && type === 'before'
         ? -1
         : dropIndex < draggingIndex && type === 'after'
-        ? 1
-        : 0
+          ? 1
+          : 0
 
     value.splice(dropIndex + step, 0, draggedItem)
     emit(UPDATE_MODEL_EVENT, value)
     emit(CHANGE_EVENT, value)
+    emit('drag-tag', draggingIndex, dropIndex + step, draggedItem)
   }
 
   const focus = () => {
@@ -130,11 +170,17 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
   }
 
   const { wrapperRef, isFocused } = useFocusController(inputRef, {
-    beforeFocus() {
-      return disabled.value
+    disabled,
+    beforeBlur(event) {
+      return tagTooltipRef.value?.isFocusInsideContent(event)
     },
     afterBlur() {
-      handleAddTag()
+      if (props.saveOnBlur) {
+        handleAddTag()
+      } else {
+        inputValue.value = undefined
+      }
+
       if (props.validateEvent) {
         formItem?.validate?.('blur').catch((err) => debugWarn(err))
       }
@@ -160,6 +206,7 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
   return {
     inputRef,
     wrapperRef,
+    tagTooltipRef,
     isFocused,
     isComposing,
     inputValue,
@@ -169,6 +216,8 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
     closable,
     disabled,
     inputLimit,
+    showTagList,
+    collapseTagList,
     handleDragged,
     handleInput,
     handleKeydown,

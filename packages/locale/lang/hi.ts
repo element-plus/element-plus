@@ -11,6 +11,9 @@ export default {
       description:
         'मौजूदा रंग {color} है. कोई नया रंग चुनने के लिए एंटर दबाएँ.',
       alphaLabel: 'अल्फा मान चुनें',
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
     },
     datepicker: {
       now: 'अभी',
@@ -48,7 +51,6 @@ export default {
       month10: 'अक्टूबर',
       month11: 'नवंबर',
       month12: 'दिसंबर',
-      week: 'सप्ताह',
       weeks: {
         sun: 'रवि',
         mon: 'सोम',
@@ -153,6 +155,7 @@ export default {
       next: 'अगला',
       previous: 'पिछला',
       finish: 'पूरा करें',
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'कोई डेटा नहीं है',

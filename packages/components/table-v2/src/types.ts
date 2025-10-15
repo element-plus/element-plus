@@ -5,9 +5,10 @@ import type {
   RendererNode,
   VNode,
 } from 'vue'
+import type { ColumnAlignment } from '@element-plus/constants'
 import type { FixedDir, SortOrder } from './constants'
 
-export type Alignment = 'left' | 'center' | 'right'
+export type Alignment = ColumnAlignment
 export type FixedDirection = FixedDir
 export type KeyType = string | number | symbol
 
@@ -132,5 +133,5 @@ export type SimpleFunctionalComponentProps<T extends object> = {
 } & T
 
 export type SimpleFunctionalComponent<
-  E extends object = { [key: string]: any }
+  E extends object = { [key: string]: any },
 > = FunctionalComponent<SimpleFunctionalComponentProps<E>>

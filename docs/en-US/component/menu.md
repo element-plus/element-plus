@@ -69,7 +69,7 @@ menu/popper-offset
 
 ## Menu API
 
-### Attributes
+### Menu Attributes
 
 | Name                            | Description                                                                                                                                                           | Type                                   | Default  |
 | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- | -------- |
@@ -87,14 +87,15 @@ menu/popper-offset
 | popper-effect ^(2.2.26)         | Tooltip theme, built-in theme: `dark` / `light` when menu is collapsed                                                                                                | ^[enum]`'dark' \| 'light'` / ^[string] | dark     |
 | close-on-click-outside ^(2.4.4) | optional, whether menu is collapsed when clicking outside                                                                                                             | ^[boolean]                             | false    |
 | popper-class ^(2.5.0)           | custom class name for all popup menus                                                                                                                                 | ^[string]                              | —        |
+| popper-style ^(2.11.5)          | custom style for all popup menus                                                                                                                                      | ^[string] / ^[object]                  | —        |
 | show-timeout ^(2.5.0)           | control timeout for all menus before showing                                                                                                                          | ^[number]                              | 300      |
 | hide-timeout ^(2.5.0)           | control timeout for all menus before hiding                                                                                                                           | ^[number]                              | 300      |
 | background-color ^(deprecated)  | background color of Menu (hex format) (use `--el-menu-bg-color` in a style class instead)                                                                             | ^[string]                              | #ffffff  |
 | text-color ^(deprecated)        | text color of Menu (hex format) ( use `--el-menu-text-color` in a style class instead)                                                                                | ^[string]                              | #303133  |
 | active-text-color ^(deprecated) | text color of currently active menu item (hex format) ( use `--el-menu-active-color` in a style class instead)                                                        | ^[string]                              | #409eff  |
-| persistent ^(2.9.5)             | when menu inactive and `persistent` is `false` , dropdown menu will be destroyed                                                                                   | ^[boolean]                             | true     |
+| persistent ^(2.9.5)             | when menu inactive and `persistent` is `false` , dropdown menu will be destroyed                                                                                      | ^[boolean]                             | true     |
 
-### Events
+### Menu Events
 
 | Name   | Description                               | Type                         |
 | ------ | ----------------------------------------- | ---------------------------- |
@@ -102,22 +103,24 @@ menu/popper-offset
 | open   | callback function when sub-menu expands   | ^[Function]`MenuOpenEvent`   |
 | close  | callback function when sub-menu collapses | ^[Function]`MenuCloseEvent`  |
 
-### Slots
+### Menu Slots
 
 | Name    | Description               | Subtags                               |
 | ------- | ------------------------- | ------------------------------------- |
 | default | customize default content | SubMenu / Menu-Item / Menu-Item-Group |
 
-### Exposes
+### Menu Exposes
 
-| Name  | Description                                                            | Type                                 |
-| ----- | ---------------------------------------------------------------------- | ------------------------------------ |
-| open  | open a specific sub-menu, the param is index of the sub-menu to open   | ^[Function]`(index: string) => void` |
-| close | close a specific sub-menu, the param is index of the sub-menu to close | ^[Function]`(index: string) => void` |
+| Name                       | Description                                                            | Type                                 |
+| -------------------------- | ---------------------------------------------------------------------- | ------------------------------------ |
+| open                       | open a specific sub-menu, the param is index of the sub-menu to open   | ^[Function]`(index: string) => void` |
+| close                      | close a specific sub-menu, the param is index of the sub-menu to close | ^[Function]`(index: string) => void` |
+| handleResize               | manually trigger menu width recalculation                              | ^[Function]`() => void`              |
+| updateActiveIndex ^(2.9.8) | set index of active menu                                               | ^[Function]`(index: string) => void` |
 
 ## SubMenu API
 
-### Attributes
+### SubMenu Attributes
 
 | Name                | Description                                                                                                                                   | Type                     | Default   |
 | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------ | --------- |
@@ -133,7 +136,7 @@ menu/popper-offset
 | collapse-close-icon | Icon when menu are collapsed and submenu are closed, `collapse-close-icon` and `collapse-open-icon` need to be passed together to take effect | ^[string] / ^[Component] | —         |
 | collapse-open-icon  | Icon when menu are collapsed and submenu are opened, `collapse-open-icon` and `collapse-close-icon` need to be passed together to take effect | ^[string] / ^[Component] | —         |
 
-### Slots
+### SubMenu Slots
 
 | Name    | Description               | Subtags                               |
 | ------- | ------------------------- | ------------------------------------- |
@@ -142,21 +145,21 @@ menu/popper-offset
 
 ## Menu-Item API
 
-### Attributes
+### Menu-Item Attributes
 
-| Name     | Description                          | Type                  | Default |
-| -------- | ------------------------------------ | --------------------- | ------- |
-| index    | unique identification                | ^[string] / ^[null]   | null    |
-| route    | Vue Router Route Location Parameters | ^[string] / ^[object] | —       |
-| disabled | whether disabled                     | ^[boolean]            | false   |
+| Name              | Description                          | Type                  | Default |
+| ----------------- | ------------------------------------ | --------------------- | ------- |
+| index ^(required) | unique identification                | ^[string]             | —       |
+| route             | Vue Router Route Location Parameters | ^[string] / ^[object] | —       |
+| disabled          | whether disabled                     | ^[boolean]            | false   |
 
-### Events
+### Menu-Item Events
 
 | Name  | Description                                                                  | Type                                            |
 | ----- | ---------------------------------------------------------------------------- | ----------------------------------------------- |
 | click | callback function when menu-item is clicked, the param is menu-item instance | ^[Function]`(item: MenuItemRegistered) => void` |
 
-### Slots
+### Menu-Item Slots
 
 | Name    | Description               |
 | ------- | ------------------------- |
@@ -165,13 +168,13 @@ menu/popper-offset
 
 ## Menu-Item-Group API
 
-### Attributes
+### Menu-Item-Group Attributes
 
 | Name  | Description | Type      | Default |
 | ----- | ----------- | --------- | ------- |
 | title | group title | ^[string] | —       |
 
-### Slots
+### Menu-Item-Group Slots
 
 | Name    | Description               | Subtags   |
 | ------- | ------------------------- | --------- |

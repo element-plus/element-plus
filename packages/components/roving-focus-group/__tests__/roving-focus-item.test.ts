@@ -13,6 +13,8 @@ import {
   ROVING_FOCUS_GROUP_ITEM_INJECTION_KEY,
 } from '../src/tokens'
 import ElRovingFocusItem from '../src/roving-focus-item.vue'
+import ElRovingFocusGroupImpl from '../src/roving-focus-group-impl.vue'
+
 const AXIOM = 'rem is the best girl'
 const focusItemKls = 'item-kls'
 
@@ -22,7 +24,7 @@ const FocusItem = defineComponent({
     const { rovingFocusGroupItemRef, ...itemInjection } = inject(
       ROVING_FOCUS_GROUP_ITEM_INJECTION_KEY,
       undefined
-    )
+    )!
     const collectionItemInjection = inject(
       ROVING_FOCUS_ITEM_COLLECTION_INJECTION_KEY,
       undefined
@@ -54,6 +56,7 @@ describe('<ElRovingFocusItem />', () => {
   const loop = ref(false)
   const onItemFocus = vi.fn()
   const onItemShiftTab = vi.fn()
+  const onKeydown = vi.fn()
   const itemMap = new Map()
   const getItems = () => [...itemMap.values()]
   const defaultProvides = {
@@ -62,6 +65,7 @@ describe('<ElRovingFocusItem />', () => {
       loop,
       onItemFocus,
       onItemShiftTab,
+      onKeydown,
     },
     [ROVING_FOCUS_COLLECTION_INJECTION_KEY as symbol]: {
       getItems,
@@ -153,6 +157,54 @@ describe('<ElRovingFocusItem />', () => {
       })
       expect(items.at(0).emitted()).toHaveProperty('keydown')
       expect(onItemShiftTab).toHaveBeenCalled()
+
+      await DOMItems.at(1).trigger('keydown', {
+        code: EVENT_CODE.down,
+      })
+      await nextTick()
+      expect(onKeydown).toHaveBeenCalled()
+    })
+  })
+
+  describe('with <ElRovingFocusGroupImpl />', () => {
+    it('should be able to handle keyboard navigation', async () => {
+      const itemMap = new Map()
+      const getItems = () => [...itemMap.values()]
+      const wrapper = mount(
+        {
+          template: `<el-roving-focus-group-impl current-tab-id="test_id" orientation="horizontal">
+        <el-roving-focus-item v-bind="$attrs">
+          <focus-item />
+        </el-roving-focus-item>
+        <el-roving-focus-item v-bind="$attrs">
+          <focus-item />
+        </el-roving-focus-item>
+        <el-roving-focus-item v-bind="$attrs">
+          <focus-item />
+        </el-roving-focus-item>
+      </el-roving-focus-group-impl>`,
+          components: {
+            ElRovingFocusGroupImpl,
+            ElRovingFocusItem,
+            FocusItem,
+          },
+        },
+        {
+          global: {
+            provide: {
+              [ROVING_FOCUS_COLLECTION_INJECTION_KEY as symbol]: {
+                getItems,
+                itemMap,
+              },
+            },
+          },
+          attachTo: document.body,
+        }
+      )
+      await nextTick()
+
+      const DOMItems = wrapper.findAll(`.${focusItemKls}`)
+
       // navigating clockwise
       expect(document.activeElement).toBe(document.body)
       await DOMItems.at(1).trigger('keydown', {

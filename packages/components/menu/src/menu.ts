@@ -12,8 +12,7 @@ import {
   watchEffect,
   withDirectives,
 } from 'vue'
-
-import { useResizeObserver } from '@vueuse/core'
+import { unrefElement, useResizeObserver } from '@vueuse/core'
 import { isNil } from 'lodash-unified'
 import ElIcon from '@element-plus/components/icon'
 import { More } from '@element-plus/icons-vue'
@@ -25,6 +24,7 @@ import {
   isArray,
   isObject,
   isString,
+  isUndefined,
   mutable,
 } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
@@ -33,16 +33,19 @@ import Menubar from './utils/menu-bar'
 import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import ElSubMenu from './sub-menu'
 import { useMenuCssVar } from './use-menu-css-var'
-import type { PopperEffect } from '@element-plus/components/popper'
+import { MENU_INJECTION_KEY, SUB_MENU_INJECTION_KEY } from './tokens'
 
+import type { PopperEffect } from '@element-plus/components/popper'
 import type { MenuItemClicked, MenuProvider, SubMenuProvider } from './types'
 import type { NavigationFailure, Router } from 'vue-router'
 import type {
+  CSSProperties,
   Component,
   DirectiveArguments,
   ExtractPropTypes,
   VNode,
   VNodeArrayChildren,
+  __ExtractPublicPropTypes,
 } from 'vue'
 import type { UseResizeObserverReturn } from '@vueuse/core'
 
@@ -148,6 +151,12 @@ export const menuProps = buildProps({
    */
   popperClass: String,
   /**
+   * @description custom style for all popup menus
+   */
+  popperStyle: {
+    type: definePropType<string | CSSProperties>([String, Object]),
+  },
+  /**
    * @description control timeout for all menus before showing
    */
   showTimeout: {
@@ -170,6 +179,7 @@ export const menuProps = buildProps({
   },
 } as const)
 export type MenuProps = ExtractPropTypes<typeof menuProps>
+export type MenuPropsPublic = __ExtractPublicPropTypes<typeof menuProps>
 
 const checkIndexPath = (indexPath: unknown): indexPath is string[] =>
   isArray(indexPath) && indexPath.every((path) => isString(path))
@@ -190,7 +200,7 @@ export const menuEmits = {
     isString(index) &&
     checkIndexPath(indexPath) &&
     isObject(item) &&
-    (routerResult === undefined || routerResult instanceof Promise),
+    (isUndefined(routerResult) || routerResult instanceof Promise),
 }
 export type MenuEmits = typeof menuEmits
 
@@ -204,8 +214,10 @@ export default defineComponent({
     const instance = getCurrentInstance()!
     const router = instance.appContext.config.globalProperties.$router as Router
     const menu = ref<HTMLUListElement>()
+    const subMenu = ref<HTMLElement>()
     const nsMenu = useNamespace('menu')
     const nsSubMenu = useNamespace('sub-menu')
+    let moreItemWidth = 64
 
     // data
     const sliceIndex = ref(-1)
@@ -323,9 +335,10 @@ export default defineComponent({
     const calcSliceIndex = () => {
       if (!menu.value) return -1
       const items = Array.from(menu.value?.childNodes ?? []).filter(
-        (item) => item.nodeName !== '#text' || item.nodeValue
+        (item) =>
+          item.nodeName !== '#comment' &&
+          (item.nodeName !== '#text' || item.nodeValue)
       ) as HTMLElement[]
-      const moreItemWidth = 64
       const computedMenuStyle = getComputedStyle(menu.value!)
       const paddingLeft = Number.parseInt(computedMenuStyle.paddingLeft, 10)
       const paddingRight = Number.parseInt(computedMenuStyle.paddingRight, 10)
@@ -333,7 +346,6 @@ export default defineComponent({
       let calcWidth = 0
       let sliceIndex = 0
       items.forEach((item, index) => {
-        if (item.nodeName === '#comment') return
         calcWidth += calcMenuItemWidth(item)
         if (calcWidth <= menuWidth - moreItemWidth) {
           sliceIndex = index + 1
@@ -346,10 +358,10 @@ export default defineComponent({
 
     // Common computer monitor FPS is 60Hz, which means 60 redraws per second. Calculation formula: 1000ms/60 ≈ 16.67ms, In order to avoid a certain chance of repeated triggering when `resize`, set wait to 16.67 * 2 = 33.34
     const debounce = (fn: () => void, wait = 33.34) => {
-      let timmer: ReturnType<typeof setTimeout> | null
+      let timer: ReturnType<typeof setTimeout> | null
       return () => {
-        timmer && clearTimeout(timmer)
-        timmer = setTimeout(() => {
+        timer && clearTimeout(timer)
+        timer = setTimeout(() => {
           fn()
         }, wait)
       }
@@ -357,6 +369,8 @@ export default defineComponent({
 
     let isFirstTimeRender = true
     const handleResize = () => {
+      const el = unrefElement(subMenu)
+      if (el) moreItemWidth = calcMenuItemWidth(el) || 64
       if (sliceIndex.value === calcSliceIndex()) return
       const callback = () => {
         sliceIndex.value = -1
@@ -414,8 +428,9 @@ export default defineComponent({
       const removeMenuItem: MenuProvider['removeMenuItem'] = (item) => {
         delete items.value[item.index]
       }
+
       provide<MenuProvider>(
-        'rootMenu',
+        MENU_INJECTION_KEY,
         reactive({
           props,
           openedMenus,
@@ -434,7 +449,8 @@ export default defineComponent({
           handleSubMenuClick,
         })
       )
-      provide<SubMenuProvider>(`subMenu:${instance.uid}`, {
+
+      provide<SubMenuProvider>(`${SUB_MENU_INJECTION_KEY}${instance.uid}`, {
         addSubMenu,
         removeSubMenu,
         mouseInChild,
@@ -458,6 +474,7 @@ export default defineComponent({
       expose({
         open,
         close,
+        updateActiveIndex,
         handleResize,
       })
     }
@@ -469,7 +486,12 @@ export default defineComponent({
       const vShowMore: VNode[] = []
 
       if (props.mode === 'horizontal' && menu.value) {
-        const originalSlot = flattedChildren(slot) as VNodeArrayChildren
+        const originalSlot = (
+          flattedChildren(slot) as VNodeArrayChildren
+        ).filter((vnode) => {
+          // Filter text and comment nodes (https://github.com/vuejs/core/blob/c875019d49b4c36a88d929ccadc31ad414747c7b/packages/shared/src/shapeFlags.ts#L5)
+          return (vnode as VNode)?.shapeFlag !== 8
+        })
         const slotDefault =
           sliceIndex.value === -1
             ? originalSlot
@@ -484,6 +506,7 @@ export default defineComponent({
             h(
               ElSubMenu,
               {
+                ref: subMenu,
                 index: 'sub-menu-more',
                 class: nsSubMenu.e('hide-arrow'),
                 popperOffset: props.popperOffset,
