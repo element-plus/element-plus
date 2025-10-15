@@ -547,12 +547,12 @@ describe('Color-picker', () => {
   it('a11y', async () => {
     const color = ref('#20a0ff')
     const wrapper = mount(() => (
-      <ColorPicker v-model={color.value} tabindex={1} />
+      <ColorPicker v-model={color.value} tabindex={1} teleported={false} />
     ))
 
     await nextTick()
     const colorPickerButton = wrapper.find('.el-color-picker')
-    const colorPickerPanel = document.querySelector('.el-color-picker__panel')
+    const colorPickerPanel = wrapper.find('.el-color-picker__panel')
 
     expect(colorPickerButton.attributes('role')).toBe('button')
     expect(colorPickerButton.attributes('tabindex')).toBe('1')
@@ -563,17 +563,16 @@ describe('Color-picker', () => {
     expect(colorPickerButton.attributes('aria-disabled')).toBe('false')
     expect(colorPickerButton.attributes('aria-expanded')).toBe('false')
     expect(colorPickerButton.attributes('aria-haspopup')).toBe('dialog')
+    expect(colorPickerPanel?.attributes('aria-hidden')).toBe('true')
 
     await wrapper.find('.el-color-picker__trigger').trigger('click')
     await rAF()
-    expect(document.activeElement).toBe(
-      document.querySelector('.el-input__inner')
-    )
+    expect(wrapper.find('.el-input__wrapper.is-focus')).toBeTruthy()
     expect(colorPickerButton.attributes('aria-expanded')).toBe('true')
-    expect(colorPickerPanel?.getAttribute('role')).toBe('dialog')
-    expect(colorPickerPanel?.getAttribute('aria-hidden')).toBe('false')
-    expect(colorPickerPanel?.getAttribute('aria-modal')).toBe('false')
-    expect(colorPickerPanel?.getAttribute('id')).toBe(
+    expect(colorPickerPanel?.attributes('role')).toBe('dialog')
+    expect(colorPickerPanel?.attributes('aria-hidden')).toBe('false')
+    expect(colorPickerPanel?.attributes('aria-modal')).toBe('false')
+    expect(colorPickerPanel?.attributes('id')).toBe(
       colorPickerButton.attributes('aria-controls')
     )
 
