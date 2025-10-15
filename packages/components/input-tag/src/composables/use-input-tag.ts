@@ -95,18 +95,23 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
   const handleKeydown = (event: KeyboardEvent) => {
     if (isComposing.value) return
     const code = getEventCode(event)
+    const inputVal = (event.target as HTMLInputElement).value.trim()
 
     switch (code) {
       case props.trigger:
-        event.preventDefault()
-        event.stopPropagation()
-        handleAddTag()
-        break
-      case EVENT_CODE.numpadEnter:
-        if (props.trigger === EVENT_CODE.enter) {
+        if (inputVal) {
           event.preventDefault()
           event.stopPropagation()
           handleAddTag()
+        }
+        break
+      case EVENT_CODE.numpadEnter:
+        if (props.trigger === EVENT_CODE.enter) {
+          if (inputVal) {
+            event.preventDefault()
+            event.stopPropagation()
+            handleAddTag()
+          }
         }
         break
       case EVENT_CODE.backspace:
