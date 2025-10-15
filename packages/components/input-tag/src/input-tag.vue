@@ -89,7 +89,7 @@
           @compositionupdate="handleCompositionUpdate"
           @compositionend="handleCompositionEnd"
           @input="handleInput"
-          @keyup="handleKeydown"
+          @keydown="handleKeydown"
         />
         <span
           ref="calculatorRef"
