@@ -1,6 +1,13 @@
 @use '../mixins' as *;
 @use './table-of-content';
 
+.doc-guide-content {
+  .toc-wrapper .toc-content {
+    height: auto;
+    min-height: calc(100vh - var(--header-height) - 480px);
+  }
+}
+
 .doc-content-wrapper {
   --vp-content-width: 800px;
 
