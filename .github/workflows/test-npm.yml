@@ -1,0 +1,29 @@
+name: Publish Package via OIDC
+
+on:
+  workflow_dispatch:   # 手动触发
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Ensure latest npm
+        run: npm install -g npm@latest
+
+      - name: Publish to npm (OIDC)
+        working-directory: ./test-npm
+        run: npm publish

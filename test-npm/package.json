@@ -1,0 +1,11 @@
+{
+  "name": "@element-plus/nightly",
+  "version": "0.0.2025092801",
+  "description": "test",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
