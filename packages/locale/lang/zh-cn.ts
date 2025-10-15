@@ -10,6 +10,9 @@ export default {
       defaultLabel: '颜色选择器',
       description: '当前颜色 {color}，按 Enter 键选择新颜色',
       alphaLabel: '选择透明度的值',
+      alphaDescription: '透明度 {alpha}, 当前颜色 {color}',
+      hueLabel: '选择色相值',
+      hueDescription: '色相 {hue}, 当前颜色 {color}',
     },
     datepicker: {
       now: '此刻',
@@ -44,7 +47,6 @@ export default {
       month10: '10 月',
       month11: '11 月',
       month12: '12 月',
-      // week: '周次',
       weeks: {
         sun: '日',
         mon: '一',
@@ -88,11 +90,11 @@ export default {
       noData: '无数据',
       placeholder: '请选择',
     },
-    dropdown: {
-      toggleDropdown: '切换下拉选项',
-    },
     mention: {
       loading: '加载中',
+    },
+    dropdown: {
+      toggleDropdown: '切换下拉选项',
     },
     cascader: {
       noMatch: '无匹配数据',
