@@ -102,8 +102,8 @@ onMounted(() => {
       () => parent.props.finishStatus,
     ],
     ([active], [oldActive]) => {
-      beforeActive.value = oldActive || 0
-      stepDiff.value = active - beforeActive.value
+      beforeActive = oldActive || 0
+      stepDiff = active - beforeActive
 
       updateStatus(active)
     },
@@ -175,10 +175,10 @@ const setIndex = (val: number) => {
 const calcProgress = (status: string) => {
   const isWait = status === 'wait'
   const delayTimer =
-    Math.abs(stepDiff.value) === 1
+    Math.abs(stepDiff) === 1
       ? 0
-      : stepDiff.value > 0
-        ? (index.value + 1 - beforeActive.value) * 150
+      : stepDiff > 0
+        ? (index.value + 1 - beforeActive) * 150
         : -(index.value + 1 - parent.props.active) * 150
 
   const style: CSSProperties = {
