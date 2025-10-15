@@ -6,8 +6,11 @@ import {
 } from '@element-plus/utils'
 import { CHANGE_EVENT } from '@element-plus/constants'
 
-import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
-import type { ZIndexProperty } from 'csstype'
+import type {
+  CSSProperties,
+  ExtractPropTypes,
+  ExtractPublicPropTypes,
+} from 'vue'
 import type Affix from './affix.vue'
 
 export const affixProps = buildProps({
@@ -15,7 +18,7 @@ export const affixProps = buildProps({
    * @description affix element zIndex value
    * */
   zIndex: {
-    type: definePropType<ZIndexProperty>([Number, String]),
+    type: definePropType<CSSProperties['z-index']>([Number, String]),
     default: 100,
   },
   /**

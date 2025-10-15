@@ -667,9 +667,9 @@ export const getFixedColumnOffset = <T extends DefaultRow>(
   return styles
 }
 
-export const ensurePosition = (
-  style: CSSProperties | undefined,
-  key: keyof CSSProperties
+export const ensurePosition = <T extends CSSProperties>(
+  style: T | undefined,
+  key: keyof T
 ) => {
   if (!style) return
   if (!Number.isNaN(style[key])) {

@@ -6,8 +6,11 @@ import {
 } from '@element-plus/utils'
 import { componentSizes } from '@element-plus/constants'
 
-import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
-import type { ObjectFitProperty } from 'csstype'
+import type {
+  CSSProperties,
+  ExtractPropTypes,
+  ExtractPublicPropTypes,
+} from 'vue'
 
 export const avatarProps = buildProps({
   /**
@@ -52,7 +55,7 @@ export const avatarProps = buildProps({
    * @description set how the image fit its container for an image avatar.
    */
   fit: {
-    type: definePropType<ObjectFitProperty>(String),
+    type: definePropType<CSSProperties['object-fit']>(String),
     default: 'cover',
   },
 } as const)

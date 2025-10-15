@@ -97,7 +97,6 @@
   },
   "devDependencies": {
     "@types/node": "*",
-    "csstype": "^2.6.20",
     "vue-router": "^4.0.16"
   },
   "vetur": {
