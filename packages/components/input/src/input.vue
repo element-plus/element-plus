@@ -316,6 +316,9 @@ const suffixVisible = computed(
     isWordLimitVisible.value ||
     (!!validateState.value && needStatusIcon.value)
 )
+const hasModelModifiers = computed(
+  () => !!Object.keys(props.modelModifiers).length
+)
 
 const [recordCursor, setCursor] = useCursor(input)
 
@@ -430,10 +433,7 @@ const handleInput = async (event: Event) => {
   // see: https://github.com/ElemeFE/element/issues/12850
   await nextTick()
 
-  if (
-    (props.formatter && props.parser) ||
-    !Object.keys(props.modelModifiers).length
-  ) {
+  if ((props.formatter && props.parser) || !hasModelModifiers.value) {
     setNativeInputValue()
   }
   setCursor()
