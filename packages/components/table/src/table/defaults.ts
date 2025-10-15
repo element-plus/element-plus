@@ -17,7 +17,7 @@ import type {
   TableOverflowTooltipOptions,
 } from '../util'
 
-type DefaultRow = Record<PropertyKey, any>
+type DefaultRow = Record<string, any>
 
 interface TableRefs {
   tableWrapper: HTMLElement

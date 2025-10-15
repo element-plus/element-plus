@@ -239,7 +239,7 @@ const defaultProps = <T extends DefaultRow>() => ({
   sortOrders: {
     type: Array as PropType<TableColumnCtx<T>['sortOrders']>,
     default: () => {
-      return ['ascending', 'descending', null]
+      return ['ascending', 'descending', null] as TableColumnCtx<T>['sortOrders']
     },
     validator: (val: TableColumnCtx<T>['sortOrders']) => {
       return val.every((order: TableSortOrder | null) =>
