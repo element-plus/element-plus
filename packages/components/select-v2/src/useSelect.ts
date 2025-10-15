@@ -7,13 +7,8 @@ import {
   watch,
   watchEffect,
 } from 'vue'
-import {
-  findLastIndex,
-  get,
-  isEqual,
-  debounce as lodashDebounce,
-} from 'lodash-unified'
-import { useResizeObserver } from '@vueuse/core'
+import { findLastIndex, get, isEqual } from 'lodash-unified'
+import { useDebounceFn, useResizeObserver } from '@vueuse/core'
 import {
   ValidateComponentsMap,
   debugWarn,
@@ -442,7 +437,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     })
   }
 
-  const debouncedOnInputChange = lodashDebounce(onInputChange, debounce.value)
+  const debouncedOnInputChange = useDebounceFn(onInputChange, debounce)
 
   const handleQueryChange = (val: string) => {
     if (states.previousQuery === val || isComposing.value) {
