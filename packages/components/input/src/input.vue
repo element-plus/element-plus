@@ -57,6 +57,11 @@
           @keydown="handleKeydown"
         />
 
+        <!-- count slot -->
+        <span v-if="$slots.count" :class="nsInput.e('count')">
+          <slot name="count" :textLength="textLength" :maxlength="maxlength" />
+        </span>
+
         <!-- suffix slot -->
         <span v-if="suffixVisible" :class="nsInput.e('suffix')">
           <span :class="nsInput.e('suffix-inner')">
@@ -143,6 +148,11 @@
         :class="nsInput.e('count')"
       >
         {{ textLength }} / {{ maxlength }}
+      </span>
+
+      <!-- count slot -->
+      <span v-if="$slots.count" :class="nsInput.e('count')">
+        <slot name="count" :textLength="textLength" :maxlength="maxlength" />
       </span>
     </template>
   </div>
