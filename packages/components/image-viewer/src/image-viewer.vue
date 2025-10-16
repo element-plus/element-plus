@@ -25,7 +25,7 @@
           </span>
 
           <!-- ARROW -->
-          <template v-if="!isSingle">
+          <template v-if="urlList.length > 1 && !$slots.viewer">
             <span :class="arrowPrevKls" @click="prev">
               <el-icon>
                 <ArrowLeft />
@@ -50,7 +50,7 @@
             </slot>
           </div>
           <!-- ACTIONS -->
-          <div :class="[ns.e('btn'), ns.e('actions')]">
+          <div v-if="!$slots.viewer" :class="[ns.e('btn'), ns.e('actions')]">
             <div :class="ns.e('actions__inner')">
               <slot
                 name="toolbar"
@@ -83,26 +83,28 @@
           </div>
           <!-- CANVAS -->
           <div :class="ns.e('canvas')">
-            <slot
-              v-if="loadError && $slots['viewer-error']"
-              name="viewer-error"
-              :active-index="activeIndex"
-              :src="currentImg"
-            />
-            <img
-              v-else
-              ref="imgRef"
-              :key="currentImg"
-              :src="currentImg"
-              :style="imgStyle"
-              :class="ns.e('img')"
-              :crossorigin="crossorigin"
-              @load="handleImgLoad"
-              @error="handleImgError"
-              @mousedown="handleMouseDown"
-            />
+            <slot v-if="$slots.viewer" name="viewer" />
+            <template v-else>
+              <slot
+                v-if="loadError && $slots['viewer-error']"
+                name="viewer-error"
+                :active-index="activeIndex"
+                :src="currentImg"
+              />
+              <img
+                v-else
+                ref="imgRef"
+                :key="currentImg"
+                :src="currentImg"
+                :style="imgStyle"
+                :class="ns.e('img')"
+                :crossorigin="crossorigin"
+                @load="handleImgLoad"
+                @error="handleImgError"
+                @mousedown="handleMouseDown"
+              />
+            </template>
           </div>
-          <slot />
         </el-focus-trap>
       </div>
     </transition>
@@ -190,11 +192,6 @@ const transform = ref({
   enableTransition: false,
 })
 const zIndex = ref(props.zIndex ?? nextZIndex())
-
-const isSingle = computed(() => {
-  const { urlList } = props
-  return urlList.length <= 1
-})
 
 const isFirst = computed(() => activeIndex.value === 0)
 
