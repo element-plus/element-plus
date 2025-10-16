@@ -87,7 +87,8 @@
     background: transparent;
     cursor: pointer;
     outline: none;
-    margin-top: 8px;
+    line-height: 1;
+    padding: 1px 6px;
 
     &:hover {
       color: getCssVar('datepicker-hover-text-color');
