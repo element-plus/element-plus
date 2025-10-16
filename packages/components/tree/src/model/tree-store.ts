@@ -155,6 +155,9 @@ export default class TreeStore {
         this.currentNode = null
       }
       node.parent.removeChild(node)
+
+      const checkedNodes = this.getCheckedNodes()
+      this.setCheckedNodes(checkedNodes)
     }
   }
 
@@ -165,6 +168,9 @@ export default class TreeStore {
 
     if (parentNode) {
       parentNode.insertChild({ data })
+
+      const checkedNodes = this.getCheckedNodes()
+      this.setCheckedNodes(checkedNodes)
     }
   }
 
