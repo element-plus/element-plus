@@ -16,7 +16,7 @@ jobs:
     if: ${{ github.repository == 'element-plus/element-plus' }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - run: npm i -g --force corepack && corepack enable
       - uses: actions/setup-node@v4
