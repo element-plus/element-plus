@@ -13,6 +13,7 @@
         v-show="visible"
         :mask="modal"
         :overlay-class="[
+          ns.is('drawer'),
           modalClass ?? '',
           `${ns.namespace.value}-modal-drawer`,
           ns.is('penetrable', penetrable),

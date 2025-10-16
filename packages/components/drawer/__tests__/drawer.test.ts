@@ -427,14 +427,13 @@ describe('Drawer', () => {
     test('should not render overlay when modal is false', async () => {
       const wrapper = _mount(
         `
-    <el-drawer
-      v-model="visible"
-      :title="title"
-      :modal="false"
-    >
-      <span>content</span>
-    </el-drawer>
-    `,
+        <el-drawer
+          v-model='visible'
+          :title='title'
+          :modal='false'>
+          <span>content</span>
+        </el-drawer>
+        `,
         () => ({
           visible: true,
         })
@@ -452,18 +451,17 @@ describe('Drawer', () => {
       const title = 'Test Drawer'
       const wrapper = _mount(
         `
-    <div>
-      <el-drawer
-        v-model="visible"
-        :title="title"
-        :modal="false"
-        modal-penetrable
-      >
-        <span>content</span>
-      </el-drawer>
-      <el-button @click="onClick">button</el-button>
-    </div>
-    `,
+        <div>
+          <el-drawer
+            v-model="visible"
+            :title="title"
+            :modal="false"
+            modal-penetrable>
+            <span>content</span>
+          </el-drawer>
+          <el-button @click="onClick">button</el-button>
+        </div>
+        `,
         () => ({
           visible: true,
           title,
