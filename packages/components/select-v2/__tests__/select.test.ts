@@ -2462,4 +2462,38 @@ describe('Select', () => {
       expect(wrapper.find('.custom-tag').text()).toBe('enabled')
     })
   })
+
+  it('loading appears on first click when remote', async () => {
+    const wrapper = _mount(
+      `
+        <el-select
+          v-model="value"
+          filterable
+          remote
+          :remote-method="remoteMethod"
+          :loading="loading"
+          :options="options"
+        >
+        </el-select>`,
+      {
+        data() {
+          return { options: [], value: '', loading: false }
+        },
+        methods: {
+          remoteMethod() {
+            this.loading = true
+            setTimeout(() => {
+              this.loading = false
+            }, 1000)
+          },
+        },
+      }
+    )
+
+    const select = wrapper.findComponent(Select)
+    const selectVm = select.vm as any
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    expect(selectVm.dropdownMenuVisible).toBeTruthy()
+  })
 })
