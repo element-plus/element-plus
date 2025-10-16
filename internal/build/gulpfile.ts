@@ -50,8 +50,8 @@ export default series(
 
   parallel(
     // runTask('buildModules')
-    runTask('buildFullBundle')
-    // runTask('generateTypesDefinitions'),
+    // runTask('buildFullBundle')
+    runTask('generateTypesDefinitions')
     // runTask('buildHelper'),
     // series(
     //   withTaskName('buildThemeChalk', () =>

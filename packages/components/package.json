@@ -20,6 +20,8 @@
     "@vueuse/core": "catalog:",
     "csstype": "catalog:",
     "dayjs": "catalog:",
+    "lodash": "catalog:",
+    "lodash-es": "catalog:",
     "lodash-unified": "catalog:",
     "async-validator": "catalog:",
     "@floating-ui/dom": "catalog:",

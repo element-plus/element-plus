@@ -10,6 +10,8 @@ catalog:
   '@vueuse/core': ^10.11.0
   '@vue/test-utils': ^2.4.6
   'lodash-unified': ^1.0.3
+  'lodash': ^4.17.21
+  'lodash-es': ^4.17.21
   'type-fest': ^2.14.0
   '@popperjs/core': npm:@sxzz/popperjs-es@^2.11.7
   'normalize-wheel-es': ^1.2.0

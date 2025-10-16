@@ -90,9 +90,9 @@
     "async-validator": "catalog:",
     "dayjs": "catalog:",
     "escape-html": "^1.0.3",
-    "lodash": "^4.17.21",
-    "lodash-es": "^4.17.21",
-    "lodash-unified": "^1.0.3",
+    "lodash": "catalog:",
+    "lodash-es": "catalog:",
+    "lodash-unified": "catalog:",
     "memoize-one": "catalog:",
     "normalize-wheel-es": "^1.2.0"
   },

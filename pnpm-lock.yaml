@@ -42,6 +42,12 @@ catalogs:
     dayjs:
       specifier: ^1.11.18
       version: 1.11.18
+    lodash:
+      specifier: ^4.17.21
+      version: 4.17.21
+    lodash-es:
+      specifier: ^4.17.21
+      version: 4.17.21
     lodash-unified:
       specifier: ^1.0.3
       version: 1.0.3
@@ -492,6 +498,12 @@ importers:
       dayjs:
         specifier: 'catalog:'
         version: 1.11.18
+      lodash:
+        specifier: 'catalog:'
+        version: 4.17.21
+      lodash-es:
+        specifier: 'catalog:'
+        version: 4.17.21
       lodash-unified:
         specifier: 'catalog:'
         version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.21)(lodash@4.17.21)
@@ -566,13 +578,13 @@ importers:
         specifier: ^1.0.3
         version: 1.0.3
       lodash:
-        specifier: ^4.17.21
+        specifier: 'catalog:'
         version: 4.17.21
       lodash-es:
-        specifier: ^4.17.21
+        specifier: 'catalog:'
         version: 4.17.21
       lodash-unified:
-        specifier: ^1.0.3
+        specifier: 'catalog:'
         version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.21)(lodash@4.17.21)
       memoize-one:
         specifier: 'catalog:'
