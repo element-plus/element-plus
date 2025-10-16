@@ -102,14 +102,15 @@ link/with-icon
 
 ### Attributes
 
-| Name      | Description                         | Type                                                                            | Default |
-| --------- | ----------------------------------- | ------------------------------------------------------------------------------- | ------- |
-| type      | type                                | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'default'` | default |
-| underline | when underlines should appear       | ^[enum]`'always' \| 'hover' \| 'never' \| boolean`                              | hover   |
-| disabled  | whether the component is disabled   | ^[boolean]                                                                      | false   |
-| href      | same as native hyperlink's `href`   | ^[string]                                                                       | —       |
-| target    | same as native hyperlink's `target` | ^[enum]`'_blank' \| '_parent' \| '_self' \| '_top'`                             | \_self  |
-| icon      | icon component                      | ^[string] / ^[Component]                                                        | —       |
+| Name      | Description                                                                                                                    | Type                                                                            | Default |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------- | ------- |
+| type      | type                                                                                                                           | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'default'` | default |
+| underline | when underlines should appear                                                                                                  | ^[enum]`'always' \| 'hover' \| 'never' \| boolean`                              | hover   |
+| disabled  | whether the component is disabled                                                                                              | ^[boolean]                                                                      | false   |
+| href      | same as native hyperlink's `href`                                                                                              | ^[string]                                                                       | —       |
+| target    | same as native hyperlink's `target`                                                                                            | ^[enum]`'_blank' \| '_parent' \| '_self' \| '_top'`                             | \_self  |
+| rel       | same as native hyperlink's `rel`. When not specified and `target` is not `_self`, `noopener noreferrer` is automatically added | ^[string]                                                                       | -       |
+| icon      | icon component                                                                                                                 | ^[string] / ^[Component]                                                        | —       |
 
 ### Slots
 
