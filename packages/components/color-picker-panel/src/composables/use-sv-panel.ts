@@ -155,7 +155,7 @@ export const useSvPanelDOM = (
     () => update()
   )
 
-  const rootKls = computed(() => [ns.b()])
+  const rootKls = computed(() => ns.b())
   const cursorKls = computed(() => ns.e('cursor'))
   const rootStyle = computed(() => ({
     backgroundColor: background.value,
