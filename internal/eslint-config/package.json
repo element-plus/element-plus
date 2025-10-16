@@ -19,20 +19,20 @@
     "eslint": "^9.0.0"
   },
   "dependencies": {
-    "@eslint/js": "^9.36.0",
+    "@eslint/js": "^9.37.0",
     "@eslint/markdown": "^7.4.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-jsonc": "^2.20.1",
+    "eslint-plugin-jsonc": "^2.21.0",
     "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-unicorn": "^60.0.0",
-    "eslint-plugin-vue": "^10.5.0",
+    "eslint-plugin-vue": "^10.5.1",
     "globals": "^16.4.0",
     "prettier": "^3.6.2",
-    "typescript": "~5.5.4",
-    "typescript-eslint": "^8.44.1"
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.46.1"
   },
   "devDependencies": {
-    "eslint": "^9.36.0"
+    "eslint": "^9.37.0"
   }
 }

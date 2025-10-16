@@ -73,7 +73,7 @@ jobs:
           NODE_OPTIONS: --max-old-space-size=4096
 
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        uses: JamesIves/github-pages-deploy-action@v4.7.3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages
@@ -83,7 +83,7 @@ jobs:
           commit-message: website deploy ${{ steps.get_release.outputs.latest_version }}
 
       - name: Deploy to Vercel
-        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        uses: JamesIves/github-pages-deploy-action@v4.7.3
         with:
           token: ${{ secrets.EP_BOT_TOKEN }}
           branch: main
@@ -93,7 +93,7 @@ jobs:
           git-config-email: element-plus@outlook.com
 
       - name: Deploy to Vercel Main
-        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        uses: JamesIves/github-pages-deploy-action@v4.7.3
         with:
           token: ${{ secrets.EP_BOT_TOKEN }}
           branch: main

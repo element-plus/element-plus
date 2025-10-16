@@ -80,13 +80,13 @@
     "vue": "^3.2.0"
   },
   "dependencies": {
-    "@ctrl/tinycolor": "^3.4.1",
+    "@ctrl/tinycolor": "^3.6.1",
     "@element-plus/icons-vue": "^2.3.2",
-    "@floating-ui/dom": "^1.0.1",
+    "@floating-ui/dom": "^1.7.4",
     "@popperjs/core": "npm:@sxzz/popperjs-es@^2.11.7",
     "@types/lodash": "^4.17.20",
     "@types/lodash-es": "^4.17.12",
-    "@vueuse/core": "^9.1.0",
+    "@vueuse/core": "^9.13.0",
     "async-validator": "^4.2.5",
     "dayjs": "^1.11.18",
     "lodash": "^4.17.21",
@@ -98,8 +98,8 @@
   "devDependencies": {
     "@types/node": "*",
     "csstype": "^2.6.20",
-    "vue": "^3.2.37",
-    "vue-router": "^4.0.16"
+    "vue": "^3.5.22",
+    "vue-router": "^4.6.2"
   },
   "vetur": {
     "tags": "tags.json",
