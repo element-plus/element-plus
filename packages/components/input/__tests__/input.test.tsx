@@ -289,12 +289,13 @@ describe('Input.vue', () => {
     expect(vm.$el.querySelector('input').value).not.toEqual('1000')
     vm.$el.querySelector('input').value = '1,000,000'
 
+    vm.$el.querySelector('input').dispatchEvent(event)
+    expect(val.value).toEqual('1000000')
+    expect(_val.value).toEqual('1000000')
+
     vm.$el
       .querySelector('input')
       .dispatchEvent(new Event('change', { bubbles: true }))
-    expect(_val.value).toEqual('1000000')
-
-    vm.$el.querySelector('input').dispatchEvent(event)
     expect(val.value).toEqual('1000000')
     expect(_val.value).toEqual('1000000')
   })
@@ -635,6 +636,128 @@ describe('Input.vue', () => {
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
     })
+  })
+
+  test('modelValue modifiers', async () => {
+    const number = ref()
+    const trim = ref()
+    const lazy = ref()
+    const trimNumber = ref()
+    const trimLazy = ref()
+    const numberLazy = ref()
+    const trimNumberLazy = ref()
+
+    const wrapper = mount(() => (
+      <>
+        <Input
+          id="number"
+          v-model={number.value}
+          modelModifiers={{ number: true }}
+        />
+        <Input id="trim" v-model={trim.value} modelModifiers={{ trim: true }} />
+        <Input id="lazy" v-model={lazy.value} modelModifiers={{ lazy: true }} />
+        <Input
+          id="trim-number"
+          v-model={trimNumber.value}
+          modelModifiers={{ trim: true, number: true }}
+        />
+        <Input
+          id="trim-lazy"
+          v-model={trimLazy.value}
+          modelModifiers={{ trim: true, lazy: true }}
+        />
+        <Input
+          id="number-lazy"
+          v-model={numberLazy.value}
+          modelModifiers={{ number: true, lazy: true }}
+        />
+        <Input
+          id="trim-number-lazy"
+          v-model={trimNumberLazy.value}
+          modelModifiers={{ trim: true, number: true, lazy: true }}
+        />
+      </>
+    ))
+
+    await nextTick()
+
+    const triggerEvent = async (type: string, el: Element) => {
+      const event = new Event(type)
+      el.dispatchEvent(event)
+      await nextTick()
+    }
+    const mockActiveElement = vi.spyOn(document, 'activeElement', 'get')
+
+    const numberEl = wrapper.find('#number').element as HTMLInputElement
+    const trimEl = wrapper.find('#trim').element as HTMLInputElement
+    const lazyEl = wrapper.find('#lazy').element as HTMLInputElement
+    const trimNumberEl = wrapper.find('#trim-number')
+      .element as HTMLInputElement
+    const trimLazyEl = wrapper.find('#trim-lazy').element as HTMLInputElement
+    const numberLazyEl = wrapper.find('#number-lazy')
+      .element as HTMLInputElement
+    const trimNumberLazyEl = wrapper.find('#trim-number-lazy')
+      .element as HTMLInputElement
+
+    mockActiveElement.mockReturnValue(numberEl)
+    numberEl.value = '+01.2'
+    await triggerEvent('input', numberEl)
+    expect(number.value).toEqual(1.2)
+    expect(numberEl.value).toEqual('+01.2')
+    await triggerEvent('change', numberEl)
+    expect(numberEl.value).toEqual('1.2')
+
+    mockActiveElement.mockReturnValue(trimEl)
+    trimEl.value = '  hello, world  '
+    await triggerEvent('input', trimEl)
+    expect(trim.value).toEqual('hello, world')
+    expect(trimEl.value).toEqual('  hello, world  ')
+    await triggerEvent('change', trimEl)
+    expect(trimEl.value).toEqual('hello, world')
+
+    mockActiveElement.mockReturnValue(lazyEl)
+    lazyEl.value = 'foo'
+    await triggerEvent('input', lazyEl)
+    expect(lazy.value).toBeUndefined()
+    await triggerEvent('change', lazyEl)
+    expect(lazy.value).toEqual('foo')
+
+    mockActiveElement.mockReturnValue(trimNumberEl)
+    trimNumberEl.value = '    1    '
+    await triggerEvent('input', trimNumberEl)
+    expect(trimNumber.value).toEqual(1)
+    expect(trimNumberEl.value).toEqual('    1    ')
+    await triggerEvent('change', trimNumberEl)
+    expect(trimNumberEl.value).toEqual('1')
+
+    mockActiveElement.mockReturnValue(trimLazyEl)
+    trimLazyEl.value = '  hello, world  '
+    await triggerEvent('input', trimLazyEl)
+    expect(trimLazy.value).toBeUndefined()
+    expect(trimLazyEl.value).toEqual('  hello, world  ')
+    await triggerEvent('change', trimLazyEl)
+    expect(trimLazy.value).toEqual('hello, world')
+    expect(trimLazyEl.value).toEqual('hello, world')
+
+    mockActiveElement.mockReturnValue(numberLazyEl)
+    numberLazyEl.value = '+01.2'
+    await triggerEvent('input', numberLazyEl)
+    expect(numberLazy.value).toBeUndefined()
+    expect(numberLazyEl.value).toEqual('+01.2')
+    await triggerEvent('change', numberLazyEl)
+    expect(numberLazy.value).toEqual(1.2)
+    expect(numberLazyEl.value).toEqual('1.2')
+
+    mockActiveElement.mockReturnValue(trimNumberLazyEl)
+    trimNumberLazyEl.value = '  +01.2  '
+    await triggerEvent('input', trimNumberLazyEl)
+    expect(trimNumberLazy.value).toBeUndefined()
+    expect(trimNumberLazyEl.value).toEqual('  +01.2  ')
+    await triggerEvent('change', trimNumberLazyEl)
+    expect(trimNumberLazy.value).toEqual(1.2)
+    expect(trimNumberLazyEl.value).toEqual('1.2')
+
+    mockActiveElement.mockRestore()
   })
 
   // TODO: validateEvent & input containes select cases should be added after the rest components finished
