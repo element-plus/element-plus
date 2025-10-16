@@ -7,6 +7,10 @@
   "files": [
     "index.js"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/element-plus/element-plus.git"
+  },
   "main": "index.js",
   "publishConfig": {
     "access": "public"
