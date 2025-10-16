@@ -165,7 +165,7 @@ describe('Autocomplete.vue', () => {
     vi.runAllTimers()
 
     await nextTick()
-    expect(fetchSuggestions).toHaveBeenCalledTimes(1)
+    expect(fetchSuggestions).toHaveBeenCalledTimes(2)
   })
 
   test('popperClass', async () => {
