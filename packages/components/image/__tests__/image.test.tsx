@@ -24,6 +24,27 @@ async function doubleWait() {
   await nextTick()
 }
 
+async function waitUntil(
+  condition: () => boolean,
+  timeout = 3000,
+  interval = 100
+) {
+  const startTime = Date.now()
+
+  while (Date.now() - startTime < timeout) {
+    if (condition()) return
+    await nextTick()
+    await flushPromises()
+
+    if (condition()) return
+    await new Promise((resolve) => setTimeout(resolve, interval))
+  }
+
+  if (!condition()) {
+    throw new Error(`Condition not met within ${timeout}ms timeout`)
+  }
+}
+
 const _mount = (template: string, data: Record<string, any>) =>
   mount({
     components: {
@@ -279,7 +300,8 @@ describe('Image.vue', () => {
       await flushPromises()
       expect(wrapper.find('.el-image__inner').exists()).toBe(true)
       expect(wrapper.find('img').exists()).toBe(true)
-      await flushPromises()
+
+      await waitUntil(() => !wrapper.find('.el-image__placeholder').exists())
       expect(wrapper.find('.el-image__placeholder').exists()).toBe(false)
       expect(wrapper.find('.el-image__error').exists()).toBe(false)
     })
@@ -318,6 +340,8 @@ describe('Image.vue', () => {
 
       expect(wrapper.find('.el-image__inner').exists()).toBe(true)
       expect(wrapper.find('img').exists()).toBe(true)
+
+      await waitUntil(() => !wrapper.find('.el-image__placeholder').exists())
       expect(wrapper.find('.el-image__placeholder').exists()).toBe(false)
       expect(wrapper.find('.el-image__error').exists()).toBe(false)
     })
