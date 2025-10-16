@@ -3,11 +3,18 @@
 
 @include b(tabs) {
   @include set-component-css-var('tabs', $tabs);
+  display: flex;
 
   @include e(header) {
     padding: 0;
     position: relative;
     margin: 0 0 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  @include e(header-vertical) {
+    flex-direction: column;
   }
   @include e(active-bar) {
     position: absolute;
@@ -16,7 +23,8 @@
     height: 2px;
     background-color: getCssVar('color-primary');
     z-index: 1;
-    transition: width getCssVar('transition-duration')
+    transition:
+      width getCssVar('transition-duration')
         getCssVar('transition-function-ease-in-out-bezier'),
       transform getCssVar('transition-duration')
         getCssVar('transition-function-ease-in-out-bezier');
@@ -26,7 +34,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    float: right;
+    flex-shrink: 0;
     border: 1px solid getCssVar('border-color');
     height: 20px;
     width: 20px;
@@ -53,10 +61,14 @@
       color: getCssVar('color-primary');
     }
   }
+  @include e(new-tab-vertical) {
+    margin-left: 0;
+  }
   @include e(nav-wrap) {
     overflow: hidden;
     margin-bottom: -1px;
     position: relative;
+    flex: 1 auto;
 
     &::after {
       content: '';
@@ -167,11 +179,35 @@
   @include e(content) {
     overflow: hidden;
     position: relative;
+    flex-grow: 1;
+  }
+  @include m((top, bottom)) {
+    > .#{$namespace}-tabs__header {
+      .#{$namespace}-tabs__item:nth-child(2) {
+        padding-left: 0;
+      }
+      .#{$namespace}-tabs__item:last-child {
+        padding-right: 0;
+      }
+    }
+
+    &.#{$namespace}-tabs--border-card,
+    &.#{$namespace}-tabs--card {
+      > .#{$namespace}-tabs__header {
+        .#{$namespace}-tabs__item:nth-child(2) {
+          padding-left: 20px;
+        }
+        .#{$namespace}-tabs__item:last-child {
+          padding-right: 20px;
+        }
+      }
+    }
   }
   @include m(card) {
     > .#{$namespace}-tabs__header {
       border-bottom: 1px solid getCssVar('border-color-light');
       height: getCssVar('tabs', 'header-height');
+      box-sizing: border-box;
     }
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__nav-wrap::after {
       content: none;
@@ -195,9 +231,11 @@
       transform-origin: 100% 50%;
     }
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__item {
+      margin-top: -1px;
       border-bottom: 1px solid transparent;
       border-left: 1px solid getCssVar('border-color-light');
-      transition: color getCssVar('transition-duration')
+      transition:
+        color getCssVar('transition-duration')
           getCssVar('transition-function-ease-in-out-bezier'),
         padding getCssVar('transition-duration')
           getCssVar('transition-function-ease-in-out-bezier');
@@ -283,40 +321,9 @@
       margin-left: 0;
     }
   }
-  @include m((top, bottom)) {
-    .#{$namespace}-tabs__item.is-top:nth-child(2),
-    .#{$namespace}-tabs__item.is-bottom:nth-child(2) {
-      padding-left: 0;
-    }
-    .#{$namespace}-tabs__item.is-top:last-child,
-    .#{$namespace}-tabs__item.is-bottom:last-child {
-      padding-right: 0;
-    }
-
-    &.#{$namespace}-tabs--border-card,
-    &.#{$namespace}-tabs--card,
-    .#{$namespace}-tabs--left,
-    .#{$namespace}-tabs--right {
-      > .#{$namespace}-tabs__header {
-        .#{$namespace}-tabs__item:nth-child(2) {
-          padding-left: 20px;
-
-          &:not(.is-active).is-closable:hover {
-            padding-left: 13px;
-          }
-        }
-
-        .#{$namespace}-tabs__item:last-child {
-          padding-right: 20px;
-
-          &:not(.is-active).is-closable:hover {
-            padding-right: 13px;
-          }
-        }
-      }
-    }
-  }
   @include m(bottom) {
+    flex-direction: column;
+
     .#{$namespace}-tabs__header.is-bottom {
       margin-bottom: 0;
       margin-top: 10px;
@@ -413,8 +420,9 @@
     }
   }
   @include m(left) {
+    flex-direction: row;
+
     .#{$namespace}-tabs__header.is-left {
-      float: left;
       margin-bottom: 0;
       margin-right: 10px;
     }
@@ -494,10 +502,14 @@
         }
       }
     }
+
+    // only for SSR
+    > .#{$namespace}-tabs__content + .#{$namespace}-tabs__header {
+      order: -1;
+    }
   }
   @include m(right) {
     .#{$namespace}-tabs__header.is-right {
-      float: right;
       margin-bottom: 0;
       margin-left: 10px;
     }
@@ -566,6 +578,14 @@
           border-bottom-color: rgb(209, 219, 229);
         }
       }
+    }
+  }
+  @include m(top) {
+    flex-direction: column;
+
+    // only for SSR
+    > .#{$namespace}-tabs__content + .#{$namespace}-tabs__header {
+      order: -1;
     }
   }
 }

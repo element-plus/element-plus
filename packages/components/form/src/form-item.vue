@@ -11,7 +11,7 @@
     >
       <component
         :is="labelFor ? 'label' : 'div'"
-        v-if="hasLabel"
+        v-if="!!(label || $slots.label)"
         :id="labelId"
         :for="labelFor"
         :class="ns.e('label')"
@@ -57,9 +57,9 @@ import {
   addUnit,
   ensureArray,
   getProp,
+  isArray,
   isBoolean,
   isFunction,
-  isString,
 } from '@element-plus/utils'
 import { useId, useNamespace } from '@element-plus/hooks'
 import { useFormSize } from './hooks'
@@ -100,8 +100,12 @@ const formItemRef = ref<HTMLDivElement>()
 let initialValue: any = undefined
 let isResettingField = false
 
+const labelPosition = computed(
+  () => props.labelPosition || formContext?.labelPosition
+)
+
 const labelStyle = computed<CSSProperties>(() => {
-  if (formContext?.labelPosition === 'top') {
+  if (labelPosition.value === 'top') {
     return {}
   }
 
@@ -111,7 +115,7 @@ const labelStyle = computed<CSSProperties>(() => {
 })
 
 const contentStyle = computed<CSSProperties>(() => {
-  if (formContext?.labelPosition === 'top' || formContext?.inline) {
+  if (labelPosition.value === 'top' || formContext?.inline) {
     return {}
   }
   if (!props.label && !props.labelWidth && isNested) {
@@ -135,7 +139,10 @@ const formItemClasses = computed(() => [
   formContext?.requireAsteriskPosition === 'right'
     ? 'asterisk-right'
     : 'asterisk-left',
-  { [ns.m('feedback')]: formContext?.statusIcon },
+  {
+    [ns.m('feedback')]: formContext?.statusIcon,
+    [ns.m(`label-${labelPosition.value}`)]: labelPosition.value,
+  },
 ])
 
 const _inlineMessage = computed(() =>
@@ -151,7 +158,7 @@ const validateClasses = computed(() => [
 
 const propString = computed(() => {
   if (!props.prop) return ''
-  return isString(props.prop) ? props.prop : props.prop.join('.')
+  return isArray(props.prop) ? props.prop.join('.') : props.prop
 })
 
 const hasLabel = computed<boolean>(() => {
@@ -160,7 +167,7 @@ const hasLabel = computed<boolean>(() => {
 
 const labelFor = computed<string | undefined>(() => {
   return (
-    props.for || (inputIds.value.length === 1 ? inputIds.value[0] : undefined)
+    props.for ?? (inputIds.value.length === 1 ? inputIds.value[0] : undefined)
   )
 })
 
@@ -201,7 +208,7 @@ const normalizedRules = computed(() => {
   if (required !== undefined) {
     const requiredRules = rules
       .map((rule, i) => [rule, i] as const)
-      .filter(([rule]) => Object.keys(rule).includes('required'))
+      .filter(([rule]) => 'required' in rule)
 
     if (requiredRules.length > 0) {
       for (const [rule, i] of requiredRules) {
@@ -224,7 +231,7 @@ const getFilteredRule = (trigger: string) => {
     rules
       .filter((rule) => {
         if (!rule.trigger || !trigger) return true
-        if (Array.isArray(rule.trigger)) {
+        if (isArray(rule.trigger)) {
           return rule.trigger.includes(trigger)
         } else {
           return rule.trigger === trigger
@@ -263,7 +270,7 @@ const onValidationFailed = (error: FormValidateFailure) => {
 
   setValidationState('error')
   validateMessage.value = errors
-    ? errors?.[0]?.message ?? `${props.prop} is required`
+    ? (errors?.[0]?.message ?? `${props.prop} is required`)
     : ''
 
   formContext?.emit('validate', props.prop!, false, validateMessage.value)
@@ -286,7 +293,7 @@ const doValidate = async (rules: RuleItem[]): Promise<true> => {
       return true as const
     })
     .catch((err: FormValidateFailure) => {
-      onValidationFailed(err as FormValidateFailure)
+      onValidationFailed(err)
       return Promise.reject(err)
     })
 }
@@ -374,16 +381,19 @@ const context: FormItemContext = reactive({
   ...toRefs(props),
   $el: formItemRef,
   size: _size,
+  validateMessage,
   validateState,
   labelId,
   inputIds,
   isGroup,
   hasLabel,
+  fieldValue,
   addInputId,
   removeInputId,
   resetField,
   clearValidate,
   validate,
+  propString,
 })
 
 provide(formItemContextKey, context)

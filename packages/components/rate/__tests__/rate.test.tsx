@@ -148,6 +148,30 @@ describe('Rate.vue', () => {
     expect(changeCount.value).toEqual(2)
   })
 
+  it('show background icon when allow-half attribute is true', async () => {
+    const value = ref(3.5)
+    const wrapper = mount(() => <Rate v-model={value.value} allow-half />)
+    expect(wrapper.find('.el-rate__decimal--box').exists()).toBe(true)
+    expect(
+      wrapper.findAll('.el-rate__decimal--box')[3].attributes('style')
+    ).toBe(undefined)
+    value.value = 3.4
+    await nextTick()
+    expect(wrapper.find('.el-rate__decimal--box').exists()).toBe(true)
+    expect(
+      wrapper.findAll('.el-rate__decimal--box')[3].attributes('style')
+    ).contain('display: none;')
+  })
+
+  it('show background icon when disabled attribute is true', async () => {
+    const value = ref(3.2)
+    const wrapper = mount(() => <Rate v-model={value.value} disabled />)
+    expect(wrapper.find('.el-rate__decimal--box').exists()).toBe(true)
+    expect(
+      wrapper.findAll('.el-rate__decimal--box')[3].attributes('style')
+    ).toBe(undefined)
+  })
+
   describe('form item accessibility integration', () => {
     it('automatic id attachment', async () => {
       const wrapper = mount(() => (

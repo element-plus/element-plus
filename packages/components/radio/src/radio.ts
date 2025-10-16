@@ -1,10 +1,18 @@
 import { buildProps, isBoolean, isNumber, isString } from '@element-plus/utils'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useSizeProp } from '@element-plus/hooks'
-import type { ExtractPropTypes } from 'vue'
+
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type Radio from './radio.vue'
 
 export const radioPropsBase = buildProps({
+  /**
+   * @description binding value
+   */
+  modelValue: {
+    type: [String, Number, Boolean],
+    default: undefined,
+  },
   /**
    * @description size of the Radio
    */
@@ -14,30 +22,30 @@ export const radioPropsBase = buildProps({
    */
   disabled: Boolean,
   /**
-   * @description the value of Radio
+   * @description the label of Radio
    */
   label: {
     type: [String, Number, Boolean],
-    default: '',
+    default: undefined,
   },
-})
-
-export const radioProps = buildProps({
-  ...radioPropsBase,
   /**
-   * @description binding value
+   * @description the value of Radio
    */
-  modelValue: {
+  value: {
     type: [String, Number, Boolean],
-    default: '',
+    default: undefined,
   },
   /**
    * @description native `name` attribute
    */
   name: {
     type: String,
-    default: '',
+    default: undefined,
   },
+})
+
+export const radioProps = buildProps({
+  ...radioPropsBase,
   /**
    * @description whether to add a border around Radio
    */
@@ -45,12 +53,13 @@ export const radioProps = buildProps({
 } as const)
 
 export const radioEmits = {
-  [UPDATE_MODEL_EVENT]: (val: string | number | boolean) =>
+  [UPDATE_MODEL_EVENT]: (val: string | number | boolean | undefined) =>
     isString(val) || isNumber(val) || isBoolean(val),
-  [CHANGE_EVENT]: (val: string | number | boolean) =>
+  [CHANGE_EVENT]: (val: string | number | boolean | undefined) =>
     isString(val) || isNumber(val) || isBoolean(val),
 }
 
 export type RadioProps = ExtractPropTypes<typeof radioProps>
+export type RadioPropsPublic = __ExtractPublicPropTypes<typeof radioProps>
 export type RadioEmits = typeof radioEmits
-export type RadioInstance = InstanceType<typeof Radio>
+export type RadioInstance = InstanceType<typeof Radio> & unknown

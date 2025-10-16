@@ -1,14 +1,20 @@
-import { computed, nextTick, ref, shallowRef, watch } from 'vue'
+import { computed, ref, shallowRef, watch } from 'vue'
 import { isObject } from '@element-plus/utils'
 import {
   CURRENT_CHANGE,
   NODE_CLICK,
   NODE_COLLAPSE,
+  NODE_DROP,
   NODE_EXPAND,
   TreeOptionsEnum,
 } from '../virtual-tree'
 import { useCheck } from './useCheck'
 import { useFilter } from './useFilter'
+
+import type {
+  FixedSizeList,
+  Alignment as ScrollStrategy,
+} from '@element-plus/components/virtual-list'
 import type { SetupContext } from 'vue'
 import type { treeEmits } from '../virtual-tree'
 import type { CheckboxValueType } from '@element-plus/components/checkbox'
@@ -25,29 +31,10 @@ export function useTree(
   props: TreeProps,
   emit: SetupContext<typeof treeEmits>['emit']
 ) {
-  const expandedKeySet = ref<Set<TreeKey>>(new Set(props.defaultExpandedKeys))
+  const expandedKeySet = ref<Set<TreeKey>>(new Set())
   const currentKey = ref<TreeKey | undefined>()
   const tree = shallowRef<Tree | undefined>()
-
-  watch(
-    () => props.currentNodeKey,
-    (key) => {
-      currentKey.value = key
-    },
-    {
-      immediate: true,
-    }
-  )
-
-  watch(
-    () => props.data,
-    (data: TreeData) => {
-      setData(data)
-    },
-    {
-      immediate: true,
-    }
-  )
+  const listRef = ref<typeof FixedSizeList | undefined>()
 
   const {
     isIndeterminate,
@@ -83,31 +70,24 @@ export function useTree(
     const expandedKeys = expandedKeySet.value
     const hiddenKeys = hiddenNodeKeySet.value
     const flattenNodes: TreeNode[] = []
-    const nodes = (tree.value && tree.value.treeNodes) || []
-    function traverse() {
-      const stack: TreeNode[] = []
-      for (let i = nodes.length - 1; i >= 0; --i) {
-        stack.push(nodes[i])
-      }
-      while (stack.length) {
-        const node = stack.pop()
-        if (!node) continue
-        if (!hiddenKeys.has(node.key)) {
-          flattenNodes.push(node)
-        }
-        // Only "visible" nodes will be rendered
-        if (expandedKeys.has(node.key)) {
-          const children = node.children
-          if (children) {
-            const length = children.length
-            for (let i = length - 1; i >= 0; --i) {
-              stack.push(children[i])
-            }
-          }
+    const nodes = tree.value?.treeNodes || []
+
+    const stack: TreeNode[] = []
+    for (let i = nodes.length - 1; i >= 0; --i) {
+      stack.push(nodes[i])
+    }
+    while (stack.length) {
+      const node = stack.pop()!
+      if (hiddenKeys.has(node.key)) continue
+
+      flattenNodes.push(node)
+      if (node.children && expandedKeys.has(node.key)) {
+        for (let i = node.children.length - 1; i >= 0; --i) {
+          stack.push(node.children[i])
         }
       }
     }
-    traverse()
+
     return flattenNodes
   })
 
@@ -137,6 +117,7 @@ export function useTree(
         const children = getChildren(rawNode)
         node.disabled = getDisabled(rawNode)
         node.isLeaf = !children || children.length === 0
+        node.expanded = expandedKeySet.value.has(value)
         if (children && children.length) {
           node.children = traverse(children, level + 1, node)
         }
@@ -197,7 +178,25 @@ export function useTree(
   }
 
   function setExpandedKeys(keys: TreeKey[]) {
-    expandedKeySet.value = new Set(keys)
+    const expandedKeys = new Set<TreeKey>()
+    const nodeMap = tree.value!.treeNodeMap
+
+    expandedKeySet.value.forEach((key) => {
+      const node = nodeMap.get(key)!
+      expandedKeySet.value.delete(node.key)
+      node.expanded = false
+    })
+
+    keys.forEach((k) => {
+      let node = nodeMap.get(k)
+      while (node && !expandedKeys.has(node.key)) {
+        expandedKeys.add(node.key)
+        node.expanded = true
+        node = node.parent
+      }
+    })
+
+    expandedKeySet.value = expandedKeys
   }
 
   function handleNodeClick(node: TreeNode, e: MouseEvent) {
@@ -206,9 +205,17 @@ export function useTree(
     if (props.expandOnClickNode) {
       toggleExpand(node)
     }
-    if (props.showCheckbox && props.checkOnClickNode && !node.disabled) {
+    if (
+      props.showCheckbox &&
+      (props.checkOnClickNode || (node.isLeaf && props.checkOnClickLeaf)) &&
+      !node.disabled
+    ) {
       toggleCheckbox(node, !isChecked(node), true)
     }
+  }
+
+  function handleNodeDrop(node: TreeNode, e: DragEvent) {
+    emit(NODE_DROP, node.data, node, e)
   }
 
   function handleCurrentChange(node: TreeNode) {
@@ -231,20 +238,19 @@ export function useTree(
         const treeNode = treeNodeMap.get(key)
         if (node && node.level === treeNode?.level) {
           keySet.delete(key)
+          treeNode.expanded = false
         }
       })
     }
     keySet.add(node.key)
+    node.expanded = true
     emit(NODE_EXPAND, node.data, node)
   }
 
   function collapseNode(node: TreeNode) {
     expandedKeySet.value.delete(node.key)
+    node.expanded = false
     emit(NODE_COLLAPSE, node.data, node)
-  }
-
-  function isExpanded(node: TreeNode): boolean {
-    return expandedKeySet.value.has(node.key)
   }
 
   function isDisabled(node: TreeNode): boolean {
@@ -270,7 +276,7 @@ export function useTree(
   }
 
   function setData(data: TreeData) {
-    nextTick(() => (tree.value = createTree(data)))
+    tree.value = createTree(data)
   }
 
   function getNode(data: TreeKey | TreeNodeData) {
@@ -278,21 +284,63 @@ export function useTree(
     return tree.value?.treeNodeMap.get(key)
   }
 
+  function scrollToNode(key: TreeKey, strategy: ScrollStrategy = 'auto') {
+    const node = getNode(key)
+    if (node && listRef.value) {
+      listRef.value.scrollToItem(flattenTree.value.indexOf(node), strategy)
+    }
+  }
+
+  function scrollTo(offset: number) {
+    listRef.value?.scrollTo(offset)
+  }
+
+  watch(
+    () => props.currentNodeKey,
+    (key) => {
+      currentKey.value = key
+    },
+    {
+      immediate: true,
+    }
+  )
+
+  watch(
+    () => props.defaultExpandedKeys,
+    (key) => {
+      expandedKeySet.value = new Set<TreeKey>(key)
+    },
+    {
+      immediate: true,
+    }
+  )
+
+  watch(
+    () => props.data,
+    (data: TreeData) => {
+      setData(data)
+    },
+    {
+      immediate: true,
+    }
+  )
+
   return {
     tree,
     flattenTree,
     isNotEmpty,
+    listRef,
     getKey,
     getChildren,
     toggleExpand,
     toggleCheckbox,
-    isExpanded,
     isChecked,
     isIndeterminate,
     isDisabled,
     isCurrent,
     isForceHiddenExpandIcon,
     handleNodeClick,
+    handleNodeDrop,
     handleNodeCheck,
     // expose
     getCurrentNode,
@@ -310,5 +358,7 @@ export function useTree(
     expandNode,
     collapseNode,
     setExpandedKeys,
+    scrollToNode,
+    scrollTo,
   }
 }

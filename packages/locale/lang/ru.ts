@@ -1,16 +1,31 @@
 export default {
   name: 'ru',
   el: {
+    breadcrumb: {
+      label: 'Хлебные крошки',
+    },
     colorpicker: {
-      confirm: 'OK',
+      confirm: 'Ок',
       clear: 'Очистить',
+      defaultLabel: 'color picker', // to be translated
+      description:
+        'current color is {color}. press enter to select a new color.', // to be translated
+      alphaLabel: 'pick alpha value', // to be translated
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
     },
     datepicker: {
       now: 'Сейчас',
       today: 'Сегодня',
       cancel: 'Отмена',
       clear: 'Очистить',
-      confirm: 'OK',
+      confirm: 'Ок',
+      dateTablePrompt:
+        'Use the arrow keys and enter to select the day of the month', // to be translated
+      monthTablePrompt: 'Use the arrow keys and enter to select the month', // to be translated
+      yearTablePrompt: 'Use the arrow keys and enter to select the year', // to be translated
+      selectedDate: 'Selected date', // to be translated
       selectDate: 'Выбрать дату',
       selectTime: 'Выбрать время',
       startDate: 'Дата начала',
@@ -34,7 +49,6 @@ export default {
       month10: 'Октябрь',
       month11: 'Ноябрь',
       month12: 'Декабрь',
-      week: 'неделя',
       weeks: {
         sun: 'Вс',
         mon: 'Пн',
@@ -43,6 +57,15 @@ export default {
         thu: 'Чт',
         fri: 'Пт',
         sat: 'Сб',
+      },
+      weeksFull: {
+        sun: 'Sunday', // to be translated
+        mon: 'Monday', // to be translated
+        tue: 'Tuesday', // to be translated
+        wed: 'Wednesday', // to be translated
+        thu: 'Thursday', // to be translated
+        fri: 'Friday', // to be translated
+        sat: 'Saturday', // to be translated
       },
       months: {
         jan: 'Янв',
@@ -59,11 +82,21 @@ export default {
         dec: 'Дек',
       },
     },
+    inputNumber: {
+      decrease: 'decrease number', // to be translated
+      increase: 'increase number', // to be translated
+    },
     select: {
       loading: 'Загрузка',
       noMatch: 'Совпадений не найдено',
       noData: 'Нет данных',
       placeholder: 'Выбрать',
+    },
+    mention: {
+      loading: 'Загрузка',
+    },
+    dropdown: {
+      toggleDropdown: 'Toggle Dropdown', // to be translated
     },
     cascader: {
       noMatch: 'Совпадений не найдено',
@@ -76,18 +109,27 @@ export default {
       pagesize: ' на странице',
       total: 'Всего {total}',
       pageClassifier: '',
-      page: 'Page', // to be translated
-      prev: 'Go to previous page', // to be translated
-      next: 'Go to next page', // to be translated
-      currentPage: 'page {pager}', // to be translated
-      prevPages: 'Previous {pager} pages', // to be translated
-      nextPages: 'Next {pager} pages', // to be translated
+      page: 'Страница',
+      prev: 'Перейти на предыдущую страницу',
+      next: 'Перейти на следующую страницу',
+      currentPage: 'страница {pager}',
+      prevPages: 'Предыдущие {pager} страниц',
+      nextPages: 'Следующие {pager} страниц',
+      deprecationWarning:
+        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
+    },
+    dialog: {
+      close: 'Close this dialog', // to be translated
+    },
+    drawer: {
+      close: 'Close this dialog', // to be translated
     },
     messagebox: {
       title: 'Сообщение',
-      confirm: 'OK',
+      confirm: 'Ок',
       cancel: 'Отмена',
       error: 'Недопустимый ввод данных',
+      close: 'Close this dialog', // to be translated
     },
     upload: {
       deleteTip: 'Нажмите [Удалить] для удаления',
@@ -95,12 +137,23 @@ export default {
       preview: 'Превью',
       continue: 'Продолжить',
     },
+    slider: {
+      defaultLabel: 'slider between {min} and {max}', // to be translated
+      defaultRangeStartLabel: 'pick start value', // to be translated
+      defaultRangeEndLabel: 'pick end value', // to be translated
+    },
     table: {
       emptyText: 'Нет данных',
-      confirmFilter: 'Подтвердить',
+      confirmFilter: 'Ок',
       resetFilter: 'Сбросить',
       clearFilter: 'Все',
       sumText: 'Сумма',
+    },
+    tour: {
+      next: 'Далее',
+      previous: 'Назад',
+      finish: 'Завершить',
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'Нет данных',
@@ -114,14 +167,19 @@ export default {
       hasCheckedFormat: '{checked}/{total} выбрано',
     },
     image: {
-      error: 'FAILED', // to be translated
+      error: 'ОШИБКА',
     },
     pageHeader: {
-      title: 'Back', // to be translated
+      title: 'Назад',
     },
     popconfirm: {
-      confirmButtonText: 'OK',
+      confirmButtonText: 'Ок',
       cancelButtonText: 'Отмена',
+    },
+    carousel: {
+      leftArrow: 'Слайдер стрелка влево',
+      rightArrow: 'Слайдер стрелка вправо',
+      indicator: 'Слайдер перейти на страницу под номером {index}',
     },
   },
 }

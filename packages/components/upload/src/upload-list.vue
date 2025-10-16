@@ -1,15 +1,7 @@
 <template>
-  <transition-group
-    tag="ul"
-    :class="[
-      nsUpload.b('list'),
-      nsUpload.bm('list', listType),
-      nsUpload.is('disabled', disabled),
-    ]"
-    :name="nsList.b()"
-  >
+  <transition-group tag="ul" :class="containerKls" :name="nsList.b()">
     <li
-      v-for="file in files"
+      v-for="(file, index) in files"
       :key="file.uid || file.name"
       :class="[
         nsUpload.be('list', 'item'),
@@ -22,7 +14,7 @@
       @blur="focusing = false"
       @click="focusing = false"
     >
-      <slot :file="file">
+      <slot :file="file" :index="index">
         <img
           v-if="
             listType === 'picture' ||
@@ -30,6 +22,7 @@
           "
           :class="nsUpload.be('list', 'item-thumbnail')"
           :src="file.url"
+          :crossorigin="crossorigin"
           alt=""
         />
         <div
@@ -111,8 +104,9 @@
     <slot name="append" />
   </transition-group>
 </template>
+
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import {
   Check,
@@ -125,15 +119,15 @@ import {
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElProgress from '@element-plus/components/progress'
 import { useFormDisabled } from '@element-plus/components/form'
-
 import { uploadListEmits, uploadListProps } from './upload-list'
+
 import type { UploadFile } from './upload'
 
 defineOptions({
   name: 'ElUploadList',
 })
 
-defineProps(uploadListProps)
+const props = defineProps(uploadListProps)
 const emit = defineEmits(uploadListEmits)
 
 const { t } = useLocale()
@@ -143,6 +137,12 @@ const nsList = useNamespace('list')
 const disabled = useFormDisabled()
 
 const focusing = ref(false)
+
+const containerKls = computed(() => [
+  nsUpload.b('list'),
+  nsUpload.bm('list', props.listType),
+  nsUpload.is('disabled', props.disabled),
+])
 
 const handleRemove = (file: UploadFile) => {
   emit('remove', file)

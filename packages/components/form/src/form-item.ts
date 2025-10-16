@@ -1,7 +1,7 @@
 import { componentSizes } from '@element-plus/constants'
 import { buildProps, definePropType } from '@element-plus/utils'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type { Arrayable } from '@element-plus/utils'
 import type { FormItemRule } from './types'
 
@@ -11,7 +11,7 @@ export const formItemValidateStates = [
   'validating',
   'success',
 ] as const
-export type FormItemValidateState = typeof formItemValidateStates[number]
+export type FormItemValidateState = (typeof formItemValidateStates)[number]
 
 export type FormItemProp = Arrayable<string>
 
@@ -25,6 +25,14 @@ export const formItemProps = buildProps({
    */
   labelWidth: {
     type: [String, Number],
+    default: '',
+  },
+  /**
+   * @description Position of label. If set to `'left'` or `'right'`, `label-width` prop is also required. The default is extend from `form label-position`.
+   */
+  labelPosition: {
+    type: String,
+    values: ['left', 'right', 'top', ''],
     default: '',
   },
   /**
@@ -65,8 +73,8 @@ export const formItemProps = buildProps({
    * @description Inline style validate message.
    */
   inlineMessage: {
-    type: [String, Boolean],
-    default: '',
+    type: Boolean,
+    default: undefined,
   },
   /**
    * @description Whether to show the error message.
@@ -84,3 +92,4 @@ export const formItemProps = buildProps({
   },
 } as const)
 export type FormItemProps = ExtractPropTypes<typeof formItemProps>
+export type FormItemPropsPublic = __ExtractPublicPropTypes<typeof formItemProps>

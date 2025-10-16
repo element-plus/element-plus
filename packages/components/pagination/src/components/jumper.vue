@@ -9,7 +9,7 @@
       :disabled="disabled"
       :model-value="innerValue"
       :validate-event="false"
-      :label="t('el.pagination.page')"
+      :aria-label="t('el.pagination.page')"
       type="number"
       @update:model-value="handleInput"
       @change="handleChange"

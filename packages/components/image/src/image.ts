@@ -5,7 +5,8 @@ import {
   mutable,
 } from '@element-plus/utils'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type Image from './image.vue'
 
 export const imageProps = buildProps({
   /**
@@ -28,7 +29,7 @@ export const imageProps = buildProps({
     default: '',
   },
   /**
-   * @description Indicates how the browser should load the image, same as [native](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#attr-loading)
+   * @description Indicates how the browser should load the image, same as [native](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/img#loading)
    */
   loading: {
     type: String,
@@ -89,8 +90,40 @@ export const imageProps = buildProps({
     type: Number,
     default: 1.2,
   },
+  /**
+   * @description preview image scale.
+   */
+  scale: {
+    type: Number,
+    default: 1,
+  },
+  /**
+   * @description the min scale of the image viewer zoom event.
+   */
+  minScale: {
+    type: Number,
+    default: 0.2,
+  },
+  /**
+   * @description the max scale of the image viewer zoom event.
+   */
+  maxScale: {
+    type: Number,
+    default: 7,
+  },
+  /**
+   * @description show preview image progress content.
+   */
+  showProgress: Boolean,
+  /**
+   * @description set HTML attribute: crossorigin.
+   */
+  crossorigin: {
+    type: definePropType<'anonymous' | 'use-credentials' | ''>(String),
+  },
 } as const)
 export type ImageProps = ExtractPropTypes<typeof imageProps>
+export type ImagePropsPublic = __ExtractPublicPropTypes<typeof imageProps>
 
 export const imageEmits = {
   load: (evt: Event) => evt instanceof Event,
@@ -100,3 +133,4 @@ export const imageEmits = {
   show: () => true,
 }
 export type ImageEmits = typeof imageEmits
+export type ImageInstance = InstanceType<typeof Image> & unknown

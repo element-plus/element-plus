@@ -1,12 +1,19 @@
 export default {
   name: 'ckb',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'باشە',
       clear: 'پاککردنەوە',
       defaultLabel: 'هەڵبژاردنی ڕەنگ',
       description:
         'ڕەنگی ئێستا {color}. ئینتەر دابگرە بۆ هەڵبژاردنی ڕەنگی نوێ.',
+      alphaLabel: 'pick alpha value', // to be translated
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
     },
     datepicker: {
       now: 'ئێستا',
@@ -42,7 +49,6 @@ export default {
       month10: 'گەڵاڕێزان',
       month11: 'سەرماوەز',
       month12: 'بەفرانبار',
-      week: 'هەفت',
       weeks: {
         sun: 'یەکشەممە',
         mon: 'دووشەممە',
@@ -85,6 +91,9 @@ export default {
       noMatch: 'هیچ داتایەکی هاوتا نیە',
       noData: 'هیچ داتایەک نیە',
       placeholder: 'هەڵبژاردن',
+    },
+    mention: {
+      loading: 'بارکردن',
     },
     dropdown: {
       toggleDropdown: 'کردنەوەو داخستنی کشاو',
@@ -140,26 +149,37 @@ export default {
       clearFilter: 'هەموو',
       sumText: 'کۆ',
     },
+    tour: {
+      next: 'Next', // to be translated
+      previous: 'Previous', // to be translated
+      finish: 'Finish', // to be translated
+      close: 'Close this dialog', // to be translated
+    },
     tree: {
       emptyText: 'هیچ داتا نیە',
     },
     transfer: {
       noMatch: 'هیچ داتای هاوتا نیە',
       noData: 'هیچ داتا نیە',
-      titles: ['لیستی 1', 'لیستی 2'], // to be translated
-      filterPlaceholder: 'کلیلەوشە داخڵ بکە', // to be translated
-      noCheckedFormat: '{total} دانە', // to be translated
-      hasCheckedFormat: '{checked}/{total} هەڵبژێردراوە', // to be translated
+      titles: ['لیستی 1', 'لیستی 2'],
+      filterPlaceholder: 'کلیلەوشە داخڵ بکە',
+      noCheckedFormat: '{total} دانە',
+      hasCheckedFormat: '{checked}/{total} هەڵبژێردراوە',
     },
     image: {
       error: 'شکستی هێنا',
     },
     pageHeader: {
-      title: 'گەڕانەوە', // to be translated
+      title: 'گەڕانەوە',
     },
     popconfirm: {
       confirmButtonText: 'بەڵێ',
       cancelButtonText: 'نەخێر',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

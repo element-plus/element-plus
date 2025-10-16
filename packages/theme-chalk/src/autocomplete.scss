@@ -5,6 +5,11 @@
 @use 'common/var' as *;
 
 @include b(autocomplete) {
+  @include set-component-css-var('input', $input);
+}
+
+@include b(autocomplete) {
+  width: getCssVar('input-width');
   position: relative;
   display: inline-block;
 
@@ -20,6 +25,16 @@
 @include b(autocomplete-suggestion) {
   border-radius: getCssVar('border-radius', 'base');
   box-sizing: border-box;
+
+  @include e(header) {
+    padding: 10px;
+    border-bottom: 1px solid getCssVar('border-color', 'lighter');
+  }
+
+  @include e(footer) {
+    padding: 10px;
+    border-top: 1px solid getCssVar('border-color', 'lighter');
+  }
 
   @include e(wrap) {
     max-height: 280px;
@@ -66,6 +81,7 @@
   @include when(loading) {
     li {
       text-align: center;
+      cursor: default;
       height: 100px;
       line-height: 100px;
       font-size: 20px;
@@ -75,10 +91,6 @@
       &:hover {
         background-color: getCssVar('bg-color', 'overlay');
       }
-    }
-
-    & .#{$namespace}-icon-loading {
-      vertical-align: middle;
     }
   }
 }
