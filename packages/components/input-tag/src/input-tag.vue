@@ -90,6 +90,7 @@
           @compositionend="handleCompositionEnd"
           @input="handleInput"
           @keydown="handleKeydown"
+          @keyup="handleKeyup"
         />
         <span
           ref="calculatorRef"
@@ -179,6 +180,7 @@ const {
   handleDragged,
   handleInput,
   handleKeydown,
+  handleKeyup,
   handleRemoveTag,
   handleClear,
   handleCompositionStart,
