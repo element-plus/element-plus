@@ -3,10 +3,8 @@ import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { CircleClose } from '@element-plus/icons-vue'
 import TreeSelect from '../src/tree-select.vue'
-import { TreeSelectInstance } from '../src/instance'
 
-import type { SelectInstance } from '@element-plus/components/select'
-import type { TreeInstance } from '@element-plus/components/tree'
+import type { TreeSelectInstance } from '../src/instance'
 import type { RenderFunction } from 'vue'
 import type { VueWrapper } from '@vue/test-utils'
 
@@ -107,8 +105,10 @@ const createComponent = ({
       ),
     select: wrapper.findComponent({
       name: 'ElSelect',
-    }) as VueWrapper<SelectInstance>,
-    tree: wrapper.findComponent({ name: 'ElTree' }) as VueWrapper<TreeInstance>,
+    }) as VueWrapper<TreeSelectInstance['selectRef']>,
+    tree: wrapper.findComponent({ name: 'ElTree' }) as VueWrapper<
+      TreeSelectInstance['treeRef']
+    >,
   }
 }
 
