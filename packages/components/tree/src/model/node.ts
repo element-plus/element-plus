@@ -102,7 +102,7 @@ class Node {
   isLeafByUser: boolean | undefined = undefined
   isLeaf: boolean | undefined = undefined
   canFocus: boolean
-
+  direction: string
   level: number
   loaded: boolean
   childNodes: Node[]
