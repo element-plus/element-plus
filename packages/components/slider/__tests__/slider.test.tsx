@@ -206,6 +206,68 @@ describe('Slider', () => {
       expect(value.value).toBe(50)
       mockRect.mockRestore()
     })
+
+    it('should correctly handle uneven step sizes', async () => {
+      vi.useRealTimers()
+      const value = ref(0)
+      const wrapper = mount(
+        () => (
+          <div style="width: 100px;">
+            <Slider
+              v-model={value.value}
+              min={0}
+              max={10}
+              step={3}
+              vertical={false}
+            />
+          </div>
+        ),
+        {
+          attachTo: document.body,
+        }
+      )
+
+      const slider = wrapper.findComponent({ name: 'ElSliderButton' })
+      const mockRect = mockBoundingClientRect(
+        wrapper.find('.el-slider__runway').element,
+        { width: 100 }
+      )
+      const mockMouseEvent = async (start: number, end: number) => {
+        slider.trigger('mousedown', { clientX: start })
+
+        const mousemove = new MouseEvent('mousemove', {
+          screenX: end,
+          screenY: 0,
+          clientX: end,
+          clientY: 0,
+        })
+        window.dispatchEvent(mousemove)
+        await nextTick()
+
+        const mouseup = new MouseEvent('mouseup', {
+          screenX: end,
+          screenY: 0,
+          clientX: end,
+          clientY: 0,
+        })
+        window.dispatchEvent(mouseup)
+        await nextTick()
+      }
+
+      await mockMouseEvent(0, 14)
+      expect(value.value).toBe(0)
+      await mockMouseEvent(0, 15)
+      expect(value.value).toBe(3)
+      await mockMouseEvent(30, 45)
+      expect(value.value).toBe(6)
+      await mockMouseEvent(60, 75)
+      expect(value.value).toBe(9)
+      await mockMouseEvent(90, 94)
+      expect(value.value).toBe(9)
+      await mockMouseEvent(90, 95)
+      expect(value.value).toBe(10)
+      mockRect.mockRestore()
+    })
   })
 
   describe('accessibility', () => {

@@ -23,8 +23,8 @@
     "clean:dist": "rimraf dist",
     "build": "pnpm run -C internal/build start",
     "build:theme": "pnpm run -C packages/theme-chalk build",
-    "format": "prettier --write --cache .",
-    "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx,.md,.json --max-warnings 0 --cache",
+    "format": "prettier --write --experimental-cli .",
+    "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx,.md,.json --max-warnings 0 --cache --concurrency=auto",
     "lint:fix": "pnpm run lint --fix",
     "lint:commit": "commitlint",
     "typecheck": "pnpm run \"/^typecheck:/\"",
@@ -94,7 +94,7 @@
     "csstype": "^2.6.20",
     "cz-git": "^1.11.1",
     "czg": "^1.11.1",
-    "eslint": "^9.34.0",
+    "eslint": "^9.37.0",
     "expect-type": "^0.13.0",
     "fast-glob": "^3.2.11",
     "happy-dom": "^17.4.4",
@@ -145,8 +145,8 @@
   },
   "lint-staged": {
     "*.{vue,js,ts,jsx,tsx,md,json}": [
-      "eslint --fix",
-      "prettier --write"
+      "eslint --fix --concurrency=auto",
+      "prettier --write --experimental-cli"
     ]
   }
 }
