@@ -7,7 +7,6 @@ import type {
   ExtractPropTypes,
   ExtractPublicPropTypes,
 } from 'vue'
-import type { ZIndexProperty } from 'csstype'
 
 export const overlayProps = buildProps({
   mask: {
@@ -23,7 +22,7 @@ export const overlayProps = buildProps({
     ]),
   },
   zIndex: {
-    type: definePropType<ZIndexProperty>([String, Number]),
+    type: definePropType<CSSProperties['z-index']>([String, Number]),
   },
 } as const)
 export type OverlayProps = ExtractPropTypes<typeof overlayProps>

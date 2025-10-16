@@ -10,7 +10,6 @@
   ],
   ignoreDeps: [
     'node',
-    'csstype',
 
     // pure esm
     'chalk',
