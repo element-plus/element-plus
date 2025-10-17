@@ -5,6 +5,7 @@ import {
   h,
   provide,
   ref,
+  shallowRef,
   watch,
 } from 'vue'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
@@ -271,6 +272,7 @@ export default defineComponent({
       return true
     })
 
+    const paginationRef = shallowRef<HTMLElement>()
     const innerPageSize = ref(
       isAbsent(props.defaultPageSize) ? 10 : props.defaultPageSize
     )
@@ -372,6 +374,7 @@ export default defineComponent({
     }
 
     provide(elPaginationKey, {
+      paginationRef,
       pageCount: pageCountBridge,
       disabled: computed(() => props.disabled),
       currentPage: currentPageBridge,
@@ -468,6 +471,7 @@ export default defineComponent({
       return h(
         'div',
         {
+          ref: paginationRef,
           class: [
             ns.b(),
             ns.is('background', props.background),
