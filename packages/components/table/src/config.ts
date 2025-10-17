@@ -87,6 +87,7 @@ export const cellForced = {
         },
         onClick: (event: Event) => event.stopPropagation(),
         modelValue: store.isSelected(row),
+        indeterminate: store.isIndeterminate(row),
         ariaLabel: column.label,
       })
     },
