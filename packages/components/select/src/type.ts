@@ -36,6 +36,7 @@ export type SelectStates = {
   selectedLabel: string
   menuVisibleOnFocus: boolean
   isBeforeHide: boolean
+  createdOptions: Array<{ value: OptionValue; label: string }>
 }
 export type OptionProps = ExtractPropTypes<typeof optionProps>
 export type OptionPropsPublic = __ExtractPublicPropTypes<typeof optionProps>

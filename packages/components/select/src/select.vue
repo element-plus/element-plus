@@ -280,6 +280,12 @@
               :value="states.inputValue"
               :created="true"
             />
+            <el-option
+              v-for="co in createdOptionsForRender"
+              :key="getCreatedOptionKey(co.value)"
+              :label="co.label"
+              :value="co.value"
+            />
             <el-options>
               <slot>
                 <template v-for="(option, index) in options" :key="index">
@@ -427,6 +433,14 @@ export default defineComponent({
       disabled: getDisabled(option),
     })
 
+    const createdOptionsForRender = computed(() => {
+      return API.states.createdOptions
+    })
+
+    const getCreatedOptionKey = (value: any) => {
+      return `created_${value}`
+    }
+
     const flatTreeSelectData = (data: any[]) => {
       return data.reduce((acc, item) => {
         acc.push(item)
@@ -521,6 +535,8 @@ export default defineComponent({
       getOptions,
       getDisabled,
       getOptionProps,
+      createdOptionsForRender,
+      getCreatedOptionKey,
     }
   },
 })
