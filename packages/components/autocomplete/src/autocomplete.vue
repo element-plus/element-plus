@@ -121,8 +121,8 @@ import {
   ref,
   useAttrs as useRawAttrs,
 } from 'vue'
-import { debounce, pick } from 'lodash-unified'
-import { onClickOutside } from '@vueuse/core'
+import { pick } from 'lodash-unified'
+import { onClickOutside, useDebounceFn } from '@vueuse/core'
 import { Loading } from '@element-plus/icons-vue'
 import { useId, useNamespace } from '@element-plus/hooks'
 import { getEventCode, isArray, throwError } from '@element-plus/utils'
@@ -225,7 +225,9 @@ const getData = async (queryString: string) => {
     if (isArray(result)) cb(result)
   }
 }
-const debouncedGetData = debounce(getData, props.debounce)
+
+const debounce = computed(() => props.debounce)
+const debouncedGetData = useDebounceFn(getData, debounce)
 
 const handleInput = (value: string) => {
   const valuePresented = !!value
