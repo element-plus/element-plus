@@ -83,7 +83,13 @@
             >
               <component :is="passwordIcon" />
             </el-icon>
-            <span v-if="isWordLimitVisible" :class="nsInput.e('count')">
+            <span
+              v-if="isWordLimitVisible"
+              :class="[
+                nsInput.e('count'),
+                nsInput.is('outside', wordLimitPosition === 'outside'),
+              ]"
+            >
               <span :class="nsInput.e('count-inner')">
                 {{ textLength }} / {{ maxlength }}
               </span>
@@ -140,7 +146,10 @@
       <span
         v-if="isWordLimitVisible"
         :style="countStyle"
-        :class="nsInput.e('count')"
+        :class="[
+          nsInput.e('count'),
+          nsInput.is('outside', wordLimitPosition === 'outside'),
+        ]"
       >
         {{ textLength }} / {{ maxlength }}
       </span>
