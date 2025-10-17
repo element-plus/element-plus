@@ -248,7 +248,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
 
   const dropdownMenuVisible = computed({
     get() {
-      return expanded.value && !isRemoteSearchEmpty.value
+      return expanded.value && (props.loading || !isRemoteSearchEmpty.value)
     },
     set(val: boolean) {
       expanded.value = val
@@ -444,7 +444,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       }
     }
     if (option) return option
-    const label = isObjectValue ? value.label : value ?? ''
+    const label = isObjectValue ? value.label : (value ?? '')
     const newOption = {
       index: -1,
       value,

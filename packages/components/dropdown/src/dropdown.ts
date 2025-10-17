@@ -1,6 +1,5 @@
 import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
-import { createCollectionWithScope } from '@element-plus/components/collection'
 import {
   useTooltipContentProps,
   useTooltipTriggerProps,
@@ -47,6 +46,9 @@ export const dropdownProps = buildProps({
    * @description Indicates the reference element to which the dropdown is attached
    */
   virtualRef: useTooltipTriggerProps.virtualRef,
+  /**
+   * @description Tooltip theme, built-in theme: `dark` / `light`
+   */
   effect: {
     ...useTooltipContentProps.effect,
     default: 'light',
@@ -132,10 +134,11 @@ export const dropdownProps = buildProps({
   /**
    * @description custom class name for Dropdown's dropdown
    */
-  popperClass: {
-    type: String,
-    default: '',
-  },
+  popperClass: useTooltipContentProps.popperClass,
+  /**
+   * @description custom style for Dropdown's dropdown
+   */
+  popperStyle: useTooltipContentProps.popperStyle,
   /**
    * @description whether to disable
    */
@@ -202,17 +205,3 @@ export const FIRST_KEYS = [
 export const LAST_KEYS = [EVENT_CODE.up, EVENT_CODE.pageUp, EVENT_CODE.end]
 
 export const FIRST_LAST_KEYS = [...FIRST_KEYS, ...LAST_KEYS]
-
-const {
-  ElCollection,
-  ElCollectionItem,
-  COLLECTION_INJECTION_KEY,
-  COLLECTION_ITEM_INJECTION_KEY,
-} = createCollectionWithScope('Dropdown')
-
-export {
-  ElCollection,
-  ElCollectionItem,
-  COLLECTION_INJECTION_KEY as DROPDOWN_COLLECTION_INJECTION_KEY,
-  COLLECTION_ITEM_INJECTION_KEY as DROPDOWN_COLLECTION_ITEM_INJECTION_KEY,
-}

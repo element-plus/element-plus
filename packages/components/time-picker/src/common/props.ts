@@ -16,7 +16,7 @@ import type { Placement } from '@element-plus/components/popper'
 
 export type SingleOrRange<T> = T | [T, T]
 export type DateModelType = number | string | Date
-export type ModelValueType = SingleOrRange<DateModelType> | string[]
+export type ModelValueType = DateModelType | number[] | string[] | Date[]
 export type DayOrDays = SingleOrRange<Dayjs>
 export type DateOrDates = SingleOrRange<Date>
 export type UserInput = SingleOrRange<string | null>
@@ -273,7 +273,6 @@ export interface PickerOptions {
   isValidValue: (date: DayOrDays) => boolean
   handleKeydownInput: (event: KeyboardEvent) => void
   parseUserInput: (value: UserInput) => DayOrDays
-  formatToString: (value: DayOrDays) => UserInput
   getRangeAvailableTime: (date: DayOrDays) => DayOrDays
   getDefaultValue: () => DayOrDays
   panelReady: boolean

@@ -217,8 +217,8 @@
 
 <script lang="ts" setup>
 import { computed, nextTick, onMounted, ref, useAttrs, watch } from 'vue'
-import { cloneDeep, debounce } from 'lodash-unified'
-import { useCssVar, useResizeObserver } from '@vueuse/core'
+import { cloneDeep } from 'lodash-unified'
+import { useCssVar, useDebounceFn, useResizeObserver } from '@vueuse/core'
 import {
   debugWarn,
   focusNode,
@@ -283,10 +283,9 @@ const popperOptions: Partial<Options> = {
     },
   ],
 }
-const COMPONENT_NAME = 'ElCascader'
 
 defineOptions({
-  name: COMPONENT_NAME,
+  name: 'ElCascader',
 })
 
 const props = defineProps(cascaderProps)
@@ -694,7 +693,8 @@ const handleDelete = () => {
   }
 }
 
-const handleFilter = debounce(() => {
+const debounce = computed(() => props.debounce)
+const handleFilter = useDebounceFn(() => {
   const { value } = searchKeyword
 
   if (!value) return
@@ -710,7 +710,7 @@ const handleFilter = debounce(() => {
   } else {
     hideSuggestionPanel()
   }
-}, props.debounce)
+}, debounce)
 
 const handleInput = (val: string, e?: KeyboardEvent) => {
   !popperVisible.value && togglePopperVisible(true)
@@ -749,6 +749,15 @@ watch(realSize, async () => {
 })
 
 watch(presentText, syncPresentTextValue, { immediate: true })
+
+watch(
+  () => popperVisible.value,
+  (val) => {
+    if (val && props.props.lazy && props.props.lazyLoad) {
+      cascaderPanelRef.value?.loadLazyRootNodes()
+    }
+  }
+)
 
 onMounted(() => {
   const inputInner = inputRef.value!.input!

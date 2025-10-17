@@ -22,7 +22,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          registry-url: https://registry.npmjs.com/
 
       - name: Get pnpm store directory
         id: pnpm-cache
@@ -58,7 +57,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          registry-url: https://registry.npmjs.com/
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -69,19 +67,14 @@ jobs:
       - name: Get git head
         run: echo "GIT_HEAD=${GITHUB_SHA}" >> $GITHUB_ENV
 
-      - name: Gen npmrc
-        run: echo "//registry.npmjs.com/:_authToken=${{ secrets.NPM_PUBLISH_TOKEN }}" >> ./.npmrc
-
       - name: Update npm
-        run: npm install npm@9 -g
+        run: npm install npm@11.6.1 -g
 
       - name: Build&publish
         run: sh ./scripts/publish.sh
         env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_PUBLISH_TOKEN}}
           TAG_VERSION: ${{env.TAG_VERSION}}
           GIT_HEAD: ${{env.GIT_HEAD}}
-          REGISTRY: https://registry.npmjs.com/
           FORCE_COLOR: 2
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_OPTIONS: --max-old-space-size=4096
