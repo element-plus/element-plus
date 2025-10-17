@@ -790,41 +790,48 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     states.hoveringIndex = index
     nextTick(() => scrollToOption(hoverOption.value))
   }
-
+  const callWithPrevent = (e: KeyboardEvent, fn: () => void) => {
+    e.preventDefault()
+    fn()
+  }
   const handleKeydown = (e: KeyboardEvent) => {
     const code = getEventCode(e)
     switch (code) {
       case EVENT_CODE.up:
-        navigateOptions('prev')
+        callWithPrevent(e, () => navigateOptions('prev'))
         break
       case EVENT_CODE.down:
-        navigateOptions('next')
+        callWithPrevent(e, () => navigateOptions('next'))
         break
       case EVENT_CODE.enter:
-        selectOption()
+        callWithPrevent(e, selectOption)
         break
       case EVENT_CODE.esc:
-        handleEsc()
+        callWithPrevent(e, handleEsc)
         break
       case EVENT_CODE.backspace:
         deletePrevTag(e)
         return
       case EVENT_CODE.home:
         if (!ensureExpanded()) return
-        focusOption(0)
+        callWithPrevent(e, () => focusOption(0))
         break
       case EVENT_CODE.end:
         if (!ensureExpanded()) return
-        focusOption(states.options.size - 1)
+        callWithPrevent(e, () => focusOption(states.options.size - 1))
         break
       case EVENT_CODE.pageUp:
         if (!ensureExpanded()) return
-        focusOption(Math.max(0, states.hoveringIndex - 10))
+        callWithPrevent(e, () =>
+          focusOption(Math.max(0, states.hoveringIndex - 10))
+        )
         break
       case EVENT_CODE.pageDown:
         if (!ensureExpanded()) return
-        focusOption(
-          Math.min(states.options.size - 1, states.hoveringIndex + 10)
+        callWithPrevent(e, () =>
+          focusOption(
+            Math.min(states.options.size - 1, states.hoveringIndex + 10)
+          )
         )
         break
     }
