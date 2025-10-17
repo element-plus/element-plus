@@ -363,9 +363,16 @@ watch(
   }
 )
 
-watch(() => props.options, initStore, {
-  deep: true,
-})
+watch(
+  () => props.options,
+  (newVal, oldVal) => {
+    if (newVal !== oldVal && isEqual(newVal, oldVal)) return
+    initStore()
+  },
+  {
+    deep: true,
+  }
+)
 
 watch(
   () => props.modelValue,
