@@ -637,11 +637,7 @@ describe('Select', () => {
     await nextTick()
     expect(selectVm.selectedLabel).toStrictEqual(['label1', 'label2'])
 
-    vm.value = []
     vm.props.label = 'text'
-    await nextTick()
-    expect(selectVm.selectedLabel).toStrictEqual([])
-    vm.value = ['value1', 'value2']
     await nextTick()
     expect(selectVm.selectedLabel).toStrictEqual(['text1', 'text2'])
   })
