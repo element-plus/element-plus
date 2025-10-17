@@ -50,7 +50,7 @@
         @change="handleCheckChange"
         @click.stop
       />
-      <el-node-content :node="contentNode" />
+      <el-node-content :node="node" />
     </div>
   </div>
 </template>
@@ -85,10 +85,6 @@ const ns = useNamespace('tree')
 
 const indent = computed(() => tree?.props.indent ?? 16)
 const icon = computed(() => tree?.props.icon ?? CaretRight)
-
-const contentNode = computed(() => {
-  return Object.assign(props.node, { expanded: props.expanded })
-})
 
 const getNodeClass = (node: TreeNode) => {
   const nodeClassFunc = tree?.props.props.class
