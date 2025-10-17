@@ -26,6 +26,7 @@ const _mount = (template: string, data = () => ({}), otherObj?) =>
       components: {
         'el-date-picker': DatePicker,
         'el-form-item': ElFormItem,
+        'el-config-provider': ConfigProvider,
       },
       template,
       data,
@@ -2940,6 +2941,62 @@ describe('YearRange', () => {
       const inputs = wrapper.findAll('input')
       expect(inputs[0].element.value).toBe('2025-01-01')
       expect(inputs[1].element.value).toBe('2025-01-15')
+    })
+  })
+
+  describe('value-on-clear in config-provider should take effect', () => {
+    it('type:daterange', async () => {
+      const wrapper = _mount(
+        `<el-config-provider value-on-clear="">
+          <el-date-picker
+            v-model="value"
+            type="daterange"
+          />
+         </el-config-provider>`,
+        () => ({
+          value: ['2025-01-01', '2025-01-02'],
+        })
+      )
+      await nextTick()
+      const clearBtn = wrapper.find('.el-range__close-icon')
+      clearBtn.trigger('click')
+      expect(wrapper.vm.value).toEqual('')
+    })
+
+    it('type:monthrange', async () => {
+      const wrapper = _mount(
+        `<el-config-provider value-on-clear="">
+          <el-date-picker
+            v-model="value"
+            type="monthrange"
+          />
+         </el-config-provider>`,
+        () => ({
+          value: ['2025-01-01', '2025-01-02'],
+        })
+      )
+      await nextTick()
+      const clearBtn = wrapper.find('.el-range__close-icon')
+      clearBtn.trigger('click')
+      expect(wrapper.vm.value).toEqual('')
+    })
+
+    it('type:yearrange', async () => {
+      const wrapper = _mount(
+        `<el-config-provider value-on-clear="">
+          <el-date-picker
+            v-model="value"
+            type="yearrange"
+          />
+         </el-config-provider>`,
+        () => ({
+          value: ['2025-01-01', '2025-01-02'],
+        })
+      )
+      await nextTick()
+      const clearBtn = wrapper.find('.el-range__close-icon')
+      clearBtn.trigger('click')
+      expect(wrapper.vm.value).toEqual('')
     })
   })
 })
