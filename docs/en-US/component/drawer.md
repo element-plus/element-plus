@@ -73,6 +73,18 @@ drawer/nested-drawer
 
 :::
 
+## Modal
+
+Setting `modal` to `false` will hide modal (overlay) of drawer.
+
+Starting from version ^(2.11.6), `modal-penetrable` attribute is added, which can be penetrable.
+
+:::demo
+
+drawer/modal
+
+:::
+
 :::tip
 
 The content inside Drawer should be lazy rendered, which means that the content inside Drawer will not impact the initial render performance, therefore any DOM operation should be performed through `ref` or after `open` event emitted.
@@ -102,7 +114,7 @@ Drawer provides an API called `destroy-on-close`, which is a flag variable that 
 | close-delay                | Time(milliseconds) before close                                                                                                                                                                                                                                                                              | ^[number]                                                                                                                                                                                      | 0       |
 | destroy-on-close           | Indicates whether children should be destroyed after Drawer closed                                                                                                                                                                                                                                           | ^[boolean]                                                                                                                                                                                     | false   |
 | modal                      | Should show shadowing layer                                                                                                                                                                                                                                                                                  | ^[boolean]                                                                                                                                                                                     | true    |
-| modal-penetrable ^(2.11.5) | whether the mask is penetrable. The modal attribute must be `false`.                                                                                                                                                                                                                                         | ^[boolean]                                                                                                                                                                                     | false   |
+| modal-penetrable ^(2.11.6) | whether the mask is penetrable. The modal attribute must be `false`.                                                                                                                                                                                                                                         | ^[boolean]                                                                                                                                                                                     | false   |
 | direction                  | Drawer's opening direction                                                                                                                                                                                                                                                                                   | ^[enum]`'rtl' \| 'ltr' \| 'ttb' \| 'btt'`                                                                                                                                                      | rtl     |
 | resizable ^(2.11.0)        | enable resizable feature for Drawer                                                                                                                                                                                                                                                                          | ^[boolean]                                                                                                                                                                                     | false   |
 | show-close                 | Should show close button at the top right of Drawer                                                                                                                                                                                                                                                          | ^[boolean]                                                                                                                                                                                     | true    |
