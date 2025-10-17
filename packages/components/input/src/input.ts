@@ -145,12 +145,11 @@ export const inputProps = buildProps({
    */
   showWordLimit: Boolean,
   /**
-   * @description word count position, valid when `show-word-limit` is true
+   * @description whether to show word count warning color when nearing limit
    */
-  wordLimitPosition: {
-    type: String,
-    values: ['inside', 'outside'],
-    default: 'inside',
+  showWordLimitWarning: {
+    type: Boolean,
+    default: false,
   },
   /**
    * @description suffix icon

@@ -83,14 +83,8 @@
             >
               <component :is="passwordIcon" />
             </el-icon>
-            <span
-              v-if="isWordLimitVisible"
-              :class="[
-                nsInput.e('count'),
-                nsInput.is('outside', wordLimitPosition === 'outside'),
-              ]"
-            >
-              <span :class="nsInput.e('count-inner')">
+            <span v-if="isWordLimitVisible" :class="nsInput.e('count')">
+              <span :class="[nsInput.e('count-inner'), wordLimitClass]">
                 {{ textLength }} / {{ maxlength }}
               </span>
             </span>
@@ -146,10 +140,7 @@
       <span
         v-if="isWordLimitVisible"
         :style="countStyle"
-        :class="[
-          nsInput.e('count'),
-          nsInput.is('outside', wordLimitPosition === 'outside'),
-        ]"
+        :class="[nsInput.e('count'), wordLimitClass]"
       >
         {{ textLength }} / {{ maxlength }}
       </span>
@@ -311,6 +302,30 @@ const isWordLimitVisible = computed(
     !props.showPassword
 )
 const textLength = computed(() => nativeInputValue.value.length)
+const wordLimitPercentage = computed(() => {
+  const max = Number(props.maxlength)
+  if (!max || max <= 0) return 0
+  return Math.floor((textLength.value / max) * 100)
+})
+const wordLimitLevel = computed(() => {
+  if (!isWordLimitVisible.value || !props.showWordLimitWarning) return 0
+  if (inputExceed.value) return 2
+  const percentage = wordLimitPercentage.value
+  if (percentage >= 90) return 2
+  if (percentage >= 75) return 1
+  return 0
+})
+const wordLimitClass = computed(() => {
+  if (wordLimitLevel.value === 0) return ''
+  switch (wordLimitLevel.value) {
+    case 1:
+      return nsInput.is('warning')
+    case 2:
+      return nsInput.is('danger-level')
+    default:
+      return ''
+  }
+})
 const inputExceed = computed(
   () =>
     // show exceed style if length of initial value greater then maxlength
