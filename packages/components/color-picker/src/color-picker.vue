@@ -10,12 +10,15 @@
     :popper-style="popperStyle"
     :stop-popper-mouse-event="false"
     pure
+    loop
+    role="dialog"
     effect="light"
     trigger="click"
     :teleported="teleported"
     :transition="`${ns.namespace.value}-zoom-in-top`"
     :persistent="persistent"
     :append-to="appendTo"
+    @show="handleShowTooltip"
     @hide="setShowPicker(false)"
   >
     <template #content>
@@ -284,6 +287,10 @@ function clear() {
   resetColor()
 }
 
+function handleShowTooltip() {
+  pickerPanelRef?.value?.inputRef?.focus()
+}
+
 function handleClickOutside() {
   if (!showPicker.value) return
   hide()
@@ -307,7 +314,6 @@ function handleKeyDown(event: KeyboardEvent) {
       event.preventDefault()
       event.stopPropagation()
       show()
-      pickerPanelRef?.value?.inputRef?.focus()
       break
     case EVENT_CODE.esc:
       handleEsc(event)
