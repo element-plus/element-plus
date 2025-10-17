@@ -215,7 +215,7 @@ dialog/events
 
 :::warning
 
-`title` has been **deprecated**, and **will be** removed in ^(2.4.0), please use `header`.
+`title` has been **deprecated**, and **will be** removed in ^(3.0.0), please use `header`.
 
 :::
 

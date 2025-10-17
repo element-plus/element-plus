@@ -25,7 +25,7 @@ export interface SplitterRootContext {
   registerPanel: (pane: PanelItemState) => void
   unregisterPanel: (pane: PanelItemState) => void
   onCollapse: (index: number, type: 'start' | 'end') => void
-  onMoveEnd: () => void
+  onMoveEnd: (index: number) => Promise<void>
   onMoveStart: (index: number) => void
   onMoving: (index: number, offset: number) => void
 }

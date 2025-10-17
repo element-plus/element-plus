@@ -2,8 +2,6 @@ import { isArray } from '@element-plus/utils'
 
 import type { WatermarkProps } from './watermark'
 
-export const FontGap = 3
-
 // [alignRatio, spaceRatio]
 const TEXT_ALIGN_RATIO_MAP = {
   left: [0, 0.5],
@@ -21,7 +19,7 @@ function prepareCanvas(
   ctx: CanvasRenderingContext2D,
   canvas: HTMLCanvasElement,
   realWidth: number,
-  realHeight: number
+  realHeight: number,
 ] {
   const canvas = document.createElement('canvas')
   const ctx = canvas.getContext('2d')!
@@ -84,7 +82,7 @@ export default function useClips() {
         ctx.fillText(
           item ?? '',
           contentWidth * alignRatio + space * spaceRatio,
-          index * (mergedFontSize + FontGap * ratio)
+          index * (mergedFontSize + font.fontGap * ratio)
         )
       })
     }

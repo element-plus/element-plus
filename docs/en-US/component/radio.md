@@ -51,13 +51,21 @@ radio/disabled
 
 :::
 
-## Radio button group
+## Radio Group
 
 Suitable for choosing from some mutually exclusive options.
 
 :::demo Combine `el-radio-group` with `el-radio` to display a radio group. Bind a variable with `v-model` of `el-radio-group` element and set label value in `el-radio`. It also provides `change` event with the current value as its parameter.
 
-radio/radio-button-group
+radio/radio-group
+
+:::
+
+## With borders
+
+:::demo The `border` attribute adds a border to Radios.
+
+radio/with-borders
 
 :::
 
@@ -69,31 +77,13 @@ radio/options
 
 :::
 
-## Button style
+## Radio Button
 
-Radio with button styles.
+Radio with button group visual effect.
 
-:::demo You just need to change `el-radio` element into `el-radio-button` element. We also provide `size` attribute.
+:::demo You just need to change `el-radio` element into `el-radio-button` element. You can also set the style of the button when it is active by using `fill` and `text-color`.
 
-radio/button-style
-
-:::
-
-## Button style
-
-Radio with button styles.
-
-:::demo You can set the style of the button when it is active by using `fill` and `text-color`.
-
-radio/button-fill-textcolor
-
-:::
-
-## With borders
-
-:::demo The `border` attribute adds a border to Radios.
-
-radio/with-borders
+radio/radio-button
 
 :::
 
@@ -141,6 +131,7 @@ radio/with-borders
 | label ^(a11y) ^(deprecated) | same as `aria-label` in RadioGroup                                                             | ^[string]                                                        | —                                                        |
 | options ^(2.11.2)           | data of the options, the key of `value` and `label` and `disabled` can be customize by `props` | ^[array]`Array<{[key: string]: any}>`                            | —                                                        |
 | props ^(2.11.2)             | configuration options                                                                          | ^[object]`{ value?: string, label?: string, disabled?: boolean}` | `{value: 'value', label: 'label', disabled: 'disabled'}` |
+| type ^(2.11.5)              | component type to render options (e.g. `'button'`)                                             | ^[enum]`'radio' \| 'button'`                                     | 'radio'                                                  |
 
 ### RadioGroup Events
 

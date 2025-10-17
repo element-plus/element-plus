@@ -17,7 +17,7 @@ import { useMutationObserver } from '@vueuse/core'
 import { isArray, isUndefined } from '@element-plus/utils'
 import { watermarkProps } from './watermark'
 import { getPixelRatio, getStyleStr, reRendering } from './utils'
-import useClips, { FontGap } from './useClips'
+import useClips from './useClips'
 
 import type { WatermarkProps } from './watermark'
 import type { CSSProperties } from 'vue'
@@ -31,6 +31,7 @@ const style: CSSProperties = {
 }
 
 const props = defineProps(watermarkProps)
+const fontGap = computed(() => props.font?.fontGap ?? 3)
 const color = computed(() => props.font?.color ?? 'rgba(0,0,0,.15)')
 const fontSize = computed(() => props.font?.fontSize ?? 16)
 const fontWeight = computed(() => props.font?.fontWeight ?? 'normal')
@@ -142,7 +143,7 @@ const getMarkSize = (ctx: CanvasRenderingContext2D) => {
 
     defaultWidth = maxWidth
     defaultHeight =
-      maxHeight * contents.length + (contents.length - 1) * FontGap
+      maxHeight * contents.length + (contents.length - 1) * fontGap.value
 
     const angle = (Math.PI / 180) * Number(rotate)
     space = Math.ceil(Math.abs(Math.sin(angle) * defaultHeight) / 2)
@@ -185,6 +186,7 @@ const renderWatermark = () => {
           fontStyle: fontStyle.value,
           fontWeight: fontWeight.value,
           fontFamily: fontFamily.value,
+          fontGap: fontGap.value,
           textAlign: textAlign.value,
           textBaseline: textBaseline.value,
         },

@@ -73,6 +73,10 @@ const setupConfig = (configEnv) => {
       features,
       langs: languages,
     },
+    cleanUrls: true,
+    sitemap: {
+      hostname: 'https://element-plus.org',
+    },
     locales,
     vite: getViteConfig(configEnv),
     markdown: {

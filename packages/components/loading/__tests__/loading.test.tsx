@@ -155,6 +155,14 @@ describe('Loading', () => {
     const loadingText = document.querySelector('[data-testid="my-loading"]')
     expect(loadingText).not.toBeNull()
     expect(loadingText?.textContent).toBe(AXIOM)
+
+    loadingInstance.setText(
+      createVNode('div', { 'data-testid': 'set-text' }, AXIOM)
+    )
+    await nextTick()
+    const setTextLoading = document.querySelector('[data-testid="set-text"]')
+    expect(setTextLoading).not.toBeNull()
+    expect(setTextLoading?.textContent).toBe(AXIOM)
   })
 
   test('close service', async () => {

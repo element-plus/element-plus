@@ -55,6 +55,12 @@ jobs:
       - name: Install latest Element Plus
         run: cd docs && pnpm i element-plus@latest
 
+      - name: Get Latest Release Version
+        id: get_release
+        run: |
+          LATEST_VERSION=$(curl -s https://api.github.com/repos/element-plus/element-plus/releases/latest | jq -r '.tag_name')
+          echo "latest_version=${LATEST_VERSION}" >> $GITHUB_OUTPUT
+
       - name: Build Metadata
         run: cd internal/metadata && pnpm build
         env:
@@ -74,9 +80,9 @@ jobs:
           folder: docs/.vitepress/dist
           git-config-name: ElementPlusBot
           git-config-email: element-plus@outlook.com
-          commit-message: website deploy
+          commit-message: website deploy ${{ steps.get_release.outputs.latest_version }}
 
-      - name: Deploy to vercel
+      - name: Deploy to Vercel
         uses: JamesIves/github-pages-deploy-action@v4.4.1
         with:
           token: ${{ secrets.EP_BOT_TOKEN }}
@@ -86,7 +92,12 @@ jobs:
           git-config-name: ElementPlusBot
           git-config-email: element-plus@outlook.com
 
-      - name: Sync
-        env:
-          TRIGGERSYNCURL: ${{ secrets.TRIGGERSYNCURL }}
-        run: curl -k "$TRIGGERSYNCURL"
+      - name: Deploy to Vercel Main
+        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        with:
+          token: ${{ secrets.EP_BOT_TOKEN }}
+          branch: main
+          folder: docs/.vitepress/dist
+          repository-name: element-plus/vercel-publish-main
+          git-config-name: ElementPlusBot
+          git-config-email: element-plus@outlook.com

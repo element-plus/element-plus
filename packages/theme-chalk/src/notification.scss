@@ -16,10 +16,12 @@
   position: fixed;
   background-color: getCssVar('bg-color', 'overlay');
   box-shadow: getCssVar('notification-shadow');
-  transition: opacity getCssVar('transition-duration'),
+  transition:
+    opacity getCssVar('transition-duration'),
     transform getCssVar('transition-duration'),
     left getCssVar('transition-duration'),
-    right getCssVar('transition-duration'), top 0.4s,
+    right getCssVar('transition-duration'),
+    top 0.4s,
     bottom getCssVar('transition-duration');
   overflow-wrap: break-word;
   overflow: hidden;

@@ -12,6 +12,7 @@ import {
 } from 'vue'
 import {
   useDocumentVisibility,
+  useElementSize,
   useResizeObserver,
   useWindowFocus,
 } from '@vueuse/core'
@@ -19,6 +20,7 @@ import {
   buildProps,
   capitalize,
   definePropType,
+  getEventCode,
   mutable,
   throwError,
 } from '@element-plus/utils'
@@ -26,6 +28,8 @@ import { EVENT_CODE } from '@element-plus/constants'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowLeft, ArrowRight, Close } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
+import useWheel from '@element-plus/components/virtual-list/src/hooks/use-wheel'
+import { clamp } from 'lodash-unified'
 import TabBar from './tab-bar.vue'
 import { tabsRootContextKey } from './constants'
 
@@ -108,6 +112,40 @@ const TabNav = defineComponent({
         transform: `translate${dir}(-${navOffset.value}px)`,
       }
     })
+
+    const { width: navContainerWidth, height: navContainerHeight } =
+      useElementSize(navScroll$)
+    const { width: navWidth, height: navHeight } = useElementSize(
+      nav$,
+      { width: 0, height: 0 },
+      { box: 'border-box' }
+    )
+
+    const navContainerSize = computed(() =>
+      isHorizontal.value ? navContainerWidth.value : navContainerHeight.value
+    )
+    const navSize = computed(() =>
+      isHorizontal.value ? navWidth.value : navHeight.value
+    )
+
+    const { onWheel } = useWheel(
+      {
+        atStartEdge: computed(() => navOffset.value <= 0),
+        atEndEdge: computed(
+          () => navSize.value - navOffset.value <= navContainerSize.value
+        ),
+        layout: computed(() =>
+          isHorizontal.value ? 'horizontal' : 'vertical'
+        ),
+      },
+      (offset) => {
+        navOffset.value = clamp(
+          navOffset.value + offset,
+          0,
+          navSize.value - navContainerSize.value
+        )
+      }
+    )
 
     const scrollPrev = () => {
       if (!navScroll$.value) return
@@ -211,9 +249,10 @@ const TabNav = defineComponent({
     }
 
     const changeTab = (event: KeyboardEvent) => {
+      const code = getEventCode(event)
       let step = 0
 
-      switch (event.code) {
+      switch (code) {
         case EVENT_CODE.left:
         case EVENT_CODE.up:
           step = -1
@@ -325,14 +364,16 @@ const TabNav = defineComponent({
         const uid = pane.uid
         const disabled = pane.props.disabled
         const tabName = pane.props.name ?? pane.index ?? `${index}`
-        const closable = !disabled && (pane.isClosable || props.editable)
+        const closable =
+          !disabled &&
+          (pane.isClosable || (pane.props.closable !== false && props.editable))
         pane.index = `${index}`
 
         const btnClose = closable ? (
           <ElIcon
             class="is-icon-close"
             // `onClick` not exist when generate dts
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+
             // @ts-ignore
             onClick={(ev: MouseEvent) => emit('tabRemove', pane, ev)}
           >
@@ -367,10 +408,10 @@ const TabNav = defineComponent({
               emit('tabClick', pane, tabName, ev)
             }}
             onKeydown={(ev: KeyboardEvent) => {
+              const code = getEventCode(ev)
               if (
                 closable &&
-                (ev.code === EVENT_CODE.delete ||
-                  ev.code === EVENT_CODE.backspace)
+                (code === EVENT_CODE.delete || code === EVENT_CODE.backspace)
               ) {
                 emit('tabRemove', pane, ev)
               }
@@ -411,6 +452,7 @@ const TabNav = defineComponent({
                 style={navStyle.value}
                 role="tablist"
                 onKeydown={changeTab}
+                onWheel={onWheel}
               >
                 {...[
                   !props.type ? (
