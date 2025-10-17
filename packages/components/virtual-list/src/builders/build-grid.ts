@@ -588,7 +588,14 @@ const createGrid = ({
       const renderItems = () => {
         const [columnStart, columnEnd] = unref(columnsToRender)
         const [rowStart, rowEnd] = unref(rowsToRender)
-        const { data, totalColumn, totalRow, useIsScrolling, itemKey } = props
+        const {
+          data,
+          totalColumn,
+          totalRow,
+          useIsScrolling,
+          itemKey,
+          tableLocation,
+        } = props
         const children: VNodeChild[] = []
         if (totalRow > 0 && totalColumn > 0) {
           for (let row = rowStart; row <= rowEnd; row++) {
@@ -599,6 +606,7 @@ const createGrid = ({
                   Fragment,
                   { key },
                   slots.default?.({
+                    tableLocation,
                     columnIndex: column,
                     data,
                     isScrolling: useIsScrolling

@@ -157,6 +157,7 @@ const TableV2Row = defineComponent({
         rowData,
         rowIndex,
         style,
+        tableLocation,
       } = props
 
       let ColumnCells: ColumnCellsType = columns.map((column, columnIndex) => {
@@ -194,6 +195,7 @@ const TableV2Row = defineComponent({
           }),
           style,
           columns,
+          tableLocation,
           depth,
           rowData,
           rowIndex,
