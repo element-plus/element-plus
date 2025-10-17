@@ -100,7 +100,9 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
         columnData.realWidth = getColspanRealWidth(
           columns.value,
           colspan,
-          cellIndex
+          cellIndex,
+          row,
+          $index
         )
         const data: RenderRowData<T> = {
           store: store!,
