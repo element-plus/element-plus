@@ -213,6 +213,13 @@ const containerKls = computed(() => [
   nsInput.m(inputSize.value),
   nsInput.is('disabled', inputDisabled.value),
   nsInput.is('exceed', inputExceed.value),
+  nsInput.is(
+    'outside',
+    props.showWordLimit &&
+      props.type === 'textarea' &&
+      !props.autosize &&
+      (props.rows === 2 || !props.rows)
+  ),
   {
     [nsInput.b('group')]: slots.prepend || slots.append,
     [nsInput.m('prefix')]: slots.prefix || props.prefixIcon,
