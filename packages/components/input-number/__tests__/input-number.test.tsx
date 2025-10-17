@@ -4,7 +4,7 @@ import { describe, expect, it, test, vi } from 'vitest'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { ElFormItem } from '@element-plus/components/form'
 import { ElIcon } from '@element-plus/components/icon'
-import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import InputNumber from '../src/input-number.vue'
 
 const mouseup = new Event('mouseup')
@@ -686,5 +686,27 @@ describe('InputNumber.vue', () => {
       preventDefault,
     })
     expect(preventDefault).not.toHaveBeenCalled()
+  })
+
+  test('correct condition for user input reset', async () => {
+    const num = ref(1)
+    const wrapper = mount(() => (
+      <InputNumber v-model={num.value} min={0} max={10} />
+    ))
+
+    const input = wrapper.find('input')
+    const event = new Event('input')
+
+    expect(input.element.value).toBe('1')
+
+    input.element.value = '100'
+    input.element.dispatchEvent(event)
+    await input.trigger('keydown', { key: EVENT_CODE.down })
+    expect(input.element.value).toBe('10')
+
+    input.element.value = '110'
+    input.element.dispatchEvent(event)
+    await input.trigger('keydown', { key: EVENT_CODE.down })
+    expect(input.element.value).toBe('10')
   })
 })
