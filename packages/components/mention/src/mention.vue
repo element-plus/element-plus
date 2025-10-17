@@ -23,7 +23,8 @@
     <el-tooltip
       ref="tooltipRef"
       :visible="dropdownVisible"
-      :popper-class="[ns.e('popper'), popperClass]"
+      :popper-class="[ns.e('popper'), popperClass!]"
+      :popper-style="popperStyle"
       :popper-options="popperOptions"
       :placement="computedPlacement"
       :fallback-placements="computedFallbackPlacements"
@@ -67,8 +68,8 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import { useFormDisabled } from '@element-plus/components/form'
-import { isFunction } from '@element-plus/utils'
-import { mentionEmits, mentionProps } from './mention'
+import { getEventCode, isFunction } from '@element-plus/utils'
+import { mentionDefaultProps, mentionEmits, mentionProps } from './mention'
 import { getCursorPosition, getMentionCtx } from './helper'
 import ElMentionDropdown from './mention-dropdown.vue'
 
@@ -108,10 +109,26 @@ const computedFallbackPlacements = computed<Placement[]>(() =>
   props.showArrow ? ['bottom', 'top'] : ['bottom-start', 'top-start']
 )
 
+const aliasProps = computed(() => ({
+  ...mentionDefaultProps,
+  ...props.props,
+}))
+
+const mapOption = (option: MentionOption) => {
+  const base = {
+    label: option[aliasProps.value.label],
+    value: option[aliasProps.value.value],
+    disabled: option[aliasProps.value.disabled],
+  }
+  return { ...option, ...base }
+}
+
+const options = computed(() => props.options.map(mapOption))
+
 const filteredOptions = computed(() => {
-  const { filterOption, options } = props
-  if (!mentionCtx.value || !filterOption) return options
-  return options.filter((option) =>
+  const { filterOption } = props
+  if (!mentionCtx.value || !filterOption) return options.value
+  return options.value.filter((option) =>
     filterOption(mentionCtx.value!.pattern, option)
   )
 })
@@ -131,9 +148,10 @@ const handleInputChange = (value: string) => {
 }
 
 const handleInputKeyDown = (event: KeyboardEvent | Event) => {
-  if (!('code' in event) || elInputRef.value?.isComposing) return
+  if (elInputRef.value?.isComposing) return
+  const code = getEventCode(event as KeyboardEvent)
 
-  switch (event.code) {
+  switch (code) {
     case EVENT_CODE.left:
     case EVENT_CODE.right:
       syncAfterCursorMove()
@@ -143,12 +161,15 @@ const handleInputKeyDown = (event: KeyboardEvent | Event) => {
       if (!visible.value) return
       event.preventDefault()
       dropdownRef.value?.navigateOptions(
-        event.code === EVENT_CODE.up ? 'prev' : 'next'
+        code === EVENT_CODE.up ? 'prev' : 'next'
       )
       break
     case EVENT_CODE.enter:
     case EVENT_CODE.numpadEnter:
-      if (!visible.value) return
+      if (!visible.value) {
+        props.type !== 'textarea' && syncAfterCursorMove()
+        return
+      }
       event.preventDefault()
       if (dropdownRef.value?.hoverOption) {
         dropdownRef.value?.selectHoverOption()
@@ -168,7 +189,7 @@ const handleInputKeyDown = (event: KeyboardEvent | Event) => {
         const inputEl = getInputEl()
         if (!inputEl) return
         const inputValue = inputEl.value
-        const matchOption = props.options.find((item) => item.value === pattern)
+        const matchOption = options.value.find((item) => item.value === pattern)
         const isWhole = isFunction(props.checkIsWhole)
           ? props.checkIsWhole(pattern, prefix)
           : matchOption
@@ -209,6 +230,13 @@ const handleInputMouseDown = () => {
   syncAfterCursorMove()
 }
 
+// Ensure that the original option passed by users is returned
+const getOriginalOption = (mentionOption: MentionOption) => {
+  return props.options.find((option: MentionOption) => {
+    return mentionOption.value === option[aliasProps.value.value]
+  })
+}
+
 const handleSelect = (item: MentionOption) => {
   if (!mentionCtx.value) return
   const inputEl = getInputEl()
@@ -225,7 +253,7 @@ const handleSelect = (item: MentionOption) => {
 
   emit(UPDATE_MODEL_EVENT, newValue)
   emit(INPUT_EVENT, newValue)
-  emit('select', item, mentionCtx.value.prefix)
+  emit('select', getOriginalOption(item)!, mentionCtx.value.prefix)
 
   const newSelectionEnd =
     mentionCtx.value.start + newMiddlePart.length + (alreadySeparated ? 1 : 0)
@@ -259,14 +287,14 @@ const syncCursor = () => {
 
   const caretPosition = getCursorPosition(inputEl)
   const inputRect = inputEl.getBoundingClientRect()
-  const elInputRect = elInputRef.value!.$el.getBoundingClientRect()
+  const wrapperRect = wrapperRef.value!.getBoundingClientRect()
 
   cursorStyle.value = {
     position: 'absolute',
     width: 0,
     height: `${caretPosition.height}px`,
-    left: `${caretPosition.left + inputRect.left - elInputRect.left}px`,
-    top: `${caretPosition.top + inputRect.top - elInputRect.top}px`,
+    left: `${caretPosition.left + inputRect.left - wrapperRect.left}px`,
+    top: `${caretPosition.top + inputRect.top - wrapperRect.top}px`,
   }
 }
 

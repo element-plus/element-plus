@@ -10,6 +10,9 @@ export default {
       defaultLabel: 'ເຄື່ອງມືເລືອກສີ',
       description: 'ສີປັດຈຸບັນແມ່ນ {color}. ກົດ enter ເພື່ອເລືອກສີໃໝ່.',
       alphaLabel: 'ເລືອກຄ່າຄວາມໂປ່ງໃສ',
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
     },
     datepicker: {
       now: 'ຕອນນີ້',
@@ -44,7 +47,6 @@ export default {
       month10: 'ຕຸລາ',
       month11: 'ພະຈິກ',
       month12: 'ທັນວາ',
-      week: 'ອາທິດ',
       weeks: {
         sun: 'ອາ',
         mon: 'ຈ',
@@ -149,6 +151,7 @@ export default {
       next: 'ຖັດໄປ',
       previous: 'ຍ້ອນກັບ',
       finish: 'ສຳເລັດ',
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'ບໍ່ມີຂໍ້ມູນ',

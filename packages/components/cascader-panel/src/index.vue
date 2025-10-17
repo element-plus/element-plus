@@ -33,6 +33,7 @@ import { cloneDeep, flattenDeep, isEqual } from 'lodash-unified'
 import {
   castArray,
   focusNode,
+  getEventCode,
   getSibling,
   isClient,
   isEmpty,
@@ -57,12 +58,12 @@ import { checkNode, getMenuIndex, sortByOriginalOrder } from './utils'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
 
 import type {
-  default as CascaderNode,
+  CascaderNode,
   CascaderNodeValue,
   CascaderOption,
   CascaderValue,
-} from './node'
-import type { ElCascaderPanelContext } from './types'
+  ElCascaderPanelContext,
+} from './types'
 import type { CascaderMenuInstance } from './instance'
 
 defineOptions({
@@ -82,6 +83,7 @@ const slots = useSlots()
 
 let store: Store
 const initialLoaded = ref(true)
+const initialLoadedOnce = ref(false)
 const menuList = ref<CascaderMenuInstance[]>([])
 const checkedValue = ref<CascaderValue>()
 const menus = ref<CascaderNode[][]>([])
@@ -122,14 +124,25 @@ const lazyLoad: ElCascaderPanelContext['lazyLoad'] = (node, cb) => {
   const resolve = (dataList?: CascaderOption[]) => {
     const _node = node as Node
     const parent = _node.root ? null : _node
-    dataList && store?.appendNodes(dataList, parent as Node)
     _node.loading = false
     _node.loaded = true
     _node.childrenData = _node.childrenData || []
+    dataList && store?.appendNodes(dataList, parent as Node)
     dataList && cb?.(dataList)
+    if (node.level === 0) {
+      initialLoadedOnce.value = true
+    }
   }
 
-  cfg.lazyLoad(node, resolve)
+  const reject = () => {
+    node!.loading = false
+    node!.loaded = false
+    if (node!.level === 0) {
+      initialLoaded.value = true
+    }
+  }
+
+  cfg.lazyLoad(node, resolve, reject)
 }
 
 const expandNode: ElCascaderPanelContext['expandNode'] = (node, silent) => {
@@ -164,7 +177,7 @@ const handleCheckChange: ElCascaderPanelContext['handleCheckChange'] = (
   node.doCheck(checked)
   calculateCheckedValue()
   emitClose && !multiple && !checkStrictly && emit('close')
-  !emitClose && !multiple && !checkStrictly && expandParentNode(node)
+  !emitClose && !multiple && expandParentNode(node)
 }
 
 const expandParentNode = (node: Node | undefined) => {
@@ -196,7 +209,7 @@ const calculateCheckedValue = () => {
   const nodes = sortByOriginalOrder(oldNodes, newNodes)
   const values = nodes.map((node) => node.valueByOption)
   checkedNodes.value = nodes
-  checkedValue.value = multiple ? values : values[0]
+  checkedValue.value = multiple ? values : (values[0] ?? null)
 }
 
 const syncCheckedValue = (loaded = false, forced = false) => {
@@ -234,7 +247,7 @@ const syncCheckedValue = (loaded = false, forced = false) => {
       )
     ) as Node[]
     syncMenuState(nodes, forced)
-    checkedValue.value = cloneDeep(modelValue)
+    checkedValue.value = cloneDeep(modelValue ?? undefined)
   }
 }
 
@@ -283,7 +296,7 @@ const scrollToExpandingNode = () => {
 
 const handleKeyDown = (e: KeyboardEvent) => {
   const target = e.target as HTMLElement
-  const { code } = e
+  const code = getEventCode(e)
 
   switch (code) {
     case EVENT_CODE.up:
@@ -340,16 +353,19 @@ provide(
 )
 
 watch(
-  [config, () => props.options],
+  config,
   (newVal, oldVal) => {
     if (isEqual(newVal, oldVal)) return
     initStore()
   },
   {
-    deep: true,
     immediate: true,
   }
 )
+
+watch(() => props.options, initStore, {
+  deep: true,
+})
 
 watch(
   () => props.modelValue,
@@ -372,6 +388,11 @@ watch(
   }
 )
 
+const loadLazyRootNodes = () => {
+  if (initialLoadedOnce.value) return
+  initStore()
+}
+
 onBeforeUpdate(() => (menuList.value = []))
 
 onMounted(() => !isEmpty(props.modelValue) && syncCheckedValue())
@@ -393,5 +414,6 @@ defineExpose({
   clearCheckedNodes,
   calculateCheckedValue,
   scrollToExpandingNode,
+  loadLazyRootNodes,
 })
 </script>

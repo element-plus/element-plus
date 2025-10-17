@@ -4,6 +4,7 @@ import {
   h,
   inject,
   nextTick,
+  onBeforeUnmount,
   onMounted,
   reactive,
   ref,
@@ -14,11 +15,11 @@ import { useNamespace } from '@element-plus/hooks'
 import FilterPanel from '../filter-panel.vue'
 import useLayoutObserver from '../layout-observer'
 import { TABLE_INJECTION_KEY } from '../tokens'
-import TableLayout from '../table-layout'
 import useEvent from './event-helper'
 import useStyle from './style.helper'
 import useUtils from './utils-helper'
 
+import type TableLayout from '../table-layout'
 import type { ComponentInternalInstance, PropType, Ref } from 'vue'
 import type { DefaultRow, Sort } from '../table/defaults'
 import type { Store } from '../store'
@@ -80,8 +81,9 @@ export default defineComponent({
     const saveIndexSelection = reactive(new Map())
     const theadRef = ref()
 
+    let delayId: ReturnType<typeof setTimeout> | undefined
     const updateFixedColumnStyle = () => {
-      setTimeout(() => {
+      delayId = setTimeout(() => {
         if (saveIndexSelection.size > 0) {
           saveIndexSelection.forEach((column, key) => {
             const el = theadRef.value.querySelector(
@@ -89,7 +91,7 @@ export default defineComponent({
             )
             if (el) {
               const width = el.getBoundingClientRect().width
-              column.width = width
+              column.width = width || column.width
             }
           })
           saveIndexSelection.clear()
@@ -98,6 +100,12 @@ export default defineComponent({
     }
 
     watch(saveIndexSelection, updateFixedColumnStyle)
+    onBeforeUnmount(() => {
+      if (delayId) {
+        clearTimeout(delayId)
+        delayId = undefined
+      }
+    })
 
     onMounted(async () => {
       // Need double await, because updateColumns is executed after nextTick for now

@@ -23,6 +23,7 @@ import {
 import { ElCol } from '@element-plus/components/col'
 import { ElCollapse, ElCollapseItem } from '@element-plus/components/collapse'
 import { ElCollapseTransition } from '@element-plus/components/collapse-transition'
+import { ElColorPickerPanel } from '@element-plus/components/color-picker-panel'
 import { ElColorPicker } from '@element-plus/components/color-picker'
 import { ElConfigProvider } from '@element-plus/components/config-provider'
 import {
@@ -33,6 +34,7 @@ import {
   ElMain,
 } from '@element-plus/components/container'
 import { ElDatePicker } from '@element-plus/components/date-picker'
+import { ElDatePickerPanel } from '@element-plus/components/date-picker-panel'
 import {
   ElDescriptions,
   ElDescriptionsItem,
@@ -97,7 +99,6 @@ import { ElTimePicker } from '@element-plus/components/time-picker'
 import { ElTimeSelect } from '@element-plus/components/time-select'
 import { ElTimeline, ElTimelineItem } from '@element-plus/components/timeline'
 import { ElTooltip } from '@element-plus/components/tooltip'
-import { ElTooltipV2 } from '@element-plus/components/tooltip-v2'
 import { ElTransfer } from '@element-plus/components/transfer'
 import { ElTree } from '@element-plus/components/tree'
 import { ElTreeSelect } from '@element-plus/components/tree-select'
@@ -138,6 +139,7 @@ export default [
   ElCollapse,
   ElCollapseItem,
   ElCollapseTransition,
+  ElColorPickerPanel,
   ElColorPicker,
   ElConfigProvider,
   ElContainer,
@@ -146,6 +148,7 @@ export default [
   ElHeader,
   ElMain,
   ElDatePicker,
+  ElDatePickerPanel,
   ElDescriptions,
   ElDescriptionsItem,
   ElDialog,
@@ -206,7 +209,6 @@ export default [
   ElTimeline,
   ElTimelineItem,
   ElTooltip,
-  ElTooltipV2,
   ElTransfer,
   ElTree,
   ElTreeSelect,

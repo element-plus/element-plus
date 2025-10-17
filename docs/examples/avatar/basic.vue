@@ -1,6 +1,6 @@
 <template>
   <el-row class="demo-avatar demo-basic">
-    <el-col :span="12">
+    <el-col :lg="12" :md="12">
       <div class="sub-title">circle</div>
       <div class="demo-basic--circle">
         <div class="block">
@@ -11,7 +11,7 @@
         </div>
       </div>
     </el-col>
-    <el-col :span="12">
+    <el-col :lg="12" :md="12">
       <div class="sub-title">square</div>
       <div class="demo-basic--circle">
         <div class="block">
@@ -62,5 +62,10 @@ const { circleUrl, squareUrl, sizeList } = toRefs(state)
 }
 .demo-basic .el-col:not(:last-child) {
   border-right: 1px solid var(--el-border-color);
+}
+@media screen and (max-width: 992px) {
+  .demo-basic .el-col:not(:last-child) {
+    border-right: none;
+  }
 }
 </style>

@@ -2,7 +2,7 @@ export default {
   name: 'fr',
   el: {
     breadcrumb: {
-      label: `Fil d'Ariane`,
+      label: "Fil d'Ariane",
     },
     colorpicker: {
       confirm: 'Confirmer',
@@ -10,6 +10,10 @@ export default {
       defaultLabel: 'color picker',
       description:
         'La couleur actuelle est {color}. Appuyer sur Entrée pour sélectionner une nouvelle couleur.',
+      alphaLabel: 'Choisir la valeur alpha',
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
     },
     datepicker: {
       now: 'Maintenant',
@@ -34,7 +38,7 @@ export default {
       nextYear: 'Année suivante',
       prevMonth: 'Mois précédent',
       nextMonth: 'Mois suivant',
-      year: '', // In french, like in english, we don't say "Année" after the year number.
+      year: '',
       month1: 'Janvier',
       month2: 'Février',
       month3: 'Mars',
@@ -47,7 +51,6 @@ export default {
       month10: 'Octobre',
       month11: 'Novembre',
       month12: 'Décembre',
-      week: 'Semaine',
       weeks: {
         sun: 'Dim',
         mon: 'Lun',
@@ -93,6 +96,9 @@ export default {
     },
     mention: {
       loading: 'Chargement',
+    },
+    dropdown: {
+      toggleDropdown: 'Basculer la liste déroulante',
     },
     cascader: {
       noMatch: 'Aucune correspondance',
@@ -149,6 +155,7 @@ export default {
       next: 'suivant',
       previous: 'précédent',
       finish: 'fin',
+      close: 'Fermer la boîte de dialogue',
     },
     tree: {
       emptyText: 'Aucune donnée',

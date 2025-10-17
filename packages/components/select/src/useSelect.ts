@@ -1,5 +1,4 @@
 import {
-  Component,
   computed,
   nextTick,
   onMounted,
@@ -19,6 +18,7 @@ import {
   ValidateComponentsMap,
   debugWarn,
   ensureArray,
+  getEventCode,
   isArray,
   isClient,
   isFunction,
@@ -32,6 +32,7 @@ import {
 import {
   CHANGE_EVENT,
   EVENT_CODE,
+  MINIMUM_INPUT_WIDTH,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import {
@@ -48,6 +49,7 @@ import {
   useFormSize,
 } from '@element-plus/components/form'
 
+import type { Component } from 'vue'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { ScrollbarInstance } from '@element-plus/components/scrollbar'
 import type { SelectEmits, SelectProps } from './select'
@@ -144,12 +146,12 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
 
   const needStatusIcon = computed(() => form?.statusIcon ?? false)
 
-  const showClose = computed(() => {
+  const showClearBtn = computed(() => {
     return (
       props.clearable &&
       !selectDisabled.value &&
-      states.inputHovering &&
-      hasModelValue.value
+      hasModelValue.value &&
+      (isFocused.value || states.inputHovering)
     )
   })
   const iconComponent = computed(() =>
@@ -246,7 +248,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
 
   const dropdownMenuVisible = computed({
     get() {
-      return expanded.value && !isRemoteSearchEmpty.value
+      return expanded.value && (props.loading || !isRemoteSearchEmpty.value)
     },
     set(val: boolean) {
       expanded.value = val
@@ -429,6 +431,9 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
         : cachedOption.value === value
       if (isEqualValue) {
         option = {
+          index: optionsArray.value
+            .filter((opt) => !opt.created)
+            .indexOf(cachedOption),
           value,
           currentLabel: cachedOption.currentLabel,
           get isDisabled() {
@@ -439,8 +444,9 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       }
     }
     if (option) return option
-    const label = isObjectValue ? value.label : value ?? ''
+    const label = isObjectValue ? value.label : (value ?? '')
     const newOption = {
+      index: -1,
       value,
       currentLabel: label,
     }
@@ -507,8 +513,9 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     })
 
   const deletePrevTag = (e: KeyboardEvent) => {
+    const code = getEventCode(e)
     if (!props.multiple) return
-    if (e.code === EVENT_CODE.delete) return
+    if (code === EVENT_CODE.delete) return
     if ((e.target as HTMLInputElement).value.length <= 0) {
       const value = ensureArray(props.modelValue).slice()
       const lastNotDisabledIndex = getLastNotDisabledIndex(value)
@@ -521,10 +528,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     }
   }
 
-  const deleteTag = (
-    event: MouseEvent,
-    tag: OptionPublicInstance | OptionBasic
-  ) => {
+  const deleteTag = (event: MouseEvent, tag: OptionBasic) => {
     const index = states.selected.indexOf(tag)
     if (index > -1 && !selectDisabled.value) {
       const value = ensureArray(props.modelValue).slice()
@@ -574,7 +578,8 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
         states.inputValue = ''
       }
     } else {
-      emit(UPDATE_MODEL_EVENT, option.value)
+      !isEqual(props.modelValue, option.value) &&
+        emit(UPDATE_MODEL_EVENT, option.value)
       emitChange(option.value)
       expanded.value = false
     }
@@ -667,7 +672,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     expanded.value = false
 
     if (isFocused.value) {
-      const _event = new FocusEvent('focus', event)
+      const _event = new FocusEvent('blur', event)
       nextTick(() => handleBlur(_event))
     }
   }
@@ -777,10 +782,14 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   // computed style
   const tagStyle = computed(() => {
     const gapWidth = getGapWidth()
+    const inputSlotWidth = props.filterable ? gapWidth + MINIMUM_INPUT_WIDTH : 0
     const maxWidth =
       collapseItemRef.value && props.maxCollapseTags === 1
-        ? states.selectionWidth - states.collapseItemWidth - gapWidth
-        : states.selectionWidth
+        ? states.selectionWidth -
+          states.collapseItemWidth -
+          gapWidth -
+          inputSlotWidth
+        : states.selectionWidth - inputSlotWidth
     return { maxWidth: `${maxWidth}px` }
   })
 
@@ -793,10 +802,23 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   }
 
   useResizeObserver(selectionRef, resetSelectionWidth)
-  useResizeObserver(menuRef, updateTooltip)
   useResizeObserver(wrapperRef, updateTooltip)
   useResizeObserver(tagMenuRef, updateTagTooltip)
   useResizeObserver(collapseItemRef, resetCollapseItemWidth)
+
+  // #21498
+  let stop: (() => void) | undefined
+  watch(
+    () => dropdownMenuVisible.value,
+    (newVal) => {
+      if (newVal) {
+        stop = useResizeObserver(menuRef, updateTooltip).stop
+      } else {
+        stop?.()
+        stop = undefined
+      }
+    }
+  )
 
   onMounted(() => {
     setSelected()
@@ -828,7 +850,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     currentPlaceholder,
     mouseEnterEventName,
     needStatusIcon,
-    showClose,
+    showClearBtn,
     iconComponent,
     iconReverse,
     validateState,
@@ -858,6 +880,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     showTagList,
     collapseTagList,
     popupScroll,
+    getOption,
 
     // computed style
     tagStyle,

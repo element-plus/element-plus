@@ -75,8 +75,8 @@ export const useSlide = (
 
   const resetSize = () => {
     if (slider.value) {
-      initData.sliderSize =
-        slider.value[`client${props.vertical ? 'Height' : 'Width'}`]
+      const rect = slider.value.getBoundingClientRect()
+      initData.sliderSize = rect[props.vertical ? 'height' : 'width']
     }
   }
 
@@ -116,7 +116,7 @@ export const useSlide = (
   const setFirstValue = (firstValue: number | undefined) => {
     initData.firstValue = firstValue ?? props.min
     _emit(
-      props.range ? [minValue.value, maxValue.value] : firstValue ?? props.min
+      props.range ? [minValue.value, maxValue.value] : (firstValue ?? props.min)
     )
   }
 

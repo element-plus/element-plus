@@ -50,3 +50,28 @@ will start the local development environment.
 ```
 
 Modify `App.vue` file per your needs to get things work.
+
+## The following commands are also useful during development
+
+### Generate component template
+
+With command
+
+```shell
+pnpm gen <component-name>
+# eg.
+pnpm gen awesome
+pnpm gen awesome-button
+```
+
+will generate a component template in `packages/components/awesome` and `packages/components/awesome-button` directory.
+
+### Sync locale files
+
+With command
+
+```shell
+pnpm locale:sync
+```
+
+will sync the new fields from the `en.ts` locale file to other locale files and add the comment `// to be translated`.

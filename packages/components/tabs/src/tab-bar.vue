@@ -71,13 +71,13 @@ const getBarStyle = (): CSSProperties => {
 
 const update = () => (barStyle.value = getBarStyle())
 
-const saveObserver = [] as ReturnType<typeof useResizeObserver>[]
+const tabObservers = [] as ReturnType<typeof useResizeObserver>[]
 const observerTabs = () => {
-  saveObserver.forEach((observer) => observer.stop())
-  saveObserver.length = 0
+  tabObservers.forEach((observer) => observer.stop())
+  tabObservers.length = 0
 
   Object.values(props.tabRefs).forEach((tab) => {
-    saveObserver.push(useResizeObserver(tab, update))
+    tabObservers.push(useResizeObserver(tab, update))
   })
 }
 
@@ -91,12 +91,12 @@ watch(
   },
   { immediate: true }
 )
-const barObserever = useResizeObserver(barRef, () => update())
+const barObserver = useResizeObserver(barRef, () => update())
 
 onBeforeUnmount(() => {
-  saveObserver.forEach((observer) => observer.stop())
-  saveObserver.length = 0
-  barObserever.stop()
+  tabObservers.forEach((observer) => observer.stop())
+  tabObservers.length = 0
+  barObserver.stop()
 })
 
 defineExpose({

@@ -7,6 +7,7 @@ import {
 } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
+import { CircleClose } from '@element-plus/icons-vue'
 
 import type {
   ExtractPropTypes,
@@ -15,6 +16,11 @@ import type {
   __ExtractPublicPropTypes,
 } from 'vue'
 
+export type InputModelModifiers = {
+  lazy?: boolean
+  number?: boolean
+  trim?: boolean
+}
 export type InputAutoSize = { minRows?: number; maxRows?: number } | boolean
 
 export const inputProps = buildProps({
@@ -43,6 +49,13 @@ export const inputProps = buildProps({
       Object,
     ]),
     default: '',
+  },
+  /**
+   * @description v-model modifiers, reference [Vue modifiers](https://vuejs.org/guide/essentials/forms.html#modifiers)
+   */
+  modelModifiers: {
+    type: definePropType<InputModelModifiers>(Object),
+    default: () => ({}),
   },
   /**
    * @description same as `maxlength` in native input
@@ -81,7 +94,7 @@ export const inputProps = buildProps({
    * @description native input autocomplete
    */
   autocomplete: {
-    type: String,
+    type: definePropType<HTMLInputElement['autocomplete']>(String),
     default: 'off',
   },
   /**
@@ -116,6 +129,13 @@ export const inputProps = buildProps({
    * @description whether to show clear button
    */
   clearable: Boolean,
+  /**
+   * @description custom clear icon component
+   */
+  clearIcon: {
+    type: iconPropType,
+    default: CircleClose,
+  },
   /**
    * @description toggleable password input
    */

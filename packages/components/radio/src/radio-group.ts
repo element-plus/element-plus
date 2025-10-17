@@ -1,7 +1,8 @@
-import { buildProps } from '@element-plus/utils'
+import { buildProps, definePropType } from '@element-plus/utils'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import { radioEmits } from './radio'
 
+import type { RadioPropsPublic } from './radio'
 import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type RadioGroup from './radio-group.vue'
 
@@ -56,6 +57,18 @@ export const radioGroupProps = buildProps({
     type: Boolean,
     default: true,
   },
+  options: {
+    type: definePropType<radioOption[]>(Array),
+  },
+  props: {
+    type: definePropType<radioOptionProp>(Object),
+    default: () => radioDefaultProps,
+  },
+  type: {
+    type: String,
+    values: ['radio', 'button'] as const,
+    default: 'radio',
+  },
   ...useAriaProps(['ariaLabel']),
 } as const)
 export type RadioGroupProps = ExtractPropTypes<typeof radioGroupProps>
@@ -66,3 +79,16 @@ export type RadioGroupPropsPublic = __ExtractPublicPropTypes<
 export const radioGroupEmits = radioEmits
 export type RadioGroupEmits = typeof radioGroupEmits
 export type RadioGroupInstance = InstanceType<typeof RadioGroup> & unknown
+
+export type radioOption = RadioPropsPublic & Record<string, any>
+
+export const radioDefaultProps: Required<radioOptionProp> = {
+  label: 'label',
+  value: 'value',
+  disabled: 'disabled',
+}
+export type radioOptionProp = {
+  value?: string
+  label?: string
+  disabled?: string
+}

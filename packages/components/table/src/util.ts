@@ -182,13 +182,12 @@ export const getColumnByCell = function <T extends DefaultRow>(
 
 export const getRowIdentity = <T extends DefaultRow>(
   row: T,
-  rowKey: string | ((row: T) => string) | null,
-  isReturnRawValue: boolean = false
+  rowKey: string | ((row: T) => string) | null
 ): string => {
   if (!row) throw new Error('Row is required when get row identity')
   if (isString(rowKey)) {
     if (!rowKey.includes('.')) {
-      return isReturnRawValue ? row[rowKey] : `${row[rowKey]}`
+      return `${row[rowKey]}`
     }
     const key = rowKey.split('.')
     let current: any = row
@@ -197,7 +196,7 @@ export const getRowIdentity = <T extends DefaultRow>(
     }
     //TODO: "current" is now any, we just satisfies typecheck here
     // but this function can actually return a number
-    return isReturnRawValue ? (current as string) : `${current}`
+    return `${current}`
   } else if (isFunction(rowKey)) {
     return rowKey.call(null, row)
   }
@@ -508,8 +507,14 @@ export function createTablePopper<T extends DefaultRow>(
   vm.component!.exposed!.onOpen()
   const scrollContainer = parentNode?.querySelector(`.${ns}-scrollbar__wrap`)
   removePopper = () => {
+    if (vm.component?.exposed?.onClose) {
+      vm.component.exposed.onClose()
+    }
     render(null, container)
-    scrollContainer?.removeEventListener('scroll', removePopper!)
+    const currentRemovePopper = removePopper as RemovePopperFn
+    scrollContainer?.removeEventListener('scroll', currentRemovePopper)
+    currentRemovePopper.trigger = undefined
+    currentRemovePopper.vm = undefined
     removePopper = null
   }
   removePopper.trigger = trigger ?? undefined

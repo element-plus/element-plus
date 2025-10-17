@@ -11,15 +11,14 @@
     :data="data"
     :props="props"
     :filter-method="filterMethod"
-    :height="208"
+    :height="200"
   />
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { ElTreeV2 } from 'element-plus'
 
-import type { TreeNodeData } from 'element-plus'
+import type { TreeNodeData, TreeV2Instance } from 'element-plus'
 
 interface Tree {
   id: string
@@ -54,7 +53,7 @@ const createData = (
 }
 
 const query = ref('')
-const treeRef = ref<InstanceType<typeof ElTreeV2>>()
+const treeRef = ref<TreeV2Instance>()
 const data = createData(4, 30, 5)
 const props = {
   value: 'id',

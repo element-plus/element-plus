@@ -7,6 +7,13 @@ export default {
     colorpicker: {
       confirm: 'Ок',
       clear: 'Очистить',
+      defaultLabel: 'color picker', // to be translated
+      description:
+        'current color is {color}. press enter to select a new color.', // to be translated
+      alphaLabel: 'pick alpha value', // to be translated
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
     },
     datepicker: {
       now: 'Сейчас',
@@ -14,6 +21,11 @@ export default {
       cancel: 'Отмена',
       clear: 'Очистить',
       confirm: 'Ок',
+      dateTablePrompt:
+        'Use the arrow keys and enter to select the day of the month', // to be translated
+      monthTablePrompt: 'Use the arrow keys and enter to select the month', // to be translated
+      yearTablePrompt: 'Use the arrow keys and enter to select the year', // to be translated
+      selectedDate: 'Selected date', // to be translated
       selectDate: 'Выбрать дату',
       selectTime: 'Выбрать время',
       startDate: 'Дата начала',
@@ -37,7 +49,6 @@ export default {
       month10: 'Октябрь',
       month11: 'Ноябрь',
       month12: 'Декабрь',
-      week: 'неделя',
       weeks: {
         sun: 'Вс',
         mon: 'Пн',
@@ -46,6 +57,15 @@ export default {
         thu: 'Чт',
         fri: 'Пт',
         sat: 'Сб',
+      },
+      weeksFull: {
+        sun: 'Sunday', // to be translated
+        mon: 'Monday', // to be translated
+        tue: 'Tuesday', // to be translated
+        wed: 'Wednesday', // to be translated
+        thu: 'Thursday', // to be translated
+        fri: 'Friday', // to be translated
+        sat: 'Saturday', // to be translated
       },
       months: {
         jan: 'Янв',
@@ -62,6 +82,10 @@ export default {
         dec: 'Дек',
       },
     },
+    inputNumber: {
+      decrease: 'decrease number', // to be translated
+      increase: 'increase number', // to be translated
+    },
     select: {
       loading: 'Загрузка',
       noMatch: 'Совпадений не найдено',
@@ -70,6 +94,9 @@ export default {
     },
     mention: {
       loading: 'Загрузка',
+    },
+    dropdown: {
+      toggleDropdown: 'Toggle Dropdown', // to be translated
     },
     cascader: {
       noMatch: 'Совпадений не найдено',
@@ -88,18 +115,32 @@ export default {
       currentPage: 'страница {pager}',
       prevPages: 'Предыдущие {pager} страниц',
       nextPages: 'Следующие {pager} страниц',
+      deprecationWarning:
+        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
+    },
+    dialog: {
+      close: 'Close this dialog', // to be translated
+    },
+    drawer: {
+      close: 'Close this dialog', // to be translated
     },
     messagebox: {
       title: 'Сообщение',
       confirm: 'Ок',
       cancel: 'Отмена',
       error: 'Недопустимый ввод данных',
+      close: 'Close this dialog', // to be translated
     },
     upload: {
       deleteTip: 'Нажмите [Удалить] для удаления',
       delete: 'Удалить',
       preview: 'Превью',
       continue: 'Продолжить',
+    },
+    slider: {
+      defaultLabel: 'slider between {min} and {max}', // to be translated
+      defaultRangeStartLabel: 'pick start value', // to be translated
+      defaultRangeEndLabel: 'pick end value', // to be translated
     },
     table: {
       emptyText: 'Нет данных',
@@ -112,6 +153,7 @@ export default {
       next: 'Далее',
       previous: 'Назад',
       finish: 'Завершить',
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'Нет данных',

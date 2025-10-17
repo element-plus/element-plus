@@ -11,6 +11,9 @@ export default {
       description:
         'warna semasa ialah {warna}. tekan enter untuk memilih warna baharu.',
       alphaLabel: 'pilih nilai alfa',
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
     },
     datepicker: {
       now: 'Sekarang',
@@ -48,7 +51,6 @@ export default {
       month10: 'Oktober',
       month11: 'November',
       month12: 'Disember',
-      week: 'minggu',
       weeks: {
         sun: 'Ahd',
         mon: 'Isn',
@@ -127,9 +129,10 @@ export default {
     messagebox: {
       title: 'Mesej',
       confirm: 'OK',
-      Batal: 'Dibatalkan',
+      cancel: 'Cancel', // to be translated
       error: 'Input haram',
       close: 'Tutup dialog ini',
+      Batal: 'Dibatalkan',
     },
     upload: {
       deleteTip: 'tekan padam untuk mengalih keluar',
@@ -153,6 +156,7 @@ export default {
       next: 'Seterusnya',
       previous: 'Sebelumnya',
       finish: 'Selesai',
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'Tiada Data',
@@ -173,6 +177,7 @@ export default {
     },
     popconfirm: {
       confirmButtonText: 'Ya',
+      cancelButtonText: 'No', // to be translated
       BatalButtonText: 'Tidak',
     },
     carousel: {

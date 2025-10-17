@@ -2,6 +2,7 @@ import { onMounted, onUpdated } from 'vue'
 import { useEventListener } from '@vueuse/core'
 import { EVENT_CODE } from '@element-plus/constants'
 import { useNamespace } from '@element-plus/hooks'
+import { getEventCode } from '@element-plus/utils'
 
 import type TreeStore from './tree-store'
 import type { Ref } from 'vue'
@@ -26,10 +27,19 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
     })
   })
 
+  function canNodeFocus(treeItems: HTMLElement[], nextIndex: number): boolean {
+    const currentNode = store.value.getNode(treeItems[nextIndex].dataset.key!)
+    return (
+      currentNode.canFocus &&
+      currentNode.visible &&
+      (currentNode.parent?.expanded || currentNode.parent?.level === 0)
+    )
+  }
+
   const handleKeydown = (ev: KeyboardEvent): void => {
     const currentItem = ev.target as HTMLDivElement
     if (!currentItem.className.includes(ns.b('node'))) return
-    const code = ev.code
+    const code = getEventCode(ev)
     const treeItems: HTMLElement[] = Array.from(
       el$.value!.querySelectorAll(`.${ns.is('focusable')}[role=treeitem]`)
     )
@@ -42,12 +52,14 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
           currentIndex === -1
             ? 0
             : currentIndex !== 0
-            ? currentIndex - 1
-            : treeItems.length - 1
+              ? currentIndex - 1
+              : treeItems.length - 1
         const startIndex = nextIndex
         while (true) {
-          if (store.value.getNode(treeItems[nextIndex].dataset.key!).canFocus)
+          if (canNodeFocus(treeItems, nextIndex)) {
             break
+          }
+
           nextIndex--
           if (nextIndex === startIndex) {
             nextIndex = -1
@@ -62,12 +74,14 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
           currentIndex === -1
             ? 0
             : currentIndex < treeItems.length - 1
-            ? currentIndex + 1
-            : 0
+              ? currentIndex + 1
+              : 0
         const startIndex = nextIndex
         while (true) {
-          if (store.value.getNode(treeItems[nextIndex].dataset.key!).canFocus)
+          if (canNodeFocus(treeItems, nextIndex)) {
             break
+          }
+
           nextIndex++
           if (nextIndex === startIndex) {
             nextIndex = -1

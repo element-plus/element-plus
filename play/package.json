@@ -8,7 +8,7 @@
     "postinstall": "node ./scripts/init.mjs"
   },
   "dependencies": {
-    "@element-plus/icons-vue": "^2.3.1",
+    "@element-plus/icons-vue": "^2.3.2",
     "vue": "^3.2.37"
   },
   "devDependencies": {
