@@ -79,6 +79,10 @@ export const panelSharedProps = buildProps({
 
 export const panelRangeSharedProps = buildProps({
   unlinkPanels: Boolean,
+  unlinkTimePicker: {
+    type: Boolean,
+    default: false,
+  },
   visible: {
     type: Boolean,
     default: true,
