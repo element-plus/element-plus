@@ -62,12 +62,12 @@ export default defineComponent({
       onPanelChange,
       onSetPickerOption,
       onPick,
+      pickerVisible,
     } = inject(
       ROOT_COMMON_PICKER_INJECTION_KEY,
       () => useCommonPicker(props, emit),
       true
     )
-
     return () => {
       const Component = getPanel(props.type)
       return (
@@ -78,6 +78,9 @@ export default defineComponent({
           onCalendar-change={onCalendarChange}
           onPanel-change={onPanelChange}
           onPick={onPick}
+          onCancel={() => {
+            pickerVisible.value = false
+          }}
         >
           {slots}
         </Component>

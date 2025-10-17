@@ -383,6 +383,9 @@
       >
         {{ t('el.datepicker.clear') }}
       </el-button>
+      <el-button plain size="small" :class="ppNs.e('link-btn')" @click="cancel">
+        {{ t('el.datepicker.cancel') }}
+      </el-button>
       <el-button
         v-if="showConfirm"
         plain
@@ -447,6 +450,7 @@ const emit = defineEmits([
   'set-picker-option',
   'calendar-change',
   'panel-change',
+  'cancel',
 ])
 
 const unit = 'month'
@@ -463,6 +467,10 @@ const defaultValue = toRef(pickerBase.props, 'defaultValue')
 const { lang } = useLocale()
 const leftDate = ref<Dayjs>(dayjs().locale(lang.value))
 const rightDate = ref<Dayjs>(dayjs().locale(lang.value).add(1, unit))
+
+const cancel = () => {
+  emit('cancel')
+}
 
 const {
   minDate,
