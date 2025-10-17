@@ -1,4 +1,4 @@
-import { h, nextTick, ref } from 'vue'
+import { h, nextTick, ref, watchEffect } from 'vue'
 import { describe, expect, it, test, vi } from 'vitest'
 import { getStyle } from '@element-plus/utils'
 import { rAF } from '@element-plus/test-utils/tick'
@@ -275,5 +275,20 @@ describe('Message on command', () => {
 
     await rAF()
     expect(el.querySelector(selector)).toBeFalsy()
+  })
+
+  // #19366
+  test('it should not be collected by watchEffect', async () => {
+    watchEffect(() => {
+      Message.closeAll()
+      Message({ duration: 0 })
+    })
+    await rAF()
+    expect(document.querySelectorAll(selector).length).toBe(1)
+
+    Message.closeAll()
+    await rAF()
+
+    expect(document.querySelectorAll(selector).length).toBe(0)
   })
 })

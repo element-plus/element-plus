@@ -6,10 +6,11 @@ import type { MessageHandler, MessagePlacement, MessageProps } from './message'
 
 export type MessageContext = {
   id: string
-  vnode: VNode
+  vnode: VNode & {
+    component: ComponentInternalInstance & { props: Mutable<MessageProps> }
+  }
   handler: MessageHandler
-  vm: ComponentInternalInstance
-  props: Mutable<MessageProps>
+  mount: () => void
 }
 
 export const placementInstances = shallowReactive(
@@ -18,7 +19,7 @@ export const placementInstances = shallowReactive(
 
 export const getOrCreatePlacementInstances = (placement: MessagePlacement) => {
   if (!placementInstances[placement]) {
-    placementInstances[placement] = shallowReactive([])
+    placementInstances[placement] = []
   }
   return placementInstances[placement]
 }
@@ -40,7 +41,7 @@ export const getLastOffset = (
 ): number => {
   const { prev } = getInstance(id, placement)
   if (!prev) return 0
-  return prev.vm.exposed!.bottom.value
+  return prev.vnode.component.exposed!.bottom.value
 }
 
 export const getOffsetOrSpace = (
