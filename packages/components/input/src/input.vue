@@ -218,7 +218,7 @@ const containerKls = computed(() => [
     props.showWordLimit &&
       props.type === 'textarea' &&
       !props.autosize &&
-      (props.rows === 2 || !props.rows)
+      !props.autosize
   ),
   {
     [nsInput.b('group')]: slots.prepend || slots.append,
