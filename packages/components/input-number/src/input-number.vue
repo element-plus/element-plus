@@ -269,7 +269,10 @@ const verifyValue = (
     newVal = isString(valueOnClear) ? { min, max }[valueOnClear] : valueOnClear
   }
   if (stepStrictly) {
-    newVal = toPrecision(Math.round(newVal / step) * step, precision)
+    newVal = toPrecision(
+      Math.round(toPrecision(newVal / step)) * step,
+      precision
+    )
     if (newVal !== value) {
       update && emit(UPDATE_MODEL_EVENT, newVal)
     }
