@@ -7,13 +7,8 @@ import {
   watch,
   watchEffect,
 } from 'vue'
-import {
-  findLastIndex,
-  get,
-  isEqual,
-  debounce as lodashDebounce,
-} from 'lodash-unified'
-import { useResizeObserver } from '@vueuse/core'
+import { findLastIndex, get, isEqual } from 'lodash-unified'
+import { useDebounceFn, useResizeObserver } from '@vueuse/core'
 import {
   ValidateComponentsMap,
   debugWarn,
@@ -179,7 +174,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     return ValidateComponentsMap[validateState.value]
   })
 
-  const debounce = computed(() => (props.remote ? 300 : 0))
+  const debounce = computed(() => (props.remote ? props.debounce : 0))
 
   const isRemoteSearchEmpty = computed(
     () => props.remote && !states.inputValue && !hasOptions.value
@@ -390,7 +385,11 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
 
   const dropdownMenuVisible = computed({
     get() {
-      return expanded.value && (props.loading || !isRemoteSearchEmpty.value)
+      return (
+        expanded.value &&
+        (props.loading || !isRemoteSearchEmpty.value) &&
+        (!isDebouncing.value || hasOptions.value)
+      )
     },
     set(val: boolean) {
       expanded.value = val
@@ -434,18 +433,6 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
       expanded.value = !expanded.value
     }
   }
-
-  const onInputChange = () => {
-    if (states.inputValue.length > 0 && !expanded.value) {
-      expanded.value = true
-    }
-    createNewOption(states.inputValue)
-    nextTick(() => {
-      handleQueryChange(states.inputValue)
-    })
-  }
-
-  const debouncedOnInputChange = lodashDebounce(onInputChange, debounce.value)
 
   const handleQueryChange = (val: string) => {
     if (states.previousQuery === val || isComposing.value) {
@@ -765,9 +752,27 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     }
   }
 
+  const isDebouncing = ref(false)
+
+  const onInputChange = () => {
+    if (states.inputValue.length > 0 && !expanded.value) {
+      expanded.value = true
+    }
+    createNewOption(states.inputValue)
+    nextTick(() => {
+      handleQueryChange(states.inputValue)
+    })
+  }
+
+  const debouncedOnInputChange = useDebounceFn(() => {
+    onInputChange()
+    isDebouncing.value = false
+  }, debounce)
+
   const onInput = (event: Event) => {
     states.inputValue = (event.target as HTMLInputElement).value
     if (props.remote) {
+      isDebouncing.value = true
       debouncedOnInputChange()
     } else {
       return onInputChange()
