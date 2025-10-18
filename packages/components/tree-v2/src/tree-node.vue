@@ -50,7 +50,7 @@
         @change="handleCheckChange"
         @click.stop
       />
-      <el-node-content :node="{ ...node, expanded }" />
+      <el-node-content :node="node" />
     </div>
   </div>
 </template>
