@@ -791,6 +791,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     nextTick(() => scrollToOption(hoverOption.value))
   }
   const callWithPrevent = (e: KeyboardEvent, fn: () => void) => {
+    e.stopPropagation()
     e.preventDefault()
     fn()
   }
