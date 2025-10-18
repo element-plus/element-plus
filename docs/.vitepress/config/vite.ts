@@ -31,6 +31,7 @@ const optimizeDeps = [...new Set([...epDeps, ...docsDeps])].filter(
     !['@element-plus/metadata', 'element-plus'].includes(dep) &&
     !['normalize.css'].includes(dep)
 )
+optimizeDeps.push('markdown-it')
 optimizeDeps.push(
   ...(await glob(['dayjs/plugin/*.js'], {
     cwd: path.resolve(projRoot, 'node_modules'),
