@@ -1,6 +1,7 @@
-import { ComponentInternalInstance } from 'vue'
-import { EmitFn, isBoolean } from '@element-plus/utils'
+import { isBoolean } from '@element-plus/utils'
 
+import type { ComponentInternalInstance } from 'vue'
+import type { EmitFn } from '@element-plus/utils'
 import type Node from './model/node'
 import type { CheckedInfo, NodeDropType, TreeNodeData } from './tree.type'
 
