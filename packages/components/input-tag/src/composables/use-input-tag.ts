@@ -9,7 +9,6 @@ import {
   debugWarn,
   ensureArray,
   getEventCode,
-  getEventKey,
   isAndroid,
   isUndefined,
 } from '@element-plus/utils'
@@ -109,11 +108,9 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
         break
       case EVENT_CODE.numpadEnter:
         if (props.trigger === EVENT_CODE.enter) {
-          if (inputVal) {
-            event.preventDefault()
-            event.stopPropagation()
-            handleAddTag()
-          }
+          event.preventDefault()
+          event.stopPropagation()
+          handleAddTag()
         }
         break
       case EVENT_CODE.backspace:
@@ -129,10 +126,18 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
   const handleKeyup = (event: KeyboardEvent) => {
     if (isComposing.value || !isAndroid()) return
     const code = getEventCode(event)
-    const key = getEventKey(event)
+    const inputVal = (event.target as HTMLInputElement).value.trim()
 
-    if (code === EVENT_CODE.space || key === ' ') {
-      return
+    switch (code) {
+      case EVENT_CODE.space:
+        if (props.trigger === EVENT_CODE.space) {
+          if (inputVal) {
+            event.preventDefault()
+            event.stopPropagation()
+            handleAddTag()
+          }
+        }
+        break
     }
   }
 
