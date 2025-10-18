@@ -603,6 +603,45 @@ describe('Select', () => {
     })
   })
 
+  it('should use alias for selected label', async () => {
+    const wrapper = createSelect({
+      data: () => {
+        return {
+          options: [
+            { value: 'value1', name: 'label1', text: 'text1' },
+            { value: 'value2', name: 'label2', text: 'text2' },
+          ],
+          multiple: false,
+          value: '',
+          props: { label: 'name' },
+        }
+      },
+    })
+    await nextTick()
+    const select = wrapper.findComponent(Select)
+    const selectVm = select.vm as any
+    const vm = wrapper.vm as any
+
+    const options = getOptions()
+    options[0].click()
+    expect(selectVm.selectedLabel).toBe('label1')
+    vm.value = 'value2'
+    await nextTick()
+    expect(selectVm.selectedLabel).toBe('label2')
+
+    vm.multiple = true
+    vm.value = []
+    await nextTick()
+    expect(selectVm.selectedLabel).toStrictEqual([])
+    vm.value = ['value1', 'value2']
+    await nextTick()
+    expect(selectVm.selectedLabel).toStrictEqual(['label1', 'label2'])
+
+    vm.props.label = 'text'
+    await nextTick()
+    expect(selectVm.selectedLabel).toStrictEqual(['text1', 'text2'])
+  })
+
   describe('multiple', () => {
     it('multiple select', async () => {
       const wrapper = createSelect({
@@ -2461,5 +2500,39 @@ describe('Select', () => {
       await nextTick()
       expect(wrapper.find('.custom-tag').text()).toBe('enabled')
     })
+  })
+
+  it('loading appears on first click when remote', async () => {
+    const wrapper = _mount(
+      `
+        <el-select
+          v-model="value"
+          filterable
+          remote
+          :remote-method="remoteMethod"
+          :loading="loading"
+          :options="options"
+        >
+        </el-select>`,
+      {
+        data() {
+          return { options: [], value: '', loading: false }
+        },
+        methods: {
+          remoteMethod() {
+            this.loading = true
+            setTimeout(() => {
+              this.loading = false
+            }, 1000)
+          },
+        },
+      }
+    )
+
+    const select = wrapper.findComponent(Select)
+    const selectVm = select.vm as any
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    expect(selectVm.dropdownMenuVisible).toBeTruthy()
   })
 })
