@@ -18,7 +18,7 @@ You should have:
 
 Node.js >= 20
 
-pnpm >= 9.5
+pnpm >= 10.18
 
 Git > 2.20
 

@@ -1,6 +1,6 @@
 {
   "private": true,
-  "packageManager": "pnpm@9.5.0",
+  "packageManager": "pnpm@10.18.2",
   "workspaces": [
     "packages/*",
     "play",
@@ -118,8 +118,7 @@
     "node": ">= 20"
   },
   "volta": {
-    "node": ">=20",
-    "pnpm": "9.5.0"
+    "node": ">=20"
   },
   "config": {
     "commitizen": {
