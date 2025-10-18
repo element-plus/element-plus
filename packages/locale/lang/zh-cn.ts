@@ -13,6 +13,8 @@ export default {
       alphaDescription: '透明度 {alpha}, 当前颜色 {color}',
       hueLabel: '选择色相值',
       hueDescription: '色相 {hue}, 当前颜色 {color}',
+      svLabel: '选择饱和度与明度的值',
+      svDescription: '饱和度 {saturation}, 明度 {brightness}, 当前颜色 {color}',
     },
     datepicker: {
       now: '此刻',
