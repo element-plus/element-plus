@@ -243,7 +243,11 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
 
   const dropdownMenuVisible = computed({
     get() {
-      return expanded.value && (props.loading || !isRemoteSearchEmpty.value)
+      return (
+        expanded.value &&
+        (props.loading || !isRemoteSearchEmpty.value) &&
+        (!isDebouncing.value || states.options.size !== 0)
+      )
     },
     set(val: boolean) {
       expanded.value = val
@@ -475,6 +479,8 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     tagTooltipRef.value?.updatePopper?.()
   }
 
+  const isDebouncing = ref(false)
+
   const onInputChange = () => {
     if (states.inputValue.length > 0 && !expanded.value) {
       expanded.value = true
@@ -485,6 +491,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   const onInput = (event: Event) => {
     states.inputValue = (event.target as HTMLInputElement).value
     if (props.remote) {
+      isDebouncing.value = true
       debouncedOnInputChange()
     } else {
       return onInputChange()
@@ -493,6 +500,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
 
   const debouncedOnInputChange = useDebounceFn(() => {
     onInputChange()
+    isDebouncing.value = false
   }, debounce)
 
   const emitChange = (val: OptionValue | OptionValue[]) => {

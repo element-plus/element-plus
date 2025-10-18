@@ -385,7 +385,11 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
 
   const dropdownMenuVisible = computed({
     get() {
-      return expanded.value && (props.loading || !isRemoteSearchEmpty.value)
+      return (
+        expanded.value &&
+        (props.loading || !isRemoteSearchEmpty.value) &&
+        (!isDebouncing.value || hasOptions.value)
+      )
     },
     set(val: boolean) {
       expanded.value = val
@@ -429,18 +433,6 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
       expanded.value = !expanded.value
     }
   }
-
-  const onInputChange = () => {
-    if (states.inputValue.length > 0 && !expanded.value) {
-      expanded.value = true
-    }
-    createNewOption(states.inputValue)
-    nextTick(() => {
-      handleQueryChange(states.inputValue)
-    })
-  }
-
-  const debouncedOnInputChange = useDebounceFn(onInputChange, debounce)
 
   const handleQueryChange = (val: string) => {
     if (states.previousQuery === val || isComposing.value) {
@@ -760,9 +752,27 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     }
   }
 
+  const isDebouncing = ref(false)
+
+  const onInputChange = () => {
+    if (states.inputValue.length > 0 && !expanded.value) {
+      expanded.value = true
+    }
+    createNewOption(states.inputValue)
+    nextTick(() => {
+      handleQueryChange(states.inputValue)
+    })
+  }
+
+  const debouncedOnInputChange = useDebounceFn(() => {
+    onInputChange()
+    isDebouncing.value = false
+  }, debounce)
+
   const onInput = (event: Event) => {
     states.inputValue = (event.target as HTMLInputElement).value
     if (props.remote) {
+      isDebouncing.value = true
       debouncedOnInputChange()
     } else {
       return onInputChange()
