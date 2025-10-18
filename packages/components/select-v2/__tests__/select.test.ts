@@ -603,6 +603,45 @@ describe('Select', () => {
     })
   })
 
+  it('should use alias for selected label', async () => {
+    const wrapper = createSelect({
+      data: () => {
+        return {
+          options: [
+            { value: 'value1', name: 'label1', text: 'text1' },
+            { value: 'value2', name: 'label2', text: 'text2' },
+          ],
+          multiple: false,
+          value: '',
+          props: { label: 'name' },
+        }
+      },
+    })
+    await nextTick()
+    const select = wrapper.findComponent(Select)
+    const selectVm = select.vm as any
+    const vm = wrapper.vm as any
+
+    const options = getOptions()
+    options[0].click()
+    expect(selectVm.selectedLabel).toBe('label1')
+    vm.value = 'value2'
+    await nextTick()
+    expect(selectVm.selectedLabel).toBe('label2')
+
+    vm.multiple = true
+    vm.value = []
+    await nextTick()
+    expect(selectVm.selectedLabel).toStrictEqual([])
+    vm.value = ['value1', 'value2']
+    await nextTick()
+    expect(selectVm.selectedLabel).toStrictEqual(['label1', 'label2'])
+
+    vm.props.label = 'text'
+    await nextTick()
+    expect(selectVm.selectedLabel).toStrictEqual(['text1', 'text2'])
+  })
+
   describe('multiple', () => {
     it('multiple select', async () => {
       const wrapper = createSelect({

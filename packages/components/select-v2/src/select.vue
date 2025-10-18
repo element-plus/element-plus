@@ -366,7 +366,7 @@ export default defineComponent({
       if (!props.multiple) {
         return API.states.selectedLabel
       }
-      return API.states.cachedOptions.map((i) => i.label as string)
+      return API.states.cachedOptions.map((i) => API.getLabel(i) as string)
     })
 
     return {
