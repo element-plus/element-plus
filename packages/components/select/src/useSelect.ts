@@ -773,6 +773,71 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     }
   }
 
+  const ensureExpanded = () => {
+    if (!expanded.value) {
+      expanded.value = true
+      return false
+    }
+    return !(
+      states.options.size === 0 ||
+      filteredOptionsCount.value === 0 ||
+      isComposing.value ||
+      optionsAllDisabled.value
+    )
+  }
+
+  const focusOption = (index: number) => {
+    states.hoveringIndex = index
+    nextTick(() => scrollToOption(hoverOption.value))
+  }
+  const callWithPrevent = (e: KeyboardEvent, fn: () => void) => {
+    e.stopPropagation()
+    e.preventDefault()
+    fn()
+  }
+  const handleKeydown = (e: KeyboardEvent) => {
+    const code = getEventCode(e)
+    switch (code) {
+      case EVENT_CODE.up:
+        callWithPrevent(e, () => navigateOptions('prev'))
+        break
+      case EVENT_CODE.down:
+        callWithPrevent(e, () => navigateOptions('next'))
+        break
+      case EVENT_CODE.enter:
+        callWithPrevent(e, selectOption)
+        break
+      case EVENT_CODE.esc:
+        callWithPrevent(e, handleEsc)
+        break
+      case EVENT_CODE.backspace:
+        deletePrevTag(e)
+        return
+      case EVENT_CODE.home:
+        if (!ensureExpanded()) return
+        callWithPrevent(e, () => focusOption(0))
+        break
+      case EVENT_CODE.end:
+        if (!ensureExpanded()) return
+        callWithPrevent(e, () => focusOption(states.options.size - 1))
+        break
+      case EVENT_CODE.pageUp:
+        if (!ensureExpanded()) return
+        callWithPrevent(e, () =>
+          focusOption(Math.max(0, states.hoveringIndex - 10))
+        )
+        break
+      case EVENT_CODE.pageDown:
+        if (!ensureExpanded()) return
+        callWithPrevent(e, () =>
+          focusOption(
+            Math.min(states.options.size - 1, states.hoveringIndex + 10)
+          )
+        )
+        break
+    }
+  }
+
   const getGapWidth = () => {
     if (!selectionRef.value) return 0
     const style = window.getComputedStyle(selectionRef.value)
@@ -864,6 +929,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     handleCompositionStart,
     handleCompositionUpdate,
     handleCompositionEnd,
+    handleKeydown,
     onOptionCreate,
     onOptionDestroy,
     handleMenuEnter,
