@@ -9,9 +9,19 @@
           ns.is('alpha', item.get('alpha') < 100),
           { selected: item.selected },
         ]"
-        @click="handleSelect(index)"
       >
-        <div :style="{ backgroundColor: item.value }" />
+        <input
+          :name="item.value"
+          type="radio"
+          :disabled="disabled"
+          :checked="item.selected"
+          :style="{ backgroundColor: item.value }"
+          :tabindex="item.selected ? 0 : -1"
+          @keydown.left.stop.prevent="navigate(index, 'prev')"
+          @keydown.right.stop.prevent="navigate(index, 'next')"
+          @change="handleSelect(index)"
+        />
+        {{ item.selected }}
       </div>
     </div>
   </div>
@@ -80,10 +90,34 @@ export default defineComponent({
         return c
       })
     }
+
+    const navigate = (index: number, direction: 'prev' | 'next') => {
+      if (props.disabled) return
+      console.log('who', index)
+      if (direction === 'next') {
+        const idx = index + 1
+        if (idx === props.colors.length) {
+          handleSelect(0)
+          return
+        }
+        console.log(idx)
+        handleSelect(idx)
+      } else if (direction === 'prev') {
+        const idx = index - 1
+        if (idx < 0) {
+          handleSelect(props.colors.length - 1)
+          return
+        }
+        console.log(idx)
+        handleSelect(idx)
+      }
+    }
+
     return {
       rgbaColors,
       handleSelect,
       ns,
+      navigate,
     }
   },
 })

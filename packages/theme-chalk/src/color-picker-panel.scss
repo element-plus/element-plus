@@ -135,15 +135,21 @@
     width: 20px;
     height: 20px;
     border-radius: 4px;
-    cursor: pointer;
 
     &.selected {
       box-shadow: 0 0 3px 2px getCssVar('color-primary');
     }
 
-    > div {
+    > input {
+      cursor: pointer;
+      padding: 0;
+      margin: 0;
+      outline: none;
+      border: none;
+      appearance: none;
       display: flex;
       height: 100%;
+      width: 100%;
       border-radius: 3px;
     }
 
