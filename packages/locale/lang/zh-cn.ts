@@ -146,6 +146,10 @@ export default {
       resetFilter: '重置',
       clearFilter: '全部',
       sumText: '合计',
+      selectAllLabel: '选择所有行',
+      selectRowLabel: '选择当前行',
+      expandRowLabel: '展开当前行',
+      collapseRowLabel: '收起当前行',
     },
     tour: {
       next: '下一步',

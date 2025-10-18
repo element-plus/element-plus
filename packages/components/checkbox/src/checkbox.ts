@@ -104,6 +104,7 @@ export const checkboxProps = {
     type: Boolean,
     default: true,
   },
+  ariaLabel: String,
   ...useAriaProps(['ariaControls']),
 }
 
