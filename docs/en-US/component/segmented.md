@@ -81,19 +81,19 @@ segmented/custom-style
 
 ### Attributes
 
-| Name                     | Description                                    | Type                                           | Default                                                  |
-| ------------------------ | ---------------------------------------------- | ---------------------------------------------- | -------------------------------------------------------- |
-| model-value / v-model    | binding value                                  | ^[string] / ^[number] / ^[boolean]             | —                                                        |
-| options                  | data of the options                            | ^[array]`Option[]`                             | []                                                       |
-| [props](#props) ^(2.9.8) | configuration options, see the following table | ^[object]                                      | `{value: 'value', label: 'label', disabled: 'disabled'}` |
-| size                     | size of component                              | ^[enum]`'' \| 'large' \| 'default' \| 'small'` | ''                                                       |
-| block                    | fit width of parent content                    | ^[boolean]                                     | false                                                    |
-| disabled                 | whether segmented is disabled                  | ^[boolean]                                     | false                                                    |
-| validate-event           | whether to trigger form validation             | ^[boolean]                                     | true                                                     |
-| name                     | native `name` attribute                        | ^[string]                                      | —                                                        |
-| id                       | native `id` attribute                          | ^[string]                                      | —                                                        |
-| aria-label ^(a11y)       | native `aria-label` attribute                  | ^[string]                                      | —                                                        |
-| direction ^(2.8.7)       | display direction                              | ^[enum]`'horizontal' \| 'vertical'`            | horizontal                                               |
+| Name                     | Description                                    | Type                                           | Default    |
+| ------------------------ | ---------------------------------------------- | ---------------------------------------------- | ---------- |
+| model-value / v-model    | binding value                                  | ^[string] / ^[number] / ^[boolean]             | —          |
+| options                  | data of the options                            | ^[array]`Option[]`                             | []         |
+| [props](#props) ^(2.9.8) | configuration options, see the following table | ^[object]                                      | —          |
+| size                     | size of component                              | ^[enum]`'' \| 'large' \| 'default' \| 'small'` | ''         |
+| block                    | fit width of parent content                    | ^[boolean]                                     | false      |
+| disabled                 | whether segmented is disabled                  | ^[boolean]                                     | false      |
+| validate-event           | whether to trigger form validation             | ^[boolean]                                     | true       |
+| name                     | native `name` attribute                        | ^[string]                                      | —          |
+| id                       | native `id` attribute                          | ^[string]                                      | —          |
+| aria-label ^(a11y)       | native `aria-label` attribute                  | ^[string]                                      | —          |
+| direction ^(2.8.7)       | display direction                              | ^[enum]`'horizontal' \| 'vertical'`            | horizontal |
 
 ### props
 
