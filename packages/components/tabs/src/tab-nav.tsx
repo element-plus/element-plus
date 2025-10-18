@@ -134,9 +134,7 @@ const TabNav = defineComponent({
         atEndEdge: computed(
           () => navSize.value - navOffset.value <= navContainerSize.value
         ),
-        layout: computed(() =>
-          isHorizontal.value ? 'horizontal' : 'vertical'
-        ),
+        layout: computed(() => 'vertical'),
       },
       (offset) => {
         navOffset.value = clamp(
