@@ -97,6 +97,7 @@ progress/striped-progress
 | format                 | custom text format                                                                    | ^[Function]`(percentage: number) => string`                                                                 | —       |
 | striped ^(2.3.4)       | stripe over the progress bar's color                                                  | ^[boolean]                                                                                                  | false   |
 | striped-flow ^(2.3.4)  | get the stripes to flow                                                               | ^[boolean]                                                                                                  | false   |
+| inverse ^(2.11.6)      | display progress in reverse direction                                                 | ^[boolean]                                                                                                  | false   |
 
 ### Slots
 

@@ -161,4 +161,32 @@ describe('Progress.vue', () => {
 
     expect(wrapper.find('.el-progress__text').text()).toBe('自定义内容')
   })
+
+  test('inverse (line)', () => {
+    const wrapper = mount(() => <Progress inverse percentage={50} />)
+    const inner = wrapper.find('.el-progress-bar__inner')
+    expect(inner.exists()).toBe(true)
+    expect(inner.classes()).toContain('is-inverse')
+    expect(inner.attributes('style')).toContain('width: 50%')
+  })
+
+  test('inverse (circle)', () => {
+    const wrapper = mount(() => (
+      <Progress type="circle" inverse percentage={50} />
+    ))
+    const circle = wrapper.find('.el-progress-circle__path')
+    expect(circle.exists()).toBe(true)
+    const attr = circle.attributes('transform')
+    expect(attr).toContain('scale(-1, 1)')
+  })
+
+  test('inverse (dashboard)', () => {
+    const wrapper = mount(() => (
+      <Progress type="dashboard" inverse percentage={50} />
+    ))
+    const circle = wrapper.find('.el-progress-circle__path')
+    expect(circle.exists()).toBe(true)
+    const attr = circle.attributes('transform')
+    expect(attr).toContain('scale(-1, 1)')
+  })
 })
