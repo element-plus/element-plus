@@ -123,16 +123,13 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
   const handleKeyup = (event: KeyboardEvent) => {
     if (isComposing.value || !isAndroid()) return
     const code = getEventCode(event)
-    const inputVal = (event.target as HTMLInputElement).value.trim()
 
     switch (code) {
       case EVENT_CODE.space:
         if (props.trigger === EVENT_CODE.space) {
-          if (inputVal) {
-            event.preventDefault()
-            event.stopPropagation()
-            handleAddTag()
-          }
+          event.preventDefault()
+          event.stopPropagation()
+          handleAddTag()
         }
         break
     }
