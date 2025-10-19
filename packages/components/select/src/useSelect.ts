@@ -247,7 +247,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       return (
         expanded.value &&
         (props.loading || !isRemoteSearchEmpty.value) &&
-        (!isDebouncing.value || !isEmpty(states.previousQuery))
+        (!debouncing.value || !isEmpty(states.previousQuery))
       )
     },
     set(val: boolean) {
@@ -480,7 +480,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     tagTooltipRef.value?.updatePopper?.()
   }
 
-  const isDebouncing = ref(false)
+  const debouncing = ref(false)
 
   const onInputChange = () => {
     if (states.inputValue.length > 0 && !expanded.value) {
@@ -492,7 +492,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   const onInput = (event: Event) => {
     states.inputValue = (event.target as HTMLInputElement).value
     if (props.remote) {
-      isDebouncing.value = true
+      debouncing.value = true
       debouncedOnInputChange()
     } else {
       return onInputChange()
@@ -501,7 +501,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
 
   const debouncedOnInputChange = useDebounceFn(() => {
     onInputChange()
-    isDebouncing.value = false
+    debouncing.value = false
   }, debounce)
 
   const emitChange = (val: OptionValue | OptionValue[]) => {
