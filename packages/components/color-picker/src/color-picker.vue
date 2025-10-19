@@ -27,6 +27,7 @@
         v-bind="panelProps"
         v-click-outside:[triggerRef]="handleClickOutside"
         :border="false"
+        :validate-event="false"
         @keydown.esc="handleEsc"
       >
         <template #footer>
