@@ -154,6 +154,9 @@ export default {
       clearFilter: 'తొలగించు',
       sumText: 'మొత్తం',
     },
+    tag: {
+      close: 'Close', // to be translated
+    },
     tour: {
       next: 'తదుపరి',
       previous: 'గత',

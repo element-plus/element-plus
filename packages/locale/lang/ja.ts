@@ -153,6 +153,9 @@ export default {
       clearFilter: 'すべて',
       sumText: '合計',
     },
+    tag: {
+      close: 'Close', // to be translated
+    },
     tour: {
       next: '次へ',
       previous: '前へ',

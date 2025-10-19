@@ -153,6 +153,9 @@ export default {
       clearFilter: 'Guztia',
       sumText: 'Batura',
     },
+    tag: {
+      close: 'Close', // to be translated
+    },
     tour: {
       next: 'Hurrengoa',
       previous: 'Aurrekoa',

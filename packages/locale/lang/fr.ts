@@ -155,6 +155,9 @@ export default {
       clearFilter: 'Tous',
       sumText: 'Somme',
     },
+    tag: {
+      close: 'Close', // to be translated
+    },
     tour: {
       next: 'suivant',
       previous: 'précédent',

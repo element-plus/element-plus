@@ -153,6 +153,9 @@ export default {
       clearFilter: 'Всички',
       sumText: 'Sum', // to be translated
     },
+    tag: {
+      close: 'Close', // to be translated
+    },
     tour: {
       next: 'Next', // to be translated
       previous: 'Previous', // to be translated

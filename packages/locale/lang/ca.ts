@@ -153,6 +153,9 @@ export default {
       clearFilter: 'Tot',
       sumText: 'Tot',
     },
+    tag: {
+      close: 'Close', // to be translated
+    },
     tour: {
       next: 'Next', // to be translated
       previous: 'Previous', // to be translated
