@@ -389,9 +389,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
       return (
         expanded.value &&
         (props.loading || !isRemoteSearchEmpty.value) &&
-        (!isDebouncing.value ||
-          hasOptions.value ||
-          !isEmpty(states.previousQuery))
+        (!isDebouncing.value || !isEmpty(states.previousQuery))
       )
     },
     set(val: boolean) {
