@@ -15,6 +15,7 @@ import {
   escapeStringRegexp,
   getEventCode,
   isArray,
+  isEmpty,
   isFunction,
   isNumber,
   isObject,
@@ -388,7 +389,9 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
       return (
         expanded.value &&
         (props.loading || !isRemoteSearchEmpty.value) &&
-        (!isDebouncing.value || hasOptions.value)
+        (!isDebouncing.value ||
+          hasOptions.value ||
+          !isEmpty(states.previousQuery))
       )
     },
     set(val: boolean) {

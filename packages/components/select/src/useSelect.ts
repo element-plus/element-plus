@@ -16,6 +16,7 @@ import {
   getEventCode,
   isArray,
   isClient,
+  isEmpty,
   isFunction,
   isIOS,
   isNumber,
@@ -246,7 +247,9 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       return (
         expanded.value &&
         (props.loading || !isRemoteSearchEmpty.value) &&
-        (!isDebouncing.value || states.options.size > 0)
+        (!isDebouncing.value ||
+          states.options.size > 0 ||
+          !isEmpty(states.previousQuery))
       )
     },
     set(val: boolean) {
