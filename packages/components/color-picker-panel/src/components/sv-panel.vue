@@ -1,134 +1,70 @@
 <template>
-  <div
-    :class="ns.b()"
-    :style="{
-      backgroundColor: background,
-    }"
-  >
-    <div :class="ns.e('white')" />
-    <div :class="ns.e('black')" />
+  <div :class="rootKls" :style="rootStyle" @click="handleClick">
     <div
-      :class="ns.e('cursor')"
-      :style="{
-        top: cursorTop + 'px',
-        left: cursorLeft + 'px',
-      }"
-    >
-      <div />
-    </div>
+      ref="cursorRef"
+      :class="cursorKls"
+      :style="cursorStyle"
+      tabindex="0"
+      role="slider"
+      aria-valuemin="0,0"
+      aria-valuemax="100,100"
+      :aria-label="ariaLabel"
+      :aria-valuenow="`${saturation},${brightness}`"
+      :aria-valuetext="ariaValuetext"
+      @keydown="handleKeydown"
+    />
   </div>
 </template>
 
-<script lang="ts">
-import {
-  computed,
-  defineComponent,
-  getCurrentInstance,
-  onMounted,
-  ref,
-  watch,
-} from 'vue'
-import { getClientXY } from '@element-plus/utils'
-import { useNamespace } from '@element-plus/hooks'
-import { draggable } from '../utils/draggable'
+<script lang="ts" setup>
+import { computed } from 'vue'
+import { useLocale } from '@element-plus/hooks/use-locale'
+import { svPanelProps } from '../props/sv-panel'
+import { useSvPanel, useSvPanelDOM } from '../composables/use-sv-panel'
 
-import type { PropType } from 'vue'
-import type Color from '../utils/color'
+defineOptions({
+  name: 'ElSvPanel',
+})
 
-export default defineComponent({
-  name: 'ElSlPanel',
+const props = defineProps(svPanelProps)
 
-  props: {
-    color: {
-      type: Object as PropType<Color>,
-      required: true,
-    },
-    disabled: Boolean,
-  },
+const {
+  cursorRef,
+  cursorTop,
+  cursorLeft,
+  background,
+  saturation,
+  brightness,
+  handleClick,
+  handleDrag,
+  handleKeydown,
+} = useSvPanel(props)
 
-  setup(props) {
-    const ns = useNamespace('color-svpanel')
+const { rootKls, cursorKls, rootStyle, cursorStyle, update } = useSvPanelDOM(
+  props,
+  {
+    cursorTop,
+    cursorLeft,
+    background,
+    handleDrag,
+  }
+)
 
-    // instance
-    const instance = getCurrentInstance()!
+const { t } = useLocale()
 
-    // data
-    const cursorTop = ref(0)
-    const cursorLeft = ref(0)
-    const background = ref('hsl(0, 100%, 50%)')
-    const colorValue = computed(() => {
-      const hue = props.color.get('hue')
-      const value = props.color.get('value')
-      return { hue, value }
-    })
+const ariaLabel = computed(() => t('el.colorpicker.svLabel'))
+const ariaValuetext = computed(() => {
+  return t('el.colorpicker.svDescription', {
+    saturation: saturation.value,
+    brightness: brightness.value,
+    color: props.color.value,
+  })
+})
 
-    // methods
-    function update() {
-      const saturation = props.color.get('saturation')
-      const value = props.color.get('value')
-
-      const el = instance.vnode.el!
-      const { clientWidth: width, clientHeight: height } = el
-
-      cursorLeft.value = (saturation * width) / 100
-      cursorTop.value = ((100 - value) * height) / 100
-
-      background.value = `hsl(${props.color.get('hue')}, 100%, 50%)`
-    }
-
-    function handleDrag(event: MouseEvent | TouchEvent) {
-      if (props.disabled) return
-
-      const el = instance.vnode.el!
-      const rect = el.getBoundingClientRect()
-      const { clientX, clientY } = getClientXY(event)
-
-      let left = clientX - rect.left
-      let top = clientY - rect.top
-      left = Math.max(0, left)
-      left = Math.min(left, rect.width)
-
-      top = Math.max(0, top)
-      top = Math.min(top, rect.height)
-
-      cursorLeft.value = left
-      cursorTop.value = top
-      props.color.set({
-        saturation: (left / rect.width) * 100,
-        value: 100 - (top / rect.height) * 100,
-      })
-    }
-
-    // watch
-    watch(
-      () => colorValue.value,
-      () => {
-        update()
-      }
-    )
-
-    // mounted
-    onMounted(() => {
-      draggable(instance.vnode.el as HTMLElement, {
-        drag: (event) => {
-          handleDrag(event)
-        },
-        end: (event) => {
-          handleDrag(event)
-        },
-      })
-
-      update()
-    })
-    return {
-      cursorTop,
-      cursorLeft,
-      background,
-      colorValue,
-      handleDrag,
-      update,
-      ns,
-    }
-  },
+defineExpose({
+  /**
+   * @description update sv panel manually
+   */
+  update,
 })
 </script>

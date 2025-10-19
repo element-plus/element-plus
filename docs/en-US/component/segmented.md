@@ -87,7 +87,7 @@ segmented/custom-style
 | options                  | data of the options                            | ^[array]`Option[]`                             | []         |
 | [props](#props) ^(2.9.8) | configuration options, see the following table | ^[object]                                      | —          |
 | size                     | size of component                              | ^[enum]`'' \| 'large' \| 'default' \| 'small'` | ''         |
-| block                    | fit width of parent content                    | ^[boolean]                                     | —          |
+| block                    | fit width of parent content                    | ^[boolean]                                     | false      |
 | disabled                 | whether segmented is disabled                  | ^[boolean]                                     | false      |
 | validate-event           | whether to trigger form validation             | ^[boolean]                                     | true       |
 | name                     | native `name` attribute                        | ^[string]                                      | —          |
