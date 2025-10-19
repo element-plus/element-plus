@@ -29,7 +29,6 @@ export const usePredefine = (props: PredefineProps) => {
   })
 
   function handleSelect(index: number) {
-    if (props.disabled) return
     props.color.fromString(props.colors[index])
   }
 
