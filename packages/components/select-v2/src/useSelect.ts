@@ -384,8 +384,6 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     return -1
   })
 
-  const debouncing = ref(false)
-
   const dropdownMenuVisible = computed({
     get() {
       return (
@@ -436,6 +434,8 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
       expanded.value = !expanded.value
     }
   }
+
+  const debouncing = ref(false)
 
   const onInputChange = () => {
     if (states.inputValue.length > 0 && !expanded.value) {
