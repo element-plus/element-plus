@@ -78,6 +78,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
 
   // data refs
   const popperSize = ref(-1)
+  const debouncing = ref(false)
 
   // DOM & Component refs
   const selectRef = ref<HTMLElement>()
@@ -434,8 +435,6 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
       expanded.value = !expanded.value
     }
   }
-
-  const debouncing = ref(false)
 
   const onInputChange = () => {
     if (states.inputValue.length > 0 && !expanded.value) {

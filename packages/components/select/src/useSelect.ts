@@ -93,6 +93,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   // the controller of the expanded popup
   const expanded = ref(false)
   const hoverOption = ref()
+  const debouncing = ref(false)
 
   const { form, formItem } = useFormItem()
   const { inputId } = useFormItemInputId(props, {
@@ -479,8 +480,6 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   const updateTagTooltip = () => {
     tagTooltipRef.value?.updatePopper?.()
   }
-
-  const debouncing = ref(false)
 
   const onInputChange = () => {
     if (states.inputValue.length > 0 && !expanded.value) {
