@@ -19,7 +19,6 @@
 <script lang="ts" setup>
 import type {
   AllowDropType,
-  DragEvents,
   NodeDropType,
   RenderContentContext,
 } from 'element-plus'

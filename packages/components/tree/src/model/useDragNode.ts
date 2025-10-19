@@ -243,15 +243,21 @@ export function useDragNodeHandler({
         'node-drag-end',
         draggingNode.node,
         dropNode.node,
-        dropType,
+        dropType!,
         event
       )
       if (dropType !== 'none') {
-        ctx.emit('node-drop', draggingNode.node, dropNode.node, dropType, event)
+        ctx.emit(
+          'node-drop',
+          draggingNode.node,
+          dropNode.node,
+          dropType!,
+          event
+        )
       }
     }
     if (draggingNode && !dropNode) {
-      ctx.emit('node-drag-end', draggingNode.node, null, dropType, event)
+      ctx.emit('node-drag-end', draggingNode.node, null, dropType!, event)
     }
 
     dragState.value.showDropIndicator = false
