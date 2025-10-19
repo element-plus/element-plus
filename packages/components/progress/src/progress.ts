@@ -104,6 +104,10 @@ export const progressProps = buildProps({
     type: definePropType<ProgressFn>(Function),
     default: (percentage: number): string => `${percentage}%`,
   },
+  /**
+   * @description display progress in reverse direction
+   */
+  inverse: Boolean,
 } as const)
 
 export type ProgressProps = ExtractPropTypes<typeof progressProps>

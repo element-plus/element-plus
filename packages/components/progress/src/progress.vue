@@ -22,6 +22,7 @@
         <div
           :class="[
             ns.be('bar', 'inner'),
+            { [ns.is('inverse')]: inverse },
             { [ns.bem('bar', 'inner', 'indeterminate')]: indeterminate },
             { [ns.bem('bar', 'inner', 'striped')]: striped },
             { [ns.bem('bar', 'inner', 'striped-flow')]: stripedFlow },
@@ -63,6 +64,7 @@
           :stroke-linecap="strokeLinecap"
           :stroke-width="relativeStrokeWidth"
           :style="circlePathStyle"
+          :transform="inverse ? 'scale(-1, 1) translate(-100, 0)' : undefined"
         />
       </svg>
     </div>
