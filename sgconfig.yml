@@ -1,0 +1,3 @@
+languageGlobs:
+  html: ['*.vue']
+  tsx: ['*.ts']
