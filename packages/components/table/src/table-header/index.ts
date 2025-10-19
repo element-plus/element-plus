@@ -192,7 +192,7 @@ export default defineComponent({
       'thead',
       {
         ref: 'theadRef',
-        class: { [ns.is('group')]: isGroup },
+        class: ns.is('group', isGroup),
       },
       columnRows.map((subColumns, rowIndex) =>
         h(
