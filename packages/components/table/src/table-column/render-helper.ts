@@ -124,6 +124,15 @@ function useRender<T extends DefaultRow>(
         instance.columnConfig.value['label']
         return renderSlot(slots, 'header', scope, () => [column.label])
       }
+    } else {
+      const originRenderHeader = column.renderHeader
+      column.renderHeader = (scope) => {
+        const children = [
+          originRenderHeader?.(scope),
+          slots.header && renderSlot(slots, 'header', scope),
+        ].filter(Boolean)
+        return h('div', null, children)
+      }
     }
 
     if (slots['filter-icon']) {
