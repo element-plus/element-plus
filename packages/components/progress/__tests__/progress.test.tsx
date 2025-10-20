@@ -176,8 +176,8 @@ describe('Progress.vue', () => {
     ))
     const circle = wrapper.find('.el-progress-circle__path')
     expect(circle.exists()).toBe(true)
-    const attr = circle.attributes('transform')
-    expect(attr).toContain('scale(-1, 1)')
+    const style = circle.attributes('style')
+    expect(style).toContain('scale(-1, 1)')
   })
 
   test('inverse (dashboard)', () => {
@@ -186,7 +186,7 @@ describe('Progress.vue', () => {
     ))
     const circle = wrapper.find('.el-progress-circle__path')
     expect(circle.exists()).toBe(true)
-    const attr = circle.attributes('transform')
-    expect(attr).toContain('scale(-1, 1)')
+    const style = circle.attributes('style')
+    expect(style).toContain('scale(-1, 1)')
   })
 })
