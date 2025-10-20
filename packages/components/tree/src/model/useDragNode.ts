@@ -11,6 +11,7 @@ import type {
 } from '../tree.type'
 import type TreeStore from './tree-store'
 import type Node from './node'
+import type { treeEmits } from '../tree'
 
 interface TreeNode {
   node: Node
@@ -27,7 +28,7 @@ interface Props {
     allowDrag?: AllowDragFunction
     allowDrop?: AllowDropFunction
   }
-  ctx: SetupContext<string[]>
+  ctx: SetupContext<typeof treeEmits>
   el$: Ref<HTMLElement | null>
   dropIndicator$: Ref<HTMLElement | null>
   store: Ref<TreeStore>
@@ -242,15 +243,21 @@ export function useDragNodeHandler({
         'node-drag-end',
         draggingNode.node,
         dropNode.node,
-        dropType,
+        dropType!,
         event
       )
       if (dropType !== 'none') {
-        ctx.emit('node-drop', draggingNode.node, dropNode.node, dropType, event)
+        ctx.emit(
+          'node-drop',
+          draggingNode.node,
+          dropNode.node,
+          dropType!,
+          event
+        )
       }
     }
     if (draggingNode && !dropNode) {
-      ctx.emit('node-drag-end', draggingNode.node, null, dropType, event)
+      ctx.emit('node-drag-end', draggingNode.node, null, dropType!, event)
     }
 
     dragState.value.showDropIndicator = false
