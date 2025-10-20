@@ -773,68 +773,97 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     }
   }
 
-  const ensureExpanded = () => {
-    if (!expanded.value) {
-      expanded.value = true
-      return false
-    }
-    return !(
-      states.options.size === 0 ||
-      filteredOptionsCount.value === 0 ||
-      isComposing.value ||
-      optionsAllDisabled.value
-    )
+  const isFocusableOption = (arr: any[], index: number) => {
+    const obj = arr[index]
+    return !obj?.isDisabled && obj?.visible
   }
 
-  const focusOption = (index: number) => {
-    states.hoveringIndex = index
-    nextTick(() => scrollToOption(hoverOption.value))
+  const findFocusableIndex = (
+    arr: any[],
+    start: number,
+    step: 1 | -1,
+    len: number
+  ) => {
+    for (let i = start; i >= 0 && i < len; i += step) {
+      if (isFocusableOption(arr, i)) return i
+    }
+    return null
   }
-  const callWithPrevent = (e: KeyboardEvent, fn: () => void) => {
-    e.stopPropagation()
-    e.preventDefault()
-    fn()
+
+  const focusOption = (targetIndex: number, mode: 'up' | 'down') => {
+    const len = states.options.size
+    if (len === 0) return
+    const idx = Math.min(Math.max(Math.floor(targetIndex), 0), len - 1)
+    let newIndex = null
+    switch (mode) {
+      case 'up':
+        newIndex =
+          findFocusableIndex(optionsArray.value, idx, -1, len) ??
+          findFocusableIndex(optionsArray.value, idx + 1, 1, len)
+        break
+
+      case 'down':
+        newIndex =
+          findFocusableIndex(optionsArray.value, idx, 1, len) ??
+          findFocusableIndex(optionsArray.value, idx - 1, -1, len)
+        break
+
+      default:
+        newIndex = findFocusableIndex(optionsArray.value, idx, 1, len)
+        break
+    }
+    if (newIndex != null) {
+      states.hoveringIndex = newIndex
+      nextTick(() => scrollToOption(hoverOption.value))
+    }
   }
+
   const handleKeydown = (e: KeyboardEvent) => {
     const code = getEventCode(e)
+    let isPreventDefault = true
     switch (code) {
       case EVENT_CODE.up:
-        callWithPrevent(e, () => navigateOptions('prev'))
+        navigateOptions('prev')
         break
       case EVENT_CODE.down:
-        callWithPrevent(e, () => navigateOptions('next'))
+        navigateOptions('next')
         break
       case EVENT_CODE.enter:
-        callWithPrevent(e, selectOption)
+        selectOption()
         break
       case EVENT_CODE.esc:
-        callWithPrevent(e, handleEsc)
+        handleEsc()
         break
       case EVENT_CODE.backspace:
+        isPreventDefault = false
         deletePrevTag(e)
         return
       case EVENT_CODE.home:
-        if (!ensureExpanded()) return
-        callWithPrevent(e, () => focusOption(0))
+        if (!expanded.value) return
+        focusOption(0, 'down')
         break
       case EVENT_CODE.end:
-        if (!ensureExpanded()) return
-        callWithPrevent(e, () => focusOption(states.options.size - 1))
+        if (!expanded.value) return
+        focusOption(states.options.size - 1, 'up')
         break
       case EVENT_CODE.pageUp:
-        if (!ensureExpanded()) return
-        callWithPrevent(e, () =>
-          focusOption(Math.max(0, states.hoveringIndex - 10))
-        )
+        if (!expanded.value) return
+        focusOption(Math.max(0, states.hoveringIndex - 10), 'up')
         break
       case EVENT_CODE.pageDown:
-        if (!ensureExpanded()) return
-        callWithPrevent(e, () =>
-          focusOption(
-            Math.min(states.options.size - 1, states.hoveringIndex + 10)
-          )
+        if (!expanded.value) return
+        focusOption(
+          Math.min(states.options.size - 1, states.hoveringIndex + 10),
+          'down'
         )
         break
+      default:
+        isPreventDefault = false
+        break
+    }
+    if (isPreventDefault) {
+      e.preventDefault()
+      e.stopPropagation()
     }
   }
 

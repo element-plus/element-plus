@@ -3692,6 +3692,7 @@ describe('Select', () => {
     const options = Array.from({ length: 21 }).map((_, i) => ({
       value: `value-${i}`,
       label: `Option ${i}`,
+      disabled: i === 0 || i === 10, // disable 10th  options
     }))
 
     const wrapper = _mount(
@@ -3706,6 +3707,7 @@ describe('Select', () => {
         :key="item.value"
         :label="item.label"
         :value="item.value"
+        :disabled="item.disabled"
       />
     </el-select>
     `,
@@ -3723,24 +3725,24 @@ describe('Select', () => {
     await input.trigger('keydown', { code: EVENT_CODE.down })
     await nextTick()
     await input.trigger('keydown', { code: EVENT_CODE.home })
-    expect(target.states.hoveringIndex).toBe(0)
+    expect(target.states.hoveringIndex).toBe(1)
     await input.trigger('keydown', { code: EVENT_CODE.home })
-    expect(target.states.hoveringIndex).toBe(0)
+    expect(target.states.hoveringIndex).toBe(1)
     await input.trigger('keydown', { code: EVENT_CODE.end })
     expect(target.states.hoveringIndex).toBe(20)
     await input.trigger('keydown', { code: EVENT_CODE.home })
-    expect(target.states.hoveringIndex).toBe(0)
+    expect(target.states.hoveringIndex).toBe(1)
     await input.trigger('keydown', { code: EVENT_CODE.pageDown })
-    expect(target.states.hoveringIndex).toBe(10)
-    await input.trigger('keydown', { code: EVENT_CODE.pageDown })
-    expect(target.states.hoveringIndex).toBe(20)
+    expect(target.states.hoveringIndex).toBe(11)
     await input.trigger('keydown', { code: EVENT_CODE.pageDown })
     expect(target.states.hoveringIndex).toBe(20)
+    await input.trigger('keydown', { code: EVENT_CODE.pageDown })
+    expect(target.states.hoveringIndex).toBe(20)
     await input.trigger('keydown', { code: EVENT_CODE.pageUp })
-    expect(target.states.hoveringIndex).toBe(10)
+    expect(target.states.hoveringIndex).toBe(9)
     await input.trigger('keydown', { code: EVENT_CODE.pageUp })
-    expect(target.states.hoveringIndex).toBe(0)
+    expect(target.states.hoveringIndex).toBe(1)
     await input.trigger('keydown', { code: EVENT_CODE.pageUp })
-    expect(target.states.hoveringIndex).toBe(0)
+    expect(target.states.hoveringIndex).toBe(1)
   })
 })
