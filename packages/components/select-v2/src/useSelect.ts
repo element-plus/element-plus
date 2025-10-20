@@ -7,19 +7,15 @@ import {
   watch,
   watchEffect,
 } from 'vue'
-import {
-  findLastIndex,
-  get,
-  isEqual,
-  debounce as lodashDebounce,
-} from 'lodash-unified'
-import { useResizeObserver } from '@vueuse/core'
+import { findLastIndex, get, isEqual } from 'lodash-unified'
+import { useDebounceFn, useResizeObserver } from '@vueuse/core'
 import {
   ValidateComponentsMap,
   debugWarn,
   escapeStringRegexp,
   getEventCode,
   isArray,
+  isEmpty,
   isFunction,
   isNumber,
   isObject,
@@ -82,6 +78,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
 
   // data refs
   const popperSize = ref(-1)
+  const debouncing = ref(false)
 
   // DOM & Component refs
   const selectRef = ref<HTMLElement>()
@@ -179,7 +176,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     return ValidateComponentsMap[validateState.value]
   })
 
-  const debounce = computed(() => (props.remote ? 300 : 0))
+  const debounce = computed(() => (props.remote ? props.debounce : 0))
 
   const isRemoteSearchEmpty = computed(
     () => props.remote && !states.inputValue && !hasOptions.value
@@ -390,7 +387,11 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
 
   const dropdownMenuVisible = computed({
     get() {
-      return expanded.value && (props.loading || !isRemoteSearchEmpty.value)
+      return (
+        expanded.value &&
+        (props.loading || !isRemoteSearchEmpty.value) &&
+        (!debouncing.value || !isEmpty(states.previousQuery))
+      )
     },
     set(val: boolean) {
       expanded.value = val
@@ -445,7 +446,10 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     })
   }
 
-  const debouncedOnInputChange = lodashDebounce(onInputChange, debounce.value)
+  const debouncedOnInputChange = useDebounceFn(() => {
+    onInputChange()
+    debouncing.value = false
+  }, debounce)
 
   const handleQueryChange = (val: string) => {
     if (states.previousQuery === val || isComposing.value) {
@@ -768,6 +772,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   const onInput = (event: Event) => {
     states.inputValue = (event.target as HTMLInputElement).value
     if (props.remote) {
+      debouncing.value = true
       debouncedOnInputChange()
     } else {
       return onInputChange()
