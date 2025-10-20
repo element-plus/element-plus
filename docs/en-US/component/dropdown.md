@@ -97,6 +97,16 @@ dropdown/virtual-trigger
 
 :::
 
+## Multi level menu ^(2.12.0)
+
+You can create multi level dropdown menus by using `DropdownSubMenu` component.
+
+:::demo
+
+dropdown/sub-menu
+
+:::
+
 ## Dropdown API
 
 ### Dropdown Attributes
@@ -112,6 +122,7 @@ dropdown/virtual-trigger
 | placement                    | placement of pop menu                                                                                                 | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end'`                     | bottom                                                                     |
 | effect                       | Tooltip theme, built-in theme: `dark` / `light`                                                                       | ^[enum]`'dark' \| 'light'` / ^[string]                                                                       | light                                                                      |
 | trigger                      | how to trigger                                                                                                        | ^[enum]`'hover' \| 'click' \| 'contextmenu'`                                                                 | hover                                                                      |
+| menu-trigger ^(2.12.0)       | how to trigger the sub menu                                                                                           | ^[enum]`'hover' \| 'click'`                                                                                  | hover                                                                      |
 | trigger-keys ^(2.9.1)        | specify which keys on the keyboard can trigger when pressed                                                           | ^[array]`string[]`                                                                                           | `['Enter', 'Space', 'ArrowDown', 'NumpadEnter']`                           |
 | virtual-triggering ^(2.11.3) | indicates whether virtual triggering is enabled                                                                       | ^[boolean]                                                                                                   | —                                                                          |
 | virtual-ref ^(2.11.3)        | indicates the reference element to which the dropdown is attached                                                     | ^[HTMLElement]                                                                                               | —                                                                          |
@@ -144,18 +155,42 @@ dropdown/virtual-trigger
 
 ### Dropdown Exposes
 
-| Method      | Description             | Type                    |
-| ----------- | ----------------------- | ----------------------- |
-| handleOpen  | open the dropdown menu  | ^[Function]`() => void` |
-| handleClose | close the dropdown menu | ^[Function]`() => void` |
+| Method      | Description             | Type                             |
+| ----------- | ----------------------- | -------------------------------- |
+| handleOpen  | open the dropdown menu  | ^[Function]`(e?: Event) => void` |
+| handleClose | close the dropdown menu | ^[Function]`(e?: Event) => void` |
 
 ## Dropdown-Menu API
 
 ### Dropdown-Menu Slots
 
-| Name    | Description              | Subtags       |
-| ------- | ------------------------ | ------------- |
-| default | content of Dropdown Menu | Dropdown-Item |
+| Name    | Description              | Subtags                           |
+| ------- | ------------------------ | --------------------------------- |
+| default | content of Dropdown Menu | Dropdown-Item / Dropdown-Sub-Menu |
+
+## Dropdown-Sub-Menu API
+
+### Dropdown-Sub-Menu Attributes
+
+| Name          | Description                                          | Type                                                                                     | Default     |
+| ------------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------------- | ----------- |
+| label         | title of the sub menu                                | ^[string]                                                                                | ''          |
+| disabled      | whether the sub menu is disabled                     | ^[boolean]                                                                               | false       |
+| divided       | whether a divider is displayed                       | ^[boolean]                                                                               | false       |
+| icon          | custom icon                                          | ^[string] / ^[Component]                                                                 | —           |
+| placement     | placement of pop sub menu                            | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end'` | right-start |
+| show-arrow    | whether the tooltip content has an arrow             | ^[boolean]                                                                               | true        |
+| popper-offset | offset of the popper                                 | ^[number]                                                                                | —           |
+| popper-class  | custom class name for Dropdown's dropdown            | ^[string] / ^[object]                                                                    | ''          |
+| popper-style  | custom style for Dropdown's dropdown                 | ^[string] / ^[object]                                                                    | —           |
+| teleported    | whether the dropdown popup is teleported to the body | ^[boolean]                                                                               | true        |
+
+### Dropdown-Sub-Menu Slots
+
+| Name    | Description                  | Subtags                           |
+| ------- | ---------------------------- | --------------------------------- |
+| default | content of Dropdown Sub Menu | Dropdown-Item / Dropdown-Sub-Menu |
+| title   | customize title content      | —                                 |
 
 ## Dropdown-Item API
 

@@ -2,6 +2,7 @@
   <el-roving-focus-item :focusable="!disabled">
     <el-dropdown-item-impl
       v-bind="propsAndAttrs"
+      @pointerenter="(e) => $emit('pointerenter', e)"
       @pointerleave="handlePointerLeave"
       @pointermove="handlePointerMove"
       @clickimpl="handleClick"
@@ -16,9 +17,11 @@ import { computed, defineComponent, getCurrentInstance, inject } from 'vue'
 import { ElRovingFocusItem } from '@element-plus/components/roving-focus-group'
 import { composeEventHandlers, whenMouse } from '@element-plus/utils'
 import ElDropdownItemImpl from './dropdown-item-impl.vue'
-import { useDropdown } from './useDropdown'
 import { dropdownItemProps } from './dropdown'
-import { DROPDOWN_INJECTION_KEY } from './tokens'
+import {
+  DROPDOWN_INJECTION_KEY,
+  DROPDOWN_INSTANCE_INJECTION_KEY,
+} from './tokens'
 
 export default defineComponent({
   name: 'ElDropdownItem',
@@ -28,10 +31,16 @@ export default defineComponent({
   },
   inheritAttrs: false,
   props: dropdownItemProps,
-  emits: ['pointermove', 'pointerleave', 'click'],
+  emits: ['pointerenter', 'pointermove', 'pointerleave', 'click'],
   setup(props, { emit, attrs }) {
-    const { elDropdown } = useDropdown()
     const _instance = getCurrentInstance()
+
+    const {
+      hideOnClick,
+      handleClick: _handleClick,
+      commandHandler,
+    } = inject(DROPDOWN_INSTANCE_INJECTION_KEY, undefined)!
+
     const { onItemEnter, onItemLeave } = inject(
       DROPDOWN_INJECTION_KEY,
       undefined
@@ -64,6 +73,7 @@ export default defineComponent({
         }
 
         onItemEnter(e)
+
         if (!e.defaultPrevented) {
           target?.focus({
             preventScroll: true,
@@ -90,10 +100,10 @@ export default defineComponent({
           e.stopImmediatePropagation()
           return
         }
-        if (elDropdown?.hideOnClick?.value) {
-          elDropdown.handleClick?.()
+        if (hideOnClick.value) {
+          _handleClick()
         }
-        elDropdown.commandHandler?.(props.command, _instance, e)
+        commandHandler(props.command, _instance, e)
       }
     )
 

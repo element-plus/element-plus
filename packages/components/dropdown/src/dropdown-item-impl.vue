@@ -15,6 +15,7 @@
     @focus="handleFocus"
     @keydown.self="handleKeydown"
     @mousedown="handleMousedown"
+    @pointerenter="(e) => $emit('pointerenter', e)"
     @pointermove="(e) => $emit('pointermove', e)"
     @pointerleave="(e) => $emit('pointerleave', e)"
   >
@@ -41,7 +42,10 @@ import {
 } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { dropdownItemProps } from './dropdown'
-import { DROPDOWN_INJECTION_KEY } from './tokens'
+import {
+  DROPDOWN_INJECTION_KEY,
+  DROPDOWN_INSTANCE_INJECTION_KEY,
+} from './tokens'
 
 export default defineComponent({
   name: 'DropdownItemImpl',
@@ -49,11 +53,19 @@ export default defineComponent({
     ElIcon,
   },
   props: dropdownItemProps,
-  emits: ['pointermove', 'pointerleave', 'click', 'clickimpl'],
+  emits: ['pointerenter', 'pointermove', 'pointerleave', 'click', 'clickimpl'],
   setup(_, { emit }) {
     const ns = useNamespace('dropdown')
 
-    const { role: menuRole } = inject(DROPDOWN_INJECTION_KEY, undefined)!
+    const { role: menuRole } = inject(
+      DROPDOWN_INSTANCE_INJECTION_KEY,
+      undefined
+    )!
+
+    const { dropdownSubMenuRef, handleClose } = inject(
+      DROPDOWN_INJECTION_KEY,
+      undefined
+    )!
 
     const { collectionItemRef: rovingFocusCollectionItemRef } = inject(
       ROVING_FOCUS_ITEM_COLLECTION_INJECTION_KEY,
@@ -70,7 +82,8 @@ export default defineComponent({
 
     const itemRef = composeRefs(
       rovingFocusCollectionItemRef,
-      rovingFocusGroupItemRef
+      rovingFocusGroupItemRef,
+      ...(dropdownSubMenuRef ? [dropdownSubMenuRef] : [])
     )
 
     const role = computed<string>(() => {
@@ -84,6 +97,11 @@ export default defineComponent({
 
     const handleKeydown = composeEventHandlers((e: KeyboardEvent) => {
       const code = getEventCode(e)
+
+      if (code === EVENT_CODE.left) {
+        e.preventDefault()
+        handleClose(e)
+      }
 
       if (
         [EVENT_CODE.enter, EVENT_CODE.numpadEnter, EVENT_CODE.space].includes(

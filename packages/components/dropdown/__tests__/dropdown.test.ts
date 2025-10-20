@@ -10,6 +10,7 @@ import { usePopperContainerId } from '@element-plus/hooks'
 import Dropdown from '../src/dropdown.vue'
 import DropdownItem from '../src/dropdown-item.vue'
 import DropdownMenu from '../src/dropdown-menu.vue'
+import dropdownSubMenu from '../src/dropdown-sub-menu.vue'
 
 const MOUSE_ENTER_EVENT = 'mouseenter'
 const MOUSE_LEAVE_EVENT = 'mouseleave'
@@ -22,6 +23,7 @@ const _mount = (template: string, data, otherObj?) =>
       [Dropdown.name]: Dropdown,
       [DropdownItem.name]: DropdownItem,
       [DropdownMenu.name]: DropdownMenu,
+      [dropdownSubMenu.name]: dropdownSubMenu,
     },
     template,
     data,
@@ -66,6 +68,7 @@ describe('Dropdown', () => {
     expect(content.open).toBe(true)
     await triggerElm.trigger(MOUSE_LEAVE_EVENT)
     vi.runAllTimers()
+    await nextTick()
     expect(content.open).toBe(false)
     vi.useRealTimers()
   })
