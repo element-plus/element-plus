@@ -192,7 +192,7 @@ const panelKls = computed(() => [
 
 const leftPanelKls = computed(() => {
   return {
-    content: [ppNs.e('content'), drpNs.e('content'), 'is-left'],
+    content: [ppNs.e('content'), drpNs.e('content'), drpNs.is('left')],
     arrowLeftBtn: [ppNs.e('icon-btn'), 'd-arrow-left'],
     arrowRightBtn: [
       ppNs.e('icon-btn'),
@@ -204,10 +204,10 @@ const leftPanelKls = computed(() => {
 
 const rightPanelKls = computed(() => {
   return {
-    content: [ppNs.e('content'), drpNs.e('content'), 'is-right'],
+    content: [ppNs.e('content'), drpNs.e('content'), drpNs.is('right')],
     arrowLeftBtn: [
       ppNs.e('icon-btn'),
-      { 'is-disabled': !enableYearArrow.value },
+      ppNs.is('disabled', !enableYearArrow.value),
       'd-arrow-left',
     ],
     arrowRightBtn: [ppNs.e('icon-btn'), 'd-arrow-right'],
