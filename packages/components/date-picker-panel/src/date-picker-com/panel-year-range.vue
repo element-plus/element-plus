@@ -196,7 +196,7 @@ const leftPanelKls = computed(() => {
     arrowLeftBtn: [ppNs.e('icon-btn'), 'd-arrow-left'],
     arrowRightBtn: [
       ppNs.e('icon-btn'),
-      { [ppNs.is('disabled')]: !enableYearArrow.value },
+      ppNs.is('disabled', !enableYearArrow.value),
       'd-arrow-right',
     ],
   }
@@ -255,6 +255,10 @@ const isValidValue = (date: [Dayjs, Dayjs]) => {
 }
 
 const handleClear = () => {
+  let valueOnClear = null
+  if (pickerBase?.emptyValues) {
+    valueOnClear = pickerBase.emptyValues.valueOnClear.value
+  }
   const defaultArr = getDefaultValue(unref(defaultValue), {
     lang: unref(lang),
     step,
@@ -263,7 +267,7 @@ const handleClear = () => {
   })
   leftDate.value = defaultArr[0]
   rightDate.value = defaultArr[1]
-  emit('pick', null)
+  emit('pick', valueOnClear)
 }
 
 function sortDates(minDate: Dayjs | undefined, maxDate: Dayjs | undefined) {
