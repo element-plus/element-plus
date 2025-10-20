@@ -4,7 +4,7 @@ import { useEventListener } from '@vueuse/core'
 import type { ComputedRef, Ref } from 'vue'
 import type { GridScrollOptions, GridStates } from '../types'
 
-export const useGardTouch = (
+export const useGridTouch = (
   windowRef: Ref<HTMLElement | undefined>,
   states: Ref<GridStates>,
   scrollTo: (scrollOptions: GridScrollOptions) => void,

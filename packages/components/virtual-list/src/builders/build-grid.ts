@@ -23,7 +23,7 @@ import { useNamespace } from '@element-plus/hooks'
 import Scrollbar from '../components/scrollbar'
 import { useGridWheel } from '../hooks/use-grid-wheel'
 import { useCache } from '../hooks/use-cache'
-import { useGardTouch } from '../hooks/use-grid-touch'
+import { useGridTouch } from '../hooks/use-grid-touch'
 import { virtualizedGridProps } from '../props'
 import { getRTLOffsetType, getScrollDir, isRTL } from '../utils'
 import {
@@ -395,7 +395,7 @@ const createGrid = ({
       }
 
       const { touchStartX, touchStartY, handleTouchStart, handleTouchMove } =
-        useGardTouch(
+        useGridTouch(
           windowRef,
           states,
           scrollTo,
