@@ -459,25 +459,13 @@ export default defineComponent({
               treeItem.currentLabel =
                 treeItem.label ||
                 (isObject(treeItem.value) ? '' : treeItem.value)
-
-              const exists = API.optionsArray.value.find(
-                (option) => option.value === treeItem.value
-              )
-              if (!exists) {
-                API.onOptionCreate(treeItem)
-              }
+              API.onOptionCreate(treeItem)
             })
           } else if (_name === 'ElOption') {
             const obj = { ...item.props } as any
             obj.currentLabel =
               obj.label || (isObject(obj.value) ? '' : obj.value)
-
-            const exists = API.optionsArray.value.find(
-              (option) => option.value === obj.value
-            )
-            if (!exists) {
-              API.onOptionCreate(obj)
-            }
+            API.onOptionCreate(obj)
           }
         }
       })
@@ -485,7 +473,7 @@ export default defineComponent({
     watch(
       () => [slots.default?.(), modelValue.value],
       () => {
-        if (props.persistent) {
+        if (props.persistent || API.states.options.size) {
           // If persistent is true, we don't need to manually render slots.
           return
         }
