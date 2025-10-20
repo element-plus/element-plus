@@ -14,14 +14,14 @@ export const treeEmits = {
     data: any,
     node: Node,
     nodeInstance: ComponentInternalInstance | null,
-    event: MouseEvent
-  ) => data && node && event instanceof Event,
+    evt: MouseEvent
+  ) => data && node && evt instanceof Event,
   'node-contextmenu': (
-    event: Event,
+    evt: Event,
     data: any,
     node: Node,
     nodeInstance: ComponentInternalInstance | null
-  ) => event instanceof Event && data && node,
+  ) => evt instanceof Event && data && node,
   'node-collapse': (
     data: any,
     node: Node,
@@ -33,28 +33,25 @@ export const treeEmits = {
     nodeInstance: ComponentInternalInstance | null
   ) => data && node,
   check: (data: any, checkedInfo: CheckedInfo) => data && checkedInfo,
-  'node-drag-start': (node: Node, event: DragEvent) => node && event,
+  'node-drag-start': (node: Node, evt: DragEvent) => node && evt,
   'node-drag-end': (
     draggingNode: Node,
     dropNode: Node | null,
     dropType: NodeDropType,
-    event: DragEvent
-  ) => draggingNode && event,
+    evt: DragEvent
+  ) => draggingNode && evt,
   'node-drop': (
     draggingNode: Node,
     dropNode: Node,
     dropType: Exclude<NodeDropType, 'none'>,
-    event: DragEvent
-  ) => draggingNode && dropNode && event,
-  'node-drag-leave': (
-    draggingNode: Node,
-    oldDropNode: Node,
-    event: DragEvent
-  ) => draggingNode && oldDropNode && event,
-  'node-drag-enter': (draggingNode: Node, dropNode: Node, event: DragEvent) =>
-    draggingNode && dropNode && event,
-  'node-drag-over': (draggingNode: Node, dropNode: Node, event: DragEvent) =>
-    draggingNode && dropNode && event,
+    evt: DragEvent
+  ) => draggingNode && dropNode && evt,
+  'node-drag-leave': (draggingNode: Node, oldDropNode: Node, evt: DragEvent) =>
+    draggingNode && oldDropNode && evt,
+  'node-drag-enter': (draggingNode: Node, dropNode: Node, evt: DragEvent) =>
+    draggingNode && dropNode && evt,
+  'node-drag-over': (draggingNode: Node, dropNode: Node, evt: DragEvent) =>
+    draggingNode && dropNode && evt,
 }
 /* eslint-enable @typescript-eslint/no-unused-vars */
 
