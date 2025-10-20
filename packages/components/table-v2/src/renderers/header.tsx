@@ -30,10 +30,10 @@ const HeaderRenderer: FunctionalComponent<HeaderRendererProps> = (
   const kls = [
     ns.e('header-row'),
     tryCall(headerClass, param, ''),
-    {
-      // [ns.is('resizing')]: Boolean(resizingKey),
-      [ns.is('customized')]: Boolean(slots.header),
-    },
+    ns.is('customized', Boolean(slots.header)),
+    // {
+    // [ns.is('resizing')]: Boolean(resizingKey),
+    // },
   ]
 
   const extraProps = {
