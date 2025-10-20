@@ -125,7 +125,7 @@ describe('Color-picker-panel', () => {
       expect(updateModelValue).not.toHaveBeenCalled()
     })
     it('sv panel disabled', async () => {
-      const svPanelWrapper = wrapper.findComponent({ ref: 'sv' })
+      const svPanelWrapper = wrapper.findComponent({ ref: 'svRef' })
       ;(svPanelWrapper.vm as ColorPickerVM).handleDrag({
         type: 'mousemove',
         clientX: 0,
@@ -331,7 +331,7 @@ describe('Color-picker-panel', () => {
     ))
     const wrapper = _wrapper.findComponent(ColorPickerPanel)
 
-    const svPanelWrapper = wrapper.findComponent({ ref: 'sv' })
+    const svPanelWrapper = wrapper.findComponent({ ref: 'svRef' })
     ;(svPanelWrapper.vm as ColorPickerVM).handleDrag({
       type: 'mousemove',
       clientX: 0,
@@ -433,7 +433,7 @@ describe('Color-picker-panel', () => {
         .find('.el-color-predefine__color-selector:nth-child(4)')
         .classes()
     ).toContain('selected')
-    const hueSlideWrapper = colorPickerWrapper.findComponent({ ref: 'hue' })
+    const hueSlideWrapper = colorPickerWrapper.findComponent({ ref: 'hueRef' })
     const hueSlideDom = hueSlideWrapper.element
     const thumbDom = hueSlideWrapper.find<HTMLElement>(
       '.el-color-hue-slider__thumb'
@@ -493,6 +493,7 @@ describe('Color-picker-panel', () => {
     ).toBe('rgb(0, 255, 0)')
     wrapper.unmount()
   })
+
   it('should update the selected color when the showAlpha prop changes', async () => {
     const color = ref('#00ff00aa')
     const showAlpha = ref(true)
@@ -516,5 +517,136 @@ describe('Color-picker-panel', () => {
       customInput.find<HTMLInputElement>('.el-input__inner').element.value
     ).toBe('#00ff00')
     wrapper.unmount()
+  })
+
+  it('should clear the color when color is empty', async () => {
+    const color = ref<string | undefined>('#20a0ff')
+    const wrapper = mount(() => <ColorPickerPanel v-model={color.value} />)
+
+    await nextTick()
+    const input = wrapper.find<HTMLInputElement>('input')
+    expect(input.element.value.trim()).toEqual('#20a0ff')
+
+    color.value = ''
+    await nextTick()
+    expect(input.element.value).toBe('')
+
+    color.value = '#00ff00'
+    await nextTick()
+    expect(input.element.value.trim()).toEqual('#00ff00')
+
+    color.value = undefined
+    await nextTick()
+    expect(input.element.value).toBe('')
+    wrapper.unmount()
+  })
+
+  it('control hue changes through keyboard', async () => {
+    const color = ref('#409eff')
+    const wrapper = mount(() => <ColorPickerPanel v-model={color.value} />)
+
+    const alphaSlider = wrapper.findComponent('.el-color-hue-slider')
+    await alphaSlider.find('.el-color-hue-slider__thumb').trigger('keydown', {
+      key: EVENT_CODE.down,
+      code: EVENT_CODE.down,
+    })
+    await alphaSlider.find('.el-color-hue-slider__thumb').trigger('keydown', {
+      key: EVENT_CODE.left,
+      code: EVENT_CODE.left,
+    })
+    const input = wrapper.find<HTMLInputElement>('input').element
+    expect(input!.value).toEqual('#4099ff')
+
+    await alphaSlider.find('.el-color-hue-slider__thumb').trigger('keydown', {
+      key: EVENT_CODE.up,
+      code: EVENT_CODE.up,
+    })
+    expect(input!.value).toEqual('#409cff')
+    wrapper.unmount()
+  })
+
+  it('control saturation and brightness changes through keyboard', async () => {
+    const color = ref('#409eff')
+    const wrapper = mount(() => <ColorPickerPanel v-model={color.value} />)
+
+    const cursor = wrapper.find('.el-color-svpanel__cursor')
+    await cursor.trigger('keydown', {
+      key: EVENT_CODE.down,
+      code: EVENT_CODE.down,
+    })
+    const input = wrapper.find<HTMLInputElement>('input').element
+    expect(input!.value).toEqual('#3f9cfc')
+
+    await cursor.trigger('keydown', {
+      key: EVENT_CODE.left,
+      code: EVENT_CODE.left,
+    })
+    expect(input!.value).toEqual('#429efc')
+
+    await cursor.trigger('keydown', {
+      key: EVENT_CODE.up,
+      code: EVENT_CODE.up,
+    })
+    expect(input!.value).toEqual('#429fff')
+
+    await cursor.trigger('keydown', {
+      key: EVENT_CODE.right,
+      code: EVENT_CODE.right,
+    })
+    expect(input!.value).toEqual('#409eff')
+
+    wrapper.unmount()
+  })
+
+  describe('a11y label', () => {
+    it('default', async () => {
+      const color = ref('#409eff')
+      const wrapper = mount(() => <ColorPickerPanel v-model={color.value} />)
+      const svPanel = wrapper.find('.el-color-svpanel__cursor')
+
+      expect(svPanel.attributes('tabindex')).toBe('0')
+      expect(svPanel.attributes('role')).toBe('slider')
+      expect(svPanel.attributes('aria-valuemin')).toBe('0,0')
+      expect(svPanel.attributes('aria-valuemax')).toBe('100,100')
+      expect(svPanel.attributes('aria-valuenow')).toBe('75,100')
+      expect(svPanel.attributes('aria-label')).toBe(
+        'pick saturation and brightness value'
+      )
+      expect(svPanel.attributes('aria-valuetext')).toBe(
+        'saturation 75, brightness 100, current color is #409eff'
+      )
+
+      const hueSlider = wrapper.find('.el-color-hue-slider__thumb')
+      expect(hueSlider.attributes('tabindex')).toBe('0')
+      expect(hueSlider.attributes('role')).toBe('slider')
+      expect(hueSlider.attributes('aria-valuemin')).toBe('0')
+      expect(hueSlider.attributes('aria-valuemax')).toBe('360')
+      expect(hueSlider.attributes('aria-valuenow')).toBe('210')
+      expect(hueSlider.attributes('aria-label')).toBe('pick hue value')
+      expect(hueSlider.attributes('aria-valuetext')).toBe(
+        'hue 210, current color is #409eff'
+      )
+
+      wrapper.unmount()
+    })
+
+    it('with show-alpha', async () => {
+      const color = ref('rgba(64, 158, 255, 0.5)')
+      const wrapper = mount(() => (
+        <ColorPickerPanel v-model={color.value} show-alpha />
+      ))
+      const alphaSlider = wrapper.find('.el-color-alpha-slider__thumb')
+      expect(alphaSlider.attributes('tabindex')).toBe('0')
+      expect(alphaSlider.attributes('role')).toBe('slider')
+      expect(alphaSlider.attributes('aria-valuemin')).toBe('0')
+      expect(alphaSlider.attributes('aria-valuemax')).toBe('100')
+      expect(alphaSlider.attributes('aria-valuenow')).toBe('50')
+      expect(alphaSlider.attributes('aria-label')).toBe('pick alpha value')
+      expect(alphaSlider.attributes('aria-valuetext')).toBe(
+        'alpha 50, current color is rgba(64, 158, 255, 0.5)'
+      )
+
+      wrapper.unmount()
+    })
   })
 })

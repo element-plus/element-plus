@@ -60,8 +60,7 @@ $color-info: map.get($colors, 'info', 'base') !default;
   $colors: map.deep-merge(
     (
       $type: (
-        '#{$mode}-#{$number}':
-          roundColor(
+        '#{$mode}-#{$number}': roundColor(
             color.mix(
               $mix-color,
               map.get($colors, $type, 'base'),
@@ -558,8 +557,7 @@ $notification: map.merge(
     'shadow': getCssVar('box-shadow-light'),
     'border-color': getCssVar('border-color-lighter'),
     'icon-size': 24px,
-    'close-font-size':
-      var(
+    'close-font-size': var(
         #{getCssVarName('message-close-size')},
         map.get($message, 'close-size')
       ),
@@ -1197,8 +1195,10 @@ $dropdown: map.merge(
 $drawer: () !default;
 $drawer: map.merge(
   (
-    'bg-color':
-      var(#{getCssVarName('dialog', 'bg-color')}, #{getCssVar('bg-color')}),
+    'bg-color': var(
+        #{getCssVarName('dialog', 'bg-color')},
+        #{getCssVar('bg-color')}
+      ),
     'padding-primary': var(#{getCssVarName('dialog', 'padding-primary')}, 20px),
     'dragger-size': 8px,
   ),
@@ -1463,8 +1463,7 @@ $link-text-color: () !default;
 $calendar: () !default;
 $calendar: map.merge(
   (
-    'border':
-      var(
+    'border': var(
         #{getCssVarName('table-border')},
         1px solid #{getCssVar('border-color-lighter')}
       ),
@@ -1566,6 +1565,10 @@ $upload: map.merge(
   (
     'dragger-padding-horizontal': 40px,
     'dragger-padding-vertical': 10px,
+    'list-picture-card-size': var(
+        #{getCssVarName('upload', 'picture-card-size')}
+      ),
+    'picture-card-size': 148px,
   ),
   $upload
 );

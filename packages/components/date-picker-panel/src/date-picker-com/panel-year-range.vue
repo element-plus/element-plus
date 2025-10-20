@@ -101,7 +101,6 @@
 <script lang="ts" setup>
 import { computed, inject, ref, toRef, unref, useSlots, watch } from 'vue'
 import dayjs from 'dayjs'
-import { isArray } from '@element-plus/utils'
 import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
 import ElIcon from '@element-plus/components/icon'
 import { useLocale } from '@element-plus/hooks'
@@ -246,12 +245,6 @@ const parseUserInput = (value: Dayjs | Dayjs[]) => {
   )
 }
 
-const formatToString = (value: Dayjs[] | Dayjs) => {
-  return isArray(value)
-    ? value.map((day) => day.format(format.value))
-    : value.format(format.value)
-}
-
 const isValidValue = (date: [Dayjs, Dayjs]) => {
   return (
     isValidRange(date) &&
@@ -262,6 +255,10 @@ const isValidValue = (date: [Dayjs, Dayjs]) => {
 }
 
 const handleClear = () => {
+  let valueOnClear = null
+  if (pickerBase?.emptyValues) {
+    valueOnClear = pickerBase.emptyValues.valueOnClear.value
+  }
   const defaultArr = getDefaultValue(unref(defaultValue), {
     lang: unref(lang),
     step,
@@ -270,7 +267,7 @@ const handleClear = () => {
   })
   leftDate.value = defaultArr[0]
   rightDate.value = defaultArr[1]
-  emit('pick', null)
+  emit('pick', valueOnClear)
 }
 
 function sortDates(minDate: Dayjs | undefined, maxDate: Dayjs | undefined) {
@@ -297,6 +294,5 @@ watch(
 
 emit('set-picker-option', ['isValidValue', isValidValue])
 emit('set-picker-option', ['parseUserInput', parseUserInput])
-emit('set-picker-option', ['formatToString', formatToString])
 emit('set-picker-option', ['handleClear', handleClear])
 </script>

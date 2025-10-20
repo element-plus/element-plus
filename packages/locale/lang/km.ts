@@ -11,6 +11,12 @@ export default {
       description:
         '{color} ជាពណ៌បច្ចុប្បន្ន។ សូមចុច Enter ដើម្បីជ្រើសរើសពណ៌ថ្មី',
       alphaLabel: 'ជ្រើសរើសភាពស្រអាប់',
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
+      svLabel: 'pick saturation and brightness value', // to be translated
+      svDescription:
+        'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
     },
     datepicker: {
       now: 'ឥឡូវនេះ',

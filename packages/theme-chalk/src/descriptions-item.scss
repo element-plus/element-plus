@@ -36,7 +36,9 @@ $descriptions-item-vertical-label-padding-bottom: map.merge(
       margin-right: map.get($descriptions-item-label-margin-right, 'default');
     }
 
-    &.#{$namespace}-descriptions__cell:not(.is-bordered-label).is-vertical-label {
+    &.#{$namespace}-descriptions__cell:not(
+        .is-bordered-label
+      ).is-vertical-label {
       padding-bottom: map.get(
         $descriptions-item-vertical-label-padding-bottom,
         'default'
@@ -61,7 +63,9 @@ $descriptions-item-vertical-label-padding-bottom: map.merge(
           margin-right: map.get($descriptions-item-label-margin-right, $size);
         }
 
-        &.#{$namespace}-descriptions__cell:not(.is-bordered-label).is-vertical-label {
+        &.#{$namespace}-descriptions__cell:not(
+            .is-bordered-label
+          ).is-vertical-label {
           padding-bottom: map.get(
             $descriptions-item-vertical-label-padding-bottom,
             $size

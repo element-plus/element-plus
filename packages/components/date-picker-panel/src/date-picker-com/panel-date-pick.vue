@@ -65,7 +65,7 @@
           :class="[
             dpNs.e('header'),
             (currentView === 'year' || currentView === 'month') &&
-              dpNs.e('header--bordered'),
+              dpNs.em('header', 'bordered'),
           ]"
         >
           <span :class="dpNs.e('prev-btn')">
@@ -236,7 +236,12 @@ import {
   extractTimeFormat,
 } from '@element-plus/components/time-picker'
 import { ElIcon } from '@element-plus/components/icon'
-import { extractFirst, isArray, isFunction } from '@element-plus/utils'
+import {
+  extractFirst,
+  getEventCode,
+  isArray,
+  isFunction,
+} from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import {
   ArrowLeft,
@@ -675,12 +680,6 @@ const isValidValue = (date: unknown) => {
   )
 }
 
-const formatToString = (value: Dayjs | Dayjs[]) => {
-  return isArray(value)
-    ? value.map((_) => _.format(props.format))
-    : value.format(props.format)
-}
-
 const parseUserInput = (value: Dayjs) => {
   return correctlyParseUserInput(
     value,
@@ -718,7 +717,8 @@ const _handleFocusPicker = () => {
 }
 
 const handleKeydownTable = (event: KeyboardEvent) => {
-  const { code } = event
+  const code = getEventCode(event)
+
   const validCode = [
     EVENT_CODE.up,
     EVENT_CODE.down,
@@ -808,7 +808,7 @@ const handleKeyControl = (code: string) => {
       newDate,
       isFunction(map[code])
         ? (map[code] as unknown as KeyControlMappingCallableOffset)(newDate)
-        : (map[code] as number) ?? 0
+        : ((map[code] as number) ?? 0)
     )
     if (disabledDate && disabledDate(newDate)) {
       break
@@ -867,7 +867,6 @@ watch(
 )
 
 contextEmit('set-picker-option', ['isValidValue', isValidValue])
-contextEmit('set-picker-option', ['formatToString', formatToString])
 contextEmit('set-picker-option', ['parseUserInput', parseUserInput])
 contextEmit('set-picker-option', ['handleFocusPicker', _handleFocusPicker])
 </script>

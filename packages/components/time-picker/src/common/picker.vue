@@ -25,11 +25,20 @@
     <template #default>
       <el-input
         v-if="!isRangeInput"
-        :id="(id as string | undefined)"
+        :id="
+          // https://github.com/vuejs/language-tools/issues/2104#issuecomment-3092541527
+          id as string
+        "
         ref="inputRef"
         container-role="combobox"
-        :model-value="(displayValue as string)"
-        :name="(name as string | undefined)"
+        :model-value="
+          // https://github.com/vuejs/language-tools/issues/2104#issuecomment-3092541527
+          displayValue as string
+        "
+        :name="
+          // https://github.com/vuejs/language-tools/issues/2104#issuecomment-3092541527
+          name as string
+        "
         :size="pickerSize"
         :disabled="pickerDisabled"
         :placeholder="placeholder"
@@ -85,10 +94,16 @@
       </el-input>
       <picker-range-trigger
         v-else
-        :id="(id as string[] | undefined)"
+        :id="
+          // https://github.com/vuejs/language-tools/issues/2104#issuecomment-3092541527
+          id as string[]
+        "
         ref="inputRef"
         :model-value="displayValue"
-        :name="(name as string[] | undefined)"
+        :name="
+          // https://github.com/vuejs/language-tools/issues/2104#issuecomment-3092541527
+          name as string[]
+        "
         :disabled="pickerDisabled"
         :readonly="!editable || readonly"
         :start-placeholder="startPlaceholder"
@@ -189,7 +204,7 @@ import {
 import ElInput from '@element-plus/components/input'
 import ElIcon from '@element-plus/components/icon'
 import ElTooltip from '@element-plus/components/tooltip'
-import { NOOP, debugWarn, isArray } from '@element-plus/utils'
+import { NOOP, debugWarn, getEventCode, isArray } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
   EVENT_CODE,
@@ -273,6 +288,7 @@ const { isFocused, handleFocus, handleBlur } = useFocusController(inputRef, {
     return props.readonly
   },
   afterFocus() {
+    if (!props.automaticDropdown) return
     pickerVisible.value = true
   },
   beforeBlur(event) {
@@ -305,7 +321,7 @@ const rangeInputKls = computed(() => [
 const clearIconKls = computed(() => [
   nsInput.e('icon'),
   nsRange.e('close-icon'),
-  !showClearBtn.value ? nsRange.e('close-icon--hidden') : '',
+  !showClearBtn.value ? nsRange.em('close-icon', 'hidden') : '',
 ])
 
 watch(pickerVisible, (val) => {
@@ -384,8 +400,7 @@ const handleClose = () => {
 }
 
 const displayValue = computed<UserInput>(() => {
-  if (!pickerOptions.value.panelReady) return ''
-  const formattedValue = formatDayjsToString(parsedValue.value)
+  const formattedValue = formatToString(parsedValue.value)
   if (isArray(userInput.value)) {
     return [
       userInput.value[0] || (formattedValue && formattedValue[0]) || '',
@@ -446,7 +461,11 @@ const onClearIconClick = (event: MouseEvent) => {
 
 const onMouseDownInput = async (event: MouseEvent) => {
   if (props.readonly || pickerDisabled.value) return
-  if ((event.target as HTMLElement)?.tagName !== 'INPUT' || isFocused.value) {
+  if (
+    (event.target as HTMLElement)?.tagName !== 'INPUT' ||
+    isFocused.value ||
+    !props.automaticDropdown
+  ) {
     pickerVisible.value = true
   }
 }
@@ -464,7 +483,8 @@ const onTouchStartInput = (event: TouchEvent) => {
   if (props.readonly || pickerDisabled.value) return
   if (
     (event.touches[0].target as HTMLElement)?.tagName !== 'INPUT' ||
-    isFocused.value
+    isFocused.value ||
+    !props.automaticDropdown
   ) {
     pickerVisible.value = true
   }
@@ -521,9 +541,12 @@ const parseUserInputToDayjs = (value: UserInput) => {
   return pickerOptions.value.parseUserInput!(value)
 }
 
-const formatDayjsToString = (value: DayOrDays) => {
+const formatToString = (value: DayOrDays) => {
   if (!value) return null
-  return pickerOptions.value.formatToString!(value)
+  const res = isArray(value)
+    ? value.map((_) => _.format(props.format))
+    : value.format(props.format)
+  return res as UserInput
 }
 
 const isValidValue = (value: DayOrDays) => {
@@ -533,7 +556,7 @@ const isValidValue = (value: DayOrDays) => {
 const handleKeydownInput = async (event: Event | KeyboardEvent) => {
   if (props.readonly || pickerDisabled.value) return
 
-  const { code } = event as KeyboardEvent
+  const code = getEventCode(event as KeyboardEvent)
   emitKeydown(event as KeyboardEvent)
   if (code === EVENT_CODE.esc) {
     if (pickerVisible.value === true) {
@@ -565,7 +588,9 @@ const handleKeydownInput = async (event: Event | KeyboardEvent) => {
   }
 
   if (code === EVENT_CODE.enter || code === EVENT_CODE.numpadEnter) {
-    if (
+    if (!pickerVisible.value) {
+      pickerVisible.value = true
+    } else if (
       userInput.value === null ||
       userInput.value === '' ||
       isValidValue(parseUserInputToDayjs(displayValue.value) as DayOrDays)
@@ -573,6 +598,7 @@ const handleKeydownInput = async (event: Event | KeyboardEvent) => {
       handleChange()
       pickerVisible.value = false
     }
+    event.preventDefault()
     event.stopPropagation()
     return
   }
@@ -619,7 +645,7 @@ const handleStartChange = () => {
   const parsedVal = unref(parsedValue) as [Dayjs, Dayjs]
   if (value && value.isValid()) {
     userInput.value = [
-      formatDayjsToString(value) as string,
+      formatToString(value) as string,
       displayValue.value?.[1] || null,
     ]
     const newValue = [value, parsedVal && (parsedVal[1] || null)] as DayOrDays
@@ -637,7 +663,7 @@ const handleEndChange = () => {
   if (value && value.isValid()) {
     userInput.value = [
       unref(displayValue)?.[0] || null,
-      formatDayjsToString(value) as string,
+      formatToString(value) as string,
     ]
     const newValue = [parsedVal && parsedVal[0], value] as DayOrDays
     if (isValidValue(newValue)) {

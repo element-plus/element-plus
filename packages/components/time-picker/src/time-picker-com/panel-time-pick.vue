@@ -8,7 +8,10 @@
           :arrow-control="arrowControl"
           :show-seconds="showSeconds"
           :am-pm-mode="amPmMode"
-          :spinner-date="(parsedValue as any)"
+          :spinner-date="
+            // https://github.com/vuejs/language-tools/issues/2104#issuecomment-3092541527
+            parsedValue as any
+          "
           :disabled-hours="disabledHours"
           :disabled-minutes="disabledMinutes"
           :disabled-seconds="disabledSeconds"
@@ -38,11 +41,11 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref } from 'vue'
+import { computed, inject, nextTick, ref } from 'vue'
 import dayjs from 'dayjs'
 import { EVENT_CODE } from '@element-plus/constants'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import { isUndefined } from '@element-plus/utils'
+import { getEventCode, isUndefined } from '@element-plus/utils'
 import { PICKER_BASE_INJECTION_KEY } from '../constants'
 import { panelTimePickerProps } from '../props/panel-time-picker'
 import { useTimePanel } from '../composables/use-time-panel'
@@ -95,7 +98,11 @@ const isValidValue = (_date: Dayjs) => {
   return parsedDate.isSame(result)
 }
 const handleCancel = () => {
-  emit('pick', oldValue.value, false)
+  const old = oldValue.value
+  emit('pick', old, false)
+  nextTick(() => {
+    oldValue.value = old
+  })
 }
 const handleConfirm = (visible = false, first = false) => {
   if (first) return
@@ -141,7 +148,7 @@ const changeSelectionRange = (step: number) => {
 }
 
 const handleKeydown = (event: KeyboardEvent) => {
-  const code = event.code
+  const code = getEventCode(event)
 
   const { left, right, up, down } = EVENT_CODE
 
@@ -175,17 +182,11 @@ const parseUserInput = (value: Dayjs) => {
   return dayjs(value, props.format).locale(lang.value)
 }
 
-const formatToString = (value: Dayjs) => {
-  if (!value) return null
-  return value.format(props.format)
-}
-
 const getDefaultValue = () => {
   return dayjs(defaultValue).locale(lang.value)
 }
 
 emit('set-picker-option', ['isValidValue', isValidValue])
-emit('set-picker-option', ['formatToString', formatToString])
 emit('set-picker-option', ['parseUserInput', parseUserInput])
 emit('set-picker-option', ['handleKeydownInput', handleKeydown])
 emit('set-picker-option', ['getRangeAvailableTime', getRangeAvailableTime])

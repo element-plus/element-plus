@@ -18,6 +18,7 @@ import {
   ValidateComponentsMap,
   debugWarn,
   escapeStringRegexp,
+  getEventCode,
   isArray,
   isFunction,
   isNumber,
@@ -180,12 +181,15 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
 
   const debounce = computed(() => (props.remote ? 300 : 0))
 
+  const isRemoteSearchEmpty = computed(
+    () => props.remote && !states.inputValue && !hasOptions.value
+  )
+
   // filteredOptions includes flatten the data into one dimensional array.
   const emptyText = computed(() => {
     if (props.loading) {
       return props.loadingText || t('el.select.loading')
     } else {
-      if (props.remote && !states.inputValue && !hasOptions.value) return false
       if (
         props.filterable &&
         states.inputValue &&
@@ -386,7 +390,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
 
   const dropdownMenuVisible = computed({
     get() {
-      return expanded.value && emptyText.value !== false
+      return expanded.value && (props.loading || !isRemoteSearchEmpty.value)
     },
     set(val: boolean) {
       expanded.value = val
@@ -652,8 +656,9 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     )
 
   const handleDel = (e: KeyboardEvent) => {
+    const code = getEventCode(e)
     if (!props.multiple) return
-    if (e.code === EVENT_CODE.delete) return
+    if (code === EVENT_CODE.delete) return
     if (states.inputValue.length === 0) {
       e.preventDefault()
       const selected = (props.modelValue as Array<any>).slice()

@@ -10,6 +10,12 @@ export default {
       defaultLabel: '色彩選擇器',
       description: '目前色彩為 {color}。按一下 Enter 以選擇新色彩。',
       alphaLabel: '選擇透明度的值',
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
+      svLabel: 'pick saturation and brightness value', // to be translated
+      svDescription:
+        'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
     },
     datepicker: {
       now: '現在',
@@ -44,7 +50,6 @@ export default {
       month10: '10 月',
       month11: '11 月',
       month12: '12 月',
-      // week: '周次',
       weeks: {
         sun: '日',
         mon: '一',

@@ -4,6 +4,7 @@ import {
   defineComponent,
   getCurrentInstance,
   h,
+  mergeProps,
   nextTick,
   onMounted,
   ref,
@@ -637,10 +638,10 @@ const createGrid = ({
         return [
           h(
             Inner,
-            {
+            mergeProps(props.innerProps, {
               style: unref(innerStyle),
               ref: innerRef,
-            },
+            }),
             !isString(Inner)
               ? {
                   default: () => children,
