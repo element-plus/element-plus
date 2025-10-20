@@ -64,6 +64,7 @@
           :stroke-linecap="strokeLinecap"
           :stroke-width="relativeStrokeWidth"
           :style="circlePathStyle"
+          :transform="inverse ? 'scale(-1, 1) translate(-100, 0)' : undefined"
         />
       </svg>
     </div>
@@ -174,7 +175,6 @@ const circlePathStyle = computed<CSSProperties>(() => ({
   strokeDashoffset: strokeDashoffset.value,
   transition:
     'stroke-dasharray 0.6s ease 0s, stroke 0.6s ease, opacity ease 0.6s',
-  transform: props.inverse ? 'scale(-1, 1) translate(-100, 0)' : undefined,
 }))
 
 const stroke = computed(() => {
