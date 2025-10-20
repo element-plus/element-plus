@@ -34,7 +34,7 @@
         <span
           v-for="(item, index) in total"
           :key="item"
-          :class="[ns.b('indicator'), { [ns.is('active')]: index === current }]"
+          :class="[ns.b('indicator'), ns.is('active', index === current)]"
         />
       </template>
     </div>
