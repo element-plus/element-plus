@@ -217,6 +217,13 @@ export const selectV2Props = buildProps({
    */
   remote: Boolean,
   /**
+   * @description debounce delay during remote search, in milliseconds
+   */
+  debounce: {
+    type: Number,
+    default: 300,
+  },
+  /**
    * @description size of component
    */
   size: useSizeProp,
