@@ -459,13 +459,25 @@ export default defineComponent({
               treeItem.currentLabel =
                 treeItem.label ||
                 (isObject(treeItem.value) ? '' : treeItem.value)
-              API.onOptionCreate(treeItem)
+
+              const exists = API.optionsArray.value.find(
+                (option) => option.value === treeItem.value
+              )
+              if (!exists) {
+                API.onOptionCreate(treeItem)
+              }
             })
           } else if (_name === 'ElOption') {
             const obj = { ...item.props } as any
             obj.currentLabel =
               obj.label || (isObject(obj.value) ? '' : obj.value)
-            API.onOptionCreate(obj)
+
+            const exists = API.optionsArray.value.find(
+              (option) => option.value === obj.value
+            )
+            if (!exists) {
+              API.onOptionCreate(obj)
+            }
           }
         }
       })
