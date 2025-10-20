@@ -411,7 +411,7 @@ export const useBasicDateTableDOM = (
 
   const tableKls = computed(() => [
     ns.b(),
-    { [ns.is('week-mode')]: props.selectionMode === 'week' && !props.disabled },
+    ns.is('week-mode', props.selectionMode === 'week' && !props.disabled),
   ])
 
   const tableLabel = computed(() => t('el.datepicker.dateTablePrompt'))
