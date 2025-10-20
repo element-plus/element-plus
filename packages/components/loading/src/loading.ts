@@ -130,7 +130,7 @@ export function createLoadingComponent(
                     class: [
                       ns.b('mask'),
                       data.customClass,
-                      { [ns.is('fullscreen')]: data.fullscreen },
+                      ns.is('fullscreen', data.fullscreen),
                     ],
                   },
                   [
