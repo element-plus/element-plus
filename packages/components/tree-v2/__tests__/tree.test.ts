@@ -1709,4 +1709,40 @@ describe('Virtual Tree', () => {
     expect(iconWrapper1.length).toBe(1)
     expect(iconWrapper1[0].classes()).not.toContain('expanded')
   })
+
+  test('default slot. node.expanded value', async () => {
+    const { wrapper } = createTree({
+      data() {
+        return {
+          data: [
+            {
+              id: '1',
+              label: 'Level one 1',
+              children: [
+                {
+                  id: '1-1',
+                  label: 'Level two 1-1',
+                },
+              ],
+            },
+          ],
+        }
+      },
+      slots: {
+        default: `<div class='node'>{{ node.expanded ? '1' : '2' }}</div>`,
+      },
+    })
+
+    await nextTick()
+    const nodeDiv = wrapper.find('.node')
+    expect(nodeDiv.text()).toBe('2')
+
+    await nodeDiv.trigger('click')
+    await nextTick()
+    expect(nodeDiv.text()).toBe('1')
+
+    await nodeDiv.trigger('click')
+    await nextTick()
+    expect(nodeDiv.text()).toBe('2')
+  })
 })

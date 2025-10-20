@@ -243,13 +243,15 @@ export function useTree(
       })
     }
     keySet.add(node.key)
-    node.expanded = true
+    const _node = getNode(node.key)
+    _node && (_node.expanded = true)
     emit(NODE_EXPAND, node.data, node)
   }
 
   function collapseNode(node: TreeNode) {
     expandedKeySet.value.delete(node.key)
-    node.expanded = false
+    const _node = getNode(node.key)
+    _node && (_node.expanded = false)
     emit(NODE_COLLAPSE, node.data, node)
   }
 
