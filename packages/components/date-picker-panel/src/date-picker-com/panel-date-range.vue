@@ -67,7 +67,7 @@
           <span>
             <el-icon><arrow-right /></el-icon>
           </span>
-          <span :class="[drpNs.e('editors-wrap')]" class="is-right">
+          <span :class="drpNs.e('editors-wrap')" class="is-right">
             <span :class="drpNs.e('time-picker-wrap')">
               <el-input
                 size="small"

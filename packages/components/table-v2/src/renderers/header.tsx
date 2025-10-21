@@ -31,9 +31,6 @@ const HeaderRenderer: FunctionalComponent<HeaderRendererProps> = (
     ns.e('header-row'),
     tryCall(headerClass, param, ''),
     ns.is('customized', Boolean(slots.header)),
-    // {
-    // [ns.is('resizing')]: Boolean(resizingKey),
-    // },
   ]
 
   const extraProps = {
