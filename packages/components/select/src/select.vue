@@ -386,6 +386,7 @@ export default defineComponent({
 
   setup(props, { emit, slots }) {
     const instance = getCurrentInstance()!
+    const originalWarnHandler = instance.appContext.config.warnHandler
     instance.appContext.config.warnHandler = (...args) => {
       // Overrides warnings about slots not being executable outside of a render function.
       // We call slot below just to simulate data when persist is false, this warning message should be ignored
@@ -507,7 +508,7 @@ export default defineComponent({
 
     onBeforeUnmount(() => {
       // https://github.com/element-plus/element-plus/issues/21279
-      instance.appContext.config.warnHandler = undefined
+      instance.appContext.config.warnHandler = originalWarnHandler
     })
 
     return {
