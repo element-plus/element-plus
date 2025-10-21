@@ -40,7 +40,7 @@ export function useDropdownTooltip({
     currentTabId.value = id
   }
 
-  function handleShowTooltip(event: Event) {
+  function handleShowTooltip(event?: Event) {
     addPopperContent(popperRef.value?.contentRef?.contentRef?.popperContentRef)
     isUsingKeyboard.value = (event ?? toggleReason.value)?.type === 'keydown'
     contentRef.value?.focus({ preventScroll: true })

@@ -192,6 +192,14 @@ dropdown/sub-menu
 | default | content of Dropdown Sub Menu | Dropdown-Item / Dropdown-Sub-Menu |
 | title   | customize title content      | —                                 |
 
+### Dropdown-Sub-Menu Events
+
+| Name         | Description                               | Type                                     |
+| ------------ | ----------------------------------------- | ---------------------------------------- |
+| click        | triggers when a sub menu item is clicked  | ^[Function]`(evt: MouseEvent) => void`   |
+| pointerenter | triggers when pointer enters the sub menu | ^[Function]`(evt: PointerEvent) => void` |
+| pointerleave | triggers when pointer leaves the sub menu | ^[Function]`(evt: PointerEvent) => void` |
+
 ## Dropdown-Item API
 
 ### Dropdown-Item Attributes
@@ -208,3 +216,12 @@ dropdown/sub-menu
 | Name    | Description                |
 | ------- | -------------------------- |
 | default | customize of Dropdown Item |
+
+### Dropdown-Item Events
+
+| Name         | Description                           | Type                                     |
+| ------------ | ------------------------------------- | ---------------------------------------- |
+| click        | triggers when a item is clicked       | ^[Function]`(evt: MouseEvent) => void`   |
+| pointerenter | triggers when pointer enters the item | ^[Function]`(evt: PointerEvent) => void` |
+| pointermove  | triggers when pointer move the item   | ^[Function]`(evt: PointerEvent) => void` |
+| pointerleave | triggers when pointer leaves the item | ^[Function]`(evt: PointerEvent) => void` |

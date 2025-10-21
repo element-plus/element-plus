@@ -1,5 +1,6 @@
 <template>
   <el-dropdown-item
+    v-bind="$attrs"
     :id="triggerId"
     :divided="divided"
     :disabled="disabled"

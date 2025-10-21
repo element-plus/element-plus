@@ -1,6 +1,5 @@
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { onClickOutside, unrefElement, useEventListener } from '@vueuse/core'
-import { EVENT_CODE } from '@element-plus/constants'
 import { getEventCode, isElement } from '@element-plus/utils'
 
 import type { Ref } from 'vue'
@@ -63,7 +62,7 @@ export function useDropdownController({
   useEventListener(triggerRef, 'keydown', (event) => {
     const code = getEventCode(event)
 
-    if (code === EVENT_CODE.down) {
+    if (props.triggerKeys.includes(code)) {
       event.preventDefault()
       handleOpen(event)
     }
@@ -86,9 +85,7 @@ export function useDropdownController({
         stopHandle = onClickOutside(
           popperContentRefs.value[0],
           (event) => {
-            if (!shouldIgnore(event)) {
-              handleCloseAll()
-            }
+            !shouldIgnore(event) && handleCloseAll()
           },
           { detectIframe: true }
         )
@@ -120,7 +117,13 @@ export function useDropdownController({
   }
 
   function shouldIgnore(event: Event) {
-    return popperContentRefs.value.some((el) => {
+    const list = popperContentRefs.value
+
+    if (isElement(unrefElement(triggerRef))) {
+      list.push(unrefElement(triggerRef))
+    }
+
+    return list.some((el) => {
       return el && (event.target === el || event.composedPath().includes(el))
     })
   }
