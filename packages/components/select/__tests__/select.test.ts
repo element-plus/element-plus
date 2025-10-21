@@ -480,7 +480,7 @@ describe('Select', () => {
   test('should not render the empty slot when multiple is true and persistent is false', async () => {
     wrapper = _mount(
       `
-      <el-select v-model="value" multiple  :persistent="false">
+      <el-select v-model="value" multiple :persistent="false">
         <el-option
           v-for="item in options"
           :label="item.label"
