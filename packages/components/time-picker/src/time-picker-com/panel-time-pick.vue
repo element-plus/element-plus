@@ -41,7 +41,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref } from 'vue'
+import { computed, inject, nextTick, ref } from 'vue'
 import dayjs from 'dayjs'
 import { EVENT_CODE } from '@element-plus/constants'
 import { useLocale, useNamespace } from '@element-plus/hooks'
@@ -98,7 +98,11 @@ const isValidValue = (_date: Dayjs) => {
   return parsedDate.isSame(result)
 }
 const handleCancel = () => {
-  emit('pick', oldValue.value, false)
+  const old = oldValue.value
+  emit('pick', old, false)
+  nextTick(() => {
+    oldValue.value = old
+  })
 }
 const handleConfirm = (visible = false, first = false) => {
   if (first) return

@@ -179,6 +179,16 @@ describe('InputNumber.vue', () => {
     await nextTick()
     expect(wrapper.find('input').element.value).toEqual('0.3')
   })
+  test('step-strictly precision edge critical judgment', async () => {
+    const num = ref(3.55)
+    const wrapper = mount(() => (
+      <InputNumber step-strictly={true} step={0.1} v-model={num.value} />
+    ))
+    expect(wrapper.find('input').element.value).toEqual('3.6')
+    num.value = 3.65
+    await nextTick()
+    expect(wrapper.find('input').element.value).toEqual('3.7')
+  })
   //fix: #12690
   test('maximum is less than the minimum', async () => {
     const num = ref(6)
@@ -659,19 +669,19 @@ describe('InputNumber.vue', () => {
     ))
     const input = wrapper.find('input')
     const preventDefault = vi.fn()
-    await input.trigger('keyup', {
+    await input.trigger('keydown', {
       key: 'e',
       preventDefault,
     })
     expect(preventDefault).toHaveBeenCalled()
     preventDefault.mockClear()
-    await input.trigger('keyup', {
+    await input.trigger('keydown', {
       key: 'E',
       preventDefault,
     })
     expect(preventDefault).toHaveBeenCalled()
     preventDefault.mockClear()
-    await input.trigger('keyup', {
+    await input.trigger('keydown', {
       key: '1',
       preventDefault,
     })

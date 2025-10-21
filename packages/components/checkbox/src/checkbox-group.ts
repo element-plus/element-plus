@@ -61,6 +61,11 @@ export const checkboxGroupProps = buildProps({
     type: definePropType<CheckboxOptionProps>(Object),
     default: () => checkboxDefaultProps,
   },
+  type: {
+    type: String,
+    values: ['checkbox', 'button'] as const,
+    default: 'checkbox',
+  },
   ...useAriaProps(['ariaLabel']),
 } as const)
 

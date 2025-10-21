@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { withBase } from 'vitepress'
 import { rightRichTextSponsors } from '../../../config/sponsors'
 import { sendEvent } from '../../../config/analytics'
 import { useLang } from '../../composables/lang'
@@ -20,7 +21,7 @@ const onItemClick = (item: Sponsor) => {
     <a
       v-for="item in rightRichTextSponsors"
       :key="item.name"
-      :href="item.url"
+      :href="withBase(item.url)"
       :title="`${item.name_cn || item.name} - ${item.slogan_cn || item.slogan}`"
       target="_blank"
       @click="onItemClick(item)"
@@ -34,7 +35,7 @@ const onItemClick = (item: Sponsor) => {
         <div class="w-32px m-r-8px h-56px">
           <img
             class="mt-2px rd-4px w-32px h-32px"
-            :src="item.img"
+            :src="withBase(item.img)"
             :alt="item.name"
           />
         </div>

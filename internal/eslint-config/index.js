@@ -4,12 +4,12 @@ import tseslint, { parser as tsParser } from 'typescript-eslint'
 import eslintPluginUnicorn from 'eslint-plugin-unicorn'
 import importPlugin from 'eslint-plugin-import'
 import eslintPluginJsonc from 'eslint-plugin-jsonc'
-import markdown from 'eslint-plugin-markdown'
+import markdown from '@eslint/markdown'
 import pluginVue from 'eslint-plugin-vue'
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 import { defineConfig } from 'eslint/config'
 
-export default defineConfig(
+export default defineConfig([
   {
     languageOptions: {
       ecmaVersion: 'latest',
@@ -75,7 +75,8 @@ export default defineConfig(
     },
   },
 
-  ...markdown.configs.recommended,
+  markdown.configs.recommended,
+  markdown.configs.processor,
 
   ...pluginVue.configs['flat/recommended'],
 
@@ -551,5 +552,5 @@ export default defineConfig(
       '!.*',
     ],
   },
-  eslintPluginPrettierRecommended
-)
+  eslintPluginPrettierRecommended,
+])
