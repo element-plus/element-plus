@@ -12,9 +12,9 @@
     "skipLibCheck": true,
     "lib": ["ESNext", "DOM"],
     "paths": {
-      "react": ["./stub/types__react"],
       "element-plus": ["../packages/element-plus"],
-      "~/*": ["./.vitepress/vitepress/*"]
+      "~/*": ["./.vitepress/vitepress/*"],
+      "vue": ["./node_modules/vue"]
     },
     "types": ["unplugin-icons/types/vue"],
     "jsx": "preserve"
