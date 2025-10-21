@@ -155,9 +155,6 @@ export default {
       clearFilter: 'सभी',
       sumText: 'जोड़े',
     },
-    tag: {
-      close: 'Close', // to be translated
-    },
     tour: {
       next: 'अगला',
       previous: 'पिछला',

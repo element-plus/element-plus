@@ -153,9 +153,6 @@ export default {
       clearFilter: '전체',
       sumText: '합계',
     },
-    tag: {
-      close: 'Close', // to be translated
-    },
     tour: {
       next: '다음',
       previous: '이전',

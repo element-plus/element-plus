@@ -153,9 +153,6 @@ export default {
       clearFilter: 'Hemmesi',
       sumText: 'Jemi',
     },
-    tag: {
-      close: 'Close', // to be translated
-    },
     tour: {
       next: 'Next', // to be translated
       previous: 'Previous', // to be translated
