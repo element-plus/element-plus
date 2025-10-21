@@ -25,7 +25,7 @@
         </button>
       </div>
       <div :class="ppNs.e('body')">
-        <div :class="[ppNs.e('content'), drpNs.e('content'), drpNs.is('left')]">
+        <div :class="[ppNs.e('content'), drpNs.e('content')]" class="is-left">
           <div :class="drpNs.e('header')">
             <button
               type="button"
@@ -69,9 +69,7 @@
             @select="onSelect"
           />
         </div>
-        <div
-          :class="[ppNs.e('content'), drpNs.e('content'), drpNs.is('right')]"
-        >
+        <div :class="[ppNs.e('content'), drpNs.e('content')]" class="is-right">
           <div :class="drpNs.e('header')">
             <button
               v-if="unlinkPanels"
