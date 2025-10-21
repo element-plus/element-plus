@@ -18,11 +18,11 @@ jobs:
         node-version: [20, 22, 24]
         include:
           - node-version: 20
-            node-name: LTS
+            node-name: LTS-20
           - node-version: 22
-            node-name: Current
+            node-name: LTS-22
           - node-version: 24
-            node-name: New
+            node-name: Current-24
 
     steps:
       - uses: actions/checkout@v4
