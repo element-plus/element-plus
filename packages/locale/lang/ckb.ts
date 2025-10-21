@@ -153,6 +153,9 @@ export default {
       clearFilter: 'هەموو',
       sumText: 'کۆ',
     },
+    tag: {
+      close: 'Close this tag', // to be translated
+    },
     tour: {
       next: 'Next', // to be translated
       previous: 'Previous', // to be translated

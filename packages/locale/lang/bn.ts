@@ -153,6 +153,9 @@ export default {
       clearFilter: 'সব',
       sumText: 'সারাংশ',
     },
+    tag: {
+      close: 'Close this tag', // to be translated
+    },
     tour: {
       next: 'Next', // to be translated
       previous: 'Previous', // to be translated
