@@ -16,6 +16,7 @@ export const usePredefine = (props: PredefineProps) => {
     (val) => {
       const color = new Color({
         value: val,
+        enableAlpha: props.enableAlpha,
       })
 
       rgbaColors.value.forEach((item) => {
