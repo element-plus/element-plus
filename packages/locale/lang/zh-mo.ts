@@ -152,7 +152,7 @@ export default {
       sumText: '合計',
     },
     tag: {
-      close: 'Close this tag', // to be translated
+      close: '關閉此標籤',
     },
     tour: {
       next: '下一步',
