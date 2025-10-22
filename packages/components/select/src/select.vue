@@ -474,7 +474,7 @@ export default defineComponent({
     watch(
       () => [slots.default?.(), modelValue.value],
       () => {
-        if (props.persistent) {
+        if (props.persistent || API.states.options.size > 0) {
           // If persistent is true, we don't need to manually render slots.
           return
         }
