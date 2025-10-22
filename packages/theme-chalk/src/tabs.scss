@@ -29,6 +29,9 @@
       transform getCssVar('transition-duration')
         getCssVar('transition-function-ease-in-out-bezier');
     list-style: none;
+    &.is-bottom {
+      bottom: auto;
+    }
   }
   @include e(new-tab) {
     display: flex;
@@ -79,6 +82,11 @@
       height: 2px;
       background-color: getCssVar('border-color-light');
       z-index: getCssVar('index-normal');
+    }
+
+    &.is-bottom::after {
+      top: 0;
+      bottom: auto;
     }
 
     @include when(scrollable) {
