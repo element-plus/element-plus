@@ -1,6 +1,12 @@
 <template>
   <div :class="ns.e('item')">
-    <a ref="linkRef" :class="cls" :href="href" @click="handleClick">
+    <a
+      ref="linkRef"
+      :class="cls"
+      :data-href="href"
+      href="javascript:void(0);"
+      @click="handleClick"
+    >
       <slot>{{ title }}</slot>
     </a>
     <div

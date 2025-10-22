@@ -67,7 +67,7 @@ describe('Anchor.vue', () => {
       .spyOn(window, 'scrollTo')
       .mockImplementation(() => undefined)
     await nextTick()
-    wrapper.find(`a[href="${hash}"]`).trigger('click')
+    wrapper.find(`a[data-href="${hash}"]`).trigger('click')
     await nextTick()
     expect(scrollSpy).toHaveBeenCalledTimes(1)
   })
@@ -106,8 +106,8 @@ describe('Anchor.vue', () => {
         <AnchorLink href={hash2}>{hash2}</AnchorLink>
       </Anchor>
     ))
-    wrapper.find(`a[href="${hash1}"]`).trigger('click')
-    wrapper.find(`a[href="${hash2}"]`).trigger('click')
+    wrapper.find(`a[data-href="${hash1}"]`).trigger('click')
+    wrapper.find(`a[data-href="${hash2}"]`).trigger('click')
     expect(wrapper.findComponent(Anchor).emitted(CHANGE_EVENT)).toEqual([
       [hash1],
       [hash2],
@@ -121,7 +121,7 @@ describe('Anchor.vue', () => {
         <AnchorLink href={hash}>{hash}</AnchorLink>
       </Anchor>
     ))
-    wrapper.find(`a[href="${hash}"]`).trigger('click')
+    wrapper.find(`a[data-href="${hash}"]`).trigger('click')
 
     expect(
       (wrapper.findComponent(Anchor).emitted('click') as any)[0][0]
