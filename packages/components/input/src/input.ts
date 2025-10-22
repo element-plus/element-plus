@@ -16,6 +16,11 @@ import type {
   __ExtractPublicPropTypes,
 } from 'vue'
 
+export type InputModelModifiers = {
+  lazy?: boolean
+  number?: boolean
+  trim?: boolean
+}
 export type InputAutoSize = { minRows?: number; maxRows?: number } | boolean
 
 export const inputProps = buildProps({
@@ -44,6 +49,13 @@ export const inputProps = buildProps({
       Object,
     ]),
     default: '',
+  },
+  /**
+   * @description v-model modifiers, reference [Vue modifiers](https://vuejs.org/guide/essentials/forms.html#modifiers)
+   */
+  modelModifiers: {
+    type: definePropType<InputModelModifiers>(Object),
+    default: () => ({}),
   },
   /**
    * @description same as `maxlength` in native input
@@ -132,6 +144,14 @@ export const inputProps = buildProps({
    * @description word count
    */
   showWordLimit: Boolean,
+  /**
+   * @description word count position, valid when `show-word-limit` is true
+   */
+  wordLimitPosition: {
+    type: String,
+    values: ['inside', 'outside'],
+    default: 'inside',
+  },
   /**
    * @description suffix icon
    */

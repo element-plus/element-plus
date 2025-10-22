@@ -11,6 +11,7 @@ import type {
 } from '../tree.type'
 import type TreeStore from './tree-store'
 import type Node from './node'
+import type { treeEmits } from '../tree'
 
 interface TreeNode {
   node: Node
@@ -27,7 +28,7 @@ interface Props {
     allowDrag?: AllowDragFunction
     allowDrop?: AllowDropFunction
   }
-  ctx: SetupContext<string[]>
+  ctx: SetupContext<typeof treeEmits>
   el$: Ref<HTMLElement | null>
   dropIndicator$: Ref<HTMLElement | null>
   store: Ref<TreeStore>
@@ -147,10 +148,22 @@ export function useDragNodeHandler({
       .querySelector(`.${ns.be('node', 'content')}`)!
       .getBoundingClientRect()
     const treePosition = el$.value!.getBoundingClientRect()
-
+    const treeScrollTop = el$.value!.scrollTop
     let dropType: NodeDropType
-    const prevPercent = dropPrev ? (dropInner ? 0.25 : dropNext ? 0.45 : 1) : -1
-    const nextPercent = dropNext ? (dropInner ? 0.75 : dropPrev ? 0.55 : 0) : 1
+    const prevPercent = dropPrev
+      ? dropInner
+        ? 0.25
+        : dropNext
+          ? 0.45
+          : 1
+      : Number.NEGATIVE_INFINITY
+    const nextPercent = dropNext
+      ? dropInner
+        ? 0.75
+        : dropPrev
+          ? 0.55
+          : 0
+      : Number.POSITIVE_INFINITY
 
     let indicatorTop = -9999
     const distance = event.clientY - targetPosition.top
@@ -169,9 +182,9 @@ export function useDragNodeHandler({
       .getBoundingClientRect()
     const dropIndicator = dropIndicator$.value
     if (dropType === 'before') {
-      indicatorTop = iconPosition.top - treePosition.top
+      indicatorTop = iconPosition.top - treePosition.top + treeScrollTop
     } else if (dropType === 'after') {
-      indicatorTop = iconPosition.bottom - treePosition.top
+      indicatorTop = iconPosition.bottom - treePosition.top + treeScrollTop
     }
     dropIndicator!.style.top = `${indicatorTop}px`
     dropIndicator!.style.left = `${iconPosition.right - treePosition.left}px`
@@ -230,15 +243,21 @@ export function useDragNodeHandler({
         'node-drag-end',
         draggingNode.node,
         dropNode.node,
-        dropType,
+        dropType!,
         event
       )
       if (dropType !== 'none') {
-        ctx.emit('node-drop', draggingNode.node, dropNode.node, dropType, event)
+        ctx.emit(
+          'node-drop',
+          draggingNode.node,
+          dropNode.node,
+          dropType!,
+          event
+        )
       }
     }
     if (draggingNode && !dropNode) {
-      ctx.emit('node-drag-end', draggingNode.node, null, dropType, event)
+      ctx.emit('node-drag-end', draggingNode.node, null, dropType!, event)
     }
 
     dragState.value.showDropIndicator = false

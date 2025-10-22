@@ -10,6 +10,7 @@ import {
   CommonPicker,
   PICKER_POPPER_OPTIONS_INJECTION_KEY,
 } from '@element-plus/components/time-picker'
+import triggerEvent from '@element-plus/test-utils/trigger-event'
 import Input from '@element-plus/components/input'
 import zhCn from '@element-plus/locale/lang/zh-cn'
 import enUs from '@element-plus/locale/lang/en'
@@ -25,6 +26,7 @@ const _mount = (template: string, data = () => ({}), otherObj?) =>
       components: {
         'el-date-picker': DatePicker,
         'el-form-item': ElFormItem,
+        'el-config-provider': ConfigProvider,
       },
       template,
       data,
@@ -158,6 +160,62 @@ describe('DatePicker', () => {
     await nextTick()
     const vm = wrapper.vm as any
     expect(vm.value).toBeDefined()
+  })
+
+  describe('cleared value should match the value-on-clear prop', () => {
+    it('type:daterange', async () => {
+      const value = ['2025-01-01', '2025-01-02']
+      const wrapper = _mount(
+        `<el-date-picker
+          v-model="value"
+          type="daterange"
+          :empty-values="[[]]"
+          :value-on-clear="() => []"
+        />`,
+        () => ({ value })
+      )
+      await nextTick()
+      expect(wrapper.vm.value).toEqual(value)
+      const clearBtn = wrapper.find('.el-range__close-icon')
+      clearBtn.trigger('click')
+      expect(wrapper.vm.value).toEqual([])
+    })
+
+    it('type:monthrange', async () => {
+      const value = ['2025-01-01', '2025-01-02']
+      const wrapper = _mount(
+        `<el-date-picker
+          v-model="value"
+          type="monthrange"
+          :empty-values="[[]]"
+          :value-on-clear="() => []"
+        />`,
+        () => ({ value })
+      )
+      await nextTick()
+      expect(wrapper.vm.value).toEqual(value)
+      const clearBtn = wrapper.find('.el-range__close-icon')
+      clearBtn.trigger('click')
+      expect(wrapper.vm.value).toEqual([])
+    })
+
+    it('type:yearrange', async () => {
+      const value = ['2025-01-01', '2025-01-02']
+      const wrapper = _mount(
+        `<el-date-picker
+          v-model="value"
+          type="yearrange"
+          :empty-values="[[]]"
+          :value-on-clear="() => []"
+        />`,
+        () => ({ value })
+      )
+      await nextTick()
+      expect(wrapper.vm.value).toEqual(value)
+      const clearBtn = wrapper.find('.el-range__close-icon')
+      clearBtn.trigger('click')
+      expect(wrapper.vm.value).toEqual([])
+    })
   })
 
   it('defaultTime and clear value', async () => {
@@ -1023,6 +1081,75 @@ describe('DatePicker', () => {
       expect(popper.getAttribute('aria-hidden')).toBe('false')
     })
 
+    it('should append set dates when model value change on daterange', async () => {
+      const wrapper = _mount(
+        `<el-date-picker
+          type="daterange"
+          date-format="YYYY-MM-DD"
+          value-format="YYYY-MM-DD"
+        />`
+      )
+      await nextTick()
+      await wrapper.find('.el-date-editor').trigger('click')
+      let startDate = document.querySelector('td.start-date')
+      let endDate = document.querySelector('td.end-date')
+      expect(startDate).toBeNull()
+      expect(endDate).toBeNull()
+      await wrapper.setProps({ modelValue: ['2025-09-05', '2025-09-25'] })
+      startDate = document.querySelector('td.start-date')
+      endDate = document.querySelector('td.end-date')
+      expect(startDate).not.toBeNull()
+      expect(endDate).not.toBeNull()
+      expect(startDate.textContent).toBe('5')
+      expect(endDate.textContent).toBe('25')
+    })
+
+    it('should append set dates when model value change on monthrange', async () => {
+      const wrapper = _mount(
+        `<el-date-picker
+          type="monthrange"
+          date-format="YYYY-MM"
+          value-format="YYYY-MM"
+        />`
+      )
+      await nextTick()
+      await wrapper.find('.el-date-editor').trigger('click')
+      let startDate = document.querySelector('td.start-date')
+      let endDate = document.querySelector('td.end-date')
+      expect(startDate).toBeNull()
+      expect(endDate).toBeNull()
+      await wrapper.setProps({ modelValue: ['2025-09', '2025-10'] })
+      startDate = document.querySelector('td.start-date')
+      endDate = document.querySelector('td.end-date')
+      expect(startDate).not.toBeNull()
+      expect(endDate).not.toBeNull()
+      expect(startDate.textContent).toBe('Sep')
+      expect(endDate.textContent).toBe('Oct')
+    })
+
+    it('should append set dates when model value change on yearrange', async () => {
+      const wrapper = _mount(
+        `<el-date-picker
+          type="yearrange"
+          date-format="YYYY"
+          value-format="YYYY"
+        />`
+      )
+      await nextTick()
+      await wrapper.find('.el-date-editor').trigger('click')
+      let startDate = document.querySelector('td.start-date')
+      let endDate = document.querySelector('td.end-date')
+      expect(startDate).toBeNull()
+      expect(endDate).toBeNull()
+      await wrapper.setProps({ modelValue: ['2025', '2026'] })
+      startDate = document.querySelector('td.start-date')
+      endDate = document.querySelector('td.end-date')
+      expect(startDate).not.toBeNull()
+      expect(endDate).not.toBeNull()
+      expect(startDate.textContent).toBe('2025')
+      expect(endDate.textContent).toBe('2026')
+    })
+
     it('should generate aria attributes for range', async () => {
       const wrapper = _mount(
         `<el-date-picker
@@ -1697,6 +1824,21 @@ describe('DatePicker keyboard events', () => {
     const popperEl2 = document.querySelectorAll('.el-picker__popper')[0]
     const attr2 = popperEl2.getAttribute('aria-hidden')
     expect(attr2).toEqual('true')
+  })
+
+  it('should be able to enter in date picker table through keyboard navigation', async () => {
+    _mount('<el-date-picker v-model="value" type="date" />', () => ({
+      value: '',
+    }))
+    await nextTick()
+    const input = document.querySelector<HTMLInputElement>('input')
+    input.blur()
+    await nextTick()
+    input.focus()
+    await nextTick()
+    triggerEvent(input, 'keydown', EVENT_CODE.down)
+    await nextTick()
+    expect(document.querySelector('.current')?.textContent).toBe('1')
   })
 })
 
@@ -2785,5 +2927,114 @@ describe('YearRange', () => {
     expect(
       (wrapper.findComponent(CommonPicker).vm as any).elPopperOptions
     ).toEqual(ElPopperOptions)
+  })
+
+  describe('should show default value when persistent is false', () => {
+    it('type:date', async () => {
+      const wrapper = _mount(
+        `<el-date-picker
+          v-model="value"
+          format="YYYY-MM-DD"
+          :persistent="false"
+          />`,
+        () => ({
+          value: '2025-01-01',
+        })
+      )
+      await nextTick()
+      const input = wrapper.find('input')
+      expect(input.element.value).toBe('2025-01-01')
+    })
+
+    it('type:datetime', async () => {
+      const wrapper = _mount(
+        `<el-date-picker
+          v-model="value"
+          type="datetime"
+          format="YYYY-MM-DD HH:mm:ss"
+          :persistent="false"
+          />`,
+        () => ({
+          value: new Date(2025, 0, 1, 14, 50, 10),
+        })
+      )
+      await nextTick()
+      const input = wrapper.find('input')
+      expect(input.element.value).toBe('2025-01-01 14:50:10')
+    })
+
+    it('type:daterange', async () => {
+      const wrapper = _mount(
+        `<el-date-picker
+          v-model="value"
+          type="daterange"
+          format="YYYY-MM-DD"
+          :persistent="false"
+          />`,
+        () => ({
+          value: [new Date(2025, 0, 1), new Date(2025, 0, 15)],
+        })
+      )
+      await nextTick()
+      const inputs = wrapper.findAll('input')
+      expect(inputs[0].element.value).toBe('2025-01-01')
+      expect(inputs[1].element.value).toBe('2025-01-15')
+    })
+  })
+
+  describe('value-on-clear in config-provider should take effect', () => {
+    it('type:daterange', async () => {
+      const wrapper = _mount(
+        `<el-config-provider value-on-clear="">
+          <el-date-picker
+            v-model="value"
+            type="daterange"
+          />
+         </el-config-provider>`,
+        () => ({
+          value: ['2025-01-01', '2025-01-02'],
+        })
+      )
+      await nextTick()
+      const clearBtn = wrapper.find('.el-range__close-icon')
+      clearBtn.trigger('click')
+      expect(wrapper.vm.value).toEqual('')
+    })
+
+    it('type:monthrange', async () => {
+      const wrapper = _mount(
+        `<el-config-provider value-on-clear="">
+          <el-date-picker
+            v-model="value"
+            type="monthrange"
+          />
+         </el-config-provider>`,
+        () => ({
+          value: ['2025-01-01', '2025-01-02'],
+        })
+      )
+      await nextTick()
+      const clearBtn = wrapper.find('.el-range__close-icon')
+      clearBtn.trigger('click')
+      expect(wrapper.vm.value).toEqual('')
+    })
+
+    it('type:yearrange', async () => {
+      const wrapper = _mount(
+        `<el-config-provider value-on-clear="">
+          <el-date-picker
+            v-model="value"
+            type="yearrange"
+          />
+         </el-config-provider>`,
+        () => ({
+          value: ['2025-01-01', '2025-01-02'],
+        })
+      )
+      await nextTick()
+      const clearBtn = wrapper.find('.el-range__close-icon')
+      clearBtn.trigger('click')
+      expect(wrapper.vm.value).toEqual('')
+    })
   })
 })

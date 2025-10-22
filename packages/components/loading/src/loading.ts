@@ -14,7 +14,7 @@ import {
 import { removeClass } from '@element-plus/utils'
 import { useGlobalComponentSettings } from '@element-plus/components/config-provider'
 
-import type { AppContext } from 'vue'
+import type { AppContext, VNode } from 'vue'
 import type { UseNamespaceReturn } from '@element-plus/hooks'
 import type { LoadingOptionsResolved } from './types'
 
@@ -33,7 +33,7 @@ export function createLoadingComponent(
     visible: false,
   })
 
-  function setText(text: string) {
+  function setText(text: string | VNode | VNode[]) {
     data.text = text
   }
 
@@ -130,7 +130,7 @@ export function createLoadingComponent(
                     class: [
                       ns.b('mask'),
                       data.customClass,
-                      data.fullscreen ? 'is-fullscreen' : '',
+                      ns.is('fullscreen', data.fullscreen),
                     ],
                   },
                   [

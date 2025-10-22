@@ -375,4 +375,40 @@ describe('Splitter', () => {
     await nextTick()
     expect(panels[0].attributes('style')).toContain('flex-basis: 100px;')
   })
+
+  it('should emit resizeEnd with latest sizes data in lazy mode', async () => {
+    const onResizeEnd = vi.fn()
+    const wrapper = mount(() => (
+      <div style={{ width: '400px', height: '400px' }}>
+        <ElSplitter lazy onResizeEnd={onResizeEnd}>
+          <ElSplitterPanel>Left Panel</ElSplitterPanel>
+          <ElSplitterPanel>Right Panel</ElSplitterPanel>
+        </ElSplitter>
+      </div>
+    ))
+    await nextTick()
+
+    const splitBar = wrapper.find('.el-splitter-bar__dragger')
+
+    const mousedown = new MouseEvent('mousedown', { bubbles: true })
+    Object.defineProperty(mousedown, 'pageX', { value: 200 })
+    splitBar.element.dispatchEvent(mousedown)
+    await nextTick()
+
+    const mousemove = new MouseEvent('mousemove', { bubbles: true })
+    Object.defineProperty(mousemove, 'pageX', { value: 150 })
+    window.dispatchEvent(mousemove)
+    await nextTick()
+
+    const mouseup = new MouseEvent('mouseup', { bubbles: true })
+    Object.defineProperty(mouseup, 'pageX', { value: 150 })
+    window.dispatchEvent(mouseup)
+    await nextTick()
+
+    expect(onResizeEnd).toHaveBeenCalledWith(0, [150, 250])
+
+    const panels = wrapper.findAll('.el-splitter-panel')
+    expect(panels[0].attributes('style')).toContain('flex-basis: 150px;')
+    expect(panels[1].attributes('style')).toContain('flex-basis: 250px;')
+  })
 })

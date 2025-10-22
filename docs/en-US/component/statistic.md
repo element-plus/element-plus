@@ -80,7 +80,7 @@ statistic/card
 
 ### Countdown Events
 
-| Method | Description                  | Type                                 |
+| Name   | Description                  | Type                                 |
 | ------ | ---------------------------- | ------------------------------------ |
 | change | Time difference change event | ^[Function]`(value: number) => void` |
 | finish | countdown end event          | ^[Function]`() => void`              |

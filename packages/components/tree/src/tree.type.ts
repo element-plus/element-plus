@@ -8,9 +8,10 @@ import type {
 } from 'vue'
 import type Node from './model/node'
 import type TreeStore from './model/tree-store'
+import type { treeEmits } from './tree'
 
 export interface RootTreeType {
-  ctx: SetupContext<any>
+  ctx: SetupContext<typeof treeEmits>
   props: TreeComponentProps
   store: Ref<TreeStore>
   root: Ref<Node>
@@ -126,3 +127,12 @@ export interface TreeComponentProps {
 }
 
 export type NodeDropType = 'before' | 'after' | 'inner' | 'none'
+
+export type { DragEvents } from './model/useDragNode'
+
+export interface CheckedInfo {
+  checkedKeys: TreeKey[]
+  checkedNodes: TreeData
+  halfCheckedKeys: TreeKey[]
+  halfCheckedNodes: TreeData
+}

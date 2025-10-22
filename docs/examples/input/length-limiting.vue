@@ -7,6 +7,16 @@
     show-word-limit
     type="text"
   />
+  <el-input
+    v-model="text"
+    class="ml-4"
+    style="width: 240px"
+    maxlength="10"
+    placeholder="Please input"
+    show-word-limit
+    word-limit-position="outside"
+    type="text"
+  />
   <div style="margin: 20px 0" />
   <el-input
     v-model="textarea"
@@ -14,6 +24,16 @@
     style="width: 240px"
     placeholder="Please input"
     show-word-limit
+    type="textarea"
+  />
+  <el-input
+    v-model="textarea"
+    class="ml-4"
+    maxlength="30"
+    style="width: 240px"
+    placeholder="Please input"
+    show-word-limit
+    word-limit-position="outside"
     type="textarea"
   />
 </template>

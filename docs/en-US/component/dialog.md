@@ -125,6 +125,8 @@ If `fullscreen` is true, `width` `top` `draggable` attributes don't work.
 
 Setting `modal` to `false` will hide modal (overlay) of dialog.
 
+Starting from version ^(2.10.5), `modal-penetrable` attribute is added, which can be penetrable.
+
 :::demo
 
 dialog/modal
@@ -215,7 +217,7 @@ dialog/events
 
 :::warning
 
-`title` has been **deprecated**, and **will be** removed in ^(2.4.0), please use `header`.
+`title` has been **deprecated**, and **will be** removed in ^(3.0.0), please use `header`.
 
 :::
 

@@ -22,6 +22,15 @@ vi.mock('lodash-unified', async () => {
   }
 })
 
+vi.mock('@vueuse/core', async () => {
+  return {
+    ...((await vi.importActual('@vueuse/core')) as Record<string, any>),
+    useDebounceFn: vi.fn((fn) => {
+      return fn
+    }),
+  }
+})
+
 interface SelectProps {
   filterMethod?: any
   remoteMethod?: any
@@ -38,6 +47,7 @@ interface SelectProps {
   defaultFirstOption?: boolean
   fitInputWidth?: boolean
   size?: 'small' | 'default' | 'large'
+  debounce?: number
 }
 
 const _mount = (template: string, data: any = () => ({}), otherObj?) =>
@@ -425,7 +435,7 @@ describe('Select', () => {
     delete process.env.RUN_TEST_WITH_PERSISTENT
   })
 
-  test('when there is a default value and persistent is false, render the label and dynamically modify options', async () => {
+  test('when there is a default value and persistent is false, render the label and dynamically modify options and modelValue', async () => {
     // This is convenient for testing the default value label rendering when persistent is false.
     process.env.RUN_TEST_WITH_PERSISTENT = 'true'
     wrapper = _mount(
@@ -459,6 +469,11 @@ describe('Select', () => {
     await nextTick()
 
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('双皮奶')
+
+    vm.value = '选项1'
+    await nextTick()
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('黄金糕')
+
     delete process.env.RUN_TEST_WITH_PERSISTENT
   })
 
@@ -3640,5 +3655,46 @@ describe('Select', () => {
     expect(vm.value).toBe(5)
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('北京烤鸭')
     expect(vm.count).toBe(2)
+  })
+
+  test('loading appears on first click when remote', async () => {
+    wrapper = _mount(
+      `
+      <el-select
+        v-model="value"
+        filterable
+        remote
+        :remote-method="remoteMethod"
+        :loading="loading"
+      >
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item"
+        />
+      </el-select>`,
+      () => ({
+        options: [],
+        value: '',
+        loading: false,
+      }),
+      {
+        methods: {
+          remoteMethod() {
+            this.loading = true
+            setTimeout(() => {
+              this.loading = false
+            }, 1000)
+          },
+        },
+      }
+    )
+
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const selectVm = select.vm as any
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    expect(selectVm.dropdownMenuVisible).toBeTruthy()
   })
 })

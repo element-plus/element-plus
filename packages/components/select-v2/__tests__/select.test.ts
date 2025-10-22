@@ -23,6 +23,15 @@ vi.mock('lodash-unified', async () => {
   }
 })
 
+vi.mock('@vueuse/core', async () => {
+  return {
+    ...((await vi.importActual('@vueuse/core')) as Record<string, any>),
+    useDebounceFn: vi.fn((fn) => {
+      return fn
+    }),
+  }
+})
+
 const _mount = makeMountFunc({
   components: {
     'el-select': Select,
@@ -66,6 +75,7 @@ interface SelectProps {
   allowCreate?: boolean
   popperAppendToBody?: boolean
   placeholder?: string
+  debounce?: number
   [key: string]: any
 }
 
@@ -601,6 +611,45 @@ describe('Select', () => {
       await nextTick()
       expect(selectVm.selectedLabel).toStrictEqual(['label1', 'label2'])
     })
+  })
+
+  it('should use alias for selected label', async () => {
+    const wrapper = createSelect({
+      data: () => {
+        return {
+          options: [
+            { value: 'value1', name: 'label1', text: 'text1' },
+            { value: 'value2', name: 'label2', text: 'text2' },
+          ],
+          multiple: false,
+          value: '',
+          props: { label: 'name' },
+        }
+      },
+    })
+    await nextTick()
+    const select = wrapper.findComponent(Select)
+    const selectVm = select.vm as any
+    const vm = wrapper.vm as any
+
+    const options = getOptions()
+    options[0].click()
+    expect(selectVm.selectedLabel).toBe('label1')
+    vm.value = 'value2'
+    await nextTick()
+    expect(selectVm.selectedLabel).toBe('label2')
+
+    vm.multiple = true
+    vm.value = []
+    await nextTick()
+    expect(selectVm.selectedLabel).toStrictEqual([])
+    vm.value = ['value1', 'value2']
+    await nextTick()
+    expect(selectVm.selectedLabel).toStrictEqual(['label1', 'label2'])
+
+    vm.props.label = 'text'
+    await nextTick()
+    expect(selectVm.selectedLabel).toStrictEqual(['text1', 'text2'])
   })
 
   describe('multiple', () => {
@@ -2330,14 +2379,46 @@ describe('Select', () => {
 
   describe('It should generate accessible attributes', () => {
     it('create', async () => {
-      const wrapper = createSelect()
+      const options = [
+        { value: 'a', label: 'A' },
+        { value: 'b', label: 'B', disabled: true },
+        { value: 'c', label: 'C' },
+      ]
 
+      const wrapper = createSelect({
+        data() {
+          return {
+            value: 'a',
+            options,
+          }
+        },
+      })
+
+      const dropdown = wrapper.findComponent({ name: 'ElSelectDropdown' })
       const input = wrapper.find('input')
+      const list = dropdown.find('.el-select-dropdown__list > ul')
+      const option = dropdown.find('.el-select-dropdown__item')
+      const disabledOption = dropdown.find(
+        '.el-select-dropdown__item:nth-child(2)'
+      )
+
       expect(input.attributes('role')).toBe('combobox')
       expect(input.attributes('tabindex')).toBe('0')
-      expect(input.attributes('aria-autocomplete')).toBe('list')
+      expect(input.attributes('aria-autocomplete')).toBe('none')
+      expect(input.attributes('aria-controls')).toBe(list.attributes('id'))
       expect(input.attributes('aria-expanded')).toBe('false')
       expect(input.attributes('aria-haspopup')).toBe('listbox')
+      expect(input.attributes('aria-activedescendant')).toBe('')
+
+      expect(list.attributes('id')).toBeTruthy()
+      expect(list.attributes('role')).toBe('listbox')
+      expect(list.attributes('aria-orientation')).toBe('vertical')
+
+      expect(option.attributes('id')).toBeTruthy()
+      expect(option.attributes('role')).toBe('option')
+      expect(option.attributes('aria-disabled')).toBe(undefined)
+      expect(option.attributes('aria-selected')).toBe('true')
+      expect(disabledOption.attributes('aria-disabled')).toBe('true')
     })
 
     it('tabindex', () => {
@@ -2429,5 +2510,39 @@ describe('Select', () => {
       await nextTick()
       expect(wrapper.find('.custom-tag').text()).toBe('enabled')
     })
+  })
+
+  it('loading appears on first click when remote', async () => {
+    const wrapper = _mount(
+      `
+        <el-select
+          v-model="value"
+          filterable
+          remote
+          :remote-method="remoteMethod"
+          :loading="loading"
+          :options="options"
+        >
+        </el-select>`,
+      {
+        data() {
+          return { options: [], value: '', loading: false }
+        },
+        methods: {
+          remoteMethod() {
+            this.loading = true
+            setTimeout(() => {
+              this.loading = false
+            }, 1000)
+          },
+        },
+      }
+    )
+
+    const select = wrapper.findComponent(Select)
+    const selectVm = select.vm as any
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    expect(selectVm.dropdownMenuVisible).toBeTruthy()
   })
 })

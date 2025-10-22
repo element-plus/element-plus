@@ -54,6 +54,13 @@ export const usePlaygroundPreview = (
   }
 
   watch(() => isDark.value, handler)
+  watch(
+    () => props.item.link,
+    (newLink) => {
+      targetLink.value = newLink
+      handler()
+    }
+  )
 
   onMounted(handler)
 

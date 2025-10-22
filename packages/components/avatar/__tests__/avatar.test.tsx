@@ -7,6 +7,7 @@ import {
   IMAGE_SUCCESS,
   mockImageEvent,
 } from '@element-plus/test-utils/mock'
+import { stableLoad } from '@element-plus/test-utils/stable-load'
 import Avatar from '../src/avatar.vue'
 
 describe('Avatar.vue', () => {
@@ -87,7 +88,7 @@ describe('Avatar.vue', () => {
     expect(wrapper.vm.hasLoadError).toBe(false)
     await wrapper.setProps({ src: IMAGE_FAIL })
     // wait error event trigger
-    await flushPromises()
+    await stableLoad(() => !wrapper.vm.hasLoadError)
     expect(wrapper.vm.hasLoadError).toBe(true)
     await wrapper.setProps({ src: IMAGE_SUCCESS })
     await flushPromises()
