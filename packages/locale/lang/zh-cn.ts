@@ -151,7 +151,7 @@ export default {
       sumText: '合计',
     },
     tag: {
-      close: 'Close this tag', // to be translated
+      close: '关闭此标签',
     },
     tour: {
       next: '下一步',
