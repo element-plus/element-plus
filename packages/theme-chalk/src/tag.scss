@@ -124,7 +124,7 @@ $tag-icon-span-gap: map.merge(
   .#{$namespace}-tag__close {
     padding: 0;
     background-color: transparent;
-    border-radius: getCssVar('border-radius-base');
+    border-radius: 50%;
     border: none;
     outline: none;
     overflow: hidden;

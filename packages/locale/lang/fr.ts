@@ -16,8 +16,8 @@ export default {
       hueDescription: 'hue {hue}, couleur actuelle {color}',
       svLabel: 'Choisir la valeur de saturation et de luminosité',
       svDescription:
-      'saturation {saturation}, luminosité {brightness}, couleur actuelle {color}',
-      predefineDescription: 'Choisir {value} comme couleur actuelle', // to be translated
+        'saturation {saturation}, luminosité {brightness}, couleur actuelle {color}',
+      predefineDescription: 'Choisir {value} comme couleur actuelle',
     },
     datepicker: {
       now: 'Maintenant',
