@@ -953,6 +953,38 @@ describe('Dropdown', () => {
       expect(content.vm.open).toBe(false)
       wrapper.unmount()
     })
+
+    test('Trigger dropdown via trigger-keys', async () => {
+      const wrapper = _mount(
+        `
+        <el-dropdown trigger="focus" :trigger-keys="triggerKeys" :show-timeout="0" :hide-timeout="0">
+          <span class="el-dropdown-link">
+            Dropdown List
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu ref="menu">
+              <el-dropdown-item class="item-1" disabled>Item</el-dropdown-item>
+              <el-dropdown-item class="item-2">Item</el-dropdown-item>
+              <el-dropdown-sub-menu ref="subMenu" label="item-3" class="item-3">
+                <el-dropdown-item>item-3-1</el-dropdown-item>
+                <el-dropdown-item>item-3-2</el-dropdown-item>
+              </el-dropdown-sub-menu>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+        `,
+        () => ({ triggerKeys: [EVENT_CODE.home] })
+      )
+      await nextTick()
+      const trigger = wrapper.find('.el-tooltip__trigger')
+      const content = wrapper.findComponent(ElTooltip)
+      await trigger.trigger('focus')
+      await trigger.trigger('keydown', { code: EVENT_CODE.down })
+      expect(content.vm.open).toBe(false)
+
+      await trigger.trigger('keydown', { code: EVENT_CODE.home })
+      expect(content.vm.open).toBe(true)
+    })
   })
 
   describe('teleported API', () => {
