@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, inject } from 'vue'
+import { computed, defineComponent, inject, provide } from 'vue'
 import {
   composeEventHandlers,
   composeRefs,
@@ -103,6 +103,11 @@ export default defineComponent({
     function handleFocus(e: FocusEvent) {
       isUsingKeyboard.value && onFocus(e)
     }
+
+    provide(DROPDOWN_INJECTION_KEY, {
+      ...inject(DROPDOWN_INJECTION_KEY, undefined)!,
+      dropdownSubMenuRef: undefined,
+    })
 
     return {
       rovingFocusGroupRootStyle,
