@@ -41,6 +41,7 @@ declare module 'vue' {
     ElDropdown: typeof import('element-plus')['ElDropdown']
     ElDropdownItem: typeof import('element-plus')['ElDropdownItem']
     ElDropdownMenu: typeof import('element-plus')['ElDropdownMenu']
+    ElDropdownSubMenu: typeof import('element-plus')['ElDropdownSubMenu']
     ElEmpty: typeof import('element-plus')['ElEmpty']
     ElFooter: typeof import('element-plus')['ElFooter']
     ElForm: typeof import('element-plus')['ElForm']

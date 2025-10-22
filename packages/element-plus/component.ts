@@ -46,6 +46,7 @@ import {
   ElDropdown,
   ElDropdownItem,
   ElDropdownMenu,
+  ElDropdownSubMenu,
 } from '@element-plus/components/dropdown'
 import { ElEmpty } from '@element-plus/components/empty'
 import { ElForm, ElFormItem } from '@element-plus/components/form'
@@ -157,6 +158,7 @@ export default [
   ElDropdown,
   ElDropdownItem,
   ElDropdownMenu,
+  ElDropdownSubMenu,
   ElEmpty,
   ElForm,
   ElFormItem,
