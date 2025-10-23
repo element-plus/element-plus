@@ -3,14 +3,14 @@ import { NOOP, buildProps, definePropType } from '@element-plus/utils'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
 import type { PropType } from 'vue'
+import type { CascaderProps } from './node'
 import type {
   CascaderConfig,
   CascaderNodePathValue,
   CascaderOption,
-  CascaderProps,
   CascaderValue,
   RenderLabel,
-} from './node'
+} from './types'
 
 export const CommonProps = buildProps({
   /**

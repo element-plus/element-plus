@@ -1,12 +1,19 @@
 import type { InjectionKey, VNode } from 'vue'
 import type {
   default as CascaderNode,
-  CascaderOption,
   CascaderProps,
   ExpandTrigger,
 } from './node'
 
-export type { CascaderNode, CascaderOption, CascaderProps, ExpandTrigger }
+export type { CascaderNode, CascaderProps, ExpandTrigger }
+
+export interface CascaderOption extends Record<string, unknown> {
+  label?: string
+  value?: CascaderNodeValue
+  children?: CascaderOption[]
+  disabled?: boolean
+  leaf?: boolean
+}
 
 export type CascaderNodeValue = string | number
 export type CascaderNodePathValue = CascaderNodeValue[]

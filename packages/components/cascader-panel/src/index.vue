@@ -56,13 +56,13 @@ import {
 import { checkNode, getMenuIndex, sortByOriginalOrder } from './utils'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
 
+import type { default as CascaderNode } from './node'
 import type {
-  default as CascaderNode,
   CascaderNodeValue,
   CascaderOption,
   CascaderValue,
-} from './node'
-import type { ElCascaderPanelContext } from './types'
+  ElCascaderPanelContext,
+} from './types'
 import type { CascaderMenuInstance } from './instance'
 
 defineOptions({
