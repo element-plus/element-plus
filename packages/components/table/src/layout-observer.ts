@@ -42,11 +42,29 @@ function useLayoutObserver<T extends DefaultRow>(root: Table<T>) {
     flattenColumns.forEach((column) => {
       columnsMap[column.id] = column
     })
+
+    const wrap = root.vnode.el?.querySelector('.el-scrollbar__wrap')
+    const headerWrap = root.vnode.el?.querySelector('.el-table__header-wrapper')
+    if (headerWrap) {
+      const colEl = headerWrap.querySelector(`colgroup > col:last-child`)
+      const scrollbarWidth = Number(wrap.offsetWidth - wrap.clientWidth) || 0
+
+      if (colEl && scrollbarWidth) {
+        const width = Number(colEl.realWidth || colEl.width || 0)
+        const sum = width + scrollbarWidth
+        const column = columnsMap[colEl.getAttribute('name')]
+        if (width && !column.lastAdjustedColumn) {
+          colEl?.setAttribute('width', sum)
+          column.lastAdjustedColumn = true
+        }
+      }
+    }
+
     for (let i = 0, j = cols.length; i < j; i++) {
       const col = cols[i]
       const name = col.getAttribute('name')
       const column = columnsMap[name]
-      if (column) {
+      if (column && !column.lastAdjustedColumn) {
         col.setAttribute('width', column.realWidth || column.width)
       }
     }
