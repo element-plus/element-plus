@@ -25,7 +25,7 @@ import type {
   FixedSizeListInstance,
   ItemProps,
 } from '@element-plus/components/virtual-list'
-import type { Option, OptionItemProps } from './select.types'
+import type { OptionItemProps, OptionV2 } from './select.types'
 import type {
   ComponentPublicInstance,
   ComputedRef,
@@ -47,7 +47,7 @@ interface SelectDropdownExposed {
   isSized: ComputedRef<boolean>
   isItemDisabled: (modelValue: any[] | any, selected: boolean) => boolean
   isItemHovering: (target: number) => boolean
-  isItemSelected: (modelValue: any[] | any, target: Option) => boolean
+  isItemSelected: (modelValue: any[] | any, target: OptionV2) => boolean
   scrollToItem: (index: number) => void
   resetScrollTop: () => void
 }

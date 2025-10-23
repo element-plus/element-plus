@@ -2,13 +2,13 @@ import { computed, ref, watch } from 'vue'
 import { useProps } from './useProps'
 
 import type { SelectV2Props } from './token'
-import type { Option, SelectStates } from './select.types'
+import type { OptionV2, SelectStates } from './select.types'
 
 export function useAllowCreate(props: SelectV2Props, states: SelectStates) {
   const { aliasProps, getLabel, getValue } = useProps(props)
 
   const createOptionCount = ref(0)
-  const cachedSelectedOption = ref<Option>()
+  const cachedSelectedOption = ref<OptionV2>()
 
   const enableAllowCreateMode = computed(() => {
     return props.allowCreate && props.filterable
@@ -25,14 +25,14 @@ export function useAllowCreate(props: SelectV2Props, states: SelectStates) {
   )
 
   function hasExistingOption(query: string) {
-    const hasOption = (option: Option) => getLabel(option) === query
+    const hasOption = (option: OptionV2) => getLabel(option) === query
     return (
       (props.options && props.options.some(hasOption)) ||
       states.createdOptions.some(hasOption)
     )
   }
 
-  function selectNewOption(option: Option) {
+  function selectNewOption(option: OptionV2) {
     if (!enableAllowCreateMode.value) {
       return
     }
@@ -77,7 +77,7 @@ export function useAllowCreate(props: SelectV2Props, states: SelectStates) {
     }
   }
 
-  function removeNewOption(option: Option) {
+  function removeNewOption(option: OptionV2) {
     if (
       !enableAllowCreateMode.value ||
       !option ||

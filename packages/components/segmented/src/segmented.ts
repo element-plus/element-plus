@@ -8,7 +8,7 @@ import {
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
-import type { Option } from './types'
+import type { SegementedOption } from './types'
 import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type Segmented from './segmented.vue'
 
@@ -33,7 +33,7 @@ export const segmentedProps = buildProps({
    * @description options of segmented
    */
   options: {
-    type: definePropType<Option[]>(Array),
+    type: definePropType<SegementedOption[]>(Array),
     default: () => [],
   },
   /**

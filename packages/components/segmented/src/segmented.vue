@@ -45,7 +45,7 @@ import { debugWarn, isObject } from '@element-plus/utils'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { defaultProps, segmentedEmits, segmentedProps } from './segmented'
 
-import type { Option } from './types'
+import type { SegementedOption } from './types'
 
 defineOptions({
   name: 'ElSegmented',
@@ -75,7 +75,7 @@ const state = reactive({
   focusVisible: false,
 })
 
-const handleChange = (item: Option) => {
+const handleChange = (item: SegementedOption) => {
   const value = getValue(item)
   emit(UPDATE_MODEL_EVENT, value)
   emit(CHANGE_EVENT, value)
@@ -86,22 +86,22 @@ const aliasProps = computed(() => ({ ...defaultProps, ...props.props }))
 //FIXME: remove this when vue >=3.3
 const intoAny = (item: any) => item
 
-const getValue = (item: Option) => {
+const getValue = (item: SegementedOption) => {
   return isObject(item) ? item[aliasProps.value.value] : item
 }
 
-const getLabel = (item: Option) => {
+const getLabel = (item: SegementedOption) => {
   return isObject(item) ? item[aliasProps.value.label] : item
 }
 
-const getDisabled = (item: Option | undefined) => {
+const getDisabled = (item: SegementedOption | undefined) => {
   return !!(
     _disabled.value ||
     (isObject(item) ? item[aliasProps.value.disabled] : false)
   )
 }
 
-const getSelected = (item: Option) => {
+const getSelected = (item: SegementedOption) => {
   return props.modelValue === getValue(item)
 }
 
@@ -109,7 +109,7 @@ const getOption = (value: any) => {
   return props.options.find((item) => getValue(item) === value)
 }
 
-const getItemCls = (item: Option) => {
+const getItemCls = (item: SegementedOption) => {
   return [
     ns.e('item'),
     ns.is('selected', getSelected(item)),

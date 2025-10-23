@@ -1,13 +1,13 @@
 import type { OptionV2Props, SelectV2Instance, SelectV2Props } from './defaults'
 import type { InjectionKey, Ref } from 'vue'
-import type { Option } from './select.types'
+import type { OptionV2 } from './select.types'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 
 export interface SelectV2Context {
   props: SelectV2Props
   expanded: Ref<boolean>
   tooltipRef: Ref<TooltipInstance | undefined>
-  onSelect: (option: Option) => void
+  onSelect: (option: OptionV2) => void
   onHover: (idx?: number) => void
   onKeyboardNavigate: (direction: 'forward' | 'backward') => void
   onKeyboardSelect: () => void

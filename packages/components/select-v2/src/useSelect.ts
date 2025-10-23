@@ -44,7 +44,7 @@ import {
 import { useAllowCreate } from './useAllowCreate'
 import { useProps } from './useProps'
 
-import type { Option, OptionType, SelectStates } from './select.types'
+import type { OptionType, OptionV2, SelectStates } from './select.types'
 import type { SelectV2Props } from './token'
 import type { SelectV2EmitFn } from './defaults'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
@@ -210,7 +210,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   const filterOptions = (query: string) => {
     const regexp = new RegExp(escapeStringRegexp(query), 'i')
 
-    const isValidOption = (o: Option): boolean => {
+    const isValidOption = (o: OptionV2): boolean => {
       if (isFilterMethodValid.value || isRemoteMethodValid.value) return true
       // when query was given, we should test on the label see whether the label contains the given query
       return query ? regexp.test(getLabel(o) || '') : true
@@ -555,7 +555,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     tagTooltipRef.value?.updatePopper?.()
   }
 
-  const onSelect = (option: Option) => {
+  const onSelect = (option: OptionV2) => {
     if (props.multiple) {
       let selectedOptions = (props.modelValue as any[]).slice()
 
@@ -594,7 +594,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     focus()
   }
 
-  const deleteTag = (event: MouseEvent, option: Option) => {
+  const deleteTag = (event: MouseEvent, option: OptionV2) => {
     let selectedOptions = (props.modelValue as any[]).slice()
 
     const index = getValueIndex(selectedOptions, getValue(option))
@@ -784,7 +784,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     menuRef.value!.scrollToItem(index)
   }
 
-  const getOption = (value: unknown, cachedOptions?: Option[]) => {
+  const getOption = (value: unknown, cachedOptions?: OptionV2[]) => {
     // match the option with the given value, if not found, create a new option
     const selectValue = getValueKey(value)
 

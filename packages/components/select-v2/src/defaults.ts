@@ -18,7 +18,7 @@ import { tagProps } from '../../tag'
 import { defaultProps } from './useProps'
 import SelectV2 from './select.vue'
 
-import type { Option, OptionType } from './select.types'
+import type { OptionType, OptionV2 } from './select.types'
 import type { Props } from './useProps'
 import type { EmitFn } from '@element-plus/utils/vue/typescript'
 import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
@@ -319,7 +319,7 @@ export const optionV2Props = buildProps({
   disabled: Boolean,
   hovering: Boolean,
   item: {
-    type: definePropType<Option>(Object),
+    type: definePropType<OptionV2>(Object),
     required: true,
   },
   index: Number,
@@ -340,7 +340,7 @@ export const selectV2Emits = {
 }
 export const optionV2Emits = {
   hover: (index?: number) => isNumber(index),
-  select: (val: Option, index?: number) => true,
+  select: (val: OptionV2, index?: number) => true,
 }
 /* eslint-enable @typescript-eslint/no-unused-vars */
 

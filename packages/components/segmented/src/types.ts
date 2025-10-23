@@ -1,1 +1,1 @@
-export type Option = Record<string, any> | string | number | boolean
+export type SegementedOption = Record<string, any> | string | number | boolean

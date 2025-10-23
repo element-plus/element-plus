@@ -1,12 +1,12 @@
 type OptionCommon = Record<string, any>
 
-export type Option = OptionCommon & {
+export type OptionV2 = OptionCommon & {
   created?: boolean
 }
 
 export type OptionGroup = OptionCommon
 
-export type OptionType = Option | OptionGroup
+export type OptionType = OptionV2 | OptionGroup
 
 export type OptionItemProps = {
   item: any
@@ -15,8 +15,8 @@ export type OptionItemProps = {
 }
 export type SelectStates = {
   inputValue: string
-  cachedOptions: Option[]
-  createdOptions: Option[]
+  cachedOptions: OptionV2[]
+  createdOptions: OptionV2[]
   hoveringIndex: number
   inputHovering: boolean
   selectionWidth: number

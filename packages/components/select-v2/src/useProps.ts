@@ -2,7 +2,7 @@ import { computed } from 'vue'
 import { get } from 'lodash-unified'
 
 import type { SelectV2Props } from './token'
-import type { Option } from './select.types'
+import type { OptionV2 } from './select.types'
 
 export interface Props {
   label?: string
@@ -21,10 +21,11 @@ export const defaultProps: Required<Props> = {
 export function useProps(props: Pick<SelectV2Props, 'props'>) {
   const aliasProps = computed(() => ({ ...defaultProps, ...props.props }))
 
-  const getLabel = (option: Option) => get(option, aliasProps.value.label)
-  const getValue = (option: Option) => get(option, aliasProps.value.value)
-  const getDisabled = (option: Option) => get(option, aliasProps.value.disabled)
-  const getOptions = (option: Option) => get(option, aliasProps.value.options)
+  const getLabel = (option: OptionV2) => get(option, aliasProps.value.label)
+  const getValue = (option: OptionV2) => get(option, aliasProps.value.value)
+  const getDisabled = (option: OptionV2) =>
+    get(option, aliasProps.value.disabled)
+  const getOptions = (option: OptionV2) => get(option, aliasProps.value.options)
 
   return {
     aliasProps,
