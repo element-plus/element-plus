@@ -80,6 +80,8 @@
               v-if="showPwdVisible"
               :class="[nsInput.e('icon'), nsInput.e('password')]"
               @click="handlePasswordVisible"
+              @mousedown.prevent="NOOP"
+              @mouseup.prevent="NOOP"
             >
               <component :is="passwordIcon" />
             </el-icon>
@@ -469,10 +471,7 @@ const {
 } = useComposition({ emit, afterComposition: handleInput })
 
 const handlePasswordVisible = () => {
-  recordCursor()
   passwordVisible.value = !passwordVisible.value
-  // The native input needs a little time to regain focus
-  setTimeout(setCursor)
 }
 
 const focus = () => _ref.value?.focus()
