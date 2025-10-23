@@ -21,6 +21,7 @@
     <!-- prefix -->
     <el-checkbox
       v-if="multiple && showPrefix"
+      size="small"
       :model-value="node.checked"
       :indeterminate="node.indeterminate"
       :disabled="isDisabled"
@@ -30,6 +31,7 @@
     <el-radio
       v-else-if="checkStrictly && showPrefix"
       :model-value="checkedNodeId"
+      size="small"
       :label="node.uid"
       :disabled="isDisabled"
       @update:model-value="handleSelectCheck"
