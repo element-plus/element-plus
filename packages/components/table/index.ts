@@ -4,9 +4,6 @@ import TableColumn from './src/tableColumn'
 
 import type { SFCWithInstall } from '@element-plus/utils'
 
-export type { TableHeader } from './src/table-header'
-export type { TreeData as TableTreeData } from './src/store/tree'
-
 export const ElTable: SFCWithInstall<typeof Table> & {
   TableColumn: typeof TableColumn
 } = withInstall(Table, {
@@ -29,11 +26,24 @@ export type {
   ColumnStyle,
   CellCls,
   CellStyle,
+  DefaultRow,
   TreeNode,
   RenderRowData,
   Sort,
   Filter,
   TableColumnCtx,
   TableTooltipData,
+  TableSortOrder,
   TreeProps,
 } from './src/table/defaults'
+
+export type {
+  Filters as TableFilters,
+  FilterMethods,
+  TableColumn,
+  ValueOf as TableColumnValueOf,
+} from './src/table-column/defaults'
+export type { TableBodyProps } from './src/table-body/defaults'
+export type { TableFooter } from './src/table-footer/index'
+export type { TableHeader, TableHeaderProps } from './src/table-header/index'
+export type { TreeData as TableTreeData } from './src/store/tree'
