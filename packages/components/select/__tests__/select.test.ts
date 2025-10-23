@@ -477,6 +477,49 @@ describe('Select', () => {
     delete process.env.RUN_TEST_WITH_PERSISTENT
   })
 
+  test('should not render the empty slot when multiple is true and persistent is false', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="value" multiple :persistent="false">
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value">
+        </el-option>
+        <template #empty>
+          <div class="empty-slot">EmptySlot</div>
+        </template>
+      </el-select>
+    `,
+      () => ({
+        options: [
+          {
+            value: '选项1',
+            label: '黄金糕',
+          },
+          {
+            value: '选项2',
+            label: '双皮奶',
+          },
+        ],
+        value: [],
+      })
+    )
+    await nextTick()
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const selectVm = select.vm as any
+    expect(selectVm.selectedLabel).toStrictEqual([])
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+    const options = getOptions()
+    options[0].click()
+    await nextTick()
+    expect(selectVm.selectedLabel).toStrictEqual(['黄金糕'])
+
+    const emptySlot = document.querySelector('.empty-slot')
+    expect(emptySlot).toBeNull()
+  })
+
   test('multiple is true and persistent is false', async () => {
     // This is convenient for testing the default value label rendering when persistent is false.
     process.env.RUN_TEST_WITH_PERSISTENT = 'true'

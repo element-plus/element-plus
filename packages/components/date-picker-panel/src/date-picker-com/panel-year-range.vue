@@ -207,7 +207,7 @@ const rightPanelKls = computed(() => {
     content: [ppNs.e('content'), drpNs.e('content'), 'is-right'],
     arrowLeftBtn: [
       ppNs.e('icon-btn'),
-      { 'is-disabled': !enableYearArrow.value },
+      ppNs.is('disabled', !enableYearArrow.value),
       'd-arrow-left',
     ],
     arrowRightBtn: [ppNs.e('icon-btn'), 'd-arrow-right'],
