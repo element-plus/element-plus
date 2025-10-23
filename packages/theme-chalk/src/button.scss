@@ -3,7 +3,6 @@
 @use 'common/var' as *;
 @use 'mixins/button' as *;
 @use 'mixins/mixins' as *;
-@use 'mixins/utils' as *;
 @use 'mixins/var' as *;
 
 $button-icon-span-gap: () !default;

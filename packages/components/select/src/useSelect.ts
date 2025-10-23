@@ -7,13 +7,8 @@ import {
   watch,
   watchEffect,
 } from 'vue'
-import {
-  findLastIndex,
-  get,
-  isEqual,
-  debounce as lodashDebounce,
-} from 'lodash-unified'
-import { useResizeObserver } from '@vueuse/core'
+import { findLastIndex, get, isEqual } from 'lodash-unified'
+import { useDebounceFn, useResizeObserver } from '@vueuse/core'
 import {
   ValidateComponentsMap,
   debugWarn,
@@ -21,6 +16,7 @@ import {
   getEventCode,
   isArray,
   isClient,
+  isEmpty,
   isFunction,
   isIOS,
   isNumber,
@@ -97,6 +93,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   // the controller of the expanded popup
   const expanded = ref(false)
   const hoverOption = ref()
+  const debouncing = ref(false)
 
   const { form, formItem } = useFormItem()
   const { inputId } = useFormItemInputId(props, {
@@ -170,7 +167,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       (ValidateComponentsMap[validateState.value] as Component)
   )
 
-  const debounce = computed(() => (props.remote ? 300 : 0))
+  const debounce = computed(() => (props.remote ? props.debounce : 0))
 
   const isRemoteSearchEmpty = computed(
     () => props.remote && !states.inputValue && states.options.size === 0
@@ -248,7 +245,11 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
 
   const dropdownMenuVisible = computed({
     get() {
-      return expanded.value && (props.loading || !isRemoteSearchEmpty.value)
+      return (
+        expanded.value &&
+        (props.loading || !isRemoteSearchEmpty.value) &&
+        (!debouncing.value || !isEmpty(states.previousQuery))
+      )
     },
     set(val: boolean) {
       expanded.value = val
@@ -490,15 +491,17 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   const onInput = (event: Event) => {
     states.inputValue = (event.target as HTMLInputElement).value
     if (props.remote) {
+      debouncing.value = true
       debouncedOnInputChange()
     } else {
       return onInputChange()
     }
   }
 
-  const debouncedOnInputChange = lodashDebounce(() => {
+  const debouncedOnInputChange = useDebounceFn(() => {
     onInputChange()
-  }, debounce.value)
+    debouncing.value = false
+  }, debounce)
 
   const emitChange = (val: OptionValue | OptionValue[]) => {
     if (!isEqual(props.modelValue, val)) {

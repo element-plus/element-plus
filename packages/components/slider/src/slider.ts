@@ -113,13 +113,6 @@ export const sliderProps = buildProps({
    */
   height: String,
   /**
-   * @description debounce delay when typing, in milliseconds, works when `show-input` is true
-   */
-  debounce: {
-    type: Number,
-    default: 300,
-  },
-  /**
    * @description when `range` is true, screen reader label for the start of the range
    */
   rangeStartLabel: {

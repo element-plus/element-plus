@@ -33,7 +33,7 @@
         </div>
         <div :class="ns.e('bottom')">
           <button
-            :class="{ [ns.is('disabled')]: filteredValue.length === 0 }"
+            :class="ns.is('disabled', filteredValue.length === 0)"
             :disabled="filteredValue.length === 0"
             type="button"
             @click="handleConfirm"
@@ -49,9 +49,7 @@
         <li
           :class="[
             ns.e('list-item'),
-            {
-              [ns.is('active')]: isPropAbsent(filterValue),
-            },
+            ns.is('active', isPropAbsent(filterValue)),
           ]"
           @click="handleSelect(null)"
         >
