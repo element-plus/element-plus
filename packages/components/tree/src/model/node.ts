@@ -21,7 +21,7 @@ import type {
   TreeNodeOptions,
 } from '../tree.type'
 
-export const getChildState = (node: Node[]): TreeNodeChildState => {
+export const getChildState = (node: TreeNode[]): TreeNodeChildState => {
   let all = true
   let none = true
   let allWithoutDisable = true
@@ -41,7 +41,7 @@ export const getChildState = (node: Node[]): TreeNodeChildState => {
   return { all, none, allWithoutDisable, half: !all && !none }
 }
 
-const reInitChecked = function (node: Node): void {
+const reInitChecked = function (node: TreeNode): void {
   if (node.childNodes.length === 0 || node.loading) return
 
   const { all, none, half } = getChildState(node.childNodes)
@@ -64,7 +64,7 @@ const reInitChecked = function (node: Node): void {
   }
 }
 
-const getPropertyFromData = function (node: Node, prop: string): any {
+const getPropertyFromData = function (node: TreeNode, prop: string): any {
   const props = node.store.props
   const data = node.data || {}
   const config = (props as any)[prop]
@@ -79,7 +79,7 @@ const getPropertyFromData = function (node: Node, prop: string): any {
   }
 }
 
-const setCanFocus = function (childNodes: Node[], focus: boolean): void {
+const setCanFocus = function (childNodes: TreeNode[], focus: boolean): void {
   childNodes.forEach((item) => {
     item.canFocus = focus
     setCanFocus(item.childNodes, focus)
@@ -88,14 +88,14 @@ const setCanFocus = function (childNodes: Node[], focus: boolean): void {
 
 let nodeIdSeed = 0
 
-class Node {
+class TreeNode {
   id: number
   text: string | null
   checked: boolean
   indeterminate: boolean
   data: TreeNodeData
   expanded: boolean
-  parent: Node | null
+  parent: TreeNode | null
   visible: boolean
   isCurrent: boolean
   store!: TreeStore
@@ -105,7 +105,7 @@ class Node {
 
   level: number
   loaded: boolean
-  childNodes: Node[]
+  childNodes: TreeNode[]
   loading: boolean
 
   constructor(options: TreeNodeOptions) {
@@ -115,7 +115,7 @@ class Node {
     this.indeterminate = false
     this.data = null as unknown as TreeNodeData
     this.expanded = false
-    this.parent = null as Node | null
+    this.parent = null as TreeNode | null
     this.visible = true
     this.isCurrent = false
     this.canFocus = false
@@ -235,7 +235,7 @@ class Node {
     return getPropertyFromData(this, 'disabled')
   }
 
-  get nextSibling(): Nullable<Node> {
+  get nextSibling(): Nullable<TreeNode> {
     const parent = this.parent
     if (parent) {
       const index = parent.childNodes.indexOf(this)
@@ -246,7 +246,7 @@ class Node {
     return null
   }
 
-  get previousSibling(): Nullable<Node> {
+  get previousSibling(): Nullable<TreeNode> {
     const parent = this.parent
     if (parent) {
       const index = parent.childNodes.indexOf(this)
@@ -257,7 +257,7 @@ class Node {
     return null
   }
 
-  contains(target: Node, deep = true): boolean {
+  contains(target: TreeNode, deep = true): boolean {
     return (this.childNodes || []).some(
       (child) => child === target || (deep && child.contains(target))
     )
@@ -270,7 +270,11 @@ class Node {
     }
   }
 
-  insertChild(child?: FakeNode | Node, index?: number, batch?: boolean): void {
+  insertChild(
+    child?: FakeNode | TreeNode,
+    index?: number,
+    batch?: boolean
+  ): void {
     if (!child) throw new Error('InsertChild error: child is required.')
 
     if (!(child instanceof Node)) {
@@ -288,24 +292,24 @@ class Node {
         parent: this,
         store: this.store,
       })
-      child = reactive(new Node(child as TreeNodeOptions))
-      if (child instanceof Node) {
+      child = reactive(new TreeNode(child as TreeNodeOptions))
+      if (child instanceof TreeNode) {
         child.initialize()
       }
     }
 
-    ;(child as Node).level = this.level + 1
+    ;(child as TreeNode).level = this.level + 1
 
     if (isUndefined(index) || index < 0) {
-      this.childNodes.push(child as Node)
+      this.childNodes.push(child as TreeNode)
     } else {
-      this.childNodes.splice(index, 0, child as Node)
+      this.childNodes.splice(index, 0, child as TreeNode)
     }
 
     this.updateLeafState()
   }
 
-  insertBefore(child: FakeNode | Node, ref: Node): void {
+  insertBefore(child: FakeNode | TreeNode, ref: TreeNode): void {
     let index
     if (ref) {
       index = this.childNodes.indexOf(ref)
@@ -313,7 +317,7 @@ class Node {
     this.insertChild(child, index)
   }
 
-  insertAfter(child: FakeNode | Node, ref: Node): void {
+  insertAfter(child: FakeNode | TreeNode, ref: TreeNode): void {
     let index
     if (ref) {
       index = this.childNodes.indexOf(ref)
@@ -322,7 +326,7 @@ class Node {
     this.insertChild(child, index)
   }
 
-  removeChild(child: Node): void {
+  removeChild(child: TreeNode): void {
     const children = this.getChildren() || []
     const dataIndex = children.indexOf(child.data)
     if (dataIndex > -1) {
@@ -341,7 +345,7 @@ class Node {
   }
 
   removeChildByData(data: TreeNodeData | null): void {
-    let targetNode: Node | null = null
+    let targetNode: TreeNode | null = null
 
     for (let i = 0; i < this.childNodes.length; i++) {
       if (this.childNodes[i].data === data) {
@@ -578,8 +582,8 @@ class Node {
     }
   }
 
-  eachNode(callback: (node: Node) => void) {
-    const arr: Node[] = [this]
+  eachNode(callback: (node: TreeNode) => void) {
+    const arr: TreeNode[] = [this]
     while (arr.length) {
       const node = arr.shift()!
       arr.unshift(...node.childNodes)
@@ -593,4 +597,4 @@ class Node {
   }
 }
 
-export default Node
+export default TreeNode

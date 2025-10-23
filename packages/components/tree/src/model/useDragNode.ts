@@ -10,16 +10,16 @@ import type {
   NodeDropType,
 } from '../tree.type'
 import type TreeStore from './tree-store'
-import type Node from './node'
+import type TreeNode from './node'
 
-interface TreeNode {
-  node: Node
+interface TreeNodeEl {
+  node: TreeNode
   $el?: HTMLElement
 }
 
 interface DragOptions {
   event: DragEvent
-  treeNode: TreeNode
+  treeNode: TreeNodeEl
 }
 
 interface Props {
@@ -52,9 +52,9 @@ export function useDragNodeHandler({
   const dragState = ref<{
     allowDrop: boolean
     dropType: NodeDropType | null
-    draggingNode: TreeNode | null
+    draggingNode: TreeNodeEl | null
     showDropIndicator: boolean
-    dropNode: TreeNode | null
+    dropNode: TreeNodeEl | null
   }>({
     showDropIndicator: false,
     draggingNode: null,

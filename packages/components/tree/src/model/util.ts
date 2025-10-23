@@ -1,11 +1,11 @@
 import type { SetupContext } from 'vue'
-import type Node from './node'
+import type TreeNode from './node'
 import type { RootTreeType, TreeKey, TreeNodeData } from '../tree.type'
 
 export const NODE_KEY = '$treeNodeId'
 
 export const markNodeData = function (
-  node: Node,
+  node: TreeNode,
   data: TreeNodeData | null
 ): void {
   if (!data || data[NODE_KEY]) return

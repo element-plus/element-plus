@@ -7,11 +7,17 @@ import {
 
 import type { CheckboxValueType } from '@element-plus/components/checkbox'
 import type { Ref } from 'vue'
-import type { Tree, TreeKey, TreeNode, TreeNodeData, TreeProps } from '../types'
+import type {
+  TreeV2,
+  TreeV2Key,
+  TreeV2Node,
+  TreeV2NodeData,
+  TreeV2Props,
+} from '../types'
 
-export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
-  const checkedKeys = ref<Set<TreeKey>>(new Set())
-  const indeterminateKeys = ref<Set<TreeKey>>(new Set())
+export function useCheck(props: TreeV2Props, tree: Ref<TreeV2 | undefined>) {
+  const checkedKeys = ref<Set<TreeV2Key>>(new Set())
+  const indeterminateKeys = ref<Set<TreeV2Key>>(new Set())
   const { emit } = getCurrentInstance()!
 
   watch(
@@ -32,7 +38,7 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
     }
     const { levelTreeNodeMap, maxLevel } = tree.value
     const checkedKeySet = checkedKeys.value
-    const indeterminateKeySet = new Set<TreeKey>()
+    const indeterminateKeySet = new Set<TreeV2Key>()
     // It is easier to determine the indeterminate state by
     // traversing from bottom to top
     // leaf nodes not have indeterminate status and can be skipped
@@ -73,19 +79,19 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
     indeterminateKeys.value = indeterminateKeySet
   }
 
-  const isChecked = (node: TreeNode) => checkedKeys.value.has(node.key)
+  const isChecked = (node: TreeV2Node) => checkedKeys.value.has(node.key)
 
-  const isIndeterminate = (node: TreeNode) =>
+  const isIndeterminate = (node: TreeV2Node) =>
     indeterminateKeys.value.has(node.key)
 
   const toggleCheckbox = (
-    node: TreeNode,
+    node: TreeV2Node,
     isChecked: CheckboxValueType,
     nodeClick = true,
     immediateUpdate = true
   ) => {
     const checkedKeySet = checkedKeys.value
-    const toggle = (node: TreeNode, checked: CheckboxValueType) => {
+    const toggle = (node: TreeV2Node, checked: CheckboxValueType) => {
       checkedKeySet[checked ? SetOperationEnum.ADD : SetOperationEnum.DELETE](
         node.key
       )
@@ -107,7 +113,7 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
     }
   }
 
-  const afterNodeCheck = (node: TreeNode, checked: CheckboxValueType) => {
+  const afterNodeCheck = (node: TreeV2Node, checked: CheckboxValueType) => {
     const { checkedNodes, checkedKeys } = getChecked()
     const { halfCheckedNodes, halfCheckedKeys } = getHalfChecked()
     emit(NODE_CHECK, node.data, {
@@ -120,28 +126,28 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
   }
 
   // expose
-  function getCheckedKeys(leafOnly = false): TreeKey[] {
+  function getCheckedKeys(leafOnly = false): TreeV2Key[] {
     return getChecked(leafOnly).checkedKeys
   }
 
-  function getCheckedNodes(leafOnly = false): TreeNodeData[] {
+  function getCheckedNodes(leafOnly = false): TreeV2NodeData[] {
     return getChecked(leafOnly).checkedNodes
   }
 
-  function getHalfCheckedKeys(): TreeKey[] {
+  function getHalfCheckedKeys(): TreeV2Key[] {
     return getHalfChecked().halfCheckedKeys
   }
 
-  function getHalfCheckedNodes(): TreeNodeData[] {
+  function getHalfCheckedNodes(): TreeV2NodeData[] {
     return getHalfChecked().halfCheckedNodes
   }
 
   function getChecked(leafOnly = false): {
-    checkedKeys: TreeKey[]
-    checkedNodes: TreeNodeData[]
+    checkedKeys: TreeV2Key[]
+    checkedNodes: TreeV2NodeData[]
   } {
-    const checkedNodes: TreeNodeData[] = []
-    const keys: TreeKey[] = []
+    const checkedNodes: TreeV2NodeData[] = []
+    const keys: TreeV2Key[] = []
     if (tree?.value && props.showCheckbox) {
       const { treeNodeMap } = tree.value
       checkedKeys.value.forEach((key) => {
@@ -159,11 +165,11 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
   }
 
   function getHalfChecked(): {
-    halfCheckedKeys: TreeKey[]
-    halfCheckedNodes: TreeNodeData[]
+    halfCheckedKeys: TreeV2Key[]
+    halfCheckedNodes: TreeV2NodeData[]
   } {
-    const halfCheckedNodes: TreeNodeData[] = []
-    const halfCheckedKeys: TreeKey[] = []
+    const halfCheckedNodes: TreeV2NodeData[] = []
+    const halfCheckedKeys: TreeV2Key[] = []
     if (tree?.value && props.showCheckbox) {
       const { treeNodeMap } = tree.value
       indeterminateKeys.value.forEach((key) => {
@@ -180,7 +186,7 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
     }
   }
 
-  function setCheckedKeys(keys: TreeKey[]) {
+  function setCheckedKeys(keys: TreeV2Key[]) {
     checkedKeys.value.clear()
     indeterminateKeys.value.clear()
     nextTick(() => {
@@ -188,7 +194,7 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
     })
   }
 
-  function setChecked(key: TreeKey, isChecked: boolean) {
+  function setChecked(key: TreeV2Key, isChecked: boolean) {
     if (tree?.value && props.showCheckbox) {
       const node = tree.value.treeNodeMap.get(key)
       if (node) {
@@ -197,7 +203,7 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
     }
   }
 
-  function _setCheckedKeys(keys: TreeKey[]) {
+  function _setCheckedKeys(keys: TreeV2Key[]) {
     if (tree?.value) {
       const { treeNodeMap } = tree.value
       if (props.showCheckbox && treeNodeMap && keys?.length > 0) {

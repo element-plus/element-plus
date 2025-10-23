@@ -6,7 +6,7 @@ import {
   NODE_COLLAPSE,
   NODE_DROP,
   NODE_EXPAND,
-  TreeOptionsEnum,
+  TreeV2OptionsEnum,
 } from '../virtual-tree'
 import { useCheck } from './useCheck'
 import { useFilter } from './useFilter'
@@ -19,21 +19,21 @@ import type { SetupContext } from 'vue'
 import type { treeEmits } from '../virtual-tree'
 import type { CheckboxValueType } from '@element-plus/components/checkbox'
 import type {
-  Tree,
-  TreeData,
-  TreeKey,
-  TreeNode,
-  TreeNodeData,
-  TreeProps,
+  TreeV2,
+  TreeV2Data,
+  TreeV2Key,
+  TreeV2Node,
+  TreeV2NodeData,
+  TreeV2Props,
 } from '../types'
 
 export function useTree(
-  props: TreeProps,
+  props: TreeV2Props,
   emit: SetupContext<typeof treeEmits>['emit']
 ) {
-  const expandedKeySet = ref<Set<TreeKey>>(new Set())
-  const currentKey = ref<TreeKey | undefined>()
-  const tree = shallowRef<Tree | undefined>()
+  const expandedKeySet = ref<Set<TreeV2Key>>(new Set())
+  const currentKey = ref<TreeV2Key | undefined>()
+  const tree = shallowRef<TreeV2 | undefined>()
   const listRef = ref<typeof FixedSizeList | undefined>()
 
   const {
@@ -54,25 +54,25 @@ export function useTree(
   )
 
   const valueKey = computed(() => {
-    return props.props?.value || TreeOptionsEnum.KEY
+    return props.props?.value || TreeV2OptionsEnum.KEY
   })
   const childrenKey = computed(() => {
-    return props.props?.children || TreeOptionsEnum.CHILDREN
+    return props.props?.children || TreeV2OptionsEnum.CHILDREN
   })
   const disabledKey = computed(() => {
-    return props.props?.disabled || TreeOptionsEnum.DISABLED
+    return props.props?.disabled || TreeV2OptionsEnum.DISABLED
   })
   const labelKey = computed(() => {
-    return props.props?.label || TreeOptionsEnum.LABEL
+    return props.props?.label || TreeV2OptionsEnum.LABEL
   })
 
   const flattenTree = computed(() => {
     const expandedKeys = expandedKeySet.value
     const hiddenKeys = hiddenNodeKeySet.value
-    const flattenNodes: TreeNode[] = []
+    const flattenNodes: TreeV2Node[] = []
     const nodes = tree.value?.treeNodes || []
 
-    const stack: TreeNode[] = []
+    const stack: TreeV2Node[] = []
     for (let i = nodes.length - 1; i >= 0; --i) {
       stack.push(nodes[i])
     }
@@ -95,19 +95,19 @@ export function useTree(
     return flattenTree.value.length > 0
   })
 
-  function createTree(data: TreeData): Tree {
-    const treeNodeMap: Map<TreeKey, TreeNode> = new Map()
-    const levelTreeNodeMap: Map<number, TreeNode[]> = new Map()
+  function createTreeV2(data: TreeV2Data): TreeV2 {
+    const treeNodeMap: Map<TreeV2Key, TreeV2Node> = new Map()
+    const levelTreeNodeMap: Map<number, TreeV2Node[]> = new Map()
     let maxLevel = 1
     function traverse(
-      nodes: TreeData,
+      nodes: TreeV2Data,
       level = 1,
-      parent: TreeNode | undefined = undefined
+      parent: TreeV2Node | undefined = undefined
     ) {
-      const siblings: TreeNode[] = []
+      const siblings: TreeV2Node[] = []
       for (const rawNode of nodes) {
         const value = getKey(rawNode)
-        const node: TreeNode = {
+        const node: TreeV2Node = {
           level,
           key: value,
           data: rawNode,
@@ -133,7 +133,7 @@ export function useTree(
       }
       return siblings
     }
-    const treeNodes: TreeNode[] = traverse(data)
+    const treeNodes: TreeV2Node[] = traverse(data)
     return {
       treeNodeMap,
       levelTreeNodeMap,
@@ -149,26 +149,26 @@ export function useTree(
     }
   }
 
-  function getChildren(node: TreeNodeData): TreeNodeData[] {
+  function getChildren(node: TreeV2NodeData): TreeV2NodeData[] {
     return node[childrenKey.value]
   }
 
-  function getKey(node: TreeNodeData): TreeKey {
+  function getKey(node: TreeV2NodeData): TreeV2Key {
     if (!node) {
       return ''
     }
     return node[valueKey.value]
   }
 
-  function getDisabled(node: TreeNodeData): boolean {
+  function getDisabled(node: TreeV2NodeData): boolean {
     return node[disabledKey.value]
   }
 
-  function getLabel(node: TreeNodeData): string {
+  function getLabel(node: TreeV2NodeData): string {
     return node[labelKey.value]
   }
 
-  function toggleExpand(node: TreeNode) {
+  function toggleExpand(node: TreeV2Node) {
     const expandedKeys = expandedKeySet.value
     if (expandedKeys.has(node.key)) {
       collapseNode(node)
@@ -177,8 +177,8 @@ export function useTree(
     }
   }
 
-  function setExpandedKeys(keys: TreeKey[]) {
-    const expandedKeys = new Set<TreeKey>()
+  function setExpandedKeys(keys: TreeV2Key[]) {
+    const expandedKeys = new Set<TreeV2Key>()
     const nodeMap = tree.value!.treeNodeMap
 
     keys.forEach((k) => {
@@ -193,7 +193,7 @@ export function useTree(
     expandedKeySet.value = expandedKeys
   }
 
-  function handleNodeClick(node: TreeNode, e: MouseEvent) {
+  function handleNodeClick(node: TreeV2Node, e: MouseEvent) {
     emit(NODE_CLICK, node.data, node, e)
     handleCurrentChange(node)
     if (props.expandOnClickNode) {
@@ -208,22 +208,22 @@ export function useTree(
     }
   }
 
-  function handleNodeDrop(node: TreeNode, e: DragEvent) {
+  function handleNodeDrop(node: TreeV2Node, e: DragEvent) {
     emit(NODE_DROP, node.data, node, e)
   }
 
-  function handleCurrentChange(node: TreeNode) {
+  function handleCurrentChange(node: TreeV2Node) {
     if (!isCurrent(node)) {
       currentKey.value = node.key
       emit(CURRENT_CHANGE, node.data, node)
     }
   }
 
-  function handleNodeCheck(node: TreeNode, checked: CheckboxValueType) {
+  function handleNodeCheck(node: TreeV2Node, checked: CheckboxValueType) {
     toggleCheckbox(node, checked)
   }
 
-  function expandNode(node: TreeNode) {
+  function expandNode(node: TreeV2Node) {
     const keySet = expandedKeySet.value
     if (tree.value && props.accordion) {
       // whether only one node among the same level can be expanded at one time
@@ -241,44 +241,44 @@ export function useTree(
     emit(NODE_EXPAND, node.data, node)
   }
 
-  function collapseNode(node: TreeNode) {
+  function collapseNode(node: TreeV2Node) {
     expandedKeySet.value.delete(node.key)
     node.expanded = false
     emit(NODE_COLLAPSE, node.data, node)
   }
 
-  function isDisabled(node: TreeNode): boolean {
+  function isDisabled(node: TreeV2Node): boolean {
     return !!node.disabled
   }
 
-  function isCurrent(node: TreeNode): boolean {
+  function isCurrent(node: TreeV2Node): boolean {
     const current = currentKey.value
     return current !== undefined && current === node.key
   }
 
-  function getCurrentNode(): TreeNodeData | undefined {
+  function getCurrentNode(): TreeV2NodeData | undefined {
     if (!currentKey.value) return undefined
     return tree.value?.treeNodeMap.get(currentKey.value)?.data
   }
 
-  function getCurrentKey(): TreeKey | undefined {
+  function getCurrentKey(): TreeV2Key | undefined {
     return currentKey.value
   }
 
-  function setCurrentKey(key: TreeKey): void {
+  function setCurrentKey(key: TreeV2Key): void {
     currentKey.value = key
   }
 
-  function setData(data: TreeData) {
-    tree.value = createTree(data)
+  function setData(data: TreeV2Data) {
+    tree.value = createTreeV2(data)
   }
 
-  function getNode(data: TreeKey | TreeNodeData) {
+  function getNode(data: TreeV2Key | TreeV2NodeData) {
     const key = isObject(data) ? getKey(data) : data
     return tree.value?.treeNodeMap.get(key)
   }
 
-  function scrollToNode(key: TreeKey, strategy: ScrollStrategy = 'auto') {
+  function scrollToNode(key: TreeV2Key, strategy: ScrollStrategy = 'auto') {
     const node = getNode(key)
     if (node && listRef.value) {
       listRef.value.scrollToItem(flattenTree.value.indexOf(node), strategy)
@@ -302,7 +302,7 @@ export function useTree(
   watch(
     () => props.defaultExpandedKeys,
     (key) => {
-      expandedKeySet.value = new Set<TreeKey>(key)
+      expandedKeySet.value = new Set<TreeV2Key>(key)
     },
     {
       immediate: true,
@@ -311,7 +311,7 @@ export function useTree(
 
   watch(
     () => props.data,
-    (data: TreeData) => {
+    (data: TreeV2Data) => {
       setData(data)
     },
     {

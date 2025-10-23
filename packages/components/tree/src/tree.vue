@@ -59,7 +59,7 @@ import { useKeydown } from './model/useKeydown'
 import { ROOT_TREE_INJECTION_KEY } from './tokens'
 import { isEqual } from 'lodash-unified'
 
-import type Node from './model/node'
+import type TreeNode from './model/node'
 import type { ComponentInternalInstance, PropType } from 'vue'
 import type { Nullable } from '@element-plus/utils'
 import type {
@@ -186,7 +186,7 @@ export default defineComponent({
 
     store.value.initialize()
 
-    const root = ref<Node>(store.value.root)
+    const root = ref<TreeNode>(store.value.root)
     const currentNode = ref<Node | null>(null)
     const el$ = ref<Nullable<HTMLElement>>(null)
     const dropIndicator$ = ref<Nullable<HTMLElement>>(null)
@@ -260,7 +260,7 @@ export default defineComponent({
       store.value.filter(value)
     }
 
-    const getNodeKey = (node: Node) => {
+    const getNodeKey = (node: TreeNode) => {
       return getNodeKeyUtil(props.nodeKey, node.data)
     }
 
@@ -301,7 +301,7 @@ export default defineComponent({
       return currentNode ? currentNode[props.nodeKey] : null
     }
 
-    const setCheckedNodes = (nodes: Node[], leafOnly?: boolean) => {
+    const setCheckedNodes = (nodes: TreeNode[], leafOnly?: boolean) => {
       if (!props.nodeKey)
         throw new Error('[Tree] nodeKey is required in setCheckedNodes')
       store.value.setCheckedNodes(nodes, leafOnly)
@@ -329,7 +329,7 @@ export default defineComponent({
       return store.value.getHalfCheckedKeys()
     }
 
-    const setCurrentNode = (node: Node, shouldAutoExpandParent = true) => {
+    const setCurrentNode = (node: TreeNode, shouldAutoExpandParent = true) => {
       if (!props.nodeKey)
         throw new Error('[Tree] nodeKey is required in setCurrentNode')
 
@@ -349,7 +349,7 @@ export default defineComponent({
       })
     }
 
-    const getNode = (data: TreeKey | TreeNodeData): Node => {
+    const getNode = (data: TreeKey | TreeNodeData): TreeNode => {
       return store.value.getNode(data)
     }
 
@@ -380,7 +380,7 @@ export default defineComponent({
 
     const handleNodeExpand = (
       nodeData: TreeNodeData,
-      node: Node,
+      node: TreeNode,
       instance: ComponentInternalInstance
     ) => {
       broadcastExpanded(node)

@@ -7,7 +7,7 @@ import { getProp, isBoolean, isFunction, isNumber } from '@element-plus/utils'
 import type { VNode } from 'vue'
 import type { TableColumnCtx } from './table-column/defaults'
 import type { Store } from './store'
-import type { DefaultRow, TreeNode } from './table/defaults'
+import type { DefaultRow, TableTreeNode } from './table/defaults'
 
 const defaultClassNames = {
   selection: 'table-column--selection',
@@ -205,7 +205,7 @@ export function treeCellPrefix<T extends DefaultRow>(
     store,
   }: {
     row: T
-    treeNode: TreeNode
+    treeNode: TableTreeNode
     store: Store<T>
   },
   createPlaceholder = false

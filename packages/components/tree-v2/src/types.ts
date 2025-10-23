@@ -6,60 +6,60 @@ import type {
 } from 'vue'
 import type { treeEmits, treeProps } from './virtual-tree'
 
-export type TreeNodeData = Record<string, any>
+export type TreeV2NodeData = Record<string, any>
 
-export type TreeData = TreeNodeData[]
+export type TreeV2Data = TreeV2NodeData[]
 
-export type TreeKey = string | number
+export type TreeV2Key = string | number
 
-export interface TreeOptionProps {
+export interface TreeV2OptionProps {
   children?: string
   label?: string
   value?: string
   disabled?: string
   class?: (
-    data: TreeNodeData,
-    node: TreeNode
+    data: TreeV2NodeData,
+    node: TreeV2Node
   ) => string | { [key: string]: boolean }
 }
 
-export type TreeProps = ExtractPropTypes<typeof treeProps>
-export type TreePropsPublic = __ExtractPublicPropTypes<typeof treeProps>
+export type TreeV2Props = ExtractPropTypes<typeof treeProps>
+export type TreeV2PropsPublic = __ExtractPublicPropTypes<typeof treeProps>
 
-export interface TreeNode {
-  key: TreeKey
+export interface TreeV2Node {
+  key: TreeV2Key
   level: number
-  parent?: TreeNode
-  children?: TreeNode[]
-  data: TreeNodeData
+  parent?: TreeV2Node
+  children?: TreeV2Node[]
+  data: TreeV2NodeData
   disabled?: boolean
   label?: string
   isLeaf?: boolean
   expanded?: boolean
 }
 
-export interface TreeContext {
+export interface TreeV2Context {
   ctx: Omit<SetupContext<typeof treeEmits>, 'expose' | 'attrs'>
   instance: ComponentInternalInstance
-  props: TreeProps
+  props: TreeV2Props
 }
 
-export interface Tree {
-  treeNodeMap: Map<TreeKey, TreeNode>
-  levelTreeNodeMap: Map<number, TreeNode[]>
-  treeNodes: TreeNode[]
+export interface TreeV2 {
+  treeNodeMap: Map<TreeV2Key, TreeV2Node>
+  levelTreeNodeMap: Map<number, TreeV2Node[]>
+  treeNodes: TreeV2Node[]
   maxLevel: number
 }
 
 export type FilterMethod = (
   query: string,
-  data: TreeNodeData,
-  node: TreeNode
+  data: TreeV2NodeData,
+  node: TreeV2Node
 ) => boolean
 
 export interface CheckedInfo {
-  checkedKeys: TreeKey[]
-  checkedNodes: TreeData
-  halfCheckedKeys: TreeKey[]
-  halfCheckedNodes: TreeData
+  checkedKeys: TreeV2Key[]
+  checkedNodes: TreeV2Data
+  halfCheckedKeys: TreeV2Key[]
+  halfCheckedNodes: TreeV2Data
 }

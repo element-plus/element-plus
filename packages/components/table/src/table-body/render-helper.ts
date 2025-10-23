@@ -15,7 +15,7 @@ import type {
   Table,
   TableColumnCtx,
   TableProps,
-  TreeNode,
+  TableTreeNode,
 } from '../table/defaults'
 import type { TreeData } from '../store/tree'
 import type { TableOverflowTooltipOptions } from '../util'
@@ -57,7 +57,7 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
   const rowRender = (
     row: T,
     $index: number,
-    treeRowData?: TreeNode,
+    treeRowData?: TableTreeNode,
     expanded = false
   ) => {
     const { tooltipEffect, tooltipOptions, store } = props

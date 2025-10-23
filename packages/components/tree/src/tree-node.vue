@@ -103,7 +103,7 @@ import NodeContent from './tree-node-content.vue'
 import { getNodeKey as getNodeKeyUtil, handleCurrentChange } from './model/util'
 import { useNodeExpandEventBroadcast } from './model/useNodeExpandEventBroadcast'
 import { dragEventsKey } from './model/useDragNode'
-import Node from './model/node'
+import TreeNode from './model/node'
 import { NODE_INSTANCE_INJECTION_KEY, ROOT_TREE_INJECTION_KEY } from './tokens'
 
 import type { ComponentInternalInstance, PropType } from 'vue'
@@ -121,7 +121,7 @@ export default defineComponent({
   },
   props: {
     node: {
-      type: Node,
+      type: TreeNode,
       default: () => ({}),
     },
     props: {
@@ -196,11 +196,11 @@ export default defineComponent({
       }
     )
 
-    const getNodeKey = (node: Node): any => {
+    const getNodeKey = (node: TreeNode): any => {
       return getNodeKeyUtil(tree.props.nodeKey, node.data)
     }
 
-    const getNodeClass = (node: Node) => {
+    const getNodeClass = (node: TreeNode) => {
       const nodeClassFunc = props.props.class
       if (!nodeClassFunc) {
         return {}
@@ -300,7 +300,7 @@ export default defineComponent({
 
     const handleChildNodeExpand = (
       nodeData: TreeNodeData,
-      node: Node,
+      node: TreeNode,
       instance: ComponentInternalInstance
     ) => {
       broadcastExpanded(node)

@@ -27,7 +27,7 @@ export type {
   CellCls,
   CellStyle,
   DefaultRow,
-  TreeNode,
+  TableTreeNode,
   RenderRowData,
   Sort,
   Filter,

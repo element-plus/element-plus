@@ -1,7 +1,7 @@
 import { nextTick } from 'vue'
 import { isNil } from 'lodash-unified'
 import { NOOP, hasOwn, isObject, isPropAbsent } from '@element-plus/utils'
-import Node from './node'
+import TreeNode from './node'
 import { getNodeKey } from './util'
 
 import type {
@@ -17,10 +17,10 @@ import type {
 } from '../tree.type'
 
 export default class TreeStore {
-  currentNode: Node | null
+  currentNode: TreeNode | null
   currentNodeKey: TreeKey | null
   nodesMap: TreeStoreNodesMap
-  root!: Node
+  root!: TreeNode
   data!: TreeData
   lazy = false
   load?: LoadFunction
@@ -48,7 +48,7 @@ export default class TreeStore {
   }
 
   initialize() {
-    this.root = new Node({
+    this.root = new TreeNode({
       data: this.data,
       store: this,
     })
@@ -72,12 +72,14 @@ export default class TreeStore {
   filter(value: FilterValue): void {
     const filterNodeMethod = this.filterNodeMethod
     const lazy = this.lazy
-    const traverse = async function (node: TreeStore | Node) {
+    const traverse = async function (node: TreeStore | TreeNode) {
       const childNodes = (node as TreeStore).root
         ? (node as TreeStore).root.childNodes
-        : (node as Node).childNodes
+        : (node as TreeNode).childNodes
 
-      for (const [index, child] of childNodes.entries()) {
+      for (const [index, child] of childNodes.entries() as IterableIterator<
+        [number, TreeNode]
+      >) {
         child.visible = !!filterNodeMethod?.call(
           child,
           value,
@@ -91,21 +93,21 @@ export default class TreeStore {
         await traverse(child)
       }
 
-      if (!(node as Node).visible && childNodes.length) {
+      if (!(node as TreeNode).visible && childNodes.length) {
         let allHidden = true
         allHidden = !childNodes.some((child) => child.visible)
 
         if ((node as TreeStore).root) {
           ;(node as TreeStore).root.visible = allHidden === false
         } else {
-          ;(node as Node).visible = allHidden === false
+          ;(node as TreeNode).visible = allHidden === false
         }
       }
       if (!value) return
 
-      if ((node as Node).visible && !(node as Node).isLeaf) {
-        if (!lazy || (node as Node).loaded) {
-          ;(node as Node).expand()
+      if ((node as TreeNode).visible && !(node as TreeNode).isLeaf) {
+        if (!lazy || (node as TreeNode).loaded) {
+          ;(node as TreeNode).expand()
         }
       }
     }
@@ -125,8 +127,8 @@ export default class TreeStore {
     }
   }
 
-  getNode(data: TreeKey | TreeNodeData | Node): Node {
-    if (data instanceof Node) return data
+  getNode(data: TreeKey | TreeNodeData | TreeNode): TreeNode {
+    if (data instanceof TreeNode) return data
     const key = isObject(data) ? getNodeKey(this.key, data) : data
     return this.nodesMap[key] || null
   }
@@ -147,7 +149,7 @@ export default class TreeStore {
     refNode.parent?.insertAfter({ data }, refNode)
   }
 
-  remove(data: TreeNodeData | Node): void {
+  remove(data: TreeNodeData | TreeNode): void {
     const node = this.getNode(data)
 
     if (node && node.parent) {
@@ -181,7 +183,7 @@ export default class TreeStore {
     })
   }
 
-  _initDefaultCheckedNode(node: Node): void {
+  _initDefaultCheckedNode(node: TreeNode): void {
     const defaultCheckedKeys = this.defaultCheckedKeys || []
 
     if (!isNil(node.key) && defaultCheckedKeys.includes(node.key)) {
@@ -196,7 +198,7 @@ export default class TreeStore {
     }
   }
 
-  registerNode(node: Node): void {
+  registerNode(node: TreeNode): void {
     const key = this.key
     if (!node || !node.data) return
 
@@ -208,7 +210,7 @@ export default class TreeStore {
     }
   }
 
-  deregisterNode(node: Node): void {
+  deregisterNode(node: TreeNode): void {
     const key = this.key
     if (!key || !node || !node.data) return
 
@@ -224,10 +226,10 @@ export default class TreeStore {
     includeHalfChecked = false
   ): TreeNodeData[] {
     const checkedNodes: TreeNodeData[] = []
-    const traverse = function (node: TreeStore | Node) {
+    const traverse = function (node: TreeStore | TreeNode) {
       const childNodes = (node as TreeStore).root
         ? (node as TreeStore).root.childNodes
-        : (node as Node).childNodes
+        : (node as TreeNode).childNodes
 
       childNodes.forEach((child) => {
         if (
@@ -252,10 +254,10 @@ export default class TreeStore {
 
   getHalfCheckedNodes(): TreeNodeData[] {
     const nodes: TreeNodeData[] = []
-    const traverse = function (node: TreeStore | Node) {
+    const traverse = function (node: TreeStore | TreeNode) {
       const childNodes = (node as TreeStore).root
         ? (node as TreeStore).root.childNodes
-        : (node as Node).childNodes
+        : (node as TreeNode).childNodes
 
       childNodes.forEach((child) => {
         if (child.indeterminate) {
@@ -275,8 +277,8 @@ export default class TreeStore {
     return this.getHalfCheckedNodes().map((data) => (data || {})[this.key])
   }
 
-  _getAllNodes(): Node[] {
-    const allNodes: Node[] = []
+  _getAllNodes(): TreeNode[] {
+    const allNodes: TreeNode[] = []
     const nodesMap = this.nodesMap
     for (const nodeKey in nodesMap) {
       if (hasOwn(nodesMap, nodeKey)) {
@@ -310,7 +312,7 @@ export default class TreeStore {
     const cache: Record<TreeKey, boolean> = Object.create(null)
     const keys = Object.keys(checkedKeys)
     allNodes.forEach((node) => node.setChecked(false, false))
-    const cacheCheckedChild = (node: Node) => {
+    const cacheCheckedChild = (node: TreeNode) => {
       node.childNodes.forEach((child) => {
         cache[child.data[key]] = true
         if (child.childNodes?.length) {
@@ -341,7 +343,7 @@ export default class TreeStore {
 
       if (leafOnly) {
         node.setChecked(false, false)
-        const traverse = function (node: Node): void {
+        const traverse = function (node: TreeNode): void {
           const childNodes = node.childNodes
           childNodes.forEach((child) => {
             if (!child.isLeaf) {
@@ -355,7 +357,7 @@ export default class TreeStore {
     }
   }
 
-  setCheckedNodes(array: Node[], leafOnly = false): void {
+  setCheckedNodes(array: TreeNode[], leafOnly = false): void {
     const key = this.key
     const checkedKeys: Record<TreeKey, boolean> = {}
     array.forEach((item) => {
@@ -401,7 +403,7 @@ export default class TreeStore {
     return this.currentNode
   }
 
-  setCurrentNode(currentNode: Node): void {
+  setCurrentNode(currentNode: TreeNode): void {
     const prevCurrentNode = this.currentNode
     if (prevCurrentNode) {
       prevCurrentNode.isCurrent = false
@@ -410,7 +412,7 @@ export default class TreeStore {
     this.currentNode.isCurrent = true
   }
 
-  setUserCurrentNode(node: Node, shouldAutoExpandParent = true): void {
+  setUserCurrentNode(node: TreeNode, shouldAutoExpandParent = true): void {
     const key = (node as any)[this.key]
     const currNode = this.nodesMap[key]
     this.setCurrentNode(currNode)

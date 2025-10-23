@@ -150,7 +150,7 @@ interface TableProps<T extends DefaultRow> {
   indent?: number
   treeProps?: TreeProps
   lazy?: boolean
-  load?: (row: T, treeNode: TreeNode, resolve: (data: T[]) => void) => void
+  load?: (row: T, treeNode: TableTreeNode, resolve: (data: T[]) => void) => void
   className?: string
   style?: CSSProperties
   tableLayout?: Layout
@@ -181,7 +181,7 @@ interface Filter<T extends DefaultRow> {
   silent: any
 }
 
-interface TreeNode {
+interface TableTreeNode {
   expanded?: boolean
   loading?: boolean
   noLazyChildren?: boolean
@@ -197,7 +197,7 @@ interface RenderRowData<T extends DefaultRow> {
   row: T
   $index: number
   cellIndex: number
-  treeNode?: TreeNode
+  treeNode?: TableTreeNode
   expanded: boolean
 }
 
@@ -437,7 +437,7 @@ export type {
   CellCls,
   CellStyle,
   DefaultRow,
-  TreeNode,
+  TableTreeNode,
   RenderRowData,
   Sort,
   Filter,

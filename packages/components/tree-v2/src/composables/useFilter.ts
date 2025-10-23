@@ -2,14 +2,14 @@ import { computed, ref } from 'vue'
 import { isFunction } from '@element-plus/utils'
 
 import type { Ref } from 'vue'
-import type { Tree, TreeKey, TreeNode, TreeProps } from '../types'
+import type { TreeV2, TreeV2Key, TreeV2Node, TreeV2Props } from '../types'
 
 // When the data volume is very large using filter will cause lag
 // I haven't found a better way to optimize it for now
 // Maybe this problem should be left to the server side
-export function useFilter(props: TreeProps, tree: Ref<Tree | undefined>) {
-  const hiddenNodeKeySet = ref<Set<TreeKey>>(new Set([]))
-  const hiddenExpandIconKeySet = ref<Set<TreeKey>>(new Set([]))
+export function useFilter(props: TreeV2Props, tree: Ref<TreeV2 | undefined>) {
+  const hiddenNodeKeySet = ref<Set<TreeV2Key>>(new Set([]))
+  const hiddenExpandIconKeySet = ref<Set<TreeV2Key>>(new Set([]))
 
   const filterable = computed(() => {
     return isFunction(props.filterMethod)
@@ -19,14 +19,14 @@ export function useFilter(props: TreeProps, tree: Ref<Tree | undefined>) {
     if (!filterable.value) {
       return
     }
-    const expandKeySet = new Set<TreeKey>()
+    const expandKeySet = new Set<TreeV2Key>()
     const hiddenExpandIconKeys = hiddenExpandIconKeySet.value
     const hiddenKeys = hiddenNodeKeySet.value
-    const family: TreeNode[] = []
+    const family: TreeV2Node[] = []
     const nodes = tree.value?.treeNodes || []
     const filter = props.filterMethod
     hiddenKeys.clear()
-    function traverse(nodes: TreeNode[]) {
+    function traverse(nodes: TreeV2Node[]) {
       nodes.forEach((node) => {
         family.push(node)
         if (filter?.(query, node.data, node)) {
@@ -66,7 +66,7 @@ export function useFilter(props: TreeProps, tree: Ref<Tree | undefined>) {
     return expandKeySet
   }
 
-  function isForceHiddenExpandIcon(node: TreeNode): boolean {
+  function isForceHiddenExpandIcon(node: TreeV2Node): boolean {
     return hiddenExpandIconKeySet.value.has(node.key)
   }
 

@@ -6,15 +6,15 @@ import type {
   VNode,
   h,
 } from 'vue'
-import type Node from './model/node'
+import type TreeNode from './model/node'
 import type TreeStore from './model/tree-store'
 
 export interface RootTreeType {
   ctx: SetupContext<any>
   props: TreeComponentProps
   store: Ref<TreeStore>
-  root: Ref<Node>
-  currentNode: Ref<Node>
+  root: Ref<TreeNode>
+  currentNode: Ref<TreeNode>
   instance: ComponentInternalInstance
 }
 
@@ -37,10 +37,10 @@ export interface TreeNodeChildState {
 export interface TreeNodeOptions {
   data: TreeNodeData
   store: TreeStore
-  parent?: Node
+  parent?: TreeNode
 }
 export interface TreeStoreNodesMap {
-  [key: string]: Node
+  [key: string]: TreeNode
 }
 export interface TreeStoreOptions {
   key?: TreeKey
@@ -59,12 +59,12 @@ export interface TreeStoreOptions {
 }
 export interface TreeOptionProps {
   children?: string
-  label?: string | ((data: TreeNodeData, node: Node) => string)
-  disabled?: string | ((data: TreeNodeData, node: Node) => boolean)
-  isLeaf?: string | ((data: TreeNodeData, node: Node) => boolean)
+  label?: string | ((data: TreeNodeData, node: TreeNode) => string)
+  disabled?: string | ((data: TreeNodeData, node: TreeNode) => boolean)
+  isLeaf?: string | ((data: TreeNodeData, node: TreeNode) => boolean)
   class?: (
     data: TreeNodeData,
-    node: Node
+    node: TreeNode
   ) => string | { [key: string]: boolean }
 }
 export type RenderContentFunction = (
@@ -73,19 +73,19 @@ export type RenderContentFunction = (
 ) => VNode | VNode[]
 export interface RenderContentContext {
   _self: ComponentInternalInstance
-  node: Node
+  node: TreeNode
   data: TreeNodeData
   store: TreeStore
 }
-export type AllowDragFunction = (node: Node) => boolean
+export type AllowDragFunction = (node: TreeNode) => boolean
 export type AllowDropType = 'inner' | 'prev' | 'next'
 export type AllowDropFunction = (
-  draggingNode: Node,
-  dropNode: Node,
+  draggingNode: TreeNode,
+  dropNode: TreeNode,
   type: AllowDropType
 ) => boolean
 export type LoadFunction = (
-  rootNode: Node,
+  rootNode: TreeNode,
   loadedCallback: (data: TreeData) => void,
   stopLoading: () => void
 ) => void
@@ -93,7 +93,7 @@ export type FilterValue = any
 export type FilterNodeMethodFunction = (
   value: FilterValue,
   data: TreeNodeData,
-  child: Node
+  child: TreeNode
 ) => boolean
 export interface TreeComponentProps {
   data: TreeData
@@ -126,5 +126,3 @@ export interface TreeComponentProps {
 }
 
 export type NodeDropType = 'before' | 'after' | 'inner' | 'none'
-
-export type { Node }

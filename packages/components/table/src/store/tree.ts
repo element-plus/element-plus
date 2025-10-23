@@ -3,9 +3,14 @@ import { isArray, isUndefined } from '@element-plus/utils'
 import { getRowIdentity, walkTreeNode } from '../util'
 
 import type { WatcherPropsData } from '.'
-import type { DefaultRow, Table, TableProps, TreeNode } from '../table/defaults'
+import type {
+  DefaultRow,
+  Table,
+  TableProps,
+  TableTreeNode,
+} from '../table/defaults'
 
-export interface TreeData extends TreeNode {
+export interface TreeData extends TableTreeNode {
   children?: string[]
   lazy?: boolean
   loaded?: boolean
@@ -201,7 +206,7 @@ function useTree<T extends DefaultRow>(watcherData: WatcherPropsData<T>) {
     }
   }
 
-  const loadData = (row: T, key: string, treeNode: TreeNode) => {
+  const loadData = (row: T, key: string, treeNode: TableTreeNode) => {
     const { load } = instance.props as unknown as TableProps<T>
     if (load && !treeData.value[key].loaded) {
       treeData.value[key].loading = true

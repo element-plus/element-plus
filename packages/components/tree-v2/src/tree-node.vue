@@ -71,7 +71,7 @@ import {
 } from './virtual-tree'
 
 import type { CheckboxValueType } from '@element-plus/components/checkbox'
-import type { TreeNode } from './types'
+import type { TreeV2Node } from './types'
 
 defineOptions({
   name: 'ElTreeNode',
@@ -86,7 +86,7 @@ const ns = useNamespace('tree')
 const indent = computed(() => tree?.props.indent ?? 16)
 const icon = computed(() => tree?.props.icon ?? CaretRight)
 
-const getNodeClass = (node: TreeNode) => {
+const getNodeClass = (node: TreeV2Node) => {
   const nodeClassFunc = tree?.props.props.class
   if (!nodeClassFunc) return {}
 
