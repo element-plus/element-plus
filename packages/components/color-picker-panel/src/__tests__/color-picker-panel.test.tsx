@@ -598,6 +598,26 @@ describe('Color-picker-panel', () => {
     wrapper.unmount()
   })
 
+  it('predefine colors should show different color when showAlpha values are different', async () => {
+    const color = ref('')
+    const predefine = ['rgba(19, 206, 102, 0.18)']
+    const showAlpha = ref(true)
+    const wrapper = mount(() => (
+      <ColorPickerPanel
+        v-model={color.value}
+        predefine={predefine}
+        showAlpha={showAlpha.value}
+      />
+    ))
+
+    const bg = wrapper.find('.el-color-predefine__color-selector div')
+    expect(bg.attributes('style')).include(predefine[0])
+
+    showAlpha.value = false
+    await nextTick()
+    expect(bg.attributes('style')).include('rgb(19, 206, 102)')
+  })
+
   describe('a11y label', () => {
     it('default', async () => {
       const color = ref('#409eff')
@@ -644,6 +664,22 @@ describe('Color-picker-panel', () => {
       expect(alphaSlider.attributes('aria-label')).toBe('pick alpha value')
       expect(alphaSlider.attributes('aria-valuetext')).toBe(
         'alpha 50, current color is rgba(64, 158, 255, 0.5)'
+      )
+
+      wrapper.unmount()
+    })
+
+    it('with predefine', async () => {
+      const color = ref('')
+      const predefine = ['#409eff']
+      const wrapper = mount(() => (
+        <ColorPickerPanel v-model={color.value} predefine={predefine} />
+      ))
+      const predefineColor = wrapper.find('.el-color-predefine__color-selector')
+
+      expect(predefineColor.attributes('type')).toBe('button')
+      expect(predefineColor.attributes('aria-label')).toBe(
+        'select #409eff as the color'
       )
 
       wrapper.unmount()

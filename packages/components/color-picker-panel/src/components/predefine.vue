@@ -1,90 +1,37 @@
 <template>
-  <div :class="ns.b()">
-    <div :class="ns.e('colors')">
-      <div
+  <div :class="rootKls">
+    <div :class="colorsKls">
+      <button
         v-for="(item, index) in rgbaColors"
         :key="colors[index]"
-        :class="[
-          ns.e('color-selector'),
-          ns.is('alpha', item.get('alpha') < 100),
-          { selected: item.selected },
-        ]"
+        type="button"
+        :disabled="disabled"
+        :aria-label="ariaLabel(item.value)"
+        :class="colorSelectorKls(item)"
         @click="handleSelect(index)"
       >
         <div :style="{ backgroundColor: item.value }" />
-      </div>
+      </button>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, inject, ref, watch, watchEffect } from 'vue'
-import { useNamespace } from '@element-plus/hooks'
-import { colorPickerPanelContextKey } from '../color-picker-panel'
-import Color from '../utils/color'
+<script lang="ts" setup>
+import { predefineProps } from '../props/predefine'
+import { usePredefine, usePredefineDOM } from '../composables/use-predefine'
+import { useLocale } from '@element-plus/hooks/use-locale'
 
-import type { PropType, Ref } from 'vue'
-
-export default defineComponent({
-  props: {
-    colors: {
-      type: Array as PropType<string[]>,
-      required: true,
-    },
-    color: {
-      type: Object as PropType<Color>,
-      required: true,
-    },
-    enableAlpha: {
-      type: Boolean,
-      required: true,
-    },
-    disabled: Boolean,
-  },
-  setup(props) {
-    const ns = useNamespace('color-predefine')
-    const { currentColor } = inject(colorPickerPanelContextKey)!
-
-    const rgbaColors = ref(parseColors(props.colors, props.color)) as Ref<
-      Color[]
-    >
-
-    watch(
-      () => currentColor.value,
-      (val) => {
-        const color = new Color({
-          value: val,
-        })
-
-        rgbaColors.value.forEach((item) => {
-          item.selected = color.compare(item)
-        })
-      }
-    )
-
-    watchEffect(() => {
-      rgbaColors.value = parseColors(props.colors, props.color)
-    })
-
-    function handleSelect(index: number) {
-      if (props.disabled) return
-      props.color.fromString(props.colors[index])
-    }
-
-    function parseColors(colors: string[], color: Color) {
-      return colors.map((value) => {
-        const c = new Color({
-          value,
-        })
-        c.selected = c.compare(color)
-        return c
-      })
-    }
-    return {
-      rgbaColors,
-      handleSelect,
-      ns,
-    }
-  },
+defineOptions({
+  name: 'ElColorPredefine',
 })
+
+const props = defineProps(predefineProps)
+
+const { rgbaColors, handleSelect } = usePredefine(props)
+const { rootKls, colorsKls, colorSelectorKls } = usePredefineDOM(props)
+const { t } = useLocale()
+
+const ariaLabel = (value: string) => {
+  return t('el.colorpicker.predefineDescription', { value })
+}
 </script>
