@@ -7,7 +7,7 @@ import {
   watch,
   watchEffect,
 } from 'vue'
-import { findLastIndex, get, isEqual } from 'lodash-unified'
+import { clamp, findLastIndex, get, isEqual } from 'lodash-unified'
 import { useDebounceFn, useResizeObserver } from '@vueuse/core'
 import {
   ValidateComponentsMap,
@@ -784,7 +784,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   const findFocusableIndex = (
     arr: any[],
     start: number,
-    step: 1 | -1,
+    step: number,
     len: number
   ) => {
     for (let i = start; i >= 0 && i < len; i += step) {
@@ -843,10 +843,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
         break
       case EVENT_CODE.pageDown:
         if (!expanded.value) return
-        focusOption(
-          states.hoveringIndex + 10,
-          'down'
-        )
+        focusOption(states.hoveringIndex + 10, 'down')
         break
       default:
         isPreventDefault = false
