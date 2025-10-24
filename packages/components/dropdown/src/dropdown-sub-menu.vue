@@ -6,6 +6,9 @@
     :disabled="disabled"
     :icon="icon"
     :class="ns.is('selected', openedMenus.includes(triggerId))"
+    :aria-controls="contentId"
+    :aria-expanded="opened"
+    :aria-haspopup="role"
     @keydown="handleKeydown"
     @pointerenter="handlePointerEnter"
     @pointerleave="handlePointerLeave"
@@ -188,6 +191,8 @@ useDropdownCollectionTooltipContent({
   addPopperContent,
   removePopperContent,
 })
+
+const contentId = computed(() => popperRef.value?.contentRef?.id)
 
 const handlePointerEnter = composeEventHandlers((event: PointerEvent) => {
   emit('pointerenter', event)

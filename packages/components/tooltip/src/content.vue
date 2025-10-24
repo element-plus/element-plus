@@ -208,6 +208,7 @@ defineExpose({
    * @description el-popper-content component instance
    */
   contentRef,
+  id,
   /**
    * @description validate current focus event is trigger inside el-popper-content
    */
