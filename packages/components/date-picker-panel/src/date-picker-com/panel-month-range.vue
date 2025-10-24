@@ -44,7 +44,7 @@
               :disabled="!enableYearArrow || disabled"
               :class="[
                 ppNs.e('icon-btn'),
-                { [ppNs.is('disabled')]: !enableYearArrow },
+                ppNs.is('disabled', !enableYearArrow),
               ]"
               class="d-arrow-right"
               @click="leftNextYear"
@@ -75,7 +75,10 @@
               v-if="unlinkPanels"
               type="button"
               :disabled="!enableYearArrow || disabled"
-              :class="[ppNs.e('icon-btn'), { 'is-disabled': !enableYearArrow }]"
+              :class="[
+                ppNs.e('icon-btn'),
+                ppNs.is('disabled', !enableYearArrow),
+              ]"
               class="d-arrow-left"
               @click="rightPrevYear"
             >
