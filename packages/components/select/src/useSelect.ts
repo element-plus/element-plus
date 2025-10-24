@@ -844,7 +844,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       case EVENT_CODE.pageDown:
         if (!expanded.value) return
         focusOption(
-          Math.min(states.options.size - 1, states.hoveringIndex + 10),
+          states.hoveringIndex + 10,
           'down'
         )
         break
