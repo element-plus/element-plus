@@ -1,6 +1,7 @@
 import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import {
+  TooltipTriggerType,
   useTooltipContentProps,
   useTooltipTriggerProps,
 } from '@element-plus/components/tooltip'
@@ -10,7 +11,7 @@ import type { Placement } from '@element-plus/components/popper'
 import type { Options } from '@popperjs/core'
 import type { ButtonProps, ButtonType } from '@element-plus/components/button'
 import type { ComponentInternalInstance, ComputedRef } from 'vue'
-import type { Nullable } from '@element-plus/utils'
+import type { Arrayable, Nullable } from '@element-plus/utils'
 
 export interface IElDropdownInstance {
   instance?: ComponentInternalInstance
@@ -28,7 +29,13 @@ export const dropdownProps = buildProps({
   /**
    * @description how to trigger
    */
-  trigger: useTooltipTriggerProps.trigger,
+  trigger: {
+    type: definePropType<Arrayable<Exclude<TooltipTriggerType, 'focus'>>>([
+      String,
+      Array,
+    ]),
+    default: useTooltipTriggerProps.trigger.default,
+  },
   triggerKeys: {
     type: definePropType<string[]>(Array),
     default: () => [
