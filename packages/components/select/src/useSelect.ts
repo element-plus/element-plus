@@ -793,25 +793,13 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   const focusOption = (targetIndex: number, mode: 'up' | 'down') => {
     const len = states.options.size
     if (len === 0) return
-    const idx = Math.min(Math.max(Math.floor(targetIndex), 0), len - 1)
-    let newIndex = null
-    switch (mode) {
-      case 'up':
-        newIndex =
-          findFocusableIndex(optionsArray.value, idx, -1, len) ??
-          findFocusableIndex(optionsArray.value, idx + 1, 1, len)
-        break
+    const start = clamp(targetIndex, 0, len - 1)
+    const options = optionsArray.value
+    const direction = mode === 'up' ? -1 : 1
+    const newIndex =
+      findFocusableIndex(options, start, direction, len) ??
+      findFocusableIndex(options, start - direction, -direction, len)
 
-      case 'down':
-        newIndex =
-          findFocusableIndex(optionsArray.value, idx, 1, len) ??
-          findFocusableIndex(optionsArray.value, idx - 1, -1, len)
-        break
-
-      default:
-        newIndex = findFocusableIndex(optionsArray.value, idx, 1, len)
-        break
-    }
     if (newIndex != null) {
       states.hoveringIndex = newIndex
       nextTick(() => scrollToOption(hoverOption.value))
