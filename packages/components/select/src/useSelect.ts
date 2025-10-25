@@ -776,11 +776,6 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     }
   }
 
-  const isFocusableOption = (arr: any[], index: number) => {
-    const obj = arr[index]
-    return !obj?.isDisabled && obj?.visible
-  }
-
   const findFocusableIndex = (
     arr: any[],
     start: number,
@@ -788,7 +783,10 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     len: number
   ) => {
     for (let i = start; i >= 0 && i < len; i += step) {
-      if (isFocusableOption(arr, i)) return i
+      const obj = arr[i]
+      if (!obj?.isDisabled && obj?.visible) {
+        return i
+      }
     }
     return null
   }
