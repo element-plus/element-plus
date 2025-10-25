@@ -3740,4 +3740,45 @@ describe('Select', () => {
     await input.trigger('click')
     expect(selectVm.dropdownMenuVisible).toBeTruthy()
   })
+
+  test('should trigger scroll when option value is 0', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="value" :teleported="false">
+        <el-option
+          v-for="{ label, value } in options"
+          :key="value"
+          :label="label"
+          :value="value"
+        />
+      </el-select>`,
+      () => ({
+        options: Array.from({ length: 10 }).map((_, i) => ({
+          label: `label-${i}`,
+          value: i,
+        })),
+        value: '',
+      })
+    )
+
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const selectVm = select.vm as any
+    const wrapEl = wrapper.find('.el-select-dropdown__wrap').element
+    const optionEls = wrapper.findAll('.el-select-dropdown__item')
+    const cleanup = optionEls.map((item, i) =>
+      vi.spyOn(item.element, 'offsetTop', 'get').mockReturnValue(i * 30)
+    )
+    cleanup.push(
+      vi.spyOn(wrapEl, 'clientHeight', 'get').mockReturnValue(5 * 30)
+    )
+
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    await input.trigger('keydown', { key: EVENT_CODE.up })
+    expect(selectVm.states.hoveringIndex).toBe(9)
+    expect(wrapEl.scrollTop).toBe(4 * 30)
+    await input.trigger('keydown', { key: EVENT_CODE.down })
+    expect(wrapEl.scrollTop).toBe(0)
+    cleanup.forEach((fn) => fn())
+  })
 })
