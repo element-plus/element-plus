@@ -3778,6 +3778,7 @@ describe('Select', () => {
     expect(selectVm.states.hoveringIndex).toBe(9)
     expect(wrapEl.scrollTop).toBe(4 * 30)
     await input.trigger('keydown', { key: EVENT_CODE.down })
+    expect(selectVm.states.hoveringIndex).toBe(0)
     expect(wrapEl.scrollTop).toBe(0)
     cleanup.forEach((fn) => fn())
   })
