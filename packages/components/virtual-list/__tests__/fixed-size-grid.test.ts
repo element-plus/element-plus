@@ -205,6 +205,31 @@ describe('<fixed-size-grid />', () => {
       // 7 x 6 grid
       expect(wrapper.findAll(ITEM_SELECTOR)).toHaveLength(42)
     })
+
+    it('should clamp scroll position within valid range', async () => {
+      const wrapper = mount()
+      await nextTick()
+      const gridRef = wrapper.vm.$refs.gridRef as GridRef
+      const windowEl = unref(gridRef.windowRef)!
+
+      const cleanup = [
+        vi.spyOn(windowEl, 'scrollWidth', 'get').mockReturnValue(1000),
+        vi.spyOn(windowEl, 'scrollHeight', 'get').mockReturnValue(1000),
+        vi.spyOn(windowEl, 'clientWidth', 'get').mockReturnValue(200),
+        vi.spyOn(windowEl, 'clientHeight', 'get').mockReturnValue(200),
+      ]
+      const { scrollWidth, scrollHeight, clientWidth, clientHeight } = windowEl
+      gridRef.scrollTo({
+        scrollLeft: scrollWidth + 1000,
+        scrollTop: scrollHeight + 1000,
+      })
+
+      await nextTick()
+
+      expect(windowEl.scrollLeft).toEqual(scrollWidth - clientWidth)
+      expect(windowEl.scrollTop).toEqual(scrollHeight - clientHeight)
+      cleanup.forEach((spy) => spy.mockRestore())
+    })
   })
 
   describe('error handling', () => {

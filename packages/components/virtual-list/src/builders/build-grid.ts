@@ -36,6 +36,7 @@ import {
   RTL_OFFSET_POS_DESC,
   SCROLL_EVT,
 } from '../defaults'
+import { clamp } from 'lodash-unified'
 
 import type {
   CSSProperties,
@@ -367,8 +368,14 @@ const createGrid = ({
         scrollLeft = states.value.scrollLeft,
         scrollTop = states.value.scrollTop,
       }: GridScrollOptions) => {
-        scrollLeft = Math.max(scrollLeft, 0)
-        scrollTop = Math.max(scrollTop, 0)
+        if (!windowRef.value) {
+          return
+        }
+
+        const { scrollWidth, scrollHeight, clientWidth, clientHeight } =
+          windowRef.value
+        scrollLeft = clamp(scrollLeft, 0, scrollWidth - clientWidth)
+        scrollTop = clamp(scrollTop, 0, scrollHeight - clientHeight)
         const _states = unref(states)
         if (
           scrollTop === _states.scrollTop &&
