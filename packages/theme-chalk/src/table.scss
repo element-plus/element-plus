@@ -192,6 +192,9 @@
       white-space: nowrap;
       min-width: 50px;
     }
+    .#{$namespace}-button:focus-visible {
+      outline-offset: -2px;
+    }
   }
 
   @each $size in (large, default, small) {
