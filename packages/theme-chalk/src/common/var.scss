@@ -995,7 +995,6 @@ $table: map.merge(
     'fixed-left-column': inset 10px 0 10px -10px rgb(0 0 0 / 15%),
     'fixed-right-column': inset -10px 0 10px -10px rgb(0 0 0 / 15%),
     'index': getCssVar('index-normal'),
-    'focus-border-color': getCssVar('color-primary'),
   ),
   $table
 );

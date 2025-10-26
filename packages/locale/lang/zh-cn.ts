@@ -147,6 +147,8 @@ export default {
       selectRowLabel: '选择当前行',
       expandRowLabel: '展开当前行',
       collapseRowLabel: '收起当前行',
+      sortLabel: '按 {column} 排序',
+      filterLabel: '按 {column} 过滤',
     },
     tour: {
       next: '下一步',

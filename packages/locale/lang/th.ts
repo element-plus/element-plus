@@ -149,6 +149,8 @@ export default {
       selectRowLabel: 'Select this row', // to be translated
       expandRowLabel: 'Expand this row', // to be translated
       collapseRowLabel: 'Collapse this row', // to be translated
+      sortLabel: 'Sort by {column}', // to be translated
+      filterLabel: 'Filter by {column}', // to be translated
     },
     tour: {
       next: 'ถัดไป',

@@ -79,25 +79,13 @@
   }
 
   @include e(expand-icon) {
-    cursor: pointer;
+    @include reset-button(-2px);
+
     color: getCssVar('text-color', 'regular');
     font-size: 12px;
     line-height: 12px;
-    transition: transform getCssVar('transition-duration-fast') ease-in-out;
-    transform-origin: center;
-    padding: 0;
-    margin: 0;
     width: min(23px, 100%);
     height: 23px;
-    background-color: transparent;
-    border: none;
-    border-radius: getCssVar('border-radius', 'base');
-    outline: none;
-
-    &:focus-visible {
-      outline: 2px solid getCssVar('table', 'focus-border-color');
-      outline-offset: -2px;
-    }
 
     @include m(expanded) {
       transform: rotate(90deg);
@@ -520,13 +508,14 @@
   }
 
   .caret-wrapper {
+    @include reset-button();
+
     display: inline-flex;
     flex-direction: column;
     align-items: center;
     height: 14px;
     width: 24px;
     vertical-align: middle;
-    cursor: pointer;
     overflow: initial;
     position: relative;
   }
@@ -624,8 +613,9 @@
   }
 
   @include e(column-filter-trigger) {
+    @include reset-button();
+
     display: inline-block;
-    cursor: pointer;
 
     & i {
       color: getCssVar('color-info');
