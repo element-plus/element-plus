@@ -60,7 +60,6 @@ import { treeEmits } from './tree'
 
 import type Node from './model/node'
 import type { ComponentInternalInstance, PropType } from 'vue'
-import type { Nullable } from '@element-plus/utils'
 import type {
   AllowDragFunction,
   AllowDropFunction,
@@ -172,8 +171,8 @@ export default defineComponent({
 
     const root = ref<Node>(store.value.root)
     const currentNode = ref<Node | null>(null)
-    const el$ = ref<Nullable<HTMLElement>>(null)
-    const dropIndicator$ = ref<Nullable<HTMLElement>>(null)
+    const el$ = ref<HTMLElement | null>(null)
+    const dropIndicator$ = ref<HTMLElement | null>(null)
 
     const { broadcastExpanded } = useNodeExpandEventBroadcast(props)
 

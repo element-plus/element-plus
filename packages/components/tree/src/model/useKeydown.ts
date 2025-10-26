@@ -6,7 +6,6 @@ import { getEventCode } from '@element-plus/utils'
 
 import type TreeStore from './tree-store'
 import type { Ref } from 'vue'
-import type { Nullable } from '@element-plus/utils'
 
 interface UseKeydownOption {
   el$: Ref<HTMLElement | null>
@@ -98,9 +97,8 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
       ev.preventDefault()
       currentItem.click()
     }
-    const hasInput = currentItem.querySelector(
-      '[type="checkbox"]'
-    ) as Nullable<HTMLInputElement>
+    const hasInput =
+      currentItem.querySelector<HTMLInputElement>('[type="checkbox"]')
     if (
       [EVENT_CODE.enter, EVENT_CODE.numpadEnter, EVENT_CODE.space].includes(
         code
