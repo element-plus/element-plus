@@ -12,6 +12,7 @@ import {
   unref,
 } from 'vue'
 import { useEventListener } from '@vueuse/core'
+import { clamp } from 'lodash-unified'
 import {
   getScrollBarWidth,
   hasOwn,
@@ -36,7 +37,6 @@ import {
   RTL_OFFSET_POS_DESC,
   SCROLL_EVT,
 } from '../defaults'
-import { clamp } from 'lodash-unified'
 
 import type {
   CSSProperties,
