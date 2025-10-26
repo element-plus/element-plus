@@ -55,6 +55,9 @@ const cls = computed(() => [
 
 const handleClick = (e: MouseEvent) => {
   contextHandleClick(e, props.href)
+  if (props.href) {
+    history.pushState(null, '', props.href as string)
+  }
 }
 
 watch(

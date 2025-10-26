@@ -1,6 +1,6 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, expect, test, vi } from 'vitest'
+import { beforeEach, describe, expect, test, vi } from 'vitest'
 import { CHANGE_EVENT } from '@element-plus/constants'
 import Anchor from '../src/anchor.vue'
 import AnchorLink from '../src/anchor-link.vue'
@@ -10,6 +10,10 @@ let id = 0
 const getHash = () => `#anchor-link-${id++}`
 
 describe('Anchor.vue', () => {
+  beforeEach(() => {
+    id = 0
+  })
+
   test('snapshot', async () => {
     const hash = getHash()
     const wrapper = mount({
