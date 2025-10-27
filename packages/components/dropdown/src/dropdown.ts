@@ -30,11 +30,11 @@ export const dropdownProps = buildProps({
    * @description how to trigger
    */
   trigger: {
+    ...useTooltipTriggerProps.trigger,
     type: definePropType<Arrayable<Exclude<TooltipTriggerType, 'focus'>>>([
       String,
       Array,
     ]),
-    default: useTooltipTriggerProps.trigger.default,
   },
   triggerKeys: {
     type: definePropType<string[]>(Array),
