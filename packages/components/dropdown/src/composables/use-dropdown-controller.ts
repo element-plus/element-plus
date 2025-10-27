@@ -81,7 +81,7 @@ export function useDropdownController({
       if (!val || !len) {
         stopHandle?.()
         stopHandle = undefined
-      } else {
+      } else if (!stopHandle) {
         stopHandle = onClickOutside(
           popperContentRefs.value[0],
           (event) => {
@@ -110,14 +110,15 @@ export function useDropdownController({
 
   function removePopperContent(el?: HTMLElement) {
     if (!el) return
-    const index = popperContentRefs.value.indexOf(el)
-    if (index !== -1) {
-      popperContentRefs.value.splice(index, 1)
+    if (popperContentRefs.value.includes(el)) {
+      popperContentRefs.value = popperContentRefs.value.filter((item) => {
+        return item !== el
+      })
     }
   }
 
   function shouldIgnore(event: Event) {
-    const list = popperContentRefs.value
+    const list = [...popperContentRefs.value]
 
     if (isElement(unrefElement(triggerRef))) {
       list.push(unrefElement(triggerRef))

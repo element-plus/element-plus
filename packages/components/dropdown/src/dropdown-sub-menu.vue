@@ -12,7 +12,7 @@
     @keydown="handleKeydown"
     @pointerenter="handlePointerEnter"
     @pointerleave="handlePointerLeave"
-    @click.capture.stop="handleClick"
+    @click="handleClick"
   >
     <div :class="ns.be('sub-menu', 'item')">
       <slot name="title">
@@ -211,6 +211,7 @@ const handleClick = composeEventHandlers(
     return event.type !== 'keydown' && event.defaultPrevented
   },
   (event) => {
+    event.preventDefault()
     if (props.disabled) {
       event.stopImmediatePropagation()
       return

@@ -37,7 +37,7 @@ export default defineComponent({
 
     const {
       hideOnClick,
-      handleClick: _handleClick,
+      handleClick: rootHandleClick,
       commandHandler,
     } = inject(DROPDOWN_INSTANCE_INJECTION_KEY, undefined)!
 
@@ -101,7 +101,7 @@ export default defineComponent({
           return
         }
         if (hideOnClick.value) {
-          _handleClick()
+          rootHandleClick()
         }
         commandHandler(props.command, _instance, e)
       }
