@@ -1,49 +1,55 @@
 import normalizeWheel from 'normalize-wheel-es'
 
-import type { DirectiveBinding, ObjectDirective } from 'vue'
+import type { ObjectDirective } from 'vue'
 import type { NormalizedWheelEvent } from 'normalize-wheel-es'
 
+export const SCOPE = '_Mousewheel'
+
 interface WheelElement extends HTMLElement {
-  _wheelHandler?: (event: WheelEvent) => void
+  [SCOPE]: null | {
+    wheelHandler?: (event: WheelEvent) => void
+  }
 }
+
+type MousewheelCallback = (
+  e: WheelEvent,
+  normalized: NormalizedWheelEvent
+) => void
 
 const mousewheel = function (
   element: WheelElement,
-  callback: (e: WheelEvent, normalized: NormalizedWheelEvent) => void
+  callback: MousewheelCallback
 ) {
   if (element && element.addEventListener) {
-    // 先移除可能存在的旧处理函数
     removeWheelHandler(element)
-    
-    // 创建新的处理函数
+
     const fn = function (this: HTMLElement, event: WheelEvent) {
       const normalized = normalizeWheel(event)
       callback && Reflect.apply(callback, this, [event, normalized])
     }
-    
-    // 保存处理函数引用
-    element._wheelHandler = fn
+
+    element[SCOPE] = { wheelHandler: fn }
     element.addEventListener('wheel', fn, { passive: true })
   }
 }
 
 const removeWheelHandler = (element: WheelElement) => {
-  if (element._wheelHandler) {
-    element.removeEventListener('wheel', element._wheelHandler)
-    delete element._wheelHandler
+  if (element[SCOPE]?.wheelHandler) {
+    element.removeEventListener('wheel', element[SCOPE].wheelHandler)
+    element[SCOPE] = null
   }
 }
 
-const Mousewheel: ObjectDirective = {
-  beforeMount(el: HTMLElement, binding: DirectiveBinding) {
+const Mousewheel: ObjectDirective<WheelElement, MousewheelCallback> = {
+  beforeMount(el, binding) {
     mousewheel(el, binding.value)
   },
-  unmounted(el: HTMLElement) {
-    removeWheelHandler(el as WheelElement)
+  unmounted(el) {
+    removeWheelHandler(el)
   },
-  updated(el: HTMLElement, binding: DirectiveBinding) {
+  updated(el, binding) {
     if (binding.value !== binding.oldValue) {
-      mousewheel(el as WheelElement, binding.value)
+      mousewheel(el, binding.value)
     }
   },
 }

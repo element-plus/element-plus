@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
-import { describe, it, expect, vi } from 'vitest'
-import Mousewheel from '../mousewheel/index'
+import { describe, expect, it, vi } from 'vitest'
+import Mousewheel, { SCOPE } from '../mousewheel/index'
 
 describe('v-mousewheel directive', () => {
   it('should add wheel event listener on mount', () => {
@@ -8,10 +8,10 @@ describe('v-mousewheel directive', () => {
     const wrapper = mount({
       template: '<div v-mousewheel="callback"></div>',
       directives: { Mousewheel },
-      setup: () => ({ callback })
+      setup: () => ({ callback }),
     })
-    
-    expect((wrapper.element as any)._wheelHandler).toBeDefined()
+
+    expect((wrapper.element as any)[SCOPE]?.wheelHandler).toBeDefined()
   })
 
   it('should remove wheel event listener on unmount', () => {
@@ -19,29 +19,37 @@ describe('v-mousewheel directive', () => {
     const wrapper = mount({
       template: '<div v-mousewheel="callback"></div>',
       directives: { Mousewheel },
-      setup: () => ({ callback })
+      setup: () => ({ callback }),
     })
-    
-    const removeEventListenerSpy = vi.spyOn(wrapper.element, 'removeEventListener')
+
+    const removeEventListenerSpy = vi.spyOn(
+      wrapper.element,
+      'removeEventListener'
+    )
     wrapper.unmount()
-    
+
     expect(removeEventListenerSpy).toHaveBeenCalled()
-    expect((wrapper.element as any)._wheelHandler).toBeUndefined()
+    expect((wrapper.element as any)[SCOPE]?.wheelHandler).toBeUndefined()
   })
 
   it('should update event listener when value changes', async () => {
     const callback1 = vi.fn()
     const callback2 = vi.fn()
-    
-    const wrapper = mount({
-      template: '<div v-mousewheel="callback"></div>',
-      directives: { Mousewheel },
-      setup: () => ({ callback: callback1 })
-    })
-    
-    const oldHandler = (wrapper.element as any)._wheelHandler
+
+    const wrapper = mount(
+      {
+        props: ['callback'],
+        template: '<div v-mousewheel="callback"></div>',
+        directives: { Mousewheel },
+      },
+      {
+        props: { callback: callback1 },
+      }
+    )
+
+    const oldHandler = (wrapper.element as any)[SCOPE]?.wheelHandler
     await wrapper.setProps({ callback: callback2 })
-    
-    expect((wrapper.element as any)._wheelHandler).not.toBe(oldHandler)
+
+    expect((wrapper.element as any)[SCOPE]?.wheelHandler).not.toBe(oldHandler)
   })
 })
