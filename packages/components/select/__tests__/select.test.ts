@@ -477,6 +477,49 @@ describe('Select', () => {
     delete process.env.RUN_TEST_WITH_PERSISTENT
   })
 
+  test('should not render the empty slot when multiple is true and persistent is false', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="value" multiple :persistent="false">
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value">
+        </el-option>
+        <template #empty>
+          <div class="empty-slot">EmptySlot</div>
+        </template>
+      </el-select>
+    `,
+      () => ({
+        options: [
+          {
+            value: '选项1',
+            label: '黄金糕',
+          },
+          {
+            value: '选项2',
+            label: '双皮奶',
+          },
+        ],
+        value: [],
+      })
+    )
+    await nextTick()
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const selectVm = select.vm as any
+    expect(selectVm.selectedLabel).toStrictEqual([])
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+    const options = getOptions()
+    options[0].click()
+    await nextTick()
+    expect(selectVm.selectedLabel).toStrictEqual(['黄金糕'])
+
+    const emptySlot = document.querySelector('.empty-slot')
+    expect(emptySlot).toBeNull()
+  })
+
   test('multiple is true and persistent is false', async () => {
     // This is convenient for testing the default value label rendering when persistent is false.
     process.env.RUN_TEST_WITH_PERSISTENT = 'true'
@@ -3696,5 +3739,47 @@ describe('Select', () => {
     const input = wrapper.find('input')
     await input.trigger('click')
     expect(selectVm.dropdownMenuVisible).toBeTruthy()
+  })
+
+  test('should trigger scroll when option value is 0', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="value" :teleported="false">
+        <el-option
+          v-for="{ label, value } in options"
+          :key="value"
+          :label="label"
+          :value="value"
+        />
+      </el-select>`,
+      () => ({
+        options: Array.from({ length: 10 }).map((_, i) => ({
+          label: `label-${i}`,
+          value: i,
+        })),
+        value: '',
+      })
+    )
+
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const selectVm = select.vm as any
+    const wrapEl = wrapper.find('.el-select-dropdown__wrap').element
+    const optionEls = wrapper.findAll('.el-select-dropdown__item')
+    const cleanup = optionEls.map((item, i) =>
+      vi.spyOn(item.element, 'offsetTop', 'get').mockReturnValue(i * 30)
+    )
+    cleanup.push(
+      vi.spyOn(wrapEl, 'clientHeight', 'get').mockReturnValue(5 * 30)
+    )
+
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    await input.trigger('keydown', { key: EVENT_CODE.up })
+    expect(selectVm.states.hoveringIndex).toBe(9)
+    expect(wrapEl.scrollTop).toBe(4 * 30)
+    await input.trigger('keydown', { key: EVENT_CODE.down })
+    expect(selectVm.states.hoveringIndex).toBe(0)
+    expect(wrapEl.scrollTop).toBe(0)
+    cleanup.forEach((fn) => fn())
   })
 })

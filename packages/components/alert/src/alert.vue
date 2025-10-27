@@ -7,7 +7,7 @@
     >
       <el-icon
         v-if="showIcon && ($slots.icon || iconComponent)"
-        :class="[ns.e('icon'), { [ns.is('big')]: hasDesc }]"
+        :class="[ns.e('icon'), ns.is('big', hasDesc)]"
       >
         <slot name="icon">
           <component :is="iconComponent" />

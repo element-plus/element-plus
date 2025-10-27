@@ -58,6 +58,7 @@ import { ElPopperContent } from '@element-plus/components/popper'
 import ElTeleport from '@element-plus/components/teleport'
 import { TOOLTIP_INJECTION_KEY } from './constants'
 import { useTooltipContentProps } from './content'
+import { isTriggerType } from './utils'
 
 import type { PopperContentInstance } from '@element-plus/components/popper'
 
@@ -131,13 +132,13 @@ const stopWhenControlled = () => {
 }
 
 const onContentEnter = composeEventHandlers(stopWhenControlled, () => {
-  if (props.enterable && unref(trigger) === 'hover') {
+  if (props.enterable && isTriggerType(unref(trigger), 'hover')) {
     onOpen()
   }
 })
 
 const onContentLeave = composeEventHandlers(stopWhenControlled, () => {
-  if (unref(trigger) === 'hover') {
+  if (isTriggerType(unref(trigger), 'hover')) {
     onClose()
   }
 })

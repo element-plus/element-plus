@@ -7,7 +7,7 @@ import {
   watch,
   watchEffect,
 } from 'vue'
-import { findLastIndex, get, isEqual } from 'lodash-unified'
+import { findLastIndex, get, isEqual, isNil } from 'lodash-unified'
 import { useDebounceFn, useResizeObserver } from '@vueuse/core'
 import {
   ValidateComponentsMap,
@@ -611,7 +611,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     const targetOption = isArray(option) ? option[0] : option
     let target = null
 
-    if (targetOption?.value) {
+    if (!isNil(targetOption?.value)) {
       const options = optionsArray.value.filter(
         (item) => item.value === targetOption.value
       )
