@@ -4,7 +4,7 @@
 
 <script lang="ts" setup>
 import { markRaw } from 'vue'
-import { ElMessageBox } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { Delete } from '@element-plus/icons-vue'
 
 const open = () => {
