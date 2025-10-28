@@ -324,6 +324,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     cursor: pointer;
+    vertical-align: top;
   }
 
   @include e(item-status-label) {
