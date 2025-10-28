@@ -71,6 +71,14 @@ upload/file-list
 
 :::
 
+## File List Tooltip&FileSize
+
+:::demo
+
+upload/file-list-tooltip-size
+
+:::
+
 ## Drag to Upload
 
 You can drag your file to a certain area to upload it.
@@ -121,6 +129,8 @@ upload/manual
 | http-request                  | override default xhr behavior, allowing you to implement your own upload-file's request.                                                                                              | ^[Function]`(options: UploadRequestOptions) => XMLHttpRequest \| Promise<unknown>`                                                         | ajaxUpload [see](https://github.com/element-plus/element-plus/blob/dev/packages/components/upload/src/ajax.ts#L55) |
 | disabled                      | whether to disable upload.                                                                                                                                                            | ^[boolean]                                                                                                                                 | false                                                                                                              |
 | limit                         | maximum number of uploads allowed.                                                                                                                                                    | ^[number]                                                                                                                                  | —                                                                                                                  |
+| show-file-list-size           | whether to show the size of uploaded file                                                                                                                                             | ^[boolean]                                                                                                                                 | false                                                                                                              |
+| show-file-list-tooltip        | whether to show the tooltip of uploaded file name                                                                                                                                     | ^[boolean]                                                                                                                                 | false                                                                                                              |
 
 ### Slots
 
