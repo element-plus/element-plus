@@ -12,9 +12,23 @@ const open = () => {
     'It will permanently delete the file. Continue?',
     'Warning',
     {
+      confirmButtonText: 'OK',
+      cancelButtonText: 'Cancel',
       type: 'warning',
       icon: markRaw(Delete),
     }
   )
+    .then(() => {
+      ElMessage({
+        type: 'success',
+        message: 'Delete completed',
+      })
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'info',
+        message: 'Delete canceled',
+      })
+    })
 }
 </script>
