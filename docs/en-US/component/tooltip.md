@@ -190,6 +190,16 @@ tooltip/append-to
 | aria-label ^(a11y)        | same as `aria-label`                                                                                                                                                                  | ^[string]                                                                                                                                                                   | —                 |
 | focus-on-target ^(2.11.2) | when triggering tooltips through hover, whether to focus the trigger element, which improves accessibility                                                                            | ^[boolean]                                                                                                                                                                  | false             |
 
+### Events
+
+| Name   | Description                                                                                                       | Type                                               |
+| ------ | ----------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| before-show | Triggers before tooltip is shown. Passes trigger reason as argument. | ^[Function]`(value: boolean) => void` |
+| show | Triggers when tooltip is shown. Passes trigger reason as argument. | ^[Function]`(value: boolean) => void` |
+| before-hide | Triggers before tooltip is hidden. Passes trigger reason as argument. | ^[Function]`(value: boolean) => void` |
+| hide | Triggers when tooltip is hidden. Passes trigger reason as argument. | ^[Function]`(value: boolean) => void` |
+
+
 ### Slots
 
 | Name    | Description                                                                    |
