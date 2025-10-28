@@ -192,10 +192,10 @@ tooltip/append-to
 
 ### Slots
 
-| Name    | Description                                                                 |
-| ------- | --------------------------------------------------------------------------- |
-| default | Tooltip triggering & reference element, requires exact only one valid child |
-| content | customize content                                                           |
+| Name    | Description                                                                    |
+| ------- | ------------------------------------------------------------------------------ |
+| default | Tooltip triggering & reference element, only a single root element is accepted |
+| content | customize content                                                              |
 
 ### Exposes
 
