@@ -138,6 +138,20 @@ export const uploadBaseProps = buildProps({
     default: true,
   },
   /**
+   * @description whether to show the size of uploaded file
+   */
+  showFileListSize: {
+    type: Boolean,
+    default: false,
+  },
+  /**
+   * @description whether to show the tooltip of uploaded file name
+   */
+  showFileListTooltip: {
+    type: Boolean,
+    default: false,
+  },
+  /**
    * @description accepted [file types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-accept), will not work when `thumbnail-mode === true`
    */
   accept: {

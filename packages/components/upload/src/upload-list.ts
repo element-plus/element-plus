@@ -26,6 +26,17 @@ export const uploadListProps = buildProps({
   crossorigin: {
     type: definePropType<'anonymous' | 'use-credentials' | ''>(String),
   },
+  /**
+   * @description whether to show the size of uploaded file
+   */
+  showFileSize: {
+    type: Boolean,
+    default: false,
+  },
+  showFileTooltip: {
+    type: Boolean,
+    default: false,
+  },
 } as const)
 
 export type UploadListProps = ExtractPropTypes<typeof uploadListProps>

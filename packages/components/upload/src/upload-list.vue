@@ -40,8 +40,21 @@
               :class="nsUpload.be('list', 'item-file-name')"
               :title="file.name"
             >
-              {{ file.name }}
+              <el-tooltip
+                :content="file.name"
+                placement="top"
+                :disabled="!showFileTooltip"
+              >
+                <span :class="nsUpload.be('list', 'item-file-name-text')">
+                  {{ file.name }}
+                </span>
+              </el-tooltip>
             </span>
+            <span
+              v-if="showFileSize"
+              :class="nsUpload.be('list', 'item-file-size')"
+              >{{ formatSize(file.size) }}</span
+            >
           </a>
           <el-progress
             v-if="file.status === 'uploading'"
@@ -118,6 +131,7 @@ import {
 } from '@element-plus/icons-vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElProgress from '@element-plus/components/progress'
+import ElTooltip from '@element-plus/components/tooltip'
 import { useFormDisabled } from '@element-plus/components/form'
 import { uploadListEmits, uploadListProps } from './upload-list'
 
@@ -146,5 +160,14 @@ const containerKls = computed(() => [
 
 const handleRemove = (file: UploadFile) => {
   emit('remove', file)
+}
+
+const formatSize = (size?: number) => {
+  if (!size && size !== 0) return ''
+  if (size < 1024) return `${size}B`
+  else if (size < 1024 * 1024) return `${(size / 1024).toFixed(1)}KB`
+  else if (size < 1024 * 1024 * 1024)
+    return `${(size / 1024 / 1024).toFixed(1)}MB`
+  else return `${(size / 1024 / 1024 / 1024).toFixed(1)}GB`
 }
 </script>

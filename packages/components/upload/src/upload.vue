@@ -38,6 +38,8 @@
       :files="uploadFiles"
       :crossorigin="crossorigin"
       :handle-preview="onPreview"
+      :show-file-size="showFileListSize"
+      :show-file-tooltip="showFileListTooltip"
       @remove="handleRemove"
     >
       <template v-if="$slots.file" #default="{ file, index }">
