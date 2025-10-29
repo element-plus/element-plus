@@ -25,18 +25,24 @@ afterEach(async () => {
   document.body.innerHTML = ''
   vi.clearAllTimers()
 
-  const clearAnimationFrames = () => {
-    let id = 1
-    while (id < 1000) {
-      try {
-        window.cancelAnimationFrame(id)
-      } catch {
-        // Ignore errors
-      }
-      id++
-    }
+  const frameIds = new Set<number>()
+  const originalRequestAnimationFrame = global.requestAnimationFrame
+
+  global.requestAnimationFrame = function (cb) {
+    const id = originalRequestAnimationFrame((timestamp) => {
+      frameIds.delete(id)
+      cb(timestamp)
+    })
+    frameIds.add(id)
+    return id
   }
-  clearAnimationFrames()
+
+  const cancelAllAnimationFrames = () => {
+    frameIds.forEach((id) => global.cancelAnimationFrame(id))
+    frameIds.clear()
+  }
+
+  cancelAllAnimationFrames()
   await new Promise((resolve) => setTimeout(resolve, 0))
 })
 
