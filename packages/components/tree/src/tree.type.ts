@@ -8,6 +8,7 @@ import type {
 } from 'vue'
 import type Node from './model/node'
 import type TreeStore from './model/tree-store'
+import type { Nullable } from '@element-plus/utils'
 
 export interface RootTreeType {
   ctx: SetupContext<any>
@@ -127,3 +128,5 @@ export interface TreeComponentProps {
 }
 
 export type NodeDropType = 'before' | 'after' | 'inner' | 'none'
+
+export type ElFunc = () => Ref<Nullable<HTMLElement>> | undefined

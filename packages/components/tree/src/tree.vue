@@ -183,7 +183,7 @@ export default defineComponent({
         autoExpandParent: props.autoExpandParent,
         defaultExpandAll: props.defaultExpandAll,
         filterNodeMethod: props.filterNodeMethod,
-        el$,
+        el$: () => el$,
       })
     )
 

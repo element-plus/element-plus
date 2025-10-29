@@ -1,4 +1,4 @@
-import { Ref, reactive } from 'vue'
+import { reactive } from 'vue'
 import { isNil } from 'lodash-unified'
 import {
   hasOwn,
@@ -8,11 +8,12 @@ import {
   isString,
   isUndefined,
 } from '@element-plus/utils'
-import { NODE_KEY, markNodeData } from './util'
+import { NODE_KEY, markNodeData, updateNodeElementPartially } from './util'
 
 import type TreeStore from './tree-store'
 import type { Nullable } from '@element-plus/utils'
 import type {
+  ElFunc,
   FakeNode,
   TreeKey,
   TreeNodeChildState,
@@ -21,37 +22,9 @@ import type {
   TreeNodeOptions,
 } from '../tree.type'
 
-/**
- * 当有节点 disabled=true，并在半选状态下 checkbox 为 checked=false，当再次点击节点时变为 checked=true，是导致节点需要点击两次才会更新状态的原因；
- * 解决办法：在半选状态下 input 的 checked 应为 true，当再次点击时 checked 就会变为 false；
- **/
-const updateNodeElementPartially = (
-  node: Node,
-  $el: Ref<Nullable<HTMLElement>> | HTMLElement | undefined,
-  half?: boolean,
-  all?: boolean
-) => {
-  if ($el && !all && node.store.isAnyDisabledNode) {
-    const treeNodeEl = ($el as HTMLElement).querySelector(
-      `.el-tree-node[data-key="${node.key || node.id}"]`
-    )
-    const nodeContentEl = treeNodeEl?.querySelector('.el-tree-node__content')
-    const checkbox = nodeContentEl?.querySelector(
-      '.el-checkbox__original'
-    ) as HTMLInputElement
-    if (checkbox) {
-      if (!node.indeterminate && !checkbox?.indeterminate && !node.checked)
-        return
-
-      checkbox.checked =
-        !half && !checkbox?.indeterminate ? node.checked : !!half
-    }
-  }
-}
-
 export const getChildState = (
   node: Node[],
-  $el?: Ref<Nullable<HTMLElement>> | HTMLElement
+  $el?: ElFunc | undefined
 ): TreeNodeChildState => {
   let all = true
   let none = true
@@ -73,10 +46,7 @@ export const getChildState = (
   return { all, none, allWithoutDisable, half: !all && !none }
 }
 
-const reInitChecked = function (
-  node: Node,
-  $el?: Ref<Nullable<HTMLElement>> | HTMLElement
-): void {
+const reInitChecked = function (node: Node, $el?: ElFunc | undefined): void {
   if (node.childNodes.length === 0 || node.loading) return
 
   const { all, none, half } = getChildState(node.childNodes, $el)
