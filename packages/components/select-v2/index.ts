@@ -7,10 +7,3 @@ export const ElSelectV2: SFCWithInstall<typeof Select> = withInstall(Select)
 export default ElSelectV2
 
 export * from './src/token'
-
-export type {
-  SelectV2PropsPublic,
-  OptionV2PropsPublic,
-  SelectV2EmitFn,
-  OptionV2EmitFn,
-} from './src/defaults'

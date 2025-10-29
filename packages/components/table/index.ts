@@ -26,24 +26,10 @@ export type {
   ColumnStyle,
   CellCls,
   CellStyle,
-  DefaultRow,
   TreeNode,
   RenderRowData,
   Sort,
   Filter,
   TableColumnCtx,
   TableTooltipData,
-  TableSortOrder,
-  TreeProps as TableTreeProps,
 } from './src/table/defaults'
-
-export type {
-  Filters as TableFilters,
-  FilterMethods,
-  TableColumn,
-  ValueOf as TableColumnValueOf,
-} from './src/table-column/defaults'
-export type { TableBodyProps } from './src/table-body/defaults'
-export type { TableFooter } from './src/table-footer/index'
-export type { TableHeader, TableHeaderProps } from './src/table-header/index'
-export type { TreeData as TableTreeData } from './src/store/tree'

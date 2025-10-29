@@ -73,6 +73,12 @@ export const generateTypesDefinitions = async () => {
   // insert import statement at the beginning of the file
   formattedText = `import "./utils/vue3.3.polyfill";\n${formattedText}`
 
+  // change "declare interface" to "export declare interface"
+  formattedText = formattedText.replace(
+    /^declare interface /gm,
+    'export declare interface '
+  )
+
   await writeFile(entryFilePath, formattedText, 'utf8')
 
   // "@element-plus" should be replaced with "element-plus"
