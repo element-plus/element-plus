@@ -106,10 +106,10 @@ popover/directive-usage
 
 ### Slots
 
-| Name      | Description                        |
-| --------- | ---------------------------------- |
-| default   | text content of popover            |
-| reference | HTML element that triggers popover |
+| Name      | Description                                                                |
+| --------- | -------------------------------------------------------------------------- |
+| default   | text content of popover                                                    |
+| reference | HTML element that triggers popover, only a single root element is accepted |
 
 ### Events
 

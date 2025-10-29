@@ -7,15 +7,23 @@ import {
 import { roleTypes } from '@element-plus/components/popper'
 
 import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { TooltipTriggerType } from '@element-plus/components/tooltip'
 import type { Placement } from '@element-plus/components/popper'
 import type { Options } from '@popperjs/core'
 import type { ButtonProps, ButtonType } from '@element-plus/components/button'
+import type { Arrayable } from '@element-plus/utils'
 
 export const dropdownProps = buildProps({
   /**
    * @description how to trigger
    */
-  trigger: useTooltipTriggerProps.trigger,
+  trigger: {
+    ...useTooltipTriggerProps.trigger,
+    type: definePropType<Arrayable<Exclude<TooltipTriggerType, 'focus'>>>([
+      String,
+      Array,
+    ]),
+  },
   /**
    * @description how to trigger the sub menu
    */
