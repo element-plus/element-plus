@@ -545,7 +545,7 @@ describe('CascaderPanel.vue', () => {
       label: 'name',
       children: 'areas',
       disabled: 'invalid',
-      leaf: (data: typeof CUSTOM_PROPS_OPTIONS[0]) => !data.areas?.length,
+      leaf: (data: (typeof CUSTOM_PROPS_OPTIONS)[0]) => !data.areas?.length,
     }
     const wrapper = mount(() => (
       <CascaderPanel
@@ -595,6 +595,128 @@ describe('CascaderPanel.vue', () => {
 
     await secondMenu.find(NODE).trigger('click')
     expect(value.value).toEqual([1, 2])
+    vi.useRealTimers()
+  })
+
+  test('lazy load with loaded fails', async () => {
+    vi.useFakeTimers()
+    const value = ref([])
+    const props: CascaderProps = {
+      lazy: true,
+      lazyLoad(node, resolve, reject) {
+        const { level } = node
+        setTimeout(() => {
+          const nodes = Array.from({ length: level + 1 }).map(() => ({
+            value: ++id,
+            label: `option${id}`,
+            leaf: level >= 2,
+          }))
+          if (level === 1) {
+            // Simulate loading failure for the second level nodes
+            reject()
+            return
+          }
+          resolve(nodes)
+        }, 1000)
+      },
+    }
+    const wrapper = mount(() => (
+      <CascaderPanel v-model={value.value} props={props} />
+    ))
+
+    vi.runAllTimers()
+    await nextTick()
+    const firstOption = wrapper.find(NODE)
+    expect(firstOption.exists()).toBe(true)
+    await firstOption.trigger('click')
+    expect(firstOption.findComponent(Loading).exists()).toBe(true)
+    vi.runAllTimers()
+    await nextTick()
+    expect(firstOption.findComponent(Loading).exists()).toBe(false)
+    expect(wrapper.findAll(MENU).length).toBe(1)
+    vi.useRealTimers()
+  })
+
+  test('lazy load with first level loaded fails', async () => {
+    vi.useFakeTimers()
+    const value = ref([])
+    const props: CascaderProps = {
+      lazy: true,
+      lazyLoad(node, resolve, reject) {
+        const { level } = node
+        setTimeout(() => {
+          const nodes = Array.from({ length: level + 1 }).map(() => ({
+            value: ++id,
+            label: `option${id}`,
+            leaf: level >= 2,
+          }))
+          if (level === 0) {
+            // Simulate loading failure for the first level nodes
+            reject()
+            return
+          }
+          resolve(nodes)
+        }, 1000)
+      },
+    }
+    const wrapper = mount(() => (
+      <CascaderPanel v-model={value.value} props={props} />
+    ))
+
+    vi.runAllTimers()
+    await nextTick()
+    const firstOption = wrapper.find(NODE)
+    expect(firstOption.exists()).toBe(false)
+    expect(wrapper.findAll(MENU).length).toBe(1)
+    expect(wrapper.findComponent(Loading).exists()).toBe(false)
+    expect(wrapper.find('.is-empty').exists()).toBe(true)
+    vi.useRealTimers()
+  })
+
+  test('lazy load with first and second level loaded success and third level loaded fails', async () => {
+    vi.useFakeTimers()
+    const value = ref([])
+    const props: CascaderProps = {
+      lazy: true,
+      lazyLoad(node, resolve, reject) {
+        const { level } = node
+        setTimeout(() => {
+          const nodes = Array.from({ length: level + 1 }).map(() => ({
+            value: ++id,
+            label: `option${id}`,
+            leaf: level >= 2,
+          }))
+          if (level === 2) {
+            // Simulate loading failure for the second level nodes
+            reject()
+            return
+          }
+          resolve(nodes)
+        }, 1000)
+      },
+    }
+    const wrapper = mount(() => (
+      <CascaderPanel v-model={value.value} props={props} />
+    ))
+
+    vi.runAllTimers()
+    await nextTick()
+    const firstOption = wrapper.find(NODE)
+    expect(firstOption.exists()).toBe(true)
+    await firstOption.trigger('click')
+    expect(firstOption.findComponent(Loading).exists()).toBe(true)
+    vi.runAllTimers()
+    await nextTick()
+    expect(firstOption.findComponent(Loading).exists()).toBe(false)
+    expect(wrapper.findAll(MENU).length).toBe(2)
+    const secondMenu = wrapper.findAll(MENU)[1]
+    const secondOption = secondMenu.find(NODE)
+    await secondOption.trigger('click')
+    expect(secondOption.findComponent(Loading).exists()).toBe(true)
+    vi.runAllTimers()
+    await nextTick()
+    expect(secondOption.findComponent(Loading).exists()).toBe(false)
+    expect(wrapper.findAll(MENU).length).toBe(2)
     vi.useRealTimers()
   })
 

@@ -44,6 +44,13 @@ export const colorPickerPanelProps = buildProps({
   predefine: {
     type: definePropType<string[]>(Array),
   },
+  /**
+   * @description whether to trigger form validation
+   */
+  validateEvent: {
+    type: Boolean,
+    default: true,
+  },
 } as const)
 export const colorPickerPanelEmits = {
   [UPDATE_MODEL_EVENT]: (val: string | null) => isString(val) || isNil(val),

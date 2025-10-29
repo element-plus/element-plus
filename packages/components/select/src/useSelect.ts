@@ -1,5 +1,4 @@
 import {
-  Component,
   computed,
   nextTick,
   onMounted,
@@ -8,19 +7,16 @@ import {
   watch,
   watchEffect,
 } from 'vue'
-import {
-  findLastIndex,
-  get,
-  isEqual,
-  debounce as lodashDebounce,
-} from 'lodash-unified'
-import { useResizeObserver } from '@vueuse/core'
+import { clamp, findLastIndex, get, isEqual, isNil } from 'lodash-unified'
+import { useDebounceFn, useResizeObserver } from '@vueuse/core'
 import {
   ValidateComponentsMap,
   debugWarn,
   ensureArray,
+  getEventCode,
   isArray,
   isClient,
+  isEmpty,
   isFunction,
   isIOS,
   isNumber,
@@ -49,6 +45,7 @@ import {
   useFormSize,
 } from '@element-plus/components/form'
 
+import type { Component } from 'vue'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { ScrollbarInstance } from '@element-plus/components/scrollbar'
 import type { SelectEmits, SelectProps } from './select'
@@ -96,6 +93,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   // the controller of the expanded popup
   const expanded = ref(false)
   const hoverOption = ref()
+  const debouncing = ref(false)
 
   const { form, formItem } = useFormItem()
   const { inputId } = useFormItemInputId(props, {
@@ -169,7 +167,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       (ValidateComponentsMap[validateState.value] as Component)
   )
 
-  const debounce = computed(() => (props.remote ? 300 : 0))
+  const debounce = computed(() => (props.remote ? props.debounce : 0))
 
   const isRemoteSearchEmpty = computed(
     () => props.remote && !states.inputValue && states.options.size === 0
@@ -247,7 +245,11 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
 
   const dropdownMenuVisible = computed({
     get() {
-      return expanded.value && !isRemoteSearchEmpty.value
+      return (
+        expanded.value &&
+        (props.loading || !isRemoteSearchEmpty.value) &&
+        (!debouncing.value || !isEmpty(states.previousQuery))
+      )
     },
     set(val: boolean) {
       expanded.value = val
@@ -443,7 +445,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       }
     }
     if (option) return option
-    const label = isObjectValue ? value.label : value ?? ''
+    const label = isObjectValue ? value.label : (value ?? '')
     const newOption = {
       index: -1,
       value,
@@ -489,15 +491,17 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   const onInput = (event: Event) => {
     states.inputValue = (event.target as HTMLInputElement).value
     if (props.remote) {
+      debouncing.value = true
       debouncedOnInputChange()
     } else {
       return onInputChange()
     }
   }
 
-  const debouncedOnInputChange = lodashDebounce(() => {
+  const debouncedOnInputChange = useDebounceFn(() => {
     onInputChange()
-  }, debounce.value)
+    debouncing.value = false
+  }, debounce)
 
   const emitChange = (val: OptionValue | OptionValue[]) => {
     if (!isEqual(props.modelValue, val)) {
@@ -512,8 +516,9 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     })
 
   const deletePrevTag = (e: KeyboardEvent) => {
+    const code = getEventCode(e)
     if (!props.multiple) return
-    if (e.code === EVENT_CODE.delete) return
+    if (code === EVENT_CODE.delete) return
     if ((e.target as HTMLInputElement).value.length <= 0) {
       const value = ensureArray(props.modelValue).slice()
       const lastNotDisabledIndex = getLastNotDisabledIndex(value)
@@ -576,7 +581,8 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
         states.inputValue = ''
       }
     } else {
-      emit(UPDATE_MODEL_EVENT, option.value)
+      !isEqual(props.modelValue, option.value) &&
+        emit(UPDATE_MODEL_EVENT, option.value)
       emitChange(option.value)
       expanded.value = false
     }
@@ -605,7 +611,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     const targetOption = isArray(option) ? option[0] : option
     let target = null
 
-    if (targetOption?.value) {
+    if (!isNil(targetOption?.value)) {
       const options = optionsArray.value.filter(
         (item) => item.value === targetOption.value
       )
@@ -770,6 +776,83 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     }
   }
 
+  const findFocusableIndex = (
+    arr: any[],
+    start: number,
+    step: number,
+    len: number
+  ) => {
+    for (let i = start; i >= 0 && i < len; i += step) {
+      const obj = arr[i]
+      if (!obj?.isDisabled && obj?.visible) {
+        return i
+      }
+    }
+    return null
+  }
+
+  const focusOption = (targetIndex: number, mode: 'up' | 'down') => {
+    const len = states.options.size
+    if (len === 0) return
+    const start = clamp(targetIndex, 0, len - 1)
+    const options = optionsArray.value
+    const direction = mode === 'up' ? -1 : 1
+    const newIndex =
+      findFocusableIndex(options, start, direction, len) ??
+      findFocusableIndex(options, start - direction, -direction, len)
+
+    if (newIndex != null) {
+      states.hoveringIndex = newIndex
+      nextTick(() => scrollToOption(hoverOption.value))
+    }
+  }
+
+  const handleKeydown = (e: KeyboardEvent) => {
+    const code = getEventCode(e)
+    let isPreventDefault = true
+    switch (code) {
+      case EVENT_CODE.up:
+        navigateOptions('prev')
+        break
+      case EVENT_CODE.down:
+        navigateOptions('next')
+        break
+      case EVENT_CODE.enter:
+        selectOption()
+        break
+      case EVENT_CODE.esc:
+        handleEsc()
+        break
+      case EVENT_CODE.backspace:
+        isPreventDefault = false
+        deletePrevTag(e)
+        return
+      case EVENT_CODE.home:
+        if (!expanded.value) return
+        focusOption(0, 'down')
+        break
+      case EVENT_CODE.end:
+        if (!expanded.value) return
+        focusOption(states.options.size - 1, 'up')
+        break
+      case EVENT_CODE.pageUp:
+        if (!expanded.value) return
+        focusOption(states.hoveringIndex - 10, 'up')
+        break
+      case EVENT_CODE.pageDown:
+        if (!expanded.value) return
+        focusOption(states.hoveringIndex + 10, 'down')
+        break
+      default:
+        isPreventDefault = false
+        break
+    }
+    if (isPreventDefault) {
+      e.preventDefault()
+      e.stopPropagation()
+    }
+  }
+
   const getGapWidth = () => {
     if (!selectionRef.value) return 0
     const style = window.getComputedStyle(selectionRef.value)
@@ -861,6 +944,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     handleCompositionStart,
     handleCompositionUpdate,
     handleCompositionEnd,
+    handleKeydown,
     onOptionCreate,
     onOptionDestroy,
     handleMenuEnter,

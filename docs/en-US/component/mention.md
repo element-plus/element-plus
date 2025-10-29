@@ -17,6 +17,16 @@ mention/basic
 
 :::
 
+## Props ^(2.11.3)
+
+You can customize the alias of the `options` through the `props` attribute.
+
+:::demo
+
+mention/props
+
+:::
+
 ## Textarea
 
 The input type can be set to `textarea`.
@@ -100,7 +110,8 @@ and please go to the original component to view the documentation.
 | check-is-whole                       | when backspace is pressed to delete, check if the mention is a whole                   | ^[Function]`(pattern: string, prefix: string) => boolean`                    | —                                                        |
 | loading                              | whether the dropdown panel of mentions is in a loading state                           | ^[boolean]                                                                   | `false`                                                  |
 | model-value / v-model                | input value                                                                            | ^[string]                                                                    | —                                                        |
-| popper-class                         | custom class name for dropdown panel                                                   | ^[string]                                                                    | —                                                        |
+| popper-class                         | custom class name for dropdown panel                                                   | ^[string] / ^[object]                                                        | ''                                                       |
+| popper-style ^(2.11.5)               | custom style for dropdown panel                                                        | ^[string] / ^[object]                                                        | —                                                        |
 | popper-options                       | [popper.js](https://popper.js.org/docs/v2/) parameters                                 | ^[object] refer to [popper.js doc](https://popper.js.org/docs/v2/)           | —                                                        |
 | [input props](./input.md#attributes) | —                                                                                      | —                                                                            | —                                                        |
 

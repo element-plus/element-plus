@@ -14,7 +14,7 @@ const createComponent = ({
   props = {},
 }: {
   slots?: Record<string, any>
-  props?: typeof TreeSelect['props']
+  props?: (typeof TreeSelect)['props']
 } = {}) => {
   const wrapperRef = ref<InstanceType<typeof TreeSelect>>()
   const defaultData = ref([
@@ -899,11 +899,11 @@ describe('TreeSelect.vue', () => {
       components: { TreeSelect },
       data() {
         return {
-          data: [{ value: 1, handleChange: spy1 }],
+          data: [{ value: null, handleModelValue: spy1 }],
           options: [{ value: 1 }, { value: 2 }],
         }
       },
-      template: `<TreeSelect v-for="item in data" v-model="item.value" :data="options" @update:modelValue="item.handleChange" />`,
+      template: `<TreeSelect v-for="item in data" v-model="item.value" :data="options" @update:modelValue="item.handleModelValue" />`,
     })
     const select = wrapper.findComponent({
       name: 'ElSelect',
@@ -913,7 +913,7 @@ describe('TreeSelect.vue', () => {
     expect(spy1).toBeCalledWith(1)
 
     const spy2 = vi.fn()
-    wrapper.vm.data = [{ value: 1, handleChange: spy2 }]
+    wrapper.vm.data = [{ value: 1, handleModelValue: spy2 }]
     await nextTick()
 
     select.vm.handleOptionSelect(select.vm.states.options.get(2))
@@ -967,5 +967,25 @@ describe('TreeSelect.vue', () => {
     await input.trigger('blur')
     await input.trigger('focus')
     expect(wrapper.findComponent(CircleClose).exists()).toBe(true)
+  })
+
+  test('render slot `empty`', async () => {
+    const { wrapper, tree } = createComponent({
+      props: {
+        modelValue: '',
+        data: [],
+      },
+      slots: {
+        empty: () => <div class="empty-slot">EmptySlot</div>,
+      },
+    })
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    expect(
+      document.querySelector<HTMLElement>('.empty-slot')?.textContent
+    ).toBe('EmptySlot')
+    expect(tree.find('.el-tree').exists()).toBe(true)
+    expect(tree.find('.el-tree__empty-block').exists()).toBe(false)
   })
 })

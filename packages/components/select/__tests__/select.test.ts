@@ -22,6 +22,15 @@ vi.mock('lodash-unified', async () => {
   }
 })
 
+vi.mock('@vueuse/core', async () => {
+  return {
+    ...((await vi.importActual('@vueuse/core')) as Record<string, any>),
+    useDebounceFn: vi.fn((fn) => {
+      return fn
+    }),
+  }
+})
+
 interface SelectProps {
   filterMethod?: any
   remoteMethod?: any
@@ -38,6 +47,7 @@ interface SelectProps {
   defaultFirstOption?: boolean
   fitInputWidth?: boolean
   size?: 'small' | 'default' | 'large'
+  debounce?: number
 }
 
 const _mount = (template: string, data: any = () => ({}), otherObj?) =>
@@ -425,7 +435,7 @@ describe('Select', () => {
     delete process.env.RUN_TEST_WITH_PERSISTENT
   })
 
-  test('when there is a default value and persistent is false, render the label and dynamically modify options', async () => {
+  test('when there is a default value and persistent is false, render the label and dynamically modify options and modelValue', async () => {
     // This is convenient for testing the default value label rendering when persistent is false.
     process.env.RUN_TEST_WITH_PERSISTENT = 'true'
     wrapper = _mount(
@@ -459,7 +469,55 @@ describe('Select', () => {
     await nextTick()
 
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('双皮奶')
+
+    vm.value = '选项1'
+    await nextTick()
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('黄金糕')
+
     delete process.env.RUN_TEST_WITH_PERSISTENT
+  })
+
+  test('should not render the empty slot when multiple is true and persistent is false', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="value" multiple :persistent="false">
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value">
+        </el-option>
+        <template #empty>
+          <div class="empty-slot">EmptySlot</div>
+        </template>
+      </el-select>
+    `,
+      () => ({
+        options: [
+          {
+            value: '选项1',
+            label: '黄金糕',
+          },
+          {
+            value: '选项2',
+            label: '双皮奶',
+          },
+        ],
+        value: [],
+      })
+    )
+    await nextTick()
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const selectVm = select.vm as any
+    expect(selectVm.selectedLabel).toStrictEqual([])
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+    const options = getOptions()
+    options[0].click()
+    await nextTick()
+    expect(selectVm.selectedLabel).toStrictEqual(['黄金糕'])
+
+    const emptySlot = document.querySelector('.empty-slot')
+    expect(emptySlot).toBeNull()
   })
 
   test('multiple is true and persistent is false', async () => {
@@ -1554,7 +1612,7 @@ describe('Select', () => {
     expect(vm.value.length).toBe(1)
 
     const input = wrapper.find('input')
-    input.trigger('keydown.delete')
+    input.trigger('keydown', { code: EVENT_CODE.backspace })
     expect(vm.value.length).toBe(0)
     expect(handleRemoveTag).toHaveBeenLastCalledWith('选项1')
   })
@@ -3640,5 +3698,146 @@ describe('Select', () => {
     expect(vm.value).toBe(5)
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('北京烤鸭')
     expect(vm.count).toBe(2)
+  })
+
+  test('loading appears on first click when remote', async () => {
+    wrapper = _mount(
+      `
+      <el-select
+        v-model="value"
+        filterable
+        remote
+        :remote-method="remoteMethod"
+        :loading="loading"
+      >
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item"
+        />
+      </el-select>`,
+      () => ({
+        options: [],
+        value: '',
+        loading: false,
+      }),
+      {
+        methods: {
+          remoteMethod() {
+            this.loading = true
+            setTimeout(() => {
+              this.loading = false
+            }, 1000)
+          },
+        },
+      }
+    )
+
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const selectVm = select.vm as any
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    expect(selectVm.dropdownMenuVisible).toBeTruthy()
+  })
+
+  test('should trigger scroll when option value is 0', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="value" :teleported="false">
+        <el-option
+          v-for="{ label, value } in options"
+          :key="value"
+          :label="label"
+          :value="value"
+        />
+      </el-select>`,
+      () => ({
+        options: Array.from({ length: 10 }).map((_, i) => ({
+          label: `label-${i}`,
+          value: i,
+        })),
+        value: '',
+      })
+    )
+
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const selectVm = select.vm as any
+    const wrapEl = wrapper.find('.el-select-dropdown__wrap').element
+    const optionEls = wrapper.findAll('.el-select-dropdown__item')
+    const cleanup = optionEls.map((item, i) =>
+      vi.spyOn(item.element, 'offsetTop', 'get').mockReturnValue(i * 30)
+    )
+    cleanup.push(
+      vi.spyOn(wrapEl, 'clientHeight', 'get').mockReturnValue(5 * 30)
+    )
+
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    await input.trigger('keydown', { key: EVENT_CODE.up })
+    expect(selectVm.states.hoveringIndex).toBe(9)
+    expect(wrapEl.scrollTop).toBe(4 * 30)
+    await input.trigger('keydown', { key: EVENT_CODE.down })
+    expect(selectVm.states.hoveringIndex).toBe(0)
+    expect(wrapEl.scrollTop).toBe(0)
+    cleanup.forEach((fn) => fn())
+  })
+
+  test('keyboard navigation with Home, End, PageUp, PageDown', async () => {
+    const options = Array.from({ length: 21 }).map((_, i) => ({
+      value: `value-${i}`,
+      label: `Option ${i}`,
+      disabled: i === 0 || i === 10, // disable 10th  options
+    }))
+
+    const wrapper = _mount(
+      `
+    <el-select
+      ref="select"
+      v-model="value"
+      filterable
+    >
+      <el-option
+        v-for="item in options"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value"
+        :disabled="item.disabled"
+      />
+    </el-select>
+    `,
+      () => ({
+        value: '',
+        options,
+      })
+    )
+
+    await nextTick()
+    const vm = wrapper.vm as any
+    const target = vm.$refs.select
+    const input = wrapper.find('input')
+    await input.trigger('focus')
+    await input.trigger('keydown', { code: EVENT_CODE.down })
+    await nextTick()
+    await input.trigger('keydown', { code: EVENT_CODE.home })
+    expect(target.states.hoveringIndex).toBe(1)
+    await input.trigger('keydown', { code: EVENT_CODE.home })
+    expect(target.states.hoveringIndex).toBe(1)
+    await input.trigger('keydown', { code: EVENT_CODE.end })
+    expect(target.states.hoveringIndex).toBe(20)
+    await input.trigger('keydown', { code: EVENT_CODE.home })
+    expect(target.states.hoveringIndex).toBe(1)
+    await input.trigger('keydown', { code: EVENT_CODE.pageDown })
+    expect(target.states.hoveringIndex).toBe(11)
+    await input.trigger('keydown', { code: EVENT_CODE.pageDown })
+    expect(target.states.hoveringIndex).toBe(20)
+    await input.trigger('keydown', { code: EVENT_CODE.pageDown })
+    expect(target.states.hoveringIndex).toBe(20)
+    await input.trigger('keydown', { code: EVENT_CODE.pageUp })
+    expect(target.states.hoveringIndex).toBe(9)
+    await input.trigger('keydown', { code: EVENT_CODE.pageUp })
+    expect(target.states.hoveringIndex).toBe(1)
+    await input.trigger('keydown', { code: EVENT_CODE.pageUp })
+    expect(target.states.hoveringIndex).toBe(1)
   })
 })

@@ -9,6 +9,7 @@ import {
 import Image from '../src/image.vue'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { EVENT_CODE } from '@element-plus/constants'
+import { stableLoad } from '@element-plus/test-utils/stable-load'
 
 import type { AnchorHTMLAttributes, ImgHTMLAttributes } from 'vue'
 import type { ImageProps } from '../src/image'
@@ -229,6 +230,38 @@ describe('Image.vue', () => {
     expect(wrapper.find('.el-image-viewer__progress').exists()).toBe(true)
   })
 
+  test('custom viewer load failed slot', async () => {
+    const url = IMAGE_SUCCESS
+    const srcList = ['error']
+    const wrapper = _mount(
+      `
+      <el-image
+        ref="imageRef"
+        :src="url"
+        :preview-src-list="srcList"
+      >
+        <template #viewer-error>
+          <div class="load-failed-slot">
+            load failed slot
+          </div>
+        </template>
+      </el-image>`,
+      () => ({
+        url,
+        srcList,
+      })
+    )
+
+    await doubleWait()
+    wrapper.vm.$refs.imageRef.showPreview()
+    await doubleWait()
+
+    const img = wrapper.find('.el-image-viewer__canvas img')
+    await img.trigger('error')
+    await doubleWait()
+    expect(wrapper.find('.load-failed-slot').exists()).toBe(true)
+  })
+
   describe('load', () => {
     mockImageEvent()
 
@@ -247,7 +280,8 @@ describe('Image.vue', () => {
       await flushPromises()
       expect(wrapper.find('.el-image__inner').exists()).toBe(true)
       expect(wrapper.find('img').exists()).toBe(true)
-      await flushPromises()
+
+      await stableLoad(() => !wrapper.find('.el-image__placeholder').exists())
       expect(wrapper.find('.el-image__placeholder').exists()).toBe(false)
       expect(wrapper.find('.el-image__error').exists()).toBe(false)
     })
@@ -286,6 +320,8 @@ describe('Image.vue', () => {
 
       expect(wrapper.find('.el-image__inner').exists()).toBe(true)
       expect(wrapper.find('img').exists()).toBe(true)
+
+      await stableLoad(() => !wrapper.find('.el-image__placeholder').exists())
       expect(wrapper.find('.el-image__placeholder').exists()).toBe(false)
       expect(wrapper.find('.el-image__error').exists()).toBe(false)
     })

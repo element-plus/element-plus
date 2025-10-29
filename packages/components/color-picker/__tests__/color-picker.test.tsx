@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
 import { ElFormItem } from '@element-plus/components/form'
 import { EVENT_CODE } from '@element-plus/constants'
+import { rAF } from '@element-plus/test-utils/tick'
 import ColorPicker from '../src/color-picker.vue'
 import ColorPickerPanel from '@element-plus/components/color-picker-panel'
 
@@ -105,7 +106,7 @@ describe('Color-picker', () => {
     const wrapper = mount(() => <ColorPicker v-model={color.value} />)
 
     const colorPickerWrapper = wrapper.findComponent(ColorPickerPanel)
-    const hueSlideWrapper = colorPickerWrapper.findComponent({ ref: 'hue' })
+    const hueSlideWrapper = colorPickerWrapper.findComponent({ ref: 'hueRef' })
     const hueSlideDom = hueSlideWrapper.element as HTMLElement
     const thumbDom = hueSlideWrapper.find<HTMLElement>(
       '.el-color-hue-slider__thumb'
@@ -170,7 +171,7 @@ describe('Color-picker', () => {
 
     await wrapper.find('.el-color-picker__trigger').trigger('click')
     const colorPickerWrapper = wrapper.findComponent(ColorPickerPanel)
-    const hueSlideWrapper = colorPickerWrapper.findComponent({ ref: 'hue' })
+    const hueSlideWrapper = colorPickerWrapper.findComponent({ ref: 'hueRef' })
     const hueSlideDom = hueSlideWrapper.element
     const thumbDom = hueSlideWrapper.find<HTMLElement>(
       '.el-color-hue-slider__thumb'
@@ -206,7 +207,7 @@ describe('Color-picker', () => {
 
     await wrapper.find('.el-color-picker__trigger').trigger('click')
     const colorPickerWrapper = wrapper.findComponent(ColorPickerPanel)
-    const hueSlideWrapper = colorPickerWrapper.findComponent({ ref: 'hue' })
+    const hueSlideWrapper = colorPickerWrapper.findComponent({ ref: 'hueRef' })
     const hueSlideDom = hueSlideWrapper.element as HTMLElement
     const thumbDom = hueSlideWrapper.find<HTMLElement>(
       '.el-color-hue-slider__thumb'
@@ -249,7 +250,7 @@ describe('Color-picker', () => {
 
     await wrapper.find('.el-color-picker__trigger').trigger('click')
     const colorPickerWrapper = wrapper.findComponent(ColorPickerPanel)
-    const alphaWrapper = colorPickerWrapper.findComponent({ ref: 'alpha' })
+    const alphaWrapper = colorPickerWrapper.findComponent({ ref: 'alphaRef' })
     const alphaDom = alphaWrapper.element as HTMLElement
     const mockAlphaDom = vi
       .spyOn(alphaDom, 'getBoundingClientRect')
@@ -287,7 +288,7 @@ describe('Color-picker', () => {
 
     await wrapper.find('.el-color-picker__trigger').trigger('click')
     const colorPickerWrapper = wrapper.findComponent(ColorPickerPanel)
-    const svPanelWrapper = colorPickerWrapper.findComponent({ ref: 'sv' })
+    const svPanelWrapper = colorPickerWrapper.findComponent({ ref: 'svRef' })
     ;(svPanelWrapper.vm as ColorPickerVM).handleDrag({
       type: 'mousemove',
       clientX: 0,
@@ -383,7 +384,7 @@ describe('Color-picker', () => {
         .find('.el-color-predefine__color-selector:nth-child(4)')
         .classes()
     ).toContain('selected')
-    const hueSlideWrapper = colorPickerWrapper.findComponent({ ref: 'hue' })
+    const hueSlideWrapper = colorPickerWrapper.findComponent({ ref: 'hueRef' })
     const hueSlideDom = hueSlideWrapper.element
     const thumbDom = hueSlideWrapper.find<HTMLElement>(
       '.el-color-hue-slider__thumb'
@@ -540,6 +541,41 @@ describe('Color-picker', () => {
 
     await wrapper.find('.el-color-picker').trigger('blur')
     expect(blurHandler).toHaveBeenCalled()
+    wrapper.unmount()
+  })
+
+  it('a11y', async () => {
+    const color = ref('#20a0ff')
+    const wrapper = mount(() => (
+      <ColorPicker v-model={color.value} tabindex={1} teleported={false} />
+    ))
+
+    await nextTick()
+    const colorPickerButton = wrapper.find('.el-color-picker')
+    const colorPickerPanel = wrapper.find('.el-color-picker__panel')
+
+    expect(colorPickerButton.attributes('role')).toBe('button')
+    expect(colorPickerButton.attributes('tabindex')).toBe('1')
+    expect(colorPickerButton.attributes('aria-label')).toBe('color picker')
+    expect(colorPickerButton.attributes('aria-description')).toBe(
+      'current color is #20a0ff. press enter to select a new color.'
+    )
+    expect(colorPickerButton.attributes('aria-disabled')).toBe('false')
+    expect(colorPickerButton.attributes('aria-expanded')).toBe('false')
+    expect(colorPickerButton.attributes('aria-haspopup')).toBe('dialog')
+    expect(colorPickerPanel?.attributes('aria-hidden')).toBe('true')
+
+    await wrapper.find('.el-color-picker__trigger').trigger('click')
+    await rAF()
+    expect(wrapper.find('.el-input__wrapper.is-focus')).toBeTruthy()
+    expect(colorPickerButton.attributes('aria-expanded')).toBe('true')
+    expect(colorPickerPanel?.attributes('role')).toBe('dialog')
+    expect(colorPickerPanel?.attributes('aria-hidden')).toBe('false')
+    expect(colorPickerPanel?.attributes('aria-modal')).toBe('false')
+    expect(colorPickerPanel?.attributes('id')).toBe(
+      colorPickerButton.attributes('aria-controls')
+    )
+
     wrapper.unmount()
   })
 })

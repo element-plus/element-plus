@@ -41,7 +41,6 @@ import {
   computed,
   defineComponent,
   getCurrentInstance,
-  inject,
   provide,
   ref,
   watch,
@@ -49,7 +48,6 @@ import {
 import { definePropType, iconPropType } from '@element-plus/utils'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { formItemContextKey } from '@element-plus/components/form'
-import { selectKey } from '@element-plus/components/select/src/token'
 import TreeStore from './model/tree-store'
 import { getNodeKey as getNodeKeyUtil, handleCurrentChange } from './model/util'
 import ElTreeNode from './tree-node.vue'
@@ -58,6 +56,7 @@ import { useDragNodeHandler } from './model/useDragNode'
 import { useKeydown } from './model/useKeydown'
 import { ROOT_TREE_INJECTION_KEY } from './tokens'
 import { isEqual } from 'lodash-unified'
+import { treeEmits } from './tree'
 
 import type Node from './model/node'
 import type { ComponentInternalInstance, PropType } from 'vue'
@@ -146,25 +145,10 @@ export default defineComponent({
       type: iconPropType,
     },
   },
-  emits: [
-    'check-change',
-    'current-change',
-    'node-click',
-    'node-contextmenu',
-    'node-collapse',
-    'node-expand',
-    'check',
-    'node-drag-start',
-    'node-drag-end',
-    'node-drop',
-    'node-drag-leave',
-    'node-drag-enter',
-    'node-drag-over',
-  ] as string[],
+  emits: treeEmits,
   setup(props, ctx) {
     const { t } = useLocale()
     const ns = useNamespace('tree')
-    const selectInfo = inject(selectKey, null)
 
     const el$ = ref<Nullable<HTMLElement>>(null)
 
@@ -205,16 +189,26 @@ export default defineComponent({
 
     useKeydown({ el$ }, store)
 
+    const instance = getCurrentInstance()
+
+    const isSelectTree = computed(() => {
+      let parent = instance?.parent
+      while (parent) {
+        if (parent.type.name === 'ElTreeSelect') {
+          return true
+        }
+        parent = parent.parent
+      }
+      return false
+    })
+
     const isEmpty = computed(() => {
       const { childNodes } = root.value
-      const hasFilteredOptions = selectInfo
-        ? (selectInfo as any).hasFilteredOptions !== 0
-        : false
       return (
         (!childNodes ||
           childNodes.length === 0 ||
           childNodes.every(({ visible }) => !visible)) &&
-        !hasFilteredOptions
+        !isSelectTree.value
       )
     })
 
@@ -341,13 +335,16 @@ export default defineComponent({
       })
     }
 
-    const setCurrentKey = (key?: TreeKey, shouldAutoExpandParent = true) => {
+    const setCurrentKey = (
+      key: TreeKey | null = null,
+      shouldAutoExpandParent = true
+    ) => {
       if (!props.nodeKey)
         throw new Error('[Tree] nodeKey is required in setCurrentKey')
 
       handleCurrentChange(store, ctx.emit, () => {
         broadcastExpanded()
-        store.value.setCurrentNodeKey(key ?? null, shouldAutoExpandParent)
+        store.value.setCurrentNodeKey(key, shouldAutoExpandParent)
       })
     }
 
@@ -401,7 +398,7 @@ export default defineComponent({
       store,
       root,
       currentNode,
-      instance: getCurrentInstance(),
+      instance,
     })
 
     provide(formItemContextKey, undefined)

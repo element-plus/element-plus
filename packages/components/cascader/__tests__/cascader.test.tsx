@@ -26,6 +26,15 @@ vi.mock('lodash-unified', async () => {
   }
 })
 
+vi.mock('@vueuse/core', async () => {
+  return {
+    ...((await vi.importActual('@vueuse/core')) as Record<string, any>),
+    useDebounceFn: vi.fn((fn) => {
+      return fn
+    }),
+  }
+})
+
 const OPTIONS = [
   {
     value: 'zhejiang',
@@ -50,6 +59,7 @@ const OPTIONS = [
 const AXIOM = 'Rem is the best girl'
 
 const TRIGGER = '.el-cascader'
+const MENU = '.el-cascader-menu'
 const NODE = '.el-cascader-node'
 const NODE_LABEL = '.el-cascader-node__label'
 const TAG = '.el-tag'
@@ -70,7 +80,10 @@ describe('Cascader.vue', () => {
   test('toggle popper visible', async () => {
     const handleVisibleChange = vi.fn()
     const wrapper = _mount(() => (
-      <Cascader onVisibleChange={handleVisibleChange} />
+      <>
+        <Cascader onVisibleChange={handleVisibleChange} />
+        <button></button>
+      </>
     ))
 
     const trigger = wrapper.find(TRIGGER)
@@ -78,12 +91,14 @@ describe('Cascader.vue', () => {
 
     await trigger.trigger('click')
     expect(dropdown.style.display).not.toBe('none')
-    expect(handleVisibleChange).toBeCalledWith(true)
+    expect(handleVisibleChange).toHaveBeenNthCalledWith(1, true)
     await trigger.trigger('click')
-    expect(handleVisibleChange).toBeCalledWith(false)
+    expect(handleVisibleChange).toHaveBeenNthCalledWith(2, false)
     await trigger.trigger('click')
-    document.body.click()
-    expect(handleVisibleChange).toBeCalledWith(false)
+    expect(handleVisibleChange).toHaveBeenNthCalledWith(3, true)
+    await wrapper.find('button').trigger('mousedown')
+    await wrapper.find('button').trigger('mouseup')
+    expect(handleVisibleChange).toHaveBeenNthCalledWith(4, false)
   })
 
   test('expand and check', async () => {
@@ -460,7 +475,7 @@ describe('Cascader.vue', () => {
     const scrollbar = scrollbars[0]
     expect(scrollbar).toBeDefined()
     expect(scrollbar?.vm.maxHeight).toBe(200)
-    const tooltip = await collapseTag.getComponent(ElTooltip)
+    const tooltip = wrapper.findComponent(ElTooltip)
     expect(tooltip).toBeDefined()
     await tooltip.trigger('hover')
     expect(
@@ -945,7 +960,7 @@ describe('Cascader.vue', () => {
       const wrapper = _mount(() => (
         <Cascader options={OPTIONS}>
           {{
-            default: () => false && <div>{AXIOM}</div>,
+            default: () => false,
           }}
         </Cascader>
       ))
@@ -1191,5 +1206,29 @@ describe('Cascader.vue', () => {
     rootNode?.click()
     await nextTick()
     expect(visibleChange).toBeCalledTimes(1)
+  })
+
+  it('should fully expand the panel after filter when checkStrictly=true', async () => {
+    const value = ref([])
+    const props = { checkStrictly: true }
+    const wrapper = _mount(() => (
+      <Cascader
+        v-model={value.value}
+        filterable
+        props={props}
+        options={OPTIONS}
+      />
+    ))
+    const input = wrapper.find('input')
+    await input.setValue('Wen')
+    const rootNode = document.querySelector(SUGGESTION_ITEM) as HTMLInputElement
+    rootNode?.click()
+    await nextTick()
+    expect(value.value).toStrictEqual(['zhejiang', 'wenzhou'])
+
+    const trigger = wrapper.find(TRIGGER)
+    await trigger.trigger('blur')
+    await trigger.trigger('focus')
+    expect(document.querySelectorAll(MENU)).toHaveLength(2)
   })
 })
