@@ -182,7 +182,7 @@ For Laravel users we have a [Laravel Template](https://github.com/element-plus/e
 
 When registering Element Plus, you can pass a global config object with `size` and
 `zIndex` to set the default `size` for form components, and `zIndex` for
-popup components, the default value for `zIndex` is `2000`.
+popup components, the default value for `zIndex` is `3000`.
 
 Full import:
 
