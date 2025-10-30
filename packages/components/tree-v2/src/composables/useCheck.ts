@@ -41,9 +41,8 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
       if (!nodes) continue
       nodes.forEach((node) => {
         const children = node.children
-        let allWithoutDisable = children?.length
-          ? true
-          : checkedKeySet.has(node.key) || node.disabled
+        let allWithoutDisable =
+          !node.isLeaf || node.disabled || checkedKeySet.has(node.key)
         if (children) {
           // Whether all child nodes are selected
           let allChecked = true
