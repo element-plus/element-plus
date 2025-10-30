@@ -429,6 +429,13 @@
         box-shadow: getCssVar('table-fixed-right-column');
       }
     }
+    .#{$namespace}-table.is-scrolling-right {
+      .#{$namespace}-table-fixed-column--right.is-first-column {
+        &::before {
+          box-shadow: none;
+        }
+      }
+    }
 
     &.#{$namespace}-table--border {
       .#{$namespace}-table-fixed-column--left {
@@ -451,7 +458,13 @@
         box-shadow: getCssVar('table-fixed-left-column');
       }
     }
-
+    .#{$namespace}-table.is-scrolling-left {
+      .#{$namespace}-table-fixed-column--left.is-last-column {
+        &::before {
+          box-shadow: none;
+        }
+      }
+    }
     .#{$namespace}-table-fixed-column--left.is-last-column.#{$namespace}-table__cell {
       border-right: none;
     }
@@ -475,6 +488,21 @@
     .#{$namespace}-table-fixed-column--left.is-last-column {
       &::before {
         box-shadow: getCssVar('table-fixed-left-column');
+      }
+    }
+
+    .#{$namespace}-table.is-scrolling-right {
+      .#{$namespace}-table-fixed-column--right.is-first-column {
+        &::before {
+          box-shadow: none;
+        }
+      }
+    }
+    .#{$namespace}-table.is-scrolling-left {
+      .#{$namespace}-table-fixed-column--left.is-last-column {
+        &::before {
+          box-shadow: none;
+        }
       }
     }
   }
