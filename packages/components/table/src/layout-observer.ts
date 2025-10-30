@@ -43,20 +43,18 @@ function useLayoutObserver<T extends DefaultRow>(root: Table<T>) {
       columnsMap[column.id] = column
     })
 
-    const wrap = root.vnode.el?.querySelector('.el-scrollbar__wrap')
-    const headerWrap = root.vnode.el?.querySelector('.el-table__header-wrapper')
-    if (headerWrap) {
-      const colEl = headerWrap.querySelector(`colgroup > col:last-child`)
+    if ((root as any).ctx.nativeScrollbar) {
+      const wrap = root.vnode.el?.querySelector('.el-scrollbar__wrap')
+      const headerWrap = root.vnode.el?.querySelector(
+        '.el-table__header-wrapper'
+      )
+      const colgroup = headerWrap.querySelector(`colgroup`)
+      const colEl = colgroup.querySelector(`colgroup > col:last-child`)
       const scrollbarWidth = Number(wrap.offsetWidth - wrap.clientWidth) || 0
-
       if (colEl && scrollbarWidth) {
-        const width = Number(colEl.realWidth || colEl.width || 0)
-        const sum = width + scrollbarWidth
-        const column = columnsMap[colEl.getAttribute('name')]
-        if (width && !column.lastAdjustedColumn) {
-          colEl?.setAttribute('width', sum)
-          column.lastAdjustedColumn = true
-        }
+        const th = headerWrap.querySelector('th.gutter')
+        th.style.width = `${scrollbarWidth}px`
+        colEl.setAttribute('width', scrollbarWidth)
       }
     }
 
@@ -64,7 +62,7 @@ function useLayoutObserver<T extends DefaultRow>(root: Table<T>) {
       const col = cols[i]
       const name = col.getAttribute('name')
       const column = columnsMap[name]
-      if (column && !column.lastAdjustedColumn) {
+      if (column) {
         col.setAttribute('width', column.realWidth || column.width)
       }
     }

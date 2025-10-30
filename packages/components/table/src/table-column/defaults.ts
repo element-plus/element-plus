@@ -80,7 +80,6 @@ type TableColumnCtx<T extends DefaultRow = DefaultRow> = {
   filterOpened?: boolean
   renderFilterIcon?: (scope: any) => VNode
   renderExpand?: (scope: any) => VNode
-  lastAdjustedColumn: boolean
 }
 
 interface TableColumn<T extends DefaultRow> extends ComponentInternalInstance {
