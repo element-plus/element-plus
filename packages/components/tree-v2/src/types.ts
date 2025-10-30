@@ -36,6 +36,7 @@ export interface TreeNode {
   label?: string
   isLeaf?: boolean
   expanded?: boolean
+  allWithoutDisable?: boolean
 }
 
 export interface TreeContext {

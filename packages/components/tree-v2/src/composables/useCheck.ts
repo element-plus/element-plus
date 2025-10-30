@@ -36,11 +36,14 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
     // It is easier to determine the indeterminate state by
     // traversing from bottom to top
     // leaf nodes not have indeterminate status and can be skipped
-    for (let level = maxLevel - 1; level >= 1; --level) {
+    for (let level = maxLevel; level >= 1; --level) {
       const nodes = levelTreeNodeMap.get(level)
       if (!nodes) continue
       nodes.forEach((node) => {
         const children = node.children
+        let allWithoutDisable = children?.length
+          ? true
+          : checkedKeySet.has(node.key) || node.disabled
         if (children) {
           // Whether all child nodes are selected
           let allChecked = true
@@ -48,6 +51,9 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
           let hasChecked = false
           for (const childNode of children) {
             const key = childNode.key
+            if (!childNode.allWithoutDisable) {
+              allWithoutDisable = false
+            }
             if (checkedKeySet.has(key)) {
               hasChecked = true
             } else if (indeterminateKeySet.has(key)) {
@@ -68,6 +74,7 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
             indeterminateKeySet.delete(node.key)
           }
         }
+        node.allWithoutDisable = allWithoutDisable
       })
     }
     indeterminateKeys.value = indeterminateKeySet
@@ -85,6 +92,12 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
     immediateUpdate = true
   ) => {
     const checkedKeySet = checkedKeys.value
+    const children = node.children
+    if (!props.checkStrictly && children?.length) {
+      const allChecked = children.every((node) => node.allWithoutDisable)
+      isChecked = !allChecked
+    }
+
     const toggle = (node: TreeNode, checked: CheckboxValueType) => {
       checkedKeySet[checked ? SetOperationEnum.ADD : SetOperationEnum.DELETE](
         node.key
@@ -92,7 +105,7 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
       const children = node.children
       if (!props.checkStrictly && children) {
         children.forEach((childNode) => {
-          if (!childNode.disabled) {
+          if (!childNode.disabled || childNode.children) {
             toggle(childNode, checked)
           }
         })
