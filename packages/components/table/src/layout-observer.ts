@@ -51,6 +51,7 @@ function useLayoutObserver<T extends DefaultRow>(root: Table<T>) {
       const colgroup = headerWrap.querySelector(`colgroup`)
       const colEl = colgroup.querySelector(`colgroup > col:last-child`)
       const scrollbarWidth = Number(wrap.offsetWidth - wrap.clientWidth) || 0
+
       if (colEl && scrollbarWidth) {
         const th = headerWrap.querySelector('th.gutter')
         th.style.width = `${scrollbarWidth}px`
