@@ -93,7 +93,7 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
   ) => {
     const checkedKeySet = checkedKeys.value
     const children = node.children
-    if (!props.checkStrictly && children?.length) {
+    if (!props.checkStrictly && nodeClick && children?.length) {
       const allChecked = children.every((node) => node.allWithoutDisable)
       isChecked = !allChecked
     }
