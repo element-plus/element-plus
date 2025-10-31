@@ -350,6 +350,8 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     // If you want to control it by condition, write here
     if (states.isBeforeHide) return
     updateOptions()
+    if (props.multiple || !props.remote) return
+    nextTick(() => setSelected())
   })
 
   const handleQueryChange = (val: string) => {
