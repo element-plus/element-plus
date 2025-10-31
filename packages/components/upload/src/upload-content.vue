@@ -6,7 +6,9 @@
       ns.is('drag', drag),
       ns.is('disabled', disabled),
     ]"
-    :tabindex="disabled ? '-1' : '0'"
+    :tabindex="disabled ? undefined : 0"
+    :aria-disabled="disabled"
+    role="button"
     @click="handleClick"
     @keydown.self.enter.space="handleKeydown"
   >

@@ -3037,4 +3037,22 @@ describe('YearRange', () => {
       expect(wrapper.vm.value).toEqual('')
     })
   })
+
+  it('the selected row has .current class when show-week-number', async () => {
+    _mount(
+      `<el-date-picker
+        v-model="value"
+        type="week"
+        show-week-number
+      />`,
+      () => ({
+        value: '2025-10-23',
+      })
+    )
+    await nextTick()
+    const rows = document.querySelectorAll('.el-date-table__row')
+    const selectedRow = document.querySelectorAll('.el-date-table__row.current')
+    expect(rows[3].classList.contains('current')).toBeTruthy()
+    expect(selectedRow.length).toBe(1)
+  })
 })
