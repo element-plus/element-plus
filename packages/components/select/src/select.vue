@@ -157,7 +157,7 @@
               :class="[
                 nsSelect.e('selected-item'),
                 nsSelect.e('input-wrapper'),
-                nsSelect.is('hidden', disabled || !filterable),
+                nsSelect.is('hidden', selectDisabled || !filterable),
               ]"
             >
               <input
