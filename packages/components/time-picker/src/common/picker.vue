@@ -612,7 +612,8 @@ const handleKeydownInput = async (event: Event | KeyboardEvent) => {
     pickerOptions.value.handleKeydownInput(event as KeyboardEvent)
   }
 }
-const onUserInput = (e: string) => {
+
+const onUserInput = (e: string | UserInput) => {
   userInput.value = e
   // Temporary fix when the picker is dismissed and the input box
   // is focused, just mimic the behavior of antdesign.
@@ -623,20 +624,24 @@ const onUserInput = (e: string) => {
 
 const handleStartInput = (event: Event) => {
   const target = event.target as HTMLInputElement
+  let arr
   if (userInput.value) {
-    userInput.value = [target.value, userInput.value[1]]
+    arr = [target.value, userInput.value[1]]
   } else {
-    userInput.value = [target.value, null]
+    arr = [target.value, null]
   }
+  onUserInput(arr as UserInput)
 }
 
 const handleEndInput = (event: Event) => {
   const target = event.target as HTMLInputElement
+  let arr
   if (userInput.value) {
-    userInput.value = [userInput.value[0], target.value]
+    arr = [userInput.value[0], target.value]
   } else {
-    userInput.value = [null, target.value]
+    arr = [null, target.value]
   }
+  onUserInput(arr as UserInput)
 }
 
 const handleStartChange = () => {
