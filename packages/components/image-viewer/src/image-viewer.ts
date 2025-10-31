@@ -95,6 +95,22 @@ export const imageViewerProps = buildProps({
   crossorigin: {
     type: definePropType<'anonymous' | 'use-credentials' | ''>(String),
   },
+  /**
+   * @description set HTML attribute: referrerpolicy.
+   */
+  referrerpolicy: {
+    type: definePropType<
+      | ''
+      | 'no-referrer'
+      | 'no-referrer-when-downgrade'
+      | 'origin'
+      | 'origin-when-cross-origin'
+      | 'same-origin'
+      | 'strict-origin'
+      | 'strict-origin-when-cross-origin'
+      | 'unsafe-url'
+    >(String),
+  },
 } as const)
 export type ImageViewerProps = ExtractPropTypes<typeof imageViewerProps>
 export type ImageViewerPropsPublic = __ExtractPublicPropTypes<

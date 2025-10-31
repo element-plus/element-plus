@@ -12,6 +12,7 @@
         :style="imageStyle"
         :class="imageKls"
         :crossorigin="crossorigin"
+        :referrerpolicy="referrerpolicy"
         @click="clickHandler"
         @load="handleLoad"
         @error="handleError"
@@ -38,6 +39,7 @@
         :hide-on-click-modal="hideOnClickModal"
         :teleported="previewTeleported"
         :close-on-press-escape="closeOnPressEscape"
+        :referrerpolicy="referrerpolicy"
         @close="closeViewer"
         @switch="switchViewer"
       >
