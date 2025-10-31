@@ -1,4 +1,7 @@
 // @ts-nocheck
+/**
+ * @vitest-environment happy-dom
+ */
 import { defineComponent, markRaw, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, test, vi } from 'vitest'
