@@ -51,6 +51,21 @@ export const alertProps = buildProps({
     values: alertEffects,
     default: 'light',
   },
+  /**
+   * @deprecated This feature was deprecated starting with version (2.12.0)
+   * @description delay of appearance, in millisecond, not valid in controlled mode
+   */
+  showAfter: Number,
+  /**
+   * @deprecated This feature was deprecated starting with version (2.12.0)
+   * @description delay of disappear, in millisecond, not valid in controlled mode
+   */
+  hideAfter: Number,
+  /**
+   * @deprecated This feature was deprecated starting with version (2.12.0)
+   * @description disappear automatically, in millisecond, not valid in controlled mode
+   */
+  autoClose: Number,
 } as const)
 export type AlertProps = ExtractPropTypes<typeof alertProps>
 export type AlertPropsPublic = __ExtractPublicPropTypes<typeof alertProps>

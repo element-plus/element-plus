@@ -46,7 +46,11 @@
 <script lang="ts" setup>
 import { computed, ref, useSlots } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
-import { TypeComponents, TypeComponentsMap } from '@element-plus/utils'
+import {
+  TypeComponents,
+  TypeComponentsMap,
+  debugWarn,
+} from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { alertEmits, alertProps } from './alert'
 
@@ -71,5 +75,12 @@ const hasDesc = computed(() => !!(props.description || slots.default))
 const close = (evt: MouseEvent) => {
   visible.value = false
   emit('close', evt)
+}
+
+if (props.showAfter || props.hideAfter || props.autoClose) {
+  debugWarn(
+    'el-alert',
+    'The `show-after`, `hide-after`, and `auto-close` attributes were removed in version 2.12.0. Please use `v-if` and `v-show` to manually replace them, visit: https://github.com/element-plus/element-plus/pull/22560'
+  )
 }
 </script>
