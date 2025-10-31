@@ -89,6 +89,16 @@ upload/manual
 
 :::
 
+## response Type Upload
+
+You can specify the ts type for the response data that is completed
+
+:::demo
+
+upload/response-type
+
+:::
+
 ## API
 
 ### Attributes
@@ -158,12 +168,14 @@ type Awaitable<T> = Promise<T> | T
 
 type Mutable<T> = { -readonly [P in keyof T]: T[P] }
 
-interface UploadFile {
+//allows you to pass in a generic T as the response type. You can use in all of the above methods
+//such as you have a type A is {data: any , code: number} and you can use type A (response: any, uploadFile: UploadFile<A>, uploadFiles: UploadFiles<A>) => void
+interface UploadFile<T = any> {
   name: string
   percentage?: number
   status: UploadStatus
   size?: number
-  response?: unknown
+  response?: T
   uid: number
   url?: string
   raw?: UploadRawFile
