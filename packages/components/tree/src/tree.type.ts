@@ -124,6 +124,7 @@ export interface TreeComponentProps {
   accordion: boolean
   indent: number
   icon: string | Component
+  direction: 'ltr' | 'rtl'
 }
 
 export type NodeDropType = 'before' | 'after' | 'inner' | 'none'
