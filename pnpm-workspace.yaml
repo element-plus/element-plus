@@ -3,6 +3,12 @@ packages:
   - docs
   - play
   - internal/*
+onlyBuiltDependencies:
+  - 'es5-ext'
+  - 'esbuild'
+  - 'fsevents'
+  - 'puppeteer'
+  - 'vue-demi'
 catalog:
   '@ctrl/tinycolor': ^3.4.1
   '@element-plus/icons-vue': ^2.3.2
@@ -16,4 +22,3 @@ catalog:
   csstype: ^2.6.20
   '@floating-ui/dom': ^1.0.1
   vue: ~3.2.37
-  # vitest: ^2.0.5

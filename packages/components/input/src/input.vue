@@ -80,10 +80,18 @@
               v-if="showPwdVisible"
               :class="[nsInput.e('icon'), nsInput.e('password')]"
               @click="handlePasswordVisible"
+              @mousedown.prevent="NOOP"
+              @mouseup.prevent="NOOP"
             >
               <component :is="passwordIcon" />
             </el-icon>
-            <span v-if="isWordLimitVisible" :class="nsInput.e('count')">
+            <span
+              v-if="isWordLimitVisible"
+              :class="[
+                nsInput.e('count'),
+                nsInput.is('outside', wordLimitPosition === 'outside'),
+              ]"
+            >
               <span :class="nsInput.e('count-inner')">
                 {{ textLength }} / {{ maxlength }}
               </span>
@@ -140,7 +148,10 @@
       <span
         v-if="isWordLimitVisible"
         :style="countStyle"
-        :class="nsInput.e('count')"
+        :class="[
+          nsInput.e('count'),
+          nsInput.is('outside', wordLimitPosition === 'outside'),
+        ]"
       >
         {{ textLength }} / {{ maxlength }}
       </span>
@@ -460,10 +471,7 @@ const {
 } = useComposition({ emit, afterComposition: handleInput })
 
 const handlePasswordVisible = () => {
-  recordCursor()
   passwordVisible.value = !passwordVisible.value
-  // The native input needs a little time to regain focus
-  setTimeout(setCursor)
 }
 
 const focus = () => _ref.value?.focus()

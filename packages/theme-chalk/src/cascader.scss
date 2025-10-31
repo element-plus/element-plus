@@ -72,7 +72,9 @@
 
     .#{$namespace}-input__inner {
       text-overflow: ellipsis;
-      cursor: pointer;
+      &:read-only {
+        cursor: pointer;
+      }
     }
 
     .#{$namespace}-input__suffix-inner {
