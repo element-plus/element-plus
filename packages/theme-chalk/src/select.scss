@@ -165,7 +165,6 @@
   @include e(selected-item) {
     display: flex;
     flex-wrap: wrap;
-    user-select: none;
   }
 
   @include e(tags-text) {

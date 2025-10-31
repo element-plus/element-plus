@@ -205,6 +205,8 @@
                   !hasModelValue || (expanded && !states.inputValue)
                 ),
               ]"
+              tabindex="0"
+              @keydown="onKeyDown"
             >
               <slot
                 v-if="hasModelValue"
@@ -507,6 +509,19 @@ export default defineComponent({
       instance.appContext.config.warnHandler = originalWarnHandler
     })
 
+    const onKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'a') {
+        e.preventDefault()
+        e.stopPropagation()
+        const selection = window.getSelection()
+        if (!selection) return
+        const range = document.createRange()
+        const targetElement = e.currentTarget || e.target
+        range.selectNodeContents(targetElement as Node)
+        selection.removeAllRanges()
+        selection.addRange(range)
+      }
+    }
     return {
       ...API,
       modelValue,
@@ -518,6 +533,7 @@ export default defineComponent({
       getOptions,
       getDisabled,
       getOptionProps,
+      onKeyDown,
     }
   },
 })
