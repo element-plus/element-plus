@@ -44,7 +44,7 @@
               :disabled="!enableYearArrow || disabled"
               :class="[
                 ppNs.e('icon-btn'),
-                { [ppNs.is('disabled')]: !enableYearArrow },
+                ppNs.is('disabled', !enableYearArrow),
               ]"
               class="d-arrow-right"
               @click="leftNextYear"
@@ -75,7 +75,10 @@
               v-if="unlinkPanels"
               type="button"
               :disabled="!enableYearArrow || disabled"
-              :class="[ppNs.e('icon-btn'), { 'is-disabled': !enableYearArrow }]"
+              :class="[
+                ppNs.e('icon-btn'),
+                ppNs.is('disabled', !enableYearArrow),
+              ]"
               class="d-arrow-left"
               @click="rightPrevYear"
             >
@@ -223,13 +226,17 @@ const handleRangePick = (val: RangePickValue, close = true) => {
 }
 
 const handleClear = () => {
+  let valueOnClear = null
+  if (pickerBase?.emptyValues) {
+    valueOnClear = pickerBase.emptyValues.valueOnClear.value
+  }
   leftDate.value = getDefaultValue(unref(defaultValue), {
     lang: unref(lang),
     unit: 'year',
     unlinkPanels: props.unlinkPanels,
   })[0]
   rightDate.value = leftDate.value.add(1, 'year')
-  emit('pick', null)
+  emit('pick', valueOnClear)
 }
 
 const parseUserInput = (value: Dayjs | Dayjs[]) => {

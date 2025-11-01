@@ -423,6 +423,75 @@ describe('Drawer', () => {
     })
   })
 
+  describe('mask related', () => {
+    test('should not render overlay when modal is false', async () => {
+      const wrapper = _mount(
+        `
+        <el-drawer
+          v-model='visible'
+          :title='title'
+          :modal='false'>
+          <span>content</span>
+        </el-drawer>
+        `,
+        () => ({
+          visible: true,
+        })
+      )
+
+      await nextTick()
+      await rAF()
+      await nextTick()
+
+      expect(wrapper.find('.el-overlay').exists()).toBe(false)
+    })
+
+    test('should not close drawer when mask is penetrable', async () => {
+      const onClick = vi.fn()
+      const title = 'Test Drawer'
+      const wrapper = _mount(
+        `
+        <div>
+          <el-drawer
+            v-model="visible"
+            :title="title"
+            :modal="false"
+            modal-penetrable>
+            <span>content</span>
+          </el-drawer>
+          <el-button @click="onClick">button</el-button>
+        </div>
+        `,
+        () => ({
+          visible: true,
+          title,
+        }),
+        {
+          methods: {
+            onClick,
+          },
+        }
+      )
+
+      await nextTick()
+      await rAF()
+      await nextTick()
+
+      const overlayEl = wrapper.findComponent({ name: 'ElOverlay' })
+      const drawerEl = wrapper.findComponent({ name: 'ElDrawer' })
+      const buttonEl = wrapper.find('.el-button')
+
+      expect(overlayEl.exists()).toBe(true)
+      expect(overlayEl.classes()).toContain('is-penetrable')
+
+      await overlayEl.trigger('click')
+      await buttonEl.trigger('click')
+
+      expect(drawerEl.exists()).toBe(true)
+      expect(onClick).toHaveBeenCalled()
+    })
+  })
+
   describe('resizable', () => {
     // mock mouse event
     const simulateDrag = async (
