@@ -63,7 +63,7 @@ color-picker-panel/disabled
 | show-alpha               | whether to display the alpha slider        | ^[boolean]                                                                                                       | false   |
 | color-format             | color format of v-model                    | ^[enum]`'hsl' \| 'hsv' \| 'hex' \| 'rgb' \| 'hex' (when show-alpha is false) \| 'rgb' (when show-alpha is true)` | —       |
 | predefine                | predefined color options                   | ^[object]`string[]`                                                                                              | —       |
-| validate-event ^(2.11.6) | whether to trigger form validation         | ^[boolean]                                                                                                       | true    |
+| validate-event ^(2.11.7) | whether to trigger form validation         | ^[boolean]                                                                                                       | true    |
 
 ### Exposes
 
