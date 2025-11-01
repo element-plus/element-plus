@@ -1,6 +1,6 @@
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
-import { isBoolean, isNumber, isString } from '@element-plus/utils'
+import { isArray, isBoolean, isNumber, isString } from '@element-plus/utils'
 
 import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type Checkbox from './checkbox.vue'
@@ -12,7 +12,7 @@ export const checkboxProps = {
    * @description binding value
    */
   modelValue: {
-    type: [Number, String, Boolean],
+    type: [Number, String, Boolean, Array],
     default: undefined,
   },
   /**
@@ -109,9 +109,9 @@ export const checkboxProps = {
 
 export const checkboxEmits = {
   [UPDATE_MODEL_EVENT]: (val: CheckboxValueType) =>
-    isString(val) || isNumber(val) || isBoolean(val),
+    isString(val) || isNumber(val) || isBoolean(val) || isArray(val),
   change: (val: CheckboxValueType) =>
-    isString(val) || isNumber(val) || isBoolean(val),
+    isString(val) || isNumber(val) || isBoolean(val) || isArray(val),
 }
 
 export type CheckboxProps = ExtractPropTypes<typeof checkboxProps>
