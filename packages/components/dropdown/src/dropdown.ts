@@ -6,11 +6,12 @@ import {
 } from '@element-plus/components/tooltip'
 import { roleTypes } from '@element-plus/components/popper'
 
+import type { TooltipTriggerType } from '@element-plus/components/tooltip'
 import type { Placement } from '@element-plus/components/popper'
 import type { Options } from '@popperjs/core'
 import type { ButtonProps, ButtonType } from '@element-plus/components/button'
 import type { ComponentInternalInstance, ComputedRef } from 'vue'
-import type { Nullable } from '@element-plus/utils'
+import type { Arrayable, Nullable } from '@element-plus/utils'
 
 export interface IElDropdownInstance {
   instance?: ComponentInternalInstance
@@ -28,7 +29,13 @@ export const dropdownProps = buildProps({
   /**
    * @description how to trigger
    */
-  trigger: useTooltipTriggerProps.trigger,
+  trigger: {
+    ...useTooltipTriggerProps.trigger,
+    type: definePropType<Arrayable<Exclude<TooltipTriggerType, 'focus'>>>([
+      String,
+      Array,
+    ]),
+  },
   triggerKeys: {
     type: definePropType<string[]>(Array),
     default: () => [
@@ -46,6 +53,9 @@ export const dropdownProps = buildProps({
    * @description Indicates the reference element to which the dropdown is attached
    */
   virtualRef: useTooltipTriggerProps.virtualRef,
+  /**
+   * @description Tooltip theme, built-in theme: `dark` / `light`
+   */
   effect: {
     ...useTooltipContentProps.effect,
     default: 'light',

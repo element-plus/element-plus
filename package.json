@@ -1,6 +1,6 @@
 {
   "private": true,
-  "packageManager": "pnpm@9.5.0",
+  "packageManager": "pnpm@10.18.2",
   "workspaces": [
     "packages/*",
     "play",
@@ -40,7 +40,7 @@
     "docs:crowdin-credentials": "pnpm run -C docs crowdin-credentials",
     "stub": "pnpm run -r --parallel stub",
     "prepare": "husky",
-    "postinstall": "pnpm stub && concurrently \"pnpm gen:version\" \"pnpm run -C internal/metadata dev\""
+    "postinstall": "pnpm stub && pnpm gen:version & pnpm run -C internal/metadata dev &"
   },
   "peerDependencies": {
     "vue": "^3.2.0"
@@ -89,7 +89,6 @@
     "@vue/tsconfig": "^0.1.3",
     "c8": "^7.11.3",
     "chalk": "^5.0.1",
-    "concurrently": "^7.2.2",
     "consola": "^2.15.3",
     "csstype": "^2.6.20",
     "cz-git": "^1.11.1",
@@ -102,7 +101,7 @@
     "jsdom": "16.4.0",
     "lint-staged": "^15.5.1",
     "prettier": "^3.6.2",
-    "puppeteer": "^17.1.3",
+    "puppeteer": "^24.26.1",
     "resize-observer-polyfill": "^1.5.1",
     "rimraf": "^4.4.1",
     "sass": "^1.79.3",
@@ -119,8 +118,7 @@
     "node": ">= 20"
   },
   "volta": {
-    "node": ">=20",
-    "pnpm": "9.5.0"
+    "node": ">=20"
   },
   "config": {
     "commitizen": {

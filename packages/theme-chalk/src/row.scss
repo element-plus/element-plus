@@ -1,6 +1,5 @@
 @use 'common/var' as *;
 @use 'mixins/mixins' as *;
-@use 'mixins/utils' as *;
 
 @include b(row) {
   display: flex;
