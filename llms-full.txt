@@ -361,12 +361,12 @@ URL: https://element-plus.org/en-US/guide/i18n
 
 # Internationalization
 
-Element Plus components are using English **by default**, if you wish you use other
-languages, you can get you answer by keep reading.
+Element Plus components use English **by default**. If you want to use other
+languages, read on to find out how.
 
 ## Global configuration
 
-Element Plus provides global configurations
+Element Plus provides global configuration options.
 
 ```ts [main.ts]
 import ElementPlus from 'element-plus'
@@ -397,7 +397,7 @@ import zhCn from 'element-plus/es/locale/lang/zh-cn'
 
 ## Date and time localization
 
-We use [Day.js](https://day.js.org/docs/en/i18n/i18n) library to manage date and time in components like `DatePicker`. It is important to set a proper locale in Day.js to make the internationalization fully works. You have to import Day.js's locale config separately.
+We use [Day.js](https://day.js.org/docs/en/i18n/i18n) library to manage date and time in components like `DatePicker`. It is important to set a proper locale in Day.js to make internationalization work properly. You have to import Day.js's locale config separately.
 
 ```ts
 import 'dayjs/locale/zh-cn'
@@ -405,8 +405,8 @@ import 'dayjs/locale/zh-cn'
 
 ## CDN Usage
 
-If you are using Element Plus via CDN, then you need to do this, let's again take
-unpkg as an example
+If you are using Element Plus via CDN, you need to do the following. Let's take
+unpkg as an example:
 
 ```html
 <script src="//unpkg.com/element-plus/dist/locale/zh-cn"></script>
@@ -417,7 +417,7 @@ unpkg as an example
 </script>
 ```
 
-Full documentation refer to: [ConfigProvider](/en-US/component/config-provider)
+For full documentation, refer to: [ConfigProvider](/en-US/component/config-provider)
 
 [Supported Language List](https://github.com/element-plus/element-plus/tree/dev/packages/locale/lang)
 
@@ -492,8 +492,7 @@ Full documentation refer to: [ConfigProvider](/en-US/component/config-provider)
 </ul>
 
 If you need any other languages, [PR](https://github.com/element-plus/element-plus/pulls)
-is always welcomed, you only need to add a language file at
-[here](https://github.com/element-plus/element-plus/tree/dev/packages/locale/lang).
+is always welcome, you only need to add a language file [here](https://github.com/element-plus/element-plus/tree/dev/packages/locale/lang).
 
 <style>
   .language-list {
@@ -1013,11 +1012,7 @@ export default defineComponent({
 
 ## Using Nuxt.js
 
-We can also use [Nuxt.js](https://nuxt.com):
-
-<div class="glitch-embed-wrap" style="height: 420px; width: 100%;">
-  <iframe src="https://glitch.com/edit/#!/element-plus-nuxt-starter?path=components%2FExamples.vue%3A1%3A0" alt="nuxt-element-plus on glitch" style="height: 100%; width: 100%; border: 0;"></iframe>
-</div>
+We can also use [Nuxt.js](https://nuxt.com). Please refer to [Element Plus Nuxt.js starter template](https://github.com/element-plus/element-plus-nuxt-starter) for more details.
 
 ## Let's Get Started
 
@@ -2485,21 +2480,21 @@ You can customize both the header and footer of the dropdown using slots
 
 ### Exposes
 
-| Name             | Description                                 | Type                                       |
-| ---------------- | ------------------------------------------- | ------------------------------------------ |
-| activated        | if autocomplete activated                   | ^[object]`Ref<boolean>`                    |
-| blur             | blur the input element                      | ^[Function]`() => void`                    |
-| close            | collapse suggestion list                    | ^[Function]`() => void`                    |
-| focus            | focus the input element                     | ^[Function]`() => void`                    |
-| handleSelect     | triggers when a suggestion is clicked       | ^[Function]`(item: any) => promise<void>`  |
-| handleKeyEnter   | handle keyboard enter event                 | ^[Function]`() => promise<void>`           |
-| highlightedIndex | the index of the currently highlighted item | ^[object]`Ref<number>`                     |
-| highlight        | highlight an item in a suggestion           | ^[Function]`(itemIndex: number) => void`   |
-| inputRef         | el-input component instance                 | ^[object]`Ref<ElInputInstance>`            |
-| loading          | remote search loading indicator             | ^[object]`Ref<boolean>`                    |
-| popperRef        | el-tooltip component instance               | ^[object]`Ref<ElTooltipInstance>`          |
-| suggestions      | fetch suggestions result                    | ^[object]`Ref<record<string, any>>`        |
-| getData ^(2.8.4) | loading suggestion list                     | ^[Function]`(queryString: string) => void` |
+| Name             | Description                                 | Type                                                |
+| ---------------- | ------------------------------------------- | --------------------------------------------------- |
+| activated        | if autocomplete activated                   | ^[object]`Ref<boolean>`                             |
+| blur             | blur the input element                      | ^[Function]`() => void`                             |
+| close            | collapse suggestion list                    | ^[Function]`() => void`                             |
+| focus            | focus the input element                     | ^[Function]`() => void`                             |
+| handleSelect     | triggers when a suggestion is clicked       | ^[Function]`(item: any) => promise<void>`           |
+| handleKeyEnter   | handle keyboard enter event                 | ^[Function]`() => promise<void>`                    |
+| highlightedIndex | the index of the currently highlighted item | ^[object]`Ref<number>`                              |
+| highlight        | highlight an item in a suggestion           | ^[Function]`(itemIndex: number) => void`            |
+| inputRef         | el-input component instance                 | ^[object]`Ref<ElInputInstance>`                     |
+| loading          | remote search loading indicator             | ^[object]`Ref<boolean>`                             |
+| popperRef        | el-tooltip component instance               | ^[object]`Ref<ElTooltipInstance>`                   |
+| suggestions      | fetch suggestions result                    | ^[object]`Ref<record<string, any>[]>`               |
+| getData ^(2.8.4) | loading suggestion list                     | ^[Function]`(queryString: string) => promise<void>` |
 
 ## Vue Examples
 
@@ -9705,14 +9700,15 @@ The `disabled` attribute determines if the color picker is fully disabled.
 
 ### Attributes
 
-| Name                  | Description                                | Type                                                                                                             | Default |
-| --------------------- | ------------------------------------------ | ---------------------------------------------------------------------------------------------------------------- | ------- |
-| model-value / v-model | binding value                              | ^[string]                                                                                                        | —       |
-| border                | whether the color picker panel is bordered | ^[boolean]                                                                                                       | true    |
-| disabled              | whether to disable the color picker        | ^[boolean]                                                                                                       | false   |
-| show-alpha            | whether to display the alpha slider        | ^[boolean]                                                                                                       | false   |
-| color-format          | color format of v-model                    | ^[enum]`'hsl' \| 'hsv' \| 'hex' \| 'rgb' \| 'hex' (when show-alpha is false) \| 'rgb' (when show-alpha is true)` | —       |
-| predefine             | predefined color options                   | ^[object]`string[]`                                                                                              | —       |
+| Name                     | Description                                | Type                                                                                                             | Default |
+| ------------------------ | ------------------------------------------ | ---------------------------------------------------------------------------------------------------------------- | ------- |
+| model-value / v-model    | binding value                              | ^[string]                                                                                                        | —       |
+| border                   | whether the color picker panel is bordered | ^[boolean]                                                                                                       | true    |
+| disabled                 | whether to disable the color picker        | ^[boolean]                                                                                                       | false   |
+| show-alpha               | whether to display the alpha slider        | ^[boolean]                                                                                                       | false   |
+| color-format             | color format of v-model                    | ^[enum]`'hsl' \| 'hsv' \| 'hex' \| 'rgb' \| 'hex' (when show-alpha is false) \| 'rgb' (when show-alpha is true)` | —       |
+| predefine                | predefined color options                   | ^[object]`string[]`                                                                                              | —       |
+| validate-event ^(2.11.7) | whether to trigger form validation         | ^[boolean]                                                                                                       | true    |
 
 ### Exposes
 
@@ -14079,6 +14075,8 @@ Set the `fullscreen` attribute to open fullscreen dialog.
 
 Setting `modal` to `false` will hide modal (overlay) of dialog.
 
+Starting from version ^(2.10.5), `modal-penetrable` attribute is added, which can be penetrable.
+
 
 
 ## Custom Animation ^(2.10.5)
@@ -14105,7 +14103,7 @@ Open developer console (ctrl + shift + J), to see order of events.
 
 | Name                       | Description                                                                                                                    | Type                                   | Default     |
 | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------- | ----------- |
-| model-value / v-model      | visibility of Dialog                                                                                                           | ^[boolean]                             | —           |
+| model-value / v-model      | visibility of Dialog                                                                                                           | ^[boolean]                             | false       |
 | title                      | title of Dialog. Can also be passed with a named slot (see the following table)                                                | ^[string]                              | ''          |
 | width                      | width of Dialog, default is 50%                                                                                                | ^[string] / ^[number]                  | ''          |
 | fullscreen                 | whether the Dialog takes up full screen                                                                                        | ^[boolean]                             | false       |
@@ -14597,8 +14595,8 @@ const visible = ref(false)
     center
   >
     <span>
-      Notice: before dialog gets opened for the first time this node and the one
-      bellow will not be rendered
+      Notice: before the dialog is opened for the first time, this node and the
+      one below will not be rendered.
     </span>
     <div>
       <strong>Extra content (Not rendered)</strong>
@@ -14783,7 +14781,7 @@ const dialogVisible = ref(false)
     Open the modal Dialog
   </el-button>
 
-  <el-dialog v-model="dialogVisible" :modal="false">
+  <el-dialog v-model="dialogVisible" :modal="false" modal-penetrable>
     <span>It's a modal Dialog</span>
     <template #footer>
       <div class="dialog-footer">
@@ -15011,6 +15009,14 @@ You can also have multiple layer of `Drawer` just like `Dialog`.
 
 
 
+## Modal
+
+Setting `modal` to `false` will hide modal (overlay) of drawer.
+
+Starting from version ^(2.11.7), `modal-penetrable` attribute is added, which can be penetrable.
+
+
+
 
 
 
@@ -15032,6 +15038,7 @@ You can also have multiple layer of `Drawer` just like `Dialog`.
 | close-delay                | Time(milliseconds) before close                                                                                                                                                                                                                                                                              | ^[number]                                                                                                                                                                                      | 0       |
 | destroy-on-close           | Indicates whether children should be destroyed after Drawer closed                                                                                                                                                                                                                                           | ^[boolean]                                                                                                                                                                                     | false   |
 | modal                      | Should show shadowing layer                                                                                                                                                                                                                                                                                  | ^[boolean]                                                                                                                                                                                     | true    |
+| modal-penetrable ^(2.11.7) | whether the mask is penetrable. The modal attribute must be `false`.                                                                                                                                                                                                                                         | ^[boolean]                                                                                                                                                                                     | false   |
 | direction                  | Drawer's opening direction                                                                                                                                                                                                                                                                                   | ^[enum]`'rtl' \| 'ltr' \| 'ttb' \| 'btt'`                                                                                                                                                      | rtl     |
 | resizable ^(2.11.0)        | enable resizable feature for Drawer                                                                                                                                                                                                                                                                          | ^[boolean]                                                                                                                                                                                     | false   |
 | show-close                 | Should show close button at the top right of Drawer                                                                                                                                                                                                                                                          | ^[boolean]                                                                                                                                                                                     | true    |
@@ -15324,6 +15331,34 @@ const visible = ref(false)
 
 ```
 
+### modal.vue
+```vue
+<template>
+  <el-button plain @click="drawerVisible = true">
+    Open the modal Drawer
+  </el-button>
+
+  <el-drawer v-model="drawerVisible" :modal="false" modal-penetrable>
+    <span>It's a modal Drawer</span>
+    <template #footer>
+      <div class="drawer-footer">
+        <el-button @click="drawerVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="drawerVisible = false">
+          Confirm
+        </el-button>
+      </div>
+    </template>
+  </el-drawer>
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const drawerVisible = ref(false)
+</script>
+
+```
+
 ### nested-drawer.vue
 ```vue
 <template>
@@ -15486,7 +15521,7 @@ Sometimes we want to render the dropdown on some other trigger element, we can s
 | disabled                     | whether to disable                                                                                                    | ^[boolean]                                                                                                   | false                                                                      |
 | placement                    | placement of pop menu                                                                                                 | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end'`                     | bottom                                                                     |
 | effect                       | Tooltip theme, built-in theme: `dark` / `light`                                                                       | ^[enum]`'dark' \| 'light'` / ^[string]                                                                       | light                                                                      |
-| trigger                      | how to trigger                                                                                                        | ^[enum]`'hover' \| 'click' \| 'contextmenu'`                                                                 | hover                                                                      |
+| trigger                      | how to trigger                                                                                                        | ^[enum]`'click' \| 'hover' \| 'contextmenu'` / ^[object]`Array<'click' \| 'hover' \| 'contextmenu'>`         | hover                                                                      |
 | trigger-keys ^(2.9.1)        | specify which keys on the keyboard can trigger when pressed                                                           | ^[array]`string[]`                                                                                           | `['Enter', 'Space', 'ArrowDown', 'NumpadEnter']`                           |
 | virtual-triggering ^(2.11.3) | indicates whether virtual triggering is enabled                                                                       | ^[boolean]                                                                                                   | —                                                                          |
 | virtual-ref ^(2.11.3)        | indicates the reference element to which the dropdown is attached                                                     | ^[HTMLElement]                                                                                               | —                                                                          |
@@ -21800,7 +21835,7 @@ const open = () => {
 
 <script lang="ts" setup>
 import { markRaw } from 'vue'
-import { ElMessageBox } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { Delete } from '@element-plus/icons-vue'
 
 const open = () => {
@@ -21808,10 +21843,24 @@ const open = () => {
     'It will permanently delete the file. Continue?',
     'Warning',
     {
+      confirmButtonText: 'OK',
+      cancelButtonText: 'Cancel',
       type: 'warning',
       icon: markRaw(Delete),
     }
   )
+    .then(() => {
+      ElMessage({
+        type: 'success',
+        message: 'Delete completed',
+      })
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'info',
+        message: 'Delete canceled',
+      })
+    })
 }
 </script>
 
@@ -23789,7 +23838,7 @@ complicated, you may refer to the virtual triggering for more information.
 
 | Name                               | Description                                                                                                                                                                           | Type                                                                                                                                                                        | Default                                                                    |
 | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| trigger                            | how the popover is triggered, not valid in controlled mode                                                                                                                            | ^[enum]`'click' \| 'focus' \| 'hover' \| 'contextmenu'`                                                                                                                     | hover                                                                      |
+| trigger                            | how the popover is triggered, not valid in controlled mode                                                                                                                            | ^[enum]`'click' \| 'focus' \| 'hover' \| 'contextmenu'` / ^[object]`Array<'click' \| 'focus' \| 'hover' \| 'contextmenu'>`                                                  | hover                                                                      |
 | trigger-keys ^(2.9.8)              | When you click the mouse to focus on the trigger element, you can define a set of keyboard codes to control the display of popover through the keyboard, not valid in controlled mode | ^[Array]                                                                                                                                                                    | ['Enter','Space']                                                          |
 | title                              | popover title                                                                                                                                                                         | ^[string]                                                                                                                                                                   | —                                                                          |
 | effect                             | Tooltip theme, built-in theme: `dark` / `light`                                                                                                                                       | ^[enum]`'dark' \| 'light'` / ^[string]                                                                                                                                      | light                                                                      |
@@ -23817,10 +23866,10 @@ complicated, you may refer to the virtual triggering for more information.
 
 ### Slots
 
-| Name      | Description                        |
-| --------- | ---------------------------------- |
-| default   | text content of popover            |
-| reference | HTML element that triggers popover |
+| Name      | Description                                                                |
+| --------- | -------------------------------------------------------------------------- |
+| default   | text content of popover                                                    |
+| reference | HTML element that triggers popover, only a single root element is accepted |
 
 ### Events
 
@@ -24069,7 +24118,6 @@ const visible = ref(false)
   <div class="popover-base-box">
     <div class="row center">
       <el-popover
-        class="box-item"
         title="Title"
         content="Top Left prompts info"
         placement="top-start"
@@ -24079,7 +24127,6 @@ const visible = ref(false)
         </template>
       </el-popover>
       <el-popover
-        class="box-item"
         title="Title"
         content="Top Center prompts info"
         placement="top"
@@ -24089,7 +24136,6 @@ const visible = ref(false)
         </template>
       </el-popover>
       <el-popover
-        class="box-item"
         title="Title"
         content="Top Right prompts info"
         placement="top-end"
@@ -24101,7 +24147,6 @@ const visible = ref(false)
     </div>
     <div class="row">
       <el-popover
-        class="box-item"
         title="Title"
         content="Left Top prompts info"
         placement="left-start"
@@ -24111,7 +24156,6 @@ const visible = ref(false)
         </template>
       </el-popover>
       <el-popover
-        class="box-item"
         title="Title"
         content="Right Top prompts info"
         placement="right-start"
@@ -24123,7 +24167,6 @@ const visible = ref(false)
     </div>
     <div class="row">
       <el-popover
-        class="box-item"
         title="Title"
         content="Left Center prompts info"
         placement="left"
@@ -24133,7 +24176,6 @@ const visible = ref(false)
         </template>
       </el-popover>
       <el-popover
-        class="box-item"
         title="Title"
         content="Right Center prompts info"
         placement="right"
@@ -24145,7 +24187,6 @@ const visible = ref(false)
     </div>
     <div class="row">
       <el-popover
-        class="box-item"
         title="Title"
         content="Left Bottom prompts info"
         placement="left-end"
@@ -24155,7 +24196,6 @@ const visible = ref(false)
         </template>
       </el-popover>
       <el-popover
-        class="box-item"
         title="Title"
         content="Right Bottom prompts info"
         placement="right-end"
@@ -24167,7 +24207,6 @@ const visible = ref(false)
     </div>
     <div class="row center">
       <el-popover
-        class="box-item"
         title="Title"
         content="Bottom Left prompts info"
         placement="bottom-start"
@@ -24175,7 +24214,6 @@ const visible = ref(false)
         <template #reference> <el-button>bottom-start</el-button></template>
       </el-popover>
       <el-popover
-        class="box-item"
         title="Title"
         content="Bottom Center prompts info"
         placement="bottom"
@@ -24183,7 +24221,6 @@ const visible = ref(false)
         <template #reference> <el-button>bottom</el-button></template>
       </el-popover>
       <el-popover
-        class="box-item"
         title="Title"
         content="Bottom Right prompts info"
         placement="bottom-end"
@@ -24209,11 +24246,6 @@ const visible = ref(false)
 
 .popover-base-box .center {
   justify-content: center;
-}
-
-.popover-base-box .box-item {
-  width: 110px;
-  margin-top: 10px;
 }
 </style>
 
@@ -25722,7 +25754,7 @@ Set custom styles using CSS varibles.
 | options                  | data of the options                            | ^[array]`Option[]`                             | []         |
 | [props](#props) ^(2.9.8) | configuration options, see the following table | ^[object]                                      | —          |
 | size                     | size of component                              | ^[enum]`'' \| 'large' \| 'default' \| 'small'` | ''         |
-| block                    | fit width of parent content                    | ^[boolean]                                     | —          |
+| block                    | fit width of parent content                    | ^[boolean]                                     | false      |
 | disabled                 | whether segmented is disabled                  | ^[boolean]                                     | false      |
 | validate-event           | whether to trigger form validation             | ^[boolean]                                     | true       |
 | name                     | native `name` attribute                        | ^[string]                                      | —          |
@@ -26294,6 +26326,7 @@ The width of dropdown box is calculated by default based on the value of `label`
 | item-height                         | The height of the dropdown item                                                                                                          | ^[number]                                                                                                                                                                   | 34                                             |
 | scrollbar-always-on                 | Controls whether the scrollbar is always displayed                                                                                       | ^[boolean]                                                                                                                                                                  | false                                          |
 | remote                              | whether search data from server                                                                                                          | ^[boolean]                                                                                                                                                                  | false                                          |
+| debounce ^(2.11.7)                  | debounce delay during remote search, in milliseconds                                                                                     | ^[number]                                                                                                                                                                   | 300                                            |
 | remote-method                       | function that gets called when the input value changes. Its parameter is the current input value. To use this, `filterable` must be true | ^[Function]`(query: string) => void`                                                                                                                                        | —                                              |
 | validate-event                      | whether to trigger form validation                                                                                                       | ^[boolean]                                                                                                                                                                  | true                                           |
 | offset ^(2.8.8)                     | offset of the dropdown                                                                                                                   | ^[number]                                                                                                                                                                   | 12                                             |
@@ -27647,6 +27680,7 @@ You can customize label.
 | allow-create                    | whether creating new items is allowed. To use this, `filterable` must be true                                                            | ^[boolean]                                                                                                                                                                  | false                                          |
 | filter-method                   | custom filter method, the first parameter is the current input value. To use this, `filterable` must be true                             | ^[Function]`(query: string) => void`                                                                                                                                        | —                                              |
 | remote                          | whether options are loaded from server                                                                                                   | ^[boolean]                                                                                                                                                                  | false                                          |
+| debounce ^(2.11.7)              | debounce delay during remote search, in milliseconds                                                                                     | ^[number]                                                                                                                                                                   | 300                                            |
 | remote-method                   | function that gets called when the input value changes. Its parameter is the current input value. To use this, `filterable` must be true | ^[Function]`(query: string) => void`                                                                                                                                        | —                                              |
 | remote-show-suffix              | in remote search method show suffix icon                                                                                                 | ^[boolean]                                                                                                                                                                  | false                                          |
 | loading                         | whether Select is loading data from server                                                                                               | ^[boolean]                                                                                                                                                                  | false                                          |
@@ -36750,6 +36784,7 @@ Only card type Tabs support addable & closeable.
 | tab-position          | position of tabs                                                                                                                        | ^[enum]`'top' \| 'right' \| 'bottom' \| 'left'`                                                  | top        |
 | stretch               | whether width of tab automatically fits its container                                                                                   | ^[boolean]                                                                                       | false      |
 | before-leave          | hook function before switching tab. If `false` is returned or a `Promise` is returned and then is rejected, switching will be prevented | ^[Function]`(activeName: TabPaneName, oldActiveName: TabPaneName) => Awaitable<void \| boolean>` | () => true |
+| tabindex ^(2.11.7)    | tabs tabindex                                                                                                                           | ^[string] / ^[number]                                                                            | 0          |
 
 ### Tabs Events
 
@@ -38537,7 +38572,7 @@ You must wait for the DOM to be mounted before using `targetElement`.
 | popper-style              | custom style for Tooltip's popper                                                                                                                                                     | ^[string] / ^[object]                                                                                                                                                       | —                 |
 | enterable                 | whether the mouse can enter the tooltip                                                                                                                                               | ^[boolean]                                                                                                                                                                  | true              |
 | teleported                | whether tooltip content is teleported, if `true` it will be teleported to where `append-to` sets                                                                                      | ^[boolean]                                                                                                                                                                  | true              |
-| trigger                   | How should the tooltip be triggered (to show), not valid in controlled mode                                                                                                           | ^[enum]`'hover' \| 'click' \| 'focus' \| 'contextmenu'`                                                                                                                     | hover             |
+| trigger                   | How should the tooltip be triggered (to show), not valid in controlled mode                                                                                                           | ^[enum]`'hover' \| 'click' \| 'focus' \| 'contextmenu'` / ^[object]`Array<'click' \| 'focus' \| 'hover' \| 'contextmenu'>`                                                  | hover             |
 | virtual-triggering        | Indicates whether virtual triggering is enabled                                                                                                                                       | ^[boolean]                                                                                                                                                                  | —                 |
 | virtual-ref               | Indicates the reference element to which the tooltip is attached                                                                                                                      | ^[HTMLElement]                                                                                                                                                              | —                 |
 | trigger-keys              | When you click the mouse to focus on the trigger element, you can define a set of keyboard codes to control the display of tooltip through the keyboard, not valid in controlled mode | ^[Array]                                                                                                                                                                    | ['Enter','Space'] |
@@ -38545,12 +38580,21 @@ You must wait for the DOM to be mounted before using `targetElement`.
 | aria-label ^(a11y)        | same as `aria-label`                                                                                                                                                                  | ^[string]                                                                                                                                                                   | —                 |
 | focus-on-target ^(2.11.2) | when triggering tooltips through hover, whether to focus the trigger element, which improves accessibility                                                                            | ^[boolean]                                                                                                                                                                  | false             |
 
+### Events
+
+| Name        | Description                                                           | Type                                 |
+| ----------- | --------------------------------------------------------------------- | ------------------------------------ |
+| before-show | Triggers before tooltip is shown. Passes trigger reason as argument.  | ^[Function]`(event?: Event) => void` |
+| show        | Triggers when tooltip is shown. Passes trigger reason as argument.    | ^[Function]`(event?: Event) => void` |
+| before-hide | Triggers before tooltip is hidden. Passes trigger reason as argument. | ^[Function]`(event?: Event) => void` |
+| hide        | Triggers when tooltip is hidden. Passes trigger reason as argument.   | ^[Function]`(event?: Event) => void` |
+
 ### Slots
 
-| Name    | Description                            |
-| ------- | -------------------------------------- |
-| default | Tooltip triggering & reference element |
-| content | customize content                      |
+| Name    | Description                                                                    |
+| ------- | ------------------------------------------------------------------------------ |
+| default | Tooltip triggering & reference element, only a single root element is accepted |
+| content | customize content                                                              |
 
 ### Exposes
 
@@ -39034,8 +39078,8 @@ Various parameter passing types of target. The string and Function types are sup
 | mask                      | whether to enable masking, change mask style and fill color by pass custom props | `boolean` \| ^[Object]`{ style?: CSSProperties; color?: string; }`                                                                                                          | `true`                             |
 | gap                       | transparent gap between mask and target                                          | `TourGap`                                                                                                                                                                   | ^[Object]`{ offset: 6, radius: 2}` |
 | type                      | type, affects the background color and text color                                | `default` \| `primary`                                                                                                                                                      | `default`                          |
-| model-value / v-model     | open tour                                                                        | `boolean`                                                                                                                                                                   | —                                  |
-| current / v-model:current | what is the current step                                                         | `number`                                                                                                                                                                    | —                                  |
+| model-value / v-model     | open tour                                                                        | `boolean`                                                                                                                                                                   | `false`                            |
+| current / v-model:current | what is the current step                                                         | `number`                                                                                                                                                                    | `0`                                |
 | scroll-into-view-options  | support pass custom scrollIntoView options                                       | `boolean` \| `ScrollIntoViewOptions`                                                                                                                                        | ^[Object]`{ block: 'center' }`     |
 | z-index                   | Tour's zIndex                                                                    | `number`                                                                                                                                                                    | `2001`                             |
 | show-close                | whether to show a close button                                                   | `boolean`                                                                                                                                                                   | `true`                             |
@@ -39065,17 +39109,17 @@ Various parameter passing types of target. The string and Function types are sup
 | Property                 | Description                                                                                                                                                                                            | Type                                                                                                                                                                        | Default   |
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
 | target                   | get the element the guide card points to. Empty makes it show in center of screen. the string and Function types are supported since ^(2.5.2). the string type is selectors of document.querySelector. | `HTMLElement` \| `string` \| ^[Function]`() => HTMLElement`                                                                                                                 | —         |
-| show-arrow               | whether to show the arrow                                                                                                                                                                              | `boolean`                                                                                                                                                                   | `true`    |
+| show-arrow               | whether to show the arrow                                                                                                                                                                              | `boolean`                                                                                                                                                                   | —         |
 | title                    | title                                                                                                                                                                                                  | `string`                                                                                                                                                                    | —         |
 | description              | description                                                                                                                                                                                            | `string`                                                                                                                                                                    | —         |
 | placement                | position of the guide card relative to the target element                                                                                                                                              | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | `bottom`  |
 | content-style            | custom style for content                                                                                                                                                                               | `CSSProperties`                                                                                                                                                             | —         |
-| mask                     | whether to enable masking, change mask style and fill color by pass custom props                                                                                                                       | `boolean` \| ^[Object]`{ style?: CSSProperties; color?: string; }`                                                                                                          | `true`    |
+| mask                     | whether to enable masking, change mask style and fill color by pass custom props                                                                                                                       | `boolean` \| ^[Object]`{ style?: CSSProperties; color?: string; }`                                                                                                          | —         |
 | type                     | type, affects the background color and text color                                                                                                                                                      | `default` \| `primary`                                                                                                                                                      | `default` |
 | next-button-props        | properties of the Next button                                                                                                                                                                          | ^[Object]`{ children: VueNode \| string; onClick: Function }`                                                                                                               | —         |
 | prev-button-props        | properties of the previous button                                                                                                                                                                      | ^[Object]`{ children: VueNode \| string; onClick: Function }`                                                                                                               | —         |
 | scroll-into-view-options | support pass custom scrollIntoView options, the default follows the `scrollIntoViewOptions` property of Tour                                                                                           | `boolean` \| `ScrollIntoViewOptions`                                                                                                                                        | —         |
-| show-close               | whether to show a close button                                                                                                                                                                         | `boolean`                                                                                                                                                                   | `true`    |
+| show-close               | whether to show a close button                                                                                                                                                                         | `boolean`                                                                                                                                                                   | —         |
 | close-icon               | custom close icon, default is Close                                                                                                                                                                    | `string` \| `Component`                                                                                                                                                     | —         |
 
 ### TourStep slots
@@ -42080,7 +42124,7 @@ const renderContent: RenderContentFunction = (h, { node, data }) => {
             link: true,
             onClick: () => append(data),
           },
-          'Append '
+          () => 'Append'
         ),
         h(
           ElButton,
@@ -42090,7 +42134,7 @@ const renderContent: RenderContentFunction = (h, { node, data }) => {
             style: 'margin-left: 4px',
             onClick: () => remove(node, data),
           },
-          'Delete'
+          () => 'Delete'
         ),
       ]),
     ]
@@ -42319,46 +42363,37 @@ const data = [
 <script lang="ts" setup>
 import type {
   AllowDropType,
-  DragEvents,
   NodeDropType,
   RenderContentContext,
 } from 'element-plus'
 
 type Node = RenderContentContext['node']
 
-const handleDragStart = (node: Node, ev: DragEvents) => {
+const handleDragStart = (node: Node, ev: DragEvent) => {
   console.log('drag start', node)
 }
-const handleDragEnter = (
-  draggingNode: Node,
-  dropNode: Node,
-  ev: DragEvents
-) => {
+const handleDragEnter = (draggingNode: Node, dropNode: Node, ev: DragEvent) => {
   console.log('tree drag enter:', dropNode.label)
 }
-const handleDragLeave = (
-  draggingNode: Node,
-  dropNode: Node,
-  ev: DragEvents
-) => {
+const handleDragLeave = (draggingNode: Node, dropNode: Node, ev: DragEvent) => {
   console.log('tree drag leave:', dropNode.label)
 }
-const handleDragOver = (draggingNode: Node, dropNode: Node, ev: DragEvents) => {
+const handleDragOver = (draggingNode: Node, dropNode: Node, ev: DragEvent) => {
   console.log('tree drag over:', dropNode.label)
 }
 const handleDragEnd = (
   draggingNode: Node,
-  dropNode: Node,
+  dropNode: Node | null,
   dropType: NodeDropType,
-  ev: DragEvents
+  ev: DragEvent
 ) => {
   console.log('tree drag end:', dropNode && dropNode.label, dropType)
 }
 const handleDrop = (
   draggingNode: Node,
   dropNode: Node,
-  dropType: NodeDropType,
-  ev: DragEvents
+  dropType: Exclude<NodeDropType, 'none'>,
+  ev: DragEvent
 ) => {
   console.log('tree drop:', dropNode.label, dropType)
 }
