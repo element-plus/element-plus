@@ -176,6 +176,7 @@ $switch-content-padding: map.merge(
         calc(#{map.get($switch-button-size, 'default')} + 2px);
 
       &-wrapper {
+        display: flex;
         font-size: 12px;
         color: getCssVar('color-white');
         user-select: none;
