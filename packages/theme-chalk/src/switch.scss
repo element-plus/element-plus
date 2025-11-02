@@ -177,6 +177,7 @@ $switch-content-padding: map.merge(
 
       &-wrapper {
         display: flex;
+        align-items: center;
         font-size: 12px;
         color: getCssVar('color-white');
         user-select: none;
