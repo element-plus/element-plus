@@ -2387,6 +2387,120 @@ describe('Table.vue', () => {
     mockCellRect2.mockRestore()
   })
 
+  it('should not show tooltip when cell content is empty', async () => {
+    const testData = [
+      {
+        id: 1,
+        date: '2016-05-02',
+        name: '', // 空值 - 不应该显示 tooltip
+        address: 'No. 189, Grove St, Los Angeles',
+      },
+      {
+        id: 2,
+        date: '2016-05-04',
+        name: '   ', // 只有空格 - 不应该显示 tooltip
+        address: 'No. 189, Grove St, Los Angeles',
+      },
+      {
+        id: 3,
+        date: '2016-05-01',
+        name: 'wangxiaohu',
+        address: 'No. 189, Grove St, Los Angeles',
+        children: [
+          {
+            id: 31,
+            date: '2016-05-01',
+            name: 'wangxiaohu',
+            address: 'No. 189, Grove St, Los Angeles',
+          },
+          {
+            id: 32,
+            date: '2016-05-01',
+            name: 'wangxiaohu',
+            address: 'No. 189, Grove St, Los Angeles',
+          },
+        ],
+      },
+      {
+        id: 4,
+        date: '2016-05-03',
+        name: 'wangxiaohu',
+        address: 'No. 189, Grove St, Los Angeles',
+      },
+    ]
+
+    const mockRangeRect = vi
+      .spyOn(Range.prototype, 'getBoundingClientRect')
+      .mockReturnValue({
+        width: 150,
+        height: 30,
+      } as DOMRect)
+
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+      template: `
+           <el-table
+              :data="testData"
+              style="width: 100%; margin-bottom: 20px"
+              row-key="id"
+              border
+              default-expand-all
+            >
+              <el-table-column
+                class-name="empty_cell"
+                align="right"
+                width="60"
+                label="行号"
+                :show-overflow-tooltip="true"
+              >
+                <template v-slot>
+                  <span></span>
+                </template>
+              </el-table-column>
+              <el-table-column prop="date" label="Date" sortable />
+              <el-table-column
+                :show-overflow-tooltip="true"
+                width="20"
+                prop="address"
+                label="address"
+                sortable
+              />
+            </el-table>
+      `,
+      data() {
+        return {
+          testData,
+        }
+      },
+    })
+    await doubleWait()
+    const existingPopper = document.querySelector('.el-popper')
+    if (existingPopper) {
+      existingPopper.remove()
+    }
+    const emptyCells = wrapper.findAll('.el-table__body-wrapper .empty_cell')
+    expect(emptyCells.length).toBeGreaterThan(0)
+    for (const cell of emptyCells) {
+      const cellElement = cell.find('.cell')
+      expect(cellElement.exists()).toBe(true)
+      const mockCellRect = vi
+        .spyOn(cellElement.element, 'getBoundingClientRect')
+        .mockReturnValue({
+          width: 100,
+          height: 30,
+        } as DOMRect)
+      await cell.trigger('mouseenter')
+      await rAF()
+      expect(document.querySelector('.el-popper')).toBeNull()
+      mockCellRect.mockRestore()
+    }
+    mockRangeRect.mockRestore()
+    wrapper.unmount()
+  })
+
   it('should cleanup tooltip dynamically', async () => {
     const mockRangeRect = vi
       .spyOn(Range.prototype, 'getBoundingClientRect')

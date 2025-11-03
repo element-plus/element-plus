@@ -138,7 +138,8 @@ function useEvents<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
     if (
       !(
         hasClass(cellChild, `${namespace}-tooltip`) &&
-        cellChild.childNodes.length
+        cellChild.childNodes.length &&
+        cellChild.textContent.trim() !== ''
       )
     ) {
       return
