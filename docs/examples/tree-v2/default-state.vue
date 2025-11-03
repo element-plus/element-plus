@@ -2,13 +2,14 @@
   <el-tree-v2
     style="max-width: 600px"
     :data="data"
-    :height="208"
+    :height="200"
     :props="props"
     show-checkbox
     :default-checked-keys="defaultCheckedKeys"
     :default-expanded-keys="defaultExpandedKeys"
   />
 </template>
+
 <script lang="ts" setup>
 import { ref } from 'vue'
 

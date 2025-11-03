@@ -1,6 +1,7 @@
 import { withInstall, withNoopInstall } from '@element-plus/utils'
 import Timeline from './src/timeline'
 import TimelineItem from './src/timeline-item.vue'
+
 import type { SFCWithInstall } from '@element-plus/utils'
 
 export const ElTimeline: SFCWithInstall<typeof Timeline> & {
@@ -14,3 +15,4 @@ export const ElTimelineItem: SFCWithInstall<typeof TimelineItem> =
 
 export * from './src/timeline'
 export * from './src/timeline-item'
+export * from './src/tokens'

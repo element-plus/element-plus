@@ -29,7 +29,13 @@
       }
     }
   }
-
+  @each $align in (left, right, center) {
+    @include when($align) {
+      .#{$namespace}-input__inner {
+        text-align: $align;
+      }
+    }
+  }
   @include e((increase, decrease)) {
     display: flex;
     justify-content: center;
@@ -101,6 +107,14 @@
       @include e((increase, decrease)) {
         width: map.get($input-height, $size);
         font-size: map.get($input-font-size, $size);
+      }
+
+      @include when(controls-right) {
+        .#{$namespace}-input--#{$size} {
+          .#{$namespace}-input__wrapper {
+            padding-right: #{map.get($input-height, $size) + 7};
+          }
+        }
       }
 
       .#{$namespace}-input--#{$size} {

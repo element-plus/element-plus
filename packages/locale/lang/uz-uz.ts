@@ -7,6 +7,17 @@ export default {
     colorpicker: {
       confirm: 'Qabul qilish',
       clear: 'Tozalash',
+      defaultLabel: 'color picker', // to be translated
+      description:
+        'current color is {color}. press enter to select a new color.', // to be translated
+      alphaLabel: 'pick alpha value', // to be translated
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
+      svLabel: 'pick saturation and brightness value', // to be translated
+      svDescription:
+        'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
+      predefineDescription: 'select {value} as the color', // to be translated
     },
     datepicker: {
       now: 'Hozir',
@@ -14,6 +25,11 @@ export default {
       cancel: 'Bekor qilish',
       clear: 'Tozalash',
       confirm: 'Qabul qilish',
+      dateTablePrompt:
+        'Use the arrow keys and enter to select the day of the month', // to be translated
+      monthTablePrompt: 'Use the arrow keys and enter to select the month', // to be translated
+      yearTablePrompt: 'Use the arrow keys and enter to select the year', // to be translated
+      selectedDate: 'Selected date', // to be translated
       selectDate: 'Kunni tanlash',
       selectTime: 'Soatni tanlash',
       startDate: 'Boshlanish sanasi',
@@ -37,7 +53,6 @@ export default {
       month10: 'Oktabr',
       month11: 'Noyabr',
       month12: 'Dekabr',
-      week: 'Hafta',
       weeks: {
         sun: 'Yak',
         mon: 'Dush',
@@ -46,6 +61,15 @@ export default {
         thu: 'Pay',
         fri: 'Jum',
         sat: 'Shan',
+      },
+      weeksFull: {
+        sun: 'Sunday', // to be translated
+        mon: 'Monday', // to be translated
+        tue: 'Tuesday', // to be translated
+        wed: 'Wednesday', // to be translated
+        thu: 'Thursday', // to be translated
+        fri: 'Friday', // to be translated
+        sat: 'Saturday', // to be translated
       },
       months: {
         jan: 'Yan',
@@ -62,6 +86,10 @@ export default {
         dec: 'Dek',
       },
     },
+    inputNumber: {
+      decrease: 'decrease number', // to be translated
+      increase: 'increase number', // to be translated
+    },
     select: {
       loading: 'Yuklanmoqda',
       noMatch: 'Mos maʼlumot yoʻq',
@@ -70,6 +98,9 @@ export default {
     },
     mention: {
       loading: 'Yuklanmoqda',
+    },
+    dropdown: {
+      toggleDropdown: 'Toggle Dropdown', // to be translated
     },
     cascader: {
       noMatch: 'Mos maʼlumot topilmadi',
@@ -88,12 +119,21 @@ export default {
       currentPage: 'page {pager}', // to be translated
       prevPages: 'Previous {pager} pages', // to be translated
       nextPages: 'Next {pager} pages', // to be translated
+      deprecationWarning:
+        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
+    },
+    dialog: {
+      close: 'Close this dialog', // to be translated
+    },
+    drawer: {
+      close: 'Close this dialog', // to be translated
     },
     messagebox: {
       title: 'Xabar',
       confirm: 'Qabul qilish',
       cancel: 'Bekor qilish',
       error: 'Xatolik',
+      close: 'Close this dialog', // to be translated
     },
     upload: {
       deleteTip: 'Oʻchirish tugmasini bosib oʻchiring',
@@ -101,12 +141,23 @@ export default {
       preview: 'Oldin koʻrish',
       continue: 'Davom qilish',
     },
+    slider: {
+      defaultLabel: 'slider between {min} and {max}', // to be translated
+      defaultRangeStartLabel: 'pick start value', // to be translated
+      defaultRangeEndLabel: 'pick end value', // to be translated
+    },
     table: {
       emptyText: 'Boʻsh',
       confirmFilter: 'Qabul qilish',
       resetFilter: 'Oldingi holatga qaytarish',
       clearFilter: 'Jami',
       sumText: 'Summasi',
+    },
+    tour: {
+      next: 'Next', // to be translated
+      previous: 'Previous', // to be translated
+      finish: 'Finish', // to be translated
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'Maʼlumot yoʻq',

@@ -11,8 +11,9 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
+
 import type { Arrayable } from '@element-plus/utils'
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type { SliderMarkerProps } from './marker'
 import type Slider from './slider.vue'
 
@@ -113,13 +114,6 @@ export const sliderProps = buildProps({
    */
   height: String,
   /**
-   * @description debounce delay when typing, in milliseconds, works when `show-input` is true
-   */
-  debounce: {
-    type: Number,
-    default: 300,
-  },
-  /**
    * @description when `range` is true, screen reader label for the start of the range
    */
   rangeStartLabel: {
@@ -168,9 +162,17 @@ export const sliderProps = buildProps({
     type: Boolean,
     default: true,
   },
+  /**
+   * @description when slider tooltip inactive and `persistent` is `false` , popconfirm will be destroyed. `persistent` always be `false` when `show-tooltip ` is `false`
+   */
+  persistent: {
+    type: Boolean,
+    default: true,
+  },
   ...useAriaProps(['ariaLabel']),
 } as const)
 export type SliderProps = ExtractPropTypes<typeof sliderProps>
+export type SliderPropsPublic = __ExtractPublicPropTypes<typeof sliderProps>
 
 const isValidValue = (value: Arrayable<number>) =>
   isNumber(value) || (isArray(value) && value.every(isNumber))
@@ -181,4 +183,4 @@ export const sliderEmits = {
 }
 export type SliderEmits = typeof sliderEmits
 
-export type SliderInstance = InstanceType<typeof Slider>
+export type SliderInstance = InstanceType<typeof Slider> & unknown

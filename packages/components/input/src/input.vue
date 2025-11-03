@@ -1,6 +1,5 @@
 <template>
   <div
-    v-bind="containerAttrs"
     :class="[
       containerKls,
       {
@@ -9,7 +8,6 @@
       },
     ]"
     :style="containerStyle"
-    :role="containerRole"
     @mouseenter="handleMouseEnter"
     @mouseleave="handleMouseLeave"
   >
@@ -36,6 +34,7 @@
           ref="input"
           :class="nsInput.e('inner')"
           v-bind="attrs"
+          :name="name"
           :minlength="minlength"
           :maxlength="maxlength"
           :type="showPassword ? (passwordVisible ? 'text' : 'password') : type"
@@ -48,6 +47,8 @@
           :style="inputStyle"
           :form="form"
           :autofocus="autofocus"
+          :role="containerRole"
+          :inputmode="inputmode"
           @compositionstart="handleCompositionStart"
           @compositionupdate="handleCompositionUpdate"
           @compositionend="handleCompositionEnd"
@@ -73,16 +74,24 @@
               @mousedown.prevent="NOOP"
               @click="clear"
             >
-              <circle-close />
+              <component :is="clearIcon" />
             </el-icon>
             <el-icon
               v-if="showPwdVisible"
               :class="[nsInput.e('icon'), nsInput.e('password')]"
               @click="handlePasswordVisible"
+              @mousedown.prevent="NOOP"
+              @mouseup.prevent="NOOP"
             >
               <component :is="passwordIcon" />
             </el-icon>
-            <span v-if="isWordLimitVisible" :class="nsInput.e('count')">
+            <span
+              v-if="isWordLimitVisible"
+              :class="[
+                nsInput.e('count'),
+                nsInput.is('outside', wordLimitPosition === 'outside'),
+              ]"
+            >
               <span :class="nsInput.e('count-inner')">
                 {{ textLength }} / {{ maxlength }}
               </span>
@@ -126,6 +135,7 @@
         :form="form"
         :autofocus="autofocus"
         :rows="rows"
+        :role="containerRole"
         @compositionstart="handleCompositionStart"
         @compositionupdate="handleCompositionUpdate"
         @compositionend="handleCompositionEnd"
@@ -138,7 +148,10 @@
       <span
         v-if="isWordLimitVisible"
         :style="countStyle"
-        :class="nsInput.e('count')"
+        :class="[
+          nsInput.e('count'),
+          nsInput.is('outside', wordLimitPosition === 'outside'),
+        ]"
       >
         {{ textLength }} / {{ maxlength }}
       </span>
@@ -161,11 +174,7 @@ import {
 import { useResizeObserver } from '@vueuse/core'
 import { isNil } from 'lodash-unified'
 import { ElIcon } from '@element-plus/components/icon'
-import {
-  CircleClose,
-  Hide as IconHide,
-  View as IconView,
-} from '@element-plus/icons-vue'
+import { Hide as IconHide, View as IconView } from '@element-plus/icons-vue'
 import {
   useFormDisabled,
   useFormItem,
@@ -186,32 +195,29 @@ import {
   useFocusController,
   useNamespace,
 } from '@element-plus/hooks'
-import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { calcTextareaHeight } from './utils'
+import {
+  CHANGE_EVENT,
+  INPUT_EVENT,
+  UPDATE_MODEL_EVENT,
+} from '@element-plus/constants'
+import { calcTextareaHeight, looseToNumber } from './utils'
 import { inputEmits, inputProps } from './input'
+
 import type { StyleValue } from 'vue'
 
 type TargetElement = HTMLInputElement | HTMLTextAreaElement
 
+const COMPONENT_NAME = 'ElInput'
 defineOptions({
-  name: 'ElInput',
+  name: COMPONENT_NAME,
   inheritAttrs: false,
 })
 const props = defineProps(inputProps)
 const emit = defineEmits(inputEmits)
 
 const rawAttrs = useRawAttrs()
+const attrs = useAttrs()
 const slots = useSlots()
-
-const containerAttrs = computed(() => {
-  const comboBoxAttrs: Record<string, unknown> = {}
-  if (props.containerRole === 'combobox') {
-    comboBoxAttrs['aria-haspopup'] = rawAttrs['aria-haspopup']
-    comboBoxAttrs['aria-owns'] = rawAttrs['aria-owns']
-    comboBoxAttrs['aria-expanded'] = rawAttrs['aria-expanded']
-  }
-  return comboBoxAttrs
-})
 
 const containerKls = computed(() => [
   props.type === 'textarea' ? nsTextarea.b() : nsInput.b(),
@@ -235,11 +241,6 @@ const wrapperKls = computed(() => [
   nsInput.is('focus', isFocused.value),
 ])
 
-const attrs = useAttrs({
-  excludeKeys: computed<string[]>(() => {
-    return Object.keys(containerAttrs.value)
-  }),
-})
 const { form: elForm, formItem: elFormItem } = useFormItem()
 const { inputId } = useFormItemInputId(props, {
   formItemContext: elFormItem,
@@ -263,9 +264,7 @@ const _ref = computed(() => input.value || textarea.value)
 const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
   _ref,
   {
-    beforeFocus() {
-      return inputDisabled.value
-    },
+    disabled: inputDisabled,
     afterBlur() {
       if (props.validateEvent) {
         elFormItem?.validate?.('blur').catch((err) => debugWarn(err))
@@ -302,11 +301,7 @@ const showClear = computed(
     (isFocused.value || hovering.value)
 )
 const showPwdVisible = computed(
-  () =>
-    props.showPassword &&
-    !inputDisabled.value &&
-    !!nativeInputValue.value &&
-    (!!nativeInputValue.value || isFocused.value)
+  () => props.showPassword && !inputDisabled.value && !!nativeInputValue.value
 )
 const isWordLimitVisible = computed(
   () =>
@@ -331,6 +326,9 @@ const suffixVisible = computed(
     props.showPassword ||
     isWordLimitVisible.value ||
     (!!validateState.value && needStatusIcon.value)
+)
+const hasModelModifiers = computed(
+  () => !!Object.keys(props.modelModifiers).length
 )
 
 const [recordCursor, setCursor] = useCursor(input)
@@ -383,7 +381,7 @@ const createOnceInitResize = (resizeTextarea: () => void) => {
     if (isInit || !props.autosize) return
     const isElHidden = textarea.value?.offsetParent === null
     if (!isElHidden) {
-      resizeTextarea()
+      setTimeout(resizeTextarea)
       isInit = true
     }
   }
@@ -400,38 +398,69 @@ const setNativeInputValue = () => {
   input.value = formatterValue
 }
 
-const handleInput = async (event: Event) => {
-  recordCursor()
-
-  let { value } = event.target as TargetElement
-
-  if (props.formatter) {
-    value = props.parser ? props.parser(value) : value
+const formatValue = (value: string) => {
+  const { trim, number } = props.modelModifiers
+  if (trim) {
+    value = value.trim()
   }
+  if (number) {
+    value = `${looseToNumber(value)}`
+  }
+  if (props.formatter && props.parser) {
+    value = props.parser(value)
+  }
+  return value
+}
 
+const handleInput = async (event: Event) => {
   // should not emit input during composition
   // see: https://github.com/ElemeFE/element/issues/10516
   if (isComposing.value) return
 
-  // hack for https://github.com/ElemeFE/element/issues/8548
-  // should remove the following line when we don't support IE
-  if (value === nativeInputValue.value) {
-    setNativeInputValue()
+  const { lazy } = props.modelModifiers
+  let { value } = event.target as TargetElement
+  if (lazy) {
+    emit(INPUT_EVENT, value)
     return
   }
 
+  value = formatValue(value)
+
+  // hack for https://github.com/ElemeFE/element/issues/8548
+  // should remove the following line when we don't support IE
+  if (String(value) === nativeInputValue.value) {
+    // preserve native features while being compatible with #9501
+    if (props.formatter) {
+      setNativeInputValue()
+    }
+    return
+  }
+
+  recordCursor()
   emit(UPDATE_MODEL_EVENT, value)
-  emit('input', value)
+  emit(INPUT_EVENT, value)
 
   // ensure native input value is controlled
   // see: https://github.com/ElemeFE/element/issues/12850
   await nextTick()
-  setNativeInputValue()
+
+  if ((props.formatter && props.parser) || !hasModelModifiers.value) {
+    setNativeInputValue()
+  }
   setCursor()
 }
 
-const handleChange = (event: Event) => {
-  emit('change', (event.target as TargetElement).value)
+const handleChange = async (event: Event) => {
+  let { value } = event.target as TargetElement
+
+  value = formatValue(value)
+  if (props.modelModifiers.lazy) {
+    emit(UPDATE_MODEL_EVENT, value)
+  }
+  emit(CHANGE_EVENT, value)
+
+  await nextTick()
+  setNativeInputValue()
 }
 
 const {
@@ -443,14 +472,9 @@ const {
 
 const handlePasswordVisible = () => {
   passwordVisible.value = !passwordVisible.value
-  focus()
 }
 
-const focus = async () => {
-  // see: https://github.com/ElemeFE/element/issues/18573
-  await nextTick()
-  _ref.value?.focus()
-}
+const focus = () => _ref.value?.focus()
 
 const blur = () => _ref.value?.blur()
 
@@ -474,9 +498,9 @@ const select = () => {
 
 const clear = () => {
   emit(UPDATE_MODEL_EVENT, '')
-  emit('change', '')
+  emit(CHANGE_EVENT, '')
   emit('clear')
-  emit('input', '')
+  emit(INPUT_EVENT, '')
 }
 
 watch(
@@ -492,7 +516,29 @@ watch(
 // native input value is set explicitly
 // do not use v-model / :value in template
 // see: https://github.com/ElemeFE/element/issues/14521
-watch(nativeInputValue, () => setNativeInputValue())
+watch(nativeInputValue, (newValue) => {
+  if (!_ref.value) {
+    return
+  }
+  const { trim, number } = props.modelModifiers
+  const elValue = _ref.value.value
+  const displayValue =
+    (number || props.type === 'number') && !/^0\d/.test(elValue)
+      ? `${looseToNumber(elValue)}`
+      : elValue
+
+  if (displayValue === newValue) {
+    return
+  }
+
+  if (document.activeElement === _ref.value && _ref.value.type !== 'range') {
+    if (trim && displayValue.trim() === newValue) {
+      return
+    }
+  }
+
+  setNativeInputValue()
+})
 
 // when change between <input> and <textarea>,
 // update DOM dependent value and styles
@@ -509,7 +555,7 @@ watch(
 onMounted(() => {
   if (!props.formatter && props.parser) {
     debugWarn(
-      'ElInput',
+      COMPONENT_NAME,
       'If you set the parser, you also need to set the formatter.'
     )
   }

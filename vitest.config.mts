@@ -27,10 +27,13 @@ export default defineConfig({
     },
     coverage: {
       reporter: ['text', 'json-summary', 'json'],
+      include: ['packages/**/*.test.{ts,tsx}'],
       exclude: [
         'play/**',
-        'packages/locale/lang/**',
+        '**/lang/**',
         'packages/components/*/style/**',
+        'scripts/**',
+        'ssr-testing/**',
       ],
     },
   },

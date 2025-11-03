@@ -4,8 +4,10 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import defineGetter from '@element-plus/test-utils/define-getter'
 import sleep from '@element-plus/test-utils/sleep'
+import ElIcon from '@element-plus/components/icon'
 import Tree from '../src/tree.vue'
 import Button from '../../button/src/button.vue'
+
 import type Node from '../src/model/node'
 
 const ALL_NODE_COUNT = 9
@@ -22,6 +24,7 @@ const getTreeVm = (props = '', options = {}) => {
     `,
         data() {
           return {
+            currentId: null,
             currentNode: null,
             nodeExpended: false,
             defaultExpandedKeys: [],
@@ -259,6 +262,30 @@ describe('Tree.vue', () => {
     expect(wrapper.find('.el-tree--highlight-current').exists()).toBe(true)
   })
 
+  test('update tree-data after current-node-key', async () => {
+    const { wrapper, vm } = getTreeVm(
+      `:props="defaultProps" :expand-on-click-node="false" default-expand-all highlight-current node-key="id" :current-node-key="currentId"`
+    )
+
+    vm.currentId = 22
+    await nextTick()
+    const currentNodeLabelWrapper = wrapper.find(
+      '.is-current .el-tree-node__label'
+    )
+    expect(wrapper.find('.el-tree--highlight-current').exists()).toBe(true)
+    expect(currentNodeLabelWrapper.text()).toEqual('二级 2-2')
+    const _data = [...vm.data]
+    await nextTick()
+    vm.data = [..._data]
+    await nextTick()
+    const currentNodeLabelWrapper2 = wrapper.find(
+      '.is-current .el-tree-node__label'
+    )
+    expect(currentNodeLabelWrapper2.exists()).toBe(true)
+    expect(currentNodeLabelWrapper2.text()).toEqual('二级 2-2')
+    expect(wrapper.find('.el-tree--highlight-current').exists()).toBe(true)
+  })
+
   test('defaultExpandAll', async () => {
     const { wrapper } = getTreeVm(`:props="defaultProps" default-expand-all`)
     const expanedNodeWrappers = wrapper.findAll('.el-tree-node.is-expanded')
@@ -324,7 +351,7 @@ describe('Tree.vue', () => {
     const treeWrapper = wrapper.findComponent(Tree)
     ;(treeWrapper.vm as InstanceType<typeof Tree>).filter('2-1')
 
-    await nextTick()
+    await sleep()
     expect(treeWrapper.findAll('.el-tree-node.is-hidden').length).toEqual(3)
   })
   test('lazy load with filter expand loaded node', async () => {
@@ -515,6 +542,67 @@ describe('Tree.vue', () => {
     const [data, args] = handleCheckMockFunction.mock.calls[0]
     expect(data.id).toEqual(2)
     expect(args.checkedNodes.length).toEqual(3)
+  })
+
+  test('check by clicking on leaf node', async () => {
+    const { wrapper } = getTreeVm(`:props="defaultProps" show-checkbox`)
+    const treeVm = wrapper.findComponent(Tree).vm
+
+    expect(treeVm.getCheckedNodes().length).toEqual(0)
+
+    const secondTreeNodeWrapper = wrapper.findAll('.el-tree-node')[2]
+    await secondTreeNodeWrapper.trigger('click')
+
+    const secondNodeContentWrapper = secondTreeNodeWrapper.findAll(
+      '.el-tree-node__content'
+    )[1]
+    await secondNodeContentWrapper.trigger('click')
+
+    expect(treeVm.getCheckedNodes().length).toEqual(1)
+  })
+
+  test('show-checkbox :check-on-click-leaf="false"', async () => {
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" show-checkbox :check-on-click-leaf="false"`
+    )
+    const treeVm = wrapper.findComponent(Tree).vm
+
+    expect(treeVm.getCheckedNodes().length).toEqual(0)
+
+    const secondTreeNodeWrapper = wrapper.findAll('.el-tree-node')[2]
+    await secondTreeNodeWrapper.trigger('click')
+
+    const secondNodeContentWrapper = secondTreeNodeWrapper.findAll(
+      '.el-tree-node__content'
+    )[1]
+    await secondNodeContentWrapper.trigger('click')
+
+    expect(treeVm.getCheckedNodes().length).toEqual(0)
+  })
+
+  test('ensure no checked nodes in non show-checkbox mode', async () => {
+    const { wrapper } = getTreeVm(`:props="defaultProps"`)
+    const treeVm = wrapper.findComponent(Tree).vm
+
+    expect(treeVm.getCheckedNodes().length).toEqual(0)
+
+    const secondTreeNodeWrapper = wrapper.findAll('.el-tree-node')[2]
+    await secondTreeNodeWrapper.trigger('click')
+
+    const secondNodeContentWrapper = secondTreeNodeWrapper.findAll(
+      '.el-tree-node__content'
+    )[1]
+
+    expect(
+      secondNodeContentWrapper
+        .findComponent(ElIcon)
+        .classes()
+        .includes('is-leaf')
+    ).toBe(true)
+
+    await secondNodeContentWrapper.trigger('click')
+
+    expect(treeVm.getCheckedNodes().length).toEqual(0)
   })
 
   test('setCheckedNodes', async () => {
@@ -1393,6 +1481,207 @@ describe('Tree.vue', () => {
     expect(flag).toBe(true)
   })
 
+  test('collapse and navigate down and up', async () => {
+    const { wrapper } = getTreeVm(``, {
+      template: `
+        <div>
+          <el-tree ref="tree1" :data="data" node-key="id" :props="defaultProps" default-expand-all></el-tree>
+        </div>
+      `,
+    })
+    await nextTick()
+    let flag = false
+    function handleFocus() {
+      return () => (flag = true)
+    }
+    const tree = wrapper.findComponent({ name: 'ElTree' })
+    const targetElement = wrapper.find('div[data-key="2"]').element
+    const fromElement = wrapper.find('div[data-key="1"]')
+    await fromElement.trigger('click')
+
+    expect(fromElement.classes('is-expanded')).toBe(false) // 判断是否已折叠
+
+    await nextTick()
+    defineGetter(targetElement, 'focus', handleFocus)
+    ;(tree.vm as InstanceType<typeof Tree>).setCurrentKey(1)
+    // 模拟按下下箭头键
+    fromElement.element.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        code: 'ArrowDown',
+        bubbles: true,
+        cancelable: false,
+      })
+    )
+    expect(flag).toBe(true)
+
+    await nextTick()
+
+    flag = false
+    defineGetter(fromElement.element, 'focus', handleFocus)
+    // 模拟按下上箭头键
+    targetElement.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        code: 'ArrowUp',
+        bubbles: true,
+        cancelable: false,
+      })
+    )
+    expect(flag).toBe(true)
+  })
+
+  test('filter-node-method and navigate down', async () => {
+    const { wrapper } = getTreeVm(``, {
+      template: `
+        <div>
+          <el-tree ref="tree1" :data="data" node-key="id" :props="defaultProps" :filter-node-method="filterNode"></el-tree>
+        </div>
+      `,
+      methods: {
+        filterNode(value, data) {
+          if (!value) return true
+          return data.label.includes(value)
+        },
+      },
+    })
+    let flag = false
+    function handleFocus() {
+      return () => (flag = true)
+    }
+
+    const treeWrapper = wrapper.findComponent(Tree)
+    ;(treeWrapper.vm as InstanceType<typeof Tree>).filter('-1')
+
+    await sleep()
+    const tree = wrapper.findComponent({ name: 'ElTree' })
+    ;(tree.vm as InstanceType<typeof Tree>).setCurrentKey(1)
+
+    const allNodes = treeWrapper.findAll('.el-tree-node')
+    const visibleNodes = allNodes.filter(
+      (node) => !node.classes().includes('is-hidden')
+    )
+    const len = visibleNodes.length
+    for (let i = 0; i < len; i++) {
+      if (visibleNodes[i + 1]) {
+        defineGetter(visibleNodes[i + 1].element, 'focus', handleFocus)
+        // 模拟按下下箭头键
+        visibleNodes[i].element.dispatchEvent(
+          new KeyboardEvent('keydown', {
+            code: 'ArrowDown',
+            bubbles: true,
+            cancelable: false,
+          })
+        )
+        expect(flag).toBe(true)
+        flag = false
+      }
+    }
+  })
+
+  test('expand and render-after-expand set to false', async () => {
+    const { wrapper } = getTreeVm(``, {
+      template: `
+        <div>
+          <el-tree ref="tree1" :data="data" node-key="id" :render-after-expand="false"></el-tree>
+        </div>
+      `,
+      data() {
+        return {
+          data: [
+            {
+              id: 1,
+              label: '一级 1',
+              children: [
+                {
+                  id: 11,
+                  label: '二级 1-1',
+                  children: [
+                    {
+                      id: 111,
+                      label: '三级 1-1',
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              id: 2,
+              label: '一级 2',
+              children: [
+                {
+                  id: 21,
+                  label: '二级 2-1',
+                  children: [
+                    {
+                      id: 211,
+                      label: '三级 2-1-1',
+                    },
+                  ],
+                },
+                {
+                  id: 22,
+                  label: '二级 2-2',
+                },
+              ],
+            },
+            {
+              id: 3,
+              label: '一级 3',
+              children: [
+                {
+                  id: 31,
+                  label: '二级 3-1',
+                },
+                {
+                  id: 32,
+                  label: '二级 3-2',
+                },
+              ],
+            },
+          ],
+        }
+      },
+    })
+    await nextTick()
+    let flag = false
+    function handleFocus() {
+      return () => (flag = true)
+    }
+
+    const fromElement = wrapper.find('div[data-key="2"]')
+    await fromElement.trigger('click')
+
+    expect(fromElement.classes('is-expanded')).toBe(true) // 判断是否已展开
+
+    const treeWrapper = wrapper.findComponent(Tree)
+
+    await sleep()
+    const tree = wrapper.findComponent({ name: 'ElTree' })
+    ;(tree.vm as InstanceType<typeof Tree>).setCurrentKey(2)
+
+    const allNodes = treeWrapper.findAll('.el-tree-node')
+    const visibleNodes = allNodes.filter((val) => {
+      const node = wrapper.vm.$refs.tree1.getNode(val.element.dataset.key)!
+      return node.parent?.expanded || node.parent?.level === 0
+    })
+    const len = visibleNodes.length
+    for (let i = 0; i < len; i++) {
+      if (visibleNodes[i + 1]) {
+        defineGetter(visibleNodes[i + 1].element, 'focus', handleFocus)
+        // 模拟按下下箭头键
+        visibleNodes[i].element.dispatchEvent(
+          new KeyboardEvent('keydown', {
+            code: 'ArrowDown',
+            bubbles: true,
+            cancelable: false,
+          })
+        )
+
+        expect(flag).toBe(true)
+        flag = false
+      }
+    }
+  })
+
   test('navigate with disabled', async () => {
     const wrapper = mount({
       template: `
@@ -1753,5 +2042,22 @@ describe('Tree.vue', () => {
     )
     expect(nodeLabelWrapper1.text()).toEqual('customize: Level one 1')
     expect(nodeLabelWrapper2.text()).toEqual('Level one 2')
+  })
+
+  test('render slot `empty`', async () => {
+    const wrapper = mount({
+      template: `
+        <el-tree :data="[]">
+          <template #empty>
+            EmptySlot
+          </template>
+        </el-tree>
+      `,
+      components: {
+        'el-tree': Tree,
+      },
+    })
+    await nextTick()
+    expect(wrapper.find('.el-tree__empty-block').text()).toBe('EmptySlot')
   })
 })

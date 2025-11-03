@@ -8,9 +8,10 @@ import type {
 } from 'vue'
 import type Node from './model/node'
 import type TreeStore from './model/tree-store'
+import type { treeEmits } from './tree'
 
 export interface RootTreeType {
-  ctx: SetupContext<any>
+  ctx: SetupContext<typeof treeEmits>
   props: TreeComponentProps
   store: Ref<TreeStore>
   root: Ref<Node>
@@ -18,48 +19,46 @@ export interface RootTreeType {
   instance: ComponentInternalInstance
 }
 
-export declare type hType = typeof h
-export declare type TreeData = TreeNodeData[]
-export declare type TreeKey = string | number
-export declare interface FakeNode {
+export type hType = typeof h
+export type TreeData = TreeNodeData[]
+export type TreeKey = string | number
+export interface FakeNode {
   data: TreeNodeData
 }
-export declare interface TreeNodeData {
-  [key: string]: any
-}
-export declare interface TreeNodeLoadedDefaultProps {
+export type TreeNodeData = Record<string, any>
+export interface TreeNodeLoadedDefaultProps {
   checked?: boolean
 }
-export declare interface TreeNodeChildState {
+export interface TreeNodeChildState {
   all: boolean
   none: boolean
   allWithoutDisable: boolean
   half: boolean
 }
-export declare interface TreeNodeOptions {
+export interface TreeNodeOptions {
   data: TreeNodeData
   store: TreeStore
   parent?: Node
 }
-export declare interface TreeStoreNodesMap {
+export interface TreeStoreNodesMap {
   [key: string]: Node
 }
-export declare interface TreeStoreOptions {
-  key: TreeKey
+export interface TreeStoreOptions {
+  key?: TreeKey
   data: TreeData
   lazy: boolean
   props: TreeOptionProps
-  load: LoadFunction
-  currentNodeKey: TreeKey
+  load?: LoadFunction
+  currentNodeKey?: TreeKey
   checkStrictly: boolean
   checkDescendants: boolean
-  defaultCheckedKeys: TreeKey[]
-  defaultExpandedKeys: TreeKey[]
+  defaultCheckedKeys?: TreeKey[]
+  defaultExpandedKeys?: TreeKey[]
   autoExpandParent: boolean
   defaultExpandAll: boolean
-  filterNodeMethod: FilterNodeMethodFunction
+  filterNodeMethod?: FilterNodeMethodFunction
 }
-export declare interface TreeOptionProps {
+export interface TreeOptionProps {
   children?: string
   label?: string | ((data: TreeNodeData, node: Node) => string)
   disabled?: string | ((data: TreeNodeData, node: Node) => boolean)
@@ -69,35 +68,35 @@ export declare interface TreeOptionProps {
     node: Node
   ) => string | { [key: string]: boolean }
 }
-export declare type RenderContentFunction = (
+export type RenderContentFunction = (
   h: hType,
   context: RenderContentContext
 ) => VNode | VNode[]
-export declare interface RenderContentContext {
+export interface RenderContentContext {
   _self: ComponentInternalInstance
   node: Node
   data: TreeNodeData
   store: TreeStore
 }
-export declare type AllowDragFunction = (node: Node) => boolean
-export declare type AllowDropType = 'inner' | 'prev' | 'next'
-export declare type AllowDropFunction = (
+export type AllowDragFunction = (node: Node) => boolean
+export type AllowDropType = 'inner' | 'prev' | 'next'
+export type AllowDropFunction = (
   draggingNode: Node,
   dropNode: Node,
   type: AllowDropType
 ) => boolean
-export declare type LoadFunction = (
+export type LoadFunction = (
   rootNode: Node,
   loadedCallback: (data: TreeData) => void,
   stopLoading: () => void
 ) => void
-export declare type FilterValue = any
-export declare type FilterNodeMethodFunction = (
+export type FilterValue = any
+export type FilterNodeMethodFunction = (
   value: FilterValue,
   data: TreeNodeData,
   child: Node
 ) => boolean
-export declare interface TreeComponentProps {
+export interface TreeComponentProps {
   data: TreeData
   emptyText: string
   renderAfterExpand: boolean
@@ -106,6 +105,7 @@ export declare interface TreeComponentProps {
   expandOnClickNode: boolean
   defaultExpandAll: boolean
   checkOnClickNode: boolean
+  checkOnClickLeaf: boolean
   checkDescendants: boolean
   autoExpandParent: boolean
   defaultCheckedKeys: TreeKey[]
@@ -126,4 +126,13 @@ export declare interface TreeComponentProps {
   icon: string | Component
 }
 
-export declare type NodeDropType = 'before' | 'after' | 'inner' | 'none'
+export type NodeDropType = 'before' | 'after' | 'inner' | 'none'
+
+export type { DragEvents } from './model/useDragNode'
+
+export interface CheckedInfo {
+  checkedKeys: TreeKey[]
+  checkedNodes: TreeData
+  halfCheckedKeys: TreeKey[]
+  halfCheckedNodes: TreeData
+}

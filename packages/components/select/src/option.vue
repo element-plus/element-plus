@@ -6,7 +6,7 @@
     role="option"
     :aria-disabled="isDisabled || undefined"
     :aria-selected="itemSelected"
-    @mouseenter="hoverItem"
+    @mousemove="hoverItem"
     @click.stop="selectOptionClick"
   >
     <slot>
@@ -16,7 +16,6 @@
 </template>
 
 <script lang="ts">
-// @ts-nocheck
 import {
   computed,
   defineComponent,
@@ -29,30 +28,19 @@ import {
 } from 'vue'
 import { useId, useNamespace } from '@element-plus/hooks'
 import { useOption } from './useOption'
-import type { SelectOptionProxy } from './token'
+import { COMPONENT_NAME, optionProps } from './option'
+
+import type {
+  OptionExposed,
+  OptionInternalInstance,
+  OptionStates,
+} from './type'
 
 export default defineComponent({
-  name: 'ElOption',
-  componentName: 'ElOption',
+  name: COMPONENT_NAME,
+  componentName: COMPONENT_NAME,
 
-  props: {
-    /**
-     * @description value of option
-     */
-    value: {
-      required: true,
-      type: [String, Number, Boolean, Object],
-    },
-    /**
-     * @description label of option, same as `value` if omitted
-     */
-    label: [String, Number],
-    created: Boolean,
-    /**
-     * @description whether option is disabled
-     */
-    disabled: Boolean,
-  },
+  props: optionProps,
 
   setup(props) {
     const ns = useNamespace('select')
@@ -65,7 +53,7 @@ export default defineComponent({
       ns.is('hovering', unref(hover)),
     ])
 
-    const states = reactive({
+    const states = reactive<OptionStates>({
       index: -1,
       groupDisabled: false,
       visible: true,
@@ -83,19 +71,19 @@ export default defineComponent({
 
     const { visible, hover } = toRefs(states)
 
-    const vm = getCurrentInstance().proxy as unknown as SelectOptionProxy
+    const vm = (getCurrentInstance()! as OptionInternalInstance).proxy
 
     select.onOptionCreate(vm)
 
     onBeforeUnmount(() => {
       const key = vm.value
-      const { selected } = select.states
-      const selectedOptions = select.props.multiple ? selected : [selected]
-      const doesSelected = selectedOptions.some((item) => {
-        return item.value === vm.value
-      })
+
       // if option is not selected, remove it from cache
       nextTick(() => {
+        const { selected: selectedOptions } = select.states
+        const doesSelected = selectedOptions.some((item) => {
+          return item.value === vm.value
+        })
         if (select.states.cachedOptions.get(key) === vm && !doesSelected) {
           select.states.cachedOptions.delete(key)
         }
@@ -117,13 +105,14 @@ export default defineComponent({
       itemSelected,
       isDisabled,
       select,
-      hoverItem,
-      updateOption,
       visible,
       hover,
-      selectOptionClick,
       states,
-    }
+
+      hoverItem,
+      updateOption,
+      selectOptionClick,
+    } satisfies OptionExposed
   },
 })
 </script>

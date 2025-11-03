@@ -17,10 +17,14 @@
   }
 
   @include e(title) {
-    padding-left: $gap;
+    box-sizing: border-box;
+    padding: 0 $gap;
     font-size: map.get($select-group, 'font-size');
     color: map.get($select-group, 'text-color');
     line-height: map.get($select-group, 'height');
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   & .#{$namespace}-select-dropdown__item {

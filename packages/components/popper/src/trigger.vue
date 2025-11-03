@@ -17,7 +17,7 @@ import { isNil } from 'lodash-unified'
 import { unrefElement } from '@vueuse/core'
 import { ElOnlyChild } from '@element-plus/components/slot'
 import { useForwardRef } from '@element-plus/hooks'
-import { isElement } from '@element-plus/utils'
+import { isElement, isFocusable } from '@element-plus/utils'
 import { POPPER_INJECTION_KEY } from './constants'
 import { popperTriggerProps } from './trigger'
 
@@ -92,32 +92,36 @@ onMounted(() => {
           if (handler) {
             ;(el as HTMLElement).addEventListener(
               eventName.slice(2).toLowerCase(),
-              handler
+              handler,
+              ['onFocus', 'onBlur'].includes(eventName)
             )
             ;(prevEl as HTMLElement)?.removeEventListener?.(
               eventName.slice(2).toLowerCase(),
-              handler
+              handler,
+              ['onFocus', 'onBlur'].includes(eventName)
             )
           }
         })
-        virtualTriggerAriaStopWatch = watch(
-          [ariaControls, ariaDescribedby, ariaHaspopup, ariaExpanded],
-          (watches) => {
-            ;[
-              'aria-controls',
-              'aria-describedby',
-              'aria-haspopup',
-              'aria-expanded',
-            ].forEach((key, idx) => {
-              isNil(watches[idx])
-                ? el.removeAttribute(key)
-                : el.setAttribute(key, watches[idx]!)
-            })
-          },
-          { immediate: true }
-        )
+        if (isFocusable(el as HTMLElement)) {
+          virtualTriggerAriaStopWatch = watch(
+            [ariaControls, ariaDescribedby, ariaHaspopup, ariaExpanded],
+            (watches) => {
+              ;[
+                'aria-controls',
+                'aria-describedby',
+                'aria-haspopup',
+                'aria-expanded',
+              ].forEach((key, idx) => {
+                isNil(watches[idx])
+                  ? el.removeAttribute(key)
+                  : el.setAttribute(key, watches[idx]!)
+              })
+            },
+            { immediate: true }
+          )
+        }
       }
-      if (isElement(prevEl)) {
+      if (isElement(prevEl) && isFocusable(prevEl as HTMLElement)) {
         ;[
           'aria-controls',
           'aria-describedby',
@@ -140,7 +144,11 @@ onBeforeUnmount(() => {
     TRIGGER_ELE_EVENTS.forEach((eventName) => {
       const handler = props[eventName]
       if (handler) {
-        el.removeEventListener(eventName.slice(2).toLowerCase(), handler)
+        el.removeEventListener(
+          eventName.slice(2).toLowerCase(),
+          handler,
+          ['onFocus', 'onBlur'].includes(eventName)
+        )
       }
     })
     triggerRef.value = undefined

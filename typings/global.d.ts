@@ -1,9 +1,11 @@
+/* prettier-ignore */
 declare module 'vue' {
   // GlobalComponents for Volar
   export interface GlobalComponents {
     ElAffix: typeof import('element-plus')['ElAffix']
     ElAlert: typeof import('element-plus')['ElAlert']
     ElAside: typeof import('element-plus')['ElAside']
+    ElAutoResizer: typeof import('element-plus')['ElAutoResizer']
     ElAutocomplete: typeof import('element-plus')['ElAutocomplete']
     ElAvatar: typeof import('element-plus')['ElAvatar']
     ElAnchor: typeof import('element-plus')['ElAnchor']
@@ -27,10 +29,12 @@ declare module 'vue' {
     ElCollapse: typeof import('element-plus')['ElCollapse']
     ElCollapseItem: typeof import('element-plus')['ElCollapseItem']
     ElCollapseTransition: typeof import('element-plus')['ElCollapseTransition']
+    ElColorPickerPanel: typeof import('element-plus')['ElColorPickerPanel']
     ElColorPicker: typeof import('element-plus')['ElColorPicker']
     ElContainer: typeof import('element-plus')['ElContainer']
     ElConfigProvider: typeof import('element-plus')['ElConfigProvider']
     ElDatePicker: typeof import('element-plus')['ElDatePicker']
+    ElDatePickerPanel: typeof import('element-plus')['ElDatePickerPanel']
     ElDialog: typeof import('element-plus')['ElDialog']
     ElDivider: typeof import('element-plus')['ElDivider']
     ElDrawer: typeof import('element-plus')['ElDrawer']
@@ -47,6 +51,7 @@ declare module 'vue' {
     ElImageViewer: typeof import('element-plus')['ElImageViewer']
     ElInput: typeof import('element-plus')['ElInput']
     ElInputNumber: typeof import('element-plus')['ElInputNumber']
+    ElInputTag: typeof import('element-plus')['ElInputTag']
     ElLink: typeof import('element-plus')['ElLink']
     ElMain: typeof import('element-plus')['ElMain']
     ElMenu: typeof import('element-plus')['ElMenu']
@@ -74,6 +79,7 @@ declare module 'vue' {
     ElSwitch: typeof import('element-plus')['ElSwitch']
     ElTabPane: typeof import('element-plus')['ElTabPane']
     ElTable: typeof import('element-plus')['ElTable']
+    ElTableV2: typeof import('element-plus')['ElTableV2']
     ElTableColumn: typeof import('element-plus')['ElTableColumn']
     ElTabs: typeof import('element-plus')['ElTabs']
     ElTag: typeof import('element-plus')['ElTag']
@@ -103,6 +109,8 @@ declare module 'vue' {
     ElTourStep: typeof import('element-plus')['ElTourStep']
     ElSegmented: typeof import('element-plus')['ElSegmented']
     ElMention: typeof import('element-plus')['ElMention']
+    ElSplitter: typeof import('element-plus')['ElSplitter']
+    ElSplitterPanel: typeof import('element-plus')['ElSplitterPanel']
   }
 
   interface ComponentCustomProperties {

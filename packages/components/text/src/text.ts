@@ -1,7 +1,7 @@
 import { buildProps } from '@element-plus/utils'
 import { componentSizes } from '@element-plus/constants'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 
 export const textProps = buildProps({
   /**
@@ -40,3 +40,4 @@ export const textProps = buildProps({
 } as const)
 
 export type TextProps = ExtractPropTypes<typeof textProps>
+export type TextPropsPublic = __ExtractPublicPropTypes<typeof textProps>

@@ -6,8 +6,14 @@ import {
   isNumber,
 } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { teleportProps } from '@element-plus/components/teleport'
 import { tourContentProps } from './content'
-import type { CSSProperties, ExtractPropTypes } from 'vue'
+
+import type {
+  CSSProperties,
+  ExtractPropTypes,
+  __ExtractPublicPropTypes,
+} from 'vue'
 import type Tour from './tour.vue'
 import type { TourGap, TourMask } from './types'
 
@@ -95,7 +101,7 @@ export const tourProps = buildProps({
    * @description which element the TourContent appends to
    */
   appendTo: {
-    type: definePropType<string | HTMLElement>([String, Object]),
+    type: teleportProps.to.type,
     default: 'body',
   },
   /**
@@ -115,7 +121,8 @@ export const tourProps = buildProps({
 })
 
 export type TourProps = ExtractPropTypes<typeof tourProps>
-export type TourInstance = InstanceType<typeof Tour>
+export type TourPropsPublic = __ExtractPublicPropTypes<typeof tourProps>
+export type TourInstance = InstanceType<typeof Tour> & unknown
 
 export const tourEmits = {
   [UPDATE_MODEL_EVENT]: (value: boolean) => isBoolean(value),

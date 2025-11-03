@@ -8,7 +8,7 @@
     :aria-label="!isLabeledByFormItem ? ariaLabel || 'segmented' : undefined"
     :aria-labelledby="isLabeledByFormItem ? formItem!.labelId : undefined"
   >
-    <div :class="ns.e('group')">
+    <div :class="[ns.e('group'), ns.m(direction)]">
       <div :style="selectedStyle" :class="selectedCls" />
       <label
         v-for="(item, index) in options"
@@ -24,7 +24,7 @@
           @change="handleChange(item)"
         />
         <div :class="ns.e('item-label')">
-          <slot :item="item">{{ getLabel(item) }}</slot>
+          <slot :item="intoAny(item)">{{ getLabel(item) }}</slot>
         </div>
       </label>
     </div>
@@ -43,7 +43,8 @@ import {
 } from '@element-plus/components/form'
 import { debugWarn, isObject } from '@element-plus/utils'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { segmentedEmits, segmentedProps } from './segmented'
+import { defaultProps, segmentedEmits, segmentedProps } from './segmented'
+
 import type { Option } from './types'
 
 defineOptions({
@@ -68,7 +69,9 @@ const activeElement = useActiveElement()
 const state = reactive({
   isInit: false,
   width: 0,
+  height: 0,
   translateX: 0,
+  translateY: 0,
   focusVisible: false,
 })
 
@@ -78,16 +81,24 @@ const handleChange = (item: Option) => {
   emit(CHANGE_EVENT, value)
 }
 
+const aliasProps = computed(() => ({ ...defaultProps, ...props.props }))
+
+//FIXME: remove this when vue >=3.3
+const intoAny = (item: any) => item
+
 const getValue = (item: Option) => {
-  return isObject(item) ? item.value : item
+  return isObject(item) ? item[aliasProps.value.value] : item
 }
 
 const getLabel = (item: Option) => {
-  return isObject(item) ? item.label : item
+  return isObject(item) ? item[aliasProps.value.label] : item
 }
 
 const getDisabled = (item: Option | undefined) => {
-  return !!(_disabled.value || (isObject(item) ? item.disabled : false))
+  return !!(
+    _disabled.value ||
+    (isObject(item) ? item[aliasProps.value.disabled] : false)
+  )
 }
 
 const getSelected = (item: Option) => {
@@ -116,14 +127,20 @@ const updateSelect = () => {
   ) as HTMLElement
   if (!selectedItem || !selectedItemInput) {
     state.width = 0
+    state.height = 0
     state.translateX = 0
+    state.translateY = 0
     state.focusVisible = false
     return
   }
-  const rect = selectedItem.getBoundingClientRect()
   state.isInit = true
-  state.width = rect.width
-  state.translateX = selectedItem.offsetLeft
+  if (props.direction === 'vertical') {
+    state.height = selectedItem.offsetHeight
+    state.translateY = selectedItem.offsetTop
+  } else {
+    state.width = selectedItem.offsetWidth
+    state.translateX = selectedItem.offsetLeft
+  }
   try {
     // This will failed in test
     state.focusVisible = selectedItemInput.matches(':focus-visible')
@@ -137,8 +154,12 @@ const segmentedCls = computed(() => [
 ])
 
 const selectedStyle = computed(() => ({
-  width: `${state.width}px`,
-  transform: `translateX(${state.translateX}px)`,
+  width: props.direction === 'vertical' ? '100%' : `${state.width}px`,
+  height: props.direction === 'vertical' ? `${state.height}px` : '100%',
+  transform:
+    props.direction === 'vertical'
+      ? `translateY(${state.translateY}px)`
+      : `translateX(${state.translateX}px)`,
   display: state.isInit ? 'block' : 'none',
 }))
 

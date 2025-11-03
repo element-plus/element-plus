@@ -9,9 +9,11 @@ import {
   renderSlot,
   watch,
 } from 'vue'
+import { omit } from 'lodash-unified'
 import {
   buildProps,
   definePropType,
+  getEventCode,
   isNumber,
   isString,
   isUndefined,
@@ -23,12 +25,10 @@ import { useNamespace, useOrderedChildren } from '@element-plus/hooks'
 import { tabsRootContextKey } from './constants'
 import TabNav from './tab-nav'
 
-import type { TabNavInstance } from './tab-nav'
-import type { TabsPaneContext } from './constants'
-import type { ExtractPropTypes, FunctionalComponent, VNode } from 'vue'
+import type { ExtractPropTypes, VNode, __ExtractPublicPropTypes } from 'vue'
 import type { Awaitable } from '@element-plus/utils'
-
-export type TabPaneName = string | number
+import type { TabNavInstance } from './tab-nav'
+import type { TabPaneName, TabsPaneContext } from './constants'
 
 export const tabsProps = buildProps({
   /**
@@ -78,8 +78,16 @@ export const tabsProps = buildProps({
    * @description whether width of tab automatically fits its container
    */
   stretch: Boolean,
+  /**
+   * @description tabs tabindex
+   */
+  tabindex: {
+    type: [String, Number],
+    default: 0,
+  },
 } as const)
 export type TabsProps = ExtractPropTypes<typeof tabsProps>
+export type TabsPropsPublic = __ExtractPublicPropTypes<typeof tabsProps>
 
 const isPaneName = (value: unknown): value is string | number =>
   isString(value) || isNumber(value)
@@ -112,8 +120,9 @@ const Tabs = defineComponent({
 
     const {
       children: panes,
-      addChild: sortPane,
+      addChild: registerPane,
       removeChild: unregisterPane,
+      ChildrenSorter: PanesSorter,
     } = useOrderedChildren<TabsPaneContext>(getCurrentInstance()!, 'ElTabPane')
 
     const nav$ = ref<TabNavInstance>()
@@ -124,8 +133,19 @@ const Tabs = defineComponent({
       if (currentName.value === value || isUndefined(value)) return
 
       try {
-        const canLeave = await props.beforeLeave?.(value, currentName.value)
+        let canLeave
+        if (props.beforeLeave) {
+          const result = props.beforeLeave(value, currentName.value)
+          canLeave = result instanceof Promise ? await result : result
+        } else {
+          canLeave = true
+        }
+
         if (canLeave !== false) {
+          const isFocusInsidePane = panes.value
+            .find((item) => item.paneName === currentName.value)
+            ?.isFocusInsidePane()
+
           currentName.value = value
           if (trigger) {
             emit(UPDATE_MODEL_EVENT, value)
@@ -133,6 +153,9 @@ const Tabs = defineComponent({
           }
 
           nav$.value?.removeFocus?.()
+          if (isFocusInsidePane) {
+            nav$.value?.focusActiveTab()
+          }
         }
       } catch {}
     }
@@ -143,8 +166,8 @@ const Tabs = defineComponent({
       event: Event
     ) => {
       if (tab.props.disabled) return
-      setCurrentName(tabName, true)
       emit('tabClick', tab, event)
+      setCurrentName(tabName, true)
     }
 
     const handleTabRemove = (pane: TabsPaneContext, ev: Event) => {
@@ -157,6 +180,28 @@ const Tabs = defineComponent({
     const handleTabAdd = () => {
       emit('edit', undefined, 'add')
       emit('tabAdd')
+    }
+
+    const handleKeydown = (event: KeyboardEvent) => {
+      const code = getEventCode(event)
+      if ([EVENT_CODE.enter, EVENT_CODE.numpadEnter].includes(code))
+        handleTabAdd()
+    }
+
+    const swapChildren = (
+      vnode: VNode & {
+        el: HTMLDivElement
+        children: VNode<HTMLDivElement>[]
+      }
+    ) => {
+      const actualFirstChild = vnode.el.firstChild!
+      const firstChild = ['bottom', 'right'].includes(props.tabPosition)
+        ? vnode.children[0].el!
+        : vnode.children[1].el!
+
+      if (actualFirstChild !== firstChild) {
+        actualFirstChild.before(firstChild)
+      }
     }
 
     watch(
@@ -172,21 +217,18 @@ const Tabs = defineComponent({
     provide(tabsRootContextKey, {
       props,
       currentName,
-      registerPane: (pane: TabsPaneContext) => {
-        panes.value.push(pane)
-      },
-      sortPane,
+      registerPane,
       unregisterPane,
+      nav$,
     })
 
     expose({
       currentName,
+      get tabNavRef() {
+        return omit(nav$.value, ['scheduleRender'])
+      },
     })
-    const TabNavRenderer: FunctionalComponent<{ render: () => VNode }> = ({
-      render,
-    }) => {
-      return render()
-    }
+
     return () => {
       const addSlot = slots['add-icon']
       const newButton =
@@ -196,11 +238,9 @@ const Tabs = defineComponent({
               ns.e('new-tab'),
               isVertical.value && ns.e('new-tab-vertical'),
             ]}
-            tabindex="0"
+            tabindex={props.tabindex}
             onClick={handleTabAdd}
-            onKeydown={(ev: KeyboardEvent) => {
-              if (ev.code === EVENT_CODE.enter) handleTabAdd()
-            }}
+            onKeydown={handleKeydown}
           >
             {addSlot ? (
               renderSlot(slots, 'add-icon')
@@ -212,6 +252,19 @@ const Tabs = defineComponent({
           </div>
         ) : null
 
+      const tabNav = () => (
+        <TabNav
+          ref={nav$}
+          currentName={currentName.value}
+          editable={props.editable}
+          type={props.type}
+          panes={panes.value}
+          stretch={props.stretch}
+          onTabClick={handleTabClick}
+          onTabRemove={handleTabRemove}
+        />
+      )
+
       const header = (
         <div
           class={[
@@ -220,25 +273,10 @@ const Tabs = defineComponent({
             ns.is(props.tabPosition),
           ]}
         >
-          <TabNavRenderer
-            render={() => {
-              const hasLabelSlot = panes.value.some((pane) => pane.slots.label)
-              return createVNode(
-                TabNav,
-                {
-                  ref: nav$,
-                  currentName: currentName.value,
-                  editable: props.editable,
-                  type: props.type,
-                  panes: panes.value,
-                  stretch: props.stretch,
-                  onTabClick: handleTabClick,
-                  onTabRemove: handleTabRemove,
-                },
-                { $stable: !hasLabelSlot }
-              )
-            }}
-          />
+          {createVNode(PanesSorter, null, {
+            default: tabNav,
+            $stable: true,
+          })}
           {newButton}
         </div>
       )
@@ -257,6 +295,9 @@ const Tabs = defineComponent({
               [ns.m('border-card')]: props.type === 'border-card',
             },
           ]}
+          // @ts-ignore
+          onVnodeMounted={swapChildren}
+          onVnodeUpdated={swapChildren}
         >
           {panels}
           {header}
@@ -268,6 +309,7 @@ const Tabs = defineComponent({
 
 export type TabsInstance = InstanceType<typeof Tabs> & {
   currentName: TabPaneName
+  tabNavRef: TabNavInstance | undefined
 }
 
 export default Tabs

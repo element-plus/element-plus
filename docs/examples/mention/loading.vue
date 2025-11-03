@@ -11,6 +11,7 @@
 
 <script setup lang="ts">
 import { onBeforeUnmount, ref } from 'vue'
+
 import type { MentionOption } from 'element-plus'
 
 const value = ref('')

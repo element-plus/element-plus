@@ -14,13 +14,15 @@ import { rAF } from '@element-plus/test-utils/tick'
 import Input from '@element-plus/components/input'
 import Form from '../src/form.vue'
 import FormItem from '../src/form-item.vue'
-import DynamicFormItem from '../mocks/mock-data'
+import DynamicFormItem from './mock-data'
 
 import type { VueWrapper } from '@vue/test-utils'
 import type { MockInstance } from 'vitest'
 import type { InputInstance } from '@element-plus/components/input'
 
 type FormItemInstance = InstanceType<typeof FormItem>
+
+const AXIOM = 'Rem is the best girl'
 
 describe('ElFormItem', () => {
   let wrapper: VueWrapper<InstanceType<typeof DynamicFormItem>>
@@ -133,6 +135,43 @@ describe('ElFormItem', () => {
     })
   })
 
+  it('form-item label for', async () => {
+    const wrapper = mount({
+      setup() {
+        const form = reactive({
+          name: '',
+          email: '',
+          address: '',
+        })
+
+        return () => (
+          <div>
+            <Form model={form}>
+              <FormItem label="name">
+                <Input v-model={form.name} />
+              </FormItem>
+              <FormItem label="email" for="">
+                <Input v-model={form.email} />
+              </FormItem>
+              <FormItem label="address" for="address">
+                <Input v-model={form.address} />
+              </FormItem>
+            </Form>
+          </div>
+        )
+      },
+    })
+
+    await nextTick()
+    const [name, email, address] = wrapper
+      .findAll('.el-form-item__label')
+      .map((el) => el.element.tagName.toLowerCase())
+
+    expect(name).toBe('label')
+    expect(email).toBe('div')
+    expect(address).toBe('label')
+  })
+
   it('form-item label position', () => {
     const wrapper = mount({
       setup() {
@@ -167,5 +206,30 @@ describe('ElFormItem', () => {
     expect(wrapper.findComponent({ ref: 'labelRight' }).classes()).toContain(
       'el-form-item--label-right'
     )
+  })
+
+  it('should successfully toggle the label slot dynamically', async () => {
+    const showLabel = ref(false)
+    const wrapper = mount({
+      setup() {
+        return () => (
+          <Form>
+            <FormItem
+              v-slots={
+                showLabel.value && {
+                  label: () => AXIOM,
+                }
+              }
+            />
+          </Form>
+        )
+      },
+    })
+    expect(wrapper.find('.el-form-item__label').exists()).toBe(false)
+    showLabel.value = true
+    await nextTick()
+    const labelSlot = wrapper.find('.el-form-item__label')
+    expect(labelSlot.exists()).toBe(true)
+    expect(labelSlot.text()).toBe(AXIOM)
   })
 })

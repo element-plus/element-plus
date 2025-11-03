@@ -3,6 +3,7 @@ import { nextTick, ref, watch } from 'vue'
 import { isDark, toggleDark } from '../../composables/dark'
 import DarkIcon from '../icons/dark.vue'
 import LightIcon from '../icons/light.vue'
+
 import type { SwitchInstance } from 'element-plus'
 
 defineOptions({ inheritAttrs: false })
@@ -11,9 +12,18 @@ const darkMode = ref(isDark.value)
 const switchRef = ref<SwitchInstance>()
 
 watch(
+  () => isDark.value,
+  (newVal) => {
+    darkMode.value = newVal
+  }
+)
+
+watch(
   () => darkMode.value,
-  () => {
-    toggleDark()
+  (newVal) => {
+    if (newVal !== isDark.value) {
+      toggleDark()
+    }
   }
 )
 
@@ -37,6 +47,12 @@ const beforeChange = () => {
       Math.max(x, innerWidth - x),
       Math.max(y, innerHeight - y)
     )
+
+    const ratioX = (100 * x) / innerWidth
+    const ratioY = (100 * y) / innerHeight
+    const referR = Math.hypot(innerWidth, innerHeight) / Math.SQRT2
+    const ratioR = (100 * endRadius) / referR
+
     // @ts-expect-error: Transition API
     const transition = document.startViewTransition(async () => {
       resolve(true)
@@ -44,8 +60,8 @@ const beforeChange = () => {
     })
     transition.ready.then(() => {
       const clipPath = [
-        `circle(0px at ${x}px ${y}px)`,
-        `circle(${endRadius}px at ${x}px ${y}px)`,
+        `circle(0% at ${ratioX}% ${ratioY}%)`,
+        `circle(${ratioR}% at ${ratioX}% ${ratioY}%)`,
       ]
       document.documentElement.animate(
         {
@@ -54,6 +70,7 @@ const beforeChange = () => {
         {
           duration: 400,
           easing: 'ease-in',
+          fill: 'both',
           pseudoElement: isDark.value
             ? '::view-transition-old(root)'
             : '::view-transition-new(root)',

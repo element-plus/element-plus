@@ -6,7 +6,9 @@
       ns.is('drag', drag),
       ns.is('disabled', disabled),
     ]"
-    :tabindex="disabled ? '-1' : '0'"
+    :tabindex="disabled ? undefined : 0"
+    :aria-disabled="disabled"
+    role="button"
     @click="handleClick"
     @keydown.self.enter.space="handleKeydown"
   >
@@ -41,8 +43,8 @@ import { useFormDisabled } from '@element-plus/components/form'
 import UploadDragger from './upload-dragger.vue'
 import { uploadContentProps } from './upload-content'
 import { genFileId } from './upload'
-import type { UploadContentProps } from './upload-content'
 
+import type { UploadContentProps } from './upload-content'
 import type {
   UploadFile,
   UploadHooks,

@@ -9,6 +9,14 @@ export default {
       clear: 'إزالة',
       defaultLabel: 'إختر اللون',
       description: 'اللون الحالي هو {color}. اضفط انتر لاختيار لون جديد',
+      alphaLabel: 'pick alpha value', // to be translated
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
+      svLabel: 'pick saturation and brightness value', // to be translated
+      svDescription:
+        'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
+      predefineDescription: 'select {value} as the color', // to be translated
     },
     datepicker: {
       now: 'الآن',
@@ -20,6 +28,7 @@ export default {
         'استخدم مفاتيح الاسهم و اضغط انتر لاختيار اليوم المراد من الشهر',
       monthTablePrompt: 'استخدم مفاتيح الاسهم واضغط انتر لاختيار الشهر',
       yearTablePrompt: 'استخدم مفاتيح الاسهم واضغط انتر لاختيار السنة',
+      selectedDate: 'Selected date', // to be translated
       selectDate: 'إختر التاريخ',
       selectTime: 'إختر الوقت',
       startDate: 'تاريخ البدء',
@@ -43,7 +52,6 @@ export default {
       month10: 'أكتوبر',
       month11: 'نوفمبر',
       month12: 'ديسمبر',
-      week: 'أسبوع',
       weeks: {
         sun: 'الأحد',
         mon: 'الأثنين',
@@ -52,6 +60,15 @@ export default {
         thu: 'الخميس',
         fri: 'الجمعة',
         sat: 'السبت',
+      },
+      weeksFull: {
+        sun: 'Sunday', // to be translated
+        mon: 'Monday', // to be translated
+        tue: 'Tuesday', // to be translated
+        wed: 'Wednesday', // to be translated
+        thu: 'Thursday', // to be translated
+        fri: 'Friday', // to be translated
+        sat: 'Saturday', // to be translated
       },
       months: {
         jan: 'يناير',
@@ -101,6 +118,8 @@ export default {
       currentPage: 'صفحة رقم {pager}',
       prevPages: 'صفحات {pager} السابقة',
       nextPages: 'صفحات {pager} التالية',
+      deprecationWarning:
+        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
     },
     dialog: {
       close: 'أغلق هذا التبويب',
@@ -132,6 +151,12 @@ export default {
       resetFilter: 'حذف',
       clearFilter: 'الكل',
       sumText: 'المجموع',
+    },
+    tour: {
+      next: 'Next', // to be translated
+      previous: 'Previous', // to be translated
+      finish: 'Finish', // to be translated
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'لايوجد بيانات',

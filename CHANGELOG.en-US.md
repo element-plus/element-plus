@@ -1,5 +1,999 @@
 ## Changelog
 
+
+### 2.11.7
+
+_2025-11-01_
+
+
+### 2.11.6
+
+_2025-10-31_
+
+#### Features
+
+- Components [drawer] add support for `modal-penetrable` prop (#22498 by @Lensiq)
+- Components [color-picker-panel] sv-panel a11y (#22470 by @tolking)
+- Components [color-picker-panel] add validateEvent prop (#22522 by @tolking)
+- Components [select/select-v2] support debounce prop (#22471 by @keeplearning66)
+- Components [color-picker-panel] predefine a11y (#22527 by @tolking)
+- Components [select] support home and end key events (#22446 by @snowbitx)
+- Components [tabs] add `tabindex` prop (#22624 by @btea)
+
+#### Bug fixes
+
+- Components [date-picker-panel] value-on-clear takes effect on monthrange and yearrange (#22507 by @keeplearning66)
+- Components [select-v2] use correct labelKey in selectedLabel (#22516 by @rzzf)
+- Components [select-v2] avoid displaying 'false' incorrectly during remote search (#22495 by @keeplearning66)
+- Theme-chalk [cascader] cursor style issue in filterable (#22518 by @123outsider)
+- Components [tree-v2] call `collapseNode/expandNode` `expand/collapse` icon status error (#22205 by @jevin98)
+- Components [select] should not affect global config (#22544 by @btea)
+- Components [input-tag] keyboard handling should occur on keydown (#22486 by @xiaocainiao633)
+- Components [tree] optimize tree-select empty detection (#22302 by @xingyixiang)
+- Components [select] prevent duplicate option registration (#22541 by @Lensiq)
+- Components [input] quickly click the icon and the cursor position is displayed incorrectly (#22563 by @btea)
+- Components [tooltip] content hover works with array trigger (#22551 by @Lensiq)
+- Components [date-picker-panel] wrong style when use showWeekNumber (#22559 by @keeplearning66)
+- Components [select] scrolling is not triggered when the option value is zero (#22578 by @rzzf)
+- Components [pagination] avoid override button styles in slots (#22570 by @rzzf)
+- Components [date-picker] time list sync with input change (#22589 by @Dsaquel)
+- Directives fix memory leak in v-mousewheel directive (#20781 by @cylgdzz111)
+- Components avoid capturing focus when disabled (#22616 by @tolking)
+- Hooks [use-lockscreen] fix lock-scroll not working (#19711 by @wjp980108)
+
+#### Refactors
+
+- Components [tree] improve emit to get type hints (#22526 by @rzzf)
+
+### 2.11.5
+
+_2025-10-17_
+
+#### Features
+
+- Components [watermark] add `fontGap` prop (#22342 by @suqingyao)
+- Components [mention/menu/dropdown/pagination] add popper-style (#22278 by @keeplearning66)
+- Components [cascader] `lazyLoad` support reject (#22283 by @btea)
+- Components [radio-group] support options with el-radio-button (#22285 by @snowbitx)
+- Components [checkbox-group] support options el-checkbox-button (#22377 by @snowbitx)
+- Components [autocomplete] support home and end key events (#22324 by @snowbitx)
+- Components [color-picker-panel] hue-slider a11y (#22258 by @tolking)
+- Components [input] add `modelModifiers` prop (#22415 by @cszhjh)
+- Components [input] add `word-limit-position` attributes (#22359 by @FrontEndDog)
+
+#### Bug fixes
+
+- Components [select] fix label not show when persistent is false (#22317 by @kooriookami)
+- Components [popconfirm] unable to capture focus (#22310 by @tolking)
+- Components [date-picker] allow plain array for modelValue (#22140 by @Dsaquel)
+- Components [date-picker] display value error when persistent:false (#22356 by @tolking)
+- Components [tooltip] close tooltip when cliking iframe (#22345 by @Dsaquel)
+- Components [form-item] dynamically toggle form item slot (#22344 by @Dsaquel)
+- Components [table] make resizable prop reactive (#22340 by @keeplearning66)
+- Components [checkbox-group/radio-group] avoid passing alias fields to component (#22346 by @cszhjh)
+- Translation document path splicing error (#22364 by @FrontEndDog)
+- Components [tree] correct drop indicator with tree scroll offset (#21947 by @scvzerng)
+- Components [date-picker] supplement type for DatePickerInstance (#22387 by @keeplearning66)
+- Components [input-number] arrow key repeat and disabled-scientific not working (#22382 by @cszhjh)
+- Components [slider] support uneven step sizes (#22401 by @cszhjh)
+- Components [time-picker] always take old value on cancel (#22414 by @Dsaquel)
+- Components [select] loading appears on first click when remote (#22323 by @keeplearning66)
+- Components [cascader] issue with expanding levels during search (#21686 by @keeplearning66)
+- Use @eslint/markdown instead of eslint-plugin-markdown (#22434 by @FrontEndDog)
+- Directives [vRepeatClick] remove event listener during unmounted (#22439 by @tolking)
+- Components [upload] Invalid CSS variable (#22366 by @FrontEndDog)
+- Components [message] use correct namespace for lockscreen (#22465 by @Lensiq)
+- Components [DatePickerPanel] button offset when using unocss (#22449 by @FrontEndDog)
+- Components [cascader/autocomplete] make debounce prop reactive (#22477 by @keeplearning66)
+- Components [input-number] fix step-strictly precision (#14359 by @cc-hearts)
+- Components [color-picker] the panel does not capture focus (#22483 by @tolking)
+
+#### Refactors
+
+- Components replace props.options with options (#22330 by @cszhjh)
+- Components [switch] use shallowRef and remove redundant usage (#22347 by @snowbitx)
+- Style Update Eslint to V9 and Prettier to V3 (#21949 by @FrontEndDog)
+- Components [date-picker] externalize formatToString (#22349 by @Dsaquel)
+- Components remove unnecessary 'props.' in the template (#22381 by @keeplearning66)
+- Components [dropdown] trigger flow for dropdown menu (#22332 by @tolking)
+
+### 2.11.4
+
+_2025-09-26_
+
+#### Features
+
+- Components [color-picker] add validation on blur event (#22247 by @tolking)
+- Components [autocomplete/time-select/color-picker] add popper-style (#22263 by @keeplearning66)
+- Components [date-picker] add `automatic-dropdown` prop (#21764 by @btea)
+- Components [autocomplete] add `loopNavigation` attributes (#22281 by @cszhjh)
+- Components [select-v2] accessibility enhancement (#22153 by @tolking)
+
+#### Bug fixes
+
+- Components [color-picker-panel] display error when clear the color (#22260 by @tolking)
+- The KeyboardEvent.code is always empty string on Android (#22228 by @tolking)
+- Components [loading] add missing `context` param (#22262 by @cszhjh)
+- Components [loading] allow `setText` to accept VNode type (#22264 by @cszhjh)
+- Components [cascader] resolve `visibleChange` not triggered on Popper hide (#22206 by @cszhjh)
+- Components replace KeyboardEvent.code with getEventCode (#22268 by @cszhjh)
+- Components [color-picker] incorrect thumb offset (#22266 by @Dsaquel)
+- Improvement(components):  trigger `enter` open tooltip (#19830 by @warmthsea)
+- Style(theme-chalk): same height across pickers for range date pickers (#22277 by @Dsaquel)
+- Style(components): [message] fix container width adaptation (#22308 by @cszhjh)
+
+#### Refactors
+
+- Components [cascader] externalize tooltip tag from v-for (#22191 by @Dsaquel)
+- Components unify BEM & CSS vars via helpers (#22226 by @cszhjh)
+- Remove `tooltip-v2` `visual-hidden` components (#22252 by @warmthsea)
+- Remove unused code related to tooltip-v2 (#22304 by @Dsaquel)
+
+### 2.11.3
+
+_2025-09-19_
+
+#### Features
+
+- Components [input-tag] add drag-tag event (#22038 by @ll-huihui)
+- Components [dropdown] add `virtual-ref / virtual-triggering / show-arrow` props (#22056 by @cszhjh)
+- Components [tabs] support scrolling via mouse wheel (#22024 by @cszhjh)
+- Components [mention] support props prop (#21980 by @keeplearning66)
+- Components [select/v2] avoid unnecessary model updates when value unchanged (#20123 by @DDDDD12138)
+- Components [tree-select] expose `treeRef` & `selectRef` instances (#22147 by @Dsaquel)
+- Components [image-viewer] add `initial-scale` prop (#22071 by @catanswer)
+- Components [image-viewer] add `error` slot (#21961 by @zzjiaxiang)
+
+#### Bug fixes
+
+- Components [date-picker]: use array modelValue `datetime` type debacle (#22033 by @warmthsea)
+- Components [table] fix table display error in stripe mode (#22022 by @micaiguai)
+- Components [alert] show immediately when `showAfter` not needed (#22028 by @cszhjh)
+- Components [mention] correct cursor position (#22070 by @cszhjh)
+- Components [cascader] response to change in `maxCollapseTags` (#22087 by @btea)
+- Components [splitter] `resize-end` event `sizes` value is not the latest (#22125 by @Bigpawn)
+- Components [date-picker-panel] sync panel with model-value (#22123 by @Dsaquel)
+- Components [tree] correctly determine the drop type of tree node (#21717 by @ben-lau)
+- Components [tour] make path responsive to window size (#22145 by @cszhjh)
+- Components [rate] ensure the logic of mouseleave work (#22060 by @micaiguai)
+- Components [checkbox/radio] add missing style (#22151 by @cszhjh)
+- Components [autocomplete] avoid option selection by enter in IME (#21245 by @cszhjh)
+- Components [dropdown]: hover trigger click item close stuck (#22078 by @warmthsea)
+- Components [date-picker-panel] sync clear value with `valueOnClear` (#22059 by @micaiguai)
+- Components [date-picker] keyboard navigation (#22192 by @Dsaquel)
+- Components [tabs] give priority to the `closable` prop of tab-pane (#22187 by @cszhjh)
+- Style(theme-chalk): fix el-step padding-right in vertical layout (#22141 by @duyidao)
+
+#### Refactors
+
+- Components [checkout] reduce repetitive code in templates (#22072 by @lxKylin)
+- Components [checkbox] reduce repetitive code in templates (#22094 by @lxKylin)
+- Components [autocomplete] remove `any` type (#22127 by @cszhjh)
+
+### 2.11.2
+
+_2025-09-05_
+
+#### Features
+
+- Components [select/v2] add index to label slot (#21884 by @Dsaquel)
+- Components [tour] add close locale (#21934 by @thinkasany)
+- Components [container] add validation for the direction prop (#16734 by @chenyuqiua)
+- Components [checkbox-group] support options (#21545 by @snowbitx)
+- Components [popConfirm] support effect (#21965 by @thinkasany)
+- Components [rate] accessibility enhancement (#22013 by @tolking)
+- Components [popConfirm] add `close-on-press-escape` prop (#21981 by @thinkasany)
+- Components [tooltip] add `focus-on-target` prop (#21905 by @tolking)
+- Components [loading] export `LoadingInstance` (#22027 by @jevin98)
+- Components [radio-group] support options prop rendering (#21543 by @snowbitx)
+
+#### Bug fixes
+
+- Components [cascader-panel] enable node selection in hover mode (#21878 by @DDDDD12138)
+- Components [cascader] keep panel open on checkOnClickNode (#21831 by @oooah)
+- Components [cascader] allow object type in modelValue (#21880 by @Dsaquel)
+- Components [input-tag] add missing Tooltip style (#21887 by @cszhjh)
+- Components [date-picker-panel] remove duplicate panels on inner date input change (#21888 by @Dsaquel)
+- Components [splitter] keep panel size when container size is 0 (#21893 by @cszhjh)
+- Components [tree-v2] icon display is abnormal when expanding nodes (#21506 by @keeplearning66)
+- Components [textarea] fix `autosize` in Splitter (#21840 by @cszhjh)
+- Components [notification] correctly read the first offset (#21904 by @cszhjh)
+- Components [select/v2] width of drop-down panel exceeds the input (#21910 by @FrontEndDog)
+- Components [form] inline-message of form-item defaults to undefined (#21944 by @keeplearning66)
+- Components [onlyChild] no warning when there are multiple child (#21958 by @tolking)
+- Components [popper] unable to capture focus event (#21908 by @tolking)
+- Components [popover] empty node execution error (#21991 by @LasyIsLazy)
+- Components [table-v2] add missing `LEFT` member in Alignment (#22010 by @Dsaquel)
+- Components [loading] accept type VNode for text property (#22025 by @Dsaquel)
+- Components [focus-trap] destory el ref (#21916 by @btea)
+- Components [time-picker] range type add id automatically (#21746 by @catanswer)
+- Components [autocomplete] type declaration error (#15261 by @betavs)
+- Circular deps cause build size increase (#22051 by @warmthsea)
+
+#### Refactors
+
+- Components [drawer] improve slot template (#21906 by @thinkasany)
+- Components [cascader] adjust the ts type (#21963 by @lxKylin)
+- Components [cascader] adjust the ts type (#21966 by @thinkasany)
+- Components improve tooltip type (#21999 by @thinkasany)
+- Components [tabs] extract logical reuse (#22006 by @lxKylin)
+- Components [splitter] disabled class and style (#22001 by @thinkasany)
+- Components [drawer] resizable (#21932 by @warmthsea)
+- Components [date-picker-panel] emit after input instead of watch (#21899 by @a92126)
+- Components [menu] optimize condition judgment (#22020 by @lxKylin)
+
+### 2.11.1
+
+_2025-08-23_
+
+#### Bug fixes
+
+- Components scrollbar fix thumb size calculation error (#21849 by @micaiguai)
+- Components [color-picker] fix color-picker-panel style path (#21867 by @cszhjh)
+
+### 2.11.0
+
+_2025-08-22_
+
+#### Features
+
+- Components [tour] support keyboard switching steps (#21766 by @thinkasany)
+- Components [select] add support for option groups in `options` (#21692 by @cszhjh)
+- Components add custom clear icon (#21699 by @a869246700)
+- Components add isDragging to useDraggable for dialog/message-box (#21703 by @zhixiaotong)
+- Components [splitter] add `lazy` prop (#21730 by @cszhjh)
+- Components [drawer] add `resizable` prop (#21608 by @cszhjh)
+- Components unify clear btn display on focus (#21732 by @Dsaquel)
+- Components [date-picker-panel] externalize `date-picker` core component (#21331 by @Dsaquel)
+- Components [config-provider/button] add text prop (#21806 by @Dsaquel)
+- Components [message] add `placement` option & method (#21747 by @zhixiaotong)
+- Components [cascader/select/date-picker] add popper-style (#21807 by @Dsaquel)
+- Components [input-tag] add `collapse-*` prop (#21477 by @eighty-cents)
+- Components [color-picker-panel] externalize `color-picker` core component (#21668 by @Dsaquel)
+
+#### Bug fixes
+
+- Components [carousel] special case `activeIndex` is inaccurate (#21736 by @jevin98)
+- Components [splitter] `collapsible` does not take effect dynamically (#21742 by @thinkasany)
+- Components [cascader-panel] ensure set null after clear (#21652 by @snowbitx)
+- Components [menu] skip comment nodes in ellipsis (#21751 by @cszhjh)
+- Components [cascader] issue when lazy loading returns leaf nodes (#21414 by @keeplearning66)
+- Components [splitter] collapse works with two-way size and min & max (#21738 by @cszhjh)
+- Components [segmented] wrap options item slot to any (#21794 by @Dsaquel)
+- Components [steps] dynamic status step exception (#21753 by @dhj-l)
+- Components [cascader] correctly handle focus and blur events (#21510 by @cszhjh)
+- Components [input] add `work-break` to `CONTEXT_STYLE` (#21809 by @Dsaquel)
+- Components [slider] correctly reset sliderSize (#21812 by @cszhjh)
+- Components [radio-group] prop-value cause ivalidate loop (#21814 by @cactuser-Lu)
+- Components [table] make root `show-overflow-tooltip` dynamic (#21823 by @Dsaquel)
+- Components [table] show-overflow-tooltip dynamic switch (#21811 by @dhj-l)
+- Build  path compatible with Windows platform (#21423 by @Monday1997)
+- Components [cascader] treat `tagTooltipRef` as array (#21826 by @Dsaquel)
+- Components [date-picker] add missing data slot (#19839 by @Dsaquel)
+- Components [select & select-v2] avoid line break when input is empty (#21844 by @micaiguai)
+- Components [color-picker-panel] sync bg-color with date-picker-panel (#21859 by @Dsaquel)
+
+#### Refactors
+
+- Components export `TreeV2Instance` & optimize type usage (#21718 by @zhixiaotong)
+- Components [cascader-panel] unify click node (#21796 by @Dsaquel)
+
+### 2.10.7
+
+_2025-08-12_
+
+#### Features
+
+- Project organize dependencies properly (#21683 by @jw-foss)
+- Components [config-provider] support `dialog` config (#21684 by @zhixiaotong)
+- Components [popconfirm] expose hide function and popperRef (#21681 by @catanswer)
+
+#### Bug fixes
+
+- Components [input] correct textarea height in fullscreen (#21656 by @cszhjh)
+- Components [select] click outside should lose focus (#21702 by @tolking)
+- Components [date-picker] ensure reset visibility on picker range (#21691 by @Dsaquel)
+- Components [scrollbar] resize according to container size (#21694 by @snowbitx)
+
+### 2.10.6
+
+_2025-08-08_
+
+#### Features
+
+- Components [autocomplete] add header and footer slot (#21594 by @catanswer)
+
+#### Bug fixes
+
+- Components [select-v2] stop the click event propagation of `header/footer` slot (#21617 by @btea)
+- Components [splitter] provide `layout` should be reactive (#21607 by @cszhjh)
+- Components [image] support lazy inside transformed containers (#21573 by @cszhjh)
+- Components [date-picker] keep datetimerange close on value change (#21625 by @Dsaquel)
+- Components [watermark] resolve text clipping caused by textAlign (#21639 by @cszhjh)
+- Components [table] render default slot only when it returns valid vnodes (#21651 by @makedopamine)
+
+#### Refactors
+
+- Components [tour] improve code style (#21586 by @thinkasany)
+- Components [tour] improve TourContext type (#21605 by @thinkasany)
+- Components [message-box] remove duplicates conditional (#21634 by @thinkasany)
+
+### 2.10.5
+
+_2025-08-01_
+
+#### Features
+
+- Components [notification] support updateOffsets command (#21300 by @cszhjh)
+- Components [input-number] add align prop (#21291 by @snowbitx)
+- Components [color-picker] add `persistent` and `append-to` prop (#21393 by @btea)
+- Components [input-number] add `disabled-scientific` prop (#21319 by @snowbitx)
+- Components [cascader] add `checkOnClickNode` and `prefix` prop (#21089 by @snowbitx)
+- Components [scrollbar] add `distance` prop (#21261 by @btea)
+- Components [dialog] add `transition` prop (#21479 by @zhixiaotong)
+- Components [cascader] add header and footer slot (#21486 by @cszhjh)
+- Components [cascader] add `show-checked-strategy` prop (#16922 by @nigiwen)
+- Components [cascader] add `effect` prop (#21507 by @cszhjh)
+- Components [date-picker] add `show-footer` prop
+- Components [config-provider] support `card` config (#21483 by @Dsaquel)
+- Components [select] support options prop rendering (#21203 by @snowbitx)
+- Components [dialog] add `modal-penetrable` prop (#21511 by @cszhjh)
+- Components [cascader] add `check-on-click-leaf` attribute (#21508 by @Dsaquel)
+- Feat(components): [table] support native scrollbar (#21539 by @btnkr)
+
+#### Bug fixes
+
+- Components [tooltip] avoid repeated onBeforeEnter execution (#20983 by @cszhjh)
+- Components [option] delete newly created option (#21324 by @snowbitx)
+- Components [checkbox-group] dynamic prop-value cause ivalidate loop (#21309 by @neostfox)
+- Components [form] avoid reset manual errors (#21368 by @snowbitx)
+- Components [segmented]  fix label item width render (#21379 by @jeff-fe)
+- Components [cascader] dynamic options render error (#21405 by @btea)
+- Components [select-v2] resolve invalid filter and remote methods (#21419 by @cszhjh)
+- Components [pagination] reset icon hover state when page changes (#21371 by @cszhjh)
+- Components [tree] keyboard nav broken after filter/collapse (#21377 by @SpanManX)
+- Components [splitter] ensure `cacheCollapsedSize` is set (#21259 by @cszhjh)
+- Components [time-select] fix typos (#21452 by @thinkasany)
+- Components [table] fix absence of theadRef bug (#21454 by @realainov)
+- Components prevent prefix and suffix operations in disabled state (#21461 by @dhj-l)
+- Components [select] prevent prefix and suffix in disabled state (#21467 by @thinkasany)
+- Components [form] maximum recursive updates exceeded (#21391 by @xingyixiang)
+- Components [time-picker] fix keyboard arrow controls (#21215 by @dhj-l)
+- Components [menu] hide arrow right padding incorrect (#21292 by @Meet-student)
+- Components [dropdown] prevent unexpected scrolling on hovering (#20518 by @ydkdev)
+- Components [table-v2] keep hover state after expanded (#21472 by @cszhjh)
+- Components [table] revert 20210 (#21482 by @btea)
+- Components [scrollbar] wrap resize scroll distance state change (#21491 by @btea)
+- Components [table] avoid width calculation errors caused by hidden (#21492 by @cszhjh)
+- Theme-chalk [tabs]: include border-top in nav height (#21008 by @codingories)
+- Components [date-time-picker] emit `update:model-value` when two dates reached
+- Components [tree]: fix dynamic binding `defaultCheckedKeys` trigger rerender (#21503 by @SpanManX)
+- Components [select-v2] set model-value default to undefined (#21540 by @Dsaquel)
+- Components [input-number] dynamic precision render value (#21558 by @btea)
+- Components [select-v2] avoid abnormal display of new options (#21538 by @keeplearning66)
+- Components [select] ResizeObserver loop completed with undelivered notifications (#21559 by @btea)
+- Components [tree] `up/down` keys stop working after expanding nodes (#21526 by @SpanManX)
+- Components allow null type on empty-values components (#21582 by @Dsaquel)
+
+#### Refactors
+
+- Components improve tab Observer name (#21413 by @thinkasany)
+- Components Simplified event handling (#21432 by @thinkasany)
+- Improve nodes type for `getOrderedChildren` hook (#21450 by @thinkasany)
+- Components [scrollbar] Simplifying shouldSkipDirection (#21484 by @thinkasany)
+- Components [timePicker] touch start event (#21458 by @thinkasany)
+- Components [scrollbar] Simplifying updateTriggerStatus (#21485 by @thinkasany)
+- Components [splitter] format class (#21502 by @thinkasany)
+- Components [form] enhance `scrollIntoViewOptions` type (#21552 by @cszhjh)
+- Components [message] use `MessageType` replace `messageType` (#21579 by @thinkasany)
+- Style(theme-chalk): fix focus issue when clicking label blank area (#21388 by @cszhjh)
+- Style(components): [popper] avoid incorrect word wrapping (#21385 by @keeplearning66)
+- Style(theme-chalk): [transfer] inherit checkbox & fix last item margin (#21429 by @cszhjh)
+- Style(components): [tabs] tabs nesting style error (#21412 by @snowbitx)
+- Style(components): [input] prevent slot element width squeeze (#21476 by @keeplearning66)
+- Style(components): remove unused icon class & autocomplete tweaks (#21565 by @Dsaquel)
+
+### 2.10.4
+
+_2025-07-11_
+
+#### Features
+
+- Types [components] add public prop types (#21222 by @yuhengshen)
+- Components [mention] add `whole-remove` event (#21050 by @56jun)
+- Components [input-number] warn when exceeds the safe integer (#19405 by @btea)
+- Components [input-number] change the min and max default value (#21302 by @btea)
+- Components [tree-v2] add `scrollbar-always-on` attribute (#21293 by @Dsaquel)
+
+#### Bug fixes
+
+- Components [affix] correctly updateRoot when fixed (#21094 by @btnkr)
+- Components [tooltip] fix the issue where content is hidden (#21223 by @tenadolanter)
+- Components [input-tag] paste multiple delimiters (#21256 by @Dsaquel)
+- Components [tab-pane] safely access value before schedule render (#21275 by @betavs)
+- Components [select] custom warnHeandler cause memory leak (#21284 by @btea)
+- Components [select-v2] scrollbar resets to top after select item (#21257 by @SpanManX)
+- Components [tabs] correct height calculation in vertical layout (#21263 by @cszhjh)
+- Types [other] cannot find declare module types from installed packages (#21266 by @yuhengshen)
+- Components [cascader] single selection fails (#21317 by @btea)
+
+#### Refactors
+
+- Components improve component boolean type (#21260 by @cszhjh)
+- Docs partially remove typecript errors (#21099 by @Dsaquel)
+
+### 2.10.3
+
+_2025-07-04_
+
+#### Features
+
+- Components [splitter] add collapse event (#21035 by @cszhjh)
+- Components [cascader] add tag slot (#20994 by @snowbitx)
+- Components [input] native inputmode prop for el-input & el-input-number (#14997 by @fratzinger)
+- Components [color-picker] add empty values attributes (#20962 by @Dsaquel)
+- Components [select] expose selectDisabled prop to #tag slot (#21093 by @baozjj)
+- Components [select/select-v2/cascader] expose more tag options (#21157 by @Dsaquel)
+
+#### Bug fixes
+
+- Components [table] tooltip compatibility edge case (#21012 by @btea)
+- Components [upload-dragger] Blink when sliding over sub elements (#21006 by @selicens)
+- Components [tabs] fix nav height for better display (#15600 by @maicss)
+- Components [tabs] match visual order to source order (#21025 by @makedopamine)
+- Components [date-picker] pass showWeekNumber to panel (#21049 by @fratzinger)
+- Components [table] fix children can't be unchecked (#20995 by @xiaohe0601)
+- Locale improve Khmer (km) locale translations (#21069 by @emravoan)
+- Components [table] render tree node (#19247 by @betavs)
+- Components [space] prevent extra spacers after empty templates (#21105 by @zhixiaotong)
+- Components [tree-v2] treeNode add `expanded` and responds to UI (#21066 by @zhixiaotong)
+- Components [color-picker] Improve modelValue prop type (#20880 by @JCL206312)
+- Components [cascader-panel] avoid multiple init invokes (#20892 by @Dsaquel)
+- Components [menu] expose updateActiveIndex type (#21129 by @cszhjh)
+- Components [table] fix the issue where the expand-row-keys property does not support the number type (#20210 by @SpanManX)
+- Components [tree-v2] props defaultExpandedKeys not reactive (#21173 by @scvzerng)
+- Components [form] increase error style priority (#21177 by @btea)
+- Components [anchor] recalculate marker style on slot update (#21180 by @Dsaquel)
+- Components [tabs] focus may still remain in pane when tabs changed (#19433 by @tolking)
+- Components [loading] element-loading-* attributes support reactivity (#15111 by @makedopamine)
+- Components [select/select-v2] apply popper-class to tag tooltip (#21212 by @btea)
+- Components [autocomplete] add placeholder prop type definition (#21206 by @yuhengshen)
+- Components [tabs] update tabs order correctly when reordering (#21064 by @w2xi)
+- Components [tabs] ensure label slot updates (#21231 by @makedopamine)
+
+#### Refactors
+
+- Components [cascader-panel] remove `@ts-nocheck` and optimize code (#20014 by @zzjiaxiang)
+- Components [tree] remove ts-nocheck (#21097 by @Dsaquel)
+- Components [table] compatible with rowKey non-existence (#21134 by @btea)
+- Hooks [useOrderedChildren] sort child components on patch (#21124 by @makedopamine)
+- Components [table] remove `@ts-nocheck` (#21139 by @Dsaquel)
+- Components [table] remove `@ts-nocheck` (#21197 by @Dsaquel)
+- Hooks [useFocusController] add disabled attribute (#21032 by @tolking)
+- Components [table] remove `@ts-nocheck` (#21200 by @Dsaquel)
+- Components [scrollbar] remove ts-nocheck (#21233 by @Dsaquel)
+
+### 2.10.2
+
+_2025-06-13_
+
+#### Features
+
+- Components [cascader]add a props to control tooltip maxHeight (#20933 by @upthen)
+- Components [form] export getField (#20981 by @xingyixiang)
+
+#### Bug fixes
+
+- Components [scrollbar] horizontal scroll drag invalid (#20953 by @btea)
+- Theme-chalk [drawer] replace fixed color with CSS var (#19011 by @tolking)
+- Components [date-picker] getting month dates range error (#20932 by @jyp114110)
+- Components [date-picker] yearrange & unlinkPanels causes panels display error (#17822 by @tolking)
+- Components [tree-select] value label rendering error (#20947 by @btea)
+- Locale update ru.ts (#20972 by @btea)
+- Hooks [use-focus-controller] repeatedly trigger focus when clicked (#17148 by @tolking)
+
+### 2.10.1
+
+_2025-06-07_
+
+#### Bug fixes
+
+- Components [form] the validate function is executed repeatedly (#19345 by @betavs)
+- Components [splitter-panel] the style file path error (#20948 by @tolking)
+
+### 2.10.0
+
+_2025-06-06_
+
+#### Features
+
+- Components [alert] add open and auto-close functionality with delays (#20533 by @betavs)
+- Components [scrollbar] add `end-reached` event (#20812 by @Dsaquel)
+- Components [table-column] add `expand` slot (#20750 by @wjp980108)
+- Components [splitter] new component (#20145 by @Gnalvin)
+
+#### Bug fixes
+
+- [color-picker] Fix invalid color code clearing (#20832 by @zhanghaifeng213)
+- Components [config-provider] provide global config function is invalid for message (#20863 by @betavs)
+- Components [text] the title attribute loses its reactivity (#20875 by @betavs)
+- Components [cascader] scrolling to active node is inaccurate (#20877 by @btea)
+- Components [input-number] clear display content after non-numeric input (#19538 by @DDDDD12138)
+- Components [select-v2] fix `default-first-option` and `allow-create` are not effective together (#20872 by @kooriookami)
+- Components [cascader] placeholder should be blank if pass a empty string (#20896 by @btea)
+- Components [form-item] cannot be set to div tag for rendering (#20608 by @betavs)
+- Components [select] display exception when label is `0` or `""` (#20905 by @YiMo1)
+- Components [dialog] drag into view when content is too high (#20595 by @wNing50)
+- Hooks  [use-focus-controller] form-disabled-status not trigger blur (#20891 by @warmthsea)
+- Components [cascader-panel] check if children label are comments (#20899 by @Dsaquel)
+- Components [dialog] fix dialog zindex should update responsively (#18520 by @wsVIC)
+- Components [space] correctly render comment nodes (#20922 by @btea)
+- Types [menu-item] make `index` attribute required (#19007 by @DDDDD12138)
+- Theme-chalk [radio] update background color for checked state (#19594 by @betavs)
+- Components [space] keep comment nodes (#20930 by @btea)
+- Components [collapse] resolve space key conflict and improve accessibility (#20529 by @rhodi2436)
+
+#### Refactors
+
+- Components [color-picker] Use tinycolor to calculate color (#20847 by @kooriookami)
+- [select, select-v2]: unified name & supplement type (#20050 by @warmthsea)
+- Components [select] modify `manuallyRenderSlots` execute (#20854 by @jeff-fe)
+- Components standardize injection keys (#20616 by @betavs)
+- Components [tooltip-v2] remove `ts-nocheck` comments (#16928 by @warmthsea)
+
+### 2.9.11
+
+_2025-05-23_
+
+#### Features
+
+- Components [date-picker] add quick year and month selection (#19700 by @wjp980108)
+- Components [config-provider] add message plain config (#20723 by @kooriookami)
+- Components [config-provider] support more button config (#20726 by @Dsaquel)
+- Components [collapse] add beforeCollapse prop (#20716 by @Liao-js)
+- Ure: generate-llms.txt for AI Knowledge (#20450 by @yuxuan-ctrl)
+- Components [config-provider] support `link` config (#20773 by @Dsaquel)
+- Components [alert] [result] [message] [message-box] [notification] add primary type (#20782 by @kooriookami)
+- Revert "table expand  #20587 #20715 #20811" (#20834 by @warmthsea)
+
+#### Bug fixes
+
+- Components [table] `default-expand-all` invalid (#20715 by @btea)
+- Components [cascader] safeguard arrow modifier access in popper options (#20732 by @betavs)
+- Components [table-v2] modify the width calculation logic (#19021 by @YiMo1)
+- Components [text] fix properties of null when destroyed (#20751 by @kooriookami)
+- Components [tree-v2] set expanded keys requires multiple nextTick (#20725 by @xingyixiang)
+- Locale missing pagination translation (#20770 by @btea)
+- Components [table] the selection column cannot be displayed when it is not in the first row (#20582 by @qp666)
+- Components [select-v2] fix scroll position when using props (#20788 by @kooriookami)
+- Components [input-number] Improve modelValue prop type (#16124 by @XL-YiBai)
+- Components [select] select value label rendering error (#20769 by @btea)
+- Components [table] update `expand-row-keys` invalid (#20811 by @warmthsea)
+- Components [table-v2] use `keep-alive` position top error (#20813 by @warmthsea)
+- Components [message] message method jump failed (#20818 by @btea)
+- Components [date-time-picker] inherit time across picker views (#20806 by @Dsaquel)
+- Components [cascader-panel] value can be an empty string (#20731 by @betavs)
+- Components [form] `scrollToError` scroll to correct position (#20826 by @btea)
+- Components [image-viewer] dont persist image preview list (#20807 by @Dsaquel)
+- Style(theme-chalk): fix form label style (#20710 by @kooriookami)
+
+#### Refactors
+
+- Components [carousel] simplify the code for motion blur (#20696 by @makedopamine)
+- Delete useless code (#20759 by @IllegalCreed)
+- Components improve alignment type definitions (#20695 by @zhixiaotong)
+- Rename test env (#20816 by @btea)
+
+### 2.9.10
+
+_2025-05-09_
+
+#### Features
+
+- Components [tabs] expose `tabNavRef` and `tabListRef` (#20552 by @xinconan)
+- Components [collapse-item ] enhance `title` slot with `isActive` property (#20613 by @w2xi)
+- Components [popover] `append-to` prop (#20596 by @warmthsea)
+- Components [collapse] add expand icon position customization (#19537 by @zzjiaxiang)
+- Components [tabs] update type and expose tabBarRef (#20670 by @warmthsea)
+
+#### Bug fixes
+
+- Components useProp import circular dep (#20574 by @btea)
+- Components [collapse] avoid direct activeNames changes (#20437 by @kaine0923)
+- Components [image] make `show-progress` prop available (#20590 by @w2xi)
+- Components [date-picker] correct injection key for default format (#20611 by @betavs)
+- Components [table] shrinked  table expanded when modify data (#20587 by @wNing50)
+- Components [tooltip] listen clickoutside after open (#20577 by @Dsaquel)
+- Components [select] update selection width calculation (#20615 by @betavs)
+- Components [date-picker] merge default-value with default-time (#20550 by @Dsaquel)
+- Components [popper] fix arrow overflow issue (#20049 by @xiaowhang)
+- Components [mention] fix missing input emit (#20651 by @kooriookami)
+- Components [loading] inherit app context (#20371 by @Dsaquel)
+- Components [select-v2] label error when multiple and remote (#20668 by @Liao-js)
+- Components [select-v2] tooltipRef maybe undefined (#20688 by @zhixiaotong)
+
+#### Refactors
+
+- Components [form] make exposed `fields` reactive (#20567 by @w2xi)
+
+### 2.9.9
+
+_2025-04-27_
+
+#### Features
+
+- Components [autocomplete] enable `append-to` prop (#20472 by @betavs)
+- Components [link] add control for when underlines should appear (#20480 by @comp-squirrel)
+- Components [input-tag] add delimiter (#20532 by @Dsaquel)
+
+#### Bug fixes
+
+- Components [tree] stop propagating click event to parent node (#20506 by @makedopamine)
+- Components [table-v2] loss of precision causes `endReached` to fail to trigger (#17065 by @YancyZhang30)
+- Components [tree] retain DOM nodes only in their intended scope (#20494 by @makedopamine)
+- Components [tree] enable ellipsis on label (#20496 by @Dsaquel)
+- Components [dialog] fix draggable when window resize (#20505 by @kooriookami)
+- Components [table-v2] `onEndReached` executes multiple times (#20517 by @warmthsea)
+- Components [tooltip] remove some references in time (#20495 by @makedopamine)
+- Locale update french translation for confirm (#20556 by @betavs)
+- Components [mention] the input event is not be triggered when selecting a mention (#20549 by @w2xi)
+- Components [select-v2] fix fit-input-width (#20509 by @kooriookami)
+- Components [tree] filter update scheduling error (#20267 by @a92126)
+
+#### Refactors
+
+- Components unify `append-to` prop type across multiple components (#20501 by @betavs)
+- Components use built-in methods to check for undefined and null (#20537 by @betavs)
+- Components [message] remove inferable return types (#20551 by @w2xi)
+- Style(components): [tooltip] add class name (#20569 by @kooriookami)
+
+### 2.9.8
+
+_2025-04-18_
+
+#### Features
+
+- I18n added Lao (lo) language (#20245 by @Xaypanya)
+- Components [dialog] expose `handleClose` (#20323 by @btea)
+- Components [segmented] add aliases for custom options (#20319 by @kooriookami)
+- Components [popover] add trigger-keys prop for keyboard control of popover display (#20264 by @betavs)
+- Components [image] `progress` slot higher priority (#20353 by @btea)
+- Components [select-v2] add `suffix-icon` prop with default ArrowDown (#20370 by @cn-xufei)
+- Components [card] add `header-class` and `footer-class` for slots (#20408 by @Dsaquel)
+- Components [notification] add `closeIcon` option with default Close (#20402 by @cn-xufei)
+- Components [menu] expose updateActiveIndex (#20430 by @Liao-js)
+
+#### Bug fixes
+
+- Locale update ru.ts (#20225 by @btea)
+- Components [date-picker] config format manual change value invalid (#20223 by @btea)
+- Components [autocomplete] modelValue is null compatible (#20288 by @momei-LJM)
+- Components [select, select-v2] blur validate not executed (#20232 by @HaceraI)
+- Utils nuxt build error (#20325 by @warmthsea)
+- Components [tree] ensure no checked nodes in regular tree (#20311 by @Dsaquel)
+- Components [message] fix consecutive closeAll method calls (#20334 by @DDDDD12138)
+- Components [watermark] content not fully displayed (#20348 by @betavs)
+- Theme-chalk [description] remove useless font-weight declaration (#20338 by @Dsaquel)
+- Components [message-box] `message` overflow `container` (#20347 by @zzjiaxiang)
+- Locale el-upload and el-message-box Unified Chinese prompts (#20366 by @mjsong07)
+- Components [table] prevent child node selection loss during table data modification (#20322 by @comp-squirrel)
+- Components [slider] emit change event on slider marker down (#20383 by @betavs)
+- Components [scrollbar] stop click when click scrollbar (#20316 by @Dsaquel)
+- Components [tabs] ensure correct event order (#20384 by @DDDDD12138)
+- Components [select] import `scrollbarEmits` path error (#20415 by @btea)
+- Component resolve 'cursor' style loss caused by 'pointer-events: none' (#19464 by @DDDDD12138)
+- Components [el-select-v2] u-tag sync with :model-value (#20306 by @stillgg)
+- Components [date-picker] memory leak with vue 3.4+ (#20451 by @makedopamine)
+- Chore(style): [table] remove duplicate defined style code (#20216 by @Putia3)
+- Style(components): [date-picker] adjust panel border block & modify css variables (#20337 by @comp-squirrel)
+#### Refactors
+
+- Components [message] use message type constants (#20355 by @w2xi)
+- Components [message] deprecate the center option (#20296 by @betavs)
+
+### 2.9.7
+
+_2025-03-21_
+
+#### Features
+
+- Components [alert] add `icon` slot (#20034 by @xinconan)
+- Components [table-column]  preserve expanded content (#19899 by @EralChen)
+- Components [image-viewer] export `setActiveItem` in slot (#20190 by @warmthsea)
+- Components [input-tag] add `saveOnBlur` prop (#20158 by @QFifteen)
+
+#### Bug fixes
+
+- Components [select] typed value causes `default-first-option` to fail (#19806 by @noki-maker)
+- Components [affix] scroll event value sync (#20108 by @markbiu)
+- Components [message-box] `ElMessageBoxOptions` type missing `modalClass` (#20135 by @a3660980)
+- Components [upload] drag file add isDirectory attribute (#20012 by @btea)
+- Components [table] the selection column conflicts with setting both `showOverflowTooltip` and `align='center'` styles (#20157 by @webvs2)
+- Components [el-select-v2] use `:model-value` without changes (#20149 by @stillgg)
+- Components [empty] remove static ID attributes from SVG (#19764 by @d--j)
+- Components [time-picker] custom format causes highlight errors (#20161 by @sheepzh)
+- I18n update ms.ts (#20186 by @aliuddinabdrauf)
+- Style(components): [cascader] add collapse-tag margin (#19890 by @wjp980108)
+- Style(components): [select, picker] improve clear-icon hover color (#20127 by @warmthsea)
+
+#### Refactors
+
+- Components [time-select] using built-in constants (#20079 by @cleaverlove)
+- Components [description, input] use the component name constant (#20107 by @FungYuu)
+
+### 2.9.6
+
+_2025-03-07_
+
+#### Features
+
+- Components [tree/tree-select] add `check-on-click-leaf` attribute (#19494 by @Dsaquel)
+
+#### Bug fixes
+
+- Components [select-v2] allow propagation of non-control key events in custom options (#19984 by @DDDDD12138)
+- Components [table] replace pageX with clientX (#19881 by @chengang4505)
+- Components [date-picker] change triggers twice when clearing (#19804 by @xingyixiang)
+- Components [input] `@change` event value formatter (#20000 by @qq1037305420)
+- Components [date-picker] add user input validation (#20021 by @zhixiaotong)
+- Components [dropdown] `button-props` as a `Partial` type (#20035 by @Dsaquel)
+- Components [date-picker] support remove same months from different years (#20020 by @DDDDD12138)
+- Components [select-v2] option need double click in IOS (#20041 by @warmthsea)
+- Style(theme-chalk): [tabs] update tabs style (#19975 by @kooriookami)
+- Perf(components): [select-v2] optimize to avoid unnecessary computations (#19970 by @DDDDD12138)
+- Style(components): [cascader] content display is incomplete (#20015 by @warmthsea)
+- Style(components): [cascader] delete icon height (#20036 by @warmthsea)
+#### Refactors
+
+- Components [image] image-viewer standalone use (#19715 by @zzjiaxiang)
+
+### 2.9.5
+
+_2025-02-21_
+
+#### Features
+
+- Components [dropdown] add `persistent` prop (#19797 by @zzjiaxiang)
+- Components [menu] add `persistent` prop (#19874 by @zzjiaxiang)
+- Components [cascader] add suggestion slot (#19866 by @DiamondYuan)
+- Components [message-box] support custom close icon in message-box (#18168 by @xionkq)
+- Components [slider] add `persistent` prop (#19889 by @zzjiaxiang)
+
+#### Bug fixes
+
+- Components [message-box] init validator (#19832 by @warmthsea)
+- Components [tree-select] dynamic bind class invalid (#19803 by @btea)
+- Components [table] compatible with window non-existence (#19837 by @purepear)
+- Components [select] solve memory leak (#19709 by @dddssw)
+- Components [steps] update border-color to support safari (#19726 by @LoTwT)
+- Components [description] tsx rendering functional component error (#19879 by @btea)
+- Components [cascader] prevent default behavior when pressing a key to toggle suggestion list (#19897 by @warmthsea)
+- Components [message-box] vue warning when closeIcon is component (#19901 by @btea)
+- Components [select] ensure scrollbar syncs when scrolling to selected option (#19636 by @DDDDD12138)
+- Components [tree-select] search solve memory leak (#19895 by @warmthsea)
+
+#### Refactors
+
+- Components [menu] change to `script setup` writing  and optimizing code (#19816 by @zzjiaxiang)
+- [menu] add necessary braces (#19840 by @btea)
+- [time-picker] optimize type declaration (#19875 by @zzjiaxiang)
+
+### 2.9.4
+
+_2025-02-07_
+
+#### Features
+
+- Components [image-viewer] add showPreview method (#19466 by @zzjiaxiang)
+- Locale add language Chinese Hongkong and Chinese Macau (#19608 by @markpro-code)
+- Components [select] add popup-scroll event (#19589 by @zzjiaxiang)
+- I18n add Telugu language (#19624 by @moulibheemaneti)
+- Components [image-viewer] add `progress` slot and `show-progress` props (#19465 by @zzjiaxiang)
+- Components [image-viewer] add toolbar slot (#19497 by @zzjiaxiang)
+- Components [cascader] add `prefix` slot (#19631 by @DavidKitano)
+- Components [table] add tooltip-formatter table & table-column prop (#19524 by @zhixiaotong)
+- Locale export zhHk/zhMo (#19762 by @btea)
+- Locale export Norsk(no) (#19747 by @changehu)
+- Locale export missing language (#19790 by @btea)
+
+#### Bug fixes
+
+- Components [table-footer] update cols width on layout change (#19064 by @Dsaquel)
+- Ci types & dark theme sync with pr (#19668 by @Dsaquel)
+- Ci move all bundle to docs dist (#19671 by @Dsaquel)
+- Components [table] selection-change event emit incorrectly (#19618 by @wNing50)
+- Components [table] The index parameter of the selectable function is undefined (#19587 by @YiMo1)
+- Components [autocomplete] prevent closing if focus is inside popper content (#19522 by @DDDDD12138)
+- Components [input] refused to apply inline style because it violates csp (#19541 by @markpro-code)
+- Components [table-v2] make the fixed columns scroll like mainTable (#19104 by @hanchao-c0ldwave)
+- Components [cascader-panel] lazy return children can't get value (#19100 by @coderchang0105)
+- Components [table] fix the logic of `selection` column when `fixed` state changes dynamically (#19703 by @wNing50)
+- Components [table] the toggleTreeExpansion failed to trigger load function (#18728 by @webvs2)
+- Components [table-v2] reset `lastVisitedColumnIdx` if width change (#19757 by @Dsaquel)
+- Chore: [time-picker] correct typo in `timePickerRangeTriggerProps` (#19487 by @DDDDD12138)
+
+### 2.9.3
+
+_2025-01-10_
+
+#### Features
+
+- Components [dialog/drawer] add custom sub classes (#19099 by @Dsaquel)
+- I18n add Hindi language (#19483 by @steveWang13)
+- I18n add Norsk(no) language (#19523 by @changehu)
+- Component [time-select] add include end time attribute (#19253 by @Dsaquel)
+
+#### Bug fixes
+
+- Components [description] `labelWidth` is invalid when no border (#19162 by @btea)
+- Hooks [use-lockscreen] remove hiddenCls (#19429 by @Liao-js)
+- Components [form] on post rules update reset field (#19129 by @Dsaquel)
+- Components [tabs] set modelValue synchronously if beforeLeave is not set or is synchronous (#19387 by @DDDDD12138)
+- Components [select] make sure the e-tag is not obstructed(#19529 by @baiwusanyu-c) (#19534)
+- Components [dialog] fix scroll bar not resetting to top on reopen (#19471 by @wjp980108)
+- Improvement(components): [text] add the title attribute (#19496 by @btea)
+- Improvement(components): [text] keep the inherited title attribute (#19551 by @btea)
+- Style(components): [dialog] no rounded when in fullscreen (#19583 by @warmthsea)
+
+### 2.9.2
+
+_2025-01-03_
+
+#### Features
+
+- Components [select-v2] add `fit-input-width` prop (#18834 by @YiMo1)
+- Components [select, select-v2] add loading class to validateIcon (#19379 by @LoTwT)
+- Components [table] add allow-drag-last-column prop (#19374 by @btea)
+
+#### Bug fixes
+
+- Components [select] resolve 'false' display issue when dropdown hides on search clear (#19244 by @DDDDD12138)
+- Components [date-picker] model-value unexpected changes when type is week (#16795 by @FrontEndDog)
+- Components [menu] fix `sliceIndex` calculation error (#19164 by @wen-lun)
+- Components [anchor] scroll whether link is selected at the top (#18047 by @k983551019)
+- Components [focus-trap] tryFocus is invalid for document.body (#19272 by @tolking)
+- Components [inputnumber, input] resolve styling issues caused by using `prefix` and `suffix` (#19042 by @DDDDD12138)
+- Components [color-picker] optimize the flickering issue (#18872 by @momei-LJM)
+- Theme-chalk [input-tag] correct input-tag placeholder color (#19386 by @DDDDD12138)
+- Components prevent blur event when is disabled (#19320 by @DDDDD12138)
+- Types packing unexpected types (#19419 by @btea)
+- Components [table] the overflowTooltip cannot be refreshed (#19440 by @xingyixiang)
+- Components [upload] unable to delete files in removeFile (#19437 by @ly-yewu)
+- Components [page-header] use `$slots` instead of `useSlots` (#19455 by @Dsaquel)
+- Components [select] input width fills the remaining width (#19292 by @tolking)
+- Style(components): [notification] word wrap (#17052 by @Liao-js)
+- Perf(components): [table] prioritize use rowKey to determine whether it is selected (#19451 by @tolking)
+
+### 2.9.1
+
+_2024-12-13_
+
+#### Features
+
+- Components [dropdown] add triggerKeys attribute (#19124 by @hanchao-c0ldwave)
+- Components [tree-v2] `filter-method` support third parameter (#19177 by @btea)
+- Components [badge] add content slot (#18922 by @xing403)
+
+#### Bug fixes
+
+- Components [input-tag] trigger the add of tag when Chinese is Composing (#19079 by @tolking)
+- Components [notification] display html as string (#19068 by @Dsaquel)
+- Components [select] use option.isDisabled as the source of truth (#19137 by @makedopamine)
+- Components [input] disabled state wrapper cursor style (#19176 by @btea)
+- Components [select-v2] empty value check error in inputRef (#19140 by @Liao-js)
+- Components [select] modify the logic of update the watch option (#18931 by @YiMo1)
+- Components [table-v2] dynamic height causes overall calculation errors (#19082 by @hanchao-c0ldwave)
+- Revert pkg pr new to main version (#19254 by @Aslemammad)
+
+#### Refactors
+
+- Components [alert] introduce hasDesc helper (#19085 by @zhangenming)
+### 2.9.0
+
+_2024-11-29_
+
+#### Breaking changes
+
+- See #15834
+
+#### Features
+
+- Components [tree-v2] add `props.class` prop (#18911 by @zzjiaxiang)
+- Components [notification] add support for message as a Function (#18558 by @DDDDD12138)
+- I18n add Malay(ms) translation (#18932 by @hcw2175)
+- Components [table] expose scroll event (#12524 by @blesstosam)
+- Components [tree-v2] add slot `empty` (#18980 by @zhixiaotong)
+- Components [transfer] add custom empty slot for transfer panels (#18929 by @piskesocute)
+- Components [select] add tabindex attribute (#19034 by @tolking)
+- Components [input-tag] new component (#18885 by @tolking)
+
+#### Bug fixes
+
+- Components [select] keep the selected label (#18549 by @warmthsea)
+- Types improve styles type by CSSProperties (#18942 by @thinkasany)
+- Components [image-viewer] unable to capture focus (#17919 by @tolking)
+- Components [tag] make stubbed Transition work in tests (#18928 by @purepear)
+- Components [tree-select] expose `selectedLabel` (#18981 by @zhixiaotong)
+- Components [cascader] multiple selection mode tag causes height change (#18285 by @zzjiaxiang)
+- Components [calendar] respect table semantics (#18552 by @Jungzl)
+- Components [select] the disabled state should render the input tag (#18443 by @btea)
+- Components [date-picker] resolve  v-model type inconsistency (#18888 by @DDDDD12138)
+- Components [input] the cursor error when click show-password (#19003 by @tolking)
+- Components [select] change states.filtertedOptionsCount to filteredOptionsCount.value (#19010 by @makedopamine)
+- Components [table] fixed column style when lazyload title (#19020 by @btea)
+- Components [input-number] Chinese can be displayed in the numeric input box (#19018 by @yuxi-ovo)
+- Components [time-picker] add passive modifier on touchstart event (#19046 by @Dsaquel)
+- Components [notification] type declaration error and four types of methods are missing context parameters (#18951 by @YiMo1)
+- Components [time-picker] click the Cancel button twice to close time picker (#18938 by @thinkasany)
+- Style(components): [button] keep default hover color of link unchanged (#17050 by @btea)
+- Style(components): [table] use `--font-size-base` for default font size (#18725 by @DDDDD12138)
+
+### 2.8.8
+
+_2024-11-15_
+
+#### Features
+
+- Components [select-v2] add `append-to` prop (#18798 by @btea)
+- Components [skeleton] `throttle` supports values ​​as object (#17041 by @chenweiyi)
+- Components [select] add `offset` and `show-arrow` prop (#18837 by @DDDDD12138)
+- Components [description-item] add labelWidth prop (#18673 by @Lakphy)
+
+#### Bug fixes
+
+- Utils[vue] ensure `flattedChildren` traverse component's subTree (#18649 by @ddeerdevil)
+- Components [select] prevent keyboard from deleting disabled option (#18752 by @cszhjh)
+- Theme-chalk  sass `!global assignments` deprecation warning (#18711 by @warmthsea)
+- Components [picker] fix popup not opening when editable is false (#18767 by @DDDDD12138)
+- Components [mention] keyboard control options not work as expected (#18751 by @btea)
+- Components [segmented] invisible active indicator after clearing selection (#18818 by @DDDDD12138)
+- Components [mention] ref dom array order error when list changes (#18787 by @warmthsea)
+- Components [table] `table-layout:auto` fixed column misalignment (#18736 by @btea)
+- Components [table] failed to insert tooltip when show-overflow-tooltip is enabled (#18317 by @xingyixiang)
+- Components [select] getValueIndex empty error (#18867 by @warmthsea)
+- Components [select & select-v2] status-icon is invalid (#18101 by @WangYJEE)
+- Components [pagination] input style loss (#18878 by @ToyCat93)
+- Components time-picker disabled-[hours/minutes/seconds] (#13364 by @StephenKe) (#14216)
+- Components numpadEnter does not work like the Enter (#18855 by @tolking)
+- Components [select-v2] resolve overlap of tags and placeholder (#18388 by @tuskermanshu)
+- Components [table] repeat setting the height style (#16054 by @betavs)
+
+#### Refactors
+
+- Improvement: [select] optimize the effect of keyboard switching options (#18773 by @btea)
+- Components [select] simplify code (#18810 by @makedopamine)
+
+### 2.8.7
+
+_2024-11-01_
+
+#### Features
+
+- Components [date-picker] add `show-now` prop (#18625 by @btea)
+- Components [date-picker] accessibility enhancement (#18109 by @tolking)
+- Components segmented support vertical direction (#18653 by @thinkasany)
+
+#### Bug fixes
+
+- Components [table-v2] header rendering is misplaced (#18628 by @btea)
+- Components [tree] highlight the corresponding node after data reset (#18578 by @momei-LJM)
+- Components [slider] no render popper dom when showTooltip is false (#18667 by @zzjiaxiang)
+- Hooks [useId] SSR hydration error caused by id in vue@3.5+ (#18647 by @tolking)
+- Components [select-v2] group label overflow hidden (#18551 by @zzjiaxiang)
+- Components [select] error parameters of getValueIndex (#14173 by @tolking)
+- Downgrade vue-tsc to 2.0.28 (#18737 by @makedopamine)
+
+#### Refactors
+
+- Theme-chalk update Sass functions to prep for 3.0.0 (#18579 by @wjp980108)
+- Replace Array.isArray with the built-in isArray (#18671 by @zzjiaxiang)
+- Replace typeof fn with the built-in isFunction (#18705 by @zzjiaxiang)
+- Replace typeof number with the built-in isNumber (#18706 by @zzjiaxiang)
+- Replace type checking with built-in functions (#18720 by @zzjiaxiang)
+- Style(components): [popper] popper border error (#18635 by @Liao-js)
+- Chore(components): [tour] remove redundant check for 'open' variable (#18668 by @cszhjh)
+- Chore(components): [descriptions] optimize the labelAlign (#18644 by @zzjiaxiang)
+
 ### 2.8.6
 
 _2024-10-18_
@@ -1416,7 +2410,7 @@ _2022-11-25_
 
 _2022-11-25_
 
-#### Fix 
+#### Fix
 - Revert "fix(components): [menu] menus that are not in the expanded path do not open" (#10769 by @holazz)
 
 ### 2.2.23
@@ -3544,7 +4538,7 @@ _2021-11-05_
 - Components [el-image] initialIndex (#4235 by @Alanscut)
 - Components [el-message] merge the same content messages(#3836 by @zhazhanitian) (#3988)
 - Docs add support for copying svg content (#4169 by @adaex)
-- 
+-
 #### Bug fixes
 
 - Components [el-tree-v2] indent can not set zero (#3881 by @btea)

@@ -3,18 +3,21 @@
     <slot />
     <transition :name="`${ns.namespace.value}-zoom-in-center`">
       <sup
-        v-show="!hidden && (content || isDot)"
+        v-show="!hidden && (content || isDot || $slots.content)"
         :class="[
           ns.e('content'),
           ns.em('content', type),
           ns.is('fixed', !!$slots.default),
           ns.is('dot', isDot),
-          ns.is('hide-zero', !showZero && props.value === 0),
+          ns.is('hide-zero', !showZero && value === 0),
           badgeClass,
         ]"
         :style="style"
-        v-text="content"
-      />
+      >
+        <slot name="content" :value="content">
+          {{ content }}
+        </slot>
+      </sup>
     </transition>
   </div>
 </template>
@@ -24,6 +27,7 @@ import { computed } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { addUnit, isNumber } from '@element-plus/utils'
 import { badgeProps } from './badge'
+
 import type { StyleValue } from 'vue'
 
 defineOptions({

@@ -2,7 +2,7 @@
 @use 'sass:string';
 
 @function rgb2hex($color) {
-  @return unquote('#' + #{string.slice(color.ie-hex-str($color), 4)});
+  @return string.unquote('#' + #{string.slice(color.ie-hex-str($color), 4)});
 }
 
 // rgba color above solid color

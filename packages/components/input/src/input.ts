@@ -7,8 +7,20 @@ import {
 } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
-import type { ExtractPropTypes, StyleValue } from 'vue'
+import { CircleClose } from '@element-plus/icons-vue'
 
+import type {
+  ExtractPropTypes,
+  HTMLAttributes,
+  StyleValue,
+  __ExtractPublicPropTypes,
+} from 'vue'
+
+export type InputModelModifiers = {
+  lazy?: boolean
+  number?: boolean
+  trim?: boolean
+}
 export type InputAutoSize = { minRows?: number; maxRows?: number } | boolean
 
 export const inputProps = buildProps({
@@ -37,6 +49,13 @@ export const inputProps = buildProps({
       Object,
     ]),
     default: '',
+  },
+  /**
+   * @description v-model modifiers, reference [Vue modifiers](https://vuejs.org/guide/essentials/forms.html#modifiers)
+   */
+  modelModifiers: {
+    type: definePropType<InputModelModifiers>(Object),
+    default: () => ({}),
   },
   /**
    * @description same as `maxlength` in native input
@@ -75,7 +94,7 @@ export const inputProps = buildProps({
    * @description native input autocomplete
    */
   autocomplete: {
-    type: String,
+    type: definePropType<HTMLInputElement['autocomplete']>(String),
     default: 'off',
   },
   /**
@@ -107,9 +126,16 @@ export const inputProps = buildProps({
    */
   readonly: Boolean,
   /**
-   * @description native input readonly
+   * @description whether to show clear button
    */
   clearable: Boolean,
+  /**
+   * @description custom clear icon component
+   */
+  clearIcon: {
+    type: iconPropType,
+    default: CircleClose,
+  },
   /**
    * @description toggleable password input
    */
@@ -118,6 +144,14 @@ export const inputProps = buildProps({
    * @description word count
    */
   showWordLimit: Boolean,
+  /**
+   * @description word count position, valid when `show-word-limit` is true
+   */
+  wordLimitPosition: {
+    type: String,
+    values: ['inside', 'outside'],
+    default: 'inside',
+  },
   /**
    * @description suffix icon
    */
@@ -167,8 +201,20 @@ export const inputProps = buildProps({
     default: 2,
   },
   ...useAriaProps(['ariaLabel']),
+  /**
+   * @description native input mode for virtual keyboards
+   */
+  inputmode: {
+    type: definePropType<HTMLAttributes['inputmode']>(String),
+    default: undefined,
+  },
+  /**
+   * @description same as `name` in native input
+   */
+  name: String,
 } as const)
 export type InputProps = ExtractPropTypes<typeof inputProps>
+export type InputPropsPublic = __ExtractPublicPropTypes<typeof inputProps>
 
 export const inputEmits = {
   [UPDATE_MODEL_EVENT]: (value: string) => isString(value),
