@@ -15,15 +15,8 @@ export function debugWarn(err: Error): void
 export function debugWarn(scope: string, message: string): void
 export function debugWarn(scope: string | Error, message?: string): void {
   // eslint-disable-next-line no-console
-  console.log(
-    'env',
-    import.meta.env,
-    import.meta.env?.DEV,
-    import.meta.env?.PROD
-  )
-  // Only show warnings in development mode
-  // https://vite.dev/guide/env-and-mode.html#built-in-constants
-  if (import.meta.env?.DEV !== false && import.meta.env?.PROD !== true) {
+  console.log(process.env)
+  if (process.env.NODE_ENV !== 'production') {
     const error: Error = isString(scope)
       ? new ElementPlusError(`[${scope}] ${message}`)
       : scope
