@@ -14,9 +14,13 @@ export function throwError(scope: string, m: string): never {
 export function debugWarn(err: Error): void
 export function debugWarn(scope: string, message: string): void
 export function debugWarn(scope: string | Error, message?: string): void {
-  const error: Error = isString(scope)
-    ? new ElementPlusError(`[${scope}] ${message}`)
-    : scope
-  // eslint-disable-next-line no-console
-  console.warn(error)
+  // Only show warnings in development mode
+  // https://vite.dev/guide/env-and-mode.html#built-in-constants
+  if (import.meta.env?.DEV !== false && import.meta.env?.PROD !== true) {
+    const error: Error = isString(scope)
+      ? new ElementPlusError(`[${scope}] ${message}`)
+      : scope
+    // eslint-disable-next-line no-console
+    console.warn(error)
+  }
 }

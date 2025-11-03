@@ -9,6 +9,15 @@ declare global {
     }
   }
 
+  interface ImportMeta {
+    env?: {
+      DEV?: boolean
+      PROD?: boolean
+      MODE?: string
+      SSR?: boolean
+    }
+  }
+
   namespace JSX {
     interface IntrinsicAttributes {
       class?: unknown
