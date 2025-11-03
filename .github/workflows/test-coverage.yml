@@ -4,6 +4,8 @@ name: 🧪 Test Coverage
 
 on:
   pull_request:
+    branches:
+      - master
   workflow_dispatch:
 
 jobs:
@@ -26,12 +28,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
 
-      - name: 'Run Test Coverage'
+      - name: "Run Test Coverage"
         run: pnpm run test:coverage
 
       - uses: davelosert/vitest-coverage-report-action@v2.2.0
