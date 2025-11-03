@@ -2477,10 +2477,6 @@ describe('Table.vue', () => {
       },
     })
     await doubleWait()
-    const existingPopper = document.querySelector('.el-popper')
-    if (existingPopper) {
-      existingPopper.remove()
-    }
     const emptyCells = wrapper.findAll('.el-table__body-wrapper .empty_cell')
     expect(emptyCells.length).toBeGreaterThan(0)
     for (const cell of emptyCells) {
