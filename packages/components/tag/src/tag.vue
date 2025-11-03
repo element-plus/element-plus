@@ -1,6 +1,6 @@
 <template>
   <span
-    v-if="disableTransitions"
+    v-if="shouldDisable"
     :class="containerKls"
     :style="{ backgroundColor: color }"
     @click="handleClick"
@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, onMounted, ref, getCurrentInstance } from 'vue'
 import ElIcon from '@element-plus/components/icon'
 import { Close } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
@@ -80,4 +80,21 @@ const handleVNodeMounted = (vnode: VNode) => {
     vnode.component.subTree.component.bum = null
   }
 }
+
+const inTable = ref(false)
+onMounted(() => {
+  try {
+    const instance: any = getCurrentInstance()
+    const el = instance?.proxy?.$el
+    if (el && typeof el.closest === 'function') {
+      inTable.value = !!el.closest('.el-table')
+    }
+  } catch (e) {
+    // ignore
+  }
+})
+
+const shouldDisable = computed(() => {
+  return !!props.disableTransitions || inTable.value
+})
 </script>
