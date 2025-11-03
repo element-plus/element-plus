@@ -2490,7 +2490,7 @@ describe('Table.vue', () => {
         } as DOMRect)
       await cell.trigger('mouseenter')
       await rAF()
-      expect(document.querySelector('.el-popper')).toBeNull()
+      expect(wrapper.find('.el-popper').exists()).toBeFalsy()
       mockCellRect.mockRestore()
     }
     mockRangeRect.mockRestore()
