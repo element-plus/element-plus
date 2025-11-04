@@ -204,6 +204,8 @@ export const menuEmits = {
 }
 export type MenuEmits = typeof menuEmits
 
+const DEFAULT_MORE_ITEM_WIDTH = 64
+
 export default defineComponent({
   name: 'ElMenu',
 
@@ -217,7 +219,7 @@ export default defineComponent({
     const subMenu = ref<HTMLElement>()
     const nsMenu = useNamespace('menu')
     const nsSubMenu = useNamespace('sub-menu')
-    let moreItemWidth = 64
+    let moreItemWidth = DEFAULT_MORE_ITEM_WIDTH
 
     // data
     const sliceIndex = ref(-1)
@@ -370,7 +372,7 @@ export default defineComponent({
     let isFirstTimeRender = true
     const handleResize = () => {
       const el = unrefElement(subMenu)
-      if (el) moreItemWidth = calcMenuItemWidth(el) || 64
+      if (el) moreItemWidth = calcMenuItemWidth(el) || DEFAULT_MORE_ITEM_WIDTH
       if (sliceIndex.value === calcSliceIndex()) return
       const callback = () => {
         sliceIndex.value = -1

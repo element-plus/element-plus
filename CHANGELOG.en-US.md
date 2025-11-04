@@ -1,6 +1,50 @@
 ## Changelog
 
 
+### 2.11.7
+
+_2025-11-01_
+
+
+### 2.11.6
+
+_2025-10-31_
+
+#### Features
+
+- Components [drawer] add support for `modal-penetrable` prop (#22498 by @Lensiq)
+- Components [color-picker-panel] sv-panel a11y (#22470 by @tolking)
+- Components [color-picker-panel] add validateEvent prop (#22522 by @tolking)
+- Components [select/select-v2] support debounce prop (#22471 by @keeplearning66)
+- Components [color-picker-panel] predefine a11y (#22527 by @tolking)
+- Components [select] support home and end key events (#22446 by @snowbitx)
+- Components [tabs] add `tabindex` prop (#22624 by @btea)
+
+#### Bug fixes
+
+- Components [date-picker-panel] value-on-clear takes effect on monthrange and yearrange (#22507 by @keeplearning66)
+- Components [select-v2] use correct labelKey in selectedLabel (#22516 by @rzzf)
+- Components [select-v2] avoid displaying 'false' incorrectly during remote search (#22495 by @keeplearning66)
+- Theme-chalk [cascader] cursor style issue in filterable (#22518 by @123outsider)
+- Components [tree-v2] call `collapseNode/expandNode` `expand/collapse` icon status error (#22205 by @jevin98)
+- Components [select] should not affect global config (#22544 by @btea)
+- Components [input-tag] keyboard handling should occur on keydown (#22486 by @xiaocainiao633)
+- Components [tree] optimize tree-select empty detection (#22302 by @xingyixiang)
+- Components [select] prevent duplicate option registration (#22541 by @Lensiq)
+- Components [input] quickly click the icon and the cursor position is displayed incorrectly (#22563 by @btea)
+- Components [tooltip] content hover works with array trigger (#22551 by @Lensiq)
+- Components [date-picker-panel] wrong style when use showWeekNumber (#22559 by @keeplearning66)
+- Components [select] scrolling is not triggered when the option value is zero (#22578 by @rzzf)
+- Components [pagination] avoid override button styles in slots (#22570 by @rzzf)
+- Components [date-picker] time list sync with input change (#22589 by @Dsaquel)
+- Directives fix memory leak in v-mousewheel directive (#20781 by @cylgdzz111)
+- Components avoid capturing focus when disabled (#22616 by @tolking)
+- Hooks [use-lockscreen] fix lock-scroll not working (#19711 by @wjp980108)
+
+#### Refactors
+
+- Components [tree] improve emit to get type hints (#22526 by @rzzf)
+
 ### 2.11.5
 
 _2025-10-17_
