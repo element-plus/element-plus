@@ -77,14 +77,14 @@ export default function useClips() {
       ctx.textAlign = textAlign
       ctx.textBaseline = textBaseline
       const contents = isArray(content) ? content : [content]
-
-      const argumentMetrics = ctx.measureText(contents[0])
-      ctx.textBaseline = 'top'
-      const topMetrics = ctx.measureText(contents[0])
-      baselineOffset =
-        argumentMetrics.actualBoundingBoxAscent -
-        topMetrics.actualBoundingBoxAscent
-
+      if (contents[0]) {
+        const argumentMetrics = ctx.measureText(contents[0])
+        ctx.textBaseline = 'top'
+        const topMetrics = ctx.measureText(contents[0])
+        baselineOffset =
+          argumentMetrics.actualBoundingBoxAscent -
+          topMetrics.actualBoundingBoxAscent
+      }
       contents?.forEach((item, index) => {
         const [alignRatio, spaceRatio] = TEXT_ALIGN_RATIO_MAP[textAlign]
         ctx.fillText(
