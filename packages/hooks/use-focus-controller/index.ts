@@ -93,7 +93,7 @@ export function useFocusController<T extends { focus: () => void }>(
   useEventListener(wrapperRef, 'click', handleClick, true)
 
   // only for test
-  if (!process || process.env.NODE_ENV === 'test') {
+  if (typeof process === 'undefined' || process.env.NODE_ENV === 'test') {
     onMounted(() => {
       const targetEl = isElement(target.value)
         ? target.value
