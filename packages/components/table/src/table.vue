@@ -204,6 +204,7 @@ import { hColgroup } from './h-helper'
 import { useScrollbar } from './composables/use-scrollbar'
 import ElPagination from '@element-plus/components/pagination'
 
+import type { PaginationProps } from '@element-plus/components/pagination'
 import type { Table } from './table/defaults'
 
 let tableIdSeed = 1
@@ -323,7 +324,7 @@ export default defineComponent({
     useKeyRender(table)
 
     const pagination = computed(() => props.pagination)
-    const mergedPagination = computed(() => {
+    const mergedPagination = computed<Partial<PaginationProps>>(() => {
       if (!pagination.value || typeof pagination.value === 'boolean') return {}
       const defaultPageSize = pagination.value.pageSize ?? 10
       const defaultCurrent = pagination.value.currentPage ?? 1
