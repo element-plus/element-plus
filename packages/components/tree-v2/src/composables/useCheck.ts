@@ -41,7 +41,7 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
       if (!nodes) continue
       nodes.forEach((node) => {
         const children = node.children
-        let allWithoutDisable =
+        let isEffectivelyChecked =
           !node.isLeaf || node.disabled || checkedKeySet.has(node.key)
         if (children) {
           // Whether all child nodes are selected
@@ -50,8 +50,8 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
           let hasChecked = false
           for (const childNode of children) {
             const key = childNode.key
-            if (!childNode.allWithoutDisable) {
-              allWithoutDisable = false
+            if (!childNode.isEffectivelyChecked) {
+              isEffectivelyChecked = false
             }
             if (checkedKeySet.has(key)) {
               hasChecked = true
@@ -73,7 +73,7 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
             indeterminateKeySet.delete(node.key)
           }
         }
-        node.allWithoutDisable = allWithoutDisable
+        node.isEffectivelyChecked = isEffectivelyChecked
       })
     }
     indeterminateKeys.value = indeterminateKeySet
@@ -93,7 +93,7 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
     const checkedKeySet = checkedKeys.value
     const children = node.children
     if (!props.checkStrictly && nodeClick && children?.length) {
-      const allChecked = children.every((node) => node.allWithoutDisable)
+      const allChecked = children.every((node) => node.isEffectivelyChecked)
       isChecked = !allChecked
     }
 

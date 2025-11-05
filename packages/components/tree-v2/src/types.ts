@@ -49,7 +49,7 @@ export interface TreeNode {
    *      - Disabled leaf nodes follow rule #1.
    *      - Non-leaf child nodes are recursively evaluated under this rule (#3).
    */
-  allWithoutDisable?: boolean
+  isEffectivelyChecked?: boolean
 }
 
 export interface TreeContext {
