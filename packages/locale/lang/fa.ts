@@ -17,6 +17,7 @@ export default {
       svLabel: 'pick saturation and brightness value', // to be translated
       svDescription:
         'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
+      predefineDescription: 'select {value} as the color', // to be translated
     },
     datepicker: {
       now: 'اکنون',

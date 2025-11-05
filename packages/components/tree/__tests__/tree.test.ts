@@ -2043,4 +2043,21 @@ describe('Tree.vue', () => {
     expect(nodeLabelWrapper1.text()).toEqual('customize: Level one 1')
     expect(nodeLabelWrapper2.text()).toEqual('Level one 2')
   })
+
+  test('render slot `empty`', async () => {
+    const wrapper = mount({
+      template: `
+        <el-tree :data="[]">
+          <template #empty>
+            EmptySlot
+          </template>
+        </el-tree>
+      `,
+      components: {
+        'el-tree': Tree,
+      },
+    })
+    await nextTick()
+    expect(wrapper.find('.el-tree__empty-block').text()).toBe('EmptySlot')
+  })
 })

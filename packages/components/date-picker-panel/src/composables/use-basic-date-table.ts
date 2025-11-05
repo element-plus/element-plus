@@ -259,7 +259,7 @@ export const useBasicDateTable = (
 
   const isSelectedCell = (cell: DateCell) => {
     return (
-      (!unref(hasCurrent) && cell?.text === 1 && cell.type === 'normal') ||
+      (!unref(hasCurrent) && cell?.text === 1 && isNormalDay(cell.type)) ||
       cell.isCurrent
     )
   }
@@ -411,7 +411,7 @@ export const useBasicDateTableDOM = (
 
   const tableKls = computed(() => [
     ns.b(),
-    { 'is-week-mode': props.selectionMode === 'week' && !props.disabled },
+    ns.is('week-mode', props.selectionMode === 'week' && !props.disabled),
   ])
 
   const tableLabel = computed(() => t('el.datepicker.dateTablePrompt'))
