@@ -1,5 +1,6 @@
 import { computed, useAttrs, useSlots } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
+import { MINIMUM_INPUT_WIDTH } from '@element-plus/constants'
 
 import type { ComputedRef, Ref, StyleValue } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
@@ -15,6 +16,8 @@ interface UseInputTagDomOptions {
   validateState: ComputedRef<string>
   validateIcon: ComputedRef<boolean>
   needStatusIcon: ComputedRef<boolean>
+  wrapperRef: Ref<HTMLElement | undefined>
+  collapseItemRef: Ref<HTMLElement | undefined>
 }
 
 export function useInputTagDom({
@@ -27,6 +30,8 @@ export function useInputTagDom({
   validateState,
   validateIcon,
   needStatusIcon,
+  wrapperRef,
+  collapseItemRef,
 }: UseInputTagDomOptions) {
   const attrs = useAttrs()
   const slots = useSlots()
@@ -67,6 +72,36 @@ export function useInputTagDom({
     )
   })
 
+  const getGapWidth = () => {
+    if (!wrapperRef.value) return 0
+    const innerElement = wrapperRef.value.querySelector(`.${ns.e('inner')}`)
+    if (!innerElement) return 0
+    const style = window.getComputedStyle(innerElement)
+    return Number.parseFloat(style.gap || '6px')
+  }
+
+  const getInnerWidth = () => {
+    if (!wrapperRef.value) return 0
+    const innerElement = wrapperRef.value.querySelector(`.${ns.e('inner')}`)
+    if (!innerElement) return 0
+    return innerElement.clientWidth
+  }
+
+  const tagStyle = computed(() => {
+    if (!props.collapseTags) return {}
+    const gapWidth = getGapWidth()
+    const inputSlotWidth = gapWidth + MINIMUM_INPUT_WIDTH
+    const innerWidth = getInnerWidth()
+    const collapseItemWidth = collapseItemRef.value?.offsetWidth || 40
+
+    const maxWidth =
+      collapseItemRef.value && props.maxCollapseTags === 1
+        ? innerWidth - collapseItemWidth - gapWidth - inputSlotWidth
+        : innerWidth - inputSlotWidth
+
+    return { maxWidth: `${Math.max(maxWidth, 0)}px` }
+  })
+
   return {
     ns,
     nsInput,
@@ -75,5 +110,6 @@ export function useInputTagDom({
     innerKls,
     showClear,
     showSuffix,
+    tagStyle,
   }
 }

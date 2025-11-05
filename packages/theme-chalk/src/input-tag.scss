@@ -153,15 +153,6 @@
       }
     }
 
-    @include when(collapse-tags) {
-      flex-wrap: nowrap;
-
-      .#{$namespace}-tag {
-        flex-shrink: 1;
-        min-width: 0;
-      }
-    }
-
     @include e(drop-indicator) {
       position: absolute;
       top: 0;

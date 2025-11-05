@@ -18,6 +18,7 @@
         :type="tagType"
         :effect="tagEffect"
         :draggable="closable && draggable"
+        :style="tagStyle"
         disable-transitions
         @close="handleRemoveTag(index)"
         @dragstart="(event: DragEvent) => handleDragStart(event, index)"
@@ -39,6 +40,7 @@
       >
         <template #default>
           <el-tag
+            ref="collapseItemRef"
             :closable="false"
             :size="tagSize"
             :type="tagType"
@@ -130,7 +132,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, useSlots } from 'vue'
+import { computed, ref, useSlots } from 'vue'
 import { useAttrs, useCalcInputWidth } from '@element-plus/hooks'
 import { NOOP, ValidateComponentsMap } from '@element-plus/utils'
 import ElTooltip from '@element-plus/components/tooltip'
@@ -157,6 +159,8 @@ const attrs = useAttrs()
 const slots = useSlots()
 const { form, formItem } = useFormItem()
 const { inputId } = useFormItemInputId(props, { formItemContext: formItem })
+
+const collapseItemRef = ref<HTMLElement>()
 
 const needStatusIcon = computed(() => form?.statusIcon ?? false)
 const validateState = computed(() => formItem?.validateState || '')
@@ -206,6 +210,7 @@ const {
   innerKls,
   showClear,
   showSuffix,
+  tagStyle,
 } = useInputTagDom({
   props,
   hovering,
@@ -216,6 +221,8 @@ const {
   validateState,
   validateIcon,
   needStatusIcon,
+  wrapperRef,
+  collapseItemRef,
 })
 
 defineExpose({
