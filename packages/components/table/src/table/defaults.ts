@@ -426,6 +426,13 @@ export default {
    * @description whether to use native scrollbars
    */
   nativeScrollbar: Boolean,
+  /**
+   * @description pagination config for table, display pagination at the bottom when set
+   */
+  pagination: {
+    type: [Object, Boolean],
+    default: false,
+  },
 }
 export type {
   SummaryMethod,

@@ -167,6 +167,13 @@
       ref="resizeProxy"
       :class="ns.e('column-resize-proxy')"
     />
+    <div v-if="pagination" :class="ns.e('pagination-wrapper')">
+      <el-pagination
+        v-bind="mergedPagination"
+        @current-change="handlePageChange"
+        @size-change="handlePageSizeChange"
+      />
+    </div>
   </div>
 </template>
 
@@ -195,6 +202,7 @@ import defaultProps from './table/defaults'
 import { TABLE_INJECTION_KEY } from './tokens'
 import { hColgroup } from './h-helper'
 import { useScrollbar } from './composables/use-scrollbar'
+import ElPagination from '@element-plus/components/pagination'
 
 import type { Table } from './table/defaults'
 
@@ -210,6 +218,7 @@ export default defineComponent({
     TableFooter,
     ElScrollbar,
     hColgroup,
+    ElPagination,
   },
   props: defaultProps,
   emits: [
@@ -231,9 +240,9 @@ export default defineComponent({
     'current-change',
     'header-dragend',
     'expand-change',
-    'scroll',
+    'pagination-change',
   ],
-  setup(props) {
+  setup(props, { emit }) {
     type Row = (typeof props.data)[number]
     const { t } = useLocale()
     const ns = useNamespace('table')
@@ -311,6 +320,32 @@ export default defineComponent({
     })
 
     useKeyRender(table)
+
+    const pagination = computed(() => props.pagination)
+    const mergedPagination = computed(() => {
+      if (!pagination.value || typeof pagination.value === 'boolean') return {}
+      const defaultPageSize = pagination.value.pageSize ?? 10
+      const defaultCurrent = pagination.value.currentPage ?? 1
+      return {
+        background: true,
+        layout: 'prev, pager, next, sizes,jumper, ->, total',
+        ...pagination.value,
+        pageSize: defaultPageSize,
+        currentPage: defaultCurrent,
+      }
+    })
+
+    const handlePageChange = (page: number) => {
+      const { pageSize } = mergedPagination.value
+      pagination.value?.pageChange?.(page, page, pageSize)
+      emit('pagination-change', page, page, pageSize)
+    }
+
+    const handlePageSizeChange = (size: number) => {
+      const { currentPage } = mergedPagination.value
+      pagination.value?.pageSizeChange?.(currentPage, size)
+      emit('pagination-change', currentPage, size)
+    }
 
     onBeforeUnmount(() => {
       debouncedUpdateLayout.cancel()
@@ -404,6 +439,10 @@ export default defineComponent({
        * @description whether to allow drag the last column
        */
       allowDragLastColumn: props.allowDragLastColumn,
+      pagination,
+      mergedPagination,
+      handlePageChange,
+      handlePageSizeChange,
     }
   },
 })
