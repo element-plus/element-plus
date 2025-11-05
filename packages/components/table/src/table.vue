@@ -338,13 +338,13 @@ export default defineComponent({
 
     const handlePageChange = (page: number) => {
       const { pageSize } = mergedPagination.value
-      pagination.value?.pageChange?.(page, page, pageSize)
-      emit('pagination-change', page, page, pageSize)
+      pagination.value?.pageChange?.(page)
+      emit('pagination-change', page, pageSize)
     }
 
     const handlePageSizeChange = (size: number) => {
       const { currentPage } = mergedPagination.value
-      pagination.value?.pageSizeChange?.(currentPage, size)
+      pagination.value?.pageSizeChange?.(size)
       emit('pagination-change', currentPage, size)
     }
 
