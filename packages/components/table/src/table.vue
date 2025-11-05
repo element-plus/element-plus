@@ -240,6 +240,7 @@ export default defineComponent({
     'current-change',
     'header-dragend',
     'expand-change',
+    'scroll',
     'pagination-change',
   ],
   setup(props, { emit }) {
