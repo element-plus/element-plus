@@ -191,7 +191,6 @@
 
   @include e(input-wrapper) {
     flex: 1;
-    min-width: 11px;
   }
 
   @include e(input) {
