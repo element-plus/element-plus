@@ -207,6 +207,7 @@ describe('<fixed-size-grid />', () => {
     })
 
     it('should handle touchstart touchmove correctly', async () => {
+      vi.useFakeTimers()
       const wrapper = mount()
       const gridRef = wrapper.vm.$refs.gridRef as GridRef
 
@@ -231,11 +232,14 @@ describe('<fixed-size-grid />', () => {
       gridRef.handleTouchMove(touchMoveEvent)
       expect(touchMoveEvent.preventDefault).toHaveBeenCalled()
 
+      await vi.advanceTimersByTimeAsync(16)
       expect(gridRef.states.scrollLeft).toBe(70) // 50 + 100 - 80
       expect(gridRef.states.scrollTop).toBe(70) // 50 + 200 - 180
 
       expect(gridRef.touchStartX).toBe(80)
       expect(gridRef.touchStartY).toBe(180)
+
+      vi.useRealTimers()
     })
   })
 
