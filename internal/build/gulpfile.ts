@@ -24,6 +24,10 @@ export const copyFiles = () =>
       path.resolve(projRoot, 'typings', 'global.d.ts'),
       path.resolve(epOutput, 'global.d.ts')
     ),
+    copyFile(
+      path.resolve(projRoot, 'LICENSE'),
+      path.resolve(epOutput, 'LICENSE')
+    )
   ])
 
 export const copyTypesDefinitions: TaskFunction = (done) => {
