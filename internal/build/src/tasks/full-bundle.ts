@@ -69,7 +69,6 @@ async function buildFullEntry(minify: boolean) {
     }),
     replace({
       'process.env.NODE_ENV': '"production"',
-      preventAssignment: true,
     }),
   ]
   if (minify) {
