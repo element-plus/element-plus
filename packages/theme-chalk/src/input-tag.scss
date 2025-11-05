@@ -153,6 +153,15 @@
       }
     }
 
+    @include when(collapse-tags) {
+      flex-wrap: nowrap;
+
+      .#{$namespace}-tag {
+        flex-shrink: 1;
+        min-width: 0;
+      }
+    }
+
     @include e(drop-indicator) {
       position: absolute;
       top: 0;
@@ -182,6 +191,7 @@
 
   @include e(input-wrapper) {
     flex: 1;
+    min-width: 11px;
   }
 
   @include e(input) {

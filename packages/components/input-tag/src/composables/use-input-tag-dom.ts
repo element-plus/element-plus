@@ -48,6 +48,7 @@ export function useInputTagDom({
     ns.is('draggable', props.draggable),
     ns.is('left-space', !props.modelValue?.length && !slots.prefix),
     ns.is('right-space', !props.modelValue?.length && !showSuffix.value),
+    ns.is('collapse-tags', props.collapseTags),
   ])
   const showClear = computed(() => {
     return (
