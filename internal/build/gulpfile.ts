@@ -27,7 +27,7 @@ export const copyFiles = () =>
     copyFile(
       path.resolve(projRoot, 'LICENSE'),
       path.resolve(epOutput, 'LICENSE')
-    )
+    ),
   ])
 
 export const copyTypesDefinitions: TaskFunction = (done) => {
