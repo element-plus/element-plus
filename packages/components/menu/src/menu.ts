@@ -335,19 +335,18 @@ export default defineComponent({
     }
 
     const calcSliceIndex = () => {
-      const menuEl = menu.value
-      if (!menuEl) return -1
+      if (!menu.value) return -1
 
-      const items = Array.from(menuEl.childNodes).filter(
+      const items = Array.from(menu.value.childNodes).filter(
         (item) =>
           item.nodeName !== '#comment' &&
           (item.nodeName !== '#text' || item.nodeValue)
       ) as HTMLElement[]
 
-      const computedMenuStyle = getComputedStyle(menuEl)
+      const computedMenuStyle = getComputedStyle(menu.value)
       const paddingLeft = Number.parseInt(computedMenuStyle.paddingLeft, 10)
       const paddingRight = Number.parseInt(computedMenuStyle.paddingRight, 10)
-      const menuWidth = menuEl.clientWidth - paddingLeft - paddingRight
+      const menuWidth = menu.value.clientWidth - paddingLeft - paddingRight
 
       let calcWidth = 0
       let sliceIndex = 0
