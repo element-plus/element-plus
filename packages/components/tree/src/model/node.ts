@@ -463,9 +463,9 @@ class Node {
     if (this.store.checkStrictly) return
 
     if (!(this.shouldLoadData() && !this.store.checkDescendants)) {
-      const { all, allWithoutDisable } = getChildState(this.childNodes)
+      const { all, isEffectivelyChecked } = getChildState(this.childNodes)
 
-      if (!this.isLeaf && !all && allWithoutDisable) {
+      if (!this.isLeaf && !all && isEffectivelyChecked) {
         this.checked = false
         value = false
       }

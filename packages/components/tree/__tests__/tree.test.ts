@@ -2221,6 +2221,28 @@ describe('Tree.vue', () => {
                 },
               ],
             },
+            {
+              id: '2',
+              label: 'node-2',
+              children: [
+                {
+                  id: '2-1',
+                  label: 'node-2-1',
+                  disabled: true,
+                  children: [
+                    {
+                      id: '2-1-1',
+                      label: 'node-2-1-1',
+                    },
+                    {
+                      id: '2-1-2',
+                      label: 'node-2-1-2',
+                      disabled: true,
+                    },
+                  ],
+                },
+              ],
+            },
           ],
         }
       },
@@ -2235,8 +2257,11 @@ describe('Tree.vue', () => {
     treeRef.setCheckedKeys(keys)
     expect(treeRef.getCheckedKeys()).toEqual(keys)
 
-    const fistNode = wrapper.find(TREE_NODE_CHECKBOX_CLASS_NAME)
-    await fistNode.trigger('click')
+    let nodes = wrapper.findAll(TREE_NODE_CHECKBOX_CLASS_NAME)
+    await nodes[0].trigger('click')
     expect(treeRef.getCheckedKeys()).toHaveLength(0)
+    nodes = wrapper.findAll(TREE_NODE_CHECKBOX_CLASS_NAME)
+    await nodes[4].trigger('click')
+    expect(treeRef.getCheckedKeys()).toEqual(['2-1-1'])
   })
 })
