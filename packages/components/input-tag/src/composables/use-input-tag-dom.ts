@@ -1,6 +1,7 @@
-import { computed, ref, useAttrs, useSlots } from 'vue'
+import { computed, reactive, ref, useAttrs, useSlots } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { MINIMUM_INPUT_WIDTH } from '@element-plus/constants'
+import { useResizeObserver } from '@vueuse/core'
 
 import type { ComputedRef, Ref, StyleValue } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
@@ -16,6 +17,11 @@ interface UseInputTagDomOptions {
   validateState: ComputedRef<string>
   validateIcon: ComputedRef<boolean>
   needStatusIcon: ComputedRef<boolean>
+}
+
+export interface InputTagStates {
+  innerWidth: number
+  collapseItemWidth: number
 }
 
 export function useInputTagDom({
@@ -70,6 +76,11 @@ export function useInputTagDom({
     )
   })
 
+  const states = reactive(<InputTagStates>{
+    innerWidth: 0,
+    collapseItemWidth: 0,
+  })
+
   const getGapWidth = () => {
     if (!innerRef.value) return 0
     const style = window.getComputedStyle(innerRef.value)
@@ -78,8 +89,15 @@ export function useInputTagDom({
 
   const getInnerWidth = () => {
     if (!innerRef.value) return 0
+    states.innerWidth = Number.parseFloat(
+      window.getComputedStyle(innerRef.value).width
+    )
+  }
 
-    return Number.parseFloat(window.getComputedStyle(innerRef.value!).width)
+  const resetCollapseItemWidth = () => {
+    if (!collapseItemRef.value) return 0
+    states.collapseItemWidth =
+      collapseItemRef.value.getBoundingClientRect().width
   }
 
   const tagStyle = computed(() => {
@@ -87,18 +105,20 @@ export function useInputTagDom({
     const gapWidth = getGapWidth()
 
     const inputSlotWidth = gapWidth + MINIMUM_INPUT_WIDTH
-    const innerWidth = getInnerWidth()
-
-    const collapseItemWidth =
-      (collapseItemRef.value?.getBoundingClientRect().width || 36) + 4
 
     const maxWidth =
       collapseItemRef.value && props.maxCollapseTags === 1
-        ? innerWidth - collapseItemWidth - gapWidth - inputSlotWidth
-        : innerWidth - inputSlotWidth
+        ? states.innerWidth -
+          states.collapseItemWidth -
+          gapWidth -
+          inputSlotWidth
+        : states.innerWidth - inputSlotWidth
 
     return { maxWidth: `${Math.max(maxWidth, 0)}px` }
   })
+
+  useResizeObserver(innerRef, getInnerWidth)
+  useResizeObserver(collapseItemRef, resetCollapseItemWidth)
 
   return {
     ns,
