@@ -463,13 +463,6 @@ class Node {
     if (this.store.checkStrictly) return
 
     if (!(this.shouldLoadData() && !this.store.checkDescendants)) {
-      const { all, isEffectivelyChecked } = getChildState(this.childNodes)
-
-      if (!this.isLeaf && !all && isEffectivelyChecked) {
-        this.checked = false
-        value = false
-      }
-
       const handleDescendants = (): void => {
         if (deep) {
           const childNodes = this.childNodes
