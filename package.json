@@ -117,9 +117,6 @@
   "engines": {
     "node": ">= 20"
   },
-  "volta": {
-    "node": ">=20"
-  },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-git"
