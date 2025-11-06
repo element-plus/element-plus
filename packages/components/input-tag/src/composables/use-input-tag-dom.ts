@@ -1,4 +1,4 @@
-import { computed, useAttrs, useSlots } from 'vue'
+import { computed, ref, useAttrs, useSlots } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { MINIMUM_INPUT_WIDTH } from '@element-plus/constants'
 
@@ -16,8 +16,6 @@ interface UseInputTagDomOptions {
   validateState: ComputedRef<string>
   validateIcon: ComputedRef<boolean>
   needStatusIcon: ComputedRef<boolean>
-  wrapperRef: Ref<HTMLElement | undefined>
-  collapseItemRef: Ref<HTMLElement | undefined>
 }
 
 export function useInputTagDom({
@@ -30,13 +28,14 @@ export function useInputTagDom({
   validateState,
   validateIcon,
   needStatusIcon,
-  wrapperRef,
-  collapseItemRef,
 }: UseInputTagDomOptions) {
   const attrs = useAttrs()
   const slots = useSlots()
   const ns = useNamespace('input-tag')
   const nsInput = useNamespace('input')
+
+  const collapseItemRef = ref<HTMLElement>()
+  const innerRef = ref<HTMLElement>()
 
   const containerKls = computed(() => [
     ns.b(),
@@ -53,7 +52,6 @@ export function useInputTagDom({
     ns.is('draggable', props.draggable),
     ns.is('left-space', !props.modelValue?.length && !slots.prefix),
     ns.is('right-space', !props.modelValue?.length && !showSuffix.value),
-    ns.is('collapse-tags', props.collapseTags),
   ])
   const showClear = computed(() => {
     return (
@@ -73,26 +71,26 @@ export function useInputTagDom({
   })
 
   const getGapWidth = () => {
-    if (!wrapperRef.value) return 0
-    const innerElement = wrapperRef.value.querySelector(`.${ns.e('inner')}`)
-    if (!innerElement) return 0
-    const style = window.getComputedStyle(innerElement)
+    if (!innerRef.value) return 0
+    const style = window.getComputedStyle(innerRef.value)
     return Number.parseFloat(style.gap || '6px')
   }
 
   const getInnerWidth = () => {
-    if (!wrapperRef.value) return 0
-    const innerElement = wrapperRef.value.querySelector(`.${ns.e('inner')}`)
-    if (!innerElement) return 0
-    return innerElement.clientWidth
+    if (!innerRef.value) return 0
+
+    return Number.parseFloat(window.getComputedStyle(innerRef.value!).width)
   }
 
   const tagStyle = computed(() => {
     if (!props.collapseTags) return {}
     const gapWidth = getGapWidth()
+
     const inputSlotWidth = gapWidth + MINIMUM_INPUT_WIDTH
     const innerWidth = getInnerWidth()
-    const collapseItemWidth = collapseItemRef.value?.offsetWidth || 40
+
+    const collapseItemWidth =
+      (collapseItemRef.value?.getBoundingClientRect().width || 36) + 4
 
     const maxWidth =
       collapseItemRef.value && props.maxCollapseTags === 1
@@ -111,5 +109,7 @@ export function useInputTagDom({
     showClear,
     showSuffix,
     tagStyle,
+    collapseItemRef,
+    innerRef,
   }
 }

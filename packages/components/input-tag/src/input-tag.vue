@@ -9,7 +9,7 @@
     <div v-if="slots.prefix" :class="ns.e('prefix')">
       <slot name="prefix" />
     </div>
-    <div :class="innerKls">
+    <div ref="innerRef" :class="innerKls">
       <el-tag
         v-for="(item, index) in showTagList"
         :key="index"
@@ -26,9 +26,7 @@
         @dragend="handleDragEnd"
         @drop.stop
       >
-        <slot name="tag" :value="item" :index="index">
-          {{ item }}
-        </slot>
+        <slot name="tag" :value="item" :index="index"> {{ item }} </slot>
       </el-tag>
       <el-tooltip
         v-if="collapseTags && modelValue && modelValue.length > maxCollapseTags"
@@ -39,16 +37,17 @@
         placement="bottom"
       >
         <template #default>
-          <el-tag
-            ref="collapseItemRef"
-            :closable="false"
-            :size="tagSize"
-            :type="tagType"
-            :effect="tagEffect"
-            disable-transitions
-          >
-            + {{ modelValue.length - maxCollapseTags }}
-          </el-tag>
+          <div ref="collapseItemRef">
+            <el-tag
+              :closable="false"
+              :size="tagSize"
+              :type="tagType"
+              :effect="tagEffect"
+              disable-transitions
+            >
+              + {{ modelValue.length - maxCollapseTags }}
+            </el-tag>
+          </div>
         </template>
         <template #content>
           <div :class="ns.e('input-tag-list')">
@@ -132,7 +131,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, useSlots } from 'vue'
+import { computed, useSlots } from 'vue'
 import { useAttrs, useCalcInputWidth } from '@element-plus/hooks'
 import { NOOP, ValidateComponentsMap } from '@element-plus/utils'
 import ElTooltip from '@element-plus/components/tooltip'
@@ -159,8 +158,6 @@ const attrs = useAttrs()
 const slots = useSlots()
 const { form, formItem } = useFormItem()
 const { inputId } = useFormItemInputId(props, { formItemContext: formItem })
-
-const collapseItemRef = ref<HTMLElement>()
 
 const needStatusIcon = computed(() => form?.statusIcon ?? false)
 const validateState = computed(() => formItem?.validateState || '')
@@ -211,6 +208,8 @@ const {
   showClear,
   showSuffix,
   tagStyle,
+  collapseItemRef,
+  innerRef,
 } = useInputTagDom({
   props,
   hovering,
@@ -221,8 +220,6 @@ const {
   validateState,
   validateIcon,
   needStatusIcon,
-  wrapperRef,
-  collapseItemRef,
 })
 
 defineExpose({
