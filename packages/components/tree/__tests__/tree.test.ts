@@ -2264,6 +2264,54 @@ describe('Tree.vue', () => {
     expect(treeRef.getCheckedKeys()).toEqual(['2-1-1'])
   })
 
+  test('should correctly handle checkbox state in lazy mode when disabled nodes exist', async () => {
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" :load="loadNode" node-key="id" show-checkbox lazy`,
+      {
+        methods: {
+          loadNode(node, resolve) {
+            if (node.level === 0) {
+              return resolve([{ label: 'a', id: 'a' }])
+            }
+            if (node.level > 1) return resolve([])
+
+            const data = [
+              {
+                label: 'leaf',
+                id: 'b',
+                isLeaf: true,
+                disabled: true,
+              },
+              {
+                label: 'zone',
+                id: 'c',
+              },
+            ]
+            resolve(data)
+          },
+        },
+      }
+    )
+
+    await nextTick()
+    const nodeWrappers = wrapper.findAll('.el-tree-node__content')
+    const treeRef = wrapper.findComponent({ name: 'ElTree' }).vm as TreeInstance
+
+    expect(treeRef.getCheckedKeys()).toHaveLength(0)
+
+    let nodes = wrapper.findAll(TREE_NODE_CHECKBOX_CLASS_NAME)
+    await nodes[0].trigger('click')
+    expect(treeRef.getCheckedKeys()).toEqual(['a'])
+    await nodeWrappers[0].trigger('click')
+    expect(treeRef.getCheckedKeys()).toEqual(['c'])
+    nodes = wrapper.findAll(TREE_NODE_CHECKBOX_CLASS_NAME)
+    await nodes[0].trigger('click')
+    expect(treeRef.getCheckedKeys()).toEqual([])
+    nodes = wrapper.findAll(TREE_NODE_CHECKBOX_CLASS_NAME)
+    await nodes[0].trigger('click')
+    expect(treeRef.getCheckedKeys()).toEqual(['c'])
+  })
+
   test('should correctly handle checkbox state under default-checked-keys when disabled nodes exist', async () => {
     const wrapper = mount({
       template: `
