@@ -1,9 +1,16 @@
+import { Close } from '@element-plus/icons-vue'
 import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 
-import type { ExtractPropTypes, VNode } from 'vue'
+import type {
+  AppContext,
+  ExtractPropTypes,
+  VNode,
+  __ExtractPublicPropTypes,
+} from 'vue'
 import type Notification from './notification.vue'
 
 export const notificationTypes = [
+  'primary',
   'success',
   'info',
   'warning',
@@ -21,10 +28,7 @@ export const notificationProps = buildProps({
   /**
    * @description whether `message` is treated as HTML string
    */
-  dangerouslyUseHTMLString: {
-    type: Boolean,
-    default: false,
-  },
+  dangerouslyUseHTMLString: Boolean,
   /**
    * @description duration before close. It will not automatically close if set 0
    */
@@ -49,7 +53,11 @@ export const notificationProps = buildProps({
    * @description description text
    */
   message: {
-    type: definePropType<string | VNode>([String, Object]),
+    type: definePropType<string | VNode | (() => VNode)>([
+      String,
+      Object,
+      Function,
+    ]),
     default: '',
   },
   /**
@@ -107,21 +115,35 @@ export const notificationProps = buildProps({
    * @description initial zIndex
    */
   zIndex: Number,
+  /**
+   * @description custom close icon, default is Close
+   */
+  closeIcon: {
+    type: iconPropType,
+    default: Close,
+  },
 } as const)
 export type NotificationProps = ExtractPropTypes<typeof notificationProps>
+export type NotificationPropsPublic = __ExtractPublicPropTypes<
+  typeof notificationProps
+>
 
 export const notificationEmits = {
   destroy: () => true,
 }
 export type NotificationEmits = typeof notificationEmits
 
-export type NotificationInstance = InstanceType<typeof Notification>
+export type NotificationInstance = InstanceType<typeof Notification> & unknown
 
-export type NotificationOptions = Omit<NotificationProps, 'id'> & {
+export type NotificationOptions = Omit<NotificationProps, 'id' | 'onClose'> & {
   /**
    * @description set the root element for the notification, default to `document.body`
    */
   appendTo?: HTMLElement | string
+  /**
+   * @description callback function when closed
+   */
+  onClose?(vm: VNode): void
 }
 export type NotificationOptionsTyped = Omit<NotificationOptions, 'type'>
 
@@ -135,15 +157,23 @@ export type NotificationParamsTyped =
   | string
   | VNode
 
-export type NotifyFn = ((
-  options?: NotificationParams
-) => NotificationHandle) & { closeAll: () => void }
+export interface NotifyFn {
+  (
+    options?: NotificationParams,
+    appContext?: null | AppContext
+  ): NotificationHandle
+  closeAll(): void
+  updateOffsets(position?: NotificationOptions['position']): void
+  _context: AppContext | null
+}
 
 export type NotifyTypedFn = (
-  options?: NotificationParamsTyped
+  options?: NotificationParamsTyped,
+  appContext?: null | AppContext
 ) => NotificationHandle
 
 export interface Notify extends NotifyFn {
+  primary: NotifyTypedFn
   success: NotifyTypedFn
   warning: NotifyTypedFn
   error: NotifyTypedFn

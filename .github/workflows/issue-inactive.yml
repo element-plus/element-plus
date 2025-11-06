@@ -37,6 +37,7 @@ jobs:
           actions: 'lock-issues'
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-state: closed
+          labels: 'inactive'
           inactive-day: 30
           body: |
             This issue has been automatically locked since there has not been any recent activity after it was closed. Please open a new issue for related bugs.
@@ -52,3 +53,4 @@ jobs:
         with:
           actions: 'check-inactive'
           inactive-day: 30
+          exclude-issue-numbers: '15834'

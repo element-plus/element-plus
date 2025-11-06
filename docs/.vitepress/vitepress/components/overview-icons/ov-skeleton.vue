@@ -1,0 +1,44 @@
+<template>
+  <svg
+    width="280"
+    height="180"
+    viewBox="0 0 280 180"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect width="280" height="180" fill="var(--el-fill-color-light)" />
+    <rect
+      x="60"
+      y="48"
+      width="60"
+      height="8"
+      rx="2"
+      fill="var(--el-border-color-dark)"
+    />
+    <rect
+      x="60"
+      y="96"
+      width="104"
+      height="8"
+      rx="2"
+      fill="var(--el-border-color-dark)"
+    />
+    <rect
+      x="60"
+      y="64"
+      width="160"
+      height="8"
+      rx="2"
+      fill="var(--el-border-color-dark)"
+    />
+    <rect
+      x="60"
+      y="80"
+      width="160"
+      height="8"
+      rx="2"
+      fill="var(--el-border-color-dark)"
+    />
+    <circle cx="70" cy="122" r="10" fill="var(--el-border-color-dark)" />
+  </svg>
+</template>

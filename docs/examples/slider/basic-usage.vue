@@ -34,8 +34,10 @@ const formatTooltip = (val: number) => {
   return val / 100
 }
 </script>
+
 <style scoped>
 .slider-demo-block {
+  max-width: 600px;
   display: flex;
   align-items: center;
 }

@@ -36,7 +36,23 @@ describe('usePopperContainer', () => {
     const { vm } = mountComponent()
     await nextTick()
     const { selector } = vm
-    expect(document.body.querySelector(selector.value)).toBeDefined()
+    expect(
+      document.body.querySelector(selector)?.id === selector.slice(1)
+    ).toBeTruthy()
+  })
+
+  it('should append container from the DOM root again when container is destroyed', async () => {
+    mountComponent()
+    await nextTick()
+    document.body.innerHTML = ''
+    process.env.NODE_ENV = ''
+    const { vm } = mountComponent()
+    await nextTick()
+    process.env.NODE_ENV = 'test'
+    const { selector } = vm
+    expect(
+      document.body.querySelector(selector)?.id === selector.slice(1)
+    ).toBeTruthy()
   })
 
   it('should not append container to the DOM root', async () => {
@@ -44,7 +60,7 @@ describe('usePopperContainer', () => {
     const { vm } = mountComponent()
     await nextTick()
     const { selector } = vm
-    expect(document.body.querySelector(selector.value)).toBeNull()
+    expect(document.body.querySelector(selector)).toBeNull()
   })
 })
 

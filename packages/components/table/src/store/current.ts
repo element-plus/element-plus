@@ -1,15 +1,15 @@
-// @ts-nocheck
 import { getCurrentInstance, ref, unref } from 'vue'
+import { isNull } from 'lodash-unified'
 import { getRowIdentity } from '../util'
 
 import type { Ref } from 'vue'
-import type { Table } from '../table/defaults'
+import type { DefaultRow, Table } from '../table/defaults'
 import type { WatcherPropsData } from '.'
 
-function useCurrent<T>(watcherData: WatcherPropsData<T>) {
+function useCurrent<T extends DefaultRow>(watcherData: WatcherPropsData<T>) {
   const instance = getCurrentInstance() as Table<T>
-  const _currentRowKey = ref<string>(null)
-  const currentRow: Ref<T> = ref(null)
+  const _currentRowKey: Ref<string | null> = ref(null)
+  const currentRow: Ref<T | null> = ref(null)
 
   const setCurrentRowKey = (key: string) => {
     instance.store.assertRowKey()
@@ -23,13 +23,14 @@ function useCurrent<T>(watcherData: WatcherPropsData<T>) {
 
   const setCurrentRowByKey = (key: string) => {
     const { data, rowKey } = watcherData
-    let _currentRow = null
+    let _currentRow: T | null = null
     if (rowKey.value) {
-      _currentRow = (unref(data) || []).find(
-        (item) => getRowIdentity(item, rowKey.value) === key
-      )
+      _currentRow =
+        (unref(data) || []).find(
+          (item) => getRowIdentity(item, rowKey.value) === key
+        ) ?? null
     }
-    currentRow.value = _currentRow
+    currentRow.value = _currentRow ?? null
     instance.emit('current-change', currentRow.value, null)
   }
 
@@ -52,14 +53,14 @@ function useCurrent<T>(watcherData: WatcherPropsData<T>) {
     const data = watcherData.data.value || []
     const oldCurrentRow = currentRow.value
     // 当 currentRow 不在 data 中时尝试更新数据
-    if (!data.includes(oldCurrentRow) && oldCurrentRow) {
+    if (oldCurrentRow && !data.includes(oldCurrentRow)) {
       if (rowKey) {
         const currentRowKey = getRowIdentity(oldCurrentRow, rowKey)
         setCurrentRowByKey(currentRowKey)
       } else {
         currentRow.value = null
       }
-      if (currentRow.value === null) {
+      if (isNull(currentRow.value)) {
         instance.emit('current-change', null, oldCurrentRow)
       }
     } else if (_currentRowKey.value) {

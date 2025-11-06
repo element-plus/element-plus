@@ -12,9 +12,11 @@ import {
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
+import { useAriaProps } from '@element-plus/hooks'
+
 import type { ComponentSize } from '@element-plus/constants'
 import type Switch from './switch.vue'
-import type { ExtractPropTypes, PropType } from 'vue'
+import type { ExtractPropTypes, PropType, __ExtractPublicPropTypes } from 'vue'
 
 export const switchProps = buildProps({
   /**
@@ -27,17 +29,11 @@ export const switchProps = buildProps({
   /**
    * @description whether Switch is disabled
    */
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
+  disabled: Boolean,
   /**
    * @description whether Switch is in loading state
    */
-  loading: {
-    type: Boolean,
-    default: false,
-  },
+  loading: Boolean,
   /**
    * @description size of Switch
    */
@@ -55,10 +51,7 @@ export const switchProps = buildProps({
   /**
    * @description whether icon or text is displayed inside dot, only the first character will be rendered for text
    */
-  inlinePrompt: {
-    type: Boolean,
-    default: false,
-  },
+  inlinePrompt: Boolean,
   /**
    * @description component of the icon displayed in action when in `off` state
    */
@@ -112,27 +105,6 @@ export const switchProps = buildProps({
     default: false,
   },
   /**
-   * @deprecated background color when in `on` state ( deprecated, use CSS var `--el-switch-on-color` instead )
-   */
-  activeColor: {
-    type: String,
-    default: '',
-  },
-  /**
-   * @deprecated background color when in `off` state ( deprecated, use CSS var `--el-switch-off-color` instead )
-   */
-  inactiveColor: {
-    type: String,
-    default: '',
-  },
-  /**
-   * @deprecated border color of the switch ( deprecated, use CSS var `--el-switch-border-color` instead )
-   */
-  borderColor: {
-    type: String,
-    default: '',
-  },
-  /**
    * @description input name of Switch
    */
   name: {
@@ -162,16 +134,11 @@ export const switchProps = buildProps({
   tabindex: {
     type: [String, Number],
   },
-  /**
-   * @deprecated binding value ( deprecated, use `model-value / v-model` instead )
-   */
-  value: {
-    type: [Boolean, String, Number],
-    default: false,
-  },
+  ...useAriaProps(['ariaLabel']),
 } as const)
 
 export type SwitchProps = ExtractPropTypes<typeof switchProps>
+export type SwitchPropsPublic = __ExtractPublicPropTypes<typeof switchProps>
 
 export const switchEmits = {
   [UPDATE_MODEL_EVENT]: (val: boolean | string | number) =>
@@ -183,4 +150,4 @@ export const switchEmits = {
 }
 export type SwitchEmits = typeof switchEmits
 
-export type SwitchInstance = InstanceType<typeof Switch>
+export type SwitchInstance = InstanceType<typeof Switch> & unknown

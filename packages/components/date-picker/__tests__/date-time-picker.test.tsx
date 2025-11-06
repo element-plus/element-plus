@@ -1,11 +1,15 @@
 import { nextTick, ref } from 'vue'
-import { mount } from '@vue/test-utils'
-import { afterEach, describe, expect, it } from 'vitest'
+import { flushPromises, mount } from '@vue/test-utils'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import dayjs from 'dayjs'
+import { CircleClose } from '@element-plus/icons-vue'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { ElFormItem } from '@element-plus/components/form'
 import DatePicker from '../src/date-picker'
+import DatePickerRange from '../../date-picker-panel/src/date-picker-com/panel-date-range.vue'
+
 import type { VNode } from 'vue'
+import type { DatePickerType } from '../../date-picker-panel/src/types'
 
 const formatStr = 'YYYY-MM-DD HH:mm:ss'
 const makeRange = (start: number, end: number) => {
@@ -28,8 +32,16 @@ describe('Datetime Picker', () => {
   it('both picker show correct formated value (extract date-format and time-format from format property', async () => {
     const value = ref(new Date(2018, 2, 5, 10, 15, 24))
     const format = ref('YYYY/MM/DD HH:mm A')
+    const dateFormat = ref('')
+    const timeFormat = ref('')
     const wrapper = _mount(() => (
-      <DatePicker v-model={value.value} type="datetime" format={format.value} />
+      <DatePicker
+        v-model={value.value}
+        type="datetime"
+        format={format.value}
+        dateFormat={dateFormat.value}
+        timeFormat={timeFormat.value}
+      />
     ))
 
     const input = wrapper.find('input')
@@ -52,6 +64,12 @@ describe('Datetime Picker', () => {
     await nextTick()
     expect(dateInput.value).toBe('03-05-2018')
     expect(timeInput.value).toBe('10 am')
+
+    dateFormat.value = 'YYYY/MM/DD ddd'
+    timeFormat.value = 'A hh:mm:ss'
+    await nextTick()
+    expect(dateInput.value).toBe('2018/03/05 Mon')
+    expect(timeInput.value).toBe('AM 10:15:24')
   })
 
   it('both picker show correct value', async () => {
@@ -111,6 +129,35 @@ describe('Datetime Picker', () => {
     await nextTick()
     // test if is current time (deviation 10 seconds)
     expect(dayjs(value.value).diff(dayjs()) < 10).toBeTruthy()
+  })
+
+  it("should date input respect the default format 'YYYY-MM-DD' when format with only time format is setted", async () => {
+    const modelValue = new Date(2000, 10, 10, 10, 10)
+    const wrapper = mount(() => (
+      <DatePicker v-model={modelValue} format="HH:mm:ss" type="datetime" />
+    ))
+
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    const timeInput = document.querySelector(
+      '.el-date-picker__editor-wrap input'
+    )
+    expect((timeInput as HTMLInputElement).value).toBe('2000-11-10')
+  })
+
+  it("should time input respect the default format 'HH:mm:ss' when format with only date format is setted", async () => {
+    const modelValue = new Date(2000, 10, 10, 10, 10)
+    const wrapper = mount(() => (
+      <DatePicker v-model={modelValue} format="YYYY" type="datetime" />
+    ))
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    const timeInput = document.querySelectorAll(
+      '.el-date-picker__editor-wrap input'
+    )[1]
+    expect((timeInput as HTMLInputElement).value).toBe('10:10:00')
   })
 
   it('time-picker select && input time && input date', async () => {
@@ -370,6 +417,94 @@ describe('Datetime Picker', () => {
     await nextTick()
     expect(timeInput.value).toBe('13:00:00')
   })
+
+  it('inherit time across different picker view', async () => {
+    const value = ref(new Date(2000, 10, 8, 10, 10))
+    const wrapper = _mount(() => (
+      <DatePicker v-model={value.value} type="datetime" />
+    ))
+
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    const headerPanel = document.querySelectorAll(
+      '.el-date-picker__header-label'
+    )
+    ;(headerPanel[1] as HTMLSpanElement).click()
+    await nextTick()
+    const firstMonth = document.querySelector(
+      '.el-month-table td'
+    ) as HTMLSpanElement
+    firstMonth.click()
+    const timeInput: HTMLInputElement = document.querySelector(
+      '.el-date-picker__time-header > span:nth-child(2) input'
+    )!
+    expect(timeInput.value).toBe('10:10:00')
+  })
+
+  // fix #15196
+  it('first click accuracy', async () => {
+    const value = ref('')
+    const wrapper = _mount(() => (
+      <DatePicker v-model={value.value} type="datetime" />
+    ))
+
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const dayItems = document.querySelectorAll('.el-date-table-cell__text')
+    const targetDay = dayItems[15] as HTMLElement // Try to make sure the date is this month
+    const dayText = targetDay.textContent
+    targetDay.click()
+    await nextTick()
+    expect(dayjs(value.value).format('D')).toBe(dayText)
+  })
+
+  it('validate user input', async () => {
+    const value = ref('')
+    const wrapper = _mount(() => (
+      <DatePicker v-model={value.value} type="datetime" />
+    ))
+    const input = wrapper.find('input')
+    input.element.value = '999999-10-01 12:01:03'
+    await input.trigger('input')
+    await input.trigger('blur')
+    expect(value.value).toBe('')
+
+    input.element.value = '2023-10-01 12:01:03'
+    await input.trigger('input')
+    await input.trigger('blur')
+    expect(dayjs(value.value).format('YYYY-MM-DD HH:mm:ss')).toBe(
+      '2023-10-01 12:01:03'
+    )
+
+    // invalid user input not work
+    input.element.value = '999999-10-01'
+    await input.trigger('input')
+    await input.trigger('blur')
+    expect(dayjs(value.value).format('YYYY-MM-DD HH:mm:ss')).toBe(
+      '2023-10-01 12:01:03'
+    )
+  })
+
+  it('shows weekNumber', async () => {
+    const value = ref('2025-01-01')
+    _mount(() => (
+      <DatePicker v-model={value.value} type="datetime" show-week-number />
+    ))
+    await nextTick()
+    const weeks = document.querySelectorAll('td.week')
+    expect(weeks.length).toBe(6)
+    expect([...weeks].map((x) => x.textContent?.trim())).toEqual([
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+    ])
+  })
 })
 
 describe('Datetimerange', () => {
@@ -378,12 +513,16 @@ describe('Datetimerange', () => {
       new Date(2000, 10, 8, 10, 10),
       new Date(2000, 10, 11, 10, 10),
     ])
+    const dateFormat = ref('')
+    const timeFormat = ref('')
     const wrapper = _mount(() => (
       <DatePicker
         v-model={value.value}
         type="datetimerange"
         default-time={new Date(2020, 1, 1, 1, 1, 1)}
         format="YYYY/MM/DD HH:mm A"
+        dateFormat={dateFormat.value}
+        timeFormat={timeFormat.value}
       />
     ))
 
@@ -436,6 +575,14 @@ describe('Datetimerange', () => {
     expect((left.timeInput as HTMLInputElement).value).toBe('01:01 AM')
     expect((right.dateInput as HTMLInputElement).value).toBe('2000/12/01')
     expect((right.timeInput as HTMLInputElement).value).toBe('01:01 AM')
+
+    dateFormat.value = 'YYYY/MM/DD ddd'
+    timeFormat.value = 'A hh:mm:ss'
+    await nextTick()
+    expect((left.dateInput as HTMLInputElement).value).toBe('2000/11/01 Wed')
+    expect((left.timeInput as HTMLInputElement).value).toBe('AM 01:01:01')
+    expect((right.dateInput as HTMLInputElement).value).toBe('2000/12/01 Fri')
+    expect((right.timeInput as HTMLInputElement).value).toBe('AM 01:01:01')
   })
 
   it('input date', async () => {
@@ -521,6 +668,37 @@ describe('Datetimerange', () => {
     expect(value.value).not.toBe('')
   })
 
+  it('clear button should empty the input value', async () => {
+    const value = ref('')
+    const wrapper = _mount(() => (
+      <DatePicker v-model={value.value} type="datetimerange" />
+    ))
+    const input = wrapper.find('input')
+    input.trigger('focus')
+    await nextTick()
+    const dateRow = document.querySelectorAll('.el-date-table__row')
+    const dateCell = dateRow[1].querySelectorAll<HTMLElement>('.available')
+    dateCell[0].click()
+    dateCell[3].click()
+    await nextTick()
+    const headerValue = document.querySelectorAll<HTMLInputElement>(
+      '.el-date-range-picker__time-header input'
+    )
+    expect(headerValue[0].value).not.toBe('')
+    expect(headerValue[1].value).not.toBe('')
+    const clearBtn = document.querySelectorAll<HTMLButtonElement>(
+      '.el-picker-panel__footer button'
+    )[0]
+    clearBtn.click()
+    await nextTick()
+    input.trigger('blur')
+    await nextTick()
+    input.trigger('focus')
+    await nextTick()
+    expect(headerValue[0].value).toBe('')
+    expect(headerValue[1].value).toBe('')
+  })
+
   it('confirm honors disabledDate', async () => {
     const value = ref('')
     const disabledDate = (date: Date) => {
@@ -555,8 +733,9 @@ describe('Datetimerange', () => {
     expect(btn.getAttribute('disabled')).not.toBeUndefined() // invalid input disables button
     btn.click()
     await nextTick()
-    const rangePanel = document.querySelector('.el-date-range-picker')!
-    expect(rangePanel.getAttribute('visible')).toBe('true') // popper still open
+    const rangePanelWrapper = wrapper.findComponent(DatePickerRange)
+    expect(rangePanelWrapper.exists()).toBe(true)
+    expect(rangePanelWrapper.vm.visible).toBe(true) // popper still open
     expect(value.value).toBe('')
     leftDateInput.value = '2001-09-01'
     triggerEvent(leftDateInput, 'input', true)
@@ -565,7 +744,7 @@ describe('Datetimerange', () => {
     expect(btn.getAttribute('disabled')).not.toBeUndefined()
     btn.click()
     await nextTick()
-    expect(rangePanel.getAttribute('visible')).toBe('false') // popper dismiss
+    expect(rangePanelWrapper.vm.visible).toBe(false) // popper dismiss
     expect(value.value).not.toBe('')
   })
 
@@ -772,5 +951,272 @@ describe('Datetimerange', () => {
     const [startInput, endInput] = wrapper.findAll('input')
     expect(startInput.element.value).toBe('')
     expect(endInput.element.value).toBe('')
+  })
+
+  it('prop defaultTime should not confilt with prop shortcuts', async () => {
+    const value = ref('')
+    const wrapper = _mount(() => (
+      <DatePicker
+        v-model={value.value}
+        type="datetime"
+        shortcuts={[
+          { text: '12:00', value: new Date(2023, 0, 1, 12) },
+          { text: '13:00', value: new Date(2023, 0, 1, 13) },
+          { text: '14:00', value: new Date(2023, 0, 1, 14) },
+        ]}
+        default-time={new Date(2023, 0, 1, 19, 0, 0)}
+      />
+    ))
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    ;(
+      document.querySelector(
+        '.el-picker-panel__sidebar .el-picker-panel__shortcut'
+      ) as HTMLElement
+    ).click()
+    await nextTick()
+    expect(value.value).toBeDefined()
+    expect(dayjs(value.value).format('YYYY-MM-DD HH:mm:ss')).toStrictEqual(
+      '2023-01-01 12:00:00'
+    )
+  })
+
+  it('shows weekNumber', async () => {
+    const value = ref([new Date(2025, 0, 1), new Date(2025, 1, 1)])
+    const wrapper = _mount(() => (
+      <DatePicker v-model={value.value} type="datetimerange" show-week-number />
+    ))
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+
+    await nextTick()
+    const weeks = document.querySelectorAll('td.week')
+    expect(weeks.length).toBe(12)
+    expect([...weeks].map((x) => x.textContent?.trim())).toEqual([
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '5',
+      '6',
+      '7',
+      '8',
+      '9',
+      '10',
+    ])
+  })
+
+  it('should emit update:model-value when two dates reached', async () => {
+    const value = ref<[Date, Date]>()
+    const onUpdateModelValue = vi.fn()
+    const wrapper = _mount(() => (
+      <DatePicker
+        v-model={value.value}
+        type="datetimerange"
+        onUpdate:modelValue={onUpdateModelValue}
+      />
+    ))
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    const cells = document.querySelectorAll(
+      '.available .el-date-table-cell'
+    ) as unknown as HTMLElement[]
+    cells[0].click()
+    await nextTick()
+    cells[1].click()
+    await nextTick()
+
+    const rangePanelWrapper = wrapper.findComponent(DatePickerRange)
+    expect(rangePanelWrapper.exists()).toBe(true)
+    expect(rangePanelWrapper.vm.visible).toBe(true)
+    expect(value.value).toHaveLength(2)
+    expect(onUpdateModelValue).toHaveBeenCalledOnce()
+    expect(onUpdateModelValue).toHaveBeenCalledWith(value.value)
+
+    await input.trigger('blur')
+    expect(rangePanelWrapper.vm.visible).toBe(false)
+  })
+
+  describe('should not have footer when show-footer is false', () => {
+    const footerAble: DatePickerType[] = ['dates', 'datetime', 'datetimerange']
+    it.each(footerAble)(":type='%s'", async (t) => {
+      const showFooter = ref(true)
+      const type = ref<DatePickerType>()
+      _mount(() => (
+        <DatePicker type={type.value} showFooter={showFooter.value} />
+      ))
+      type.value = t
+      showFooter.value = true
+      await nextTick()
+
+      expect(document.querySelector('.el-picker-panel__footer')).not.toBeNull()
+      showFooter.value = false
+      await nextTick()
+
+      expect(document.querySelector('.el-picker-panel__footer')).toBeNull()
+    })
+  })
+
+  it('should datetimerange visibility not be trapped by setting new values', async () => {
+    const values = ref(['2025-08-02', '2025-08-02'])
+    const spy = vi.fn()
+    const onChange = () => {
+      values.value = ['2025-08-02', '2025-08-02']
+      spy()
+    }
+    const wrapper = _mount(() => (
+      <DatePicker
+        v-model={values.value}
+        type="datetimerange"
+        valueFormat="YYYY-MM-DD"
+        //@ts-expect-error
+        onChange={onChange}
+      />
+    ))
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+
+    const rangePanelWrapper = wrapper.findComponent(DatePickerRange)
+    expect(rangePanelWrapper.exists()).toBe(true)
+    expect(rangePanelWrapper.vm.visible).toBe(true)
+
+    const cells = document.querySelectorAll('.available .el-date-table-cell')
+    ;(cells[0] as HTMLElement).click()
+    await nextTick()
+    ;(cells[1] as HTMLElement).click()
+    await nextTick()
+
+    const button = document.querySelectorAll(
+      '.el-picker-panel__footer button'
+    )![1] as HTMLButtonElement
+    button.click()
+    await flushPromises()
+
+    expect(spy).toHaveBeenCalledOnce()
+    expect(rangePanelWrapper.vm.visible).toBe(false)
+  })
+  it('datetimerange should be reopen successfully', async () => {
+    const values = ref()
+    const wrapper = _mount(() => (
+      <DatePicker
+        v-model={values.value}
+        type="datetimerange"
+        valueFormat="YYYY-MM-DD"
+      />
+    ))
+    const rangePanelWrapper = wrapper.findComponent(DatePickerRange)
+
+    expect(rangePanelWrapper.vm.visible).toBe(false)
+
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+
+    expect(rangePanelWrapper.exists()).toBe(true)
+    expect(rangePanelWrapper.vm.visible).toBe(true)
+
+    const cells = document.querySelectorAll('.available .el-date-table-cell')
+    ;(cells[0] as HTMLElement).click()
+    await nextTick()
+    ;(cells[1] as HTMLElement).click()
+    await nextTick()
+    const button = document.querySelectorAll(
+      '.el-picker-panel__footer button'
+    )![1] as HTMLButtonElement
+    button.click()
+    await nextTick()
+    expect(rangePanelWrapper.vm.visible).toBe(false)
+    await input.trigger('blur')
+    await input.trigger('focus')
+    expect(rangePanelWrapper.vm.visible).toBe(true)
+  })
+
+  it('should show clear btn on focus', async () => {
+    const wrapper = _mount(() => (
+      <DatePicker
+        type="datetimerange"
+        modelValue={new Date(2016, 9, 10, 18, 40)}
+        clearable
+      />
+    ))
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    expect(wrapper.findComponent(CircleClose).exists()).toBe(true)
+  })
+  it("should date input respect the default format 'YYYY-MM-DD' when format with only time format is setted", async () => {
+    const modelValue = [
+      new Date(2000, 10, 10, 10, 10),
+      new Date(2000, 10, 11, 10, 10),
+    ]
+    const wrapper = mount(() => (
+      <DatePicker v-model={modelValue} format="HH:mm:ss" type="datetimerange" />
+    ))
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    const timeInput = document.querySelector(
+      '.el-date-range-picker__editors-wrap input'
+    )
+    expect((timeInput as HTMLInputElement).value).toBe('2000-11-10')
+  })
+
+  it("should time input respect the default format 'HH:mm:ss' when format with only date format is setted", async () => {
+    const modelValue = [
+      new Date(2000, 10, 10, 10, 10),
+      new Date(2000, 10, 11, 10, 10),
+    ]
+    const wrapper = mount(() => (
+      <DatePicker v-model={modelValue} format="YYYY" type="datetimerange" />
+    ))
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    const timeInput = document.querySelectorAll(
+      '.el-date-range-picker__editors-wrap input'
+    )[1]
+    expect((timeInput as HTMLInputElement).value).toBe('10:10:00')
+  })
+
+  it('should not emit update:model-value on panel open when value format as string', async () => {
+    const modelValue = ['2025-09-01', '2025-09-07']
+    const onUpdateModelValue = vi.fn()
+    const wrapper = _mount(() => (
+      <DatePicker
+        modelValue={modelValue}
+        type="datetimerange"
+        onUpdate:modelValue={onUpdateModelValue}
+      />
+    ))
+    await wrapper.find('.el-date-editor').trigger('click')
+    expect(onUpdateModelValue).not.toHaveBeenCalled()
+  })
+
+  it('should left list time be sync with input input change', async () => {
+    const modelValue = ['2025-09-01', '2025-09-07']
+    const wrapper = _mount(() => (
+      <DatePicker modelValue={modelValue} type="datetimerange" />
+    ))
+
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    const leftTimeInput = document.querySelectorAll<HTMLInputElement>(
+      '.el-date-range-picker__time-picker-wrap input'
+    )[1]
+    leftTimeInput.value = 'AM 12:00:01'
+    triggerEvent(leftTimeInput, 'input')
+    await nextTick()
+    expect(
+      document.querySelectorAll('.el-time-spinner__list .is-active')[2]
+        .textContent
+    ).toBe('01')
   })
 })

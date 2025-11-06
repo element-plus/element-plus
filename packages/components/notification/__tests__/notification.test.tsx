@@ -2,13 +2,14 @@ import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import { TypeComponentsMap } from '@element-plus/utils'
+import { Close, CloseBold } from '@element-plus/icons-vue'
 import { EVENT_CODE } from '@element-plus/constants'
 import { notificationTypes } from '../src/notification'
 import Notification from '../src/notification.vue'
 
 import type { VNode } from 'vue'
 import type { VueWrapper } from '@vue/test-utils'
-import type { SpyInstance } from 'vitest'
+import type { MockInstance } from 'vitest'
 import type {
   NotificationInstance,
   NotificationProps,
@@ -95,6 +96,26 @@ describe('Notification.vue', () => {
         })
       )
     })
+
+    test('should be able to render default close icon', () => {
+      const wrapper = _mount({
+        slots: {
+          default: () => AXIOM,
+        },
+      })
+
+      expect(wrapper.findComponent(Close).exists()).toBe(true)
+    })
+
+    test('should be able to render custom close icon', () => {
+      const wrapper = _mount({
+        props: {
+          closeIcon: CloseBold,
+        },
+      })
+
+      expect(wrapper.findComponent(CloseBold).exists()).toBe(true)
+    })
   })
 
   describe('Notification.type', () => {
@@ -126,7 +147,7 @@ describe('Notification.vue', () => {
 
       expect(wrapper.find('.el-notification__icon').exists()).toBe(false)
       expect(console.warn).toHaveBeenCalled()
-      ;(console.warn as any as SpyInstance).mockRestore()
+      ;(console.warn as any as MockInstance).mockRestore()
     })
   })
 

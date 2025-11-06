@@ -1,69 +1,112 @@
 <template>
-  <teleport to="body" :disabled="!teleported">
+  <el-teleport to="body" :disabled="!teleported">
     <transition name="viewer-fade" appear>
       <div
         ref="wrapper"
         :tabindex="-1"
         :class="ns.e('wrapper')"
-        :style="{ zIndex: computedZIndex }"
+        :style="{ zIndex }"
       >
-        <div :class="ns.e('mask')" @click.self="hideOnClickModal && hide()" />
+        <el-focus-trap
+          loop
+          trapped
+          :focus-trap-el="wrapper"
+          focus-start-el="container"
+          @focusout-prevented="onFocusoutPrevented"
+          @release-requested="onCloseRequested"
+        >
+          <div :class="ns.e('mask')" @click.self="hideOnClickModal && hide()" />
 
-        <!-- CLOSE -->
-        <span :class="[ns.e('btn'), ns.e('close')]" @click="hide">
-          <el-icon><Close /></el-icon>
-        </span>
+          <!-- CLOSE -->
+          <span :class="[ns.e('btn'), ns.e('close')]" @click="hide">
+            <el-icon>
+              <Close />
+            </el-icon>
+          </span>
 
-        <!-- ARROW -->
-        <template v-if="!isSingle">
-          <span :class="arrowPrevKls" @click="prev">
-            <el-icon><ArrowLeft /></el-icon>
-          </span>
-          <span :class="arrowNextKls" @click="next">
-            <el-icon><ArrowRight /></el-icon>
-          </span>
-        </template>
-        <!-- ACTIONS -->
-        <div :class="[ns.e('btn'), ns.e('actions')]">
-          <div :class="ns.e('actions__inner')">
-            <el-icon @click="handleActions('zoomOut')">
-              <ZoomOut />
-            </el-icon>
-            <el-icon @click="handleActions('zoomIn')">
-              <ZoomIn />
-            </el-icon>
-            <i :class="ns.e('actions__divider')" />
-            <el-icon @click="toggleMode">
-              <component :is="mode.icon" />
-            </el-icon>
-            <i :class="ns.e('actions__divider')" />
-            <el-icon @click="handleActions('anticlockwise')">
-              <RefreshLeft />
-            </el-icon>
-            <el-icon @click="handleActions('clockwise')">
-              <RefreshRight />
-            </el-icon>
+          <!-- ARROW -->
+          <template v-if="!isSingle">
+            <span :class="arrowPrevKls" @click="prev">
+              <el-icon>
+                <ArrowLeft />
+              </el-icon>
+            </span>
+            <span :class="arrowNextKls" @click="next">
+              <el-icon>
+                <ArrowRight />
+              </el-icon>
+            </span>
+          </template>
+          <div
+            v-if="$slots.progress || showProgress"
+            :class="[ns.e('btn'), ns.e('progress')]"
+          >
+            <slot
+              name="progress"
+              :active-index="activeIndex"
+              :total="urlList.length"
+            >
+              {{ progress }}
+            </slot>
           </div>
-        </div>
-        <!-- CANVAS -->
-        <div :class="ns.e('canvas')">
-          <img
-            v-for="(url, i) in urlList"
-            v-show="i === activeIndex"
-            :ref="(el) => (imgRefs[i] = el as HTMLImageElement)"
-            :key="url"
-            :src="url"
-            :style="imgStyle"
-            :class="ns.e('img')"
-            @load="handleImgLoad"
-            @error="handleImgError"
-            @mousedown="handleMouseDown"
-          />
-        </div>
-        <slot />
+          <!-- ACTIONS -->
+          <div :class="[ns.e('btn'), ns.e('actions')]">
+            <div :class="ns.e('actions__inner')">
+              <slot
+                name="toolbar"
+                :actions="handleActions"
+                :prev="prev"
+                :next="next"
+                :reset="toggleMode"
+                :active-index="activeIndex"
+                :set-active-item="setActiveItem"
+              >
+                <el-icon @click="handleActions('zoomOut')">
+                  <ZoomOut />
+                </el-icon>
+                <el-icon @click="handleActions('zoomIn')">
+                  <ZoomIn />
+                </el-icon>
+                <i :class="ns.e('actions__divider')" />
+                <el-icon @click="toggleMode">
+                  <component :is="mode.icon" />
+                </el-icon>
+                <i :class="ns.e('actions__divider')" />
+                <el-icon @click="handleActions('anticlockwise')">
+                  <RefreshLeft />
+                </el-icon>
+                <el-icon @click="handleActions('clockwise')">
+                  <RefreshRight />
+                </el-icon>
+              </slot>
+            </div>
+          </div>
+          <!-- CANVAS -->
+          <div :class="ns.e('canvas')">
+            <slot
+              v-if="loadError && $slots['viewer-error']"
+              name="viewer-error"
+              :active-index="activeIndex"
+              :src="currentImg"
+            />
+            <img
+              v-else
+              ref="imgRef"
+              :key="currentImg"
+              :src="currentImg"
+              :style="imgStyle"
+              :class="ns.e('img')"
+              :crossorigin="crossorigin"
+              @load="handleImgLoad"
+              @error="handleImgError"
+              @mousedown="handleMouseDown"
+            />
+          </div>
+          <slot />
+        </el-focus-trap>
       </div>
     </transition>
-  </teleport>
+  </el-teleport>
 </template>
 
 <script lang="ts" setup>
@@ -77,11 +120,13 @@ import {
   shallowRef,
   watch,
 } from 'vue'
-import { useEventListener } from '@vueuse/core'
+import { clamp, useEventListener } from '@vueuse/core'
 import { throttle } from 'lodash-unified'
 import { useLocale, useNamespace, useZIndex } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/constants'
-import { isNumber, keysOf } from '@element-plus/utils'
+import { getEventCode, keysOf } from '@element-plus/utils'
+import ElFocusTrap from '@element-plus/components/focus-trap'
+import ElTeleport from '@element-plus/components/teleport'
 import ElIcon from '@element-plus/components/icon'
 import {
   ArrowLeft,
@@ -117,41 +162,45 @@ defineOptions({
 const props = defineProps(imageViewerProps)
 const emit = defineEmits(imageViewerEmits)
 
+let stopWheelListener: (() => void) | undefined
+let prevOverflow = ''
+
 const { t } = useLocale()
 const ns = useNamespace('image-viewer')
 const { nextZIndex } = useZIndex()
 const wrapper = ref<HTMLDivElement>()
-const imgRefs = ref<HTMLImageElement[]>([])
+const imgRef = ref<HTMLImageElement>()
 
 const scopeEventListener = effectScope()
 
+const scaleClamped = computed(() => {
+  const { scale, minScale, maxScale } = props
+  return clamp(scale, minScale, maxScale)
+})
+
 const loading = ref(true)
+const loadError = ref(false)
 const activeIndex = ref(props.initialIndex)
 const mode = shallowRef<ImageViewerMode>(modes.CONTAIN)
 const transform = ref({
-  scale: 1,
+  scale: scaleClamped.value,
   deg: 0,
   offsetX: 0,
   offsetY: 0,
   enableTransition: false,
 })
+const zIndex = ref(props.zIndex ?? nextZIndex())
 
 const isSingle = computed(() => {
   const { urlList } = props
   return urlList.length <= 1
 })
 
-const isFirst = computed(() => {
-  return activeIndex.value === 0
-})
+const isFirst = computed(() => activeIndex.value === 0)
 
-const isLast = computed(() => {
-  return activeIndex.value === props.urlList.length - 1
-})
+const isLast = computed(() => activeIndex.value === props.urlList.length - 1)
 
-const currentImg = computed(() => {
-  return props.urlList[activeIndex.value]
-})
+const currentImg = computed(() => props.urlList[activeIndex.value])
 
 const arrowPrevKls = computed(() => [
   ns.e('btn'),
@@ -170,20 +219,11 @@ const imgStyle = computed(() => {
   let translateX = offsetX / scale
   let translateY = offsetY / scale
 
-  switch (deg % 360) {
-    case 90:
-    case -270:
-      ;[translateX, translateY] = [translateY, -translateX]
-      break
-    case 180:
-    case -180:
-      ;[translateX, translateY] = [-translateX, -translateY]
-      break
-    case 270:
-    case -90:
-      ;[translateX, translateY] = [-translateY, translateX]
-      break
-  }
+  const radian = (deg * Math.PI) / 180
+  const cosRadian = Math.cos(radian)
+  const sinRadian = Math.sin(radian)
+  translateX = translateX * cosRadian + translateY * sinRadian
+  translateY = translateY * cosRadian - (offsetX / scale) * sinRadian
 
   const style: CSSProperties = {
     transform: `scale(${scale}) rotate(${deg}deg) translate(${translateX}px, ${translateY}px)`,
@@ -195,18 +235,22 @@ const imgStyle = computed(() => {
   return style
 })
 
-const computedZIndex = computed(() => {
-  return isNumber(props.zIndex) ? props.zIndex : nextZIndex()
-})
+const progress = computed(
+  () => `${activeIndex.value + 1} / ${props.urlList.length}`
+)
 
 function hide() {
   unregisterEventListener()
+  stopWheelListener?.()
+  document.body.style.overflow = prevOverflow
   emit('close')
 }
 
 function registerEventListener() {
   const keydownHandler = throttle((e: KeyboardEvent) => {
-    switch (e.code) {
+    const code = getEventCode(e)
+
+    switch (code) {
       // ESC
       case EVENT_CODE.esc:
         props.closeOnPressEscape && hide()
@@ -256,7 +300,9 @@ function handleImgLoad() {
 }
 
 function handleImgError(e: Event) {
+  loadError.value = true
   loading.value = false
+  emit('error', e)
   ;(e.target as HTMLImageElement).alt = t('el.image.error')
 }
 
@@ -285,7 +331,7 @@ function handleMouseDown(e: MouseEvent) {
 
 function reset() {
   transform.value = {
-    scale: 1,
+    scale: scaleClamped.value,
     deg: 0,
     offsetX: 0,
     offsetY: 0,
@@ -294,7 +340,7 @@ function reset() {
 }
 
 function toggleMode() {
-  if (loading.value) return
+  if (loading.value || loadError.value) return
 
   const modeNames = keysOf(modes)
   const modeValues = Object.values(modes)
@@ -306,6 +352,7 @@ function toggleMode() {
 }
 
 function setActiveItem(index: number) {
+  loadError.value = false
   const len = props.urlList.length
   activeIndex.value = (index + len) % len
 }
@@ -321,7 +368,8 @@ function next() {
 }
 
 function handleActions(action: ImageViewerAction, options = {}) {
-  if (loading.value) return
+  if (loading.value || loadError.value) return
+  const { minScale, maxScale } = props
   const { zoomRate, rotateDeg, enableTransition } = {
     zoomRate: props.zoomRate,
     rotateDeg: 90,
@@ -330,14 +378,14 @@ function handleActions(action: ImageViewerAction, options = {}) {
   }
   switch (action) {
     case 'zoomOut':
-      if (transform.value.scale > 0.2) {
+      if (transform.value.scale > minScale) {
         transform.value.scale = Number.parseFloat(
           (transform.value.scale / zoomRate).toFixed(3)
         )
       }
       break
     case 'zoomIn':
-      if (transform.value.scale < 7) {
+      if (transform.value.scale < maxScale) {
         transform.value.scale = Number.parseFloat(
           (transform.value.scale * zoomRate).toFixed(3)
         )
@@ -345,17 +393,50 @@ function handleActions(action: ImageViewerAction, options = {}) {
       break
     case 'clockwise':
       transform.value.deg += rotateDeg
+      emit('rotate', transform.value.deg)
       break
     case 'anticlockwise':
       transform.value.deg -= rotateDeg
+      emit('rotate', transform.value.deg)
       break
   }
   transform.value.enableTransition = enableTransition
 }
 
+function onFocusoutPrevented(event: CustomEvent) {
+  if (event.detail?.focusReason === 'pointer') {
+    event.preventDefault()
+  }
+}
+
+function onCloseRequested() {
+  if (props.closeOnPressEscape) {
+    hide()
+  }
+}
+
+function wheelHandler(e: WheelEvent) {
+  if (!e.ctrlKey) return
+
+  if (e.deltaY < 0) {
+    e.preventDefault()
+    return false
+  } else if (e.deltaY > 0) {
+    e.preventDefault()
+    return false
+  }
+}
+
+watch(
+  () => scaleClamped.value,
+  (val) => {
+    transform.value.scale = val
+  }
+)
+
 watch(currentImg, () => {
   nextTick(() => {
-    const $img = imgRefs.value[0]
+    const $img = imgRef.value
     if (!$img?.complete) {
       loading.value = true
     }
@@ -369,9 +450,14 @@ watch(activeIndex, (val) => {
 
 onMounted(() => {
   registerEventListener()
-  // add tabindex then wrapper can be focusable via Javascript
-  // focus wrapper so arrow key can't cause inner scroll behavior underneath
-  wrapper.value?.focus?.()
+
+  stopWheelListener = useEventListener('wheel', wheelHandler, {
+    passive: false,
+  })
+
+  // prevent body scroll
+  prevOverflow = document.body.style.overflow
+  document.body.style.overflow = 'hidden'
 })
 
 defineExpose({

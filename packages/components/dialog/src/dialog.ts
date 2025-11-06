@@ -1,11 +1,21 @@
 import { buildProps, definePropType, isBoolean } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { teleportProps } from '@element-plus/components/teleport'
 import { dialogContentProps } from './dialog-content'
 
-import type { ExtractPropTypes } from 'vue'
+import type {
+  ExtractPropTypes,
+  InjectionKey,
+  TransitionProps,
+  __ExtractPublicPropTypes,
+} from 'vue'
+import type Dialog from './dialog.vue'
 
 type DoneFn = (cancel?: boolean) => void
+
 export type DialogBeforeCloseFn = (done: DoneFn) => void
+
+export type DialogTransition = string | TransitionProps
 
 export const dialogProps = buildProps({
   ...dialogContentProps,
@@ -13,6 +23,13 @@ export const dialogProps = buildProps({
    * @description whether to append Dialog itself to body. A nested Dialog should have this attribute set to `true`
    */
   appendToBody: Boolean,
+  /**
+   * @description which element the Dialog appends to
+   */
+  appendTo: {
+    type: teleportProps.to.type,
+    default: 'body',
+  },
   /**
    * @description callback before Dialog closes, and it will prevent Dialog from closing, use done to close the dialog
    */
@@ -52,6 +69,10 @@ export const dialogProps = buildProps({
     default: true,
   },
   /**
+   * @description whether the mask is penetrable
+   */
+  modalPenetrable: Boolean,
+  /**
    * @description the Time(milliseconds) before open
    */
   openDelay: {
@@ -80,6 +101,18 @@ export const dialogProps = buildProps({
    */
   modalClass: String,
   /**
+   * @description custom class names for header wrapper
+   */
+  headerClass: String,
+  /**
+   * @description custom class names for body wrapper
+   */
+  bodyClass: String,
+  /**
+   * @description custom class names for footer wrapper
+   */
+  footerClass: String,
+  /**
    * @description width of Dialog, default is 50%
    */
   width: {
@@ -91,13 +124,25 @@ export const dialogProps = buildProps({
   zIndex: {
     type: Number,
   },
-  trapFocus: {
-    type: Boolean,
-    default: false,
+  trapFocus: Boolean,
+  /**
+   * @description header's aria-level attribute
+   */
+  headerAriaLevel: {
+    type: String,
+    default: '2',
+  },
+  /**
+   * @description custom transition configuration for dialog animation, it can be a string (transition name) or an object with Vue transition props
+   */
+  transition: {
+    type: definePropType<DialogTransition>([String, Object]),
+    default: undefined,
   },
 } as const)
 
 export type DialogProps = ExtractPropTypes<typeof dialogProps>
+export type DialogPropsPublic = __ExtractPublicPropTypes<typeof dialogProps>
 
 export const dialogEmits = {
   open: () => true,
@@ -109,3 +154,13 @@ export const dialogEmits = {
   closeAutoFocus: () => true,
 }
 export type DialogEmits = typeof dialogEmits
+export type DialogInstance = InstanceType<typeof Dialog> & unknown
+export interface DialogConfigContext {
+  alignCenter?: boolean
+  draggable?: boolean
+  overflow?: boolean
+  transition?: DialogTransition
+}
+
+export const dialogContextKey: InjectionKey<DialogConfigContext> =
+  Symbol('dialogContextKey')

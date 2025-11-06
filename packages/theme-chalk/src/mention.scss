@@ -1,0 +1,88 @@
+@use 'sass:map';
+
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
+
+@include b(mention) {
+  position: relative;
+  width: 100%;
+
+  @include e(popper) {
+    @include picker-popper(
+      map.get($mention, 'bg-color'),
+      map.get($mention, 'border'),
+      map.get($mention, 'shadow')
+    );
+  }
+}
+
+@include b(mention-dropdown) {
+  @include set-component-css-var('mention', $mention);
+
+  @include e(item) {
+    font-size: getCssVar('mention-font-size');
+    padding: 0 20px;
+    position: relative;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: getCssVar('mention-option-color');
+    height: getCssVar('mention-option-height');
+    line-height: getCssVar('mention-option-height');
+    box-sizing: border-box;
+    min-width: getCssVar('mention-option-min-width');
+    cursor: pointer;
+
+    @include when(hovering) {
+      background-color: getCssVar('mention-option-hover-background');
+    }
+
+    @include when(selected) {
+      color: getCssVar('mention-option-selected-color');
+      font-weight: bold;
+    }
+
+    @include when(disabled) {
+      color: getCssVar('mention-option-disabled-color');
+      cursor: not-allowed;
+      background-color: unset;
+    }
+  }
+}
+
+@include b(mention-dropdown) {
+  z-index: calc(#{getCssVar('index-top')} + 1);
+  border-radius: getCssVar('border-radius-base');
+  box-sizing: border-box;
+}
+
+@include b(mention-dropdown__loading) {
+  padding: 10px 0;
+  margin: 0;
+  text-align: center;
+  color: getCssVar('mention-option-loading-color');
+  font-size: 12px;
+  min-width: getCssVar('mention-option-min-width');
+}
+
+@include b(mention-dropdown__wrap) {
+  max-height: getCssVar('mention-max-height');
+}
+
+@include b(mention-dropdown__list) {
+  list-style: none;
+  padding: getCssVar('mention-padding');
+  margin: 0;
+  box-sizing: border-box;
+}
+
+@include b(mention-dropdown__header) {
+  padding: getCssVar('mention-header-padding');
+  border-bottom: getCssVar('mention-border');
+}
+
+@include b(mention-dropdown__footer) {
+  padding: getCssVar('mention-footer-padding');
+  border-top: getCssVar('mention-border');
+}
