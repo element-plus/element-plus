@@ -26,7 +26,9 @@
         @dragend="handleDragEnd"
         @drop.stop
       >
-        <slot name="tag" :value="item" :index="index"> {{ item }} </slot>
+        <slot name="tag" :value="item" :index="index">
+          {{ item }}
+        </slot>
       </el-tag>
       <el-tooltip
         v-if="collapseTags && modelValue && modelValue.length > maxCollapseTags"
