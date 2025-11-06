@@ -630,6 +630,54 @@ describe('Cascader.vue', () => {
     expect(hzSuggestion.textContent).toBe('Zhejiang / Hangzhou')
   })
 
+  test('filterable case insensitive', async () => {
+    const value = ref([])
+    const wrapper = _mount(() => (
+      <Cascader v-model={value.value} filterable options={OPTIONS} />
+    ))
+
+    const input = wrapper.find('input')
+    // Test lowercase input matching uppercase label
+    input.element.value = 'ha'
+    await input.trigger('input')
+    await nextTick()
+    let suggestions = document.querySelectorAll(
+      SUGGESTION_ITEM
+    ) as NodeListOf<HTMLElement>
+    expect(suggestions.length).toBe(1)
+    expect(suggestions[0].textContent).toBe('Zhejiang / Hangzhou')
+
+    // Test uppercase input matching uppercase label
+    input.element.value = 'HA'
+    await input.trigger('input')
+    await nextTick()
+    suggestions = document.querySelectorAll(
+      SUGGESTION_ITEM
+    ) as NodeListOf<HTMLElement>
+    expect(suggestions.length).toBe(1)
+    expect(suggestions[0].textContent).toBe('Zhejiang / Hangzhou')
+
+    // Test mixed case input
+    input.element.value = 'HaNg'
+    await input.trigger('input')
+    await nextTick()
+    suggestions = document.querySelectorAll(
+      SUGGESTION_ITEM
+    ) as NodeListOf<HTMLElement>
+    expect(suggestions.length).toBe(1)
+    expect(suggestions[0].textContent).toBe('Zhejiang / Hangzhou')
+
+    // Test lowercase input matching mixed case label
+    input.element.value = 'zhe'
+    await input.trigger('input')
+    await nextTick()
+    suggestions = document.querySelectorAll(
+      SUGGESTION_ITEM
+    ) as NodeListOf<HTMLElement>
+    expect(suggestions.length).toBeGreaterThan(0)
+    expect(suggestions[0].textContent).toContain('Zhejiang')
+  })
+
   test('filterable keyboard selection', async () => {
     const value = ref([])
     const wrapper = _mount(() => (

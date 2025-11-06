@@ -3,6 +3,7 @@ import { CommonProps } from '@element-plus/components/cascader-panel'
 import {
   buildProps,
   definePropType,
+  escapeStringRegexp,
   iconPropType,
   isBoolean,
 } from '@element-plus/utils'
@@ -54,8 +55,10 @@ export const cascaderProps = buildProps({
     type: definePropType<(node: CascaderNode, keyword: string) => boolean>(
       Function
     ),
-    default: (node: CascaderNode, keyword: string) =>
-      node.text.includes(keyword),
+    default: (node: CascaderNode, keyword: string) => {
+      const regexp = new RegExp(escapeStringRegexp(keyword), 'i')
+      return regexp.test(node.text)
+    },
   },
   /**
    * @description option label separator
