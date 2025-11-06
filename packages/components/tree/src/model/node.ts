@@ -437,6 +437,7 @@ class Node {
       typeof this.isLeafByUser !== 'undefined'
     ) {
       this.isLeaf = this.isLeafByUser
+      this.isEffectivelyChecked = this.isLeaf && this.disabled
       return
     }
     const childNodes = this.childNodes
@@ -445,6 +446,7 @@ class Node {
       (this.store.lazy === true && this.loaded === true)
     ) {
       this.isLeaf = !childNodes || childNodes.length === 0
+      this.isEffectivelyChecked = this.isLeaf && this.disabled
       return
     }
     this.isLeaf = false
@@ -458,7 +460,8 @@ class Node {
   ) {
     this.indeterminate = value === 'half'
     this.checked = value === true
-    this.isEffectivelyChecked = !!this.isLeaf && (this.disabled || this.checked)
+    this.isEffectivelyChecked =
+      !this.childNodes.length && (this.disabled || this.checked)
 
     if (this.store.checkStrictly) return
 
@@ -478,7 +481,7 @@ class Node {
             this.checked = all
             this.indeterminate = half
           }
-          this.isEffectivelyChecked = this.isLeaf
+          this.isEffectivelyChecked = !this.childNodes.length
             ? this.disabled || this.checked
             : isEffectivelyChecked
         }

@@ -82,6 +82,7 @@ const getTreeVm = (props = '', options = {}) => {
             defaultProps: {
               children: 'children',
               label: 'label',
+              isLeaf: 'isLeaf',
             },
           }
         },
@@ -2076,7 +2077,6 @@ describe('Tree.vue', () => {
       components: { 'el-tree': Tree },
       data() {
         return {
-          showCheckbox: true,
           data: [
             {
               id: '1',
@@ -2198,7 +2198,6 @@ describe('Tree.vue', () => {
       components: { 'el-tree': Tree },
       data() {
         return {
-          showCheckbox: true,
           data: [
             {
               id: '1',
@@ -2263,5 +2262,58 @@ describe('Tree.vue', () => {
     nodes = wrapper.findAll(TREE_NODE_CHECKBOX_CLASS_NAME)
     await nodes[4].trigger('click')
     expect(treeRef.getCheckedKeys()).toEqual(['2-1-1'])
+  })
+
+  test('should correctly handle checkbox state under default-checked-keys when disabled nodes exist', async () => {
+    const wrapper = mount({
+      template: `
+        <el-tree
+          :data="data"
+          node-key="id"
+          show-checkbox
+          default-expand-all
+          :default-checked-keys="['1-1', '1-2']"
+        />
+      `,
+      components: { 'el-tree': Tree },
+      data() {
+        return {
+          data: [
+            {
+              id: '1',
+              label: 'node-1',
+              children: [
+                {
+                  id: '1-1',
+                  label: 'node-1-1',
+                },
+                {
+                  id: '1-2',
+                  label: 'node-1-2',
+                },
+                {
+                  id: '1-3',
+                  label: 'node-1-3',
+                  disabled: true,
+                },
+              ],
+            },
+          ],
+        }
+      },
+    })
+
+    await nextTick()
+    const treeRef = wrapper.findComponent({ name: 'ElTree' }).vm as TreeInstance
+    const keys = ['1-1', '1-2']
+
+    expect(treeRef.getCheckedKeys()).toEqual(keys)
+
+    let nodes = wrapper.findAll(TREE_NODE_CHECKBOX_CLASS_NAME)
+    await nodes[0].trigger('click')
+    expect(treeRef.getCheckedKeys()).toEqual([])
+    nodes = wrapper.findAll(TREE_NODE_CHECKBOX_CLASS_NAME)
+    await nodes[0].trigger('click')
+    expect(treeRef.getCheckedKeys()).toEqual(keys)
   })
 })
