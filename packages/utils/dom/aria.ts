@@ -9,7 +9,7 @@ const isHTMLElement = (e: unknown): e is Element => {
  * Determine if the testing element is visible on screen no matter if its on the viewport or not
  */
 export const isVisible = (element: HTMLElement) => {
-  if (typeof process === 'undefined' || process.env.NODE_ENV === 'test')
+  if (typeof process !== 'undefined' && process.env.NODE_ENV === 'test')
     return true
   const computed = getComputedStyle(element)
   // element.offsetParent won't work on fix positioned

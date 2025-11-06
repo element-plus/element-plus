@@ -51,7 +51,7 @@ export const getVisibleElement = (
 }
 
 export const isHidden = (element: HTMLElement, container: HTMLElement) => {
-  if (typeof process === 'undefined' || process.env.NODE_ENV === 'test')
+  if (typeof process !== 'undefined' && process.env.NODE_ENV === 'test')
     return false
   if (getComputedStyle(element).visibility === 'hidden') return true
 
