@@ -416,13 +416,6 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
       : []
   })
 
-  const hasSelectedOptions = computed(() => {
-    if (!props.multiple) {
-      return states.selectedLabel !== ''
-    }
-    return states.cachedOptions.length > 0
-  })
-
   // hooks
   const {
     createNewOption,
@@ -475,8 +468,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     if (
       props.defaultFirstOption &&
       (props.filterable || props.remote) &&
-      filteredOptions.value.length &&
-      !hasSelectedOptions.value
+      filteredOptions.value.length
     ) {
       nextTick(checkDefaultFirstOption)
     } else {
@@ -800,7 +792,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     states.isBeforeHide = false
     return nextTick(() => {
       if (~indexRef.value) {
-        scrollToItem(states.hoveringIndex)
+        scrollToItem(indexRef.value)
       }
     })
   }
