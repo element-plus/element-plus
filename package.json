@@ -122,22 +122,6 @@
       "path": "./node_modules/cz-git"
     }
   },
-  "pnpm": {
-    "peerDependencyRules": {
-      "ignoreMissing": [
-        "vite",
-        "react",
-        "react-dom"
-      ]
-    },
-    "patchedDependencies": {
-      "async-validator@4.2.5": "patches/async-validator@4.2.5.patch"
-    },
-    "overrides": {
-      "typescript": "$typescript",
-      "jwa": "^1.4.2"
-    }
-  },
   "lint-staged": {
     "*.{vue,js,ts,jsx,tsx,md,json}": [
       "eslint --fix --concurrency=auto",
