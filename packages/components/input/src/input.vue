@@ -123,6 +123,7 @@
         ref="textarea"
         :class="[nsTextarea.e('inner'), nsInput.is('focus', isFocused)]"
         v-bind="attrs"
+        :name="name"
         :minlength="minlength"
         :maxlength="maxlength"
         :tabindex="tabindex"
