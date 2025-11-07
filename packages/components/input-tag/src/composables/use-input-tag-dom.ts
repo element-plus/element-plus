@@ -87,17 +87,16 @@ export function useInputTagDom({
     return Number.parseFloat(style.gap || '6px')
   }
 
-  const getInnerWidth = () => {
-    if (!innerRef.value) return 0
+  const resetInnerWidth = () => {
     states.innerWidth = Number.parseFloat(
-      window.getComputedStyle(innerRef.value).width
+      window.getComputedStyle(innerRef.value!).width
     )
   }
 
   const resetCollapseItemWidth = () => {
     if (!collapseItemRef.value) return 0
     states.collapseItemWidth =
-      collapseItemRef.value.getBoundingClientRect().width
+      collapseItemRef.value!.getBoundingClientRect().width
   }
 
   const tagStyle = computed(() => {
@@ -117,7 +116,7 @@ export function useInputTagDom({
     return { maxWidth: `${Math.max(maxWidth, 0)}px` }
   })
 
-  useResizeObserver(innerRef, getInnerWidth)
+  useResizeObserver(innerRef, resetInnerWidth)
   useResizeObserver(collapseItemRef, resetCollapseItemWidth)
 
   return {
