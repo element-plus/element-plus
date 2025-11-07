@@ -416,6 +416,13 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
       : []
   })
 
+  const hasSelectedOptions = computed(() => {
+    if (!props.multiple) {
+      return states.selectedLabel !== ''
+    }
+    return states.cachedOptions.length > 0
+  })
+
   // hooks
   const {
     createNewOption,
@@ -469,7 +476,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
       props.defaultFirstOption &&
       (props.filterable || props.remote) &&
       filteredOptions.value.length &&
-      !states.selectedLabel
+      !hasSelectedOptions.value
     ) {
       nextTick(checkDefaultFirstOption)
     } else {
