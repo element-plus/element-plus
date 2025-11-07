@@ -468,7 +468,8 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     if (
       props.defaultFirstOption &&
       (props.filterable || props.remote) &&
-      filteredOptions.value.length
+      filteredOptions.value.length &&
+      !states.selectedLabel
     ) {
       nextTick(checkDefaultFirstOption)
     } else {
