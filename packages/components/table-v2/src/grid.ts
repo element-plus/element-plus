@@ -64,6 +64,10 @@ export const tableV2GridProps = buildProps({
   },
   rowKey: tableV2RowProps.rowKey,
 
+  tableLocation: {
+    type: definePropType<'main' | 'left' | 'right'>(String),
+  },
+
   /**
    * Event handlers
    */
