@@ -1,6 +1,6 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, expect, test, vi } from 'vitest'
+import { afterAll, describe, expect, test, vi } from 'vitest'
 import { ComponentSize, EVENT_CODE } from '@element-plus/constants'
 import { InputTagInstance } from '@element-plus/components/input-tag'
 import FormItem from '@element-plus/components/form/src/form-item.vue'
@@ -528,28 +528,44 @@ describe('InputTag.vue', () => {
       expect(tags[3].text()).toBe('+ 2')
     })
 
+    vi.mock('@vueuse/core', async () => {
+      return {
+        ...((await vi.importActual('@vueuse/core')) as Record<string, any>),
+        useResizeObserver: vi.fn(async (_, callback) => {
+          await nextTick()
+          callback()
+        }),
+      }
+    })
+
+    afterAll(() => {
+      vi.restoreAllMocks()
+    })
+
     test('collapseTags should prevent line break when content exceeds', async () => {
+      const mockStyle = vi.spyOn(window, 'getComputedStyle').mockReturnValue({
+        width: '100px',
+        gap: '6px',
+      } as any)
+      const mockRect = vi
+        .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
+        .mockReturnValue({
+          width: 40,
+        } as any)
       const longTag =
         'This is a very long tag content that might cause line break'
-      const wrapper = mount(() => (
-        <InputTag
-          modelValue={[longTag, 'tag2', 'tag3']}
-          collapseTags
-          style={{ width: '200px' }}
-        />
-      ))
+      const wrapper = mount(
+        <InputTag modelValue={[longTag, 'tag2']} collapseTags />
+      )
 
       await nextTick()
-
       const tags = wrapper.findAll('.el-tag')
-      expect(tags.length).toBe(2)
-      expect(tags[0].text()).toBe(longTag)
-      expect(tags[1].text()).toBe('+ 2')
-
       const firstTag = tags[0]
       const tagStyle = firstTag.attributes('style')
-      expect(tagStyle).toBeDefined()
-      expect(tagStyle).toContain('max-width')
+      // 100(innerWidth) - 40(collapseItemWidth) - 6(gap) - 17(inputSlotWidth) = 37
+      expect(tagStyle).toContain('max-width: 37px')
+      mockStyle.mockRestore()
+      mockRect.mockRestore()
     })
   })
 })
