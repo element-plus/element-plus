@@ -89,7 +89,6 @@ export function useInputTagDom({
   }
 
   const resetCollapseItemWidth = () => {
-    if (!collapseItemRef.value) return 0
     states.collapseItemWidth =
       collapseItemRef.value!.getBoundingClientRect().width
   }
