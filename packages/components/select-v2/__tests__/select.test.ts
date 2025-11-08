@@ -145,6 +145,7 @@ const createSelect = (
         :scrollbar-always-on="scrollbarAlwaysOn"
         :teleported="teleported"
         :tabindex="tabindex"
+        :default-first-option="defaultFirstOption"
         ${
           options.methods && options.methods.filterMethod
             ? `:filter-method="filterMethod"`
@@ -1579,6 +1580,33 @@ describe('Select', () => {
     const result = optionsDoms.some((option) => {
       const text = option.textContent
       return text === 'options 499'
+    })
+    expect(result).toBeTruthy()
+  })
+
+  it('the scroll position of the dropdown should be correct when use filterable and default-first-option', async () => {
+    const options = Array.from({ length: 1000 }).map((_, idx) => ({
+      value: 999 - idx,
+      label: `options ${999 - idx}`,
+    }))
+    const wrapper = createSelect({
+      data() {
+        return {
+          value: 500,
+          options,
+          filterable: true,
+          defaultFirstOption: true,
+        }
+      },
+    })
+    await nextTick()
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+    const optionsDoms = Array.from(
+      document.querySelectorAll(`.${OPTION_ITEM_CLASS_NAME}`)
+    )
+    const result = optionsDoms.some((option) => {
+      const text = option.textContent
+      return text === 'options 500'
     })
     expect(result).toBeTruthy()
   })
