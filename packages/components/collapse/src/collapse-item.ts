@@ -32,7 +32,7 @@ export const collapseItemProps = buildProps({
    */
   disabled: Boolean,
   /**
-   * @description Specify how to trigger Collapse. Either by clicking icon or by clicking any area in header or disable collapse functionality itself
+   * @description Specify whether the panel be collapsible or the trigger area of collapsible
    */
   collapsible: {
     type: definePropType<'icon' | 'header' | 'disabled'>([String]),

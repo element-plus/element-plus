@@ -10,6 +10,9 @@
         life, and comply with languages and habits that the users are used to;
       </div>
     </el-collapse-item>
+  </el-collapse>
+
+  <el-collapse>
     <el-collapse-item
       title="This panel can only be collapsed by clicking icon"
       name="1"
@@ -20,6 +23,9 @@
         operations by style updates and interactive effects;
       </div>
     </el-collapse-item>
+  </el-collapse>
+
+  <el-collapse>
     <el-collapse-item
       title="This panel can't be collapsed"
       name="2"

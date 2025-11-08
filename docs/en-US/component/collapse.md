@@ -92,6 +92,7 @@ collapse/collapsible
 | accordion                      | whether to activate accordion mode                                                                                                                   | ^[boolean]                                     | false   |
 | expand-icon-position ^(2.9.10) | set expand icon position                                                                                                                             | ^[enum]`'left' \| 'right' `                    | right   |
 | before-collapse ^(2.9.11)      | before-collapse hook before the collapse state changes. If `false` is returned or a `Promise` is returned and then is rejected, will stop collapsing | ^[Function]`() => Promise<boolean> \| boolean` | —       |
+| collapsible                    | Specify how to trigger Collapse. Either by clicking icon or by clicking any area in header or disable collapse functionality itself                  | ^[enum]`'icon' \| 'header' \| 'disabled' `     | -       |
 
 ### Collapse Events
 
@@ -116,13 +117,13 @@ collapse/collapsible
 
 ### Collapse Item Attributes
 
-| Name                  | Description                             | Type                                       | Default    |
-| --------------------- | --------------------------------------- | ------------------------------------------ | ---------- |
-| name                  | unique identification of the panel      | ^[string] / ^[number]                      | —          |
-| title                 | title of the panel                      | ^[string]                                  | ''         |
-| icon ^(2.8.3)         | icon of the collapse item               | ^[string] / ^[Component]                   | ArrowRight |
-| collapsible           | specify the trigger area of collapsible | ^[enum]`'icon' \| 'header' \| 'disabled' ` | -          |
-| disabled^(deprecated) | disable the collapse item               | ^[boolean]                                 | false      |
+| Name                  | Description                                                                                                                           | Type                                       | Default    |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------ | ---------- |
+| name                  | unique identification of the panel                                                                                                    | ^[string] / ^[number]                      | —          |
+| title                 | title of the panel                                                                                                                    | ^[string]                                  | ''         |
+| icon ^(2.8.3)         | icon of the collapse item                                                                                                             | ^[string] / ^[Component]                   | ArrowRight |
+| collapsible           | Specify whether the panel be collapsible or the trigger area of collapsible (Priority is higher than Collapse Attributes collapsible) | ^[enum]`'icon' \| 'header' \| 'disabled' ` | -          |
+| disabled^(deprecated) | disable the collapse item                                                                                                             | ^[boolean]                                 | false      |
 
 ### Collapse Item Slot
 

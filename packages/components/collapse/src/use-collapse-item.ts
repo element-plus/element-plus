@@ -23,7 +23,9 @@ export const useCollapseItem = (props: CollapseItemProps) => {
     collapse?.activeNames.value.includes(unref(name))
   )
 
-  const collapsible = computed(() => props.collapsible ?? '')
+  const collapsible = computed(
+    () => props.collapsible || collapse?.collapsible || ''
+  )
   const disabled = computed(
     () => props.disabled || collapsible.value === 'disabled'
   )
