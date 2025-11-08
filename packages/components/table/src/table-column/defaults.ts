@@ -91,7 +91,7 @@ interface TableColumn<T extends DefaultRow> extends ComponentInternalInstance {
   columnConfig: Ref<Partial<TableColumnCtx<T>>>
 }
 
-const defaultProps = <T extends DefaultRow>() => ({
+const defaultProps = <T extends DefaultRow = DefaultRow>() => ({
   /**
    * @description type of the column. If set to `selection`, the column will display checkbox. If set to `index`, the column will display index of the row (staring from 1). If set to `expand`, the column will display expand icon
    */
@@ -253,4 +253,4 @@ type TableColumnProps<T extends DefaultRow> = ExtractPublicPropTypes<ReturnType<
 
 export type { Filters, FilterMethods, TableColumnCtx, TableColumn, ValueOf, TableColumnProps }
 
-export default defaultProps()
+export default defaultProps

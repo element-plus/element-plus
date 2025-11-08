@@ -20,6 +20,7 @@
     <el-table-column prop="address" label="Address" :formatter="formatter" />
 
     <el-table-column
+      :filter-method="filterTag"
       prop="tag"
       label="Tag"
       width="100"
@@ -27,7 +28,6 @@
         { text: 'Home', value: 'Home' },
         { text: 'Office', value: 'Office' },
       ]"
-      :filter-method="filterTag"
       filter-placement="bottom-end"
     >
       <template #default="scope">

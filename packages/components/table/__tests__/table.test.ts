@@ -6,7 +6,7 @@ import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { rAF } from '@element-plus/test-utils/tick'
 import { CaretBottom, CaretTop } from '@element-plus/icons-vue'
 import ElTable from '../src/table.vue'
-import ElTableColumn from '../src/table-column'
+import ElTableColumn from '../src/table-column/index.vue'
 import {
   doubleWait,
   getMultiRowTestData,

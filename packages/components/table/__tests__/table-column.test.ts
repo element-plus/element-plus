@@ -2,7 +2,7 @@
 import { describe, expect, it, vi } from 'vitest'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import ElTable from '../src/table.vue'
-import ElTableColumn from '../src/table-column'
+import ElTableColumn from '../src/table-column/index.vue'
 import {
   doubleWait,
   getMultiRowTestData,
