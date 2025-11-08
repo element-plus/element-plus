@@ -197,6 +197,7 @@ const createSelect = (
           popperAppendToBody: undefined,
           teleported: undefined,
           tabindex: undefined,
+          defaultFirstOption: false,
           ...(options.data && options.data()),
         }
       },
