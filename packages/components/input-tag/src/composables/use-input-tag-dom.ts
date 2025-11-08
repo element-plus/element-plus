@@ -19,11 +19,6 @@ interface UseInputTagDomOptions {
   needStatusIcon: ComputedRef<boolean>
 }
 
-export interface InputTagStates {
-  innerWidth: number
-  collapseItemWidth: number
-}
-
 export function useInputTagDom({
   props,
   isFocused,
@@ -76,7 +71,7 @@ export function useInputTagDom({
     )
   })
 
-  const states = reactive(<InputTagStates>{
+  const states = reactive({
     innerWidth: 0,
     collapseItemWidth: 0,
   })
