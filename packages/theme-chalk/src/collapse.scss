@@ -27,7 +27,6 @@
     line-height: getCssVar('collapse-header-height');
     background-color: getCssVar('collapse-header-bg-color');
     color: getCssVar('collapse-header-text-color');
-    cursor: pointer;
     border-bottom: 1px solid getCssVar('collapse-border-color');
     font-size: getCssVar('collapse-header-font-size');
     font-weight: 500;
@@ -42,15 +41,21 @@
     }
 
     @include e(title) {
-      text-align: left;
-      flex: auto;
+      margin-right: auto;
     }
 
-    &.focusing:focus:not(:hover) {
+    &:focus-visible:not(:hover) {
       color: getCssVar('color-primary');
     }
     @include when(active) {
       border-bottom-color: transparent;
+    }
+
+    @include when(collapsible) {
+      cursor: pointer;
+    }
+    & > .is-collapsible {
+      cursor: pointer;
     }
   }
 

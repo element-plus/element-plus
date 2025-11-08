@@ -28,8 +28,15 @@ export const collapseItemProps = buildProps({
   },
   /**
    * @description disable the collapse item
+   * @deprecated This prop is deprecated and will be removed in the next major version. Use `collapsible="disabled"` instead.
    */
   disabled: Boolean,
+  /**
+   * @description Specify how to trigger Collapse. Either by clicking icon or by clicking any area in header or disable collapse functionality itself
+   */
+  collapsible: {
+    type: definePropType<'icon' | 'header' | 'disabled'>([String]),
+  },
 } as const)
 export type CollapseItemProps = ExtractPropTypes<typeof collapseItemProps>
 export type CollapseItemPropsPublic = __ExtractPublicPropTypes<

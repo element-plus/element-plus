@@ -6,22 +6,20 @@
       :aria-expanded="isActive"
       :aria-controls="scopedContentId"
       :aria-describedby="scopedContentId"
-      :tabindex="disabled ? undefined : 0"
-      :aria-disabled="disabled"
+      :aria-disabled="!headerTrigger"
       role="button"
-      @click="handleHeaderClick"
-      @keydown.space.enter.stop="handleEnterClick"
-      @focus="handleFocus"
-      @blur="focusing = false"
+      v-bind="headerProps"
     >
-      <span :class="itemTitleKls">
+      <span :class="itemTitleKls" v-bind="titleProps">
         <slot name="title" :is-active="isActive">{{ title }}</slot>
       </span>
-      <slot name="icon" :is-active="isActive">
-        <el-icon :class="arrowKls">
-          <component :is="icon" />
-        </el-icon>
-      </slot>
+      <div :class="warpArrowKls" v-bind="iconProps">
+        <slot name="icon" :is-active="isActive">
+          <el-icon :class="arrowKls">
+            <component :is="icon" />
+          </el-icon>
+        </slot>
+      </div>
     </div>
 
     <el-collapse-transition>
@@ -42,23 +40,35 @@
 </template>
 
 <script lang="ts" setup>
+import { debugWarn } from '@element-plus/utils'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElIcon from '@element-plus/components/icon'
 import { collapseItemProps } from './collapse-item'
 import { useCollapseItem, useCollapseItemDOM } from './use-collapse-item'
 
+const COMPONENT_NAME = 'ElCollapseItem'
 defineOptions({
-  name: 'ElCollapseItem',
+  name: COMPONENT_NAME,
 })
 
 const props = defineProps(collapseItemProps)
+
+props.disabled &&
+  debugWarn(
+    COMPONENT_NAME,
+    'disabled prop is deprecated and will be removed in the next major version. Use collapsible="disabled" instead.'
+  )
+
 const {
-  focusing,
   id,
   isActive,
-  handleFocus,
-  handleHeaderClick,
-  handleEnterClick,
+  disabled,
+  headerTrigger,
+  iconTrigger,
+  titleTrigger,
+  headerProps,
+  titleProps,
+  iconProps,
 } = useCollapseItem(props)
 
 const {
@@ -70,7 +80,15 @@ const {
   itemContentKls,
   scopedContentId,
   scopedHeadId,
-} = useCollapseItemDOM(props, { focusing, isActive, id })
+  warpArrowKls,
+} = useCollapseItemDOM(props, {
+  isActive,
+  id,
+  disabled,
+  headerTrigger,
+  iconTrigger,
+  titleTrigger,
+})
 
 defineExpose({
   /** @description current collapse-item whether active */

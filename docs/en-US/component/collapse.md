@@ -73,6 +73,15 @@ collapse/prevent-collapsing
 
 :::
 
+## Collapsible
+
+Specify the trigger area of collapsible by `collapsible`.
+:::demo
+
+collapse/collapsible
+
+:::
+
 ## Collapse API
 
 ### Collapse Attributes
@@ -107,12 +116,13 @@ collapse/prevent-collapsing
 
 ### Collapse Item Attributes
 
-| Name          | Description                        | Type                     | Default    |
-| ------------- | ---------------------------------- | ------------------------ | ---------- |
-| name          | unique identification of the panel | ^[string] / ^[number]    | —          |
-| title         | title of the panel                 | ^[string]                | ''         |
-| icon ^(2.8.3) | icon of the collapse item          | ^[string] / ^[Component] | ArrowRight |
-| disabled      | disable the collapse item          | ^[boolean]               | false      |
+| Name                  | Description                             | Type                                       | Default    |
+| --------------------- | --------------------------------------- | ------------------------------------------ | ---------- |
+| name                  | unique identification of the panel      | ^[string] / ^[number]                      | —          |
+| title                 | title of the panel                      | ^[string]                                  | ''         |
+| icon ^(2.8.3)         | icon of the collapse item               | ^[string] / ^[Component]                   | ArrowRight |
+| collapsible           | specify the trigger area of collapsible | ^[enum]`'icon' \| 'header' \| 'disabled' ` | -          |
+| disabled^(deprecated) | disable the collapse item               | ^[boolean]                                 | false      |
 
 ### Collapse Item Slot
 
