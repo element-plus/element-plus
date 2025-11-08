@@ -55,7 +55,7 @@ export default function useClips() {
       height,
       ratio
     )
-
+    let baselineOffset = 0
     if (content instanceof HTMLImageElement) {
       // Image
       ctx.drawImage(content, 0, 0, contentWidth, contentHeight)
@@ -77,6 +77,14 @@ export default function useClips() {
       ctx.textAlign = textAlign
       ctx.textBaseline = textBaseline
       const contents = isArray(content) ? content : [content]
+      if (contents[0]) {
+        const argumentMetrics = ctx.measureText(contents[0])
+        ctx.textBaseline = 'top'
+        const topMetrics = ctx.measureText(contents[0])
+        baselineOffset =
+          argumentMetrics.actualBoundingBoxAscent -
+          topMetrics.actualBoundingBoxAscent
+      }
       contents?.forEach((item, index) => {
         const [alignRatio, spaceRatio] = TEXT_ALIGN_RATIO_MAP[textAlign]
         ctx.fillText(
@@ -148,7 +156,7 @@ export default function useClips() {
         cutWidth,
         cutHeight,
         targetX,
-        targetY,
+        targetY + baselineOffset,
         cutWidth,
         cutHeight
       )

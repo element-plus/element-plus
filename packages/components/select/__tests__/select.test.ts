@@ -1620,6 +1620,39 @@ describe('Select', () => {
     expect(handleRemoveTag).toHaveBeenLastCalledWith('选项1')
   })
 
+  test('allow remove non existant option', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="value" multiple filterable>
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value">
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [],
+        value: ['选项1'],
+      })
+    )
+
+    await nextTick()
+    const vm = wrapper.vm as any
+    expect(vm.value.length).toBe(1)
+    expect(wrapper.findAll('.el-tag').length).toBe(1)
+
+    const input = wrapper.find('input')
+    await input.trigger('keydown', {
+      code: EVENT_CODE.backspace,
+      key: EVENT_CODE.backspace,
+    })
+
+    expect(wrapper.findAll('.el-tag').length).toBe(0)
+    expect(vm.value.length).toBe(0)
+  })
+
   test('multiple limit', async () => {
     wrapper = getSelectVm({ multiple: true, multipleLimit: 1 })
     const vm = wrapper.vm as any
@@ -3842,5 +3875,44 @@ describe('Select', () => {
     expect(target.states.hoveringIndex).toBe(1)
     await input.trigger('keydown', { code: EVENT_CODE.pageUp })
     expect(target.states.hoveringIndex).toBe(1)
+  })
+
+  test('should support selecting options with both Enter and Numpad Enter', async () => {
+    const wrapper = _mount(
+      `
+    <el-select
+      ref="select"
+      v-model="value"
+      filterable
+    >
+      <el-option
+        v-for="item in options"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value"
+        :disabled="item.disabled"
+      />
+    </el-select>
+    `,
+      () => ({
+        options: Array.from({ length: 2 }).map((_, i) => ({
+          label: `label-${i}`,
+          value: i,
+        })),
+        value: '',
+      })
+    )
+
+    await nextTick()
+    const vm = wrapper.vm as any
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    await input.trigger('keydown', { code: EVENT_CODE.down })
+    await input.trigger('keydown', { code: EVENT_CODE.enter })
+    expect(vm.value).toBe(0)
+    await input.trigger('click')
+    await input.trigger('keydown', { code: EVENT_CODE.down })
+    await input.trigger('keydown', { code: EVENT_CODE.numpadEnter })
+    expect(vm.value).toBe(1)
   })
 })
