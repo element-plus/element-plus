@@ -8,6 +8,20 @@ import InputTag from '../src/input-tag.vue'
 
 const AXIOM = 'Rem is the best girl'
 
+vi.mock('@vueuse/core', async () => {
+  return {
+    ...((await vi.importActual('@vueuse/core')) as Record<string, any>),
+    useResizeObserver: vi.fn(async (_, callback) => {
+      await nextTick()
+      callback()
+    }),
+  }
+})
+
+afterAll(() => {
+  vi.restoreAllMocks()
+})
+
 describe('InputTag.vue', () => {
   test('create', () => {
     const wrapper = mount(() => <InputTag />)
@@ -526,20 +540,6 @@ describe('InputTag.vue', () => {
       expect(tags[1].text()).toBe('tag2')
       expect(tags[2].text()).toBe('tag3')
       expect(tags[3].text()).toBe('+ 2')
-    })
-
-    vi.mock('@vueuse/core', async () => {
-      return {
-        ...((await vi.importActual('@vueuse/core')) as Record<string, any>),
-        useResizeObserver: vi.fn(async (_, callback) => {
-          await nextTick()
-          callback()
-        }),
-      }
-    })
-
-    afterAll(() => {
-      vi.restoreAllMocks()
     })
 
     test('collapseTags should prevent line break when content exceeds', async () => {
