@@ -1,9 +1,8 @@
 <template>
-  <el-collapse>
+  <el-collapse collapsible="header">
     <el-collapse-item
       title="This panel can be collapsed by clicking text or icon"
       name="0"
-      collapsible="header"
     >
       <div>
         Consistent with real life: in line with the process and logic of real
@@ -12,11 +11,10 @@
     </el-collapse-item>
   </el-collapse>
 
-  <el-collapse>
+  <el-collapse collapsible="icon">
     <el-collapse-item
       title="This panel can only be collapsed by clicking icon"
       name="1"
-      collapsible="icon"
     >
       <div>
         Operation feedback: enable the users to clearly perceive their
@@ -25,12 +23,8 @@
     </el-collapse-item>
   </el-collapse>
 
-  <el-collapse>
-    <el-collapse-item
-      title="This panel can't be collapsed"
-      name="2"
-      collapsible="disabled"
-    >
+  <el-collapse collapsible="disabled">
+    <el-collapse-item title="This panel can't be collapsed" name="2">
       <div>
         Simplify the process: keep operating process simple and intuitive;
       </div>
