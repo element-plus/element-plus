@@ -527,5 +527,29 @@ describe('InputTag.vue', () => {
       expect(tags[2].text()).toBe('tag3')
       expect(tags[3].text()).toBe('+ 2')
     })
+
+    test('collapseTags should prevent line break when content exceeds', async () => {
+      const longTag =
+        'This is a very long tag content that might cause line break'
+      const wrapper = mount(() => (
+        <InputTag
+          modelValue={[longTag, 'tag2', 'tag3']}
+          collapseTags
+          style={{ width: '200px' }}
+        />
+      ))
+
+      await nextTick()
+
+      const tags = wrapper.findAll('.el-tag')
+      expect(tags.length).toBe(2)
+      expect(tags[0].text()).toBe(longTag)
+      expect(tags[1].text()).toBe('+ 2')
+
+      const firstTag = tags[0]
+      const tagStyle = firstTag.attributes('style')
+      expect(tagStyle).toBeDefined()
+      expect(tagStyle).toContain('max-width')
+    })
   })
 })
