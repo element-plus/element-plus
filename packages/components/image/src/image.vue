@@ -41,9 +41,9 @@
         @close="closeViewer"
         @switch="switchViewer"
       >
-        <div v-if="$slots.viewer">
+        <template v-if="$slots.viewer" #viewer>
           <slot name="viewer" />
-        </div>
+        </template>
         <template v-if="$slots.progress" #progress="progress">
           <slot name="progress" v-bind="progress" />
         </template>
@@ -65,6 +65,7 @@ import {
   onMounted,
   ref,
   useAttrs as useRawAttrs,
+  useSlots,
   watch,
 } from 'vue'
 import { useIntersectionObserver, useThrottleFn } from '@vueuse/core'
@@ -73,7 +74,6 @@ import { useAttrs, useLocale, useNamespace } from '@element-plus/hooks'
 import ImageViewer from '@element-plus/components/image-viewer'
 import {
   getScrollContainer,
-  isArray,
   isClient,
   isElement,
   isString,
@@ -94,6 +94,7 @@ const emit = defineEmits(imageEmits)
 const { t } = useLocale()
 const ns = useNamespace('image')
 const rawAttrs = useRawAttrs()
+const slots = useSlots()
 
 const containerAttrs = computed(() => {
   return fromPairs(
@@ -134,10 +135,9 @@ const imageStyle = computed<CSSProperties>(() => {
   return {}
 })
 
-const preview = computed(() => {
-  const { previewSrcList } = props
-  return isArray(previewSrcList) && previewSrcList.length > 0
-})
+const preview = computed(
+  () => props.previewSrcList.length > 0 || !!slots.viewer
+)
 
 const imageIndex = computed(() => {
   const { previewSrcList, initialIndex } = props
