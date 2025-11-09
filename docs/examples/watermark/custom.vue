@@ -25,7 +25,7 @@ const config = reactive({
       :gap="config.gap"
       :offset="config.offset"
     >
-      <div class="demo">
+      <div class="watermarkContainer">
         <h1>Element Plus</h1>
         <h2>A Vue 3 based component library for designers and developers</h2>
         <img src="/images/hamburger.png" alt="示例图片" />
@@ -84,7 +84,7 @@ const config = reactive({
   display: flex;
   flex: auto;
 }
-.demo {
+.watermarkContainer {
   flex: auto;
 }
 .form {
