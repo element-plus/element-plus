@@ -149,6 +149,7 @@ $button-icon-span-gap: map.merge(
   @include when(round) {
     border-radius: getCssVar('border-radius', 'round');
   }
+
   @include when(circle) {
     width: map.get($input-height, 'default');
     border-radius: 50%;
@@ -271,6 +272,16 @@ $button-icon-span-gap: map.merge(
   @each $type in (primary, success, warning, danger, info) {
     @include m($type) {
       @include button-variant($type);
+    }
+  }
+
+  @include when(dashed) {
+    border: getCssVar('border-width') dashed getCssVar('button', 'border-color');
+
+    &:not(.is-disabled) {
+      &:hover {
+        border: getCssVar('border-width') solid getCssVar('button', 'hover', 'border-color');
+      }
     }
   }
 

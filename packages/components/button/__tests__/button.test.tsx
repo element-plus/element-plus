@@ -59,6 +59,12 @@ describe('Button.vue', () => {
     expect(wrapper.classes()).toContain('is-circle')
   })
 
+  it('dashed', () => {
+    const wrapper = mount(() => <Button dashed />)
+
+    expect(wrapper.classes()).toContain('is-dashed')
+  })
+
   it('text', async () => {
     const bg = ref(false)
 

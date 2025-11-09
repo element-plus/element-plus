@@ -9,7 +9,7 @@ Commonly used button.
 
 ## Basic usage
 
-:::demo Use `type`, `plain`, `round` and `circle` to define Button's style.
+:::demo Use `type`, `plain`, `round`, `dashed` and `circle` to define Button's style.
 
 button/basic
 
@@ -147,6 +147,7 @@ button/custom
 | link ^(2.2.1)     | determine whether it's a link button                                                                                                                 | ^[boolean]                                                                                                   | false   |
 | round             | determine whether it's a round button                                                                                                                | ^[boolean]                                                                                                   | false   |
 | circle            | determine whether it's a circle button                                                                                                               | ^[boolean]                                                                                                   | false   |
+| dashed            | determine whether it's a dashed button                                                                                                               | ^[boolean]                                                                                                   | false   |
 | loading           | determine whether it's loading                                                                                                                       | ^[boolean]                                                                                                   | false   |
 | loading-icon      | customize loading icon component                                                                                                                     | ^[string] / ^[Component]                                                                                     | Loading |
 | disabled          | disable the button                                                                                                                                   | ^[boolean]                                                                                                   | false   |
