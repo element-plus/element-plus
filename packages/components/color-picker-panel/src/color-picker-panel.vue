@@ -1,5 +1,8 @@
 <template>
-  <div :class="[ns.b(), ns.is('disabled', disabled), ns.is('border', border)]">
+  <div
+    :class="[ns.b(), ns.is('disabled', disabled), ns.is('border', border)]"
+    @focusout="handleFocusout"
+  >
     <div :class="ns.e('wrapper')">
       <hue-slider
         ref="hueRef"
@@ -41,8 +44,9 @@
 <script lang="ts" setup>
 import { computed, inject, nextTick, onMounted, provide, ref, watch } from 'vue'
 import { ElInput } from '@element-plus/components/input'
-import { useFormDisabled } from '@element-plus/components/form'
+import { useFormDisabled, useFormItem } from '@element-plus/components/form'
 import { useNamespace } from '@element-plus/hooks'
+import { debugWarn } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import AlphaSlider from './components/alpha-slider.vue'
 import HueSlider from './components/hue-slider.vue'
@@ -65,6 +69,7 @@ const props = defineProps(colorPickerPanelProps)
 const emit = defineEmits(colorPickerPanelEmits)
 
 const ns = useNamespace('color-picker-panel')
+const { formItem } = useFormItem()
 const disabled = useFormDisabled()
 const hueRef = ref<InstanceType<typeof HueSlider>>()
 const svRef = ref<InstanceType<typeof SvPanel>>()
@@ -82,6 +87,12 @@ function handleConfirm() {
   color.fromString(customInput.value)
   if (color.value !== customInput.value) {
     customInput.value = color.value
+  }
+}
+
+function handleFocusout() {
+  if (props.validateEvent) {
+    formItem?.validate?.('blur').catch((err) => debugWarn(err))
   }
 }
 
@@ -112,6 +123,9 @@ watch(
   (val) => {
     emit(UPDATE_MODEL_EVENT, val)
     customInput.value = val
+    if (props.validateEvent) {
+      formItem?.validate('change').catch((err) => debugWarn(err))
+    }
   }
 )
 

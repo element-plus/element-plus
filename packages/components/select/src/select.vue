@@ -180,11 +180,7 @@
                 :aria-label="ariaLabel"
                 aria-autocomplete="none"
                 aria-haspopup="listbox"
-                @keydown.down.stop.prevent="navigateOptions('next')"
-                @keydown.up.stop.prevent="navigateOptions('prev')"
-                @keydown.esc.stop.prevent="handleEsc"
-                @keydown.enter.stop.prevent="selectOption"
-                @keydown.delete.stop="deletePrevTag"
+                @keydown="handleKeydown"
                 @compositionstart="handleCompositionStart"
                 @compositionupdate="handleCompositionUpdate"
                 @compositionend="handleCompositionEnd"
@@ -386,6 +382,7 @@ export default defineComponent({
 
   setup(props, { emit, slots }) {
     const instance = getCurrentInstance()!
+    const originalWarnHandler = instance.appContext.config.warnHandler
     instance.appContext.config.warnHandler = (...args) => {
       // Overrides warnings about slots not being executable outside of a render function.
       // We call slot below just to simulate data when persist is false, this warning message should be ignored
@@ -473,7 +470,7 @@ export default defineComponent({
     watch(
       () => [slots.default?.(), modelValue.value],
       () => {
-        if (props.persistent) {
+        if (props.persistent || API.states.options.size > 0) {
           // If persistent is true, we don't need to manually render slots.
           return
         }
@@ -507,7 +504,7 @@ export default defineComponent({
 
     onBeforeUnmount(() => {
       // https://github.com/element-plus/element-plus/issues/21279
-      instance.appContext.config.warnHandler = undefined
+      instance.appContext.config.warnHandler = originalWarnHandler
     })
 
     return {
