@@ -9,8 +9,8 @@ jobs:
       pull-requests: write
     if: |
       github.event.pull_request.merged == true &&
-      github.repository_owner == 'element-plus' &&
-      !contains(github.event.pull_request.labels.*.name, '1st contribution')
+      github.repository_owner == 'element-plus'
+
     steps:
       - name: Comment on PR
         uses: actions-cool/maintain-one-comment@v3
