@@ -115,7 +115,7 @@ const handleClear = () => {
 }
 
 .cascader-custom-header {
-  .el-checkbox {
+  :deep(.el-checkbox) {
     display: flex;
     height: unset;
   }
