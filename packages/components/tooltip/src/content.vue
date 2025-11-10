@@ -36,8 +36,8 @@
         :loop="loop"
         @mouseenter="onContentEnter"
         @mouseleave="onContentLeave"
-        @blur="onBlur"
-        @close="onClose"
+        @blur="onContentBlur"
+        @close="onContentClose"
       >
         <slot />
       </el-popper-content>
@@ -134,6 +134,11 @@ const stopWhenControlled = () => {
   if (unref(controlled)) return true
 }
 
+const onContentClose = () => {
+  if (stopWhenControlled()) return
+  onClose()
+}
+
 const onContentEnter = composeEventHandlers(stopWhenControlled, () => {
   if (props.enterable && isTriggerType(unref(trigger), 'hover')) {
     onOpen()
@@ -159,10 +164,9 @@ const onAfterShow = () => {
   onShow()
 }
 
-const onBlur = () => {
-  if (!props.virtualTriggering) {
-    onClose()
-  }
+const onContentBlur = () => {
+  if (stopWhenControlled()) return
+  if (!props.virtualTriggering) onClose()
 }
 
 const isFocusInsideContent = (event?: FocusEvent) => {
