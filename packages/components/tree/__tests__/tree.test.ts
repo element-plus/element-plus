@@ -2060,4 +2060,24 @@ describe('Tree.vue', () => {
     await nextTick()
     expect(wrapper.find('.el-tree__empty-block').text()).toBe('EmptySlot')
   })
+
+  test('setCurrentKey should not have multiple nodes with highlighted states at the same time', async () => {
+    const { wrapper, vm } = getTreeVm(
+      `:props="defaultProps" show-checkbox node-key="id"`
+    )
+
+    const treeWrapper = wrapper.findComponent(Tree)
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
+
+    tree.setCurrentKey(1)
+    await nextTick()
+    expect(treeWrapper.findAll('.is-current').length).toEqual(1)
+
+    const nodeData = { label: '一级 4', id: 4, children: [] }
+    vm.data.push(nodeData)
+
+    tree.setCurrentKey(4)
+    await nextTick()
+    expect(treeWrapper.findAll('.is-current').length).toEqual(1)
+  })
 })
