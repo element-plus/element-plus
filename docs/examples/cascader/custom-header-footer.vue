@@ -118,5 +118,4 @@ const handleClear = () => {
   display: flex;
   height: unset;
 }
-}
 </style>
