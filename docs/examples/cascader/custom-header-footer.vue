@@ -114,10 +114,9 @@ const handleClear = () => {
   border-right: 1px solid var(--el-border-color);
 }
 
-.cascader-custom-header {
-  :deep(.el-checkbox) {
-    display: flex;
-    height: unset;
-  }
+.cascader-custom-header .el-checkbox {
+  display: flex;
+  height: unset;
+}
 }
 </style>
