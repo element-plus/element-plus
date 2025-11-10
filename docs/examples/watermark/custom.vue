@@ -84,7 +84,7 @@ const config = reactive({
   display: flex;
   flex: auto;
 }
-.watermarkContainer {
+.watermark-container {
   flex: auto;
 }
 .form {
