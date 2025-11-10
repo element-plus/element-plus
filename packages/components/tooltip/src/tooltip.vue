@@ -7,6 +7,7 @@
       :virtual-ref="virtualRef"
       :virtual-triggering="virtualTriggering"
       :focus-on-target="focusOnTarget"
+      :blur-after-focus="blurAfterFocus"
     >
       <slot v-if="$slots.default" />
     </el-tooltip-trigger>

@@ -31,6 +31,10 @@ export const useTooltipTriggerProps = buildProps({
    * @description when triggering tooltips through hover, whether to focus the trigger element, which improves accessibility
    */
   focusOnTarget: Boolean,
+  /**
+   * @description when focusOnTarget is enabled, whether to blur the element immediately after focusing to prevent focus outline
+   */
+  blurAfterFocus: Boolean,
 } as const)
 
 export type ElTooltipTriggerProps = ExtractPropTypes<
