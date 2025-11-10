@@ -189,6 +189,7 @@ class Node {
       store.currentNodeKey !== undefined &&
       this.key === store.currentNodeKey
     ) {
+      store.currentNode && (store.currentNode.isCurrent = false)
       store.currentNode = this
       store.currentNode.isCurrent = true
     }
