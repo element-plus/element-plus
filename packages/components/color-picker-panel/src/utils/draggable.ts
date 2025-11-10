@@ -37,7 +37,9 @@ export function draggable(element: HTMLElement, options: DraggableOptions) {
       if (element.hasPointerCapture?.(event.pointerId)) {
         element.releasePointerCapture(event.pointerId)
       }
-    } catch { /* ignore */ }
+    } catch {
+      /* ignore */
+    }
     element.removeEventListener('pointermove', pointerMoveFn)
     element.removeEventListener('pointerup', pointerUpLikeFn)
     element.removeEventListener('pointercancel', pointerUpLikeFn)
@@ -55,7 +57,9 @@ export function draggable(element: HTMLElement, options: DraggableOptions) {
 
     try {
       element.setPointerCapture(event.pointerId)
-    } catch { /* ignore */ }
+    } catch {
+      /* ignore */
+    }
 
     element.addEventListener('pointermove', pointerMoveFn)
     element.addEventListener('pointerup', pointerUpLikeFn)
