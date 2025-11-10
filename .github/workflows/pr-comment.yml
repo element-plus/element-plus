@@ -11,7 +11,7 @@ jobs:
       github.event.pull_request.merged == true &&
       github.repository_owner == 'element-plus'
 
-      steps:
+    steps:
       - name: Comment on PR
         uses: actions-cool/maintain-one-comment@v3
         with:
