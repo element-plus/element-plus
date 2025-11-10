@@ -1,5 +1,5 @@
 <template>
-  <div class="demo">
+  <div class="autocomplete-custom-header-footer">
     <div>
       <p>Custom header content</p>
       <el-autocomplete
@@ -87,20 +87,20 @@ const handleClear = () => {
 }
 </script>
 
-<style>
-.demo {
+<style scoped>
+.autocomplete-custom-header-footer {
   display: flex;
 }
 
-.demo > div {
+.autocomplete-custom-header-footer > div {
   flex: 1;
   text-align: center;
 }
-.demo > div > .el-autocomplete {
+.autocomplete-custom-header-footer > div > .el-autocomplete {
   width: 50%;
 }
 
-.demo > div:not(:last-child) {
+.autocomplete-custom-header-footer > div:not(:last-child) {
   border-right: 1px solid var(--el-border-color);
 }
 </style>
