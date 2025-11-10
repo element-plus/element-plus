@@ -238,9 +238,16 @@ function useWatcher<T extends DefaultRow>() {
     emitChange = true,
     ignoreSelectable = false
   ) => {
+    const {
+      childrenColumnName,
+      checkStrictly,
+      lazyColumnIdentifier,
+      lazyTreeNodeMap,
+    } = instance.store.states
     const treeProps = {
-      children: instance?.store?.states?.childrenColumnName.value,
-      checkStrictly: instance?.store?.states?.checkStrictly.value,
+      children: childrenColumnName.value,
+      checkStrictly: checkStrictly.value,
+      hasChildren: lazyColumnIdentifier.value,
     }
     const changed = toggleRowStatus(
       selection.value,
@@ -249,7 +256,8 @@ function useWatcher<T extends DefaultRow>() {
       treeProps,
       ignoreSelectable ? undefined : selectable.value,
       data.value.indexOf(row),
-      rowKey.value
+      rowKey.value,
+      lazyTreeNodeMap.value
     )
     if (changed) {
       const newSelection = (selection.value || []).slice()
@@ -271,11 +279,12 @@ function useWatcher<T extends DefaultRow>() {
 
     let selectionChanged = false
     let childrenCount = 0
-    const rowKey = instance?.store?.states?.rowKey.value
-    const { childrenColumnName } = instance.store.states
+    const { childrenColumnName, lazyTreeNodeMap, lazyColumnIdentifier } =
+      instance.store.states
     const treeProps = {
       children: childrenColumnName.value,
       checkStrictly: false, // Disable checkStrictly when selecting all
+      hasChildren: lazyColumnIdentifier.value,
     }
 
     data.value.forEach((row, index) => {
@@ -288,12 +297,13 @@ function useWatcher<T extends DefaultRow>() {
           treeProps,
           selectable.value,
           rowIndex,
-          rowKey
+          rowKey.value,
+          lazyTreeNodeMap.value
         )
       ) {
         selectionChanged = true
       }
-      childrenCount += getChildrenCount(getRowIdentity(row, rowKey))
+      childrenCount += getChildrenCount(getRowIdentity(row, rowKey.value))
     })
 
     if (selectionChanged) {

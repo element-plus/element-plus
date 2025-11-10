@@ -2673,4 +2673,71 @@ describe('Table.vue', () => {
     await wrapper.setProps({ showOverflowTooltip: true })
     expect(wrapper.find('div.cell.el-tooltip').exists()).toBe(true)
   })
+
+  it('cascading selection should take effect when there are lazy-loaded child nodes', async () => {
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+      template: `
+          <el-table :data="testData" row-key="release" lazy :load="load">
+            <el-table-column type="selection" />
+            <el-table-column prop="name" label="片名" />
+            <el-table-column prop="release" label="发行日期" />
+            <el-table-column prop="director" label="导演" />
+            <el-table-column prop="runtime" label="时长（分）" />
+          </el-table>
+        `,
+      data() {
+        const testData = getTestData() as any
+        testData[1].hasChildren = true
+        return {
+          testData,
+        }
+      },
+      methods: {
+        load(row, treeNode, resolve) {
+          resolve([
+            {
+              name: "A Bug's Life copy 1",
+              release: '1998-11-25-1',
+              director: 'John Lasseter',
+              runtime: 95,
+            },
+            {
+              name: "A Bug's Life copy 2",
+              release: '1998-11-25-2',
+              director: 'John Lasseter',
+              runtime: 95,
+            },
+          ])
+        },
+      },
+    })
+
+    await doubleWait()
+    const expandIcon = wrapper.find('.el-table__expand-icon')
+    expandIcon.trigger('click')
+
+    await doubleWait()
+    const allSelectionNode = wrapper.findAll('.el-checkbox')[0]
+    const parentNode = wrapper.findAll('.el-checkbox')[2]
+
+    parentNode.trigger('click')
+    await doubleWait()
+    expect(wrapper.findAll('.el-checkbox.is-checked').length).toEqual(3)
+
+    parentNode.trigger('click')
+    await doubleWait()
+    expect(wrapper.findAll('.el-checkbox.is-checked').length).toEqual(0)
+
+    allSelectionNode.trigger('click')
+    await doubleWait()
+    expect(wrapper.findAll('.el-checkbox.is-checked').length).toEqual(8)
+
+    allSelectionNode.trigger('click')
+    await doubleWait()
+    expect(wrapper.findAll('.el-checkbox.is-checked').length).toEqual(0)
+  })
 })
