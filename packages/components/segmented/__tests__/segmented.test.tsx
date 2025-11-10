@@ -1,4 +1,4 @@
-import { nextTick, ref } from 'vue'
+import { h, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
 import Segmented from '../src/segmented.vue'
@@ -208,5 +208,27 @@ describe('Segmented.vue', () => {
         .classes()
         .includes('is-disabled')
     ).toBeTruthy()
+  })
+
+  test('render options vnode label', async () => {
+    const value = ref('Mon')
+    const options = [
+      {
+        label: (option: { label: string; value: string }) =>
+          h('div', { class: 'render-label-1' }, option.value),
+        value: 'Mon',
+      },
+      {
+        label: h('div', { class: 'render-label-2' }, 'Mon'),
+        value: 'Mon',
+      },
+    ]
+    const wrapper = mount(() => (
+      <Segmented v-model={value.value} options={options}></Segmented>
+    ))
+    await nextTick()
+    expect(wrapper.findAll('.render-label-1').length).toBe(1)
+    expect(wrapper.find('.render-label-1').text()).toEqual('Mon')
+    expect(wrapper.findAll('.render-label-2').length).toBe(1)
   })
 })

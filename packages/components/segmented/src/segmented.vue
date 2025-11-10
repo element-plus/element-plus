@@ -23,16 +23,22 @@
           :checked="getSelected(item)"
           @change="handleChange(item)"
         />
-        <div :class="ns.e('item-label')">
-          <slot :item="intoAny(item)">{{ getLabel(item) }}</slot>
-        </div>
+        <component
+          :is="
+            h(
+              'div',
+              { class: ns.e('item-label') },
+              $slots.default?.(intoAny(item)) ?? getLabel(item)
+            )
+          "
+        />
       </label>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, reactive, ref, watch } from 'vue'
+import { computed, h, reactive, ref, watch } from 'vue'
 import { useActiveElement, useResizeObserver } from '@vueuse/core'
 import { useId, useNamespace } from '@element-plus/hooks'
 import {
@@ -41,7 +47,7 @@ import {
   useFormItemInputId,
   useFormSize,
 } from '@element-plus/components/form'
-import { debugWarn, isObject } from '@element-plus/utils'
+import { debugWarn, isFunction, isObject } from '@element-plus/utils'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { defaultProps, segmentedEmits, segmentedProps } from './segmented'
 
@@ -91,7 +97,9 @@ const getValue = (item: Option) => {
 }
 
 const getLabel = (item: Option) => {
-  return isObject(item) ? item[aliasProps.value.label] : item
+  if (!isObject(item)) return item
+  const label = item[aliasProps.value.label]
+  return isFunction(label) ? label(item) : label
 }
 
 const getDisabled = (item: Option | undefined) => {
