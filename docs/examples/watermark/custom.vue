@@ -25,7 +25,7 @@ const config = reactive({
       :gap="config.gap"
       :offset="config.offset"
     >
-      <div class="watermarkContainer">
+      <div class="watermark-container">
         <h1>Element Plus</h1>
         <h2>A Vue 3 based component library for designers and developers</h2>
         <img src="/images/hamburger.png" alt="示例图片" />
