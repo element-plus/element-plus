@@ -1,0 +1,20 @@
+name: Thanks to the PR Contributor
+on:
+  pull_request:
+    types: [closed]
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    if: |
+      github.event.pull_request.merged == true &&
+      github.repository_owner == 'element-plus' &&
+      !contains(github.event.pull_request.labels.*.name, '1st contribution')
+    steps:
+      - name: Comment on PR
+        uses: actions-cool/maintain-one-comment@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body: |
+            @${{ github.event.pull_request.user.login }} Thanks for your contribution! :heart:
