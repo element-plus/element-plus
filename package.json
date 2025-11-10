@@ -94,7 +94,7 @@
     "cz-git": "^1.11.1",
     "czg": "^1.11.1",
     "eslint": "^9.37.0",
-    "expect-type": "^0.13.0",
+    "expect-type": "^1.2.2",
     "fast-glob": "^3.2.11",
     "happy-dom": "^17.4.4",
     "husky": "^9.0.11",
