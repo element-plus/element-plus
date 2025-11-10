@@ -219,8 +219,8 @@ describe('Segmented.vue', () => {
         value: 'Mon',
       },
       {
-        label: h('div', { class: 'render-label-2' }, 'Mon'),
-        value: 'Mon',
+        label: h('div', { class: 'render-label-2' }, 'Tue'),
+        value: 'Tue',
       },
     ]
     const wrapper = mount(() => (
