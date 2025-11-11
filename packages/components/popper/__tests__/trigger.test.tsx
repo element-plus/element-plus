@@ -73,5 +73,31 @@ describe('<ElPopperTrigger />', () => {
       await nextTick()
       expect(onClick).toHaveBeenCalled()
     })
+    it('should cleanup listeners when ref unmounts', async () => {
+      const onClick = vi.fn()
+      const first = document.createElement('button')
+      const second = document.createElement('button')
+      const removeSpy = vi.spyOn(first, 'removeEventListener')
+      const addSpy = vi.spyOn(second, 'addEventListener')
+
+      wrapper = mountTrigger({
+        onClick,
+        virtualTriggering: true,
+        virtualRef: first,
+      })
+      await nextTick()
+
+      await wrapper.setProps({
+        virtualRef: second,
+      })
+      await nextTick()
+
+      first.dispatchEvent(new MouseEvent('click'))
+      second.dispatchEvent(new MouseEvent('click'))
+
+      expect(onClick).toHaveBeenCalledTimes(1)
+      expect(removeSpy).toHaveBeenCalledWith('click', onClick, false)
+      expect(addSpy).toHaveBeenCalledWith('click', onClick, false)
+    })
   })
 })
