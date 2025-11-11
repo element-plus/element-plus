@@ -22,6 +22,17 @@ export type InputModelModifiers = {
   trim?: boolean
 }
 export type InputAutoSize = { minRows?: number; maxRows?: number } | boolean
+// Some commonly used values for input type
+export type InputType =
+  | 'text'
+  | 'textarea'
+  | 'number'
+  | 'password'
+  | 'email'
+  | 'search'
+  | 'tel'
+  | 'url'
+  | (string & NonNullable<unknown>)
 
 export const inputProps = buildProps({
   /**
@@ -70,10 +81,10 @@ export const inputProps = buildProps({
     type: [String, Number],
   },
   /**
-   * @description type of input
+   * @description type of input, see more in [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types)
    */
   type: {
-    type: String,
+    type: definePropType<InputType>(String),
     default: 'text',
   },
   /**
