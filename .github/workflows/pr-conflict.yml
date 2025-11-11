@@ -3,8 +3,7 @@ name: Comment on PR with conflict Label
 # DO NOT ADD ANY CHECKOUT/CACHING in this workflow
 
 on:
-  # pull_request_target:
-  pull_request:
+  pull_request_target:
     types: [labeled, synchronize]
 
 permissions:
@@ -15,10 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check for specific label
-        if: contains(github.event.pull_request.labels.*.name, 'conflict pending')
-        # if: |
-        #   contains(github.event.pull_request.labels.*.name, 'conflict pending') &&
-        #   github.repository_owner == 'element-plus'
+        if: |
+          contains(github.event.pull_request.labels.*.name, 'conflict pending') &&
+          github.repository_owner == 'element-plus'
         uses: actions-cool/maintain-one-comment@v3.2.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
