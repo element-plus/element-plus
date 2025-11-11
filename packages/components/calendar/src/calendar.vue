@@ -20,12 +20,8 @@
     </div>
     <div v-if="validatedRange.length === 0" :class="ns.e('body')">
       <date-table :date="date" :selected-day="realSelectedDay" @pick="pickDay">
-        <template
-          v-if="$slots['date-cell'] || $slots.dateCell"
-          #date-cell="data"
-        >
-          <slot v-if="$slots['date-cell']" name="date-cell" v-bind="data" />
-          <slot v-else name="dateCell" v-bind="data" />
+        <template v-if="$slots['date-cell']" #date-cell="data">
+          <slot name="date-cell" v-bind="data" />
         </template>
       </date-table>
     </div>
@@ -39,12 +35,8 @@
         :hide-header="index !== 0"
         @pick="pickDay"
       >
-        <template
-          v-if="$slots['date-cell'] || $slots.dateCell"
-          #date-cell="data"
-        >
-          <slot v-if="$slots['date-cell']" name="date-cell" v-bind="data" />
-          <slot v-else name="dateCell" v-bind="data" />
+        <template v-if="$slots['date-cell']" #date-cell="data">
+          <slot name="date-cell" v-bind="data" />
         </template>
       </date-table>
     </div>
@@ -55,7 +47,6 @@
 import { computed } from 'vue'
 import { ElButton, ElButtonGroup } from '@element-plus/components/button'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-
 import DateTable from './date-table.vue'
 import { useCalendar } from './use-calendar'
 import { calendarEmits, calendarProps } from './calendar'

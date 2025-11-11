@@ -15,7 +15,8 @@ import { throttle } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
 import { debugWarn, flattedChildren, isString } from '@element-plus/utils'
 import { useOrderedChildren } from '@element-plus/hooks'
-import { carouselContextKey } from './constants'
+import { CHANGE_EVENT } from '@element-plus/constants'
+import { CAROUSEL_ITEM_NAME, carouselContextKey } from './constants'
 
 import type { SetupContext } from 'vue'
 import type { CarouselItemContext } from './constants'
@@ -32,9 +33,10 @@ export const useCarousel = (
     children: items,
     addChild: addItem,
     removeChild: removeItem,
+    ChildrenSorter: ItemsSorter,
   } = useOrderedChildren<CarouselItemContext>(
     getCurrentInstance()!,
-    'ElCarouselItem'
+    CAROUSEL_ITEM_NAME
   )
 
   const slots = useSlots()
@@ -227,10 +229,8 @@ export const useCarousel = (
 
     const flatSlots = flattedChildren(defaultSlots)
 
-    const carouselItemsName = 'ElCarouselItem'
-
     const normalizeSlots = flatSlots.filter((slot) => {
-      return isVNode(slot) && (slot.type as any).name === carouselItemsName
+      return isVNode(slot) && (slot.type as any).name === CAROUSEL_ITEM_NAME
     })
 
     if (normalizeSlots?.length === 2 && props.loop && !isCardType.value) {
@@ -251,10 +251,18 @@ export const useCarousel = (
         prev = prev % 2
       }
       if (prev > -1) {
-        emit('change', current, prev)
+        emit(CHANGE_EVENT, current, prev)
       }
     }
   )
+
+  const exposeActiveIndex = computed({
+    get: () => {
+      return isItemsTwoLength.value ? activeIndex.value % 2 : activeIndex.value
+    },
+    set: (value) => (activeIndex.value = value),
+  })
+
   watch(
     () => props.autoplay,
     (autoplay) => {
@@ -306,6 +314,7 @@ export const useCarousel = (
     isVertical,
     items,
     loop: props.loop,
+    cardScale: props.cardScale,
     addItem,
     removeItem,
     setActiveItem,
@@ -315,6 +324,7 @@ export const useCarousel = (
   return {
     root,
     activeIndex,
+    exposeActiveIndex,
     arrowDisplay,
     hasLabel,
     hover,
@@ -333,6 +343,7 @@ export const useCarousel = (
     next,
     PlaceholderItem,
     isTwoLengthShow,
+    ItemsSorter,
     throttledArrowClick,
     throttledIndicatorHover,
   }

@@ -40,28 +40,24 @@ describe('Space.vue', () => {
     )
 
     await nextTick()
-    expect(wrapper.find('.el-space__item').attributes('style')).toContain(
-      'margin-right: 16px'
-    )
+    expect(wrapper.find('.el-space').attributes('style')).toContain('gap: 16px')
 
     await wrapper.setProps({
       size: 30,
     })
 
     await nextTick()
-    expect(wrapper.find('.el-space__item').attributes('style')).toContain(
-      'margin-right: 30px'
-    )
+    expect(wrapper.find('.el-space').attributes('style')).toContain('gap: 30px')
 
     await wrapper.setProps({
       size: [10, 20],
     })
 
-    expect(wrapper.find('.el-space__item').attributes('style')).toContain(
-      'margin-right: 10px'
+    expect(wrapper.find('.el-space').attributes('style')).toContain(
+      'column-gap: 10px'
     )
-    expect(wrapper.find('.el-space__item').attributes('style')).toContain(
-      'padding-bottom: 20px'
+    expect(wrapper.find('.el-space').attributes('style')).toContain(
+      'row-gap: 20px'
     )
     await wrapper.setProps({
       size: 'unknown',
@@ -69,9 +65,7 @@ describe('Space.vue', () => {
 
     expect(warnHandler).toHaveBeenCalled()
 
-    expect(wrapper.find('.el-space__item').attributes('style')).toContain(
-      'margin-right: 8px'
-    )
+    expect(wrapper.find('.el-space').attributes('style')).toContain('gap: 8px')
   })
 
   it('should render with spacer', async () => {
@@ -131,5 +125,35 @@ describe('Space.vue', () => {
     expect(wrapper.find('.el-space__item').attributes('style')).toContain(
       'min-width: 50%'
     )
+  })
+
+  it('should handle empty conditional templates correctly', async () => {
+    // Test with a component that uses v-if to simulate empty templates
+    const TestComponent = {
+      template: `
+        <el-space spacer="|">
+          <span>Item 1</span>
+          <template v-if="false"></template>
+          <span>Item 2</span>
+          <template v-if="false"></template>
+        </el-space>
+      `,
+      components: {
+        'el-space': Space,
+      },
+    }
+
+    const wrapper = mount(TestComponent)
+    await nextTick()
+
+    expect(wrapper.text()).toBe('Item 1|Item 2')
+
+    const spacerElements = wrapper
+      .findAll('span')
+      .filter((el) => el.text() === '|')
+    expect(spacerElements.length).toBe(1)
+
+    const spaceChildren = wrapper.find('.el-space').element.children
+    expect(spaceChildren.length).toBe(3)
   })
 })

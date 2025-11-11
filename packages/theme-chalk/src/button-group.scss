@@ -5,9 +5,9 @@
 @use 'mixins/utils' as *;
 
 @include b(button-group) {
-  @include utils-clearfix;
   display: inline-block;
   vertical-align: middle;
+  @include utils-clearfix;
 
   & > .#{$namespace}-button {
     float: left;

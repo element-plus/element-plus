@@ -4,8 +4,10 @@ import { afterEach, describe, expect, test, vi } from 'vitest'
 import defineGetter from '@element-plus/test-utils/define-getter'
 import { ElFormItem as FormItem } from '@element-plus/components/form'
 import Input from '../src/input.vue'
+
 import type { CSSProperties } from 'vue'
-import type { InputAutoSize, InputInstance, InputProps } from '../src/input'
+import type { InputAutoSize, InputProps } from '../src/input'
+import type { InputInstance } from '../src/instance'
 
 describe('Input.vue', () => {
   afterEach(() => {
@@ -47,10 +49,15 @@ describe('Input.vue', () => {
     expect(inputElm.element.value).toBe('')
   })
 
-  test('disabled', () => {
+  test('disabled', async () => {
     const wrapper = mount(() => <Input disabled />)
     const inputElm = wrapper.find('input')
     expect(inputElm.element.disabled).not.toBeNull()
+
+    // trigger click should not focus #18012
+    inputElm.trigger('click')
+    await nextTick()
+    expect(inputElm.element.className.includes('is-focus')).toBe(false)
   })
 
   describe('test emoji', () => {
@@ -146,7 +153,9 @@ describe('Input.vue', () => {
   })
 
   test('rows', () => {
-    const wrapper = mount(() => <Input type="textarea" rows={3} />)
+    const wrapper = mount(() => {
+      return <Input type="textarea" rows={3} />
+    })
     expect(wrapper.find('textarea').element.rows).toEqual(3)
   })
 
@@ -252,7 +261,7 @@ describe('Input.vue', () => {
     `)
   })
 
-  test('use formatter and parser', () => {
+  test('use formatter and parser', async () => {
     const val = ref('10000')
     const formatter = (val: string) => {
       return val.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
@@ -261,8 +270,17 @@ describe('Input.vue', () => {
       return val.replace(/\$\s?|(,*)/g, '')
     }
 
+    const _val = ref('')
+    const handleEvent = (val: string) => (_val.value = val)
+
     const wrapper = mount(() => (
-      <Input v-model={val.value} formatter={formatter} parser={parser} />
+      <Input
+        v-model={val.value}
+        formatter={formatter}
+        parser={parser}
+        onInput={handleEvent}
+        onChange={handleEvent}
+      />
     ))
 
     const vm = wrapper.vm
@@ -270,8 +288,16 @@ describe('Input.vue', () => {
     expect(vm.$el.querySelector('input').value).toEqual('10,000')
     expect(vm.$el.querySelector('input').value).not.toEqual('1000')
     vm.$el.querySelector('input').value = '1,000,000'
+
     vm.$el.querySelector('input').dispatchEvent(event)
     expect(val.value).toEqual('1000000')
+    expect(_val.value).toEqual('1000000')
+
+    vm.$el
+      .querySelector('input')
+      .dispatchEvent(new Event('change', { bubbles: true }))
+    expect(val.value).toEqual('1000000')
+    expect(_val.value).toEqual('1000000')
   })
 
   describe('Input Methods', () => {
@@ -302,15 +328,14 @@ describe('Input.vue', () => {
     test('method:resizeTextarea', async () => {
       const text = ref('TEXT:resizeTextarea')
       const wrapper = mount({
-        setup: () => () =>
-          (
-            <Input
-              ref="textarea"
-              autosize={{ minRows: 1, maxRows: 1 }}
-              type="textarea"
-              v-model={text.value}
-            />
-          ),
+        setup: () => () => (
+          <Input
+            ref="textarea"
+            autosize={{ minRows: 1, maxRows: 1 }}
+            type="textarea"
+            v-model={text.value}
+          />
+        ),
       })
       const refTextarea = wrapper.vm.$refs.textarea as InputInstance
 
@@ -329,21 +354,67 @@ describe('Input.vue', () => {
     const handleFocus = vi.fn()
     const handleBlur = vi.fn()
 
-    test('event:focus & blur', async () => {
+    test('event:focus', async () => {
       const content = ref('')
       const wrapper = mount(() => (
         <Input
           placeholder="请输入内容"
           modelValue={content.value}
           onFocus={handleFocus}
-          onBlur={handleBlur}
         />
       ))
 
       const input = wrapper.find('input')
 
       await input.trigger('focus')
-      expect(handleFocus).toBeCalled()
+      expect(handleFocus).toHaveBeenCalledOnce()
+    })
+
+    test('event:blur', async () => {
+      const content = ref('')
+      const wrapper = mount(() => (
+        <Input
+          placeholder="请输入内容"
+          modelValue={content.value}
+          onBlur={handleBlur}
+        />
+      ))
+
+      const input = wrapper.find('input')
+
+      await input.trigger('blur')
+      expect(handleBlur).toHaveBeenCalledOnce()
+    })
+
+    test('textarea & event:focus', async () => {
+      const content = ref('')
+      const wrapper = mount(() => (
+        <Input
+          type="textarea"
+          placeholder="请输入内容"
+          modelValue={content.value}
+          onFocus={handleFocus}
+        />
+      ))
+
+      const input = wrapper.find('textarea')
+
+      await input.trigger('focus')
+      expect(handleFocus).toHaveBeenCalledOnce()
+    })
+
+    test('textarea & event:blur', async () => {
+      const content = ref('')
+      const wrapper = mount(() => (
+        <Input
+          type="textarea"
+          placeholder="请输入内容"
+          modelValue={content.value}
+          onBlur={handleBlur}
+        />
+      ))
+
+      const input = wrapper.find('textarea')
 
       await input.trigger('blur')
       expect(handleBlur).toBeCalled()
@@ -497,6 +568,30 @@ describe('Input.vue', () => {
     expect(d !== d0).toBeTruthy()
   })
 
+  test('show / hide password', async () => {
+    const password = ref('123456')
+    const wrapper = mount(() => (
+      <Input type="password" modelValue={password.value} show-password />
+    ))
+
+    const icon = wrapper.find('.el-input__icon.el-input__password')
+    const input = wrapper.find('input')
+
+    expect(input.element.value).toBe('123456')
+    expect(input.element.selectionStart).toBe(6)
+    expect(input.element.selectionEnd).toBe(6)
+
+    await icon.trigger('click')
+    expect(input.element.value).toBe('123456')
+    expect(input.element.selectionStart).toBe(6)
+    expect(input.element.selectionEnd).toBe(6)
+
+    await input.element.setSelectionRange(1, 4)
+    await icon.trigger('click')
+    expect(input.element.selectionStart).toBe(1)
+    expect(input.element.selectionEnd).toBe(4)
+  })
+
   describe('form item accessibility integration', () => {
     test('automatic id attachment', async () => {
       const wrapper = mount(() => (
@@ -551,6 +646,161 @@ describe('Input.vue', () => {
     await nextTick()
 
     expect(onChange).toHaveBeenCalledWith('', expect.any(Event))
+  })
+  
+  test('modelValue modifiers', async () => {
+    const number = ref()
+    const trim = ref()
+    const lazy = ref()
+    const trimNumber = ref()
+    const trimLazy = ref()
+    const numberLazy = ref()
+    const trimNumberLazy = ref()
+
+    const wrapper = mount(() => (
+      <>
+        <Input
+          id="number"
+          v-model={number.value}
+          modelModifiers={{ number: true }}
+        />
+        <Input id="trim" v-model={trim.value} modelModifiers={{ trim: true }} />
+        <Input id="lazy" v-model={lazy.value} modelModifiers={{ lazy: true }} />
+        <Input
+          id="trim-number"
+          v-model={trimNumber.value}
+          modelModifiers={{ trim: true, number: true }}
+        />
+        <Input
+          id="trim-lazy"
+          v-model={trimLazy.value}
+          modelModifiers={{ trim: true, lazy: true }}
+        />
+        <Input
+          id="number-lazy"
+          v-model={numberLazy.value}
+          modelModifiers={{ number: true, lazy: true }}
+        />
+        <Input
+          id="trim-number-lazy"
+          v-model={trimNumberLazy.value}
+          modelModifiers={{ trim: true, number: true, lazy: true }}
+        />
+      </>
+    ))
+
+    await nextTick()
+
+    const triggerEvent = async (type: string, el: Element) => {
+      const event = new Event(type)
+      el.dispatchEvent(event)
+      await nextTick()
+    }
+    const mockActiveElement = vi.spyOn(document, 'activeElement', 'get')
+
+    const numberEl = wrapper.find('#number').element as HTMLInputElement
+    const trimEl = wrapper.find('#trim').element as HTMLInputElement
+    const lazyEl = wrapper.find('#lazy').element as HTMLInputElement
+    const trimNumberEl = wrapper.find('#trim-number')
+      .element as HTMLInputElement
+    const trimLazyEl = wrapper.find('#trim-lazy').element as HTMLInputElement
+    const numberLazyEl = wrapper.find('#number-lazy')
+      .element as HTMLInputElement
+    const trimNumberLazyEl = wrapper.find('#trim-number-lazy')
+      .element as HTMLInputElement
+
+    mockActiveElement.mockReturnValue(numberEl)
+    numberEl.value = '+01.2'
+    await triggerEvent('input', numberEl)
+    expect(number.value).toEqual(1.2)
+    expect(numberEl.value).toEqual('+01.2')
+    await triggerEvent('change', numberEl)
+    expect(numberEl.value).toEqual('1.2')
+
+    mockActiveElement.mockReturnValue(trimEl)
+    trimEl.value = '  hello, world  '
+    await triggerEvent('input', trimEl)
+    expect(trim.value).toEqual('hello, world')
+    expect(trimEl.value).toEqual('  hello, world  ')
+    await triggerEvent('change', trimEl)
+    expect(trimEl.value).toEqual('hello, world')
+
+    mockActiveElement.mockReturnValue(lazyEl)
+    lazyEl.value = 'foo'
+    await triggerEvent('input', lazyEl)
+    expect(lazy.value).toBeUndefined()
+    await triggerEvent('change', lazyEl)
+    expect(lazy.value).toEqual('foo')
+
+    mockActiveElement.mockReturnValue(trimNumberEl)
+    trimNumberEl.value = '    1    '
+    await triggerEvent('input', trimNumberEl)
+    expect(trimNumber.value).toEqual(1)
+    expect(trimNumberEl.value).toEqual('    1    ')
+    await triggerEvent('change', trimNumberEl)
+    expect(trimNumberEl.value).toEqual('1')
+
+    mockActiveElement.mockReturnValue(trimLazyEl)
+    trimLazyEl.value = '  hello, world  '
+    await triggerEvent('input', trimLazyEl)
+    expect(trimLazy.value).toBeUndefined()
+    expect(trimLazyEl.value).toEqual('  hello, world  ')
+    await triggerEvent('change', trimLazyEl)
+    expect(trimLazy.value).toEqual('hello, world')
+    expect(trimLazyEl.value).toEqual('hello, world')
+
+    mockActiveElement.mockReturnValue(numberLazyEl)
+    numberLazyEl.value = '+01.2'
+    await triggerEvent('input', numberLazyEl)
+    expect(numberLazy.value).toBeUndefined()
+    expect(numberLazyEl.value).toEqual('+01.2')
+    await triggerEvent('change', numberLazyEl)
+    expect(numberLazy.value).toEqual(1.2)
+    expect(numberLazyEl.value).toEqual('1.2')
+
+    mockActiveElement.mockReturnValue(trimNumberLazyEl)
+    trimNumberLazyEl.value = '  +01.2  '
+    await triggerEvent('input', trimNumberLazyEl)
+    expect(trimNumberLazy.value).toBeUndefined()
+    expect(trimNumberLazyEl.value).toEqual('  +01.2  ')
+    await triggerEvent('change', trimNumberLazyEl)
+    expect(trimNumberLazy.value).toEqual(1.2)
+    expect(trimNumberLazyEl.value).toEqual('1.2')
+
+    mockActiveElement.mockRestore()
+  })
+
+  test('textarea-show-word-limit-outside-position', async () => {
+    const wrapper = mount(() => (
+      <Input
+        placeholder="请输入内容"
+        showWordLimit
+        wordLimitPosition="outside"
+        maxlength={30}
+        type="textarea"
+      />
+    ))
+
+    const wordLimit = wrapper.find('.el-input__count')
+    await nextTick()
+    expect(wordLimit.exists()).toBe(true)
+    expect(wordLimit.element.className.includes('is-outside')).toBeTruthy()
+  })
+
+  test('input-show-word-limit-outside-position', async () => {
+    const wrapper = mount(() => (
+      <Input
+        placeholder="请输入内容"
+        showWordLimit
+        wordLimitPosition="outside"
+        maxlength={30}
+      />
+    ))
+
+    const wordLimit = wrapper.find('.el-input__count')
+    await nextTick()
+    expect(wordLimit.exists()).toBe(true)
+    expect(wordLimit.element.className.includes('is-outside')).toBeTruthy()
   })
 
   // TODO: validateEvent & input containes select cases should be added after the rest components finished

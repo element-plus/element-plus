@@ -1,12 +1,23 @@
 export default {
   name: 'en',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb',
+    },
     colorpicker: {
       confirm: 'OK',
       clear: 'Clear',
       defaultLabel: 'color picker',
       description:
         'current color is {color}. press enter to select a new color.',
+      alphaLabel: 'pick alpha value',
+      alphaDescription: 'alpha {alpha}, current color is {color}',
+      hueLabel: 'pick hue value',
+      hueDescription: 'hue {hue}, current color is {color}',
+      svLabel: 'pick saturation and brightness value',
+      svDescription:
+        'saturation {saturation}, brightness {brightness}, current color is {color}',
+      predefineDescription: 'select {value} as the color',
     },
     datepicker: {
       now: 'Now',
@@ -42,7 +53,6 @@ export default {
       month10: 'October',
       month11: 'November',
       month12: 'December',
-      week: 'week',
       weeks: {
         sun: 'Sun',
         mon: 'Mon',
@@ -85,6 +95,9 @@ export default {
       noMatch: 'No matching data',
       noData: 'No data',
       placeholder: 'Select',
+    },
+    mention: {
+      loading: 'Loading',
     },
     dropdown: {
       toggleDropdown: 'Toggle Dropdown',
@@ -140,26 +153,37 @@ export default {
       clearFilter: 'All',
       sumText: 'Sum',
     },
+    tour: {
+      next: 'Next',
+      previous: 'Previous',
+      finish: 'Finish',
+      close: 'Close this dialog',
+    },
     tree: {
       emptyText: 'No Data',
     },
     transfer: {
       noMatch: 'No matching data',
       noData: 'No data',
-      titles: ['List 1', 'List 2'], // to be translated
-      filterPlaceholder: 'Enter keyword', // to be translated
-      noCheckedFormat: '{total} items', // to be translated
-      hasCheckedFormat: '{checked}/{total} checked', // to be translated
+      titles: ['List 1', 'List 2'],
+      filterPlaceholder: 'Enter keyword',
+      noCheckedFormat: '{total} items',
+      hasCheckedFormat: '{checked}/{total} checked',
     },
     image: {
       error: 'FAILED',
     },
     pageHeader: {
-      title: 'Back', // to be translated
+      title: 'Back',
     },
     popconfirm: {
       confirmButtonText: 'Yes',
       cancelButtonText: 'No',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left',
+      rightArrow: 'Carousel arrow right',
+      indicator: 'Carousel switch to index {index}',
     },
   },
 }

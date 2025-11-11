@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import '@docsearch/css'
 import { getCurrentInstance, onMounted, watch } from 'vue'
-import { useRoute, useRouter } from 'vitepress'
+import { useRoute, useRouter, withBase } from 'vitepress'
+//@ts-expect-error
 import docsearch from '@docsearch/js'
 import { isClient } from '@vueuse/core'
-// import { useLang } from '../../composables/lang'
-// import type { DefaultTheme } from '../config'
+import { useLang } from '../../composables/lang'
+import searchLocale from '../../../i18n/component/search.json'
+
 import type { DocSearchHit } from '@docsearch/react/dist/esm/types'
 
 const props = defineProps<{
@@ -17,12 +19,11 @@ const vm = getCurrentInstance()
 const route = useRoute()
 const router = useRouter()
 
-watch(
-  () => props.options,
-  (value) => {
-    update(value)
-  }
-)
+const lang = useLang()
+
+watch([() => props.options, lang], ([newOptions]) => {
+  update(newOptions)
+})
 
 onMounted(() => {
   initialize(props.options)
@@ -52,24 +53,31 @@ function update(options: any) {
   }
 }
 
-// const lang = useLang()
-
 function initialize(userOptions: any) {
   // if the user has multiple locales, the search results should be filtered
   // based on the language
-  // const facetFilters = props.multilang ? [`language:${lang.value}`] : []
+  const facetFilters = props.multilang ? [`language:${lang.value}`] : []
+  const algoliaLocale = searchLocale[lang.value].algolia
 
   docsearch(
     Object.assign({}, userOptions, {
       container: '#docsearch',
       indexName: 'element-plus',
-      // searchParameters: Object.assign({}, userOptions.searchParameters, {
-      //   // pass a custom lang facetFilter to allow multiple language search
-      //   // https://github.com/algolia/docsearch-configs/pull/3942
-      //   facetFilters: facetFilters.concat(
-      //     userOptions.searchParameters?.facetFilters || []
-      //   ),
-      // }),
+      placeholder: algoliaLocale.placeholder,
+      translations: algoliaLocale.translations,
+      searchParameters: Object.assign({}, userOptions.searchParameters, {
+        // pass a custom lang facetFilter to allow multiple language search
+        // https://github.com/algolia/docsearch-configs/pull/3942
+        facetFilters: facetFilters.concat(
+          userOptions.searchParameters?.facetFilters || []
+        ),
+      }),
+
+      getMissingResultsUrl({ query }: { query: string }) {
+        return `https://github.com/element-plus/element-plus/issues/new?title=${encodeURIComponent(
+          `[Docs] Missing search result for \`${query}\``
+        )}`
+      },
 
       navigator: {
         navigate: ({ itemUrl }: { itemUrl: string }) => {
@@ -84,7 +92,7 @@ function initialize(userOptions: any) {
           if (route.path === hitPathname) {
             window.location.assign(window.location.origin + itemUrl)
           } else {
-            router.go(itemUrl)
+            router.go(withBase(itemUrl))
           }
         },
       },
@@ -106,7 +114,7 @@ function initialize(userOptions: any) {
       }) => {
         const relativeHit = hit.url.startsWith('http')
           ? getRelativePath(hit.url as string)
-          : hit.url
+          : withBase(hit.url)
 
         return {
           type: 'a',
@@ -151,6 +159,7 @@ function initialize(userOptions: any) {
 
 <style lang="scss">
 @use '../../styles/mixins' as *;
+
 .algolia-search-box {
   // display: flex;
   // align-items: center;
@@ -175,8 +184,8 @@ function initialize(userOptions: any) {
   // --docsearch-key-shadow: rgba(125, 125, 125, 0.3);
   --docsearch-footer-height: 44px;
   --docsearch-footer-background: var(--bg-color);
-  --docsearch-footer-shadow: 0 -1px 0 0 #e0e3e8,
-    0 -3px 6px 0 rgba(69, 98, 155, 0.12);
+  --docsearch-footer-shadow:
+    0 -1px 0 0 #e0e3e8, 0 -3px 6px 0 rgba(69, 98, 155, 0.12);
   --docsearch-searchbox-background: rgba(var(--bg-color-rgb), 0.8);
   --docsearch-searchbox-focus-background: var(--bg-color-mute);
   --docsearch-searchbox-shadow: inset 0 0 0 2px var(--brand-color);
@@ -186,6 +195,7 @@ function initialize(userOptions: any) {
   --docsearch-modal-shadow: var(--el-box-shadow);
 
   transition: background-color var(--el-transition-duration-fast);
+  background-color: transparent;
 
   &.DocSearch-Container {
     z-index: 20000;
@@ -193,6 +203,10 @@ function initialize(userOptions: any) {
 
   &.DocSearch-Button {
     margin-right: 8px;
+  }
+
+  .DocSearch-Title {
+    word-break: break-word;
   }
 
   @media (max-width: 749px) {
@@ -210,6 +224,7 @@ function initialize(userOptions: any) {
     --docsearch-hit-background: var(--bg-color-mute);
     --docsearch-hit-color: var(--text-color-lighter);
     --docsearch-hit-shadow: none;
+
     // --docsearch-searchbox-focus-background: var(--bg-color-mute);
     .DocSearch-Button {
       .DocSearch-Button-Key {
@@ -217,8 +232,6 @@ function initialize(userOptions: any) {
       }
     }
   }
-
-  background-color: transparent;
 
   @include respond-to('md') {
     background-color: var(--docsearch-searchbox-background);

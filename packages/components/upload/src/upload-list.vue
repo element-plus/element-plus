@@ -1,20 +1,22 @@
 <template>
   <transition-group tag="ul" :class="containerKls" :name="nsList.b()">
     <li
-      v-for="file in files"
+      v-for="(file, index) in files"
       :key="file.uid || file.name"
       :class="[
         nsUpload.be('list', 'item'),
         nsUpload.is(file.status),
         { focusing },
       ]"
-      tabindex="0"
+      :tabindex="disabled ? undefined : 0"
+      :aria-disabled="disabled"
+      role="button"
       @keydown.delete="!disabled && handleRemove(file)"
       @focus="focusing = true"
       @blur="focusing = false"
       @click="focusing = false"
     >
-      <slot :file="file">
+      <slot :file="file" :index="index">
         <img
           v-if="
             listType === 'picture' ||
@@ -22,6 +24,7 @@
           "
           :class="nsUpload.be('list', 'item-thumbnail')"
           :src="file.url"
+          :crossorigin="crossorigin"
           alt=""
         />
         <div
@@ -103,6 +106,7 @@
     <slot name="append" />
   </transition-group>
 </template>
+
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
@@ -117,8 +121,8 @@ import {
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElProgress from '@element-plus/components/progress'
 import { useFormDisabled } from '@element-plus/components/form'
-
 import { uploadListEmits, uploadListProps } from './upload-list'
+
 import type { UploadFile } from './upload'
 
 defineOptions({

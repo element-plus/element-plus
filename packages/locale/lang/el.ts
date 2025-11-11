@@ -1,9 +1,23 @@
 export default {
   name: 'el',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'Εντάξει',
       clear: 'Καθαρισμός',
+      defaultLabel: 'color picker', // to be translated
+      description:
+        'current color is {color}. press enter to select a new color.', // to be translated
+      alphaLabel: 'pick alpha value', // to be translated
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
+      svLabel: 'pick saturation and brightness value', // to be translated
+      svDescription:
+        'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
+      predefineDescription: 'select {value} as the color', // to be translated
     },
     datepicker: {
       now: 'Τώρα',
@@ -11,6 +25,11 @@ export default {
       cancel: 'Ακύρωση',
       clear: 'Καθαρισμός',
       confirm: 'Εντάξει',
+      dateTablePrompt:
+        'Use the arrow keys and enter to select the day of the month', // to be translated
+      monthTablePrompt: 'Use the arrow keys and enter to select the month', // to be translated
+      yearTablePrompt: 'Use the arrow keys and enter to select the year', // to be translated
+      selectedDate: 'Selected date', // to be translated
       selectDate: 'Επιλέξτε ημέρα',
       selectTime: 'Επιλέξτε ώρα',
       startDate: 'Ημερομηνία Έναρξης',
@@ -34,7 +53,6 @@ export default {
       month10: 'Οκτώβριος',
       month11: 'Νοέμβριος',
       month12: 'Δεκέμβριος',
-      // week: 'εβδομάδα',
       weeks: {
         sun: 'Κυρ',
         mon: 'Δευ',
@@ -43,6 +61,15 @@ export default {
         thu: 'Πεμ',
         fri: 'Παρ',
         sat: 'Σαβ',
+      },
+      weeksFull: {
+        sun: 'Sunday', // to be translated
+        mon: 'Monday', // to be translated
+        tue: 'Tuesday', // to be translated
+        wed: 'Wednesday', // to be translated
+        thu: 'Thursday', // to be translated
+        fri: 'Friday', // to be translated
+        sat: 'Saturday', // to be translated
       },
       months: {
         jan: 'Ιαν',
@@ -59,11 +86,21 @@ export default {
         dec: 'Δεκ',
       },
     },
+    inputNumber: {
+      decrease: 'decrease number', // to be translated
+      increase: 'increase number', // to be translated
+    },
     select: {
       loading: 'Φόρτωση',
       noMatch: 'Δεν βρέθηκαν αποτελέσματα',
       noData: 'Χωρίς δεδομένα',
       placeholder: 'Επιλογή',
+    },
+    mention: {
+      loading: 'Φόρτωση',
+    },
+    dropdown: {
+      toggleDropdown: 'Toggle Dropdown', // to be translated
     },
     cascader: {
       noMatch: 'Δεν βρέθηκαν αποτελέσματα',
@@ -82,12 +119,21 @@ export default {
       currentPage: 'page {pager}', // to be translated
       prevPages: 'Previous {pager} pages', // to be translated
       nextPages: 'Next {pager} pages', // to be translated
+      deprecationWarning:
+        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
+    },
+    dialog: {
+      close: 'Close this dialog', // to be translated
+    },
+    drawer: {
+      close: 'Close this dialog', // to be translated
     },
     messagebox: {
       title: 'Μήνυμα',
       confirm: 'Εντάξει',
       cancel: 'Ακύρωση',
       error: 'Άκυρη εισαγωγή',
+      close: 'Close this dialog', // to be translated
     },
     upload: {
       deleteTip: 'Πάτησε Διαγραφή για αφαίρεση',
@@ -95,12 +141,23 @@ export default {
       preview: 'Προεπισκόπηση',
       continue: 'Συνέχεια',
     },
+    slider: {
+      defaultLabel: 'slider between {min} and {max}', // to be translated
+      defaultRangeStartLabel: 'pick start value', // to be translated
+      defaultRangeEndLabel: 'pick end value', // to be translated
+    },
     table: {
       emptyText: 'Χωρίς Δεδομένα',
       confirmFilter: 'Επιβεβαίωση',
       resetFilter: 'Επαναφορά',
       clearFilter: 'Όλα',
       sumText: 'Σύνολο',
+    },
+    tour: {
+      next: 'Next', // to be translated
+      previous: 'Previous', // to be translated
+      finish: 'Finish', // to be translated
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'Χωρίς Δεδομένα',
@@ -122,6 +179,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

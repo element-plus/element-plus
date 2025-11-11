@@ -1,23 +1,28 @@
 <template>
   <div :class="rootKls">
-    <button
+    <div
       :id="scopedHeadId"
       :class="headKls"
       :aria-expanded="isActive"
       :aria-controls="scopedContentId"
       :aria-describedby="scopedContentId"
-      :tabindex="disabled ? -1 : 0"
-      type="button"
+      :tabindex="disabled ? undefined : 0"
+      :aria-disabled="disabled"
+      role="button"
       @click="handleHeaderClick"
-      @keydown.space.enter.stop.prevent="handleEnterClick"
+      @keydown.space.enter.stop="handleEnterClick"
       @focus="handleFocus"
       @blur="focusing = false"
     >
-      <slot name="title">{{ title }}</slot>
-      <el-icon :class="arrowKls">
-        <arrow-right />
-      </el-icon>
-    </button>
+      <span :class="itemTitleKls">
+        <slot name="title" :is-active="isActive">{{ title }}</slot>
+      </span>
+      <slot name="icon" :is-active="isActive">
+        <el-icon :class="arrowKls">
+          <component :is="icon" />
+        </el-icon>
+      </slot>
+    </div>
 
     <el-collapse-transition>
       <div
@@ -39,7 +44,6 @@
 <script lang="ts" setup>
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElIcon from '@element-plus/components/icon'
-import { ArrowRight } from '@element-plus/icons-vue'
 import { collapseItemProps } from './collapse-item'
 import { useCollapseItem, useCollapseItemDOM } from './use-collapse-item'
 
@@ -61,6 +65,7 @@ const {
   arrowKls,
   headKls,
   rootKls,
+  itemTitleKls,
   itemWrapperKls,
   itemContentKls,
   scopedContentId,

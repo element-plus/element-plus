@@ -1,12 +1,17 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
+import { withBase } from 'vitepress'
 import { useEventListener, useParallax, useThrottleFn } from '@vueuse/core'
 import { useLang } from '../../composables/lang'
 import homeLocale from '../../../i18n/pages/home.json'
 import HomeSponsors from '../home/home-sponsors.vue'
 import HomeCards from '../home/home-cards.vue'
 import HomeFooter from './vp-footer.vue'
+
 import type { CSSProperties } from 'vue'
+
+import { isDark } from '~/composables/dark'
+
 const target = ref<HTMLElement | null>(null)
 const parallax = reactive(useParallax(target))
 const jumbotronRedOffset = ref(0)
@@ -109,7 +114,9 @@ const handleScroll = useThrottleFn(() => {
   }
 }, 10)
 
-useEventListener(window, 'scroll', handleScroll)
+onMounted(() => {
+  useEventListener(window, 'scroll', handleScroll)
+})
 </script>
 
 <template>
@@ -137,7 +144,7 @@ useEventListener(window, 'scroll', handleScroll)
       </div>
     </div>
     <img
-      src="/images/theme-index-blue.png"
+      :src="withBase(`/images/theme-index-blue${isDark ? '-dark' : ''}.png`)"
       alt="banner"
       class="mobile-banner"
     />
@@ -236,41 +243,24 @@ useEventListener(window, 'scroll', handleScroll)
 
   @media screen and (max-width: 959px) {
     .jumbotron {
-      display: none !important;
-    }
-
-    .mobile-banner {
-      margin-top: 10px;
-      display: inline-block;
+      .parallax-container {
+        width: 700px;
+        margin: 0 auto;
+      }
     }
   }
 
   @media (max-width: 768px) {
     .jumbotron {
-      width: 50%;
-      display: flex;
-      margin: auto;
-      justify-content: center;
-      align-items: center;
-
-      .parallax-container {
-        width: 100%;
-      }
+      display: none !important;
     }
-  }
 
-  @media (max-width: 768px) {
-    .cards {
-      li {
-        width: 80%;
-        margin: 0 auto 20px;
-        float: none;
-      }
-      .card {
-        height: auto;
-        padding-bottom: 54px;
-      }
+    .mobile-banner {
+      display: inline-block;
+      margin-top: 25px;
+      margin-bottom: -15px;
     }
+
     .banner-stars {
       display: none;
     }

@@ -4,9 +4,11 @@ import type { Measurable } from './constants'
 import type Trigger from './trigger.vue'
 
 export const popperTriggerProps = buildProps({
+  /** @description Indicates the reference element to which the popper is attached */
   virtualRef: {
     type: definePropType<Measurable>(Object),
   },
+  /** @description Indicates whether virtual triggering is enabled */
   virtualTriggering: Boolean,
   onMouseenter: {
     type: definePropType<(e: Event) => void>(Function),
@@ -35,7 +37,7 @@ export const popperTriggerProps = buildProps({
 
 export type PopperTriggerProps = typeof popperTriggerProps
 
-export type PopperTriggerInstance = InstanceType<typeof Trigger>
+export type PopperTriggerInstance = InstanceType<typeof Trigger> & unknown
 
 /** @deprecated use `popperTriggerProps` instead, and it will be deprecated in the next major version */
 export const usePopperTriggerProps = popperTriggerProps

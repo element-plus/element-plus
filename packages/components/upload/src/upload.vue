@@ -5,11 +5,12 @@
       :disabled="disabled"
       :list-type="listType"
       :files="uploadFiles"
+      :crossorigin="crossorigin"
       :handle-preview="onPreview"
       @remove="handleRemove"
     >
-      <template v-if="$slots.file" #default="{ file }">
-        <slot name="file" :file="file" />
+      <template v-if="$slots.file" #default="{ file, index }">
+        <slot name="file" :file="file" :index="index" />
       </template>
       <template #append>
         <upload-content ref="uploadRef" v-bind="uploadContentProps">
@@ -35,11 +36,12 @@
       :disabled="disabled"
       :list-type="listType"
       :files="uploadFiles"
+      :crossorigin="crossorigin"
       :handle-preview="onPreview"
       @remove="handleRemove"
     >
-      <template v-if="$slots.file" #default="{ file }">
-        <slot name="file" :file="file" />
+      <template v-if="$slots.file" #default="{ file, index }">
+        <slot name="file" :file="file" :index="index" />
       </template>
     </upload-list>
   </div>

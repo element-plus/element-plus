@@ -1,6 +1,7 @@
 <template>
   <slot :handle-keydown="onKeydown" />
 </template>
+
 <script lang="ts">
 import {
   defineComponent,
@@ -15,7 +16,7 @@ import {
 import { isNil } from 'lodash-unified'
 import { EVENT_CODE } from '@element-plus/constants'
 import { useEscapeKeydown } from '@element-plus/hooks'
-import { isString } from '@element-plus/utils'
+import { getEventCode, isString } from '@element-plus/utils'
 import {
   createFocusOutPreventedEvent,
   focusFirstDescendant,
@@ -85,10 +86,11 @@ export default defineComponent({
       if (!props.loop && !props.trapped) return
       if (focusLayer.paused) return
 
-      const { key, altKey, ctrlKey, metaKey, currentTarget, shiftKey } = e
+      const { altKey, ctrlKey, metaKey, currentTarget, shiftKey } = e
       const { loop } = props
+      const code = getEventCode(e)
       const isTabbing =
-        key === EVENT_CODE.tab && !altKey && !ctrlKey && !metaKey
+        code === EVENT_CODE.tab && !altKey && !ctrlKey && !metaKey
 
       const currentFocusingEl = document.activeElement
       if (isTabbing && currentFocusingEl) {
@@ -295,6 +297,8 @@ export default defineComponent({
 
         trapContainer.removeEventListener(FOCUS_AFTER_RELEASED, releaseOnFocus)
         focusableStack.remove(focusLayer)
+        lastFocusBeforeTrapped = null
+        lastFocusAfterTrapped = null
       }
     }
 
@@ -318,6 +322,13 @@ export default defineComponent({
     onBeforeUnmount(() => {
       if (props.trapped) {
         stopTrap()
+      }
+
+      if (forwardRef.value) {
+        forwardRef.value.removeEventListener('keydown', onKeydown)
+        forwardRef.value.removeEventListener('focusin', onFocusIn)
+        forwardRef.value.removeEventListener('focusout', onFocusOut)
+        forwardRef.value = undefined
       }
     })
 
