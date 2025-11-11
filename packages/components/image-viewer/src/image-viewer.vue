@@ -287,7 +287,7 @@ function registerEventListener() {
 
   scopeEventListener.run(() => {
     useEventListener(document, 'keydown', keydownHandler)
-    useEventListener(document, 'wheel', mousewheelHandler)
+    useEventListener(wrapper, 'wheel', mousewheelHandler)
   })
 }
 

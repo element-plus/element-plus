@@ -3876,4 +3876,43 @@ describe('Select', () => {
     await input.trigger('keydown', { code: EVENT_CODE.pageUp })
     expect(target.states.hoveringIndex).toBe(1)
   })
+
+  test('should support selecting options with both Enter and Numpad Enter', async () => {
+    const wrapper = _mount(
+      `
+    <el-select
+      ref="select"
+      v-model="value"
+      filterable
+    >
+      <el-option
+        v-for="item in options"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value"
+        :disabled="item.disabled"
+      />
+    </el-select>
+    `,
+      () => ({
+        options: Array.from({ length: 2 }).map((_, i) => ({
+          label: `label-${i}`,
+          value: i,
+        })),
+        value: '',
+      })
+    )
+
+    await nextTick()
+    const vm = wrapper.vm as any
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    await input.trigger('keydown', { code: EVENT_CODE.down })
+    await input.trigger('keydown', { code: EVENT_CODE.enter })
+    expect(vm.value).toBe(0)
+    await input.trigger('click')
+    await input.trigger('keydown', { code: EVENT_CODE.down })
+    await input.trigger('keydown', { code: EVENT_CODE.numpadEnter })
+    expect(vm.value).toBe(1)
+  })
 })

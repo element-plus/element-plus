@@ -205,6 +205,42 @@ describe('<fixed-size-grid />', () => {
       // 7 x 6 grid
       expect(wrapper.findAll(ITEM_SELECTOR)).toHaveLength(42)
     })
+
+    it('should handle touchstart touchmove correctly', async () => {
+      vi.useFakeTimers()
+      const wrapper = mount()
+      const gridRef = wrapper.vm.$refs.gridRef as GridRef
+
+      gridRef.states.scrollLeft = 50
+      gridRef.states.scrollTop = 50
+
+      const touchStartEvent = {
+        preventDefault: vi.fn(),
+        touches: [{ clientX: 100, clientY: 200 }],
+      } as unknown as TouchEvent
+
+      gridRef.handleTouchStart(touchStartEvent)
+
+      expect(gridRef.touchStartX).toBe(100)
+      expect(gridRef.touchStartY).toBe(200)
+
+      const touchMoveEvent = {
+        preventDefault: vi.fn(),
+        touches: [{ clientX: 80, clientY: 180 }],
+      } as unknown as TouchEvent
+
+      gridRef.handleTouchMove(touchMoveEvent)
+      expect(touchMoveEvent.preventDefault).toHaveBeenCalled()
+
+      await vi.advanceTimersByTimeAsync(16)
+      expect(gridRef.states.scrollLeft).toBe(70) // 50 + 100 - 80
+      expect(gridRef.states.scrollTop).toBe(70) // 50 + 200 - 180
+
+      expect(gridRef.touchStartX).toBe(80)
+      expect(gridRef.touchStartY).toBe(180)
+
+      vi.useRealTimers()
+    })
   })
 
   describe('error handling', () => {

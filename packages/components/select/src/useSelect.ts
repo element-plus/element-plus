@@ -818,6 +818,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
         navigateOptions('next')
         break
       case EVENT_CODE.enter:
+      case EVENT_CODE.numpadEnter:
         selectOption()
         break
       case EVENT_CODE.esc:

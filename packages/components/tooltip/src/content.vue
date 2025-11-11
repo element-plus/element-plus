@@ -93,8 +93,11 @@ const transitionClass = computed(() => {
 const persistentRef = computed(() => {
   // For testing, we would always want the content to be rendered
   // to the DOM, so we need to return true here.
-  if (process.env.NODE_ENV === 'test') {
-    if (!process.env.RUN_TEST_WITH_PERSISTENT) {
+  if (typeof process !== 'undefined') {
+    if (
+      process.env.NODE_ENV === 'test' &&
+      !process.env.RUN_TEST_WITH_PERSISTENT
+    ) {
       return true
     }
   }
