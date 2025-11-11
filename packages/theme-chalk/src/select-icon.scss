@@ -1,0 +1,22 @@
+@use 'sass:map';
+
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
+
+@include b(select-icon) {
+
+  .#{$namespace}-select-icon__default_content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    button {
+      margin-top: 10px;
+      margin-left: 12px;
+    }
+  }
+  .el-pagination{
+    margin-top: 18px;
+    overflow: hidden;
+  }
+}
