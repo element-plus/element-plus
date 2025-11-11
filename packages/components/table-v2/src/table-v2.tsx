@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { defineComponent, provide, unref } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { useTable } from './use-table'
@@ -16,6 +15,7 @@ import Footer from './renderers/footer'
 import Empty from './renderers/empty'
 import Overlay from './renderers/overlay'
 
+import type { CSSProperties } from 'vue'
 import type { TableGridRowSlotParams } from './table-grid'
 import type { ScrollStrategy } from './composables/use-scrollbar'
 import type {
@@ -23,6 +23,7 @@ import type {
   TableV2HeaderRowCellRendererParams,
   TableV2RowCellRenderParam,
 } from './components'
+import type { KeyType } from './types'
 
 const COMPONENT_NAME = 'ElTableV2'
 
@@ -45,7 +46,6 @@ const TableV2 = defineComponent({
       depthMap,
       expandedRowKeys,
       hasFixedColumns,
-      hoveringRowKey,
       mainTableRef,
       leftTableRef,
       rightTableRef,
@@ -56,7 +56,6 @@ const TableV2 = defineComponent({
       bodyWidth,
       emptyStyle,
       rootStyle,
-      headerWidth,
       footerHeight,
 
       showEmpty,
@@ -104,7 +103,6 @@ const TableV2 = defineComponent({
     provide(TableV2InjectionKey, {
       ns,
       isResetting,
-      hoveringRowKey,
       isScrolling,
     })
 
@@ -143,9 +141,9 @@ const TableV2 = defineComponent({
         data: _data,
         fixedData,
         estimatedRowHeight,
-        bodyWidth: unref(bodyWidth) + vScrollbarSize,
+        bodyWidth: unref(bodyWidth),
         headerHeight,
-        headerWidth: unref(headerWidth),
+        headerWidth: unref(bodyWidth),
         height: unref(mainTableHeight),
         mainTableRef,
         rowKey,
@@ -168,6 +166,7 @@ const TableV2 = defineComponent({
         class: ns.e('left'),
         columns: unref(fixedColumnsOnLeft),
         data: _data,
+        fixedData,
         estimatedRowHeight,
         leftTableRef,
         rowHeight,
@@ -186,28 +185,28 @@ const TableV2 = defineComponent({
       }
 
       const rightColumnsWidth = unref(rightTableWidth)
-      const rightColumnsWidthWithScrollbar = rightColumnsWidth + vScrollbarSize
 
       const rightTableProps = {
         cache,
         class: ns.e('right'),
         columns: unref(fixedColumnsOnRight),
         data: _data,
+        fixedData,
         estimatedRowHeight,
         rightTableRef,
         rowHeight,
-        bodyWidth: rightColumnsWidthWithScrollbar,
-        headerWidth: rightColumnsWidthWithScrollbar,
+        bodyWidth: rightColumnsWidth,
+        headerWidth: rightColumnsWidth,
         headerHeight,
         height: _fixedTableHeight,
         rowKey,
         scrollbarAlwaysOn,
         scrollbarStartGap: 2,
         scrollbarEndGap: vScrollbarSize,
-        width: rightColumnsWidthWithScrollbar,
-        style: `--${unref(
-          ns.namespace
-        )}-table-scrollbar-size: ${vScrollbarSize}px`,
+        width: rightColumnsWidth,
+        style: `${ns.cssVarName(
+          'table-scrollbar-size'
+        )}: ${vScrollbarSize}px` as unknown as CSSProperties,
         useIsScrolling,
         getRowHeight,
         onScroll: onVerticalScroll,
@@ -222,7 +221,6 @@ const TableV2 = defineComponent({
         expandedRowKeys: unref(expandedRowKeys),
         estimatedRowHeight,
         hasFixedColumns: unref(hasFixedColumns),
-        hoveringRowKey: unref(hoveringRowKey),
         rowProps,
         rowClass,
         rowKey,
@@ -268,7 +266,7 @@ const TableV2 = defineComponent({
                   <Cell
                     {...props}
                     {...tableCellProps}
-                    style={_columnsStyles[props.column.key]}
+                    style={_columnsStyles[props.column.key as KeyType]}
                   >
                     {slots.cell(props)}
                   </Cell>
@@ -276,7 +274,7 @@ const TableV2 = defineComponent({
                   <Cell
                     {...props}
                     {...tableCellProps}
-                    style={_columnsStyles[props.column.key]}
+                    style={_columnsStyles[props.column.key as KeyType]}
                   />
                 ),
             }}
@@ -291,7 +289,7 @@ const TableV2 = defineComponent({
                   <HeaderCell
                     {...props}
                     {...tableHeaderCellProps}
-                    style={_columnsStyles[props.column.key]}
+                    style={_columnsStyles[props.column.key as KeyType]}
                   >
                     {slots['header-cell'](props)}
                   </HeaderCell>
@@ -299,7 +297,7 @@ const TableV2 = defineComponent({
                   <HeaderCell
                     {...props}
                     {...tableHeaderCellProps}
-                    style={_columnsStyles[props.column.key]}
+                    style={_columnsStyles[props.column.key as KeyType]}
                   />
                 ),
             }}
@@ -311,9 +309,7 @@ const TableV2 = defineComponent({
         props.class,
         ns.b(),
         ns.e('root'),
-        {
-          [ns.is('dynamic')]: unref(isDynamic),
-        },
+        ns.is('dynamic', unref(isDynamic)),
       ]
 
       const footerProps = {

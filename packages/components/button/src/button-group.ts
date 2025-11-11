@@ -1,6 +1,6 @@
 import { buttonProps } from './button'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 
 export const buttonGroupProps = {
   /**
@@ -13,3 +13,6 @@ export const buttonGroupProps = {
   type: buttonProps.type,
 } as const
 export type ButtonGroupProps = ExtractPropTypes<typeof buttonGroupProps>
+export type ButtonGroupPropsPublic = __ExtractPublicPropTypes<
+  typeof buttonGroupProps
+>

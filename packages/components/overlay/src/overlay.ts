@@ -2,7 +2,11 @@ import { createVNode, defineComponent, h, renderSlot } from 'vue'
 import { PatchFlags, buildProps, definePropType } from '@element-plus/utils'
 import { useNamespace, useSameTarget } from '@element-plus/hooks'
 
-import type { CSSProperties, ExtractPropTypes } from 'vue'
+import type {
+  CSSProperties,
+  ExtractPropTypes,
+  __ExtractPublicPropTypes,
+} from 'vue'
 import type { ZIndexProperty } from 'csstype'
 
 export const overlayProps = buildProps({
@@ -10,10 +14,7 @@ export const overlayProps = buildProps({
     type: Boolean,
     default: true,
   },
-  customMaskEvent: {
-    type: Boolean,
-    default: false,
-  },
+  customMaskEvent: Boolean,
   overlayClass: {
     type: definePropType<string | string[] | Record<string, boolean>>([
       String,
@@ -26,6 +27,7 @@ export const overlayProps = buildProps({
   },
 } as const)
 export type OverlayProps = ExtractPropTypes<typeof overlayProps>
+export type OverlayPropsPublic = __ExtractPublicPropTypes<typeof overlayProps>
 
 export const overlayEmits = {
   click: (evt: MouseEvent) => evt instanceof MouseEvent,

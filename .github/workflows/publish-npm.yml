@@ -9,33 +9,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Add dev branch
         run: git branch dev origin/dev
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v4
 
       - name: Setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 16
-          registry-url: https://registry.npmjs.com/
-
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        run: |
-          echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
-
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
-        with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+          node-version: 20
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
@@ -53,15 +40,14 @@ jobs:
       contents: read
       id-token: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 16
-          registry-url: https://registry.npmjs.com/
+          node-version: 20
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v4
 
       - name: Get version
         run: echo "TAG_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
@@ -69,19 +55,14 @@ jobs:
       - name: Get git head
         run: echo "GIT_HEAD=${GITHUB_SHA}" >> $GITHUB_ENV
 
-      - name: Gen npmrc
-        run: echo "//registry.npmjs.com/:_authToken=${{ secrets.NPM_PUBLISH_TOKEN }}" >> ./.npmrc
-
       - name: Update npm
-        run: npm install npm@9 -g
+        run: npm install npm@11.6.1 -g
 
       - name: Build&publish
         run: sh ./scripts/publish.sh
         env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_PUBLISH_TOKEN}}
           TAG_VERSION: ${{env.TAG_VERSION}}
           GIT_HEAD: ${{env.GIT_HEAD}}
-          REGISTRY: https://registry.npmjs.com/
           FORCE_COLOR: 2
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_OPTIONS: --max-old-space-size=4096

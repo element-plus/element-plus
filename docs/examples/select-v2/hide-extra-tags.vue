@@ -39,6 +39,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
 
 const value = ref([])

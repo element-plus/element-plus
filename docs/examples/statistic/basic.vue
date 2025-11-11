@@ -1,9 +1,9 @@
 <template>
-  <el-row>
-    <el-col :span="6">
+  <el-row :gutter="16">
+    <el-col :xs="24" :sm="12" :md="6" class="text-center mb-4">
       <el-statistic title="Daily active users" :value="268500" />
     </el-col>
-    <el-col :span="6">
+    <el-col :xs="24" :sm="12" :md="6" class="text-center mb-4">
       <el-statistic :value="138">
         <template #title>
           <div style="display: inline-flex; align-items: center">
@@ -16,10 +16,10 @@
         <template #suffix>/100</template>
       </el-statistic>
     </el-col>
-    <el-col :span="6">
-      <el-statistic title="Total Transactions" :value="172000" />
+    <el-col :xs="24" :sm="12" :md="6" class="text-center mb-4">
+      <el-statistic title="Total Transactions" :value="outputValue" />
     </el-col>
-    <el-col :span="6">
+    <el-col :xs="24" :sm="12" :md="6" class="text-center mb-4">
       <el-statistic title="Feedback number" :value="562">
         <template #suffix>
           <el-icon style="vertical-align: -0.125em">
@@ -32,11 +32,13 @@
 </template>
 
 <script lang="ts" setup>
+import { ref } from 'vue'
+import { useTransition } from '@vueuse/core'
 import { ChatLineRound, Male } from '@element-plus/icons-vue'
-</script>
 
-<style scoped>
-.el-col {
-  text-align: center;
-}
-</style>
+const source = ref(0)
+const outputValue = useTransition(source, {
+  duration: 1500,
+})
+source.value = 172000
+</script>

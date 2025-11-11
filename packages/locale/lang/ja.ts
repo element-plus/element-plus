@@ -1,9 +1,23 @@
 export default {
   name: 'ja',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'OK',
       clear: 'クリア',
+      defaultLabel: 'color picker', // to be translated
+      description:
+        'current color is {color}. press enter to select a new color.', // to be translated
+      alphaLabel: 'pick alpha value', // to be translated
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
+      svLabel: 'pick saturation and brightness value', // to be translated
+      svDescription:
+        'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
+      predefineDescription: 'select {value} as the color', // to be translated
     },
     datepicker: {
       now: '現在',
@@ -11,6 +25,11 @@ export default {
       cancel: 'キャンセル',
       clear: 'クリア',
       confirm: 'OK',
+      dateTablePrompt:
+        'Use the arrow keys and enter to select the day of the month', // to be translated
+      monthTablePrompt: 'Use the arrow keys and enter to select the month', // to be translated
+      yearTablePrompt: 'Use the arrow keys and enter to select the year', // to be translated
+      selectedDate: 'Selected date', // to be translated
       selectDate: '日付を選択',
       selectTime: '時間を選択',
       startDate: '開始日',
@@ -34,7 +53,6 @@ export default {
       month10: '10月',
       month11: '11月',
       month12: '12月',
-      // week: '週次',
       weeks: {
         sun: '日',
         mon: '月',
@@ -43,6 +61,15 @@ export default {
         thu: '木',
         fri: '金',
         sat: '土',
+      },
+      weeksFull: {
+        sun: 'Sunday', // to be translated
+        mon: 'Monday', // to be translated
+        tue: 'Tuesday', // to be translated
+        wed: 'Wednesday', // to be translated
+        thu: 'Thursday', // to be translated
+        fri: 'Friday', // to be translated
+        sat: 'Saturday', // to be translated
       },
       months: {
         jan: '1月',
@@ -59,11 +86,21 @@ export default {
         dec: '12月',
       },
     },
+    inputNumber: {
+      decrease: 'decrease number', // to be translated
+      increase: 'increase number', // to be translated
+    },
     select: {
       loading: 'ロード中',
       noMatch: 'データなし',
       noData: 'データなし',
       placeholder: '選択してください',
+    },
+    mention: {
+      loading: 'ロード中',
+    },
+    dropdown: {
+      toggleDropdown: 'Toggle Dropdown', // to be translated
     },
     cascader: {
       noMatch: 'データなし',
@@ -82,12 +119,21 @@ export default {
       currentPage: 'page {pager}', // to be translated
       prevPages: 'Previous {pager} pages', // to be translated
       nextPages: 'Next {pager} pages', // to be translated
+      deprecationWarning:
+        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
+    },
+    dialog: {
+      close: 'Close this dialog', // to be translated
+    },
+    drawer: {
+      close: 'Close this dialog', // to be translated
     },
     messagebox: {
       title: 'メッセージ',
       confirm: 'OK',
       cancel: 'キャンセル',
       error: '正しくない入力',
+      close: 'Close this dialog', // to be translated
     },
     upload: {
       deleteTip: 'Delキーを押して削除する',
@@ -95,12 +141,23 @@ export default {
       preview: 'プレビュー',
       continue: '続行する',
     },
+    slider: {
+      defaultLabel: 'slider between {min} and {max}', // to be translated
+      defaultRangeStartLabel: 'pick start value', // to be translated
+      defaultRangeEndLabel: 'pick end value', // to be translated
+    },
     table: {
       emptyText: 'データなし',
       confirmFilter: '確認',
       resetFilter: '初期化',
       clearFilter: 'すべて',
       sumText: '合計',
+    },
+    tour: {
+      next: '次へ',
+      previous: '前へ',
+      finish: 'ツアー終了',
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'データなし',
@@ -122,6 +179,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'はい',
       cancelButtonText: 'いいえ',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

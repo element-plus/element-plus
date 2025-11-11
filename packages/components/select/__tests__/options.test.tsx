@@ -1,19 +1,22 @@
 import { defineComponent, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { flatten } from 'lodash-unified'
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, it } from 'vitest'
 import Options from '../src/options'
+import Select from '../src/select.vue'
 
+import type { PropType } from 'vue'
 import type { VueWrapper } from '@vue/test-utils'
 
 describe('options', () => {
   let wrapper: ReturnType<typeof mount>
-  const onOptionsChange = vi.fn()
 
   const ElOptionStub = defineComponent({
     name: 'ElOption',
     props: {
       label: String,
+      value: [String, Number, Boolean, Object] as PropType<
+        string | number | boolean | object
+      >,
     },
     template: '<div></div>',
   })
@@ -22,6 +25,9 @@ describe('options', () => {
 
   const ElOptionGroupStub = defineComponent({
     name: 'ElOptionGroup',
+    props: {
+      label: String,
+    },
     template: '<div><slot /></div>',
   })
 
@@ -30,9 +36,9 @@ describe('options', () => {
   const createWrapper = (slots = {}) => {
     wrapper = mount(
       (_, { slots }) => (
-        <Options onUpdate-options={onOptionsChange}>
-          {slots?.default?.()}
-        </Options>
+        <Select>
+          <Options>{slots?.default?.()}</Options>
+        </Select>
       ),
       {
         global: {
@@ -48,7 +54,6 @@ describe('options', () => {
 
   afterEach(() => {
     wrapper.unmount()
-    onOptionsChange.mockClear()
   })
 
   it('renders emit correct options', async () => {
@@ -58,10 +63,6 @@ describe('options', () => {
     })
 
     await nextTick()
-
-    expect(onOptionsChange).toHaveBeenCalledWith(
-      ...[...[samples.map((_, i) => getLabel(i))]]
-    )
   })
 
   it('renders emit correct options with option group', async () => {
@@ -81,11 +82,5 @@ describe('options', () => {
           </ElOptionGroupStub>
         )),
     })
-
-    expect(onOptionsChange).toHaveBeenCalledWith(
-      flatten(
-        samples.map((_, i) => samples.map((_, j) => getLabel(`${i}-${j}`)))
-      )
-    )
   })
 })

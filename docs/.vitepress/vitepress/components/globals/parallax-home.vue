@@ -1,12 +1,17 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
+import { withBase } from 'vitepress'
 import { useEventListener, useParallax, useThrottleFn } from '@vueuse/core'
 import { useLang } from '../../composables/lang'
 import homeLocale from '../../../i18n/pages/home.json'
 import HomeSponsors from '../home/home-sponsors.vue'
 import HomeCards from '../home/home-cards.vue'
 import HomeFooter from './vp-footer.vue'
+
 import type { CSSProperties } from 'vue'
+
+import { isDark } from '~/composables/dark'
+
 const target = ref<HTMLElement | null>(null)
 const parallax = reactive(useParallax(target))
 const jumbotronRedOffset = ref(0)
@@ -109,15 +114,17 @@ const handleScroll = useThrottleFn(() => {
   }
 }, 10)
 
-useEventListener(window, 'scroll', handleScroll)
+onMounted(() => {
+  useEventListener(window, 'scroll', handleScroll)
+})
 </script>
 
 <template>
   <div ref="target" class="home-page">
     <div class="banner" text="center">
-      <div class="banner-desc" m="t-4">
+      <div class="banner-desc">
         <h1>{{ homeLang['title'] }}</h1>
-        <p m="t-2">{{ homeLang['title_sub'] }}</p>
+        <p>{{ homeLang['title_sub'] }}</p>
       </div>
     </div>
     <div ref="jumbotronRef" class="jumbotron">
@@ -137,7 +144,7 @@ useEventListener(window, 'scroll', handleScroll)
       </div>
     </div>
     <img
-      src="/images/theme-index-blue.png"
+      :src="withBase(`/images/theme-index-blue${isDark ? '-dark' : ''}.png`)"
       alt="banner"
       class="mobile-banner"
     />
@@ -170,14 +177,16 @@ useEventListener(window, 'scroll', handleScroll)
   }
   .banner-desc {
     h1 {
-      font-size: 34px;
+      font-size: 48px;
+      font-weight: 800;
       margin: 0;
-      line-height: 48px;
       color: var(--text-color);
+      font-family: Inter, sans-serif;
     }
 
     p {
-      font-size: 18px;
+      font-size: 16px;
+      margin-top: 20px;
       color: var(--text-color-light);
     }
   }
@@ -234,58 +243,34 @@ useEventListener(window, 'scroll', handleScroll)
 
   @media screen and (max-width: 959px) {
     .jumbotron {
-      display: none !important;
-    }
-
-    .mobile-banner {
-      display: inline-block;
+      .parallax-container {
+        width: 700px;
+        margin: 0 auto;
+      }
     }
   }
 
   @media (max-width: 768px) {
     .jumbotron {
-      width: 50%;
-      display: flex;
-      margin: auto;
-      justify-content: center;
-      align-items: center;
+      display: none !important;
+    }
 
-      .parallax-container {
-        width: 100%;
-      }
+    .mobile-banner {
+      display: inline-block;
+      margin-top: 25px;
+      margin-bottom: -15px;
     }
-  }
 
-  @media (max-width: 768px) {
-    .banner-desc {
-      padding-top: 0px;
-    }
-    .cards {
-      li {
-        width: 80%;
-        margin: 0 auto 20px;
-        float: none;
-      }
-      .card {
-        height: auto;
-        padding-bottom: 54px;
-      }
-    }
     .banner-stars {
       display: none;
     }
     .banner-desc {
       h1 {
-        font-size: 22px;
-      }
-      #line2 {
-        display: none;
-      }
-      h2 {
-        font-size: 32px;
+        font-size: 36px;
       }
       p {
-        width: auto;
+        margin-top: 10px;
+        font-size: 14px;
       }
     }
     .banner-dot h1 span {
@@ -310,7 +295,7 @@ useEventListener(window, 'scroll', handleScroll)
       }
       .cd-str {
         font-size: 12px;
-        margin-top: 0px;
+        margin-top: 0;
       }
     }
     .sponsors-list {
