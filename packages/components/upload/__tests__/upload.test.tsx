@@ -5,7 +5,7 @@ import { EVENT_CODE } from '@element-plus/constants'
 import Upload from '../src/upload.vue'
 import UploadContent from '../src/upload-content.vue'
 
-import type { UploadRawFile } from '../src/upload'
+import type { UploadFiles, UploadRawFile } from '../src/upload'
 
 const AXIOM = 'Rem is the best girl'
 
@@ -378,14 +378,14 @@ describe('<upload />', () => {
     })
 
     test('onChange receives synced fileList with v-model', async () => {
-      const model = ref([])
+      const model = ref<UploadFiles>([])
       const syncStates: Array<{ filesLength: number; modelLength: number }> = []
       const wrapper = mount(() =>
         h(Upload, {
           autoUpload: false,
           fileList: model.value,
-          'onUpdate:fileList': (val) => (model.value = val),
-          onChange: (_file, files) => {
+          'onUpdate:fileList': (val: UploadFiles) => (model.value = val),
+          onChange: (_file, files: UploadFiles) => {
             syncStates.push({
               filesLength: files.length,
               modelLength: model.value.length,
