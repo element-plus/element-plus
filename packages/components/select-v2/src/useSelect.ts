@@ -792,7 +792,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     states.isBeforeHide = false
     return nextTick(() => {
       if (~indexRef.value) {
-        scrollToItem(states.hoveringIndex)
+        scrollToItem(indexRef.value)
       }
     })
   }
