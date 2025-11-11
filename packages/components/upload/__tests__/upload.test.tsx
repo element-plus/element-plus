@@ -1,4 +1,4 @@
-import { nextTick, ref } from 'vue'
+import { h, nextTick, ref } from 'vue'
 import { flushPromises, mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
@@ -375,6 +375,39 @@ describe('<upload />', () => {
       await wrapper.find('input').trigger('change')
       await nextTick()
       expect(onProgress).toHaveBeenCalled()
+    })
+
+    test('onChange receives synced fileList with v-model', async () => {
+      const model = ref([])
+      const syncStates: Array<{ filesLength: number; modelLength: number }> = []
+      const wrapper = mount(() =>
+        h(Upload, {
+          autoUpload: false,
+          fileList: model.value,
+          'onUpdate:fileList': (val) => (model.value = val),
+          onChange: (_file, files) => {
+            syncStates.push({
+              filesLength: files.length,
+              modelLength: model.value.length,
+            })
+          },
+        })
+      )
+
+      const input = wrapper.find('input')
+      const file = new File(['content'], 'test-file.txt')
+      mockGetFile(input.element as HTMLInputElement, [file])
+
+      await input.trigger('change')
+      await nextTick()
+      await nextTick()
+
+      expect(syncStates).toHaveLength(1)
+      expect(syncStates[0]).toEqual({
+        filesLength: 1,
+        modelLength: 1,
+      })
+      expect(model.value[0]?.name).toBe('test-file.txt')
     })
   })
 })
