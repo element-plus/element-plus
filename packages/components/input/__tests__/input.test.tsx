@@ -647,7 +647,7 @@ describe('Input.vue', () => {
 
     expect(onChange).toHaveBeenCalledWith('', expect.any(Event))
   })
-  
+
   test('modelValue modifiers', async () => {
     const number = ref()
     const trim = ref()
