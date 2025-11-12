@@ -35,9 +35,12 @@ export const useFormSize = (
 export const useFormDisabled = (fallback?: MaybeRef<boolean | undefined>) => {
   const disabled = useProp<boolean>('disabled')
   const form = inject(formContextKey, undefined)
-  return computed(
-    () => disabled.value || unref(fallback) || form?.disabled || false
-  )
+  return computed(() => {
+    const fb = unref(fallback)
+    if (disabled.value !== undefined) return disabled.value
+    if (fb !== undefined) return fb
+    return form?.disabled ?? false
+  })
 }
 
 // These exports are used for preventing breaking changes
