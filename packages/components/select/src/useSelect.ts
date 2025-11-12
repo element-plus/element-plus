@@ -708,6 +708,10 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       toggleMenu()
     } else {
       const option = optionsArray.value[states.hoveringIndex]
+      if (option.isTreeOption) {
+        option.selectOptionClick()
+        return
+      }
       if (option && !option.isDisabled) {
         handleOptionSelect(option)
       }
