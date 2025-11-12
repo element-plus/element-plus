@@ -68,7 +68,6 @@ import type { CascaderMenuInstance } from './instance'
 
 defineOptions({
   name: 'ElCascaderPanel',
-  inheritAttrs: false,
 })
 
 const props = defineProps(cascaderPanelProps)
