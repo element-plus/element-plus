@@ -117,8 +117,8 @@ export default {
       prev: 'Ga naar de vorige pagina',
       next: 'Ga naar de volgende pagina',
       currentPage: 'pagina {pager}',
-      prevPages: 'Vorige {pager} pagina\'s',
-      nextPages: 'Volgende {pager} pagina\'s',
+      prevPages: "Vorige {pager} pagina's",
+      nextPages: "Volgende {pager} pagina's",
       deprecationWarning:
         'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
     },
