@@ -7,7 +7,6 @@
       :virtual-ref="virtualRef"
       :virtual-triggering="virtualTriggering"
       :focus-on-target="focusOnTarget"
-      :blur-after-focus="blurAfterFocus"
     >
       <slot v-if="$slots.default" />
     </el-tooltip-trigger>
@@ -100,13 +99,14 @@ const updatePopper = () => {
 }
 const open = ref(false)
 const toggleReason = ref<Event>()
+const toggleByHover = ref(false)
 
 const { show, hide, hasUpdateHandler } = useTooltipModelToggle({
   indicator: open,
   toggleReason,
 })
 
-const { onOpen, onClose } = useDelayedToggle({
+const { onOpen: _onOpen, onClose: _onClose } = useDelayedToggle({
   showAfter: toRef(props, 'showAfter'),
   hideAfter: toRef(props, 'hideAfter'),
   autoClose: toRef(props, 'autoClose'),
@@ -122,9 +122,26 @@ const kls = computed(() => {
   return [ns.b(), props.popperClass!]
 })
 
+function setTriggerType(event?: Event) {
+  toggleByHover.value = event?.type
+    ? /^(mouse|pointer|click$)/.test(event.type)
+    : false
+}
+
+function onOpen(event?: Event, delay?: number) {
+  setTriggerType(event)
+  _onOpen(event, delay)
+}
+
+function onClose(event?: Event, delay?: number) {
+  setTriggerType(event)
+  _onClose(event, delay)
+}
+
 provide(TOOLTIP_INJECTION_KEY, {
   controlled,
   id,
+  toggleByHover,
   open: readonly(open),
   trigger: toRef(props, 'trigger'),
   onOpen,
@@ -175,6 +192,10 @@ defineExpose({
    * @description el-tooltip-content component instance
    */
   contentRef,
+  /**
+   * @description whether triggered by hover
+   */
+  toggleByHover,
   /**
    * @description validate current focus event is trigger inside el-tooltip-content
    */

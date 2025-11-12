@@ -91,7 +91,7 @@ export default defineComponent({
           return
         }
         if (elDropdown?.hideOnClick?.value) {
-          elDropdown.handleClick?.()
+          elDropdown.handleClick?.(e)
         }
         elDropdown.commandHandler?.(props.command, _instance, e)
       }

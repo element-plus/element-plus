@@ -23,7 +23,6 @@
       :teleported="teleported"
       pure
       focus-on-target
-      :blur-after-focus="trigger === 'hover'"
       :persistent="persistent"
       @before-show="handleBeforeShowTooltip"
       @show="handleShowTooltip"
@@ -52,6 +51,7 @@
           ref="triggeringElementRef"
           role="button"
           :tabindex="tabindex"
+          :style="triggerStyle"
         >
           <slot name="default" />
         </el-only-child>
@@ -78,6 +78,7 @@
           :size="dropdownSize"
           :type="type"
           :class="ns.e('caret-button')"
+          :style="triggerStyle"
           :disabled="disabled"
           :tabindex="tabindex"
           :aria-label="t('el.dropdown.toggleDropdown')"
@@ -156,8 +157,15 @@ export default defineComponent({
     const defaultTriggerId = useId().value
     const triggerId = computed<string>(() => props.id || defaultTriggerId)
 
-    function handleClick() {
-      popperRef.value?.onClose(undefined, 0)
+    const triggerStyle = computed<CSSProperties>(() => {
+      if (popperRef.value?.toggleByHover) {
+        return { outline: 'none', transition: 'none' }
+      }
+      return {}
+    })
+
+    function handleClick(e: Event) {
+      popperRef.value?.onClose(e, 0)
     }
 
     function handleClose() {
@@ -233,6 +241,7 @@ export default defineComponent({
       ns,
       scrollbar,
       wrapStyle,
+      triggerStyle,
       dropdownTriggerKls,
       dropdownSize,
       triggerId,

@@ -39,10 +39,8 @@ defineOptions({
 const props = defineProps(useTooltipTriggerProps)
 
 const ns = useNamespace('tooltip')
-const { controlled, id, open, onOpen, onClose, onToggle } = inject(
-  TOOLTIP_INJECTION_KEY,
-  undefined
-)!
+const { controlled, id, toggleByHover, open, onOpen, onClose, onToggle } =
+  inject(TOOLTIP_INJECTION_KEY, undefined)!
 
 const triggerRef = ref<OnlyChildExpose | null>(null)
 
@@ -58,10 +56,8 @@ const onMouseenter = composeEventHandlers(
     onOpen(e)
 
     if (props.focusOnTarget && e.target) {
-      const target = e.target as HTMLElement
       nextTick(() => {
-        focusElement(target, { preventScroll: true })
-        props.blurAfterFocus && target.blur()
+        focusElement(e.target as HTMLElement, { preventScroll: true })
       })
     }
   })
@@ -86,7 +82,12 @@ const onFocus = composeEventHandlers(
 )
 
 const onBlur = composeEventHandlers(
-  stopWhenControlledOrDisabled,
+  () => {
+    if (!open.value) {
+      toggleByHover.value = false
+    }
+    return stopWhenControlledOrDisabled()
+  },
   whenTrigger(trigger, 'focus', onClose)
 )
 
@@ -100,8 +101,8 @@ const onContextMenu = composeEventHandlers(
 
 const onKeydown = composeEventHandlers(
   stopWhenControlledOrDisabled,
-  (e: KeyboardEvent) => {
-    const code = getEventCode(e)
+  (e: Event) => {
+    const code = getEventCode(e as KeyboardEvent)
     if (props.triggerKeys.includes(code)) {
       e.preventDefault()
       onToggle(e)
