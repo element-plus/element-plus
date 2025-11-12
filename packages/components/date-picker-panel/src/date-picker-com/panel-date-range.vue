@@ -898,23 +898,38 @@ const parseUserInput = (value: Dayjs | Dayjs[]) => {
 }
 
 function sortDates(minDate: Dayjs | undefined, maxDate: Dayjs | undefined) {
-  if (props.unlinkPanels && maxDate) {
-    const minDateYear = minDate?.year() || 0
-    const minDateMonth = minDate?.month() || 0
-    const maxDateYear = maxDate.year()
-    const maxDateMonth = maxDate.month()
-    rightDate.value =
-      minDateYear === maxDateYear && minDateMonth === maxDateMonth
-        ? maxDate.add(1, unit)
-        : maxDate
-  } else {
-    rightDate.value = leftDate.value.add(1, unit)
-    if (maxDate) {
-      rightDate.value = rightDate.value
-        .hour(maxDate.hour())
-        .minute(maxDate.minute())
-        .second(maxDate.second())
+  if (maxDate) {
+    if (props.samePanelInRangePosition === 'right') {
+      const minDateYear = minDate?.year() || 0
+      const minDateMonth = minDate?.month() || 0
+      const maxDateYear = maxDate.year()
+      const maxDateMonth = maxDate.month()
+      if (minDateYear === maxDateYear && minDateMonth === maxDateMonth) {
+        leftDate.value = maxDate.subtract(1, unit)
+        rightDate.value = maxDate
+
+        return
+      }
+    } else if (props.unlinkPanels) {
+      const minDateYear = minDate?.year() || 0
+      const minDateMonth = minDate?.month() || 0
+      const maxDateYear = maxDate.year()
+      const maxDateMonth = maxDate.month()
+      rightDate.value =
+        minDateYear === maxDateYear && minDateMonth === maxDateMonth
+          ? maxDate.add(1, unit)
+          : maxDate
+
+      return
     }
+  }
+
+  rightDate.value = leftDate.value.add(1, unit)
+  if (maxDate) {
+    rightDate.value = rightDate.value
+      .hour(maxDate.hour())
+      .minute(maxDate.minute())
+      .second(maxDate.second())
   }
 }
 
