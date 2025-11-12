@@ -311,8 +311,8 @@ importers:
         specifier: ^3.2.11
         version: 3.2.11
       markdown-it-container:
-        specifier: ^3.0.0
-        version: 3.0.0
+        specifier: ^4.0.0
+        version: 4.0.0
       unocss:
         specifier: ^66.5.6
         version: 66.5.6(postcss@8.5.6)(vite@5.4.10(@types/node@22.9.0)(sass@1.79.3)(terser@5.36.0))
@@ -6285,8 +6285,8 @@ packages:
   mark.js@8.11.1:
     resolution: {integrity: sha512-1I+1qpDt4idfgLQG+BNWmrqku+7/2bi5nLf4YwF8y8zXvmfiTBY3PV3ZibfrjBueCByROpuBjLLFCajqkgYoLQ==}
 
-  markdown-it-container@3.0.0:
-    resolution: {integrity: sha512-y6oKTq4BB9OQuY/KLfk/O3ysFhB3IMYoIWhGJEidXt1NQFocFK2sA2t0NYZAMyMShAGL6x5OPIbrmXPIqaN9rw==}
+  markdown-it-container@4.0.0:
+    resolution: {integrity: sha512-HaNccxUH0l7BNGYbFbjmGpf5aLHAMTinqRZQAEQbMr2cdD3z91Q6kIo1oUn1CQndkT03jat6ckrdRYuwwqLlQw==}
 
   markdown-it@14.1.0:
     resolution: {integrity: sha512-a54IwgWPaeBCAAsv13YgmALOF1elABB08FxO9i+r4VFk5Vl4pKokRPeX8u5TCgSsPi6ec1otfLjdOpVcgbpshg==}
@@ -15676,7 +15676,7 @@ snapshots:
 
   mark.js@8.11.1: {}
 
-  markdown-it-container@3.0.0: {}
+  markdown-it-container@4.0.0: {}
 
   markdown-it@14.1.0:
     dependencies:
