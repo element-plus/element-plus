@@ -193,8 +193,8 @@ importers:
         specifier: ^9.37.0
         version: 9.37.0(jiti@2.6.1)
       expect-type:
-        specifier: ^0.13.0
-        version: 0.13.0
+        specifier: ^1.2.2
+        version: 1.2.2
       fast-glob:
         specifier: ^3.2.11
         version: 3.2.11
@@ -719,8 +719,8 @@ importers:
         specifier: 'catalog:'
         version: 2.0.0(vue@3.2.37)
       expect-type:
-        specifier: ^0.13.0
-        version: 0.13.0
+        specifier: ^1.2.2
+        version: 1.2.2
       type-fest:
         specifier: 'catalog:'
         version: 2.14.0
@@ -4936,8 +4936,9 @@ packages:
     resolution: {integrity: sha512-A5EmesHW6rfnZ9ysHQjPdJRni0SRar0tjtG5MNtm9n5TUvsYU8oozprtRD4AqHxcZWWlVuAmQo2nWKfN9oyjTw==}
     engines: {node: '>=0.10.0'}
 
-  expect-type@0.13.0:
-    resolution: {integrity: sha512-CclevazQfrqo8EvbLPmP7osnb1SZXkw47XPPvUUpeMz4HuGzDltE7CaIt3RLyT9UQrwVK/LDn+KVcC0hcgjgDg==}
+  expect-type@1.2.2:
+    resolution: {integrity: sha512-JhFGDVJ7tmDJItKhYgJCGLOWjuK9vPxiXoUFLwLDc99NlmklilbiQJwoctZtt13+xMw91MCk/REan6MWHqDjyA==}
+    engines: {node: '>=12.0.0'}
 
   exsolve@1.0.7:
     resolution: {integrity: sha512-VO5fQUzZtI6C+vx4w/4BWJpg3s/5l+6pRQEHzFRM8WFi4XffSP1Z+4qi7GbjWbvRQEbdIco5mIMq+zX4rPuLrw==}
@@ -14260,7 +14261,7 @@ snapshots:
     dependencies:
       homedir-polyfill: 1.0.3
 
-  expect-type@0.13.0: {}
+  expect-type@1.2.2: {}
 
   exsolve@1.0.7: {}
 
