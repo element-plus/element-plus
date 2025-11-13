@@ -1,5 +1,6 @@
 import type { AppContext, CSSProperties, Component, VNode } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
+import type { InputType } from '@element-plus/components/input/src/input'
 
 type MessageType = '' | 'primary' | 'success' | 'warning' | 'info' | 'error'
 
@@ -27,7 +28,7 @@ export declare interface MessageBoxState {
   showInput: boolean
   inputValue: string
   inputPlaceholder: string
-  inputType: string
+  inputType: InputType
   inputPattern: RegExp | null
   inputValidator: MessageBoxInputValidator
   inputErrorMessage: string
@@ -180,8 +181,8 @@ export interface ElMessageBoxOptions {
   /** Regexp for the input */
   inputPattern?: RegExp
 
-  /** Input Type: text, textArea, password or number */
-  inputType?: string
+  /** type of input, see more in [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types) */
+  inputType?: InputType
 
   /** Validation function for the input. Should returns a boolean or string. If a string is returned, it will be assigned to inputErrorMessage */
   inputValidator?: MessageBoxInputValidator
