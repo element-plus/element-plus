@@ -171,7 +171,7 @@ registerPanel(_panel)
 onBeforeUnmount(() => unregisterPanel(_panel))
 
 defineExpose({
-  /** @description split-panel html element */
+  /** @description splitter-panel html element */
   ref: panelEl,
 })
 </script>
