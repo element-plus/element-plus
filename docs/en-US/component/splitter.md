@@ -113,6 +113,6 @@ splitter/lazy
 
 ### SplitterPanel Exposes
 
-| Name          | Description                 | Type                           |
-| ------------- | --------------------------- | ------------------------------ |
-| ref ^(2.11.8) | splitter-panel html element | ^[object]`Ref<HTMLDivElement>` |
+| Name                       | Description                 | Type                           |
+| -------------------------- | --------------------------- | ------------------------------ |
+| splitterPanelRef ^(2.11.8) | splitter-panel html element | ^[object]`Ref<HTMLDivElement>` |
