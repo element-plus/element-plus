@@ -631,7 +631,10 @@ describe('Drawer', () => {
       await nextTick()
 
       expect(onResizeStart).toHaveBeenCalledTimes(1)
-      expect(onResizeStart).toHaveBeenCalledWith(expect.any(MouseEvent))
+      expect(onResizeStart).toHaveBeenCalledWith(
+        expect.any(MouseEvent),
+        expect.any(Number)
+      )
 
       // Simulate mouse move - should trigger resize
       const mousemove = new MouseEvent('mousemove', { bubbles: true })

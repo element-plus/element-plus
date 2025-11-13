@@ -34,7 +34,8 @@ export type DrawerPropsPublic = __ExtractPublicPropTypes<typeof drawerProps>
 
 export const drawerEmits = {
   ...dialogEmits,
-  'resize-start': (event: MouseEvent) => event instanceof MouseEvent,
+  'resize-start': (event: MouseEvent, size: number) =>
+    event instanceof MouseEvent && typeof size === 'number',
   resize: (event: MouseEvent, size: number) =>
     event instanceof MouseEvent && typeof size === 'number',
   'resize-end': (event: MouseEvent, size: number) =>

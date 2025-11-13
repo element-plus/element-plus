@@ -62,7 +62,7 @@ export function useResizable(
 
     startPos = [e.pageX, e.pageY]
     isResizing.value = true
-    emit('resize-start', e)
+    emit('resize-start', e, startSize.value)
     cleanups.push(
       useEventListener(window, 'mouseup', onMouseUp),
       useEventListener(window, 'mousemove', onMouseMove)
