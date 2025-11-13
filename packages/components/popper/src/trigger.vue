@@ -87,7 +87,7 @@ onMounted(() => {
       virtualTriggerAriaStopWatch?.()
       virtualTriggerAriaStopWatch = undefined
 
-      if (isElement(prevEl) && prevEl !== el) {
+      if (isElement(prevEl)) {
         TRIGGER_ELE_EVENTS.forEach((eventName) => {
           const handler = props[eventName]
           if (handler) {
