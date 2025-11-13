@@ -1130,11 +1130,11 @@ describe('Select', () => {
     const selectVm = select.vm as any
     const input = select.find('input')
     await input.trigger('click')
-    expect(selectVm.states.hoveringIndex).toBe(0)
-    selectVm.navigateOptions('next')
     expect(selectVm.states.hoveringIndex).toBe(1)
     selectVm.navigateOptions('next')
     expect(selectVm.states.hoveringIndex).toBe(0)
+    selectVm.navigateOptions('next')
+    expect(selectVm.states.hoveringIndex).toBe(1)
   })
 
   test('clearable', async () => {
