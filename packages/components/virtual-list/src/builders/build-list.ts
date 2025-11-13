@@ -143,6 +143,7 @@ const createList = ({
           height: horizontal ? '100%' : `${size}px`,
           pointerEvents: unref(states).isScrolling ? 'none' : undefined,
           width: horizontal ? `${size}px` : '100%',
+          boxSizing: 'border-box',
         }
       })
 
