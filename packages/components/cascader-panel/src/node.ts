@@ -152,7 +152,7 @@ class Node {
 
   onChildCheck() {
     const { children } = this
-    const validChildren = children.filter((child) => !child.isDisabled)
+    const validChildren = children.filter((child) => !child.isDisabled || child.checked)
     const checked = validChildren.length
       ? validChildren.every((child) => child.checked)
       : false
