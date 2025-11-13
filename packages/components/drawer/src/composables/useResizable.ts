@@ -78,16 +78,18 @@ export function useResizable(
   }
 
   const onMouseUp = (e?: MouseEvent) => {
-    const wasResizing = isResizing.value
-    const finalSize = getSize.value
+    // premature interruption
+    // avoid triggering meaningless execution due to watch size/resizable constraints.
+    if (!isResizing.value) return
+
     startPos = []
-    startSize.value = finalSize
+    startSize.value = getSize.value
     offset.value = 0
     isResizing.value = false
     cleanups.forEach((cleanup) => cleanup?.())
     cleanups = []
-    if (wasResizing && e) {
-      emit('resize-end', e, finalSize)
+    if (e) {
+      emit('resize-end', e, startSize.value)
     }
   }
 
