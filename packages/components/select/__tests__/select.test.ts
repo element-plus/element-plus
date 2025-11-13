@@ -3915,4 +3915,53 @@ describe('Select', () => {
     await input.trigger('keydown', { code: EVENT_CODE.numpadEnter })
     expect(vm.value).toBe(1)
   })
+
+  test('hoveringIndex should stay on the most recently selected option when using multiple', async () => {
+    wrapper = _mount(
+      `<el-select
+        v-model="value"
+        clearable
+        multiple
+      >
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value"
+        />
+      </el-select>`,
+      () => ({
+        options: [
+          {
+            value: 1,
+            label: 'Option 1',
+          },
+          {
+            value: 2,
+            label: 'Option 2',
+          },
+          {
+            value: 3,
+            label: 'Option 3',
+          },
+          {
+            value: 4,
+            label: 'Option 4',
+          },
+          {
+            value: 5,
+            label: 'Option 5',
+          },
+        ],
+        value: [1, 2],
+      })
+    )
+
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const selectVm = select.vm as any
+    const input = wrapper.find('input')
+
+    await input.trigger('click')
+    expect(selectVm.states.hoveringIndex).toBe(1)
+  })
 })

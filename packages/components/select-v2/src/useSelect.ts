@@ -760,11 +760,9 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
         return getValueKey(getValue(item)) === getValueKey(props.modelValue)
       })
     } else {
-      states.hoveringIndex = filteredOptions.value.findIndex((item) =>
-        props.modelValue.some(
-          (modelValue: unknown) =>
-            getValueKey(modelValue) === getValueKey(getValue(item))
-        )
+      const lastValue = props.modelValue[props.modelValue.length - 1]
+      states.hoveringIndex = filteredOptions.value.findIndex(
+        (item) => getValueKey(lastValue) === getValueKey(getValue(item))
       )
     }
   }
