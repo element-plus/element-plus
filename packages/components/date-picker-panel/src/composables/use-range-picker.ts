@@ -41,10 +41,10 @@ export const useRangePicker = (
   const drpNs = useNamespace('date-range-picker')
   const { t, lang } = useLocale()
   const shourtcutIsClicked = ref<boolean>(false)
-  const shortcutSelected = ref<Shortcut | null>()
+  const selectedShortcut = ref<Shortcut | null>()
   const applyShortcut = useShortcut(lang)
   const handleShortcutClick = (shortcut: Shortcut) => {
-    shortcutSelected.value = shortcut
+    selectedShortcut.value = shortcut
     shourtcutIsClicked.value = true
     applyShortcut(shortcut)
   }
@@ -55,7 +55,7 @@ export const useRangePicker = (
     selecting: false,
   })
   const resetShortcutSelected = () => {
-    shortcutSelected.value = null
+    selectedShortcut.value = null
     shourtcutIsClicked.value = false
   }
 
@@ -174,7 +174,7 @@ export const useRangePicker = (
     lang,
     ppNs: pickerNs,
     drpNs,
-    selectedShortcut: shortcutSelected,
+    selectedShortcut,
 
     handleChangeRange,
     handleRangeConfirm,
