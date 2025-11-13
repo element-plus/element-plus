@@ -2,12 +2,13 @@ import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { addUnit } from '@element-plus/utils'
 import { clamp, useEventListener, useWindowSize } from '@vueuse/core'
 
-import type { Ref } from 'vue'
-import type { DrawerProps } from '../drawer'
+import type { Ref, SetupContext } from 'vue'
+import type { DrawerEmits, DrawerProps } from '../drawer'
 
 export function useResizable(
   props: DrawerProps,
-  target: Ref<HTMLElement | undefined>
+  target: Ref<HTMLElement | undefined>,
+  emit: SetupContext<DrawerEmits>['emit']
 ) {
   const { width, height } = useWindowSize()
 
@@ -61,6 +62,7 @@ export function useResizable(
 
     startPos = [e.pageX, e.pageY]
     isResizing.value = true
+    emit('resize-start', e)
     cleanups.push(
       useEventListener(window, 'mouseup', onMouseUp),
       useEventListener(window, 'mousemove', onMouseMove)
@@ -72,15 +74,21 @@ export function useResizable(
     const offsetX = pageX - startPos[0]
     const offsetY = pageY - startPos[1]
     offset.value = isHorizontal.value ? offsetX : offsetY
+    emit('resize', e, getSize.value)
   }
 
-  const onMouseUp = () => {
+  const onMouseUp = (e?: MouseEvent) => {
+    const wasResizing = isResizing.value
+    const finalSize = getSize.value
     startPos = []
-    startSize.value = getSize.value
+    startSize.value = finalSize
     offset.value = 0
     isResizing.value = false
     cleanups.forEach((cleanup) => cleanup?.())
     cleanups = []
+    if (wasResizing && e) {
+      emit('resize-end', e, finalSize)
+    }
   }
 
   const cleanup = useEventListener(target, 'mousedown', onMousedown)
