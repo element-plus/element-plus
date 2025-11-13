@@ -94,7 +94,7 @@ export default {
       loading: 'Yuklanmoqda',
       noMatch: 'Mos maʼlumot yoʻq',
       noData: 'Maʼlumot yoʻq',
-      placeholder: 'Tanladizngiz',
+      placeholder: 'Tanladingiz',
     },
     mention: {
       loading: 'Yuklanmoqda',
@@ -177,8 +177,8 @@ export default {
       title: 'Orqaga',
     },
     popconfirm: {
-      confirmButtonText: 'Yes', // to be translated
-      cancelButtonText: 'No', // to be translated
+      confirmButtonText: 'Ha',
+      cancelButtonText: 'Yo`q',
     },
     carousel: {
       leftArrow: 'Carousel arrow left', // to be translated
