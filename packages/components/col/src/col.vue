@@ -10,6 +10,7 @@ import { isNumber, isObject } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { rowContextKey } from '@element-plus/components/row'
 import { colProps } from './col'
+
 import type { CSSProperties } from 'vue'
 
 defineOptions({

@@ -1,5 +1,5 @@
 <template>
-  <el-timeline>
+  <el-timeline style="max-width: 600px">
     <el-timeline-item
       v-for="(activity, index) in activities"
       :key="index"

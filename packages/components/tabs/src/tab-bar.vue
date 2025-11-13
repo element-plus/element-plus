@@ -1,15 +1,15 @@
 <template>
   <div
     ref="barRef"
-    :class="[ns.e('active-bar'), ns.is(rootTabs.props.tabPosition)]"
+    :class="[ns.e('active-bar'), ns.is(rootTabs!.props.tabPosition)]"
     :style="barStyle"
   />
 </template>
 
 <script lang="ts" setup>
-import { getCurrentInstance, inject, nextTick, ref, watch } from 'vue'
+import { inject, nextTick, onBeforeUnmount, ref, watch } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
-import { capitalize, throwError } from '@element-plus/utils'
+import { capitalize, isUndefined, throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { tabsRootContextKey } from './constants'
 import { tabBarProps } from './tab-bar'
@@ -22,7 +22,6 @@ defineOptions({
 })
 const props = defineProps(tabBarProps)
 
-const instance = getCurrentInstance()!
 const rootTabs = inject(tabsRootContextKey)
 if (!rootTabs) throwError(COMPONENT_NAME, '<el-tabs><el-tab-bar /></el-tabs>')
 
@@ -42,7 +41,8 @@ const getBarStyle = (): CSSProperties => {
   const position = sizeDir === 'x' ? 'left' : 'top'
 
   props.tabs.every((tab) => {
-    const $el = instance.parent?.refs?.[`tab-${tab.uid}`] as HTMLElement
+    if (isUndefined(tab.paneName)) return false
+    const $el = props.tabRefs[tab.paneName]
     if (!$el) return false
 
     if (!tab.active) {
@@ -55,11 +55,9 @@ const getBarStyle = (): CSSProperties => {
     const tabStyles = window.getComputedStyle($el)
 
     if (sizeName === 'width') {
-      if (props.tabs.length > 1) {
-        tabSize -=
-          Number.parseFloat(tabStyles.paddingLeft) +
-          Number.parseFloat(tabStyles.paddingRight)
-      }
+      tabSize -=
+        Number.parseFloat(tabStyles.paddingLeft) +
+        Number.parseFloat(tabStyles.paddingRight)
       offset += Number.parseFloat(tabStyles.paddingLeft)
     }
     return false
@@ -73,15 +71,33 @@ const getBarStyle = (): CSSProperties => {
 
 const update = () => (barStyle.value = getBarStyle())
 
+const tabObservers = [] as ReturnType<typeof useResizeObserver>[]
+const observerTabs = () => {
+  tabObservers.forEach((observer) => observer.stop())
+  tabObservers.length = 0
+
+  Object.values(props.tabRefs).forEach((tab) => {
+    tabObservers.push(useResizeObserver(tab, update))
+  })
+}
+
 watch(
   () => props.tabs,
   async () => {
     await nextTick()
     update()
+
+    observerTabs()
   },
   { immediate: true }
 )
-useResizeObserver(barRef, () => update())
+const barObserver = useResizeObserver(barRef, () => update())
+
+onBeforeUnmount(() => {
+  tabObservers.forEach((observer) => observer.stop())
+  tabObservers.length = 0
+  barObserver.stop()
+})
 
 defineExpose({
   /** @description tab root html element */

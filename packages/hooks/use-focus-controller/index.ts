@@ -1,9 +1,24 @@
-import { getCurrentInstance, ref, shallowRef, watch } from 'vue'
+import {
+  getCurrentInstance,
+  onMounted,
+  ref,
+  shallowRef,
+  unref,
+  watch,
+} from 'vue'
 import { useEventListener } from '@vueuse/core'
-import { isFunction } from '@element-plus/utils'
+import { isElement, isFocusable, isFunction } from '@element-plus/utils'
+
 import type { ShallowRef } from 'vue'
+import type { MaybeRef } from '@vueuse/core'
 
 interface UseFocusControllerOptions {
+  disabled?: MaybeRef<boolean>
+  /**
+   * return true to cancel focus
+   * @param event FocusEvent
+   */
+  beforeFocus?: (event: FocusEvent) => boolean | undefined
   afterFocus?: () => void
   /**
    * return true to cancel blur
@@ -13,9 +28,15 @@ interface UseFocusControllerOptions {
   afterBlur?: () => void
 }
 
-export function useFocusController<T extends HTMLElement>(
+export function useFocusController<T extends { focus: () => void }>(
   target: ShallowRef<T | undefined>,
-  { afterFocus, beforeBlur, afterBlur }: UseFocusControllerOptions = {}
+  {
+    disabled,
+    beforeFocus,
+    afterFocus,
+    beforeBlur,
+    afterBlur,
+  }: UseFocusControllerOptions = {}
 ) {
   const instance = getCurrentInstance()!
   const { emit } = instance
@@ -23,7 +44,9 @@ export function useFocusController<T extends HTMLElement>(
   const isFocused = ref(false)
 
   const handleFocus = (event: FocusEvent) => {
-    if (isFocused.value) return
+    const cancelFocus = isFunction(beforeFocus) ? beforeFocus(event) : false
+    if (unref(disabled) || isFocused.value || cancelFocus) return
+
     isFocused.value = true
     emit('focus', event)
     afterFocus?.()
@@ -32,9 +55,10 @@ export function useFocusController<T extends HTMLElement>(
   const handleBlur = (event: FocusEvent) => {
     const cancelBlur = isFunction(beforeBlur) ? beforeBlur(event) : false
     if (
-      cancelBlur ||
+      unref(disabled) ||
       (event.relatedTarget &&
-        wrapperRef.value?.contains(event.relatedTarget as Node))
+        wrapperRef.value?.contains(event.relatedTarget as Node)) ||
+      cancelBlur
     )
       return
 
@@ -43,24 +67,49 @@ export function useFocusController<T extends HTMLElement>(
     afterBlur?.()
   }
 
-  const handleClick = () => {
+  const handleClick = (event: Event) => {
+    if (
+      unref(disabled) ||
+      isFocusable(event.target as HTMLElement) ||
+      (wrapperRef.value?.contains(document.activeElement) &&
+        wrapperRef.value !== document.activeElement)
+    )
+      return
+
     target.value?.focus()
   }
 
-  watch(wrapperRef, (el) => {
-    if (el) {
+  watch([wrapperRef, () => unref(disabled)], ([el, disabled]) => {
+    if (!el) return
+    if (disabled) {
+      el.removeAttribute('tabindex')
+    } else {
       el.setAttribute('tabindex', '-1')
     }
   })
 
-  // TODO: using useEventListener will fail the test
-  // useEventListener(target, 'focus', handleFocus)
-  // useEventListener(target, 'blur', handleBlur)
-  useEventListener(wrapperRef, 'click', handleClick)
+  useEventListener(wrapperRef, 'focus', handleFocus, true)
+  useEventListener(wrapperRef, 'blur', handleBlur, true)
+  useEventListener(wrapperRef, 'click', handleClick, true)
+
+  // only for test
+  if (typeof process !== 'undefined' && process.env.NODE_ENV === 'test') {
+    onMounted(() => {
+      const targetEl = isElement(target.value)
+        ? target.value
+        : document.querySelector('input,textarea')
+
+      if (targetEl) {
+        useEventListener(targetEl, 'focus', handleFocus, true)
+        useEventListener(targetEl, 'blur', handleBlur, true)
+      }
+    })
+  }
 
   return {
-    wrapperRef,
     isFocused,
+    /** Avoid using wrapperRef and handleFocus/handleBlur together */
+    wrapperRef,
     handleFocus,
     handleBlur,
   }

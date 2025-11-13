@@ -7,8 +7,9 @@ import {
   isNumber,
   mutable,
 } from '@element-plus/utils'
-import { useSizeProp } from '@element-plus/hooks'
-import type { Component, ExtractPropTypes } from 'vue'
+import { useAriaProps, useSizeProp } from '@element-plus/hooks'
+
+import type { Component, ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type Rate from './rate.vue'
 
 export const rateProps = buildProps({
@@ -141,22 +142,14 @@ export const rateProps = buildProps({
    */
   size: useSizeProp,
   /**
-   * @description same as `aria-label` in Rate
-   */
-  label: {
-    type: String,
-    default: undefined,
-  },
-  /**
    * @description whether value can be reset to `0`
    */
-  clearable: {
-    type: Boolean,
-    default: false,
-  },
+  clearable: Boolean,
+  ...useAriaProps(['ariaLabel']),
 } as const)
 
 export type RateProps = ExtractPropTypes<typeof rateProps>
+export type RatePropsPublic = __ExtractPublicPropTypes<typeof rateProps>
 
 export const rateEmits = {
   [CHANGE_EVENT]: (value: number) => isNumber(value),
@@ -164,4 +157,4 @@ export const rateEmits = {
 }
 export type RateEmits = typeof rateEmits
 
-export type RateInstance = InstanceType<typeof Rate>
+export type RateInstance = InstanceType<typeof Rate> & unknown

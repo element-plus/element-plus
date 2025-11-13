@@ -39,6 +39,14 @@ scrollbar/manual-scroll
 
 :::
 
+## Infinite scroll ^(2.10.0)
+
+:::demo `end-reached` is triggered when the scrollbar reaches the end. It can be used as an infinite scroll.
+
+scrollbar/infinite-scroll
+
+:::
+
 ## API
 
 ### Attributes
@@ -60,12 +68,15 @@ scrollbar/manual-scroll
 | role ^(2.4.0) ^(a11y)             | role of view                                                                                                                    | ^[string]                                                           | —       |
 | aria-label ^(2.4.0) ^(a11y)       | aria-label of view                                                                                                              | ^[string]                                                           | —       |
 | aria-orientation ^(2.4.0) ^(a11y) | aria-orientation of view                                                                                                        | ^[enum]`'horizontal' \| 'vertical'`                                 | —       |
+| tabindex ^(2.8.3)                 | tabindex of wrap container                                                                                                      | ^[number] / ^[string]                                               | —       |
+| distance ^(2.10.5)                | trigger end-reached event distance(px)                                                                                          | ^[number]                                                           | 0       |
 
 ### Events
 
-| Name   | Description                                           | Type                                                             |
-| ------ | ----------------------------------------------------- | ---------------------------------------------------------------- |
-| scroll | triggers when scrolling, return distance of scrolling | ^[Function]`({ scrollLeft: number, scrollTop: number }) => void` |
+| Name                  | Description                                           | Type                                                                     |
+| --------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------ |
+| scroll                | triggers when scrolling, return distance of scrolling | ^[Function]`({ scrollLeft: number, scrollTop: number }) => void`         |
+| end-reached ^(2.10.0) | triggers when the end of a scroll is triggered        | ^[Function]`(direction: 'top' \| 'bottom' \| 'left' \| 'right') => void` |
 
 ### Slots
 

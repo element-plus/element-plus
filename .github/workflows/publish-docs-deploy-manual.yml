@@ -8,28 +8,16 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v4
 
       - name: Setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 16
-
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        run: |
-          echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
-
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
-        with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+          node-version: 20
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
@@ -48,6 +36,12 @@ jobs:
       - name: Install latest Element Plus
         run: cd docs && pnpm i element-plus@latest
 
+      - name: Get Latest Release Version
+        id: get_release
+        run: |
+          LATEST_VERSION=$(curl -s https://api.github.com/repos/element-plus/element-plus/releases/latest | jq -r '.tag_name')
+          echo "latest_version=${LATEST_VERSION}" >> $GITHUB_OUTPUT
+
       - name: Build Metadata
         run: cd internal/metadata && pnpm build
         env:
@@ -60,26 +54,31 @@ jobs:
           NODE_OPTIONS: --max-old-space-size=4096
 
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4.3.4
+        uses: JamesIves/github-pages-deploy-action@v4.4.1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages
           folder: docs/.vitepress/dist
           git-config-name: ElementPlusBot
-          git-config-email: hello@element-plus.org
-          commit-message: website deploy
+          git-config-email: element-plus@outlook.com
+          commit-message: website deploy ${{ steps.get_release.outputs.latest_version }}
 
-      - name: Deploy to vercel
-        uses: JamesIves/github-pages-deploy-action@v4.3.4
+      - name: Deploy to Vercel
+        uses: JamesIves/github-pages-deploy-action@v4.4.1
         with:
           token: ${{ secrets.EP_BOT_TOKEN }}
           branch: main
           folder: docs/.vitepress/dist
           repository-name: element-plus/vercel-publish
           git-config-name: ElementPlusBot
-          git-config-email: hello@element-plus.org
+          git-config-email: element-plus@outlook.com
 
-      - name: Sync
-        env:
-          TRIGGERSYNCURL: ${{ secrets.TRIGGERSYNCURL }}
-        run: curl -k "$TRIGGERSYNCURL"
+      - name: Deploy to Vercel Main
+        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        with:
+          token: ${{ secrets.EP_BOT_TOKEN }}
+          branch: main
+          folder: docs/.vitepress/dist
+          repository-name: element-plus/vercel-publish-main
+          git-config-name: ElementPlusBot
+          git-config-email: element-plus@outlook.com

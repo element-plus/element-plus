@@ -2,7 +2,6 @@ import { nextTick, unref } from 'vue'
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import makeMount from '@element-plus/test-utils/make-mount'
 import makeScroll from '@element-plus/test-utils/make-scroll'
-import setupMock from '../setup-mock'
 import {
   CENTERED_ALIGNMENT,
   END_ALIGNMENT,
@@ -10,6 +9,7 @@ import {
   START_ALIGNMENT,
 } from '../src/defaults'
 import { FixedSizeGrid } from '..'
+import setupMock from './setup-mock'
 
 import type { GridExposes } from '../src/types'
 
@@ -204,6 +204,42 @@ describe('<fixed-size-grid />', () => {
       await nextTick()
       // 7 x 6 grid
       expect(wrapper.findAll(ITEM_SELECTOR)).toHaveLength(42)
+    })
+
+    it('should handle touchstart touchmove correctly', async () => {
+      vi.useFakeTimers()
+      const wrapper = mount()
+      const gridRef = wrapper.vm.$refs.gridRef as GridRef
+
+      gridRef.states.scrollLeft = 50
+      gridRef.states.scrollTop = 50
+
+      const touchStartEvent = {
+        preventDefault: vi.fn(),
+        touches: [{ clientX: 100, clientY: 200 }],
+      } as unknown as TouchEvent
+
+      gridRef.handleTouchStart(touchStartEvent)
+
+      expect(gridRef.touchStartX).toBe(100)
+      expect(gridRef.touchStartY).toBe(200)
+
+      const touchMoveEvent = {
+        preventDefault: vi.fn(),
+        touches: [{ clientX: 80, clientY: 180 }],
+      } as unknown as TouchEvent
+
+      gridRef.handleTouchMove(touchMoveEvent)
+      expect(touchMoveEvent.preventDefault).toHaveBeenCalled()
+
+      await vi.advanceTimersByTimeAsync(16)
+      expect(gridRef.states.scrollLeft).toBe(70) // 50 + 100 - 80
+      expect(gridRef.states.scrollTop).toBe(70) // 50 + 200 - 180
+
+      expect(gridRef.touchStartX).toBe(80)
+      expect(gridRef.touchStartY).toBe(180)
+
+      vi.useRealTimers()
     })
   })
 

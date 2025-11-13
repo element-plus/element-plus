@@ -1,6 +1,5 @@
 import { isNumber, throwError } from '@element-plus/utils'
 import createGrid from '../builders/build-grid'
-
 import {
   AUTO_ALIGNMENT,
   CENTERED_ALIGNMENT,
@@ -206,7 +205,10 @@ const FixedSizeGrid = createGrid({
   clearCache: true,
 
   validateProps: ({ columnWidth, rowHeight }) => {
-    if (process.env.NODE_ENV !== 'production') {
+    if (
+      typeof process !== 'undefined' &&
+      process.env.NODE_ENV !== 'production'
+    ) {
       if (!isNumber(columnWidth)) {
         throwError(
           SCOPE,

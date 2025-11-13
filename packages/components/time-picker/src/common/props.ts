@@ -1,15 +1,22 @@
+import { placements } from '@popperjs/core'
 import { buildProps, definePropType } from '@element-plus/utils'
-import { useSizeProp } from '@element-plus/hooks'
+import {
+  useAriaProps,
+  useEmptyValuesProps,
+  useSizeProp,
+} from '@element-plus/hooks'
+import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { CircleClose } from '@element-plus/icons-vue'
 import { disabledTimeListsProps } from '../props/shared'
 
-import type { Component, ExtractPropTypes } from 'vue'
+import type { Component, ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type { Options } from '@popperjs/core'
 import type { Dayjs } from 'dayjs'
+import type { Placement } from '@element-plus/components/popper'
 
 export type SingleOrRange<T> = T | [T, T]
 export type DateModelType = number | string | Date
-export type ModelValueType = SingleOrRange<DateModelType>
+export type ModelValueType = DateModelType | number[] | string[] | Date[]
 export type DayOrDays = SingleOrRange<Dayjs>
 export type DateOrDates = SingleOrRange<Date>
 export type UserInput = SingleOrRange<string | null>
@@ -28,6 +35,13 @@ export type GetDisabledSeconds = (
 
 export const timePickerDefaultProps = buildProps({
   /**
+   * @description this prop decides if the date picker panel pops up when the input is focused
+   */
+  automaticDropdown: {
+    type: Boolean,
+    default: true,
+  },
+  /**
    * @description same as `id` in native input
    */
   id: {
@@ -38,15 +52,15 @@ export const timePickerDefaultProps = buildProps({
    */
   name: {
     type: definePropType<SingleOrRange<string>>([Array, String]),
-    default: '',
   },
   /**
    * @description custom class name for TimePicker's dropdown
    */
-  popperClass: {
-    type: String,
-    default: '',
-  },
+  popperClass: useTooltipContentProps.popperClass,
+  /**
+   * @description custom style for TimePicker's dropdown
+   */
+  popperStyle: useTooltipContentProps.popperStyle,
   /**
    * @description format of the displayed value in the input box
    */
@@ -56,11 +70,11 @@ export const timePickerDefaultProps = buildProps({
    */
   valueFormat: String,
   /**
-   * @description optional, format of the date displayed value in TimePicker's dropdown
+   * @description optional, format of the date displayed in input's inner panel
    */
   dateFormat: String,
   /**
-   * @description optional, format of the time displayed value in TimePicker's dropdown
+   * @description optional, format of the time displayed in input's inner panel
    */
   timeFormat: String,
   /**
@@ -128,7 +142,7 @@ export const timePickerDefaultProps = buildProps({
    * @description binding value, if it is an array, the length should be 2
    */
   modelValue: {
-    type: definePropType<ModelValueType>([Date, Array, String, Number]),
+    type: definePropType<ModelValueType | null>([Date, Array, String, Number]),
     default: '',
   },
   /**
@@ -187,13 +201,6 @@ export const timePickerDefaultProps = buildProps({
    */
   arrowControl: Boolean,
   /**
-   * @description same as `aria-label` in native input
-   */
-  label: {
-    type: String,
-    default: undefined,
-  },
-  /**
    * @description input tabindex
    */
   tabindex: {
@@ -211,9 +218,54 @@ export const timePickerDefaultProps = buildProps({
    * @description unlink two date-panels in range-picker
    */
   unlinkPanels: Boolean,
+  /**
+   * @description position of dropdown
+   */
+  placement: {
+    type: definePropType<Placement>(String),
+    values: placements,
+    default: 'bottom',
+  },
+  /**
+   * @description list of possible positions for dropdown
+   */
+  fallbackPlacements: {
+    type: definePropType<Placement[]>(Array),
+    default: ['bottom', 'top', 'right', 'left'],
+  },
+  ...useEmptyValuesProps,
+  ...useAriaProps(['ariaLabel']),
+  /**
+   * @description whether to show the now button
+   */
+  showNow: {
+    type: Boolean,
+    default: true,
+  },
+  /**
+   * @description whether to show footer
+   */
+  showConfirm: {
+    type: Boolean,
+    default: true,
+  },
+  /**
+   * @description whether to show footer
+   */
+  showFooter: {
+    type: Boolean,
+    default: true,
+  },
+  /**
+   * @description whether to show the number of the calendar week
+   */
+  showWeekNumber: Boolean,
 } as const)
 
 export type TimePickerDefaultProps = ExtractPropTypes<
+  typeof timePickerDefaultProps
+>
+export type TimePickerDefaultPropsPublic = __ExtractPublicPropTypes<
   typeof timePickerDefaultProps
 >
 
@@ -221,10 +273,29 @@ export interface PickerOptions {
   isValidValue: (date: DayOrDays) => boolean
   handleKeydownInput: (event: KeyboardEvent) => void
   parseUserInput: (value: UserInput) => DayOrDays
-  formatToString: (value: DayOrDays) => UserInput
   getRangeAvailableTime: (date: DayOrDays) => DayOrDays
   getDefaultValue: () => DayOrDays
   panelReady: boolean
   handleClear: () => void
   handleFocusPicker?: () => void
 }
+
+export const timePickerRangeTriggerProps = buildProps({
+  id: {
+    type: definePropType<string[]>(Array),
+  },
+  name: {
+    type: definePropType<string[]>(Array),
+  },
+  modelValue: {
+    type: definePropType<UserInput>([Array, String]),
+  },
+  startPlaceholder: String,
+  endPlaceholder: String,
+  disabled: Boolean,
+} as const)
+
+/**
+ * @deprecated Use `timePickerRangeTriggerProps` instead. This will be removed in future versions.
+ */
+export const timePickerRngeTriggerProps = timePickerRangeTriggerProps

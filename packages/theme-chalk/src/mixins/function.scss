@@ -1,16 +1,20 @@
 @use 'config';
+@use 'sass:meta';
+@use 'sass:string';
+@use 'sass:math';
+@use 'sass:color';
 
 // BEM support Func
 @function selectorToString($selector) {
-  $selector: inspect($selector);
-  $selector: str-slice($selector, 2, -2);
+  $selector: meta.inspect($selector);
+  $selector: string.slice($selector, 2, -2);
   @return $selector;
 }
 
 @function containsModifier($selector) {
   $selector: selectorToString($selector);
 
-  @if str-index($selector, config.$modifier-separator) {
+  @if string.index($selector, config.$modifier-separator) {
     @return true;
   } @else {
     @return false;
@@ -20,7 +24,7 @@
 @function containWhenFlag($selector) {
   $selector: selectorToString($selector);
 
-  @if str-index($selector, '.' + config.$state-prefix) {
+  @if string.index($selector, '.' + config.$state-prefix) {
     @return true;
   } @else {
     @return false;
@@ -30,7 +34,7 @@
 @function containPseudoClass($selector) {
   $selector: selectorToString($selector);
 
-  @if str-index($selector, ':') {
+  @if string.index($selector, ':') {
     @return true;
   } @else {
     @return false;
@@ -83,4 +87,13 @@
 
   // @debug $name;
   @return $name;
+}
+
+@function roundColor($color) {
+  $r: math.round(color.channel($color, 'red'));
+  $g: math.round(color.channel($color, 'green'));
+  $b: math.round(color.channel($color, 'blue'));
+  $a: color.channel($color, 'alpha');
+
+  @return rgba($r, $g, $b, $a);
 }
