@@ -282,6 +282,7 @@ export default defineComponent({
               innerElement="ul"
               innerProps={{
                 id: props.id,
+                style: { margin: 0, padding: 0 },
                 role: 'listbox',
                 'aria-label': props.ariaLabel,
                 'aria-orientation': 'vertical',
