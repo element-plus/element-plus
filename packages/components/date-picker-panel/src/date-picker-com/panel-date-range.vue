@@ -19,7 +19,12 @@
           :key="key"
           type="button"
           :disabled="disabled"
-          :class="ppNs.e('shortcut')"
+          :class="{
+            [ppNs.e('shortcut')]: true,
+            active:
+              highlightShortcutSelected &&
+              selectedShortcut?.text === shortcut.text,
+          }"
           @click="handleShortcutClick(shortcut)"
         >
           {{ shortcut.text }}
@@ -459,6 +464,10 @@ const isDefaultFormat = inject(
 const { disabledDate, cellClassName, defaultTime, clearable } = pickerBase.props
 const format: Ref<string | undefined> = toRef(pickerBase.props, 'format')
 const shortcuts = toRef(pickerBase.props, 'shortcuts')
+const highlightShortcutSelected = toRef(
+  pickerBase.props,
+  'highlightShortcutSelected'
+)
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 const { lang } = useLocale()
 const leftDate = ref<Dayjs>(dayjs().locale(lang.value))
@@ -470,6 +479,7 @@ const {
   rangeState,
   ppNs,
   drpNs,
+  selectedShortcut,
   handleChangeRange,
   handleRangeConfirm,
   handleShortcutClick,
