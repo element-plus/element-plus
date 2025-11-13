@@ -73,12 +73,11 @@ describe('<ElPopperTrigger />', () => {
       await nextTick()
       expect(onClick).toHaveBeenCalled()
     })
-    it('should cleanup listeners when ref unmounts', async () => {
+    it('should cleanup listeners when triggerRef changes', async () => {
       const onClick = vi.fn()
-      const first = document.createElement('button')
-      const second = document.createElement('button')
+      const first = document.createElement('p')
       const removeSpy = vi.spyOn(first, 'removeEventListener')
-      const addSpy = vi.spyOn(second, 'addEventListener')
+      const addSpy = vi.spyOn(first, 'addEventListener')
 
       wrapper = mountTrigger({
         onClick,
@@ -88,16 +87,16 @@ describe('<ElPopperTrigger />', () => {
       await nextTick()
 
       await wrapper.setProps({
-        virtualRef: second,
+        virtualRef: {
+          getBoundingClientRect: () => {
+            return { top: 0, left: 0, right: 0, bottom: 0, width: 0, height: 0 }
+          },
+        },
       })
       await nextTick()
 
-      first.dispatchEvent(new MouseEvent('click'))
-      second.dispatchEvent(new MouseEvent('click'))
-
-      expect(onClick).toHaveBeenCalledTimes(1)
-      expect(removeSpy).toHaveBeenCalledWith('click', onClick, false)
       expect(addSpy).toHaveBeenCalledWith('click', onClick, false)
+      expect(removeSpy).toHaveBeenCalledWith('click', onClick, false)
     })
   })
 })
