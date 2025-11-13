@@ -32,6 +32,12 @@ export function useTree(
   emit: SetupContext<typeof treeEmits>['emit']
 ) {
   const expandedKeySet = ref<Set<TreeKey>>(new Set())
+  // Baseline expansion preserved across clears
+  const baselineExpandedKeySet = ref<Set<TreeKey> | null>(null)
+  // Last non-empty filter's expansion result
+  const lastFilterExpandedKeySet = ref<Set<TreeKey> | null>(null)
+  // Track filter session (empty -> non-empty)
+  const isFiltering = ref(false)
   const currentKey = ref<TreeKey | undefined>()
   const tree = shallowRef<Tree | undefined>()
   const listRef = ref<typeof FixedSizeList | undefined>()
@@ -143,10 +149,30 @@ export function useTree(
   }
 
   function filter(query: string) {
-    const keys = doFilter(query)
-    if (keys) {
-      expandedKeySet.value = keys
+    const normalized = query ?? ''
+    const keys = doFilter(normalized)
+    if (normalized) {
+      // Start of a new filter session: recapture baseline from current expansion
+      if (!isFiltering.value) {
+        baselineExpandedKeySet.value = new Set(expandedKeySet.value)
+      }
+      lastFilterExpandedKeySet.value = new Set(keys ?? [])
+      setExpandedKeys(Array.from(keys ?? []))
+      isFiltering.value = true
+      return
     }
+    // clearing filter: union baseline with last filter result (if any)
+    const baseline =
+      baselineExpandedKeySet.value ?? new Set(expandedKeySet.value)
+    const last = lastFilterExpandedKeySet.value
+    const union = new Set<TreeKey>(baseline)
+    if (last && last.size > 0) {
+      last.forEach((k) => union.add(k))
+    }
+    setExpandedKeys(Array.from(union))
+    baselineExpandedKeySet.value = union
+    lastFilterExpandedKeySet.value = null
+    isFiltering.value = false
   }
 
   function getChildren(node: TreeNodeData): TreeNodeData[] {

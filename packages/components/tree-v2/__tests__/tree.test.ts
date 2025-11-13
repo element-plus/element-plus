@@ -1191,6 +1191,218 @@ describe('Virtual Tree', () => {
     expect(wrapper.findAll('.expanded').length).toBe(2)
   })
 
+  test('clear after filter should preserve last expansion (single match)', async () => {
+    const { treeRef, wrapper } = createTree({
+      data() {
+        return {
+          data: [
+            {
+              id: '1',
+              label: 'node-1',
+              children: [{ id: '1-1', label: 'node-1-1' }],
+            },
+            {
+              id: '2',
+              label: 'node-2',
+              children: [{ id: '2-1', label: 'node-2-1' }],
+            },
+            {
+              id: '3',
+              label: 'node-3',
+              children: [{ id: '3-1', label: 'node-3-1' }],
+            },
+          ],
+          filterMethod(query: string, node: TreeNodeData) {
+            return node.label.includes(query)
+          },
+        }
+      },
+    })
+    await nextTick()
+    // Initially, only roots are visible and all collapsed
+    let nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+    expect(nodes.map((n) => n.text())).toEqual(['node-1', 'node-2', 'node-3'])
+
+    // Filter "node-3": expand 3 and show its matching path
+    treeRef.filter('node-3')
+    await nextTick()
+    nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+    expect(nodes.map((n) => n.text())).toEqual(['node-3', 'node-3-1'])
+
+    // Clear filter: keep last expansion (node-3 expanded)
+    treeRef.filter('')
+    await nextTick()
+    nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+    expect(nodes.map((n) => n.text())).toEqual([
+      'node-1',
+      'node-2',
+      'node-3',
+      'node-3-1',
+    ])
+  })
+
+  test('clear after zero-result filter should keep all collapsed', async () => {
+    const { treeRef, wrapper } = createTree({
+      data() {
+        return {
+          data: [
+            {
+              id: '1',
+              label: 'node-1',
+              children: [{ id: '1-1', label: 'node-1-1' }],
+            },
+            {
+              id: '2',
+              label: 'node-2',
+              children: [{ id: '2-1', label: 'node-2-1' }],
+            },
+            {
+              id: '3',
+              label: 'node-3',
+              children: [{ id: '3-1', label: 'node-3-1' }],
+            },
+          ],
+          filterMethod(query: string, node: TreeNodeData) {
+            return node.label.includes(query)
+          },
+        }
+      },
+    })
+    await nextTick()
+    let nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+    expect(nodes.map((n) => n.text())).toEqual(['node-1', 'node-2', 'node-3'])
+
+    // Filter "zzz": no match => should collapse all (expanded keys set to empty)
+    treeRef.filter('zzz')
+    await nextTick()
+    nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+    expect(nodes.map((n) => n.text())).toEqual([]) // no visible nodes except empty roots hidden by filter
+
+    // Clear filter: keep collapsed (since last filter caused empty expanded set)
+    treeRef.filter('')
+    await nextTick()
+    nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+    expect(nodes.map((n) => n.text())).toEqual(['node-1', 'node-2', 'node-3'])
+  })
+
+  test('baseline union last filter on clear (baseline has 3 expanded, filter 2)', async () => {
+    const { treeRef, wrapper } = createTree({
+      data() {
+        return {
+          data: [
+            {
+              id: '1',
+              label: 'node-1',
+              children: [{ id: '1-1', label: 'node-1-1' }],
+            },
+            {
+              id: '2',
+              label: 'node-2',
+              children: [{ id: '2-1', label: 'node-2-1' }],
+            },
+            {
+              id: '3',
+              label: 'node-3',
+              children: [{ id: '3-1', label: 'node-3-1' }],
+            },
+          ],
+          defaultExpandedKeys: ['3'],
+          filterMethod(query: string, node: TreeNodeData) {
+            return node.label.includes(query)
+          },
+        }
+      },
+    })
+    await nextTick()
+    // Initially 3 expanded
+    let nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+    expect(nodes.map((n) => n.text())).toEqual([
+      'node-1',
+      'node-2',
+      'node-3',
+      'node-3-1',
+    ])
+
+    // Apply filter for "node-2": only 2 branch shown
+    treeRef.filter('node-2')
+    await nextTick()
+    nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+    expect(nodes.map((n) => n.text())).toEqual(['node-2', 'node-2-1'])
+
+    // Clear: baseline {3} ∪ lastFilter {2} => 2 and 3 expanded
+    treeRef.filter('')
+    await nextTick()
+    nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+    expect(nodes.map((n) => n.text())).toEqual([
+      'node-1',
+      'node-2',
+      'node-2-1',
+      'node-3',
+      'node-3-1',
+    ])
+  })
+
+  test('manual expand before filtering becomes baseline (click 3, then filter 2)', async () => {
+    const { treeRef, wrapper } = createTree({
+      data() {
+        return {
+          data: [
+            {
+              id: '1',
+              label: 'node-1',
+              children: [{ id: '1-1', label: 'node-1-1' }],
+            },
+            {
+              id: '2',
+              label: 'node-2',
+              children: [{ id: '2-1', label: 'node-2-1' }],
+            },
+            {
+              id: '3',
+              label: 'node-3',
+              children: [{ id: '3-1', label: 'node-3-1' }],
+            },
+          ],
+          filterMethod(query: string, node: TreeNodeData) {
+            return node.label.includes(query)
+          },
+        }
+      },
+    })
+    await nextTick()
+    // Initially all collapsed (only roots)
+    let nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+    expect(nodes.map((n) => n.text())).toEqual(['node-1', 'node-2', 'node-3'])
+    // Manually expand node-3 by clicking it
+    await nodes[2].trigger('click')
+    await nextTick()
+    nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+    expect(nodes.map((n) => n.text())).toEqual([
+      'node-1',
+      'node-2',
+      'node-3',
+      'node-3-1',
+    ])
+
+    // Start filtering "node-2" -> baseline should capture {3}, show only node-2 path
+    treeRef.filter('node-2')
+    await nextTick()
+    nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+    expect(nodes.map((n) => n.text())).toEqual(['node-2', 'node-2-1'])
+
+    // Clear: union baseline {3} with last filter {2} -> {2,3} expanded
+    treeRef.filter('')
+    await nextTick()
+    nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+    expect(nodes.map((n) => n.text())).toEqual([
+      'node-1',
+      'node-2',
+      'node-2-1',
+      'node-3',
+      'node-3-1',
+    ])
+  })
+
   describe('events', () => {
     test('current-change', async () => {
       const onCurrentChange = vi.fn()
