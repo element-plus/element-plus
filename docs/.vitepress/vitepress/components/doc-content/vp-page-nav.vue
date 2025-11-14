@@ -81,7 +81,6 @@ const { hasLinks, prev, next } = usePageNav()
   flex-shrink: 0;
   font-size: 12px;
   color: var(--text-color);
-  transform: translateY(1px);
 }
 
 .icon-prev {
