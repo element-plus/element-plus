@@ -69,7 +69,7 @@ segmented/custom-content
 
 ## Custom Style
 
-Set custom styles using CSS varibles.
+Set custom styles using CSS variables.
 
 :::demo
 
