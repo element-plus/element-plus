@@ -2621,6 +2621,43 @@ describe('MonthRange', () => {
     expect(vm.value[0]).toBe('2015-01')
   })
 
+  it('should toggle year panel via header label', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        type='monthrange'
+        v-model="value"
+      />`,
+      () => ({ value: ['2024-01-01', '2024-02-01'] })
+    )
+
+    const inputs = wrapper.findAll('input')
+    await inputs[0].trigger('blur')
+    await inputs[0].trigger('focus')
+    await nextTick()
+
+    expect(document.querySelectorAll('.el-year-table').length).toBe(0)
+
+    const headerLabel = document.querySelector(
+      '.el-date-range-picker__header-label'
+    ) as HTMLElement
+    headerLabel.click()
+    await nextTick()
+    expect(document.querySelectorAll('.el-year-table').length).toBeGreaterThan(
+      0
+    )
+
+    const yearCell = document.querySelector(
+      '.el-year-table td.available'
+    ) as HTMLElement
+    yearCell.click()
+    await nextTick()
+
+    expect(document.querySelectorAll('.el-year-table').length).toBe(0)
+    expect(document.querySelectorAll('.el-month-table').length).toBeGreaterThan(
+      0
+    )
+  })
+
   describe('form item accessibility integration', () => {
     it('automatic id attachment', async () => {
       const wrapper = _mount(
