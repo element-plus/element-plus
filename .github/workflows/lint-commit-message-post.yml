@@ -10,27 +10,27 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-        succeeded: ${{ steps.assert.outputs.succeeded }}
-        pr: ${{ steps.pr.outputs.pr }}
-        author: ${{ steps.author.outputs.author }}
+      succeeded: ${{ steps.assert.outputs.succeeded }}
+      pr: ${{ steps.pr.outputs.pr }}
+      author: ${{ steps.author.outputs.author }}
 
     steps:
       - name: Download result
-        uses: dawidd6/action-download-artifact@v2
+        uses: dawidd6/action-download-artifact@v9
         with:
           workflow: ${{ github.event.workflow.id }}
           run_id: ${{ github.event.workflow_run.id }}
           name: commit-lint-result
 
       - name: Derive PR number
-        uses: dawidd6/action-download-artifact@v2
+        uses: dawidd6/action-download-artifact@v9
         with:
           workflow: ${{ github.event.workflow.id }}
           run_id: ${{ github.event.workflow_run.id }}
           name: pr-number
 
       - name: Download PR author
-        uses: dawidd6/action-download-artifact@v2
+        uses: dawidd6/action-download-artifact@v9
         with:
           workflow: ${{ github.event.workflow.id }}
           run_id: ${{ github.event.workflow_run.id }}

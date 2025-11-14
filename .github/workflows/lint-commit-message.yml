@@ -49,17 +49,17 @@ jobs:
       - name: Set PR author
         run: echo $PULL_REQUEST_AUTHOR > ./author.txt
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: commit-lint-result
           path: ./lint-result.txt
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: pr-number
           path: ./pr.txt
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: pr-author
           path: ./author.txt
