@@ -1,4 +1,4 @@
-import { nextTick, ref } from 'vue'
+import { nextTick, ref, withModifiers } from 'vue'
 import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
 import { Check, Loading } from '@element-plus/icons-vue'
@@ -1172,5 +1172,33 @@ describe('CascaderPanel.vue', () => {
     expect(onUpdateModelValue).toHaveBeenCalledOnce()
     expect(onChange).toHaveBeenCalledWith(['guide'])
     expect(onUpdateModelValue).toHaveBeenCalledWith(['guide'])
+  })
+
+  test('ensure when clicking node triggers a parent change, this node with an unchanged value should be alive and checked', async () => {
+    const wrapper = mount(() => {
+      const option = {
+        label: '1',
+        value: '1',
+        children: [
+          {
+            label: '2',
+            value: '2',
+          },
+        ],
+      }
+      const foo = ref('0')
+
+      return (
+        <div onClick={withModifiers(() => (foo.value = '1'), ['capture'])}>
+          {foo.value}
+          <CascaderPanel options={[option]} />
+        </div>
+      )
+    })
+
+    const cascaderNode = wrapper.find('.el-cascader-node')
+    expect(cascaderNode.exists()).toBe(true)
+    await cascaderNode.trigger('click')
+    expect(cascaderNode.classes()).toContain('in-active-path')
   })
 })
