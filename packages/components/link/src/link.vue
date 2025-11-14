@@ -5,12 +5,13 @@
     :target="disabled || !href ? undefined : target"
     @click="handleClick"
   >
-    <el-icon v-if="icon"><component :is="icon" /></el-icon>
+    <el-icon v-if="icon || $slots.icon">
+      <component :is="icon" v-if="icon" />
+      <slot v-else name="icon" />
+    </el-icon>
     <span v-if="$slots.default" :class="ns.e('inner')">
       <slot />
     </span>
-
-    <slot v-if="$slots.icon" name="icon" />
   </a>
 </template>
 
