@@ -45,12 +45,9 @@ const ariaDescribedby = computed<string | undefined>(() => {
   return undefined
 })
 
-const ariaHaspopup = computed<string | undefined>(() => {
-  if (role && role.value !== 'tooltip') {
-    return role.value
-  }
-  return undefined
-})
+const ariaHaspopup = computed<string | undefined>(() =>
+  role?.value !== 'tooltip' ? role?.value : undefined
+)
 
 const ariaExpanded = computed<string | undefined>(() => {
   return ariaHaspopup.value ? `${props.open}` : undefined
