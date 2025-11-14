@@ -688,18 +688,32 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     }
   }
 
-  const toggleMenu = () => {
+  const toggleMenu = (event?: Event) => {
     if (selectDisabled.value) return
-
     // We only set the inputHovering state to true on mouseenter event on iOS devices
     // To keep the state updated we set it here to true
     if (isIOS) states.inputHovering = true
 
-    if (states.menuVisibleOnFocus) {
-      // controlled by automaticDropdown
-      states.menuVisibleOnFocus = false
-    } else {
+    // non-filterable
+    if (!props.filterable) {
+      if (states.menuVisibleOnFocus) {
+        states.menuVisibleOnFocus = false
+      } else {
+        expanded.value = !expanded.value
+      }
+      return
+    }
+
+    // filterable
+    const clickedSuffix =
+      event && suffixRef.value?.contains(event.target as Node)
+    if (clickedSuffix) {
       expanded.value = !expanded.value
+      return
+    }
+
+    if (isFocused.value) {
+      expanded.value = true
     }
   }
 

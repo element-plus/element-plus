@@ -2594,7 +2594,26 @@ describe('Select', () => {
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe(placeholder)
   })
 
-  test('should close popper when click icon twice', async () => {
+  // [true, false].forEach((filterableValue) => {
+  //   test('should toggle popper when click icon', async () => {
+  //     wrapper = getSelectVm({
+  //       filterable: filterableValue,
+  //       clearable: true,
+  //     })
+  //     const select = wrapper.findComponent({ name: 'ElSelect' })
+
+  //     const iconWhenDropdownClose = wrapper.findComponent(ArrowDown)
+  //     await iconWhenDropdownClose.trigger('click')
+  //     expect((select.vm as any).expanded).toBe(true)
+
+  //     await wrapper.setProps({ suffixIcon: markRaw(CaretTop) })
+  //     const iconWhenDropdownOpen = wrapper.findComponent(CaretTop)
+  //     await iconWhenDropdownOpen.trigger('click')
+  //     expect((select.vm as any).expanded).toBe(false)
+  //   })
+  // })
+
+  test('mouseenter click should keep dropdown open when filterable', async () => {
     wrapper = getSelectVm({
       filterable: true,
       clearable: true,
@@ -2603,13 +2622,14 @@ describe('Select', () => {
     const trigger = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
     await trigger.trigger('click')
     expect((select.vm as any).expanded).toBe(true)
+
     await trigger.trigger('click')
-    expect((select.vm as any).expanded).toBe(false)
+    expect((select.vm as any).expanded).toBe(true)
   })
 
-  test('mouseenter click', async () => {
+  test('mouseenter click should toggle dropdown when non-filterable', async () => {
     wrapper = getSelectVm({
-      filterable: true,
+      filterable: false,
       clearable: true,
     })
     const select = wrapper.findComponent({ name: 'ElSelect' })
