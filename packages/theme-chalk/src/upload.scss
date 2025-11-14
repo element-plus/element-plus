@@ -158,8 +158,8 @@
   }
 
   @include when(dragover) {
-    padding: calc(#{getCssVar('upload-dragger-padding-horizontal')} - 1px)
-      calc(#{getCssVar('upload-dragger-padding-vertical')} - 1px);
+    padding: calc(#{getCssVar('upload-dragger-padding-vertical')} - 1px)
+      calc(#{getCssVar('upload-dragger-padding-horizontal')} - 1px);
     background-color: getCssVar('color', 'primary', 'light-9');
     border: 2px dashed getCssVar('color-primary');
   }
