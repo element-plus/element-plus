@@ -35,7 +35,7 @@
     :fallback-placements="['right-start', 'left-start']"
     :trigger="trigger"
     :trigger-target-el="contentRef"
-    :offset="popperOffset"
+    :offset="offset"
     :show-arrow="showArrow"
     :show-after="menuTrigger === 'hover' ? showTimeout : 0"
     :hide-after="menuTrigger === 'hover' ? hideTimeout : 0"
@@ -123,6 +123,7 @@ const {
   maxHeight,
   role,
   persistent,
+  popperOffset,
   addPopperContent,
   removePopperContent,
 } = inject(DROPDOWN_INSTANCE_INJECTION_KEY, undefined)!
@@ -137,6 +138,7 @@ const triggerId = useId()
 const dropdownSubMenuRef = ref<HTMLElement>()
 
 const trigger = computed(() => ensureArray(menuTrigger.value))
+const offset = computed(() => props.popperOffset ?? popperOffset.value)
 
 const wrapStyle = computed<CSSProperties>(() => ({
   maxHeight: addUnit(maxHeight.value),

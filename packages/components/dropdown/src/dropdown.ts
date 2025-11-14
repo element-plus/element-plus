@@ -168,6 +168,13 @@ export const dropdownProps = buildProps({
     type: Boolean,
     default: true,
   },
+  /**
+   * @description offset of the sub menu popper
+   */
+  popperOffset: {
+    type: Number,
+    default: -6,
+  },
 } as const)
 
 export const dropdownItemProps = buildProps({
@@ -234,10 +241,7 @@ export const dropdownSubMenuProps = buildProps({
   /**
    * @description offset of the popper
    */
-  popperOffset: {
-    type: Number,
-    default: 6,
-  },
+  popperOffset: Number,
   /**
    * @description custom class name for DropdownSubMenu's dropdown
    */
