@@ -47,7 +47,7 @@ describe('Slider', () => {
 
   it('create', () => {
     const wrapper = mount(Slider)
-    expect(wrapper.props().modelValue).toBe(0)
+    expect(wrapper.props().modelValue).toBe(undefined)
   })
 
   it('should not exceed min and max', async () => {
@@ -429,7 +429,7 @@ describe('Slider', () => {
       wrapper.find('.el-slider__runway').element,
       { width: 200 }
     )
-    const slider = wrapper.findComponent({ name: 'ElSlider' })
+    const slider = wrapper.findComponent(Slider)
     slider.vm.onSliderClick(new MouseEvent('mousedown', { clientX: 100 }))
     await nextTick()
     expect(value.value > 0).toBeTruthy()
@@ -447,13 +447,14 @@ describe('Slider', () => {
       </div>
     ))
 
-    const slider = wrapper.findComponent({ name: 'ElSlider' })
+    const slider = wrapper.findComponent(Slider)
     const mockRect = mockBoundingClientRect(
       wrapper.find('.el-slider__runway').element,
       { width: 200, left: 0 }
     )
     expect(data.value).toBe(0)
     slider.vm.onSliderClick(new MouseEvent('mousedown', { clientX: 100 }))
+    expect(data.value).toBe(50)
     await nextTick()
     expect(data.value === 50).toBeTruthy()
     mockRect.mockRestore()
@@ -470,7 +471,7 @@ describe('Slider', () => {
       </div>
     ))
 
-    const slider = wrapper.findComponent({ name: 'ElSlider' })
+    const slider = wrapper.findComponent(Slider)
     const mockRect = mockBoundingClientRect(
       wrapper.find('.el-slider__runway').element,
       { width: 200, left: 0 }
@@ -595,6 +596,30 @@ describe('Slider', () => {
 
     await nextTick()
     expect(value.value).toEqual(30)
+  })
+
+  it('use :model-value', async () => {
+    vi.useRealTimers()
+    const value = ref(0)
+    const data = ref<SliderProps['modelValue']>(0)
+    const onChange = (val: SliderProps['modelValue']) => (data.value = val)
+    const wrapper = mount(() => (
+      <div style="width: 200px">
+        <Slider modelValue={value.value} onChange={onChange} />
+      </div>
+    ))
+
+    const slider = wrapper.findComponent(Slider)
+    const mockRect = mockBoundingClientRect(
+      wrapper.find('.el-slider__runway').element,
+      { width: 200, left: 0 }
+    )
+    expect(data.value).toBe(0)
+    slider.vm.onSliderClick(new MouseEvent('mousedown', { clientX: 100 }))
+    expect(value.value).toBe(0)
+    await nextTick()
+    expect(data.value === 50).toBeTruthy()
+    mockRect.mockRestore()
   })
 
   describe('range', () => {

@@ -77,15 +77,13 @@ export const useSliderButton = (
   const button = ref<HTMLDivElement>()
 
   const currentPosition = computed(() => {
-    return `${
-      ((props.modelValue - min.value) / (max.value - min.value)) * 100
-    }%`
+    return ((props.modelValue - min.value) / (max.value - min.value)) * 100
   })
 
   const wrapperStyle: ComputedRef<CSSProperties> = computed(() => {
     return props.vertical
-      ? { bottom: currentPosition.value }
-      : { left: currentPosition.value }
+      ? { bottom: `${currentPosition.value}%` }
+      : { left: `${currentPosition.value}%` }
   })
 
   const handleMouseEnter = () => {
@@ -115,8 +113,7 @@ export const useSliderButton = (
   const incrementPosition = (amount: number) => {
     if (disabled.value) return
     initData.newPosition =
-      Number.parseFloat(currentPosition.value) +
-      (amount / (max.value - min.value)) * 100
+      currentPosition.value + (amount / (max.value - min.value)) * 100
     setPosition(initData.newPosition)
     emitChange()
   }
@@ -207,7 +204,7 @@ export const useSliderButton = (
     } else {
       initData.startX = clientX
     }
-    initData.startPosition = Number.parseFloat(currentPosition.value)
+    initData.startPosition = currentPosition.value
     initData.newPosition = initData.startPosition
   }
 
@@ -276,10 +273,6 @@ export const useSliderButton = (
 
     if (value !== props.modelValue) {
       emit(UPDATE_MODEL_EVENT, value)
-    }
-
-    if (!initData.dragging && props.modelValue !== initData.oldValue) {
-      initData.oldValue = props.modelValue
     }
 
     await nextTick()

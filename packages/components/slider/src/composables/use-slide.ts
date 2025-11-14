@@ -5,9 +5,10 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import { useFormItem } from '@element-plus/components/form'
+import { isArray } from '@element-plus/utils'
 
-import type { CSSProperties, Ref, SetupContext } from 'vue'
 import type { Arrayable } from '@element-plus/utils'
+import type { CSSProperties, Ref, SetupContext } from 'vue'
 import type { SliderEmits, SliderInitData, SliderProps } from '../slider'
 import type { ButtonRefs, SliderButtonInstance } from '../button'
 
@@ -133,12 +134,41 @@ export const useSlide = (
     emit(INPUT_EVENT, val)
   }
 
-  const emitChange = async () => {
-    await nextTick()
+  const emitChange = () => {
     emit(
       CHANGE_EVENT,
-      props.range ? [minValue.value, maxValue.value] : props.modelValue
+      props.range ? [minValue.value, maxValue.value] : initData.firstValue
     )
+
+    if (props.modelValue === undefined) return
+
+    if (props.range) {
+      if (isArray(props.modelValue)) {
+        initData.firstValue = Math.max(
+          props.min,
+          props.modelValue[0] || props.min
+        )
+        initData.secondValue = Math.min(
+          props.max,
+          props.modelValue[1] || props.max
+        )
+      } else {
+        initData.firstValue = props.min
+        initData.secondValue = props.max
+      }
+    } else {
+      if (
+        typeof props.modelValue !== 'number' ||
+        Number.isNaN(props.modelValue)
+      ) {
+        initData.firstValue = props.min
+      } else {
+        initData.firstValue = Math.min(
+          props.max,
+          Math.max(props.min, props.modelValue)
+        )
+      }
+    }
   }
 
   const handleSliderPointerEvent = (
