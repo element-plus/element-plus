@@ -19,6 +19,7 @@
     box-shadow: getCssVar('box-shadow-light');
     box-sizing: border-box;
     overflow-wrap: break-word;
+    outline: none;
 
     $content-selector: &;
 

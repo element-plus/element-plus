@@ -1,8 +1,8 @@
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { useSizeProp } from '@element-plus/hooks'
+import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import { isBoolean, isNumber, isString } from '@element-plus/utils'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type Checkbox from './checkbox.vue'
 
 export type CheckboxValueType = string | number | boolean
@@ -86,13 +86,6 @@ export const checkboxProps = {
     default: undefined,
   },
   /**
-   * @description same as [aria-controls](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-controls), takes effect when `indeterminate` is `true`
-   */
-  controls: {
-    type: String,
-    default: undefined,
-  },
-  /**
    * @description whether to add a border around Checkbox
    */
   border: Boolean,
@@ -111,6 +104,7 @@ export const checkboxProps = {
     type: Boolean,
     default: true,
   },
+  ...useAriaProps(['ariaControls']),
 }
 
 export const checkboxEmits = {
@@ -121,5 +115,6 @@ export const checkboxEmits = {
 }
 
 export type CheckboxProps = ExtractPropTypes<typeof checkboxProps>
+export type CheckboxPropsPublic = __ExtractPublicPropTypes<typeof checkboxProps>
 export type CheckboxEmits = typeof checkboxEmits
-export type CheckboxInstance = InstanceType<typeof Checkbox>
+export type CheckboxInstance = InstanceType<typeof Checkbox> & unknown

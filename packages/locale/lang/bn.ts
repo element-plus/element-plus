@@ -7,6 +7,17 @@ export default {
     colorpicker: {
       confirm: 'ঠিক আছে',
       clear: 'ক্লিয়ার',
+      defaultLabel: 'color picker', // to be translated
+      description:
+        'current color is {color}. press enter to select a new color.', // to be translated
+      alphaLabel: 'pick alpha value', // to be translated
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
+      svLabel: 'pick saturation and brightness value', // to be translated
+      svDescription:
+        'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
+      predefineDescription: 'select {value} as the color', // to be translated
     },
     datepicker: {
       now: 'এখন',
@@ -14,6 +25,11 @@ export default {
       cancel: 'বাতিল',
       clear: 'ক্লিয়ার',
       confirm: 'ঠিক আছে',
+      dateTablePrompt:
+        'Use the arrow keys and enter to select the day of the month', // to be translated
+      monthTablePrompt: 'Use the arrow keys and enter to select the month', // to be translated
+      yearTablePrompt: 'Use the arrow keys and enter to select the year', // to be translated
+      selectedDate: 'Selected date', // to be translated
       selectDate: 'তারিখ নির্বাচন করুন',
       selectTime: 'সময় নির্বাচন করুন',
       startDate: 'যে তারিখ থেকে',
@@ -37,7 +53,6 @@ export default {
       month10: 'অক্টোবর',
       month11: 'নভেম্বর',
       month12: 'ডিসেম্বর',
-      week: 'সাপ্তাহ',
       weeks: {
         sun: 'রবি',
         mon: 'সোম',
@@ -46,6 +61,15 @@ export default {
         thu: 'বৃহঃ',
         fri: 'শুক্র',
         sat: 'শনি',
+      },
+      weeksFull: {
+        sun: 'Sunday', // to be translated
+        mon: 'Monday', // to be translated
+        tue: 'Tuesday', // to be translated
+        wed: 'Wednesday', // to be translated
+        thu: 'Thursday', // to be translated
+        fri: 'Friday', // to be translated
+        sat: 'Saturday', // to be translated
       },
       months: {
         jan: 'জানু',
@@ -62,11 +86,21 @@ export default {
         dec: 'ডিসে',
       },
     },
+    inputNumber: {
+      decrease: 'decrease number', // to be translated
+      increase: 'increase number', // to be translated
+    },
     select: {
       loading: 'লোড হচ্ছে',
       noMatch: 'কোন মিল পওয়া যায়নি',
       noData: 'কোন ডাটা নেই',
       placeholder: 'নির্বাচন করুন',
+    },
+    mention: {
+      loading: 'লোড হচ্ছে',
+    },
+    dropdown: {
+      toggleDropdown: 'Toggle Dropdown', // to be translated
     },
     cascader: {
       noMatch: 'কোন মিল পওয়া যায়নি',
@@ -88,11 +122,18 @@ export default {
       deprecationWarning:
         'অপ্রচলিত (Deprecated) ব্যাবহার পওয়া গেছে, আরও জানতে চাইলে, দয়া করে el-pagination এর ডকুমেন্টেশন দেখুন',
     },
+    dialog: {
+      close: 'Close this dialog', // to be translated
+    },
+    drawer: {
+      close: 'Close this dialog', // to be translated
+    },
     messagebox: {
       title: 'বার্তা',
       confirm: 'ঠিক আছে',
       cancel: 'বাতিল',
       error: 'ইনপুট ডাটা গ্রহনযোগ্য নয়',
+      close: 'Close this dialog', // to be translated
     },
     upload: {
       deleteTip: 'অপসারণ করতে "ডিলিট" এ ক্লিক করুন',
@@ -100,12 +141,23 @@ export default {
       preview: 'প্রিভিউ',
       continue: 'চালিয়ে যান',
     },
+    slider: {
+      defaultLabel: 'slider between {min} and {max}', // to be translated
+      defaultRangeStartLabel: 'pick start value', // to be translated
+      defaultRangeEndLabel: 'pick end value', // to be translated
+    },
     table: {
       emptyText: 'কোন ডাটা নেই',
       confirmFilter: 'নিশ্চিত করুন',
       resetFilter: 'রিসেট',
       clearFilter: 'সব',
       sumText: 'সারাংশ',
+    },
+    tour: {
+      next: 'Next', // to be translated
+      previous: 'Previous', // to be translated
+      finish: 'Finish', // to be translated
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'কোন ডাটা নেই',

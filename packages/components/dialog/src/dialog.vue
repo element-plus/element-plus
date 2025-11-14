@@ -1,19 +1,18 @@
 <template>
-  <teleport
+  <el-teleport
     :to="appendTo"
     :disabled="appendTo !== 'body' ? false : !appendToBody"
   >
-    <transition
-      name="dialog-fade"
-      @after-enter="afterEnter"
-      @after-leave="afterLeave"
-      @before-leave="beforeLeave"
-    >
+    <transition v-bind="transitionConfig">
       <el-overlay
         v-show="visible"
         custom-mask-event
         :mask="modal"
-        :overlay-class="modalClass"
+        :overlay-class="[
+          modalClass ?? '',
+          `${ns.namespace.value}-modal-dialog`,
+          ns.is('penetrable', penetrable),
+        ]"
         :z-index="zIndex"
       >
         <div
@@ -42,11 +41,14 @@
               ref="dialogContentRef"
               v-bind="$attrs"
               :center="center"
-              :align-center="alignCenter"
+              :align-center="_alignCenter"
               :close-icon="closeIcon"
-              :draggable="draggable"
-              :overflow="overflow"
+              :draggable="_draggable"
+              :overflow="_overflow"
               :fullscreen="fullscreen"
+              :header-class="headerClass"
+              :body-class="bodyClass"
+              :footer-class="footerClass"
               :show-close="showClose"
               :title="title"
               :aria-level="headerAriaLevel"
@@ -71,7 +73,7 @@
         </div>
       </el-overlay>
     </transition>
-  </teleport>
+  </el-teleport>
 </template>
 
 <script lang="ts" setup>
@@ -79,6 +81,7 @@ import { computed, provide, ref, useSlots } from 'vue'
 import { ElOverlay } from '@element-plus/components/overlay'
 import { useDeprecated, useNamespace, useSameTarget } from '@element-plus/hooks'
 import ElFocusTrap from '@element-plus/components/focus-trap'
+import ElTeleport from '@element-plus/components/teleport'
 import ElDialogContent from './dialog-content.vue'
 import { dialogInjectionKey } from './constants'
 import { dialogEmits, dialogProps } from './dialog'
@@ -116,10 +119,11 @@ const {
   style,
   overlayDialogStyle,
   rendered,
+  transitionConfig,
   zIndex,
-  afterEnter,
-  afterLeave,
-  beforeLeave,
+  _draggable,
+  _alignCenter,
+  _overflow,
   handleClose,
   onModalClick,
   onOpenAutoFocus,
@@ -139,11 +143,19 @@ provide(dialogInjectionKey, {
 
 const overlayEvent = useSameTarget(onModalClick)
 
-const draggable = computed(() => props.draggable && !props.fullscreen)
+const penetrable = computed(
+  () => props.modalPenetrable && !props.modal && !props.fullscreen
+)
+
+const resetPosition = () => {
+  dialogContentRef.value?.resetPosition()
+}
 
 defineExpose({
   /** @description whether the dialog is visible */
   visible,
   dialogContentRef,
+  resetPosition,
+  handleClose,
 })
 </script>

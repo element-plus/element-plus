@@ -20,7 +20,7 @@ import {
   TableV2SortOrder,
 } from 'element-plus'
 
-import type { Column, SortBy } from '@element-plus/components/table-v2'
+import type { Column, SortBy } from 'element-plus'
 
 const longText =
   'Quaerat ipsam necessitatibus eum quibusdam est id voluptatem cumque mollitia.'
@@ -34,7 +34,7 @@ const textList = [shortText, midText, longText]
 let id = 0
 
 const dataGenerator = () => ({
-  id: `random:${++id}`,
+  id: `random-${++id}`,
   name: 'Tom',
   date: '2016-05-03',
   description: textList[Math.floor(Math.random() * 3)],

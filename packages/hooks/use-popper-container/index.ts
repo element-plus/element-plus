@@ -3,8 +3,6 @@ import { isClient } from '@element-plus/utils'
 import { useGetDerivedNamespace } from '../use-namespace'
 import { useIdInjection } from '../use-id'
 
-let cachedContainer: HTMLElement
-
 export const usePopperContainerId = () => {
   const namespace = useGetDerivedNamespace()
   const idInjection = useIdInjection()
@@ -36,10 +34,10 @@ export const usePopperContainer = () => {
     // document.body.innerHTML = '' situation
     // for this we need to disable the caching since it's not really needed
     if (
-      process.env.NODE_ENV === 'test' ||
-      (!cachedContainer && !document.body.querySelector(selector.value))
+      (typeof process !== 'undefined' && process.env.NODE_ENV === 'test') ||
+      !document.body.querySelector(selector.value)
     ) {
-      cachedContainer = createContainer(id.value)
+      createContainer(id.value)
     }
   })
 

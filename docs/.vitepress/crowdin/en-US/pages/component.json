@@ -53,6 +53,11 @@
         "text": "Space"
       },
       {
+        "link": "/splitter",
+        "text": "Splitter",
+        "promotion": "2.10.0"
+      },
+      {
         "link": "/typography",
         "text": "Typography"
       }
@@ -83,8 +88,18 @@
         "text": "Checkbox"
       },
       {
+        "link": "/color-picker-panel",
+        "text": "Color Picker Panel",
+        "promotion": "2.11.0"
+      },
+      {
         "link": "/color-picker",
         "text": "Color Picker"
+      },
+      {
+        "link": "/date-picker-panel",
+        "text": "Date Picker Panel",
+        "promotion": "2.11.0"
       },
       {
         "link": "/date-picker",
@@ -105,6 +120,16 @@
       {
         "link": "/input-number",
         "text": "Input Number"
+      },
+      {
+        "link": "/input-tag",
+        "text": "Input Tag",
+        "promotion": "2.9.0"
+      },
+      {
+        "link": "/mention",
+        "text": "Mention",
+        "promotion": "2.8.0"
       },
       {
         "link": "/radio",
@@ -141,6 +166,11 @@
       {
         "link": "/transfer",
         "text": "Transfer"
+      },
+      {
+        "link": "/tree-select",
+        "text": "TreeSelect",
+        "promotion": "2.1.8"
       },
       {
         "link": "/upload",
@@ -234,11 +264,6 @@
         "text": "Tree"
       },
       {
-        "link": "/tree-select",
-        "text": "TreeSelect",
-        "promotion": "2.1.8"
-      },
-      {
         "link": "/tree-v2",
         "text": "Virtualized Tree"
       },
@@ -246,6 +271,11 @@
         "link": "/statistic",
         "text": "Statistic",
         "promotion": "2.2.30"
+      },
+      {
+        "link": "/segmented",
+        "text": "Segmented",
+        "promotion": "2.7.0"
       }
     ]
   },

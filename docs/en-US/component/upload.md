@@ -124,12 +124,12 @@ upload/manual
 
 ### Slots
 
-| Name    | Description                         | Type                            |
-| ------- | ----------------------------------- | ------------------------------- |
-| default | customize default content.          | -                               |
-| trigger | content which triggers file dialog. | -                               |
-| tip     | content of tips.                    | -                               |
-| file    | content of thumbnail template.      | ^[object]`{ file: UploadFile }` |
+| Name    | Description                         | Type                                           |
+| ------- | ----------------------------------- | ---------------------------------------------- |
+| default | customize default content.          | -                                              |
+| trigger | content which triggers file dialog. | -                                              |
+| tip     | content of tips.                    | -                                              |
+| file    | content of thumbnail template.      | ^[object]`{ file: UploadFile, index: number }` |
 
 ### Exposes
 
@@ -175,6 +175,7 @@ interface UploadProgressEvent extends ProgressEvent {
 
 interface UploadRawFile extends File {
   uid: number
+  isDirectory?: boolean
 }
 
 interface UploadRequestOptions {
@@ -182,7 +183,7 @@ interface UploadRequestOptions {
   method: string
   data: Record<string, string | Blob | [string | Blob, string]>
   filename: string
-  file: File
+  file: UploadRawFile
   headers: Headers | Record<string, string | number | null | undefined>
   onError: (evt: UploadAjaxError) => void
   onProgress: (evt: UploadProgressEvent) => void

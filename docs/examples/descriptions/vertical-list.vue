@@ -18,8 +18,8 @@
     <el-descriptions-item label="Remarks">
       <el-tag size="small">School</el-tag>
     </el-descriptions-item>
-    <el-descriptions-item label="Address"
-      >No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province
+    <el-descriptions-item label="Address">
+      No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province
     </el-descriptions-item>
   </el-descriptions>
 
@@ -36,8 +36,8 @@
     <el-descriptions-item label="Remarks">
       <el-tag size="small">School</el-tag>
     </el-descriptions-item>
-    <el-descriptions-item label="Address"
-      >No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province
+    <el-descriptions-item label="Address">
+      No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province
     </el-descriptions-item>
   </el-descriptions>
 </template>
@@ -45,7 +45,10 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 
-const size = ref('default')
+import type { ComponentSize } from 'element-plus'
+
+const size = ref<ComponentSize>('default')
+
 const blockMargin = computed(() => {
   const marginMap = {
     large: '32px',

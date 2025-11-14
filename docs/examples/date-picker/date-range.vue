@@ -1,5 +1,5 @@
 <template>
-  <el-radio-group v-model="size" label="size control">
+  <el-radio-group v-model="size" aria-label="size control" class="mb-4">
     <el-radio-button value="large">large</el-radio-button>
     <el-radio-button value="default">default</el-radio-button>
     <el-radio-button value="small">small</el-radio-button>
@@ -80,10 +80,14 @@ const shortcuts = [
 }
 
 .demo-date-picker .block {
-  padding: 30px 0;
+  padding: 1.5rem 0;
   text-align: center;
   border-right: solid 1px var(--el-border-color);
   flex: 1;
+  min-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .demo-date-picker .block:last-child {
@@ -94,6 +98,20 @@ const shortcuts = [
   display: block;
   color: var(--el-text-color-secondary);
   font-size: 14px;
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
+}
+
+@media screen and (max-width: 1200px) {
+  .demo-date-picker .block {
+    flex: 0 0 100%;
+    padding: 1rem 0;
+    min-width: auto;
+    border-right: none;
+    border-bottom: solid 1px var(--el-border-color);
+  }
+
+  .demo-date-picker .block:last-child {
+    border-bottom: none;
+  }
 }
 </style>

@@ -4,7 +4,9 @@
 
 <script lang="ts" setup>
 import { ElMessage, ElMessageBox } from 'element-plus'
+
 import type { Action } from 'element-plus'
+
 const open = () => {
   ElMessageBox.confirm(
     'You have unsaved changes, save and proceed?',

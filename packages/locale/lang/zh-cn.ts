@@ -7,6 +7,15 @@ export default {
     colorpicker: {
       confirm: '确定',
       clear: '清空',
+      defaultLabel: '颜色选择器',
+      description: '当前颜色 {color}，按 Enter 键选择新颜色',
+      alphaLabel: '选择透明度的值',
+      alphaDescription: '透明度 {alpha}, 当前颜色 {color}',
+      hueLabel: '选择色相值',
+      hueDescription: '色相 {hue}, 当前颜色 {color}',
+      svLabel: '选择饱和度与明度的值',
+      svDescription: '饱和度 {saturation}, 明度 {brightness}, 当前颜色 {color}',
+      predefineDescription: '选择 {value} 作为颜色',
     },
     datepicker: {
       now: '此刻',
@@ -14,6 +23,10 @@ export default {
       cancel: '取消',
       clear: '清空',
       confirm: '确定',
+      dateTablePrompt: '使用方向键与 Enter 键可选择日期',
+      monthTablePrompt: '使用方向键与 Enter 键可选择月份',
+      yearTablePrompt: '使用方向键与 Enter 键可选择年份',
+      selectedDate: '已选日期',
       selectDate: '选择日期',
       selectTime: '选择时间',
       startDate: '开始日期',
@@ -37,7 +50,6 @@ export default {
       month10: '10 月',
       month11: '11 月',
       month12: '12 月',
-      // week: '周次',
       weeks: {
         sun: '日',
         mon: '一',
@@ -46,6 +58,15 @@ export default {
         thu: '四',
         fri: '五',
         sat: '六',
+      },
+      weeksFull: {
+        sun: '星期日',
+        mon: '星期一',
+        tue: '星期二',
+        wed: '星期三',
+        thu: '星期四',
+        fri: '星期五',
+        sat: '星期六',
       },
       months: {
         jan: '一月',
@@ -62,11 +83,21 @@ export default {
         dec: '十二月',
       },
     },
+    inputNumber: {
+      decrease: '减少数值',
+      increase: '增加数值',
+    },
     select: {
       loading: '加载中',
       noMatch: '无匹配数据',
       noData: '无数据',
       placeholder: '请选择',
+    },
+    mention: {
+      loading: '加载中',
+    },
+    dropdown: {
+      toggleDropdown: '切换下拉选项',
     },
     cascader: {
       noMatch: '无匹配数据',
@@ -88,17 +119,29 @@ export default {
       deprecationWarning:
         '你使用了一些已被废弃的用法，请参考 el-pagination 的官方文档',
     },
+    dialog: {
+      close: '关闭此对话框',
+    },
+    drawer: {
+      close: '关闭此对话框',
+    },
     messagebox: {
       title: '提示',
       confirm: '确定',
       cancel: '取消',
       error: '输入的数据不合法!',
+      close: '关闭此对话框',
     },
     upload: {
-      deleteTip: '按 delete 键可删除',
+      deleteTip: '按 Delete 键可删除',
       delete: '删除',
       preview: '查看图片',
       continue: '继续上传',
+    },
+    slider: {
+      defaultLabel: '滑块介于 {min} 至 {max}',
+      defaultRangeStartLabel: '选择起始值',
+      defaultRangeEndLabel: '选择结束值',
     },
     table: {
       emptyText: '暂无数据',
@@ -111,6 +154,7 @@ export default {
       next: '下一步',
       previous: '上一步',
       finish: '结束导览',
+      close: '关闭此对话框',
     },
     tree: {
       emptyText: '暂无数据',

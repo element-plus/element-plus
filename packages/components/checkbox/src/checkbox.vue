@@ -2,12 +2,11 @@
   <component
     :is="!hasOwnLabel && isLabeledByFormItem ? 'span' : 'label'"
     :class="compKls"
-    :aria-controls="indeterminate ? controls : null"
+    :aria-controls="indeterminate ? ariaControls : null"
     @click="onClickRoot"
   >
     <span :class="spanKls">
       <input
-        v-if="trueValue || falseValue || trueLabel || falseLabel"
         :id="inputId"
         v-model="model"
         :class="ns.e('original')"
@@ -16,24 +15,7 @@
         :name="name"
         :tabindex="tabindex"
         :disabled="isDisabled"
-        :true-value="trueValue ?? trueLabel"
-        :false-value="falseValue ?? falseLabel"
-        @change="handleChange"
-        @focus="isFocused = true"
-        @blur="isFocused = false"
-        @click.stop
-      />
-      <input
-        v-else
-        :id="inputId"
-        v-model="model"
-        :class="ns.e('original')"
-        type="checkbox"
-        :indeterminate="indeterminate"
-        :disabled="isDisabled"
-        :value="actualValue"
-        :name="name"
-        :tabindex="tabindex"
+        v-bind="inputBindings"
         @change="handleChange"
         @focus="isFocused = true"
         @blur="isFocused = false"
@@ -75,6 +57,23 @@ const {
   handleChange,
   onClickRoot,
 } = useCheckbox(props, slots)
+
+const inputBindings = computed(() => {
+  if (
+    props.trueValue ||
+    props.falseValue ||
+    props.trueLabel ||
+    props.falseLabel
+  ) {
+    return {
+      'true-value': props.trueValue ?? props.trueLabel ?? true,
+      'false-value': props.falseValue ?? props.falseLabel ?? false,
+    }
+  }
+  return {
+    value: actualValue.value,
+  }
+})
 
 const ns = useNamespace('checkbox')
 

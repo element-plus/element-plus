@@ -21,14 +21,14 @@
           <el-col :span="12">
             <el-input
               v-model="formAccessibility.firstName"
-              label="First Name"
+              aria-label="First Name"
               placeholder="First Name"
             />
           </el-col>
           <el-col :span="12">
             <el-input
               v-model="formAccessibility.lastName"
-              label="Last Name"
+              aria-label="Last Name"
               placeholder="Last Name"
             />
           </el-col>

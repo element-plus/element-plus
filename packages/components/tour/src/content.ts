@@ -1,10 +1,11 @@
 import { buildProps, definePropType } from '@element-plus/utils'
-import type { ExtractPropTypes } from 'vue'
+
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type { Placement, Strategy, VirtualElement } from '@floating-ui/dom'
 
-const tourStrategies = ['absolute', 'fixed'] as const
+export const tourStrategies = ['absolute', 'fixed'] as const
 
-const tourPlacements = [
+export const tourPlacements = [
   'top-start',
   'top-end',
   'top',
@@ -51,7 +52,7 @@ export const tourContentProps = buildProps({
     default: 10,
   },
   /**
-   * @description @description whether to show the arrow
+   * @description whether to show the arrow
    */
   showArrow: Boolean,
   /**
@@ -64,6 +65,9 @@ export const tourContentProps = buildProps({
 })
 
 export type TourContentProps = ExtractPropTypes<typeof tourContentProps>
+export type TourContentPropsPublic = __ExtractPublicPropTypes<
+  typeof tourContentProps
+>
 
 export const tourContentEmits = {
   close: () => true,

@@ -1,8 +1,3 @@
-import fs from 'fs'
-import path from 'path'
-import { vpRoot } from '@element-plus/build-utils'
-import { languages } from '../utils/lang'
-
 import type { HeadConfig } from 'vitepress'
 
 export const head: HeadConfig[] = [
@@ -15,43 +10,6 @@ export const head: HeadConfig[] = [
     },
   ],
   [
-    'link',
-    {
-      rel: 'apple-touch-icon',
-      href: '/apple-touch-icon.png',
-      sizes: '180x180',
-    },
-  ],
-  [
-    'link',
-    {
-      rel: 'mask-icon',
-      href: '/safari-pinned-tab.svg',
-      color: '#5bbad5',
-    },
-  ],
-  [
-    'meta',
-    {
-      name: 'theme-color',
-      content: '#ffffff',
-    },
-  ],
-  [
-    'meta',
-    {
-      name: 'msapplication-TileColor',
-      content: '#409eff',
-    },
-  ],
-  [
-    'meta',
-    {
-      name: 'msapplication-config',
-      content: '/browserconfig.xml',
-    },
-  ],
-  [
     'meta',
     {
       property: 'og:image',
@@ -59,14 +17,33 @@ export const head: HeadConfig[] = [
     },
   ],
   [
-    'script',
-    {},
-    `;(() => {
-      window.supportedLangs = ${JSON.stringify(languages)}
-    })()`,
+    'meta',
+    {
+      property: 'og:image:width',
+      content: '1200',
+    },
   ],
-
-  ['script', {}, fs.readFileSync(path.resolve(vpRoot, 'lang.js'), 'utf-8')],
+  [
+    'meta',
+    {
+      property: 'og:image:height',
+      content: '630',
+    },
+  ],
+  [
+    'meta',
+    {
+      property: 'og:description',
+      content: 'A Vue 3 based component library for designers and developers',
+    },
+  ],
+  [
+    'meta',
+    {
+      name: 'baidu-site-verification',
+      content: 'codeva-q5gBxYcfOs',
+    },
+  ],
   [
     'script',
     {
@@ -78,14 +55,9 @@ export const head: HeadConfig[] = [
     'script',
     {},
     `if ('serviceWorker' in navigator) {
-      navigator.serviceWorker
-        .register('/sw.js')
-        .then(function(registration) {
-          console.log(registration);
-        })
-        .catch(function(err) {
-          console.log(err);
-        });
+      navigator.serviceWorker.getRegistrations().then((registrations) => {
+        registrations.forEach(sw => sw.unregister())
+      })
     }`,
   ],
   [
@@ -118,18 +90,6 @@ gtag('config', 'UA-175337989-1');`,
   ],
   [
     'script',
-    {},
-    `(function(h,o,t,j,a,r){
-      h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-      h._hjSettings={hjid:2894908,hjsv:6};
-      a=o.getElementsByTagName('head')[0];
-      r=o.createElement('script');r.async=1;
-      r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-      a.appendChild(r);
-  })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');`,
-  ],
-  [
-    'script',
     {
       async: 'true',
     },
@@ -143,9 +103,3 @@ gtag('config', 'UA-175337989-1');`,
     `,
   ],
 ]
-
-head.push([
-  'script',
-  {},
-  fs.readFileSync(path.resolve(vpRoot, 'dark-mode.js'), 'utf-8'),
-])

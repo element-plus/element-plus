@@ -4,4 +4,4 @@ lang: en-US
 page: true
 ---
 
-<!-- Placeholder -->
+<ParallaxHome />

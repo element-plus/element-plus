@@ -1,7 +1,7 @@
 <template>
-  <el-button v-popover="popoverRef" v-click-outside="onClickOutside"
-    >Click me</el-button
-  >
+  <el-button v-popover="popoverRef" v-click-outside="onClickOutside">
+    Click me
+  </el-button>
 
   <el-popover
     ref="popoverRef"
@@ -15,11 +15,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, unref } from 'vue'
+import { ref } from 'vue'
 import { ClickOutside as vClickOutside } from 'element-plus'
 
-const popoverRef = ref()
+import type { PopoverInstance } from 'element-plus'
+
+const popoverRef = ref<PopoverInstance>()
 const onClickOutside = () => {
-  unref(popoverRef).popperRef?.delayHide?.()
+  popoverRef.value?.hide()
 }
 </script>

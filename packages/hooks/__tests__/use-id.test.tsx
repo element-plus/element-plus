@@ -16,7 +16,7 @@ describe('no injection value', () => {
       template: '<div></div>',
     })
 
-    expect(wrapper.vm.prefix).toMatch(/^\d{0,4}$/)
+    expect(String(wrapper.vm.prefix)).toMatch(/^\d{0,4}$/)
     expect(wrapper.vm.current).toBe(0)
   })
 
@@ -85,6 +85,9 @@ describe('useId warns in non-client environment with default idInjection', async
       getCurrentInstance: mockGetCurrentInstance,
       ref: vi.fn(),
       computed: vi.fn(),
+    }))
+    vi.doMock('@vueuse/core', () => ({
+      computedEager: vi.fn(),
     }))
     vi.doMock('@element-plus/utils', () => ({
       debugWarn: mockWarn,

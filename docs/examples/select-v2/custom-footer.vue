@@ -31,10 +31,10 @@
 <script lang="ts" setup>
 import { nextTick, ref } from 'vue'
 
-import type { CheckboxValueType } from 'element-plus'
+import type { CheckboxValueType, SelectV2Instance } from 'element-plus'
 
 const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
-const select = ref(null)
+const select = ref<SelectV2Instance>()
 const isAdding = ref(false)
 const value = ref<CheckboxValueType[]>([])
 const optionName = ref('')
@@ -68,7 +68,7 @@ const clear = () => {
 }
 </script>
 
-<style lang="scss" scoped>
+<style>
 .select-footer {
   display: flex;
   flex-direction: column;

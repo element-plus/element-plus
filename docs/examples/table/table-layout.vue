@@ -13,7 +13,9 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-const tableLayout = ref('fixed')
+import type { TableInstance } from 'element-plus'
+
+const tableLayout = ref<TableInstance['tableLayout']>('fixed')
 
 const tableData = [
   {

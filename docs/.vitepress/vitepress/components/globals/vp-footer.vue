@@ -16,14 +16,7 @@ const homeLang = computed(() => homeLocale[lang.value])
     <div class="footer-main">
       <h4>{{ homeLang['10'] }}</h4>
       <a
-        href="https://github.com/element-plus/element-plus"
-        class="footer-main-link"
-        target="_blank"
-      >
-        {{ homeLang['11'] }}
-      </a>
-      <a
-        href="https://element-plus.gitee.io/zh-CN/"
+        href="https://cn.element-plus.org/zh-CN/"
         class="footer-main-link"
         target="_blank"
       >
@@ -43,10 +36,24 @@ const homeLang = computed(() => homeLocale[lang.value])
       >
         {{ homeLang['13'] }}
       </a>
+      <a
+        href="https://element-plus.org/sitemap.xml"
+        class="footer-main-link"
+        target="_blank"
+      >
+        {{ homeLang['site_map'] }}
+      </a>
     </div>
 
     <div class="footer-main">
       <h4>{{ homeLang['19'] }}</h4>
+      <a
+        href="https://github.com/element-plus/element-plus"
+        class="footer-main-link"
+        target="_blank"
+      >
+        {{ homeLang['11'] }}
+      </a>
       <a
         href="https://discord.com/invite/gXK9XNzW3X"
         class="footer-main-link"

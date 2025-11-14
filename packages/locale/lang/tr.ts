@@ -7,6 +7,17 @@ export default {
     colorpicker: {
       confirm: 'Onayla',
       clear: 'Temizle',
+      defaultLabel: 'color picker', // to be translated
+      description:
+        'current color is {color}. press enter to select a new color.', // to be translated
+      alphaLabel: 'pick alpha value', // to be translated
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
+      svLabel: 'pick saturation and brightness value', // to be translated
+      svDescription:
+        'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
+      predefineDescription: 'select {value} as the color', // to be translated
     },
     datepicker: {
       now: 'Şimdi',
@@ -14,6 +25,11 @@ export default {
       cancel: 'İptal',
       clear: 'Temizle',
       confirm: 'Onayla',
+      dateTablePrompt:
+        'Use the arrow keys and enter to select the day of the month', // to be translated
+      monthTablePrompt: 'Use the arrow keys and enter to select the month', // to be translated
+      yearTablePrompt: 'Use the arrow keys and enter to select the year', // to be translated
+      selectedDate: 'Selected date', // to be translated
       selectDate: 'Tarih seç',
       selectTime: 'Saat seç',
       startDate: 'Başlangıç Tarihi',
@@ -37,7 +53,6 @@ export default {
       month10: 'Ekim',
       month11: 'Kasım',
       month12: 'Aralık',
-      // week: 'week',
       weeks: {
         sun: 'Paz',
         mon: 'Pzt',
@@ -46,6 +61,15 @@ export default {
         thu: 'Per',
         fri: 'Cum',
         sat: 'Cmt',
+      },
+      weeksFull: {
+        sun: 'Sunday', // to be translated
+        mon: 'Monday', // to be translated
+        tue: 'Tuesday', // to be translated
+        wed: 'Wednesday', // to be translated
+        thu: 'Thursday', // to be translated
+        fri: 'Friday', // to be translated
+        sat: 'Saturday', // to be translated
       },
       months: {
         jan: 'Oca',
@@ -62,11 +86,21 @@ export default {
         dec: 'Ara',
       },
     },
+    inputNumber: {
+      decrease: 'decrease number', // to be translated
+      increase: 'increase number', // to be translated
+    },
     select: {
       loading: 'Yükleniyor',
       noMatch: 'Eşleşen veri bulunamadı',
       noData: 'Veri yok',
       placeholder: 'Seç',
+    },
+    mention: {
+      loading: 'Yükleniyor',
+    },
+    dropdown: {
+      toggleDropdown: 'Toggle Dropdown', // to be translated
     },
     cascader: {
       noMatch: 'Eşleşen veri bulunamadı',
@@ -85,12 +119,21 @@ export default {
       currentPage: 'page {pager}', // to be translated
       prevPages: 'Previous {pager} pages', // to be translated
       nextPages: 'Next {pager} pages', // to be translated
+      deprecationWarning:
+        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
+    },
+    dialog: {
+      close: 'Close this dialog', // to be translated
+    },
+    drawer: {
+      close: 'Close this dialog', // to be translated
     },
     messagebox: {
       title: 'Mesaj',
       confirm: 'Onayla',
       cancel: 'İptal',
       error: 'İllegal giriş',
+      close: 'Close this dialog', // to be translated
     },
     upload: {
       deleteTip: 'kaldırmak için delete tuşuna bas',
@@ -98,12 +141,23 @@ export default {
       preview: 'Görüntüle',
       continue: 'Devam',
     },
+    slider: {
+      defaultLabel: 'slider between {min} and {max}', // to be translated
+      defaultRangeStartLabel: 'pick start value', // to be translated
+      defaultRangeEndLabel: 'pick end value', // to be translated
+    },
     table: {
       emptyText: 'Veri yok',
       confirmFilter: 'Onayla',
       resetFilter: 'Sıfırla',
       clearFilter: 'Hepsi',
       sumText: 'Sum',
+    },
+    tour: {
+      next: 'Next', // to be translated
+      previous: 'Previous', // to be translated
+      finish: 'Finish', // to be translated
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'Veri yok',

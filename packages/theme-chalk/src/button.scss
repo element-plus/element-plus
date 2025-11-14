@@ -3,7 +3,6 @@
 @use 'common/var' as *;
 @use 'mixins/button' as *;
 @use 'mixins/mixins' as *;
-@use 'mixins/utils' as *;
 @use 'mixins/var' as *;
 
 $button-icon-span-gap: () !default;
@@ -60,7 +59,9 @@ $button-icon-span-gap: map.merge(
   &:focus-visible {
     outline: 2px solid getCssVar('button', 'outline-color');
     outline-offset: 1px;
-    transition: outline-offset 0s, outline 0s;
+    transition:
+      outline-offset 0s,
+      outline 0s;
   }
 
   > span {
@@ -72,12 +73,14 @@ $button-icon-span-gap: map.merge(
     margin-left: 12px;
   }
 
-  @include button-size(
-    map.get($button-padding-vertical, 'default') - $button-border-width,
-    map.get($button-padding-horizontal, 'default') - $button-border-width,
-    map.get($button-font-size, 'default'),
-    map.get($button-border-radius, 'default')
-  );
+  & {
+    @include button-size(
+      map.get($button-padding-vertical, 'default') - $button-border-width,
+      map.get($button-padding-horizontal, 'default') - $button-border-width,
+      map.get($button-font-size, 'default'),
+      map.get($button-border-radius, 'default')
+    );
+  }
 
   &::-moz-focus-inner {
     border: 0;
@@ -170,7 +173,9 @@ $button-icon-span-gap: map.merge(
       &:focus-visible {
         outline: 2px solid getCssVar('button', 'outline-color');
         outline-offset: 1px;
-        transition: outline-offset 0s, outline 0s;
+        transition:
+          outline-offset 0s,
+          outline 0s;
       }
 
       &:active {
@@ -284,12 +289,14 @@ $button-icon-span-gap: map.merge(
         }
       }
 
-      @include button-size(
-        map.get($button-padding-vertical, $size) - $button-border-width,
-        map.get($button-padding-horizontal, $size) - $button-border-width,
-        map.get($button-font-size, $size),
-        map.get($button-border-radius, $size)
-      );
+      & {
+        @include button-size(
+          map.get($button-padding-vertical, $size) - $button-border-width,
+          map.get($button-padding-horizontal, $size) - $button-border-width,
+          map.get($button-font-size, $size),
+          map.get($button-border-radius, $size)
+        );
+      }
 
       @include when(circle) {
         width: getCssVar('button', 'size');

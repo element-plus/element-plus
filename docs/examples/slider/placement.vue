@@ -21,6 +21,7 @@ const value2 = ref(0)
 const value3 = ref(0)
 const value4 = ref(0)
 </script>
+
 <style scoped>
 .slider-demo-block {
   max-width: 600px;

@@ -5,13 +5,13 @@
     :class="[nsSelect.b(), nsSelect.m(selectSize)]"
     @mouseenter="states.inputHovering = true"
     @mouseleave="states.inputHovering = false"
-    @click.prevent.stop="toggleMenu"
   >
     <el-tooltip
       ref="tooltipRef"
       :visible="dropdownMenuVisible"
       :teleported="teleported"
-      :popper-class="[nsSelect.e('popper'), popperClass]"
+      :popper-class="[nsSelect.e('popper'), popperClass!]"
+      :popper-style="popperStyle"
       :gpu-acceleration="false"
       :stop-popper-mouse-event="false"
       :popper-options="popperOptions"
@@ -22,6 +22,9 @@
       :transition="`${nsSelect.namespace.value}-zoom-in-top`"
       trigger="click"
       :persistent="persistent"
+      :append-to="appendTo"
+      :show-arrow="showArrow"
+      :offset="offset"
       @before-show="handleMenuEnter"
       @hide="states.isBeforeHide = false"
     >
@@ -35,6 +38,7 @@
             nsSelect.is('filterable', filterable),
             nsSelect.is('disabled', selectDisabled),
           ]"
+          @click.prevent="toggleMenu"
         >
           <div
             v-if="$slots.prefix"
@@ -53,7 +57,13 @@
               ),
             ]"
           >
-            <slot v-if="multiple" name="tag">
+            <slot
+              v-if="multiple"
+              name="tag"
+              :data="states.cachedOptions"
+              :delete-tag="deleteTag"
+              :select-disabled="selectDisabled"
+            >
               <div
                 v-for="item in showTagList"
                 :key="getValueKey(getValue(item))"
@@ -63,12 +73,20 @@
                   :closable="!selectDisabled && !getDisabled(item)"
                   :size="collapseTagSize"
                   :type="tagType"
+                  :effect="tagEffect"
                   disable-transitions
                   :style="tagStyle"
                   @close="deleteTag($event, item)"
                 >
                   <span :class="nsSelect.e('tags-text')">
-                    {{ getLabel(item) }}
+                    <slot
+                      name="label"
+                      :index="getIndex(item)"
+                      :label="getLabel(item)"
+                      :value="getValue(item)"
+                    >
+                      {{ getLabel(item) }}
+                    </slot>
                   </span>
                 </el-tag>
               </div>
@@ -80,6 +98,8 @@
                 :fallback-placements="['bottom', 'top', 'right', 'left']"
                 :effect="effect"
                 placement="bottom"
+                :popper-class="popperClass"
+                :popper-style="popperStyle"
                 :teleported="teleported"
               >
                 <template #default>
@@ -91,6 +111,7 @@
                       :closable="false"
                       :size="collapseTagSize"
                       :type="tagType"
+                      :effect="tagEffect"
                       :style="collapseTagStyle"
                       disable-transitions
                     >
@@ -112,11 +133,19 @@
                         :closable="!selectDisabled && !getDisabled(selected)"
                         :size="collapseTagSize"
                         :type="tagType"
+                        :effect="tagEffect"
                         disable-transitions
                         @close="deleteTag($event, selected)"
                       >
                         <span :class="nsSelect.e('tags-text')">
-                          {{ getLabel(selected) }}
+                          <slot
+                            name="label"
+                            :index="getIndex(selected)"
+                            :label="getLabel(selected)"
+                            :value="getValue(selected)"
+                          >
+                            {{ getLabel(selected) }}
+                          </slot>
                         </span>
                       </el-tag>
                     </div>
@@ -125,11 +154,10 @@
               </el-tooltip>
             </slot>
             <div
-              v-if="!selectDisabled"
               :class="[
                 nsSelect.e('selected-item'),
                 nsSelect.e('input-wrapper'),
-                nsSelect.is('hidden', !filterable),
+                nsSelect.is('hidden', !filterable || selectDisabled),
               ]"
             >
               <input
@@ -138,7 +166,8 @@
                 v-model="states.inputValue"
                 :style="inputStyle"
                 :autocomplete="autocomplete"
-                aria-autocomplete="list"
+                :tabindex="tabindex"
+                aria-autocomplete="none"
                 aria-haspopup="listbox"
                 autocapitalize="off"
                 :aria-expanded="expanded"
@@ -146,12 +175,16 @@
                 :class="[nsSelect.e('input'), nsSelect.is(selectSize)]"
                 :disabled="selectDisabled"
                 role="combobox"
+                :aria-controls="contentId"
+                :aria-activedescendant="
+                  states.hoveringIndex >= 0
+                    ? `${contentId}-${states.hoveringIndex}`
+                    : ''
+                "
                 :readonly="!filterable"
                 spellcheck="false"
                 type="text"
                 :name="name"
-                @focus="handleFocus"
-                @blur="handleBlur"
                 @input="onInput"
                 @compositionstart="handleCompositionStart"
                 @compositionupdate="handleCompositionUpdate"
@@ -182,7 +215,16 @@
                 ),
               ]"
             >
-              <span>{{ currentPlaceholder }}</span>
+              <slot
+                v-if="hasModelValue"
+                name="label"
+                :index="allOptionsValueMap.get(modelValue)?.index ?? -1"
+                :label="currentPlaceholder"
+                :value="modelValue"
+              >
+                <span>{{ currentPlaceholder }}</span>
+              </slot>
+              <span v-else>{{ currentPlaceholder }}</span>
             </div>
           </div>
           <div ref="suffixRef" :class="nsSelect.e('suffix')">
@@ -195,14 +237,22 @@
             </el-icon>
             <el-icon
               v-if="showClearBtn && clearIcon"
-              :class="[nsSelect.e('caret'), nsInput.e('icon')]"
+              :class="[
+                nsSelect.e('caret'),
+                nsInput.e('icon'),
+                nsSelect.e('clear'),
+              ]"
               @click.prevent.stop="handleClear"
             >
               <component :is="clearIcon" />
             </el-icon>
             <el-icon
-              v-if="validateState && validateIcon"
-              :class="[nsInput.e('icon'), nsInput.e('validateIcon')]"
+              v-if="validateState && validateIcon && needStatusIcon"
+              :class="[
+                nsInput.e('icon'),
+                nsInput.e('validateIcon'),
+                nsInput.is('loading', validateState === 'validating'),
+              ]"
             >
               <component :is="validateIcon" />
             </el-icon>
@@ -211,14 +261,16 @@
       </template>
       <template #content>
         <el-select-menu
+          :id="contentId"
           ref="menuRef"
           :data="filteredOptions"
-          :width="popperSize"
+          :width="popperSize - BORDER_HORIZONTAL_WIDTH"
           :hovering-index="states.hoveringIndex"
           :scrollbar-always-on="scrollbarAlwaysOn"
+          :aria-label="ariaLabel"
         >
           <template v-if="$slots.header" #header>
-            <div :class="nsSelect.be('dropdown', 'header')">
+            <div :class="nsSelect.be('dropdown', 'header')" @click.stop>
               <slot name="header" />
             </div>
           </template>
@@ -238,7 +290,7 @@
             </div>
           </template>
           <template v-if="$slots.footer" #footer>
-            <div :class="nsSelect.be('dropdown', 'footer')">
+            <div :class="nsSelect.be('dropdown', 'footer')" @click.stop>
               <slot name="footer" />
             </div>
           </template>
@@ -255,11 +307,12 @@ import { ClickOutside } from '@element-plus/directives'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
-import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { useCalcInputWidth, useId } from '@element-plus/hooks'
 import ElSelectMenu from './select-dropdown'
 import useSelect from './useSelect'
-import { SelectProps } from './defaults'
+import { selectV2Emits, selectV2Props } from './defaults'
 import { selectV2InjectionKey } from './token'
+import { BORDER_HORIZONTAL_WIDTH } from '@element-plus/constants'
 
 export default defineComponent({
   name: 'ElSelectV2',
@@ -270,17 +323,8 @@ export default defineComponent({
     ElIcon,
   },
   directives: { ClickOutside },
-  props: SelectProps,
-  emits: [
-    UPDATE_MODEL_EVENT,
-    CHANGE_EVENT,
-    'remove-tag',
-    'clear',
-    'visible-change',
-    'focus',
-    'blur',
-  ],
-
+  props: selectV2Props,
+  emits: selectV2Emits,
   setup(props, { emit }) {
     const modelValue = computed(() => {
       const { modelValue: rawModelValue, multiple } = props
@@ -300,23 +344,39 @@ export default defineComponent({
       }),
       emit
     )
-    // TODO, remove the any cast to align the actual API.
+    const { calculatorRef, inputStyle } = useCalcInputWidth()
+    const contentId = useId()
+
     provide(selectV2InjectionKey, {
       props: reactive({
         ...toRefs(props),
         height: API.popupHeight,
         modelValue,
       }),
+      expanded: API.expanded,
       tooltipRef: API.tooltipRef,
+      contentId,
       onSelect: API.onSelect,
       onHover: API.onHover,
       onKeyboardNavigate: API.onKeyboardNavigate,
       onKeyboardSelect: API.onKeyboardSelect,
-    } as any)
+    })
+
+    const selectedLabel = computed(() => {
+      if (!props.multiple) {
+        return API.states.selectedLabel
+      }
+      return API.states.cachedOptions.map((i) => API.getLabel(i) as string)
+    })
 
     return {
       ...API,
       modelValue,
+      selectedLabel,
+      calculatorRef,
+      inputStyle,
+      contentId,
+      BORDER_HORIZONTAL_WIDTH,
     }
   },
 })

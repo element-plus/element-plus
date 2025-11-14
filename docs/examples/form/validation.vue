@@ -5,9 +5,6 @@
     :model="ruleForm"
     :rules="rules"
     label-width="auto"
-    class="demo-ruleForm"
-    :size="formSize"
-    status-icon
   >
     <el-form-item label="Activity name" prop="name">
       <el-input v-model="ruleForm.name" />
@@ -31,7 +28,7 @@
           <el-date-picker
             v-model="ruleForm.date1"
             type="date"
-            label="Pick a date"
+            aria-label="Pick a date"
             placeholder="Pick a date"
             style="width: 100%"
           />
@@ -44,7 +41,7 @@
         <el-form-item prop="date2">
           <el-time-picker
             v-model="ruleForm.date2"
-            label="Pick a time"
+            aria-label="Pick a time"
             placeholder="Pick a time"
             style="width: 100%"
           />
@@ -53,6 +50,9 @@
     </el-form-item>
     <el-form-item label="Instant delivery" prop="delivery">
       <el-switch v-model="ruleForm.delivery" />
+    </el-form-item>
+    <el-form-item label="Activity location" prop="location">
+      <el-segmented v-model="ruleForm.location" :options="locationOptions" />
     </el-form-item>
     <el-form-item label="Activity type" prop="type">
       <el-checkbox-group v-model="ruleForm.type">
@@ -90,6 +90,7 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
+
 import type { FormInstance, FormRules } from 'element-plus'
 
 interface RuleForm {
@@ -99,12 +100,12 @@ interface RuleForm {
   date1: string
   date2: string
   delivery: boolean
+  location: string
   type: string[]
   resource: string
   desc: string
 }
 
-const formSize = ref('default')
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive<RuleForm>({
   name: 'Hello',
@@ -113,10 +114,13 @@ const ruleForm = reactive<RuleForm>({
   date1: '',
   date2: '',
   delivery: false,
+  location: '',
   type: [],
   resource: '',
   desc: '',
 })
+
+const locationOptions = ['Home', 'Company', 'School']
 
 const rules = reactive<FormRules<RuleForm>>({
   name: [
@@ -150,6 +154,13 @@ const rules = reactive<FormRules<RuleForm>>({
       type: 'date',
       required: true,
       message: 'Please pick a time',
+      trigger: 'change',
+    },
+  ],
+  location: [
+    {
+      required: true,
+      message: 'Please select a location',
       trigger: 'change',
     },
   ],

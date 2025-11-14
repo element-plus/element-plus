@@ -4,12 +4,12 @@ import { isClient } from '@vueuse/core'
 import { useLang } from '../../composables/lang'
 import resourceLocale from '../../../i18n/pages/resource.json'
 import { sendEvent } from '../../../config/analytics'
-
 import AxureComponentsSvg from './resources/axure-components-svg.vue'
 import SketchTemplateSvg from './resources/sketch-template-svg.vue'
 import FigmaTemplateSvg from './resources/figma-template-svg.vue'
 import FigmaVariablesSvg from './resources/figma-variables-svg.vue'
 import FigmaUiKitSvg from './resources/figma-ui-kit-svg.vue'
+import MasterGoUiKitSvg from './resources/master-go-ui-kit-svg.vue'
 
 const mirrorUrl = 'element-plus.gitee.io'
 const isMirrorUrl = () => {
@@ -39,9 +39,15 @@ const onClick = (item: string) => {
 
 const resourceCards = computed(() => [
   {
+    key: '2024-master-go-ui-kit',
+    title: resourceLang.value.masterGo2024,
+    icon: MasterGoUiKitSvg,
+    intro: resourceLang.value.masterGo2024Intro,
+    url: 'https://mastergo.com/community/resource/124855257836266',
+  },
+  {
     key: '2023-figma-ui-kit',
     title: resourceLang.value.figma2023,
-    description: '2023 Figma UI Kit',
     icon: FigmaUiKitSvg,
     intro: resourceLang.value.figma2023Intro,
     url: 'https://www.figma.com/community/file/1305760370797950824/element-plus-design-system-ui-kit',
@@ -63,7 +69,6 @@ const resourceCards = computed(() => [
   {
     key: 'sketch',
     title: resourceLang.value.sketch,
-    description: 'Sketch 70.6',
     icon: SketchTemplateSvg,
     intro: resourceLang.value.sketchIntro,
     url: resourceUrl.sketch,
@@ -71,7 +76,6 @@ const resourceCards = computed(() => [
   {
     key: 'axure',
     title: resourceLang.value.axure,
-    description: 'Axure RP 9.0',
     icon: AxureComponentsSvg,
     intro: resourceLang.value.axureIntro,
     url: resourceUrl.axure,

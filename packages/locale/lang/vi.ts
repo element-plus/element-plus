@@ -7,6 +7,17 @@ export default {
     colorpicker: {
       confirm: 'OK',
       clear: 'Xóa',
+      defaultLabel: 'color picker', // to be translated
+      description:
+        'current color is {color}. press enter to select a new color.', // to be translated
+      alphaLabel: 'pick alpha value', // to be translated
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
+      svLabel: 'pick saturation and brightness value', // to be translated
+      svDescription:
+        'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
+      predefineDescription: 'select {value} as the color', // to be translated
     },
     datepicker: {
       now: 'Hiện tại',
@@ -14,6 +25,11 @@ export default {
       cancel: 'Hủy',
       clear: 'Xóa',
       confirm: 'OK',
+      dateTablePrompt:
+        'Use the arrow keys and enter to select the day of the month', // to be translated
+      monthTablePrompt: 'Use the arrow keys and enter to select the month', // to be translated
+      yearTablePrompt: 'Use the arrow keys and enter to select the year', // to be translated
+      selectedDate: 'Selected date', // to be translated
       selectDate: 'Chọn ngày',
       selectTime: 'Chọn giờ',
       startDate: 'Ngày bắt đầu',
@@ -37,7 +53,6 @@ export default {
       month10: 'Tháng 10',
       month11: 'Tháng 11',
       month12: 'Tháng 12',
-      // week: 'week',
       weeks: {
         sun: 'CN',
         mon: 'T2',
@@ -46,6 +61,15 @@ export default {
         thu: 'T5',
         fri: 'T6',
         sat: 'T7',
+      },
+      weeksFull: {
+        sun: 'Sunday', // to be translated
+        mon: 'Monday', // to be translated
+        tue: 'Tuesday', // to be translated
+        wed: 'Wednesday', // to be translated
+        thu: 'Thursday', // to be translated
+        fri: 'Friday', // to be translated
+        sat: 'Saturday', // to be translated
       },
       months: {
         jan: 'Th.1',
@@ -62,11 +86,21 @@ export default {
         dec: 'Th.12',
       },
     },
+    inputNumber: {
+      decrease: 'decrease number', // to be translated
+      increase: 'increase number', // to be translated
+    },
     select: {
       loading: 'Đang tải',
       noMatch: 'Dữ liệu không phù hợp',
       noData: 'Không tìm thấy dữ liệu',
       placeholder: 'Chọn',
+    },
+    mention: {
+      loading: 'Đang tải',
+    },
+    dropdown: {
+      toggleDropdown: 'Toggle Dropdown', // to be translated
     },
     cascader: {
       noMatch: 'Dữ liệu không phù hợp',
@@ -85,18 +119,32 @@ export default {
       currentPage: 'page {pager}', // to be translated
       prevPages: 'Previous {pager} pages', // to be translated
       nextPages: 'Next {pager} pages', // to be translated
+      deprecationWarning:
+        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
+    },
+    dialog: {
+      close: 'Close this dialog', // to be translated
+    },
+    drawer: {
+      close: 'Close this dialog', // to be translated
     },
     messagebox: {
       title: 'Thông báo',
       confirm: 'OK',
       cancel: 'Hủy',
       error: 'Dữ liệu không hợp lệ',
+      close: 'Close this dialog', // to be translated
     },
     upload: {
       deleteTip: 'Nhấn xoá để xoá',
       delete: 'Xóa',
       preview: 'Xem trước',
       continue: 'Tiếp tục',
+    },
+    slider: {
+      defaultLabel: 'slider between {min} and {max}', // to be translated
+      defaultRangeStartLabel: 'pick start value', // to be translated
+      defaultRangeEndLabel: 'pick end value', // to be translated
     },
     table: {
       emptyText: 'Không có dữ liệu',
@@ -109,6 +157,7 @@ export default {
       next: 'Tiếp',
       previous: 'Trước',
       finish: 'Hoàn thành',
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'Không có dữ liệu',

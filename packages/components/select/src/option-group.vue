@@ -10,21 +10,24 @@
 </template>
 
 <script lang="ts">
-// @ts-nocheck
 import {
   computed,
   defineComponent,
   getCurrentInstance,
+  isVNode,
   onMounted,
   provide,
   reactive,
   ref,
   toRefs,
 } from 'vue'
-import { isArray } from '@vue/shared'
 import { useMutationObserver } from '@vueuse/core'
+import { ensureArray, isArray } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { selectGroupKey } from './token'
+
+import type { Component, VNode, VNodeArrayChildren } from 'vue'
+import type { OptionInternalInstance, OptionPublicInstance } from './type'
 
 export default defineComponent({
   name: 'ElOptionGroup',
@@ -42,9 +45,9 @@ export default defineComponent({
   },
   setup(props) {
     const ns = useNamespace('select')
-    const groupRef = ref(null)
-    const instance = getCurrentInstance()
-    const children = ref([])
+    const groupRef = ref<HTMLElement>()
+    const instance = getCurrentInstance()!
+    const children = ref<OptionPublicInstance[]>([])
 
     provide(
       selectGroupKey,
@@ -57,25 +60,28 @@ export default defineComponent({
       children.value.some((option) => option.visible === true)
     )
 
+    const isOption = (
+      node: VNode
+    ): node is VNode & { component: OptionInternalInstance } =>
+      (node.type as Component).name === 'ElOption' && !!node.component?.proxy
+
     // get all instances of options
-    const flattedChildren = (node) => {
-      const children = []
-      if (isArray(node.children)) {
-        node.children.forEach((child) => {
-          if (
-            child.type &&
-            child.type.name === 'ElOption' &&
-            child.component &&
-            child.component.proxy
-          ) {
-            children.push(child.component.proxy)
-          } else if (child.children?.length) {
-            children.push(...flattedChildren(child))
-          } else if (child.component?.subTree) {
-            children.push(...flattedChildren(child.component.subTree))
-          }
-        })
-      }
+    const flattedChildren = (node: VNode | VNodeArrayChildren) => {
+      const nodes = ensureArray(node) as VNode[] | VNodeArrayChildren
+      const children: OptionPublicInstance[] = []
+
+      nodes.forEach((child) => {
+        if (!isVNode(child)) return
+
+        if (isOption(child)) {
+          children.push(child.component.proxy)
+        } else if (isArray(child.children) && child.children.length) {
+          children.push(...flattedChildren(child.children))
+        } else if (child.component?.subTree) {
+          children.push(...flattedChildren(child.component.subTree))
+        }
+      })
+
       return children
     }
 

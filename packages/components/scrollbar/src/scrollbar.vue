@@ -4,6 +4,7 @@
       ref="wrapRef"
       :class="wrapKls"
       :style="wrapStyle"
+      :tabindex="tabindex"
       @scroll="handleScroll"
     >
       <component
@@ -24,10 +25,12 @@
     </template>
   </div>
 </template>
+
 <script lang="ts" setup>
 import {
   computed,
   nextTick,
+  onActivated,
   onMounted,
   onUpdated,
   provide,
@@ -41,6 +44,8 @@ import { useNamespace } from '@element-plus/hooks'
 import Bar from './bar.vue'
 import { scrollbarContextKey } from './constants'
 import { scrollbarEmits, scrollbarProps } from './scrollbar'
+
+import type { ScrollbarDirection } from './scrollbar'
 import type { BarInstance } from './bar'
 import type { CSSProperties, StyleValue } from 'vue'
 
@@ -56,7 +61,17 @@ const emit = defineEmits(scrollbarEmits)
 const ns = useNamespace('scrollbar')
 
 let stopResizeObserver: (() => void) | undefined = undefined
+let stopWrapResizeObserver: (() => void) | undefined = undefined
 let stopResizeListener: (() => void) | undefined = undefined
+let wrapScrollTop = 0
+let wrapScrollLeft = 0
+let direction = '' as ScrollbarDirection
+const distanceScrollState = {
+  bottom: false,
+  top: false,
+  right: false,
+  left: false,
+}
 
 const scrollbarRef = ref<HTMLDivElement>()
 const wrapRef = ref<HTMLDivElement>()
@@ -82,19 +97,73 @@ const resizeKls = computed(() => {
   return [ns.e('view'), props.viewClass]
 })
 
-const handleScroll = () => {
-  if (wrapRef.value) {
-    barRef.value?.handleScroll(wrapRef.value)
+const shouldSkipDirection = (direction: ScrollbarDirection) => {
+  return distanceScrollState[direction] ?? false
+}
 
-    emit('scroll', {
-      scrollTop: wrapRef.value.scrollTop,
-      scrollLeft: wrapRef.value.scrollLeft,
-    })
+const DIRECTION_PAIRS: Record<ScrollbarDirection, ScrollbarDirection> = {
+  top: 'bottom',
+  bottom: 'top',
+  left: 'right',
+  right: 'left',
+}
+const updateTriggerStatus = (arrivedStates: Record<string, boolean>) => {
+  const oppositeDirection = DIRECTION_PAIRS[direction]
+  if (!oppositeDirection) return
+
+  const arrived = arrivedStates[direction]
+  const oppositeArrived = arrivedStates[oppositeDirection]
+
+  if (arrived && !distanceScrollState[direction]) {
+    distanceScrollState[direction] = true
+  }
+
+  if (!oppositeArrived && distanceScrollState[oppositeDirection]) {
+    distanceScrollState[oppositeDirection] = false
   }
 }
 
-// TODO: refactor method overrides, due to script setup dts
-// @ts-nocheck
+const handleScroll = () => {
+  if (wrapRef.value) {
+    barRef.value?.handleScroll(wrapRef.value)
+    const prevTop = wrapScrollTop
+    const prevLeft = wrapScrollLeft
+    wrapScrollTop = wrapRef.value.scrollTop
+    wrapScrollLeft = wrapRef.value.scrollLeft
+
+    const arrivedStates = {
+      bottom:
+        wrapScrollTop + wrapRef.value.clientHeight >=
+        wrapRef.value.scrollHeight - props.distance,
+      top: wrapScrollTop <= props.distance && prevTop !== 0,
+      right:
+        wrapScrollLeft + wrapRef.value.clientWidth >=
+          wrapRef.value.scrollWidth - props.distance &&
+        prevLeft !== wrapScrollLeft,
+      left: wrapScrollLeft <= props.distance && prevLeft !== 0,
+    }
+
+    emit('scroll', {
+      scrollTop: wrapScrollTop,
+      scrollLeft: wrapScrollLeft,
+    })
+
+    if (prevTop !== wrapScrollTop) {
+      direction = wrapScrollTop > prevTop ? 'bottom' : 'top'
+    }
+    if (prevLeft !== wrapScrollLeft) {
+      direction = wrapScrollLeft > prevLeft ? 'right' : 'left'
+    }
+    if (props.distance > 0) {
+      if (shouldSkipDirection(direction)) {
+        return
+      }
+      updateTriggerStatus(arrivedStates)
+    }
+    if (arrivedStates[direction]) emit('end-reached', direction)
+  }
+}
+
 function scrollTo(xCord: number, yCord?: number): void
 function scrollTo(options: ScrollToOptions): void
 function scrollTo(arg1: unknown, arg2?: number) {
@@ -123,6 +192,7 @@ const setScrollLeft = (value: number) => {
 
 const update = () => {
   barRef.value?.update()
+  distanceScrollState[direction] = false
 }
 
 watch(
@@ -130,9 +200,11 @@ watch(
   (noresize) => {
     if (noresize) {
       stopResizeObserver?.()
+      stopWrapResizeObserver?.()
       stopResizeListener?.()
     } else {
       ;({ stop: stopResizeObserver } = useResizeObserver(resizeRef, update))
+      ;({ stop: stopWrapResizeObserver } = useResizeObserver(wrapRef, update))
       stopResizeListener = useEventListener('resize', update)
     }
   },
@@ -159,6 +231,13 @@ provide(
     wrapElement: wrapRef,
   })
 )
+
+onActivated(() => {
+  if (wrapRef.value) {
+    wrapRef.value.scrollTop = wrapScrollTop
+    wrapRef.value.scrollLeft = wrapScrollLeft
+  }
+})
 
 onMounted(() => {
   if (!props.native)

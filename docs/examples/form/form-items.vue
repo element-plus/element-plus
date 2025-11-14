@@ -36,9 +36,9 @@
       }"
     >
       <el-input v-model="domain.value" />
-      <el-button class="mt-2" @click.prevent="removeDomain(domain)"
-        >Delete</el-button
-      >
+      <el-button class="mt-2" @click.prevent="removeDomain(domain)">
+        Delete
+      </el-button>
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="submitForm(formRef)">Submit</el-button>
@@ -50,6 +50,7 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
+
 import type { FormInstance } from 'element-plus'
 
 const formRef = ref<FormInstance>()
@@ -92,7 +93,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
       console.log('submit!')
     } else {
       console.log('error submit!')
-      return false
     }
   })
 }

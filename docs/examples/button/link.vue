@@ -6,8 +6,9 @@
       :key="button.text"
       :type="button.type"
       link
-      >{{ button.text }}</el-button
     >
+      {{ button.text }}
+    </el-button>
   </div>
 
   <p>Disabled link button</p>
@@ -18,8 +19,9 @@
       :type="button.type"
       link
       disabled
-      >{{ button.text }}</el-button
     >
+      {{ button.text }}
+    </el-button>
   </div>
 </template>
 

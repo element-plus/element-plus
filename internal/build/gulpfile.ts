@@ -9,6 +9,7 @@ import {
   projRoot,
 } from '@element-plus/build-utils'
 import { buildConfig, run, runTask, withTaskName } from './src'
+
 import type { TaskFunction } from 'gulp'
 import type { Module } from './src'
 
@@ -20,8 +21,12 @@ export const copyFiles = () =>
       path.resolve(epOutput, 'README.md')
     ),
     copyFile(
-      path.resolve(projRoot, 'global.d.ts'),
+      path.resolve(projRoot, 'typings', 'global.d.ts'),
       path.resolve(epOutput, 'global.d.ts')
+    ),
+    copyFile(
+      path.resolve(projRoot, 'LICENSE'),
+      path.resolve(epOutput, 'LICENSE')
     ),
   ])
 

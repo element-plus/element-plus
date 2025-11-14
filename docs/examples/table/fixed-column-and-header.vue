@@ -5,7 +5,7 @@
     <el-table-column prop="state" label="State" width="120" />
     <el-table-column prop="city" label="City" width="320" />
     <el-table-column prop="address" label="Address" width="600" />
-    <el-table-column prop="zip" label="Zip" width="120" />
+    <el-table-column prop="zip" label="Zip" />
   </el-table>
 </template>
 

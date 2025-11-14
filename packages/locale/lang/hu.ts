@@ -7,6 +7,17 @@ export default {
     colorpicker: {
       confirm: 'OK',
       clear: 'Törlés',
+      defaultLabel: 'color picker', // to be translated
+      description:
+        'current color is {color}. press enter to select a new color.', // to be translated
+      alphaLabel: 'pick alpha value', // to be translated
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
+      svLabel: 'pick saturation and brightness value', // to be translated
+      svDescription:
+        'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
+      predefineDescription: 'select {value} as the color', // to be translated
     },
     datepicker: {
       now: 'Most',
@@ -14,6 +25,11 @@ export default {
       cancel: 'Mégse',
       clear: 'Törlés',
       confirm: 'OK',
+      dateTablePrompt:
+        'Use the arrow keys and enter to select the day of the month', // to be translated
+      monthTablePrompt: 'Use the arrow keys and enter to select the month', // to be translated
+      yearTablePrompt: 'Use the arrow keys and enter to select the year', // to be translated
+      selectedDate: 'Selected date', // to be translated
       selectDate: 'Dátum',
       selectTime: 'Időpont',
       startDate: 'Dátum-tól',
@@ -46,6 +62,15 @@ export default {
         fri: 'Pén',
         sat: 'Szo',
       },
+      weeksFull: {
+        sun: 'Sunday', // to be translated
+        mon: 'Monday', // to be translated
+        tue: 'Tuesday', // to be translated
+        wed: 'Wednesday', // to be translated
+        thu: 'Thursday', // to be translated
+        fri: 'Friday', // to be translated
+        sat: 'Saturday', // to be translated
+      },
       months: {
         jan: 'Jan',
         feb: 'Feb',
@@ -61,11 +86,21 @@ export default {
         dec: 'Dec',
       },
     },
+    inputNumber: {
+      decrease: 'decrease number', // to be translated
+      increase: 'increase number', // to be translated
+    },
     select: {
       loading: 'Betöltés',
       noMatch: 'Nincs találat',
       noData: 'Nincs adat',
       placeholder: 'Válassz',
+    },
+    mention: {
+      loading: 'Betöltés',
+    },
+    dropdown: {
+      toggleDropdown: 'Toggle Dropdown', // to be translated
     },
     cascader: {
       noMatch: 'Nincs találat',
@@ -84,12 +119,21 @@ export default {
       currentPage: 'page {pager}', // to be translated
       prevPages: 'Previous {pager} pages', // to be translated
       nextPages: 'Next {pager} pages', // to be translated
+      deprecationWarning:
+        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
+    },
+    dialog: {
+      close: 'Close this dialog', // to be translated
+    },
+    drawer: {
+      close: 'Close this dialog', // to be translated
     },
     messagebox: {
       title: 'Üzenet',
       confirm: 'OK',
       cancel: 'Mégse',
       error: 'Hibás adat',
+      close: 'Close this dialog', // to be translated
     },
     upload: {
       deleteTip: 'kattints a törléshez',
@@ -97,12 +141,23 @@ export default {
       preview: 'Előnézet',
       continue: 'Tovább',
     },
+    slider: {
+      defaultLabel: 'slider between {min} and {max}', // to be translated
+      defaultRangeStartLabel: 'pick start value', // to be translated
+      defaultRangeEndLabel: 'pick end value', // to be translated
+    },
     table: {
       emptyText: 'Nincs adat',
       confirmFilter: 'Megerősít',
       resetFilter: 'Alaphelyet',
       clearFilter: 'Mind',
       sumText: 'Összeg',
+    },
+    tour: {
+      next: 'Next', // to be translated
+      previous: 'Previous', // to be translated
+      finish: 'Finish', // to be translated
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'Nincs adat',

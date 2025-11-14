@@ -5,6 +5,7 @@
 <script lang="ts" setup>
 import { h } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
+
 const open = () => {
   ElMessageBox({
     title: 'Message',

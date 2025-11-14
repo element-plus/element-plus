@@ -13,8 +13,9 @@
           color: var(--el-text-color-secondary);
           font-size: 13px;
         "
-        >{{ item.value }}</span
       >
+        {{ item.value }}
+      </span>
     </el-option>
   </el-select>
 </template>

@@ -1,5 +1,6 @@
 import { buildProps, iconPropType } from '@element-plus/utils'
-import type { ExtractPropTypes } from 'vue'
+
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type TimelineItem from './timeline-item.vue'
 
 export const timelineItemProps = buildProps({
@@ -13,17 +14,11 @@ export const timelineItemProps = buildProps({
   /**
    * @description whether to show timestamp
    */
-  hideTimestamp: {
-    type: Boolean,
-    default: false,
-  },
+  hideTimestamp: Boolean,
   /**
    * @description whether vertically centered
    */
-  center: {
-    type: Boolean,
-    default: false,
-  },
+  center: Boolean,
   /**
    * @description position of timestamp
    */
@@ -64,11 +59,11 @@ export const timelineItemProps = buildProps({
   /**
    * @description icon is hollow
    */
-  hollow: {
-    type: Boolean,
-    default: false,
-  },
+  hollow: Boolean,
 } as const)
 export type TimelineItemProps = ExtractPropTypes<typeof timelineItemProps>
+export type TimelineItemPropsPublic = __ExtractPublicPropTypes<
+  typeof timelineItemProps
+>
 
-export type TimelineItemInstance = InstanceType<typeof TimelineItem>
+export type TimelineItemInstance = InstanceType<typeof TimelineItem> & unknown

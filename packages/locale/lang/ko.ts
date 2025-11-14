@@ -10,6 +10,14 @@ export default {
       defaultLabel: '색상 선택기',
       description:
         '현재 색상은 {color}입니다. Enter 키를 눌러 새 색상을 선택합니다.',
+      alphaLabel: 'pick alpha value', // to be translated
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
+      svLabel: 'pick saturation and brightness value', // to be translated
+      svDescription:
+        'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
+      predefineDescription: 'select {value} as the color', // to be translated
     },
     datepicker: {
       now: '지금',
@@ -21,6 +29,7 @@ export default {
       monthTablePrompt: '화살표 키를 사용하고 Enter를 눌러 월을 선택합니다.',
       yearTablePrompt:
         '화살표 키를 사용하고 Enter 키를 눌러 연도를 선택합니다.',
+      selectedDate: 'Selected date', // to be translated
       selectDate: '날짜 선택',
       selectTime: '시간 선택',
       startDate: '시작 날짜',
@@ -44,7 +53,6 @@ export default {
       month10: '10월',
       month11: '11월',
       month12: '12월',
-      // week: 'week',
       weeks: {
         sun: '일',
         mon: '월',
@@ -53,6 +61,15 @@ export default {
         thu: '목',
         fri: '금',
         sat: '토',
+      },
+      weeksFull: {
+        sun: 'Sunday', // to be translated
+        mon: 'Monday', // to be translated
+        tue: 'Tuesday', // to be translated
+        wed: 'Wednesday', // to be translated
+        thu: 'Thursday', // to be translated
+        fri: 'Friday', // to be translated
+        sat: 'Saturday', // to be translated
       },
       months: {
         jan: '1월',
@@ -79,6 +96,9 @@ export default {
       noData: '데이터 없음',
       placeholder: '선택',
     },
+    mention: {
+      loading: '불러오는 중',
+    },
     dropdown: {
       toggleDropdown: '드롭다운 전환',
     },
@@ -89,7 +109,7 @@ export default {
       noData: '데이터 없음',
     },
     pagination: {
-      goto: '',
+      goto: '이동',
       pagesize: '건/페이지',
       total: '총 {total} 건',
       pageClassifier: '페이지로',
@@ -137,6 +157,7 @@ export default {
       next: '다음',
       previous: '이전',
       finish: '종료',
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: '데이터 없음',

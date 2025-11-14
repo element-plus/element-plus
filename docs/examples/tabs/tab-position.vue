@@ -13,11 +13,15 @@
     <el-tab-pane label="Task">Task</el-tab-pane>
   </el-tabs>
 </template>
+
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-const tabPosition = ref('left')
+import type { TabsInstance } from 'element-plus'
+
+const tabPosition = ref<TabsInstance['tabPosition']>('left')
 </script>
+
 <style>
 .demo-tabs > .el-tabs__content {
   padding: 32px;
