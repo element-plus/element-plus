@@ -136,9 +136,15 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   })
 
   const hasModelValue = computed(() => {
-    return isArray(props.modelValue)
-      ? props.modelValue.length > 0
-      : !isEmptyValue(props.modelValue)
+    if (props.multiple) {
+      if (isArray(props.modelValue)) {
+        return props.modelValue.length > 0
+      }
+
+      return !isEmptyValue(props.modelValue)
+    }
+
+    return !isEmptyValue(props.modelValue) || !!states.selectedLabel
   })
 
   const needStatusIcon = computed(() => form?.statusIcon ?? false)

@@ -3248,6 +3248,52 @@ describe('Select', () => {
     expect(input.attributes('tabindex')).toBe('1')
   })
 
+  it('empty value show label', async () => {
+    const wrapper = _mount(
+      `<el-select v-model="modelValue">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>`,
+      () => ({
+        modelValue: '',
+        options: [
+          {
+            value: 'Option1',
+            label: 'Option1',
+          },
+          {
+            value: 'Option2',
+            label: 'Option2',
+          },
+          {
+            value: 'Option3',
+            label: 'Option3',
+          },
+          {
+            value: 'Option4',
+            label: 'Option4',
+          },
+          {
+            value: 'Option5',
+            label: 'Option5',
+          },
+          {
+            value: '',
+            label: 'Option6',
+          },
+        ],
+      })
+    )
+    await nextTick()
+    expect(wrapper.find('.el-select__placeholder > span').text()).toBe(
+      'Option6'
+    )
+  })
+
   it('should be trigger the click event', async () => {
     const handleClick = vi.fn()
     const wrapper = _mount(`<el-select @click="handleClick" />`, () => ({
