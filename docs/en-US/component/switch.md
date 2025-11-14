@@ -134,10 +134,12 @@ switch/custom-action-slot
 
 ### Switch Slots
 
-| Name                     | Description               |
-| ------------------------ | ------------------------- |
-| active-action ^(2.4.4)   | customize active action   |
-| inactive-action ^(2.4.4) | customize inactive action |
+| Name                     | Description                |
+| ------------------------ | -------------------------- |
+| active-action ^(2.4.4)   | customize active action    |
+| inactive-action ^(2.4.4) | customize inactive action  |
+| active ^(2.12.0)         | customize active content   |
+| inactive ^(2.12.0)       | customize inactive content |
 
 ### Exposes
 
