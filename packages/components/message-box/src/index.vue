@@ -389,9 +389,12 @@ export default defineComponent({
       }
     })
 
-    function doClose() {
+    function doClose(action?: Action) {
       if (!visible.value) return
       visible.value = false
+      if (action) {
+        state.action = action
+      }
       nextTick(() => {
         if (state.action) emit('action', state.action)
       })
