@@ -134,15 +134,15 @@ const stopWhenControlled = () => {
   if (unref(controlled)) return true
 }
 
-const onContentEnter = composeEventHandlers(stopWhenControlled, () => {
+const onContentEnter = composeEventHandlers(stopWhenControlled, (e: Event) => {
   if (props.enterable && isTriggerType(unref(trigger), 'hover')) {
-    onOpen()
+    onOpen(e)
   }
 })
 
-const onContentLeave = composeEventHandlers(stopWhenControlled, () => {
-  if (isTriggerType(unref(trigger), 'hover')) {
-    onClose()
+const onContentLeave = composeEventHandlers(stopWhenControlled, (e: Event) => {
+  if (open.value && isTriggerType(unref(trigger), 'hover')) {
+    onClose(e)
   }
 })
 
@@ -160,7 +160,7 @@ const onAfterShow = () => {
 }
 
 const onBlur = () => {
-  if (!props.virtualTriggering) {
+  if (open.value && !props.virtualTriggering) {
     onClose()
   }
 }
