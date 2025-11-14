@@ -809,13 +809,20 @@ const handleTimeChange = (_value: string | null, type: ChangeType) => {
   if (type === 'min') {
     leftDate.value = minDate.value!
     minTimePickerVisible.value = false
-    if (!maxDate.value || maxDate.value.isBefore(minDate.value)) {
+    if (
+      !maxDate.value ||
+      (!props.unlinkTimePicker && maxDate.value.isBefore(minDate.value))
+    ) {
       maxDate.value = minDate.value
     }
   } else {
     rightDate.value = maxDate.value!
     maxTimePickerVisible.value = false
-    if (maxDate.value && maxDate.value.isBefore(minDate.value)) {
+    if (
+      !props.unlinkTimePicker &&
+      maxDate.value &&
+      maxDate.value.isBefore(minDate.value)
+    ) {
       minDate.value = maxDate.value
     }
   }
@@ -836,7 +843,10 @@ const handleMinTimePick = (value: Dayjs, visible: boolean, first: boolean) => {
     minTimePickerVisible.value = visible
   }
 
-  if (!maxDate.value || maxDate.value.isBefore(minDate.value)) {
+  if (
+    !maxDate.value ||
+    (!props.unlinkTimePicker && maxDate.value.isBefore(minDate.value))
+  ) {
     maxDate.value = minDate.value
     rightDate.value = value
     nextTick(() => {
@@ -864,7 +874,11 @@ const handleMaxTimePick = (
     maxTimePickerVisible.value = visible
   }
 
-  if (maxDate.value && maxDate.value.isBefore(minDate.value)) {
+  if (
+    !props.unlinkTimePicker &&
+    maxDate.value &&
+    maxDate.value.isBefore(minDate.value)
+  ) {
     minDate.value = maxDate.value
   }
   handleRangeConfirm(true)

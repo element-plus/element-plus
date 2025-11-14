@@ -219,6 +219,13 @@ export const timePickerDefaultProps = buildProps({
    */
   unlinkPanels: Boolean,
   /**
+   * @description cancel two time-pickers linkage
+   */
+  unlinkTimePicker: {
+    type: Boolean,
+    default: false,
+  },
+  /**
    * @description position of dropdown
    */
   placement: {
