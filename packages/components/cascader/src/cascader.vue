@@ -261,6 +261,8 @@ import type { InputInstance } from '@element-plus/components/input'
 import type { ScrollbarInstance } from '@element-plus/components/scrollbar'
 import type {
   CascaderNode,
+  CascaderNodePathValue,
+  CascaderOption,
   CascaderPanelInstance,
   CascaderValue,
   Tag,
@@ -404,11 +406,22 @@ const validateState = computed(() => formItem?.validateState || '')
 
 const checkedValue = computed<CascaderValue>({
   get() {
-    return cloneDeep(props.modelValue) as CascaderValue
+    let paths = cloneDeep(props.modelValue)
+    if (!paths) return []
+    if (props.showCheckedStrategy === 'parent') {
+      paths = findPathsByPrefixes(
+        props.options,
+        paths as CascaderNodePathValue[]
+      )
+    }
+    return paths as CascaderValue
   },
   set(val) {
     // https://github.com/element-plus/element-plus/issues/17647
-    const value = val ?? valueOnClear.value
+    let value = val ?? valueOnClear.value
+    if (props.showCheckedStrategy === 'parent') {
+      value = getStrategyCheckedNodes().map((o) => o.pathValues)
+    }
     emit(UPDATE_MODEL_EVENT, value)
     emit(CHANGE_EVENT, value)
     if (props.validateEvent) {
@@ -510,6 +523,42 @@ const getStrategyCheckedNodes = (): CascaderNode[] => {
     default:
       return []
   }
+}
+
+const findPathsByPrefixes = (
+  treeData: CascaderOption[],
+  prefixList: CascaderNodePathValue[]
+): CascaderNodePathValue[] => {
+  const allPaths: CascaderNodePathValue[] = []
+
+  function traverse(
+    node: CascaderOption,
+    currentPath: CascaderNodePathValue
+  ): void {
+    const newPath = [...currentPath, node.value!]
+    if (!node.children || node.children.length === 0) {
+      allPaths.push(newPath)
+    } else {
+      node.children.forEach((child: CascaderOption) => traverse(child, newPath))
+    }
+  }
+
+  treeData.forEach((root: CascaderOption) => traverse(root, []))
+
+  const result: CascaderNodePathValue[] = []
+  prefixList.forEach((prefix: CascaderNodePathValue) => {
+    allPaths.forEach((path: CascaderNodePathValue) => {
+      if (
+        prefix.every(
+          (val: string | number, index: number) => path[index] === val
+        )
+      ) {
+        result.push(path)
+      }
+    })
+  })
+
+  return result
 }
 
 const calculatePresentTags = () => {
