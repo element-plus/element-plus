@@ -45,13 +45,7 @@ export const getDefaultClassName = (type: string) => {
 // 这些选项不应该被覆盖
 export const cellForced = {
   selection: {
-    renderHeader<T extends DefaultRow>({
-      store,
-      column,
-    }: {
-      store: Store<T>
-      column: TableColumnCtx<T>
-    }) {
+    renderHeader<T extends DefaultRow>({ store }: { store: Store<T> }) {
       function isDisabled() {
         return store.states.data.value && store.states.data.value.length === 0
       }
@@ -63,7 +57,7 @@ export const cellForced = {
           !store.states.isAllSelected.value,
         'onUpdate:modelValue': store.toggleAllSelection ?? undefined,
         modelValue: store.states.isAllSelected.value,
-        ariaLabel: column.label,
+        ariaLabel: store.t('el.table.selectAllLabel'),
       })
     },
     renderCell<T extends DefaultRow>({
@@ -87,7 +81,7 @@ export const cellForced = {
         },
         onClick: (event: Event) => event.stopPropagation(),
         modelValue: store.isSelected(row),
-        ariaLabel: column.label,
+        ariaLabel: store.t('el.table.selectRowLabel'),
       })
     },
     sortable: false,
@@ -150,8 +144,13 @@ export const cellForced = {
         store.toggleRowExpansion(row)
       }
       return h(
-        'div',
+        'button',
         {
+          type: 'button',
+          'aria-label': store.t(
+            expanded ? 'el.table.collapseRowLabel' : 'el.table.expandRowLabel'
+          ),
+          'aria-expanded': expanded,
           class: classes,
           onClick: callback,
         },
@@ -249,8 +248,15 @@ export function treeCellPrefix<T extends DefaultRow>(
 
     ele.push(
       h(
-        'div',
+        'button',
         {
+          type: 'button',
+          'aria-label': store.t(
+            treeNode.expanded
+              ? 'el.table.collapseRowLabel'
+              : 'el.table.expandRowLabel'
+          ),
+          'aria-expanded': treeNode.expanded,
           class: expandClasses,
           onClick: callback,
         },

@@ -79,12 +79,13 @@
   }
 
   @include e(expand-icon) {
-    position: relative;
-    cursor: pointer;
+    @include reset-button(-2px);
+
     color: getCssVar('text-color', 'regular');
     font-size: 12px;
-    transition: transform getCssVar('transition-duration-fast') ease-in-out;
-    height: 20px;
+    line-height: 12px;
+    width: min(23px, 100%);
+    height: 23px;
 
     @include m(expanded) {
       transform: rotate(90deg);
@@ -507,13 +508,14 @@
   }
 
   .caret-wrapper {
+    @include reset-button();
+
     display: inline-flex;
     flex-direction: column;
     align-items: center;
     height: 14px;
     width: 24px;
     vertical-align: middle;
-    cursor: pointer;
     overflow: initial;
     position: relative;
   }
@@ -611,8 +613,9 @@
   }
 
   @include e(column-filter-trigger) {
+    @include reset-button();
+
     display: inline-block;
-    cursor: pointer;
 
     & i {
       color: getCssVar('color-info');
@@ -663,11 +666,8 @@
   [class*='#{$namespace}-table__row--level'] {
     .#{$namespace}-table__expand-icon {
       display: inline-block;
-      width: 12px;
-      line-height: 12px;
-      height: 12px;
+      width: 20px;
       text-align: center;
-      margin-right: 8px;
     }
   }
 
