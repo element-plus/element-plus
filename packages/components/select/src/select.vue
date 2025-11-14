@@ -55,6 +55,10 @@
                 'near',
                 multiple && !$slots.prefix && !!states.selected.length
               ),
+              nsSelect.is(
+                'near',
+                multiple && !$slots.prefix && !!states.selected.length
+              ),
             ]"
           >
             <slot
