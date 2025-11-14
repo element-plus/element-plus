@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="shouldRenderBar"
     ref="barRef"
     :class="[ns.e('active-bar'), ns.is(rootTabs!.props.tabPosition)]"
     :style="barStyle"
@@ -7,7 +8,7 @@
 </template>
 
 <script lang="ts" setup>
-import { inject, nextTick, onBeforeUnmount, ref, watch } from 'vue'
+import { computed, inject, nextTick, onBeforeUnmount, ref, watch } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
 import { capitalize, isUndefined, throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
@@ -29,6 +30,15 @@ const ns = useNamespace('tabs')
 
 const barRef = ref<HTMLDivElement>()
 const barStyle = ref<CSSProperties>()
+const shouldDisableInitialTransition = computed(
+  () =>
+    isUndefined(rootTabs.props.modelValue) &&
+    !isUndefined(rootTabs.props.defaultValue)
+)
+const shouldRenderBar = computed(
+  () =>
+    !shouldDisableInitialTransition.value || Boolean(barStyle.value?.transform)
+)
 
 const getBarStyle = (): CSSProperties => {
   let offset = 0

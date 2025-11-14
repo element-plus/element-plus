@@ -54,6 +54,12 @@ export const tabsProps = buildProps({
     type: [String, Number],
   },
   /**
+   * @description initial value when `model-value` is not set
+   */
+  defaultValue: {
+    type: [String, Number],
+  },
+  /**
    * @description whether Tab is addable and closable
    */
   editable: Boolean,
@@ -126,7 +132,10 @@ const Tabs = defineComponent({
     } = useOrderedChildren<TabsPaneContext>(getCurrentInstance()!, 'ElTabPane')
 
     const nav$ = ref<TabNavInstance>()
-    const currentName = ref<TabPaneName>(props.modelValue ?? '0')
+    const currentName = ref<TabPaneName>(
+      (isUndefined(props.modelValue) ? props.defaultValue : props.modelValue) ??
+        '0'
+    )
 
     const setCurrentName = async (value?: TabPaneName, trigger = false) => {
       // should do nothing.
@@ -207,6 +216,15 @@ const Tabs = defineComponent({
     watch(
       () => props.modelValue,
       (modelValue) => setCurrentName(modelValue)
+    )
+
+    watch(
+      () => props.defaultValue,
+      (defaultValue) => {
+        if (isUndefined(props.modelValue)) {
+          setCurrentName(defaultValue)
+        }
+      }
     )
 
     watch(currentName, async () => {
