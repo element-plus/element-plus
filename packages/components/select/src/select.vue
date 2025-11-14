@@ -157,7 +157,7 @@
               :class="[
                 nsSelect.e('selected-item'),
                 nsSelect.e('input-wrapper'),
-                nsSelect.is('hidden', !filterable),
+                nsSelect.is('hidden', !filterable || selectDisabled),
               ]"
             >
               <input
@@ -470,10 +470,16 @@ export default defineComponent({
     watch(
       () => [slots.default?.(), modelValue.value],
       () => {
-        if (props.persistent || API.states.options.size > 0) {
+        // When persistent is false and the dropdown is closed, the menu is unmounted.
+        // We should always re-hydrate option data from slots so labels stay in sync
+        // with dynamic option list updates. Skip only when persistent is true or
+        // when the dropdown is currently expanded (mounted options will manage themselves).
+        if (props.persistent || API.expanded.value) {
           // If persistent is true, we don't need to manually render slots.
           return
         }
+        // Reset current options snapshot before re-collecting from slots.
+        API.states.options.clear()
         manuallyRenderSlots(slots.default?.())
       },
       {

@@ -1,10 +1,10 @@
 <template>
-  <div class="demo">
+  <div class="cascader-custom-header-footer">
     <div>
       <p>Custom header content</p>
       <el-cascader
         v-model="value"
-        popper-class="custom-header"
+        popper-class="cascader-custom-header"
         :options="options"
         :props="props"
         clearable
@@ -100,24 +100,22 @@ const handleClear = () => {
 }
 </script>
 
-<style>
-.demo {
+<style scoped>
+.cascader-custom-header-footer {
   display: flex;
 }
 
-.demo > div {
+.cascader-custom-header-footer > div {
   flex: 1;
   text-align: center;
 }
 
-.demo > div:not(:last-child) {
+.cascader-custom-header-footer > div:not(:last-child) {
   border-right: 1px solid var(--el-border-color);
 }
 
-.custom-header {
-  .el-checkbox {
-    display: flex;
-    height: unset;
-  }
+.cascader-custom-header .el-checkbox {
+  display: flex;
+  height: unset;
 }
 </style>

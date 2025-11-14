@@ -512,7 +512,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   const getLastNotDisabledIndex = (value: OptionValue[]) =>
     findLastIndex(value, (it) => {
       const option = states.cachedOptions.get(it)
-      return option && !option.disabled && !option.states.groupDisabled
+      return !option?.disabled && !option?.states.groupDisabled
     })
 
   const deletePrevTag = (e: KeyboardEvent) => {
@@ -818,6 +818,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
         navigateOptions('next')
         break
       case EVENT_CODE.enter:
+      case EVENT_CODE.numpadEnter:
         selectOption()
         break
       case EVENT_CODE.esc:

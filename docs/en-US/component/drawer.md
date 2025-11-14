@@ -77,7 +77,7 @@ drawer/nested-drawer
 
 Setting `modal` to `false` will hide modal (overlay) of drawer.
 
-Starting from version ^(2.11.6), `modal-penetrable` attribute is added, which can be penetrable.
+Starting from version ^(2.11.7), `modal-penetrable` attribute is added, which can be penetrable.
 
 :::demo
 
@@ -114,7 +114,7 @@ Drawer provides an API called `destroy-on-close`, which is a flag variable that 
 | close-delay                | Time(milliseconds) before close                                                                                                                                                                                                                                                                              | ^[number]                                                                                                                                                                                      | 0       |
 | destroy-on-close           | Indicates whether children should be destroyed after Drawer closed                                                                                                                                                                                                                                           | ^[boolean]                                                                                                                                                                                     | false   |
 | modal                      | Should show shadowing layer                                                                                                                                                                                                                                                                                  | ^[boolean]                                                                                                                                                                                     | true    |
-| modal-penetrable ^(2.11.6) | whether the mask is penetrable. The modal attribute must be `false`.                                                                                                                                                                                                                                         | ^[boolean]                                                                                                                                                                                     | false   |
+| modal-penetrable ^(2.11.7) | whether the mask is penetrable. The modal attribute must be `false`.                                                                                                                                                                                                                                         | ^[boolean]                                                                                                                                                                                     | false   |
 | direction                  | Drawer's opening direction                                                                                                                                                                                                                                                                                   | ^[enum]`'rtl' \| 'ltr' \| 'ttb' \| 'btt'`                                                                                                                                                      | rtl     |
 | resizable ^(2.11.0)        | enable resizable feature for Drawer                                                                                                                                                                                                                                                                          | ^[boolean]                                                                                                                                                                                     | false   |
 | show-close                 | Should show close button at the top right of Drawer                                                                                                                                                                                                                                                          | ^[boolean]                                                                                                                                                                                     | true    |
@@ -137,14 +137,17 @@ Drawer provides an API called `destroy-on-close`, which is a flag variable that 
 
 ### Events
 
-| Name             | Description                                      | Type                    |
-| ---------------- | ------------------------------------------------ | ----------------------- |
-| open             | Triggered before Drawer opening animation begins | ^[Function]`() => void` |
-| opened           | Triggered after Drawer opening animation ended   | ^[Function]`() => void` |
-| close            | Triggered before Drawer closing animation begins | ^[Function]`() => void` |
-| closed           | Triggered after Drawer closing animation ended   | ^[Function]`() => void` |
-| open-auto-focus  | triggers after Drawer opens and content focused  | ^[Function]`() => void` |
-| close-auto-focus | triggers after Drawer closed and content focused | ^[Function]`() => void` |
+| Name                   | Description                                                  | Type                                                   |
+| ---------------------- | ------------------------------------------------------------ | ------------------------------------------------------ |
+| open                   | Triggered before Drawer opening animation begins             | ^[Function]`() => void`                                |
+| opened                 | Triggered after Drawer opening animation ended               | ^[Function]`() => void`                                |
+| close                  | Triggered before Drawer closing animation begins             | ^[Function]`() => void`                                |
+| closed                 | Triggered after Drawer closing animation ended               | ^[Function]`() => void`                                |
+| open-auto-focus        | triggers after Drawer opens and content focused              | ^[Function]`() => void`                                |
+| close-auto-focus       | triggers after Drawer closed and content focused             | ^[Function]`() => void`                                |
+| resize-start ^(2.11.8) | Triggered when resizing starts (when `resizable` is enabled) | ^[Function]`(event: MouseEvent, size: number) => void` |
+| resize ^(2.11.8)       | Triggered while resizing (when `resizable` is enabled)       | ^[Function]`(event: MouseEvent, size: number) => void` |
+| resize-end ^(2.11.8)   | Triggered when resizing ends (when `resizable` is enabled)   | ^[Function]`(event: MouseEvent, size: number) => void` |
 
 ### Slots
 

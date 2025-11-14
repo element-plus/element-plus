@@ -697,4 +697,42 @@ describe('Autocomplete.vue', () => {
       expect(footerEl!.textContent).toBe('Custom Footer')
     })
   })
+
+  describe('should select the option when using Enter or Numpad Enter', () => {
+    test('use Enter', async () => {
+      const wrapper = _mount()
+      await nextTick()
+
+      const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
+        typeof Autocomplete
+      >
+      const input = wrapper.find('input')
+
+      await input.trigger('focus')
+      vi.runAllTimers()
+      await nextTick()
+
+      await input.trigger('keydown', { code: EVENT_CODE.down })
+      await input.trigger('keydown', { code: EVENT_CODE.enter })
+      expect(target.modelValue).toBe('Java')
+    })
+
+    test('use Numpad Enter', async () => {
+      const wrapper = _mount()
+      await nextTick()
+
+      const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
+        typeof Autocomplete
+      >
+      const input = wrapper.find('input')
+
+      await input.trigger('focus')
+      vi.runAllTimers()
+      await nextTick()
+
+      await input.trigger('keydown', { code: EVENT_CODE.down })
+      await input.trigger('keydown', { code: EVENT_CODE.numpadEnter })
+      expect(target.modelValue).toBe('Java')
+    })
+  })
 })
