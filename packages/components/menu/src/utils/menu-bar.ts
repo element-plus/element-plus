@@ -9,7 +9,7 @@ class Menu {
   ) {
     this.init(namespace)
   }
-  init(namespace: string): void {
+  init(namespace: string) {
     const menuChildren = this.domNode.childNodes
     Array.from<Node>(menuChildren).forEach((child) => {
       if (child.nodeType === 1) {

@@ -1,10 +1,9 @@
-// @ts-nocheck
 import { getEventCode, triggerEvent } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import SubMenu from './submenu'
 
 class MenuItem {
-  public submenu: SubMenu = null
+  public submenu: SubMenu | null
   constructor(
     public domNode: HTMLElement,
     namespace: string
@@ -22,7 +21,7 @@ class MenuItem {
     this.addListeners()
   }
 
-  addListeners(): void {
+  addListeners() {
     this.domNode.addEventListener('keydown', (event: KeyboardEvent) => {
       const code = getEventCode(event)
       let prevDef = false
@@ -30,14 +29,13 @@ class MenuItem {
       switch (code) {
         case EVENT_CODE.down: {
           triggerEvent(event.currentTarget as HTMLElement, 'mouseenter')
-          this.submenu && this.submenu.gotoSubIndex(0)
+          this.submenu?.gotoSubIndex(0)
           prevDef = true
           break
         }
         case EVENT_CODE.up: {
           triggerEvent(event.currentTarget as HTMLElement, 'mouseenter')
-          this.submenu &&
-            this.submenu.gotoSubIndex(this.submenu.subMenuItems.length - 1)
+          this.submenu?.gotoSubIndex(this.submenu.subMenuItems.length - 1)
           prevDef = true
           break
         }
