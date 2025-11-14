@@ -93,6 +93,10 @@ export const panelRangeSharedProps = buildProps({
   parsedValue: {
     type: definePropType<DayOrDays>(Array),
   },
+  samePanelInRangePosition: {
+    type: definePropType<'left' | 'right'>(String),
+    default: 'left',
+  },
 } as const)
 
 export const selectionModeWithDefault = (

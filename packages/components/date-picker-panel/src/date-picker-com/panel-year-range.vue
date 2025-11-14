@@ -271,15 +271,29 @@ const handleClear = () => {
 }
 
 function sortDates(minDate: Dayjs | undefined, maxDate: Dayjs | undefined) {
-  if (props.unlinkPanels && maxDate) {
-    const minDateYear = minDate?.year() || 0
-    const maxDateYear = maxDate.year()
+  if (maxDate) {
+    if (props.samePanelInRangePosition === 'right') {
+      const minDateYear = minDate?.year() || 0
+      const maxDateYear = maxDate.year()
 
-    rightDate.value =
-      minDateYear + step > maxDateYear ? maxDate.add(step, unit) : maxDate
-  } else {
-    rightDate.value = leftDate.value.add(step, unit)
+      if (minDateYear + step > maxDateYear) {
+        leftDate.value = maxDate.subtract(step, unit)
+        rightDate.value = maxDate
+
+        return
+      }
+    } else if (props.unlinkPanels) {
+      const minDateYear = minDate?.year() || 0
+      const maxDateYear = maxDate.year()
+
+      rightDate.value =
+        minDateYear + step > maxDateYear ? maxDate.add(step, unit) : maxDate
+
+      return
+    }
   }
+
+  rightDate.value = leftDate.value.add(step, unit)
 }
 
 watch(
