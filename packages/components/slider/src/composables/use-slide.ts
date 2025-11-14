@@ -113,7 +113,7 @@ export const useSlide = (
     return buttonRef
   }
 
-  const setFirstValue = (firstValue: number | undefined) => {
+  const setFirstValue = (firstValue: number | null) => {
     initData.firstValue = firstValue ?? props.min
     _emit(
       props.range ? [minValue.value, maxValue.value] : (firstValue ?? props.min)
