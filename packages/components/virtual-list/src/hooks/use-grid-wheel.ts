@@ -24,7 +24,7 @@ export const useGridWheel = (
       (x <= 0 && atXStartEdge.value) || (x >= 0 && atXEndEdge.value)
     const yEdgeReached =
       (y <= 0 && atYStartEdge.value) || (y >= 0 && atYEndEdge.value)
-    return xEdgeReached && yEdgeReached
+    return (x !== 0 && xEdgeReached) || (y !== 0 && yEdgeReached)
   }
 
   const onWheel = (e: WheelEvent) => {
@@ -45,11 +45,7 @@ export const useGridWheel = (
       y = 0
     }
 
-    if (
-      hasReachedEdge(xOffset, yOffset) &&
-      hasReachedEdge(xOffset + x, yOffset + y)
-    )
-      return
+    if (hasReachedEdge(x, y)) return
 
     xOffset += x
     yOffset += y
