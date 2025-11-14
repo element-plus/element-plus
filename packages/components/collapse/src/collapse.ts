@@ -15,6 +15,7 @@ export type CollapseActiveName = string | number
 export type CollapseModelValue = Arrayable<CollapseActiveName>
 
 export type CollapseIconPositionType = 'left' | 'right'
+export type CollapseCollapsibleType = 'icon' | 'header' | 'disabled'
 
 export const emitChangeFn = (value: CollapseModelValue) =>
   isNumber(value) || isString(value) || isArray(value)
@@ -45,6 +46,12 @@ export const collapseProps = buildProps({
     type: definePropType<(name: CollapseActiveName) => Awaitable<boolean>>(
       Function
     ),
+  },
+  /**
+   * @description Specify how to trigger Collapse. Either by clicking icon or by clicking any area in header or disable collapse functionality itself
+   */
+  collapsible: {
+    type: definePropType<CollapseCollapsibleType>([String]),
   },
 } as const)
 export type CollapseProps = ExtractPropTypes<typeof collapseProps>
