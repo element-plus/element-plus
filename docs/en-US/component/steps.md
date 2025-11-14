@@ -115,3 +115,4 @@ steps/simple
 | icon        | custom icon      |
 | title       | step title       |
 | description | step description |
+| line        | step line        |
