@@ -438,6 +438,45 @@ describe('Select', () => {
     delete process.env.RUN_TEST_WITH_PERSISTENT
   })
 
+  test('updates selected label after label change when closed and persistent=false', async () => {
+    process.env.RUN_TEST_WITH_PERSISTENT = 'true'
+    wrapper = _mount(
+      `
+      <el-select v-model="value" :persistent="false">
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value">
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [
+          {
+            value: '1',
+            label: 'A',
+          },
+          {
+            value: '2',
+            label: 'B',
+          },
+        ],
+        value: '1',
+      })
+    )
+    await nextTick()
+    // initial label
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('A')
+    // update label while dropdown remains closed
+    ;(wrapper.vm as any).options = [
+      { value: '1', label: 'A2' },
+      { value: '2', label: 'B' },
+    ]
+    await nextTick()
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('A2')
+    delete process.env.RUN_TEST_WITH_PERSISTENT
+  })
   test('when there is a default value and persistent is false, render the label and dynamically modify options and modelValue', async () => {
     // This is convenient for testing the default value label rendering when persistent is false.
     process.env.RUN_TEST_WITH_PERSISTENT = 'true'
