@@ -3954,4 +3954,83 @@ describe('Select', () => {
     await input.trigger('keydown', { code: EVENT_CODE.numpadEnter })
     expect(vm.value).toBe(1)
   })
+
+  test('should restore warn handler after the last select unmounts', async () => {
+    const warnHandler = vi.fn()
+    const Parent = defineComponent({
+      components: {
+        'el-select': Select,
+        'el-option': Option,
+      },
+      setup() {
+        const showFirst = ref(true)
+        const showSecond = ref(true)
+        const value = ref('')
+        const options = [
+          { label: 'label-1', value: 1 },
+          { label: 'label-2', value: 2 },
+        ]
+        const hideFirst = () => {
+          showFirst.value = false
+        }
+        const hideSecond = () => {
+          showSecond.value = false
+        }
+        return {
+          showFirst,
+          showSecond,
+          value,
+          options,
+          hideFirst,
+          hideSecond,
+        }
+      },
+      template: `
+        <div>
+          <el-select v-if="showFirst" v-model="value">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+          <el-select v-if="showSecond" v-model="value">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </div>
+      `,
+    })
+
+    const wrapper = mount(Parent, {
+      attachTo: 'body',
+      global: {
+        config: {
+          warnHandler,
+        },
+        provide: {
+          namespace: 'el',
+        },
+      },
+    })
+
+    const appContext = (wrapper.vm.$ as any).appContext
+
+    expect(appContext.config.warnHandler).not.toBe(warnHandler)
+
+    wrapper.vm.hideFirst()
+    await nextTick()
+    expect(appContext.config.warnHandler).not.toBe(warnHandler)
+
+    wrapper.vm.hideSecond()
+    await nextTick()
+    expect(appContext.config.warnHandler).toBe(warnHandler)
+
+    wrapper.unmount()
+  })
 })
