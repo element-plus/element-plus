@@ -151,6 +151,9 @@ export default {
       clearFilter: '全部',
       sumText: '合計',
     },
+    tag: {
+      close: '關閉此標籤',
+    },
     tour: {
       next: '下一步',
       previous: '上一步',

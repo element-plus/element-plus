@@ -150,6 +150,9 @@ export default {
       clearFilter: '全部',
       sumText: '合计',
     },
+    tag: {
+      close: '关闭此标签',
+    },
     tour: {
       next: '下一步',
       previous: '上一步',

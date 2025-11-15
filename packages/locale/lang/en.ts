@@ -153,6 +153,9 @@ export default {
       clearFilter: 'All',
       sumText: 'Sum',
     },
+    tag: {
+      close: 'Close this tag',
+    },
     tour: {
       next: 'Next',
       previous: 'Previous',

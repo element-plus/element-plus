@@ -155,6 +155,9 @@ export default {
       clearFilter: 'ទាំងអស់',
       sumText: 'សរុប',
     },
+    tag: {
+      close: 'Close this tag', // to be translated
+    },
     tour: {
       next: 'បន្ទាប់',
       previous: 'ថយក្រោយ',

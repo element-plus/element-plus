@@ -7,17 +7,17 @@ export default {
     colorpicker: {
       confirm: 'Confirmer',
       clear: 'Effacer',
-      defaultLabel: 'color picker',
+      defaultLabel: 'Sélecteur de couleurs',
       description:
         'La couleur actuelle est {color}. Appuyer sur Entrée pour sélectionner une nouvelle couleur.',
       alphaLabel: 'Choisir la valeur alpha',
-      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
-      hueLabel: 'pick hue value', // to be translated
-      hueDescription: 'hue {hue}, current color is {color}', // to be translated
-      svLabel: 'pick saturation and brightness value', // to be translated
+      alphaDescription: 'alpha {alpha}, couleur actuelle  {color}',
+      hueLabel: 'Choisir la veleur hue',
+      hueDescription: 'hue {hue}, couleur actuelle {color}',
+      svLabel: 'Choisir la valeur de saturation et de luminosité',
       svDescription:
-        'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
-      predefineDescription: 'select {value} as the color', // to be translated
+        'saturation {saturation}, luminosité {brightness}, couleur actuelle {color}',
+      predefineDescription: 'Choisir {value} comme couleur actuelle',
     },
     datepicker: {
       now: 'Maintenant',
@@ -89,8 +89,8 @@ export default {
       },
     },
     inputNumber: {
-      decrease: 'décrémenter',
-      increase: 'incrémenter',
+      decrease: 'Décrémenter',
+      increase: 'Incrémenter',
     },
     select: {
       loading: 'Chargement',
@@ -155,10 +155,13 @@ export default {
       clearFilter: 'Tous',
       sumText: 'Somme',
     },
+    tag: {
+      close: 'Fermer le tag',
+    },
     tour: {
-      next: 'suivant',
-      previous: 'précédent',
-      finish: 'fin',
+      next: 'Suivant',
+      previous: 'Précédent',
+      finish: 'Fin',
       close: 'Fermer la boîte de dialogue',
     },
     tree: {
@@ -173,7 +176,7 @@ export default {
       hasCheckedFormat: '{checked}/{total} coché(s)',
     },
     image: {
-      error: 'ECHEC',
+      error: 'Echec',
     },
     pageHeader: {
       title: 'Retour',
