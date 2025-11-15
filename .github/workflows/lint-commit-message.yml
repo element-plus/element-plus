@@ -44,10 +44,10 @@ jobs:
         run: echo 'false' > ./lint-result.txt
 
       - name: Set PR number
-        run: echo $PULL_REQUEST_NUMBER > pr.txt
+        run: echo "$PULL_REQUEST_NUMBER" > ./pr.txt
 
       - name: Set PR author
-        run: echo $PULL_REQUEST_AUTHOR > ./author.txt
+        run: echo "$PULL_REQUEST_AUTHOR" > ./author.txt
 
       - uses: actions/upload-artifact@v5
         with:
