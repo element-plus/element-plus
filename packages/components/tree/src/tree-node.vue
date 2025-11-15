@@ -44,6 +44,7 @@
       </el-icon>
       <el-checkbox
         v-if="showCheckbox"
+        size="small"
         :model-value="node.checked"
         :indeterminate="node.indeterminate"
         :disabled="!!node.disabled"

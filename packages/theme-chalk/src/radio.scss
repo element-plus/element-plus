@@ -6,17 +6,32 @@
 @use 'common/var' as *;
 
 $radio-font-size: () !default;
-$radio-font-size: map.merge(
-  (
-    'large': 14px,
-    'small': 12px,
-  ),
-  $radio-font-size
-);
 
 @include b(radio) {
   @include set-component-css-var('radio', $radio);
 }
+
+$radio-input-height: () !default;
+$radio-input-height: map.merge(
+  (
+    'large': 18px,
+    'default': 16px,
+    'small': 14px,
+  ),
+  $radio-input-height
+);
+
+$radio-input-width: () !default;
+$radio-input-width: map.merge($radio-input-height, $radio-input-width);
+
+$radio-input-after-size: () !default;
+$radio-input-after-size: map.merge(
+  (
+    'large': 6px,
+    'small': 4px,
+  ),
+  $radio-input-after-size
+);
 
 @include b(radio) {
   color: getCssVar('radio-text-color');
@@ -66,11 +81,6 @@ $radio-font-size: map.merge(
 
         .#{$namespace}-radio__label {
           font-size: map.get($button-font-size, $size);
-        }
-
-        .#{$namespace}-radio__inner {
-          height: map.get($radio-bordered-input-height, $size);
-          width: map.get($radio-bordered-input-width, $size);
         }
       }
     }
@@ -157,8 +167,8 @@ $radio-font-size: map.merge(
     }
 
     &::after {
-      width: 4px;
-      height: 4px;
+      width: getCssVar('radio-input-after-size');
+      height: getCssVar('radio-input-after-size');
       border-radius: getCssVar('radio-input-border-radius');
       content: '';
       position: absolute;
@@ -207,8 +217,13 @@ $radio-font-size: map.merge(
         font-size: map.get($radio-font-size, $size);
       }
       @include e(inner) {
-        width: map.get($radio-font-size, $size);
-        height: map.get($radio-font-size, $size);
+        width: map.get($radio-input-width, $size);
+        height: map.get($radio-input-height, $size);
+
+        &::after {
+          width: map.get($radio-input-after-size, $size);
+          height: map.get($radio-input-after-size, $size);
+        }
       }
     }
   }

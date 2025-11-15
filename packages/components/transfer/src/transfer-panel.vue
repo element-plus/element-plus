@@ -3,6 +3,7 @@
     <p :class="ns.be('panel', 'header')">
       <el-checkbox
         v-model="allChecked"
+        size="small"
         :indeterminate="isIndeterminate"
         :validate-event="false"
         @change="handleAllCheckedChange"
@@ -32,6 +33,7 @@
         <el-checkbox
           v-for="item in filteredData"
           :key="item[propsAlias.key]"
+          size="small"
           :class="ns.be('panel', 'item')"
           :value="item[propsAlias.key]"
           :disabled="item[propsAlias.disabled]"
