@@ -59,7 +59,7 @@ export function useDropdownVisible({
 
     while (index < len) {
       openedMenus.value = openedMenus.value.slice(0, len - 1)
-      // Waiting for the focus to return to the previous Node
+      // Waiting for the focus to return to the previous element
       await nextTick()
       len--
     }

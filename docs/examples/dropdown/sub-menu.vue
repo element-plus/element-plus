@@ -8,8 +8,16 @@
     </span>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item>Action 1</el-dropdown-item>
-        <el-dropdown-item>Action 2</el-dropdown-item>
+        <el-dropdown-sub-menu label="Action 1">
+          <el-dropdown-item>Action 1-1</el-dropdown-item>
+          <el-dropdown-item>Action 1-2</el-dropdown-item>
+          <el-dropdown-item>Action 1-3</el-dropdown-item>
+          <el-dropdown-item>Action 1-4</el-dropdown-item>
+        </el-dropdown-sub-menu>
+        <el-dropdown-sub-menu label="Action 2">
+          <el-dropdown-item>Action 2-1</el-dropdown-item>
+          <el-dropdown-item>Action 2-2</el-dropdown-item>
+        </el-dropdown-sub-menu>
         <el-dropdown-sub-menu label="Action 3">
           <el-dropdown-item>Action 3-1</el-dropdown-item>
           <el-dropdown-item>Action 3-2</el-dropdown-item>
@@ -18,8 +26,11 @@
           <el-dropdown-sub-menu label="Action 4-1">
             <el-dropdown-item>Action 4-1-1</el-dropdown-item>
             <el-dropdown-item>Action 4-1-2</el-dropdown-item>
+            <el-dropdown-item>Action 4-1-3</el-dropdown-item>
+            <el-dropdown-item>Action 4-1-4</el-dropdown-item>
           </el-dropdown-sub-menu>
           <el-dropdown-item>Action 4-2</el-dropdown-item>
+          <el-dropdown-item>Action 4-3</el-dropdown-item>
         </el-dropdown-sub-menu>
       </el-dropdown-menu>
     </template>

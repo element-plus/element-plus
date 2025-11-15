@@ -83,6 +83,16 @@ $dropdown-divider-width: 1px !default;
       margin: 0;
       box-sizing: border-box;
     }
+
+    @include b(dropdown__hover-zone) {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: getCssVar('dropdown-menu-index');
+      pointer-events: none;
+    }
   }
 
   & .#{$namespace}-dropdown__caret-button {

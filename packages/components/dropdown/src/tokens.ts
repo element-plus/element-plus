@@ -5,6 +5,7 @@ import type { DropdownProps } from './dropdown'
 export type ElDropdownInjectionContext = {
   contentRef: Ref<HTMLElement | undefined>
   dropdownSubMenuRef?: Ref<HTMLElement | undefined>
+  hoverElementRef: Ref<HTMLElement | undefined>
   /** @deprecated This prop has been moved to `DROPDOWN_INSTANCE_INJECTION_KEY` */
   role?: Ref<PopperProps['role']>
   triggerId: Ref<string> | ComputedRef<string>

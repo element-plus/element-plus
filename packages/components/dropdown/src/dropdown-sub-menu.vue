@@ -56,11 +56,14 @@
   >
     <template #content>
       <el-scrollbar
+        ref="scrollbarRef"
         tag="div"
         :wrap-style="wrapStyle"
+        :wrap-class="wrapClass"
         :view-class="ns.e('list')"
         @pointerenter="handlePointerEnterContent"
         @pointerleave="handlePointerLeaveContent"
+        @pointermove="handleDrawHoverZone"
       >
         <el-roving-focus-group
           :loop="loop"
@@ -72,6 +75,11 @@
             <slot />
           </el-dropdown-menu>
         </el-roving-focus-group>
+        <svg
+          v-if="menuTrigger === 'hover'"
+          ref="hoverZoneRef"
+          :class="ns.e('hover-zone')"
+        ></svg>
       </el-scrollbar>
     </template>
   </el-tooltip>
@@ -103,6 +111,7 @@ import {
 import {
   useDropdownCollectionTooltipContent,
   useDropdownHoverController,
+  useDropdownHoverZone,
   useDropdownTooltip,
   useDropdownVisible,
 } from './composables'
@@ -127,10 +136,11 @@ const {
   addPopperContent,
   removePopperContent,
 } = inject(DROPDOWN_INSTANCE_INJECTION_KEY, undefined)!
-const { contentRef: parentContentRef, handleClose: handleCloseParent } = inject(
-  DROPDOWN_INJECTION_KEY,
-  undefined
-)!
+const {
+  contentRef: parentContentRef,
+  hoverElementRef: parenthoverElementRef,
+  handleClose: handleCloseParent,
+} = inject(DROPDOWN_INJECTION_KEY, undefined)!
 
 const ns = useNamespace('dropdown')
 const triggerId = useId()
@@ -176,7 +186,7 @@ const {
   handlePointerEnterTrigger,
   handlePointerLeaveTrigger,
   handlePointerEnterContent,
-  handlePointerLeaveContent,
+  handlePointerLeaveContent: _handlePointerLeaveContent,
 } = useDropdownHoverController({
   trigger,
   parentContentRef,
@@ -186,6 +196,19 @@ const {
   hideTimeout,
   handleOpen,
   handleClose,
+})
+
+const {
+  scrollbarRef,
+  hoverZoneRef,
+  hoverElementRef,
+  wrapClass,
+  handleDrawHoverZone,
+  handleClearHoverZone,
+} = useDropdownHoverZone({
+  ns,
+  menuTrigger,
+  showTimeout,
 })
 
 useDropdownCollectionTooltipContent({
@@ -198,6 +221,7 @@ const contentId = computed(() => popperRef.value?.contentRef?.id)
 
 const handlePointerEnter = composeEventHandlers((event: PointerEvent) => {
   emit('pointerenter', event)
+  parenthoverElementRef.value = event.currentTarget as HTMLElement
   return event.defaultPrevented
 }, whenMouse(handlePointerEnterTrigger))
 
@@ -224,6 +248,11 @@ const handleClick = composeEventHandlers(
   }
 )
 
+function handlePointerLeaveContent(event: PointerEvent) {
+  _handlePointerLeaveContent(event)
+  handleClearHoverZone()
+}
+
 function handleKeydown(event: KeyboardEvent) {
   const code = getEventCode(event)
 
@@ -242,6 +271,7 @@ function handleKeydown(event: KeyboardEvent) {
 provide(DROPDOWN_INJECTION_KEY, {
   contentRef,
   dropdownSubMenuRef,
+  hoverElementRef,
   triggerId,
   isUsingKeyboard,
   path,

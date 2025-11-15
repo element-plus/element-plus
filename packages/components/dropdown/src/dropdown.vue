@@ -32,12 +32,14 @@
     >
       <template #content>
         <el-scrollbar
-          ref="scrollbar"
+          ref="scrollbarRef"
           :wrap-style="wrapStyle"
-          tag="div"
+          :wrap-class="wrapClass"
           :view-class="ns.e('list')"
+          tag="div"
           @pointerenter="handlePointerEnterContent"
           @pointerleave="handlePointerLeaveContent"
+          @pointermove="handleDrawHoverZone"
         >
           <el-roving-focus-group
             :loop="loop"
@@ -47,6 +49,11 @@
           >
             <slot name="dropdown" />
           </el-roving-focus-group>
+          <svg
+            v-if="menuTrigger === 'hover'"
+            ref="hoverZoneRef"
+            :class="ns.e('hover-zone')"
+          ></svg>
         </el-scrollbar>
       </template>
       <template v-if="!splitButton" #default>
@@ -113,6 +120,7 @@ import {
   useDropdownCollectionTooltipContent,
   useDropdownController,
   useDropdownHoverController,
+  useDropdownHoverZone,
   useDropdownTooltip,
   useDropdownVisible,
 } from './composables'
@@ -136,9 +144,9 @@ export default defineComponent({
   setup(props, { emit }) {
     const ns = useNamespace('dropdown')
     const { t } = useLocale()
+    const dropdownSize = useFormSize()
 
     const referenceElementRef = ref()
-    const scrollbar = ref(null)
 
     const wrapStyle = computed<CSSProperties>(() => ({
       maxHeight: addUnit(props.maxHeight),
@@ -191,7 +199,7 @@ export default defineComponent({
       handlePointerEnterTrigger,
       handlePointerLeaveTrigger,
       handlePointerEnterContent,
-      handlePointerLeaveContent,
+      handlePointerLeaveContent: _handlePointerLeaveContent,
     } = useDropdownHoverController({
       trigger,
       contentRef,
@@ -200,6 +208,19 @@ export default defineComponent({
       hideTimeout: toRef(props, 'hideTimeout'),
       handleOpen,
       handleClose,
+    })
+
+    const {
+      scrollbarRef,
+      hoverZoneRef,
+      hoverElementRef,
+      wrapClass,
+      handleDrawHoverZone,
+      handleClearHoverZone,
+    } = useDropdownHoverZone({
+      ns,
+      menuTrigger: toRef(props, 'menuTrigger'),
+      showTimeout: toRef(props, 'showTimeout'),
     })
 
     useDropdownCollectionTooltipContent({
@@ -212,7 +233,10 @@ export default defineComponent({
       handleCloseAll()
     }
 
-    const dropdownSize = useFormSize()
+    function handlePointerLeaveContent(event: PointerEvent) {
+      _handlePointerLeaveContent(event)
+      handleClearHoverZone()
+    }
 
     function commandHandler(...args: any[]) {
       emit('command', ...args)
@@ -228,6 +252,7 @@ export default defineComponent({
 
     provide(DROPDOWN_INJECTION_KEY, {
       contentRef,
+      hoverElementRef,
       role: computed(() => props.role),
       triggerId,
       isUsingKeyboard,
@@ -253,13 +278,15 @@ export default defineComponent({
     return {
       t,
       ns,
-      scrollbar,
+      scrollbarRef,
       wrapStyle,
       dropdownTriggerKls,
       dropdownSize,
       triggerId,
       currentTabId,
       opened,
+      hoverZoneRef,
+      wrapClass,
       handleCloseAll,
       handleCurrentTabIdChange,
       handlerMainButtonClick,
@@ -271,6 +298,7 @@ export default defineComponent({
       handleHideTooltip,
       handlePointerEnterContent,
       handlePointerLeaveContent,
+      handleDrawHoverZone,
       popperRef,
       contentRef,
       triggeringElementRef,
