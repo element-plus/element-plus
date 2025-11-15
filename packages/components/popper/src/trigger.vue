@@ -86,16 +86,24 @@ onMounted(() => {
     (el, prevEl) => {
       virtualTriggerAriaStopWatch?.()
       virtualTriggerAriaStopWatch = undefined
+
+      if (isElement(prevEl)) {
+        TRIGGER_ELE_EVENTS.forEach((eventName) => {
+          const handler = props[eventName]
+          if (handler) {
+            ;(prevEl as HTMLElement).removeEventListener(
+              eventName.slice(2).toLowerCase(),
+              handler,
+              ['onFocus', 'onBlur'].includes(eventName)
+            )
+          }
+        })
+      }
       if (isElement(el)) {
         TRIGGER_ELE_EVENTS.forEach((eventName) => {
           const handler = props[eventName]
           if (handler) {
             ;(el as HTMLElement).addEventListener(
-              eventName.slice(2).toLowerCase(),
-              handler,
-              ['onFocus', 'onBlur'].includes(eventName)
-            )
-            ;(prevEl as HTMLElement)?.removeEventListener?.(
               eventName.slice(2).toLowerCase(),
               handler,
               ['onFocus', 'onBlur'].includes(eventName)

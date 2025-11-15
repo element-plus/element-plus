@@ -438,6 +438,45 @@ describe('Select', () => {
     delete process.env.RUN_TEST_WITH_PERSISTENT
   })
 
+  test('updates selected label after label change when closed and persistent=false', async () => {
+    process.env.RUN_TEST_WITH_PERSISTENT = 'true'
+    wrapper = _mount(
+      `
+      <el-select v-model="value" :persistent="false">
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value">
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [
+          {
+            value: '1',
+            label: 'A',
+          },
+          {
+            value: '2',
+            label: 'B',
+          },
+        ],
+        value: '1',
+      })
+    )
+    await nextTick()
+    // initial label
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('A')
+    // update label while dropdown remains closed
+    ;(wrapper.vm as any).options = [
+      { value: '1', label: 'A2' },
+      { value: '2', label: 'B' },
+    ]
+    await nextTick()
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('A2')
+    delete process.env.RUN_TEST_WITH_PERSISTENT
+  })
   test('when there is a default value and persistent is false, render the label and dynamically modify options and modelValue', async () => {
     // This is convenient for testing the default value label rendering when persistent is false.
     process.env.RUN_TEST_WITH_PERSISTENT = 'true'
@@ -3963,5 +4002,84 @@ describe('Select', () => {
 
     await input.trigger('click')
     expect(selectVm.states.hoveringIndex).toBe(1)
+  })
+
+  test('should restore warn handler after the last select unmounts', async () => {
+    const warnHandler = vi.fn()
+    const Parent = defineComponent({
+      components: {
+        'el-select': Select,
+        'el-option': Option,
+      },
+      setup() {
+        const showFirst = ref(true)
+        const showSecond = ref(true)
+        const value = ref('')
+        const options = [
+          { label: 'label-1', value: 1 },
+          { label: 'label-2', value: 2 },
+        ]
+        const hideFirst = () => {
+          showFirst.value = false
+        }
+        const hideSecond = () => {
+          showSecond.value = false
+        }
+        return {
+          showFirst,
+          showSecond,
+          value,
+          options,
+          hideFirst,
+          hideSecond,
+        }
+      },
+      template: `
+        <div>
+          <el-select v-if="showFirst" v-model="value">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+          <el-select v-if="showSecond" v-model="value">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </div>
+      `,
+    })
+
+    const wrapper = mount(Parent, {
+      attachTo: 'body',
+      global: {
+        config: {
+          warnHandler,
+        },
+        provide: {
+          namespace: 'el',
+        },
+      },
+    })
+
+    const appContext = (wrapper.vm.$ as any).appContext
+
+    expect(appContext.config.warnHandler).not.toBe(warnHandler)
+
+    wrapper.vm.hideFirst()
+    await nextTick()
+    expect(appContext.config.warnHandler).not.toBe(warnHandler)
+
+    wrapper.vm.hideSecond()
+    await nextTick()
+    expect(appContext.config.warnHandler).toBe(warnHandler)
+
+    wrapper.unmount()
   })
 })

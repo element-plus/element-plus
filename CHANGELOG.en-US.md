@@ -1,6 +1,51 @@
 ## Changelog
 
 
+### 2.11.8
+
+_2025-11-15_
+
+#### Features
+
+- Components [virtual-list] add touch event handling for scrolling (#20628 by @warmthsea)
+- Components [cascader] expose `focus` and `blur` methods (#22737 by @rzzf)
+- Components [drawer] add  `resize-start` `resize` `resize-end`  emits (#22784 by @jevin98)
+
+#### Bug fixes
+
+- Components [date-picker] keyboard navigation on first of the month (#22668 by @Dsaquel)
+- Components [table] ensure tooltip works correctly in tree table (#22674 by @xuhuaiyu24)
+- Components [tree-v2] checkbox selection wrong with disabled nodes (#22627 by @rzzf)
+- Components [watermark] use baselineOffset to get a complete canvas (#22670 by @alonely-boy)
+- Components [select] allow delete non existant option (#22706 by @Dsaquel)
+- Components [select] unable to select options using NumpadEnter (#22715 by @rzzf)
+- Components [textarea] add the missing `name` attribute (#22718 by @rzzf)
+- Components [autocomplete] allow using Numpad Enter to select the option (#22721 by @keeplearning66)
+- Components [image-viewer] avoid triggering scroll wheel events outside the preview area (#22722 by @keeplearning66)
+- Components [tree-select] use up/down/enter keys select error (#20008 by @SpanManX)
+- Components [tree] avoid having multiple nodes with highlighted states at the same time (#22748 by @keeplearning66)
+- Components [input-tag] the line break caused by exceeding  content (#22704 by @lxKylin)
+- Components [select-v2] avoid invalid positioning when using filterable and default-first-option (#22725 by @keeplearning66)
+- Components [upload] ensure onChange receives updated fileList (#22760 by @yicheny)
+- Components [select] shouldn't display the input box when disabled (#22767 by @Putia3)
+- Components [select] sync label when persistent is false and options change (#22755 by @yicheny)
+- Components [select-v2] avoid wrong style when disabled (#22780 by @keeplearning66)
+- Components [popper] trigger memory leak issue (#22763 by @Map1en)
+- Components [input-number] correct condition for user input reset (#21283 by @betavs)
+- Components [select] after the last select unmounts memory leak issue (#22764 by @Map1en)
+
+#### Refactors
+
+- Components [menu] extract constants (#22661 by @lxKylin)
+- Components [form] remove unnecessary non-empty assertions (#22660 by @lxKylin)
+- Components [tree] extract auxiliary function (#22677 by @lxKylin)
+- Components [tree] change the for loop to the find method (#22678 by @lxKylin)
+- Components [menu] adjust the non-empty assertion (#22694 by @lxKylin)
+- Components [image-viewer] use `useLockscreen` for scroll lock (#22734 by @rzzf)
+- Components [watermark] reduce unnecessary calc (#22789 by @btea)
+- Components [drawer] rename `event` parameter avoid conflicts (#22790 by @btea)
+- Components [select-v2] reduce repeated property access (#22801 by @keeplearning66)
+
 ### 2.11.7
 
 _2025-11-01_
