@@ -5,6 +5,7 @@
     :style="rovingFocusGroupRootStyle"
     :tabindex="-1"
     :role="role"
+    :orientation="orientation"
     :aria-labelledby="triggerId"
     @focusin="handleFocus"
     @focusout="onBlur"
@@ -16,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, inject } from 'vue'
+import { computed, defineComponent, inject, provide } from 'vue'
 import {
   composeEventHandlers,
   composeRefs,
@@ -28,24 +29,32 @@ import {
   ROVING_FOCUS_GROUP_INJECTION_KEY,
 } from '@element-plus/components/roving-focus-group'
 import { useNamespace } from '@element-plus/hooks'
-import { DROPDOWN_INJECTION_KEY } from './tokens'
+import {
+  DROPDOWN_INJECTION_KEY,
+  DROPDOWN_INSTANCE_INJECTION_KEY,
+} from './tokens'
 import { dropdownMenuProps } from './dropdown'
-import { useDropdown } from './useDropdown'
 
 export default defineComponent({
   name: 'ElDropdownMenu',
   props: dropdownMenuProps,
   setup(props) {
     const ns = useNamespace('dropdown')
-    const { _elDropdownSize } = useDropdown()
-    const size = _elDropdownSize.value
 
-    const { contentRef, role, triggerId, isUsingKeyboard, handleClose } =
-      inject(DROPDOWN_INJECTION_KEY, undefined)!
+    const { dropdownSize, role } = inject(
+      DROPDOWN_INSTANCE_INJECTION_KEY,
+      undefined
+    )!
+
+    const { contentRef, triggerId, isUsingKeyboard, handleClose } = inject(
+      DROPDOWN_INJECTION_KEY,
+      undefined
+    )!
 
     const {
       rovingFocusGroupRef,
       rovingFocusGroupRootStyle,
+      orientation,
       onBlur,
       onFocus,
       onKeydown,
@@ -58,7 +67,7 @@ export default defineComponent({
     )!
 
     const dropdownKls = computed(() => {
-      return [ns.b('menu'), ns.bm('menu', size?.value)]
+      return [ns.b('menu'), ns.bm('menu', dropdownSize.value)]
     })
 
     const dropdownListWrapperRef = composeRefs(
@@ -84,7 +93,7 @@ export default defineComponent({
         }
 
         if (EVENT_CODE.tab === code) {
-          return handleClose()
+          return handleClose(e)
         }
 
         onKeydown(e)
@@ -95,11 +104,16 @@ export default defineComponent({
       isUsingKeyboard.value && onFocus(e)
     }
 
+    provide(DROPDOWN_INJECTION_KEY, {
+      ...inject(DROPDOWN_INJECTION_KEY, undefined)!,
+      dropdownSubMenuRef: undefined,
+    })
+
     return {
-      size,
       rovingFocusGroupRootStyle,
       dropdownKls,
       role,
+      orientation,
       triggerId,
       dropdownListWrapperRef,
       handleKeydown,

@@ -6,24 +6,12 @@ import {
 } from '@element-plus/components/tooltip'
 import { roleTypes } from '@element-plus/components/popper'
 
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type { TooltipTriggerType } from '@element-plus/components/tooltip'
 import type { Placement } from '@element-plus/components/popper'
 import type { Options } from '@popperjs/core'
 import type { ButtonProps, ButtonType } from '@element-plus/components/button'
-import type { ComponentInternalInstance, ComputedRef } from 'vue'
-import type { Arrayable, Nullable } from '@element-plus/utils'
-
-export interface IElDropdownInstance {
-  instance?: ComponentInternalInstance
-  dropdownSize?: ComputedRef<string>
-  handleClick?: () => void
-  commandHandler?: (...arg: any[]) => void
-  show?: () => void
-  hide?: () => void
-  trigger?: ComputedRef<string>
-  hideOnClick?: ComputedRef<boolean>
-  triggerElm?: ComputedRef<Nullable<HTMLButtonElement>>
-}
+import type { Arrayable } from '@element-plus/utils'
 
 export const dropdownProps = buildProps({
   /**
@@ -35,6 +23,14 @@ export const dropdownProps = buildProps({
       String,
       Array,
     ]),
+  },
+  /**
+   * @description how to trigger the sub menu
+   */
+  menuTrigger: {
+    type: String,
+    values: ['hover', 'click'],
+    default: 'hover',
   },
   triggerKeys: {
     type: definePropType<string[]>(Array),
@@ -172,6 +168,13 @@ export const dropdownProps = buildProps({
     type: Boolean,
     default: true,
   },
+  /**
+   * @description offset of the sub menu popper
+   */
+  popperOffset: {
+    type: Number,
+    default: -6,
+  },
 } as const)
 
 export const dropdownItemProps = buildProps({
@@ -190,7 +193,6 @@ export const dropdownItemProps = buildProps({
    * @description whether a divider is displayed
    */
   divided: Boolean,
-  textValue: String,
   /**
    * @description custom icon
    */
@@ -202,6 +204,66 @@ export const dropdownItemProps = buildProps({
 export const dropdownMenuProps = buildProps({
   onKeydown: { type: definePropType<(e: KeyboardEvent) => void>(Function) },
 })
+
+export const dropdownSubMenuProps = buildProps({
+  /**
+   * @description title of the sub menu
+   */
+  label: String,
+  /**
+   * @description whether the sub menu is disabled
+   */
+  disabled: Boolean,
+  /**
+   * @description whether a divider is displayed
+   */
+  divided: Boolean,
+  /**
+   * @description custom icon
+   */
+  icon: {
+    type: iconPropType,
+  },
+  /**
+   * @description placement of pop sub menu
+   */
+  placement: {
+    type: definePropType<Placement>(String),
+    default: 'right-start',
+  },
+  /**
+   * @description whether the tooltip content has an arrow
+   */
+  showArrow: {
+    type: Boolean,
+    default: false,
+  },
+  /**
+   * @description offset of the popper
+   */
+  popperOffset: Number,
+  /**
+   * @description custom class name for DropdownSubMenu's dropdown
+   */
+  popperClass: useTooltipContentProps.popperClass,
+  /**
+   * @description custom style for Dropdown's dropdown
+   */
+  popperStyle: useTooltipContentProps.popperStyle,
+  /**
+   * @description whether the dropdown popup is teleported to the body
+   */
+  teleported: useTooltipContentProps.teleported,
+})
+
+export const dropdownSubMenuEmits = {
+  click: (evt: MouseEvent) => evt instanceof MouseEvent,
+  pointerenter: (evt: PointerEvent) => evt instanceof Event,
+  pointerleave: (evt: PointerEvent) => evt instanceof Event,
+}
+
+export type DropdownProps = ExtractPropTypes<typeof dropdownProps>
+export type DropdownPropsPublic = __ExtractPublicPropTypes<typeof dropdownProps>
 
 export const FIRST_KEYS = [
   EVENT_CODE.down,
