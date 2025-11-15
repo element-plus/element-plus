@@ -1101,7 +1101,7 @@ onMounted(() => {
 ### custom-header-footer.vue
 ```vue
 <template>
-  <div class="demo">
+  <div class="autocomplete-custom-header-footer">
     <div>
       <p>Custom header content</p>
       <el-autocomplete
@@ -1189,20 +1189,20 @@ const handleClear = () => {
 }
 </script>
 
-<style>
-.demo {
+<style scoped>
+.autocomplete-custom-header-footer {
   display: flex;
 }
 
-.demo > div {
+.autocomplete-custom-header-footer > div {
   flex: 1;
   text-align: center;
 }
-.demo > div > .el-autocomplete {
+.autocomplete-custom-header-footer > div > :deep(.el-autocomplete) {
   width: 50%;
 }
 
-.demo > div:not(:last-child) {
+.autocomplete-custom-header-footer > div:not(:last-child) {
   border-right: 1px solid var(--el-border-color);
 }
 </style>
@@ -3693,6 +3693,8 @@ You can customize both the header and footer of the dropdown using slots.
 | togglePopperVisible ^(2.2.31) | toggle the visible type of popper                                                                                 | ^[Function]`(visible?: boolean) => void`                        |
 | contentRef                    | cascader content ref                                                                                              | ^[object]`ComputedRef<any>`                                     |
 | presentText ^(2.8.4)          | selected content text                                                                                             | ^[object]`ComputedRef<string>`                                  |
+| focus ^(2.11.8)               | focus the input element                                                                                           | ^[Function]`() => void`                                         |
+| blur ^(2.11.8)                | blur the input element                                                                                            | ^[Function]`() => void`                                         |
 
 ## CascaderPanel API
 
@@ -5161,12 +5163,12 @@ const options = [
 ### custom-header-footer.vue
 ```vue
 <template>
-  <div class="demo">
+  <div class="cascader-custom-header-footer">
     <div>
       <p>Custom header content</p>
       <el-cascader
         v-model="value"
-        popper-class="custom-header"
+        popper-class="cascader-custom-header"
         :options="options"
         :props="props"
         clearable
@@ -5262,25 +5264,23 @@ const handleClear = () => {
 }
 </script>
 
-<style>
-.demo {
+<style scoped>
+.cascader-custom-header-footer {
   display: flex;
 }
 
-.demo > div {
+.cascader-custom-header-footer > div {
   flex: 1;
   text-align: center;
 }
 
-.demo > div:not(:last-child) {
+.cascader-custom-header-footer > div:not(:last-child) {
   border-right: 1px solid var(--el-border-color);
 }
 
-.custom-header {
-  .el-checkbox {
-    display: flex;
-    height: unset;
-  }
+.cascader-custom-header .el-checkbox {
+  display: flex;
+  height: unset;
 }
 </style>
 
@@ -13454,14 +13454,17 @@ Starting from version ^(2.11.7), `modal-penetrable` attribute is added, which ca
 
 ### Events
 
-| Name             | Description                                      | Type                    |
-| ---------------- | ------------------------------------------------ | ----------------------- |
-| open             | Triggered before Drawer opening animation begins | ^[Function]`() => void` |
-| opened           | Triggered after Drawer opening animation ended   | ^[Function]`() => void` |
-| close            | Triggered before Drawer closing animation begins | ^[Function]`() => void` |
-| closed           | Triggered after Drawer closing animation ended   | ^[Function]`() => void` |
-| open-auto-focus  | triggers after Drawer opens and content focused  | ^[Function]`() => void` |
-| close-auto-focus | triggers after Drawer closed and content focused | ^[Function]`() => void` |
+| Name                   | Description                                                  | Type                                                 |
+| ---------------------- | ------------------------------------------------------------ | ---------------------------------------------------- |
+| open                   | Triggered before Drawer opening animation begins             | ^[Function]`() => void`                              |
+| opened                 | Triggered after Drawer opening animation ended               | ^[Function]`() => void`                              |
+| close                  | Triggered before Drawer closing animation begins             | ^[Function]`() => void`                              |
+| closed                 | Triggered after Drawer closing animation ended               | ^[Function]`() => void`                              |
+| open-auto-focus        | triggers after Drawer opens and content focused              | ^[Function]`() => void`                              |
+| close-auto-focus       | triggers after Drawer closed and content focused             | ^[Function]`() => void`                              |
+| resize-start ^(2.11.8) | Triggered when resizing starts (when `resizable` is enabled) | ^[Function]`(evt: MouseEvent, size: number) => void` |
+| resize ^(2.11.8)       | Triggered while resizing (when `resizable` is enabled)       | ^[Function]`(evt: MouseEvent, size: number) => void` |
+| resize-end ^(2.11.8)   | Triggered when resizing ends (when `resizable` is enabled)   | ^[Function]`(evt: MouseEvent, size: number) => void` |
 
 ### Slots
 
@@ -17482,42 +17485,42 @@ Prepend or append an element, generally a label or a button.
 
 ### Attributes
 
-| Name                          | Description                                                                                                                            | Type                                                                                                                                                                                                                         | Default     |
-| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| type                          | type of input                                                                                                                          | ^[string]`'text' \| 'textarea' \| 'password' \| 'button' \| 'checkbox' \| 'file' \| 'number' \| 'radio' \| ...` [native input types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types) | text        |
-| model-value / v-model         | binding value                                                                                                                          | ^[string] / ^[number]                                                                                                                                                                                                        | —           |
-| model-modifiers ^(2.11.5)     | v-model modifiers, reference [Vue modifiers](https://vuejs.org/guide/essentials/forms.html#modifiers)                                  | ^[object]`{ lazy?: boolean, number?: boolean, trim?: boolean }`                                                                                                                                                              | —           |
-| maxlength                     | same as `maxlength` in native input                                                                                                    | ^[string] / ^[number]                                                                                                                                                                                                        | —           |
-| minlength                     | same as `minlength` in native input                                                                                                    | ^[string] / ^[number]                                                                                                                                                                                                        | —           |
-| show-word-limit               | whether show word count, only works when `type` is 'text' or 'textarea'                                                                | ^[boolean]                                                                                                                                                                                                                   | false       |
-| word-limit-position ^(2.11.5) | word count position, valid when `show-word-limit` is true                                                                              | ^[enum]`'inside' \| 'outside' `                                                                                                                                                                                              | "inside"    |
-| placeholder                   | placeholder of Input                                                                                                                   | ^[string]                                                                                                                                                                                                                    | —           |
-| clearable                     | whether to show clear button, only works when `type` is not 'textarea'                                                                 | ^[boolean]                                                                                                                                                                                                                   | false       |
-| clear-icon ^(2.11.0)          | custom clear icon component                                                                                                            | ^[string] / ^[object]`Component`                                                                                                                                                                                             | CircleClose |
-| formatter                     | specifies the format of the value presented input.(only works when `type` is 'text')                                                   | ^[Function]`(value: string \| number) => string`                                                                                                                                                                             | —           |
-| parser                        | specifies the value extracted from formatter input.(only works when `type` is 'text')                                                  | ^[Function]`(value: string) => string`                                                                                                                                                                                       | —           |
-| show-password                 | whether to show toggleable password input                                                                                              | ^[boolean]                                                                                                                                                                                                                   | false       |
-| disabled                      | whether Input is disabled                                                                                                              | ^[boolean]                                                                                                                                                                                                                   | false       |
-| size                          | size of Input, works when `type` is not 'textarea'                                                                                     | ^[enum]`'large' \| 'default' \| 'small'`                                                                                                                                                                                     | —           |
-| prefix-icon                   | prefix icon component                                                                                                                  | ^[string] / ^[Component]                                                                                                                                                                                                     | —           |
-| suffix-icon                   | suffix icon component                                                                                                                  | ^[string] / ^[Component]                                                                                                                                                                                                     | —           |
-| rows                          | number of rows of textarea, only works when `type` is 'textarea'                                                                       | ^[number]                                                                                                                                                                                                                    | 2           |
-| autosize                      | whether textarea has an adaptive height, only works when `type` is 'textarea'. Can accept an object, e.g. `{ minRows: 2, maxRows: 6 }` | ^[boolean] / ^[object]`{ minRows?: number, maxRows?: number }`                                                                                                                                                               | false       |
-| autocomplete                  | same as `autocomplete` in native input                                                                                                 | ^[string]                                                                                                                                                                                                                    | off         |
-| name                          | same as `name` in native input                                                                                                         | ^[string]                                                                                                                                                                                                                    | —           |
-| readonly                      | same as `readonly` in native input                                                                                                     | ^[boolean]                                                                                                                                                                                                                   | false       |
-| max                           | same as `max` in native input                                                                                                          | —                                                                                                                                                                                                                            | —           |
-| min                           | same as `min` in native input                                                                                                          | —                                                                                                                                                                                                                            | —           |
-| step                          | same as `step` in native input                                                                                                         | —                                                                                                                                                                                                                            | —           |
-| resize                        | control the resizability                                                                                                               | ^[enum]`'none' \| 'both' \| 'horizontal' \| 'vertical'`                                                                                                                                                                      | —           |
-| autofocus                     | same as `autofocus` in native input                                                                                                    | ^[boolean]                                                                                                                                                                                                                   | false       |
-| form                          | same as `form` in native input                                                                                                         | `string`                                                                                                                                                                                                                     | —           |
-| aria-label ^(a11y) ^(2.7.2)   | same as `aria-label` in native input                                                                                                   | ^[string]                                                                                                                                                                                                                    | —           |
-| tabindex                      | input tabindex                                                                                                                         | ^[string] / ^[number]                                                                                                                                                                                                        | —           |
-| validate-event                | whether to trigger form validation                                                                                                     | ^[boolean]                                                                                                                                                                                                                   | true        |
-| input-style                   | the style of the input element or textarea element                                                                                     | ^[string] / ^[object]`CSSProperties \| CSSProperties[] \| string[]`                                                                                                                                                          | {}          |
-| label ^(a11y) ^(deprecated)   | same as `aria-label` in native input                                                                                                   | ^[string]                                                                                                                                                                                                                    | —           |
-| inputmode ^(2.10.3)           | same as `inputmode` in native input                                                                                                    | ^[string]                                                                                                                                                                                                                    | —           |
+| Name                          | Description                                                                                                                            | Type                                                                                                | Default     |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ----------- |
+| type                          | type of input, see more in [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types)               | ^[string]`'text' \| 'textarea' \| 'number' \| 'password' \| 'email' \| 'search' \| 'tel' \|  'url'` | text        |
+| model-value / v-model         | binding value                                                                                                                          | ^[string] / ^[number]                                                                               | —           |
+| model-modifiers ^(2.11.5)     | v-model modifiers, reference [Vue modifiers](https://vuejs.org/guide/essentials/forms.html#modifiers)                                  | ^[object]`{ lazy?: boolean, number?: boolean, trim?: boolean }`                                     | —           |
+| maxlength                     | same as `maxlength` in native input                                                                                                    | ^[string] / ^[number]                                                                               | —           |
+| minlength                     | same as `minlength` in native input                                                                                                    | ^[string] / ^[number]                                                                               | —           |
+| show-word-limit               | whether show word count, only works when `type` is 'text' or 'textarea'                                                                | ^[boolean]                                                                                          | false       |
+| word-limit-position ^(2.11.5) | word count position, valid when `show-word-limit` is true                                                                              | ^[enum]`'inside' \| 'outside' `                                                                     | "inside"    |
+| placeholder                   | placeholder of Input                                                                                                                   | ^[string]                                                                                           | —           |
+| clearable                     | whether to show clear button, only works when `type` is not 'textarea'                                                                 | ^[boolean]                                                                                          | false       |
+| clear-icon ^(2.11.0)          | custom clear icon component                                                                                                            | ^[string] / ^[object]`Component`                                                                    | CircleClose |
+| formatter                     | specifies the format of the value presented input.(only works when `type` is 'text')                                                   | ^[Function]`(value: string \| number) => string`                                                    | —           |
+| parser                        | specifies the value extracted from formatter input.(only works when `type` is 'text')                                                  | ^[Function]`(value: string) => string`                                                              | —           |
+| show-password                 | whether to show toggleable password input                                                                                              | ^[boolean]                                                                                          | false       |
+| disabled                      | whether Input is disabled                                                                                                              | ^[boolean]                                                                                          | false       |
+| size                          | size of Input, works when `type` is not 'textarea'                                                                                     | ^[enum]`'large' \| 'default' \| 'small'`                                                            | —           |
+| prefix-icon                   | prefix icon component                                                                                                                  | ^[string] / ^[Component]                                                                            | —           |
+| suffix-icon                   | suffix icon component                                                                                                                  | ^[string] / ^[Component]                                                                            | —           |
+| rows                          | number of rows of textarea, only works when `type` is 'textarea'                                                                       | ^[number]                                                                                           | 2           |
+| autosize                      | whether textarea has an adaptive height, only works when `type` is 'textarea'. Can accept an object, e.g. `{ minRows: 2, maxRows: 6 }` | ^[boolean] / ^[object]`{ minRows?: number, maxRows?: number }`                                      | false       |
+| autocomplete                  | same as `autocomplete` in native input                                                                                                 | ^[string]                                                                                           | off         |
+| name                          | same as `name` in native input                                                                                                         | ^[string]                                                                                           | —           |
+| readonly                      | same as `readonly` in native input                                                                                                     | ^[boolean]                                                                                          | false       |
+| max                           | same as `max` in native input                                                                                                          | —                                                                                                   | —           |
+| min                           | same as `min` in native input                                                                                                          | —                                                                                                   | —           |
+| step                          | same as `step` in native input                                                                                                         | —                                                                                                   | —           |
+| resize                        | control the resizability                                                                                                               | ^[enum]`'none' \| 'both' \| 'horizontal' \| 'vertical'`                                             | —           |
+| autofocus                     | same as `autofocus` in native input                                                                                                    | ^[boolean]                                                                                          | false       |
+| form                          | same as `form` in native input                                                                                                         | `string`                                                                                            | —           |
+| aria-label ^(a11y) ^(2.7.2)   | same as `aria-label` in native input                                                                                                   | ^[string]                                                                                           | —           |
+| tabindex                      | input tabindex                                                                                                                         | ^[string] / ^[number]                                                                               | —           |
+| validate-event                | whether to trigger form validation                                                                                                     | ^[boolean]                                                                                          | true        |
+| input-style                   | the style of the input element or textarea element                                                                                     | ^[string] / ^[object]`CSSProperties \| CSSProperties[] \| string[]`                                 | {}          |
+| label ^(a11y) ^(deprecated)   | same as `aria-label` in native input                                                                                                   | ^[string]                                                                                           | —           |
+| inputmode ^(2.10.3)           | same as `inputmode` in native input                                                                                                    | ^[string]                                                                                           | —           |
 
 ### Events
 
@@ -20033,48 +20036,48 @@ The corresponding methods are: `ElMessageBox`, `ElMessageBox.alert`, `ElMessageB
 
 ### Options
 
-| Name                              | Description                                                                                                                              | Type                                                                               | Default                                          |
-| --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ------------------------------------------------ |
-| autofocus                         | auto focus when open MessageBox                                                                                                          | ^[boolean]                                                                         | true                                             |
-| title                             | title of the MessageBox                                                                                                                  | ^[string]                                                                          | ''                                               |
-| message                           | content of the MessageBox                                                                                                                | ^[string] / ^[VNode] / ^[Function]`() => VNode` ^(2.2.17)                          | —                                                |
-| dangerouslyUseHTMLString          | whether `message` is treated as HTML string                                                                                              | ^[boolean]                                                                         | false                                            |
-| type                              | message type, used for icon display                                                                                                      | ^[enum]`'primary' (2.9.11) \| 'success' \| 'info' \| 'warning' \| 'error'`         | ''                                               |
-| icon                              | custom icon component, overrides `type`                                                                                                  | ^[string] / ^[Component]                                                           | ''                                               |
-| closeIcon ^(2.9.5)                | custom close icon component, default is Close                                                                                            | ^[string] / ^[Component]                                                           | ''                                               |
-| customClass                       | custom class name for MessageBox                                                                                                         | ^[string]                                                                          | ''                                               |
-| customStyle                       | custom inline style for MessageBox                                                                                                       | ^[CSSProperties]                                                                   | {}                                               |
-| modal                             | whether a mask is displayed                                                                                                              | ^[boolean]                                                                         | true                                             |
-| modalClass                        | custom class names for mask                                                                                                              | string                                                                             | —                                                |
-| callback                          | MessageBox closing callback if you don't prefer Promise                                                                                  | ^[Function]`(value: string, action: Action) => any \| (action: Action) => any`     | null                                             |
-| showClose                         | whether to show close icon of MessageBox                                                                                                 | ^[boolean]                                                                         | true                                             |
-| beforeClose                       | callback before MessageBox closes, and it will prevent MessageBox from closing                                                           | ^[Function]`(action: Action, instance: MessageBoxState, done: () => void) => void` | null                                             |
-| distinguishCancelAndClose         | whether to distinguish canceling and closing the MessageBox                                                                              | ^[boolean]                                                                         | false                                            |
-| lockScroll                        | whether to lock body scroll when MessageBox prompts                                                                                      | ^[boolean]                                                                         | true                                             |
-| showCancelButton                  | whether to show a cancel button                                                                                                          | ^[boolean]                                                                         | false (true when called with confirm and prompt) |
-| showConfirmButton                 | whether to show a confirm button                                                                                                         | ^[boolean]                                                                         | true                                             |
-| cancelButtonText                  | text content of cancel button                                                                                                            | ^[string]                                                                          | Cancel                                           |
-| confirmButtonText                 | text content of confirm button                                                                                                           | ^[string]                                                                          | OK                                               |
-| cancelButtonLoadingIcon ^(2.7.7)  | loading icon content of cancel button                                                                                                    | ^[string] / ^[Component]                                                           | Loading                                          |
-| confirmButtonLoadingIcon ^(2.7.7) | loading icon content of confirm button                                                                                                   | ^[string] / ^[Component]                                                           | Loading                                          |
-| cancelButtonClass                 | custom class name of cancel button                                                                                                       | ^[string]                                                                          | ''                                               |
-| confirmButtonClass                | custom class name of confirm button                                                                                                      | ^[string]                                                                          | ''                                               |
-| closeOnClickModal                 | whether MessageBox can be closed by clicking the mask                                                                                    | ^[boolean]                                                                         | true (false when called with alert)              |
-| closeOnPressEscape                | whether MessageBox can be closed by pressing the ESC                                                                                     | ^[boolean]                                                                         | true (false when called with alert)              |
-| closeOnHashChange                 | whether to close MessageBox when hash changes                                                                                            | ^[boolean]                                                                         | true                                             |
-| showInput                         | whether to show an input                                                                                                                 | ^[boolean]                                                                         | false (true when called with prompt)             |
-| inputPlaceholder                  | placeholder of input                                                                                                                     | ^[string]                                                                          | ''                                               |
-| inputType                         | type of input                                                                                                                            | ^[string]                                                                          | text                                             |
-| inputValue                        | initial value of input                                                                                                                   | ^[string]                                                                          | ''                                               |
-| inputPattern                      | regexp for the input                                                                                                                     | ^[regexp]                                                                          | null                                             |
-| inputValidator                    | validation function for the input. Should returns a boolean or string. If a string is returned, it will be assigned to inputErrorMessage | ^[Function]`(value: string) => boolean \| string`/ `undefined`                     | undefined                                        |
-| inputErrorMessage                 | error message when validation fails                                                                                                      | ^[string]                                                                          | Illegal input                                    |
-| center                            | whether to align the content in center                                                                                                   | ^[boolean]                                                                         | false                                            |
-| draggable                         | whether MessageBox is draggable                                                                                                          | ^[boolean]                                                                         | false                                            |
-| overflow ^(2.5.4)                 | draggable MessageBox can overflow the viewport                                                                                           | ^[boolean]                                                                         | false                                            |
-| roundButton                       | whether to use round button                                                                                                              | ^[boolean]                                                                         | false                                            |
-| buttonSize                        | custom size of confirm and cancel buttons                                                                                                | ^[string]`'small' \| 'default' \| 'large'`                                         | default                                          |
-| appendTo ^(2.2.19)                | set the root element for the message box                                                                                                 | ^[CSSSelector] / ^[HTMLElement]                                                    | —                                                |
+| Name                              | Description                                                                                                                              | Type                                                                                                | Default                                          |
+| --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ------------------------------------------------ |
+| autofocus                         | auto focus when open MessageBox                                                                                                          | ^[boolean]                                                                                          | true                                             |
+| title                             | title of the MessageBox                                                                                                                  | ^[string]                                                                                           | ''                                               |
+| message                           | content of the MessageBox                                                                                                                | ^[string] / ^[VNode] / ^[Function]`() => VNode` ^(2.2.17)                                           | —                                                |
+| dangerouslyUseHTMLString          | whether `message` is treated as HTML string                                                                                              | ^[boolean]                                                                                          | false                                            |
+| type                              | message type, used for icon display                                                                                                      | ^[enum]`'primary' (2.9.11) \| 'success' \| 'info' \| 'warning' \| 'error'`                          | ''                                               |
+| icon                              | custom icon component, overrides `type`                                                                                                  | ^[string] / ^[Component]                                                                            | ''                                               |
+| closeIcon ^(2.9.5)                | custom close icon component, default is Close                                                                                            | ^[string] / ^[Component]                                                                            | ''                                               |
+| customClass                       | custom class name for MessageBox                                                                                                         | ^[string]                                                                                           | ''                                               |
+| customStyle                       | custom inline style for MessageBox                                                                                                       | ^[CSSProperties]                                                                                    | {}                                               |
+| modal                             | whether a mask is displayed                                                                                                              | ^[boolean]                                                                                          | true                                             |
+| modalClass                        | custom class names for mask                                                                                                              | string                                                                                              | —                                                |
+| callback                          | MessageBox closing callback if you don't prefer Promise                                                                                  | ^[Function]`(value: string, action: Action) => any \| (action: Action) => any`                      | null                                             |
+| showClose                         | whether to show close icon of MessageBox                                                                                                 | ^[boolean]                                                                                          | true                                             |
+| beforeClose                       | callback before MessageBox closes, and it will prevent MessageBox from closing                                                           | ^[Function]`(action: Action, instance: MessageBoxState, done: () => void) => void`                  | null                                             |
+| distinguishCancelAndClose         | whether to distinguish canceling and closing the MessageBox                                                                              | ^[boolean]                                                                                          | false                                            |
+| lockScroll                        | whether to lock body scroll when MessageBox prompts                                                                                      | ^[boolean]                                                                                          | true                                             |
+| showCancelButton                  | whether to show a cancel button                                                                                                          | ^[boolean]                                                                                          | false (true when called with confirm and prompt) |
+| showConfirmButton                 | whether to show a confirm button                                                                                                         | ^[boolean]                                                                                          | true                                             |
+| cancelButtonText                  | text content of cancel button                                                                                                            | ^[string]                                                                                           | Cancel                                           |
+| confirmButtonText                 | text content of confirm button                                                                                                           | ^[string]                                                                                           | OK                                               |
+| cancelButtonLoadingIcon ^(2.7.7)  | loading icon content of cancel button                                                                                                    | ^[string] / ^[Component]                                                                            | Loading                                          |
+| confirmButtonLoadingIcon ^(2.7.7) | loading icon content of confirm button                                                                                                   | ^[string] / ^[Component]                                                                            | Loading                                          |
+| cancelButtonClass                 | custom class name of cancel button                                                                                                       | ^[string]                                                                                           | ''                                               |
+| confirmButtonClass                | custom class name of confirm button                                                                                                      | ^[string]                                                                                           | ''                                               |
+| closeOnClickModal                 | whether MessageBox can be closed by clicking the mask                                                                                    | ^[boolean]                                                                                          | true (false when called with alert)              |
+| closeOnPressEscape                | whether MessageBox can be closed by pressing the ESC                                                                                     | ^[boolean]                                                                                          | true (false when called with alert)              |
+| closeOnHashChange                 | whether to close MessageBox when hash changes                                                                                            | ^[boolean]                                                                                          | true                                             |
+| showInput                         | whether to show an input                                                                                                                 | ^[boolean]                                                                                          | false (true when called with prompt)             |
+| inputPlaceholder                  | placeholder of input                                                                                                                     | ^[string]                                                                                           | ''                                               |
+| inputType                         | type of input, see more in [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types)                 | ^[string]`'text' \| 'textarea' \| 'number' \| 'password' \| 'email' \| 'search' \| 'tel' \|  'url'` | text                                             |
+| inputValue                        | initial value of input                                                                                                                   | ^[string]                                                                                           | ''                                               |
+| inputPattern                      | regexp for the input                                                                                                                     | ^[regexp]                                                                                           | null                                             |
+| inputValidator                    | validation function for the input. Should returns a boolean or string. If a string is returned, it will be assigned to inputErrorMessage | ^[Function]`(value: string) => boolean \| string`/ `undefined`                                      | undefined                                        |
+| inputErrorMessage                 | error message when validation fails                                                                                                      | ^[string]                                                                                           | Illegal input                                    |
+| center                            | whether to align the content in center                                                                                                   | ^[boolean]                                                                                          | false                                            |
+| draggable                         | whether MessageBox is draggable                                                                                                          | ^[boolean]                                                                                          | false                                            |
+| overflow ^(2.5.4)                 | draggable MessageBox can overflow the viewport                                                                                           | ^[boolean]                                                                                          | false                                            |
+| roundButton                       | whether to use round button                                                                                                              | ^[boolean]                                                                                          | false                                            |
+| buttonSize                        | custom size of confirm and cancel buttons                                                                                                | ^[string]`'small' \| 'default' \| 'large'`                                                          | default                                          |
+| appendTo ^(2.2.19)                | set the root element for the message box                                                                                                 | ^[CSSSelector] / ^[HTMLElement]                                                                     | —                                                |
 
 ## Vue Examples
 
@@ -24137,7 +24140,7 @@ Set default slot to render custom content.
 
 ## Custom Style
 
-Set custom styles using CSS varibles.
+Set custom styles using CSS variables.
 
 
 
@@ -40433,6 +40436,7 @@ const data: Tree[] = [
   <div class="custom-tree-container">
     <p>Using render-content</p>
     <el-tree
+      ref="treeRef1"
       style="max-width: 600px"
       :data="dataSource"
       show-checkbox
@@ -40443,6 +40447,7 @@ const data: Tree[] = [
     />
     <p>Using scoped slot</p>
     <el-tree
+      ref="treeRef2"
       style="max-width: 600px"
       :data="dataSource"
       show-checkbox
@@ -40476,7 +40481,11 @@ const data: Tree[] = [
 import { ref } from 'vue'
 import { ElButton } from 'element-plus'
 
-import type { RenderContentContext, RenderContentFunction } from 'element-plus'
+import type {
+  RenderContentContext,
+  RenderContentFunction,
+  TreeInstance,
+} from 'element-plus'
 
 interface Tree {
   id: number
@@ -40487,22 +40496,18 @@ type Node = RenderContentContext['node']
 type Data = RenderContentContext['data']
 
 let id = 1000
+const treeRef1 = ref<TreeInstance>()
+const treeRef2 = ref<TreeInstance>()
 
 const append = (data: Data) => {
   const newChild = { id: id++, label: 'testtest', children: [] }
-  if (!data.children) {
-    data.children = []
-  }
-  data.children.push(newChild)
-  dataSource.value = [...dataSource.value]
+  treeRef1.value?.append(newChild, data)
+  treeRef2.value?.append(newChild, data)
 }
 
 const remove = (node: Node, data: Data) => {
-  const parent = node.parent
-  const children: Tree[] = parent?.data.children || parent?.data
-  const index = children.findIndex((d) => d.id === data.id)
-  children.splice(index, 1)
-  dataSource.value = [...dataSource.value]
+  treeRef1.value?.remove(data)
+  treeRef2.value?.remove(data)
 }
 
 const renderContent: RenderContentFunction = (h, { node, data }) => {
@@ -42017,7 +42022,7 @@ const config = reactive({
       :gap="config.gap"
       :offset="config.offset"
     >
-      <div class="demo">
+      <div class="watermark-container">
         <h1>Element Plus</h1>
         <h2>A Vue 3 based component library for designers and developers</h2>
         <img src="/images/hamburger.png" alt="示例图片" />
@@ -42076,7 +42081,7 @@ const config = reactive({
   display: flex;
   flex: auto;
 }
-.demo {
+.watermark-container {
   flex: auto;
 }
 .form {
