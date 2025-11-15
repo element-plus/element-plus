@@ -69,6 +69,9 @@ export default defineComponent({
     allowDragLastColumn: {
       type: Boolean,
     },
+    nativeScrollbar: {
+      type: Boolean,
+    },
   },
   setup(props, { emit }) {
     const instance = getCurrentInstance() as TableHeader
@@ -186,6 +189,7 @@ export default defineComponent({
       $parent,
       saveIndexSelection,
       isTableLayoutAuto,
+      nativeScrollbar,
     } = this
     let rowSpan = 1
     return h(
@@ -202,7 +206,7 @@ export default defineComponent({
             key: rowIndex,
             style: getHeaderRowStyle(rowIndex),
           },
-          subColumns.map((column, cellIndex) => {
+          ...subColumns.map((column, cellIndex) => {
             if (column.rowSpan > rowSpan) {
               rowSpan = column.rowSpan
             }
@@ -312,7 +316,8 @@ export default defineComponent({
                 ),
               ]
             )
-          })
+          }),
+          nativeScrollbar && h('th', { class: 'gutter' })
         )
       )
     )
