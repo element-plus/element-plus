@@ -53,25 +53,6 @@ provide(descriptionsKey, props as IDescriptionsInject)
 
 const descriptionKls = computed(() => [ns.b(), ns.m(descriptionsSize.value)])
 
-const filledNode = (
-  node: DescriptionItemVNode,
-  span: number,
-  count: number,
-  isLast = false
-) => {
-  if (!node.props) {
-    node.props = {}
-  }
-  if (span > count) {
-    node.props.span = count
-  }
-  if (isLast) {
-    // set the last span
-    node.props.span = span
-  }
-  return node
-}
-
 const getRows = () => {
   if (!slots.default) return []
 
@@ -102,26 +83,29 @@ const getRows = () => {
       count -= rowspanTemp[rowNo]
       rowspanTemp[rowNo] = 0
     }
-    if (index < children.length - 1) {
-      totalSpan += span > count ? count : span
+
+    if (span > count) {
+      totalSpan += count
+      if (temp.length > 0) {
+        rows.push(temp)
+      }
+      temp = [node]
+      totalSpan += span
+      count = props.column - span
+    } else {
+      temp.push(node)
+      totalSpan += span
+      count -= span
     }
 
     if (index === children.length - 1) {
-      // calculate the last item span
-      const lastSpan = props.column - (totalSpan % props.column)
-      temp.push(filledNode(node, lastSpan, count, true))
+      const lastRowRemaining = props.column - (totalSpan % props.column)
+      if (lastRowRemaining < props.column) {
+        const lastNode = { ...node }
+        lastNode.props = { ...lastNode.props, span: span + lastRowRemaining }
+        temp[temp.length - 1] = lastNode
+      }
       rows.push(temp)
-      return
-    }
-
-    if (span < count) {
-      count -= span
-      temp.push(node)
-    } else {
-      temp.push(filledNode(node, span, count))
-      rows.push(temp)
-      count = props.column
-      temp = []
     }
   })
 
