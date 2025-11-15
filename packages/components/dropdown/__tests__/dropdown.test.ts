@@ -829,6 +829,7 @@ describe('Dropdown', () => {
       const subMenuTrigger = subMenu.find('.el-dropdown-menu__item')
       const subMenuContent = subMenu.findComponent({ name: 'ElTooltip' })
       await subMenuTrigger.trigger('pointerenter', { pointerType: 'mouse' })
+      await sleep()
       expect(subMenuTrigger.classes()).toContain('is-selected')
       expect(subMenuContent.vm.open).toBe(true)
 

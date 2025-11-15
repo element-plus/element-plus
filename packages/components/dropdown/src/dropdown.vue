@@ -32,7 +32,7 @@
     >
       <template #content>
         <el-scrollbar
-          ref="scrollbarRef"
+          ref="scrollbar"
           :wrap-style="wrapStyle"
           :wrap-class="wrapClass"
           :view-class="ns.e('list')"
@@ -278,7 +278,7 @@ export default defineComponent({
     return {
       t,
       ns,
-      scrollbarRef,
+      scrollbar: scrollbarRef,
       wrapStyle,
       dropdownTriggerKls,
       dropdownSize,

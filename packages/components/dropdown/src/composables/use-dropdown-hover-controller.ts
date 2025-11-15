@@ -71,8 +71,12 @@ export function useDropdownHoverController({
     isHoverInTrigger.value = true
     if (trigger.value.includes('hover')) {
       event.preventDefault()
-      // Wait for the trigger element to gain focus before opening the dropdown to avoid losing focus after the dropdown is closed.
-      setTimeout(() => handleOpen(event))
+      if (parentContentRef) {
+        // Wait for the trigger element to gain focus before opening the dropdown to avoid losing focus after the dropdown is closed.
+        setTimeout(() => handleOpen(event))
+      } else {
+        handleOpen(event)
+      }
     }
   }
 
