@@ -1,18 +1,24 @@
 name: Comment on PR with conflict Label
+# Note that this `pull_request_target` is vulnerable, it grants write access to a fork repo
+# DO NOT ADD ANY CHECKOUT/CACHING in this workflow
 
 on:
-  pull_request:
+  pull_request_target:
     types: [labeled, synchronize]
+
+permissions:
+  pull-requests: write
 
 jobs:
   comment:
     runs-on: ubuntu-latest
     steps:
       - name: Check for specific label
-        if: contains(github.event.pull_request.labels.*.name, 'conflict pending')
-        uses: actions-cool/maintain-one-comment@v3.1.1
+        if: |
+          contains(github.event.pull_request.labels.*.name, 'conflict pending') &&
+          github.repository_owner == 'element-plus'
+        uses: actions-cool/maintain-one-comment@v3.2.0
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           body: |
             @${{ github.event.pull_request.user.login }} This PR has conflicts, please resolve them.
             <!-- ELEMENT_PLUS_CONFLICT_COMMENT -->

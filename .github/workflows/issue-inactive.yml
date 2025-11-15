@@ -53,3 +53,4 @@ jobs:
         with:
           actions: 'check-inactive'
           inactive-day: 30
+          exclude-issue-numbers: '15834'

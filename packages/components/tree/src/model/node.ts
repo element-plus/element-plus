@@ -189,6 +189,7 @@ class Node {
       store.currentNodeKey !== undefined &&
       this.key === store.currentNodeKey
     ) {
+      store.currentNode && (store.currentNode.isCurrent = false)
       store.currentNode = this
       store.currentNode.isCurrent = true
     }
@@ -341,14 +342,7 @@ class Node {
   }
 
   removeChildByData(data: TreeNodeData | null): void {
-    let targetNode: Node | null = null
-
-    for (let i = 0; i < this.childNodes.length; i++) {
-      if (this.childNodes[i].data === data) {
-        targetNode = this.childNodes[i]
-        break
-      }
-    }
+    const targetNode = this.childNodes.find((child) => child.data === data)
 
     if (targetNode) {
       this.removeChild(targetNode)
