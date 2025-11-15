@@ -372,7 +372,10 @@ const createSelectWarnHandler = (appContext: AppContext): WarnHandler => {
     const message = args[0]
     if (
       !message ||
-      message.includes('Slot "default" invoked outside of the render function')
+      (message.includes(
+        'Slot "default" invoked outside of the render function'
+      ) &&
+        args[2]?.includes('ElTreeSelect'))
     )
       return
     const original = warnHandlerMap.get(appContext)?.originalWarnHandler
