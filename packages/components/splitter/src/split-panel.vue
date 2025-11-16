@@ -169,6 +169,11 @@ const _panel = reactive({
 registerPanel(_panel)
 
 onBeforeUnmount(() => unregisterPanel(_panel))
+
+defineExpose({
+  /** @description splitter-panel html element */
+  splitterPanelRef: panelEl,
+})
 </script>
 
 <template>

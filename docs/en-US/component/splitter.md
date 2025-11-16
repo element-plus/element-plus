@@ -110,3 +110,9 @@ splitter/lazy
 | default           | Default content of the panel                    |
 | start-collapsible | Custom content for the start collapsible button |
 | end-collapsible   | Custom content for the end collapsible button   |
+
+### SplitterPanel Exposes
+
+| Name                       | Description                 | Type                           |
+| -------------------------- | --------------------------- | ------------------------------ |
+| splitterPanelRef ^(2.11.9) | splitter-panel html element | ^[object]`Ref<HTMLDivElement>` |
