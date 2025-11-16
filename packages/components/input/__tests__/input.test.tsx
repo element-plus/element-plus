@@ -638,6 +638,16 @@ describe('Input.vue', () => {
     })
   })
 
+  test('input change event return Event parameter', async () => {
+    const onChange = vi.fn()
+    const wrapper = mount(() => <Input onChange={onChange} />)
+
+    await wrapper.find('input').trigger('change')
+    await nextTick()
+
+    expect(onChange).toHaveBeenCalledWith('', expect.any(Event))
+  })
+
   test('modelValue modifiers', async () => {
     const number = ref()
     const trim = ref()

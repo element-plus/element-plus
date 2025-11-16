@@ -230,7 +230,8 @@ export type InputPropsPublic = __ExtractPublicPropTypes<typeof inputProps>
 export const inputEmits = {
   [UPDATE_MODEL_EVENT]: (value: string) => isString(value),
   input: (value: string) => isString(value),
-  change: (value: string) => isString(value),
+  change: (value: string, evt?: Event) =>
+    isString(value) && (evt instanceof Event || evt === undefined),
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
   blur: (evt: FocusEvent) => evt instanceof FocusEvent,
   clear: () => true,
