@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts" setup>
-import { inject, nextTick, onBeforeUnmount, ref, watch } from 'vue'
+import { computed, inject, nextTick, onBeforeUnmount, ref, watch } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
 import { capitalize, isUndefined, throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
@@ -29,6 +29,13 @@ const ns = useNamespace('tabs')
 
 const barRef = ref<HTMLDivElement>()
 const barStyle = ref<CSSProperties>()
+const shouldDisableInitialTransition = computed(
+  () =>
+    isUndefined(rootTabs.props.modelValue) &&
+    !isUndefined(rootTabs.props.defaultValue)
+)
+
+const enableTransition = ref(!shouldDisableInitialTransition.value)
 
 const getBarStyle = (): CSSProperties => {
   let offset = 0
@@ -69,7 +76,30 @@ const getBarStyle = (): CSSProperties => {
   }
 }
 
-const update = () => (barStyle.value = getBarStyle())
+const resolveBarStyle = () => {
+  const style = getBarStyle()
+  if (!enableTransition.value) {
+    style.transition = 'none'
+  }
+  return style
+}
+
+const update = () => {
+  barStyle.value = resolveBarStyle()
+}
+
+const enableTransitionLater = () => {
+  if (enableTransition.value || !shouldDisableInitialTransition.value) return
+  const runner = () => {
+    enableTransition.value = true
+    update()
+  }
+  if (typeof requestAnimationFrame === 'function') {
+    requestAnimationFrame(runner)
+  } else {
+    setTimeout(runner, 16)
+  }
+}
 
 const tabObservers = [] as ReturnType<typeof useResizeObserver>[]
 const observerTabs = () => {
@@ -88,6 +118,7 @@ watch(
     update()
 
     observerTabs()
+    enableTransitionLater()
   },
   { immediate: true }
 )
