@@ -25,7 +25,7 @@ export const formItemProps = buildProps({
    */
   labelWidth: {
     type: [String, Number],
-    default: '',
+    default: undefined,
   },
   /**
    * @description Position of label. If set to `'left'` or `'right'`, `label-width` prop is also required. The default is extend from `form label-position`.
