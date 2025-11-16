@@ -100,6 +100,13 @@ export const buttonProps = buildProps({
    */
   circle: Boolean,
   /**
+   * @description determine whether it's a dashed button
+   */
+  dashed: {
+    type: Boolean,
+    default: undefined,
+  },
+  /**
    * @description custom button color, automatically calculate `hover` and `active` color
    */
   color: String,
@@ -138,5 +145,6 @@ export interface ButtonConfigContext {
   plain?: boolean
   text?: boolean
   round?: boolean
+  dashed?: boolean
   autoInsertSpace?: boolean
 }

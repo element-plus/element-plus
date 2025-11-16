@@ -145,7 +145,8 @@
 
   &.is-plain,
   &.is-text,
-  &.is-link {
+  &.is-link,
+  &.is-dashed {
     @include button-plain($type);
   }
 }
