@@ -304,7 +304,8 @@ export function toggleRowStatus<T extends DefaultRow>(
   tableTreeProps?: TreeProps,
   selectable?: ((row: T, index: number) => boolean) | null,
   rowIndex?: number,
-  rowKey?: string | null
+  rowKey?: string | null,
+  lazyTreeNodeMap?: Record<string, T[]>
 ): boolean {
   let _rowIndex = rowIndex ?? 0
   let changed = false
@@ -356,12 +357,21 @@ export function toggleRowStatus<T extends DefaultRow>(
     }
   }
 
+  let children = []
+  // Check if the current row has lazy-loaded children
   if (
-    !tableTreeProps?.checkStrictly &&
-    tableTreeProps?.children &&
-    isArray(row[tableTreeProps.children])
+    tableTreeProps?.hasChildren &&
+    row[tableTreeProps?.hasChildren] &&
+    rowKey &&
+    lazyTreeNodeMap
   ) {
-    row[tableTreeProps.children].forEach((item: T) => {
+    children = lazyTreeNodeMap[getRowIdentity(row, rowKey)]
+  } else {
+    children = tableTreeProps?.children && row[tableTreeProps.children]
+  }
+
+  if (!tableTreeProps?.checkStrictly && isArray(children)) {
+    children.forEach((item: T) => {
       const childChanged = toggleRowStatus(
         statusArr,
         item,
@@ -369,7 +379,8 @@ export function toggleRowStatus<T extends DefaultRow>(
         tableTreeProps,
         selectable,
         _rowIndex + 1,
-        rowKey
+        rowKey,
+        lazyTreeNodeMap
       )
       _rowIndex += getChildrenCount(item) + 1
       if (childChanged) {
