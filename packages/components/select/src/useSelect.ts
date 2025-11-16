@@ -147,8 +147,9 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     return (
       props.clearable &&
       !selectDisabled.value &&
-      hasModelValue.value &&
-      (isFocused.value || states.inputHovering)
+      // hasModelValue.value &&
+      // (isFocused.value || states.inputHovering)
+      hasModelValue.value
     )
   })
   const iconComponent = computed(() =>
