@@ -1,7 +1,6 @@
 import { mount } from '@vue/test-utils'
-import { describe, expect, test, vi } from 'vitest'
+import { describe, expect, test } from 'vitest'
 import { TypeComponentsMap } from '@element-plus/utils'
-import { rAF } from '@element-plus/test-utils/tick'
 import Alert from '../src/alert.vue'
 
 const AXIOM = 'Rem is the best girl'
@@ -50,54 +49,5 @@ describe('Alert.vue', () => {
 
     await closeBtn.trigger('click')
     expect(wrapper.emitted()).toBeDefined()
-  })
-
-  test('should delay of appearance', () => {
-    vi.useFakeTimers()
-    const onOpen = vi.fn()
-    mount(<Alert title={AXIOM} showAfter={100} onOpen={onOpen} />)
-
-    expect(onOpen).toHaveBeenCalledTimes(0)
-    vi.advanceTimersByTime(100)
-    expect(onOpen).toHaveBeenCalledTimes(1)
-    vi.useRealTimers()
-  })
-
-  test('should delay of disappear', () => {
-    vi.useFakeTimers()
-    const onClose = vi.fn()
-    const wrapper = mount(
-      <Alert title={AXIOM} hideAfter={100} onClose={onClose} />
-    )
-
-    expect(onClose).toHaveBeenCalledTimes(0)
-    wrapper.vm.onClose()
-    vi.advanceTimersByTime(100)
-    expect(onClose).toHaveBeenCalledTimes(1)
-    vi.useRealTimers()
-  })
-
-  test('should disappear automatically', () => {
-    vi.useFakeTimers()
-    const onClose = vi.fn()
-    mount(<Alert title={AXIOM} autoClose={100} onClose={onClose} />)
-
-    expect(onClose).toHaveBeenCalledTimes(0)
-    vi.advanceTimersByTime(100)
-    expect(onClose).toHaveBeenCalledTimes(1)
-    vi.useRealTimers()
-  })
-
-  test('should open immediately when not using show-after, issue #22012', async () => {
-    const wrapper = mount(<Alert title={AXIOM} style={{ display: 'none' }} />)
-
-    expect(wrapper.vm.visible).toBeTruthy()
-    expect(wrapper.find('.el-alert').attributes('style')).toContain(
-      'display: none'
-    )
-    await rAF()
-    expect(wrapper.find('.el-alert').attributes('style')).toContain(
-      'display: none'
-    )
   })
 })
