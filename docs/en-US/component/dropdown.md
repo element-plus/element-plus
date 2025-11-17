@@ -180,7 +180,7 @@ dropdown/sub-menu
 | divided       | whether a divider is displayed                       | ^[boolean]                                                                               | false       |
 | icon          | custom icon                                          | ^[string] / ^[Component]                                                                 | —           |
 | placement     | placement of pop sub menu                            | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end'` | right-start |
-| show-arrow    | whether the tooltip content has an arrow             | ^[boolean]                                                                               | true        |
+| show-arrow    | whether the tooltip content has an arrow             | ^[boolean]                                                                               | false       |
 | popper-offset | offset of the popper                                 | ^[number]                                                                                | —           |
 | popper-class  | custom class name for Dropdown's dropdown            | ^[string] / ^[object]                                                                    | ''          |
 | popper-style  | custom style for Dropdown's dropdown                 | ^[string] / ^[object]                                                                    | —           |
