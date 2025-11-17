@@ -189,7 +189,7 @@ describe('dom style', () => {
   })
 
   describe('addUnit', () => {
-    it('should return empty string if value is undefined', () => {
+    it('should return empty string when value is undefined or empty string', () => {
       expect(addUnit()).toBe('')
       expect(addUnit('')).toBe('')
       expect(addUnit(undefined)).toBe('')
