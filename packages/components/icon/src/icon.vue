@@ -21,10 +21,11 @@ const ns = useNamespace('icon')
 
 const style = computed<CSSProperties>(() => {
   const { size, color } = props
-  if (!size && !color) return {}
+  const fontSize = addUnit(size)
+  if (!fontSize && !color) return {}
 
   return {
-    fontSize: addUnit(size),
+    fontSize,
     '--color': color,
   }
 })
