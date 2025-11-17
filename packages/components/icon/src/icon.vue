@@ -6,7 +6,7 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { addUnit, isUndefined } from '@element-plus/utils'
+import { addUnit } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { iconProps } from './icon'
 
@@ -24,7 +24,7 @@ const style = computed<CSSProperties>(() => {
   if (!size && !color) return {}
 
   return {
-    fontSize: isUndefined(size) ? undefined : addUnit(size),
+    fontSize: addUnit(size),
     '--color': color,
   }
 })

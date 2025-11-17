@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { addClass, addUnit, hasClass, removeClass } from '../..'
+import { addClass, addUnit, debugWarn, hasClass, removeClass } from '../..'
 
 vi.mock('@element-plus/utils/error', () => ({
   debugWarn: vi.fn(),
@@ -190,6 +190,8 @@ describe('dom style', () => {
 
   describe('addUnit', () => {
     it('should return empty string if value is undefined', () => {
+      expect(addUnit()).toBe('')
+      expect(addUnit('')).toBe('')
       expect(addUnit(undefined)).toBe('')
     })
 
@@ -223,10 +225,8 @@ describe('dom style', () => {
     })
 
     it('should warn if value is not string or number', () => {
-      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
       addUnit({} as any)
-      expect(warnSpy).not.toHaveBeenCalled()
-      warnSpy.mockRestore()
+      expect(debugWarn).toHaveBeenCalled()
     })
   })
 })

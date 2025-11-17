@@ -1,10 +1,4 @@
-import {
-  isNumber,
-  isObject,
-  isString,
-  isStringNumber,
-  isUndefined,
-} from '../types'
+import { isNumber, isObject, isString, isStringNumber } from '../types'
 import { isClient } from '../browser'
 import { camelize } from '../strings'
 import { entriesOf, keysOf } from '../objects'
@@ -82,7 +76,7 @@ export const removeStyle = (
 }
 
 export function addUnit(value?: string | number, defaultUnit = 'px') {
-  if (isUndefined(value)) return ''
+  if (!value && value !== 0) return ''
   if (isNumber(value) || isStringNumber(value)) {
     return `${value}${defaultUnit}`
   } else if (isString(value)) {
