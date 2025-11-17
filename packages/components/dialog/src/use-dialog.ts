@@ -62,8 +62,9 @@ export const useDialog = (
       if (props.top) {
         style[`${varPrefix}-margin-top`] = props.top
       }
-      if (props.width) {
-        style[`${varPrefix}-width`] = addUnit(props.width)
+      const width = addUnit(props.width)
+      if (width) {
+        style[`${varPrefix}-width`] = width
       }
     }
     return style
