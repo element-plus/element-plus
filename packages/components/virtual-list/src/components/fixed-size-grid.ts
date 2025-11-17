@@ -205,7 +205,10 @@ const FixedSizeGrid = createGrid({
   clearCache: true,
 
   validateProps: ({ columnWidth, rowHeight }) => {
-    if (process.env.NODE_ENV !== 'production') {
+    if (
+      typeof process !== 'undefined' &&
+      process.env.NODE_ENV !== 'production'
+    ) {
       if (!isNumber(columnWidth)) {
         throwError(
           SCOPE,

@@ -23,6 +23,7 @@ import { useNamespace } from '@element-plus/hooks'
 import Scrollbar from '../components/scrollbar'
 import { useGridWheel } from '../hooks/use-grid-wheel'
 import { useCache } from '../hooks/use-cache'
+import { useGridTouch } from '../hooks/use-grid-touch'
 import { virtualizedGridProps } from '../props'
 import { getRTLOffsetType, getScrollDir, isRTL } from '../utils'
 import {
@@ -49,6 +50,7 @@ import type {
   Alignment,
   GridConstructorProps,
   GridScrollOptions,
+  GridStates,
   ScrollbarExpose,
 } from '../types'
 import type { VirtualizedGridProps } from '../props'
@@ -91,8 +93,8 @@ const createGrid = ({
       const hScrollbar = ref<ScrollbarExpose>()
       const vScrollbar = ref<ScrollbarExpose>()
       // innerRef is the actual container element which contains all the elements
-      const innerRef = ref(null)
-      const states = ref({
+      const innerRef = ref<HTMLElement>()
+      const states = ref<GridStates>({
         isScrolling: false,
         scrollLeft: isNumber(props.initScrollLeft) ? props.initScrollLeft : 0,
         scrollTop: isNumber(props.initScrollTop) ? props.initScrollTop : 0,
@@ -392,6 +394,17 @@ const createGrid = ({
         emitEvents()
       }
 
+      const { touchStartX, touchStartY, handleTouchStart, handleTouchMove } =
+        useGridTouch(
+          windowRef,
+          states,
+          scrollTo,
+          estimatedTotalWidth,
+          estimatedTotalHeight,
+          parsedWidth,
+          parsedHeight
+        )
+
       const scrollToItem = (
         rowIndex = 0,
         columnIdx = 0,
@@ -524,6 +537,10 @@ const createGrid = ({
         windowRef,
         innerRef,
         getItemStyleCache,
+        touchStartX,
+        touchStartY,
+        handleTouchStart,
+        handleTouchMove,
         scrollTo,
         scrollToItem,
         states,
@@ -672,8 +689,6 @@ const createGrid = ({
 
 export default createGrid
 
-type Dir = typeof FORWARD | typeof BACKWARD
-
 export type GridInstance = InstanceType<ReturnType<typeof createGrid>> &
   UnwrapRef<{
     windowRef: Ref<HTMLElement>
@@ -685,12 +700,5 @@ export type GridInstance = InstanceType<ReturnType<typeof createGrid>> &
       columnIndex: number,
       alignment: Alignment
     ) => void
-    states: Ref<{
-      isScrolling: boolean
-      scrollLeft: number
-      scrollTop: number
-      updateRequested: boolean
-      xAxisScrollDir: Dir
-      yAxisScrollDir: Dir
-    }>
+    states: Ref<GridStates>
   }>

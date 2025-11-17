@@ -725,6 +725,14 @@ const getInputInnerHeight = (inputInner: HTMLElement): number =>
     useCssVar(nsInput.cssVarName('input-height'), inputInner).value
   ) - 2
 
+const focus = () => {
+  inputRef.value?.focus()
+}
+
+const blur = () => {
+  inputRef.value?.blur()
+}
+
 watch(filtering, updatePopperPosition)
 
 watch(
@@ -789,5 +797,9 @@ defineExpose({
    * @description selected content text
    */
   presentText,
+  /** @description focus the input element */
+  focus,
+  /** @description blur the input element */
+  blur,
 })
 </script>
