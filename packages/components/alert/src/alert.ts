@@ -52,17 +52,17 @@ export const alertProps = buildProps({
     default: 'light',
   },
   /**
-   * @deprecated This feature was deprecated starting with version (2.12.0)
+   * @deprecated Removed after 2.11.8.
    * @description delay of appearance, in millisecond, not valid in controlled mode
    */
   showAfter: Number,
   /**
-   * @deprecated This feature was deprecated starting with version (2.12.0)
+   * @deprecated Removed after 2.11.8.
    * @description delay of disappear, in millisecond, not valid in controlled mode
    */
   hideAfter: Number,
   /**
-   * @deprecated This feature was deprecated starting with version (2.12.0)
+   * @deprecated Removed after 2.11.8.
    * @description disappear automatically, in millisecond, not valid in controlled mode
    */
   autoClose: Number,

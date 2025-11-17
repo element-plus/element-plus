@@ -80,7 +80,7 @@ const close = (evt: MouseEvent) => {
 if (props.showAfter || props.hideAfter || props.autoClose) {
   debugWarn(
     'el-alert',
-    'The `show-after`, `hide-after`, and `auto-close` attributes were removed in version 2.12.0. Please use `v-if` and `v-show` to manually replace them, visit: https://github.com/element-plus/element-plus/pull/22560'
+    'The `show-after`, `hide-after`, and `auto-close` attributes were removed after 2.11.8. Please use `v-if` and `v-show` to manually replace them, visit: https://github.com/element-plus/element-plus/pull/22560'
   )
 }
 </script>
