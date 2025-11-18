@@ -1,51 +1,19 @@
 <template>
-  <el-tooltip
-    ref="popper"
-    :visible="showPicker"
-    :show-arrow="false"
-    :fallback-placements="['bottom', 'top', 'right', 'left']"
-    :offset="0"
-    :gpu-acceleration="false"
-    :popper-class="[ns.be('picker', 'panel'), popperClass!]"
-    :popper-style="popperStyle"
-    :stop-popper-mouse-event="false"
-    pure
-    loop
-    role="dialog"
-    effect="light"
-    trigger="click"
-    :teleported="teleported"
-    :transition="`${ns.namespace.value}-zoom-in-top`"
-    :persistent="persistent"
-    :append-to="appendTo"
-    @show="handleShowTooltip"
-    @hide="setShowPicker(false)"
-  >
+  <el-tooltip ref="popper" :visible="showPicker" :show-arrow="false"
+    :fallback-placements="['bottom', 'top', 'right', 'left']" :offset="0" :gpu-acceleration="false"
+    :popper-class="[ns.be('picker', 'panel'), popperClass!]" :popper-style="popperStyle"
+    :stop-popper-mouse-event="false" pure loop role="dialog" effect="light" trigger="click" :teleported="teleported"
+    :transition="`${ns.namespace.value}-zoom-in-top`" :persistent="persistent" :append-to="appendTo"
+    @show="handleShowTooltip" @hide="setShowPicker(false)">
     <template #content>
-      <el-color-picker-panel
-        ref="pickerPanelRef"
-        v-bind="panelProps"
-        v-click-outside:[triggerRef]="handleClickOutside"
-        :border="false"
-        :validate-event="false"
-        @keydown.esc="handleEsc"
-      >
+      <el-color-picker-panel ref="pickerPanelRef" v-bind="panelProps" v-click-outside:[triggerRef]="handleClickOutside"
+        :border="false" :validate-event="false" @keydown.esc="handleEsc">
         <template #footer>
           <div>
-            <el-button
-              :class="ns.be('footer', 'link-btn')"
-              text
-              size="small"
-              @click="clear"
-            >
+            <el-button :class="ns.be('footer', 'link-btn')" text size="small" @click="clear">
               {{ t('el.colorpicker.clear') }}
             </el-button>
-            <el-button
-              plain
-              size="small"
-              :class="ns.be('footer', 'btn')"
-              @click="confirmValue"
-            >
+            <el-button plain size="small" :class="ns.be('footer', 'btn')" @click="confirmValue">
               {{ t('el.colorpicker.confirm') }}
             </el-button>
           </div>
@@ -53,41 +21,20 @@
       </el-color-picker-panel>
     </template>
     <template #default>
-      <div
-        :id="buttonId"
-        ref="triggerRef"
-        v-bind="$attrs"
-        :class="btnKls"
-        role="button"
-        :aria-label="buttonAriaLabel"
-        :aria-labelledby="buttonAriaLabelledby"
-        :aria-description="
-          t('el.colorpicker.description', { color: modelValue || '' })
-        "
-        :aria-disabled="colorDisabled"
-        :tabindex="colorDisabled ? undefined : tabindex"
-        @keydown="handleKeyDown"
-        @focus="handleFocus"
-        @blur="handleBlur"
-      >
+      <div :id="buttonId" ref="triggerRef" v-bind="$attrs" :class="btnKls" role="button" :aria-label="buttonAriaLabel"
+        :aria-labelledby="buttonAriaLabelledby" :aria-description="t('el.colorpicker.description', { color: modelValue || '' })
+          " :aria-disabled="colorDisabled" :tabindex="colorDisabled ? undefined : tabindex" @keydown="handleKeyDown"
+        @focus="handleFocus" @blur="handleBlur">
         <div :class="ns.be('picker', 'trigger')" @click="handleTrigger">
           <span :class="[ns.be('picker', 'color'), ns.is('alpha', showAlpha)]">
-            <span
-              :class="ns.be('picker', 'color-inner')"
-              :style="{
-                backgroundColor: displayedColor,
-              }"
-            >
-              <el-icon
-                v-show="modelValue || showPanelColor"
-                :class="[ns.be('picker', 'icon'), ns.is('icon-arrow-down')]"
-              >
+            <span :class="ns.be('picker', 'color-inner')" :style="{
+              backgroundColor: displayedColor,
+            }">
+              <el-icon v-show="modelValue || showPanelColor"
+                :class="[ns.be('picker', 'icon'), ns.is('icon-arrow-down')]">
                 <arrow-down />
               </el-icon>
-              <el-icon
-                v-show="!modelValue && !showPanelColor"
-                :class="[ns.be('picker', 'empty'), ns.is('icon-close')]"
-              >
+              <el-icon v-show="!modelValue && !showPanelColor" :class="[ns.be('picker', 'empty'), ns.is('icon-close')]">
                 <close />
               </el-icon>
             </span>
@@ -165,7 +112,7 @@ const showPanelColor = ref(false)
 let shouldActiveChange = true
 
 const { isFocused, handleFocus, handleBlur } = useFocusController(triggerRef, {
-  disabled: colorDisabled,
+  disabled: computed(() => !!colorDisabled?.value),
   beforeBlur(event) {
     return popper.value?.isFocusInsideContent(event)
   },

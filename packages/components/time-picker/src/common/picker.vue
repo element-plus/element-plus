@@ -1,137 +1,62 @@
 <template>
-  <el-tooltip
-    ref="refPopper"
-    :visible="pickerVisible"
-    effect="light"
-    pure
-    trigger="click"
-    v-bind="$attrs"
-    role="dialog"
-    teleported
-    :transition="`${nsDate.namespace.value}-zoom-in-top`"
-    :popper-class="[`${nsDate.namespace.value}-picker__popper`, popperClass!]"
-    :popper-style="popperStyle"
-    :popper-options="elPopperOptions"
-    :fallback-placements="fallbackPlacements"
-    :gpu-acceleration="false"
-    :placement="placement"
-    :stop-popper-mouse-event="false"
-    :hide-after="0"
-    persistent
-    @before-show="onBeforeShow"
-    @show="onShow"
-    @hide="onHide"
-  >
+  <el-tooltip ref="refPopper" :visible="pickerVisible" effect="light" pure trigger="click" v-bind="$attrs" role="dialog"
+    teleported :transition="`${nsDate.namespace.value}-zoom-in-top`"
+    :popper-class="[`${nsDate.namespace.value}-picker__popper`, popperClass!]" :popper-style="popperStyle"
+    :popper-options="elPopperOptions" :fallback-placements="fallbackPlacements" :gpu-acceleration="false"
+    :placement="placement" :stop-popper-mouse-event="false" :hide-after="0" persistent @before-show="onBeforeShow"
+    @show="onShow" @hide="onHide">
     <template #default>
-      <el-input
-        v-if="!isRangeInput"
-        :id="
-          // https://github.com/vuejs/language-tools/issues/2104#issuecomment-3092541527
-          id as string
-        "
-        ref="inputRef"
-        container-role="combobox"
-        :model-value="
+      <el-input v-if="!isRangeInput" :id="
+        // https://github.com/vuejs/language-tools/issues/2104#issuecomment-3092541527
+        id as string
+        " ref="inputRef" container-role="combobox" :model-value="
           // https://github.com/vuejs/language-tools/issues/2104#issuecomment-3092541527
           displayValue as string
-        "
-        :name="
+          " :name="
           // https://github.com/vuejs/language-tools/issues/2104#issuecomment-3092541527
           name as string
-        "
-        :size="pickerSize"
-        :disabled="pickerDisabled"
-        :placeholder="placeholder"
-        :class="[
+          " :size="pickerSize" :disabled="pickerDisabled" :placeholder="placeholder" :class="[
           nsDate.b('editor'),
           nsDate.bm('editor', type),
           nsDate.is('focus', pickerVisible),
           $attrs.class,
-        ]"
-        :style="$attrs.style"
-        :readonly="
-          !editable ||
+        ]" :style="$attrs.style" :readonly="!editable ||
           readonly ||
           isDatesPicker ||
           isMonthsPicker ||
           isYearsPicker ||
           type === 'week'
-        "
-        :aria-label="ariaLabel"
-        :tabindex="tabindex"
-        :validate-event="false"
-        @input="onUserInput"
-        @focus="handleFocus"
-        @blur="handleBlur"
-        @keydown="handleKeydownInput"
-        @change="handleChange"
-        @mousedown="onMouseDownInput"
-        @mouseenter="onMouseEnter"
-        @mouseleave="onMouseLeave"
-        @touchstart.passive="onTouchStartInput"
-        @click.stop
-      >
+          " :aria-label="ariaLabel" :tabindex="tabindex" :validate-event="false" @input="onUserInput"
+        @focus="handleFocus" @blur="handleBlur" @keydown="handleKeydownInput" @change="handleChange"
+        @mousedown="onMouseDownInput" @mouseenter="onMouseEnter" @mouseleave="onMouseLeave"
+        @touchstart.passive="onTouchStartInput" @click.stop>
         <template #prefix>
-          <el-icon
-            v-if="triggerIcon"
-            :class="nsInput.e('icon')"
-            @mousedown.prevent="onMouseDownInput"
-            @touchstart.passive="onTouchStartInput"
-          >
+          <el-icon v-if="triggerIcon" :class="nsInput.e('icon')" @mousedown.prevent="onMouseDownInput"
+            @touchstart.passive="onTouchStartInput">
             <component :is="triggerIcon" />
           </el-icon>
         </template>
         <template #suffix>
-          <el-icon
-            v-if="showClearBtn && clearIcon"
-            :class="`${nsInput.e('icon')} clear-icon`"
-            @mousedown.prevent="NOOP"
-            @click="onClearIconClick"
-          >
+          <el-icon v-if="showClearBtn && clearIcon" :class="`${nsInput.e('icon')} clear-icon`" @mousedown.prevent="NOOP"
+            @click="onClearIconClick">
             <component :is="clearIcon" />
           </el-icon>
         </template>
       </el-input>
-      <picker-range-trigger
-        v-else
-        :id="
-          // https://github.com/vuejs/language-tools/issues/2104#issuecomment-3092541527
-          id as string[]
-        "
-        ref="inputRef"
-        :model-value="displayValue"
-        :name="
+      <picker-range-trigger v-else :id="
+        // https://github.com/vuejs/language-tools/issues/2104#issuecomment-3092541527
+        id as string[]
+        " ref="inputRef" :model-value="displayValue" :name="
           // https://github.com/vuejs/language-tools/issues/2104#issuecomment-3092541527
           name as string[]
-        "
-        :disabled="pickerDisabled"
-        :readonly="!editable || readonly"
-        :start-placeholder="startPlaceholder"
-        :end-placeholder="endPlaceholder"
-        :class="rangeInputKls"
-        :style="$attrs.style"
-        :aria-label="ariaLabel"
-        :tabindex="tabindex"
-        autocomplete="off"
-        role="combobox"
-        @click="onMouseDownInput"
-        @focus="handleFocus"
-        @blur="handleBlur"
-        @start-input="handleStartInput"
-        @start-change="handleStartChange"
-        @end-input="handleEndInput"
-        @end-change="handleEndChange"
-        @mousedown="onMouseDownInput"
-        @mouseenter="onMouseEnter"
-        @mouseleave="onMouseLeave"
-        @touchstart.passive="onTouchStartInput"
-        @keydown="handleKeydownInput"
-      >
+          " :disabled="pickerDisabled" :readonly="!editable || readonly" :start-placeholder="startPlaceholder"
+        :end-placeholder="endPlaceholder" :class="rangeInputKls" :style="$attrs.style" :aria-label="ariaLabel"
+        :tabindex="tabindex" autocomplete="off" role="combobox" @click="onMouseDownInput" @focus="handleFocus"
+        @blur="handleBlur" @start-input="handleStartInput" @start-change="handleStartChange" @end-input="handleEndInput"
+        @end-change="handleEndChange" @mousedown="onMouseDownInput" @mouseenter="onMouseEnter"
+        @mouseleave="onMouseLeave" @touchstart.passive="onTouchStartInput" @keydown="handleKeydownInput">
         <template #prefix>
-          <el-icon
-            v-if="triggerIcon"
-            :class="[nsInput.e('icon'), nsRange.e('icon')]"
-          >
+          <el-icon v-if="triggerIcon" :class="[nsInput.e('icon'), nsRange.e('icon')]">
             <component :is="triggerIcon" />
           </el-icon>
         </template>
@@ -141,39 +66,19 @@
           </slot>
         </template>
         <template #suffix>
-          <el-icon
-            v-if="clearIcon"
-            :class="clearIconKls"
-            @mousedown.prevent="NOOP"
-            @click="onClearIconClick"
-          >
+          <el-icon v-if="clearIcon" :class="clearIconKls" @mousedown.prevent="NOOP" @click="onClearIconClick">
             <component :is="clearIcon" />
           </el-icon>
         </template>
       </picker-range-trigger>
     </template>
     <template #content>
-      <slot
-        :visible="pickerVisible"
-        :actual-visible="pickerActualVisible"
-        :parsed-value="parsedValue"
-        :format="format"
-        :date-format="dateFormat"
-        :time-format="timeFormat"
-        :unlink-panels="unlinkPanels"
-        :type="type"
-        :default-value="defaultValue"
-        :show-now="showNow"
-        :show-confirm="showConfirm"
-        :show-footer="showFooter"
-        :show-week-number="showWeekNumber"
-        @pick="onPick"
-        @select-range="setSelectionRange"
-        @set-picker-option="onSetPickerOption"
-        @calendar-change="onCalendarChange"
-        @panel-change="onPanelChange"
-        @mousedown.stop
-      />
+      <slot :visible="pickerVisible" :actual-visible="pickerActualVisible" :parsed-value="parsedValue" :format="format"
+        :date-format="dateFormat" :time-format="timeFormat" :unlink-panels="unlinkPanels" :type="type"
+        :default-value="defaultValue" :show-now="showNow" :show-confirm="showConfirm" :show-footer="showFooter"
+        :show-week-number="showWeekNumber" @pick="onPick" @select-range="setSelectionRange"
+        @set-picker-option="onSetPickerOption" @calendar-change="onCalendarChange" @panel-change="onPanelChange"
+        @mousedown.stop />
     </template>
   </el-tooltip>
 </template>
@@ -283,7 +188,7 @@ const {
 } = commonPicker
 
 const { isFocused, handleFocus, handleBlur } = useFocusController(inputRef, {
-  disabled: pickerDisabled,
+  disabled: computed(() => !!unref(pickerDisabled)),
   beforeFocus() {
     return props.readonly
   },

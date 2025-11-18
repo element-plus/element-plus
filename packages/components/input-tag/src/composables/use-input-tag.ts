@@ -27,7 +27,8 @@ interface UseInputTagOptions {
 }
 
 export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
-  const disabled = useFormDisabled()
+  const _disabled = useFormDisabled()
+  const disabled = computed(() => !!_disabled.value)
   const size = useFormSize()
 
   const inputRef = shallowRef<HTMLInputElement>()

@@ -1,16 +1,11 @@
 <template>
-  <div
-    :class="[
-      containerKls,
-      {
-        [nsInput.bm('group', 'append')]: $slots.append,
-        [nsInput.bm('group', 'prepend')]: $slots.prepend,
-      },
-    ]"
-    :style="containerStyle"
-    @mouseenter="handleMouseEnter"
-    @mouseleave="handleMouseLeave"
-  >
+  <div :class="[
+    containerKls,
+    {
+      [nsInput.bm('group', 'append')]: $slots.append,
+      [nsInput.bm('group', 'prepend')]: $slots.prepend,
+    },
+  ]" :style="containerStyle" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave">
     <!-- input -->
     <template v-if="type !== 'textarea'">
       <!-- prepend slot -->
@@ -29,81 +24,44 @@
           </span>
         </span>
 
-        <input
-          :id="inputId"
-          ref="input"
-          :class="nsInput.e('inner')"
-          v-bind="attrs"
-          :name="name"
-          :minlength="minlength"
-          :maxlength="maxlength"
-          :type="showPassword ? (passwordVisible ? 'text' : 'password') : type"
-          :disabled="inputDisabled"
-          :readonly="readonly"
-          :autocomplete="autocomplete"
-          :tabindex="tabindex"
-          :aria-label="ariaLabel"
-          :placeholder="placeholder"
-          :style="inputStyle"
-          :form="form"
-          :autofocus="autofocus"
-          :role="containerRole"
-          :inputmode="inputmode"
-          @compositionstart="handleCompositionStart"
-          @compositionupdate="handleCompositionUpdate"
-          @compositionend="handleCompositionEnd"
-          @input="handleInput"
-          @change="handleChange"
-          @keydown="handleKeydown"
-        />
+        <input :id="inputId" ref="input" :class="nsInput.e('inner')" v-bind="attrs" :name="name" :minlength="minlength"
+          :maxlength="maxlength" :type="showPassword ? (passwordVisible ? 'text' : 'password') : type"
+          :disabled="inputDisabled" :readonly="readonly" :autocomplete="autocomplete" :tabindex="tabindex"
+          :aria-label="ariaLabel" :placeholder="placeholder" :style="inputStyle" :form="form" :autofocus="autofocus"
+          :role="containerRole" :inputmode="inputmode" @compositionstart="handleCompositionStart"
+          @compositionupdate="handleCompositionUpdate" @compositionend="handleCompositionEnd" @input="handleInput"
+          @change="handleChange" @keydown="handleKeydown" />
 
         <!-- suffix slot -->
         <span v-if="suffixVisible" :class="nsInput.e('suffix')">
           <span :class="nsInput.e('suffix-inner')">
-            <template
-              v-if="!showClear || !showPwdVisible || !isWordLimitVisible"
-            >
+            <template v-if="!showClear || !showPwdVisible || !isWordLimitVisible">
               <slot name="suffix" />
               <el-icon v-if="suffixIcon" :class="nsInput.e('icon')">
                 <component :is="suffixIcon" />
               </el-icon>
             </template>
-            <el-icon
-              v-if="showClear"
-              :class="[nsInput.e('icon'), nsInput.e('clear')]"
-              @mousedown.prevent="NOOP"
-              @click="clear"
-            >
+            <el-icon v-if="showClear" :class="[nsInput.e('icon'), nsInput.e('clear')]" @mousedown.prevent="NOOP"
+              @click="clear">
               <component :is="clearIcon" />
             </el-icon>
-            <el-icon
-              v-if="showPwdVisible"
-              :class="[nsInput.e('icon'), nsInput.e('password')]"
-              @click="handlePasswordVisible"
-              @mousedown.prevent="NOOP"
-              @mouseup.prevent="NOOP"
-            >
+            <el-icon v-if="showPwdVisible" :class="[nsInput.e('icon'), nsInput.e('password')]"
+              @click="handlePasswordVisible" @mousedown.prevent="NOOP" @mouseup.prevent="NOOP">
               <component :is="passwordIcon" />
             </el-icon>
-            <span
-              v-if="isWordLimitVisible"
-              :class="[
-                nsInput.e('count'),
-                nsInput.is('outside', wordLimitPosition === 'outside'),
-              ]"
-            >
+            <span v-if="isWordLimitVisible" :class="[
+              nsInput.e('count'),
+              nsInput.is('outside', wordLimitPosition === 'outside'),
+            ]">
               <span :class="nsInput.e('count-inner')">
                 {{ textLength }} / {{ maxlength }}
               </span>
             </span>
-            <el-icon
-              v-if="validateState && validateIcon && needStatusIcon"
-              :class="[
-                nsInput.e('icon'),
-                nsInput.e('validateIcon'),
-                nsInput.is('loading', validateState === 'validating'),
-              ]"
-            >
+            <el-icon v-if="validateState && validateIcon && needStatusIcon" :class="[
+              nsInput.e('icon'),
+              nsInput.e('validateIcon'),
+              nsInput.is('loading', validateState === 'validating'),
+            ]">
               <component :is="validateIcon" />
             </el-icon>
           </span>
@@ -118,42 +76,17 @@
 
     <!-- textarea -->
     <template v-else>
-      <textarea
-        :id="inputId"
-        ref="textarea"
-        :class="[nsTextarea.e('inner'), nsInput.is('focus', isFocused)]"
-        v-bind="attrs"
-        :name="name"
-        :minlength="minlength"
-        :maxlength="maxlength"
-        :tabindex="tabindex"
-        :disabled="inputDisabled"
-        :readonly="readonly"
-        :autocomplete="autocomplete"
-        :style="textareaStyle"
-        :aria-label="ariaLabel"
-        :placeholder="placeholder"
-        :form="form"
-        :autofocus="autofocus"
-        :rows="rows"
-        :role="containerRole"
-        @compositionstart="handleCompositionStart"
-        @compositionupdate="handleCompositionUpdate"
-        @compositionend="handleCompositionEnd"
-        @input="handleInput"
-        @focus="handleFocus"
-        @blur="handleBlur"
-        @change="handleChange"
-        @keydown="handleKeydown"
-      />
-      <span
-        v-if="isWordLimitVisible"
-        :style="countStyle"
-        :class="[
-          nsInput.e('count'),
-          nsInput.is('outside', wordLimitPosition === 'outside'),
-        ]"
-      >
+      <textarea :id="inputId" ref="textarea" :class="[nsTextarea.e('inner'), nsInput.is('focus', isFocused)]"
+        v-bind="attrs" :name="name" :minlength="minlength" :maxlength="maxlength" :tabindex="tabindex"
+        :disabled="inputDisabled" :readonly="readonly" :autocomplete="autocomplete" :style="textareaStyle"
+        :aria-label="ariaLabel" :placeholder="placeholder" :form="form" :autofocus="autofocus" :rows="rows"
+        :role="containerRole" @compositionstart="handleCompositionStart" @compositionupdate="handleCompositionUpdate"
+        @compositionend="handleCompositionEnd" @input="handleInput" @focus="handleFocus" @blur="handleBlur"
+        @change="handleChange" @keydown="handleKeydown" />
+      <span v-if="isWordLimitVisible" :style="countStyle" :class="[
+        nsInput.e('count'),
+        nsInput.is('outside', wordLimitPosition === 'outside'),
+      ]">
         {{ textLength }} / {{ maxlength }}
       </span>
     </template>
@@ -265,7 +198,7 @@ const _ref = computed(() => input.value || textarea.value)
 const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
   _ref,
   {
-    disabled: inputDisabled,
+    disabled: computed(() => !!inputDisabled.value),
     afterBlur() {
       if (props.validateEvent) {
         elFormItem?.validate?.('blur').catch((err) => debugWarn(err))
