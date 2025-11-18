@@ -6,6 +6,10 @@ import { formContextKey, formItemContextKey } from '../constants'
 import type { ComponentSize } from '@element-plus/constants'
 import type { MaybeRef } from '@vueuse/core'
 
+interface UseFormDisabledOptions {
+  inheritForm?: MaybeRef<boolean | undefined>
+}
+
 export const useFormSize = (
   fallback?: MaybeRef<ComponentSize | undefined>,
   ignore: Partial<Record<'prop' | 'form' | 'formItem' | 'global', boolean>> = {}
@@ -32,12 +36,17 @@ export const useFormSize = (
   )
 }
 
-export const useFormDisabled = (fallback?: MaybeRef<boolean | undefined>) => {
+export const useFormDisabled = (
+  fallback?: MaybeRef<boolean | undefined>,
+  options?: UseFormDisabledOptions
+) => {
   const disabled = useProp<boolean>('disabled')
   const form = inject(formContextKey, undefined)
-  return computed(
-    () => disabled.value || unref(fallback) || form?.disabled || false
-  )
+  return computed(() => {
+    const shouldInherit = unref(options?.inheritForm) !== false
+    const formDisabled = shouldInherit ? form?.disabled : undefined
+    return disabled.value || unref(fallback) || formDisabled || false
+  })
 }
 
 // These exports are used for preventing breaking changes

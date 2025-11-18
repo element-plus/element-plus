@@ -30,6 +30,13 @@ export const buttonProps = buildProps({
    */
   disabled: Boolean,
   /**
+   * @description whether to inherit parent form's disabled state
+   */
+  inheritDisabled: {
+    type: Boolean,
+    default: true,
+  },
+  /**
    * @description button type
    */
   type: {

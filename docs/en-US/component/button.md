@@ -19,6 +19,10 @@ button/basic
 
 The `disabled` attribute determines if the button is disabled.
 
+:::tip
+Buttons inside a disabled `el-form` inherit that state. Use `inherit-disabled="false"` when the button must remain interactive.
+:::
+
 :::demo Use `disabled` attribute to determine whether a button is disabled. It accepts a `Boolean` value.
 
 button/disabled
@@ -150,6 +154,7 @@ button/custom
 | loading           | determine whether it's loading                                                                                                                       | ^[boolean]                                                                                                   | false   |
 | loading-icon      | customize loading icon component                                                                                                                     | ^[string] / ^[Component]                                                                                     | Loading |
 | disabled          | disable the button                                                                                                                                   | ^[boolean]                                                                                                   | false   |
+| inherit-disabled  | whether to inherit parent form's disabled state                                                                                                      | ^[boolean]                                                                                                   | true    |
 | icon              | icon component                                                                                                                                       | ^[string] / ^[Component]                                                                                     | —       |
 | autofocus         | same as native button's `autofocus`                                                                                                                  | ^[boolean]                                                                                                   | false   |
 | native-type       | same as native button's `type`                                                                                                                       | ^[enum]`'button' \| 'submit' \| 'reset'`                                                                     | button  |

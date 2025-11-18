@@ -30,7 +30,10 @@ export const useButton = (
   const globalConfig = useGlobalConfig('button')
   const { form } = useFormItem()
   const _size = useFormSize(computed(() => buttonGroupContext?.size))
-  const _disabled = useFormDisabled()
+  const inheritFormDisabled = computed(() => props.inheritDisabled)
+  const _disabled = useFormDisabled(undefined, {
+    inheritForm: inheritFormDisabled,
+  })
   const _ref = ref<HTMLButtonElement>()
   const slots = useSlots()
 

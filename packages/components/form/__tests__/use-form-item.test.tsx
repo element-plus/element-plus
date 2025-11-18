@@ -74,4 +74,31 @@ describe('use-form-item', () => {
 
     expect(wrapper.find(`.el-button--${itemSize}`).exists()).toBe(true)
   })
+
+  it('should inherit form.disabled by default', () => {
+    const wrapper = mountComponent(() => {
+      provide(formContextKey, {
+        disabled: true,
+      } as FormContext)
+    })
+
+    expect(wrapper.find('button').attributes('disabled')).toBeDefined()
+  })
+
+  it('should bypass inherited disabled when inheritDisabled is false', () => {
+    const wrapper = mountComponent(
+      () => {
+        provide(formContextKey, {
+          disabled: true,
+        } as FormContext)
+      },
+      {
+        props: {
+          inheritDisabled: false,
+        },
+      }
+    )
+
+    expect(wrapper.find('button').attributes('disabled')).toBeUndefined()
+  })
 })
