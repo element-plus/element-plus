@@ -194,27 +194,14 @@ describe('Table.vue', () => {
     })
 
     it('updates height and maxHeight sequentially without recursive error', async () => {
-      const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
-      const wrapper = mount({
-        components: {
-          ElTable,
-          ElTableColumn,
-        },
+      const errorSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      const wrapper = createTable(':height="height" :max-height="maxHeight"', {
         data() {
           return {
-            tableData: getTestData(),
             height: 200,
             maxHeight: 400,
           }
         },
-        template: `
-          <el-table :data="tableData" :height="height" :max-height="maxHeight">
-            <el-table-column prop="name" label="片名" />
-            <el-table-column prop="release" label="发行日期" />
-            <el-table-column prop="director" label="导演" />
-            <el-table-column prop="runtime" label="时长（分）" />
-          </el-table>
-        `,
       })
 
       await doubleWait()
