@@ -77,7 +77,7 @@ export default function useClips() {
       ctx.textAlign = textAlign
       ctx.textBaseline = textBaseline
       const contents = isArray(content) ? content : [content]
-      if (contents[0]) {
+      if (textBaseline !== 'top' && contents[0]) {
         const argumentMetrics = ctx.measureText(contents[0])
         ctx.textBaseline = 'top'
         const topMetrics = ctx.measureText(contents[0])

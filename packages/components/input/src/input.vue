@@ -395,7 +395,7 @@ const setNativeInputValue = () => {
   const formatterValue = props.formatter
     ? props.formatter(nativeInputValue.value)
     : nativeInputValue.value
-  if (!input || input.value === formatterValue) return
+  if (!input || input.value === formatterValue || props.type === 'file') return
   input.value = formatterValue
 }
 
@@ -458,7 +458,7 @@ const handleChange = async (event: Event) => {
   if (props.modelModifiers.lazy) {
     emit(UPDATE_MODEL_EVENT, value)
   }
-  emit(CHANGE_EVENT, value)
+  emit(CHANGE_EVENT, value, event)
 
   await nextTick()
   setNativeInputValue()
