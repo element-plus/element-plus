@@ -119,7 +119,7 @@ export const autocompleteProps = buildProps({
    */
   loopNavigation: {
     type: Boolean,
-    default: undefined,
+    default: true,
   },
 } as const)
 export type AutocompleteProps = ExtractPropTypes<typeof autocompleteProps>
