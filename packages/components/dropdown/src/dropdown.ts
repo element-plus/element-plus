@@ -172,6 +172,10 @@ export const dropdownProps = buildProps({
     type: Boolean,
     default: true,
   },
+  /**
+   * @description safe node
+   */
+  safeNode: useTooltipContentProps.safeNode,
 } as const)
 
 export const dropdownItemProps = buildProps({

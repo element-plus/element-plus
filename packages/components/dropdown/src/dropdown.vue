@@ -24,6 +24,7 @@
       pure
       focus-on-target
       :persistent="persistent"
+      :safeNode="safeNode"
       @before-show="handleBeforeShowTooltip"
       @show="handleShowTooltip"
       @before-hide="handleBeforeHideTooltip"
