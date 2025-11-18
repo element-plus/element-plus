@@ -193,6 +193,48 @@ describe('Table.vue', () => {
       wrapper.unmount()
     })
 
+    it('updates height and maxHeight sequentially without recursive error', async () => {
+      const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+      const wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        data() {
+          return {
+            tableData: getTestData(),
+            height: 200,
+            maxHeight: 400,
+          }
+        },
+        template: `
+          <el-table :data="tableData" :height="height" :max-height="maxHeight">
+            <el-table-column prop="name" label="片名" />
+            <el-table-column prop="release" label="发行日期" />
+            <el-table-column prop="director" label="导演" />
+            <el-table-column prop="runtime" label="时长（分）" />
+          </el-table>
+        `,
+      })
+
+      await doubleWait()
+      wrapper.vm.maxHeight = 500
+      await doubleWait()
+      wrapper.vm.height = 250
+      await doubleWait()
+
+      wrapper.unmount()
+      const hasRecursiveError = errorSpy.mock.calls.some((call) =>
+        call.some(
+          (msg) =>
+            typeof msg === 'string' &&
+            msg.includes('Maximum recursive updates exceeded')
+        )
+      )
+      errorSpy.mockRestore()
+      expect(hasRecursiveError).toBe(false)
+    })
+
     it('stripe', async () => {
       const wrapper = createTable('stripe')
       await doubleWait()
