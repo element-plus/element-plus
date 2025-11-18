@@ -111,7 +111,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     afterComposition: (e) => onInput(e),
   })
 
-  const selectDisabled = computed(() => props.disabled || !!form?.disabled)
+  const selectDisabled = useFormDisabled()
 
   const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
     disabled: selectDisabled,
@@ -135,18 +135,6 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       }
     },
   })
-
-  // the controller of the expanded popup
-  const expanded = ref(false)
-  const hoverOption = ref()
-
-  const { form, formItem } = useFormItem()
-  const { inputId } = useFormItemInputId(props, {
-    formItemContext: formItem,
-  })
-  const { valueOnClear, isEmptyValue } = useEmptyValues(props)
-
-  const selectDisabled = useFormDisabled()
 
   const hasModelValue = computed(() => {
     return isArray(props.modelValue)

@@ -102,7 +102,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     afterComposition: (e) => onInput(e),
   })
 
-  const selectDisabled = computed(() => props.disabled || !!elForm?.disabled)
+  const selectDisabled = useFormDisabled()
 
   const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
     disabled: selectDisabled,
@@ -137,8 +137,6 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   const filteredOptions = ref<OptionType[]>([])
   // the controller of the expanded popup
   const expanded = ref(false)
-
-  const selectDisabled = useFormDisabled()
 
   const needStatusIcon = computed(() => elForm?.statusIcon ?? false)
 
