@@ -1,6 +1,3 @@
-@use 'sass:math';
-@use 'sass:map';
-
 @use 'mixins/mixins' as *;
 @use 'mixins/var' as *;
 @use 'common/var' as *;
@@ -46,6 +43,10 @@
       padding: 0;
       right: 0;
       border-radius: 50%;
+    }
+
+    @include when(hide-zero) {
+      display: none;
     }
 
     @each $type in (primary, success, warning, info, danger) {

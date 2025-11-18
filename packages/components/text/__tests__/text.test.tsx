@@ -5,7 +5,43 @@ import Text from '../src/text.vue'
 const AXIOM = 'Rem is the best girl'
 
 describe('Text.vue', () => {
-  test('render text & class', () => {
+  test('create', () => {
+    const wrapper = mount(() => <Text />)
+
+    expect(wrapper.classes()).toContain('el-text')
+  })
+
+  test('type', () => {
+    const wrapper = mount(() => <Text type="success" />)
+
+    expect(wrapper.classes()).toContain('el-text--success')
+  })
+
+  test('size', () => {
+    const wrapper = mount(() => <Text size="large" />)
+
+    expect(wrapper.classes()).toContain('el-text--large')
+  })
+
+  test('truncated', () => {
+    const wrapper = mount(() => <Text truncated />)
+
+    expect(wrapper.classes()).toContain('is-truncated')
+  })
+
+  test('line-clamp', () => {
+    const wrapper = mount(() => <Text line-clamp="2" />)
+
+    expect(wrapper.classes()).toContain('is-line-clamp')
+  })
+
+  test('tag', () => {
+    const wrapper = mount(() => <Text tag="del" />)
+
+    expect(wrapper.vm.$el.tagName).toEqual('DEL')
+  })
+
+  test('default slot', () => {
     const wrapper = mount(() => (
       <Text
         v-slots={{
@@ -13,35 +49,7 @@ describe('Text.vue', () => {
         }}
       />
     ))
-    const vm = wrapper.vm
 
-    expect(vm.$el.classList.contains('el-text')).toEqual(true)
     expect(wrapper.text()).toEqual(AXIOM)
-  })
-
-  test('type', () => {
-    const wrapper = mount(() => <Text type="success" />)
-    const vm = wrapper.vm
-    expect(vm.$el.classList.contains('el-text--success')).toEqual(true)
-  })
-
-  test('size', () => {
-    const wrapper = mount(() => <Text size="large" />)
-    const vm = wrapper.vm
-    expect(vm.$el.className.includes('el-text--large')).toEqual(true)
-    expect(vm.$el.className.includes('el-text--default')).toEqual(false)
-    expect(vm.$el.className.includes('el-text--small')).toEqual(false)
-  })
-
-  test('truncated', () => {
-    const wrapper = mount(() => <Text truncated />)
-    const vm = wrapper.vm
-    expect(vm.$el.className.includes('is-truncated')).toEqual(true)
-  })
-
-  test('tag', () => {
-    const wrapper = mount(() => <Text tag="del" />)
-    const vm = wrapper.vm
-    expect(vm.$el.tagName).toEqual('DEL')
   })
 })

@@ -28,7 +28,7 @@ const detail = computed(() => apiTypingLocale[lang.value].detail)
         />
         <template #content>
           <slot>
-            <div class="m-1">
+            <div class="m-1" style="max-width: 600px">
               <code
                 style="
                   color: var(--code-tooltip-color);

@@ -9,6 +9,7 @@ import { computed, provide } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { rowContextKey } from './constants'
 import { rowProps } from './row'
+
 import type { CSSProperties } from 'vue'
 
 defineOptions({
@@ -37,6 +38,6 @@ const style = computed(() => {
 const rowKls = computed(() => [
   ns.b(),
   ns.is(`justify-${props.justify}`, props.justify !== 'start'),
-  ns.is(`align-${props.align}`, props.align !== 'top'),
+  ns.is(`align-${props.align}`, !!props.align),
 ])
 </script>

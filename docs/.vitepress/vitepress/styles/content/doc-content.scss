@@ -4,7 +4,7 @@
 .doc-content-wrapper {
   --vp-content-width: 800px;
 
-  padding: 32px 24px 96px;
+  padding: 32px 24px;
 
   .doc-content-container {
     .doc-content {
@@ -12,22 +12,23 @@
     }
 
     @include respond-to('xxl') {
-      width: var(--vp-content-width);
+      min-width: var(--vp-content-width);
+      width: 100%;
     }
   }
 
   @include respond-to('md') {
-    padding: 48px 32px 42px;
+    padding: 48px 32px;
   }
   @include respond-to('lg') {
-    padding: 64px 64px 42px;
+    padding: 48px 32px;
   }
   @include respond-to('xxl') {
-    padding: 64px 0 42px 64px;
+    padding: 64px 0 48px 64px;
     display: flex;
   }
   @include respond-to('max') {
-    padding: 64px 0 42px 96px;
+    padding: 64px 0 48px 64px;
     display: flex;
   }
 }

@@ -6,19 +6,22 @@ import type { ExtractPropTypes, ToRefs } from 'vue'
 
 export const useDelayedToggleProps = buildProps({
   /**
-   * @description delay of appearance, in millisecond
+   * @description delay of appearance, in millisecond, not valid in controlled mode
    */
   showAfter: {
     type: Number,
     default: 0,
   },
   /**
-   * @description delay of disappear, in millisecond
+   * @description delay of disappear, in millisecond, not valid in controlled mode
    */
   hideAfter: {
     type: Number,
     default: 200,
   },
+  /**
+   * @description disappear automatically, in millisecond, not valid in controlled mode
+   */
   autoClose: {
     type: Number,
     default: 0,
@@ -38,9 +41,12 @@ export const useDelayedToggle = ({
   close,
 }: UseDelayedToggleProps) => {
   const { registerTimeout } = useTimeout()
-  const { registerTimeout: registerTimeoutForAutoClose } = useTimeout()
+  const {
+    registerTimeout: registerTimeoutForAutoClose,
+    cancelTimeout: cancelTimeoutForAutoClose,
+  } = useTimeout()
 
-  const onOpen = (event?: Event) => {
+  const onOpen = (event?: Event, delay = unref(showAfter)) => {
     registerTimeout(() => {
       open(event)
 
@@ -50,13 +56,14 @@ export const useDelayedToggle = ({
           close(event)
         }, _autoClose)
       }
-    }, unref(showAfter))
+    }, delay)
   }
 
-  const onClose = (event?: Event) => {
+  const onClose = (event?: Event, delay = unref(hideAfter)) => {
+    cancelTimeoutForAutoClose()
     registerTimeout(() => {
       close(event)
-    }, unref(hideAfter))
+    }, delay)
   }
 
   return {

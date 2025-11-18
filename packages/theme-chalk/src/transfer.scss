@@ -1,6 +1,3 @@
-@use 'sass:math';
-@use 'sass:map';
-
 @use 'mixins/mixins' as *;
 @use 'mixins/utils' as *;
 @use 'mixins/var' as *;
@@ -88,6 +85,7 @@
 
     &.#{$namespace}-checkbox {
       color: getCssVar('text-color', 'regular');
+      margin-right: 30px;
     }
 
     &:hover {
@@ -111,9 +109,8 @@
 
   @include e(filter) {
     text-align: center;
-    margin: 15px;
+    padding: 15px;
     box-sizing: border-box;
-    width: auto;
 
     .#{$namespace}-input__inner {
       height: getCssVar('transfer-filter-height');
@@ -121,7 +118,6 @@
       font-size: 12px;
       display: inline-block;
       box-sizing: border-box;
-      border-radius: calc(#{getCssVar('transfer-filter-height')} / 2);
     }
 
     .#{$namespace}-icon-circle-close {
@@ -193,16 +189,5 @@
 
   .#{$namespace}-checkbox__label {
     padding-left: 8px;
-  }
-
-  .#{$namespace}-checkbox__inner {
-    height: 14px;
-    width: 14px;
-    border-radius: 3px;
-    &::after {
-      height: 6px;
-      width: 3px;
-      left: 4px;
-    }
   }
 }

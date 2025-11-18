@@ -5,6 +5,7 @@ import { usePopperContainerId, useZIndex } from '@element-plus/hooks'
 import { rAF } from '@element-plus/test-utils/tick'
 import { ElPopperTrigger } from '@element-plus/components/popper'
 import Popover from '../src/popover.vue'
+
 import type { VueWrapper } from '@vue/test-utils'
 import type { PopoverProps } from '../src/popover'
 
@@ -76,6 +77,8 @@ describe('Popover.vue', () => {
       <Popover
         content={content}
         teleported={false}
+        // type checking failed as `virtualRef` is a fallthrough attribute
+        // @ts-ignore
         virtualRef={virtualRef}
         virtualTriggering
       />
@@ -93,7 +96,7 @@ describe('Popover.vue', () => {
     ).toBeLessThanOrEqual(currentZIndex.value)
   })
 
-  it('defind hide method', async () => {
+  it('defined hide method', async () => {
     wrapper = _mount()
     const vm = wrapper.findComponent(Popover).vm
 

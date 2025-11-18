@@ -1,6 +1,6 @@
 import { buildProps } from '@element-plus/utils'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type Arrow from './arrow.vue'
 
 export const popperArrowProps = buildProps({
@@ -10,8 +10,11 @@ export const popperArrowProps = buildProps({
   },
 } as const)
 export type PopperArrowProps = ExtractPropTypes<typeof popperArrowProps>
+export type PopperArrowPropsPublic = __ExtractPublicPropTypes<
+  typeof popperArrowProps
+>
 
-export type PopperArrowInstance = InstanceType<typeof Arrow>
+export type PopperArrowInstance = InstanceType<typeof Arrow> & unknown
 
 /** @deprecated use `popperArrowProps` instead, and it will be deprecated in the next major version */
 export const usePopperArrowProps = popperArrowProps

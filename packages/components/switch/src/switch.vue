@@ -1,5 +1,5 @@
 <template>
-  <div :class="switchKls" :style="styles" @click.prevent="switchValue">
+  <div :class="switchKls" @click.prevent="switchValue">
     <input
       :id="inputId"
       ref="input"
@@ -8,6 +8,7 @@
       role="switch"
       :aria-checked="checked"
       :aria-disabled="switchDisabled"
+      :aria-label="ariaLabel"
       :name="name"
       :true-value="activeValue"
       :false-value="inactiveValue"
@@ -18,11 +19,7 @@
     />
     <span
       v-if="!inlinePrompt && (inactiveIcon || inactiveText)"
-      :class="[
-        ns.e('label'),
-        ns.em('label', 'left'),
-        ns.is('active', !checked),
-      ]"
+      :class="labelLeftKls"
     >
       <el-icon v-if="inactiveIcon">
         <component :is="inactiveIcon" />
@@ -31,7 +28,7 @@
         inactiveText
       }}</span>
     </span>
-    <span ref="core" :class="ns.e('core')" :style="coreStyle">
+    <span :class="ns.e('core')" :style="coreStyle">
       <div v-if="inlinePrompt" :class="ns.e('inner')">
         <template v-if="activeIcon || inactiveIcon">
           <el-icon :class="ns.is('icon')">
@@ -48,15 +45,21 @@
         <el-icon v-if="loading" :class="ns.is('loading')">
           <loading />
         </el-icon>
+        <slot v-else-if="checked" name="active-action">
+          <el-icon v-if="activeActionIcon">
+            <component :is="activeActionIcon" />
+          </el-icon>
+        </slot>
+        <slot v-else-if="!checked" name="inactive-action">
+          <el-icon v-if="inactiveActionIcon">
+            <component :is="inactiveActionIcon" />
+          </el-icon>
+        </slot>
       </div>
     </span>
     <span
       v-if="!inlinePrompt && (activeIcon || activeText)"
-      :class="[
-        ns.e('label'),
-        ns.em('label', 'right'),
-        ns.is('active', checked),
-      ]"
+      :class="labelRightKls"
     >
       <el-icon v-if="activeIcon">
         <component :is="activeIcon" />
@@ -69,16 +72,14 @@
 </template>
 
 <script lang="ts" setup>
+import { computed, nextTick, onMounted, ref, shallowRef, watch } from 'vue'
 import {
-  computed,
-  getCurrentInstance,
-  nextTick,
-  onMounted,
-  ref,
-  watch,
-} from 'vue'
-import { isPromise } from '@vue/shared'
-import { addUnit, debugWarn, isBoolean, throwError } from '@element-plus/utils'
+  addUnit,
+  debugWarn,
+  isBoolean,
+  isPromise,
+  throwError,
+} from '@element-plus/utils'
 import ElIcon from '@element-plus/components/icon'
 import {
   useFormDisabled,
@@ -92,8 +93,9 @@ import {
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import { useDeprecated, useNamespace } from '@element-plus/hooks'
+import { useNamespace } from '@element-plus/hooks'
 import { switchEmits, switchProps } from './switch'
+
 import type { CSSProperties } from 'vue'
 
 const COMPONENT_NAME = 'ElSwitch'
@@ -104,22 +106,9 @@ defineOptions({
 const props = defineProps(switchProps)
 const emit = defineEmits(switchEmits)
 
-const vm = getCurrentInstance()!
 const { formItem } = useFormItem()
 const switchSize = useFormSize()
 const ns = useNamespace('switch')
-
-useDeprecated(
-  {
-    from: '"value"',
-    replacement: '"model-value" or "v-model"',
-    scope: COMPONENT_NAME,
-    version: '2.3.0',
-    ref: 'https://element-plus.org/en-US/component/switch.html#attributes',
-    type: 'Attribute',
-  },
-  computed(() => !!vm.vnode.props?.value)
-)
 
 const { inputId } = useFormItemInputId(props, {
   formItemContext: formItem,
@@ -127,14 +116,25 @@ const { inputId } = useFormItemInputId(props, {
 
 const switchDisabled = useFormDisabled(computed(() => props.loading))
 const isControlled = ref(props.modelValue !== false)
-const input = ref<HTMLInputElement>()
-const core = ref<HTMLSpanElement>()
+const input = shallowRef<HTMLInputElement>()
 
 const switchKls = computed(() => [
   ns.b(),
   ns.m(switchSize.value),
   ns.is('disabled', switchDisabled.value),
   ns.is('checked', checked.value),
+])
+
+const labelLeftKls = computed(() => [
+  ns.e('label'),
+  ns.em('label', 'left'),
+  ns.is('active', !checked.value),
+])
+
+const labelRightKls = computed(() => [
+  ns.e('label'),
+  ns.em('label', 'right'),
+  ns.is('active', checked.value),
 ])
 
 const coreStyle = computed<CSSProperties>(() => ({
@@ -148,15 +148,8 @@ watch(
   }
 )
 
-watch(
-  () => props.value,
-  () => {
-    isControlled.value = false
-  }
-)
-
 const actualValue = computed(() => {
-  return isControlled.value ? props.modelValue : props.value
+  return isControlled.value ? props.modelValue : false
 })
 
 const checked = computed(() => actualValue.value === props.activeValue)
@@ -221,14 +214,6 @@ const switchValue = () => {
     handleChange()
   }
 }
-
-const styles = computed(() => {
-  return ns.cssVarBlock({
-    ...(props.activeColor ? { 'on-color': props.activeColor } : null),
-    ...(props.inactiveColor ? { 'off-color': props.inactiveColor } : null),
-    ...(props.borderColor ? { 'border-color': props.borderColor } : null),
-  })
-})
 
 const focus = (): void => {
   input.value?.focus?.()

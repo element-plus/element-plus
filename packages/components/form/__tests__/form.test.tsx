@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { nextTick, reactive, ref } from 'vue'
+import { computed, nextTick, reactive, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import {
   afterEach,
@@ -16,10 +16,11 @@ import {
   ElCheckbox as Checkbox,
   ElCheckboxGroup as CheckboxGroup,
 } from '@element-plus/components/checkbox'
+import Button from '@element-plus/components/button/src/button.vue'
 import Input from '@element-plus/components/input'
 import Form from '../src/form.vue'
 import FormItem from '../src/form-item.vue'
-import DynamicDomainForm, { formatDomainError } from '../mocks/mock-data'
+import DynamicDomainForm, { formatDomainError } from './mock-data'
 
 import type { VueWrapper } from '@vue/test-utils'
 import type { FormRules } from '@element-plus/components/form'
@@ -339,10 +340,10 @@ describe('Form', () => {
             </FormItem>
             <FormItem label="type" prop="type">
               <CheckboxGroup v-model={form.type}>
-                <Checkbox label="type1" name="type" />
-                <Checkbox label="type2" name="type" />
-                <Checkbox label="type3" name="type" />
-                <Checkbox label="type4" name="type" />
+                <Checkbox label="type1" value="type1" name="type" />
+                <Checkbox label="type2" value="type2" name="type" />
+                <Checkbox label="type3" value="type3" name="type" />
+                <Checkbox label="type4" value="type4" name="type" />
               </CheckboxGroup>
             </FormItem>
           </Form>
@@ -410,10 +411,10 @@ describe('Form', () => {
             </FormItem>
             <FormItem label="type" prop="type">
               <CheckboxGroup v-model={form.type}>
-                <Checkbox label="type1" name="type" />
-                <Checkbox label="type2" name="type" />
-                <Checkbox label="type3" name="type" />
-                <Checkbox label="type4" name="type" />
+                <Checkbox label="type1" value="type1" name="type" />
+                <Checkbox label="type2" value="type2" name="type" />
+                <Checkbox label="type3" value="type3" name="type" />
+                <Checkbox label="type4" value="type4" name="type" />
               </CheckboxGroup>
             </FormItem>
           </Form>
@@ -470,6 +471,44 @@ describe('Form', () => {
     window.HTMLElement.prototype.scrollIntoView = oldScrollIntoView
   })
 
+  it('get form all fields', async () => {
+    const form = reactive({
+      age: '20',
+    })
+
+    const wrapper = mount({
+      setup() {
+        const rules = ref({
+          age: [
+            { required: true, message: 'Please input age', trigger: 'change' },
+          ],
+        })
+        return () => (
+          <Form ref="formRef" model={form} rules={rules.value}>
+            <FormItem ref="age" prop="age" label="age" required>
+              <Input v-model={form.age} />
+            </FormItem>
+          </Form>
+        )
+      },
+    })
+
+    const formRef = wrapper.findComponent({ ref: 'formRef' }).vm as FormInstance
+    expect(formRef).toHaveProperty('fields')
+    expect(formRef.fields).toBeInstanceOf(Array)
+    const field = formRef.fields[0]
+    expect(field).toHaveProperty('fieldValue')
+    expect(field.fieldValue).toBe('20')
+    expect(field).toHaveProperty('required')
+    expect(field.required).toBe(true)
+    expect(field).toHaveProperty('validateState')
+    expect(field.validateState).toBe('')
+    await formRef.validate()
+    const field2 = formRef.fields[0]
+    expect(field2).toHaveProperty('validateState')
+    expect(field2.validateState).toBe('success')
+  })
+
   it('validate return parameters', async () => {
     const form = reactive({
       name: 'test',
@@ -491,7 +530,6 @@ describe('Form', () => {
             ref="formRef"
             model={form}
             rules={rules}
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-expect-error
             onSubmit="return false"
           >
@@ -507,7 +545,7 @@ describe('Form', () => {
     })
     const vm = wrapper.vm
 
-    function validate() {
+    async function validate() {
       return (vm.$refs.formRef as FormInstance)
         .validate()
         .then(() => ({ valid: true, fields: undefined }))
@@ -530,6 +568,78 @@ describe('Form', () => {
     res = await validate()
     expect(res.valid).toBe(true)
     expect(res.fields).toBe(undefined)
+  })
+
+  it('scroll to the exact form option location', async () => {
+    const form = reactive({
+      name: '',
+      age: '',
+    })
+
+    const wrapper = mount({
+      setup() {
+        const rules = reactive({
+          name: [
+            { required: true, message: 'Please input name', trigger: 'blur' },
+          ],
+          age: [
+            { required: true, message: 'Please input age', trigger: 'blur' },
+          ],
+        })
+        const showFirst = ref(false)
+
+        return () => (
+          <Form
+            ref="formRef"
+            model={form}
+            rules={rules}
+            scrollToError
+            // @ts-expect-error
+            onSubmit="return false"
+          >
+            <FormItem prop="name" label="name" v-if={showFirst.value}>
+              <Input v-model={form.name} />
+            </FormItem>
+            <FormItem prop="age" label="age">
+              <Input v-model={form.age} />
+            </FormItem>
+            <FormItem>
+              <Button
+                onClick={() => {
+                  showFirst.value = true
+                }}
+              >
+                show
+              </Button>
+            </FormItem>
+          </Form>
+        )
+      },
+    })
+    const vm = wrapper.vm
+    wrapper.findComponent(Button).trigger('click')
+    await nextTick()
+
+    function validate() {
+      return (vm.$refs.formRef as FormInstance)
+        .validate()
+        .then(() => ({ valid: true, fields: undefined }))
+        .catch((fields) => ({ valid: false, fields }))
+    }
+
+    const oldScrollIntoView = window.HTMLElement.prototype.scrollIntoView
+    let callEl: HTMLElement
+    window.HTMLElement.prototype.scrollIntoView = function () {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      callEl = this
+    }
+    const res = await validate()
+    expect(res.valid).toBe(false)
+    expect(callEl.textContent).contain('name')
+    expect(callEl.className).toBe(
+      'el-form-item is-error is-required asterisk-left el-form-item--label-right'
+    )
+    window.HTMLElement.prototype.scrollIntoView = oldScrollIntoView
   })
 
   it('validate status', async () => {
@@ -562,6 +672,291 @@ describe('Form', () => {
     expect(ageField.classes()).toContain('is-success')
   })
 
+  it('validate promise callback', async () => {
+    const form = reactive({
+      age: '20',
+    })
+
+    const wrapper = mount({
+      setup() {
+        const rules = ref({
+          age: [
+            { required: true, message: 'Please input age', trigger: 'change' },
+          ],
+        })
+        return () => (
+          <Form ref="formRef" model={form} rules={rules.value}>
+            <FormItem ref="age" prop="age" label="age">
+              <Input v-model={form.age} />
+            </FormItem>
+          </Form>
+        )
+      },
+    })
+
+    const fn = vi.fn()
+
+    await (wrapper.vm.$refs.formRef as FormInstance)
+      .validate(() => {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            fn('beforeResolve')
+            resolve()
+          }, 100)
+        })
+      })
+      .finally(() => {
+        fn('finally')
+      })
+      .catch(() => undefined)
+
+    expect(fn.mock.calls.length).toBe(2)
+    expect(fn.mock.calls[0][0]).toBe('beforeResolve')
+    expect(fn.mock.calls[1][0]).toBe('finally')
+  })
+
+  it('validate on rule change', async () => {
+    const form = reactive({
+      email: '',
+    })
+    const value = ref(0)
+    const rules = computed(() => ({
+      age: [
+        {
+          required: true,
+          message: `age is: ${value.value}`,
+          trigger: 'blur',
+        },
+      ],
+    }))
+
+    const wrapper = mount({
+      setup() {
+        return () => (
+          <Form ref="form" model={form} rules={rules}>
+            <FormItem ref="age" prop="age" label="age">
+              <Input v-model={form.age} />
+              <Button onClick={() => value.value++}>increase</Button>
+            </FormItem>
+          </Form>
+        )
+      },
+    })
+
+    vi.useFakeTimers()
+    await wrapper.findComponent(Button).trigger('click')
+    vi.runAllTimers()
+    vi.useRealTimers()
+
+    await nextTick()
+    expect(value.value).toBe(1)
+    expect(rules.value.age[0].message).toBe('age is: 1')
+    expect(wrapper.find('.el-form-item__error').text()).toBe('age is: 1')
+  })
+
+  it('should use form disabled input not trigger @blur', async () => {
+    const focusHandler = vi.fn()
+    const blurHandler = vi.fn()
+
+    const wrapper = mount({
+      setup() {
+        const disabled = ref(true)
+        const form = reactive({
+          name: '',
+        })
+        return () => (
+          <div>
+            <Form ref="form" model={form} disabled={disabled.value}>
+              <FormItem
+                label="Name"
+                prop="name"
+                rules={{
+                  required: true,
+                  message: 'Please input name',
+                  trigger: 'blur',
+                }}
+              >
+                <Input
+                  v-model={form.name}
+                  onBlur={blurHandler}
+                  onFocus={focusHandler}
+                />
+              </FormItem>
+            </Form>
+            <Button>Test</Button>
+          </div>
+        )
+      },
+    })
+    const input = wrapper.find('input')
+    const button = wrapper.findComponent(Button)
+
+    await input.trigger('mouseenter')
+    await input.trigger('focus')
+    expect(focusHandler).toHaveBeenCalledTimes(0)
+
+    await input.trigger('mouseleave')
+    await button.trigger('click')
+    await input.trigger('blur')
+    expect(blurHandler).toHaveBeenCalledTimes(0)
+    await nextTick()
+    const inputWrapper = wrapper.find('.el-input__wrapper')
+    expect(inputWrapper.attributes('tabindex')).toBeUndefined()
+  })
+
+  it('validate abnormal callback', async () => {
+    const form = reactive({
+      age: '20',
+    })
+
+    const wrapper = mount({
+      setup() {
+        const rules = ref({
+          age: [
+            {
+              required: true,
+              message: 'Please input age',
+              trigger: 'change',
+            },
+          ],
+        })
+        return () => (
+          <Form ref="formRef" model={form} rules={rules.value}>
+            <FormItem ref="age" prop="age" label="age">
+              <Input v-model={form.age} />
+            </FormItem>
+          </Form>
+        )
+      },
+    })
+
+    const fn = vi.fn()
+
+    await (wrapper.vm.$refs.formRef as FormInstance).validate(() => {
+      fn()
+      throw {
+        age: [
+          {
+            field: 'age',
+            fieldValue: '',
+            message: 'Please input age',
+          },
+        ],
+      }
+    })
+
+    expect(fn).toHaveBeenCalledTimes(1)
+  })
+
+  it('prop is array', async () => {
+    vi.useFakeTimers()
+    const wrapper = mount({
+      setup() {
+        const form = reactive({
+          obj: { name: '' },
+        })
+        const rules = {
+          required: true,
+          message: 'Please input name',
+          trigger: 'blur',
+        }
+        return () => (
+          <Form ref="formRef" model={form}>
+            <FormItem
+              label="Name"
+              ref="name"
+              prop={['obj', 'name']}
+              rules={rules}
+            >
+              <Input v-model={form.obj.name} />
+            </FormItem>
+          </Form>
+        )
+      },
+    })
+
+    await nextTick()
+
+    const formRef = wrapper.vm.$refs.formRef as FormInstance
+    const valid = await formRef
+      .validateField([['obj', 'name']])
+      .then(() => true)
+      .catch(() => false)
+    expect(valid).toEqual(false)
+    vi.runAllTimers()
+    await nextTick()
+    expect(wrapper.find('.is-error').exists()).toBe(true)
+    expect(wrapper.find('.el-form-item__error').text()).toBe(
+      'Please input name'
+    )
+
+    formRef.resetFields([['obj', 'name']])
+    await nextTick()
+    vi.runAllTimers()
+    await nextTick()
+    expect(wrapper.find('.is-error').exists()).toBe(false)
+
+    const field = formRef.getField(['obj', 'name'])
+    field.validateState = 'error'
+    field.validateMessage = 'name is error'
+    vi.runAllTimers()
+    await nextTick()
+    expect(wrapper.find('.is-error').exists()).toBe(true)
+    expect(wrapper.find('.el-form-item__error').text()).toBe('name is error')
+    vi.useRealTimers()
+  })
+
+  it('should preserve form input after submit', async () => {
+    const form = reactive({
+      email: '',
+    })
+    const manualErrors = ref<{ email?: string }>({})
+    const wrapper = mount({
+      setup() {
+        const validate = async () => {
+          formRef.validate()
+          manualErrors.value = {}
+          if (!form.email.includes('@')) {
+            manualErrors.value.email = 'please enter a valid E-Mail'
+          }
+        }
+        return () => (
+          <Form ref="formRef" model={form}>
+            <FormItem
+              prop="email"
+              label="E-Mail"
+              error={manualErrors.value.email}
+            >
+              <Input
+                modelValue={form.email}
+                onUpdate:modelValue={(val) => (form.email = val)}
+              />
+            </FormItem>
+            <button onClick={validate}>submit</button>
+          </Form>
+        )
+      },
+    })
+    const formRef = wrapper.findComponent({ ref: 'formRef' }).vm as FormInstance
+    const input = wrapper.find('input')
+    const button = wrapper.find('button')
+    await input.setValue('test')
+    const field = formRef.getField(['email'])
+    field.validateState = 'error'
+    expect((input.element as HTMLInputElement).value).toBe('test')
+    await button.trigger('click')
+    await nextTick()
+    expect((input.element as HTMLInputElement).value).toBe('test')
+    expect(manualErrors.value.email).toBe('please enter a valid E-Mail')
+    await button.trigger('click')
+    await nextTick()
+    expect(manualErrors.value.email).toBe('please enter a valid E-Mail')
+    await input.setValue('test@')
+    expect((input.element as HTMLInputElement).value).toBe('test@')
+    await button.trigger('click')
+    await nextTick()
+    expect(manualErrors.value.email ?? '').toBe('')
+  })
   describe('FormItem', () => {
     const onSuccess = vi.fn()
     const onError = vi.fn()

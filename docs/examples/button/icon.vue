@@ -1,5 +1,5 @@
 <template>
-  <div class="flex">
+  <div>
     <el-button type="primary" :icon="Edit" />
     <el-button type="primary" :icon="Share" />
     <el-button type="primary" :icon="Delete" />
@@ -9,6 +9,7 @@
     </el-button>
   </div>
 </template>
+
 <script setup lang="ts">
 import { Delete, Edit, Search, Share, Upload } from '@element-plus/icons-vue'
 </script>

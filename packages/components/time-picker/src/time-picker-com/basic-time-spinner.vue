@@ -62,7 +62,7 @@
               ns.is('disabled', timeList[item][time!]),
             ]"
           >
-            <template v-if="typeof time === 'number'">
+            <template v-if="isNumber(time)">
               <template v-if="item === 'hours'">
                 {{ ('0' + (amPmMode ? time % 12 || 12 : time)).slice(-2)
                 }}{{ getAmPmFlag(time) }}
@@ -77,15 +77,22 @@
     </template>
   </div>
 </template>
+
 <script lang="ts" setup>
-import { computed, nextTick, onMounted, ref, unref, watch } from 'vue'
+import { computed, inject, nextTick, onMounted, ref, unref, watch } from 'vue'
 import { debounce } from 'lodash-unified'
 import { vRepeatClick } from '@element-plus/directives'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElIcon from '@element-plus/components/icon'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
-import { timeUnits } from '../constants'
+import { getStyle, isNumber } from '@element-plus/utils'
+import { CHANGE_EVENT } from '@element-plus/constants'
+import {
+  DEFAULT_FORMATS_TIME,
+  PICKER_BASE_INJECTION_KEY,
+  timeUnits,
+} from '../constants'
 import { buildTimeList } from '../utils'
 import { basicTimeSpinnerProps } from '../props/basic-time-spinner'
 import { getTimeLists } from '../composables/use-time-picker'
@@ -96,7 +103,9 @@ import type { TimeUnit } from '../constants'
 import type { TimeList } from '../utils'
 
 const props = defineProps(basicTimeSpinnerProps)
-const emit = defineEmits(['change', 'select-range', 'set-option'])
+const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
+const { isRange, format } = pickerBase.props
+const emit = defineEmits([CHANGE_EVENT, 'select-range', 'set-option'])
 
 const ns = useNamespace('time')
 
@@ -134,10 +143,12 @@ const timePartials = computed<Record<TimeUnit, number>>(() => {
 
 const timeList = computed(() => {
   const { hours, minutes } = unref(timePartials)
+  const { role, spinnerDate } = props
+  const compare = !isRange ? spinnerDate : undefined
   return {
-    hours: getHoursList(props.role),
-    minutes: getMinutesList(hours, props.role),
-    seconds: getSecondsList(hours, minutes, props.role),
+    hours: getHoursList(role, compare),
+    minutes: getMinutesList(hours, role, compare),
+    seconds: getSecondsList(hours, minutes, role, compare),
   }
 })
 
@@ -167,17 +178,26 @@ const getAmPmFlag = (hour: number) => {
 }
 
 const emitSelectRange = (type: TimeUnit) => {
-  let range
-
+  let range = [0, 0]
+  const actualFormat = format || DEFAULT_FORMATS_TIME
+  const hourIndex = actualFormat.indexOf('HH')
+  const minuteIndex = actualFormat.indexOf('mm')
+  const secondIndex = actualFormat.indexOf('ss')
   switch (type) {
     case 'hours':
-      range = [0, 2]
+      if (hourIndex !== -1) {
+        range = [hourIndex, hourIndex + 2]
+      }
       break
     case 'minutes':
-      range = [3, 5]
+      if (minuteIndex !== -1) {
+        range = [minuteIndex, minuteIndex + 2]
+      }
       break
     case 'seconds':
-      range = [6, 8]
+      if (secondIndex !== -1) {
+        range = [secondIndex, secondIndex + 2]
+      }
       break
   }
   const [left, right] = range
@@ -212,7 +232,11 @@ const adjustSpinner = (type: TimeUnit, value: number) => {
 
 const typeItemHeight = (type: TimeUnit): number => {
   const scrollbar = unref(listRefsMap[type])
-  return scrollbar?.$el.querySelector('li').offsetHeight || 0
+  const listItem = scrollbar?.$el.querySelector('li')
+  if (listItem) {
+    return Number.parseFloat(getStyle(listItem, 'height')) || 0
+  }
+  return 0
 }
 
 const onIncrement = () => {
@@ -271,7 +295,7 @@ const modifyDateField = (type: TimeUnit, value: number) => {
       changeTo = props.spinnerDate.hour(hours).minute(minutes).second(value)
       break
   }
-  emit('change', changeTo)
+  emit(CHANGE_EVENT, changeTo)
 }
 
 const handleClick = (
@@ -286,11 +310,14 @@ const handleClick = (
 }
 
 const handleScroll = (type: TimeUnit) => {
+  const scrollbar = unref(listRefsMap[type])
+  if (!scrollbar) return
+
   isScrolling = true
   debouncedResetScroll(type)
   const value = Math.min(
     Math.round(
-      (getScrollbarElement(unref(listRefsMap[type])!.$el).scrollTop -
+      (getScrollbarElement(scrollbar.$el).scrollTop -
         (scrollBarHeight(type) * 0.5 - 10) / typeItemHeight(type) +
         3) /
         typeItemHeight(type)
@@ -329,8 +356,8 @@ onMounted(() => {
   })
 })
 
-const setRef = (scrollbar: ScrollbarInstance, type: TimeUnit) => {
-  listRefsMap[type].value = scrollbar
+const setRef = (scrollbar: ScrollbarInstance | null, type: TimeUnit) => {
+  listRefsMap[type].value = scrollbar ?? undefined
 }
 
 emit('set-option', [`${props.role}_scrollDown`, scrollDown])

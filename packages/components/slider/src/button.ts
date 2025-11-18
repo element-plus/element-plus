@@ -1,7 +1,13 @@
 import { placements } from '@popperjs/core'
 import { buildProps, isNumber } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import type { ExtractPropTypes, Ref } from 'vue'
+
+import type {
+  ComponentPublicInstance,
+  ExtractPropTypes,
+  Ref,
+  __ExtractPublicPropTypes,
+} from 'vue'
 import type Button from './button.vue'
 
 export const sliderButtonProps = buildProps({
@@ -18,13 +24,16 @@ export const sliderButtonProps = buildProps({
   },
 } as const)
 export type SliderButtonProps = ExtractPropTypes<typeof sliderButtonProps>
+export type SliderButtonPropsPublic = __ExtractPublicPropTypes<
+  typeof sliderButtonProps
+>
 
 export const sliderButtonEmits = {
   [UPDATE_MODEL_EVENT]: (value: number) => isNumber(value),
 }
 export type SliderButtonEmits = typeof sliderButtonEmits
 
-export type SliderButtonInstance = InstanceType<typeof Button>
+export type SliderButtonInstance = ComponentPublicInstance<typeof Button>
 
 export type ButtonRefs = Record<
   'firstButton' | 'secondButton',

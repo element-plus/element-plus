@@ -7,9 +7,28 @@
   "unpkg": "index.js",
   "jsdelivr": "index.js",
   "peerDependencies": {
-    "vue": "^3.2.0"
+    "vue": "catalog:"
+  },
+  "dependencies": {
+    "@ctrl/tinycolor": "catalog:",
+    "@element-plus/constants": "workspace:^",
+    "@element-plus/directives": "workspace:^",
+    "@element-plus/hooks": "workspace:^",
+    "@element-plus/icons-vue": "catalog:",
+    "@element-plus/utils": "workspace:^",
+    "@popperjs/core": "catalog:",
+    "@vueuse/core": "catalog:",
+    "csstype": "catalog:",
+    "lodash-unified": "catalog:"
+  },
+  "devDependencies": {
+    "@element-plus/test-utils": "workspace:^",
+    "@vue/test-utils": "catalog:",
+    "vue": "catalog:"
   },
   "types": "index.d.ts",
-  "sideEffects": false,
+  "sideEffects": [
+    "*/style/*"
+  ],
   "gitHead": "c69724230befa8fede0e6b9c37fb0b7e39fd7cdd"
 }

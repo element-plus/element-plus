@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import { merge } from 'lodash'
+import { merge } from 'lodash-unified'
 
 const makeMount = <C, O, E>(element: C, defaultOptions: O) => {
   return (props: (E | O) | (E & O) = {} as E) =>

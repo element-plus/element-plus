@@ -1,5 +1,6 @@
 import { buildProps } from '@element-plus/utils'
-import type { ExtractPropTypes } from 'vue'
+
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type Row from './row.vue'
 
 export const RowJustify = [
@@ -42,9 +43,9 @@ export const rowProps = buildProps({
   align: {
     type: String,
     values: RowAlign,
-    default: 'top',
   },
 } as const)
 
 export type RowProps = ExtractPropTypes<typeof rowProps>
-export type RowInstance = InstanceType<typeof Row>
+export type RowPropsPublic = __ExtractPublicPropTypes<typeof rowProps>
+export type RowInstance = InstanceType<typeof Row> & unknown

@@ -1,5 +1,10 @@
 <template>
-  <el-tree-select v-model="value" :data="data" filterable />
+  <el-tree-select
+    v-model="value"
+    :data="data"
+    filterable
+    style="width: 240px"
+  />
   <el-divider />
   filter method:
   <el-tree-select
@@ -7,6 +12,7 @@
     :data="data"
     :filter-method="filterMethod"
     filterable
+    style="width: 240px"
   />
   <el-divider />
   filter node method:
@@ -15,6 +21,7 @@
     :data="data"
     :filter-node-method="filterNodeMethod"
     filterable
+    style="width: 240px"
   />
 </template>
 

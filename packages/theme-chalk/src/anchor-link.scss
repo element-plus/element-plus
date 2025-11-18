@@ -1,0 +1,41 @@
+@use 'sass:map';
+
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
+
+@include b(anchor) {
+  @include e(item) {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  @include e(link) {
+    font-size: getCssVar('anchor-font-size');
+    line-height: getCssVar('anchor-line-height');
+    padding: 4px 0;
+    color: getCssVar('anchor-color');
+    transition: color getCssVar('transition-duration');
+    white-space: nowrap;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 100%;
+    outline: none;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+      color: getCssVar('anchor-color');
+    }
+
+    @include when(active) {
+      color: getCssVar('anchor-active-color');
+    }
+  }
+
+  & .#{$namespace}-anchor__list .#{$namespace}-anchor__item a {
+    display: inline-block;
+  }
+}

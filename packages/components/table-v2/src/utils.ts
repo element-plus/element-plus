@@ -14,7 +14,7 @@ export const tryCall = <T>(
   params: T extends (...args: infer K) => unknown ? K : any,
   defaultRet = {}
 ) => {
-  return isFunction(fLike) ? fLike(params) : fLike ?? defaultRet
+  return isFunction(fLike) ? fLike(params) : (fLike ?? defaultRet)
 }
 
 export const enforceUnit = (style: CSSProperties) => {
@@ -25,7 +25,7 @@ export const enforceUnit = (style: CSSProperties) => {
   return style
 }
 
-export const componentToSlot = <T>(
+export const componentToSlot = <T extends object>(
   ComponentLike: JSX.Element | ((props: T) => Component<T>) | undefined
 ) =>
   isVNode(ComponentLike)

@@ -17,7 +17,7 @@ import { isNil } from 'lodash-unified'
 import { unrefElement } from '@vueuse/core'
 import { ElOnlyChild } from '@element-plus/components/slot'
 import { useForwardRef } from '@element-plus/hooks'
-import { isElement } from '@element-plus/utils'
+import { isElement, isFocusable } from '@element-plus/utils'
 import { POPPER_INJECTION_KEY } from './constants'
 import { popperTriggerProps } from './trigger'
 
@@ -58,6 +58,16 @@ const ariaExpanded = computed<string | undefined>(() => {
 
 let virtualTriggerAriaStopWatch: WatchStopHandle | undefined = undefined
 
+const TRIGGER_ELE_EVENTS = [
+  'onMouseenter',
+  'onMouseleave',
+  'onClick',
+  'onKeydown',
+  'onFocus',
+  'onBlur',
+  'onContextmenu',
+] as const
+
 onMounted(() => {
   watch(
     () => props.virtualRef,
@@ -76,48 +86,50 @@ onMounted(() => {
     (el, prevEl) => {
       virtualTriggerAriaStopWatch?.()
       virtualTriggerAriaStopWatch = undefined
+
+      if (isElement(prevEl)) {
+        TRIGGER_ELE_EVENTS.forEach((eventName) => {
+          const handler = props[eventName]
+          if (handler) {
+            ;(prevEl as HTMLElement).removeEventListener(
+              eventName.slice(2).toLowerCase(),
+              handler,
+              ['onFocus', 'onBlur'].includes(eventName)
+            )
+          }
+        })
+      }
       if (isElement(el)) {
-        ;(
-          [
-            'onMouseenter',
-            'onMouseleave',
-            'onClick',
-            'onKeydown',
-            'onFocus',
-            'onBlur',
-            'onContextmenu',
-          ] as const
-        ).forEach((eventName) => {
+        TRIGGER_ELE_EVENTS.forEach((eventName) => {
           const handler = props[eventName]
           if (handler) {
             ;(el as HTMLElement).addEventListener(
               eventName.slice(2).toLowerCase(),
-              handler
-            )
-            ;(prevEl as HTMLElement)?.removeEventListener?.(
-              eventName.slice(2).toLowerCase(),
-              handler
+              handler,
+              ['onFocus', 'onBlur'].includes(eventName)
             )
           }
         })
-        virtualTriggerAriaStopWatch = watch(
-          [ariaControls, ariaDescribedby, ariaHaspopup, ariaExpanded],
-          (watches) => {
-            ;[
-              'aria-controls',
-              'aria-describedby',
-              'aria-haspopup',
-              'aria-expanded',
-            ].forEach((key, idx) => {
-              isNil(watches[idx])
-                ? el.removeAttribute(key)
-                : el.setAttribute(key, watches[idx]!)
-            })
-          },
-          { immediate: true }
-        )
+        if (isFocusable(el as HTMLElement)) {
+          virtualTriggerAriaStopWatch = watch(
+            [ariaControls, ariaDescribedby, ariaHaspopup, ariaExpanded],
+            (watches) => {
+              ;[
+                'aria-controls',
+                'aria-describedby',
+                'aria-haspopup',
+                'aria-expanded',
+              ].forEach((key, idx) => {
+                isNil(watches[idx])
+                  ? el.removeAttribute(key)
+                  : el.setAttribute(key, watches[idx]!)
+              })
+            },
+            { immediate: true }
+          )
+        }
       }
-      if (isElement(prevEl)) {
+      if (isElement(prevEl) && isFocusable(prevEl as HTMLElement)) {
         ;[
           'aria-controls',
           'aria-describedby',
@@ -135,6 +147,20 @@ onMounted(() => {
 onBeforeUnmount(() => {
   virtualTriggerAriaStopWatch?.()
   virtualTriggerAriaStopWatch = undefined
+  if (triggerRef.value && isElement(triggerRef.value)) {
+    const el = triggerRef.value as HTMLElement
+    TRIGGER_ELE_EVENTS.forEach((eventName) => {
+      const handler = props[eventName]
+      if (handler) {
+        el.removeEventListener(
+          eventName.slice(2).toLowerCase(),
+          handler,
+          ['onFocus', 'onBlur'].includes(eventName)
+        )
+      }
+    })
+    triggerRef.value = undefined
+  }
 })
 
 defineExpose({

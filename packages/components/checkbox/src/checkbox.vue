@@ -2,45 +2,24 @@
   <component
     :is="!hasOwnLabel && isLabeledByFormItem ? 'span' : 'label'"
     :class="compKls"
-    :aria-controls="indeterminate ? controls : null"
+    :aria-controls="indeterminate ? ariaControls : null"
     @click="onClickRoot"
   >
-    <span
-      :class="spanKls"
-      :tabindex="indeterminate ? 0 : undefined"
-      :role="indeterminate ? 'checkbox' : undefined"
-      :aria-checked="indeterminate ? 'mixed' : undefined"
-    >
+    <span :class="spanKls">
       <input
-        v-if="trueLabel || falseLabel"
         :id="inputId"
         v-model="model"
         :class="ns.e('original')"
         type="checkbox"
-        :aria-hidden="indeterminate ? 'true' : 'false'"
+        :indeterminate="indeterminate"
         :name="name"
         :tabindex="tabindex"
         :disabled="isDisabled"
-        :true-value="trueLabel"
-        :false-value="falseLabel"
+        v-bind="inputBindings"
         @change="handleChange"
         @focus="isFocused = true"
         @blur="isFocused = false"
-      />
-      <input
-        v-else
-        :id="inputId"
-        v-model="model"
-        :class="ns.e('original')"
-        type="checkbox"
-        :aria-hidden="indeterminate ? 'true' : 'false'"
-        :disabled="isDisabled"
-        :value="label"
-        :name="name"
-        :tabindex="tabindex"
-        @change="handleChange"
-        @focus="isFocused = true"
-        @blur="isFocused = false"
+        @click.stop
       />
       <span :class="ns.e('inner')" />
     </span>
@@ -74,9 +53,27 @@ const {
   checkboxSize,
   hasOwnLabel,
   model,
+  actualValue,
   handleChange,
   onClickRoot,
 } = useCheckbox(props, slots)
+
+const inputBindings = computed(() => {
+  if (
+    props.trueValue ||
+    props.falseValue ||
+    props.trueLabel ||
+    props.falseLabel
+  ) {
+    return {
+      'true-value': props.trueValue ?? props.trueLabel ?? true,
+      'false-value': props.falseValue ?? props.falseLabel ?? false,
+    }
+  }
+  return {
+    value: actualValue.value,
+  }
+})
 
 const ns = useNamespace('checkbox')
 
