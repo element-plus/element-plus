@@ -879,6 +879,7 @@ $anchor: map.merge(
     'font-size': 12px,
     'color': getCssVar('text-color-secondary'),
     'active-color': getCssVar('color-primary'),
+    'hover-color': getCssVar('text-color-regular'),
     'marker-bg-color': getCssVar('color-primary'),
   ),
   $anchor
