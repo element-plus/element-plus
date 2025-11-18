@@ -36,6 +36,13 @@ export const formItemProps = buildProps({
     default: '',
   },
   /**
+   * @description Whether to disable this components in this formItem. If set to `true`, it will override the `disabled` prop of the inner component.
+   */
+  disabled: {
+    type: Boolean,
+    default: null
+  },
+  /**
    * @description  A key of `model`. It could be an array of property paths (e.g `['a', 'b', '0']`). In the use of `validate` and `resetFields` method, the attribute is required.
    */
   prop: {
