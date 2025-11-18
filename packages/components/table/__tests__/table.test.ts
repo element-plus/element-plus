@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { h, nextTick } from 'vue'
+import { h, nextTick, ref } from 'vue'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import ElCheckbox from '@element-plus/components/checkbox'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
@@ -181,6 +181,43 @@ describe('Table.vue', () => {
       const wrapper = createTable('max-height="134"')
       await doubleWait()
       expect(wrapper.attributes('style')).toContain('max-height: 134px')
+      wrapper.unmount()
+    })
+
+    it('reactivity height & maxHeight', async () => {
+      const height = ref(200)
+      const maxHeight = ref(250)
+      const wrapper = createTable(':max-height="maxHeight" :height="height"', {
+        data() {
+          return {
+            height,
+            maxHeight,
+          }
+        },
+      })
+      await doubleWait()
+
+      expect(wrapper.attributes('style')).toContain(
+        'height: 200px; max-height: 250px'
+      )
+
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+
+      height.value = 1200
+      maxHeight.value = 200
+
+      await doubleWait()
+
+      const calledWarnContains = warnSpy.mock.calls.some((args) =>
+        String(args[0]).includes(
+          '[Vue warn]: Maximum recursive updates exceeded.'
+        )
+      )
+      expect(calledWarnContains).toBeFalsy()
+      expect(wrapper.attributes('style')).toContain(
+        'height: 1200px; max-height: 200px'
+      )
+      warnSpy.mockRestore()
       wrapper.unmount()
     })
 

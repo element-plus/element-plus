@@ -51,9 +51,13 @@ function useStyle<T extends DefaultRow>(
   watchEffect(() => {
     layout.setHeight(props.height ?? null)
   })
-  watchEffect(() => {
-    layout.setMaxHeight(props.maxHeight ?? null)
-  })
+  watch(
+    () => props.maxHeight,
+    () => {
+      layout.setMaxHeight(props.maxHeight ?? null)
+    },
+    { immediate: true }
+  )
   watch(
     () => [props.currentRowKey, store.states.rowKey],
     ([currentRowKey, rowKey]) => {
