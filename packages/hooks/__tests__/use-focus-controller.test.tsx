@@ -1,4 +1,4 @@
-import { nextTick, ref } from 'vue'
+import { nextTick, ref, shallowRef } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { useFocusController } from '../use-focus-controller'
@@ -254,5 +254,58 @@ describe('useFocusController', () => {
     await wrapper.find('input').trigger('focus')
     expect(wrapper.emitted()).toHaveProperty('focus')
     expect(wrapper.find('span').text()).toBe('true')
+  })
+
+  it('only focuses target when click lands inside the target rect', async () => {
+    const focusSpy = vi.fn()
+    const wrapper = mount({
+      setup() {
+        const targetRef = shallowRef<HTMLInputElement>()
+        const inputEl = document.createElement('input')
+        Object.defineProperty(inputEl, 'focus', {
+          value: focusSpy,
+          configurable: true,
+        })
+        Object.defineProperty(inputEl, 'getBoundingClientRect', {
+          value: () => ({
+            x: 100,
+            y: 100,
+            left: 100,
+            top: 100,
+            right: 200,
+            bottom: 120,
+            width: 100,
+            height: 20,
+            toJSON: () => ({}),
+          }),
+        })
+        targetRef.value = inputEl
+        const { wrapperRef } = useFocusController(targetRef)
+        return () => <div ref={wrapperRef} class="focus-wrapper"></div>
+      },
+    })
+
+    await nextTick()
+    const wrapperEl = wrapper.find('.focus-wrapper')
+
+    const dispatchClick = (x: number, y: number) => {
+      const event = new MouseEvent('click', {
+        bubbles: true,
+        cancelable: true,
+        clientX: x,
+        clientY: y,
+      })
+      wrapperEl.element.dispatchEvent(event)
+    }
+
+    // inside the rect -> focus should be called
+    dispatchClick(110, 110)
+    await nextTick()
+    expect(focusSpy).toHaveBeenCalledTimes(1)
+
+    // outside the rect (above top edge) -> focus should not be called
+    dispatchClick(110, 90)
+    await nextTick()
+    expect(focusSpy).toHaveBeenCalledTimes(1)
   })
 })

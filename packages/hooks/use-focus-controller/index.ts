@@ -76,6 +76,34 @@ export function useFocusController<T extends { focus: () => void }>(
     )
       return
 
+    // Only programmatically focus when the actual click is inside the
+    // native input/textarea bounding box. This avoids edge cases where
+    // clicking wrapper padding/top empty space causes a ghost caret in
+    // some browsers (e.g., Edge on Windows).
+    try {
+      const mouseEvent = event as MouseEvent
+      const el = (target.value ?? null) as unknown as
+        | (HTMLElement & { getBoundingClientRect: () => DOMRect })
+        | null
+      if (
+        el &&
+        typeof el.getBoundingClientRect === 'function' &&
+        typeof mouseEvent.clientX === 'number' &&
+        typeof mouseEvent.clientY === 'number'
+      ) {
+        const rect = el.getBoundingClientRect()
+        const x = mouseEvent.clientX
+        const y = mouseEvent.clientY
+        const insideX = x >= rect.left && x <= rect.right
+        const insideY = y >= rect.top && y <= rect.bottom
+        if (!insideX || !insideY) {
+          return
+        }
+      }
+    } catch {
+      // ignore and fallback to focusing
+    }
+
     target.value?.focus()
   }
 
