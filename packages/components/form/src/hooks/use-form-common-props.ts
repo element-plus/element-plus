@@ -36,7 +36,7 @@ export const useFormDisabled = (fallback?: MaybeRef<boolean | undefined>) => {
   const disabled = useProp<boolean>('disabled')
   const form = inject(formContextKey, undefined)
   const formItem = inject(formItemContextKey, undefined)
-   return computed(() => {
+  return computed(() => {
     if (disabled.value) return disabled.value
     if (unref(fallback)) return unref(fallback)
     if (formItem?.disabled !== null) return formItem?.disabled
