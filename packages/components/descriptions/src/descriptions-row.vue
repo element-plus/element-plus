@@ -24,7 +24,6 @@
 
 <script lang="ts" setup>
 import { inject } from 'vue'
-
 import ElDescriptionsCell from './descriptions-cell'
 import { descriptionsKey } from './token'
 import { descriptionsRowProps } from './descriptions-row'

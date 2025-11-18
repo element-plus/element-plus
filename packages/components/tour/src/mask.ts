@@ -1,5 +1,6 @@
 import { buildProps, definePropType } from '@element-plus/utils'
-import type { ExtractPropTypes } from 'vue'
+
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type { PosInfo } from './types'
 
 export const maskProps = buildProps({
@@ -37,3 +38,4 @@ export const maskProps = buildProps({
 })
 
 export type MaskProps = ExtractPropTypes<typeof maskProps>
+export type MaskPropsPublic = __ExtractPublicPropTypes<typeof maskProps>

@@ -28,6 +28,7 @@ const url =
   border-right: solid 1px var(--el-border-color);
   display: inline-block;
   width: 20%;
+  min-width: 100px;
   box-sizing: border-box;
   vertical-align: top;
 }

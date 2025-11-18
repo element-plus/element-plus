@@ -1,7 +1,11 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 import { column } from './common'
 
-import type { ExtractPropTypes, StyleValue } from 'vue'
+import type {
+  ExtractPropTypes,
+  StyleValue,
+  __ExtractPublicPropTypes,
+} from 'vue'
 
 export const tableV2CellProps = buildProps({
   class: String,
@@ -20,3 +24,6 @@ export const tableV2CellProps = buildProps({
 } as const)
 
 export type TableV2CellProps = ExtractPropTypes<typeof tableV2CellProps>
+export type TableV2CellPropsPublic = __ExtractPublicPropTypes<
+  typeof tableV2CellProps
+>

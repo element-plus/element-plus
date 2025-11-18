@@ -20,6 +20,7 @@
 import { computed } from 'vue'
 import { useLang } from '../../composables/lang'
 import homeLocale from '../../../i18n/pages/home.json'
+
 const lang = useLang()
 const homeLang = computed(() => homeLocale[lang.value])
 

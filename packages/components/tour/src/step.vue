@@ -1,7 +1,7 @@
 <template>
   <button
     v-if="mergedShowClose"
-    aria-label="Close"
+    :aria-label="t('el.tour.close')"
     :class="ns.e('closebtn')"
     type="button"
     @click="onClose"
@@ -34,7 +34,7 @@
         <span
           v-for="(item, index) in total"
           :key="item"
-          :class="[ns.b('indicator'), index === current ? 'is-active' : '']"
+          :class="[ns.b('indicator'), ns.is('active', index === current)]"
         />
       </template>
     </div>
@@ -65,11 +65,12 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, watch } from 'vue'
+import { computed, inject, onBeforeUnmount, onMounted, watch } from 'vue'
+import { EVENT_CODE } from '@element-plus/constants'
 import { omit } from 'lodash-unified'
 import { ElButton } from '@element-plus/components/button'
 import { ElIcon } from '@element-plus/components/icon'
-import { CloseComponents } from '@element-plus/utils'
+import { CloseComponents, getEventCode } from '@element-plus/utils'
 import { useLocale } from '@element-plus/hooks'
 import { tourStepEmits, tourStepProps } from './step'
 import { tourKey } from './helper'
@@ -152,4 +153,29 @@ const onClose = () => {
   tourOnClose()
   emit('close')
 }
+
+const handleKeydown = (e: KeyboardEvent) => {
+  const target = e.target as HTMLElement | null
+  if (target?.isContentEditable) return
+  const code = getEventCode(e)
+
+  switch (code) {
+    case EVENT_CODE.left:
+      e.preventDefault()
+      current.value > 0 && onPrev()
+      break
+    case EVENT_CODE.right:
+      e.preventDefault()
+      onNext()
+      break
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('keydown', handleKeydown)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('keydown', handleKeydown)
+})
 </script>

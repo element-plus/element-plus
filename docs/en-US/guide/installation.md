@@ -44,7 +44,6 @@ In addition, every commit and PR on the dev branch will be published to [pkg.pr.
 so that you can utilize bundlers like [Vite](https://vitejs.dev) and
 [webpack](https://webpack.js.org/).
 
-
 Choose a package manager you like.
 
 ::: code-group
@@ -52,6 +51,7 @@ Choose a package manager you like.
 ```shell [npm]
 $ npm install element-plus --save
 ```
+
 ```shell [yarn]
 $ yarn add element-plus
 ```

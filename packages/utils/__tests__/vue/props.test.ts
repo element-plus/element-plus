@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 /* eslint-disable @typescript-eslint/no-unsafe-function-type */
-/* eslint-disable @typescript-eslint/no-wrapper-object-types */
+
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { defineComponent } from 'vue'
@@ -8,6 +8,7 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
 import { expectTypeOf } from 'expect-type'
 import { buildProp, buildProps, definePropType, keysOf, mutable } from '../..'
+
 import type {
   EpProp,
   EpPropInputDefault,
@@ -19,8 +20,7 @@ import type {
   WritableArray,
   epPropKey,
 } from '../..'
-
-import type { ExtractPropTypes, PropType } from 'vue'
+import type { ExtractPropTypes, PropType, __ExtractPublicPropTypes } from 'vue'
 
 describe('Types', () => {
   it('Writable', () => {
@@ -380,6 +380,21 @@ describe('buildProp', () => {
     expectTypeOf<Extracted>().toEqualTypeOf<{
       readonly key1: string
       readonly key2: string | number
+    }>()
+  })
+
+  it('extract public', () => {
+    const props = {
+      key1: buildProp({
+        type: String,
+        default: 'value',
+      }),
+    } as const
+
+    type ExtractedPublic = __ExtractPublicPropTypes<typeof props>
+
+    expectTypeOf<ExtractedPublic>().toEqualTypeOf<{
+      readonly key1?: string | undefined
     }>()
   })
 })

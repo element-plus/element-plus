@@ -1,18 +1,19 @@
-// @ts-nocheck
 import { inject } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { isArray, isFunction, isString } from '@element-plus/utils'
+import { isArray, isFunction, isObject, isString } from '@element-plus/utils'
 import {
   ensurePosition,
   getFixedColumnOffset,
   getFixedColumnsClass,
 } from '../util'
 import { TABLE_INJECTION_KEY } from '../tokens'
+
 import type { TableColumnCtx } from '../table-column/defaults'
 import type { TableBodyProps } from './defaults'
+import type { DefaultRow, Table } from '../table/defaults'
 
-function useStyles<T>(props: Partial<TableBodyProps<T>>) {
-  const parent = inject(TABLE_INJECTION_KEY)
+function useStyles<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
+  const parent = inject(TABLE_INJECTION_KEY) as Table<T>
   const ns = useNamespace('table')
 
   const getRowStyle = (row: T, rowIndex: number) => {
@@ -26,16 +27,15 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
     return rowStyle || null
   }
 
-  const getRowClass = (row: T, rowIndex: number) => {
+  const getRowClass = (row: T, rowIndex: number, displayIndex: number) => {
     const classes = [ns.e('row')]
     if (
       parent?.props.highlightCurrentRow &&
-      row === props.store.states.currentRow.value
+      row === props.store?.states.currentRow.value
     ) {
       classes.push('current-row')
     }
-
-    if (props.stripe && rowIndex % 2 === 1) {
+    if (props.stripe && displayIndex % 2 === 1) {
       classes.push(ns.em('row', 'striped'))
     }
     const rowClassName = parent?.props.rowClassName
@@ -129,7 +129,7 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
       if (isArray(result)) {
         rowspan = result[0]
         colspan = result[1]
-      } else if (typeof result === 'object') {
+      } else if (isObject(result)) {
         rowspan = result.rowspan
         colspan = result.colspan
       }
@@ -142,7 +142,7 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
     index: number
   ): number => {
     if (colspan < 1) {
-      return columns[index].realWidth
+      return columns[index].realWidth!
     }
     const widthArr = columns
       .map(({ realWidth, width }) => realWidth || width)

@@ -12,3 +12,5 @@ export type DialogContext = {
 
 export const dialogInjectionKey: InjectionKey<DialogContext> =
   Symbol('dialogInjectionKey')
+
+export const DEFAULT_DIALOG_TRANSITION = 'dialog-fade'

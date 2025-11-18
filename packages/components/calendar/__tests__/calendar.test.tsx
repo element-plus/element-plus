@@ -117,7 +117,7 @@ describe('Calendar.vue', () => {
         return <Calendar v-model={this.value} />
       },
     })
-    const head = wrapper.element.querySelector('.el-calendar-table thead')
+    const head = wrapper.element.querySelector('.el-calendar-table thead tr')
     expect(head?.firstElementChild?.innerHTML).toBe('Sun')
     expect(head?.lastElementChild?.innerHTML).toBe('Sat')
     const firstRow = wrapper.element.querySelector('.el-calendar-table__row')
@@ -133,7 +133,7 @@ describe('Calendar.vue', () => {
         return <Calendar v-model={this.value} />
       },
     })
-    const head = wrapper.element.querySelector('.el-calendar-table thead')
+    const head = wrapper.element.querySelector('.el-calendar-table thead tr')
     expect(head?.firstElementChild?.innerHTML).toBe('Mon')
     expect(head?.lastElementChild?.innerHTML).toBe('Sun')
     const firstRow = wrapper.element.querySelector('.el-calendar-table__row')
@@ -157,7 +157,7 @@ describe('Calendar.vue', () => {
         )
       },
     })
-    const head = wrapper.element.querySelector('.el-calendar-table thead')
+    const head = wrapper.element.querySelector('.el-calendar-table thead tr')
     expect(head?.firstElementChild?.innerHTML).toBe('Sun')
     expect(head?.lastElementChild?.innerHTML).toBe('Sat')
     const firstRow = wrapper.element.querySelector('.el-calendar-table__row')

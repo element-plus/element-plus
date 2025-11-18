@@ -61,6 +61,14 @@ checkbox/grouping
 
 :::
 
+## Options attribute ^(2.11.2)
+
+:::demo Shortcut from basic `el-checkbox-group` usage. You can customize the alias of the `options` through the `props` attribute.
+
+checkbox/options
+
+:::
+
 ## Indeterminate
 
 The `indeterminate` property can help you to achieve a 'check all' effect.
@@ -140,19 +148,22 @@ checkbox/with-border
 
 ### CheckboxGroup Attributes
 
-| Name                        | Description                                       | Type                                     | Default |
-| --------------------------- | ------------------------------------------------- | ---------------------------------------- | ------- |
-| model-value / v-model       | binding value                                     | ^[object]`string[] \| number[]`          | []      |
-| size                        | size of checkbox                                  | ^[enum]`'large' \| 'default' \| 'small'` | —       |
-| disabled                    | whether the nesting checkboxes are disabled       | ^[boolean]                               | false   |
-| min                         | minimum number of checkbox checked                | ^[number]                                | —       |
-| max                         | maximum number of checkbox checked                | ^[number]                                | —       |
-| aria-label ^(a11y) ^(2.7.2) | native `aria-label` attribute                     | ^[string]                                | —       |
-| text-color                  | font color when button is active                  | ^[string]                                | #ffffff |
-| fill                        | border and background color when button is active | ^[string]                                | #409eff |
-| tag                         | element tag of the checkbox group                 | ^[string]                                | div     |
-| validate-event              | whether to trigger form validation                | ^[boolean]                               | true    |
-| label ^(a11y) ^(deprecated) | native `aria-label` attribute                     | ^[string]                                | —       |
+| Name                        | Description                                                                                    | Type                                                             | Default                                                  |
+| --------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- | -------------------------------------------------------- |
+| model-value / v-model       | binding value                                                                                  | ^[object]`string[] \| number[]`                                  | []                                                       |
+| size                        | size of checkbox                                                                               | ^[enum]`'large' \| 'default' \| 'small'`                         | —                                                        |
+| disabled                    | whether the nesting checkboxes are disabled                                                    | ^[boolean]                                                       | false                                                    |
+| min                         | minimum number of checkbox checked                                                             | ^[number]                                                        | —                                                        |
+| max                         | maximum number of checkbox checked                                                             | ^[number]                                                        | —                                                        |
+| aria-label ^(a11y) ^(2.7.2) | native `aria-label` attribute                                                                  | ^[string]                                                        | —                                                        |
+| text-color                  | font color when button is active                                                               | ^[string]                                                        | #ffffff                                                  |
+| fill                        | border and background color when button is active                                              | ^[string]                                                        | #409eff                                                  |
+| tag                         | element tag of the checkbox group                                                              | ^[string]                                                        | div                                                      |
+| validate-event              | whether to trigger form validation                                                             | ^[boolean]                                                       | true                                                     |
+| label ^(a11y) ^(deprecated) | native `aria-label` attribute                                                                  | ^[string]                                                        | —                                                        |
+| options ^(2.11.2)           | data of the options, the key of `value` and `label` and `disabled` can be customize by `props` | ^[array]`Array<{[key: string]: any}>`                            | —                                                        |
+| props ^(2.11.2)             | configuration options                                                                          | ^[object]`{ value?: string, label?: string, disabled?: boolean}` | `{value: 'value', label: 'label', disabled: 'disabled'}` |
+| type ^(2.11.5)              | component type to render options (e.g. `'button'`)                                             | ^[enum]`'checkbox' \| 'button'`                                  | 'checkbox'                                               |
 
 ### CheckboxGroup Events
 

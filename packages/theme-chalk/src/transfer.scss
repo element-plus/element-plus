@@ -85,6 +85,7 @@
 
     &.#{$namespace}-checkbox {
       color: getCssVar('text-color', 'regular');
+      margin-right: 30px;
     }
 
     &:hover {
@@ -188,16 +189,5 @@
 
   .#{$namespace}-checkbox__label {
     padding-left: 8px;
-  }
-
-  .#{$namespace}-checkbox__inner {
-    height: 14px;
-    width: 14px;
-    border-radius: 3px;
-    &::after {
-      height: 6px;
-      width: 3px;
-      left: 4px;
-    }
   }
 }

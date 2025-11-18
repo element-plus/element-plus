@@ -3,6 +3,7 @@
     <slot />
   </div>
 </template>
+
 <script lang="ts" setup>
 import { provide, reactive, toRef } from 'vue'
 import { useNamespace } from '@element-plus/hooks'

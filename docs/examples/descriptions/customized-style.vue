@@ -24,6 +24,7 @@
     </el-descriptions-item>
   </el-descriptions>
 </template>
+
 <style scoped>
 :deep(.my-label) {
   background: var(--el-color-success-light-9) !important;

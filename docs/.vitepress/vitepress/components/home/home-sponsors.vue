@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { goldSponsors, platinumSponsors } from '../../../config/sponsors'
-
 import SponsorsButton from '../sponsors/sponsors-button.vue'
 import SponsorList from './sponsor-list.vue'
 </script>

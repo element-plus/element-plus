@@ -1,6 +1,10 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 
-import type { ExtractPropTypes, StyleValue } from 'vue'
+import type {
+  ExtractPropTypes,
+  StyleValue,
+  __ExtractPublicPropTypes,
+} from 'vue'
 import type { Dayjs } from 'dayjs'
 import type Statistic from './statistic.vue'
 
@@ -58,5 +62,8 @@ export const statisticProps = buildProps({
   },
 } as const)
 export type StatisticProps = ExtractPropTypes<typeof statisticProps>
+export type StatisticPropsPublic = __ExtractPublicPropTypes<
+  typeof statisticProps
+>
 
-export type StatisticInstance = InstanceType<typeof Statistic>
+export type StatisticInstance = InstanceType<typeof Statistic> & unknown

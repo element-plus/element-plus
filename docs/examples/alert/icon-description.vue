@@ -1,6 +1,12 @@
 <template>
   <div style="max-width: 600px">
     <el-alert
+      title="Primary alert"
+      type="primary"
+      description="More text description"
+      show-icon
+    />
+    <el-alert
       title="Success alert"
       type="success"
       description="More text description"
@@ -26,6 +32,8 @@
     />
   </div>
 </template>
+
+<script setup lang="ts"></script>
 
 <style scoped>
 .el-alert {

@@ -6,8 +6,8 @@ import type { MenuProps } from './menu'
 
 export const useMenuCssVar = (props: MenuProps, level: number) => {
   const ns = useNamespace('menu')
-  return computed(() => {
-    return ns.cssVarBlock({
+  return computed(() =>
+    ns.cssVarBlock({
       'text-color': props.textColor || '',
       'hover-text-color': props.textColor || '',
       'bg-color': props.backgroundColor || '',
@@ -15,5 +15,5 @@ export const useMenuCssVar = (props: MenuProps, level: number) => {
       'active-color': props.activeTextColor || '',
       level: `${level}`,
     })
-  })
+  )
 }
