@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, it, test } from 'vitest'
 import { Loading, Search } from '@element-plus/icons-vue'
 import Form from '@element-plus/components/form'
+import ConfigProvider from '@element-plus/components/config-provider'
 import Button from '../src/button.vue'
 import ButtonGroup from '../src/button-group.vue'
 
@@ -63,6 +64,32 @@ describe('Button.vue', () => {
     const wrapper = mount(() => <Button dashed />)
 
     expect(wrapper.classes()).toContain('is-dashed')
+  })
+
+  it('dashed prop should override ConfigProvider setting (prop true overrides provider false)', async () => {
+    const wrapper = mount(() => (
+      <ConfigProvider button={{ dashed: false }}>
+        <Button dashed>Test</Button>
+      </ConfigProvider>
+    ))
+
+    await nextTick()
+
+    const btn = wrapper.find('button')
+    expect(btn.classes()).toContain('is-dashed')
+  })
+
+  it('ConfigProvider dashed should apply when prop not set (provider true, prop false)', async () => {
+    const wrapper = mount(() => (
+      <ConfigProvider button={{ dashed: true }}>
+        <Button>Test</Button>
+      </ConfigProvider>
+    ))
+
+    await nextTick()
+
+    const btn = wrapper.find('button')
+    expect(btn.classes()).toContain('is-dashed')
   })
 
   it('text', async () => {
