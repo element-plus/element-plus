@@ -372,6 +372,7 @@ export default defineComponent({
   emits: [
     UPDATE_MODEL_EVENT,
     CHANGE_EVENT,
+    'update:selected',
     'remove-tag',
     'clear',
     'visible-change',
