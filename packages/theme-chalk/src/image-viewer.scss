@@ -124,6 +124,12 @@
   }
 }
 
+@include b(image-viewer-parent) {
+  @include m(hidden) {
+    overflow: hidden;
+  }
+}
+
 .viewer-fade-enter-active {
   animation: viewer-fade-in getCssVar('transition-duration');
 }
