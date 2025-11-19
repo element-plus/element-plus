@@ -1,6 +1,5 @@
-// @ts-nocheck
 import { computed, getCurrentInstance, ref, toRefs, unref, watch } from 'vue'
-import { hasOwn, isArray, isString, isUndefined } from '@element-plus/utils'
+import { ensureArray, hasOwn, isArray, isString } from '@element-plus/utils'
 import {
   getColumnById,
   getColumnByKey,
@@ -15,10 +14,22 @@ import useTree from './tree'
 
 import type { Ref } from 'vue'
 import type { TableColumnCtx } from '../table-column/defaults'
-import type { DefaultRow, Table, TableRefs } from '../table/defaults'
+import type {
+  DefaultRow,
+  Table,
+  TableRefs,
+  TableSortOrder,
+} from '../table/defaults'
 import type { StoreFilter } from '.'
 
-const sortData = (data, states) => {
+const sortData = <T extends DefaultRow>(
+  data: T[],
+  states: {
+    sortingColumn: TableColumnCtx<T> | null
+    sortProp: string | null
+    sortOrder: string | number | null
+  }
+) => {
   const sortingColumn = states.sortingColumn
   if (!sortingColumn || isString(sortingColumn.sortable)) {
     return data
@@ -32,8 +43,10 @@ const sortData = (data, states) => {
   )
 }
 
-const doFlattenColumns = (columns) => {
-  const result = []
+const doFlattenColumns = <T extends DefaultRow>(
+  columns: TableColumnCtx<T>[]
+) => {
+  const result: TableColumnCtx<T>[] = []
   columns.forEach((column) => {
     if (column.children && column.children.length > 0) {
       // eslint-disable-next-line prefer-spread
@@ -45,10 +58,10 @@ const doFlattenColumns = (columns) => {
   return result
 }
 
-function useWatcher<T>() {
+function useWatcher<T extends DefaultRow>() {
   const instance = getCurrentInstance() as Table<T>
   const { size: tableSize } = toRefs(instance.proxy?.$props as any)
-  const rowKey: Ref<string> = ref(null)
+  const rowKey: Ref<string | null> = ref(null)
   const data: Ref<T[]> = ref([])
   const _data: Ref<T[]> = ref([])
   const isComplex = ref(false)
@@ -68,13 +81,13 @@ function useWatcher<T>() {
   const selection: Ref<T[]> = ref([])
   const reserveSelection = ref(false)
   const selectOnIndeterminate = ref(false)
-  const selectable: Ref<(row: T, index: number) => boolean> = ref(null)
+  const selectable: Ref<((row: T, index: number) => boolean) | null> = ref(null)
   const filters: Ref<StoreFilter> = ref({})
-  const filteredData = ref(null)
-  const sortingColumn = ref(null)
-  const sortProp = ref(null)
-  const sortOrder = ref(null)
-  const hoverRow = ref(null)
+  const filteredData: Ref<T[] | null> = ref(null)
+  const sortingColumn: Ref<TableColumnCtx<T> | null> = ref(null)
+  const sortProp: Ref<string | null> = ref(null)
+  const sortOrder: Ref<string | number | null> = ref(null)
+  const hoverRow: Ref<T | null> = ref(null)
 
   const selectedMap = computed(() => {
     return rowKey.value ? getKeysMap(selection.value, rowKey.value) : undefined
@@ -109,53 +122,42 @@ function useWatcher<T>() {
     })
   }
 
-  let selectionInitialFixed = undefined
-
   // 更新列
   const updateColumns = () => {
     _columns.value.forEach((column) => {
       updateChildFixed(column)
     })
-    fixedColumns.value = _columns.value.filter(
-      (column) => column.fixed === true || column.fixed === 'left'
+    fixedColumns.value = _columns.value.filter((column) =>
+      [true, 'left'].includes(column.fixed)
     )
+
+    const selectColumn = _columns.value.find(
+      (column) => column.type === 'selection'
+    )
+
+    let selectColFixLeft: boolean
+    if (
+      selectColumn &&
+      selectColumn.fixed !== 'right' &&
+      !fixedColumns.value.includes(selectColumn)
+    ) {
+      const selectColumnIndex = _columns.value.indexOf(selectColumn)
+      if (selectColumnIndex === 0 && fixedColumns.value.length) {
+        fixedColumns.value.unshift(selectColumn)
+        selectColFixLeft = true
+      }
+    }
+
     rightFixedColumns.value = _columns.value.filter(
       (column) => column.fixed === 'right'
     )
 
-    if (
-      isUndefined(selectionInitialFixed) &&
-      _columns.value[0] &&
-      _columns.value[0].type === 'selection'
-    ) {
-      selectionInitialFixed = Boolean(_columns.value[0].fixed)
-    }
+    const notFixedColumns = _columns.value.filter(
+      (column) =>
+        (selectColFixLeft ? column.type !== 'selection' : true) && !column.fixed
+    )
 
-    if (
-      fixedColumns.value.length > 0 &&
-      _columns.value[0] &&
-      _columns.value[0].type === 'selection'
-    ) {
-      if (!_columns.value[0].fixed) {
-        _columns.value[0].fixed = true
-        fixedColumns.value.unshift(_columns.value[0])
-      } else {
-        const hasNotSelectionColumns = fixedColumns.value.some(
-          (column) => column.type !== 'selection'
-        )
-
-        if (!hasNotSelectionColumns) {
-          _columns.value[0].fixed = selectionInitialFixed
-          if (!selectionInitialFixed) fixedColumns.value.shift()
-        } else {
-          selectionInitialFixed = undefined
-        }
-      }
-    }
-
-    const notFixedColumns = _columns.value.filter((column) => !column.fixed)
-    originColumns.value = []
-      .concat(fixedColumns.value)
+    originColumns.value = Array.from(fixedColumns.value)
       .concat(notFixedColumns)
       .concat(rightFixedColumns.value)
     const leafColumns = doFlattenColumns(notFixedColumns)
@@ -166,8 +168,7 @@ function useWatcher<T>() {
     fixedLeafColumnsLength.value = fixedLeafColumns.length
     rightFixedLeafColumnsLength.value = rightFixedLeafColumns.length
 
-    columns.value = []
-      .concat(fixedLeafColumns)
+    columns.value = Array.from(fixedLeafColumns)
       .concat(leafColumns)
       .concat(rightFixedLeafColumns)
     isComplex.value =
@@ -187,7 +188,7 @@ function useWatcher<T>() {
   }
 
   // 选择
-  const isSelected = (row: DefaultRow) => {
+  const isSelected = (row: T) => {
     if (selectedMap.value) {
       return !!selectedMap.value[getRowIdentity(row, rowKey.value)]
     } else {
@@ -208,7 +209,8 @@ function useWatcher<T>() {
     let deleted
     if (rowKey.value) {
       deleted = []
-      const dataMap = getKeysMap(data.value, rowKey.value)
+      const childrenKey = instance?.store?.states?.childrenColumnName.value
+      const dataMap = getKeysMap(data.value, rowKey.value, true, childrenKey)
       for (const key in selectedMap.value) {
         if (hasOwn(selectedMap.value, key) && !dataMap[key]) {
           deleted.push(selectedMap.value[key].row)
@@ -245,7 +247,9 @@ function useWatcher<T>() {
       row,
       selected,
       treeProps,
-      ignoreSelectable ? undefined : selectable.value
+      ignoreSelectable ? undefined : selectable.value,
+      data.value.indexOf(row),
+      rowKey.value
     )
     if (changed) {
       const newSelection = (selection.value || []).slice()
@@ -283,7 +287,8 @@ function useWatcher<T>() {
           value,
           treeProps,
           selectable.value,
-          rowIndex
+          rowIndex,
+          rowKey
         )
       ) {
         selectionChanged = true
@@ -300,16 +305,6 @@ function useWatcher<T>() {
     instance.emit('select-all', (selection.value || []).slice())
   }
 
-  const updateSelectionByRowKey = () => {
-    data.value.forEach((row) => {
-      const rowId = getRowIdentity(row, rowKey.value)
-      const rowInfo = selectedMap.value![rowId]
-      if (rowInfo) {
-        selection.value[rowInfo.index] = row
-      }
-    })
-  }
-
   const updateAllSelected = () => {
     // data 为 null 时，解构时的默认值会被忽略
     if (data.value?.length === 0) {
@@ -321,7 +316,7 @@ function useWatcher<T>() {
     let rowIndex = 0
     let selectedCount = 0
 
-    const checkSelectedStatus = (data: DefaultRow[]) => {
+    const checkSelectedStatus = (data: T[]) => {
       for (const row of data) {
         const isRowSelectable =
           selectable.value && selectable.value.call(null, row, rowIndex)
@@ -364,19 +359,20 @@ function useWatcher<T>() {
   }
 
   // 过滤与排序
-  const updateFilters = (columns, values) => {
-    if (!isArray(columns)) {
-      columns = [columns]
-    }
-    const filters_ = {}
-    columns.forEach((col) => {
+  const updateFilters = (column: TableColumnCtx<T>, values: string[]) => {
+    const filters_: Record<string, string[]> = {}
+    ensureArray(column).forEach((col) => {
       filters.value[col.id] = values
       filters_[col.columnKey || col.id] = values
     })
     return filters_
   }
 
-  const updateSort = (column, prop, order) => {
+  const updateSort = (
+    column: TableColumnCtx<T> | null,
+    prop: string | null,
+    order: TableSortOrder | null
+  ) => {
     if (sortingColumn.value && sortingColumn.value !== column) {
       sortingColumn.value.order = null
     }
@@ -404,12 +400,11 @@ function useWatcher<T>() {
         })
       }
     })
-
     filteredData.value = sourceData
   }
 
   const execSort = () => {
-    data.value = sortData(filteredData.value, {
+    data.value = sortData(filteredData.value ?? [], {
       sortingColumn: sortingColumn.value,
       sortProp: sortProp.value,
       sortOrder: sortOrder.value,
@@ -417,14 +412,14 @@ function useWatcher<T>() {
   }
 
   // 根据 filters 与 sort 去过滤 data
-  const execQuery = (ignore = undefined) => {
-    if (!(ignore && ignore.filter)) {
+  const execQuery = (ignore: { filter: boolean } | undefined = undefined) => {
+    if (!ignore?.filter) {
       execFilter()
     }
     execSort()
   }
 
-  const clearFilter = (columnKeys) => {
+  const clearFilter = (columnKeys?: string[] | string) => {
     const { tableHeaderRef } = instance.refs as TableRefs
     if (!tableHeaderRef) return
     const panels = Object.assign({}, tableHeaderRef.filterPanels)
@@ -539,8 +534,7 @@ function useWatcher<T>() {
     getSelectionRows,
     toggleRowSelection,
     _toggleAllSelection,
-    toggleAllSelection: null,
-    updateSelectionByRowKey,
+    toggleAllSelection: null as (() => void) | null,
     updateAllSelected,
     updateFilters,
     updateCurrentRow,

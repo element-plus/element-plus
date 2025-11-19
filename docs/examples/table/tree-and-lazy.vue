@@ -27,6 +27,7 @@
     </el-table>
   </div>
 </template>
+
 <script lang="ts" setup>
 interface User {
   id: number

@@ -2,10 +2,12 @@ import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it } from 'vitest'
 import dayjs from 'dayjs'
+import { CircleClose } from '@element-plus/icons-vue'
 import customParseFormat from 'dayjs/plugin/customParseFormat.js'
 import Select from '@element-plus/components/select'
 import { ElFormItem } from '@element-plus/components/form'
 import TimeSelect from '../src/time-select.vue'
+
 dayjs.extend(customParseFormat)
 
 const { Option } = Select
@@ -26,6 +28,14 @@ describe('TimeSelect', () => {
     const outerInput = wrapper.find('.el-select')
     expect(outerInput.classes()).toContain('customClass')
     expect(outerInput.attributes().style).toBeDefined()
+  })
+
+  it('should show clear btn on focus', async () => {
+    const wrapper = mount(() => <TimeSelect modelValue="08:30" clearable />)
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    expect(wrapper.findComponent(CircleClose).exists()).toBe(true)
   })
 
   it('set default value', async () => {

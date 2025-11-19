@@ -1,4 +1,5 @@
 import { renderSlot } from 'vue'
+
 import type { FunctionalComponent } from 'vue'
 import type { TableV2CellProps } from '../cell'
 

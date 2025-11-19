@@ -4,6 +4,7 @@ import {
   defineComponent,
   getCurrentInstance,
   h,
+  mergeProps,
   nextTick,
   onActivated,
   onMounted,
@@ -160,7 +161,7 @@ const createList = ({
         },
         (offset) => {
           ;(
-            scrollbarRef.value as any as {
+            scrollbarRef.value as {
               onMouseUp: () => void
             }
           ).onMouseUp?.()
@@ -345,12 +346,9 @@ const createList = ({
         return style
       }
 
-      // TODO:
-      // perf optimization here, reset isScrolling with debounce.
+      // TODO: perf optimization here, reset isScrolling with debounce.
 
       const resetIsScrolling = () => {
-        // timer = null
-
         states.value.isScrolling = false
         nextTick(() => {
           getItemStyleCache.value(-1, null, null)
@@ -501,10 +499,10 @@ const createList = ({
       const InnerNode = [
         h(
           Inner as VNode,
-          {
+          mergeProps(ctx.innerProps, {
             style: innerStyle,
             ref: 'innerRef',
-          },
+          }),
           !isString(Inner)
             ? {
                 default: () => children,
@@ -522,6 +520,7 @@ const createList = ({
         scrollFrom:
           states.scrollOffset / (this.estimatedTotalSize - clientSize),
         total,
+        alwaysOn: states.scrollbarAlwaysOn,
       })
 
       const listContainer = h(

@@ -1,8 +1,15 @@
-// @ts-nocheck
 import { h } from 'vue'
 import { isUndefined } from '@element-plus/utils'
 
-export function hColgroup(props) {
+import type { TableColumnCtx } from './table-column/defaults'
+import type { DefaultRow } from './table/defaults'
+
+type Props = {
+  tableLayout: 'fixed' | 'auto'
+  columns?: TableColumnCtx<DefaultRow>[]
+}
+
+export function hColgroup(props: Props) {
   const isAuto = props.tableLayout === 'auto'
   let columns = props.columns || []
   if (isAuto) {
@@ -10,11 +17,11 @@ export function hColgroup(props) {
       columns = []
     }
   }
-  const getPropsData = (column) => {
+  const getPropsData = (column: TableColumnCtx<DefaultRow>) => {
     const propsData = {
       key: `${props.tableLayout}_${column.id}`,
       style: {},
-      name: undefined,
+      name: undefined as string | undefined,
     }
     if (isAuto) {
       propsData.style = {

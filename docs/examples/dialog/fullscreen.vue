@@ -3,13 +3,7 @@
     Open the fullscreen Dialog
   </el-button>
 
-  <el-dialog
-    v-model="dialogVisible"
-    fullscreen
-    top="40vh"
-    width="70%"
-    draggable
-  >
+  <el-dialog v-model="dialogVisible" fullscreen>
     <span>It's a fullscreen Dialog</span>
     <template #footer>
       <div class="dialog-footer">

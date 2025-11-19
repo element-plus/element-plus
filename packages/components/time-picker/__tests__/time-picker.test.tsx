@@ -3,12 +3,14 @@ import { computed, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import dayjs from 'dayjs'
+import { CircleClose } from '@element-plus/icons-vue'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { rAF } from '@element-plus/test-utils/tick'
 import { ElFormItem } from '@element-plus/components/form'
-import sleep from '@element-plus/test-utils/sleep'
+import { EVENT_CODE } from '@element-plus/constants'
 import TimePicker from '../src/time-picker'
 import Picker from '../src/common/picker.vue'
+import PanelTimePick from '../src/time-picker-com/panel-time-pick.vue'
 
 const makeRange = (start, end) => {
   const result = []
@@ -47,6 +49,16 @@ describe('TimePicker', () => {
     const outterInput = wrapper.find('.el-input')
     expect(outterInput.classes()).toContain('customClass')
     expect(outterInput.attributes().style).toBeDefined()
+  })
+
+  it('should show clear btn on focus', async () => {
+    const wrapper = mount(() => (
+      <TimePicker modelValue={new Date()} clearable />
+    ))
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    expect(wrapper.findComponent(CircleClose).exists()).toBe(true)
   })
 
   it('set format && default value && set AM/PM spinner && no $attr to panel', async () => {
@@ -130,6 +142,23 @@ describe('TimePicker', () => {
     ;(document.querySelector('.el-time-panel__btn.confirm') as any).click()
 
     expect(value.value).toBeInstanceOf(Date)
+  })
+
+  it('should correctly cancel value after opened twice', async () => {
+    const value = ref()
+    const wrapper = mount(() => <TimePicker v-model={value.value} />)
+    const picker = wrapper.findComponent(PanelTimePick)
+
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    await picker.find('.el-time-panel__btn.cancel').trigger('click')
+    expect(value.value).toBeUndefined()
+
+    await input.trigger('blur')
+    await input.trigger('focus')
+    await picker.find('.el-time-panel__btn.cancel').trigger('click')
+    expect(value.value).toBeUndefined()
   })
 
   it('should update oldValue when visible change', async () => {
@@ -240,6 +269,31 @@ describe('TimePicker', () => {
     await nextTick()
     await nextTick() // onchange is triggered by props.modelValue update
     expect(changeHandler).toHaveBeenCalledTimes(1)
+  })
+
+  it('trigger on enter visible change', async () => {
+    const handleVisibleChange = vi.fn()
+    const value = ref(new Date(2016, 9, 10, 18, 40))
+
+    const wrapper = mount(() => (
+      <TimePicker v-model={value.value} onVisibleChange={handleVisibleChange} />
+    ))
+
+    const input = wrapper.find('input')
+    input.trigger('focus')
+    await nextTick()
+    await rAF()
+    expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+
+    input.trigger('keydown', { code: EVENT_CODE.esc })
+    await nextTick()
+    await rAF()
+    expect(handleVisibleChange).toHaveBeenCalledTimes(2)
+
+    input.trigger('keydown', { code: EVENT_CODE.enter })
+    await nextTick()
+    await rAF()
+    expect(handleVisibleChange).toHaveBeenCalledTimes(3)
   })
 
   it('selectableRange ', async () => {
@@ -443,6 +497,8 @@ describe('TimePicker', () => {
   })
 
   it('can auto skip when disabled', async () => {
+    vi.useFakeTimers()
+
     const disabledHours = () => [
       0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 23,
     ]
@@ -482,19 +538,24 @@ describe('TimePicker', () => {
     const testTime = 130
     hoursElArrowDown.dispatchEvent(mousedownEvt)
     hoursElArrowDown.dispatchEvent(mouseupEvt)
-    await sleep(testTime)
+    vi.advanceTimersByTime(testTime)
+    await nextTick()
     activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
     expect(activeHours).toEqual(21)
     hoursElArrowDown.dispatchEvent(mousedownEvt)
     hoursElArrowDown.dispatchEvent(mouseupEvt)
-    await sleep(testTime)
+    vi.advanceTimersByTime(testTime)
+    await nextTick()
     activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
     expect(activeHours).toEqual(22)
     hoursElArrowDown.dispatchEvent(new MouseEvent('mousedown'))
     hoursElArrowDown.dispatchEvent(new MouseEvent('mouseup'))
-    await sleep(testTime)
+    vi.advanceTimersByTime(testTime)
+    await nextTick()
     activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
     expect(activeHours).toEqual(20)
+
+    vi.useRealTimers()
   })
 })
 
@@ -1026,5 +1087,21 @@ describe('TimePicker(range)', () => {
       expect(popper?.getAttribute('aria-hidden')).toBe('false')
       expect(popper?.getAttribute('aria-modal')).toBe('false')
     })
+  })
+
+  it('should show default value when persistent is false', async () => {
+    const format = ref('hh-mm:ss A')
+    const value = ref(new Date(2016, 9, 10, 18, 40))
+    const wrapper = mount(() => (
+      <TimePicker
+        format={format.value}
+        persistent={false}
+        v-model={value.value}
+      />
+    ))
+
+    await nextTick()
+    const input = wrapper.find('input')
+    expect(input.element.value).toBe('06-40:00 PM') // format
   })
 })

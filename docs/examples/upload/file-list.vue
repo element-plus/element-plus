@@ -13,6 +13,7 @@
     </template>
   </el-upload>
 </template>
+
 <script lang="ts" setup>
 import { ref } from 'vue'
 

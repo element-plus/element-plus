@@ -29,7 +29,13 @@
       }
     }
   }
-
+  @each $align in (left, right, center) {
+    @include when($align) {
+      .#{$namespace}-input__inner {
+        text-align: $align;
+      }
+    }
+  }
   @include e((increase, decrease)) {
     display: flex;
     justify-content: center;

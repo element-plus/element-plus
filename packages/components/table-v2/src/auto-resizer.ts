@@ -1,6 +1,6 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 
 type AutoResizeHandler = (event: { height: number; width: number }) => void
 
@@ -13,3 +13,6 @@ export const autoResizerProps = buildProps({
 } as const)
 
 export type AutoResizerProps = ExtractPropTypes<typeof autoResizerProps>
+export type AutoResizerPropsPublic = __ExtractPublicPropTypes<
+  typeof autoResizerProps
+>

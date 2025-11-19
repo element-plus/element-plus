@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useToc } from '../../composables/use-toc'
-
 import sponsorLocale from '../../../i18n/component/sponsor.json'
 import { useLang } from '../../composables/lang'
 import SponsorsButton from '../sponsors/sponsors-button.vue'
@@ -52,8 +51,10 @@ const removeTag = (str: string) => str.replace(/<span.*<\/span>/g, '')
       <sponsor-right-logo-small-list />
       <sponsor-right-text-list />
     </nav>
+    <div class="toc-content-mask" />
   </aside>
 </template>
+
 <style scoped lang="scss">
 .sponsors-button {
   :deep(button) {

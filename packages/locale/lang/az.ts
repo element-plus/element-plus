@@ -7,6 +7,17 @@ export default {
     colorpicker: {
       confirm: 'Təsdiqlə',
       clear: 'Təmizlə',
+      defaultLabel: 'color picker', // to be translated
+      description:
+        'current color is {color}. press enter to select a new color.', // to be translated
+      alphaLabel: 'pick alpha value', // to be translated
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
+      svLabel: 'pick saturation and brightness value', // to be translated
+      svDescription:
+        'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
+      predefineDescription: 'select {value} as the color', // to be translated
     },
     datepicker: {
       now: 'İndi',
@@ -14,6 +25,11 @@ export default {
       cancel: 'İmtina',
       clear: 'Təmizlə',
       confirm: 'Təsdiqlə',
+      dateTablePrompt:
+        'Use the arrow keys and enter to select the day of the month', // to be translated
+      monthTablePrompt: 'Use the arrow keys and enter to select the month', // to be translated
+      yearTablePrompt: 'Use the arrow keys and enter to select the year', // to be translated
+      selectedDate: 'Selected date', // to be translated
       selectDate: 'Tarix seç',
       selectTime: 'Saat seç',
       startDate: 'Başlanğıc Tarixi',
@@ -37,7 +53,6 @@ export default {
       month10: 'Oktyabr',
       month11: 'Noyabr',
       month12: 'Dekabr',
-      week: 'həftə',
       weeks: {
         sun: 'Baz',
         mon: 'B.e',
@@ -46,6 +61,15 @@ export default {
         thu: 'C.a',
         fri: 'Cüm',
         sat: 'Şən',
+      },
+      weeksFull: {
+        sun: 'Sunday', // to be translated
+        mon: 'Monday', // to be translated
+        tue: 'Tuesday', // to be translated
+        wed: 'Wednesday', // to be translated
+        thu: 'Thursday', // to be translated
+        fri: 'Friday', // to be translated
+        sat: 'Saturday', // to be translated
       },
       months: {
         jan: 'Yan',
@@ -62,6 +86,10 @@ export default {
         dec: 'Dek',
       },
     },
+    inputNumber: {
+      decrease: 'decrease number', // to be translated
+      increase: 'increase number', // to be translated
+    },
     select: {
       loading: 'Yüklənir',
       noMatch: 'Nəticə tapılmadı',
@@ -70,6 +98,9 @@ export default {
     },
     mention: {
       loading: 'Yüklənir',
+    },
+    dropdown: {
+      toggleDropdown: 'Toggle Dropdown', // to be translated
     },
     cascader: {
       noMatch: 'Nəticə tapılmadı',
@@ -88,12 +119,21 @@ export default {
       currentPage: 'page {pager}', // to be translated
       prevPages: 'Previous {pager} pages', // to be translated
       nextPages: 'Next {pager} pages', // to be translated
+      deprecationWarning:
+        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
+    },
+    dialog: {
+      close: 'Close this dialog', // to be translated
+    },
+    drawer: {
+      close: 'Close this dialog', // to be translated
     },
     messagebox: {
       title: 'Mesaj',
       confirm: 'Təsdiqlə',
       cancel: 'İmtina',
       error: 'Səhv',
+      close: 'Close this dialog', // to be translated
     },
     upload: {
       deleteTip: 'Sürüşdürmədən sonra sil',
@@ -101,12 +141,23 @@ export default {
       preview: 'Ön izlə',
       continue: 'Davam et',
     },
+    slider: {
+      defaultLabel: 'slider between {min} and {max}', // to be translated
+      defaultRangeStartLabel: 'pick start value', // to be translated
+      defaultRangeEndLabel: 'pick end value', // to be translated
+    },
     table: {
       emptyText: 'Məlumat yoxdur',
       confirmFilter: 'Təsdiqlə',
       resetFilter: 'Sıfırla',
       clearFilter: 'Bütün',
       sumText: 'Cəmi',
+    },
+    tour: {
+      next: 'Next', // to be translated
+      previous: 'Previous', // to be translated
+      finish: 'Finish', // to be translated
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'Məlumat yoxdur',
@@ -120,22 +171,22 @@ export default {
       hasCheckedFormat: '{checked}/{total} seçildi',
     },
     image: {
-      error: 'SƏHV', // to be translated
+      error: 'SƏHV',
     },
     pageHeader: {
-      title: 'Geri', // to be translated
+      title: 'Geri',
     },
     popconfirm: {
-      confirmButtonText: 'Bəli', // to be translated
-      cancelButtonText: 'Xeyr', // to be translated
-    },
-    empty: {
-      description: 'Məlumat yoxdur',
+      confirmButtonText: 'Bəli',
+      cancelButtonText: 'Xeyr',
     },
     carousel: {
       leftArrow: 'Carousel arrow left', // to be translated
       rightArrow: 'Carousel arrow right', // to be translated
       indicator: 'Carousel switch to index {index}', // to be translated
+    },
+    empty: {
+      description: 'Məlumat yoxdur',
     },
   },
 }

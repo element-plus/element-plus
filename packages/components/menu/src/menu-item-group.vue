@@ -10,24 +10,13 @@
   </li>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
 import { useNamespace } from '@element-plus/hooks'
 import { menuItemGroupProps } from './menu-item-group'
 
-const COMPONENT_NAME = 'ElMenuItemGroup'
-
-export default defineComponent({
-  name: COMPONENT_NAME,
-
-  props: menuItemGroupProps,
-
-  setup() {
-    const ns = useNamespace('menu-item-group')
-
-    return {
-      ns,
-    }
-  },
+defineOptions({
+  name: 'ElMenuItemGroup',
 })
+defineProps(menuItemGroupProps)
+const ns = useNamespace('menu-item-group')
 </script>

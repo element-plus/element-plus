@@ -5,6 +5,7 @@
 </template>
 
 <script lang="ts" setup></script>
+
 <style>
 .slide-fade-enter-active {
   transition: all 0.3s ease-out;
