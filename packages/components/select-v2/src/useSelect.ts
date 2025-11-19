@@ -365,7 +365,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     if (props.multiple) {
       const len = (props.modelValue as []).length
       if (
-        (props.modelValue as Array<any>).length > 0 &&
+        len > 0 &&
         filteredOptionsValueMap.value.has(props.modelValue[len - 1])
       ) {
         const { index } = filteredOptionsValueMap.value.get(
@@ -792,7 +792,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     states.isBeforeHide = false
     return nextTick(() => {
       if (~indexRef.value) {
-        scrollToItem(states.hoveringIndex)
+        scrollToItem(indexRef.value)
       }
     })
   }

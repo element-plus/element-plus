@@ -34,7 +34,7 @@
           >
             {{ closeText }}
           </div>
-          <el-icon v-else :class="ns.e('close-btn')" @click="onClose">
+          <el-icon v-else :class="ns.e('close-btn')" @click="close">
             <Close />
           </el-icon>
         </template>
@@ -44,15 +44,14 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, toRef, useSlots } from 'vue'
+import { computed, ref, useSlots } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import {
   TypeComponents,
   TypeComponentsMap,
-  isClient,
-  isUndefined,
+  debugWarn,
 } from '@element-plus/utils'
-import { useDelayedToggle, useNamespace } from '@element-plus/hooks'
+import { useNamespace } from '@element-plus/hooks'
 import { alertEmits, alertProps } from './alert'
 
 const { Close } = TypeComponents
@@ -67,31 +66,21 @@ const slots = useSlots()
 
 const ns = useNamespace('alert')
 
-const visible = ref(isUndefined(props.showAfter))
+const visible = ref(true)
 
 const iconComponent = computed(() => TypeComponentsMap[props.type])
 
 const hasDesc = computed(() => !!(props.description || slots.default))
 
-const open = () => {
-  visible.value = true
-  emit('open')
-}
-
-const close = (event?: Event) => {
+const close = (evt: MouseEvent) => {
   visible.value = false
-  emit('close', event)
+  emit('close', evt)
 }
 
-const { onOpen, onClose } = useDelayedToggle({
-  showAfter: toRef(props, 'showAfter', 0),
-  hideAfter: toRef(props, 'hideAfter'),
-  autoClose: toRef(props, 'autoClose'),
-  open,
-  close,
-})
-
-if (isClient) {
-  onOpen()
+if (props.showAfter || props.hideAfter || props.autoClose) {
+  debugWarn(
+    'el-alert',
+    'The `show-after`, `hide-after`, and `auto-close` attributes were removed after 2.11.8. Please use `v-if` and `v-show` to manually replace them, visit: https://github.com/element-plus/element-plus/pull/22560'
+  )
 }
 </script>
