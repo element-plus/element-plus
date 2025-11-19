@@ -170,7 +170,7 @@ const TableV2Row = defineComponent({
           columns,
           columnIndex,
           depth,
-          style: columnsStyles[column.key],
+          style: columnsStyles[column.key!],
           rowData,
           rowIndex,
           isScrolling: unref(isScrolling),

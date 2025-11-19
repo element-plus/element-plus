@@ -17,16 +17,23 @@ Element Plus provides a set of common icons.
 
 ### Using packaging manager
 
-```shell
-# Choose a package manager you like.
+Choose a package manager you like.
 
-# NPM
+::: code-group
+
+```shell [npm]
 $ npm install @element-plus/icons-vue
-# Yarn
+```
+
+```shell [yarn]
 $ yarn add @element-plus/icons-vue
-# pnpm
+```
+
+```shell [pnpm]
 $ pnpm install @element-plus/icons-vue
 ```
+
+:::
 
 ### Register All Icons
 
@@ -129,7 +136,7 @@ import { Edit, Share, Delete, Search, Loading } from '@element-plus/icons-vue'
   <el-icon :size="20">
     <Edit />
   </el-icon>
-  <el-icon color="#409EFC" class="no-inherit">
+  <el-icon color="#409efc" class="no-inherit">
     <Share />
   </el-icon>
   <el-icon>
@@ -156,7 +163,7 @@ import { Edit, Share, Delete, Search, Loading } from '@element-plus/icons-vue'
     <ElIcon :size="20">
       <Edit />
     </ElIcon>
-    <ElIcon color="#409EFC" class="no-inherit">
+    <ElIcon color="#409efc" class="no-inherit">
       <Share />
     </ElIcon>
     <ElIcon>

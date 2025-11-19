@@ -1,15 +1,14 @@
-import { buildProps } from '@element-plus/utils'
+import { buildProps, definePropType } from '@element-plus/utils'
+
 import type Skeleton from './skeleton.vue'
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ThrottleType } from '@element-plus/hooks'
 
 export const skeletonProps = buildProps({
   /**
    * @description whether showing the animation
    */
-  animated: {
-    type: Boolean,
-    default: false,
-  },
+  animated: Boolean,
   /**
    * @description how many fake items to render to the DOM
    */
@@ -35,9 +34,10 @@ export const skeletonProps = buildProps({
    * @description rendering delay in milliseconds
    */
   throttle: {
-    type: Number,
+    type: definePropType<ThrottleType>([Number, Object]),
   },
 } as const)
 export type SkeletonProps = ExtractPropTypes<typeof skeletonProps>
+export type SkeletonPropsPublic = __ExtractPublicPropTypes<typeof skeletonProps>
 
-export type SkeletonInstance = InstanceType<typeof Skeleton>
+export type SkeletonInstance = InstanceType<typeof Skeleton> & unknown

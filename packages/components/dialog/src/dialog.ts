@@ -1,70 +1,148 @@
 import { buildProps, definePropType, isBoolean } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { teleportProps } from '@element-plus/components/teleport'
 import { dialogContentProps } from './dialog-content'
 
-import type { ExtractPropTypes } from 'vue'
+import type {
+  ExtractPropTypes,
+  InjectionKey,
+  TransitionProps,
+  __ExtractPublicPropTypes,
+} from 'vue'
+import type Dialog from './dialog.vue'
 
 type DoneFn = (cancel?: boolean) => void
+
 export type DialogBeforeCloseFn = (done: DoneFn) => void
+
+export type DialogTransition = string | TransitionProps
 
 export const dialogProps = buildProps({
   ...dialogContentProps,
-  appendToBody: {
-    type: Boolean,
-    default: false,
+  /**
+   * @description whether to append Dialog itself to body. A nested Dialog should have this attribute set to `true`
+   */
+  appendToBody: Boolean,
+  /**
+   * @description which element the Dialog appends to
+   */
+  appendTo: {
+    type: teleportProps.to.type,
+    default: 'body',
   },
+  /**
+   * @description callback before Dialog closes, and it will prevent Dialog from closing, use done to close the dialog
+   */
   beforeClose: {
     type: definePropType<DialogBeforeCloseFn>(Function),
   },
-  destroyOnClose: {
-    type: Boolean,
-    default: false,
-  },
+  /**
+   * @description destroy elements in Dialog when closed
+   */
+  destroyOnClose: Boolean,
+  /**
+   * @description whether the Dialog can be closed by clicking the mask
+   */
   closeOnClickModal: {
     type: Boolean,
     default: true,
   },
+  /**
+   * @description whether the Dialog can be closed by pressing ESC
+   */
   closeOnPressEscape: {
     type: Boolean,
     default: true,
   },
+  /**
+   * @description whether scroll of body is disabled while Dialog is displayed
+   */
   lockScroll: {
     type: Boolean,
     default: true,
   },
+  /**
+   * @description whether a mask is displayed
+   */
   modal: {
     type: Boolean,
     default: true,
   },
+  /**
+   * @description whether the mask is penetrable
+   */
+  modalPenetrable: Boolean,
+  /**
+   * @description the Time(milliseconds) before open
+   */
   openDelay: {
     type: Number,
     default: 0,
   },
+  /**
+   * @description the Time(milliseconds) before close
+   */
   closeDelay: {
     type: Number,
     default: 0,
   },
+  /**
+   * @description value for `margin-top` of Dialog CSS, default is 15vh
+   */
   top: {
     type: String,
   },
-  modelValue: {
-    type: Boolean,
-    default: false,
-  },
+  /**
+   * @description visibility of Dialog
+   */
+  modelValue: Boolean,
+  /**
+   * @description custom class names for mask
+   */
   modalClass: String,
+  /**
+   * @description custom class names for header wrapper
+   */
+  headerClass: String,
+  /**
+   * @description custom class names for body wrapper
+   */
+  bodyClass: String,
+  /**
+   * @description custom class names for footer wrapper
+   */
+  footerClass: String,
+  /**
+   * @description width of Dialog, default is 50%
+   */
   width: {
     type: [String, Number],
   },
+  /**
+   * @description same as z-index in native CSS, z-order of dialog
+   */
   zIndex: {
     type: Number,
   },
-  trapFocus: {
-    type: Boolean,
-    default: false,
+  trapFocus: Boolean,
+  /**
+   * @description header's aria-level attribute
+   */
+  headerAriaLevel: {
+    type: String,
+    default: '2',
+  },
+  /**
+   * @description custom transition configuration for dialog animation, it can be a string (transition name) or an object with Vue transition props
+   */
+  transition: {
+    type: definePropType<DialogTransition>([String, Object]),
+    default: undefined,
   },
 } as const)
 
 export type DialogProps = ExtractPropTypes<typeof dialogProps>
+export type DialogPropsPublic = __ExtractPublicPropTypes<typeof dialogProps>
 
 export const dialogEmits = {
   open: () => true,
@@ -76,3 +154,13 @@ export const dialogEmits = {
   closeAutoFocus: () => true,
 }
 export type DialogEmits = typeof dialogEmits
+export type DialogInstance = InstanceType<typeof Dialog> & unknown
+export interface DialogConfigContext {
+  alignCenter?: boolean
+  draggable?: boolean
+  overflow?: boolean
+  transition?: DialogTransition
+}
+
+export const dialogContextKey: InjectionKey<DialogConfigContext> =
+  Symbol('dialogContextKey')

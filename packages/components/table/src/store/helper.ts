@@ -1,10 +1,10 @@
-// @ts-nocheck
 import { watch } from 'vue'
 import { debounce } from 'lodash-unified'
+import { isObject } from '@element-plus/utils'
 import useStore from '.'
 
 import type { Store } from '.'
-import type { Table, TableProps } from '../table/defaults'
+import type { DefaultRow, Table, TableProps } from '../table/defaults'
 
 const InitialStateMap = {
   rowKey: 'rowKey',
@@ -21,9 +21,16 @@ const InitialStateMap = {
     key: 'childrenColumnName',
     default: 'children',
   },
+  ['treeProps.checkStrictly']: {
+    key: 'checkStrictly',
+    default: false,
+  },
 }
 
-export function createStore<T>(table: Table<T>, props: TableProps<T>) {
+export function createStore<T extends DefaultRow>(
+  table: Table<T>,
+  props: TableProps<T>
+) {
   if (!table) {
     throw new Error('Table is required.')
   }
@@ -39,7 +46,10 @@ export function createStore<T>(table: Table<T>, props: TableProps<T>) {
   return store
 }
 
-function proxyTableProps<T>(store: Store<T>, props: TableProps<T>) {
+function proxyTableProps<T extends DefaultRow>(
+  store: Store<T>,
+  props: TableProps<T>
+) {
   Object.keys(InitialStateMap).forEach((key) => {
     watch(
       () => getArrKeysValue(props, key),
@@ -50,25 +60,32 @@ function proxyTableProps<T>(store: Store<T>, props: TableProps<T>) {
   })
 }
 
-function handleValue<T>(value, propsKey: string, store: Store<T>) {
+function handleValue<T extends DefaultRow>(
+  value: string | boolean | Record<string, any>,
+  propsKey: string,
+  store: Store<T>
+) {
   let newVal = value
-  let storeKey = InitialStateMap[propsKey]
-  if (typeof InitialStateMap[propsKey] === 'object') {
+  let storeKey = InitialStateMap[propsKey as keyof typeof InitialStateMap]
+  if (isObject(storeKey)) {
+    newVal = newVal || storeKey.default
     storeKey = storeKey.key
-    newVal = newVal || InitialStateMap[propsKey].default
   }
-  store.states[storeKey].value = newVal
+  ;((store.states as any)[storeKey] as any).value = newVal
 }
 
-function getArrKeysValue<T>(props: TableProps<T>, keys: string) {
-  if (keys.includes('.')) {
-    const keyList = keys.split('.')
-    let value = props
-    keyList.forEach((key) => {
-      value = value[key]
+function getArrKeysValue<T extends DefaultRow>(
+  props: TableProps<T>,
+  key: string
+) {
+  if ((key as keyof typeof props).includes('.')) {
+    const keyList = (key as keyof typeof props).split('.')
+    let value: string | Record<string, any> = props
+    keyList.forEach((k) => {
+      value = (value as Record<string, any>)[k]
     })
     return value
   } else {
-    return props[keys]
+    return (props as any)[key] as boolean | string
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <el-form label-position="left" label-width="150px" style="max-width: 460px">
+  <el-form label-position="left" label-width="auto" style="max-width: 600px">
     <el-space fill>
       <el-alert type="info" show-icon :closable="false">
         <p>"Full Name" label is automatically attached to the input:</p>
@@ -21,14 +21,14 @@
           <el-col :span="12">
             <el-input
               v-model="formAccessibility.firstName"
-              label="First Name"
+              aria-label="First Name"
               placeholder="First Name"
             />
           </el-col>
           <el-col :span="12">
             <el-input
               v-model="formAccessibility.lastName"
-              label="Last Name"
+              aria-label="Last Name"
               placeholder="Last Name"
             />
           </el-col>

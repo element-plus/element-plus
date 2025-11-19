@@ -33,16 +33,21 @@
           v-for="item in filteredData"
           :key="item[propsAlias.key]"
           :class="ns.be('panel', 'item')"
-          :label="item[propsAlias.key]"
+          :value="item[propsAlias.key]"
           :disabled="item[propsAlias.disabled]"
           :validate-event="false"
         >
           <option-content :option="optionRender?.(item)" />
         </el-checkbox>
       </el-checkbox-group>
-      <p v-show="hasNoMatch || isEmpty(data)" :class="ns.be('panel', 'empty')">
-        {{ hasNoMatch ? t('el.transfer.noMatch') : t('el.transfer.noData') }}
-      </p>
+      <div
+        v-show="hasNoMatch || isEmpty(data)"
+        :class="ns.be('panel', 'empty')"
+      >
+        <slot name="empty">
+          {{ hasNoMatch ? t('el.transfer.noMatch') : t('el.transfer.noData') }}
+        </slot>
+      </div>
     </div>
     <p v-if="hasFooter" :class="ns.be('panel', 'footer')">
       <slot />
@@ -71,7 +76,7 @@ const props = defineProps(transferPanelProps)
 const emit = defineEmits(transferPanelEmits)
 const slots = useSlots()
 
-const OptionContent = ({ option }: { option: VNode | VNode[] }) => option
+const OptionContent = ({ option }: { option?: VNode | VNode[] }) => option
 
 const { t } = useLocale()
 const ns = useNamespace('transfer')

@@ -14,11 +14,15 @@ import {
 import { removeClass } from '@element-plus/utils'
 import { useGlobalComponentSettings } from '@element-plus/components/config-provider'
 
+import type { AppContext, VNode } from 'vue'
 import type { UseNamespaceReturn } from '@element-plus/hooks'
 import type { LoadingOptionsResolved } from './types'
 
-export function createLoadingComponent(options: LoadingOptionsResolved) {
-  let afterLeaveTimer: number
+export function createLoadingComponent(
+  options: LoadingOptionsResolved,
+  appContext: AppContext | null
+) {
+  let afterLeaveTimer: ReturnType<typeof setTimeout>
   // IMPORTANT NOTE: this is only a hacking way to expose the injections on an
   // instance, DO NOT FOLLOW this pattern in your own code.
   const afterLeaveFlag = ref(false)
@@ -29,7 +33,7 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
     visible: false,
   })
 
-  function setText(text: string) {
+  function setText(text: string | VNode | VNode[]) {
     data.text = text
   }
 
@@ -60,7 +64,7 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
     afterLeaveFlag.value = true
     clearTimeout(afterLeaveTimer)
 
-    afterLeaveTimer = window.setTimeout(handleAfterLeave, 400)
+    afterLeaveTimer = setTimeout(handleAfterLeave, 400)
     data.visible = false
 
     options.closed?.()
@@ -126,7 +130,7 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
                     class: [
                       ns.b('mask'),
                       data.customClass,
-                      data.fullscreen ? 'is-fullscreen' : '',
+                      ns.is('fullscreen', data.fullscreen),
                     ],
                   },
                   [
@@ -149,6 +153,7 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
   })
 
   const loadingInstance = createApp(elLoadingComponent)
+  Object.assign(loadingInstance._context, appContext ?? {})
   const vm = loadingInstance.mount(document.createElement('div'))
 
   return {

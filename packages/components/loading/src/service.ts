@@ -13,12 +13,13 @@ import type { UseNamespaceReturn, UseZIndexReturn } from '@element-plus/hooks'
 import type { LoadingInstance } from './loading'
 import type { LoadingOptionsResolved } from '..'
 import type { LoadingOptions } from './types'
-import type { CSSProperties } from 'vue'
+import type { AppContext, CSSProperties } from 'vue'
 
 let fullscreenInstance: LoadingInstance | undefined = undefined
 
-export const Loading = function (
-  options: LoadingOptions = {}
+const Loading = function (
+  options: LoadingOptions = {},
+  context?: AppContext | null
 ): LoadingInstance {
   if (!isClient) return undefined as any
 
@@ -28,13 +29,16 @@ export const Loading = function (
     return fullscreenInstance
   }
 
-  const instance = createLoadingComponent({
-    ...resolved,
-    closed: () => {
-      resolved.closed?.()
-      if (resolved.fullscreen) fullscreenInstance = undefined
+  const instance = createLoadingComponent(
+    {
+      ...resolved,
+      closed: () => {
+        resolved.closed?.()
+        if (resolved.fullscreen) fullscreenInstance = undefined
+      },
     },
-  })
+    context ?? Loading._context
+  )
 
   addStyle(resolved, resolved.parent, instance)
   addClassList(resolved, resolved.parent, instance)
@@ -89,6 +93,8 @@ const resolveOptions = (options: LoadingOptions): LoadingOptionsResolved => {
     lock: options.lock ?? false,
     customClass: options.customClass || '',
     visible: options.visible ?? true,
+    beforeClose: options.beforeClose,
+    closed: options.closed,
     target,
   }
 }
@@ -161,3 +167,6 @@ const addClassList = (
     removeClass(parent, ns.bm('parent', 'hidden'))
   }
 }
+
+Loading._context = null as AppContext | null
+export default Loading

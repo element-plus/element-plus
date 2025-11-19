@@ -171,6 +171,7 @@ a.header-anchor {
   padding-right: 0.23em;
   font-size: 0.85em;
   opacity: 0;
+
   &:hover,
   :focus {
     text-decoration: none;
@@ -200,6 +201,7 @@ li > ol {
   overflow-y: hidden;
   overflow-x: auto;
   margin-bottom: 45px;
+
   & > table {
     border-collapse: collapse;
     width: 100%;
@@ -251,12 +253,25 @@ form {
 }
 
 details {
+  interpolate-size: allow-keywords;
+
+  &::details-content {
+    content-visibility: auto;
+    height: 0;
+    overflow: hidden;
+    transition: height ease 0.3s;
+  }
+
   summary {
     margin: 16px 0;
     font-size: 18px;
     font-weight: 600;
     cursor: pointer;
   }
+}
+
+details[open]::details-content {
+  height: auto;
 }
 
 #nprogress .bar {
@@ -271,6 +286,7 @@ details {
   p:not(.custom-block-title) {
     font-size: 0.9rem;
   }
+
   &.tip {
     padding: 8px 16px;
     background-color: var(--block-tip-bg-color);
@@ -296,4 +312,26 @@ details {
   position: absolute;
   white-space: nowrap;
   width: 1px;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 2147483646;
+}
+
+.dark::view-transition-old(root) {
+  z-index: 2147483646;
+}
+
+.dark::view-transition-new(root) {
+  z-index: 1;
 }

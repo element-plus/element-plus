@@ -1,0 +1,45 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Anchor.vue > snapshot 1`] = `
+"<div class="el-anchor el-anchor--vertical">
+  <div class="el-anchor__marker"></div>
+  <div class="el-anchor__list">
+    <div class="el-anchor__item"><a class="el-anchor__link" href="#anchor-link-0">#anchor-link-0</a>
+      <!--v-if-->
+    </div>
+  </div>
+</div>"
+`;
+
+exports[`Anchor.vue > snapshot 2`] = `
+"<div class="el-anchor el-anchor--horizontal">
+  <div class="el-anchor__marker"></div>
+  <div class="el-anchor__list">
+    <div class="el-anchor__item"><a class="el-anchor__link" href="#anchor-link-0">#anchor-link-0</a>
+      <!--v-if-->
+    </div>
+  </div>
+</div>"
+`;
+
+exports[`Anchor.vue > snapshot 3`] = `
+"<div class="el-anchor el-anchor--underline el-anchor--vertical">
+  <div class="el-anchor__marker"></div>
+  <div class="el-anchor__list">
+    <div class="el-anchor__item"><a class="el-anchor__link" href="#anchor-link-0">#anchor-link-0</a>
+      <!--v-if-->
+    </div>
+  </div>
+</div>"
+`;
+
+exports[`Anchor.vue > snapshot 4`] = `
+"<div class="el-anchor el-anchor--underline el-anchor--horizontal">
+  <div class="el-anchor__marker"></div>
+  <div class="el-anchor__list">
+    <div class="el-anchor__item"><a class="el-anchor__link" href="#anchor-link-0">#anchor-link-0</a>
+      <!--v-if-->
+    </div>
+  </div>
+</div>"
+`;

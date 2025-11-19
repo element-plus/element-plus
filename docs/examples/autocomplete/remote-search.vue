@@ -31,7 +31,7 @@ const loadAll = () => {
   ]
 }
 
-let timeout: NodeJS.Timeout
+let timeout: ReturnType<typeof setTimeout>
 const querySearchAsync = (queryString: string, cb: (arg: any) => void) => {
   const results = queryString
     ? links.value.filter(createFilter(queryString))
@@ -50,7 +50,7 @@ const createFilter = (queryString: string) => {
   }
 }
 
-const handleSelect = (item: LinkItem) => {
+const handleSelect = (item: Record<string, any>) => {
   console.log(item)
 }
 

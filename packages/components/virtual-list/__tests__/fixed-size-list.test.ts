@@ -3,7 +3,6 @@ import { nextTick } from 'vue'
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import makeMount from '@element-plus/test-utils/make-mount'
 import makeScroll from '@element-plus/test-utils/make-scroll'
-import setupMock from '../setup-mock'
 import {
   CENTERED_ALIGNMENT,
   END_ALIGNMENT,
@@ -13,9 +12,11 @@ import {
   START_ALIGNMENT,
 } from '../src/defaults'
 import { FixedSizeList } from '..'
+import setupMock from './setup-mock'
 
 import type { SpyInstance } from 'vitest'
 import type { ListExposes } from '../src/types'
+
 type ListRef = ListExposes
 
 const onItemRendered = vi.fn()

@@ -2,7 +2,6 @@
 
 @use 'common/var' as *;
 @use 'mixins/mixins' as *;
-@use 'mixins/utils' as *;
 @use 'mixins/var' as *;
 @use 'mixins/button' as *;
 
@@ -26,7 +25,7 @@
       map.get($button, 'bg-color')
     );
     border: getCssVar('border');
-    border-left-color:transparent;
+    border-left-color: transparent;
     color: var(
       #{getCssVarName('button-text-color')},
       map.get($button, 'text-color')

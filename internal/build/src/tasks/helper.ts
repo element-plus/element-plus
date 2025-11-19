@@ -11,6 +11,7 @@ import {
   epOutput,
   epPackage,
   getPackageManifest,
+  normalizePath,
   projRoot,
 } from '@element-plus/build-utils'
 
@@ -80,7 +81,6 @@ const reAttribute: ReAttribute = (value, key) => {
   } else if (key === 'Type') {
     return rewriteType(str)
       .replaceAll(/\bfunction(\(.*\))?(:\s*\w+)?\b/gi, 'Function')
-      .replaceAll(/\bdate\b/g, 'Date')
       .replaceAll(/\([^)]*\)(?!\s*=>)/g, '')
       .replaceAll(/(<[^>]*>|\{[^}]*}|\([^)]*\))/g, (item) => {
         return item.replaceAll(/(\/|\|)/g, '=_0!')
@@ -198,14 +198,15 @@ export const buildHelper: TaskFunction = (done) => {
       ? tagVer.slice(1)
       : tagVer
     : version!
+  const entry = `${path.resolve(
+    projRoot,
+    'docs/en-US/component'
+  )}/!(datetime-picker|message-box|message).md`
 
   main({
     name: name!,
     version: _version,
-    entry: `${path.resolve(
-      projRoot,
-      'docs/en-US/component'
-    )}/!(datetime-picker|message-box|message).md`,
+    entry: normalizePath(entry),
     outDir: epOutput,
     reComponentName,
     reDocUrl,

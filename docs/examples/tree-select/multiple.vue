@@ -4,6 +4,7 @@
     :data="data"
     multiple
     :render-after-expand="false"
+    style="width: 240px"
   />
   <el-divider />
   show checkbox:
@@ -13,6 +14,7 @@
     multiple
     :render-after-expand="false"
     show-checkbox
+    style="width: 240px"
   />
   <el-divider />
   show checkbox with `check-strictly`:
@@ -24,6 +26,7 @@
     show-checkbox
     check-strictly
     check-on-click-node
+    style="width: 240px"
   />
 </template>
 

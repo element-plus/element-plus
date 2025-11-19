@@ -5,8 +5,9 @@
     "lib": ["ESNext", "DOM", "DOM.Iterable"]
   },
   "include": [
+    "packages/utils/vue3.3.polyfill.ts",
     "packages",
-    "typings/components.d.ts",
+    "typings/global.d.ts",
     "typings/env.d.ts",
 
     // playground

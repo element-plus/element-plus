@@ -35,4 +35,11 @@
   @include e(body) {
     padding: getCssVar('card', 'padding');
   }
+
+  @include e(footer) {
+    padding: calc(#{getCssVar('card', 'padding')} - 2px)
+      getCssVar('card', 'padding');
+    border-top: 1px solid getCssVar('card', 'border-color');
+    box-sizing: border-box;
+  }
 }

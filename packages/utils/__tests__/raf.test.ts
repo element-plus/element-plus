@@ -1,8 +1,6 @@
-/* eslint-disable import/first */
-let isClientMocked = false
-
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { cAF, rAF } from '..'
+
+let isClientMocked = false
 
 vi.mock('@vueuse/core', () => ({
   get isClient() {
@@ -19,9 +17,10 @@ describe('raf', () => {
     vi.restoreAllMocks()
   })
 
-  it('CSR should work', () => {
+  it('CSR should work', async () => {
     isClientMocked = true
-
+    const obj = await import('..')
+    const { cAF, rAF } = obj
     const fn = vi.fn()
     rAF(() => fn('first'))
     vi.runAllTimers()
@@ -61,9 +60,10 @@ describe('raf', () => {
     `)
   })
 
-  it('SSR should work', () => {
+  it('SSR should work', async () => {
     isClientMocked = false
-
+    const obj = await import('..')
+    const { cAF, rAF } = obj
     const fn = vi.fn()
     rAF(() => fn('first'))
     vi.runAllTimers()

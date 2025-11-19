@@ -3,6 +3,7 @@
     <slot />
   </aside>
 </template>
+
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useNamespace } from '@element-plus/hooks'

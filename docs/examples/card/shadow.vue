@@ -1,13 +1,7 @@
 <template>
-  <el-row :gutter="12">
-    <el-col :span="8">
-      <el-card shadow="always"> Always </el-card>
-    </el-col>
-    <el-col :span="8">
-      <el-card shadow="hover"> Hover </el-card>
-    </el-col>
-    <el-col :span="8">
-      <el-card shadow="never"> Never </el-card>
-    </el-col>
-  </el-row>
+  <div class="flex flex-wrap gap-4">
+    <el-card style="width: 480px" shadow="always">Always</el-card>
+    <el-card style="width: 480px" shadow="hover">Hover</el-card>
+    <el-card style="width: 480px" shadow="never">Never</el-card>
+  </div>
 </template>

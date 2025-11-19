@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { cAF, isFirefox, rAF } from '@element-plus/utils'
 import { HORIZONTAL, VERTICAL } from '../defaults'
 
@@ -8,7 +7,7 @@ import type { LayoutDirection } from '../types'
 const LayoutKeys = {
   [HORIZONTAL]: 'deltaX',
   [VERTICAL]: 'deltaY',
-}
+} as const
 
 interface ListWheelState {
   atStartEdge: ComputedRef<boolean> // exclusive to reachEnd
@@ -24,15 +23,6 @@ const useWheel = (
 ) => {
   let frameHandle: number
   let offset = 0
-
-  // let scrollLock = false
-  // let lockHandle = null
-
-  // const lockScroll = () => {
-  //   clearTimeout(lockHandle)
-  //   scrollLock = true
-  //   lockHandle = setTimeout(() => scrollLock = false, 50)
-  // }
 
   const hasReachedEdge = (offset: number) => {
     const edgeReached =

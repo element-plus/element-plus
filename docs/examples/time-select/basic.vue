@@ -1,6 +1,7 @@
 <template>
   <el-time-select
     v-model="value"
+    style="width: 240px"
     start="08:30"
     step="00:15"
     end="18:30"

@@ -1,4 +1,5 @@
 import { onMounted, onUnmounted, ref } from 'vue'
+
 import type { Table } from './defaults'
 
 export default function useKeyRender(table: Table<[]>) {

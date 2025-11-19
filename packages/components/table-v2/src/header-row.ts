@@ -1,7 +1,11 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 import { columns } from './common'
 
-import type { CSSProperties, ExtractPropTypes } from 'vue'
+import type {
+  CSSProperties,
+  ExtractPropTypes,
+  __ExtractPublicPropTypes,
+} from 'vue'
 import type { KeyType } from './types'
 
 export const tableV2HeaderRowProps = buildProps({
@@ -16,5 +20,8 @@ export const tableV2HeaderRowProps = buildProps({
 } as const)
 
 export type TableV2HeaderRowProps = ExtractPropTypes<
+  typeof tableV2HeaderRowProps
+>
+export type TableV2HeaderRowPropsPublic = __ExtractPublicPropTypes<
   typeof tableV2HeaderRowProps
 >

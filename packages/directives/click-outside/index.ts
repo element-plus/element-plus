@@ -1,4 +1,4 @@
-import { isClient, isElement } from '@element-plus/utils'
+import { isArray, isClient, isElement } from '@element-plus/utils'
 
 import type {
   ComponentPublicInstance,
@@ -17,15 +17,17 @@ type FlushList = Map<
 
 const nodeList: FlushList = new Map()
 
-let startClick: MouseEvent
-
 if (isClient) {
+  let startClick: MouseEvent | undefined
   document.addEventListener('mousedown', (e: MouseEvent) => (startClick = e))
   document.addEventListener('mouseup', (e: MouseEvent) => {
-    for (const handlers of nodeList.values()) {
-      for (const { documentHandler } of handlers) {
-        documentHandler(e as MouseEvent, startClick)
+    if (startClick) {
+      for (const handlers of nodeList.values()) {
+        for (const { documentHandler } of handlers) {
+          documentHandler(e as MouseEvent, startClick)
+        }
       }
+      startClick = undefined
     }
   })
 }
@@ -35,7 +37,7 @@ function createDocumentHandler(
   binding: DirectiveBinding
 ): DocumentHandler {
   let excludes: HTMLElement[] = []
-  if (Array.isArray(binding.arg)) {
+  if (isArray(binding.arg)) {
     excludes = binding.arg
   } else if (isElement(binding.arg)) {
     // due to current implementation on binding type is wrong the type casting is necessary here

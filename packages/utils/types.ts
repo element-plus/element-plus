@@ -9,8 +9,8 @@ export {
   isDate,
   isPromise,
   isSymbol,
+  isPlainObject,
 } from '@vue/shared'
-export { isVNode } from 'vue'
 
 export const isUndefined = (val: any): val is undefined => val === undefined
 export const isBoolean = (val: any): val is boolean => typeof val === 'boolean'
@@ -26,9 +26,8 @@ export const isElement = (e: unknown): e is Element => {
   return e instanceof Element
 }
 
-export const isPropAbsent = (prop: unknown): prop is null | undefined => {
-  return isNil(prop)
-}
+export const isPropAbsent = (prop: unknown): prop is null | undefined =>
+  isNil(prop)
 
 export const isStringNumber = (val: string): boolean => {
   if (!isString(val)) {
@@ -36,3 +35,5 @@ export const isStringNumber = (val: string): boolean => {
   }
   return !Number.isNaN(Number(val))
 }
+
+export const isWindow = (val: unknown): val is Window => val === window

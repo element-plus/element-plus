@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   computed,
   defineComponent,
@@ -12,13 +11,18 @@ import {
 } from 'vue'
 import { BAR_MAP } from '@element-plus/components/scrollbar'
 import { cAF, rAF } from '@element-plus/utils'
-
 import { useNamespace } from '@element-plus/hooks'
 import { HORIZONTAL, SCROLLBAR_MIN_SIZE, ScrollbarDirKey } from '../defaults'
 import { virtualizedScrollbarProps } from '../props'
 import { renderThumbStyle } from '../utils'
 
 import type { CSSProperties } from 'vue'
+
+interface ScrollState {
+  isDragging: boolean
+  traveled: number
+  [key: string]: unknown
+}
 
 const ScrollBar = defineComponent({
   name: 'ElVirtualScrollBar',
@@ -38,7 +42,7 @@ const ScrollBar = defineComponent({
     let onselectstartStore: null | typeof document.onselectstart = null
 
     // data
-    const state = reactive({
+    const state = reactive<ScrollState>({
       isDragging: false,
       traveled: 0,
     })
@@ -63,25 +67,22 @@ const ScrollBar = defineComponent({
 
     const thumbSize = computed(() => {
       const ratio = props.ratio!
-      const clientSize = props.clientSize!
       if (ratio >= 100) {
         return Number.POSITIVE_INFINITY
       }
 
       if (ratio >= 50) {
-        return (ratio * clientSize) / 100
+        return (ratio * trackSize.value) / 100
       }
 
-      const SCROLLBAR_MAX_SIZE = clientSize / 3
+      const SCROLLBAR_MAX_SIZE = trackSize.value / 3
       return Math.floor(
         Math.min(
-          Math.max(ratio * clientSize, SCROLLBAR_MIN_SIZE),
+          Math.max((ratio * trackSize.value) / 100, SCROLLBAR_MIN_SIZE),
           SCROLLBAR_MAX_SIZE
         )
       )
     })
-
-    // const sizeRange = computed(() => props.size - thumbSize.value)
 
     const thumbStyle = computed<CSSProperties>(() => {
       if (!Number.isFinite(thumbSize.value)) {
@@ -92,7 +93,7 @@ const ScrollBar = defineComponent({
 
       const thumb = `${thumbSize.value}px`
 
-      const style: CSSProperties = renderThumbStyle(
+      const style = renderThumbStyle(
         {
           bar: bar.value,
           size: thumb,
@@ -105,7 +106,7 @@ const ScrollBar = defineComponent({
     })
 
     const totalSteps = computed(() =>
-      Math.floor(props.clientSize! - thumbSize.value - unref(GAP))
+      Math.ceil(props.clientSize! - thumbSize.value - unref(GAP))
     )
 
     const attachEvents = () => {
@@ -119,7 +120,7 @@ const ScrollBar = defineComponent({
       onselectstartStore = document.onselectstart
       document.onselectstart = () => false
 
-      thumbEl.addEventListener('touchmove', onMouseMove)
+      thumbEl.addEventListener('touchmove', onMouseMove, { passive: true })
       thumbEl.addEventListener('touchend', onMouseUp)
     }
 
@@ -137,7 +138,7 @@ const ScrollBar = defineComponent({
       thumbEl.removeEventListener('touchend', onMouseUp)
     }
 
-    const onThumbMouseDown = (e: Event) => {
+    const onThumbMouseDown = (e: Event | KeyboardEvent | MouseEvent) => {
       e.stopImmediatePropagation()
       if (
         (e as KeyboardEvent).ctrlKey ||
@@ -148,8 +149,8 @@ const ScrollBar = defineComponent({
 
       state.isDragging = true
       state[bar.value.axis] =
-        e.currentTarget![bar.value.offset] -
-        (e[bar.value.client] -
+        (e.currentTarget as HTMLElement)[bar.value.offset] -
+        ((e as MouseEvent)[bar.value.client] -
           (e.currentTarget as HTMLElement).getBoundingClientRect()[
             bar.value.direction
           ])
@@ -165,7 +166,7 @@ const ScrollBar = defineComponent({
       detachEvents()
     }
 
-    const onMouseMove = (e: Event) => {
+    const onMouseMove = (e: MouseEvent | TouchEvent) => {
       const { isDragging } = state
       if (!isDragging) return
       if (!thumbRef.value || !trackRef.value) return
@@ -178,11 +179,12 @@ const ScrollBar = defineComponent({
       // to get the relative position of the pointer to the track.
       const offset =
         (trackRef.value.getBoundingClientRect()[bar.value.direction] -
-          e[bar.value.client]) *
+          (e as MouseEvent)[bar.value.client]) *
         -1
 
       // find where the thumb was clicked on.
-      const thumbClickPosition = thumbRef.value[bar.value.offset] - prevPage
+      const thumbClickPosition =
+        thumbRef.value[bar.value.offset] - (prevPage as number)
       /**
        *  +--------------+                                   +--------------+
        *  |              -  <--------- thumb.offsetTop       |              |
@@ -205,13 +207,7 @@ const ScrollBar = defineComponent({
       // using totalSteps ÷ totalSize getting each step's size * distance to get the new
       // scroll offset to scrollTo
       frameHandle = rAF(() => {
-        state.traveled = Math.max(
-          props.startGap,
-          Math.min(
-            distance,
-            totalSteps.value // 2 is the top value
-          )
-        )
+        state.traveled = Math.max(0, Math.min(distance, totalSteps.value))
         emit('scroll', distance, totalSteps.value)
       })
     }

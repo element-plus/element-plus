@@ -6,9 +6,9 @@
           <el-breadcrumb-item :to="{ path: './page-header.html' }">
             homepage
           </el-breadcrumb-item>
-          <el-breadcrumb-item
-            ><a href="./page-header.html">route 1</a></el-breadcrumb-item
-          >
+          <el-breadcrumb-item>
+            <a href="./page-header.html">route 1</a>
+          </el-breadcrumb-item>
           <el-breadcrumb-item>route 2</el-breadcrumb-item>
         </el-breadcrumb>
       </template>
@@ -37,18 +37,18 @@
       </template>
 
       <el-descriptions :column="3" size="small" class="mt-4">
-        <el-descriptions-item label="Username"
-          >kooriookami</el-descriptions-item
-        >
-        <el-descriptions-item label="Telephone"
-          >18100000000</el-descriptions-item
-        >
+        <el-descriptions-item label="Username">
+          kooriookami
+        </el-descriptions-item>
+        <el-descriptions-item label="Telephone">
+          18100000000
+        </el-descriptions-item>
         <el-descriptions-item label="Place">Suzhou</el-descriptions-item>
         <el-descriptions-item label="Remarks">
           <el-tag size="small">School</el-tag>
         </el-descriptions-item>
-        <el-descriptions-item label="Address"
-          >No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province
+        <el-descriptions-item label="Address">
+          No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province
         </el-descriptions-item>
       </el-descriptions>
       <p class="mt-4 text-sm">

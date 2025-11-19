@@ -1,7 +1,7 @@
 <template>
   <el-radio-group v-model="tableLayout">
-    <el-radio-button label="fixed" />
-    <el-radio-button label="auto" />
+    <el-radio-button value="fixed">fixed</el-radio-button>
+    <el-radio-button value="auto">auto</el-radio-button>
   </el-radio-group>
   <el-table :data="tableData" :table-layout="tableLayout">
     <el-table-column prop="date" label="Date" />
@@ -13,7 +13,9 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-const tableLayout = ref('fixed')
+import type { TableInstance } from 'element-plus'
+
+const tableLayout = ref<TableInstance['tableLayout']>('fixed')
 
 const tableData = [
   {

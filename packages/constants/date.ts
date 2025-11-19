@@ -1,6 +1,8 @@
 export const datePickTypes = [
   'year',
+  'years',
   'month',
+  'months',
   'date',
   'dates',
   'week',
@@ -8,6 +10,7 @@ export const datePickTypes = [
   'datetimerange',
   'daterange',
   'monthrange',
+  'yearrange',
 ] as const
 
 export const WEEK_DAYS = [
@@ -20,4 +23,4 @@ export const WEEK_DAYS = [
   'sat',
 ] as const
 
-export type DatePickType = typeof datePickTypes[number]
+export type DatePickType = (typeof datePickTypes)[number]

@@ -17,6 +17,17 @@
       clearable
     />
   </div>
+  <div class="m-4">
+    <p>Max Collapse Tags</p>
+    <el-cascader
+      :options="options"
+      :props="props"
+      collapse-tags
+      collapse-tags-tooltip
+      :max-collapse-tags="3"
+      clearable
+    />
+  </div>
 </template>
 
 <script lang="ts" setup>
