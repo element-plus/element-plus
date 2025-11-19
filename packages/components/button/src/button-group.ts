@@ -1,3 +1,4 @@
+import { definePropType } from '@element-plus/utils'
 import { buttonProps } from './button'
 
 import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
@@ -15,7 +16,7 @@ export const buttonGroupProps = {
    * @description display direction
    */
   direction: {
-    type: String,
+    type: definePropType<'horizontal' | 'vertical'>(String),
     values: ['horizontal', 'vertical'],
     default: 'horizontal',
   },

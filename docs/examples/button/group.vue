@@ -29,5 +29,5 @@ import {
   Operation,
 } from '@element-plus/icons-vue'
 
-const direction = ref('horizontal')
+const direction = ref<'horizontal' | 'vertical'>('horizontal')
 </script>
