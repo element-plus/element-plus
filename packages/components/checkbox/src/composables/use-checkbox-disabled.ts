@@ -1,5 +1,5 @@
 import { computed, inject } from 'vue'
-import { useFormDisabled } from '@element-plus/components/form'
+import { formContextKey, useFormDisabled } from '@element-plus/components/form'
 import { isUndefined } from '@element-plus/utils'
 import { checkboxGroupContextKey } from '../constants'
 
@@ -10,6 +10,7 @@ export const useCheckboxDisabled = ({
   isChecked,
 }: Pick<CheckboxModel, 'model'> & Pick<CheckboxStatus, 'isChecked'>) => {
   const checkboxGroup = inject(checkboxGroupContextKey, undefined)
+  const formContext = inject(formContextKey, undefined)
 
   const isLimitDisabled = computed(() => {
     const max = checkboxGroup?.max?.value
@@ -21,7 +22,12 @@ export const useCheckboxDisabled = ({
   })
 
   const isDisabled = useFormDisabled(
-    computed(() => checkboxGroup?.disabled.value || isLimitDisabled.value)
+    computed(
+      () =>
+        checkboxGroup?.disabled?.value ??
+        formContext?.disabled ??
+        isLimitDisabled.value
+    )
   )
 
   return {
