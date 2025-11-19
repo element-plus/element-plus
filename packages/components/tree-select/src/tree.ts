@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { computed, nextTick, toRefs, watch } from 'vue'
 import { isEqual, isNil, pick } from 'lodash-unified'
-import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { escapeStringRegexp, isEmpty, isFunction } from '@element-plus/utils'
 import ElTree from '@element-plus/components/tree'
 import TreeSelectOption from './tree-select-option'
@@ -121,6 +121,13 @@ export const useTree = (
     })
   }
 
+  const emitModelChange = (value) => {
+    emit(UPDATE_MODEL_EVENT, value)
+    if (!isEqual(props.modelValue, value)) {
+      emit(CHANGE_EVENT, value)
+    }
+  }
+
   return {
     ...pick(toRefs(props), Object.keys(ElTree.props)),
     ...attrs,
@@ -201,53 +208,48 @@ export const useTree = (
         : []
       const checkedKeys = cachedKeys.concat(uncachedCheckedKeys)
 
+      let nextValue
       if (props.checkStrictly) {
-        emit(
-          UPDATE_MODEL_EVENT,
-          // Checking for changes may come from `check-on-node-click`
-          props.multiple
-            ? checkedKeys
-            : checkedKeys.includes(dataValue)
-              ? dataValue
-              : undefined
-        )
+        // Checking for changes may come from `check-on-node-click`
+        nextValue = props.multiple
+          ? checkedKeys
+          : checkedKeys.includes(dataValue)
+            ? dataValue
+            : undefined
       }
       // only can select leaf node
-      else {
-        if (props.multiple) {
-          const childKeys = getChildCheckedKeys()
+      else if (props.multiple) {
+        const childKeys = getChildCheckedKeys()
+        nextValue = cachedKeys.concat(childKeys)
+      } else {
+        // select first leaf node when check parent
+        const firstLeaf = treeFind(
+          [data],
+          (data) =>
+            !isValidArray(getNodeValByProp('children', data)) &&
+            !getNodeValByProp('disabled', data),
+          (data) => getNodeValByProp('children', data)
+        )
+        const firstLeafKey = firstLeaf
+          ? getNodeValByProp('value', firstLeaf)
+          : undefined
 
-          emit(UPDATE_MODEL_EVENT, cachedKeys.concat(childKeys))
-        } else {
-          // select first leaf node when check parent
-          const firstLeaf = treeFind(
+        // unselect when any child checked
+        const hasCheckedChild =
+          isValidValue(props.modelValue) &&
+          !!treeFind(
             [data],
-            (data) =>
-              !isValidArray(getNodeValByProp('children', data)) &&
-              !getNodeValByProp('disabled', data),
+            (data) => getNodeValByProp('value', data) === props.modelValue,
             (data) => getNodeValByProp('children', data)
           )
-          const firstLeafKey = firstLeaf
-            ? getNodeValByProp('value', firstLeaf)
-            : undefined
 
-          // unselect when any child checked
-          const hasCheckedChild =
-            isValidValue(props.modelValue) &&
-            !!treeFind(
-              [data],
-              (data) => getNodeValByProp('value', data) === props.modelValue,
-              (data) => getNodeValByProp('children', data)
-            )
-
-          emit(
-            UPDATE_MODEL_EVENT,
-            firstLeafKey === props.modelValue || hasCheckedChild
-              ? undefined
-              : firstLeafKey
-          )
-        }
+        nextValue =
+          firstLeafKey === props.modelValue || hasCheckedChild
+            ? undefined
+            : firstLeafKey
       }
+
+      emitModelChange(nextValue)
 
       nextTick(() => {
         const checkedKeys = toValidArray(props.modelValue)
@@ -289,7 +291,7 @@ export const useTree = (
           )
 
           const childKeys = getChildCheckedKeys()
-          emit(UPDATE_MODEL_EVENT, cachedKeys.concat(childKeys))
+          emitModelChange(cachedKeys.concat(childKeys))
         }
       })
     },
