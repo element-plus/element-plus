@@ -328,13 +328,12 @@ describe('Button Group', () => {
 
   it('direction prop', async () => {
     const wrapper = mount({
-      setup: () => () =>
-        (
-          <ButtonGroup type="warning">
-            <Button type="primary">Prev</Button>
-            <Button>Next</Button>
-          </ButtonGroup>
-        ),
+      setup: () => () => (
+        <ButtonGroup type="warning">
+          <Button type="primary">Prev</Button>
+          <Button>Next</Button>
+        </ButtonGroup>
+      ),
     })
 
     expect(wrapper.classes()).toContain(ns.bm('group', 'horizontal'))

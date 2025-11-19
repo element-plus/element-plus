@@ -182,11 +182,11 @@ button/custom
 
 ### ButtonGroup Attributes
 
-| Name               | Description                                      | Type                                                               | Default    |
-| ------------------ | ------------------------------------------------ | ------------------------------------------------------------------ | ---------- |
-| size               | control the size of buttons in this button-group | ^[enum]`'large' \| 'default' \| 'small'`                           | —          |
-| type               | control the type of buttons in this button-group | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | —          |
-| direction ^(2.11.9)| display direction                                | ^[enum]`'horizontal' \| 'vertical'`                                | horizontal |
+| Name                | Description                                      | Type                                                               | Default    |
+| ------------------- | ------------------------------------------------ | ------------------------------------------------------------------ | ---------- |
+| size                | control the size of buttons in this button-group | ^[enum]`'large' \| 'default' \| 'small'`                           | —          |
+| type                | control the type of buttons in this button-group | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | —          |
+| direction ^(2.11.9) | display direction                                | ^[enum]`'horizontal' \| 'vertical'`                                | horizontal |
 
 ### ButtonGroup Slots
 
