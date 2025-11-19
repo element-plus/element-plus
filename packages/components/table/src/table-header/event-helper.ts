@@ -132,7 +132,17 @@ function useEvent<T extends DefaultRow>(
     }
     const target = el?.closest('th')
 
-    if (!column || !column.resizable || !target) return
+    if (!column || !target || !column.resizable) {
+      if (!dragging.value) {
+        const bodyStyle = document.body.style
+        bodyStyle.cursor = ''
+        if (target && hasClass(target, 'is-sortable')) {
+          ;(target as HTMLElement).style.cursor = 'pointer'
+        }
+      }
+      draggingColumn.value = null
+      return
+    }
 
     if (!dragging.value && props.border) {
       const rect = target.getBoundingClientRect()
