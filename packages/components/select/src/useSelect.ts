@@ -539,6 +539,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       emit(UPDATE_MODEL_EVENT, value)
       emitChange(value)
       emit('remove-tag', tag.value)
+      emit('update:selected', normalizeSelected(value))
     }
     event.stopPropagation()
     focus()
@@ -552,12 +553,26 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
         if (item.isDisabled) value.push(item.value)
       }
     }
+    emit('update:selected', value)
     emit(UPDATE_MODEL_EVENT, value)
     emitChange(value)
     states.hoveringIndex = -1
     expanded.value = false
     emit('clear')
     focus()
+  }
+
+  const normalizeSelected = (values: any[]) => {
+    const allOptions = optionsArray.value
+    return values.map((selectedValue) => {
+      const option = allOptions.find((o) => o.value === selectedValue)
+      return option
+        ? {
+            label: option.label,
+            value: option.value,
+          }
+        : { value: selectedValue }
+    })
   }
 
   const handleOptionSelect = (option: OptionPublicInstance) => {
@@ -580,10 +595,13 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       if (props.filterable && !props.reserveKeyword) {
         states.inputValue = ''
       }
+      emit('update:selected', normalizeSelected(value))
     } else {
       !isEqual(props.modelValue, option.value) &&
         emit(UPDATE_MODEL_EVENT, option.value)
       emitChange(option.value)
+      const [_option] = normalizeSelected([option.value])
+      emit('update:selected', _option)
       expanded.value = false
     }
     focus()

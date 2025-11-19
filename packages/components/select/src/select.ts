@@ -298,6 +298,7 @@ export const selectProps = buildProps({
 /* eslint-disable @typescript-eslint/no-unused-vars */
 export const selectEmits = {
   [UPDATE_MODEL_EVENT]: (val: SelectProps['modelValue']) => true,
+  'update:selected': (option: Record<string, any>) => true,
   [CHANGE_EVENT]: (val: SelectProps['modelValue']) => true,
   'popup-scroll': scrollbarEmits.scroll,
   'remove-tag': (val: unknown) => true,
