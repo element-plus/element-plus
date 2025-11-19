@@ -85,6 +85,55 @@ select/custom-template
 
 :::
 
+## Using Tooltip Inside Options ^(New)
+
+:::warning
+
+When placing an `el-tooltip` inside an `el-option`, the tooltip may be unexpectedly triggered or flicker in some cases.
+This occurs because the tooltip popup can interrupt the option’s hover state, causing repeated show/hide cycles.
+
+To avoid this issue, it is recommended to enable the tooltip **only when the dropdown is visible**, using the `visible-change` event from `el-select`.
+
+<details>
+<summary>Show safe usage example</summary>
+
+```vue
+<template>
+  <el-select v-model="value" @visible-change="dropdownVisible = $event">
+    <el-option v-for="item in options" :key="item.value" :value="item.value">
+      <el-tooltip
+        :disabled="!dropdownVisible"
+        :content="item.label"
+        placement="bottom"
+        effect="dark"
+      >
+        <span>{{ item.label }}</span>
+      </el-tooltip>
+    </el-option>
+  </el-select>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const value = ref('')
+const options = [
+  {
+    value: 'Option1',
+    label: 'Option1Option1Option1Option1Option1Option1Option1Option1',
+  },
+  {
+    value: 'Option2',
+    label: 'Option2',
+  },
+]
+const dropdownVisible = ref(false)
+</script>
+```
+
+</details>
+:::
+
 ## Header of the dropdown ^(2.4.3)
 
 You can customize the header of the dropdown.
