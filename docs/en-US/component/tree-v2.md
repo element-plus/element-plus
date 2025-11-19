@@ -169,7 +169,33 @@ tree-v2/filter
 
 ### TreeV2 Slots
 
-| Name           | Description                                                                                    |
-| -------------- | ---------------------------------------------------------------------------------------------- |
-| default        | Custom content for tree nodes. The scope parameter is `{ node: TreeNode, data: TreeNodeData }` |
-| empty ^(2.9.0) | empty you can customize content when data is empty.                                            |
+| Name           | Description                       | Type                                              |
+| -------------- | --------------------------------- | ------------------------------------------------- |
+| default        | custom content for tree nodes     | ^[object]`{ node: TreeNode, data: TreeNodeData }` |
+| empty ^(2.9.0) | custom content when data is empty | —                                                 |
+
+## Type Declarations
+
+<details>
+  <summary>Show declarations</summary>
+
+```ts
+type TreeNodeData = Record<string, any>
+type TreeKey = string | number
+type TreeData = TreeNodeData[]
+
+interface TreeNode {
+  key: TreeKey
+  level: number
+  parent?: TreeNode
+  children?: TreeNode[]
+  data: TreeNodeData
+  disabled?: boolean
+  label?: string
+  isLeaf?: boolean
+  expanded?: boolean
+  isEffectivelyChecked?: boolean
+}
+```
+
+</details>
