@@ -75,7 +75,7 @@ button/icon
 
 Displayed as a button group, can be used to group a series of similar operations.
 
-Use the `vertical` attribute to add vertical direction.
+In ^(2.11.9) you can use the `direction` attribute.
 
 :::demo Use tag `<el-button-group>` to group your buttons.
 
