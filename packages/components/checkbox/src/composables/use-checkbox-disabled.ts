@@ -22,12 +22,14 @@ export const useCheckboxDisabled = ({
   })
 
   const isDisabled = useFormDisabled(
-    computed(
-      () =>
-        checkboxGroup?.disabled?.value ??
-        formContext?.disabled ??
-        isLimitDisabled.value
-    )
+    computed(() => {
+      // Directly use the checkbox
+      if (checkboxGroup === undefined) {
+        return formContext?.disabled ?? isLimitDisabled.value
+      } else {
+        return checkboxGroup.disabled?.value || isLimitDisabled.value
+      }
+    })
   )
 
   return {
