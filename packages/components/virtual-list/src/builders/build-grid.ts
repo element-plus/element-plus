@@ -212,6 +212,10 @@ const createGrid = ({
           height,
           pointerEvents: unref(states).isScrolling ? 'none' : undefined,
           width,
+
+          // fix scrolling issues in Firefox.
+          margin: 0,
+          boxSizing: 'border-box',
         }
       })
 

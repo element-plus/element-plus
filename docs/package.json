@@ -38,6 +38,7 @@
     "vite-plugin-inspect": "^0.8.7",
     "vite-plugin-mkcert": "^1.17.6",
     "vitepress": "^1.2.3",
-    "vitepress-plugin-group-icons": "^1.3.4"
+    "vitepress-plugin-group-icons": "^1.3.4",
+    "vue": "3.4.31"
   }
 }

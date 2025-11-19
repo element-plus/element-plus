@@ -50,8 +50,8 @@ const style = computed<StyleValue>(() => {
   return [
     {
       backgroundColor: props.color,
-      marginRight: addUnit(-(props.offset?.[0] ?? 0)),
-      marginTop: addUnit(props.offset?.[1] ?? 0),
+      marginRight: addUnit(-props.offset[0]),
+      marginTop: addUnit(props.offset[1]),
     },
     props.badgeStyle ?? {},
   ]
