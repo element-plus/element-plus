@@ -4,7 +4,7 @@
       ppNs.b(),
       dpNs.b(),
       ppNs.is('border', border),
-      ppNs.is('disabled', disabled),
+      ppNs.is('disabled', dateDisabled),
       {
         'has-sidebar': $slots.sidebar || hasShortcuts,
         'has-time': showTime,
@@ -18,7 +18,7 @@
           v-for="(shortcut, key) in shortcuts"
           :key="key"
           type="button"
-          :disabled="disabled"
+          :disabled="dateDisabled"
           :class="ppNs.e('shortcut')"
           @click="handleShortcutClick(shortcut)"
         >
@@ -33,7 +33,7 @@
               :model-value="visibleDate"
               size="small"
               :validate-event="false"
-              :disabled="disabled"
+              :disabled="dateDisabled"
               @input="(val) => (userInputDate = val)"
               @change="handleVisibleDateChange"
             />
@@ -47,7 +47,7 @@
               :model-value="visibleTime"
               size="small"
               :validate-event="false"
-              :disabled="disabled"
+              :disabled="dateDisabled"
               @focus="onTimePickerInputFocus"
               @input="(val) => (userInputTime = val)"
               @change="handleVisibleTimeChange"
@@ -74,7 +74,7 @@
               :aria-label="t(`el.datepicker.prevYear`)"
               class="d-arrow-left"
               :class="ppNs.e('icon-btn')"
-              :disabled="disabled"
+              :disabled="dateDisabled"
               @click="moveByYear(false)"
             >
               <slot name="prev-year">
@@ -87,7 +87,7 @@
               :aria-label="t(`el.datepicker.prevMonth`)"
               :class="ppNs.e('icon-btn')"
               class="arrow-left"
-              :disabled="disabled"
+              :disabled="dateDisabled"
               @click="moveByMonth(false)"
             >
               <slot name="prev-month">
@@ -124,7 +124,7 @@
               :aria-label="t(`el.datepicker.nextMonth`)"
               :class="ppNs.e('icon-btn')"
               class="arrow-right"
-              :disabled="disabled"
+              :disabled="dateDisabled"
               @click="moveByMonth(true)"
             >
               <slot name="next-month">
@@ -136,7 +136,7 @@
               :aria-label="t(`el.datepicker.nextYear`)"
               :class="ppNs.e('icon-btn')"
               class="d-arrow-right"
-              :disabled="disabled"
+              :disabled="dateDisabled"
               @click="moveByYear(true)"
             >
               <slot name="next-year">
@@ -153,7 +153,7 @@
             :date="innerDate"
             :parsed-value="parsedValue"
             :disabled-date="disabledDate"
-            :disabled="disabled"
+            :disabled="dateDisabled"
             :cell-class-name="cellClassName"
             :show-week-number="showWeekNumber"
             @pick="handleDatePick"
@@ -164,7 +164,7 @@
             :selection-mode="selectionMode"
             :date="innerDate"
             :disabled-date="disabledDate"
-            :disabled="disabled"
+            :disabled="dateDisabled"
             :parsed-value="parsedValue"
             :cell-class-name="cellClassName"
             @pick="handleYearPick"
@@ -176,7 +176,7 @@
             :date="innerDate"
             :parsed-value="parsedValue"
             :disabled-date="disabledDate"
-            :disabled="disabled"
+            :disabled="dateDisabled"
             :cell-class-name="cellClassName"
             @pick="handleMonthPick"
           />
@@ -259,6 +259,7 @@ import { ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY } from '../constants'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
+import { useFormDisabled } from '@element-plus/components/form'
 
 import type { SetupContext } from 'vue'
 import type { ConfigType, Dayjs } from 'dayjs'
@@ -510,8 +511,10 @@ const handleYearPick = async (
   handlePanelChange('year')
 }
 
+const dateDisabled = useFormDisabled()
+
 const showPicker = async (view: 'month' | 'year') => {
-  if (props.disabled) return
+  if (dateDisabled.value) return
   currentView.value = view
   await nextTick()
   handleFocusPicker()
