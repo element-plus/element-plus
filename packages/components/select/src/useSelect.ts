@@ -563,9 +563,8 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   }
 
   const normalizeSelected = (values: any[]) => {
-    const allOptions = optionsArray.value
     return values.map((selectedValue) => {
-      const option = allOptions.find((o) => o.value === selectedValue)
+      const option = optionsArray.value.find((o) => o.value === selectedValue)
       return option
         ? {
             label: option.label,
