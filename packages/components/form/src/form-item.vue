@@ -109,9 +109,8 @@ const labelStyle = computed<CSSProperties>(() => {
     return {}
   }
 
-  const labelWidth = addUnit(props.labelWidth || formContext?.labelWidth || '')
-  if (labelWidth) return { width: labelWidth }
-  return {}
+  const labelWidth = addUnit(props.labelWidth ?? formContext?.labelWidth)
+  return { width: labelWidth }
 })
 
 const contentStyle = computed<CSSProperties>(() => {
@@ -121,7 +120,7 @@ const contentStyle = computed<CSSProperties>(() => {
   if (!props.label && !props.labelWidth && isNested) {
     return {}
   }
-  const labelWidth = addUnit(props.labelWidth || formContext?.labelWidth || '')
+  const labelWidth = addUnit(props.labelWidth ?? formContext?.labelWidth)
   if (!props.label && !slots.label) {
     return { marginLeft: labelWidth }
   }
