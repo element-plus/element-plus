@@ -31,8 +31,9 @@ jobs:
       - name: Remove conflict pending label
         if: |
           github.repository_owner == 'element-plus' &&
-          github.event.pull_request.mergeable_state == 'clean'
+          github.event.pull_request.mergeable
         uses: actions-cool/issues-helper@v3
         with:
           actions: 'remove-labels'
           labels: 'conflict pending'
+          issue-number: ${{ github.event.pull_request.number }}
