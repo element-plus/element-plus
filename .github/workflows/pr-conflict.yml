@@ -22,5 +22,19 @@ jobs:
           body: |
             @${{ github.event.pull_request.user.login }} This PR has conflicts, please resolve them.
             <!-- ELEMENT_PLUS_CONFLICT_COMMENT -->
-          body-include: '<!-- ELEMENT_PLUS_CONFLICT_COMMENT -->'
+          body-include: "<!-- ELEMENT_PLUS_CONFLICT_COMMENT -->"
           number: ${{ github.event.pull_request.number }}
+
+  remove-label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check mergeable state
+        run: "mergeable_state: ${{ github.event.pull_request.mergeable_state }}"
+      - name: Remove conflict pending label
+        if: |
+          github.repository_owner == 'element-plus' &&
+          github.event.pull_request.mergeable_state == true
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: "remove-labels"
+          labels: "conflict pending"
