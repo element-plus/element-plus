@@ -608,7 +608,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       | OptionPublicInstance[]
       | SelectStates['selected']
   ) => {
-    const targetOption = isArray(option) ? option[0] : option
+    const targetOption = isArray(option) ? option[0] : option // Cause conflict
     let target = null
 
     if (!isNil(targetOption?.value)) {
