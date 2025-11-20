@@ -122,7 +122,12 @@ import {
 } from 'vue'
 import { clamp, useEventListener } from '@vueuse/core'
 import { throttle } from 'lodash-unified'
-import { useLocale, useNamespace, useZIndex } from '@element-plus/hooks'
+import {
+  useLocale,
+  useLockscreen,
+  useNamespace,
+  useZIndex,
+} from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/constants'
 import { getEventCode, keysOf } from '@element-plus/utils'
 import ElFocusTrap from '@element-plus/components/focus-trap'
@@ -163,7 +168,6 @@ const props = defineProps(imageViewerProps)
 const emit = defineEmits(imageViewerEmits)
 
 let stopWheelListener: (() => void) | undefined
-let prevOverflow = ''
 
 const { t } = useLocale()
 const ns = useNamespace('image-viewer')
@@ -180,6 +184,7 @@ const scaleClamped = computed(() => {
 
 const loading = ref(true)
 const loadError = ref(false)
+const visible = ref(false)
 const activeIndex = ref(props.initialIndex)
 const mode = shallowRef<ImageViewerMode>(modes.CONTAIN)
 const transform = ref({
@@ -190,6 +195,8 @@ const transform = ref({
   enableTransition: false,
 })
 const zIndex = ref(props.zIndex ?? nextZIndex())
+
+useLockscreen(visible, { ns })
 
 const isSingle = computed(() => {
   const { urlList } = props
@@ -242,7 +249,7 @@ const progress = computed(
 function hide() {
   unregisterEventListener()
   stopWheelListener?.()
-  document.body.style.overflow = prevOverflow
+  visible.value = false
   emit('close')
 }
 
@@ -449,15 +456,12 @@ watch(activeIndex, (val) => {
 })
 
 onMounted(() => {
+  visible.value = true
   registerEventListener()
 
   stopWheelListener = useEventListener('wheel', wheelHandler, {
     passive: false,
   })
-
-  // prevent body scroll
-  prevOverflow = document.body.style.overflow
-  document.body.style.overflow = 'hidden'
 })
 
 defineExpose({
