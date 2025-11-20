@@ -5,7 +5,7 @@ import { NOOP, hasClass } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { makeMountFunc } from '@element-plus/test-utils/make-mount'
 import { rAF } from '@element-plus/test-utils/tick'
-import { CircleClose } from '@element-plus/icons-vue'
+import { ArrowDown, CircleClose } from '@element-plus/icons-vue'
 import { usePopperContainerId } from '@element-plus/hooks'
 import { ElForm, ElFormItem } from '@element-plus/components/form'
 import Select from '../src/select.vue'
@@ -2544,5 +2544,18 @@ describe('Select', () => {
     const input = wrapper.find('input')
     await input.trigger('click')
     expect(selectVm.dropdownMenuVisible).toBeTruthy()
+  })
+
+  it('should show suffix', async () => {
+    wrapper = _mount(`<el-select></el-select>`)
+    await wrapper.setProps({
+      remote: true,
+      filters: true,
+      remoteShowSuffix: true,
+      options: [],
+    })
+
+    const suffixIcon = wrapper.findComponent(ArrowDown)
+    expect(suffixIcon.exists()).toBe(true)
   })
 })
