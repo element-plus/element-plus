@@ -8,6 +8,7 @@ import { EVENT_CODE } from '@element-plus/constants'
 import { ElTooltip } from '@element-plus/components/tooltip'
 import Button from '@element-plus/components/button'
 import { usePopperContainerId } from '@element-plus/hooks'
+import { rAF } from '@element-plus/test-utils/tick'
 import Dropdown from '../src/dropdown.vue'
 import DropdownItem from '../src/dropdown-item.vue'
 import DropdownMenu from '../src/dropdown-menu.vue'
@@ -61,15 +62,21 @@ describe('Dropdown', () => {
       typeof ElTooltip
     >
 
-    vi.useFakeTimers()
     const triggerElm = wrapper.find('.el-tooltip__trigger')
     expect(content.open).toBe(false)
+
+    vi.useFakeTimers()
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
     vi.runAllTimers()
+    vi.useRealTimers()
+    await rAF()
     expect(content.open).toBe(true)
+
+    vi.useFakeTimers()
     await triggerElm.trigger(MOUSE_LEAVE_EVENT)
     vi.runAllTimers()
-    await nextTick()
+    vi.useRealTimers()
+    await rAF()
     expect(content.open).toBe(false)
     vi.useRealTimers()
     wrapper.unmount()
@@ -274,12 +281,16 @@ describe('Dropdown', () => {
       clientY: 100,
     })
     vi.runAllTimers()
+    vi.useRealTimers()
+    await rAF()
     expect(content.open).toBe(true)
     const dropdownEl = document.querySelector('.virtual-ref-cls')
     const dropdownStyle = getComputedStyle(dropdownEl)
 
     expect(dropdownStyle.left).toBe('100px')
     expect(dropdownStyle.top).toBe('100px')
+
+    vi.useFakeTimers()
     await triggerElm.trigger('click')
     vi.runAllTimers()
     expect(content.open).toBe(false)
@@ -362,7 +373,9 @@ describe('Dropdown', () => {
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
     vi.runAllTimers()
     vi.useRealTimers()
+    await rAF()
     expect(content.open).toBe(true)
+    vi.useRealTimers()
     wrapper.unmount()
   })
 
@@ -395,7 +408,11 @@ describe('Dropdown', () => {
     vi.useFakeTimers()
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
     vi.runAllTimers()
+    vi.useRealTimers()
+    await rAF()
     expect(content.open).toBe(true)
+
+    vi.useFakeTimers()
     await wrapper
       .findComponent({ ref: 'c' })
       .findComponent({
@@ -472,7 +489,9 @@ describe('Dropdown', () => {
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
     vi.runAllTimers()
     vi.useRealTimers()
+    await rAF()
     expect(content.open).toBe(true)
+    vi.useRealTimers()
     wrapper.unmount()
   })
 
@@ -817,7 +836,12 @@ describe('Dropdown', () => {
 
       const trigger = wrapper.find('.el-tooltip__trigger')
       const content = wrapper.findComponent(ElTooltip)
+
+      vi.useFakeTimers()
       await trigger.trigger(MOUSE_ENTER_EVENT)
+      vi.runAllTimers()
+      vi.useRealTimers()
+      await rAF()
       expect(content.vm.open).toBe(true)
 
       const menu = wrapper.findComponent({ ref: 'menu' })
