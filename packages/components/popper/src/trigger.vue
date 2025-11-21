@@ -91,6 +91,7 @@ onMounted(() => {
         TRIGGER_ELE_EVENTS.forEach((eventName) => {
           const handler = props[eventName]
           if (handler) {
+            // @ts-ignore
             ;(prevEl as HTMLElement).removeEventListener(
               eventName.slice(2).toLowerCase(),
               handler,
