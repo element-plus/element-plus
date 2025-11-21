@@ -97,6 +97,7 @@ tabs/customized-trigger
 | tab-position          | position of tabs                                                                                                                        | ^[enum]`'top' \| 'right' \| 'bottom' \| 'left'`                                                  | top        |
 | stretch               | whether width of tab automatically fits its container                                                                                   | ^[boolean]                                                                                       | false      |
 | before-leave          | hook function before switching tab. If `false` is returned or a `Promise` is returned and then is rejected, switching will be prevented | ^[Function]`(activeName: TabPaneName, oldActiveName: TabPaneName) => Awaitable<void \| boolean>` | () => true |
+| tabindex ^(2.11.7)    | tabs tabindex                                                                                                                           | ^[string] / ^[number]                                                                            | 0          |
 
 ### Tabs Events
 
@@ -168,3 +169,11 @@ type TabBarInstance = InstanceType<typeof TabBar> & {
 ```
 
 </details>
+
+## FAQ
+
+#### How to use sortable/draggable tabs ?
+
+We exposed the necessary information to implement it yourself.
+You can use a native way to do it, [demo](https://tinyurl.com/2jkyw82j).
+Or using [SortableJs](https://github.com/SortableJS/Sortable), [demo](https://tinyurl.com/2r8js24y).

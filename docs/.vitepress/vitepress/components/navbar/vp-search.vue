@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import '@docsearch/css'
 import { getCurrentInstance, onMounted, watch } from 'vue'
-import { useRoute, useRouter } from 'vitepress'
+import { useRoute, useRouter, withBase } from 'vitepress'
 //@ts-expect-error
 import docsearch from '@docsearch/js'
 import { isClient } from '@vueuse/core'
@@ -92,7 +92,7 @@ function initialize(userOptions: any) {
           if (route.path === hitPathname) {
             window.location.assign(window.location.origin + itemUrl)
           } else {
-            router.go(itemUrl)
+            router.go(withBase(itemUrl))
           }
         },
       },
@@ -114,7 +114,7 @@ function initialize(userOptions: any) {
       }) => {
         const relativeHit = hit.url.startsWith('http')
           ? getRelativePath(hit.url as string)
-          : hit.url
+          : withBase(hit.url)
 
         return {
           type: 'a',

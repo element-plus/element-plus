@@ -10,7 +10,8 @@
     :aria-labelledby="isLabeledByFormItem ? formItem?.labelId : undefined"
   >
     <slot>
-      <el-checkbox
+      <component
+        :is="optionComponent"
         v-for="(item, index) in options"
         :key="index"
         v-bind="getOptionProps(item)"
@@ -33,6 +34,7 @@ import {
 } from './checkbox-group'
 import { checkboxGroupContextKey } from './constants'
 import ElCheckbox from './checkbox.vue'
+import ElCheckboxButton from './checkbox-button.vue'
 
 import type { CheckboxGroupValueType } from './checkbox-group'
 
@@ -77,6 +79,10 @@ const getOptionProps = (option: Record<string, any>) => {
   }
   return { ...omit(option, [label, value, disabled]), ...base }
 }
+
+const optionComponent = computed(() =>
+  props.type === 'button' ? ElCheckboxButton : ElCheckbox
+)
 
 provide(checkboxGroupContextKey, {
   ...pick(toRefs(props), [

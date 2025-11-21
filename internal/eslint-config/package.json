@@ -7,6 +7,10 @@
   "files": [
     "index.js"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/element-plus/element-plus.git"
+  },
   "main": "index.js",
   "publishConfig": {
     "access": "public"
@@ -16,10 +20,10 @@
   },
   "dependencies": {
     "@eslint/js": "^9.36.0",
+    "@eslint/markdown": "^7.4.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-jsonc": "^2.20.1",
-    "eslint-plugin-markdown": "^5.1.0",
     "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-unicorn": "^60.0.0",
     "eslint-plugin-vue": "^10.5.0",

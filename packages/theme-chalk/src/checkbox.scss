@@ -4,7 +4,6 @@
 @use 'mixins/mixins' as *;
 @use 'mixins/var' as *;
 @use 'mixins/_button';
-@use 'mixins/utils' as *;
 
 $checkbox-height: () !default;
 $checkbox-height: map.merge($common-component-size, $checkbox-height);

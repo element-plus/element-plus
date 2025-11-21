@@ -47,7 +47,6 @@ export const descriptionProps = buildProps({
    */
   labelWidth: {
     type: [String, Number],
-    default: '',
   },
 } as const)
 
