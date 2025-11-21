@@ -11,7 +11,7 @@
     >
       <component
         :is="labelFor ? 'label' : 'div'"
-        v-if="hasLabel"
+        v-if="!!(label || $slots.label)"
         :id="labelId"
         :for="labelFor"
         :class="ns.e('label')"
@@ -109,9 +109,8 @@ const labelStyle = computed<CSSProperties>(() => {
     return {}
   }
 
-  const labelWidth = addUnit(props.labelWidth || formContext?.labelWidth || '')
-  if (labelWidth) return { width: labelWidth }
-  return {}
+  const labelWidth = addUnit(props.labelWidth ?? formContext?.labelWidth)
+  return { width: labelWidth }
 })
 
 const contentStyle = computed<CSSProperties>(() => {
@@ -121,7 +120,7 @@ const contentStyle = computed<CSSProperties>(() => {
   if (!props.label && !props.labelWidth && isNested) {
     return {}
   }
-  const labelWidth = addUnit(props.labelWidth || formContext?.labelWidth || '')
+  const labelWidth = addUnit(props.labelWidth ?? formContext?.labelWidth)
   if (!props.label && !slots.label) {
     return { marginLeft: labelWidth }
   }
@@ -270,7 +269,7 @@ const onValidationFailed = (error: FormValidateFailure) => {
 
   setValidationState('error')
   validateMessage.value = errors
-    ? errors?.[0]?.message ?? `${props.prop} is required`
+    ? (errors?.[0]?.message ?? `${props.prop} is required`)
     : ''
 
   formContext?.emit('validate', props.prop!, false, validateMessage.value)

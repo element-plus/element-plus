@@ -78,6 +78,13 @@ export const tabsProps = buildProps({
    * @description whether width of tab automatically fits its container
    */
   stretch: Boolean,
+  /**
+   * @description tabs tabindex
+   */
+  tabindex: {
+    type: [String, Number],
+    default: 0,
+  },
 } as const)
 export type TabsProps = ExtractPropTypes<typeof tabsProps>
 export type TabsPropsPublic = __ExtractPublicPropTypes<typeof tabsProps>
@@ -231,7 +238,7 @@ const Tabs = defineComponent({
               ns.e('new-tab'),
               isVertical.value && ns.e('new-tab-vertical'),
             ]}
-            tabindex="0"
+            tabindex={props.tabindex}
             onClick={handleTabAdd}
             onKeydown={handleKeydown}
           >

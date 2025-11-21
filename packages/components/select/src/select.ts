@@ -109,12 +109,19 @@ export const selectProps = buildProps({
    */
   popperOptions: {
     type: definePropType<Partial<Options>>(Object),
-    default: () => ({} as Partial<Options>),
+    default: () => ({}) as Partial<Options>,
   },
   /**
    * @description whether options are loaded from server
    */
   remote: Boolean,
+  /**
+   * @description debounce delay during remote search, in milliseconds
+   */
+  debounce: {
+    type: Number,
+    default: 300,
+  },
   /**
    * @description displayed text while loading data from server, default is 'Loading'
    */
@@ -221,7 +228,7 @@ export const selectProps = buildProps({
   /**
    * @description tag type
    */
-  // eslint-disable-next-line vue/require-prop-types
+
   tagType: { ...tagProps.type, default: 'info' },
   /**
    * @description tag effect

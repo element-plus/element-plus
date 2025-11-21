@@ -401,7 +401,6 @@
 import { computed, inject, nextTick, ref, toRef, unref, watch } from 'vue'
 import dayjs from 'dayjs'
 import { ClickOutside as vClickoutside } from '@element-plus/directives'
-import { isArray } from '@element-plus/utils'
 import { useLocale } from '@element-plus/hooks'
 import ElButton from '@element-plus/components/button'
 import ElInput from '@element-plus/components/input'
@@ -793,6 +792,7 @@ const handleTimeInput = (value: string | null, type: ChangeType) => {
         .hour(parsedValueD.hour())
         .minute(parsedValueD.minute())
         .second(parsedValueD.second())
+      leftDate.value = minDate.value
     } else {
       maxTimePickerVisible.value = true
       maxDate.value = (maxDate.value || rightDate.value)
@@ -888,12 +888,6 @@ const handleClear = () => {
   emit('pick', valueOnClear)
 }
 
-const formatToString = (value: Dayjs | Dayjs[]) => {
-  return isArray(value)
-    ? value.map((_) => _.format(format.value))
-    : value.format(format.value)
-}
-
 const parseUserInput = (value: Dayjs | Dayjs[]) => {
   return correctlyParseUserInput(
     value,
@@ -926,6 +920,5 @@ function sortDates(minDate: Dayjs | undefined, maxDate: Dayjs | undefined) {
 
 emit('set-picker-option', ['isValidValue', isValidValue])
 emit('set-picker-option', ['parseUserInput', parseUserInput])
-emit('set-picker-option', ['formatToString', formatToString])
 emit('set-picker-option', ['handleClear', handleClear])
 </script>

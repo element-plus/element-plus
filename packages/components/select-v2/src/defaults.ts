@@ -132,7 +132,6 @@ export const selectV2Props = buildProps({
    * @description biding value
    */
   modelValue: {
-    // eslint-disable-next-line prettier/prettier
     type: definePropType<
       any[] | string | number | boolean | Record<string, any> | any
     >([Array, String, Number, Boolean, Object]),
@@ -211,12 +210,19 @@ export const selectV2Props = buildProps({
    */
   popperOptions: {
     type: definePropType<Partial<Options>>(Object),
-    default: () => ({} as Partial<Options>),
+    default: () => ({}) as Partial<Options>,
   },
   /**
    * @description whether search data from server
    */
   remote: Boolean,
+  /**
+   * @description debounce delay during remote search, in milliseconds
+   */
+  debounce: {
+    type: Number,
+    default: 300,
+  },
   /**
    * @description size of component
    */

@@ -63,6 +63,13 @@ export const tabNavProps = buildProps({
     default: '',
   },
   stretch: Boolean,
+  /**
+   * @description tab-nav tabindex
+   */
+  tabindex: {
+    type: [String, Number],
+    default: undefined,
+  },
 } as const)
 
 export const tabNavEmits = {
@@ -373,7 +380,7 @@ const TabNav = defineComponent({
           <ElIcon
             class="is-icon-close"
             // `onClick` not exist when generate dts
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+
             // @ts-ignore
             onClick={(ev: MouseEvent) => emit('tabRemove', pane, ev)}
           >
@@ -382,7 +389,10 @@ const TabNav = defineComponent({
         ) : null
 
         const tabLabelContent = pane.slots.label?.() || pane.props.label
-        const tabindex = !disabled && pane.active ? 0 : -1
+        const tabindex =
+          !disabled && pane.active
+            ? (props.tabindex ?? rootTabs.props.tabindex)
+            : -1
 
         return (
           <div

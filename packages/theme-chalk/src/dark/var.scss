@@ -12,8 +12,8 @@ $colors: () !default;
   $colors: map.deep-merge(
     (
       $type: (
-        'base': map.get(common.$colors, $type, 'base'),
-      ),
+          'base': map.get(common.$colors, $type, 'base'),
+        ),
     ),
     $colors
   ) !global;
@@ -31,8 +31,7 @@ $colors: () !default;
   $colors: map.deep-merge(
     (
       $type: (
-        '#{$mode}-#{$number}':
-          roundColor(
+        '#{$mode}-#{$number}': roundColor(
             color.mix(
               $mix-color,
               map.get($colors, $type, 'base'),

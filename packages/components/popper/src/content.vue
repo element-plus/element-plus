@@ -9,6 +9,7 @@
     @mouseleave="(e) => $emit('mouseleave', e)"
   >
     <el-focus-trap
+      :loop="loop"
       :trapped="trapped"
       :trap-on-focus-in="true"
       :focus-trap-el="contentRef"

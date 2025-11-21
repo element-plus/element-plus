@@ -246,7 +246,7 @@ cascader/custom-header-footer
 
 ### Cascader Slots
 
-| Name                     | Description                                                                                    | Scope                                                     |
+| Name                     | Description                                                                                    | Type                                                      |
 | ------------------------ | ---------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
 | default                  | the custom content of cascader node, which are current Node object and node data respectively. | ^[object]`{ node: any, data: any }`                       |
 | empty                    | content when there is no matched options.                                                      | —                                                         |
@@ -265,6 +265,8 @@ cascader/custom-header-footer
 | togglePopperVisible ^(2.2.31) | toggle the visible type of popper                                                                                 | ^[Function]`(visible?: boolean) => void`                        |
 | contentRef                    | cascader content ref                                                                                              | ^[object]`ComputedRef<any>`                                     |
 | presentText ^(2.8.4)          | selected content text                                                                                             | ^[object]`ComputedRef<string>`                                  |
+| focus ^(2.11.8)               | focus the input element                                                                                           | ^[Function]`() => void`                                         |
+| blur ^(2.11.8)                | blur the input element                                                                                            | ^[Function]`() => void`                                         |
 
 ## CascaderPanel API
 
@@ -287,7 +289,7 @@ cascader/custom-header-footer
 
 ### CascaderPanel Slots
 
-| Name           | Description                                                                                    | Scope                               |
+| Name           | Description                                                                                    | Type                                |
 | -------------- | ---------------------------------------------------------------------------------------------- | ----------------------------------- |
 | default        | the custom content of cascader node, which are current Node object and node data respectively. | ^[object]`{ node: any, data: any }` |
 | empty ^(2.8.3) | the content of the panel when there is no data.                                                | —                                   |
@@ -301,23 +303,23 @@ cascader/custom-header-footer
 
 ## CascaderProps
 
-| Attribute                  | Description                                                                                                | Type                                                | Default  |
-| -------------------------- | ---------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | -------- |
-| expandTrigger              | trigger mode of expanding options                                                                          | ^[enum]`'click' \| 'hover'`                         | click    |
-| multiple                   | whether multiple selection is enabled                                                                      | ^[boolean]                                          | false    |
-| checkStrictly              | whether checked state of a node not affects its parent and child nodes                                     | ^[boolean]                                          | false    |
-| emitPath                   | when checked nodes change, whether to emit an array of node's path, if false, only emit the value of node. | ^[boolean]                                          | true     |
-| lazy                       | whether to dynamic load child nodes, use with `lazyload` attribute                                         | ^[boolean]                                          | false    |
-| lazyLoad                   | method for loading child nodes data, only works when `lazy` is true                                        | ^[Function]`(node: Node, resolve: Resolve) => void` | —        |
-| value                      | specify which key of node object is used as the node's value                                               | ^[string]                                           | value    |
-| label                      | specify which key of node object is used as the node's label                                               | ^[string]                                           | label    |
-| children                   | specify which key of node object is used as the node's children                                            | ^[string]                                           | children |
-| disabled                   | specify which key of node object is used as the node's disabled                                            | ^[string]                                           | disabled |
-| leaf                       | specify which key of node object is used as the node's leaf field                                          | ^[string]                                           | leaf     |
-| hoverThreshold             | hover threshold of expanding options                                                                       | ^[number]                                           | 500      |
-| checkOnClickNode ^(2.10.5) | whether to check or uncheck node when clicking on the node                                                 | ^[boolean]                                          | false    |
-| checkOnClickLeaf ^(2.10.5) | whether to check or uncheck node when clicking on leaf node (last children).                               | ^[boolean]                                          | true     |
-| showPrefix ^(2.10.5)       | whether to show the radio or checkbox prefix                                                               | ^[boolean]                                          | true     |
+| Attribute                  | Description                                                                                                                     | Type                                                                    | Default  |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- | -------- |
+| expandTrigger              | trigger mode of expanding options                                                                                               | ^[enum]`'click' \| 'hover'`                                             | click    |
+| multiple                   | whether multiple selection is enabled                                                                                           | ^[boolean]                                                              | false    |
+| checkStrictly              | whether checked state of a node not affects its parent and child nodes                                                          | ^[boolean]                                                              | false    |
+| emitPath                   | when checked nodes change, whether to emit an array of node's path, if false, only emit the value of node.                      | ^[boolean]                                                              | true     |
+| lazy                       | whether to dynamic load child nodes, use with `lazyload` attribute                                                              | ^[boolean]                                                              | false    |
+| lazyLoad                   | method for loading child nodes data, only works when `lazy` is true. The reject parameter is supported after version ^(2.11.5). | ^[Function]`(node: Node, resolve: Resolve, reject: () => void) => void` | —        |
+| value                      | specify which key of node object is used as the node's value                                                                    | ^[string]                                                               | value    |
+| label                      | specify which key of node object is used as the node's label                                                                    | ^[string]                                                               | label    |
+| children                   | specify which key of node object is used as the node's children                                                                 | ^[string]                                                               | children |
+| disabled                   | specify which key of node object is used as the node's disabled                                                                 | ^[string]                                                               | disabled |
+| leaf                       | specify which key of node object is used as the node's leaf field                                                               | ^[string]                                                               | leaf     |
+| hoverThreshold             | hover threshold of expanding options                                                                                            | ^[number]                                                               | 500      |
+| checkOnClickNode ^(2.10.5) | whether to check or uncheck node when clicking on the node                                                                      | ^[boolean]                                                              | false    |
+| checkOnClickLeaf ^(2.10.5) | whether to check or uncheck node when clicking on leaf node (last children).                                                    | ^[boolean]                                                              | true     |
+| showPrefix ^(2.10.5)       | whether to show the radio or checkbox prefix                                                                                    | ^[boolean]                                                              | true     |
 
 ## Type Declarations
 
@@ -336,7 +338,7 @@ type Resolve = (data: any) => void
 
 type ExpandTrigger = 'click' | 'hover'
 
-type LazyLoad = (node: Node, resolve: Resolve) => void
+type LazyLoad = (node: Node, resolve: Resolve, reject: () => void) => void
 
 type isDisabled = (data: CascaderOption, node: Node) => boolean
 

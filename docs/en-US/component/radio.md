@@ -131,6 +131,7 @@ radio/radio-button
 | label ^(a11y) ^(deprecated) | same as `aria-label` in RadioGroup                                                             | ^[string]                                                        | —                                                        |
 | options ^(2.11.2)           | data of the options, the key of `value` and `label` and `disabled` can be customize by `props` | ^[array]`Array<{[key: string]: any}>`                            | —                                                        |
 | props ^(2.11.2)             | configuration options                                                                          | ^[object]`{ value?: string, label?: string, disabled?: boolean}` | `{value: 'value', label: 'label', disabled: 'disabled'}` |
+| type ^(2.11.5)              | component type to render options (e.g. `'button'`)                                             | ^[enum]`'radio' \| 'button'`                                     | 'radio'                                                  |
 
 ### RadioGroup Events
 

@@ -48,7 +48,7 @@ const sizeStyle = computed(() => {
   const { size } = props
   return isNumber(size)
     ? (ns.cssVarBlock({
-        size: addUnit(size) || '',
+        size: addUnit(size)!,
       }) as CSSProperties)
     : undefined
 })

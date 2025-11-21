@@ -196,6 +196,16 @@ $directions: rtl, ltr, ttb, btt;
   }
 }
 
+.#{$namespace}-modal-drawer {
+  &.is-penetrable {
+    pointer-events: none;
+
+    .#{$namespace}-drawer {
+      pointer-events: auto;
+    }
+  }
+}
+
 .#{$namespace}-drawer-fade {
   &-enter-active,
   &-leave-active {
