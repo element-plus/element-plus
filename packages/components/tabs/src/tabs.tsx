@@ -218,15 +218,6 @@ const Tabs = defineComponent({
       (modelValue) => setCurrentName(modelValue)
     )
 
-    watch(
-      () => props.defaultValue,
-      (defaultValue) => {
-        if (isUndefined(props.modelValue)) {
-          setCurrentName(defaultValue)
-        }
-      }
-    )
-
     watch(currentName, async () => {
       await nextTick()
       nav$.value?.scrollToActiveTab()

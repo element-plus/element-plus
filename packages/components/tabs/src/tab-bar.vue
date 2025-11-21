@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="shouldRenderBar"
+    v-if="renderActiveBar"
     ref="barRef"
     :class="[ns.e('active-bar'), ns.is(rootTabs!.props.tabPosition)]"
     :style="barStyle"
@@ -30,14 +30,14 @@ const ns = useNamespace('tabs')
 
 const barRef = ref<HTMLDivElement>()
 const barStyle = ref<CSSProperties>()
-const shouldDisableInitialTransition = computed(
-  () =>
-    isUndefined(rootTabs.props.modelValue) &&
-    !isUndefined(rootTabs.props.defaultValue)
-)
-const shouldRenderBar = computed(
-  () =>
-    !shouldDisableInitialTransition.value || Boolean(barStyle.value?.transform)
+/**
+ * when defaultValue is not set, the bar is always shown.
+ *
+ * when defaultValue is set, the bar will be hidden until style is calculated
+ * to avoid the bar showing in the wrong position on initial render.
+ */
+const renderActiveBar = computed(
+  () => !rootTabs.props.defaultValue || Boolean(barStyle.value?.transform)
 )
 
 const getBarStyle = (): CSSProperties => {
