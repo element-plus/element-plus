@@ -455,11 +455,15 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   }
 
   const updateHoveringIndex = () => {
-    states.hoveringIndex = optionsArray.value.findIndex((item) =>
-      states.selected.some(
-        (selected) => getValueKey(selected) === getValueKey(item)
+    const length = states.selected.length
+    if (length > 0) {
+      const lastOption = states.selected[length - 1]
+      states.hoveringIndex = optionsArray.value.findIndex(
+        (item) => getValueKey(lastOption) === getValueKey(item)
       )
-    )
+    } else {
+      states.hoveringIndex = -1
+    }
   }
 
   const resetSelectionWidth = () => {
@@ -512,7 +516,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   const getLastNotDisabledIndex = (value: OptionValue[]) =>
     findLastIndex(value, (it) => {
       const option = states.cachedOptions.get(it)
-      return option && !option.disabled && !option.states.groupDisabled
+      return !option?.disabled && !option?.states.groupDisabled
     })
 
   const deletePrevTag = (e: KeyboardEvent) => {
@@ -608,7 +612,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       | OptionPublicInstance[]
       | SelectStates['selected']
   ) => {
-    const targetOption = isArray(option) ? option[0] : option
+    const targetOption = isArray(option) ? option[option.length - 1] : option
     let target = null
 
     if (!isNil(targetOption?.value)) {
@@ -818,6 +822,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
         navigateOptions('next')
         break
       case EVENT_CODE.enter:
+      case EVENT_CODE.numpadEnter:
         selectOption()
         break
       case EVENT_CODE.esc:

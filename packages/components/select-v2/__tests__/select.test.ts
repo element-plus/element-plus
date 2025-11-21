@@ -145,6 +145,7 @@ const createSelect = (
         :scrollbar-always-on="scrollbarAlwaysOn"
         :teleported="teleported"
         :tabindex="tabindex"
+        :default-first-option="defaultFirstOption"
         ${
           options.methods && options.methods.filterMethod
             ? `:filter-method="filterMethod"`
@@ -196,6 +197,7 @@ const createSelect = (
           popperAppendToBody: undefined,
           teleported: undefined,
           tabindex: undefined,
+          defaultFirstOption: false,
           ...(options.data && options.data()),
         }
       },
@@ -1583,6 +1585,33 @@ describe('Select', () => {
     expect(result).toBeTruthy()
   })
 
+  it('the scroll position of the dropdown should be correct when use filterable and default-first-option', async () => {
+    const options = Array.from({ length: 1000 }).map((_, idx) => ({
+      value: 999 - idx,
+      label: `options ${999 - idx}`,
+    }))
+    const wrapper = createSelect({
+      data() {
+        return {
+          value: 500,
+          options,
+          filterable: true,
+          defaultFirstOption: true,
+        }
+      },
+    })
+    await nextTick()
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+    const optionsDoms = Array.from(
+      document.querySelectorAll(`.${OPTION_ITEM_CLASS_NAME}`)
+    )
+    const result = optionsDoms.some((option) => {
+      const text = option.textContent
+      return text === 'options 500'
+    })
+    expect(result).toBeTruthy()
+  })
+
   it('emptyText error show', async () => {
     const wrapper = createSelect({
       data() {
@@ -2547,15 +2576,73 @@ describe('Select', () => {
   })
 
   it('should show suffix', async () => {
-    wrapper = _mount(`<el-select></el-select>`)
-    await wrapper.setProps({
-      remote: true,
-      filters: true,
-      remoteShowSuffix: true,
-      options: [],
-    })
+    const wrapper = _mount(
+      `
+        <el-select
+          v-model="value"
+          filterable
+          remote
+          :remote-method="remoteMethod"
+          :options="options"
+          remote-show-suffix
+        >
+        </el-select>`,
+      {
+        data() {
+          return { options: [], value: '' }
+        },
+        methods: {
+          remoteMethod() {
+            this.loading = true
+            setTimeout(() => {
+              this.loading = false
+            }, 1000)
+          },
+        },
+      }
+    )
 
     const suffixIcon = wrapper.findComponent(ArrowDown)
     expect(suffixIcon.exists()).toBe(true)
+  })
+
+  it('hoveringIndex should stay on the most recently selected option when using multiple', async () => {
+    const wrapper = createSelect({
+      data() {
+        return {
+          multiple: true,
+          options: [
+            {
+              value: 1,
+              label: 'option 1',
+            },
+            {
+              value: 2,
+              label: 'option 2',
+            },
+            {
+              value: 3,
+              label: 'option 3',
+            },
+            {
+              value: 4,
+              label: 'option 4',
+            },
+            {
+              value: 5,
+              label: 'option 5',
+            },
+          ],
+          value: [1, 2],
+        }
+      },
+    })
+
+    const select = wrapper.findComponent(Select)
+    const selectVm = select.vm as any
+    const input = wrapper.find('input')
+
+    await input.trigger('click')
+    expect(selectVm.states.hoveringIndex).toBe(1)
   })
 })

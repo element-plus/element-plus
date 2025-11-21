@@ -1828,7 +1828,7 @@ describe('DatePicker keyboard events', () => {
 
   it('should be able to enter in date picker table through keyboard navigation', async () => {
     _mount('<el-date-picker v-model="value" type="date" />', () => ({
-      value: '2025-09-01',
+      value: '',
     }))
     await nextTick()
     const input = document.querySelector<HTMLInputElement>('input')

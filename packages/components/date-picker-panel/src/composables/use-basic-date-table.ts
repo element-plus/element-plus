@@ -259,7 +259,7 @@ export const useBasicDateTable = (
 
   const isSelectedCell = (cell: DateCell) => {
     return (
-      (!unref(hasCurrent) && cell?.text === 1 && cell.type === 'normal') ||
+      (!unref(hasCurrent) && cell?.text === 1 && isNormalDay(cell.type)) ||
       cell.isCurrent
     )
   }
