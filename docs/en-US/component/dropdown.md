@@ -126,6 +126,7 @@ dropdown/virtual-trigger
 | popper-options               | [popper.js](https://popper.js.org/docs/v2/) parameters                                                                | ^[object]                                                                                                    | `{modifiers: [{name: 'computeStyles',options: {gpuAcceleration: false}}]}` |
 | teleported ^(2.2.20)         | whether the dropdown popup is teleported to the body                                                                  | ^[boolean]                                                                                                   | true                                                                       |
 | persistent ^(2.9.5)          | when dropdown inactive and `persistent` is `false` , dropdown menu will be destroyed                                  | ^[boolean]                                                                                                   | true                                                                       |
+| safe-node                    | List of elements that should not trigger the event                                                                    | ^[array]`Array<HTMLElement \| string>`                                                                       | —                                                                          |
 
 ### Dropdown Slots
 
