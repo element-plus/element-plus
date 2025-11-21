@@ -260,6 +260,7 @@ export const dropdownSubMenuEmits = {
   click: (evt: MouseEvent) => evt instanceof MouseEvent,
   pointerenter: (evt: PointerEvent) => evt instanceof Event,
   pointerleave: (evt: PointerEvent) => evt instanceof Event,
+  pointerdown: (evt: PointerEvent) => evt instanceof Event,
 }
 
 export type DropdownProps = ExtractPropTypes<typeof dropdownProps>

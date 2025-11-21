@@ -1,5 +1,6 @@
 import { computed, nextTick, ref } from 'vue'
 import { useEventListener, useTimeoutFn } from '@vueuse/core'
+import { whenMouse, whenTouch } from '@element-plus/utils'
 
 import type { Ref } from 'vue'
 import type { TooltipTriggerType } from '@element-plus/components/tooltip'
@@ -66,7 +67,7 @@ export function useDropdownHoverController({
     })
   }
 
-  function handlePointerEnterTrigger(event: PointerEvent | MouseEvent) {
+  const handlePointerEnterTrigger = whenMouse((event: PointerEvent) => {
     if (disabled.value) return
     isHoverInTrigger.value = true
     if (trigger.value.includes('hover')) {
@@ -75,9 +76,9 @@ export function useDropdownHoverController({
         handleOpen(event)
       }, showTimeout.value))
     }
-  }
+  })
 
-  function handlePointerLeaveTrigger(event: PointerEvent | MouseEvent) {
+  const handlePointerLeaveTrigger = whenMouse((event: PointerEvent) => {
     if (disabled.value) return
     isHoverInTrigger.value = false
     timeout?.()
@@ -90,13 +91,21 @@ export function useDropdownHoverController({
         notifyParentPointerStatus('leave')
       }
     }, showTimeout.value))
-  }
+  })
 
-  function handlePointerEnterContent() {
+  const handlePointerDownTrigger = whenTouch((event: PointerEvent) => {
+    if (disabled.value) return
+    if (trigger.value.includes('hover')) {
+      event.preventDefault()
+      handleOpen(event)
+    }
+  })
+
+  const handlePointerEnterContent = whenMouse(() => {
     isHoverInContent.value = true
-  }
+  })
 
-  function handlePointerLeaveContent(event: PointerEvent) {
+  const handlePointerLeaveContent = whenMouse((event: PointerEvent) => {
     isHoverInContent.value = false
     timeout?.()
     ;({ stop: timeout } = useTimeoutFn(() => {
@@ -107,7 +116,7 @@ export function useDropdownHoverController({
         notifyParentPointerStatus('leave')
       }
     }, hideTimeout.value))
-  }
+  })
 
   function notifyParentPointerStatus(type: 'enter' | 'leave') {
     if (!parentContentRef?.value) return
@@ -129,6 +138,7 @@ export function useDropdownHoverController({
     isHoverInSubContent,
     handlePointerEnterTrigger,
     handlePointerLeaveTrigger,
+    handlePointerDownTrigger,
     handlePointerEnterContent,
     handlePointerLeaveContent,
     notifyParentPointerStatus,

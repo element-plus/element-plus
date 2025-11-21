@@ -64,6 +64,7 @@ export function useDropdownHoverZone({
   const handleClearHoverZone = () => {
     if (!hoverZoneRef.value) return
     hoverZoneRef.value.innerHTML = ''
+    hoverElementRef.value = undefined
     clearHoverTimer()
   }
 

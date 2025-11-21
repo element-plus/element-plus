@@ -575,6 +575,21 @@ describe('Dropdown', () => {
         })
         .classes()
     ).toContain('is-disabled')
+
+    const content = wrapper.findComponent(ElTooltip).vm as InstanceType<
+      typeof ElTooltip
+    >
+    const triggerElm = wrapper.find('.el-tooltip__trigger')
+    expect(triggerElm.attributes('tabindex')).toBeUndefined()
+    expect(content.open).toBe(false)
+
+    vi.useFakeTimers()
+    await triggerElm.trigger(MOUSE_ENTER_EVENT)
+    vi.runAllTimers()
+    vi.useRealTimers()
+    await rAF()
+    expect(content.open).toBe(false)
+
     wrapper.unmount()
   })
 

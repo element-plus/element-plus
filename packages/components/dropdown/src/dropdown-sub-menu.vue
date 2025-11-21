@@ -12,6 +12,7 @@
     @keydown="handleKeydown"
     @pointerenter="handlePointerEnter"
     @pointerleave="handlePointerLeave"
+    @pointerdown="handlePointerDown"
     @click="handleClick"
   >
     <div :class="ns.be('sub-menu', 'item')">
@@ -98,7 +99,6 @@ import {
   composeEventHandlers,
   ensureArray,
   getEventCode,
-  whenMouse,
 } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import ElDropdownItem from './dropdown-item.vue'
@@ -185,6 +185,7 @@ const {
 const {
   handlePointerEnterTrigger,
   handlePointerLeaveTrigger,
+  handlePointerDownTrigger,
   handlePointerEnterContent,
   handlePointerLeaveContent: _handlePointerLeaveContent,
 } = useDropdownHoverController({
@@ -223,12 +224,17 @@ const handlePointerEnter = composeEventHandlers((event: PointerEvent) => {
   emit('pointerenter', event)
   parenthoverElementRef.value = event.currentTarget as HTMLElement
   return event.defaultPrevented
-}, whenMouse(handlePointerEnterTrigger))
+}, handlePointerEnterTrigger)
 
 const handlePointerLeave = composeEventHandlers((event: PointerEvent) => {
   emit('pointerleave', event)
   return event.defaultPrevented
-}, whenMouse(handlePointerLeaveTrigger))
+}, handlePointerLeaveTrigger)
+
+const handlePointerDown = composeEventHandlers((event: PointerEvent) => {
+  emit('pointerdown', event)
+  return event.defaultPrevented
+}, handlePointerDownTrigger)
 
 const handleClick = composeEventHandlers(
   (event: MouseEvent) => {

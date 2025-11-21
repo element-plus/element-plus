@@ -5,6 +5,7 @@
       @pointerenter="(e) => $emit('pointerenter', e)"
       @pointerleave="handlePointerLeave"
       @pointermove="handlePointerMove"
+      @pointerdown="(e) => $emit('pointerdown', e)"
       @clickimpl="handleClick"
     >
       <slot />
@@ -31,7 +32,13 @@ export default defineComponent({
   },
   inheritAttrs: false,
   props: dropdownItemProps,
-  emits: ['pointerenter', 'pointermove', 'pointerleave', 'click'],
+  emits: [
+    'pointerenter',
+    'pointermove',
+    'pointerleave',
+    'pointerdown',
+    'click',
+  ],
   setup(props, { emit, attrs }) {
     const _instance = getCurrentInstance()
 

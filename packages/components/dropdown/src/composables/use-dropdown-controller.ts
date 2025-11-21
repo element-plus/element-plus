@@ -17,7 +17,9 @@ interface UseDropdownControllerOptions
     >,
     Pick<
       UseDropdownHoverControllerReturn,
-      'handlePointerEnterTrigger' | 'handlePointerLeaveTrigger'
+      | 'handlePointerEnterTrigger'
+      | 'handlePointerLeaveTrigger'
+      | 'handlePointerDownTrigger'
     > {
   props: DropdownProps
   trigger: Ref<TooltipTriggerType[]>
@@ -33,12 +35,14 @@ export function useDropdownController({
   handleCloseAll,
   handlePointerEnterTrigger,
   handlePointerLeaveTrigger,
+  handlePointerDownTrigger,
 }: UseDropdownControllerOptions) {
   const popperContentRefs = ref<HTMLElement[]>([])
   const triggeringElementRef = ref()
   let stopHandle: ReturnType<typeof onClickOutside> | undefined
 
   const triggerRef = computed(() => {
+    if (props.disabled) return undefined
     if (props.virtualRef) {
       const virtualEl = unrefElement(props.virtualRef as HTMLElement)
       return isElement(virtualEl) ? props.virtualRef : undefined
@@ -67,13 +71,14 @@ export function useDropdownController({
       handleOpen(event)
     }
   })
-  useEventListener(triggerRef, 'mouseenter', (event) => {
+  useEventListener(triggerRef, 'pointerenter', (event) => {
     if (trigger.value.includes('hover')) {
       unrefElement(triggerRef).focus({ preventScroll: true })
       handlePointerEnterTrigger(event)
     }
   })
-  useEventListener(triggerRef, 'mouseleave', handlePointerLeaveTrigger)
+  useEventListener(triggerRef, 'pointerleave', handlePointerLeaveTrigger)
+  useEventListener(triggerRef, 'pointerdown', handlePointerDownTrigger)
 
   watch(
     [opened, () => popperContentRefs.value.length],

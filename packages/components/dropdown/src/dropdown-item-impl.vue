@@ -18,6 +18,7 @@
     @pointerenter="(e) => $emit('pointerenter', e)"
     @pointermove="(e) => $emit('pointermove', e)"
     @pointerleave="(e) => $emit('pointerleave', e)"
+    @pointerdown="(e) => $emit('pointerdown', e)"
   >
     <el-icon v-if="icon">
       <component :is="icon" />
@@ -53,7 +54,14 @@ export default defineComponent({
     ElIcon,
   },
   props: dropdownItemProps,
-  emits: ['pointerenter', 'pointermove', 'pointerleave', 'click', 'clickimpl'],
+  emits: [
+    'pointerenter',
+    'pointermove',
+    'pointerleave',
+    'pointerdown',
+    'click',
+    'clickimpl',
+  ],
   setup(_, { emit }) {
     const ns = useNamespace('dropdown')
 

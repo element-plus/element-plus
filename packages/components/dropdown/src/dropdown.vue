@@ -154,6 +154,9 @@ export default defineComponent({
     const dropdownTriggerKls = computed(() => [ns.m(dropdownSize.value)])
     const trigger = computed(() => ensureArray(props.trigger))
     const triggerId = computed<string>(() => props.id || useId().value)
+    const tabindex = computed(() => {
+      return props.disabled ? undefined : props.tabindex
+    })
 
     const {
       opened,
@@ -175,6 +178,7 @@ export default defineComponent({
         handleCloseAll,
         handlePointerEnterTrigger: (e) => handlePointerEnterTrigger(e),
         handlePointerLeaveTrigger: (e) => handlePointerLeaveTrigger(e),
+        handlePointerDownTrigger: (e) => handlePointerDownTrigger(e),
       })
 
     const {
@@ -198,6 +202,7 @@ export default defineComponent({
     const {
       handlePointerEnterTrigger,
       handlePointerLeaveTrigger,
+      handlePointerDownTrigger,
       handlePointerEnterContent,
       handlePointerLeaveContent: _handlePointerLeaveContent,
     } = useDropdownHoverController({
@@ -283,6 +288,7 @@ export default defineComponent({
       dropdownTriggerKls,
       dropdownSize,
       triggerId,
+      tabindex,
       currentTabId,
       opened,
       hoverZoneRef,
