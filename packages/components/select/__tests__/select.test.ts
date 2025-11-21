@@ -1169,11 +1169,11 @@ describe('Select', () => {
     const selectVm = select.vm as any
     const input = select.find('input')
     await input.trigger('click')
-    expect(selectVm.states.hoveringIndex).toBe(0)
-    selectVm.navigateOptions('next')
     expect(selectVm.states.hoveringIndex).toBe(1)
     selectVm.navigateOptions('next')
     expect(selectVm.states.hoveringIndex).toBe(0)
+    selectVm.navigateOptions('next')
+    expect(selectVm.states.hoveringIndex).toBe(1)
   })
 
   test('clearable', async () => {
@@ -3953,5 +3953,168 @@ describe('Select', () => {
     await input.trigger('keydown', { code: EVENT_CODE.down })
     await input.trigger('keydown', { code: EVENT_CODE.numpadEnter })
     expect(vm.value).toBe(1)
+  })
+
+  test('hoveringIndex should stay on the most recently selected option when using multiple', async () => {
+    wrapper = _mount(
+      `<el-select
+        v-model="value"
+        clearable
+        multiple
+      >
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value"
+        />
+      </el-select>`,
+      () => ({
+        options: [
+          {
+            value: 1,
+            label: 'Option 1',
+          },
+          {
+            value: 2,
+            label: 'Option 2',
+          },
+          {
+            value: 3,
+            label: 'Option 3',
+          },
+          {
+            value: 4,
+            label: 'Option 4',
+          },
+          {
+            value: 5,
+            label: 'Option 5',
+          },
+        ],
+        value: [1, 2],
+      })
+    )
+
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const selectVm = select.vm as any
+    const input = wrapper.find('input')
+
+    await input.trigger('click')
+    expect(selectVm.states.hoveringIndex).toBe(1)
+  })
+
+  test('should locate the most recently selected option when using multiple', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="value" :teleported="false" multiple>
+        <el-option
+          v-for="{ label, value } in options"
+          :key="value"
+          :label="label"
+          :value="value"
+        />
+      </el-select>`,
+      () => ({
+        options: Array.from({ length: 10 }).map((_, i) => ({
+          label: `label-${i}`,
+          value: i,
+        })),
+        value: [1, 9],
+      })
+    )
+
+    const wrapEl = wrapper.find('.el-select-dropdown__wrap').element
+    const optionEls = wrapper.findAll('.el-select-dropdown__item')
+    const cleanup = optionEls.map((item, i) =>
+      vi.spyOn(item.element, 'offsetTop', 'get').mockReturnValue(i * 30)
+    )
+    cleanup.push(
+      vi.spyOn(wrapEl, 'clientHeight', 'get').mockReturnValue(5 * 30)
+    )
+
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    expect(wrapEl.scrollTop).toBe(4 * 30)
+    cleanup.forEach((fn) => fn())
+  })
+
+  test('should restore warn handler after the last select unmounts', async () => {
+    const warnHandler = vi.fn()
+    const Parent = defineComponent({
+      components: {
+        'el-select': Select,
+        'el-option': Option,
+      },
+      setup() {
+        const showFirst = ref(true)
+        const showSecond = ref(true)
+        const value = ref('')
+        const options = [
+          { label: 'label-1', value: 1 },
+          { label: 'label-2', value: 2 },
+        ]
+        const hideFirst = () => {
+          showFirst.value = false
+        }
+        const hideSecond = () => {
+          showSecond.value = false
+        }
+        return {
+          showFirst,
+          showSecond,
+          value,
+          options,
+          hideFirst,
+          hideSecond,
+        }
+      },
+      template: `
+        <div>
+          <el-select v-if="showFirst" v-model="value">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+          <el-select v-if="showSecond" v-model="value">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </div>
+      `,
+    })
+
+    const wrapper = mount(Parent, {
+      attachTo: 'body',
+      global: {
+        config: {
+          warnHandler,
+        },
+        provide: {
+          namespace: 'el',
+        },
+      },
+    })
+
+    const appContext = (wrapper.vm.$ as any).appContext
+
+    expect(appContext.config.warnHandler).not.toBe(warnHandler)
+
+    wrapper.vm.hideFirst()
+    await nextTick()
+    expect(appContext.config.warnHandler).not.toBe(warnHandler)
+
+    wrapper.vm.hideSecond()
+    await nextTick()
+    expect(appContext.config.warnHandler).toBe(warnHandler)
+
+    wrapper.unmount()
   })
 })
