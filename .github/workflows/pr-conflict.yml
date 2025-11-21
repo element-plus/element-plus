@@ -31,6 +31,7 @@ jobs:
       - name: Remove conflict pending label
         if: |
           github.repository_owner == 'element-plus' &&
+          contains(github.event.pull_request.labels.*.name, 'conflict pending') &&
           github.event.pull_request.mergeable
         uses: actions-cool/issues-helper@v3
         with:
