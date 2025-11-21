@@ -14,8 +14,8 @@ import DropdownItem from '../src/dropdown-item.vue'
 import DropdownMenu from '../src/dropdown-menu.vue'
 import dropdownSubMenu from '../src/dropdown-sub-menu.vue'
 
-const MOUSE_ENTER_EVENT = 'mouseenter'
-const MOUSE_LEAVE_EVENT = 'mouseleave'
+const MOUSE_ENTER_EVENT = 'pointerenter'
+const MOUSE_LEAVE_EVENT = 'pointerleave'
 const CONTEXTMENU = 'contextmenu'
 
 const _mount = (template: string, data, otherObj?) =>
@@ -66,14 +66,14 @@ describe('Dropdown', () => {
     expect(content.open).toBe(false)
 
     vi.useFakeTimers()
-    await triggerElm.trigger(MOUSE_ENTER_EVENT)
+    await triggerElm.trigger(MOUSE_ENTER_EVENT, { pointerType: 'mouse' })
     vi.runAllTimers()
     vi.useRealTimers()
     await rAF()
     expect(content.open).toBe(true)
 
     vi.useFakeTimers()
-    await triggerElm.trigger(MOUSE_LEAVE_EVENT)
+    await triggerElm.trigger(MOUSE_LEAVE_EVENT, { pointerType: 'mouse' })
     vi.runAllTimers()
     vi.useRealTimers()
     await rAF()
@@ -114,8 +114,11 @@ describe('Dropdown', () => {
     await nextTick()
     // const content = wrapper.findComponent({ ref: 'b' }).vm as any
     const triggerElm = wrapper.find('.el-tooltip__trigger')
-    await triggerElm.trigger(MOUSE_ENTER_EVENT)
-    await nextTick()
+    vi.useFakeTimers()
+    await triggerElm.trigger(MOUSE_ENTER_EVENT, { pointerType: 'mouse' })
+    vi.runAllTimers()
+    vi.useRealTimers()
+    await rAF()
     await wrapper
       .findComponent({ ref: 'c' })
       .findComponent({
@@ -157,7 +160,11 @@ describe('Dropdown', () => {
     >
     const triggerElm = wrapper.find('.el-dropdown-link')
     expect(content.open).toBe(false)
-    await triggerElm.trigger(MOUSE_ENTER_EVENT)
+    vi.useFakeTimers()
+    await triggerElm.trigger(MOUSE_ENTER_EVENT, { pointerType: 'mouse' })
+    vi.runAllTimers()
+    vi.useRealTimers()
+    await rAF()
     expect(content.open).toBe(false)
     await triggerElm.trigger('click')
     expect(content.open).toBe(true)
@@ -370,7 +377,7 @@ describe('Dropdown', () => {
     await button.trigger('click')
     expect(handleClick).toHaveBeenCalled()
     vi.useFakeTimers()
-    await triggerElm.trigger(MOUSE_ENTER_EVENT)
+    await triggerElm.trigger(MOUSE_ENTER_EVENT, { pointerType: 'mouse' })
     vi.runAllTimers()
     vi.useRealTimers()
     await rAF()
@@ -406,7 +413,7 @@ describe('Dropdown', () => {
     expect(content.open).toBe(false)
     const triggerElm = wrapper.find('.el-tooltip__trigger')
     vi.useFakeTimers()
-    await triggerElm.trigger(MOUSE_ENTER_EVENT)
+    await triggerElm.trigger(MOUSE_ENTER_EVENT, { pointerType: 'mouse' })
     vi.runAllTimers()
     vi.useRealTimers()
     await rAF()
@@ -484,9 +491,9 @@ describe('Dropdown', () => {
     expect(content.open).toBe(false)
 
     vi.useFakeTimers()
-    await triggerElm.trigger(MOUSE_ENTER_EVENT)
-    await triggerElm.trigger(MOUSE_LEAVE_EVENT)
-    await triggerElm.trigger(MOUSE_ENTER_EVENT)
+    await triggerElm.trigger(MOUSE_ENTER_EVENT, { pointerType: 'mouse' })
+    await triggerElm.trigger(MOUSE_LEAVE_EVENT, { pointerType: 'mouse' })
+    await triggerElm.trigger(MOUSE_ENTER_EVENT, { pointerType: 'mouse' })
     vi.runAllTimers()
     vi.useRealTimers()
     await rAF()
@@ -584,7 +591,7 @@ describe('Dropdown', () => {
     expect(content.open).toBe(false)
 
     vi.useFakeTimers()
-    await triggerElm.trigger(MOUSE_ENTER_EVENT)
+    await triggerElm.trigger(MOUSE_ENTER_EVENT, { pointerType: 'mouse' })
     vi.runAllTimers()
     vi.useRealTimers()
     await rAF()
@@ -853,7 +860,7 @@ describe('Dropdown', () => {
       const content = wrapper.findComponent(ElTooltip)
 
       vi.useFakeTimers()
-      await trigger.trigger(MOUSE_ENTER_EVENT)
+      await trigger.trigger(MOUSE_ENTER_EVENT, { pointerType: 'mouse' })
       vi.runAllTimers()
       vi.useRealTimers()
       await rAF()
@@ -876,7 +883,7 @@ describe('Dropdown', () => {
       await sleep()
       expect(subMenuTrigger.classes()).not.toContain('is-selected')
 
-      await trigger.trigger(MOUSE_LEAVE_EVENT)
+      await trigger.trigger(MOUSE_LEAVE_EVENT, { pointerType: 'mouse' })
       await sleep()
       expect(content.vm.open).toBe(false)
 
@@ -1105,13 +1112,13 @@ describe('Dropdown', () => {
     vi.useFakeTimers()
     const triggerElm = wrapper.find('.el-tooltip__trigger')
     expect(content.open).toBe(false)
-    await triggerElm.trigger(MOUSE_ENTER_EVENT)
+    await triggerElm.trigger(MOUSE_ENTER_EVENT, { pointerType: 'mouse' })
     vi.runAllTimers()
     await nextTick()
     expect(content.open).toBe(true)
 
     const menu = wrapper.findComponent({ ref: 'menu' })
-    await menu.trigger(MOUSE_ENTER_EVENT)
+    await menu.trigger(MOUSE_ENTER_EVENT, { pointerType: 'mouse' })
 
     const item = wrapper
       .findComponent({ ref: 'item' })
@@ -1123,7 +1130,7 @@ describe('Dropdown', () => {
     vi.advanceTimersByTime(100)
     expect(content.open).toBe(false)
 
-    await triggerElm.trigger(MOUSE_ENTER_EVENT)
+    await triggerElm.trigger(MOUSE_ENTER_EVENT, { pointerType: 'mouse' })
     vi.runAllTimers()
     await nextTick()
     expect(content.open).toBe(true)
@@ -1375,7 +1382,7 @@ describe('Dropdown', () => {
       await nextTick()
 
       const trigger = wrapper.find('.el-tooltip__trigger')
-      await trigger.trigger(MOUSE_ENTER_EVENT)
+      await trigger.trigger(MOUSE_ENTER_EVENT, { pointerType: 'mouse' })
 
       const subMenu = wrapper.findComponent({ ref: 'subMenu' })
       const subMenuTrigger = subMenu.find('.el-dropdown-menu__item')
