@@ -6,7 +6,7 @@
     v-bind="$attrs"
     :virtual-triggering="virtualTriggering"
     :virtual-ref="virtualRef"
-    :popper-class="`${ns.namespace.value}-popover`"
+    :popper-class="kls"
     :popper-style="style"
     :teleported="teleported"
     :fallback-placements="['bottom', 'top', 'right', 'left']"
@@ -94,6 +94,10 @@ const style = computed(() => {
   return {
     width: addUnit(props.width),
   }
+})
+
+const kls = computed(() => {
+  return [`${ns.namespace.value}-popover`, props.popperClass!]
 })
 
 const confirm = (e: MouseEvent) => {

@@ -64,6 +64,10 @@ export const popconfirmProps = buildProps({
     default: 200,
   },
   /**
+   * @description custom class name for popover
+   */
+  popperClass: useTooltipContentProps.popperClass,
+  /**
    * @description Tooltip theme, built-in theme: `dark` / `light`
    */
   effect: {

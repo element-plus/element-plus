@@ -59,7 +59,9 @@ export const useTooltipContentProps = buildProps({
   /**
    * @description safe node
    */
-  safeNode: definePropType<Array<Element | string> | null>(Array),
+  safeNode: {
+    type: definePropType<Array<HTMLElement | string> | null>(Array),
+  },
   ...useAriaProps(['ariaLabel']),
 } as const)
 

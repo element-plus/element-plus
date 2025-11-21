@@ -40,6 +40,7 @@
       :z-index="zIndex"
       :append-to="appendTo"
       :loop="loop"
+      :safe-node="safeNode"
     >
       <slot name="content">
         <span v-if="rawContent" v-html="content" />
