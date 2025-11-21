@@ -28,11 +28,48 @@ jobs:
   remove-label:
     runs-on: ubuntu-latest
     steps:
+      - name: Poll mergeable until ready
+        id: poll
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+
+        # Polling for 15 seconds
+        run: |
+          echo "Polling mergeable for PR #$PR_NUMBER ..."
+
+          for i in {1..3}; do
+            resp=$(gh api "repos/$REPO/pulls/$PR_NUMBER" --jq '{mergeable}')
+            mergeable=$(echo "$resp" | jq -r '.mergeable')
+
+            echo "Check $i: mergeable=$mergeable"
+
+            # mergeable is ready
+            if [ "$mergeable" != "null" ]; then
+              echo "mergeable=$mergeable" >> $GITHUB_OUTPUT
+              exit 0
+            fi
+
+            sleep 5
+          done
+
+          echo "mergeable=null" >> $GITHUB_OUTPUT
+          echo "Timeout: mergeable never resolved."
+          exit 0
+
+      # Log final values (debug)
+      - name: Log mergeable results
+        run: |
+          echo "mergeable: ${{ steps.poll.outputs.mergeable }}"
+          echo "pull_request.mergeable: ${{ github.event.pull_request.mergeable }}"
+          echo "pull_request.mergeable_state: ${{ github.event.pull_request.mergeable_state }}"
+
       - name: Remove conflict pending label
         if: |
           github.repository_owner == 'element-plus' &&
           contains(github.event.pull_request.labels.*.name, 'conflict pending') &&
-          github.event.pull_request.mergeable
+          steps.poll.outputs.mergeable == 'true'
         uses: actions-cool/issues-helper@v3
         with:
           actions: 'remove-labels'
