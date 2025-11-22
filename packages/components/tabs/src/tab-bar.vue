@@ -37,7 +37,9 @@ const barStyle = ref<CSSProperties>()
  * to avoid the bar showing in the wrong position on initial render.
  */
 const renderActiveBar = computed(
-  () => !rootTabs.props.defaultValue || Boolean(barStyle.value?.transform)
+  () =>
+    isUndefined(rootTabs.props.defaultValue) ||
+    Boolean(barStyle.value?.transform)
 )
 
 const getBarStyle = (): CSSProperties => {
