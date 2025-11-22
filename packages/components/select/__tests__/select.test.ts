@@ -4117,6 +4117,7 @@ describe('Select', () => {
 
     wrapper.unmount()
   })
+
   test('limitReached: hovering via DOM event should not update index nor add class', async () => {
     wrapper = _mount(
       `
@@ -4146,5 +4147,65 @@ describe('Select', () => {
     await nextTick()
     expect(selectVm.states.hoveringIndex).toBe(0)
     expect(Array.from(optionEls[1].classList)).not.toContain('is-hovering')
+  })
+
+  test('should trigger visible-change when dropdownMenuVisible changes', async () => {
+    const handleVisibleChange = vi.fn()
+    wrapper = mount({
+      template: `
+      <el-select
+        v-model="value"
+        remote
+        :remote-method="remoteMethod"
+        :loading="loading"
+        @visible-change="handleVisibleChange"
+      >
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item"
+        />
+      </el-select>`,
+      components: { ElSelect: Select, ElOption: Option },
+      data() {
+        return {
+          options: [],
+          value: [],
+          list: [],
+          loading: false,
+          states: ['Alabama', 'Alaska'],
+          handleVisibleChange,
+        }
+      },
+      mounted() {
+        this.list = this.states.map((item) => {
+          return { value: `value:${item}`, label: `label:${item}` }
+        })
+      },
+      methods: {
+        remoteMethod(query) {
+          if (query !== '') {
+            this.loading = true
+            setTimeout(() => {
+              this.loading = false
+              this.options = this.list.filter((item) => {
+                return item.label.toLowerCase().includes(query.toLowerCase())
+              })
+            }, 200)
+          } else {
+            this.options = []
+          }
+        },
+      },
+    })
+
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    expect(handleVisibleChange).not.toHaveBeenCalled()
+    await input.setValue('label:Alabama')
+    expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+    await input.trigger('blur')
+    expect(handleVisibleChange).toHaveBeenCalledTimes(2)
   })
 })

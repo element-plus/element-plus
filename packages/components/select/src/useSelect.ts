@@ -309,7 +309,6 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
         states.previousQuery = null
         states.isBeforeHide = true
       }
-      emit('visible-change', val)
     }
   )
 
@@ -902,6 +901,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
         stop?.()
         stop = undefined
       }
+      emit('visible-change', newVal)
     }
   )
 

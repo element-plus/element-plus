@@ -893,7 +893,6 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
       states.isBeforeHide = true
       createNewOption('')
     }
-    emit('visible-change', val)
   })
 
   watch(
@@ -990,6 +989,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
         stop?.()
         stop = undefined
       }
+      emit('visible-change', newVal)
     }
   )
 
