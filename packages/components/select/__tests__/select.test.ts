@@ -4292,7 +4292,10 @@ describe('Select', () => {
     selectVm.navigateOptions('prev')
     expect(selectVm.states.hoveringIndex).toBe(4)
 
-    await input.trigger('keydown.enter')
+    await input.trigger('keydown', {
+      code: EVENT_CODE.enter,
+      key: EVENT_CODE.enter,
+    })
     await nextTick()
     expect(vm.value).toStrictEqual(['j'])
   })
