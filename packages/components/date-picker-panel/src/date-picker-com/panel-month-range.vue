@@ -62,10 +62,10 @@
                   drpNs.e('header-label'),
                   { active: leftCurrentView === 'year' },
                 ]"
-                @keydown.enter="toggleLeftYearPicker"
-                @click="toggleLeftYearPicker"
+                @keydown.enter="togglePicker('left')"
+                @click="togglePicker('left')"
               >
-                {{ leftHeaderLabel }}
+                {{ leftLabel }}
               </span>
             </div>
           </div>
@@ -130,10 +130,10 @@
                   drpNs.e('header-label'),
                   { active: rightCurrentView === 'year' },
                 ]"
-                @keydown.enter="toggleRightYearPicker"
-                @click="toggleRightYearPicker"
+                @keydown.enter="togglePicker('right')"
+                @click="togglePicker('right')"
               >
-                {{ rightHeaderLabel }}
+                {{ rightLabel }}
               </span>
             </div>
           </div>
@@ -201,7 +201,7 @@ const props = defineProps(panelMonthRangeProps)
 const emit = defineEmits(panelMonthRangeEmits)
 const unit = 'year'
 
-const { lang, t } = useLocale()
+const { lang } = useLocale()
 const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
 const isDefaultFormat = inject(
   ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY,
@@ -213,9 +213,6 @@ const defaultValue = toRef(pickerBase.props, 'defaultValue')
 const parsedRangeValue = toRef(props, 'parsedValue')
 const leftDate = ref(dayjs().locale(lang.value))
 const rightDate = ref(dayjs().locale(lang.value).add(1, unit))
-
-const leftCurrentView = ref<'month' | 'year'>('month')
-const rightCurrentView = ref<'month' | 'year'>('month')
 
 const {
   minDate,
@@ -244,12 +241,15 @@ const {
   rightNextYear,
   leftNextYear,
   rightPrevYear,
+  togglePicker,
   leftLabel,
   rightLabel,
   leftYear,
   rightYear,
+  leftCurrentView,
+  rightCurrentView,
 } = useMonthRangeHeader({
-  unlinkPanels: toRef(props, 'unlinkPanels'),
+  props,
   leftDate,
   rightDate,
 })
@@ -257,37 +257,6 @@ const {
 const enableYearArrow = computed(() => {
   return props.unlinkPanels && rightYear.value > leftYear.value + 1
 })
-
-const buildYearRangeLabel = (year: number) => {
-  const startYear = Math.floor(year / 10) * 10
-  const endYear = startYear + 9
-  const yearTranslation = t('el.datepicker.year')
-  return yearTranslation
-    ? `${startYear} ${yearTranslation} - ${endYear} ${yearTranslation}`
-    : `${startYear} - ${endYear}`
-}
-
-const leftHeaderLabel = computed(() =>
-  leftCurrentView.value === 'year'
-    ? buildYearRangeLabel(leftYear.value)
-    : leftLabel.value
-)
-
-const rightHeaderLabel = computed(() =>
-  rightCurrentView.value === 'year'
-    ? buildYearRangeLabel(rightYear.value)
-    : rightLabel.value
-)
-
-const toggleLeftYearPicker = () => {
-  if (props.disabled) return
-  leftCurrentView.value = leftCurrentView.value === 'year' ? 'month' : 'year'
-}
-
-const toggleRightYearPicker = () => {
-  if (props.disabled) return
-  rightCurrentView.value = rightCurrentView.value === 'year' ? 'month' : 'year'
-}
 
 const updatePanelYear = (panel: 'left' | 'right', year: number) => {
   if (props.disabled) return
