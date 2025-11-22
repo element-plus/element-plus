@@ -333,7 +333,7 @@ table-v2/manual-scroll
 
 ### TableV2 Slots
 
-| Name        | Params                                      |
+| Name        | Type                                        |
 | ----------- | ------------------------------------------- |
 | cell        | `object`\<[CellSlotProps](#typings)\>       |
 | header      | `object`\<[HeaderSlotProps](#typings)\>     |

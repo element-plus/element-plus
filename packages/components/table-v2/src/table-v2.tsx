@@ -309,9 +309,7 @@ const TableV2 = defineComponent({
         props.class,
         ns.b(),
         ns.e('root'),
-        {
-          [ns.is('dynamic')]: unref(isDynamic),
-        },
+        ns.is('dynamic', unref(isDynamic)),
       ]
 
       const footerProps = {

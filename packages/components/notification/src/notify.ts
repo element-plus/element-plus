@@ -84,8 +84,8 @@ const notify: NotifyFn & Partial<Notify> = function (options = {}, context) {
     isFunction(props.message)
       ? props.message
       : isVNode(props.message)
-      ? () => props.message
-      : null
+        ? () => props.message
+        : null
   )
   vm.appContext = isUndefined(context) ? notify._context : context
 

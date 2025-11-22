@@ -54,6 +54,12 @@ export const tabsProps = buildProps({
     type: [String, Number],
   },
   /**
+   * @description initial value when `model-value` is not set
+   */
+  defaultValue: {
+    type: [String, Number],
+  },
+  /**
    * @description whether Tab is addable and closable
    */
   editable: Boolean,
@@ -78,6 +84,13 @@ export const tabsProps = buildProps({
    * @description whether width of tab automatically fits its container
    */
   stretch: Boolean,
+  /**
+   * @description tabs tabindex
+   */
+  tabindex: {
+    type: [String, Number],
+    default: 0,
+  },
 } as const)
 export type TabsProps = ExtractPropTypes<typeof tabsProps>
 export type TabsPropsPublic = __ExtractPublicPropTypes<typeof tabsProps>
@@ -119,7 +132,10 @@ const Tabs = defineComponent({
     } = useOrderedChildren<TabsPaneContext>(getCurrentInstance()!, 'ElTabPane')
 
     const nav$ = ref<TabNavInstance>()
-    const currentName = ref<TabPaneName>(props.modelValue ?? '0')
+    const currentName = ref<TabPaneName>(
+      (isUndefined(props.modelValue) ? props.defaultValue : props.modelValue) ??
+        '0'
+    )
 
     const setCurrentName = async (value?: TabPaneName, trigger = false) => {
       // should do nothing.
@@ -202,6 +218,15 @@ const Tabs = defineComponent({
       (modelValue) => setCurrentName(modelValue)
     )
 
+    watch(
+      () => props.defaultValue,
+      (defaultValue) => {
+        if (isUndefined(props.modelValue)) {
+          setCurrentName(defaultValue)
+        }
+      }
+    )
+
     watch(currentName, async () => {
       await nextTick()
       nav$.value?.scrollToActiveTab()
@@ -231,7 +256,7 @@ const Tabs = defineComponent({
               ns.e('new-tab'),
               isVertical.value && ns.e('new-tab-vertical'),
             ]}
-            tabindex="0"
+            tabindex={props.tabindex}
             onClick={handleTabAdd}
             onKeydown={handleKeydown}
           >

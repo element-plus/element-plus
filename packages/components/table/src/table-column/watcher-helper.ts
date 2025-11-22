@@ -60,6 +60,7 @@ function useWatcher<T extends DefaultRow>(
       'filterClassName',
       'showOverflowTooltip',
       'tooltipFormatter',
+      'resizable',
     ]
     const parentProps = ['showOverflowTooltip']
     const aliases: Record<string, string> = {

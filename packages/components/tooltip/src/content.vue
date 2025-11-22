@@ -33,6 +33,7 @@
         :trigger-target-el="triggerTargetEl"
         :visible="shouldShow"
         :z-index="zIndex"
+        :loop="loop"
         @mouseenter="onContentEnter"
         @mouseleave="onContentLeave"
         @blur="onBlur"
@@ -57,6 +58,7 @@ import { ElPopperContent } from '@element-plus/components/popper'
 import ElTeleport from '@element-plus/components/teleport'
 import { TOOLTIP_INJECTION_KEY } from './constants'
 import { useTooltipContentProps } from './content'
+import { isTriggerType } from './utils'
 
 import type { PopperContentInstance } from '@element-plus/components/popper'
 
@@ -91,8 +93,11 @@ const transitionClass = computed(() => {
 const persistentRef = computed(() => {
   // For testing, we would always want the content to be rendered
   // to the DOM, so we need to return true here.
-  if (process.env.NODE_ENV === 'test') {
-    if (!process.env.RUN_TEST_WITH_PERSISTENT) {
+  if (typeof process !== 'undefined') {
+    if (
+      process.env.NODE_ENV === 'test' &&
+      !process.env.RUN_TEST_WITH_PERSISTENT
+    ) {
       return true
     }
   }
@@ -130,13 +135,13 @@ const stopWhenControlled = () => {
 }
 
 const onContentEnter = composeEventHandlers(stopWhenControlled, () => {
-  if (props.enterable && unref(trigger) === 'hover') {
+  if (props.enterable && isTriggerType(unref(trigger), 'hover')) {
     onOpen()
   }
 })
 
 const onContentLeave = composeEventHandlers(stopWhenControlled, () => {
-  if (unref(trigger) === 'hover') {
+  if (isTriggerType(unref(trigger), 'hover')) {
     onClose()
   }
 })
@@ -175,15 +180,19 @@ watch(
       stopHandle?.()
     } else {
       ariaHidden.value = false
-      stopHandle = onClickOutside(popperContentRef, () => {
-        if (unref(controlled)) return
-        const needClose = castArray(unref(trigger)).every((item) => {
-          return item !== 'hover' && item !== 'focus'
-        })
-        if (needClose) {
-          onClose()
-        }
-      })
+      stopHandle = onClickOutside(
+        popperContentRef,
+        () => {
+          if (unref(controlled)) return
+          const needClose = castArray(unref(trigger)).every((item) => {
+            return item !== 'hover' && item !== 'focus'
+          })
+          if (needClose) {
+            onClose()
+          }
+        },
+        { detectIframe: true }
+      )
     }
   },
   {

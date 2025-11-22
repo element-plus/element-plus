@@ -193,14 +193,17 @@ function useRender<T extends DefaultRow>(
     return column
   }
   const getPropsData = (...propsKey: string[][]) => {
-    return propsKey.reduce((prev, cur) => {
-      if (isArray(cur)) {
-        cur.forEach((key) => {
-          prev[key] = props[key as keyof TableColumnCtx<T>]
-        })
-      }
-      return prev
-    }, {} as Record<string, any>)
+    return propsKey.reduce(
+      (prev, cur) => {
+        if (isArray(cur)) {
+          cur.forEach((key) => {
+            prev[key] = props[key as keyof TableColumnCtx<T>]
+          })
+        }
+        return prev
+      },
+      {} as Record<string, any>
+    )
   }
   const getColumnElIndex = (children: T[], child: RendererNode | null) => {
     return Array.prototype.indexOf.call(children, child)

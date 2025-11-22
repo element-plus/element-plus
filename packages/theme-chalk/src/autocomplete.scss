@@ -56,9 +56,7 @@
     font-size: getCssVar('font-size', 'base');
     list-style: none;
     text-align: left;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    @include utils-ellipsis;
 
     &:hover {
       background-color: map.get($select-option, 'hover-background');
@@ -80,13 +78,14 @@
 
   @include when(loading) {
     li {
-      text-align: center;
       cursor: default;
       height: 100px;
-      line-height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
       font-size: 20px;
       color: getCssVar('text-color', 'secondary');
-      @include utils-vertical-center;
 
       &:hover {
         background-color: getCssVar('bg-color', 'overlay');

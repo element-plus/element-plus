@@ -8,7 +8,7 @@
     :aria-label="!isLabeledByFormItem ? ariaLabel || 'segmented' : undefined"
     :aria-labelledby="isLabeledByFormItem ? formItem!.labelId : undefined"
   >
-    <div :class="[ns.e('group'), ns.m(props.direction)]">
+    <div :class="[ns.e('group'), ns.m(direction)]">
       <div :style="selectedStyle" :class="selectedCls" />
       <label
         v-for="(item, index) in options"

@@ -6,21 +6,21 @@ import type { ExtractPropTypes, ToRefs } from 'vue'
 
 export const useDelayedToggleProps = buildProps({
   /**
-   * @description delay of appearance, in millisecond
+   * @description delay of appearance, in millisecond, not valid in controlled mode
    */
   showAfter: {
     type: Number,
     default: 0,
   },
   /**
-   * @description delay of disappear, in millisecond
+   * @description delay of disappear, in millisecond, not valid in controlled mode
    */
   hideAfter: {
     type: Number,
     default: 200,
   },
   /**
-   * @description disappear automatically, in millisecond
+   * @description disappear automatically, in millisecond, not valid in controlled mode
    */
   autoClose: {
     type: Number,

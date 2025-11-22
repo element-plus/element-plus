@@ -11,6 +11,13 @@ export default {
       description:
         'လက်ရှိအရောင်မှာ {color} ဖြစ်ပါသည်။ တခြားအရောင်ကိုရွေးချယ်လိုပါက enter ကိုနှိပ်ပါ။',
       alphaLabel: 'alpha တန်ဖိုးကို ရွေးချယ်ပါ',
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
+      svLabel: 'pick saturation and brightness value', // to be translated
+      svDescription:
+        'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
+      predefineDescription: 'select {value} as the color', // to be translated
     },
     datepicker: {
       now: 'ယခု',

@@ -23,7 +23,8 @@
     height: 2px;
     background-color: getCssVar('color-primary');
     z-index: 1;
-    transition: width getCssVar('transition-duration')
+    transition:
+      width getCssVar('transition-duration')
         getCssVar('transition-function-ease-in-out-bezier'),
       transform getCssVar('transition-duration')
         getCssVar('transition-function-ease-in-out-bezier');
@@ -233,7 +234,8 @@
       margin-top: -1px;
       border-bottom: 1px solid transparent;
       border-left: 1px solid getCssVar('border-color-light');
-      transition: color getCssVar('transition-duration')
+      transition:
+        color getCssVar('transition-duration')
           getCssVar('transition-function-ease-in-out-bezier'),
         padding getCssVar('transition-duration')
           getCssVar('transition-function-ease-in-out-bezier');
