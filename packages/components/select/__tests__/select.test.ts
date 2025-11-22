@@ -1169,11 +1169,11 @@ describe('Select', () => {
     const selectVm = select.vm as any
     const input = select.find('input')
     await input.trigger('click')
-    expect(selectVm.states.hoveringIndex).toBe(0)
-    selectVm.navigateOptions('next')
     expect(selectVm.states.hoveringIndex).toBe(1)
     selectVm.navigateOptions('next')
     expect(selectVm.states.hoveringIndex).toBe(0)
+    selectVm.navigateOptions('next')
+    expect(selectVm.states.hoveringIndex).toBe(1)
   })
 
   test('clearable', async () => {
@@ -3955,6 +3955,90 @@ describe('Select', () => {
     expect(vm.value).toBe(1)
   })
 
+  test('hoveringIndex should stay on the most recently selected option when using multiple', async () => {
+    wrapper = _mount(
+      `<el-select
+        v-model="value"
+        clearable
+        multiple
+      >
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value"
+        />
+      </el-select>`,
+      () => ({
+        options: [
+          {
+            value: 1,
+            label: 'Option 1',
+          },
+          {
+            value: 2,
+            label: 'Option 2',
+          },
+          {
+            value: 3,
+            label: 'Option 3',
+          },
+          {
+            value: 4,
+            label: 'Option 4',
+          },
+          {
+            value: 5,
+            label: 'Option 5',
+          },
+        ],
+        value: [1, 2],
+      })
+    )
+
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const selectVm = select.vm as any
+    const input = wrapper.find('input')
+
+    await input.trigger('click')
+    expect(selectVm.states.hoveringIndex).toBe(1)
+  })
+
+  test('should locate the most recently selected option when using multiple', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="value" :teleported="false" multiple>
+        <el-option
+          v-for="{ label, value } in options"
+          :key="value"
+          :label="label"
+          :value="value"
+        />
+      </el-select>`,
+      () => ({
+        options: Array.from({ length: 10 }).map((_, i) => ({
+          label: `label-${i}`,
+          value: i,
+        })),
+        value: [1, 9],
+      })
+    )
+
+    const wrapEl = wrapper.find('.el-select-dropdown__wrap').element
+    const optionEls = wrapper.findAll('.el-select-dropdown__item')
+    const cleanup = optionEls.map((item, i) =>
+      vi.spyOn(item.element, 'offsetTop', 'get').mockReturnValue(i * 30)
+    )
+    cleanup.push(
+      vi.spyOn(wrapEl, 'clientHeight', 'get').mockReturnValue(5 * 30)
+    )
+
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    expect(wrapEl.scrollTop).toBe(4 * 30)
+    cleanup.forEach((fn) => fn())
+  })
+
   test('should restore warn handler after the last select unmounts', async () => {
     const warnHandler = vi.fn()
     const Parent = defineComponent({
@@ -4032,5 +4116,96 @@ describe('Select', () => {
     expect(appContext.config.warnHandler).toBe(warnHandler)
 
     wrapper.unmount()
+  })
+
+  test('limitReached: hovering via DOM event should not update index nor add class', async () => {
+    wrapper = _mount(
+      `
+    <el-select v-model="value" multiple :multiple-limit="1">
+      <el-option v-for="o in options" :key="o.value" :label="o.label" :value="o.value" />
+    </el-select>
+    `,
+      () => ({
+        value: [],
+        options: [
+          { value: '选项1', label: '黄金糕' },
+          { value: '选项2', label: '双皮奶' },
+          { value: '选项3', label: '蚵仔煎' },
+        ],
+      })
+    )
+
+    const selectVm = wrapper.findComponent({ name: 'ElSelect' }).vm as any
+    await wrapper.find('.el-select__wrapper').trigger('click')
+    await nextTick()
+    const optionCmps = wrapper.findAllComponents({ name: 'ElOption' })
+    await optionCmps[0].trigger('click')
+    await nextTick()
+    selectVm.states.hoveringIndex = 0
+    const optionEls = getOptions()
+    await optionCmps[1].trigger('mousemove')
+    await nextTick()
+    expect(selectVm.states.hoveringIndex).toBe(0)
+    expect(Array.from(optionEls[1].classList)).not.toContain('is-hovering')
+  })
+
+  test('should trigger visible-change when dropdownMenuVisible changes', async () => {
+    const handleVisibleChange = vi.fn()
+    wrapper = mount({
+      template: `
+      <el-select
+        v-model="value"
+        remote
+        :remote-method="remoteMethod"
+        :loading="loading"
+        @visible-change="handleVisibleChange"
+      >
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item"
+        />
+      </el-select>`,
+      components: { ElSelect: Select, ElOption: Option },
+      data() {
+        return {
+          options: [],
+          value: [],
+          list: [],
+          loading: false,
+          states: ['Alabama', 'Alaska'],
+          handleVisibleChange,
+        }
+      },
+      mounted() {
+        this.list = this.states.map((item) => {
+          return { value: `value:${item}`, label: `label:${item}` }
+        })
+      },
+      methods: {
+        remoteMethod(query) {
+          if (query !== '') {
+            this.loading = true
+            setTimeout(() => {
+              this.loading = false
+              this.options = this.list.filter((item) => {
+                return item.label.toLowerCase().includes(query.toLowerCase())
+              })
+            }, 200)
+          } else {
+            this.options = []
+          }
+        },
+      },
+    })
+
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    expect(handleVisibleChange).not.toHaveBeenCalled()
+    await input.setValue('label:Alabama')
+    expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+    await input.trigger('blur')
+    expect(handleVisibleChange).toHaveBeenCalledTimes(2)
   })
 })

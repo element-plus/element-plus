@@ -314,7 +314,7 @@ select-v2/custom-width
 
 ### Slots
 
-| Name             | Description                                                                                     | Subtags                                                                                                        |
+| Name             | Description                                                                                     | Type                                                                                                           |
 | ---------------- | ----------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
 | default          | Option renderer                                                                                 | —                                                                                                              |
 | header ^(2.5.2)  | content at the top of the dropdown                                                              | —                                                                                                              |

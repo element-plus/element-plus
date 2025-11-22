@@ -2574,4 +2574,84 @@ describe('Select', () => {
     await input.trigger('click')
     expect(selectVm.dropdownMenuVisible).toBeTruthy()
   })
+
+  it('hoveringIndex should stay on the most recently selected option when using multiple', async () => {
+    const wrapper = createSelect({
+      data() {
+        return {
+          multiple: true,
+          options: [
+            {
+              value: 1,
+              label: 'option 1',
+            },
+            {
+              value: 2,
+              label: 'option 2',
+            },
+            {
+              value: 3,
+              label: 'option 3',
+            },
+            {
+              value: 4,
+              label: 'option 4',
+            },
+            {
+              value: 5,
+              label: 'option 5',
+            },
+          ],
+          value: [1, 2],
+        }
+      },
+    })
+
+    const select = wrapper.findComponent(Select)
+    const selectVm = select.vm as any
+    const input = wrapper.find('input')
+
+    await input.trigger('click')
+    expect(selectVm.states.hoveringIndex).toBe(1)
+  })
+
+  it('should trigger visible-change when dropdownMenuVisible changes', async () => {
+    const states = ['Alabama', 'Alaska']
+    const list = states.map((item): ListItem => {
+      return { value: `value:${item}`, label: `label:${item}` }
+    })
+    const options = ref([])
+    const handleVisibleChange = vi.fn()
+    const remoteMethod = (query: string) => {
+      if (query !== '') {
+        options.value = list.filter((item) => {
+          return item.label.toLowerCase().includes(query.toLowerCase())
+        })
+      } else {
+        options.value = []
+      }
+    }
+    const wrapper = createSelect({
+      data() {
+        return {
+          filterable: true,
+          remote: true,
+          options,
+          value: [],
+        }
+      },
+      methods: {
+        remoteMethod,
+        onVisibleChange: handleVisibleChange,
+      },
+    })
+
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    expect(handleVisibleChange).not.toHaveBeenCalled()
+    await input.setValue('label:Alabama')
+    expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+    await input.trigger('blur')
+    expect(handleVisibleChange).toHaveBeenCalledTimes(2)
+  })
 })
