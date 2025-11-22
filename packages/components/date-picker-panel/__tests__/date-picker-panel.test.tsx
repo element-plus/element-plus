@@ -560,6 +560,33 @@ describe('DatePickerPanel', () => {
       expect(endDate.text()).toBe('Oct')
     })
 
+    it('should increase year by 10 when toggling view on monthrange', async () => {
+      const wrapper = mount(() => (
+        <DatePickerPanel defaultValue={new Date(2000, 0)} type="monthrange" />
+      ))
+      await nextTick()
+      const pickerss = wrapper.findAll('.el-picker-panel__content')
+      const leftHeader = pickerss[0].find('.el-date-range-picker__header-label')
+      const previousYearBtn = pickerss[0].find('.el-picker-panel__icon-btn')
+      const nextYearBtn = pickerss[1].find('.el-picker-panel__icon-btn')
+      const rightHeader = pickerss[1].find(
+        '.el-date-range-picker__header-label'
+      )
+
+      expect(leftHeader.text()).toBe('2000')
+      expect(rightHeader.text()).toBe('2001')
+      await leftHeader.trigger('click')
+      expect(leftHeader.text()).toBe('2000 - 2009')
+      await previousYearBtn.trigger('click')
+      expect(leftHeader.text()).toBe('1990 - 1999')
+      expect(rightHeader.text()).toBe('1991')
+      await rightHeader.trigger('click')
+      expect(rightHeader.text()).toBe('1990 - 1999')
+      await nextYearBtn.trigger('click')
+      expect(leftHeader.text()).toBe('2000 - 2009')
+      expect(rightHeader.text()).toBe('2000 - 2009')
+    })
+
     it('should append set dates when model value change on yearrange', async () => {
       const value = ref<string[]>([])
       const wrapper = mount(() => (
