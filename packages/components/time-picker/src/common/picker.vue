@@ -173,7 +173,6 @@
         @calendar-change="onCalendarChange"
         @clear="onClear"
         @panel-change="onPanelChange"
-        @update-popper="onUpdatePopper"
         @mousedown.stop
       />
     </template>
@@ -280,10 +279,6 @@ const {
   onCalendarChange,
   onPanelChange,
 } = commonPicker
-
-const onUpdatePopper = () => {
-  refPopper.value?.updatePopper()
-}
 
 const { isFocused, handleFocus, handleBlur } = useFocusController(inputRef, {
   disabled: pickerDisabled,

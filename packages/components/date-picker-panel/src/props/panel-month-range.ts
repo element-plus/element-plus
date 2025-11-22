@@ -11,7 +11,6 @@ export const panelMonthRangeEmits = [
   'pick',
   'set-picker-option',
   'calendar-change',
-  'update-popper',
 ]
 
 export type PanelMonthRangeProps = ExtractPropTypes<typeof panelMonthRangeProps>

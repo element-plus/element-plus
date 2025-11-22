@@ -2,7 +2,7 @@
   <div
     :class="[
       ppNs.b(),
-      isYearView ? dpNs.b() : drpNs.b(),
+      drpNs.b(),
       ppNs.is('border', border),
       ppNs.is('disabled', monthRangeDisabled),
       {
@@ -10,50 +10,7 @@
       },
     ]"
   >
-    <div v-if="isYearView" :class="ppNs.e('body')">
-      <div :class="[ppNs.e('content'), drpNs.e('content')]">
-        <div :class="drpNs.e('header')">
-          <button
-            type="button"
-            :class="ppNs.e('icon-btn')"
-            class="d-arrow-left"
-            :disabled="disabled"
-            @click="prevYearRange"
-          >
-            <slot name="prev-year">
-              <el-icon><d-arrow-left /></el-icon>
-            </slot>
-          </button>
-          <span :class="dpNs.e('header-label')">
-            {{ yearRangeLabel }}
-          </span>
-          <button
-            type="button"
-            :class="ppNs.e('icon-btn')"
-            class="d-arrow-right"
-            :disabled="disabled"
-            @click="nextYearRange"
-          >
-            <slot name="next-year">
-              <el-icon><d-arrow-right /></el-icon>
-            </slot>
-          </button>
-        </div>
-        <year-table
-          ref="leftCurrentViewRef"
-          selection-mode="range"
-          :date="leftCurrentView === 'year' ? leftDate : rightDate"
-          :min-date="minDate"
-          :max-date="maxDate"
-          :range-state="rangeState"
-          :disabled-date="disabledDate"
-          :disabled="disabled"
-          :cell-class-name="cellClassName"
-          @pick="handleYearRangePick"
-        />
-      </div>
-    </div>
-    <div v-else :class="ppNs.e('body-wrapper')">
+    <div :class="ppNs.e('body-wrapper')">
       <slot name="sidebar" :class="ppNs.e('sidebar')" />
       <div v-if="hasShortcuts" :class="ppNs.e('sidebar')">
         <button
@@ -67,7 +24,6 @@
           {{ shortcut.text }}
         </button>
       </div>
-
       <div :class="ppNs.e('body')">
         <div :class="[ppNs.e('content'), drpNs.e('content')]" class="is-left">
           <div :class="drpNs.e('header')">
@@ -97,19 +53,9 @@
                 <el-icon><d-arrow-right /></el-icon>
               </slot>
             </button>
-            <span
-              role="button"
-              :class="dpNs.e('header-label')"
-              aria-live="polite"
-              tabindex="0"
-              @keydown.enter="showLeftPicker('year')"
-              @click="showLeftPicker('year')"
-            >
-              {{ leftLabel }}
-            </span>
+            <div>{{ leftLabel }}</div>
           </div>
           <month-table
-            ref="leftCurrentViewRef"
             selection-mode="range"
             :date="leftDate"
             :min-date="minDate"
@@ -151,19 +97,9 @@
                 <el-icon><d-arrow-right /></el-icon>
               </slot>
             </button>
-            <span
-              role="button"
-              :class="dpNs.e('header-label')"
-              aria-live="polite"
-              tabindex="0"
-              @keydown.enter="showRightPicker('year')"
-              @click="showRightPicker('year')"
-            >
-              {{ rightLabel }}
-            </span>
+            <div>{{ rightLabel }}</div>
           </div>
           <month-table
-            ref="rightCurrentViewRef"
             selection-mode="range"
             :date="rightDate"
             :min-date="minDate"
@@ -201,7 +137,6 @@ import {
 } from '../props/panel-month-range'
 import { useMonthRangeHeader } from '../composables/use-month-range-header'
 import { useRangePicker } from '../composables/use-range-picker'
-import { usePanelDateRange } from '../composables/use-panel-date-range'
 import { ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY } from '../constants'
 import MonthTable from './basic-month-table.vue'
 import { useFormDisabled } from '@element-plus/components/form'
@@ -219,7 +154,6 @@ const unit = 'year'
 
 const { lang } = useLocale()
 const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
-const dpNs = useNamespace('date-picker')
 const isDefaultFormat = inject(
   ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY,
   undefined
@@ -253,8 +187,12 @@ const {
 const hasShortcuts = computed(() => !!shortcuts.length)
 
 const {
-  leftLabel: baseLeftLabel,
-  rightLabel: baseRightLabel,
+  leftPrevYear,
+  rightNextYear,
+  leftNextYear,
+  rightPrevYear,
+  leftLabel,
+  rightLabel,
   leftYear,
   rightYear,
 } = useMonthRangeHeader({
@@ -262,148 +200,6 @@ const {
   leftDate,
   rightDate,
 })
-
-const panelProps = {
-  ...props,
-  type: 'monthrange' as const,
-  showNow: true,
-  showWeekNumber: false,
-}
-const {
-  leftCurrentView,
-  rightCurrentView,
-  leftCurrentViewRef,
-  rightCurrentViewRef,
-  showLeftPicker,
-  showRightPicker,
-} = usePanelDateRange(panelProps, emit, leftDate, rightDate)
-
-const isYearView = computed(() => {
-  return leftCurrentView.value === 'year' || rightCurrentView.value === 'year'
-})
-
-const leftPrevYear = () => {
-  const isAnyYearView =
-    leftCurrentView.value === 'year' || rightCurrentView.value === 'year'
-  const step = isAnyYearView ? 10 : 1
-  leftDate.value = leftDate.value.subtract(step, 'year')
-  if (!props.unlinkPanels) {
-    const interval = isAnyYearView ? 10 : 1
-    rightDate.value = leftDate.value.add(interval, 'year')
-  } else if (isAnyYearView) {
-    rightDate.value = leftDate.value.add(10, 'year')
-  }
-}
-
-const rightNextYear = () => {
-  const isAnyYearView =
-    leftCurrentView.value === 'year' || rightCurrentView.value === 'year'
-  const step = isAnyYearView ? 10 : 1
-  if (!props.unlinkPanels) {
-    const interval = isAnyYearView ? 10 : 1
-    leftDate.value = leftDate.value.add(step, 'year')
-    rightDate.value = leftDate.value.add(interval, 'year')
-  } else if (isAnyYearView) {
-    leftDate.value = rightDate.value.subtract(10, 'year')
-    rightDate.value = rightDate.value.add(step, 'year')
-  } else {
-    rightDate.value = rightDate.value.add(step, 'year')
-  }
-}
-
-const leftNextYear = () => {
-  const isAnyYearView =
-    leftCurrentView.value === 'year' || rightCurrentView.value === 'year'
-  const step = isAnyYearView ? 10 : 1
-  leftDate.value = leftDate.value.add(step, 'year')
-  if (!props.unlinkPanels) {
-    const interval = isAnyYearView ? 10 : 1
-    rightDate.value = leftDate.value.add(interval, 'year')
-  } else if (isAnyYearView) {
-    rightDate.value = leftDate.value.add(10, 'year')
-  }
-}
-
-const rightPrevYear = () => {
-  const isAnyYearView =
-    leftCurrentView.value === 'year' || rightCurrentView.value === 'year'
-  const step = isAnyYearView ? 10 : 1
-  rightDate.value = rightDate.value.subtract(step, 'year')
-  if (!props.unlinkPanels) {
-    const interval = isAnyYearView ? 10 : 1
-    leftDate.value = rightDate.value.subtract(interval, 'year')
-  } else if (isAnyYearView) {
-    leftDate.value = rightDate.value.subtract(10, 'year')
-  }
-}
-
-const leftLabel = computed(() => {
-  if (leftCurrentView.value === 'year') {
-    return `${leftDate.value.year()}`
-  }
-  return baseLeftLabel.value
-})
-
-const rightLabel = computed(() => {
-  if (rightCurrentView.value === 'year') {
-    return `${rightDate.value.year()}`
-  }
-  return baseRightLabel.value
-})
-
-const yearRangeLabel = computed(() => {
-  const date =
-    leftCurrentView.value === 'year' ? leftDate.value : rightDate.value
-  const startYear = Math.floor(date.year() / 10) * 10
-  return `${startYear}年-${startYear + 9}年`
-})
-
-const prevYearRange = () => {
-  const date =
-    leftCurrentView.value === 'year' ? leftDate.value : rightDate.value
-  const startYear = Math.floor(date.year() / 10) * 10
-  const newDate = date.year(startYear - 10)
-  if (leftCurrentView.value === 'year') {
-    leftDate.value = newDate
-  } else {
-    rightDate.value = newDate
-  }
-}
-
-const nextYearRange = () => {
-  const date =
-    leftCurrentView.value === 'year' ? leftDate.value : rightDate.value
-  const startYear = Math.floor(date.year() / 10) * 10
-  const newDate = date.year(startYear + 10)
-  if (leftCurrentView.value === 'year') {
-    leftDate.value = newDate
-  } else {
-    rightDate.value = newDate
-  }
-}
-
-const handleYearRangePick = (val: any) => {
-  const year = val.minDate.year()
-
-  if (leftCurrentView.value === 'year') {
-    leftDate.value = leftDate.value.year(year)
-    if (!props.unlinkPanels) {
-      const interval = 1
-      rightDate.value = leftDate.value.add(interval, 'year')
-    }
-  } else {
-    rightDate.value = rightDate.value.year(year)
-    if (!props.unlinkPanels) {
-      const interval = 1
-      leftDate.value = rightDate.value.subtract(interval, 'year')
-    }
-  }
-  leftCurrentView.value = 'month'
-  rightCurrentView.value = 'month'
-}
-
-leftCurrentView.value = 'month'
-rightCurrentView.value = 'month'
 
 const enableYearArrow = computed(() => {
   return props.unlinkPanels && rightYear.value > leftYear.value + 1
@@ -415,6 +211,10 @@ type RangePickValue = {
 }
 
 const handleRangePick = (val: RangePickValue, close = true) => {
+  // const defaultTime = props.defaultTime || []
+  // const minDate_ = modifyWithTimeString(val.minDate, defaultTime[0])
+  // const maxDate_ = modifyWithTimeString(val.maxDate, defaultTime[1])
+  // todo
   const minDate_ = val.minDate
   const maxDate_ = val.maxDate
   if (maxDate.value === maxDate_ && minDate.value === minDate_) {
@@ -458,9 +258,7 @@ function sortDates(minDate: Dayjs | undefined, maxDate: Dayjs | undefined) {
     rightDate.value =
       minDateYear === maxDateYear ? maxDate.add(1, unit) : maxDate
   } else {
-    const currentInterval = rightDate.value.diff(leftDate.value, 'year')
-    const interval = currentInterval >= 10 ? 10 : 1
-    rightDate.value = leftDate.value.add(interval, unit)
+    rightDate.value = leftDate.value.add(1, unit)
   }
 }
 
@@ -473,17 +271,8 @@ watch(
       parseValue(props.parsedValue)
       onSelect(false)
     }
-
-    if (visible) {
-      leftCurrentView.value = 'month'
-      rightCurrentView.value = 'month'
-    }
   }
 )
-
-watch(isYearView, () => {
-  emit('update-popper')
-})
 
 emit('set-picker-option', ['isValidValue', isValidRange])
 emit('set-picker-option', ['parseUserInput', parseUserInput])
