@@ -365,7 +365,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     if (props.multiple) {
       const len = (props.modelValue as []).length
       if (
-        (props.modelValue as Array<any>).length > 0 &&
+        len > 0 &&
         filteredOptionsValueMap.value.has(props.modelValue[len - 1])
       ) {
         const { index } = filteredOptionsValueMap.value.get(
@@ -760,12 +760,15 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
         return getValueKey(getValue(item)) === getValueKey(props.modelValue)
       })
     } else {
-      states.hoveringIndex = filteredOptions.value.findIndex((item) =>
-        props.modelValue.some(
-          (modelValue: unknown) =>
-            getValueKey(modelValue) === getValueKey(getValue(item))
+      const length = props.modelValue.length
+      if (length > 0) {
+        const lastValue = props.modelValue[length - 1]
+        states.hoveringIndex = filteredOptions.value.findIndex(
+          (item) => getValueKey(lastValue) === getValueKey(getValue(item))
         )
-      )
+      } else {
+        states.hoveringIndex = -1
+      }
     }
   }
 
@@ -792,7 +795,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     states.isBeforeHide = false
     return nextTick(() => {
       if (~indexRef.value) {
-        scrollToItem(states.hoveringIndex)
+        scrollToItem(indexRef.value)
       }
     })
   }
@@ -890,7 +893,6 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
       states.isBeforeHide = true
       createNewOption('')
     }
-    emit('visible-change', val)
   })
 
   watch(
@@ -972,10 +974,24 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   })
   useResizeObserver(selectRef, handleResize)
   useResizeObserver(selectionRef, resetSelectionWidth)
-  useResizeObserver(menuRef, updateTooltip)
   useResizeObserver(wrapperRef, updateTooltip)
   useResizeObserver(tagMenuRef, updateTagTooltip)
   useResizeObserver(collapseItemRef, resetCollapseItemWidth)
+
+  // #21498
+  let stop: (() => void) | undefined
+  watch(
+    () => dropdownMenuVisible.value,
+    (newVal) => {
+      if (newVal) {
+        stop = useResizeObserver(menuRef, updateTooltip).stop
+      } else {
+        stop?.()
+        stop = undefined
+      }
+      emit('visible-change', newVal)
+    }
+  )
 
   return {
     // data exports

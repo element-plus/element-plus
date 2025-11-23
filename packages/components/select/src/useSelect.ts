@@ -309,7 +309,6 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
         states.previousQuery = null
         states.isBeforeHide = true
       }
-      emit('visible-change', val)
     }
   )
 
@@ -455,11 +454,15 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   }
 
   const updateHoveringIndex = () => {
-    states.hoveringIndex = optionsArray.value.findIndex((item) =>
-      states.selected.some(
-        (selected) => getValueKey(selected) === getValueKey(item)
+    const length = states.selected.length
+    if (length > 0) {
+      const lastOption = states.selected[length - 1]
+      states.hoveringIndex = optionsArray.value.findIndex(
+        (item) => getValueKey(lastOption) === getValueKey(item)
       )
-    )
+    } else {
+      states.hoveringIndex = -1
+    }
   }
 
   const resetSelectionWidth = () => {
@@ -608,7 +611,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       | OptionPublicInstance[]
       | SelectStates['selected']
   ) => {
-    const targetOption = isArray(option) ? option[0] : option
+    const targetOption = isArray(option) ? option[option.length - 1] : option
     let target = null
 
     if (!isNil(targetOption?.value)) {
@@ -898,6 +901,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
         stop?.()
         stop = undefined
       }
+      emit('visible-change', newVal)
     }
   )
 

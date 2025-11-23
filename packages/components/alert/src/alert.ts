@@ -1,10 +1,4 @@
-import { useDelayedToggleProps } from '@element-plus/hooks'
-import {
-  TypeComponentsMap,
-  buildProps,
-  isUndefined,
-  keysOf,
-} from '@element-plus/utils'
+import { TypeComponentsMap, buildProps, keysOf } from '@element-plus/utils'
 
 import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 
@@ -57,17 +51,26 @@ export const alertProps = buildProps({
     values: alertEffects,
     default: 'light',
   },
-  ...useDelayedToggleProps,
   /**
-   * @description delay of appearance, in millisecond
+   * @deprecated Removed after 2.11.8.
+   * @description delay of appearance, in millisecond, not valid in controlled mode
    */
   showAfter: Number,
+  /**
+   * @deprecated Removed after 2.11.8.
+   * @description delay of disappear, in millisecond, not valid in controlled mode
+   */
+  hideAfter: Number,
+  /**
+   * @deprecated Removed after 2.11.8.
+   * @description disappear automatically, in millisecond, not valid in controlled mode
+   */
+  autoClose: Number,
 } as const)
 export type AlertProps = ExtractPropTypes<typeof alertProps>
 export type AlertPropsPublic = __ExtractPublicPropTypes<typeof alertProps>
 
 export const alertEmits = {
-  open: () => true,
-  close: (evt?: Event) => isUndefined(evt) || evt instanceof Event,
+  close: (evt: MouseEvent) => evt instanceof MouseEvent,
 }
 export type AlertEmits = typeof alertEmits

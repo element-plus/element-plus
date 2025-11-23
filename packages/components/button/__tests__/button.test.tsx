@@ -4,12 +4,14 @@ import { describe, expect, it, test } from 'vitest'
 import { Loading, Search } from '@element-plus/icons-vue'
 import Form from '@element-plus/components/form'
 import ConfigProvider from '@element-plus/components/config-provider'
+import { useNamespace } from '@element-plus/hooks'
 import Button from '../src/button.vue'
 import ButtonGroup from '../src/button-group.vue'
 
 import type { ComponentSize } from '@element-plus/constants'
 
 const AXIOM = 'Rem is the best girl'
+const ns = useNamespace('button')
 
 describe('Button.vue', () => {
   it('create', () => {
@@ -354,5 +356,24 @@ describe('Button Group', () => {
     await nextTick()
     await btn.trigger('click')
     expect(wrapper.emitted('click')).toHaveLength(1)
+  })
+
+  it('direction prop', async () => {
+    const wrapper = mount({
+      setup: () => () => (
+        <ButtonGroup type="warning">
+          <Button type="primary">Prev</Button>
+          <Button>Next</Button>
+        </ButtonGroup>
+      ),
+    })
+
+    expect(wrapper.classes()).toContain(ns.bm('group', 'horizontal'))
+    expect(wrapper.classes()).not.toContain(ns.bm('group', 'vertical'))
+
+    await wrapper.setProps({ direction: 'vertical' })
+
+    expect(wrapper.classes()).toContain(ns.bm('group', 'vertical'))
+    expect(wrapper.classes()).not.toContain(ns.bm('group', 'horizontal'))
   })
 })

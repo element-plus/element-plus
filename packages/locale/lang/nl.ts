@@ -29,7 +29,7 @@ export default {
         'Use the arrow keys and enter to select the day of the month', // to be translated
       monthTablePrompt: 'Use the arrow keys and enter to select the month', // to be translated
       yearTablePrompt: 'Use the arrow keys and enter to select the year', // to be translated
-      selectedDate: 'Selected date', // to be translated
+      selectedDate: 'Geselecteerde datum',
       selectDate: 'Selecteer datum',
       selectTime: 'Selecteer tijd',
       startDate: 'Startdatum',
@@ -63,13 +63,13 @@ export default {
         sat: 'Za',
       },
       weeksFull: {
-        sun: 'Sunday', // to be translated
-        mon: 'Monday', // to be translated
-        tue: 'Tuesday', // to be translated
-        wed: 'Wednesday', // to be translated
-        thu: 'Thursday', // to be translated
-        fri: 'Friday', // to be translated
-        sat: 'Saturday', // to be translated
+        sun: 'zondag',
+        mon: 'maandag',
+        tue: 'dinsdag',
+        wed: 'woensdag',
+        thu: 'donderdag',
+        fri: 'vrijdag',
+        sat: 'zaterdag',
       },
       months: {
         jan: 'jan',
@@ -87,8 +87,8 @@ export default {
       },
     },
     inputNumber: {
-      decrease: 'decrease number', // to be translated
-      increase: 'increase number', // to be translated
+      decrease: 'getal verlagen',
+      increase: 'getal verhogen',
     },
     select: {
       loading: 'Laden',
@@ -113,12 +113,12 @@ export default {
       pagesize: '/pagina',
       total: 'Totaal {total}',
       pageClassifier: '',
-      page: 'Page', // to be translated
-      prev: 'Go to previous page', // to be translated
-      next: 'Go to next page', // to be translated
-      currentPage: 'page {pager}', // to be translated
-      prevPages: 'Previous {pager} pages', // to be translated
-      nextPages: 'Next {pager} pages', // to be translated
+      page: 'Pagina',
+      prev: 'Ga naar de vorige pagina',
+      next: 'Ga naar de volgende pagina',
+      currentPage: 'pagina {pager}',
+      prevPages: "Vorige {pager} pagina's",
+      nextPages: "Volgende {pager} pagina's",
       deprecationWarning:
         'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
     },
@@ -154,10 +154,10 @@ export default {
       sumText: 'Som',
     },
     tour: {
-      next: 'Next', // to be translated
-      previous: 'Previous', // to be translated
-      finish: 'Finish', // to be translated
-      close: 'Close this dialog', // to be translated
+      next: 'Volgende',
+      previous: 'Vorige',
+      finish: 'Afronden',
+      close: 'Tour afsluiten',
     },
     tree: {
       emptyText: 'Geen data',
