@@ -113,6 +113,7 @@ $tag-icon-span-gap: map.merge(
   $svg-margin-size: 1px;
 
   .#{$namespace}-icon {
+    display: flex;
     border-radius: 50%;
     cursor: pointer;
 
