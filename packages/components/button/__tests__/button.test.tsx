@@ -66,29 +66,28 @@ describe('Button.vue', () => {
     expect(wrapper.classes()).toContain('is-dashed')
   })
 
-  it('dashed prop should override ConfigProvider setting (prop true overrides provider false)', async () => {
-    const wrapper = mount(() => (
+  it('dashed priority: prop overrides provider; provider applies when prop not set', async () => {
+    // case 1: provider sets dashed=false, but component prop dashed=true -> prop should win
+    let wrapper = mount(() => (
       <ConfigProvider button={{ dashed: false }}>
         <Button dashed>Test</Button>
       </ConfigProvider>
     ))
 
     await nextTick()
-
-    const btn = wrapper.find('button')
+    let btn = wrapper.find('button')
     expect(btn.classes()).toContain('is-dashed')
-  })
+    wrapper.unmount()
 
-  it('ConfigProvider dashed should apply when prop not set (provider true, prop false)', async () => {
-    const wrapper = mount(() => (
+    // case 2: provider sets dashed=true, component prop is not set -> provider should apply
+    wrapper = mount(() => (
       <ConfigProvider button={{ dashed: true }}>
         <Button>Test</Button>
       </ConfigProvider>
     ))
 
     await nextTick()
-
-    const btn = wrapper.find('button')
+    btn = wrapper.find('button')
     expect(btn.classes()).toContain('is-dashed')
   })
 

@@ -280,7 +280,7 @@ $button-icon-span-gap: map.merge(
 
     &:not(.is-disabled) {
       &:hover {
-        border: getCssVar('border-width') solid getCssVar('button', 'hover', 'border-color');
+        border: getCssVar('border-width') dashed getCssVar('button', 'hover', 'border-color');
       }
     }
   }
