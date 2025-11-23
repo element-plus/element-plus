@@ -68,28 +68,27 @@ describe('Button.vue', () => {
     expect(wrapper.classes()).toContain('is-dashed')
   })
 
-  it('dashed priority: prop overrides provider; provider applies when prop not set', async () => {
-    // case 1: provider sets dashed=false, but component prop dashed=true -> prop should win
-    let wrapper = mount(() => (
-      <ConfigProvider button={{ dashed: false }}>
-        <Button dashed>Test</Button>
+  it('should give component dashed higher priority than global', async () => {
+    const globalDashed = ref(false)
+    const dashed = ref<boolean>()
+    const wrapper = mount(() => (
+      <ConfigProvider button={{ dashed: globalDashed.value }}>
+        <Button dashed={dashed.value}>Test</Button>
       </ConfigProvider>
     ))
 
     await nextTick()
-    let btn = wrapper.find('button')
+    const btn = wrapper.find('button')
+    expect(btn.classes()).not.toContain('is-dashed')
+    globalDashed.value = true
+    await nextTick()
     expect(btn.classes()).toContain('is-dashed')
-    wrapper.unmount()
-
-    // case 2: provider sets dashed=true, component prop is not set -> provider should apply
-    wrapper = mount(() => (
-      <ConfigProvider button={{ dashed: true }}>
-        <Button>Test</Button>
-      </ConfigProvider>
-    ))
-
+    dashed.value = false
     await nextTick()
-    btn = wrapper.find('button')
+    expect(btn.classes()).not.toContain('is-dashed')
+    globalDashed.value = false
+    dashed.value = true
+    await nextTick()
     expect(btn.classes()).toContain('is-dashed')
   })
 
