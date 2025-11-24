@@ -78,7 +78,7 @@ describe('Collapse.vue', () => {
         },
         render() {
           return (
-            <Collapse v-model={(this as any).activeNames}>
+            <Collapse v-model={(this as any).activeNames} accordion>
               <CollapseItem title="title1" name="1">
                 <div class="content">111</div>
               </CollapseItem>
