@@ -113,6 +113,12 @@
       "path": "./node_modules/cz-git"
     }
   },
+  "pnpm": {
+    "overrides": {
+      "vue": "catalog:",
+      "@vue/server-renderer": "catalog:"
+    }
+  },
   "lint-staged": {
     "*.{vue,js,ts,jsx,tsx,md,json}": [
       "eslint --fix --concurrency=auto",

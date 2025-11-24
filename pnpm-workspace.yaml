@@ -8,6 +8,7 @@ catalog:
   '@ctrl/tinycolor': ^3.4.1
   '@element-plus/icons-vue': ^2.3.2
   '@vue/shared': ^3.5.22
+  '@vue/server-renderer': ^3.5.22
   '@vueuse/core': ^10.11.0
   '@vue/test-utils': ^2.4.6
   'lodash-unified': ^1.0.3
