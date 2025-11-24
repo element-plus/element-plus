@@ -2,6 +2,7 @@ import {
   Comment,
   Fragment,
   computed,
+  createTextVNode,
   getCurrentInstance,
   h,
   ref,
@@ -133,7 +134,7 @@ function useRender<T extends DefaultRow>(
           }
         }
 
-        return h('span', column.label)
+        return createTextVNode(column.label)
       }
     }
 
