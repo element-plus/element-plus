@@ -34,7 +34,7 @@ export function useDropdownHoverZone({
    * @returns 'top' | 'bottom' | 'left' | 'right' | 'auto'
    */
   const getPlacementDirection = (): string => {
-    const popperInstance = popperRef.value?.contentRef?.popperInstanceRef
+    const popperInstance = popperRef.value?.contentRef?.contentRef?.popperInstanceRef
     const placement = popperInstance?.state?.placement || 'bottom'
     // Extract the base direction from placements like 'bottom-start', 'right-end', etc.
     return placement.split('-')[0]
@@ -70,7 +70,8 @@ export function useDropdownHoverZone({
       switch (direction) {
         case 'top':
           // Menu is above: create a triangle from mouse position upward to the menu's horizontal span
-          path = `M${startX} ${startY} L0 ${top - scrollTop} L${clientWidth} ${top - scrollTop} Z`
+          // Ensure the mouse Y is above the menu top to create a valid triangle
+          path = `M${startX} ${Math.max(startY, top - scrollTop + 1)} L0 ${top - scrollTop} L${clientWidth} ${top - scrollTop} Z`
           break
         case 'bottom':
           // Menu is below: create a triangle from mouse position downward to the menu
@@ -78,11 +79,13 @@ export function useDropdownHoverZone({
           break
         case 'left':
           // Menu is to the left: create a quadrilateral from mouse position to the left menu edge
-          path = `M${startX} ${startY} L0 ${top - scrollTop} L0 ${bottom - scrollTop} L${startX} ${bottom - scrollTop} Z`
+          // Use horizontal line at startY to ensure a wide enough hover zone
+          path = `M${startX} ${startY} L0 ${startY} L0 ${bottom - scrollTop} L${startX} ${bottom - scrollTop} Z`
           break
         case 'right':
           // Menu is to the right: create a quadrilateral from mouse position to the right menu edge
-          path = `M${startX} ${startY} L${clientWidth} ${top - scrollTop} L${clientWidth} ${bottom - scrollTop} L${startX} ${bottom - scrollTop} Z`
+          // Use horizontal line at startY to ensure a wide enough hover zone
+          path = `M${startX} ${startY} L${clientWidth} ${startY} L${clientWidth} ${bottom - scrollTop} L${startX} ${bottom - scrollTop} Z`
           break
         case 'auto':
           // Auto placement: use bottom as default
