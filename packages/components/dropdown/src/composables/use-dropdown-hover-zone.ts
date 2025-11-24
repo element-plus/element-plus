@@ -31,10 +31,10 @@ export function useDropdownHoverZone({
 
   /**
    * Get the placement direction from the popper instance
-   * @returns 'top' | 'bottom' | 'left' | 'right'
+   * @returns 'top' | 'bottom' | 'left' | 'right' | 'auto'
    */
   const getPlacementDirection = (): string => {
-    const popperInstance = popperRef.value?.contentRef?.contentRef?.popperInstanceRef
+    const popperInstance = popperRef.value?.contentRef?.popperInstanceRef
     const placement = popperInstance?.state?.placement || 'bottom'
     // Extract the base direction from placements like 'bottom-start', 'right-end', etc.
     return placement.split('-')[0]
@@ -63,14 +63,14 @@ export function useDropdownHoverZone({
       const bottom = top + hoverElementRef.value.offsetHeight
 
       const direction = getPlacementDirection()
-      
+
       // Calculate the hover zone path based on the placement direction
       // The hover zone creates a safe passage from the current mouse position to the menu item
       let path = ''
       switch (direction) {
         case 'top':
-          // Menu is above: create a trapezoid from mouse position upward to the menu
-          path = `M${startX} ${startY} L0 ${top - scrollTop} L${clientWidth} ${top - scrollTop} L${startX} ${startY} Z`
+          // Menu is above: create a triangle from mouse position upward to the menu's horizontal span
+          path = `M${startX} ${startY} L0 ${top - scrollTop} L${clientWidth} ${top - scrollTop} Z`
           break
         case 'bottom':
           // Menu is below: create a triangle from mouse position downward to the menu
