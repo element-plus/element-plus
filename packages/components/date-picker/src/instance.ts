@@ -1,5 +1,7 @@
-import type { ComponentPublicInstance } from 'vue'
-import type { DatePickerProps } from './props/date-picker'
+import type DatePicker from './date-picker'
+
+export type DatePickerInstance = InstanceType<typeof DatePicker> &
+  DatePickerExpose
 
 export type DatePickerExpose = {
   focus: () => void
@@ -7,7 +9,3 @@ export type DatePickerExpose = {
   handleOpen: () => void
   handleClose: () => void
 }
-export type DatePickerInstance = ComponentPublicInstance<
-  DatePickerProps,
-  DatePickerExpose
->

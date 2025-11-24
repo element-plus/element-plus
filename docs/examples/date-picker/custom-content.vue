@@ -55,7 +55,12 @@ const isHoliday = ({ dayjs }) => {
 <style scoped>
 .demo-date-picker {
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.demo-date-picker > * {
+  margin: 0 !important;
 }
 
 .cell {
@@ -90,5 +95,11 @@ const isHoliday = ({ dayjs }) => {
   bottom: 0px;
   left: 50%;
   transform: translateX(-50%);
+}
+
+@media screen and (max-width: 768px) {
+  .demo-date-picker {
+    gap: 1.5rem;
+  }
 }
 </style>

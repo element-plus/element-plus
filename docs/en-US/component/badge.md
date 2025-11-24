@@ -68,7 +68,7 @@ badge/offset
 | type                 | badge type.                                                                   | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | danger  |
 | show-zero ^(2.6.0)   | Whether to show badge when value is zero.                                     | ^[boolean]                                                         | true    |
 | color ^(2.6.3)       | background color of the dot                                                   | ^[string]                                                          |         |
-| offset ^(2.7.0)      | offset of badge                                                               | [ `number` , `number` ]                                            | —       |
+| offset ^(2.7.0)      | offset of badge                                                               | ^[array]`[number, number]`                                         | —       |
 | badge-style ^(2.7.1) | custom style of badge                                                         | ^[object]`CSSProperties`                                           | —       |
 | badge-class ^(2.7.1) | custom class of badge                                                         | ^[string]                                                          | —       |
 
@@ -77,4 +77,4 @@ badge/offset
 | Name             | Description               | Type                         |
 | ---------------- | ------------------------- | ---------------------------- |
 | default          | customize default content | -                            |
-| content ^(2.9.1) | customize barge content   | ^[object]`{ value: string }` |
+| content ^(2.9.1) | customize badge content   | ^[object]`{ value: string }` |

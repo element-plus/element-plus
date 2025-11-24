@@ -10,6 +10,12 @@ export default {
       defaultLabel: '颜色选择器',
       description: '当前颜色 {color}，按 Enter 键选择新颜色',
       alphaLabel: '选择透明度的值',
+      alphaDescription: '透明度 {alpha}, 当前颜色 {color}',
+      hueLabel: '选择色相值',
+      hueDescription: '色相 {hue}, 当前颜色 {color}',
+      svLabel: '选择饱和度与明度的值',
+      svDescription: '饱和度 {saturation}, 明度 {brightness}, 当前颜色 {color}',
+      predefineDescription: '选择 {value} 作为颜色',
     },
     datepicker: {
       now: '此刻',
@@ -44,7 +50,6 @@ export default {
       month10: '10 月',
       month11: '11 月',
       month12: '12 月',
-      // week: '周次',
       weeks: {
         sun: '日',
         mon: '一',
@@ -88,11 +93,11 @@ export default {
       noData: '无数据',
       placeholder: '请选择',
     },
-    dropdown: {
-      toggleDropdown: '切换下拉选项',
-    },
     mention: {
       loading: '加载中',
+    },
+    dropdown: {
+      toggleDropdown: '切换下拉选项',
     },
     cascader: {
       noMatch: '无匹配数据',
@@ -128,7 +133,7 @@ export default {
       close: '关闭此对话框',
     },
     upload: {
-      deleteTip: '按 delete 键可删除',
+      deleteTip: '按 Delete 键可删除',
       delete: '删除',
       preview: '查看图片',
       continue: '继续上传',
@@ -149,6 +154,7 @@ export default {
       next: '下一步',
       previous: '上一步',
       finish: '结束导览',
+      close: '关闭此对话框',
     },
     tree: {
       emptyText: '暂无数据',

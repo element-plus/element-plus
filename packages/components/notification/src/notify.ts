@@ -84,8 +84,8 @@ const notify: NotifyFn & Partial<Notify> = function (options = {}, context) {
     isFunction(props.message)
       ? props.message
       : isVNode(props.message)
-      ? () => props.message
-      : null
+        ? () => props.message
+        : null
   )
   vm.appContext = isUndefined(context) ? notify._context : context
 
@@ -170,7 +170,20 @@ export function closeAll(): void {
   }
 }
 
+export function updateOffsets(
+  position: NotificationOptions['position'] = 'top-right'
+) {
+  let verticalOffset =
+    notifications[position][0]?.vm.component?.props?.offset || 0
+
+  for (const { vm } of notifications[position]) {
+    vm.component!.props.offset = verticalOffset
+    verticalOffset += (vm.el?.offsetHeight || 0) + GAP_SIZE
+  }
+}
+
 notify.closeAll = closeAll
+notify.updateOffsets = updateOffsets
 notify._context = null
 
 export default notify as Notify

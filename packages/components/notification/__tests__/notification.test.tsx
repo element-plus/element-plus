@@ -2,6 +2,7 @@ import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import { TypeComponentsMap } from '@element-plus/utils'
+import { Close, CloseBold } from '@element-plus/icons-vue'
 import { EVENT_CODE } from '@element-plus/constants'
 import { notificationTypes } from '../src/notification'
 import Notification from '../src/notification.vue'
@@ -94,6 +95,26 @@ describe('Notification.vue', () => {
           zIndex: 9999,
         })
       )
+    })
+
+    test('should be able to render default close icon', () => {
+      const wrapper = _mount({
+        slots: {
+          default: () => AXIOM,
+        },
+      })
+
+      expect(wrapper.findComponent(Close).exists()).toBe(true)
+    })
+
+    test('should be able to render custom close icon', () => {
+      const wrapper = _mount({
+        props: {
+          closeIcon: CloseBold,
+        },
+      })
+
+      expect(wrapper.findComponent(CloseBold).exists()).toBe(true)
     })
   })
 

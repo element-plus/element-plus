@@ -1,5 +1,6 @@
 import { isLeaf } from '@element-plus/utils'
-import type { default as CascaderNode } from './node'
+
+import type { CascaderNode } from './types'
 
 export const getMenuIndex = (el: HTMLElement) => {
   if (!el) return 0

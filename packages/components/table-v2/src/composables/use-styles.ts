@@ -1,8 +1,8 @@
-import { ComputedRef, computed, unref } from 'vue'
+import { computed, unref } from 'vue'
 import { addUnit, isNumber } from '@element-plus/utils'
 import { enforceUnit, sum } from '../utils'
 
-import type { CSSProperties } from 'vue'
+import type { CSSProperties, ComputedRef } from 'vue'
 import type { TableV2Props } from '../table'
 import type { UseColumnsReturn } from './use-columns'
 
@@ -27,8 +27,6 @@ export const useStyles = (
     const ret = width - vScrollbarSize
     return fixed ? Math.max(Math.round(unref(columnsTotalWidth)), ret) : ret
   })
-
-  const headerWidth = computed(() => unref(bodyWidth) + props.vScrollbarSize)
 
   const mainTableHeight = computed(() => {
     const { height = 0, maxHeight = 0, footerHeight, hScrollbarSize } = props
@@ -102,7 +100,6 @@ export const useStyles = (
     mainTableHeight,
     leftTableWidth,
     rightTableWidth,
-    headerWidth,
     windowHeight,
     footerHeight,
     emptyStyle,

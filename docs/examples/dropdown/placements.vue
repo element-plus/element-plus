@@ -5,8 +5,8 @@
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item>The Action 1st</el-dropdown-item>
-          <el-dropdown-item>The Action 2st</el-dropdown-item>
-          <el-dropdown-item>The Action 3st</el-dropdown-item>
+          <el-dropdown-item>The Action 2nd</el-dropdown-item>
+          <el-dropdown-item>The Action 3rd</el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
@@ -15,8 +15,8 @@
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item>The Action 1st</el-dropdown-item>
-          <el-dropdown-item>The Action 2st</el-dropdown-item>
-          <el-dropdown-item>The Action 3st</el-dropdown-item>
+          <el-dropdown-item>The Action 2nd</el-dropdown-item>
+          <el-dropdown-item>The Action 3rd</el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
@@ -25,8 +25,8 @@
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item>The Action 1st</el-dropdown-item>
-          <el-dropdown-item>The Action 2st</el-dropdown-item>
-          <el-dropdown-item>The Action 3st</el-dropdown-item>
+          <el-dropdown-item>The Action 2nd</el-dropdown-item>
+          <el-dropdown-item>The Action 3rd</el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
@@ -35,8 +35,8 @@
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item>The Action 1st</el-dropdown-item>
-          <el-dropdown-item>The Action 2st</el-dropdown-item>
-          <el-dropdown-item>The Action 3st</el-dropdown-item>
+          <el-dropdown-item>The Action 2nd</el-dropdown-item>
+          <el-dropdown-item>The Action 3rd</el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
@@ -45,8 +45,8 @@
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item>The Action 1st</el-dropdown-item>
-          <el-dropdown-item>The Action 2st</el-dropdown-item>
-          <el-dropdown-item>The Action 3st</el-dropdown-item>
+          <el-dropdown-item>The Action 2nd</el-dropdown-item>
+          <el-dropdown-item>The Action 3rd</el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
@@ -55,8 +55,8 @@
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item>The Action 1st</el-dropdown-item>
-          <el-dropdown-item>The Action 2st</el-dropdown-item>
-          <el-dropdown-item>The Action 3st</el-dropdown-item>
+          <el-dropdown-item>The Action 2nd</el-dropdown-item>
+          <el-dropdown-item>The Action 3rd</el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>

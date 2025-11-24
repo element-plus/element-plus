@@ -2,6 +2,7 @@
 @use 'common/var' as *;
 
 @include b(popconfirm) {
+  outline: none;
   @include e(main) {
     display: flex;
     align-items: center;

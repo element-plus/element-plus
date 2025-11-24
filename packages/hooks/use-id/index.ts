@@ -1,8 +1,9 @@
 import { getCurrentInstance, inject, unref } from 'vue'
-import { type MaybeRef, computedEager } from '@vueuse/core'
+import { computedEager } from '@vueuse/core'
 import { debugWarn, isClient } from '@element-plus/utils'
 import { useGetDerivedNamespace } from '../use-namespace'
 
+import type { MaybeRef } from '@vueuse/core'
 import type { InjectionKey, Ref } from 'vue'
 
 export type ElIdInjectionContext = {

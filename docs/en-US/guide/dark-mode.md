@@ -26,8 +26,7 @@ First you can create a switch to toggle `dark` class of html.
 
 Then, you can quickly enable it with just one line of code to import CSS in your entry.
 
-```ts
-// main.ts
+```ts [main.ts]
 // if you just want to import css
 import 'element-plus/theme-chalk/dark/css-vars.css'
 ```
@@ -51,8 +50,7 @@ html.dark {
 
 Import it after styles of Element Plus:
 
-```ts
-// main.ts
+```ts [main.ts]
 import 'element-plus/theme-chalk/dark/css-vars.css'
 import './styles/dark/css-vars.css'
 ```
@@ -63,8 +61,7 @@ If you use scss, you can also import scss file to compile.
 
 > You can refer [Theming](./theming.md) to get more info.
 
-```scss
-// styles/element/index.scss
+```scss [styles/element/index.scss]
 /*just override what you need*/
 @forward 'element-plus/theme-chalk/src/dark/var.scss' with (
   $bg-color: (
@@ -75,8 +72,7 @@ If you use scss, you can also import scss file to compile.
 );
 ```
 
-```ts
-// main.ts
+```ts [main.ts]
 import './styles/element/index.scss'
 
 // or just want to import scss?

@@ -31,6 +31,7 @@ export const TypeComponents = {
 }
 
 export const TypeComponentsMap = {
+  primary: InfoFilled,
   success: SuccessFilled,
   warning: WarningFilled,
   error: CircleCloseFilled,

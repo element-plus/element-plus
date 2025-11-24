@@ -1,8 +1,10 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { afterEach, describe, expect, test } from 'vitest'
+import { afterEach, describe, expect, test, vi } from 'vitest'
 import Tour from '../src/tour.vue'
 import TourStep from '../src/step.vue'
+import { EVENT_CODE } from '@element-plus/constants'
+import triggerEvent from '@element-plus/test-utils/trigger-event'
 
 describe('Tour.vue', () => {
   afterEach(() => {
@@ -189,5 +191,37 @@ describe('Tour.vue', () => {
 
     expect(document.querySelector('.prev-btn span')?.innerHTML).toBe('上一步')
     expect(document.querySelector('.next-btn span')?.innerHTML).toBe('下一步')
+  })
+
+  test('close-on-press-escape', async () => {
+    const onClose = vi.fn()
+    const modelValue = ref(true)
+    const wrapper = mount({
+      setup() {
+        return () => (
+          <Tour
+            v-model={modelValue.value}
+            closeOnPressEscape={false}
+            onClose={onClose}
+          >
+            <TourStep title="first" description="cover description." />
+            <TourStep title="second" description="cover description." />
+          </Tour>
+        )
+      },
+    })
+
+    await nextTick()
+
+    triggerEvent(document.body, 'keydown', EVENT_CODE.esc)
+    await nextTick()
+    expect(modelValue.value).toBeTruthy()
+
+    await wrapper.setProps({ closeOnPressEscape: true })
+    triggerEvent(document.body, 'keydown', EVENT_CODE.esc)
+    await nextTick()
+
+    expect(modelValue.value).toBeFalsy()
+    expect(onClose).toHaveBeenCalledTimes(1)
   })
 })

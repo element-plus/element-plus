@@ -79,24 +79,45 @@ Calling the `close` method on any one of them can close this full screen Loading
 
 If Element Plus is imported entirely, a globally method `$loading` will be registered to `app.config.globalProperties`. You can invoke it like this: `this.$loading(options)`, and it also returns a Loading instance.
 
+## App context inheritance ^(2.9.10)
+
+Now loading accepts a `context` as second parameter of the loading constructor which allows you to inject current app's context to loading which allows you to inherit all the properties of the app.
+
+You can use it like this:
+
+:::tip
+
+If you globally registered ElLoading component, it will automatically inherit your app context.
+
+:::
+
+```ts
+import { getCurrentInstance } from 'vue'
+import { ElLoading } from 'element-plus'
+
+// in your setup method
+const { appContext } = getCurrentInstance()!
+ElLoading.service({}, appContext)
+```
+
 ## API
 
 ### Options
 
-| Name                 | Description                                                                                                                                                              | Type                       | Default       |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------- | ------------- |
-| target               | the DOM node Loading needs to cover. Accepts a DOM object or a string. If it's a string, it will be passed to `document.querySelector` to get the corresponding DOM node | ^[string] / ^[HTMLElement] | document.body |
-| body                 | same as the `body` modifier of `v-loading`                                                                                                                               | ^[boolean]                 | false         |
-| fullscreen           | same as the `fullscreen` modifier of `v-loading`                                                                                                                         | ^[boolean]                 | true          |
-| lock                 | same as the `lock` modifier of `v-loading`                                                                                                                               | ^[boolean]                 | false         |
-| text                 | loading text that displays under the spinner                                                                                                                             | ^[string]                  | —             |
-| spinner              | class name of the custom spinner                                                                                                                                         | ^[string]                  | —             |
-| background           | background color of the mask                                                                                                                                             | ^[string]                  | —             |
-| customClass          | custom class name for loading                                                                                                                                            | ^[string]                  | —             |
-| svg                  | custom SVG element to override the default loading spinner                                                                                                               | ^[string]                  | —             |
-| svgViewBox           | sets the viewBox attribute for loading svg element                                                                                                                       | ^[string]                  | —             |
-| beforeClose ^(2.7.8) | Function executed before loading attempts to close. If this function returns false, the closing process will be aborted. Otherwise, the loading will close.              | ^[Function]`() => boolean` | —             |
-| closed ^(2.7.8)      | Function triggered after loading has completely closed                                                                                                                   | ^[Function]`() => void`    | —             |
+| Name                 | Description                                                                                                                                                              | Type                                     | Default       |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------- | ------------- |
+| target               | the DOM node Loading needs to cover. Accepts a DOM object or a string. If it's a string, it will be passed to `document.querySelector` to get the corresponding DOM node | ^[string] / ^[HTMLElement]               | document.body |
+| body                 | same as the `body` modifier of `v-loading`                                                                                                                               | ^[boolean]                               | false         |
+| fullscreen           | same as the `fullscreen` modifier of `v-loading`                                                                                                                         | ^[boolean]                               | true          |
+| lock                 | same as the `lock` modifier of `v-loading`                                                                                                                               | ^[boolean]                               | false         |
+| text                 | loading text that displays under the spinner                                                                                                                             | ^[string] / ^[VNode] / ^[array]`VNode[]` | —             |
+| spinner              | class name of the custom spinner                                                                                                                                         | ^[string]                                | —             |
+| background           | background color of the mask                                                                                                                                             | ^[string]                                | —             |
+| customClass          | custom class name for loading                                                                                                                                            | ^[string]                                | —             |
+| svg                  | custom SVG element to override the default loading spinner                                                                                                               | ^[string]                                | —             |
+| svgViewBox           | sets the viewBox attribute for loading svg element                                                                                                                       | ^[string]                                | —             |
+| beforeClose ^(2.7.8) | Function executed before loading attempts to close. If this function returns false, the closing process will be aborted. Otherwise, the loading will close.              | ^[Function]`() => boolean`               | —             |
+| closed ^(2.7.8)      | Function triggered after loading has completely closed                                                                                                                   | ^[Function]`() => void`                  | —             |
 
 ### Directives
 

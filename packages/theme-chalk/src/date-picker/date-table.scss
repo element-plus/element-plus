@@ -141,7 +141,8 @@
 
     &.week {
       font-size: 80%;
-      color: getCssVar('datepicker-header-text-color');
+      color: getCssVar('datepicker-off-text-color');
+      cursor: default;
     }
 
     &:focus {
@@ -154,5 +155,10 @@
     color: getCssVar('datepicker-header-text-color');
     font-weight: 400;
     border-bottom: solid 1px getCssVar('border-color-lighter');
+
+    &.#{$namespace}-date-table__week-header {
+      padding: 0;
+      width: 24px;
+    }
   }
 }

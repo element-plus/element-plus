@@ -7,7 +7,14 @@
     :aria-label="!isLabeledByFormItem ? ariaLabel || 'radio-group' : undefined"
     :aria-labelledby="isLabeledByFormItem ? formItem!.labelId : undefined"
   >
-    <slot />
+    <slot>
+      <component
+        :is="optionComponent"
+        v-for="(item, index) in options"
+        :key="index"
+        v-bind="getOptionProps(item)"
+      />
+    </slot>
   </div>
 </template>
 
@@ -23,11 +30,18 @@ import {
   watch,
 } from 'vue'
 import { useFormItem, useFormItemInputId } from '@element-plus/components/form'
-import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useId, useNamespace } from '@element-plus/hooks'
 import { debugWarn } from '@element-plus/utils'
-import { radioGroupEmits, radioGroupProps } from './radio-group'
+import {
+  radioDefaultProps,
+  radioGroupEmits,
+  radioGroupProps,
+} from './radio-group'
 import { radioGroupKey } from './constants'
+import { isEqual, omit } from 'lodash-unified'
+import ElRadio from './radio.vue'
+import ElRadioButton from './radio-button.vue'
 
 import type { RadioGroupProps } from './radio-group'
 
@@ -48,7 +62,7 @@ const { inputId: groupId, isLabeledByFormItem } = useFormItemInputId(props, {
 
 const changeEvent = (value: RadioGroupProps['modelValue']) => {
   emit(UPDATE_MODEL_EVENT, value)
-  nextTick(() => emit('change', value))
+  nextTick(() => emit(CHANGE_EVENT, value))
 }
 
 onMounted(() => {
@@ -64,6 +78,24 @@ const name = computed(() => {
   return props.name || radioId.value
 })
 
+const aliasProps = computed(() => ({
+  ...radioDefaultProps,
+  ...props.props,
+}))
+const getOptionProps = (option: Record<string, any>) => {
+  const { label, value, disabled } = aliasProps.value
+  const base = {
+    label: option[label],
+    value: option[value],
+    disabled: option[disabled],
+  }
+  return { ...omit(option, [label, value, disabled]), ...base }
+}
+
+const optionComponent = computed(() =>
+  props.type === 'button' ? ElRadioButton : ElRadio
+)
+
 provide(
   radioGroupKey,
   reactive({
@@ -75,8 +107,8 @@ provide(
 
 watch(
   () => props.modelValue,
-  () => {
-    if (props.validateEvent) {
+  (newVal, oldValue) => {
+    if (props.validateEvent && !isEqual(newVal, oldValue)) {
       formItem?.validate('change').catch((err) => debugWarn(err))
     }
   }

@@ -5,7 +5,8 @@ import {
   isNumber,
 } from '@element-plus/utils'
 import { componentSizes } from '@element-plus/constants'
-import type { ExtractPropTypes } from 'vue'
+
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type { ObjectFitProperty } from 'csstype'
 
 export const avatarProps = buildProps({
@@ -56,6 +57,7 @@ export const avatarProps = buildProps({
   },
 } as const)
 export type AvatarProps = ExtractPropTypes<typeof avatarProps>
+export type AvatarPropsPublic = __ExtractPublicPropTypes<typeof avatarProps>
 
 export const avatarEmits = {
   error: (evt: Event) => evt instanceof Event,

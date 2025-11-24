@@ -25,6 +25,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 
+import type { TabPaneName } from 'element-plus'
+
 let tabIndex = 2
 const editableTabsValue = ref('2')
 const editableTabs = ref([
@@ -49,7 +51,7 @@ const addTab = (targetName: string) => {
   })
   editableTabsValue.value = newTabName
 }
-const removeTab = (targetName: string) => {
+const removeTab = (targetName: TabPaneName) => {
   const tabs = editableTabs.value
   let activeName = editableTabsValue.value
   if (activeName === targetName) {

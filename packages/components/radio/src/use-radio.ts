@@ -8,6 +8,7 @@ import { radioGroupKey } from './constants'
 import type { RadioButtonProps } from './radio-button'
 import type { SetupContext } from 'vue'
 import type { RadioEmits, RadioProps } from './radio'
+
 export const useRadio = (
   props: RadioProps | RadioButtonProps,
   emit?: SetupContext<RadioEmits>['emit']

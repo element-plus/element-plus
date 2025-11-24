@@ -15,6 +15,7 @@ import { ref } from 'vue'
 const value1 = ref(0)
 const value2 = ref(0)
 </script>
+
 <style scoped>
 .slider-demo-block {
   max-width: 600px;
