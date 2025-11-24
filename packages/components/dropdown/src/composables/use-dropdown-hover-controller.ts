@@ -18,6 +18,7 @@ interface UseDropdownHoverControllerOptions
 
 const POINTER_ENTER_TOOLTIP = 'dropdown.pointer-enter-tooltip'
 const POINTER_LEAVE_TOOLTIP = 'dropdown.pointer-leave-tooltip'
+let stop: (() => void) | undefined
 
 export function useDropdownHoverController({
   trigger,
@@ -32,7 +33,6 @@ export function useDropdownHoverController({
   const isHoverInTrigger = ref(false)
   const isHoverInContent = ref(false)
   const isHoverInSubContent = ref(false)
-  let timeout: (() => void) | undefined
 
   const isHover = computed(() => {
     return (
@@ -72,7 +72,8 @@ export function useDropdownHoverController({
     isHoverInTrigger.value = true
     if (trigger.value.includes('hover')) {
       event.preventDefault()
-      ;({ stop: timeout } = useTimeoutFn(() => {
+      stop?.()
+      ;({ stop } = useTimeoutFn(() => {
         handleOpen(event)
       }, showTimeout.value))
     }
@@ -81,9 +82,9 @@ export function useDropdownHoverController({
   const handlePointerLeaveTrigger = whenMouse((event: PointerEvent) => {
     if (disabled.value) return
     isHoverInTrigger.value = false
-    timeout?.()
+    stop?.()
     notifyParentPointerStatus('enter')
-    ;({ stop: timeout } = useTimeoutFn(() => {
+    ;({ stop } = useTimeoutFn(() => {
       if (!isHover.value) {
         if (trigger.value.includes('hover')) {
           handleClose(event)
@@ -107,8 +108,8 @@ export function useDropdownHoverController({
 
   const handlePointerLeaveContent = whenMouse((event: PointerEvent) => {
     isHoverInContent.value = false
-    timeout?.()
-    ;({ stop: timeout } = useTimeoutFn(() => {
+    stop?.()
+    ;({ stop } = useTimeoutFn(() => {
       if (!isHover.value) {
         if (trigger.value.includes('hover')) {
           handleClose(event)

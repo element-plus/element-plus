@@ -47,6 +47,7 @@ export function useDropdownHoverZone({
       const top = hoverElementRef.value.offsetTop
       const bottom = top + hoverElementRef.value.offsetHeight
 
+      // TODO: Adjust the shape of the hover zone according to the direction the placement of tooltip.
       hoverZoneRef.value.innerHTML = `
         <path style="pointer-events: auto;" fill="transparent" d="M${startX} ${bottom - scrollTop} L${clientWidth} ${clientHeight} V${bottom - scrollTop} Z" />
       `

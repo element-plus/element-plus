@@ -173,18 +173,17 @@ dropdown/sub-menu
 
 ### Dropdown-Sub-Menu Attributes
 
-| Name          | Description                                          | Type                                                                                     | Default     |
-| ------------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------------- | ----------- |
-| label         | label of the sub menu                                | ^[string]                                                                                | ''          |
-| disabled      | whether the sub menu is disabled                     | ^[boolean]                                                                               | false       |
-| divided       | whether a divider is displayed                       | ^[boolean]                                                                               | false       |
-| icon          | custom icon                                          | ^[string] / ^[Component]                                                                 | —           |
-| placement     | placement of pop sub menu                            | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end'` | right-start |
-| show-arrow    | whether the tooltip content has an arrow             | ^[boolean]                                                                               | false       |
-| popper-offset | offset of the popper                                 | ^[number]                                                                                | —           |
-| popper-class  | custom class name for Dropdown's dropdown            | ^[string] / ^[object]                                                                    | ''          |
-| popper-style  | custom style for Dropdown's dropdown                 | ^[string] / ^[object]                                                                    | —           |
-| teleported    | whether the dropdown popup is teleported to the body | ^[boolean]                                                                               | true        |
+| Name          | Description                                          | Type                     | Default |
+| ------------- | ---------------------------------------------------- | ------------------------ | ------- |
+| label         | label of the sub menu                                | ^[string]                | ''      |
+| disabled      | whether the sub menu is disabled                     | ^[boolean]               | false   |
+| divided       | whether a divider is displayed                       | ^[boolean]               | false   |
+| icon          | custom icon                                          | ^[string] / ^[Component] | —       |
+| show-arrow    | whether the tooltip content has an arrow             | ^[boolean]               | false   |
+| popper-offset | offset of the popper                                 | ^[number]                | —       |
+| popper-class  | custom class name for Dropdown's dropdown            | ^[string] / ^[object]    | ''      |
+| popper-style  | custom style for Dropdown's dropdown                 | ^[string] / ^[object]    | —       |
+| teleported    | whether the dropdown popup is teleported to the body | ^[boolean]               | true    |
 
 ### Dropdown-Sub-Menu Slots
 

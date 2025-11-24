@@ -32,8 +32,19 @@
     :visible="opened"
     :role="role"
     :effect="effect"
-    :placement="placement"
-    :fallback-placements="['right-start', 'left-start']"
+    placement="right-start"
+    :fallback-placements="[
+      'right-start',
+      'right',
+      'right-end',
+      'left-start',
+      'left',
+      'left-end',
+      'bottom-start',
+      'bottom-end',
+      'top-start',
+      'top-end',
+    ]"
     :trigger="trigger"
     :trigger-target-el="contentRef"
     :offset="offset"

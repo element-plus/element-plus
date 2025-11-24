@@ -225,13 +225,6 @@ export const dropdownSubMenuProps = buildProps({
     type: iconPropType,
   },
   /**
-   * @description placement of pop sub menu
-   */
-  placement: {
-    type: definePropType<Placement>(String),
-    default: 'right-start',
-  },
-  /**
    * @description whether the tooltip content has an arrow
    */
   showArrow: {
