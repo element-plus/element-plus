@@ -3,13 +3,12 @@ import { computed, ref } from 'vue'
 import type { Ref } from 'vue'
 import type { UseNamespaceReturn } from '@element-plus/hooks/use-namespace'
 import type { ScrollbarInstance } from '@element-plus/components/scrollbar'
-import type { TooltipInstance } from '@element-plus/components/tooltip'
 
 interface UseDropdownHoverZoneOptions {
   ns: UseNamespaceReturn
   menuTrigger: Ref<'hover' | 'click'>
   showTimeout: Ref<number>
-  popperRef: Ref<TooltipInstance | undefined>
+  contentRef: Ref<HTMLElement | undefined>
 }
 
 /**
@@ -20,7 +19,7 @@ export function useDropdownHoverZone({
   ns,
   menuTrigger,
   showTimeout,
-  popperRef,
+  contentRef,
 }: UseDropdownHoverZoneOptions) {
   const scrollbarRef = ref<ScrollbarInstance>()
   const hoverZoneRef = ref<SVGSVGElement>()
@@ -30,12 +29,12 @@ export function useDropdownHoverZone({
   const wrapClass = computed(() => ns.e('wrap'))
 
   /**
-   * Get the placement direction from the popper instance
+   * Get the placement direction from the popper element's data attribute
    * @returns 'top' | 'bottom' | 'left' | 'right' | 'auto'
    */
   const getPlacementDirection = (): string => {
-    const popperInstance = popperRef.value?.contentRef?.contentRef?.popperInstanceRef
-    const placement = popperInstance?.state?.placement || 'bottom'
+    const popperElement = contentRef.value?.closest('.el-dropdown__popper') as HTMLElement
+    const placement = popperElement?.getAttribute('data-popper-placement') || 'bottom'
     // Extract the base direction from placements like 'bottom-start', 'right-end', etc.
     return placement.split('-')[0]
   }
