@@ -25,12 +25,12 @@ describe('Collapse.vue', () => {
       defineComponent({
         data() {
           return {
-            activeNames: ['1'],
+            activeNames: ['1'] as string[],
           }
         },
         render() {
           return (
-            <Collapse v-model={this.activeNames}>
+            <Collapse v-model={(this as any).activeNames}>
               <CollapseItem title="title1" name="1">
                 <div class="content">111</div>
               </CollapseItem>
@@ -78,7 +78,7 @@ describe('Collapse.vue', () => {
         },
         render() {
           return (
-            <Collapse accordion v-model={this.activeNames}>
+            <Collapse v-model={(this as any).activeNames}>
               <CollapseItem title="title1" name="1">
                 <div class="content">111</div>
               </CollapseItem>
@@ -449,7 +449,7 @@ describe('Collapse.vue', () => {
         },
         render() {
           return (
-            <Collapse v-model={this.activeNames}>
+            <Collapse v-model={(this as any).activeNames}>
               <CollapseItem title="title1" name="1">
                 <div class="content">111</div>
               </CollapseItem>
