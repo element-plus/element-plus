@@ -10,7 +10,7 @@ import {
 } from 'vue'
 import { useNamespace, useOrderedChildren } from '@element-plus/hooks'
 import { useContainer, useResize, useSize } from './hooks'
-import { splitterProps } from './splitter'
+import { splitterEmits, splitterProps } from './splitter'
 import { splitterRootContextKey } from './type'
 
 import type { PanelItemState } from './type'
@@ -21,12 +21,7 @@ defineOptions({
   name: 'ElSplitter',
 })
 
-const emits = defineEmits<{
-  (e: 'resizeStart', index: number, sizes: number[]): void
-  (e: 'resize', index: number, sizes: number[]): void
-  (e: 'resizeEnd', index: number, sizes: number[]): void
-  (e: 'collapse', index: number, type: 'start' | 'end', sizes: number[]): void
-}>()
+const emits = defineEmits(splitterEmits)
 
 const props = defineProps(splitterProps)
 const layout = toRef(props, 'layout')
