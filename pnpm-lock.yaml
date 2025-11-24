@@ -41,8 +41,8 @@ catalogs:
       version: 2.14.0
 
 overrides:
-  vue: 3.5.22
-  '@vue/server-renderer': 3.5.22
+  vue: ^3.5.22
+  '@vue/server-renderer': ^3.5.22
 
 patchedDependencies:
   async-validator@4.2.5:
@@ -223,7 +223,7 @@ importers:
         specifier: ^2.0.5
         version: 2.0.5(@types/node@22.9.0)(@vitest/ui@2.0.5)(happy-dom@17.4.4)(jsdom@16.4.0)(sass@1.79.3)(terser@5.36.0)
       vue:
-        specifier: 3.5.22
+        specifier: ^3.5.22
         version: 3.5.22(typescript@5.5.4)
       vue-router:
         specifier: ^4.0.16
@@ -317,7 +317,7 @@ importers:
         specifier: ^1.3.4
         version: 1.3.4
       vue:
-        specifier: 3.5.22
+        specifier: ^3.5.22
         version: 3.5.22(typescript@5.9.2)
 
   internal/build:
@@ -522,7 +522,7 @@ importers:
         specifier: 'catalog:'
         version: 2.4.6
       vue:
-        specifier: 3.5.22
+        specifier: ^3.5.22
         version: 3.5.22(typescript@5.9.2)
 
   packages/constants: {}
@@ -543,7 +543,7 @@ importers:
         specifier: 'catalog:'
         version: 2.4.6
       vue:
-        specifier: 3.5.22
+        specifier: ^3.5.22
         version: 3.5.22(typescript@5.9.2)
 
   packages/element-plus:
@@ -591,7 +591,7 @@ importers:
         specifier: ^1.2.0
         version: 1.2.0
       vue:
-        specifier: 3.5.22
+        specifier: ^3.5.22
         version: 3.5.22(typescript@5.9.2)
     devDependencies:
       '@types/node':
@@ -620,7 +620,7 @@ importers:
         specifier: 'catalog:'
         version: 2.4.6
       vue:
-        specifier: 3.5.22
+        specifier: ^3.5.22
         version: 3.5.22(typescript@5.9.2)
 
   packages/locale: {}
@@ -634,7 +634,7 @@ importers:
         specifier: 'catalog:'
         version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.21)(lodash@4.17.21)
       vue:
-        specifier: 3.5.22
+        specifier: ^3.5.22
         version: 3.5.22(typescript@5.9.2)
 
   packages/theme-chalk:
@@ -698,7 +698,7 @@ importers:
         specifier: 'catalog:'
         version: 2.14.0
       vue:
-        specifier: 3.5.22
+        specifier: ^3.5.22
         version: 3.5.22(typescript@5.9.2)
 
   play:
@@ -707,7 +707,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2(vue@3.5.22(typescript@5.9.2))
       vue:
-        specifier: 3.5.22
+        specifier: ^3.5.22
         version: 3.5.22(typescript@5.9.2)
     devDependencies:
       '@vitejs/plugin-vue':
@@ -1336,7 +1336,7 @@ packages:
   '@element-plus/icons-vue@2.3.2':
     resolution: {integrity: sha512-OzIuTaIfC8QXEPmJvB4Y4kw34rSXdCJzxcD1kFStBvr8bK6X1zQAYDo0CNMjojnfTqRQCJ0I7prlErcoRiET2A==}
     peerDependencies:
-      vue: 3.5.22
+      vue: ^3.5.22
 
   '@esbuild/aix-ppc64@0.19.12':
     resolution: {integrity: sha512-bmoCYyWdEL3wDQIVbcyzRyeKLgk2WtWLTWz1ZIAZF/EGbNOwSA6ew3PftJ1PqMiOOGu0OyFMzG53L0zqIpPeNA==}
@@ -2820,28 +2820,28 @@ packages:
     engines: {node: ^18.0.0 || >=20.0.0}
     peerDependencies:
       vite: ^5.0.0
-      vue: 3.5.22
+      vue: ^3.5.22
 
   '@vitejs/plugin-vue@2.3.3':
     resolution: {integrity: sha512-SmQLDyhz+6lGJhPELsBdzXGc+AcaT8stgkbiTFGpXPe8Tl1tJaBw1A6pxDqDuRsVkD8uscrkx3hA7QDOoKYtyw==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
       vite: ^2.5.10
-      vue: 3.5.22
+      vue: ^3.5.22
 
   '@vitejs/plugin-vue@5.0.5':
     resolution: {integrity: sha512-LOjm7XeIimLBZyzinBQ6OSm3UBCNVCpLkxGC0oWmm2YPzVZoxMsdvNVimLTBzpAnR9hl/yn1SHGuRfe6/Td9rQ==}
     engines: {node: ^18.0.0 || >=20.0.0}
     peerDependencies:
       vite: ^5.0.0
-      vue: 3.5.22
+      vue: ^3.5.22
 
   '@vitejs/plugin-vue@5.1.4':
     resolution: {integrity: sha512-N2XSI2n3sQqp5w7Y/AN/L2XDjBIRGqXko+eDp42sydYSBeJuSm5a1sLf8zakmo8u7tA8NmBgoDLA1HeOESjp9A==}
     engines: {node: ^18.0.0 || >=20.0.0}
     peerDependencies:
       vite: ^5.0.0
-      vue: 3.5.22
+      vue: ^3.5.22
 
   '@vitest/coverage-v8@2.0.5':
     resolution: {integrity: sha512-qeFcySCg5FLO2bHHSa0tAZAOnAUbp4L6/A5JDuj9+bt53JREl8hpLjLHEWF0e/gWc8INVpJaqA7+Ene2rclpZg==}
@@ -2957,7 +2957,7 @@ packages:
   '@vue/server-renderer@3.5.22':
     resolution: {integrity: sha512-gXjo+ao0oHYTSswF+a3KRHZ1WszxIqO7u6XwNHqcqb9JfyIL/pbWrrh/xLv7jeDqla9u+LK7yfZKHih1e1RKAQ==}
     peerDependencies:
-      vue: 3.5.22
+      vue: ^3.5.22
 
   '@vue/shared@3.5.22':
     resolution: {integrity: sha512-F4yc6palwq3TT0u+FYf0Ns4Tfl9GRFURDN2gWG7L1ecIaS/4fCIuFOjMTnCyjsu/OK6vaDKLCrGAa+KvvH+h4w==}
@@ -4200,7 +4200,7 @@ packages:
   element-plus@2.8.1:
     resolution: {integrity: sha512-p11/6w/O0+hGvPhiN3jrcgh+XG+eg5jZlLdQVYvcPHZYhhCh3J3YeZWW1JO/REPES1vevkboT6VAi+9wHA8Dsg==}
     peerDependencies:
-      vue: 3.5.22
+      vue: ^3.5.22
 
   emoji-regex@10.4.0:
     resolution: {integrity: sha512-EC+0oUMY1Rqm4O6LLrgjtYDvcVYTy7chDnM4Q7030tP4Kwj3u/pR6gP9ygnp2CJMK5Gq+9Q2oqmrFJAz01DXjw==}
@@ -8195,7 +8195,7 @@ packages:
     peerDependencies:
       '@babel/parser': ^7.15.8
       '@nuxt/kit': ^3.2.2
-      vue: 3.5.22
+      vue: ^3.5.22
     peerDependenciesMeta:
       '@babel/parser':
         optional: true
@@ -8424,7 +8424,7 @@ packages:
     hasBin: true
     peerDependencies:
       '@vue/composition-api': ^1.0.0-rc.1
-      vue: 3.5.22
+      vue: ^3.5.22
     peerDependenciesMeta:
       '@vue/composition-api':
         optional: true
@@ -8441,7 +8441,7 @@ packages:
   vue-router@4.0.16:
     resolution: {integrity: sha512-JcO7cb8QJLBWE+DfxGUL3xUDOae/8nhM1KVdnudadTAORbuxIC/xAydC5Zr/VLHUDQi1ppuTF5/rjBGzgzrJNA==}
     peerDependencies:
-      vue: 3.5.22
+      vue: ^3.5.22
 
   vue-template-compiler@2.7.16:
     resolution: {integrity: sha512-AYbUWAJHLGGQM7+cNTELw+KsOG9nl2CnSv467WobS5Cv9uk3wFcnr1Etsz2sEIHEZvw1U+o9mRlEO6QbZvUPGQ==}
