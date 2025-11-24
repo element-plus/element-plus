@@ -149,34 +149,30 @@ Description includes a message with more detailed information.
 
 
 
-## With Delayed Attributes ^(2.10.0)
-
-
-
 ## Alert API
 
 ### Attributes
 
-| Name                 | Description                              | Type                                                                       | Default |
-| -------------------- | ---------------------------------------- | -------------------------------------------------------------------------- | ------- |
-| title                | alert title.                             | ^[string]                                                                  | —       |
-| type                 | alert type.                              | ^[enum]`'primary' (2.9.11) \| 'success' \| 'warning' \| 'info' \| 'error'` | info    |
-| description          | descriptive text.                        | ^[string]                                                                  | —       |
-| closable             | whether alert can be dismissed.          | ^[boolean]                                                                 | true    |
-| center               | whether content is placed in the center. | ^[boolean]                                                                 | false   |
-| close-text           | customized close button text.            | ^[string]                                                                  | —       |
-| show-icon            | whether a type icon is displayed.        | ^[boolean]                                                                 | false   |
-| effect               | theme style.                             | ^[enum]`'light' \| 'dark'`                                                 | light   |
-| show-after ^(2.10.0) | delay of appearance, in millisecond      | ^[number]                                                                  | 0       |
-| hide-after ^(2.10.0) | delay of disappear, in millisecond       | ^[number]                                                                  | 200     |
-| auto-close ^(2.10.0) | timeout in milliseconds to hide alert    | ^[number]                                                                  | 0       |
+| Name                               | Description                              | Type                                                                        | Default |
+| ---------------------------------- | ---------------------------------------- | --------------------------------------------------------------------------- | ------- |
+| title                              | alert title.                             | ^[string]                                                                   | —       |
+| type                               | alert type.                              | ^[enum]`'primary' (2.9.11) \| 'success' \| 'warning' \| 'info' \| 'error' ` | info    |
+| description                        | descriptive text.                        | ^[string]                                                                   | —       |
+| closable                           | whether alert can be dismissed.          | ^[boolean]                                                                  | true    |
+| center                             | whether content is placed in the center. | ^[boolean]                                                                  | false   |
+| close-text                         | customized close button text.            | ^[string]                                                                   | —       |
+| show-icon                          | whether a type icon is displayed.        | ^[boolean]                                                                  | false   |
+| effect                             | theme style.                             | ^[enum]`'light' \| 'dark'`                                                  | light   |
+| show-after ^(2.10.0) ^(deprecated) | delay of appearance, in millisecond      | ^[number]                                                                   | 0       |
+| hide-after ^(2.10.0) ^(deprecated) | delay of disappear, in millisecond       | ^[number]                                                                   | 200     |
+| auto-close ^(2.10.0) ^(deprecated) | timeout in milliseconds to hide alert    | ^[number]                                                                   | 0       |
 
 ### Events
 
-| Name           | Description                   | Type                                 |
-| -------------- | ----------------------------- | ------------------------------------ |
-| open ^(2.10.0) | trigger when alert is opened. | ^[Function]`() => void`              |
-| close          | trigger when alert is closed. | ^[Function]`(event?: Event) => void` |
+| Name                        | Description                   | Type                                     |
+| --------------------------- | ----------------------------- | ---------------------------------------- |
+| close                       | trigger when alert is closed. | ^[Function]`(event: MouseEvent) => void` |
+| open ^(2.10.0)^(deprecated) | trigger when alert is opened. | ^[Function]`() => void`                  |
 
 ### Slots
 
@@ -250,43 +246,6 @@ const hello = () => {
   alert('Hello World!')
 }
 </script>
-
-<style scoped>
-.el-alert {
-  margin: 20px 0 0;
-}
-.el-alert:first-child {
-  margin: 0;
-}
-</style>
-
-```
-
-### delayed.vue
-```vue
-<template>
-  <div style="max-width: 600px">
-    <el-alert
-      title="Primary alert that appearance after 5000 milliseconds"
-      type="primary"
-      :show-after="5000"
-      @open="console.log('open')"
-    />
-    <el-alert
-      title="Success alert that disappear after 5000 milliseconds"
-      type="success"
-      :hide-after="5000"
-    />
-    <el-alert
-      title="Info alert that in 5000 milliseconds to be hidden"
-      type="info"
-      :closable="false"
-      :auto-close="5000"
-    />
-  </div>
-</template>
-
-<script setup lang="ts"></script>
 
 <style scoped>
 .el-alert {
@@ -716,17 +675,19 @@ const locale = computed(() => anchorLocale[lang.value])
         </div>
       </el-col>
       <el-col :span="6">
-        <el-anchor
-          :container="containerRef"
-          direction="vertical"
-          type="default"
-          :offset="30"
-          @click="handleClick"
-        >
-          <el-anchor-link href="#part1" title="part1" />
-          <el-anchor-link href="#part2" title="part2" />
-          <el-anchor-link href="#part3" title="part3" />
-        </el-anchor>
+        <div class="vp-raw">
+          <el-anchor
+            :container="containerRef"
+            direction="vertical"
+            type="default"
+            :offset="30"
+            @click="handleClick"
+          >
+            <el-anchor-link href="#part1" title="part1" />
+            <el-anchor-link href="#part2" title="part2" />
+            <el-anchor-link href="#part3" title="part3" />
+          </el-anchor>
+        </div>
       </el-col>
     </el-row>
   </div>
@@ -2361,6 +2322,8 @@ Use icons to add more meaning to Button. You can use icon alone to save some spa
 
 Displayed as a button group, can be used to group a series of similar operations.
 
+In ^(2.11.9) you can use the `direction` attribute.
+
 
 
 ## Loading Button
@@ -2440,10 +2403,11 @@ We will calculate hover color & active color automatically.
 
 ### ButtonGroup Attributes
 
-| Name | Description                                      | Type                                                               | Default |
-| ---- | ------------------------------------------------ | ------------------------------------------------------------------ | ------- |
-| size | control the size of buttons in this button-group | ^[enum]`'large' \| 'default' \| 'small'`                           | —       |
-| type | control the type of buttons in this button-group | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | —       |
+| Name                | Description                                      | Type                                                               | Default    |
+| ------------------- | ------------------------------------------------ | ------------------------------------------------------------------ | ---------- |
+| size                | control the size of buttons in this button-group | ^[enum]`'large' \| 'default' \| 'small'`                           | —          |
+| type                | control the type of buttons in this button-group | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | —          |
+| direction ^(2.11.9) | display direction                                | ^[enum]`'horizontal' \| 'vertical'`                                | horizontal |
 
 ### ButtonGroup Slots
 
@@ -2595,28 +2559,37 @@ import { isDark } from '~/composables/dark'
 ### group.vue
 ```vue
 <template>
-  <el-button-group>
+  <el-button-group class="mb-4">
     <el-button type="primary" :icon="ArrowLeft">Previous Page</el-button>
     <el-button type="primary">
       Next Page<el-icon class="el-icon--right"><ArrowRight /></el-icon>
     </el-button>
   </el-button-group>
+  <br />
+  <el-radio-group v-model="direction" class="mb-2">
+    <el-radio value="horizontal">Horizontal</el-radio>
+    <el-radio value="vertical">Vertical</el-radio>
+  </el-radio-group>
+  <br />
 
-  <el-button-group class="ml-4">
-    <el-button type="primary" :icon="Edit" />
-    <el-button type="primary" :icon="Share" />
-    <el-button type="primary" :icon="Delete" />
+  <el-button-group :direction="direction">
+    <el-button type="primary" :icon="House" />
+    <el-button type="primary" :icon="Operation" />
+    <el-button type="primary" :icon="Notification" />
   </el-button-group>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import {
   ArrowLeft,
   ArrowRight,
-  Delete,
-  Edit,
-  Share,
+  House,
+  Notification,
+  Operation,
 } from '@element-plus/icons-vue'
+
+const direction = ref<'horizontal' | 'vertical'>('horizontal')
 </script>
 
 ```
@@ -3674,7 +3647,7 @@ You can customize both the header and footer of the dropdown using slots.
 
 ### Cascader Slots
 
-| Name                     | Description                                                                                    | Scope                                                     |
+| Name                     | Description                                                                                    | Type                                                      |
 | ------------------------ | ---------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
 | default                  | the custom content of cascader node, which are current Node object and node data respectively. | ^[object]`{ node: any, data: any }`                       |
 | empty                    | content when there is no matched options.                                                      | —                                                         |
@@ -3717,7 +3690,7 @@ You can customize both the header and footer of the dropdown using slots.
 
 ### CascaderPanel Slots
 
-| Name           | Description                                                                                    | Scope                               |
+| Name           | Description                                                                                    | Type                                |
 | -------------- | ---------------------------------------------------------------------------------------------- | ----------------------------------- |
 | default        | the custom content of cascader node, which are current Node object and node data respectively. | ^[object]`{ node: any, data: any }` |
 | empty ^(2.8.3) | the content of the panel when there is no data.                                                | —                                   |
@@ -7727,7 +7700,7 @@ const activeName = ref('1')
       </el-collapse-item>
       <el-collapse-item title="Controllability" name="4">
         <div>
-          Decision making: giving advices about operations is acceptable, but do
+          Decision making: giving advice about operations is acceptable, but do
           not make decisions for the users;
         </div>
         <div>
@@ -8625,7 +8598,7 @@ In this section, you can learn how to use Config Provider to provide experimenta
 
 ### Config Provider Slots
 
-| Name    | Description               | Scope                                                   |
+| Name    | Description               | Type                                                    |
 | ------- | ------------------------- | ------------------------------------------------------- |
 | default | customize default content | config: provided global config (inherited from the top) |
 
@@ -12023,7 +11996,7 @@ Display multiple fields in list form.
 | size                 | size of list                               | ^[enum]`'' \| 'large' \| 'default' \| 'small'` | —          |
 | title                | title text, display on the top left        | ^[string]                                      | ''         |
 | extra                | extra text, display on the top right       | ^[string]                                      | ''         |
-| label-width ^(2.8.8) | label width of every column                | ^[string] / ^[number]                          | ''         |
+| label-width ^(2.8.8) | label width of every column                | ^[string] / ^[number]                          | —          |
 
 ### Descriptions Slots
 
@@ -12044,7 +12017,7 @@ Display multiple fields in list form.
 | rowspan ^(2.8.1)     | the number of rows a cell should span                                                                                                                                                        | ^[number]                              | 1       |
 | width                | column width, the width of the same column in different rows is set by the max value (If no `border`, width contains label and content)                                                      | ^[string] / ^[number]                  | ''      |
 | min-width            | column minimum width, columns with `width` has a fixed width, while columns with `min-width` has a width that is distributed in proportion (If no`border`, width contains label and content) | ^[string] / ^[number]                  | ''      |
-| label-width ^(2.8.8) | column label width, if not set, it will be the same as the width of the column. Higher priority than the `label-width` of `Descriptions`                                                     | ^[string] / ^[number]                  | ''      |
+| label-width ^(2.8.8) | column label width, if not set, it will be the same as the width of the column. Higher priority than the `label-width` of `Descriptions`                                                     | ^[string] / ^[number]                  | —       |
 | align                | column content alignment (If no `border`, effective for both label and content)                                                                                                              | ^[enum]`'left' \| 'center' \| 'right'` | left    |
 | label-align          | column label alignment, if omitted, the value of the above `align` attribute will be applied (If no `border`, please use `align` attribute)                                                  | ^[enum]`'left' \| 'center' \| 'right'` | —       |
 | class-name           | column content custom class name                                                                                                                                                             | ^[string]                              | ''      |
@@ -14749,7 +14722,7 @@ When only a single input (or related control such as select or checkbox) is insi
 | prop                    | A key of `model`. It could be a path of the property (e.g `a.b.0` or `['a', 'b', '0']`). In the use of `validate` and `resetFields` method, the attribute is required. | ^[string] / ^[string&#91;&#93;]                     | —       |
 | label                   | Label text.                                                                                                                                                            | ^[string]                                           | —       |
 | label-position ^(2.7.7) | Position of item label. If set to `'left'` or `'right'`, `label-width` prop is also required. Default extend `label-position` of `form`.                               | ^[enum]`'left' \| 'right' \| 'top'`                 | ''      |
-| label-width             | Width of label, e.g. `'50px'`. `'auto'` is supported.                                                                                                                  | ^[string] / ^[number]                               | ''      |
+| label-width             | Width of label, e.g. `'50px'`. `'auto'` is supported.                                                                                                                  | ^[string] / ^[number]                               | —       |
 | required                | Whether the field is required or not, will be determined by validation rules if omitted.                                                                               | ^[boolean]                                          | —       |
 | rules                   | Validation rules of form, see the [following table](#formitemrule), more advanced usage at [async-validator](https://github.com/yiminghe/async-validator).             | ^[object]`Arrayable<FormItemRule>`                  | —       |
 | error                   | Field error message, set its value and the field will validate error and show this message immediately.                                                                | ^[string]                                           | —       |
@@ -17524,19 +17497,19 @@ Prepend or append an element, generally a label or a button.
 
 ### Events
 
-| Name              | Description                                                                                           | Type                                                 |
-| ----------------- | ----------------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
-| blur              | triggers when Input blurs                                                                             | ^[Function]`(event: FocusEvent) => void`             |
-| focus             | triggers when Input focuses                                                                           | ^[Function]`(event: FocusEvent) => void`             |
-| change            | triggers when the input box loses focus or the user presses Enter, only if the modelValue has changed | ^[Function]`(value: string \| number) => void`       |
-| input             | triggers when the Input value change                                                                  | ^[Function]`(value: string \| number) => void`       |
-| clear             | triggers when the Input is cleared by clicking the clear button                                       | ^[Function]`() => void`                              |
-| keydown           | triggers when a key is pressed down                                                                   | ^[Function]`(event: KeyboardEvent \| Event) => void` |
-| mouseleave        | triggers when the mouse leaves the Input element                                                      | ^[Function]`(event: MouseEvent) => void`             |
-| mouseenter        | triggers when the mouse enters the Input element                                                      | ^[Function]`(event: MouseEvent) => void`             |
-| compositionstart  | triggers when the composition starts                                                                  | ^[Function]`(event: CompositionEvent) => void`       |
-| compositionupdate | triggers when the composition is updated                                                              | ^[Function]`(event: CompositionEvent) => void`       |
-| compositionend    | triggers when the composition ends                                                                    | ^[Function]`(event: CompositionEvent) => void`       |
+| Name              | Description                                                                                           | Type                                                        |
+| ----------------- | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| blur              | triggers when Input blurs                                                                             | ^[Function]`(event: FocusEvent) => void`                    |
+| focus             | triggers when Input focuses                                                                           | ^[Function]`(event: FocusEvent) => void`                    |
+| change            | triggers when the input box loses focus or the user presses Enter, only if the modelValue has changed | ^[Function]`(value: string \| number, evt?: Event) => void` |
+| input             | triggers when the Input value change                                                                  | ^[Function]`(value: string \| number) => void`              |
+| clear             | triggers when the Input is cleared by clicking the clear button                                       | ^[Function]`() => void`                                     |
+| keydown           | triggers when a key is pressed down                                                                   | ^[Function]`(event: KeyboardEvent \| Event) => void`        |
+| mouseleave        | triggers when the mouse leaves the Input element                                                      | ^[Function]`(event: MouseEvent) => void`                    |
+| mouseenter        | triggers when the mouse enters the Input element                                                      | ^[Function]`(event: MouseEvent) => void`                    |
+| compositionstart  | triggers when the composition starts                                                                  | ^[Function]`(event: CompositionEvent) => void`              |
+| compositionupdate | triggers when the composition is updated                                                              | ^[Function]`(event: CompositionEvent) => void`              |
+| compositionend    | triggers when the composition ends                                                                    | ^[Function]`(event: CompositionEvent) => void`              |
 
 ### Slots
 
@@ -19477,19 +19450,20 @@ Menu with popperOffset will override Submenu's `popper-offset`.
 
 ### SubMenu Attributes
 
-| Name                | Description                                                                                                                                   | Type                     | Default   |
-| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------ | --------- |
-| index ^(required)   | unique identification                                                                                                                         | ^[string]                | —         |
-| popper-class        | custom class name for the popup menu                                                                                                          | ^[string]                | —         |
-| show-timeout        | timeout before showing a sub-menu(inherit `show-timeout` of the menu by default.)                                                             | ^[number]                | —         |
-| hide-timeout        | timeout before hiding a sub-menu(inherit `hide-timeout` of the menu by default.)                                                              | ^[number]                | —         |
-| disabled            | whether the sub-menu is disabled                                                                                                              | ^[boolean]               | false     |
-| teleported          | whether popup menu is teleported to the body, the default is true for the level one SubMenu, false for other SubMenus                         | ^[boolean]               | undefined |
-| popper-offset       | offset of the popper (overrides the `popper` of menu)                                                                                         | ^[number]                | —         |
-| expand-close-icon   | Icon when menu are expanded and submenu are closed, `expand-close-icon` and `expand-open-icon` need to be passed together to take effect      | ^[string] / ^[Component] | —         |
-| expand-open-icon    | Icon when menu are expanded and submenu are opened, `expand-open-icon` and `expand-close-icon` need to be passed together to take effect      | ^[string] / ^[Component] | —         |
-| collapse-close-icon | Icon when menu are collapsed and submenu are closed, `collapse-close-icon` and `collapse-open-icon` need to be passed together to take effect | ^[string] / ^[Component] | —         |
-| collapse-open-icon  | Icon when menu are collapsed and submenu are opened, `collapse-open-icon` and `collapse-close-icon` need to be passed together to take effect | ^[string] / ^[Component] | —         |
+| Name                   | Description                                                                                                                                   | Type                     | Default   |
+| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------ | --------- |
+| index ^(required)      | unique identification                                                                                                                         | ^[string]                | —         |
+| popper-class           | custom class name for the popup menu                                                                                                          | ^[string]                | —         |
+| popper-style ^(2.11.5) | custom style for the popup menu                                                                                                               | ^[string] / ^[object]    | —         |
+| show-timeout           | timeout before showing a sub-menu(inherit `show-timeout` of the menu by default.)                                                             | ^[number]                | —         |
+| hide-timeout           | timeout before hiding a sub-menu(inherit `hide-timeout` of the menu by default.)                                                              | ^[number]                | —         |
+| disabled               | whether the sub-menu is disabled                                                                                                              | ^[boolean]               | false     |
+| teleported             | whether popup menu is teleported to the body, the default is true for the level one SubMenu, false for other SubMenus                         | ^[boolean]               | undefined |
+| popper-offset          | offset of the popper (overrides the `popper` of menu)                                                                                         | ^[number]                | —         |
+| expand-close-icon      | Icon when menu are expanded and submenu are closed, `expand-close-icon` and `expand-open-icon` need to be passed together to take effect      | ^[string] / ^[Component] | —         |
+| expand-open-icon       | Icon when menu are expanded and submenu are opened, `expand-open-icon` and `expand-close-icon` need to be passed together to take effect      | ^[string] / ^[Component] | —         |
+| collapse-close-icon    | Icon when menu are collapsed and submenu are closed, `collapse-close-icon` and `collapse-open-icon` need to be passed together to take effect | ^[string] / ^[Component] | —         |
+| collapse-open-icon     | Icon when menu are collapsed and submenu are opened, `collapse-open-icon` and `collapse-close-icon` need to be passed together to take effect | ^[string] / ^[Component] | —         |
 
 ### SubMenu Slots
 
@@ -24765,7 +24739,7 @@ The width of dropdown box is calculated by default based on the value of `label`
 
 ### Slots
 
-| Name             | Description                                                                                     | Subtags                                                                                                        |
+| Name             | Description                                                                                     | Type                                                                                                           |
 | ---------------- | ----------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
 | default          | Option renderer                                                                                 | —                                                                                                              |
 | header ^(2.5.2)  | content at the top of the dropdown                                                              | —                                                                                                              |
@@ -27719,7 +27693,7 @@ Sometimes you want to render the business components more smoothly when loading 
 
 ### Skeleton Slots
 
-| Name     | Description                            | Scope                      |
+| Name     | Description                            | Type                       |
 | -------- | -------------------------------------- | -------------------------- |
 | default  | real rendering DOM                     | ^[object]`$attrs`          |
 | template | content as rendering skeleton template | ^[object]`{ key: number }` |
@@ -28572,7 +28546,7 @@ Using `direction` attribute to control the layout, we use `flex-direction` to im
 
 Control the space size via `size` API.
 
-You can set the size with built-in sizes `small`, `default`, `large`, these size coresponds to `8px`, `12px`, `16px`. The default size is `small`, A.K.A. `8px`
+You can set the size with built-in sizes `small`, `default`, `large`, these size corresponds to `8px`, `12px`, `16px`. The default size is `small`, A.K.A. `8px`
 
 You can also using customized size to override it. Refer to the next part.
 
@@ -29011,6 +28985,12 @@ When `lazy` is enabled, the panel size will not update in real time during dragg
 | default           | Default content of the panel                    |
 | start-collapsible | Custom content for the start collapsible button |
 | end-collapsible   | Custom content for the end collapsible button   |
+
+### SplitterPanel Exposes
+
+| Name                       | Description                 | Type                           |
+| -------------------------- | --------------------------- | ------------------------------ |
+| splitterPanelRef ^(2.11.9) | splitter-panel html element | ^[object]`Ref<HTMLDivElement>` |
 
 ## Vue Examples
 
@@ -30414,7 +30394,7 @@ Use the methods provided by Table V2 to scroll manually/programmatically with de
 
 ### TableV2 Slots
 
-| Name        | Params                                      |
+| Name        | Type                                        |
 | ----------- | ------------------------------------------- |
 | cell        | `object`\<[CellSlotProps](#typings)\>       |
 | header      | `object`\<[HeaderSlotProps](#typings)\>     |
@@ -35170,6 +35150,10 @@ Only card type Tabs support addable & closeable.
 
 
 
+## Default value
+
+
+
 ## Tabs API
 
 ### Tabs Attributes
@@ -35177,6 +35161,7 @@ Only card type Tabs support addable & closeable.
 | Name                  | Description                                                                                                                             | Type                                                                                             | Default    |
 | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | ---------- |
 | model-value / v-model | binding value, name of the selected tab, the default value is the name of first tab                                                     | ^[string] / ^[number]                                                                            | —          |
+| default-value (2.11.9)| The value of the tab that should be active when initially rendered. (avoid initial transition)                                          | ^[string] / ^[number]                                                                            | —          |
 | type                  | type of Tab                                                                                                                             | ^[enum]`'' \| 'card' \| 'border-card'`                                                           | ''         |
 | closable              | whether Tab is closable                                                                                                                 | ^[boolean]                                                                                       | false      |
 | addable               | whether Tab is addable                                                                                                                  | ^[boolean]                                                                                       | false      |
@@ -35554,6 +35539,58 @@ const removeTab = (targetName: TabPaneName) => {
 
   editableTabsValue.value = activeName
   editableTabs.value = tabs.filter((tab) => tab.name !== targetName)
+}
+</script>
+
+<style>
+.demo-tabs > .el-tabs__content {
+  padding: 32px;
+  color: #6b778c;
+  font-size: 32px;
+  font-weight: 600;
+}
+</style>
+
+```
+
+### default-value.vue
+```vue
+<template>
+  <el-tabs
+    v-model="activeName"
+    class="demo-tabs"
+    default-value="third"
+    @tab-click="handleClick"
+  >
+    <el-tab-pane
+      v-for="tab in tabs"
+      :key="tab.name"
+      :label="tab.label"
+      :name="tab.name"
+    >
+      default-value: third
+      <br />
+      active: {{ activeName }}
+    </el-tab-pane>
+  </el-tabs>
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+import type { TabsPaneContext } from 'element-plus'
+
+const tabs = ref([
+  { label: 'User', name: 'first' },
+  { label: 'Config', name: 'second' },
+  { label: 'Role', name: 'third' },
+  { label: 'Task', name: 'fourth' },
+])
+
+const activeName = ref()
+
+const handleClick = (tab: TabsPaneContext, event: Event) => {
+  console.log(tab, event)
 }
 </script>
 
@@ -37489,10 +37526,10 @@ Various parameter passing types of target. The string and Function types are sup
 
 ### Tour slots
 
-| Name       | Description                                                   |
-| ---------- | ------------------------------------------------------------- |
-| default    | tourStep component list                                       |
-| indicators | custom indicator, The scope parameter is `{ current, total }` |
+| Name       | Description             | Type                                          |
+| ---------- | ----------------------- | --------------------------------------------- |
+| default    | tourStep component list | —                                             |
+| indicators | custom indicator        | ^[object]`{ current: number, total: number }` |
 
 ### Tour events
 
@@ -37524,10 +37561,10 @@ Various parameter passing types of target. The string and Function types are sup
 
 ### TourStep slots
 
-| Name    | Description |
-| ------- | ----------- |
-| default | description |
-| header  | header      |
+| Name    | Description           |
+| ------- | --------------------- |
+| default | custom description    |
+| header  | custom header content |
 
 ### TourStep events
 
@@ -37896,13 +37933,13 @@ By default, Transfer looks for `key`, `label` and `disabled` in a data item. If 
 
 ### Transfer Slots
 
-| Name                 | Description                                                          |
-| -------------------- | -------------------------------------------------------------------- |
-| default              | Custom content for data items. The scope parameter is `{ option }`   |
-| left-footer          | content of left list footer                                          |
-| right-footer         | content of right list footer                                         |
-| left-empty ^(2.9.0)  | content when left panel is empty or when no data matches the filter  |
-| right-empty ^(2.9.0) | content when right panel is empty or when no data matches the filter |
+| Name                 | Description                                                          | Type                                    |
+| -------------------- | -------------------------------------------------------------------- | --------------------------------------- |
+| default              | Custom content for data items.                                       | ^[object]`{ option: TransferDataItem }` |
+| left-footer          | content of left list footer                                          | —                                       |
+| right-footer         | content of right list footer                                         | —                                       |
+| left-empty ^(2.9.0)  | content when left panel is empty or when no data matches the filter  | —                                       |
+| right-empty ^(2.9.0) | content when right panel is empty or when no data matches the filter | —                                       |
 
 ### Transfer Exposes
 
@@ -38308,10 +38345,10 @@ Since this component combines the functions of components `el-tree` and `el-sele
 the original properties have not been changed, so no repetition here,
 and please go to the original component to view the documentation.
 
-| Attributes                              | Methods                       | Events                              | Slots                              |
-| --------------------------------------- | ----------------------------- | ----------------------------------- | ---------------------------------- |
-| [tree](./tree.md#attributes)            | [tree](./tree.md#method)      | [tree](./tree.md#events)            | [tree](./tree.md#slots)            |
-| [select](./select.md#select-attributes) | [select](./select.md#methods) | [select](./select.md#select-events) | [select](./select.md#select-slots) |
+| Attributes                              | Exposes                              | Events                              | Slots                              |
+| --------------------------------------- | ------------------------------------ | ----------------------------------- | ---------------------------------- |
+| [tree](./tree.md#attributes)            | [tree](./tree.md#exposes)            | [tree](./tree.md#events)            | [tree](./tree.md#slots)            |
+| [select](./select.md#select-attributes) | [select](./select.md#select-exposes) | [select](./select.md#select-events) | [select](./select.md#select-slots) |
 
 #### Own Attributes
 
@@ -39235,10 +39272,36 @@ Tree nodes can be filtered
 
 ### TreeV2 Slots
 
-| Name           | Description                                                                                    |
-| -------------- | ---------------------------------------------------------------------------------------------- |
-| default        | Custom content for tree nodes. The scope parameter is `{ node: TreeNode, data: TreeNodeData }` |
-| empty ^(2.9.0) | empty you can customize content when data is empty.                                            |
+| Name           | Description                       | Type                                              |
+| -------------- | --------------------------------- | ------------------------------------------------- |
+| default        | custom content for tree nodes     | ^[object]`{ node: TreeNode, data: TreeNodeData }` |
+| empty ^(2.9.0) | custom content when data is empty | —                                                 |
+
+## Type Declarations
+
+<details>
+  <summary>Show declarations</summary>
+
+```ts
+type TreeNodeData = Record<string, any>
+type TreeKey = string | number
+type TreeData = TreeNodeData[]
+
+interface TreeNode {
+  key: TreeKey
+  level: number
+  parent?: TreeNode
+  children?: TreeNode[]
+  data: TreeNodeData
+  disabled?: boolean
+  label?: string
+  isLeaf?: boolean
+  expanded?: boolean
+  isEffectivelyChecked?: boolean
+}
+```
+
+</details>
 
 ## Vue Examples
 
@@ -39972,10 +40035,60 @@ You can drag and drop Tree nodes by adding a `draggable` attribute.
 
 ### Slots
 
-| Name           | Description                                                            |
-| -------------- | ---------------------------------------------------------------------- |
-| default        | Custom content for tree nodes. The scope parameter is `{ node, data }` |
-| empty ^(2.3.4) | empty you can customize content when data is empty.                    |
+| Name           | Description                       | Type                                                                                |
+| -------------- | --------------------------------- | ----------------------------------------------------------------------------------- |
+| default        | custom content for tree nodes     | ^[object]`{ node: UnwrapRef<RootTreeType['root']>, data: Tree \| TreeOptionProps }` |
+| empty ^(2.3.4) | custom content when data is empty | —                                                                                   |
+
+## Type Declarations
+
+<details>
+  <summary>Show declarations</summary>
+
+```ts
+interface RootTreeType {
+  root: Ref<Node>
+  // ...
+}
+
+// UnwrapRef<RootTreeType['root']> => Node
+type Node = {
+  canFocus: boolean
+  checked: boolean
+  childNodes: Node[]
+  data: TreeNodeData
+  expanded: boolean
+  id: number
+  indeterminate: boolean
+  isCurrent: boolean
+  isEffectivelyChecked: boolean
+  isLeaf?: boolean
+  isLeafByUser?: boolean
+  level: number
+  loaded: boolean
+  loading: boolean
+  parent: Node | null
+  store: TreeStore
+  text: string | null
+  visible: boolean
+}
+
+// TreeNodeData => Tree / TreeOptionProps
+// Tree type is your prop type.
+// TreeOptionProps is default prop type
+interface TreeOptionProps {
+  children?: string
+  label?: string | ((data: TreeNodeData, node: Node) => string)
+  disabled?: string | ((data: TreeNodeData, node: Node) => boolean)
+  isLeaf?: string | ((data: TreeNodeData, node: Node) => boolean)
+  class?: (
+    data: TreeNodeData,
+    node: Node
+  ) => string | { [key: string]: boolean }
+}
+```
+
+</details>
 
 ## Vue Examples
 
