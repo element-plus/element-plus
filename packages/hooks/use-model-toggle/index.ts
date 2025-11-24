@@ -6,10 +6,15 @@ import {
   isClient,
   isFunction,
 } from '@element-plus/utils'
+
 import type { ExtractPropType } from '@element-plus/utils'
 import type { RouteLocationNormalizedLoaded } from 'vue-router'
-
-import type { ComponentPublicInstance, ExtractPropTypes, Ref } from 'vue'
+import type {
+  ComponentPublicInstance,
+  ExtractPropTypes,
+  Ref,
+  __ExtractPublicPropTypes,
+} from 'vue'
 
 const _prop = buildProp({
   type: definePropType<boolean | null>(Boolean),
@@ -192,6 +197,9 @@ const { useModelToggle, useModelToggleProps, useModelToggleEmits } =
 export { useModelToggle, useModelToggleEmits, useModelToggleProps }
 
 export type UseModelToggleProps = ExtractPropTypes<typeof useModelToggleProps>
+export type UseModelTogglePropsPublic = __ExtractPublicPropTypes<
+  typeof useModelToggleProps
+>
 
 export type ModelToggleParams = {
   indicator: Ref<boolean>

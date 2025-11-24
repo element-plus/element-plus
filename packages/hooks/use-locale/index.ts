@@ -4,10 +4,15 @@ import English from '@element-plus/locale/lang/en'
 
 import type { MaybeRef } from '@vueuse/core'
 import type { InjectionKey, Ref } from 'vue'
+import type { FieldPath } from '@element-plus/utils'
 import type { Language } from '@element-plus/locale'
 
+export type LocaleKeys =
+  | Exclude<FieldPath<typeof English>, 'name' | 'el'>
+  | (string & NonNullable<unknown>)
+
 export type TranslatorOption = Record<string, string | number>
-export type Translator = (path: string, option?: TranslatorOption) => string
+export type Translator = (path: LocaleKeys, option?: TranslatorOption) => string
 export type LocaleContext = {
   locale: Ref<Language>
   lang: Ref<string>
@@ -20,7 +25,7 @@ export const buildTranslator =
     translate(path, option, unref(locale))
 
 export const translate = (
-  path: string,
+  path: LocaleKeys,
   option: undefined | TranslatorOption,
   locale: Language
 ): string =>

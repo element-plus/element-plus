@@ -1,5 +1,6 @@
 import { buildProps } from '@element-plus/utils'
-import type { ExtractPropTypes } from 'vue'
+
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type Bar from './bar.vue'
 
 export const barProps = buildProps({
@@ -13,5 +14,6 @@ export const barProps = buildProps({
   },
 } as const)
 export type BarProps = ExtractPropTypes<typeof barProps>
+export type BarPropsPublic = __ExtractPublicPropTypes<typeof barProps>
 
-export type BarInstance = InstanceType<typeof Bar>
+export type BarInstance = InstanceType<typeof Bar> & unknown

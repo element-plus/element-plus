@@ -187,6 +187,101 @@ describe('Dropdown', () => {
     expect(content.open).toBe(true)
   })
 
+  test('virtual ref', async () => {
+    const wrapper = _mount(
+      `
+      <el-button style="height: 400px; width: 400px" @click="handleClick" @contextmenu="handleContextmenu">
+        Right click
+      </el-button>
+      <el-dropdown
+        ref="dropdownRef"
+        popper-class="virtual-ref-cls"
+        :virtual-ref="triggerRef"
+        virtual-triggering
+        :popper-options="popperOptions"
+      >
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item>Apple</el-dropdown-item>
+            <el-dropdown-item>Orange</el-dropdown-item>
+            <el-dropdown-item>Cherry</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+      `,
+      function () {
+        return {
+          dropdownRef: null,
+          popperOptions: {
+            modifiers: [
+              { name: 'offset', options: { offset: [0, 0] } },
+              { name: 'flip', options: { fallbackPlacements: ['bottom'] } },
+            ],
+          },
+          position: {
+            top: 0,
+            left: 0,
+            bottom: 0,
+            right: 0,
+            x: 0,
+            y: 0,
+            width: 0,
+            height: 0,
+            toJSON: () => {},
+          },
+          triggerRef: {
+            getBoundingClientRect: () => this.position,
+          },
+        }
+      },
+      {
+        methods: {
+          handleClick() {
+            this.$refs.dropdownRef?.handleClose()
+          },
+          handleContextmenu(event: MouseEvent) {
+            event.preventDefault()
+            const { clientX, clientY } = event
+            this.position = {
+              ...this.position,
+              top: clientY,
+              left: clientX,
+              x: clientX,
+              y: clientY,
+              right: clientX,
+              bottom: clientY,
+            }
+            this.$refs.dropdownRef?.handleOpen()
+          },
+        },
+      }
+    )
+
+    await nextTick()
+    const content = wrapper.findComponent(ElTooltip).vm as InstanceType<
+      typeof ElTooltip
+    >
+    const triggerElm = wrapper.find('.el-button')
+
+    expect(content.open).toBe(false)
+    vi.useFakeTimers()
+    await triggerElm.trigger('contextmenu', {
+      clientX: 100,
+      clientY: 100,
+    })
+    vi.runAllTimers()
+    expect(content.open).toBe(true)
+    const dropdownEl = document.querySelector('.virtual-ref-cls')
+    const dropdownStyle = getComputedStyle(dropdownEl)
+
+    expect(dropdownStyle.left).toBe('100px')
+    expect(dropdownStyle.top).toBe('100px')
+    await triggerElm.trigger('click')
+    vi.runAllTimers()
+    expect(content.open).toBe(false)
+    vi.useRealTimers()
+  })
+
   test('handleOpen and handleClose', async () => {
     const wrapper = _mount(
       `
@@ -350,46 +445,6 @@ describe('Dropdown', () => {
     vi.runAllTimers()
     expect(content.open).toBe(true)
     vi.useRealTimers()
-  })
-
-  test('dropdown menu keydown', async () => {
-    const wrapper = _mount(
-      `
-      <el-dropdown ref="b" placement="right" :hide-on-click="false">
-        <span class="el-dropdown-link" ref="a">
-          dropdown<i class="el-icon-arrow-down el-icon--right"></i>
-        </span>
-        <template #dropdown>
-          <el-dropdown-menu ref="dropdown-menu">
-            <el-dropdown-item ref="d">Apple</el-dropdown-item>
-            <el-dropdown-item>Orange</el-dropdown-item>
-            <el-dropdown-item ref="c">Cherry</el-dropdown-item>
-            <el-dropdown-item disabled>Peach</el-dropdown-item>
-            <el-dropdown-item divided>Pear</el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
-      `,
-      () => ({})
-    )
-    await nextTick()
-    const content = wrapper.findComponent({ ref: 'dropdown-menu' })
-    const triggerElm = wrapper.find('.el-tooltip__trigger')
-    await triggerElm.trigger(MOUSE_ENTER_EVENT)
-    await rAF()
-    await content.trigger('keydown', {
-      code: EVENT_CODE.down,
-    })
-    await rAF()
-    expect(
-      wrapper
-        .findComponent({ ref: 'd' })
-        .findComponent({
-          name: 'DropdownItemImpl',
-        })
-        .find('.el-dropdown-menu__item')
-        .element.getAttribute('tabindex')
-    ).toBe('0')
   })
 
   test('max height', async () => {
@@ -760,6 +815,108 @@ describe('Dropdown', () => {
       expect(menu.attributes()['role']).toBe('group')
       expect(menuItem.attributes()['role']).toBe('button')
     })
+
+    test('Trigger dropdown via hover', async () => {
+      const wrapper = _mount(
+        `
+        <el-dropdown trigger="hover" :show-timeout="0" :hide-timeout="0">
+          <span class="el-dropdown-link">
+            Dropdown List
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu ref="menu">
+              <el-dropdown-item class="item-1" disabled>Item</el-dropdown-item>
+              <el-dropdown-item class="item-2">Item</el-dropdown-item>
+              <el-dropdown-item class="item-3">Item</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+        `,
+        () => ({})
+      )
+      await nextTick()
+
+      const trigger = wrapper.find('.el-tooltip__trigger')
+      await trigger.trigger(MOUSE_ENTER_EVENT)
+      await rAF()
+      const menuItem = wrapper.findComponent({ ref: 'menu' })
+      await menuItem.trigger('keydown', { code: EVENT_CODE.down })
+      await rAF()
+      const item2 = menuItem.find('.item-2')
+      expect(item2.element.getAttribute('tabindex')).toBe('0')
+
+      await item2.trigger('keydown', { code: EVENT_CODE.down })
+      await rAF()
+      const item3 = menuItem.find('.item-3')
+      expect(item3.element.getAttribute('tabindex')).toBe('0')
+    })
+
+    test('Trigger dropdown via click', async () => {
+      const wrapper = _mount(
+        `
+        <el-dropdown trigger="click" :show-timeout="0" :hide-timeout="0">
+          <span class="el-dropdown-link">
+            Dropdown List
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu ref="menu">
+              <el-dropdown-item class="item-1" disabled>Item</el-dropdown-item>
+              <el-dropdown-item class="item-2">Item</el-dropdown-item>
+              <el-dropdown-item class="item-3">Item</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+        `,
+        () => ({})
+      )
+      await nextTick()
+
+      const trigger = wrapper.find('.el-tooltip__trigger')
+      await trigger.trigger('click')
+      await rAF()
+      const menuItem = wrapper.findComponent({ ref: 'menu' })
+      expect(document.activeElement).toBe(menuItem.element)
+
+      await menuItem.trigger('keydown', { code: EVENT_CODE.down })
+      await rAF()
+      const item2 = menuItem.find('.item-2')
+      expect(item2.element.getAttribute('tabindex')).toBe('0')
+
+      await item2.trigger('keydown', { code: EVENT_CODE.down })
+      await rAF()
+      const item3 = menuItem.find('.item-3')
+      expect(item3.element.getAttribute('tabindex')).toBe('0')
+    })
+
+    test('Trigger dropdown via focus', async () => {
+      const wrapper = _mount(
+        `
+        <el-dropdown trigger="focus" :show-timeout="0" :hide-timeout="0">
+          <span class="el-dropdown-link">
+            Dropdown List
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu ref="menu">
+              <el-dropdown-item class="item-1" disabled>Item</el-dropdown-item>
+              <el-dropdown-item class="item-2">Item</el-dropdown-item>
+              <el-dropdown-item class="item-3">Item</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+        `,
+        () => ({})
+      )
+      await nextTick()
+
+      const trigger = wrapper.find('.el-tooltip__trigger')
+      await trigger.trigger('focus')
+      await trigger.trigger('keydown', { code: EVENT_CODE.down })
+      await rAF()
+      const menuItem = wrapper.findComponent({ ref: 'menu' })
+      const item2 = menuItem.find('.item-2')
+      expect(document.activeElement).toBe(item2.element)
+      expect(item2.element.getAttribute('tabindex')).toBe('0')
+    })
   })
 
   describe('teleported API', () => {
@@ -814,5 +971,54 @@ describe('Dropdown', () => {
       const { selector } = usePopperContainerId()
       expect(document.body.querySelector(selector.value).innerHTML).toBe('')
     })
+  })
+
+  test('hover trigger: click dropdown-item should close immediately', async () => {
+    const wrapper = _mount(
+      `
+      <el-dropdown trigger="hover" :hide-timeout="3000">
+        <span class="el-dropdown-link">
+          dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+        </span>
+        <template #dropdown>
+          <el-dropdown-menu ref="menu">
+            <el-dropdown-item ref="item">Apple</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+      `,
+      () => ({})
+    )
+
+    await nextTick()
+    const content = wrapper.findComponent(ElTooltip).vm as InstanceType<
+      typeof ElTooltip
+    >
+    vi.useFakeTimers()
+    const triggerElm = wrapper.find('.el-tooltip__trigger')
+    expect(content.open).toBe(false)
+    await triggerElm.trigger(MOUSE_ENTER_EVENT)
+    vi.runAllTimers()
+    await nextTick()
+    expect(content.open).toBe(true)
+
+    const menu = wrapper.findComponent({ ref: 'menu' })
+    await menu.trigger(MOUSE_ENTER_EVENT)
+
+    const item = wrapper
+      .findComponent({ ref: 'item' })
+      .findComponent({ name: 'DropdownItemImpl' })
+      .find('.el-dropdown-menu__item')
+
+    await item.trigger('click')
+    await nextTick()
+    vi.advanceTimersByTime(100)
+    expect(content.open).toBe(false)
+
+    await triggerElm.trigger(MOUSE_ENTER_EVENT)
+    vi.runAllTimers()
+    await nextTick()
+    expect(content.open).toBe(true)
+    vi.useRealTimers()
   })
 })

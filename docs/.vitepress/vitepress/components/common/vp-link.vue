@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { withBase } from 'vitepress'
 import { isExternal } from '../../utils'
 
 defineProps<{
@@ -12,7 +13,7 @@ defineProps<{
     :is="href ? 'a' : 'span'"
     class="link-item"
     :class="{ link: href }"
-    :href="href"
+    :href="withBase(href ?? '')"
     :target="isExternal(href) ? '_blank' : undefined"
     :rel="isExternal(href) ? 'noopener noreferrer' : undefined"
   >

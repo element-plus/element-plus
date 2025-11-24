@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { castArray as lodashCastArray } from 'lodash-unified'
-import { castArray, ensureArray, unique } from '..'
+import { castArray, ensureArray, extractFirst, unique } from '..'
 
 describe('arrays', () => {
   it('unique should work', () => {
@@ -16,5 +16,15 @@ describe('arrays', () => {
 
   it('re-export ensureArray', () => {
     expect(ensureArray).toBe(lodashCastArray)
+  })
+
+  it('extractFirst should work', () => {
+    expect(extractFirst([1, 2, 3])).toBe(1)
+    expect(extractFirst(['a', 'b', 'c'])).toBe('a')
+    expect(extractFirst(42)).toBe(42)
+    expect(extractFirst('hello')).toBe('hello')
+    expect(extractFirst(null)).toBe(null)
+    expect(extractFirst(undefined)).toBe(undefined)
+    expect(extractFirst([])).toBe(undefined)
   })
 })

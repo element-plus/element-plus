@@ -16,7 +16,7 @@
   width: 100%;
   max-width: 100%;
   background-color: getCssVar('table-bg-color');
-  font-size: 14px;
+  font-size: getCssVar('font-size', 'base');
   color: getCssVar('table-text-color');
 
   @include e(inner-wrapper) {
@@ -358,7 +358,6 @@
           &.is-last-column {
             &::before {
               right: -10px;
-              box-shadow: none;
             }
           }
         }

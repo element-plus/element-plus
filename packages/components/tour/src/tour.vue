@@ -35,11 +35,13 @@ import { useVModel } from '@vueuse/core'
 import { useNamespace, useZIndex } from '@element-plus/hooks'
 import { isBoolean } from '@element-plus/utils'
 import ElTeleport from '@element-plus/components/teleport'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import ElTourMask from './mask.vue'
 import ElTourContent from './content.vue'
 import ElTourSteps from './steps'
 import { tourEmits, tourProps } from './tour'
 import { tourKey, useTarget } from './helper'
+
 import type { TourStepProps } from './step'
 
 defineOptions({
@@ -111,7 +113,7 @@ watch(
 
 const onEscClose = () => {
   if (props.closeOnPressEscape) {
-    emit('update:modelValue', false)
+    emit(UPDATE_MODEL_EVENT, false)
     emit('close', current.value)
   }
 }
@@ -127,12 +129,12 @@ provide(tourKey, {
   current,
   total,
   showClose: toRef(props, 'showClose'),
-  closeIcon: toRef(props, 'closeIcon') as any,
-  mergedType: mergedType as any,
+  closeIcon: toRef(props, 'closeIcon'),
+  mergedType,
   ns,
   slots,
   updateModelValue(modelValue) {
-    emit('update:modelValue', modelValue)
+    emit(UPDATE_MODEL_EVENT, modelValue)
   },
   onClose() {
     emit('close', current.value)
@@ -141,7 +143,7 @@ provide(tourKey, {
     emit('finish')
   },
   onChange() {
-    emit('change', current.value)
+    emit(CHANGE_EVENT, current.value)
   },
 })
 </script>

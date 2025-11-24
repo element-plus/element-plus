@@ -4,7 +4,6 @@ import {
   getScrollBarWidth,
   getStyle,
   hasClass,
-  isClient,
   removeClass,
   throwError,
 } from '@element-plus/utils'
@@ -38,10 +37,6 @@ export const useLockscreen = (
 
   const hiddenCls = computed(() => ns.bm('parent', 'hidden'))
 
-  if (!isClient || hasClass(document.body, hiddenCls.value)) {
-    return
-  }
-
   let scrollBarWidth = 0
   let withoutHiddenClass = false
   let bodyWidth = '0'
@@ -51,9 +46,9 @@ export const useLockscreen = (
       // When the test case is running, the context environment simulated by jsdom may have been destroyed,
       // and the document does not exist at this time.
       if (typeof document === 'undefined') return
-      removeClass(document?.body, hiddenCls.value)
       if (withoutHiddenClass && document) {
         document.body.style.width = bodyWidth
+        removeClass(document.body, hiddenCls.value)
       }
     }, 200)
   }
@@ -66,6 +61,7 @@ export const useLockscreen = (
     withoutHiddenClass = !hasClass(document.body, hiddenCls.value)
     if (withoutHiddenClass) {
       bodyWidth = document.body.style.width
+      addClass(document.body, hiddenCls.value)
     }
     scrollBarWidth = getScrollBarWidth(ns.namespace.value)
     const bodyHasOverflow =
@@ -78,7 +74,6 @@ export const useLockscreen = (
     ) {
       document.body.style.width = `calc(100% - ${scrollBarWidth}px)`
     }
-    addClass(document.body, hiddenCls.value)
   })
   onScopeDispose(() => cleanup())
 }

@@ -39,8 +39,8 @@ import ElIcon from '@element-plus/components/icon'
 import { Close } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
 import { useFormSize } from '@element-plus/components/form'
-
 import { tagEmits, tagProps } from './tag'
+
 import type { VNode } from 'vue'
 
 defineOptions({
@@ -75,6 +75,9 @@ const handleClick = (event: MouseEvent) => {
 
 const handleVNodeMounted = (vnode: VNode) => {
   // @ts-ignore
-  vnode.component.subTree.component.bum = null
+  if (vnode?.component?.subTree?.component?.bum) {
+    // @ts-ignore
+    vnode.component.subTree.component.bum = null
+  }
 }
 </script>

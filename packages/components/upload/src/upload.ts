@@ -1,9 +1,9 @@
 import { NOOP, buildProps, definePropType, mutable } from '@element-plus/utils'
 import { ajaxUpload } from './ajax'
-import type { Awaitable, Mutable } from '@element-plus/utils'
 
+import type { Awaitable, Mutable } from '@element-plus/utils'
 import type { UploadAjaxError } from './ajax'
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type Upload from './upload.vue'
 
 export const uploadListTypes = ['text', 'picture', 'picture-card'] as const
@@ -19,7 +19,7 @@ export interface UploadProgressEvent extends ProgressEvent {
 export interface UploadRequestOptions {
   action: string
   method: string
-  data: Record<string, string | Blob | [string | Blob, string]>
+  data: Record<string, string | Blob | [Blob, string]>
   filename: string
   file: UploadRawFile
   headers: Headers | Record<string, string | number | null | undefined>
@@ -44,6 +44,7 @@ export type UploadUserFile = Omit<UploadFile, 'status' | 'uid'> &
 export type UploadFiles = UploadFile[]
 export interface UploadRawFile extends File {
   uid: number
+  isDirectory?: boolean
 }
 export type UploadRequestHandler = (
   options: UploadRequestOptions
@@ -255,5 +256,6 @@ export const uploadProps = buildProps({
 } as const)
 
 export type UploadProps = ExtractPropTypes<typeof uploadProps>
+export type UploadPropsPublic = __ExtractPublicPropTypes<typeof uploadProps>
 
-export type UploadInstance = InstanceType<typeof Upload>
+export type UploadInstance = InstanceType<typeof Upload> & unknown

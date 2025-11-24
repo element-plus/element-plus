@@ -1,12 +1,14 @@
-// @ts-nocheck
-import { defineComponent, h } from 'vue'
+import { defineComponent, h, inject } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
+import useLayoutObserver from '../layout-observer'
+import { TABLE_INJECTION_KEY } from '../tokens'
 import useStyle from './style-helper'
-import type { Store } from '../store'
 
-import type { PropType } from 'vue'
-import type { DefaultRow, Sort, SummaryMethod } from '../table/defaults'
-export interface TableFooter<T> {
+import type { Store } from '../store'
+import type { PropType, VNode } from 'vue'
+import type { DefaultRow, Sort, SummaryMethod, Table } from '../table/defaults'
+
+export interface TableFooter<T extends DefaultRow> {
   fixed: string
   store: Store<T>
   summaryMethod: SummaryMethod<T>
@@ -25,15 +27,13 @@ export default defineComponent({
     },
     store: {
       required: true,
-      type: Object as PropType<TableFooter<DefaultRow>['store']>,
+      type: Object as PropType<TableFooter<any>['store']>,
     },
-    summaryMethod: Function as PropType<
-      TableFooter<DefaultRow>['summaryMethod']
-    >,
+    summaryMethod: Function as PropType<TableFooter<any>['summaryMethod']>,
     sumText: String,
     border: Boolean,
     defaultSort: {
-      type: Object as PropType<TableFooter<DefaultRow>['defaultSort']>,
+      type: Object as PropType<TableFooter<any>['defaultSort']>,
       default: () => {
         return {
           prop: '',
@@ -43,12 +43,17 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const { getCellClasses, getCellStyles, columns } = useStyle(
-      props as TableFooter<DefaultRow>
-    )
+    const parent = inject(TABLE_INJECTION_KEY) as Table<any>
     const ns = useNamespace('table')
+    const { getCellClasses, getCellStyles, columns } = useStyle(
+      props as TableFooter<any>
+    )
+    const { onScrollableChange, onColumnsChange } = useLayoutObserver(parent!)
+
     return {
       ns,
+      onScrollableChange,
+      onColumnsChange,
       getCellClasses,
       getCellStyles,
       columns,
@@ -58,7 +63,7 @@ export default defineComponent({
     const { columns, getCellStyles, getCellClasses, summaryMethod, sumText } =
       this
     const data = this.store.states.data.value
-    let sums = []
+    let sums: (string | VNode | number | undefined)[] = []
     if (summaryMethod) {
       sums = summaryMethod({
         columns,
@@ -71,7 +76,7 @@ export default defineComponent({
           return
         }
         const values = data.map((item) => Number(item[column.property]))
-        const precisions = []
+        const precisions: number[] = []
         let notNumber = true
         values.forEach((value) => {
           if (!Number.isNaN(+value)) {

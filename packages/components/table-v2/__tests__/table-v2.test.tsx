@@ -2,6 +2,7 @@ import { h, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
 import TableV2 from '../src/table-v2'
+
 import type {
   TableV2HeaderRowCellRendererParams,
   TableV2RowCellRenderParam,

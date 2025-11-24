@@ -1,11 +1,21 @@
-import { computed, defineComponent, inject, ref, unref } from 'vue'
+import {
+  computed,
+  defineComponent,
+  inject,
+  nextTick,
+  onActivated,
+  provide,
+  ref,
+  unref,
+  watch,
+} from 'vue'
 import {
   DynamicSizeGrid,
   FixedSizeGrid,
 } from '@element-plus/components/virtual-list'
 import { isNumber, isObject } from '@element-plus/utils'
 import { Header } from './components'
-import { TableV2InjectionKey } from './tokens'
+import { TABLE_V2_GRID_INJECTION_KEY, TableV2InjectionKey } from './tokens'
 import { tableV2GridProps } from './grid'
 import { sum } from './utils'
 
@@ -27,6 +37,7 @@ const COMPONENT_NAME = 'ElTableV2Grid'
 const useTableGrid = (props: TableV2GridProps) => {
   const headerRef = ref<TableV2HeaderInstance>()
   const bodyRef = ref<DynamicSizeGridInstance>()
+  const scrollLeft = ref(0)
 
   const totalHeight = computed(() => {
     const { data, rowHeight, estimatedRowHeight } = props
@@ -84,9 +95,11 @@ const useTableGrid = (props: TableV2GridProps) => {
 
     if (isObject(leftOrOptions)) {
       header$?.scrollToLeft(leftOrOptions.scrollLeft)
+      scrollLeft.value = leftOrOptions.scrollLeft!
       body$?.scrollTo(leftOrOptions)
     } else {
       header$?.scrollToLeft(leftOrOptions)
+      scrollLeft.value = leftOrOptions
       body$?.scrollTo({
         scrollLeft: leftOrOptions,
         scrollTop: top,
@@ -109,6 +122,14 @@ const useTableGrid = (props: TableV2GridProps) => {
     unref(headerRef)?.$forceUpdate()
   }
 
+  watch(
+    () => props.bodyWidth,
+    () => {
+      if (isNumber(props.estimatedRowHeight))
+        bodyRef.value?.resetAfter({ columnIndex: 0 }, false)
+    }
+  )
+
   return {
     bodyRef,
     forceUpdate,
@@ -125,6 +146,7 @@ const useTableGrid = (props: TableV2GridProps) => {
     scrollTo,
     scrollToTop,
     scrollToRow,
+    scrollLeft,
   }
 }
 
@@ -150,7 +172,16 @@ const TableGrid = defineComponent({
       scrollTo,
       scrollToTop,
       scrollToRow,
+      scrollLeft,
     } = useTableGrid(props)
+
+    provide(TABLE_V2_GRID_INJECTION_KEY, scrollLeft)
+
+    onActivated(async () => {
+      await nextTick()
+      const scrollTop = bodyRef.value?.states.scrollTop
+      scrollTop && scrollToTop(Math.round(scrollTop) + 1)
+    })
 
     expose({
       forceUpdate,

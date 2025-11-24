@@ -6,9 +6,14 @@ import {
   mutable,
 } from '@element-plus/utils'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import type { Awaitable } from '@element-plus/utils'
 
-import type { ExtractPropTypes, h as H, VNode } from 'vue'
+import type { Awaitable } from '@element-plus/utils'
+import type {
+  ExtractPropTypes,
+  h as H,
+  VNode,
+  __ExtractPublicPropTypes,
+} from 'vue'
 import type Transfer from './transfer.vue'
 
 export type TransferKey = string | number
@@ -151,6 +156,7 @@ export const transferProps = buildProps({
   },
 } as const)
 export type TransferProps = ExtractPropTypes<typeof transferProps>
+export type TransferPropsPublic = __ExtractPublicPropTypes<typeof transferProps>
 
 export const transferCheckedChangeFn = (
   value: TransferKey[],
@@ -170,4 +176,4 @@ export const transferEmits = {
 }
 export type TransferEmits = typeof transferEmits
 
-export type TransferInstance = InstanceType<typeof Transfer>
+export type TransferInstance = InstanceType<typeof Transfer> & unknown

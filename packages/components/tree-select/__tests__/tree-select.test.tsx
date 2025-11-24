@@ -1,7 +1,11 @@
 import { nextTick, reactive, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, expect, test, vi } from 'vitest'
+import { afterEach, describe, expect, test, vi } from 'vitest'
+import { CircleClose } from '@element-plus/icons-vue'
 import TreeSelect from '../src/tree-select.vue'
+import Tree from '@element-plus/components/tree/src/tree.vue'
+import defineGetter from '@element-plus/test-utils/define-getter'
+import { EVENT_CODE } from '@element-plus/constants'
 
 import type { RenderFunction } from 'vue'
 import type { VueWrapper } from '@vue/test-utils'
@@ -13,7 +17,7 @@ const createComponent = ({
   props = {},
 }: {
   slots?: Record<string, any>
-  props?: typeof TreeSelect['props']
+  props?: (typeof TreeSelect)['props']
 } = {}) => {
   const wrapperRef = ref<InstanceType<typeof TreeSelect>>()
   const defaultData = ref([
@@ -78,6 +82,11 @@ const createComponent = ({
 }
 
 describe('TreeSelect.vue', () => {
+  afterEach(() => {
+    vi.clearAllTimers()
+    vi.useRealTimers()
+    document.body.innerHTML = ''
+  })
   test('render test', async () => {
     const { wrapper, tree } = createComponent({
       props: {
@@ -97,6 +106,43 @@ describe('TreeSelect.vue', () => {
     await nextTick()
 
     expect(tree.findAll('.el-tree .el-tree-node').length).toBe(1)
+  })
+
+  test('render tree-select with default value and persistent is false', async () => {
+    // This is convenient for testing the default value label rendering when persistent is false.
+    process.env.RUN_TEST_WITH_PERSISTENT = 'true'
+    const { select, wrapper } = createComponent({
+      props: {
+        persistent: false,
+        modelValue: 1,
+      },
+    })
+
+    await nextTick()
+
+    expect(select.vm.modelValue).toBe(1)
+    expect(select.vm.states.selectedLabel).toBe('一级 1')
+    expect(wrapper.find('.el-select__placeholder').text()).toBe('一级 1')
+    delete process.env.RUN_TEST_WITH_PERSISTENT
+  })
+
+  test('render tree-select with dynamic class', async () => {
+    const isClass = ref(false)
+    const { wrapper } = createComponent({
+      props: {
+        class: {
+          'dynamic-class': isClass,
+        },
+      },
+    })
+
+    expect(wrapper.find('.el-select')).toBeTruthy()
+
+    isClass.value = true
+    await nextTick()
+    const select = wrapper.find('.el-select')
+    const classes = select.classes()
+    expect(classes).toContain('dynamic-class')
   })
 
   test('modelValue', async () => {
@@ -227,8 +273,9 @@ describe('TreeSelect.vue', () => {
     expect(tree.findAll('.el-tree-node:not(.is-hidden)').length).toBe(1)
     expect(document.querySelector('.el-select-dropdown__empty')).toBeFalsy()
     tree.vm.filter('no match')
-    await nextTick()
-    expect(document.querySelector('.el-select-dropdown__empty')).toBeTruthy()
+    await vi.waitFor(() => {
+      expect(document.querySelector('.el-select-dropdown__empty')).toBeTruthy()
+    })
   })
 
   test('props', async () => {
@@ -444,6 +491,71 @@ describe('TreeSelect.vue', () => {
     expect(
       tree.findAll('.el-tree-node__children')[0].attributes('style')
     ).not.toContain('display: none;')
+  })
+
+  test('navigate down', async () => {
+    const { wrapper } = createComponent({
+      props: {
+        defaultExpandAll: true,
+      },
+    })
+
+    await nextTick()
+
+    let flag = false
+    function handleFocus() {
+      return () => (flag = true)
+    }
+    vi.useFakeTimers()
+    const selectWrapper = wrapper.find('.el-select__wrapper')
+    await selectWrapper.trigger('click')
+    await selectWrapper.trigger('focus')
+    const focused = wrapper.find('.is-focused')
+    expect(focused.exists()).toBe(true)
+    await selectWrapper
+      .find('input')
+      .trigger('keydown', { key: EVENT_CODE.down })
+    vi.runAllTimers()
+
+    expect((document.activeElement as HTMLElement).dataset.key).toBe('1')
+
+    const treeWrapper = wrapper.findComponent(Tree)
+    const allNodes = treeWrapper.findAll('.el-tree-node')
+    const len = allNodes.length
+    for (let i = 0; i < len; i++) {
+      if (allNodes[i + 1]) {
+        defineGetter(allNodes[i + 1].element, 'focus', handleFocus)
+        // 模拟按下下箭头键
+        allNodes[i].element.dispatchEvent(
+          new KeyboardEvent('keydown', {
+            code: EVENT_CODE.down,
+            bubbles: true,
+            cancelable: false,
+          })
+        )
+        expect(flag).toBe(true)
+        flag = false
+      }
+    }
+  })
+
+  test('navigate up', async () => {
+    const { wrapper } = createComponent({
+      props: {
+        defaultExpandAll: true,
+      },
+    })
+
+    await nextTick()
+    vi.useFakeTimers()
+    const selectWrapper = wrapper.find('.el-select__wrapper')
+    await selectWrapper.trigger('click')
+    await selectWrapper.trigger('focus')
+    const focused = wrapper.find('.is-focused')
+    expect(focused.exists()).toBe(true)
+    await selectWrapper.find('input').trigger('keydown', { key: EVENT_CODE.up })
+    vi.runAllTimers()
+    expect((document.activeElement as HTMLElement).dataset.key).toBe('111')
   })
 
   test('show correct label when child options are not rendered', async () => {
@@ -782,6 +894,45 @@ describe('TreeSelect.vue', () => {
     expect(select.vm.modelValue).toEqual([5, 6, 4, 2])
   })
 
+  test('check by click on leaf node', async () => {
+    const { tree, select } = createComponent({
+      props: {
+        showCheckbox: true,
+      },
+    })
+
+    const treeVm = tree.vm
+    expect(treeVm.getCheckedNodes().length).toEqual(0)
+
+    await tree.findAll('.el-tree-node__content')[0].trigger('click')
+    await tree.findAll('.el-tree-node__content')[1].trigger('click')
+    await tree.findAll('.el-tree-node__content')[2].trigger('click')
+
+    expect(select.vm.modelValue).toEqual(111)
+    expect(treeVm.getCheckedNodes().length).toEqual(3)
+    expect(treeVm.getCheckedNodes(true).length).toEqual(1)
+  })
+
+  test('show-checkbox :check-on-click-leaf="false"', async () => {
+    const { tree, select } = createComponent({
+      props: {
+        showCheckbox: true,
+        checkOnClickLeaf: false,
+      },
+    })
+
+    const treeVm = tree.vm
+    expect(treeVm.getCheckedNodes().length).toEqual(0)
+
+    await tree.findAll('.el-tree-node__content')[0].trigger('click')
+    await tree.findAll('.el-tree-node__content')[1].trigger('click')
+    await tree.findAll('.el-tree-node__content')[2].trigger('click')
+
+    expect(select.vm.modelValue).toBeUndefined()
+    expect(treeVm.getCheckedNodes().length).toEqual(0)
+    expect(treeVm.getCheckedNodes(true).length).toEqual(0)
+  })
+
   test('no checkbox and check on click node', async () => {
     const { select, tree } = createComponent({
       props: {
@@ -821,11 +972,11 @@ describe('TreeSelect.vue', () => {
       components: { TreeSelect },
       data() {
         return {
-          data: [{ value: 1, handleChange: spy1 }],
+          data: [{ value: null, handleModelValue: spy1 }],
           options: [{ value: 1 }, { value: 2 }],
         }
       },
-      template: `<TreeSelect v-for="item in data" v-model="item.value" :data="options" @update:modelValue="item.handleChange" />`,
+      template: `<TreeSelect v-for="item in data" v-model="item.value" :data="options" @update:modelValue="item.handleModelValue" />`,
     })
     const select = wrapper.findComponent({
       name: 'ElSelect',
@@ -835,7 +986,7 @@ describe('TreeSelect.vue', () => {
     expect(spy1).toBeCalledWith(1)
 
     const spy2 = vi.fn()
-    wrapper.vm.data = [{ value: 1, handleChange: spy2 }]
+    wrapper.vm.data = [{ value: 1, handleModelValue: spy2 }]
     await nextTick()
 
     select.vm.handleOptionSelect(select.vm.states.options.get(2))
@@ -876,5 +1027,38 @@ describe('TreeSelect.vue', () => {
       .trigger('click')
     expect(select.vm.modelValue).toBe(2)
     expect(document.activeElement).toBe(input.element)
+  })
+
+  test('should show clear btn on focus', async () => {
+    const { wrapper } = createComponent({
+      props: {
+        modelValue: 'value1',
+        clearable: true,
+      },
+    })
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    expect(wrapper.findComponent(CircleClose).exists()).toBe(true)
+  })
+
+  test('render slot `empty`', async () => {
+    const { wrapper, tree } = createComponent({
+      props: {
+        modelValue: '',
+        data: [],
+      },
+      slots: {
+        empty: () => <div class="empty-slot">EmptySlot</div>,
+      },
+    })
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    expect(
+      document.querySelector<HTMLElement>('.empty-slot')?.textContent
+    ).toBe('EmptySlot')
+    expect(tree.find('.el-tree').exists()).toBe(true)
+    expect(tree.find('.el-tree__empty-block').exists()).toBe(false)
   })
 })

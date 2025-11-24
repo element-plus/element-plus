@@ -1,8 +1,9 @@
 <template>
-  <div :class="ns.b('group')">
+  <div :class="[ns.b('group'), ns.bm('group', props.direction)]">
     <slot />
   </div>
 </template>
+
 <script lang="ts" setup>
 import { provide, reactive, toRef } from 'vue'
 import { useNamespace } from '@element-plus/hooks'

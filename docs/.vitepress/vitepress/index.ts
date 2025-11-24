@@ -26,21 +26,19 @@ import ApiExternalType from './components/globals/vp-api-external.vue'
 import Overview from './components/globals/overview.vue'
 import IconList from './components/globals/icons.vue'
 
-import type { Component } from 'vue'
-
 export { default as NotFound } from './components/vp-not-found.vue'
 
 export default VPApp
-export const globals: [string, Component][] = [
-  ['Demo', VPDemo],
-  ['Overview', Overview],
-  ['IconList', IconList],
-  ['ApiTyping', ApiTyping],
-  ['FunctionType', ApiFunctionType],
-  ['EnumType', ApiEnumType],
-  ['BooleanType', ApiBooleanType],
-  ['StringType', ApiStringType],
-  ['NumberType', ApiNumberType],
-  ['RefType', ApiRefType],
-  ['ExternalType', ApiExternalType],
-]
+export const globals = {
+  Demo: VPDemo,
+  Overview,
+  IconList,
+  ApiTyping,
+  FunctionType: ApiFunctionType,
+  EnumType: ApiEnumType,
+  BooleanType: ApiBooleanType,
+  StringType: ApiStringType,
+  NumberType: ApiNumberType,
+  RefType: ApiRefType,
+  ExternalType: ApiExternalType,
+}
