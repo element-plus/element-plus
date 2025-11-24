@@ -175,7 +175,7 @@ dropdown/sub-menu
 
 | Name          | Description                                          | Type                                                                                     | Default     |
 | ------------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------------- | ----------- |
-| label         | title of the sub menu                                | ^[string]                                                                                | ''          |
+| label         | label of the sub menu                                | ^[string]                                                                                | ''          |
 | disabled      | whether the sub menu is disabled                     | ^[boolean]                                                                               | false       |
 | divided       | whether a divider is displayed                       | ^[boolean]                                                                               | false       |
 | icon          | custom icon                                          | ^[string] / ^[Component]                                                                 | —           |
@@ -191,7 +191,7 @@ dropdown/sub-menu
 | Name    | Description                  | Subtags                           |
 | ------- | ---------------------------- | --------------------------------- |
 | default | content of Dropdown Sub Menu | Dropdown-Item / Dropdown-Sub-Menu |
-| title   | customize title content      | —                                 |
+| label   | customize label content      | —                                 |
 
 ### Dropdown-Sub-Menu Events
 

@@ -1319,7 +1319,7 @@ describe('Dropdown', () => {
       wrapper.unmount()
     })
 
-    test('custom title slot', async () => {
+    test('custom label slot', async () => {
       const wrapper = _mount(
         `
         <el-dropdown>
@@ -1327,7 +1327,7 @@ describe('Dropdown', () => {
           <template #dropdown>
             <el-dropdown-menu ref="menu">
               <el-dropdown-sub-menu ref="subMenu">
-                <template #title>
+                <template #label>
                   <span class="custom-title">Custom Title Slot</span>
                 </template>
                 <el-dropdown-item>Sub Item 1</el-dropdown-item>

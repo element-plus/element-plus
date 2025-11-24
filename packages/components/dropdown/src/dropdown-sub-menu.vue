@@ -16,7 +16,7 @@
     @click="handleClick"
   >
     <div :class="ns.be('sub-menu', 'item')">
-      <slot name="title">
+      <slot name="label">
         {{ label }}
       </slot>
       <el-icon
