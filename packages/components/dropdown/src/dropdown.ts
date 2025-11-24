@@ -171,9 +171,16 @@ export const dropdownProps = buildProps({
   /**
    * @description offset of the sub menu popper
    */
-  popperOffset: {
+  menuPopperOffset: {
     type: Number,
     default: -6,
+  },
+  /**
+   * @description placement of pop sub menu
+   */
+  menuPlacement: {
+    type: definePropType<Placement>(String),
+    default: 'right-start',
   },
 } as const)
 
@@ -223,6 +230,13 @@ export const dropdownSubMenuProps = buildProps({
    */
   icon: {
     type: iconPropType,
+  },
+  /**
+   * @description placement of pop sub menu
+   */
+  placement: {
+    type: definePropType<Placement>(String),
+    default: undefined,
   },
   /**
    * @description whether the tooltip content has an arrow
