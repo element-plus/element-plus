@@ -65,23 +65,28 @@ export function useDropdownHoverZone({
       const direction = getPlacementDirection()
       
       // Calculate the hover zone path based on the placement direction
+      // The hover zone creates a safe passage from the current mouse position to the menu item
       let path = ''
       switch (direction) {
         case 'top':
-          // Menu is above: triangle points downward from mouse position to menu
-          path = `M${startX} ${startY} L0 0 L${clientWidth} 0 L${clientWidth} ${top - scrollTop} L0 ${top - scrollTop} Z`
+          // Menu is above: create a trapezoid from mouse position upward to the menu
+          path = `M${startX} ${startY} L0 ${top - scrollTop} L${clientWidth} ${top - scrollTop} L${startX} ${startY} Z`
           break
         case 'bottom':
-          // Menu is below: triangle points downward from mouse position to menu
+          // Menu is below: create a triangle from mouse position downward to the menu
           path = `M${startX} ${bottom - scrollTop} L${clientWidth} ${clientHeight} V${bottom - scrollTop} Z`
           break
         case 'left':
-          // Menu is to the left: triangle points leftward from mouse position to menu
+          // Menu is to the left: create a quadrilateral from mouse position to the left menu edge
           path = `M${startX} ${startY} L0 ${top - scrollTop} L0 ${bottom - scrollTop} L${startX} ${bottom - scrollTop} Z`
           break
         case 'right':
-          // Menu is to the right: triangle points rightward from mouse position to menu
+          // Menu is to the right: create a quadrilateral from mouse position to the right menu edge
           path = `M${startX} ${startY} L${clientWidth} ${top - scrollTop} L${clientWidth} ${bottom - scrollTop} L${startX} ${bottom - scrollTop} Z`
+          break
+        case 'auto':
+          // Auto placement: use bottom as default
+          path = `M${startX} ${bottom - scrollTop} L${clientWidth} ${clientHeight} V${bottom - scrollTop} Z`
           break
         default:
           // Default to bottom placement behavior
