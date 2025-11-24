@@ -221,6 +221,7 @@ const {
   ns,
   menuTrigger,
   showTimeout,
+  popperRef,
 })
 
 useDropdownCollectionTooltipContent({

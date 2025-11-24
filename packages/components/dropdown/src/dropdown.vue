@@ -226,6 +226,7 @@ export default defineComponent({
       ns,
       menuTrigger: toRef(props, 'menuTrigger'),
       showTimeout: toRef(props, 'showTimeout'),
+      popperRef,
     })
 
     useDropdownCollectionTooltipContent({
