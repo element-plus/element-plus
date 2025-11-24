@@ -1,15 +1,22 @@
 import { placements } from '@popperjs/core'
 import { CommonProps } from '@element-plus/components/cascader-panel'
-import { buildProps, definePropType, isBoolean } from '@element-plus/utils'
+import {
+  buildProps,
+  definePropType,
+  iconPropType,
+  isBoolean,
+} from '@element-plus/utils'
 import { useEmptyValuesProps, useSizeProp } from '@element-plus/hooks'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { tagProps } from '@element-plus/components/tag'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { CircleClose } from '@element-plus/icons-vue'
+
 import type {
   CascaderNode,
   CascaderValue,
 } from '@element-plus/components/cascader-panel'
-import type { Placement } from '@element-plus/components/popper'
+import type { Placement, PopperEffect } from '@element-plus/components/popper'
 
 export const cascaderProps = buildProps({
   ...CommonProps,
@@ -29,6 +36,13 @@ export const cascaderProps = buildProps({
    * @description whether selected value can be cleared
    */
   clearable: Boolean,
+  /**
+   * @description custom clear icon component
+   */
+  clearIcon: {
+    type: iconPropType,
+    default: CircleClose,
+  },
   /**
    * @description whether the options can be searched
    */
@@ -69,11 +83,14 @@ export const cascaderProps = buildProps({
     default: 1,
   },
   /**
-   * @description native input id
+   * @description whether show all selected tags when mouse hover text of collapse-tags. To use this, collapse-tags must be true
    */
-  collapseTagsTooltip: {
-    type: Boolean,
-    default: false,
+  collapseTagsTooltip: Boolean,
+  /**
+   * @description The max height of collapse tags tooltip, in pixels. To use this, collapse-tags-tooltip must be true
+   */
+  maxCollapseTagsTooltipHeight: {
+    type: [String, Number],
   },
   /**
    * @description debounce delay when typing filter keyword, in milliseconds
@@ -107,18 +124,26 @@ export const cascaderProps = buildProps({
   /**
    * @description custom class name for Cascader's dropdown
    */
-  popperClass: {
-    type: String,
-    default: '',
-  },
+  popperClass: useTooltipContentProps.popperClass,
+  /**
+   * @description custom style for Cascader's dropdown
+   */
+  popperStyle: useTooltipContentProps.popperStyle,
   /**
    * @description whether cascader popup is teleported
    */
   teleported: useTooltipContentProps.teleported,
   /**
+   * @description tooltip theme, built-in theme: `dark` / `light`
+   */
+  effect: {
+    type: definePropType<PopperEffect>(String),
+    default: 'light',
+  },
+  /**
    * @description tag type
    */
-  // eslint-disable-next-line vue/require-prop-types
+
   tagType: { ...tagProps.type, default: 'info' },
   /**
    * @description tag effect
@@ -138,14 +163,35 @@ export const cascaderProps = buildProps({
     type: Boolean,
     default: true,
   },
+  /**
+   * @description Use `parent` when you want things tidy (like "Entire Collection" instead of listing 100 items)
+   * Use `child` when every single item matters (like important settings)
+   */
+  showCheckedStrategy: {
+    type: String,
+    values: ['parent', 'child'],
+    default: 'child',
+  },
+  /**
+   * @description whether to check or uncheck node when clicking on the node
+   */
+  checkOnClickNode: Boolean,
+  /**
+   * @description whether to show the radio or checkbox prefix
+   */
+  showPrefix: {
+    type: Boolean,
+    default: true,
+  },
   ...useEmptyValuesProps,
 })
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const emitChangeFn = (value: CascaderValue | null | undefined) => true
+
 export const cascaderEmits = {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  [UPDATE_MODEL_EVENT]: (_: CascaderValue) => true,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  [CHANGE_EVENT]: (_: CascaderValue) => true,
+  [UPDATE_MODEL_EVENT]: emitChangeFn,
+  [CHANGE_EVENT]: emitChangeFn,
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
   blur: (evt: FocusEvent) => evt instanceof FocusEvent,
   clear: () => true,

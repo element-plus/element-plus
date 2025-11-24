@@ -24,8 +24,7 @@ You must set `ElConfigProvider` and scss `$namespace` at the same time.
 
 Use `ElConfigProvider` wrap your root component.
 
-```vue
-<!-- App.vue -->
+```vue [App.vue]
 <template>
   <el-config-provider namespace="ep">
     <!-- ... -->
@@ -37,8 +36,7 @@ Use `ElConfigProvider` wrap your root component.
 
 Create `styles/element/index.scss`:
 
-```scss
-// styles/element/index.scss
+```scss [styles/element/index.scss]
 // we can add this to custom namespace, default is 'el'
 @forward 'element-plus/theme-chalk/src/mixins/config.scss' with (
   $namespace: 'ep'
@@ -50,7 +48,7 @@ Import `styles/element/index.scss` in `vite.config.ts`:
 
 > The same is true for webpack, which needs to be set in `preprocessorOptions`.
 
-```ts
+```ts [vite.config.ts]
 import { defineConfig } from 'vite'
 // https://vitejs.dev/config/
 export default defineConfig({

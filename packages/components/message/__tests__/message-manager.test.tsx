@@ -4,6 +4,7 @@ import { getStyle } from '@element-plus/utils'
 import { rAF } from '@element-plus/test-utils/tick'
 import { ElMessage } from '..'
 import Message from '../src/method'
+import { messageTypes } from '../src/message'
 
 const selector = '.el-message'
 // TODO: testing the original transition with `nextTick`'
@@ -50,6 +51,38 @@ describe('Message on command', () => {
     expect(document.querySelectorAll(selector).length).toBe(0)
   })
 
+  test('it should close all messages with mixed placement', async () => {
+    const onClose = vi.fn()
+    const instances = []
+
+    for (let i = 0; i < 2; i++) {
+      const instance = Message({
+        duration: 0,
+        placement: 'top',
+        onClose,
+      })
+      instances.push(instance)
+    }
+
+    for (let i = 0; i < 2; i++) {
+      const instance = Message({
+        duration: 0,
+        placement: 'bottom',
+        onClose,
+      })
+      instances.push(instance)
+    }
+
+    await rAF()
+    const elements = document.querySelectorAll(selector)
+    expect(elements.length).toBe(4)
+
+    Message.closeAll()
+    await rAF()
+    expect(onClose).toHaveBeenCalledTimes(4)
+    expect(document.querySelectorAll(selector).length).toBe(0)
+  })
+
   test('it should close all messages of the specified type', async () => {
     const onClose = vi.fn()
     const instances = []
@@ -81,6 +114,43 @@ describe('Message on command', () => {
     expect(onClose).toHaveBeenCalledTimes(4)
     expect(document.querySelectorAll(selector).length).toBe(2)
     Message.closeAll()
+  })
+
+  test('it should close all messages by specified placement', async () => {
+    const onClose = vi.fn()
+    const instances = []
+
+    for (let i = 0; i < 3; i++) {
+      const instance = Message({
+        duration: 0,
+        placement: 'top',
+        onClose,
+      })
+      instances.push(instance)
+    }
+
+    for (let i = 0; i < 2; i++) {
+      const instance = Message({
+        duration: 0,
+        placement: 'bottom',
+        onClose,
+      })
+      instances.push(instance)
+    }
+
+    await rAF()
+    const elements = document.querySelectorAll(selector)
+    expect(elements.length).toBe(5)
+
+    Message.closeAllByPlacement('top')
+    await rAF()
+    expect(onClose).toHaveBeenCalledTimes(3)
+    expect(document.querySelectorAll(selector).length).toBe(2)
+
+    Message.closeAllByPlacement('bottom')
+    await rAF()
+    expect(onClose).toHaveBeenCalledTimes(5)
+    expect(document.querySelectorAll(selector).length).toBe(0)
   })
 
   test('it should stack messages', async () => {
@@ -126,10 +196,9 @@ describe('Message on command', () => {
   })
 
   test('it should have 4 other types of message', () => {
-    expect(Message.success).toBeInstanceOf(Function)
-    expect(Message.warning).toBeInstanceOf(Function)
-    expect(Message.info).toBeInstanceOf(Function)
-    expect(Message.error).toBeInstanceOf(Function)
+    messageTypes.forEach((type) => {
+      expect(Message[type]).toBeInstanceOf(Function)
+    })
   })
 
   test('it should appendTo specified HTMLElement', async () => {
@@ -195,5 +264,16 @@ describe('Message on command', () => {
       // clean up
       ElMessage._context = null
     })
+  })
+
+  // #20333
+  test('it should destroy self immediately', async () => {
+    const el = document.createElement('div')
+    document.body.appendChild(el)
+    const { close } = Message({ appendTo: el })
+    close()
+
+    await rAF()
+    expect(el.querySelector(selector)).toBeFalsy()
   })
 })

@@ -1,10 +1,10 @@
 <template>
-  <el-button text @click="table = true"
-    >Open Drawer with nested table</el-button
-  >
-  <el-button text @click="dialog = true"
-    >Open Drawer with nested form</el-button
-  >
+  <el-button text @click="table = true">
+    Open Drawer with nested table
+  </el-button>
+  <el-button text @click="dialog = true">
+    Open Drawer with nested form
+  </el-button>
   <el-drawer
     v-model="table"
     title="I have a nested table inside!"
@@ -52,7 +52,7 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
-import { ElDrawer, ElMessageBox } from 'element-plus'
+import { ElMessageBox } from 'element-plus'
 
 const formLabelWidth = '80px'
 let timer

@@ -36,11 +36,11 @@ transitions/collapse
 
 ## On-demand import
 
-```ts
+```ts [main.ts]
 // collapse
 import { ElCollapseTransition } from 'element-plus'
 // fade/zoom
-import 'element-plus/lib/theme-chalk/base.css'
+import 'element-plus/theme-chalk/base.css'
 import App from './App.vue'
 
 const app = createApp(App)

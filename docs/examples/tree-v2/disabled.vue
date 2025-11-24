@@ -4,9 +4,10 @@
     :data="data"
     :props="props"
     show-checkbox
-    :height="208"
+    :height="200"
   />
 </template>
+
 <script lang="ts" setup>
 interface Tree {
   id: string

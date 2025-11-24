@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { computed, nextTick, watch } from 'vue'
-import nprogress from 'nprogress'
+import { computed } from 'vue'
 import { useData, useRoute } from 'vitepress'
 import { useSidebar } from '../composables/sidebar'
 import VPHeroContent from './vp-hero-content.vue'
@@ -13,29 +12,6 @@ const route = useRoute()
 const isNotFound = computed(() => route.component === VPNotFound)
 const isHeroPost = computed(() => frontmatter.value.page === true)
 const { hasSidebar } = useSidebar()
-
-const props = defineProps<{ isSidebarOpen: boolean }>()
-
-let shouldUpdateProgress = true
-
-watch(
-  () => props.isSidebarOpen,
-  (val) => {
-    // delay the flag update since watch is called before onUpdated
-    nextTick(() => {
-      shouldUpdateProgress = !val
-    })
-  }
-)
-watch(
-  () => route.path,
-  () => {
-    if (shouldUpdateProgress) nprogress.done()
-  },
-  {
-    flush: 'post',
-  }
-)
 </script>
 
 <template>

@@ -1,6 +1,7 @@
 import { buildProps, iconPropType } from '@element-plus/utils'
+
 import type Step from './item.vue'
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 
 export const stepProps = buildProps({
   /**
@@ -34,5 +35,6 @@ export const stepProps = buildProps({
 } as const)
 
 export type StepProps = ExtractPropTypes<typeof stepProps>
+export type StepPropsPublic = __ExtractPublicPropTypes<typeof stepProps>
 
-export type StepInstance = InstanceType<typeof Step>
+export type StepInstance = InstanceType<typeof Step> & unknown

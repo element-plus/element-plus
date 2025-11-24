@@ -76,6 +76,7 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
+
 import type { ComponentSize, FormProps } from 'element-plus'
 
 const size = ref<ComponentSize>('default')

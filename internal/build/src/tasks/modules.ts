@@ -12,8 +12,8 @@ import { epRoot, excludeFiles, pkgRoot } from '@element-plus/build-utils'
 import { generateExternal, withTaskName, writeBundles } from '../utils'
 import { ElementPlusAlias } from '../plugins/element-plus-alias'
 import { buildConfigEntries, target } from '../build-info'
-import type { TaskFunction } from 'gulp'
 
+import type { TaskFunction } from 'gulp'
 import type { OutputOptions, Plugin } from 'rollup'
 
 const plugins: Plugin[] = [
