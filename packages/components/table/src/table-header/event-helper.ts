@@ -137,10 +137,7 @@ function useEvent<T extends DefaultRow>(
     const target = el?.closest('th')
 
     if (!column || !column.resizable || !target) {
-      if (!dragging.value) {
-        document.body.style.cursor = ''
-        draggingColumn.value = null
-      }
+      draggingColumn.value = null
       return
     }
 
