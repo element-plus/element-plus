@@ -77,8 +77,6 @@
 
   /* Picture Card for Wall */
   @include m(picture-card) {
-    @include set-css-var-value(('upload', 'picture-card', 'size'), 148px);
-
     background-color: getCssVar('fill-color', 'lighter');
     border: 1px dashed getCssVar('border-color', 'darker');
     border-radius: 6px;
@@ -165,6 +163,10 @@
     background-color: getCssVar('color', 'primary', 'light-9');
     border: 2px dashed getCssVar('color-primary');
   }
+}
+
+@include b(upload-list) {
+  @include set-component-css-var('upload', $upload);
 }
 
 @include b(upload-list) {
@@ -343,8 +345,6 @@
 
   // upload-list
   @include m(picture-card) {
-    @include set-css-var-value(('upload-list', 'picture-card', 'size'), 148px);
-
     display: inline-flex;
     flex-wrap: wrap;
     margin: 0;

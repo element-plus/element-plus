@@ -1,12 +1,26 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, expect, test, vi } from 'vitest'
+import { afterAll, describe, expect, test, vi } from 'vitest'
 import { ComponentSize, EVENT_CODE } from '@element-plus/constants'
 import { InputTagInstance } from '@element-plus/components/input-tag'
 import FormItem from '@element-plus/components/form/src/form-item.vue'
 import InputTag from '../src/input-tag.vue'
 
 const AXIOM = 'Rem is the best girl'
+
+vi.mock('@vueuse/core', async () => {
+  return {
+    ...((await vi.importActual('@vueuse/core')) as Record<string, any>),
+    useResizeObserver: vi.fn(async (_, callback) => {
+      await nextTick()
+      callback()
+    }),
+  }
+})
+
+afterAll(() => {
+  vi.restoreAllMocks()
+})
 
 describe('InputTag.vue', () => {
   test('create', () => {
@@ -30,18 +44,20 @@ describe('InputTag.vue', () => {
     const wrapper = mount(() => <InputTag v-model={inputValue.value} />)
 
     await wrapper.find('input').setValue(AXIOM)
-    await wrapper.find('input').trigger('keyup', { code: EVENT_CODE.enter })
+    await wrapper.find('input').trigger('keydown', { code: EVENT_CODE.enter })
     expect(wrapper.findAll('.el-tag').length).toBe(1)
     expect(wrapper.find('.el-tag').text()).toBe(AXIOM)
     expect(inputValue.value).toEqual([AXIOM])
 
     await wrapper.find('input').setValue('--')
-    await wrapper.find('input').trigger('keyup', { code: EVENT_CODE.enter })
+    await wrapper.find('input').trigger('keydown', { code: EVENT_CODE.enter })
     expect(wrapper.findAll('.el-tag').length).toBe(2)
     expect(wrapper.findAll('.el-tag')[1].text()).toBe('--')
     expect(inputValue.value).toEqual([AXIOM, '--'])
 
-    await wrapper.find('input').trigger('keyup', { code: EVENT_CODE.backspace })
+    await wrapper
+      .find('input')
+      .trigger('keydown', { code: EVENT_CODE.backspace })
     expect(wrapper.findAll('.el-tag').length).toBe(1)
     expect(wrapper.find('.el-tag').text()).toBe(AXIOM)
     expect(inputValue.value).toEqual([AXIOM])
@@ -57,10 +73,10 @@ describe('InputTag.vue', () => {
     ))
 
     await wrapper.find('input').setValue(AXIOM)
-    await wrapper.find('input').trigger('keyup', { code: EVENT_CODE.enter })
+    await wrapper.find('input').trigger('keydown', { code: EVENT_CODE.enter })
     expect(wrapper.findAll('.el-tag').length).toBe(0)
 
-    await wrapper.find('input').trigger('keyup', { code: EVENT_CODE.space })
+    await wrapper.find('input').trigger('keydown', { code: EVENT_CODE.space })
     expect(wrapper.findAll('.el-tag').length).toBe(1)
     expect(wrapper.find('.el-tag').text()).toBe(AXIOM)
   })
@@ -72,7 +88,7 @@ describe('InputTag.vue', () => {
     expect(wrapper.findAll('.el-tag').length).toBe(1)
 
     await wrapper.find('input').setValue(AXIOM)
-    await wrapper.find('input').trigger('keyup', { code: EVENT_CODE.enter })
+    await wrapper.find('input').trigger('keydown', { code: EVENT_CODE.enter })
     expect(wrapper.findAll('.el-tag').length).toBe(1)
   })
 
@@ -134,7 +150,7 @@ describe('InputTag.vue', () => {
     )
 
     await wrapper.find('input').setValue('Rem')
-    await wrapper.find('input').trigger('keyup', { code: EVENT_CODE.enter })
+    await wrapper.find('input').trigger('keydown', { code: EVENT_CODE.enter })
     expect(wrapper.find('input').element.placeholder).toMatchInlineSnapshot(
       `""`
     )
@@ -312,13 +328,13 @@ describe('InputTag.vue', () => {
       ))
 
       await wrapper.find('input').setValue(AXIOM)
-      await wrapper.find('input').trigger('keyup', { code: EVENT_CODE.enter })
+      await wrapper.find('input').trigger('keydown', { code: EVENT_CODE.enter })
       expect(handleModelValue).toHaveBeenCalledOnce()
       expect(handleModelValue).toHaveBeenCalledWith([AXIOM])
 
       await wrapper
         .find('input')
-        .trigger('keyup', { code: EVENT_CODE.backspace })
+        .trigger('keydown', { code: EVENT_CODE.backspace })
       expect(handleModelValue).toHaveBeenCalledTimes(2)
       expect(handleModelValue).toHaveBeenCalledWith([])
     })
@@ -331,13 +347,13 @@ describe('InputTag.vue', () => {
       ))
 
       await wrapper.find('input').setValue(AXIOM)
-      await wrapper.find('input').trigger('keyup', { code: EVENT_CODE.enter })
+      await wrapper.find('input').trigger('keydown', { code: EVENT_CODE.enter })
       expect(handleChange).toHaveBeenCalledOnce()
       expect(handleChange).toHaveBeenCalledWith([AXIOM])
 
       await wrapper
         .find('input')
-        .trigger('keyup', { code: EVENT_CODE.backspace })
+        .trigger('keydown', { code: EVENT_CODE.backspace })
       expect(handleChange).toHaveBeenCalledTimes(2)
       expect(handleChange).toHaveBeenCalledWith([])
     })
@@ -359,7 +375,7 @@ describe('InputTag.vue', () => {
       ))
 
       await wrapper.find('input').setValue(AXIOM)
-      await wrapper.find('input').trigger('keyup', { code: EVENT_CODE.enter })
+      await wrapper.find('input').trigger('keydown', { code: EVENT_CODE.enter })
       expect(handleTagAdd).toHaveBeenCalledOnce()
       expect(handleTagAdd).toHaveBeenCalledWith(AXIOM)
     })
@@ -378,14 +394,14 @@ describe('InputTag.vue', () => {
 
       await wrapper
         .find('input')
-        .trigger('keyup', { code: EVENT_CODE.backspace })
+        .trigger('keydown', { code: EVENT_CODE.backspace })
       expect(handleTagRemove).toHaveBeenCalledTimes(2)
       expect(handleTagRemove).toHaveBeenNthCalledWith(2, AXIOM, 0)
       expect(inputValue.value).toEqual([])
 
       await wrapper
         .find('input')
-        .trigger('keyup', { code: EVENT_CODE.backspace })
+        .trigger('keydown', { code: EVENT_CODE.backspace })
       expect(handleTagRemove).toHaveBeenCalledTimes(2)
     })
 
@@ -524,6 +540,32 @@ describe('InputTag.vue', () => {
       expect(tags[1].text()).toBe('tag2')
       expect(tags[2].text()).toBe('tag3')
       expect(tags[3].text()).toBe('+ 2')
+    })
+
+    test('collapseTags should prevent line break when content exceeds', async () => {
+      const mockStyle = vi.spyOn(window, 'getComputedStyle').mockReturnValue({
+        width: '100px',
+        gap: '6px',
+      } as any)
+      const mockRect = vi
+        .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
+        .mockReturnValue({
+          width: 40,
+        } as any)
+      const longTag =
+        'This is a very long tag content that might cause line break'
+      const wrapper = mount(
+        <InputTag modelValue={[longTag, 'tag2']} collapseTags />
+      )
+
+      await nextTick()
+      const tags = wrapper.findAll('.el-tag')
+      const firstTag = tags[0]
+      const tagStyle = firstTag.attributes('style')
+      // 100(innerWidth) - 40(collapseItemWidth) - 6(gap) - 17(inputSlotWidth) = 37
+      expect(tagStyle).toContain('max-width: 37px')
+      mockStyle.mockRestore()
+      mockRect.mockRestore()
     })
   })
 })

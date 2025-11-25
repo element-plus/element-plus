@@ -75,38 +75,30 @@ alert/icon-description
 
 :::
 
-## With Delayed Attributes ^(2.10.0)
-
-:::demo At last, this is an example with delayed attributes.
-
-alert/delayed
-
-:::
-
 ## Alert API
 
 ### Attributes
 
-| Name                 | Description                              | Type                                                                       | Default |
-| -------------------- | ---------------------------------------- | -------------------------------------------------------------------------- | ------- |
-| title                | alert title.                             | ^[string]                                                                  | —       |
-| type                 | alert type.                              | ^[enum]`'primary' (2.9.11) \| 'success' \| 'warning' \| 'info' \| 'error'` | info    |
-| description          | descriptive text.                        | ^[string]                                                                  | —       |
-| closable             | whether alert can be dismissed.          | ^[boolean]                                                                 | true    |
-| center               | whether content is placed in the center. | ^[boolean]                                                                 | false   |
-| close-text           | customized close button text.            | ^[string]                                                                  | —       |
-| show-icon            | whether a type icon is displayed.        | ^[boolean]                                                                 | false   |
-| effect               | theme style.                             | ^[enum]`'light' \| 'dark'`                                                 | light   |
-| show-after ^(2.10.0) | delay of appearance, in millisecond      | ^[number]                                                                  | 0       |
-| hide-after ^(2.10.0) | delay of disappear, in millisecond       | ^[number]                                                                  | 200     |
-| auto-close ^(2.10.0) | timeout in milliseconds to hide alert    | ^[number]                                                                  | 0       |
+| Name                               | Description                              | Type                                                                        | Default |
+| ---------------------------------- | ---------------------------------------- | --------------------------------------------------------------------------- | ------- |
+| title                              | alert title.                             | ^[string]                                                                   | —       |
+| type                               | alert type.                              | ^[enum]`'primary' (2.9.11) \| 'success' \| 'warning' \| 'info' \| 'error' ` | info    |
+| description                        | descriptive text.                        | ^[string]                                                                   | —       |
+| closable                           | whether alert can be dismissed.          | ^[boolean]                                                                  | true    |
+| center                             | whether content is placed in the center. | ^[boolean]                                                                  | false   |
+| close-text                         | customized close button text.            | ^[string]                                                                   | —       |
+| show-icon                          | whether a type icon is displayed.        | ^[boolean]                                                                  | false   |
+| effect                             | theme style.                             | ^[enum]`'light' \| 'dark'`                                                  | light   |
+| show-after ^(2.10.0) ^(deprecated) | delay of appearance, in millisecond      | ^[number]                                                                   | 0       |
+| hide-after ^(2.10.0) ^(deprecated) | delay of disappear, in millisecond       | ^[number]                                                                   | 200     |
+| auto-close ^(2.10.0) ^(deprecated) | timeout in milliseconds to hide alert    | ^[number]                                                                   | 0       |
 
 ### Events
 
-| Name           | Description                   | Type                                 |
-| -------------- | ----------------------------- | ------------------------------------ |
-| open ^(2.10.0) | trigger when alert is opened. | ^[Function]`() => void`              |
-| close          | trigger when alert is closed. | ^[Function]`(event?: Event) => void` |
+| Name                        | Description                   | Type                                     |
+| --------------------------- | ----------------------------- | ---------------------------------------- |
+| close                       | trigger when alert is closed. | ^[Function]`(event: MouseEvent) => void` |
+| open ^(2.10.0)^(deprecated) | trigger when alert is opened. | ^[Function]`() => void`                  |
 
 ### Slots
 

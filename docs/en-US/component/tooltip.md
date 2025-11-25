@@ -182,7 +182,7 @@ tooltip/append-to
 | popper-style              | custom style for Tooltip's popper                                                                                                                                                     | ^[string] / ^[object]                                                                                                                                                       | —                 |
 | enterable                 | whether the mouse can enter the tooltip                                                                                                                                               | ^[boolean]                                                                                                                                                                  | true              |
 | teleported                | whether tooltip content is teleported, if `true` it will be teleported to where `append-to` sets                                                                                      | ^[boolean]                                                                                                                                                                  | true              |
-| trigger                   | How should the tooltip be triggered (to show), not valid in controlled mode                                                                                                           | ^[enum]`'hover' \| 'click' \| 'focus' \| 'contextmenu'`                                                                                                                     | hover             |
+| trigger                   | How should the tooltip be triggered (to show), not valid in controlled mode                                                                                                           | ^[enum]`'hover' \| 'click' \| 'focus' \| 'contextmenu'` / ^[object]`Array<'click' \| 'focus' \| 'hover' \| 'contextmenu'>`                                                  | hover             |
 | virtual-triggering        | Indicates whether virtual triggering is enabled                                                                                                                                       | ^[boolean]                                                                                                                                                                  | —                 |
 | virtual-ref               | Indicates the reference element to which the tooltip is attached                                                                                                                      | ^[HTMLElement]                                                                                                                                                              | —                 |
 | trigger-keys              | When you click the mouse to focus on the trigger element, you can define a set of keyboard codes to control the display of tooltip through the keyboard, not valid in controlled mode | ^[Array]                                                                                                                                                                    | ['Enter','Space'] |
@@ -190,12 +190,21 @@ tooltip/append-to
 | aria-label ^(a11y)        | same as `aria-label`                                                                                                                                                                  | ^[string]                                                                                                                                                                   | —                 |
 | focus-on-target ^(2.11.2) | when triggering tooltips through hover, whether to focus the trigger element, which improves accessibility                                                                            | ^[boolean]                                                                                                                                                                  | false             |
 
+### Events
+
+| Name        | Description                                                           | Type                                 |
+| ----------- | --------------------------------------------------------------------- | ------------------------------------ |
+| before-show | Triggers before tooltip is shown. Passes trigger reason as argument.  | ^[Function]`(event?: Event) => void` |
+| show        | Triggers when tooltip is shown. Passes trigger reason as argument.    | ^[Function]`(event?: Event) => void` |
+| before-hide | Triggers before tooltip is hidden. Passes trigger reason as argument. | ^[Function]`(event?: Event) => void` |
+| hide        | Triggers when tooltip is hidden. Passes trigger reason as argument.   | ^[Function]`(event?: Event) => void` |
+
 ### Slots
 
-| Name    | Description                            |
-| ------- | -------------------------------------- |
-| default | Tooltip triggering & reference element |
-| content | customize content                      |
+| Name    | Description                                                                    |
+| ------- | ------------------------------------------------------------------------------ |
+| default | Tooltip triggering & reference element, only a single root element is accepted |
+| content | customize content                                                              |
 
 ### Exposes
 

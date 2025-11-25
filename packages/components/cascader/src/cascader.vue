@@ -144,7 +144,7 @@
             type="text"
             :class="nsCascader.e('search-input')"
             :placeholder="presentText ? '' : inputPlaceholder"
-            @input="(e) => handleInput(searchInputValue, e)"
+            @input="(e) => handleInput(searchInputValue, e as InputEvent)"
             @click.stop="togglePopperVisible(true)"
             @keydown.delete="handleDelete"
             @compositionstart="handleComposition"
@@ -217,8 +217,8 @@
 
 <script lang="ts" setup>
 import { computed, nextTick, onMounted, ref, useAttrs, watch } from 'vue'
-import { cloneDeep, debounce } from 'lodash-unified'
-import { useCssVar, useResizeObserver } from '@vueuse/core'
+import { cloneDeep } from 'lodash-unified'
+import { useCssVar, useDebounceFn, useResizeObserver } from '@vueuse/core'
 import {
   debugWarn,
   focusNode,
@@ -694,7 +694,8 @@ const handleDelete = () => {
   }
 }
 
-const handleFilter = debounce(() => {
+const debounce = computed(() => props.debounce)
+const handleFilter = useDebounceFn(() => {
   const { value } = searchKeyword
 
   if (!value) return
@@ -710,7 +711,7 @@ const handleFilter = debounce(() => {
   } else {
     hideSuggestionPanel()
   }
-}, props.debounce)
+}, debounce)
 
 const handleInput = (val: string, e?: InputEvent) => {
   !popperVisible.value && togglePopperVisible(true)
@@ -724,6 +725,14 @@ const getInputInnerHeight = (inputInner: HTMLElement): number =>
   Number.parseFloat(
     useCssVar(nsInput.cssVarName('input-height'), inputInner).value
   ) - 2
+
+const focus = () => {
+  inputRef.value?.focus()
+}
+
+const blur = () => {
+  inputRef.value?.blur()
+}
 
 watch(filtering, updatePopperPosition)
 
@@ -789,5 +798,9 @@ defineExpose({
    * @description selected content text
    */
   presentText,
+  /** @description focus the input element */
+  focus,
+  /** @description blur the input element */
+  blur,
 })
 </script>

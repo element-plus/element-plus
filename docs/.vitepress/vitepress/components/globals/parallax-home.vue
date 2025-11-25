@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref } from 'vue'
+import { withBase } from 'vitepress'
 import { useEventListener, useParallax, useThrottleFn } from '@vueuse/core'
 import { useLang } from '../../composables/lang'
 import homeLocale from '../../../i18n/pages/home.json'
@@ -143,7 +144,7 @@ onMounted(() => {
       </div>
     </div>
     <img
-      :src="`/images/theme-index-blue${isDark ? '-dark' : ''}.png`"
+      :src="withBase(`/images/theme-index-blue${isDark ? '-dark' : ''}.png`)"
       alt="banner"
       class="mobile-banner"
     />

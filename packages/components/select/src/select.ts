@@ -116,6 +116,13 @@ export const selectProps = buildProps({
    */
   remote: Boolean,
   /**
+   * @description debounce delay during remote search, in milliseconds
+   */
+  debounce: {
+    type: Number,
+    default: 300,
+  },
+  /**
    * @description displayed text while loading data from server, default is 'Loading'
    */
   loadingText: String,

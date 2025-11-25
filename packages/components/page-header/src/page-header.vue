@@ -2,10 +2,10 @@
   <div
     :class="[
       ns.b(),
+      ns.is('contentful', !!$slots.default),
       {
         [ns.m('has-breadcrumb')]: !!$slots.breadcrumb,
         [ns.m('has-extra')]: !!$slots.extra,
-        [ns.is('contentful')]: !!$slots.default,
       },
     ]"
   >

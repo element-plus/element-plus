@@ -78,7 +78,7 @@ function createDocumentHandler(
   }
 }
 
-const ClickOutside: ObjectDirective<HTMLElement, any, string, any> = {
+const ClickOutside: ObjectDirective<HTMLElement, any> = {
   beforeMount(el, binding) {
     // there could be multiple handlers on the element
     if (!nodeList.has(el)) {

@@ -17,6 +17,10 @@
     "build:contributor": "tsx src/contributor.ts",
     "dev": "DEV=1 pnpm run build"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/element-plus/element-plus.git"
+  },
   "devDependencies": {
     "@element-plus/build": "workspace:*",
     "@element-plus/build-constants": "workspace:*",

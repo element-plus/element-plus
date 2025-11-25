@@ -1,0 +1,24 @@
+name: Thanks to the PR Contributor
+# Note that this `pull_request_target` is vulnerable, it grants write access to a fork repo
+# DO NOT ADD ANY CHECKOUT/CACHING in this workflow
+
+on:
+  pull_request_target:
+    types: [closed]
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    if: |
+      github.event.pull_request.merged == true &&
+      github.repository_owner == 'element-plus'
+
+    steps:
+      - name: Comment on PR
+        uses: actions-cool/maintain-one-comment@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body: |
+            @${{ github.event.pull_request.user.login }} Thanks for your contribution! :heart:

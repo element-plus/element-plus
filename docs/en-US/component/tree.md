@@ -183,7 +183,7 @@ tree/draggable
 | setCheckedNodes     | set certain nodes to be checked, only works when `node-key` is assigned                                              | an array of nodes to be checked                                                                                                                                                                                                                                                             |
 | getCheckedKeys      | If the node can be selected (`show-checkbox` is `true`), it returns the currently selected array of node's keys      | (leafOnly) Accept a boolean type parameter whose default value is `false`. If the parameter is `true`, it only returns the currently selected array of sub-nodes.                                                                                                                           |
 | setCheckedKeys      | set certain nodes to be checked, only works when `node-key` is assigned                                              | (keys, leafOnly) Accept two parameters: 1. an array of node's keys to be checked 2. a boolean parameter. If set to `true`, only the checked status of leaf nodes will be set. The default value is `false`.                                                                                 |
-| setChecked          | set node to be checked or not, only works when `node-key` is assigned                                                | (key/data, checked, deep) Accept three parameters: 1. node's key or data to be checked 2. a boolean typed parameter indicating checked or not. 3. a boolean typed parameter indicating deep or not.                                                                                         |
+| setChecked          | set node to be checked or not, only works when `node-key` is assigned                                                | (key/data, checked, deep) Accept three parameters: 1. node's key or data to be checked 2. a boolean typed parameter indicating checked or not. 3. a boolean typed parameter indicating deep or not (note that `check-strictly` must be `false`).                                            |
 | getHalfCheckedNodes | If the node can be selected (`show-checkbox` is `true`), it returns the currently half selected array of nodes       | —                                                                                                                                                                                                                                                                                           |
 | getHalfCheckedKeys  | If the node can be selected (`show-checkbox` is `true`), it returns the currently half selected array of node's keys | —                                                                                                                                                                                                                                                                                           |
 | getCurrentKey       | return the highlight node's key (null if no node is highlighted)                                                     | —                                                                                                                                                                                                                                                                                           |
@@ -216,7 +216,57 @@ tree/draggable
 
 ### Slots
 
-| Name           | Description                                                            |
-| -------------- | ---------------------------------------------------------------------- |
-| default        | Custom content for tree nodes. The scope parameter is `{ node, data }` |
-| empty ^(2.3.4) | empty you can customize content when data is empty.                    |
+| Name           | Description                       | Type                                                                                |
+| -------------- | --------------------------------- | ----------------------------------------------------------------------------------- |
+| default        | custom content for tree nodes     | ^[object]`{ node: UnwrapRef<RootTreeType['root']>, data: Tree \| TreeOptionProps }` |
+| empty ^(2.3.4) | custom content when data is empty | —                                                                                   |
+
+## Type Declarations
+
+<details>
+  <summary>Show declarations</summary>
+
+```ts
+interface RootTreeType {
+  root: Ref<Node>
+  // ...
+}
+
+// UnwrapRef<RootTreeType['root']> => Node
+type Node = {
+  canFocus: boolean
+  checked: boolean
+  childNodes: Node[]
+  data: TreeNodeData
+  expanded: boolean
+  id: number
+  indeterminate: boolean
+  isCurrent: boolean
+  isEffectivelyChecked: boolean
+  isLeaf?: boolean
+  isLeafByUser?: boolean
+  level: number
+  loaded: boolean
+  loading: boolean
+  parent: Node | null
+  store: TreeStore
+  text: string | null
+  visible: boolean
+}
+
+// TreeNodeData => Tree / TreeOptionProps
+// Tree type is your prop type.
+// TreeOptionProps is default prop type
+interface TreeOptionProps {
+  children?: string
+  label?: string | ((data: TreeNodeData, node: Node) => string)
+  disabled?: string | ((data: TreeNodeData, node: Node) => boolean)
+  isLeaf?: string | ((data: TreeNodeData, node: Node) => boolean)
+  class?: (
+    data: TreeNodeData,
+    node: Node
+  ) => string | { [key: string]: boolean }
+}
+```
+
+</details>

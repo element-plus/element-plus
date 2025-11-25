@@ -57,7 +57,7 @@ const alias: AliasOptions = [
       ]),
 ]
 
-export const getViteConfig = ({ mode }: { mode: string }): ViteConfig => {
+export const getViteConfig = ({ mode }: { mode: string }) => {
   const env = loadEnv(mode, process.cwd(), '')
   return {
     css: {
@@ -114,5 +114,5 @@ export const getViteConfig = ({ mode }: { mode: string }): ViteConfig => {
     optimizeDeps: {
       include: optimizeDeps,
     },
-  }
+  } as ViteConfig
 }

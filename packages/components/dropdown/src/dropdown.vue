@@ -7,18 +7,15 @@
       :fallback-placements="['bottom', 'top']"
       :popper-options="popperOptions"
       :gpu-acceleration="false"
-      :manual-mode="true"
       :placement="placement"
       :popper-class="[ns.e('popper'), popperClass!]"
       :popper-style="popperStyle"
-      :reference-element="referenceElementRef?.$el"
       :trigger="trigger"
       :trigger-keys="triggerKeys"
       :trigger-target-el="contentRef"
       :show-arrow="showArrow"
       :show-after="trigger === 'hover' ? showTimeout : 0"
       :hide-after="trigger === 'hover' ? hideTimeout : 0"
-      :stop-popper-mouse-event="false"
       :virtual-ref="virtualRef ?? triggeringElementRef"
       :virtual-triggering="virtualTriggering || splitButton"
       :disabled="disabled"
@@ -43,11 +40,8 @@
             :current-tab-id="currentTabId"
             orientation="horizontal"
             @current-tab-id-change="handleCurrentTabIdChange"
-            @entry-focus="handleEntryFocus"
           >
-            <el-dropdown-collection>
-              <slot name="dropdown" />
-            </el-dropdown-collection>
+            <slot name="dropdown" />
           </el-roving-focus-group>
         </el-scrollbar>
       </template>
@@ -114,7 +108,7 @@ import { useFormSize } from '@element-plus/components/form'
 import { addUnit, ensureArray } from '@element-plus/utils'
 import { ArrowDown } from '@element-plus/icons-vue'
 import { useId, useLocale, useNamespace } from '@element-plus/hooks'
-import { ElCollection as ElDropdownCollection, dropdownProps } from './dropdown'
+import { dropdownProps } from './dropdown'
 import {
   DROPDOWN_INJECTION_KEY,
   DROPDOWN_INSTANCE_INJECTION_KEY,
@@ -131,7 +125,6 @@ export default defineComponent({
     ElButton,
     ElButtonGroup,
     ElScrollbar,
-    ElDropdownCollection,
     ElTooltip,
     ElRovingFocusGroup,
     ElOnlyChild,
@@ -198,21 +191,13 @@ export default defineComponent({
       currentTabId.value = id
     }
 
-    function handleEntryFocus(e: Event) {
-      if (!isUsingKeyboard.value) {
-        e.preventDefault()
-        e.stopImmediatePropagation()
-      }
-    }
-
     function handleBeforeShowTooltip() {
       emit('visible-change', true)
     }
 
     function handleShowTooltip(event?: Event) {
-      if (event?.type === 'keydown') {
-        contentRef.value?.focus()
-      }
+      isUsingKeyboard.value = event?.type === 'keydown'
+      contentRef.value?.focus()
     }
 
     function handleBeforeHideTooltip() {
@@ -226,6 +211,7 @@ export default defineComponent({
       isUsingKeyboard,
       onItemEnter,
       onItemLeave,
+      handleClose,
     })
 
     provide(DROPDOWN_INSTANCE_INJECTION_KEY, {
@@ -236,13 +222,6 @@ export default defineComponent({
       trigger: toRef(props, 'trigger'),
       hideOnClick: toRef(props, 'hideOnClick'),
     })
-
-    const onFocusAfterTrapped = (e: Event) => {
-      e.preventDefault()
-      contentRef.value?.focus?.({
-        preventScroll: true,
-      })
-    }
 
     const handlerMainButtonClick = (event: MouseEvent) => {
       emit('click', event)
@@ -259,13 +238,11 @@ export default defineComponent({
       currentTabId,
       handleCurrentTabIdChange,
       handlerMainButtonClick,
-      handleEntryFocus,
       handleClose,
       handleOpen,
       handleBeforeShowTooltip,
       handleShowTooltip,
       handleBeforeHideTooltip,
-      onFocusAfterTrapped,
       popperRef,
       contentRef,
       triggeringElementRef,

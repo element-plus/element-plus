@@ -29,9 +29,6 @@ const plugins: Plugin[] = [
     loaders: {
       '.vue': 'ts',
     },
-    define: {
-      'process.env.NODE_ENV': '"production"',
-    },
   }),
 ]
 

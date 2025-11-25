@@ -25,7 +25,7 @@
       <tr
         v-for="(row, rowKey) in rows"
         :key="rowKey"
-        :class="getRowKls(row[1])"
+        :class="getRowKls(showWeekNumber ? row[2] : row[1])"
       >
         <td
           v-for="(cell, columnKey) in row"
