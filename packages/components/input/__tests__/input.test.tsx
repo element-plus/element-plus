@@ -638,6 +638,16 @@ describe('Input.vue', () => {
     })
   })
 
+  test('input change event return Event parameter', async () => {
+    const onChange = vi.fn()
+    const wrapper = mount(() => <Input onChange={onChange} />)
+
+    await wrapper.find('input').trigger('change')
+    await nextTick()
+
+    expect(onChange).toHaveBeenCalledWith('', expect.any(Event))
+  })
+
   test('modelValue modifiers', async () => {
     const number = ref()
     const trim = ref()
@@ -758,6 +768,39 @@ describe('Input.vue', () => {
     expect(trimNumberLazyEl.value).toEqual('1.2')
 
     mockActiveElement.mockRestore()
+  })
+
+  test('textarea-show-word-limit-outside-position', async () => {
+    const wrapper = mount(() => (
+      <Input
+        placeholder="请输入内容"
+        showWordLimit
+        wordLimitPosition="outside"
+        maxlength={30}
+        type="textarea"
+      />
+    ))
+
+    const wordLimit = wrapper.find('.el-input__count')
+    await nextTick()
+    expect(wordLimit.exists()).toBe(true)
+    expect(wordLimit.element.className.includes('is-outside')).toBeTruthy()
+  })
+
+  test('input-show-word-limit-outside-position', async () => {
+    const wrapper = mount(() => (
+      <Input
+        placeholder="请输入内容"
+        showWordLimit
+        wordLimitPosition="outside"
+        maxlength={30}
+      />
+    ))
+
+    const wordLimit = wrapper.find('.el-input__count')
+    await nextTick()
+    expect(wordLimit.exists()).toBe(true)
+    expect(wordLimit.element.className.includes('is-outside')).toBeTruthy()
   })
 
   // TODO: validateEvent & input containes select cases should be added after the rest components finished

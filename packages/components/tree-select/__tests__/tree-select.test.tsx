@@ -3,6 +3,9 @@ import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { CircleClose } from '@element-plus/icons-vue'
 import TreeSelect from '../src/tree-select.vue'
+import Tree from '@element-plus/components/tree/src/tree.vue'
+import defineGetter from '@element-plus/test-utils/define-getter'
+import { EVENT_CODE } from '@element-plus/constants'
 
 import type { TreeSelectInstance } from '../src/instance'
 import type { RenderFunction } from 'vue'
@@ -119,6 +122,11 @@ const createComponent = ({
 }
 
 describe('TreeSelect.vue', () => {
+  afterEach(() => {
+    vi.clearAllTimers()
+    vi.useRealTimers()
+    document.body.innerHTML = ''
+  })
   test('render test', async () => {
     const { wrapper, tree } = createComponent({
       props: {
@@ -523,6 +531,71 @@ describe('TreeSelect.vue', () => {
     expect(
       tree.findAll('.el-tree-node__children')[0].attributes('style')
     ).not.toContain('display: none;')
+  })
+
+  test('navigate down', async () => {
+    const { wrapper } = createComponent({
+      props: {
+        defaultExpandAll: true,
+      },
+    })
+
+    await nextTick()
+
+    let flag = false
+    function handleFocus() {
+      return () => (flag = true)
+    }
+    vi.useFakeTimers()
+    const selectWrapper = wrapper.find('.el-select__wrapper')
+    await selectWrapper.trigger('click')
+    await selectWrapper.trigger('focus')
+    const focused = wrapper.find('.is-focused')
+    expect(focused.exists()).toBe(true)
+    await selectWrapper
+      .find('input')
+      .trigger('keydown', { key: EVENT_CODE.down })
+    vi.runAllTimers()
+
+    expect((document.activeElement as HTMLElement).dataset.key).toBe('1')
+
+    const treeWrapper = wrapper.findComponent(Tree)
+    const allNodes = treeWrapper.findAll('.el-tree-node')
+    const len = allNodes.length
+    for (let i = 0; i < len; i++) {
+      if (allNodes[i + 1]) {
+        defineGetter(allNodes[i + 1].element, 'focus', handleFocus)
+        // 模拟按下下箭头键
+        allNodes[i].element.dispatchEvent(
+          new KeyboardEvent('keydown', {
+            code: EVENT_CODE.down,
+            bubbles: true,
+            cancelable: false,
+          })
+        )
+        expect(flag).toBe(true)
+        flag = false
+      }
+    }
+  })
+
+  test('navigate up', async () => {
+    const { wrapper } = createComponent({
+      props: {
+        defaultExpandAll: true,
+      },
+    })
+
+    await nextTick()
+    vi.useFakeTimers()
+    const selectWrapper = wrapper.find('.el-select__wrapper')
+    await selectWrapper.trigger('click')
+    await selectWrapper.trigger('focus')
+    const focused = wrapper.find('.is-focused')
+    expect(focused.exists()).toBe(true)
+    await selectWrapper.find('input').trigger('keydown', { key: EVENT_CODE.up })
+    vi.runAllTimers()
+    expect((document.activeElement as HTMLElement).dataset.key).toBe('111')
   })
 
   test('show correct label when child options are not rendered', async () => {
@@ -1011,5 +1084,25 @@ describe('TreeSelect.vue', () => {
     await input.trigger('blur')
     await input.trigger('focus')
     expect(wrapper.findComponent(CircleClose).exists()).toBe(true)
+  })
+
+  test('render slot `empty`', async () => {
+    const { wrapper, tree } = createComponent({
+      props: {
+        modelValue: '',
+        data: [],
+      },
+      slots: {
+        empty: () => <div class="empty-slot">EmptySlot</div>,
+      },
+    })
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    expect(
+      document.querySelector<HTMLElement>('.empty-slot')?.textContent
+    ).toBe('EmptySlot')
+    expect(tree.find('.el-tree').exists()).toBe(true)
+    expect(tree.find('.el-tree__empty-block').exists()).toBe(false)
   })
 })

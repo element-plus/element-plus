@@ -564,4 +564,125 @@ describe('Color-picker-panel', () => {
     expect(input!.value).toEqual('#409cff')
     wrapper.unmount()
   })
+
+  it('control saturation and brightness changes through keyboard', async () => {
+    const color = ref('#409eff')
+    const wrapper = mount(() => <ColorPickerPanel v-model={color.value} />)
+
+    const cursor = wrapper.find('.el-color-svpanel__cursor')
+    await cursor.trigger('keydown', {
+      key: EVENT_CODE.down,
+      code: EVENT_CODE.down,
+    })
+    const input = wrapper.find<HTMLInputElement>('input').element
+    expect(input!.value).toEqual('#3f9cfc')
+
+    await cursor.trigger('keydown', {
+      key: EVENT_CODE.left,
+      code: EVENT_CODE.left,
+    })
+    expect(input!.value).toEqual('#429efc')
+
+    await cursor.trigger('keydown', {
+      key: EVENT_CODE.up,
+      code: EVENT_CODE.up,
+    })
+    expect(input!.value).toEqual('#429fff')
+
+    await cursor.trigger('keydown', {
+      key: EVENT_CODE.right,
+      code: EVENT_CODE.right,
+    })
+    expect(input!.value).toEqual('#409eff')
+
+    wrapper.unmount()
+  })
+
+  it('predefine colors should show different color when showAlpha values are different', async () => {
+    const color = ref('')
+    const predefine = ['rgba(19, 206, 102, 0.18)']
+    const showAlpha = ref(true)
+    const wrapper = mount(() => (
+      <ColorPickerPanel
+        v-model={color.value}
+        predefine={predefine}
+        showAlpha={showAlpha.value}
+      />
+    ))
+
+    const bg = wrapper.find('.el-color-predefine__color-selector div')
+    expect(bg.attributes('style')).include(predefine[0])
+
+    showAlpha.value = false
+    await nextTick()
+    expect(bg.attributes('style')).include('rgb(19, 206, 102)')
+  })
+
+  describe('a11y label', () => {
+    it('default', async () => {
+      const color = ref('#409eff')
+      const wrapper = mount(() => <ColorPickerPanel v-model={color.value} />)
+      const svPanel = wrapper.find('.el-color-svpanel__cursor')
+
+      expect(svPanel.attributes('tabindex')).toBe('0')
+      expect(svPanel.attributes('role')).toBe('slider')
+      expect(svPanel.attributes('aria-valuemin')).toBe('0,0')
+      expect(svPanel.attributes('aria-valuemax')).toBe('100,100')
+      expect(svPanel.attributes('aria-valuenow')).toBe('75,100')
+      expect(svPanel.attributes('aria-label')).toBe(
+        'pick saturation and brightness value'
+      )
+      expect(svPanel.attributes('aria-valuetext')).toBe(
+        'saturation 75, brightness 100, current color is #409eff'
+      )
+
+      const hueSlider = wrapper.find('.el-color-hue-slider__thumb')
+      expect(hueSlider.attributes('tabindex')).toBe('0')
+      expect(hueSlider.attributes('role')).toBe('slider')
+      expect(hueSlider.attributes('aria-valuemin')).toBe('0')
+      expect(hueSlider.attributes('aria-valuemax')).toBe('360')
+      expect(hueSlider.attributes('aria-valuenow')).toBe('210')
+      expect(hueSlider.attributes('aria-label')).toBe('pick hue value')
+      expect(hueSlider.attributes('aria-valuetext')).toBe(
+        'hue 210, current color is #409eff'
+      )
+
+      wrapper.unmount()
+    })
+
+    it('with show-alpha', async () => {
+      const color = ref('rgba(64, 158, 255, 0.5)')
+      const wrapper = mount(() => (
+        <ColorPickerPanel v-model={color.value} show-alpha />
+      ))
+      const alphaSlider = wrapper.find('.el-color-alpha-slider__thumb')
+      expect(alphaSlider.attributes('tabindex')).toBe('0')
+      expect(alphaSlider.attributes('role')).toBe('slider')
+      expect(alphaSlider.attributes('aria-valuemin')).toBe('0')
+      expect(alphaSlider.attributes('aria-valuemax')).toBe('100')
+      expect(alphaSlider.attributes('aria-valuenow')).toBe('50')
+      expect(alphaSlider.attributes('aria-label')).toBe('pick alpha value')
+      expect(alphaSlider.attributes('aria-valuetext')).toBe(
+        'alpha 50, current color is rgba(64, 158, 255, 0.5)'
+      )
+
+      wrapper.unmount()
+    })
+
+    it('with predefine', async () => {
+      const color = ref('')
+      const predefine = ['#409eff']
+      const wrapper = mount(() => (
+        <ColorPickerPanel v-model={color.value} predefine={predefine} />
+      ))
+      const predefineColor = wrapper.find('.el-color-predefine__color-selector')
+
+      expect(predefineColor.attributes('type')).toBe('button')
+      expect(predefineColor.attributes('aria-label')).toBe(
+        'select #409eff as the color'
+      )
+
+      wrapper.unmount()
+    })
+  })
 })

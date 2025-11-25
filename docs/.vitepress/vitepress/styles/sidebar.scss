@@ -22,7 +22,7 @@
   }
 
   .sidebar-groups {
-    padding: 0;
+    padding: 0 2px;
 
     @include respond-to('lg') {
       padding-bottom: 48px;

@@ -14,6 +14,10 @@ export default {
       alphaDescription: 'alpha {alpha}, current color is {color}',
       hueLabel: 'pick hue value',
       hueDescription: 'hue {hue}, current color is {color}',
+      svLabel: 'pick saturation and brightness value',
+      svDescription:
+        'saturation {saturation}, brightness {brightness}, current color is {color}',
+      predefineDescription: 'select {value} as the color',
     },
     datepicker: {
       now: 'Now',

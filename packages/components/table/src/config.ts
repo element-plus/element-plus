@@ -259,7 +259,7 @@ export function treeCellPrefix<T extends DefaultRow>(
             return [
               h(
                 ElIcon,
-                { class: { [ns.is('loading')]: treeNode.loading } },
+                { class: ns.is('loading', treeNode.loading) },
                 {
                   default: () => [h(icon)],
                 }

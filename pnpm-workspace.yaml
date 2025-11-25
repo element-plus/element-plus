@@ -3,6 +3,7 @@ packages:
   - docs
   - play
   - internal/*
+
 catalog:
   '@ctrl/tinycolor': ^3.4.1
   '@element-plus/icons-vue': ^2.3.2
@@ -16,4 +17,29 @@ catalog:
   csstype: ^2.6.20
   '@floating-ui/dom': ^1.0.1
   vue: ~3.2.37
-  # vitest: ^2.0.5
+
+onlyBuiltDependencies:
+  - 'es5-ext'
+  - 'esbuild'
+  - 'fsevents'
+  - 'puppeteer'
+  - 'vue-demi'
+
+overrides:
+  'typescript': '$typescript'
+  'jwa': '^1.4.2' # 20697
+
+patchedDependencies:
+  async-validator@4.2.5: patches/async-validator@4.2.5.patch #16757
+
+peerDependencyRules:
+  ignoreMissing:
+    - 'vite'
+    - 'react'
+    - 'react-dom'
+
+shamefullyHoist: true
+
+shellEmulator: true
+
+strictPeerDependencies: false
