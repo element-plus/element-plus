@@ -83,6 +83,14 @@ tabs/customized-trigger
 
 :::
 
+## Default value
+
+:::demo
+
+tabs/default-value
+
+:::
+
 ## Tabs API
 
 ### Tabs Attributes
@@ -90,6 +98,7 @@ tabs/customized-trigger
 | Name                  | Description                                                                                                                             | Type                                                                                             | Default    |
 | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | ---------- |
 | model-value / v-model | binding value, name of the selected tab, the default value is the name of first tab                                                     | ^[string] / ^[number]                                                                            | —          |
+| default-value (2.11.9)| The value of the tab that should be active when initially rendered. (avoid initial transition)                                          | ^[string] / ^[number]                                                                            | —          |
 | type                  | type of Tab                                                                                                                             | ^[enum]`'' \| 'card' \| 'border-card'`                                                           | ''         |
 | closable              | whether Tab is closable                                                                                                                 | ^[boolean]                                                                                       | false      |
 | addable               | whether Tab is addable                                                                                                                  | ^[boolean]                                                                                       | false      |

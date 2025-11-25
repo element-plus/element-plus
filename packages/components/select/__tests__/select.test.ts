@@ -4117,4 +4117,95 @@ describe('Select', () => {
 
     wrapper.unmount()
   })
+
+  test('limitReached: hovering via DOM event should not update index nor add class', async () => {
+    wrapper = _mount(
+      `
+    <el-select v-model="value" multiple :multiple-limit="1">
+      <el-option v-for="o in options" :key="o.value" :label="o.label" :value="o.value" />
+    </el-select>
+    `,
+      () => ({
+        value: [],
+        options: [
+          { value: '选项1', label: '黄金糕' },
+          { value: '选项2', label: '双皮奶' },
+          { value: '选项3', label: '蚵仔煎' },
+        ],
+      })
+    )
+
+    const selectVm = wrapper.findComponent({ name: 'ElSelect' }).vm as any
+    await wrapper.find('.el-select__wrapper').trigger('click')
+    await nextTick()
+    const optionCmps = wrapper.findAllComponents({ name: 'ElOption' })
+    await optionCmps[0].trigger('click')
+    await nextTick()
+    selectVm.states.hoveringIndex = 0
+    const optionEls = getOptions()
+    await optionCmps[1].trigger('mousemove')
+    await nextTick()
+    expect(selectVm.states.hoveringIndex).toBe(0)
+    expect(Array.from(optionEls[1].classList)).not.toContain('is-hovering')
+  })
+
+  test('should trigger visible-change when dropdownMenuVisible changes', async () => {
+    const handleVisibleChange = vi.fn()
+    wrapper = mount({
+      template: `
+      <el-select
+        v-model="value"
+        remote
+        :remote-method="remoteMethod"
+        :loading="loading"
+        @visible-change="handleVisibleChange"
+      >
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item"
+        />
+      </el-select>`,
+      components: { ElSelect: Select, ElOption: Option },
+      data() {
+        return {
+          options: [],
+          value: [],
+          list: [],
+          loading: false,
+          states: ['Alabama', 'Alaska'],
+          handleVisibleChange,
+        }
+      },
+      mounted() {
+        this.list = this.states.map((item) => {
+          return { value: `value:${item}`, label: `label:${item}` }
+        })
+      },
+      methods: {
+        remoteMethod(query) {
+          if (query !== '') {
+            this.loading = true
+            setTimeout(() => {
+              this.loading = false
+              this.options = this.list.filter((item) => {
+                return item.label.toLowerCase().includes(query.toLowerCase())
+              })
+            }, 200)
+          } else {
+            this.options = []
+          }
+        },
+      },
+    })
+
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    expect(handleVisibleChange).not.toHaveBeenCalled()
+    await input.setValue('label:Alabama')
+    expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+    await input.trigger('blur')
+    expect(handleVisibleChange).toHaveBeenCalledTimes(2)
+  })
 })

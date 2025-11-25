@@ -260,6 +260,10 @@ export const selectV2Props = buildProps({
     default: 12,
   },
   /**
+   * @description in remote search method show suffix icon
+   */
+  remoteShowSuffix: Boolean,
+  /**
    * @description Determines whether the arrow is displayed
    */
   showArrow: {

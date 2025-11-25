@@ -160,7 +160,9 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   })
 
   const iconComponent = computed(() =>
-    props.remote && props.filterable ? '' : props.suffixIcon
+    props.remote && props.filterable && !props.remoteShowSuffix
+      ? ''
+      : props.suffixIcon
   )
 
   const iconReverse = computed(
@@ -893,7 +895,6 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
       states.isBeforeHide = true
       createNewOption('')
     }
-    emit('visible-change', val)
   })
 
   watch(
@@ -975,10 +976,24 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   })
   useResizeObserver(selectRef, handleResize)
   useResizeObserver(selectionRef, resetSelectionWidth)
-  useResizeObserver(menuRef, updateTooltip)
   useResizeObserver(wrapperRef, updateTooltip)
   useResizeObserver(tagMenuRef, updateTagTooltip)
   useResizeObserver(collapseItemRef, resetCollapseItemWidth)
+
+  // #21498
+  let stop: (() => void) | undefined
+  watch(
+    () => dropdownMenuVisible.value,
+    (newVal) => {
+      if (newVal) {
+        stop = useResizeObserver(menuRef, updateTooltip).stop
+      } else {
+        stop?.()
+        stop = undefined
+      }
+      emit('visible-change', newVal)
+    }
+  )
 
   return {
     // data exports
