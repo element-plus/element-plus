@@ -83,7 +83,7 @@ tabs/customized-trigger
 
 :::
 
-## Default value
+## Default value ^(2.11.9)
 
 :::demo
 
