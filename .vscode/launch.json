@@ -4,24 +4,28 @@
     {
       "name": "Launch Chrome",
       "request": "launch",
-      "type": "chrome",
+      "type": "pwa-chrome",      // Updated from "chrome" to "pwa-chrome" for modern VS Code debugging
       "url": "http://localhost:3000",
-      "webRoot": "${workspaceFolder}"
+      "webRoot": "${workspaceFolder}/src", // Usually the source folder
+      "breakOnLoad": true
     },
     {
       "name": "Launch Edge",
       "request": "launch",
-      "type": "msedge",
+      "type": "pwa-msedge",      // Updated from "msedge" to "pwa-msedge"
       "url": "http://localhost:3000",
-      "webRoot": "${workspaceFolder}"
+      "webRoot": "${workspaceFolder}/src",
+      "breakOnLoad": true
     },
     {
-      "name": "Run and debug",
+      "name": "Run and Debug Vite",
       "type": "node",
       "request": "launch",
       "cwd": "${workspaceFolder}",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["dev"]
+      "runtimeArgs": ["dev"],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
     }
   ]
 }
