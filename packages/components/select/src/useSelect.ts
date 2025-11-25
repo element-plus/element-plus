@@ -822,7 +822,9 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
         break
       case EVENT_CODE.enter:
       case EVENT_CODE.numpadEnter:
-        selectOption()
+        if (!isComposing.value) {
+          selectOption()
+        }
         break
       case EVENT_CODE.esc:
         handleEsc()
