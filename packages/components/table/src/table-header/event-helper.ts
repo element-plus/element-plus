@@ -161,7 +161,7 @@ function useEvent<T extends DefaultRow>(
   }
 
   const handleMouseOut = () => {
-    if (!isClient) return
+    if (!isClient || dragging.value) return
     document.body.style.cursor = ''
   }
   const toggleOrder = ({ order, sortOrders }: TableColumnCtx<T>) => {
