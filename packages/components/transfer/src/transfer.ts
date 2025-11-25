@@ -7,6 +7,7 @@ import {
 } from '@element-plus/utils'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
+import type { Awaitable } from '@element-plus/utils'
 import type {
   ExtractPropTypes,
   h as H,
@@ -40,6 +41,8 @@ export interface TransferCheckedState {
   leftChecked: TransferKey[]
   rightChecked: TransferKey[]
 }
+
+export type TransferBeforeTarget = 'left' | 'right'
 
 export const LEFT_CHECK_CHANGE_EVENT = 'left-check-change'
 export const RIGHT_CHECK_CHANGE_EVENT = 'right-check-change'
@@ -142,6 +145,14 @@ export const transferProps = buildProps({
   validateEvent: {
     type: Boolean,
     default: true,
+  },
+  beforeTransfer: {
+    type: definePropType<
+      (
+        data: TransferKey[],
+        target: TransferBeforeTarget
+      ) => Awaitable<void | undefined | null | boolean>
+    >(Function),
   },
 } as const)
 export type TransferProps = ExtractPropTypes<typeof transferProps>
