@@ -148,7 +148,10 @@ function useEvent<T extends DefaultRow>(
       }
     }
 
-    if (!column?.resizable || dragging.value) return
+    if (!column?.resizable || dragging.value) {
+      draggingColumn.value = null
+      return
+    }
 
     const rect = target.getBoundingClientRect()
     const isLastTh = target.parentNode?.lastElementChild === target
