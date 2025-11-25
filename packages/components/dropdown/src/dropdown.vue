@@ -190,6 +190,7 @@ export default defineComponent({
       onItemLeave,
       handleShowTooltip,
       handleHideTooltip,
+      isFocusInsideContent,
       handleCurrentTabIdChange,
     } = useDropdownTooltip({
       trigger,
@@ -265,6 +266,7 @@ export default defineComponent({
       onItemEnter,
       onItemLeave,
       handleClose,
+      isFocusInsideContent,
     })
 
     provide(DROPDOWN_INSTANCE_INJECTION_KEY, {

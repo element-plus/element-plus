@@ -186,6 +186,7 @@ const {
   onItemLeave,
   handleShowTooltip,
   handleHideTooltip,
+  isFocusInsideContent,
   handleCurrentTabIdChange,
 } = useDropdownTooltip({
   trigger,
@@ -297,5 +298,6 @@ provide(DROPDOWN_INJECTION_KEY, {
   onItemEnter,
   onItemLeave,
   handleClose,
+  isFocusInsideContent,
 })
 </script>

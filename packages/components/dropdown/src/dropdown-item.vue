@@ -48,7 +48,7 @@ export default defineComponent({
       commandHandler,
     } = inject(DROPDOWN_INSTANCE_INJECTION_KEY, undefined)!
 
-    const { onItemEnter, onItemLeave } = inject(
+    const { onItemEnter, onItemLeave, isFocusInsideContent } = inject(
       DROPDOWN_INJECTION_KEY,
       undefined
     )!
@@ -74,7 +74,8 @@ export default defineComponent({
          */
         if (
           target === document.activeElement ||
-          target.contains(document.activeElement)
+          target.contains(document.activeElement) ||
+          !isFocusInsideContent(e)
         ) {
           return
         }

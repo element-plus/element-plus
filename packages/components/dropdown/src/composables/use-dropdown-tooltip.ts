@@ -55,6 +55,14 @@ export function useDropdownTooltip({
     currentTabId.value = undefined
   }
 
+  function isFocusInsideContent(event?: PointerEvent) {
+    const e = new FocusEvent('focus', { relatedTarget: event?.currentTarget })
+    return (
+      popperRef.value?.isFocusInsideContent() &&
+      popperRef.value?.isFocusInsideContent(e)
+    )
+  }
+
   return {
     popperRef,
     contentRef,
@@ -64,6 +72,7 @@ export function useDropdownTooltip({
     onItemLeave,
     handleShowTooltip,
     handleHideTooltip,
+    isFocusInsideContent,
     handleCurrentTabIdChange,
   }
 }

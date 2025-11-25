@@ -14,6 +14,7 @@ export type ElDropdownInjectionContext = {
   onItemLeave: (e: PointerEvent) => void
   onItemEnter: (e: PointerEvent) => void
   handleClose: (e: Event) => void
+  isFocusInsideContent(e?: PointerEvent | undefined): boolean | undefined
 }
 
 export interface IElDropdownInstance extends ToRefs<DropdownProps> {
