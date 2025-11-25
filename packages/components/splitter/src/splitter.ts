@@ -23,5 +23,6 @@ export const splitterEmits = {
   resizeEnd: (index: number, sizes: number[]) => true,
   collapse: (index: number, type: 'start' | 'end', sizes: number[]) => true,
 }
+/* eslint-enable @typescript-eslint/no-unused-vars */
 
 export type SplitterEmits = typeof splitterEmits
