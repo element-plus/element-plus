@@ -73,7 +73,7 @@ transfer/prop-alias
 | left-default-checked        | key array of initially checked data items of the left list                                                                                                                                                                                                                         | ^[object]`Array<string \| number>`                                                                          | []       |
 | right-default-checked       | key array of initially checked data items of the right list                                                                                                                                                                                                                        | ^[object]`Array<string \| number>`                                                                          | []       |
 | validate-event              | whether to trigger form validation                                                                                                                                                                                                                                                 | ^[boolean]                                                                                                  | true     |
-| before-transfer ^(2.11.8)   | the callback before the transfer, the parameter is the transferred data. If not return `true`, transfer will be aborted.                                                                                                                                                           | ^[Function]`(data: TransferKey[], target: TransferBeforeTarget) => Awaitable<boolean \| undefined \| void>` | —        |
+| before-transfer ^(2.11.9)   | the callback before the transfer, the parameter is the transferred data. If not return `true`, transfer will be aborted.                                                                                                                                                           | ^[Function]`(data: TransferKey[], target: TransferBeforeTarget) => Awaitable<boolean \| undefined \| void>` | —        |
 
 ### Transfer Events
 
@@ -100,12 +100,12 @@ transfer/prop-alias
 | clearQuery             | clear the filter keyword of a certain panel         | ^[Function]`(which: TransferDirection) => void` |
 | leftPanel              | left panel ref                                      | ^[object]`Ref<TransferPanelInstance>`           |
 | rightPanel             | right panel ref                                     | ^[object]`Ref<TransferPanelInstance>`           |
-| sourceData ^(2.11.8)   | source data on the left                             | ^[array]`ComputedRef<TransferDataItem[]>`       |
-| targetData ^(2.11.8)   | target data on the right                            | ^[array]`ComputedRef<TransferDataItem[]>`       |
-| leftChecked ^(2.11.8)  | checked value on the left                           | ^[array]`ComputedRef<TransferKey[]>`            |
-| rightChecked ^(2.11.8) | checked value on the right                          | ^[array]`ComputedRef<TransferKey[]>`            |
-| addToLeft ^(2.11.8)    | transfer the selected data on the right to the left | ^[Function]`() => Promise<void>`                |
-| addToRight ^(2.11.8)   | transfer the selected data on the left to the right | ^[Function]`() => Promise<void>`                |
+| sourceData ^(2.11.9)   | source data on the left                             | ^[array]`ComputedRef<TransferDataItem[]>`       |
+| targetData ^(2.11.9)   | target data on the right                            | ^[array]`ComputedRef<TransferDataItem[]>`       |
+| leftChecked ^(2.11.9)  | checked value on the left                           | ^[array]`ComputedRef<TransferKey[]>`            |
+| rightChecked ^(2.11.9) | checked value on the right                          | ^[array]`ComputedRef<TransferKey[]>`            |
+| addToLeft ^(2.11.9)    | transfer the selected data on the right to the left | ^[Function]`() => Promise<void>`                |
+| addToRight ^(2.11.9)   | transfer the selected data on the left to the right | ^[Function]`() => Promise<void>`                |
 
 ## Transfer Panel API
 
