@@ -9,7 +9,8 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.2",
-    "vue": "catalog:"
+    "vue": "catalog:",
+    "vue-router": "^4.0.16"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "catalog:",
