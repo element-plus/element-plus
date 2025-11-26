@@ -6,6 +6,7 @@ import TimeLine from '../src/timeline'
 import TimeLineItem from '../src/timeline-item.vue'
 
 import type { TimelineItemProps } from '../src/timeline-item'
+import type { TimelineProps } from '../src/timeline'
 
 const iconMoreFilled = markRaw(MoreFilled)
 
@@ -13,6 +14,7 @@ const activities: {
   content: string
   timestamp: string
   placement?: TimelineItemProps['placement']
+  itemPlacement?: TimelineProps['itemPlacement']
   hideTimestamp?: boolean
 }[] = [
   {
@@ -60,6 +62,22 @@ describe('TimeLine.vue', () => {
     const timestampWrapper = wrapper.findAll('.el-timeline-item__timestamp')[0]
 
     expect(timestampWrapper.classes('is-top')).toBe(true)
+  })
+
+  test('item-placement', () => {
+    const wrapper = mount(() => (
+      <TimeLine item-placement="left">
+        {activities.map((activity, index) => (
+          <TimeLineItem key={index}>{activity.content}</TimeLineItem>
+        ))}
+      </TimeLine>
+    ))
+
+    const timelineItems = wrapper.findAll('.el-timeline-item')
+
+    timelineItems.forEach((item) => {
+      expect(item.classes('is-left')).toBe(true)
+    })
   })
 
   test('hide-timestamp', () => {

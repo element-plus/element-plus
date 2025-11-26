@@ -49,6 +49,12 @@ timeline/center
 
 ## Timeline API
 
+### Timeline Attributes
+
+| Name                     | Description               | Type                       | Default |
+| ------------------------ | ------------------------- | -------------------------- | ------- |
+| item-placement ^(2.11.9) | position of timeline-item | ^[enum]`'left' \| 'right'` | right   |
+
 ### Timeline Slots
 
 | Name    | Description                            | Subtags       |
