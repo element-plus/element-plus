@@ -82,9 +82,11 @@
     @include e(wrapper) {
       padding-left: 28px;
     }
+
     @include e(tail) {
       left: 4px;
     }
+
     @include e(node) {
       @include m(normal) {
         left: -1px;
@@ -100,9 +102,11 @@
       padding-right: 28px;
       text-align: right;
     }
+
     @include e(tail) {
       right: 4px;
     }
+
     @include e(node) {
       @include m(normal) {
         right: -1px;
@@ -118,6 +122,7 @@
       left: 50%;
       transform: translateX(-50%);
     }
+
     @include e(node) {
       left: 50%;
       transform: translateX(-50%);
