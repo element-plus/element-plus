@@ -5,6 +5,7 @@ import type {
   ComponentInternalInstance,
   PropType,
   Ref,
+  StyleValue,
   VNode,
 } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
@@ -152,7 +153,7 @@ interface TableProps<T extends DefaultRow> {
   lazy?: boolean
   load?: (row: T, treeNode: TreeNode, resolve: (data: T[]) => void) => void
   className?: string
-  style?: CSSProperties
+  style?: StyleValue
   tableLayout?: Layout
   scrollbarAlwaysOn?: boolean
   flexible?: boolean
@@ -374,7 +375,7 @@ export default {
    */
   load: Function as PropType<TableProps<any>['load']>,
   style: {
-    type: Object as PropType<CSSProperties>,
+    type: [String, Object, Array] as PropType<TableProps<any>['style']>,
     default: () => ({}),
   },
   className: {
