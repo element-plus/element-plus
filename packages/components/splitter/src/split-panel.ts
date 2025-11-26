@@ -25,3 +25,9 @@ export type SplitterPanelPropsPublic = __ExtractPublicPropTypes<
   typeof splitterPanelProps
 >
 export type SplitterPanelInstance = InstanceType<typeof SplitterPanel> & unknown
+
+export const splitterPanelEmits = {
+  'update:size': (value: number) => typeof value === 'number',
+}
+
+export type SplitterPanelEmits = typeof splitterPanelEmits

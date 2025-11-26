@@ -61,7 +61,7 @@
     "@types/lodash-es": "^4.17.12",
     "@vueuse/core": "^10.11.0",
     "async-validator": "^4.2.5",
-    "dayjs": "^1.11.18",
+    "dayjs": "^1.11.19",
     "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",
     "lodash-unified": "^1.0.3",
