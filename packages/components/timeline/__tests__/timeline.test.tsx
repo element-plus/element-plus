@@ -1,4 +1,4 @@
-import { markRaw } from 'vue'
+import { markRaw, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
 import { MoreFilled } from '@element-plus/icons-vue'
@@ -167,5 +167,45 @@ describe('TimeLine.vue', () => {
     const timestampWrappers = wrapper.findAll('.el-timeline-item')
 
     expect(timestampWrappers[1].classes()).toContain('el-timeline-item__center')
+  })
+
+  describe('reverse', () => {
+    test('v-for', async () => {
+      const reverse = ref(true)
+      const wrapper = mount(() => (
+        <TimeLine reverse={reverse.value}>
+          {activities.map((item, index) => (
+            <TimeLineItem key={index}>{item.content}</TimeLineItem>
+          ))}
+        </TimeLine>
+      ))
+
+      let firstTimelineItem = wrapper.find('.el-timeline-item__content')
+      expect(firstTimelineItem.text()).toMatchInlineSnapshot(`"Step 3: xxxxxx"`)
+
+      reverse.value = false
+      await nextTick()
+      firstTimelineItem = wrapper.find('.el-timeline-item__content')
+      expect(firstTimelineItem.text()).toMatchInlineSnapshot(`"Step 1: xxxxxx"`)
+    })
+
+    test('manual children', async () => {
+      const reverse = ref(true)
+      const wrapper = mount(() => (
+        <TimeLine reverse={reverse.value}>
+          <TimeLineItem>Step 1: xxxxxx</TimeLineItem>
+          <TimeLineItem>Step 2: xxxxxx</TimeLineItem>
+          <TimeLineItem>Step 3: xxxxxx</TimeLineItem>
+        </TimeLine>
+      ))
+
+      let firstTimelineItem = wrapper.find('.el-timeline-item__content')
+      expect(firstTimelineItem.text()).toMatchInlineSnapshot(`"Step 3: xxxxxx"`)
+
+      reverse.value = false
+      await nextTick()
+      firstTimelineItem = wrapper.find('.el-timeline-item__content')
+      expect(firstTimelineItem.text()).toMatchInlineSnapshot(`"Step 1: xxxxxx"`)
+    })
   })
 })
