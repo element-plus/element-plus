@@ -216,7 +216,57 @@ tree/draggable
 
 ### Slots
 
-| Name           | Description                                                            |
-| -------------- | ---------------------------------------------------------------------- |
-| default        | Custom content for tree nodes. The scope parameter is `{ node, data }` |
-| empty ^(2.3.4) | empty you can customize content when data is empty.                    |
+| Name           | Description                       | Type                                                                                |
+| -------------- | --------------------------------- | ----------------------------------------------------------------------------------- |
+| default        | custom content for tree nodes     | ^[object]`{ node: UnwrapRef<RootTreeType['root']>, data: Tree \| TreeOptionProps }` |
+| empty ^(2.3.4) | custom content when data is empty | —                                                                                   |
+
+## Type Declarations
+
+<details>
+  <summary>Show declarations</summary>
+
+```ts
+interface RootTreeType {
+  root: Ref<Node>
+  // ...
+}
+
+// UnwrapRef<RootTreeType['root']> => Node
+type Node = {
+  canFocus: boolean
+  checked: boolean
+  childNodes: Node[]
+  data: TreeNodeData
+  expanded: boolean
+  id: number
+  indeterminate: boolean
+  isCurrent: boolean
+  isEffectivelyChecked: boolean
+  isLeaf?: boolean
+  isLeafByUser?: boolean
+  level: number
+  loaded: boolean
+  loading: boolean
+  parent: Node | null
+  store: TreeStore
+  text: string | null
+  visible: boolean
+}
+
+// TreeNodeData => Tree / TreeOptionProps
+// Tree type is your prop type.
+// TreeOptionProps is default prop type
+interface TreeOptionProps {
+  children?: string
+  label?: string | ((data: TreeNodeData, node: Node) => string)
+  disabled?: string | ((data: TreeNodeData, node: Node) => boolean)
+  isLeaf?: string | ((data: TreeNodeData, node: Node) => boolean)
+  class?: (
+    data: TreeNodeData,
+    node: Node
+  ) => string | { [key: string]: boolean }
+}
+```
+
+</details>

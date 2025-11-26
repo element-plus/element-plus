@@ -17,6 +17,7 @@ export default {
       svLabel: 'pick saturation and brightness value',
       svDescription:
         'saturation {saturation}, brightness {brightness}, current color is {color}',
+      predefineDescription: 'select {value} as the color',
     },
     datepicker: {
       now: 'Now',

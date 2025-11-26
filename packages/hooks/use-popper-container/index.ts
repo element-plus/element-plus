@@ -34,7 +34,7 @@ export const usePopperContainer = () => {
     // document.body.innerHTML = '' situation
     // for this we need to disable the caching since it's not really needed
     if (
-      process.env.NODE_ENV === 'test' ||
+      (typeof process !== 'undefined' && process.env.NODE_ENV === 'test') ||
       !document.body.querySelector(selector.value)
     ) {
       createContainer(id.value)

@@ -1,6 +1,95 @@
 ## Changelog
 
 
+### 2.11.8
+
+_2025-11-15_
+
+#### Features
+
+- Components [virtual-list] add touch event handling for scrolling (#20628 by @warmthsea)
+- Components [cascader] expose `focus` and `blur` methods (#22737 by @rzzf)
+- Components [drawer] add  `resize-start` `resize` `resize-end`  emits (#22784 by @jevin98)
+
+#### Bug fixes
+
+- Components [date-picker] keyboard navigation on first of the month (#22668 by @Dsaquel)
+- Components [table] ensure tooltip works correctly in tree table (#22674 by @xuhuaiyu24)
+- Components [tree-v2] checkbox selection wrong with disabled nodes (#22627 by @rzzf)
+- Components [watermark] use baselineOffset to get a complete canvas (#22670 by @alonely-boy)
+- Components [select] allow delete non existant option (#22706 by @Dsaquel)
+- Components [select] unable to select options using NumpadEnter (#22715 by @rzzf)
+- Components [textarea] add the missing `name` attribute (#22718 by @rzzf)
+- Components [autocomplete] allow using Numpad Enter to select the option (#22721 by @keeplearning66)
+- Components [image-viewer] avoid triggering scroll wheel events outside the preview area (#22722 by @keeplearning66)
+- Components [tree-select] use up/down/enter keys select error (#20008 by @SpanManX)
+- Components [tree] avoid having multiple nodes with highlighted states at the same time (#22748 by @keeplearning66)
+- Components [input-tag] the line break caused by exceeding  content (#22704 by @lxKylin)
+- Components [select-v2] avoid invalid positioning when using filterable and default-first-option (#22725 by @keeplearning66)
+- Components [upload] ensure onChange receives updated fileList (#22760 by @yicheny)
+- Components [select] shouldn't display the input box when disabled (#22767 by @Putia3)
+- Components [select] sync label when persistent is false and options change (#22755 by @yicheny)
+- Components [select-v2] avoid wrong style when disabled (#22780 by @keeplearning66)
+- Components [popper] trigger memory leak issue (#22763 by @Map1en)
+- Components [input-number] correct condition for user input reset (#21283 by @betavs)
+- Components [select] after the last select unmounts memory leak issue (#22764 by @Map1en)
+
+#### Refactors
+
+- Components [menu] extract constants (#22661 by @lxKylin)
+- Components [form] remove unnecessary non-empty assertions (#22660 by @lxKylin)
+- Components [tree] extract auxiliary function (#22677 by @lxKylin)
+- Components [tree] change the for loop to the find method (#22678 by @lxKylin)
+- Components [menu] adjust the non-empty assertion (#22694 by @lxKylin)
+- Components [image-viewer] use `useLockscreen` for scroll lock (#22734 by @rzzf)
+- Components [watermark] reduce unnecessary calc (#22789 by @btea)
+- Components [drawer] rename `event` parameter avoid conflicts (#22790 by @btea)
+- Components [select-v2] reduce repeated property access (#22801 by @keeplearning66)
+
+### 2.11.7
+
+_2025-11-01_
+
+
+### 2.11.6
+
+_2025-10-31_
+
+#### Features
+
+- Components [drawer] add support for `modal-penetrable` prop (#22498 by @Lensiq)
+- Components [color-picker-panel] sv-panel a11y (#22470 by @tolking)
+- Components [color-picker-panel] add validateEvent prop (#22522 by @tolking)
+- Components [select/select-v2] support debounce prop (#22471 by @keeplearning66)
+- Components [color-picker-panel] predefine a11y (#22527 by @tolking)
+- Components [select] support home and end key events (#22446 by @snowbitx)
+- Components [tabs] add `tabindex` prop (#22624 by @btea)
+
+#### Bug fixes
+
+- Components [date-picker-panel] value-on-clear takes effect on monthrange and yearrange (#22507 by @keeplearning66)
+- Components [select-v2] use correct labelKey in selectedLabel (#22516 by @rzzf)
+- Components [select-v2] avoid displaying 'false' incorrectly during remote search (#22495 by @keeplearning66)
+- Theme-chalk [cascader] cursor style issue in filterable (#22518 by @123outsider)
+- Components [tree-v2] call `collapseNode/expandNode` `expand/collapse` icon status error (#22205 by @jevin98)
+- Components [select] should not affect global config (#22544 by @btea)
+- Components [input-tag] keyboard handling should occur on keydown (#22486 by @xiaocainiao633)
+- Components [tree] optimize tree-select empty detection (#22302 by @xingyixiang)
+- Components [select] prevent duplicate option registration (#22541 by @Lensiq)
+- Components [input] quickly click the icon and the cursor position is displayed incorrectly (#22563 by @btea)
+- Components [tooltip] content hover works with array trigger (#22551 by @Lensiq)
+- Components [date-picker-panel] wrong style when use showWeekNumber (#22559 by @keeplearning66)
+- Components [select] scrolling is not triggered when the option value is zero (#22578 by @rzzf)
+- Components [pagination] avoid override button styles in slots (#22570 by @rzzf)
+- Components [date-picker] time list sync with input change (#22589 by @Dsaquel)
+- Directives fix memory leak in v-mousewheel directive (#20781 by @cylgdzz111)
+- Components avoid capturing focus when disabled (#22616 by @tolking)
+- Hooks [use-lockscreen] fix lock-scroll not working (#19711 by @wjp980108)
+
+#### Refactors
+
+- Components [tree] improve emit to get type hints (#22526 by @rzzf)
+
 ### 2.11.5
 
 _2025-10-17_

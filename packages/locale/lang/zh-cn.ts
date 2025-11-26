@@ -15,6 +15,7 @@ export default {
       hueDescription: '色相 {hue}, 当前颜色 {color}',
       svLabel: '选择饱和度与明度的值',
       svDescription: '饱和度 {saturation}, 明度 {brightness}, 当前颜色 {color}',
+      predefineDescription: '选择 {value} 作为颜色',
     },
     datepicker: {
       now: '此刻',

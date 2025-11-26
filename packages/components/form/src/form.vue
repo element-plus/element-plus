@@ -143,9 +143,7 @@ const validateField: FormContext['validateField'] = async (
       // form-item may be dynamically rendered based on the judgment conditions, and the order in invalidFields is uncertain.
       // Therefore, the first form field with an error is determined by directly looking for the rendered element.
       if (formRef.value) {
-        const formItem = formRef.value!.querySelector(
-          `.${ns.b()}-item.is-error`
-        )
+        const formItem = formRef.value.querySelector(`.${ns.b()}-item.is-error`)
         formItem?.scrollIntoView(props.scrollIntoViewOptions)
       }
     }

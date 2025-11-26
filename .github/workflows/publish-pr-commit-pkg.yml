@@ -48,10 +48,10 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
         run: |
           cd dist/element-plus
-          pnpx pkg-pr-new publish --packageManager=pnpm
+          pnpx pkg-pr-new publish --pnpm --packageManager=pnpm
 
       - name: Publish for Commit Push
         if: ${{ github.event_name == 'push' }}
         run: |
           cd dist/element-plus
-          pnpx pkg-pr-new publish --comment=off --packageManager=pnpm
+          pnpx pkg-pr-new publish --pnpm --comment=off --packageManager=pnpm

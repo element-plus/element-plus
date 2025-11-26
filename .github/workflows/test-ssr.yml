@@ -31,6 +31,9 @@ jobs:
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
 
+      - name: Install Chromium for Puppeteer
+        run: npx puppeteer browsers install chrome
+
       - name: Local build
         run: pnpm build
         env:

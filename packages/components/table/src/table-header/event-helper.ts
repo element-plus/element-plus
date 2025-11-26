@@ -49,7 +49,11 @@ function useEvent<T extends DefaultRow>(
     if (!isClient) return
     if (column.children && column.children.length > 0) return
     /* istanbul ignore if */
-    if (draggingColumn.value && props.border) {
+    if (
+      draggingColumn.value &&
+      props.border &&
+      draggingColumn.value.id === column.id
+    ) {
       dragging.value = true
 
       const table = parent
@@ -132,7 +136,10 @@ function useEvent<T extends DefaultRow>(
     }
     const target = el?.closest('th')
 
-    if (!column || !column.resizable || !target) return
+    if (!column || !column.resizable || !target) {
+      draggingColumn.value = null
+      return
+    }
 
     if (!dragging.value && props.border) {
       const rect = target.getBoundingClientRect()

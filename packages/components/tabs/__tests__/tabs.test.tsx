@@ -100,6 +100,38 @@ describe('Tabs.vue', () => {
     expect(tabsWrapper.vm.$.exposed!.currentName.value).toEqual('c')
   })
 
+  test('default-value', async () => {
+    const activeName = ref<TabPaneName | undefined>()
+    const wrapper = mount(() => (
+      <Tabs v-model={activeName.value} defaultValue="b">
+        <TabPane name="a" label="label-1">
+          A
+        </TabPane>
+        <TabPane name="b" label="label-2">
+          B
+        </TabPane>
+        <TabPane name="c" label="label-3">
+          C
+        </TabPane>
+      </Tabs>
+    ))
+
+    const tabsWrapper = wrapper.findComponent(Tabs)
+    const navWrapper = wrapper.findComponent(TabNav)
+    await nextTick()
+
+    let navItemsWrapper = navWrapper.findAll('.el-tabs__item')
+    expect(navItemsWrapper[1].classes('is-active')).toBe(true)
+    expect(tabsWrapper.vm.$.exposed!.currentName.value).toEqual('b')
+
+    activeName.value = 'c'
+    await nextTick()
+
+    navItemsWrapper = navWrapper.findAll('.el-tabs__item')
+    expect(navItemsWrapper[2].classes('is-active')).toBe(true)
+    expect(tabsWrapper.vm.$.exposed!.currentName.value).toEqual('c')
+  })
+
   test('card', async () => {
     const wrapper = mount(() => (
       <Tabs type="card">
