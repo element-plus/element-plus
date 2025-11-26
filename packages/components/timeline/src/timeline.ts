@@ -1,7 +1,9 @@
 import { defineComponent, h, provide } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { TIMELINE_INJECTION_KEY } from './tokens'
-import { VNodeChildAtom, flattedChildren } from '@element-plus/utils'
+import { flattedChildren } from '@element-plus/utils'
+
+import type { VNodeChildAtom } from '@element-plus/utils'
 
 const Timeline = defineComponent({
   name: 'ElTimeline',
