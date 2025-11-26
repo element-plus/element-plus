@@ -59,7 +59,7 @@ menu/collapse
 
 ## Popper Offset ^(2.4.4)
 
-Menu with popperOffset will override Submenu's `popper-offset`.
+Submenu with popperOffset will override Menu's `popper-offset`.
 
 :::demo
 
