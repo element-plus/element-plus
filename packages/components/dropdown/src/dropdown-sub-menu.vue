@@ -19,12 +19,14 @@
       <slot name="label">
         {{ label }}
       </slot>
-      <el-icon
-        :class="ns.e('arrow-icon')"
-        :style="{ transform: opened ? 'rotateZ(180deg)' : 'none' }"
-      >
-        <arrow-right />
-      </el-icon>
+      <slot name="icon" :opened="opened">
+        <el-icon
+          :class="ns.e('arrow-icon')"
+          :style="{ transform: opened ? 'rotateZ(180deg)' : 'none' }"
+        >
+          <arrow-right />
+        </el-icon>
+      </slot>
     </div>
   </el-dropdown-item>
   <el-tooltip

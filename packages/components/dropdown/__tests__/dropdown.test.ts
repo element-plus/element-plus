@@ -1346,6 +1346,33 @@ describe('Dropdown', () => {
       wrapper.unmount()
     })
 
+    test('custom icon slot', async () => {
+      const wrapper = _mount(
+        `
+        <el-dropdown>
+          <span class="el-dropdown-link">dropdown</span>
+          <template #dropdown>
+            <el-dropdown-menu ref="menu">
+              <el-dropdown-sub-menu ref="subMenu" label="Item 2">
+                <template #icon="{ opened }">
+                  <span class="custom-icon">{{ opened }}</span>
+                </template>
+                <el-dropdown-item>Sub Item 1</el-dropdown-item>
+              </el-dropdown-sub-menu>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+        `,
+        () => ({})
+      )
+      await nextTick()
+
+      const subMenu = wrapper.findComponent({ ref: 'subMenu' })
+      expect(subMenu.find('.custom-icon').exists()).toBe(true)
+      expect(subMenu.find('.custom-icon').text()).toBe('false')
+      wrapper.unmount()
+    })
+
     test('events', async () => {
       const onClickHandler = vi.fn()
       const onPointerEnterHandler = vi.fn()

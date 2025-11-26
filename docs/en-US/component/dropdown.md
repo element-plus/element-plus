@@ -189,10 +189,11 @@ dropdown/sub-menu
 
 ### Dropdown-Sub-Menu Slots
 
-| Name    | Description                  | Subtags                           |
-| ------- | ---------------------------- | --------------------------------- |
-| default | content of Dropdown Sub Menu | Dropdown-Item / Dropdown-Sub-Menu |
-| label   | customize label content      | —                                 |
+| Name    | Description                  | Type                           | Subtags                           |
+| ------- | ---------------------------- | ------------------------------ | --------------------------------- |
+| default | content of Dropdown Sub Menu | —                              | Dropdown-Item / Dropdown-Sub-Menu |
+| label   | customize label content      | —                              | —                                 |
+| icon    | customize icon content       | ^[object]`{ opened: boolean }` | —                                 |
 
 ### Dropdown-Sub-Menu Events
 
