@@ -105,7 +105,6 @@ const FixedSizeGrid = createGrid({
       0,
       rowIndex * (rowHeight as number) -
         height +
-        scrollBarWidth +
         (rowHeight as number)
     )
 
