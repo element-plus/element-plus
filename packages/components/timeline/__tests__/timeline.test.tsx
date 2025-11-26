@@ -170,20 +170,32 @@ describe('TimeLine.vue', () => {
   })
 
   describe('reverse', () => {
-    test('v-for', async () => {
-      const reverse = ref(true)
-      const wrapper = mount(() => (
-        <TimeLine reverse={reverse.value}>
-          {activities.map((item, index) => (
-            <TimeLineItem key={index}>{item.content}</TimeLineItem>
-          ))}
-        </TimeLine>
-      ))
+    test('v-for children', async () => {
+      const wrapper = mount({
+        template: `
+          <TimeLine :reverse="reverse">
+            <TimeLineItem
+              v-for="(item, index) in activities"
+              :key="index"
+            >
+              {{ item.content }}
+            </TimeLineItem>
+          </TimeLine>
+        `,
+        components: {
+          TimeLine,
+          TimeLineItem,
+        },
+        setup() {
+          const reverse = ref(true)
+          return { activities, reverse }
+        },
+      })
 
       let firstTimelineItem = wrapper.find('.el-timeline-item__content')
       expect(firstTimelineItem.text()).toMatchInlineSnapshot(`"Step 3: xxxxxx"`)
 
-      reverse.value = false
+      wrapper.vm.reverse = false
       await nextTick()
       firstTimelineItem = wrapper.find('.el-timeline-item__content')
       expect(firstTimelineItem.text()).toMatchInlineSnapshot(`"Step 1: xxxxxx"`)
