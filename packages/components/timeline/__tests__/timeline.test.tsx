@@ -14,7 +14,7 @@ const activities: {
   content: string
   timestamp: string
   placement?: TimelineItemProps['placement']
-  itemPlacement?: TimelineProps['itemPlacement']
+  mode?: TimelineProps['mode']
   hideTimestamp?: boolean
 }[] = [
   {
@@ -64,19 +64,59 @@ describe('TimeLine.vue', () => {
     expect(timestampWrapper.classes('is-top')).toBe(true)
   })
 
-  test('item-placement', () => {
-    const wrapper = mount(() => (
-      <TimeLine item-placement="left">
-        {activities.map((activity, index) => (
-          <TimeLineItem key={index}>{activity.content}</TimeLineItem>
-        ))}
-      </TimeLine>
-    ))
+  describe('mode', () => {
+    test('mode-left', () => {
+      const wrapper = mount(() => (
+        <TimeLine>
+          {activities.map((activity, index) => (
+            <TimeLineItem key={index}>{activity.content}</TimeLineItem>
+          ))}
+        </TimeLine>
+      ))
 
-    const timelineItems = wrapper.findAll('.el-timeline-item')
+      const timeline = wrapper.find('.el-timeline')
+      const timelineItems = wrapper.findAll('.el-timeline-item')
 
-    timelineItems.forEach((item) => {
-      expect(item.classes('is-left')).toBe(true)
+      expect(timeline.classes('is-left')).toBe(true)
+      timelineItems.forEach((item) => {
+        expect(item.classes('is-left')).toBe(true)
+      })
+    })
+
+    test('mode-alternate', () => {
+      const wrapper = mount(() => (
+        <TimeLine mode="alternate">
+          {activities.map((activity, index) => (
+            <TimeLineItem key={index}>{activity.content}</TimeLineItem>
+          ))}
+        </TimeLine>
+      ))
+
+      const timeline = wrapper.find('.el-timeline')
+      const timelineItems = wrapper.findAll('.el-timeline-item')
+
+      expect(timeline.classes('is-alternate')).toBe(true)
+      timelineItems.forEach((item) => {
+        expect(item.classes('is-alternate')).toBe(true)
+      })
+    })
+
+    test('mode-right', () => {
+      const wrapper = mount(() => (
+        <TimeLine mode="right">
+          {activities.map((activity, index) => (
+            <TimeLineItem key={index}>{activity.content}</TimeLineItem>
+          ))}
+        </TimeLine>
+      ))
+
+      const timeline = wrapper.find('.el-timeline')
+      const timelineItems = wrapper.findAll('.el-timeline-item')
+
+      expect(timeline.classes('is-right')).toBe(true)
+      timelineItems.forEach((item) => {
+        expect(item.classes('is-right')).toBe(true)
+      })
     })
   })
 

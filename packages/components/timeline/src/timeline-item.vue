@@ -1,5 +1,5 @@
 <template>
-  <li :class="[ns.b(), { [ns.e('center')]: center }, timelineItemKls]">
+  <li :class="[ns.b(), { [ns.e('center')]: center }, timelineItemModeKls]">
     <div :class="ns.e('tail')" />
     <div
       v-if="!$slots.dot"
@@ -61,7 +61,5 @@ const defaultNodeKls = computed(() => [
   ns.is('hollow', props.hollow),
 ])
 
-const timelineItemKls = computed(() => {
-  return timelineProps.itemPlacement === 'left' ? ns.is('left') : ns.is('right')
-})
+const timelineItemModeKls = computed(() => ns.is(timelineProps.mode))
 </script>

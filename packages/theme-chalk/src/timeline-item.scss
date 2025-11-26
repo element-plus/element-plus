@@ -80,6 +80,23 @@
 
   @include when(left) {
     @include e(wrapper) {
+      padding-left: 28px;
+    }
+    @include e(tail) {
+      left: 4px;
+    }
+    @include e(node) {
+      @include m(normal) {
+        left: -1px;
+      }
+      @include m(large) {
+        left: -2px;
+      }
+    }
+  }
+
+  @include when(right) {
+    @include e(wrapper) {
       padding-right: 28px;
       text-align: right;
     }
@@ -96,20 +113,14 @@
     }
   }
 
-  @include when(right) {
-    @include e(wrapper) {
-      padding-left: 28px;
-    }
+  @include when(alternate) {
     @include e(tail) {
-      left: 4px;
+      left: 50%;
+      transform: translateX(-50%);
     }
     @include e(node) {
-      @include m(normal) {
-        left: -1px;
-      }
-      @include m(large) {
-        left: -2px;
-      }
+      left: 50%;
+      transform: translateX(-50%);
     }
   }
 }

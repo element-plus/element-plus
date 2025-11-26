@@ -51,9 +51,9 @@ timeline/center
 
 ### Timeline Attributes
 
-| Name                     | Description               | Type                       | Default |
-| ------------------------ | ------------------------- | -------------------------- | ------- |
-| item-placement ^(2.11.9) | position of timeline-item | ^[enum]`'left' \| 'right'` | right   |
+| Name           | Description                               | Type                                      | Default |
+| -------------- | ----------------------------------------- | ----------------------------------------- | ------- |
+| mode ^(2.11.9) | relative position of timeline and content | ^[enum]`'left' \| 'alternate' \| 'right'` | left    |
 
 ### Timeline Slots
 

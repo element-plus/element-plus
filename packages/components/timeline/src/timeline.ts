@@ -1,4 +1,4 @@
-import { defineComponent, h, provide, renderSlot } from 'vue'
+import { computed, defineComponent, h, provide, renderSlot } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { timelineInjectionKey } from './tokens'
 import { buildProps } from '@element-plus/utils'
@@ -9,10 +9,10 @@ export const timelineProps = buildProps({
   /**
    * @description position of timeline-item
    */
-  itemPlacement: {
+  mode: {
     type: String,
-    values: ['left', 'right'],
-    default: 'right',
+    values: ['left', 'alternate', 'right'],
+    default: 'left',
   },
 } as const)
 export type TimelineProps = ExtractPropTypes<typeof timelineProps>
@@ -46,8 +46,12 @@ const Timeline = defineComponent({
      *   so i can't reverse the slots, when i use 'v-for' directive.
      */
 
+    const timelineModeKls = computed(() => ns.is(props.mode))
+
     return () => {
-      return h('ul', { class: [ns.b()] }, [renderSlot(slots, 'default')])
+      return h('ul', { class: [ns.b(), timelineModeKls.value] }, [
+        renderSlot(slots, 'default'),
+      ])
     }
   },
 })

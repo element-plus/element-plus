@@ -43,4 +43,22 @@
       height: calc(50% - 10px);
     }
   }
+
+  @include when(alternate) {
+    .#{$namespace}-timeline-item:nth-child(2n + 1) {
+      .#{$namespace}-timeline-item__wrapper {
+        width: calc(50% - 14px);
+        left: calc(50% - 7px);
+        padding-left: 28px;
+      }
+    }
+
+    .#{$namespace}-timeline-item:nth-child(2n) {
+      .#{$namespace}-timeline-item__wrapper {
+        width: calc(50% - 19px);
+        text-align: right;
+        padding-right: 28px;
+      }
+    }
+  }
 }
