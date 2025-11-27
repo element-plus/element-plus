@@ -6,7 +6,6 @@ import TimeLine from '../src/timeline'
 import TimeLineItem from '../src/timeline-item.vue'
 
 import type { TimelineItemProps } from '../src/timeline-item'
-import type { TimelineProps } from '../src/timeline'
 
 const iconMoreFilled = markRaw(MoreFilled)
 
@@ -14,7 +13,6 @@ const activities: {
   content: string
   timestamp: string
   placement?: TimelineItemProps['placement']
-  mode?: TimelineProps['mode']
   hideTimestamp?: boolean
 }[] = [
   {
