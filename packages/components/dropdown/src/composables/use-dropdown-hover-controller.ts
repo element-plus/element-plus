@@ -18,7 +18,6 @@ interface UseDropdownHoverControllerOptions
 
 const POINTER_ENTER_TOOLTIP = 'dropdown.pointer-enter-tooltip'
 const POINTER_LEAVE_TOOLTIP = 'dropdown.pointer-leave-tooltip'
-let stop: (() => void) | undefined
 
 export function useDropdownHoverController({
   trigger,
@@ -33,6 +32,7 @@ export function useDropdownHoverController({
   const isHoverInTrigger = ref(false)
   const isHoverInContent = ref(false)
   const isHoverInSubContent = ref(false)
+  let stop: (() => void) | undefined
 
   const isHover = computed(() => {
     return (
@@ -56,12 +56,11 @@ export function useDropdownHoverController({
 
     nextTick(() => {
       if (!isHover.value) {
+        if (trigger.value.includes('hover')) {
+          handleClose(event)
+        }
         if (parentContentRef) {
           notifyParentPointerStatus('leave')
-        } else {
-          if (trigger.value.includes('hover')) {
-            handleClose(event)
-          }
         }
       }
     })
@@ -104,6 +103,7 @@ export function useDropdownHoverController({
 
   const handlePointerEnterContent = whenMouse(() => {
     isHoverInContent.value = true
+    stop?.()
   })
 
   const handlePointerLeaveContent = whenMouse((event: PointerEvent) => {
