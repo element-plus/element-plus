@@ -39,7 +39,8 @@
           :class="getCellClasses(cell)"
           :aria-current="cell.isCurrent ? 'date' : undefined"
           :aria-selected="cell.isCurrent"
-          :tabindex="isSelectedCell(cell) ? 0 : -1"
+          :tabindex="disabled ? undefined : isSelectedCell(cell) ? 0 : -1"
+          :aria-disabled="disabled"
           @focus="handleFocus"
         >
           <el-date-picker-cell :cell="cell" />

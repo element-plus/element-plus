@@ -99,7 +99,8 @@
             role="button"
             :class="dpNs.e('header-label')"
             aria-live="polite"
-            tabindex="0"
+            :tabindex="disabled ? undefined : 0"
+            :aria-disabled="disabled"
             @keydown.enter="showPicker('year')"
             @click="showPicker('year')"
             >{{ yearLabel }}</span
@@ -108,7 +109,8 @@
             v-show="currentView === 'date'"
             role="button"
             aria-live="polite"
-            tabindex="0"
+            :tabindex="disabled ? undefined : 0"
+            :aria-disabled="disabled"
             :class="[
               dpNs.e('header-label'),
               { active: currentView === 'month' },
