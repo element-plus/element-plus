@@ -7,7 +7,7 @@ import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 
 export const timelineProps = buildProps({
   /**
-   * @description position of timeline-item
+   * @description relative position of timeline and content
    */
   mode: {
     type: String,
