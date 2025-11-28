@@ -119,7 +119,7 @@
 
   @include when(alternate) {
     @include e((tail, node)) {
-      left: 50%;
+      left: calc(50% - 40px);
       transform: translateX(-50%);
     }
   }

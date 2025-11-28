@@ -1,10 +1,9 @@
-import type { InjectionKey, Slots } from 'vue'
+import type { Slots } from 'vue'
 import type { TimelineProps } from './timeline'
 
-export interface TimelineContext {
+export interface TimelineProvider {
   props: TimelineProps
   slots: Slots
 }
 
-export const timelineInjectionKey: InjectionKey<TimelineContext> =
-  Symbol('timeline')
+export const TIMELINE_INJECTION_KEY = 'timeline'

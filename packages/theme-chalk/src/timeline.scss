@@ -44,18 +44,23 @@
     }
   }
 
+  @include when(right){
+    padding-right: 40px;
+  }
+
   @include when(alternate) {
     .#{$namespace}-timeline-item:nth-child(2n + 1) {
       .#{$namespace}-timeline-item__wrapper {
         width: calc(50% - 28px);
-        left: calc(50% - getCssVar('timeline-node-size-large') / 2);
+        left: calc(50% - 40px - getCssVar('timeline-node-size-large') / 2);
         padding-left: 28px;
       }
     }
 
     .#{$namespace}-timeline-item:nth-child(2n) {
       .#{$namespace}-timeline-item__wrapper {
-        width: calc(50% - 28px + getCssVar('timeline-node-size-large') / 2);
+        // 68px = 40px + 28px
+        width: calc(50% - 68px + getCssVar('timeline-node-size-large') / 2);
         text-align: right;
         padding-right: 28px;
       }
