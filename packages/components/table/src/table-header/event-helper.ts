@@ -148,7 +148,7 @@ function useEvent<T extends DefaultRow>(
       }
     }
 
-    if (!column?.resizable || dragging.value) {
+    if (!column.resizable || dragging.value) {
       draggingColumn.value = null
       return
     }
