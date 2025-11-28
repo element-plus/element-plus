@@ -44,18 +44,12 @@
     }
   }
 
-  @include when(left) {
-    padding-left: 40px;
-  }
-
   @include when(right) {
     padding-left: 0;
     padding-right: 40px;
   }
 
   @include when(alternate) {
-    padding-left: 40px;
-
     .#{$namespace}-timeline-item:nth-child(2n + 1) {
       .#{$namespace}-timeline-item__wrapper {
         width: calc(50% - 28px);
