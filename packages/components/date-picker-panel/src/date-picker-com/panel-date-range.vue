@@ -179,7 +179,8 @@
                 role="button"
                 :class="drpNs.e('header-label')"
                 aria-live="polite"
-                tabindex="0"
+                :tabindex="disabled ? undefined : 0"
+                :aria-disabled="disabled"
                 @keydown.enter="showLeftPicker('year')"
                 @click="showLeftPicker('year')"
               >
@@ -189,7 +190,8 @@
                 v-show="leftCurrentView === 'date'"
                 role="button"
                 aria-live="polite"
-                tabindex="0"
+                :tabindex="disabled ? undefined : 0"
+                :aria-disabled="disabled"
                 :class="[
                   drpNs.e('header-label'),
                   { active: leftCurrentView === 'month' },
@@ -309,7 +311,8 @@
                 role="button"
                 :class="drpNs.e('header-label')"
                 aria-live="polite"
-                tabindex="0"
+                :tabindex="disabled ? undefined : 0"
+                :aria-disabled="disabled"
                 @keydown.enter="showRightPicker('year')"
                 @click="showRightPicker('year')"
               >
@@ -319,7 +322,8 @@
                 v-show="rightCurrentView === 'date'"
                 role="button"
                 aria-live="polite"
-                tabindex="0"
+                :tabindex="disabled ? undefined : 0"
+                :aria-disabled="disabled"
                 :class="[
                   drpNs.e('header-label'),
                   { active: rightCurrentView === 'month' },
