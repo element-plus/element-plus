@@ -24702,6 +24702,7 @@ The width of dropdown box is calculated by default based on the value of `label`
 | remote                              | whether search data from server                                                                                                          | ^[boolean]                                                                                                                                                                  | false                                          |
 | debounce ^(2.11.7)                  | debounce delay during remote search, in milliseconds                                                                                     | ^[number]                                                                                                                                                                   | 300                                            |
 | remote-method                       | function that gets called when the input value changes. Its parameter is the current input value. To use this, `filterable` must be true | ^[Function]`(query: string) => void`                                                                                                                                        | —                                              |
+| remote-show-suffix ^(2.11.9)        | in remote search method show suffix icon                                                                                                 | ^[boolean]                                                                                                                                                                  | false                                          |
 | validate-event                      | whether to trigger form validation                                                                                                       | ^[boolean]                                                                                                                                                                  | true                                           |
 | offset ^(2.8.8)                     | offset of the dropdown                                                                                                                   | ^[number]                                                                                                                                                                   | 12                                             |
 | show-arrow ^(2.8.8)                 | whether the dropdown has an arrow                                                                                                        | ^[boolean]                                                                                                                                                                  | true                                           |
@@ -25727,18 +25728,39 @@ const options = Array.from({ length: 1000 }).map((_, idx) => ({
 ### remote-search.vue
 ```vue
 <template>
-  <el-select-v2
-    v-model="value"
-    style="width: 240px"
-    multiple
-    filterable
-    remote
-    :remote-method="remoteMethod"
-    clearable
-    :options="options"
-    :loading="loading"
-    placeholder="Please enter a keyword"
-  />
+  <div class="flex flex-wrap">
+    <div class="m-4">
+      <p>default</p>
+      <el-select-v2
+        v-model="value"
+        style="width: 240px"
+        multiple
+        filterable
+        remote
+        :remote-method="remoteMethod"
+        clearable
+        :options="options"
+        :loading="loading"
+        placeholder="Please enter a keyword"
+      />
+    </div>
+    <div class="m-4">
+      <p>use remote-show-suffix</p>
+      <el-select-v2
+        v-model="value"
+        style="width: 240px"
+        multiple
+        filterable
+        remote
+        :remote-method="remoteMethod"
+        remote-show-suffix
+        clearable
+        :options="options"
+        :loading="loading"
+        placeholder="Please enter a keyword"
+      />
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -28154,33 +28176,33 @@ Selecting a range of values is supported.
 
 ### Attributes
 
-| Name                        | Description                                                                                                                                             | Type                                                                                                                                                                        | Default |
-| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
-| model-value / v-model       | binding value                                                                                                                                           | ^[number] / ^[object]`number[]`                                                                                                                                             | 0       |
-| min                         | minimum value                                                                                                                                           | ^[number]                                                                                                                                                                   | 0       |
-| max                         | maximum value                                                                                                                                           | ^[number]                                                                                                                                                                   | 100     |
-| disabled                    | whether Slider is disabled                                                                                                                              | ^[boolean]                                                                                                                                                                  | false   |
-| step                        | step size                                                                                                                                               | ^[number]                                                                                                                                                                   | 1       |
-| show-input                  | whether to display an input box, works when `range` is false                                                                                            | ^[boolean]                                                                                                                                                                  | false   |
-| show-input-controls         | whether to display control buttons when `show-input` is true                                                                                            | ^[boolean]                                                                                                                                                                  | true    |
-| size                        | size of the slider wrapper, will not work in vertical mode                                                                                              | ^[enum]`'' \| 'large' \| 'default' \| 'small'`                                                                                                                              | default |
-| input-size                  | size of the input box, when set `size`, the default is the value of `size`                                                                              | ^[enum]`'' \| 'large' \| 'default' \| 'small'`                                                                                                                              | default |
-| show-stops                  | whether to display breakpoints                                                                                                                          | ^[boolean]                                                                                                                                                                  | false   |
-| show-tooltip                | whether to display tooltip value                                                                                                                        | ^[boolean]                                                                                                                                                                  | true    |
-| format-tooltip              | format to display tooltip value                                                                                                                         | ^[Function]`(value: number) => number \| string`                                                                                                                            | —       |
-| range                       | whether to select a range                                                                                                                               | ^[boolean]                                                                                                                                                                  | false   |
-| vertical                    | vertical mode                                                                                                                                           | ^[boolean]                                                                                                                                                                  | false   |
-| height                      | slider height, required in vertical mode                                                                                                                | ^[string]                                                                                                                                                                   | —       |
-| aria-label ^(a11y) ^(2.7.2) | native `aria-label` attribute                                                                                                                           | ^[string]                                                                                                                                                                   | —       |
-| range-start-label           | when `range` is true, screen reader label for the start of the range                                                                                    | ^[string]                                                                                                                                                                   | —       |
-| range-end-label             | when `range` is true, screen reader label for the end of the range                                                                                      | ^[string]                                                                                                                                                                   | —       |
-| format-value-text           | format to display the `aria-valuenow` attribute for screen readers                                                                                      | ^[Function]`(value: number) => string`                                                                                                                                      | —       |
-| tooltip-class               | custom class name for the tooltip                                                                                                                       | ^[string]                                                                                                                                                                   | —       |
-| placement                   | position of Tooltip                                                                                                                                     | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | top     |
-| marks                       | marks, type of key must be `number` and must in closed interval `[min, max]`, each mark can custom style                                                | ^[object]`SliderMarks`                                                                                                                                                      | —       |
-| validate-event              | whether to trigger form validation                                                                                                                      | ^[boolean]                                                                                                                                                                  | true    |
-| persistent ^(2.9.5)         | when slider tooltip inactive and `persistent` is `false` , popconfirm will be destroyed. `persistent` always be `false` when `show-tooltip ` is `false` | ^[boolean]                                                                                                                                                                  | true    |
-| label ^(a11y) ^(deprecated) | native `aria-label` attribute                                                                                                                           | ^[string]                                                                                                                                                                   | —       |
+| Name                        | Description                                                                                                                                          | Type                                                                                                                                                                        | Default |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| model-value / v-model       | binding value                                                                                                                                        | ^[number] / ^[object]`number[]`                                                                                                                                             | 0       |
+| min                         | minimum value                                                                                                                                        | ^[number]                                                                                                                                                                   | 0       |
+| max                         | maximum value                                                                                                                                        | ^[number]                                                                                                                                                                   | 100     |
+| disabled                    | whether Slider is disabled                                                                                                                           | ^[boolean]                                                                                                                                                                  | false   |
+| step                        | step size                                                                                                                                            | ^[number]                                                                                                                                                                   | 1       |
+| show-input                  | whether to display an input box, works when `range` is false                                                                                         | ^[boolean]                                                                                                                                                                  | false   |
+| show-input-controls         | whether to display control buttons when `show-input` is true                                                                                         | ^[boolean]                                                                                                                                                                  | true    |
+| size                        | size of the slider wrapper, will not work in vertical mode                                                                                           | ^[enum]`'' \| 'large' \| 'default' \| 'small'`                                                                                                                              | default |
+| input-size                  | size of the input box, when set `size`, the default is the value of `size`                                                                           | ^[enum]`'' \| 'large' \| 'default' \| 'small'`                                                                                                                              | default |
+| show-stops                  | whether to display breakpoints                                                                                                                       | ^[boolean]                                                                                                                                                                  | false   |
+| show-tooltip                | whether to display tooltip value                                                                                                                     | ^[boolean]                                                                                                                                                                  | true    |
+| format-tooltip              | format to display tooltip value                                                                                                                      | ^[Function]`(value: number) => number \| string`                                                                                                                            | —       |
+| range                       | whether to select a range                                                                                                                            | ^[boolean]                                                                                                                                                                  | false   |
+| vertical                    | vertical mode                                                                                                                                        | ^[boolean]                                                                                                                                                                  | false   |
+| height                      | slider height, required in vertical mode                                                                                                             | ^[string]                                                                                                                                                                   | —       |
+| aria-label ^(a11y) ^(2.7.2) | native `aria-label` attribute                                                                                                                        | ^[string]                                                                                                                                                                   | —       |
+| range-start-label           | when `range` is true, screen reader label for the start of the range                                                                                 | ^[string]                                                                                                                                                                   | —       |
+| range-end-label             | when `range` is true, screen reader label for the end of the range                                                                                   | ^[string]                                                                                                                                                                   | —       |
+| format-value-text           | format to display the `aria-valuenow` attribute for screen readers                                                                                   | ^[Function]`(value: number) => string`                                                                                                                                      | —       |
+| tooltip-class               | custom class name for the tooltip                                                                                                                    | ^[string]                                                                                                                                                                   | —       |
+| placement                   | position of Tooltip                                                                                                                                  | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | top     |
+| marks                       | marks, type of key must be `number` and must in closed interval `[min, max]`, each mark can custom style                                             | ^[object]`SliderMarks`                                                                                                                                                      | —       |
+| validate-event              | whether to trigger form validation                                                                                                                   | ^[boolean]                                                                                                                                                                  | true    |
+| persistent ^(2.9.5)         | when slider tooltip inactive and `persistent` is `false` , tooltip will be destroyed. `persistent` always be `false` when `show-tooltip ` is `false` | ^[boolean]                                                                                                                                                                  | true    |
+| label ^(a11y) ^(deprecated) | native `aria-label` attribute                                                                                                                        | ^[string]                                                                                                                                                                   | —       |
 
 ### Events
 
@@ -35150,7 +35172,7 @@ Only card type Tabs support addable & closeable.
 
 
 
-## Default value
+## Default value ^(2.11.9)
 
 
 
@@ -35158,18 +35180,18 @@ Only card type Tabs support addable & closeable.
 
 ### Tabs Attributes
 
-| Name                  | Description                                                                                                                             | Type                                                                                             | Default    |
-| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | ---------- |
-| model-value / v-model | binding value, name of the selected tab, the default value is the name of first tab                                                     | ^[string] / ^[number]                                                                            | —          |
-| default-value (2.11.9)| The value of the tab that should be active when initially rendered. (avoid initial transition)                                          | ^[string] / ^[number]                                                                            | —          |
-| type                  | type of Tab                                                                                                                             | ^[enum]`'' \| 'card' \| 'border-card'`                                                           | ''         |
-| closable              | whether Tab is closable                                                                                                                 | ^[boolean]                                                                                       | false      |
-| addable               | whether Tab is addable                                                                                                                  | ^[boolean]                                                                                       | false      |
-| editable              | whether Tab is addable and closable                                                                                                     | ^[boolean]                                                                                       | false      |
-| tab-position          | position of tabs                                                                                                                        | ^[enum]`'top' \| 'right' \| 'bottom' \| 'left'`                                                  | top        |
-| stretch               | whether width of tab automatically fits its container                                                                                   | ^[boolean]                                                                                       | false      |
-| before-leave          | hook function before switching tab. If `false` is returned or a `Promise` is returned and then is rejected, switching will be prevented | ^[Function]`(activeName: TabPaneName, oldActiveName: TabPaneName) => Awaitable<void \| boolean>` | () => true |
-| tabindex ^(2.11.7)    | tabs tabindex                                                                                                                           | ^[string] / ^[number]                                                                            | 0          |
+| Name                    | Description                                                                                                                             | Type                                                                                             | Default    |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | ---------- |
+| model-value / v-model   | binding value, name of the selected tab, the default value is the name of first tab                                                     | ^[string] / ^[number]                                                                            | —          |
+| default-value ^(2.11.9) | The value of the tab that should be active when initially rendered. (avoid initial transition)                                          | ^[string] / ^[number]                                                                            | —          |
+| type                    | type of Tab                                                                                                                             | ^[enum]`'' \| 'card' \| 'border-card'`                                                           | ''         |
+| closable                | whether Tab is closable                                                                                                                 | ^[boolean]                                                                                       | false      |
+| addable                 | whether Tab is addable                                                                                                                  | ^[boolean]                                                                                       | false      |
+| editable                | whether Tab is addable and closable                                                                                                     | ^[boolean]                                                                                       | false      |
+| tab-position            | position of tabs                                                                                                                        | ^[enum]`'top' \| 'right' \| 'bottom' \| 'left'`                                                  | top        |
+| stretch                 | whether width of tab automatically fits its container                                                                                   | ^[boolean]                                                                                       | false      |
+| before-leave            | hook function before switching tab. If `false` is returned or a `Promise` is returned and then is rejected, switching will be prevented | ^[Function]`(activeName: TabPaneName, oldActiveName: TabPaneName) => Awaitable<void \| boolean>` | () => true |
+| tabindex ^(2.11.7)      | tabs tabindex                                                                                                                           | ^[string] / ^[number]                                                                            | 0          |
 
 ### Tabs Events
 
@@ -36713,7 +36735,19 @@ Timeline-Item is centered vertically.
 
 
 
+## Reverse ^(2.11.9)
+
+Use the reverse property to control the order of the nodes.
+
+
+
 ## Timeline API
+
+### Timeline Attributes
+
+| Name              | Description           | Type       | Default |
+| ----------------- | --------------------- | ---------- | ------- |
+| reverse ^(2.11.9) | whether reverse order | ^[boolean] | false   |
 
 ### Timeline Slots
 
@@ -36894,6 +36928,44 @@ const activities: ActivityType[] = [
 
 ```
 
+### reverse.vue
+```vue
+<template>
+  <el-switch v-model="reverse" active-text="reverse" />
+
+  <el-timeline class="mt-2" style="max-width: 600px" :reverse="reverse">
+    <el-timeline-item
+      v-for="(activity, index) in activities"
+      :key="index"
+      :timestamp="activity.timestamp"
+    >
+      {{ activity.content }}
+    </el-timeline-item>
+  </el-timeline>
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const reverse = ref(true)
+const activities = [
+  {
+    content: 'Event start',
+    timestamp: '2018-04-15',
+  },
+  {
+    content: 'Approved',
+    timestamp: '2018-04-13',
+  },
+  {
+    content: 'Success',
+    timestamp: '2018-04-11',
+  },
+]
+</script>
+
+```
+
 
 ---
 Title: Tooltip
@@ -37013,7 +37085,7 @@ You must wait for the DOM to be mounted before using `targetElement`.
 | virtual-triggering        | Indicates whether virtual triggering is enabled                                                                                                                                       | ^[boolean]                                                                                                                                                                  | —                 |
 | virtual-ref               | Indicates the reference element to which the tooltip is attached                                                                                                                      | ^[HTMLElement]                                                                                                                                                              | —                 |
 | trigger-keys              | When you click the mouse to focus on the trigger element, you can define a set of keyboard codes to control the display of tooltip through the keyboard, not valid in controlled mode | ^[Array]                                                                                                                                                                    | ['Enter','Space'] |
-| persistent                | when tooltip inactive and `persistent` is `false` , popconfirm will be destroyed                                                                                                      | ^[boolean]                                                                                                                                                                  | —                 |
+| persistent                | when tooltip inactive and `persistent` is `false` , tooltip will be destroyed                                                                                                         | ^[boolean]                                                                                                                                                                  | —                 |
 | aria-label ^(a11y)        | same as `aria-label`                                                                                                                                                                  | ^[string]                                                                                                                                                                   | —                 |
 | focus-on-target ^(2.11.2) | when triggering tooltips through hover, whether to focus the trigger element, which improves accessibility                                                                            | ^[boolean]                                                                                                                                                                  | false             |
 
