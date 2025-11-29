@@ -1,5 +1,7 @@
-import { computed, useAttrs, useSlots } from 'vue'
+import { computed, reactive, ref, useAttrs, useSlots } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
+import { MINIMUM_INPUT_WIDTH } from '@element-plus/constants'
+import { useResizeObserver } from '@vueuse/core'
 
 import type { ComputedRef, Ref, StyleValue } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
@@ -32,6 +34,9 @@ export function useInputTagDom({
   const slots = useSlots()
   const ns = useNamespace('input-tag')
   const nsInput = useNamespace('input')
+
+  const collapseItemRef = ref<HTMLElement>()
+  const innerRef = ref<HTMLElement>()
 
   const containerKls = computed(() => [
     ns.b(),
@@ -66,6 +71,48 @@ export function useInputTagDom({
     )
   })
 
+  const states = reactive({
+    innerWidth: 0,
+    collapseItemWidth: 0,
+  })
+
+  const getGapWidth = () => {
+    if (!innerRef.value) return 0
+    const style = window.getComputedStyle(innerRef.value)
+    return Number.parseFloat(style.gap || '6px')
+  }
+
+  const resetInnerWidth = () => {
+    states.innerWidth = Number.parseFloat(
+      window.getComputedStyle(innerRef.value!).width
+    )
+  }
+
+  const resetCollapseItemWidth = () => {
+    states.collapseItemWidth =
+      collapseItemRef.value!.getBoundingClientRect().width
+  }
+
+  const tagStyle = computed(() => {
+    if (!props.collapseTags) return {}
+    const gapWidth = getGapWidth()
+
+    const inputSlotWidth = gapWidth + MINIMUM_INPUT_WIDTH
+
+    const maxWidth =
+      collapseItemRef.value && props.maxCollapseTags === 1
+        ? states.innerWidth -
+          states.collapseItemWidth -
+          gapWidth -
+          inputSlotWidth
+        : states.innerWidth - inputSlotWidth
+
+    return { maxWidth: `${Math.max(maxWidth, 0)}px` }
+  })
+
+  useResizeObserver(innerRef, resetInnerWidth)
+  useResizeObserver(collapseItemRef, resetCollapseItemWidth)
+
   return {
     ns,
     nsInput,
@@ -74,5 +121,8 @@ export function useInputTagDom({
     innerKls,
     showClear,
     showSuffix,
+    tagStyle,
+    collapseItemRef,
+    innerRef,
   }
 }

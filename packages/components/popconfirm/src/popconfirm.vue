@@ -4,6 +4,8 @@
     trigger="click"
     :effect="effect"
     v-bind="$attrs"
+    :virtual-triggering="virtualTriggering"
+    :virtual-ref="virtualRef"
     :popper-class="`${ns.namespace.value}-popover`"
     :popper-style="style"
     :teleported="teleported"

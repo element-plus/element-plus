@@ -47,14 +47,6 @@ export const rightLogoSmallSponsors: Sponsor[] = [
 
 export const leftCustomImgSponsors: Sponsor[] = [
   {
-    name: '美乐',
-    img: '/images/mele.png',
-    url: 'https://melecode.com/prom.html',
-    slogan: 'Enterprise-level low-code development platform',
-    slogan_cn: '企业级全栈低代码开发平台',
-    banner_img: '/images/mele-banner.png',
-  },
-  {
     name: 'JNPF',
     img: '/images/jnpf_index.png',
     url: 'https://www.jnpfsoft.com/index.html?from=elementUI',

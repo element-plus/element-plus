@@ -1,4 +1,7 @@
 // @ts-nocheck
+/**
+ * @vitest-environment happy-dom
+ */
 import { defineComponent, markRaw, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, test, vi } from 'vitest'
@@ -22,6 +25,15 @@ vi.mock('lodash-unified', async () => {
   }
 })
 
+vi.mock('@vueuse/core', async () => {
+  return {
+    ...((await vi.importActual('@vueuse/core')) as Record<string, any>),
+    useDebounceFn: vi.fn((fn) => {
+      return fn
+    }),
+  }
+})
+
 interface SelectProps {
   filterMethod?: any
   remoteMethod?: any
@@ -38,6 +50,7 @@ interface SelectProps {
   defaultFirstOption?: boolean
   fitInputWidth?: boolean
   size?: 'small' | 'default' | 'large'
+  debounce?: number
 }
 
 const _mount = (template: string, data: any = () => ({}), otherObj?) =>
@@ -425,6 +438,45 @@ describe('Select', () => {
     delete process.env.RUN_TEST_WITH_PERSISTENT
   })
 
+  test('updates selected label after label change when closed and persistent=false', async () => {
+    process.env.RUN_TEST_WITH_PERSISTENT = 'true'
+    wrapper = _mount(
+      `
+      <el-select v-model="value" :persistent="false">
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value">
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [
+          {
+            value: '1',
+            label: 'A',
+          },
+          {
+            value: '2',
+            label: 'B',
+          },
+        ],
+        value: '1',
+      })
+    )
+    await nextTick()
+    // initial label
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('A')
+    // update label while dropdown remains closed
+    ;(wrapper.vm as any).options = [
+      { value: '1', label: 'A2' },
+      { value: '2', label: 'B' },
+    ]
+    await nextTick()
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('A2')
+    delete process.env.RUN_TEST_WITH_PERSISTENT
+  })
   test('when there is a default value and persistent is false, render the label and dynamically modify options and modelValue', async () => {
     // This is convenient for testing the default value label rendering when persistent is false.
     process.env.RUN_TEST_WITH_PERSISTENT = 'true'
@@ -465,6 +517,49 @@ describe('Select', () => {
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('黄金糕')
 
     delete process.env.RUN_TEST_WITH_PERSISTENT
+  })
+
+  test('should not render the empty slot when multiple is true and persistent is false', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="value" multiple :persistent="false">
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value">
+        </el-option>
+        <template #empty>
+          <div class="empty-slot">EmptySlot</div>
+        </template>
+      </el-select>
+    `,
+      () => ({
+        options: [
+          {
+            value: '选项1',
+            label: '黄金糕',
+          },
+          {
+            value: '选项2',
+            label: '双皮奶',
+          },
+        ],
+        value: [],
+      })
+    )
+    await nextTick()
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const selectVm = select.vm as any
+    expect(selectVm.selectedLabel).toStrictEqual([])
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+    const options = getOptions()
+    options[0].click()
+    await nextTick()
+    expect(selectVm.selectedLabel).toStrictEqual(['黄金糕'])
+
+    const emptySlot = document.querySelector('.empty-slot')
+    expect(emptySlot).toBeNull()
   })
 
   test('multiple is true and persistent is false', async () => {
@@ -1074,11 +1169,11 @@ describe('Select', () => {
     const selectVm = select.vm as any
     const input = select.find('input')
     await input.trigger('click')
-    expect(selectVm.states.hoveringIndex).toBe(0)
-    selectVm.navigateOptions('next')
     expect(selectVm.states.hoveringIndex).toBe(1)
     selectVm.navigateOptions('next')
     expect(selectVm.states.hoveringIndex).toBe(0)
+    selectVm.navigateOptions('next')
+    expect(selectVm.states.hoveringIndex).toBe(1)
   })
 
   test('clearable', async () => {
@@ -1559,9 +1654,42 @@ describe('Select', () => {
     expect(vm.value.length).toBe(1)
 
     const input = wrapper.find('input')
-    input.trigger('keydown.delete')
+    input.trigger('keydown', { code: EVENT_CODE.backspace })
     expect(vm.value.length).toBe(0)
     expect(handleRemoveTag).toHaveBeenLastCalledWith('选项1')
+  })
+
+  test('allow remove non existant option', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="value" multiple filterable>
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value">
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [],
+        value: ['选项1'],
+      })
+    )
+
+    await nextTick()
+    const vm = wrapper.vm as any
+    expect(vm.value.length).toBe(1)
+    expect(wrapper.findAll('.el-tag').length).toBe(1)
+
+    const input = wrapper.find('input')
+    await input.trigger('keydown', {
+      code: EVENT_CODE.backspace,
+      key: EVENT_CODE.backspace,
+    })
+
+    expect(wrapper.findAll('.el-tag').length).toBe(0)
+    expect(vm.value.length).toBe(0)
   })
 
   test('multiple limit', async () => {
@@ -3645,5 +3773,439 @@ describe('Select', () => {
     expect(vm.value).toBe(5)
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('北京烤鸭')
     expect(vm.count).toBe(2)
+  })
+
+  test('loading appears on first click when remote', async () => {
+    wrapper = _mount(
+      `
+      <el-select
+        v-model="value"
+        filterable
+        remote
+        :remote-method="remoteMethod"
+        :loading="loading"
+      >
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item"
+        />
+      </el-select>`,
+      () => ({
+        options: [],
+        value: '',
+        loading: false,
+      }),
+      {
+        methods: {
+          remoteMethod() {
+            this.loading = true
+            setTimeout(() => {
+              this.loading = false
+            }, 1000)
+          },
+        },
+      }
+    )
+
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const selectVm = select.vm as any
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    expect(selectVm.dropdownMenuVisible).toBeTruthy()
+  })
+
+  test('should trigger scroll when option value is 0', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="value" :teleported="false">
+        <el-option
+          v-for="{ label, value } in options"
+          :key="value"
+          :label="label"
+          :value="value"
+        />
+      </el-select>`,
+      () => ({
+        options: Array.from({ length: 10 }).map((_, i) => ({
+          label: `label-${i}`,
+          value: i,
+        })),
+        value: '',
+      })
+    )
+
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const selectVm = select.vm as any
+    const wrapEl = wrapper.find('.el-select-dropdown__wrap').element
+    const optionEls = wrapper.findAll('.el-select-dropdown__item')
+    const cleanup = optionEls.map((item, i) =>
+      vi.spyOn(item.element, 'offsetTop', 'get').mockReturnValue(i * 30)
+    )
+    cleanup.push(
+      vi.spyOn(wrapEl, 'clientHeight', 'get').mockReturnValue(5 * 30)
+    )
+
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    await input.trigger('keydown', { key: EVENT_CODE.up })
+    expect(selectVm.states.hoveringIndex).toBe(9)
+    expect(wrapEl.scrollTop).toBe(4 * 30)
+    await input.trigger('keydown', { key: EVENT_CODE.down })
+    expect(selectVm.states.hoveringIndex).toBe(0)
+    expect(wrapEl.scrollTop).toBe(0)
+    cleanup.forEach((fn) => fn())
+  })
+
+  test('keyboard navigation with Home, End, PageUp, PageDown', async () => {
+    const options = Array.from({ length: 21 }).map((_, i) => ({
+      value: `value-${i}`,
+      label: `Option ${i}`,
+      disabled: i === 0 || i === 10, // disable 10th  options
+    }))
+
+    const wrapper = _mount(
+      `
+    <el-select
+      ref="select"
+      v-model="value"
+      filterable
+    >
+      <el-option
+        v-for="item in options"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value"
+        :disabled="item.disabled"
+      />
+    </el-select>
+    `,
+      () => ({
+        value: '',
+        options,
+      })
+    )
+
+    await nextTick()
+    const vm = wrapper.vm as any
+    const target = vm.$refs.select
+    const input = wrapper.find('input')
+    await input.trigger('focus')
+    await input.trigger('keydown', { code: EVENT_CODE.down })
+    await nextTick()
+    await input.trigger('keydown', { code: EVENT_CODE.home })
+    expect(target.states.hoveringIndex).toBe(1)
+    await input.trigger('keydown', { code: EVENT_CODE.home })
+    expect(target.states.hoveringIndex).toBe(1)
+    await input.trigger('keydown', { code: EVENT_CODE.end })
+    expect(target.states.hoveringIndex).toBe(20)
+    await input.trigger('keydown', { code: EVENT_CODE.home })
+    expect(target.states.hoveringIndex).toBe(1)
+    await input.trigger('keydown', { code: EVENT_CODE.pageDown })
+    expect(target.states.hoveringIndex).toBe(11)
+    await input.trigger('keydown', { code: EVENT_CODE.pageDown })
+    expect(target.states.hoveringIndex).toBe(20)
+    await input.trigger('keydown', { code: EVENT_CODE.pageDown })
+    expect(target.states.hoveringIndex).toBe(20)
+    await input.trigger('keydown', { code: EVENT_CODE.pageUp })
+    expect(target.states.hoveringIndex).toBe(9)
+    await input.trigger('keydown', { code: EVENT_CODE.pageUp })
+    expect(target.states.hoveringIndex).toBe(1)
+    await input.trigger('keydown', { code: EVENT_CODE.pageUp })
+    expect(target.states.hoveringIndex).toBe(1)
+  })
+
+  test('should support selecting options with both Enter and Numpad Enter', async () => {
+    const wrapper = _mount(
+      `
+    <el-select
+      ref="select"
+      v-model="value"
+      filterable
+    >
+      <el-option
+        v-for="item in options"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value"
+        :disabled="item.disabled"
+      />
+    </el-select>
+    `,
+      () => ({
+        options: Array.from({ length: 2 }).map((_, i) => ({
+          label: `label-${i}`,
+          value: i,
+        })),
+        value: '',
+      })
+    )
+
+    await nextTick()
+    const vm = wrapper.vm as any
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    await input.trigger('keydown', { code: EVENT_CODE.down })
+    await input.trigger('keydown', { code: EVENT_CODE.enter })
+    expect(vm.value).toBe(0)
+    await input.trigger('click')
+    await input.trigger('keydown', { code: EVENT_CODE.down })
+    await input.trigger('keydown', { code: EVENT_CODE.numpadEnter })
+    expect(vm.value).toBe(1)
+  })
+
+  test('hoveringIndex should stay on the most recently selected option when using multiple', async () => {
+    wrapper = _mount(
+      `<el-select
+        v-model="value"
+        clearable
+        multiple
+      >
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value"
+        />
+      </el-select>`,
+      () => ({
+        options: [
+          {
+            value: 1,
+            label: 'Option 1',
+          },
+          {
+            value: 2,
+            label: 'Option 2',
+          },
+          {
+            value: 3,
+            label: 'Option 3',
+          },
+          {
+            value: 4,
+            label: 'Option 4',
+          },
+          {
+            value: 5,
+            label: 'Option 5',
+          },
+        ],
+        value: [1, 2],
+      })
+    )
+
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const selectVm = select.vm as any
+    const input = wrapper.find('input')
+
+    await input.trigger('click')
+    expect(selectVm.states.hoveringIndex).toBe(1)
+  })
+
+  test('should locate the most recently selected option when using multiple', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="value" :teleported="false" multiple>
+        <el-option
+          v-for="{ label, value } in options"
+          :key="value"
+          :label="label"
+          :value="value"
+        />
+      </el-select>`,
+      () => ({
+        options: Array.from({ length: 10 }).map((_, i) => ({
+          label: `label-${i}`,
+          value: i,
+        })),
+        value: [1, 9],
+      })
+    )
+
+    const wrapEl = wrapper.find('.el-select-dropdown__wrap').element
+    const optionEls = wrapper.findAll('.el-select-dropdown__item')
+    const cleanup = optionEls.map((item, i) =>
+      vi.spyOn(item.element, 'offsetTop', 'get').mockReturnValue(i * 30)
+    )
+    cleanup.push(
+      vi.spyOn(wrapEl, 'clientHeight', 'get').mockReturnValue(5 * 30)
+    )
+
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    expect(wrapEl.scrollTop).toBe(4 * 30)
+    cleanup.forEach((fn) => fn())
+  })
+
+  test('should restore warn handler after the last select unmounts', async () => {
+    const warnHandler = vi.fn()
+    const Parent = defineComponent({
+      components: {
+        'el-select': Select,
+        'el-option': Option,
+      },
+      setup() {
+        const showFirst = ref(true)
+        const showSecond = ref(true)
+        const value = ref('')
+        const options = [
+          { label: 'label-1', value: 1 },
+          { label: 'label-2', value: 2 },
+        ]
+        const hideFirst = () => {
+          showFirst.value = false
+        }
+        const hideSecond = () => {
+          showSecond.value = false
+        }
+        return {
+          showFirst,
+          showSecond,
+          value,
+          options,
+          hideFirst,
+          hideSecond,
+        }
+      },
+      template: `
+        <div>
+          <el-select v-if="showFirst" v-model="value">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+          <el-select v-if="showSecond" v-model="value">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </div>
+      `,
+    })
+
+    const wrapper = mount(Parent, {
+      attachTo: 'body',
+      global: {
+        config: {
+          warnHandler,
+        },
+        provide: {
+          namespace: 'el',
+        },
+      },
+    })
+
+    const appContext = (wrapper.vm.$ as any).appContext
+
+    expect(appContext.config.warnHandler).not.toBe(warnHandler)
+
+    wrapper.vm.hideFirst()
+    await nextTick()
+    expect(appContext.config.warnHandler).not.toBe(warnHandler)
+
+    wrapper.vm.hideSecond()
+    await nextTick()
+    expect(appContext.config.warnHandler).toBe(warnHandler)
+
+    wrapper.unmount()
+  })
+
+  test('limitReached: hovering via DOM event should not update index nor add class', async () => {
+    wrapper = _mount(
+      `
+    <el-select v-model="value" multiple :multiple-limit="1">
+      <el-option v-for="o in options" :key="o.value" :label="o.label" :value="o.value" />
+    </el-select>
+    `,
+      () => ({
+        value: [],
+        options: [
+          { value: '选项1', label: '黄金糕' },
+          { value: '选项2', label: '双皮奶' },
+          { value: '选项3', label: '蚵仔煎' },
+        ],
+      })
+    )
+
+    const selectVm = wrapper.findComponent({ name: 'ElSelect' }).vm as any
+    await wrapper.find('.el-select__wrapper').trigger('click')
+    await nextTick()
+    const optionCmps = wrapper.findAllComponents({ name: 'ElOption' })
+    await optionCmps[0].trigger('click')
+    await nextTick()
+    selectVm.states.hoveringIndex = 0
+    const optionEls = getOptions()
+    await optionCmps[1].trigger('mousemove')
+    await nextTick()
+    expect(selectVm.states.hoveringIndex).toBe(0)
+    expect(Array.from(optionEls[1].classList)).not.toContain('is-hovering')
+  })
+
+  test('should trigger visible-change when dropdownMenuVisible changes', async () => {
+    const handleVisibleChange = vi.fn()
+    wrapper = mount({
+      template: `
+      <el-select
+        v-model="value"
+        remote
+        :remote-method="remoteMethod"
+        :loading="loading"
+        @visible-change="handleVisibleChange"
+      >
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item"
+        />
+      </el-select>`,
+      components: { ElSelect: Select, ElOption: Option },
+      data() {
+        return {
+          options: [],
+          value: [],
+          list: [],
+          loading: false,
+          states: ['Alabama', 'Alaska'],
+          handleVisibleChange,
+        }
+      },
+      mounted() {
+        this.list = this.states.map((item) => {
+          return { value: `value:${item}`, label: `label:${item}` }
+        })
+      },
+      methods: {
+        remoteMethod(query) {
+          if (query !== '') {
+            this.loading = true
+            setTimeout(() => {
+              this.loading = false
+              this.options = this.list.filter((item) => {
+                return item.label.toLowerCase().includes(query.toLowerCase())
+              })
+            }, 200)
+          } else {
+            this.options = []
+          }
+        },
+      },
+    })
+
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    expect(handleVisibleChange).not.toHaveBeenCalled()
+    await input.setValue('label:Alabama')
+    expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+    await input.trigger('blur')
+    expect(handleVisibleChange).toHaveBeenCalledTimes(2)
   })
 })

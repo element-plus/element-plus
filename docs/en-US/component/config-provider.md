@@ -153,6 +153,6 @@ In this section, you can learn how to use Config Provider to provide experimenta
 
 ### Config Provider Slots
 
-| Name    | Description               | Scope                                                   |
+| Name    | Description               | Type                                                    |
 | ------- | ------------------------- | ------------------------------------------------------- |
 | default | customize default content | config: provided global config (inherited from the top) |

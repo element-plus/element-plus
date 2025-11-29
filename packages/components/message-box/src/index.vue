@@ -479,7 +479,7 @@ export default defineComponent({
 
     // locks the screen to prevent scroll
     if (props.lockScroll) {
-      useLockscreen(visible)
+      useLockscreen(visible, { ns })
     }
 
     return {

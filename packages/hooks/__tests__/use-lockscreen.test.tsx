@@ -105,4 +105,26 @@ describe('useLockscreen', () => {
 
     wrapper.unmount()
   })
+
+  it('should not cleanup when newly created during the closing process', async () => {
+    const wrapper1 = mount({
+      setup: () => () => <Comp />,
+    })
+
+    await nextTick()
+    expect(hasClass(document.body, kls)).toBe(true)
+
+    wrapper1.unmount()
+    const wrapper2 = mount({
+      setup: () => () => <Comp />,
+    })
+    vi.advanceTimersByTime(250)
+    await nextTick()
+    expect(hasClass(document.body, kls)).toBe(true)
+
+    wrapper2.unmount()
+    vi.advanceTimersByTime(250)
+    await nextTick()
+    expect(hasClass(document.body, kls)).toBe(false)
+  })
 })

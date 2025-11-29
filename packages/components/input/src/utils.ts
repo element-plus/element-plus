@@ -43,6 +43,11 @@ type TextAreaHeight = {
   minHeight?: string
 }
 
+export const looseToNumber = (val: any): any => {
+  const n = Number.parseFloat(val)
+  return Number.isNaN(n) ? val : n
+}
+
 function calculateNodeStyling(targetElement: Element): NodeStyle {
   const style = window.getComputedStyle(targetElement)
 

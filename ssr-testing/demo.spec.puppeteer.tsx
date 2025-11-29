@@ -4,7 +4,10 @@ import { renderToString } from '@vue/server-renderer'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import puppeteer from 'puppeteer'
 import glob from 'fast-glob'
-import ElementPlus, { ID_INJECTION_KEY } from '../dist/element-plus'
+import ElementPlus, {
+  ID_INJECTION_KEY,
+  ZINDEX_INJECTION_KEY,
+} from '../dist/element-plus'
 
 import type { Browser } from 'puppeteer'
 
@@ -50,22 +53,15 @@ describe('Cypress Button', () => {
           prefix: 100,
           current: 0,
         })
+        .provide(ZINDEX_INJECTION_KEY, {
+          current: 0,
+        })
 
       const html = await renderToString(app)
 
       await page.evaluate((innerHTML) => {
         document.querySelector('#root')!.innerHTML = innerHTML
       }, html)
-
-      // SSR testing don't need screenshots.
-      // const screenshotPath = demoPath
-      //   .split('/')
-      //   .join('-')
-      //   .replace(/\.vue$/, '.png')
-      // await page.screenshot({
-      //   path: path.join(testRoot, 'screenshots', screenshotPath),
-      //   fullPage: true,
-      // })
 
       await page.close()
       expect(true).toBe(true)

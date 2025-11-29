@@ -134,17 +134,25 @@
   @include e(color-selector) {
     width: 20px;
     height: 20px;
-    border-radius: 4px;
+    padding: 0;
+    border-radius: getCssVar('border-radius-base');
+    border: none;
+    outline: none;
+    overflow: hidden;
     cursor: pointer;
 
     &.selected {
       box-shadow: 0 0 3px 2px getCssVar('color-primary');
     }
 
+    &:focus-visible {
+      outline: 2px solid getCssVar('color-primary');
+      outline-offset: 2px;
+    }
+
     > div {
       display: flex;
       height: 100%;
-      border-radius: 3px;
     }
 
     @include when(alpha) {
@@ -194,36 +202,25 @@
   position: relative;
   width: 280px;
   height: 180px;
-
-  @include e(('white', 'black')) {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-  }
-
-  @include e('white') {
-    background: linear-gradient(to right, #fff, rgba(255, 255, 255, 0));
-  }
-
-  @include e('black') {
-    background: linear-gradient(to top, #000, rgba(0, 0, 0, 0));
-  }
+  background-image:
+    linear-gradient(to top, #000, rgba(0, 0, 0, 0)),
+    linear-gradient(to right, #fff, rgba(255, 255, 255, 0));
 
   @include e(cursor) {
     position: absolute;
+    cursor: pointer;
+    width: 4px;
+    height: 4px;
+    box-shadow:
+      0 0 0 1.5px #fff,
+      inset 0 0 1px 1px rgba(0, 0, 0, 0.3),
+      0 0 1px 2px rgba(0, 0, 0, 0.4);
+    border-radius: 50%;
+    transform: translate(-2px, -2px);
 
-    > div {
-      cursor: head;
-      width: 4px;
-      height: 4px;
-      box-shadow:
-        0 0 0 1.5px #fff,
-        inset 0 0 1px 1px rgba(0, 0, 0, 0.3),
-        0 0 1px 2px rgba(0, 0, 0, 0.4);
-      border-radius: 50%;
-      transform: translate(-2px, -2px);
+    &:focus-visible {
+      outline: 2px solid getCssVar('color-primary');
+      outline-offset: 2px;
     }
   }
 }

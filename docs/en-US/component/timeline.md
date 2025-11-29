@@ -47,7 +47,23 @@ timeline/center
 
 :::
 
+## Reverse ^(2.11.9)
+
+Use the reverse property to control the order of the nodes.
+
+:::demo
+
+timeline/reverse
+
+:::
+
 ## Timeline API
+
+### Timeline Attributes
+
+| Name              | Description           | Type       | Default |
+| ----------------- | --------------------- | ---------- | ------- |
+| reverse ^(2.11.9) | whether reverse order | ^[boolean] | false   |
 
 ### Timeline Slots
 
