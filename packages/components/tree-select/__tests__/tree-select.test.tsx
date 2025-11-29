@@ -484,6 +484,31 @@ describe('TreeSelect.vue', () => {
     expect(handleChange).toHaveBeenCalledTimes(2)
   })
 
+  test('emit change once when toggling node via checkbox click', async () => {
+    const handleChange = vi.fn()
+    const { tree } = createComponent({
+      props: {
+        showCheckbox: true,
+        checkOnClickNode: true,
+        onChange: handleChange,
+      },
+    })
+
+    await nextTick()
+    const checkbox = tree
+      .findAll('.el-tree-node__content .el-checkbox__original')
+      .slice(-1)[0]
+
+    await checkbox.trigger('click')
+    await nextTick()
+    expect(handleChange).toHaveBeenLastCalledWith(111)
+
+    await checkbox.trigger('click')
+    await nextTick()
+    expect(handleChange).toHaveBeenLastCalledWith(undefined)
+    expect(handleChange).toHaveBeenCalledTimes(2)
+  })
+
   test('expand selected node`s parent in first time', async () => {
     const value = ref(111)
     const { tree } = createComponent({

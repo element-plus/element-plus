@@ -208,19 +208,20 @@ export const useTree = (
         : []
       const checkedKeys = cachedKeys.concat(uncachedCheckedKeys)
 
-      let nextValue
       if (props.checkStrictly) {
         // Checking for changes may come from `check-on-node-click`
-        nextValue = props.multiple
-          ? checkedKeys
-          : checkedKeys.includes(dataValue)
-            ? dataValue
-            : undefined
+        emitModelChange(
+          props.multiple
+            ? checkedKeys
+            : checkedKeys.includes(dataValue)
+              ? dataValue
+              : undefined
+        )
       }
       // only can select leaf node
       else if (props.multiple) {
         const childKeys = getChildCheckedKeys()
-        nextValue = cachedKeys.concat(childKeys)
+        emitModelChange(cachedKeys.concat(childKeys))
       } else {
         // select first leaf node when check parent
         const firstLeaf = treeFind(
@@ -243,13 +244,12 @@ export const useTree = (
             (data) => getNodeValByProp('children', data)
           )
 
-        nextValue =
+        emitModelChange(
           firstLeafKey === props.modelValue || hasCheckedChild
             ? undefined
             : firstLeafKey
+        )
       }
-
-      emitModelChange(nextValue)
 
       nextTick(() => {
         const checkedKeys = toValidArray(props.modelValue)
