@@ -22,6 +22,7 @@ import {
   definePropType,
   getEventCode,
   mutable,
+  rAF,
   throwError,
 } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
@@ -325,7 +326,9 @@ const TabNav = defineComponent({
       }
     })
 
-    useResizeObserver(el$, update)
+    useResizeObserver(el$, () => {
+      rAF(update)
+    })
 
     onMounted(() => setTimeout(() => scrollToActiveTab(), 0))
     onUpdated(() => update())
