@@ -114,6 +114,9 @@ provide(
     <slot />
     <panels-sorter />
     <!-- Prevent iframe touch events from breaking -->
-    <div v-if="movingIndex" :class="[ns.e('mask'), ns.e(`mask-${layout}`)]" />
+    <div
+      v-if="movingIndex && panels.length > 0"
+      :class="[ns.e('mask'), ns.e(`mask-${layout}`)]"
+    />
   </div>
 </template>
