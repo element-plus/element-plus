@@ -51,11 +51,11 @@ defineOptions({
   name: 'ElTimelineItem',
 })
 
+const props = defineProps(timelineItemProps)
+
 const { props: timelineProps } = inject<TimelineProvider>(
   TIMELINE_INJECTION_KEY
 )!
-
-const props = defineProps(timelineItemProps)
 
 const ns = useNamespace('timeline-item')
 const defaultNodeKls = computed(() => [
