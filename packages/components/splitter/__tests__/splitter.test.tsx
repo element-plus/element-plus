@@ -412,12 +412,12 @@ describe('Splitter', () => {
     expect(panels[1].attributes('style')).toContain('flex-basis: 250px;')
   })
 
-  it('should not display the mask when there is no panel', async () => {
+  it('should not still display the mask after the panel updates', async () => {
     const show = ref(true)
     const wrapper = mount(() => (
       <ElSplitter onResizeStart={() => (show.value = false)}>
         <ElSplitterPanel v-if={show.value}>Left Panel</ElSplitterPanel>
-        <ElSplitterPanel v-if={show.value}>Right Panel</ElSplitterPanel>
+        <ElSplitterPanel>Right Panel</ElSplitterPanel>
       </ElSplitter>
     ))
     await nextTick()
