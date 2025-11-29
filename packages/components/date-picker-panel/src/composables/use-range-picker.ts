@@ -5,7 +5,7 @@ import { useLocale, useNamespace } from '@element-plus/hooks'
 import { isEqual } from 'lodash-unified'
 import { getDefaultValue, isValidRange } from '../utils'
 import { ROOT_PICKER_INJECTION_KEY } from '../constants'
-import { useShortcut } from './use-shortcut'
+import { Shortcut, useShortcut } from './use-shortcut'
 
 import type { Ref } from 'vue'
 import type { Dayjs } from 'dayjs'
@@ -40,13 +40,24 @@ export const useRangePicker = (
   const { pickerNs } = inject(ROOT_PICKER_INJECTION_KEY)!
   const drpNs = useNamespace('date-range-picker')
   const { t, lang } = useLocale()
-  const handleShortcutClick = useShortcut(lang)
+  const shourtcutIsClicked = ref<boolean>(false)
+  const selectedShortcut = ref<Shortcut | null>()
+  const applyShortcut = useShortcut(lang)
+  const handleShortcutClick = (shortcut: Shortcut) => {
+    selectedShortcut.value = shortcut
+    shourtcutIsClicked.value = true
+    applyShortcut(shortcut)
+  }
   const minDate = ref<Dayjs>()
   const maxDate = ref<Dayjs>()
   const rangeState = ref<RangeState>({
     endDate: null,
     selecting: false,
   })
+  const resetShortcutSelected = () => {
+    selectedShortcut.value = null
+    shourtcutIsClicked.value = false
+  }
 
   const handleChangeRange = (val: RangeState) => {
     rangeState.value = val
@@ -62,6 +73,7 @@ export const useRangePicker = (
   }
 
   const onSelect = (selecting: boolean) => {
+    resetShortcutSelected()
     rangeState.value.selecting = selecting
     if (!selecting) {
       rangeState.value.endDate = null
@@ -81,6 +93,7 @@ export const useRangePicker = (
   }
 
   const restoreDefault = () => {
+    resetShortcutSelected()
     let [start, end] = getDefaultValue(unref(defaultValue), {
       lang: unref(lang),
       step,
@@ -130,6 +143,12 @@ export const useRangePicker = (
         !(parsedValue as [Dayjs, Dayjs])?.length ||
         !isEqual(parsedValue, [minDate.value, maxDate.value])
       ) {
+        if (!shourtcutIsClicked.value) {
+          resetShortcutSelected()
+        }
+
+        shourtcutIsClicked.value = false
+
         parseValue(parsedValue)
       }
     },
@@ -155,6 +174,7 @@ export const useRangePicker = (
     lang,
     ppNs: pickerNs,
     drpNs,
+    selectedShortcut,
 
     handleChangeRange,
     handleRangeConfirm,

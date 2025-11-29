@@ -7,7 +7,12 @@
           v-for="(shortcut, key) in shortcuts"
           :key="key"
           type="button"
-          :class="ppNs.e('shortcut')"
+          :class="{
+            [ppNs.e('shortcut')]: true,
+            active:
+              highlightShortcutSelected &&
+              selectedShortcut?.text === shortcut.text,
+          }"
           :disabled="disabled"
           @click="handleShortcutClick(shortcut)"
         >
@@ -138,7 +143,8 @@ const isDefaultFormat = inject(
   undefined
 ) as any
 const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
-const { shortcuts, disabledDate, cellClassName } = pickerBase.props
+const { shortcuts, disabledDate, cellClassName, highlightShortcutSelected } =
+  pickerBase.props
 const format = toRef(pickerBase.props, 'format')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 
@@ -148,6 +154,7 @@ const {
   rangeState,
   ppNs,
   drpNs,
+  selectedShortcut,
 
   handleChangeRange,
   handleRangeConfirm,

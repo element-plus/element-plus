@@ -68,6 +68,10 @@ export const datePickerPanelProps = buildProps({
     type: Array,
     default: () => [],
   },
+  highlightShortcutSelected: {
+    type: Boolean,
+    default: false,
+  },
   /**
    * @description whether to pick time using arrow buttons
    */
