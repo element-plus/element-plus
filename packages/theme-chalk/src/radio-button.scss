@@ -167,17 +167,39 @@
     }
   }
 
+  .#{$namespace}-radio-group & {
+    flex: 1;
+    display: flex;
+    transition: width getCssVar('transition-duration')
+      cubic-bezier(0.4, 0, 0.2, 1);
+
+    @include e(inner) {
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition:
+        color getCssVar('transition-duration') cubic-bezier(0.4, 0, 0.2, 1),
+        background-color getCssVar('transition-duration')
+          cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  }
+
   .#{$namespace}-radio-group--vertical & {
+    width: 100%;
+
     &:first-child {
       .#{$namespace}-radio-button__inner {
-        border-radius: getCssVar('border-radius-base') getCssVar('border-radius-base') 0 0;
+        border-radius: getCssVar('border-radius-base')
+          getCssVar('border-radius-base') 0 0;
         border-bottom: 0;
       }
     }
 
     &:last-child {
       .#{$namespace}-radio-button__inner {
-        border-radius: 0 0 getCssVar('border-radius-base') getCssVar('border-radius-base');
+        border-radius: 0 0 getCssVar('border-radius-base')
+          getCssVar('border-radius-base');
         border-bottom: getCssVar('border');
       }
     }
