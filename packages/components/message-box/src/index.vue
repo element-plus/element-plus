@@ -43,7 +43,7 @@
             >
               <div :class="ns.e('title')">
                 <el-icon
-                  v-if="iconComponent && center"
+                  v-if="iconComponent && (center || iconPlacementIsInTitle)"
                   :class="[ns.e('status'), typeClass]"
                 >
                   <component :is="iconComponent" />
@@ -70,7 +70,12 @@
             <div :id="contentId" :class="ns.e('content')">
               <div :class="ns.e('container')">
                 <el-icon
-                  v-if="iconComponent && !center && hasMessage"
+                  v-if="
+                    iconComponent &&
+                    !center &&
+                    hasMessage &&
+                    !iconPlacementIsInTitle
+                  "
                   :class="[ns.e('status'), typeClass]"
                 >
                   <component :is="iconComponent" />
@@ -191,6 +196,7 @@ import type { ComponentPublicInstance, PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 import type {
   Action,
+  MessageBoxIconPlacement,
   MessageBoxState,
   MessageBoxType,
 } from './message-box.type'
@@ -248,6 +254,10 @@ export default defineComponent({
     },
     boxType: {
       type: String as PropType<MessageBoxType>,
+      default: '',
+    },
+    iconPlacement: {
+      type: String as PropType<MessageBoxIconPlacement>,
       default: '',
     },
   },
@@ -325,6 +335,9 @@ export default defineComponent({
     const iconComponent = computed(() => {
       const type = state.type
       return state.icon || (type && TypeComponentsMap[type]) || ''
+    })
+    const iconPlacementIsInTitle = computed(() => {
+      return props.iconPlacement === 'title'
     })
     const hasMessage = computed(() => !!state.message)
     const rootRef = ref<HTMLElement>()
@@ -498,6 +511,7 @@ export default defineComponent({
       inputId,
       btnSize,
       iconComponent,
+      iconPlacementIsInTitle,
       confirmButtonClasses,
       rootRef,
       focusStartRef,
