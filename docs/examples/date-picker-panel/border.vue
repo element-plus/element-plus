@@ -29,20 +29,14 @@ const width = ref(0)
 
 const isNarrow = computed(() => width.value < 815)
 
-const isClient =
-  typeof window !== 'undefined' && typeof document !== 'undefined'
 let observer: ResizeObserver | undefined
-if (isClient) {
-  observer = new ResizeObserver((entries) => {
-    const { width: containerWidth } = entries[0].contentRect
-    width.value = containerWidth
-  })
-}
 
 onMounted(() => {
-  if (observer) {
-    observer.observe(containerRef.value!)
-  }
+  observer = new ResizeObserver(([entry]) => {
+    const { width: containerWidth } = entry.contentRect
+    width.value = containerWidth
+  })
+  observer.observe(containerRef.value!)
 })
 
 onUnmounted(() => {
