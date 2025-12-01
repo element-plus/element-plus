@@ -52,8 +52,7 @@ const radiusGroup = ref([
 ])
 
 const getCssVariable = (property: string) => {
-  return window
-    .getComputedStyle(document.documentElement)
+  return getComputedStyle(document.documentElement)
     .getPropertyValue(property)
     .trim()
 }

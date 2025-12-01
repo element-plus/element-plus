@@ -55,7 +55,7 @@ const executeTransition = (from: number, to: number, duration: number) => {
     const now = Date.now()
     outputValue.value = from + (now - startTime) * speed
     if (now < endTime) {
-      window.requestAnimationFrame(tick)
+      requestAnimationFrame(tick)
     } else {
       outputValue.value = to
     }

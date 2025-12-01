@@ -61,8 +61,7 @@ function formatType(type: string) {
 }
 
 const getCssVariable = (property: string) => {
-  return window
-    .getComputedStyle(document.documentElement)
+  return getComputedStyle(document.documentElement)
     .getPropertyValue(property)
     .trim()
 }
