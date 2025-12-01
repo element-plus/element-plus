@@ -19,6 +19,13 @@ const Comp = defineComponent({
   },
 })
 
+vi.mock('@element-plus/utils', async (importOriginal) => {
+  return {
+    ...((await importOriginal()) as Record<string, any>),
+    getScrollBarWidth: vi.fn(() => 16),
+  }
+})
+
 describe('useLockscreen', () => {
   beforeEach(() => {
     vi.useFakeTimers()
@@ -126,5 +133,57 @@ describe('useLockscreen', () => {
     vi.advanceTimersByTime(250)
     await nextTick()
     expect(hasClass(document.body, kls)).toBe(false)
+  })
+
+  it('should restore the initial body.width only after all popups are closed', async () => {
+    const scrollHeightSpy = vi
+      .spyOn(document.body, 'scrollHeight', 'get')
+      .mockReturnValue(200)
+    const clientHeightSpy = vi
+      .spyOn(document.documentElement, 'clientHeight', 'get')
+      .mockReturnValue(100)
+
+    const wrapper1 = mount({
+      setup() {
+        const ns = useNamespace(
+          'lock',
+          computed(() => 'test-kls-1')
+        )
+        const trigger = ref(false)
+        useLockscreen(trigger, { ns })
+        onMounted(() => {
+          trigger.value = true
+        })
+        return () => undefined
+      },
+    })
+
+    const wrapper2 = mount({
+      setup() {
+        const ns = useNamespace(
+          'lock',
+          computed(() => 'test-kls-2')
+        )
+        const trigger = ref(false)
+        useLockscreen(trigger, { ns })
+        onMounted(() => {
+          trigger.value = true
+        })
+        return () => undefined
+      },
+    })
+
+    vi.advanceTimersByTime(250)
+    await nextTick()
+    expect(document.body.style.width).toBe('calc(100% - 16px)')
+
+    wrapper1.unmount()
+    wrapper2.unmount()
+    vi.advanceTimersByTime(250)
+    await nextTick()
+    expect(document.body.style.width).toBe('')
+
+    scrollHeightSpy.mockRestore()
+    clientHeightSpy.mockRestore()
   })
 })
