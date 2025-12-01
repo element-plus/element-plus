@@ -21,7 +21,10 @@
           :aria-label="title || undefined"
           :aria-labelledby="!title ? titleId : undefined"
           :aria-describedby="bodyId"
-          :class="`${ns.namespace.value}-overlay-dialog`"
+          :class="[
+            `${ns.namespace.value}-overlay-dialog`,
+            ns.is('closing', closing),
+          ]"
           :style="overlayDialogStyle"
           @click="overlayEvent.onClick"
           @mousedown="overlayEvent.onMousedown"
@@ -130,6 +133,7 @@ const {
   onCloseAutoFocus,
   onCloseRequested,
   onFocusoutPrevented,
+  closing,
 } = useDialog(props, dialogRef)
 
 provide(dialogInjectionKey, {
