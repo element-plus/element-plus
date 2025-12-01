@@ -60,7 +60,12 @@ function formatType(type: string) {
     .join(' ')
 }
 
+const isClient =
+  typeof window !== 'undefined' && typeof document !== 'undefined'
+
 const getCssVariable = (property: string) => {
+  if (!isClient) return ''
+
   return getComputedStyle(document.documentElement)
     .getPropertyValue(property)
     .trim()

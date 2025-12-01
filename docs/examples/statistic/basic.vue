@@ -46,7 +46,12 @@ import { ChatLineRound, Male } from '@element-plus/icons-vue'
 
 const outputValue = ref(0)
 
+const isClient =
+  typeof window !== 'undefined' && typeof document !== 'undefined'
+
 const executeTransition = (from: number, to: number, duration: number) => {
+  if (!isClient) return
+
   const startTime = Date.now()
   const endTime = Date.now() + duration
   const speed = (to - from) / duration
