@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 
 const value = ref('#ff6900')
 const containerRef = ref<HTMLElement>()
@@ -26,7 +26,26 @@ const width = ref(0)
 
 const isNarrow = computed(() => width.value < 815)
 
+const isClient =
+  typeof window !== 'undefined' && typeof document !== 'undefined'
+let observer: ResizeObserver | undefined
+if (isClient) {
+  observer = new ResizeObserver((entries) => {
+    const { width: containerWidth } = entries[0].contentRect
+    width.value = containerWidth
+  })
+}
+
 onMounted(() => {
-  width.value = containerRef.value!.getBoundingClientRect().width
+  if (observer) {
+    observer.observe(containerRef.value!)
+  }
+})
+
+onUnmounted(() => {
+  if (observer) {
+    observer.disconnect()
+    observer = undefined
+  }
 })
 </script>
