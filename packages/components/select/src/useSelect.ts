@@ -40,6 +40,7 @@ import {
   useNamespace,
 } from '@element-plus/hooks'
 import {
+  useFormDisabled,
   useFormItem,
   useFormItemInputId,
   useFormSize,
@@ -110,7 +111,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     afterComposition: (e) => onInput(e),
   })
 
-  const selectDisabled = computed(() => props.disabled || !!form?.disabled)
+  const selectDisabled = useFormDisabled()
 
   const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
     disabled: selectDisabled,

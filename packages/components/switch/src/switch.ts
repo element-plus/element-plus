@@ -29,7 +29,10 @@ export const switchProps = buildProps({
   /**
    * @description whether Switch is disabled
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description whether Switch is in loading state
    */
