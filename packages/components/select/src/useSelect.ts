@@ -691,8 +691,15 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     }
   }
 
-  const toggleMenu = () => {
-    if (selectDisabled.value) return
+  const toggleMenu = (event?: Event) => {
+    if (
+      selectDisabled.value ||
+      (props.filterable &&
+        expanded.value &&
+        event &&
+        !suffixRef.value?.contains(event.target as Node))
+    )
+      return
 
     // We only set the inputHovering state to true on mouseenter event on iOS devices
     // To keep the state updated we set it here to true

@@ -427,8 +427,15 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   } = useAllowCreate(props, states)
 
   // methods
-  const toggleMenu = () => {
-    if (selectDisabled.value) return
+  const toggleMenu = (event?: Event) => {
+    if (
+      selectDisabled.value ||
+      (props.filterable &&
+        expanded.value &&
+        event &&
+        !suffixRef.value?.contains(event.target as Node))
+    )
+      return
 
     if (states.menuVisibleOnFocus) {
       // controlled by automaticDropdown
