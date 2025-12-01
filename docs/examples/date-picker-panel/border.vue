@@ -21,15 +21,17 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
-import { useElementSize } from '@vueuse/core'
+import { computed, onMounted, ref } from 'vue'
 
 const value = ref()
 const containerRef = ref<HTMLElement>()
-
-const { width } = useElementSize(containerRef)
+const width = ref(0)
 
 const isNarrow = computed(() => width.value < 815)
+
+onMounted(() => {
+  width.value = containerRef.value!.getBoundingClientRect().width
+})
 </script>
 
 <style scoped>

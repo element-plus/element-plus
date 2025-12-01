@@ -12,8 +12,8 @@
           border-radius:
           {{
             radius.type
-              ? useCssVar(`--el-border-radius-${radius.type}`)
-              : '"0px"'
+              ? getCssVariable(`--el-border-radius-${radius.type}`)
+              : '0'
           }}
         </code>
       </div>
@@ -31,7 +31,6 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { useCssVar } from '@vueuse/core'
 
 const radiusGroup = ref([
   {
@@ -51,6 +50,13 @@ const radiusGroup = ref([
     type: 'round',
   },
 ])
+
+const getCssVariable = (property: string) => {
+  return window
+    .getComputedStyle(document.documentElement)
+    .getPropertyValue(property)
+    .trim()
+}
 </script>
 
 <style scoped>

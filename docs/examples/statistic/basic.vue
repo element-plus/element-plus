@@ -33,12 +33,36 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { useTransition } from '@vueuse/core'
 import { ChatLineRound, Male } from '@element-plus/icons-vue'
 
-const source = ref(0)
-const outputValue = useTransition(source, {
-  duration: 1500,
-})
-source.value = 172000
+// use useTransition
+// import { useTransition } from '@vueuse/core'
+
+// const source = ref(0)
+// const outputValue = useTransition(source, {
+//   duration: 1500,
+// })
+// source.value = 172000
+
+const outputValue = ref(0)
+
+const executeTransition = (from: number, to: number, duration: number) => {
+  const startTime = Date.now()
+  const endTime = Date.now() + duration
+  const speed = (to - from) / duration
+
+  const tick = () => {
+    const now = Date.now()
+    outputValue.value = from + (now - startTime) * speed
+    if (now < endTime) {
+      window.requestAnimationFrame(tick)
+    } else {
+      outputValue.value = to
+    }
+  }
+
+  tick()
+}
+
+executeTransition(outputValue.value, 172000, 1500)
 </script>

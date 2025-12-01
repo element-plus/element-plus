@@ -14,7 +14,7 @@
         <td>{{ fontSize.level }}</td>
         <td>
           {{
-            useCssVar(`--el-font-size-${fontSize.type}`).value +
+            getCssVariable(`--el-font-size-${fontSize.type}`) +
             ' ' +
             formatType(fontSize.type)
           }}
@@ -26,8 +26,6 @@
 </template>
 
 <script lang="ts" setup>
-import { useCssVar } from '@vueuse/core'
-
 const fontSizes = [
   {
     level: 'Supplementary text',
@@ -60,5 +58,12 @@ function formatType(type: string) {
     .split('-')
     .map((item) => item.charAt(0).toUpperCase() + item.slice(1))
     .join(' ')
+}
+
+const getCssVariable = (property: string) => {
+  return window
+    .getComputedStyle(document.documentElement)
+    .getPropertyValue(property)
+    .trim()
 }
 </script>
