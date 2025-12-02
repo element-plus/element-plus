@@ -965,7 +965,12 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   })
 
   watchEffect(() => {
-    if (unref(expanded) && emptyText.value === false) {
+    if (
+      unref(expanded) &&
+      !(props.loading || !isRemoteSearchEmpty.value) &&
+      (debouncing.value && isEmpty(states.previousQuery))
+
+    ) {
       hide()
     }
   })
@@ -1003,7 +1008,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   // #21498
   let stop: (() => void) | undefined
   watch(
-    () => dropdownMenuVisible.value,
+    () => expanded.value,
     (newVal) => {
       if (newVal) {
         stop = useResizeObserver(menuRef, updateTooltip).stop

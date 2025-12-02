@@ -357,7 +357,12 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   })
 
   watchEffect(() => {
-    if (unref(expanded) && isRemoteSearchEmpty.value) {
+    if (
+      unref(expanded) &&
+      !(props.loading || !isRemoteSearchEmpty.value) &&
+      (debouncing.value && isEmpty(states.previousQuery))
+
+    ) {
       hide()
     }
   })
