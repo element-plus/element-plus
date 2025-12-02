@@ -39,13 +39,18 @@ defineOptions({
 const props = defineProps(useTooltipTriggerProps)
 
 const ns = useNamespace('tooltip')
-const { id, open, onOpen, onClose, onToggle } = inject(
+const { controlled, id, open, onOpen, onClose, onToggle } = inject(
   TOOLTIP_INJECTION_KEY,
   undefined
 )!
 
 const triggerRef = ref<OnlyChildExpose | null>(null)
 
+const stopWhenControlledOrDisabled = () => {
+  if (unref(controlled) || props.disabled) {
+    return true
+  }
+}
 const trigger = toRef(props, 'trigger')
 const onMouseenter = composeEventHandlers(
   stopWhenControlledOrDisabled,
@@ -73,18 +78,19 @@ const onClick = composeEventHandlers(
   })
 )
 
-const onFocus = whenTrigger(trigger, 'focus', onOpen)
+const onFocus = composeEventHandlers(
+  stopWhenControlledOrDisabled,
+  whenTrigger(trigger, 'focus', onOpen)
+)
 
-const onBlur = whenTrigger(trigger, 'focus', onClose)
+const onBlur = composeEventHandlers(
+  stopWhenControlledOrDisabled,
+  whenTrigger(trigger, 'focus', onClose)
+)
 
-const onContextMenu = whenTrigger(trigger, 'contextmenu', (e: Event) => {
-  e.preventDefault()
-  onToggle(e)
-})
-
-const onKeydown = (e: KeyboardEvent) => {
-  const { code } = e
-  if (props.triggerKeys.includes(code)) {
+const onContextMenu = composeEventHandlers(
+  stopWhenControlledOrDisabled,
+  whenTrigger(trigger, 'contextmenu', (e: Event) => {
     e.preventDefault()
     onToggle(e)
   })
@@ -99,7 +105,7 @@ const onKeydown = composeEventHandlers(
       onToggle(e)
     }
   }
-}
+)
 
 defineExpose({
   /**

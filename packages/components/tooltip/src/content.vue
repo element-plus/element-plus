@@ -76,6 +76,7 @@ const contentRef = ref<PopperContentInstance>()
 const popperContentRef = computedEager(() => contentRef.value?.popperContentRef)
 let stopHandle: ReturnType<typeof onClickOutside>
 const {
+  controlled,
   id,
   open,
   trigger,
@@ -129,25 +130,21 @@ const onTransitionLeave = () => {
   ariaHidden.value = true
 }
 
-const onContentEnter = () => {
-  if (props.enterable && unref(trigger) === 'hover') {
-//const stopWhenControlled = () => {
-//  if (unref(controlled)) return true
-//}
-//
-//const onContentEnter = composeEventHandlers(stopWhenControlled, () => {
-//  if (props.enterable && isTriggerType(unref(trigger), 'hover')) {
-    onOpen()
-  }
+const stopWhenControlled = () => {
+  if (unref(controlled)) return true
 }
 
-const onContentLeave = () => {
-  if (unref(trigger) === 'hover') {
-//const onContentLeave = composeEventHandlers(stopWhenControlled, () => {
-//  if (isTriggerType(unref(trigger), 'hover')) {
+const onContentEnter = composeEventHandlers(stopWhenControlled, () => {
+  if (props.enterable && isTriggerType(unref(trigger), 'hover')) {
+    onOpen()
+  }
+})
+
+const onContentLeave = composeEventHandlers(stopWhenControlled, () => {
+  if (isTriggerType(unref(trigger), 'hover')) {
     onClose()
   }
-}
+})
 
 const onBeforeEnter = () => {
   contentRef.value?.updatePopper?.()
@@ -183,12 +180,19 @@ watch(
       stopHandle?.()
     } else {
       ariaHidden.value = false
-      stopHandle = onClickOutside(popperContentRef, () => {
-        const $trigger = unref(trigger)
-        if ($trigger !== 'hover') {
-          onClose()
-        }
-      })
+      stopHandle = onClickOutside(
+        popperContentRef,
+        () => {
+          if (unref(controlled)) return
+          const needClose = castArray(unref(trigger)).every((item) => {
+            return item !== 'hover' && item !== 'focus'
+          })
+          if (needClose) {
+            onClose()
+          }
+        },
+        { detectIframe: true }
+      )
     }
   },
   {

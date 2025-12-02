@@ -3,6 +3,7 @@ import type { InjectionKey, Ref } from 'vue'
 import type { TooltipTriggerType } from './trigger'
 
 export type ElTooltipInjectionContext = {
+  controlled: Ref<boolean>
   id: Ref<string>
   open: Ref<boolean>
   trigger: Ref<Arrayable<TooltipTriggerType>>
