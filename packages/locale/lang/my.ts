@@ -154,6 +154,12 @@ export default {
       resetFilter: 'ပြန်လည်သတ်မှတ်မည်',
       clearFilter: 'အားလုံး',
       sumText: 'ပေါင်းလဒ်',
+      selectAllLabel: 'Select all rows', // to be translated
+      selectRowLabel: 'Select this row', // to be translated
+      expandRowLabel: 'Expand this row', // to be translated
+      collapseRowLabel: 'Collapse this row', // to be translated
+      sortLabel: 'Sort by {column}', // to be translated
+      filterLabel: 'Filter by {column}', // to be translated
     },
     tour: {
       next: 'နောက်သို့',

@@ -151,6 +151,12 @@ export default {
       resetFilter: 'حذف',
       clearFilter: 'الكل',
       sumText: 'المجموع',
+      selectAllLabel: 'Select all rows', // to be translated
+      selectRowLabel: 'Select this row', // to be translated
+      expandRowLabel: 'Expand this row', // to be translated
+      collapseRowLabel: 'Collapse this row', // to be translated
+      sortLabel: 'Sort by {column}', // to be translated
+      filterLabel: 'Filter by {column}', // to be translated
     },
     tour: {
       next: 'Next', // to be translated
