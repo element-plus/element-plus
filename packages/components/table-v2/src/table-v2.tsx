@@ -1,5 +1,5 @@
 import { defineComponent, provide, unref } from 'vue'
-import { useNamespace } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import { useTable } from './use-table'
 import { TableV2InjectionKey } from './tokens'
 import { tableV2Props } from './table'
@@ -32,6 +32,7 @@ const TableV2 = defineComponent({
   props: tableV2Props,
   setup(props, { slots, expose }) {
     const ns = useNamespace('table-v2')
+    const { t } = useLocale()
 
     const {
       columnsStyles,
@@ -238,6 +239,7 @@ const TableV2 = defineComponent({
         rowKey,
         expandedRowKeys: unref(expandedRowKeys),
         ns,
+        t,
       }
 
       const tableHeaderProps = {
@@ -249,6 +251,7 @@ const TableV2 = defineComponent({
 
       const tableHeaderCellProps = {
         ns,
+        t,
 
         sortBy,
         sortState,
