@@ -1,8 +1,8 @@
 import { buildProps } from '@element-plus/utils'
 import { componentSizes } from '@element-plus/constants'
-import type Tag from './tag.vue'
 
-import type { ExtractPropTypes } from 'vue'
+import type Tag from './tag.vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 
 export const tagProps = buildProps({
   /**
@@ -50,6 +50,7 @@ export const tagProps = buildProps({
   round: Boolean,
 } as const)
 export type TagProps = ExtractPropTypes<typeof tagProps>
+export type TagPropsPublic = __ExtractPublicPropTypes<typeof tagProps>
 
 export const tagEmits = {
   close: (evt: MouseEvent) => evt instanceof MouseEvent,
@@ -57,4 +58,4 @@ export const tagEmits = {
 }
 export type TagEmits = typeof tagEmits
 
-export type TagInstance = InstanceType<typeof Tag>
+export type TagInstance = InstanceType<typeof Tag> & unknown

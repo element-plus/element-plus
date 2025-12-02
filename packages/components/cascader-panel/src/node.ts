@@ -1,52 +1,11 @@
-// @ts-nocheck
-import {
-  capitalize,
-  isEmpty,
-  isFunction,
-  isUndefined,
-} from '@element-plus/utils'
-import type { VNode } from 'vue'
+import { isArray, isEmpty, isFunction, isUndefined } from '@element-plus/utils'
 
-export type CascaderNodeValue = string | number
-export type CascaderNodePathValue = CascaderNodeValue[]
-export type CascaderValue =
-  | CascaderNodeValue
-  | CascaderNodePathValue
-  | (CascaderNodeValue | CascaderNodePathValue)[]
-export type CascaderConfig = Required<CascaderProps>
-export type ExpandTrigger = 'click' | 'hover'
-export type isDisabled = (data: CascaderOption, node: Node) => boolean
-export type isLeaf = (data: CascaderOption, node: Node) => boolean
-export type Resolve = (dataList?: CascaderOption[]) => void
-export type LazyLoad = (node: Node, resolve: Resolve) => void
-export type RenderLabel = ({
-  node: Node,
-  data: CascaderOption,
-}) => VNode | VNode[]
-export interface CascaderOption extends Record<string, unknown> {
-  label?: string
-  value?: CascaderNodeValue
-  children?: CascaderOption[]
-  disabled?: boolean
-  leaf?: boolean
-}
-
-export interface CascaderProps {
-  expandTrigger?: ExpandTrigger
-  multiple?: boolean
-  checkStrictly?: boolean
-  emitPath?: boolean
-  lazy?: boolean
-  lazyLoad?: LazyLoad
-  value?: string
-  label?: string
-  children?: string
-  disabled?: string | isDisabled
-  leaf?: string | isLeaf
-  hoverThreshold?: number
-}
-
-export type Nullable<T> = null | T
+import type {
+  CascaderConfig,
+  CascaderNodePathValue,
+  CascaderNodeValue,
+  CascaderOption,
+} from './types'
 
 type ChildrenData = CascaderOption[] | undefined
 
@@ -97,7 +56,7 @@ class Node {
   loading = false
 
   constructor(
-    readonly data: Nullable<CascaderOption>,
+    readonly data: CascaderOption,
     readonly config: CascaderConfig,
     readonly parent?: Node,
     readonly root = false
@@ -118,6 +77,7 @@ class Node {
       (child) => new Node(child, config, this)
     )
     this.loaded = !config.lazy || this.isLeaf || !isEmpty(childrenData)
+    this.text = ''
   }
 
   get isDisabled(): boolean {
@@ -126,7 +86,7 @@ class Node {
     const isDisabled = isFunction(disabled)
       ? disabled(data, this)
       : !!data[disabled]
-    return isDisabled || (!checkStrictly && parent?.isDisabled)
+    return isDisabled || (!checkStrictly && !!parent?.isDisabled)
   }
 
   get isLeaf(): boolean {
@@ -137,7 +97,7 @@ class Node {
     return isUndefined(isLeaf)
       ? lazy && !loaded
         ? false
-        : !(Array.isArray(childrenData) && childrenData.length)
+        : !(isArray(childrenData) && childrenData.length)
       : !!isLeaf
   }
 
@@ -149,7 +109,7 @@ class Node {
     const { childrenData, children } = this
     const node = new Node(childData, this.config, this)
 
-    if (Array.isArray(childrenData)) {
+    if (isArray(childrenData)) {
       childrenData.push(childData)
     } else {
       this.childrenData = [childData]
@@ -166,23 +126,21 @@ class Node {
     return text
   }
 
-  broadcast(event: string, ...args: unknown[]) {
-    const handlerName = `onParent${capitalize(event)}`
+  broadcast(checked: boolean) {
     this.children.forEach((child) => {
       if (child) {
         // bottom up
-        child.broadcast(event, ...args)
-        child[handlerName] && child[handlerName](...args)
+        child.broadcast(checked)
+        child.onParentCheck?.(checked)
       }
     })
   }
 
-  emit(event: string, ...args: unknown[]) {
+  emit() {
     const { parent } = this
-    const handlerName = `onChild${capitalize(event)}`
     if (parent) {
-      parent[handlerName] && parent[handlerName](...args)
-      parent.emit(event, ...args)
+      parent.onChildCheck?.()
+      parent.emit()
     }
   }
 
@@ -228,9 +186,9 @@ class Node {
       this.checked = checked
     } else {
       // bottom up to unify the calculation of the indeterminate state
-      this.broadcast('check', checked)
+      this.broadcast(checked)
       this.setCheckState(checked)
-      this.emit('check')
+      this.emit()
     }
   }
 }

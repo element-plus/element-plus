@@ -1,6 +1,15 @@
+import { isArray } from '@element-plus/utils'
+
 import type { WatermarkProps } from './watermark'
 
-export const FontGap = 3
+// [alignRatio, spaceRatio]
+const TEXT_ALIGN_RATIO_MAP = {
+  left: [0, 0.5],
+  start: [0, 0.5],
+  center: [0.5, 0],
+  right: [1, -0.5],
+  end: [1, -0.5],
+} as const
 
 function prepareCanvas(
   width: number,
@@ -10,7 +19,7 @@ function prepareCanvas(
   ctx: CanvasRenderingContext2D,
   canvas: HTMLCanvasElement,
   realWidth: number,
-  realHeight: number
+  realHeight: number,
 ] {
   const canvas = document.createElement('canvas')
   const ctx = canvas.getContext('2d')!
@@ -37,7 +46,8 @@ export default function useClips() {
     height: number,
     font: Required<NonNullable<WatermarkProps['font']>>,
     gapX: number,
-    gapY: number
+    gapY: number,
+    space: number
   ): [dataURL: string, finalWidth: number, finalHeight: number] {
     // ================= Text / Image =================
     const [ctx, canvas, contentWidth, contentHeight] = prepareCanvas(
@@ -45,7 +55,7 @@ export default function useClips() {
       height,
       ratio
     )
-
+    let baselineOffset = 0
     if (content instanceof HTMLImageElement) {
       // Image
       ctx.drawImage(content, 0, 0, contentWidth, contentHeight)
@@ -66,12 +76,21 @@ export default function useClips() {
       ctx.fillStyle = color
       ctx.textAlign = textAlign
       ctx.textBaseline = textBaseline
-      const contents = Array.isArray(content) ? content : [content]
+      const contents = isArray(content) ? content : [content]
+      if (textBaseline !== 'top' && contents[0]) {
+        const argumentMetrics = ctx.measureText(contents[0])
+        ctx.textBaseline = 'top'
+        const topMetrics = ctx.measureText(contents[0])
+        baselineOffset =
+          argumentMetrics.actualBoundingBoxAscent -
+          topMetrics.actualBoundingBoxAscent
+      }
       contents?.forEach((item, index) => {
+        const [alignRatio, spaceRatio] = TEXT_ALIGN_RATIO_MAP[textAlign]
         ctx.fillText(
           item ?? '',
-          contentWidth / 2,
-          index * (mergedFontSize + FontGap * ratio)
+          contentWidth * alignRatio + space * spaceRatio,
+          index * (mergedFontSize + font.fontGap * ratio)
         )
       })
     }
@@ -137,7 +156,7 @@ export default function useClips() {
         cutWidth,
         cutHeight,
         targetX,
-        targetY,
+        targetY + baselineOffset,
         cutWidth,
         cutHeight
       )

@@ -9,7 +9,7 @@ Used to give feedback on the result of user's operation or access exception.
 
 ## Basic usage
 
-:::demo
+:::demo `primary` has been added in ^(2.9.11).
 
 result/basic-usage
 
@@ -27,11 +27,11 @@ result/customized-content
 
 ### Attributes
 
-| Name      | Description         | Type                                                 | Default |
-| --------- | ------------------- | ---------------------------------------------------- | ------- |
-| title     | title of result     | ^[string]                                            | ''      |
-| sub-title | sub title of result | ^[string]                                            | ''      |
-| icon      | icon type of result | ^[enum]`'success' \| 'warning' \| 'info' \| 'error'` | info    |
+| Name      | Description         | Type                                                                       | Default |
+| --------- | ------------------- | -------------------------------------------------------------------------- | ------- |
+| title     | title of result     | ^[string]                                                                  | ''      |
+| sub-title | sub title of result | ^[string]                                                                  | ''      |
+| icon      | icon type of result | ^[enum]`'primary' (2.9.11) \| 'success' \| 'warning' \| 'info' \| 'error'` | info    |
 
 ### Slots
 

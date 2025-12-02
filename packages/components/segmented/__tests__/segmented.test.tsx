@@ -1,6 +1,6 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 import Segmented from '../src/segmented.vue'
 
 describe('Segmented.vue', () => {
@@ -117,6 +117,58 @@ describe('Segmented.vue', () => {
     expect(wrapper.findAll('.is-disabled').length).toBe(4)
   })
 
+  test('render options props', async () => {
+    const value = ref('Mon')
+    const props = {
+      label: 'myLabel',
+      value: 'myValue',
+      disabled: 'myDisabled',
+    }
+    const options = [
+      {
+        myLabel: 'Mon',
+        myValue: 'Mon',
+        myDisabled: true,
+      },
+      {
+        myLabel: 'Tue',
+        myValue: 'Tue',
+      },
+      {
+        myLabel: 'Wed',
+        myValue: 'Wed',
+        myDisabled: true,
+      },
+      {
+        myLabel: 'Thu',
+        myValue: 'Thu',
+      },
+      {
+        myLabel: 'Fri',
+        myValue: 'Fri',
+        myDisabled: true,
+      },
+      {
+        myLabel: 'Sat',
+        myValue: 'Sat',
+      },
+      {
+        myLabel: 'Sun',
+        myValue: 'Sun',
+      },
+    ]
+    const wrapper = mount(() => (
+      <Segmented
+        v-model={value.value}
+        options={options}
+        props={props}
+      ></Segmented>
+    ))
+    await nextTick()
+    // 4 = the disabled options + .el-segmented__item-selected
+    expect(wrapper.findAll('.is-disabled').length).toBe(4)
+  })
+
   test('render accessible attributes', async () => {
     const value = ref('Mon')
     const options = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
@@ -156,5 +208,28 @@ describe('Segmented.vue', () => {
         .classes()
         .includes('is-disabled')
     ).toBeTruthy()
+  })
+
+  test('should fire the change event until it is equal to model-value', async () => {
+    const value = ref('Mon')
+    const options = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    const onChange = vi.fn()
+    const wrapper = mount(() => (
+      <Segmented
+        modelValue={value.value}
+        options={options}
+        onChange={onChange}
+      />
+    ))
+    expect(wrapper.find('.is-selected').text()).toEqual('Mon')
+    const secondOption = wrapper.findAll('.el-segmented__item')[1]
+    await secondOption.trigger('click')
+    expect(onChange).toHaveBeenCalledTimes(1)
+    await secondOption.trigger('click')
+    expect(onChange).toHaveBeenCalledTimes(2)
+    value.value = 'Tue'
+    await nextTick()
+    await secondOption.trigger('click')
+    expect(onChange).toHaveBeenCalledTimes(2)
   })
 })

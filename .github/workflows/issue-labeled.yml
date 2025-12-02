@@ -37,6 +37,6 @@ jobs:
           actions: 'create-comment, close-issue'
           issue-number: ${{ github.event.issue.number }}
           body: |
-            Hello @${{ github.event.issue.user.login }}, your issue has been closed because it does not conform to our issue requirements. Please use the [Issue Helper](https://elementui.github.io/issue-generator/#/en-US?repo=element-plus) to create an issue, thank you!
+            Hello @${{ github.event.issue.user.login }}, your issue has been closed because it does not conform to our issue requirements. Please use the [Issue Helper](https://issue.element-plus.org/) to create an issue, thank you!
 
-            你好 @${{ github.event.issue.user.login }}，为了能够进行高效沟通，我们对 issue 有一定的格式要求，你的 issue 因为不符合要求而被自动关闭。你可以通过 [issue 助手](https://elementui.github.io/issue-generator/#/en-US?repo=element-plus) 来创建 issue 以方便我们定位错误。谢谢配合！
+            你好 @${{ github.event.issue.user.login }}，为了能够进行高效沟通，我们对 issue 有一定的格式要求，你的 issue 因为不符合要求而被自动关闭。你可以通过 [issue 助手](https://issue.element-plus.org/) 来创建 issue 以方便我们定位错误。谢谢配合！

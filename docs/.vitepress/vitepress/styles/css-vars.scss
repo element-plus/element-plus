@@ -22,8 +22,9 @@
   --border-color-light: var(--el-border-color-lighter);
 
   --font-family: var(--el-font-family);
-  --font-family-mono: 'JetBrains Mono', source-code-pro, Menlo, Monaco, Consolas,
-    'Courier New', monospace;
+  --font-family-mono:
+    'JetBrains Mono', source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
 
   // info
   --success-color: var(--el-color-success);
@@ -38,15 +39,6 @@
 
   /* Screen Size */
   --vp-screen-max-width: 1362px;
-
-  @include respond-to('xxl') {
-    --vp-sidebar-width-small: 234px;
-  }
-
-  @include respond-to('max') {
-    --vp-screen-max-width: 1482px;
-    --vp-sidebar-width-small: 290px;
-  }
 
   // sidebar
   --vp-sidebar-width-mobile: 320px;
@@ -79,6 +71,15 @@
 
   // link
   --link-active-bg-color: rgba(var(--el-color-primary-rgb), 0.1);
+
+  @include respond-to('xxl') {
+    --vp-sidebar-width-small: 234px;
+  }
+
+  @include respond-to('max') {
+    --vp-screen-max-width: 1482px;
+    --vp-sidebar-width-small: 290px;
+  }
 }
 
 .dark {

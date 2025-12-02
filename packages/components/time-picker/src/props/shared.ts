@@ -1,20 +1,11 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 
-import type { ExtractPropTypes } from 'vue'
-import type { Dayjs } from 'dayjs'
-
-export type GetDisabledHours = (role: string, comparingDate?: Dayjs) => number[]
-export type GetDisabledMinutes = (
-  hour: number,
-  role: string,
-  comparingDate?: Dayjs
-) => number[]
-export type GetDisabledSeconds = (
-  hour: number,
-  minute: number,
-  role: string,
-  comparingDate?: Dayjs
-) => number[]
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type {
+  GetDisabledHours,
+  GetDisabledMinutes,
+  GetDisabledSeconds,
+} from '../common/props'
 
 export const disabledTimeListsProps = buildProps({
   /**
@@ -40,6 +31,9 @@ export const disabledTimeListsProps = buildProps({
 export type DisabledTimeListsProps = ExtractPropTypes<
   typeof disabledTimeListsProps
 >
+export type DisabledTimeListsPropsPublic = __ExtractPublicPropTypes<
+  typeof disabledTimeListsProps
+>
 
 export const timePanelSharedProps = buildProps({
   visible: Boolean,
@@ -54,3 +48,6 @@ export const timePanelSharedProps = buildProps({
 } as const)
 
 export type TimePanelSharedProps = ExtractPropTypes<typeof timePanelSharedProps>
+export type TimePanelSharedPropsPublic = __ExtractPublicPropTypes<
+  typeof timePanelSharedProps
+>

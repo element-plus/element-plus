@@ -1,6 +1,7 @@
 import consola from 'consola'
 import chalk from 'chalk'
 import { errorAndExit, getWorkspacePackages } from '@element-plus/build-utils'
+
 import type { Project } from '@pnpm/find-workspace-packages'
 
 async function main() {

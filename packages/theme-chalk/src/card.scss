@@ -7,6 +7,8 @@
 }
 
 @include b(card) {
+  display: flex;
+  flex-direction: column;
   border-radius: getCssVar('card', 'border-radius');
   border: 1px solid getCssVar('card', 'border-color');
   background-color: getCssVar('card', 'bg-color');
@@ -33,6 +35,8 @@
   }
 
   @include e(body) {
+    flex: 1;
+    overflow: auto;
     padding: getCssVar('card', 'padding');
   }
 

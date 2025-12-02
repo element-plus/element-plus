@@ -26,7 +26,7 @@
     :data-prefix="ns.namespace.value"
     @mouseleave="handleMouseLeave"
   >
-    <div :class="ns.e('inner-wrapper')" :style="tableInnerStyle">
+    <div ref="tableInnerWrapper" :class="ns.e('inner-wrapper')">
       <div ref="hiddenColumns" class="hidden-columns">
         <slot />
       </div>
@@ -54,6 +54,7 @@
             :default-sort="defaultSort"
             :store="store"
             :append-filter-panel-to="appendFilterPanelTo"
+            :allow-drag-last-column="allowDragLastColumn"
             @set-drag-visible="setDragVisible"
           />
         </table>
@@ -65,6 +66,8 @@
           :wrap-style="scrollbarStyle"
           :always="scrollbarAlwaysOn"
           :tabindex="scrollbarTabindex"
+          :native="nativeScrollbar"
+          @scroll="$emit('scroll', $event)"
         >
           <table
             ref="tableBody"
@@ -168,8 +171,13 @@
 </template>
 
 <script lang="ts">
-// @ts-nocheck
-import { computed, defineComponent, getCurrentInstance, provide } from 'vue'
+import {
+  computed,
+  defineComponent,
+  getCurrentInstance,
+  onBeforeUnmount,
+  provide,
+} from 'vue'
 import { debounce } from 'lodash-unified'
 import { Mousewheel } from '@element-plus/directives'
 import { useLocale, useNamespace } from '@element-plus/hooks'
@@ -223,9 +231,10 @@ export default defineComponent({
     'current-change',
     'header-dragend',
     'expand-change',
+    'scroll',
   ],
   setup(props) {
-    type Row = typeof props.data[number]
+    type Row = (typeof props.data)[number]
     const { t } = useLocale()
     const ns = useNamespace('table')
     const table = getCurrentInstance() as Table<Row>
@@ -266,7 +275,6 @@ export default defineComponent({
       handleHeaderFooterMousewheel,
       tableSize,
       emptyBlockStyle,
-      handleFixedMousewheel,
       resizeProxyVisible,
       bodyWidth,
       resizeState,
@@ -274,7 +282,6 @@ export default defineComponent({
       tableBodyStyles,
       tableLayout,
       scrollbarViewStyle,
-      tableInnerStyle,
       scrollbarStyle,
     } = useStyle<Row>(props, layout, store, table)
 
@@ -305,6 +312,10 @@ export default defineComponent({
 
     useKeyRender(table)
 
+    onBeforeUnmount(() => {
+      debouncedUpdateLayout.cancel()
+    })
+
     return {
       ns,
       layout,
@@ -324,7 +335,6 @@ export default defineComponent({
       tableBodyStyles,
       emptyBlockStyle,
       debouncedUpdateLayout,
-      handleFixedMousewheel,
       /**
        * @description used in single selection Table, set a certain row selected. If called without any parameter, it will clear selection
        */
@@ -376,7 +386,6 @@ export default defineComponent({
       computedEmptyText,
       tableLayout,
       scrollbarViewStyle,
-      tableInnerStyle,
       scrollbarStyle,
       scrollBarRef,
       /**
@@ -391,6 +400,10 @@ export default defineComponent({
        * @description set vertical scroll position
        */
       setScrollTop,
+      /**
+       * @description whether to allow drag the last column
+       */
+      allowDragLastColumn: props.allowDragLastColumn,
     }
   },
 })

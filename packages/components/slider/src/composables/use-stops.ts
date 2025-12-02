@@ -1,5 +1,6 @@
 import { computed } from 'vue'
 import { debugWarn } from '@element-plus/utils'
+
 import type { CSSProperties, ComputedRef } from 'vue'
 import type { SliderInitData, SliderProps } from '../slider'
 
@@ -21,7 +22,7 @@ export const useStops = (
       return []
     }
 
-    const stopCount = (props.max - props.min) / props.step
+    const stopCount = Math.ceil((props.max - props.min) / props.step)
     const stepWidth = (100 * props.step) / (props.max - props.min)
     const result = Array.from<number>({ length: stopCount - 1 }).map(
       (_, index) => (index + 1) * stepWidth

@@ -1,17 +1,31 @@
 import { isNil } from 'lodash-unified'
 import { buildProps, definePropType, isString } from '@element-plus/utils'
-import { useAriaProps, useSizeProp } from '@element-plus/hooks'
+import {
+  useAriaProps,
+  useEmptyValuesProps,
+  useSizeProp,
+} from '@element-plus/hooks'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
-import type { ComputedRef, ExtractPropTypes, InjectionKey } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type ColorPicker from './color-picker.vue'
 
 export const colorPickerProps = buildProps({
   /**
+   * @description when color-picker inactive and persistent is false, the color panel will be destroyed
+   */
+  persistent: {
+    type: Boolean,
+    default: true,
+  },
+  /**
    * @description binding value
    */
-  modelValue: String,
+  modelValue: {
+    type: definePropType<string | null>(String),
+    default: undefined,
+  },
   /**
    * @description ColorPicker id
    */
@@ -27,7 +41,10 @@ export const colorPickerProps = buildProps({
   /**
    * @description whether to disable the ColorPicker
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description size of ColorPicker
    */
@@ -35,10 +52,11 @@ export const colorPickerProps = buildProps({
   /**
    * @description custom class name for ColorPicker's dropdown
    */
-  popperClass: {
-    type: String,
-    default: '',
-  },
+  popperClass: useTooltipContentProps.popperClass,
+  /**
+   * @description custom style for ColorPicker's dropdown
+   */
+  popperStyle: useTooltipContentProps.popperStyle,
   /**
    * @description ColorPicker tabindex
    */
@@ -50,6 +68,10 @@ export const colorPickerProps = buildProps({
    * @description whether color-picker popper is teleported to the body
    */
   teleported: useTooltipContentProps.teleported,
+  /**
+   * @description which color-picker panel appends to
+   */
+  appendTo: useTooltipContentProps.appendTo,
   /**
    * @description predefined color options
    */
@@ -63,6 +85,7 @@ export const colorPickerProps = buildProps({
     type: Boolean,
     default: true,
   },
+  ...useEmptyValuesProps,
   ...useAriaProps(['ariaLabel']),
 } as const)
 export const colorPickerEmits = {
@@ -74,13 +97,8 @@ export const colorPickerEmits = {
 }
 
 export type ColorPickerProps = ExtractPropTypes<typeof colorPickerProps>
+export type ColorPickerPropsPublic = __ExtractPublicPropTypes<
+  typeof colorPickerProps
+>
 export type ColorPickerEmits = typeof colorPickerEmits
-export type ColorPickerInstance = InstanceType<typeof ColorPicker>
-
-export interface ColorPickerContext {
-  currentColor: ComputedRef<string>
-}
-
-export const colorPickerContextKey: InjectionKey<ColorPickerContext> = Symbol(
-  'colorPickerContextKey'
-)
+export type ColorPickerInstance = InstanceType<typeof ColorPicker> & unknown

@@ -20,7 +20,6 @@ export type SelectStates = {
   hoveringIndex: number
   inputHovering: boolean
   selectionWidth: number
-  calculatorWidth: number
   collapseItemWidth: number
   previousQuery: string | null
   previousValue: unknown

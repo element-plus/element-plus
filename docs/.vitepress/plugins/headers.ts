@@ -1,4 +1,5 @@
 import { resolveHeadersFromTokens, slugify } from '@mdit-vue/shared'
+
 import type { MarkdownRenderer } from 'vitepress'
 
 /**
@@ -18,6 +19,10 @@ export default (md: MarkdownRenderer): void => {
       shouldAllowNested: false,
       shouldEscapeText: false,
       slugify,
+    })
+    // remove space before <
+    env.headers.forEach((header) => {
+      header.title = header.title.replace(/\s+</g, '<')
     })
     return render(tokens, options, env)
   }
