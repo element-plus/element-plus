@@ -51,7 +51,6 @@ import { computedEager, onClickOutside } from '@vueuse/core'
 import { useNamespace, usePopperContainerId } from '@element-plus/hooks'
 import {
   castArray,
-  composeEventHandlers,
   focusElement,
 } from '@element-plus/utils'
 import { ElPopperContent } from '@element-plus/components/popper'
@@ -76,7 +75,6 @@ const contentRef = ref<PopperContentInstance>()
 const popperContentRef = computedEager(() => contentRef.value?.popperContentRef)
 let stopHandle: ReturnType<typeof onClickOutside>
 const {
-  controlled,
   id,
   open,
   trigger,
@@ -130,21 +128,17 @@ const onTransitionLeave = () => {
   ariaHidden.value = true
 }
 
-const stopWhenControlled = () => {
-  if (unref(controlled)) return true
-}
-
-const onContentEnter = composeEventHandlers(stopWhenControlled, () => {
+const onContentEnter = () => {
   if (props.enterable && isTriggerType(unref(trigger), 'hover')) {
     onOpen()
   }
-})
+}
 
-const onContentLeave = composeEventHandlers(stopWhenControlled, () => {
+const onContentLeave = () => {
   if (isTriggerType(unref(trigger), 'hover')) {
     onClose()
   }
-})
+}
 
 const onBeforeEnter = () => {
   contentRef.value?.updatePopper?.()
@@ -183,7 +177,6 @@ watch(
       stopHandle = onClickOutside(
         popperContentRef,
         () => {
-          if (unref(controlled)) return
           const needClose = castArray(unref(trigger)).every((item) => {
             return item !== 'hover' && item !== 'focus'
           })

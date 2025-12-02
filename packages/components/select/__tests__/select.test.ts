@@ -3855,7 +3855,7 @@ describe('Select', () => {
     const selectVm = select.vm as any
     const input = wrapper.find('input')
     await input.trigger('click')
-    expect(selectVm.dropdownMenuVisible).toBeTruthy()
+    expect(selectVm.expanded).toBeTruthy()
   })
 
   test('should trigger scroll when option value is 0', async () => {
@@ -4191,7 +4191,7 @@ describe('Select', () => {
     expect(Array.from(optionEls[1].classList)).not.toContain('is-hovering')
   })
 
-  test('should trigger visible-change when dropdownMenuVisible changes', async () => {
+  test('should trigger visible-change when expanded changes', async () => {
     const handleVisibleChange = vi.fn()
     wrapper = mount({
       template: `

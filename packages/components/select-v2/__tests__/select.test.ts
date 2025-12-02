@@ -244,7 +244,7 @@ describe('Select', () => {
     const select = wrapper.findComponent(Select)
     const tipDefWrapper = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
     await tipDefWrapper.trigger('click')
-    expect((select.vm as any).expanded).toBeTruthy()
+    expect(select.vm.expanded).toBeTruthy()
   })
 
   it('options rendered correctly', async () => {
@@ -2196,7 +2196,7 @@ describe('Select', () => {
       const select = wrapper.findComponent(Select)
       const tipDefWrapper = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
       await tipDefWrapper.trigger('click')
-      expect((select.vm as any).expanded).toBeTruthy()
+      expect(select.vm.expanded).toBeTruthy()
       const box = document.querySelector<HTMLElement>('.el-vl__wrapper')
       expect(hasClass(box, 'always-on')).toBe(false)
     })
@@ -2213,7 +2213,7 @@ describe('Select', () => {
       const select = wrapper.findComponent(Select)
       const tipDefWrapper = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
       await tipDefWrapper.trigger('click')
-      expect((select.vm as any).expanded).toBeTruthy()
+      expect(select.vm.expanded).toBeTruthy()
       const box = document.querySelector<HTMLElement>('.el-vl__wrapper')
       expect(hasClass(box, 'always-on')).toBe(true)
     })
@@ -2621,7 +2621,7 @@ describe('Select', () => {
     const selectVm = select.vm as any
     const input = wrapper.find('input')
     await input.trigger('click')
-    expect(selectVm.dropdownMenuVisible).toBeTruthy()
+    expect(selectVm.expanded).toBeTruthy()
   })
 
   it('should show suffix', async () => {
@@ -2695,7 +2695,7 @@ describe('Select', () => {
     expect(selectVm.states.hoveringIndex).toBe(1)
   })
 
-  it('should trigger visible-change when dropdownMenuVisible changes', async () => {
+  it('should trigger visible-change when expanded changes', async () => {
     const states = ['Alabama', 'Alaska']
     const list = states.map((item): ListItem => {
       return { value: `value:${item}`, label: `label:${item}` }

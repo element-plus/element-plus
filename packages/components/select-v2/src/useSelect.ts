@@ -966,11 +966,10 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
 
   watchEffect(() => {
     if (
-      unref(expanded) &&
-      !(props.loading || !isRemoteSearchEmpty.value) &&
-      (debouncing.value && isEmpty(states.previousQuery))
-
-    ) {
+    unref(expanded) &&
+      ((!props.loading || isRemoteSearchEmpty.value) &&
+      debouncing.value)
+    ){
       hide()
     }
   })
