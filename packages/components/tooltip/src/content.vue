@@ -28,11 +28,12 @@
         :enterable="enterable"
         :pure="pure"
         :popper-class="popperClass"
-        :popper-style="[popperStyle, contentStyle]"
+        :popper-style="[popperStyle!, contentStyle]"
         :reference-el="referenceEl"
         :trigger-target-el="triggerTargetEl"
         :visible="shouldShow"
         :z-index="zIndex"
+        :loop="loop"
         @mouseenter="onContentEnter"
         @mouseleave="onContentLeave"
         @blur="onBlur"
@@ -48,11 +49,16 @@
 import { computed, inject, onBeforeUnmount, ref, unref, watch } from 'vue'
 import { computedEager, onClickOutside } from '@vueuse/core'
 import { useNamespace, usePopperContainerId } from '@element-plus/hooks'
+import {
+  castArray,
+  composeEventHandlers,
+  focusElement,
+} from '@element-plus/utils'
 import { ElPopperContent } from '@element-plus/components/popper'
 import ElTeleport from '@element-plus/components/teleport'
-import { tryFocus } from '@element-plus/components/focus-trap'
 import { TOOLTIP_INJECTION_KEY } from './constants'
 import { useTooltipContentProps } from './content'
+import { isTriggerType } from './utils'
 
 import type { PopperContentInstance } from '@element-plus/components/popper'
 
@@ -86,8 +92,11 @@ const transitionClass = computed(() => {
 const persistentRef = computed(() => {
   // For testing, we would always want the content to be rendered
   // to the DOM, so we need to return true here.
-  if (process.env.NODE_ENV === 'test') {
-    if (!process.env.RUN_TEST_WITH_PERSISTENT) {
+  if (typeof process !== 'undefined') {
+    if (
+      process.env.NODE_ENV === 'test' &&
+      !process.env.RUN_TEST_WITH_PERSISTENT
+    ) {
       return true
     }
   }
@@ -110,24 +119,32 @@ const appendTo = computed(() => {
   return props.appendTo || selector.value
 })
 
-const contentStyle = computed(() => (props.style ?? {}) as any)
+const contentStyle = computed(() => props.style ?? {})
 
 const ariaHidden = ref(true)
 
 const onTransitionLeave = () => {
   onHide()
-  isFocusInsideContent() && tryFocus(document.body)
+  isFocusInsideContent() && focusElement(document.body, { preventScroll: true })
   ariaHidden.value = true
 }
 
 const onContentEnter = () => {
   if (props.enterable && unref(trigger) === 'hover') {
+//const stopWhenControlled = () => {
+//  if (unref(controlled)) return true
+//}
+//
+//const onContentEnter = composeEventHandlers(stopWhenControlled, () => {
+//  if (props.enterable && isTriggerType(unref(trigger), 'hover')) {
     onOpen()
   }
 }
 
 const onContentLeave = () => {
   if (unref(trigger) === 'hover') {
+//const onContentLeave = composeEventHandlers(stopWhenControlled, () => {
+//  if (isTriggerType(unref(trigger), 'hover')) {
     onClose()
   }
 }

@@ -2,14 +2,22 @@ export default {
   name: 'fr',
   el: {
     breadcrumb: {
-      label: `Fil d'Ariane`,
+      label: "Fil d'Ariane",
     },
     colorpicker: {
       confirm: 'Confirmer',
       clear: 'Effacer',
-      defaultLabel: 'color picker',
+      defaultLabel: 'Sélecteur de couleurs',
       description:
         'La couleur actuelle est {color}. Appuyer sur Entrée pour sélectionner une nouvelle couleur.',
+      alphaLabel: 'Choisir la valeur alpha',
+      alphaDescription: 'alpha {alpha}, couleur actuelle  {color}',
+      hueLabel: 'Choisir la veleur hue',
+      hueDescription: 'hue {hue}, couleur actuelle {color}',
+      svLabel: 'Choisir la valeur de saturation et de luminosité',
+      svDescription:
+        'saturation {saturation}, luminosité {brightness}, couleur actuelle {color}',
+      predefineDescription: 'Choisir {value} comme couleur actuelle',
     },
     datepicker: {
       now: 'Maintenant',
@@ -34,7 +42,7 @@ export default {
       nextYear: 'Année suivante',
       prevMonth: 'Mois précédent',
       nextMonth: 'Mois suivant',
-      year: '', // In french, like in english, we don't say "Année" after the year number.
+      year: '',
       month1: 'Janvier',
       month2: 'Février',
       month3: 'Mars',
@@ -47,7 +55,6 @@ export default {
       month10: 'Octobre',
       month11: 'Novembre',
       month12: 'Décembre',
-      week: 'Semaine',
       weeks: {
         sun: 'Dim',
         mon: 'Lun',
@@ -82,8 +89,8 @@ export default {
       },
     },
     inputNumber: {
-      decrease: 'décrémenter',
-      increase: 'incrémenter',
+      decrease: 'Décrémenter',
+      increase: 'Incrémenter',
     },
     select: {
       loading: 'Chargement',
@@ -93,6 +100,9 @@ export default {
     },
     mention: {
       loading: 'Chargement',
+    },
+    dropdown: {
+      toggleDropdown: 'Basculer la liste déroulante',
     },
     cascader: {
       noMatch: 'Aucune correspondance',
@@ -144,11 +154,21 @@ export default {
       resetFilter: 'Réinitialiser',
       clearFilter: 'Tous',
       sumText: 'Somme',
+      selectAllLabel: 'Select all rows', // to be translated
+      selectRowLabel: 'Select this row', // to be translated
+      expandRowLabel: 'Expand this row', // to be translated
+      collapseRowLabel: 'Collapse this row', // to be translated
+      sortLabel: 'Sort by {column}', // to be translated
+      filterLabel: 'Filter by {column}', // to be translated
+    },
+    tag: {
+      close: 'Fermer le tag',
     },
     tour: {
-      next: 'suivant',
-      previous: 'précédent',
-      finish: 'fin',
+      next: 'Suivant',
+      previous: 'Précédent',
+      finish: 'Fin',
+      close: 'Fermer la boîte de dialogue',
     },
     tree: {
       emptyText: 'Aucune donnée',
@@ -162,7 +182,7 @@ export default {
       hasCheckedFormat: '{checked}/{total} coché(s)',
     },
     image: {
-      error: 'ECHEC',
+      error: 'Echec',
     },
     pageHeader: {
       title: 'Retour',

@@ -100,6 +100,38 @@ describe('Tabs.vue', () => {
     expect(tabsWrapper.vm.$.exposed!.currentName.value).toEqual('c')
   })
 
+  test('default-value', async () => {
+    const activeName = ref<TabPaneName | undefined>()
+    const wrapper = mount(() => (
+      <Tabs v-model={activeName.value} defaultValue="b">
+        <TabPane name="a" label="label-1">
+          A
+        </TabPane>
+        <TabPane name="b" label="label-2">
+          B
+        </TabPane>
+        <TabPane name="c" label="label-3">
+          C
+        </TabPane>
+      </Tabs>
+    ))
+
+    const tabsWrapper = wrapper.findComponent(Tabs)
+    const navWrapper = wrapper.findComponent(TabNav)
+    await nextTick()
+
+    let navItemsWrapper = navWrapper.findAll('.el-tabs__item')
+    expect(navItemsWrapper[1].classes('is-active')).toBe(true)
+    expect(tabsWrapper.vm.$.exposed!.currentName.value).toEqual('b')
+
+    activeName.value = 'c'
+    await nextTick()
+
+    navItemsWrapper = navWrapper.findAll('.el-tabs__item')
+    expect(navItemsWrapper[2].classes('is-active')).toBe(true)
+    expect(tabsWrapper.vm.$.exposed!.currentName.value).toEqual('c')
+  })
+
   test('card', async () => {
     const wrapper = mount(() => (
       <Tabs type="card">
@@ -198,6 +230,7 @@ describe('Tabs.vue', () => {
         title: 'Tab 3',
         name: '3',
         content: 'Tab 3 content',
+        closable: false,
       },
     ])
     const tabIndex = ref(3)
@@ -240,7 +273,12 @@ describe('Tabs.vue', () => {
         onEdit={handleTabsEdit}
       >
         {editableTabs.value.map((tab) => (
-          <TabPane key={tab.name} label={tab.title} name={tab.name}>
+          <TabPane
+            key={tab.name}
+            label={tab.title}
+            name={tab.name}
+            closable={tab.closable}
+          >
             {tab.content}
           </TabPane>
         ))}
@@ -256,6 +294,8 @@ describe('Tabs.vue', () => {
     expect(navItemsWrapper.length).toEqual(3)
     expect(panesWrapper.length).toEqual(3)
     expect(navItemsWrapper[1].classes('is-active')).toBe(true)
+    expect(navWrapper.findAll('.is-icon-close').length).toEqual(2)
+    expect(navItemsWrapper[2].find('.is-icon-close').exists()).toBeFalsy()
 
     // remove one tab, check panes length
     await navItemsWrapper[1].find('.is-icon-close').trigger('click')
@@ -264,6 +304,8 @@ describe('Tabs.vue', () => {
     navItemsWrapper = navWrapper.findAll('.el-tabs__item')
     expect(navItemsWrapper.length).toEqual(2)
     expect(panesWrapper.length).toEqual(2)
+    expect(navWrapper.findAll('.is-icon-close').length).toEqual(1)
+    expect(navItemsWrapper[1].find('.is-icon-close').exists()).toBeFalsy()
 
     // add one tab, check panes length and current tab
     await wrapper.find('.el-tabs__new-tab').trigger('click')
@@ -274,6 +316,8 @@ describe('Tabs.vue', () => {
     expect(navItemsWrapper.length).toEqual(3)
     expect(panesWrapper.length).toEqual(3)
     expect(navItemsWrapper[2].classes('is-active')).toBe(true)
+    expect(navWrapper.findAll('.is-icon-close').length).toEqual(2)
+    expect(navItemsWrapper[1].find('.is-icon-close').exists()).toBeFalsy()
   })
 
   test('addable & closable', async () => {
@@ -398,12 +442,12 @@ describe('Tabs.vue', () => {
 
   test('closable in tab-pane', async () => {
     const wrapper = mount(() => (
-      <Tabs type="card" ref="tabs">
-        <TabPane label="label-1" closable>
+      <Tabs type="card" ref="tabs" closable={true}>
+        <TabPane label="label-1" closable={false}>
           A
         </TabPane>
         <TabPane label="label-2">B</TabPane>
-        <TabPane label="label-3" closable>
+        <TabPane label="label-3" closable={false}>
           C
         </TabPane>
         <TabPane label="label-4">D</TabPane>
@@ -411,9 +455,12 @@ describe('Tabs.vue', () => {
     ))
 
     const navWrapper = wrapper.findComponent(TabNav)
+    const navItemsWrapper = navWrapper.findAll('.el-tabs__item')
     await nextTick()
 
     expect(navWrapper.findAll('.is-icon-close').length).toBe(2)
+    expect(navItemsWrapper[0].find('.is-icon-close').exists()).toBeFalsy()
+    expect(navItemsWrapper[2].find('.is-icon-close').exists()).toBeFalsy()
   })
 
   test('disabled', async () => {

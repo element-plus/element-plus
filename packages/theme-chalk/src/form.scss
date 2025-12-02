@@ -1,7 +1,6 @@
 @use 'sass:map';
 
 @use 'mixins/mixins' as *;
-@use 'mixins/utils' as *;
 @use 'mixins/var' as *;
 @use 'common/var' as *;
 
@@ -135,6 +134,7 @@ $form-item-label-top-margin-bottom: map.merge(
       text-align: left;
       margin-bottom: #{map.get($form-item-label-top-margin-bottom, 'default')};
       line-height: #{map.get($form-item-label-top-line-height, 'default')};
+      padding-right: 0;
     }
   }
 

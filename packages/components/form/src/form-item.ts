@@ -11,7 +11,7 @@ export const formItemValidateStates = [
   'validating',
   'success',
 ] as const
-export type FormItemValidateState = typeof formItemValidateStates[number]
+export type FormItemValidateState = (typeof formItemValidateStates)[number]
 
 export type FormItemProp = Arrayable<string>
 
@@ -25,7 +25,6 @@ export const formItemProps = buildProps({
    */
   labelWidth: {
     type: [String, Number],
-    default: '',
   },
   /**
    * @description Position of label. If set to `'left'` or `'right'`, `label-width` prop is also required. The default is extend from `form label-position`.
@@ -73,8 +72,8 @@ export const formItemProps = buildProps({
    * @description Inline style validate message.
    */
   inlineMessage: {
-    type: [String, Boolean],
-    default: '',
+    type: Boolean,
+    default: undefined,
   },
   /**
    * @description Whether to show the error message.

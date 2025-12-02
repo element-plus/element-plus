@@ -9,7 +9,7 @@
           ns.em('content', type),
           ns.is('fixed', !!$slots.default),
           ns.is('dot', isDot),
-          ns.is('hide-zero', !showZero && props.value === 0),
+          ns.is('hide-zero', !showZero && value === 0),
           badgeClass,
         ]"
         :style="style"
@@ -50,8 +50,8 @@ const style = computed<StyleValue>(() => {
   return [
     {
       backgroundColor: props.color,
-      marginRight: addUnit(-(props.offset?.[0] ?? 0)),
-      marginTop: addUnit(props.offset?.[1] ?? 0),
+      marginRight: addUnit(-props.offset[0]),
+      marginTop: addUnit(props.offset[1]),
     },
     props.badgeStyle ?? {},
   ]

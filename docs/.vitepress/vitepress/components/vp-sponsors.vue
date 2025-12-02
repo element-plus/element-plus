@@ -20,7 +20,10 @@ const { dynamicClass } = useDynamicClass(
     font-weight: 300;
     font-size: 14px;
   }
-`
+`,
+  {
+    prefix: 'vp-s-',
+  }
 )
 </script>
 

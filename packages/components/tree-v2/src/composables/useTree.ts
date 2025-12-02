@@ -181,6 +181,12 @@ export function useTree(
     const expandedKeys = new Set<TreeKey>()
     const nodeMap = tree.value!.treeNodeMap
 
+    expandedKeySet.value.forEach((key) => {
+      const node = nodeMap.get(key)!
+      expandedKeySet.value.delete(node.key)
+      node.expanded = false
+    })
+
     keys.forEach((k) => {
       let node = nodeMap.get(k)
       while (node && !expandedKeys.has(node.key)) {
@@ -237,14 +243,20 @@ export function useTree(
       })
     }
     keySet.add(node.key)
-    node.expanded = true
-    emit(NODE_EXPAND, node.data, node)
+    const _node = getNode(node.key)
+    if (_node) {
+      _node.expanded = true
+      emit(NODE_EXPAND, _node.data, _node)
+    }
   }
 
   function collapseNode(node: TreeNode) {
     expandedKeySet.value.delete(node.key)
-    node.expanded = false
-    emit(NODE_COLLAPSE, node.data, node)
+    const _node = getNode(node.key)
+    if (_node) {
+      _node.expanded = false
+      emit(NODE_COLLAPSE, _node.data, _node)
+    }
   }
 
   function isDisabled(node: TreeNode): boolean {

@@ -34,8 +34,8 @@ export const messagePlacement = [
 
 export const MESSAGE_DEFAULT_PLACEMENT = 'top'
 
-export type MessageType = typeof messageTypes[number]
-export type MessagePlacement = typeof messagePlacement[number]
+export type MessageType = (typeof messageTypes)[number]
+export type MessagePlacement = (typeof messagePlacement)[number]
 /** @deprecated please use `MessageType` instead */
 export type messageType = MessageType // will be removed in 3.0.0.
 

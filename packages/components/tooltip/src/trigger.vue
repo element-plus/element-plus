@@ -18,8 +18,13 @@
 </template>
 
 <script lang="ts" setup>
-import { inject, ref, toRef } from 'vue'
+import { inject, nextTick, ref, toRef, unref } from 'vue'
 import { ElPopperTrigger } from '@element-plus/components/popper'
+import {
+  composeEventHandlers,
+  focusElement,
+  getEventCode,
+} from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { TOOLTIP_INJECTION_KEY } from './constants'
 import { useTooltipTriggerProps } from './trigger'
@@ -42,14 +47,31 @@ const { id, open, onOpen, onClose, onToggle } = inject(
 const triggerRef = ref<OnlyChildExpose | null>(null)
 
 const trigger = toRef(props, 'trigger')
-const onMouseenter = whenTrigger(trigger, 'hover', onOpen)
-const onMouseleave = whenTrigger(trigger, 'hover', onClose)
-const onClick = whenTrigger(trigger, 'click', (e) => {
-  // distinguish left click
-  if ((e as MouseEvent).button === 0) {
-    onToggle(e)
-  }
-})
+const onMouseenter = composeEventHandlers(
+  stopWhenControlledOrDisabled,
+  whenTrigger(trigger, 'hover', (e) => {
+    onOpen(e)
+
+    if (props.focusOnTarget && e.target) {
+      nextTick(() => {
+        focusElement(e.target as HTMLElement, { preventScroll: true })
+      })
+    }
+  })
+)
+const onMouseleave = composeEventHandlers(
+  stopWhenControlledOrDisabled,
+  whenTrigger(trigger, 'hover', onClose)
+)
+const onClick = composeEventHandlers(
+  stopWhenControlledOrDisabled,
+  whenTrigger(trigger, 'click', (e) => {
+    // distinguish left click
+    if ((e as MouseEvent).button === 0) {
+      onToggle(e)
+    }
+  })
+)
 
 const onFocus = whenTrigger(trigger, 'focus', onOpen)
 
@@ -65,6 +87,17 @@ const onKeydown = (e: KeyboardEvent) => {
   if (props.triggerKeys.includes(code)) {
     e.preventDefault()
     onToggle(e)
+  })
+)
+
+const onKeydown = composeEventHandlers(
+  stopWhenControlledOrDisabled,
+  (e: Event) => {
+    const code = getEventCode(e as KeyboardEvent)
+    if (props.triggerKeys.includes(code)) {
+      e.preventDefault()
+      onToggle(e)
+    }
   }
 }
 

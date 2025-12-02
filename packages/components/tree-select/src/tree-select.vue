@@ -45,6 +45,7 @@ export default defineComponent({
     expose(methods)
     onMounted(() => {
       Object.assign(methods, {
+        //TODO: let only tree and select in 3.0
         ...pick(tree.value, [
           'filter',
           'updateKeyChildren',
@@ -66,6 +67,8 @@ export default defineComponent({
           'insertAfter',
         ]),
         ...pick(select.value, ['focus', 'blur', 'selectedLabel']),
+        treeRef: tree.value,
+        selectRef: select.value,
       })
     })
 

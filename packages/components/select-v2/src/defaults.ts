@@ -17,8 +17,8 @@ import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { ArrowDown, CircleClose } from '@element-plus/icons-vue'
 import { tagProps } from '../../tag'
 import { defaultProps } from './useProps'
-import SelectV2 from './select.vue'
 
+import type SelectV2 from './select.vue'
 import type { Option, OptionType } from './select.types'
 import type { Props } from './useProps'
 import type { EmitFn } from '@element-plus/utils/vue/typescript'
@@ -91,7 +91,10 @@ export const selectV2Props = buildProps({
   /**
    * @description is disabled
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description
    */
@@ -139,7 +142,6 @@ export const selectV2Props = buildProps({
    * @description biding value
    */
   modelValue: {
-    // eslint-disable-next-line prettier/prettier
     type: definePropType<
       any[] | string | number | boolean | Record<string, any> | any
     >([Array, String, Number, Boolean, Object]),
@@ -218,12 +220,19 @@ export const selectV2Props = buildProps({
    */
   popperOptions: {
     type: definePropType<Partial<Options>>(Object),
-    default: () => ({} as Partial<Options>),
+    default: () => ({}) as Partial<Options>,
   },
   /**
    * @description whether search data from server
    */
   remote: Boolean,
+  /**
+   * @description debounce delay during remote search, in milliseconds
+   */
+  debounce: {
+    type: Number,
+    default: 300,
+  },
   /**
    * @description size of component
    */
@@ -260,6 +269,10 @@ export const selectV2Props = buildProps({
     type: Number,
     default: 12,
   },
+  /**
+   * @description in remote search method show suffix icon
+   */
+  remoteShowSuffix: Boolean,
   /**
    * @description Determines whether the arrow is displayed
    */

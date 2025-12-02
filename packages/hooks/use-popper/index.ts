@@ -121,7 +121,7 @@ function deriveState(state: State) {
       (element) =>
         [element, state.styles[element] || {}] as [
           string,
-          State['styles'][keyof State['styles']]
+          State['styles'][keyof State['styles']],
         ]
     )
   )
@@ -131,7 +131,7 @@ function deriveState(state: State) {
       (element) =>
         [element, state.attributes[element]] as [
           string,
-          State['attributes'][keyof State['attributes']]
+          State['attributes'][keyof State['attributes']],
         ]
     )
   )

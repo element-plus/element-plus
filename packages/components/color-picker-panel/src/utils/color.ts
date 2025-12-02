@@ -78,6 +78,15 @@ export default class Color {
     this.doOnChange()
   }
 
+  clear() {
+    this._isValid = false
+    this.value = ''
+    this._hue = 0
+    this._saturation = 100
+    this._value = 100
+    this._alpha = 100
+  }
+
   compare(color: this) {
     const compareColor = new TinyColor({
       h: color._hue,

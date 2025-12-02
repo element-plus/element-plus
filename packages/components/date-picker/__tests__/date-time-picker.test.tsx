@@ -1184,4 +1184,39 @@ describe('Datetimerange', () => {
     )[1]
     expect((timeInput as HTMLInputElement).value).toBe('10:10:00')
   })
+
+  it('should not emit update:model-value on panel open when value format as string', async () => {
+    const modelValue = ['2025-09-01', '2025-09-07']
+    const onUpdateModelValue = vi.fn()
+    const wrapper = _mount(() => (
+      <DatePicker
+        modelValue={modelValue}
+        type="datetimerange"
+        onUpdate:modelValue={onUpdateModelValue}
+      />
+    ))
+    await wrapper.find('.el-date-editor').trigger('click')
+    expect(onUpdateModelValue).not.toHaveBeenCalled()
+  })
+
+  it('should left list time be sync with input input change', async () => {
+    const modelValue = ['2025-09-01', '2025-09-07']
+    const wrapper = _mount(() => (
+      <DatePicker modelValue={modelValue} type="datetimerange" />
+    ))
+
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    const leftTimeInput = document.querySelectorAll<HTMLInputElement>(
+      '.el-date-range-picker__time-picker-wrap input'
+    )[1]
+    leftTimeInput.value = 'AM 12:00:01'
+    triggerEvent(leftTimeInput, 'input')
+    await nextTick()
+    expect(
+      document.querySelectorAll('.el-time-spinner__list .is-active')[2]
+        .textContent
+    ).toBe('01')
+  })
 })

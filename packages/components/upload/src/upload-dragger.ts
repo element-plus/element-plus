@@ -4,7 +4,10 @@ import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type UploadDragger from './upload-dragger.vue'
 
 export const uploadDraggerProps = buildProps({
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
 } as const)
 export type UploadDraggerProps = ExtractPropTypes<typeof uploadDraggerProps>
 export type UploadDraggerPropsPublic = __ExtractPublicPropTypes<

@@ -41,7 +41,10 @@ export const colorPickerProps = buildProps({
   /**
    * @description whether to disable the ColorPicker
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description size of ColorPicker
    */
@@ -49,10 +52,11 @@ export const colorPickerProps = buildProps({
   /**
    * @description custom class name for ColorPicker's dropdown
    */
-  popperClass: {
-    type: String,
-    default: '',
-  },
+  popperClass: useTooltipContentProps.popperClass,
+  /**
+   * @description custom style for ColorPicker's dropdown
+   */
+  popperStyle: useTooltipContentProps.popperStyle,
   /**
    * @description ColorPicker tabindex
    */

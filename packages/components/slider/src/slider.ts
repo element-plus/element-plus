@@ -100,7 +100,10 @@ export const sliderProps = buildProps({
   /**
    * @description whether Slider is disabled
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description whether to select a range
    */
@@ -113,13 +116,6 @@ export const sliderProps = buildProps({
    * @description slider height, required in vertical mode
    */
   height: String,
-  /**
-   * @description debounce delay when typing, in milliseconds, works when `show-input` is true
-   */
-  debounce: {
-    type: Number,
-    default: 300,
-  },
   /**
    * @description when `range` is true, screen reader label for the start of the range
    */
