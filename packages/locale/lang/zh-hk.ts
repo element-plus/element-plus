@@ -157,6 +157,9 @@ export default {
       sortLabel: 'Sort by {column}', // to be translated
       filterLabel: 'Filter by {column}', // to be translated
     },
+    tag: {
+      close: '關閉此標籤',
+    },
     tour: {
       next: '下一步',
       previous: '上一步',
