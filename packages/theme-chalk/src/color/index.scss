@@ -9,8 +9,8 @@
 @function mix-overlay-color($upper, $lower) {
   $opacity: color.alpha($upper);
 
-  $red: color.channel($upper, 'red', $space: rgb) * $opacity + color.channel($lower, 'red', $space: rgb) *
-    (1 - $opacity);
+  $red: color.channel($upper, 'red', $space: rgb) * $opacity +
+    color.channel($lower, 'red', $space: rgb) * (1 - $opacity);
   $green: color.channel($upper, 'green', $space: rgb) * $opacity +
     color.channel($lower, 'green', $space: rgb) * (1 - $opacity);
   $blue: color.channel($upper, 'blue', $space: rgb) * $opacity +
