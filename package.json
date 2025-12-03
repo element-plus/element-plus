@@ -123,7 +123,7 @@
     }
   },
   "lint-staged": {
-    "*.{vue,js,ts,jsx,tsx,md,json}": [
+    "*.{vue,js,ts,jsx,tsx,md,json,scss}": [
       "eslint --fix --concurrency=auto",
       "prettier --write --experimental-cli"
     ]
