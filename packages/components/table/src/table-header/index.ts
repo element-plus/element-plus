@@ -12,6 +12,7 @@ import {
 } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { useNamespace } from '@element-plus/hooks'
+import { useLocale } from '@element-plus/hooks/use-locale'
 import FilterPanel from '../filter-panel.vue'
 import useLayoutObserver from '../layout-observer'
 import { TABLE_INJECTION_KEY } from '../tokens'
@@ -136,6 +137,8 @@ export default defineComponent({
       props as TableHeaderProps<any>
     )
 
+    const { t } = useLocale()
+
     instance.state = {
       onColumnsChange,
       onScrollableChange,
@@ -144,6 +147,7 @@ export default defineComponent({
 
     return {
       ns,
+      t,
       filterPanels,
       onColumnsChange,
       onScrollableChange,
@@ -170,6 +174,7 @@ export default defineComponent({
   render() {
     const {
       ns,
+      t,
       isGroup,
       columnRows,
       getHeaderCellStyle,
@@ -222,6 +227,7 @@ export default defineComponent({
                 colspan: column.colSpan,
                 key: `${column.id}-thead`,
                 rowspan: column.rowSpan,
+                scope: column.colSpan > 1 ? 'colgroup' : 'col',
                 style: getHeaderCellStyle(
                   rowIndex,
                   cellIndex,
@@ -268,11 +274,15 @@ export default defineComponent({
                       : column.label,
                     column.sortable &&
                       h(
-                        'span',
+                        'button',
                         {
+                          type: 'button',
+                          class: 'caret-wrapper',
+                          'aria-label': t('el.table.sortLabel', {
+                            column: column.label || '',
+                          }),
                           onClick: ($event: Event) =>
                             handleSortClick($event, column),
-                          class: 'caret-wrapper',
                         },
                         [
                           h('i', {

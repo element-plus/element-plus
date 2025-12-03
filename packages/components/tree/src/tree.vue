@@ -41,7 +41,6 @@ import {
   computed,
   defineComponent,
   getCurrentInstance,
-  inject,
   provide,
   ref,
   watch,
@@ -49,7 +48,6 @@ import {
 import { definePropType, iconPropType } from '@element-plus/utils'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { formItemContextKey } from '@element-plus/components/form'
-import { selectKey } from '@element-plus/components/select/src/token'
 import TreeStore from './model/tree-store'
 import { getNodeKey as getNodeKeyUtil, handleCurrentChange } from './model/util'
 import ElTreeNode from './tree-node.vue'
@@ -151,7 +149,6 @@ export default defineComponent({
   setup(props, ctx) {
     const { t } = useLocale()
     const ns = useNamespace('tree')
-    const selectInfo = inject(selectKey, null)
 
     const store = ref<TreeStore>(
       new TreeStore({
@@ -190,16 +187,26 @@ export default defineComponent({
 
     useKeydown({ el$ }, store)
 
+    const instance = getCurrentInstance()
+
+    const isSelectTree = computed(() => {
+      let parent = instance?.parent
+      while (parent) {
+        if (parent.type.name === 'ElTreeSelect') {
+          return true
+        }
+        parent = parent.parent
+      }
+      return false
+    })
+
     const isEmpty = computed(() => {
       const { childNodes } = root.value
-      const hasFilteredOptions = selectInfo
-        ? (selectInfo as any).hasFilteredOptions !== 0
-        : false
       return (
         (!childNodes ||
           childNodes.length === 0 ||
           childNodes.every(({ visible }) => !visible)) &&
-        !hasFilteredOptions
+        !isSelectTree.value
       )
     })
 
@@ -251,9 +258,15 @@ export default defineComponent({
       return getNodeKeyUtil(props.nodeKey, node.data)
     }
 
+    const requireNodeKey = (methodName: string) => {
+      if (!props.nodeKey) {
+        throw new Error(`[Tree] nodeKey is required in ${methodName}`)
+      }
+    }
+
     const getNodePath = (data: TreeKey | TreeNodeData) => {
-      if (!props.nodeKey)
-        throw new Error('[Tree] nodeKey is required in getNodePath')
+      requireNodeKey('getNodePath')
+
       const node = store.value.getNode(data)
       if (!node) return []
       const path = [node.data]
@@ -282,21 +295,21 @@ export default defineComponent({
     }
 
     const getCurrentKey = (): TreeKey | null => {
-      if (!props.nodeKey)
-        throw new Error('[Tree] nodeKey is required in getCurrentKey')
+      requireNodeKey('getCurrentKey')
+
       const currentNode = getCurrentNode()
-      return currentNode ? currentNode[props.nodeKey] : null
+      return currentNode ? currentNode[props.nodeKey!] : null
     }
 
     const setCheckedNodes = (nodes: Node[], leafOnly?: boolean) => {
-      if (!props.nodeKey)
-        throw new Error('[Tree] nodeKey is required in setCheckedNodes')
+      requireNodeKey('setCheckedNodes')
+
       store.value.setCheckedNodes(nodes, leafOnly)
     }
 
     const setCheckedKeys = (keys: TreeKey[], leafOnly?: boolean) => {
-      if (!props.nodeKey)
-        throw new Error('[Tree] nodeKey is required in setCheckedKeys')
+      requireNodeKey('setCheckedKeys')
+
       store.value.setCheckedKeys(keys, leafOnly)
     }
 
@@ -317,8 +330,7 @@ export default defineComponent({
     }
 
     const setCurrentNode = (node: Node, shouldAutoExpandParent = true) => {
-      if (!props.nodeKey)
-        throw new Error('[Tree] nodeKey is required in setCurrentNode')
+      requireNodeKey('setCurrentNode')
 
       handleCurrentChange(store, ctx.emit, () => {
         broadcastExpanded(node)
@@ -330,8 +342,7 @@ export default defineComponent({
       key: TreeKey | null = null,
       shouldAutoExpandParent = true
     ) => {
-      if (!props.nodeKey)
-        throw new Error('[Tree] nodeKey is required in setCurrentKey')
+      requireNodeKey('setCurrentKey')
 
       handleCurrentChange(store, ctx.emit, () => {
         broadcastExpanded()
@@ -378,8 +389,8 @@ export default defineComponent({
     }
 
     const updateKeyChildren = (key: TreeKey, data: TreeData) => {
-      if (!props.nodeKey)
-        throw new Error('[Tree] nodeKey is required in updateKeyChild')
+      requireNodeKey('updateKeyChild')
+
       store.value.updateChildren(key, data)
     }
 
@@ -389,7 +400,7 @@ export default defineComponent({
       store,
       root,
       currentNode,
-      instance: getCurrentInstance(),
+      instance,
     })
 
     provide(formItemContextKey, undefined)

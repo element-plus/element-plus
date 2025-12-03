@@ -193,6 +193,35 @@ describe('Table.vue', () => {
       wrapper.unmount()
     })
 
+    it('updates height and maxHeight sequentially without recursive error', async () => {
+      const errorSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      const wrapper = createTable(':height="height" :max-height="maxHeight"', {
+        data() {
+          return {
+            height: 200,
+            maxHeight: 400,
+          }
+        },
+      })
+
+      await doubleWait()
+      wrapper.vm.maxHeight = 500
+      await doubleWait()
+      wrapper.vm.height = 250
+      await doubleWait()
+
+      wrapper.unmount()
+      const hasRecursiveError = errorSpy.mock.calls.some((call) =>
+        call.some(
+          (msg) =>
+            typeof msg === 'string' &&
+            msg.includes('Maximum recursive updates exceeded')
+        )
+      )
+      errorSpy.mockRestore()
+      expect(hasRecursiveError).toBe(false)
+    })
+
     it('stripe', async () => {
       const wrapper = createTable('stripe')
       await doubleWait()
@@ -2128,6 +2157,52 @@ describe('Table.vue', () => {
       await doubleWait()
       expect(wrapper.vm.selected.length).toEqual(getTestData().length + 2)
     })
+
+    it('a11y', async () => {
+      wrapper = mount({
+        components: {
+          ElTableColumn,
+          ElTable,
+        },
+        template: `
+          <el-table :data="testData" row-key="release">
+            <el-table-column prop="name" label="片名" />
+            <el-table-column prop="release" label="发行日期" />
+            <el-table-column prop="director" label="导演" />
+            <el-table-column prop="runtime" label="时长（分）" />
+          </el-table>
+        `,
+        data() {
+          const testData = getTestData() as any
+          testData[1].children = [
+            {
+              name: "A Bug's Life copy 1",
+              release: '1998-11-25-1',
+              director: 'John Lasseter',
+              runtime: 95,
+            },
+            {
+              name: "A Bug's Life copy 2",
+              release: '1998-11-25-2',
+              director: 'John Lasseter',
+              runtime: 95,
+            },
+          ]
+          return {
+            testData,
+          }
+        },
+      })
+      await doubleWait()
+      const button = wrapper.find('.el-table__expand-icon')
+      expect(button.attributes('aria-label')).toBe('Expand this row')
+      expect(button.attributes('aria-expanded')).toBe('false')
+
+      await button.trigger('click')
+      await doubleWait()
+      expect(button.attributes('aria-label')).toBe('Collapse this row')
+      expect(button.attributes('aria-expanded')).toBe('true')
+    })
   })
 
   it('when tableLayout is auto', async () => {
@@ -2385,6 +2460,116 @@ describe('Table.vue', () => {
     mockRangeRect.mockRestore()
     mockCellRect.mockRestore()
     mockCellRect2.mockRestore()
+  })
+
+  it('should not show tooltip when cell content is empty', async () => {
+    const testData = [
+      {
+        id: 1,
+        date: '2016-05-02',
+        name: '', // 空值 - 不应该显示 tooltip
+        address: 'No. 189, Grove St, Los Angeles',
+      },
+      {
+        id: 2,
+        date: '2016-05-04',
+        name: '   ', // 只有空格 - 不应该显示 tooltip
+        address: 'No. 189, Grove St, Los Angeles',
+      },
+      {
+        id: 3,
+        date: '2016-05-01',
+        name: 'wangxiaohu',
+        address: 'No. 189, Grove St, Los Angeles',
+        children: [
+          {
+            id: 31,
+            date: '2016-05-01',
+            name: 'wangxiaohu',
+            address: 'No. 189, Grove St, Los Angeles',
+          },
+          {
+            id: 32,
+            date: '2016-05-01',
+            name: 'wangxiaohu',
+            address: 'No. 189, Grove St, Los Angeles',
+          },
+        ],
+      },
+      {
+        id: 4,
+        date: '2016-05-03',
+        name: 'wangxiaohu',
+        address: 'No. 189, Grove St, Los Angeles',
+      },
+    ]
+
+    const mockRangeRect = vi
+      .spyOn(Range.prototype, 'getBoundingClientRect')
+      .mockReturnValue({
+        width: 150,
+        height: 30,
+      } as DOMRect)
+
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+      template: `
+           <el-table
+              :data="testData"
+              style="width: 100%; margin-bottom: 20px"
+              row-key="id"
+              border
+              default-expand-all
+            >
+              <el-table-column
+                class-name="empty_cell"
+                align="right"
+                width="60"
+                label="行号"
+                :show-overflow-tooltip="true"
+              >
+                <template v-slot>
+                  <span></span>
+                </template>
+              </el-table-column>
+              <el-table-column prop="date" label="Date" sortable />
+              <el-table-column
+                :show-overflow-tooltip="true"
+                width="20"
+                prop="address"
+                label="address"
+                sortable
+              />
+            </el-table>
+      `,
+      data() {
+        return {
+          testData,
+        }
+      },
+    })
+    await doubleWait()
+    const emptyCells = wrapper.findAll('.el-table__body-wrapper .empty_cell')
+    expect(emptyCells.length).toBeGreaterThan(0)
+    for (const cell of emptyCells) {
+      const cellElement = cell.find('.cell')
+      expect(cellElement.exists()).toBe(true)
+      const mockCellRect = vi
+        .spyOn(cellElement.element, 'getBoundingClientRect')
+        .mockReturnValue({
+          width: 100,
+          height: 30,
+        } as DOMRect)
+      await cell.trigger('mouseenter')
+      await rAF()
+      expect(wrapper.find('.el-popper').exists()).toBeFalsy()
+      mockCellRect.mockRestore()
+    }
+    mockRangeRect.mockRestore()
+    wrapper.unmount()
   })
 
   it('should cleanup tooltip dynamically', async () => {

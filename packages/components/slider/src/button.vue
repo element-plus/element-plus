@@ -3,7 +3,7 @@
     ref="button"
     :class="[ns.e('button-wrapper'), { hover: hovering, dragging }]"
     :style="wrapperStyle"
-    :tabindex="disabled ? -1 : 0"
+    :tabindex="disabled ? undefined : 0"
     @mouseenter="handleMouseEnter"
     @mouseleave="handleMouseLeave"
     @mousedown="onButtonDown"

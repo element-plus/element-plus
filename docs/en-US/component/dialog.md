@@ -169,7 +169,7 @@ dialog/events
 
 | Name                       | Description                                                                                                                    | Type                                   | Default     |
 | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------- | ----------- |
-| model-value / v-model      | visibility of Dialog                                                                                                           | ^[boolean]                             | —           |
+| model-value / v-model      | visibility of Dialog                                                                                                           | ^[boolean]                             | false       |
 | title                      | title of Dialog. Can also be passed with a named slot (see the following table)                                                | ^[string]                              | ''          |
 | width                      | width of Dialog, default is 50%                                                                                                | ^[string] / ^[number]                  | ''          |
 | fullscreen                 | whether the Dialog takes up full screen                                                                                        | ^[boolean]                             | false       |

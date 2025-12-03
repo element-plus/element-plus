@@ -1,4 +1,4 @@
-import { watch } from 'vue'
+import { nextTick, watch } from 'vue'
 import { isNil } from 'lodash-unified'
 import { useVModel } from '@vueuse/core'
 import { debugWarn, throwError } from '@element-plus/utils'
@@ -58,6 +58,10 @@ export const useHandlers = (
     )
   }
 
+  const emitChange = (file: UploadFile) => {
+    nextTick(() => props.onChange(file, uploadFiles.value))
+  }
+
   const handleError: UploadContentProps['onError'] = (err, rawFile) => {
     const file = getFile(rawFile)
     if (!file) return
@@ -66,7 +70,7 @@ export const useHandlers = (
     file.status = 'fail'
     removeFile(file)
     props.onError(err, file, uploadFiles.value)
-    props.onChange(file, uploadFiles.value)
+    emitChange(file)
   }
 
   const handleProgress: UploadContentProps['onProgress'] = (evt, rawFile) => {
@@ -88,7 +92,7 @@ export const useHandlers = (
     file.status = 'success'
     file.response = response
     props.onSuccess(response, file, uploadFiles.value)
-    props.onChange(file, uploadFiles.value)
+    emitChange(file)
   }
 
   const handleStart: UploadContentProps['onStart'] = (file) => {
@@ -110,7 +114,7 @@ export const useHandlers = (
       }
     }
     uploadFiles.value = [...uploadFiles.value, uploadFile]
-    props.onChange(uploadFile, uploadFiles.value)
+    emitChange(uploadFile)
   }
 
   const handleRemove: UploadContentProps['onRemove'] = async (

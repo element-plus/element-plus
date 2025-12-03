@@ -75,6 +75,8 @@ button/icon
 
 Displayed as a button group, can be used to group a series of similar operations.
 
+In ^(2.11.9) you can use the `direction` attribute.
+
 :::demo Use tag `<el-button-group>` to group your buttons.
 
 button/group
@@ -180,10 +182,11 @@ button/custom
 
 ### ButtonGroup Attributes
 
-| Name | Description                                      | Type                                                               | Default |
-| ---- | ------------------------------------------------ | ------------------------------------------------------------------ | ------- |
-| size | control the size of buttons in this button-group | ^[enum]`'large' \| 'default' \| 'small'`                           | —       |
-| type | control the type of buttons in this button-group | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | —       |
+| Name                | Description                                      | Type                                                               | Default    |
+| ------------------- | ------------------------------------------------ | ------------------------------------------------------------------ | ---------- |
+| size                | control the size of buttons in this button-group | ^[enum]`'large' \| 'default' \| 'small'`                           | —          |
+| type                | control the type of buttons in this button-group | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | —          |
+| direction ^(2.11.9) | display direction                                | ^[enum]`'horizontal' \| 'vertical'`                                | horizontal |
 
 ### ButtonGroup Slots
 

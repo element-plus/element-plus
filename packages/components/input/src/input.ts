@@ -22,6 +22,17 @@ export type InputModelModifiers = {
   trim?: boolean
 }
 export type InputAutoSize = { minRows?: number; maxRows?: number } | boolean
+// Some commonly used values for input type
+export type InputType =
+  | 'text'
+  | 'textarea'
+  | 'number'
+  | 'password'
+  | 'email'
+  | 'search'
+  | 'tel'
+  | 'url'
+  | (string & NonNullable<unknown>)
 
 export const inputProps = buildProps({
   /**
@@ -38,7 +49,10 @@ export const inputProps = buildProps({
   /**
    * @description whether to disable
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description binding value
    */
@@ -70,10 +84,10 @@ export const inputProps = buildProps({
     type: [String, Number],
   },
   /**
-   * @description type of input
+   * @description type of input, see more in [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types)
    */
   type: {
-    type: String,
+    type: definePropType<InputType>(String),
     default: 'text',
   },
   /**
@@ -219,7 +233,8 @@ export type InputPropsPublic = __ExtractPublicPropTypes<typeof inputProps>
 export const inputEmits = {
   [UPDATE_MODEL_EVENT]: (value: string) => isString(value),
   input: (value: string) => isString(value),
-  change: (value: string) => isString(value),
+  change: (value: string, evt?: Event) =>
+    isString(value) && (evt instanceof Event || evt === undefined),
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
   blur: (evt: FocusEvent) => evt instanceof FocusEvent,
   clear: () => true,

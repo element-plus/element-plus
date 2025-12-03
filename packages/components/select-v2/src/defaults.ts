@@ -84,7 +84,10 @@ export const selectV2Props = buildProps({
   /**
    * @description is disabled
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description
    */
@@ -259,6 +262,10 @@ export const selectV2Props = buildProps({
     type: Number,
     default: 12,
   },
+  /**
+   * @description in remote search method show suffix icon
+   */
+  remoteShowSuffix: Boolean,
   /**
    * @description Determines whether the arrow is displayed
    */

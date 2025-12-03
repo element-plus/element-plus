@@ -9,6 +9,7 @@ import {
   debugWarn,
   ensureArray,
   getEventCode,
+  isAndroid,
   isUndefined,
 } from '@element-plus/utils'
 import { useComposition, useFocusController } from '@element-plus/hooks'
@@ -119,6 +120,21 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
     }
   }
 
+  const handleKeyup = (event: KeyboardEvent) => {
+    if (isComposing.value || !isAndroid()) return
+    const code = getEventCode(event)
+
+    switch (code) {
+      case EVENT_CODE.space:
+        if (props.trigger === EVENT_CODE.space) {
+          event.preventDefault()
+          event.stopPropagation()
+          handleAddTag()
+        }
+        break
+    }
+  }
+
   const handleAddTag = () => {
     const value = inputValue.value?.trim()
     if (!value || inputLimit.value) return
@@ -221,6 +237,7 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
     handleDragged,
     handleInput,
     handleKeydown,
+    handleKeyup,
     handleAddTag,
     handleRemoveTag,
     handleClear,

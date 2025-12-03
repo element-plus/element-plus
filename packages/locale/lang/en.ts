@@ -17,6 +17,7 @@ export default {
       svLabel: 'pick saturation and brightness value',
       svDescription:
         'saturation {saturation}, brightness {brightness}, current color is {color}',
+      predefineDescription: 'select {value} as the color',
     },
     datepicker: {
       now: 'Now',
@@ -151,6 +152,15 @@ export default {
       resetFilter: 'Reset',
       clearFilter: 'All',
       sumText: 'Sum',
+      selectAllLabel: 'Select all rows',
+      selectRowLabel: 'Select this row',
+      expandRowLabel: 'Expand this row',
+      collapseRowLabel: 'Collapse this row',
+      sortLabel: 'Sort by {column}',
+      filterLabel: 'Filter by {column}',
+    },
+    tag: {
+      close: 'Close this tag',
     },
     tour: {
       next: 'Next',

@@ -525,8 +525,8 @@ const handleChange = () => {
     if (value) {
       if (isValidValue(value)) {
         emitInput(dayOrDaysToDate(value))
-        userInput.value = null
       }
+      userInput.value = null
     }
   }
   if (userInput.value === '') {
