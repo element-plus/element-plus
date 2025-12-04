@@ -1,10 +1,16 @@
 import { placements } from '@popperjs/core'
 import { CommonProps } from '@element-plus/components/cascader-panel'
-import { buildProps, definePropType, isBoolean } from '@element-plus/utils'
+import {
+  buildProps,
+  definePropType,
+  iconPropType,
+  isBoolean,
+} from '@element-plus/utils'
 import { useEmptyValuesProps, useSizeProp } from '@element-plus/hooks'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { tagProps } from '@element-plus/components/tag'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { CircleClose } from '@element-plus/icons-vue'
 
 import type {
   CascaderNode,
@@ -25,11 +31,21 @@ export const cascaderProps = buildProps({
   /**
    * @description whether Cascader is disabled
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description whether selected value can be cleared
    */
   clearable: Boolean,
+  /**
+   * @description custom clear icon component
+   */
+  clearIcon: {
+    type: iconPropType,
+    default: CircleClose,
+  },
   /**
    * @description whether the options can be searched
    */
@@ -70,7 +86,7 @@ export const cascaderProps = buildProps({
     default: 1,
   },
   /**
-   * @description native input id
+   * @description whether show all selected tags when mouse hover text of collapse-tags. To use this, collapse-tags must be true
    */
   collapseTagsTooltip: Boolean,
   /**
@@ -111,10 +127,11 @@ export const cascaderProps = buildProps({
   /**
    * @description custom class name for Cascader's dropdown
    */
-  popperClass: {
-    type: String,
-    default: '',
-  },
+  popperClass: useTooltipContentProps.popperClass,
+  /**
+   * @description custom style for Cascader's dropdown
+   */
+  popperStyle: useTooltipContentProps.popperStyle,
   /**
    * @description whether cascader popup is teleported
    */
@@ -129,7 +146,7 @@ export const cascaderProps = buildProps({
   /**
    * @description tag type
    */
-  // eslint-disable-next-line vue/require-prop-types
+
   tagType: { ...tagProps.type, default: 'info' },
   /**
    * @description tag effect

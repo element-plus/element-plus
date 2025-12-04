@@ -165,7 +165,9 @@
     }
 
     @include e('sort-icon') {
-      transition: opacity, display getCssVar('transition-duration', '');
+      transition:
+        opacity,
+        display getCssVar('transition-duration', '');
       opacity: 0.6;
       display: none;
 

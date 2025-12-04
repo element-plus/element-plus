@@ -18,10 +18,10 @@
     bottom: 0;
   }
   @include e(mask-horizontal) {
-    cursor: col-resize;
+    cursor: ew-resize;
   }
   @include e(mask-vertical) {
-    cursor: row-resize;
+    cursor: ns-resize;
   }
 
   @include e(horizontal) {
@@ -37,12 +37,7 @@
   flex: none;
   position: relative;
   user-select: none;
-  @include e(disable) {
-    cursor: auto !important;
-    &::before {
-      background-color: getCssVar('border-color-light') !important;
-    }
-  }
+
   @include e(dragger) {
     z-index: 1;
     position: absolute;
@@ -50,7 +45,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    &::before {
+    &::before,
+    &::after {
       content: '';
       position: absolute;
       top: 50%;
@@ -58,27 +54,47 @@
       transform: translate(-50%, -50%);
       background-color: getCssVar('border-color-light');
     }
+
+    &:not(.is-lazy)::after {
+      display: none;
+    }
+
+    &::after {
+      opacity: 0.4;
+    }
+
     &:hover {
-      &::before {
+      &:not(.is-disabled)::before {
         background-color: getCssVar('color-primary-light-5');
       }
     }
   }
   @include e(dragger-horizontal) {
-    &::before {
+    &::before,
+    &::after {
       height: 100%;
       width: 2px;
     }
   }
   @include e(dragger-vertical) {
-    &::before {
+    &::before,
+    &::after {
       height: 2px;
       width: 100%;
     }
   }
   @include e(dragger-active) {
-    &::before {
+    &::before,
+    &::after {
       background-color: getCssVar('color-primary-light-3');
+    }
+
+    &.#{$namespace}-splitter-bar__dragger-horizontal::after {
+      transform: translate(calc(-50% + getCssVar('splitter-bar-offset')), -50%);
+    }
+
+    &.#{$namespace}-splitter-bar__dragger-vertical::after {
+      transform: translate(-50%, calc(-50% + getCssVar('splitter-bar-offset')));
     }
   }
   &:hover {

@@ -5,6 +5,7 @@
     "esbenp.prettier-vscode",
     "antfu.unocss",
     "lokalise.i18n-ally",
-    "vitest.explorer"
+    "vitest.explorer",
+    "GitHub.vscode-pull-request-github"
   ]
 }

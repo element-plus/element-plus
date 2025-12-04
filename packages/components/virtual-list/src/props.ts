@@ -80,6 +80,11 @@ export const virtualizedProps = buildProps({
     default: 'div',
   },
 
+  innerProps: {
+    type: definePropType<Record<string, unknown>>(Object),
+    default: () => ({}),
+  },
+
   style: {
     type: definePropType<StyleValue>([Object, String, Array]),
   },

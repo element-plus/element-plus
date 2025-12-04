@@ -14,7 +14,7 @@ import { useNamespace } from '@element-plus/hooks'
 import { throwError } from '@element-plus/utils'
 import { getCollapsible, isCollapsible } from './hooks/usePanel'
 import SplitBar from './split-bar.vue'
-import { splitterPanelProps } from './split-panel'
+import { splitterPanelEmits, splitterPanelProps } from './split-panel'
 import { getPct, getPx, isPct, isPx } from './hooks'
 import { splitterRootContextKey } from './type'
 
@@ -27,9 +27,7 @@ defineOptions({
 
 const props = defineProps(splitterPanelProps)
 
-const emits = defineEmits<{
-  (e: 'update:size', value: number): void
-}>()
+const emits = defineEmits(splitterPanelEmits)
 const splitterContext = inject(splitterRootContextKey)
 if (!splitterContext)
   throwError(
@@ -37,7 +35,7 @@ if (!splitterContext)
     'usage: <el-splitter><el-splitter-panel /></el-splitter/>'
   )
 
-const { panels, layout, containerSize, pxSizes } = toRefs(splitterContext)
+const { panels, layout, lazy, containerSize, pxSizes } = toRefs(splitterContext)
 
 const {
   registerPanel,
@@ -115,7 +113,12 @@ let isSizeUpdating = false
 watch(
   () => props.size,
   () => {
-    if (panel.value) {
+    if (!isSizeUpdating && panel.value) {
+      if (!containerSize.value) {
+        panel.value.size = props.size
+        return
+      }
+
       const size = sizeToPx(props.size)
       const maxSize = sizeToPx(props.max)
       const minSize = sizeToPx(props.min)
@@ -124,12 +127,10 @@ watch(
       const finalSize = Math.min(Math.max(size, minSize || 0), maxSize || size)
 
       if (finalSize !== size) {
-        isSizeUpdating = true
         emits('update:size', finalSize)
       }
 
       panel.value.size = finalSize
-      nextTick(() => (isSizeUpdating = false))
     }
   }
 )
@@ -137,8 +138,10 @@ watch(
 watch(
   () => panel.value?.size,
   (val) => {
-    if (!isSizeUpdating && val !== props.size) {
+    if (val !== props.size) {
+      isSizeUpdating = true
       emits('update:size', val as number)
+      nextTick(() => (isSizeUpdating = false))
     }
   }
 )
@@ -158,12 +161,17 @@ const _panel = reactive({
   getVnode: () => instance.vnode,
   setIndex,
   ...props,
-  collapsible: getCollapsible(props.collapsible),
+  collapsible: computed(() => getCollapsible(props.collapsible)),
 })
 
 registerPanel(_panel)
 
 onBeforeUnmount(() => unregisterPanel(_panel))
+
+defineExpose({
+  /** @description splitter-panel html element */
+  splitterPanelRef: panelEl,
+})
 </script>
 
 <template>
@@ -179,6 +187,7 @@ onBeforeUnmount(() => unregisterPanel(_panel))
     v-if="isShowBar"
     :index="index"
     :layout="layout"
+    :lazy="lazy"
     :resizable="isResizable"
     :start-collapsible="startCollapsible"
     :end-collapsible="endCollapsible"

@@ -7,20 +7,25 @@
 <script lang="ts" setup>
 import { computed, useSlots } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
+import { buildProps } from '@element-plus/utils'
 
 import type { Component, VNode } from 'vue'
 
 defineOptions({
   name: 'ElContainer',
 })
-const props = defineProps({
-  /**
-   * @description layout direction for child elements
-   */
-  direction: {
-    type: String,
-  },
-})
+
+const props = defineProps(
+  buildProps({
+    /**
+     * @description layout direction for child elements
+     */
+    direction: {
+      type: String,
+      values: ['horizontal', 'vertical'],
+    },
+  } as const)
+)
 const slots = useSlots()
 
 const ns = useNamespace('container')

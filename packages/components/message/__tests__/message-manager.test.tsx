@@ -51,6 +51,38 @@ describe('Message on command', () => {
     expect(document.querySelectorAll(selector).length).toBe(0)
   })
 
+  test('it should close all messages with mixed placement', async () => {
+    const onClose = vi.fn()
+    const instances = []
+
+    for (let i = 0; i < 2; i++) {
+      const instance = Message({
+        duration: 0,
+        placement: 'top',
+        onClose,
+      })
+      instances.push(instance)
+    }
+
+    for (let i = 0; i < 2; i++) {
+      const instance = Message({
+        duration: 0,
+        placement: 'bottom',
+        onClose,
+      })
+      instances.push(instance)
+    }
+
+    await rAF()
+    const elements = document.querySelectorAll(selector)
+    expect(elements.length).toBe(4)
+
+    Message.closeAll()
+    await rAF()
+    expect(onClose).toHaveBeenCalledTimes(4)
+    expect(document.querySelectorAll(selector).length).toBe(0)
+  })
+
   test('it should close all messages of the specified type', async () => {
     const onClose = vi.fn()
     const instances = []
@@ -82,6 +114,43 @@ describe('Message on command', () => {
     expect(onClose).toHaveBeenCalledTimes(4)
     expect(document.querySelectorAll(selector).length).toBe(2)
     Message.closeAll()
+  })
+
+  test('it should close all messages by specified placement', async () => {
+    const onClose = vi.fn()
+    const instances = []
+
+    for (let i = 0; i < 3; i++) {
+      const instance = Message({
+        duration: 0,
+        placement: 'top',
+        onClose,
+      })
+      instances.push(instance)
+    }
+
+    for (let i = 0; i < 2; i++) {
+      const instance = Message({
+        duration: 0,
+        placement: 'bottom',
+        onClose,
+      })
+      instances.push(instance)
+    }
+
+    await rAF()
+    const elements = document.querySelectorAll(selector)
+    expect(elements.length).toBe(5)
+
+    Message.closeAllByPlacement('top')
+    await rAF()
+    expect(onClose).toHaveBeenCalledTimes(3)
+    expect(document.querySelectorAll(selector).length).toBe(2)
+
+    Message.closeAllByPlacement('bottom')
+    await rAF()
+    expect(onClose).toHaveBeenCalledTimes(5)
+    expect(document.querySelectorAll(selector).length).toBe(0)
   })
 
   test('it should stack messages', async () => {

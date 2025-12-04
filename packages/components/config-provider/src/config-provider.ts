@@ -4,7 +4,9 @@ import { configProviderProps } from './config-provider-props'
 
 import type { MessageConfigContext } from '@element-plus/components/message'
 
-export const messageConfig: MessageConfigContext = {}
+export const messageConfig: MessageConfigContext = {
+  placement: 'top',
+}
 
 const ConfigProvider = defineComponent({
   name: 'ElConfigProvider',

@@ -10,14 +10,14 @@ import type {
   CascaderProps,
   CascaderValue,
   RenderLabel,
-} from './node'
+} from './types'
 
 export const CommonProps = buildProps({
   /**
    * @description specify which key of node object is used as the node's value
    */
   modelValue: {
-    type: definePropType<CascaderValue | null>([Number, String, Array]),
+    type: definePropType<CascaderValue | null>([Number, String, Array, Object]),
   },
   /**
    * @description data of the options, the key of `value` and `label` can be customize by `CascaderProps`.
@@ -31,7 +31,7 @@ export const CommonProps = buildProps({
    */
   props: {
     type: definePropType<CascaderProps>(Object),
-    default: () => ({} as CascaderProps),
+    default: () => ({}) as CascaderProps,
   },
 } as const)
 

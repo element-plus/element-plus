@@ -8,7 +8,7 @@
     :aria-label="!isLabeledByFormItem ? ariaLabel || 'segmented' : undefined"
     :aria-labelledby="isLabeledByFormItem ? formItem!.labelId : undefined"
   >
-    <div :class="[ns.e('group'), ns.m(props.direction)]">
+    <div :class="[ns.e('group'), ns.m(direction)]">
       <div :style="selectedStyle" :class="selectedCls" />
       <label
         v-for="(item, index) in options"
@@ -21,10 +21,10 @@
           :name="name"
           :disabled="getDisabled(item)"
           :checked="getSelected(item)"
-          @change="handleChange(item)"
+          @change="handleChange($event, item)"
         />
         <div :class="ns.e('item-label')">
-          <slot :item="item">{{ getLabel(item) }}</slot>
+          <slot :item="intoAny(item)">{{ getLabel(item) }}</slot>
         </div>
       </label>
     </div>
@@ -75,13 +75,17 @@ const state = reactive({
   focusVisible: false,
 })
 
-const handleChange = (item: Option) => {
+const handleChange = (evt: Event, item: Option) => {
   const value = getValue(item)
   emit(UPDATE_MODEL_EVENT, value)
   emit(CHANGE_EVENT, value)
+  ;(evt.target as HTMLInputElement).checked = value === props.modelValue
 }
 
 const aliasProps = computed(() => ({ ...defaultProps, ...props.props }))
+
+//FIXME: remove this when vue >=3.3
+const intoAny = (item: any) => item
 
 const getValue = (item: Option) => {
   return isObject(item) ? item[aliasProps.value.value] : item

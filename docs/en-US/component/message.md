@@ -9,7 +9,7 @@ Used to show feedback after an activity. The difference with Notification is tha
 
 ## Basic usage
 
-Displays at the top, and disappears after 3 seconds.
+Displays at the top by default, and disappears after 3 seconds. You can control the position using the `placement` property.
 
 :::demo The setup of Message is very similar to notification, so parts of the options won't be explained in detail here. You can check the options table below combined with notification doc to understand it. Element Plus has registered a `$message` method for invoking. Message can take a string or a VNode as parameter, and it will be shown as the main body.
 
@@ -73,6 +73,16 @@ message/grouping
 
 :::
 
+## Placement ^(2.11.0)
+
+Control the position where messages appear. Messages can be displayed at the top (default) or other placements of the viewport.
+
+:::demo
+
+message/placement
+
+:::
+
 ## Global method
 
 Element Plus has added a global method `$message` for `app.config.globalProperties`. So in a vue instance you can call `Message` like what we did in this page.
@@ -110,21 +120,22 @@ ElMessage({}, appContext)
 
 ### Options
 
-| Name                     | Description                                                                                          | Type                                                                       | Default |
-| ------------------------ | ---------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ------- |
-| message                  | message text                                                                                         | ^[string] / ^[VNode] / ^[Function]`() => VNode`                            | ''      |
-| type                     | message type                                                                                         | ^[enum]`'primary' (2.9.11) \| 'success' \| 'warning' \| 'info' \| 'error'` | info    |
-| plain ^(2.6.3)           | whether message is plain                                                                             | ^[boolean]                                                                 | false   |
-| icon                     | custom icon component, overrides `type`                                                              | ^[string] / ^[Component]                                                   | —       |
-| dangerouslyUseHTMLString | whether `message` is treated as HTML string                                                          | ^[boolean]                                                                 | false   |
-| customClass              | custom class name for Message                                                                        | ^[string]                                                                  | ''      |
-| duration                 | display duration, millisecond. If set to 0, it will not turn off automatically                       | ^[number]                                                                  | 3000    |
-| showClose                | whether to show a close button                                                                       | ^[boolean]                                                                 | false   |
-| onClose                  | callback function when closed with the message instance as the parameter                             | ^[Function]`() => void`                                                    | —       |
-| offset                   | set the distance to the top of viewport                                                              | ^[number]                                                                  | 16      |
-| appendTo                 | set the root element for the message, default to `document.body`                                     | ^[CSSSelector] / ^[HTMLElement]                                            | —       |
-| grouping                 | merge messages with the same content, type of VNode message is not supported                         | ^[boolean]                                                                 | false   |
-| repeatNum                | The number of repetitions, similar to badge, is used as the initial number when used with `grouping` | ^[number]                                                                  | 1       |
+| Name                     | Description                                                                                            | Type                                                                                       | Default |
+| ------------------------ | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------- |
+| message                  | message text                                                                                           | ^[string] / ^[VNode] / ^[Function]`() => VNode`                                            | ''      |
+| type                     | message type                                                                                           | ^[enum]`'primary' (2.9.11) \| 'success' \| 'warning' \| 'info' \| 'error'`                 | info    |
+| plain ^(2.6.3)           | whether message is plain                                                                               | ^[boolean]                                                                                 | false   |
+| icon                     | custom icon component, overrides `type`                                                                | ^[string] / ^[Component]                                                                   | —       |
+| dangerouslyUseHTMLString | whether `message` is treated as HTML string                                                            | ^[boolean]                                                                                 | false   |
+| customClass              | custom class name for Message                                                                          | ^[string]                                                                                  | ''      |
+| duration                 | display duration, millisecond. If set to 0, it will not turn off automatically                         | ^[number]                                                                                  | 3000    |
+| showClose                | whether to show a close button                                                                         | ^[boolean]                                                                                 | false   |
+| onClose                  | callback function when closed with the message instance as the parameter                               | ^[Function]`() => void`                                                                    | —       |
+| offset                   | set the distance to the viewport edge (top when placement is 'top', bottom when placement is 'bottom') | ^[number]                                                                                  | 16      |
+| placement ^(2.11.0)      | message placement position                                                                             | ^[enum]`'top' \| 'top-left' \| 'top-right' \| 'bottom' \| 'bottom-left' \| 'bottom-right'` | top     |
+| appendTo                 | set the root element for the message, default to `document.body`                                       | ^[CSSSelector] / ^[HTMLElement]                                                            | —       |
+| grouping                 | merge messages with the same content, type of VNode message is not supported                           | ^[boolean]                                                                                 | false   |
+| repeatNum                | The number of repetitions, similar to badge, is used as the initial number when used with `grouping`   | ^[number]                                                                                  | 1       |
 
 ### Methods
 

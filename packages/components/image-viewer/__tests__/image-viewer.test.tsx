@@ -104,4 +104,24 @@ describe('<image-viewer />', () => {
     expect(innerText).toBe('1 / 2')
     wrapper.unmount()
   })
+
+  test('custom ImageViewer load failed slot', async () => {
+    const wrapper = mount(ImageViewer, {
+      props: {
+        urlList: [IMAGE_SUCCESS],
+        initialIndex: 1,
+      },
+      slots: {
+        'viewer-error': () => (
+          <div class="load-failed-slot">load failed slot</div>
+        ),
+      },
+    })
+
+    await doubleWait()
+    const img = wrapper.find('.el-image-viewer__wrapper img')
+    await img.trigger('error')
+    await doubleWait()
+    expect(wrapper.find('.load-failed-slot').exists()).toBe(true)
+  })
 })

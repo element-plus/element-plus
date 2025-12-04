@@ -48,7 +48,7 @@ const ns = useNamespace('tab-pane')
 
 const paneRef = ref<HTMLDivElement>()
 const index = ref<string>()
-const isClosable = computed(() => props.closable || tabsRoot.props.closable)
+const isClosable = computed(() => props.closable ?? tabsRoot.props.closable)
 const active = eagerComputed(
   () => tabsRoot.currentName.value === (props.name ?? index.value)
 )

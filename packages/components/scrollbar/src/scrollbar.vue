@@ -61,6 +61,7 @@ const emit = defineEmits(scrollbarEmits)
 const ns = useNamespace('scrollbar')
 
 let stopResizeObserver: (() => void) | undefined = undefined
+let stopWrapResizeObserver: (() => void) | undefined = undefined
 let stopResizeListener: (() => void) | undefined = undefined
 let wrapScrollTop = 0
 let wrapScrollLeft = 0
@@ -79,8 +80,10 @@ const barRef = ref<BarInstance>()
 
 const wrapStyle = computed<StyleValue>(() => {
   const style: CSSProperties = {}
-  if (props.height) style.height = addUnit(props.height)
-  if (props.maxHeight) style.maxHeight = addUnit(props.maxHeight)
+  const height = addUnit(props.height)
+  const maxHeight = addUnit(props.maxHeight)
+  if (height) style.height = height
+  if (maxHeight) style.maxHeight = maxHeight
   return [props.wrapStyle, style]
 })
 
@@ -199,9 +202,11 @@ watch(
   (noresize) => {
     if (noresize) {
       stopResizeObserver?.()
+      stopWrapResizeObserver?.()
       stopResizeListener?.()
     } else {
       ;({ stop: stopResizeObserver } = useResizeObserver(resizeRef, update))
+      ;({ stop: stopWrapResizeObserver } = useResizeObserver(wrapRef, update))
       stopResizeListener = useEventListener('resize', update)
     }
   },

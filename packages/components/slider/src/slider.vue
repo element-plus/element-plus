@@ -99,7 +99,6 @@
       :min="min"
       :max="max"
       :precision="precision"
-      :debounce="debounce"
       :size="sliderInputSize"
       @update:model-value="setFirstValue"
       @change="emitChange"

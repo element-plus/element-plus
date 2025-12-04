@@ -10,6 +10,7 @@ export const drawerProps = buildProps({
     default: 'rtl',
     values: ['ltr', 'rtl', 'ttb', 'btt'],
   },
+  resizable: Boolean,
   size: {
     type: [String, Number],
     default: '30%',
@@ -31,4 +32,14 @@ export const drawerProps = buildProps({
 export type DrawerProps = ExtractPropTypes<typeof drawerProps>
 export type DrawerPropsPublic = __ExtractPublicPropTypes<typeof drawerProps>
 
-export const drawerEmits = dialogEmits
+export const drawerEmits = {
+  ...dialogEmits,
+  'resize-start': (evt: MouseEvent, size: number) =>
+    evt instanceof MouseEvent && typeof size === 'number',
+  resize: (evt: MouseEvent, size: number) =>
+    evt instanceof MouseEvent && typeof size === 'number',
+  'resize-end': (evt: MouseEvent, size: number) =>
+    evt instanceof MouseEvent && typeof size === 'number',
+}
+
+export type DrawerEmits = typeof drawerEmits

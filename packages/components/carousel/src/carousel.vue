@@ -7,9 +7,7 @@
   >
     <transition v-if="arrowDisplay" name="carousel-arrow-left">
       <button
-        v-show="
-          (arrow === 'always' || hover) && (props.loop || activeIndex > 0)
-        "
+        v-show="(arrow === 'always' || hover) && (loop || activeIndex > 0)"
         type="button"
         :class="[ns.e('arrow'), ns.em('arrow', 'left')]"
         :aria-label="t('el.carousel.leftArrow')"
@@ -26,7 +24,7 @@
       <button
         v-show="
           (arrow === 'always' || hover) &&
-          (props.loop || activeIndex < items.length - 1)
+          (loop || activeIndex < items.length - 1)
         "
         type="button"
         :class="[ns.e('arrow'), ns.em('arrow', 'right')]"
@@ -73,7 +71,7 @@
       </ul>
     </items-sorter>
     <svg
-      v-if="props.motionBlur"
+      v-if="motionBlur"
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"
       style="display: none"
@@ -108,6 +106,7 @@ const emit = defineEmits(carouselEmits)
 const {
   root,
   activeIndex,
+  exposeActiveIndex,
   arrowDisplay,
   hasLabel,
   hover,
@@ -175,7 +174,7 @@ function handleTransitionEnd(e: TransitionEvent) {
 
 defineExpose({
   /** @description active slide index */
-  activeIndex,
+  activeIndex: exposeActiveIndex,
   /** @description manually switch slide, index of the slide to be switched to, starting from 0; or the `name` of corresponding `el-carousel-item` */
   setActiveItem,
   /** @description switch to the previous slide */

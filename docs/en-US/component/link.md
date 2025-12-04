@@ -7,6 +7,30 @@ lang: en-US
 
 Text hyperlink
 
+:::warning Security Warning
+The `href` prop will be rendered directly to an `<a>` tag. If you pass a value such as `javascript:alert(1)` or a malicious URL, it may cause **XSS** or **open redirect vulnerabilities**.
+
+Always validate and sanitize the URL before use. For example:
+
+<details>
+<summary>Show code example</summary>
+
+```js
+function sanitizeUrl(url) {
+  const allowedProtocols = ['http:', 'https:']
+  try {
+    const parsed = new URL(url, window.location.origin)
+    return allowedProtocols.includes(parsed.protocol) ? parsed.href : '#'
+  } catch {
+    return '#'
+  }
+}
+```
+
+</details>
+
+:::
+
 ## Basic
 
 Basic text link

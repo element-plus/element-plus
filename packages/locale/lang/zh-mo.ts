@@ -10,6 +10,13 @@ export default {
       defaultLabel: '顏色選擇器',
       description: '當前顏色為 {color}。按 Enter 鍵選擇新顏色。',
       alphaLabel: '選擇透明度的值',
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
+      svLabel: 'pick saturation and brightness value', // to be translated
+      svDescription:
+        'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
+      predefineDescription: 'select {value} as the color', // to be translated
     },
     datepicker: {
       now: '現在',
@@ -44,7 +51,6 @@ export default {
       month10: '10 月',
       month11: '11 月',
       month12: '12 月',
-      // week: '周次',
       weeks: {
         sun: '日',
         mon: '一',
@@ -144,11 +150,21 @@ export default {
       resetFilter: '重置',
       clearFilter: '全部',
       sumText: '合計',
+      selectAllLabel: 'Select all rows', // to be translated
+      selectRowLabel: 'Select this row', // to be translated
+      expandRowLabel: 'Expand this row', // to be translated
+      collapseRowLabel: 'Collapse this row', // to be translated
+      sortLabel: 'Sort by {column}', // to be translated
+      filterLabel: 'Filter by {column}', // to be translated
+    },
+    tag: {
+      close: '關閉此標籤',
     },
     tour: {
       next: '下一步',
       previous: '上一步',
       finish: '結束導覽',
+      close: '關閉此對話框',
     },
     tree: {
       emptyText: '暫無資料',
