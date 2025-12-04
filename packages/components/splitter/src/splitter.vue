@@ -37,6 +37,7 @@ const {
 } = useOrderedChildren<PanelItemState>(getCurrentInstance()!, 'ElSplitterPanel')
 
 watch(panels, () => {
+  movingIndex.value = null
   panels.value.forEach((instance: PanelItemState, index: number) => {
     instance.setIndex(index)
   })

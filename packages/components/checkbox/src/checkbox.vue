@@ -1,8 +1,11 @@
 <template>
   <component
     :is="!hasOwnLabel && isLabeledByFormItem ? 'span' : 'label'"
+    :for="!hasOwnLabel && isLabeledByFormItem ? null : inputId"
     :class="compKls"
     :aria-controls="indeterminate ? ariaControls : null"
+    :aria-checked="indeterminate ? 'mixed' : undefined"
+    :aria-label="ariaLabel"
     @click="onClickRoot"
   >
     <span :class="spanKls">
