@@ -1,4 +1,4 @@
-import { markRaw, nextTick } from 'vue'
+import { markRaw, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import { rAF } from '@element-plus/test-utils/tick'
@@ -481,6 +481,54 @@ describe('Dialog.vue', () => {
       await nextTick()
       await rAF()
       expect(afterEnter).toHaveBeenCalled()
+    })
+  })
+
+  describe('pointer events during close transition', () => {
+    test('dialog content should not be clickable during close animation', async () => {
+      const visible = ref(true)
+      const handleClick = vi.fn()
+      const onClose = vi.fn()
+      const onClosed = vi.fn()
+
+      const wrapper = mount({
+        setup() {
+          return () => (
+            <Dialog
+              modelValue={visible.value}
+              onUpdate:modelValue={(val: boolean) => (visible.value = val)}
+              onClose={onClose}
+              onClosed={onClosed}
+            >
+              <button class="test-button" onClick={handleClick}>
+                Click me
+              </button>
+            </Dialog>
+          )
+        },
+      })
+
+      await nextTick()
+      await rAF()
+      await nextTick()
+
+      expect(wrapper.find('.el-dialog').exists()).toBe(true)
+      const button = wrapper.find('.test-button')
+      await button.trigger('click')
+      expect(handleClick).toHaveBeenCalledTimes(1)
+
+      visible.value = false
+      await nextTick()
+
+      const overlayDialog = wrapper.find('.el-overlay-dialog')
+      expect(overlayDialog.classes()).toContain('is-closing')
+      expect(onClose).toHaveBeenCalled()
+
+      await rAF()
+      await rAF()
+      await nextTick()
+
+      expect(onClosed).toHaveBeenCalled()
     })
   })
 })

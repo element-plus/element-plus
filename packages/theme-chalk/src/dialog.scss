@@ -146,7 +146,7 @@
   overflow: auto;
 
   @include when(closing) {
-    .#{$namespace}-dialog {
+    @include b(dialog) {
       pointer-events: none;
     }
   }
