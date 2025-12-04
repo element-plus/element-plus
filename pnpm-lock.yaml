@@ -33,9 +33,6 @@ catalogs:
     normalize-wheel-es:
       specifier: ^1.2.0
       version: 1.2.0
-    type-fest:
-      specifier: ^2.14.0
-      version: 2.14.0
     vue:
       specifier: ~3.2.37
       version: 3.2.37
@@ -228,9 +225,6 @@ importers:
       tsx:
         specifier: ^4.19.3
         version: 4.19.3
-      type-fest:
-        specifier: ^2.14.0
-        version: 2.14.0
       typescript:
         specifier: ~5.5.4
         version: 5.5.4
@@ -724,9 +718,6 @@ importers:
       expect-type:
         specifier: ^0.13.0
         version: 0.13.0
-      type-fest:
-        specifier: 'catalog:'
-        version: 2.14.0
       vue:
         specifier: 'catalog:'
         version: 3.2.37
@@ -8339,10 +8330,6 @@ packages:
   type-fest@0.6.0:
     resolution: {integrity: sha512-q+MB8nYR1KDLrgr4G5yemftpMC7/QLqVndBmEEdqzmNj5dcFOO4Oo8qlwZE3ULT3+Zim1F8Kq4cBnikNhlCMlg==}
     engines: {node: '>=8'}
-
-  type-fest@2.14.0:
-    resolution: {integrity: sha512-hQnTQkFjL5ik6HF2fTAM8ycbr94UbQXK364wF930VHb0dfBJ5JBP8qwrR8TaK9zwUEk7meruo2JAUDMwvuxd/w==}
-    engines: {node: '>=12.20'}
 
   type@1.2.0:
     resolution: {integrity: sha512-+5nt5AAniqsCnu2cEQQdpzCAh33kVx8n0VoFidKpB1dVVLAN/F+bgVOqOJqOnEnrhp222clB5p3vUlD+1QAnfg==}
@@ -18069,8 +18056,6 @@ snapshots:
   type-fest@0.20.2: {}
 
   type-fest@0.6.0: {}
-
-  type-fest@2.14.0: {}
 
   type@1.2.0: {}
 
