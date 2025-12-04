@@ -202,7 +202,7 @@ const copyCode = async () => {
       color: var(--text-color-lighter);
       transition: 0.2s;
 
-      & a {
+      a {
         transition: 0.2s;
         color: var(--text-color-lighter);
 
