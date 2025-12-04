@@ -47,6 +47,7 @@ color-picker/sizes
 | --------------------------- | -------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ------- |
 | model-value / v-model       | binding value                                                                                                  | ^[string]                                                                                                        | —       |
 | disabled                    | whether to disable the ColorPicker                                                                             | ^[boolean]                                                                                                       | false   |
+| clearable ^(2.12.0)         | whether to show clear button                                                                                   | ^[boolean]                                                                                                       | true    |
 | size                        | size of ColorPicker                                                                                            | ^[enum]`'large' \| 'default' \| 'small'`                                                                         | —       |
 | show-alpha                  | whether to display the alpha slider                                                                            | ^[boolean]                                                                                                       | false   |
 | color-format                | color format of v-model                                                                                        | ^[enum]`'hsl' \| 'hsv' \| 'hex' \| 'rgb' \| 'hex' (when show-alpha is false) \| 'rgb' (when show-alpha is true)` | —       |
@@ -82,3 +83,4 @@ color-picker/sizes
 | hide ^(2.3.3)   | manually hide ColorPicker | ^[Function]`() => void` |
 | focus ^(2.3.13) | focus the picker element  | ^[Function]`() => void` |
 | blur ^(2.3.13)  | blur the picker element   | ^[Function]`() => void` |
+| clear ^(2.12.0) | clear the color           | ^[Function]`() => void` |

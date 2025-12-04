@@ -33,6 +33,7 @@
         <template #footer>
           <div>
             <el-button
+              v-if="clearable"
               :class="ns.be('footer', 'link-btn')"
               text
               size="small"
@@ -389,5 +390,9 @@ defineExpose({
    * @description blur the input element
    */
   blur,
+  /**
+   * @description clear the color
+   */
+  clear,
 })
 </script>

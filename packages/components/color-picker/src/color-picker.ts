@@ -46,6 +46,13 @@ export const colorPickerProps = buildProps({
     default: undefined,
   },
   /**
+   * @description whether to show clear button
+   */
+  clearable: {
+    type: Boolean,
+    default: true,
+  },
+  /**
    * @description size of ColorPicker
    */
   size: useSizeProp,
