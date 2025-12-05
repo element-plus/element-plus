@@ -100,7 +100,10 @@ export const sliderProps = buildProps({
   /**
    * @description whether Slider is disabled
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description whether to select a range
    */

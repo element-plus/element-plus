@@ -2600,7 +2600,7 @@ describe('Select', () => {
       clearable: true,
     })
     const select = wrapper.findComponent({ name: 'ElSelect' })
-    const trigger = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
+    const trigger = wrapper.find('.el-select__suffix')
     await trigger.trigger('click')
     expect((select.vm as any).expanded).toBe(true)
     await trigger.trigger('click')
@@ -2608,6 +2608,20 @@ describe('Select', () => {
   })
 
   test('mouseenter click', async () => {
+    wrapper = getSelectVm({
+      filterable: false,
+      clearable: true,
+    })
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const trigger = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
+    await trigger.trigger('click')
+    expect((select.vm as any).expanded).toBe(true)
+
+    await trigger.trigger('click')
+    expect((select.vm as any).expanded).toBe(false)
+  })
+
+  test('should keep the select dropdown open when using the filterable', async () => {
     wrapper = getSelectVm({
       filterable: true,
       clearable: true,
@@ -2618,7 +2632,7 @@ describe('Select', () => {
     expect((select.vm as any).expanded).toBe(true)
 
     await trigger.trigger('click')
-    expect((select.vm as any).expanded).toBe(false)
+    expect((select.vm as any).expanded).toBe(true)
   })
 
   describe('should show all options when open select dropdown', () => {
