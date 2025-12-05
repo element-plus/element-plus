@@ -5,7 +5,7 @@ import type { Arrayable } from '.'
 export const keysOf = <T extends object>(arr: T) =>
   Object.keys(arr) as Array<keyof T>
 export const entriesOf = <T extends object>(arr: T) =>
-  Object.entries(arr) as [keyof typeof arr, (typeof arr)[keyof typeof arr]][]
+  Object.entries(arr) as [keyof T, T[keyof T]][]
 export { hasOwn } from '@vue/shared'
 
 export const getProp = <T = any>(
