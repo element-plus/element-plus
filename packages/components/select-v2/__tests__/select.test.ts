@@ -1180,10 +1180,10 @@ describe('Select', () => {
       // selected the new option
       selectVm.onSelect(selectVm.filteredOptions[0])
       expect(vm.value).toBe('1111')
-      await input.trigger('click')
+      await wrapper.find('.el-select__suffix').trigger('click')
       await nextTick()
       await rAF()
-      await input.trigger('click')
+      await wrapper.find('.el-select__suffix').trigger('click')
       await nextTick()
       await rAF()
       expect(selectVm.filteredOptions.length).toBe(4)
@@ -1875,6 +1875,23 @@ describe('Select', () => {
       await nextTick()
       const options = getOptions()
       expect(options.length).toBe(3)
+    })
+
+    it('should keep the select dropdown open when using the filterable', async () => {
+      const wrapper = createSelect({
+        data() {
+          return {
+            filterable: true,
+          }
+        },
+      })
+      const select = wrapper.findComponent({ name: 'ElSelectV2' })
+      const input = wrapper.find('input')
+      await input.trigger('click')
+      expect((select.vm as any).expanded).toBe(true)
+
+      await input.trigger('click')
+      expect((select.vm as any).expanded).toBe(true)
     })
   })
 
