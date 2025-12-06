@@ -1,4 +1,4 @@
-import { createVNode, isVNode, render } from 'vue'
+import { Comment, Fragment, createVNode, isVNode, render } from 'vue'
 import { flatMap, get, isNull, merge } from 'lodash-unified'
 import {
   ensureArray,
@@ -19,7 +19,7 @@ import ElTooltip, {
 
 import type { DefaultRow, Table, TreeProps } from './table/defaults'
 import type { TableColumnCtx } from './table-column/defaults'
-import type { CSSProperties, VNode } from 'vue'
+import type { CSSProperties, VNode, VNodeArrayChildren } from 'vue'
 
 export type TableOverflowTooltipOptions = Partial<
   Pick<
@@ -675,4 +675,22 @@ export const ensurePosition = (
   if (!Number.isNaN(style[key])) {
     style[key] = `${style[key]}px` as any
   }
+}
+
+export function ensureValidVNode(
+  vnodes: VNodeArrayChildren
+): VNodeArrayChildren | null {
+  return vnodes.some((child) => {
+    if (!isVNode(child)) return true
+    if (child.type === Comment) return false
+    if (
+      child.type === Fragment &&
+      !ensureValidVNode(child.children as VNodeArrayChildren)
+    ) {
+      return false
+    }
+    return true
+  })
+    ? vnodes
+    : null
 }

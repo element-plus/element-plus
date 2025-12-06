@@ -143,7 +143,7 @@ const focusing = ref(false)
 const containerKls = computed(() => [
   nsUpload.b('list'),
   nsUpload.bm('list', props.listType),
-  nsUpload.is('disabled', props.disabled),
+  nsUpload.is('disabled', disabled.value),
 ])
 
 const handleRemove = (file: UploadFile) => {

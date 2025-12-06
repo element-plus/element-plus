@@ -100,6 +100,7 @@
               @load="handleImgLoad"
               @error="handleImgError"
               @mousedown="handleMouseDown"
+              @touchstart="handleTouchStart"
             />
           </div>
           <slot />
@@ -329,8 +330,33 @@ function handleMouseDown(e: MouseEvent) {
     }
   })
   const removeMousemove = useEventListener(document, 'mousemove', dragHandler)
-  useEventListener(document, 'mouseup', () => {
+  const removeMouseup = useEventListener(document, 'mouseup', () => {
     removeMousemove()
+    removeMouseup()
+  })
+
+  e.preventDefault()
+}
+
+function handleTouchStart(e: TouchEvent) {
+  if (loading.value || !wrapper.value || e.touches.length !== 1) return
+  transform.value.enableTransition = false
+
+  const { offsetX, offsetY } = transform.value
+  const { pageX: startX, pageY: startY } = e.touches[0]
+
+  const dragHandler = throttle((ev: TouchEvent) => {
+    const targetTouch = ev.touches[0]
+    transform.value = {
+      ...transform.value,
+      offsetX: offsetX + targetTouch.pageX - startX,
+      offsetY: offsetY + targetTouch.pageY - startY,
+    }
+  })
+  const removeTouchmove = useEventListener(document, 'touchmove', dragHandler)
+  const removeTouchend = useEventListener(document, 'touchend', () => {
+    removeTouchmove()
+    removeTouchend()
   })
 
   e.preventDefault()
