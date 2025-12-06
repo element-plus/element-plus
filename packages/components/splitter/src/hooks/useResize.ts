@@ -8,6 +8,7 @@ import type { PanelItemState } from '../type'
 export function useResize(
   panels: Ref<PanelItemState[]>,
   containerSize: ComputedRef<number>,
+  percentSizes: Ref<number[]>,
   pxSizes: ComputedRef<number[]>,
   lazy: Ref<boolean>
 ) {
@@ -127,13 +128,14 @@ export function useResize(
     cachePxSizes = []
   }
 
-  const cacheCollapsedSize: number[] = []
+  const cacheCollapsedPercent: number[] = []
   const onCollapse = (index: number, type: 'start' | 'end') => {
-    if (!cacheCollapsedSize.length) {
-      cacheCollapsedSize.push(...pxSizes.value)
+    if (!cacheCollapsedPercent.length) {
+      cacheCollapsedPercent.push(...percentSizes.value)
     }
 
     const currentSizes = pxSizes.value
+    const currentPercents = [...percentSizes.value]
 
     const currentIndex = type === 'start' ? index : index + 1
     const targetIndex = type === 'start' ? index + 1 : index
@@ -142,17 +144,21 @@ export function useResize(
     const targetSize = currentSizes[targetIndex]
 
     if (currentSize !== 0 && targetSize !== 0) {
+      cacheCollapsedPercent[index] = currentPercents[currentIndex]
+
       currentSizes[currentIndex] = 0
       currentSizes[targetIndex]! += currentSize
-      cacheCollapsedSize[index] = currentSize
     } else {
-      const totalSize = currentSize + targetSize
+      const targetCacheCollapsedPercent = cacheCollapsedPercent[index]
+      const currentCacheCollapsedPercent =
+        currentPercents[currentIndex] +
+        currentPercents[targetIndex] -
+        targetCacheCollapsedPercent
 
-      const targetCacheCollapsedSize = cacheCollapsedSize[index]
-      const currentCacheCollapsedSize = totalSize - targetCacheCollapsedSize
-
-      currentSizes[targetIndex] = targetCacheCollapsedSize
-      currentSizes[currentIndex] = currentCacheCollapsedSize
+      currentSizes[targetIndex] =
+        targetCacheCollapsedPercent * containerSize.value
+      currentSizes[currentIndex] =
+        currentCacheCollapsedPercent * containerSize.value
     }
 
     panels.value.forEach((panel, index) => {
