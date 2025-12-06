@@ -74,7 +74,6 @@
     "@element-plus/build": "workspace:^0.0.1",
     "@element-plus/build-utils": "workspace:^0.0.1",
     "@element-plus/eslint-config": "workspace:*",
-    "@eslint/markdown": "^7.4.0",
     "@pnpm/find-workspace-packages": "^4.0.16",
     "@pnpm/logger": "^4.0.0",
     "@pnpm/types": "^8.4.0",
