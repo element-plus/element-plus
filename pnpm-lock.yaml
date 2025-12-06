@@ -129,6 +129,9 @@ importers:
       '@element-plus/eslint-config':
         specifier: workspace:*
         version: link:internal/eslint-config
+      '@eslint/markdown':
+        specifier: ^7.4.0
+        version: 7.4.0
       '@pnpm/find-workspace-packages':
         specifier: ^4.0.16
         version: 4.0.16(@pnpm/logger@4.0.0)

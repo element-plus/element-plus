@@ -6,7 +6,7 @@
 
 <script lang="ts" setup>
 import { computed, provide, reactive, ref, toRefs, watch } from 'vue'
-import { debugWarn, isFunction } from '@element-plus/utils'
+import { debugWarn, getProp, isFunction } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { useFormSize } from './hooks'
 import { formContextKey } from './constants'
@@ -59,6 +59,26 @@ const removeField: FormContext['removeField'] = (field) => {
   if (field.prop) {
     fields.splice(fields.indexOf(field), 1)
   }
+}
+
+const setInitialFields: FormContext['setInitialFields'] = (initModel) => {
+  if (!props.model) {
+    debugWarn(COMPONENT_NAME, 'model is required for setInitialFields to work.')
+    return
+  }
+  if (!initModel) {
+    debugWarn(
+      COMPONENT_NAME,
+      'initModel is required for setInitialFields to work.'
+    )
+    return
+  }
+  fields.forEach((field) => {
+    if (field.prop) {
+      const initValue = getProp(initModel, field.prop).value
+      field.setInitialValue(initValue)
+    }
+  })
 }
 
 const resetFields: FormContext['resetFields'] = (properties = []) => {
@@ -215,5 +235,9 @@ defineExpose({
    * @description All fields context.
    */
   fields,
+  /**
+   * @description Customize the reset value.
+   */
+  setInitialFields,
 })
 </script>
