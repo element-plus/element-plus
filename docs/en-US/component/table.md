@@ -173,7 +173,7 @@ table/custom-column
 
 :::
 
-## Custom column template with the cell slot ^(2.12.0)
+## Custom column template with the cell slot ^(2.13.0)
 
 To enable the cell slot, add the `cell-slot` atrribute to el-table.
 
