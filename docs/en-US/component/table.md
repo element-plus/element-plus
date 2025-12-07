@@ -9,7 +9,7 @@ Display multiple data with similar format. You can sort, filter, compare your da
 
 :::warning
 
-As of ^(2.12.0), customizing cell content via the default slot of `<el-table-column>` is deprecated. Please use the [cell slot](#custom-column-template-with-the-cell-slot) instead.
+As of ^(2.13.0), customizing cell content via the default slot of `<el-table-column>` is deprecated. Please use the [cell slot](#custom-column-template-with-the-cell-slot) instead.
 
 :::
 
