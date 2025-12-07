@@ -424,7 +424,7 @@ table/tooltip-formatter
 | Name                 | Description                       | Type                                                               |
 | -------------------- | --------------------------------- | ------------------------------------------------------------------ |
 | default              | Include zero or more table-column | ^[object]`{ row: any, column: TableColumnCtx<T>, $index: number }` |
-| cell ^(2.12.0)       | Custom content for table columns  | ^[object]`{ row: any, column: TableColumnCtx<T>, $index: number }` |
+| cell ^(2.13.0)       | Custom content for table columns  | ^[object]`{ row: any, column: TableColumnCtx<T>, $index: number }` |
 | header               | Custom content for table header   | ^[object]`{ column: TableColumnCtx<T>, $index: number }`           |
 | filter-icon ^(2.7.8) | Custom content for filter icon    | ^[object]`{ filterOpened: boolean }`                               |
 | expand ^(2.10.0)     | Custom content for expand columns | ^[object]`{ expanded: boolean }`                                   |
