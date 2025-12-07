@@ -138,7 +138,7 @@ switch/custom-action-slot
 | ------------------------ | -------------------------- |
 | active-action ^(2.4.4)   | customize active action    |
 | inactive-action ^(2.4.4) | customize inactive action  |
-| active ^(2.12.0)         | customize active content   |
+| active ^(2.13.0)         | customize active content   |
 | inactive ^(2.13.0)       | customize inactive content |
 
 ### Exposes
