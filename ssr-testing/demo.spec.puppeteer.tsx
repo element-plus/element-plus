@@ -29,8 +29,8 @@ describe('Cypress Button', () => {
   })
 
   describe('when initialized', () => {
-    const demoPaths = globSync(`${demoRoot}/*.vue`).map((demo) =>
-      demo.slice(demoRoot.length + 1)
+    const demoPaths = globSync(`${demoRoot}/*.vue`, { absolute: true }).map(
+      (demo) => demo.slice(demoRoot.length + 1)
     )
 
     it.each(demoPaths)(`render %s correctly`, async (demoPath) => {
