@@ -1,8 +1,8 @@
 import { execSync } from 'child_process'
-import fg from 'fast-glob'
+import { globSync } from 'tinyglobby'
 
 const getPackages = (packagePath) =>
-  fg.sync('*', { cwd: packagePath, onlyDirectories: true })
+  globSync('*', { cwd: packagePath, onlyDirectories: true })
 
 const scopes = [
   ...getPackages('packages'),

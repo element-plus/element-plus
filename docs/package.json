@@ -30,7 +30,7 @@
     "@vitejs/plugin-vue-jsx": "^4.0.1",
     "chalk": "^4.1.2",
     "consola": "^2.15.3",
-    "fast-glob": "^3.2.11",
+    "tinyglobby": "^0.2.15",
     "markdown-it-container": "^3.0.0",
     "unocss": "^66.5.6",
     "unplugin-icons": "^0.14.15",
