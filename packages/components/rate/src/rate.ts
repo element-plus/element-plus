@@ -96,7 +96,10 @@ export const rateProps = buildProps({
   /**
    * @description whether Rate is read-only
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description whether picking half start is allowed
    */

@@ -26,6 +26,15 @@ vi.mock('lodash-unified', async () => {
   }
 })
 
+vi.mock('@vueuse/core', async () => {
+  return {
+    ...((await vi.importActual('@vueuse/core')) as Record<string, any>),
+    useDebounceFn: vi.fn((fn) => {
+      return fn
+    }),
+  }
+})
+
 const OPTIONS = [
   {
     value: 'zhejiang',
@@ -50,6 +59,7 @@ const OPTIONS = [
 const AXIOM = 'Rem is the best girl'
 
 const TRIGGER = '.el-cascader'
+const MENU = '.el-cascader-menu'
 const NODE = '.el-cascader-node'
 const NODE_LABEL = '.el-cascader-node__label'
 const TAG = '.el-tag'
@@ -70,7 +80,10 @@ describe('Cascader.vue', () => {
   test('toggle popper visible', async () => {
     const handleVisibleChange = vi.fn()
     const wrapper = _mount(() => (
-      <Cascader onVisibleChange={handleVisibleChange} />
+      <>
+        <Cascader onVisibleChange={handleVisibleChange} />
+        <button></button>
+      </>
     ))
 
     const trigger = wrapper.find(TRIGGER)
@@ -78,12 +91,14 @@ describe('Cascader.vue', () => {
 
     await trigger.trigger('click')
     expect(dropdown.style.display).not.toBe('none')
-    expect(handleVisibleChange).toBeCalledWith(true)
+    expect(handleVisibleChange).toHaveBeenNthCalledWith(1, true)
     await trigger.trigger('click')
-    expect(handleVisibleChange).toBeCalledWith(false)
+    expect(handleVisibleChange).toHaveBeenNthCalledWith(2, false)
     await trigger.trigger('click')
-    document.body.click()
-    expect(handleVisibleChange).toBeCalledWith(false)
+    expect(handleVisibleChange).toHaveBeenNthCalledWith(3, true)
+    await wrapper.find('button').trigger('mousedown')
+    await wrapper.find('button').trigger('mouseup')
+    expect(handleVisibleChange).toHaveBeenNthCalledWith(4, false)
   })
 
   test('expand and check', async () => {
@@ -191,6 +206,26 @@ describe('Cascader.vue', () => {
     expect(isClear.value).toBe(true)
   })
 
+  test('should support object as value', async () => {
+    const options = [
+      {
+        label: 'label1',
+        children: [
+          {
+            label: 'label2',
+            value: { val: 'val2' },
+          },
+        ],
+      },
+    ]
+    const wrapper = mount(() => (
+      <Cascader modelValue={{ val: 'val2' }} options={options} />
+    ))
+
+    await nextTick()
+    expect(wrapper.find('input').element.value).toBe('label1 / label2')
+  })
+
   test('should show clear btn on focus', async () => {
     const wrapper = _mount(() => (
       <Cascader
@@ -285,6 +320,48 @@ describe('Cascader.vue', () => {
     expect(tooltipTags.length).toBe(2)
     expect(tooltipTags[0].textContent).toBe('Zhejiang / Ningbo')
     expect(tooltipTags[1].textContent).toBe('Zhejiang / Wenzhou')
+  })
+
+  test('dynamic max collapse tags', async () => {
+    const props = { multiple: true }
+    const max = ref(2)
+    const wrapper = _mount(() => (
+      <Cascader
+        modelValue={[
+          ['zhejiang', 'hangzhou'],
+          ['zhejiang', 'ningbo'],
+          ['zhejiang', 'wenzhou'],
+        ]}
+        collapseTags
+        collapseTagsTooltip
+        props={props}
+        options={OPTIONS}
+        maxCollapseTags={max.value}
+      />
+    ))
+
+    await nextTick()
+    const tags = wrapper.findAll(TAG)
+    const [firstTag, secondTag, thirdTag] = tags
+    expect(tags.length).toBe(3)
+    expect(firstTag.text()).toBe('Zhejiang / Hangzhou')
+    expect(secondTag.text()).toBe('Zhejiang / Ningbo')
+    expect(thirdTag.text()).toBe('+ 1')
+    const tooltipTags = document.querySelectorAll(
+      `.el-cascader__collapse-tags ${TAG}`
+    )
+    expect(tooltipTags.length).toBe(1)
+    max.value = 1
+    await nextTick()
+    const _tags = wrapper.findAll(TAG)
+    const [_firstTag, _secondTag] = _tags
+    expect(_tags.length).toBe(2)
+    expect(_firstTag.text()).toBe('Zhejiang / Hangzhou')
+    expect(_secondTag.text()).toBe('+ 2')
+    const _tooltipTags = document.querySelectorAll(
+      `.el-cascader__collapse-tags ${TAG}`
+    )
+    expect(_tooltipTags.length).toBe(2)
   })
 
   test('max collapse tags', async () => {
@@ -398,7 +475,7 @@ describe('Cascader.vue', () => {
     const scrollbar = scrollbars[0]
     expect(scrollbar).toBeDefined()
     expect(scrollbar?.vm.maxHeight).toBe(200)
-    const tooltip = await collapseTag.getComponent(ElTooltip)
+    const tooltip = wrapper.findComponent(ElTooltip)
     expect(tooltip).toBeDefined()
     await tooltip.trigger('hover')
     expect(
@@ -883,7 +960,7 @@ describe('Cascader.vue', () => {
       const wrapper = _mount(() => (
         <Cascader options={OPTIONS}>
           {{
-            default: () => false && <div>{AXIOM}</div>,
+            default: () => false,
           }}
         </Cascader>
       ))
@@ -1105,5 +1182,53 @@ describe('Cascader.vue', () => {
     await nextTick()
     ;(leafNodes[2] as HTMLInputElement).click()
     expect(value.value).toHaveLength(0)
+  })
+
+  test('should keep panel active when checkOnClickNode=true with checkStrictly=false', async () => {
+    const props = {
+      checkOnClickNode: true,
+      checkStrictly: false,
+    }
+    const visibleChange = vi.fn()
+    const wrapper = mount(() => (
+      <Cascader
+        options={OPTIONS}
+        props={props}
+        onVisibleChange={visibleChange}
+      />
+    ))
+    expect(visibleChange).not.toBeCalled()
+    const trigger = wrapper.find(TRIGGER)
+    await trigger.trigger('click')
+    await nextTick()
+    expect(visibleChange).toBeCalledTimes(1)
+    const rootNode = document.querySelector(NODE_LABEL) as HTMLInputElement
+    rootNode?.click()
+    await nextTick()
+    expect(visibleChange).toBeCalledTimes(1)
+  })
+
+  it('should fully expand the panel after filter when checkStrictly=true', async () => {
+    const value = ref([])
+    const props = { checkStrictly: true }
+    const wrapper = _mount(() => (
+      <Cascader
+        v-model={value.value}
+        filterable
+        props={props}
+        options={OPTIONS}
+      />
+    ))
+    const input = wrapper.find('input')
+    await input.setValue('Wen')
+    const rootNode = document.querySelector(SUGGESTION_ITEM) as HTMLInputElement
+    rootNode?.click()
+    await nextTick()
+    expect(value.value).toStrictEqual(['zhejiang', 'wenzhou'])
+
+    const trigger = wrapper.find(TRIGGER)
+    await trigger.trigger('blur')
+    await trigger.trigger('focus')
+    expect(document.querySelectorAll(MENU)).toHaveLength(2)
   })
 })

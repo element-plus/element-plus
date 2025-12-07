@@ -461,6 +461,99 @@ describe('DatePickerPanel', () => {
           '6',
         ])
       })
+
+      it('should handle array value without errors', async () => {
+        const value = ref(['2025-09-01'])
+        const wrapper = mount(() => (
+          <DatePickerPanel v-model={value.value} type="datetime" />
+        ))
+        await nextTick()
+
+        const dateInput = wrapper.find(
+          '.el-date-picker__time-header > span:nth-child(1) input'
+        ).element as HTMLInputElement
+        expect(dateInput.value).toBe('2025-09-01')
+
+        const timeInput = wrapper.find(
+          '.el-date-picker__time-header > span:nth-child(2) input'
+        ).element as HTMLInputElement
+        expect(timeInput.value).toBe('00:00:00')
+      })
+    })
+
+    it('should append set dates when model value change on daterange', async () => {
+      const value = ref<string[]>([])
+      const wrapper = mount(() => (
+        <DatePickerPanel
+          modelValue={value.value}
+          type="daterange"
+          dateFormat="YYYY-MM-DD"
+          valueFormat="YYYY-MM-DD"
+        />
+      ))
+      await nextTick()
+      let startDate = wrapper.find('td.start-date')
+      let endDate = wrapper.find('td.end-date')
+      expect(startDate.exists()).toBe(false)
+      expect(endDate.exists()).toBe(false)
+      value.value = ['2025-09-05', '2025-09-25']
+      await nextTick()
+      startDate = wrapper.find('td.start-date')
+      endDate = wrapper.find('td.end-date')
+      expect(startDate.exists()).toBe(true)
+      expect(endDate.exists()).toBe(true)
+      expect(startDate.text()).toBe('5')
+      expect(endDate.text()).toBe('25')
+    })
+
+    it('should append set dates when model value change on monthrange', async () => {
+      const value = ref<string[]>([])
+      const wrapper = mount(() => (
+        <DatePickerPanel
+          modelValue={value.value}
+          type="monthrange"
+          dateFormat="YYYY-MM"
+          valueFormat="YYYY-MM"
+        />
+      ))
+      await nextTick()
+      let startDate = wrapper.find('td.start-date')
+      let endDate = wrapper.find('td.end-date')
+      expect(startDate.exists()).toBe(false)
+      expect(endDate.exists()).toBe(false)
+      value.value = ['2025-09', '2025-10']
+      await nextTick()
+      startDate = wrapper.find('td.start-date')
+      endDate = wrapper.find('td.end-date')
+      expect(startDate.exists()).toBe(true)
+      expect(endDate.exists()).toBe(true)
+      expect(startDate.text()).toBe('Sep')
+      expect(endDate.text()).toBe('Oct')
+    })
+
+    it('should append set dates when model value change on yearrange', async () => {
+      const value = ref<string[]>([])
+      const wrapper = mount(() => (
+        <DatePickerPanel
+          modelValue={value.value}
+          type="yearrange"
+          dateFormat="YYYY"
+          valueFormat="YYYY"
+        />
+      ))
+      await nextTick()
+      let startDate = wrapper.find('td.start-date')
+      let endDate = wrapper.find('td.end-date')
+      expect(startDate.exists()).toBe(false)
+      expect(endDate.exists()).toBe(false)
+      value.value = ['2025', '2026']
+      await nextTick()
+      startDate = wrapper.find('td.start-date')
+      endDate = wrapper.find('td.end-date')
+      expect(startDate.exists()).toBe(true)
+      expect(endDate.exists()).toBe(true)
+      expect(startDate.text()).toBe('2025')
+      expect(endDate.text()).toBe('2026')
     })
 
     describe(':type="datetimerange"', () => {
@@ -836,6 +929,40 @@ describe('DatePickerPanel', () => {
           '9',
           '10',
         ])
+      })
+
+      it('should not duplicate panels on update inner input nor change panels', async () => {
+        const value = ref([new Date(2025, 0, 1), new Date(2025, 0, 5)])
+        const wrapper = mount(() => (
+          <DatePickerPanel v-model={value.value} type="datetimerange" />
+        ))
+        await nextTick()
+        let pickerss = wrapper.findAll(
+          '.el-date-range-picker__time-header .el-date-range-picker__editors-wrap'
+        )
+        const leftDateInput = pickerss[0].find(
+          '.el-date-range-picker__time-picker-wrap:nth-child(1) input'
+        ).element as HTMLInputElement
+        const rightDateInput = pickerss[1].find(
+          '.el-date-range-picker__time-picker-wrap:nth-child(1) input'
+        ).element as HTMLInputElement
+        expect(leftDateInput.value).toBe('2025-01-01')
+        expect(rightDateInput.value).toBe('2025-01-05')
+        rightDateInput.value = '2025-01-06'
+        rightDateInput.dispatchEvent(new Event('input'))
+        rightDateInput.dispatchEvent(new Event('change'))
+        await nextTick()
+        expect(value.value[1]).toStrictEqual(new Date(2025, 0, 6))
+        pickerss = wrapper.findAll('.el-date-range-picker__header')
+        const leftHeader = pickerss[0].findAll(
+          '.el-date-range-picker__header-label'
+        )[1]
+        const rightHeader = pickerss[1].findAll(
+          '.el-date-range-picker__header-label'
+        )[1]
+
+        expect(leftHeader.text()).toBe('January')
+        expect(rightHeader.text()).toBe('February')
       })
     })
   })

@@ -31,7 +31,10 @@ export const cascaderProps = buildProps({
   /**
    * @description whether Cascader is disabled
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description whether selected value can be cleared
    */
@@ -83,7 +86,7 @@ export const cascaderProps = buildProps({
     default: 1,
   },
   /**
-   * @description native input id
+   * @description whether show all selected tags when mouse hover text of collapse-tags. To use this, collapse-tags must be true
    */
   collapseTagsTooltip: Boolean,
   /**
@@ -143,7 +146,7 @@ export const cascaderProps = buildProps({
   /**
    * @description tag type
    */
-  // eslint-disable-next-line vue/require-prop-types
+
   tagType: { ...tagProps.type, default: 'info' },
   /**
    * @description tag effect

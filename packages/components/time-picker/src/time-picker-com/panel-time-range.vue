@@ -68,11 +68,11 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref, unref } from 'vue'
+import { computed, inject, nextTick, ref, unref } from 'vue'
 import dayjs from 'dayjs'
 import { union } from 'lodash-unified'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import { isArray } from '@element-plus/utils'
+import { getEventCode, isArray } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { PICKER_BASE_INJECTION_KEY } from '../constants'
 import { panelTimeRangeProps } from '../props/panel-time-range'
@@ -125,7 +125,11 @@ const startTime = computed(() => props.parsedValue![0])
 const endTime = computed(() => props.parsedValue![1])
 const oldValue = useOldValue(props)
 const handleCancel = () => {
-  emit('pick', oldValue.value, false)
+  const old = oldValue.value
+  emit('pick', old, false)
+  nextTick(() => {
+    oldValue.value = old
+  })
 }
 const showSeconds = computed(() => {
   return props.format.includes('ss')
@@ -193,7 +197,7 @@ const changeSelectionRange = (step: number) => {
 }
 
 const handleKeydown = (event: KeyboardEvent) => {
-  const code = event.code
+  const code = getEventCode(event)
 
   const { left, right, up, down } = EVENT_CODE
 
@@ -293,14 +297,6 @@ const parseUserInput = (days: Dayjs[] | Dayjs) => {
   return dayjs(days, props.format).locale(lang.value)
 }
 
-const formatToString = (days: Dayjs[] | Dayjs) => {
-  if (!days) return null
-  if (isArray(days)) {
-    return days.map((d) => d.format(props.format))
-  }
-  return days.format(props.format)
-}
-
 const getDefaultValue = () => {
   if (isArray(defaultValue)) {
     return defaultValue.map((d: Date) => dayjs(d).locale(lang.value))
@@ -309,7 +305,6 @@ const getDefaultValue = () => {
   return [defaultDay, defaultDay.add(60, 'm')]
 }
 
-emit('set-picker-option', ['formatToString', formatToString])
 emit('set-picker-option', ['parseUserInput', parseUserInput])
 emit('set-picker-option', ['isValidValue', isValidValue])
 emit('set-picker-option', ['handleKeydownInput', handleKeydown])

@@ -3,7 +3,6 @@
 @use 'common/var' as *;
 @use 'mixins/button' as *;
 @use 'mixins/mixins' as *;
-@use 'mixins/utils' as *;
 @use 'mixins/var' as *;
 
 $button-icon-span-gap: () !default;
@@ -60,7 +59,9 @@ $button-icon-span-gap: map.merge(
   &:focus-visible {
     outline: 2px solid getCssVar('button', 'outline-color');
     outline-offset: 1px;
-    transition: outline-offset 0s, outline 0s;
+    transition:
+      outline-offset 0s,
+      outline 0s;
   }
 
   > span {
@@ -172,7 +173,9 @@ $button-icon-span-gap: map.merge(
       &:focus-visible {
         outline: 2px solid getCssVar('button', 'outline-color');
         outline-offset: 1px;
-        transition: outline-offset 0s, outline 0s;
+        transition:
+          outline-offset 0s,
+          outline 0s;
       }
 
       &:active {

@@ -69,7 +69,7 @@ import { ArrowRight, Check, Loading } from '@element-plus/icons-vue'
 import NodeContent from './node-content'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
 
-import type { default as CascaderNode } from './node'
+import type { CascaderNode } from './types'
 import type { PropType } from 'vue'
 import type { CheckboxValueType } from '@element-plus/components/checkbox'
 
@@ -142,8 +142,6 @@ const handleExpand = () => {
 }
 
 const handleClick = () => {
-  if (isHoverMenu.value) return
-
   if (
     isLeaf.value &&
     !isDisabled.value &&
@@ -152,12 +150,13 @@ const handleClick = () => {
   ) {
     handleCheck(true)
   } else if (
-    (panel.config.checkOnClickNode ||
+    ((panel.config.checkOnClickNode &&
+      (multiple.value || checkStrictly.value)) ||
       (isLeaf.value && panel.config.checkOnClickLeaf)) &&
     !isDisabled.value
   ) {
     handleSelectCheck(!props.node.checked)
-  } else {
+  } else if (!isHoverMenu.value) {
     handleExpand()
   }
 }

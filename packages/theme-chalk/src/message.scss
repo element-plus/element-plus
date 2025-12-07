@@ -16,7 +16,10 @@
   border-color: getCssVar('message', 'border-color');
   position: fixed;
   background-color: getCssVar('message', 'bg-color');
-  transition: opacity getCssVar('transition-duration'), transform 0.4s, top 0.4s,
+  transition:
+    opacity getCssVar('transition-duration'),
+    transform 0.4s,
+    top 0.4s,
     bottom 0.4s;
   padding: getCssVar('message', 'padding');
   display: flex;
@@ -32,8 +35,9 @@
   }
 
   &.is-center {
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0;
+    right: 0;
+    margin: 0 auto;
   }
 
   @include when(plain) {
@@ -101,20 +105,9 @@
 .#{$namespace}-message-fade-enter-from,
 .#{$namespace}-message-fade-leave-to {
   opacity: 0;
+  transform: translateY(-100%);
 
-  &:is(.is-left, .is-right) {
-    transform: translateY(-100%);
-
-    &.is-bottom {
-      transform: translateY(100%);
-    }
-  }
-
-  &.is-center {
-    transform: translate(-50%, -100%);
-
-    &.is-bottom {
-      transform: translate(-50%, 100%);
-    }
+  &.is-bottom {
+    transform: translateY(100%);
   }
 }

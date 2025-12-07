@@ -1,5 +1,3 @@
 import '@element-plus/components/base/style/css'
 import '@element-plus/theme-chalk/el-drawer.css'
 import '@element-plus/components/overlay/style/css'
-import '@element-plus/components/splitter/style/css'
-import '@element-plus/components/splitter-panel/style/css'

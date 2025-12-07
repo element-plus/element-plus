@@ -17,8 +17,6 @@
 </template>
 
 <script lang="ts" setup>
-// eslint-disable-next-line no-restricted-imports
-import type { DragEvents } from 'element-plus/es/components/tree/src/model/useDragNode'
 import type {
   AllowDropType,
   NodeDropType,
@@ -27,39 +25,31 @@ import type {
 
 type Node = RenderContentContext['node']
 
-const handleDragStart = (node: Node, ev: DragEvents) => {
+const handleDragStart = (node: Node, ev: DragEvent) => {
   console.log('drag start', node)
 }
-const handleDragEnter = (
-  draggingNode: Node,
-  dropNode: Node,
-  ev: DragEvents
-) => {
+const handleDragEnter = (draggingNode: Node, dropNode: Node, ev: DragEvent) => {
   console.log('tree drag enter:', dropNode.label)
 }
-const handleDragLeave = (
-  draggingNode: Node,
-  dropNode: Node,
-  ev: DragEvents
-) => {
+const handleDragLeave = (draggingNode: Node, dropNode: Node, ev: DragEvent) => {
   console.log('tree drag leave:', dropNode.label)
 }
-const handleDragOver = (draggingNode: Node, dropNode: Node, ev: DragEvents) => {
+const handleDragOver = (draggingNode: Node, dropNode: Node, ev: DragEvent) => {
   console.log('tree drag over:', dropNode.label)
 }
 const handleDragEnd = (
   draggingNode: Node,
-  dropNode: Node,
+  dropNode: Node | null,
   dropType: NodeDropType,
-  ev: DragEvents
+  ev: DragEvent
 ) => {
   console.log('tree drag end:', dropNode && dropNode.label, dropType)
 }
 const handleDrop = (
   draggingNode: Node,
   dropNode: Node,
-  dropType: NodeDropType,
-  ev: DragEvents
+  dropType: Exclude<NodeDropType, 'none'>,
+  ev: DragEvent
 ) => {
   console.log('tree drop:', dropNode.label, dropType)
 }

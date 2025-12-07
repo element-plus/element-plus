@@ -1,51 +1,11 @@
 import { isArray, isEmpty, isFunction, isUndefined } from '@element-plus/utils'
 
-import type { VNode } from 'vue'
-
-export type CascaderNodeValue = string | number
-export type CascaderNodePathValue = CascaderNodeValue[]
-export type CascaderValue =
-  | CascaderNodeValue
-  | CascaderNodePathValue
-  | (CascaderNodeValue | CascaderNodePathValue)[]
-export type CascaderConfig = Required<CascaderProps>
-export type ExpandTrigger = 'click' | 'hover'
-export type isDisabled = (data: CascaderOption, node: Node) => boolean
-export type isLeaf = (data: CascaderOption, node: Node) => boolean
-export type Resolve = (dataList?: CascaderOption[]) => void
-export type LazyLoad = (node: Node, resolve: Resolve) => void
-export interface RenderLabelProps {
-  node: Node
-  data: CascaderOption
-}
-export type RenderLabel = (props: RenderLabelProps) => VNode | VNode[]
-export interface CascaderOption extends Record<string, unknown> {
-  label?: string
-  value?: CascaderNodeValue
-  children?: CascaderOption[]
-  disabled?: boolean
-  leaf?: boolean
-}
-
-export interface CascaderProps {
-  expandTrigger?: ExpandTrigger
-  multiple?: boolean
-  checkStrictly?: boolean
-  emitPath?: boolean
-  lazy?: boolean
-  lazyLoad?: LazyLoad
-  value?: string
-  label?: string
-  children?: string
-  disabled?: string | isDisabled
-  leaf?: string | isLeaf
-  hoverThreshold?: number
-  checkOnClickNode?: boolean
-  checkOnClickLeaf?: boolean
-  showPrefix?: boolean
-}
-
-export type Nullable<T> = null | T
+import type {
+  CascaderConfig,
+  CascaderNodePathValue,
+  CascaderNodeValue,
+  CascaderOption,
+} from './types'
 
 type ChildrenData = CascaderOption[] | undefined
 

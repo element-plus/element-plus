@@ -1,7 +1,6 @@
-/* eslint-disable import-x/first */
-let isClientMocked = false
-
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+
+let isClientMocked = false
 
 vi.mock('@vueuse/core', () => ({
   get isClient() {

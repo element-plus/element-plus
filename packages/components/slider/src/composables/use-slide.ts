@@ -4,7 +4,7 @@ import {
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import { useFormItem } from '@element-plus/components/form'
+import { useFormDisabled, useFormItem } from '@element-plus/components/form'
 
 import type { CSSProperties, Ref, SetupContext } from 'vue'
 import type { Arrayable } from '@element-plus/utils'
@@ -16,7 +16,7 @@ export const useSlide = (
   initData: SliderInitData,
   emit: SetupContext<SliderEmits>['emit']
 ) => {
-  const { form: elForm, formItem: elFormItem } = useFormItem()
+  const { formItem: elFormItem } = useFormItem()
 
   const slider = shallowRef<HTMLElement>()
 
@@ -29,9 +29,7 @@ export const useSlide = (
     secondButton,
   }
 
-  const sliderDisabled = computed(() => {
-    return props.disabled || elForm?.disabled || false
-  })
+  const sliderDisabled = useFormDisabled()
 
   const minValue = computed(() => {
     return Math.min(initData.firstValue, initData.secondValue)
@@ -116,7 +114,7 @@ export const useSlide = (
   const setFirstValue = (firstValue: number | undefined) => {
     initData.firstValue = firstValue ?? props.min
     _emit(
-      props.range ? [minValue.value, maxValue.value] : firstValue ?? props.min
+      props.range ? [minValue.value, maxValue.value] : (firstValue ?? props.min)
     )
   }
 

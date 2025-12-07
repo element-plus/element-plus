@@ -76,10 +76,8 @@ export const useBasicDateTable = (
     }
   })
 
-  const selectedDate = computed(() => {
-    return props.selectionMode === 'dates'
-      ? (castArray(props.parsedValue) as Dayjs[])
-      : ([] as Dayjs[])
+  const selectedDate = computed<Dayjs[]>(() => {
+    return props.selectionMode === 'dates' ? castArray(props.parsedValue!) : []
   })
 
   // Return value indicates should the counter be incremented
@@ -261,7 +259,7 @@ export const useBasicDateTable = (
 
   const isSelectedCell = (cell: DateCell) => {
     return (
-      (!unref(hasCurrent) && cell?.text === 1 && cell.type === 'normal') ||
+      (!unref(hasCurrent) && cell?.text === 1 && isNormalDay(cell.type)) ||
       cell.isCurrent
     )
   }
@@ -413,7 +411,7 @@ export const useBasicDateTableDOM = (
 
   const tableKls = computed(() => [
     ns.b(),
-    { 'is-week-mode': props.selectionMode === 'week' && !props.disabled },
+    ns.is('week-mode', props.selectionMode === 'week' && !props.disabled),
   ])
 
   const tableLabel = computed(() => t('el.datepicker.dateTablePrompt'))

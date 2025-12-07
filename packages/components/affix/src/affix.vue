@@ -64,7 +64,7 @@ const rootStyle = computed<CSSProperties>(() => {
 const affixStyle = computed<CSSProperties>(() => {
   if (!fixed.value) return {}
 
-  const offset = props.offset ? addUnit(props.offset) : 0
+  const offset = addUnit(props.offset)
   return {
     height: `${rootHeight.value}px`,
     width: `${rootWidth.value}px`,

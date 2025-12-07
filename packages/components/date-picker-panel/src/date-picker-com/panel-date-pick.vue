@@ -4,7 +4,7 @@
       ppNs.b(),
       dpNs.b(),
       ppNs.is('border', border),
-      ppNs.is('disabled', disabled),
+      ppNs.is('disabled', dateDisabled),
       {
         'has-sidebar': $slots.sidebar || hasShortcuts,
         'has-time': showTime,
@@ -18,7 +18,7 @@
           v-for="(shortcut, key) in shortcuts"
           :key="key"
           type="button"
-          :disabled="disabled"
+          :disabled="dateDisabled"
           :class="ppNs.e('shortcut')"
           @click="handleShortcutClick(shortcut)"
         >
@@ -33,7 +33,7 @@
               :model-value="visibleDate"
               size="small"
               :validate-event="false"
-              :disabled="disabled"
+              :disabled="dateDisabled"
               @input="(val) => (userInputDate = val)"
               @change="handleVisibleDateChange"
             />
@@ -47,7 +47,7 @@
               :model-value="visibleTime"
               size="small"
               :validate-event="false"
-              :disabled="disabled"
+              :disabled="dateDisabled"
               @focus="onTimePickerInputFocus"
               @input="(val) => (userInputTime = val)"
               @change="handleVisibleTimeChange"
@@ -65,7 +65,7 @@
           :class="[
             dpNs.e('header'),
             (currentView === 'year' || currentView === 'month') &&
-              dpNs.e('header--bordered'),
+              dpNs.em('header', 'bordered'),
           ]"
         >
           <span :class="dpNs.e('prev-btn')">
@@ -74,7 +74,7 @@
               :aria-label="t(`el.datepicker.prevYear`)"
               class="d-arrow-left"
               :class="ppNs.e('icon-btn')"
-              :disabled="disabled"
+              :disabled="dateDisabled"
               @click="moveByYear(false)"
             >
               <slot name="prev-year">
@@ -87,7 +87,7 @@
               :aria-label="t(`el.datepicker.prevMonth`)"
               :class="ppNs.e('icon-btn')"
               class="arrow-left"
-              :disabled="disabled"
+              :disabled="dateDisabled"
               @click="moveByMonth(false)"
             >
               <slot name="prev-month">
@@ -99,7 +99,8 @@
             role="button"
             :class="dpNs.e('header-label')"
             aria-live="polite"
-            tabindex="0"
+            :tabindex="disabled ? undefined : 0"
+            :aria-disabled="disabled"
             @keydown.enter="showPicker('year')"
             @click="showPicker('year')"
             >{{ yearLabel }}</span
@@ -108,7 +109,8 @@
             v-show="currentView === 'date'"
             role="button"
             aria-live="polite"
-            tabindex="0"
+            :tabindex="disabled ? undefined : 0"
+            :aria-disabled="disabled"
             :class="[
               dpNs.e('header-label'),
               { active: currentView === 'month' },
@@ -124,7 +126,7 @@
               :aria-label="t(`el.datepicker.nextMonth`)"
               :class="ppNs.e('icon-btn')"
               class="arrow-right"
-              :disabled="disabled"
+              :disabled="dateDisabled"
               @click="moveByMonth(true)"
             >
               <slot name="next-month">
@@ -136,7 +138,7 @@
               :aria-label="t(`el.datepicker.nextYear`)"
               :class="ppNs.e('icon-btn')"
               class="d-arrow-right"
-              :disabled="disabled"
+              :disabled="dateDisabled"
               @click="moveByYear(true)"
             >
               <slot name="next-year">
@@ -153,7 +155,7 @@
             :date="innerDate"
             :parsed-value="parsedValue"
             :disabled-date="disabledDate"
-            :disabled="disabled"
+            :disabled="dateDisabled"
             :cell-class-name="cellClassName"
             :show-week-number="showWeekNumber"
             @pick="handleDatePick"
@@ -164,8 +166,9 @@
             :selection-mode="selectionMode"
             :date="innerDate"
             :disabled-date="disabledDate"
-            :disabled="disabled"
+            :disabled="dateDisabled"
             :parsed-value="parsedValue"
+            :cell-class-name="cellClassName"
             @pick="handleYearPick"
           />
           <month-table
@@ -175,7 +178,8 @@
             :date="innerDate"
             :parsed-value="parsedValue"
             :disabled-date="disabledDate"
-            :disabled="disabled"
+            :disabled="dateDisabled"
+            :cell-class-name="cellClassName"
             @pick="handleMonthPick"
           />
         </div>
@@ -234,7 +238,12 @@ import {
   extractTimeFormat,
 } from '@element-plus/components/time-picker'
 import { ElIcon } from '@element-plus/components/icon'
-import { isArray, isFunction } from '@element-plus/utils'
+import {
+  extractFirst,
+  getEventCode,
+  isArray,
+  isFunction,
+} from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import {
   ArrowLeft,
@@ -252,6 +261,7 @@ import { ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY } from '../constants'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
+import { useFormDisabled } from '@element-plus/components/form'
 
 import type { SetupContext } from 'vue'
 import type { ConfigType, Dayjs } from 'dayjs'
@@ -343,10 +353,10 @@ const emit = (value: Dayjs | Dayjs[], ...args: any[]) => {
   isShortcut = false
 }
 const handleDatePick = async (value: DateTableEmits, keepOpen?: boolean) => {
-  if (selectionMode.value === 'date') {
-    value = value as Dayjs
-    let newDate = props.parsedValue
-      ? (props.parsedValue as Dayjs)
+  if (selectionMode.value === 'date' && dayjs.isDayjs(value)) {
+    const parsedDateValue = extractFirst(props.parsedValue)
+    let newDate = parsedDateValue
+      ? parsedDateValue
           .year(value.year())
           .month(value.month())
           .date(value.date())
@@ -428,7 +438,7 @@ const selectionMode = computed<DatePickType>(() => {
   const { type } = props
   if (['week', 'month', 'months', 'year', 'years', 'dates'].includes(type))
     return type
-  return 'date' as DatePickType
+  return 'date'
 })
 
 const isMultipleType = computed(() => {
@@ -503,8 +513,10 @@ const handleYearPick = async (
   handlePanelChange('year')
 }
 
+const dateDisabled = useFormDisabled()
+
 const showPicker = async (view: 'month' | 'year') => {
-  if (props.disabled) return
+  if (dateDisabled.value) return
   currentView.value = view
   await nextTick()
   handleFocusPicker()
@@ -545,7 +557,7 @@ const onConfirm = () => {
     emit(props.parsedValue as Dayjs[])
   } else {
     // deal with the scenario where: user opens the date time picker, then confirm without doing anything
-    let result = props.parsedValue as Dayjs
+    let result = extractFirst(props.parsedValue)
     if (!result) {
       const defaultTimeD = dayjs(defaultTime).locale(lang.value)
       const defaultValueD = getDefaultValue()
@@ -593,17 +605,15 @@ const dateFormat = computed(() => {
 const visibleTime = computed(() => {
   if (userInputTime.value) return userInputTime.value
   if (!props.parsedValue && !defaultValue.value) return
-  return ((props.parsedValue || innerDate.value) as Dayjs).format(
-    timeFormat.value
-  )
+  const dateValue = extractFirst(props.parsedValue) || innerDate.value
+  return dateValue.format(timeFormat.value)
 })
 
 const visibleDate = computed(() => {
   if (userInputDate.value) return userInputDate.value
   if (!props.parsedValue && !defaultValue.value) return
-  return ((props.parsedValue || innerDate.value) as Dayjs).format(
-    dateFormat.value
-  )
+  const dateValue = extractFirst(props.parsedValue) || innerDate.value
+  return dateValue.format(dateFormat.value)
 })
 
 const timePickerVisible = ref(false)
@@ -627,8 +637,9 @@ const getUnits = (date: Dayjs) => {
 
 const handleTimePick = (value: Dayjs, visible: boolean, first: boolean) => {
   const { hour, minute, second } = getUnits(value)
-  const newDate = props.parsedValue
-    ? (props.parsedValue as Dayjs).hour(hour).minute(minute).second(second)
+  const parsedDateValue = extractFirst(props.parsedValue)
+  const newDate = parsedDateValue
+    ? parsedDateValue.hour(hour).minute(minute).second(second)
     : value
   innerDate.value = newDate
   emit(innerDate.value, true)
@@ -674,12 +685,6 @@ const isValidValue = (date: unknown) => {
   )
 }
 
-const formatToString = (value: Dayjs | Dayjs[]) => {
-  return isArray(value)
-    ? (value as Dayjs[]).map((_) => _.format(props.format))
-    : (value as Dayjs).format(props.format)
-}
-
 const parseUserInput = (value: Dayjs) => {
   return correctlyParseUserInput(
     value,
@@ -717,7 +722,8 @@ const _handleFocusPicker = () => {
 }
 
 const handleKeydownTable = (event: KeyboardEvent) => {
-  const { code } = event
+  const code = getEventCode(event)
+
   const validCode = [
     EVENT_CODE.up,
     EVENT_CODE.down,
@@ -807,7 +813,7 @@ const handleKeyControl = (code: string) => {
       newDate,
       isFunction(map[code])
         ? (map[code] as unknown as KeyControlMappingCallableOffset)(newDate)
-        : (map[code] as number) ?? 0
+        : ((map[code] as number) ?? 0)
     )
     if (disabledDate && disabledDate(newDate)) {
       break
@@ -866,7 +872,6 @@ watch(
 )
 
 contextEmit('set-picker-option', ['isValidValue', isValidValue])
-contextEmit('set-picker-option', ['formatToString', formatToString])
 contextEmit('set-picker-option', ['parseUserInput', parseUserInput])
 contextEmit('set-picker-option', ['handleFocusPicker', _handleFocusPicker])
 </script>

@@ -10,6 +10,14 @@ export default {
       defaultLabel: 'هەڵبژاردنی ڕەنگ',
       description:
         'ڕەنگی ئێستا {color}. ئینتەر دابگرە بۆ هەڵبژاردنی ڕەنگی نوێ.',
+      alphaLabel: 'pick alpha value', // to be translated
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
+      svLabel: 'pick saturation and brightness value', // to be translated
+      svDescription:
+        'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
+      predefineDescription: 'select {value} as the color', // to be translated
     },
     datepicker: {
       now: 'ئێستا',
@@ -45,7 +53,6 @@ export default {
       month10: 'گەڵاڕێزان',
       month11: 'سەرماوەز',
       month12: 'بەفرانبار',
-      week: 'هەفت',
       weeks: {
         sun: 'یەکشەممە',
         mon: 'دووشەممە',
@@ -145,6 +152,21 @@ export default {
       resetFilter: 'جێگیرکردنەوە',
       clearFilter: 'هەموو',
       sumText: 'کۆ',
+      selectAllLabel: 'Select all rows', // to be translated
+      selectRowLabel: 'Select this row', // to be translated
+      expandRowLabel: 'Expand this row', // to be translated
+      collapseRowLabel: 'Collapse this row', // to be translated
+      sortLabel: 'Sort by {column}', // to be translated
+      filterLabel: 'Filter by {column}', // to be translated
+    },
+    tag: {
+      close: 'Close this tag', // to be translated
+    },
+    tour: {
+      next: 'Next', // to be translated
+      previous: 'Previous', // to be translated
+      finish: 'Finish', // to be translated
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'هیچ داتا نیە',
@@ -152,16 +174,16 @@ export default {
     transfer: {
       noMatch: 'هیچ داتای هاوتا نیە',
       noData: 'هیچ داتا نیە',
-      titles: ['لیستی 1', 'لیستی 2'], // to be translated
-      filterPlaceholder: 'کلیلەوشە داخڵ بکە', // to be translated
-      noCheckedFormat: '{total} دانە', // to be translated
-      hasCheckedFormat: '{checked}/{total} هەڵبژێردراوە', // to be translated
+      titles: ['لیستی 1', 'لیستی 2'],
+      filterPlaceholder: 'کلیلەوشە داخڵ بکە',
+      noCheckedFormat: '{total} دانە',
+      hasCheckedFormat: '{checked}/{total} هەڵبژێردراوە',
     },
     image: {
       error: 'شکستی هێنا',
     },
     pageHeader: {
-      title: 'گەڕانەوە', // to be translated
+      title: 'گەڕانەوە',
     },
     popconfirm: {
       confirmButtonText: 'بەڵێ',

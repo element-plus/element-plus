@@ -60,6 +60,7 @@ function useWatcher<T extends DefaultRow>(
       'filterClassName',
       'showOverflowTooltip',
       'tooltipFormatter',
+      'resizable',
     ]
     const parentProps = ['showOverflowTooltip']
     const aliases: Record<string, string> = {
@@ -75,6 +76,12 @@ function useWatcher<T extends DefaultRow>(
           () => props_[columnKey],
           (newVal) => {
             instance.columnConfig.value[key as never] = newVal
+            if (key === 'filters' || key === 'filterMethod') {
+              instance.columnConfig.value['filterable'] = !!(
+                instance.columnConfig.value['filters'] ||
+                instance.columnConfig.value['filterMethod']
+              )
+            }
           }
         )
       }
