@@ -32,7 +32,7 @@ export default defineComponent({
       PICKER_POPPER_OPTIONS_INJECTION_KEY,
       reactive(toRef(props, 'popperOptions'))
     )
-
+    const disabled = useFormDisabled()
     const commonPicker = ref<InstanceType<typeof CommonPicker>>()
     const refProps: DatePickerExpose = {
       focus: () => {
@@ -72,7 +72,7 @@ export default defineComponent({
         >
           {{
             default: (scopedProps: /**FIXME: remove any type */ any) => (
-              <ElDatePickerPanel border={false} {...scopedProps}>
+              <ElDatePickerPanel disabled={disabled.value} border={false} {...scopedProps}>
                 {slots}
               </ElDatePickerPanel>
             ),
