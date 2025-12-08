@@ -438,5 +438,9 @@ defineExpose({
    * @description Reset current field and remove validation result.
    */
   resetField,
+  /**
+   * @description Customize the reset value.
+   */
+  setInitialValue,
 })
 </script>

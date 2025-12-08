@@ -61,15 +61,15 @@ const removeField: FormContext['removeField'] = (field) => {
   }
 }
 
-const setInitialFields: FormContext['setInitialFields'] = (initModel) => {
+const setInitialValues: FormContext['setInitialValues'] = (initModel) => {
   if (!props.model) {
-    debugWarn(COMPONENT_NAME, 'model is required for setInitialFields to work.')
+    debugWarn(COMPONENT_NAME, 'model is required for setInitialValues to work.')
     return
   }
   if (!initModel) {
     debugWarn(
       COMPONENT_NAME,
-      'initModel is required for setInitialFields to work.'
+      'initModel is required for setInitialValues to work.'
     )
     return
   }
@@ -238,6 +238,6 @@ defineExpose({
   /**
    * @description Customize the reset value.
    */
-  setInitialFields,
+  setInitialValues,
 })
 </script>
