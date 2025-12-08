@@ -123,7 +123,10 @@ export const timePickerDefaultProps = buildProps({
   /**
    * @description whether TimePicker is disabled
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description placeholder in non-range mode
    */
