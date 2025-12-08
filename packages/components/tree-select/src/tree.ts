@@ -121,11 +121,15 @@ export const useTree = (
     })
   }
 
-  const emitModelChange = (value) => {
-    emit(UPDATE_MODEL_EVENT, value)
-    if (!isEqual(props.modelValue, value)) {
-      emit(CHANGE_EVENT, value)
+  const emitChange = (val: any | any[]) => {
+    if (!isEqual(props.modelValue, val)) {
+      emit(CHANGE_EVENT, val)
     }
+  }
+
+  function update(val) {
+    emit(UPDATE_MODEL_EVENT, val)
+    emitChange(val)
   }
 
   return {
@@ -210,7 +214,7 @@ export const useTree = (
 
       if (props.checkStrictly) {
         // Checking for changes may come from `check-on-node-click`
-        emitModelChange(
+        update(
           props.multiple
             ? checkedKeys
             : checkedKeys.includes(dataValue)
@@ -221,7 +225,7 @@ export const useTree = (
       // only can select leaf node
       else if (props.multiple) {
         const childKeys = getChildCheckedKeys()
-        emitModelChange(cachedKeys.concat(childKeys))
+        update(cachedKeys.concat(childKeys))
       } else {
         // select first leaf node when check parent
         const firstLeaf = treeFind(
@@ -244,7 +248,7 @@ export const useTree = (
             (data) => getNodeValByProp('children', data)
           )
 
-        emitModelChange(
+        update(
           firstLeafKey === props.modelValue || hasCheckedChild
             ? undefined
             : firstLeafKey
@@ -291,7 +295,7 @@ export const useTree = (
           )
 
           const childKeys = getChildCheckedKeys()
-          emitModelChange(cachedKeys.concat(childKeys))
+          update(cachedKeys.concat(childKeys))
         }
       })
     },
