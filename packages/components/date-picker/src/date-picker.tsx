@@ -11,6 +11,7 @@ import {
   ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY,
 } from '@element-plus/components/date-picker-panel'
 import { datePickerProps } from './props'
+import { useFormDisabled } from '@element-plus/components/form'
 
 import type {
   DateModelType,
