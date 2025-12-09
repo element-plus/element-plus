@@ -64,8 +64,6 @@ import { useCalendar } from './use-calendar'
 import { calendarEmits, calendarProps } from './calendar'
 import SelectController from './select-controller.vue'
 
-import type { Dayjs } from 'dayjs'
-
 const ns = useNamespace('calendar')
 
 const COMPONENT_NAME = 'ElCalendar'
@@ -83,6 +81,7 @@ const {
   realSelectedDay,
   selectDate,
   validatedRange,
+  handleDateChange,
 } = useCalendar(props, emit, COMPONENT_NAME)
 
 const { t } = useLocale()
@@ -91,14 +90,6 @@ const i18nDate = computed(() => {
   const pickedMonth = `el.datepicker.month${date.value.format('M')}`
   return `${date.value.year()} ${t('el.datepicker.year')} ${t(pickedMonth)}`
 })
-
-const handleDateChange = (value: Dayjs | 'today') => {
-  if (value === 'today') {
-    selectDate('today')
-  } else {
-    pickDay(value)
-  }
-}
 
 defineExpose({
   /** @description currently selected date */
