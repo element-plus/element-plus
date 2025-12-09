@@ -159,6 +159,9 @@ export default {
       sortLabel: 'Sort by {column}',
       filterLabel: 'Filter by {column}',
     },
+    tag: {
+      close: 'Close this tag',
+    },
     tour: {
       next: 'Next',
       previous: 'Previous',

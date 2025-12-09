@@ -69,8 +69,8 @@
     "normalize-wheel-es": "^1.2.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.0.0",
-    "@commitlint/config-conventional": "^19.0.0",
+    "@commitlint/cli": "^20.2.0",
+    "@commitlint/config-conventional": "^20.2.0",
     "@element-plus/build": "workspace:^0.0.1",
     "@element-plus/build-utils": "workspace:^0.0.1",
     "@element-plus/eslint-config": "workspace:*",
@@ -106,7 +106,6 @@
     "rimraf": "^4.4.1",
     "sass": "^1.79.3",
     "tsx": "^4.19.3",
-    "type-fest": "^2.14.0",
     "typescript": "~5.5.4",
     "unplugin-vue-macros": "^2.7.11",
     "vitest": "^2.0.5",
