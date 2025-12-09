@@ -1,7 +1,7 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, test } from 'vitest'
-import { ElFormItem } from '@element-plus/components/form'
+import { ElForm, ElFormItem } from '@element-plus/components/form'
 import Radio from '../src/radio.vue'
 import RadioGroup from '../src/radio-group.vue'
 import RadioButton from '../src/radio-button.vue'
@@ -524,6 +524,27 @@ describe('Radio Button', () => {
       expect(wrapper.classes()).not.toContain('is-checked')
       await wrapper.trigger('click')
       expect(wrapper.classes()).toContain('is-checked')
+    })
+
+    test('form disabled, but radio is not', async () => {
+      const wrapper = mount(() => (
+        <ElForm disabled>
+          <RadioGroup disabled={false}>
+            <Radio label="Foo" value="Foo" />
+            <Radio label="Bar" value="Bar" />
+          </RadioGroup>
+        </ElForm>
+      ))
+      await nextTick()
+
+      const radios = wrapper.findAll('.el-radio')
+      expect(radios.length).toBe(2)
+      radios.forEach((r) => {
+        // 不应有禁用样式
+        expect(r.classes()).not.toContain('is-disabled')
+        // input 不应有 disabled 属性
+        expect(r.find('input').attributes('disabled')).toBeUndefined()
+      })
     })
   })
 })
