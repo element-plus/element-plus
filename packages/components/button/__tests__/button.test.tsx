@@ -279,6 +279,25 @@ describe('Button Group', () => {
     expect(btn.emitted('click')).toBeUndefined()
   })
 
+  it('form disabled but button is not disabled', async () => {
+    const wrapper = mount({
+      setup: () => () => (
+        <Form disabled>
+          <Button
+            disabled={false}
+            v-slots={{
+              default: () => AXIOM,
+            }}
+          />
+        </Form>
+      ),
+    })
+    const btn = wrapper.findComponent(Button)
+    expect(btn.classes()).not.toContain('is-disabled')
+    await btn.trigger('click')
+    expect(btn.emitted('click')).toBeDefined()
+  })
+
   it('should use size of form-item', async () => {
     const wrapper = mount({
       setup: () => () => (
