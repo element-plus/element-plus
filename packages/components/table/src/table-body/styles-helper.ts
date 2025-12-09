@@ -73,13 +73,13 @@ function useStyles<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
     const fn = parent?.props.spanMethod
     const fixedStyle = isFunction(fn)
       ? getFixedColumnOffsetWithSpan(
-          columnIndex,
-          column.fixed,
-          props.store,
-          row,
-          rowIndex,
-          getSpan
-        )
+        columnIndex,
+        column.fixed,
+        props.store,
+        row,
+        rowIndex,
+        getSpan
+      )
       : getFixedColumnOffset(columnIndex, column.fixed, props.store)
 
     ensurePosition(fixedStyle, 'left')
@@ -150,7 +150,8 @@ function useStyles<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
     colspan: number,
     columnIndex: number,
     row: T,
-    rowIndex: number
+    rowIndex: number,
+    spanCache?: Map<number, { rowspan: number; colspan: number }>
   ): number => {
     if (colspan < 1) {
       return columns[columnIndex].realWidth!
@@ -168,7 +169,11 @@ function useStyles<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
 
     let hiddenColumnsCount = 0
     for (let i = 0; i < columnIndex; i++) {
-      const { rowspan, colspan } = getSpan(row, columns[i], rowIndex, i)
+      let spanResult = spanCache?.get(i)
+      if (!spanResult) {
+        spanResult = getSpan(row, columns[i], rowIndex, i)
+      }
+      const { rowspan, colspan } = spanResult
       if (rowspan === 0 || colspan === 0) {
         hiddenColumnsCount++
       }
