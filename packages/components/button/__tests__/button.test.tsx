@@ -279,7 +279,7 @@ describe('Button Group', () => {
     expect(btn.emitted('click')).toBeUndefined()
   })
 
-  it('form disabled but button is not disabled', async () => {
+  it('The disabled state of a component has higher priority than that of a form', async () => {
     const wrapper = mount({
       setup: () => () => (
         <Form disabled>
