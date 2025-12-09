@@ -148,6 +148,7 @@ const {
   persistent,
   menuPopperOffset,
   menuPlacement,
+  openedMenus,
   addPopperContent,
   removePopperContent,
 } = inject(DROPDOWN_INSTANCE_INJECTION_KEY, undefined)!
@@ -170,15 +171,8 @@ const wrapStyle = computed<CSSProperties>(() => ({
   maxHeight: addUnit(maxHeight.value),
 }))
 
-const {
-  openedMenus,
-  opened,
-  path,
-  toggleReason,
-  handleOpen,
-  handleClose,
-  handleToggle,
-} = useDropdownVisible({ triggerId })
+const { opened, path, toggleReason, handleOpen, handleClose, handleToggle } =
+  useDropdownVisible({ triggerId, openedMenus })
 
 const {
   popperRef,

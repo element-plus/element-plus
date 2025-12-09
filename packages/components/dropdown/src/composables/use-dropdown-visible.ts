@@ -6,14 +6,13 @@ import type { Ref } from 'vue'
 interface UseDropdownVisibleOptions {
   isRoot?: boolean
   triggerId: Ref<string>
+  openedMenus: Ref<string[]>
 }
-
-// Record opened menus by their triggerIds
-const openedMenus = ref<string[]>([])
 
 export function useDropdownVisible({
   isRoot,
   triggerId,
+  openedMenus,
 }: UseDropdownVisibleOptions) {
   const parent = isRoot ? undefined : inject(DROPDOWN_INJECTION_KEY, undefined)
   const toggleReason = ref<Event>()
@@ -66,7 +65,6 @@ export function useDropdownVisible({
   }
 
   return {
-    openedMenus,
     opened,
     toggleReason,
     path,

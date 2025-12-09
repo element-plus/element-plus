@@ -18,6 +18,7 @@ export type ElDropdownInjectionContext = {
 }
 
 export interface IElDropdownInstance extends ToRefs<DropdownProps> {
+  openedMenus: Ref<string[]>
   dropdownSize: ComputedRef<string>
   handleClick: () => void
   commandHandler: (...arg: any[]) => void

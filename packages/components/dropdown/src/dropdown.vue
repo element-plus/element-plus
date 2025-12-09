@@ -147,6 +147,8 @@ export default defineComponent({
     const { t } = useLocale()
     const dropdownSize = useFormSize()
 
+    // Record opened menus by their triggerIds
+    const openedMenus = ref<string[]>([])
     const referenceElementRef = ref()
 
     const wrapStyle = computed<CSSProperties>(() => ({
@@ -167,7 +169,7 @@ export default defineComponent({
       handleClose,
       handleToggle,
       handleCloseAll,
-    } = useDropdownVisible({ triggerId, isRoot: true })
+    } = useDropdownVisible({ triggerId, openedMenus, isRoot: true })
 
     const { triggeringElementRef, addPopperContent, removePopperContent } =
       useDropdownController({
@@ -272,6 +274,7 @@ export default defineComponent({
 
     provide(DROPDOWN_INSTANCE_INJECTION_KEY, {
       ...toRefs(props),
+      openedMenus,
       dropdownSize,
       handleClick,
       commandHandler,
