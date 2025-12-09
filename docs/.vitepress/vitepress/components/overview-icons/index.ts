@@ -41,6 +41,7 @@ import OvEmpty from './ov-empty.vue'
 import OvImage from './ov-image.vue'
 import OvInfiniteScroll from './ov-infinite-scroll.vue'
 import OvPagination from './ov-pagination.vue'
+import OvPaginationTable from './ov-pagination-table.vue'
 import OvProgress from './ov-progress.vue'
 import OvResult from './ov-result.vue'
 import OvSkeleton from './ov-skeleton.vue'
@@ -123,6 +124,7 @@ export default {
   image: OvImage,
   'infinite-scroll': OvInfiniteScroll,
   pagination: OvPagination,
+  'pagination-table': OvPaginationTable,
   progress: OvProgress,
   result: OvResult,
   skeleton: OvSkeleton,

@@ -61,6 +61,7 @@ declare module 'vue' {
     ElOptionGroup: typeof import('element-plus')['ElOptionGroup']
     ElPageHeader: typeof import('element-plus')['ElPageHeader']
     ElPagination: typeof import('element-plus')['ElPagination']
+    ElPaginationTable: typeof import('element-plus')['ElPaginationTable']
     ElPopconfirm: typeof import('element-plus')['ElPopconfirm']
     ElPopper: typeof import('element-plus')['ElPopper']
     ElPopover: typeof import('element-plus')['ElPopover']

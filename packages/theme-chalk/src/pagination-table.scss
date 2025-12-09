@@ -1,0 +1,22 @@
+@use 'mixins/mixins' as *;
+@use 'common/var' as *;
+
+@include b(pagination-table) {
+  display: flex;
+  flex-direction: column;
+
+  @include e(table) {
+    flex-grow: 1;
+    min-height: 0;
+  }
+
+  @include e(pagination) {
+    margin-top: auto;
+
+    @include b(pagination) {
+      min-width: 500px;
+      margin-top: 8px;
+      justify-content: end;
+    }
+  }
+}

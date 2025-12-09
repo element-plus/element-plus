@@ -92,6 +92,7 @@ declare module 'vue' {
     OvNotification: typeof import('./.vitepress/vitepress/components/overview-icons/ov-notification.vue')['default']
     OvPageHeader: typeof import('./.vitepress/vitepress/components/overview-icons/ov-page-header.vue')['default']
     OvPagination: typeof import('./.vitepress/vitepress/components/overview-icons/ov-pagination.vue')['default']
+    OvPaginationTable: typeof import('./.vitepress/vitepress/components/overview-icons/ov-pagination-table.vue')['default']
     OvPopconfirm: typeof import('./.vitepress/vitepress/components/overview-icons/ov-popconfirm.vue')['default']
     OvPopover: typeof import('./.vitepress/vitepress/components/overview-icons/ov-popover.vue')['default']
     OvProgress: typeof import('./.vitepress/vitepress/components/overview-icons/ov-progress.vue')['default']

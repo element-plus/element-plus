@@ -64,6 +64,7 @@ import {
 } from '@element-plus/components/menu'
 import { ElPageHeader } from '@element-plus/components/page-header'
 import { ElPagination } from '@element-plus/components/pagination'
+import { ElPaginationTable } from '@element-plus/components/pagination-table'
 import { ElPopconfirm } from '@element-plus/components/popconfirm'
 import { ElPopover } from '@element-plus/components/popover'
 import { ElPopper } from '@element-plus/components/popper'
@@ -173,6 +174,7 @@ export default [
   ElSubMenu,
   ElPageHeader,
   ElPagination,
+  ElPaginationTable,
   ElPopconfirm,
   ElPopover,
   ElPopper,
