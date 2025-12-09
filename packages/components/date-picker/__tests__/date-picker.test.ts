@@ -2674,7 +2674,7 @@ describe('MonthRange', () => {
       expect(formItem.attributes().role).toBe('group')
     })
 
-    it('form is disabled, but the datePicker is not.', async () => {
+    it('should give its own disabled prop higher priority within a form', async () => {
       const wrapper = _mount(
         `<el-form :disabled="true">
           <el-form-item>
