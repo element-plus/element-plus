@@ -6,16 +6,8 @@
   >
     <div ref="tableContainerRef" :class="ns.e('table')">
       <el-table ref="tableRef" v-bind="$attrs" height="100%" :data="tableData">
-        <slot></slot>
-        <!-- 当数据为空时自定义的内容 -->
-        <template #empty>
-          <template v-if="$slots.empty">
-            <slot name="empty"></slot>
-          </template>
-          <el-empty v-else :image-size="100" />
-        </template>
-        <template #append>
-          <slot name="append"></slot>
+        <template v-for="(_, name) in $slots" :key="name" #[name]="prop">
+          <slot :name="name" v-bind="prop" />
         </template>
       </el-table>
     </div>
