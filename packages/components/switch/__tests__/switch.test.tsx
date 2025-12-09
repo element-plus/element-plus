@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import { debugWarn } from '@element-plus/utils'
 import { Checked, CircleClose, Hide, View } from '@element-plus/icons-vue'
-import { ElFormItem } from '@element-plus/components/form'
+import { ElForm, ElFormItem } from '@element-plus/components/form'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import Switch from '../src/switch.vue'
 
@@ -381,6 +381,18 @@ describe('Switch.vue', () => {
       const coreWrapper = wrapper.find('.el-switch__core')
       const actionWrapper = coreWrapper.find('.el-switch__action')
       expect(actionWrapper.find('.custom-active-action').exists()).toBeTruthy()
+    })
+
+    test('form disabled, switch is not', async () => {
+      const wrapper = mount(() => (
+        <ElForm disabled>
+          <Switch disabled={false} />
+        </ElForm>
+      ))
+
+      await nextTick()
+      const s = wrapper.find('.el-switch')
+      expect(s.classes()).not.toContain('is-disabled')
     })
   })
 })
