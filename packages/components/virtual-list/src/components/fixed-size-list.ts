@@ -28,11 +28,7 @@ const FixedSizeList = buildList({
     scrollOffset
   ) => {
     const size = (isHorizontal(layout) ? width : height) as number
-    if (
-      typeof process !== 'undefined' &&
-      process.env.NODE_ENV !== 'production' &&
-      isString(size)
-    ) {
+    if (process.env.NODE_ENV !== 'production' && isString(size)) {
       throwError(
         '[ElVirtualList]',
         `
