@@ -1,8 +1,10 @@
 <template>
   <div ref="root" :class="ns.b()" :style="rootStyle">
-    <div :class="{ [ns.m('fixed')]: fixed }" :style="affixStyle">
-      <slot />
-    </div>
+    <ElTeleport :disabled="teleportDisabled" to="body">
+      <div :class="{ [ns.m('fixed')]: fixed }" :style="affixStyle">
+        <slot />
+      </div>
+    </ElTeleport>
   </div>
 </template>
 
@@ -21,6 +23,7 @@ import {
   useEventListener,
   useWindowSize,
 } from '@vueuse/core'
+import ElTeleport from '@element-plus/components/teleport'
 import { addUnit, getScrollContainer, throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { CHANGE_EVENT } from '@element-plus/constants'
@@ -46,6 +49,7 @@ const {
   width: rootWidth,
   top: rootTop,
   bottom: rootBottom,
+  left: rootLeft,
   update: updateRoot,
 } = useElementBounding(root, { windowScroll: false })
 const targetRect = useElementBounding(target)
@@ -53,6 +57,10 @@ const targetRect = useElementBounding(target)
 const fixed = ref(false)
 const scrollTop = ref(0)
 const transform = ref(0)
+
+const teleportDisabled = computed(() => {
+  return !props.appendToBody || !fixed.value
+})
 
 const rootStyle = computed<CSSProperties>(() => {
   return {
@@ -70,6 +78,7 @@ const affixStyle = computed<CSSProperties>(() => {
     width: `${rootWidth.value}px`,
     top: props.position === 'top' ? offset : '',
     bottom: props.position === 'bottom' ? offset : '',
+    left: props.appendToBody ? `${rootLeft.value}px` : '',
     transform: transform.value ? `translateY(${transform.value}px)` : '',
     zIndex: props.zIndex,
   }

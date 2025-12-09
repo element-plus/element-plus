@@ -40,6 +40,13 @@ export const affixProps = buildProps({
     values: ['top', 'bottom'],
     default: 'top',
   },
+  /**
+   * @description whether affix element is teleport to body
+   * */
+  appendToBody: {
+    type: Boolean,
+    default: false,
+  },
 } as const)
 export type AffixProps = ExtractPropTypes<typeof affixProps>
 export type AffixPropsPublic = __ExtractPublicPropTypes<typeof affixProps>

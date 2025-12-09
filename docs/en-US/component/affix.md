@@ -41,12 +41,13 @@ affix/fixed
 
 ### Attributes
 
-| Name     | Description                     | Type                       | Default |
-| -------- | ------------------------------- | -------------------------- | ------- |
-| offset   | offset distance                 | ^[number]                  | 0       |
-| position | position of affix               | ^[enum]`'top' \| 'bottom'` | top     |
-| target   | target container (CSS selector) | ^[string]                  | —       |
-| z-index  | `z-index` of affix              | ^[number]                  | 100     |
+| Name           | Description                     | Type                       | Default |
+| -------------- | ------------------------------- | -------------------------- | ------- |
+| offset         | offset distance                 | ^[number]                  | 0       |
+| position       | position of affix               | ^[enum]`'top' \| 'bottom'` | top     |
+| target         | target container (CSS selector) | ^[string]                  | —       |
+| z-index        | `z-index` of affix              | ^[number]                  | 100     |
+| append-to-body | append affix to body            | ^[boolean]                 | false   |
 
 ### Events
 

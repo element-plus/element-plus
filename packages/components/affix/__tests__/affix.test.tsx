@@ -192,4 +192,39 @@ describe('Affix.vue', () => {
     mockAffixRect.mockRestore()
     mockDocumentRect.mockRestore()
   })
+
+  test('should render append-to props', async () => {
+    const wrapper = _mount(() => <Affix appendToBody>{AXIOM}</Affix>)
+    await nextTick()
+
+    expect(wrapper.text()).toEqual(AXIOM)
+    const mockAffixRect = vi
+      .spyOn(wrapper.find('.el-affix').element, 'getBoundingClientRect')
+      .mockReturnValue({
+        height: 40,
+        width: 1000,
+        top: -100,
+        bottom: -80,
+      } as DOMRect)
+    const mockDocumentRect = vi
+      .spyOn(document.documentElement, 'getBoundingClientRect')
+      .mockReturnValue({
+        height: 200,
+        width: 1000,
+        top: 0,
+        bottom: 200,
+      } as DOMRect)
+    expect(wrapper.find('.el-affix--fixed').exists()).toBe(false)
+    expect(wrapper.find('.el-affix').attributes('style')).toMatchInlineSnapshot(
+      `undefined`
+    )
+    await makeScroll(document.documentElement, 'scrollTop', 200)
+    expect(wrapper.find('.el-affix--fixed').exists()).toBe(false)
+    // if affix fixed, el-affix style should not be empty
+    expect(wrapper.find('.el-affix').attributes('style')).toMatchInlineSnapshot(
+      `"height: 40px; width: 1000px;"`
+    )
+    mockAffixRect.mockRestore()
+    mockDocumentRect.mockRestore()
+  })
 })
