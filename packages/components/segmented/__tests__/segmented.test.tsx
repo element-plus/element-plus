@@ -234,7 +234,7 @@ describe('Segmented.vue', () => {
     expect(onChange).toHaveBeenCalledTimes(2)
   })
 
-  test('form disabled, but segemented is not', async () => {
+  test('The disabled state of a component has higher priority than that of a form', async () => {
     const value = ref('Mon')
     const options = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
     const wrapper = mount(() => (

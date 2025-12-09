@@ -716,7 +716,7 @@ describe('Cascader.vue', () => {
     expect(wrapper.find('input').element.placeholder).toBe(AXIOM)
   })
 
-  test('form disabled, but cascader is not disabled', async () => {
+  test('The disabled state of a component has higher priority than that of a form', async () => {
     const model = reactive({
       name: new Array<string>(),
     })

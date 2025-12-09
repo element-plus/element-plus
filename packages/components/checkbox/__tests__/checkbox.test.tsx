@@ -76,7 +76,7 @@ describe('Checkbox', () => {
       expect(checked.value).toBe(false)
     })
 
-    test('form disabled, but checkbox is not', async () => {
+    test('The disabled state of a component has higher priority than that of a form', async () => {
       const checked = ref(false)
       const wrapper = mount(() => (
         <ElForm disabled>

@@ -2557,7 +2557,7 @@ describe('Select', () => {
       expect(wrapper.find('.custom-tag').text()).toBe('enabled')
     })
 
-    it('form disabled, but selectV2 is not', async () => {
+    it('The disabled state of a component has higher priority than that of a form', async () => {
       const options = [
         { value: 'a', label: 'A' },
         { value: 'b', label: 'B' },

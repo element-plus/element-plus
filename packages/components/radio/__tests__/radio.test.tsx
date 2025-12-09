@@ -526,7 +526,7 @@ describe('Radio Button', () => {
       expect(wrapper.classes()).toContain('is-checked')
     })
 
-    test('form disabled, but radio is not', async () => {
+    test('The disabled state of a component has higher priority than that of a form', async () => {
       const wrapper = mount(() => (
         <ElForm disabled>
           <RadioGroup disabled={false}>

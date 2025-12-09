@@ -2899,7 +2899,7 @@ describe('Select', () => {
       expect(formItem.attributes().role).toBe('group')
     })
 
-    it('form disabled, but select is not', async () => {
+    it('The disabled state of a component has higher priority than that of a form', async () => {
       const wrapper = _mount(
         `<el-form disabled>
           <el-select :disabled="false" v-model="modelValue">

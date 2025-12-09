@@ -637,7 +637,7 @@ describe('Input.vue', () => {
       expect(formItem.attributes().role).toBe('group')
     })
 
-    test('form disbaled, but input is not', async () => {
+    test('The disabled state of a component has higher priority than that of a form', async () => {
       const wrapper = mount(() => (
         <ElForm disabled>
           <Input disabled={false} />

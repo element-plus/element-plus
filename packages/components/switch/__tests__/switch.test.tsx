@@ -383,7 +383,7 @@ describe('Switch.vue', () => {
       expect(actionWrapper.find('.custom-active-action').exists()).toBeTruthy()
     })
 
-    test('form disabled, switch is not', async () => {
+    test('The disabled state of a component has higher priority than that of a form', async () => {
       const wrapper = mount(() => (
         <ElForm disabled>
           <Switch disabled={false} />

@@ -283,7 +283,7 @@ describe('TimeSelect', () => {
       )
     })
 
-    it('form item role is group when multiple inputs', async () => {
+    it('The disabled state of a component has higher priority than that of a form', async () => {
       const wrapper = mount(() => (
         <ElFormItem label="Foobar" data-test-ref="item">
           <TimeSelect />

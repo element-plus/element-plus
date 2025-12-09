@@ -791,7 +791,7 @@ describe('Slider', () => {
       expect(formItem.attributes().role).toBe('group')
     })
 
-    it('form disabled, but slider is not', async () => {
+    it('The disabled state of a component has higher priority than that of a form', async () => {
       const wrapper = mount(() => (
         <ElForm disabled>
           <Slider disabled={false} />
