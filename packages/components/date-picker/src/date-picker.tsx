@@ -11,7 +11,6 @@ import {
   ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY,
 } from '@element-plus/components/date-picker-panel'
 import { datePickerProps } from './props'
-import { useFormDisabled } from '@element-plus/components/form'
 
 import type {
   DateModelType,
@@ -33,7 +32,6 @@ export default defineComponent({
       PICKER_POPPER_OPTIONS_INJECTION_KEY,
       reactive(toRef(props, 'popperOptions'))
     )
-    const disabled = useFormDisabled()
     const commonPicker = ref<InstanceType<typeof CommonPicker>>()
     const refProps: DatePickerExpose = {
       focus: () => {
