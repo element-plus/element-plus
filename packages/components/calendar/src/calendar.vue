@@ -3,7 +3,10 @@
     <div :class="ns.e('header')">
       <slot name="header" :date="i18nDate">
         <div :class="ns.e('title')">{{ i18nDate }}</div>
-        <div v-if="validatedRange.length === 0" :class="ns.e('button-group')">
+        <div
+          v-if="validatedRange.length === 0 && controllerType === 'button'"
+          :class="ns.e('button-group')"
+        >
           <el-button-group>
             <el-button size="small" @click="selectDate('prev-month')">
               {{ t('el.datepicker.prevMonth') }}
@@ -15,6 +18,15 @@
               {{ t('el.datepicker.nextMonth') }}
             </el-button>
           </el-button-group>
+        </div>
+        <div
+          v-else-if="validatedRange.length === 0 && controllerType === 'select'"
+          :class="ns.e('select-controller')"
+        >
+          <select-controller
+            :date="date"
+            @date-change="handleDateChange"
+          ></select-controller>
         </div>
       </slot>
     </div>
@@ -50,6 +62,9 @@ import { useLocale, useNamespace } from '@element-plus/hooks'
 import DateTable from './date-table.vue'
 import { useCalendar } from './use-calendar'
 import { calendarEmits, calendarProps } from './calendar'
+import SelectController from './select-controller.vue'
+
+import type { Dayjs } from 'dayjs'
 
 const ns = useNamespace('calendar')
 
@@ -76,6 +91,14 @@ const i18nDate = computed(() => {
   const pickedMonth = `el.datepicker.month${date.value.format('M')}`
   return `${date.value.year()} ${t('el.datepicker.year')} ${t(pickedMonth)}`
 })
+
+const handleDateChange = (value: Dayjs | 'today') => {
+  if (value === 'today') {
+    selectDate('today')
+  } else {
+    pickDay(value)
+  }
+}
 
 defineExpose({
   /** @description currently selected date */

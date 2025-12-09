@@ -33,6 +33,14 @@ export const calendarProps = buildProps({
     type: definePropType<[Date, Date]>(Array),
     validator: isValidRange,
   },
+  /**
+   * @description type of the controller for the Calendar header
+   */
+  controllerType: {
+    type: String,
+    values: ['button', 'select'],
+    default: 'button',
+  },
 } as const)
 export type CalendarProps = ExtractPropTypes<typeof calendarProps>
 export type CalendarPropsPublic = __ExtractPublicPropTypes<typeof calendarProps>
