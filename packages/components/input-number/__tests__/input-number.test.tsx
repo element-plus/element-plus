@@ -2,7 +2,7 @@ import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, test, vi } from 'vitest'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
-import { ElFormItem } from '@element-plus/components/form'
+import { ElForm, ElFormItem } from '@element-plus/components/form'
 import { ElIcon } from '@element-plus/components/icon'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import InputNumber from '../src/input-number.vue'
@@ -567,6 +567,18 @@ describe('InputNumber.vue', () => {
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
+    })
+
+    test('form disbaled, but input is not', async () => {
+      const wrapper = mount(() => (
+        <ElForm disabled>
+          <InputNumber disabled={false} />
+        </ElForm>
+      ))
+
+      await nextTick()
+      const inputNumber = wrapper.find('.el-input-number')
+      expect(inputNumber.classes()).not.toContain('is-disabled')
     })
   })
 
