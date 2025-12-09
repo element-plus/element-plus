@@ -75,6 +75,23 @@ describe('Checkbox', () => {
       expect(wrapper.classes()).toContain('is-disabled')
       expect(checked.value).toBe(false)
     })
+
+    test('form disabled, but checkbox is not', async () => {
+      const checked = ref(false)
+      const wrapper = mount(() => (
+        <ElForm disabled>
+          <Checkbox v-model={checked.value} disabled={false} />
+        </ElForm>
+      ))
+
+      const checkbox = wrapper.findComponent(Checkbox)
+      expect(checkbox.classes()).not.toContain('is-disabled')
+      expect(checked.value).toBe(false)
+      await checkbox.trigger('click')
+      await nextTick()
+      expect(checkbox.classes()).not.toContain('is-disabled')
+      expect(checked.value).toBe(true)
+    })
   })
 
   describe('change event', () => {
