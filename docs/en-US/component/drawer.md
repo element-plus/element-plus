@@ -137,17 +137,17 @@ Drawer provides an API called `destroy-on-close`, which is a flag variable that 
 
 ### Events
 
-| Name                   | Description                                                  | Type                                                   |
-| ---------------------- | ------------------------------------------------------------ | ------------------------------------------------------ |
-| open                   | Triggered before Drawer opening animation begins             | ^[Function]`() => void`                                |
-| opened                 | Triggered after Drawer opening animation ended               | ^[Function]`() => void`                                |
-| close                  | Triggered before Drawer closing animation begins             | ^[Function]`() => void`                                |
-| closed                 | Triggered after Drawer closing animation ended               | ^[Function]`() => void`                                |
-| open-auto-focus        | triggers after Drawer opens and content focused              | ^[Function]`() => void`                                |
-| close-auto-focus       | triggers after Drawer closed and content focused             | ^[Function]`() => void`                                |
-| resize-start ^(2.11.8) | Triggered when resizing starts (when `resizable` is enabled) | ^[Function]`(event: MouseEvent, size: number) => void` |
-| resize ^(2.11.8)       | Triggered while resizing (when `resizable` is enabled)       | ^[Function]`(event: MouseEvent, size: number) => void` |
-| resize-end ^(2.11.8)   | Triggered when resizing ends (when `resizable` is enabled)   | ^[Function]`(event: MouseEvent, size: number) => void` |
+| Name                   | Description                                                  | Type                                                 |
+| ---------------------- | ------------------------------------------------------------ | ---------------------------------------------------- |
+| open                   | Triggered before Drawer opening animation begins             | ^[Function]`() => void`                              |
+| opened                 | Triggered after Drawer opening animation ended               | ^[Function]`() => void`                              |
+| close                  | Triggered before Drawer closing animation begins             | ^[Function]`() => void`                              |
+| closed                 | Triggered after Drawer closing animation ended               | ^[Function]`() => void`                              |
+| open-auto-focus        | triggers after Drawer opens and content focused              | ^[Function]`() => void`                              |
+| close-auto-focus       | triggers after Drawer closed and content focused             | ^[Function]`() => void`                              |
+| resize-start ^(2.11.8) | Triggered when resizing starts (when `resizable` is enabled) | ^[Function]`(evt: MouseEvent, size: number) => void` |
+| resize ^(2.11.8)       | Triggered while resizing (when `resizable` is enabled)       | ^[Function]`(evt: MouseEvent, size: number) => void` |
+| resize-end ^(2.11.8)   | Triggered when resizing ends (when `resizable` is enabled)   | ^[Function]`(evt: MouseEvent, size: number) => void` |
 
 ### Slots
 

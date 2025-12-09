@@ -1,5 +1,5 @@
-import { computed } from 'vue'
-import { get } from 'lodash-unified'
+import { ref, watch } from 'vue'
+import { get, isEqual } from 'lodash-unified'
 
 import type { SelectV2Props } from './token'
 import type { Option } from './select.types'
@@ -19,7 +19,20 @@ export const defaultProps: Required<Props> = {
 }
 
 export function useProps(props: Pick<SelectV2Props, 'props'>) {
-  const aliasProps = computed(() => ({ ...defaultProps, ...props.props }))
+  const aliasProps = ref({ ...defaultProps, ...props.props })
+  let cache = { ...props.props }
+
+  watch(
+    () => props.props,
+    (val) => {
+      // The props is an object, and its properties may be modified without changing the reference. In this case, the watch values before and after are equal. Here, we compare using the cached previous value.
+      if (!isEqual(val, cache)) {
+        aliasProps.value = { ...defaultProps, ...val }
+        cache = { ...val }
+      }
+    },
+    { deep: true }
+  )
 
   const getLabel = (option: Option) => get(option, aliasProps.value.label)
   const getValue = (option: Option) => get(option, aliasProps.value.value)

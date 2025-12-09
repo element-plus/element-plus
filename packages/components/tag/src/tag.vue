@@ -8,9 +8,17 @@
     <span :class="ns.e('content')">
       <slot />
     </span>
-    <el-icon v-if="closable" :class="ns.e('close')" @click.stop="handleClose">
-      <Close />
-    </el-icon>
+    <button
+      v-if="closable"
+      :aria-label="t('el.tag.close')"
+      :class="ns.e('close')"
+      type="button"
+      @click.stop="handleClose"
+    >
+      <el-icon>
+        <Close />
+      </el-icon>
+    </button>
   </span>
   <transition
     v-else
@@ -26,9 +34,17 @@
       <span :class="ns.e('content')">
         <slot />
       </span>
-      <el-icon v-if="closable" :class="ns.e('close')" @click.stop="handleClose">
-        <Close />
-      </el-icon>
+      <button
+        v-if="closable"
+        :aria-label="t('el.tag.close')"
+        :class="ns.e('close')"
+        type="button"
+        @click.stop="handleClose"
+      >
+        <el-icon>
+          <Close />
+        </el-icon>
+      </button>
     </span>
   </transition>
 </template>
@@ -37,7 +53,7 @@
 import { computed } from 'vue'
 import ElIcon from '@element-plus/components/icon'
 import { Close } from '@element-plus/icons-vue'
-import { useNamespace } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import { useFormSize } from '@element-plus/components/form'
 import { tagEmits, tagProps } from './tag'
 
@@ -50,6 +66,7 @@ const props = defineProps(tagProps)
 const emit = defineEmits(tagEmits)
 
 const tagSize = useFormSize()
+const { t } = useLocale()
 const ns = useNamespace('tag')
 const containerKls = computed(() => {
   const { type, hit, effect, closable, round } = props

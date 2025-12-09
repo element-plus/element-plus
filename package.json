@@ -61,7 +61,7 @@
     "@types/lodash-es": "^4.17.12",
     "@vueuse/core": "^10.11.0",
     "async-validator": "^4.2.5",
-    "dayjs": "^1.11.18",
+    "dayjs": "^1.11.19",
     "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",
     "lodash-unified": "^1.0.3",
@@ -69,8 +69,8 @@
     "normalize-wheel-es": "^1.2.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.0.0",
-    "@commitlint/config-conventional": "^19.0.0",
+    "@commitlint/cli": "^20.2.0",
+    "@commitlint/config-conventional": "^20.2.0",
     "@element-plus/build": "workspace:^0.0.1",
     "@element-plus/build-utils": "workspace:^0.0.1",
     "@element-plus/eslint-config": "workspace:*",
@@ -106,7 +106,6 @@
     "rimraf": "^4.4.1",
     "sass": "^1.79.3",
     "tsx": "^4.19.3",
-    "type-fest": "^2.14.0",
     "typescript": "~5.5.4",
     "unplugin-vue-macros": "^2.7.11",
     "vitest": "^2.0.5",
@@ -123,7 +122,7 @@
     }
   },
   "lint-staged": {
-    "*.{vue,js,ts,jsx,tsx,md,json}": [
+    "*.{vue,js,ts,jsx,tsx,md,json,scss}": [
       "eslint --fix --concurrency=auto",
       "prettier --write --experimental-cli"
     ]

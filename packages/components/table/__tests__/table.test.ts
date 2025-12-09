@@ -193,6 +193,35 @@ describe('Table.vue', () => {
       wrapper.unmount()
     })
 
+    it('updates height and maxHeight sequentially without recursive error', async () => {
+      const errorSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      const wrapper = createTable(':height="height" :max-height="maxHeight"', {
+        data() {
+          return {
+            height: 200,
+            maxHeight: 400,
+          }
+        },
+      })
+
+      await doubleWait()
+      wrapper.vm.maxHeight = 500
+      await doubleWait()
+      wrapper.vm.height = 250
+      await doubleWait()
+
+      wrapper.unmount()
+      const hasRecursiveError = errorSpy.mock.calls.some((call) =>
+        call.some(
+          (msg) =>
+            typeof msg === 'string' &&
+            msg.includes('Maximum recursive updates exceeded')
+        )
+      )
+      errorSpy.mockRestore()
+      expect(hasRecursiveError).toBe(false)
+    })
+
     it('stripe', async () => {
       const wrapper = createTable('stripe')
       await doubleWait()
@@ -2127,6 +2156,52 @@ describe('Table.vue', () => {
       wrapper.findAll('.el-checkbox')[0].trigger('click')
       await doubleWait()
       expect(wrapper.vm.selected.length).toEqual(getTestData().length + 2)
+    })
+
+    it('a11y', async () => {
+      wrapper = mount({
+        components: {
+          ElTableColumn,
+          ElTable,
+        },
+        template: `
+          <el-table :data="testData" row-key="release">
+            <el-table-column prop="name" label="片名" />
+            <el-table-column prop="release" label="发行日期" />
+            <el-table-column prop="director" label="导演" />
+            <el-table-column prop="runtime" label="时长（分）" />
+          </el-table>
+        `,
+        data() {
+          const testData = getTestData() as any
+          testData[1].children = [
+            {
+              name: "A Bug's Life copy 1",
+              release: '1998-11-25-1',
+              director: 'John Lasseter',
+              runtime: 95,
+            },
+            {
+              name: "A Bug's Life copy 2",
+              release: '1998-11-25-2',
+              director: 'John Lasseter',
+              runtime: 95,
+            },
+          ]
+          return {
+            testData,
+          }
+        },
+      })
+      await doubleWait()
+      const button = wrapper.find('.el-table__expand-icon')
+      expect(button.attributes('aria-label')).toBe('Expand this row')
+      expect(button.attributes('aria-expanded')).toBe('false')
+
+      await button.trigger('click')
+      await doubleWait()
+      expect(button.attributes('aria-label')).toBe('Collapse this row')
+      expect(button.attributes('aria-expanded')).toBe('true')
     })
   })
 

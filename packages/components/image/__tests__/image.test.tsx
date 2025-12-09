@@ -334,6 +334,11 @@ describe('Image.vue', () => {
       }
       const wrapper = mount(() => <Image {...props} />)
       await flushPromises()
+      // Manually trigger the load event if necessary
+      const img = wrapper.find('img')
+      if (img.exists()) {
+        await img.trigger('load')
+      }
       expect(wrapper.find('.el-image__inner').exists()).toBe(true)
       expect(handleLoad).toBeCalled()
     })

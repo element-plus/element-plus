@@ -1,16 +1,53 @@
 import { nextTick, reactive, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { afterEach, describe, expect, test, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { CircleClose } from '@element-plus/icons-vue'
 import TreeSelect from '../src/tree-select.vue'
 import Tree from '@element-plus/components/tree/src/tree.vue'
 import defineGetter from '@element-plus/test-utils/define-getter'
 import { EVENT_CODE } from '@element-plus/constants'
 
+import type { TreeSelectInstance } from '../src/instance'
 import type { RenderFunction } from 'vue'
 import type { VueWrapper } from '@vue/test-utils'
-import type ElSelect from '@element-plus/components/select'
-import type ElTree from '@element-plus/components/tree'
+
+// Keep track of all mounted wrappers for cleanup
+const mountedWrappers: VueWrapper<any>[] = []
+
+beforeEach(() => {
+  document.body.innerHTML = ''
+})
+
+afterEach(async () => {
+  mountedWrappers.forEach((wrapper) => {
+    if (wrapper && wrapper.exists()) {
+      wrapper.unmount()
+    }
+  })
+  mountedWrappers.length = 0
+  document.body.innerHTML = ''
+  vi.clearAllTimers()
+
+  const frameIds = new Set<number>()
+  const originalRequestAnimationFrame = global.requestAnimationFrame
+
+  global.requestAnimationFrame = function (cb) {
+    const id = originalRequestAnimationFrame((timestamp) => {
+      frameIds.delete(id)
+      cb(timestamp)
+    })
+    frameIds.add(id)
+    return id
+  }
+
+  const cancelAllAnimationFrames = () => {
+    frameIds.forEach((id) => global.cancelAnimationFrame(id))
+    frameIds.clear()
+  }
+
+  cancelAllAnimationFrames()
+  await new Promise((resolve) => setTimeout(resolve, 0))
+})
 
 const createComponent = ({
   slots = {},
@@ -19,7 +56,7 @@ const createComponent = ({
   slots?: Record<string, any>
   props?: (typeof TreeSelect)['props']
 } = {}) => {
-  const wrapperRef = ref<InstanceType<typeof TreeSelect>>()
+  const wrapperRef = ref<TreeSelectInstance>()
   const defaultData = ref([
     {
       value: 1,
@@ -53,9 +90,7 @@ const createComponent = ({
           <TreeSelect
             {...bindProps}
             onUpdate:modelValue={(val: string) => (bindProps.modelValue = val)}
-            ref={(val: InstanceType<typeof TreeSelect>) =>
-              (wrapperRef.value = val)
-            }
+            ref={(val: TreeSelectInstance) => (wrapperRef.value = val)}
             v-slots={slots}
           />
         )
@@ -66,17 +101,22 @@ const createComponent = ({
     }
   )
 
+  // Add wrapper to tracking array for cleanup
+  mountedWrappers.push(wrapper)
+
   return {
     wrapper,
     getWrapperRef: () =>
-      new Promise<InstanceType<typeof TreeSelect>>((resolve) =>
-        nextTick(() => resolve(wrapperRef.value!))
+      new Promise<TreeSelectInstance>((resolve) =>
+        nextTick(() =>
+          resolve(wrapperRef.value! as unknown as TreeSelectInstance)
+        )
       ),
-    select: wrapper.findComponent({ name: 'ElSelect' }) as VueWrapper<
-      InstanceType<typeof ElSelect>
-    >,
+    select: wrapper.findComponent({
+      name: 'ElSelect',
+    }) as VueWrapper<TreeSelectInstance['selectRef']>,
     tree: wrapper.findComponent({ name: 'ElTree' }) as VueWrapper<
-      InstanceType<typeof ElTree>
+      TreeSelectInstance['treeRef']
     >,
   }
 }
@@ -160,12 +200,12 @@ describe('TreeSelect.vue', () => {
 
     await nextTick()
     expect(select.vm.modelValue).toBe(1)
-    expect(wrapperRef.getCheckedKeys()).toEqual([1])
+    expect(wrapperRef.treeRef.getCheckedKeys()).toEqual([1])
 
     value.value = 11
     await nextTick(nextTick)
     expect(select.vm.modelValue).toBe(11)
-    expect(wrapperRef.getCheckedKeys()).toEqual([11])
+    expect(wrapperRef.treeRef.getCheckedKeys()).toEqual([11])
 
     await tree
       .findAll('.el-select-dropdown__item')
@@ -173,17 +213,17 @@ describe('TreeSelect.vue', () => {
       .trigger('click')
     await nextTick()
     expect(select.vm.modelValue).toBe(111)
-    expect(wrapperRef.getCheckedKeys()).toEqual([111])
+    expect(wrapperRef.treeRef.getCheckedKeys()).toEqual([111])
 
     await tree.find('.el-tree-node__content').trigger('click')
     await nextTick()
     expect(select.vm.modelValue).toBe(1)
-    expect(wrapperRef.getCheckedKeys()).toEqual([1])
+    expect(wrapperRef.treeRef.getCheckedKeys()).toEqual([1])
 
     await tree.findAll('.el-checkbox__original')[1].trigger('click')
     await nextTick()
     expect(select.vm.modelValue).toBe(11)
-    expect(wrapperRef.getCheckedKeys()).toEqual([11])
+    expect(wrapperRef.treeRef.getCheckedKeys()).toEqual([11])
   })
 
   test('disabled', async () => {
@@ -235,12 +275,12 @@ describe('TreeSelect.vue', () => {
 
     await nextTick()
     expect(select.vm.modelValue).toEqual([1])
-    expect(wrapperRef.getCheckedKeys()).toEqual([1])
+    expect(wrapperRef.treeRef.getCheckedKeys()).toEqual([1])
 
     value.value = [11]
     await nextTick(nextTick)
     expect(select.vm.modelValue).toEqual([11])
-    expect(wrapperRef.getCheckedKeys()).toEqual([11])
+    expect(wrapperRef.treeRef.getCheckedKeys()).toEqual([11])
 
     await tree
       .findAll('.el-select-dropdown__item')
@@ -248,17 +288,17 @@ describe('TreeSelect.vue', () => {
       .trigger('click')
     await nextTick()
     expect(select.vm.modelValue).toEqual([11, 111])
-    expect(wrapperRef.getCheckedKeys()).toEqual([11, 111])
+    expect(wrapperRef.treeRef.getCheckedKeys()).toEqual([11, 111])
 
     await tree.find('.el-tree-node__content').trigger('click')
     await nextTick()
     expect(select.vm.modelValue).toEqual([1, 11, 111])
-    expect(wrapperRef.getCheckedKeys()).toEqual([1, 11, 111])
+    expect(wrapperRef.treeRef.getCheckedKeys()).toEqual([1, 11, 111])
 
     await tree.findAll('.el-checkbox')[1].trigger('click')
     await nextTick()
     expect(select.vm.modelValue).toEqual([1, 111])
-    expect(wrapperRef.getCheckedKeys()).toEqual([1, 111])
+    expect(wrapperRef.treeRef.getCheckedKeys()).toEqual([1, 111])
   })
 
   test('filter', async () => {
@@ -384,14 +424,14 @@ describe('TreeSelect.vue', () => {
     await tree.findAll('.el-tree-node__content')[0].trigger('click')
     await nextTick()
     expect(select.vm.modelValue).toEqual([])
-    expect(wrapperRef.getCheckedKeys()).toEqual([])
+    expect(wrapperRef.treeRef.getCheckedKeys()).toEqual([])
 
     await tree
       .findAll('.el-tree-node__content .el-checkbox')[0]
       .trigger('click')
     await nextTick()
     expect(select.vm.modelValue).toEqual([1])
-    expect(wrapperRef.getCheckedKeys()).toEqual([1])
+    expect(wrapperRef.treeRef.getCheckedKeys()).toEqual([1])
   })
 
   test('check-strictly showCheckbox checkOnClickNode click node', async () => {
@@ -408,14 +448,14 @@ describe('TreeSelect.vue', () => {
     await tree.findAll('.el-tree-node__content')[0].trigger('click')
     await nextTick()
     expect(select.vm.modelValue).toEqual([1])
-    expect(wrapperRef.getCheckedKeys()).toEqual([1])
+    expect(wrapperRef.treeRef.getCheckedKeys()).toEqual([1])
 
     await tree
       .findAll('.el-tree-node__content .el-checkbox')[0]
       .trigger('click')
     await nextTick()
     expect(select.vm.modelValue).toEqual([])
-    expect(wrapperRef.getCheckedKeys()).toEqual([])
+    expect(wrapperRef.treeRef.getCheckedKeys()).toEqual([])
   })
 
   test('only show checkbox', async () => {
@@ -978,6 +1018,10 @@ describe('TreeSelect.vue', () => {
       },
       template: `<TreeSelect v-for="item in data" v-model="item.value" :data="options" @update:modelValue="item.handleModelValue" />`,
     })
+
+    // Add to tracking for cleanup
+    mountedWrappers.push(wrapper)
+
     const select = wrapper.findComponent({
       name: 'ElSelect',
     })

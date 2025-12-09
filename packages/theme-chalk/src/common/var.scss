@@ -879,6 +879,7 @@ $anchor: map.merge(
     'font-size': 12px,
     'color': getCssVar('text-color-secondary'),
     'active-color': getCssVar('color-primary'),
+    'hover-color': getCssVar('text-color-regular'),
     'marker-bg-color': getCssVar('color-primary'),
   ),
   $anchor
@@ -1563,8 +1564,8 @@ $result: map.merge(
 $upload: () !default;
 $upload: map.merge(
   (
-    'dragger-padding-horizontal': 40px,
-    'dragger-padding-vertical': 10px,
+    'dragger-padding-horizontal': 10px,
+    'dragger-padding-vertical': 40px,
     'list-picture-card-size': var(
         #{getCssVarName('upload', 'picture-card-size')}
       ),

@@ -22,6 +22,7 @@
       :disabled="disabled"
       :transition="`${ns.namespace.value}-zoom-in-top`"
       :teleported="teleported"
+      :append-to="appendTo"
       pure
       focus-on-target
       :persistent="persistent"

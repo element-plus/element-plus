@@ -25,6 +25,7 @@ export const getChildState = (node: Node[]): TreeNodeChildState => {
   let all = true
   let none = true
   let allWithoutDisable = true
+  let isEffectivelyChecked = true
   for (let i = 0, j = node.length; i < j; i++) {
     const n = node[i]
     if (n.checked !== true || n.indeterminate) {
@@ -36,15 +37,30 @@ export const getChildState = (node: Node[]): TreeNodeChildState => {
     if (n.checked !== false || n.indeterminate) {
       none = false
     }
+    if (!n.isEffectivelyChecked) {
+      isEffectivelyChecked = false
+    }
   }
 
-  return { all, none, allWithoutDisable, half: !all && !none }
+  return {
+    all,
+    none,
+    allWithoutDisable,
+    half: !all && !none,
+    isEffectivelyChecked,
+  }
 }
 
 const reInitChecked = function (node: Node): void {
-  if (node.childNodes.length === 0 || node.loading) return
+  if (node.childNodes.length === 0 || node.loading) {
+    node.isEffectivelyChecked = node.disabled || node.checked
+    return
+  }
 
-  const { all, none, half } = getChildState(node.childNodes)
+  const { all, none, half, isEffectivelyChecked } = getChildState(
+    node.childNodes
+  )
+  node.isEffectivelyChecked = isEffectivelyChecked
   if (all) {
     node.checked = true
     node.indeterminate = false
@@ -107,6 +123,20 @@ class Node {
   loaded: boolean
   childNodes: Node[]
   loading: boolean
+
+  /**
+   * Determines whether the current tree node is effectively checked.
+   *
+   * Rules:
+   * 1. A disabled leaf node is always considered checked.
+   * 2. A non-disabled leaf node reflects its actual checked state.
+   * 3. A non-leaf node is considered checked only when:
+   *    - All of its child nodes are effectively checked, and
+   *    - Each child follows the same evaluation rules:
+   *      - Disabled leaf nodes follow rule #1.
+   *      - Non-leaf child nodes are recursively evaluated under this rule (#3).
+   */
+  isEffectivelyChecked: boolean = false
 
   constructor(options: TreeNodeOptions) {
     this.id = nodeIdSeed++
@@ -408,6 +438,7 @@ class Node {
       typeof this.isLeafByUser !== 'undefined'
     ) {
       this.isLeaf = this.isLeafByUser
+      this.isEffectivelyChecked = this.isLeaf && this.disabled
       return
     }
     const childNodes = this.childNodes
@@ -416,6 +447,7 @@ class Node {
       (this.store.lazy === true && this.loaded === true)
     ) {
       this.isLeaf = !childNodes || childNodes.length === 0
+      this.isEffectivelyChecked = this.isLeaf && this.disabled
       return
     }
     this.isLeaf = false
@@ -429,31 +461,30 @@ class Node {
   ) {
     this.indeterminate = value === 'half'
     this.checked = value === true
+    this.isEffectivelyChecked =
+      !this.childNodes.length && (this.disabled || this.checked)
 
     if (this.store.checkStrictly) return
 
     if (!(this.shouldLoadData() && !this.store.checkDescendants)) {
-      const { all, allWithoutDisable } = getChildState(this.childNodes)
-
-      if (!this.isLeaf && !all && allWithoutDisable) {
-        this.checked = false
-        value = false
-      }
-
       const handleDescendants = (): void => {
         if (deep) {
           const childNodes = this.childNodes
           for (let i = 0, j = childNodes.length; i < j; i++) {
             const child = childNodes[i]
             passValue = passValue || value !== false
-            const isCheck = child.disabled ? child.checked : passValue
+            const isCheck =
+              child.disabled && child.isLeaf ? child.checked : passValue
             child.setChecked(isCheck, deep, true, passValue)
           }
-          const { half, all } = getChildState(childNodes)
+          const { half, all, isEffectivelyChecked } = getChildState(childNodes)
           if (!all) {
             this.checked = all
             this.indeterminate = half
           }
+          this.isEffectivelyChecked = !this.childNodes.length
+            ? this.disabled || this.checked
+            : isEffectivelyChecked
         }
       }
 
