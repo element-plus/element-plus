@@ -33,6 +33,7 @@
         :max-scale="maxScale"
         :show-progress="showProgress"
         :url-list="previewSrcList"
+        :scale="scale"
         :crossorigin="crossorigin"
         :hide-on-click-modal="hideOnClickModal"
         :teleported="previewTeleported"
@@ -48,6 +49,9 @@
         </template>
         <template #toolbar="toolbar">
           <slot name="toolbar" v-bind="toolbar" />
+        </template>
+        <template v-if="$slots['viewer-error']" #viewer-error="viewerError">
+          <slot name="viewer-error" v-bind="viewerError" />
         </template>
       </image-viewer>
     </template>

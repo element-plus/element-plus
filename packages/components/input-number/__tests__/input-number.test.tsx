@@ -4,7 +4,7 @@ import { describe, expect, it, test, vi } from 'vitest'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { ElFormItem } from '@element-plus/components/form'
 import { ElIcon } from '@element-plus/components/icon'
-import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import InputNumber from '../src/input-number.vue'
 
 const mouseup = new Event('mouseup')
@@ -178,6 +178,16 @@ describe('InputNumber.vue', () => {
     elInputNumber.decrease()
     await nextTick()
     expect(wrapper.find('input').element.value).toEqual('0.3')
+  })
+  test('step-strictly precision edge critical judgment', async () => {
+    const num = ref(3.55)
+    const wrapper = mount(() => (
+      <InputNumber step-strictly={true} step={0.1} v-model={num.value} />
+    ))
+    expect(wrapper.find('input').element.value).toEqual('3.6')
+    num.value = 3.65
+    await nextTick()
+    expect(wrapper.find('input').element.value).toEqual('3.7')
   })
   //fix: #12690
   test('maximum is less than the minimum', async () => {
@@ -676,5 +686,27 @@ describe('InputNumber.vue', () => {
       preventDefault,
     })
     expect(preventDefault).not.toHaveBeenCalled()
+  })
+
+  test('correct condition for user input reset', async () => {
+    const num = ref(1)
+    const wrapper = mount(() => (
+      <InputNumber v-model={num.value} min={0} max={10} />
+    ))
+
+    const input = wrapper.find('input')
+    const event = new Event('input')
+
+    expect(input.element.value).toBe('1')
+
+    input.element.value = '100'
+    input.element.dispatchEvent(event)
+    await input.trigger('keydown', { key: EVENT_CODE.down })
+    expect(input.element.value).toBe('10')
+
+    input.element.value = '110'
+    input.element.dispatchEvent(event)
+    await input.trigger('keydown', { key: EVENT_CODE.down })
+    expect(input.element.value).toBe('10')
   })
 })

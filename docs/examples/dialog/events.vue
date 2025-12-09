@@ -8,7 +8,7 @@
     modal-class="overide-animation"
     :before-close="
       (doneFn) => {
-        console.log('before-close'), doneFn()
+        ;(console.log('before-close'), doneFn())
       }
     "
     @open="console.log('open')"

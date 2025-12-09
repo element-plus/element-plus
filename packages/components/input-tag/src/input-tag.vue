@@ -9,7 +9,7 @@
     <div v-if="slots.prefix" :class="ns.e('prefix')">
       <slot name="prefix" />
     </div>
-    <div :class="innerKls">
+    <div ref="innerRef" :class="innerKls">
       <el-tag
         v-for="(item, index) in showTagList"
         :key="index"
@@ -18,6 +18,7 @@
         :type="tagType"
         :effect="tagEffect"
         :draggable="closable && draggable"
+        :style="tagStyle"
         disable-transitions
         @close="handleRemoveTag(index)"
         @dragstart="(event: DragEvent) => handleDragStart(event, index)"
@@ -38,15 +39,17 @@
         placement="bottom"
       >
         <template #default>
-          <el-tag
-            :closable="false"
-            :size="tagSize"
-            :type="tagType"
-            :effect="tagEffect"
-            disable-transitions
-          >
-            + {{ modelValue.length - maxCollapseTags }}
-          </el-tag>
+          <div ref="collapseItemRef">
+            <el-tag
+              :closable="false"
+              :size="tagSize"
+              :type="tagType"
+              :effect="tagEffect"
+              disable-transitions
+            >
+              + {{ modelValue.length - maxCollapseTags }}
+            </el-tag>
+          </div>
         </template>
         <template #content>
           <div :class="ns.e('input-tag-list')">
@@ -90,6 +93,7 @@
           @compositionend="handleCompositionEnd"
           @input="handleInput"
           @keydown="handleKeydown"
+          @keyup="handleKeyup"
         />
         <span
           ref="calculatorRef"
@@ -179,6 +183,7 @@ const {
   handleDragged,
   handleInput,
   handleKeydown,
+  handleKeyup,
   handleRemoveTag,
   handleClear,
   handleCompositionStart,
@@ -204,6 +209,9 @@ const {
   innerKls,
   showClear,
   showSuffix,
+  tagStyle,
+  collapseItemRef,
+  innerRef,
 } = useInputTagDom({
   props,
   hovering,

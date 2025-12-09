@@ -65,6 +65,13 @@ export const imageViewerProps = buildProps({
     default: 1.2,
   },
   /**
+   * @description preview image scale.
+   */
+  scale: {
+    type: Number,
+    default: 1,
+  },
+  /**
    * @description the min scale of the image viewer zoom event.
    */
   minScale: {
@@ -96,6 +103,7 @@ export type ImageViewerPropsPublic = __ExtractPublicPropTypes<
 
 export const imageViewerEmits = {
   close: () => true,
+  error: (evt: Event) => evt instanceof Event,
   switch: (index: number) => isNumber(index),
   rotate: (deg: number) => isNumber(deg),
 }

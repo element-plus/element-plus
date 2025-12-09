@@ -4,7 +4,12 @@ import { useEmptyValuesProps, useSizeProp } from '@element-plus/hooks'
 
 import type { PopperEffect } from '@element-plus/components/popper'
 import type TimeSelect from './time-select.vue'
-import type { Component, ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type {
+  CSSProperties,
+  Component,
+  ExtractPropTypes,
+  __ExtractPublicPropTypes,
+} from 'vue'
 
 export const timeSelectProps = buildProps({
   /**
@@ -23,7 +28,10 @@ export const timeSelectProps = buildProps({
   /**
    * @description whether TimeSelect is disabled
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description whether the input is editable
    */
@@ -107,6 +115,19 @@ export const timeSelectProps = buildProps({
   clearIcon: {
     type: definePropType<string | Component>([String, Object]),
     default: () => CircleClose,
+  },
+  /**
+   * @description custom class name for TimeSelect's dropdown
+   */
+  popperClass: {
+    type: String,
+    default: '',
+  },
+  /**
+   * @description custom style for TimeSelect's dropdown
+   */
+  popperStyle: {
+    type: definePropType<string | CSSProperties>([String, Object]),
   },
   ...useEmptyValuesProps,
 } as const)

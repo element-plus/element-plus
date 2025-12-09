@@ -189,6 +189,12 @@
   }
 }
 
+@include b(message-box-parent) {
+  @include m(hidden) {
+    overflow: hidden;
+  }
+}
+
 .fade-in-linear-enter-active {
   .#{$namespace}-overlay-message-box {
     animation: msgbox-fade-in getCssVar('transition-duration');

@@ -51,7 +51,6 @@ export const descriptionItemProps = buildProps({
    */
   labelWidth: {
     type: [String, Number],
-    default: '',
   },
   /**
    * @description column content alignment (If no `border`, effective for both label and content)

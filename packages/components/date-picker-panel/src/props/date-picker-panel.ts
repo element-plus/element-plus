@@ -24,7 +24,10 @@ export const datePickerPanelProps = buildProps({
   /**
    * @description whether picker is disabled
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description binding value, if it is an array, the length should be 2
    */

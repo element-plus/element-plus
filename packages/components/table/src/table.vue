@@ -26,7 +26,7 @@
     :data-prefix="ns.namespace.value"
     @mouseleave="handleMouseLeave"
   >
-    <div :class="ns.e('inner-wrapper')">
+    <div ref="tableInnerWrapper" :class="ns.e('inner-wrapper')">
       <div ref="hiddenColumns" class="hidden-columns">
         <slot />
       </div>
@@ -234,7 +234,7 @@ export default defineComponent({
     'scroll',
   ],
   setup(props) {
-    type Row = typeof props.data[number]
+    type Row = (typeof props.data)[number]
     const { t } = useLocale()
     const ns = useNamespace('table')
     const table = getCurrentInstance() as Table<Row>

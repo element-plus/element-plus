@@ -10,7 +10,6 @@ import './style.css'
 import 'vitepress/dist/client/theme-default/styles/components/vp-code-group.css'
 import 'virtual:group-icons.css'
 
-import type { Component } from 'vue'
 import type { Theme } from 'vitepress'
 
 export default define<Theme>({
@@ -20,9 +19,8 @@ export default define<Theme>({
     app.use(ElementPlus as any)
     app.provide(ID_INJECTION_KEY, { prefix: 1024, current: 0 })
     app.provide(ZINDEX_INJECTION_KEY, { current: 0 })
-
-    globals.forEach(([name, Comp]) => {
-      app.component(name, Comp as Component)
+    Object.entries(globals).forEach(([name, Comp]) => {
+      app.component(name, Comp)
     })
     if (!isClient) return
     const nprogress = await import('nprogress')
