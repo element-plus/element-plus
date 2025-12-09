@@ -192,9 +192,6 @@ importers:
       expect-type:
         specifier: ^0.13.0
         version: 0.13.0
-      fast-glob:
-        specifier: ^3.2.11
-        version: 3.2.11
       happy-dom:
         specifier: ^17.4.4
         version: 17.4.4
@@ -222,6 +219,9 @@ importers:
       sass:
         specifier: ^1.79.3
         version: 1.79.3
+      tinyglobby:
+        specifier: ^0.2.15
+        version: 0.2.15
       tsx:
         specifier: ^4.19.3
         version: 4.19.3
@@ -301,12 +301,12 @@ importers:
       consola:
         specifier: ^2.15.3
         version: 2.15.3
-      fast-glob:
-        specifier: ^3.2.11
-        version: 3.2.11
       markdown-it-container:
         specifier: ^3.0.0
         version: 3.0.0
+      tinyglobby:
+        specifier: ^0.2.15
+        version: 0.2.15
       unocss:
         specifier: ^66.5.6
         version: 66.5.6(postcss@8.5.6)(vite@5.4.10(@types/node@22.9.0)(sass@1.79.3)(terser@5.36.0))
@@ -370,9 +370,6 @@ importers:
       esbuild:
         specifier: ^0.14.47
         version: 0.14.47
-      fast-glob:
-        specifier: ^3.2.11
-        version: 3.2.11
       fs-extra:
         specifier: ^10.1.0
         version: 10.1.0
@@ -388,6 +385,9 @@ importers:
       rollup-plugin-esbuild:
         specifier: ^4.9.1
         version: 4.9.1(esbuild@0.14.47)(rollup@2.75.7)
+      tinyglobby:
+        specifier: ^0.2.15
+        version: 0.2.15
       unplugin-vue-macros:
         specifier: ^0.11.2
         version: 0.11.2(esbuild@0.14.47)(rollup@2.75.7)(vite@5.4.10(@types/node@22.9.0)(sass@1.79.3)(terser@5.36.0))(vue@3.2.37)
@@ -490,15 +490,15 @@ importers:
       consola:
         specifier: ^2.15.3
         version: 2.15.3
-      fast-glob:
-        specifier: ^3.3.2
-        version: 3.3.2
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
       octokit:
         specifier: ^2.1.0
         version: 2.1.0
+      tinyglobby:
+        specifier: ^0.2.15
+        version: 0.2.15
       tsx:
         specifier: ^4.7.1
         version: 4.7.1

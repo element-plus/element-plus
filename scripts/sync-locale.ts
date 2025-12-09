@@ -1,6 +1,6 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 import { basename, resolve } from 'node:path'
-import glob from 'fast-glob'
+import { globSync } from 'tinyglobby'
 import consola from 'consola'
 import { isArray, isObject, isString } from 'lodash-unified'
 import { localeRoot, normalizePath } from '@element-plus/build-utils'
@@ -193,7 +193,7 @@ function main() {
 
   const enContent = readFileSync(enFile, 'utf-8')
   const enObject = parseLocaleFile(enContent)
-  const localeFiles = glob.sync(localePath)
+  const localeFiles = globSync(localePath)
   let totalUpdated = 0
   let totalAdded = 0
 
