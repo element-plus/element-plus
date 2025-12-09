@@ -716,6 +716,24 @@ describe('Cascader.vue', () => {
     expect(wrapper.find('input').element.placeholder).toBe(AXIOM)
   })
 
+  test('form disabled, but cascader is not disabled', async () => {
+    const model = reactive({
+      name: new Array<string>(),
+    })
+
+    const wrapper = _mount(() => (
+      <ElForm model={model} disabled>
+        <ElFormItem>
+          <Cascader disabled={false} v-model={model.name} options={OPTIONS} />
+        </ElFormItem>
+      </ElForm>
+    ))
+
+    model.name = ['zhejiang', 'hangzhou']
+    await nextTick()
+    expect(wrapper.find('input').attributes('disabled')).toBeUndefined()
+  })
+
   test('should be able to trigger togglePopperVisible outside the component', async () => {
     let cascader: InstanceType<typeof ElCascader>
     const clickFn = () => {
