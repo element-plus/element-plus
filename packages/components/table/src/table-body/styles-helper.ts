@@ -57,7 +57,8 @@ function useStyles<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
     rowIndex: number,
     columnIndex: number,
     row: T,
-    column: TableColumnCtx<T>
+    column: TableColumnCtx<T>,
+    spanCache?: Map<number, { rowspan: number; colspan: number }>
   ) => {
     const cellStyle = parent?.props.cellStyle
     let cellStyles = cellStyle ?? {}
@@ -78,7 +79,8 @@ function useStyles<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
         props.store,
         row,
         rowIndex,
-        getSpan
+        getSpan,
+        spanCache
       )
       : getFixedColumnOffset(columnIndex, column.fixed, props.store)
 

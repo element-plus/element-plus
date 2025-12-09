@@ -151,7 +151,7 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
         return h(
           TdWrapper,
           {
-            style: getCellStyle($index, cellIndex, row, column),
+            style: getCellStyle($index, cellIndex, row, column, spanCache),
             class: getCellClass($index, cellIndex, row, column, colspan - 1),
             key: `${patchKey}${baseKey}`,
             rowspan,
