@@ -265,6 +265,10 @@ export const dropdownSubMenuProps = buildProps({
    * @description whether the dropdown popup is teleported to the body
    */
   teleported: useTooltipContentProps.teleported,
+  /**
+   * @description which element the dropdown CONTENT appends to
+   */
+  appendTo: useTooltipContentProps.appendTo,
 })
 
 export const dropdownSubMenuEmits = {

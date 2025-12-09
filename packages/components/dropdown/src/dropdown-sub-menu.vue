@@ -60,6 +60,7 @@
     :gpu-acceleration="false"
     :stop-popper-mouse-event="false"
     :teleported="teleported"
+    :append-to="appendTo"
     :persistent="persistent"
     :virtual-ref="dropdownSubMenuRef"
     virtual-triggering
