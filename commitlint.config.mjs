@@ -2,7 +2,9 @@ import { execSync } from 'child_process'
 import { globSync } from 'tinyglobby'
 
 const getPackages = (packagePath) =>
-  globSync('*', { cwd: packagePath, onlyDirectories: true })
+  globSync('*', { cwd: packagePath, onlyDirectories: true }).map((dir) =>
+    dir.replace(/\/$/, '')
+  )
 
 const scopes = [
   ...getPackages('packages'),
