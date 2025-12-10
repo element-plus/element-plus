@@ -41,7 +41,7 @@ const props = defineProps(selectControllerProps)
 const emit = defineEmits(selectControllerEmits)
 
 const nsSelect = useNamespace('calendar-select')
-const { t } = useLocale()
+const { t, lang } = useLocale()
 
 const monthOptions = Array.from({ length: 12 }, (_, index) => ({
   value: index + 1,
@@ -63,11 +63,17 @@ const yearOptions = computed(() => {
 })
 
 const handleYearChange = (year: number) => {
-  emit('date-change', dayjs(new Date(year, monthValue.value - 1, 1)))
+  emit(
+    'date-change',
+    dayjs(new Date(year, monthValue.value - 1, 1)).locale(lang.value)
+  )
 }
 
 const handleMonthChange = (month: number) => {
-  emit('date-change', dayjs(new Date(yearValue.value, month - 1, 1)))
+  emit(
+    'date-change',
+    dayjs(new Date(yearValue.value, month - 1, 1)).locale(lang.value)
+  )
 }
 
 const selectToday = () => {
