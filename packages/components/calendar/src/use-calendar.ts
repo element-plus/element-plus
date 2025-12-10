@@ -178,11 +178,11 @@ export const useCalendar = (
     }
   }
 
-  const handleDateChange = (value: Dayjs | 'today') => {
-    if (value === 'today') {
+  const handleDateChange = (date: Dayjs | 'today') => {
+    if (date === 'today') {
       selectDate('today')
     } else {
-      pickDay(value)
+      pickDay(date)
     }
   }
 

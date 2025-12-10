@@ -49,11 +49,12 @@ Note, date time locale (month name, first day of the week ...) are also configur
 
 ### Attributes
 
-| Name                      | Description                                                                                                                                                    | Type                          | Default |
-| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------- | ------- |
-| model-value / v-model     | binding value                                                                                                                                                  | ^[Date]                       | —       |
-| range                     | time range, including start time and end time. Start time must be start day of week, end time must be end day of week, the time span cannot exceed two months. | ^[array]`[Date, Date]`        | —       |
-| controller-type ^(2.12.1) | type of the controller for the Calendar header                                                                                                                 | ^[enum]`'button' \| 'select'` | button  |
+| Name                      | Description                                                                                                                                                    | Type                                                           | Default |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- | ------- |
+| model-value / v-model     | binding value                                                                                                                                                  | ^[Date]                                                        | —       |
+| range                     | time range, including start time and end time. Start time must be start day of week, end time must be end day of week, the time span cannot exceed two months. | ^[array]`[Date, Date]`                                         | —       |
+| controller-type ^(2.12.1) | type of the controller for the Calendar header                                                                                                                 | ^[enum]`'button' \| 'select'`                                  | button  |
+| formatter ^(2.12.1)       | format label when `controller-type` is 'select'                                                                                                                | ^[Function]`(value: number, type: string) => string \| number` | —       |
 
 ### Slots
 

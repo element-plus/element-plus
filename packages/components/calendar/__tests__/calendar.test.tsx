@@ -280,4 +280,37 @@ describe('Calendar.vue', () => {
     expect(firstRow?.firstElementChild?.innerHTML).toContain('30')
     expect(firstRow?.lastElementChild?.innerHTML).toContain('6')
   })
+
+  it('should work with formatter prop', async () => {
+    const formatter = (value: number, type: string) => {
+      if (type === 'year') {
+        return `${value}年`
+      } else {
+        return `${value}月`
+      }
+    }
+
+    const wrapper = mount({
+      data: () => ({ value: new Date('2025-12-09') }),
+      render() {
+        return (
+          <Calendar
+            v-model={this.value}
+            controller-type="select"
+            formatter={formatter}
+          />
+        )
+      },
+    })
+
+    await nextTick()
+    const selects = wrapper.findAllComponents({ name: 'ElSelect' })
+    const yearSelect = selects[0]
+    const yearOptions = yearSelect.findAllComponents({ name: 'ElOption' })
+    const monthSelect = selects[1]
+    const monthOptions = monthSelect.findAllComponents({ name: 'ElOption' })
+
+    expect(yearOptions[0].text()).toBe('2015年')
+    expect(monthOptions[0].text()).toBe('1月')
+  })
 })

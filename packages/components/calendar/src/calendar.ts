@@ -41,6 +41,14 @@ export const calendarProps = buildProps({
     values: ['button', 'select'],
     default: 'button',
   },
+  /**
+   * @description format label when `controller-type` is 'select'
+   */
+  formatter: {
+    type: definePropType<(value: number, type: string) => string | number>(
+      Function
+    ),
+  },
 } as const)
 export type CalendarProps = ExtractPropTypes<typeof calendarProps>
 export type CalendarPropsPublic = __ExtractPublicPropTypes<typeof calendarProps>

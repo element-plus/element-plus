@@ -28,6 +28,7 @@ import dayjs from 'dayjs'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElSelect from '@element-plus/components/select'
 import { ElButton } from '@element-plus/components/button'
+import { isFunction } from '@element-plus/utils'
 import {
   selectControllerEmits,
   selectControllerProps,
@@ -43,10 +44,15 @@ const emit = defineEmits(selectControllerEmits)
 const nsSelect = useNamespace('calendar-select')
 const { t, lang } = useLocale()
 
-const monthOptions = Array.from({ length: 12 }, (_, index) => ({
-  value: index + 1,
-  label: index + 1,
-}))
+const monthOptions = Array.from({ length: 12 }, (_, index) => {
+  const label = isFunction(props.formatter)
+    ? props.formatter(index + 1, 'month')
+    : index + 1
+  return {
+    value: index + 1,
+    label,
+  }
+})
 
 const yearValue = computed(() => props.date.year())
 const monthValue = computed(() => props.date.month() + 1)
@@ -56,7 +62,10 @@ const yearOptions = computed(() => {
   for (let i = -10; i < 10; i++) {
     const year = yearValue.value + i
     if (year > 0) {
-      years.push({ value: year, label: year })
+      const label = isFunction(props.formatter)
+        ? props.formatter(year, 'year')
+        : year
+      years.push({ value: year, label })
     }
   }
   return years

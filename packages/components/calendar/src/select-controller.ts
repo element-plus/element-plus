@@ -13,6 +13,11 @@ export const selectControllerProps = buildProps({
     type: definePropType<Dayjs>(Object),
     required: true,
   },
+  formatter: {
+    type: definePropType<(value: number, type: string) => string | number>(
+      Function
+    ),
+  },
 } as const)
 export type SelectControllerProps = ExtractPropTypes<
   typeof selectControllerProps
