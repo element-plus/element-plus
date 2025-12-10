@@ -68,7 +68,7 @@ export const useFloating = ({
     const contentEl = unrefElement(contentRef)
     if (!referenceEl || !contentEl) return
 
-    const data = await computePosition(referenceEl, contentEl, {
+    const data = await computePosition(referenceEl, contentEl as HTMLElement, {
       placement: unref(placement),
       strategy: unref(strategy),
       middleware: unref(middleware),
