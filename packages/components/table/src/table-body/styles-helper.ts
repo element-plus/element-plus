@@ -74,14 +74,14 @@ function useStyles<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
     const fn = parent?.props.spanMethod
     const fixedStyle = isFunction(fn)
       ? getFixedColumnOffsetWithSpan(
-        columnIndex,
-        column.fixed,
-        props.store,
-        row,
-        rowIndex,
-        getSpan,
-        spanCache
-      )
+          columnIndex,
+          column.fixed,
+          props.store,
+          row,
+          rowIndex,
+          getSpan,
+          spanCache
+        )
       : getFixedColumnOffset(columnIndex, column.fixed, props.store)
 
     ensurePosition(fixedStyle, 'left')

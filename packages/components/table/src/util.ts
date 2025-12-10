@@ -81,22 +81,22 @@ export const orderBy = function <T extends DefaultRow>(
   const getKey = sortMethod
     ? null
     : function (value: T, index: number) {
-      if (sortBy) {
-        return flatMap(ensureArray(sortBy), (by) => {
-          if (isString(by)) {
-            return get(value, by)
-          } else {
-            return by(value, index, array)
-          }
-        })
+        if (sortBy) {
+          return flatMap(ensureArray(sortBy), (by) => {
+            if (isString(by)) {
+              return get(value, by)
+            } else {
+              return by(value, index, array)
+            }
+          })
+        }
+        if (sortKey !== '$key') {
+          if (isObject(value) && '$value' in value) value = value.$value
+        }
+        return [
+          isObject(value) ? (sortKey ? get(value, sortKey) : null) : value,
+        ]
       }
-      if (sortKey !== '$key') {
-        if (isObject(value) && '$value' in value) value = value.$value
-      }
-      return [
-        isObject(value) ? (sortKey ? get(value, sortKey) : null) : value,
-      ]
-    }
   const compare = function (a: CompareValue<T>, b: CompareValue<T>) {
     if (sortMethod) {
       return sortMethod(a.value, b.value)
@@ -429,10 +429,10 @@ const getTableOverflowTooltipProps = <T extends DefaultRow>(
 
   const tooltipFormatterContent = isFunction(column?.tooltipFormatter)
     ? column.tooltipFormatter({
-      row,
-      column,
-      cellValue: getProp(row, column.property).value,
-    })
+        row,
+        column,
+        cellValue: getProp(row, column.property).value,
+      })
     : undefined
 
   if (isVNode(tooltipFormatterContent)) {
@@ -497,8 +497,8 @@ export function createTablePopper<T extends DefaultRow>(
     },
     tableOverflowTooltipProps.slotContent
       ? {
-        content: () => tableOverflowTooltipProps.slotContent,
-      }
+          content: () => tableOverflowTooltipProps.slotContent,
+        }
       : undefined
   )
   vm.appContext = { ...table.appContext, ...table }
@@ -585,10 +585,10 @@ export const isFixedColumn = <T extends DefaultRow>(
   }
   return fixedLayout
     ? {
-      direction: fixedLayout,
-      start,
-      after,
-    }
+        direction: fixedLayout,
+        start,
+        after,
+      }
     : {}
 }
 
@@ -618,8 +618,8 @@ export const getFixedColumnsClass = <T extends DefaultRow>(
     } else if (
       !isLeft &&
       start - offset ===
-      store.states.columns.value.length -
-      store.states.rightFixedLeafColumnsLength.value
+        store.states.columns.value.length -
+          store.states.rightFixedLeafColumnsLength.value
     ) {
       classes.push('is-first-column')
     }
