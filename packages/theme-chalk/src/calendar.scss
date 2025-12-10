@@ -24,7 +24,6 @@
   }
 
   @include e(select-controller){
-    display: flex;
 
     .#{$namespace}-calendar-select__year{
       width: 128px;
