@@ -72,8 +72,8 @@ onMounted(() => {
   watch(
     () => props.virtualRef,
     (virtualEl) => {
-      if (virtualEl instanceof HTMLElement) {
-        triggerRef.value = unrefElement(virtualEl)
+      if (virtualEl) {
+        triggerRef.value = unrefElement(virtualEl as HTMLElement)
       }
     },
     {

@@ -375,8 +375,7 @@ export default defineComponent({
     let isFirstTimeRender = true
     const handleResize = () => {
       const el = unrefElement(subMenu)
-      if (el instanceof HTMLElement)
-        moreItemWidth = calcMenuItemWidth(el) || DEFAULT_MORE_ITEM_WIDTH
+      if (el) moreItemWidth = calcMenuItemWidth(el) || DEFAULT_MORE_ITEM_WIDTH
       if (sliceIndex.value === calcSliceIndex()) return
       const callback = () => {
         sliceIndex.value = -1
