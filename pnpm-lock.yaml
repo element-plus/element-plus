@@ -588,8 +588,8 @@ importers:
         specifier: ^4.17.12
         version: 4.17.12
       '@vueuse/core':
-        specifier: ^9.1.0
-        version: 9.1.0(vue@3.2.37)
+        specifier: ^10.11.0
+        version: 10.11.0(vue@3.2.37)
       async-validator:
         specifier: ^4.2.5
         version: 4.2.5(patch_hash=cc6d77b35ed2a1683012935ca9ed998d418912785fcf78c6497d3268ac596d23)
@@ -12294,16 +12294,6 @@ snapshots:
       - '@vue/composition-api'
       - vue
 
-  '@vueuse/core@9.1.0(vue@3.2.37)':
-    dependencies:
-      '@types/web-bluetooth': 0.0.15
-      '@vueuse/metadata': 9.1.0
-      '@vueuse/shared': 9.1.0(vue@3.2.37)
-      vue-demi: 0.13.1(vue@3.2.37)
-    transitivePeerDependencies:
-      - '@vue/composition-api'
-      - vue
-
   '@vueuse/core@9.1.0(vue@3.4.31(typescript@5.5.4))':
     dependencies:
       '@types/web-bluetooth': 0.0.15
@@ -12342,13 +12332,6 @@ snapshots:
   '@vueuse/shared@10.11.0(vue@3.4.31(typescript@5.5.4))':
     dependencies:
       vue-demi: 0.14.8(vue@3.4.31(typescript@5.5.4))
-    transitivePeerDependencies:
-      - '@vue/composition-api'
-      - vue
-
-  '@vueuse/shared@9.1.0(vue@3.2.37)':
-    dependencies:
-      vue-demi: 0.13.1(vue@3.2.37)
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
@@ -18684,10 +18667,6 @@ snapshots:
 
   vscode-uri@3.1.0:
     optional: true
-
-  vue-demi@0.13.1(vue@3.2.37):
-    dependencies:
-      vue: 3.2.37
 
   vue-demi@0.13.1(vue@3.4.31(typescript@5.5.4)):
     dependencies:
