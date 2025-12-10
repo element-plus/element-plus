@@ -57,8 +57,7 @@ function useStyles<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
     rowIndex: number,
     columnIndex: number,
     row: T,
-    column: TableColumnCtx<T>,
-    spanCache?: Map<number, { rowspan: number; colspan: number }>
+    column: TableColumnCtx<T>
   ) => {
     const cellStyle = parent?.props.cellStyle
     let cellStyles = cellStyle ?? {}
@@ -79,8 +78,7 @@ function useStyles<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
           props.store,
           row,
           rowIndex,
-          getSpan,
-          spanCache
+          getSpan
         )
       : getFixedColumnOffset(columnIndex, column.fixed, props.store)
 
@@ -150,41 +148,25 @@ function useStyles<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
   const getColspanRealWidth = (
     columns: TableColumnCtx<T>[],
     colspan: number,
-    columnIndex: number,
-    row: T,
-    rowIndex: number,
-    spanCache?: Map<number, { rowspan: number; colspan: number }>
+    colspanIndex: number
   ): number => {
     if (colspan < 1) {
-      return columns[columnIndex].realWidth!
+      return columns[colspanIndex].realWidth!
     }
 
     const spanMethod = parent?.props.spanMethod
     if (!isFunction(spanMethod)) {
       const widthArr = columns
         .map(({ realWidth, width }) => realWidth || width)
-        .slice(columnIndex, columnIndex + colspan)
+        .slice(colspanIndex, colspanIndex + colspan)
       return Number(
         widthArr.reduce((acc, width) => Number(acc) + Number(width))
       )
     }
 
-    let hiddenColumnsCount = 0
-    for (let i = 0; i < columnIndex; i++) {
-      let spanResult = spanCache?.get(i)
-      if (!spanResult) {
-        spanResult = getSpan(row, columns[i], rowIndex, i)
-      }
-      const { rowspan, colspan } = spanResult
-      if (rowspan === 0 || colspan === 0) {
-        hiddenColumnsCount++
-      }
-    }
-
-    const physicalStartIndex = columnIndex - hiddenColumnsCount
     let totalWidth = 0
     for (let i = 0; i < colspan; i++) {
-      const physicalIndex = physicalStartIndex + i
+      const physicalIndex = colspanIndex + i
       const column = columns[physicalIndex]
       totalWidth += Number(column.realWidth || column.width)
     }

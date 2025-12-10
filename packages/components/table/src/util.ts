@@ -706,8 +706,7 @@ export const getFixedColumnOffsetWithSpan = <T extends DefaultRow>(
     column: TableColumnCtx<T>,
     rowIndex: number,
     columnIndex: number
-  ) => { rowspan: number; colspan: number },
-  spanCache?: Map<number, { rowspan: number; colspan: number }>
+  ) => { rowspan: number; colspan: number }
 ): CSSProperties | undefined => {
   const {
     direction,
@@ -725,12 +724,7 @@ export const getFixedColumnOffsetWithSpan = <T extends DefaultRow>(
 
   let totalWidth = 0
   for (let i = startIndex; i < endIndex; i++) {
-    let spanResult = spanCache?.get(i)
-    if (!spanResult) {
-      spanResult = getSpan(row, columns[i], rowIndex, i)
-    }
-
-    const { rowspan, colspan } = spanResult
+    const { rowspan, colspan } = getSpan(row, columns[i], rowIndex, i)
     if (rowspan > 0 && colspan > 0) {
       totalWidth = getOffset(totalWidth, columns[i])
     }

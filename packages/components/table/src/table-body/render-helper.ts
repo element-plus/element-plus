@@ -79,7 +79,7 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
     }
     rowClasses.push(...getRowClass(row, $index, displayIndex))
     const displayStyle = display ? null : { display: 'none' }
-    const spanCache = new Map<number, { rowspan: number; colspan: number }>()
+    let colspanIndex = 0
 
     return h(
       'tr',
@@ -94,12 +94,7 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
         onMouseleave: handleMouseLeave,
       },
       columns.value.map((column, cellIndex) => {
-        let spanResult = spanCache.get(cellIndex)
-        if (!spanResult) {
-          spanResult = getSpan(row, column, $index, cellIndex)
-          spanCache.set(cellIndex, spanResult)
-        }
-        const { rowspan, colspan } = spanResult
+        const { rowspan, colspan } = getSpan(row, column, $index, cellIndex)
         if (!rowspan || !colspan) {
           return null
         }
@@ -107,11 +102,9 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
         columnData.realWidth = getColspanRealWidth(
           columns.value,
           colspan,
-          cellIndex,
-          row,
-          $index,
-          spanCache
+          colspanIndex
         )
+        colspanIndex += colspan
         const data: RenderRowData<T> = {
           store: store!,
           _self: props.context || parent!,
@@ -151,7 +144,7 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
         return h(
           TdWrapper,
           {
-            style: getCellStyle($index, cellIndex, row, column, spanCache),
+            style: getCellStyle($index, cellIndex, row, column),
             class: getCellClass($index, cellIndex, row, column, colspan - 1),
             key: `${patchKey}${baseKey}`,
             rowspan,
