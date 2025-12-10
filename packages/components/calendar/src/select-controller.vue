@@ -45,11 +45,12 @@ const nsSelect = useNamespace('calendar-select')
 const { t, lang } = useLocale()
 
 const monthOptions = Array.from({ length: 12 }, (_, index) => {
+  const actualMonth = index + 1
   const label = isFunction(props.formatter)
-    ? props.formatter(index + 1, 'month')
-    : index + 1
+    ? props.formatter(actualMonth, 'month')
+    : actualMonth
   return {
-    value: index + 1,
+    value: actualMonth,
     label,
   }
 })
