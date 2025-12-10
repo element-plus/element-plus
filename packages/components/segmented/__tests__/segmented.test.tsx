@@ -250,7 +250,6 @@ describe('Segmented.vue', () => {
 
     const segmenteds = wrapper.findAll('.el-segmented__item')
     segmenteds.forEach((s) => {
-      // 不应有禁用样式
       expect(s.classes()).not.toContain('is-disabled')
     })
   })

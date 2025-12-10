@@ -540,9 +540,7 @@ describe('Radio Button', () => {
       const radios = wrapper.findAll('.el-radio')
       expect(radios.length).toBe(2)
       radios.forEach((r) => {
-        // 不应有禁用样式
         expect(r.classes()).not.toContain('is-disabled')
-        // input 不应有 disabled 属性
         expect(r.find('input').attributes('disabled')).toBeUndefined()
       })
     })
