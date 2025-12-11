@@ -195,10 +195,14 @@ describe('Affix.vue', () => {
 
   test('should render append-to props', async () => {
     const wrapper = _mount(() => (
-      <Affix teleported appendTo="body">
-        {AXIOM}
-      </Affix>
+      <>
+        <div class="teleport-target"></div>
+        <Affix teleported appendTo=".teleport-target">
+          {AXIOM}
+        </Affix>
+      </>
     ))
+    const teleportTarget = wrapper.find('.teleport-target')
     await nextTick()
 
     expect(wrapper.text()).toEqual(AXIOM)
@@ -219,15 +223,9 @@ describe('Affix.vue', () => {
         bottom: 200,
       } as DOMRect)
     expect(wrapper.find('.el-affix--fixed').exists()).toBe(false)
-    expect(wrapper.find('.el-affix').attributes('style')).toMatchInlineSnapshot(
-      `undefined`
-    )
+    expect(teleportTarget.find('.el-affix--fixed').exists()).toBe(false)
     await makeScroll(document.documentElement, 'scrollTop', 200)
-    expect(wrapper.find('.el-affix--fixed').exists()).toBe(false)
-    // if affix fixed, el-affix style should not be empty
-    expect(wrapper.find('.el-affix').attributes('style')).toMatchInlineSnapshot(
-      `"height: 40px; width: 1000px;"`
-    )
+    expect(teleportTarget.find('.el-affix--fixed').exists()).toBe(true)
     mockAffixRect.mockRestore()
     mockDocumentRect.mockRestore()
   })
