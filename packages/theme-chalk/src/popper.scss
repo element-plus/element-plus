@@ -21,6 +21,11 @@
   $arrow-selector: #{& + '__arrow'};
 
   @include when(dark) {
+    @include set-css-var-value(
+      ('fill-color', 'blank'),
+      getCssVar('text-color', 'primary')
+    );
+
     color: getCssVar('bg-color');
     background: getCssVar('text-color', 'primary');
     border: 1px solid getCssVar('text-color', 'primary');
@@ -33,6 +38,11 @@
   }
 
   @include when(light) {
+    @include set-css-var-value(
+      ('fill-color', 'blank'),
+      getCssVar('bg-color', 'overlay')
+    );
+
     background: getCssVar('bg-color', 'overlay');
     border: 1px solid getCssVar('border-color', 'light');
 
