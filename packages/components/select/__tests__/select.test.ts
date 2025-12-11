@@ -2898,6 +2898,23 @@ describe('Select', () => {
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
     })
+
+    it('The disabled state of a component has higher priority than that of a form', async () => {
+      const wrapper = _mount(
+        `<el-form disabled>
+          <el-select :disabled="false" v-model="modelValue">
+            <el-option label="1" value="1" />
+          </el-select>
+        </el-form>`,
+        () => ({
+          modelValue: 1,
+        })
+      )
+
+      await nextTick()
+      const innerInput = wrapper.find('.el-select__input')
+      expect(innerInput.attributes('disabled')).toBeUndefined()
+    })
   })
 
   // fix: 8544

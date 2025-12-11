@@ -2556,6 +2556,32 @@ describe('Select', () => {
       await nextTick()
       expect(wrapper.find('.custom-tag').text()).toBe('enabled')
     })
+
+    it('The disabled state of a component has higher priority than that of a form', async () => {
+      const options = [
+        { value: 'a', label: 'A' },
+        { value: 'b', label: 'B' },
+        { value: 'c', label: 'C' },
+      ]
+      const wrapper = _mount(
+        `<el-form disabled>
+          <el-select :disabled="false" v-model="value" :options="options">
+          </el-select>
+        </el-form>`,
+        {
+          data() {
+            return {
+              value: 'a',
+              options,
+            }
+          },
+        }
+      )
+
+      await nextTick()
+      const innerInput = wrapper.find('.el-select__input')
+      expect(innerInput.attributes('disabled')).toBeUndefined()
+    })
   })
 
   it('loading appears on first click when remote', async () => {

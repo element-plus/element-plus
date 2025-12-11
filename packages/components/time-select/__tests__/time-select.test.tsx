@@ -5,7 +5,7 @@ import dayjs from 'dayjs'
 import { CircleClose } from '@element-plus/icons-vue'
 import customParseFormat from 'dayjs/plugin/customParseFormat.js'
 import Select from '@element-plus/components/select'
-import { ElFormItem } from '@element-plus/components/form'
+import { ElForm, ElFormItem } from '@element-plus/components/form'
 import TimeSelect from '../src/time-select.vue'
 
 dayjs.extend(customParseFormat)
@@ -294,6 +294,18 @@ describe('TimeSelect', () => {
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
+    })
+
+    it('The disabled state of a component has higher priority than that of a form', async () => {
+      const wrapper = mount(() => (
+        <ElForm disabled>
+          <TimeSelect disabled={false} />
+        </ElForm>
+      ))
+
+      await nextTick()
+      const input = wrapper.find('input')
+      expect(input.attributes('disabled')).toBeUndefined()
     })
   })
 })

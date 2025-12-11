@@ -2,6 +2,7 @@ import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import Segmented from '../src/segmented.vue'
+import { ElForm } from '@element-plus/components/form'
 
 describe('Segmented.vue', () => {
   test('render test', async () => {
@@ -231,5 +232,25 @@ describe('Segmented.vue', () => {
     await nextTick()
     await secondOption.trigger('click')
     expect(onChange).toHaveBeenCalledTimes(2)
+  })
+
+  test('The disabled state of a component has higher priority than that of a form', async () => {
+    const value = ref('Mon')
+    const options = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    const wrapper = mount(() => (
+      <ElForm disabled>
+        <Segmented
+          disabled={false}
+          modelValue={value.value}
+          options={options}
+        />
+      </ElForm>
+    ))
+    await nextTick()
+
+    const segmenteds = wrapper.findAll('.el-segmented__item')
+    segmenteds.forEach((s) => {
+      expect(s.classes()).not.toContain('is-disabled')
+    })
   })
 })
