@@ -296,7 +296,7 @@ describe('TimeSelect', () => {
       expect(formItem.attributes().role).toBe('group')
     })
 
-    it('form disabled, but timeSelect is not', async () => {
+    it('The disabled state of a component has higher priority than that of a form', async () => {
       const wrapper = mount(() => (
         <ElForm disabled>
           <TimeSelect disabled={false} />
