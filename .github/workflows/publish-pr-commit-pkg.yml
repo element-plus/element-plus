@@ -1,4 +1,4 @@
-name: Publish PR Commit Pkg1
+name: Publish PR Commit Pkg
 
 on:
   push:
