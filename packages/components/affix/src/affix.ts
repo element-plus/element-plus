@@ -5,6 +5,7 @@ import {
   isNumber,
 } from '@element-plus/utils'
 import { CHANGE_EVENT } from '@element-plus/constants'
+import { teleportProps } from '@element-plus/components/teleport'
 
 import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type { ZIndexProperty } from 'csstype'
@@ -41,11 +42,18 @@ export const affixProps = buildProps({
     default: 'top',
   },
   /**
-   * @description whether affix element is teleport to body
+   * @description whether affix element is teleported, if `true` it will be teleported to where `append-to` sets
    * */
-  appendToBody: {
+  teleported: {
     type: Boolean,
     default: false,
+  },
+  /**
+   * @description which element the affix element appends to
+   * */
+  appendTo: {
+    type: teleportProps.to.type,
+    default: 'body',
   },
 } as const)
 export type AffixProps = ExtractPropTypes<typeof affixProps>

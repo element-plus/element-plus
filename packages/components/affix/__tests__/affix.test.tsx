@@ -194,7 +194,11 @@ describe('Affix.vue', () => {
   })
 
   test('should render append-to props', async () => {
-    const wrapper = _mount(() => <Affix appendToBody>{AXIOM}</Affix>)
+    const wrapper = _mount(() => (
+      <Affix teleported appendTo="body">
+        {AXIOM}
+      </Affix>
+    ))
     await nextTick()
 
     expect(wrapper.text()).toEqual(AXIOM)

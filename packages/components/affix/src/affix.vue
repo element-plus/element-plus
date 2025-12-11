@@ -1,6 +1,6 @@
 <template>
   <div ref="root" :class="ns.b()" :style="rootStyle">
-    <ElTeleport :disabled="teleportDisabled" to="body">
+    <ElTeleport :disabled="teleportDisabled" :to="props.appendTo">
       <div :class="{ [ns.m('fixed')]: fixed }" :style="affixStyle">
         <slot />
       </div>
@@ -59,7 +59,7 @@ const scrollTop = ref(0)
 const transform = ref(0)
 
 const teleportDisabled = computed(() => {
-  return !props.appendToBody || !fixed.value
+  return !props.teleported || !fixed.value
 })
 
 const rootStyle = computed<CSSProperties>(() => {
@@ -78,7 +78,7 @@ const affixStyle = computed<CSSProperties>(() => {
     width: `${rootWidth.value}px`,
     top: props.position === 'top' ? offset : '',
     bottom: props.position === 'bottom' ? offset : '',
-    left: props.appendToBody ? `${rootLeft.value}px` : '',
+    left: props.teleported ? `${rootLeft.value}px` : '',
     transform: transform.value ? `translateY(${transform.value}px)` : '',
     zIndex: props.zIndex,
   }

@@ -41,13 +41,14 @@ affix/fixed
 
 ### Attributes
 
-| Name           | Description                     | Type                       | Default |
-| -------------- | ------------------------------- | -------------------------- | ------- |
-| offset         | offset distance                 | ^[number]                  | 0       |
-| position       | position of affix               | ^[enum]`'top' \| 'bottom'` | top     |
-| target         | target container (CSS selector) | ^[string]                  | —       |
-| z-index        | `z-index` of affix              | ^[number]                  | 100     |
-| append-to-body | append affix to body            | ^[boolean]                 | false   |
+| Name       | Description                                                                                    | Type                            | Default |
+| ---------- | ---------------------------------------------------------------------------------------------- | ------------------------------- | ------- |
+| offset     | offset distance                                                                                | ^[number]                       | 0       |
+| position   | position of affix                                                                              | ^[enum]`'top' \| 'bottom'`      | top     |
+| target     | target container (CSS selector)                                                                | ^[string]                       | —       |
+| z-index    | `z-index` of affix                                                                             | ^[number]                       | 100     |
+| teleported | whether affix element is teleported, if `true` it will be teleported to where `append-to` sets | ^[boolean]                      | false   |
+| append-to  | which element the affix element appends to                                                     | ^[CSSSelector] / ^[HTMLElement] | body    |
 
 ### Events
 
