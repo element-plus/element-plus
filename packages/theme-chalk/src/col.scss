@@ -1,5 +1,4 @@
 @use 'sass:math';
-@use 'sass:meta';
 
 @use 'common/var' as *;
 @use 'mixins/mixins' as *;
@@ -15,11 +14,19 @@
 
 @for $i from 0 through 24 {
   .#{$namespace}-col-#{$i} {
-    display: if(sass($i == 0), none, block);
+    @if $i == 0 {
+      display: none;
+    } @else {
+      display: block;
+    }
     max-width: (math.div(1, 24) * $i * 100) * 1%;
     flex: 0 0 (math.div(1, 24) * $i * 100) * 1%;
     @include when(guttered) {
-      display: if(sass($i == 0), none, block);
+      @if $i == 0 {
+        display: none;
+      } @else {
+        display: block;
+      }
     }
   }
 
