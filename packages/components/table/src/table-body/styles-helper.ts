@@ -4,7 +4,6 @@ import { isArray, isFunction, isObject, isString } from '@element-plus/utils'
 import {
   ensurePosition,
   getFixedColumnOffset,
-  getFixedColumnOffsetWithSpan,
   getFixedColumnsClass,
 } from '../util'
 import { TABLE_INJECTION_KEY } from '../tokens'
@@ -57,7 +56,8 @@ function useStyles<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
     rowIndex: number,
     columnIndex: number,
     row: T,
-    column: TableColumnCtx<T>
+    column: TableColumnCtx<T>,
+    colspanIndex: number
   ) => {
     const cellStyle = parent?.props.cellStyle
     let cellStyles = cellStyle ?? {}
@@ -70,17 +70,11 @@ function useStyles<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
       })
     }
 
-    const fn = parent?.props.spanMethod
-    const fixedStyle = isFunction(fn)
-      ? getFixedColumnOffsetWithSpan(
-          columnIndex,
-          column.fixed,
-          props.store,
-          row,
-          rowIndex,
-          getSpan
-        )
-      : getFixedColumnOffset(columnIndex, column.fixed, props.store)
+    const fixedStyle = getFixedColumnOffset(
+      colspanIndex,
+      column.fixed,
+      props.store
+    )
 
     ensurePosition(fixedStyle, 'left')
     ensurePosition(fixedStyle, 'right')
@@ -150,20 +144,6 @@ function useStyles<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
     colspan: number,
     colspanIndex: number
   ): number => {
-    if (colspan < 1) {
-      return columns[colspanIndex].realWidth!
-    }
-
-    const spanMethod = parent?.props.spanMethod
-    if (!isFunction(spanMethod)) {
-      const widthArr = columns
-        .map(({ realWidth, width }) => realWidth || width)
-        .slice(colspanIndex, colspanIndex + colspan)
-      return Number(
-        widthArr.reduce((acc, width) => Number(acc) + Number(width))
-      )
-    }
-
     let totalWidth = 0
     for (let i = 0; i < colspan; i++) {
       const physicalIndex = colspanIndex + i

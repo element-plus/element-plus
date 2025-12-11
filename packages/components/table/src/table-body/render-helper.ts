@@ -99,10 +99,11 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
           return null
         }
         const columnData = Object.assign({}, column)
+        const currentColspanIndex = colspanIndex
         columnData.realWidth = getColspanRealWidth(
           columns.value,
           colspan,
-          colspanIndex
+          currentColspanIndex
         )
         colspanIndex += colspan
         const data: RenderRowData<T> = {
@@ -144,7 +145,13 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
         return h(
           TdWrapper,
           {
-            style: getCellStyle($index, cellIndex, row, column),
+            style: getCellStyle(
+              $index,
+              cellIndex,
+              row,
+              column,
+              currentColspanIndex
+            ),
             class: getCellClass($index, cellIndex, row, column, colspan - 1),
             key: `${patchKey}${baseKey}`,
             rowspan,
