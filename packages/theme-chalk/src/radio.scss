@@ -103,6 +103,7 @@ $radio-font-size: map.merge(
           cursor: not-allowed;
         }
       }
+
       &.is-checked {
         .#{$namespace}-radio__inner {
           background-color: map.get($radio-disabled, 'checked-input-fill');
@@ -113,6 +114,7 @@ $radio-font-size: map.merge(
           }
         }
       }
+
       & + span.#{$namespace}-radio__label {
         color: getCssVar('text-color', 'placeholder');
         cursor: not-allowed;
@@ -141,6 +143,7 @@ $radio-font-size: map.merge(
       }
     }
   }
+
   @include e(inner) {
     border: getCssVar('radio-input-border');
     border-radius: getCssVar('radio-input-border-radius');
@@ -151,6 +154,7 @@ $radio-font-size: map.merge(
     cursor: pointer;
     display: inline-block;
     box-sizing: border-box;
+    transition: all 0.3s;
 
     &:hover {
       border-color: getCssVar('radio-input-border-color-hover');
@@ -206,6 +210,7 @@ $radio-font-size: map.merge(
       @include e(label) {
         font-size: map.get($radio-font-size, $size);
       }
+
       @include e(inner) {
         width: map.get($radio-font-size, $size);
         height: map.get($radio-font-size, $size);
