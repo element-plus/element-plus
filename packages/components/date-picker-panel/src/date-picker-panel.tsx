@@ -38,7 +38,6 @@ export default defineComponent({
     'calendar-change',
     'panel-change',
     'visible-change',
-    'pick',
   ],
   setup(props, { slots, emit }) {
     const ns = useNamespace('picker-panel')
