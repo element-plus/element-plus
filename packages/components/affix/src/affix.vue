@@ -4,7 +4,7 @@
       <div :class="{ [ns.m('fixed')]: fixed }" :style="affixStyle">
         <slot />
       </div>
-    </ElTeleport>
+    </el-teleport>
   </div>
 </template>
 
