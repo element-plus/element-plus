@@ -44,10 +44,7 @@ export const affixProps = buildProps({
   /**
    * @description whether affix element is teleported, if `true` it will be teleported to where `append-to` sets
    * */
-  teleported: {
-    type: Boolean,
-    default: false,
-  },
+  teleported: Boolean,
   /**
    * @description which element the affix element appends to
    * */
