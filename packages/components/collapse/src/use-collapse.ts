@@ -89,6 +89,7 @@ export const useCollapse = (
 
   provide(collapseContextKey, {
     activeNames,
+    collapsible: props.collapsible,
     handleItemClick,
   })
   return {

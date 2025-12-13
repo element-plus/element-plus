@@ -401,13 +401,13 @@ describe('Collapse.vue', () => {
       const input = wrapper.find('[data-testid="test-input"]')
       const header = wrapper.find('.el-collapse-item__header')
 
-      await input.trigger('keydown.enter')
+      await input.trigger('keydown.Enter')
       await nextTick()
 
       const collapseItem = wrapper.findComponent(CollapseItem)
       expect(collapseItem.vm.isActive).toBe(true)
 
-      await header.trigger('keydown.enter')
+      await header.trigger('keydown.Enter')
       await nextTick()
       expect(collapseItem.vm.isActive).toBe(false)
     })
@@ -417,13 +417,13 @@ describe('Collapse.vue', () => {
       const input = wrapper.find('[data-testid="test-input"]')
       const header = wrapper.find('.el-collapse-item__header')
 
-      await input.trigger('keydown.space')
+      await input.trigger('keydown.Space')
       await nextTick()
 
       const collapseItem = wrapper.findComponent(CollapseItem)
       expect(collapseItem.vm.isActive).toBe(true)
 
-      await header.trigger('keydown.space')
+      await header.trigger('keydown.Space')
       await nextTick()
       expect(collapseItem.vm.isActive).toBe(false)
     })
