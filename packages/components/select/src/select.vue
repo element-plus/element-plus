@@ -302,7 +302,10 @@
             <slot name="loading" />
           </div>
           <div
-            v-else-if="loading || filteredOptionsCount === 0"
+            v-else-if="
+              (loading || filteredOptionsCount === 0) &&
+              states.selected.length === 0
+            "
             :class="nsSelect.be('dropdown', 'empty')"
           >
             <slot name="empty">
