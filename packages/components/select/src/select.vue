@@ -331,7 +331,7 @@ import {
   provide,
   reactive,
   toRefs,
-  watch,
+  watchEffect,
 } from 'vue'
 import { ClickOutside } from '@element-plus/directives'
 import ElTooltip from '@element-plus/components/tooltip'
@@ -501,9 +501,12 @@ export default defineComponent({
         }
       })
     }
-    watch(
-      () => [slots.default?.(), modelValue.value],
+
+    watchEffect(
       () => {
+        props.persistent
+        API.expanded.value
+        modelValue.value
         // When persistent is false and the dropdown is closed, the menu is unmounted.
         // We should always re-hydrate option data from slots so labels stay in sync
         // with dynamic option list updates. Skip only when persistent is true or
@@ -517,7 +520,7 @@ export default defineComponent({
         manuallyRenderSlots(slots.default?.())
       },
       {
-        immediate: true,
+        flush: 'post',
       }
     )
 
