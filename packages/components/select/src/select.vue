@@ -304,7 +304,7 @@
           <div
             v-else-if="
               (loading || filteredOptionsCount === 0) &&
-              states.selected.length === 0
+              (!multiple || states.selected.length === 0)
             "
             :class="nsSelect.be('dropdown', 'empty')"
           >
