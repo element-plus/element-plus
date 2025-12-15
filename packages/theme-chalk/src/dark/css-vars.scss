@@ -36,7 +36,7 @@ html.dark {
   @include set-component-css-var('card', $card);
   @include set-css-var-value(
     ('fill-color', 'blank'),
-    map.get($card, 'bg-color')
+    getCssVar('card', 'bg-color')
   );
 }
 
