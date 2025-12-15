@@ -86,6 +86,10 @@ export const configProviderProps = buildProps({
     type: String,
     default: 'el',
   },
+  appendTo: {
+    type: definePropType<string | HTMLElement>([String, Object]),
+    default: '',
+  },
   ...useEmptyValuesProps,
 } as const)
 export type ConfigProviderProps = ExtractPropTypes<typeof configProviderProps>
