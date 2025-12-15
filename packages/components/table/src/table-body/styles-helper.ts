@@ -147,6 +147,9 @@ function useStyles<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
     let totalWidth = 0
     for (let i = 0; i < colspan; i++) {
       const physicalIndex = colspanIndex + i
+      if (physicalIndex >= columns.length) {
+        break
+      }
       const column = columns[physicalIndex]
       totalWidth += Number(column.realWidth || column.width)
     }
