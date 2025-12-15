@@ -47,7 +47,7 @@ affix/fixed
 | position   | position of affix                                                                              | ^[enum]`'top' \| 'bottom'`      | top     |
 | target     | target container (CSS selector)                                                                | ^[string]                       | —       |
 | z-index    | `z-index` of affix                                                                             | ^[number]                       | 100     |
-| teleported | whether affix element is teleported, if `true` it will be teleported to where `append-to` sets | ^[boolean]                      | false   |
+| teleported ^(2.13.0) | whether affix element is teleported, if `true` it will be teleported to where `append-to` sets | ^[boolean]                      | false   |
 | append-to  | which element the affix element appends to                                                     | ^[CSSSelector] / ^[HTMLElement] | body    |
 
 ### Events
