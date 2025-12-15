@@ -26,7 +26,11 @@ import { isEqual, omit, pick } from 'lodash-unified'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { debugWarn } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
-import { useFormItem, useFormItemInputId } from '@element-plus/components/form'
+import {
+  useFormDisabled,
+  useFormItem,
+  useFormItemInputId,
+} from '@element-plus/components/form'
 import {
   checkboxDefaultProps,
   checkboxGroupEmits,
@@ -46,6 +50,7 @@ const props = defineProps(checkboxGroupProps)
 const emit = defineEmits(checkboxGroupEmits)
 const ns = useNamespace('checkbox')
 
+const checkboxDisabled = useFormDisabled()
 const { formItem } = useFormItem()
 const { inputId: groupId, isLabeledByFormItem } = useFormItemInputId(props, {
   formItemContext: formItem,
@@ -89,11 +94,11 @@ provide(checkboxGroupContextKey, {
     'size',
     'min',
     'max',
-    'disabled',
     'validateEvent',
     'fill',
     'textColor',
   ]),
+  disabled: checkboxDisabled,
   modelValue,
   changeEvent,
 })

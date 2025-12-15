@@ -1,5 +1,5 @@
 <template>
-  <el-radio-group v-model="tableLayout">
+  <el-radio-group v-model="tableLayout" class="mb-2">
     <el-radio-button value="fixed">fixed</el-radio-button>
     <el-radio-button value="auto">auto</el-radio-button>
   </el-radio-group>

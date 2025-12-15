@@ -12,7 +12,8 @@
       :aria-valuemin="minValue"
       :aria-valuemax="maxValue"
       role="slider"
-      tabindex="0"
+      :tabindex="disabled ? undefined : 0"
+      :aria-disabled="disabled"
       @keydown="handleKeydown"
     />
   </div>

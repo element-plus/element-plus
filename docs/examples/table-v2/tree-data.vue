@@ -116,7 +116,7 @@ const treeData = computed(() => unflatten(data))
 
 const expandedRowKeys = ref<string[]>([])
 
-const onRowExpanded = ({ expanded }: Parameters<RowExpandHandler<any>>[0]) => {
+const onRowExpanded = ({ expanded }: Parameters<RowExpandHandler>[0]) => {
   console.log('Expanded:', expanded)
 }
 

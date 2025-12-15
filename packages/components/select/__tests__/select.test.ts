@@ -2600,7 +2600,7 @@ describe('Select', () => {
       clearable: true,
     })
     const select = wrapper.findComponent({ name: 'ElSelect' })
-    const trigger = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
+    const trigger = wrapper.find('.el-select__suffix')
     await trigger.trigger('click')
     expect((select.vm as any).expanded).toBe(true)
     await trigger.trigger('click')
@@ -2608,6 +2608,20 @@ describe('Select', () => {
   })
 
   test('mouseenter click', async () => {
+    wrapper = getSelectVm({
+      filterable: false,
+      clearable: true,
+    })
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const trigger = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
+    await trigger.trigger('click')
+    expect((select.vm as any).expanded).toBe(true)
+
+    await trigger.trigger('click')
+    expect((select.vm as any).expanded).toBe(false)
+  })
+
+  test('should keep the select dropdown open when using the filterable', async () => {
     wrapper = getSelectVm({
       filterable: true,
       clearable: true,
@@ -2618,7 +2632,7 @@ describe('Select', () => {
     expect((select.vm as any).expanded).toBe(true)
 
     await trigger.trigger('click')
-    expect((select.vm as any).expanded).toBe(false)
+    expect((select.vm as any).expanded).toBe(true)
   })
 
   describe('should show all options when open select dropdown', () => {
@@ -2883,6 +2897,23 @@ describe('Select', () => {
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
+    })
+
+    it('The disabled state of a component has higher priority than that of a form', async () => {
+      const wrapper = _mount(
+        `<el-form disabled>
+          <el-select :disabled="false" v-model="modelValue">
+            <el-option label="1" value="1" />
+          </el-select>
+        </el-form>`,
+        () => ({
+          modelValue: 1,
+        })
+      )
+
+      await nextTick()
+      const innerInput = wrapper.find('.el-select__input')
+      expect(innerInput.attributes('disabled')).toBeUndefined()
     })
   })
 

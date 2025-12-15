@@ -1,36 +1,30 @@
-import { defineComponent, h, provide, renderSlot } from 'vue'
+import { defineComponent, h, provide } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { TIMELINE_INJECTION_KEY } from './tokens'
+import { flattedChildren } from '@element-plus/utils'
+
+import type { VNodeChildAtom } from '@element-plus/utils'
 
 const Timeline = defineComponent({
   name: 'ElTimeline',
-  setup(_, { slots }) {
+  props: {
+    reverse: Boolean,
+  },
+  setup(props, { slots }) {
     const ns = useNamespace('timeline')
 
     provide(TIMELINE_INJECTION_KEY, slots)
 
-    /**
-     *  Maybe ,this component will not support prop 'reverse', why ?
-     *
-     *  Example 1:
-     *   <component-a>
-     *     <div>1</div>
-     *     <div>2</div>
-     *   </component-a>
-     *
-     *  Example 2:
-     *   <component-a>
-     *     <div v-for="i in 2" :key="i">{{ i }}</div>
-     *   </component-a>
-     *
-     *  'slots.default()' value in example 1 just like [Vnode, Vnode]
-     *  'slots.default()' value in example 2 just like [Vnode]
-     *
-     *   so i can't reverse the slots, when i use 'v-for' directive.
-     */
-
     return () => {
-      return h('ul', { class: [ns.b()] }, [renderSlot(slots, 'default')])
+      const children = flattedChildren(slots.default?.() ?? []).filter(
+        (node) => (node as any)?.type?.name === 'ElTimelineItem'
+      ) as VNodeChildAtom[]
+
+      return h(
+        'ul',
+        { class: [ns.b()] },
+        props.reverse ? children.reverse() : children
+      )
     }
   },
 })

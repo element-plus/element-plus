@@ -24,7 +24,10 @@ export const datePickerPanelProps = buildProps({
   /**
    * @description whether picker is disabled
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description binding value, if it is an array, the length should be 2
    */
@@ -113,6 +116,13 @@ export const datePickerPanelProps = buildProps({
    * @description whether the date picker is bordered
    */
   border: {
+    type: Boolean,
+    default: true,
+  },
+  /**
+   * @description whether the input is editable
+   */
+  editable: {
     type: Boolean,
     default: true,
   },

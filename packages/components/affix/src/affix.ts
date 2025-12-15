@@ -5,6 +5,7 @@ import {
   isNumber,
 } from '@element-plus/utils'
 import { CHANGE_EVENT } from '@element-plus/constants'
+import { teleportProps } from '@element-plus/components/teleport'
 
 import type {
   CSSProperties,
@@ -42,6 +43,17 @@ export const affixProps = buildProps({
     type: String,
     values: ['top', 'bottom'],
     default: 'top',
+  },
+  /**
+   * @description whether affix element is teleported, if `true` it will be teleported to where `append-to` sets
+   * */
+  teleported: Boolean,
+  /**
+   * @description which element the affix element appends to
+   * */
+  appendTo: {
+    type: teleportProps.to.type,
+    default: 'body',
   },
 } as const)
 export type AffixProps = ExtractPropTypes<typeof affixProps>

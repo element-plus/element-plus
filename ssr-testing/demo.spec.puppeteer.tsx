@@ -3,7 +3,7 @@ import { createApp } from 'vue'
 import { renderToString } from '@vue/server-renderer'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import puppeteer from 'puppeteer'
-import glob from 'fast-glob'
+import { globSync } from 'tinyglobby'
 import ElementPlus, {
   ID_INJECTION_KEY,
   ZINDEX_INJECTION_KEY,
@@ -29,9 +29,9 @@ describe('Cypress Button', () => {
   })
 
   describe('when initialized', () => {
-    const demoPaths = glob
-      .sync(`${demoRoot}/*.vue`)
-      .map((demo) => demo.slice(demoRoot.length + 1))
+    const demoPaths = globSync(`${demoRoot}/*.vue`, { absolute: true }).map(
+      (demo) => demo.slice(demoRoot.length + 1)
+    )
 
     it.each(demoPaths)(`render %s correctly`, async (demoPath) => {
       const page = await browser.newPage()

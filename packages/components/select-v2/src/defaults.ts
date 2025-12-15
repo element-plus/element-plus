@@ -84,7 +84,10 @@ export const selectV2Props = buildProps({
   /**
    * @description is disabled
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description
    */

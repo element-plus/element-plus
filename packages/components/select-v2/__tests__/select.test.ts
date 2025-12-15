@@ -1180,10 +1180,10 @@ describe('Select', () => {
       // selected the new option
       selectVm.onSelect(selectVm.filteredOptions[0])
       expect(vm.value).toBe('1111')
-      await input.trigger('click')
+      await wrapper.find('.el-select__suffix').trigger('click')
       await nextTick()
       await rAF()
-      await input.trigger('click')
+      await wrapper.find('.el-select__suffix').trigger('click')
       await nextTick()
       await rAF()
       expect(selectVm.filteredOptions.length).toBe(4)
@@ -1876,6 +1876,23 @@ describe('Select', () => {
       const options = getOptions()
       expect(options.length).toBe(3)
     })
+
+    it('should keep the select dropdown open when using the filterable', async () => {
+      const wrapper = createSelect({
+        data() {
+          return {
+            filterable: true,
+          }
+        },
+      })
+      const select = wrapper.findComponent({ name: 'ElSelectV2' })
+      const input = wrapper.find('input')
+      await input.trigger('click')
+      expect((select.vm as any).expanded).toBe(true)
+
+      await input.trigger('click')
+      expect((select.vm as any).expanded).toBe(true)
+    })
   })
 
   describe('remote search', () => {
@@ -2538,6 +2555,32 @@ describe('Select', () => {
       await wrapper.setData({ formDisabled: false })
       await nextTick()
       expect(wrapper.find('.custom-tag').text()).toBe('enabled')
+    })
+
+    it('The disabled state of a component has higher priority than that of a form', async () => {
+      const options = [
+        { value: 'a', label: 'A' },
+        { value: 'b', label: 'B' },
+        { value: 'c', label: 'C' },
+      ]
+      const wrapper = _mount(
+        `<el-form disabled>
+          <el-select :disabled="false" v-model="value" :options="options">
+          </el-select>
+        </el-form>`,
+        {
+          data() {
+            return {
+              value: 'a',
+              options,
+            }
+          },
+        }
+      )
+
+      await nextTick()
+      const innerInput = wrapper.find('.el-select__input')
+      expect(innerInput.attributes('disabled')).toBeUndefined()
     })
   })
 

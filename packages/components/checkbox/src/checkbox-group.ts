@@ -19,7 +19,10 @@ export const checkboxGroupProps = buildProps({
   /**
    * @description whether the nesting checkboxes are disabled
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description minimum number of checkbox checked
    */

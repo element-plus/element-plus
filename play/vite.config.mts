@@ -6,7 +6,7 @@ import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import Inspect from 'vite-plugin-inspect'
 import mkcert from 'vite-plugin-mkcert'
-import glob from 'fast-glob'
+import { glob } from 'tinyglobby'
 import {
   epPackage,
   epRoot,
