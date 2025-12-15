@@ -1,6 +1,6 @@
 <template>
   <div ref="root" :class="ns.b()" :style="rootStyle">
-    <el-teleport :disabled="teleportDisabled" :to="props.appendTo">
+    <el-teleport :disabled="teleportDisabled" :to="appendTo">
       <div :class="{ [ns.m('fixed')]: fixed }" :style="affixStyle">
         <slot />
       </div>
