@@ -186,17 +186,18 @@ describe('TimeLine.vue', () => {
           TimeLine,
           TimeLineItem,
         },
-        setup() {
-          const reverse = ref(true)
-          return { activities, reverse }
+        data() {
+          return {
+            reverse: true,
+            activities,
+          }
         },
       })
 
       let firstTimelineItem = wrapper.find('.el-timeline-item__content')
       expect(firstTimelineItem.text()).toMatchInlineSnapshot(`"Step 3: xxxxxx"`)
 
-      wrapper.vm.reverse = false
-      await nextTick()
+      await wrapper.setData({ reverse: false })
       firstTimelineItem = wrapper.find('.el-timeline-item__content')
       expect(firstTimelineItem.text()).toMatchInlineSnapshot(`"Step 1: xxxxxx"`)
     })
