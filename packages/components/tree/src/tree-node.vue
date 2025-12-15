@@ -77,6 +77,7 @@
           :accordion="accordion"
           :props="props"
           @node-expand="handleChildNodeExpand"
+          @check="handleChildCheck"
         />
       </div>
     </el-collapse-transition>
@@ -133,7 +134,7 @@ export default defineComponent({
     renderAfterExpand: Boolean,
     showCheckbox: Boolean,
   },
-  emits: ['node-expand'],
+  emits: ['node-expand', 'check'],
   setup(props, ctx) {
     const ns = useNamespace('tree')
     const { broadcastExpanded } = useNodeExpandEventBroadcast(props)
@@ -201,7 +202,8 @@ export default defineComponent({
     }
 
     const getNodeClass = (node: Node) => {
-      const nodeClassFunc = props.props.class
+      // 兼容类型推断：props.props 默认是 {}，使用可选链与 any 规避类型错误
+      const nodeClassFunc = (props.props as any)?.class
       if (!nodeClassFunc) {
         return {}
       }
@@ -294,12 +296,16 @@ export default defineComponent({
       props.node.setChecked(value as boolean, !checkStrictly)
       nextTick(() => {
         const store = tree.store.value
-        tree.ctx.emit('check', props.node.data, {
+        const payload = {
           checkedNodes: store.getCheckedNodes(),
           checkedKeys: store.getCheckedKeys(),
           halfCheckedNodes: store.getHalfCheckedNodes(),
           halfCheckedKeys: store.getHalfCheckedKeys(),
-        })
+        }
+        // 向根树组件转发事件（保留原有行为）
+        tree.ctx.emit('check', props.node.data, payload)
+        // 同时向父级 TreeNode 容器派发本地事件，确保 <el-tree> 模板上的 @check 能被触发
+        ctx.emit('check', props.node.data, payload)
       })
     }
 
@@ -310,6 +316,11 @@ export default defineComponent({
     ) => {
       broadcastExpanded(node)
       tree.ctx.emit('node-expand', nodeData, node, instance)
+    }
+
+    // 将子节点的 check 事件继续向上冒泡到父组件（ElTree）
+    const handleChildCheck = (data: any, checkInfo: any) => {
+      ctx.emit('check', data, checkInfo)
     }
 
     const handleDragStart = (event: DragEvent) => {
@@ -351,6 +362,7 @@ export default defineComponent({
       handleExpandIconClick,
       handleCheckChange,
       handleChildNodeExpand,
+      handleChildCheck,
       handleDragStart,
       handleDragOver,
       handleDrop,
