@@ -14,5 +14,5 @@ import { useGlobalConfig } from '@element-plus/components/config-provider'
 
 const props = defineProps(teleportProps)
 const globalConfig = useGlobalConfig()
-const appendTo = computed(() => globalConfig.value.appendTo || props.to)
+const appendTo = computed(() => globalConfig.value?.appendTo || props.to)
 </script>
