@@ -60,8 +60,8 @@ watermark/custom
 | image   | Image source, it is recommended to export 2x or 3x image, high priority                         | ^[string]                     | —                          |
 | content | Watermark text content                                                                          | ^[string]/^[object]`string[]` | Element Plus               |
 | font    | Text style                                                                                      | [Font](#font)                 | [Font](#font)              |
-| gap     | The spacing between watermarks                                                                  | ^[object]`[number, number]`   | \[100, 100\]               |
-| offset  | The offset of the watermark from the upper left corner of the container. The default is `gap/2` | ^[object]`[number, number]`   | \[gap\[0\]/2, gap\[1\]/2\] |
+| gap     | The spacing between watermarks                                                                  | ^[array]`[number, number]`   | \[100, 100\]               |
+| offset  | The offset of the watermark from the upper left corner of the container. The default is `gap/2` | ^[array]`[number, number]`   | \[gap\[0\]/2, gap\[1\]/2\] |
 
 ### Font
 
