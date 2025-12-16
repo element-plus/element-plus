@@ -1,7 +1,6 @@
 name: Publish Docs Deploy (Manual)
 
-#on: workflow_dispatch
-on: pull_request
+on: workflow_dispatch
 
 jobs:
   deploy-docs:
@@ -54,32 +53,32 @@ jobs:
           DOC_ENV: production
           NODE_OPTIONS: --max-old-space-size=6144
 
-      #- name: Deploy
-      #  uses: JamesIves/github-pages-deploy-action@v4.4.1
-      #  with:
-      #    token: ${{ secrets.GITHUB_TOKEN }}
-      #    branch: gh-pages
-      #    folder: docs/.vitepress/dist
-      #    git-config-name: ElementPlusBot
-      #    git-config-email: element-plus@outlook.com
-      #    commit-message: website deploy ${{ steps.get_release.outputs.latest_version }}
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
+          folder: docs/.vitepress/dist
+          git-config-name: ElementPlusBot
+          git-config-email: element-plus@outlook.com
+          commit-message: website deploy ${{ steps.get_release.outputs.latest_version }}
 
-      #- name: Deploy to Vercel
-      #  uses: JamesIves/github-pages-deploy-action@v4.4.1
-      #  with:
-      #    token: ${{ secrets.EP_BOT_TOKEN }}
-      #    branch: main
-      #    folder: docs/.vitepress/dist
-      #    repository-name: element-plus/vercel-publish
-      #    git-config-name: ElementPlusBot
-      #    git-config-email: element-plus@outlook.com
+      - name: Deploy to Vercel
+        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        with:
+          token: ${{ secrets.EP_BOT_TOKEN }}
+          branch: main
+          folder: docs/.vitepress/dist
+          repository-name: element-plus/vercel-publish
+          git-config-name: ElementPlusBot
+          git-config-email: element-plus@outlook.com
 
-      #- name: Deploy to Vercel Main
-      #  uses: JamesIves/github-pages-deploy-action@v4.4.1
-      #  with:
-      #    token: ${{ secrets.EP_BOT_TOKEN }}
-      #    branch: main
-      #    folder: docs/.vitepress/dist
-      #    repository-name: element-plus/vercel-publish-main
-      #    git-config-name: ElementPlusBot
-      #    git-config-email: element-plus@outlook.com
+      - name: Deploy to Vercel Main
+        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        with:
+          token: ${{ secrets.EP_BOT_TOKEN }}
+          branch: main
+          folder: docs/.vitepress/dist
+          repository-name: element-plus/vercel-publish-main
+          git-config-name: ElementPlusBot
+          git-config-email: element-plus@outlook.com
