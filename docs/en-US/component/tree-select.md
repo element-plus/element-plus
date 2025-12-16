@@ -132,7 +132,7 @@ and please go to the original component to view the documentation.
 
 | Name                 | Description                                                                                                         | Type                     | Default |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------ | ------- |
-| cache-data ^(2.2.26) | The cached data of the lazy node, the structure is the same as the data, used to get the label of the unloaded data | ^[object]`CacheOption[]` | []      |
+| cache-data ^(2.2.26) | The cached data of the lazy node, the structure is the same as the data, used to get the label of the unloaded data | ^[array]`CacheOption[]` | []      |
 
 ### Exposes
 
