@@ -1,17 +1,20 @@
+import { defineComponent } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { useTimeout } from '../use-timeout'
 
 const _mount = (cb: () => void) => {
-  return mount({
-    setup() {
-      const { cancelTimeout, registerTimeout } = useTimeout()
-      registerTimeout(cb, 0)
+  return mount(
+    defineComponent({
+      setup() {
+        const { cancelTimeout, registerTimeout } = useTimeout()
+        registerTimeout(cb, 0)
 
-      return { cancelTimeout }
-    },
-    render: () => undefined,
-  })
+        return { cancelTimeout }
+      },
+      render: () => undefined,
+    })
+  )
 }
 
 describe('use-timeout', () => {

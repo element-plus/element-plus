@@ -35,8 +35,8 @@ import Pager from './components/pager.vue'
 import type {
   CSSProperties,
   ExtractPropTypes,
+  ExtractPublicPropTypes,
   VNode,
-  __ExtractPublicPropTypes,
 } from 'vue'
 /**
  * It it user's responsibility to guarantee that the value of props.total... is number
@@ -186,7 +186,7 @@ export const paginationProps = buildProps({
   appendSizeTo: String,
 } as const)
 export type PaginationProps = ExtractPropTypes<typeof paginationProps>
-export type PaginationPropsPublic = __ExtractPublicPropTypes<
+export type PaginationPropsPublic = ExtractPublicPropTypes<
   typeof paginationProps
 >
 
