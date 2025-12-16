@@ -5,9 +5,8 @@ import { useNamespace, useSameTarget } from '@element-plus/hooks'
 import type {
   CSSProperties,
   ExtractPropTypes,
-  __ExtractPublicPropTypes,
+  ExtractPublicPropTypes,
 } from 'vue'
-import type { ZIndexProperty } from 'csstype'
 
 export const overlayProps = buildProps({
   mask: {
@@ -23,11 +22,11 @@ export const overlayProps = buildProps({
     ]),
   },
   zIndex: {
-    type: definePropType<ZIndexProperty>([String, Number]),
+    type: definePropType<CSSProperties['z-index']>([String, Number]),
   },
 } as const)
 export type OverlayProps = ExtractPropTypes<typeof overlayProps>
-export type OverlayPropsPublic = __ExtractPublicPropTypes<typeof overlayProps>
+export type OverlayPropsPublic = ExtractPublicPropTypes<typeof overlayProps>
 
 export const overlayEmits = {
   click: (evt: MouseEvent) => evt instanceof MouseEvent,

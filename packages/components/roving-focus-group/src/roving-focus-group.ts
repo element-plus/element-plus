@@ -3,9 +3,9 @@ import { createCollectionWithScope } from '@element-plus/components/collection'
 
 import type {
   ExtractPropTypes,
+  ExtractPublicPropTypes,
   HTMLAttributes,
   StyleValue,
-  __ExtractPublicPropTypes,
 } from 'vue'
 
 export const rovingFocusGroupProps = buildProps({
@@ -34,7 +34,7 @@ export type ElRovingFocusGroupProps = ExtractPropTypes<
   typeof rovingFocusGroupProps
 >
 
-export type ElRovingFocusGroupPropsPublic = __ExtractPublicPropTypes<
+export type ElRovingFocusGroupPropsPublic = ExtractPublicPropTypes<
   typeof rovingFocusGroupProps
 >
 

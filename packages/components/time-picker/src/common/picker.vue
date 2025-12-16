@@ -274,11 +274,8 @@ const {
   valueIsEmpty,
   emitInput,
   onPick,
-  //@ts-ignore
   onSetPickerOption,
-  //@ts-ignore
   onCalendarChange,
-  //@ts-ignore
   onPanelChange,
 } = commonPicker
 

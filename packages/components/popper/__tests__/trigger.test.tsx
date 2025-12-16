@@ -22,7 +22,7 @@ const mountTrigger = (props = {}) =>
         [POPPER_INJECTION_KEY as symbol]: popperInjection,
       },
     },
-  })
+  }) as unknown as VueWrapper<PopperTriggerInstance>
 
 describe('<ElPopperTrigger />', () => {
   let wrapper: VueWrapper<PopperTriggerInstance>
@@ -89,7 +89,17 @@ describe('<ElPopperTrigger />', () => {
       await wrapper.setProps({
         virtualRef: {
           getBoundingClientRect: () => {
-            return { top: 0, left: 0, right: 0, bottom: 0, width: 0, height: 0 }
+            return {
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              width: 0,
+              height: 0,
+              x: 0,
+              y: 0,
+              toJSON: () => ({}),
+            } as DOMRect
           },
         },
       })

@@ -104,8 +104,8 @@ const clickTrackHandler = (e: MouseEvent) => {
 const startDrag = (e: MouseEvent) => {
   e.stopImmediatePropagation()
   cursorDown = true
-  baseScrollHeight = scrollbar.wrapElement.scrollHeight
-  baseScrollWidth = scrollbar.wrapElement.scrollWidth
+  baseScrollHeight = scrollbar.wrapElement!.scrollHeight
+  baseScrollWidth = scrollbar.wrapElement!.scrollWidth
   document.addEventListener('mousemove', mouseMoveDocumentHandler)
   document.addEventListener('mouseup', mouseUpDocumentHandler)
   originalOnSelectStart = document.onselectstart
@@ -129,10 +129,10 @@ const mouseMoveDocumentHandler = (e: MouseEvent) => {
     instance.value[bar.value.offset]
 
   if (bar.value.scroll === 'scrollLeft') {
-    scrollbar.wrapElement[bar.value.scroll] =
+    scrollbar.wrapElement![bar.value.scroll] =
       (thumbPositionPercentage * baseScrollWidth) / 100
   } else {
-    scrollbar.wrapElement[bar.value.scroll] =
+    scrollbar.wrapElement![bar.value.scroll] =
       (thumbPositionPercentage * baseScrollHeight) / 100
   }
 }

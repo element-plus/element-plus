@@ -43,3 +43,6 @@ export const ValidateComponentsMap = {
   success: CircleCheck,
   error: CircleClose,
 }
+
+// All icon components have the same type, so we can pick any one of them to get the type
+export type IconComponent = typeof Loading

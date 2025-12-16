@@ -3,15 +3,12 @@
   "compilerOptions": {
     "composite": true,
     "jsx": "preserve",
+    "jsxImportSource": "vue",
     "lib": ["ES2018", "DOM", "DOM.Iterable"],
-    "types": ["unplugin-vue-macros/macros-global"],
+    "types": [],
     "skipLibCheck": true
   },
-  "include": [
-    "packages/utils/vue3.3.polyfill.ts",
-    "packages",
-    "typings/env.d.ts"
-  ],
+  "include": ["packages", "typings/env.d.ts"],
   "exclude": [
     "node_modules",
     "**/dist",
