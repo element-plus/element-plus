@@ -61,6 +61,34 @@ export const useSelect = (
         const code = getEventCode(evt)
         const { dropdownMenuVisible } = select.value!
         if (
+          [EVENT_CODE.enter, EVENT_CODE.numpadEnter].includes(code) &&
+          dropdownMenuVisible
+        ) {
+          const hoveringIndex = select.value!.states.hoveringIndex
+          const hoveringOption = select.value!.optionsArray[hoveringIndex]
+          if (!hoveringOption || hoveringOption.isDisabled) return
+
+          const node = hoveringOption
+            ? tree.value?.getNode(hoveringOption.value)
+            : undefined
+
+          // Prevent selecting non-leaf nodes via keyboard Enter when `check-strictly` is false.
+          // In tree-select, only leaf nodes are selectable by default (same rule as mouse click).
+          if (
+            !props.showCheckbox &&
+            !props.checkStrictly &&
+            node &&
+            !node.isLeaf
+          ) {
+            evt.preventDefault()
+            evt.stopPropagation()
+
+            // Mimic click behavior: expand node if allowed, otherwise do nothing.
+            if (props.expandOnClickNode) node.expand()
+            return
+          }
+        }
+        if (
           [EVENT_CODE.down, EVENT_CODE.up].includes(code) &&
           dropdownMenuVisible
         ) {

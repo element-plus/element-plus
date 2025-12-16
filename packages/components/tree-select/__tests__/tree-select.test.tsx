@@ -596,6 +596,39 @@ describe('TreeSelect.vue', () => {
     expect((document.activeElement as HTMLElement).dataset.key).toBe('111')
   })
 
+  test('should not select non-leaf node by pressing enter when hovering (check-strictly=false)', async () => {
+    const { wrapper, select, tree } = createComponent({
+      props: {
+        defaultExpandAll: true,
+        checkStrictly: false,
+      },
+    })
+
+    await nextTick()
+
+    const selectWrapper = wrapper.find('.el-select__wrapper')
+    await selectWrapper.trigger('click')
+    await selectWrapper.trigger('focus')
+    await nextTick()
+
+    const options = tree.findAll('.el-select-dropdown__item')
+    expect(options.length).toBeGreaterThan(0)
+
+    // Hover the first node (it is a parent node in defaultData).
+    await options[0].trigger('mouseenter')
+    await nextTick()
+
+    const input = selectWrapper.find('input')
+    await input.trigger('keydown', {
+      key: EVENT_CODE.enter,
+      code: EVENT_CODE.enter,
+    })
+    await nextTick()
+
+    // By default only leaf nodes are selectable; hovering a parent should not update modelValue.
+    expect(select.vm.modelValue).toBe(undefined)
+  })
+
   test('show correct label when child options are not rendered', async () => {
     const modelValue = ref<number>()
     const { select } = createComponent({
