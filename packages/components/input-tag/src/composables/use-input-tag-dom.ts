@@ -5,6 +5,7 @@ import { useResizeObserver } from '@vueuse/core'
 
 import type { ComputedRef, Ref, StyleValue } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
+import type { IconComponent } from '@element-plus/utils'
 import type { InputTagProps } from '../input-tag'
 
 interface UseInputTagDomOptions {
@@ -15,7 +16,7 @@ interface UseInputTagDomOptions {
   inputValue: Ref<string | undefined>
   size: ComputedRef<ComponentSize>
   validateState: ComputedRef<string>
-  validateIcon: ComputedRef<boolean>
+  validateIcon: ComputedRef<'' | IconComponent>
   needStatusIcon: ComputedRef<boolean>
 }
 

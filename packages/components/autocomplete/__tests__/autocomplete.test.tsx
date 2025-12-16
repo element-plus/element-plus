@@ -2,14 +2,17 @@
  * @vitest-environment happy-dom
  */
 
-import { defineComponent, nextTick, reactive } from 'vue'
+import { DefineComponent, defineComponent, nextTick, reactive } from 'vue'
 import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, test, vi } from 'vitest'
 import { NOOP } from '@element-plus/utils'
 import { usePopperContainerId } from '@element-plus/hooks'
 import { ElFormItem as FormItem } from '@element-plus/components/form'
 import Autocomplete from '../src/autocomplete.vue'
-import { AutocompleteFetchSuggestionsCallback } from '../src/autocomplete'
+import {
+  AutocompleteFetchSuggestionsCallback,
+  AutocompletePropsPublic,
+} from '../src/autocomplete'
 import { EVENT_CODE } from '@element-plus/constants'
 
 vi.unmock('lodash')
@@ -81,7 +84,10 @@ const _mount = (
           />
         )
       },
-    }),
+    }) as DefineComponent<
+      AutocompletePropsPublic,
+      ReturnType<typeof usePopperContainerId>
+    >,
     {
       global: {
         provide: {

@@ -9,13 +9,17 @@ catalog:
   '@element-plus/icons-vue': ^2.3.2
   '@floating-ui/dom': ^1.0.1
   '@popperjs/core': npm:@sxzz/popperjs-es@^2.11.7
+  '@vitejs/plugin-vue': ^5.1.4
+  '@vitejs/plugin-vue-jsx': ^4.0.1
+  '@vue/server-renderer': ^3.5.2
   '@vue/shared': ~3.2.37
   '@vue/test-utils': ^2.0.0
   '@vueuse/core': ^10.11.0
   csstype: ^2.6.20
   lodash-unified: ^1.0.3
   normalize-wheel-es: ^1.2.0
-  vue: ~3.2.37
+  vue: ^3.5.22
+  # vitest: ^2.0.5
 
 onlyBuiltDependencies:
   - '@parcel/watcher'

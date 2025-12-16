@@ -7,9 +7,11 @@ import Tree from '@element-plus/components/tree/src/tree.vue'
 import defineGetter from '@element-plus/test-utils/define-getter'
 import { EVENT_CODE } from '@element-plus/constants'
 
-import type { TreeSelectInstance } from '../src/instance'
 import type { RenderFunction } from 'vue'
 import type { VueWrapper } from '@vue/test-utils'
+import type { TreeSelectInstance } from '../src/instance'
+import type { SelectInstance } from '../../select'
+import type { TreeInstance } from '../../tree'
 
 // Keep track of all mounted wrappers for cleanup
 const mountedWrappers: VueWrapper<any>[] = []
@@ -99,7 +101,7 @@ const createComponent = ({
     {
       attachTo: 'body',
     }
-  )
+  ) as unknown as VueWrapper<TreeSelectInstance>
 
   // Add wrapper to tracking array for cleanup
   mountedWrappers.push(wrapper)
@@ -108,16 +110,12 @@ const createComponent = ({
     wrapper,
     getWrapperRef: () =>
       new Promise<TreeSelectInstance>((resolve) =>
-        nextTick(() =>
-          resolve(wrapperRef.value! as unknown as TreeSelectInstance)
-        )
+        nextTick(() => resolve(wrapperRef.value!))
       ),
     select: wrapper.findComponent({
       name: 'ElSelect',
-    }) as VueWrapper<TreeSelectInstance['selectRef']>,
-    tree: wrapper.findComponent({ name: 'ElTree' }) as VueWrapper<
-      TreeSelectInstance['treeRef']
-    >,
+    }) as VueWrapper<SelectInstance>,
+    tree: wrapper.findComponent({ name: 'ElTree' }) as VueWrapper<TreeInstance>,
   }
 }
 
@@ -1030,6 +1028,7 @@ describe('TreeSelect.vue', () => {
     expect(spy1).toBeCalledWith(1)
 
     const spy2 = vi.fn()
+    // @ts-ignore
     wrapper.vm.data = [{ value: 1, handleModelValue: spy2 }]
     await nextTick()
 
