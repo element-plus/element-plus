@@ -244,10 +244,7 @@
         </div>
         <div :class="[ppNs.e('content'), drpNs.e('content')]" class="is-right">
           <div
-            :class="[
-              drpNs.e('header'),
-              ppNs.is('disabled', !enableYearArrow || dateRangeDisabled),
-            ]"
+            :class="[drpNs.e('header'), ppNs.is('disabled', dateRangeDisabled)]"
           >
             <button
               v-if="unlinkPanels"
