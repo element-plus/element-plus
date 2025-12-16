@@ -278,6 +278,7 @@ $checkbox: map.merge(
     'input-border': getCssVar('border'),
     'disabled-border-color': getCssVar('border-color'),
     'disabled-input-fill': getCssVar('fill-color', 'light'),
+    'disabled-icon-color': transparent,
     'disabled-checked-input-fill': getCssVar('border-color-extra-light'),
     'disabled-checked-input-border-color': getCssVar('border-color'),
     'disabled-checked-icon-color': getCssVar('text-color-placeholder'),
