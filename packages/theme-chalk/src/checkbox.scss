@@ -242,6 +242,7 @@ $checkbox-bordered-input-width: map.merge(
       width: 3px;
       transition: transform 0.15s ease-in 0.05s;
       transform-origin: center;
+      will-change: transform;
     }
   }
 
@@ -296,4 +297,10 @@ $checkbox-bordered-input-width: map.merge(
   &:last-of-type {
     margin-right: 0;
   }
+}
+
+.#{$namespace}-popper
+  .#{$namespace}-checkbox__input.is-disabled:not(.is-checked)
+  .#{$namespace}-checkbox__inner::after {
+  border-color: red;
 }
