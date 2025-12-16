@@ -74,12 +74,7 @@ export const useSelect = (
 
           // Prevent selecting non-leaf nodes via keyboard Enter when `check-strictly` is false.
           // In tree-select, only leaf nodes are selectable by default (same rule as mouse click).
-          if (
-            !props.showCheckbox &&
-            !props.checkStrictly &&
-            node &&
-            !node.isLeaf
-          ) {
+          if (!props.checkStrictly && node && !node.isLeaf) {
             evt.preventDefault()
             evt.stopPropagation()
 
