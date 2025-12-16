@@ -126,7 +126,6 @@ $checkbox-bordered-input-width: map.merge(
 
         &::after {
           cursor: not-allowed;
-          border-color: getCssVar('checkbox-disabled-icon-color');
         }
       }
 
