@@ -298,9 +298,3 @@ $checkbox-bordered-input-width: map.merge(
     margin-right: 0;
   }
 }
-
-.#{$namespace}-popper
-  .#{$namespace}-checkbox__input.is-disabled:not(.is-checked)
-  .#{$namespace}-checkbox__inner::after {
-  border-color: red;
-}
