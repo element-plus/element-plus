@@ -305,6 +305,7 @@ table/tooltip-formatter
 | tooltip-formatter ^(2.9.4)         | customize tooltip content when using `show-overflow-tooltip`                                                                                                                                                                                                               | ^[Function]`(data: { row: any, column: TableColumnCtx<T>, cellValue: any }) => VNode \| string`                                                                      | —                                                                                                                       |
 | preserve-expanded-content ^(2.9.7) | whether to preserve expanded row content in DOM when collapsed                                                                                                                                                                                                             | ^[boolean]                                                                                                                                                           | false                                                                                                                   |
 | native-scrollbar ^(2.10.5)         | whether to use native scrollbars                                                                                                                                                                                                                                           | ^[boolean]                                                                                                                                                           | false                                                                                                                   |
+| row-expandable ^(2.12.1)           | enable expandable rows, works when the table has a column type="expand"                                                                                                                                                                                                    | ^[Function]`(row: any, index: number) => boolean`                                                                                                                    | —                                                                                                                       |
 
 ### Table Events
 
@@ -401,7 +402,7 @@ table/tooltip-formatter
 | default              | Custom content for table columns  | ^[object]`{ row: any, column: TableColumnCtx<T>, $index: number }` |
 | header               | Custom content for table header   | ^[object]`{ column: TableColumnCtx<T>, $index: number }`           |
 | filter-icon ^(2.7.8) | Custom content for filter icon    | ^[object]`{ filterOpened: boolean }`                               |
-| expand ^(2.10.0)     | Custom content for expand columns | ^[object]`{ expanded: boolean }`                                   |
+| expand ^(2.10.0)     | Custom content for expand columns | ^[object]`{ expanded: boolean, expandable: boolean }`              |
 
 ## Type Declarations
 
