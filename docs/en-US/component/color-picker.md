@@ -83,4 +83,4 @@ color-picker/sizes
 | hide ^(2.3.3)   | manually hide ColorPicker | ^[Function]`() => void` |
 | focus ^(2.3.13) | focus the picker element  | ^[Function]`() => void` |
 | blur ^(2.3.13)  | blur the picker element   | ^[Function]`() => void` |
-| clear ^(2.12.1) | clear the color           | ^[Function]`() => void` |
+| clear ^(2.13.0) | clear the color           | ^[Function]`() => void` |
