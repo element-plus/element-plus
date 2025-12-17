@@ -144,7 +144,7 @@
             type="text"
             :class="nsCascader.e('search-input')"
             :placeholder="presentText ? '' : inputPlaceholder"
-            @input="(e) => handleInput(searchInputValue, e as KeyboardEvent)"
+            @input="(e) => handleInput(searchInputValue, e as InputEvent)"
             @click.stop="togglePopperVisible(true)"
             @keydown.delete="handleDelete"
             @compositionstart="handleComposition"
@@ -459,7 +459,8 @@ const togglePopperVisible = (visible?: boolean) => {
 
     if (visible) {
       updatePopperPosition()
-      nextTick(cascaderPanelRef.value?.scrollToExpandingNode)
+      cascaderPanelRef.value &&
+        nextTick(cascaderPanelRef.value.scrollToExpandingNode)
     } else if (props.filterable) {
       syncPresentTextValue()
     }
@@ -712,7 +713,7 @@ const handleFilter = useDebounceFn(() => {
   }
 }, debounce)
 
-const handleInput = (val: string, e?: KeyboardEvent) => {
+const handleInput = (val: string, e?: InputEvent) => {
   !popperVisible.value && togglePopperVisible(true)
 
   if (e?.isComposing) return

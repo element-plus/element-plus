@@ -2268,7 +2268,7 @@ describe('Select', () => {
     const vm = wrapper.vm as any
     wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
     await nextTick()
-    vm.options[1].disabled = true
+    vm._.data.options[1].disabled = true
     await nextTick()
     const options = getOptions()
     expect(options[0].className).not.toContain('is-disabled')
@@ -2560,7 +2560,7 @@ describe('Select', () => {
     await nextTick()
     expect(wrapper.findAll('.el-tag').length).toBe(1)
 
-    vm.modelValue.splice(0, 1)
+    vm._.data.modelValue.splice(0, 1)
 
     await nextTick()
     expect(wrapper.findAll('.el-tag').length).toBe(0)
@@ -2897,6 +2897,23 @@ describe('Select', () => {
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
+    })
+
+    it('The disabled state of a component has higher priority than that of a form', async () => {
+      const wrapper = _mount(
+        `<el-form disabled>
+          <el-select :disabled="false" v-model="modelValue">
+            <el-option label="1" value="1" />
+          </el-select>
+        </el-form>`,
+        () => ({
+          modelValue: 1,
+        })
+      )
+
+      await nextTick()
+      const innerInput = wrapper.find('.el-select__input')
+      expect(innerInput.attributes('disabled')).toBeUndefined()
     })
   })
 

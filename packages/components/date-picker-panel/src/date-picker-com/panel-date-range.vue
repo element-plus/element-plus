@@ -36,6 +36,7 @@
                 :class="drpNs.e('editor')"
                 :model-value="minVisibleDate"
                 :validate-event="false"
+                :readonly="!editable"
                 @input="(val) => handleDateInput(val, 'min')"
                 @change="(val) => handleDateChange(val, 'min')"
               />
@@ -51,6 +52,7 @@
                 :placeholder="t('el.datepicker.startTime')"
                 :model-value="minVisibleTime"
                 :validate-event="false"
+                :readonly="!editable"
                 @focus="minTimePickerVisible = true"
                 @input="(val) => handleTimeInput(val, 'min')"
                 @change="(val) => handleTimeChange(val, 'min')"
@@ -59,7 +61,7 @@
                 :visible="minTimePickerVisible"
                 :format="timeFormat"
                 datetime-role="start"
-                :parsed-value="leftDate"
+                :parsed-value="minDate || leftDate"
                 @pick="handleMinTimePick"
               />
             </span>
@@ -75,7 +77,7 @@
                 :disabled="rangeState.selecting || dateRangeDisabled"
                 :placeholder="t('el.datepicker.endDate')"
                 :model-value="maxVisibleDate"
-                :readonly="!minDate"
+                :readonly="!minDate || !editable"
                 :validate-event="false"
                 @input="(val) => handleDateInput(val, 'max')"
                 @change="(val) => handleDateChange(val, 'max')"
@@ -91,7 +93,7 @@
                 :disabled="rangeState.selecting || dateRangeDisabled"
                 :placeholder="t('el.datepicker.endTime')"
                 :model-value="maxVisibleTime"
-                :readonly="!minDate"
+                :readonly="!minDate || !editable"
                 :validate-event="false"
                 @focus="minDate && (maxTimePickerVisible = true)"
                 @input="(val) => handleTimeInput(val, 'max')"
@@ -101,7 +103,7 @@
                 datetime-role="end"
                 :visible="maxTimePickerVisible"
                 :format="timeFormat"
-                :parsed-value="rightDate"
+                :parsed-value="maxDate || rightDate"
                 @pick="handleMaxTimePick"
               />
             </span>

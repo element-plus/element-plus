@@ -1,7 +1,7 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 import { disabledTimeListsProps } from '@element-plus/components/time-picker/src/props/shared'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type {
   ModelValueType,
   SingleOrRange,
@@ -119,9 +119,16 @@ export const datePickerPanelProps = buildProps({
     type: Boolean,
     default: true,
   },
+  /**
+   * @description whether the input is editable
+   */
+  editable: {
+    type: Boolean,
+    default: true,
+  },
 } as const)
 
 export type DatePickerPanelProps = ExtractPropTypes<typeof datePickerPanelProps>
-export type DatePickerPanelPropsPublic = __ExtractPublicPropTypes<
+export type DatePickerPanelPropsPublic = ExtractPublicPropTypes<
   typeof datePickerPanelProps
 >

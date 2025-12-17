@@ -144,6 +144,12 @@
   bottom: 0;
   left: 0;
   overflow: auto;
+
+  @include when(closing) {
+    @include b(dialog) {
+      pointer-events: none;
+    }
+  }
 }
 
 .dialog-fade-enter-active {

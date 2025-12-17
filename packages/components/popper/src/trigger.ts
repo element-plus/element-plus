@@ -11,25 +11,25 @@ export const popperTriggerProps = buildProps({
   /** @description Indicates whether virtual triggering is enabled */
   virtualTriggering: Boolean,
   onMouseenter: {
-    type: definePropType<(e: Event) => void>(Function),
+    type: definePropType<(e: MouseEvent) => void>(Function),
   },
   onMouseleave: {
-    type: definePropType<(e: Event) => void>(Function),
+    type: definePropType<(e: MouseEvent) => void>(Function),
   },
   onClick: {
-    type: definePropType<(e: Event) => void>(Function),
+    type: definePropType<(e: PointerEvent) => void>(Function),
   },
   onKeydown: {
-    type: definePropType<(e: Event) => void>(Function),
+    type: definePropType<(e: KeyboardEvent) => void>(Function),
   },
   onFocus: {
-    type: definePropType<(e: Event) => void>(Function),
+    type: definePropType<(e: FocusEvent) => void>(Function),
   },
   onBlur: {
-    type: definePropType<(e: Event) => void>(Function),
+    type: definePropType<(e: FocusEvent) => void>(Function),
   },
   onContextmenu: {
-    type: definePropType<(e: Event) => void>(Function),
+    type: definePropType<(e: PointerEvent) => void>(Function),
   },
   id: String,
   open: Boolean,

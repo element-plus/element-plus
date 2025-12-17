@@ -76,12 +76,12 @@ describe('Loading', () => {
 
   test('body directive', async () => {
     const loading = ref(true)
-    const wrapper = _mount(() => <div v-loading_body={loading.value} />)
+    _mount(() => <div v-loading_body={loading.value} />)
 
     await nextTick()
     const mask = document.querySelector('.el-loading-mask')!
     expect(mask.parentNode === document.body).toBeTruthy()
-    wrapper.vm.loading = false
+    loading.value = false
     document.body.removeChild(mask)
   })
 

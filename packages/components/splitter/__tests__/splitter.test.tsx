@@ -416,7 +416,9 @@ describe('Splitter', () => {
     const show = ref(true)
     const wrapper = mount(() => (
       <ElSplitter onResizeStart={() => (show.value = false)}>
-        <ElSplitterPanel v-if={show.value}>Left Panel</ElSplitterPanel>
+        {show.value ? (
+          <ElSplitterPanel v-if={show.value}>Left Panel</ElSplitterPanel>
+        ) : null}
         <ElSplitterPanel>Right Panel</ElSplitterPanel>
       </ElSplitter>
     ))

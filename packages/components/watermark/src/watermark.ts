@@ -1,6 +1,6 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type Watermark from './watermark.vue'
 
 export interface WatermarkFontType {
@@ -76,7 +76,5 @@ export const watermarkProps = buildProps({
 } as const)
 
 export type WatermarkProps = ExtractPropTypes<typeof watermarkProps>
-export type WatermarkPropsPublic = __ExtractPublicPropTypes<
-  typeof watermarkProps
->
+export type WatermarkPropsPublic = ExtractPublicPropTypes<typeof watermarkProps>
 export type WatermarkInstance = InstanceType<typeof Watermark> & unknown

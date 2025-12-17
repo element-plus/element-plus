@@ -1,11 +1,11 @@
-import { inject, provide } from 'vue'
+import { inject, onBeforeUnmount, provide } from 'vue'
 import { TREE_NODE_MAP_INJECTION_KEY } from '../tokens'
 
 import type Node from '../model/node'
 
 interface NodeMap {
   treeNodeExpand(node?: Node): void
-  children: NodeMap[]
+  children: Set<NodeMap>
 }
 
 interface Props {
@@ -18,25 +18,32 @@ export function useNodeExpandEventBroadcast(props: Props) {
     TREE_NODE_MAP_INJECTION_KEY,
     null
   ) as NodeMap | null
-  const currentNodeMap: NodeMap = {
+  let currentNodeMap: NodeMap | null = {
     treeNodeExpand: (node) => {
       if (props.node !== node) {
         props.node?.collapse()
       }
     },
-    children: [],
+    children: new Set(),
   }
 
   if (parentNodeMap) {
-    parentNodeMap.children.push(currentNodeMap)
+    parentNodeMap.children.add(currentNodeMap)
   }
+
+  onBeforeUnmount(() => {
+    if (parentNodeMap) {
+      parentNodeMap.children.delete(currentNodeMap!)
+    }
+    currentNodeMap = null
+  })
 
   provide(TREE_NODE_MAP_INJECTION_KEY, currentNodeMap)
 
   return {
     broadcastExpanded: (node?: Node): void => {
       if (!props.accordion) return
-      for (const childNode of currentNodeMap.children) {
+      for (const childNode of currentNodeMap!.children) {
         childNode.treeNodeExpand(node)
       }
     },

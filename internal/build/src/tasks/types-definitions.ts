@@ -1,6 +1,6 @@
 import path from 'path'
 import { readFile, writeFile } from 'fs/promises'
-import glob from 'fast-glob'
+import { glob } from 'tinyglobby'
 import { copy, remove } from 'fs-extra'
 import { buildOutput } from '@element-plus/build-utils'
 import { pathRewriter, run } from '../utils'

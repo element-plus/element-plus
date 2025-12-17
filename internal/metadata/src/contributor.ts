@@ -1,6 +1,6 @@
 import path from 'path'
 import { existsSync } from 'fs'
-import glob from 'fast-glob'
+import { glob } from 'tinyglobby'
 import { Octokit } from 'octokit'
 import consola from 'consola'
 import chalk from 'chalk'

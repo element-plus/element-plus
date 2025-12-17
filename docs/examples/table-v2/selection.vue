@@ -16,7 +16,7 @@
 
 <script lang="tsx" setup>
 import { ref, unref } from 'vue'
-import { ElCheckbox } from 'element-plus'
+import { ElCheckbox, useLocale } from 'element-plus'
 
 import type { FunctionalComponent } from 'vue'
 import type { CheckboxValueType, Column } from 'element-plus'
@@ -24,18 +24,23 @@ import type { CheckboxValueType, Column } from 'element-plus'
 type SelectionCellProps = {
   value: boolean
   intermediate?: boolean
+  ariaLabel?: string
   onChange: (value: CheckboxValueType) => void
 }
+
+const { t } = useLocale()
 
 const SelectionCell: FunctionalComponent<SelectionCellProps> = ({
   value,
   intermediate = false,
+  ariaLabel,
   onChange,
 }) => {
   return (
     <ElCheckbox
       onChange={onChange}
       modelValue={value}
+      ariaLabel={ariaLabel}
       indeterminate={intermediate}
     />
   )
@@ -75,7 +80,13 @@ columns.unshift({
   width: 50,
   cellRenderer: ({ rowData }) => {
     const onChange = (value: CheckboxValueType) => (rowData.checked = value)
-    return <SelectionCell value={rowData.checked} onChange={onChange} />
+    return (
+      <SelectionCell
+        value={rowData.checked}
+        ariaLabel={t('el.table.selectRowLabel')}
+        onChange={onChange}
+      />
+    )
   },
 
   headerCellRenderer: () => {
@@ -92,6 +103,7 @@ columns.unshift({
       <SelectionCell
         value={allSelected}
         intermediate={containsChecked && !allSelected}
+        ariaLabel={t('el.table.selectAllLabel')}
         onChange={onChange}
       />
     )

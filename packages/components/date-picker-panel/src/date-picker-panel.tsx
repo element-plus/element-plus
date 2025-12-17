@@ -1,4 +1,5 @@
 import { defineComponent, inject, provide, reactive, toRefs } from 'vue'
+import { omit } from 'lodash-unified'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat.js'
 import advancedFormat from 'dayjs/plugin/advancedFormat.js'
@@ -32,15 +33,15 @@ dayjs.extend(isSameOrBefore)
 export default defineComponent({
   name: 'ElDatePickerPanel',
   install: null,
+  inheritAttrs: false,
   props: datePickerPanelProps,
   emits: [
     UPDATE_MODEL_EVENT,
     'calendar-change',
     'panel-change',
     'visible-change',
-    'pick',
   ],
-  setup(props, { slots, emit }) {
+  setup(props, { slots, emit, attrs }) {
     const ns = useNamespace('picker-panel')
     const pickerInjection = inject(PICKER_BASE_INJECTION_KEY, undefined)
     if (isUndefined(pickerInjection)) {
@@ -72,6 +73,7 @@ export default defineComponent({
       const Component = getPanel(props.type)
       return (
         <Component
+          {...omit(attrs, 'onPick')}
           {...props}
           parsedValue={parsedValue.value}
           onSet-picker-option={onSetPickerOption}

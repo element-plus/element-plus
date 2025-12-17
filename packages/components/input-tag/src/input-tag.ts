@@ -17,7 +17,7 @@ import {
 import { tagProps } from '@element-plus/components/tag/src/tag'
 import { CircleClose } from '@element-plus/icons-vue'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 
 export const inputTagProps = buildProps({
   /**
@@ -158,7 +158,7 @@ export const inputTagProps = buildProps({
   ariaLabel: String,
 } as const)
 export type InputTagProps = ExtractPropTypes<typeof inputTagProps>
-export type InputTagPropsPublic = __ExtractPublicPropTypes<typeof inputTagProps>
+export type InputTagPropsPublic = ExtractPublicPropTypes<typeof inputTagProps>
 
 export const inputTagEmits = {
   [UPDATE_MODEL_EVENT]: (value?: string[]) =>
