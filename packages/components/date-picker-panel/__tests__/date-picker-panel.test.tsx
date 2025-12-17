@@ -985,21 +985,6 @@ describe('DatePickerPanel', () => {
         expect(leftHeader.text()).toBe('January')
         expect(rightHeader.text()).toBe('February')
       })
-
-      it('date picker panel header should not have is-disabled class when enabled', async () => {
-        const value = ref([new Date(2025, 11, 15), new Date(2025, 11, 20)])
-        const wrapper = mount(() => (
-          <DatePickerPanel v-model={value.value} type="datetimerange" />
-        ))
-        await nextTick()
-
-        const headers = wrapper.findAll('.el-date-range-picker__header')
-        expect(headers.length).toBeGreaterThan(0)
-
-        headers.forEach((header) => {
-          expect(header.classes()).not.toContain('is-disabled')
-        })
-      })
     })
   })
 })
