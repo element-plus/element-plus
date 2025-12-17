@@ -101,7 +101,7 @@
     );
   }
 
-  @include e(input-tag-collapse) {
+  @include e(collapse) {
     line-height: 1;
   }
 

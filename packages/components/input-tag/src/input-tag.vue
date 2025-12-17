@@ -39,7 +39,7 @@
         placement="bottom"
       >
         <template #default>
-          <div ref="collapseItemRef" :class="ns.e('input-tag-collapse')">
+          <div ref="collapseItemRef" :class="ns.e('collapse')">
             <el-tag
               :closable="false"
               :size="tagSize"
