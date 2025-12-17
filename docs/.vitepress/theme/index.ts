@@ -5,7 +5,6 @@ import ElementPlus, {
 import { isClient } from '@vueuse/core'
 import VPApp, { NotFound, globals } from '../vitepress'
 import { define } from '../utils/types'
-import 'uno.css'
 import './style.css'
 import 'vitepress/dist/client/theme-default/styles/components/vp-code-group.css'
 import 'virtual:group-icons.css'
