@@ -2,6 +2,7 @@ import {
   buildProps,
   definePropType,
   iconPropType,
+  isNumber,
   isString,
   mutable,
 } from '@element-plus/utils'
@@ -231,10 +232,11 @@ export type InputProps = ExtractPropTypes<typeof inputProps>
 export type InputPropsPublic = ExtractPublicPropTypes<typeof inputProps>
 
 export const inputEmits = {
-  [UPDATE_MODEL_EVENT]: (value: string) => isString(value),
-  input: (value: string) => isString(value),
+  [UPDATE_MODEL_EVENT]: (value: string) => isString(value) || isNumber(value),
+  input: (value: string) => isString(value) || isNumber(value),
   change: (value: string, evt?: Event) =>
-    isString(value) && (evt instanceof Event || evt === undefined),
+    (isString(value) || isNumber(value)) &&
+    (evt instanceof Event || evt === undefined),
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
   blur: (evt: FocusEvent) => evt instanceof FocusEvent,
   clear: () => true,

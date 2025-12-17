@@ -409,7 +409,7 @@ const formatValue = (value: string) => {
     value = value.trim()
   }
   if (number) {
-    value = `${looseToNumber(value)}`
+    value = looseToNumber(value)
   }
   if (props.formatter && props.parser) {
     value = props.parser(value)
