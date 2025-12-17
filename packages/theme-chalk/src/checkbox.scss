@@ -127,6 +127,7 @@ $checkbox-bordered-input-width: map.merge(
         &::after {
           cursor: not-allowed;
           border-color: getCssVar('checkbox-disabled-icon-color');
+          will-change: transform;
         }
       }
 
@@ -242,7 +243,6 @@ $checkbox-bordered-input-width: map.merge(
       width: 3px;
       transition: transform 0.15s ease-in 0.05s;
       transform-origin: center;
-      will-change: transform;
     }
   }
 
