@@ -5,7 +5,7 @@ import {
   isString,
 } from '@element-plus/utils'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type { Dayjs } from 'dayjs'
 
 export const selectControllerProps = buildProps({
@@ -22,7 +22,7 @@ export const selectControllerProps = buildProps({
 export type SelectControllerProps = ExtractPropTypes<
   typeof selectControllerProps
 >
-export type SelectControllerPropsPublic = __ExtractPublicPropTypes<
+export type SelectControllerPropsPublic = ExtractPublicPropTypes<
   typeof selectControllerProps
 >
 
