@@ -18,6 +18,7 @@ import { tagProps } from '@element-plus/components/tag/src/tag'
 import { CircleClose } from '@element-plus/icons-vue'
 
 import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
+import type { PopperEffect } from '@element-plus/components/popper'
 
 export const inputTagProps = buildProps({
   /**
@@ -38,6 +39,13 @@ export const inputTagProps = buildProps({
    * @description tag effect
    */
   tagEffect: tagProps.effect,
+  /**
+   * @description tooltip theme, built-in theme: `dark` / `light`
+   */
+  effect: {
+    type: definePropType<PopperEffect>(String),
+    default: 'light',
+  },
   /**
    * @description the key to trigger input tag
    */
