@@ -249,12 +249,14 @@ describe('Calendar.vue', () => {
   })
 
   it('should work when controller-type is select', async () => {
-    const wrapper = mount({
-      data: () => ({ value: new Date('2025-12-09') }),
-      render() {
-        return <Calendar v-model={this.value} controller-type="select" />
-      },
-    })
+    const wrapper = mount(
+      defineComponent({
+        data: () => ({ value: new Date('2025-12-09') }),
+        render() {
+          return <Calendar v-model={this.value} controller-type="select" />
+        },
+      })
+    )
 
     await nextTick()
     const selects = wrapper.findAllComponents({ name: 'ElSelect' })
@@ -300,18 +302,20 @@ describe('Calendar.vue', () => {
       }
     }
 
-    const wrapper = mount({
-      data: () => ({ value: new Date('2025-12-09') }),
-      render() {
-        return (
-          <Calendar
-            v-model={this.value}
-            controller-type="select"
-            formatter={formatter}
-          />
-        )
-      },
-    })
+    const wrapper = mount(
+      defineComponent({
+        data: () => ({ value: new Date('2025-12-09') }),
+        render() {
+          return (
+            <Calendar
+              v-model={this.value}
+              controller-type="select"
+              formatter={formatter}
+            />
+          )
+        },
+      })
+    )
 
     await nextTick()
     const selects = wrapper.findAllComponents({ name: 'ElSelect' })
