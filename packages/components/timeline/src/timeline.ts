@@ -4,7 +4,7 @@ import { TIMELINE_INJECTION_KEY } from './tokens'
 import { buildProps, flattedChildren } from '@element-plus/utils'
 
 import type { VNodeChildAtom } from '@element-plus/utils'
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type { TimelineProvider } from './tokens'
 
 export const timelineProps = buildProps({
@@ -22,7 +22,7 @@ export const timelineProps = buildProps({
   reverse: Boolean,
 } as const)
 export type TimelineProps = ExtractPropTypes<typeof timelineProps>
-export type TimelinePropsPublic = __ExtractPublicPropTypes<typeof timelineProps>
+export type TimelinePropsPublic = ExtractPublicPropTypes<typeof timelineProps>
 
 const Timeline = defineComponent({
   name: 'ElTimeline',
