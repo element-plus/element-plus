@@ -24,6 +24,6 @@ export default define<Theme>({
     if (!isClient) return
     const nprogress = await import('nprogress')
     router.onBeforeRouteChange = nprogress.start
-    router.onAfterRouteChanged = nprogress.done
+    router.onAfterRouteChange = nprogress.done
   },
 })
