@@ -88,11 +88,13 @@
     cursor: pointer;
     outline: none;
     line-height: 1;
+    margin-top: 8px;
     padding: 1px 6px;
 
     &:hover {
       color: getCssVar('datepicker-hover-text-color');
     }
+
     &:focus-visible {
       color: getCssVar('datepicker-hover-text-color');
     }
@@ -115,12 +117,15 @@
     @include e(prev-btn) {
       @include disable;
     }
+
     @include e(next-btn) {
       @include disable;
     }
+
     @include e(icon-btn) {
       @include disable;
     }
+
     @include e(shortcut) {
       @include disable;
     }
