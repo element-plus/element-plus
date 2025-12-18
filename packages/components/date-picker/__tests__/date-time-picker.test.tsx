@@ -505,6 +505,18 @@ describe('Datetime Picker', () => {
       '6',
     ])
   })
+
+  it('should work with editable prop', async () => {
+    const value = ref(new Date(2000, 10, 8, 10, 10))
+    const wrapper = _mount(() => (
+      <DatePicker v-model={value.value} editable={false} type="datetime" />
+    ))
+
+    const inputs = wrapper.findAllComponents({ name: 'ElInput' })
+    inputs.forEach((input) => {
+      expect(input.props().readonly).toBe(true)
+    })
+  })
 })
 
 describe('Datetimerange', () => {
@@ -1218,5 +1230,21 @@ describe('Datetimerange', () => {
       document.querySelectorAll('.el-time-spinner__list .is-active')[2]
         .textContent
     ).toBe('01')
+  })
+
+  it('should work with editable prop', async () => {
+    const modelValue = ['2025-09-01', '2025-09-07']
+    _mount(() => (
+      <DatePicker
+        modelValue={modelValue}
+        editable={false}
+        type="datetimerange"
+      />
+    ))
+
+    const inputs = document.querySelectorAll('input')
+    inputs.forEach((input) => {
+      expect(input.readOnly).toBe(true)
+    })
   })
 })

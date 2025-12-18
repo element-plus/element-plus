@@ -8,7 +8,7 @@ import {
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type ColorPicker from './color-picker.vue'
 
 export const colorPickerProps = buildProps({
@@ -41,7 +41,10 @@ export const colorPickerProps = buildProps({
   /**
    * @description whether to disable the ColorPicker
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description size of ColorPicker
    */
@@ -94,7 +97,7 @@ export const colorPickerEmits = {
 }
 
 export type ColorPickerProps = ExtractPropTypes<typeof colorPickerProps>
-export type ColorPickerPropsPublic = __ExtractPublicPropTypes<
+export type ColorPickerPropsPublic = ExtractPublicPropTypes<
   typeof colorPickerProps
 >
 export type ColorPickerEmits = typeof colorPickerEmits

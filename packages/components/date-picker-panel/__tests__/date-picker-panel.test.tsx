@@ -627,6 +627,27 @@ describe('DatePickerPanel', () => {
         expect((right.timeInput as HTMLInputElement).value).toBe('AM 01:01:01')
       })
 
+      it('should get the display date in disabled-hours callback', async () => {
+        const modelValue = ['2025-05-12 00:00:00', '2025-05-24 00:00:00']
+        const disabledHours = (_role: string, date: dayjs.Dayjs) => {
+          expect(dayjs(date).isSame(modelValue[1])).toBe(true)
+        }
+        const wrapper = mount(() => (
+          <DatePickerPanel
+            model-value={modelValue}
+            type="datetimerange"
+            //@ts-expect-error
+            disabledHours={disabledHours}
+          />
+        ))
+
+        const timeInput = wrapper.findAll(
+          '.el-date-range-picker__editors-wrap input'
+        )[3]
+        await timeInput.trigger('blur')
+        await timeInput.trigger('focus')
+      })
+
       it('input date', async () => {
         const value = ref<string[]>([])
         const wrapper = mount(() => (
