@@ -14,9 +14,9 @@ export const selectControllerProps = buildProps({
     required: true,
   },
   formatter: {
-    type: definePropType<(value: number, type: string) => string | number>(
-      Function
-    ),
+    type: definePropType<
+      (value: number, type: 'year' | 'month') => string | number
+    >(Function),
   },
 } as const)
 export type SelectControllerProps = ExtractPropTypes<

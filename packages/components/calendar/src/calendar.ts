@@ -45,9 +45,9 @@ export const calendarProps = buildProps({
    * @description format label when `controller-type` is 'select'
    */
   formatter: {
-    type: definePropType<(value: number, type: string) => string | number>(
-      Function
-    ),
+    type: definePropType<
+      (value: number, type: 'year' | 'month') => string | number
+    >(Function),
   },
 } as const)
 export type CalendarProps = ExtractPropTypes<typeof calendarProps>

@@ -294,7 +294,7 @@ describe('Calendar.vue', () => {
   })
 
   it('should work with formatter prop', async () => {
-    const formatter = (value: number, type: string) => {
+    const formatter = (value: number, type: 'year' | 'month') => {
       if (type === 'year') {
         return `${value}年`
       } else {
