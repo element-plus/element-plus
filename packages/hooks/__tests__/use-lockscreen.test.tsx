@@ -185,5 +185,6 @@ describe('useLockscreen', () => {
 
     scrollHeightSpy.mockRestore()
     clientHeightSpy.mockRestore()
+    vi.useRealTimers()
   })
 })
