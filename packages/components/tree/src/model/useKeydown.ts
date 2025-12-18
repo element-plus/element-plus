@@ -19,14 +19,9 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
   })
 
   onUpdated(() => {
-    if (el$.value) {
-      const checkboxItems = Array.from(
-        el$.value.querySelectorAll('input[type=checkbox]')
-      )
-      checkboxItems.forEach((checkbox) => {
-        checkbox.setAttribute('tabindex', '-1')
-      })
-    }
+    el$.value?.querySelectorAll('input[type=checkbox]').forEach((checkbox) => {
+      checkbox.setAttribute('tabindex', '-1')
+    })
   })
 
   function canNodeFocus(treeItems: HTMLElement[], nextIndex: number): boolean {
