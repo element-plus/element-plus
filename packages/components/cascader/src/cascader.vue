@@ -713,7 +713,7 @@ const handleFilter = useDebounceFn(() => {
   }
 }, debounce)
 
-const handleInput = (val: string, e?: InputEvent) => {
+const handleInput = (val: string | number, e?: InputEvent) => {
   !popperVisible.value && togglePopperVisible(true)
 
   if (e?.isComposing) return

@@ -229,7 +229,7 @@ const getData = async (queryString: string) => {
 const debounce = computed(() => props.debounce)
 const debouncedGetData = useDebounceFn(getData, debounce)
 
-const handleInput = (value: string) => {
+const handleInput = (value: string | number) => {
   const valuePresented = !!value
 
   emit(INPUT_EVENT, value)
@@ -244,7 +244,7 @@ const handleInput = (value: string) => {
     return
   }
 
-  debouncedGetData(value)
+  debouncedGetData(value as string)
 }
 
 const handleMouseDown = (event: MouseEvent) => {

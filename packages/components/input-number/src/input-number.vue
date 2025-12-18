@@ -307,13 +307,13 @@ const setCurrentValue = (
   }
   data.currentValue = newVal
 }
-const handleInput = (value: string) => {
+const handleInput = (value: string | number) => {
   data.userInput = value
   const newVal = value === '' ? null : Number(value)
   emit(INPUT_EVENT, newVal)
   setCurrentValue(newVal, false)
 }
-const handleInputChange = (value: string) => {
+const handleInputChange = (value: string | number) => {
   const newVal = value !== '' ? Number(value) : ''
   if ((isNumber(newVal) && !Number.isNaN(newVal)) || value === '') {
     setCurrentValue(newVal)

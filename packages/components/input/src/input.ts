@@ -232,9 +232,10 @@ export type InputProps = ExtractPropTypes<typeof inputProps>
 export type InputPropsPublic = ExtractPublicPropTypes<typeof inputProps>
 
 export const inputEmits = {
-  [UPDATE_MODEL_EVENT]: (value: string) => isString(value) || isNumber(value),
-  input: (value: string) => isString(value) || isNumber(value),
-  change: (value: string, evt?: Event) =>
+  [UPDATE_MODEL_EVENT]: (value: string | number) =>
+    isString(value) || isNumber(value),
+  input: (value: string | number) => isString(value) || isNumber(value),
+  change: (value: string | number, evt?: Event) =>
     (isString(value) || isNumber(value)) &&
     (evt instanceof Event || evt === undefined),
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,

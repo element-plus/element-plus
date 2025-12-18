@@ -609,8 +609,8 @@ const handleKeydownInput = async (event: Event | KeyboardEvent) => {
     pickerOptions.value.handleKeydownInput(event as KeyboardEvent)
   }
 }
-const onUserInput = (e: string) => {
-  userInput.value = e
+const onUserInput = (e: string | number) => {
+  userInput.value = e as string
   // Temporary fix when the picker is dismissed and the input box
   // is focused, just mimic the behavior of antdesign.
   if (!pickerVisible.value) {

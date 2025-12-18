@@ -35,7 +35,7 @@
               :validate-event="false"
               :disabled="dateDisabled"
               :readonly="!editable"
-              @input="(val) => (userInputDate = val)"
+              @input="(val) => (userInputDate = val as string)"
               @change="handleVisibleDateChange"
             />
           </span>
@@ -51,7 +51,7 @@
               :disabled="dateDisabled"
               :readonly="!editable"
               @focus="onTimePickerInputFocus"
-              @input="(val) => (userInputTime = val)"
+              @input="(val) => (userInputTime = val as string)"
               @change="handleVisibleTimeChange"
             />
             <time-pick-panel
@@ -650,7 +650,7 @@ const handleTimePick = (value: Dayjs, visible: boolean, first: boolean) => {
   }
 }
 
-const handleVisibleTimeChange = (value: string) => {
+const handleVisibleTimeChange = (value: string | number) => {
   const newDate = dayjs(value, timeFormat.value).locale(lang.value)
   if (newDate.isValid() && checkDateWithinRange(newDate)) {
     const { year, month, date } = getUnits(innerDate.value)
@@ -661,9 +661,9 @@ const handleVisibleTimeChange = (value: string) => {
   }
 }
 
-const handleVisibleDateChange = (value: string) => {
+const handleVisibleDateChange = (value: string | number) => {
   const newDate = correctlyParseUserInput(
-    value,
+    value as string,
     dateFormat.value,
     lang.value,
     isDefaultFormat

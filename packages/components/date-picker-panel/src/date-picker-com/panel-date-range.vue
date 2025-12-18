@@ -37,7 +37,7 @@
                 :model-value="minVisibleDate"
                 :validate-event="false"
                 :readonly="!editable"
-                @input="(val) => handleDateInput(val, 'min')"
+                @input="(val) => handleDateInput(val as string, 'min')"
                 @change="(val) => handleDateChange(val, 'min')"
               />
             </span>
@@ -54,8 +54,8 @@
                 :validate-event="false"
                 :readonly="!editable"
                 @focus="minTimePickerVisible = true"
-                @input="(val) => handleTimeInput(val, 'min')"
-                @change="(val) => handleTimeChange(val, 'min')"
+                @input="(val) => handleTimeInput(val as string, 'min')"
+                @change="(val) => handleTimeChange(val as string, 'min')"
               />
               <time-pick-panel
                 :visible="minTimePickerVisible"
@@ -79,7 +79,7 @@
                 :model-value="maxVisibleDate"
                 :readonly="!minDate || !editable"
                 :validate-event="false"
-                @input="(val) => handleDateInput(val, 'max')"
+                @input="(val) => handleDateInput(val as string, 'max')"
                 @change="(val) => handleDateChange(val, 'max')"
               />
             </span>
@@ -96,8 +96,8 @@
                 :readonly="!minDate || !editable"
                 :validate-event="false"
                 @focus="minDate && (maxTimePickerVisible = true)"
-                @input="(val) => handleTimeInput(val, 'max')"
-                @change="(val) => handleTimeChange(val, 'max')"
+                @input="(val) => handleTimeInput(val as string, 'max')"
+                @change="(val) => handleTimeChange(val as string, 'max')"
               />
               <time-pick-panel
                 datetime-role="end"

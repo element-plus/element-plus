@@ -141,9 +141,9 @@ const hoveringId = computed(() => {
   return `${contentId.value}-${dropdownRef.value?.hoveringIndex}`
 })
 
-const handleInputChange = (value: string) => {
-  emit(UPDATE_MODEL_EVENT, value)
-  emit(INPUT_EVENT, value)
+const handleInputChange = (value: string | number) => {
+  emit(UPDATE_MODEL_EVENT, value as string)
+  emit(INPUT_EVENT, value as string)
   syncAfterCursorMove()
 }
 
