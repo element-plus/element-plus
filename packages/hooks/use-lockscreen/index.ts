@@ -4,7 +4,6 @@ import {
   getScrollBarWidth,
   getStyle,
   hasClass,
-  isUndefined,
   removeClass,
   throwError,
 } from '@element-plus/utils'
@@ -12,8 +11,6 @@ import { useNamespace } from '../use-namespace'
 
 import type { Ref } from 'vue'
 import type { UseNamespaceReturn } from '../use-namespace'
-
-let bodyWidth: string | undefined
 
 export type UseLockScreenOptions = {
   ns?: UseNamespaceReturn
@@ -42,14 +39,19 @@ export const useLockscreen = (
 
   let scrollBarWidth = 0
   let withoutHiddenClass = false
+  let bodyWidth = '0'
+  let cleaned = false
 
   const cleanup = () => {
+    if (cleaned) return
+
+    cleaned = true
     setTimeout(() => {
       // When the test case is running, the context environment simulated by jsdom may have been destroyed,
       // and the document does not exist at this time.
       if (typeof document === 'undefined') return
       if (withoutHiddenClass && document) {
-        document.body.style.width = bodyWidth ?? ''
+        document.body.style.width = bodyWidth
         removeClass(document.body, hiddenCls.value)
       }
     }, 200)
@@ -60,11 +62,10 @@ export const useLockscreen = (
       return
     }
 
+    cleaned = false
     withoutHiddenClass = !hasClass(document.body, hiddenCls.value)
     if (withoutHiddenClass) {
-      if (isUndefined(bodyWidth)) {
-        bodyWidth = document.body.style.width
-      }
+      bodyWidth = document.body.style.width
       addClass(document.body, hiddenCls.value)
     }
     scrollBarWidth = getScrollBarWidth(ns.namespace.value)

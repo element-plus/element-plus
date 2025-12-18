@@ -177,8 +177,8 @@ describe('useLockscreen', () => {
     await nextTick()
     expect(document.body.style.width).toBe('calc(100% - 16px)')
 
-    wrapper1.unmount()
     wrapper2.unmount()
+    wrapper1.unmount()
     vi.advanceTimersByTime(250)
     await nextTick()
     expect(document.body.style.width).toBe('')
