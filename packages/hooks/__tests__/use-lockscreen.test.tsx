@@ -135,7 +135,7 @@ describe('useLockscreen', () => {
     expect(hasClass(document.body, kls)).toBe(false)
   })
 
-  it('should restore the initial body.width only after all popups are closed', async () => {
+  it('should clean up body.width only once', async () => {
     const scrollHeightSpy = vi
       .spyOn(document.body, 'scrollHeight', 'get')
       .mockReturnValue(200)
@@ -143,31 +143,32 @@ describe('useLockscreen', () => {
       .spyOn(document.documentElement, 'clientHeight', 'get')
       .mockReturnValue(100)
 
-    const wrapper1 = mount({
+    const parentTrigger = ref(false)
+    const childTrigger = ref(false)
+
+    mount({
       setup() {
         const ns = useNamespace(
           'lock',
           computed(() => 'test-kls-1')
         )
-        const trigger = ref(false)
-        useLockscreen(trigger, { ns })
+        useLockscreen(parentTrigger, { ns })
         onMounted(() => {
-          trigger.value = true
+          parentTrigger.value = true
         })
         return () => undefined
       },
     })
 
-    const wrapper2 = mount({
+    const childWrapper = mount({
       setup() {
         const ns = useNamespace(
           'lock',
           computed(() => 'test-kls-2')
         )
-        const trigger = ref(false)
-        useLockscreen(trigger, { ns })
+        useLockscreen(childTrigger, { ns })
         onMounted(() => {
-          trigger.value = true
+          childTrigger.value = true
         })
         return () => undefined
       },
@@ -177,10 +178,12 @@ describe('useLockscreen', () => {
     await nextTick()
     expect(document.body.style.width).toBe('calc(100% - 16px)')
 
-    wrapper2.unmount()
-    wrapper1.unmount()
-    vi.advanceTimersByTime(250)
+    childTrigger.value = false
     await nextTick()
+    parentTrigger.value = false
+    await nextTick()
+    childWrapper.unmount()
+    vi.advanceTimersByTime(250)
     expect(document.body.style.width).toBe('')
 
     scrollHeightSpy.mockRestore()
