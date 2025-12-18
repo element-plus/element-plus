@@ -48,20 +48,22 @@ function useStyle<T extends DefaultRow>(
   const footerScrollHeight = ref(0)
   const appendScrollHeight = ref(0)
 
-  watch(
-    () => props.height,
-    (value) => {
-      layout.setHeight(value ?? null)
-    },
-    { immediate: true }
-  )
-  watch(
-    () => props.maxHeight,
-    (value) => {
-      layout.setMaxHeight(value ?? null)
-    },
-    { immediate: true }
-  )
+  onMounted(() => {
+    watch(
+      () => props.height,
+      (value) => {
+        layout.setHeight(value ?? null)
+      },
+      { immediate: true }
+    )
+    watch(
+      () => props.maxHeight,
+      (value) => {
+        layout.setMaxHeight(value ?? null)
+      },
+      { immediate: true }
+    )
+  })
   watch(
     () => [props.currentRowKey, store.states.rowKey],
     ([currentRowKey, rowKey]) => {
