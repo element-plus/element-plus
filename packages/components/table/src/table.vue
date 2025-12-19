@@ -196,13 +196,14 @@ import { TABLE_INJECTION_KEY } from './tokens'
 import { hColgroup } from './h-helper'
 import { useScrollbar } from './composables/use-scrollbar'
 
+import type { ObjectDirective } from 'vue'
 import type { Table } from './table/defaults'
 
 let tableIdSeed = 1
 export default defineComponent({
   name: 'ElTable',
   directives: {
-    Mousewheel,
+    Mousewheel: Mousewheel as ObjectDirective,
   },
   components: {
     TableHeader,
