@@ -243,12 +243,7 @@
           />
         </div>
         <div :class="[ppNs.e('content'), drpNs.e('content')]" class="is-right">
-          <div
-            :class="[
-              drpNs.e('header'),
-              ppNs.is('disabled', !enableYearArrow || dateRangeDisabled),
-            ]"
-          >
+          <div :class="drpNs.e('header')">
             <button
               v-if="unlinkPanels"
               type="button"
@@ -835,7 +830,6 @@ const handleTimeChange = (_value: string | null, type: ChangeType) => {
 const handleMinTimePick = (value: Dayjs, visible: boolean, first: boolean) => {
   if (timeUserInput.value.min) return
   if (value) {
-    leftDate.value = value
     minDate.value = (minDate.value || leftDate.value)
       .hour(value.hour())
       .minute(value.minute())
@@ -863,7 +857,6 @@ const handleMaxTimePick = (
 ) => {
   if (timeUserInput.value.max) return
   if (value) {
-    rightDate.value = value
     maxDate.value = (maxDate.value || rightDate.value)
       .hour(value.hour())
       .minute(value.minute())
@@ -906,7 +899,6 @@ const parseUserInput = (value: Dayjs | Dayjs[]) => {
     isDefaultFormat
   )
 }
-
 function sortDates(minDate: Dayjs | undefined, maxDate: Dayjs | undefined) {
   if (props.unlinkPanels && maxDate) {
     const minDateYear = minDate?.year() || 0

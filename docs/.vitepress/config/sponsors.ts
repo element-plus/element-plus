@@ -26,6 +26,14 @@ export const rightLogoSmallSponsors: Sponsor[] = [
     slogan_cn: 'Vue3企业级开源后台管理系统',
   },
   {
+    name: 'frsimple',
+    img: '/images/frsimple.png',
+    imgL: '/images/frsimple-l.png',
+    url: 'https://el.frsimple.com',
+    slogan: 'A simple and efficient front-end framework',
+    slogan_cn: '信创开发平台',
+  },
+  {
     name: 'bit',
     img: '/images/bit.svg',
     imgL: '/images/bit-l.png',
