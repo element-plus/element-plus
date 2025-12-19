@@ -1,6 +1,6 @@
 import { buildProps, isNumber } from '@element-plus/utils'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 
 export const carouselProps = buildProps({
   /**
@@ -108,5 +108,5 @@ export const carouselEmits = {
 }
 
 export type CarouselProps = ExtractPropTypes<typeof carouselProps>
-export type CarouselPropsPublic = __ExtractPublicPropTypes<typeof carouselProps>
+export type CarouselPropsPublic = ExtractPublicPropTypes<typeof carouselProps>
 export type CarouselEmits = typeof carouselEmits

@@ -175,8 +175,9 @@ $switch-content-padding: map.merge(
       padding: 0 #{map.get($switch-content-padding, 'default')} 0
         calc(#{map.get($switch-button-size, 'default')} + 2px);
 
-      .is-icon,
-      .is-text {
+      &-wrapper {
+        display: flex;
+        align-items: center;
         font-size: 12px;
         color: getCssVar('color-white');
         user-select: none;

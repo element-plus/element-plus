@@ -1,4 +1,4 @@
-import { nextTick } from 'vue'
+import { defineComponent, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 import updateLocale from 'dayjs/plugin/updateLocale'
@@ -17,12 +17,14 @@ const setDayjsWeekStart = (weekStart = 0) => {
 
 describe('Calendar.vue', () => {
   it('create', async () => {
-    const wrapper = mount({
-      data: () => ({ value: new Date('2019-04-01') }),
-      render() {
-        return <Calendar v-model={this.value} />
-      },
-    })
+    const wrapper = mount(
+      defineComponent({
+        data: () => ({ value: new Date('2019-04-01') }),
+        render() {
+          return <Calendar v-model={this.value} />
+        },
+      })
+    )
     const titleEl = wrapper.find('.el-calendar__title')
     expect(/2019.*April/.test(titleEl.element?.innerHTML)).toBeTruthy()
     expect(wrapper.element.querySelectorAll('thead th').length).toBe(7)
@@ -111,12 +113,14 @@ describe('Calendar.vue', () => {
 
   it('firstDayOfWeek', async () => {
     // default en locale, weekStart 0 Sunday
-    const wrapper = mount({
-      data: () => ({ value: new Date('2019-04-01') }),
-      render() {
-        return <Calendar v-model={this.value} />
-      },
-    })
+    const wrapper = mount(
+      defineComponent({
+        data: () => ({ value: new Date('2019-04-01') }),
+        render() {
+          return <Calendar v-model={this.value} />
+        },
+      })
+    )
     const head = wrapper.element.querySelector('.el-calendar-table thead tr')
     expect(head?.firstElementChild?.innerHTML).toBe('Sun')
     expect(head?.lastElementChild?.innerHTML).toBe('Sat')
@@ -127,12 +131,14 @@ describe('Calendar.vue', () => {
 
   it('firstDayOfWeek when set 1', async () => {
     setDayjsWeekStart(1)
-    const wrapper = mount({
-      data: () => ({ value: new Date('2019-09-01') }),
-      render() {
-        return <Calendar v-model={this.value} />
-      },
-    })
+    const wrapper = mount(
+      defineComponent({
+        data: () => ({ value: new Date('2019-09-01') }),
+        render() {
+          return <Calendar v-model={this.value} />
+        },
+      })
+    )
     const head = wrapper.element.querySelector('.el-calendar-table thead tr')
     expect(head?.firstElementChild?.innerHTML).toBe('Mon')
     expect(head?.lastElementChild?.innerHTML).toBe('Sun')
@@ -146,17 +152,19 @@ describe('Calendar.vue', () => {
   })
 
   it('firstDayOfWeek in range mode', async () => {
-    const wrapper = mount({
-      data: () => ({ value: new Date('2019-03-04') }),
-      render() {
-        return (
-          <Calendar
-            v-model={this.value}
-            range={[new Date(2019, 1, 3), new Date(2019, 2, 23)]}
-          />
-        )
-      },
-    })
+    const wrapper = mount(
+      defineComponent({
+        data: () => ({ value: new Date('2019-03-04') }),
+        render() {
+          return (
+            <Calendar
+              v-model={this.value}
+              range={[new Date(2019, 1, 3), new Date(2019, 2, 23)]}
+            />
+          )
+        },
+      })
+    )
     const head = wrapper.element.querySelector('.el-calendar-table thead tr')
     expect(head?.firstElementChild?.innerHTML).toBe('Sun')
     expect(head?.lastElementChild?.innerHTML).toBe('Sat')
@@ -166,12 +174,14 @@ describe('Calendar.vue', () => {
   })
 
   it('click previous month or next month', async () => {
-    const wrapper = mount({
-      data: () => ({ value: new Date('2019-04-01') }),
-      render() {
-        return <Calendar v-model={this.value} />
-      },
-    })
+    const wrapper = mount(
+      defineComponent({
+        data: () => ({ value: new Date('2019-04-01') }),
+        render() {
+          return <Calendar v-model={this.value} />
+        },
+      })
+    )
     await nextTick()
     const btns = wrapper.findAll('.el-button')
     const prevBtn = btns.at(0)

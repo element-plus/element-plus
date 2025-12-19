@@ -36,6 +36,7 @@
                 :class="drpNs.e('editor')"
                 :model-value="minVisibleDate"
                 :validate-event="false"
+                :readonly="!editable"
                 @input="(val) => handleDateInput(val, 'min')"
                 @change="(val) => handleDateChange(val, 'min')"
               />
@@ -51,6 +52,7 @@
                 :placeholder="t('el.datepicker.startTime')"
                 :model-value="minVisibleTime"
                 :validate-event="false"
+                :readonly="!editable"
                 @focus="minTimePickerVisible = true"
                 @input="(val) => handleTimeInput(val, 'min')"
                 @change="(val) => handleTimeChange(val, 'min')"
@@ -59,7 +61,7 @@
                 :visible="minTimePickerVisible"
                 :format="timeFormat"
                 datetime-role="start"
-                :parsed-value="leftDate"
+                :parsed-value="minDate || leftDate"
                 @pick="handleMinTimePick"
               />
             </span>
@@ -75,7 +77,7 @@
                 :disabled="rangeState.selecting || dateRangeDisabled"
                 :placeholder="t('el.datepicker.endDate')"
                 :model-value="maxVisibleDate"
-                :readonly="!minDate"
+                :readonly="!minDate || !editable"
                 :validate-event="false"
                 @input="(val) => handleDateInput(val, 'max')"
                 @change="(val) => handleDateChange(val, 'max')"
@@ -91,7 +93,7 @@
                 :disabled="rangeState.selecting || dateRangeDisabled"
                 :placeholder="t('el.datepicker.endTime')"
                 :model-value="maxVisibleTime"
-                :readonly="!minDate"
+                :readonly="!minDate || !editable"
                 :validate-event="false"
                 @focus="minDate && (maxTimePickerVisible = true)"
                 @input="(val) => handleTimeInput(val, 'max')"
@@ -101,7 +103,7 @@
                 datetime-role="end"
                 :visible="maxTimePickerVisible"
                 :format="timeFormat"
-                :parsed-value="rightDate"
+                :parsed-value="maxDate || rightDate"
                 @pick="handleMaxTimePick"
               />
             </span>
@@ -241,12 +243,7 @@
           />
         </div>
         <div :class="[ppNs.e('content'), drpNs.e('content')]" class="is-right">
-          <div
-            :class="[
-              drpNs.e('header'),
-              ppNs.is('disabled', !enableYearArrow || dateRangeDisabled),
-            ]"
-          >
+          <div :class="drpNs.e('header')">
             <button
               v-if="unlinkPanels"
               type="button"
@@ -833,7 +830,6 @@ const handleTimeChange = (_value: string | null, type: ChangeType) => {
 const handleMinTimePick = (value: Dayjs, visible: boolean, first: boolean) => {
   if (timeUserInput.value.min) return
   if (value) {
-    leftDate.value = value
     minDate.value = (minDate.value || leftDate.value)
       .hour(value.hour())
       .minute(value.minute())
@@ -861,7 +857,6 @@ const handleMaxTimePick = (
 ) => {
   if (timeUserInput.value.max) return
   if (value) {
-    rightDate.value = value
     maxDate.value = (maxDate.value || rightDate.value)
       .hour(value.hour())
       .minute(value.minute())
@@ -904,7 +899,6 @@ const parseUserInput = (value: Dayjs | Dayjs[]) => {
     isDefaultFormat
   )
 }
-
 function sortDates(minDate: Dayjs | undefined, maxDate: Dayjs | undefined) {
   if (props.unlinkPanels && maxDate) {
     const minDateYear = minDate?.year() || 0
