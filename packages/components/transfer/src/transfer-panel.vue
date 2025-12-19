@@ -7,8 +7,10 @@
         :validate-event="false"
         @change="handleAllCheckedChange"
       >
-        {{ title }}
-        <span>{{ checkedSummary }}</span>
+        <span :class="ns.be('panel', 'header-title')">{{ title }}</span>
+        <span :class="ns.be('panel', 'header-count')">{{
+          checkedSummary
+        }}</span>
       </el-checkbox>
     </p>
 
@@ -49,9 +51,9 @@
         </slot>
       </div>
     </div>
-    <p v-if="hasFooter" :class="ns.be('panel', 'footer')">
+    <div v-if="hasFooter" :class="ns.be('panel', 'footer')">
       <slot />
-    </p>
+    </div>
   </div>
 </template>
 
