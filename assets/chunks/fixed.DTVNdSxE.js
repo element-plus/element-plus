@@ -1,0 +1,1 @@
+import{aA as n,al as e,A as s,B as c,F as t,E as f,P as r}from"./framework.BvWEcpfD.js";const _={};function p(i,l){const o=e("el-button"),a=e("el-affix");return c(),s(a,{position:"bottom",offset:20},{default:t(()=>[f(o,{type:"primary"},{default:t(()=>[r("Offset bottom 20px")]),_:1})]),_:1})}const m=n(_,[["render",p]]);export{m as E};
