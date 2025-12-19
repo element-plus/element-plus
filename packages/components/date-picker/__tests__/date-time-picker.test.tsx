@@ -1232,6 +1232,70 @@ describe('Datetimerange', () => {
     ).toBe('01')
   })
 
+  it('should not duplicate panels after confirm left time input', async () => {
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date(2000, 0))
+    const modelValue = ref([])
+    const wrapper = _mount(() => (
+      <DatePicker v-model={modelValue.value} type="datetimerange" />
+    ))
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    const rangePicker = wrapper.findComponent(DatePickerRange)
+    const pickerss = rangePicker.findAll('.el-picker-panel__content')
+    const cells = pickerss[1].findAll('.available .el-date-table-cell')
+    await cells[0].trigger('click')
+    await cells[1].trigger('click')
+    const leftTimeInput = rangePicker.findAll<HTMLInputElement>(
+      '.el-date-range-picker__time-picker-wrap input'
+    )[1]
+    await leftTimeInput.trigger('focus')
+    await rangePicker.find('.el-time-panel__btn.confirm').trigger('click')
+    const leftHeader = pickerss[0].findAll(
+      '.el-date-range-picker__header-label'
+    )[1]
+    const rightHeader = pickerss[1].findAll(
+      '.el-date-range-picker__header-label'
+    )[1]
+
+    expect(leftHeader.text()).toBe('January')
+    expect(rightHeader.text()).toBe('February')
+    vi.useRealTimers()
+  })
+
+  it('should not duplicate panels after confirm right time input', async () => {
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date(2000, 0))
+    const modelValue = ref([])
+    const wrapper = _mount(() => (
+      <DatePicker v-model={modelValue.value} type="datetimerange" />
+    ))
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    const rangePicker = wrapper.findComponent(DatePickerRange)
+    const cells = rangePicker.findAll('.available .el-date-table-cell')
+    await cells[0].trigger('click')
+    await cells[1].trigger('click')
+    const pickerss = rangePicker.findAll('.el-date-range-picker__header')
+    const rightTimeInput = rangePicker.findAll<HTMLInputElement>(
+      '.el-date-range-picker__time-picker-wrap input'
+    )[3]
+    await rightTimeInput.trigger('focus')
+    await rangePicker.find('.el-time-panel__btn.confirm').trigger('click')
+    const leftHeader = pickerss[0].findAll(
+      '.el-date-range-picker__header-label'
+    )[1]
+    const rightHeader = pickerss[1].findAll(
+      '.el-date-range-picker__header-label'
+    )[1]
+
+    expect(leftHeader.text()).toBe('January')
+    expect(rightHeader.text()).toBe('February')
+    vi.useRealTimers()
+  })
+
   it('should work with editable prop', async () => {
     const modelValue = ['2025-09-01', '2025-09-07']
     _mount(() => (
