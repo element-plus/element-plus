@@ -271,7 +271,7 @@ describe('Input.vue', () => {
     }
 
     const _val = ref('')
-    const handleEvent = (val: string) => (_val.value = val)
+    const handleEvent = (val: string | number) => (_val.value = val as string)
 
     const wrapper = mount(() => (
       <Input
@@ -424,8 +424,8 @@ describe('Input.vue', () => {
       const content = ref('a')
       const value = ref('')
 
-      const handleChange = (val: string) => {
-        value.value = val
+      const handleChange = (val: string | number) => {
+        value.value = val as string
       }
 
       // NOTE: should be same as native's change behavior
