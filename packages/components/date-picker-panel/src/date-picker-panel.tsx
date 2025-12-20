@@ -40,6 +40,7 @@ export default defineComponent({
     'calendar-change',
     'panel-change',
     'visible-change',
+    'clear',
   ],
   setup(props, { slots, emit, attrs }) {
     const ns = useNamespace('picker-panel')
@@ -79,6 +80,7 @@ export default defineComponent({
           onSet-picker-option={onSetPickerOption}
           onCalendar-change={onCalendarChange}
           onPanel-change={onPanelChange}
+          onClear={() => emit('clear')}
           onPick={onPick}
         >
           {slots}
