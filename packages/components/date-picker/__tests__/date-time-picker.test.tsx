@@ -681,32 +681,41 @@ describe('Datetimerange', () => {
   })
 
   it('clear button should empty the input value', async () => {
-    const value = ref('')
+    const value = ref([])
+    const onClear = vi.fn()
     const wrapper = _mount(() => (
-      <DatePicker v-model={value.value} type="datetimerange" />
+      <DatePicker
+        v-model={value.value}
+        type="datetimerange"
+        //@ts-expect-error
+        onClear={onClear}
+      />
     ))
     const input = wrapper.find('input')
-    input.trigger('focus')
-    await nextTick()
+    await input.trigger('focus')
     const dateRow = document.querySelectorAll('.el-date-table__row')
     const dateCell = dateRow[1].querySelectorAll<HTMLElement>('.available')
-    dateCell[0].click()
-    dateCell[3].click()
+    triggerEvent(dateCell[0], 'mousemove', true)
+    triggerEvent(dateCell[0], 'click', true)
+    await nextTick()
+    triggerEvent(dateCell[3], 'mousemove', true)
+    triggerEvent(dateCell[3], 'click', true)
     await nextTick()
     const headerValue = document.querySelectorAll<HTMLInputElement>(
       '.el-date-range-picker__time-header input'
     )
     expect(headerValue[0].value).not.toBe('')
     expect(headerValue[1].value).not.toBe('')
+    expect(value.value).toHaveLength(2)
     const clearBtn = document.querySelectorAll<HTMLButtonElement>(
       '.el-picker-panel__footer button'
     )[0]
     clearBtn.click()
     await nextTick()
-    input.trigger('blur')
-    await nextTick()
-    input.trigger('focus')
-    await nextTick()
+    expect(onClear).toHaveBeenCalledOnce()
+    expect(value.value).toBe(null)
+    await input.trigger('blur')
+    await input.trigger('focus')
     expect(headerValue[0].value).toBe('')
     expect(headerValue[1].value).toBe('')
   })
