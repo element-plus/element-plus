@@ -2,24 +2,23 @@ import {
   buildProps,
   definePropType,
   iconPropType,
-  isString,
   mutable,
 } from '@element-plus/utils'
-import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import { CircleClose } from '@element-plus/icons-vue'
+import { ComponentSize } from '@element-plus/constants'
 
 import type {
-  ExtractPropTypes,
+  Component,
   ExtractPublicPropTypes,
   HTMLAttributes,
   StyleValue,
 } from 'vue'
 
 export type InputModelModifiers = {
-  lazy?: boolean
-  number?: boolean
-  trim?: boolean
+  lazy?: true
+  number?: true
+  trim?: true
 }
 export type InputAutoSize = { minRows?: number; maxRows?: number } | boolean
 // Some commonly used values for input type
@@ -227,24 +226,59 @@ export const inputProps = buildProps({
    */
   name: String,
 } as const)
-export type InputProps = ExtractPropTypes<typeof inputProps>
+
+export interface InputProps<T extends InputModelModifiers> {
+  id?: string
+  size?: ComponentSize
+  disabled?: boolean
+  modelValue?: string | number | null | undefined
+  modelModifiers?: T
+  maxlength?: string
+  minlength?: string
+  type?: InputType
+  resize?: 'none' | 'both' | 'horizontal' | 'vertical'
+  autosize?: InputAutoSize
+  autocomplete?: string
+  formatter?: (value: string | number) => string
+  parser?: (value: string) => string
+  placeholder?: string
+  form?: string
+  readonly?: boolean | 'true' | 'false'
+  clearable?: boolean
+  clearIcon?: string | Component
+  showPassword?: boolean
+  showWordLimit?: boolean
+  wordLimitPosition?: 'inside' | 'outside'
+  suffixIcon?: string | Component
+  prefixIcon?: string | Component
+  containerRole?: string
+  tabindex?: string | number
+  validateEvent?: boolean
+  inputStyle?: StyleValue
+  autofocus?: boolean
+  rows?: number
+  ariaLabel?: string
+  inputmode?: HTMLAttributes['inputmode']
+  name?: string
+}
 export type InputPropsPublic = ExtractPublicPropTypes<typeof inputProps>
 
-export const inputEmits = {
-  [UPDATE_MODEL_EVENT]: (value: string) => isString(value),
-  input: (value: string) => isString(value),
-  change: (value: string, evt?: Event) =>
-    isString(value) && (evt instanceof Event || evt === undefined),
-  focus: (evt: FocusEvent) => evt instanceof FocusEvent,
-  blur: (evt: FocusEvent) => evt instanceof FocusEvent,
-  clear: () => true,
-  mouseleave: (evt: MouseEvent) => evt instanceof MouseEvent,
-  mouseenter: (evt: MouseEvent) => evt instanceof MouseEvent,
+export type InputEmits<T> = {
+  'update:modelValue': [value: string | number]
+  input: [value: T extends { number: true } ? string | number : string]
+  change: [
+    value: T extends { number: true } ? string | number : string,
+    evt?: Event,
+  ]
+  focus: [evt: FocusEvent]
+  blur: [evt: FocusEvent]
+  clear: []
+  mouseleave: [evt: MouseEvent]
+  mouseenter: [evt: MouseEvent]
   // NOTE: when autofill by browser, the keydown event is instanceof Event, not KeyboardEvent
   // relative bug report https://github.com/element-plus/element-plus/issues/6665
-  keydown: (evt: KeyboardEvent | Event) => evt instanceof Event,
-  compositionstart: (evt: CompositionEvent) => evt instanceof CompositionEvent,
-  compositionupdate: (evt: CompositionEvent) => evt instanceof CompositionEvent,
-  compositionend: (evt: CompositionEvent) => evt instanceof CompositionEvent,
+  keydown: [evt: KeyboardEvent | Event]
+  compositionstart: [evt: CompositionEvent]
+  compositionupdate: [evt: CompositionEvent]
+  compositionend: [evt: CompositionEvent]
 }
-export type InputEmits = typeof inputEmits
