@@ -53,8 +53,8 @@ Note, date time locale (month name, first day of the week ...) are also configur
 | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------- |
 | model-value / v-model     | binding value                                                                                                                                                  | ^[Date]                                                                   | —       |
 | range                     | time range, including start time and end time. Start time must be start day of week, end time must be end day of week, the time span cannot exceed two months. | ^[array]`[Date, Date]`                                                    | —       |
-| controller-type ^(2.13.0) | type of the controller for the Calendar header                                                                                                                 | ^[enum]`'button' \| 'select'`                                             | button  |
-| formatter ^(2.13.0)       | format label when `controller-type` is 'select'                                                                                                                | ^[Function]`(value: number, type: 'year' \| 'month') => string \| number` | —       |
+| controller-type ^(2.13.1) | type of the controller for the Calendar header                                                                                                                 | ^[enum]`'button' \| 'select'`                                             | button  |
+| formatter ^(2.13.1)       | format label when `controller-type` is 'select'                                                                                                                | ^[Function]`(value: number, type: 'year' \| 'month') => string \| number` | —       |
 
 ### Slots
 

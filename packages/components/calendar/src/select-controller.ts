@@ -27,6 +27,6 @@ export type SelectControllerPropsPublic = ExtractPublicPropTypes<
 >
 
 export const selectControllerEmits = {
-  'date-change': (value: Dayjs | 'today') => isObject(value) || isString(value),
+  'date-change': (date: Dayjs | 'today') => isObject(date) || isString(date),
 }
 export type SelectControllerEmits = typeof selectControllerEmits
