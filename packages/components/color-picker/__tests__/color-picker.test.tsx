@@ -140,7 +140,10 @@ describe('Color-picker', () => {
 
   it('should clear a color when clear button click', async () => {
     const color = ref('#0f0')
-    const wrapper = mount(() => <ColorPicker v-model={color.value} />)
+    const onClear = vi.fn()
+    const wrapper = mount(() => (
+      <ColorPicker v-model={color.value} onClear={onClear} />
+    ))
 
     await wrapper.find('.el-color-picker__trigger').trigger('click')
     const clearBtn = document.querySelector<HTMLElement>(
@@ -148,6 +151,7 @@ describe('Color-picker', () => {
     )
     clearBtn!.click()
     expect(color.value).toBeNull()
+    expect(onClear).toHaveBeenCalledOnce()
     wrapper.unmount()
   })
 
