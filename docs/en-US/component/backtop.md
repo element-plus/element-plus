@@ -33,7 +33,7 @@ backtop/custom
 
 | Name              | Description                                                          | Type      | Default |
 | ----------------- | -------------------------------------------------------------------- | --------- | ------- |
-| target            | the target to trigger scroll.                                        | ^[string] | —       |
+| target  | the target to trigger scroll or scroll container.   | `string` \| `HTMLElement` \| `Window ` | —        |
 | visibility-height | the button will not show until the scroll height reaches this value. | ^[number] | 200     |
 | right             | right distance.                                                      | ^[number] | 40      |
 | bottom            | bottom distance.                                                     | ^[number] | 40      |

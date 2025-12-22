@@ -1,6 +1,6 @@
 import { onMounted, ref, shallowRef } from 'vue'
 import { useEventListener, useThrottleFn } from '@vueuse/core'
-import { throwError } from '@element-plus/utils'
+import { throwError, getElement } from '@element-plus/utils'
 
 import type { SetupContext } from 'vue'
 import type { BacktopEmits, BacktopProps } from './backtop'
@@ -31,7 +31,7 @@ export const useBackTop = (
     el.value = document.documentElement
 
     if (props.target) {
-      el.value = document.querySelector<HTMLElement>(props.target) ?? undefined
+      el.value = getElement(props.target) ?? undefined
       if (!el.value) {
         throwError(componentName, `target does not exist: ${props.target}`)
       }
