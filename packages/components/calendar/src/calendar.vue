@@ -27,7 +27,7 @@
             :date="date"
             :formatter="formatter"
             @date-change="handleDateChange"
-          ></select-controller>
+          />
         </div>
       </slot>
     </div>

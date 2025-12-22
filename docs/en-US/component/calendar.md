@@ -15,6 +15,14 @@ calendar/basic
 
 :::
 
+## Controller Type ^(2.13.1)
+
+:::demo You can set the type of the controller for Calendar header. When setting `select`, you can use `formatter` to customize `label`.
+
+calendar/controller-type
+
+:::
+
 ## Custom Content
 
 :::demo Customize what is displayed in the calendar cell by setting `scoped-slot` named `date-cell`. In `scoped-slot` you can get the date (the date of the current cell), data (including the type, isSelected, day attribute). For details, please refer to the API documentation below.
@@ -53,7 +61,7 @@ Note, date time locale (month name, first day of the week ...) are also configur
 | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------- |
 | model-value / v-model     | binding value                                                                                                                                                  | ^[Date]                                                                   | —       |
 | range                     | time range, including start time and end time. Start time must be start day of week, end time must be end day of week, the time span cannot exceed two months. | ^[array]`[Date, Date]`                                                    | —       |
-| controller-type ^(2.13.1) | type of the controller for the Calendar header                                                                                                                 | ^[enum]`'button' \| 'select'`                                             | button  |
+| controller-type ^(2.13.1) | type of the controller for Calendar header                                                                                                                     | ^[enum]`'button' \| 'select'`                                             | button  |
 | formatter ^(2.13.1)       | format label when `controller-type` is 'select'                                                                                                                | ^[Function]`(value: number, type: 'year' \| 'month') => string \| number` | —       |
 
 ### Slots

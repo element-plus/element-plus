@@ -23,15 +23,17 @@
     padding: 12px 20px 35px;
   }
 
-  @include e(select-controller){
-    .#{$namespace}-calendar-select__year{
-      width: 128px;
+  @include e(select-controller) {
+    .#{$namespace}-select {
       margin-right: 8px;
     }
 
-    .#{$namespace}-calendar-select__month{
-      width: 56px;
-      margin-right: 16px;
+    .#{$namespace}-calendar-select__year {
+      width: 120px;
+    }
+
+    .#{$namespace}-calendar-select__month {
+      width: 60px;
     }
   }
 }
