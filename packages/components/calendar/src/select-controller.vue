@@ -6,8 +6,7 @@
     :validate-event="false"
     :options="yearOptions"
     @change="handleYearChange"
-  >
-  </el-select>
+  />
   <el-select
     :model-value="monthValue"
     size="small"
@@ -15,8 +14,7 @@
     :validate-event="false"
     :options="monthOptions"
     @change="handleMonthChange"
-  >
-  </el-select>
+  />
   <el-button size="small" @click="selectToday">
     {{ t('el.datepicker.today') }}
   </el-button>
