@@ -287,6 +287,7 @@ function clear() {
     formItem?.validate('change').catch((err) => debugWarn(err))
   }
   resetColor()
+  emit('clear')
 }
 
 function handleShowTooltip() {
@@ -390,9 +391,5 @@ defineExpose({
    * @description blur the input element
    */
   blur,
-  /**
-   * @description clear the color
-   */
-  clear,
 })
 </script>

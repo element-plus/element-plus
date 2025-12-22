@@ -47,7 +47,7 @@ color-picker/sizes
 | --------------------------- | -------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ------- |
 | model-value / v-model       | binding value                                                                                                  | ^[string]                                                                                                        | —       |
 | disabled                    | whether to disable the ColorPicker                                                                             | ^[boolean]                                                                                                       | false   |
-| clearable ^(2.13.0)         | whether to show clear button                                                                                   | ^[boolean]                                                                                                       | true    |
+| clearable ^(2.13.1)         | whether to show clear button                                                                                   | ^[boolean]                                                                                                       | true    |
 | size                        | size of ColorPicker                                                                                            | ^[enum]`'large' \| 'default' \| 'small'`                                                                         | —       |
 | show-alpha                  | whether to display the alpha slider                                                                            | ^[boolean]                                                                                                       | false   |
 | color-format                | color format of v-model                                                                                        | ^[enum]`'hsl' \| 'hsv' \| 'hex' \| 'rgb' \| 'hex' (when show-alpha is false) \| 'rgb' (when show-alpha is true)` | —       |
@@ -67,12 +67,13 @@ color-picker/sizes
 
 ### Events
 
-| Name           | Description                                    | Type                                     |
-| -------------- | ---------------------------------------------- | ---------------------------------------- |
-| change         | triggers when input value changes              | ^[Function]`(value: string) => void`     |
-| active-change  | triggers when the current active color changes | ^[Function]`(value: string) => void`     |
-| focus ^(2.4.0) | triggers when Component focuses                | ^[Function]`(event: FocusEvent) => void` |
-| blur ^(2.4.0)  | triggers when Component blurs                  | ^[Function]`(event: FocusEvent) => void` |
+| Name            | Description                                    | Type                                     |
+| --------------- | ---------------------------------------------- | ---------------------------------------- |
+| change          | triggers when input value changes              | ^[Function]`(value: string) => void`     |
+| active-change   | triggers when the current active color changes | ^[Function]`(value: string) => void`     |
+| focus ^(2.4.0)  | triggers when Component focuses                | ^[Function]`(event: FocusEvent) => void` |
+| blur ^(2.4.0)   | triggers when Component blurs                  | ^[Function]`(event: FocusEvent) => void` |
+| clear ^(2.13.1) | triggers when the clear button is clicked      | ^[Function]`() => void`                  |
 
 ### Exposes
 
@@ -83,4 +84,3 @@ color-picker/sizes
 | hide ^(2.3.3)   | manually hide ColorPicker | ^[Function]`() => void` |
 | focus ^(2.3.13) | focus the picker element  | ^[Function]`() => void` |
 | blur ^(2.3.13)  | blur the picker element   | ^[Function]`() => void` |
-| clear ^(2.13.0) | clear the color           | ^[Function]`() => void` |
