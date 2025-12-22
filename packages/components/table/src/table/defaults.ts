@@ -154,7 +154,7 @@ interface TableProps<T extends DefaultRow> {
   load?: (row: T, treeNode: TreeNode, resolve: (data: T[]) => void) => void
   className?: string
   style?: StyleValue
-  tableLayout?: Layout
+  tableLayout: Layout
   scrollbarAlwaysOn?: boolean
   flexible?: boolean
   showOverflowTooltip?: boolean | TableOverflowTooltipOptions

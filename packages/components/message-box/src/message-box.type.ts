@@ -210,7 +210,7 @@ export type ElMessageBoxShortcutMethod = ((
   ) => Promise<MessageBoxData>)
 
 export interface IElMessageBox {
-  _context: AppContext | null
+  _context: AppContext | null;
 
   /** Show a message box */
   // (message: string, title?: string, type?: string): Promise<MessageBoxData>

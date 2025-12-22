@@ -1,7 +1,7 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
-import { ElFormItem as FormItem } from '@element-plus/components/form'
+import { ElForm, ElFormItem as FormItem } from '@element-plus/components/form'
 import Rate from '../src/rate.vue'
 
 import type { RateInstance } from '../src/rate'
@@ -215,6 +215,18 @@ describe('Rate.vue', () => {
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
+    })
+
+    it('The disabled state of a component has higher priority than that of a form', async () => {
+      const wrapper = mount(() => (
+        <ElForm disabled>
+          <Rate disabled={false} />
+        </ElForm>
+      ))
+
+      await nextTick()
+      const rate = await wrapper.findComponent(Rate)
+      expect(rate.classes()).not.toContain('is-disabled')
     })
   })
 })

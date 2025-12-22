@@ -1,7 +1,7 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
-import { ElFormItem } from '@element-plus/components/form'
+import { ElForm, ElFormItem } from '@element-plus/components/form'
 import { EVENT_CODE } from '@element-plus/constants'
 import { rAF } from '@element-plus/test-utils/tick'
 import ColorPicker from '../src/color-picker.vue'
@@ -539,6 +539,20 @@ describe('Color-picker', () => {
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
+    })
+
+    it('The disabled state of a component has higher priority than that of a form', async () => {
+      const wrapper = mount(() => (
+        <ElForm disabled>
+          <ElFormItem label="Foobar" data-test-ref="item">
+            <ColorPicker disabled={false} />
+          </ElFormItem>
+        </ElForm>
+      ))
+
+      await nextTick()
+      const colorPickerButton = wrapper.find('.el-color-picker')
+      expect(colorPickerButton.classes()).not.toContain('is-disabled')
     })
   })
 

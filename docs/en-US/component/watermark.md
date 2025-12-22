@@ -9,7 +9,7 @@ Add specific text or patterns to the page.
 
 ## Basic usage
 
-The most basic usage
+The most basic usage.
 
 :::demo
 
@@ -19,7 +19,7 @@ watermark/basic
 
 ## Multi-line watermark
 
-Use "content" to set an array of strings to specify multi-line text watermark content.
+Use `content` to set an array of strings to specify multi-line text watermark content.
 
 :::demo
 
@@ -29,7 +29,7 @@ watermark/multi-line
 
 ## Image watermark
 
-Specify the image address via 'image'. To ensure that the image is high definition and not stretched, set the width and height, and upload at least twice the width and height of the logo image address.
+Specify the image address via `image`. To ensure that the image is high definition and not stretched, set the width and height, and upload at least twice the width and height of the logo image address.
 
 :::demo
 

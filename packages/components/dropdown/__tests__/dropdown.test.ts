@@ -971,6 +971,38 @@ describe('Dropdown', () => {
       const { selector } = usePopperContainerId()
       expect(document.body.querySelector(selector.value).innerHTML).toBe('')
     })
+
+    test('should mount the dropdown popper under append-to', async () => {
+      const el = document.createElement('div')
+      el.classList.add('target_desu')
+      document.body.appendChild(el)
+      _mount(
+        `
+        <el-dropdown append-to=".target_desu">
+          <span class="el-dropdown-link">
+            dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item>Apple</el-dropdown-item>
+              <el-dropdown-item>Orange</el-dropdown-item>
+              <el-dropdown-item>Cherry</el-dropdown-item>
+              <el-dropdown-item disabled>Peach</el-dropdown-item>
+              <el-dropdown-item divided>Pear</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+`,
+        () => ({})
+      )
+
+      await nextTick()
+      expect(
+        document
+          .querySelector('.target_desu')
+          ?.children[0].classList.contains('el-popper')
+      ).toBe(true)
+    })
   })
 
   test('hover trigger: click dropdown-item should close immediately', async () => {

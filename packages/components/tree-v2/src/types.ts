@@ -1,8 +1,8 @@
 import type {
   ComponentInternalInstance,
   ExtractPropTypes,
+  ExtractPublicPropTypes,
   SetupContext,
-  __ExtractPublicPropTypes,
 } from 'vue'
 import type { treeEmits, treeProps } from './virtual-tree'
 
@@ -24,7 +24,7 @@ export interface TreeOptionProps {
 }
 
 export type TreeProps = ExtractPropTypes<typeof treeProps>
-export type TreePropsPublic = __ExtractPublicPropTypes<typeof treeProps>
+export type TreePropsPublic = ExtractPublicPropTypes<typeof treeProps>
 
 export interface TreeNode {
   key: TreeKey

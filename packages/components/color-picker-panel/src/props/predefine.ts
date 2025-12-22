@@ -1,6 +1,6 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type Color from '../utils/color'
 
 export const predefineProps = buildProps({
@@ -20,6 +20,4 @@ export const predefineProps = buildProps({
 } as const)
 
 export type PredefineProps = ExtractPropTypes<typeof predefineProps>
-export type PredefinePropsPublic = __ExtractPublicPropTypes<
-  typeof predefineProps
->
+export type PredefinePropsPublic = ExtractPublicPropTypes<typeof predefineProps>

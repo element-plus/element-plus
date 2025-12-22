@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import { camelize } from '@vue/shared'
-import glob from 'fast-glob'
+import { glob } from 'tinyglobby'
 import { docRoot, docsDirName, projRoot } from '@element-plus/build-utils'
 import { REPO_BRANCH, REPO_PATH } from '@element-plus/build-constants'
 import { getLang, languages } from '../utils/lang'
