@@ -34,6 +34,7 @@
               size="small"
               :validate-event="false"
               :disabled="dateDisabled"
+              :readonly="!editable"
               @input="(val) => (userInputDate = val)"
               @change="handleVisibleDateChange"
             />
@@ -48,6 +49,7 @@
               size="small"
               :validate-event="false"
               :disabled="dateDisabled"
+              :readonly="!editable"
               @focus="onTimePickerInputFocus"
               @input="(val) => (userInputTime = val)"
               @change="handleVisibleTimeChange"

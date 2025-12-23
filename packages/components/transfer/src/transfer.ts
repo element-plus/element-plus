@@ -9,9 +9,9 @@ import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
 import type {
   ExtractPropTypes,
+  ExtractPublicPropTypes,
   h as H,
   VNode,
-  __ExtractPublicPropTypes,
 } from 'vue'
 import type Transfer from './transfer.vue'
 
@@ -145,7 +145,7 @@ export const transferProps = buildProps({
   },
 } as const)
 export type TransferProps = ExtractPropTypes<typeof transferProps>
-export type TransferPropsPublic = __ExtractPublicPropTypes<typeof transferProps>
+export type TransferPropsPublic = ExtractPublicPropTypes<typeof transferProps>
 
 export const transferCheckedChangeFn = (
   value: TransferKey[],

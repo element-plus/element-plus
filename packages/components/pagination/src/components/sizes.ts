@@ -4,7 +4,7 @@ import { componentSizes } from '@element-plus/constants'
 import type {
   CSSProperties,
   ExtractPropTypes,
-  __ExtractPublicPropTypes,
+  ExtractPublicPropTypes,
 } from 'vue'
 import type Sizes from './sizes.vue'
 
@@ -33,7 +33,7 @@ export const paginationSizesProps = buildProps({
 } as const)
 
 export type PaginationSizesProps = ExtractPropTypes<typeof paginationSizesProps>
-export type PaginationSizesPropsPublic = __ExtractPublicPropTypes<
+export type PaginationSizesPropsPublic = ExtractPublicPropTypes<
   typeof paginationSizesProps
 >
 

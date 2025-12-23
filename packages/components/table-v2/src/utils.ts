@@ -2,6 +2,7 @@ import { h, isVNode } from 'vue'
 import { addUnit, isArray, isFunction } from '@element-plus/utils'
 
 import type { CSSProperties, Component, Slot } from 'vue'
+import type { JSX } from 'vue/jsx-runtime'
 
 const sumReducer = (sum: number, num: number) => sum + num
 

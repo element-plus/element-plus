@@ -228,6 +228,7 @@ export default defineComponent({
                 key: `${column.id}-thead`,
                 rowspan: column.rowSpan,
                 scope: column.colSpan > 1 ? 'colgroup' : 'col',
+                ariaSort: column.sortable ? column.order : undefined,
                 style: getHeaderCellStyle(
                   rowIndex,
                   cellIndex,

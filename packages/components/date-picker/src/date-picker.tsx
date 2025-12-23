@@ -73,6 +73,7 @@ export default defineComponent({
             default: (scopedProps: /**FIXME: remove any type */ any) => (
               <ElDatePickerPanel
                 disabled={props.disabled}
+                editable={props.editable}
                 border={false}
                 {...scopedProps}
               >
