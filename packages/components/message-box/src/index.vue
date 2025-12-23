@@ -116,6 +116,7 @@
             <div :class="ns.e('btns')">
               <el-button
                 v-if="showCancelButton"
+                :type="cancelButtonType"
                 :loading="cancelButtonLoading"
                 :loading-icon="cancelButtonLoadingIcon"
                 :class="[cancelButtonClass]"
@@ -129,7 +130,7 @@
               <el-button
                 v-show="showConfirmButton"
                 ref="confirmRef"
-                type="primary"
+                :type="confirmButtonType"
                 :loading="confirmButtonLoading"
                 :loading-icon="confirmButtonLoadingIcon"
                 :class="[confirmButtonClasses]"
@@ -275,6 +276,8 @@ export default defineComponent({
       cancelButtonClass: '',
       confirmButtonText: '',
       confirmButtonClass: '',
+      cancelButtonType: '',
+      confirmButtonType: 'primary',
       customClass: '',
       customStyle: {},
       dangerouslyUseHTMLString: false,
