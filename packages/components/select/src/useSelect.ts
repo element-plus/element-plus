@@ -4,6 +4,7 @@ import {
   onMounted,
   reactive,
   ref,
+  useSlots,
   watch,
   watchEffect,
 } from 'vue'
@@ -59,6 +60,7 @@ import type {
 
 export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   const { t } = useLocale()
+  const slots = useSlots()
   const contentId = useId()
   const nsSelect = useNamespace('select')
   const nsInput = useNamespace('input')
@@ -248,7 +250,9 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     get() {
       return (
         expanded.value &&
-        (props.loading || !isRemoteSearchEmpty.value) &&
+        (props.loading ||
+          !isRemoteSearchEmpty.value ||
+          (props.remote && !!slots.empty)) &&
         (!debouncing.value || !isEmpty(states.previousQuery))
       )
     },
