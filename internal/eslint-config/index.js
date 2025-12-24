@@ -79,6 +79,7 @@ export default defineConfig([
   markdown.configs.processor,
 
   ...pluginVue.configs['flat/recommended'],
+  eslintPluginPrettierRecommended,
 
   {
     rules: {
@@ -552,5 +553,4 @@ export default defineConfig([
       '!.*',
     ],
   },
-  eslintPluginPrettierRecommended,
 ])
