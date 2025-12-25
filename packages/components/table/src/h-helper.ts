@@ -19,7 +19,7 @@ export function hColgroup(props: Props) {
   }
   const getPropsData = (column: TableColumnCtx<DefaultRow>) => {
     const propsData = {
-      key: `${props.tableLayout}_${column.id}`,
+      key: `${props.tableLayout ?? 'fixed'}_${column.id}`,
       style: {},
       name: undefined as string | undefined,
     }
