@@ -138,7 +138,7 @@ describe('Avatar Group', () => {
     )
   })
 
-  test('collapse avatar tooltip', async () => {
+  test('collapse avatars tooltip', async () => {
     const wrapper = mount(
       <AvatarGroup collapseAvatars collapseAvatarsTooltip>
         <Avatar />
