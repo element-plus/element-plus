@@ -1,0 +1,24 @@
+@use 'sass:map';
+
+@use 'common/var' as *;
+@use 'mixins/mixins' as *;
+@use 'mixins/utils' as *;
+
+@include b(avatar-group) {
+  display: flex;
+  align-items: end;
+
+  .#{$namespace}-avatar {
+    border: 1px solid getCssVar('border-color-extra-light');
+  }
+
+  .#{$namespace}-avatar:not(:first-child) {
+    margin-left: -8px;
+  }
+
+  @include e(collapse-avatars) {
+    .#{$namespace}-avatar:not(:first-child) {
+      margin-left: 4px;
+    }
+  }
+}

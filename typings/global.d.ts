@@ -8,6 +8,7 @@ declare module 'vue' {
     ElAutoResizer: typeof import('element-plus')['ElAutoResizer']
     ElAutocomplete: typeof import('element-plus')['ElAutocomplete']
     ElAvatar: typeof import('element-plus')['ElAvatar']
+    ElAvatarGroup: typeof import('element-plus')['ElAvatarGroup']
     ElAnchor: typeof import('element-plus')['ElAnchor']
     ElAnchorLink: typeof import('element-plus')['ElAnchorLink']
     ElBacktop: typeof import('element-plus')['ElBacktop']

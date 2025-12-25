@@ -9,6 +9,7 @@ import {
 } from '@element-plus/test-utils/mock'
 import { stableLoad } from '@element-plus/test-utils/stable-load'
 import Avatar from '../src/avatar.vue'
+import AvatarGroup from '../src/avatar-group'
 
 describe('Avatar.vue', () => {
   mockImageEvent()
@@ -94,5 +95,62 @@ describe('Avatar.vue', () => {
     await flushPromises()
     expect(wrapper.vm.hasLoadError).toBe(false)
     expect(wrapper.find('img').exists()).toBe(true)
+  })
+})
+
+describe('Avatar Group', () => {
+  test('render test', () => {
+    const wrapper = mount(
+      <AvatarGroup size="small" shape="circle">
+        <Avatar />
+        <Avatar size="large" shape="square"></Avatar>
+        <Avatar />
+        <Avatar size="large" shape="square"></Avatar>
+        <Avatar />
+      </AvatarGroup>
+    )
+
+    expect(wrapper.findAll('.el-avatar').length).toBe(5)
+    expect(wrapper.findAll('.el-avatar--small').length).toBe(3)
+    expect(wrapper.findAll('.el-avatar--large').length).toBe(2)
+    expect(wrapper.findAll('.el-avatar--circle').length).toBe(3)
+    expect(wrapper.findAll('.el-avatar--square').length).toBe(2)
+  })
+
+  test('collapse-class & collapse-style', () => {
+    const collapseStyle = 'background-color: red;'
+    const wrapper = mount(
+      <AvatarGroup
+        collapseAvatars
+        collapseClass="collapse-avatar"
+        collapseStyle={collapseStyle}
+      >
+        <Avatar />
+        <Avatar />
+      </AvatarGroup>
+    )
+
+    const collapseAvatar = wrapper.findAll('.el-avatar')[1]
+    expect(collapseAvatar.text()).toBe('+ 1')
+    expect(collapseAvatar.classes()).toContain('collapse-avatar')
+    expect(collapseAvatar.attributes('style')).toContain(
+      'background-color: red;'
+    )
+  })
+
+  test('collapse avatar tooltip', async () => {
+    const wrapper = mount(
+      <AvatarGroup collapseAvatars collapseAvatarsTooltip>
+        <Avatar />
+        <Avatar />
+      </AvatarGroup>
+    )
+
+    const collapseAvatar = wrapper.findAll('.el-avatar')[1]
+    await collapseAvatar.trigger('mouseenter')
+    await nextTick()
+
+    const tooltip = wrapper.findComponent({ name: 'ElTooltip' })
+    expect(tooltip.exists()).toBe(true)
   })
 })
