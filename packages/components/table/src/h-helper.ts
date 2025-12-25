@@ -5,7 +5,7 @@ import type { TableColumnCtx } from './table-column/defaults'
 import type { DefaultRow } from './table/defaults'
 
 type Props = {
-  tableLayout: 'fixed' | 'auto'
+  tableLayout?: 'fixed' | 'auto'
   columns?: TableColumnCtx<DefaultRow>[]
 }
 
