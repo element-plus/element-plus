@@ -16,8 +16,8 @@ const Timeline = defineComponent({
     provide(TIMELINE_INJECTION_KEY, slots)
 
     return () => {
-      const children = flattedChildren(slots.default?.() ?? []).filter(
-        (node) => (node as any)?.type?.name === 'ElTimelineItem'
+      const children = flattedChildren(
+        slots.default?.() ?? []
       ) as VNodeChildAtom[]
 
       return h(
