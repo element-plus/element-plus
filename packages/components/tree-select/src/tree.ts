@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { computed, nextTick, toRefs, watch } from 'vue'
-import { isEqual, isNil, pick } from 'lodash-unified'
+import { isNil, pick } from 'lodash-unified'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { escapeStringRegexp, isEmpty, isFunction } from '@element-plus/utils'
 import ElTree from '@element-plus/components/tree'
@@ -34,19 +34,27 @@ export const useTree = (
   }
 ) => {
   watch(
-    [() => props.modelValue, tree],
-    () => {
+    [() => props.modelValue, () => props.data, tree],
+    ([modelValue, data], [oldModelValue, oldData]) => {
       if (props.showCheckbox) {
         nextTick(() => {
           const treeInstance = tree.value
-          if (
-            treeInstance &&
-            !isEqual(
-              treeInstance.getCheckedKeys(),
-              toValidArray(props.modelValue)
-            )
-          ) {
-            treeInstance.setCheckedKeys(toValidArray(props.modelValue))
+          if (treeInstance) {
+            // 当数据变化时，总是根据 modelValue 设置勾选状态
+            // 这样可以确保在数据清空和重新赋值时正确更新勾选状态
+            if (data !== oldData) {
+              // 数据变化时，先清空所有勾选，然后根据当前 modelValue 设置勾选状态
+              treeInstance.setCheckedKeys(toValidArray(modelValue))
+            } else if (modelValue !== oldModelValue) {
+              // modelValue 变化时，同步勾选状态
+              treeInstance.setCheckedKeys(toValidArray(modelValue))
+            } else if (
+              !treeInstance.getCheckedKeys().length &&
+              toValidArray(modelValue).length
+            ) {
+              // 如果当前没有勾选但 modelValue 有值，也需要同步
+              treeInstance.setCheckedKeys(toValidArray(modelValue))
+            }
           }
         })
       }
@@ -165,10 +173,10 @@ export const useTree = (
     onNodeClick: (data, node, e) => {
       attrs.onNodeClick?.(data, node, e)
 
-      // `onCheck` is trigger when `checkOnClickNode`
+      // `onCheck` is trigger when [checkOnClickNode](file://d:\github\element-plus\packages\components\tree\src\tree.type.ts#L107-L107)
       if (props.showCheckbox && props.checkOnClickNode) return
 
-      // now `checkOnClickNode` is false, only no checkbox and `checkStrictly` or `isLeaf`
+      // now [checkOnClickNode](file://d:\github\element-plus\packages\components\tree\src\tree.type.ts#L107-L107) is false, only no checkbox and [checkStrictly](file://d:\github\element-plus\packages\components\tree\src\tree.type.ts#L53-L53) or [isLeaf](file://d:\github\element-plus\packages\components\tree\src\tree.type.ts#L65-L65)
       if (!props.showCheckbox && (props.checkStrictly || node.isLeaf)) {
         if (!getNodeValByProp('disabled', data)) {
           const option = select.value?.states.options.get(
@@ -181,7 +189,7 @@ export const useTree = (
       }
     },
     onCheck: (data, params) => {
-      // ignore when no checkbox, like only `checkOnClickNode` is true
+      // ignore when no checkbox, like only [checkOnClickNode](file://d:\github\element-plus\packages\components\tree\src\tree.type.ts#L107-L107) is true
       if (!props.showCheckbox) return
 
       const dataValue = getNodeValByProp('value', data)
