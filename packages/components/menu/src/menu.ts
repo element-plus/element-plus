@@ -259,9 +259,18 @@ export default defineComponent({
       if (openedMenus.value.includes(index)) return
       // 将不在该菜单路径下的其余菜单收起
       // collapse all menu that are not under current menu item
+      // 但如果该菜单路径下存在激活的菜单项，则不应该收起来
+      // But if there is an active menu item under the menu path, it should not be collapsed
       if (props.uniqueOpened) {
-        openedMenus.value = openedMenus.value.filter((index: string) =>
-          indexPath.includes(index)
+        const activeItem =
+          activeIndex.value && !props.collapse && props.mode === 'vertical'
+            ? items.value[activeIndex.value]
+            : null
+
+        openedMenus.value = openedMenus.value.filter(
+          (menuIndex: string) =>
+            indexPath.includes(menuIndex) ||
+            activeItem?.indexPath.includes(menuIndex)
         )
       }
       openedMenus.value.push(index)
