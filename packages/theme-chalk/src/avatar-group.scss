@@ -3,7 +3,6 @@
 
 @include b(avatar-group) {
   display: flex;
-  align-items: end;
 
   .#{$namespace}-avatar {
     border: 1px solid getCssVar('border-color-extra-light');

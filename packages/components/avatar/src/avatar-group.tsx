@@ -81,7 +81,6 @@ export type AvatarGroupPropsPublic = ExtractPublicPropTypes<
 
 export default defineComponent({
   name: 'ElAvatarGroup',
-  install: null,
   props: avatarGroupProps,
   setup(props, { slots }) {
     const ns = useNamespace('avatar-group')
