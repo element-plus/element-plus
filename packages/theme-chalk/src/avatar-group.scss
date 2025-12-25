@@ -1,8 +1,5 @@
-@use 'sass:map';
-
-@use 'common/var' as *;
 @use 'mixins/mixins' as *;
-@use 'mixins/utils' as *;
+@use 'common/var' as *;
 
 @include b(avatar-group) {
   display: flex;
