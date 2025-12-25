@@ -47,6 +47,16 @@ avatar/fit
 
 :::
 
+## Avatar Group ^(2.13.1)
+
+Displayed as a avatar group.
+
+:::demo Use tag `<el-avatar-group>` to group your avatars.
+
+avatar/group
+
+:::
+
 ## Avatar API
 
 ### Avatar Attributes
