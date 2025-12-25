@@ -82,6 +82,33 @@
     transition: getCssVar('transition-box-shadow');
     border: none;
 
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+      border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: transparent;
+      border-radius: 4px;
+      transition: background-color 0.28s ease;
+    }
+
+    &:hover::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    &:focus::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+
+    &::-webkit-scrollbar-corner {
+      background: transparent;
+    }
+
     &::placeholder {
       color: getCssVarWithDefault(
         'input-placeholder-color',
@@ -107,6 +134,7 @@
     line-height: 14px;
     bottom: 5px;
     right: 10px;
+
     @include when(outside) {
       position: absolute;
       background: transparent;
@@ -182,12 +210,14 @@
       display: inline-block;
       padding-left: 8px;
     }
+
     @include when(outside) {
       height: unset;
       position: absolute;
       padding-top: 2px;
       top: 100%;
       right: 0;
+
       .#{$namespace}-input__count-inner {
         background: transparent;
         padding-left: 0px;
@@ -306,7 +336,7 @@
       align-items: center;
       justify-content: center;
 
-      @if $slot == prefix {
+      @if $slot ==prefix {
         > :last-child {
           margin-right: 8px;
         }
@@ -401,6 +431,7 @@
         padding: $border-width
           map.get($input-padding-horizontal, $size)-$border-width;
       }
+
       & {
         @include set-css-var-value(
           'input-inner-height',
