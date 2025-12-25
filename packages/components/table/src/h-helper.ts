@@ -5,7 +5,7 @@ import type { TableColumnCtx } from './table-column/defaults'
 import type { DefaultRow } from './table/defaults'
 
 type Props = {
-  tableLayout?: 'fixed' | 'auto'
+  tableLayout: 'fixed' | 'auto'
   columns?: TableColumnCtx<DefaultRow>[]
 }
 
@@ -19,7 +19,7 @@ export function hColgroup(props: Props) {
   }
   const getPropsData = (column: TableColumnCtx<DefaultRow>) => {
     const propsData = {
-      key: `${props.tableLayout ?? 'fixed'}_${column.id}`,
+      key: `${props.tableLayout}_${column.id}`,
       style: {},
       name: undefined as string | undefined,
     }
