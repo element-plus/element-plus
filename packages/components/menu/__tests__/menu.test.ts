@@ -386,11 +386,21 @@ describe('other', () => {
         </el-sub-menu>
       </el-menu>`
     )
-    const submenu2 = await wrapper.findComponent({ ref: 'submenu2' })
-    submenu2.vm.$el.querySelector('.el-sub-menu__title').click()
     await nextTick()
     const submenu1 = await wrapper.findComponent({ ref: 'submenu1' })
-    expect(submenu1.classes().includes('is-opened')).toBeFalsy()
+    const submenu2 = await wrapper.findComponent({ ref: 'submenu2' })
+
+    // submenu1 should be opened initially because it contains the active item (2-2)
+    expect(submenu1.classes().includes('is-opened')).toBeTruthy()
+
+    // Click submenu2 to expand it
+    submenu2.vm.$el.querySelector('.el-sub-menu__title').click()
+    await nextTick()
+
+    // submenu1 should remain opened because it contains the active item
+    // (our fix preserves active menu path in unique-opened mode)
+    expect(submenu1.classes().includes('is-opened')).toBeTruthy()
+    expect(submenu2.classes().includes('is-opened')).toBeTruthy()
   })
   test('horizontal mode', async () => {
     const onOpen = vi.fn()
