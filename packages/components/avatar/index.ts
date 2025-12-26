@@ -15,9 +15,5 @@ export default ElAvatar
 
 export * from './src/avatar'
 export * from './src/constants'
-export {
-  avatarGroupProps,
-  type AvatarGroupProps,
-  type AvatarGroupPropsPublic,
-} from './src/avatar-group'
+export * from './src/avatar-group-props'
 export type { AvatarInstance, AvatarGroupInstance } from './src/instance'
