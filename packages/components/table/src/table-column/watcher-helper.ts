@@ -1,5 +1,5 @@
 import { getCurrentInstance, watch } from 'vue'
-import { hasOwn } from '@element-plus/utils'
+import { hasOwn, isUndefined } from '@element-plus/utils'
 import { parseMinWidth, parseWidth } from '../util'
 
 import type { ComputedRef } from 'vue'
@@ -91,6 +91,8 @@ function useWatcher<T extends DefaultRow>(
         watch(
           () => owner.value.props[key],
           (newVal) => {
+            if (instance.columnConfig.value.type === 'selection') return
+            if (!isUndefined(props_[key])) return
             instance.columnConfig.value[key] = newVal as never
           }
         )
