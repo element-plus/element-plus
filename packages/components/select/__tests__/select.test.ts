@@ -4239,4 +4239,55 @@ describe('Select', () => {
     await input.trigger('blur')
     expect(handleVisibleChange).toHaveBeenCalledTimes(2)
   })
+
+  test('should show empty slot when remote search returns empty', async () => {
+    const wrapper = mount({
+      components: {
+        'el-select': Select,
+        'el-option': Option,
+      },
+      template: `
+        <el-select
+          v-model="value"
+          filterable
+          remote
+          :remote-method="remoteMethod"
+        >
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+          <template #empty>
+            <div class="custom-empty">NO DATA</div>
+          </template>
+        </el-select>
+      `,
+      setup() {
+        const value = ref('')
+        const options = ref<any[]>([])
+        const remoteMethod = vi.fn((query) => {
+          if (query.includes('empty')) {
+            options.value = []
+          } else {
+            options.value = [{ value: '1', label: 'Option 1' }]
+          }
+        })
+        return { value, options, remoteMethod }
+      },
+    })
+    const select = wrapper.findComponent(Select)
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    await input.setValue('empty')
+    await nextTick()
+    await nextTick()
+    expect((select.vm as any).expanded).toBe(true)
+    const emptyText = document.querySelector('.custom-empty')
+    expect(emptyText).not.toBeNull()
+    expect(emptyText?.textContent).toBe('NO DATA')
+    const popper = document.querySelector('.el-select__popper') as HTMLElement
+    expect(popper.style.display).not.toBe('none')
+  })
 })
