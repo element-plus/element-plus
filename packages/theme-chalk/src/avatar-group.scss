@@ -1,3 +1,5 @@
+@use 'sass:map';
+
 @use 'mixins/mixins' as *;
 @use 'common/var' as *;
 
@@ -9,12 +11,12 @@
   }
 
   .#{$namespace}-avatar:not(:first-child) {
-    margin-left: -8px;
+    margin-left: map.get($avatar-group, 'item-gap');
   }
 
   @include e(collapse-avatars) {
     .#{$namespace}-avatar:not(:first-child) {
-      margin-left: 4px;
+      margin-left: map.get($avatar-group, 'collapse-item-gap');
     }
   }
 }

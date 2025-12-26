@@ -38,7 +38,7 @@ const ns = useNamespace('avatar')
 
 const hasLoadError = ref(false)
 
-const size = computed(() => props.size || avatarGroupContext?.size || '')
+const size = computed(() => props.size ?? avatarGroupContext?.size)
 const shape = computed(
   () => props.shape || avatarGroupContext?.shape || 'circle'
 )

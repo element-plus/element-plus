@@ -16,7 +16,7 @@
     <el-avatar-group
       collapse-avatars
       :collapse-style="{ 'background-color': '#d9ecff' }"
-      collapse-class="custom-class"
+      collapse-class="my-collapse-avatar"
     >
       <el-avatar v-for="number in 5" :key="number" :src="circleUrl" />
     </el-avatar-group>
@@ -45,7 +45,7 @@ const circleUrl =
 </script>
 
 <style>
-.custom-class {
+.my-collapse-avatar {
   color: #409eff;
 }
 </style>
