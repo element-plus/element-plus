@@ -1,4 +1,4 @@
-import { computed, defineComponent, provide, reactive, toRef } from 'vue'
+import { defineComponent, provide, reactive, toRef } from 'vue'
 import { placements } from '@popperjs/core'
 import { useNamespace } from '@element-plus/hooks'
 import ElTooltip, {
@@ -97,11 +97,10 @@ export default defineComponent({
       const avatars = flattedChildren(slots.default?.() ?? [])
       let visibleAvatars = avatars
 
-      const showCollapseAvatars = computed(
-        () => props.collapseAvatars && avatars.length > props.maxCollapseAvatars
-      )
+      const showCollapseAvatar =
+        props.collapseAvatars && avatars.length > props.maxCollapseAvatars
 
-      if (showCollapseAvatars.value) {
+      if (showCollapseAvatar) {
         visibleAvatars = avatars.slice(0, props.maxCollapseAvatars)
         const hiddenAvatars = avatars.slice(
           props.maxCollapseAvatars,
