@@ -1,8 +1,5 @@
 <template>
-  <template v-if="disabled">
-    <slot />
-  </template>
-  <teleport v-else :to="to">
+  <teleport :disabled="disabled" :to="to">
     <slot />
   </teleport>
 </template>
