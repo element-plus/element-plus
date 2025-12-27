@@ -8,14 +8,6 @@ export default defineConfig({
     disabled: true,
   },
   test: {
-    projects: [
-      {
-        extends: true,
-        test: {
-          name: 'unit',
-        },
-      },
-    ],
     clearMocks: true,
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
