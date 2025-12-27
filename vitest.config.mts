@@ -12,12 +12,8 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
     reporters: ['default'],
-    testTransformMode: {
-      web: ['*.{ts,tsx}'],
-    },
     coverage: {
       reporter: ['text', 'json-summary', 'json'],
-      include: ['packages/**/*.test.{ts,tsx}'],
       exclude: [
         'play/**',
         '**/lang/**',
