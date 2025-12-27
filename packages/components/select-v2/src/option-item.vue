@@ -14,7 +14,6 @@
     ]"
     @mousemove="hoverItem"
     @click.stop="selectOptionClick"
-    @mousedown.prevent
   >
     <slot :item="item" :index="index" :disabled="disabled">
       <span>{{ getLabel(item) }}</span>
