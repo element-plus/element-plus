@@ -54,11 +54,11 @@ export const avatarGroupProps = buildProps({
    */
   popperStyle: useTooltipContentProps.popperStyle,
   /**
-   * @description custom class name for the collapse avatar
+   * @description custom class name for the collapse-avatar
    */
   collapseClass: String,
   /**
-   * @description custom style for the collapse avatar
+   * @description custom style for the collapse-avatar
    */
   collapseStyle: {
     type: definePropType<StyleValue>([String, Array, Object]),
