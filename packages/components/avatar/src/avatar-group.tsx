@@ -1,4 +1,11 @@
-import { defineComponent, provide, reactive, toRef } from 'vue'
+import {
+  cloneVNode,
+  defineComponent,
+  isVNode,
+  provide,
+  reactive,
+  toRef,
+} from 'vue'
 import { flattedChildren } from '@element-plus/utils'
 import ElTooltip from '@element-plus/components/tooltip'
 import { useNamespace } from '@element-plus/hooks'
@@ -54,7 +61,13 @@ export default defineComponent({
                 </ElAvatar>
               ),
               content: () => (
-                <div class={ns.e('collapse-avatars')}>{hiddenAvatars}</div>
+                <div class={ns.e('collapse-avatars')}>
+                  {hiddenAvatars.map((node, idx) =>
+                    isVNode(node)
+                      ? cloneVNode(node, { key: node.key ?? idx })
+                      : node
+                  )}
+                </div>
               ),
             }}
           </ElTooltip>
