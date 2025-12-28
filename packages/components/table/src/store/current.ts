@@ -23,6 +23,7 @@ function useCurrent<T extends DefaultRow>(watcherData: WatcherPropsData<T>) {
 
   const setCurrentRowByKey = (key: string) => {
     const { data, rowKey } = watcherData
+    const oldCurrentRow = currentRow.value
     let _currentRow: T | null = null
     if (rowKey.value) {
       _currentRow =
@@ -31,7 +32,7 @@ function useCurrent<T extends DefaultRow>(watcherData: WatcherPropsData<T>) {
         ) ?? null
     }
     currentRow.value = _currentRow ?? null
-    instance.emit('current-change', currentRow.value, null)
+    instance.emit('current-change', currentRow.value, oldCurrentRow)
   }
 
   const updateCurrentRow = (_currentRow: T) => {
