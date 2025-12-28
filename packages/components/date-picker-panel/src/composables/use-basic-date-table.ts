@@ -40,7 +40,9 @@ export const useBasicDateTable = (
     .map((_) => _.toLowerCase())
 
   const offsetDay = computed(() => {
-    // Sunday 7(0), cal the left and right offset days, 3217654, such as Monday is -1, the is to adjust the position of the first two rows of dates
+    // Sunday 7(0), calculate the offset days to adjust the position of the first two rows of dates
+    // For weekStart <= 3: offset = weekStart (e.g., Monday = 1, Tuesday = 2, Wednesday = 3)
+    // For weekStart > 3: offset = 7 - weekStart (e.g., Thursday = 3, Friday = 2, Saturday = 1)
     return firstDayOfWeek > 3 ? 7 - firstDayOfWeek : firstDayOfWeek
   })
 
