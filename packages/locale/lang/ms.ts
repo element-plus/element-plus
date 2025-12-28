@@ -162,6 +162,9 @@ export default {
       sortLabel: 'Sort by {column}', // to be translated
       filterLabel: 'Filter by {column}', // to be translated
     },
+    tag: {
+      close: 'Close this tag', // to be translated
+    },
     tour: {
       next: 'Seterusnya',
       previous: 'Sebelumnya',

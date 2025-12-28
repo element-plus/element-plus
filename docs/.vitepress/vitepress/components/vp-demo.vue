@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, getCurrentInstance, ref, toRef } from 'vue'
-import { isClient, useClipboard, useToggle } from '@vueuse/core'
+import { useClipboard, useToggle } from '@vueuse/core'
 import { EVENT_CODE } from 'element-plus'
 import { CaretTop } from '@element-plus/icons-vue'
 import { useLang } from '../composables/lang'
@@ -26,17 +26,12 @@ const { copy, isSupported } = useClipboard({
 const [sourceVisible, toggleSourceVisible] = useToggle()
 const lang = useLang()
 const demoSourceUrl = useSourceCode(toRef(props, 'path'))
+const { link: playgroundUrl } = usePlayground(props.rawSource)
 
 const sourceCodeRef = ref<HTMLButtonElement>()
 
 const locale = computed(() => demoBlockLocale[lang.value])
 const decodedDescription = computed(() => decodeURIComponent(props.description))
-
-const onPlaygroundClick = () => {
-  const { link } = usePlayground(props.rawSource)
-  if (!isClient) return
-  window.open(link)
-}
 
 const onSourceVisibleKeydown = (e: KeyboardEvent) => {
   if (
@@ -82,17 +77,15 @@ const copyCode = async () => {
         :trigger="['hover', 'focus']"
         :trigger-keys="[]"
       >
-        <ElIcon
-          :size="16"
-          :aria-label="locale['edit-in-editor']"
-          tabindex="0"
-          role="link"
-          class="op-btn"
-          @click="onPlaygroundClick"
-          @keydown.prevent.enter="onPlaygroundClick"
-          @keydown.prevent.space="onPlaygroundClick"
-        >
-          <i-ri-flask-line />
+        <ElIcon :size="16" class="op-btn">
+          <a
+            :href="playgroundUrl"
+            :aria-label="locale['edit-in-editor']"
+            rel="noreferrer noopener"
+            target="_blank"
+          >
+            <i-ri-flask-line />
+          </a>
         </ElIcon>
       </ElTooltip>
       <ElTooltip
@@ -101,11 +94,7 @@ const copyCode = async () => {
         :trigger="['hover', 'focus']"
         :trigger-keys="[]"
       >
-        <ElIcon
-          :size="16"
-          class="op-btn github"
-          style="color: var(--text-color-light)"
-        >
+        <ElIcon :size="16" class="op-btn github">
           <a
             :href="demoSourceUrl"
             :aria-label="locale['edit-on-github']"
@@ -213,7 +202,7 @@ const copyCode = async () => {
       color: var(--text-color-lighter);
       transition: 0.2s;
 
-      &.github a {
+      a {
         transition: 0.2s;
         color: var(--text-color-lighter);
 

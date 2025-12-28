@@ -6,7 +6,7 @@ import {
 } from '@element-plus/utils'
 import { INPUT_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 
 export type CalendarDateType =
   | 'prev-month'
@@ -33,9 +33,25 @@ export const calendarProps = buildProps({
     type: definePropType<[Date, Date]>(Array),
     validator: isValidRange,
   },
+  /**
+   * @description type of the controller for the Calendar header
+   */
+  controllerType: {
+    type: String,
+    values: ['button', 'select'],
+    default: 'button',
+  },
+  /**
+   * @description format label when `controller-type` is 'select'
+   */
+  formatter: {
+    type: definePropType<
+      (value: number, type: 'year' | 'month') => string | number
+    >(Function),
+  },
 } as const)
 export type CalendarProps = ExtractPropTypes<typeof calendarProps>
-export type CalendarPropsPublic = __ExtractPublicPropTypes<typeof calendarProps>
+export type CalendarPropsPublic = ExtractPublicPropTypes<typeof calendarProps>
 
 export const calendarEmits = {
   [UPDATE_MODEL_EVENT]: (value: Date) => isDate(value),

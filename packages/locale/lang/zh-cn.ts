@@ -156,6 +156,9 @@ export default {
       sortLabel: '按 {column} 排序',
       filterLabel: '按 {column} 过滤',
     },
+    tag: {
+      close: '关闭此标签',
+    },
     tour: {
       next: '下一步',
       previous: '上一步',

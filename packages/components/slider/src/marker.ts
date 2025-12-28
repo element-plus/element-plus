@@ -5,7 +5,7 @@ import { useNamespace } from '@element-plus/hooks'
 import type {
   CSSProperties,
   ExtractPropTypes,
-  __ExtractPublicPropTypes,
+  ExtractPublicPropTypes,
 } from 'vue'
 
 export const sliderMarkerProps = buildProps({
@@ -21,7 +21,7 @@ export const sliderMarkerProps = buildProps({
   },
 } as const)
 export type SliderMarkerProps = ExtractPropTypes<typeof sliderMarkerProps>
-export type SliderMarkerPropsPublic = __ExtractPublicPropTypes<
+export type SliderMarkerPropsPublic = ExtractPublicPropTypes<
   typeof sliderMarkerProps
 >
 

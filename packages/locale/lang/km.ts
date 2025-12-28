@@ -161,6 +161,9 @@ export default {
       sortLabel: 'Sort by {column}', // to be translated
       filterLabel: 'Filter by {column}', // to be translated
     },
+    tag: {
+      close: 'Close this tag', // to be translated
+    },
     tour: {
       next: 'បន្ទាប់',
       previous: 'ថយក្រោយ',
