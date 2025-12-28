@@ -194,7 +194,7 @@ describe('Table.vue', () => {
     })
 
     it('updates height and maxHeight sequentially without recursive error', async () => {
-      const errorSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      const errorSpy = vi.spyOn(console, 'warn').mockImplementation(() => { })
       const wrapper = createTable(':height="height" :max-height="maxHeight"', {
         data() {
           return {
@@ -385,6 +385,62 @@ describe('Table.vue', () => {
       expect(rows[1].classes()).toContain('current-row')
       wrapper.unmount()
     })
+
+    it('current-change event should pass correct oldCurrentRow when using current-row-key', async () => {
+      const currentChangeHandler = vi.fn()
+      const wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+        <el-table
+          :data="testData"
+          row-key="id"
+          highlight-current-row
+          :current-row-key="currentRowKey"
+          @current-change="handleCurrentChange"
+        >
+          <el-table-column prop="name" label="片名" />
+          <el-table-column prop="release" label="发行日期" />
+          <el-table-column prop="director" label="导演" />
+          <el-table-column prop="runtime" label="时长（分）" />
+        </el-table>
+      `,
+        created() {
+          this.testData = getTestData()
+        },
+        data() {
+          return { currentRowKey: null }
+        },
+        methods: {
+          handleCurrentChange(newRow, oldRow) {
+            currentChangeHandler(newRow, oldRow)
+          },
+        },
+      })
+      await doubleWait()
+
+      // 第一次设置 current-row-key，oldRow 应该是 null
+      wrapper.vm.currentRowKey = 1
+      await doubleWait()
+      expect(currentChangeHandler).toHaveBeenCalledTimes(1)
+      expect(currentChangeHandler).toHaveBeenLastCalledWith(
+        expect.objectContaining({ id: 1 }),
+        null
+      )
+
+      // 切换到另一个 current-row-key，oldRow 应该是之前的行数据
+      wrapper.vm.currentRowKey = 2
+      await doubleWait()
+      expect(currentChangeHandler).toHaveBeenCalledTimes(2)
+      expect(currentChangeHandler).toHaveBeenLastCalledWith(
+        expect.objectContaining({ id: 2 }),
+        expect.objectContaining({ id: 1 })
+      )
+
+      wrapper.unmount()
+    })
   })
   describe('filter', () => {
     let wrapper: VueWrapper<ComponentPublicInstance>
@@ -465,7 +521,7 @@ describe('Table.vue', () => {
       await doubleWait()
       expect(
         (wrapper.vm as ComponentPublicInstance & { filters: any }).filters[
-          'director'
+        'director'
         ]
       ).toEqual(['John Lasseter'])
       expect(
@@ -519,7 +575,7 @@ describe('Table.vue', () => {
       await doubleWait()
       expect(
         (wrapper.vm as ComponentPublicInstance & { filters: any }).filters[
-          'director'
+        'director'
         ]
       ).toEqual([])
       expect([
@@ -2027,7 +2083,7 @@ describe('Table.vue', () => {
       expandIcon.trigger('click')
       await doubleWait()
       expect(expandIcon.classes()).toContain('el-table__expand-icon--expanded')
-      ;(wrapper.vm as any).closeExpandRow()
+        ; (wrapper.vm as any).closeExpandRow()
       await doubleWait()
       expect(expandIcon.classes()).not.toContain(
         'el-table__expand-icon--expanded'
