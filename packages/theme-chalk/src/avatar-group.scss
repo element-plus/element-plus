@@ -1,9 +1,10 @@
-@use 'sass:map';
-
 @use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
 @use 'common/var' as *;
 
 @include b(avatar-group) {
+  @include set-component-css-var('avatar-group', $avatar-group);
+
   display: inline-flex;
 
   .#{$namespace}-avatar {
@@ -11,12 +12,12 @@
   }
 
   .#{$namespace}-avatar:not(:first-child) {
-    margin-left: map.get($avatar-group, 'item-gap');
+    margin-left: getCssVar('avatar-group', 'item-gap');
   }
 
   @include e(collapse-avatars) {
     .#{$namespace}-avatar:not(:first-child) {
-      margin-left: map.get($avatar-group, 'collapse-item-gap');
+      margin-left: getCssVar('avatar-group', 'collapse-item-gap');
     }
   }
 }
