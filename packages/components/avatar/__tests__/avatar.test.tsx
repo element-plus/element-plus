@@ -101,11 +101,11 @@ describe('Avatar.vue', () => {
 describe('Avatar Group', () => {
   test('render test', () => {
     const wrapper = mount(
-      <AvatarGroup size="small" shape="circle">
+      <AvatarGroup size="small" shape="square">
         <Avatar />
-        <Avatar size="large" shape="square"></Avatar>
+        <Avatar size="large" shape="circle"></Avatar>
         <Avatar />
-        <Avatar size="large" shape="square"></Avatar>
+        <Avatar size="large" shape="circle"></Avatar>
         <Avatar />
       </AvatarGroup>
     )
@@ -113,8 +113,8 @@ describe('Avatar Group', () => {
     expect(wrapper.findAll('.el-avatar').length).toBe(5)
     expect(wrapper.findAll('.el-avatar--small').length).toBe(3)
     expect(wrapper.findAll('.el-avatar--large').length).toBe(2)
-    expect(wrapper.findAll('.el-avatar--circle').length).toBe(3)
-    expect(wrapper.findAll('.el-avatar--square').length).toBe(2)
+    expect(wrapper.findAll('.el-avatar--circle').length).toBe(2)
+    expect(wrapper.findAll('.el-avatar--square').length).toBe(3)
   })
 
   test('collapse-class & collapse-style', () => {
@@ -152,5 +152,6 @@ describe('Avatar Group', () => {
 
     const tooltip = wrapper.findComponent({ name: 'ElTooltip' })
     expect(tooltip.exists()).toBe(true)
+    expect(tooltip.html()).toContain('el-avatar')
   })
 })
