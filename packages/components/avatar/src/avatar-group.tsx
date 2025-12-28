@@ -36,10 +36,7 @@ export default defineComponent({
 
       if (showCollapseAvatar) {
         visibleAvatars = avatars.slice(0, props.maxCollapseAvatars)
-        const hiddenAvatars = avatars.slice(
-          props.maxCollapseAvatars,
-          avatars.length
-        )
+        const hiddenAvatars = avatars.slice(props.maxCollapseAvatars)
 
         visibleAvatars.push(
           <ElTooltip
