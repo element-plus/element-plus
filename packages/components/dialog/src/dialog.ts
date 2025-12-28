@@ -1,6 +1,5 @@
 import { buildProps, definePropType, isBoolean } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { teleportProps } from '@element-plus/components/teleport'
 import { dialogContentProps } from './dialog-content'
 
 import type {
@@ -27,7 +26,7 @@ export const dialogProps = buildProps({
    * @description which element the Dialog appends to
    */
   appendTo: {
-    type: teleportProps.to.type,
+    type: definePropType<string | HTMLElement>([String, Object]),
     default: 'body',
   },
   /**

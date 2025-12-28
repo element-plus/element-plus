@@ -1,7 +1,6 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 import { popperContentProps } from '@element-plus/components/popper'
 import { useAriaProps, useDelayedToggleProps } from '@element-plus/hooks'
-import { teleportProps } from '@element-plus/components/teleport'
 
 import type TooltipContent from './content.vue'
 import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
@@ -13,7 +12,7 @@ export const useTooltipContentProps = buildProps({
    * @description which element the tooltip CONTENT appends to
    */
   appendTo: {
-    type: teleportProps.to.type,
+    type: definePropType<string | HTMLElement>([String, Object]),
   },
   /**
    * @description display content, can be overridden by `slot#content`
