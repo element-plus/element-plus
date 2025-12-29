@@ -299,6 +299,7 @@ type FormItemContext = FormItemProps & {
   ) => FormValidationResult
   resetField(): void
   clearValidate(): void
+  setInitialValue: (value: any) => void
 }
 ```
 
