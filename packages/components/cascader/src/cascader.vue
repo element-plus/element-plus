@@ -298,6 +298,11 @@ let pressDeleteCount = 0
 
 const nsCascader = useNamespace('cascader')
 const nsInput = useNamespace('input')
+const sizeMapPadding = {
+  small: 7,
+  default: 11,
+  large: 15,
+}
 
 const { t } = useLocale()
 const { formItem } = useFormItem()
@@ -595,7 +600,7 @@ const updateStyle = () => {
       if (prefix) {
         left = prefix.offsetWidth
         if (left > 0) {
-          left += 11 // 11 is the default padding of el-input__wrapper
+          left += sizeMapPadding[realSize.value || 'default'] // this is the default padding of el-input__wrapper
         }
       }
       tagWrapperEl.style.left = `${left}px`
