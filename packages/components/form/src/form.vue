@@ -204,6 +204,7 @@ provide(
     getField,
     addField,
     removeField,
+    setInitialValues,
 
     ...useFormLabelWidth(),
   })
