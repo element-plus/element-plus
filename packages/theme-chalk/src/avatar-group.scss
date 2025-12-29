@@ -16,6 +16,8 @@
   }
 
   @include e(collapse-avatars) {
+    @include set-component-css-var('avatar-group', $avatar-group);
+
     .#{$namespace}-avatar:not(:first-child) {
       margin-left: getCssVar('avatar-group', 'collapse-item-gap');
     }
