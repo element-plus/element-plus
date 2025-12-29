@@ -6,6 +6,7 @@
   padding-bottom: 20px;
 
   @include e(wrapper) {
+    box-sizing: content-box;
     position: relative;
     top: -3px;
   }
