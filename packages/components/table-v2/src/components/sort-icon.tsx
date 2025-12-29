@@ -6,6 +6,7 @@ import type { FunctionalComponent } from 'vue'
 
 export type SortIconProps = {
   sortOrder: SortOrder
+  ariaLabel?: string
   class?: JSX.IntrinsicAttributes['class']
 }
 
@@ -13,9 +14,11 @@ const SortIcon: FunctionalComponent<SortIconProps> = (props) => {
   const { sortOrder } = props
 
   return (
-    <ElIcon size={14} class={props.class}>
-      {sortOrder === SortOrder.ASC ? <SortUp /> : <SortDown />}
-    </ElIcon>
+    <button type="button" aria-label={props.ariaLabel} class={props.class}>
+      <ElIcon size={14}>
+        {sortOrder === SortOrder.ASC ? <SortUp /> : <SortDown />}
+      </ElIcon>
+    </button>
   )
 }
 

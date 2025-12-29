@@ -8,22 +8,27 @@ const ExpandIcon = (
   props: TableV2RowCellRenderParam['expandIconProps'] & {
     class?: string | string[]
     style: StyleValue
+    ariaLabel?: string
     size: number
     expanded: boolean
     expandable: boolean
   }
 ) => {
-  const { expanded, expandable, onExpand, style, size } = props
+  const { expanded, expandable, onExpand, style, size, ariaLabel } = props
 
   const expandIconProps = {
     onClick: expandable ? () => onExpand(!expanded) : undefined,
+    ariaLabel,
+    ariaExpanded: expanded,
     class: props.class,
   } as any
 
   return (
-    <ElIcon {...expandIconProps} size={size} style={style}>
-      <ArrowRight />
-    </ElIcon>
+    <button {...expandIconProps} type="button">
+      <ElIcon size={size} style={style}>
+        <ArrowRight />
+      </ElIcon>
+    </button>
   )
 }
 

@@ -40,8 +40,12 @@ export const useLockscreen = (
   let scrollBarWidth = 0
   let withoutHiddenClass = false
   let bodyWidth = '0'
+  let cleaned = false
 
   const cleanup = () => {
+    if (cleaned) return
+
+    cleaned = true
     setTimeout(() => {
       // When the test case is running, the context environment simulated by jsdom may have been destroyed,
       // and the document does not exist at this time.
@@ -58,6 +62,7 @@ export const useLockscreen = (
       return
     }
 
+    cleaned = false
     withoutHiddenClass = !hasClass(document.body, hiddenCls.value)
     if (withoutHiddenClass) {
       bodyWidth = document.body.style.width

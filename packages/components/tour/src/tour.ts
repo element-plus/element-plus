@@ -12,7 +12,7 @@ import { tourContentProps } from './content'
 import type {
   CSSProperties,
   ExtractPropTypes,
-  __ExtractPublicPropTypes,
+  ExtractPublicPropTypes,
 } from 'vue'
 import type Tour from './tour.vue'
 import type { TourGap, TourMask } from './types'
@@ -121,7 +121,7 @@ export const tourProps = buildProps({
 })
 
 export type TourProps = ExtractPropTypes<typeof tourProps>
-export type TourPropsPublic = __ExtractPublicPropTypes<typeof tourProps>
+export type TourPropsPublic = ExtractPublicPropTypes<typeof tourProps>
 export type TourInstance = InstanceType<typeof Tour> & unknown
 
 export const tourEmits = {

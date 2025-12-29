@@ -1,6 +1,6 @@
 import path from 'path'
 import { existsSync } from 'fs'
-import glob from 'fast-glob'
+import { glob } from 'tinyglobby'
 import { Octokit } from 'octokit'
 import consola from 'consola'
 import chalk from 'chalk'
@@ -155,10 +155,12 @@ const getContributorsByComponents = async (components: string[]) => {
 async function getContributors() {
   if (!process.env.GITHUB_TOKEN) throw new Error('GITHUB_TOKEN is empty')
 
-  const components = await glob('*', {
-    cwd: path.resolve(projRoot, 'packages/components'),
-    onlyDirectories: true,
-  })
+  const components = (
+    await glob('*', {
+      cwd: path.resolve(projRoot, 'packages/components'),
+      onlyDirectories: true,
+    })
+  ).map((name) => name.replace(/\/$/, ''))
   let contributors: Record<string, ContributorInfo[]> = {}
 
   consola.info('Fetching contributors...')

@@ -178,6 +178,14 @@ export const useCalendar = (
     }
   }
 
+  const handleDateChange = (date: Dayjs | 'today') => {
+    if (date === 'today') {
+      selectDate('today')
+    } else {
+      pickDay(date)
+    }
+  }
+
   return {
     calculateValidatedDateRange,
     date,
@@ -185,5 +193,6 @@ export const useCalendar = (
     pickDay,
     selectDate,
     validatedRange,
+    handleDateChange,
   }
 }

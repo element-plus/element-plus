@@ -1,8 +1,8 @@
 <script lang="ts">
 import { computed, defineComponent, h, onMounted, reactive, ref } from 'vue'
 import { pick } from 'lodash-unified'
-import ElSelect from '@element-plus/components/select'
-import ElTree from '@element-plus/components/tree'
+import { ElSelect, selectProps } from '@element-plus/components/select'
+import { ElTree, treeProps } from '@element-plus/components/tree'
 import { useSelect } from './select'
 import { useTree } from './tree'
 import CacheOptions from './cache-options'
@@ -15,8 +15,8 @@ export default defineComponent({
   // disable `ElSelect` inherit current attrs
   inheritAttrs: false,
   props: {
-    ...ElSelect.props,
-    ...ElTree.props,
+    ...selectProps,
+    ...treeProps,
     /**
      * @description The cached data of the lazy node, the structure is the same as the data, used to get the label of the unloaded data
      */

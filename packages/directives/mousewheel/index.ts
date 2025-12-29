@@ -5,13 +5,13 @@ import type { NormalizedWheelEvent } from 'normalize-wheel-es'
 
 export const SCOPE = '_Mousewheel'
 
-interface WheelElement extends HTMLElement {
+export interface WheelElement extends HTMLElement {
   [SCOPE]: null | {
     wheelHandler?: (event: WheelEvent) => void
   }
 }
 
-type MousewheelCallback = (
+export type MousewheelCallback = (
   e: WheelEvent,
   normalized: NormalizedWheelEvent
 ) => void
