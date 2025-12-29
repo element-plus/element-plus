@@ -595,7 +595,7 @@ const updateStyle = () => {
       if (prefix) {
         left = prefix.offsetWidth
         if (left > 0) {
-          left += 8 // 8 is the default padding of el-input__wrapper
+          left += 11 // 11 is the default padding of el-input__wrapper
         }
       }
       tagWrapperEl.style.left = `${left}px`
