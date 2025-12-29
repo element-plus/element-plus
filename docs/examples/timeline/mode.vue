@@ -5,7 +5,7 @@
     <el-radio-button label="right" value="right" />
   </el-radio-group>
 
-  <el-timeline class="mt-4" style="max-width: 600px" :mode="mode">
+  <el-timeline class="mt-4" :mode="mode">
     <el-timeline-item
       v-for="(activity, index) in activities"
       :key="index"
