@@ -42,7 +42,7 @@ const useWheel = (
 
     offset += newOffset
 
-    if (!isFirefox()) {
+    if (!isFirefox() && newOffset !== 0) {
       e.preventDefault()
     }
 
