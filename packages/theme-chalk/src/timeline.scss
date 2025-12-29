@@ -46,6 +46,7 @@
 
   @include when(left) {
     padding-left: 40px;
+    padding-right: 0;
   }
 
   @include when(right) {
