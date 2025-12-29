@@ -17,6 +17,16 @@ timeline/basic
 
 :::
 
+## Mode ^(2.13.1)
+
+Use `mode` to control the relative position of timeline and content.
+
+:::demo
+
+timeline/mode
+
+:::
+
 ## Custom node
 
 Size, color, and icons can be customized in node.
