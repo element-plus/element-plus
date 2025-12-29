@@ -177,6 +177,14 @@ export const menuProps = buildProps({
     type: Boolean,
     default: true,
   },
+  /**
+   * @description After activating the `vue-router` mode, the default way of navigation is based on the `path`.
+   */
+  navigationMode: {
+    type: String,
+    values: ['path', 'name'],
+    default: 'path',
+  },
 } as const)
 export type MenuProps = ExtractPropTypes<typeof menuProps>
 export type MenuPropsPublic = ExtractPublicPropTypes<typeof menuProps>
@@ -300,10 +308,12 @@ export default defineComponent({
 
       if (props.router && router) {
         const route = menuItem.route || index
-        const routerResult = router.push(route).then((res) => {
-          if (!res) activeIndex.value = index
-          return res
-        })
+        const routerResult = router
+          .push({ [props.navigationMode]: route })
+          .then((res) => {
+            if (!res) activeIndex.value = index
+            return res
+          })
         emit(
           'select',
           index,
