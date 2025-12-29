@@ -160,15 +160,16 @@ form/accessibility
 
 ### Form Exposes
 
-| Name               | Description                                                        | Type                                                                                                                              |
-| ------------------ | ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
-| validate           | Validate the whole form. Receives a callback or returns `Promise`. | ^[Function]`(callback?: FormValidateCallback) => Promise<void>`                                                                   |
-| validateField      | Validate specified fields.                                         | ^[Function]`(props?: Arrayable<FormItemProp> \| undefined, callback?: FormValidateCallback \| undefined) => FormValidationResult` |
-| resetFields        | Reset specified fields and remove validation result.               | ^[Function]`(props?: Arrayable<FormItemProp> \| undefined) => void`                                                               |
-| scrollToField      | Scroll to the specified fields.                                    | ^[Function]`(prop: FormItemProp) => void`                                                                                         |
-| clearValidate      | Clear validation messages for all or specified fields.             | ^[Function]`(props?: Arrayable<FormItemProp> \| undefined) => void`                                                               |
-| fields ^(2.7.3)    | Get all fields context.                                            | ^[array]`FormItemContext[]`                                                                                                       |
-| getField ^(2.10.2) | Get a field context.                                               | ^[Function]`(prop: FormItemProp) => FormItemContext \| undefined`                                                                 |
+| Name               | Description                                                                                                                                              | Type                                                                                                                              |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| validate           | Validate the whole form. Receives a callback or returns `Promise`.                                                                                       | ^[Function]`(callback?: FormValidateCallback) => Promise<void>`                                                                   |
+| validateField      | Validate specified fields.                                                                                                                               | ^[Function]`(props?: Arrayable<FormItemProp> \| undefined, callback?: FormValidateCallback \| undefined) => FormValidationResult` |
+| resetFields        | Reset specified fields and remove validation result.                                                                                                     | ^[Function]`(props?: Arrayable<FormItemProp> \| undefined) => void`                                                               |
+| scrollToField      | Scroll to the specified fields.                                                                                                                          | ^[Function]`(prop: FormItemProp) => void`                                                                                         |
+| clearValidate      | Clear validation messages for all or specified fields.                                                                                                   | ^[Function]`(props?: Arrayable<FormItemProp> \| undefined) => void`                                                               |
+| fields ^(2.7.3)    | Get all fields context.                                                                                                                                  | ^[array]`FormItemContext[]`                                                                                                       |
+| getField ^(2.10.2) | Get a field context.                                                                                                                                     | ^[Function]`(prop: FormItemProp) => FormItemContext \| undefined`                                                                 |
+| setInitialValues   | Set initial values for form fields. When `resetFields` is called, fields will reset to these values. Only fields present in `initModel` will be updated. | ^[Function]`(initModel: Record<string, any>) => void`                                                                             |
 
 ## FormItem API
 
@@ -211,14 +212,15 @@ If you don't want to trigger the validator based on input events, set the `valid
 
 ### FormItem Exposes
 
-| Name            | Description                                       | Type                                                                                                 |
-| --------------- | ------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| size            | Form item size.                                   | ^[object]`ComputedRef<'' \| 'large' \| 'default' \| 'small'>`                                        |
-| validateMessage | Validation message.                               | ^[object]`Ref<string>`                                                                               |
-| validateState   | Validation state.                                 | ^[object]`Ref<'' \| 'error' \| 'validating' \| 'success'>`                                           |
-| validate        | Validate form item.                               | ^[Function]`(trigger: string, callback?: FormValidateCallback \| undefined) => FormValidationResult` |
-| resetField      | Reset current field and remove validation result. | ^[Function]`() => void`                                                                              |
-| clearValidate   | Remove validation status of the field.            | ^[Function]`() => void`                                                                              |
+| Name            | Description                                                                                        | Type                                                                                                 |
+| --------------- | -------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| size            | Form item size.                                                                                    | ^[object]`ComputedRef<'' \| 'large' \| 'default' \| 'small'>`                                        |
+| validateMessage | Validation message.                                                                                | ^[object]`Ref<string>`                                                                               |
+| validateState   | Validation state.                                                                                  | ^[object]`Ref<'' \| 'error' \| 'validating' \| 'success'>`                                           |
+| validate        | Validate form item.                                                                                | ^[Function]`(trigger: string, callback?: FormValidateCallback \| undefined) => FormValidationResult` |
+| resetField      | Reset current field and remove validation result.                                                  | ^[Function]`() => void`                                                                              |
+| clearValidate   | Remove validation status of the field.                                                             | ^[Function]`() => void`                                                                              |
+| setInitialValue | Set initial value for this field. When `resetField` is called, the field will reset to this value. | ^[Function]`(value: any) => void`                                                                    |
 
 ## Type Declarations
 
