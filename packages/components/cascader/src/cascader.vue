@@ -291,6 +291,7 @@ defineOptions({
 const props = defineProps(cascaderProps)
 const emit = defineEmits(cascaderEmits)
 const attrs = useAttrs()
+const slots = defineSlots()
 
 let inputInitialHeight = 0
 let pressDeleteCount = 0
@@ -585,6 +586,17 @@ const updateStyle = () => {
         ? `${Math.max(offsetHeight, inputInitialHeight) - 2}px`
         : `${inputInitialHeight}px`
     inputInner.style.height = height
+    // if prefix slot exists, update tagWrapperEl left position
+    if (slots.prefix) {
+      const prefix = inputRef.value?.$el.querySelector(
+        `.${nsInput.e('prefix')}`
+      ) as HTMLElement
+      if (prefix) {
+        tagWrapperEl.style.left = `${prefix.offsetWidth + 11}px`
+      }
+    } else {
+      tagWrapperEl.style.left = `0`
+    }
     updatePopperPosition()
   }
 }
