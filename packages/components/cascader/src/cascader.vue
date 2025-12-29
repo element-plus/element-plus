@@ -591,9 +591,14 @@ const updateStyle = () => {
       const prefix = inputRef.value?.$el.querySelector(
         `.${nsInput.e('prefix')}`
       ) as HTMLElement
+      let left = 0
       if (prefix) {
-        tagWrapperEl.style.left = `${prefix.offsetWidth + 11}px`
+        left = prefix.offsetWidth
+        if (left > 0) {
+          left += 8 // 8 is the default padding of el-input__wrapper
+        }
       }
+      tagWrapperEl.style.left = `${left}px`
     } else {
       tagWrapperEl.style.left = `0`
     }
