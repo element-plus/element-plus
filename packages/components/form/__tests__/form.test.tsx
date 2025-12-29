@@ -1020,4 +1020,603 @@ describe('Form', () => {
       expect(onSubmit).toHaveBeenCalled()
     })
   })
+
+  describe('setInitialValues', () => {
+    it('should update initial values for all fields', async () => {
+      vi.useFakeTimers()
+      const form = reactive({
+        name: '',
+        age: '',
+        address: '',
+      })
+      const wrapper = mount({
+        setup() {
+          return { form }
+        },
+        render() {
+          return (
+            <Form ref="formRef" model={form}>
+              <FormItem label="Name" prop="name">
+                <Input v-model={form.name} />
+              </FormItem>
+              <FormItem label="Age" prop="age">
+                <Input v-model={form.age} />
+              </FormItem>
+              <FormItem label="Address" prop="address">
+                <Input v-model={form.address} />
+              </FormItem>
+            </Form>
+          )
+        },
+      })
+
+      await nextTick()
+
+      const formRef = wrapper.findComponent({ ref: 'formRef' })
+        .vm as FormInstance
+
+      // 修改表单值
+      form.name = 'John'
+      form.age = '25'
+      form.address = 'New York'
+      await nextTick()
+
+      // 设置新的初始值
+      formRef.setInitialValues({
+        name: 'InitName',
+        age: '30',
+        address: 'Los Angeles',
+      })
+      await nextTick()
+
+      // 再次修改表单值
+      form.name = 'Modified'
+      form.age = '40'
+      form.address = 'Chicago'
+      await nextTick()
+
+      // 重置表单，应该重置到 setInitialValues 设置的值
+      formRef.resetFields()
+      await nextTick()
+      vi.runAllTimers()
+      await nextTick()
+
+      expect(form.name).toBe('InitName')
+      expect(form.age).toBe('30')
+      expect(form.address).toBe('Los Angeles')
+
+      vi.useRealTimers()
+    })
+
+    it('should work with nested object properties', async () => {
+      vi.useFakeTimers()
+      const form = reactive({
+        user: {
+          name: '',
+          info: {
+            age: '',
+          },
+        },
+      })
+      const wrapper = mount({
+        setup() {
+          return { form }
+        },
+        render() {
+          return (
+            <Form ref="formRef" model={form}>
+              <FormItem label="Name" prop={['user', 'name']}>
+                <Input v-model={form.user.name} />
+              </FormItem>
+              <FormItem label="Age" prop={['user', 'info', 'age']}>
+                <Input v-model={form.user.info.age} />
+              </FormItem>
+            </Form>
+          )
+        },
+      })
+
+      await nextTick()
+
+      const formRef = wrapper.findComponent({ ref: 'formRef' })
+        .vm as FormInstance
+
+      // 修改表单值
+      form.user.name = 'John'
+      form.user.info.age = '25'
+      await nextTick()
+
+      // 设置新的初始值
+      formRef.setInitialValues({
+        user: {
+          name: 'InitName',
+          info: {
+            age: '30',
+          },
+        },
+      })
+      await nextTick()
+
+      // 再次修改表单值
+      form.user.name = 'Modified'
+      form.user.info.age = '40'
+      await nextTick()
+
+      // 重置表单
+      formRef.resetFields()
+      await nextTick()
+      vi.runAllTimers()
+      await nextTick()
+
+      expect(form.user.name).toBe('InitName')
+      expect(form.user.info.age).toBe('30')
+
+      vi.useRealTimers()
+    })
+
+    it('should work with partial field updates', async () => {
+      vi.useFakeTimers()
+      const form = reactive({
+        name: 'DefaultName',
+        age: '20',
+        address: 'DefaultAddress',
+      })
+      const wrapper = mount({
+        setup() {
+          return { form }
+        },
+        render() {
+          return (
+            <Form ref="formRef" model={form}>
+              <FormItem label="Name" prop="name">
+                <Input v-model={form.name} />
+              </FormItem>
+              <FormItem label="Age" prop="age">
+                <Input v-model={form.age} />
+              </FormItem>
+              <FormItem label="Address" prop="address">
+                <Input v-model={form.address} />
+              </FormItem>
+            </Form>
+          )
+        },
+      })
+
+      await nextTick()
+
+      const formRef = wrapper.findComponent({ ref: 'formRef' })
+        .vm as FormInstance
+
+      // 只更新部分字段的初始值
+      formRef.setInitialValues({
+        name: 'NewInitName',
+        age: '25',
+      })
+      await nextTick()
+
+      // 修改所有字段
+      form.name = 'Modified'
+      form.age = '30'
+      form.address = 'ModifiedAddress'
+      await nextTick()
+
+      // 重置表单
+      formRef.resetFields()
+      await nextTick()
+      vi.runAllTimers()
+      await nextTick()
+
+      // name 和 age 应该重置到新的初始值
+      expect(form.name).toBe('NewInitName')
+      expect(form.age).toBe('25')
+      // address 没有设置新初始值，应该保持原始挂载时的值
+      expect(form.address).toBe('DefaultAddress')
+
+      vi.useRealTimers()
+    })
+  })
+
+  describe('setInitialValue (FormItem)', () => {
+    it('should update initial value for single field', async () => {
+      vi.useFakeTimers()
+      const form = reactive({
+        name: '',
+        age: '',
+      })
+      const wrapper = mount({
+        setup() {
+          return { form }
+        },
+        render() {
+          return (
+            <Form ref="formRef" model={form}>
+              <FormItem ref="nameItem" label="Name" prop="name">
+                <Input v-model={form.name} />
+              </FormItem>
+              <FormItem label="Age" prop="age">
+                <Input v-model={form.age} />
+              </FormItem>
+            </Form>
+          )
+        },
+      })
+
+      await nextTick()
+
+      const formRef = wrapper.findComponent({ ref: 'formRef' })
+        .vm as FormInstance
+      const nameItem = wrapper.findComponent({ ref: 'nameItem' })
+        .vm as FormItemInstance
+
+      // 修改字段值
+      form.name = 'John'
+      form.age = '25'
+      await nextTick()
+
+      // 仅为 name 字段设置新的初始值
+      nameItem.setInitialValue('CustomInitName')
+      await nextTick()
+
+      // 再次修改字段值
+      form.name = 'Modified'
+      form.age = '30'
+      await nextTick()
+
+      // 重置表单
+      formRef.resetFields()
+      await nextTick()
+      vi.runAllTimers()
+      await nextTick()
+
+      // name 应该重置到自定义的初始值
+      expect(form.name).toBe('CustomInitName')
+      // age 应该重置到挂载时的原始值
+      expect(form.age).toBe('')
+
+      vi.useRealTimers()
+    })
+
+    it('should work with getField and setInitialValue', async () => {
+      vi.useFakeTimers()
+      const form = reactive({
+        name: '',
+        email: '',
+      })
+      const wrapper = mount({
+        setup() {
+          return { form }
+        },
+        render() {
+          return (
+            <Form ref="formRef" model={form}>
+              <FormItem label="Name" prop="name">
+                <Input v-model={form.name} />
+              </FormItem>
+              <FormItem label="Email" prop="email">
+                <Input v-model={form.email} />
+              </FormItem>
+            </Form>
+          )
+        },
+      })
+
+      await nextTick()
+
+      const formRef = wrapper.findComponent({ ref: 'formRef' })
+        .vm as FormInstance
+
+      // 通过 getField 获取字段并设置初始值
+      const nameField = formRef.getField('name')
+      nameField?.setInitialValue('FieldInitName')
+
+      const emailField = formRef.getField('email')
+      emailField?.setInitialValue('test@example.com')
+
+      await nextTick()
+
+      // 修改字段值
+      form.name = 'Modified'
+      form.email = 'modified@test.com'
+      await nextTick()
+
+      // 重置表单
+      formRef.resetFields()
+      await nextTick()
+      vi.runAllTimers()
+      await nextTick()
+
+      expect(form.name).toBe('FieldInitName')
+      expect(form.email).toBe('test@example.com')
+
+      vi.useRealTimers()
+    })
+
+    it('should allow resetting single field with custom initial value', async () => {
+      vi.useFakeTimers()
+      const form = reactive({
+        name: '',
+        age: '',
+      })
+      const wrapper = mount({
+        setup() {
+          return { form }
+        },
+        render() {
+          return (
+            <Form ref="formRef" model={form}>
+              <FormItem ref="nameItem" label="Name" prop="name">
+                <Input v-model={form.name} />
+              </FormItem>
+              <FormItem label="Age" prop="age">
+                <Input v-model={form.age} />
+              </FormItem>
+            </Form>
+          )
+        },
+      })
+
+      await nextTick()
+
+      const nameItem = wrapper.findComponent({ ref: 'nameItem' })
+        .vm as FormItemInstance
+
+      // 设置自定义初始值
+      nameItem.setInitialValue('CustomName')
+      await nextTick()
+
+      // 修改字段
+      form.name = 'Modified'
+      form.age = '30'
+      await nextTick()
+
+      // 仅重置 name 字段
+      nameItem.resetField()
+      await nextTick()
+      vi.runAllTimers()
+      await nextTick()
+
+      // name 应该重置到自定义初始值
+      expect(form.name).toBe('CustomName')
+      // age 不应该被重置
+      expect(form.age).toBe('30')
+
+      vi.useRealTimers()
+    })
+
+    it('should support setInitialValue to update field reset value', async () => {
+      vi.useFakeTimers()
+      const form = reactive({
+        username: 'initial',
+        email: 'initial@test.com',
+      })
+      const wrapper = mount({
+        setup() {
+          return { form }
+        },
+        render() {
+          return (
+            <Form ref="formRef" model={form}>
+              <FormItem ref="usernameItem" label="Username" prop="username">
+                <Input v-model={form.username} />
+              </FormItem>
+              <FormItem label="Email" prop="email">
+                <Input v-model={form.email} />
+              </FormItem>
+            </Form>
+          )
+        },
+      })
+
+      await nextTick()
+
+      const usernameItem = wrapper.findComponent({ ref: 'usernameItem' })
+        .vm as FormItemInstance
+
+      // 修改字段值
+      form.username = 'modified'
+      form.email = 'modified@test.com'
+      await nextTick()
+
+      // 动态设置新的初始值
+      usernameItem.setInitialValue('newInitial')
+      await nextTick()
+
+      // 重置该字段
+      usernameItem.resetField()
+      await nextTick()
+      vi.runAllTimers()
+      await nextTick()
+
+      // 应该重置到新设置的初始值
+      expect(form.username).toBe('newInitial')
+      // email 不受影响
+      expect(form.email).toBe('modified@test.com')
+
+      vi.useRealTimers()
+    })
+
+    it('should support setInitialValues to update all fields reset values', async () => {
+      vi.useFakeTimers()
+      const form = reactive({
+        name: 'oldName',
+        age: '20',
+        city: 'oldCity',
+      })
+      const wrapper = mount({
+        setup() {
+          return { form }
+        },
+        render() {
+          return (
+            <Form ref="formRef" model={form}>
+              <FormItem label="Name" prop="name">
+                <Input v-model={form.name} />
+              </FormItem>
+              <FormItem label="Age" prop="age">
+                <Input v-model={form.age} />
+              </FormItem>
+              <FormItem label="City" prop="city">
+                <Input v-model={form.city} />
+              </FormItem>
+            </Form>
+          )
+        },
+      })
+
+      await nextTick()
+
+      const formRef = wrapper.findComponent({ ref: 'formRef' })
+        .vm as FormInstance
+
+      // 修改所有字段
+      form.name = 'modified'
+      form.age = '99'
+      form.city = 'modifiedCity'
+      await nextTick()
+
+      // 设置新的初始值集合
+      formRef.setInitialValues({
+        name: 'newName',
+        age: '25',
+        city: 'newCity',
+      })
+      await nextTick()
+
+      // 重置所有字段
+      formRef.resetFields()
+      await nextTick()
+      vi.runAllTimers()
+      await nextTick()
+
+      // 所有字段应该重置到新的初始值
+      expect(form.name).toBe('newName')
+      expect(form.age).toBe('25')
+      expect(form.city).toBe('newCity')
+
+      vi.useRealTimers()
+    })
+
+    it('should support setInitialValues with partial fields', async () => {
+      vi.useFakeTimers()
+      const form = reactive({
+        name: 'oldName',
+        age: '20',
+        email: 'old@test.com',
+      })
+      const wrapper = mount({
+        setup() {
+          return { form }
+        },
+        render() {
+          return (
+            <Form ref="formRef" model={form}>
+              <FormItem label="Name" prop="name">
+                <Input v-model={form.name} />
+              </FormItem>
+              <FormItem label="Age" prop="age">
+                <Input v-model={form.age} />
+              </FormItem>
+              <FormItem label="Email" prop="email">
+                <Input v-model={form.email} />
+              </FormItem>
+            </Form>
+          )
+        },
+      })
+
+      await nextTick()
+
+      const formRef = wrapper.findComponent({ ref: 'formRef' })
+        .vm as FormInstance
+
+      // 仅更新部分字段的初始值
+      formRef.setInitialValues({
+        name: 'partialName',
+        age: '30',
+      })
+      await nextTick()
+
+      // 修改所有字段
+      form.name = 'modified1'
+      form.age = '99'
+      form.email = 'modified@test.com'
+      await nextTick()
+
+      // 重置所有字段
+      formRef.resetFields()
+      await nextTick()
+      vi.runAllTimers()
+      await nextTick()
+
+      // name 和 age 重置到新初始值
+      expect(form.name).toBe('partialName')
+      expect(form.age).toBe('30')
+      // email 重置到挂载时的值
+      expect(form.email).toBe('old@test.com')
+
+      vi.useRealTimers()
+    })
+
+    it('should support setInitialValues for nested properties', async () => {
+      vi.useFakeTimers()
+      const form = reactive({
+        user: {
+          profile: {
+            name: 'oldName',
+            age: 20,
+          },
+        },
+      })
+      const wrapper = mount({
+        setup() {
+          return { form }
+        },
+        render() {
+          return (
+            <Form ref="formRef" model={form}>
+              <FormItem label="Name" prop={['user', 'profile', 'name']}>
+                <Input v-model={form.user.profile.name} />
+              </FormItem>
+              <FormItem label="Age" prop={['user', 'profile', 'age']}>
+                <Input v-model={form.user.profile.age} />
+              </FormItem>
+            </Form>
+          )
+        },
+      })
+
+      await nextTick()
+
+      const formRef = wrapper.findComponent({ ref: 'formRef' })
+        .vm as FormInstance
+
+      // 设置嵌套属性的初始值
+      formRef.setInitialValues({
+        user: {
+          profile: {
+            name: 'nestedName',
+            age: 30,
+          },
+        },
+      })
+      await nextTick()
+
+      // 修改字段
+      form.user.profile.name = 'modified'
+      form.user.profile.age = 99
+      await nextTick()
+
+      // 重置
+      formRef.resetFields()
+      await nextTick()
+      vi.runAllTimers()
+      await nextTick()
+
+      // 应该重置到新初始值
+      expect(form.user.profile.name).toBe('nestedName')
+      expect(form.user.profile.age).toBe(30)
+
+      vi.useRealTimers()
+    })
+  })
 })

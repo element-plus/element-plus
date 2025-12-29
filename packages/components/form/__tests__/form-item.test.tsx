@@ -232,4 +232,177 @@ describe('ElFormItem', () => {
     expect(labelSlot.exists()).toBe(true)
     expect(labelSlot.text()).toBe(AXIOM)
   })
+
+  describe('setInitialValue', () => {
+    it('should allow setting custom initial value for reset', async () => {
+      vi.useFakeTimers()
+      const form = reactive({
+        username: 'original',
+      })
+      const wrapper = mount({
+        setup() {
+          return { form }
+        },
+        render() {
+          return (
+            <Form model={form}>
+              <FormItem ref="usernameItem" label="Username" prop="username">
+                <Input v-model={form.username} />
+              </FormItem>
+            </Form>
+          )
+        },
+      })
+
+      await nextTick()
+
+      const formItemRef = wrapper.findComponent({ ref: 'usernameItem' })
+        .vm as FormItemInstance
+
+      // 设置自定义初始值
+      formItemRef.setInitialValue('customInitial')
+      await nextTick()
+
+      // 修改字段值
+      form.username = 'modified'
+      await nextTick()
+
+      // 重置字段
+      formItemRef.resetField()
+      await nextTick()
+      vi.runAllTimers()
+      await nextTick()
+
+      // 应该重置到自定义初始值
+      expect(form.username).toBe('customInitial')
+
+      vi.useRealTimers()
+    })
+
+    it('should support updating initial value multiple times', async () => {
+      vi.useFakeTimers()
+      const form = reactive({
+        value: 'first',
+      })
+      const wrapper = mount({
+        setup() {
+          return { form }
+        },
+        render() {
+          return (
+            <Form model={form}>
+              <FormItem ref="valueItem" label="Value" prop="value">
+                <Input v-model={form.value} />
+              </FormItem>
+            </Form>
+          )
+        },
+      })
+
+      await nextTick()
+
+      const formItemRef = wrapper.findComponent({ ref: 'valueItem' })
+        .vm as FormItemInstance
+
+      // 第一次设置初始值
+      formItemRef.setInitialValue('second')
+      form.value = 'changed'
+      await nextTick()
+
+      formItemRef.resetField()
+      await nextTick()
+      vi.runAllTimers()
+      await nextTick()
+
+      expect(form.value).toBe('second')
+
+      // 第二次更新初始值
+      formItemRef.setInitialValue('third')
+      form.value = 'changed_again'
+      await nextTick()
+
+      formItemRef.resetField()
+      await nextTick()
+      vi.runAllTimers()
+      await nextTick()
+
+      expect(form.value).toBe('third')
+
+      vi.useRealTimers()
+    })
+
+    it('should work with different value types', async () => {
+      vi.useFakeTimers()
+      const form = reactive({
+        number: 0,
+        bool: false,
+        array: [],
+        obj: {},
+      })
+      const wrapper = mount({
+        setup() {
+          return { form }
+        },
+        render() {
+          return (
+            <Form model={form}>
+              <FormItem ref="numberItem" prop="number">
+                <Input v-model={form.number} />
+              </FormItem>
+              <FormItem ref="boolItem" prop="bool">
+                <Input v-model={form.bool} />
+              </FormItem>
+              <FormItem ref="arrayItem" prop="array">
+                <Input v-model={form.array} />
+              </FormItem>
+              <FormItem ref="objItem" prop="obj">
+                <Input v-model={form.obj} />
+              </FormItem>
+            </Form>
+          )
+        },
+      })
+
+      await nextTick()
+
+      const numberItem = wrapper.findComponent({ ref: 'numberItem' })
+        .vm as FormItemInstance
+      const boolItem = wrapper.findComponent({ ref: 'boolItem' })
+        .vm as FormItemInstance
+      const arrayItem = wrapper.findComponent({ ref: 'arrayItem' })
+        .vm as FormItemInstance
+      const objItem = wrapper.findComponent({ ref: 'objItem' })
+        .vm as FormItemInstance
+
+      // 设置不同类型的初始值
+      numberItem.setInitialValue(100)
+      boolItem.setInitialValue(true)
+      arrayItem.setInitialValue([1, 2, 3])
+      objItem.setInitialValue({ key: 'value' })
+
+      // 修改值
+      form.number = 999
+      form.bool = false
+      form.array = []
+      form.obj = {}
+      await nextTick()
+
+      // 重置
+      numberItem.resetField()
+      boolItem.resetField()
+      arrayItem.resetField()
+      objItem.resetField()
+      await nextTick()
+      vi.runAllTimers()
+      await nextTick()
+
+      // 验证重置结果
+      expect(form.number).toBe(100)
+      expect(form.bool).toBe(true)
+      expect(form.array).toEqual([1, 2, 3])
+      expect(form.obj).toEqual({ key: 'value' })
+
+      vi.useRealTimers()
+    })
+  })
 })

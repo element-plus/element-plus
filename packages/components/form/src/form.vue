@@ -76,7 +76,10 @@ const setInitialValues: FormContext['setInitialValues'] = (initModel) => {
   fields.forEach((field) => {
     if (field.prop) {
       const initValue = getProp(initModel, field.prop).value
-      field.setInitialValue(initValue)
+      // 只更新 initModel 中存在的字段，避免将未定义字段重置为 undefined
+      if (initValue !== undefined) {
+        field.setInitialValue(initValue)
+      }
     }
   })
 }
