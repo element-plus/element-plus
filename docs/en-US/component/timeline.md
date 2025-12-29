@@ -64,7 +64,7 @@ timeline/reverse
 | Name              | Description                               | Type                                      | Default |
 | ----------------- | ----------------------------------------- | ----------------------------------------- | ------- |
 | reverse ^(2.11.9) | whether reverse order                     | ^[boolean]                                | false   |
-| mode ^(2.13.0)    | relative position of timeline and content | ^[enum]`'left' \| 'alternate' \| 'right'` | left    |
+| mode ^(2.13.1)    | relative position of timeline and content | ^[enum]`'left' \| 'alternate' \| 'right'` | left    |
 
 ### Timeline Slots
 
