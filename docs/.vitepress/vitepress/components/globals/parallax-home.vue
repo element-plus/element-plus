@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref } from 'vue'
 import { withBase } from 'vitepress'
-import { useEventListener, useParallax, useThrottleFn } from '@vueuse/core'
+import {
+  isClient,
+  useEventListener,
+  useParallax,
+  useThrottleFn,
+} from '@vueuse/core'
 import { useLang } from '../../composables/lang'
 import homeLocale from '../../../i18n/pages/home.json'
 import HomeSponsors from '../home/home-sponsors.vue'
@@ -20,8 +25,9 @@ const lang = useLang()
 const homeLang = computed(() => homeLocale[lang.value])
 
 function jumpTo(path: string) {
+  if (!isClient) return
   // vitepress has not router
-  location.href = `/${lang.value}/${path}`
+  window.location.href = `/${lang.value}/${path}`
 }
 
 const containerStyle: CSSProperties = {

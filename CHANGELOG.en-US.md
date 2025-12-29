@@ -1,6 +1,127 @@
 ## Changelog
 
 
+### 2.13.0
+
+_2025-12-19_
+
+#### Features
+
+- Components [dropdown] add append-to (#23001 by @Dsaquel)
+- Components [table-v2] accessibility enhancement (#22983 by @tolking)
+- Components [switch] add active & inactive slots (#22429 by @Dsaquel)
+- Components [affix] support append-to and teleported (#23053 by @micaiguai)
+- Other: upgrade to Vue 3.5 (#22096 by @makedopamine)
+
+#### Bug fixes
+
+- Theme-chalk [table-column] remove shadow on border (#19942 by @HaceraI)
+- Components [timepicker] fix `disabled` props (#23022 by @jeff-fe)
+- Components [select/select-v2] prevent dropdown closing on mixed input (#22869 by @SpanManX)
+- Components [data-picker] the panel `disabled` state should the same as component (#23029 by @jeff-fe)
+- Components [dialog] cannot be clicked when closed (#22978 by @lxKylin)
+- Components [date-picker] sync input value with time-picker (#20713 by @Dsaquel)
+- Components [date-picker] input should not be editable when editable is false (#23085 by @keeplearning66)
+- Components [date-picker-panel] remove pick emit declaration (#23081 by @Dsaquel)
+- `uno.css` imported multiple times (#23106 by @btea)
+- Publish catalog dep (#23135 by @btea)
+- Components [date-picker-panel] remove incorrect is-disabled class from range panel header (#23113 by @shanecranor)
+- Docs numerous error messages during website build (#23152 by @btea)
+- Components [tree] add optional chains to ensure `el$` exists (#23137 by @xjh22222228)
+- Components [date-picker] duplicate panels after confirm time (#23158 by @Dsaquel)
+- Components [table] ts-plugin(4023) error (#23161 by @rzzf)
+- Components [tabs] avoid resizeObserver loop when updating tab nav (#22966 by @rzzf)
+- Style(components): [date-picker] text and icons are vertical misaligned (#23110 by @btea)
+- Style(components): [form/form-item] separate form and form-item styles (#23142 by @rzzf)
+- Style(components): [checkbox] resolve border flicker in dropdown (#23121 by @rzzf)
+- Style: compatible with new versions of sass (#23070 by @warmthsea)
+- Style(components): [radio] inner add transition (#23083 by @btea)
+- Style(theme-chalk): [menu] remove outline when hover in chrome (#22994 by @Dsaquel)
+- Perf(components): [tree] resolve memory leak occurring after data update (#23055 by @rzzf)
+
+### 2.12.0
+
+_2025-12-05_
+
+#### Features
+
+- Components [menu] apply popper-class and popper-style to the tooltip of the title (#22908 by @keeplearning66)
+- Components [table] accessibility enhancement (#22432 by @tolking)
+- Components [tag] a11y (#22530 by @Dsaquel)
+
+#### Bug fixes
+
+- Components [splitter] runtime validation failed for update:size (#22957 by @rzzf)
+- Components [splitter] display the mask after panel update (#22954 by @rzzf)
+- Components [table-column] reactively update filterable state (#22879 by @tuzixiangs)
+- Components [anchor] prevent scroll stutter on rapid clicks (#22964 by @tuzixiangs)
+- Components [select] ensure dropdown remains open when filterable (#22975 by @tolking)
+- Theme-chalk [upload]: incorrect padding value for el-upload-dragger (#14903 by @qdechochen)
+- Components [radio & checkbox] fix button wrap style (#22073 by @SpanManX)
+- Components [message-box] disable page scroll when dialog open (#22981 by @rzzf)
+- Components [tab] fix style when tab position is bottom (#18425 by @btea)
+- Components [focus-trap, popper, tooltip] memory leak (#20147 by @gjfei)
+- Components [table] try load data only when expanding row (#21678 by @KeroZhai)
+- Style(theme-chalk): [form-item] reset top position label padding-right (#22965 by @duyidao)
+- Improvement(components): [table] keep cursor style during drag (#22915 by @rzzf)
+- Style(theme-chalk): dark mode component bg-color transparent on overlay (#10890 by @loosheng)
+- Style(components): [cascader] cascader-panel fit width (#21497 by @zhixiaotong)
+- Style(theme-chalk): [card]: grow body height (#22829 by @Dsaquel)
+
+#### Refactors
+
+- !: the disabled value of component has the highest priority (#18739 by @btea)
+
+### 2.11.9
+
+_2025-11-28_
+
+#### Features
+
+- Components [splitter] expose `splitterPanelRef` (#22791 by @keeplearning66)
+- Components [tabs] add default-value prop, suppress flicker (#22815 by @yicheny)
+- Components [button-group]: add direction prop (#18906 by @VisualYuki)
+- Components [select-v2] add `remote-show-suffix` prop (#22885 by @alonely-boy)
+- Components [timeline] add `reverse` prop (#22931 by @rzzf)
+- Components [tree-select] add instance type and improve test cleanup logic (#22499 by @warmthsea)
+
+#### Bug fixes
+
+- Components [tree] checkbox selection wrong with disabled nodes (#22711 by @rzzf)
+- Components [input] fixed the onchange parameter when type is file (#14687 by @cc-hearts)
+- Utils [addUnit] handle 0 value correctly (#22808 by @rzzf)
+- Theme-chalk [anchor] update link styles for hover and focus states (#22841 by @tolking)
+- Components [popconfirm] fallthrough virtual-ref & virtual-triggering (#22843 by @rzzf)
+- Components [input] fix resize not working (#13841 by @ls57765867)
+- Components [virtual-list] prevent scroll from exceeding its bounds (#22786 by @rzzf)
+- Components [table] avoid height loop (#22838 by @yicheny)
+- Components [select-v2] ResizeObserver loop completed with undelivered notifications (#22895 by @keeplearning66)
+- Components [select] shouldn't add `is-hovering` to disabled option (#22845 by @Putia3)
+- Components [select/select-v2] correct the trigger timing of visible-change (#22897 by @keeplearning66)
+- Components [time-picker] avoid incorrect values after losing focus (#22880 by @keeplearning66)
+- Components [table] prevent incorrect drag when resizable is false (#22327 by @keeplearning66)
+- Components [image-viewer]: add touch event in mobile (#12550 by @mipawn)
+- Components [tabs] default-value support and update demo for docs (#22896 by @YunYouJun)
+- Components [select] skip process keydown.enter in composing (#22861 by @wcttmf)
+- Components [steps] prevent external line-height from affecting layout (#19319 by @DDDDD12138)
+- Components [cascader] fix SVG generated mask the menu when scroll (#16365 by @Fiona2016)
+- Theme-chalk add a $space parameter to the channel function (#19166 by @roojay)
+- Components [table] tableBody height not update when header changed (#19580 by @DDDDD12138)
+- Components [segmented] fire change event if option not checked (#19705 by @ykcory)
+- Components [table] fix header HMR and keep v-if fallback (#22884 by @tuzixiangs)
+- Components [table] correct the type of style (#22939 by @keeplearning66)
+- Components avoid focusing disabled elements (#22940 by @rzzf)
+- Revert "feat(components): [alert] add open and auto-close functionality with delay (#20533,#22028 by @warmthsea)" (#22560)
+- Style(theme-chalk): show the cursor correctly when disabled (#22856 by @rzzf)
+- Improvement(components): [select] locate the most recently selected option when using multiple (#22753 by @keeplearning66)
+- Improvement(components): [select/select-v2] hoveringIndex stays on the most recently selected option with multiple (#22782 by @keeplearning66)
+- Improvement(components): [splitter] use import emits (#22907 by @warmthsea)
+- Perf(components): [select-v2] avoid duplicate render after props change (#22935 by @tolking)
+
+#### Refactors
+
+- Components [table] clear state on non-resizable columns (#22916 by @tuzixiangs)
+
 ### 2.11.8
 
 _2025-11-15_

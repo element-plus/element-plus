@@ -1,13 +1,8 @@
 import { cAF, isFirefox, rAF } from '@element-plus/utils'
-import { HORIZONTAL, VERTICAL } from '../defaults'
+import { HORIZONTAL } from '../defaults'
 
 import type { ComputedRef } from 'vue'
 import type { LayoutDirection } from '../types'
-
-const LayoutKeys = {
-  [HORIZONTAL]: 'deltaX',
-  [VERTICAL]: 'deltaY',
-} as const
 
 interface ListWheelState {
   atStartEdge: ComputedRef<boolean> // exclusive to reachEnd
@@ -34,7 +29,14 @@ const useWheel = (
   const onWheel = (e: WheelEvent) => {
     cAF(frameHandle)
 
-    const newOffset = e[LayoutKeys[layout.value]]
+    let { deltaX, deltaY } = e
+    // Special case for windows machine with shift key + wheel scrolling
+    if (e.shiftKey && deltaY !== 0) {
+      deltaX = deltaY
+      deltaY = 0
+    }
+
+    const newOffset = layout.value === HORIZONTAL ? deltaX : deltaY
 
     if (hasReachedEdge(offset) && hasReachedEdge(offset + newOffset)) return
 

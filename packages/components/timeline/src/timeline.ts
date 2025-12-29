@@ -36,8 +36,8 @@ const Timeline = defineComponent({
     const timelineKls = computed(() => [ns.b(), ns.is(props.mode)])
 
     return () => {
-      const children = flattedChildren(slots.default?.() ?? []).filter(
-        (node) => (node as any)?.type?.name === 'ElTimelineItem'
+      const children = flattedChildren(
+        slots.default?.() ?? []
       ) as VNodeChildAtom[]
 
       return h(

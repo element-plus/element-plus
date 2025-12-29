@@ -135,7 +135,7 @@ $fill-color: map.merge(
     'light': rgba($fill-color-base, 0.08),
     'lighter': rgba($fill-color-base, 0.04),
     'extra-light': rgba($fill-color-base, 0.02),
-    'blank': transparent,
+    'blank': map.get($bg-color, ''),
   ),
   $fill-color
 );

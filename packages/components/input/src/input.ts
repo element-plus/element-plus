@@ -11,9 +11,9 @@ import { CircleClose } from '@element-plus/icons-vue'
 
 import type {
   ExtractPropTypes,
+  ExtractPublicPropTypes,
   HTMLAttributes,
   StyleValue,
-  __ExtractPublicPropTypes,
 } from 'vue'
 
 export type InputModelModifiers = {
@@ -49,7 +49,10 @@ export const inputProps = buildProps({
   /**
    * @description whether to disable
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description binding value
    */
@@ -225,7 +228,7 @@ export const inputProps = buildProps({
   name: String,
 } as const)
 export type InputProps = ExtractPropTypes<typeof inputProps>
-export type InputPropsPublic = __ExtractPublicPropTypes<typeof inputProps>
+export type InputPropsPublic = ExtractPublicPropTypes<typeof inputProps>
 
 export const inputEmits = {
   [UPDATE_MODEL_EVENT]: (value: string) => isString(value),

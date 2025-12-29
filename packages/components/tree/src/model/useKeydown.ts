@@ -19,10 +19,7 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
   })
 
   onUpdated(() => {
-    const checkboxItems = Array.from(
-      el$.value!.querySelectorAll('input[type=checkbox]')
-    )
-    checkboxItems.forEach((checkbox) => {
+    el$.value?.querySelectorAll('input[type=checkbox]').forEach((checkbox) => {
       checkbox.setAttribute('tabindex', '-1')
     })
   })
