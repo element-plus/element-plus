@@ -404,5 +404,45 @@ describe('ElFormItem', () => {
 
       vi.useRealTimers()
     })
+
+    it('should handle undefined and null initial values', async () => {
+      vi.useFakeTimers()
+      const form = reactive({
+        value: 'original',
+      })
+      const wrapper = mount({
+        setup() {
+          return { form }
+        },
+        render() {
+          return (
+            <Form model={form}>
+              <FormItem ref="valueItem" label="Value" prop="value">
+                <Input v-model={form.value} />
+              </FormItem>
+            </Form>
+          )
+        },
+      })
+
+      await nextTick()
+
+      const formItemRef = wrapper.findComponent({ ref: 'valueItem' })
+        .vm as FormItemInstance
+
+      // Test undefined
+      formItemRef.setInitialValue(undefined)
+      form.value = 'changed'
+      await nextTick()
+
+      formItemRef.resetField()
+      await nextTick()
+      vi.runAllTimers()
+      await nextTick()
+
+      expect(form.value).toBe(undefined)
+
+      vi.useRealTimers()
+    })
   })
 })

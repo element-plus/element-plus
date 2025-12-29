@@ -125,14 +125,14 @@ describe('Form', () => {
             labelWidth="150px"
             model={form}
           >
-            <FormItem label="名称">
+            <FormItem label="Name">
               <Input v-model={form.name} />
             </FormItem>
-            <FormItem label="活动区域" label-width="auto">
+            <FormItem label="Activity Region" label-width="auto">
               <Input v-model={form.region} />
             </FormItem>
             <FormItem
-              label="活动形式(我是一个很长很长很长很长的label)"
+              label="Activity Form (I am a very very very very long label)"
               label-width="auto"
             >
               <Input v-model={form.type} />
@@ -1055,13 +1055,13 @@ describe('Form', () => {
       const formRef = wrapper.findComponent({ ref: 'formRef' })
         .vm as FormInstance
 
-      // 修改表单值
+      // Modify form values
       form.name = 'John'
       form.age = '25'
       form.address = 'New York'
       await nextTick()
 
-      // 设置新的初始值
+      // Set new initial values
       formRef.setInitialValues({
         name: 'InitName',
         age: '30',
@@ -1069,13 +1069,13 @@ describe('Form', () => {
       })
       await nextTick()
 
-      // 再次修改表单值
+      // Modify form values again
       form.name = 'Modified'
       form.age = '40'
       form.address = 'Chicago'
       await nextTick()
 
-      // 重置表单，应该重置到 setInitialValues 设置的值
+      // Reset form, should reset to values set by setInitialValues
       formRef.resetFields()
       await nextTick()
       vi.runAllTimers()
@@ -1121,12 +1121,12 @@ describe('Form', () => {
       const formRef = wrapper.findComponent({ ref: 'formRef' })
         .vm as FormInstance
 
-      // 修改表单值
+      // Modify form values
       form.user.name = 'John'
       form.user.info.age = '25'
       await nextTick()
 
-      // 设置新的初始值
+      // Set new initial values
       formRef.setInitialValues({
         user: {
           name: 'InitName',
@@ -1137,12 +1137,12 @@ describe('Form', () => {
       })
       await nextTick()
 
-      // 再次修改表单值
+      // Modify form values again
       form.user.name = 'Modified'
       form.user.info.age = '40'
       await nextTick()
 
-      // 重置表单
+      // Reset form
       formRef.resetFields()
       await nextTick()
       vi.runAllTimers()
@@ -1187,29 +1187,29 @@ describe('Form', () => {
       const formRef = wrapper.findComponent({ ref: 'formRef' })
         .vm as FormInstance
 
-      // 只更新部分字段的初始值
+      // Only update initial values for partial fields
       formRef.setInitialValues({
         name: 'NewInitName',
         age: '25',
       })
       await nextTick()
 
-      // 修改所有字段
+      // Modify all fields
       form.name = 'Modified'
       form.age = '30'
       form.address = 'ModifiedAddress'
       await nextTick()
 
-      // 重置表单
+      // Reset form
       formRef.resetFields()
       await nextTick()
       vi.runAllTimers()
       await nextTick()
 
-      // name 和 age 应该重置到新的初始值
+      // name and age should reset to new initial values
       expect(form.name).toBe('NewInitName')
       expect(form.age).toBe('25')
-      // address 没有设置新初始值，应该保持原始挂载时的值
+      // address has no new initial value set, should keep original mounted value
       expect(form.address).toBe('DefaultAddress')
 
       vi.useRealTimers()
@@ -1248,29 +1248,29 @@ describe('Form', () => {
       const nameItem = wrapper.findComponent({ ref: 'nameItem' })
         .vm as FormItemInstance
 
-      // 修改字段值
+      // Modify field values
       form.name = 'John'
       form.age = '25'
       await nextTick()
 
-      // 仅为 name 字段设置新的初始值
+      // Set new initial value only for name field
       nameItem.setInitialValue('CustomInitName')
       await nextTick()
 
-      // 再次修改字段值
+      // Modify field values again
       form.name = 'Modified'
       form.age = '30'
       await nextTick()
 
-      // 重置表单
+      // Reset form
       formRef.resetFields()
       await nextTick()
       vi.runAllTimers()
       await nextTick()
 
-      // name 应该重置到自定义的初始值
+      // name should reset to custom initial value
       expect(form.name).toBe('CustomInitName')
-      // age 应该重置到挂载时的原始值
+      // age should reset to original mounted value
       expect(form.age).toBe('')
 
       vi.useRealTimers()
@@ -1305,7 +1305,7 @@ describe('Form', () => {
       const formRef = wrapper.findComponent({ ref: 'formRef' })
         .vm as FormInstance
 
-      // 通过 getField 获取字段并设置初始值
+      // Get fields via getField and set initial values
       const nameField = formRef.getField('name')
       nameField?.setInitialValue('FieldInitName')
 
@@ -1314,12 +1314,12 @@ describe('Form', () => {
 
       await nextTick()
 
-      // 修改字段值
+      // Modify field values
       form.name = 'Modified'
       form.email = 'modified@test.com'
       await nextTick()
 
-      // 重置表单
+      // Reset form
       formRef.resetFields()
       await nextTick()
       vi.runAllTimers()
@@ -1360,24 +1360,24 @@ describe('Form', () => {
       const nameItem = wrapper.findComponent({ ref: 'nameItem' })
         .vm as FormItemInstance
 
-      // 设置自定义初始值
+      // Set custom initial value
       nameItem.setInitialValue('CustomName')
       await nextTick()
 
-      // 修改字段
+      // Modify fields
       form.name = 'Modified'
       form.age = '30'
       await nextTick()
 
-      // 仅重置 name 字段
+      // Only reset name field
       nameItem.resetField()
       await nextTick()
       vi.runAllTimers()
       await nextTick()
 
-      // name 应该重置到自定义初始值
+      // name should reset to custom initial value
       expect(form.name).toBe('CustomName')
-      // age 不应该被重置
+      // age should not be reset
       expect(form.age).toBe('30')
 
       vi.useRealTimers()
@@ -1412,24 +1412,24 @@ describe('Form', () => {
       const usernameItem = wrapper.findComponent({ ref: 'usernameItem' })
         .vm as FormItemInstance
 
-      // 修改字段值
+      // Modify field values
       form.username = 'modified'
       form.email = 'modified@test.com'
       await nextTick()
 
-      // 动态设置新的初始值
+      // Dynamically set new initial value
       usernameItem.setInitialValue('newInitial')
       await nextTick()
 
-      // 重置该字段
+      // Reset the field
       usernameItem.resetField()
       await nextTick()
       vi.runAllTimers()
       await nextTick()
 
-      // 应该重置到新设置的初始值
+      // Should reset to newly set initial value
       expect(form.username).toBe('newInitial')
-      // email 不受影响
+      // email is not affected
       expect(form.email).toBe('modified@test.com')
 
       vi.useRealTimers()
@@ -1468,13 +1468,13 @@ describe('Form', () => {
       const formRef = wrapper.findComponent({ ref: 'formRef' })
         .vm as FormInstance
 
-      // 修改所有字段
+      // Modify all fields
       form.name = 'modified'
       form.age = '99'
       form.city = 'modifiedCity'
       await nextTick()
 
-      // 设置新的初始值集合
+      // Set new initial values collection
       formRef.setInitialValues({
         name: 'newName',
         age: '25',
@@ -1482,13 +1482,13 @@ describe('Form', () => {
       })
       await nextTick()
 
-      // 重置所有字段
+      // Reset all fields
       formRef.resetFields()
       await nextTick()
       vi.runAllTimers()
       await nextTick()
 
-      // 所有字段应该重置到新的初始值
+      // All fields should reset to new initial values
       expect(form.name).toBe('newName')
       expect(form.age).toBe('25')
       expect(form.city).toBe('newCity')
@@ -1529,29 +1529,29 @@ describe('Form', () => {
       const formRef = wrapper.findComponent({ ref: 'formRef' })
         .vm as FormInstance
 
-      // 仅更新部分字段的初始值
+      // Only update initial values for partial fields
       formRef.setInitialValues({
         name: 'partialName',
         age: '30',
       })
       await nextTick()
 
-      // 修改所有字段
+      // Modify all fields
       form.name = 'modified1'
       form.age = '99'
       form.email = 'modified@test.com'
       await nextTick()
 
-      // 重置所有字段
+      // Reset all fields
       formRef.resetFields()
       await nextTick()
       vi.runAllTimers()
       await nextTick()
 
-      // name 和 age 重置到新初始值
+      // name and age reset to new initial values
       expect(form.name).toBe('partialName')
       expect(form.age).toBe('30')
-      // email 重置到挂载时的值
+      // email resets to mounted value
       expect(form.email).toBe('old@test.com')
 
       vi.useRealTimers()
@@ -1590,7 +1590,7 @@ describe('Form', () => {
       const formRef = wrapper.findComponent({ ref: 'formRef' })
         .vm as FormInstance
 
-      // 设置嵌套属性的初始值
+      // Set initial values for nested properties
       formRef.setInitialValues({
         user: {
           profile: {
@@ -1601,18 +1601,18 @@ describe('Form', () => {
       })
       await nextTick()
 
-      // 修改字段
+      // Modify fields
       form.user.profile.name = 'modified'
       form.user.profile.age = 99
       await nextTick()
 
-      // 重置
+      // Reset
       formRef.resetFields()
       await nextTick()
       vi.runAllTimers()
       await nextTick()
 
-      // 应该重置到新初始值
+      // Should reset to new initial values
       expect(form.user.profile.name).toBe('nestedName')
       expect(form.user.profile.age).toBe(30)
 
