@@ -130,8 +130,8 @@ and please go to the original component to view the documentation.
 
 #### Own Attributes
 
-| Name                 | Description                                                                                                         | Type                     | Default |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------ | ------- |
+| Name                 | Description                                                                                                         | Type                    | Default |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------- | ----------------------- | ------- |
 | cache-data ^(2.2.26) | The cached data of the lazy node, the structure is the same as the data, used to get the label of the unloaded data | ^[array]`CacheOption[]` | []      |
 
 ### Exposes
