@@ -249,6 +249,30 @@ describe('Dialog.vue', () => {
     expect(onClosed).toHaveBeenCalled()
   })
 
+  // #23248
+  test('should clear `closing` state', async () => {
+    const visible = ref(true)
+
+    const wrapper = mount({
+      setup() {
+        return () => <Dialog v-model={visible.value} />
+      },
+    })
+
+    await nextTick()
+    await rAF()
+    await nextTick()
+
+    const overlayDialog = wrapper.find('.el-overlay-dialog')
+    visible.value = false
+    await nextTick()
+    expect(overlayDialog.classes()).toContain('is-closing')
+    visible.value = true
+    await rAF()
+    await nextTick()
+    expect(overlayDialog.classes()).not.toContain('is-closing')
+  })
+
   describe('mask related', () => {
     test('should not have overlay mask when mask is false', async () => {
       const wrapper = mount(
