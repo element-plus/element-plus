@@ -259,21 +259,21 @@ describe('ElFormItem', () => {
       const formItemRef = wrapper.findComponent({ ref: 'usernameItem' })
         .vm as FormItemInstance
 
-      // 设置自定义初始值
+      // Set custom initial value
       formItemRef.setInitialValue('customInitial')
       await nextTick()
 
-      // 修改字段值
+      // Modify field value
       form.username = 'modified'
       await nextTick()
 
-      // 重置字段
+      // Reset field
       formItemRef.resetField()
       await nextTick()
       vi.runAllTimers()
       await nextTick()
 
-      // 应该重置到自定义初始值
+      // Should reset to custom initial value
       expect(form.username).toBe('customInitial')
 
       vi.useRealTimers()
