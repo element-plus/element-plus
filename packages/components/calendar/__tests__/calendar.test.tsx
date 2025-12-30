@@ -247,4 +247,84 @@ describe('Calendar.vue', () => {
     expect(wrapper.find('.el-calendar__header').text()).toEqual(AXIOM)
     expect(wrapper.find('.current.is-today').text()).toEqual(AXIOM)
   })
+
+  it('should work when controller-type is select', async () => {
+    const wrapper = mount(
+      defineComponent({
+        data: () => ({ value: new Date('2025-12-09') }),
+        render() {
+          return <Calendar v-model={this.value} controller-type="select" />
+        },
+      })
+    )
+
+    await nextTick()
+    const selects = wrapper.findAllComponents({ name: 'ElSelect' })
+    const btn = wrapper.find('.el-button')
+    const yearSelect = selects[0]
+    const yearOptions = yearSelect.findAllComponents({ name: 'ElOption' })
+    const monthSelect = selects[1]
+    const monthOptions = monthSelect.findAllComponents({ name: 'ElOption' })
+    const yearVm = yearSelect.vm as any
+    const monthVm = monthSelect.vm as any
+    const firstRow = wrapper.element.querySelector('.el-calendar-table__row')
+
+    expect(yearVm.modelValue).toBe(2025)
+    expect(monthVm.modelValue).toBe(12)
+    expect(firstRow?.firstElementChild?.innerHTML).toContain('30')
+    expect(firstRow?.lastElementChild?.innerHTML).toContain('6')
+
+    await yearOptions[9].trigger('click')
+    expect(yearVm.modelValue).toBe(2024)
+    expect(monthVm.modelValue).toBe(12)
+    expect(firstRow?.firstElementChild?.innerHTML).toContain('1')
+    expect(firstRow?.lastElementChild?.innerHTML).toContain('7')
+
+    await monthOptions[10].trigger('click')
+    expect(yearVm.modelValue).toBe(2024)
+    expect(monthVm.modelValue).toBe(11)
+    expect(firstRow?.firstElementChild?.innerHTML).toContain('27')
+    expect(firstRow?.lastElementChild?.innerHTML).toContain('2')
+
+    await btn.trigger('click')
+    expect(yearVm.modelValue).toBe(2025)
+    expect(monthVm.modelValue).toBe(12)
+    expect(firstRow?.firstElementChild?.innerHTML).toContain('30')
+    expect(firstRow?.lastElementChild?.innerHTML).toContain('6')
+  })
+
+  it('should work with formatter prop', async () => {
+    const formatter = (value: number, type: 'year' | 'month') => {
+      if (type === 'year') {
+        return `${value}年`
+      } else {
+        return `${value}月`
+      }
+    }
+
+    const wrapper = mount(
+      defineComponent({
+        data: () => ({ value: new Date('2025-12-09') }),
+        render() {
+          return (
+            <Calendar
+              v-model={this.value}
+              controller-type="select"
+              formatter={formatter}
+            />
+          )
+        },
+      })
+    )
+
+    await nextTick()
+    const selects = wrapper.findAllComponents({ name: 'ElSelect' })
+    const yearSelect = selects[0]
+    const yearOptions = yearSelect.findAllComponents({ name: 'ElOption' })
+    const monthSelect = selects[1]
+    const monthOptions = monthSelect.findAllComponents({ name: 'ElOption' })
+
+    expect(yearOptions[0].text()).toBe('2015年')
+    expect(monthOptions[0].text()).toBe('1月')
+  })
 })

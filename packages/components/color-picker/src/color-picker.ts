@@ -46,6 +46,13 @@ export const colorPickerProps = buildProps({
     default: undefined,
   },
   /**
+   * @description whether to show clear button
+   */
+  clearable: {
+    type: Boolean,
+    default: true,
+  },
+  /**
    * @description size of ColorPicker
    */
   size: useSizeProp,
@@ -94,6 +101,7 @@ export const colorPickerEmits = {
   activeChange: (val: string | null) => isString(val) || isNil(val),
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
   blur: (evt: FocusEvent) => evt instanceof FocusEvent,
+  clear: () => true,
 }
 
 export type ColorPickerProps = ExtractPropTypes<typeof colorPickerProps>

@@ -6,6 +6,10 @@
 
 @include b(date-picker) {
   @include set-component-css-var('datepicker', $datepicker);
+  @include set-css-var-value(
+    ('fill-color', 'blank'),
+    getCssVar('datepicker', 'bg-color')
+  );
 }
 
 @include b(date-picker) {
