@@ -500,6 +500,12 @@ describe('Dialog.vue', () => {
 
     test('dialog supports transition as object config', async () => {
       vi.useFakeTimers()
+      const rAFSpy = vi
+        .spyOn(window, 'requestAnimationFrame')
+        .mockImplementation((cb) => {
+          cb(0)
+          return 0
+        })
       const afterEnter = vi.fn()
       const transitionConfig = {
         name: 'dialog-custom-object',
@@ -523,10 +529,11 @@ describe('Dialog.vue', () => {
         true
       )
 
-      vi.runAllTimers()
+      vi.advanceTimersByTime(500)
       await nextTick()
       expect(afterEnter).toHaveBeenCalled()
       vi.useRealTimers()
+      rAFSpy.mockRestore()
     })
   })
 })
