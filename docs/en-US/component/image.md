@@ -94,7 +94,7 @@ image/custom-progress
 | alt                    | native attribute `alt`.                                                                                                                           | ^[string]                                                               | —       |
 | referrerpolicy         | native attribute [referrerPolicy](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/referrerPolicy).                              | ^[string]                                                               | —       |
 | crossorigin            | native attribute [crossorigin](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/crossorigin).                                         | ^[enum]`'' \| 'anonymous' \| 'use-credentials'`                         | —       |
-| preview-src-list       | allow big image preview.                                                                                                                          | ^[object]`string[]`                                                     | []      |
+| preview-src-list       | allow big image preview.                                                                                                                          | ^[array]`string[]`                                                      | []      |
 | z-index                | set image preview z-index.                                                                                                                        | ^[number]                                                               | —       |
 | initial-index          | initial preview image index, less than the length of `url-list`.                                                                                  | ^[number]                                                               | 0       |
 | close-on-press-escape  | whether the image-viewer can be closed by pressing ESC.                                                                                           | ^[boolean]                                                              | true    |
@@ -136,7 +136,7 @@ image/custom-progress
 
 | Name                   | Description                                                                                                                   | Type                  | Default |
 | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------- | --------------------- | ------- |
-| url-list               | preview link list.                                                                                                            | ^[object]`string[]`   | []      |
+| url-list               | preview link list.                                                                                                            | ^[array]`string[]`    | []      |
 | z-index                | preview backdrop z-index.                                                                                                     | ^[number] / ^[string] | —       |
 | initial-index          | the initial preview image index, less than or equal to the length of `url-list`.                                              | ^[number]             | 0       |
 | infinite               | whether preview is infinite.                                                                                                  | ^[boolean]            | true    |

@@ -155,10 +155,12 @@ const getContributorsByComponents = async (components: string[]) => {
 async function getContributors() {
   if (!process.env.GITHUB_TOKEN) throw new Error('GITHUB_TOKEN is empty')
 
-  const components = await glob('*', {
-    cwd: path.resolve(projRoot, 'packages/components'),
-    onlyDirectories: true,
-  })
+  const components = (
+    await glob('*', {
+      cwd: path.resolve(projRoot, 'packages/components'),
+      onlyDirectories: true,
+    })
+  ).map((name) => name.replace(/\/$/, ''))
   let contributors: Record<string, ContributorInfo[]> = {}
 
   consola.info('Fetching contributors...')

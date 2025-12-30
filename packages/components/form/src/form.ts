@@ -7,7 +7,7 @@ import {
   isString,
 } from '@element-plus/utils'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type { FormItemProp } from './form-item'
 import type { FormRules } from './types'
 
@@ -110,10 +110,10 @@ export const formProps = buildProps({
   },
 } as const)
 export type FormProps = ExtractPropTypes<typeof formProps>
-export type FormPropsPublic = __ExtractPublicPropTypes<typeof formProps>
+export type FormPropsPublic = ExtractPublicPropTypes<typeof formProps>
 
 export type FormMetaProps = ExtractPropTypes<typeof formMetaProps>
-export type FormMetaPropsPublic = __ExtractPublicPropTypes<typeof formMetaProps>
+export type FormMetaPropsPublic = ExtractPublicPropTypes<typeof formMetaProps>
 
 export const formEmits = {
   validate: (prop: FormItemProp, isValid: boolean, message: string) =>

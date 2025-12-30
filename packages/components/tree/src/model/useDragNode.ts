@@ -13,7 +13,7 @@ import type TreeStore from './tree-store'
 import type Node from './node'
 import type { treeEmits } from '../tree'
 
-interface TreeNode {
+export interface TreeNode {
   node: Node
   $el?: HTMLElement
 }

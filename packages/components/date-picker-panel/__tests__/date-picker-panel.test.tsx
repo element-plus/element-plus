@@ -715,12 +715,14 @@ describe('DatePickerPanel', () => {
       })
 
       it('clear button should empty the input value', async () => {
-        const value = ref('')
+        const value = ref([])
+        const onClear = vi.fn()
         const wrapper = mount(() => (
           <DatePickerPanel
             v-model={value.value}
             type="datetimerange"
             showFooter
+            onClear={onClear}
           />
         ))
         const dateRow = wrapper.findAll('.el-date-table__row')
@@ -732,11 +734,14 @@ describe('DatePickerPanel', () => {
         )
         expect(headerValue[0].element.value).not.toBe('')
         expect(headerValue[1].element.value).not.toBe('')
+        expect(value.value).toHaveLength(2)
         const clearBtn = wrapper.findAll<HTMLButtonElement>(
           '.el-picker-panel__footer button'
         )[0].element
         clearBtn.click()
         await nextTick()
+        expect(onClear).toHaveBeenCalledOnce()
+        expect(value.value).toBe(null)
         expect(headerValue[0].element.value).toBe('')
         expect(headerValue[1].element.value).toBe('')
       })
@@ -984,6 +989,65 @@ describe('DatePickerPanel', () => {
 
         expect(leftHeader.text()).toBe('January')
         expect(rightHeader.text()).toBe('February')
+      })
+
+      it('should not duplicate panels after confirm left time input', async () => {
+        vi.useFakeTimers()
+        vi.setSystemTime(new Date(2000, 0))
+        const modelValue = ref([])
+        const wrapper = mount(() => (
+          <DatePickerPanel v-model={modelValue.value} type="datetimerange" />
+        ))
+        const input = wrapper.find('input')
+        await input.trigger('blur')
+        await input.trigger('focus')
+        const pickerss = wrapper.findAll('.el-picker-panel__content')
+        const cells = pickerss[1].findAll('.available .el-date-table-cell')
+        await cells[0].trigger('click')
+        await cells[1].trigger('click')
+        const leftTimeInput = wrapper.findAll<HTMLInputElement>(
+          '.el-date-range-picker__time-picker-wrap input'
+        )[1]
+        await leftTimeInput.trigger('focus')
+        await wrapper.find('.el-time-panel__btn.confirm').trigger('click')
+        const leftHeader = pickerss[0].findAll(
+          '.el-date-range-picker__header-label'
+        )[1]
+        const rightHeader = pickerss[1].findAll(
+          '.el-date-range-picker__header-label'
+        )[1]
+
+        expect(leftHeader.text()).toBe('January')
+        expect(rightHeader.text()).toBe('February')
+        vi.useRealTimers()
+      })
+
+      it('should not duplicate panels after confirm right time input', async () => {
+        vi.useFakeTimers()
+        vi.setSystemTime(new Date(2000, 0))
+        const modelValue = ref([])
+        const wrapper = mount(() => (
+          <DatePickerPanel v-model={modelValue.value} type="datetimerange" />
+        ))
+        const cells = wrapper.findAll('.available .el-date-table-cell')
+        await cells[0].trigger('click')
+        await cells[1].trigger('click')
+        const pickerss = wrapper.findAll('.el-date-range-picker__header')
+        const rightTimeInput = wrapper.findAll<HTMLInputElement>(
+          '.el-date-range-picker__time-picker-wrap input'
+        )[3]
+        await rightTimeInput.trigger('focus')
+        await wrapper.find('.el-time-panel__btn.confirm').trigger('click')
+        const leftHeader = pickerss[0].findAll(
+          '.el-date-range-picker__header-label'
+        )[1]
+        const rightHeader = pickerss[1].findAll(
+          '.el-date-range-picker__header-label'
+        )[1]
+
+        expect(leftHeader.text()).toBe('January')
+        expect(rightHeader.text()).toBe('February')
+        vi.useRealTimers()
       })
     })
   })
