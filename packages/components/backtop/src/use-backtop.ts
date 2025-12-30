@@ -1,6 +1,6 @@
 import { onMounted, ref, shallowRef } from 'vue'
 import { useEventListener, useThrottleFn } from '@vueuse/core'
-import { getElement, throwError } from '@element-plus/utils'
+import { getElement, getScrollTop, throwError } from '@element-plus/utils'
 
 import type { SetupContext } from 'vue'
 import type { BacktopEmits, BacktopProps } from './backtop'
@@ -14,15 +14,9 @@ export const useBackTop = (
   const container = shallowRef<Document | HTMLElement | Window | undefined>()
   const visible = ref(false)
 
-  const getScrollTop = (target?: HTMLElement | Window | undefined) => {
-    if (!target) return 0
-    if (target === window)
-      return window.pageYOffset || document.documentElement.scrollTop
-    return (target as HTMLElement).scrollTop
-  }
-
   const handleScroll = () => {
-    visible.value = getScrollTop(el.value) >= props.visibilityHeight
+    visible.value =
+      (el.value ? getScrollTop(el.value) : 0) >= props.visibilityHeight
   }
 
   const handleClick = (event: MouseEvent) => {
