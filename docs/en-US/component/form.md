@@ -220,7 +220,7 @@ If you don't want to trigger the validator based on input events, set the `valid
 | validate        | Validate form item.                                                                                | ^[Function]`(trigger: string, callback?: FormValidateCallback \| undefined) => FormValidationResult` |
 | resetField      | Reset current field and remove validation result.                                                  | ^[Function]`() => void`                                                                              |
 | clearValidate   | Remove validation status of the field.                                                             | ^[Function]`() => void`                                                                              |
-| setInitialValue | Set initial value for this field. When `resetField` is called, the field will reset to this value. | ^[Function]`(value: any) => void`                                                                    |
+| setInitialValue ^(2.13.1) | Set initial value for this field. When `resetField` is called, the field will reset to this value. | ^[Function]`(value: any) => void`                                                                    |
 
 ## Type Declarations
 
