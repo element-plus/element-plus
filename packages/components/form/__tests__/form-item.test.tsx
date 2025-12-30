@@ -279,7 +279,7 @@ describe('ElFormItem', () => {
       vi.useRealTimers()
     })
 
-    it('should handle undefined and null initial values', async () => {
+    it('should handle undefined initial values', async () => {
       vi.useFakeTimers()
       const form = reactive({
         value: 'original',
