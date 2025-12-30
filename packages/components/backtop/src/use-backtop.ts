@@ -37,11 +37,7 @@ export const useBackTop = (
     el.value = document.documentElement as HTMLElement
 
     if (props.target) {
-      const targetEl = getElement(props.target) as
-        | HTMLElement
-        | Window
-        | null
-        | undefined
+      const targetEl = getElement(props.target)
       el.value = targetEl ?? undefined
       if (!el.value) {
         throwError(componentName, `target does not exist: ${props.target}`)
