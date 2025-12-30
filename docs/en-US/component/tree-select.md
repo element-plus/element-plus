@@ -123,16 +123,16 @@ Since this component combines the functions of components `el-tree` and `el-sele
 the original properties have not been changed, so no repetition here,
 and please go to the original component to view the documentation.
 
-| Attributes                              | Methods                       | Events                              | Slots                              |
-| --------------------------------------- | ----------------------------- | ----------------------------------- | ---------------------------------- |
-| [tree](./tree.md#attributes)            | [tree](./tree.md#method)      | [tree](./tree.md#events)            | [tree](./tree.md#slots)            |
-| [select](./select.md#select-attributes) | [select](./select.md#methods) | [select](./select.md#select-events) | [select](./select.md#select-slots) |
+| Attributes                              | Exposes                              | Events                              | Slots                              |
+| --------------------------------------- | ------------------------------------ | ----------------------------------- | ---------------------------------- |
+| [tree](./tree.md#attributes)            | [tree](./tree.md#exposes)            | [tree](./tree.md#events)            | [tree](./tree.md#slots)            |
+| [select](./select.md#select-attributes) | [select](./select.md#select-exposes) | [select](./select.md#select-events) | [select](./select.md#select-slots) |
 
 #### Own Attributes
 
-| Name                 | Description                                                                                                         | Type                     | Default |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------ | ------- |
-| cache-data ^(2.2.26) | The cached data of the lazy node, the structure is the same as the data, used to get the label of the unloaded data | ^[object]`CacheOption[]` | []      |
+| Name                 | Description                                                                                                         | Type                    | Default |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------- | ----------------------- | ------- |
+| cache-data ^(2.2.26) | The cached data of the lazy node, the structure is the same as the data, used to get the label of the unloaded data | ^[array]`CacheOption[]` | []      |
 
 ### Exposes
 

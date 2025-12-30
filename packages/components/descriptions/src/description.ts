@@ -1,7 +1,7 @@
 import { buildProps } from '@element-plus/utils'
 import { useSizeProp } from '@element-plus/hooks'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type Description from './description.vue'
 
 export const descriptionProps = buildProps({
@@ -47,12 +47,11 @@ export const descriptionProps = buildProps({
    */
   labelWidth: {
     type: [String, Number],
-    default: '',
   },
 } as const)
 
 export type DescriptionProps = ExtractPropTypes<typeof descriptionProps>
-export type DescriptionPropsPublic = __ExtractPublicPropTypes<
+export type DescriptionPropsPublic = ExtractPublicPropTypes<
   typeof descriptionProps
 >
 export type DescriptionInstance = InstanceType<typeof Description> & unknown

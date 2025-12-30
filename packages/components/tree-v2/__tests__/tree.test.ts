@@ -20,6 +20,7 @@ const NODE_NUMBER = 5
 const TREE_NODE_CLASS_NAME = '.el-tree-node'
 const TREE_NODE_CONTENT_CLASS_NAME = '.el-tree-node__content'
 const TREE_NODE_EXPAND_ICON_CLASS_NAME = '.el-tree-node__expand-icon'
+const TREE_NODE_CHECKBOX_CLASS_NAME = '.el-checkbox__original'
 
 const getUniqueId = () => id++
 
@@ -460,6 +461,100 @@ describe('Virtual Tree', () => {
     await nodes[5].find('.el-checkbox').trigger('click')
     expect(wrapper.findAll('.el-checkbox.is-checked').length).toBe(0)
     expect(wrapper.findAll('.el-checkbox .is-indeterminate').length).toBe(0)
+  })
+
+  test('should correctly handle checkbox state when disabled nodes exist', async () => {
+    const { wrapper, treeRef } = createTree({
+      data() {
+        return {
+          showCheckbox: true,
+          height: 400,
+          defaultExpandedKeys: ['1', '1-1', '1-2', '1-3'],
+          data: [
+            {
+              id: '1',
+              label: 'node-1',
+              children: [
+                {
+                  id: '1-1',
+                  label: 'node-1-1',
+                  children: [
+                    {
+                      id: '1-1-1',
+                      label: 'node-1-1-1',
+                    },
+                    {
+                      id: '1-1-2',
+                      label: 'node-1-1-2',
+                      disabled: true,
+                    },
+                  ],
+                },
+                {
+                  id: '1-2',
+                  label: 'node-1-2',
+                  children: [
+                    {
+                      id: '1-2-1',
+                      label: 'node-1-2-1',
+                    },
+                  ],
+                },
+                {
+                  id: '1-3',
+                  label: 'node-1-3',
+                  disabled: true,
+                  children: [
+                    {
+                      id: '1-3-1',
+                      label: 'node-1-3-1',
+                    },
+                    {
+                      id: '1-3-2',
+                      label: 'node-1-3-2',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        }
+      },
+    })
+
+    await nextTick()
+    expect(treeRef.getCheckedKeys()).toHaveLength(0)
+
+    let nodes = wrapper.findAll(TREE_NODE_CHECKBOX_CLASS_NAME)
+    await nodes[0].trigger('click')
+    expect(treeRef.getCheckedKeys()).toEqual([
+      '1-1-1',
+      '1-2',
+      '1-2-1',
+      '1-3',
+      '1-3-1',
+      '1-3-2',
+    ])
+    nodes = wrapper.findAll(TREE_NODE_CHECKBOX_CLASS_NAME)
+    await nodes[1].trigger('click')
+    expect(treeRef.getCheckedKeys()).toEqual([
+      '1-2',
+      '1-2-1',
+      '1-3',
+      '1-3-1',
+      '1-3-2',
+    ])
+
+    nodes = wrapper.findAll(TREE_NODE_CHECKBOX_CLASS_NAME)
+    await nodes[0].trigger('click')
+    expect(treeRef.getCheckedKeys()).toEqual([
+      '1-2',
+      '1-2-1',
+      '1-3',
+      '1-3-1',
+      '1-3-2',
+      '1-1-1',
+    ])
   })
 
   test('showCheckbox checkOnClickLeaf', async () => {

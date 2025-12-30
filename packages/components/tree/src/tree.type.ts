@@ -34,6 +34,7 @@ export interface TreeNodeChildState {
   none: boolean
   allWithoutDisable: boolean
   half: boolean
+  isEffectivelyChecked: boolean
 }
 export interface TreeNodeOptions {
   data: TreeNodeData

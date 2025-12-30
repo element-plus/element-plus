@@ -40,6 +40,7 @@ import {
   useNamespace,
 } from '@element-plus/hooks'
 import {
+  useFormDisabled,
   useFormItem,
   useFormItemInputId,
   useFormSize,
@@ -110,7 +111,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     afterComposition: (e) => onInput(e),
   })
 
-  const selectDisabled = computed(() => props.disabled || !!form?.disabled)
+  const selectDisabled = useFormDisabled()
 
   const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
     disabled: selectDisabled,
@@ -309,7 +310,6 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
         states.previousQuery = null
         states.isBeforeHide = true
       }
-      emit('visible-change', val)
     }
   )
 
@@ -455,11 +455,15 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   }
 
   const updateHoveringIndex = () => {
-    states.hoveringIndex = optionsArray.value.findIndex((item) =>
-      states.selected.some(
-        (selected) => getValueKey(selected) === getValueKey(item)
+    const length = states.selected.length
+    if (length > 0) {
+      const lastOption = states.selected[length - 1]
+      states.hoveringIndex = optionsArray.value.findIndex(
+        (item) => getValueKey(lastOption) === getValueKey(item)
       )
-    )
+    } else {
+      states.hoveringIndex = -1
+    }
   }
 
   const resetSelectionWidth = () => {
@@ -512,7 +516,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   const getLastNotDisabledIndex = (value: OptionValue[]) =>
     findLastIndex(value, (it) => {
       const option = states.cachedOptions.get(it)
-      return option && !option.disabled && !option.states.groupDisabled
+      return !option?.disabled && !option?.states.groupDisabled
     })
 
   const deletePrevTag = (e: KeyboardEvent) => {
@@ -608,7 +612,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       | OptionPublicInstance[]
       | SelectStates['selected']
   ) => {
-    const targetOption = isArray(option) ? option[0] : option
+    const targetOption = isArray(option) ? option[option.length - 1] : option
     let target = null
 
     if (!isNil(targetOption?.value)) {
@@ -688,8 +692,15 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     }
   }
 
-  const toggleMenu = () => {
-    if (selectDisabled.value) return
+  const toggleMenu = (event?: Event) => {
+    if (
+      selectDisabled.value ||
+      (props.filterable &&
+        expanded.value &&
+        event &&
+        !suffixRef.value?.contains(event.target as Node))
+    )
+      return
 
     // We only set the inputHovering state to true on mouseenter event on iOS devices
     // To keep the state updated we set it here to true
@@ -818,7 +829,10 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
         navigateOptions('next')
         break
       case EVENT_CODE.enter:
-        selectOption()
+      case EVENT_CODE.numpadEnter:
+        if (!isComposing.value) {
+          selectOption()
+        }
         break
       case EVENT_CODE.esc:
         handleEsc()
@@ -897,6 +911,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
         stop?.()
         stop = undefined
       }
+      emit('visible-change', newVal)
     }
   )
 

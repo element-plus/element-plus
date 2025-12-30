@@ -12,7 +12,6 @@ const InitialStateMap = {
   selectOnIndeterminate: 'selectOnIndeterminate',
   indent: 'indent',
   lazy: 'lazy',
-  data: 'data',
   ['treeProps.hasChildren']: {
     key: 'lazyColumnIdentifier',
     default: 'hasChildren',

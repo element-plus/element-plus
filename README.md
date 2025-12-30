@@ -67,11 +67,6 @@ You can also try out Element Plus with its built-in component playground.
   <tbody>
     <tr>
       <td align="center" valign="middle">
-        <a href="https://melecode.com/" target="_blank">
-          <img width="150px" src="https://github.com/element-plus/element-plus/assets/82012629/9ca4269c-7545-4463-9bdc-8e5a1fbd0b08">
-        </a>
-      </td>
-      <td align="center" valign="middle">
         <a href="https://www.jnpfsoft.com/index.html?from=elementUI" target="_blank">
           <img width="150px" src="https://github.com/element-plus/element-plus/assets/17680888/6a044d82-c393-48ab-90b8-de0d3aad1624">
         </a>
@@ -96,6 +91,11 @@ You can also try out Element Plus with its built-in component playground.
         </a>
       </td>
       <td align="center" valign="middle">
+        <a href="https://el.frsimple.com" target="_blank">
+          <img width="130px" src="https://github.com/user-attachments/assets/27ec522b-5de2-4c61-88b9-be47ff3ccc69">
+        </a>
+      </td>
+      <td align="center" valign="middle">
         <a href="https://bit.dev/?from=element-ui" target="_blank">
           <img width="130px" src="https://user-images.githubusercontent.com/10095631/41342907-e44e7196-6f2f-11e8-92f2-47702dc8f059.png">
         </a>
@@ -108,8 +108,7 @@ You can also try out Element Plus with its built-in component playground.
 
 ## Translations
 
-Element Plus has been translated into multiple languages. You can click the badge to help us update the translations or apply to become
-a proofreader. [![Crowdin](https://badges.crowdin.net/element-plus/localized.svg)](https://crowdin.com/project/element-plus)
+Element Plus has been translated into multiple languages. You can click [here](https://crowdin.com/project/element-plus) to help us update the translations or apply to become a proofreader.
 
 For now, we are only providing English and Chinese versions due to limited resources, but we are looking forward to translating it into more languages. Please visit the link
 above and leave a message if you would like to help translate Element Plus into your preferred language.

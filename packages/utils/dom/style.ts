@@ -76,7 +76,7 @@ export const removeStyle = (
 }
 
 export function addUnit(value?: string | number, defaultUnit = 'px') {
-  if (!value) return ''
+  if (!value && value !== 0) return ''
   if (isNumber(value) || isStringNumber(value)) {
     return `${value}${defaultUnit}`
   } else if (isString(value)) {

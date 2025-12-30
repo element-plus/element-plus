@@ -25,7 +25,7 @@ import { useNamespace, useOrderedChildren } from '@element-plus/hooks'
 import { tabsRootContextKey } from './constants'
 import TabNav from './tab-nav'
 
-import type { ExtractPropTypes, VNode, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes, VNode } from 'vue'
 import type { Awaitable } from '@element-plus/utils'
 import type { TabNavInstance } from './tab-nav'
 import type { TabPaneName, TabsPaneContext } from './constants'
@@ -51,6 +51,12 @@ export const tabsProps = buildProps({
    * @description binding value, name of the selected tab
    */
   modelValue: {
+    type: [String, Number],
+  },
+  /**
+   * @description initial value when `model-value` is not set
+   */
+  defaultValue: {
     type: [String, Number],
   },
   /**
@@ -87,7 +93,7 @@ export const tabsProps = buildProps({
   },
 } as const)
 export type TabsProps = ExtractPropTypes<typeof tabsProps>
-export type TabsPropsPublic = __ExtractPublicPropTypes<typeof tabsProps>
+export type TabsPropsPublic = ExtractPublicPropTypes<typeof tabsProps>
 
 const isPaneName = (value: unknown): value is string | number =>
   isString(value) || isNumber(value)
@@ -126,7 +132,10 @@ const Tabs = defineComponent({
     } = useOrderedChildren<TabsPaneContext>(getCurrentInstance()!, 'ElTabPane')
 
     const nav$ = ref<TabNavInstance>()
-    const currentName = ref<TabPaneName>(props.modelValue ?? '0')
+    const currentName = ref<TabPaneName>(
+      (isUndefined(props.modelValue) ? props.defaultValue : props.modelValue) ??
+        '0'
+    )
 
     const setCurrentName = async (value?: TabPaneName, trigger = false) => {
       // should do nothing.

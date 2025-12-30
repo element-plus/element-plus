@@ -45,7 +45,7 @@ import {
   ref,
   watch,
 } from 'vue'
-import { definePropType, iconPropType } from '@element-plus/utils'
+import { isEqual } from 'lodash-unified'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { formItemContextKey } from '@element-plus/components/form'
 import TreeStore from './model/tree-store'
@@ -55,96 +55,17 @@ import { useNodeExpandEventBroadcast } from './model/useNodeExpandEventBroadcast
 import { useDragNodeHandler } from './model/useDragNode'
 import { useKeydown } from './model/useKeydown'
 import { ROOT_TREE_INJECTION_KEY } from './tokens'
-import { isEqual } from 'lodash-unified'
-import { treeEmits } from './tree'
+import { treeEmits, treeProps } from './tree'
 
 import type Node from './model/node'
-import type { ComponentInternalInstance, PropType } from 'vue'
+import type { ComponentInternalInstance } from 'vue'
 import type { Nullable } from '@element-plus/utils'
-import type {
-  AllowDragFunction,
-  AllowDropFunction,
-  FilterValue,
-  RenderContentFunction,
-  TreeComponentProps,
-  TreeData,
-  TreeKey,
-  TreeNodeData,
-} from './tree.type'
+import type { FilterValue, TreeData, TreeKey, TreeNodeData } from './tree.type'
 
 export default defineComponent({
   name: 'ElTree',
   components: { ElTreeNode },
-  props: {
-    data: {
-      type: definePropType<TreeData>(Array),
-      default: () => [],
-    },
-    emptyText: {
-      type: String,
-    },
-    renderAfterExpand: {
-      type: Boolean,
-      default: true,
-    },
-    nodeKey: String,
-    checkStrictly: Boolean,
-    defaultExpandAll: Boolean,
-    expandOnClickNode: {
-      type: Boolean,
-      default: true,
-    },
-    checkOnClickNode: Boolean,
-    checkOnClickLeaf: {
-      type: Boolean,
-      default: true,
-    },
-    checkDescendants: Boolean,
-    autoExpandParent: {
-      type: Boolean,
-      default: true,
-    },
-    defaultCheckedKeys: Array as PropType<
-      TreeComponentProps['defaultCheckedKeys']
-    >,
-    defaultExpandedKeys: Array as PropType<
-      TreeComponentProps['defaultExpandedKeys']
-    >,
-    currentNodeKey: [String, Number] as PropType<string | number>,
-    renderContent: {
-      type: definePropType<RenderContentFunction>(Function),
-    },
-    showCheckbox: Boolean,
-    draggable: Boolean,
-    allowDrag: {
-      type: definePropType<AllowDragFunction>(Function),
-    },
-    allowDrop: {
-      type: definePropType<AllowDropFunction>(Function),
-    },
-    props: {
-      type: Object as PropType<TreeComponentProps['props']>,
-      default: () => ({
-        children: 'children',
-        label: 'label',
-        disabled: 'disabled',
-      }),
-    },
-    lazy: Boolean,
-    highlightCurrent: Boolean,
-    load: Function as PropType<TreeComponentProps['load']>,
-    filterNodeMethod: Function as PropType<
-      TreeComponentProps['filterNodeMethod']
-    >,
-    accordion: Boolean,
-    indent: {
-      type: Number,
-      default: 18,
-    },
-    icon: {
-      type: iconPropType,
-    },
-  },
+  props: treeProps,
   emits: treeEmits,
   setup(props, ctx) {
     const { t } = useLocale()
@@ -258,9 +179,15 @@ export default defineComponent({
       return getNodeKeyUtil(props.nodeKey, node.data)
     }
 
+    const requireNodeKey = (methodName: string) => {
+      if (!props.nodeKey) {
+        throw new Error(`[Tree] nodeKey is required in ${methodName}`)
+      }
+    }
+
     const getNodePath = (data: TreeKey | TreeNodeData) => {
-      if (!props.nodeKey)
-        throw new Error('[Tree] nodeKey is required in getNodePath')
+      requireNodeKey('getNodePath')
+
       const node = store.value.getNode(data)
       if (!node) return []
       const path = [node.data]
@@ -289,21 +216,21 @@ export default defineComponent({
     }
 
     const getCurrentKey = (): TreeKey | null => {
-      if (!props.nodeKey)
-        throw new Error('[Tree] nodeKey is required in getCurrentKey')
+      requireNodeKey('getCurrentKey')
+
       const currentNode = getCurrentNode()
-      return currentNode ? currentNode[props.nodeKey] : null
+      return currentNode ? currentNode[props.nodeKey!] : null
     }
 
     const setCheckedNodes = (nodes: Node[], leafOnly?: boolean) => {
-      if (!props.nodeKey)
-        throw new Error('[Tree] nodeKey is required in setCheckedNodes')
+      requireNodeKey('setCheckedNodes')
+
       store.value.setCheckedNodes(nodes, leafOnly)
     }
 
     const setCheckedKeys = (keys: TreeKey[], leafOnly?: boolean) => {
-      if (!props.nodeKey)
-        throw new Error('[Tree] nodeKey is required in setCheckedKeys')
+      requireNodeKey('setCheckedKeys')
+
       store.value.setCheckedKeys(keys, leafOnly)
     }
 
@@ -324,8 +251,7 @@ export default defineComponent({
     }
 
     const setCurrentNode = (node: Node, shouldAutoExpandParent = true) => {
-      if (!props.nodeKey)
-        throw new Error('[Tree] nodeKey is required in setCurrentNode')
+      requireNodeKey('setCurrentNode')
 
       handleCurrentChange(store, ctx.emit, () => {
         broadcastExpanded(node)
@@ -337,8 +263,7 @@ export default defineComponent({
       key: TreeKey | null = null,
       shouldAutoExpandParent = true
     ) => {
-      if (!props.nodeKey)
-        throw new Error('[Tree] nodeKey is required in setCurrentKey')
+      requireNodeKey('setCurrentKey')
 
       handleCurrentChange(store, ctx.emit, () => {
         broadcastExpanded()
@@ -385,8 +310,8 @@ export default defineComponent({
     }
 
     const updateKeyChildren = (key: TreeKey, data: TreeData) => {
-      if (!props.nodeKey)
-        throw new Error('[Tree] nodeKey is required in updateKeyChild')
+      requireNodeKey('updateKeyChild')
+
       store.value.updateChildren(key, data)
     }
 

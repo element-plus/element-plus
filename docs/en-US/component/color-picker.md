@@ -47,12 +47,13 @@ color-picker/sizes
 | --------------------------- | -------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ------- |
 | model-value / v-model       | binding value                                                                                                  | ^[string]                                                                                                        | —       |
 | disabled                    | whether to disable the ColorPicker                                                                             | ^[boolean]                                                                                                       | false   |
+| clearable ^(2.13.1)         | whether to show clear button                                                                                   | ^[boolean]                                                                                                       | true    |
 | size                        | size of ColorPicker                                                                                            | ^[enum]`'large' \| 'default' \| 'small'`                                                                         | —       |
 | show-alpha                  | whether to display the alpha slider                                                                            | ^[boolean]                                                                                                       | false   |
 | color-format                | color format of v-model                                                                                        | ^[enum]`'hsl' \| 'hsv' \| 'hex' \| 'rgb' \| 'hex' (when show-alpha is false) \| 'rgb' (when show-alpha is true)` | —       |
 | popper-class                | custom class name for ColorPicker's dropdown                                                                   | ^[string] / ^[object]                                                                                            | ''      |
 | popper-style ^(2.11.4)      | custom style for ColorPicker's dropdown                                                                        | ^[string] / ^[object]                                                                                            | —       |
-| predefine                   | predefined color options                                                                                       | ^[object]`string[]`                                                                                              | —       |
+| predefine                   | predefined color options                                                                                       | ^[array]`string[]`                                                                                               | —       |
 | validate-event              | whether to trigger form validation                                                                             | ^[boolean]                                                                                                       | true    |
 | tabindex                    | ColorPicker tabindex                                                                                           | ^[string] / ^[number]                                                                                            | 0       |
 | aria-label ^(a11y) ^(2.7.2) | ColorPicker aria-label                                                                                         | ^[string]                                                                                                        | —       |
@@ -66,12 +67,13 @@ color-picker/sizes
 
 ### Events
 
-| Name           | Description                                    | Type                                     |
-| -------------- | ---------------------------------------------- | ---------------------------------------- |
-| change         | triggers when input value changes              | ^[Function]`(value: string) => void`     |
-| active-change  | triggers when the current active color changes | ^[Function]`(value: string) => void`     |
-| focus ^(2.4.0) | triggers when Component focuses                | ^[Function]`(event: FocusEvent) => void` |
-| blur ^(2.4.0)  | triggers when Component blurs                  | ^[Function]`(event: FocusEvent) => void` |
+| Name            | Description                                    | Type                                     |
+| --------------- | ---------------------------------------------- | ---------------------------------------- |
+| change          | triggers when input value changes              | ^[Function]`(value: string) => void`     |
+| active-change   | triggers when the current active color changes | ^[Function]`(value: string) => void`     |
+| focus ^(2.4.0)  | triggers when Component focuses                | ^[Function]`(event: FocusEvent) => void` |
+| blur ^(2.4.0)   | triggers when Component blurs                  | ^[Function]`(event: FocusEvent) => void` |
+| clear ^(2.13.1) | triggers when the clear button is clicked      | ^[Function]`() => void`                  |
 
 ### Exposes
 

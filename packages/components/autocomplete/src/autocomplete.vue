@@ -402,6 +402,7 @@ const handleKeydown = (e: KeyboardEvent | Event) => {
       highlight(highlightedIndex.value + 1)
       break
     case EVENT_CODE.enter:
+    case EVENT_CODE.numpadEnter:
       e.preventDefault()
       handleKeyEnter()
       break

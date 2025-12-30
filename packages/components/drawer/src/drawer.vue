@@ -123,7 +123,7 @@ defineOptions({
 })
 
 const props = defineProps(drawerProps)
-defineEmits(drawerEmits)
+const emit = defineEmits(drawerEmits)
 const slots = useSlots()
 
 useDeprecated(
@@ -160,7 +160,7 @@ const {
   handleClose,
 } = useDialog(props, drawerRef)
 
-const { isHorizontal, size, isResizing } = useResizable(props, draggerRef)
+const { isHorizontal, size, isResizing } = useResizable(props, draggerRef, emit)
 
 const penetrable = computed(() => props.modalPenetrable && !props.modal)
 

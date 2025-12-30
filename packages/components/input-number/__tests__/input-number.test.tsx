@@ -2,9 +2,9 @@ import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, test, vi } from 'vitest'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
-import { ElFormItem } from '@element-plus/components/form'
+import { ElForm, ElFormItem } from '@element-plus/components/form'
 import { ElIcon } from '@element-plus/components/icon'
-import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import InputNumber from '../src/input-number.vue'
 
 const mouseup = new Event('mouseup')
@@ -194,13 +194,17 @@ describe('InputNumber.vue', () => {
     const num = ref(6)
     const errorHandler = vi.fn()
 
-    mount(() => <InputNumber v-model={num.value} min={10} max={8} />, {
-      global: {
-        config: {
-          errorHandler,
+    try {
+      mount(() => <InputNumber v-model={num.value} min={10} max={8} />, {
+        global: {
+          config: {
+            errorHandler,
+          },
         },
-      },
-    })
+      })
+    } catch {
+      // suppress error
+    }
     expect(errorHandler).toHaveBeenCalled()
     const [error] = errorHandler.mock.calls[0]
     expect(error.message).toEqual(
@@ -568,6 +572,18 @@ describe('InputNumber.vue', () => {
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
     })
+
+    test('The disabled state of a component has higher priority than that of a form', async () => {
+      const wrapper = mount(() => (
+        <ElForm disabled>
+          <InputNumber disabled={false} />
+        </ElForm>
+      ))
+
+      await nextTick()
+      const inputNumber = wrapper.find('.el-input-number')
+      expect(inputNumber.classes()).not.toContain('is-disabled')
+    })
   })
 
   test('use model-value', () => {
@@ -686,5 +702,27 @@ describe('InputNumber.vue', () => {
       preventDefault,
     })
     expect(preventDefault).not.toHaveBeenCalled()
+  })
+
+  test('correct condition for user input reset', async () => {
+    const num = ref(1)
+    const wrapper = mount(() => (
+      <InputNumber v-model={num.value} min={0} max={10} />
+    ))
+
+    const input = wrapper.find('input')
+    const event = new Event('input')
+
+    expect(input.element.value).toBe('1')
+
+    input.element.value = '100'
+    input.element.dispatchEvent(event)
+    await input.trigger('keydown', { key: EVENT_CODE.down })
+    expect(input.element.value).toBe('10')
+
+    input.element.value = '110'
+    input.element.dispatchEvent(event)
+    await input.trigger('keydown', { key: EVENT_CODE.down })
+    expect(input.element.value).toBe('10')
   })
 })

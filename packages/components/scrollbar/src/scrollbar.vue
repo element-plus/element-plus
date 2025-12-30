@@ -80,8 +80,10 @@ const barRef = ref<BarInstance>()
 
 const wrapStyle = computed<StyleValue>(() => {
   const style: CSSProperties = {}
-  if (props.height) style.height = addUnit(props.height)
-  if (props.maxHeight) style.maxHeight = addUnit(props.maxHeight)
+  const height = addUnit(props.height)
+  const maxHeight = addUnit(props.maxHeight)
+  if (height) style.height = height
+  if (maxHeight) style.maxHeight = maxHeight
   return [props.wrapStyle, style]
 })
 

@@ -21,7 +21,7 @@ import type SelectV2 from './select.vue'
 import type { Option, OptionType } from './select.types'
 import type { Props } from './useProps'
 import type { EmitFn } from '@element-plus/utils/vue/typescript'
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type {
   Options,
   Placement,
@@ -84,7 +84,10 @@ export const selectV2Props = buildProps({
   /**
    * @description is disabled
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description
    */
@@ -260,6 +263,10 @@ export const selectV2Props = buildProps({
     default: 12,
   },
   /**
+   * @description in remote search method show suffix icon
+   */
+  remoteShowSuffix: Boolean,
+  /**
    * @description Determines whether the arrow is displayed
    */
   showArrow: {
@@ -351,9 +358,9 @@ export const optionV2Emits = {
 /* eslint-enable @typescript-eslint/no-unused-vars */
 
 export type SelectV2Props = ExtractPropTypes<typeof selectV2Props>
-export type SelectV2PropsPublic = __ExtractPublicPropTypes<typeof selectV2Props>
+export type SelectV2PropsPublic = ExtractPublicPropTypes<typeof selectV2Props>
 export type OptionV2Props = ExtractPropTypes<typeof optionV2Props>
-export type OptionV2PropsPublic = __ExtractPublicPropTypes<typeof optionV2Props>
+export type OptionV2PropsPublic = ExtractPublicPropTypes<typeof optionV2Props>
 export type SelectV2EmitFn = EmitFn<typeof selectV2Emits>
 export type OptionV2EmitFn = EmitFn<typeof optionV2Emits>
 

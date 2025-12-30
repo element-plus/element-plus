@@ -68,7 +68,6 @@ import type { CascaderMenuInstance } from './instance'
 
 defineOptions({
   name: 'ElCascaderPanel',
-  inheritAttrs: false,
 })
 
 const props = defineProps(cascaderPanelProps)
@@ -285,10 +284,15 @@ const scrollToExpandingNode = () => {
       const container = menuElement.querySelector(
         `.${ns.namespace.value}-scrollbar__wrap`
       )
-      const activeNode =
-        menuElement.querySelector(
-          `.${ns.b('node')}.${ns.is('active')}:last-child`
-        ) || menuElement.querySelector(`.${ns.b('node')}.in-active-path`)
+      let activeNode = menuElement.querySelector(
+        `.${ns.b('node')}.in-active-path`
+      )
+      if (!activeNode) {
+        const activeElements = menuElement.querySelectorAll(
+          `.${ns.b('node')}.${ns.is('active')}`
+        )
+        activeNode = activeElements[activeElements.length - 1]
+      }
       scrollIntoView(container, activeNode)
     }
   })

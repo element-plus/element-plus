@@ -199,8 +199,8 @@ cascader/custom-header-footer
 
 | Name                                       | Description                                                                                                                                                                      | Type                                                                                                                                                                        | Default      |
 | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| model-value / v-model                      | binding value                                                                                                                                                                    | ^[string] / ^[number] /^[object]`string[] \| number[] \| any`                                                                                                               | —            |
-| options                                    | data of the options, the key of `value` and `label` can be customize by `CascaderProps`.                                                                                         | ^[object]`CascaderOption[]`                                                                                                                                                 | —            |
+| model-value / v-model                      | binding value                                                                                                                                                                    | ^[string] / ^[number] /^[array]`string[] \| number[] \| any`                                                                                                                | —            |
+| options                                    | data of the options, the key of `value` and `label` can be customize by `CascaderProps`.                                                                                         | ^[array]`CascaderOption[]`                                                                                                                                                  | —            |
 | [props](#cascaderprops)                    | configuration options, see the following `CascaderProps` table.                                                                                                                  | ^[object]`CascaderProps`                                                                                                                                                    | —            |
 | size                                       | size of input                                                                                                                                                                    | ^[enum]`'large' \| 'default' \| 'small'`                                                                                                                                    | —            |
 | placeholder                                | placeholder of input                                                                                                                                                             | ^[string]                                                                                                                                                                   | —            |
@@ -246,7 +246,7 @@ cascader/custom-header-footer
 
 ### Cascader Slots
 
-| Name                     | Description                                                                                    | Scope                                                     |
+| Name                     | Description                                                                                    | Type                                                      |
 | ------------------------ | ---------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
 | default                  | the custom content of cascader node, which are current Node object and node data respectively. | ^[object]`{ node: any, data: any }`                       |
 | empty                    | content when there is no matched options.                                                      | —                                                         |
@@ -265,16 +265,18 @@ cascader/custom-header-footer
 | togglePopperVisible ^(2.2.31) | toggle the visible type of popper                                                                                 | ^[Function]`(visible?: boolean) => void`                        |
 | contentRef                    | cascader content ref                                                                                              | ^[object]`ComputedRef<any>`                                     |
 | presentText ^(2.8.4)          | selected content text                                                                                             | ^[object]`ComputedRef<string>`                                  |
+| focus ^(2.11.8)               | focus the input element                                                                                           | ^[Function]`() => void`                                         |
+| blur ^(2.11.8)                | blur the input element                                                                                            | ^[Function]`() => void`                                         |
 
 ## CascaderPanel API
 
 ### CascaderPanel Attributes
 
-| Name                    | Description                                                                              | Type                                                       | Default |
-| ----------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ------- |
-| model-value / v-model   | binding value                                                                            | ^[string]/^[number]/^[object]`string[] \| number[] \| any` | —       |
-| options                 | data of the options, the key of `value` and `label` can be customize by `CascaderProps`. | ^[object]`CascaderOption[]`                                | —       |
-| [props](#cascaderprops) | configuration options, see the following `CascaderProps` table.                          | ^[object]`CascaderProps`                                   | —       |
+| Name                    | Description                                                                              | Type                                                      | Default |
+| ----------------------- | ---------------------------------------------------------------------------------------- | --------------------------------------------------------- | ------- |
+| model-value / v-model   | binding value                                                                            | ^[string]/^[number]/^[array]`string[] \| number[] \| any` | —       |
+| options                 | data of the options, the key of `value` and `label` can be customize by `CascaderProps`. | ^[array]`CascaderOption[]`                                | —       |
+| [props](#cascaderprops) | configuration options, see the following `CascaderProps` table.                          | ^[object]`CascaderProps`                                  | —       |
 
 ### CascaderPanel Events
 
@@ -287,7 +289,7 @@ cascader/custom-header-footer
 
 ### CascaderPanel Slots
 
-| Name           | Description                                                                                    | Scope                               |
+| Name           | Description                                                                                    | Type                                |
 | -------------- | ---------------------------------------------------------------------------------------------- | ----------------------------------- |
 | default        | the custom content of cascader node, which are current Node object and node data respectively. | ^[object]`{ node: any, data: any }` |
 | empty ^(2.8.3) | the content of the panel when there is no data.                                                | —                                   |

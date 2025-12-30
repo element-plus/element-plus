@@ -7,6 +7,7 @@ export interface SliderContext extends ToRefs<SliderProps> {
   emitChange: () => void
   resetSize: () => void
   updateDragging: (val: boolean) => void
+  disabled: ComputedRef<boolean>
 }
 
 export const sliderContextKey: InjectionKey<SliderContext> =

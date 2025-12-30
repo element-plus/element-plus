@@ -6,7 +6,6 @@
 
 @include b(anchor) {
   @include e(item) {
-    overflow: hidden;
     display: flex;
     flex-direction: column;
   }
@@ -27,7 +26,12 @@
 
     &:hover,
     &:focus {
-      color: getCssVar('anchor-color');
+      color: getCssVar('hover-color');
+    }
+
+    &:focus-visible {
+      border-radius: getCssVar('border-radius', 'base');
+      outline: 2px solid getCssVar('color-primary');
     }
 
     @include when(active) {

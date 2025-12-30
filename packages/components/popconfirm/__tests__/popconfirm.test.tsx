@@ -1,4 +1,4 @@
-import { nextTick } from 'vue'
+import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { rAF } from '@element-plus/test-utils/tick'
@@ -67,6 +67,58 @@ describe('Popconfirm.vue', () => {
     expect(document.querySelector(selector)!.getAttribute('style')).toContain(
       'display: none'
     )
+  })
+
+  it('should work with virtualTriggering and virtualRef', async () => {
+    const wrapper = mount({
+      setup() {
+        const visible = ref(false)
+        const virtualRef = ref()
+        const handleClick = () => {
+          virtualRef.value = {
+            getBoundingClientRect: () => {
+              return {
+                x: 0,
+                y: 0,
+                top: 0,
+                left: 0,
+                width: 100,
+                height: 100,
+                right: 100,
+                bottom: 100,
+              }
+            },
+          }
+          visible.value = true
+        }
+
+        return () => (
+          <>
+            <button data-testid="testid" onClick={handleClick}>
+              test
+            </button>
+            <Popconfirm
+              v-model:visible={visible.value}
+              virtualRef={virtualRef.value}
+              virtualTriggering
+            />
+          </>
+        )
+      },
+    })
+
+    await nextTick()
+
+    const popperEl = document.querySelector(selector)!
+    expect(popperEl.getAttribute('style')).toContain('display: none')
+    const button = wrapper.find('button[data-testid="testid"]')
+
+    await button.trigger('click')
+    await nextTick()
+    await rAF()
+    const style = popperEl.getAttribute('style')
+    expect(style).not.toContain('display: none')
+    expect(style).toContain('transform: translate(0px, 112px)')
   })
 
   describe('teleported API', () => {

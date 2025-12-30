@@ -74,8 +74,8 @@ import {
 } from '@element-plus/constants'
 import { getEventCode, isArray, isObject, isString } from '@element-plus/utils'
 import {
-  formContextKey,
   formItemContextKey,
+  useFormDisabled,
   useFormItemInputId,
   useFormSize,
 } from '@element-plus/components/form'
@@ -113,7 +113,6 @@ defineOptions({
 const props = defineProps(rateProps)
 const emit = defineEmits(rateEmits)
 
-const formContext = inject(formContextKey, undefined)
 const formItemContext = inject(formItemContextKey, undefined)
 const rateSize = useFormSize()
 const ns = useNamespace('rate')
@@ -130,7 +129,7 @@ const iconClientWidths = computed<number[]>(() =>
   iconRefs.value.map((icon) => icon.$el.clientWidth)
 )
 const rateClasses = computed(() => [ns.b(), ns.m(rateSize.value)])
-const rateDisabled = computed(() => props.disabled || formContext?.disabled)
+const rateDisabled = useFormDisabled()
 const rateStyles = computed(() => {
   return ns.cssVarBlock({
     'void-color': props.voidColor,

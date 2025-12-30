@@ -2,7 +2,7 @@ import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import defineGetter from '@element-plus/test-utils/define-getter'
-import { ElFormItem as FormItem } from '@element-plus/components/form'
+import { ElForm, ElFormItem as FormItem } from '@element-plus/components/form'
 import Input from '../src/input.vue'
 
 import type { CSSProperties } from 'vue'
@@ -636,6 +636,28 @@ describe('Input.vue', () => {
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
     })
+
+    test('The disabled state of a component has higher priority than that of a form', async () => {
+      const wrapper = mount(() => (
+        <ElForm disabled>
+          <Input disabled={false} />
+        </ElForm>
+      ))
+
+      await nextTick()
+      const input = wrapper.find('.el-input')
+      expect(input.classes()).not.toContain('is-disabled')
+    })
+  })
+
+  test('input change event return Event parameter', async () => {
+    const onChange = vi.fn()
+    const wrapper = mount(() => <Input onChange={onChange} />)
+
+    await wrapper.find('input').trigger('change')
+    await nextTick()
+
+    expect(onChange).toHaveBeenCalledWith('', expect.any(Event))
   })
 
   test('modelValue modifiers', async () => {

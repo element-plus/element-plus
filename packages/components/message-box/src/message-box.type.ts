@@ -1,7 +1,11 @@
+import { buttonTypes } from '@element-plus/components/button'
+
 import type { AppContext, CSSProperties, Component, VNode } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
+import type { InputType } from '@element-plus/components/input/src/input'
 
 type MessageType = '' | 'primary' | 'success' | 'warning' | 'info' | 'error'
+type MessageBoxButtonType = (typeof buttonTypes)[number]
 
 export type Action = 'confirm' | 'close' | 'cancel'
 export type MessageBoxType = '' | 'prompt' | 'alert' | 'confirm'
@@ -27,7 +31,7 @@ export declare interface MessageBoxState {
   showInput: boolean
   inputValue: string
   inputPlaceholder: string
-  inputType: string
+  inputType: InputType
   inputPattern: RegExp | null
   inputValidator: MessageBoxInputValidator
   inputErrorMessage: string
@@ -37,6 +41,8 @@ export declare interface MessageBoxState {
   dangerouslyUseHTMLString: boolean
   confirmButtonText: string
   cancelButtonText: string
+  confirmButtonType: MessageBoxButtonType
+  cancelButtonType: MessageBoxButtonType
   confirmButtonLoading: boolean
   cancelButtonLoading: boolean
   confirmButtonLoadingIcon: string | Component
@@ -98,6 +104,12 @@ export interface ElMessageBoxOptions {
 
   /** Text content of confirm button */
   confirmButtonText?: string
+
+  /** Type of cancel button */
+  cancelButtonType?: MessageBoxButtonType
+
+  /** Type of confirm button */
+  confirmButtonType?: MessageBoxButtonType
 
   /** Loading Icon content of cancel button */
   cancelButtonLoadingIcon?: string | Component
@@ -180,8 +192,8 @@ export interface ElMessageBoxOptions {
   /** Regexp for the input */
   inputPattern?: RegExp
 
-  /** Input Type: text, textArea, password or number */
-  inputType?: string
+  /** type of input, see more in [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types) */
+  inputType?: InputType
 
   /** Validation function for the input. Should returns a boolean or string. If a string is returned, it will be assigned to inputErrorMessage */
   inputValidator?: MessageBoxInputValidator
@@ -209,7 +221,7 @@ export type ElMessageBoxShortcutMethod = ((
   ) => Promise<MessageBoxData>)
 
 export interface IElMessageBox {
-  _context: AppContext | null
+  _context: AppContext | null;
 
   /** Show a message box */
   // (message: string, title?: string, type?: string): Promise<MessageBoxData>

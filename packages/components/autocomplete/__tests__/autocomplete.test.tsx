@@ -2,14 +2,17 @@
  * @vitest-environment happy-dom
  */
 
-import { defineComponent, nextTick, reactive } from 'vue'
+import { DefineComponent, defineComponent, nextTick, reactive } from 'vue'
 import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, test, vi } from 'vitest'
 import { NOOP } from '@element-plus/utils'
 import { usePopperContainerId } from '@element-plus/hooks'
 import { ElFormItem as FormItem } from '@element-plus/components/form'
 import Autocomplete from '../src/autocomplete.vue'
-import { AutocompleteFetchSuggestionsCallback } from '../src/autocomplete'
+import {
+  AutocompleteFetchSuggestionsCallback,
+  AutocompletePropsPublic,
+} from '../src/autocomplete'
 import { EVENT_CODE } from '@element-plus/constants'
 
 vi.unmock('lodash')
@@ -81,7 +84,10 @@ const _mount = (
           />
         )
       },
-    }),
+    }) as DefineComponent<
+      AutocompletePropsPublic,
+      ReturnType<typeof usePopperContainerId>
+    >,
     {
       global: {
         provide: {
@@ -695,6 +701,44 @@ describe('Autocomplete.vue', () => {
       )
       expect(footerEl).not.toBeNull()
       expect(footerEl!.textContent).toBe('Custom Footer')
+    })
+  })
+
+  describe('should select the option when using Enter or Numpad Enter', () => {
+    test('use Enter', async () => {
+      const wrapper = _mount()
+      await nextTick()
+
+      const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
+        typeof Autocomplete
+      >
+      const input = wrapper.find('input')
+
+      await input.trigger('focus')
+      vi.runAllTimers()
+      await nextTick()
+
+      await input.trigger('keydown', { code: EVENT_CODE.down })
+      await input.trigger('keydown', { code: EVENT_CODE.enter })
+      expect(target.modelValue).toBe('Java')
+    })
+
+    test('use Numpad Enter', async () => {
+      const wrapper = _mount()
+      await nextTick()
+
+      const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
+        typeof Autocomplete
+      >
+      const input = wrapper.find('input')
+
+      await input.trigger('focus')
+      vi.runAllTimers()
+      await nextTick()
+
+      await input.trigger('keydown', { code: EVENT_CODE.down })
+      await input.trigger('keydown', { code: EVENT_CODE.numpadEnter })
+      expect(target.modelValue).toBe('Java')
     })
   })
 })
