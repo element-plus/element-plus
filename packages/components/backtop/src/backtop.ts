@@ -1,5 +1,6 @@
-import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import { definePropType } from '@element-plus/utils'
+
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 
 export const backtopProps = {
   /**
@@ -16,7 +17,7 @@ export const backtopProps = {
     type: definePropType<string | HTMLElement | Window | null>([
       String,
       Object,
-    ])
+    ]),
   },
   /**
    * @description right distance.
