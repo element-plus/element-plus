@@ -26,6 +26,7 @@ import {
   isString,
   isUndefined,
   mutable,
+  throwError,
 } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { ClickOutside as vClickoutside } from '@element-plus/directives'
@@ -213,9 +214,10 @@ export const menuEmits = {
 export type MenuEmits = typeof menuEmits
 
 const DEFAULT_MORE_ITEM_WIDTH = 64
+const COMPONENT_NAME = 'ElMenu'
 
 export default defineComponent({
-  name: 'ElMenu',
+  name: COMPONENT_NAME,
 
   props: menuProps,
   emits: menuEmits,
@@ -308,6 +310,17 @@ export default defineComponent({
 
       if (props.router && router) {
         const route = menuItem.route || index
+
+        if (
+          props.navigationMode === 'name' &&
+          typeof route === 'string' &&
+          !router.hasRoute(route)
+        )
+          throwError(
+            COMPONENT_NAME,
+            `route with name '${route}' does not exist.`
+          )
+
         const routerResult = router
           .push({ [props.navigationMode]: route })
           .then((res) => {
