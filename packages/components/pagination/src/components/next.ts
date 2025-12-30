@@ -1,6 +1,6 @@
 import { buildProps, iconPropType } from '@element-plus/utils'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type Next from './next.vue'
 
 export const paginationNextProps = buildProps({
@@ -22,7 +22,7 @@ export const paginationNextProps = buildProps({
 } as const)
 
 export type PaginationNextProps = ExtractPropTypes<typeof paginationNextProps>
-export type PaginationNextPropsPublic = __ExtractPublicPropTypes<
+export type PaginationNextPropsPublic = ExtractPublicPropTypes<
   typeof paginationNextProps
 >
 

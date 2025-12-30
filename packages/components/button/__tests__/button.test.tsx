@@ -346,9 +346,10 @@ describe('Button Group', () => {
   })
 
   it('direction prop', async () => {
+    const direction = ref<'horizontal' | 'vertical'>('horizontal')
     const wrapper = mount({
       setup: () => () => (
-        <ButtonGroup type="warning">
+        <ButtonGroup type="warning" direction={direction.value}>
           <Button type="primary">Prev</Button>
           <Button>Next</Button>
         </ButtonGroup>
@@ -358,7 +359,8 @@ describe('Button Group', () => {
     expect(wrapper.classes()).toContain(ns.bm('group', 'horizontal'))
     expect(wrapper.classes()).not.toContain(ns.bm('group', 'vertical'))
 
-    await wrapper.setProps({ direction: 'vertical' })
+    direction.value = 'vertical'
+    await nextTick()
 
     expect(wrapper.classes()).toContain(ns.bm('group', 'vertical'))
     expect(wrapper.classes()).not.toContain(ns.bm('group', 'horizontal'))

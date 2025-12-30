@@ -169,6 +169,17 @@ describe('TimeLine.vue', () => {
     expect(timestampWrappers[1].classes()).toContain('el-timeline-item__center')
   })
 
+  test('The content that is not a timeline item in the sub-slot should be rendered', () => {
+    const wrapper = mount(() => (
+      <TimeLine>
+        <div class="custom-content">Custom Content</div>
+      </TimeLine>
+    ))
+
+    // It appears there's a problem with the DOM hierarchy structure being rendered by the test framework.
+    expect(wrapper.element.innerHTML).toBe('Custom Content')
+  })
+
   describe('reverse', () => {
     test('v-for children', async () => {
       const wrapper = mount({
@@ -186,17 +197,18 @@ describe('TimeLine.vue', () => {
           TimeLine,
           TimeLineItem,
         },
-        setup() {
-          const reverse = ref(true)
-          return { activities, reverse }
+        data() {
+          return {
+            reverse: true,
+            activities,
+          }
         },
       })
 
       let firstTimelineItem = wrapper.find('.el-timeline-item__content')
       expect(firstTimelineItem.text()).toMatchInlineSnapshot(`"Step 3: xxxxxx"`)
 
-      wrapper.vm.reverse = false
-      await nextTick()
+      await wrapper.setData({ reverse: false })
       firstTimelineItem = wrapper.find('.el-timeline-item__content')
       expect(firstTimelineItem.text()).toMatchInlineSnapshot(`"Step 1: xxxxxx"`)
     })

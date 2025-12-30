@@ -7,8 +7,11 @@ import {
 import { CHANGE_EVENT } from '@element-plus/constants'
 import { teleportProps } from '@element-plus/components/teleport'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
-import type { ZIndexProperty } from 'csstype'
+import type {
+  CSSProperties,
+  ExtractPropTypes,
+  ExtractPublicPropTypes,
+} from 'vue'
 import type Affix from './affix.vue'
 
 export const affixProps = buildProps({
@@ -16,7 +19,7 @@ export const affixProps = buildProps({
    * @description affix element zIndex value
    * */
   zIndex: {
-    type: definePropType<ZIndexProperty>([Number, String]),
+    type: definePropType<CSSProperties['z-index']>([Number, String]),
     default: 100,
   },
   /**
@@ -54,7 +57,7 @@ export const affixProps = buildProps({
   },
 } as const)
 export type AffixProps = ExtractPropTypes<typeof affixProps>
-export type AffixPropsPublic = __ExtractPublicPropTypes<typeof affixProps>
+export type AffixPropsPublic = ExtractPublicPropTypes<typeof affixProps>
 
 export const affixEmits = {
   scroll: ({ scrollTop, fixed }: { scrollTop: number; fixed: boolean }) =>

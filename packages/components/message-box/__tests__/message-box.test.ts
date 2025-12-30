@@ -398,4 +398,26 @@ describe('MessageBox', () => {
       expect(error.textContent).toBe('error message')
     })
   })
+
+  test('should work with confirmButtonType and cancelButtonType props', async () => {
+    MessageBox({
+      type: 'error',
+      title: '消息',
+      message: '这是一段内容',
+      showCancelButton: true,
+      confirmButtonType: 'danger',
+      cancelButtonType: 'warning',
+    })
+
+    await rAF()
+    const cancelBtn = document.querySelector(
+      '.el-message-box__btns .el-button--warning'
+    )
+    const confirmBtn = document.querySelector(
+      '.el-message-box__btns .el-button--danger'
+    )
+
+    expect(cancelBtn).not.toBeNull()
+    expect(confirmBtn).not.toBeNull()
+  })
 })
