@@ -1,4 +1,4 @@
-import { onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref, toRaw } from 'vue'
 
 import type { Table } from './defaults'
 
@@ -14,7 +14,7 @@ export default function useKeyRender(table: Table<[]>) {
       updateOrderFns.forEach((fn: () => void) => fn())
     })
 
-    observer.value.observe(columnsWrapper!, config)
+    toRaw(observer.value).observe(columnsWrapper!, config)
   }
 
   onMounted(() => {
@@ -23,6 +23,6 @@ export default function useKeyRender(table: Table<[]>) {
   })
 
   onUnmounted(() => {
-    observer.value?.disconnect()
+    toRaw(observer.value)?.disconnect()
   })
 }
