@@ -322,7 +322,7 @@ export default defineComponent({
           )
 
         const routerResult = router
-          .push({ [props.navigationMode]: route })
+          .push(menuItem.route || { [props.navigationMode]: route })
           .then((res) => {
             if (!res) activeIndex.value = index
             return res
