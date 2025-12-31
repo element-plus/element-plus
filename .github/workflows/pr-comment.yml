@@ -14,7 +14,7 @@ jobs:
     if: |
       github.event.pull_request.merged == true &&
       github.repository_owner == 'element-plus' &&
-      github.event.pull_request.user.login != 'dependabot[bot]'
+      github.event.pull_request.user.type != 'Bot'
 
     steps:
       - name: Comment on PR
