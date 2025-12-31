@@ -33,18 +33,20 @@ const genComp = (
 }
 
 const _mount = (Comp: ReturnType<typeof genComp>) => {
-  return mount({
-    setup() {
-      return () => (
-        <Comp
-          class={CLASS}
-          style={{ width: WIDTH }}
-          onClick={handleClick}
-          {...{ [TEST_KEY]: TEST_VALUE }}
-        />
-      )
-    },
-  })
+  return mount(
+    defineComponent<{ [TEST_KEY]: string }>({
+      setup() {
+        return () => (
+          <Comp
+            class={CLASS}
+            style={{ width: WIDTH }}
+            onClick={handleClick}
+            {...{ [TEST_KEY]: TEST_VALUE }}
+          />
+        )
+      },
+    })
+  )
 }
 
 describe('useAttrs', () => {

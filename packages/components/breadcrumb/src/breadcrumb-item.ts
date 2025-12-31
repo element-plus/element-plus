@@ -1,6 +1,6 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
 
 export const breadcrumbItemProps = buildProps({
@@ -17,6 +17,6 @@ export const breadcrumbItemProps = buildProps({
   replace: Boolean,
 } as const)
 export type BreadcrumbItemProps = ExtractPropTypes<typeof breadcrumbItemProps>
-export type BreadcrumbItemPropsPublic = __ExtractPublicPropTypes<
+export type BreadcrumbItemPropsPublic = ExtractPublicPropTypes<
   typeof breadcrumbItemProps
 >

@@ -1,7 +1,7 @@
 import { definePropType } from '@element-plus/utils'
 import { buttonProps } from './button'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 
 export const buttonGroupProps = {
   /**
@@ -22,6 +22,6 @@ export const buttonGroupProps = {
   },
 } as const
 export type ButtonGroupProps = ExtractPropTypes<typeof buttonGroupProps>
-export type ButtonGroupPropsPublic = __ExtractPublicPropTypes<
+export type ButtonGroupPropsPublic = ExtractPublicPropTypes<
   typeof buttonGroupProps
 >
