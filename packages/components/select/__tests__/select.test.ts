@@ -4241,7 +4241,8 @@ describe('Select', () => {
   })
 
   test('should show empty slot when remote search returns empty', async () => {
-    const wrapper = mount({
+    vi.useFakeTimers()
+    wrapper = mount({
       components: {
         'el-select': Select,
         'el-option': Option,
@@ -4279,15 +4280,24 @@ describe('Select', () => {
     })
     const select = wrapper.findComponent(Select)
     const input = wrapper.find('input')
+    const vm = select.vm as any
+
     await input.trigger('click')
-    await input.setValue('empty')
+    vm.states.query = 'empty'
+    await vm.remoteMethod('empty')
+    vi.runAllTimers()
     await nextTick()
     await nextTick()
-    expect((select.vm as any).expanded).toBe(true)
+    expect(vm.states.options.size).toBe(0)
+    expect(vm.states.query).toBe('empty')
+    expect(vm.dropdownMenuVisible).toBe(true)
+    expect(vm.expanded).toBe(true)
     const emptyText = document.querySelector('.custom-empty')
     expect(emptyText).not.toBeNull()
     expect(emptyText?.textContent).toBe('NO DATA')
     const popper = document.querySelector('.el-select__popper') as HTMLElement
     expect(popper.style.display).not.toBe('none')
+
+    vi.useRealTimers()
   })
 })
