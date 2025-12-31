@@ -653,8 +653,10 @@
 
   .#{$namespace}-table-fixed-column--right {
     &.is-first-column {
-      border-left: none;
-      box-shadow: -1px 0 0 getCssVar('table-border-color');
+      .#{$namespace}-table--border & {
+        border-left: none;
+        box-shadow: -1px 0 0 getCssVar('table-border-color');
+      }
     }
   }
 
