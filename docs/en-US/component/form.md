@@ -169,7 +169,7 @@ form/accessibility
 | clearValidate      | Clear validation messages for all or specified fields.                                                                                                   | ^[Function]`(props?: Arrayable<FormItemProp> \| undefined) => void`                                                               |
 | fields ^(2.7.3)    | Get all fields context.                                                                                                                                  | ^[array]`FormItemContext[]`                                                                                                       |
 | getField ^(2.10.2) | Get a field context.                                                                                                                                     | ^[Function]`(prop: FormItemProp) => FormItemContext \| undefined`                                                                 |
-| setInitialValues   | Set initial values for form fields. When `resetFields` is called, fields will reset to these values. Only fields present in `initModel` will be updated. | ^[Function]`(initModel: Record<string, any>) => void`                                                                             |
+| setInitialValues  ^(2.13.1) | Set initial values for form fields. When `resetFields` is called, fields will reset to these values. Only fields present in `initModel` will be updated. | ^[Function]`(initModel: Record<string, any>) => void`                                                                             |
 
 ## FormItem API
 
