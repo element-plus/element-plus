@@ -6,6 +6,7 @@
 
 <script lang="ts" setup>
 import { computed, provide, reactive, ref, toRefs, watch } from 'vue'
+import { has } from 'lodash-unified'
 import { debugWarn, getProp, isFunction } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { useFormSize } from './hooks'
@@ -75,9 +76,10 @@ const setInitialValues: FormContext['setInitialValues'] = (initModel) => {
   }
   fields.forEach((field) => {
     if (field.prop) {
-      const initValue = getProp(initModel, field.prop).value
-      // Only update fields that exist in initModel to avoid resetting undefined fields to undefined
-      if (initValue !== undefined) {
+      // Check if the property path actually exists in initModel
+      // This allows setting undefined/null values while skipping non-existent properties
+      if (has(initModel, field.prop)) {
+        const initValue = getProp(initModel, field.prop).value
         field.setInitialValue(initValue)
       }
     }
