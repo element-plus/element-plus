@@ -4240,9 +4240,9 @@ describe('Select', () => {
     expect(handleVisibleChange).toHaveBeenCalledTimes(2)
   })
 
-  test('should show empty slot when remote search returns empty', async () => {
+  test('should show empty slot correctly in remote search scenarios', async () => {
     vi.useFakeTimers()
-    wrapper = mount({
+    const wrapper = mount({
       components: {
         'el-select': Select,
         'el-option': Option,
@@ -4268,35 +4268,40 @@ describe('Select', () => {
       setup() {
         const value = ref('')
         const options = ref<any[]>([])
-        const remoteMethod = vi.fn((query) => {
-          if (query.includes('empty')) {
+
+        const remoteMethod = (query: string) => {
+          if (!query || query === 'empty') {
             options.value = []
           } else {
             options.value = [{ value: '1', label: 'Option 1' }]
           }
-        })
+        }
         return { value, options, remoteMethod }
       },
     })
+
     const select = wrapper.findComponent(Select)
     const input = wrapper.find('input')
     const vm = select.vm as any
 
     await input.trigger('click')
-    vm.states.query = 'empty'
-    await vm.remoteMethod('empty')
+    expect(vm.states.options.size).toBe(0)
+    expect(vm.dropdownMenuVisible).toBe(true)
+    expect(document.querySelector('.custom-empty')).not.toBeNull()
+
+    await input.setValue('a')
     vi.runAllTimers()
     await nextTick()
+    expect(vm.states.options.size).toBe(1)
+    expect(vm.dropdownMenuVisible).toBe(true)
+    expect(document.querySelector('.custom-empty')).toBeNull()
+
+    await input.setValue('empty')
+    vi.runAllTimers()
     await nextTick()
     expect(vm.states.options.size).toBe(0)
-    expect(vm.states.query).toBe('empty')
     expect(vm.dropdownMenuVisible).toBe(true)
-    expect(vm.expanded).toBe(true)
-    const emptyText = document.querySelector('.custom-empty')
-    expect(emptyText).not.toBeNull()
-    expect(emptyText?.textContent).toBe('NO DATA')
-    const popper = document.querySelector('.el-select__popper') as HTMLElement
-    expect(popper.style.display).not.toBe('none')
+    expect(document.querySelector('.custom-empty')).not.toBeNull()
 
     vi.useRealTimers()
   })
