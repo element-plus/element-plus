@@ -3,7 +3,7 @@ import { onMounted, onUnmounted } from 'vue'
 import type { Table } from './defaults'
 
 export default function useKeyRender(table: Table<[]>) {
-  let observer: MutationObserver
+  let observer: MutationObserver | undefined
 
   const initWatchDom = () => {
     const el = table.vnode.el
