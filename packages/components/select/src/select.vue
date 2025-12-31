@@ -330,7 +330,6 @@ import {
   computed,
   defineComponent,
   getCurrentInstance,
-  nextTick,
   onBeforeUnmount,
   provide,
   reactive,
@@ -520,9 +519,7 @@ export default defineComponent({
       }
       // Reset current options snapshot before re-collecting from slots.
       API.states.options.clear()
-      nextTick(() => {
-        manuallyRenderSlots(slots.default?.())
-      })
+      manuallyRenderSlots(slots.default?.())
     })
 
     provide(
