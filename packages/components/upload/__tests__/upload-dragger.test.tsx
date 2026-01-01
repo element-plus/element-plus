@@ -1,9 +1,8 @@
 import { computed, provide } from 'vue'
-import { mount } from '@vue/test-utils'
+import { flushPromises, mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import { uploadContextKey } from '@element-plus/components/upload'
 import UploadDragger from '../src/upload-dragger.vue'
-import { rAF } from '@element-plus/test-utils/tick'
 
 const AXIOM = 'Rem is the best girl'
 
@@ -101,7 +100,7 @@ describe('<upload-dragger />', () => {
         },
       })
 
-      await rAF()
+      await flushPromises()
       expect(dragger.emitted('file')).toHaveLength(1)
       const emittedFiles = dragger.emitted('file')![0][0] as File[]
       expect(emittedFiles).toHaveLength(1)
