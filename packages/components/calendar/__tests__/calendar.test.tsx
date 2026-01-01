@@ -249,6 +249,7 @@ describe('Calendar.vue', () => {
   })
 
   it('should work when controller-type is select', async () => {
+    vi.useFakeTimers()
     vi.setSystemTime(new Date('2025-12-09'))
     const wrapper = mount(
       defineComponent({
@@ -292,6 +293,7 @@ describe('Calendar.vue', () => {
     expect(monthVm.modelValue).toBe(12)
     expect(firstRow?.firstElementChild?.innerHTML).toContain('30')
     expect(firstRow?.lastElementChild?.innerHTML).toContain('6')
+    vi.useRealTimers()
   })
 
   it('should work with formatter prop', async () => {
