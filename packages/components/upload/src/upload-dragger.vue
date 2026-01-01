@@ -85,7 +85,7 @@ const onDrop = async (e: DragEvent) => {
 
   if (props.directory) {
     const entries = Array.from(items)
-      .map((item) => item.webkitGetAsEntry())
+      .map((item) => item?.webkitGetAsEntry?.())
       .filter((entry) => entry) as FileSystemEntry[]
 
     const allFiles = await Promise.all(entries.map(getAllFiles))
