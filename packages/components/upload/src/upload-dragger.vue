@@ -48,28 +48,38 @@ const getFile = (entry: FileSystemFileEntry): Promise<File> => {
 const getAllFiles = async (
   entry: FileSystemEntry
 ): Promise<UploadRawFile[]> => {
-  if (entry.isFile) {
-    const file = (await getFile(entry as FileSystemFileEntry)) as UploadRawFile
-    file.isDirectory = false
-    return [file]
-  }
-  if (entry.isDirectory) {
-    const dirReader = (entry as FileSystemDirectoryEntry).createReader()
-    const getEntries = (): Promise<FileSystemEntry[]> => {
-      return new Promise((resolve, reject) =>
-        dirReader.readEntries(resolve, reject)
+  try {
+    if (entry.isFile) {
+      const file = (await getFile(
+        entry as FileSystemFileEntry
+      )) as UploadRawFile
+      file.isDirectory = false
+      return [file]
+    }
+    if (entry.isDirectory) {
+      const dirReader = (entry as FileSystemDirectoryEntry).createReader()
+      const getEntries = (): Promise<FileSystemEntry[]> => {
+        return new Promise((resolve, reject) =>
+          dirReader.readEntries(resolve, reject)
+        )
+      }
+
+      const entries: FileSystemEntry[] = []
+      let readEntries = await getEntries()
+      while (readEntries.length > 0) {
+        entries.push(...readEntries)
+        readEntries = await getEntries()
+      }
+
+      const filePromises = entries.map((entry) =>
+        getAllFiles(entry).catch(() => [])
       )
-    }
 
-    const entries: FileSystemEntry[] = []
-    let readEntries = await getEntries()
-    while (readEntries.length > 0) {
-      entries.push(...readEntries)
-      readEntries = await getEntries()
+      const files = await Promise.all(filePromises)
+      return flatten(files)
     }
-
-    const files = await Promise.all(entries.map(getAllFiles))
-    return flatten(files)
+  } catch {
+    return []
   }
   return []
 }
