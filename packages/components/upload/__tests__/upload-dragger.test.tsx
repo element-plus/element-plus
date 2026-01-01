@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import { uploadContextKey } from '@element-plus/components/upload'
 import UploadDragger from '../src/upload-dragger.vue'
+import { rAF } from '@element-plus/test-utils/tick'
 
 const AXIOM = 'Rem is the best girl'
 
@@ -58,6 +59,53 @@ describe('<upload-dragger />', () => {
         },
       })
       expect(dragger.emitted('file')).toHaveLength(2)
+    })
+
+    test('ondrop works with directory prop', async () => {
+      const onDrop = vi.fn()
+      const wrapper = _mount({ onDrop, directory: true })
+      const dragger = wrapper.findComponent(UploadDragger)
+
+      const mockFileEntry = {
+        isFile: true,
+        isDirectory: false,
+        file: (callback: any) => callback(new File(['test'], 'test.txt')),
+      }
+
+      const mockDirectoryEntry = {
+        isFile: false,
+        isDirectory: true,
+        createReader: () => {
+          let read = false
+          return {
+            readEntries: (callback: any) => {
+              if (!read) {
+                read = true
+                callback([mockFileEntry])
+              } else {
+                callback([])
+              }
+            },
+          }
+        },
+      }
+
+      await dragger.trigger('drop', {
+        dataTransfer: {
+          files: [],
+          items: [
+            {
+              webkitGetAsEntry: () => mockDirectoryEntry,
+            },
+          ],
+        },
+      })
+
+      await rAF()
+      expect(dragger.emitted('file')).toHaveLength(1)
+      const emittedFiles = dragger.emitted('file')![0][0] as File[]
+      expect(emittedFiles).toHaveLength(1)
+      expect(emittedFiles[0].name).toBe('test.txt')
     })
   })
 })

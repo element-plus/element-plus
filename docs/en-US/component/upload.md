@@ -81,6 +81,16 @@ upload/drag-and-drop
 
 :::
 
+## Upload Directory ^(2.13.1)
+
+Enable folder upload via the `directory` prop.
+
+:::demo
+
+upload/directory
+
+:::
+
 ## Manual Upload
 
 :::demo
@@ -121,6 +131,7 @@ upload/manual
 | http-request                  | override default xhr behavior, allowing you to implement your own upload-file's request.                                                                                              | ^[Function]`(options: UploadRequestOptions) => XMLHttpRequest \| Promise<unknown>`                                                         | ajaxUpload [see](https://github.com/element-plus/element-plus/blob/dev/packages/components/upload/src/ajax.ts#L55) |
 | disabled                      | whether to disable upload.                                                                                                                                                            | ^[boolean]                                                                                                                                 | false                                                                                                              |
 | limit                         | maximum number of uploads allowed.                                                                                                                                                    | ^[number]                                                                                                                                  | —                                                                                                                  |
+| directory ^(2.13.1)           | whether to support uploading directory.                                                                                                                                               | ^[boolean]                                                                                                                                 | false                                                                                                              |
 
 ### Slots
 
