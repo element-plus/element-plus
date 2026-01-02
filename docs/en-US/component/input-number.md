@@ -103,7 +103,7 @@ For precision purposes, the input number is limited from [Number.MIN_SAFE_INTEGE
 
 ## Formatter ^(2.13.1)
 
-Display value within it's situation with `formatter`, and we usually use `parser` at the same time.
+Display value within its situation with `formatter`, and we usually use `parser` at the same time.
 
 :::demo
 
