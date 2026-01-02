@@ -1,6 +1,9 @@
 <template>
   <li
+    :id="`${contentId}-${index}`"
+    role="option"
     :aria-selected="selected"
+    :aria-disabled="disabled || undefined"
     :style="style"
     :class="[
       ns.be('dropdown', 'item'),
@@ -34,9 +37,11 @@ export default defineComponent({
     const ns = useNamespace('select')
     const { hoverItem, selectOptionClick } = useOption(props, { emit })
     const { getLabel } = useProps(select.props)
+    const contentId = select.contentId
 
     return {
       ns,
+      contentId,
       hoverItem,
       selectOptionClick,
       getLabel,

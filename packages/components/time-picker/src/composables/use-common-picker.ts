@@ -26,7 +26,7 @@ type CommonPickerEmits = (
 
 export const useCommonPicker = <
   P extends CommonPickerProps,
-  E extends CommonPickerEmits
+  E extends CommonPickerEmits,
 >(
   props: P,
   emit: E

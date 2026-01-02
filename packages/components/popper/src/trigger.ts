@@ -4,30 +4,32 @@ import type { Measurable } from './constants'
 import type Trigger from './trigger.vue'
 
 export const popperTriggerProps = buildProps({
+  /** @description Indicates the reference element to which the popper is attached */
   virtualRef: {
     type: definePropType<Measurable>(Object),
   },
+  /** @description Indicates whether virtual triggering is enabled */
   virtualTriggering: Boolean,
   onMouseenter: {
-    type: definePropType<(e: Event) => void>(Function),
+    type: definePropType<(e: MouseEvent) => void>(Function),
   },
   onMouseleave: {
-    type: definePropType<(e: Event) => void>(Function),
+    type: definePropType<(e: MouseEvent) => void>(Function),
   },
   onClick: {
-    type: definePropType<(e: Event) => void>(Function),
+    type: definePropType<(e: PointerEvent) => void>(Function),
   },
   onKeydown: {
-    type: definePropType<(e: Event) => void>(Function),
+    type: definePropType<(e: KeyboardEvent) => void>(Function),
   },
   onFocus: {
-    type: definePropType<(e: Event) => void>(Function),
+    type: definePropType<(e: FocusEvent) => void>(Function),
   },
   onBlur: {
-    type: definePropType<(e: Event) => void>(Function),
+    type: definePropType<(e: FocusEvent) => void>(Function),
   },
   onContextmenu: {
-    type: definePropType<(e: Event) => void>(Function),
+    type: definePropType<(e: PointerEvent) => void>(Function),
   },
   id: String,
   open: Boolean,

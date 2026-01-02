@@ -58,12 +58,12 @@ export type EpPropMergeType<Type, Value, Validator> =
  */
 export type EpPropInputDefault<
   Required extends boolean,
-  Default
+  Default,
 > = Required extends true
   ? never
   : Default extends Record<string, unknown> | Array<any>
-  ? () => Default
-  : (() => Default) | Default
+    ? () => Default
+    : (() => Default) | Default
 
 /**
  * Native prop types, e.g: `BooleanConstructor`, `StringConstructor`, `null`, `undefined`, etc.
@@ -98,7 +98,7 @@ export type EpPropInput<
   Value,
   Validator,
   Default extends EpPropMergeType<Type, Value, Validator>,
-  Required extends boolean
+  Required extends boolean,
 > = {
   type?: Type
   required?: Required
@@ -140,15 +140,16 @@ export type IfEpProp<T, Y, N> = T extends { [epPropKey]: true } ? Y : N
  *
  * 将输入转换为输出
  */
-export type EpPropConvert<Input> = Input extends EpPropInput<
-  infer Type,
-  infer Value,
-  infer Validator,
-  any,
-  infer Required
->
-  ? EpPropFinalized<Type, Value, Validator, Input['default'], Required>
-  : never
+export type EpPropConvert<Input> =
+  Input extends EpPropInput<
+    infer Type,
+    infer Value,
+    infer Validator,
+    any,
+    infer Required
+  >
+    ? EpPropFinalized<Type, Value, Validator, Input['default'], Required>
+    : never
 
 /**
  * Finalized conversion output

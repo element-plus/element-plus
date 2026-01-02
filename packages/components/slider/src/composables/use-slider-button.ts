@@ -1,7 +1,8 @@
 import { computed, inject, nextTick, ref, watch } from 'vue'
-import { debounce } from 'lodash-unified'
+import { clamp, debounce } from 'lodash-unified'
 import { useEventListener } from '@vueuse/core'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { getEventCode } from '@element-plus/utils'
 import { sliderContextKey } from '../constants'
 
 import type { CSSProperties, ComputedRef, Ref, SetupContext } from 'vue'
@@ -149,9 +150,10 @@ export const useSliderButton = (
   }
 
   const onKeyDown = (event: KeyboardEvent) => {
+    const code = getEventCode(event)
     let isPreventDefault = true
 
-    switch (event.code) {
+    switch (code) {
       case EVENT_CODE.left:
       case EVENT_CODE.down:
         onLeftKeyDown()
@@ -254,15 +256,22 @@ export const useSliderButton = (
 
   const setPosition = async (newPosition: number) => {
     if (newPosition === null || Number.isNaN(+newPosition)) return
-    if (newPosition < 0) {
-      newPosition = 0
-    } else if (newPosition > 100) {
-      newPosition = 100
+
+    newPosition = clamp(newPosition, 0, 100)
+    const fullSteps = Math.floor((max.value - min.value) / step.value)
+    const fullRangePercentage =
+      ((fullSteps * step.value) / (max.value - min.value)) * 100
+    const threshold = fullRangePercentage + (100 - fullRangePercentage) / 2
+    let value
+    if (newPosition < fullRangePercentage) {
+      const valueBetween = fullRangePercentage / fullSteps
+      const steps = Math.round(newPosition / valueBetween)
+      value = min.value + steps * step.value
+    } else if (newPosition < threshold) {
+      value = min.value + fullSteps * step.value
+    } else {
+      value = max.value
     }
-    const lengthPerStep = 100 / ((max.value - min.value) / step.value)
-    const steps = Math.round(newPosition / lengthPerStep)
-    let value =
-      steps * lengthPerStep * (max.value - min.value) * 0.01 + min.value
     value = Number.parseFloat(value.toFixed(precision.value))
 
     if (value !== props.modelValue) {

@@ -10,8 +10,9 @@
     :aria-labelledby="isLabeledByFormItem ? formItem?.labelId : undefined"
   >
     <slot>
-      <el-checkbox
-        v-for="(item, index) in props.options"
+      <component
+        :is="optionComponent"
+        v-for="(item, index) in options"
         :key="index"
         v-bind="getOptionProps(item)"
       />
@@ -21,11 +22,15 @@
 
 <script lang="ts" setup>
 import { computed, nextTick, provide, toRefs, watch } from 'vue'
-import { isEqual, pick } from 'lodash-unified'
+import { isEqual, omit, pick } from 'lodash-unified'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { debugWarn } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
-import { useFormItem, useFormItemInputId } from '@element-plus/components/form'
+import {
+  useFormDisabled,
+  useFormItem,
+  useFormItemInputId,
+} from '@element-plus/components/form'
 import {
   checkboxDefaultProps,
   checkboxGroupEmits,
@@ -33,6 +38,7 @@ import {
 } from './checkbox-group'
 import { checkboxGroupContextKey } from './constants'
 import ElCheckbox from './checkbox.vue'
+import ElCheckboxButton from './checkbox-button.vue'
 
 import type { CheckboxGroupValueType } from './checkbox-group'
 
@@ -44,6 +50,7 @@ const props = defineProps(checkboxGroupProps)
 const emit = defineEmits(checkboxGroupEmits)
 const ns = useNamespace('checkbox')
 
+const checkboxDisabled = useFormDisabled()
 const { formItem } = useFormItem()
 const { inputId: groupId, isLabeledByFormItem } = useFormItemInputId(props, {
   formItemContext: formItem,
@@ -69,24 +76,29 @@ const aliasProps = computed(() => ({
   ...props.props,
 }))
 const getOptionProps = (option: Record<string, any>) => {
+  const { label, value, disabled } = aliasProps.value
   const base = {
-    label: option[aliasProps.value.label],
-    value: option[aliasProps.value.value],
-    disabled: option[aliasProps.value.disabled],
+    label: option[label],
+    value: option[value],
+    disabled: option[disabled],
   }
-  return { ...option, ...base }
+  return { ...omit(option, [label, value, disabled]), ...base }
 }
+
+const optionComponent = computed(() =>
+  props.type === 'button' ? ElCheckboxButton : ElCheckbox
+)
 
 provide(checkboxGroupContextKey, {
   ...pick(toRefs(props), [
     'size',
     'min',
     'max',
-    'disabled',
     'validateEvent',
     'fill',
     'textColor',
   ]),
+  disabled: checkboxDisabled,
   modelValue,
   changeEvent,
 })

@@ -72,15 +72,16 @@ type PathImpl<K extends string | number, V> = V extends
  *
  * @see {@link FieldPath}
  */
-type Path<T> = T extends ReadonlyArray<infer V>
-  ? IsTuple<T> extends true
-    ? {
-        [K in TupleKey<T>]-?: PathImpl<Exclude<K, symbol>, T[K]>
-      }[TupleKey<T>] // tuple
-    : PathImpl<ArrayKey, V> // array
-  : {
-      [K in keyof T]-?: PathImpl<Exclude<K, symbol>, T[K]>
-    }[keyof T] // object
+type Path<T> =
+  T extends ReadonlyArray<infer V>
+    ? IsTuple<T> extends true
+      ? {
+          [K in TupleKey<T>]-?: PathImpl<Exclude<K, symbol>, T[K]>
+        }[TupleKey<T>] // tuple
+      : PathImpl<ArrayKey, V> // array
+    : {
+        [K in keyof T]-?: PathImpl<Exclude<K, symbol>, T[K]>
+      }[keyof T] // object
 
 /**
  * Type which collects all paths through a type

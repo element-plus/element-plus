@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { withBase } from 'vitepress'
 import { isDark } from '../composables/dark'
 import { leftLogoSponsors } from '../../config/sponsors'
 import { sendEvent } from '../../config/analytics'
@@ -19,12 +20,12 @@ const onItemClick = (item: Sponsor) => {
         'sponsor-each inline-flex items-center',
         item.isDark && isDark ? 'filter invert' : '',
       ]"
-      :href="item.url"
+      :href="withBase(item.url)"
       :title="`${item.name_cn || item.name} - ${item.slogan_cn || item.slogan}`"
       target="_blank"
       @click="onItemClick(item)"
     >
-      <img :src="item.img" :alt="item.name" />
+      <img :src="withBase(item.img)" :alt="item.name" />
     </a>
   </div>
 </template>

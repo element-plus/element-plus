@@ -11,6 +11,13 @@ export default {
       description:
         '현재 색상은 {color}입니다. Enter 키를 눌러 새 색상을 선택합니다.',
       alphaLabel: 'pick alpha value', // to be translated
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
+      svLabel: 'pick saturation and brightness value', // to be translated
+      svDescription:
+        'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
+      predefineDescription: 'select {value} as the color', // to be translated
     },
     datepicker: {
       now: '지금',
@@ -145,6 +152,15 @@ export default {
       resetFilter: '초기화',
       clearFilter: '전체',
       sumText: '합계',
+      selectAllLabel: 'Select all rows', // to be translated
+      selectRowLabel: 'Select this row', // to be translated
+      expandRowLabel: 'Expand this row', // to be translated
+      collapseRowLabel: 'Collapse this row', // to be translated
+      sortLabel: 'Sort by {column}', // to be translated
+      filterLabel: 'Filter by {column}', // to be translated
+    },
+    tag: {
+      close: 'Close this tag', // to be translated
     },
     tour: {
       next: '다음',

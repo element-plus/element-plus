@@ -5,22 +5,32 @@
 @use 'common/var' as *;
 
 @mixin inset-prepend-border($color) {
-  box-shadow: 1px 0 0 0 $color inset, 0 1px 0 0 $color inset,
+  box-shadow:
+    1px 0 0 0 $color inset,
+    0 1px 0 0 $color inset,
     0 -1px 0 0 $color inset;
 }
 
 @mixin inset-append-border($color) {
-  box-shadow: 0 1px 0 0 $color inset, 0 -1px 0 0 $color inset,
+  box-shadow:
+    0 1px 0 0 $color inset,
+    0 -1px 0 0 $color inset,
     -1px 0 0 0 $color inset;
 }
 
 @mixin inset-prepend-input-border($color) {
-  box-shadow: 1px 0 0 0 $color inset, 1px 0 0 0 $color, 0 1px 0 0 $color inset,
+  box-shadow:
+    1px 0 0 0 $color inset,
+    1px 0 0 0 $color,
+    0 1px 0 0 $color inset,
     0 -1px 0 0 $color inset !important;
 }
 
 @mixin inset-append-input-border($color) {
-  box-shadow: -1px 0 0 0 $color, -1px 0 0 0 $color inset, 0 1px 0 0 $color inset,
+  box-shadow:
+    -1px 0 0 0 $color,
+    -1px 0 0 0 $color inset,
+    0 1px 0 0 $color inset,
     0 -1px 0 0 $color inset !important;
 }
 
@@ -97,6 +107,15 @@
     line-height: 14px;
     bottom: 5px;
     right: 10px;
+    @include when(outside) {
+      position: absolute;
+      background: transparent;
+      padding-top: 2px;
+      top: 100%;
+      right: 0;
+      bottom: unset;
+      line-height: 1;
+    }
   }
 
   @include when(disabled) {
@@ -163,6 +182,18 @@
       display: inline-block;
       padding-left: 8px;
     }
+    @include when(outside) {
+      height: unset;
+      position: absolute;
+      padding-top: 2px;
+      top: 100%;
+      right: 0;
+      .#{$namespace}-input__count-inner {
+        background: transparent;
+        padding-left: 0px;
+        line-height: 1;
+      }
+    }
   }
 
   @include e(wrapper) {
@@ -170,7 +201,8 @@
     flex-grow: 1;
     align-items: center;
     justify-content: center;
-    padding: $border-width map.get($input-padding-horizontal, 'default')-$border-width;
+    padding: $border-width
+      map.get($input-padding-horizontal, 'default')-$border-width;
     background-color: var(
       #{getCssVarName('input-bg-color')},
       map.get($input, 'bg-color')
@@ -207,7 +239,8 @@
         var(
             #{getCssVarName('input-height')},
             #{map.get($input-height, 'default')}
-          ) - $border-width * 2
+          ) -
+          $border-width * 2
       )
     );
   }
@@ -365,7 +398,8 @@
       font-size: map.get($input-font-size, $size);
 
       @include e(wrapper) {
-        padding: $border-width map.get($input-padding-horizontal, $size)-$border-width;
+        padding: $border-width
+          map.get($input-padding-horizontal, $size)-$border-width;
       }
       & {
         @include set-css-var-value(
@@ -374,7 +408,8 @@
             var(
                 #{getCssVarName('input-height')},
                 #{map.get($input-height, $size)}
-              ) - $border-width * 2
+              ) -
+              $border-width * 2
           )
         );
       }

@@ -76,12 +76,12 @@ describe('Loading', () => {
 
   test('body directive', async () => {
     const loading = ref(true)
-    const wrapper = _mount(() => <div v-loading_body={loading.value} />)
+    _mount(() => <div v-loading_body={loading.value} />)
 
     await nextTick()
     const mask = document.querySelector('.el-loading-mask')!
     expect(mask.parentNode === document.body).toBeTruthy()
-    wrapper.vm.loading = false
+    loading.value = false
     document.body.removeChild(mask)
   })
 
@@ -155,6 +155,14 @@ describe('Loading', () => {
     const loadingText = document.querySelector('[data-testid="my-loading"]')
     expect(loadingText).not.toBeNull()
     expect(loadingText?.textContent).toBe(AXIOM)
+
+    loadingInstance.setText(
+      createVNode('div', { 'data-testid': 'set-text' }, AXIOM)
+    )
+    await nextTick()
+    const setTextLoading = document.querySelector('[data-testid="set-text"]')
+    expect(setTextLoading).not.toBeNull()
+    expect(setTextLoading?.textContent).toBe(AXIOM)
   })
 
   test('close service', async () => {

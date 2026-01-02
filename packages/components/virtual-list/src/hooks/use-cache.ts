@@ -12,7 +12,7 @@ export const useCache = <T>() => {
   return computed(() => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const _getItemStyleCache = (_: any, __: any, ___: any) =>
-      ({} as Record<string, T>)
+      ({}) as Record<string, T>
     return props.perfMode
       ? memoize(_getItemStyleCache)
       : memoOne(_getItemStyleCache)

@@ -4,7 +4,7 @@
       ppNs.b(),
       drpNs.b(),
       ppNs.is('border', border),
-      ppNs.is('disabled', disabled),
+      ppNs.is('disabled', monthRangeDisabled),
       {
         'has-sidebar': Boolean($slots.sidebar) || hasShortcuts,
       },
@@ -18,7 +18,7 @@
           :key="key"
           type="button"
           :class="ppNs.e('shortcut')"
-          :disabled="disabled"
+          :disabled="monthRangeDisabled"
           @click="handleShortcutClick(shortcut)"
         >
           {{ shortcut.text }}
@@ -31,7 +31,7 @@
               type="button"
               :class="ppNs.e('icon-btn')"
               class="d-arrow-left"
-              :disabled="disabled"
+              :disabled="monthRangeDisabled"
               @click="leftPrevYear"
             >
               <slot name="prev-year">
@@ -41,10 +41,10 @@
             <button
               v-if="unlinkPanels"
               type="button"
-              :disabled="!enableYearArrow || disabled"
+              :disabled="!enableYearArrow || monthRangeDisabled"
               :class="[
                 ppNs.e('icon-btn'),
-                { [ppNs.is('disabled')]: !enableYearArrow },
+                ppNs.is('disabled', !enableYearArrow || monthRangeDisabled),
               ]"
               class="d-arrow-right"
               @click="leftNextYear"
@@ -62,7 +62,7 @@
             :max-date="maxDate"
             :range-state="rangeState"
             :disabled-date="disabledDate"
-            :disabled="disabled"
+            :disabled="monthRangeDisabled"
             :cell-class-name="cellClassName"
             @changerange="handleChangeRange"
             @pick="handleRangePick"
@@ -74,8 +74,11 @@
             <button
               v-if="unlinkPanels"
               type="button"
-              :disabled="!enableYearArrow || disabled"
-              :class="[ppNs.e('icon-btn'), { 'is-disabled': !enableYearArrow }]"
+              :disabled="!enableYearArrow || monthRangeDisabled"
+              :class="[
+                ppNs.e('icon-btn'),
+                ppNs.is('disabled', !enableYearArrow || monthRangeDisabled),
+              ]"
               class="d-arrow-left"
               @click="rightPrevYear"
             >
@@ -87,7 +90,7 @@
               type="button"
               :class="ppNs.e('icon-btn')"
               class="d-arrow-right"
-              :disabled="disabled"
+              :disabled="monthRangeDisabled"
               @click="rightNextYear"
             >
               <slot name="next-year">
@@ -103,7 +106,7 @@
             :max-date="maxDate"
             :range-state="rangeState"
             :disabled-date="disabledDate"
-            :disabled="disabled"
+            :disabled="monthRangeDisabled"
             :cell-class-name="cellClassName"
             @changerange="handleChangeRange"
             @pick="handleRangePick"
@@ -119,7 +122,6 @@
 import { computed, inject, ref, toRef, unref, watch } from 'vue'
 import dayjs from 'dayjs'
 import ElIcon from '@element-plus/components/icon'
-import { isArray } from '@element-plus/utils'
 import { useLocale } from '@element-plus/hooks'
 import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
 import { PICKER_BASE_INJECTION_KEY } from '@element-plus/components/time-picker'
@@ -136,6 +138,7 @@ import { useMonthRangeHeader } from '../composables/use-month-range-header'
 import { useRangePicker } from '../composables/use-range-picker'
 import { ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY } from '../constants'
 import MonthTable from './basic-month-table.vue'
+import { useFormDisabled } from '@element-plus/components/form'
 
 import type { Dayjs } from 'dayjs'
 
@@ -224,19 +227,17 @@ const handleRangePick = (val: RangePickValue, close = true) => {
 }
 
 const handleClear = () => {
+  let valueOnClear = null
+  if (pickerBase?.emptyValues) {
+    valueOnClear = pickerBase.emptyValues.valueOnClear.value
+  }
   leftDate.value = getDefaultValue(unref(defaultValue), {
     lang: unref(lang),
     unit: 'year',
     unlinkPanels: props.unlinkPanels,
   })[0]
   rightDate.value = leftDate.value.add(1, 'year')
-  emit('pick', null)
-}
-
-const formatToString = (value: Dayjs | Dayjs[]) => {
-  return isArray(value)
-    ? value.map((_) => _.format(format.value))
-    : value.format(format.value)
+  emit('pick', valueOnClear)
 }
 
 const parseUserInput = (value: Dayjs | Dayjs[]) => {
@@ -259,6 +260,8 @@ function sortDates(minDate: Dayjs | undefined, maxDate: Dayjs | undefined) {
   }
 }
 
+const monthRangeDisabled = useFormDisabled()
+
 watch(
   () => props.visible,
   (visible) => {
@@ -270,7 +273,6 @@ watch(
 )
 
 emit('set-picker-option', ['isValidValue', isValidRange])
-emit('set-picker-option', ['formatToString', formatToString])
 emit('set-picker-option', ['parseUserInput', parseUserInput])
 emit('set-picker-option', ['handleClear', handleClear])
 </script>

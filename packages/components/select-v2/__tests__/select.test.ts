@@ -5,7 +5,7 @@ import { NOOP, hasClass } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { makeMountFunc } from '@element-plus/test-utils/make-mount'
 import { rAF } from '@element-plus/test-utils/tick'
-import { CircleClose } from '@element-plus/icons-vue'
+import { ArrowDown, CircleClose } from '@element-plus/icons-vue'
 import { usePopperContainerId } from '@element-plus/hooks'
 import { ElForm, ElFormItem } from '@element-plus/components/form'
 import Select from '../src/select.vue'
@@ -18,6 +18,15 @@ vi.mock('lodash-unified', async () => {
     debounce: vi.fn((fn) => {
       fn.cancel = vi.fn()
       fn.flush = vi.fn()
+      return fn
+    }),
+  }
+})
+
+vi.mock('@vueuse/core', async () => {
+  return {
+    ...((await vi.importActual('@vueuse/core')) as Record<string, any>),
+    useDebounceFn: vi.fn((fn) => {
       return fn
     }),
   }
@@ -66,6 +75,7 @@ interface SelectProps {
   allowCreate?: boolean
   popperAppendToBody?: boolean
   placeholder?: string
+  debounce?: number
   [key: string]: any
 }
 
@@ -135,6 +145,7 @@ const createSelect = (
         :scrollbar-always-on="scrollbarAlwaysOn"
         :teleported="teleported"
         :tabindex="tabindex"
+        :default-first-option="defaultFirstOption"
         ${
           options.methods && options.methods.filterMethod
             ? `:filter-method="filterMethod"`
@@ -186,6 +197,7 @@ const createSelect = (
           popperAppendToBody: undefined,
           teleported: undefined,
           tabindex: undefined,
+          defaultFirstOption: false,
           ...(options.data && options.data()),
         }
       },
@@ -601,6 +613,45 @@ describe('Select', () => {
       await nextTick()
       expect(selectVm.selectedLabel).toStrictEqual(['label1', 'label2'])
     })
+  })
+
+  it('should use alias for selected label', async () => {
+    const wrapper = createSelect({
+      data: () => {
+        return {
+          options: [
+            { value: 'value1', name: 'label1', text: 'text1' },
+            { value: 'value2', name: 'label2', text: 'text2' },
+          ],
+          multiple: false,
+          value: '',
+          props: { label: 'name' },
+        }
+      },
+    })
+    await nextTick()
+    const select = wrapper.findComponent(Select)
+    const selectVm = select.vm as any
+    const vm = wrapper.vm as any
+
+    const options = getOptions()
+    options[0].click()
+    expect(selectVm.selectedLabel).toBe('label1')
+    vm.value = 'value2'
+    await nextTick()
+    expect(selectVm.selectedLabel).toBe('label2')
+
+    vm.multiple = true
+    vm.value = []
+    await nextTick()
+    expect(selectVm.selectedLabel).toStrictEqual([])
+    vm.value = ['value1', 'value2']
+    await nextTick()
+    expect(selectVm.selectedLabel).toStrictEqual(['label1', 'label2'])
+
+    vm.props.label = 'text'
+    await nextTick()
+    expect(selectVm.selectedLabel).toStrictEqual(['text1', 'text2'])
   })
 
   describe('multiple', () => {
@@ -1129,10 +1180,10 @@ describe('Select', () => {
       // selected the new option
       selectVm.onSelect(selectVm.filteredOptions[0])
       expect(vm.value).toBe('1111')
-      await input.trigger('click')
+      await wrapper.find('.el-select__suffix').trigger('click')
       await nextTick()
       await rAF()
-      await input.trigger('click')
+      await wrapper.find('.el-select__suffix').trigger('click')
       await nextTick()
       await rAF()
       expect(selectVm.filteredOptions.length).toBe(4)
@@ -1534,6 +1585,33 @@ describe('Select', () => {
     expect(result).toBeTruthy()
   })
 
+  it('the scroll position of the dropdown should be correct when use filterable and default-first-option', async () => {
+    const options = Array.from({ length: 1000 }).map((_, idx) => ({
+      value: 999 - idx,
+      label: `options ${999 - idx}`,
+    }))
+    const wrapper = createSelect({
+      data() {
+        return {
+          value: 500,
+          options,
+          filterable: true,
+          defaultFirstOption: true,
+        }
+      },
+    })
+    await nextTick()
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+    const optionsDoms = Array.from(
+      document.querySelectorAll(`.${OPTION_ITEM_CLASS_NAME}`)
+    )
+    const result = optionsDoms.some((option) => {
+      const text = option.textContent
+      return text === 'options 500'
+    })
+    expect(result).toBeTruthy()
+  })
+
   it('emptyText error show', async () => {
     const wrapper = createSelect({
       data() {
@@ -1797,6 +1875,23 @@ describe('Select', () => {
       await nextTick()
       const options = getOptions()
       expect(options.length).toBe(3)
+    })
+
+    it('should keep the select dropdown open when using the filterable', async () => {
+      const wrapper = createSelect({
+        data() {
+          return {
+            filterable: true,
+          }
+        },
+      })
+      const select = wrapper.findComponent({ name: 'ElSelectV2' })
+      const input = wrapper.find('input')
+      await input.trigger('click')
+      expect((select.vm as any).expanded).toBe(true)
+
+      await input.trigger('click')
+      expect((select.vm as any).expanded).toBe(true)
     })
   })
 
@@ -2330,14 +2425,46 @@ describe('Select', () => {
 
   describe('It should generate accessible attributes', () => {
     it('create', async () => {
-      const wrapper = createSelect()
+      const options = [
+        { value: 'a', label: 'A' },
+        { value: 'b', label: 'B', disabled: true },
+        { value: 'c', label: 'C' },
+      ]
 
+      const wrapper = createSelect({
+        data() {
+          return {
+            value: 'a',
+            options,
+          }
+        },
+      })
+
+      const dropdown = wrapper.findComponent({ name: 'ElSelectDropdown' })
       const input = wrapper.find('input')
+      const list = dropdown.find('.el-select-dropdown__list > ul')
+      const option = dropdown.find('.el-select-dropdown__item')
+      const disabledOption = dropdown.find(
+        '.el-select-dropdown__item:nth-child(2)'
+      )
+
       expect(input.attributes('role')).toBe('combobox')
       expect(input.attributes('tabindex')).toBe('0')
-      expect(input.attributes('aria-autocomplete')).toBe('list')
+      expect(input.attributes('aria-autocomplete')).toBe('none')
+      expect(input.attributes('aria-controls')).toBe(list.attributes('id'))
       expect(input.attributes('aria-expanded')).toBe('false')
       expect(input.attributes('aria-haspopup')).toBe('listbox')
+      expect(input.attributes('aria-activedescendant')).toBe('')
+
+      expect(list.attributes('id')).toBeTruthy()
+      expect(list.attributes('role')).toBe('listbox')
+      expect(list.attributes('aria-orientation')).toBe('vertical')
+
+      expect(option.attributes('id')).toBeTruthy()
+      expect(option.attributes('role')).toBe('option')
+      expect(option.attributes('aria-disabled')).toBe(undefined)
+      expect(option.attributes('aria-selected')).toBe('true')
+      expect(disabledOption.attributes('aria-disabled')).toBe('true')
     })
 
     it('tabindex', () => {
@@ -2429,5 +2556,176 @@ describe('Select', () => {
       await nextTick()
       expect(wrapper.find('.custom-tag').text()).toBe('enabled')
     })
+
+    it('The disabled state of a component has higher priority than that of a form', async () => {
+      const options = [
+        { value: 'a', label: 'A' },
+        { value: 'b', label: 'B' },
+        { value: 'c', label: 'C' },
+      ]
+      const wrapper = _mount(
+        `<el-form disabled>
+          <el-select :disabled="false" v-model="value" :options="options">
+          </el-select>
+        </el-form>`,
+        {
+          data() {
+            return {
+              value: 'a',
+              options,
+            }
+          },
+        }
+      )
+
+      await nextTick()
+      const innerInput = wrapper.find('.el-select__input')
+      expect(innerInput.attributes('disabled')).toBeUndefined()
+    })
+  })
+
+  it('loading appears on first click when remote', async () => {
+    const wrapper = _mount(
+      `
+        <el-select
+          v-model="value"
+          filterable
+          remote
+          :remote-method="remoteMethod"
+          :loading="loading"
+          :options="options"
+        >
+        </el-select>`,
+      {
+        data() {
+          return { options: [], value: '', loading: false }
+        },
+        methods: {
+          remoteMethod() {
+            this.loading = true
+            setTimeout(() => {
+              this.loading = false
+            }, 1000)
+          },
+        },
+      }
+    )
+
+    const select = wrapper.findComponent(Select)
+    const selectVm = select.vm as any
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    expect(selectVm.dropdownMenuVisible).toBeTruthy()
+  })
+
+  it('should show suffix', async () => {
+    const wrapper = _mount(
+      `
+        <el-select
+          v-model="value"
+          filterable
+          remote
+          :remote-method="remoteMethod"
+          :options="options"
+          remote-show-suffix
+        >
+        </el-select>`,
+      {
+        data() {
+          return { options: [], value: '' }
+        },
+        methods: {
+          remoteMethod() {
+            this.loading = true
+            setTimeout(() => {
+              this.loading = false
+            }, 1000)
+          },
+        },
+      }
+    )
+
+    const suffixIcon = wrapper.findComponent(ArrowDown)
+    expect(suffixIcon.exists()).toBe(true)
+  })
+
+  it('hoveringIndex should stay on the most recently selected option when using multiple', async () => {
+    const wrapper = createSelect({
+      data() {
+        return {
+          multiple: true,
+          options: [
+            {
+              value: 1,
+              label: 'option 1',
+            },
+            {
+              value: 2,
+              label: 'option 2',
+            },
+            {
+              value: 3,
+              label: 'option 3',
+            },
+            {
+              value: 4,
+              label: 'option 4',
+            },
+            {
+              value: 5,
+              label: 'option 5',
+            },
+          ],
+          value: [1, 2],
+        }
+      },
+    })
+
+    const select = wrapper.findComponent(Select)
+    const selectVm = select.vm as any
+    const input = wrapper.find('input')
+
+    await input.trigger('click')
+    expect(selectVm.states.hoveringIndex).toBe(1)
+  })
+
+  it('should trigger visible-change when dropdownMenuVisible changes', async () => {
+    const states = ['Alabama', 'Alaska']
+    const list = states.map((item): ListItem => {
+      return { value: `value:${item}`, label: `label:${item}` }
+    })
+    const options = ref([])
+    const handleVisibleChange = vi.fn()
+    const remoteMethod = (query: string) => {
+      if (query !== '') {
+        options.value = list.filter((item) => {
+          return item.label.toLowerCase().includes(query.toLowerCase())
+        })
+      } else {
+        options.value = []
+      }
+    }
+    const wrapper = createSelect({
+      data() {
+        return {
+          filterable: true,
+          remote: true,
+          options,
+          value: [],
+        }
+      },
+      methods: {
+        remoteMethod,
+        onVisibleChange: handleVisibleChange,
+      },
+    })
+
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    expect(handleVisibleChange).not.toHaveBeenCalled()
+    await input.setValue('label:Alabama')
+    expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+    await input.trigger('blur')
+    expect(handleVisibleChange).toHaveBeenCalledTimes(2)
   })
 })

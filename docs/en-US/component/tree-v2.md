@@ -101,17 +101,17 @@ tree-v2/filter
 
 | Name                          | Description                                                                                                                                  | Type                                                                        | Default |
 | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | ------- |
-| data                          | tree data                                                                                                                                    | ^[object]`Array<{[key: string]: any}>`                                      | —       |
+| data                          | tree data                                                                                                                                    | ^[array]`Array<{[key: string]: any}>`                                       | —       |
 | empty-text                    | text displayed when data is void                                                                                                             | ^[string]                                                                   | —       |
 | [props](#props)               | configuration options, see the following table                                                                                               | ^[object]                                                                   | —       |
 | highlight-current             | whether current node is highlighted                                                                                                          | ^[boolean]                                                                  | false   |
 | expand-on-click-node          | whether to expand or collapse node when clicking on the node, if false, then expand or collapse node only when clicking on the arrow icon.   | ^[boolean]                                                                  | true    |
 | check-on-click-node           | whether to check or uncheck node when clicking on the node, if false, the node can only be checked or unchecked by clicking on the checkbox. | ^[boolean]                                                                  | false   |
 | check-on-click-leaf ^(2.9.6)  | whether to check or uncheck node when clicking on leaf node (last children).                                                                 | ^[boolean]                                                                  | true    |
-| default-expanded-keys         | array of keys of initially expanded nodes                                                                                                    | ^[object]`Array<string \| number>`                                          | —       |
+| default-expanded-keys         | array of keys of initially expanded nodes                                                                                                    | ^[array]`Array<string \| number>`                                           | —       |
 | show-checkbox                 | whether node is selectable                                                                                                                   | ^[boolean]                                                                  | false   |
 | check-strictly                | whether checked state of a node not affects its father and child nodes when `show-checkbox` is `true`                                        | ^[boolean]                                                                  | false   |
-| default-checked-keys          | array of keys of initially checked nodes                                                                                                     | ^[object]`Array<string \| number>`                                          | —       |
+| default-checked-keys          | array of keys of initially checked nodes                                                                                                     | ^[array]`Array<string \| number>`                                           | —       |
 | current-node-key              | key of initially selected node                                                                                                               | ^[string] / ^[number]                                                       | —       |
 | filter-method                 | this function will be executed on each node when use filter method. if return `false`, tree node will be hidden.                             | ^[Function]`(query: string, data: TreeNodeData, node: TreeNode) => boolean` | —       |
 | indent                        | horizontal indentation of nodes in adjacent levels in pixels                                                                                 | ^[number]                                                                   | 16      |
@@ -169,7 +169,33 @@ tree-v2/filter
 
 ### TreeV2 Slots
 
-| Name           | Description                                                                                    |
-| -------------- | ---------------------------------------------------------------------------------------------- |
-| -              | Custom content for tree nodes. The scope parameter is `{ node: TreeNode, data: TreeNodeData }` |
-| empty ^(2.9.0) | empty you can customize content when data is empty.                                            |
+| Name           | Description                       | Type                                              |
+| -------------- | --------------------------------- | ------------------------------------------------- |
+| default        | custom content for tree nodes     | ^[object]`{ node: TreeNode, data: TreeNodeData }` |
+| empty ^(2.9.0) | custom content when data is empty | —                                                 |
+
+## Type Declarations
+
+<details>
+  <summary>Show declarations</summary>
+
+```ts
+type TreeNodeData = Record<string, any>
+type TreeKey = string | number
+type TreeData = TreeNodeData[]
+
+interface TreeNode {
+  key: TreeKey
+  level: number
+  parent?: TreeNode
+  children?: TreeNode[]
+  data: TreeNodeData
+  disabled?: boolean
+  label?: string
+  isLeaf?: boolean
+  expanded?: boolean
+  isEffectivelyChecked?: boolean
+}
+```
+
+</details>

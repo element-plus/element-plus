@@ -15,7 +15,7 @@ export const useCheckboxModel = (props: CheckboxProps) => {
     get() {
       return isGroup.value
         ? checkboxGroup?.modelValue?.value
-        : props.modelValue ?? selfModel.value
+        : (props.modelValue ?? selfModel.value)
     },
 
     set(val: unknown) {

@@ -128,6 +128,7 @@ checkbox/with-border
 | tabindex                       | input tabindex                                                                                                                                                 | ^[string] / ^[number]                          | —       |
 | id                             | input id                                                                                                                                                       | ^[string]                                      | —       |
 | aria-controls ^(a11y) ^(2.7.2) | same as [aria-controls](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-controls), takes effect when `indeterminate` is `true` | ^[string]                                      | —       |
+| aria-label ^(a11y)             | native `aria-label` attribute                                                                                                                                  | ^[string]                                      | —       |
 | true-label ^(deprecated)       | value of the Checkbox if it's checked                                                                                                                          | ^[string] / ^[number]                          | —       |
 | false-label ^(deprecated)      | value of the Checkbox if it's not checked                                                                                                                      | ^[string] / ^[number]                          | —       |
 | controls ^(a11y) ^(deprecated) | same as [aria-controls](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-controls), takes effect when `indeterminate` is `true` | ^[string]                                      | —       |
@@ -150,7 +151,7 @@ checkbox/with-border
 
 | Name                        | Description                                                                                    | Type                                                             | Default                                                  |
 | --------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- | -------------------------------------------------------- |
-| model-value / v-model       | binding value                                                                                  | ^[object]`string[] \| number[]`                                  | []                                                       |
+| model-value / v-model       | binding value                                                                                  | ^[array]`string[] \| number[]`                                   | []                                                       |
 | size                        | size of checkbox                                                                               | ^[enum]`'large' \| 'default' \| 'small'`                         | —                                                        |
 | disabled                    | whether the nesting checkboxes are disabled                                                    | ^[boolean]                                                       | false                                                    |
 | min                         | minimum number of checkbox checked                                                             | ^[number]                                                        | —                                                        |
@@ -163,6 +164,7 @@ checkbox/with-border
 | label ^(a11y) ^(deprecated) | native `aria-label` attribute                                                                  | ^[string]                                                        | —                                                        |
 | options ^(2.11.2)           | data of the options, the key of `value` and `label` and `disabled` can be customize by `props` | ^[array]`Array<{[key: string]: any}>`                            | —                                                        |
 | props ^(2.11.2)             | configuration options                                                                          | ^[object]`{ value?: string, label?: string, disabled?: boolean}` | `{value: 'value', label: 'label', disabled: 'disabled'}` |
+| type ^(2.11.5)              | component type to render options (e.g. `'button'`)                                             | ^[enum]`'checkbox' \| 'button'`                                  | 'checkbox'                                               |
 
 ### CheckboxGroup Events
 

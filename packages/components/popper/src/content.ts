@@ -4,11 +4,7 @@ import { useAriaProps } from '@element-plus/hooks'
 import { popperArrowProps } from './arrow'
 
 import type { PopperEffect } from './popper'
-import type {
-  ExtractPropTypes,
-  StyleValue,
-  __ExtractPublicPropTypes,
-} from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes, StyleValue } from 'vue'
 import type { Options, Placement } from '@popperjs/core'
 import type { Measurable } from './constants'
 import type Content from './content.vue'
@@ -68,7 +64,7 @@ export const popperCoreConfigProps = buildProps({
 export type PopperCoreConfigProps = ExtractPropTypes<
   typeof popperCoreConfigProps
 >
-export type PopperCoreConfigPropsPublic = __ExtractPublicPropTypes<
+export type PopperCoreConfigPropsPublic = ExtractPublicPropTypes<
   typeof popperCoreConfigProps
 >
 
@@ -113,9 +109,10 @@ export const popperContentProps = buildProps({
   virtualTriggering: Boolean,
   zIndex: Number,
   ...useAriaProps(['ariaLabel']),
+  loop: Boolean,
 } as const)
 export type PopperContentProps = ExtractPropTypes<typeof popperContentProps>
-export type PopperContentPropsPublic = __ExtractPublicPropTypes<
+export type PopperContentPropsPublic = ExtractPublicPropTypes<
   typeof popperContentProps
 >
 

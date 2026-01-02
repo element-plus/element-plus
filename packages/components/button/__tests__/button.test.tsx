@@ -3,12 +3,14 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, it, test } from 'vitest'
 import { Loading, Search } from '@element-plus/icons-vue'
 import Form from '@element-plus/components/form'
+import { useNamespace } from '@element-plus/hooks'
 import Button from '../src/button.vue'
 import ButtonGroup from '../src/button-group.vue'
 
 import type { ComponentSize } from '@element-plus/constants'
 
 const AXIOM = 'Rem is the best girl'
+const ns = useNamespace('button')
 
 describe('Button.vue', () => {
   it('create', () => {
@@ -149,15 +151,14 @@ describe('Button.vue', () => {
 
   it('loading slot', () => {
     const wrapper = mount({
-      setup: () => () =>
-        (
-          <Button
-            v-slots={{ loading: () => <span class="custom-loading">111</span> }}
-            loading={true}
-          >
-            Loading
-          </Button>
-        ),
+      setup: () => () => (
+        <Button
+          v-slots={{ loading: () => <span class="custom-loading">111</span> }}
+          loading={true}
+        >
+          Loading
+        </Button>
+      ),
     })
 
     expect(wrapper.find('.custom-loading').exists()).toBeTruthy()
@@ -180,13 +181,12 @@ describe('Button.vue', () => {
 describe('Button Group', () => {
   it('create', () => {
     const wrapper = mount({
-      setup: () => () =>
-        (
-          <ButtonGroup>
-            <Button type="primary">Prev</Button>
-            <Button type="primary">Next</Button>
-          </ButtonGroup>
-        ),
+      setup: () => () => (
+        <ButtonGroup>
+          <Button type="primary">Prev</Button>
+          <Button type="primary">Next</Button>
+        </ButtonGroup>
+      ),
     })
     expect(wrapper.classes()).toContain('el-button-group')
     expect(wrapper.findAll('button').length).toBe(2)
@@ -195,13 +195,12 @@ describe('Button Group', () => {
   it('button group reactive size', async () => {
     const size = ref<ComponentSize>('small')
     const wrapper = mount({
-      setup: () => () =>
-        (
-          <ButtonGroup size={size.value}>
-            <Button type="primary">Prev</Button>
-            <Button type="primary">Next</Button>
-          </ButtonGroup>
-        ),
+      setup: () => () => (
+        <ButtonGroup size={size.value}>
+          <Button type="primary">Prev</Button>
+          <Button type="primary">Next</Button>
+        </ButtonGroup>
+      ),
     })
     expect(wrapper.classes()).toContain('el-button-group')
     expect(
@@ -218,13 +217,12 @@ describe('Button Group', () => {
 
   it('button group type', async () => {
     const wrapper = mount({
-      setup: () => () =>
-        (
-          <ButtonGroup type="warning">
-            <Button type="primary">Prev</Button>
-            <Button>Next</Button>
-          </ButtonGroup>
-        ),
+      setup: () => () => (
+        <ButtonGroup type="warning">
+          <Button type="primary">Prev</Button>
+          <Button>Next</Button>
+        </ButtonGroup>
+      ),
     })
     expect(wrapper.classes()).toContain('el-button-group')
     expect(
@@ -264,16 +262,15 @@ describe('Button Group', () => {
 
   it('should use props of form', async () => {
     const wrapper = mount({
-      setup: () => () =>
-        (
-          <Form size="large" disabled>
-            <Button
-              v-slots={{
-                default: () => AXIOM,
-              }}
-            />
-          </Form>
-        ),
+      setup: () => () => (
+        <Form size="large" disabled>
+          <Button
+            v-slots={{
+              default: () => AXIOM,
+            }}
+          />
+        </Form>
+      ),
     })
     const btn = wrapper.findComponent(Button)
     expect(btn.classes()).toContain('el-button--large')
@@ -282,20 +279,38 @@ describe('Button Group', () => {
     expect(btn.emitted('click')).toBeUndefined()
   })
 
+  it('The disabled state of a component has higher priority than that of a form', async () => {
+    const wrapper = mount({
+      setup: () => () => (
+        <Form disabled>
+          <Button
+            disabled={false}
+            v-slots={{
+              default: () => AXIOM,
+            }}
+          />
+        </Form>
+      ),
+    })
+    const btn = wrapper.findComponent(Button)
+    expect(btn.classes()).not.toContain('is-disabled')
+    await btn.trigger('click')
+    expect(btn.emitted('click')).toBeDefined()
+  })
+
   it('should use size of form-item', async () => {
     const wrapper = mount({
-      setup: () => () =>
-        (
-          <Form size="large" disabled>
-            <Form.FormItem size="small">
-              <Button
-                v-slots={{
-                  default: () => AXIOM,
-                }}
-              />
-            </Form.FormItem>
-          </Form>
-        ),
+      setup: () => () => (
+        <Form size="large" disabled>
+          <Form.FormItem size="small">
+            <Button
+              v-slots={{
+                default: () => AXIOM,
+              }}
+            />
+          </Form.FormItem>
+        </Form>
+      ),
     })
     const btn = wrapper.findComponent(Button)
     expect(btn.classes()).toContain('el-button--small')
@@ -328,5 +343,26 @@ describe('Button Group', () => {
     await nextTick()
     await btn.trigger('click')
     expect(wrapper.emitted('click')).toHaveLength(1)
+  })
+
+  it('direction prop', async () => {
+    const direction = ref<'horizontal' | 'vertical'>('horizontal')
+    const wrapper = mount({
+      setup: () => () => (
+        <ButtonGroup type="warning" direction={direction.value}>
+          <Button type="primary">Prev</Button>
+          <Button>Next</Button>
+        </ButtonGroup>
+      ),
+    })
+
+    expect(wrapper.classes()).toContain(ns.bm('group', 'horizontal'))
+    expect(wrapper.classes()).not.toContain(ns.bm('group', 'vertical'))
+
+    direction.value = 'vertical'
+    await nextTick()
+
+    expect(wrapper.classes()).toContain(ns.bm('group', 'vertical'))
+    expect(wrapper.classes()).not.toContain(ns.bm('group', 'horizontal'))
   })
 })

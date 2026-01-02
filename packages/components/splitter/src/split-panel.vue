@@ -14,7 +14,7 @@ import { useNamespace } from '@element-plus/hooks'
 import { throwError } from '@element-plus/utils'
 import { getCollapsible, isCollapsible } from './hooks/usePanel'
 import SplitBar from './split-bar.vue'
-import { splitterPanelProps } from './split-panel'
+import { splitterPanelEmits, splitterPanelProps } from './split-panel'
 import { getPct, getPx, isPct, isPx } from './hooks'
 import { splitterRootContextKey } from './type'
 
@@ -27,9 +27,7 @@ defineOptions({
 
 const props = defineProps(splitterPanelProps)
 
-const emits = defineEmits<{
-  (e: 'update:size', value: number): void
-}>()
+const emits = defineEmits(splitterPanelEmits)
 const splitterContext = inject(splitterRootContextKey)
 if (!splitterContext)
   throwError(
@@ -169,6 +167,11 @@ const _panel = reactive({
 registerPanel(_panel)
 
 onBeforeUnmount(() => unregisterPanel(_panel))
+
+defineExpose({
+  /** @description splitter-panel html element */
+  splitterPanelRef: panelEl,
+})
 </script>
 
 <template>

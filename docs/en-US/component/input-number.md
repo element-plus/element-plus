@@ -95,6 +95,12 @@ input-number/with-prefix-suffix
 
 :::
 
+:::tip
+
+For precision purposes, the input number is limited from [Number.MIN_SAFE_INTEGER](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MIN_SAFE_INTEGER) to [Number.MAX_SAFE_INTEGER](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER).
+
+:::
+
 ## API
 
 ### Attributes

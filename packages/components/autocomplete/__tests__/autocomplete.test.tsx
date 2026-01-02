@@ -2,14 +2,18 @@
  * @vitest-environment happy-dom
  */
 
-import { defineComponent, nextTick, reactive } from 'vue'
+import { DefineComponent, defineComponent, nextTick, reactive } from 'vue'
 import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, test, vi } from 'vitest'
 import { NOOP } from '@element-plus/utils'
 import { usePopperContainerId } from '@element-plus/hooks'
 import { ElFormItem as FormItem } from '@element-plus/components/form'
 import Autocomplete from '../src/autocomplete.vue'
-import { AutocompleteFetchSuggestionsCallback } from '../src/autocomplete'
+import {
+  AutocompleteFetchSuggestionsCallback,
+  AutocompletePropsPublic,
+} from '../src/autocomplete'
+import { EVENT_CODE } from '@element-plus/constants'
 
 vi.unmock('lodash')
 
@@ -80,7 +84,10 @@ const _mount = (
           />
         )
       },
-    }),
+    }) as DefineComponent<
+      AutocompletePropsPublic,
+      ReturnType<typeof usePopperContainerId>
+    >,
     {
       global: {
         provide: {
@@ -127,6 +134,44 @@ describe('Autocomplete.vue', () => {
     vi.runAllTimers()
     await nextTick()
     expect(fetchSuggestions).toHaveBeenCalledTimes(1)
+  })
+
+  test('triggerOnEnter', async () => {
+    const fetchSuggestions = vi.fn()
+    const wrapper = _mount({
+      debounce: 0,
+      fetchSuggestions,
+    })
+    await nextTick()
+    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
+      typeof Autocomplete
+    >
+
+    await nextTick()
+
+    target.handleKeyEnter()
+    vi.runAllTimers()
+    await nextTick()
+    expect(fetchSuggestions).toHaveBeenCalledTimes(1)
+  })
+
+  test('focus triggerOnEnter', async () => {
+    const fetchSuggestions = vi.fn()
+    const wrapper = _mount({
+      debounce: 0,
+      fetchSuggestions,
+    })
+    await nextTick()
+    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
+      typeof Autocomplete
+    >
+    await wrapper.find('input').trigger('focus')
+    await nextTick()
+    target.handleKeyEnter()
+    vi.runAllTimers()
+
+    await nextTick()
+    expect(fetchSuggestions).toHaveBeenCalledTimes(2)
   })
 
   test('popperClass', async () => {
@@ -326,6 +371,147 @@ describe('Autocomplete.vue', () => {
     expect(document.body.querySelector('.highlighted')).toBeDefined()
   })
 
+  test('keyboard navigation should loop when loopNavigation is true', async () => {
+    const wrapper = _mount({ debounce: 10, loopNavigation: true }, 'arr')
+    await nextTick()
+
+    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
+      typeof Autocomplete
+    >
+    const input = wrapper.find('input')
+
+    await input.trigger('focus')
+    vi.runAllTimers()
+    await nextTick()
+
+    const length = target.suggestions.length
+
+    for (let i = 0; i < length; i++) {
+      await input.trigger('keydown', { code: EVENT_CODE.down })
+      expect(target.highlightedIndex).toBe(i)
+    }
+
+    await input.trigger('keydown', { code: EVENT_CODE.down })
+    expect(target.highlightedIndex).toBe(0)
+
+    await input.trigger('keydown', { code: EVENT_CODE.up })
+    expect(target.highlightedIndex).toBe(length - 1)
+  })
+
+  test('keyboard navigation should not loop when loopNavigation is false', async () => {
+    const wrapper = _mount({ debounce: 10, loopNavigation: false }, 'arr')
+    await nextTick()
+
+    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
+      typeof Autocomplete
+    >
+    const input = wrapper.find('input')
+
+    await input.trigger('focus')
+    vi.runAllTimers()
+    await nextTick()
+
+    const length = target.suggestions.length
+
+    await input.trigger('keydown', { code: EVENT_CODE.down })
+    expect(target.highlightedIndex).toBe(0)
+
+    await input.trigger('keydown', { code: EVENT_CODE.up })
+    expect(target.highlightedIndex).toBe(-1)
+
+    for (let i = 0; i < length; i++) {
+      await input.trigger('keydown', { code: EVENT_CODE.down })
+      expect(target.highlightedIndex).toBe(i)
+    }
+
+    await input.trigger('keydown', { code: EVENT_CODE.down })
+    expect(target.highlightedIndex).toBe(length - 1)
+  })
+
+  test('keyboard navigation with Home, End, PageUp, PageDown', async () => {
+    const wrapper = mount(
+      defineComponent({
+        setup(_, { expose }) {
+          const state = reactive({
+            value: '',
+            list: Array.from({ length: 21 }).map((_, i) => ({
+              value: `Item ${i}`,
+              tag: `tag-${i}`,
+            })),
+            payload: { debounce: 10 },
+          })
+
+          function filterList(queryString: string) {
+            return queryString
+              ? state.list.filter(
+                  (i) => i.value.indexOf(queryString.toLowerCase()) === 0
+                )
+              : state.list
+          }
+
+          const querySearch = (
+            queryString: string,
+            cb: (arg: typeof state.list) => void
+          ) => {
+            cb(filterList(queryString))
+          }
+
+          const containerExposes = usePopperContainerId()
+          expose(containerExposes)
+
+          return () => (
+            <Autocomplete
+              ref="autocomplete"
+              v-model={state.value}
+              fetch-suggestions={querySearch}
+              {...state.payload}
+            />
+          )
+        },
+      }),
+      {
+        global: {
+          provide: {
+            namespace: 'el',
+          },
+        },
+      }
+    )
+    await nextTick()
+
+    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
+      typeof Autocomplete
+    >
+    const input = wrapper.find('input')
+    await nextTick()
+    await input.trigger('focus')
+    vi.runAllTimers()
+    await nextTick()
+    // Expected behavior reference: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
+    await input.trigger('keydown', { code: EVENT_CODE.home })
+    expect(target.highlightedIndex).toBe(0)
+    await input.trigger('keydown', { code: EVENT_CODE.end })
+    expect(target.highlightedIndex).toBe(target.suggestions.length - 1)
+    await input.trigger('keydown', { code: EVENT_CODE.home })
+    expect(target.highlightedIndex).toBe(0)
+
+    await input.trigger('keydown', { code: EVENT_CODE.pageDown })
+    expect(target.highlightedIndex).toBe(10)
+    await input.trigger('keydown', { code: EVENT_CODE.pageDown })
+    expect(target.highlightedIndex).toBe(target.suggestions.length - 1)
+    //  If focus is in the last row of the grid, focus does not move.
+    await input.trigger('keydown', { code: EVENT_CODE.pageDown })
+    expect(target.highlightedIndex).toBe(target.suggestions.length - 1)
+
+    await input.trigger('keydown', { code: EVENT_CODE.pageUp })
+    expect(target.highlightedIndex).toBe(10)
+    await input.trigger('keydown', { code: EVENT_CODE.pageUp })
+    expect(target.highlightedIndex).toBe(0)
+    // If focus is in the first row of the grid, focus does not move.
+    await input.trigger('keydown', { code: EVENT_CODE.pageUp })
+    expect(target.highlightedIndex).toBe(0)
+  })
+
   test('fitInputWidth', async () => {
     const wrapper = _mount({
       fitInputWidth: true,
@@ -515,6 +701,44 @@ describe('Autocomplete.vue', () => {
       )
       expect(footerEl).not.toBeNull()
       expect(footerEl!.textContent).toBe('Custom Footer')
+    })
+  })
+
+  describe('should select the option when using Enter or Numpad Enter', () => {
+    test('use Enter', async () => {
+      const wrapper = _mount()
+      await nextTick()
+
+      const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
+        typeof Autocomplete
+      >
+      const input = wrapper.find('input')
+
+      await input.trigger('focus')
+      vi.runAllTimers()
+      await nextTick()
+
+      await input.trigger('keydown', { code: EVENT_CODE.down })
+      await input.trigger('keydown', { code: EVENT_CODE.enter })
+      expect(target.modelValue).toBe('Java')
+    })
+
+    test('use Numpad Enter', async () => {
+      const wrapper = _mount()
+      await nextTick()
+
+      const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
+        typeof Autocomplete
+      >
+      const input = wrapper.find('input')
+
+      await input.trigger('focus')
+      vi.runAllTimers()
+      await nextTick()
+
+      await input.trigger('keydown', { code: EVENT_CODE.down })
+      await input.trigger('keydown', { code: EVENT_CODE.numpadEnter })
+      expect(target.modelValue).toBe('Java')
     })
   })
 })

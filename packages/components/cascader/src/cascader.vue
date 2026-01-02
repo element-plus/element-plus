@@ -144,7 +144,7 @@
             type="text"
             :class="nsCascader.e('search-input')"
             :placeholder="presentText ? '' : inputPlaceholder"
-            @input="(e) => handleInput(searchInputValue, e as KeyboardEvent)"
+            @input="(e) => handleInput(searchInputValue, e as InputEvent)"
             @click.stop="togglePopperVisible(true)"
             @keydown.delete="handleDelete"
             @compositionstart="handleComposition"
@@ -217,11 +217,12 @@
 
 <script lang="ts" setup>
 import { computed, nextTick, onMounted, ref, useAttrs, watch } from 'vue'
-import { cloneDeep, debounce } from 'lodash-unified'
-import { useCssVar, useResizeObserver } from '@vueuse/core'
+import { cloneDeep } from 'lodash-unified'
+import { useCssVar, useDebounceFn, useResizeObserver } from '@vueuse/core'
 import {
   debugWarn,
   focusNode,
+  getEventCode,
   getSibling,
   isClient,
   isPromise,
@@ -282,21 +283,26 @@ const popperOptions: Partial<Options> = {
     },
   ],
 }
-const COMPONENT_NAME = 'ElCascader'
 
 defineOptions({
-  name: COMPONENT_NAME,
+  name: 'ElCascader',
 })
 
 const props = defineProps(cascaderProps)
 const emit = defineEmits(cascaderEmits)
 const attrs = useAttrs()
+const slots = defineSlots()
 
 let inputInitialHeight = 0
 let pressDeleteCount = 0
 
 const nsCascader = useNamespace('cascader')
 const nsInput = useNamespace('input')
+const sizeMapPadding = {
+  small: 7,
+  default: 11,
+  large: 15,
+}
 
 const { t } = useLocale()
 const { formItem } = useFormItem()
@@ -373,7 +379,6 @@ const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
     )
   },
   afterBlur() {
-    popperVisible.value = false
     if (props.validateEvent) {
       formItem?.validate?.('blur').catch((err) => debugWarn(err))
     }
@@ -460,7 +465,8 @@ const togglePopperVisible = (visible?: boolean) => {
 
     if (visible) {
       updatePopperPosition()
-      nextTick(cascaderPanelRef.value?.scrollToExpandingNode)
+      cascaderPanelRef.value &&
+        nextTick(cascaderPanelRef.value.scrollToExpandingNode)
     } else if (props.filterable) {
       syncPresentTextValue()
     }
@@ -585,6 +591,22 @@ const updateStyle = () => {
         ? `${Math.max(offsetHeight, inputInitialHeight) - 2}px`
         : `${inputInitialHeight}px`
     inputInner.style.height = height
+    // if prefix slot exists, update tagWrapperEl left position
+    if (slots.prefix) {
+      const prefix = inputRef.value?.$el.querySelector(
+        `.${nsInput.e('prefix')}`
+      ) as HTMLElement
+      let left = 0
+      if (prefix) {
+        left = prefix.offsetWidth
+        if (left > 0) {
+          left += sizeMapPadding[realSize.value || 'default'] // this is the default padding of el-input__wrapper
+        }
+      }
+      tagWrapperEl.style.left = `${left}px`
+    } else {
+      tagWrapperEl.style.left = `0`
+    }
     updatePopperPosition()
   }
 }
@@ -600,8 +622,9 @@ const handleExpandChange = (value: CascaderValue) => {
 
 const handleKeyDown = (e: KeyboardEvent) => {
   if (isComposing.value) return
+  const code = getEventCode(e)
 
-  switch (e.code) {
+  switch (code) {
     case EVENT_CODE.enter:
     case EVENT_CODE.numpadEnter:
       togglePopperVisible()
@@ -652,7 +675,7 @@ const handleSuggestionClick = (node: CascaderNode) => {
 
 const handleSuggestionKeyDown = (e: KeyboardEvent) => {
   const target = e.target as HTMLElement
-  const { code } = e
+  const code = getEventCode(e)
 
   switch (code) {
     case EVENT_CODE.up:
@@ -693,7 +716,8 @@ const handleDelete = () => {
   }
 }
 
-const handleFilter = debounce(() => {
+const debounce = computed(() => props.debounce)
+const handleFilter = useDebounceFn(() => {
   const { value } = searchKeyword
 
   if (!value) return
@@ -709,9 +733,9 @@ const handleFilter = debounce(() => {
   } else {
     hideSuggestionPanel()
   }
-}, props.debounce)
+}, debounce)
 
-const handleInput = (val: string, e?: KeyboardEvent) => {
+const handleInput = (val: string, e?: InputEvent) => {
   !popperVisible.value && togglePopperVisible(true)
 
   if (e?.isComposing) return
@@ -723,6 +747,14 @@ const getInputInnerHeight = (inputInner: HTMLElement): number =>
   Number.parseFloat(
     useCssVar(nsInput.cssVarName('input-height'), inputInner).value
   ) - 2
+
+const focus = () => {
+  inputRef.value?.focus()
+}
+
+const blur = () => {
+  inputRef.value?.blur()
+}
 
 watch(filtering, updatePopperPosition)
 
@@ -748,6 +780,15 @@ watch(realSize, async () => {
 })
 
 watch(presentText, syncPresentTextValue, { immediate: true })
+
+watch(
+  () => popperVisible.value,
+  (val) => {
+    if (val && props.props.lazy && props.props.lazyLoad) {
+      cascaderPanelRef.value?.loadLazyRootNodes()
+    }
+  }
+)
 
 onMounted(() => {
   const inputInner = inputRef.value!.input!
@@ -779,5 +820,9 @@ defineExpose({
    * @description selected content text
    */
   presentText,
+  /** @description focus the input element */
+  focus,
+  /** @description blur the input element */
+  blur,
 })
 </script>

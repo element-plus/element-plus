@@ -134,7 +134,7 @@ tree/draggable
 
 | Name                         | Description                                                                                                                                                                                                                                                                                                                                                                 | Type                                                   | Default |
 | ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ | ------- |
-| data                         | tree data                                                                                                                                                                                                                                                                                                                                                                   | ^[object]`Array<{[key: string]: any}>`                 | —       |
+| data                         | tree data                                                                                                                                                                                                                                                                                                                                                                   | ^[array]`Array<{[key: string]: any}>`                  | —       |
 | empty-text                   | text displayed when data is void                                                                                                                                                                                                                                                                                                                                            | ^[string]                                              | —       |
 | node-key                     | unique identity key name for nodes, its value should be unique across the whole tree                                                                                                                                                                                                                                                                                        | ^[string]                                              | —       |
 | [props](#props)              | configuration options, see the following table                                                                                                                                                                                                                                                                                                                              | ^[object]                                              | —       |
@@ -147,10 +147,10 @@ tree/draggable
 | check-on-click-node          | whether to check or uncheck node when clicking on the node, if false, the node can only be checked or unchecked by clicking on the checkbox.                                                                                                                                                                                                                                | ^[boolean]                                             | false   |
 | check-on-click-leaf ^(2.9.6) | whether to check or uncheck node when clicking on leaf node (last children).                                                                                                                                                                                                                                                                                                | ^[boolean]                                             | true    |
 | auto-expand-parent           | whether to expand father node when a child node is expanded                                                                                                                                                                                                                                                                                                                 | ^[boolean]                                             | true    |
-| default-expanded-keys        | array of keys of initially expanded nodes                                                                                                                                                                                                                                                                                                                                   | ^[object]`Array<string \| number>`                     | —       |
+| default-expanded-keys        | array of keys of initially expanded nodes                                                                                                                                                                                                                                                                                                                                   | ^[array]`Array<string \| number>`                      | —       |
 | show-checkbox                | whether node is selectable                                                                                                                                                                                                                                                                                                                                                  | ^[boolean]                                             | false   |
 | check-strictly               | whether checked state of a node not affects its father and child nodes when `show-checkbox` is `true`                                                                                                                                                                                                                                                                       | ^[boolean]                                             | false   |
-| default-checked-keys         | array of keys of initially checked nodes                                                                                                                                                                                                                                                                                                                                    | ^[object]`Array<string \| number>`                     | —       |
+| default-checked-keys         | array of keys of initially checked nodes                                                                                                                                                                                                                                                                                                                                    | ^[array]`Array<string \| number>`                      | —       |
 | current-node-key             | key of initially selected node                                                                                                                                                                                                                                                                                                                                              | ^[string] / ^[number]                                  | —       |
 | filter-node-method           | this function will be executed on each node when use filter method. if return `false`, tree node will be hidden.                                                                                                                                                                                                                                                            | ^[Function]`(value, data, node) => boolean`            | —       |
 | accordion                    | whether only one node among the same level can be expanded at one time                                                                                                                                                                                                                                                                                                      | ^[boolean]                                             | false   |
@@ -180,10 +180,10 @@ tree/draggable
 | filter              | filter all tree nodes, filtered nodes will be hidden                                                                 | Accept a parameter which will be used as first parameter for filter-node-method                                                                                                                                                                                                             |
 | updateKeyChildren   | set new data to node, only works when `node-key` is assigned                                                         | (key, data) Accept two parameters: 1. key of node 2. new data                                                                                                                                                                                                                               |
 | getCheckedNodes     | If the node can be selected (`show-checkbox` is `true`), it returns the currently selected array of nodes            | (leafOnly, includeHalfChecked) Accept two boolean type parameters: 1. default value is `false`. If the parameter is `true`, it only returns the currently selected array of sub-nodes. 2. default value is `false`. If the parameter is `true`, the return value contains halfchecked nodes |
-| setCheckedNodes     | set certain nodes to be checked, only works when `node-key` is assigned                                              | an array of nodes to be checked                                                                                                                                                                                                                                                             |
+| setCheckedNodes     | set certain nodes to be checked, only works when `node-key` is assigned                                              | (nodes, leafOnly) Accept two parameters: 1. an array of node objects to be checked 2. a boolean parameter. If set to `true`, only the checked status of leaf nodes will be set. The default value is `false`.                                                                               |
 | getCheckedKeys      | If the node can be selected (`show-checkbox` is `true`), it returns the currently selected array of node's keys      | (leafOnly) Accept a boolean type parameter whose default value is `false`. If the parameter is `true`, it only returns the currently selected array of sub-nodes.                                                                                                                           |
 | setCheckedKeys      | set certain nodes to be checked, only works when `node-key` is assigned                                              | (keys, leafOnly) Accept two parameters: 1. an array of node's keys to be checked 2. a boolean parameter. If set to `true`, only the checked status of leaf nodes will be set. The default value is `false`.                                                                                 |
-| setChecked          | set node to be checked or not, only works when `node-key` is assigned                                                | (key/data, checked, deep) Accept three parameters: 1. node's key or data to be checked 2. a boolean typed parameter indicating checked or not. 3. a boolean typed parameter indicating deep or not.                                                                                         |
+| setChecked          | set node to be checked or not, only works when `node-key` is assigned                                                | (key/data, checked, deep) Accept three parameters: 1. node's key or data to be checked 2. a boolean typed parameter indicating checked or not. 3. a boolean typed parameter indicating deep or not (note that `check-strictly` must be `false`).                                            |
 | getHalfCheckedNodes | If the node can be selected (`show-checkbox` is `true`), it returns the currently half selected array of nodes       | —                                                                                                                                                                                                                                                                                           |
 | getHalfCheckedKeys  | If the node can be selected (`show-checkbox` is `true`), it returns the currently half selected array of node's keys | —                                                                                                                                                                                                                                                                                           |
 | getCurrentKey       | return the highlight node's key (null if no node is highlighted)                                                     | —                                                                                                                                                                                                                                                                                           |
@@ -216,7 +216,57 @@ tree/draggable
 
 ### Slots
 
-| Name           | Description                                                            |
-| -------------- | ---------------------------------------------------------------------- |
-| —              | Custom content for tree nodes. The scope parameter is `{ node, data }` |
-| empty ^(2.3.4) | empty you can customize content when data is empty.                    |
+| Name           | Description                       | Type                                                                                |
+| -------------- | --------------------------------- | ----------------------------------------------------------------------------------- |
+| default        | custom content for tree nodes     | ^[object]`{ node: UnwrapRef<RootTreeType['root']>, data: Tree \| TreeOptionProps }` |
+| empty ^(2.3.4) | custom content when data is empty | —                                                                                   |
+
+## Type Declarations
+
+<details>
+  <summary>Show declarations</summary>
+
+```ts
+interface RootTreeType {
+  root: Ref<Node>
+  // ...
+}
+
+// UnwrapRef<RootTreeType['root']> => Node
+type Node = {
+  canFocus: boolean
+  checked: boolean
+  childNodes: Node[]
+  data: TreeNodeData
+  expanded: boolean
+  id: number
+  indeterminate: boolean
+  isCurrent: boolean
+  isEffectivelyChecked: boolean
+  isLeaf?: boolean
+  isLeafByUser?: boolean
+  level: number
+  loaded: boolean
+  loading: boolean
+  parent: Node | null
+  store: TreeStore
+  text: string | null
+  visible: boolean
+}
+
+// TreeNodeData => Tree / TreeOptionProps
+// Tree type is your prop type.
+// TreeOptionProps is default prop type
+interface TreeOptionProps {
+  children?: string
+  label?: string | ((data: TreeNodeData, node: Node) => string)
+  disabled?: string | ((data: TreeNodeData, node: Node) => boolean)
+  isLeaf?: string | ((data: TreeNodeData, node: Node) => boolean)
+  class?: (
+    data: TreeNodeData,
+    node: Node
+  ) => string | { [key: string]: boolean }
+}
+```
+
+</details>

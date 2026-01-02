@@ -74,7 +74,7 @@
   }
 
   @include e(content) {
-    float: left;
+    display: table-cell;
     width: 50%;
     box-sizing: border-box;
     margin: 0;

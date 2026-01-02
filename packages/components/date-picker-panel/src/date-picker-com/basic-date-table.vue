@@ -25,16 +25,22 @@
       <tr
         v-for="(row, rowKey) in rows"
         :key="rowKey"
-        :class="getRowKls(row[1])"
+        :class="getRowKls(showWeekNumber ? row[2] : row[1])"
       >
         <td
           v-for="(cell, columnKey) in row"
           :key="`${rowKey}.${columnKey}`"
-          :ref="(el) => !isUnmounting && isSelectedCell(cell) && (currentCellRef = el as HTMLElement)"
+          :ref="
+            (el) =>
+              !isUnmounting &&
+              isSelectedCell(cell) &&
+              (currentCellRef = el as HTMLElement)
+          "
           :class="getCellClasses(cell)"
           :aria-current="cell.isCurrent ? 'date' : undefined"
           :aria-selected="cell.isCurrent"
-          :tabindex="isSelectedCell(cell) ? 0 : -1"
+          :tabindex="disabled ? undefined : isSelectedCell(cell) ? 0 : -1"
+          :aria-disabled="disabled"
           @focus="handleFocus"
         >
           <el-date-picker-cell :cell="cell" />

@@ -26,6 +26,15 @@ vi.mock('lodash-unified', async () => {
   }
 })
 
+vi.mock('@vueuse/core', async () => {
+  return {
+    ...((await vi.importActual('@vueuse/core')) as Record<string, any>),
+    useDebounceFn: vi.fn((fn) => {
+      return fn
+    }),
+  }
+})
+
 const OPTIONS = [
   {
     value: 'zhejiang',
@@ -50,6 +59,7 @@ const OPTIONS = [
 const AXIOM = 'Rem is the best girl'
 
 const TRIGGER = '.el-cascader'
+const MENU = '.el-cascader-menu'
 const NODE = '.el-cascader-node'
 const NODE_LABEL = '.el-cascader-node__label'
 const TAG = '.el-tag'
@@ -70,7 +80,10 @@ describe('Cascader.vue', () => {
   test('toggle popper visible', async () => {
     const handleVisibleChange = vi.fn()
     const wrapper = _mount(() => (
-      <Cascader onVisibleChange={handleVisibleChange} />
+      <>
+        <Cascader onVisibleChange={handleVisibleChange} />
+        <button></button>
+      </>
     ))
 
     const trigger = wrapper.find(TRIGGER)
@@ -78,12 +91,14 @@ describe('Cascader.vue', () => {
 
     await trigger.trigger('click')
     expect(dropdown.style.display).not.toBe('none')
-    expect(handleVisibleChange).toBeCalledWith(true)
+    expect(handleVisibleChange).toHaveBeenNthCalledWith(1, true)
     await trigger.trigger('click')
-    expect(handleVisibleChange).toBeCalledWith(false)
+    expect(handleVisibleChange).toHaveBeenNthCalledWith(2, false)
     await trigger.trigger('click')
-    document.body.click()
-    expect(handleVisibleChange).toBeCalledWith(false)
+    expect(handleVisibleChange).toHaveBeenNthCalledWith(3, true)
+    await wrapper.find('button').trigger('mousedown')
+    await wrapper.find('button').trigger('mouseup')
+    expect(handleVisibleChange).toHaveBeenNthCalledWith(4, false)
   })
 
   test('expand and check', async () => {
@@ -701,6 +716,24 @@ describe('Cascader.vue', () => {
     expect(wrapper.find('input').element.placeholder).toBe(AXIOM)
   })
 
+  test('The disabled state of a component has higher priority than that of a form', async () => {
+    const model = reactive({
+      name: new Array<string>(),
+    })
+
+    const wrapper = _mount(() => (
+      <ElForm model={model} disabled>
+        <ElFormItem>
+          <Cascader disabled={false} v-model={model.name} options={OPTIONS} />
+        </ElFormItem>
+      </ElForm>
+    ))
+
+    model.name = ['zhejiang', 'hangzhou']
+    await nextTick()
+    expect(wrapper.find('input').attributes('disabled')).toBeUndefined()
+  })
+
   test('should be able to trigger togglePopperVisible outside the component', async () => {
     let cascader: InstanceType<typeof ElCascader>
     const clickFn = () => {
@@ -945,7 +978,7 @@ describe('Cascader.vue', () => {
       const wrapper = _mount(() => (
         <Cascader options={OPTIONS}>
           {{
-            default: () => false && <div>{AXIOM}</div>,
+            default: () => false,
           }}
         </Cascader>
       ))
@@ -1191,5 +1224,29 @@ describe('Cascader.vue', () => {
     rootNode?.click()
     await nextTick()
     expect(visibleChange).toBeCalledTimes(1)
+  })
+
+  it('should fully expand the panel after filter when checkStrictly=true', async () => {
+    const value = ref([])
+    const props = { checkStrictly: true }
+    const wrapper = _mount(() => (
+      <Cascader
+        v-model={value.value}
+        filterable
+        props={props}
+        options={OPTIONS}
+      />
+    ))
+    const input = wrapper.find('input')
+    await input.setValue('Wen')
+    const rootNode = document.querySelector(SUGGESTION_ITEM) as HTMLInputElement
+    rootNode?.click()
+    await nextTick()
+    expect(value.value).toStrictEqual(['zhejiang', 'wenzhou'])
+
+    const trigger = wrapper.find(TRIGGER)
+    await trigger.trigger('blur')
+    await trigger.trigger('focus')
+    expect(document.querySelectorAll(MENU)).toHaveLength(2)
   })
 })

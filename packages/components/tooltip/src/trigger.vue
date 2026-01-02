@@ -20,7 +20,11 @@
 <script lang="ts" setup>
 import { inject, nextTick, ref, toRef, unref } from 'vue'
 import { ElPopperTrigger } from '@element-plus/components/popper'
-import { composeEventHandlers, focusElement } from '@element-plus/utils'
+import {
+  composeEventHandlers,
+  focusElement,
+  getEventCode,
+} from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { TOOLTIP_INJECTION_KEY } from './constants'
 import { useTooltipTriggerProps } from './trigger'
@@ -94,8 +98,8 @@ const onContextMenu = composeEventHandlers(
 
 const onKeydown = composeEventHandlers(
   stopWhenControlledOrDisabled,
-  (e: KeyboardEvent) => {
-    const { code } = e
+  (e: Event) => {
+    const code = getEventCode(e as KeyboardEvent)
     if (props.triggerKeys.includes(code)) {
       e.preventDefault()
       onToggle(e)

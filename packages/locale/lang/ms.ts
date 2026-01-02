@@ -11,6 +11,13 @@ export default {
       description:
         'warna semasa ialah {warna}. tekan enter untuk memilih warna baharu.',
       alphaLabel: 'pilih nilai alfa',
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
+      svLabel: 'pick saturation and brightness value', // to be translated
+      svDescription:
+        'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
+      predefineDescription: 'select {value} as the color', // to be translated
     },
     datepicker: {
       now: 'Sekarang',
@@ -148,6 +155,15 @@ export default {
       resetFilter: 'Reset',
       clearFilter: 'Semua',
       sumText: 'Jumlah',
+      selectAllLabel: 'Select all rows', // to be translated
+      selectRowLabel: 'Select this row', // to be translated
+      expandRowLabel: 'Expand this row', // to be translated
+      collapseRowLabel: 'Collapse this row', // to be translated
+      sortLabel: 'Sort by {column}', // to be translated
+      filterLabel: 'Filter by {column}', // to be translated
+    },
+    tag: {
+      close: 'Close this tag', // to be translated
     },
     tour: {
       next: 'Seterusnya',

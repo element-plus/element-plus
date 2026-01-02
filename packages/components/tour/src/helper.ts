@@ -13,7 +13,7 @@ import {
   computePosition,
   detectOverflow,
   flip,
-  offset as offsetMiddelware,
+  offset as offsetMiddleware,
   shift,
 } from '@floating-ui/dom'
 import {
@@ -194,7 +194,7 @@ export const useFloating = (
 
   const middleware = computed(() => {
     const _middleware: Middleware[] = [
-      offsetMiddelware(unref(offset)),
+      offsetMiddleware(unref(offset)),
       flip(),
       shift(),
       overflowMiddleware(),

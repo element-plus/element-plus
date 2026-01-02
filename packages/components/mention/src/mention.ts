@@ -8,8 +8,9 @@ import {
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { inputProps } from '@element-plus/components/input'
 import { filterOption } from './helper'
+import { useTooltipContentProps } from '@element-plus/components/tooltip'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type Mention from './mention.vue'
 import type { MentionOption } from './types'
 import type { Options } from '@element-plus/components/popper'
@@ -94,16 +95,17 @@ export const mentionProps = buildProps({
   /**
    * @description custom class name for dropdown panel
    */
-  popperClass: {
-    type: String,
-    default: '',
-  },
+  popperClass: useTooltipContentProps.popperClass,
+  /**
+   * @description custom style for dropdown panel
+   */
+  popperStyle: useTooltipContentProps.popperStyle,
   /**
    * @description [popper.js](https://popper.js.org/docs/v2/) parameters
    */
   popperOptions: {
     type: definePropType<Partial<Options>>(Object),
-    default: () => ({} as Partial<Options>),
+    default: () => ({}) as Partial<Options>,
   },
   /**
    * @description configuration options
@@ -129,7 +131,7 @@ export const mentionEmits = {
 
 export type MentionEmits = typeof mentionEmits
 export type MentionProps = ExtractPropTypes<typeof mentionProps>
-export type MentionPropsPublic = __ExtractPublicPropTypes<typeof mentionProps>
+export type MentionPropsPublic = ExtractPublicPropTypes<typeof mentionProps>
 export type MentionInstance = InstanceType<typeof Mention> & unknown
 
 export type { MentionOption } from './types'

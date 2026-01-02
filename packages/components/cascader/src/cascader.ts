@@ -31,7 +31,10 @@ export const cascaderProps = buildProps({
   /**
    * @description whether Cascader is disabled
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description whether selected value can be cleared
    */
@@ -143,7 +146,7 @@ export const cascaderProps = buildProps({
   /**
    * @description tag type
    */
-  // eslint-disable-next-line vue/require-prop-types
+
   tagType: { ...tagProps.type, default: 'info' },
   /**
    * @description tag effect

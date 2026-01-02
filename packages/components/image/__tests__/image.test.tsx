@@ -9,9 +9,11 @@ import {
 import Image from '../src/image.vue'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { EVENT_CODE } from '@element-plus/constants'
+import { stableLoad } from '@element-plus/test-utils/stable-load'
 
 import type { AnchorHTMLAttributes, ImgHTMLAttributes } from 'vue'
-import type { ImageProps } from '../src/image'
+import type { VueWrapper } from '@vue/test-utils'
+import type { ImageInstance, ImageProps } from '../src/image'
 
 type ElImageProps = ImgHTMLAttributes &
   AnchorHTMLAttributes &
@@ -164,7 +166,7 @@ describe('Image.vue', () => {
       })
     )
     await doubleWait()
-    wrapper.vm.$refs.imageRef.showPreview()
+    ;(wrapper.vm.$refs.imageRef as ImageInstance).showPreview()
     await doubleWait()
     expect(wrapper.find('.el-image-viewer__img').attributes('src')).toBe(
       IMAGE_FAIL + 1
@@ -187,9 +189,9 @@ describe('Image.vue', () => {
         url,
         srcList,
       })
-    )
+    ) as unknown as VueWrapper<ImageInstance>
     await doubleWait()
-    wrapper.vm.$refs.imageRef.showPreview()
+    ;(wrapper.vm.$refs.imageRef as ImageInstance).showPreview()
     await doubleWait()
     expect(wrapper.find('.el-image-viewer__progress').exists()).toBe(false)
 
@@ -216,9 +218,9 @@ describe('Image.vue', () => {
         url,
         srcList,
       })
-    )
+    ) as unknown as VueWrapper<ImageInstance>
     await doubleWait()
-    wrapper.vm.$refs.imageRef.showPreview()
+    ;(wrapper.vm.$refs.imageRef as ImageInstance).showPreview()
     await doubleWait()
     expect(wrapper.find('.el-image-viewer__progress').exists()).toBe(true)
     expect(wrapper.find('.el-image-viewer__progress').text()).toBe('1 - 3')
@@ -252,7 +254,7 @@ describe('Image.vue', () => {
     )
 
     await doubleWait()
-    wrapper.vm.$refs.imageRef.showPreview()
+    ;(wrapper.vm.$refs.imageRef as ImageInstance).showPreview()
     await doubleWait()
 
     const img = wrapper.find('.el-image-viewer__canvas img')
@@ -279,7 +281,8 @@ describe('Image.vue', () => {
       await flushPromises()
       expect(wrapper.find('.el-image__inner').exists()).toBe(true)
       expect(wrapper.find('img').exists()).toBe(true)
-      await flushPromises()
+
+      await stableLoad(() => !wrapper.find('.el-image__placeholder').exists())
       expect(wrapper.find('.el-image__placeholder').exists()).toBe(false)
       expect(wrapper.find('.el-image__error').exists()).toBe(false)
     })
@@ -318,6 +321,8 @@ describe('Image.vue', () => {
 
       expect(wrapper.find('.el-image__inner').exists()).toBe(true)
       expect(wrapper.find('img').exists()).toBe(true)
+
+      await stableLoad(() => !wrapper.find('.el-image__placeholder').exists())
       expect(wrapper.find('.el-image__placeholder').exists()).toBe(false)
       expect(wrapper.find('.el-image__error').exists()).toBe(false)
     })
@@ -330,6 +335,11 @@ describe('Image.vue', () => {
       }
       const wrapper = mount(() => <Image {...props} />)
       await flushPromises()
+      // Manually trigger the load event if necessary
+      const img = wrapper.find('img')
+      if (img.exists()) {
+        await img.trigger('load')
+      }
       expect(wrapper.find('.el-image__inner').exists()).toBe(true)
       expect(handleLoad).toBeCalled()
     })

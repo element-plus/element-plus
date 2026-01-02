@@ -12,7 +12,12 @@
       <el-overlay
         v-show="visible"
         :mask="modal"
-        :overlay-class="[ns.is('drawer'), modalClass ?? '']"
+        :overlay-class="[
+          ns.is('drawer'),
+          modalClass ?? '',
+          `${ns.namespace.value}-modal-drawer`,
+          ns.is('penetrable', penetrable),
+        ]"
         :z-index="zIndex"
         @click="onModalClick"
       >
@@ -118,7 +123,7 @@ defineOptions({
 })
 
 const props = defineProps(drawerProps)
-defineEmits(drawerEmits)
+const emit = defineEmits(drawerEmits)
 const slots = useSlots()
 
 useDeprecated(
@@ -155,7 +160,9 @@ const {
   handleClose,
 } = useDialog(props, drawerRef)
 
-const { isHorizontal, size, isResizing } = useResizable(props, draggerRef)
+const { isHorizontal, size, isResizing } = useResizable(props, draggerRef, emit)
+
+const penetrable = computed(() => props.modalPenetrable && !props.modal)
 
 defineExpose({
   handleClose,

@@ -11,6 +11,13 @@ export default {
       description:
         'လက်ရှိအရောင်မှာ {color} ဖြစ်ပါသည်။ တခြားအရောင်ကိုရွေးချယ်လိုပါက enter ကိုနှိပ်ပါ။',
       alphaLabel: 'alpha တန်ဖိုးကို ရွေးချယ်ပါ',
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
+      svLabel: 'pick saturation and brightness value', // to be translated
+      svDescription:
+        'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
+      predefineDescription: 'select {value} as the color', // to be translated
     },
     datepicker: {
       now: 'ယခု',
@@ -147,6 +154,15 @@ export default {
       resetFilter: 'ပြန်လည်သတ်မှတ်မည်',
       clearFilter: 'အားလုံး',
       sumText: 'ပေါင်းလဒ်',
+      selectAllLabel: 'Select all rows', // to be translated
+      selectRowLabel: 'Select this row', // to be translated
+      expandRowLabel: 'Expand this row', // to be translated
+      collapseRowLabel: 'Collapse this row', // to be translated
+      sortLabel: 'Sort by {column}', // to be translated
+      filterLabel: 'Filter by {column}', // to be translated
+    },
+    tag: {
+      close: 'Close this tag', // to be translated
     },
     tour: {
       next: 'နောက်သို့',

@@ -5,49 +5,65 @@
       ref="thumb"
       :class="thumbKls"
       :style="thumbStyle"
-      :aria-label="alphaLabel"
-      :aria-valuenow="alpha"
+      :aria-label="ariaLabel"
+      :aria-valuenow="currentValue"
+      :aria-valuetext="ariaValuetext"
       :aria-orientation="vertical ? 'vertical' : 'horizontal'"
-      aria-valuemin="0"
-      aria-valuemax="100"
+      :aria-valuemin="minValue"
+      :aria-valuemax="maxValue"
       role="slider"
-      tabindex="0"
+      :tabindex="disabled ? undefined : 0"
+      :aria-disabled="disabled"
       @keydown="handleKeydown"
     />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { alphaSliderProps } from '../props/alpha-slider'
-import {
-  useAlphaSlider,
-  useAlphaSliderDOM,
-} from '../composables/use-alpha-slider'
-
-const COMPONENT_NAME = 'ElColorAlphaSlider'
+import { computed } from 'vue'
+import { useLocale } from '@element-plus/hooks'
+import { alphaSliderProps } from '../props/slider'
+import { useSlider, useSliderDOM } from '../composables/use-slider'
 
 defineOptions({
-  name: COMPONENT_NAME,
+  name: 'ElColorAlphaSlider',
 })
 
 const props = defineProps(alphaSliderProps)
+const minValue = 0
+const maxValue = 100
 
-const {
-  alpha,
-  alphaLabel,
-  bar,
-  thumb,
-  handleDrag,
-  handleClick,
-  handleKeydown,
-} = useAlphaSlider(props)
+const { currentValue, bar, thumb, handleDrag, handleClick, handleKeydown } =
+  useSlider(props, { key: 'alpha', minValue, maxValue })
 
 const { rootKls, barKls, barStyle, thumbKls, thumbStyle, update } =
-  useAlphaSliderDOM(props, {
+  useSliderDOM(props, {
+    namespace: 'color-alpha-slider',
+    maxValue,
+    currentValue,
     bar,
     thumb,
     handleDrag,
+    getBackground,
   })
+
+const { t } = useLocale()
+
+const ariaLabel = computed(() => t('el.colorpicker.alphaLabel'))
+const ariaValuetext = computed(() => {
+  return t('el.colorpicker.alphaDescription', {
+    alpha: currentValue.value,
+    color: props.color.value,
+  })
+})
+
+function getBackground() {
+  if (props.color && props.color.value) {
+    const { r, g, b } = props.color.toRgb()
+    return `linear-gradient(to right, rgba(${r}, ${g}, ${b}, 0) 0%, rgba(${r}, ${g}, ${b}, 1) 100%)`
+  }
+  return ''
+}
 
 defineExpose({
   /**

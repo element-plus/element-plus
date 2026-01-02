@@ -28,7 +28,7 @@ export default defineComponent({
 
     const label = () => {
       const renderLabel = renderLabelFn?.({ node, data })
-      return isVNodeEmpty(renderLabel) ? nodeLabel : renderLabel ?? nodeLabel
+      return isVNodeEmpty(renderLabel) ? nodeLabel : (renderLabel ?? nodeLabel)
     }
     return () => <span class={ns.e('label')}>{label()}</span>
   },

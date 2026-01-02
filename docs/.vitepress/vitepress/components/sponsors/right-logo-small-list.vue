@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { withBase } from 'vitepress'
 import { rightLogoSmallSponsors } from '../../../config/sponsors'
 import { sendEvent } from '../../../config/analytics'
 import { isDark } from '../../composables/dark'
@@ -24,7 +25,7 @@ const onItemClick = (item: Sponsor) => {
       </div>
       <a
         v-else
-        :href="item.url"
+        :href="withBase(item.url)"
         :title="`${item.name_cn || item.name} - ${
           item.slogan_cn || item.slogan
         }`"
@@ -37,7 +38,7 @@ const onItemClick = (item: Sponsor) => {
             'flex m-b-4px bg-#F9F9F9 rd-0px h-42px w-95px justify-center items-center',
           ]"
         >
-          <img :src="item.imgL" :alt="item.name" />
+          <img :src="withBase(item.imgL ?? '')" :alt="item.name" />
         </div>
       </a>
     </template>

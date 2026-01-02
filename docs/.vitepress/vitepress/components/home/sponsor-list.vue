@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
+import { withBase } from 'vitepress'
 import { isDark } from '../../composables/dark'
 import { useLang } from '../../composables/lang'
 import sponsorLocale from '../../../i18n/component/sponsor.json'
@@ -44,14 +45,14 @@ const getSponsorSlogan = (sponsor: Sponsor) => {
       v-for="(sponsor, i) in sponsors"
       :key="i"
       :class="['sponsor flex px-4 rounded-md', sponsor.className]"
-      :href="sponsor.url"
+      :href="withBase(sponsor.url)"
       target="_blank"
       @click="onItemClick(sponsor)"
     >
       <img
         :class="sponsor.isDark && isDark ? 'filter invert' : ''"
         width="45"
-        :src="sponsor.img"
+        :src="withBase(sponsor.img)"
         :alt="sponsor.name"
       />
       <div>

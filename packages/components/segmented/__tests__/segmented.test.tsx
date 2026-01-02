@@ -1,7 +1,8 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 import Segmented from '../src/segmented.vue'
+import { ElForm } from '@element-plus/components/form'
 
 describe('Segmented.vue', () => {
   test('render test', async () => {
@@ -208,5 +209,48 @@ describe('Segmented.vue', () => {
         .classes()
         .includes('is-disabled')
     ).toBeTruthy()
+  })
+
+  test('should fire the change event until it is equal to model-value', async () => {
+    const value = ref('Mon')
+    const options = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    const onChange = vi.fn()
+    const wrapper = mount(() => (
+      <Segmented
+        modelValue={value.value}
+        options={options}
+        onChange={onChange}
+      />
+    ))
+    expect(wrapper.find('.is-selected').text()).toEqual('Mon')
+    const secondOption = wrapper.findAll('.el-segmented__item')[1]
+    await secondOption.trigger('click')
+    expect(onChange).toHaveBeenCalledTimes(1)
+    await secondOption.trigger('click')
+    expect(onChange).toHaveBeenCalledTimes(2)
+    value.value = 'Tue'
+    await nextTick()
+    await secondOption.trigger('click')
+    expect(onChange).toHaveBeenCalledTimes(2)
+  })
+
+  test('The disabled state of a component has higher priority than that of a form', async () => {
+    const value = ref('Mon')
+    const options = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    const wrapper = mount(() => (
+      <ElForm disabled>
+        <Segmented
+          disabled={false}
+          modelValue={value.value}
+          options={options}
+        />
+      </ElForm>
+    ))
+    await nextTick()
+
+    const segmenteds = wrapper.findAll('.el-segmented__item')
+    segmenteds.forEach((s) => {
+      expect(s.classes()).not.toContain('is-disabled')
+    })
   })
 })

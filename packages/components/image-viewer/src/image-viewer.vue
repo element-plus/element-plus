@@ -100,6 +100,7 @@
               @load="handleImgLoad"
               @error="handleImgError"
               @mousedown="handleMouseDown"
+              @touchstart="handleTouchStart"
             />
           </div>
           <slot />
@@ -122,9 +123,14 @@ import {
 } from 'vue'
 import { clamp, useEventListener } from '@vueuse/core'
 import { throttle } from 'lodash-unified'
-import { useLocale, useNamespace, useZIndex } from '@element-plus/hooks'
+import {
+  useLocale,
+  useLockscreen,
+  useNamespace,
+  useZIndex,
+} from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/constants'
-import { keysOf } from '@element-plus/utils'
+import { getEventCode, keysOf } from '@element-plus/utils'
 import ElFocusTrap from '@element-plus/components/focus-trap'
 import ElTeleport from '@element-plus/components/teleport'
 import ElIcon from '@element-plus/components/icon'
@@ -163,7 +169,6 @@ const props = defineProps(imageViewerProps)
 const emit = defineEmits(imageViewerEmits)
 
 let stopWheelListener: (() => void) | undefined
-let prevOverflow = ''
 
 const { t } = useLocale()
 const ns = useNamespace('image-viewer')
@@ -180,6 +185,7 @@ const scaleClamped = computed(() => {
 
 const loading = ref(true)
 const loadError = ref(false)
+const visible = ref(false)
 const activeIndex = ref(props.initialIndex)
 const mode = shallowRef<ImageViewerMode>(modes.CONTAIN)
 const transform = ref({
@@ -190,6 +196,8 @@ const transform = ref({
   enableTransition: false,
 })
 const zIndex = ref(props.zIndex ?? nextZIndex())
+
+useLockscreen(visible, { ns })
 
 const isSingle = computed(() => {
   const { urlList } = props
@@ -242,13 +250,15 @@ const progress = computed(
 function hide() {
   unregisterEventListener()
   stopWheelListener?.()
-  document.body.style.overflow = prevOverflow
+  visible.value = false
   emit('close')
 }
 
 function registerEventListener() {
   const keydownHandler = throttle((e: KeyboardEvent) => {
-    switch (e.code) {
+    const code = getEventCode(e)
+
+    switch (code) {
       // ESC
       case EVENT_CODE.esc:
         props.closeOnPressEscape && hide()
@@ -285,7 +295,7 @@ function registerEventListener() {
 
   scopeEventListener.run(() => {
     useEventListener(document, 'keydown', keydownHandler)
-    useEventListener(document, 'wheel', mousewheelHandler)
+    useEventListener(wrapper, 'wheel', mousewheelHandler)
   })
 }
 
@@ -320,8 +330,33 @@ function handleMouseDown(e: MouseEvent) {
     }
   })
   const removeMousemove = useEventListener(document, 'mousemove', dragHandler)
-  useEventListener(document, 'mouseup', () => {
+  const removeMouseup = useEventListener(document, 'mouseup', () => {
     removeMousemove()
+    removeMouseup()
+  })
+
+  e.preventDefault()
+}
+
+function handleTouchStart(e: TouchEvent) {
+  if (loading.value || !wrapper.value || e.touches.length !== 1) return
+  transform.value.enableTransition = false
+
+  const { offsetX, offsetY } = transform.value
+  const { pageX: startX, pageY: startY } = e.touches[0]
+
+  const dragHandler = throttle((ev: TouchEvent) => {
+    const targetTouch = ev.touches[0]
+    transform.value = {
+      ...transform.value,
+      offsetX: offsetX + targetTouch.pageX - startX,
+      offsetY: offsetY + targetTouch.pageY - startY,
+    }
+  })
+  const removeTouchmove = useEventListener(document, 'touchmove', dragHandler)
+  const removeTouchend = useEventListener(document, 'touchend', () => {
+    removeTouchmove()
+    removeTouchend()
   })
 
   e.preventDefault()
@@ -447,15 +482,12 @@ watch(activeIndex, (val) => {
 })
 
 onMounted(() => {
+  visible.value = true
   registerEventListener()
 
   stopWheelListener = useEventListener('wheel', wheelHandler, {
     passive: false,
   })
-
-  // prevent body scroll
-  prevOverflow = document.body.style.overflow
-  document.body.style.overflow = 'hidden'
 })
 
 defineExpose({

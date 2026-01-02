@@ -46,8 +46,8 @@ export const useTeleport = (
     return appendToBody.value !== true
       ? contentRenderer()
       : isTeleportVisible.value
-      ? [h(Teleport, { to: $el }, contentRenderer())]
-      : undefined
+        ? [h(Teleport, { to: $el }, contentRenderer())]
+        : undefined
   }
 
   onUnmounted(hideTeleport)

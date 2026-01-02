@@ -16,7 +16,7 @@ import zhCn from '@element-plus/locale/lang/zh-cn'
 import enUs from '@element-plus/locale/lang/en'
 import 'dayjs/locale/zh-cn'
 import { EVENT_CODE } from '@element-plus/constants'
-import { ElFormItem } from '@element-plus/components/form'
+import { ElForm, ElFormItem } from '@element-plus/components/form'
 import DatePicker from '../src/date-picker'
 import DatePickerRange from '@element-plus/components/date-picker-panel/src/date-picker-com/panel-date-range.vue'
 
@@ -25,7 +25,9 @@ const _mount = (template: string, data = () => ({}), otherObj?) =>
     {
       components: {
         'el-date-picker': DatePicker,
+        'el-form': ElForm,
         'el-form-item': ElFormItem,
+        'el-config-provider': ConfigProvider,
       },
       template,
       data,
@@ -161,22 +163,60 @@ describe('DatePicker', () => {
     expect(vm.value).toBeDefined()
   })
 
-  it('cleared value should match the value-on-clear prop', async () => {
-    const value = ['2025-01-01', '2025-01-02']
-    const wrapper = _mount(
-      `<el-date-picker
-        v-model="value"
-        type="daterange"
-        :empty-values="[[]]"
-        :value-on-clear="() => []"
-    />`,
-      () => ({ value })
-    )
-    await nextTick()
-    expect(wrapper.vm.value).toEqual(value)
-    const clearBtn = wrapper.find('.el-range__close-icon')
-    clearBtn.trigger('click')
-    expect(wrapper.vm.value).toEqual([])
+  describe('cleared value should match the value-on-clear prop', () => {
+    it('type:daterange', async () => {
+      const value = ['2025-01-01', '2025-01-02']
+      const wrapper = _mount(
+        `<el-date-picker
+          v-model="value"
+          type="daterange"
+          :empty-values="[[]]"
+          :value-on-clear="() => []"
+        />`,
+        () => ({ value })
+      )
+      await nextTick()
+      expect(wrapper.vm.value).toEqual(value)
+      const clearBtn = wrapper.find('.el-range__close-icon')
+      clearBtn.trigger('click')
+      expect(wrapper.vm.value).toEqual([])
+    })
+
+    it('type:monthrange', async () => {
+      const value = ['2025-01-01', '2025-01-02']
+      const wrapper = _mount(
+        `<el-date-picker
+          v-model="value"
+          type="monthrange"
+          :empty-values="[[]]"
+          :value-on-clear="() => []"
+        />`,
+        () => ({ value })
+      )
+      await nextTick()
+      expect(wrapper.vm.value).toEqual(value)
+      const clearBtn = wrapper.find('.el-range__close-icon')
+      clearBtn.trigger('click')
+      expect(wrapper.vm.value).toEqual([])
+    })
+
+    it('type:yearrange', async () => {
+      const value = ['2025-01-01', '2025-01-02']
+      const wrapper = _mount(
+        `<el-date-picker
+          v-model="value"
+          type="yearrange"
+          :empty-values="[[]]"
+          :value-on-clear="() => []"
+        />`,
+        () => ({ value })
+      )
+      await nextTick()
+      expect(wrapper.vm.value).toEqual(value)
+      const clearBtn = wrapper.find('.el-range__close-icon')
+      clearBtn.trigger('click')
+      expect(wrapper.vm.value).toEqual([])
+    })
   })
 
   it('defaultTime and clear value', async () => {
@@ -1153,18 +1193,21 @@ describe('DatePicker', () => {
   describe('Trigger the change event when clearing the date picker', () => {
     it('click the button to clear the date', async () => {
       const changeHandler = vi.fn()
+      const clearHandler = vi.fn()
       const wrapper = _mount(
         `<el-date-picker
           v-model="value"
           @change="changeHandler"
+          @clear="clearHandler"
         />`,
-        () => ({ value: new Date(), changeHandler })
+        () => ({ value: new Date(), changeHandler, clearHandler })
       )
 
       await wrapper.find('input').trigger('focus')
       await wrapper.find('.el-input').trigger('mouseenter')
       await wrapper.find('.clear-icon').trigger('click')
       expect(changeHandler).toHaveBeenCalledTimes(1)
+      expect(clearHandler).toHaveBeenCalledTimes(1)
     })
 
     it('manually clear date', async () => {
@@ -1705,6 +1748,8 @@ describe('DatePicker months', () => {
   })
 
   it('remove same months from different years', async () => {
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date('2025-03-05'))
     const wrapper = _mount(
       `<el-date-picker
         type="months"
@@ -1731,6 +1776,7 @@ describe('DatePicker months', () => {
     expect(vm.value.length).toBe(1)
     expect(vm.value[0].getFullYear()).toBe(2025)
     expect(vm.value[0].getMonth()).toBe(2) // March is month 2 (0-indexed)
+    vi.useRealTimers()
   })
 })
 
@@ -2633,6 +2679,26 @@ describe('MonthRange', () => {
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
     })
+
+    it('should give its own disabled prop higher priority within a form', async () => {
+      const wrapper = _mount(
+        `<el-form :disabled="true">
+          <el-form-item>
+            <el-date-picker :disabled="false" v-model="value"/>
+          </el-form-item>
+        </el-form>`,
+        () => ({ value: '' })
+      )
+
+      await nextTick()
+      const datePickerInput = wrapper.find('.el-input__inner')
+      expect(datePickerInput.attributes('disabled')).toBeUndefined()
+
+      datePickerInput.trigger('focus')
+      await nextTick()
+      const panel = document.querySelector('.el-picker-panel')
+      expect(panel?.classList.contains('is-disabled')).toBeFalsy()
+    })
   })
 
   it('The year which is disabled should not be selectable', async () => {
@@ -2888,5 +2954,132 @@ describe('YearRange', () => {
     expect(
       (wrapper.findComponent(CommonPicker).vm as any).elPopperOptions
     ).toEqual(ElPopperOptions)
+  })
+
+  describe('should show default value when persistent is false', () => {
+    it('type:date', async () => {
+      const wrapper = _mount(
+        `<el-date-picker
+          v-model="value"
+          format="YYYY-MM-DD"
+          :persistent="false"
+          />`,
+        () => ({
+          value: '2025-01-01',
+        })
+      )
+      await nextTick()
+      const input = wrapper.find('input')
+      expect(input.element.value).toBe('2025-01-01')
+    })
+
+    it('type:datetime', async () => {
+      const wrapper = _mount(
+        `<el-date-picker
+          v-model="value"
+          type="datetime"
+          format="YYYY-MM-DD HH:mm:ss"
+          :persistent="false"
+          />`,
+        () => ({
+          value: new Date(2025, 0, 1, 14, 50, 10),
+        })
+      )
+      await nextTick()
+      const input = wrapper.find('input')
+      expect(input.element.value).toBe('2025-01-01 14:50:10')
+    })
+
+    it('type:daterange', async () => {
+      const wrapper = _mount(
+        `<el-date-picker
+          v-model="value"
+          type="daterange"
+          format="YYYY-MM-DD"
+          :persistent="false"
+          />`,
+        () => ({
+          value: [new Date(2025, 0, 1), new Date(2025, 0, 15)],
+        })
+      )
+      await nextTick()
+      const inputs = wrapper.findAll('input')
+      expect(inputs[0].element.value).toBe('2025-01-01')
+      expect(inputs[1].element.value).toBe('2025-01-15')
+    })
+  })
+
+  describe('value-on-clear in config-provider should take effect', () => {
+    it('type:daterange', async () => {
+      const wrapper = _mount(
+        `<el-config-provider value-on-clear="">
+          <el-date-picker
+            v-model="value"
+            type="daterange"
+          />
+         </el-config-provider>`,
+        () => ({
+          value: ['2025-01-01', '2025-01-02'],
+        })
+      )
+      await nextTick()
+      const clearBtn = wrapper.find('.el-range__close-icon')
+      clearBtn.trigger('click')
+      expect(wrapper.vm.value).toEqual('')
+    })
+
+    it('type:monthrange', async () => {
+      const wrapper = _mount(
+        `<el-config-provider value-on-clear="">
+          <el-date-picker
+            v-model="value"
+            type="monthrange"
+          />
+         </el-config-provider>`,
+        () => ({
+          value: ['2025-01-01', '2025-01-02'],
+        })
+      )
+      await nextTick()
+      const clearBtn = wrapper.find('.el-range__close-icon')
+      clearBtn.trigger('click')
+      expect(wrapper.vm.value).toEqual('')
+    })
+
+    it('type:yearrange', async () => {
+      const wrapper = _mount(
+        `<el-config-provider value-on-clear="">
+          <el-date-picker
+            v-model="value"
+            type="yearrange"
+          />
+         </el-config-provider>`,
+        () => ({
+          value: ['2025-01-01', '2025-01-02'],
+        })
+      )
+      await nextTick()
+      const clearBtn = wrapper.find('.el-range__close-icon')
+      clearBtn.trigger('click')
+      expect(wrapper.vm.value).toEqual('')
+    })
+  })
+
+  it('the selected row has .current class when show-week-number', async () => {
+    _mount(
+      `<el-date-picker
+        v-model="value"
+        type="week"
+        show-week-number
+      />`,
+      () => ({
+        value: '2025-10-23',
+      })
+    )
+    await nextTick()
+    const rows = document.querySelectorAll('.el-date-table__row')
+    const selectedRow = document.querySelectorAll('.el-date-table__row.current')
+    expect(rows[3].classList.contains('current')).toBeTruthy()
+    expect(selectedRow.length).toBe(1)
   })
 })

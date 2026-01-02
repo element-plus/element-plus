@@ -12,6 +12,8 @@
     :filterable="editable"
     :empty-values="emptyValues"
     :value-on-clear="valueOnClear"
+    :popper-class="popperClass"
+    :popper-style="popperStyle"
     @update:model-value="(event) => $emit(UPDATE_MODEL_EVENT, event)"
     @change="(event) => $emit(CHANGE_EVENT, event)"
     @blur="(event) => $emit('blur', event)"

@@ -72,10 +72,10 @@ import {
   EVENT_CODE,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import { isArray, isObject, isString } from '@element-plus/utils'
+import { getEventCode, isArray, isObject, isString } from '@element-plus/utils'
 import {
-  formContextKey,
   formItemContextKey,
+  useFormDisabled,
   useFormItemInputId,
   useFormSize,
 } from '@element-plus/components/form'
@@ -113,7 +113,6 @@ defineOptions({
 const props = defineProps(rateProps)
 const emit = defineEmits(rateEmits)
 
-const formContext = inject(formContextKey, undefined)
 const formItemContext = inject(formItemContextKey, undefined)
 const rateSize = useFormSize()
 const ns = useNamespace('rate')
@@ -130,7 +129,7 @@ const iconClientWidths = computed<number[]>(() =>
   iconRefs.value.map((icon) => icon.$el.clientWidth)
 )
 const rateClasses = computed(() => [ns.b(), ns.m(rateSize.value)])
-const rateDisabled = computed(() => props.disabled || formContext?.disabled)
+const rateDisabled = useFormDisabled()
 const rateStyles = computed(() => {
   return ns.cssVarBlock({
     'void-color': props.voidColor,
@@ -205,8 +204,8 @@ const voidComponent = computed(() =>
       ? props.disabledVoidIcon
       : (markRaw(props.disabledVoidIcon) as Component)
     : isString(props.voidIcon)
-    ? props.voidIcon
-    : (markRaw(props.voidIcon) as Component)
+      ? props.voidIcon
+      : (markRaw(props.voidIcon) as Component)
 )
 const activeComponent = computed(() =>
   getValueFromMap(currentValue.value, componentMap.value)
@@ -253,15 +252,21 @@ function handleKey(e: KeyboardEvent) {
   if (rateDisabled.value) {
     return
   }
-  const code = e.code
+  const code = getEventCode(e)
   const step = props.allowHalf ? 0.5 : 1
   let _currentValue = currentValue.value
 
-  if (code === EVENT_CODE.up || code === EVENT_CODE.right) {
-    _currentValue += step
-  } else if (code === EVENT_CODE.left || code === EVENT_CODE.down) {
-    _currentValue -= step
+  switch (code) {
+    case EVENT_CODE.up:
+    case EVENT_CODE.right:
+      _currentValue += step
+      break
+    case EVENT_CODE.left:
+    case EVENT_CODE.down:
+      _currentValue -= step
+      break
   }
+
   _currentValue = clamp(_currentValue, 0, props.max)
 
   if (_currentValue === currentValue.value) {

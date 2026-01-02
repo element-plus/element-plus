@@ -7,10 +7,17 @@ export default {
     colorpicker: {
       confirm: 'Confirmer',
       clear: 'Effacer',
-      defaultLabel: 'color picker',
+      defaultLabel: 'Sélecteur de couleurs',
       description:
         'La couleur actuelle est {color}. Appuyer sur Entrée pour sélectionner une nouvelle couleur.',
       alphaLabel: 'Choisir la valeur alpha',
+      alphaDescription: 'alpha {alpha}, couleur actuelle  {color}',
+      hueLabel: 'Choisir la veleur hue',
+      hueDescription: 'hue {hue}, couleur actuelle {color}',
+      svLabel: 'Choisir la valeur de saturation et de luminosité',
+      svDescription:
+        'saturation {saturation}, luminosité {brightness}, couleur actuelle {color}',
+      predefineDescription: 'Choisir {value} comme couleur actuelle',
     },
     datepicker: {
       now: 'Maintenant',
@@ -82,8 +89,8 @@ export default {
       },
     },
     inputNumber: {
-      decrease: 'décrémenter',
-      increase: 'incrémenter',
+      decrease: 'Décrémenter',
+      increase: 'Incrémenter',
     },
     select: {
       loading: 'Chargement',
@@ -147,11 +154,20 @@ export default {
       resetFilter: 'Réinitialiser',
       clearFilter: 'Tous',
       sumText: 'Somme',
+      selectAllLabel: 'Select all rows', // to be translated
+      selectRowLabel: 'Select this row', // to be translated
+      expandRowLabel: 'Expand this row', // to be translated
+      collapseRowLabel: 'Collapse this row', // to be translated
+      sortLabel: 'Sort by {column}', // to be translated
+      filterLabel: 'Filter by {column}', // to be translated
+    },
+    tag: {
+      close: 'Fermer le tag',
     },
     tour: {
-      next: 'suivant',
-      previous: 'précédent',
-      finish: 'fin',
+      next: 'Suivant',
+      previous: 'Précédent',
+      finish: 'Fin',
       close: 'Fermer la boîte de dialogue',
     },
     tree: {
@@ -166,7 +182,7 @@ export default {
       hasCheckedFormat: '{checked}/{total} coché(s)',
     },
     image: {
-      error: 'ECHEC',
+      error: 'Echec',
     },
     pageHeader: {
       title: 'Retour',

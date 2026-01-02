@@ -1,7 +1,7 @@
+import type { BACKWARD, FORWARD } from './defaults'
 import type { CSSProperties, ComponentInternalInstance, Ref } from 'vue'
 
 export type Instance = ComponentInternalInstance
-
 export type Alignment = 'auto' | 'smart' | 'center' | 'start' | 'end'
 export type ItemSize = (idx: number) => number
 export type Direction = 'ltr' | 'rtl'
@@ -49,7 +49,7 @@ export type ListItemSizer<T, P extends InitListCacheFunc<T>> = (
 
 export type GetEstimatedTotalSize<
   T,
-  P extends InitCacheFunc<T, GridCache | ListCache>
+  P extends InitCacheFunc<T, GridCache | ListCache>,
 > = (props: T, cache: ReturnType<P>) => number
 
 export type GetOffset<T, P extends InitListCacheFunc<T>> = (
@@ -62,12 +62,12 @@ export type GetOffset<T, P extends InitListCacheFunc<T>> = (
 
 export type GetStartIndexForOffset<
   T,
-  P extends InitCacheFunc<T, GridCache | ListCache>
+  P extends InitCacheFunc<T, GridCache | ListCache>,
 > = (props: T, offset: number, cache: ReturnType<P>) => number
 
 export type GetStopIndexForStartIndex<
   T,
-  P extends InitCacheFunc<T, GridCache | ListCache>
+  P extends InitCacheFunc<T, GridCache | ListCache>,
 > = (
   props: T,
   startIndex: number,
@@ -83,7 +83,7 @@ export type InitGridCacheFunc<T> = InitCacheFunc<T, GridCache>
 
 export type ListConstructorProps<
   T,
-  P extends InitListCacheFunc<T> = InitListCacheFunc<T>
+  P extends InitListCacheFunc<T> = InitListCacheFunc<T>,
 > = {
   name?: string
   getItemOffset: ListItemSizer<T, P>
@@ -124,6 +124,10 @@ export type GridExposes = {
     xAxisScrollDir: Direction
     yAxisScrollDir: Direction
   } & ExposesStates
+  touchStartX: Ref<number>
+  touchStartY: Ref<number>
+  handleTouchStart: (e: TouchEvent) => void
+  handleTouchMove: (e: TouchEvent) => void
   scrollTo: (props: { scrollLeft: number; scrollTop: number }) => void
   scrollToItem: (
     columnIndex?: number,
@@ -153,7 +157,7 @@ export type GetPosition<T, P extends InitGridCacheFunc<T>> = (
 
 export type GridConstructorProps<
   T,
-  P extends InitGridCacheFunc<T> = InitGridCacheFunc<T>
+  P extends InitGridCacheFunc<T> = InitGridCacheFunc<T>,
 > = {
   name?: string
   // columns getter
@@ -205,9 +209,19 @@ export type GridItemRenderedEvtParams = {
 export type GridScrollOptions = { scrollLeft?: number; scrollTop?: number }
 
 export type GridItemKeyGetter = <
-  T extends { [key: string | number]: any }
+  T extends { [key: string | number]: any },
 >(args: {
   columnIndex: number
   data: T
   rowIndex: number
 }) => string | number
+
+type Dir = typeof FORWARD | typeof BACKWARD
+export interface GridStates {
+  isScrolling: boolean
+  scrollLeft: number
+  scrollTop: number
+  updateRequested: boolean
+  xAxisScrollDir: Dir
+  yAxisScrollDir: Dir
+}

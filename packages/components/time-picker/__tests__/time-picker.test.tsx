@@ -7,8 +7,11 @@ import { CircleClose } from '@element-plus/icons-vue'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { rAF } from '@element-plus/test-utils/tick'
 import { ElFormItem } from '@element-plus/components/form'
+import { EVENT_CODE } from '@element-plus/constants'
 import TimePicker from '../src/time-picker'
 import Picker from '../src/common/picker.vue'
+import PanelTimePick from '../src/time-picker-com/panel-time-pick.vue'
+import PanelTimeRangePick from '../src/time-picker-com/panel-time-range.vue'
 
 const makeRange = (start, end) => {
   const result = []
@@ -142,6 +145,23 @@ describe('TimePicker', () => {
     expect(value.value).toBeInstanceOf(Date)
   })
 
+  it('should correctly cancel value after opened twice', async () => {
+    const value = ref()
+    const wrapper = mount(() => <TimePicker v-model={value.value} />)
+    const picker = wrapper.findComponent(PanelTimePick)
+
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    await picker.find('.el-time-panel__btn.cancel').trigger('click')
+    expect(value.value).toBeUndefined()
+
+    await input.trigger('blur')
+    await input.trigger('focus')
+    await picker.find('.el-time-panel__btn.cancel').trigger('click')
+    expect(value.value).toBeUndefined()
+  })
+
   it('should update oldValue when visible change', async () => {
     const value = ref(new Date(2016, 9, 10, 18, 40))
     const wrapper = mount(() => <TimePicker v-model={value.value} />)
@@ -250,6 +270,58 @@ describe('TimePicker', () => {
     await nextTick()
     await nextTick() // onchange is triggered by props.modelValue update
     expect(changeHandler).toHaveBeenCalledTimes(1)
+  })
+
+  it('trigger on enter visible change', async () => {
+    const handleVisibleChange = vi.fn()
+    const value = ref(new Date(2016, 9, 10, 18, 40))
+
+    const wrapper = mount(() => (
+      <TimePicker v-model={value.value} onVisibleChange={handleVisibleChange} />
+    ))
+
+    const input = wrapper.find('input')
+    input.trigger('focus')
+    await nextTick()
+    await rAF()
+    expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+
+    input.trigger('keydown', { code: EVENT_CODE.esc })
+    await nextTick()
+    await rAF()
+    expect(handleVisibleChange).toHaveBeenCalledTimes(2)
+
+    input.trigger('keydown', { code: EVENT_CODE.enter })
+    await nextTick()
+    await rAF()
+    expect(handleVisibleChange).toHaveBeenCalledTimes(3)
+  })
+
+  it('should cancel correctly the right value after manual input', async () => {
+    const value = ref<[Date, Date]>([
+      new Date(2016, 9, 10, 8, 40),
+      new Date(2016, 9, 10, 9, 40),
+    ])
+    const wrapper = mount(() => (
+      <>
+        <TimePicker v-model={value.value} is-range />
+        <button>click me</button>
+      </>
+    ))
+    const input = wrapper.find('input')
+    await input.trigger('focus')
+
+    const picker = wrapper.findComponent(PanelTimeRangePick)
+    const secondPanel = picker.findAll('.el-time-range-picker__cell')[1]
+    const currentHour = secondPanel.find('.el-time-spinner__item.is-active')
+    expect(currentHour.text()).toBe('09')
+    await currentHour.trigger('mouseover')
+    await picker.find('.el-time-panel__btn.cancel').trigger('click')
+    const secondInput = wrapper.findAll('.el-range-input')[1]
+    await secondInput.setValue('07:40:00')
+    expect(secondInput.element.value).toBe('07:40:00')
+    await input.trigger('blur')
+    expect(secondInput.element.value).toBe('09:40:00')
   })
 
   it('selectableRange ', async () => {
@@ -618,7 +690,10 @@ describe('TimePicker(range)', () => {
       new Date(2016, 9, 10, 9, 40),
       new Date(2016, 9, 10, 15, 40),
     ])
-    const wrapper = mount(() => <TimePicker v-model={value.value} is-range />)
+    const onClear = vi.fn()
+    const wrapper = mount(() => (
+      <TimePicker v-model={value.value} is-range onClear={onClear} />
+    ))
 
     const findInputWrapper = () => wrapper.find('.el-date-editor')
     const findClear = () => wrapper.find('.el-range__close-icon')
@@ -631,6 +706,7 @@ describe('TimePicker(range)', () => {
     await clearIcon.trigger('click')
     await nextTick()
     expect(value.value).toEqual(null)
+    expect(onClear).toHaveBeenCalledOnce()
   })
 
   it('should close pick when click the clear button on pick opened', async () => {
@@ -1043,5 +1119,21 @@ describe('TimePicker(range)', () => {
       expect(popper?.getAttribute('aria-hidden')).toBe('false')
       expect(popper?.getAttribute('aria-modal')).toBe('false')
     })
+  })
+
+  it('should show default value when persistent is false', async () => {
+    const format = ref('hh-mm:ss A')
+    const value = ref(new Date(2016, 9, 10, 18, 40))
+    const wrapper = mount(() => (
+      <TimePicker
+        format={format.value}
+        persistent={false}
+        v-model={value.value}
+      />
+    ))
+
+    await nextTick()
+    const input = wrapper.find('input')
+    expect(input.element.value).toBe('06-40:00 PM') // format
   })
 })

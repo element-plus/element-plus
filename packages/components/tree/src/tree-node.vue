@@ -286,7 +286,12 @@ export default defineComponent({
     }
 
     const handleCheckChange = (value: CheckboxValueType) => {
-      props.node.setChecked(value as boolean, !tree?.props.checkStrictly)
+      const checkStrictly = tree?.props.checkStrictly
+      const childNodes = props.node.childNodes
+      if (!checkStrictly && childNodes.length) {
+        value = childNodes.some((node) => !node.isEffectivelyChecked)
+      }
+      props.node.setChecked(value as boolean, !checkStrictly)
       nextTick(() => {
         const store = tree.store.value
         tree.ctx.emit('check', props.node.data, {

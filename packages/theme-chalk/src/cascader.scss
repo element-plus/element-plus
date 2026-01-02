@@ -72,7 +72,12 @@
 
     .#{$namespace}-input__inner {
       text-overflow: ellipsis;
-      cursor: pointer;
+      &:read-only {
+        cursor: pointer;
+      }
+      &:disabled {
+        cursor: not-allowed;
+      }
     }
 
     .#{$namespace}-input__suffix-inner {

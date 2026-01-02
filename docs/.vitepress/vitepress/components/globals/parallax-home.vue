@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref } from 'vue'
-import { useEventListener, useParallax, useThrottleFn } from '@vueuse/core'
+import { withBase } from 'vitepress'
+import {
+  isClient,
+  useEventListener,
+  useParallax,
+  useThrottleFn,
+} from '@vueuse/core'
 import { useLang } from '../../composables/lang'
 import homeLocale from '../../../i18n/pages/home.json'
 import HomeSponsors from '../home/home-sponsors.vue'
@@ -19,8 +25,9 @@ const lang = useLang()
 const homeLang = computed(() => homeLocale[lang.value])
 
 function jumpTo(path: string) {
+  if (!isClient) return
   // vitepress has not router
-  location.href = `/${lang.value}/${path}`
+  window.location.href = `/${lang.value}/${path}`
 }
 
 const containerStyle: CSSProperties = {
@@ -143,7 +150,7 @@ onMounted(() => {
       </div>
     </div>
     <img
-      :src="`/images/theme-index-blue${isDark ? '-dark' : ''}.png`"
+      :src="withBase(`/images/theme-index-blue${isDark ? '-dark' : ''}.png`)"
       alt="banner"
       class="mobile-banner"
     />

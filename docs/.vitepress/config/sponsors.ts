@@ -14,17 +14,7 @@ export type Sponsor = {
 
 export const rightRichTextSponsors: Sponsor[] = []
 
-export const rightBigLogoSponsors: Sponsor[] = [
-  {
-    name: 'CRMEB',
-    img: '/images/CRMEB.png',
-    imgL: '/images/CRMEB-l.png',
-    url: 'http://github.crmeb.net/u/Elementyouce',
-    slogan: 'High-quality open source mall system',
-    slogan_cn: '高品质开源商城系统 累计服务40W+开发者',
-    slogan_index: '高品质开源商城系统累计服务40W+开发者',
-  },
-]
+export const rightBigLogoSponsors: Sponsor[] = []
 
 export const rightLogoSmallSponsors: Sponsor[] = [
   {
@@ -36,12 +26,12 @@ export const rightLogoSmallSponsors: Sponsor[] = [
     slogan_cn: 'Vue3企业级开源后台管理系统',
   },
   {
-    name: 'Fantastic-admin',
-    img: '/images/fantastic-admin.png',
-    imgL: '/images/fantastic-admin-l.png',
-    url: 'https://fantastic-admin.github.io/?from=element-plus',
-    slogan: 'An out-of-the-box backend framework',
-    slogan_cn: '开箱即用的 Vue 后台管理框架',
+    name: 'frsimple',
+    img: '/images/frsimple.png',
+    imgL: '/images/frsimple-l.png',
+    url: 'https://el.frsimple.com',
+    slogan: 'A simple and efficient front-end framework',
+    slogan_cn: '信创开发平台',
   },
   {
     name: 'bit',
@@ -55,14 +45,6 @@ export const rightLogoSmallSponsors: Sponsor[] = [
 
 export const leftCustomImgSponsors: Sponsor[] = [
   {
-    name: '美乐',
-    img: '/images/mele.png',
-    url: 'https://melecode.com/prom.html',
-    slogan: 'Enterprise-level low-code development platform',
-    slogan_cn: '企业级全栈低代码开发平台',
-    banner_img: '/images/mele-banner.png',
-  },
-  {
     name: 'JNPF',
     img: '/images/jnpf_index.png',
     url: 'https://www.jnpfsoft.com/index.html?from=elementUI',
@@ -72,12 +54,12 @@ export const leftCustomImgSponsors: Sponsor[] = [
     banner_img: '/images/jnpfsoft.png',
   },
   {
-    name: 'MISBoot',
-    img: '/images/misboot-logo.png',
-    banner_img: '/images/misboot-left.png',
-    url: 'https://vue.misboot.com/#/login?from=element-plus',
-    slogan: 'Low code development platform built on Element Plus',
-    slogan_cn: '基于Element Plus构建的低代码开发平台',
+    name: 'CRMEB',
+    img: '/images/CRMEB.png',
+    url: 'http://github.crmeb.net/u/Elementyouce',
+    slogan: 'High-quality open source mall system',
+    slogan_cn: '高品质开源商城系统 累计服务40W+开发者',
+    banner_img: '/images/CRMEB-l.jpg',
   },
 ]
 

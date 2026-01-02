@@ -30,7 +30,6 @@ export function draggable(element: HTMLElement, options: DraggableOptions) {
 
   const downFn = function (event: MouseEvent | TouchEvent) {
     if (isDragging) return
-    event.preventDefault()
     document.onselectstart = () => false
     document.ondragstart = () => false
     document.addEventListener('mousemove', moveFn)

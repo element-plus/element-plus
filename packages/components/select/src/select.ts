@@ -16,7 +16,7 @@ import type { EmitFn } from '@element-plus/utils'
 import type {
   CSSProperties,
   ExtractPropTypes,
-  __ExtractPublicPropTypes,
+  ExtractPublicPropTypes,
 } from 'vue'
 import type Select from './select.vue'
 import type {
@@ -74,7 +74,10 @@ export const selectProps = buildProps({
   /**
    * @description whether Select is disabled
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description whether select can be cleared
    */
@@ -109,12 +112,19 @@ export const selectProps = buildProps({
    */
   popperOptions: {
     type: definePropType<Partial<Options>>(Object),
-    default: () => ({} as Partial<Options>),
+    default: () => ({}) as Partial<Options>,
   },
   /**
    * @description whether options are loaded from server
    */
   remote: Boolean,
+  /**
+   * @description debounce delay during remote search, in milliseconds
+   */
+  debounce: {
+    type: Number,
+    default: 300,
+  },
   /**
    * @description displayed text while loading data from server, default is 'Loading'
    */
@@ -221,7 +231,7 @@ export const selectProps = buildProps({
   /**
    * @description tag type
    */
-  // eslint-disable-next-line vue/require-prop-types
+
   tagType: { ...tagProps.type, default: 'info' },
   /**
    * @description tag effect
@@ -302,7 +312,7 @@ export const selectEmits = {
 /* eslint-enable @typescript-eslint/no-unused-vars */
 
 export type SelectProps = ExtractPropTypes<typeof selectProps>
-export type SelectPropsPublic = __ExtractPublicPropTypes<typeof selectProps>
+export type SelectPropsPublic = ExtractPublicPropTypes<typeof selectProps>
 export type SelectEmits = EmitFn<typeof selectEmits>
 export type SelectInstance = InstanceType<typeof Select> & unknown
 export type SelectOptionProps = Props
