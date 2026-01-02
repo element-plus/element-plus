@@ -261,10 +261,7 @@ const verifyValue = (
   if (max < min) {
     throwError('InputNumber', 'min should not be greater than max.')
   }
-  let newVal =
-    value == null || value === ''
-      ? Number(value)
-      : Number.parseFloat(String(value))
+  let newVal = !value ? Number(value) : Number.parseFloat(String(value))
   if (isNil(value) || Number.isNaN(newVal)) {
     return null
   }
