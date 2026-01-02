@@ -40,10 +40,11 @@
         </el-icon>
       </slot>
     </span>
+
     <el-input
       :id="id"
       ref="input"
-      type="number"
+      :type="formatter ? 'text' : 'number'"
       :step="step"
       :model-value="displayValue"
       :placeholder="placeholder"
@@ -56,6 +57,8 @@
       :aria-label="ariaLabel"
       :validate-event="false"
       :inputmode="inputmode"
+      :formatter="formatter"
+      :parser="parser"
       @keydown="handleKeydown"
       @blur="handleBlur"
       @focus="handleFocus"
@@ -258,7 +261,10 @@ const verifyValue = (
   if (max < min) {
     throwError('InputNumber', 'min should not be greater than max.')
   }
-  let newVal = Number(value)
+  let newVal =
+    value == null || value === ''
+      ? Number(value)
+      : Number.parseFloat(String(value))
   if (isNil(value) || Number.isNaN(newVal)) {
     return null
   }
@@ -309,13 +315,20 @@ const setCurrentValue = (
 }
 const handleInput = (value: string) => {
   data.userInput = value
-  const newVal = value === '' ? null : Number(value)
+  let newVal = value === '' ? null : Number.parseFloat(value)
+  if (Number.isNaN(newVal)) {
+    newVal = null
+  }
   emit(INPUT_EVENT, newVal)
   setCurrentValue(newVal, false)
 }
 const handleInputChange = (value: string) => {
-  const newVal = value !== '' ? Number(value) : ''
-  if ((isNumber(newVal) && !Number.isNaN(newVal)) || value === '') {
+  const newVal = value !== '' ? Number.parseFloat(value) : ''
+  if (
+    (isNumber(newVal) && !Number.isNaN(newVal)) ||
+    (props.formatter && Number.isNaN(newVal)) ||
+    newVal === ''
+  ) {
     setCurrentValue(newVal)
   }
   setCurrentValueToModelValue()
@@ -340,7 +353,7 @@ const handleBlur = (event: MouseEvent | FocusEvent) => {
   // the content displayed on the page is not cleared after the value is cleared. #18533
   // https://bugzilla.mozilla.org/show_bug.cgi?id=1398528
   if (data.currentValue === null && input.value?.input) {
-    input.value.input.value = ''
+    input.value.input.value = props.formatter?.('') ?? ''
   }
   emit('blur', event)
   if (props.validateEvent) {

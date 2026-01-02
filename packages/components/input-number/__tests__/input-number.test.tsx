@@ -1,5 +1,5 @@
 import { nextTick, ref } from 'vue'
-import { mount } from '@vue/test-utils'
+import { flushPromises, mount } from '@vue/test-utils'
 import { describe, expect, it, test, vi } from 'vitest'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { ElForm, ElFormItem } from '@element-plus/components/form'
@@ -723,5 +723,75 @@ describe('InputNumber.vue', () => {
     input.element.dispatchEvent(new Event('input'))
     await input.trigger('keydown', { key: EVENT_CODE.down })
     expect(input.element.value).toBe('10')
+  })
+
+  test('use formatter and parser', async () => {
+    const val = ref(10000)
+    const formatter = (val: string) => val.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    const parser = (val: string) => val.replace(/\$\s?|(,*)/g, '')
+    const handleInput = vi.fn()
+    const handleChange = vi.fn()
+
+    const wrapper = mount(() => (
+      <InputNumber
+        v-model={val.value}
+        formatter={formatter}
+        parser={parser}
+        onInput={handleInput}
+        onChange={handleChange}
+      />
+    ))
+
+    const input = wrapper.find<HTMLInputElement>('.el-input__inner').element
+    expect(input.value).toEqual('10,000')
+
+    input.value = '1,000,000'
+    input.dispatchEvent(new Event('input', { bubbles: true }))
+    await flushPromises()
+    expect(handleInput).toHaveBeenNthCalledWith(1, 1000000)
+    expect(val.value).toEqual(1000000)
+
+    input.dispatchEvent(new Event('change', { bubbles: true }))
+    await flushPromises()
+    expect(handleChange).toHaveBeenNthCalledWith(1, 1000000, 10000)
+    expect(val.value).toEqual(1000000)
+
+    input.value = '1a'
+    input.dispatchEvent(new Event('input', { bubbles: true }))
+    await flushPromises()
+    expect(handleInput).toHaveBeenNthCalledWith(2, 1)
+    expect(val.value).toEqual(1)
+
+    input.dispatchEvent(new Event('change', { bubbles: true }))
+    await flushPromises()
+    expect(val.value).toEqual(1)
+    expect(handleChange).toHaveBeenNthCalledWith(2, 1, 1000000)
+
+    input.value = 'a1'
+    input.dispatchEvent(new Event('input', { bubbles: true }))
+    await flushPromises()
+    expect(handleInput).toHaveBeenNthCalledWith(3, null)
+    expect(val.value).toEqual(null)
+
+    input.dispatchEvent(new Event('change', { bubbles: true }))
+    await flushPromises()
+    expect(handleChange).toHaveBeenNthCalledWith(3, null, 1)
+    expect(val.value).toEqual(null)
+  })
+
+  test('should display formatted value after blur', async () => {
+    const val = ref()
+    const formatter = (val: string) =>
+      `$ ${val}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    const parser = (val: string) => val.replace(/\$\s?|(,*)/g, '')
+
+    const wrapper = mount(() => (
+      <InputNumber v-model={val.value} formatter={formatter} parser={parser} />
+    ))
+
+    const input = wrapper.find<HTMLInputElement>('.el-input__inner')
+    expect(input.element.value).toEqual('$ ')
+    await input.trigger('blur')
+    expect(input.element.value).toEqual('$ ')
   })
 })

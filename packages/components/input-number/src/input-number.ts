@@ -134,6 +134,18 @@ export const inputNumberProps = buildProps({
    * @description whether to disable scientific notation input (e.g. 'e', 'E')
    */
   disabledScientific: Boolean,
+  /**
+   * @description format content
+   */
+  formatter: {
+    type: Function,
+  },
+  /**
+   * @description parse content
+   */
+  parser: {
+    type: Function,
+  },
 } as const)
 export type InputNumberProps = ExtractPropTypes<typeof inputNumberProps>
 export type InputNumberPropsPublic = ExtractPublicPropTypes<
