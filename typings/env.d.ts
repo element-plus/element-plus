@@ -1,4 +1,3 @@
-import type { vShow } from 'vue'
 import type { INSTALLED_KEY } from '@element-plus/constants'
 
 declare global {
@@ -24,10 +23,6 @@ declare module 'vue' {
 
   export interface GlobalComponents {
     Component: (props: { is: Component | string }) => void
-  }
-
-  export interface ComponentCustomProperties {
-    vShow: typeof vShow
   }
 }
 

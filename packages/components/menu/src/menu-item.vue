@@ -18,6 +18,8 @@
       :effect="rootMenu.props.popperEffect"
       placement="right"
       :fallback-placements="['left']"
+      :popper-class="rootMenu.props.popperClass"
+      :popper-style="rootMenu.props.popperStyle"
       :persistent="rootMenu.props.persistent"
       focus-on-target
     >

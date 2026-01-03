@@ -3,7 +3,7 @@ import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import { radioEmits } from './radio'
 
 import type { RadioPropsPublic } from './radio'
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type RadioGroup from './radio-group.vue'
 
 export const radioGroupProps = buildProps({
@@ -21,7 +21,10 @@ export const radioGroupProps = buildProps({
   /**
    * @description whether the nesting radios are disabled
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description binding value
    */
@@ -72,7 +75,7 @@ export const radioGroupProps = buildProps({
   ...useAriaProps(['ariaLabel']),
 } as const)
 export type RadioGroupProps = ExtractPropTypes<typeof radioGroupProps>
-export type RadioGroupPropsPublic = __ExtractPublicPropTypes<
+export type RadioGroupPropsPublic = ExtractPublicPropTypes<
   typeof radioGroupProps
 >
 

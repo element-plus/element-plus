@@ -84,12 +84,19 @@ const setCurrentAnchor = (href: string) => {
 }
 
 let clearAnimate: (() => void) | null = null
+let currentTargetHref = ''
 
 const scrollToAnchor = (href: string) => {
   if (!containerEl.value) return
   const target = getElement(href)
   if (!target) return
-  if (clearAnimate) clearAnimate()
+
+  if (clearAnimate) {
+    if (currentTargetHref === href) return
+    clearAnimate()
+  }
+
+  currentTargetHref = href
   isScrolling = true
   const scrollEle = getScrollElement(target, containerEl.value)
   const distance = getOffsetTopDistance(target, scrollEle)
@@ -104,6 +111,7 @@ const scrollToAnchor = (href: string) => {
       // make sure it is executed after throttleByRaf's handleScroll
       setTimeout(() => {
         isScrolling = false
+        currentTargetHref = ''
       }, 20)
     }
   )

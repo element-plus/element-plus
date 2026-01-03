@@ -113,6 +113,7 @@ $tag-icon-span-gap: map.merge(
   $svg-margin-size: 1px;
 
   .#{$namespace}-icon {
+    display: flex;
     border-radius: 50%;
     cursor: pointer;
 
@@ -122,7 +123,17 @@ $tag-icon-span-gap: map.merge(
   }
 
   .#{$namespace}-tag__close {
+    padding: 0;
+    background-color: transparent;
+    border-radius: 50%;
+    border: none;
+    outline: none;
+    overflow: hidden;
     margin-left: map.get($tag-icon-span-gap, 'default');
+    &:focus-visible {
+      outline: 2px solid getCssVar('color-primary');
+      outline-offset: 2px;
+    }
   }
 
   @include m(dark) {

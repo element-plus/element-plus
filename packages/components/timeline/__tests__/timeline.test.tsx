@@ -1,4 +1,4 @@
-import { markRaw } from 'vue'
+import { markRaw, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
 import { MoreFilled } from '@element-plus/icons-vue'
@@ -167,5 +167,69 @@ describe('TimeLine.vue', () => {
     const timestampWrappers = wrapper.findAll('.el-timeline-item')
 
     expect(timestampWrappers[1].classes()).toContain('el-timeline-item__center')
+  })
+
+  test('The content that is not a timeline item in the sub-slot should be rendered', () => {
+    const wrapper = mount(() => (
+      <TimeLine>
+        <div class="custom-content">Custom Content</div>
+      </TimeLine>
+    ))
+
+    // It appears there's a problem with the DOM hierarchy structure being rendered by the test framework.
+    expect(wrapper.element.innerHTML).toBe('Custom Content')
+  })
+
+  describe('reverse', () => {
+    test('v-for children', async () => {
+      const wrapper = mount({
+        template: `
+          <TimeLine :reverse="reverse">
+            <TimeLineItem
+              v-for="(item, index) in activities"
+              :key="index"
+            >
+              {{ item.content }}
+            </TimeLineItem>
+          </TimeLine>
+        `,
+        components: {
+          TimeLine,
+          TimeLineItem,
+        },
+        data() {
+          return {
+            reverse: true,
+            activities,
+          }
+        },
+      })
+
+      let firstTimelineItem = wrapper.find('.el-timeline-item__content')
+      expect(firstTimelineItem.text()).toMatchInlineSnapshot(`"Step 3: xxxxxx"`)
+
+      await wrapper.setData({ reverse: false })
+      firstTimelineItem = wrapper.find('.el-timeline-item__content')
+      expect(firstTimelineItem.text()).toMatchInlineSnapshot(`"Step 1: xxxxxx"`)
+    })
+
+    test('manual children', async () => {
+      const reverse = ref(true)
+      const wrapper = mount(() => (
+        <TimeLine reverse={reverse.value}>
+          <TimeLineItem>Step 1: xxxxxx</TimeLineItem>
+          <TimeLineItem>Step 2: xxxxxx</TimeLineItem>
+          <TimeLineItem>Step 3: xxxxxx</TimeLineItem>
+        </TimeLine>
+      ))
+
+      let firstTimelineItem = wrapper.find('.el-timeline-item__content')
+      expect(firstTimelineItem.text()).toMatchInlineSnapshot(`"Step 3: xxxxxx"`)
+
+      reverse.value = false
+      await nextTick()
+      firstTimelineItem = wrapper.find('.el-timeline-item__content')
+      expect(firstTimelineItem.text()).toMatchInlineSnapshot(`"Step 1: xxxxxx"`)
+    })
   })
 })

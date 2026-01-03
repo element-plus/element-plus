@@ -1,6 +1,6 @@
 import { TypeComponentsMap, buildProps, keysOf } from '@element-plus/utils'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 
 export const alertEffects = ['light', 'dark'] as const
 
@@ -68,7 +68,7 @@ export const alertProps = buildProps({
   autoClose: Number,
 } as const)
 export type AlertProps = ExtractPropTypes<typeof alertProps>
-export type AlertPropsPublic = __ExtractPublicPropTypes<typeof alertProps>
+export type AlertPropsPublic = ExtractPublicPropTypes<typeof alertProps>
 
 export const alertEmits = {
   close: (evt: MouseEvent) => evt instanceof MouseEvent,

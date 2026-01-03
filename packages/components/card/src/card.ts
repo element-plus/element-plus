@@ -2,9 +2,9 @@ import { buildProps, definePropType } from '@element-plus/utils'
 
 import type {
   ExtractPropTypes,
+  ExtractPublicPropTypes,
   InjectionKey,
   StyleValue,
-  __ExtractPublicPropTypes,
 } from 'vue'
 
 export const cardProps = buildProps({
@@ -51,7 +51,7 @@ export const cardProps = buildProps({
   },
 } as const)
 export type CardProps = ExtractPropTypes<typeof cardProps>
-export type CardPropsPublic = __ExtractPublicPropTypes<typeof cardProps>
+export type CardPropsPublic = ExtractPublicPropTypes<typeof cardProps>
 export interface CardConfigContext {
   shadow?: string
 }

@@ -4,6 +4,7 @@ import {
   onMounted,
   reactive,
   ref,
+  useSlots,
   watch,
   watchEffect,
 } from 'vue'
@@ -40,6 +41,7 @@ import {
   useNamespace,
 } from '@element-plus/hooks'
 import {
+  useFormDisabled,
   useFormItem,
   useFormItemInputId,
   useFormSize,
@@ -58,6 +60,7 @@ import type {
 
 export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   const { t } = useLocale()
+  const slots = useSlots()
   const contentId = useId()
   const nsSelect = useNamespace('select')
   const nsInput = useNamespace('input')
@@ -110,7 +113,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     afterComposition: (e) => onInput(e),
   })
 
-  const selectDisabled = computed(() => props.disabled || !!form?.disabled)
+  const selectDisabled = useFormDisabled()
 
   const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
     disabled: selectDisabled,
@@ -247,7 +250,9 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     get() {
       return (
         expanded.value &&
-        (props.loading || !isRemoteSearchEmpty.value) &&
+        (props.loading ||
+          !isRemoteSearchEmpty.value ||
+          (props.remote && !!slots.empty)) &&
         (!debouncing.value || !isEmpty(states.previousQuery))
       )
     },
@@ -691,8 +696,15 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     }
   }
 
-  const toggleMenu = () => {
-    if (selectDisabled.value) return
+  const toggleMenu = (event?: Event) => {
+    if (
+      selectDisabled.value ||
+      (props.filterable &&
+        expanded.value &&
+        event &&
+        !suffixRef.value?.contains(event.target as Node))
+    )
+      return
 
     // We only set the inputHovering state to true on mouseenter event on iOS devices
     // To keep the state updated we set it here to true

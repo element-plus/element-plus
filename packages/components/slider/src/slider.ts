@@ -13,7 +13,7 @@ import {
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 
 import type { Arrayable } from '@element-plus/utils'
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type { SliderMarkerProps } from './marker'
 import type Slider from './slider.vue'
 
@@ -100,7 +100,10 @@ export const sliderProps = buildProps({
   /**
    * @description whether Slider is disabled
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description whether to select a range
    */
@@ -172,7 +175,7 @@ export const sliderProps = buildProps({
   ...useAriaProps(['ariaLabel']),
 } as const)
 export type SliderProps = ExtractPropTypes<typeof sliderProps>
-export type SliderPropsPublic = __ExtractPublicPropTypes<typeof sliderProps>
+export type SliderPropsPublic = ExtractPublicPropTypes<typeof sliderProps>
 
 const isValidValue = (value: Arrayable<number>) =>
   isNumber(value) || (isArray(value) && value.every(isNumber))

@@ -1,7 +1,6 @@
 <template>
   <span :class="ns.e('item')">
     <span
-      ref="link"
       :class="[ns.e('inner'), ns.is('link', !!to)]"
       role="link"
       @click="onClick"
@@ -18,7 +17,7 @@
 </template>
 
 <script lang="ts" setup>
-import { getCurrentInstance, inject, ref } from 'vue'
+import { getCurrentInstance, inject } from 'vue'
 import ElIcon from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
 import { breadcrumbKey } from './constants'
@@ -37,8 +36,6 @@ const breadcrumbContext = inject(breadcrumbKey, undefined)
 const ns = useNamespace('breadcrumb')
 
 const router = instance.appContext.config.globalProperties.$router as Router
-
-const link = ref<HTMLSpanElement>()
 
 const onClick = () => {
   if (!props.to || !router) return

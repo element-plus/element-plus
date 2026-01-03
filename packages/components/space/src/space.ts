@@ -21,15 +21,15 @@ import Item from './item'
 import { useSpace } from './use-space'
 
 import type {
+  CSSProperties,
   ExtractPropTypes,
+  ExtractPublicPropTypes,
   StyleValue,
   VNode,
   VNodeArrayChildren,
   VNodeChild,
-  __ExtractPublicPropTypes,
 } from 'vue'
 import type { Arrayable } from '@element-plus/utils'
-import type { AlignItemsProperty } from 'csstype'
 
 export const spaceProps = buildProps({
   /**
@@ -62,7 +62,7 @@ export const spaceProps = buildProps({
    * @description Controls the alignment of items
    */
   alignment: {
-    type: definePropType<AlignItemsProperty>(String),
+    type: definePropType<CSSProperties['align-items']>(String),
     default: 'center',
   },
   /**
@@ -109,7 +109,7 @@ export const spaceProps = buildProps({
   },
 } as const)
 export type SpaceProps = ExtractPropTypes<typeof spaceProps>
-export type SpacePropsPublic = __ExtractPublicPropTypes<typeof spaceProps>
+export type SpacePropsPublic = ExtractPublicPropTypes<typeof spaceProps>
 
 const Space = defineComponent({
   name: 'ElSpace',
