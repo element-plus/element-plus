@@ -44,16 +44,16 @@
       </el-checkbox-group>
       <div
         v-show="hasNoMatch || isEmpty(data)"
-        :class="ns.be('panel', 'empty')"
+        :class="ns.be('panel', 'empty')"p
       >
         <slot name="empty">
           {{ hasNoMatch ? t('el.transfer.noMatch') : t('el.transfer.noData') }}
         </slot>
       </div>
     </div>
-    <div v-if="hasFooter" :class="ns.be('panel', 'footer')">
+    <p v-if="hasFooter" :class="ns.be('panel', 'footer')">
       <slot />
-    </div>
+    </p>
   </div>
 </template>
 
