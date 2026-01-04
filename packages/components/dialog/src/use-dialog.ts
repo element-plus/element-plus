@@ -46,6 +46,7 @@ export const useDialog = (
   const closed = ref(false)
   const rendered = ref(false) // when destroyOnClose is true, we initialize it as false vise versa
   const zIndex = ref(props.zIndex ?? nextZIndex())
+  const closing = ref(false)
 
   let openTimer: (() => void) | undefined = undefined
   let closeTimer: (() => void) | undefined = undefined
@@ -145,9 +146,11 @@ export const useDialog = (
     if (props.destroyOnClose) {
       rendered.value = false
     }
+    closing.value = false
   }
 
   function beforeLeave() {
+    closing.value = true
     emit('close')
   }
 
@@ -238,6 +241,7 @@ export const useDialog = (
     (val) => {
       if (val) {
         closed.value = false
+        closing.value = false
         open()
         rendered.value = true // enables lazy rendering
         zIndex.value = props.zIndex ?? nextZIndex()
@@ -304,5 +308,6 @@ export const useDialog = (
     _draggable,
     _alignCenter,
     _overflow,
+    closing,
   }
 }

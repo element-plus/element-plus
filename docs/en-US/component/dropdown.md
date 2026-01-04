@@ -97,7 +97,7 @@ dropdown/virtual-trigger
 
 :::
 
-## Multi level menu ^(2.13.0)
+## Multi level menu ^(2.14.0)
 
 You can create multi level dropdown menus by using `DropdownSubMenu` component.
 
@@ -121,8 +121,8 @@ dropdown/sub-menu
 | disabled                     | whether to disable                                                                                                    | ^[boolean]                                                                                                                                             | false                                                                      |
 | placement                    | placement of pop menu                                                                                                 | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end'`                                                               | bottom                                                                     |
 | effect                       | Tooltip theme, built-in theme: `dark` / `light`                                                                       | ^[enum]`'dark' \| 'light'` / ^[string]                                                                                                                 | light                                                                      |
-| trigger                      | how to trigger                                                                                                        | ^[enum]`'click' \| 'hover' \| 'contextmenu'` / ^[object]`Array<'click' \| 'hover' \| 'contextmenu'>`                                                   | hover                                                                      |
-| menu-trigger ^(2.13.0)       | how to trigger the sub menu                                                                                           | ^[enum]`'hover' \| 'click'`                                                                                                                            | hover                                                                      |
+| trigger                      | how to trigger                                                                                                        | ^[enum]`'click' \| 'hover' \| 'contextmenu'` / ^[array]`Array<'click' \| 'hover' \| 'contextmenu'>`                                                   | hover                                                                      |
+| menu-trigger ^(2.14.0)       | how to trigger the sub menu                                                                                           | ^[enum]`'hover' \| 'click'`                                                                                                                            | hover                                                                      |
 | trigger-keys ^(2.9.1)        | specify which keys on the keyboard can trigger when pressed                                                           | ^[array]`string[]`                                                                                                                                     | `['Enter', 'Space', 'ArrowDown', 'NumpadEnter']`                           |
 | virtual-triggering ^(2.11.3) | indicates whether virtual triggering is enabled                                                                       | ^[boolean]                                                                                                                                             | —                                                                          |
 | virtual-ref ^(2.11.3)        | indicates the reference element to which the dropdown is attached                                                     | ^[HTMLElement]                                                                                                                                         | —                                                                          |
@@ -138,8 +138,8 @@ dropdown/sub-menu
 | teleported ^(2.2.20)         | whether the dropdown popup is teleported to the body                                                                  | ^[boolean]                                                                                                                                             | true                                                                       |
 | append-to ^(2.13.0)          | which element the dropdown CONTENT appends to                                                                         | ^[CSSSelector] / ^[HTMLElement]                                                                                                                        | —                                                                          |
 | persistent ^(2.9.5)          | when dropdown inactive and `persistent` is `false` , dropdown menu will be destroyed                                  | ^[boolean]                                                                                                                                             | true                                                                       |
-| menu-popper-offset ^(2.13.0) | offset of the sub menu popper                                                                                         | ^[number]                                                                                                                                              | -6                                                                         |
-| menu-placement ^(2.13.0)     | placement of pop sub menu                                                                                             | ^[enum]`'right-start' \| 'right' \| 'right-end' \| 'left-start' \| 'left' \| 'left-end' \| 'bottom-start' \| 'bottom-end' \| 'top-start' \| 'top-end'` | right-start                                                                |
+| menu-popper-offset ^(2.14.0) | offset of the sub menu popper                                                                                         | ^[number]                                                                                                                                              | -6                                                                         |
+| menu-placement ^(2.14.0)     | placement of pop sub menu                                                                                             | ^[enum]`'right-start' \| 'right' \| 'right-end' \| 'left-start' \| 'left' \| 'left-end' \| 'bottom-start' \| 'bottom-end' \| 'top-start' \| 'top-end'` | right-start                                                                |
 
 ### Dropdown Slots
 
@@ -228,7 +228,7 @@ dropdown/sub-menu
 | Name                   | Description                           | Type                                     |
 | ---------------------- | ------------------------------------- | ---------------------------------------- |
 | click                  | triggers when a item is clicked       | ^[Function]`(evt: MouseEvent) => void`   |
-| pointerenter ^(2.13.0) | triggers when pointer enters the item | ^[Function]`(evt: PointerEvent) => void` |
+| pointerenter ^(2.14.0) | triggers when pointer enters the item | ^[Function]`(evt: PointerEvent) => void` |
 | pointermove            | triggers when pointer move the item   | ^[Function]`(evt: PointerEvent) => void` |
 | pointerleave           | triggers when pointer leaves the item | ^[Function]`(evt: PointerEvent) => void` |
-| pointerdown ^(2.13.0)  | triggers when pointer clicks the item | ^[Function]`(evt: PointerEvent) => void` |
+| pointerdown ^(2.14.0)  | triggers when pointer clicks the item | ^[Function]`(evt: PointerEvent) => void` |
