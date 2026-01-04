@@ -15,7 +15,8 @@ export function useDropdownVisible({
   openedMenus,
 }: UseDropdownVisibleOptions) {
   const parent = isRoot ? undefined : inject(DROPDOWN_INJECTION_KEY, undefined)
-  const toggleReason = ref<Event>()
+  const toggleReason = ref<Event | undefined>()
+  let closingPromise: Promise<void> | undefined
 
   const opened = computed(() => {
     return openedMenus.value.includes(triggerId.value)
@@ -54,13 +55,27 @@ export function useDropdownVisible({
   }
 
   async function closeMenuToIndex(index: number) {
-    let len = openedMenus.value.length
+    if (closingPromise) {
+      await closingPromise
+    }
 
-    while (index < len) {
-      openedMenus.value = openedMenus.value.slice(0, len - 1)
-      // Waiting for the focus to return to the previous element
-      await nextTick()
-      len--
+    const closure = (async () => {
+      let len = openedMenus.value.length
+
+      while (index < len) {
+        openedMenus.value = openedMenus.value.slice(0, len - 1)
+        // Waiting for the focus to return to the previous element
+        await nextTick()
+        len--
+      }
+    })()
+
+    closingPromise = closure
+
+    try {
+      await closure
+    } finally {
+      closingPromise = undefined
     }
   }
 

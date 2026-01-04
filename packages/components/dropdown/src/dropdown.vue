@@ -50,11 +50,13 @@
           >
             <slot name="dropdown" />
           </el-roving-focus-group>
+          <!-- eslint-disable vue/html-self-closing -->
           <svg
             v-if="menuTrigger === 'hover'"
             ref="hoverZoneRef"
             :class="ns.e('hover-zone')"
           ></svg>
+          <!-- eslint-enable vue/html-self-closing -->
         </el-scrollbar>
       </template>
       <template v-if="!splitButton" #default>

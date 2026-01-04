@@ -11,7 +11,8 @@ import type {
 } from './index'
 
 interface UseDropdownControllerOptions
-  extends Pick<
+  extends
+    Pick<
       UseDropdownVisibleReturn,
       'opened' | 'handleOpen' | 'handleToggle' | 'handleCloseAll'
     >,
@@ -73,7 +74,7 @@ export function useDropdownController({
   })
   useEventListener(triggerRef, 'pointerenter', (event) => {
     if (trigger.value.includes('hover')) {
-      unrefElement(triggerRef).focus({ preventScroll: true })
+      unrefElement(triggerRef)?.focus({ preventScroll: true })
       handlePointerEnterTrigger(event)
     }
   })

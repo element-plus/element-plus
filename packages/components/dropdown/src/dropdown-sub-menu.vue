@@ -35,18 +35,7 @@
     :role="role"
     :effect="effect"
     :placement="placement"
-    :fallback-placements="[
-      'right-start',
-      'right',
-      'right-end',
-      'left-start',
-      'left',
-      'left-end',
-      'bottom-start',
-      'bottom-end',
-      'top-start',
-      'top-end',
-    ]"
+    :fallback-placements="fallbackPlacements"
     :trigger="trigger"
     :trigger-target-el="contentRef"
     :offset="offset"
@@ -90,11 +79,13 @@
             <slot />
           </el-dropdown-menu>
         </el-roving-focus-group>
+        <!-- eslint-disable vue/html-self-closing -->
         <svg
           v-if="menuTrigger === 'hover'"
           ref="hoverZoneRef"
           :class="ns.e('hover-zone')"
         ></svg>
+        <!-- eslint-enable vue/html-self-closing -->
       </el-scrollbar>
     </template>
   </el-tooltip>

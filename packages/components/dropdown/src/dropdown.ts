@@ -6,7 +6,7 @@ import {
 } from '@element-plus/components/tooltip'
 import { roleTypes } from '@element-plus/components/popper'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type { TooltipTriggerType } from '@element-plus/components/tooltip'
 import type { Placement } from '@element-plus/components/popper'
 import type { Options } from '@popperjs/core'
@@ -269,6 +269,24 @@ export const dropdownSubMenuProps = buildProps({
    * @description which element the dropdown CONTENT appends to
    */
   appendTo: useTooltipContentProps.appendTo,
+  /**
+   * @description list of possible positions for DropdownSubMenu's dropdown
+   */
+  fallbackPlacements: {
+    type: definePropType<Placement[]>(Array),
+    default: [
+      'right-start',
+      'right',
+      'right-end',
+      'left-start',
+      'left',
+      'left-end',
+      'bottom-start',
+      'bottom-end',
+      'top-start',
+      'top-end',
+    ],
+  },
 })
 
 export const dropdownSubMenuEmits = {
@@ -279,7 +297,7 @@ export const dropdownSubMenuEmits = {
 }
 
 export type DropdownProps = ExtractPropTypes<typeof dropdownProps>
-export type DropdownPropsPublic = __ExtractPublicPropTypes<typeof dropdownProps>
+export type DropdownPropsPublic = ExtractPublicPropTypes<typeof dropdownProps>
 
 export const FIRST_KEYS = [
   EVENT_CODE.down,

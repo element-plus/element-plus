@@ -6,8 +6,10 @@ import type { Ref } from 'vue'
 import type { TooltipTriggerType } from '@element-plus/components/tooltip'
 import type { UseDropdownVisibleReturn } from './use-dropdown-visible'
 
-interface UseDropdownHoverControllerOptions
-  extends Pick<UseDropdownVisibleReturn, 'handleOpen' | 'handleClose'> {
+interface UseDropdownHoverControllerOptions extends Pick<
+  UseDropdownVisibleReturn,
+  'handleOpen' | 'handleClose'
+> {
   trigger: Ref<TooltipTriggerType[]>
   parentContentRef?: Ref<HTMLElement | undefined>
   contentRef: Ref<HTMLElement | undefined>
@@ -90,7 +92,7 @@ export function useDropdownHoverController({
         }
         notifyParentPointerStatus('leave')
       }
-    }, showTimeout.value))
+    }, hideTimeout.value))
   })
 
   const handlePointerDownTrigger = whenTouch((event: PointerEvent) => {

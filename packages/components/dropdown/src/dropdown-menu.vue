@@ -5,7 +5,7 @@
     :style="rovingFocusGroupRootStyle"
     :tabindex="-1"
     :role="role"
-    :orientation="orientation"
+    :aria-orientation="orientation"
     :aria-labelledby="triggerId"
     @focusin="handleFocus"
     @focusout="onBlur"
