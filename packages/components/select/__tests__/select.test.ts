@@ -4239,4 +4239,70 @@ describe('Select', () => {
     await input.trigger('blur')
     expect(handleVisibleChange).toHaveBeenCalledTimes(2)
   })
+
+  test('should show empty slot correctly in remote search scenarios', async () => {
+    vi.useFakeTimers()
+    const wrapper = mount({
+      components: {
+        'el-select': Select,
+        'el-option': Option,
+      },
+      template: `
+        <el-select
+          v-model="value"
+          filterable
+          remote
+          :remote-method="remoteMethod"
+        >
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+          <template #empty>
+            <div class="custom-empty">NO DATA</div>
+          </template>
+        </el-select>
+      `,
+      setup() {
+        const value = ref('')
+        const options = ref<any[]>([])
+
+        const remoteMethod = (query: string) => {
+          if (!query || query === 'empty') {
+            options.value = []
+          } else {
+            options.value = [{ value: '1', label: 'Option 1' }]
+          }
+        }
+        return { value, options, remoteMethod }
+      },
+    })
+
+    const select = wrapper.findComponent(Select)
+    const input = wrapper.find('input')
+    const vm = select.vm as any
+
+    await input.trigger('click')
+    expect(vm.states.options.size).toBe(0)
+    expect(vm.dropdownMenuVisible).toBe(true)
+    expect(document.querySelector('.custom-empty')).not.toBeNull()
+
+    await input.setValue('a')
+    vi.runAllTimers()
+    await nextTick()
+    expect(vm.states.options.size).toBe(1)
+    expect(vm.dropdownMenuVisible).toBe(true)
+    expect(document.querySelector('.custom-empty')).toBeNull()
+
+    await input.setValue('empty')
+    vi.runAllTimers()
+    await nextTick()
+    expect(vm.states.options.size).toBe(0)
+    expect(vm.dropdownMenuVisible).toBe(true)
+    expect(document.querySelector('.custom-empty')).not.toBeNull()
+
+    vi.useRealTimers()
+  })
 })

@@ -2728,4 +2728,66 @@ describe('Select', () => {
     await input.trigger('blur')
     expect(handleVisibleChange).toHaveBeenCalledTimes(2)
   })
+
+  it('should show empty slot correctly in remote search scenarios', async () => {
+    vi.useFakeTimers()
+    const wrapper = _mount(
+      `
+      <el-select
+        v-model="value"
+        filterable
+        remote
+        :remote-method="remoteMethod"
+        :options="options"
+      >
+        <template #empty>
+          <div class="custom-empty">NO DATA</div>
+        </template>
+      </el-select>
+      `,
+      {
+        data() {
+          return {
+            value: '',
+            options: [],
+          }
+        },
+        methods: {
+          remoteMethod(query: string) {
+            if (!query || query === 'empty') {
+              this.options = []
+            } else {
+              this.options = [{ value: '1', label: 'Option 1' }]
+            }
+          },
+        },
+      }
+    )
+
+    const select = wrapper.findComponent({ name: 'ElSelectV2' })
+    const input = wrapper.find('input')
+    const vm = select.vm as any
+
+    await input.trigger('click')
+    expect(vm.options.length).toBe(0)
+    expect(vm.dropdownMenuVisible).toBe(true)
+    expect(document.querySelector('.custom-empty')).not.toBeNull()
+
+    await input.setValue('a')
+    vi.runAllTimers()
+    await nextTick()
+    expect(vm.options.length).toBe(1)
+    expect(vm.dropdownMenuVisible).toBe(true)
+    expect(document.querySelector('.custom-empty')).toBeNull()
+
+    await input.setValue('empty')
+    vi.runAllTimers()
+    await nextTick()
+
+    expect(vm.options.length).toBe(0)
+    expect(vm.dropdownMenuVisible).toBe(true)
+    expect(document.querySelector('.custom-empty')).not.toBeNull()
+
+    vi.useRealTimers()
+  })
 })

@@ -380,7 +380,7 @@
         text
         size="small"
         :class="ppNs.e('link-btn')"
-        @click="handleClear"
+        @click="onClear"
       >
         {{ t('el.datepicker.clear') }}
       </el-button>
@@ -449,6 +449,7 @@ const emit = defineEmits([
   'set-picker-option',
   'calendar-change',
   'panel-change',
+  'clear',
 ])
 
 const unit = 'month'
@@ -871,6 +872,11 @@ const handleMaxTimePick = (
     minDate.value = maxDate.value
   }
   handleRangeConfirm(true)
+}
+
+const onClear = () => {
+  handleClear()
+  emit('clear')
 }
 
 const handleClear = () => {

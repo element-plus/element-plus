@@ -3,7 +3,10 @@
     <div :class="ns.e('header')">
       <slot name="header" :date="i18nDate">
         <div :class="ns.e('title')">{{ i18nDate }}</div>
-        <div v-if="validatedRange.length === 0" :class="ns.e('button-group')">
+        <div
+          v-if="validatedRange.length === 0 && controllerType === 'button'"
+          :class="ns.e('button-group')"
+        >
           <el-button-group>
             <el-button size="small" @click="selectDate('prev-month')">
               {{ t('el.datepicker.prevMonth') }}
@@ -15,6 +18,16 @@
               {{ t('el.datepicker.nextMonth') }}
             </el-button>
           </el-button-group>
+        </div>
+        <div
+          v-else-if="validatedRange.length === 0 && controllerType === 'select'"
+          :class="ns.e('select-controller')"
+        >
+          <select-controller
+            :date="date"
+            :formatter="formatter"
+            @date-change="handleDateChange"
+          />
         </div>
       </slot>
     </div>
@@ -50,6 +63,7 @@ import { useLocale, useNamespace } from '@element-plus/hooks'
 import DateTable from './date-table.vue'
 import { useCalendar } from './use-calendar'
 import { calendarEmits, calendarProps } from './calendar'
+import SelectController from './select-controller.vue'
 
 const ns = useNamespace('calendar')
 
@@ -68,6 +82,7 @@ const {
   realSelectedDay,
   selectDate,
   validatedRange,
+  handleDateChange,
 } = useCalendar(props, emit, COMPONENT_NAME)
 
 const { t } = useLocale()
