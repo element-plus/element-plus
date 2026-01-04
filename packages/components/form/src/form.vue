@@ -62,7 +62,9 @@ const removeField: FormContext['removeField'] = (field) => {
   }
 }
 
-const setInitialValues: FormContext['setInitialValues'] = (initModel) => {
+const setInitialValues: FormContext['setInitialValues'] = (
+  initModel: Partial<typeof props.model>
+) => {
   if (!props.model) {
     debugWarn(COMPONENT_NAME, 'model is required for setInitialValues to work.')
     return
@@ -242,7 +244,8 @@ defineExpose({
    */
   fields,
   /**
-   * @description Customize the reset value.
+   * @description Set initial values for form fields. These values will be used when calling resetFields(). Useful for forms populated with API data after mount.
+   * @param initModel Partial or complete model containing initial values to set
    */
   setInitialValues,
 })
