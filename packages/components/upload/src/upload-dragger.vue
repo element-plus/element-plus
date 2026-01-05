@@ -64,7 +64,13 @@ const getAllFiles = async (
         )
       }
 
-      const entries = await getEntries()
+      const entries: FileSystemEntry[] = []
+      let readEntries = await getEntries()
+      while (readEntries.length > 0) {
+        entries.push(...readEntries)
+        readEntries = await getEntries()
+      }
+
       const filePromises = entries.map((entry) =>
         getAllFiles(entry).catch(() => [])
       )
