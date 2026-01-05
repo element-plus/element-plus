@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import type Node from 'element-plus/es/components/tree/src/model/node'
+import type { LoadFunction } from 'element-plus'
 
 interface Tree {
   name: string
@@ -30,7 +30,7 @@ const handleCheckChange = (
   console.log(data, checked, indeterminate)
 }
 
-const loadNode = (node: Node, resolve: (data: Tree[]) => void) => {
+const loadNode: LoadFunction = (node, resolve) => {
   if (node.level === 0) {
     return resolve([{ name: 'Root1' }, { name: 'Root2' }])
   }

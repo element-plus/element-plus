@@ -77,12 +77,12 @@ collapse/prevent-collapsing
 
 ### Collapse Attributes
 
-| Name                           | Description                                                                                                                                          | Type                                          | Default |
-| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- | ------- |
-| model-value / v-model          | currently active panel, the type is `string` in accordion mode, otherwise it is `array`                                                              | ^[string] / ^[array]                          | []      |
-| accordion                      | whether to activate accordion mode                                                                                                                   | ^[boolean]                                    | false   |
-| expand-icon-position ^(2.9.10) | set expand icon position                                                                                                                             | ^[enum]`'left' \| 'right' `                   | right   |
-| before-collapse ^(2.9.11)      | before-collapse hook before the collapse state changes. If `false` is returned or a `Promise` is returned and then is rejected, will stop collapsing | ^[Function]`() => Promise<boolean> \| boolen` | —       |
+| Name                           | Description                                                                                                                                          | Type                                           | Default |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- | ------- |
+| model-value / v-model          | currently active panel, the type is `string` in accordion mode, otherwise it is `array`                                                              | ^[string] / ^[array]                           | []      |
+| accordion                      | whether to activate accordion mode                                                                                                                   | ^[boolean]                                     | false   |
+| expand-icon-position ^(2.9.10) | set expand icon position                                                                                                                             | ^[enum]`'left' \| 'right' `                    | right   |
+| before-collapse ^(2.9.11)      | before-collapse hook before the collapse state changes. If `false` is returned or a `Promise` is returned and then is rejected, will stop collapsing | ^[Function]`() => Promise<boolean> \| boolean` | —       |
 
 ### Collapse Events
 

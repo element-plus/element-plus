@@ -5,7 +5,7 @@ defineProps<{
 </script>
 
 <template>
-  <el-tag size="small" effect="plain" hit round class="ml-2">
+  <el-tag size="small" effect="plain" hit round>
     {{ version }}
   </el-tag>
 </template>

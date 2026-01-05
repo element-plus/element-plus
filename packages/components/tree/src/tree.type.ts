@@ -8,9 +8,10 @@ import type {
 } from 'vue'
 import type Node from './model/node'
 import type TreeStore from './model/tree-store'
+import type { treeEmits } from './tree'
 
 export interface RootTreeType {
-  ctx: SetupContext<any>
+  ctx: SetupContext<typeof treeEmits>
   props: TreeComponentProps
   store: Ref<TreeStore>
   root: Ref<Node>
@@ -33,6 +34,7 @@ export interface TreeNodeChildState {
   none: boolean
   allWithoutDisable: boolean
   half: boolean
+  isEffectivelyChecked: boolean
 }
 export interface TreeNodeOptions {
   data: TreeNodeData
@@ -43,19 +45,19 @@ export interface TreeStoreNodesMap {
   [key: string]: Node
 }
 export interface TreeStoreOptions {
-  key: TreeKey
+  key?: TreeKey
   data: TreeData
   lazy: boolean
   props: TreeOptionProps
-  load: LoadFunction
-  currentNodeKey: TreeKey
+  load?: LoadFunction
+  currentNodeKey?: TreeKey
   checkStrictly: boolean
   checkDescendants: boolean
-  defaultCheckedKeys: TreeKey[]
-  defaultExpandedKeys: TreeKey[]
+  defaultCheckedKeys?: TreeKey[]
+  defaultExpandedKeys?: TreeKey[]
   autoExpandParent: boolean
   defaultExpandAll: boolean
-  filterNodeMethod: FilterNodeMethodFunction
+  filterNodeMethod?: FilterNodeMethodFunction
 }
 export interface TreeOptionProps {
   children?: string
@@ -126,3 +128,12 @@ export interface TreeComponentProps {
 }
 
 export type NodeDropType = 'before' | 'after' | 'inner' | 'none'
+
+export type { DragEvents } from './model/useDragNode'
+
+export interface CheckedInfo {
+  checkedKeys: TreeKey[]
+  checkedNodes: TreeData
+  halfCheckedKeys: TreeKey[]
+  halfCheckedNodes: TreeData
+}

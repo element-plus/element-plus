@@ -29,6 +29,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 import type { TableV2Instance } from 'element-plus'
 
 const generateColumns = (length = 10, prefix = 'column-', props?: any) =>

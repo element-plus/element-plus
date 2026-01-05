@@ -32,14 +32,19 @@ export const useCollapseItem = (props: CollapseItemProps) => {
     }, 50)
   }
 
-  const handleHeaderClick = () => {
+  const handleHeaderClick = (e: MouseEvent) => {
     if (props.disabled) return
+    const target = e.target as HTMLElement
+    if (target?.closest('input, textarea, select')) return
     collapse?.handleItemClick(unref(name))
     focusing.value = false
     isClick.value = true
   }
 
-  const handleEnterClick = () => {
+  const handleEnterClick = (e: KeyboardEvent) => {
+    const target = e.target as HTMLElement
+    if (target?.closest('input, textarea, select')) return
+    e.preventDefault()
     collapse?.handleItemClick(unref(name))
   }
 

@@ -1,12 +1,17 @@
 import { isNil } from 'lodash-unified'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
-import { buildProps, isNumber } from '@element-plus/utils'
+import { buildProps, definePropType, isNumber } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import type { ExtractPropTypes } from 'vue'
+
+import type {
+  ExtractPropTypes,
+  ExtractPublicPropTypes,
+  HTMLAttributes,
+} from 'vue'
 import type InputNumber from './input-number.vue'
 
 export const inputNumberProps = buildProps({
@@ -33,19 +38,21 @@ export const inputNumberProps = buildProps({
    */
   max: {
     type: Number,
-    default: Number.POSITIVE_INFINITY,
+    default: Number.MAX_SAFE_INTEGER,
   },
   /**
    * @description the minimum allowed value
    */
   min: {
     type: Number,
-    default: Number.NEGATIVE_INFINITY,
+    default: Number.MIN_SAFE_INTEGER,
   },
   /**
    * @description binding value
    */
-  modelValue: Number,
+  modelValue: {
+    type: [Number, null],
+  },
   /**
    * @description same as `readonly` in native input
    */
@@ -53,7 +60,10 @@ export const inputNumberProps = buildProps({
   /**
    * @description whether the component is disabled
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description size of the component
    */
@@ -77,7 +87,7 @@ export const inputNumberProps = buildProps({
    * @description value should be set when input box is cleared
    */
   valueOnClear: {
-    type: [String, Number, null],
+    type: definePropType<'min' | 'max' | number | null>([String, Number, null]),
     validator: (val: 'min' | 'max' | number | null) =>
       val === null || isNumber(val) || ['min', 'max'].includes(val),
     default: null,
@@ -106,8 +116,29 @@ export const inputNumberProps = buildProps({
     default: true,
   },
   ...useAriaProps(['ariaLabel']),
+  /**
+   * @description native input mode for virtual keyboards
+   */
+  inputmode: {
+    type: definePropType<HTMLAttributes['inputmode']>(String),
+    default: undefined,
+  },
+  /**
+   * @description alignment for the inner input text
+   */
+  align: {
+    type: definePropType<'left' | 'right' | 'center'>(String),
+    default: 'center',
+  },
+  /**
+   * @description whether to disable scientific notation input (e.g. 'e', 'E')
+   */
+  disabledScientific: Boolean,
 } as const)
 export type InputNumberProps = ExtractPropTypes<typeof inputNumberProps>
+export type InputNumberPropsPublic = ExtractPublicPropTypes<
+  typeof inputNumberProps
+>
 
 export const inputNumberEmits = {
   [CHANGE_EVENT]: (cur: number | undefined, prev: number | undefined) =>

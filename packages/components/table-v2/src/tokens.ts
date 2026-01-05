@@ -9,3 +9,5 @@ export type TableV2Context = {
 
 export const TableV2InjectionKey: InjectionKey<TableV2Context> =
   Symbol('tableV2')
+
+export const TABLE_V2_GRID_INJECTION_KEY = 'tableV2GridScrollLeft'

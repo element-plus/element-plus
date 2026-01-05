@@ -32,6 +32,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 import type { SpaceInstance } from 'element-plus'
 
 const direction = ref<SpaceInstance['direction']>('horizontal')

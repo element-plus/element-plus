@@ -3,6 +3,7 @@
     v-if="shouldBeRender"
     v-show="active"
     :id="`pane-${paneName}`"
+    ref="paneRef"
     :class="ns.b()"
     role="tabpanel"
     :aria-hidden="!active"
@@ -17,14 +18,13 @@ import {
   computed,
   getCurrentInstance,
   inject,
-  onMounted,
-  onUnmounted,
+  onBeforeUnmount,
+  onBeforeUpdate,
   reactive,
   ref,
   useSlots,
   watch,
 } from 'vue'
-import { eagerComputed } from '@vueuse/core'
 import { throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { tabsRootContextKey } from './constants'
@@ -45,16 +45,21 @@ if (!tabsRoot)
 
 const ns = useNamespace('tab-pane')
 
+const paneRef = ref<HTMLDivElement>()
 const index = ref<string>()
-const isClosable = computed(() => props.closable || tabsRoot.props.closable)
-const active = eagerComputed(
+const isClosable = computed(() => props.closable ?? tabsRoot.props.closable)
+const active = computed(
   () => tabsRoot.currentName.value === (props.name ?? index.value)
 )
 const loaded = ref(active.value)
 const paneName = computed(() => props.name ?? index.value)
-const shouldBeRender = eagerComputed(
+const shouldBeRender = computed(
   () => !props.lazy || loaded.value || active.value
 )
+
+const isFocusInsidePane = () => {
+  return paneRef.value?.contains(document.activeElement)
+}
 
 watch(active, (val) => {
   if (val) loaded.value = true
@@ -62,20 +67,23 @@ watch(active, (val) => {
 
 const pane = reactive({
   uid: instance.uid,
+  getVnode: () => instance.vnode,
   slots,
   props,
   paneName,
   active,
   index,
   isClosable,
+  isFocusInsidePane,
 })
 
 tabsRoot.registerPane(pane)
-onMounted(() => {
-  tabsRoot.sortPane(pane)
+
+onBeforeUnmount(() => {
+  tabsRoot.unregisterPane(pane)
 })
 
-onUnmounted(() => {
-  tabsRoot.unregisterPane(pane.uid)
+onBeforeUpdate(() => {
+  if (slots.label) tabsRoot.nav$.value?.scheduleRender()
 })
 </script>

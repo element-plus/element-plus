@@ -1,4 +1,5 @@
 import { resolveHeadersFromTokens, slugify } from '@mdit-vue/shared'
+
 import type { MarkdownRenderer } from 'vitepress'
 
 /**

@@ -1,5 +1,5 @@
-// @ts-nocheck
 import { reactive } from 'vue'
+import { isNil } from 'lodash-unified'
 import {
   hasOwn,
   isArray,
@@ -9,8 +9,8 @@ import {
   isUndefined,
 } from '@element-plus/utils'
 import { NODE_KEY, markNodeData } from './util'
-import type TreeStore from './tree-store'
 
+import type TreeStore from './tree-store'
 import type { Nullable } from '@element-plus/utils'
 import type {
   FakeNode,
@@ -25,6 +25,7 @@ export const getChildState = (node: Node[]): TreeNodeChildState => {
   let all = true
   let none = true
   let allWithoutDisable = true
+  let isEffectivelyChecked = true
   for (let i = 0, j = node.length; i < j; i++) {
     const n = node[i]
     if (n.checked !== true || n.indeterminate) {
@@ -36,15 +37,30 @@ export const getChildState = (node: Node[]): TreeNodeChildState => {
     if (n.checked !== false || n.indeterminate) {
       none = false
     }
+    if (!n.isEffectivelyChecked) {
+      isEffectivelyChecked = false
+    }
   }
 
-  return { all, none, allWithoutDisable, half: !all && !none }
+  return {
+    all,
+    none,
+    allWithoutDisable,
+    half: !all && !none,
+    isEffectivelyChecked,
+  }
 }
 
 const reInitChecked = function (node: Node): void {
-  if (node.childNodes.length === 0 || node.loading) return
+  if (node.childNodes.length === 0 || node.loading) {
+    node.isEffectivelyChecked = node.disabled || node.checked
+    return
+  }
 
-  const { all, none, half } = getChildState(node.childNodes)
+  const { all, none, half, isEffectivelyChecked } = getChildState(
+    node.childNodes
+  )
+  node.isEffectivelyChecked = isEffectivelyChecked
   if (all) {
     node.checked = true
     node.indeterminate = false
@@ -67,7 +83,7 @@ const reInitChecked = function (node: Node): void {
 const getPropertyFromData = function (node: Node, prop: string): any {
   const props = node.store.props
   const data = node.data || {}
-  const config = props[prop]
+  const config = (props as any)[prop]
 
   if (isFunction(config)) {
     return config(data, node)
@@ -79,21 +95,28 @@ const getPropertyFromData = function (node: Node, prop: string): any {
   }
 }
 
+const setCanFocus = function (childNodes: Node[], focus: boolean): void {
+  childNodes.forEach((item) => {
+    item.canFocus = focus
+    setCanFocus(item.childNodes, focus)
+  })
+}
+
 let nodeIdSeed = 0
 
 class Node {
   id: number
-  text: string
+  text: string | null
   checked: boolean
   indeterminate: boolean
   data: TreeNodeData
   expanded: boolean
-  parent: Node
+  parent: Node | null
   visible: boolean
   isCurrent: boolean
-  store: TreeStore
-  isLeafByUser: boolean
-  isLeaf: boolean
+  store!: TreeStore
+  isLeafByUser: boolean | undefined = undefined
+  isLeaf: boolean | undefined = undefined
   canFocus: boolean
 
   level: number
@@ -101,14 +124,28 @@ class Node {
   childNodes: Node[]
   loading: boolean
 
+  /**
+   * Determines whether the current tree node is effectively checked.
+   *
+   * Rules:
+   * 1. A disabled leaf node is always considered checked.
+   * 2. A non-disabled leaf node reflects its actual checked state.
+   * 3. A non-leaf node is considered checked only when:
+   *    - All of its child nodes are effectively checked, and
+   *    - Each child follows the same evaluation rules:
+   *      - Disabled leaf nodes follow rule #1.
+   *      - Non-leaf child nodes are recursively evaluated under this rule (#3).
+   */
+  isEffectivelyChecked: boolean = false
+
   constructor(options: TreeNodeOptions) {
     this.id = nodeIdSeed++
     this.text = null
     this.checked = false
     this.indeterminate = false
-    this.data = null
+    this.data = null as unknown as TreeNodeData
     this.expanded = false
-    this.parent = null
+    this.parent = null as Node | null
     this.visible = true
     this.isCurrent = false
     this.canFocus = false
@@ -168,7 +205,12 @@ class Node {
     const defaultExpandedKeys = store.defaultExpandedKeys
     const key = store.key
 
-    if (key && defaultExpandedKeys && defaultExpandedKeys.includes(this.key)) {
+    if (
+      key &&
+      !isNil(this.key) &&
+      defaultExpandedKeys &&
+      defaultExpandedKeys.includes(this.key)
+    ) {
       this.expand(null, store.autoExpandParent)
     }
 
@@ -177,6 +219,7 @@ class Node {
       store.currentNodeKey !== undefined &&
       this.key === store.currentNodeKey
     ) {
+      store.currentNode && (store.currentNode.isCurrent = false)
       store.currentNode = this
       store.currentNode.isCurrent = true
     }
@@ -186,8 +229,7 @@ class Node {
     }
 
     this.updateLeafState()
-    if (this.parent && (this.level === 1 || this.parent.expanded === true))
-      this.canFocus = true
+    if (this.level === 1 || this.parent?.expanded === true) this.canFocus = true
   }
 
   setData(data: TreeNodeData): void {
@@ -214,7 +256,7 @@ class Node {
     return getPropertyFromData(this, 'label')
   }
 
-  get key(): TreeKey {
+  get key(): TreeKey | null | undefined {
     const nodeKey = this.store.key
     if (this.data) return this.data[nodeKey]
     return null
@@ -265,11 +307,11 @@ class Node {
     if (!(child instanceof Node)) {
       if (!batch) {
         const children = this.getChildren(true)
-        if (!children.includes(child.data)) {
+        if (!children?.includes(child.data)) {
           if (isUndefined(index) || index < 0) {
-            children.push(child.data)
+            children?.push(child.data)
           } else {
-            children.splice(index, 0, child.data)
+            children?.splice(index, 0, child.data)
           }
         }
       }
@@ -329,35 +371,26 @@ class Node {
     this.updateLeafState()
   }
 
-  removeChildByData(data: TreeNodeData): void {
-    let targetNode: Node = null
-
-    for (let i = 0; i < this.childNodes.length; i++) {
-      if (this.childNodes[i].data === data) {
-        targetNode = this.childNodes[i]
-        break
-      }
-    }
+  removeChildByData(data: TreeNodeData | null): void {
+    const targetNode = this.childNodes.find((child) => child.data === data)
 
     if (targetNode) {
       this.removeChild(targetNode)
     }
   }
 
-  expand(callback?: () => void, expandParent?: boolean): void {
-    const done = (): void => {
+  expand(callback?: (() => void) | null, expandParent?: boolean): void {
+    const done = () => {
       if (expandParent) {
         let parent = this.parent
-        while (parent.level > 0) {
+        while (parent && parent.level > 0) {
           parent.expanded = true
           parent = parent.parent
         }
       }
       this.expanded = true
       if (callback) callback()
-      this.childNodes.forEach((item) => {
-        item.canFocus = true
-      })
+      setCanFocus(this.childNodes, true)
     }
 
     if (this.shouldLoadData()) {
@@ -391,13 +424,11 @@ class Node {
 
   collapse(): void {
     this.expanded = false
-    this.childNodes.forEach((item) => {
-      item.canFocus = false
-    })
+    setCanFocus(this.childNodes, false)
   }
 
-  shouldLoadData(): boolean {
-    return this.store.lazy === true && this.store.load && !this.loaded
+  shouldLoadData() {
+    return Boolean(this.store.lazy === true && this.store.load && !this.loaded)
   }
 
   updateLeafState(): void {
@@ -407,6 +438,7 @@ class Node {
       typeof this.isLeafByUser !== 'undefined'
     ) {
       this.isLeaf = this.isLeafByUser
+      this.isEffectivelyChecked = this.isLeaf && this.disabled
       return
     }
     const childNodes = this.childNodes
@@ -415,6 +447,7 @@ class Node {
       (this.store.lazy === true && this.loaded === true)
     ) {
       this.isLeaf = !childNodes || childNodes.length === 0
+      this.isEffectivelyChecked = this.isLeaf && this.disabled
       return
     }
     this.isLeaf = false
@@ -428,31 +461,30 @@ class Node {
   ) {
     this.indeterminate = value === 'half'
     this.checked = value === true
+    this.isEffectivelyChecked =
+      !this.childNodes.length && (this.disabled || this.checked)
 
     if (this.store.checkStrictly) return
 
     if (!(this.shouldLoadData() && !this.store.checkDescendants)) {
-      const { all, allWithoutDisable } = getChildState(this.childNodes)
-
-      if (!this.isLeaf && !all && allWithoutDisable) {
-        this.checked = false
-        value = false
-      }
-
       const handleDescendants = (): void => {
         if (deep) {
           const childNodes = this.childNodes
           for (let i = 0, j = childNodes.length; i < j; i++) {
             const child = childNodes[i]
             passValue = passValue || value !== false
-            const isCheck = child.disabled ? child.checked : passValue
+            const isCheck =
+              child.disabled && child.isLeaf ? child.checked : passValue
             child.setChecked(isCheck, deep, true, passValue)
           }
-          const { half, all } = getChildState(childNodes)
+          const { half, all, isEffectivelyChecked } = getChildState(childNodes)
           if (!all) {
             this.checked = all
             this.indeterminate = half
           }
+          this.isEffectivelyChecked = !this.childNodes.length
+            ? this.disabled || this.checked
+            : isEffectivelyChecked
         }
       }
 
@@ -481,7 +513,7 @@ class Node {
     }
   }
 
-  getChildren(forceInit = false): TreeNodeData | TreeNodeData[] {
+  getChildren(forceInit = false): TreeNodeData | TreeNodeData[] | null {
     // this is data
     if (this.level === 0) return this.data
     const data = this.data
@@ -508,13 +540,13 @@ class Node {
     const newData = (this.getChildren() || []) as TreeNodeData[]
     const oldData = this.childNodes.map((node) => node.data)
 
-    const newDataMap = {}
-    const newNodes = []
+    const newDataMap: Record<TreeKey, TreeNodeData> = {}
+    const newNodes: TreeNodeData[] = []
 
     newData.forEach((item, index) => {
       const key = item[NODE_KEY]
       const isNodeExists =
-        !!key && oldData.findIndex((data) => data[NODE_KEY] === key) >= 0
+        !!key && oldData.some((data) => data?.[NODE_KEY] === key)
       if (isNodeExists) {
         newDataMap[key] = { index, data: item }
       } else {
@@ -524,7 +556,7 @@ class Node {
 
     if (!this.store.lazy) {
       oldData.forEach((item) => {
-        if (!newDataMap[item[NODE_KEY]]) this.removeChildByData(item)
+        if (!newDataMap[item?.[NODE_KEY]]) this.removeChildByData(item)
       })
     }
 
@@ -536,7 +568,7 @@ class Node {
   }
 
   loadData(
-    callback: (node: Node) => void,
+    callback: (data?: TreeNodeData[]) => void,
     defaultProps: TreeNodeLoadedDefaultProps = {}
   ) {
     if (
@@ -547,7 +579,7 @@ class Node {
     ) {
       this.loading = true
 
-      const resolve = (children) => {
+      const resolve = (children: TreeNodeData[]) => {
         this.childNodes = []
 
         this.doCreateChildren(children, defaultProps)

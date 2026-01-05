@@ -38,7 +38,7 @@ export function useOption(props: OptionProps, states: OptionStates) {
   })
 
   const currentLabel = computed(() => {
-    return props.label || (isObject(props.value) ? '' : props.value)
+    return props.label ?? (isObject(props.value) ? '' : props.value)
   })
 
   const currentValue = computed(() => {
@@ -65,7 +65,7 @@ export function useOption(props: OptionProps, states: OptionStates) {
   }
 
   const hoverItem = () => {
-    if (!props.disabled && !selectGroup.disabled) {
+    if (!isDisabled.value) {
       select.states.hoveringIndex = select.optionsArray.indexOf(instance.proxy)
     }
   }

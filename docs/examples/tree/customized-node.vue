@@ -2,6 +2,7 @@
   <div class="custom-tree-container">
     <p>Using render-content</p>
     <el-tree
+      ref="treeRef1"
       style="max-width: 600px"
       :data="dataSource"
       show-checkbox
@@ -12,6 +13,7 @@
     />
     <p>Using scoped slot</p>
     <el-tree
+      ref="treeRef2"
       style="max-width: 600px"
       :data="dataSource"
       show-checkbox
@@ -44,73 +46,70 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { ElButton } from 'element-plus'
-import type Node from 'element-plus/es/components/tree/src/model/node'
+
+import type {
+  RenderContentContext,
+  RenderContentFunction,
+  TreeInstance,
+} from 'element-plus'
 
 interface Tree {
   id: number
   label: string
   children?: Tree[]
 }
+type Node = RenderContentContext['node']
+type Data = RenderContentContext['data']
+
 let id = 1000
+const treeRef1 = ref<TreeInstance>()
+const treeRef2 = ref<TreeInstance>()
 
-const append = (data: Tree) => {
+const append = (data: Data) => {
   const newChild = { id: id++, label: 'testtest', children: [] }
-  if (!data.children) {
-    data.children = []
-  }
-  data.children.push(newChild)
-  dataSource.value = [...dataSource.value]
+  treeRef1.value?.append(newChild, data)
+  treeRef2.value?.append(newChild, data)
 }
 
-const remove = (node: Node, data: Tree) => {
-  const parent = node.parent
-  const children: Tree[] = parent.data.children || parent.data
-  const index = children.findIndex((d) => d.id === data.id)
-  children.splice(index, 1)
-  dataSource.value = [...dataSource.value]
+const remove = (node: Node, data: Data) => {
+  treeRef1.value?.remove(data)
+  treeRef2.value?.remove(data)
 }
 
-const renderContent = (
-  h,
-  {
-    node,
-    data,
-    store,
-  }: {
-    node: Node
-    data: Tree
-    store: Node['store']
-  }
-) => {
+const renderContent: RenderContentFunction = (h, { node, data }) => {
   return h(
     'div',
     {
       class: 'custom-tree-node',
     },
-    h('span', null, node.label),
-    h(
-      'div',
-      null,
-      h(
-        ElButton,
-        {
-          type: 'primary',
-          link: true,
-          onClick: () => append(data),
-        },
-        'Append '
-      ),
-      h(
-        ElButton,
-        {
-          type: 'danger',
-          link: true,
-          style: 'margin-left: 4px',
-          onClick: () => remove(node, data),
-        },
-        'Delete'
-      )
-    )
+    [
+      h('span', null, node.label),
+      h('div', null, [
+        h(
+          ElButton,
+          {
+            type: 'primary',
+            link: true,
+            onClick: () => append(data),
+          },
+          {
+            default: () => 'Append',
+          }
+        ),
+        h(
+          ElButton,
+          {
+            type: 'danger',
+            link: true,
+            style: 'margin-left: 4px',
+            onClick: () => remove(node, data),
+          },
+          {
+            default: () => 'Delete',
+          }
+        ),
+      ]),
+    ]
   )
 }
 

@@ -2,10 +2,10 @@
   <div
     :class="[
       ns.b(),
+      ns.is('contentful', !!$slots.default),
       {
         [ns.m('has-breadcrumb')]: !!$slots.breadcrumb,
         [ns.m('has-extra')]: !!$slots.extra,
-        [ns.is('contentful')]: !!$slots.default,
       },
     ]"
   >
@@ -55,7 +55,6 @@
 <script lang="ts" setup>
 import { ElIcon } from '@element-plus/components/icon'
 import { ElDivider } from '@element-plus/components/divider'
-
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { pageHeaderEmits, pageHeaderProps } from './page-header'
 

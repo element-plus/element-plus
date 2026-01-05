@@ -11,12 +11,8 @@ import { camelize } from '../strings'
 import { isArray } from '../types'
 import { hasOwn } from '../objects'
 import { debugWarn } from '../error'
-import type {
-  VNode,
-  VNodeArrayChildren,
-  VNodeChild,
-  VNodeNormalizedChildren,
-} from 'vue'
+
+import type { VNode, VNodeChild, VNodeNormalizedChildren } from 'vue'
 
 const SCOPE = 'utils/vue/vnode'
 
@@ -112,7 +108,7 @@ export function renderIf(
 }
 
 export function renderBlock(...args: Parameters<typeof createBlock>) {
-  return openBlock(), createBlock(...args)
+  return (openBlock(), createBlock(...args))
 }
 
 export const getNormalizedProps = (node: VNode) => {
@@ -136,13 +132,6 @@ export const getNormalizedProps = (node: VNode) => {
   })
 
   return props
-}
-
-export const ensureOnlyChild = (children: VNodeArrayChildren | undefined) => {
-  if (!isArray(children) || children.length > 1) {
-    throw new Error('expect to receive a single Vue element child')
-  }
-  return children[0]
 }
 
 export type FlattenVNodes = Array<VNodeChildAtom | RawSlots>

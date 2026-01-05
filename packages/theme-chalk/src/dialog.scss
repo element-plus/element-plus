@@ -1,7 +1,6 @@
 @use 'sass:map';
 
 @use 'mixins/mixins' as *;
-@use 'mixins/utils' as *;
 @use 'mixins/var' as *;
 @use 'common/var' as *;
 @use 'common/popup' as *;
@@ -128,6 +127,16 @@
   }
 }
 
+.#{$namespace}-modal-dialog {
+  &.is-penetrable {
+    pointer-events: none;
+
+    .#{$namespace}-dialog {
+      pointer-events: auto;
+    }
+  }
+}
+
 .#{$namespace}-overlay-dialog {
   position: fixed;
   top: 0;
@@ -135,6 +144,12 @@
   bottom: 0;
   left: 0;
   overflow: auto;
+
+  @include when(closing) {
+    @include b(dialog) {
+      pointer-events: none;
+    }
+  }
 }
 
 .dialog-fade-enter-active {

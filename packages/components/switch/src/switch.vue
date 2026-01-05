@@ -18,28 +18,36 @@
       @keydown.enter="switchValue"
     />
     <span
-      v-if="!inlinePrompt && (inactiveIcon || inactiveText)"
+      v-if="!inlinePrompt && (inactiveIcon || inactiveText || $slots.inactive)"
       :class="labelLeftKls"
     >
-      <el-icon v-if="inactiveIcon">
-        <component :is="inactiveIcon" />
-      </el-icon>
-      <span v-if="!inactiveIcon && inactiveText" :aria-hidden="checked">{{
-        inactiveText
-      }}</span>
+      <slot name="inactive">
+        <el-icon v-if="inactiveIcon">
+          <component :is="inactiveIcon" />
+        </el-icon>
+        <span v-if="!inactiveIcon && inactiveText" :aria-hidden="checked">{{
+          inactiveText
+        }}</span>
+      </slot>
     </span>
-    <span ref="core" :class="ns.e('core')" :style="coreStyle">
+    <span :class="ns.e('core')" :style="coreStyle">
       <div v-if="inlinePrompt" :class="ns.e('inner')">
-        <template v-if="activeIcon || inactiveIcon">
-          <el-icon :class="ns.is('icon')">
-            <component :is="checked ? activeIcon : inactiveIcon" />
-          </el-icon>
-        </template>
-        <template v-else-if="activeText || inactiveText">
-          <span :class="ns.is('text')" :aria-hidden="!checked">
-            {{ checked ? activeText : inactiveText }}
-          </span>
-        </template>
+        <div v-if="!checked" :class="ns.e('inner-wrapper')">
+          <slot name="inactive">
+            <el-icon v-if="inactiveIcon">
+              <component :is="inactiveIcon" />
+            </el-icon>
+            <span v-if="!inactiveIcon && inactiveText">{{ inactiveText }}</span>
+          </slot>
+        </div>
+        <div v-else :class="ns.e('inner-wrapper')">
+          <slot name="active">
+            <el-icon v-if="activeIcon">
+              <component :is="activeIcon" />
+            </el-icon>
+            <span v-if="!activeIcon && activeText">{{ activeText }}</span>
+          </slot>
+        </div>
       </div>
       <div :class="ns.e('action')">
         <el-icon v-if="loading" :class="ns.is('loading')">
@@ -58,21 +66,23 @@
       </div>
     </span>
     <span
-      v-if="!inlinePrompt && (activeIcon || activeText)"
+      v-if="!inlinePrompt && (activeIcon || activeText || $slots.active)"
       :class="labelRightKls"
     >
-      <el-icon v-if="activeIcon">
-        <component :is="activeIcon" />
-      </el-icon>
-      <span v-if="!activeIcon && activeText" :aria-hidden="!checked">{{
-        activeText
-      }}</span>
+      <slot name="active">
+        <el-icon v-if="activeIcon">
+          <component :is="activeIcon" />
+        </el-icon>
+        <span v-if="!activeIcon && activeText" :aria-hidden="!checked">{{
+          activeText
+        }}</span>
+      </slot>
     </span>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, nextTick, onMounted, ref, watch } from 'vue'
+import { computed, nextTick, onMounted, ref, shallowRef, watch } from 'vue'
 import {
   addUnit,
   debugWarn,
@@ -95,6 +105,7 @@ import {
 } from '@element-plus/constants'
 import { useNamespace } from '@element-plus/hooks'
 import { switchEmits, switchProps } from './switch'
+
 import type { CSSProperties } from 'vue'
 
 const COMPONENT_NAME = 'ElSwitch'
@@ -113,10 +124,16 @@ const { inputId } = useFormItemInputId(props, {
   formItemContext: formItem,
 })
 
-const switchDisabled = useFormDisabled(computed(() => props.loading))
+const switchDisabled = useFormDisabled(
+  computed(() => {
+    if (props.loading) {
+      return true
+    }
+    return undefined
+  })
+)
 const isControlled = ref(props.modelValue !== false)
-const input = ref<HTMLInputElement>()
-const core = ref<HTMLSpanElement>()
+const input = shallowRef<HTMLInputElement>()
 
 const switchKls = computed(() => [
   ns.b(),

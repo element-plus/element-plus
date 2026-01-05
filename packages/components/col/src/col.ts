@@ -1,5 +1,6 @@
 import { buildProps, definePropType, mutable } from '@element-plus/utils'
-import type { ExtractPropTypes } from 'vue'
+
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type Col from './col.vue'
 
 export type ColSizeObject = {
@@ -83,4 +84,5 @@ export const colProps = buildProps({
   },
 } as const)
 export type ColProps = ExtractPropTypes<typeof colProps>
+export type ColPropsPublic = ExtractPublicPropTypes<typeof colProps>
 export type ColInstance = InstanceType<typeof Col> & unknown

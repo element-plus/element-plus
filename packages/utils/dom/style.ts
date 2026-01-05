@@ -3,6 +3,7 @@ import { isClient } from '../browser'
 import { camelize } from '../strings'
 import { entriesOf, keysOf } from '../objects'
 import { debugWarn } from '../error'
+
 import type { CSSProperties } from 'vue'
 
 const SCOPE = 'utils/dom/style'
@@ -75,7 +76,7 @@ export const removeStyle = (
 }
 
 export function addUnit(value?: string | number, defaultUnit = 'px') {
-  if (!value) return ''
+  if (!value && value !== 0) return ''
   if (isNumber(value) || isStringNumber(value)) {
     return `${value}${defaultUnit}`
   } else if (isString(value)) {

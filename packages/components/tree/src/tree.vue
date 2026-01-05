@@ -37,135 +37,39 @@
 </template>
 
 <script lang="ts">
-// @ts-nocheck
 import {
   computed,
   defineComponent,
   getCurrentInstance,
-  inject,
   provide,
   ref,
   watch,
 } from 'vue'
-import { iconPropType } from '@element-plus/utils'
+import { isEqual } from 'lodash-unified'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { formItemContextKey } from '@element-plus/components/form'
-import { selectKey } from '@element-plus/components/select/src/token'
 import TreeStore from './model/tree-store'
 import { getNodeKey as getNodeKeyUtil, handleCurrentChange } from './model/util'
 import ElTreeNode from './tree-node.vue'
 import { useNodeExpandEventBroadcast } from './model/useNodeExpandEventBroadcast'
 import { useDragNodeHandler } from './model/useDragNode'
 import { useKeydown } from './model/useKeydown'
-import type Node from './model/node'
+import { ROOT_TREE_INJECTION_KEY } from './tokens'
+import { treeEmits, treeProps } from './tree'
 
-import type { ComponentInternalInstance, PropType } from 'vue'
+import type Node from './model/node'
+import type { ComponentInternalInstance } from 'vue'
 import type { Nullable } from '@element-plus/utils'
-import type {
-  TreeComponentProps,
-  TreeData,
-  TreeKey,
-  TreeNodeData,
-} from './tree.type'
+import type { FilterValue, TreeData, TreeKey, TreeNodeData } from './tree.type'
 
 export default defineComponent({
   name: 'ElTree',
   components: { ElTreeNode },
-  props: {
-    data: {
-      type: Array,
-      default: () => [],
-    },
-    emptyText: {
-      type: String,
-    },
-    renderAfterExpand: {
-      type: Boolean,
-      default: true,
-    },
-    nodeKey: String,
-    checkStrictly: Boolean,
-    defaultExpandAll: Boolean,
-    expandOnClickNode: {
-      type: Boolean,
-      default: true,
-    },
-    checkOnClickNode: Boolean,
-    checkOnClickLeaf: {
-      type: Boolean,
-      default: true,
-    },
-    checkDescendants: {
-      type: Boolean,
-      default: false,
-    },
-    autoExpandParent: {
-      type: Boolean,
-      default: true,
-    },
-    defaultCheckedKeys: Array as PropType<
-      TreeComponentProps['defaultCheckedKeys']
-    >,
-    defaultExpandedKeys: Array as PropType<
-      TreeComponentProps['defaultExpandedKeys']
-    >,
-    currentNodeKey: [String, Number] as PropType<string | number>,
-    renderContent: Function,
-    showCheckbox: {
-      type: Boolean,
-      default: false,
-    },
-    draggable: {
-      type: Boolean,
-      default: false,
-    },
-    allowDrag: Function,
-    allowDrop: Function,
-    props: {
-      type: Object as PropType<TreeComponentProps['props']>,
-      default: () => ({
-        children: 'children',
-        label: 'label',
-        disabled: 'disabled',
-      }),
-    },
-    lazy: {
-      type: Boolean,
-      default: false,
-    },
-    highlightCurrent: Boolean,
-    load: Function as PropType<TreeComponentProps['load']>,
-    filterNodeMethod: Function as PropType<
-      TreeComponentProps['filterNodeMethod']
-    >,
-    accordion: Boolean,
-    indent: {
-      type: Number,
-      default: 18,
-    },
-    icon: {
-      type: iconPropType,
-    },
-  },
-  emits: [
-    'check-change',
-    'current-change',
-    'node-click',
-    'node-contextmenu',
-    'node-collapse',
-    'node-expand',
-    'check',
-    'node-drag-start',
-    'node-drag-end',
-    'node-drop',
-    'node-drag-leave',
-    'node-drag-enter',
-    'node-drag-over',
-  ],
+  props: treeProps,
+  emits: treeEmits,
   setup(props, ctx) {
     const { t } = useLocale()
     const ns = useNamespace('tree')
-    const selectInfo = inject(selectKey, null)
 
     const store = ref<TreeStore>(
       new TreeStore({
@@ -188,7 +92,7 @@ export default defineComponent({
     store.value.initialize()
 
     const root = ref<Node>(store.value.root)
-    const currentNode = ref<Node>(null)
+    const currentNode = ref<Node | null>(null)
     const el$ = ref<Nullable<HTMLElement>>(null)
     const dropIndicator$ = ref<Nullable<HTMLElement>>(null)
 
@@ -204,37 +108,49 @@ export default defineComponent({
 
     useKeydown({ el$ }, store)
 
+    const instance = getCurrentInstance()
+
+    const isSelectTree = computed(() => {
+      let parent = instance?.parent
+      while (parent) {
+        if (parent.type.name === 'ElTreeSelect') {
+          return true
+        }
+        parent = parent.parent
+      }
+      return false
+    })
+
     const isEmpty = computed(() => {
       const { childNodes } = root.value
-      const hasFilteredOptions = selectInfo
-        ? selectInfo.hasFilteredOptions !== 0
-        : false
       return (
         (!childNodes ||
           childNodes.length === 0 ||
           childNodes.every(({ visible }) => !visible)) &&
-        !hasFilteredOptions
+        !isSelectTree.value
       )
     })
 
     watch(
       () => props.currentNodeKey,
       (newVal) => {
-        store.value.setCurrentNodeKey(newVal)
+        store.value.setCurrentNodeKey(newVal ?? null)
       }
     )
 
     watch(
       () => props.defaultCheckedKeys,
-      (newVal) => {
-        store.value.setDefaultCheckedKey(newVal)
+      (newVal, oldVal) => {
+        if (isEqual(newVal, oldVal)) return
+
+        store.value.setDefaultCheckedKey(newVal ?? [])
       }
     )
 
     watch(
       () => props.defaultExpandedKeys,
       (newVal) => {
-        store.value.setDefaultExpandedKeys(newVal)
+        store.value.setDefaultExpandedKeys(newVal ?? [])
       }
     )
 
@@ -253,7 +169,7 @@ export default defineComponent({
       }
     )
 
-    const filter = (value) => {
+    const filter = (value: FilterValue) => {
       if (!props.filterNodeMethod)
         throw new Error('[Tree] filterNodeMethod is required when filter')
       store.value.filter(value)
@@ -263,9 +179,15 @@ export default defineComponent({
       return getNodeKeyUtil(props.nodeKey, node.data)
     }
 
+    const requireNodeKey = (methodName: string) => {
+      if (!props.nodeKey) {
+        throw new Error(`[Tree] nodeKey is required in ${methodName}`)
+      }
+    }
+
     const getNodePath = (data: TreeKey | TreeNodeData) => {
-      if (!props.nodeKey)
-        throw new Error('[Tree] nodeKey is required in getNodePath')
+      requireNodeKey('getNodePath')
+
       const node = store.value.getNode(data)
       if (!node) return []
       const path = [node.data]
@@ -288,27 +210,27 @@ export default defineComponent({
       return store.value.getCheckedKeys(leafOnly)
     }
 
-    const getCurrentNode = (): TreeNodeData => {
+    const getCurrentNode = () => {
       const currentNode = store.value.getCurrentNode()
       return currentNode ? currentNode.data : null
     }
 
-    const getCurrentKey = (): any => {
-      if (!props.nodeKey)
-        throw new Error('[Tree] nodeKey is required in getCurrentKey')
+    const getCurrentKey = (): TreeKey | null => {
+      requireNodeKey('getCurrentKey')
+
       const currentNode = getCurrentNode()
-      return currentNode ? currentNode[props.nodeKey] : null
+      return currentNode ? currentNode[props.nodeKey!] : null
     }
 
     const setCheckedNodes = (nodes: Node[], leafOnly?: boolean) => {
-      if (!props.nodeKey)
-        throw new Error('[Tree] nodeKey is required in setCheckedNodes')
+      requireNodeKey('setCheckedNodes')
+
       store.value.setCheckedNodes(nodes, leafOnly)
     }
 
     const setCheckedKeys = (keys: TreeKey[], leafOnly?: boolean) => {
-      if (!props.nodeKey)
-        throw new Error('[Tree] nodeKey is required in setCheckedKeys')
+      requireNodeKey('setCheckedKeys')
+
       store.value.setCheckedKeys(keys, leafOnly)
     }
 
@@ -329,8 +251,7 @@ export default defineComponent({
     }
 
     const setCurrentNode = (node: Node, shouldAutoExpandParent = true) => {
-      if (!props.nodeKey)
-        throw new Error('[Tree] nodeKey is required in setCurrentNode')
+      requireNodeKey('setCurrentNode')
 
       handleCurrentChange(store, ctx.emit, () => {
         broadcastExpanded(node)
@@ -338,9 +259,11 @@ export default defineComponent({
       })
     }
 
-    const setCurrentKey = (key?: TreeKey, shouldAutoExpandParent = true) => {
-      if (!props.nodeKey)
-        throw new Error('[Tree] nodeKey is required in setCurrentKey')
+    const setCurrentKey = (
+      key: TreeKey | null = null,
+      shouldAutoExpandParent = true
+    ) => {
+      requireNodeKey('setCurrentKey')
 
       handleCurrentChange(store, ctx.emit, () => {
         broadcastExpanded()
@@ -387,19 +310,19 @@ export default defineComponent({
     }
 
     const updateKeyChildren = (key: TreeKey, data: TreeData) => {
-      if (!props.nodeKey)
-        throw new Error('[Tree] nodeKey is required in updateKeyChild')
+      requireNodeKey('updateKeyChild')
+
       store.value.updateChildren(key, data)
     }
 
-    provide('RootTree', {
+    provide(ROOT_TREE_INJECTION_KEY, {
       ctx,
       props,
       store,
       root,
       currentNode,
-      instance: getCurrentInstance(),
-    } as any)
+      instance,
+    })
 
     provide(formItemContextKey, undefined)
 

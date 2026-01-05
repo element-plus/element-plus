@@ -44,6 +44,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+
 import type { ComponentSize } from 'element-plus'
 
 const size = ref<ComponentSize>('default')

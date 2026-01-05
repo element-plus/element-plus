@@ -53,6 +53,16 @@ drawer/customization-header
 
 :::
 
+## Resizable Drawer ^(2.11.0)
+
+Try to drag the edge part.
+
+:::demo Set `resizable` to `true` to resize.
+
+drawer/resizable
+
+:::
+
 ## Nested Drawer
 
 You can also have multiple layer of `Drawer` just like `Dialog`.
@@ -60,6 +70,18 @@ You can also have multiple layer of `Drawer` just like `Dialog`.
 :::demo If you need multiple Drawer in different layer, you must set the `append-to-body` attribute to **true**
 
 drawer/nested-drawer
+
+:::
+
+## Modal
+
+Setting `modal` to `false` will hide modal (overlay) of drawer.
+
+Starting from version ^(2.11.7), `modal-penetrable` attribute is added, which can be penetrable.
+
+:::demo
+
+drawer/modal
 
 :::
 
@@ -71,7 +93,7 @@ The content inside Drawer should be lazy rendered, which means that the content 
 
 :::tip
 
-Drawer provides an API called `destroyOnClose`, which is a flag variable that indicates should destroy the children content inside Drawer after Drawer was closed. You can use this API when you need your `mounted` life cycle to be called every time the Drawer opens.
+Drawer provides an API called `destroy-on-close`, which is a flag variable that indicates should destroy the children content inside Drawer after Drawer was closed. You can use this API when you need your `mounted` life cycle to be called every time the Drawer opens.
 
 :::
 
@@ -92,11 +114,13 @@ Drawer provides an API called `destroyOnClose`, which is a flag variable that in
 | close-delay                | Time(milliseconds) before close                                                                                                                                                                                                                                                                              | ^[number]                                                                                                                                                                                      | 0       |
 | destroy-on-close           | Indicates whether children should be destroyed after Drawer closed                                                                                                                                                                                                                                           | ^[boolean]                                                                                                                                                                                     | false   |
 | modal                      | Should show shadowing layer                                                                                                                                                                                                                                                                                  | ^[boolean]                                                                                                                                                                                     | true    |
+| modal-penetrable ^(2.11.7) | whether the mask is penetrable. The modal attribute must be `false`.                                                                                                                                                                                                                                         | ^[boolean]                                                                                                                                                                                     | false   |
 | direction                  | Drawer's opening direction                                                                                                                                                                                                                                                                                   | ^[enum]`'rtl' \| 'ltr' \| 'ttb' \| 'btt'`                                                                                                                                                      | rtl     |
+| resizable ^(2.11.0)        | enable resizable feature for Drawer                                                                                                                                                                                                                                                                          | ^[boolean]                                                                                                                                                                                     | false   |
 | show-close                 | Should show close button at the top right of Drawer                                                                                                                                                                                                                                                          | ^[boolean]                                                                                                                                                                                     | true    |
 | size                       | Drawer's size, if Drawer is horizontal mode, it effects the width property, otherwise it effects the height property, when size is `number` type, it describes the size by unit of pixels; when size is `string` type, it should be used with `x%` notation, other wise it will be interpreted to pixel unit | ^[number] / ^[string]                                                                                                                                                                          | 30%     |
 | title                      | Drawer's title, can also be set by named slot, detailed descriptions can be found in the slot form                                                                                                                                                                                                           | ^[string]                                                                                                                                                                                      | —       |
-| withHeader                 | Flag that controls the header section's existance, default to true, when withHeader set to false, both `title attribute` and `title slot` won't work                                                                                                                                                         | ^[boolean]                                                                                                                                                                                     | true    |
+| with-header                | Flag that controls the header section's existence, default to true, when withHeader set to false, both `title attribute` and `title slot` won't work                                                                                                                                                         | ^[boolean]                                                                                                                                                                                     | true    |
 | modal-class                | Extra class names for shadowing layer                                                                                                                                                                                                                                                                        | ^[string]                                                                                                                                                                                      | —       |
 | header-class ^(2.9.3)      | custom class names for header wrapper                                                                                                                                                                                                                                                                        | ^[string]                                                                                                                                                                                      | —       |
 | body-class ^(2.9.3)        | custom class names for body wrapper                                                                                                                                                                                                                                                                          | ^[string]                                                                                                                                                                                      | —       |
@@ -113,14 +137,17 @@ Drawer provides an API called `destroyOnClose`, which is a flag variable that in
 
 ### Events
 
-| Name             | Description                                      | Type                    |
-| ---------------- | ------------------------------------------------ | ----------------------- |
-| open             | Triggered before Drawer opening animation begins | ^[Function]`() => void` |
-| opened           | Triggered after Drawer opening animation ended   | ^[Function]`() => void` |
-| close            | Triggered before Drawer closing animation begins | ^[Function]`() => void` |
-| closed           | Triggered after Drawer closing animation ended   | ^[Function]`() => void` |
-| open-auto-focus  | triggers after Drawer opens and content focused  | ^[Function]`() => void` |
-| close-auto-focus | triggers after Drawer closed and content focused | ^[Function]`() => void` |
+| Name                   | Description                                                  | Type                                                 |
+| ---------------------- | ------------------------------------------------------------ | ---------------------------------------------------- |
+| open                   | Triggered before Drawer opening animation begins             | ^[Function]`() => void`                              |
+| opened                 | Triggered after Drawer opening animation ended               | ^[Function]`() => void`                              |
+| close                  | Triggered before Drawer closing animation begins             | ^[Function]`() => void`                              |
+| closed                 | Triggered after Drawer closing animation ended               | ^[Function]`() => void`                              |
+| open-auto-focus        | triggers after Drawer opens and content focused              | ^[Function]`() => void`                              |
+| close-auto-focus       | triggers after Drawer closed and content focused             | ^[Function]`() => void`                              |
+| resize-start ^(2.11.8) | Triggered when resizing starts (when `resizable` is enabled) | ^[Function]`(evt: MouseEvent, size: number) => void` |
+| resize ^(2.11.8)       | Triggered while resizing (when `resizable` is enabled)       | ^[Function]`(evt: MouseEvent, size: number) => void` |
+| resize-end ^(2.11.8)   | Triggered when resizing ends (when `resizable` is enabled)   | ^[Function]`(evt: MouseEvent, size: number) => void` |
 
 ### Slots
 
@@ -130,6 +157,12 @@ Drawer provides an API called `destroyOnClose`, which is a flag variable that in
 | header              | Drawer header section; Replacing this removes the title, but does not remove the close button. |
 | footer              | Drawer footer Section                                                                          |
 | title ^(deprecated) | Works the same as the header slot. Use that instead.                                           |
+
+:::warning
+
+`title` has been **deprecated**, and **will be** removed in ^(3.0.0), please use `header`.
+
+:::
 
 ### Exposes
 

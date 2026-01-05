@@ -99,7 +99,6 @@
       :min="min"
       :max="max"
       :precision="precision"
-      :debounce="debounce"
       :size="sliderInputSize"
       @update:model-value="setFirstValue"
       @change="emitChange"
@@ -124,6 +123,7 @@ import {
   useStops,
   useWatch,
 } from './composables'
+
 import type { SliderInitData } from './slider'
 
 defineOptions({

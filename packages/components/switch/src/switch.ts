@@ -13,9 +13,10 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import { useAriaProps } from '@element-plus/hooks'
+
 import type { ComponentSize } from '@element-plus/constants'
 import type Switch from './switch.vue'
-import type { ExtractPropTypes, PropType } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes, PropType } from 'vue'
 
 export const switchProps = buildProps({
   /**
@@ -28,7 +29,10 @@ export const switchProps = buildProps({
   /**
    * @description whether Switch is disabled
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description whether Switch is in loading state
    */
@@ -137,6 +141,7 @@ export const switchProps = buildProps({
 } as const)
 
 export type SwitchProps = ExtractPropTypes<typeof switchProps>
+export type SwitchPropsPublic = ExtractPublicPropTypes<typeof switchProps>
 
 export const switchEmits = {
   [UPDATE_MODEL_EVENT]: (val: boolean | string | number) =>

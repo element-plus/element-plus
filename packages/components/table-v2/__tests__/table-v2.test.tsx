@@ -2,10 +2,13 @@ import { h, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
 import TableV2 from '../src/table-v2'
+import { TableV2SortOrder } from '../index'
+
 import type {
   TableV2HeaderRowCellRendererParams,
   TableV2RowCellRenderParam,
 } from '../src/components'
+import type { SortBy } from '../src/types'
 
 const generateColumns = (length = 10, prefix = 'column-', props?: any) =>
   Array.from({ length }).map((_, columnIndex) => ({
@@ -185,6 +188,46 @@ describe('TableV2.vue', () => {
     )
   })
 
+  test('respects column flexShrink = 0', async () => {
+    const columns = ref([
+      {
+        key: 'col-0',
+        dataKey: 'col-0',
+        title: 'Col 0',
+        width: 200,
+        flexShrink: 0,
+      },
+      {
+        key: 'col-1',
+        dataKey: 'col-1',
+        title: 'Col 1',
+        width: 200,
+        flexShrink: 0,
+      },
+    ])
+    const data = ref([
+      {
+        id: 'row-0',
+        'col-0': 'Row 0 - Col 0',
+        'col-1': 'Row 0 - Col 1',
+      },
+    ])
+
+    const wrapper = mount(() => (
+      <TableV2
+        columns={columns.value}
+        data={data.value}
+        width={300}
+        height={200}
+      />
+    ))
+
+    const rowCells = wrapper.findAll('.el-table-v2__row-cell')
+    expect(rowCells.length).toBeGreaterThanOrEqual(2)
+    expect(rowCells[0].attributes('style')).toContain('flex-shrink: 0;')
+    expect(rowCells[1].attributes('style')).toContain('flex-shrink: 0;')
+  })
+
   test('expandable mode wrongly enabled, by column not key', async () => {
     const columns = ref([
       {
@@ -216,5 +259,63 @@ describe('TableV2.vue', () => {
     const cell = wrapper.find('.el-table-v2__row-cell')
     expect(cell.exists()).toBe(true)
     expect(cell.find('div [style^=margin-inline-star]').exists()).toBe(false)
+  })
+
+  describe('a11y', () => {
+    test('expand button', async () => {
+      const columns = generateColumns(10)
+      const data = [
+        {
+          id: 0,
+          [columns[0].dataKey]: 'Row 0 - Col 0',
+          children: generateData(columns, 20),
+        },
+      ]
+      const wrapper = mount(() => (
+        <TableV2
+          columns={columns}
+          data={data}
+          width={700}
+          height={400}
+          expand-column-key="column-0"
+        />
+      ))
+
+      const expandButton = wrapper.find('.el-table-v2__expand-icon')
+      expect(expandButton.attributes('arialabel')).toBe('Expand this row')
+      expect(expandButton.attributes('ariaexpanded')).toBe('false')
+
+      await expandButton.trigger('click')
+      await nextTick()
+      expect(expandButton.attributes('ariaexpanded')).toBe('true')
+    })
+
+    test('sort button', async () => {
+      const sortState = ref<SortBy>({
+        key: 'column-0',
+        order: TableV2SortOrder.ASC,
+      })
+      const columns = generateColumns(10)
+      const data = generateData(columns, 20)
+      columns[0].sortable = true
+
+      const wrapper = mount(() => (
+        <TableV2
+          columns={columns}
+          data={data}
+          width={700}
+          height={400}
+          sortBy={sortState.value}
+        />
+      ))
+
+      const sortButton = wrapper.find('.el-table-v2__sort-icon')
+      const header = wrapper.find('.el-table-v2__header-cell.is-sortable')
+      console.log(header.attributes())
+
+      expect(sortButton.attributes('aria-label')).toBe('Sort by Column 0')
+      expect(header.attributes('ariasort')).toBe('ascending')
+      expect(header.attributes('role')).toBe('columnheader')
+    })
   })
 })

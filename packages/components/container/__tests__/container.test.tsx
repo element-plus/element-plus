@@ -1,7 +1,7 @@
+import { defineComponent } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
 import { getCssVariable } from '@element-plus/test-utils/dom'
-
 import Container from '../src/container.vue'
 import Header from '../src/header.vue'
 import Main from '../src/main.vue'
@@ -27,17 +27,23 @@ describe('Container.vue', () => {
   })
 
   test('direction', () => {
-    const wrapper = mount({
-      data: () => ({ direction: 'horizontal' }),
-      render() {
-        return (
-          <Container direction={this.direction}>
-            <Header />
-            <Main />
-          </Container>
-        )
-      },
-    })
+    const wrapper = mount(
+      defineComponent({
+        data: () => ({
+          direction: 'horizontal' as InstanceType<
+            typeof Container
+          >['direction'],
+        }),
+        render() {
+          return (
+            <Container direction={this.direction}>
+              <Header />
+              <Main />
+            </Container>
+          )
+        },
+      })
+    )
 
     expect(wrapper.vm.$el.classList.contains('is-vertical')).toBe(false)
     wrapper.vm.direction = 'vertical'

@@ -165,12 +165,15 @@
     }
 
     @include e('sort-icon') {
-      transition: opacity, display getCssVar('transition-duration', '');
+      @include reset-button();
+      transition:
+        opacity,
+        display getCssVar('transition-duration', '');
       opacity: 0.6;
       display: none;
 
       @include when(sorting) {
-        display: block;
+        display: flex;
         opacity: 1;
       }
     }
@@ -199,8 +202,8 @@
     }
 
     @include e('expand-icon') {
+      @include reset-button();
       margin: 0 4px;
-      cursor: pointer;
       user-select: none;
 
       svg {

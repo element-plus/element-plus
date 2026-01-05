@@ -46,9 +46,21 @@ You need to use an additional plugin to import components you used.
 
 First you need to install `unplugin-vue-components` and `unplugin-auto-import`.
 
-```shell
-npm install -D unplugin-vue-components unplugin-auto-import
+::: code-group
+
+```shell [npm]
+$ npm install -D unplugin-vue-components unplugin-auto-import
 ```
+
+```shell [yarn]
+$ yarn add -D unplugin-vue-components unplugin-auto-import
+```
+
+```shell [pnpm]
+$ pnpm install -D unplugin-vue-components unplugin-auto-import
+```
+
+:::
 
 Then add the code below into your `Vite` or `Webpack` config file.
 
@@ -100,9 +112,21 @@ For more bundlers ([Rollup](https://rollupjs.org/), [Vue CLI](https://cli.vuejs.
 
 For Nuxt users, you only need to install `@element-plus/nuxt`.
 
-```shell
-npm install -D @element-plus/nuxt
+::: code-group
+
+```shell [npm]
+$ npm install -D @element-plus/nuxt
 ```
+
+```shell [yarn]
+$ yarn add -D @element-plus/nuxt
+```
+
+```shell [pnpm]
+$ pnpm install -D @element-plus/nuxt
+```
+
+:::
 
 Then add the code below into your config file.
 
@@ -129,6 +153,7 @@ And refer to the [docs](https://github.com/element-plus/unplugin-element-plus#re
 
 <script>
 import { ElButton } from 'element-plus'
+
 export default {
   components: { ElButton },
 }
@@ -199,11 +224,7 @@ export default defineComponent({
 
 ## Using Nuxt.js
 
-We can also use [Nuxt.js](https://nuxt.com):
-
-<div class="glitch-embed-wrap" style="height: 420px; width: 100%;">
-  <iframe src="https://glitch.com/edit/#!/element-plus-nuxt-starter?path=components%2FExamples.vue%3A1%3A0" alt="nuxt-element-plus on glitch" style="height: 100%; width: 100%; border: 0;"></iframe>
-</div>
+We can also use [Nuxt.js](https://nuxt.com). Please refer to [Element Plus Nuxt.js starter template](https://github.com/element-plus/element-plus-nuxt-starter) for more details.
 
 ## Let's Get Started
 

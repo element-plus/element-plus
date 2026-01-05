@@ -298,14 +298,13 @@ describe('Descriptions.vue', () => {
   })
 
   test('render customize functional components', () => {
-    // @ts-expect-error
-    const customComponent = () => {
+    const CustomComponent = () => {
       return <ElDescriptionsItem label="label">123</ElDescriptionsItem>
     }
     const wrapper = mount(() => (
       <ElDescriptions title="title" extra="extra">
-        <customComponent />
-        <customComponent />
+        <CustomComponent />
+        <CustomComponent />
         <ElDescriptionsItem label="label">123</ElDescriptionsItem>
       </ElDescriptions>
     ))

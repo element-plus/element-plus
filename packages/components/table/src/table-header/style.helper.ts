@@ -1,17 +1,18 @@
 import { inject } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { isFunction, isString } from '@element-plus/utils'
-
 import {
   ensurePosition,
   getFixedColumnOffset,
   getFixedColumnsClass,
 } from '../util'
 import { TABLE_INJECTION_KEY } from '../tokens'
+
 import type { TableColumnCtx } from '../table-column/defaults'
+import type { DefaultRow } from '../table/defaults'
 import type { TableHeaderProps } from '.'
 
-function useStyle<T>(props: TableHeaderProps<T>) {
+function useStyle<T extends DefaultRow>(props: TableHeaderProps<T>) {
   const parent = inject(TABLE_INJECTION_KEY)
   const ns = useNamespace('table')
 

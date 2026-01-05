@@ -22,5 +22,6 @@ onMounted(() => {
 <style scoped>
 .target {
   position: relative;
+  margin-top: 20px;
 }
 </style>

@@ -85,6 +85,11 @@
       input {
         cursor: not-allowed;
       }
+
+      .#{$namespace}-select__prefix,
+      .#{$namespace}-select__suffix {
+        pointer-events: none;
+      }
     }
   }
 
@@ -218,10 +223,6 @@
     height: map.get($select-item-height, 'default');
     width: 100%;
     background-color: transparent;
-
-    @include when(disabled) {
-      cursor: not-allowed;
-    }
   }
 
   @include e(input-calculator) {

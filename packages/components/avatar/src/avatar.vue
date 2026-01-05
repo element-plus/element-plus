@@ -16,11 +16,12 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue'
+import { computed, inject, ref, watch } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
 import { addUnit, isNumber, isString } from '@element-plus/utils'
 import { avatarEmits, avatarProps } from './avatar'
+import { avatarGroupContextKey } from './constants'
 
 import type { CSSProperties } from 'vue'
 
@@ -31,24 +32,30 @@ defineOptions({
 const props = defineProps(avatarProps)
 const emit = defineEmits(avatarEmits)
 
+const avatarGroupContext = inject(avatarGroupContextKey, undefined)
+
 const ns = useNamespace('avatar')
 
 const hasLoadError = ref(false)
 
+const size = computed(() => props.size ?? avatarGroupContext?.size)
+const shape = computed(
+  () => props.shape ?? avatarGroupContext?.shape ?? 'circle'
+)
+
 const avatarClass = computed(() => {
-  const { size, icon, shape } = props
+  const { icon } = props
   const classList = [ns.b()]
-  if (isString(size)) classList.push(ns.m(size))
+  if (isString(size.value)) classList.push(ns.m(size.value))
   if (icon) classList.push(ns.m('icon'))
-  if (shape) classList.push(ns.m(shape))
+  if (shape.value) classList.push(ns.m(shape.value))
   return classList
 })
 
 const sizeStyle = computed(() => {
-  const { size } = props
-  return isNumber(size)
+  return isNumber(size.value)
     ? (ns.cssVarBlock({
-        size: addUnit(size) || '',
+        size: addUnit(size.value)!,
       }) as CSSProperties)
     : undefined
 })

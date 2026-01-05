@@ -1,12 +1,20 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
-import { useEventListener, useParallax, useThrottleFn } from '@vueuse/core'
+import { computed, onMounted, reactive, ref } from 'vue'
+import { withBase } from 'vitepress'
+import {
+  isClient,
+  useEventListener,
+  useParallax,
+  useThrottleFn,
+} from '@vueuse/core'
 import { useLang } from '../../composables/lang'
 import homeLocale from '../../../i18n/pages/home.json'
 import HomeSponsors from '../home/home-sponsors.vue'
 import HomeCards from '../home/home-cards.vue'
 import HomeFooter from './vp-footer.vue'
+
 import type { CSSProperties } from 'vue'
+
 import { isDark } from '~/composables/dark'
 
 const target = ref<HTMLElement | null>(null)
@@ -17,8 +25,9 @@ const lang = useLang()
 const homeLang = computed(() => homeLocale[lang.value])
 
 function jumpTo(path: string) {
+  if (!isClient) return
   // vitepress has not router
-  location.href = `/${lang.value}/${path}`
+  window.location.href = `/${lang.value}/${path}`
 }
 
 const containerStyle: CSSProperties = {
@@ -111,7 +120,9 @@ const handleScroll = useThrottleFn(() => {
   }
 }, 10)
 
-useEventListener(window, 'scroll', handleScroll)
+onMounted(() => {
+  useEventListener(window, 'scroll', handleScroll)
+})
 </script>
 
 <template>
@@ -139,7 +150,7 @@ useEventListener(window, 'scroll', handleScroll)
       </div>
     </div>
     <img
-      :src="`/images/theme-index-blue${isDark ? '-dark' : ''}.png`"
+      :src="withBase(`/images/theme-index-blue${isDark ? '-dark' : ''}.png`)"
       alt="banner"
       class="mobile-banner"
     />

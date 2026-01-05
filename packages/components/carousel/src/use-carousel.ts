@@ -33,6 +33,7 @@ export const useCarousel = (
     children: items,
     addChild: addItem,
     removeChild: removeItem,
+    ChildrenSorter: ItemsSorter,
   } = useOrderedChildren<CarouselItemContext>(
     getCurrentInstance()!,
     CAROUSEL_ITEM_NAME
@@ -254,6 +255,14 @@ export const useCarousel = (
       }
     }
   )
+
+  const exposeActiveIndex = computed({
+    get: () => {
+      return isItemsTwoLength.value ? activeIndex.value % 2 : activeIndex.value
+    },
+    set: (value) => (activeIndex.value = value),
+  })
+
   watch(
     () => props.autoplay,
     (autoplay) => {
@@ -315,6 +324,7 @@ export const useCarousel = (
   return {
     root,
     activeIndex,
+    exposeActiveIndex,
     arrowDisplay,
     hasLabel,
     hover,
@@ -333,6 +343,7 @@ export const useCarousel = (
     next,
     PlaceholderItem,
     isTwoLengthShow,
+    ItemsSorter,
     throttledArrowClick,
     throttledIndicatorHover,
   }

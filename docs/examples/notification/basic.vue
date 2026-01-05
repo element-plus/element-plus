@@ -1,6 +1,12 @@
 <template>
-  <el-button plain @click="open1"> Closes automatically </el-button>
-  <el-button plain @click="open2"> Won't close automatically </el-button>
+  <div class="flex flex-wrap gap-1">
+    <el-button class="!ml-0" plain @click="open1">
+      Closes automatically
+    </el-button>
+    <el-button class="!ml-0" plain @click="open2">
+      Won't close automatically
+    </el-button>
+  </div>
 </template>
 
 <script lang="ts" setup>

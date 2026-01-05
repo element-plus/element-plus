@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
 import { CaretTop } from '@element-plus/icons-vue'
 import Backtop from '../src/backtop.vue'
+
 import type { VNode } from 'vue'
 
 const _mount = (render: () => VNode) =>

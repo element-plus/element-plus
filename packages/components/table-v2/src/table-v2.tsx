@@ -1,6 +1,5 @@
-// @ts-nocheck
 import { defineComponent, provide, unref } from 'vue'
-import { useNamespace } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import { useTable } from './use-table'
 import { TableV2InjectionKey } from './tokens'
 import { tableV2Props } from './table'
@@ -16,6 +15,7 @@ import Footer from './renderers/footer'
 import Empty from './renderers/empty'
 import Overlay from './renderers/overlay'
 
+import type { CSSProperties } from 'vue'
 import type { TableGridRowSlotParams } from './table-grid'
 import type { ScrollStrategy } from './composables/use-scrollbar'
 import type {
@@ -23,6 +23,7 @@ import type {
   TableV2HeaderRowCellRendererParams,
   TableV2RowCellRenderParam,
 } from './components'
+import type { KeyType } from './types'
 
 const COMPONENT_NAME = 'ElTableV2'
 
@@ -31,6 +32,7 @@ const TableV2 = defineComponent({
   props: tableV2Props,
   setup(props, { slots, expose }) {
     const ns = useNamespace('table-v2')
+    const { t } = useLocale()
 
     const {
       columnsStyles,
@@ -203,9 +205,9 @@ const TableV2 = defineComponent({
         scrollbarStartGap: 2,
         scrollbarEndGap: vScrollbarSize,
         width: rightColumnsWidth,
-        style: `--${unref(
-          ns.namespace
-        )}-table-scrollbar-size: ${vScrollbarSize}px`,
+        style: `${ns.cssVarName(
+          'table-scrollbar-size'
+        )}: ${vScrollbarSize}px` as unknown as CSSProperties,
         useIsScrolling,
         getRowHeight,
         onScroll: onVerticalScroll,
@@ -237,6 +239,7 @@ const TableV2 = defineComponent({
         rowKey,
         expandedRowKeys: unref(expandedRowKeys),
         ns,
+        t,
       }
 
       const tableHeaderProps = {
@@ -248,6 +251,7 @@ const TableV2 = defineComponent({
 
       const tableHeaderCellProps = {
         ns,
+        t,
 
         sortBy,
         sortState,
@@ -265,7 +269,7 @@ const TableV2 = defineComponent({
                   <Cell
                     {...props}
                     {...tableCellProps}
-                    style={_columnsStyles[props.column.key]}
+                    style={_columnsStyles[props.column.key as KeyType]}
                   >
                     {slots.cell(props)}
                   </Cell>
@@ -273,7 +277,7 @@ const TableV2 = defineComponent({
                   <Cell
                     {...props}
                     {...tableCellProps}
-                    style={_columnsStyles[props.column.key]}
+                    style={_columnsStyles[props.column.key as KeyType]}
                   />
                 ),
             }}
@@ -288,7 +292,7 @@ const TableV2 = defineComponent({
                   <HeaderCell
                     {...props}
                     {...tableHeaderCellProps}
-                    style={_columnsStyles[props.column.key]}
+                    style={_columnsStyles[props.column.key as KeyType]}
                   >
                     {slots['header-cell'](props)}
                   </HeaderCell>
@@ -296,7 +300,7 @@ const TableV2 = defineComponent({
                   <HeaderCell
                     {...props}
                     {...tableHeaderCellProps}
-                    style={_columnsStyles[props.column.key]}
+                    style={_columnsStyles[props.column.key as KeyType]}
                   />
                 ),
             }}
@@ -308,9 +312,7 @@ const TableV2 = defineComponent({
         props.class,
         ns.b(),
         ns.e('root'),
-        {
-          [ns.is('dynamic')]: unref(isDynamic),
-        },
+        ns.is('dynamic', unref(isDynamic)),
       ]
 
       const footerProps = {

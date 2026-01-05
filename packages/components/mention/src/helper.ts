@@ -7,7 +7,7 @@ export const filterOption = (
   option: MentionOption
 ): boolean => {
   const lowerCase = pattern.toLowerCase()
-  const label = option.label || option.value
+  const label = option.label || option.value || ''
   return label.toLowerCase().includes(lowerCase)
 }
 

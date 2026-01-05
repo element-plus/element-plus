@@ -7,6 +7,17 @@ export default {
     colorpicker: {
       confirm: 'Bevestig',
       clear: 'Wissen',
+      defaultLabel: 'color picker', // to be translated
+      description:
+        'current color is {color}. press enter to select a new color.', // to be translated
+      alphaLabel: 'pick alpha value', // to be translated
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
+      svLabel: 'pick saturation and brightness value', // to be translated
+      svDescription:
+        'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
+      predefineDescription: 'select {value} as the color', // to be translated
     },
     datepicker: {
       now: 'Nu',
@@ -14,6 +25,11 @@ export default {
       cancel: 'Annuleren',
       clear: 'Legen',
       confirm: 'Bevestig',
+      dateTablePrompt:
+        'Use the arrow keys and enter to select the day of the month', // to be translated
+      monthTablePrompt: 'Use the arrow keys and enter to select the month', // to be translated
+      yearTablePrompt: 'Use the arrow keys and enter to select the year', // to be translated
+      selectedDate: 'Geselecteerde datum',
       selectDate: 'Selecteer datum',
       selectTime: 'Selecteer tijd',
       startDate: 'Startdatum',
@@ -37,7 +53,6 @@ export default {
       month10: 'oktober',
       month11: 'november',
       month12: 'december',
-      // week: 'week',
       weeks: {
         sun: 'Zo',
         mon: 'Ma',
@@ -46,6 +61,15 @@ export default {
         thu: 'Do',
         fri: 'Vr',
         sat: 'Za',
+      },
+      weeksFull: {
+        sun: 'zondag',
+        mon: 'maandag',
+        tue: 'dinsdag',
+        wed: 'woensdag',
+        thu: 'donderdag',
+        fri: 'vrijdag',
+        sat: 'zaterdag',
       },
       months: {
         jan: 'jan',
@@ -62,6 +86,10 @@ export default {
         dec: 'dec',
       },
     },
+    inputNumber: {
+      decrease: 'getal verlagen',
+      increase: 'getal verhogen',
+    },
     select: {
       loading: 'Laden',
       noMatch: 'Geen overeenkomende resultaten',
@@ -70,6 +98,9 @@ export default {
     },
     mention: {
       loading: 'Laden',
+    },
+    dropdown: {
+      toggleDropdown: 'Toggle Dropdown', // to be translated
     },
     cascader: {
       noMatch: 'Geen overeenkomende resultaten',
@@ -82,18 +113,27 @@ export default {
       pagesize: '/pagina',
       total: 'Totaal {total}',
       pageClassifier: '',
-      page: 'Page', // to be translated
-      prev: 'Go to previous page', // to be translated
-      next: 'Go to next page', // to be translated
-      currentPage: 'page {pager}', // to be translated
-      prevPages: 'Previous {pager} pages', // to be translated
-      nextPages: 'Next {pager} pages', // to be translated
+      page: 'Pagina',
+      prev: 'Ga naar de vorige pagina',
+      next: 'Ga naar de volgende pagina',
+      currentPage: 'pagina {pager}',
+      prevPages: "Vorige {pager} pagina's",
+      nextPages: "Volgende {pager} pagina's",
+      deprecationWarning:
+        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
+    },
+    dialog: {
+      close: 'Close this dialog', // to be translated
+    },
+    drawer: {
+      close: 'Close this dialog', // to be translated
     },
     messagebox: {
       title: 'Bericht',
       confirm: 'Bevestig',
       cancel: 'Annuleren',
       error: 'Ongeldige invoer',
+      close: 'Close this dialog', // to be translated
     },
     upload: {
       deleteTip: 'Kies verwijder om te wissen',
@@ -101,12 +141,32 @@ export default {
       preview: 'Voorbeeld',
       continue: 'Doorgaan',
     },
+    slider: {
+      defaultLabel: 'slider between {min} and {max}', // to be translated
+      defaultRangeStartLabel: 'pick start value', // to be translated
+      defaultRangeEndLabel: 'pick end value', // to be translated
+    },
     table: {
       emptyText: 'Geen data',
       confirmFilter: 'Bevestigen',
       resetFilter: 'Reset',
       clearFilter: 'Alles',
       sumText: 'Som',
+      selectAllLabel: 'Select all rows', // to be translated
+      selectRowLabel: 'Select this row', // to be translated
+      expandRowLabel: 'Expand this row', // to be translated
+      collapseRowLabel: 'Collapse this row', // to be translated
+      sortLabel: 'Sort by {column}', // to be translated
+      filterLabel: 'Filter by {column}', // to be translated
+    },
+    tag: {
+      close: 'Close this tag', // to be translated
+    },
+    tour: {
+      next: 'Volgende',
+      previous: 'Vorige',
+      finish: 'Afronden',
+      close: 'Tour afsluiten',
     },
     tree: {
       emptyText: 'Geen data',

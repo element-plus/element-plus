@@ -60,11 +60,12 @@ $color-info: map.get($colors, 'info', 'base') !default;
   $colors: map.deep-merge(
     (
       $type: (
-        '#{$mode}-#{$number}':
-          color.mix(
-            $mix-color,
-            map.get($colors, $type, 'base'),
-            math.percentage(math.div($number, 10))
+        '#{$mode}-#{$number}': roundColor(
+            color.mix(
+              $mix-color,
+              map.get($colors, $type, 'base'),
+              math.percentage(math.div($number, 10))
+            )
           ),
       ),
     ),
@@ -556,8 +557,7 @@ $notification: map.merge(
     'shadow': getCssVar('box-shadow-light'),
     'border-color': getCssVar('border-color-lighter'),
     'icon-size': 24px,
-    'close-font-size':
-      var(
+    'close-font-size': var(
         #{getCssVarName('message-close-size')},
         map.get($message, 'close-size')
       ),
@@ -701,6 +701,16 @@ $cascader-search-input-margin-left: map.merge(
     'small': 5px,
   ),
   $cascader-search-input-margin-left
+);
+
+$cascader-dropdown: () !default;
+$cascader-dropdown: map.merge(
+  (
+    'header-padding': 10px,
+    'footer-padding': 10px,
+    'border': 1px solid getCssVar('border-color-light'),
+  ),
+  $cascader-dropdown
 );
 
 //statistic
@@ -869,6 +879,7 @@ $anchor: map.merge(
     'font-size': 12px,
     'color': getCssVar('text-color-secondary'),
     'active-color': getCssVar('color-primary'),
+    'hover-color': getCssVar('text-color-regular'),
     'marker-bg-color': getCssVar('color-primary'),
   ),
   $anchor
@@ -977,10 +988,10 @@ $table: map.merge(
     'header-text-color': getCssVar('text-color-secondary'),
     'row-hover-bg-color': getCssVar('fill-color', 'light'),
     'current-row-bg-color': getCssVar('color-primary-light-9'),
-    'header-bg-color': getCssVar('bg-color'),
+    'header-bg-color': getCssVar('fill-color', 'blank'),
     'fixed-box-shadow': getCssVar('box-shadow', 'light'),
     'bg-color': getCssVar('fill-color', 'blank'),
-    'tr-bg-color': getCssVar('bg-color'),
+    'tr-bg-color': getCssVar('fill-color', 'blank'),
     'expanded-cell-bg-color': getCssVar('fill-color', 'blank'),
     'fixed-left-column': inset 10px 0 10px -10px rgb(0 0 0 / 15%),
     'fixed-right-column': inset -10px 0 10px -10px rgb(0 0 0 / 15%),
@@ -1079,6 +1090,8 @@ $popper: () !default;
 $popper: map.merge(
   (
     'border-radius': var(#{getCssVarName('popover-border-radius')}, 4px),
+    'bg-color-light': getCssVar('bg-color', 'overlay'),
+    'bg-color-dark': getCssVar('text-color', 'primary'),
   ),
   $popper
 );
@@ -1185,9 +1198,12 @@ $dropdown: map.merge(
 $drawer: () !default;
 $drawer: map.merge(
   (
-    'bg-color':
-      var(#{getCssVarName('dialog', 'bg-color')}, #{getCssVar('bg-color')}),
+    'bg-color': var(
+        #{getCssVarName('dialog', 'bg-color')},
+        #{getCssVar('bg-color')}
+      ),
     'padding-primary': var(#{getCssVarName('dialog', 'padding-primary')}, 20px),
+    'dragger-size': 8px,
   ),
   $drawer
 );
@@ -1274,8 +1290,19 @@ $rate: map.merge(
     'fill-color': #f7ba2a,
     'disabled-void-color': getCssVar('fill-color'),
     'text-color': getCssVar('text-color', 'primary'),
+    'outline-color': getCssVar('color-primary', 'light-5'),
   ),
   $rate
+);
+
+// ColorPicker
+// css3 var in packages/theme-chalk/src/color-picker.scss
+$colorpicker: () !default;
+$colorpicker: map.merge(
+  (
+    'bg-color': getCssVar('bg-color', 'overlay'),
+  ),
+  $colorpicker
 );
 
 // DatePicker
@@ -1293,6 +1320,7 @@ $datepicker: map.merge(
     'inrange-hover-bg-color': getCssVar('border-color-extra-light'),
     'active-color': getCssVar('color-primary'),
     'hover-text-color': getCssVar('color-primary'),
+    'bg-color': getCssVar('bg-color', 'overlay'),
   ),
   $datepicker
 );
@@ -1449,8 +1477,7 @@ $link-text-color: () !default;
 $calendar: () !default;
 $calendar: map.merge(
   (
-    'border':
-      var(
+    'border': var(
         #{getCssVarName('table-border')},
         1px solid #{getCssVar('border-color-lighter')}
       ),
@@ -1494,6 +1521,15 @@ $avatar-size: map.merge(
     'small': 24px,
   ),
   $avatar-size
+);
+
+$avatar-group: () !default;
+$avatar-group: map.merge(
+  (
+    'item-gap': -8px,
+    'collapse-item-gap': 4px,
+  ),
+  $avatar-group
 );
 
 // Empty
@@ -1550,8 +1586,12 @@ $result: map.merge(
 $upload: () !default;
 $upload: map.merge(
   (
-    'dragger-padding-horizontal': 40px,
-    'dragger-padding-vertical': 10px,
+    'dragger-padding-horizontal': 10px,
+    'dragger-padding-vertical': 40px,
+    'list-picture-card-size': var(
+        #{getCssVarName('upload', 'picture-card-size')}
+      ),
+    'picture-card-size': 148px,
   ),
   $upload
 );

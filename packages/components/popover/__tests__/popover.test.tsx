@@ -1,10 +1,11 @@
-import { nextTick, ref } from 'vue'
+import { defineComponent, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { usePopperContainerId, useZIndex } from '@element-plus/hooks'
 import { rAF } from '@element-plus/test-utils/tick'
 import { ElPopperTrigger } from '@element-plus/components/popper'
 import Popover from '../src/popover.vue'
+
 import type { VueWrapper } from '@vue/test-utils'
 import type { PopoverProps } from '../src/popover'
 
@@ -12,7 +13,7 @@ const AXIOM = 'Rem is the best girl'
 
 const _mount = (props?: Partial<PopoverProps>) =>
   mount(
-    {
+    defineComponent<Partial<PopoverProps>>({
       setup() {
         const slots = {
           default: () => AXIOM,
@@ -20,7 +21,7 @@ const _mount = (props?: Partial<PopoverProps>) =>
         }
         return () => <Popover {...props} v-slots={slots} />
       },
-    },
+    }),
     {
       attachTo: document.body,
     }
@@ -95,7 +96,7 @@ describe('Popover.vue', () => {
     ).toBeLessThanOrEqual(currentZIndex.value)
   })
 
-  it('defind hide method', async () => {
+  it('defined hide method', async () => {
     wrapper = _mount()
     const vm = wrapper.findComponent(Popover).vm
 

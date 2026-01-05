@@ -1,13 +1,16 @@
 import { onMounted, ref, watch } from 'vue'
+import { isClient } from '@vueuse/core'
 import { utoa } from '../utils'
 import { isDark } from './dark'
+
 import type { Link } from '../types'
 
 const MAIN_FILE_NAME = 'App.vue'
 
-export const usePreview = () => location.host.startsWith('preview')
+export const usePreview = () => isClient && location.host.startsWith('preview')
 
-export const usePreviewPR = () => location.host.split('-', 2)[1]
+export const usePreviewPR = () =>
+  isClient ? location.host.split('-', 2)[1] : ''
 
 export const usePlayground = (source: string) => {
   const code = source ? decodeURIComponent(source) : source
@@ -17,23 +20,27 @@ export const usePlayground = (source: string) => {
 
   const encoded = code ? utoa(JSON.stringify(originCode)) : ''
 
-  let link = `https://element-plus.run/`
+  const link = new URL('https://element-plus.run/')
 
   if (usePreview()) {
-    link = `${link}?pr=${usePreviewPR()}`
+    link.searchParams.append('pr', usePreviewPR())
   }
 
   if (isDark.value) {
-    link = `${link}${usePreview() ? '&' : '?'}theme=dark`
+    link.searchParams.append('theme', 'dark')
+  }
+
+  if (code.includes('@vueuse/core')) {
+    link.searchParams.append('extra_packages', '@vueuse/core')
   }
 
   if (code) {
-    link += `#${encoded}`
+    link.hash = encoded
   }
 
   return {
     encoded,
-    link,
+    link: link.toString(),
   }
 }
 
@@ -53,6 +60,13 @@ export const usePlaygroundPreview = (
   }
 
   watch(() => isDark.value, handler)
+  watch(
+    () => props.item.link,
+    (newLink) => {
+      targetLink.value = newLink
+      handler()
+    }
+  )
 
   onMounted(handler)
 

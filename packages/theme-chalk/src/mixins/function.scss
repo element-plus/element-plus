@@ -1,6 +1,8 @@
 @use 'config';
 @use 'sass:meta';
 @use 'sass:string';
+@use 'sass:math';
+@use 'sass:color';
 
 // BEM support Func
 @function selectorToString($selector) {
@@ -85,4 +87,13 @@
 
   // @debug $name;
   @return $name;
+}
+
+@function roundColor($color) {
+  $r: math.round(color.channel($color, 'red'));
+  $g: math.round(color.channel($color, 'green'));
+  $b: math.round(color.channel($color, 'blue'));
+  $a: color.channel($color, 'alpha');
+
+  @return rgba($r, $g, $b, $a);
 }

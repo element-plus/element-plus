@@ -1,26 +1,10 @@
 <template>
-  <div class="flex flex-wrap gap-4 items-center">
-    <el-select-v2
-      v-model="value"
-      :options="options"
-      placeholder="Please select"
-      size="large"
-      style="width: 240px"
-    />
-    <el-select-v2
-      v-model="value"
-      :options="options"
-      placeholder="Please select"
-      style="width: 240px"
-    />
-    <el-select-v2
-      v-model="value"
-      :options="options"
-      placeholder="Please select"
-      size="small"
-      style="width: 240px"
-    />
-  </div>
+  <el-select-v2
+    v-model="value"
+    :options="options"
+    placeholder="Please select"
+    style="width: 240px"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -34,9 +18,3 @@ const options = Array.from({ length: 1000 }).map((_, idx) => ({
   label: `${initials[idx % 10]}${idx}`,
 }))
 </script>
-
-<style scoped>
-.example-showcase .el-select-v2 {
-  margin-right: 20px;
-}
-</style>

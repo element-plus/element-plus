@@ -8,7 +8,9 @@
         nsUpload.is(file.status),
         { focusing },
       ]"
-      tabindex="0"
+      :tabindex="disabled ? undefined : 0"
+      :aria-disabled="disabled"
+      role="button"
       @keydown.delete="!disabled && handleRemove(file)"
       @focus="focusing = true"
       @blur="focusing = false"
@@ -119,8 +121,8 @@ import {
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElProgress from '@element-plus/components/progress'
 import { useFormDisabled } from '@element-plus/components/form'
-
 import { uploadListEmits, uploadListProps } from './upload-list'
+
 import type { UploadFile } from './upload'
 
 defineOptions({
@@ -141,7 +143,7 @@ const focusing = ref(false)
 const containerKls = computed(() => [
   nsUpload.b('list'),
   nsUpload.bm('list', props.listType),
-  nsUpload.is('disabled', props.disabled),
+  nsUpload.is('disabled', disabled.value),
 ])
 
 const handleRemove = (file: UploadFile) => {

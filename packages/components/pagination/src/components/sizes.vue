@@ -4,6 +4,7 @@
       :model-value="innerPageSize"
       :disabled="disabled"
       :popper-class="popperClass"
+      :popper-style="popperStyle"
       :size="size"
       :teleported="teleported"
       :validate-event="false"

@@ -94,6 +94,7 @@ import {
 import { useNamespace } from '@element-plus/hooks'
 import { isFunction, isString } from '@element-plus/utils'
 import { progressProps } from './progress'
+
 import type { CSSProperties } from 'vue'
 import type { ProgressColor } from './progress'
 

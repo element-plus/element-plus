@@ -41,6 +41,7 @@ import ElTourContent from './content.vue'
 import ElTourSteps from './steps'
 import { tourEmits, tourProps } from './tour'
 import { tourKey, useTarget } from './helper'
+
 import type { TourStepProps } from './step'
 
 defineOptions({
@@ -128,8 +129,8 @@ provide(tourKey, {
   current,
   total,
   showClose: toRef(props, 'showClose'),
-  closeIcon: toRef(props, 'closeIcon') as any,
-  mergedType: mergedType as any,
+  closeIcon: toRef(props, 'closeIcon'),
+  mergedType,
   ns,
   slots,
   updateModelValue(modelValue) {

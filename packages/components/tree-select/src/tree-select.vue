@@ -1,20 +1,22 @@
 <script lang="ts">
-// @ts-nocheck
 import { computed, defineComponent, h, onMounted, reactive, ref } from 'vue'
 import { pick } from 'lodash-unified'
-import ElSelect from '@element-plus/components/select'
-import ElTree from '@element-plus/components/tree'
+import { ElSelect, selectProps } from '@element-plus/components/select'
+import { ElTree, treeProps } from '@element-plus/components/tree'
 import { useSelect } from './select'
 import { useTree } from './tree'
 import CacheOptions from './cache-options'
+
+import type { TreeInstance } from '@element-plus/components/tree'
+import type { SelectInstance } from '@element-plus/components/select'
 
 export default defineComponent({
   name: 'ElTreeSelect',
   // disable `ElSelect` inherit current attrs
   inheritAttrs: false,
   props: {
-    ...ElSelect.props,
-    ...ElTree.props,
+    ...selectProps,
+    ...treeProps,
     /**
      * @description The cached data of the lazy node, the structure is the same as the data, used to get the label of the unloaded data
      */
@@ -26,8 +28,8 @@ export default defineComponent({
   setup(props, context) {
     const { slots, expose } = context
 
-    const select = ref<InstanceType<typeof ElSelect>>()
-    const tree = ref<InstanceType<typeof ElTree>>()
+    const select = ref<SelectInstance>()
+    const tree = ref<TreeInstance>()
 
     const key = computed(() => props.nodeKey || props.valueKey || 'value')
 
@@ -43,6 +45,7 @@ export default defineComponent({
     expose(methods)
     onMounted(() => {
       Object.assign(methods, {
+        //TODO: let only tree and select in 3.0
         ...pick(tree.value, [
           'filter',
           'updateKeyChildren',
@@ -64,6 +67,8 @@ export default defineComponent({
           'insertAfter',
         ]),
         ...pick(select.value, ['focus', 'blur', 'selectedLabel']),
+        treeRef: tree.value,
+        selectRef: select.value,
       })
     })
 
@@ -79,7 +84,7 @@ export default defineComponent({
          */
         reactive({
           ...selectProps,
-          ref: (ref) => (select.value = ref),
+          ref: (ref: SelectInstance) => (select.value = ref),
         }),
         {
           ...slots,
@@ -89,7 +94,7 @@ export default defineComponent({
               ElTree,
               reactive({
                 ...treeProps,
-                ref: (ref) => (tree.value = ref),
+                ref: (ref: TreeInstance) => (tree.value = ref),
               })
             ),
           ],

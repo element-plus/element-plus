@@ -2,11 +2,15 @@
 import { isRef, ref } from 'vue'
 import { hyphenate, isObject, isString } from '@element-plus/utils'
 import Loading from './service'
+
 import type { Directive, DirectiveBinding, UnwrapRef } from 'vue'
 import type { LoadingOptions } from './types'
 import type { LoadingInstance } from './loading'
 
 const INSTANCE_KEY = Symbol('ElLoading')
+const getAttributeName = (name: string) => {
+  return `element-loading-${hyphenate(name)}`
+}
 
 export type LoadingBinding = boolean | UnwrapRef<LoadingOptions>
 export interface ElementLoading extends HTMLElement {
@@ -29,14 +33,12 @@ const createInstance = (
 
   const resolveExpression = (key: any) => {
     const data = (isString(key) && vm?.[key]) || key
-    if (data) return ref(data)
-    else return data
+    return ref(data)
   }
 
   const getProp = <K extends keyof LoadingOptions>(name: K) =>
     resolveExpression(
-      getBindingProp(name) ||
-        el.getAttribute(`element-loading-${hyphenate(name)}`)
+      getBindingProp(name) || el.getAttribute(getAttributeName(name))
     )
 
   const fullscreen =
@@ -63,8 +65,8 @@ const createInstance = (
 }
 
 const updateOptions = (
-  newOptions: UnwrapRef<LoadingOptions>,
-  originalOptions: LoadingOptions
+  originalOptions: LoadingOptions,
+  newOptions: UnwrapRef<LoadingOptions>
 ) => {
   for (const key of Object.keys(originalOptions)) {
     if (isRef(originalOptions[key]))
@@ -80,15 +82,27 @@ const vLoading: Directive<ElementLoading, LoadingBinding> = {
   },
   updated(el, binding) {
     const instance = el[INSTANCE_KEY]
-    if (binding.oldValue !== binding.value) {
-      if (binding.value && !binding.oldValue) {
-        createInstance(el, binding)
-      } else if (binding.value && binding.oldValue) {
-        if (isObject(binding.value))
-          updateOptions(binding.value, instance!.options)
-      } else {
-        instance?.instance.close()
-      }
+    if (!binding.value) {
+      instance?.instance.close()
+      el[INSTANCE_KEY] = null
+      return
+    }
+
+    if (!instance) createInstance(el, binding)
+    else {
+      updateOptions(
+        instance.options,
+        isObject(binding.value)
+          ? binding.value
+          : {
+              text: el.getAttribute(getAttributeName('text')),
+              svg: el.getAttribute(getAttributeName('svg')),
+              svgViewBox: el.getAttribute(getAttributeName('svgViewBox')),
+              spinner: el.getAttribute(getAttributeName('spinner')),
+              background: el.getAttribute(getAttributeName('background')),
+              customClass: el.getAttribute(getAttributeName('customClass')),
+            }
+      )
     }
   },
   unmounted(el) {

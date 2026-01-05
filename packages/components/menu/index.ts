@@ -1,9 +1,9 @@
 import { withInstall, withNoopInstall } from '@element-plus/utils'
-
 import Menu from './src/menu'
 import MenuItem from './src/menu-item.vue'
 import MenuItemGroup from './src/menu-item-group.vue'
 import SubMenu from './src/sub-menu'
+
 import type { SFCWithInstall } from '@element-plus/utils'
 
 export const ElMenu: SFCWithInstall<typeof Menu> & {
@@ -29,3 +29,4 @@ export * from './src/menu-item-group'
 export * from './src/sub-menu'
 export * from './src/types'
 export * from './src/instance'
+export * from './src/tokens'

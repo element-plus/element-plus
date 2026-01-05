@@ -3,7 +3,7 @@
     ref="button"
     :class="[ns.e('button-wrapper'), { hover: hovering, dragging }]"
     :style="wrapperStyle"
-    :tabindex="disabled ? -1 : 0"
+    :tabindex="disabled ? undefined : 0"
     @mouseenter="handleMouseEnter"
     @mouseleave="handleMouseLeave"
     @mousedown="onButtonDown"
@@ -35,6 +35,7 @@ import { ElTooltip } from '@element-plus/components/tooltip'
 import { useNamespace } from '@element-plus/hooks'
 import { useSliderButton } from './composables'
 import { sliderButtonEmits, sliderButtonProps } from './button'
+
 import type { SliderButtonInitData } from './button'
 
 defineOptions({

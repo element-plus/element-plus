@@ -3,8 +3,8 @@ import { isNil } from 'lodash-unified'
 import { addUnit, getNormalizedProps } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { descriptionsKey } from './token'
-import type { DirectiveArguments, PropType, VNode } from 'vue'
 
+import type { DirectiveArguments, PropType, VNode } from 'vue'
 import type {
   IDescriptionsInject,
   IDescriptionsItemInject,
@@ -54,7 +54,7 @@ export default defineComponent({
     const labelClassName = item.labelClassName
     const width =
       this.type === 'label'
-        ? item.labelWidth || this.descriptions.labelWidth || item.width
+        ? (item.labelWidth ?? this.descriptions.labelWidth ?? item.width)
         : item.width
 
     const style = {
@@ -109,7 +109,7 @@ export default defineComponent({
       default: {
         const label = renderLabel()
         const labelStyle: Record<string, any> = {}
-        const width = addUnit(item.labelWidth || this.descriptions.labelWidth)
+        const width = addUnit(item.labelWidth ?? this.descriptions.labelWidth)
         if (width) {
           labelStyle.width = width
           labelStyle.display = 'inline-block'

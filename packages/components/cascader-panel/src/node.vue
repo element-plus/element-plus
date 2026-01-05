@@ -20,7 +20,7 @@
   >
     <!-- prefix -->
     <el-checkbox
-      v-if="multiple"
+      v-if="multiple && showPrefix"
       :model-value="node.checked"
       :indeterminate="node.indeterminate"
       :disabled="isDisabled"
@@ -28,7 +28,7 @@
       @update:model-value="handleSelectCheck"
     />
     <el-radio
-      v-else-if="checkStrictly"
+      v-else-if="checkStrictly && showPrefix"
       :model-value="checkedNodeId"
       :label="node.uid"
       :disabled="isDisabled"
@@ -46,8 +46,7 @@
     </el-icon>
 
     <!-- content -->
-    <node-content />
-
+    <node-content :node="node" />
     <!-- postfix -->
     <template v-if="!isLeaf">
       <el-icon v-if="node.loading" :class="[ns.is('loading'), ns.e('postfix')]">
@@ -60,8 +59,8 @@
   </li>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, inject } from 'vue'
+<script lang="ts" setup>
+import { computed, inject } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import ElRadio from '@element-plus/components/radio'
 import ElIcon from '@element-plus/components/icon'
@@ -69,140 +68,116 @@ import { useNamespace } from '@element-plus/hooks'
 import { ArrowRight, Check, Loading } from '@element-plus/icons-vue'
 import NodeContent from './node-content'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
-import type { default as CascaderNode } from './node'
+
+import type { CascaderNode } from './types'
 import type { PropType } from 'vue'
 import type { CheckboxValueType } from '@element-plus/components/checkbox'
 
-export default defineComponent({
+defineOptions({
   name: 'ElCascaderNode',
-
-  components: {
-    ElCheckbox,
-    ElRadio,
-    NodeContent,
-    ElIcon,
-    Check,
-    Loading,
-    ArrowRight,
-  },
-
-  props: {
-    node: {
-      type: Object as PropType<CascaderNode>,
-      required: true,
-    },
-    menuId: String,
-  },
-
-  emits: ['expand'],
-
-  setup(props, { emit }) {
-    const panel = inject(CASCADER_PANEL_INJECTION_KEY)!
-
-    const ns = useNamespace('cascader-node')
-    const isHoverMenu = computed(() => panel.isHoverMenu)
-    const multiple = computed(() => panel.config.multiple)
-    const checkStrictly = computed(() => panel.config.checkStrictly)
-    const checkedNodeId = computed(() => panel.checkedNodes[0]?.uid)
-    const isDisabled = computed(() => props.node.isDisabled)
-    const isLeaf = computed(() => props.node.isLeaf)
-    const expandable = computed(
-      () => (checkStrictly.value && !isLeaf.value) || !isDisabled.value
-    )
-    const inExpandingPath = computed(() => isInPath(panel.expandingNode!))
-    // only useful in check-strictly mode
-    const inCheckedPath = computed(
-      () => checkStrictly.value && panel.checkedNodes.some(isInPath)
-    )
-
-    const isInPath = (node: CascaderNode) => {
-      const { level, uid } = props.node
-      return node?.pathNodes[level - 1]?.uid === uid
-    }
-
-    const doExpand = () => {
-      if (inExpandingPath.value) return
-      panel.expandNode(props.node)
-    }
-
-    const doCheck = (checked: boolean) => {
-      const { node } = props
-      if (checked === node.checked) return
-      panel.handleCheckChange(node, checked)
-    }
-
-    const doLoad = () => {
-      panel.lazyLoad(props.node, () => {
-        if (!isLeaf.value) doExpand()
-      })
-    }
-
-    const handleHoverExpand = (e: Event) => {
-      if (!isHoverMenu.value) return
-      handleExpand()
-      !isLeaf.value && emit('expand', e)
-    }
-
-    const handleExpand = () => {
-      const { node } = props
-      // do not exclude leaf node because the menus expanded might have to reset
-      if (!expandable.value || node.loading) return
-      node.loaded ? doExpand() : doLoad()
-    }
-
-    const handleClick = () => {
-      if (isHoverMenu.value && !isLeaf.value) return
-
-      if (
-        isLeaf.value &&
-        !isDisabled.value &&
-        !checkStrictly.value &&
-        !multiple.value
-      ) {
-        handleCheck(true)
-      } else {
-        handleExpand()
-      }
-    }
-
-    const handleSelectCheck = (checked: CheckboxValueType | undefined) => {
-      if (checkStrictly.value) {
-        doCheck(checked as boolean)
-        if (props.node.loaded) {
-          doExpand()
-        }
-      } else {
-        handleCheck(checked as boolean)
-      }
-    }
-
-    const handleCheck = (checked: boolean) => {
-      if (!props.node.loaded) {
-        doLoad()
-      } else {
-        doCheck(checked)
-        !checkStrictly.value && doExpand()
-      }
-    }
-
-    return {
-      panel,
-      isHoverMenu,
-      multiple,
-      checkStrictly,
-      checkedNodeId,
-      isDisabled,
-      isLeaf,
-      expandable,
-      inExpandingPath,
-      inCheckedPath,
-      ns,
-      handleHoverExpand,
-      handleExpand,
-      handleClick,
-      handleCheck,
-      handleSelectCheck,
-    }
-  },
 })
+
+const props = defineProps({
+  node: {
+    type: Object as PropType<CascaderNode>,
+    required: true,
+  },
+  menuId: String,
+})
+const emit = defineEmits(['expand'])
+
+const panel = inject(CASCADER_PANEL_INJECTION_KEY)!
+
+const ns = useNamespace('cascader-node')
+const isHoverMenu = computed(() => panel.isHoverMenu)
+const multiple = computed(() => panel.config.multiple)
+const checkStrictly = computed(() => panel.config.checkStrictly)
+const showPrefix = computed(() => panel.config.showPrefix)
+const checkedNodeId = computed(() => panel.checkedNodes[0]?.uid)
+const isDisabled = computed(() => props.node.isDisabled)
+const isLeaf = computed(() => props.node.isLeaf)
+const expandable = computed(
+  () => (checkStrictly.value && !isLeaf.value) || !isDisabled.value
+)
+const inExpandingPath = computed(() => isInPath(panel.expandingNode!))
+
+// only useful in check-strictly mode
+const inCheckedPath = computed(
+  () => checkStrictly.value && panel.checkedNodes.some(isInPath)
+)
+
+const isInPath = (node: CascaderNode) => {
+  const { level, uid } = props.node
+  return node?.pathNodes[level - 1]?.uid === uid
+}
+
+const doExpand = () => {
+  if (inExpandingPath.value) return
+  panel.expandNode(props.node)
+}
+
+const doCheck = (checked: boolean) => {
+  const { node } = props
+  if (checked === node.checked) return
+  panel.handleCheckChange(node, checked)
+}
+
+const doLoad = () => {
+  panel.lazyLoad(props.node, () => {
+    if (!isLeaf.value) doExpand()
+  })
+}
+
+const handleHoverExpand = (e: Event) => {
+  if (!isHoverMenu.value) return
+  handleExpand()
+  !isLeaf.value && emit('expand', e)
+}
+
+const handleExpand = () => {
+  const { node } = props
+  // do not exclude leaf node because the menus expanded might have to reset
+  if (!expandable.value || node.loading) return
+  node.loaded ? doExpand() : doLoad()
+}
+
+const handleClick = () => {
+  if (
+    isLeaf.value &&
+    !isDisabled.value &&
+    !checkStrictly.value &&
+    !multiple.value
+  ) {
+    handleCheck(true)
+  } else if (
+    ((panel.config.checkOnClickNode &&
+      (multiple.value || checkStrictly.value)) ||
+      (isLeaf.value && panel.config.checkOnClickLeaf)) &&
+    !isDisabled.value
+  ) {
+    handleSelectCheck(!props.node.checked)
+  } else if (!isHoverMenu.value) {
+    handleExpand()
+  }
+}
+
+const handleSelectCheck = (checked: CheckboxValueType | undefined) => {
+  if (checkStrictly.value) {
+    doCheck(checked as boolean)
+    if (props.node.loaded) {
+      doExpand()
+    }
+  } else {
+    handleCheck(checked as boolean)
+  }
+}
+
+const handleCheck = (checked: boolean) => {
+  if (!props.node.loaded) {
+    doLoad()
+  } else {
+    doCheck(checked)
+    !checkStrictly.value && doExpand()
+  }
+}
 </script>

@@ -117,7 +117,7 @@ switch/custom-action-slot
 | inactive-value                | switch value when in `off` state                                                                                                                | ^[boolean] / ^[string] / ^[number]             | false   |
 | name                          | input name of Switch                                                                                                                            | ^[string]                                      | ''      |
 | validate-event                | whether to trigger form validation                                                                                                              | ^[boolean]                                     | true    |
-| before-change                 | before-change hook before the switch state changes. If `false` is returned or a `Promise` is returned and then is rejected, will stop switching | ^[Function]`() => Promise<boolean> \| boolen`  | —       |
+| before-change                 | before-change hook before the switch state changes. If `false` is returned or a `Promise` is returned and then is rejected, will stop switching | ^[Function]`() => Promise<boolean> \| boolean` | —       |
 | id                            | id for input                                                                                                                                    | ^[string]                                      | —       |
 | tabindex                      | tabindex for input                                                                                                                              | ^[string] / ^[number]                          | —       |
 | aria-label ^(a11y) ^(2.7.2)   | same as `aria-label` in native input                                                                                                            | ^[string]                                      | —       |
@@ -134,10 +134,12 @@ switch/custom-action-slot
 
 ### Switch Slots
 
-| Name                     | Description               |
-| ------------------------ | ------------------------- |
-| active-action ^(2.4.4)   | customize active action   |
-| inactive-action ^(2.4.4) | customize inactive action |
+| Name                     | Description                |
+| ------------------------ | -------------------------- |
+| active-action ^(2.4.4)   | customize active action    |
+| inactive-action ^(2.4.4) | customize inactive action  |
+| active ^(2.13.0)         | customize active content   |
+| inactive ^(2.13.0)       | customize inactive content |
 
 ### Exposes
 

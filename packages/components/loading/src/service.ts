@@ -17,7 +17,10 @@ import type { AppContext, CSSProperties } from 'vue'
 
 let fullscreenInstance: LoadingInstance | undefined = undefined
 
-const Loading = function (options: LoadingOptions = {}): LoadingInstance {
+const Loading = function (
+  options: LoadingOptions = {},
+  context?: AppContext | null
+): LoadingInstance {
   if (!isClient) return undefined as any
 
   const resolved = resolveOptions(options)
@@ -34,7 +37,7 @@ const Loading = function (options: LoadingOptions = {}): LoadingInstance {
         if (resolved.fullscreen) fullscreenInstance = undefined
       },
     },
-    Loading._context
+    context ?? Loading._context
   )
 
   addStyle(resolved, resolved.parent, instance)

@@ -1,6 +1,7 @@
 import { nextTick, ref } from 'vue'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { useDelayedRender } from '../use-intermediate-render'
+
 import type { UseDelayedRenderProps } from '../use-intermediate-render'
 
 describe('useDelayedRender', () => {

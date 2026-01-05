@@ -3,37 +3,22 @@ import { series } from 'gulp'
 import { rollup } from 'rollup'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
-import VueMacros from 'unplugin-vue-macros/rollup'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import esbuild from 'rollup-plugin-esbuild'
-import glob from 'fast-glob'
+import { glob } from 'tinyglobby'
 import { epRoot, excludeFiles, pkgRoot } from '@element-plus/build-utils'
 import { generateExternal, withTaskName, writeBundles } from '../utils'
 import { ElementPlusAlias } from '../plugins/element-plus-alias'
 import { buildConfigEntries, target } from '../build-info'
-import type { TaskFunction } from 'gulp'
 
+import type { TaskFunction } from 'gulp'
 import type { OutputOptions, Plugin } from 'rollup'
 
 const plugins: Plugin[] = [
   ElementPlusAlias(),
-  VueMacros({
-    setupComponent: false,
-    setupSFC: false,
-    plugins: {
-      vue: vue({
-        isProduction: true,
-        template: {
-          compilerOptions: {
-            hoistStatic: false,
-            cacheHandlers: false,
-          },
-        },
-      }),
-      vueJsx: vueJsx(),
-    },
-  }),
+  vue() as Plugin,
+  vueJsx() as Plugin,
   nodeResolve({
     extensions: ['.mjs', '.js', '.json', '.ts'],
   }),

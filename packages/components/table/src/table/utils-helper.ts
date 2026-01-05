@@ -1,7 +1,7 @@
-// @ts-nocheck
 import type { Store } from '../store'
+import type { DefaultRow } from './defaults'
 
-function useUtils<T>(store: Store<T>) {
+function useUtils<T extends DefaultRow>(store: Store<T>) {
   const setCurrentRow = (row: T) => {
     store.commit('setCurrentRow', row)
   }
@@ -19,7 +19,7 @@ function useUtils<T>(store: Store<T>) {
   const clearSelection = () => {
     store.clearSelection()
   }
-  const clearFilter = (columnKeys?: string[]) => {
+  const clearFilter = (columnKeys?: string[] | string) => {
     store.clearFilter(columnKeys)
   }
   const toggleAllSelection = () => {

@@ -1,4 +1,4 @@
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 
 export const menuItemGroupProps = {
   /**
@@ -7,3 +7,6 @@ export const menuItemGroupProps = {
   title: String,
 } as const
 export type MenuItemGroupProps = ExtractPropTypes<typeof menuItemGroupProps>
+export type MenuItemGroupPropsPublic = ExtractPublicPropTypes<
+  typeof menuItemGroupProps
+>

@@ -37,6 +37,7 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
+
 import type { FormItemProps, FormProps } from 'element-plus'
 
 const labelPosition = ref<FormProps['labelPosition']>('right')

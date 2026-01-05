@@ -380,4 +380,35 @@ describe('Carousel', () => {
     vm.$refs.carousel.next()
     expect(vm.$refs.carousel.activeIndex).toBe(3)
   })
+
+  it('two item, activeIndex is not a supplementary item', async () => {
+    const data = [100, 200]
+
+    wrapper = mount({
+      setup() {
+        return () => (
+          <div>
+            <Carousel ref={'carousel'}>
+              {data.map((value) => (
+                <CarouselItem label={value} key={value}>
+                  {value}
+                </CarouselItem>
+              ))}
+            </Carousel>
+          </div>
+        )
+      },
+    })
+
+    await nextTick()
+    const vm = wrapper.vm
+
+    expect(vm.$refs.carousel.activeIndex).toBe(0)
+    vm.$refs.carousel.next()
+    expect(vm.$refs.carousel.activeIndex).toBe(1)
+    vm.$refs.carousel.next()
+    expect(vm.$refs.carousel.activeIndex).toBe(0)
+    vm.$refs.carousel.prev()
+    expect(vm.$refs.carousel.activeIndex).toBe(1)
+  })
 })

@@ -1,10 +1,11 @@
-// @ts-nocheck
 import { computed, inject } from 'vue'
 import { TABLE_INJECTION_KEY } from '../tokens'
+
+import type { DefaultRow } from '../table/defaults'
 import type { TableColumnCtx } from '../table-column/defaults'
 import type { TableHeaderProps } from '.'
 
-const getAllColumns = <T>(
+const getAllColumns = <T extends DefaultRow>(
   columns: TableColumnCtx<T>[]
 ): TableColumnCtx<T>[] => {
   const result: TableColumnCtx<T>[] = []
@@ -20,11 +21,11 @@ const getAllColumns = <T>(
   return result
 }
 
-export const convertToRows = <T>(
+export const convertToRows = <T extends DefaultRow>(
   originColumns: TableColumnCtx<T>[]
-): TableColumnCtx<T>[] => {
+): TableColumnCtx<T>[][] => {
   let maxLevel = 1
-  const traverse = (column: TableColumnCtx<T>, parent: TableColumnCtx<T>) => {
+  const traverse = (column: TableColumnCtx<T>, parent?: TableColumnCtx<T>) => {
     if (parent) {
       column.level = parent.level + 1
       if (maxLevel < column.level) {
@@ -48,7 +49,7 @@ export const convertToRows = <T>(
     traverse(column, undefined)
   })
 
-  const rows = []
+  const rows: TableColumnCtx<T>[][] = []
   for (let i = 0; i < maxLevel; i++) {
     rows.push([])
   }
@@ -68,7 +69,7 @@ export const convertToRows = <T>(
   return rows
 }
 
-function useUtils<T>(props: TableHeaderProps<T>) {
+function useUtils<T extends DefaultRow>(props: TableHeaderProps<T>) {
   const parent = inject(TABLE_INJECTION_KEY)
   const columnRows = computed(() => {
     return convertToRows(props.store.states.originColumns.value)

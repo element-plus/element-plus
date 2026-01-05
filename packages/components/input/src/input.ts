@@ -7,9 +7,32 @@ import {
 } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
-import type { ExtractPropTypes, StyleValue } from 'vue'
+import { CircleClose } from '@element-plus/icons-vue'
 
+import type {
+  ExtractPropTypes,
+  ExtractPublicPropTypes,
+  HTMLAttributes,
+  StyleValue,
+} from 'vue'
+
+export type InputModelModifiers = {
+  lazy?: boolean
+  number?: boolean
+  trim?: boolean
+}
 export type InputAutoSize = { minRows?: number; maxRows?: number } | boolean
+// Some commonly used values for input type
+export type InputType =
+  | 'text'
+  | 'textarea'
+  | 'number'
+  | 'password'
+  | 'email'
+  | 'search'
+  | 'tel'
+  | 'url'
+  | (string & NonNullable<unknown>)
 
 export const inputProps = buildProps({
   /**
@@ -26,7 +49,10 @@ export const inputProps = buildProps({
   /**
    * @description whether to disable
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description binding value
    */
@@ -37,6 +63,13 @@ export const inputProps = buildProps({
       Object,
     ]),
     default: '',
+  },
+  /**
+   * @description v-model modifiers, reference [Vue modifiers](https://vuejs.org/guide/essentials/forms.html#modifiers)
+   */
+  modelModifiers: {
+    type: definePropType<InputModelModifiers>(Object),
+    default: () => ({}),
   },
   /**
    * @description same as `maxlength` in native input
@@ -51,10 +84,10 @@ export const inputProps = buildProps({
     type: [String, Number],
   },
   /**
-   * @description type of input
+   * @description type of input, see more in [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types)
    */
   type: {
-    type: String,
+    type: definePropType<InputType>(String),
     default: 'text',
   },
   /**
@@ -75,7 +108,7 @@ export const inputProps = buildProps({
    * @description native input autocomplete
    */
   autocomplete: {
-    type: String,
+    type: definePropType<HTMLInputElement['autocomplete']>(String),
     default: 'off',
   },
   /**
@@ -107,9 +140,16 @@ export const inputProps = buildProps({
    */
   readonly: Boolean,
   /**
-   * @description native input readonly
+   * @description whether to show clear button
    */
   clearable: Boolean,
+  /**
+   * @description custom clear icon component
+   */
+  clearIcon: {
+    type: iconPropType,
+    default: CircleClose,
+  },
   /**
    * @description toggleable password input
    */
@@ -118,6 +158,14 @@ export const inputProps = buildProps({
    * @description word count
    */
   showWordLimit: Boolean,
+  /**
+   * @description word count position, valid when `show-word-limit` is true
+   */
+  wordLimitPosition: {
+    type: String,
+    values: ['inside', 'outside'],
+    default: 'inside',
+  },
   /**
    * @description suffix icon
    */
@@ -167,13 +215,26 @@ export const inputProps = buildProps({
     default: 2,
   },
   ...useAriaProps(['ariaLabel']),
+  /**
+   * @description native input mode for virtual keyboards
+   */
+  inputmode: {
+    type: definePropType<HTMLAttributes['inputmode']>(String),
+    default: undefined,
+  },
+  /**
+   * @description same as `name` in native input
+   */
+  name: String,
 } as const)
 export type InputProps = ExtractPropTypes<typeof inputProps>
+export type InputPropsPublic = ExtractPublicPropTypes<typeof inputProps>
 
 export const inputEmits = {
   [UPDATE_MODEL_EVENT]: (value: string) => isString(value),
   input: (value: string) => isString(value),
-  change: (value: string) => isString(value),
+  change: (value: string, evt?: Event) =>
+    isString(value) && (evt instanceof Event || evt === undefined),
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
   blur: (evt: FocusEvent) => evt instanceof FocusEvent,
   clear: () => true,

@@ -1,7 +1,7 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
-import { ElFormItem as FormItem } from '@element-plus/components/form'
+import { ElForm, ElFormItem as FormItem } from '@element-plus/components/form'
 import Rate from '../src/rate.vue'
 
 import type { RateInstance } from '../src/rate'
@@ -152,15 +152,24 @@ describe('Rate.vue', () => {
     const value = ref(3.5)
     const wrapper = mount(() => <Rate v-model={value.value} allow-half />)
     expect(wrapper.find('.el-rate__decimal--box').exists()).toBe(true)
+    expect(
+      wrapper.findAll('.el-rate__decimal--box')[3].attributes('style')
+    ).toBe(undefined)
     value.value = 3.4
     await nextTick()
-    expect(wrapper.find('.el-rate__decimal--box').exists()).toBe(false)
+    expect(wrapper.find('.el-rate__decimal--box').exists()).toBe(true)
+    expect(
+      wrapper.findAll('.el-rate__decimal--box')[3].attributes('style')
+    ).contain('display: none;')
   })
 
   it('show background icon when disabled attribute is true', async () => {
     const value = ref(3.2)
     const wrapper = mount(() => <Rate v-model={value.value} disabled />)
     expect(wrapper.find('.el-rate__decimal--box').exists()).toBe(true)
+    expect(
+      wrapper.findAll('.el-rate__decimal--box')[3].attributes('style')
+    ).toBe(undefined)
   })
 
   describe('form item accessibility integration', () => {
@@ -206,6 +215,18 @@ describe('Rate.vue', () => {
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
+    })
+
+    it('The disabled state of a component has higher priority than that of a form', async () => {
+      const wrapper = mount(() => (
+        <ElForm disabled>
+          <Rate disabled={false} />
+        </ElForm>
+      ))
+
+      await nextTick()
+      const rate = await wrapper.findComponent(Rate)
+      expect(rate.classes()).not.toContain('is-disabled')
     })
   })
 })

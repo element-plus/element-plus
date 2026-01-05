@@ -1,5 +1,12 @@
 import { computed, getCurrentInstance, inject, ref } from 'vue'
-import { buildProps, debugWarn, isFunction } from '@element-plus/utils'
+import {
+  buildProps,
+  debugWarn,
+  definePropType,
+  isArray,
+  isFunction,
+} from '@element-plus/utils'
+import { isEqual } from 'lodash-unified'
 
 import type { ExtractPropTypes, InjectionKey, Ref } from 'vue'
 
@@ -20,9 +27,21 @@ export const useEmptyValuesProps = buildProps({
    * @description return value when cleared, if you want to set `undefined`, use `() => undefined`
    */
   valueOnClear: {
-    type: [String, Number, Boolean, Function],
+    /* eslint-disable-next-line @typescript-eslint/no-unsafe-function-type */
+    type: definePropType<string | number | boolean | Function | null>([
+      String,
+      Number,
+      Boolean,
+      Function,
+    ]),
     default: undefined,
-    validator: (val: any) => (isFunction(val) ? !val() : !val),
+    validator: (val: unknown) => {
+      val = isFunction(val) ? val() : val
+      if (isArray(val)) {
+        return val.every((item) => !item)
+      }
+      return !val
+    },
   },
 } as const)
 
@@ -52,11 +71,19 @@ export const useEmptyValues = (
     return defaultValue !== undefined ? defaultValue : DEFAULT_VALUE_ON_CLEAR
   })
 
-  const isEmptyValue = (value: any) => {
-    return emptyValues.value.includes(value)
+  const isEmptyValue = (value: unknown) => {
+    let result = true
+    if (isArray(value)) {
+      result = emptyValues.value.some((emptyValue) => {
+        return isEqual(value, emptyValue)
+      })
+    } else {
+      result = emptyValues.value.includes(value)
+    }
+    return result
   }
 
-  if (!emptyValues.value.includes(valueOnClear.value)) {
+  if (!isEmptyValue(valueOnClear.value)) {
     debugWarn(SCOPE, 'value-on-clear should be a value of empty-values')
   }
 

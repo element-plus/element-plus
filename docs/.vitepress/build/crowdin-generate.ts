@@ -72,7 +72,6 @@ async function traverseDir(
           path.resolve(targetPath, c.name)
         )
       } else if (c.isFile()) {
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
         const content = require(path.resolve(dir, c.name))
 
         const contentToWrite = {
@@ -81,7 +80,6 @@ async function traverseDir(
 
         await Promise.all(
           paths.map(async (p) => {
-            // eslint-disable-next-line @typescript-eslint/no-var-requires
             const content = require(path.resolve(p.pathname, c.name))
 
             contentToWrite[p.name] = content

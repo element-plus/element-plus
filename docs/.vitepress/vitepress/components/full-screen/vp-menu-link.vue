@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { usePlaygroundPreview } from '../../composables/use-playground'
 import VPLink from '../common/vp-link.vue'
+
 import type { Link } from '../../types'
 
 const props = defineProps<{

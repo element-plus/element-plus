@@ -1,5 +1,6 @@
 import { buildProps, iconPropType } from '@element-plus/utils'
-import type { ExtractPropTypes } from 'vue'
+
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 
 export const breadcrumbProps = buildProps({
   /**
@@ -17,3 +18,6 @@ export const breadcrumbProps = buildProps({
   },
 } as const)
 export type BreadcrumbProps = ExtractPropTypes<typeof breadcrumbProps>
+export type BreadcrumbPropsPublic = ExtractPublicPropTypes<
+  typeof breadcrumbProps
+>

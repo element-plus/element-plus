@@ -1,15 +1,18 @@
 import { buildProps, isArray } from '@element-plus/utils'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type UploadDragger from './upload-dragger.vue'
 
 export const uploadDraggerProps = buildProps({
   disabled: {
     type: Boolean,
-    default: false,
+    default: undefined,
   },
 } as const)
 export type UploadDraggerProps = ExtractPropTypes<typeof uploadDraggerProps>
+export type UploadDraggerPropsPublic = ExtractPublicPropTypes<
+  typeof uploadDraggerProps
+>
 
 export const uploadDraggerEmits = {
   file: (file: File[]) => isArray(file),

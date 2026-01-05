@@ -1,8 +1,8 @@
-import { ComputedRef, computed, unref } from 'vue'
+import { computed, unref } from 'vue'
 import { addUnit, isNumber } from '@element-plus/utils'
 import { enforceUnit, sum } from '../utils'
 
-import type { CSSProperties } from 'vue'
+import type { CSSProperties, ComputedRef } from 'vue'
 import type { TableV2Props } from '../table'
 import type { UseColumnsReturn } from './use-columns'
 

@@ -3,7 +3,7 @@
     :class="[ns.b('dragger'), ns.is('dragover', dragover)]"
     @drop.prevent="onDrop"
     @dragover.prevent="onDragover"
-    @dragleave.prevent="dragover = false"
+    @dragleave.prevent="onDragleave"
   >
     <slot />
   </div>
@@ -60,5 +60,10 @@ const onDrop = (e: DragEvent) => {
 
 const onDragover = () => {
   if (!disabled.value) dragover.value = true
+}
+
+const onDragleave = (e: DragEvent) => {
+  if (!(e.currentTarget as Element).contains(e.relatedTarget as Element))
+    dragover.value = false
 }
 </script>

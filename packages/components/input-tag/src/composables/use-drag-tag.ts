@@ -1,6 +1,8 @@
-import { type ShallowRef, ref, shallowRef } from 'vue'
+import { ref, shallowRef } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { getStyle, isUndefined, setStyle } from '@element-plus/utils'
+
+import type { ShallowRef } from 'vue'
 
 type DropType = 'before' | 'after'
 

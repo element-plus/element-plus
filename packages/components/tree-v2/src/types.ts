@@ -1,6 +1,7 @@
 import type {
   ComponentInternalInstance,
   ExtractPropTypes,
+  ExtractPublicPropTypes,
   SetupContext,
 } from 'vue'
 import type { treeEmits, treeProps } from './virtual-tree'
@@ -23,6 +24,7 @@ export interface TreeOptionProps {
 }
 
 export type TreeProps = ExtractPropTypes<typeof treeProps>
+export type TreePropsPublic = ExtractPublicPropTypes<typeof treeProps>
 
 export interface TreeNode {
   key: TreeKey
@@ -33,6 +35,21 @@ export interface TreeNode {
   disabled?: boolean
   label?: string
   isLeaf?: boolean
+  expanded?: boolean
+
+  /**
+   * Determines whether the current tree node is effectively checked.
+   *
+   * Rules:
+   * 1. A disabled leaf node is always considered checked.
+   * 2. A non-disabled leaf node reflects its actual checked state.
+   * 3. A non-leaf node is considered checked only when:
+   *    - All of its child nodes are effectively checked, and
+   *    - Each child follows the same evaluation rules:
+   *      - Disabled leaf nodes follow rule #1.
+   *      - Non-leaf child nodes are recursively evaluated under this rule (#3).
+   */
+  isEffectivelyChecked?: boolean
 }
 
 export interface TreeContext {

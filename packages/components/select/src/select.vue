@@ -12,6 +12,7 @@
       :placement="placement"
       :teleported="teleported"
       :popper-class="[nsSelect.e('popper'), popperClass]"
+      :popper-style="popperStyle"
       :popper-options="popperOptions"
       :fallback-placements="fallbackPlacements"
       :effect="effect"
@@ -56,7 +57,13 @@
               ),
             ]"
           >
-            <slot v-if="multiple" name="tag">
+            <slot
+              v-if="multiple"
+              name="tag"
+              :data="states.selected"
+              :delete-tag="deleteTag"
+              :select-disabled="selectDisabled"
+            >
               <div
                 v-for="item in showTagList"
                 :key="getValueKey(item)"
@@ -74,6 +81,7 @@
                   <span :class="nsSelect.e('tags-text')">
                     <slot
                       name="label"
+                      :index="item.index"
                       :label="item.currentLabel"
                       :value="item.value"
                     >
@@ -90,7 +98,10 @@
                 :fallback-placements="['bottom', 'top', 'right', 'left']"
                 :effect="effect"
                 placement="bottom"
+                :popper-class="popperClass"
+                :popper-style="popperStyle"
                 :teleported="teleported"
+                :popper-options="popperOptions"
               >
                 <template #default>
                   <div
@@ -130,6 +141,7 @@
                         <span :class="nsSelect.e('tags-text')">
                           <slot
                             name="label"
+                            :index="item.index"
                             :label="item.currentLabel"
                             :value="item.value"
                           >
@@ -146,7 +158,7 @@
               :class="[
                 nsSelect.e('selected-item'),
                 nsSelect.e('input-wrapper'),
-                nsSelect.is('hidden', !filterable),
+                nsSelect.is('hidden', !filterable || selectDisabled),
               ]"
             >
               <input
@@ -169,11 +181,7 @@
                 :aria-label="ariaLabel"
                 aria-autocomplete="none"
                 aria-haspopup="listbox"
-                @keydown.down.stop.prevent="navigateOptions('next')"
-                @keydown.up.stop.prevent="navigateOptions('prev')"
-                @keydown.esc.stop.prevent="handleEsc"
-                @keydown.enter.stop.prevent="selectOption"
-                @keydown.delete.stop="deletePrevTag"
+                @keydown="handleKeydown"
                 @compositionstart="handleCompositionStart"
                 @compositionupdate="handleCompositionUpdate"
                 @compositionend="handleCompositionEnd"
@@ -202,6 +210,7 @@
               <slot
                 v-if="hasModelValue"
                 name="label"
+                :index="getOption(modelValue!).index"
                 :label="currentPlaceholder"
                 :value="modelValue"
               >
@@ -212,13 +221,13 @@
           </div>
           <div ref="suffixRef" :class="nsSelect.e('suffix')">
             <el-icon
-              v-if="iconComponent && !showClose"
+              v-if="iconComponent && !showClearBtn"
               :class="[nsSelect.e('caret'), nsSelect.e('icon'), iconReverse]"
             >
               <component :is="iconComponent" />
             </el-icon>
             <el-icon
-              v-if="showClose && clearIcon"
+              v-if="showClearBtn && clearIcon"
               :class="[
                 nsSelect.e('caret'),
                 nsSelect.e('icon'),
@@ -269,7 +278,22 @@
               :created="true"
             />
             <el-options>
-              <slot />
+              <slot>
+                <template v-for="(option, index) in options" :key="index">
+                  <el-option-group
+                    v-if="getOptions(option)?.length"
+                    :label="getLabel(option)"
+                    :disabled="getDisabled(option)"
+                  >
+                    <el-option
+                      v-for="item in getOptions(option)"
+                      :key="getValue(item)"
+                      v-bind="getOptionProps(item)"
+                    />
+                  </el-option-group>
+                  <el-option v-else v-bind="getOptionProps(option)" />
+                </template>
+              </slot>
             </el-options>
           </el-scrollbar>
           <div
@@ -300,25 +324,83 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, provide, reactive, toRefs } from 'vue'
+import {
+  computed,
+  defineComponent,
+  getCurrentInstance,
+  onBeforeUnmount,
+  provide,
+  reactive,
+  toRefs,
+  watch,
+} from 'vue'
 import { ClickOutside } from '@element-plus/directives'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { isArray } from '@element-plus/utils'
+import { flattedChildren, isArray, isObject } from '@element-plus/utils'
 import { useCalcInputWidth } from '@element-plus/hooks'
+import { useProps } from '@element-plus/components/select-v2/src/useProps'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
 import { useSelect } from './useSelect'
 import { selectKey } from './token'
 import ElOptions from './options'
-import { SelectProps } from './select'
+import { selectProps } from './select'
+import ElOptionGroup from './option-group.vue'
 
+import type { AppConfig, AppContext, VNode } from 'vue'
 import type { SelectContext } from './type'
 
 const COMPONENT_NAME = 'ElSelect'
+
+type WarnHandler = AppConfig['warnHandler']
+
+interface WarnHandlerRecord {
+  originalWarnHandler: WarnHandler
+  handler: WarnHandler
+  count: number
+}
+
+const warnHandlerMap = new WeakMap<AppContext, WarnHandlerRecord>()
+
+const createSelectWarnHandler = (appContext: AppContext): WarnHandler => {
+  return (...args) => {
+    // Overrides warnings about slots not being executable outside of a render function.
+    // We call slot below just to simulate data when persist is false, this warning message should be ignored
+    const message = args[0]
+    if (
+      !message ||
+      (message.includes(
+        'Slot "default" invoked outside of the render function'
+      ) &&
+        args[2]?.includes('ElTreeSelect'))
+    )
+      return
+    const original = warnHandlerMap.get(appContext)?.originalWarnHandler
+    if (original) {
+      original(...args)
+      return
+    }
+    // eslint-disable-next-line no-console
+    console.warn(...args)
+  }
+}
+
+const getWarnHandlerRecord = (appContext: AppContext): WarnHandlerRecord => {
+  let record = warnHandlerMap.get(appContext)
+  if (!record) {
+    record = {
+      originalWarnHandler: appContext.config.warnHandler,
+      handler: createSelectWarnHandler(appContext),
+      count: 0,
+    }
+    warnHandlerMap.set(appContext, record)
+  }
+  return record
+}
 export default defineComponent({
   name: COMPONENT_NAME,
   componentName: COMPONENT_NAME,
@@ -326,13 +408,14 @@ export default defineComponent({
     ElSelectMenu,
     ElOption,
     ElOptions,
+    ElOptionGroup,
     ElTag,
     ElScrollbar,
     ElTooltip,
     ElIcon,
   },
   directives: { ClickOutside },
-  props: SelectProps,
+  props: selectProps,
   emits: [
     UPDATE_MODEL_EVENT,
     CHANGE_EVENT,
@@ -344,7 +427,11 @@ export default defineComponent({
     'popup-scroll',
   ],
 
-  setup(props, { emit }) {
+  setup(props, { emit, slots }) {
+    const instance = getCurrentInstance()!
+    const warnRecord = getWarnHandlerRecord(instance.appContext)
+    warnRecord.count += 1
+    instance.appContext.config.warnHandler = warnRecord.handler
     const modelValue = computed(() => {
       const { modelValue: rawModelValue, multiple } = props
       const fallback = multiple ? [] : undefined
@@ -364,6 +451,76 @@ export default defineComponent({
 
     const API = useSelect(_props, emit)
     const { calculatorRef, inputStyle } = useCalcInputWidth()
+    const { getLabel, getValue, getOptions, getDisabled } = useProps(props)
+
+    const getOptionProps = (option: Record<string, any>) => ({
+      label: getLabel(option),
+      value: getValue(option),
+      disabled: getDisabled(option),
+    })
+
+    const flatTreeSelectData = (data: any[]) => {
+      return data.reduce((acc, item) => {
+        acc.push(item)
+        if (item.children && item.children.length > 0) {
+          acc.push(...flatTreeSelectData(item.children))
+        }
+        return acc
+      }, [])
+    }
+
+    const manuallyRenderSlots = (vnodes: VNode[] | undefined) => {
+      // After option rendering is completed, the useSelect internal state can collect the value of each option.
+      // If the persistent value is false, option will not be rendered by default, so in this case,
+      // manually render and load option data here.
+      const children = flattedChildren(vnodes || []) as VNode[]
+      children.forEach((item) => {
+        if (
+          isObject(item) &&
+          // @ts-expect-error
+          (item.type.name === 'ElOption' || item.type.name === 'ElTree')
+        ) {
+          // @ts-expect-error
+          const _name = item.type.name
+          if (_name === 'ElTree') {
+            // tree-select component is a special case.
+            // So we need to handle it separately.
+            const treeData = item.props?.data || []
+            const flatData = flatTreeSelectData(treeData)
+            flatData.forEach((treeItem: any) => {
+              treeItem.currentLabel =
+                treeItem.label ||
+                (isObject(treeItem.value) ? '' : treeItem.value)
+              API.onOptionCreate(treeItem)
+            })
+          } else if (_name === 'ElOption') {
+            const obj = { ...item.props } as any
+            obj.currentLabel =
+              obj.label || (isObject(obj.value) ? '' : obj.value)
+            API.onOptionCreate(obj)
+          }
+        }
+      })
+    }
+    watch(
+      () => [slots.default?.(), modelValue.value],
+      () => {
+        // When persistent is false and the dropdown is closed, the menu is unmounted.
+        // We should always re-hydrate option data from slots so labels stay in sync
+        // with dynamic option list updates. Skip only when persistent is true or
+        // when the dropdown is currently expanded (mounted options will manage themselves).
+        if (props.persistent || API.expanded.value) {
+          // If persistent is true, we don't need to manually render slots.
+          return
+        }
+        // Reset current options snapshot before re-collecting from slots.
+        API.states.options.clear()
+        manuallyRenderSlots(slots.default?.())
+      },
+      {
+        immediate: true,
+      }
+    )
 
     provide(
       selectKey,
@@ -386,12 +543,28 @@ export default defineComponent({
       return API.states.selected.map((i) => i.currentLabel as string)
     })
 
+    onBeforeUnmount(() => {
+      // https://github.com/element-plus/element-plus/issues/21279
+      const record = warnHandlerMap.get(instance.appContext)
+      if (!record) return
+      record.count -= 1
+      if (record.count <= 0) {
+        instance.appContext.config.warnHandler = record.originalWarnHandler
+        warnHandlerMap.delete(instance.appContext)
+      }
+    })
+
     return {
       ...API,
       modelValue,
       selectedLabel,
       calculatorRef,
       inputStyle,
+      getLabel,
+      getValue,
+      getOptions,
+      getDisabled,
+      getOptionProps,
     }
   },
 })

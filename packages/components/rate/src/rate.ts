@@ -8,7 +8,8 @@ import {
   mutable,
 } from '@element-plus/utils'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
-import type { Component, ExtractPropTypes } from 'vue'
+
+import type { Component, ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type Rate from './rate.vue'
 
 export const rateProps = buildProps({
@@ -95,7 +96,10 @@ export const rateProps = buildProps({
   /**
    * @description whether Rate is read-only
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description whether picking half start is allowed
    */
@@ -148,6 +152,7 @@ export const rateProps = buildProps({
 } as const)
 
 export type RateProps = ExtractPropTypes<typeof rateProps>
+export type RatePropsPublic = ExtractPublicPropTypes<typeof rateProps>
 
 export const rateEmits = {
   [CHANGE_EVENT]: (value: number) => isNumber(value),

@@ -15,6 +15,7 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 import { TableV2FixedDir } from 'element-plus'
+
 import type { ExpandedRowsChangeHandler, RowExpandHandler } from 'element-plus'
 
 const generateColumns = (length = 10, prefix = 'column-', props?: any) =>
@@ -115,7 +116,7 @@ const treeData = computed(() => unflatten(data))
 
 const expandedRowKeys = ref<string[]>([])
 
-const onRowExpanded = ({ expanded }: Parameters<RowExpandHandler<any>>[0]) => {
+const onRowExpanded = ({ expanded }: Parameters<RowExpandHandler>[0]) => {
   console.log('Expanded:', expanded)
 }
 

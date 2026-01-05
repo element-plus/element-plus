@@ -2,9 +2,14 @@
 @use '../mixins/mixins' as *;
 @use '../mixins/var' as *;
 @use './picker-panel.scss';
+@use './utils.scss' as *;
 
 @include b(date-picker) {
   @include set-component-css-var('datepicker', $datepicker);
+  @include set-css-var-value(
+    ('fill-color', 'blank'),
+    getCssVar('datepicker', 'bg-color')
+  );
 }
 
 @include b(date-picker) {
@@ -106,5 +111,11 @@
 
   .#{$namespace}-time-panel {
     position: absolute;
+  }
+
+  @include when(disabled) {
+    @include e(header-label) {
+      @include disable;
+    }
   }
 }

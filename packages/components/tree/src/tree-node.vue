@@ -104,6 +104,7 @@ import { getNodeKey as getNodeKeyUtil, handleCurrentChange } from './model/util'
 import { useNodeExpandEventBroadcast } from './model/useNodeExpandEventBroadcast'
 import { dragEventsKey } from './model/useDragNode'
 import Node from './model/node'
+import { NODE_INSTANCE_INJECTION_KEY, ROOT_TREE_INJECTION_KEY } from './tokens'
 
 import type { ComponentInternalInstance, PropType } from 'vue'
 import type { RootTreeType, TreeNodeData, TreeOptionProps } from './tree.type'
@@ -130,16 +131,13 @@ export default defineComponent({
     accordion: Boolean,
     renderContent: Function,
     renderAfterExpand: Boolean,
-    showCheckbox: {
-      type: Boolean,
-      default: false,
-    },
+    showCheckbox: Boolean,
   },
   emits: ['node-expand'],
   setup(props, ctx) {
     const ns = useNamespace('tree')
     const { broadcastExpanded } = useNodeExpandEventBroadcast(props)
-    const tree = inject<RootTreeType>('RootTree')!
+    const tree = inject<RootTreeType>(ROOT_TREE_INJECTION_KEY)!
     const expanded = ref(false)
     const childNodeRendered = ref(false)
     const oldChecked = ref<boolean>()
@@ -148,7 +146,7 @@ export default defineComponent({
     const dragEvents = inject(dragEventsKey)!
     const instance = getCurrentInstance()
 
-    provide('NodeInstance', instance)
+    provide(NODE_INSTANCE_INJECTION_KEY, instance)
     if (!tree) {
       debugWarn('Tree', "Can not find node's tree.")
     }
@@ -288,7 +286,12 @@ export default defineComponent({
     }
 
     const handleCheckChange = (value: CheckboxValueType) => {
-      props.node.setChecked(value as boolean, !tree?.props.checkStrictly)
+      const checkStrictly = tree?.props.checkStrictly
+      const childNodes = props.node.childNodes
+      if (!checkStrictly && childNodes.length) {
+        value = childNodes.some((node) => !node.isEffectivelyChecked)
+      }
+      props.node.setChecked(value as boolean, !checkStrictly)
       nextTick(() => {
         const store = tree.store.value
         tree.ctx.emit('check', props.node.data, {

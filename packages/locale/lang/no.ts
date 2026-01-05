@@ -10,6 +10,13 @@ export default {
       defaultLabel: 'Fargevelger',
       description: 'Nåværende farge {color}, velg ny farge med Enter-tasten',
       alphaLabel: 'Velg verdi for gjennomsiktighet',
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
+      svLabel: 'pick saturation and brightness value', // to be translated
+      svDescription:
+        'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
+      predefineDescription: 'select {value} as the color', // to be translated
     },
     datepicker: {
       now: 'Nå',
@@ -87,11 +94,11 @@ export default {
       noData: 'Ingen data',
       placeholder: 'Velg',
     },
-    dropdown: {
-      toggleDropdown: 'Vis/skjul nedtrekksmeny',
-    },
     mention: {
       loading: 'Laster',
+    },
+    dropdown: {
+      toggleDropdown: 'Vis/skjul nedtrekksmeny',
     },
     cascader: {
       noMatch: 'Ingen treff',
@@ -143,11 +150,21 @@ export default {
       resetFilter: 'Tilbakestill',
       clearFilter: 'Alle',
       sumText: 'Sum',
+      selectAllLabel: 'Select all rows', // to be translated
+      selectRowLabel: 'Select this row', // to be translated
+      expandRowLabel: 'Expand this row', // to be translated
+      collapseRowLabel: 'Collapse this row', // to be translated
+      sortLabel: 'Sort by {column}', // to be translated
+      filterLabel: 'Filter by {column}', // to be translated
+    },
+    tag: {
+      close: 'Close this tag', // to be translated
     },
     tour: {
       next: 'Neste',
       previous: 'Forrige',
       finish: 'Avslutt omvisning',
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'Ingen data',

@@ -7,6 +7,7 @@ export type MenuInstance = InstanceType<typeof Menu> & {
   open: (index: string) => void
   close: (index: string) => void
   handleResize: () => void
+  updateActiveIndex: (index: string) => void
 }
 
 export type MenuItemInstance = InstanceType<typeof MenuItem> & unknown

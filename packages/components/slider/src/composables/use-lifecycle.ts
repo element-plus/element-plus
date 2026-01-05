@@ -1,6 +1,7 @@
 import { nextTick, onMounted, ref } from 'vue'
 import { useEventListener } from '@vueuse/core'
 import { isArray, isNumber } from '@element-plus/utils'
+
 import type { SliderInitData, SliderProps } from '../slider'
 
 export const useLifecycle = (

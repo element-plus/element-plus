@@ -1,12 +1,26 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, expect, test, vi } from 'vitest'
+import { afterAll, describe, expect, test, vi } from 'vitest'
 import { ComponentSize, EVENT_CODE } from '@element-plus/constants'
 import { InputTagInstance } from '@element-plus/components/input-tag'
 import FormItem from '@element-plus/components/form/src/form-item.vue'
 import InputTag from '../src/input-tag.vue'
 
 const AXIOM = 'Rem is the best girl'
+
+vi.mock('@vueuse/core', async () => {
+  return {
+    ...((await vi.importActual('@vueuse/core')) as Record<string, any>),
+    useResizeObserver: vi.fn(async (_, callback) => {
+      await nextTick()
+      callback()
+    }),
+  }
+})
+
+afterAll(() => {
+  vi.restoreAllMocks()
+})
 
 describe('InputTag.vue', () => {
   test('create', () => {
@@ -233,25 +247,56 @@ describe('InputTag.vue', () => {
   describe('delimiter', () => {
     test('with string', async () => {
       const inputValue = ref<string[]>()
+      const addTag = vi.fn()
       const wrapper = mount(() => (
-        <InputTag v-model={inputValue.value} delimiter="," />
+        <InputTag v-model={inputValue.value} delimiter="," onAdd-tag={addTag} />
       ))
-
       await wrapper.find('input').setValue(`${AXIOM},`)
+
+      expect(addTag).toBeCalledWith(AXIOM)
       expect(wrapper.findAll('.el-tag').length).toBe(1)
       expect(wrapper.find('.el-tag').text()).toBe(AXIOM)
       expect(inputValue.value).toEqual([AXIOM])
     })
     test('with RegExp', async () => {
       const inputValue = ref<string[]>()
+      const addTag = vi.fn()
       const wrapper = mount(() => (
-        <InputTag v-model={inputValue.value} delimiter={/\./} />
+        <InputTag
+          v-model={inputValue.value}
+          delimiter={/\./}
+          onAdd-tag={addTag}
+        />
       ))
-
       await wrapper.find('input').setValue(`${AXIOM}.`)
+
+      expect(addTag).toBeCalledWith(AXIOM)
       expect(wrapper.findAll('.el-tag').length).toBe(1)
       expect(wrapper.find('.el-tag').text()).toBe(AXIOM)
       expect(inputValue.value).toEqual([AXIOM])
+    })
+    test('paste multiple delimiter', async () => {
+      const inputValue = ref<string[]>()
+      const addTag = vi.fn()
+      const wrapper = mount(() => (
+        <InputTag
+          v-model={inputValue.value}
+          delimiter={/\./}
+          onAdd-tag={addTag}
+        />
+      ))
+
+      await wrapper
+        .find('input')
+        .setValue(`${AXIOM}.${AXIOM}.${AXIOM}.${AXIOM}.`)
+
+      const result = [AXIOM, AXIOM, AXIOM, AXIOM]
+      expect(wrapper.findAll('.el-tag').length).toBe(4)
+      expect(addTag).toBeCalledWith(result)
+      wrapper
+        .findAll('.el-tag')
+        .forEach((tag) => expect(tag.text()).toBe(AXIOM))
+      expect(inputValue.value).toEqual(result)
     })
   })
 
@@ -344,14 +389,14 @@ describe('InputTag.vue', () => {
 
       await wrapper.find('.el-tag__close').trigger('click')
       expect(handleTagRemove).toHaveBeenCalledOnce()
-      expect(handleTagRemove).toHaveBeenCalledWith(AXIOM)
+      expect(handleTagRemove).toHaveBeenCalledWith(AXIOM, 0)
       expect(inputValue.value).toEqual([AXIOM])
 
       await wrapper
         .find('input')
         .trigger('keydown', { code: EVENT_CODE.backspace })
       expect(handleTagRemove).toHaveBeenCalledTimes(2)
-      expect(handleTagRemove).toHaveBeenCalledWith(AXIOM)
+      expect(handleTagRemove).toHaveBeenNthCalledWith(2, AXIOM, 0)
       expect(inputValue.value).toEqual([])
 
       await wrapper
@@ -443,6 +488,84 @@ describe('InputTag.vue', () => {
       expect(formItem.attributes().role).toBeFalsy()
       expect(input.attributes().id).toBe('input-tag')
       expect(formItemLabel.attributes().for).toBe(input.attributes().id)
+    })
+
+    test('collapseTags', async () => {
+      const wrapper = mount(() => (
+        <InputTag
+          modelValue={['tag1', 'tag2', 'tag3', 'tag4', 'tag5']}
+          collapseTags
+        />
+      ))
+
+      const tags = wrapper.findAll('.el-tag')
+      expect(tags.length).toBe(2)
+      expect(tags[0].text()).toBe('tag1')
+      expect(tags[1].text()).toBe('+ 4')
+    })
+
+    test('collapseTagsTooltip', async () => {
+      const wrapper = mount(() => (
+        <InputTag
+          modelValue={['tag1', 'tag2', 'tag3', 'tag4', 'tag5']}
+          collapseTags
+          collapseTagsTooltip
+        />
+      ))
+
+      const tags = wrapper.findAll('.el-tag')
+      expect(tags.length).toBe(2)
+      expect(tags[0].text()).toBe('tag1')
+      expect(tags[1].text()).toBe('+ 4')
+
+      await tags[1].trigger('mouseenter')
+      await nextTick()
+
+      const tooltip = wrapper.findComponent({ name: 'ElTooltip' })
+      expect(tooltip.exists()).toBe(true)
+    })
+
+    test('maxCollapseTags', async () => {
+      const wrapper = mount(() => (
+        <InputTag
+          modelValue={['tag1', 'tag2', 'tag3', 'tag4', 'tag5']}
+          collapseTags
+          maxCollapseTags={3}
+        />
+      ))
+
+      const tags = wrapper.findAll('.el-tag')
+      expect(tags.length).toBe(4)
+      expect(tags[0].text()).toBe('tag1')
+      expect(tags[1].text()).toBe('tag2')
+      expect(tags[2].text()).toBe('tag3')
+      expect(tags[3].text()).toBe('+ 2')
+    })
+
+    test('collapseTags should prevent line break when content exceeds', async () => {
+      const mockStyle = vi.spyOn(window, 'getComputedStyle').mockReturnValue({
+        width: '100px',
+        gap: '6px',
+      } as any)
+      const mockRect = vi
+        .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
+        .mockReturnValue({
+          width: 40,
+        } as any)
+      const longTag =
+        'This is a very long tag content that might cause line break'
+      const wrapper = mount(
+        <InputTag modelValue={[longTag, 'tag2']} collapseTags />
+      )
+
+      await nextTick()
+      const tags = wrapper.findAll('.el-tag')
+      const firstTag = tags[0]
+      const tagStyle = firstTag.attributes('style')
+      // 100(innerWidth) - 40(collapseItemWidth) - 6(gap) - 17(inputSlotWidth) = 37
+      expect(tagStyle).toContain('max-width: 37px')
+      mockStyle.mockRestore()
+      mockRect.mockRestore()
     })
   })
 })
