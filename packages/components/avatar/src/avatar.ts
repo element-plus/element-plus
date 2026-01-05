@@ -19,7 +19,6 @@ export const avatarProps = buildProps({
   size: {
     type: [Number, String],
     values: componentSizes,
-    default: '',
     validator: (val: unknown): val is number => isNumber(val),
   },
   /**
@@ -28,7 +27,6 @@ export const avatarProps = buildProps({
   shape: {
     type: String,
     values: ['circle', 'square'],
-    default: 'circle',
   },
   /**
    * @description representation type to icon, more info on icon component.
