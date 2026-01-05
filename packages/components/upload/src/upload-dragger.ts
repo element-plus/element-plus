@@ -8,6 +8,7 @@ export const uploadDraggerProps = buildProps({
     type: Boolean,
     default: undefined,
   },
+  directory: Boolean,
 } as const)
 export type UploadDraggerProps = ExtractPropTypes<typeof uploadDraggerProps>
 export type UploadDraggerPropsPublic = ExtractPublicPropTypes<
