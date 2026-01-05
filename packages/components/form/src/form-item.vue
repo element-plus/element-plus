@@ -439,7 +439,7 @@ defineExpose({
    */
   resetField,
   /**
-   * @description Customize the reset value.
+   * @description Set initial value for this field. When `resetField` is called, the field will reset to this value.
    */
   setInitialValue,
 })
