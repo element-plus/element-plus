@@ -244,8 +244,7 @@ defineExpose({
    */
   fields,
   /**
-   * @description Set initial values for form fields. These values will be used when calling resetFields(). Useful for forms populated with API data after mount.
-   * @param initModel Partial or complete model containing initial values to set
+   * @description Set initial values for form fields. When `resetFields` is called, fields will reset to these values. Only fields present in `initModel` will be updated.
    */
   setInitialValues,
 })
