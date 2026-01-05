@@ -318,4 +318,52 @@ describe('TableV2.vue', () => {
       expect(header.attributes('role')).toBe('columnheader')
     })
   })
+
+  test('expand button should not apply margin style of icon', async () => {
+    const columns = [
+      {
+        key: 'column-0',
+        dataKey: 'column-0',
+        title: `Column 0`,
+        width: 150,
+      },
+    ]
+    const data = [
+      {
+        id: 'row-0',
+        'column-0': 'Row 0 - Col 0',
+        children: [
+          {
+            id: `row-0-sub-0`,
+            parentId: 'row-0',
+            ['column-0']: `Sub 0`,
+            children: [
+              {
+                id: `row-0-sub-0-sub-0`,
+                parentId: `row-0-sub-0`,
+                ['column-0']: `Sub-Sub 0`,
+              },
+            ],
+          },
+        ],
+      },
+    ]
+
+    const wrapper = mount(() => (
+      <TableV2
+        columns={columns}
+        data={data}
+        width={300}
+        height={200}
+        expand-column-key="column-0"
+      />
+    ))
+
+    const expandButton = wrapper.find('.el-table-v2__expand-icon')
+    await expandButton.trigger('click')
+    await nextTick()
+
+    const subExpandButton = wrapper.findAll('.el-table-v2__expand-icon')[1]
+    expect(subExpandButton.attributes('style')).toBeFalsy()
+  })
 })
