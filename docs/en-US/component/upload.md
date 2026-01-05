@@ -85,7 +85,7 @@ upload/drag-and-drop
 
 Enable folder upload via the `directory` prop.
 
-:::demo
+:::demo After enabling it, only folders can be selected, and after selecting a folder, the files within the folder will be flattened.
 
 upload/directory
 
@@ -131,7 +131,7 @@ upload/manual
 | http-request                  | override default xhr behavior, allowing you to implement your own upload-file's request.                                                                                              | ^[Function]`(options: UploadRequestOptions) => XMLHttpRequest \| Promise<unknown>`                                                         | ajaxUpload [see](https://github.com/element-plus/element-plus/blob/dev/packages/components/upload/src/ajax.ts#L55) |
 | disabled                      | whether to disable upload.                                                                                                                                                            | ^[boolean]                                                                                                                                 | false                                                                                                              |
 | limit                         | maximum number of uploads allowed.                                                                                                                                                    | ^[number]                                                                                                                                  | —                                                                                                                  |
-| directory ^(2.13.1)           | whether to support uploading directory.                                                                                                                                               | ^[boolean]                                                                                                                                 | false                                                                                                              |
+| directory ^(2.13.1)           | whether to support uploading directory. After enabling it, only folders can be selected, and after selecting a folder, the files within the folder will be flattened.                 | ^[boolean]                                                                                                                                 | false                                                                                                              |
 
 ### Slots
 
