@@ -1053,4 +1053,41 @@ describe('Dropdown', () => {
     expect(content.open).toBe(true)
     vi.useRealTimers()
   })
+
+  test('render icon slot content', async () => {
+    const wrapper = _mount(`
+      <el-dropdown trigger="hover">
+        <span class="el-dropdown-link">
+          Trigger
+        </span>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item>
+              <template #icon>
+                <i class="test-icon">ICON</i>
+              </template>
+              Action
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+    `)
+
+    await nextTick()
+
+    // Open dropdown
+    const triggerElm = wrapper.find('.el-dropdown-link')
+    await triggerElm.trigger(MOUSE_ENTER_EVENT)
+    await nextTick()
+
+    // Find icon element
+    const item = wrapper
+      .findComponent({ name: 'DropdownItemImpl' })
+      .find('.el-dropdown-menu__item')
+    const icon = item.find('.test-icon')
+
+    // The icon slot content should be rendered
+    expect(icon.exists()).toBe(true)
+    expect(icon.text()).toBe('ICON')
+  })
 })
