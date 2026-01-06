@@ -77,8 +77,9 @@ const data: Tree[] = [
 ]
 </script>
 
-<style>
-.is-penultimate > .el-tree-node__content {
+<style scoped>
+:deep(.is-penultimate .el-tree-node__label) {
   color: var(--el-color-primary);
+  font-weight: 600;
 }
 </style>
