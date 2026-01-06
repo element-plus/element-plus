@@ -171,6 +171,7 @@ dropdown/virtual-trigger
 
 ### Dropdown-Item Slots
 
-| Name    | Description                |
-| ------- | -------------------------- |
-| default | customize of Dropdown Item |
+| Name    | Description                                 |
+| ------- | ------------------------------------------- |
+| default | customize of Dropdown Item                  |
+| icon    | custom icon, it will override the icon prop |
