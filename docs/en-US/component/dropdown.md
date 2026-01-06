@@ -174,4 +174,4 @@ dropdown/virtual-trigger
 | Name    | Description                                 |
 | ------- | ------------------------------------------- |
 | default | customize of Dropdown Item                  |
-| icon    | custom icon, it will override the icon prop |
+| icon ^(2.13.1) | custom icon, it will override the icon prop |
