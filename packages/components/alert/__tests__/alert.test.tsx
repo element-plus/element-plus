@@ -50,4 +50,23 @@ describe('Alert.vue', () => {
     await closeBtn.trigger('click')
     expect(wrapper.emitted()).toBeDefined()
   })
+
+  test('default slot with content should show description', () => {
+    const wrapper = mount(Alert, {
+      slots: {
+        default: AXIOM,
+      },
+    })
+    expect(wrapper.find('.el-alert__description').exists()).toBe(true)
+    expect(wrapper.find('.el-alert__description').text()).toEqual(AXIOM)
+  })
+
+  test('empty default slot should not show description', () => {
+    const wrapper = mount(Alert, {
+      slots: {
+        default: '',
+      },
+    })
+    expect(wrapper.find('.el-alert__description').exists()).toBe(false)
+  })
 })
