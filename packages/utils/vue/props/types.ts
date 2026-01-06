@@ -77,6 +77,7 @@ export type NativePropType =
   | null
 export type IfNativePropType<T, Y, N> = [T] extends [NativePropType] ? Y : N
 
+export type PropsData = Record<string, unknown>
 /**
  * input prop `buildProp` or `buildProps` (constraints)
  *
@@ -89,7 +90,7 @@ export type IfNativePropType<T, Y, N> = [T] extends [NativePropType] ? Y : N
     type?: StringConstructor | undefined;
     required?: true | undefined;
     values?: readonly "a"[] | undefined;
-    validator?: ((val: any) => boolean) | ((val: any) => val is never) | undefined;
+    validator?: ((val: any, props: PropsData) => boolean) | ((val: any) => val is never) | undefined;
     default?: undefined;
   }
  */
@@ -103,7 +104,9 @@ export type EpPropInput<
   type?: Type
   required?: Required
   values?: readonly Value[]
-  validator?: ((val: any) => val is Validator) | ((val: any) => boolean)
+  validator?:
+    | ((val: any, props: PropsData) => val is Validator)
+    | ((val: any, props: PropsData) => boolean)
   default?: EpPropInputDefault<Required, Default>
 }
 
@@ -118,7 +121,7 @@ export type EpPropInput<
  * {
     readonly type: PropType<"a">;
     readonly required: true;
-    readonly validator: ((val: unknown) => boolean) | undefined;
+    readonly validator: ((val: unknown, props: PropsData) => boolean) | undefined;
     readonly default: "b";
     __epPropKey: true;
   }
@@ -126,7 +129,7 @@ export type EpPropInput<
 export type EpProp<Type, Default, Required> = {
   readonly type: PropType<Type>
   readonly required: [Required] extends [true] ? true : false
-  readonly validator: ((val: unknown) => boolean) | undefined
+  readonly validator: ((val: unknown, props: PropsData) => boolean) | undefined
   [epPropKey]: true
 } & IfNever<Default, unknown, { readonly default: Default }>
 

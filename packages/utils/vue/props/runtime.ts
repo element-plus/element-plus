@@ -13,6 +13,7 @@ import type {
   IfEpProp,
   IfNativePropType,
   NativePropType,
+  PropsData,
 } from './types'
 
 export const epPropKey = '__epPropKey'
@@ -59,7 +60,7 @@ export const buildProp = <
 
   const _validator =
     values || validator
-      ? (val: unknown) => {
+      ? (val: unknown, props: PropsData) => {
           let valid = false
           let allowedValues: unknown[] = []
 
@@ -70,7 +71,7 @@ export const buildProp = <
             }
             valid ||= allowedValues.includes(val)
           }
-          if (validator) valid ||= validator(val)
+          if (validator) valid ||= validator(val, props)
 
           if (!valid && allowedValues.length > 0) {
             const allowValuesText = [...new Set(allowedValues)]

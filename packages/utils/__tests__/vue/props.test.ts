@@ -14,6 +14,7 @@ import type {
   EpPropInputDefault,
   EpPropMergeType,
   IfNever,
+  PropsData,
   ResolvePropType,
   UnknownToNever,
   Writable,
@@ -86,7 +87,9 @@ describe('Types', () => {
     expectTypeOf<EpProp<'1', '2', false>>().toEqualTypeOf<{
       readonly type: PropType<'1'>
       readonly required: false
-      readonly validator: ((val: unknown) => boolean) | undefined
+      readonly validator:
+        | ((val: unknown, props: PropsData) => boolean)
+        | undefined
       readonly default: '2'
       [epPropKey]: true
     }>()
@@ -94,7 +97,9 @@ describe('Types', () => {
     expectTypeOf<EpProp<'1', '2', true>>().toEqualTypeOf<{
       readonly type: PropType<'1'>
       readonly required: true
-      readonly validator: ((val: unknown) => boolean) | undefined
+      readonly validator:
+        | ((val: unknown, props: PropsData) => boolean)
+        | undefined
       readonly default: '2'
       [epPropKey]: true
     }>()
@@ -110,7 +115,9 @@ describe('buildProp', () => {
     ).toEqualTypeOf<{
       readonly type: PropType<'a' | 'b'>
       readonly required: false
-      readonly validator: ((val: unknown) => boolean) | undefined
+      readonly validator:
+        | ((val: unknown, props: PropsData) => boolean)
+        | undefined
       [epPropKey]: true
     }>()
   })
@@ -123,7 +130,9 @@ describe('buildProp', () => {
     ).toEqualTypeOf<{
       readonly type: PropType<1 | 2 | 3 | 4>
       readonly required: false
-      readonly validator: ((val: unknown) => boolean) | undefined
+      readonly validator:
+        | ((val: unknown, props: PropsData) => boolean)
+        | undefined
       [epPropKey]: true
     }>()
   })
@@ -137,7 +146,9 @@ describe('buildProp', () => {
     ).toEqualTypeOf<{
       readonly type: PropType<1 | 2 | 3 | 4>
       readonly required: false
-      readonly validator: ((val: unknown) => boolean) | undefined
+      readonly validator:
+        | ((val: unknown, props: PropsData) => boolean)
+        | undefined
       [epPropKey]: true
     }>()
   })
@@ -151,7 +162,9 @@ describe('buildProp', () => {
     ).toEqualTypeOf<{
       readonly type: PropType<number | 'a' | 'b' | 'c'>
       readonly required: false
-      readonly validator: ((val: unknown) => boolean) | undefined
+      readonly validator:
+        | ((val: unknown, props: PropsData) => boolean)
+        | undefined
       [epPropKey]: true
     }>()
   })
@@ -165,7 +178,9 @@ describe('buildProp', () => {
     ).toEqualTypeOf<{
       readonly type: PropType<'a' | 'b' | 'c'>
       readonly required: true
-      readonly validator: ((val: unknown) => boolean) | undefined
+      readonly validator:
+        | ((val: unknown, props: PropsData) => boolean)
+        | undefined
       [epPropKey]: true
     }>()
   })
@@ -181,7 +196,9 @@ describe('buildProp', () => {
       readonly type: PropType<'a' | 'b' | 'c'>
       readonly required: false
       readonly default: 'b'
-      readonly validator: ((val: unknown) => boolean) | undefined
+      readonly validator:
+        | ((val: unknown, props: PropsData) => boolean)
+        | undefined
       [epPropKey]: true
     }>()
   })
@@ -196,7 +213,9 @@ describe('buildProp', () => {
       readonly type: PropType<string[]>
       readonly required: false
       readonly default: ['a', 'b']
-      readonly validator: ((val: unknown) => boolean) | undefined
+      readonly validator:
+        | ((val: unknown, props: PropsData) => boolean)
+        | undefined
       [epPropKey]: true
     }>()
   })
@@ -215,7 +234,9 @@ describe('buildProp', () => {
       readonly type: PropType<Options>
       readonly required: false
       readonly default: { key: 'value' }
-      readonly validator: ((val: unknown) => boolean) | undefined
+      readonly validator:
+        | ((val: unknown, props: PropsData) => boolean)
+        | undefined
       [epPropKey]: true
     }>()
   })
@@ -234,7 +255,9 @@ describe('buildProp', () => {
       readonly type: PropType<string | Options>
       readonly required: false
       readonly default: { key: string }
-      readonly validator: ((val: unknown) => boolean) | undefined
+      readonly validator:
+        | ((val: unknown, props: PropsData) => boolean)
+        | undefined
       [epPropKey]: true
     }>()
   })
@@ -249,7 +272,9 @@ describe('buildProp', () => {
     ).toEqualTypeOf<{
       readonly type: PropType<number | 'a' | 'b' | 'c'>
       readonly required: true
-      readonly validator: ((val: unknown) => boolean) | undefined
+      readonly validator:
+        | ((val: unknown, props: PropsData) => boolean)
+        | undefined
       [epPropKey]: true
     }>()
   })
@@ -262,7 +287,9 @@ describe('buildProp', () => {
     ).toEqualTypeOf<{
       readonly type: PropType<string>
       readonly required: false
-      readonly validator: ((val: unknown) => boolean) | undefined
+      readonly validator:
+        | ((val: unknown, props: PropsData) => boolean)
+        | undefined
       [epPropKey]: true
     }>()
   })
@@ -271,7 +298,9 @@ describe('buildProp', () => {
     expectTypeOf(buildProp({ type: [String, Number, Boolean] })).toEqualTypeOf<{
       readonly type: PropType<string | number | boolean>
       readonly required: false
-      readonly validator: ((val: unknown) => boolean) | undefined
+      readonly validator:
+        | ((val: unknown, props: PropsData) => boolean)
+        | undefined
       [epPropKey]: true
     }>()
   })
@@ -285,7 +314,9 @@ describe('buildProp', () => {
     ).toEqualTypeOf<{
       readonly type: PropType<'1' | '2' | '3'>
       readonly required: false
-      readonly validator: ((val: unknown) => boolean) | undefined
+      readonly validator:
+        | ((val: unknown, props: PropsData) => boolean)
+        | undefined
       [epPropKey]: true
     }>()
   })
@@ -299,7 +330,9 @@ describe('buildProp', () => {
     ).toEqualTypeOf<{
       readonly type: PropType<string>
       readonly required: true
-      readonly validator: ((val: unknown) => boolean) | undefined
+      readonly validator:
+        | ((val: unknown, props: PropsData) => boolean)
+        | undefined
       [epPropKey]: true
     }>()
   })
@@ -314,7 +347,9 @@ describe('buildProp', () => {
       readonly type: PropType<'a' | 'b'>
       readonly required: false
       readonly default: 'a'
-      readonly validator: ((val: unknown) => boolean) | undefined
+      readonly validator:
+        | ((val: unknown, props: PropsData) => boolean)
+        | undefined
       [epPropKey]: true
     }>()
   })
@@ -329,7 +364,9 @@ describe('buildProp', () => {
       readonly type: PropType<{ key: 'a' | 'b' | 'c' } | undefined>
       readonly required: false
       readonly default: { key: 'a' }
-      readonly validator: ((val: unknown) => boolean) | undefined
+      readonly validator:
+        | ((val: unknown, props: PropsData) => boolean)
+        | undefined
       [epPropKey]: true
     }>()
   })
@@ -344,7 +381,9 @@ describe('buildProp', () => {
       readonly type: PropType<string | number>
       readonly required: false
       readonly default: ''
-      readonly validator: ((val: unknown) => boolean) | undefined
+      readonly validator:
+        | ((val: unknown, props: PropsData) => boolean)
+        | undefined
       [epPropKey]: true
     }>()
   })
@@ -359,7 +398,9 @@ describe('buildProp', () => {
       readonly type: PropType<Record<string, any>>
       readonly required: false
       readonly default: {}
-      readonly validator: ((val: unknown) => boolean) | undefined
+      readonly validator:
+        | ((val: unknown, props: PropsData) => boolean)
+        | undefined
       [epPropKey]: true
     }>()
   })
@@ -459,21 +500,27 @@ describe('buildProps', () => {
       readonly type: PropType<string>
       readonly required: false
       readonly default: 'hello'
-      readonly validator: ((val: unknown) => boolean) | undefined
+      readonly validator:
+        | ((val: unknown, props: PropsData) => boolean)
+        | undefined
       [epPropKey]: true
     }>()
 
     expectTypeOf(props.key1).toEqualTypeOf<{
       readonly type: PropType<'a' | 'b'>
       readonly required: false
-      readonly validator: ((val: unknown) => boolean) | undefined
+      readonly validator:
+        | ((val: unknown, props: PropsData) => boolean)
+        | undefined
       [epPropKey]: true
     }>()
 
     expectTypeOf(props.key2).toEqualTypeOf<{
       readonly type: PropType<1 | 2 | 3 | 4>
       readonly required: false
-      readonly validator: ((val: unknown) => boolean) | undefined
+      readonly validator:
+        | ((val: unknown, props: PropsData) => boolean)
+        | undefined
       [epPropKey]: true
     }>()
 
@@ -481,7 +528,9 @@ describe('buildProps', () => {
       readonly type: PropType<1 | 2 | 3 | 4>
       readonly required: false
       readonly default: 2
-      readonly validator: ((val: unknown) => boolean) | undefined
+      readonly validator:
+        | ((val: unknown, props: PropsData) => boolean)
+        | undefined
       [epPropKey]: true
     }>()
 
@@ -489,7 +538,9 @@ describe('buildProps', () => {
       readonly type: PropType<'a' | 'b'>
       readonly required: false
       readonly default: 'a'
-      readonly validator: ((val: unknown) => boolean) | undefined
+      readonly validator:
+        | ((val: unknown, props: PropsData) => boolean)
+        | undefined
       [epPropKey]: true
     }>()
 
@@ -504,7 +555,9 @@ describe('buildProps', () => {
     expectTypeOf(props.key12).toEqualTypeOf<{
       readonly type: PropType<string>
       readonly required: false
-      readonly validator: ((val: unknown) => boolean) | undefined
+      readonly validator:
+        | ((val: unknown, props: PropsData) => boolean)
+        | undefined
       [epPropKey]: true
     }>()
 
@@ -513,7 +566,9 @@ describe('buildProps', () => {
       readonly required: false
       // TODO
       readonly default: () => '123'
-      readonly validator: ((val: unknown) => boolean) | undefined
+      readonly validator:
+        | ((val: unknown, props: PropsData) => boolean)
+        | undefined
       [epPropKey]: true
     }>()
 
@@ -521,7 +576,9 @@ describe('buildProps', () => {
       readonly type: PropType<Function>
       readonly required: false
       readonly default: () => '123'
-      readonly validator: ((val: unknown) => boolean) | undefined
+      readonly validator:
+        | ((val: unknown, props: PropsData) => boolean)
+        | undefined
       [epPropKey]: true
     }>()
 
@@ -529,7 +586,9 @@ describe('buildProps', () => {
       readonly type: PropType<Function>
       readonly required: false
       readonly default: () => () => '123'
-      readonly validator: ((val: unknown) => boolean) | undefined
+      readonly validator:
+        | ((val: unknown, props: PropsData) => boolean)
+        | undefined
       [epPropKey]: true
     }>()
 
@@ -538,7 +597,9 @@ describe('buildProps', () => {
       readonly required: false
       // TODO
       readonly default: () => '123'
-      readonly validator: ((val: unknown) => boolean) | undefined
+      readonly validator:
+        | ((val: unknown, props: PropsData) => boolean)
+        | undefined
       [epPropKey]: true
     }>()
   })
