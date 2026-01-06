@@ -319,12 +319,12 @@ describe('TableV2.vue', () => {
     })
   })
 
-  test('expand button should not apply margin style of icon', async () => {
+  test('expand button of sub-row should not apply margin style of icon', async () => {
     const columns = [
       {
         key: 'column-0',
         dataKey: 'column-0',
-        title: `Column 0`,
+        title: 'Column 0',
         width: 150,
       },
     ]
@@ -334,14 +334,14 @@ describe('TableV2.vue', () => {
         'column-0': 'Row 0 - Col 0',
         children: [
           {
-            id: `row-0-sub-0`,
+            id: 'row-0-sub-0',
             parentId: 'row-0',
-            ['column-0']: `Sub 0`,
+            ['column-0']: 'Sub 0',
             children: [
               {
-                id: `row-0-sub-0-sub-0`,
-                parentId: `row-0-sub-0`,
-                ['column-0']: `Sub-Sub 0`,
+                id: 'row-0-sub-0-sub-0',
+                parentId: 'row-0-sub-0',
+                ['column-0']: 'Sub-Sub 0',
               },
             ],
           },
