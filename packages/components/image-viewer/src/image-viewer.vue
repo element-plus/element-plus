@@ -305,6 +305,7 @@ function unregisterEventListener() {
 
 function handleImgLoad() {
   loading.value = false
+  loadError.value = false
 }
 
 function handleImgError(e: Event) {
@@ -468,11 +469,11 @@ watch(
 )
 
 watch(currentImg, () => {
+  loadError.value = false
+  loading.value = true
   nextTick(() => {
     const $img = imgRef.value
-    if (!$img?.complete) {
-      loading.value = true
-    }
+    loading.value = !$img?.complete
   })
 })
 

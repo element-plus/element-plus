@@ -126,4 +126,52 @@ describe('<image-viewer />', () => {
     await doubleWait()
     expect(wrapper.find('.load-failed-slot').exists()).toBe(true)
   })
+
+  test('should reset loadError when current image url changes', async () => {
+    const wrapper = mount(ImageViewer, {
+      props: {
+        urlList: [IMAGE_FAIL],
+        initialIndex: 0,
+      },
+      slots: {
+        'viewer-error': () => (
+          <div class="load-failed-slot">load failed slot</div>
+        ),
+      },
+    })
+
+    await doubleWait()
+    await wrapper.find('.el-image-viewer__wrapper img').trigger('error')
+    await doubleWait()
+    expect(wrapper.find('.load-failed-slot').exists()).toBe(true)
+
+    await wrapper.setProps({ urlList: [IMAGE_SUCCESS] })
+    await doubleWait()
+    expect(wrapper.find('.load-failed-slot').exists()).toBe(false)
+    expect(wrapper.find('.el-image-viewer__img').attributes('src')).toBe(
+      IMAGE_SUCCESS
+    )
+  })
+
+  test('should be able to zoom after load resets loadError', async () => {
+    const wrapper = mount(<ImageViewer urlList={[IMAGE_SUCCESS]} />)
+
+    await doubleWait()
+    const img = wrapper.find('.el-image-viewer__img')
+    const before = img.attributes('style') ?? ''
+
+    await img.trigger('error')
+    await doubleWait()
+
+    // simulate a successful load afterwards (load handler should clear loadError)
+    await wrapper.find('.el-image-viewer__img').trigger('load')
+    await doubleWait()
+
+    await wrapper.find('.el-image-viewer__actions .el-icon').trigger('click') // ZoomOut icon
+    await doubleWait()
+
+    const after =
+      wrapper.find('.el-image-viewer__img').attributes('style') ?? ''
+    expect(after).not.toBe(before)
+  })
 })
