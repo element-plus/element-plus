@@ -1946,6 +1946,19 @@ describe('Select', () => {
     expect((select.vm as any).expanded).toBe(true)
   })
 
+  test('automatic dropdown should cooperate with click to open the dropdown', async () => {
+    wrapper = getSelectVm({ automaticDropdown: true })
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const input = select.find('input')
+    await input.trigger('focus')
+    expect((select.vm as any).expanded).toBe(true)
+    await input.trigger('keydown', { key: EVENT_CODE.down })
+    await input.trigger('keydown', { key: EVENT_CODE.enter })
+    expect((select.vm as any).expanded).toBe(false)
+    await input.trigger('click')
+    expect((select.vm as any).expanded).toBe(true)
+  })
+
   test('only emit change on user input', async () => {
     let callCount = 0
     wrapper = _mount(
