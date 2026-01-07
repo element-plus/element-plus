@@ -50,6 +50,8 @@ import {
   TypeComponents,
   TypeComponentsMap,
   debugWarn,
+  flattedChildren,
+  isComment,
 } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { alertEmits, alertProps } from './alert'
@@ -70,7 +72,14 @@ const visible = ref(true)
 
 const iconComponent = computed(() => TypeComponentsMap[props.type])
 
-const hasDesc = computed(() => !!(props.description || slots.default))
+const hasDesc = computed(() => {
+  if (props.description) return true
+  const slotContent = slots.default?.()
+  if (!slotContent) return false
+
+  const children = flattedChildren(slotContent)
+  return children.some((child) => !isComment(child))
+})
 
 const close = (evt: MouseEvent) => {
   visible.value = false
