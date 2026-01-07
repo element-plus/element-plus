@@ -50,7 +50,8 @@ import {
   TypeComponents,
   TypeComponentsMap,
   debugWarn,
-  getFirstValidNode,
+  flattedChildren,
+  isComment,
 } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { alertEmits, alertProps } from './alert'
@@ -75,7 +76,9 @@ const hasDesc = computed(() => {
   if (props.description) return true
   const slotContent = slots.default?.()
   if (!slotContent) return false
-  return !!getFirstValidNode(slotContent)
+
+  const children = flattedChildren(slotContent)
+  return children.some((child) => child !== null && !isComment(child))
 })
 
 const close = (evt: MouseEvent) => {
