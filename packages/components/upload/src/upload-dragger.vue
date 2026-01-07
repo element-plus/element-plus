@@ -66,6 +66,10 @@ const getAllFiles = async (
 
       const entries: FileSystemEntry[] = []
       let readEntries = await getEntries()
+      /**
+       * In Chromium-based browsers, readEntries() will only return the first 100 FileSystemEntry instances.
+       * https://developer.mozilla.org/en-US/docs/Web/API/FileSystemDirectoryReader/readEntries#:~:text=In%20Chromium%2Dbased%20browsers%2C%20readEntries()%20will%20only%20return%20the%20first%20100%20FileSystemEntry%20instances.%20In%20order%20to%20obtain%20all%20of%20the%20instances%2C%20readEntries()%20must%20be%20called%20multiple%20times.
+       */
       while (readEntries.length > 0) {
         entries.push(...readEntries)
         readEntries = await getEntries()
