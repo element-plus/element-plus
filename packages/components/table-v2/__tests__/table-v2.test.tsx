@@ -336,12 +336,12 @@ describe('TableV2.vue', () => {
           {
             id: 'row-0-sub-0',
             parentId: 'row-0',
-            ['column-0']: 'Sub 0',
+            'column-0': 'Sub 0',
             children: [
               {
                 id: 'row-0-sub-0-sub-0',
                 parentId: 'row-0-sub-0',
-                ['column-0']: 'Sub-Sub 0',
+                'column-0': 'Sub-Sub 0',
               },
             ],
           },
