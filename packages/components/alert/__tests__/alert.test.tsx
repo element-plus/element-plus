@@ -52,41 +52,38 @@ describe('Alert.vue', () => {
     expect(wrapper.emitted()).toBeDefined()
   })
 
-  test('default slot with content should show description', () => {
-    const wrapper = mount(Alert, {
-      slots: {
-        default: AXIOM,
+  describe('default slot', () => {
+    test.each([
+      {
+        name: 'with content',
+        slots: { default: AXIOM },
+        exists: true,
+        text: AXIOM,
       },
-    })
-    expect(wrapper.find('.el-alert__description').exists()).toBe(true)
-    expect(wrapper.find('.el-alert__description').text()).toEqual(AXIOM)
-  })
+      {
+        name: 'empty',
+        slots: { default: '' },
+        exists: false,
+      },
+      {
+        name: 'only comment nodes',
+        slots: { default: () => [h(Comment, 'some comment')] },
+        exists: false,
+      },
+      {
+        name: 'comment nodes followed by real node',
+        slots: { default: () => [h(Comment, 'some comment'), AXIOM] },
+        exists: true,
+        text: AXIOM,
+      },
+    ])('$name', ({ slots, exists, text }) => {
+      const wrapper = mount(Alert, { slots })
+      const description = wrapper.find('.el-alert__description')
 
-  test('empty default slot should not show description', () => {
-    const wrapper = mount(Alert, {
-      slots: {
-        default: '',
-      },
+      expect(description.exists()).toBe(exists)
+      if (exists) {
+        expect(description.text()).toBe(text)
+      }
     })
-    expect(wrapper.find('.el-alert__description').exists()).toBe(false)
-  })
-
-  test('default slot with only comment nodes should not show description', () => {
-    const wrapper = mount(Alert, {
-      slots: {
-        default: () => [h(Comment, 'some comment')],
-      },
-    })
-    expect(wrapper.find('.el-alert__description').exists()).toBe(false)
-  })
-
-  test('default slot with comment nodes followed by real node should show description', () => {
-    const wrapper = mount(Alert, {
-      slots: {
-        default: () => [h(Comment, 'some comment'), AXIOM],
-      },
-    })
-    expect(wrapper.find('.el-alert__description').exists()).toBe(true)
-    expect(wrapper.find('.el-alert__description').text()).toEqual(AXIOM)
   })
 })
