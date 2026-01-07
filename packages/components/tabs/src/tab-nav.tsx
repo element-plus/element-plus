@@ -108,6 +108,11 @@ const TabNav = defineComponent({
     const isFocus = ref(false)
     const focusable = ref(true)
     const tracker = shallowRef()
+    const touchState = ref<{
+      startX: number
+      startY: number
+      startOffset: number
+    } | null>(null)
 
     const isHorizontal = computed(() =>
       ['top', 'bottom'].includes(rootTabs.props.tabPosition)
@@ -311,6 +316,44 @@ const TabNav = defineComponent({
       activeTab?.focus({ preventScroll: true })
     }
 
+    const onTouchStart = (event: TouchEvent) => {
+      if (!scrollable.value) return
+
+      const touch = event.touches[0]
+      touchState.value = {
+        startX: touch.clientX,
+        startY: touch.clientY,
+        startOffset: navOffset.value,
+      }
+    }
+
+    const onTouchMove = (event: TouchEvent) => {
+      if (!touchState.value || !scrollable.value) return
+
+      const touch = event.touches[0]
+      const deltaX = touchState.value.startX - touch.clientX
+      const deltaY = touchState.value.startY - touch.clientY
+
+      const delta = isHorizontal.value ? deltaX : deltaY
+
+      // Only prevent default if we're actually scrolling in the tab direction
+      if (Math.abs(delta) > 5) {
+        event.preventDefault()
+      }
+
+      const newOffset = clamp(
+        touchState.value.startOffset + delta,
+        0,
+        navSize.value - navContainerSize.value
+      )
+
+      navOffset.value = newOffset
+    }
+
+    const onTouchEnd = () => {
+      touchState.value = null
+    }
+
     watch(visibility, (visibility) => {
       if (visibility === 'hidden') {
         focusable.value = false
@@ -466,6 +509,10 @@ const TabNav = defineComponent({
                 role="tablist"
                 onKeydown={changeTab}
                 onWheel={onWheel}
+                onTouchstart={onTouchStart}
+                onTouchmove={onTouchMove}
+                onTouchend={onTouchEnd}
+                onTouchcancel={onTouchEnd}
               >
                 {...[
                   !props.type ? (
