@@ -1,3 +1,4 @@
+import { Comment, h } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
 import { TypeComponentsMap } from '@element-plus/utils'
@@ -68,5 +69,24 @@ describe('Alert.vue', () => {
       },
     })
     expect(wrapper.find('.el-alert__description').exists()).toBe(false)
+  })
+
+  test('default slot with only comment nodes should not show description', () => {
+    const wrapper = mount(Alert, {
+      slots: {
+        default: () => [h(Comment, 'some comment')],
+      },
+    })
+    expect(wrapper.find('.el-alert__description').exists()).toBe(false)
+  })
+
+  test('default slot with comment nodes followed by real node should show description', () => {
+    const wrapper = mount(Alert, {
+      slots: {
+        default: () => [h(Comment, 'some comment'), AXIOM],
+      },
+    })
+    expect(wrapper.find('.el-alert__description').exists()).toBe(true)
+    expect(wrapper.find('.el-alert__description').text()).toEqual(AXIOM)
   })
 })
