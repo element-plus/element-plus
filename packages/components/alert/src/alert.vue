@@ -78,7 +78,7 @@ const hasDesc = computed(() => {
   if (!slotContent) return false
 
   const children = flattedChildren(slotContent)
-  return children.some((child) => child !== null && !isComment(child))
+  return children.some((child) => !isComment(child))
 })
 
 const close = (evt: MouseEvent) => {
