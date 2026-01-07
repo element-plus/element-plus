@@ -2,6 +2,7 @@
   <div :class="[ns.b(), ns.is('disabled', disabled)]">
     <el-tooltip
       ref="popperRef"
+      :visible="opened"
       :role="role"
       :effect="effect"
       :fallback-placements="['bottom', 'top']"
@@ -28,22 +29,34 @@
       @before-show="handleBeforeShowTooltip"
       @show="handleShowTooltip"
       @before-hide="handleBeforeHideTooltip"
+      @hide="handleHideTooltip"
     >
       <template #content>
         <el-scrollbar
           ref="scrollbar"
           :wrap-style="wrapStyle"
-          tag="div"
+          :wrap-class="wrapClass"
           :view-class="ns.e('list')"
+          tag="div"
+          @pointerenter="handlePointerEnterContent"
+          @pointerleave="handlePointerLeaveContent"
+          @pointermove="handleDrawHoverZone"
         >
           <el-roving-focus-group
             :loop="loop"
             :current-tab-id="currentTabId"
-            orientation="horizontal"
+            orientation="vertical"
             @current-tab-id-change="handleCurrentTabIdChange"
           >
             <slot name="dropdown" />
           </el-roving-focus-group>
+          <!-- eslint-disable vue/html-self-closing -->
+          <svg
+            v-if="menuTrigger === 'hover'"
+            ref="hoverZoneRef"
+            :class="ns.e('hover-zone')"
+          ></svg>
+          <!-- eslint-enable vue/html-self-closing -->
         </el-scrollbar>
       </template>
       <template v-if="!splitButton" #default>
@@ -90,16 +103,8 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  getCurrentInstance,
-  provide,
-  ref,
-  toRef,
-  unref,
-} from 'vue'
-import ElButton from '@element-plus/components/button'
+import { computed, defineComponent, provide, ref, toRef, toRefs } from 'vue'
+import { ElButton, ElButtonGroup } from '@element-plus/components/button'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElIcon from '@element-plus/components/icon'
@@ -114,11 +119,16 @@ import {
   DROPDOWN_INJECTION_KEY,
   DROPDOWN_INSTANCE_INJECTION_KEY,
 } from './tokens'
+import {
+  useDropdownCollectionTooltipContent,
+  useDropdownController,
+  useDropdownHoverController,
+  useDropdownHoverZone,
+  useDropdownTooltip,
+  useDropdownVisible,
+} from './composables'
 
-import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { CSSProperties } from 'vue'
-
-const { ButtonGroup: ElButtonGroup } = ElButton
 
 export default defineComponent({
   name: 'ElDropdown',
@@ -135,70 +145,116 @@ export default defineComponent({
   props: dropdownProps,
   emits: ['visible-change', 'click', 'command'],
   setup(props, { emit }) {
-    const _instance = getCurrentInstance()
     const ns = useNamespace('dropdown')
     const { t } = useLocale()
+    const dropdownSize = useFormSize()
 
-    const triggeringElementRef = ref()
+    // Record opened menus by their triggerIds
+    const openedMenus = ref<string[]>([])
     const referenceElementRef = ref()
-    const popperRef = ref<TooltipInstance>()
-    const contentRef = ref<HTMLElement>()
-    const scrollbar = ref(null)
-    const currentTabId = ref<string | null>(null)
-    const isUsingKeyboard = ref(false)
 
     const wrapStyle = computed<CSSProperties>(() => ({
       maxHeight: addUnit(props.maxHeight),
     }))
     const dropdownTriggerKls = computed(() => [ns.m(dropdownSize.value)])
     const trigger = computed(() => ensureArray(props.trigger))
+    const triggerId = computed<string>(() => props.id || useId().value)
+    const tabindex = computed(() => {
+      return props.disabled ? undefined : props.tabindex
+    })
 
-    const defaultTriggerId = useId().value
-    const triggerId = computed<string>(() => props.id || defaultTriggerId)
+    const {
+      opened,
+      path,
+      toggleReason,
+      handleOpen,
+      handleClose,
+      handleToggle,
+      handleCloseAll,
+    } = useDropdownVisible({ triggerId, openedMenus, isRoot: true })
+
+    const { triggeringElementRef, addPopperContent, removePopperContent } =
+      useDropdownController({
+        props,
+        trigger,
+        opened,
+        handleOpen,
+        handleToggle,
+        handleCloseAll,
+        handlePointerEnterTrigger: (e) => handlePointerEnterTrigger(e),
+        handlePointerLeaveTrigger: (e) => handlePointerLeaveTrigger(e),
+        handlePointerDownTrigger: (e) => handlePointerDownTrigger(e),
+      })
+
+    const {
+      popperRef,
+      contentRef,
+      currentTabId,
+      isUsingKeyboard,
+      onItemEnter,
+      onItemLeave,
+      handleShowTooltip,
+      handleHideTooltip,
+      isFocusInsideContent,
+      handleCurrentTabIdChange,
+    } = useDropdownTooltip({
+      trigger,
+      toggleReason,
+      handleClose,
+      addPopperContent,
+      removePopperContent,
+    })
+
+    const {
+      handlePointerEnterTrigger,
+      handlePointerLeaveTrigger,
+      handlePointerDownTrigger,
+      handlePointerEnterContent,
+      handlePointerLeaveContent: _handlePointerLeaveContent,
+    } = useDropdownHoverController({
+      trigger,
+      contentRef,
+      disabled: toRef(props, 'disabled'),
+      showTimeout: toRef(props, 'showTimeout'),
+      hideTimeout: toRef(props, 'hideTimeout'),
+      handleOpen,
+      handleClose,
+    })
+
+    const {
+      scrollbarRef,
+      hoverZoneRef,
+      hoverElementRef,
+      wrapClass,
+      handleDrawHoverZone,
+      handleClearHoverZone,
+    } = useDropdownHoverZone({
+      ns,
+      menuTrigger: toRef(props, 'menuTrigger'),
+      showTimeout: toRef(props, 'showTimeout'),
+    })
+
+    useDropdownCollectionTooltipContent({
+      popperRef,
+      addPopperContent,
+      removePopperContent,
+    })
 
     function handleClick() {
-      popperRef.value?.onClose(undefined, 0)
+      handleCloseAll()
     }
 
-    function handleClose() {
-      popperRef.value?.onClose()
+    function handlePointerLeaveContent(event: PointerEvent) {
+      _handlePointerLeaveContent(event)
+      handleClearHoverZone()
     }
-
-    function handleOpen() {
-      popperRef.value?.onOpen()
-    }
-
-    const dropdownSize = useFormSize()
 
     function commandHandler(...args: any[]) {
       emit('command', ...args)
     }
 
-    function onItemEnter() {
-      // NOOP for now
-    }
-
-    function onItemLeave() {
-      const contentEl = unref(contentRef)
-
-      trigger.value.includes('hover') &&
-        contentEl?.focus({
-          preventScroll: true,
-        })
-      currentTabId.value = null
-    }
-
-    function handleCurrentTabIdChange(id: string) {
-      currentTabId.value = id
-    }
-
     function handleBeforeShowTooltip() {
       emit('visible-change', true)
-    }
-
-    function handleShowTooltip(event?: Event) {
-      isUsingKeyboard.value = event?.type === 'keydown'
-      contentRef.value?.focus()
     }
 
     function handleBeforeHideTooltip() {
@@ -207,21 +263,25 @@ export default defineComponent({
 
     provide(DROPDOWN_INJECTION_KEY, {
       contentRef,
+      hoverElementRef,
       role: computed(() => props.role),
       triggerId,
       isUsingKeyboard,
+      path,
       onItemEnter,
       onItemLeave,
       handleClose,
+      isFocusInsideContent,
     })
 
     provide(DROPDOWN_INSTANCE_INJECTION_KEY, {
-      instance: _instance,
+      ...toRefs(props),
+      openedMenus,
       dropdownSize,
       handleClick,
       commandHandler,
-      trigger: toRef(props, 'trigger'),
-      hideOnClick: toRef(props, 'hideOnClick'),
+      addPopperContent,
+      removePopperContent,
     })
 
     const handlerMainButtonClick = (event: MouseEvent) => {
@@ -231,12 +291,17 @@ export default defineComponent({
     return {
       t,
       ns,
-      scrollbar,
+      scrollbar: scrollbarRef,
       wrapStyle,
       dropdownTriggerKls,
       dropdownSize,
       triggerId,
+      tabindex,
       currentTabId,
+      opened,
+      hoverZoneRef,
+      wrapClass,
+      handleCloseAll,
       handleCurrentTabIdChange,
       handlerMainButtonClick,
       handleClose,
@@ -244,6 +309,10 @@ export default defineComponent({
       handleBeforeShowTooltip,
       handleShowTooltip,
       handleBeforeHideTooltip,
+      handleHideTooltip,
+      handlePointerEnterContent,
+      handlePointerLeaveContent,
+      handleDrawHoverZone,
       popperRef,
       contentRef,
       triggeringElementRef,

@@ -2,8 +2,10 @@
   <el-roving-focus-item :focusable="!disabled">
     <el-dropdown-item-impl
       v-bind="propsAndAttrs"
+      @pointerenter="(e) => $emit('pointerenter', e)"
       @pointerleave="handlePointerLeave"
       @pointermove="handlePointerMove"
+      @pointerdown="(e) => $emit('pointerdown', e)"
       @clickimpl="handleClick"
     >
       <slot />
@@ -16,9 +18,11 @@ import { computed, defineComponent, getCurrentInstance, inject } from 'vue'
 import { ElRovingFocusItem } from '@element-plus/components/roving-focus-group'
 import { composeEventHandlers, whenMouse } from '@element-plus/utils'
 import ElDropdownItemImpl from './dropdown-item-impl.vue'
-import { useDropdown } from './useDropdown'
 import { dropdownItemProps } from './dropdown'
-import { DROPDOWN_INJECTION_KEY } from './tokens'
+import {
+  DROPDOWN_INJECTION_KEY,
+  DROPDOWN_INSTANCE_INJECTION_KEY,
+} from './tokens'
 
 export default defineComponent({
   name: 'ElDropdownItem',
@@ -28,11 +32,23 @@ export default defineComponent({
   },
   inheritAttrs: false,
   props: dropdownItemProps,
-  emits: ['pointermove', 'pointerleave', 'click'],
+  emits: [
+    'pointerenter',
+    'pointermove',
+    'pointerleave',
+    'pointerdown',
+    'click',
+  ],
   setup(props, { emit, attrs }) {
-    const { elDropdown } = useDropdown()
     const _instance = getCurrentInstance()
-    const { onItemEnter, onItemLeave } = inject(
+
+    const {
+      hideOnClick,
+      handleClick: rootHandleClick,
+      commandHandler,
+    } = inject(DROPDOWN_INSTANCE_INJECTION_KEY, undefined)!
+
+    const { onItemEnter, onItemLeave, isFocusInsideContent } = inject(
       DROPDOWN_INJECTION_KEY,
       undefined
     )!
@@ -58,12 +74,14 @@ export default defineComponent({
          */
         if (
           target === document.activeElement ||
-          target.contains(document.activeElement)
+          target.contains(document.activeElement) ||
+          !isFocusInsideContent(e)
         ) {
           return
         }
 
         onItemEnter(e)
+
         if (!e.defaultPrevented) {
           target?.focus({
             preventScroll: true,
@@ -90,10 +108,10 @@ export default defineComponent({
           e.stopImmediatePropagation()
           return
         }
-        if (elDropdown?.hideOnClick?.value) {
-          elDropdown.handleClick?.()
+        if (hideOnClick.value) {
+          rootHandleClick()
         }
-        elDropdown.commandHandler?.(props.command, _instance, e)
+        commandHandler(props.command, _instance, e)
       }
     )
 
