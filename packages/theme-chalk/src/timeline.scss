@@ -2,6 +2,27 @@
 @use 'mixins/var' as *;
 @use 'common/var' as *;
 
+@mixin alternate-padding {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+@mixin alternate-wrapper-left {
+  .#{$namespace}-timeline-item__wrapper {
+    width: calc(50% - 28px + getCssVar('timeline-node-size-large') / 2);
+    text-align: right;
+    padding-right: 28px;
+  }
+}
+
+@mixin alternate-wrapper-right {
+  .#{$namespace}-timeline-item__wrapper {
+    width: calc(50% - 28px);
+    left: calc(50% - getCssVar('timeline-node-size-large') / 2);
+    padding-left: 28px;
+  }
+}
+
 @include b(timeline) {
   @include set-component-css-var('timeline', $timeline);
 }
@@ -54,24 +75,27 @@
     padding-right: 40px;
   }
 
-  @include when(alternate) {
-    padding-left: 20px;
-    padding-right: 20px;
+  @include when(alternate-left) {
+    @include alternate-padding;
 
     .#{$namespace}-timeline-item:nth-child(2n + 1) {
-      .#{$namespace}-timeline-item__wrapper {
-        width: calc(50% - 28px);
-        left: calc(50% - getCssVar('timeline-node-size-large') / 2);
-        padding-left: 28px;
-      }
+      @include alternate-wrapper-left;
     }
 
     .#{$namespace}-timeline-item:nth-child(2n) {
-      .#{$namespace}-timeline-item__wrapper {
-        width: calc(50% - 28px + getCssVar('timeline-node-size-large') / 2);
-        text-align: right;
-        padding-right: 28px;
-      }
+      @include alternate-wrapper-right;
+    }
+  }
+
+  @include when(alternate-right) {
+    @include alternate-padding;
+
+    .#{$namespace}-timeline-item:nth-child(2n + 1) {
+      @include alternate-wrapper-right;
+    }
+
+    .#{$namespace}-timeline-item:nth-child(2n) {
+      @include alternate-wrapper-left;
     }
   }
 }

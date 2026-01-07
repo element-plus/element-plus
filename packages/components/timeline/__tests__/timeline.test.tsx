@@ -81,9 +81,9 @@ describe('TimeLine.vue', () => {
       })
     })
 
-    test('mode-alternate', () => {
+    test('mode-alternate-left', () => {
       const wrapper = mount(() => (
-        <TimeLine mode="alternate">
+        <TimeLine mode="alternate-left">
           {activities.map((activity, index) => (
             <TimeLineItem key={index}>{activity.content}</TimeLineItem>
           ))}
@@ -93,9 +93,27 @@ describe('TimeLine.vue', () => {
       const timeline = wrapper.find('.el-timeline')
       const timelineItems = wrapper.findAll('.el-timeline-item')
 
-      expect(timeline.classes('is-alternate')).toBe(true)
+      expect(timeline.classes('is-alternate-left')).toBe(true)
       timelineItems.forEach((item) => {
-        expect(item.classes('is-alternate')).toBe(true)
+        expect(item.classes('is-alternate-left')).toBe(true)
+      })
+    })
+
+    test('mode-alternate-right', () => {
+      const wrapper = mount(() => (
+        <TimeLine mode="alternate-right">
+          {activities.map((activity, index) => (
+            <TimeLineItem key={index}>{activity.content}</TimeLineItem>
+          ))}
+        </TimeLine>
+      ))
+
+      const timeline = wrapper.find('.el-timeline')
+      const timelineItems = wrapper.findAll('.el-timeline-item')
+
+      expect(timeline.classes('is-alternate-right')).toBe(true)
+      timelineItems.forEach((item) => {
+        expect(item.classes('is-alternate-right')).toBe(true)
       })
     })
 

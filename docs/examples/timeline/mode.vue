@@ -1,7 +1,8 @@
 <template>
   <el-radio-group v-model="mode">
     <el-radio-button label="left" value="left" />
-    <el-radio-button label="alternate" value="alternate" />
+    <el-radio-button label="alternate-left" value="alternate-left" />
+    <el-radio-button label="alternate-right" value="alternate-right" />
     <el-radio-button label="right" value="right" />
   </el-radio-group>
 
@@ -34,5 +35,7 @@ const activities = [
   },
 ]
 
-const mode = ref<'left' | 'alternate' | 'right'>('left')
+const mode = ref<'left' | 'alternate-left' | 'alternate-right' | 'right'>(
+  'left'
+)
 </script>

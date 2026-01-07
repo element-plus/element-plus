@@ -1,6 +1,13 @@
 @use 'mixins/mixins' as *;
 @use 'common/var' as *;
 
+@mixin alternate-tail-node-center {
+  @include e((tail, node)) {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
 @include b(timeline-item) {
   position: relative;
   padding-bottom: 20px;
@@ -118,10 +125,11 @@
     }
   }
 
-  @include when(alternate) {
-    @include e((tail, node)) {
-      left: 50%;
-      transform: translateX(-50%);
-    }
+  @include when(alternate-left) {
+    @include alternate-tail-node-center;
+  }
+
+  @include when(alternate-right) {
+    @include alternate-tail-node-center;
   }
 }
