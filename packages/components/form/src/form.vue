@@ -6,7 +6,8 @@
 
 <script lang="ts" setup>
 import { computed, provide, reactive, ref, toRefs, watch } from 'vue'
-import { debugWarn, isFunction } from '@element-plus/utils'
+import { has } from 'lodash-unified'
+import { debugWarn, getProp, isFunction } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { useFormSize } from './hooks'
 import { formContextKey } from './constants'
@@ -59,6 +60,32 @@ const removeField: FormContext['removeField'] = (field) => {
   if (field.prop) {
     fields.splice(fields.indexOf(field), 1)
   }
+}
+
+const setInitialValues: FormContext['setInitialValues'] = (
+  initModel: Partial<typeof props.model>
+) => {
+  if (!props.model) {
+    debugWarn(COMPONENT_NAME, 'model is required for setInitialValues to work.')
+    return
+  }
+  if (!initModel) {
+    debugWarn(
+      COMPONENT_NAME,
+      'initModel is required for setInitialValues to work.'
+    )
+    return
+  }
+  fields.forEach((field) => {
+    if (field.prop) {
+      // Check if the property path actually exists in initModel
+      // This allows setting undefined/null values while skipping non-existent properties
+      if (has(initModel, field.prop)) {
+        const initValue = getProp(initModel, field.prop).value
+        field.setInitialValue(initValue)
+      }
+    }
+  })
 }
 
 const resetFields: FormContext['resetFields'] = (properties = []) => {
@@ -181,6 +208,7 @@ provide(
     getField,
     addField,
     removeField,
+    setInitialValues,
 
     ...useFormLabelWidth(),
   })
@@ -215,5 +243,9 @@ defineExpose({
    * @description All fields context.
    */
   fields,
+  /**
+   * @description Set initial values for form fields. When `resetFields` is called, fields will reset to these values. Only fields present in `initModel` will be updated.
+   */
+  setInitialValues,
 })
 </script>

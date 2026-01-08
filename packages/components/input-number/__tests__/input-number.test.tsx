@@ -711,17 +711,16 @@ describe('InputNumber.vue', () => {
     ))
 
     const input = wrapper.find('input')
-    const event = new Event('input')
 
     expect(input.element.value).toBe('1')
 
     input.element.value = '100'
-    input.element.dispatchEvent(event)
+    input.element.dispatchEvent(new Event('input'))
     await input.trigger('keydown', { key: EVENT_CODE.down })
     expect(input.element.value).toBe('10')
 
     input.element.value = '110'
-    input.element.dispatchEvent(event)
+    input.element.dispatchEvent(new Event('input'))
     await input.trigger('keydown', { key: EVENT_CODE.down })
     expect(input.element.value).toBe('10')
   })

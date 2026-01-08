@@ -188,6 +188,46 @@ describe('TableV2.vue', () => {
     )
   })
 
+  test('respects column flexShrink = 0', async () => {
+    const columns = ref([
+      {
+        key: 'col-0',
+        dataKey: 'col-0',
+        title: 'Col 0',
+        width: 200,
+        flexShrink: 0,
+      },
+      {
+        key: 'col-1',
+        dataKey: 'col-1',
+        title: 'Col 1',
+        width: 200,
+        flexShrink: 0,
+      },
+    ])
+    const data = ref([
+      {
+        id: 'row-0',
+        'col-0': 'Row 0 - Col 0',
+        'col-1': 'Row 0 - Col 1',
+      },
+    ])
+
+    const wrapper = mount(() => (
+      <TableV2
+        columns={columns.value}
+        data={data.value}
+        width={300}
+        height={200}
+      />
+    ))
+
+    const rowCells = wrapper.findAll('.el-table-v2__row-cell')
+    expect(rowCells.length).toBeGreaterThanOrEqual(2)
+    expect(rowCells[0].attributes('style')).toContain('flex-shrink: 0;')
+    expect(rowCells[1].attributes('style')).toContain('flex-shrink: 0;')
+  })
+
   test('expandable mode wrongly enabled, by column not key', async () => {
     const columns = ref([
       {
@@ -277,5 +317,53 @@ describe('TableV2.vue', () => {
       expect(header.attributes('ariasort')).toBe('ascending')
       expect(header.attributes('role')).toBe('columnheader')
     })
+  })
+
+  test('expand button of sub-row should not apply margin style of icon', async () => {
+    const columns = [
+      {
+        key: 'column-0',
+        dataKey: 'column-0',
+        title: 'Column 0',
+        width: 150,
+      },
+    ]
+    const data = [
+      {
+        id: 'row-0',
+        'column-0': 'Row 0 - Col 0',
+        children: [
+          {
+            id: 'row-0-sub-0',
+            parentId: 'row-0',
+            'column-0': 'Sub 0',
+            children: [
+              {
+                id: 'row-0-sub-0-sub-0',
+                parentId: 'row-0-sub-0',
+                'column-0': 'Sub-Sub 0',
+              },
+            ],
+          },
+        ],
+      },
+    ]
+
+    const wrapper = mount(() => (
+      <TableV2
+        columns={columns}
+        data={data}
+        width={300}
+        height={200}
+        expand-column-key="column-0"
+      />
+    ))
+
+    const expandButton = wrapper.find('.el-table-v2__expand-icon')
+    await expandButton.trigger('click')
+    await nextTick()
+
+    const subExpandButton = wrapper.findAll('.el-table-v2__expand-icon')[1]
+    expect(subExpandButton.attributes('style')).toBeFalsy()
   })
 })
