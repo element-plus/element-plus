@@ -847,7 +847,6 @@ describe('TreeSelect.vue', () => {
         modelValue,
         multiple: true,
         showCheckbox: true,
-        checkStrictly: true,
         lazy: true,
         load: (node: object, resolve: (p: any) => any[]) => {
           resolve([{ value: id, label: `${id}-label`, isLeaf: false }])
