@@ -46,6 +46,7 @@ export type FormContext = FormProps &
     addField: (field: FormItemContext) => void
     removeField: (field: FormItemContext) => void
     resetFields: (props?: Arrayable<FormItemProp>) => void
+    setInitialValues: (initModel: Record<string, any>) => void
     clearValidate: (props?: Arrayable<FormItemProp>) => void
     validateField: (
       props?: Arrayable<FormItemProp>,
@@ -72,4 +73,5 @@ export interface FormItemContext extends FormItemProps {
   ) => FormValidationResult
   resetField(): void
   clearValidate(): void
+  setInitialValue: (value: any) => void
 }

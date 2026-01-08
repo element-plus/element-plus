@@ -362,6 +362,10 @@ const removeInputId: FormItemContext['removeInputId'] = (id: string) => {
   inputIds.value = inputIds.value.filter((listId) => listId !== id)
 }
 
+const setInitialValue: FormItemContext['setInitialValue'] = (value: any) => {
+  initialValue = clone(value)
+}
+
 watch(
   () => props.error,
   (val) => {
@@ -393,6 +397,7 @@ const context: FormItemContext = reactive({
   clearValidate,
   validate,
   propString,
+  setInitialValue,
 })
 
 provide(formItemContextKey, context)
@@ -433,5 +438,9 @@ defineExpose({
    * @description Reset current field and remove validation result.
    */
   resetField,
+  /**
+   * @description Set initial value for this field. When `resetField` is called, the field will reset to this value.
+   */
+  setInitialValue,
 })
 </script>
