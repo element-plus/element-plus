@@ -86,7 +86,7 @@
     }
   }
 
-  @include when(left) {
+  @include when(start) {
     @include e(wrapper) {
       padding-left: 28px;
     }
@@ -105,7 +105,7 @@
     }
   }
 
-  @include when(right) {
+  @include when(end) {
     @include e(wrapper) {
       padding-right: 28px;
       text-align: right;
@@ -125,11 +125,11 @@
     }
   }
 
-  @include when(alternate-left) {
+  @include when(alternate) {
     @include alternate-tail-node-center;
   }
 
-  @include when(alternate-right) {
+  @include when(alternate-reverse) {
     @include alternate-tail-node-center;
   }
 }

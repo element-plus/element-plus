@@ -71,10 +71,10 @@ timeline/reverse
 
 ### Timeline Attributes
 
-| Name              | Description                               | Type                                                                | Default |
-| ----------------- | ----------------------------------------- | ------------------------------------------------------------------- | ------- |
-| reverse ^(2.11.9) | whether reverse order                     | ^[boolean]                                                          | false   |
-| mode ^(2.13.1)    | relative position of timeline and content | ^[enum]`'left' \| 'alternate-left' \| 'alternate-right' \| 'right'` | left    |
+| Name              | Description                               | Type                                                            | Default |
+| ----------------- | ----------------------------------------- | --------------------------------------------------------------- | ------- |
+| reverse ^(2.11.9) | whether reverse order                     | ^[boolean]                                                      | false   |
+| mode ^(2.13.1)    | relative position of timeline and content | ^[enum]`'start' \| 'alternate' \| 'alternate-reverse' \| 'end'` | start   |
 
 ### Timeline Slots
 

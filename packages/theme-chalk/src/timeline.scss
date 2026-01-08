@@ -7,19 +7,19 @@
   padding-right: 20px;
 }
 
-@mixin alternate-wrapper-left {
-  .#{$namespace}-timeline-item__wrapper {
-    width: calc(50% - 28px + getCssVar('timeline-node-size-large') / 2);
-    text-align: right;
-    padding-right: 28px;
-  }
-}
-
-@mixin alternate-wrapper-right {
+@mixin alternate-wrapper-start {
   .#{$namespace}-timeline-item__wrapper {
     width: calc(50% - 28px);
     left: calc(50% - getCssVar('timeline-node-size-large') / 2);
     padding-left: 28px;
+  }
+}
+
+@mixin alternate-wrapper-end {
+  .#{$namespace}-timeline-item__wrapper {
+    width: calc(50% - 28px + getCssVar('timeline-node-size-large') / 2);
+    text-align: right;
+    padding-right: 28px;
   }
 }
 
@@ -65,37 +65,37 @@
     }
   }
 
-  @include when(left) {
+  @include when(start) {
     padding-left: 40px;
     padding-right: 0;
   }
 
-  @include when(right) {
+  @include when(end) {
     padding-left: 0;
     padding-right: 40px;
   }
 
-  @include when(alternate-left) {
+  @include when(alternate) {
     @include alternate-padding;
 
     .#{$namespace}-timeline-item:nth-child(2n + 1) {
-      @include alternate-wrapper-left;
+      @include alternate-wrapper-start;
     }
 
     .#{$namespace}-timeline-item:nth-child(2n) {
-      @include alternate-wrapper-right;
+      @include alternate-wrapper-end;
     }
   }
 
-  @include when(alternate-right) {
+  @include when(alternate-reverse) {
     @include alternate-padding;
 
     .#{$namespace}-timeline-item:nth-child(2n + 1) {
-      @include alternate-wrapper-right;
+      @include alternate-wrapper-end;
     }
 
     .#{$namespace}-timeline-item:nth-child(2n) {
-      @include alternate-wrapper-left;
+      @include alternate-wrapper-start;
     }
   }
 }

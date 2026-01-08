@@ -13,8 +13,8 @@ export const timelineProps = buildProps({
    */
   mode: {
     type: String,
-    values: ['left', 'alternate-left', 'alternate-right', 'right'],
-    default: 'left',
+    values: ['start', 'alternate', 'alternate-reverse', 'end'],
+    default: 'start',
   },
   /**
    * @description whether reverse order
