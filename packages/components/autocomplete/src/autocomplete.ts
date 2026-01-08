@@ -131,8 +131,7 @@ export const autocompleteEmits = {
   [UPDATE_MODEL_EVENT]: (value: string | number) =>
     isString(value) || isNumber(value),
   [INPUT_EVENT]: (value: string | number) => isString(value) || isNumber(value),
-  [CHANGE_EVENT]: (value: string | number) =>
-    isString(value) || isNumber(value),
+  [CHANGE_EVENT]: (value: string) => isString(value),
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
   blur: (evt: FocusEvent) => evt instanceof FocusEvent,
   clear: () => true,
