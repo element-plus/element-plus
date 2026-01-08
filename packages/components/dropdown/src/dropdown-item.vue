@@ -6,7 +6,7 @@
       @pointermove="handlePointerMove"
       @clickimpl="handleClick"
     >
-      <template #icon>
+      <template v-if="$slots.icon" #icon>
         <slot name="icon" />
       </template>
 
