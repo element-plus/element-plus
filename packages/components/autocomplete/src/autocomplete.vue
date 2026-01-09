@@ -443,7 +443,7 @@ onMounted(() => {
   ;[
     { key: 'role', value: 'textbox' },
     { key: 'aria-autocomplete', value: 'list' },
-    { key: 'aria-controls', value: 'id' },
+    { key: 'aria-controls', value: listboxId.value },
     {
       key: 'aria-activedescendant',
       value: `${listboxId.value}-item-${highlightedIndex.value}`,

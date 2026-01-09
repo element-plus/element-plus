@@ -86,11 +86,6 @@ You can also try out Element Plus with its built-in component playground.
   <tbody>
     <tr>
       <td align="center" valign="middle">
-        <a href="https://doc.buildadmin.com/?from=element-plus" target="_blank">
-          <img width="130px" src="https://user-images.githubusercontent.com/17680888/173179536-30e35fd1-cd5a-482a-bc41-9d5f0aa66fd4.png">
-        </a>
-      </td>
-      <td align="center" valign="middle">
         <a href="https://el.frsimple.com" target="_blank">
           <img width="130px" src="https://github.com/user-attachments/assets/27ec522b-5de2-4c61-88b9-be47ff3ccc69">
         </a>
