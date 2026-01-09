@@ -1,9 +1,10 @@
 import { h, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
-import TableV2 from '../src/table-v2'
+import TableV2, { type TableV2Instance } from '../src/table-v2'
 import { TableV2SortOrder } from '../index'
 
+import type { ScrollPos } from '../src/composables/use-scrollbar'
 import type {
   TableV2HeaderRowCellRendererParams,
   TableV2RowCellRenderParam,
@@ -259,6 +260,38 @@ describe('TableV2.vue', () => {
     const cell = wrapper.find('.el-table-v2__row-cell')
     expect(cell.exists()).toBe(true)
     expect(cell.find('div [style^=margin-inline-star]').exists()).toBe(false)
+  })
+
+  test('scrollToRow keeps horizontal offset unchanged', async () => {
+    const columns = ref(generateColumns(10))
+    const data = ref(generateData(columns.value, 200))
+    const scrollLogs: ScrollPos[] = []
+    const wrapper = mount(() => (
+      <TableV2
+        fixed
+        columns={columns.value}
+        data={data.value}
+        width={400}
+        height={400}
+        onScroll={(pos: ScrollPos) => scrollLogs.push({ ...pos })}
+      />
+    ))
+
+    const tableVm = wrapper.findComponent(TableV2).vm.$
+      .exposed as TableV2Instance
+    tableVm.scrollToLeft(150)
+    await nextTick()
+    await nextTick()
+
+    const prevScrollLeft = scrollLogs[scrollLogs.length - 1]?.scrollLeft ?? 0
+    expect(prevScrollLeft).toBeGreaterThan(0)
+
+    tableVm.scrollToRow(50)
+    await nextTick()
+    await nextTick()
+
+    const lastScrollLeft = scrollLogs[scrollLogs.length - 1]?.scrollLeft ?? 0
+    expect(lastScrollLeft).toBe(prevScrollLeft)
   })
 
   describe('a11y', () => {

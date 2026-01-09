@@ -146,7 +146,7 @@ upload/manual
 
 | Name         | Description                                                                                            | Type                                                                              |
 | ------------ | ------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------- |
-| abort        | cancel upload request.                                                                                 | ^[Function]`(file: UploadFile) => void`                                           |
+| abort        | cancel upload request.                                                                                 | ^[Function]`(file?: UploadFile) => void`                                          |
 | submit       | upload the file list manually.                                                                         | ^[Function]`() => void`                                                           |
 | clearFiles   | clear the file list (this method is not supported in the `before-upload` hook).                        | ^[Function]`(status?: UploadStatus[]) => void`                                    |
 | handleStart  | select the file manually.                                                                              | ^[Function]`(rawFile: UploadRawFile) => void`                                     |
