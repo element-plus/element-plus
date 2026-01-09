@@ -715,12 +715,14 @@ describe('DatePickerPanel', () => {
       })
 
       it('clear button should empty the input value', async () => {
-        const value = ref('')
+        const value = ref([])
+        const onClear = vi.fn()
         const wrapper = mount(() => (
           <DatePickerPanel
             v-model={value.value}
             type="datetimerange"
             showFooter
+            onClear={onClear}
           />
         ))
         const dateRow = wrapper.findAll('.el-date-table__row')
@@ -732,11 +734,14 @@ describe('DatePickerPanel', () => {
         )
         expect(headerValue[0].element.value).not.toBe('')
         expect(headerValue[1].element.value).not.toBe('')
+        expect(value.value).toHaveLength(2)
         const clearBtn = wrapper.findAll<HTMLButtonElement>(
           '.el-picker-panel__footer button'
         )[0].element
         clearBtn.click()
         await nextTick()
+        expect(onClear).toHaveBeenCalledOnce()
+        expect(value.value).toBe(null)
         expect(headerValue[0].element.value).toBe('')
         expect(headerValue[1].element.value).toBe('')
       })

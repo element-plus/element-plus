@@ -184,6 +184,10 @@ export const uploadBaseProps = buildProps({
    * @description maximum number of uploads allowed
    */
   limit: Number,
+  /**
+   * @description whether to support uploading directory
+   */
+  directory: Boolean,
 } as const)
 
 export const uploadProps = buildProps({

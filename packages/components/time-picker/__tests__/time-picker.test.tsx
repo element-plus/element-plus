@@ -690,7 +690,10 @@ describe('TimePicker(range)', () => {
       new Date(2016, 9, 10, 9, 40),
       new Date(2016, 9, 10, 15, 40),
     ])
-    const wrapper = mount(() => <TimePicker v-model={value.value} is-range />)
+    const onClear = vi.fn()
+    const wrapper = mount(() => (
+      <TimePicker v-model={value.value} is-range onClear={onClear} />
+    ))
 
     const findInputWrapper = () => wrapper.find('.el-date-editor')
     const findClear = () => wrapper.find('.el-range__close-icon')
@@ -703,6 +706,7 @@ describe('TimePicker(range)', () => {
     await clearIcon.trigger('click')
     await nextTick()
     expect(value.value).toEqual(null)
+    expect(onClear).toHaveBeenCalledOnce()
   })
 
   it('should close pick when click the clear button on pick opened', async () => {

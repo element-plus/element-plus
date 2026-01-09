@@ -81,6 +81,16 @@ upload/drag-and-drop
 
 :::
 
+## Upload Directory ^(2.13.1)
+
+Enable folder upload via the `directory` prop.
+
+:::demo After enabling it, only folders can be selected, and after selecting a folder, the files within the folder will be flattened.
+
+upload/directory
+
+:::
+
 ## Manual Upload
 
 :::demo
@@ -115,12 +125,13 @@ upload/manual
 | on-exceed                     | hook function when limit is exceeded.                                                                                                                                                 | ^[Function]`(files: File[], uploadFiles: UploadUserFile[]) => void`                                                                        | —                                                                                                                  |
 | before-upload                 | hook function before uploading with the file to be uploaded as its parameter. If `false` is returned or a `Promise` is returned and then is rejected, uploading will be aborted.      | ^[Function]`(rawFile: UploadRawFile) => Awaitable<void \| undefined \| null \| boolean \| File \| Blob>`                                   | —                                                                                                                  |
 | before-remove                 | hook function before removing a file with the file and file list as its parameters. If `false` is returned or a `Promise` is returned and then is rejected, removing will be aborted. | ^[Function]`(uploadFile: UploadFile, uploadFiles: UploadFiles) => Awaitable<boolean>`                                                      | —                                                                                                                  |
-| file-list / v-model:file-list | default uploaded files.                                                                                                                                                               | ^[object]`UploadUserFile[]`                                                                                                                | []                                                                                                                 |
+| file-list / v-model:file-list | default uploaded files.                                                                                                                                                               | ^[array]`UploadUserFile[]`                                                                                                                 | []                                                                                                                 |
 | list-type                     | type of file list.                                                                                                                                                                    | ^[enum]`'text' \| 'picture' \| 'picture-card'`                                                                                             | text                                                                                                               |
 | auto-upload                   | whether to auto upload file.                                                                                                                                                          | ^[boolean]                                                                                                                                 | true                                                                                                               |
 | http-request                  | override default xhr behavior, allowing you to implement your own upload-file's request.                                                                                              | ^[Function]`(options: UploadRequestOptions) => XMLHttpRequest \| Promise<unknown>`                                                         | ajaxUpload [see](https://github.com/element-plus/element-plus/blob/dev/packages/components/upload/src/ajax.ts#L55) |
 | disabled                      | whether to disable upload.                                                                                                                                                            | ^[boolean]                                                                                                                                 | false                                                                                                              |
 | limit                         | maximum number of uploads allowed.                                                                                                                                                    | ^[number]                                                                                                                                  | —                                                                                                                  |
+| directory ^(2.13.1)           | whether to support uploading directory. After enabling it, only folders can be selected, and after selecting a folder, the files within the folder will be flattened.                 | ^[boolean]                                                                                                                                 | false                                                                                                              |
 
 ### Slots
 

@@ -86,7 +86,7 @@
             v-if="showClearBtn && clearIcon"
             :class="`${nsInput.e('icon')} clear-icon`"
             @mousedown.prevent="NOOP"
-            @click="onClearIconClick"
+            @click="onClear"
           >
             <component :is="clearIcon" />
           </el-icon>
@@ -145,7 +145,7 @@
             v-if="clearIcon"
             :class="clearIconKls"
             @mousedown.prevent="NOOP"
-            @click="onClearIconClick"
+            @click="onClear"
           >
             <component :is="clearIcon" />
           </el-icon>
@@ -171,6 +171,7 @@
         @select-range="setSelectionRange"
         @set-picker-option="onSetPickerOption"
         @calendar-change="onCalendarChange"
+        @clear="onClear"
         @panel-change="onPanelChange"
         @mousedown.stop
       />
@@ -439,10 +440,10 @@ const showClearBtn = computed(
     (hovering.value || isFocused.value)
 )
 
-const onClearIconClick = (event: MouseEvent) => {
+const onClear = (event?: MouseEvent) => {
   if (props.readonly || pickerDisabled.value) return
   if (showClearBtn.value) {
-    event.stopPropagation()
+    event?.stopPropagation()
     // When the handleClear Function was provided, emit null will be executed inside it
     // There is no need for us to execute emit null twice. #14752
     if (pickerOptions.value.handleClear) {

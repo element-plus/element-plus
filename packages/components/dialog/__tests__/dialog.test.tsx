@@ -249,6 +249,30 @@ describe('Dialog.vue', () => {
     expect(onClosed).toHaveBeenCalled()
   })
 
+  // #23248
+  test('should clear `closing` state', async () => {
+    const visible = ref(true)
+
+    const wrapper = mount({
+      setup() {
+        return () => <Dialog v-model={visible.value} />
+      },
+    })
+
+    await nextTick()
+    await rAF()
+    await nextTick()
+
+    const overlayDialog = wrapper.find('.el-overlay-dialog')
+    visible.value = false
+    await nextTick()
+    expect(overlayDialog.classes()).toContain('is-closing')
+    visible.value = true
+    await rAF()
+    await nextTick()
+    expect(overlayDialog.classes()).not.toContain('is-closing')
+  })
+
   describe('mask related', () => {
     test('should not have overlay mask when mask is false', async () => {
       const wrapper = mount(
@@ -499,7 +523,13 @@ describe('Dialog.vue', () => {
     })
 
     test('dialog supports transition as object config', async () => {
-      vi.useRealTimers()
+      vi.useFakeTimers()
+      const rAFSpy = vi
+        .spyOn(window, 'requestAnimationFrame')
+        .mockImplementation((cb) => {
+          cb(0)
+          return 0
+        })
       const afterEnter = vi.fn()
       const transitionConfig = {
         name: 'dialog-custom-object',
@@ -523,10 +553,11 @@ describe('Dialog.vue', () => {
         true
       )
 
-      await new Promise((resolve) => setTimeout(resolve, 500))
+      vi.advanceTimersByTime(500)
       await nextTick()
-      await rAF()
       expect(afterEnter).toHaveBeenCalled()
+      vi.useRealTimers()
+      rAFSpy.mockRestore()
     })
   })
 })

@@ -46,6 +46,7 @@ import type { TourStepProps } from './step'
 
 defineOptions({
   name: 'ElTour',
+  inheritAttrs: false,
 })
 
 const props = defineProps(tourProps)

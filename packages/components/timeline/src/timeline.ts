@@ -1,28 +1,48 @@
-import { defineComponent, h, provide } from 'vue'
+import { computed, defineComponent, h, provide } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { TIMELINE_INJECTION_KEY } from './tokens'
-import { flattedChildren } from '@element-plus/utils'
+import { buildProps, flattedChildren } from '@element-plus/utils'
 
 import type { VNodeChildAtom } from '@element-plus/utils'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
+import type { TimelineProvider } from './tokens'
+
+export const timelineProps = buildProps({
+  /**
+   * @description relative position of timeline and content
+   */
+  mode: {
+    type: String,
+    values: ['start', 'alternate', 'alternate-reverse', 'end'],
+    default: 'start',
+  },
+  /**
+   * @description whether reverse order
+   */
+  reverse: Boolean,
+} as const)
+export type TimelineProps = ExtractPropTypes<typeof timelineProps>
+export type TimelinePropsPublic = ExtractPublicPropTypes<typeof timelineProps>
 
 const Timeline = defineComponent({
   name: 'ElTimeline',
-  props: {
-    reverse: Boolean,
-  },
+  props: timelineProps,
+
   setup(props, { slots }) {
     const ns = useNamespace('timeline')
 
-    provide(TIMELINE_INJECTION_KEY, slots)
+    provide<TimelineProvider>(TIMELINE_INJECTION_KEY, { props, slots })
+
+    const timelineKls = computed(() => [ns.b(), ns.is(props.mode)])
 
     return () => {
-      const children = flattedChildren(slots.default?.() ?? []).filter(
-        (node) => (node as any)?.type?.name === 'ElTimelineItem'
+      const children = flattedChildren(
+        slots.default?.() ?? []
       ) as VNodeChildAtom[]
 
       return h(
         'ul',
-        { class: [ns.b()] },
+        { class: timelineKls.value },
         props.reverse ? children.reverse() : children
       )
     }

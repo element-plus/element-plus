@@ -6,6 +6,10 @@
       @pointermove="handlePointerMove"
       @clickimpl="handleClick"
     >
+      <template v-if="$slots.icon" #icon>
+        <slot name="icon" />
+      </template>
+
       <slot />
     </el-dropdown-item-impl>
   </el-roving-focus-item>

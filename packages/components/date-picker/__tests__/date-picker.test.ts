@@ -1193,18 +1193,21 @@ describe('DatePicker', () => {
   describe('Trigger the change event when clearing the date picker', () => {
     it('click the button to clear the date', async () => {
       const changeHandler = vi.fn()
+      const clearHandler = vi.fn()
       const wrapper = _mount(
         `<el-date-picker
           v-model="value"
           @change="changeHandler"
+          @clear="clearHandler"
         />`,
-        () => ({ value: new Date(), changeHandler })
+        () => ({ value: new Date(), changeHandler, clearHandler })
       )
 
       await wrapper.find('input').trigger('focus')
       await wrapper.find('.el-input').trigger('mouseenter')
       await wrapper.find('.clear-icon').trigger('click')
       expect(changeHandler).toHaveBeenCalledTimes(1)
+      expect(clearHandler).toHaveBeenCalledTimes(1)
     })
 
     it('manually clear date', async () => {
@@ -1745,6 +1748,8 @@ describe('DatePicker months', () => {
   })
 
   it('remove same months from different years', async () => {
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date('2025-03-05'))
     const wrapper = _mount(
       `<el-date-picker
         type="months"
@@ -1771,6 +1776,7 @@ describe('DatePicker months', () => {
     expect(vm.value.length).toBe(1)
     expect(vm.value[0].getFullYear()).toBe(2025)
     expect(vm.value[0].getMonth()).toBe(2) // March is month 2 (0-indexed)
+    vi.useRealTimers()
   })
 })
 
