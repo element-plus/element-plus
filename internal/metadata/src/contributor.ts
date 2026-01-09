@@ -1,5 +1,6 @@
-import path from 'path'
-import { existsSync } from 'fs'
+import path from 'node:path'
+import { existsSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import { glob } from 'tinyglobby'
 import { Octokit } from 'octokit'
 import consola from 'consola'
@@ -176,7 +177,8 @@ async function getContributors() {
   return contributors
 }
 
-const pathOutput = path.resolve(__dirname, '..', 'dist')
+const dirname = path.dirname(fileURLToPath(import.meta.url))
+const pathOutput = path.resolve(dirname, '..', 'dist')
 const pathDest = path.resolve(pathOutput, 'contributors.json')
 
 const octokit = new Octokit({

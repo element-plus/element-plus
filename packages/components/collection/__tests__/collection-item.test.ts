@@ -4,7 +4,7 @@ import { afterEach, describe, expect, it } from 'vitest'
 import TestCollection, {
   CollectionChildComponent,
   CollectionItemChildComponent,
-} from '../test-helper'
+} from './test-helper'
 
 import type { ComponentPublicInstance } from 'vue'
 import type { ElCollectionInjectionContext } from '../src/tokens'

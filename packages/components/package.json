@@ -22,6 +22,7 @@
   },
   "devDependencies": {
     "@element-plus/test-utils": "workspace:^",
+    "@element-plus/theme-chalk": "workspace:^",
     "@vue/test-utils": "catalog:",
     "vue": "catalog:"
   },

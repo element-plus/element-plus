@@ -4,7 +4,7 @@ import { afterEach, describe, expect, it } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
 import { TOOLTIP_INJECTION_KEY } from '@element-plus/components/tooltip'
 import ElTooltipTrigger from '../src/trigger.vue'
-import { genTooltipProvides } from '../test-helper/provides'
+import { genTooltipProvides } from './test-helper'
 
 import type { VueWrapper } from '@vue/test-utils'
 
