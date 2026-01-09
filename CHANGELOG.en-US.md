@@ -1,6 +1,53 @@
 ## Changelog
 
 
+### 2.13.1
+
+_2026-01-09_
+
+#### Features
+
+- Components [color-picker] add `clearable` prop and `clear` event (#22999 by @keeplearning66)
+- Components [calendar] add `controller-type` and `formatter` props (#23045 by @keeplearning66)
+- Components [message-box] add `confirmButtonType` and `cancelButtonType` props (#23193 by @keeplearning66)
+- Components [virtual-list] support horizontal scrolling with mouse wheel on Windows/ubuntu (#22168 by @keeplearning66)
+- Components [avatar-group] new component (#23211 by @keeplearning66)
+- Components [upload] add `directory` prop (#23265 by @rzzf)
+- Components [form] add `setInitialValues` and `setInitialValue` function (#23013 by @lw56777)
+- Components [dropdown-item] add `icon` slot (#23300 by @ZacharyBear)
+- Components [timeline] support `mode` prop (#22929 by @keeplearning66)
+
+#### Bug fixes
+
+- Docs missing contributors (#23170 by @btea)
+- Components [date-picker] trigger clear evt in footer slot (#23174 by @Dsaquel)
+- Theme-chalk update dark theme color variables for consistency (#23064 by @tolking)
+- Hooks [use-lockscreen] body width was not restored correctly (#22972 by @rzzf)
+- Components [cascader] scrolls to the wrong active node (#23203 by @rzzf)
+- Components [table] prevent `showOverflowTooltip` overwrite (#23215 by @zhixiaotong)
+- Components [timeline] normal rendering default slot (#23217 by @btea)
+- Components [cascader] the prefix slot content is covered by tags (#23236 by @btea)
+- Components [dialog] clear the lingering `closing` state (#23249 by @rzzf)
+- Components [select/select-v2] apply popper-options to tag tooltip (#22255 by @keeplearning66)
+- Components [select/select-v2] show empty slot when remote search empty (#23195 by @YXY-cell)
+- Components [table-v2] respect column flexShrink configuration (#22914 by @yicheny)
+- Components [virtual-list] incorrect scroll boundary check (#23289 by @rzzf)
+- Components [virtual-list] incorrect scroll boundary check (#20766 by @hutengyue)
+- Components [table] `current-change` event exposes the old row object (#23237 by @cassie-ye)
+- Components [alert] fix empty slot incorrectly detected as hasDesc (#23312 by @E66Crisp)
+- Components [table-v2] correct the indentation of sub-row (#23306 by @keeplearning66)
+- Components [tour] avoid Teleport inheriting attribute (#23336 by @rzzf)
+- Components [autocomplete] fix incorrect aria-controls value (#23350 by @E66Crisp)
+- Components [table-v2] keep scrollToRow from changing horiz offset (#22930 by @yicheny)
+- Style(components): separate sub component styles (#23153 by @rzzf)
+- Revert "fix(components): [select/select-v2] prevent dropdown closing on mixed input (#22869 by @rzzf)" (#23224)
+
+#### Refactors
+
+- Test-utils remove redundant code in tick.ts (#21903 by @micaiguai)
+- Components [table] remove unnecessary reactivity (#23254 by @web3Worker-x)
+- Improvement(components): [virtual-list] preventDefault only when the scroll directions match (#22989 by @rzzf)
+
 ### 2.13.0
 
 _2025-12-19_
