@@ -1,7 +1,12 @@
 <template>
-  <el-switch v-model="reverse" active-text="reverse" />
+  <el-radio-group v-model="mode">
+    <el-radio-button label="start" value="start" />
+    <el-radio-button label="alternate" value="alternate" />
+    <el-radio-button label="alternate-reverse" value="alternate-reverse" />
+    <el-radio-button label="end" value="end" />
+  </el-radio-group>
 
-  <el-timeline class="mt-2" :reverse="reverse">
+  <el-timeline class="mt-4" :mode="mode">
     <el-timeline-item
       v-for="(activity, index) in activities"
       :key="index"
@@ -15,7 +20,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-const reverse = ref(true)
+import type { TimelineProps } from 'element-plus'
+
 const activities = [
   {
     content: 'Event start',
@@ -30,4 +36,6 @@ const activities = [
     timestamp: '2018-04-11',
   },
 ]
+
+const mode = ref<TimelineProps['mode']>('start')
 </script>

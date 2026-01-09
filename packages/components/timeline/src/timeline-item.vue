@@ -1,5 +1,5 @@
 <template>
-  <li :class="[ns.b(), { [ns.e('center')]: center }]">
+  <li :class="timelineItemKls">
     <div :class="ns.e('tail')" />
     <div
       v-if="!$slots.dot"
@@ -39,10 +39,13 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
 import { timelineItemProps } from './timeline-item'
+import { TIMELINE_INJECTION_KEY } from './tokens'
+
+import type { TimelineProvider } from './tokens'
 
 defineOptions({
   name: 'ElTimelineItem',
@@ -50,11 +53,21 @@ defineOptions({
 
 const props = defineProps(timelineItemProps)
 
+const { props: timelineProps } = inject<TimelineProvider>(
+  TIMELINE_INJECTION_KEY
+)!
+
 const ns = useNamespace('timeline-item')
 const defaultNodeKls = computed(() => [
   ns.e('node'),
   ns.em('node', props.size || ''),
   ns.em('node', props.type || ''),
   ns.is('hollow', props.hollow),
+])
+
+const timelineItemKls = computed(() => [
+  ns.b(),
+  { [ns.e('center')]: props.center },
+  ns.is(timelineProps.mode),
 ])
 </script>
