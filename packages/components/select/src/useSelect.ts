@@ -313,6 +313,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
         states.inputValue = ''
         states.previousQuery = null
         states.isBeforeHide = true
+        states.menuVisibleOnFocus = false
       }
     }
   )
