@@ -77,24 +77,28 @@ describe('Avatar.vue', () => {
     }
   })
 
-  test('src changed', async () => {
-    const wrapper = mount(
-      <Avatar
-        v-slots={{
-          default: () => 'fallback',
-        }}
-      />
-    )
+  describe('image source changed', () => {
+    test.each([
+      { name: 'src', prop: 'src' },
+      { name: 'srcSet', prop: 'srcSet' },
+    ])('$name', async ({ prop }) => {
+      const wrapper = mount(
+        <Avatar
+          v-slots={{
+            default: () => 'fallback',
+          }}
+        />
+      )
 
-    expect(wrapper.vm.hasLoadError).toBe(false)
-    await wrapper.setProps({ src: IMAGE_FAIL })
-    // wait error event trigger
-    await stableLoad(() => !wrapper.vm.hasLoadError)
-    expect(wrapper.vm.hasLoadError).toBe(true)
-    await wrapper.setProps({ src: IMAGE_SUCCESS })
-    await flushPromises()
-    expect(wrapper.vm.hasLoadError).toBe(false)
-    expect(wrapper.find('img').exists()).toBe(true)
+      expect(wrapper.vm.hasLoadError).toBe(false)
+      await wrapper.setProps({ [prop]: IMAGE_FAIL })
+      await stableLoad(() => !wrapper.vm.hasLoadError)
+      expect(wrapper.vm.hasLoadError).toBe(true)
+      await wrapper.setProps({ [prop]: IMAGE_SUCCESS })
+      await flushPromises()
+      expect(wrapper.vm.hasLoadError).toBe(false)
+      expect(wrapper.find('img').exists()).toBe(true)
+    })
   })
 })
 
