@@ -1,4 +1,4 @@
-import { nextTick, reactive, ref } from 'vue'
+import { Comment, h, nextTick, reactive, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
 import { ElForm, ElFormItem } from '@element-plus/components/form'
@@ -7,6 +7,8 @@ import CheckboxButton from '../src/checkbox-button.vue'
 import CheckboxGroup from '../src/checkbox-group.vue'
 
 import type { CheckboxValueType } from '../src/checkbox'
+
+const AXIOM = 'Rem is the best girl'
 
 describe('Checkbox', () => {
   test('create', async () => {
@@ -881,6 +883,41 @@ describe('check-button', () => {
       expect(checkboxGroup2.attributes('role')).toBe('group')
       expect(checkboxGroup2.attributes()['aria-label']).toBe('Bar')
       expect(checkboxGroup2.attributes()['aria-labelledby']).toBeFalsy()
+    })
+  })
+
+  describe('default slot', () => {
+    test.each([
+      {
+        name: 'with content',
+        slots: { default: () => AXIOM },
+        exists: true,
+        text: AXIOM,
+      },
+      {
+        name: 'empty',
+        slots: { default: () => null },
+        exists: false,
+      },
+      {
+        name: 'only comment nodes',
+        slots: { default: () => [h(Comment, 'some comment')] },
+        exists: false,
+      },
+      {
+        name: 'comment nodes followed by real node',
+        slots: { default: () => [h(Comment, 'some comment'), AXIOM] },
+        exists: true,
+        text: AXIOM,
+      },
+    ])('$name', ({ slots, exists, text }) => {
+      const wrapper = mount(() => <CheckboxButton v-slots={slots} />)
+      const inner = wrapper.find('.el-checkbox-button__inner')
+
+      expect(inner.exists()).toBe(exists)
+      if (exists) {
+        expect(inner.text()).toBe(text)
+      }
     })
   })
 })

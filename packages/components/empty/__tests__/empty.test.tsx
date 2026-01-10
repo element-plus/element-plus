@@ -1,3 +1,4 @@
+import { Comment, h } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
 import Empty from '../src/empty.vue'
@@ -51,14 +52,38 @@ describe('Empty.vue', () => {
     expect(wrapper.find('.el-empty__description').text()).toEqual(AXIOM)
   })
 
-  test('should render default slots', async () => {
-    const wrapper = mount(() => (
-      <Empty
-        v-slots={{
-          default: () => AXIOM,
-        }}
-      />
-    ))
-    expect(wrapper.find('.el-empty__bottom').text()).toEqual(AXIOM)
+  describe('default slot', () => {
+    test.each([
+      {
+        name: 'with content',
+        slots: { default: () => AXIOM },
+        exists: true,
+        text: AXIOM,
+      },
+      {
+        name: 'empty',
+        slots: { default: () => null },
+        exists: false,
+      },
+      {
+        name: 'only comment nodes',
+        slots: { default: () => [h(Comment, 'some comment')] },
+        exists: false,
+      },
+      {
+        name: 'comment nodes followed by real node',
+        slots: { default: () => [h(Comment, 'some comment'), AXIOM] },
+        exists: true,
+        text: AXIOM,
+      },
+    ])('$name', ({ slots, exists, text }) => {
+      const wrapper = mount(() => <Empty v-slots={slots} />)
+      const bottom = wrapper.find('.el-empty__bottom')
+
+      expect(bottom.exists()).toBe(exists)
+      if (exists) {
+        expect(bottom.text()).toBe(text)
+      }
+    })
   })
 })

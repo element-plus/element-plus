@@ -15,7 +15,7 @@
     />
 
     <span
-      v-if="$slots.default || label"
+      v-if="hasValidContent"
       :class="ns.be('button', 'inner')"
       :style="isChecked ? activeStyle : undefined"
     >
@@ -30,6 +30,7 @@ import { useNamespace } from '@element-plus/hooks'
 import { checkboxGroupContextKey } from './constants'
 import { useCheckbox } from './composables'
 import { checkboxEmits, checkboxProps } from './checkbox'
+import { flattedChildren, isComment } from '@element-plus/utils'
 
 import type { CSSProperties } from 'vue'
 
@@ -66,6 +67,15 @@ const inputBindings = computed(() => {
   return {
     value: actualValue.value,
   }
+})
+
+const hasValidContent = computed(() => {
+  if (props.label) return true
+  const slotContent = slots.default?.()
+  if (!slotContent) return false
+
+  const children = flattedChildren(slotContent)
+  return children.some((child) => child !== null && !isComment(child))
 })
 
 const checkboxGroup = inject(checkboxGroupContextKey, undefined)
