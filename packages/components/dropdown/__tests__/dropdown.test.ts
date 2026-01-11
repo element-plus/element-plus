@@ -1053,4 +1053,74 @@ describe('Dropdown', () => {
     expect(content.open).toBe(true)
     vi.useRealTimers()
   })
+
+  test('render icon slot content', async () => {
+    const wrapper = _mount(`
+      <el-dropdown trigger="hover">
+        <span class="el-dropdown-link">
+          Trigger
+        </span>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item>
+              <template #icon>
+                <i class="test-icon">ICON</i>
+              </template>
+              Action
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+    `)
+
+    await nextTick()
+
+    // Open dropdown
+    const triggerElm = wrapper.find('.el-dropdown-link')
+    await triggerElm.trigger(MOUSE_ENTER_EVENT)
+    await nextTick()
+
+    // The el-icon should be rendered
+    const icon = wrapper
+      .findComponent({ name: 'DropdownItemImpl' })
+      .findComponent({ name: 'ElIcon' })
+    expect(icon.exists()).toBe(true)
+
+    // The icon content should be rendered
+    const content = icon.find('.test-icon')
+    expect(content.exists()).toBe(true)
+    expect(content.text()).toBe('ICON')
+  })
+
+  test("no el-icon rendered if icon didn't passed in ", async () => {
+    const wrapper = _mount(`
+      <el-dropdown trigger="hover">
+        <span class="el-dropdown-link">
+          Trigger
+        </span>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item>
+              Action
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+    `)
+
+    await nextTick()
+
+    // Open dropdown
+    const triggerElm = wrapper.find('.el-dropdown-link')
+    await triggerElm.trigger(MOUSE_ENTER_EVENT)
+    await nextTick()
+
+    // Find icon element
+    const icon = wrapper
+      .findComponent({ name: 'DropdownItemImpl' })
+      .findComponent({ name: 'ElIcon' })
+
+    // The icon slot content shouldn't be rendered
+    expect(icon.exists()).toBe(false)
+  })
 })

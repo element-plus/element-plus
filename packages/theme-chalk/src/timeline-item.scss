@@ -1,19 +1,25 @@
 @use 'mixins/mixins' as *;
 @use 'common/var' as *;
 
+@mixin alternate-tail-node-center {
+  @include e((tail, node)) {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
 @include b(timeline-item) {
   position: relative;
   padding-bottom: 20px;
 
   @include e(wrapper) {
+    box-sizing: content-box;
     position: relative;
-    padding-left: 28px;
     top: -3px;
   }
 
   @include e(tail) {
     position: absolute;
-    left: 4px;
     height: 100%;
     border-left: 2px solid getCssVar('timeline-node-color');
   }
@@ -34,12 +40,10 @@
     align-items: center;
 
     @include m(normal) {
-      left: -1px;
       width: getCssVar('timeline-node-size-normal');
       height: getCssVar('timeline-node-size-normal');
     }
     @include m(large) {
-      left: -2px;
       width: getCssVar('timeline-node-size-large');
       height: getCssVar('timeline-node-size-large');
     }
@@ -80,5 +84,52 @@
     @include when(bottom) {
       margin-top: 8px;
     }
+  }
+
+  @include when(start) {
+    @include e(wrapper) {
+      padding-left: 28px;
+    }
+
+    @include e(tail) {
+      left: 4px;
+    }
+
+    @include e(node) {
+      @include m(normal) {
+        left: -1px;
+      }
+      @include m(large) {
+        left: -2px;
+      }
+    }
+  }
+
+  @include when(end) {
+    @include e(wrapper) {
+      padding-right: 28px;
+      text-align: right;
+    }
+
+    @include e(tail) {
+      right: 4px;
+    }
+
+    @include e(node) {
+      @include m(normal) {
+        right: -1px;
+      }
+      @include m(large) {
+        right: -2px;
+      }
+    }
+  }
+
+  @include when(alternate) {
+    @include alternate-tail-node-center;
+  }
+
+  @include when(alternate-reverse) {
+    @include alternate-tail-node-center;
   }
 }

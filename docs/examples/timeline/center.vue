@@ -1,5 +1,5 @@
 <template>
-  <el-timeline style="max-width: 600px">
+  <el-timeline>
     <el-timeline-item center timestamp="2018/4/12" placement="top">
       <el-card>
         <h4>Update Github template</h4>
