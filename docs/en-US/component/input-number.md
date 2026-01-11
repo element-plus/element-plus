@@ -140,11 +140,11 @@ For precision purposes, the input number is limited from [Number.MIN_SAFE_INTEGE
 
 ### Events
 
-| Name   | Description                     | Type                                                                                    |
-| ------ | ------------------------------- | --------------------------------------------------------------------------------------- |
-| change | triggers when the value changes | ^[Function]`(currentValue: number \| undefined, oldValue: number \| undefined) => void` |
-| blur   | triggers when Input blurs       | ^[Function]`(event: FocusEvent) => void`                                                |
-| focus  | triggers when Input focuses     | ^[Function]`(event: FocusEvent) => void`                                                |
+| Name   | Description                     | Type                                                                                       |
+| ------ | ------------------------------- | ------------------------------------------------------------------------------------------ |
+| change | triggers when the value changes | ^[Function]`(currentValue: number \| null, oldValue: number \| null \| undefined) => void` |
+| blur   | triggers when Input blurs       | ^[Function]`(event: FocusEvent) => void`                                                   |
+| focus  | triggers when Input focuses     | ^[Function]`(event: FocusEvent) => void`                                                   |
 
 ### Exposes
 
