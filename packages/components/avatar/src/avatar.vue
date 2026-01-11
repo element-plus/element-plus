@@ -28,6 +28,9 @@ import { useResizeObserver } from '@vueuse/core'
 
 import type { CSSProperties } from 'vue'
 
+// Prevent text from touching the avatar boundary
+const TEXT_GAP_RATIO = 0.9
+
 defineOptions({
   name: 'ElAvatar',
 })
@@ -93,14 +96,14 @@ function handleError(e: Event) {
 function setTextAutoFitScale() {
   if (props.src || props.srcSet || props.icon) return
 
-  const avatarWidth = avatarRef.value!.offsetWidth
-  const textWidth = textRef.value!.offsetWidth
+  const avatarWidth = avatarRef.value?.offsetWidth
+  const textWidth = textRef.value?.offsetWidth
 
   if (!textWidth || !avatarWidth) {
     scale.value = 1
     return
   }
-  scale.value = avatarWidth / textWidth
+  scale.value = (avatarWidth / textWidth) * TEXT_GAP_RATIO
 }
 
 // When size prop or text changes, reset the scale

@@ -125,7 +125,7 @@ describe('Avatar.vue', () => {
         .mockReturnValue(100)
 
       await nextTick()
-      expect(text.attributes('style')).toContain('transform: scale(0.5);')
+      expect(text.attributes('style')).toContain('transform: scale(0.45);')
       mockAvatarWidth.mockRestore()
       mockTextWidth.mockRestore()
     })
