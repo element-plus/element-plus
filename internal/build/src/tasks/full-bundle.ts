@@ -6,7 +6,6 @@ import commonjs from '@rollup/plugin-commonjs'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import esbuild, { minify as minifyPlugin } from 'rollup-plugin-esbuild'
-import { parallel } from 'gulp'
 import { glob } from 'tinyglobby'
 import { camelCase, upperFirst } from 'lodash-unified'
 import {
@@ -14,19 +13,18 @@ import {
   PKG_CAMELCASE_LOCAL_NAME,
   PKG_CAMELCASE_NAME,
 } from '@element-plus/build-constants'
-import { epOutput, epRoot, localeRoot } from '@element-plus/build-utils'
+import {
+  epOutput,
+  epRoot,
+  execCommand,
+  localeRoot,
+} from '@element-plus/build-utils'
 import { version } from '../../../../packages/element-plus/version'
 import { ElementPlusAlias } from '../plugins/element-plus-alias'
-import {
-  formatBundleFilename,
-  generateExternal,
-  withTaskName,
-  writeBundles,
-} from '../utils'
+import { formatBundleFilename, generateExternal, writeBundles } from '../utils'
 import { target } from '../build-info'
 import { SupplyValidator } from '../plugins/supply-validator'
 
-import type { TaskFunction } from 'gulp'
 import type { Plugin } from 'rollup'
 
 const banner = `/*! ${PKG_BRAND_NAME} v${version} */\n`
@@ -153,7 +151,9 @@ async function buildFullLocale(minify: boolean) {
 export const buildFull = (minify: boolean) => async () =>
   Promise.all([buildFullEntry(minify), buildFullLocale(minify)])
 
-export const buildFullBundle: TaskFunction = parallel(
-  withTaskName('buildFullMinified', buildFull(true)),
-  withTaskName('buildFull', buildFull(false))
-)
+export const buildFullBundle = () => {
+  return Promise.all([
+    execCommand(buildFull(true), 'buildFullMinified'),
+    execCommand(buildFull(false), 'buildFull'),
+  ])
+}

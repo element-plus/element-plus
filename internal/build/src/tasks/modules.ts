@@ -1,5 +1,4 @@
 import path from 'path'
-import { series } from 'gulp'
 import { rollup } from 'rollup'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
@@ -7,13 +6,17 @@ import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import esbuild from 'rollup-plugin-esbuild'
 import { glob } from 'tinyglobby'
-import { epRoot, excludeFiles, pkgRoot } from '@element-plus/build-utils'
-import { generateExternal, withTaskName, writeBundles } from '../utils'
+import {
+  epRoot,
+  excludeFiles,
+  execCommand,
+  pkgRoot,
+} from '@element-plus/build-utils'
+import { generateExternal, writeBundles } from '../utils'
 import { ElementPlusAlias } from '../plugins/element-plus-alias'
 import { buildConfigEntries, target } from '../build-info'
 import { SupplyValidator } from '../plugins/supply-validator'
 
-import type { TaskFunction } from 'gulp'
 import type { OutputOptions, Plugin } from 'rollup'
 
 const plugins: Plugin[] = [
@@ -95,7 +98,8 @@ async function buildModulesStyles() {
   )
 }
 
-export const buildModules: TaskFunction = series(
-  withTaskName('buildModulesComponents', buildModulesComponents),
-  withTaskName('buildModulesStyles', buildModulesStyles)
-)
+export const buildModules = () =>
+  Promise.all([
+    execCommand(buildModulesComponents),
+    execCommand(buildModulesStyles),
+  ])

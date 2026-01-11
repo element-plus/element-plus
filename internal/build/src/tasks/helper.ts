@@ -15,7 +15,6 @@ import {
   projRoot,
 } from '@element-plus/build-utils'
 
-import type { TaskFunction } from 'gulp'
 import type {
   ReAttribute,
   ReComponentName,
@@ -189,7 +188,7 @@ const transformFunction = (str: string) => {
   return `(${params}) => ${returns}`
 }
 
-export const buildHelper: TaskFunction = (done) => {
+export const buildHelper = () => {
   const { name, version } = getPackageManifest(epPackage)
 
   const tagVer = process.env.TAG_VERSION
@@ -218,6 +217,4 @@ export const buildHelper: TaskFunction = (done) => {
     tableRegExp:
       /#+\s+(.*\s*Attributes|.*\s*Events|.*\s*Slots|.*\s*Directives)\s*\n+(\|?.+\|.+)\n\|?\s*:?-+:?\s*\|.+((\n\|?.+\|.+)+)/g,
   })
-
-  done()
 }
