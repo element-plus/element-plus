@@ -81,7 +81,7 @@ const scaleStyle = computed<CSSProperties>(() => {
 
 // need reset hasLoadError to false if src changed
 watch(
-  () => props.src,
+  () => [props.src, props.srcSet],
   () => (hasLoadError.value = false)
 )
 
