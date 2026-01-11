@@ -95,6 +95,11 @@ function setTextAutoFitScale() {
 
   const avatarWidth = avatarRef.value!.offsetWidth
   const textWidth = textRef.value!.offsetWidth
+
+  if (!textWidth || !avatarWidth) {
+    scale.value = 1
+    return
+  }
   scale.value = avatarWidth / textWidth
 }
 
