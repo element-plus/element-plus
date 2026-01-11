@@ -1,6 +1,5 @@
 import path from 'path'
-import { copyFile, mkdir } from 'fs/promises'
-import { copy } from 'fs-extra'
+import { copyFile, cp, mkdir } from 'fs/promises'
 import {
   buildOutput,
   epOutput,
@@ -40,7 +39,7 @@ export const copyTypesDefinitions = () => {
   const src = path.resolve(buildOutput, 'types', 'packages')
   const copyTypes = (module: Module) => {
     return execCommand(
-      () => copy(src, buildConfig[module].output.path, { recursive: true }),
+      () => cp(src, buildConfig[module].output.path, { recursive: true }),
       `copyTypes:${module}`
     )
   }

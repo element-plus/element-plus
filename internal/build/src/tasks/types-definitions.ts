@@ -1,7 +1,6 @@
 import path from 'path'
-import { readFile, writeFile } from 'fs/promises'
+import { cp, readFile, rm, writeFile } from 'fs/promises'
 import { glob } from 'tinyglobby'
-import { copy, remove } from 'fs-extra'
 import { buildOutput } from '@element-plus/build-utils'
 import { pathRewriter, run } from '../utils'
 
@@ -20,6 +19,6 @@ export const generateTypesDefinitions = async () => {
   })
   await Promise.all(rewriteTasks)
   const sourceDir = path.join(typesDir, 'element-plus')
-  await copy(sourceDir, typesDir)
-  await remove(sourceDir)
+  await cp(sourceDir, typesDir, { recursive: true })
+  await rm(sourceDir, { recursive: true })
 }
