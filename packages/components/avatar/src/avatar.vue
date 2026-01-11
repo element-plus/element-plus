@@ -11,7 +11,7 @@
     <el-icon v-else-if="icon">
       <component :is="icon" />
     </el-icon>
-    <span v-else ref="textRef" :class="ns.e('text')" :style="scaleStyle">
+    <span v-else ref="textRef" :class="ns.e('text')" :style="textStyle">
       <slot />
     </span>
   </span>
@@ -70,7 +70,7 @@ const fitStyle = computed<CSSProperties>(() => ({
   objectFit: props.fit,
 }))
 
-const scaleStyle = computed<CSSProperties>(() => {
+const textStyle = computed<CSSProperties>(() => {
   if (scale.value < 1) {
     return {
       transform: `scale(${scale.value})`,
@@ -98,5 +98,6 @@ function setTextAutoFitScale() {
   scale.value = avatarWidth / textWidth
 }
 
+// When size prop or text changes, reset the scale
 useResizeObserver([avatarRef, textRef], setTextAutoFitScale)
 </script>
