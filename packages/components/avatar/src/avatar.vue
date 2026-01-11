@@ -106,6 +106,6 @@ function setTextAutoFitScale() {
   scale.value = (avatarWidth / textWidth) * TEXT_GAP_RATIO
 }
 
-// When size prop or text changes, reset the scale
+// When size prop or text changes, recalculate the scale
 useResizeObserver([avatarRef, textRef], setTextAutoFitScale)
 </script>
