@@ -102,17 +102,15 @@
     }
 
     @include m(labels) {
-      left: 0;
-      right: 0;
-      transform: none;
-      text-align: center;
-
       .#{$namespace}-carousel__button {
-        height: auto;
-        width: auto;
+        height: auto !important;
+        width: auto !important;
         padding: 2px 18px;
         font-size: 12px;
         color: $color-black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
 
       .#{$namespace}-carousel__indicator {
