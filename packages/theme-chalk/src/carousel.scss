@@ -14,11 +14,26 @@
 
   @include m(vertical) {
     overflow: hidden;
+
+    // When indicator-position is outside, use flex layout for horizontal arrangement
+    &:has(.#{$namespace}-carousel__indicators--outside) {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
   }
 
   @include e(container) {
     position: relative;
     height: 300px;
+
+    // When vertical with outside indicators, container should flex to fill space
+    .#{$namespace}-carousel--vertical:has(
+        .#{$namespace}-carousel__indicators--outside
+      )
+      & {
+      flex: 1;
+    }
   }
 
   @include e(arrow) {
@@ -79,13 +94,17 @@
     }
 
     @include m(outside) {
-      bottom: calc(
-        getCssVar('carousel-indicator-height') +
-          getCssVar('carousel-indicator-padding-vertical') * 2
-      );
       text-align: center;
       position: static;
       transform: none;
+
+      // Horizontal direction: indicators below carousel
+      .#{$namespace}-carousel--horizontal & {
+        bottom: calc(
+          getCssVar('carousel-indicator-height') +
+            getCssVar('carousel-indicator-padding-vertical') * 2
+        );
+      }
 
       .#{$namespace}-carousel__indicator:hover button {
         opacity: 0.64;
