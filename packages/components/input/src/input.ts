@@ -261,41 +261,134 @@ export const inputEmits = {
 export interface InputProps<
   M extends InputModelModifiers = InputModelModifiers,
 > {
+  /**
+   * @description native input id
+   */
   id?: string
+  /**
+   * @description input box size
+   */
   size?: ComponentSize
+  /**
+   * @description whether to disable
+   */
   disabled?: boolean
+  /**
+   * @description binding value
+   */
   modelValue?: string | number | null | undefined
+  /**
+   * @description v-model modifiers, reference [Vue modifiers](https://vuejs.org/guide/essentials/forms.html#modifiers)
+   */
   modelModifiers?: M
+  /**
+   * @description same as `maxlength` in native input
+   */
   maxlength?: string | number
+  /**
+   * @description same as `minlength` in native input
+   */
   minlength?: string | number
+  /**
+   * @description type of input, see more in [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types)
+   */
   type?: InputType
+  /**
+   * @description control the resizability
+   */
   resize?: 'none' | 'both' | 'horizontal' | 'vertical'
+  /**
+   * @description whether textarea has an adaptive height
+   */
   autosize?: InputAutoSize
   /**
-   * When the number of literal types in a union exceeds 315, the TS2590 error occurs.
-   * https://github.com/vuejs/core/issues/10514
+   * @description native input autocomplete
+   * - When the number of literal types in a union exceeds 315, the TS2590 error occurs. see: https://github.com/vuejs/core/issues/10514
    */
   autocomplete?: string // HTMLInputElement['autocomplete']
+  /**
+   * @description format content
+   */
   formatter?: (value: string) => string
+  /**
+   * @description parse content
+   */
   parser?: (value: string) => string
+  /**
+   * @description placeholder
+   */
   placeholder?: string
+  /**
+   * @description native input form
+   */
   form?: string
+  /**
+   * @description native input readonly
+   */
   readonly?: boolean
+  /**
+   * @description whether to show clear button
+   */
   clearable?: boolean
+  /**
+   * @description custom clear icon component
+   */
   clearIcon?: string | Component
+  /**
+   * @description toggleable password input
+   */
   showPassword?: boolean
+  /**
+   * @description word count
+   */
   showWordLimit?: boolean
+  /**
+   * @description word count position, valid when `show-word-limit` is true
+   */
   wordLimitPosition?: 'inside' | 'outside'
+  /**
+   * @description suffix icon
+   */
   suffixIcon?: string | Component
+  /**
+   * @description prefix icon
+   */
   prefixIcon?: string | Component
+  /**
+   * @description container role, internal properties provided for use by the picker component
+   */
   containerRole?: string
+  /**
+   * @description input tabindex
+   */
   tabindex?: string | number
+  /**
+   * @description whether to trigger form validation
+   */
   validateEvent?: boolean
+  /**
+   * @description input or textarea element style
+   */
   inputStyle?: StyleValue
+  /**
+   * @description native input autofocus
+   */
   autofocus?: boolean
+  /**
+   * @description number of rows of textarea, only works when `type` is 'textarea'
+   */
   rows?: number
+  /**
+   * @description native `aria-label` attribute
+   */
   ariaLabel?: string
+  /**
+   * @description native input mode for virtual keyboards
+   */
   inputmode?: HTMLAttributes['inputmode']
+  /**
+   * @description same as `name` in native input
+   */
   name?: string
 }
 
