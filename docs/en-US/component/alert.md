@@ -82,7 +82,7 @@ alert/icon-description
 | Name        | Description                              | Type                                                                        | Default |
 | ----------- | ---------------------------------------- | --------------------------------------------------------------------------- | ------- |
 | title       | alert title.                             | ^[string]                                                                   | —       |
-| type        | alert type.                              | ^[enum]`'primary' (2.9.11) \| 'success' \| 'warning' \| 'info' \| 'error' ` | info    |
+| type        | alert type.                              | ^[enum]`'primary' (2.9.11) \| 'success' \| 'warning' \| 'info' \| 'error'` | info    |
 | description | descriptive text.                        | ^[string]                                                                   | —       |
 | closable    | whether alert can be dismissed.          | ^[boolean]                                                                  | true    |
 | center      | whether content is placed in the center. | ^[boolean]                                                                  | false   |
