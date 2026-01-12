@@ -138,9 +138,12 @@ const carouselClasses = computed(() => {
     classes.push(ns.m('card'))
   }
   // When vertical with outside indicators, add modifier for flex layout
-  if (unref(isVertical) && props.indicatorPosition === 'outside') {
-    classes.push(ns.m('vertical-outside'))
-  }
+  classes.push(
+    ns.is(
+      'vertical-outside',
+      unref(isVertical) && props.indicatorPosition === 'outside'
+    )
+  )
   return classes
 })
 
