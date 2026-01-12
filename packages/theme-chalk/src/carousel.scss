@@ -14,26 +14,22 @@
 
   @include m(vertical) {
     overflow: hidden;
+  }
 
-    // When indicator-position is outside, use flex layout for horizontal arrangement
-    &:has(.#{$namespace}-carousel__indicators--outside) {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
+  // When vertical with outside indicators, use flex layout for horizontal arrangement
+  @include m(vertical-outside) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .#{$namespace}-carousel__container {
+      flex: 1;
     }
   }
 
   @include e(container) {
     position: relative;
     height: 300px;
-
-    // When vertical with outside indicators, container should flex to fill space
-    .#{$namespace}-carousel--vertical:has(
-        .#{$namespace}-carousel__indicators--outside
-      )
-      & {
-      flex: 1;
-    }
   }
 
   @include e(arrow) {
