@@ -18,7 +18,8 @@
     "@element-plus/utils": "workspace:^",
     "@popperjs/core": "catalog:",
     "@vueuse/core": "catalog:",
-    "lodash-unified": "catalog:"
+    "lodash-unified": "catalog:",
+    "vue-component-type-helpers": "catalog:"
   },
   "devDependencies": {
     "@element-plus/test-utils": "workspace:^",

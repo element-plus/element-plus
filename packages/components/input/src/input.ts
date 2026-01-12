@@ -10,16 +10,17 @@ import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import { CircleClose } from '@element-plus/icons-vue'
 
 import type {
-  ExtractPropTypes,
+  Component,
   ExtractPublicPropTypes,
   HTMLAttributes,
   StyleValue,
 } from 'vue'
+import type { ComponentSize } from '@element-plus/constants'
 
 export type InputModelModifiers = {
-  lazy?: boolean
-  number?: boolean
-  trim?: boolean
+  lazy?: true
+  number?: true
+  trim?: true
 }
 export type InputAutoSize = { minRows?: number; maxRows?: number } | boolean
 // Some commonly used values for input type
@@ -34,6 +35,9 @@ export type InputType =
   | 'url'
   | (string & NonNullable<unknown>)
 
+/**
+ * @deprecated Removed after 3.0.0
+ */
 export const inputProps = buildProps({
   /**
    * @description native input id
@@ -227,9 +231,15 @@ export const inputProps = buildProps({
    */
   name: String,
 } as const)
-export type InputProps = ExtractPropTypes<typeof inputProps>
+
+/**
+ * @deprecated Removed after 3.0.0
+ */
 export type InputPropsPublic = ExtractPublicPropTypes<typeof inputProps>
 
+/**
+ * @deprecated Removed after 3.0.0
+ */
 export const inputEmits = {
   [UPDATE_MODEL_EVENT]: (value: string) => isString(value),
   input: (value: string) => isString(value),
@@ -247,4 +257,66 @@ export const inputEmits = {
   compositionupdate: (evt: CompositionEvent) => evt instanceof CompositionEvent,
   compositionend: (evt: CompositionEvent) => evt instanceof CompositionEvent,
 }
-export type InputEmits = typeof inputEmits
+
+export interface InputProps<
+  M extends InputModelModifiers = InputModelModifiers,
+> {
+  id?: string
+  size?: ComponentSize
+  disabled?: boolean
+  modelValue?: string | number | null | undefined
+  modelModifiers?: M
+  maxlength?: string | number
+  minlength?: string | number
+  type?: InputType
+  resize?: 'none' | 'both' | 'horizontal' | 'vertical'
+  autosize?: InputAutoSize
+  /**
+   * When the number of literal types in a union exceeds 315, the TS2590 error occurs.
+   * https://github.com/vuejs/core/issues/10514
+   */
+  autocomplete?: string // HTMLInputElement['autocomplete']
+  formatter?: (value: string) => string
+  parser?: (value: string) => string
+  placeholder?: string
+  form?: string
+  readonly?: boolean
+  clearable?: boolean
+  clearIcon?: string | Component
+  showPassword?: boolean
+  showWordLimit?: boolean
+  wordLimitPosition?: 'inside' | 'outside'
+  suffixIcon?: string | Component
+  prefixIcon?: string | Component
+  containerRole?: string
+  tabindex?: string | number
+  validateEvent?: boolean
+  inputStyle?: StyleValue
+  autofocus?: boolean
+  rows?: number
+  ariaLabel?: string
+  inputmode?: HTMLAttributes['inputmode']
+  name?: string
+}
+
+export type InputEmits<M extends InputModelModifiers = InputModelModifiers> = {
+  'update:modelValue': [value: string | number]
+  input: [
+    value: M extends { number: true; lazy?: undefined }
+      ? string | number
+      : string,
+  ]
+  change: [
+    value: M extends { number: true } ? string | number : string,
+    evt?: Event,
+  ]
+  focus: [evt: FocusEvent]
+  blur: [evt: FocusEvent]
+  clear: []
+  mouseleave: [evt: MouseEvent]
+  mouseenter: [evt: MouseEvent]
+  keydown: [evt: KeyboardEvent | Event]
+  compositionstart: [evt: CompositionEvent]
+  compositionupdate: [evt: CompositionEvent]
+  compositionend: [evt: CompositionEvent]
+}

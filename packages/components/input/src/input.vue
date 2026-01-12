@@ -160,7 +160,11 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script
+  lang="ts"
+  setup
+  generic="M extends InputModelModifiers = InputModelModifiers"
+>
 import {
   computed,
   nextTick,
@@ -175,7 +179,11 @@ import {
 import { useResizeObserver } from '@vueuse/core'
 import { isNil } from 'lodash-unified'
 import { ElIcon } from '@element-plus/components/icon'
-import { Hide as IconHide, View as IconView } from '@element-plus/icons-vue'
+import {
+  CircleClose as IconCircleClose,
+  Hide as IconHide,
+  View as IconView,
+} from '@element-plus/icons-vue'
 import {
   useFormDisabled,
   useFormItem,
@@ -202,9 +210,9 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import { calcTextareaHeight, looseToNumber } from './utils'
-import { inputEmits, inputProps } from './input'
 
-import type { StyleValue } from 'vue'
+import type { CSSProperties, StyleValue } from 'vue'
+import type { InputEmits, InputModelModifiers, InputProps } from './input'
 
 type TargetElement = HTMLInputElement | HTMLTextAreaElement
 
@@ -213,8 +221,20 @@ defineOptions({
   name: COMPONENT_NAME,
   inheritAttrs: false,
 })
-const props = defineProps(inputProps)
-const emit = defineEmits(inputEmits)
+const props = withDefaults(defineProps<InputProps<M>>(), {
+  disabled: undefined,
+  modelValue: '',
+  modelModifiers: () => ({}) as M,
+  type: 'text',
+  autocomplete: 'off',
+  clearIcon: IconCircleClose,
+  wordLimitPosition: 'inside',
+  tabindex: 0,
+  validateEvent: true,
+  inputStyle: () => ({}),
+  rows: 2,
+})
+const emit = defineEmits<InputEmits<M>>()
 
 const rawAttrs = useRawAttrs()
 const attrs = useAttrs()
@@ -288,7 +308,7 @@ const containerStyle = computed<StyleValue>(() => [
 const textareaStyle = computed<StyleValue>(() => [
   props.inputStyle,
   textareaCalcStyle.value,
-  { resize: props.resize },
+  { resize: props.resize as CSSProperties['resize'] },
 ])
 const nativeInputValue = computed(() =>
   isNil(props.modelValue) ? '' : String(props.modelValue)
@@ -409,7 +429,7 @@ const formatValue = (value: string) => {
     value = value.trim()
   }
   if (number) {
-    value = `${looseToNumber(value)}`
+    value = looseToNumber(value)
   }
   if (props.formatter && props.parser) {
     value = props.parser(value)
