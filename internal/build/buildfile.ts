@@ -18,7 +18,7 @@ import {
 
 import type { Module } from './src'
 
-export const copyFiles = () =>
+const copyFiles = () =>
   Promise.all([
     copyFile(epPackage, path.join(epOutput, 'package.json')),
     copyFile(
@@ -35,7 +35,7 @@ export const copyFiles = () =>
     ),
   ])
 
-export const copyTypesDefinitions = () => {
+const copyTypesDefinitions = () => {
   const src = path.resolve(buildOutput, 'types', 'packages')
   const copyTypes = (module: Module) => {
     return execCommand(
@@ -47,7 +47,7 @@ export const copyTypesDefinitions = () => {
   return Promise.all([copyTypes('esm'), copyTypes('cjs')])
 }
 
-export const copyFullStyle = async () => {
+const copyFullStyle = async () => {
   await mkdir(path.resolve(epOutput, 'dist'), { recursive: true })
   await copyFile(
     path.resolve(epOutput, 'theme-chalk/index.css'),
@@ -66,14 +66,14 @@ const makeOutput = async () => {
 }
 
 async function build() {
-  ;(await makeOutput(),
-    await Promise.all([
-      execCommand(buildModules),
-      execCommand(buildFullBundle),
-      execCommand(generateTypesDefinitions),
-      execCommand(buildHelper),
-      execCommand(buildStyle),
-    ]))
+  await makeOutput()
+  await Promise.all([
+    execCommand(buildModules),
+    execCommand(buildFullBundle),
+    execCommand(generateTypesDefinitions),
+    execCommand(buildHelper),
+    execCommand(buildStyle),
+  ])
   await Promise.all([copyTypesDefinitions(), execCommand(copyFiles)])
 }
 

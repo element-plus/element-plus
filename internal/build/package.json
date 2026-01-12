@@ -7,7 +7,7 @@
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "start": "tsx index.ts",
+    "start": "tsx buildfile.ts",
     "dev": "pnpm run stub",
     "stub": "unbuild --stub"
   },
@@ -36,6 +36,6 @@
   "devDependencies": {
     "@pnpm/types": "^8.4.0",
     "tsx": "^4.19.3",
-    "unbuild": "^2.0.0"
+    "unbuild": "^3.0.0"
   }
 }

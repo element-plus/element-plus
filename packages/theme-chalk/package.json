@@ -24,7 +24,7 @@
   "style": "index.css",
   "scripts": {
     "clean": "rimraf dist",
-    "build": "tsx test.ts"
+    "build": "tsx buildfile.ts"
   },
   "devDependencies": {
     "@element-plus/build": "workspace:*",
