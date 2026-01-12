@@ -308,15 +308,15 @@ export type InputEmits<M extends InputModelModifiers = InputModelModifiers> = {
   ]
   change: [
     value: M extends { number: true } ? string | number : string,
-    evt?: Event,
+    eve?: Event,
   ]
-  focus: [evt: FocusEvent]
-  blur: [evt: FocusEvent]
+  focus: [eve: FocusEvent]
+  blur: [eve: FocusEvent]
   clear: []
-  mouseleave: [evt: MouseEvent]
-  mouseenter: [evt: MouseEvent]
-  keydown: [evt: KeyboardEvent | Event]
-  compositionstart: [evt: CompositionEvent]
-  compositionupdate: [evt: CompositionEvent]
-  compositionend: [evt: CompositionEvent]
+  mouseleave: [eve: MouseEvent]
+  mouseenter: [eve: MouseEvent]
+  keydown: [eve: KeyboardEvent | Event]
+  compositionstart: [eve: CompositionEvent]
+  compositionupdate: [eve: CompositionEvent]
+  compositionend: [eve: CompositionEvent]
 }
