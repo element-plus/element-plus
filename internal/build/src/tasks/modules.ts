@@ -1,10 +1,6 @@
 import path from 'path'
-import { rollup } from 'rollup'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
-import { nodeResolve } from '@rollup/plugin-node-resolve'
-import commonjs from '@rollup/plugin-commonjs'
-import esbuild from 'rollup-plugin-esbuild'
 import { glob } from 'tinyglobby'
 import {
   epRoot,
@@ -14,26 +10,16 @@ import {
 } from '@element-plus/build-utils'
 import { generateExternal, writeBundles } from '../utils'
 import { ElementPlusAlias } from '../plugins/element-plus-alias'
-import { buildConfigEntries, target } from '../build-info'
+import { buildConfigEntries } from '../build-info'
 import { SupplyValidator } from '../plugins/supply-validator'
 
-import type { OutputOptions, Plugin } from 'rollup'
+import type { OutputOptions, Plugin } from 'rolldown'
+import { rolldown } from 'rolldown'
 
 const plugins: Plugin[] = [
   ElementPlusAlias(),
   vue() as Plugin,
   vueJsx() as Plugin,
-  nodeResolve({
-    extensions: ['.mjs', '.js', '.json', '.ts'],
-  }),
-  commonjs(),
-  esbuild({
-    sourceMap: true,
-    target,
-    loaders: {
-      '.vue': 'ts',
-    },
-  }),
   SupplyValidator(),
 ]
 
@@ -45,7 +31,7 @@ async function buildModulesComponents() {
       onlyFiles: true,
     })
   )
-  const bundle = await rollup({
+  const bundle = await rolldown({
     input,
     plugins,
     external: await generateExternal({ full: false }),
@@ -76,7 +62,7 @@ async function buildModulesStyles() {
       onlyFiles: true,
     })
   )
-  const bundle = await rollup({
+  const bundle = await rolldown({
     input,
     plugins,
     treeshake: false,

@@ -70,11 +70,11 @@ async function build() {
   await Promise.all([
     execCommand(buildModules),
     execCommand(buildFullBundle),
-    execCommand(generateTypesDefinitions),
+    //execCommand(generateTypesDefinitions),
     execCommand(buildHelper),
     execCommand(buildStyle),
   ])
-  await Promise.all([copyTypesDefinitions(), execCommand(copyFiles)])
+  await Promise.all([execCommand(copyFiles)])
 }
 
 function main() {

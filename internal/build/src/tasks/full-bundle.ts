@@ -1,11 +1,9 @@
 import path from 'path'
-import { nodeResolve } from '@rollup/plugin-node-resolve'
-import { rollup } from 'rollup'
-import replace from '@rollup/plugin-replace'
-import commonjs from '@rollup/plugin-commonjs'
+import { rolldown  } from 'rolldown'
+//@ts-expect-error
+import { replacePlugin } from 'rolldown/plugins'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
-import esbuild, { minify as minifyPlugin } from 'rollup-plugin-esbuild'
 import { glob } from 'tinyglobby'
 import { camelCase, upperFirst } from 'lodash-unified'
 import {
@@ -22,10 +20,9 @@ import {
 import { version } from '../../../../packages/element-plus/version'
 import { ElementPlusAlias } from '../plugins/element-plus-alias'
 import { formatBundleFilename, generateExternal, writeBundles } from '../utils'
-import { target } from '../build-info'
 import { SupplyValidator } from '../plugins/supply-validator'
 
-import type { Plugin } from 'rollup'
+import type { Plugin } from 'rolldown'
 
 const banner = `/*! ${PKG_BRAND_NAME} v${version} */\n`
 
@@ -34,38 +31,44 @@ async function buildFullEntry(minify: boolean) {
     ElementPlusAlias(),
     vue() as Plugin,
     vueJsx() as Plugin,
-    nodeResolve({
-      extensions: ['.mjs', '.js', '.json', '.ts'],
-    }),
-    commonjs(),
-    esbuild({
-      exclude: [],
-      sourceMap: minify,
-      target,
-      loaders: {
-        '.vue': 'ts',
-      },
-      define: {
-        'process.env.NODE_ENV': '"production"',
-      },
-      treeShaking: true,
-      legalComments: 'eof',
-    }),
-    replace({
+    //nodeResolve({
+    //  extensions: ['.mjs', '.js', '.json', '.ts'],
+    //}),
+    //esbuild({
+    //  exclude: [],
+    //  sourceMap: minify,
+    //  target,
+    //  loaders: {
+    //    '.vue': 'ts',
+    //  },
+    //  define: {
+    //    'process.env.NODE_ENV': '"production"',
+    //  },
+    //  treeShaking: true,
+    //  legalComments: 'eof',
+    //}),
+    replacePlugin({
       'process.env.NODE_ENV': '"production"',
     }),
     SupplyValidator(),
   ]
   if (minify) {
-    plugins.push(
-      minifyPlugin({
-        target,
-        sourceMap: true,
-      })
-    )
+    //minifyPlugin({
+    //  target,
+    //  sourceMap: true,
+    //})
+    plugins.push({
+      name: 'minify',
+      outputOptions: {
+        handler(options) {
+            options.sourcemap = true
+          return options
+        },
+      }
+    })
   }
 
-  const bundle = await rollup({
+  const bundle = await rolldown({
     input: path.resolve(epRoot, 'index.ts'),
     plugins,
     external: await generateExternal({ full: true }),
@@ -110,14 +113,19 @@ async function buildFullLocale(minify: boolean) {
       const filename = path.basename(file, '.ts')
       const name = upperFirst(camelCase(filename))
 
-      const bundle = await rollup({
+      const bundle = await rolldown({
         input: file,
         plugins: [
-          esbuild({
-            minify,
-            sourceMap: minify,
-            target,
-          }),
+          {
+            name: 'minify',
+            outputOptions: {
+              handler: (options) => {
+                options.minify = minify
+                options.sourcemap = minify
+                return options
+              },
+            }
+          }
         ],
       })
       await writeBundles(bundle, [

@@ -1,6 +1,6 @@
 import { epPackage, getPackageDependencies } from '@element-plus/build-utils'
 
-import type { OutputOptions, RollupBuild } from 'rollup'
+import type { OutputOptions, RolldownBuild } from 'rolldown'
 
 export const generateExternal = async (options: { full: boolean }) => {
   const { dependencies, peerDependencies } = getPackageDependencies(epPackage)
@@ -17,7 +17,7 @@ export const generateExternal = async (options: { full: boolean }) => {
   }
 }
 
-export function writeBundles(bundle: RollupBuild, options: OutputOptions[]) {
+export function writeBundles(bundle: RolldownBuild, options: OutputOptions[]) {
   return Promise.all(options.map((option) => bundle.write(option)))
 }
 

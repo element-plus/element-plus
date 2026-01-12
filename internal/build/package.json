@@ -29,6 +29,7 @@
     "lodash": "^4.17.23",
     "magic-string": "^0.30.21",
     "oxc-parser": "^0.110.0",
+    "rolldown": "1.0.0-beta.59",
     "rollup": "^4.55.1",
     "rollup-plugin-esbuild": "^4.9.1",
     "tinyglobby": "^0.2.15"
