@@ -35,11 +35,11 @@
         ref="tagTooltipRef"
         :disabled="!collapseTagsTooltip"
         :fallback-placements="['bottom', 'top', 'right', 'left']"
-        :effect="tagEffect"
+        :effect="effect"
         placement="bottom"
       >
         <template #default>
-          <div ref="collapseItemRef">
+          <div ref="collapseItemRef" :class="ns.e('collapse-tag')">
             <el-tag
               :closable="false"
               :size="tagSize"
