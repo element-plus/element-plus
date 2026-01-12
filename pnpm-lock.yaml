@@ -43,7 +43,7 @@ catalogs:
       specifier: ^3.5.22
       version: 3.5.25
     vue-component-type-helpers:
-      specifier: 3.2.2
+      specifier: ^3.2.2
       version: 3.2.2
 
 overrides:
@@ -122,6 +122,9 @@ importers:
       normalize-wheel-es:
         specifier: ^1.2.0
         version: 1.2.0
+      vue-component-type-helpers:
+        specifier: 'catalog:'
+        version: 3.2.2
     devDependencies:
       '@commitlint/cli':
         specifier: ^20.2.0
@@ -599,6 +602,9 @@ importers:
       vue:
         specifier: ^3.3.0
         version: 3.4.31(typescript@5.5.4)
+      vue-component-type-helpers:
+        specifier: 'catalog:'
+        version: 3.2.2
     devDependencies:
       '@types/node':
         specifier: '*'
