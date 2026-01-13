@@ -7,6 +7,7 @@
     <div
       v-show="visible"
       :id="id"
+      ref="notificationRef"
       :class="[ns.b(), customClass, horizontalClass]"
       :style="positionStyle"
       role="alert"
@@ -40,12 +41,13 @@
 
 <script lang="ts" setup>
 import { computed, onMounted, ref } from 'vue'
-import { useEventListener, useTimeoutFn } from '@vueuse/core'
+import { useEventListener, useResizeObserver, useTimeoutFn } from '@vueuse/core'
 import { TypeComponentsMap, getEventCode } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ElIcon } from '@element-plus/components/icon'
 import { useGlobalComponentSettings } from '@element-plus/components/config-provider'
 import { notificationEmits, notificationProps } from './notification'
+import { getLastOffset, getOffsetOrSpace } from './notify'
 
 import type { CSSProperties } from 'vue'
 
@@ -59,7 +61,9 @@ defineEmits(notificationEmits)
 const { ns, zIndex } = useGlobalComponentSettings('notification')
 const { nextZIndex, currentZIndex } = zIndex
 
+const notificationRef = ref<HTMLDivElement>()
 const visible = ref(false)
+const height = ref(0)
 let timer: (() => void) | undefined = undefined
 
 const typeClass = computed(() => {
@@ -80,9 +84,17 @@ const verticalProperty = computed(() =>
   props.position.startsWith('top') ? 'top' : 'bottom'
 )
 
+const position = computed(() => props.position)
+const lastOffset = computed(() => getLastOffset(props.id, position.value))
+const offset = computed(
+  () =>
+    getOffsetOrSpace(props.id, props.offset, position.value) + lastOffset.value
+)
+const bottom = computed(() => height.value + offset.value)
+
 const positionStyle = computed<CSSProperties>(() => {
   return {
-    [verticalProperty.value]: `${props.offset}px`,
+    [verticalProperty.value]: `${offset.value}px`,
     zIndex: props.zIndex ?? currentZIndex.value,
   }
 })
@@ -132,9 +144,13 @@ onMounted(() => {
 
 useEventListener(document, 'keydown', onKeydown)
 
+useResizeObserver(notificationRef, () => {
+  height.value = notificationRef.value!.getBoundingClientRect().height
+})
+
 defineExpose({
   visible,
-  /** @description close notification */
+  bottom,
   close,
 })
 </script>

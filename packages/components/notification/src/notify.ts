@@ -1,4 +1,4 @@
-import { createVNode, isVNode, render } from 'vue'
+import { createVNode, isVNode, render, shallowReactive } from 'vue'
 import {
   debugWarn,
   isClient,
@@ -19,18 +19,46 @@ import type {
   NotifyFn,
 } from './notification'
 
-// This should be a queue but considering there were `non-autoclosable` notifications.
-const notifications: Record<
+export const notifications: Record<
   NotificationOptions['position'],
   NotificationQueue
 > = {
-  'top-left': [],
-  'top-right': [],
-  'bottom-left': [],
-  'bottom-right': [],
+  'top-left': shallowReactive([]),
+  'top-right': shallowReactive([]),
+  'bottom-left': shallowReactive([]),
+  'bottom-right': shallowReactive([]),
 }
 
-// the gap size between each notification
+export const getInstance = (
+  id: string,
+  position: NotificationOptions['position']
+) => {
+  const list = notifications[position] || []
+  const idx = list.findIndex(({ vm }) => vm.component!.props.id === id)
+  const current = list[idx]
+  const prev = idx > 0 ? list[idx - 1] : undefined
+  return { current, prev }
+}
+
+export const getLastOffset = (
+  id: string,
+  position: NotificationOptions['position']
+): number => {
+  const { prev } = getInstance(id, position)
+  if (!prev) return 0
+  return prev.vm.component!.exposed!.bottom.value
+}
+
+export const getOffsetOrSpace = (
+  id: string,
+  offset: number,
+  position: NotificationOptions['position']
+) => {
+  const list = notifications[position] || []
+  const idx = list.findIndex(({ vm }) => vm.component!.props.id === id)
+  return idx > 0 ? GAP_SIZE : offset
+}
+
 const GAP_SIZE = 16
 let seed = 1
 
@@ -42,18 +70,13 @@ const notify: NotifyFn & Partial<Notify> = function (options = {}, context) {
   }
 
   const position = options.position || 'top-right'
-
-  let verticalOffset = options.offset || 0
-  notifications[position].forEach(({ vm }) => {
-    verticalOffset += (vm.el?.offsetHeight || 0) + GAP_SIZE
-  })
-  verticalOffset += GAP_SIZE
+  const positionInstances = notifications[position]
 
   const id = `notification_${seed++}`
   const userOnClose = options.onClose
   const props: Partial<NotificationProps> = {
     ...options,
-    offset: verticalOffset,
+    offset: options.offset ?? GAP_SIZE,
     id,
     onClose: () => {
       close(id, position, userOnClose)
@@ -92,11 +115,18 @@ const notify: NotifyFn & Partial<Notify> = function (options = {}, context) {
   // clean notification element preventing mem leak
   vm.props!.onDestroy = () => {
     render(null, container)
+    // Remove from instances after animation is done
+    const idx = positionInstances.findIndex(
+      (instance) => instance.vm.component!.props.id === id
+    )
+    if (idx !== -1) {
+      positionInstances.splice(idx, 1)
+    }
   }
 
   // instances will remove this item when close function gets called. So we do not need to worry about it.
   render(vm, container)
-  notifications[position].push({ vm })
+  positionInstances.push({ vm })
   appendTo.appendChild(container.firstElementChild!)
 
   return {
@@ -108,6 +138,7 @@ const notify: NotifyFn & Partial<Notify> = function (options = {}, context) {
     },
   }
 }
+
 notificationTypes.forEach((type) => {
   notify[type] = (options = {}, appContext) => {
     if (isString(options) || isVNode(options)) {
@@ -132,38 +163,24 @@ export function close(
   position: NotificationOptions['position'],
   userOnClose?: (vm: VNode) => void
 ): void {
-  // maybe we can store the index when inserting the vm to notification list.
-  const orientedNotifications = notifications[position]
-  const idx = orientedNotifications.findIndex(
-    ({ vm }) => vm.component?.props.id === id
+  const positionInstances = notifications[position]
+  if (!positionInstances) return
+
+  const idx = positionInstances.findIndex(
+    ({ vm }) => vm.component!.props.id === id
   )
   if (idx === -1) return
-  const { vm } = orientedNotifications[idx]
-  if (!vm) return
-  // calling user's on close function before notification gets removed from DOM.
-  userOnClose?.(vm)
 
-  // note that this is called @before-leave, that's why we were able to fetch this property.
-  const removedHeight = vm.el!.offsetHeight
-  const verticalPos = position.split('-')[0]
-  orientedNotifications.splice(idx, 1)
-  const len = orientedNotifications.length
-  if (len < 1) return
-  // starting from the removing item.
-  for (let i = idx; i < len; i++) {
-    // new position equals the current offsetTop minus removed height plus 16px(the gap size between each item)
-    const { el, component } = orientedNotifications[i].vm
-    const pos =
-      Number.parseInt(el!.style[verticalPos], 10) - removedHeight - GAP_SIZE
-    component!.props.offset = pos
-  }
+  const { vm } = positionInstances[idx]
+  if (!vm) return
+
+  userOnClose?.(vm)
 }
 
 export function closeAll(): void {
   // loop through all directions, close them at once.
-  for (const orientedNotifications of Object.values(notifications)) {
-    orientedNotifications.forEach(({ vm }) => {
-      // same as the previous close method, we'd like to make sure lifecycle gets handle properly.
+  for (const positionInstances of Object.values(notifications)) {
+    positionInstances.forEach(({ vm }) => {
       ;(vm.component!.exposed as { visible: Ref<boolean> }).visible.value =
         false
     })

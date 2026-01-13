@@ -7,6 +7,36 @@ import defineGetter from '@element-plus/test-utils/define-getter'
 import type { NotificationHandle } from '../src/notification'
 import type { VNode } from 'vue'
 
+// Store resize observer callbacks for manual triggering in tests
+const resizeObserverCallbacks: Array<() => void> = []
+
+// Mock useResizeObserver to work in jsdom - calls callback with getBoundingClientRect
+vi.mock('@vueuse/core', async (importOriginal) => {
+  const original = await importOriginal<typeof import('@vueuse/core')>()
+  return {
+    ...original,
+    useResizeObserver: vi.fn((target, callback) => {
+      const triggerCallback = () => {
+        const el =
+          typeof target === 'function' ? target() : (target?.value ?? target)
+        if (el && typeof el.getBoundingClientRect === 'function') {
+          callback([{ contentRect: el.getBoundingClientRect() }])
+        }
+      }
+      // Store callback for later triggering
+      resizeObserverCallbacks.push(triggerCallback)
+      // Call callback after a microtask to allow element to be in DOM
+      queueMicrotask(triggerCallback)
+      return { stop: vi.fn() }
+    }),
+  }
+})
+
+// Helper to trigger resize observer callbacks for all elements
+const triggerResizeObservers = () => {
+  resizeObserverCallbacks.forEach((callback) => callback())
+}
+
 const selector = '.el-notification'
 
 describe('Notification on command', () => {
@@ -97,6 +127,22 @@ describe('Notification on command', () => {
     const notifications: NotificationHandle[] = []
     const cleanups: (() => void)[] = []
 
+    // Mock getBoundingClientRect globally before creating notifications
+    const origGetBoundingClientRect = Element.prototype.getBoundingClientRect
+    Element.prototype.getBoundingClientRect = function (this: HTMLElement) {
+      const rect = origGetBoundingClientRect.call(this)
+      return {
+        ...rect,
+        height:
+          this.style?.height !== undefined
+            ? Number.parseFloat(this.style.height) || height
+            : height,
+      }
+    }
+    cleanups.push(() => {
+      Element.prototype.getBoundingClientRect = origGetBoundingClientRect
+    })
+
     for (let i = 0; i < 4; i++) {
       notifications.push(Notification({ duration: 0 }))
 
@@ -129,6 +175,10 @@ describe('Notification on command', () => {
     )
 
     notificationEls[0]?.style.setProperty('height', '150px')
+
+    // Trigger resize observers to update component's internal height
+    triggerResizeObservers()
+    await nextTick()
 
     updateOffsets('top-right')
 
