@@ -10,6 +10,13 @@
     width: 100%;
     margin: 24px 0;
     border-top: 1px getCssVar('border-color') getCssVar('border-style');
+
+    @include when(with-text) {
+      display: flex;
+      align-items: center;
+      height: auto;
+      border-top: none;
+    }
   }
 
   @include m(vertical) {
@@ -22,27 +29,28 @@
     border-left: 1px getCssVar('border-color') getCssVar('border-style');
   }
 
+  @include e(line) {
+    height: 1px;
+    border-top: 1px getCssVar('border-color') getCssVar('border-style');
+  }
+
   @include e(text) {
-    position: absolute;
-    background-color: getCssVar('bg-color');
     padding: 0 20px;
     font-weight: 500;
     color: getCssVar('text-color', 'primary');
     font-size: 14px;
+    flex-shrink: 0;
+  }
 
-    @include when(left) {
-      left: 20px;
-      transform: translateY(-50%);
-    }
+  @include when(with-text) {
+    @include e(line) {
+      &.is-full {
+        flex: 1;
+      }
 
-    @include when(center) {
-      left: 50%;
-      transform: translateX(-50%) translateY(-50%);
-    }
-
-    @include when(right) {
-      right: 20px;
-      transform: translateY(-50%);
+      &.is-short {
+        flex: 0 0 20px;
+      }
     }
   }
 }

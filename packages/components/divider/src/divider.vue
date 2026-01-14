@@ -1,15 +1,44 @@
 <template>
   <div
-    :class="[ns.b(), ns.m(direction)]"
+    :class="[
+      ns.b(),
+      ns.m(direction),
+      {
+        [ns.is('with-text')]: $slots.default && direction !== 'vertical',
+      },
+    ]"
     :style="dividerStyle"
     role="separator"
   >
-    <div
-      v-if="$slots.default && direction !== 'vertical'"
-      :class="[ns.e('text'), ns.is(contentPosition)]"
-    >
-      <slot />
-    </div>
+    <template v-if="$slots.default && direction !== 'vertical'">
+      <div
+        :class="[
+          ns.e('line'),
+          ns.is('left'),
+          {
+            [ns.is('short')]: props.contentPosition === 'left',
+            [ns.is('full')]:
+              props.contentPosition === 'right' ||
+              props.contentPosition === 'center',
+          },
+        ]"
+      />
+      <span :class="[ns.e('text'), ns.is(props.contentPosition)]">
+        <slot />
+      </span>
+      <div
+        :class="[
+          ns.e('line'),
+          ns.is('right'),
+          {
+            [ns.is('short')]: props.contentPosition === 'right',
+            [ns.is('full')]:
+              props.contentPosition === 'left' ||
+              props.contentPosition === 'center',
+          },
+        ]"
+      />
+    </template>
   </div>
 </template>
 
