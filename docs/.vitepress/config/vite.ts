@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'node:path'
 import Inspect from 'vite-plugin-inspect'
 import UnoCSS from 'unocss/vite'
 import mkcert from 'vite-plugin-mkcert'

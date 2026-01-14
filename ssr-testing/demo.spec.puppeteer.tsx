@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'node:path'
 import { createApp } from 'vue'
 import { renderToString } from '@vue/server-renderer'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'

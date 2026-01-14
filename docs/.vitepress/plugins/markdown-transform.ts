@@ -1,5 +1,5 @@
-import fs from 'fs'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
 import { camelize } from '@vue/shared'
 import { glob } from 'tinyglobby'
 import { docRoot, docsDirName, projRoot } from '@element-plus/build-utils'

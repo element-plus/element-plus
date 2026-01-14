@@ -25,10 +25,13 @@
   "devDependencies": {
     "@element-plus/build-constants": "workspace:*",
     "@element-plus/build-utils": "workspace:*",
-    "@types/lodash-es": "^4.17.12",
+    "@types/lodash": "catalog:",
+    "@types/lodash-es": "catalog:",
     "chalk": "^5.3.0",
     "consola": "^2.15.3",
-    "lodash-es": "^4.17.21",
+    "lodash": "catalog:",
+    "lodash-es": "catalog:",
+    "lodash-unified": "catalog:",
     "octokit": "^2.1.0",
     "tinyglobby": "^0.2.15",
     "tsx": "^4.7.1"

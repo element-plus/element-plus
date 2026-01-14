@@ -2,8 +2,6 @@ import consola from 'consola'
 import chalk from 'chalk'
 import { errorAndExit, getWorkspacePackages } from '@element-plus/build-utils'
 
-import type { Project } from '@pnpm/find-workspace-packages'
-
 async function main() {
   const tagVersion = process.env.TAG_VERSION
   const gitHead = process.env.GIT_HEAD
@@ -28,7 +26,9 @@ async function main() {
   const eslintConfig = pkgs['@element-plus/eslint-config']
   const metadata = pkgs['@element-plus/metadata']
 
-  const writeVersion = async (project: Project) => {
+  const writeVersion = async (
+    project: Awaited<ReturnType<typeof getWorkspacePackages>>[number]
+  ) => {
     await project.writeProjectManifest({
       ...project.manifest,
       version: tagVersion,

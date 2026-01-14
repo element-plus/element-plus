@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'node:path'
 import { PKG_NAME } from '@element-plus/build-constants'
 import { epOutput } from '@element-plus/build-utils'
 

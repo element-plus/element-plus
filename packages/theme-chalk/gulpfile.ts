@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'node:path'
 import { Transform } from 'stream'
 import chalk from 'chalk'
 import { dest, parallel, series, src } from 'gulp'

@@ -1,5 +1,5 @@
-import path from 'path'
-import { readFile, writeFile } from 'fs/promises'
+import { readFile, writeFile } from 'node:fs/promises'
+import path from 'node:path'
 import { glob } from 'tinyglobby'
 import { copy, remove } from 'fs-extra'
 import { buildOutput } from '@element-plus/build-utils'

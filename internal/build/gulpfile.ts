@@ -1,5 +1,5 @@
-import path from 'path'
-import { copyFile, mkdir } from 'fs/promises'
+import path from 'node:path'
+import { copyFile, mkdir } from 'node:fs/promises'
 import { copy } from 'fs-extra'
 import { parallel, series } from 'gulp'
 import {

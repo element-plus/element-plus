@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'node:path'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import { rollup } from 'rollup'
 import replace from '@rollup/plugin-replace'

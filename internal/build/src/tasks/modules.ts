@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'node:path'
 import { series } from 'gulp'
 import { rollup } from 'rollup'
 import vue from '@vitejs/plugin-vue'

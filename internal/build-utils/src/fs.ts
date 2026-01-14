@@ -1,5 +1,5 @@
-import { existsSync } from 'fs'
-import { mkdir, writeFile } from 'fs/promises'
+import { existsSync } from 'node:fs'
+import { mkdir, writeFile } from 'node:fs/promises'
 
 export const writeJson = (path: string, data: any, spaces = 0) =>
   writeFile(path, JSON.stringify(data, undefined, spaces), 'utf-8')

@@ -6,12 +6,54 @@ settings:
 
 catalogs:
   default:
+    '@ctrl/tinycolor':
+      specifier: ^3.4.1
+      version: 3.6.1
+    '@element-plus/icons-vue':
+      specifier: ^2.3.2
+      version: 2.3.2
+    '@popperjs/core':
+      specifier: npm:@sxzz/popperjs-es@^2.11.7
+      version: 2.11.7
+    '@types/lodash':
+      specifier: ^4.17.21
+      version: 4.17.21
+    '@types/lodash-es':
+      specifier: ^4.17.12
+      version: 4.17.12
+    '@vitejs/plugin-vue':
+      specifier: ^5.1.4
+      version: 5.2.4
+    '@vitejs/plugin-vue-jsx':
+      specifier: ^4.0.1
+      version: 4.2.0
     '@vue/server-renderer':
       specifier: ^3.5.22
       version: 3.5.25
+    '@vue/shared':
+      specifier: ^3.5.22
+      version: 3.5.25
+    '@vue/test-utils':
+      specifier: ^2.4.6
+      version: 2.4.6
     '@vueuse/core':
       specifier: ^10.11.0
       version: 10.11.1
+    lodash:
+      specifier: ^4.17.21
+      version: 4.17.21
+    lodash-es:
+      specifier: ^4.17.21
+      version: 4.17.22
+    lodash-unified:
+      specifier: ^1.0.3
+      version: 1.0.3
+    normalize-wheel-es:
+      specifier: ^1.2.0
+      version: 1.2.0
+    vue:
+      specifier: ^3.5.22
+      version: 3.5.25
 
 overrides:
   typescript: ~5.5.4
@@ -25,70 +67,6 @@ patchedDependencies:
 importers:
 
   .:
-    dependencies:
-      '@element-plus/components':
-        specifier: workspace:*
-        version: link:packages/components
-      '@element-plus/constants':
-        specifier: workspace:*
-        version: link:packages/constants
-      '@element-plus/directives':
-        specifier: workspace:*
-        version: link:packages/directives
-      '@element-plus/hooks':
-        specifier: workspace:*
-        version: link:packages/hooks
-      '@element-plus/icons-vue':
-        specifier: ^2.3.2
-        version: 2.3.2(vue@3.5.25(typescript@5.5.4))
-      '@element-plus/locale':
-        specifier: workspace:*
-        version: link:packages/locale
-      '@element-plus/test-utils':
-        specifier: workspace:*
-        version: link:packages/test-utils
-      '@element-plus/theme-chalk':
-        specifier: workspace:*
-        version: link:packages/theme-chalk
-      '@element-plus/utils':
-        specifier: workspace:*
-        version: link:packages/utils
-      '@floating-ui/dom':
-        specifier: ^1.0.1
-        version: 1.7.4
-      '@popperjs/core':
-        specifier: npm:@sxzz/popperjs-es@^2.11.7
-        version: '@sxzz/popperjs-es@2.11.7'
-      '@types/lodash':
-        specifier: ^4.17.20
-        version: 4.17.21
-      '@types/lodash-es':
-        specifier: ^4.17.12
-        version: 4.17.12
-      '@vueuse/core':
-        specifier: 'catalog:'
-        version: 10.11.1(vue@3.5.25(typescript@5.5.4))
-      async-validator:
-        specifier: ^4.2.5
-        version: 4.2.5(patch_hash=cc6d77b35ed2a1683012935ca9ed998d418912785fcf78c6497d3268ac596d23)
-      dayjs:
-        specifier: ^1.11.19
-        version: 1.11.19
-      lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
-      lodash-es:
-        specifier: ^4.17.21
-        version: 4.17.21
-      lodash-unified:
-        specifier: ^1.0.3
-        version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.21)(lodash@4.17.21)
-      memoize-one:
-        specifier: ^6.0.0
-        version: 6.0.0
-      normalize-wheel-es:
-        specifier: ^1.2.0
-        version: 1.2.0
     devDependencies:
       '@commitlint/cli':
         specifier: ^20.2.0
@@ -262,6 +240,12 @@ importers:
       '@rollup/plugin-replace':
         specifier: ^5.0.5
         version: 5.0.7(rollup@4.55.1)
+      '@types/lodash':
+        specifier: 'catalog:'
+        version: 4.17.21
+      '@types/lodash-es':
+        specifier: 'catalog:'
+        version: 4.17.12
       '@vitejs/plugin-vue':
         specifier: 'catalog:'
         version: 5.2.4(vite@7.3.0(@types/node@22.19.3)(jiti@2.6.1)(sass@1.96.0)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.25(typescript@5.5.4))
@@ -287,8 +271,11 @@ importers:
         specifier: ^4.0.2
         version: 4.0.2
       lodash:
-        specifier: ^4.17.21
+        specifier: 'catalog:'
         version: 4.17.21
+      lodash-es:
+        specifier: 'catalog:'
+        version: 4.17.22
       rollup:
         specifier: ^4.55.1
         version: 4.55.1
@@ -382,8 +369,11 @@ importers:
       '@element-plus/build-utils':
         specifier: workspace:*
         version: link:../build-utils
+      '@types/lodash':
+        specifier: 'catalog:'
+        version: 4.17.21
       '@types/lodash-es':
-        specifier: ^4.17.12
+        specifier: 'catalog:'
         version: 4.17.12
       chalk:
         specifier: ^5.3.0
@@ -391,9 +381,15 @@ importers:
       consola:
         specifier: ^2.15.3
         version: 2.15.3
-      lodash-es:
-        specifier: ^4.17.21
+      lodash:
+        specifier: 'catalog:'
         version: 4.17.21
+      lodash-es:
+        specifier: 'catalog:'
+        version: 4.17.22
+      lodash-unified:
+        specifier: 'catalog:'
+        version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.22)(lodash@4.17.21)
       octokit:
         specifier: ^2.1.0
         version: 2.1.0(encoding@0.1.13)
@@ -483,10 +479,10 @@ importers:
         specifier: npm:@sxzz/popperjs-es@^2.11.7
         version: '@sxzz/popperjs-es@2.11.7'
       '@types/lodash':
-        specifier: ^4.17.20
+        specifier: 'catalog:'
         version: 4.17.21
       '@types/lodash-es':
-        specifier: ^4.17.12
+        specifier: 'catalog:'
         version: 4.17.12
       '@vueuse/core':
         specifier: 'catalog:'
@@ -498,14 +494,14 @@ importers:
         specifier: ^1.11.19
         version: 1.11.19
       lodash:
-        specifier: ^4.17.21
+        specifier: 'catalog:'
         version: 4.17.21
       lodash-es:
-        specifier: ^4.17.21
-        version: 4.17.21
+        specifier: 'catalog:'
+        version: 4.17.22
       lodash-unified:
         specifier: ^1.0.3
-        version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.21)(lodash@4.17.21)
+        version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.22)(lodash@4.17.21)
       memoize-one:
         specifier: ^6.0.0
         version: 6.0.0
@@ -12087,7 +12083,7 @@ snapshots:
       '@yarnpkg/parsers': 3.0.3
       chalk: 4.1.2
       clipanion: 4.0.0-rc.4(typanion@3.14.0)
-      cross-spawn: 7.0.3
+      cross-spawn: 7.0.6
       fast-glob: 3.3.3
       micromatch: 4.0.8
       tslib: 2.8.1

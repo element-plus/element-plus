@@ -1,11 +1,14 @@
-import fs from 'fs/promises'
-import path from 'path'
+import fs from 'node:fs/promises'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+const dirname = path.dirname(fileURLToPath(import.meta.url))
 
 async function main() {
   const threshold = Number(process.env.THRESHOLD) || 40
   let output: string
   const diffOutput = await fs.readFile(
-    path.resolve(__dirname, '..', 'tmp/diff.txt'),
+    path.resolve(dirname, '..', 'tmp/diff.txt'),
     'utf-8'
   )
   const fileDiffs = diffOutput
@@ -50,7 +53,7 @@ ${table}
 <sub>Generated with :heart: by Element Plus bot</sub>`
   }
 
-  await fs.writeFile(path.resolve(__dirname, '..', 'tmp/diff.md'), output)
+  await fs.writeFile(path.resolve(dirname, '..', 'tmp/diff.md'), output)
 }
 
 main()

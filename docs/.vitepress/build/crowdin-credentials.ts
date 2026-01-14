@@ -1,5 +1,5 @@
-import path from 'path'
-import fs from 'fs/promises'
+import path from 'node:path'
+import fs from 'node:fs/promises'
 import chalk from 'chalk'
 import consola from 'consola'
 import { docRoot, errorAndExit } from '@element-plus/build-utils'
