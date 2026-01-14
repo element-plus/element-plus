@@ -79,7 +79,7 @@ const data: Tree[] = [
 
 <style scoped>
 :deep(.is-penultimate .el-tree-node__label) {
-  color: var(--el-color-primary);
+  color: #626aef;
   font-weight: 600;
 }
 </style>
