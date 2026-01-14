@@ -80,6 +80,12 @@ importers:
       '@element-plus/eslint-config':
         specifier: workspace:*
         version: link:internal/eslint-config
+      '@types/lodash':
+        specifier: 'catalog:'
+        version: 4.17.21
+      '@types/lodash-es':
+        specifier: 4.17.12
+        version: 4.17.12
       '@types/node':
         specifier: ^22.9.0
         version: 22.19.3
@@ -107,6 +113,15 @@ importers:
       lint-staged:
         specifier: ^15.5.1
         version: 15.5.2
+      lodash:
+        specifier: 'catalog:'
+        version: 4.17.21
+      lodash-es:
+        specifier: 'catalog:'
+        version: 4.17.22
+      lodash-unified:
+        specifier: 'catalog:'
+        version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.22)(lodash@4.17.21)
       prettier:
         specifier: ^3.6.2
         version: 3.7.4
