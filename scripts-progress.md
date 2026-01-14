@@ -1,0 +1,36 @@
+Root package:
+
+- cz
+- test
+- test:coverage
+- test:ssr
+- prepare:e2e
+- dev
+- gen ✅
+- gen:version ✅
+- diff:table ✅
+- update:version ✅
+- locale:sync ✅
+- locale:lint ✅
+- clean ✅
+- clean:dist ✅
+- build
+- build:theme
+- format
+- lint
+- lint:fix
+- lint:commit
+- typecheck
+- typecheck:web
+- typecheck:play
+- typecheck:node
+- typecheck:vite-config
+- typecheck:vitest
+- docs:dev
+- docs:build
+- docs:serve
+- docs:gen-locale
+- docs:crowdin-credentials
+- stub ✅
+- prepare ✅
+- postinstall ✅
