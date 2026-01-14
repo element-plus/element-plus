@@ -31,7 +31,7 @@
       :disabled="disabled"
       :multiple="multiple"
       :accept="accept"
-      :webkitdirectory="directory"
+      :webkitdirectory="directory || undefined"
       type="file"
       @change="handleChange"
       @click.stop
