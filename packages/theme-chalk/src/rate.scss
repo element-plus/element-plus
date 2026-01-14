@@ -17,6 +17,7 @@ $rate-height: map.merge(
 $rate-size: () !default;
 $rate-size: map.merge(
   (
+    'large': 20px,
     'small': 14px,
   ),
   $rate-size
