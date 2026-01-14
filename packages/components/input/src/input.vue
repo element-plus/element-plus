@@ -167,6 +167,7 @@
 >
 import {
   computed,
+  markRaw,
   nextTick,
   onMounted,
   ref,
