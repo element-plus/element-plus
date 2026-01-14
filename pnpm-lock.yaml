@@ -122,9 +122,6 @@ importers:
       normalize-wheel-es:
         specifier: ^1.2.0
         version: 1.2.0
-      vue-component-type-helpers:
-        specifier: 'catalog:'
-        version: 3.2.2
     devDependencies:
       '@commitlint/cli':
         specifier: ^20.2.0
@@ -231,6 +228,9 @@ importers:
       vue:
         specifier: 'catalog:'
         version: 3.5.25(typescript@5.5.4)
+      vue-component-type-helpers:
+        specifier: 'catalog:'
+        version: 3.2.2
       vue-router:
         specifier: ^4.0.16
         version: 4.6.4(vue@3.5.25(typescript@5.5.4))
@@ -520,9 +520,6 @@ importers:
       lodash-unified:
         specifier: 'catalog:'
         version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.22)(lodash@4.17.21)
-      vue-component-type-helpers:
-        specifier: 'catalog:'
-        version: 3.2.2
     devDependencies:
       '@element-plus/test-utils':
         specifier: workspace:^
@@ -533,6 +530,9 @@ importers:
       vue:
         specifier: 'catalog:'
         version: 3.5.25(typescript@5.5.4)
+      vue-component-type-helpers:
+        specifier: 'catalog:'
+        version: 3.2.2
 
   packages/constants: {}
 

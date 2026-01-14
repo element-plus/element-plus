@@ -63,8 +63,7 @@
     "lodash-es": "^4.17.21",
     "lodash-unified": "^1.0.3",
     "memoize-one": "^6.0.0",
-    "normalize-wheel-es": "^1.2.0",
-    "vue-component-type-helpers": "catalog:"
+    "normalize-wheel-es": "^1.2.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^20.2.0",
@@ -102,6 +101,7 @@
     "typescript": "~5.5.4",
     "vitest": "^4.0.16",
     "vue": "catalog:",
+    "vue-component-type-helpers": "catalog:",
     "vue-router": "^4.0.16",
     "vue-tsc": "=3.1.0"
   },
