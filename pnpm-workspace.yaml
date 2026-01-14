@@ -19,6 +19,7 @@ catalog:
   normalize-wheel-es: ^1.2.0
   vue: ^3.5.22
   vue-component-type-helpers: ^3.2.2
+  # vitest: ^2.0.5
 
 onlyBuiltDependencies:
   - '@parcel/watcher'
