@@ -227,7 +227,7 @@ const props = withDefaults(defineProps<InputProps<M>>(), {
   modelModifiers: () => ({}) as M,
   type: 'text',
   autocomplete: 'off',
-  clearIcon: IconCircleClose,
+  clearIcon: markRaw(IconCircleClose),
   wordLimitPosition: 'inside',
   tabindex: 0,
   validateEvent: true,
