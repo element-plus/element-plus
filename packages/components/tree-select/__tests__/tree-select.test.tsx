@@ -1104,4 +1104,29 @@ describe('TreeSelect.vue', () => {
     expect(tree.find('.el-tree').exists()).toBe(true)
     expect(tree.find('.el-tree__empty-block').exists()).toBe(false)
   })
+
+  test('should not select non-leaf node when pressing Enter key without check-strictly', async () => {
+    const { select } = createComponent({
+      props: {
+        defaultExpandAll: true,
+      },
+    })
+
+    await nextTick()
+
+    const input = select.find('input')
+    await input.trigger('click')
+    await nextTick()
+
+    // Navigate to first node (non-leaf node)
+    await input.trigger('keydown', { key: EVENT_CODE.down })
+    await nextTick()
+
+    // Press Enter on non-leaf node
+    await input.trigger('keydown', { key: EVENT_CODE.enter })
+    await nextTick()
+
+    // Should not select non-leaf node when check-strictly is false
+    expect(select.vm.modelValue).toBeUndefined()
+  })
 })
