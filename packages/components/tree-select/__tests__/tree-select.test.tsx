@@ -1113,6 +1113,7 @@ describe('TreeSelect.vue', () => {
     })
 
     await nextTick()
+    vi.useFakeTimers()
 
     const input = select.find('input')
     await input.trigger('click')
@@ -1120,6 +1121,7 @@ describe('TreeSelect.vue', () => {
 
     // Navigate to first node (non-leaf node)
     await input.trigger('keydown', { key: EVENT_CODE.down })
+    vi.runAllTimers()
     await nextTick()
 
     // Press Enter on non-leaf node
