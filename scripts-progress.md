@@ -1,6 +1,6 @@
 Root package:
 
-- cz
+- cz ✅
 - test
 - test:coverage
 - test:ssr
@@ -16,10 +16,10 @@ Root package:
 - clean:dist ✅
 - build
 - build:theme
-- format
-- lint
-- lint:fix
-- lint:commit
+- format ✅
+- lint ✅
+- lint:fix ✅
+- lint:commit ✅
 - typecheck
 - typecheck:web
 - typecheck:play

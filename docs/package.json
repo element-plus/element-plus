@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@docsearch/js": "^3.1.0",
-    "@element-plus/icons-vue": "^2.3.2",
+    "@element-plus/icons-vue": "catalog:",
     "@element-plus/metadata": "workspace:*",
     "@vue/shared": "catalog:",
     "@vueuse/core": "catalog:",

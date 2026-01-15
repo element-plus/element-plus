@@ -9,7 +9,8 @@
     "postinstall": "node ./scripts/init.js"
   },
   "dependencies": {
-    "@element-plus/icons-vue": "^2.3.2",
+    "@element-plus/icons-vue": "catalog:",
+    "@element-plus/theme-chalk": "workspace:^",
     "vue": "catalog:"
   },
   "devDependencies": {
