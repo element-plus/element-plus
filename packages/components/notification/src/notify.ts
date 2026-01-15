@@ -19,6 +19,7 @@ import type {
   NotifyFn,
 } from './notification'
 
+// This should be a queue but considering there were `non-autoclosable` notifications.
 export const notifications: Record<
   NotificationOptions['position'],
   NotificationQueue
@@ -28,6 +29,10 @@ export const notifications: Record<
   'bottom-left': shallowReactive([]),
   'bottom-right': shallowReactive([]),
 }
+
+// the gap size between each notification
+const GAP_SIZE = 16
+let seed = 1
 
 export const getInstance = (
   id: string,
@@ -58,9 +63,6 @@ export const getOffsetOrSpace = (
   const idx = list.findIndex(({ vm }) => vm.component!.props.id === id)
   return idx > 0 ? GAP_SIZE : offset
 }
-
-const GAP_SIZE = 16
-let seed = 1
 
 const notify: NotifyFn & Partial<Notify> = function (options = {}, context) {
   if (!isClient) return { close: () => undefined }
@@ -163,24 +165,27 @@ export function close(
   position: NotificationOptions['position'],
   userOnClose?: (vm: VNode) => void
 ): void {
-  const positionInstances = notifications[position]
-  if (!positionInstances) return
+  // maybe we can store the index when inserting the vm to notification list.
+  const orientedNotifications = notifications[position]
+  if (!orientedNotifications?.length) return
 
-  const idx = positionInstances.findIndex(
-    ({ vm }) => vm.component!.props.id === id
+  const idx = orientedNotifications.findIndex(
+    ({ vm }) => vm.component?.props.id === id
   )
   if (idx === -1) return
 
-  const { vm } = positionInstances[idx]
+  const { vm } = orientedNotifications[idx]
   if (!vm) return
 
+  // calling user's on close function before notification gets removed from DOM.
   userOnClose?.(vm)
 }
 
 export function closeAll(): void {
   // loop through all directions, close them at once.
-  for (const positionInstances of Object.values(notifications)) {
-    positionInstances.forEach(({ vm }) => {
+  for (const orientedNotifications of Object.values(notifications)) {
+    orientedNotifications.forEach(({ vm }) => {
+      // same as the previous close method, we'd like to make sure lifecycle gets handle properly.
       ;(vm.component!.exposed as { visible: Ref<boolean> }).visible.value =
         false
     })
