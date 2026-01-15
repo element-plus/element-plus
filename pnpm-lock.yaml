@@ -6,51 +6,15 @@ settings:
 
 catalogs:
   default:
-    '@ctrl/tinycolor':
-      specifier: ^3.4.1
-      version: 3.6.1
     '@element-plus/icons-vue':
       specifier: ^2.3.2
       version: 2.3.2
-    '@popperjs/core':
-      specifier: npm:@sxzz/popperjs-es@^2.11.7
-      version: 2.11.7
-    '@types/lodash':
-      specifier: ^4.17.21
-      version: 4.17.21
-    '@types/lodash-es':
-      specifier: ^4.17.12
-      version: 4.17.12
     '@vitejs/plugin-vue':
       specifier: ^5.1.4
       version: 5.2.4
     '@vitejs/plugin-vue-jsx':
       specifier: ^4.0.1
       version: 4.2.0
-    '@vue/server-renderer':
-      specifier: ^3.5.22
-      version: 3.5.25
-    '@vue/shared':
-      specifier: ^3.5.22
-      version: 3.5.25
-    '@vue/test-utils':
-      specifier: ^2.4.6
-      version: 2.4.6
-    '@vueuse/core':
-      specifier: ^10.11.0
-      version: 10.11.1
-    lodash:
-      specifier: ^4.17.21
-      version: 4.17.21
-    lodash-es:
-      specifier: ^4.17.21
-      version: 4.17.22
-    lodash-unified:
-      specifier: ^1.0.3
-      version: 1.0.3
-    normalize-wheel-es:
-      specifier: ^1.2.0
-      version: 1.2.0
     vue:
       specifier: ^3.5.22
       version: 3.5.25
@@ -636,9 +600,6 @@ importers:
       '@element-plus/icons-vue':
         specifier: 'catalog:'
         version: 2.3.2(vue@3.5.25(typescript@5.5.4))
-      '@element-plus/theme-chalk':
-        specifier: workspace:^
-        version: link:../packages/theme-chalk
       vue:
         specifier: 'catalog:'
         version: 3.5.25(typescript@5.5.4)

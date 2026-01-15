@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "catalog:",
-    "@element-plus/theme-chalk": "workspace:^",
     "vue": "catalog:"
   },
   "devDependencies": {
