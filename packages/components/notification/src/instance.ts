@@ -2,6 +2,9 @@ import { shallowReactive } from 'vue'
 
 import type { NotificationOptions, NotificationQueue } from './notification'
 
+// the gap size between each notification
+export const GAP_SIZE = 16
+
 // This should be a queue but considering there were `non-autoclosable` notifications.
 export const notifications: Record<
   NotificationOptions['position'],
@@ -40,5 +43,5 @@ export const getOffsetOrSpace = (
 ) => {
   const list = notifications[position] || []
   const idx = list.findIndex(({ vm }) => vm.component!.props.id === id)
-  return idx > 0 ? 16 : offset
+  return idx > 0 ? GAP_SIZE : offset
 }

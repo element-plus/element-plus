@@ -9,7 +9,7 @@ import {
 } from '@element-plus/utils'
 import NotificationConstructor from './notification.vue'
 import { notificationTypes } from './notification'
-import { notifications } from './instance'
+import { GAP_SIZE, notifications } from './instance'
 
 import type { Ref, VNode } from 'vue'
 import type {
@@ -19,8 +19,6 @@ import type {
   NotifyFn,
 } from './notification'
 
-// the gap size between each notification
-const GAP_SIZE = 16
 let seed = 1
 
 const notify: NotifyFn & Partial<Notify> = function (options = {}, context) {
