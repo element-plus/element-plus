@@ -44,7 +44,10 @@
       :class="ns.b('circle')"
       :style="{ height: `${width}px`, width: `${width}px` }"
     >
-      <svg viewBox="0 0 100 100">
+      <svg
+        viewBox="0 0 100 100"
+        :style="inverse ? { transform: 'scaleX(-1)' } : {}"
+      >
         <path
           :class="ns.be('circle', 'track')"
           :d="trackPath"
@@ -123,6 +126,11 @@ const barStyle = computed<CSSProperties>(() => {
     barStyle.background = color
   } else {
     barStyle.backgroundColor = color
+  }
+  if (props.inverse) {
+    barStyle.left = 'auto'
+    barStyle.right = '0'
+    barStyle.textAlign = 'left'
   }
   return barStyle
 })
