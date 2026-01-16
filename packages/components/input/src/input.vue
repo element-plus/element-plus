@@ -207,9 +207,10 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import { calcTextareaHeight, looseToNumber } from './utils'
+import { inputEmits } from './input'
 
 import type { CSSProperties, StyleValue } from 'vue'
-import type { InputEmits, InputProps } from './input'
+import type { InputProps } from './input'
 
 type TargetElement = HTMLInputElement | HTMLTextAreaElement
 
@@ -231,7 +232,7 @@ const props = withDefaults(defineProps<InputProps>(), {
   inputStyle: () => ({}),
   rows: 2,
 })
-const emit = defineEmits<InputEmits>()
+const emit = defineEmits(inputEmits)
 
 const rawAttrs = useRawAttrs()
 const attrs = useAttrs()
