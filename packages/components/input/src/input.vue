@@ -209,7 +209,7 @@ import {
 import { calcTextareaHeight, looseToNumber } from './utils'
 import { inputEmits } from './input'
 
-import type { CSSProperties, StyleValue } from 'vue'
+import type { StyleValue } from 'vue'
 import type { InputProps } from './input'
 
 type TargetElement = HTMLInputElement | HTMLTextAreaElement
@@ -306,7 +306,7 @@ const containerStyle = computed<StyleValue>(() => [
 const textareaStyle = computed<StyleValue>(() => [
   props.inputStyle,
   textareaCalcStyle.value,
-  { resize: props.resize as CSSProperties['resize'] },
+  { resize: props.resize },
 ])
 const nativeInputValue = computed(() =>
   isNil(props.modelValue) ? '' : String(props.modelValue)
