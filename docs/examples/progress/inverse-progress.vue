@@ -1,33 +1,24 @@
 <template>
   <div class="demo-progress">
     <div class="progress-row">
-      <span class="label">Normal (left to right):</span>
+      <span class="label">Normal:</span>
       <el-progress :percentage="percentage" />
     </div>
     <div class="progress-row">
-      <span class="label">Inverse (right to left):</span>
+      <span class="label">Inverse:</span>
       <el-progress :percentage="percentage" inverse />
     </div>
     <div class="progress-row">
-      <span class="label">Normal with text inside:</span>
-      <el-progress :percentage="percentage" :stroke-width="20" text-inside />
-    </div>
-    <div class="progress-row">
-      <span class="label">Inverse with text inside:</span>
-      <el-progress
-        :percentage="percentage"
-        :stroke-width="20"
-        text-inside
-        inverse
-      />
+      <span class="label">Indeterminate + Inverse:</span>
+      <el-progress :percentage="percentage" indeterminate inverse />
     </div>
     <div class="circle-row">
       <div>
-        <p>Normal circle</p>
+        <p>Normal</p>
         <el-progress type="circle" :percentage="percentage" />
       </div>
       <div>
-        <p>Inverse circle</p>
+        <p>Inverse</p>
         <el-progress type="circle" :percentage="percentage" inverse />
       </div>
     </div>

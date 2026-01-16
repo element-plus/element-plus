@@ -131,6 +131,14 @@ const barStyle = computed<CSSProperties>(() => {
     barStyle.left = 'auto'
     barStyle.right = '0'
     barStyle.textAlign = 'left'
+    // When both indeterminate and inverse are true, use reverse animation
+    if (props.indeterminate) {
+      barStyle.animationName = 'indeterminate-inverse'
+    }
+    // When both striped-flow and inverse are true, use reverse animation
+    if (props.stripedFlow) {
+      barStyle.animationName = 'striped-flow-inverse'
+    }
   }
   return barStyle
 })

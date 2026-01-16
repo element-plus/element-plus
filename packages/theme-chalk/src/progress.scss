@@ -168,6 +168,18 @@
   }
 }
 
+@keyframes indeterminate-inverse {
+  0% {
+    right: -100%;
+    left: auto;
+  }
+
+  100% {
+    right: 100%;
+    left: auto;
+  }
+}
+
 @keyframes striped-flow {
   0% {
     background-position: -100%;
@@ -175,5 +187,15 @@
 
   100% {
     background-position: 100%;
+  }
+}
+
+@keyframes striped-flow-inverse {
+  0% {
+    background-position: 100%;
+  }
+
+  100% {
+    background-position: -100%;
   }
 }
