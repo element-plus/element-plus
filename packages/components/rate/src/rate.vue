@@ -120,7 +120,7 @@ const { inputId, isLabeledByFormItem } = useFormItemInputId(props, {
   formItemContext,
 })
 
-const currentValue = ref(props.modelValue)
+const currentValue = ref(clamp(props.modelValue, 0, props.max))
 const hoverIndex = ref(-1)
 const pointerAtLeftHalf = ref(true)
 
@@ -301,14 +301,14 @@ function resetCurrentValue() {
   if (props.allowHalf) {
     pointerAtLeftHalf.value = props.modelValue !== Math.floor(props.modelValue)
   }
-  currentValue.value = props.modelValue
+  currentValue.value = clamp(props.modelValue, 0, props.max)
   hoverIndex.value = -1
 }
 
 watch(
   () => props.modelValue,
   (val) => {
-    currentValue.value = val
+    currentValue.value = clamp(val, 0, props.max)
     pointerAtLeftHalf.value = props.modelValue !== Math.floor(props.modelValue)
   }
 )
