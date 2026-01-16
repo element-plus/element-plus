@@ -101,7 +101,6 @@
     "typescript": "~5.5.4",
     "vitest": "^4.0.16",
     "vue": "catalog:",
-    "vue-component-type-helpers": "catalog:",
     "vue-router": "^4.0.16",
     "vue-tsc": "=3.1.0"
   },

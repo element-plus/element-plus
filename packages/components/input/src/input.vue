@@ -160,11 +160,7 @@
   </div>
 </template>
 
-<script
-  lang="ts"
-  setup
-  generic="M extends InputModelModifiers = InputModelModifiers"
->
+<script lang="ts" setup>
 import {
   computed,
   markRaw,
@@ -213,7 +209,7 @@ import {
 import { calcTextareaHeight, looseToNumber } from './utils'
 
 import type { CSSProperties, StyleValue } from 'vue'
-import type { InputEmits, InputModelModifiers, InputProps } from './input'
+import type { InputEmits, InputProps } from './input'
 
 type TargetElement = HTMLInputElement | HTMLTextAreaElement
 
@@ -222,10 +218,10 @@ defineOptions({
   name: COMPONENT_NAME,
   inheritAttrs: false,
 })
-const props = withDefaults(defineProps<InputProps<M>>(), {
+const props = withDefaults(defineProps<InputProps>(), {
   disabled: undefined,
   modelValue: '',
-  modelModifiers: () => ({}) as M,
+  modelModifiers: () => ({}),
   type: 'text',
   autocomplete: 'off',
   clearIcon: markRaw(IconCircleClose),
@@ -235,7 +231,7 @@ const props = withDefaults(defineProps<InputProps<M>>(), {
   inputStyle: () => ({}),
   rows: 2,
 })
-const emit = defineEmits<InputEmits<M>>()
+const emit = defineEmits<InputEmits>()
 
 const rawAttrs = useRawAttrs()
 const attrs = useAttrs()
@@ -430,7 +426,7 @@ const formatValue = (value: string) => {
     value = value.trim()
   }
   if (number) {
-    value = looseToNumber(value)
+    value = `${looseToNumber(value)}`
   }
   if (props.formatter && props.parser) {
     value = props.parser(value)

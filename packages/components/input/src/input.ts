@@ -258,9 +258,7 @@ export const inputEmits = {
   compositionend: (evt: CompositionEvent) => evt instanceof CompositionEvent,
 }
 
-export interface InputProps<
-  M extends InputModelModifiers = InputModelModifiers,
-> {
+export interface InputProps {
   /**
    * @description native input id
    */
@@ -280,7 +278,7 @@ export interface InputProps<
   /**
    * @description v-model modifiers, reference [Vue modifiers](https://vuejs.org/guide/essentials/forms.html#modifiers)
    */
-  modelModifiers?: M
+  modelModifiers?: InputModelModifiers
   /**
    * @description same as `maxlength` in native input
    */
@@ -392,17 +390,10 @@ export interface InputProps<
   name?: string
 }
 
-export type InputEmits<M extends InputModelModifiers = InputModelModifiers> = {
+export type InputEmits = {
   'update:modelValue': [value: string | number]
-  input: [
-    value: M extends { number: true; lazy?: undefined }
-      ? string | number
-      : string,
-  ]
-  change: [
-    value: M extends { number: true } ? string | number : string,
-    eve?: Event,
-  ]
+  input: [value: string]
+  change: [value: string, eve?: Event]
   focus: [eve: FocusEvent]
   blur: [eve: FocusEvent]
   clear: []

@@ -42,9 +42,6 @@ catalogs:
     vue:
       specifier: ^3.5.22
       version: 3.5.25
-    vue-component-type-helpers:
-      specifier: ^3.2.2
-      version: 3.2.2
 
 overrides:
   typescript: ~5.5.4
@@ -228,9 +225,6 @@ importers:
       vue:
         specifier: 'catalog:'
         version: 3.5.25(typescript@5.5.4)
-      vue-component-type-helpers:
-        specifier: 'catalog:'
-        version: 3.2.2
       vue-router:
         specifier: ^4.0.16
         version: 4.6.4(vue@3.5.25(typescript@5.5.4))
@@ -530,9 +524,6 @@ importers:
       vue:
         specifier: 'catalog:'
         version: 3.5.25(typescript@5.5.4)
-      vue-component-type-helpers:
-        specifier: 'catalog:'
-        version: 3.2.2
 
   packages/constants: {}
 
@@ -602,9 +593,6 @@ importers:
       vue:
         specifier: ^3.3.0
         version: 3.4.31(typescript@5.5.4)
-      vue-component-type-helpers:
-        specifier: 'catalog:'
-        version: 3.2.2
     devDependencies:
       '@types/node':
         specifier: '*'
@@ -8861,9 +8849,6 @@ packages:
 
   vue-component-type-helpers@2.2.12:
     resolution: {integrity: sha512-YbGqHZ5/eW4SnkPNR44mKVc6ZKQoRs/Rux1sxC6rdwXb4qpbOSYfDr9DsTHolOTGmIKgM9j141mZbBeg05R1pw==}
-
-  vue-component-type-helpers@3.2.2:
-    resolution: {integrity: sha512-x8C2nx5XlUNM0WirgfTkHjJGO/ABBxlANZDtHw2HclHtQnn+RFPTnbjMJn8jHZW4TlUam0asHcA14lf1C6Jb+A==}
 
   vue-demi@0.14.10:
     resolution: {integrity: sha512-nMZBOwuzabUO0nLgIcc6rycZEebF6eeUfaiQx9+WSk8e29IbLvPU9feI6tqW4kTo3hvoYAJkMh8n8D0fuISphg==}
@@ -18909,8 +18894,6 @@ snapshots:
   vscode-uri@3.1.0: {}
 
   vue-component-type-helpers@2.2.12: {}
-
-  vue-component-type-helpers@3.2.2: {}
 
   vue-demi@0.14.10(vue@3.4.31(typescript@5.5.4)):
     dependencies:
