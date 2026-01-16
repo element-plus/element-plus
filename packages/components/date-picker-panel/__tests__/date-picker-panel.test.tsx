@@ -1049,6 +1049,43 @@ describe('DatePickerPanel', () => {
         expect(rightHeader.text()).toBe('February')
         vi.useRealTimers()
       })
+
+      it('should render buttons with correct disabled status when unlinkPanels is true', async () => {
+        const value = ref<string[]>([])
+        const wrapper = mount(() => (
+          <DatePickerPanel
+            v-model={value.value}
+            type="datetimerange"
+            showFooter
+            unlinkPanels={true}
+          />
+        ))
+
+        await nextTick()
+        const pickers = wrapper.findAll('.el-date-range-picker__content')
+        const leftBtns = pickers[0].findAll(
+          '.el-date-range-picker__header .el-picker-panel__icon-btn'
+        )!
+        expect(leftBtns[0].classes()).not.toContain('is-disabled')
+        expect(leftBtns[0].attributes('disabled')).toBeUndefined()
+        expect(leftBtns[1].classes()).not.toContain('is-disabled')
+        expect(leftBtns[1].attributes('disabled')).toBeUndefined()
+        expect(leftBtns[2].classes()).toContain('is-disabled')
+        expect(leftBtns[2].attributes('disabled')).toBe('')
+        expect(leftBtns[3].classes()).toContain('is-disabled')
+        expect(leftBtns[3].attributes('disabled')).toBe('')
+        const rightBtns = pickers[1].findAll(
+          '.el-date-range-picker__header .el-picker-panel__icon-btn'
+        )!
+        expect(rightBtns[0].classes()).toContain('is-disabled')
+        expect(rightBtns[0].attributes('disabled')).toBe('')
+        expect(rightBtns[1].classes()).toContain('is-disabled')
+        expect(rightBtns[1].attributes('disabled')).toBe('')
+        expect(rightBtns[2].classes()).not.toContain('is-disabled')
+        expect(rightBtns[2].attributes('disabled')).toBeUndefined()
+        expect(rightBtns[3].classes()).not.toContain('is-disabled')
+        expect(rightBtns[3].attributes('disabled')).toBeUndefined()
+      })
     })
   })
 })
