@@ -36,7 +36,7 @@ export type InputType =
   | (string & NonNullable<unknown>)
 
 /**
- * @deprecated Removed after 3.0.0
+ * @deprecated Removed after 3.0.0, Use `InputProps` instead.
  */
 export const inputProps = buildProps({
   /**
@@ -233,12 +233,12 @@ export const inputProps = buildProps({
 } as const)
 
 /**
- * @deprecated Removed after 3.0.0
+ * @deprecated Removed after 3.0.0, Use `InputProps` instead.
  */
 export type InputPropsPublic = ExtractPublicPropTypes<typeof inputProps>
 
 /**
- * @deprecated Removed after 3.0.0
+ * @deprecated Removed after 3.0.0, Use `InputEmits` instead.
  */
 export const inputEmits = {
   [UPDATE_MODEL_EVENT]: (value: string) => isString(value),
