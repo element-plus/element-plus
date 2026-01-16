@@ -42,6 +42,10 @@ export default defineConfig(async ({ mode }) => {
           find: /^element-plus\/(es|lib)\/(.*)$/,
           replacement: `${pkgRoot}/$2`,
         },
+        {
+          find: /^element-plus\/theme-chalk\/(.*)$/,
+          replacement: `${pkgRoot}/theme-chalk/$1`,
+        },
       ],
     },
     server: {
