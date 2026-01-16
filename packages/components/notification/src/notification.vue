@@ -47,7 +47,7 @@ import { EVENT_CODE } from '@element-plus/constants'
 import { ElIcon } from '@element-plus/components/icon'
 import { useGlobalComponentSettings } from '@element-plus/components/config-provider'
 import { notificationEmits, notificationProps } from './notification'
-import { getLastOffset, getOffsetOrSpace } from './notify'
+import { getLastOffset, getOffsetOrSpace } from './instance'
 
 import type { CSSProperties } from 'vue'
 
@@ -151,6 +151,7 @@ useResizeObserver(notificationRef, () => {
 defineExpose({
   visible,
   bottom,
+  /** @description close notification */
   close,
 })
 </script>
