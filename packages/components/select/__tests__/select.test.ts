@@ -4318,4 +4318,58 @@ describe('Select', () => {
 
     vi.useRealTimers()
   })
+
+  describe('input-wrapper in multiple mode', () => {
+    test('should hide input-wrapper when empty and not focused', async () => {
+      wrapper = getSelectVm({
+        multiple: true,
+        filterable: true,
+      })
+      const inputWrapper = wrapper.find('.el-select__input-wrapper')
+      const input = wrapper.find('input')
+
+      // When input is empty and not focused, input-wrapper should have hidden class
+      expect(inputWrapper.classes()).toContain('is-hidden')
+
+      // Focus the input
+      await input.trigger('focus')
+      await nextTick()
+
+      // When focused, input-wrapper should not have hidden class
+      expect(inputWrapper.classes()).not.toContain('is-hidden')
+
+      // Blur the input
+      await input.trigger('blur')
+      await nextTick()
+
+      // When blurred and empty, input-wrapper should have hidden class again
+      expect(inputWrapper.classes()).toContain('is-hidden')
+    })
+
+    test('should show input-wrapper when input has value', async () => {
+      wrapper = getSelectVm({
+        multiple: true,
+        filterable: true,
+      })
+      const inputWrapper = wrapper.find('.el-select__input-wrapper')
+      const input = wrapper.find('input')
+
+      // Initially empty, should be hidden
+      expect(inputWrapper.classes()).toContain('is-hidden')
+
+      // Set input value
+      await input.setValue('test')
+      await nextTick()
+
+      // When input has value, input-wrapper should not have hidden class
+      expect(inputWrapper.classes()).not.toContain('is-hidden')
+
+      // Clear input
+      await input.setValue('')
+      await nextTick()
+
+      // When empty again, should be hidden
+      expect(inputWrapper.classes()).toContain('is-hidden')
+    })
+  })
 })
