@@ -13,10 +13,12 @@ import ElAvatar from './avatar.vue'
 import { avatarGroupContextKey } from './constants'
 import { avatarGroupProps } from './avatar-group-props'
 
+import type { AvatarGroupProps } from './avatar-group-props'
+
 export default defineComponent({
   name: 'ElAvatarGroup',
   props: avatarGroupProps,
-  setup(props, { slots }) {
+  setup(props: AvatarGroupProps, { slots }) {
     const ns = useNamespace('avatar-group')
 
     provide(
@@ -32,7 +34,8 @@ export default defineComponent({
       let visibleAvatars = avatars
 
       const showCollapseAvatar =
-        props.collapseAvatars && avatars.length > props.maxCollapseAvatars
+        props.collapseAvatars &&
+        avatars.length > (props.maxCollapseAvatars ?? 1)
 
       if (showCollapseAvatar) {
         visibleAvatars = avatars.slice(0, props.maxCollapseAvatars)
