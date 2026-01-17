@@ -27,8 +27,8 @@ import { computed } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { addUnit, isNumber } from '@element-plus/utils'
 
-import type { BadgeProps } from './badge'
 import type { StyleValue } from 'vue'
+import type { BadgeProps } from './badge'
 
 defineOptions({
   name: 'ElBadge',
