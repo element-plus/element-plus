@@ -207,7 +207,7 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import { calcTextareaHeight, looseToNumber } from './utils'
-import { inputEmits } from './input'
+import { inputDefaults, inputEmits } from './input'
 
 import type { StyleValue } from 'vue'
 import type { InputProps } from './input'
@@ -220,17 +220,8 @@ defineOptions({
   inheritAttrs: false,
 })
 const props = withDefaults(defineProps<InputProps>(), {
-  disabled: undefined,
-  modelValue: '',
-  modelModifiers: () => ({}),
-  type: 'text',
-  autocomplete: 'off',
+  ...inputDefaults,
   clearIcon: markRaw(IconCircleClose),
-  wordLimitPosition: 'inside',
-  tabindex: 0,
-  validateEvent: true,
-  inputStyle: () => ({}),
-  rows: 2,
 })
 const emit = defineEmits(inputEmits)
 
