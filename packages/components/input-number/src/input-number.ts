@@ -84,6 +84,11 @@ export interface InputNumberProps {
    */
   ariaLabel?: string
   /**
+   * @deprecated Use `ariaLabel` instead.
+   * @description same as `aria-label` in native input
+   */
+  label?: string
+  /**
    * @description native input mode for virtual keyboards
    */
   inputmode?: HTMLAttributes['inputmode']
@@ -202,6 +207,11 @@ export const inputNumberProps = buildProps({
     default: true,
   },
   ...useAriaProps(['ariaLabel']),
+  /**
+   * @deprecated Use `ariaLabel` instead.
+   * @description same as `aria-label` in native input
+   */
+  label: String,
   /**
    * @description native input mode for virtual keyboards
    */
