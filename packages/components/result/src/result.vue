@@ -45,8 +45,8 @@ const props = withDefaults(defineProps<ResultProps>(), {
 const ns = useNamespace('result')
 
 const resultIcon = computed(() => {
-  const icon = props.icon ?? 'info'
-  const iconClass = IconMap[icon] ?? 'icon-info'
+  const icon = props.icon
+  const iconClass = icon && IconMap[icon] ? IconMap[icon] : 'icon-info'
   const iconComponent =
     IconComponentMap[iconClass] || IconComponentMap['icon-info']
 
