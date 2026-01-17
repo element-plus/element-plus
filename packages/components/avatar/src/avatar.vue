@@ -23,8 +23,8 @@ import { addUnit, isNumber, isString } from '@element-plus/utils'
 import { avatarEmits } from './avatar'
 import { avatarGroupContextKey } from './constants'
 
-import type { AvatarProps } from './avatar'
 import type { CSSProperties } from 'vue'
+import type { AvatarProps } from './avatar'
 
 defineOptions({
   name: 'ElAvatar',
