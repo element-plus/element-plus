@@ -21,15 +21,18 @@ import { getCurrentInstance, inject } from 'vue'
 import ElIcon from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
 import { breadcrumbKey } from './constants'
-import { breadcrumbItemProps } from './breadcrumb-item'
 
+import type { BreadcrumbItemProps } from './breadcrumb-item'
 import type { Router } from 'vue-router'
 
 defineOptions({
   name: 'ElBreadcrumbItem',
 })
 
-const props = defineProps(breadcrumbItemProps)
+const props = withDefaults(defineProps<BreadcrumbItemProps>(), {
+  to: '',
+  replace: false,
+})
 
 const instance = getCurrentInstance()!
 const breadcrumbContext = inject(breadcrumbKey, undefined)
