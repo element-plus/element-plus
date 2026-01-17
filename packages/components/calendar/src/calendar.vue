@@ -75,7 +75,6 @@ defineOptions({
 })
 
 const props = withDefaults(defineProps<CalendarProps>(), {
-  modelValue: () => new Date(),
   controllerType: 'button',
 })
 const emit = defineEmits(calendarEmits)

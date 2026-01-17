@@ -35,7 +35,7 @@ defineOptions({
   name: 'SelectController',
 })
 
-const props = withDefaults(defineProps<SelectControllerProps>())
+const props = defineProps<SelectControllerProps>()
 const emit = defineEmits(selectControllerEmits)
 
 const nsSelect = useNamespace('calendar-select')
