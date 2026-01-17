@@ -8,35 +8,35 @@ export interface AlertProps {
   /**
    * @description alert title.
    */
-  title: string
+  title?: string
   /**
    * @description descriptive text.
    */
-  description: string
+  description?: string
   /**
    * @description alert type.
    */
-  type: keyof typeof TypeComponentsMap
+  type?: keyof typeof TypeComponentsMap
   /**
    * @description whether alert can be dismissed.
    */
-  closable: boolean
+  closable?: boolean
   /**
    * @description text for replacing x button
    */
-  closeText: string
+  closeText?: string
   /**
    * @description whether show icon
    */
-  showIcon: boolean
+  showIcon?: boolean
   /**
    * @description should content be placed in center.
    */
-  center: boolean
+  center?: boolean
   /**
    * @description theme style
    */
-  effect: 'light' | 'dark'
+  effect?: 'light' | 'dark'
 }
 
 /**
