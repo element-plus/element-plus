@@ -3,9 +3,12 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { rAF } from '@element-plus/test-utils/tick'
 import Notification, { closeAll, updateOffsets } from '../src/notify'
 import defineGetter from '@element-plus/test-utils/define-getter'
+import { GAP_SIZE } from '../src/instance'
 
 import type { NotificationHandle } from '../src/notification'
 import type { VNode } from 'vue'
+
+const selector = '.el-notification'
 
 // Store resize observer callbacks for manual triggering in tests
 const resizeObserverCallbacks: Array<() => void> = []
@@ -37,7 +40,24 @@ const triggerResizeObservers = () => {
   resizeObserverCallbacks.forEach((callback) => callback())
 }
 
-const selector = '.el-notification'
+// Helper to mock getBoundingClientRect for useResizeObserver
+const mockGetBoundingClientRect = (defaultHeight: number) => {
+  const origGetBoundingClientRect = Element.prototype.getBoundingClientRect
+  Element.prototype.getBoundingClientRect = function (this: HTMLElement) {
+    const rect = origGetBoundingClientRect.call(this)
+    return {
+      ...rect,
+      height:
+        this.style?.height !== undefined
+          ? Number.parseFloat(this.style.height) || defaultHeight
+          : defaultHeight,
+    }
+  }
+
+  return () => {
+    Element.prototype.getBoundingClientRect = origGetBoundingClientRect
+  }
+}
 
 describe('Notification on command', () => {
   afterEach(() => {
@@ -120,28 +140,88 @@ describe('Notification on command', () => {
     expect(document.querySelectorAll(selector).length).toBe(0)
   })
 
-  it('it should update offsets notifications', async () => {
-    // the gap size between each notification
-    const GAP_SIZE = 16
+  it('should stack notifications correctly and update positions reactively', async () => {
     const height = 100
     const notifications: NotificationHandle[] = []
     const cleanups: (() => void)[] = []
 
-    // Mock getBoundingClientRect globally before creating notifications
-    const origGetBoundingClientRect = Element.prototype.getBoundingClientRect
-    Element.prototype.getBoundingClientRect = function (this: HTMLElement) {
-      const rect = origGetBoundingClientRect.call(this)
-      return {
-        ...rect,
-        height:
-          this.style?.height !== undefined
-            ? Number.parseFloat(this.style.height) || height
-            : height,
-      }
+    cleanups.push(mockGetBoundingClientRect(height))
+
+    for (let i = 0; i < 3; i++) {
+      notifications.push(Notification({ duration: 0 }))
+
+      await nextTick()
+
+      const el = document.querySelector(`${selector}:nth-child(${i + 1})`)!
+
+      // mocking offsetHeight
+      cleanups.push(
+        defineGetter(el, 'offsetHeight', function (this: HTMLElement) {
+          return Number.parseFloat(this.style.height) || height
+        })
+      )
     }
-    cleanups.push(() => {
-      Element.prototype.getBoundingClientRect = origGetBoundingClientRect
-    })
+
+    triggerResizeObservers()
+    await rAF()
+
+    const notificationEls = Array.from(
+      document.querySelectorAll<HTMLElement>(selector)
+    )
+
+    expect(notificationEls.length).toBe(3)
+
+    const getOffsets = () => notificationEls.map((el) => el?.style.top || '0')
+
+    expect(getOffsets()).toEqual(
+      Array.from({ length: 3 }).map(
+        (_, i) => `${(i + 1) * GAP_SIZE + i * height}px`
+      )
+    )
+
+    notificationEls[0]?.style.setProperty('height', '150px')
+
+    triggerResizeObservers()
+    await rAF()
+
+    expect(getOffsets()).toEqual(
+      Array.from({ length: 3 }).map(
+        (_, i) => `${(i + 1) * GAP_SIZE + i * height + (i > 0 ? 50 : 0)}px`
+      )
+    )
+
+    notifications[1].close()
+    await rAF()
+    await nextTick()
+
+    const remainingEls = Array.from(
+      document.querySelectorAll<HTMLElement>(selector)
+    )
+    expect(remainingEls.length).toBe(2)
+
+    const getRemainingOffsets = () =>
+      remainingEls.map((el) => el?.style.top || '0')
+
+    const firstTop = GAP_SIZE
+    const firstHeight = 150
+    const firstBottom = firstTop + firstHeight
+    const thirdTop = firstBottom + GAP_SIZE
+
+    expect(getRemainingOffsets()).toEqual([`${firstTop}px`, `${thirdTop}px`])
+
+    notifications.forEach((m) => m.close())
+    await rAF()
+
+    cleanups.forEach((fn) => fn())
+  })
+
+  it('it should update offsets notifications', async () => {
+    // the gap size between each notification
+    const height = 100
+    const notifications: NotificationHandle[] = []
+    const cleanups: (() => void)[] = []
+
+    cleanups.push(mockGetBoundingClientRect(height))
 
     for (let i = 0; i < 4; i++) {
       notifications.push(Notification({ duration: 0 }))
@@ -158,6 +238,7 @@ describe('Notification on command', () => {
       )
     }
 
+    triggerResizeObservers()
     await rAF()
 
     const notificationEls = Array.from(
@@ -176,12 +257,9 @@ describe('Notification on command', () => {
 
     notificationEls[0]?.style.setProperty('height', '150px')
 
-    // Trigger resize observers to update component's internal height
-    triggerResizeObservers()
-    await nextTick()
-
     updateOffsets('top-right')
 
+    triggerResizeObservers()
     await rAF()
 
     expect(getOffsets()).toEqual(
@@ -189,6 +267,9 @@ describe('Notification on command', () => {
         (_, i) => `${(i + 1) * GAP_SIZE + i * height + (i > 0 ? 50 : 0)}px`
       )
     )
+
+    notifications.forEach((m) => m.close())
+    await rAF()
 
     cleanups.forEach((fn) => fn())
   })
