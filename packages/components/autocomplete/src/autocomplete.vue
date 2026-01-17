@@ -133,8 +133,8 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import ElInput, {
-  inputDefaults,
   inputProps,
+  inputPropsDefaults,
 } from '@element-plus/components/input'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTooltip from '@element-plus/components/tooltip'
@@ -154,7 +154,7 @@ defineOptions({
 })
 
 const props = withDefaults(defineProps<AutocompleteProps>(), {
-  ...inputDefaults,
+  ...inputPropsDefaults,
   valueKey: 'value',
   modelValue: '',
   debounce: 300,

@@ -1,3 +1,4 @@
+import { markRaw } from 'vue'
 import {
   buildProps,
   definePropType,
@@ -391,13 +392,13 @@ export type InputEmits = typeof inputEmits
 /**
  * @description default values for InputProps, used in components that extend InputProps like Autocomplete
  */
-export const inputDefaults = {
+export const inputPropsDefaults = {
   disabled: undefined,
   modelValue: '',
   modelModifiers: () => ({}),
   type: 'text' as InputType,
   autocomplete: 'off',
-  clearIcon: CircleClose,
+  clearIcon: markRaw(CircleClose),
   wordLimitPosition: 'inside' as const,
   tabindex: 0,
   validateEvent: true,
