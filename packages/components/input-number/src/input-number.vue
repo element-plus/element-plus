@@ -110,6 +110,7 @@ defineOptions({
 })
 
 const props = withDefaults(defineProps<InputNumberProps>(), {
+  disabled: undefined,
   step: 1,
   max: Number.MAX_SAFE_INTEGER,
   min: Number.MIN_SAFE_INTEGER,
