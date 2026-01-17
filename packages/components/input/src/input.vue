@@ -163,6 +163,7 @@
 <script lang="ts" setup>
 import {
   computed,
+  markRaw,
   nextTick,
   onMounted,
   ref,
@@ -175,7 +176,11 @@ import {
 import { useResizeObserver } from '@vueuse/core'
 import { isNil } from 'lodash-unified'
 import { ElIcon } from '@element-plus/components/icon'
-import { Hide as IconHide, View as IconView } from '@element-plus/icons-vue'
+import {
+  CircleClose as IconCircleClose,
+  Hide as IconHide,
+  View as IconView,
+} from '@element-plus/icons-vue'
 import {
   useFormDisabled,
   useFormItem,
@@ -202,9 +207,10 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import { calcTextareaHeight, looseToNumber } from './utils'
-import { inputEmits, inputProps } from './input'
+import { inputEmits } from './input'
 
 import type { StyleValue } from 'vue'
+import type { InputProps } from './input'
 
 type TargetElement = HTMLInputElement | HTMLTextAreaElement
 
@@ -213,7 +219,19 @@ defineOptions({
   name: COMPONENT_NAME,
   inheritAttrs: false,
 })
-const props = defineProps(inputProps)
+const props = withDefaults(defineProps<InputProps>(), {
+  disabled: undefined,
+  modelValue: '',
+  modelModifiers: () => ({}),
+  type: 'text',
+  autocomplete: 'off',
+  clearIcon: markRaw(IconCircleClose),
+  wordLimitPosition: 'inside',
+  tabindex: 0,
+  validateEvent: true,
+  inputStyle: () => ({}),
+  rows: 2,
+})
 const emit = defineEmits(inputEmits)
 
 const rawAttrs = useRawAttrs()

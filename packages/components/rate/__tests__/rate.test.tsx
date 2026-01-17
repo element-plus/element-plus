@@ -172,6 +172,34 @@ describe('Rate.vue', () => {
     ).toBe(undefined)
   })
 
+  it('should clamp modelValue to max when modelValue exceeds max', () => {
+    const wrapper = mount(Rate, {
+      props: {
+        modelValue: 10,
+        max: 5,
+      },
+    })
+    const stars = wrapper.findAll('.el-rate__item')
+    expect(stars.length).toBe(5)
+    // All stars should be active since value is clamped to max (5)
+    const activeIcons = wrapper.findAll('.el-rate__icon.is-active')
+    expect(activeIcons.length).toBe(5)
+  })
+
+  it('should display correct text when modelValue exceeds max and showText is enabled', () => {
+    const wrapper = mount(Rate, {
+      props: {
+        modelValue: 10,
+        max: 5,
+        showText: true,
+        texts: ['1', '2', '3', '4', '5'],
+      },
+    })
+    const text = wrapper.find('.el-rate__text').element
+    // When value is clamped to max (5), text should show texts[4] which is '5'
+    expect(text.textContent).toBe('5')
+  })
+
   describe('form item accessibility integration', () => {
     it('automatic id attachment', async () => {
       const wrapper = mount(() => (
