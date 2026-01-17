@@ -55,8 +55,12 @@ export const useCarousel = (
   )
 
   const hasLabel = computed(() => {
-    return items.value.some((item) => item.props.label.toString().length > 0)
+    return items.value.some(
+      (item) => (item.props.label ?? '').toString().length > 0
+    )
   })
+
+  const interval = computed(() => props.interval ?? 3000)
 
   const isCardType = computed(() => props.type === 'card')
   const isVertical = computed(() => props.direction === 'vertical')
@@ -99,8 +103,8 @@ export const useCarousel = (
   }
 
   function startTimer() {
-    if (props.interval <= 0 || !props.autoplay || timer.value) return
-    timer.value = setInterval(() => playSlides(), props.interval)
+    if (interval.value <= 0 || !props.autoplay || timer.value) return
+    timer.value = setInterval(() => playSlides(), interval.value)
   }
 
   const playSlides = () => {
@@ -276,12 +280,9 @@ export const useCarousel = (
     }
   )
 
-  watch(
-    () => props.interval,
-    () => {
-      resetTimer()
-    }
-  )
+  watch(interval, () => {
+    resetTimer()
+  })
 
   const resizeObserver = shallowRef<ReturnType<typeof useResizeObserver>>()
   // lifecycle
@@ -289,7 +290,7 @@ export const useCarousel = (
     watch(
       () => items.value,
       () => {
-        if (items.value.length > 0) setActiveItem(props.initialIndex)
+        if (items.value.length > 0) setActiveItem(props.initialIndex ?? 0)
       },
       {
         immediate: true,
@@ -313,8 +314,8 @@ export const useCarousel = (
     isCardType,
     isVertical,
     items,
-    loop: props.loop,
-    cardScale: props.cardScale,
+    loop: props.loop ?? true,
+    cardScale: props.cardScale ?? 0.83,
     addItem,
     removeItem,
     setActiveItem,
