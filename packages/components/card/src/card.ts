@@ -1,57 +1,35 @@
-import { buildProps, definePropType } from '@element-plus/utils'
+import type { InjectionKey, StyleValue } from 'vue'
 
-import type {
-  ExtractPropTypes,
-  ExtractPublicPropTypes,
-  InjectionKey,
-  StyleValue,
-} from 'vue'
-
-export const cardProps = buildProps({
+export interface CardProps {
   /**
    * @description title of the card. Also accepts a DOM passed by `slot#header`
    */
-  header: {
-    type: String,
-    default: '',
-  },
+  header?: string
   /**
    * @description content of footer. Also accepts a DOM passed by `slot#footer`
    */
-  footer: {
-    type: String,
-    default: '',
-  },
+  footer?: string
   /**
    * @description CSS style of card body
    */
-  bodyStyle: {
-    type: definePropType<StyleValue>([String, Object, Array]),
-    default: '',
-  },
+  bodyStyle?: StyleValue
   /**
-   * @description custom class name of card footer
+   * @description custom class name of card header
    */
-  headerClass: String,
+  headerClass?: string
   /**
    * @description custom class name of card body
    */
-  bodyClass: String,
+  bodyClass?: string
   /**
    * @description custom class name of card footer
    */
-  footerClass: String,
+  footerClass?: string
   /**
    * @description when to show card shadows
    */
-  shadow: {
-    type: String,
-    values: ['always', 'hover', 'never'],
-    default: undefined,
-  },
-} as const)
-export type CardProps = ExtractPropTypes<typeof cardProps>
-export type CardPropsPublic = ExtractPublicPropTypes<typeof cardProps>
+  shadow?: 'always' | 'hover' | 'never'
+}
 export interface CardConfigContext {
   shadow?: string
 }
