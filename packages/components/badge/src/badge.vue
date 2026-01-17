@@ -37,8 +37,6 @@ defineOptions({
 const props = withDefaults(defineProps<BadgeProps>(), {
   value: '',
   max: 99,
-  isDot: false,
-  hidden: false,
   type: 'danger',
   showZero: true,
   offset: () => [0, 0],

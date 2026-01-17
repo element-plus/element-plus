@@ -31,7 +31,6 @@ defineOptions({
 
 const props = withDefaults(defineProps<BreadcrumbItemProps>(), {
   to: '',
-  replace: false,
 })
 
 const instance = getCurrentInstance()!
