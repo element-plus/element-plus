@@ -1,14 +1,8 @@
-import { buildProps, definePropType, isBoolean } from '@element-plus/utils'
+import { isBoolean } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { teleportProps } from '@element-plus/components/teleport'
-import { dialogContentProps } from './dialog-content'
 
-import type {
-  ExtractPropTypes,
-  ExtractPublicPropTypes,
-  InjectionKey,
-  TransitionProps,
-} from 'vue'
+import type { InjectionKey, TransitionProps } from 'vue'
+import type { DialogContentProps } from './dialog-content'
 import type Dialog from './dialog.vue'
 
 type DoneFn = (cancel?: boolean) => void
@@ -17,132 +11,89 @@ export type DialogBeforeCloseFn = (done: DoneFn) => void
 
 export type DialogTransition = string | TransitionProps
 
-export const dialogProps = buildProps({
-  ...dialogContentProps,
+/**
+ * @description dialog component props
+ */
+export interface DialogProps extends DialogContentProps {
   /**
    * @description whether to append Dialog itself to body. A nested Dialog should have this attribute set to `true`
    */
-  appendToBody: Boolean,
+  appendToBody?: boolean
   /**
    * @description which element the Dialog appends to
    */
-  appendTo: {
-    type: teleportProps.to.type,
-    default: 'body',
-  },
+  appendTo?: string | HTMLElement
   /**
    * @description callback before Dialog closes, and it will prevent Dialog from closing, use done to close the dialog
    */
-  beforeClose: {
-    type: definePropType<DialogBeforeCloseFn>(Function),
-  },
+  beforeClose?: DialogBeforeCloseFn
   /**
    * @description destroy elements in Dialog when closed
    */
-  destroyOnClose: Boolean,
+  destroyOnClose?: boolean
   /**
    * @description whether the Dialog can be closed by clicking the mask
    */
-  closeOnClickModal: {
-    type: Boolean,
-    default: true,
-  },
+  closeOnClickModal?: boolean
   /**
    * @description whether the Dialog can be closed by pressing ESC
    */
-  closeOnPressEscape: {
-    type: Boolean,
-    default: true,
-  },
+  closeOnPressEscape?: boolean
   /**
    * @description whether scroll of body is disabled while Dialog is displayed
    */
-  lockScroll: {
-    type: Boolean,
-    default: true,
-  },
+  lockScroll?: boolean
   /**
    * @description whether a mask is displayed
    */
-  modal: {
-    type: Boolean,
-    default: true,
-  },
+  modal?: boolean
   /**
    * @description whether the mask is penetrable
    */
-  modalPenetrable: Boolean,
+  modalPenetrable?: boolean
   /**
    * @description the Time(milliseconds) before open
    */
-  openDelay: {
-    type: Number,
-    default: 0,
-  },
+  openDelay?: number
   /**
    * @description the Time(milliseconds) before close
    */
-  closeDelay: {
-    type: Number,
-    default: 0,
-  },
+  closeDelay?: number
   /**
    * @description value for `margin-top` of Dialog CSS, default is 15vh
    */
-  top: {
-    type: String,
-  },
+  top?: string
   /**
    * @description visibility of Dialog
    */
-  modelValue: Boolean,
+  modelValue?: boolean
   /**
    * @description custom class names for mask
    */
-  modalClass: String,
-  /**
-   * @description custom class names for header wrapper
-   */
-  headerClass: String,
-  /**
-   * @description custom class names for body wrapper
-   */
-  bodyClass: String,
-  /**
-   * @description custom class names for footer wrapper
-   */
-  footerClass: String,
+  modalClass?: string
   /**
    * @description width of Dialog, default is 50%
    */
-  width: {
-    type: [String, Number],
-  },
+  width?: string | number
   /**
    * @description same as z-index in native CSS, z-order of dialog
    */
-  zIndex: {
-    type: Number,
-  },
-  trapFocus: Boolean,
+  zIndex?: number
+  /**
+   * @description trap focus within dialog
+   */
+  trapFocus?: boolean
   /**
    * @description header's aria-level attribute
    */
-  headerAriaLevel: {
-    type: String,
-    default: '2',
-  },
+  headerAriaLevel?: string
   /**
    * @description custom transition configuration for dialog animation, it can be a string (transition name) or an object with Vue transition props
    */
-  transition: {
-    type: definePropType<DialogTransition>([String, Object]),
-    default: undefined,
-  },
-} as const)
+  transition?: DialogTransition
+}
 
-export type DialogProps = ExtractPropTypes<typeof dialogProps>
-export type DialogPropsPublic = ExtractPublicPropTypes<typeof dialogProps>
+export type DialogPropsPublic = DialogProps
 
 export const dialogEmits = {
   open: () => true,

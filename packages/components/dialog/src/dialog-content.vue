@@ -37,13 +37,21 @@ import { FOCUS_TRAP_INJECTION_KEY } from '@element-plus/components/focus-trap'
 import { useDraggable, useLocale } from '@element-plus/hooks'
 import { CloseComponents, composeRefs } from '@element-plus/utils'
 import { dialogInjectionKey } from './constants'
-import { dialogContentEmits, dialogContentProps } from './dialog-content'
+import { dialogContentEmits } from './dialog-content'
+
+import type { DialogContentProps } from './dialog-content'
 
 const { t } = useLocale()
 const { Close } = CloseComponents
 
 defineOptions({ name: 'ElDialogContent' })
-const props = defineProps(dialogContentProps)
+const props = withDefaults(defineProps<DialogContentProps>(), {
+  showClose: true,
+  title: '',
+  ariaLevel: '2',
+  center: false,
+  fullscreen: false,
+})
 defineEmits(dialogContentEmits)
 
 const { dialogRef, headerRef, bodyId, ns, style } = inject(dialogInjectionKey)!

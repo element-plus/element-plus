@@ -1,75 +1,56 @@
-import { buildProps, iconPropType } from '@element-plus/utils'
-
-export const dialogContentProps = buildProps({
+/**
+ * @description dialog-content component props
+ */
+export interface DialogContentProps {
   /**
    * @description whether to align the header and footer in center
    */
-  center: Boolean,
+  center?: boolean
   /**
    * @description whether to align the dialog both horizontally and vertically
    */
-  alignCenter: {
-    type: Boolean,
-    default: undefined,
-  },
+  alignCenter?: boolean
   /**
    * @description custom close icon, default is Close
    */
-  closeIcon: {
-    type: iconPropType,
-  },
+  closeIcon?: any
   /**
    * @description enable dragging feature for Dialog
    */
-  draggable: {
-    type: Boolean,
-    default: undefined,
-  },
+  draggable?: boolean
   /**
    * @description draggable Dialog can overflow the viewport
    */
-  overflow: {
-    type: Boolean,
-    default: undefined,
-  },
+  overflow?: boolean
   /**
    * @description whether the Dialog takes up full screen
    */
-  fullscreen: Boolean,
+  fullscreen?: boolean
   /**
    * @description custom class names for header wrapper
    */
-  headerClass: String,
+  headerClass?: string
   /**
    * @description custom class names for body wrapper
    */
-  bodyClass: String,
+  bodyClass?: string
   /**
    * @description custom class names for footer wrapper
    */
-  footerClass: String,
+  footerClass?: string
   /**
    * @description whether to show a close button
    */
-  showClose: {
-    type: Boolean,
-    default: true,
-  },
+  showClose?: boolean
   /**
    * @description title of Dialog. Can also be passed with a named slot (see the following table)
    */
-  title: {
-    type: String,
-    default: '',
-  },
+  title?: string
   /**
    * @description header's aria-level attribute
    */
-  ariaLevel: {
-    type: String,
-    default: '2',
-  },
-} as const)
+  ariaLevel?: string
+}
 
 export const dialogContentEmits = {
   close: () => true,
