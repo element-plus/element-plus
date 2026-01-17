@@ -1,4 +1,4 @@
-import { buildProps, definePropType } from '@element-plus/utils'
+import { buildProps, definePropType, mutable } from '@element-plus/utils'
 
 import type { ExtractPublicPropTypes, StyleValue } from 'vue'
 
@@ -94,7 +94,8 @@ export const badgeProps = buildProps({
    * @description CSS style of badge
    */
   badgeStyle: {
-    type: definePropType<StyleValue>([String, Object, Array]),
+    type: definePropType<StyleValue>([Object, Array, String]),
+    default: () => mutable({} as const),
   },
   /**
    * @description set offset of the badge
