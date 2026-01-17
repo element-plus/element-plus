@@ -1,172 +1,123 @@
-import {
-  buildProps,
-  definePropType,
-  iconPropType,
-  isArray,
-  isNumber,
-  isString,
-  isUndefined,
-} from '@element-plus/utils'
-import { useSizeProp } from '@element-plus/hooks'
+import { isArray, isNumber, isString, isUndefined } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
-  EVENT_CODE,
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import { tagProps } from '@element-plus/components/tag/src/tag'
-import { CircleClose } from '@element-plus/icons-vue'
 
-import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type { PopperEffect } from '@element-plus/components/popper'
 
-export const inputTagProps = buildProps({
+/**
+ * @description input-tag component props
+ */
+export interface InputTagProps {
   /**
    * @description binding value
    */
-  modelValue: {
-    type: definePropType<string[]>(Array),
-  },
+  modelValue?: string[]
   /**
    * @description max number tags that can be enter
    */
-  max: Number,
+  max?: number
   /**
    * @description tag type
    */
-  tagType: { ...tagProps.type, default: 'info' },
+  tagType?: 'success' | 'info' | 'warning' | 'danger' | 'primary'
   /**
    * @description tag effect
    */
-  tagEffect: tagProps.effect,
+  tagEffect?: 'light' | 'dark' | 'plain'
   /**
    * @description tooltip theme, built-in theme: `dark` / `light`
    */
-  effect: {
-    type: definePropType<PopperEffect>(String),
-    default: 'light',
-  },
+  effect?: PopperEffect
   /**
    * @description the key to trigger input tag
    */
-  trigger: {
-    type: definePropType<'Enter' | 'Space'>(String),
-    default: EVENT_CODE.enter,
-  },
+  trigger?: string
   /**
    * @description whether tags can be dragged
    */
-  draggable: Boolean,
+  draggable?: boolean
   /**
    * @description add a tag when a delimiter is matched
    */
-  delimiter: {
-    type: [String, RegExp],
-    default: '',
-  },
+  delimiter?: string | RegExp
   /**
    * @description input box size
    */
-  size: useSizeProp,
+  size?: '' | 'large' | 'default' | 'small'
   /**
    * @description whether to show clear button
    */
-  clearable: Boolean,
+  clearable?: boolean
   /**
    * @description custom clear icon component
    */
-  clearIcon: {
-    type: iconPropType,
-    default: CircleClose,
-  },
+  clearIcon?: any
   /**
    * @description whether to disable input-tag
    */
-  disabled: {
-    type: Boolean,
-    default: undefined,
-  },
+  disabled?: boolean
   /**
    * @description whether to trigger form validation
    */
-  validateEvent: {
-    type: Boolean,
-    default: true,
-  },
+  validateEvent?: boolean
   /**
    * @description native input readonly
    */
-  readonly: Boolean,
+  readonly?: boolean
   /**
    * @description native input autofocus
    */
-  autofocus: Boolean,
+  autofocus?: boolean
   /**
    * @description same as `id` in native input
    */
-  id: {
-    type: String,
-    default: undefined,
-  },
+  id?: string
   /**
    * @description same as `tabindex` in native input
    */
-  tabindex: {
-    type: [String, Number],
-    default: 0,
-  },
+  tabindex?: string | number
   /**
    * @description same as `maxlength` in native input
    */
-  maxlength: {
-    type: [String, Number],
-  },
+  maxlength?: string | number
   /**
    * @description same as `minlength` in native input
    */
-  minlength: {
-    type: [String, Number],
-  },
+  minlength?: string | number
   /**
    * @description placeholder of input
    */
-  placeholder: String,
+  placeholder?: string
   /**
    * @description native input autocomplete
    */
-  autocomplete: {
-    type: definePropType<HTMLInputElement['autocomplete']>(String),
-    default: 'off',
-  },
+  autocomplete?: HTMLInputElement['autocomplete']
   /**
    * @description whether to save the input value when the input loses focus
    */
-  saveOnBlur: {
-    type: Boolean,
-    default: true,
-  },
+  saveOnBlur?: boolean
   /**
    * @description whether to collapse tags to a text
    */
-  collapseTags: Boolean,
+  collapseTags?: boolean
   /**
    * @description whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true
    */
-  collapseTagsTooltip: Boolean,
+  collapseTagsTooltip?: boolean
   /**
    * @description the max tags number to be shown. To use this, `collapse-tags` must be true
    */
-  maxCollapseTags: {
-    type: Number,
-    default: 1,
-  },
+  maxCollapseTags?: number
   /**
    * @description native `aria-label` attribute
    */
-  ariaLabel: String,
-} as const)
-export type InputTagProps = ExtractPropTypes<typeof inputTagProps>
-export type InputTagPropsPublic = ExtractPublicPropTypes<typeof inputTagProps>
+  ariaLabel?: string
+}
+
+export type InputTagPropsPublic = InputTagProps
 
 export const inputTagEmits = {
   [UPDATE_MODEL_EVENT]: (value?: string[]) =>

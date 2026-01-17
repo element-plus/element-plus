@@ -136,11 +136,13 @@
 import { computed, useSlots } from 'vue'
 import { useAttrs, useCalcInputWidth } from '@element-plus/hooks'
 import { NOOP, ValidateComponentsMap } from '@element-plus/utils'
+import { EVENT_CODE } from '@element-plus/constants'
+import { CircleClose } from '@element-plus/icons-vue'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElIcon from '@element-plus/components/icon'
 import ElTag from '@element-plus/components/tag'
 import { useFormItem, useFormItemInputId } from '@element-plus/components/form'
-import { inputTagEmits, inputTagProps } from './input-tag'
+import { inputTagEmits } from './input-tag'
 import {
   useDragTag,
   useHovering,
@@ -148,12 +150,31 @@ import {
   useInputTagDom,
 } from './composables'
 
+import type { InputTagProps } from './input-tag'
+
 defineOptions({
   name: 'ElInputTag',
   inheritAttrs: false,
 })
 
-const props = defineProps(inputTagProps)
+const props = withDefaults(defineProps<InputTagProps>(), {
+  tagType: 'info',
+  effect: 'light',
+  trigger: EVENT_CODE.enter,
+  delimiter: '',
+  clearIcon: () => CircleClose,
+  validateEvent: true,
+  autofocus: false,
+  readonly: false,
+  draggable: false,
+  clearable: false,
+  collapseTags: false,
+  collapseTagsTooltip: false,
+  tabindex: 0,
+  autocomplete: 'off',
+  saveOnBlur: true,
+  maxCollapseTags: 1,
+})
 const emit = defineEmits(inputTagEmits)
 
 const attrs = useAttrs()
