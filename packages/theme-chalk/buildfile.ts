@@ -1,17 +1,18 @@
 import path from 'path'
 import { copyFile, mkdir, writeFile } from 'fs/promises'
+import { epOutput, execCommand } from '@element-plus/build-utils'
 import chalk from 'chalk'
 import consola from 'consola'
-import * as lightningcss from 'lightningcss'
+import { transform } from 'lightningcss'
 import { glob } from 'tinyglobby'
-import * as sass from 'sass'
-import { epOutput, execCommand } from '@element-plus/build-utils'
+import { compileAsync } from 'sass-embedded'
+import { chunk } from 'lodash-unified'
 
 const distFolder = path.resolve(__dirname, 'dist')
 const distBundle = path.resolve(epOutput, 'theme-chalk')
 
 async function compress(filename: string, css: string) {
-  const result = lightningcss.transform({
+  const result = transform({
     filename,
     code: Buffer.from(css),
     minify: true,
@@ -26,14 +27,13 @@ async function compress(filename: string, css: string) {
   return result.code
 }
 
-async function buildThemeChalk() {
+const processfiles = async (scssFiles: string[]) => {
   const noElPrefixFile = /(index|base|display)/
-  const scssFiles = await glob(path.resolve(__dirname, 'src/*.scss'))
   for (const scssFile of scssFiles) {
     const fullPath = path.resolve(__dirname, scssFile)
     const baseName = path.basename(scssFile, '.scss')
 
-    const cssResult = sass.compile(fullPath)
+    const cssResult = await compileAsync(fullPath)
     const compressed = await compress(baseName, cssResult.css)
 
     const outputName = noElPrefixFile.test(baseName)
@@ -52,9 +52,15 @@ async function buildThemeChalk() {
   }
 }
 
+async function buildThemeChalk() {
+  const scssFiles = await glob(path.resolve(__dirname, 'src/*.scss'))
+  const chunks = chunk(scssFiles, Math.ceil(scssFiles.length / 5))
+  return Promise.all(chunks.map(processfiles))
+}
+
 async function buildDarkCssVars() {
   const darkFile = path.resolve(__dirname, 'src/dark/css-vars.scss')
-  const cssResult = sass.compile(darkFile)
+  const cssResult = await compileAsync(darkFile)
   const compressed = await compress(darkFile, cssResult.css)
 
   const outputDir = path.join(distFolder, 'dark')

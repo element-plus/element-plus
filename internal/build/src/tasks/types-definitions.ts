@@ -1,24 +1,51 @@
 import path from 'path'
-import { cp, readFile, rm, writeFile } from 'fs/promises'
-import { glob } from 'tinyglobby'
-import { buildOutput } from '@element-plus/build-utils'
-import { pathRewriter, run } from '../utils'
+import {
+  buildOutput,
+  epPackage,
+  epRoot,
+  getPackageDependencies,
+  projRoot,
+} from '@element-plus/build-utils'
+import { build } from 'rolldown'
+import { dts } from 'rolldown-plugin-dts'
+import { target } from '../build-info'
 
-export const generateTypesDefinitions = async () => {
-  await run(
-    'vue-tsc -p tsconfig.web.json --declaration --emitDeclarationOnly --declarationDir dist/types'
-  )
-  const typesDir = path.join(buildOutput, 'types', 'packages')
-  const filePaths = await glob(`**/*.d.ts`, {
-    cwd: typesDir,
-    absolute: true,
-  })
-  const rewriteTasks = filePaths.map(async (filePath) => {
-    const content = await readFile(filePath, 'utf8')
-    await writeFile(filePath, pathRewriter('esm')(content), 'utf8')
-  })
-  await Promise.all(rewriteTasks)
-  const sourceDir = path.join(typesDir, 'element-plus')
-  await cp(sourceDir, typesDir, { recursive: true })
-  await rm(sourceDir, { recursive: true })
+import type { BuildOptions } from 'rolldown'
+
+const tsconfig = path.resolve(projRoot, 'tsconfig.web.json')
+const epDeps = getPackageDependencies(epPackage)
+const pkgExternal: any = Object.values(epDeps).flat()
+const external = [/^@floating-ui/, /^@vue/, /^vue/, /^csstype/].concat(
+  pkgExternal as any
+)
+
+export async function generateTypesDefinitions() {
+  const input = path.resolve(epRoot, 'index.ts')
+  const options: BuildOptions = {
+    input,
+    external,
+    tsconfig,
+    transform: {
+      target,
+    },
+    plugins: dts({
+      parallel: true,
+      tsconfig,
+      eager: true,
+      vue: true,
+      emitDtsOnly: true,
+      compilerOptions: {
+        emitDeclarationOnly: true,
+        declaration: true,
+      },
+    }),
+    output: {
+      preserveModules: true,
+      preserveModulesRoot: epRoot,
+      entryFileNames: '[name].d.ts',
+      dir: path.resolve(buildOutput, 'types'),
+    },
+  }
+
+  return build(options)
 }

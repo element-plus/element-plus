@@ -1,5 +1,5 @@
 import path from 'path'
-import { rolldown  } from 'rolldown'
+import { rolldown } from 'rolldown'
 //@ts-expect-error
 import { replacePlugin } from 'rolldown/plugins'
 import vue from '@vitejs/plugin-vue'
@@ -61,17 +61,17 @@ async function buildFullEntry(minify: boolean) {
       name: 'minify',
       outputOptions: {
         handler(options) {
-            options.sourcemap = true
+          options.sourcemap = true
           return options
         },
-      }
+      },
     })
   }
 
   const bundle = await rolldown({
     input: path.resolve(epRoot, 'index.ts'),
     plugins,
-    external: await generateExternal({ full: true }),
+    external: generateExternal({ full: true }),
     treeshake: true,
   })
   await writeBundles(bundle, [
@@ -124,8 +124,8 @@ async function buildFullLocale(minify: boolean) {
                 options.sourcemap = minify
                 return options
               },
-            }
-          }
+            },
+          },
         ],
       })
       await writeBundles(bundle, [

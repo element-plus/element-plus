@@ -1,5 +1,5 @@
 import path from 'path'
-import { copyFile, cp, mkdir } from 'fs/promises'
+import { copyFile, cp, mkdir, rm } from 'fs/promises'
 import {
   buildOutput,
   epOutput,
@@ -36,7 +36,7 @@ const copyFiles = () =>
   ])
 
 const copyTypesDefinitions = () => {
-  const src = path.resolve(buildOutput, 'types', 'packages')
+  const src = path.resolve(buildOutput, 'types')
   const copyTypes = (module: Module) => {
     return execCommand(
       () => cp(src, buildConfig[module].output.path, { recursive: true }),
@@ -65,16 +65,22 @@ const makeOutput = async () => {
   await execCommand(() => mkdir(epOutput, { recursive: true }), 'create output')
 }
 
+const cleanupTypesDefinitions = () => {
+  return rm(path.resolve(buildOutput, 'types'), { recursive: true })
+}
+
 async function build() {
   await makeOutput()
+  buildHelper()
   await Promise.all([
+    execCommand(generateTypesDefinitions),
     execCommand(buildModules),
     execCommand(buildFullBundle),
-    //execCommand(generateTypesDefinitions),
-    execCommand(buildHelper),
     execCommand(buildStyle),
+    execCommand(copyFiles),
   ])
-  await Promise.all([execCommand(copyFiles)])
+  await execCommand(copyTypesDefinitions)
+  await execCommand(cleanupTypesDefinitions)
 }
 
 function main() {

@@ -2,7 +2,7 @@ import { epPackage, getPackageDependencies } from '@element-plus/build-utils'
 
 import type { OutputOptions, RolldownBuild } from 'rolldown'
 
-export const generateExternal = async (options: { full: boolean }) => {
+export const generateExternal = (options: { full: boolean }) => {
   const { dependencies, peerDependencies } = getPackageDependencies(epPackage)
 
   return (id: string) => {

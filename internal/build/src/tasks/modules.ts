@@ -34,7 +34,7 @@ async function buildModulesComponents() {
   const bundle = await rolldown({
     input,
     plugins,
-    external: await generateExternal({ full: false }),
+    external: generateExternal({ full: false }),
     treeshake: { moduleSideEffects: false },
   })
 

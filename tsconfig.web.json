@@ -14,6 +14,7 @@
     "**/dist",
     "**/__tests__/**/*",
     "**/gulpfile.ts",
+    "**/buildfile.ts",
     "**/test-helper",
     "packages/test-utils",
     "**/*.md"

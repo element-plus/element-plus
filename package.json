@@ -96,13 +96,14 @@
     "resize-observer-polyfill": "^1.5.1",
     "rimraf": "^4.4.1",
     "sass": "^1.79.3",
+    "sass-embedded": "^1.97.3",
     "tinyglobby": "^0.2.15",
     "tsx": "^4.19.3",
     "typescript": "~5.5.4",
     "vitest": "^4.0.16",
     "vue": "catalog:",
     "vue-router": "^4.0.16",
-    "vue-tsc": "=3.1.0"
+    "vue-tsc": "latest"
   },
   "engines": {
     "node": ">= 20"
