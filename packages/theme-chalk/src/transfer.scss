@@ -172,7 +172,8 @@
 
   .#{$namespace}-transfer-panel__footer {
     display: flex;
-    align-items: center;
+    justify-content: center;
+    flex-direction: column;
     height: getCssVar('transfer-panel-footer-height');
     background: getCssVar('bg-color', 'overlay');
     margin: 0;
