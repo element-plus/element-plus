@@ -100,15 +100,28 @@ import {
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import { inputNumberEmits, inputNumberProps } from './input-number'
+import { inputNumberEmits } from './input-number'
 
 import type { InputInstance } from '@element-plus/components/input'
+import type { InputNumberProps } from './input-number'
 
 defineOptions({
   name: 'ElInputNumber',
 })
 
-const props = defineProps(inputNumberProps)
+const props = withDefaults(defineProps<InputNumberProps>(), {
+  step: 1,
+  max: Number.MAX_SAFE_INTEGER,
+  min: Number.MIN_SAFE_INTEGER,
+  stepStrictly: false,
+  readonly: false,
+  controls: true,
+  controlsPosition: '',
+  valueOnClear: null,
+  validateEvent: true,
+  align: 'center',
+  disabledScientific: false,
+})
 const emit = defineEmits(inputNumberEmits)
 
 const { t } = useLocale()

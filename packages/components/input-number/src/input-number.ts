@@ -1,144 +1,101 @@
 import { isNil } from 'lodash-unified'
-import { useAriaProps, useSizeProp } from '@element-plus/hooks'
-import { buildProps, definePropType, isNumber } from '@element-plus/utils'
+import { isNumber } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 
-import type {
-  ExtractPropTypes,
-  ExtractPublicPropTypes,
-  HTMLAttributes,
-} from 'vue'
+import type { HTMLAttributes } from 'vue'
 import type InputNumber from './input-number.vue'
 
-export const inputNumberProps = buildProps({
+/**
+ * @description input-number component props
+ */
+export interface InputNumberProps {
   /**
    * @description same as `id` in native input
    */
-  id: {
-    type: String,
-    default: undefined,
-  },
+  id?: string
   /**
    * @description incremental step
    */
-  step: {
-    type: Number,
-    default: 1,
-  },
+  step?: number
   /**
    * @description whether input value can only be multiple of step
    */
-  stepStrictly: Boolean,
+  stepStrictly?: boolean
   /**
    * @description the maximum allowed value
    */
-  max: {
-    type: Number,
-    default: Number.MAX_SAFE_INTEGER,
-  },
+  max?: number
   /**
    * @description the minimum allowed value
    */
-  min: {
-    type: Number,
-    default: Number.MIN_SAFE_INTEGER,
-  },
+  min?: number
   /**
    * @description binding value
    */
-  modelValue: {
-    type: [Number, null],
-  },
+  modelValue?: number | null
   /**
    * @description same as `readonly` in native input
    */
-  readonly: Boolean,
+  readonly?: boolean
   /**
    * @description whether the component is disabled
    */
-  disabled: {
-    type: Boolean,
-    default: undefined,
-  },
+  disabled?: boolean
   /**
    * @description size of the component
    */
-  size: useSizeProp,
+  size?: '' | 'large' | 'default' | 'small'
   /**
    * @description whether to enable the control buttons
    */
-  controls: {
-    type: Boolean,
-    default: true,
-  },
+  controls?: boolean
   /**
    * @description position of the control buttons
    */
-  controlsPosition: {
-    type: String,
-    default: '',
-    values: ['', 'right'],
-  },
+  controlsPosition?: '' | 'right'
   /**
    * @description value should be set when input box is cleared
    */
-  valueOnClear: {
-    type: definePropType<'min' | 'max' | number | null>([String, Number, null]),
-    validator: (val: 'min' | 'max' | number | null) =>
-      val === null || isNumber(val) || ['min', 'max'].includes(val),
-    default: null,
-  },
+  valueOnClear?: 'min' | 'max' | number | null
   /**
    * @description same as `name` in native input
    */
-  name: String,
+  name?: string
   /**
    * @description same as `placeholder` in native input
    */
-  placeholder: String,
+  placeholder?: string
   /**
    * @description precision of input value
    */
-  precision: {
-    type: Number,
-    validator: (val: number) =>
-      val >= 0 && val === Number.parseInt(`${val}`, 10),
-  },
+  precision?: number
   /**
    * @description whether to trigger form validation
    */
-  validateEvent: {
-    type: Boolean,
-    default: true,
-  },
-  ...useAriaProps(['ariaLabel']),
+  validateEvent?: boolean
+  /**
+   * @description native aria-label attribute
+   */
+  ariaLabel?: string
   /**
    * @description native input mode for virtual keyboards
    */
-  inputmode: {
-    type: definePropType<HTMLAttributes['inputmode']>(String),
-    default: undefined,
-  },
+  inputmode?: HTMLAttributes['inputmode']
   /**
    * @description alignment for the inner input text
    */
-  align: {
-    type: definePropType<'left' | 'right' | 'center'>(String),
-    default: 'center',
-  },
+  align?: 'left' | 'right' | 'center'
   /**
    * @description whether to disable scientific notation input (e.g. 'e', 'E')
    */
-  disabledScientific: Boolean,
-} as const)
-export type InputNumberProps = ExtractPropTypes<typeof inputNumberProps>
-export type InputNumberPropsPublic = ExtractPublicPropTypes<
-  typeof inputNumberProps
->
+  disabledScientific?: boolean
+}
+
+export type InputNumberPropsPublic = InputNumberProps
 
 export const inputNumberEmits = {
   [CHANGE_EVENT]: (cur: number | undefined, prev: number | undefined) =>
