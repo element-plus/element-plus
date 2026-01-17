@@ -1,4 +1,4 @@
-import { buildProps, definePropType } from '@element-plus/utils'
+import { buildProps, definePropType, mutable } from '@element-plus/utils'
 
 import type { ExtractPublicPropTypes, InjectionKey, StyleValue } from 'vue'
 
@@ -55,8 +55,8 @@ export const cardProps = buildProps({
    * @description CSS style of card body
    */
   bodyStyle: {
-    type: definePropType<StyleValue>([String, Object, Array]),
-    default: '',
+    type: definePropType<StyleValue>([Object, Array, String]),
+    default: () => mutable({} as const),
   },
   /**
    * @description custom class name of card footer
