@@ -1,6 +1,7 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import dayjs from 'dayjs'
+import updateLocale from 'dayjs/plugin/updateLocale'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { describe, expect, it, vi } from 'vitest'
 import DatePickerPanel from '../src/date-picker-panel'
@@ -15,6 +16,14 @@ const makeRange = (start: number, end: number) => {
     result.push(i)
   }
   return result
+}
+
+const setDayjsWeekStart = (weekStart = 0) => {
+  dayjs.extend(updateLocale)
+  const dayjsLocale = dayjs.locale()
+  dayjs.updateLocale(dayjsLocale, {
+    weekStart,
+  })
 }
 
 describe('DatePickerPanel', () => {
@@ -101,6 +110,26 @@ describe('DatePickerPanel', () => {
         expect(onPanelChange).not.toHaveBeenCalled()
       }
     )
+  })
+
+  describe('should correctly select a date when weekStart change', () => {
+    const weekStarts = Array.from({ length: 7 }, (_, idx) => idx)
+
+    it.each(weekStarts)('dayjs "weekStart: %s" works', async (weekStart) => {
+      setDayjsWeekStart(weekStart)
+      const modelValue = ref<string>()
+      const wrapper = mount(() => (
+        <DatePickerPanel
+          v-model={modelValue.value}
+          defaultValue={new Date(2001, 0)}
+        />
+      ))
+      const cell = wrapper.find('.available')
+      await cell.trigger('mousemove')
+      await cell.trigger('click')
+
+      expect(wrapper.find('.available.current').text()).toBe(cell.text())
+    })
   })
 
   describe(':type="datetime" & :type="datetimerange"', () => {
