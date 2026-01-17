@@ -98,7 +98,21 @@ export const useCarouselItem = (props: CarouselItemProps) => {
 
     const isActive = index === activeIndex
     if (!_isCardType && !isUndefined(oldIndex)) {
-      animating.value = isActive || index === oldIndex
+      // Detect if it's a multi-page jump
+      const isMultiPageJump = Math.abs(activeIndex - oldIndex) > 1
+
+      if (isMultiPageJump) {
+        // When jumping multiple pages, make intermediate items participate in animation
+        const direction = activeIndex > oldIndex ? 1 : -1
+        const isBetweenOldAndNew =
+          direction > 0
+            ? index > oldIndex && index < activeIndex
+            : index < oldIndex && index > activeIndex
+
+        animating.value = isActive || index === oldIndex || isBetweenOldAndNew
+      } else {
+        animating.value = isActive || index === oldIndex
+      }
     }
 
     if (!isActive && carouselItemLength > 2 && carouselContext.loop) {
