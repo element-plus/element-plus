@@ -20,20 +20,16 @@ import { computed, inject, ref, watch } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
 import { addUnit, isNumber, isString } from '@element-plus/utils'
-import { avatarEmits } from './avatar'
+import { avatarEmits, avatarProps } from './avatar'
 import { avatarGroupContextKey } from './constants'
 
 import type { CSSProperties } from 'vue'
-import type { AvatarProps } from './avatar'
 
 defineOptions({
   name: 'ElAvatar',
 })
 
-const props = withDefaults(defineProps<AvatarProps>(), {
-  src: '',
-  fit: 'cover',
-})
+const props = defineProps(avatarProps)
 const emit = defineEmits(avatarEmits)
 
 const avatarGroupContext = inject(avatarGroupContextKey, undefined)
