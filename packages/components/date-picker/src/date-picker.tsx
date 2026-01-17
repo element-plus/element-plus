@@ -81,6 +81,7 @@ export default defineComponent({
               </ElDatePickerPanel>
             ),
             'range-separator': slots['range-separator'],
+            trigger: slots.trigger,
           }}
         </CommonPicker>
       )

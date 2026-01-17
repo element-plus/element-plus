@@ -23,8 +23,32 @@
     @hide="onHide"
   >
     <template #default>
+      <el-only-child
+        v-if="$slots.trigger"
+        ref="inputRef"
+        :class="$attrs.class"
+        :style="$attrs.style"
+        :tabindex="tabindex"
+        role="combobox"
+        :aria-label="ariaLabel"
+        @mousedown="onMouseDownInput"
+        @mouseenter="onMouseEnter"
+        @mouseleave="onMouseLeave"
+        @touchstart.passive="onTouchStartInput"
+        @keydown="handleKeydownInput"
+        @focus="handleFocus"
+        @blur="handleBlur"
+        @click.stop
+      >
+        <slot
+          name="trigger"
+          :model-value="displayValue"
+          :disabled="pickerDisabled"
+          :placeholder="placeholder"
+        />
+      </el-only-child>
       <el-input
-        v-if="!isRangeInput"
+        v-else-if="!isRangeInput"
         :id="
           // https://github.com/vuejs/language-tools/issues/2104#issuecomment-3092541527
           id as string
@@ -204,6 +228,7 @@ import {
 } from '@element-plus/components/form'
 import ElInput from '@element-plus/components/input'
 import ElIcon from '@element-plus/components/icon'
+import { ElOnlyChild } from '@element-plus/components/slot'
 import ElTooltip from '@element-plus/components/tooltip'
 import { NOOP, debugWarn, getEventCode, isArray } from '@element-plus/utils'
 import {
