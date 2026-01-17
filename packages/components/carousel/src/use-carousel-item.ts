@@ -88,6 +88,85 @@ export const useCarouselItem = (props: CarouselItemProps) => {
     return distance * (index - activeIndex)
   }
 
+  // Calculate shortest distance and direction for carousel navigation
+  function calcDistanceAndDirection(
+    activeIndex: number,
+    oldIndex: number,
+    total: number,
+    loopEnabled: boolean
+  ) {
+    if (loopEnabled) {
+      const forwardDist = (activeIndex - oldIndex + total) % total
+      const backwardDist = (oldIndex - activeIndex + total) % total
+      return {
+        shortestDist: Math.min(forwardDist, backwardDist),
+        direction: forwardDist <= backwardDist ? 1 : -1,
+      }
+    }
+    return {
+      shortestDist: Math.abs(activeIndex - oldIndex),
+      direction: activeIndex > oldIndex ? 1 : -1,
+    }
+  }
+
+  // Check if index is between oldIndex and activeIndex
+  function isIndexBetween(
+    index: number,
+    oldIndex: number,
+    activeIndex: number,
+    direction: number,
+    loopEnabled: boolean
+  ) {
+    if (!loopEnabled) {
+      return direction > 0
+        ? index > oldIndex && index < activeIndex
+        : index < oldIndex && index > activeIndex
+    }
+
+    const isWrapping =
+      direction > 0 ? oldIndex >= activeIndex : oldIndex <= activeIndex
+
+    if (isWrapping) {
+      return direction > 0
+        ? index > oldIndex || index < activeIndex
+        : index < oldIndex || index > activeIndex
+    }
+
+    return direction > 0
+      ? index > oldIndex && index < activeIndex
+      : index < oldIndex && index > activeIndex
+  }
+
+  // Calculate animation state for carousel items
+  function calcAnimatingState(
+    index: number,
+    activeIndex: number,
+    oldIndex: number,
+    total: number,
+    loopEnabled: boolean
+  ) {
+    const isActive = index === activeIndex
+    const { shortestDist, direction } = calcDistanceAndDirection(
+      activeIndex,
+      oldIndex,
+      total,
+      loopEnabled
+    )
+
+    if (shortestDist <= 1) {
+      return isActive || index === oldIndex
+    }
+
+    const isBetween = isIndexBetween(
+      index,
+      oldIndex,
+      activeIndex,
+      direction,
+      loopEnabled
+    )
+    return isActive || index === oldIndex || isBetween
+  }
+
   const translateItem = (
     index: number,
     activeIndex: number,
@@ -104,48 +183,13 @@ export const useCarouselItem = (props: CarouselItemProps) => {
         Number.isFinite(carouselItemLength) &&
         carouselItemLength > 0
 
-      // Calculate shortest distance and direction
-      let shortestDist: number
-      let direction: number
-
-      if (loopEnabled) {
-        const forwardDist =
-          (activeIndex - oldIndex + carouselItemLength) % carouselItemLength
-        const backwardDist =
-          (oldIndex - activeIndex + carouselItemLength) % carouselItemLength
-        shortestDist = Math.min(forwardDist, backwardDist)
-        direction = forwardDist <= backwardDist ? 1 : -1
-      } else {
-        shortestDist = Math.abs(activeIndex - oldIndex)
-        direction = activeIndex > oldIndex ? 1 : -1
-      }
-
-      const isMultiPageJump = shortestDist > 1
-
-      if (isMultiPageJump) {
-        // Check if current item is between old and new index
-        let isBetween: boolean
-        if (loopEnabled) {
-          const isWrapping =
-            direction > 0 ? oldIndex >= activeIndex : oldIndex <= activeIndex
-          isBetween = isWrapping
-            ? direction > 0
-              ? index > oldIndex || index < activeIndex
-              : index < oldIndex || index > activeIndex
-            : direction > 0
-              ? index > oldIndex && index < activeIndex
-              : index < oldIndex && index > activeIndex
-        } else {
-          isBetween =
-            direction > 0
-              ? index > oldIndex && index < activeIndex
-              : index < oldIndex && index > activeIndex
-        }
-
-        animating.value = isActive || index === oldIndex || isBetween
-      } else {
-        animating.value = isActive || index === oldIndex
-      }
+      animating.value = calcAnimatingState(
+        index,
+        activeIndex,
+        oldIndex,
+        carouselItemLength,
+        loopEnabled
+      )
     }
 
     // Process index for loop mode positioning
