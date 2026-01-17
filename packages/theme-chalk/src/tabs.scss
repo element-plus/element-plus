@@ -153,11 +153,20 @@
     }
 
     & .is-icon-close {
+      position: relative;
       border-radius: 50%;
       text-align: center;
       transition: all getCssVar('transition-duration')
         getCssVar('transition-function-ease-in-out-bezier');
+      width: 14px;
+      height: 14px;
+      overflow: hidden;
+      font-size: 12px;
       margin-left: 5px;
+      right: -2px;
+      transform-origin: 100% 50%;
+      transform: scaleX(0);
+      opacity: 0;
 
       &:before {
         transform: scale(0.9);
@@ -172,11 +181,21 @@
 
     @include when(active) {
       color: getCssVar('color-primary');
+
+      &.is-closable .is-icon-close {
+        transform: scaleX(1);
+        opacity: 1;
+      }
     }
 
     &:hover {
       color: getCssVar('color-primary');
       cursor: pointer;
+
+      &.is-closable .is-icon-close {
+        transform: scaleX(1);
+        opacity: 1;
+      }
     }
 
     @include when(disabled) {
