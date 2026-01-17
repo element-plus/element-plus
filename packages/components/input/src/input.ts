@@ -399,7 +399,7 @@ export const inputPropsDefaults = {
   type: 'text' as InputType,
   autocomplete: 'off',
   clearIcon: markRaw(CircleClose),
-  wordLimitPosition: 'inside' as const,
+  wordLimitPosition: 'inside',
   tabindex: 0,
   validateEvent: true,
   inputStyle: () => ({}),
