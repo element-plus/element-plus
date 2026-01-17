@@ -1,6 +1,7 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 
 import type { ExtractPublicPropTypes, InjectionKey, StyleValue,} from 'vue'
+
 export interface CardProps {
   /**
    * @description title of the card. Also accepts a DOM passed by `slot#header`
