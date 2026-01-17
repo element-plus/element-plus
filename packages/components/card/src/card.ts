@@ -16,7 +16,7 @@ export interface CardProps {
    */
   bodyStyle?: StyleValue
   /**
-   * @description custom class name of card footer
+   * @description custom class name of card header
    */
   headerClass?: string
   /**
@@ -59,7 +59,7 @@ export const cardProps = buildProps({
     default: () => mutable({} as const),
   },
   /**
-   * @description custom class name of card footer
+   * @description custom class name of card header
    */
   headerClass: String,
   /**
