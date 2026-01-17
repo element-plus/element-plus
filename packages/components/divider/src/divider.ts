@@ -1,9 +1,15 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 
-import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
 import type Divider from './divider.vue'
 
 export type BorderStyle = CSSStyleDeclaration['borderStyle']
+
+export interface DividerProps {
+  direction?: 'horizontal' | 'vertical'
+  contentPosition?: 'left' | 'center' | 'right'
+  borderStyle?: BorderStyle
+}
 
 export const dividerProps = buildProps({
   /**
@@ -30,7 +36,6 @@ export const dividerProps = buildProps({
     default: 'solid',
   },
 } as const)
-export type DividerProps = ExtractPropTypes<typeof dividerProps>
 export type DividerPropsPublic = ExtractPublicPropTypes<typeof dividerProps>
 
 export type DividerInstance = InstanceType<typeof Divider> & unknown
