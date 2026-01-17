@@ -32,7 +32,7 @@ defineOptions({
 withDefaults(defineProps<CardProps>(), {
   header: '',
   footer: '',
-  bodyStyle: '',
+  bodyStyle: () => ({}),
 })
 
 const ns = useNamespace('card')
