@@ -39,17 +39,29 @@ import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import ElTourMask from './mask.vue'
 import ElTourContent from './content.vue'
 import ElTourSteps from './steps'
-import { tourEmits, tourProps } from './tour'
+import { tourEmits } from './tour'
 import { tourKey, useTarget } from './helper'
 
 import type { TourStepProps } from './step'
+import type { TourProps } from './tour'
 
 defineOptions({
   name: 'ElTour',
   inheritAttrs: false,
 })
 
-const props = defineProps(tourProps)
+const props = withDefaults(defineProps<TourProps>(), {
+  current: 0,
+  showArrow: true,
+  showClose: true,
+  placement: 'bottom',
+  mask: true,
+  gap: () => ({ offset: 6, radius: 2 }),
+  scrollIntoViewOptions: () => ({ block: 'center' }),
+  appendTo: 'body',
+  closeOnPressEscape: true,
+  targetAreaClickable: true,
+})
 const emit = defineEmits(tourEmits)
 
 const ns = useNamespace('tour')
