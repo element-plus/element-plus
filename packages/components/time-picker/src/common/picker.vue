@@ -44,7 +44,6 @@
           name="trigger"
           :model-value="displayValue"
           :disabled="pickerDisabled"
-          :placeholder="placeholder"
         />
       </el-only-child>
       <el-input
