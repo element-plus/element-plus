@@ -62,8 +62,10 @@ import { ElButton, ElButtonGroup } from '@element-plus/components/button'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import DateTable from './date-table.vue'
 import { useCalendar } from './use-calendar'
-import { calendarEmits, calendarProps } from './calendar'
+import { calendarEmits } from './calendar'
 import SelectController from './select-controller.vue'
+
+import type { CalendarProps } from './calendar'
 
 const ns = useNamespace('calendar')
 
@@ -72,7 +74,10 @@ defineOptions({
   name: COMPONENT_NAME,
 })
 
-const props = defineProps(calendarProps)
+const props = withDefaults(defineProps<CalendarProps>(), {
+  modelValue: () => new Date(),
+  controllerType: 'button',
+})
 const emit = defineEmits(calendarEmits)
 
 const {

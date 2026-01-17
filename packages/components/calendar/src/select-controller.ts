@@ -5,8 +5,13 @@ import {
   isString,
 } from '@element-plus/utils'
 
-import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
 import type { Dayjs } from 'dayjs'
+
+export interface SelectControllerProps {
+  date?: Dayjs
+  formatter?: (value: number, type: 'year' | 'month') => string | number
+}
 
 export const selectControllerProps = buildProps({
   date: {
@@ -19,9 +24,6 @@ export const selectControllerProps = buildProps({
     >(Function),
   },
 } as const)
-export type SelectControllerProps = ExtractPropTypes<
-  typeof selectControllerProps
->
 export type SelectControllerPropsPublic = ExtractPublicPropTypes<
   typeof selectControllerProps
 >

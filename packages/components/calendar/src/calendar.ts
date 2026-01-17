@@ -6,7 +6,7 @@ import {
 } from '@element-plus/utils'
 import { INPUT_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
-import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
 
 export type CalendarDateType =
   | 'prev-month'
@@ -17,6 +17,13 @@ export type CalendarDateType =
 
 const isValidRange = (range: unknown): range is [Date, Date] =>
   isArray(range) && range.length === 2 && range.every((item) => isDate(item))
+
+export interface CalendarProps {
+  modelValue?: Date
+  range?: [Date, Date]
+  controllerType?: 'button' | 'select'
+  formatter?: (value: number, type: 'year' | 'month') => string | number
+}
 
 export const calendarProps = buildProps({
   /**
@@ -50,7 +57,6 @@ export const calendarProps = buildProps({
     >(Function),
   },
 } as const)
-export type CalendarProps = ExtractPropTypes<typeof calendarProps>
 export type CalendarPropsPublic = ExtractPublicPropTypes<typeof calendarProps>
 
 export const calendarEmits = {
