@@ -30,7 +30,9 @@ defineOptions({
   name: 'ElAnchorLink',
 })
 
-const props = defineProps<AnchorLinkProps>()
+const props = withDefaults(defineProps<AnchorLinkProps>(), {
+  href: undefined,
+})
 
 const linkRef = ref<HTMLElement | null>(null)
 
