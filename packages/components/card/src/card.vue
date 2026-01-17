@@ -20,15 +20,22 @@
 <script lang="ts" setup>
 import { useNamespace } from '@element-plus/hooks'
 import { useGlobalConfig } from '@element-plus/components/config-provider'
-import { cardProps } from './card'
+import type { CardProps } from './card'
 
 const globalConfig = useGlobalConfig('card')
 
 defineOptions({
   name: 'ElCard',
 })
-
-defineProps(cardProps)
+withDefaults(defineProps<CardProps>(), {
+  header: '',
+  footer: '',
+  bodyStyle: '',
+  headerClass: '',
+  bodyClass: '',
+  footerClass: '',
+  shadow: '',
+})
 
 const ns = useNamespace('card')
 </script>
