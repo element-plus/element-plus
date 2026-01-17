@@ -95,30 +95,65 @@ export const useCarouselItem = (props: CarouselItemProps) => {
   ) => {
     const _isCardType = unref(isCardType)
     const carouselItemLength = carouselContext.items.value.length ?? Number.NaN
-
     const isActive = index === activeIndex
+
+    // Calculate animation state for non-card type
     if (!_isCardType && !isUndefined(oldIndex)) {
-      // Detect if it's a multi-page jump
-      const isMultiPageJump = Math.abs(activeIndex - oldIndex) > 1
+      const loopEnabled =
+        carouselContext.loop &&
+        Number.isFinite(carouselItemLength) &&
+        carouselItemLength > 0
+
+      // Calculate shortest distance and direction
+      let shortestDist: number
+      let direction: number
+
+      if (loopEnabled) {
+        const forwardDist =
+          (activeIndex - oldIndex + carouselItemLength) % carouselItemLength
+        const backwardDist =
+          (oldIndex - activeIndex + carouselItemLength) % carouselItemLength
+        shortestDist = Math.min(forwardDist, backwardDist)
+        direction = forwardDist <= backwardDist ? 1 : -1
+      } else {
+        shortestDist = Math.abs(activeIndex - oldIndex)
+        direction = activeIndex > oldIndex ? 1 : -1
+      }
+
+      const isMultiPageJump = shortestDist > 1
 
       if (isMultiPageJump) {
-        // When jumping multiple pages, make intermediate items participate in animation
-        const direction = activeIndex > oldIndex ? 1 : -1
-        const isBetweenOldAndNew =
-          direction > 0
-            ? index > oldIndex && index < activeIndex
-            : index < oldIndex && index > activeIndex
+        // Check if current item is between old and new index
+        let isBetween: boolean
+        if (loopEnabled) {
+          const isWrapping =
+            direction > 0 ? oldIndex >= activeIndex : oldIndex <= activeIndex
+          isBetween = isWrapping
+            ? direction > 0
+              ? index > oldIndex || index < activeIndex
+              : index < oldIndex || index > activeIndex
+            : direction > 0
+              ? index > oldIndex && index < activeIndex
+              : index < oldIndex && index > activeIndex
+        } else {
+          isBetween =
+            direction > 0
+              ? index > oldIndex && index < activeIndex
+              : index < oldIndex && index > activeIndex
+        }
 
-        animating.value = isActive || index === oldIndex || isBetweenOldAndNew
+        animating.value = isActive || index === oldIndex || isBetween
       } else {
         animating.value = isActive || index === oldIndex
       }
     }
 
+    // Process index for loop mode positioning
     if (!isActive && carouselItemLength > 2 && carouselContext.loop) {
       index = processIndex(index, activeIndex, carouselItemLength)
     }
 
+    // Set active state and calculate transform
     const _isVertical = unref(isVertical)
     active.value = isActive
 
