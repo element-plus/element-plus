@@ -27,15 +27,22 @@ import ElTeleport from '@element-plus/components/teleport'
 import { addUnit, getScrollContainer, throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { CHANGE_EVENT } from '@element-plus/constants'
-import { affixEmits, affixProps } from './affix'
+import { affixEmits } from './affix'
 
 import type { CSSProperties } from 'vue'
+import type { AffixProps } from './affix'
 
 const COMPONENT_NAME = 'ElAffix'
 defineOptions({
   name: COMPONENT_NAME,
 })
-const props = defineProps(affixProps)
+const props = withDefaults(defineProps<AffixProps>(), {
+  zIndex: 100,
+  target: '',
+  offset: 0,
+  position: 'top',
+  appendTo: 'body',
+})
 const emit = defineEmits(affixEmits)
 
 const ns = useNamespace('affix')
