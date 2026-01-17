@@ -113,7 +113,7 @@ For precision purposes, the input number is limited from [Number.MIN_SAFE_INTEGE
 | step                          | incremental step                                 | ^[number]                                     | 1                       |
 | step-strictly                 | whether input value can only be multiple of step | ^[boolean]                                    | false                   |
 | precision                     | precision of input value                         | ^[number]                                     | —                       |
-| size                          | size of the component                            | ^[enum]`'large' \| 'default' \| 'small'`      | —                       |
+| size                          | size of the component                            | ^[enum]`'large' \| 'default' \| 'small'`      | default                 |
 | readonly ^(2.2.16)            | same as `readonly` in native input               | ^[boolean]                                    | false                   |
 | disabled                      | whether the component is disabled                | ^[boolean]                                    | false                   |
 | controls                      | whether to enable the control buttons            | ^[boolean]                                    | true                    |
