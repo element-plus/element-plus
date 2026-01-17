@@ -42,11 +42,17 @@ defineOptions({
 })
 
 const props = withDefaults(defineProps<ButtonProps>(), {
+  disabled: undefined,
   type: '',
   nativeType: 'button',
   loadingIcon: markRaw(Loading),
+  plain: undefined,
+  text: undefined,
+  round: undefined,
+  autoInsertSpace: undefined,
   tag: 'button',
 })
+
 const emit = defineEmits(buttonEmits)
 
 const buttonStyle = useButtonCustomStyle(props)
