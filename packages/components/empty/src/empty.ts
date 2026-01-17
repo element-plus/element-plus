@@ -1,27 +1,14 @@
-import { buildProps } from '@element-plus/utils'
-
-import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
-
-export const emptyProps = buildProps({
+export interface EmptyProps {
   /**
    * @description image URL of empty
    */
-  image: {
-    type: String,
-    default: '',
-  },
+  image?: string
   /**
    * @description image size (width) of empty
    */
-  imageSize: Number,
+  imageSize?: number
   /**
    * @description description of empty
    */
-  description: {
-    type: String,
-    default: '',
-  },
-} as const)
-
-export type EmptyProps = ExtractPropTypes<typeof emptyProps>
-export type EmptyPropsPublic = ExtractPublicPropTypes<typeof emptyProps>
+  description?: string
+}
