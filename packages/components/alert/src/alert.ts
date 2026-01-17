@@ -40,7 +40,7 @@ export interface AlertProps {
 }
 
 /**
- * @deprecated Removed after 3.0.0, Use `InputProps` instead.
+ * @deprecated Removed after 3.0.0, Use `AlertProps` instead.
  */
 export const alertProps = buildProps({
   /**
@@ -91,7 +91,7 @@ export const alertProps = buildProps({
   },
 } as const)
 /**
- * @deprecated Removed after 3.0.0, Use `InputProps` instead.
+ * @deprecated Removed after 3.0.0, Use `AlertProps` instead.
  */
 export type AlertPropsPublic = ExtractPublicPropTypes<typeof alertProps>
 
