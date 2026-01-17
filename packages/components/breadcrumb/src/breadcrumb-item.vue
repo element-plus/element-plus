@@ -22,8 +22,8 @@ import ElIcon from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
 import { breadcrumbKey } from './constants'
 
-import type { BreadcrumbItemProps } from './breadcrumb-item'
 import type { Router } from 'vue-router'
+import type { BreadcrumbItemProps } from './breadcrumb-item'
 
 defineOptions({
   name: 'ElBreadcrumbItem',
