@@ -1,3 +1,5 @@
+import { definePropType } from '@element-plus/utils'
+
 import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 
 export const backtopProps = {
@@ -12,8 +14,10 @@ export const backtopProps = {
    * @description the target to trigger scroll.
    */
   target: {
-    type: String,
-    default: '',
+    type: definePropType<string | HTMLElement | Window | null>([
+      String,
+      Object,
+    ]),
   },
   /**
    * @description right distance.

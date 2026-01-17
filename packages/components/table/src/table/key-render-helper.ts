@@ -1,9 +1,9 @@
-import { onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted, shallowRef } from 'vue'
 
 import type { Table } from './defaults'
 
 export default function useKeyRender(table: Table<[]>) {
-  let observer: MutationObserver | undefined
+  const observer = shallowRef<MutationObserver>()
 
   const initWatchDom = () => {
     const el = table.vnode.el

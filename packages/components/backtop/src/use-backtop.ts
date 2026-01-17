@@ -1,6 +1,6 @@
 import { onMounted, ref, shallowRef } from 'vue'
 import { useEventListener, useThrottleFn } from '@vueuse/core'
-import { throwError } from '@element-plus/utils'
+import { getElement, getScrollTop, throwError } from '@element-plus/utils'
 
 import type { SetupContext } from 'vue'
 import type { BacktopEmits, BacktopProps } from './backtop'
@@ -10,16 +10,22 @@ export const useBackTop = (
   emit: SetupContext<BacktopEmits>['emit'],
   componentName: string
 ) => {
-  const el = shallowRef<HTMLElement>()
-  const container = shallowRef<Document | HTMLElement>()
+  const el = shallowRef<HTMLElement | Window | undefined>()
+  const container = shallowRef<Document | HTMLElement | Window | undefined>()
   const visible = ref(false)
 
   const handleScroll = () => {
-    if (el.value) visible.value = el.value.scrollTop >= props.visibilityHeight
+    visible.value =
+      (el.value ? getScrollTop(el.value) : 0) >= props.visibilityHeight
   }
 
   const handleClick = (event: MouseEvent) => {
-    el.value?.scrollTo({ top: 0, behavior: 'smooth' })
+    if (!el.value) return
+    if (el.value === window) {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    } else {
+      ;(el.value as HTMLElement).scrollTo({ top: 0, behavior: 'smooth' })
+    }
     emit('click', event)
   }
 
@@ -28,14 +34,15 @@ export const useBackTop = (
   useEventListener(container, 'scroll', handleScrollThrottled)
   onMounted(() => {
     container.value = document
-    el.value = document.documentElement
+    el.value = document.documentElement as HTMLElement
 
     if (props.target) {
-      el.value = document.querySelector<HTMLElement>(props.target) ?? undefined
+      const targetEl = getElement(props.target)
+      el.value = targetEl ?? undefined
       if (!el.value) {
         throwError(componentName, `target does not exist: ${props.target}`)
       }
-      container.value = el.value
+      container.value = el.value as Document | HTMLElement | Window
     }
     // Give visible an initial value, fix #13066
     handleScroll()
