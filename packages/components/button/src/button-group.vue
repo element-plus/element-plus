@@ -16,6 +16,7 @@ defineOptions({
 })
 const props = withDefaults(defineProps<ButtonGroupProps>(), {
   direction: 'horizontal',
+  type: '',
 })
 provide(
   buttonGroupContextKey,
