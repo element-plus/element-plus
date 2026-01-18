@@ -10,7 +10,7 @@ import { useNamespace } from '@element-plus/hooks'
 
 import type { CSSProperties } from 'vue'
 
-export interface HeaderProps {
+interface HeaderProps {
   /**
    * @description height of the header
    */

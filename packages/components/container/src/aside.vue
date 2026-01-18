@@ -10,7 +10,7 @@ import { useNamespace } from '@element-plus/hooks'
 
 import type { CSSProperties } from 'vue'
 
-export interface AsideProps {
+interface AsideProps {
   /**
    * @description width of the side section
    */

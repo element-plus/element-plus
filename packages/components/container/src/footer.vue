@@ -10,7 +10,7 @@ import { useNamespace } from '@element-plus/hooks'
 
 import type { CSSProperties } from 'vue'
 
-export interface FooterProps {
+interface FooterProps {
   /**
    * @description height of the footer
    */

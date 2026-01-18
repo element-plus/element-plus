@@ -10,7 +10,7 @@ import { useNamespace } from '@element-plus/hooks'
 
 import type { Component, VNode } from 'vue'
 
-export interface ContainerProps {
+interface ContainerProps {
   /**
    * @description layout direction for child elements
    */
