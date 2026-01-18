@@ -122,7 +122,6 @@ const props = withDefaults(defineProps<InputNumberProps>(), {
   valueOnClear: null,
   validateEvent: true,
   align: 'center',
-  disabledScientific: false,
 })
 const emit = defineEmits(inputNumberEmits)
 
