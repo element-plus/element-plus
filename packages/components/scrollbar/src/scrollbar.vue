@@ -43,9 +43,9 @@ import { addUnit, debugWarn, isNumber, isObject } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import Bar from './bar.vue'
 import { scrollbarContextKey } from './constants'
-import { scrollbarEmits, scrollbarProps } from './scrollbar'
+import { scrollbarEmits } from './scrollbar'
 
-import type { ScrollbarDirection } from './scrollbar'
+import type { ScrollbarDirection, ScrollbarProps } from './scrollbar'
 import type { BarInstance } from './bar'
 import type { CSSProperties, StyleValue } from 'vue'
 
@@ -55,7 +55,25 @@ defineOptions({
   name: COMPONENT_NAME,
 })
 
-const props = defineProps(scrollbarProps)
+const props = withDefaults(defineProps<ScrollbarProps>(), {
+  distance: 0,
+  height: '',
+  maxHeight: '',
+  native: false,
+  wrapStyle: '',
+  wrapClass: '',
+  viewStyle: '',
+  viewClass: '',
+  noresize: false,
+  tag: 'div',
+  always: false,
+  minSize: 20,
+  tabindex: undefined,
+  id: undefined,
+  role: undefined,
+  ariaLabel: undefined,
+  ariaOrientation: undefined,
+})
 const emit = defineEmits(scrollbarEmits)
 
 const ns = useNamespace('scrollbar')
