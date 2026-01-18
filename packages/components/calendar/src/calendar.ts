@@ -37,6 +37,7 @@ export interface CalendarProps {
    */
   formatter?: (value: number, type: 'year' | 'month') => string | number
 }
+
 /**
  * @deprecated Removed after 3.0.0, Use `CalendarProps` instead.
  */

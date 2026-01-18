@@ -13,6 +13,9 @@ export interface SelectControllerProps {
   formatter?: (value: number, type: 'year' | 'month') => string | number
 }
 
+/**
+ *  @deprecated Removed after 3.0.0, Use `SelectControllerProps` instead.
+ */
 export const selectControllerProps = buildProps({
   date: {
     type: definePropType<Dayjs>(Object),
@@ -24,6 +27,9 @@ export const selectControllerProps = buildProps({
     >(Function),
   },
 } as const)
+/**
+ *  @deprecated Removed after 3.0.0, Use `SelectControllerProps` instead.
+ */
 export type SelectControllerPropsPublic = ExtractPublicPropTypes<
   typeof selectControllerProps
 >

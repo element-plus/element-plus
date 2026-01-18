@@ -25,12 +25,17 @@ export const toNestedArr = (days: CalendarDateCell[]) =>
     const start = index * 7
     return days.slice(start, start + 7)
   })
+
 export interface DateTableProps {
   selectedDay?: Dayjs
   range?: [Dayjs, Dayjs]
   date: Dayjs
   hideHeader?: boolean
 }
+
+/**
+ *  @deprecated Removed after 3.0.0, Use `DateTableProps` instead.
+ */
 export const dateTableProps = buildProps({
   selectedDay: {
     type: definePropType<Dayjs>(Object),
@@ -46,6 +51,9 @@ export const dateTableProps = buildProps({
     type: Boolean,
   },
 } as const)
+/**
+ *  @deprecated Removed after 3.0.0, Use `DateTableProps` instead.
+ */
 export type DateTablePropsPublic = ExtractPublicPropTypes<typeof dateTableProps>
 
 export const dateTableEmits = {
