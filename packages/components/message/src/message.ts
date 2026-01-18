@@ -126,6 +126,9 @@ export const messageDefaults = mutable({
   appendTo: isClient ? document.body : (undefined as never),
 } as const)
 
+/**
+ * @deprecated Removed after 3.0.0, Use `MessageProps` instead.
+ */
 export const messageProps = buildProps({
   /**
    * @description custom class name for Message
