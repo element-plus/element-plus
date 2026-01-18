@@ -42,12 +42,18 @@
 <script lang="ts" setup>
 import { shallowRef } from 'vue'
 import { cloneDeep, isEqual } from 'lodash-unified'
-import { entriesOf, isFunction, isPlainObject } from '@element-plus/utils'
+import {
+  NOOP,
+  entriesOf,
+  isFunction,
+  isPlainObject,
+  mutable,
+} from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { useFormDisabled } from '@element-plus/components/form'
 import UploadDragger from './upload-dragger.vue'
-import { uploadContentProps } from './upload-content'
 import { genFileId } from './upload'
+import { ajaxUpload } from './ajax'
 
 import type { UploadContentProps } from './upload-content'
 import type {
@@ -62,7 +68,25 @@ defineOptions({
   inheritAttrs: false,
 })
 
-const props = defineProps(uploadContentProps)
+const props = withDefaults(defineProps<UploadContentProps>(), {
+  action: '#',
+  method: 'post',
+  data: () => mutable({} as const),
+  name: 'file',
+  showFileList: true,
+  accept: '',
+  fileList: () => mutable([]),
+  autoUpload: true,
+  listType: 'text',
+  httpRequest: ajaxUpload,
+  beforeUpload: NOOP,
+  onRemove: NOOP,
+  onStart: NOOP,
+  onSuccess: NOOP,
+  onProgress: NOOP,
+  onError: NOOP,
+  onExceed: NOOP,
+})
 const ns = useNamespace('upload')
 const disabled = useFormDisabled()
 
@@ -148,7 +172,7 @@ const resolveData = async (
     return data(rawFile)
   }
 
-  return data
+  return data!
 }
 
 const doUpload = async (

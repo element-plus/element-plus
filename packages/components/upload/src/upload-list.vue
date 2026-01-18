@@ -121,15 +121,21 @@ import {
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElProgress from '@element-plus/components/progress'
 import { useFormDisabled } from '@element-plus/components/form'
-import { uploadListEmits, uploadListProps } from './upload-list'
+import { uploadListEmits } from './upload-list'
+import { NOOP, mutable } from '@element-plus/utils'
 
+import type { UploadListProps } from './upload-list'
 import type { UploadFile } from './upload'
 
 defineOptions({
   name: 'ElUploadList',
 })
 
-const props = defineProps(uploadListProps)
+const props = withDefaults(defineProps<UploadListProps>(), {
+  files: () => mutable([]),
+  handlePreview: NOOP,
+  listType: 'text',
+})
 const emit = defineEmits(uploadListEmits)
 
 const { t } = useLocale()
