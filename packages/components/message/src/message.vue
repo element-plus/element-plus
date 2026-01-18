@@ -64,6 +64,7 @@ import {
   messageEmits,
 } from './message'
 import { getLastOffset, getOffsetOrSpace } from './instance'
+import { omit } from 'lodash-unified'
 
 import type { BadgeProps } from '@element-plus/components/badge'
 import type { CSSProperties } from 'vue'
@@ -75,7 +76,10 @@ defineOptions({
   name: 'ElMessage',
 })
 
-const props = withDefaults(defineProps<MessageProps>(), messageDefaults)
+const props = withDefaults(
+  defineProps<MessageProps>(),
+  omit(messageDefaults, 'appendTo')
+)
 const emit = defineEmits(messageEmits)
 
 const isStartTransition = ref(false)
