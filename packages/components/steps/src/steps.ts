@@ -97,6 +97,7 @@ export const stepsProps = buildProps({
     default: 'process',
   },
 } as const)
+
 /**
  * @deprecated Removed after 3.0.0, Use `StepsProps` instead.
  */
