@@ -36,7 +36,7 @@ withDefaults(defineProps<CardProps>(), {
   headerClass: '',
   bodyClass: '',
   footerClass: '',
-  shadow: 'always',
+  shadow: undefined,
 })
 
 const ns = useNamespace('card')
