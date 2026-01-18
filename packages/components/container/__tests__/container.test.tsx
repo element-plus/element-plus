@@ -30,12 +30,11 @@ describe('Container.vue', () => {
     const wrapper = mount(
       defineComponent({
         data: () => ({
-          direction: 'horizontal' as InstanceType<
-            typeof Container
-          >['direction'],
+          direction: 'horizontal',
         }),
         render() {
           return (
+            // @ts-ignore
             <Container direction={this.direction}>
               <Header />
               <Main />
