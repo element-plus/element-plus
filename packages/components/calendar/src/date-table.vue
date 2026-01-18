@@ -42,6 +42,7 @@ import { dateTableEmits } from './date-table'
 import { useDateTable } from './use-date-table'
 
 import type { CalendarDateCell, DateTableProps } from './date-table'
+
 defineOptions({
   name: 'DateTable',
 })
