@@ -40,7 +40,6 @@ const props = withDefaults(defineProps<BadgeProps>(), {
   type: 'danger',
   showZero: true,
   offset: () => [0, 0],
-  badgeStyle: () => ({}),
 })
 
 const ns = useNamespace('badge')
