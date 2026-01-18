@@ -29,6 +29,7 @@ defineOptions({
 const props = withDefaults(defineProps<CountdownProps>(), {
   format: 'HH:mm:ss',
   value: 0,
+  valueStyle: undefined,
 })
 const emit = defineEmits(countdownEmits)
 
