@@ -14,13 +14,15 @@ export interface FooterProps {
   /**
    * @description height of the footer
    */
-  height?: string
+  height?: string | null
 }
 
 defineOptions({
   name: 'ElFooter',
 })
-const props = defineProps<FooterProps>()
+const props = withDefaults(defineProps<FooterProps>(), {
+  height: null,
+})
 
 const ns = useNamespace('footer')
 
