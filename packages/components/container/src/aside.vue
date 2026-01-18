@@ -10,18 +10,17 @@ import { useNamespace } from '@element-plus/hooks'
 
 import type { CSSProperties } from 'vue'
 
-defineOptions({
-  name: 'ElAside',
-})
-const props = defineProps({
+export interface AsideProps {
   /**
    * @description width of the side section
    */
-  width: {
-    type: String,
-    default: null,
-  },
+  width?: string
+}
+
+defineOptions({
+  name: 'ElAside',
 })
+const props = withDefaults(defineProps<AsideProps>(), {})
 
 const ns = useNamespace('aside')
 const style = computed(

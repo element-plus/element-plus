@@ -10,18 +10,17 @@ import { useNamespace } from '@element-plus/hooks'
 
 import type { CSSProperties } from 'vue'
 
-defineOptions({
-  name: 'ElFooter',
-})
-const props = defineProps({
+export interface FooterProps {
   /**
    * @description height of the footer
    */
-  height: {
-    type: String,
-    default: null,
-  },
+  height?: string
+}
+
+defineOptions({
+  name: 'ElFooter',
 })
+const props = withDefaults(defineProps<FooterProps>(), {})
 
 const ns = useNamespace('footer')
 
