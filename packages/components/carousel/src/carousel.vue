@@ -116,7 +116,6 @@ const props = withDefaults(defineProps<CarouselProps>(), {
   loop: true,
   direction: 'horizontal',
   pauseOnHover: true,
-  motionBlur: false,
 })
 const emit = defineEmits(carouselEmits)
 const {
