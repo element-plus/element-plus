@@ -31,9 +31,9 @@ import { useNamespace } from '@element-plus/hooks'
 import { useFormSize } from '@element-plus/components/form'
 import ElDescriptionsRow from './descriptions-row.vue'
 import { descriptionsKey } from './token'
-import { descriptionProps } from './description'
 import { COMPONENT_NAME } from './constants'
 
+import type { DescriptionProps } from './description'
 import type { IDescriptionsInject } from './descriptions.type'
 import type { DescriptionItemVNode } from './description-item'
 
@@ -41,7 +41,15 @@ defineOptions({
   name: 'ElDescriptions',
 })
 
-const props = defineProps(descriptionProps)
+const props = withDefaults(defineProps<DescriptionProps>(), {
+  border: false,
+  column: 3,
+  direction: 'horizontal',
+  size: '',
+  title: '',
+  extra: '',
+  labelWidth: '',
+})
 
 const ns = useNamespace('descriptions')
 
