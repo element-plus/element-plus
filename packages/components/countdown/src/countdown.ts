@@ -69,6 +69,9 @@ export const countdownProps = buildProps({
     type: definePropType<StyleValue>([String, Object, Array]),
   },
 } as const)
+/**
+ * @deprecated Removed after 3.0.0, Use `CountdownProps` instead.
+ */
 export type CountdownPropsPublic = ExtractPublicPropTypes<typeof countdownProps>
 
 export const countdownEmits = {
