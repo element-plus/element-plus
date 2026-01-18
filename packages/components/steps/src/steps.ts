@@ -2,8 +2,49 @@ import { CHANGE_EVENT } from '@element-plus/constants'
 import { buildProps, isNumber } from '@element-plus/utils'
 
 import type Steps from './steps.vue'
-import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
 
+export type StepsStatus = 'wait' | 'process' | 'finish' | 'error' | 'success'
+
+export interface StepsProps {
+  /**
+   * @description the spacing of each step, will be responsive if omitted. Supports percentage.
+   * @default ''
+   */
+  space?: number | string
+  /**
+   * @description current activation step
+   * @default 0
+   */
+  active?: number
+  /**
+   * @description display direction
+   * @default 'horizontal'
+   */
+  direction?: 'horizontal' | 'vertical'
+  /**
+   * @description center title and description
+   */
+  alignCenter?: boolean
+  /**
+   * @description whether to apply simple theme
+   */
+  simple?: boolean
+  /**
+   * @description status of end step
+   * @default 'finish'
+   */
+  finishStatus?: StepsStatus
+  /**
+   * @description status of current step
+   * @default 'process'
+   */
+  processStatus?: StepsStatus
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `stepsProps` instead.
+ */
 export const stepsProps = buildProps({
   /**
    * @description the spacing of each step, will be responsive if omitted. Supports percentage.
@@ -56,7 +97,6 @@ export const stepsProps = buildProps({
     default: 'process',
   },
 } as const)
-export type StepsProps = ExtractPropTypes<typeof stepsProps>
 export type StepsPropsPublic = ExtractPublicPropTypes<typeof stepsProps>
 
 export const stepsEmits = {
