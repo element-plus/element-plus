@@ -1,6 +1,6 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 
-import type { ExtractPublicPropTypes, InjectionKey, StyleValue,} from 'vue'
+import type { ExtractPublicPropTypes, InjectionKey, StyleValue } from 'vue'
 
 export interface CardProps {
   /**

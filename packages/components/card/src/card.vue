@@ -28,6 +28,7 @@ const globalConfig = useGlobalConfig('card')
 defineOptions({
   name: 'ElCard',
 })
+
 withDefaults(defineProps<CardProps>(), {
   header: '',
   footer: '',
@@ -35,7 +36,7 @@ withDefaults(defineProps<CardProps>(), {
   headerClass: '',
   bodyClass: '',
   footerClass: '',
-  shadow: '',
+  shadow: 'always',
 })
 
 const ns = useNamespace('card')
