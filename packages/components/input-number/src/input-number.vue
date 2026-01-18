@@ -121,6 +121,7 @@ const props = withDefaults(defineProps<InputNumberProps>(), {
   controlsPosition: '',
   valueOnClear: null,
   validateEvent: true,
+  inputmode: undefined,
   align: 'center',
 })
 const emit = defineEmits(inputNumberEmits)
