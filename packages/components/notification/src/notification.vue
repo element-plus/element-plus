@@ -45,15 +45,29 @@ import { TypeComponentsMap, getEventCode } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ElIcon } from '@element-plus/components/icon'
 import { useGlobalComponentSettings } from '@element-plus/components/config-provider'
-import { notificationEmits, notificationProps } from './notification'
+import { notificationEmits } from './notification'
+import { Close } from '@element-plus/icons-vue'
 
 import type { CSSProperties } from 'vue'
+import type { NotificationProps } from './notification'
 
 defineOptions({
   name: 'ElNotification',
 })
 
-const props = defineProps(notificationProps)
+const props = withDefaults(defineProps<NotificationProps>(), {
+  customClass: '',
+  duration: 4500,
+  id: '',
+  message: '',
+  offset: 0,
+  onClick: () => undefined,
+  position: 'top-right',
+  showClose: true,
+  title: '',
+  type: '',
+  closeIcon: Close,
+})
 defineEmits(notificationEmits)
 
 const { ns, zIndex } = useGlobalComponentSettings('notification')
