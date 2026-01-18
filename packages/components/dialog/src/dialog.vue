@@ -115,6 +115,9 @@ const props = withDefaults(defineProps<DialogProps>(), {
   title: '',
   ariaLevel: '2',
   center: false,
+  alignCenter: undefined,
+  draggable: undefined,
+  overflow: undefined,
   fullscreen: false,
 })
 defineEmits(dialogEmits)
