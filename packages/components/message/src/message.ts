@@ -62,7 +62,7 @@ export interface MessageProps {
   /**
    * @description message element zIndex value
    */
-  zIndex?: number | undefined
+  zIndex?: number
   /**
    * @description merge messages with the same content, type of VNode message is not supported
    */
