@@ -2,7 +2,8 @@ import { useSizeProp } from '@element-plus/hooks'
 import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 import { Loading } from '@element-plus/icons-vue'
 
-import type { Component, ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
+import type { Component, ExtractPublicPropTypes } from 'vue'
+import type { ComponentSize } from '@element-plus/constants'
 
 export const buttonTypes = [
   'default',
@@ -20,6 +21,87 @@ export const buttonTypes = [
 ] as const
 export const buttonNativeTypes = ['button', 'submit', 'reset'] as const
 
+export type ButtonType = (typeof buttonTypes)[number]
+export type ButtonNativeType = (typeof buttonNativeTypes)[number]
+
+export interface ButtonProps {
+  /**
+   * @description button size
+   */
+  size?: ComponentSize
+  /**
+   * @description disable the button
+   */
+  disabled?: boolean
+  /**
+   * @description button type
+   */
+  type?: ButtonType
+  /**
+   * @description icon component
+   */
+  icon?: string | Component
+  /**
+   * @description native button type
+   */
+  nativeType?: ButtonNativeType
+  /**
+   * @description determine whether it's loading
+   */
+  loading?: boolean
+  /**
+   * @description customize loading icon component
+   */
+  loadingIcon?: string | Component
+  /**
+   * @description determine whether it's a plain button
+   */
+  plain?: boolean
+  /**
+   * @description determine whether it's a text button
+   */
+  text?: boolean
+  /**
+   * @description determine whether it's a link button
+   */
+  link?: boolean
+  /**
+   * @description determine whether the text button background color is always on
+   */
+  bg?: boolean
+  /**
+   * @description native button autofocus
+   */
+  autofocus?: boolean
+  /**
+   * @description determine whether it's a round button
+   */
+  round?: boolean
+  /**
+   * @description determine whether it's a circle button
+   */
+  circle?: boolean
+  /**
+   * @description custom button color, automatically calculate `hover` and `active` color
+   */
+  color?: string
+  /**
+   * @description dark mode, which automatically converts `color` to dark mode colors
+   */
+  dark?: boolean
+  /**
+   * @description automatically insert a space between two chinese characters
+   */
+  autoInsertSpace?: boolean
+  /**
+   * @description custom element tag
+   */
+  tag?: string | Component
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `ButtonProps` instead.
+ */
 export const buttonProps = buildProps({
   /**
    * @description button size
@@ -129,12 +211,11 @@ export const buttonEmits = {
   click: (evt: MouseEvent) => evt instanceof MouseEvent,
 }
 
-export type ButtonProps = ExtractPropTypes<typeof buttonProps>
+/**
+ * @deprecated Removed after 3.0.0, Use `ButtonProps` instead.
+ */
 export type ButtonPropsPublic = ExtractPublicPropTypes<typeof buttonProps>
 export type ButtonEmits = typeof buttonEmits
-
-export type ButtonType = ButtonProps['type']
-export type ButtonNativeType = ButtonProps['nativeType']
 
 export interface ButtonConfigContext {
   type?: string
