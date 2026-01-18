@@ -37,7 +37,7 @@ export interface TourStepProps {
   /**
    * @description whether to enable masking, change mask style and fill color by pass custom props
    */
-  mask?: TourMask | boolean
+  mask?: TourMask
   /**
    * @description custom style for content
    */
