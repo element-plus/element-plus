@@ -18,14 +18,18 @@ import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { ElStatistic } from '@element-plus/components/statistic'
 import { cAF, rAF } from '@element-plus/utils'
 import { CHANGE_EVENT } from '@element-plus/constants'
-import { countdownEmits, countdownProps } from './countdown'
+import { countdownEmits } from './countdown'
 import { formatTime, getTime } from './utils'
+
+import type { CountdownProps } from './countdown'
 
 defineOptions({
   name: 'ElCountdown',
 })
-
-const props = defineProps(countdownProps)
+const props = withDefaults(defineProps<CountdownProps>(), {
+  format: 'HH:mm:ss',
+  value: 0,
+})
 const emit = defineEmits(countdownEmits)
 
 let timer: ReturnType<typeof rAF> | undefined
