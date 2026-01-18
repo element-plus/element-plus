@@ -58,9 +58,9 @@ import { useNamespace } from '@element-plus/hooks'
 import { ElIcon } from '@element-plus/components/icon'
 import { Check, Close } from '@element-plus/icons-vue'
 import { isNumber } from '@element-plus/utils'
-import { stepProps } from './item'
 import { STEPS_INJECTION_KEY } from './tokens'
 
+import type { StepProps } from './item'
 import type { CSSProperties, ComputedRef, Ref, VNode } from 'vue'
 import type { StepsProps } from './steps'
 
@@ -84,7 +84,13 @@ defineOptions({
   name: 'ElStep',
 })
 
-const props = defineProps(stepProps)
+const props = withDefaults(defineProps<StepProps>(), {
+  title: '',
+  description: '',
+  icon: '',
+  status: '',
+})
+
 const ns = useNamespace('step')
 const index = ref(-1)
 const lineStyle = ref({})
@@ -101,7 +107,7 @@ onMounted(() => {
       () => parent.props.processStatus,
       () => parent.props.finishStatus,
     ],
-    ([active], [oldActive]) => {
+    ([active = 0], [oldActive]) => {
       beforeActive = oldActive || 0
       stepDiff = active - beforeActive
 
@@ -147,7 +153,9 @@ const space = computed(() => {
 const containerKls = computed(() => {
   return [
     ns.b(),
-    ns.is(isSimple.value ? 'simple' : parent.props.direction),
+    ns.is(
+      isSimple.value ? 'simple' : (parent.props?.direction ?? 'horizontal')
+    ),
     ns.is('flex', isLast.value && !space.value && !isCenter.value),
     ns.is('center', isCenter.value && !isVertical.value && !isSimple.value),
   ]
@@ -179,7 +187,7 @@ const calcProgress = (status: string) => {
       ? 0
       : stepDiff > 0
         ? (index.value + 1 - beforeActive) * 150
-        : -(index.value + 1 - parent.props.active) * 150
+        : -(index.value + 1 - (parent.props.active ?? 0)) * 150
 
   const style: CSSProperties = {
     transitionDelay: `${delayTimer}ms`,
@@ -193,12 +201,12 @@ const calcProgress = (status: string) => {
 
 const updateStatus = (activeIndex: number) => {
   if (activeIndex > index.value) {
-    internalStatus.value = parent.props.finishStatus
+    internalStatus.value = parent.props?.finishStatus ?? 'finish'
   } else if (
     activeIndex === index.value &&
     prevInternalStatus.value !== 'error'
   ) {
-    internalStatus.value = parent.props.processStatus
+    internalStatus.value = parent.props?.processStatus ?? 'process'
   } else {
     internalStatus.value = 'wait'
   }

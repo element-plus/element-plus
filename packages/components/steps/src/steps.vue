@@ -9,16 +9,25 @@
 import { getCurrentInstance, provide, watch } from 'vue'
 import { CHANGE_EVENT } from '@element-plus/constants'
 import { useNamespace, useOrderedChildren } from '@element-plus/hooks'
-import { stepsEmits, stepsProps } from './steps'
+import { stepsEmits } from './steps'
 import { STEPS_INJECTION_KEY } from './tokens'
 
+import type { StepsProps } from './steps'
 import type { StepItemState } from './item.vue'
 
 defineOptions({
   name: 'ElSteps',
 })
 
-const props = defineProps(stepsProps)
+const props = withDefaults(defineProps<StepsProps>(), {
+  space: '',
+  direction: 'horizontal',
+  active: 0,
+  alignCenter: false,
+  simple: false,
+  processStatus: 'process',
+  finishStatus: 'finish',
+})
 const emit = defineEmits(stepsEmits)
 
 const ns = useNamespace('steps')
