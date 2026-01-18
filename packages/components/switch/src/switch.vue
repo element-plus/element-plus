@@ -116,6 +116,7 @@ defineOptions({
 
 const props = withDefaults(defineProps<SwitchProps>(), {
   modelValue: false,
+  disabled: undefined,
   activeText: '',
   inactiveText: '',
   activeValue: true,
