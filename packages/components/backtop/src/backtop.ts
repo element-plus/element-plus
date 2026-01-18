@@ -1,5 +1,3 @@
-import { buildProps } from '@element-plus/utils'
-
 import type { ExtractPublicPropTypes } from 'vue'
 
 export interface BacktopProps {
@@ -24,7 +22,7 @@ export interface BacktopProps {
 /**
  * @deprecated Removed after 3.0.0, Use `BacktopProps` instead.
  */
-export const backtopProps = buildProps({
+export const backtopProps = {
   /**
    * @description the button will not show until the scroll height reaches this value.
    */
@@ -53,7 +51,7 @@ export const backtopProps = buildProps({
     type: Number,
     default: 40,
   },
-} as const)
+} as const
 
 /**
  * @deprecated Removed after 3.0.0, Use `BacktopProps` instead.
