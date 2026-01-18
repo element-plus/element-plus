@@ -16,16 +16,16 @@ export interface StepProps {
    * @description step description
    * @default ''
    */
-  description: string
+  description?: string
   /**
    * @description current status. It will be automatically set by Steps if not configured.
    * @default ''
    */
-  status: '' | 'wait' | 'process' | 'finish' | 'error' | 'success'
+  status?: '' | 'wait' | 'process' | 'finish' | 'error' | 'success'
 }
 
 /**
- * @deprecated Removed after 3.0.0, Use `stepsProps` instead.
+ * @deprecated Removed after 3.0.0, Use `StepProps` instead.
  */
 export const stepProps = buildProps({
   /**
