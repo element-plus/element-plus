@@ -9,14 +9,77 @@ import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { teleportProps } from '@element-plus/components/teleport'
 import { tourContentProps } from './content'
 
-import type {
-  CSSProperties,
-  ExtractPropTypes,
-  ExtractPublicPropTypes,
-} from 'vue'
+import type { TourContentProps } from './content'
+import type { CSSProperties, Component, ExtractPublicPropTypes } from 'vue'
 import type Tour from './tour.vue'
 import type { TourGap, TourMask } from './types'
 
+export interface TourProps {
+  /**
+   * @description open tour
+   */
+  modelValue?: boolean
+  /**
+   * @description what is the current step
+   */
+  current?: number
+  /**
+   * @description whether to show the arrow
+   */
+  showArrow?: boolean
+  /**
+   * @description whether to show a close button
+   */
+  showClose?: boolean
+  /**
+   * @description custom close icon
+   */
+  closeIcon?: string | Component
+  /**
+   * @description position of the guide card relative to the target element
+   */
+  placement?: TourContentProps['placement']
+  /**
+   * @description custom style for content
+   */
+  contentStyle?: CSSProperties
+  /**
+   * @description whether to enable masking, change mask style and fill color by pass custom props
+   */
+  mask?: TourMask
+  /**
+   * @description transparent gap between mask and target
+   */
+  gap?: TourGap
+  /**
+   * @description tour's zIndex
+   */
+  zIndex?: number
+  /**
+   * @description support pass custom scrollIntoView options
+   */
+  scrollIntoViewOptions?: boolean | ScrollIntoViewOptions
+  /**
+   * @description type, affects the background color and text color
+   */
+  type?: 'default' | 'primary'
+  /**
+   * @description which element the TourContent appends to
+   */
+  appendTo?: string | HTMLElement
+  /**
+   * @description whether the Tour can be closed by pressing ESC
+   */
+  closeOnPressEscape?: boolean
+  /**
+   * @description whether the target element can be clickable, when using mask
+   */
+  targetAreaClickable?: boolean
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `TourProps` instead.
+ */
 export const tourProps = buildProps({
   /**
    * @description open tour
@@ -120,7 +183,9 @@ export const tourProps = buildProps({
   },
 })
 
-export type TourProps = ExtractPropTypes<typeof tourProps>
+/**
+ * @deprecated Removed after 3.0.0, Use `TourProps` instead.
+ */
 export type TourPropsPublic = ExtractPublicPropTypes<typeof tourProps>
 export type TourInstance = InstanceType<typeof Tour> & unknown
 
