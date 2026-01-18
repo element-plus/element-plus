@@ -28,12 +28,7 @@ import { BAR_MAP, renderThumbStyle } from './util'
 import type { ThumbProps } from './thumb'
 
 const COMPONENT_NAME = 'Thumb'
-const props = withDefaults(defineProps<ThumbProps>(), {
-  vertical: false,
-  size: '',
-  move: 0,
-  always: false,
-})
+const props = defineProps<ThumbProps>()
 
 const scrollbar = inject(scrollbarContextKey)
 const ns = useNamespace('scrollbar')

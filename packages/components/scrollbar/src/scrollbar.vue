@@ -59,20 +59,13 @@ const props = withDefaults(defineProps<ScrollbarProps>(), {
   distance: 0,
   height: '',
   maxHeight: '',
-  native: false,
   wrapStyle: '',
   wrapClass: '',
   viewStyle: '',
   viewClass: '',
-  noresize: false,
   tag: 'div',
-  always: false,
   minSize: 20,
   tabindex: undefined,
-  id: undefined,
-  role: undefined,
-  ariaLabel: undefined,
-  ariaOrientation: undefined,
 })
 const emit = defineEmits(scrollbarEmits)
 

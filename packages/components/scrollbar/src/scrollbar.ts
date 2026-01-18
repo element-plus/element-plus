@@ -82,7 +82,7 @@ export interface ScrollbarProps {
   /**
    * @description native `aria-orientation` attribute
    */
-  ariaOrientation?: 'horizontal' | 'vertical'
+  ariaOrientation?: 'horizontal' | 'vertical' | 'undefined'
 }
 
 /**
