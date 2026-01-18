@@ -42,10 +42,8 @@ defineOptions({
 })
 
 const props = withDefaults(defineProps<DescriptionProps>(), {
-  border: false,
   column: 3,
   direction: 'horizontal',
-  size: '',
   title: '',
   extra: '',
 })

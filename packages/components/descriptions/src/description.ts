@@ -91,6 +91,9 @@ export const descriptionProps = buildProps({
   },
 } as const)
 
+/**
+ * @deprecated Removed after 3.0.0, Use `DescriptionProps` instead.
+ */
 export type DescriptionPropsPublic = ExtractPublicPropTypes<
   typeof descriptionProps
 >
