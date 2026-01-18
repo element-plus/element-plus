@@ -6,14 +6,76 @@ import {
   mutable,
 } from '@element-plus/utils'
 
-import type {
-  AppContext,
-  ExtractPropTypes,
-  ExtractPublicPropTypes,
-  VNode,
-} from 'vue'
+import type { AppContext, ExtractPublicPropTypes, VNode } from 'vue'
 import type { Mutable } from '@element-plus/utils'
 import type MessageConstructor from './message.vue'
+
+export interface MessageProps {
+  /**
+   * @description custom class name for Message
+   */
+  customClass?: string
+  /**
+   * @description whether `message` is treated as HTML string
+   */
+  dangerouslyUseHTMLString?: boolean
+  /**
+   * @description display duration, millisecond. If set to 0, it will not turn off automatically
+   */
+  duration?: number
+  /**
+   * @description custom icon component, overrides `type`
+   */
+  icon?: typeof iconPropType
+  /**
+   * @description message dom id
+   */
+  id?: string
+  /**
+   * @description message text
+   */
+  message?: string | VNode | (() => VNode)
+  /**
+   * @description callback function when closed with the message instance as the parameter
+   */
+  onClose?: () => void
+  /**
+   * @description whether to show a close button
+   */
+  showClose?: boolean
+  /**
+   * @description message type
+   */
+  type?: MessageType
+  /**
+   * @description whether message is plain
+   */
+  plain?: boolean
+  /**
+   * @description set the distance to the top of viewport
+   */
+  offset?: number
+  /**
+   * @description message placement position
+   */
+  placement?: MessagePlacement
+  /**
+   * @description input box size
+   */
+  zIndex?: number
+  /**
+   * @description merge messages with the same content, type of VNode message is not supported
+   */
+  grouping?: boolean
+  /**
+   * @description The number of repetitions, similar to badge, is used as the initial number when used with `grouping`
+   */
+  repeatNum?: number
+  /**
+   * @description set the root element for the message, default to `document.body`
+   */
+  appendTo?: string | HTMLElement
+}
 
 export const messageTypes = [
   'primary',
@@ -181,7 +243,9 @@ export const messageProps = buildProps({
     default: messageDefaults.repeatNum,
   },
 } as const)
-export type MessageProps = ExtractPropTypes<typeof messageProps>
+/**
+ * @deprecated Removed after 3.0.0, Use `MessageProps` instead.
+ */
 export type MessagePropsPublic = ExtractPublicPropTypes<typeof messageProps>
 
 export const messageEmits = {
