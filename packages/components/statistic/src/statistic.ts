@@ -4,6 +4,10 @@ import type { ExtractPublicPropTypes, StyleValue } from 'vue'
 import type { Dayjs } from 'dayjs'
 import type Statistic from './statistic.vue'
 
+export type StatisticFormatter = {
+  formatter(value: number | Dayjs): string
+}['formatter']
+
 export interface StatisticProps {
   /**
    * @description Setting the decimal point
@@ -20,7 +24,7 @@ export interface StatisticProps {
   /**
    * @description Custom numerical presentation
    */
-  formatter?: (value: number | Dayjs) => string
+  formatter?: StatisticFormatter
   /**
    * @description Numerical content
    */
