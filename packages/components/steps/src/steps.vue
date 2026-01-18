@@ -23,8 +23,6 @@ const props = withDefaults(defineProps<StepsProps>(), {
   space: '',
   direction: 'horizontal',
   active: 0,
-  alignCenter: false,
-  simple: false,
   processStatus: 'process',
   finishStatus: 'finish',
 })
