@@ -80,8 +80,9 @@ import {
   useFormSize,
 } from '@element-plus/components/form'
 import { ElIcon } from '@element-plus/components/icon'
+import { Star, StarFilled } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
-import { rateEmits, ratePropsDefaults } from './rate'
+import { rateEmits } from './rate'
 
 import type { CSSProperties, Component } from 'vue'
 import type { IconInstance } from '@element-plus/components/icon'
@@ -112,7 +113,27 @@ defineOptions({
 })
 
 const props = withDefaults(defineProps<RateProps>(), {
-  ...ratePropsDefaults,
+  modelValue: 0,
+  id: undefined,
+  lowThreshold: 2,
+  highThreshold: 4,
+  max: 5,
+  colors: () => ['', '', ''],
+  voidColor: '',
+  disabledVoidColor: '',
+  icons: () => [StarFilled, StarFilled, StarFilled],
+  voidIcon: () => Star,
+  disabledVoidIcon: () => StarFilled,
+  disabled: undefined,
+  textColor: '',
+  texts: () => [
+    'Extremely bad',
+    'Disappointed',
+    'Fair',
+    'Satisfied',
+    'Surprise',
+  ],
+  scoreTemplate: '{value}',
 })
 const emit = defineEmits(rateEmits)
 

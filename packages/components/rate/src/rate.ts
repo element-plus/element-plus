@@ -1,4 +1,3 @@
-import { markRaw } from 'vue'
 import { Star, StarFilled } from '@element-plus/icons-vue'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import {
@@ -247,30 +246,6 @@ export const rateProps = buildProps({
  * @deprecated Removed after 3.0.0, Use `RateProps` instead.
  */
 export type RatePropsPublic = ExtractPublicPropTypes<typeof rateProps>
-
-/**
- * @description default values for RateProps
- */
-export const ratePropsDefaults = {
-  modelValue: 0,
-  lowThreshold: 2,
-  highThreshold: 4,
-  max: 5,
-  colors: () => ['', '', ''],
-  voidColor: '',
-  disabledVoidColor: '',
-  icons: () => [markRaw(StarFilled), markRaw(StarFilled), markRaw(StarFilled)],
-  voidIcon: markRaw(Star),
-  disabledVoidIcon: markRaw(StarFilled),
-  texts: () => [
-    'Extremely bad',
-    'Disappointed',
-    'Fair',
-    'Satisfied',
-    'Surprise',
-  ],
-  scoreTemplate: '{value}',
-} as const
 
 export const rateEmits = {
   [CHANGE_EVENT]: (value: number) => isNumber(value),
