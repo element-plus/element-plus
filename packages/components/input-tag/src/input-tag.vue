@@ -133,14 +133,16 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, useSlots } from 'vue'
+import { computed, markRaw, useSlots } from 'vue'
 import { useAttrs, useCalcInputWidth } from '@element-plus/hooks'
 import { NOOP, ValidateComponentsMap } from '@element-plus/utils'
+import { EVENT_CODE } from '@element-plus/constants'
+import { CircleClose as IconCircleClose } from '@element-plus/icons-vue'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElIcon from '@element-plus/components/icon'
 import ElTag from '@element-plus/components/tag'
 import { useFormItem, useFormItemInputId } from '@element-plus/components/form'
-import { inputTagEmits, inputTagProps } from './input-tag'
+import { inputTagEmits } from './input-tag'
 import {
   useDragTag,
   useHovering,
@@ -148,12 +150,27 @@ import {
   useInputTagDom,
 } from './composables'
 
+import type { InputTagProps } from './input-tag'
+
 defineOptions({
   name: 'ElInputTag',
   inheritAttrs: false,
 })
 
-const props = defineProps(inputTagProps)
+const props = withDefaults(defineProps<InputTagProps>(), {
+  disabled: undefined,
+  tagType: 'info',
+  effect: 'light',
+  trigger: EVENT_CODE.enter as 'Enter',
+  delimiter: '',
+  clearIcon: markRaw(IconCircleClose),
+  id: undefined,
+  tabindex: 0,
+  autocomplete: 'off',
+  validateEvent: true,
+  saveOnBlur: true,
+  maxCollapseTags: 1,
+})
 const emit = defineEmits(inputTagEmits)
 
 const attrs = useAttrs()
