@@ -125,21 +125,24 @@ import { pick } from 'lodash-unified'
 import { onClickOutside, useDebounceFn } from '@vueuse/core'
 import { Loading } from '@element-plus/icons-vue'
 import { useId, useNamespace } from '@element-plus/hooks'
-import { getEventCode, isArray, throwError } from '@element-plus/utils'
+import { NOOP, getEventCode, isArray, throwError } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
   EVENT_CODE,
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import ElInput, { inputProps } from '@element-plus/components/input'
+import ElInput, {
+  inputProps,
+  inputPropsDefaults,
+} from '@element-plus/components/input'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElIcon from '@element-plus/components/icon'
 import { useFormDisabled } from '@element-plus/components/form'
-import { autocompleteEmits, autocompleteProps } from './autocomplete'
+import { autocompleteEmits } from './autocomplete'
 
-import type { AutocompleteData } from './autocomplete'
+import type { AutocompleteData, AutocompleteProps } from './autocomplete'
 import type { StyleValue } from 'vue'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { InputInstance } from '@element-plus/components/input'
@@ -150,7 +153,17 @@ defineOptions({
   inheritAttrs: false,
 })
 
-const props = defineProps(autocompleteProps)
+const props = withDefaults(defineProps<AutocompleteProps>(), {
+  ...inputPropsDefaults,
+  valueKey: 'value',
+  modelValue: '',
+  debounce: 300,
+  placement: 'bottom-start',
+  fetchSuggestions: NOOP,
+  triggerOnFocus: true,
+  loopNavigation: true,
+  teleported: true,
+})
 const emit = defineEmits(autocompleteEmits)
 
 const passInputProps = computed(() => pick(props, Object.keys(inputProps)))

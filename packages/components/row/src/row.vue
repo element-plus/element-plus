@@ -8,15 +8,19 @@
 import { computed, provide } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { rowContextKey } from './constants'
-import { rowProps } from './row'
 
 import type { CSSProperties } from 'vue'
+import type { RowProps } from './row'
 
 defineOptions({
   name: 'ElRow',
 })
 
-const props = defineProps(rowProps)
+const props = withDefaults(defineProps<RowProps>(), {
+  tag: 'div',
+  gutter: 0,
+  justify: 'start',
+})
 
 const ns = useNamespace('row')
 const gutter = computed(() => props.gutter)
