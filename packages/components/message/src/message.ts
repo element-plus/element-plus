@@ -6,7 +6,7 @@ import {
   mutable,
 } from '@element-plus/utils'
 
-import type { AppContext, ExtractPublicPropTypes, VNode } from 'vue'
+import type { AppContext, Component, ExtractPublicPropTypes, VNode } from 'vue'
 import type { Mutable } from '@element-plus/utils'
 import type MessageConstructor from './message.vue'
 
@@ -26,7 +26,7 @@ export interface MessageProps {
   /**
    * @description custom icon component, overrides `type`
    */
-  icon?: typeof iconPropType
+  icon?: string | Component
   /**
    * @description message dom id
    */
@@ -60,9 +60,9 @@ export interface MessageProps {
    */
   placement?: MessagePlacement
   /**
-   * @description input box size
+   * @description message element zIndex value
    */
-  zIndex?: number
+  zIndex?: number | undefined
   /**
    * @description merge messages with the same content, type of VNode message is not supported
    */
@@ -222,7 +222,7 @@ export const messageProps = buildProps({
     default: messageDefaults.placement,
   },
   /**
-   * @description input box size
+   * @description message element zIndex value
    */
   zIndex: {
     type: Number,
