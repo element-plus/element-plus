@@ -117,5 +117,8 @@ export const watermarkProps = buildProps({
   },
 } as const)
 
+/**
+ * @deprecated Removed after 3.0.0, Use `WatermarkProps` instead.
+ */
 export type WatermarkPropsPublic = ExtractPublicPropTypes<typeof watermarkProps>
 export type WatermarkInstance = InstanceType<typeof Watermark> & unknown
