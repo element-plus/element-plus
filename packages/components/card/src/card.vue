@@ -33,9 +33,6 @@ withDefaults(defineProps<CardProps>(), {
   header: '',
   footer: '',
   bodyStyle: '',
-  headerClass: '',
-  bodyClass: '',
-  footerClass: '',
   shadow: undefined,
 })
 
