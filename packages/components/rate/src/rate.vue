@@ -81,10 +81,11 @@ import {
 } from '@element-plus/components/form'
 import { ElIcon } from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
-import { rateEmits, rateProps } from './rate'
+import { rateEmits, ratePropsDefaults } from './rate'
 
 import type { CSSProperties, Component } from 'vue'
 import type { IconInstance } from '@element-plus/components/icon'
+import type { RateProps } from './rate'
 
 function getValueFromMap<T>(
   value: number,
@@ -110,7 +111,9 @@ defineOptions({
   name: 'ElRate',
 })
 
-const props = defineProps(rateProps)
+const props = withDefaults(defineProps<RateProps>(), {
+  ...ratePropsDefaults,
+})
 const emit = defineEmits(rateEmits)
 
 const formItemContext = inject(formItemContextKey, undefined)
