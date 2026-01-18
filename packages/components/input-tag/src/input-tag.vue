@@ -136,8 +136,7 @@
 import { computed, markRaw, useSlots } from 'vue'
 import { useAttrs, useCalcInputWidth } from '@element-plus/hooks'
 import { NOOP, ValidateComponentsMap } from '@element-plus/utils'
-import { EVENT_CODE } from '@element-plus/constants'
-import { CircleClose as IconCircleClose } from '@element-plus/icons-vue'
+import { CircleClose } from '@element-plus/icons-vue'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElIcon from '@element-plus/components/icon'
 import ElTag from '@element-plus/components/tag'
@@ -161,9 +160,9 @@ const props = withDefaults(defineProps<InputTagProps>(), {
   tagType: 'info',
   tagEffect: 'light',
   effect: 'light',
-  trigger: EVENT_CODE.enter as 'Enter',
+  trigger: 'Enter',
   delimiter: '',
-  clearIcon: markRaw(IconCircleClose),
+  clearIcon: markRaw(CircleClose),
   disabled: undefined,
   validateEvent: true,
   id: undefined,

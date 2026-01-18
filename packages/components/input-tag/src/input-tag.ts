@@ -105,8 +105,9 @@ export interface InputTagProps {
   placeholder?: string
   /**
    * @description native input autocomplete
+   * - When the number of literal types in a union exceeds 315, the TS2590 error occurs. see: https://github.com/vuejs/core/issues/10514
    */
-  autocomplete?: string
+  autocomplete?: string // HTMLInputElement['autocomplete']
   /**
    * @description whether to save the input value when the input loses focus
    */
