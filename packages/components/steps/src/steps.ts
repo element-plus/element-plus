@@ -43,7 +43,7 @@ export interface StepsProps {
 }
 
 /**
- * @deprecated Removed after 3.0.0, Use `stepsProps` instead.
+ * @deprecated Removed after 3.0.0, Use `StepsProps` instead.
  */
 export const stepsProps = buildProps({
   /**
