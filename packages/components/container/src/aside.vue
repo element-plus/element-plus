@@ -14,13 +14,15 @@ export interface AsideProps {
   /**
    * @description width of the side section
    */
-  width?: string
+  width?: string | null
 }
 
 defineOptions({
   name: 'ElAside',
 })
-const props = withDefaults(defineProps<AsideProps>(), {})
+const props = withDefaults(defineProps<AsideProps>(), {
+  width: null,
+})
 
 const ns = useNamespace('aside')
 const style = computed(

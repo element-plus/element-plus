@@ -21,7 +21,7 @@ defineOptions({
   name: 'ElContainer',
 })
 
-const props = withDefaults(defineProps<ContainerProps>(), {})
+const props = defineProps<ContainerProps>()
 const slots = useSlots()
 
 const ns = useNamespace('container')

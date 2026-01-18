@@ -20,7 +20,7 @@ export interface FooterProps {
 defineOptions({
   name: 'ElFooter',
 })
-const props = withDefaults(defineProps<FooterProps>(), {})
+const props = defineProps<FooterProps>()
 
 const ns = useNamespace('footer')
 
