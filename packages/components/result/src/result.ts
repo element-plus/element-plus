@@ -29,8 +29,17 @@ export const IconComponentMap: Record<
 }
 
 export interface ResultProps {
+  /**
+   * @description title of result
+   */
   title?: string
+  /**
+   * @description sub title of result
+   */
   subTitle?: string
+  /**
+   * @description icon type of result
+   */
   icon?: 'primary' | 'success' | 'warning' | 'info' | 'error'
 }
 

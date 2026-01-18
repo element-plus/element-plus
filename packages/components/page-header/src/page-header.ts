@@ -5,8 +5,17 @@ import type { Component, ExtractPublicPropTypes } from 'vue'
 import type PageHeader from './page-header.vue'
 
 export interface PageHeaderProps {
+  /**
+   * @description icon component of page header
+   */
   icon?: string | Component
+  /**
+   * @description main title of page header
+   */
   title?: string
+  /**
+   * @description content of page header
+   */
   content?: string
 }
 

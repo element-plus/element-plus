@@ -6,8 +6,17 @@ import type Divider from './divider.vue'
 export type BorderStyle = CSSStyleDeclaration['borderStyle']
 
 export interface DividerProps {
+  /**
+   * @description Set divider's direction
+   */
   direction?: 'horizontal' | 'vertical'
+  /**
+   * @description Set the style of divider
+   */
   contentPosition?: 'left' | 'center' | 'right'
+  /**
+   * @description the position of the customized content on the divider line
+   */
   borderStyle?: BorderStyle
 }
 
