@@ -16,7 +16,7 @@ export interface CardProps {
    */
   bodyStyle?: StyleValue
   /**
-   * @description custom class name of card footer
+   * @description custom class name of card header
    */
   headerClass?: string
   /**
