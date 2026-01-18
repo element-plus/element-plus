@@ -48,7 +48,6 @@ const props = withDefaults(defineProps<DescriptionProps>(), {
   size: '',
   title: '',
   extra: '',
-  labelWidth: '',
 })
 
 const ns = useNamespace('descriptions')
