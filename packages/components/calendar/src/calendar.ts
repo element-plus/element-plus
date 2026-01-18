@@ -23,7 +23,7 @@ export interface CalendarProps {
    * @description binding value
    */
   modelValue?: Date
-  /** 
+  /**
    * @description time range, including start time and end time.
    *   Start time must be start day of week, end time must be end day of week, the time span cannot exceed two months.
    */
