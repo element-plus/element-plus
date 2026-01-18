@@ -6,7 +6,7 @@ import type { SetupContext } from 'vue'
 import type { BacktopEmits, BacktopProps } from './backtop'
 
 export const useBackTop = (
-  props: BacktopProps,
+  props: Required<BacktopProps>,
   emit: SetupContext<BacktopEmits>['emit'],
   componentName: string
 ) => {
@@ -15,8 +15,7 @@ export const useBackTop = (
   const visible = ref(false)
 
   const handleScroll = () => {
-    if (el.value)
-      visible.value = el.value.scrollTop >= (props.visibilityHeight ?? 200)
+    if (el.value) visible.value = el.value.scrollTop >= props.visibilityHeight
   }
 
   const handleClick = (event: MouseEvent) => {
