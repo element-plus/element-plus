@@ -23,13 +23,14 @@ export interface CalendarProps {
    * @description binding value
    */
   modelValue?: Date
-  /** @description time range, including start time and end time.
+  /** 
+   * @description time range, including start time and end time.
    *   Start time must be start day of week, end time must be end day of week, the time span cannot exceed two months.
    */
   range?: [Date, Date]
   /**
    * @description type of the controller for the Calendar header
-   * */
+   */
   controllerType?: 'button' | 'select'
   /**
    * @description format label when `controller-type` is 'select'
@@ -71,7 +72,8 @@ export const calendarProps = buildProps({
     >(Function),
   },
 } as const)
-/** @deprecated Removed after 3.0.0, Use `CalendarProps` instead.
+/**
+ *  @deprecated Removed after 3.0.0, Use `CalendarProps` instead.
  */
 export type CalendarPropsPublic = ExtractPublicPropTypes<typeof calendarProps>
 
