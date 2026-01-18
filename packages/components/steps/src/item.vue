@@ -74,7 +74,7 @@ export interface StepItemState {
 }
 
 export interface IStepsInject {
-  props: StepsProps
+  props: Required<StepsProps>
   steps: Ref<StepItemState[]>
   addStep: (item: StepItemState) => void
   removeStep: (item: StepItemState) => void
@@ -107,7 +107,7 @@ onMounted(() => {
       () => parent.props.processStatus,
       () => parent.props.finishStatus,
     ],
-    ([active = 0], [oldActive]) => {
+    ([active], [oldActive]) => {
       beforeActive = oldActive || 0
       stepDiff = active - beforeActive
 
@@ -153,9 +153,7 @@ const space = computed(() => {
 const containerKls = computed(() => {
   return [
     ns.b(),
-    ns.is(
-      isSimple.value ? 'simple' : (parent.props?.direction ?? 'horizontal')
-    ),
+    ns.is(isSimple.value ? 'simple' : parent.props.direction),
     ns.is('flex', isLast.value && !space.value && !isCenter.value),
     ns.is('center', isCenter.value && !isVertical.value && !isSimple.value),
   ]
@@ -187,7 +185,7 @@ const calcProgress = (status: string) => {
       ? 0
       : stepDiff > 0
         ? (index.value + 1 - beforeActive) * 150
-        : -(index.value + 1 - (parent.props.active ?? 0)) * 150
+        : -(index.value + 1 - parent.props.active) * 150
 
   const style: CSSProperties = {
     transitionDelay: `${delayTimer}ms`,
@@ -201,12 +199,12 @@ const calcProgress = (status: string) => {
 
 const updateStatus = (activeIndex: number) => {
   if (activeIndex > index.value) {
-    internalStatus.value = parent.props?.finishStatus ?? 'finish'
+    internalStatus.value = parent.props.finishStatus
   } else if (
     activeIndex === index.value &&
     prevInternalStatus.value !== 'error'
   ) {
-    internalStatus.value = parent.props?.processStatus ?? 'process'
+    internalStatus.value = parent.props.processStatus
   } else {
     internalStatus.value = 'wait'
   }
