@@ -123,7 +123,6 @@ export const scrollbarProps = buildProps({
   },
   /**
    * @description class of wrap
-   * @default ''
    */
   wrapClass: {
     type: [String, Array],
