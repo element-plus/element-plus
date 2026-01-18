@@ -1,5 +1,6 @@
 import { computed, getCurrentInstance, inject, ref } from 'vue'
 import {
+  buildProps,
   debugWarn,
   definePropType,
   isArray,
@@ -22,7 +23,7 @@ export const SCOPE = 'use-empty-values'
 export const DEFAULT_EMPTY_VALUES = ['', undefined, null]
 export const DEFAULT_VALUE_ON_CLEAR = undefined
 
-export const useEmptyValuesProps = {
+export const useEmptyValuesProps = buildProps({
   /**
    * @description empty values supported by the component
    */
@@ -47,7 +48,7 @@ export const useEmptyValuesProps = {
       return !val
     },
   },
-} as const
+} as const)
 
 export const useEmptyValues = (
   props: EmptyValuesContext,
