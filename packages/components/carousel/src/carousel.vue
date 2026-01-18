@@ -93,15 +93,31 @@ import { computed, unref } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import { carouselEmits, carouselProps } from './carousel'
+import { carouselEmits } from './carousel'
 import { useCarousel } from './use-carousel'
+
+import type { CarouselProps } from './carousel'
 
 const COMPONENT_NAME = 'ElCarousel'
 defineOptions({
   name: COMPONENT_NAME,
 })
 
-const props = defineProps(carouselProps)
+const props = withDefaults(defineProps<CarouselProps>(), {
+  initialIndex: 0,
+  height: '',
+  trigger: 'hover',
+  autoplay: true,
+  interval: 3000,
+  indicatorPosition: '',
+  arrow: 'hover',
+  type: '',
+  cardScale: 0.83,
+  loop: true,
+  direction: 'horizontal',
+  pauseOnHover: true,
+  motionBlur: false,
+})
 const emit = defineEmits(carouselEmits)
 const {
   root,
