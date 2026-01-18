@@ -33,6 +33,9 @@ export interface RowProps {
   align?: (typeof RowAlign)[number]
 }
 
+/**
+ * @deprecated Removed after 3.0.0, Use `RowProps` instead.
+ */
 export const rowProps = buildProps({
   /**
    * @description custom element tag
