@@ -158,16 +158,17 @@ defineOptions({
 })
 
 const props = withDefaults(defineProps<InputTagProps>(), {
-  disabled: undefined,
   tagType: 'info',
+  tagEffect: 'light',
   effect: 'light',
   trigger: EVENT_CODE.enter as 'Enter',
   delimiter: '',
   clearIcon: markRaw(IconCircleClose),
+  disabled: undefined,
+  validateEvent: true,
   id: undefined,
   tabindex: 0,
   autocomplete: 'off',
-  validateEvent: true,
   saveOnBlur: true,
   maxCollapseTags: 1,
 })
