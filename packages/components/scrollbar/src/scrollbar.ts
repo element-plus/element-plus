@@ -52,7 +52,7 @@ export interface ScrollbarProps {
    * @description element tag of the view
    * @default 'div'
    */
-  tag?: keyof HTMLElementTagNameMap // 如果 container 尺寸不会发生变化，最好设置它可以优化性能
+  tag?: keyof HTMLElementTagNameMap | (string & {})
   /**
    * @description always show
    */
