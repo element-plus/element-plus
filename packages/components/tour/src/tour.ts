@@ -46,7 +46,7 @@ export interface TourProps {
   /**
    * @description whether to enable masking, change mask style and fill color by pass custom props
    */
-  mask?: boolean | TourMask
+  mask?: TourMask
   /**
    * @description transparent gap between mask and target
    */
