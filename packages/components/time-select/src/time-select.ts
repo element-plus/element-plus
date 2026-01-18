@@ -2,15 +2,37 @@ import { buildProps, definePropType } from '@element-plus/utils'
 import { CircleClose, Clock } from '@element-plus/icons-vue'
 import { useEmptyValuesProps, useSizeProp } from '@element-plus/hooks'
 
+import type { UseEmptyValuesProps } from '@element-plus/hooks'
 import type { PopperEffect } from '@element-plus/components/popper'
 import type TimeSelect from './time-select.vue'
-import type {
-  CSSProperties,
-  Component,
-  ExtractPropTypes,
-  ExtractPublicPropTypes,
-} from 'vue'
+import type { CSSProperties, Component, ExtractPublicPropTypes } from 'vue'
+import type { ComponentSize } from '@element-plus/constants'
 
+export interface TimeSelectProps extends UseEmptyValuesProps {
+  format?: string
+  modelValue?: string | null
+  disabled?: boolean
+  editable?: boolean
+  effect?: PopperEffect
+  clearable?: boolean
+  size?: ComponentSize
+  placeholder?: string
+  start?: string
+  end?: string
+  step?: string
+  minTime?: string | null
+  maxTime?: string | null
+  includeEndTime?: boolean
+  name?: string
+  prefixIcon?: string | Component
+  clearIcon?: string | Component
+  popperClass?: string
+  popperStyle?: string | CSSProperties
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `TimeSelectProps` instead.
+ */
 export const timeSelectProps = buildProps({
   /**
    * @description set format of time
@@ -132,7 +154,6 @@ export const timeSelectProps = buildProps({
   ...useEmptyValuesProps,
 } as const)
 
-export type TimeSelectProps = ExtractPropTypes<typeof timeSelectProps>
 export type TimeSelectPropsPublic = ExtractPublicPropTypes<
   typeof timeSelectProps
 >

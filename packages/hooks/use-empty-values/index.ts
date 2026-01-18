@@ -1,6 +1,5 @@
 import { computed, getCurrentInstance, inject, ref } from 'vue'
 import {
-  buildProps,
   debugWarn,
   definePropType,
   isArray,
@@ -10,6 +9,11 @@ import { isEqual } from 'lodash-unified'
 
 import type { ExtractPropTypes, InjectionKey, Ref } from 'vue'
 
+export interface UseEmptyValuesProps {
+  emptyValues?: unknown[]
+  valueOnClear?: string | number | boolean | (() => unknown) | null
+}
+
 type EmptyValuesContext = ExtractPropTypes<typeof useEmptyValuesProps>
 
 export const emptyValuesContextKey: InjectionKey<Ref<EmptyValuesContext>> =
@@ -18,7 +22,7 @@ export const SCOPE = 'use-empty-values'
 export const DEFAULT_EMPTY_VALUES = ['', undefined, null]
 export const DEFAULT_VALUE_ON_CLEAR = undefined
 
-export const useEmptyValuesProps = buildProps({
+export const useEmptyValuesProps = {
   /**
    * @description empty values supported by the component
    */
@@ -43,7 +47,7 @@ export const useEmptyValuesProps = buildProps({
       return !val
     },
   },
-} as const)
+} as const
 
 export const useEmptyValues = (
   props: EmptyValuesContext,
