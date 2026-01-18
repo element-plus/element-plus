@@ -48,9 +48,7 @@ defineOptions({
   name: 'DateTable',
 })
 
-const props = withDefaults(defineProps<DateTableProps>(), {
-  hideHeader: false,
-})
+const props = defineProps<DateTableProps>()
 const emit = defineEmits(dateTableEmits)
 
 const {
