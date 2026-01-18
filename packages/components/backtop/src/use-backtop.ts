@@ -15,7 +15,8 @@ export const useBackTop = (
   const visible = ref(false)
 
   const handleScroll = () => {
-    if (el.value) visible.value = el.value.scrollTop >= props.visibilityHeight
+    if (el.value)
+      visible.value = el.value.scrollTop >= (props.visibilityHeight ?? 200)
   }
 
   const handleClick = (event: MouseEvent) => {
