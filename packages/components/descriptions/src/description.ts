@@ -1,9 +1,50 @@
 import { buildProps } from '@element-plus/utils'
 import { useSizeProp } from '@element-plus/hooks'
+import { ComponentSize } from '@element-plus/constants'
 
-import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
 import type Description from './description.vue'
 
+export interface DescriptionProps {
+  /**
+   * @description with or without border
+   * @default false
+   */
+  border?: boolean
+  /**
+   * @description numbers of `Descriptions Item` in one line
+   * @default 3
+   */
+  column?: number
+  /**
+   * @description direction of list
+   * @default 'horizontal'
+   */
+  direction?: 'horizontal' | 'vertical'
+  /**
+   * @description size of list
+   * @default ''
+   */
+  size?: ComponentSize
+  /**
+   * @description title text, display on the top left
+   * @default ''
+   */
+  title?: string
+  /**
+   * @description extra text, display on the top right
+   * @default ''
+   */
+  extra?: string
+  /**
+   * @description width of every label column
+   */
+  labelWidth?: string | number
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `DescriptionProps` instead.
+ */
 export const descriptionProps = buildProps({
   /**
    * @description with or without border
@@ -50,7 +91,9 @@ export const descriptionProps = buildProps({
   },
 } as const)
 
-export type DescriptionProps = ExtractPropTypes<typeof descriptionProps>
+/**
+ * @deprecated Removed after 3.0.0, Use `DescriptionProps` instead.
+ */
 export type DescriptionPropsPublic = ExtractPublicPropTypes<
   typeof descriptionProps
 >

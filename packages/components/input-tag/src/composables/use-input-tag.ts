@@ -68,7 +68,7 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
 
   const getDelimitedTags = (input: string) => {
     const tags = input
-      .split(props.delimiter)
+      .split(props.delimiter!)
       .filter((val) => val && val !== input)
     if (props.max) {
       const maxInsert = props.max - (props.modelValue?.length ?? 0)

@@ -27,16 +27,15 @@ import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElSelect from '@element-plus/components/select'
 import { ElButton } from '@element-plus/components/button'
 import { isFunction } from '@element-plus/utils'
-import {
-  selectControllerEmits,
-  selectControllerProps,
-} from './select-controller'
+import { selectControllerEmits } from './select-controller'
+
+import type { SelectControllerProps } from './select-controller'
 
 defineOptions({
   name: 'SelectController',
 })
 
-const props = defineProps(selectControllerProps)
+const props = defineProps<SelectControllerProps>()
 const emit = defineEmits(selectControllerEmits)
 
 const nsSelect = useNamespace('calendar-select')
