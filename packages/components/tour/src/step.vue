@@ -72,16 +72,23 @@ import { ElButton } from '@element-plus/components/button'
 import { ElIcon } from '@element-plus/components/icon'
 import { CloseComponents, getEventCode } from '@element-plus/utils'
 import { useLocale } from '@element-plus/hooks'
-import { tourStepEmits, tourStepProps } from './step'
+import { tourStepEmits } from './step'
 import { tourKey } from './helper'
 
 import type { TourBtnProps } from './types'
+import type { TourStepProps } from './step'
 
 defineOptions({
   name: 'ElTourStep',
 })
 
-const props = defineProps(tourStepProps)
+const props = withDefaults(defineProps<TourStepProps>(), {
+  showClose: undefined,
+  showArrow: undefined,
+  placement: 'bottom',
+  mask: undefined,
+  scrollIntoViewOptions: undefined,
+})
 const emit = defineEmits(tourStepEmits)
 
 const { Close } = CloseComponents
