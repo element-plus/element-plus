@@ -26,15 +26,21 @@
 import { computed } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { addUnit, isNumber } from '@element-plus/utils'
-import { badgeProps } from './badge'
 
 import type { StyleValue } from 'vue'
+import type { BadgeProps } from './badge'
 
 defineOptions({
   name: 'ElBadge',
 })
 
-const props = defineProps(badgeProps)
+const props = withDefaults(defineProps<BadgeProps>(), {
+  value: '',
+  max: 99,
+  type: 'danger',
+  showZero: true,
+  offset: () => [0, 0],
+})
 
 const ns = useNamespace('badge')
 
