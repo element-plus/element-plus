@@ -58,7 +58,11 @@ import { EVENT_CODE } from '@element-plus/constants'
 import ElBadge from '@element-plus/components/badge'
 import { useGlobalComponentSettings } from '@element-plus/components/config-provider'
 import { ElIcon } from '@element-plus/components/icon'
-import { MESSAGE_DEFAULT_PLACEMENT, messageEmits } from './message'
+import {
+  MESSAGE_DEFAULT_PLACEMENT,
+  messageDefaults,
+  messageEmits,
+} from './message'
 import { getLastOffset, getOffsetOrSpace } from './instance'
 
 import type { BadgeProps } from '@element-plus/components/badge'
@@ -71,24 +75,7 @@ defineOptions({
   name: 'ElMessage',
 })
 
-const props = withDefaults(defineProps<MessageProps>(), {
-  customClass: '',
-  dangerouslyUseHTMLString: false,
-  duration: 3000,
-  icon: undefined,
-  id: '',
-  message: '',
-  onClose: undefined,
-  showClose: false,
-  type: 'info',
-  plain: false,
-  offset: 16,
-  placement: undefined,
-  zIndex: 0,
-  grouping: false,
-  repeatNum: 1,
-  appendTo: 'body',
-})
+const props = withDefaults(defineProps<MessageProps>(), messageDefaults)
 const emit = defineEmits(messageEmits)
 
 const isStartTransition = ref(false)

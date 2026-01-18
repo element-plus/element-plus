@@ -71,10 +71,6 @@ export interface MessageProps {
    * @description The number of repetitions, similar to badge, is used as the initial number when used with `grouping`
    */
   repeatNum?: number
-  /**
-   * @description set the root element for the message, default to `document.body`
-   */
-  appendTo?: string | HTMLElement
 }
 
 export const messageTypes = [
