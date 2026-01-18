@@ -9,7 +9,7 @@ import type { ExtractPublicPropTypes } from 'vue'
 import type { Dayjs } from 'dayjs'
 
 export interface SelectControllerProps {
-  date?: Dayjs
+  date: Dayjs
   formatter?: (value: number, type: 'year' | 'month') => string | number
 }
 
