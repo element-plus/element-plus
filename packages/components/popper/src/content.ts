@@ -187,6 +187,8 @@ export const popperContentPropsDefaults = {
   trapping: false,
   virtualTriggering: false,
   loop: false,
+  style: undefined,
+  popperStyle: undefined,
 } as const
 
 export const popperContentEmits = {
