@@ -458,8 +458,6 @@ importers:
         specifier: 'catalog:'
         version: 3.5.25(typescript@5.5.4)
 
-  packages/components-style: {}
-
   packages/constants: {}
 
   packages/directives:
