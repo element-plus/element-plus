@@ -61,13 +61,13 @@
 
 <script lang="ts" setup>
 import { Comment, computed, h, reactive, ref, useSlots, watch } from 'vue'
-import { debugWarn, isEmpty, isUndefined } from '@element-plus/utils'
+import { debugWarn, isEmpty, isUndefined, mutable } from '@element-plus/utils'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { ElButton } from '@element-plus/components/button'
 import { ElIcon } from '@element-plus/components/icon'
 import { useFormItem } from '@element-plus/components/form'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
-import { transferEmits, transferProps } from './transfer'
+import { transferEmits } from './transfer'
 import {
   useCheckedChange,
   useComputedData,
@@ -80,6 +80,7 @@ import type {
   TransferCheckedState,
   TransferDataItem,
   TransferDirection,
+  TransferProps,
 } from './transfer'
 import type { TransferPanelInstance } from './transfer-panel'
 
@@ -87,7 +88,23 @@ defineOptions({
   name: 'ElTransfer',
 })
 
-const props = defineProps(transferProps)
+const props = withDefaults(defineProps<TransferProps>(), {
+  data: () => [],
+  titles: () => ['', ''],
+  buttonTexts: () => ['', ''],
+  leftDefaultChecked: () => [],
+  rightDefaultChecked: () => [],
+  modelValue: () => [],
+  format: () => ({}),
+  props: () =>
+    mutable({
+      label: 'label',
+      key: 'key',
+      disabled: 'disabled',
+    }),
+  targetOrder: 'original',
+  validateEvent: true,
+})
 const emit = defineEmits(transferEmits)
 const slots = useSlots()
 

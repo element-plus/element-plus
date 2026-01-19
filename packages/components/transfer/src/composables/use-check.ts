@@ -20,7 +20,7 @@ export const useCheck = (
   const propsAlias = usePropsAlias(props)
 
   const filteredData = computed(() => {
-    return props.data.filter((item) => {
+    return props.data?.filter((item) => {
       if (isFunction(props.filterMethod)) {
         return props.filterMethod(panelState.query, item)
       } else {
@@ -33,13 +33,13 @@ export const useCheck = (
   })
 
   const checkableData = computed(() =>
-    filteredData.value.filter((item) => !item[propsAlias.value.disabled])
+    filteredData.value?.filter((item) => !item[propsAlias.value.disabled])
   )
 
   const checkedSummary = computed(() => {
     const checkedLength = panelState.checked.length
-    const dataLength = props.data.length
-    const { noChecked, hasChecked } = props.format
+    const dataLength = props.data!.length
+    const { noChecked, hasChecked } = props.format!
 
     if (noChecked && hasChecked) {
       return checkedLength > 0
@@ -54,11 +54,11 @@ export const useCheck = (
 
   const isIndeterminate = computed(() => {
     const checkedLength = panelState.checked.length
-    return checkedLength > 0 && checkedLength < checkableData.value.length
+    return checkedLength > 0 && checkedLength < checkableData.value!.length
   })
 
   const updateAllChecked = () => {
-    const checkableDataKeys = checkableData.value.map(
+    const checkableDataKeys = checkableData.value!.map(
       (item) => item[propsAlias.value.key]
     )
     panelState.allChecked =
@@ -68,7 +68,7 @@ export const useCheck = (
 
   const handleAllCheckedChange = (value: CheckboxValueType) => {
     panelState.checked = value
-      ? checkableData.value.map((item) => item[propsAlias.value.key])
+      ? checkableData.value!.map((item) => item[propsAlias.value.key])
       : []
   }
 
@@ -97,7 +97,7 @@ export const useCheck = (
     () => props.data,
     () => {
       const checked: TransferKey[] = []
-      const filteredDataKeys = filteredData.value.map(
+      const filteredDataKeys = filteredData.value!.map(
         (item) => item[propsAlias.value.key]
       )
       panelState.checked.forEach((item) => {
@@ -115,17 +115,17 @@ export const useCheck = (
     (val, oldVal) => {
       if (
         oldVal &&
-        val.length === oldVal.length &&
+        val?.length === oldVal.length &&
         val.every((item) => oldVal.includes(item))
       )
         return
 
       const checked: TransferKey[] = []
-      const checkableDataKeys = checkableData.value.map(
+      const checkableDataKeys = checkableData.value!.map(
         (item) => item[propsAlias.value.key]
       )
 
-      val.forEach((item) => {
+      val?.forEach((item) => {
         if (checkableDataKeys.includes(item)) {
           checked.push(item)
         }

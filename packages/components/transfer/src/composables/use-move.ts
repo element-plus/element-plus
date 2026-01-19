@@ -28,7 +28,7 @@ export const useMove = (
   }
 
   const addToLeft = () => {
-    const currentValue = props.modelValue.slice()
+    const currentValue = props.modelValue!.slice()
 
     checkedState.rightChecked.forEach((item) => {
       const index = currentValue.indexOf(item)
@@ -40,14 +40,14 @@ export const useMove = (
   }
 
   const addToRight = () => {
-    let currentValue = props.modelValue.slice()
+    let currentValue = props.modelValue!.slice()
 
-    const itemsToBeMoved = props.data
-      .filter((item: TransferDataItem) => {
+    const itemsToBeMoved = props
+      .data!.filter((item: TransferDataItem) => {
         const itemKey = item[propsAlias.value.key]
         return (
           checkedState.leftChecked.includes(itemKey) &&
-          !props.modelValue.includes(itemKey)
+          !props.modelValue?.includes(itemKey)
         )
       })
       .map((item) => item[propsAlias.value.key])
@@ -58,8 +58,10 @@ export const useMove = (
         : currentValue.concat(itemsToBeMoved)
 
     if (props.targetOrder === 'original') {
-      currentValue = props.data
-        .filter((item) => currentValue.includes(item[propsAlias.value.key]))
+      currentValue = props
+        .data!.filter((item) =>
+          currentValue?.includes(item[propsAlias.value.key])
+        )
         .map((item) => item[propsAlias.value.key])
     }
 
