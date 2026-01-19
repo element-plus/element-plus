@@ -862,7 +862,8 @@ const tagStyle = computed(() => {
   }
   const gapWidth = getGapWidth()
   const horizontalPaddingWidth = getHorizontalBoxExtraWidth()
-  const inputSlotWidth = props.filterable ? gapWidth + MINIMUM_INPUT_WIDTH : 0
+  const inputSlotWidth =
+    props.filterable && !isDisabled.value ? gapWidth + MINIMUM_INPUT_WIDTH : 0
   const maxWidth =
     collapseItemRef.value && props.maxCollapseTags === 1
       ? tagWrapperWidth.value -
