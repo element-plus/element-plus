@@ -13,7 +13,7 @@ export interface AvatarProps {
   /**
    * @description avatar size.
    */
-  size?: ComponentSize
+  size?: number | ComponentSize
   /**
    * @description avatar shape.
    */
