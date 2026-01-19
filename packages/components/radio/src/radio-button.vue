@@ -36,8 +36,9 @@
 import { computed } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { useRadio } from './use-radio'
-import { type RadioButtonProps, radioButtonPropsDefaults } from './radio-button'
+import { radioButtonPropsDefaults } from './radio-button'
 
+import type { RadioButtonProps } from './radio-button'
 import type { CSSProperties } from 'vue'
 
 defineOptions({
