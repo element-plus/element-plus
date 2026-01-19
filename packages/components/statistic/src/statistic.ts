@@ -20,7 +20,7 @@ export interface StatisticProps {
   /**
    * @description Custom numerical presentation
    */
-  formatter?: (...args: any[]) => void
+  formatter?: (...args: any[]) => string | number
   /**
    * @description Numerical content
    */
