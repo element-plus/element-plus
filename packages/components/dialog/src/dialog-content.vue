@@ -46,11 +46,12 @@ const { Close } = CloseComponents
 
 defineOptions({ name: 'ElDialogContent' })
 const props = withDefaults(defineProps<DialogContentProps>(), {
+  alignCenter: undefined,
+  draggable: undefined,
+  overflow: undefined,
   showClose: true,
   title: '',
   ariaLevel: '2',
-  center: false,
-  fullscreen: false,
 })
 defineEmits(dialogContentEmits)
 
