@@ -19,15 +19,9 @@ export const {
   useModelToggle: useTooltipModelToggle,
 } = createModelToggleComposable('visible' as const)
 
-type ModelToggleProps = ExtractPublicPropTypes<
-  // @vue-ignore
-  typeof useTooltipModelToggleProps
->
-
 export interface UseTooltipProps
   extends
     PopperProps,
-    Omit<ModelToggleProps, 'visible'>,
     ElTooltipContentProps,
     UseTooltipTriggerProps,
     PopperArrowProps {
@@ -35,6 +29,7 @@ export interface UseTooltipProps
    * @description whether the tooltip content has an arrow
    */
   showArrow?: boolean
+  'onUpdate:visible'?: (value: boolean) => void
 }
 
 /**
