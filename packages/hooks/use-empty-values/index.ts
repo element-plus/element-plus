@@ -19,7 +19,6 @@ export interface UseEmptyValuesProps {
  * @deprecated Removed after 3.0.0, Use `UseEmptyValuesProps` instead.
  */
 type EmptyValuesContext = ExtractPropTypes<typeof useEmptyValuesProps>
-
 export const emptyValuesContextKey: InjectionKey<Ref<UseEmptyValuesProps>> =
   Symbol('emptyValuesContextKey')
 export const SCOPE = 'use-empty-values'
