@@ -67,10 +67,6 @@ export interface TreeNodeProps {
   itemSize?: number
 }
 
-export interface TreeNodeContentProps {
-  node?: TreeNode
-}
-
 /**
  * @deprecated Removed after 3.0.0, Use `TreeProps` instead.
  */

@@ -139,9 +139,6 @@ export const treeNodeProps = buildProps({
   itemSize,
 } as const)
 
-/**
- * @deprecated Removed after 3.0.0, Use `TreeNodeContentProps` instead.
- */
 export const treeNodeContentProps = buildProps({
   node: {
     type: definePropType<TreeNode>(Object),
