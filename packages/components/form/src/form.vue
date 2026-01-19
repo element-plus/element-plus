@@ -6,8 +6,14 @@
 
 <script lang="ts" setup>
 import { computed, provide, reactive, ref, toRefs, watch } from 'vue'
-import { has } from 'lodash-unified'
-import { debugWarn, getProp, isFunction } from '@element-plus/utils'
+import { clone, has } from 'lodash-unified'
+import {
+  debugWarn,
+  ensureArray,
+  getProp,
+  isArray,
+  isFunction,
+} from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { useFormSize } from './hooks'
 import { formContextKey } from './constants'
@@ -33,6 +39,8 @@ const emit = defineEmits(formEmits)
 
 const formRef = ref<HTMLElement>()
 const fields = reactive<FormItemContext[]>([])
+/** Cache initial value per prop so that resetFields can restore model for form-items hidden by v-if */
+const initialValuesCache: Record<string, any> = {}
 
 const formSize = useFormSize()
 const ns = useNamespace('form')
@@ -54,6 +62,15 @@ const getField: FormContext['getField'] = (prop) => {
 
 const addField: FormContext['addField'] = (field) => {
   fields.push(field)
+  if (field.prop) {
+    if (initialValuesCache[field.propString] !== undefined) {
+      field.setInitialValue(initialValuesCache[field.propString])
+    } else {
+      initialValuesCache[field.propString] = clone(
+        getProp(props.model!, field.prop).value
+      )
+    }
+  }
 }
 
 const removeField: FormContext['removeField'] = (field) => {
@@ -76,14 +93,18 @@ const setInitialValues: FormContext['setInitialValues'] = (
     )
     return
   }
+  // 1. Write top-level keys of initModel to cache to support restoring props hidden by v-if when reset
+  for (const k of Object.keys(initModel)) {
+    if (has(initModel, k)) {
+      initialValuesCache[k] = clone(getProp(initModel, k).value)
+    }
+  }
+  // 2. Update cache for props in fields and sync to form-items
   fields.forEach((field) => {
-    if (field.prop) {
-      // Check if the property path actually exists in initModel
-      // This allows setting undefined/null values while skipping non-existent properties
-      if (has(initModel, field.prop)) {
-        const initValue = getProp(initModel, field.prop).value
-        field.setInitialValue(initValue)
-      }
+    if (field.prop && has(initModel, field.prop)) {
+      const initValue = getProp(initModel, field.prop).value
+      initialValuesCache[field.propString] = clone(initValue)
+      field.setInitialValue(initValue)
     }
   })
 }
@@ -93,7 +114,22 @@ const resetFields: FormContext['resetFields'] = (properties = []) => {
     debugWarn(COMPONENT_NAME, 'model is required for resetFields to work.')
     return
   }
-  filterFields(fields, properties).forEach((field) => field.resetField())
+  const filteredFields = filterFields(fields, properties)
+  filteredFields.forEach((field) => field.resetField())
+
+  // For items in the target prop list but not in fields (e.g., hidden by v-if), write back to model using cache
+  const propsToReset =
+    ensureArray(properties).length === 0
+      ? Object.keys(initialValuesCache)
+      : ensureArray(properties).map((p) =>
+          isArray(p) ? (p as string[]).join('.') : String(p)
+        )
+  for (const prop of propsToReset) {
+    if (filteredFields.some((f) => f.propString === prop)) continue
+    if (initialValuesCache[prop] !== undefined) {
+      getProp(props.model, prop).value = clone(initialValuesCache[prop])
+    }
+  }
 }
 
 const clearValidate: FormContext['clearValidate'] = (props = []) => {
