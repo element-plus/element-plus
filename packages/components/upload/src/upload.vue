@@ -78,6 +78,7 @@ const props = withDefaults(defineProps<UploadProps>(), {
   autoUpload: true,
   listType: 'text',
   httpRequest: ajaxUpload,
+  disabled: undefined,
   beforeUpload: NOOP,
   onRemove: NOOP,
   onChange: NOOP,

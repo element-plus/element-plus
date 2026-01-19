@@ -133,6 +133,7 @@ defineOptions({
 
 const props = withDefaults(defineProps<UploadListProps>(), {
   files: () => mutable([]),
+  disabled: undefined,
   handlePreview: NOOP,
   listType: 'text',
 })

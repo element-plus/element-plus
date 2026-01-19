@@ -26,7 +26,19 @@ const revokeFileObjectURL = (file: UploadFile) => {
 }
 
 export const useHandlers = (
-  props: UploadProps,
+  props: Required<
+    Pick<
+      UploadProps,
+      | 'listType'
+      | 'onChange'
+      | 'onError'
+      | 'onProgress'
+      | 'onSuccess'
+      | 'onRemove'
+    > & {
+      beforeRemove: UploadProps['beforeRemove']
+    }
+  >,
   uploadRef: ShallowRef<UploadContentInstance | undefined>
 ) => {
   const uploadFiles = useVModel(
@@ -59,7 +71,7 @@ export const useHandlers = (
   }
 
   const emitChange = (file: UploadFile) => {
-    nextTick(() => props.onChange?.(file, uploadFiles.value))
+    nextTick(() => props.onChange(file, uploadFiles.value))
   }
 
   const handleError: UploadContentProps['onError'] = (err, rawFile) => {
@@ -69,7 +81,7 @@ export const useHandlers = (
     console.error(err)
     file.status = 'fail'
     removeFile(file)
-    props.onError?.(err, file, uploadFiles.value)
+    props.onError(err, file, uploadFiles.value)
     emitChange(file)
   }
 
@@ -77,7 +89,7 @@ export const useHandlers = (
     const file = getFile(rawFile)
     if (!file) return
 
-    props.onProgress?.(evt, file, uploadFiles.value)
+    props.onProgress(evt, file, uploadFiles.value)
     file.status = 'uploading'
     file.percentage = Math.round(evt.percent)
   }
@@ -91,7 +103,7 @@ export const useHandlers = (
 
     file.status = 'success'
     file.response = response
-    props.onSuccess?.(response, file, uploadFiles.value)
+    props.onSuccess(response, file, uploadFiles.value)
     emitChange(file)
   }
 
@@ -110,7 +122,7 @@ export const useHandlers = (
         uploadFile.url = URL.createObjectURL(file)
       } catch (err: unknown) {
         debugWarn(SCOPE, (err as Error).message)
-        props.onError?.(err as Error, uploadFile, uploadFiles.value)
+        props.onError(err as Error, uploadFile, uploadFiles.value)
       }
     }
     uploadFiles.value = [...uploadFiles.value, uploadFile]
@@ -126,7 +138,7 @@ export const useHandlers = (
     const doRemove = (file: UploadFile) => {
       abort(file)
       removeFile(file)
-      props.onRemove?.(file, uploadFiles.value)
+      props.onRemove(file, uploadFiles.value)
       revokeFileObjectURL(file)
     }
 
@@ -157,7 +169,7 @@ export const useHandlers = (
           try {
             file.url = URL.createObjectURL(raw)
           } catch (err: unknown) {
-            props.onError?.(err as Error, file, uploadFiles.value)
+            props.onError(err as Error, file, uploadFiles.value)
           }
         }
         return file
