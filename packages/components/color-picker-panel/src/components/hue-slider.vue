@@ -24,13 +24,13 @@ import { computed } from 'vue'
 import { useLocale } from '@element-plus/hooks'
 import { useSlider, useSliderDOM } from '../composables/use-slider'
 
-import type { AlphaSliderProps } from '../props/slider'
+import type { HueSliderProps } from '../props/slider'
 
 defineOptions({
   name: 'ElColorHueSlider',
 })
 
-const props = defineProps<AlphaSliderProps>()
+const props = defineProps<HueSliderProps>()
 const minValue = 0
 const maxValue = 360
 
