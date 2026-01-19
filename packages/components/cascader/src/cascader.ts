@@ -6,24 +6,21 @@ import {
   iconPropType,
   isBoolean,
 } from '@element-plus/utils'
-import {
-  UseEmptyValuesProps,
-  useEmptyValuesProps,
-  useSizeProp,
-} from '@element-plus/hooks'
+import { useEmptyValuesProps, useSizeProp } from '@element-plus/hooks'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { tagProps } from '@element-plus/components/tag'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { CircleClose } from '@element-plus/icons-vue'
 
+import type { Component, StyleValue } from 'vue'
+import type { UseEmptyValuesProps } from '@element-plus/hooks'
+import type { ComponentSize } from '@element-plus/constants'
+import type { Placement, PopperEffect } from '@element-plus/components/popper'
 import type {
   CascaderCommonProps,
   CascaderNode,
   CascaderValue,
 } from '@element-plus/components/cascader-panel'
-import type { Placement, PopperEffect } from '@element-plus/components/popper'
-import type { Component, StyleValue } from 'vue'
-import type { ComponentSize } from '@element-plus/constants'
 import type { TagProps } from '@element-plus/components/tag'
 
 type CascaderClassType = string | Record<string, boolean> | CascaderClassType[]
