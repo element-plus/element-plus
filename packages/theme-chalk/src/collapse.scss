@@ -9,12 +9,17 @@
   border-bottom: 1px solid getCssVar('collapse-border-color');
 }
 
+.#{$namespace}-collapse-item__header {
+  box-sizing: border-box;
+}
+
 .#{$namespace}-collapse-icon-position {
   &-left {
     .#{$namespace}-collapse-item__ {
       &header {
         gap: 8px;
       }
+
       &title {
         order: 1;
       }
