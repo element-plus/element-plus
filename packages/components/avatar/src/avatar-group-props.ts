@@ -1,8 +1,9 @@
 import { placements } from '@popperjs/core'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
-import { buildProps, definePropType } from '@element-plus/utils'
-import { avatarProps } from './avatar'
+import { buildProps, definePropType, isNumber } from '@element-plus/utils'
+import { componentSizes } from '@element-plus/constants'
 
+import type { AvatarProps } from './avatar'
 import type { ExtractPropTypes, ExtractPublicPropTypes, StyleValue } from 'vue'
 import type { Placement, PopperEffect } from '@element-plus/components/popper'
 
@@ -10,11 +11,18 @@ export const avatarGroupProps = buildProps({
   /**
    * @description control the size of avatars in this avatar-group
    */
-  size: avatarProps.size,
+  size: {
+    type: definePropType<AvatarProps['size']>([Number, String]),
+    values: componentSizes,
+    validator: (val: unknown): val is number => isNumber(val),
+  },
   /**
    * @description control the shape of avatars in this avatar-group
    */
-  shape: avatarProps.shape,
+  shape: {
+    type: definePropType<AvatarProps['shape']>(String),
+    values: ['circle', 'square'] as const,
+  },
   /**
    * @description whether to collapse avatars
    */
