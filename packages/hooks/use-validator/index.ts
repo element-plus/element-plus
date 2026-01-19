@@ -16,6 +16,7 @@ export const useValidator = <T extends Record<string, any>>(
       () => props[key],
       (value) => {
         if (values && !values.includes(value)) {
+          // eslint-disable-next-line no-console
           console.warn(
             `[Element Plus][${name}] Invalid prop: validation failed for prop "${String(key)}".` +
               `Expected one of [${values.map((v) => `"${v}"`).join(', ')}], ` +
@@ -23,6 +24,7 @@ export const useValidator = <T extends Record<string, any>>(
           )
         }
         if (typeof validator === 'function' && !validator(value)) {
+          // eslint-disable-next-line no-console
           console.warn(
             `[Element Plus][${name}] Invalid prop: custom validation failed for prop "${String(key)}".`
           )
