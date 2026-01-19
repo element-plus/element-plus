@@ -86,8 +86,8 @@ You can also try out Element Plus with its built-in component playground.
   <tbody>
     <tr>
       <td align="center" valign="middle">
-        <a href="https://doc.buildadmin.com/?from=element-plus" target="_blank">
-          <img width="130px" src="https://user-images.githubusercontent.com/17680888/173179536-30e35fd1-cd5a-482a-bc41-9d5f0aa66fd4.png">
+        <a href="https://el.frsimple.com" target="_blank">
+          <img width="130px" src="https://github.com/user-attachments/assets/27ec522b-5de2-4c61-88b9-be47ff3ccc69">
         </a>
       </td>
       <td align="center" valign="middle">
@@ -103,8 +103,7 @@ You can also try out Element Plus with its built-in component playground.
 
 ## Translations
 
-Element Plus has been translated into multiple languages. You can click the badge to help us update the translations or apply to become
-a proofreader. [![Crowdin](https://badges.crowdin.net/element-plus/localized.svg)](https://crowdin.com/project/element-plus)
+Element Plus has been translated into multiple languages. You can click [here](https://crowdin.com/project/element-plus) to help us update the translations or apply to become a proofreader.
 
 For now, we are only providing English and Chinese versions due to limited resources, but we are looking forward to translating it into more languages. Please visit the link
 above and leave a message if you would like to help translate Element Plus into your preferred language.

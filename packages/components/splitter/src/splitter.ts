@@ -1,8 +1,17 @@
 import { buildProps } from '@element-plus/utils'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
 import type Splitter from './splitter.vue'
+import type { Layout } from './type'
 
+export interface SplitterProps {
+  layout?: Layout
+  lazy?: boolean
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `SplitterProps` instead.
+ */
 export const splitterProps = buildProps({
   layout: {
     type: String,
@@ -12,8 +21,10 @@ export const splitterProps = buildProps({
   lazy: Boolean,
 } as const)
 
-export type SplitterProps = ExtractPropTypes<typeof splitterProps>
-export type SplitterPropsPublic = __ExtractPublicPropTypes<typeof splitterProps>
+/**
+ * @deprecated Removed after 3.0.0, Use `SplitterProps` instead.
+ */
+export type SplitterPropsPublic = ExtractPublicPropTypes<typeof splitterProps>
 export type SplitterInstance = InstanceType<typeof Splitter> & unknown
 
 /* eslint-disable @typescript-eslint/no-unused-vars */

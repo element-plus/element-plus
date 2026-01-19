@@ -33,6 +33,7 @@
         <template #footer>
           <div>
             <el-button
+              v-if="clearable"
               :class="ns.be('footer', 'link-btn')"
               text
               size="small"
@@ -286,6 +287,7 @@ function clear() {
     formItem?.validate('change').catch((err) => debugWarn(err))
   }
   resetColor()
+  emit('clear')
 }
 
 function handleShowTooltip() {
@@ -362,7 +364,7 @@ watch(
 watch(
   () => showPicker.value,
   () => {
-    nextTick(pickerPanelRef.value?.update)
+    pickerPanelRef.value && nextTick(pickerPanelRef.value.update)
   }
 )
 

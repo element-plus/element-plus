@@ -13,7 +13,11 @@
     @keydown.self.enter.space="handleKeydown"
   >
     <template v-if="drag">
-      <upload-dragger :disabled="disabled" @file="uploadFiles">
+      <upload-dragger
+        :disabled="disabled"
+        :directory="directory"
+        @file="uploadFiles"
+      >
         <slot />
       </upload-dragger>
     </template>
@@ -27,6 +31,7 @@
       :disabled="disabled"
       :multiple="multiple"
       :accept="accept"
+      :webkitdirectory="directory || undefined"
       type="file"
       @change="handleChange"
       @click.stop

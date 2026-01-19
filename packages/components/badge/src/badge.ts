@@ -1,11 +1,53 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 
-import type {
-  ExtractPropTypes,
-  StyleValue,
-  __ExtractPublicPropTypes,
-} from 'vue'
+import type { ExtractPublicPropTypes, StyleValue } from 'vue'
 
+export interface BadgeProps {
+  /**
+   * @description display value.
+   */
+  value?: string | number
+  /**
+   * @description maximum value, shows `{max}+` when exceeded. Only works if value is a number.
+   */
+  max?: number
+  /**
+   * @description if a little dot is displayed.
+   */
+  isDot?: boolean
+  /**
+   * @description hidden badge.
+   */
+  hidden?: boolean
+  /**
+   * @description badge type.
+   */
+  type?: 'primary' | 'success' | 'warning' | 'info' | 'danger'
+  /**
+   * @description whether to show badge when value is zero.
+   */
+  showZero?: boolean
+  /**
+   * @description customize dot background color
+   */
+  color?: string
+  /**
+   * @description CSS style of badge
+   */
+  badgeStyle?: StyleValue
+  /**
+   * @description set offset of the badge
+   */
+  offset?: [number, number]
+  /**
+   * @description custom class name of badge
+   */
+  badgeClass?: string
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `BadgeProps` instead.
+ */
 export const badgeProps = buildProps({
   /**
    * @description display value.
@@ -68,5 +110,8 @@ export const badgeProps = buildProps({
     type: String,
   },
 } as const)
-export type BadgeProps = ExtractPropTypes<typeof badgeProps>
-export type BadgePropsPublic = __ExtractPublicPropTypes<typeof badgeProps>
+
+/**
+ * @deprecated Removed after 3.0.0, Use `BadgeProps` instead.
+ */
+export type BadgePropsPublic = ExtractPublicPropTypes<typeof badgeProps>

@@ -1946,6 +1946,19 @@ describe('Select', () => {
     expect((select.vm as any).expanded).toBe(true)
   })
 
+  test('automatic dropdown should cooperate with click to open the dropdown', async () => {
+    wrapper = getSelectVm({ automaticDropdown: true })
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const input = select.find('input')
+    await input.trigger('focus')
+    expect((select.vm as any).expanded).toBe(true)
+    await input.trigger('keydown', { key: EVENT_CODE.down })
+    await input.trigger('keydown', { key: EVENT_CODE.enter })
+    expect((select.vm as any).expanded).toBe(false)
+    await input.trigger('click')
+    expect((select.vm as any).expanded).toBe(true)
+  })
+
   test('only emit change on user input', async () => {
     let callCount = 0
     wrapper = _mount(
@@ -2268,7 +2281,7 @@ describe('Select', () => {
     const vm = wrapper.vm as any
     wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
     await nextTick()
-    vm.options[1].disabled = true
+    vm._.data.options[1].disabled = true
     await nextTick()
     const options = getOptions()
     expect(options[0].className).not.toContain('is-disabled')
@@ -2560,7 +2573,7 @@ describe('Select', () => {
     await nextTick()
     expect(wrapper.findAll('.el-tag').length).toBe(1)
 
-    vm.modelValue.splice(0, 1)
+    vm._.data.modelValue.splice(0, 1)
 
     await nextTick()
     expect(wrapper.findAll('.el-tag').length).toBe(0)
@@ -2897,6 +2910,23 @@ describe('Select', () => {
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
+    })
+
+    it('The disabled state of a component has higher priority than that of a form', async () => {
+      const wrapper = _mount(
+        `<el-form disabled>
+          <el-select :disabled="false" v-model="modelValue">
+            <el-option label="1" value="1" />
+          </el-select>
+        </el-form>`,
+        () => ({
+          modelValue: 1,
+        })
+      )
+
+      await nextTick()
+      const innerInput = wrapper.find('.el-select__input')
+      expect(innerInput.attributes('disabled')).toBeUndefined()
     })
   })
 
@@ -4221,5 +4251,71 @@ describe('Select', () => {
     expect(handleVisibleChange).toHaveBeenCalledTimes(1)
     await input.trigger('blur')
     expect(handleVisibleChange).toHaveBeenCalledTimes(2)
+  })
+
+  test('should show empty slot correctly in remote search scenarios', async () => {
+    vi.useFakeTimers()
+    const wrapper = mount({
+      components: {
+        'el-select': Select,
+        'el-option': Option,
+      },
+      template: `
+        <el-select
+          v-model="value"
+          filterable
+          remote
+          :remote-method="remoteMethod"
+        >
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+          <template #empty>
+            <div class="custom-empty">NO DATA</div>
+          </template>
+        </el-select>
+      `,
+      setup() {
+        const value = ref('')
+        const options = ref<any[]>([])
+
+        const remoteMethod = (query: string) => {
+          if (!query || query === 'empty') {
+            options.value = []
+          } else {
+            options.value = [{ value: '1', label: 'Option 1' }]
+          }
+        }
+        return { value, options, remoteMethod }
+      },
+    })
+
+    const select = wrapper.findComponent(Select)
+    const input = wrapper.find('input')
+    const vm = select.vm as any
+
+    await input.trigger('click')
+    expect(vm.states.options.size).toBe(0)
+    expect(vm.dropdownMenuVisible).toBe(true)
+    expect(document.querySelector('.custom-empty')).not.toBeNull()
+
+    await input.setValue('a')
+    vi.runAllTimers()
+    await nextTick()
+    expect(vm.states.options.size).toBe(1)
+    expect(vm.dropdownMenuVisible).toBe(true)
+    expect(document.querySelector('.custom-empty')).toBeNull()
+
+    await input.setValue('empty')
+    vi.runAllTimers()
+    await nextTick()
+    expect(vm.states.options.size).toBe(0)
+    expect(vm.dropdownMenuVisible).toBe(true)
+    expect(document.querySelector('.custom-empty')).not.toBeNull()
+
+    vi.useRealTimers()
   })
 })

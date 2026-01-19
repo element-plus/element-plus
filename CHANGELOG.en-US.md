@@ -1,6 +1,124 @@
 ## Changelog
 
 
+### 2.13.1
+
+_2026-01-09_
+
+#### Features
+
+- Components [color-picker] add `clearable` prop and `clear` event (#22999 by @keeplearning66)
+- Components [calendar] add `controller-type` and `formatter` props (#23045 by @keeplearning66)
+- Components [message-box] add `confirmButtonType` and `cancelButtonType` props (#23193 by @keeplearning66)
+- Components [virtual-list] support horizontal scrolling with mouse wheel on Windows/ubuntu (#22168 by @keeplearning66)
+- Components [avatar-group] new component (#23211 by @keeplearning66)
+- Components [upload] add `directory` prop (#23265 by @rzzf)
+- Components [form] add `setInitialValues` and `setInitialValue` function (#23013 by @lw56777)
+- Components [dropdown-item] add `icon` slot (#23300 by @ZacharyBear)
+- Components [timeline] support `mode` prop (#22929 by @keeplearning66)
+
+#### Bug fixes
+
+- Docs missing contributors (#23170 by @btea)
+- Components [date-picker] trigger clear evt in footer slot (#23174 by @Dsaquel)
+- Theme-chalk update dark theme color variables for consistency (#23064 by @tolking)
+- Hooks [use-lockscreen] body width was not restored correctly (#22972 by @rzzf)
+- Components [cascader] scrolls to the wrong active node (#23203 by @rzzf)
+- Components [table] prevent `showOverflowTooltip` overwrite (#23215 by @zhixiaotong)
+- Components [timeline] normal rendering default slot (#23217 by @btea)
+- Components [cascader] the prefix slot content is covered by tags (#23236 by @btea)
+- Components [dialog] clear the lingering `closing` state (#23249 by @rzzf)
+- Components [select/select-v2] apply popper-options to tag tooltip (#22255 by @keeplearning66)
+- Components [select/select-v2] show empty slot when remote search empty (#23195 by @YXY-cell)
+- Components [table-v2] respect column flexShrink configuration (#22914 by @yicheny)
+- Components [virtual-list] incorrect scroll boundary check (#23289 by @rzzf)
+- Components [virtual-list] incorrect scroll boundary check (#20766 by @hutengyue)
+- Components [table] `current-change` event exposes the old row object (#23237 by @cassie-ye)
+- Components [alert] fix empty slot incorrectly detected as hasDesc (#23312 by @E66Crisp)
+- Components [table-v2] correct the indentation of sub-row (#23306 by @keeplearning66)
+- Components [tour] avoid Teleport inheriting attribute (#23336 by @rzzf)
+- Components [autocomplete] fix incorrect aria-controls value (#23350 by @E66Crisp)
+- Components [table-v2] keep scrollToRow from changing horiz offset (#22930 by @yicheny)
+- Style(components): separate sub component styles (#23153 by @rzzf)
+- Revert "fix(components): [select/select-v2] prevent dropdown closing on mixed input (#22869 by @rzzf)" (#23224)
+
+#### Refactors
+
+- Test-utils remove redundant code in tick.ts (#21903 by @micaiguai)
+- Components [table] remove unnecessary reactivity (#23254 by @web3Worker-x)
+- Improvement(components): [virtual-list] preventDefault only when the scroll directions match (#22989 by @rzzf)
+
+### 2.13.0
+
+_2025-12-19_
+
+#### Features
+
+- Components [dropdown] add append-to (#23001 by @Dsaquel)
+- Components [table-v2] accessibility enhancement (#22983 by @tolking)
+- Components [switch] add active & inactive slots (#22429 by @Dsaquel)
+- Components [affix] support append-to and teleported (#23053 by @micaiguai)
+- Other: upgrade to Vue 3.5 (#22096 by @makedopamine)
+
+#### Bug fixes
+
+- Theme-chalk [table-column] remove shadow on border (#19942 by @HaceraI)
+- Components [timepicker] fix `disabled` props (#23022 by @jeff-fe)
+- Components [select/select-v2] prevent dropdown closing on mixed input (#22869 by @SpanManX)
+- Components [data-picker] the panel `disabled` state should the same as component (#23029 by @jeff-fe)
+- Components [dialog] cannot be clicked when closed (#22978 by @lxKylin)
+- Components [date-picker] sync input value with time-picker (#20713 by @Dsaquel)
+- Components [date-picker] input should not be editable when editable is false (#23085 by @keeplearning66)
+- Components [date-picker-panel] remove pick emit declaration (#23081 by @Dsaquel)
+- `uno.css` imported multiple times (#23106 by @btea)
+- Publish catalog dep (#23135 by @btea)
+- Components [date-picker-panel] remove incorrect is-disabled class from range panel header (#23113 by @shanecranor)
+- Docs numerous error messages during website build (#23152 by @btea)
+- Components [tree] add optional chains to ensure `el$` exists (#23137 by @xjh22222228)
+- Components [date-picker] duplicate panels after confirm time (#23158 by @Dsaquel)
+- Components [table] ts-plugin(4023) error (#23161 by @rzzf)
+- Components [tabs] avoid resizeObserver loop when updating tab nav (#22966 by @rzzf)
+- Style(components): [date-picker] text and icons are vertical misaligned (#23110 by @btea)
+- Style(components): [form/form-item] separate form and form-item styles (#23142 by @rzzf)
+- Style(components): [checkbox] resolve border flicker in dropdown (#23121 by @rzzf)
+- Style: compatible with new versions of sass (#23070 by @warmthsea)
+- Style(components): [radio] inner add transition (#23083 by @btea)
+- Style(theme-chalk): [menu] remove outline when hover in chrome (#22994 by @Dsaquel)
+- Perf(components): [tree] resolve memory leak occurring after data update (#23055 by @rzzf)
+
+### 2.12.0
+
+_2025-12-05_
+
+#### Features
+
+- Components [menu] apply popper-class and popper-style to the tooltip of the title (#22908 by @keeplearning66)
+- Components [table] accessibility enhancement (#22432 by @tolking)
+- Components [tag] a11y (#22530 by @Dsaquel)
+
+#### Bug fixes
+
+- Components [splitter] runtime validation failed for update:size (#22957 by @rzzf)
+- Components [splitter] display the mask after panel update (#22954 by @rzzf)
+- Components [table-column] reactively update filterable state (#22879 by @tuzixiangs)
+- Components [anchor] prevent scroll stutter on rapid clicks (#22964 by @tuzixiangs)
+- Components [select] ensure dropdown remains open when filterable (#22975 by @tolking)
+- Theme-chalk [upload]: incorrect padding value for el-upload-dragger (#14903 by @qdechochen)
+- Components [radio & checkbox] fix button wrap style (#22073 by @SpanManX)
+- Components [message-box] disable page scroll when dialog open (#22981 by @rzzf)
+- Components [tab] fix style when tab position is bottom (#18425 by @btea)
+- Components [focus-trap, popper, tooltip] memory leak (#20147 by @gjfei)
+- Components [table] try load data only when expanding row (#21678 by @KeroZhai)
+- Style(theme-chalk): [form-item] reset top position label padding-right (#22965 by @duyidao)
+- Improvement(components): [table] keep cursor style during drag (#22915 by @rzzf)
+- Style(theme-chalk): dark mode component bg-color transparent on overlay (#10890 by @loosheng)
+- Style(components): [cascader] cascader-panel fit width (#21497 by @zhixiaotong)
+- Style(theme-chalk): [card]: grow body height (#22829 by @Dsaquel)
+
+#### Refactors
+
+- !: the disabled value of component has the highest priority (#18739 by @btea)
+
 ### 2.11.9
 
 _2025-11-28_

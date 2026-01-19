@@ -988,10 +988,10 @@ $table: map.merge(
     'header-text-color': getCssVar('text-color-secondary'),
     'row-hover-bg-color': getCssVar('fill-color', 'light'),
     'current-row-bg-color': getCssVar('color-primary-light-9'),
-    'header-bg-color': getCssVar('bg-color'),
+    'header-bg-color': getCssVar('fill-color', 'blank'),
     'fixed-box-shadow': getCssVar('box-shadow', 'light'),
     'bg-color': getCssVar('fill-color', 'blank'),
-    'tr-bg-color': getCssVar('bg-color'),
+    'tr-bg-color': getCssVar('fill-color', 'blank'),
     'expanded-cell-bg-color': getCssVar('fill-color', 'blank'),
     'fixed-left-column': inset 10px 0 10px -10px rgb(0 0 0 / 15%),
     'fixed-right-column': inset -10px 0 10px -10px rgb(0 0 0 / 15%),
@@ -1090,6 +1090,8 @@ $popper: () !default;
 $popper: map.merge(
   (
     'border-radius': var(#{getCssVarName('popover-border-radius')}, 4px),
+    'bg-color-light': getCssVar('bg-color', 'overlay'),
+    'bg-color-dark': getCssVar('text-color', 'primary'),
   ),
   $popper
 );
@@ -1293,6 +1295,16 @@ $rate: map.merge(
   $rate
 );
 
+// ColorPicker
+// css3 var in packages/theme-chalk/src/color-picker.scss
+$colorpicker: () !default;
+$colorpicker: map.merge(
+  (
+    'bg-color': getCssVar('bg-color', 'overlay'),
+  ),
+  $colorpicker
+);
+
 // DatePicker
 // css3 var packages/theme-chalk/src/date-picker/var.scss
 $datepicker: () !default;
@@ -1308,6 +1320,7 @@ $datepicker: map.merge(
     'inrange-hover-bg-color': getCssVar('border-color-extra-light'),
     'active-color': getCssVar('color-primary'),
     'hover-text-color': getCssVar('color-primary'),
+    'bg-color': getCssVar('bg-color', 'overlay'),
   ),
   $datepicker
 );
@@ -1508,6 +1521,15 @@ $avatar-size: map.merge(
     'small': 24px,
   ),
   $avatar-size
+);
+
+$avatar-group: () !default;
+$avatar-group: map.merge(
+  (
+    'item-gap': -8px,
+    'collapse-item-gap': 4px,
+  ),
+  $avatar-group
 );
 
 // Empty

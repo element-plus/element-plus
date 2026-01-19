@@ -2,8 +2,26 @@ import { buildProps, isBoolean } from '@element-plus/utils'
 import { CHANGE_EVENT } from '@element-plus/constants'
 
 import type CheckTag from './check-tag.vue'
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
 
+export interface CheckTagProps {
+  /**
+   * @description is checked
+   */
+  checked?: boolean
+  /**
+   * @description whether the check-tag is disabled
+   */
+  disabled?: boolean
+  /**
+   * @description type of Tag
+   */
+  type?: 'primary' | 'success' | 'info' | 'warning' | 'danger'
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `CheckTagProps` instead.
+ */
 export const checkTagProps = buildProps({
   /**
    * @description is checked
@@ -22,8 +40,11 @@ export const checkTagProps = buildProps({
     default: 'primary',
   },
 } as const)
-export type CheckTagProps = ExtractPropTypes<typeof checkTagProps>
-export type CheckTagPropsPublic = __ExtractPublicPropTypes<typeof checkTagProps>
+
+/**
+ * @deprecated Removed after 3.0.0, Use `CheckTagProps` instead.
+ */
+export type CheckTagPropsPublic = ExtractPublicPropTypes<typeof checkTagProps>
 
 export const checkTagEmits = {
   'update:checked': (value: boolean) => isBoolean(value),

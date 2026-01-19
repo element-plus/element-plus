@@ -22,6 +22,7 @@ import {
   definePropType,
   getEventCode,
   mutable,
+  rAF,
   throwError,
 } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
@@ -37,7 +38,7 @@ import type {
   CSSProperties,
   ComponentPublicInstance,
   ExtractPropTypes,
-  __ExtractPublicPropTypes,
+  ExtractPublicPropTypes,
 } from 'vue'
 import type { TabBarInstance } from './tab-bar'
 import type { TabPaneName, TabsPaneContext } from './constants'
@@ -79,7 +80,7 @@ export const tabNavEmits = {
 }
 
 export type TabNavProps = ExtractPropTypes<typeof tabNavProps>
-export type TabNavPropsPublic = __ExtractPublicPropTypes<typeof tabNavProps>
+export type TabNavPropsPublic = ExtractPublicPropTypes<typeof tabNavProps>
 export type TabNavEmits = typeof tabNavEmits
 
 const COMPONENT_NAME = 'ElTabNav'
@@ -325,7 +326,9 @@ const TabNav = defineComponent({
       }
     })
 
-    useResizeObserver(el$, update)
+    useResizeObserver(el$, () => {
+      rAF(update)
+    })
 
     onMounted(() => setTimeout(() => scrollToActiveTab(), 0))
     onUpdated(() => update())
