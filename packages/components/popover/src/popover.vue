@@ -51,15 +51,18 @@ import { computed, ref, unref } from 'vue'
 import { ElTooltip } from '@element-plus/components/tooltip'
 import { addUnit } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
-import { popoverEmits, popoverProps } from './popover'
+import { popoverEmits, popoverPropsDefaults } from './popover'
 
 import type { TooltipInstance } from '@element-plus/components/tooltip'
+import type { PopoverProps } from './popover'
 
 defineOptions({
   name: 'ElPopover',
 })
 
-const props = defineProps(popoverProps)
+const props = withDefaults(defineProps<PopoverProps>(), {
+  ...popoverPropsDefaults,
+})
 const emit = defineEmits(popoverEmits)
 
 const updateEventKeyRaw = `onUpdate:visible` as const
