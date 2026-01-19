@@ -3,7 +3,11 @@ import { usePropsAlias } from './use-props-alias'
 
 import type { TransferDataItem, TransferKey, TransferProps } from '../transfer'
 
-export const useComputedData = (props: Required<TransferProps>) => {
+export const useComputedData = (
+  props: Required<
+    Omit<TransferProps, 'filterPlaceholder' | 'filterMethod' | 'renderContent'>
+  >
+) => {
   const propsAlias = usePropsAlias(props)
 
   const dataObj = computed(() =>

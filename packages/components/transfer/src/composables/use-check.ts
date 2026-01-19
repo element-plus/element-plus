@@ -13,7 +13,9 @@ import type {
 } from '../transfer-panel'
 
 export const useCheck = (
-  props: Required<TransferPanelProps>,
+  props: Required<
+    Pick<TransferPanelProps, 'data' | 'format' | 'defaultChecked'>
+  > & { filterMethod: TransferPanelProps['filterMethod'] },
   panelState: TransferPanelState,
   emit: SetupContext<TransferPanelEmits>['emit']
 ) => {
