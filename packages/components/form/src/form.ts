@@ -7,10 +7,24 @@ import {
   isString,
 } from '@element-plus/utils'
 
-import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
+import type { ComponentSize } from '@element-plus/constants'
 import type { FormItemProp } from './form-item'
 import type { FormRules } from './types'
 
+export interface FormMetaProps {
+  /**
+   * @description Control the size of components in this form.
+   */
+  size?: ComponentSize
+  /**
+   * @description Whether to disable all components in this form. If set to `true`, it will override the `disabled` prop of the inner component.
+   */
+  disabled?: boolean
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `FormMetaProps` instead.
+ */
 export const formMetaProps = buildProps({
   /**
    * @description Control the size of components in this form.
@@ -25,6 +39,68 @@ export const formMetaProps = buildProps({
   disabled: Boolean,
 } as const)
 
+export interface FormProps extends FormMetaProps {
+  /**
+   * @description Data of form component.
+   */
+  model?: Record<string, any>
+  /**
+   * @description Validation rules of form.
+   */
+  rules?: FormRules
+  /**
+   * @description Position of label. If set to `'left'` or `'right'`, `label-width` prop is also required.
+   */
+  labelPosition?: 'left' | 'right' | 'top'
+  /**
+   * @description Position of asterisk.
+   */
+  requireAsteriskPosition?: 'left' | 'right'
+  /**
+   * @description Width of label, e.g. `'50px'`. All its direct child form items will inherit this value. `auto` is supported.
+   */
+  labelWidth?: string | number
+  /**
+   * @description Suffix of the label.
+   */
+  labelSuffix?: string
+  /**
+   * @description Whether the form is inline.
+   */
+  inline?: boolean
+  /**
+   * @description Whether to display the error message inline with the form item.
+   */
+  inlineMessage?: boolean
+  /**
+   * @description Whether to display an icon indicating the validation result.
+   */
+  statusIcon?: boolean
+  /**
+   * @description Whether to show the error message.
+   */
+  showMessage?: boolean
+  /**
+   * @description Whether to trigger validation when the `rules` prop is changed.
+   */
+  validateOnRuleChange?: boolean
+  /**
+   * @description Whether to hide required fields should have a red asterisk (star) beside their labels.
+   */
+  hideRequiredAsterisk?: boolean
+  /**
+   * @description When validation fails, scroll to the first error form entry.
+   */
+  scrollToError?: boolean
+  /**
+   * @description When validation fails, it scrolls to the first error item based on the scrollIntoView option.
+   */
+  scrollIntoViewOptions?: ScrollIntoViewOptions | boolean
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `FormProps` instead.
+ */
 export const formProps = buildProps({
   ...formMetaProps,
   /**
@@ -109,11 +185,6 @@ export const formProps = buildProps({
     default: true,
   },
 } as const)
-export type FormProps = ExtractPropTypes<typeof formProps>
-export type FormPropsPublic = ExtractPublicPropTypes<typeof formProps>
-
-export type FormMetaProps = ExtractPropTypes<typeof formMetaProps>
-export type FormMetaPropsPublic = ExtractPublicPropTypes<typeof formMetaProps>
 
 export const formEmits = {
   validate: (prop: FormItemProp, isValid: boolean, message: string) =>
