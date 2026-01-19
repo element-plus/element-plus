@@ -6,18 +6,148 @@ import {
   iconPropType,
   isBoolean,
 } from '@element-plus/utils'
-import { useEmptyValuesProps, useSizeProp } from '@element-plus/hooks'
+import {
+  UseEmptyValuesProps,
+  useEmptyValuesProps,
+  useSizeProp,
+} from '@element-plus/hooks'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { tagProps } from '@element-plus/components/tag'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { CircleClose } from '@element-plus/icons-vue'
 
 import type {
+  CascaderCommonProps,
   CascaderNode,
   CascaderValue,
 } from '@element-plus/components/cascader-panel'
 import type { Placement, PopperEffect } from '@element-plus/components/popper'
+import type { Component, ExtractPublicPropTypes, StyleValue } from 'vue'
+import type { ComponentSize } from '@element-plus/constants'
+import type { TagProps } from '@element-plus/components/tag'
 
+type CascaderClassType = string | Record<string, boolean> | CascaderClassType[]
+
+export interface CascaderComponentProps
+  extends CascaderCommonProps, UseEmptyValuesProps {
+  /**
+   * @description size of input
+   */
+  size?: ComponentSize
+  /**
+   * @description placeholder of input
+   */
+  placeholder?: string
+  /**
+   * @description whether Cascader is disabled
+   */
+  disabled?: boolean
+  /**
+   * @description whether selected value can be cleared
+   */
+  clearable?: boolean
+  /**
+   * @description custom clear icon component
+   */
+  clearIcon?: string | Component
+  /**
+   * @description whether the options can be searched
+   */
+  filterable?: boolean
+  /**
+   * @description customize search logic, the first parameter is `node`, the second is `keyword`, and need return a boolean value indicating whether it hits.
+   */
+  filterMethod?: (node: CascaderNode, keyword: string) => boolean
+  /**
+   * @description option label separator
+   */
+  separator?: string
+  /**
+   * @description whether to display all levels of the selected value in the input
+   */
+  showAllLevels?: boolean
+  /**
+   * @description whether to collapse tags in multiple selection mode
+   */
+  collapseTags?: boolean
+  /**
+   * @description The max tags number to be shown. To use this, collapse-tags must be true
+   */
+  maxCollapseTags?: number
+  /**
+   * @description whether show all selected tags when mouse hover text of collapse-tags. To use this, collapse-tags must be true
+   */
+  collapseTagsTooltip?: boolean
+  /**
+   * @description The max height of collapse tags tooltip, in pixels. To use this, collapse-tags-tooltip must be true
+   */
+  maxCollapseTagsTooltipHeight?: string | number
+  /**
+   * @description debounce delay when typing filter keyword, in milliseconds
+   */
+  debounce?: number
+  /**
+   * @description hook function before filtering with the value to be filtered as its parameter. If `false` is returned or a `Promise` is returned and then is rejected, filtering will be aborted
+   */
+  beforeFilter?: (value: string) => boolean | Promise<any>
+  /**
+   * @description position of dropdown
+   */
+  placement?: Placement
+  /**
+   * @description list of possible positions for dropdown
+   */
+  fallbackPlacements?: Placement[]
+  /**
+   * @description custom class name for Cascader's dropdown
+   */
+  popperClass?: CascaderClassType
+  /**
+   * @description custom style for Cascader's dropdown
+   */
+  popperStyle?: StyleValue
+  /**
+   * @description whether cascader popup is teleported
+   */
+  teleported?: boolean
+  /**
+   * @description tooltip theme, built-in theme: `dark` / `light`
+   */
+  effect?: PopperEffect
+  /**
+   * @description tag type
+   */
+  tagType?: TagProps['type']
+  /**
+   * @description tag effect
+   */
+  tagEffect?: TagProps['effect']
+  /**
+   * @description whether to trigger form validation
+   */
+  validateEvent?: boolean
+  /**
+   * @description when dropdown is inactive and `persistent` is `false`, dropdown will be destroyed
+   */
+  persistent?: boolean
+  /**
+   * @description Use `parent` when you want things tidy (like "Entire Collection" instead of listing 100 items)
+   * Use `child` when every single item matters (like important settings)
+   */
+  showCheckedStrategy?: 'parent' | 'child'
+  /**
+   * @description whether to check or uncheck node when clicking on the node
+   */
+  checkOnClickNode?: boolean
+  /**
+   * @description whether to show the radio or checkbox prefix
+   */
+  showPrefix?: boolean
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `CascaderComponentProps` instead.
+ */
 export const cascaderProps = buildProps({
   ...CommonProps,
   /**
@@ -203,7 +333,9 @@ export const cascaderEmits = {
   removeTag: (val: CascaderNode['valueByOption']) => !!val,
 }
 
-// Type name is taken(cascader-panel/src/node), needs discussion
-// export type CascaderProps = ExtractPropTypes<typeof cascaderProps>
+/**
+ * @deprecated Removed after 3.0.0, Use `CascaderComponentProps` instead.
+ */
+export type CascaderPropsPublic = ExtractPublicPropTypes<typeof cascaderProps>
 
 export type CascaderEmits = typeof cascaderEmits

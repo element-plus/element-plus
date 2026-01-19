@@ -2,7 +2,7 @@ import { computed } from 'vue'
 import { NOOP, buildProps, definePropType } from '@element-plus/utils'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
-import type { PropType } from 'vue'
+import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type {
   CascaderConfig,
   CascaderNodePathValue,
@@ -11,6 +11,21 @@ import type {
   CascaderValue,
   RenderLabel,
 } from './types'
+
+export interface CascaderCommonProps {
+  /**
+   * @description specify which key of node object is used as the node's value
+   */
+  modelValue?: CascaderValue | null
+  /**
+   * @description data of the options, the key of `value` and `label` can be customize by `CascaderProps`.
+   */
+  options?: CascaderOption[]
+  /**
+   * @description configuration options, see the following `CascaderProps` table.
+   */
+  props?: CascaderProps
+}
 
 export const CommonProps = buildProps({
   /**
@@ -34,6 +49,11 @@ export const CommonProps = buildProps({
     default: () => ({}) as CascaderProps,
   },
 } as const)
+
+export interface CascaderPanelProps extends CascaderCommonProps {
+  border?: boolean
+  renderLabel?: RenderLabel
+}
 
 export const DefaultProps: CascaderConfig = {
   /**
@@ -98,6 +118,9 @@ export const DefaultProps: CascaderConfig = {
   showPrefix: true,
 }
 
+/**
+ * @deprecated Removed after 3.0.0, Use `CascaderPanelProps` instead.
+ */
 export const cascaderPanelProps = buildProps({
   ...CommonProps,
   border: {
@@ -108,6 +131,13 @@ export const cascaderPanelProps = buildProps({
     type: Function as PropType<RenderLabel>,
   },
 })
+
+/**
+ * @deprecated Removed after 3.0.0, Use `CascaderPanelProps` instead.
+ */
+export type CascaderPanelPropsPublic = ExtractPublicPropTypes<
+  typeof cascaderPanelProps
+>
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const emitChangeFn = (value: CascaderValue | undefined | null) => true
