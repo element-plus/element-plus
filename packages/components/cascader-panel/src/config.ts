@@ -2,7 +2,7 @@ import { computed } from 'vue'
 import { NOOP, buildProps, definePropType } from '@element-plus/utils'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
-import type { ExtractPublicPropTypes, PropType } from 'vue'
+import type { PropType } from 'vue'
 import type {
   CascaderConfig,
   CascaderNodePathValue,
@@ -131,13 +131,6 @@ export const cascaderPanelProps = buildProps({
     type: Function as PropType<RenderLabel>,
   },
 })
-
-/**
- * @deprecated Removed after 3.0.0, Use `CascaderPanelProps` instead.
- */
-export type CascaderPanelPropsPublic = ExtractPublicPropTypes<
-  typeof cascaderPanelProps
->
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const emitChangeFn = (value: CascaderValue | undefined | null) => true
