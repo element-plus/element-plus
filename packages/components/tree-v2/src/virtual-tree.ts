@@ -21,7 +21,7 @@ import type {
 
 // constants
 export const ROOT_TREE_INJECTION_KEY: InjectionKey<TreeContext> = Symbol()
-const EMPTY_NODE = {
+export const EMPTY_NODE = {
   key: -1,
   level: -1,
   data: {},

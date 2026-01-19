@@ -45,7 +45,6 @@ export interface TreeProps {
   checkOnClickNode?: boolean
   checkOnClickLeaf?: boolean
   currentNodeKey?: string | number
-  // TODO need to optimization
   accordion?: boolean
   filterMethod?: FilterMethod
   // Performance mode will increase memory usage, but scrolling will be smoother
