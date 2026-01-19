@@ -56,7 +56,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, markRaw, ref, unref } from 'vue'
+import { computed, ref, unref } from 'vue'
 import ElButton from '@element-plus/components/button'
 import ElIcon from '@element-plus/components/icon'
 import ElTooltip from '@element-plus/components/tooltip'
@@ -75,7 +75,7 @@ defineOptions({
 const props = withDefaults(defineProps<PopconfirmProps>(), {
   confirmButtonType: 'primary',
   cancelButtonType: 'text',
-  icon: markRaw(QuestionFilled),
+  icon: () => QuestionFilled,
   iconColor: '#f90',
   hideAfter: 200,
   effect: 'light',

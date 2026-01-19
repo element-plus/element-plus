@@ -8,7 +8,10 @@ import {
 
 import type { Component, ExtractPublicPropTypes } from 'vue'
 import type { ButtonType } from '@element-plus/components/button'
-import type { Measurable } from '@element-plus/components/popper'
+import type {
+  ElTooltipContentProps,
+  ElTooltipTriggerProps,
+} from '@element-plus/components/tooltip'
 import type Popconfirm from './popconfirm.vue'
 
 export interface PopconfirmProps {
@@ -51,15 +54,15 @@ export interface PopconfirmProps {
   /**
    * @description Tooltip theme, built-in theme: `dark` / `light`
    */
-  effect?: 'light' | 'dark'
+  effect?: ElTooltipContentProps['effect']
   /**
    * @description whether popconfirm is teleported to the body
    */
-  teleported?: boolean
+  teleported?: ElTooltipContentProps['teleported']
   /**
    * @description when popconfirm inactive and `persistent` is `false` , popconfirm will be destroyed
    */
-  persistent?: boolean
+  persistent?: ElTooltipContentProps['persistent']
   /**
    * @description popconfirm width, min width 150px
    */
@@ -67,11 +70,11 @@ export interface PopconfirmProps {
   /**
    * @description Indicates whether virtual triggering is enabled
    */
-  virtualTriggering?: boolean
+  virtualTriggering?: ElTooltipTriggerProps['virtualTriggering']
   /**
    * @description Indicates the reference element to which the popper is attached
    */
-  virtualRef?: Measurable
+  virtualRef?: ElTooltipTriggerProps['virtualRef']
 }
 
 /**
