@@ -54,6 +54,7 @@ defineOptions({
 const props = withDefaults(defineProps<TimelineItemProps>(), {
   timestamp: '',
   placement: 'bottom',
+  type: '',
   color: '',
   size: 'normal',
 })
