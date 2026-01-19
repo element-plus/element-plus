@@ -5,9 +5,96 @@ import {
   mutable,
 } from '@element-plus/utils'
 
-import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
 import type Image from './image.vue'
 
+export type ImageFitType =
+  | ''
+  | 'contain'
+  | 'cover'
+  | 'fill'
+  | 'none'
+  | 'scale-down'
+export type ImageCrossorigin = 'anonymous' | 'use-credentials' | ''
+
+export interface ImageProps {
+  /**
+   * @description when enabling preview, use this flag to control whether clicking on backdrop can exit preview mode.
+   */
+  hideOnClickModal?: boolean
+  /**
+   * @description image source, same as native.
+   */
+  src?: string
+  /**
+   * @description indicate how the image should be resized to fit its container, same as [object-fit](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit).
+   */
+  fit?: ImageFitType
+  /**
+   * @description Indicates how the browser should load the image, same as [native](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/img#loading)
+   */
+  loading?: 'eager' | 'lazy'
+  /**
+   * @description whether to use lazy load.
+   */
+  lazy?: boolean
+  /**
+   * @description the container to add scroll listener when using lazy load.
+   */
+  scrollContainer?: string | HTMLElement
+  /**
+   * @description allow big image preview.
+   */
+  previewSrcList?: string[]
+  /**
+   * @description whether to append image-viewer to body. A nested parent element attribute transform should have this attribute set to `true`.
+   */
+  previewTeleported?: boolean
+  /**
+   * @description set image preview z-index.
+   */
+  zIndex?: number
+  /**
+   * @description initial preview image index, less than the length of `url-list`.
+   */
+  initialIndex?: number
+  /**
+   * @description whether the viewer preview is infinite.
+   */
+  infinite?: boolean
+  /**
+   * @description whether the image-viewer can be closed by pressing ESC.
+   */
+  closeOnPressEscape?: boolean
+  /**
+   * @description the zoom rate of the image viewer zoom event
+   */
+  zoomRate?: number
+  /**
+   * @description preview image scale.
+   */
+  scale?: number
+  /**
+   * @description the min scale of the image viewer zoom event.
+   */
+  minScale?: number
+  /**
+   * @description the max scale of the image viewer zoom event.
+   */
+  maxScale?: number
+  /**
+   * @description show preview image progress content.
+   */
+  showProgress?: boolean
+  /**
+   * @description set HTML attribute: crossorigin.
+   */
+  crossorigin?: ImageCrossorigin
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `ImageProps` instead.
+ */
 export const imageProps = buildProps({
   /**
    * @description when enabling preview, use this flag to control whether clicking on backdrop can exit preview mode.
@@ -119,10 +206,13 @@ export const imageProps = buildProps({
    * @description set HTML attribute: crossorigin.
    */
   crossorigin: {
-    type: definePropType<'anonymous' | 'use-credentials' | ''>(String),
+    type: definePropType<ImageCrossorigin>(String),
   },
 } as const)
-export type ImageProps = ExtractPropTypes<typeof imageProps>
+
+/**
+ * @deprecated Removed after 3.0.0, Use `ImageProps` instead.
+ */
 export type ImagePropsPublic = ExtractPublicPropTypes<typeof imageProps>
 
 export const imageEmits = {
