@@ -2,10 +2,78 @@ import { buildProps, definePropType } from '@element-plus/utils'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import { radioEmits } from './radio'
 
-import type { RadioPropsPublic } from './radio'
-import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
+import type { ComponentSize } from '@element-plus/constants'
+import type { ExtractPublicPropTypes } from 'vue'
 import type RadioGroup from './radio-group.vue'
 
+export type radioOptionProp = {
+  value?: string
+  label?: string
+  disabled?: string
+}
+
+export const radioDefaultProps: Required<radioOptionProp> = {
+  label: 'label',
+  value: 'value',
+  disabled: 'disabled',
+}
+
+export type radioOption = Record<string, any>
+
+export interface RadioGroupProps {
+  /**
+   * @description native `id` attribute
+   */
+  id?: string
+  /**
+   * @description the size of radio buttons or bordered radios
+   */
+  size?: ComponentSize
+  /**
+   * @description whether the nesting radios are disabled
+   */
+  disabled?: boolean
+  /**
+   * @description binding value
+   */
+  modelValue?: string | number | boolean
+  /**
+   * @description border and background color when button is active
+   */
+  fill?: string
+  /**
+   * @description font color when button is active
+   */
+  textColor?: string
+  /**
+   * @description native `name` attribute
+   */
+  name?: string
+  /**
+   * @description whether to trigger form validation
+   */
+  validateEvent?: boolean
+  /**
+   * @description radio options
+   */
+  options?: radioOption[]
+  /**
+   * @description custom prop names for options
+   */
+  props?: radioOptionProp
+  /**
+   * @description radio type
+   */
+  type?: 'radio' | 'button'
+  /**
+   * @description native `aria-label` attribute
+   */
+  ariaLabel?: string
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `RadioGroupProps` instead.
+ */
 export const radioGroupProps = buildProps({
   /**
    * @description native `id` attribute
@@ -74,7 +142,10 @@ export const radioGroupProps = buildProps({
   },
   ...useAriaProps(['ariaLabel']),
 } as const)
-export type RadioGroupProps = ExtractPropTypes<typeof radioGroupProps>
+
+/**
+ * @deprecated Removed after 3.0.0, Use `RadioGroupProps` instead.
+ */
 export type RadioGroupPropsPublic = ExtractPublicPropTypes<
   typeof radioGroupProps
 >
@@ -83,15 +154,17 @@ export const radioGroupEmits = radioEmits
 export type RadioGroupEmits = typeof radioGroupEmits
 export type RadioGroupInstance = InstanceType<typeof RadioGroup> & unknown
 
-export type radioOption = RadioPropsPublic & Record<string, any>
-
-export const radioDefaultProps: Required<radioOptionProp> = {
-  label: 'label',
-  value: 'value',
-  disabled: 'disabled',
-}
-export type radioOptionProp = {
-  value?: string
-  label?: string
-  disabled?: string
-}
+/**
+ * @description default values for RadioGroupProps
+ */
+export const radioGroupPropsDefaults = {
+  id: undefined,
+  disabled: undefined,
+  modelValue: undefined,
+  fill: '',
+  textColor: '',
+  name: undefined,
+  validateEvent: true,
+  props: () => radioDefaultProps,
+  type: 'radio' as const,
+} as const
