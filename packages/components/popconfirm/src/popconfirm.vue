@@ -79,6 +79,7 @@ const props = withDefaults(defineProps<PopconfirmProps>(), {
   iconColor: '#f90',
   hideAfter: 200,
   effect: 'light',
+  teleported: true,
   width: 150,
 })
 const emit = defineEmits(popconfirmEmits)
