@@ -1,8 +1,17 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 
-import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
 import type Color from '../utils/color'
 
+export interface AlphaSliderProps {
+  color: Color
+  vertical?: boolean
+  disabled?: boolean
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `AlphaSliderProps` instead.
+ */
 export const alphaSliderProps = buildProps({
   color: {
     type: definePropType<Color>(Object),
@@ -11,9 +20,15 @@ export const alphaSliderProps = buildProps({
   vertical: Boolean,
   disabled: Boolean,
 } as const)
+
+/**
+ * @deprecated Removed after 3.0.0, Use `AlphaSliderProps` instead.
+ */
 export const hueSliderProps = alphaSliderProps
 
-export type AlphaSliderProps = ExtractPropTypes<typeof alphaSliderProps>
+/**
+ * @deprecated Removed after 3.0.0, Use `AlphaSliderProps` instead.
+ */
 export type AlphaSliderPropsPublic = ExtractPublicPropTypes<
   typeof alphaSliderProps
 >
