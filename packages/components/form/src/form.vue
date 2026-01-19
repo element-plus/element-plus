@@ -66,9 +66,9 @@ const addField: FormContext['addField'] = (field) => {
     // Use existence check instead of !== undefined to support initial value being undefined
     if (field.propString in initialValuesCache) {
       field.setInitialValue(initialValuesCache[field.propString])
-    } else {
+    } else if (props.model) {
       initialValuesCache[field.propString] = clone(
-        getProp(props.model!, field.prop).value
+        getProp(props.model, field.prop).value
       )
     }
   }
