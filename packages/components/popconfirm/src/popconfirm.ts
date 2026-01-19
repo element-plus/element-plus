@@ -7,10 +7,9 @@ import {
 } from '@element-plus/components/tooltip'
 
 import type { Component, ExtractPublicPropTypes } from 'vue'
+import type { ButtonType } from '@element-plus/components/button'
 import type { Measurable } from '@element-plus/components/popper'
 import type Popconfirm from './popconfirm.vue'
-
-export type ButtonType = (typeof buttonTypes)[number]
 
 export interface PopconfirmProps {
   /**
