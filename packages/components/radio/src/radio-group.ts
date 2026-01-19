@@ -166,5 +166,5 @@ export const radioGroupPropsDefaults = {
   name: undefined,
   validateEvent: true,
   props: () => radioDefaultProps,
-  type: 'radio' as const,
+  type: 'radio',
 } as const
