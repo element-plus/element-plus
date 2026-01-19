@@ -23,7 +23,7 @@ export interface TimelineItemProps {
   /**
    * @description node type
    */
-  type?: 'primary' | 'success' | 'warning' | 'danger' | 'info'
+  type?: 'primary' | 'success' | 'warning' | 'danger' | 'info' | ''
   /**
    * @description background color of node
    */
