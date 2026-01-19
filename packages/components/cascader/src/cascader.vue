@@ -216,7 +216,15 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, nextTick, onMounted, ref, useAttrs, watch } from 'vue'
+import {
+  computed,
+  markRaw,
+  nextTick,
+  onMounted,
+  ref,
+  useAttrs,
+  watch,
+} from 'vue'
 import { cloneDeep } from 'lodash-unified'
 import { useCssVar, useDebounceFn, useResizeObserver } from '@vueuse/core'
 import {
@@ -251,8 +259,8 @@ import {
   EVENT_CODE,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import { ArrowDown, Check } from '@element-plus/icons-vue'
-import { cascaderEmits, cascaderProps } from './cascader'
+import { ArrowDown, Check, CircleClose } from '@element-plus/icons-vue'
+import { cascaderEmits } from './cascader'
 
 import type { Options } from '@element-plus/components/popper'
 import type { ComputedRef, StyleValue } from 'vue'
@@ -265,6 +273,7 @@ import type {
   CascaderValue,
   Tag,
 } from '@element-plus/components/cascader-panel'
+import type { CascaderComponentProps } from './cascader'
 
 const popperOptions: Partial<Options> = {
   modifiers: [
@@ -288,7 +297,37 @@ defineOptions({
   name: 'ElCascader',
 })
 
-const props = defineProps(cascaderProps)
+const props = withDefaults(defineProps<CascaderComponentProps>(), {
+  options: () => [],
+  props: () => ({}),
+  disabled: undefined,
+  clearIcon: markRaw(CircleClose),
+  filterMethod: (node, keyword) => node.text.includes(keyword),
+  separator: ' / ',
+  showAllLevels: true,
+  maxCollapseTags: 1,
+  debounce: 300,
+  beforeFilter: () => true,
+  placement: 'bottom-start',
+  fallbackPlacements: () => [
+    'bottom-start',
+    'bottom',
+    'top-start',
+    'top',
+    'right',
+    'left',
+  ],
+  teleported: true,
+  effect: 'light',
+  tagType: 'info',
+  tagEffect: 'light',
+  validateEvent: true,
+  persistent: true,
+  showCheckedStrategy: 'child',
+  showPrefix: true,
+  popperStyle: undefined,
+  valueOnClear: undefined,
+})
 const emit = defineEmits(cascaderEmits)
 const attrs = useAttrs()
 const slots = defineSlots()
