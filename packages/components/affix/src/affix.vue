@@ -25,7 +25,7 @@ import {
 } from '@vueuse/core'
 import ElTeleport from '@element-plus/components/teleport'
 import { addUnit, getScrollContainer, throwError } from '@element-plus/utils'
-import { useNamespace } from '@element-plus/hooks'
+import { useNamespace, useValidator } from '@element-plus/hooks'
 import { CHANGE_EVENT } from '@element-plus/constants'
 import { affixEmits } from './affix'
 
@@ -43,6 +43,12 @@ const props = withDefaults(defineProps<AffixProps>(), {
   position: 'top',
   appendTo: 'body',
 })
+useValidator(props, COMPONENT_NAME, [
+  {
+    key: 'position',
+    values: ['top', 'bottom'],
+  },
+])
 const emit = defineEmits(affixEmits)
 
 const ns = useNamespace('affix')
