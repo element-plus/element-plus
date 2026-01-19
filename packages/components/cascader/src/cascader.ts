@@ -22,7 +22,7 @@ import type {
   CascaderValue,
 } from '@element-plus/components/cascader-panel'
 import type { Placement, PopperEffect } from '@element-plus/components/popper'
-import type { Component, ExtractPublicPropTypes, StyleValue } from 'vue'
+import type { Component, StyleValue } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 import type { TagProps } from '@element-plus/components/tag'
 
@@ -332,10 +332,5 @@ export const cascaderEmits = {
   expandChange: (val: CascaderValue) => !!val,
   removeTag: (val: CascaderNode['valueByOption']) => !!val,
 }
-
-/**
- * @deprecated Removed after 3.0.0, Use `CascaderComponentProps` instead.
- */
-export type CascaderPropsPublic = ExtractPublicPropTypes<typeof cascaderProps>
 
 export type CascaderEmits = typeof cascaderEmits
