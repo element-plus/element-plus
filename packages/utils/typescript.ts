@@ -98,7 +98,7 @@ type BooleanLike<T> = [Extract<T, true | false>] extends [never] ? false : true
 /**
  * Derive runtime type based on the Props class and defaults object declared
  *
- * 根据声明的 Props 类和 defaults 对象推导出运行时类型
+ * 根据声明的 Props 类型和 defaults 对象推导出运行时类型
  *
  * @example
  * const defaults = { foo: '', bar: undefined }
