@@ -11,13 +11,11 @@ import type Popover from './popover.vue'
 import type { Placement } from '@element-plus/components/popper'
 import type { Options } from '@popperjs/core'
 
-export type PopoverTriggerType = 'click' | 'hover' | 'focus' | 'contextmenu'
-
 export interface PopoverProps {
   /**
    * @description how the popover is triggered, not valid in controlled mode
    */
-  trigger?: PopoverTriggerType
+  trigger?: 'click' | 'hover' | 'focus' | 'contextmenu'
   /**
    * @description When you click the mouse to focus on the trigger element, you can define a set of keyboard codes to control the display of popover through the keyboard, not valid in controlled mode
    */
@@ -257,7 +255,7 @@ export type PopoverInstance = InstanceType<typeof Popover> & unknown
  * @description default values for PopoverProps
  */
 export const popoverPropsDefaults = {
-  trigger: 'hover' as PopoverTriggerType,
+  trigger: 'hover' as const,
   triggerKeys: () => [
     EVENT_CODE.enter,
     EVENT_CODE.numpadEnter,
