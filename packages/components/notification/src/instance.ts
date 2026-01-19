@@ -45,3 +45,14 @@ export const getOffsetOrSpace = (
   const idx = list.findIndex(({ vm }) => vm.component!.props.id === id)
   return idx > 0 ? GAP_SIZE : offset
 }
+
+export const isPrevInstanceRendered = (
+  id: string,
+  position: NotificationOptions['position']
+): boolean => {
+  const { prev } = getInstance(id, position)
+
+  if (!prev) return true
+
+  return (prev.vm.el?.offsetHeight ?? 0) > 0
+}

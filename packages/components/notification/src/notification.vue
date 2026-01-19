@@ -1,6 +1,7 @@
 <template>
   <transition
     :name="ns.b('fade')"
+    @after-enter="onAfterEnter"
     @before-leave="onClose"
     @after-leave="$emit('destroy')"
   >
@@ -47,7 +48,11 @@ import { EVENT_CODE } from '@element-plus/constants'
 import { ElIcon } from '@element-plus/components/icon'
 import { useGlobalComponentSettings } from '@element-plus/components/config-provider'
 import { notificationEmits, notificationProps } from './notification'
-import { getLastOffset, getOffsetOrSpace } from './instance'
+import {
+  getLastOffset,
+  getOffsetOrSpace,
+  isPrevInstanceRendered,
+} from './instance'
 
 import type { CSSProperties } from 'vue'
 
@@ -64,6 +69,7 @@ const { nextZIndex, currentZIndex } = zIndex
 const notificationRef = ref<HTMLDivElement>()
 const visible = ref(false)
 const height = ref(0)
+const enterAnimationEnded = ref(false)
 let timer: (() => void) | undefined = undefined
 
 const typeClass = computed(() => {
@@ -86,10 +92,24 @@ const verticalProperty = computed(() =>
 
 const position = computed(() => props.position)
 const lastOffset = computed(() => getLastOffset(props.id, position.value))
-const offset = computed(
-  () =>
+
+// Determine whether to use reactive position calculation
+const useReactivePosition = computed(() => {
+  const prevRendered = isPrevInstanceRendered(props.id, position.value)
+  if (!prevRendered) return true
+
+  return enterAnimationEnded.value
+})
+
+const offset = computed(() => {
+  if (!useReactivePosition.value) {
+    return props.offset
+  }
+
+  return (
     getOffsetOrSpace(props.id, props.offset, position.value) + lastOffset.value
-)
+  )
+})
 const bottom = computed(() => height.value + offset.value)
 
 const positionStyle = computed<CSSProperties>(() => {
@@ -113,6 +133,10 @@ function clearTimer() {
 
 function close() {
   visible.value = false
+}
+
+function onAfterEnter() {
+  enterAnimationEnded.value = true
 }
 
 function onKeydown(event: KeyboardEvent) {
