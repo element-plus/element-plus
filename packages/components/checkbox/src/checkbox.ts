@@ -1,12 +1,85 @@
-import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { UPDATE_MODEL_EVENT, ComponentSize } from '@element-plus/constants'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import { isBoolean, isNumber, isString } from '@element-plus/utils'
 
-import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
 import type Checkbox from './checkbox.vue'
 
 export type CheckboxValueType = string | number | boolean
 
+export interface CheckboxProps {
+  /**
+   * @description binding value
+   */
+  modelValue?: number | string | boolean
+  /**
+   * @description label of the Checkbox when used inside a `checkbox-group`
+   */
+  label?: string | boolean | number | object
+  /**
+   * @description value of the Checkbox when used inside a `checkbox-group`
+   */
+  value?: string | boolean | number | object
+  /**
+   * @description Set indeterminate state, only responsible for style control
+   */
+  indeterminate?: boolean
+  /**
+   * @description whether the Checkbox is disabled
+   */
+  disabled?: boolean
+  /**
+   * @description if the Checkbox is checked
+   */
+  checked?: boolean
+  /**
+   * @description native 'name' attribute
+   */
+  name?: string
+  /**
+   * @description value of the Checkbox if it's checked
+   */
+  trueValue?: string | number
+  /**
+   * @description value of the Checkbox if it's not checked
+   */
+  falseValue?: string | number
+  /**
+   * @deprecated use `trueValue` instead
+   * @description value of the Checkbox if it's checked
+   */
+  trueLabel?: string | number
+  /**
+   * @deprecated use `falseValue` instead
+   * @description value of the Checkbox if it's not checked
+   */
+  falseLabel?: string | number
+  /**
+   * @description input id
+   */
+  id?: string
+  /**
+   * @description whether to add a border around Checkbox
+   */
+  border?: boolean
+  /**
+   * @description size of the Checkbox
+   */
+  size?: ComponentSize
+  /**
+   * @description input tabindex
+   */
+  tabindex?: string | number
+  /**
+   * @description whether to trigger form validation
+   */
+  validateEvent?: boolean
+  ariaLabel?: string
+  ariaControls?: string
+}
+/**
+ * @deprecated Removed after 3.0.0, Use `CheckboxProps` instead.
+ */
 export const checkboxProps = {
   /**
    * @description binding value
@@ -117,8 +190,9 @@ export const checkboxEmits = {
   change: (val: CheckboxValueType) =>
     isString(val) || isNumber(val) || isBoolean(val),
 }
-
-export type CheckboxProps = ExtractPropTypes<typeof checkboxProps>
+/**
+ * @deprecated Removed after 3.0.0, Use `CheckboxProps` instead.
+ */
 export type CheckboxPropsPublic = ExtractPublicPropTypes<typeof checkboxProps>
 export type CheckboxEmits = typeof checkboxEmits
 export type CheckboxInstance = InstanceType<typeof Checkbox> & unknown

@@ -29,15 +29,16 @@ import { computed, inject, useSlots } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { checkboxGroupContextKey } from './constants'
 import { useCheckbox } from './composables'
-import { checkboxEmits, checkboxProps } from './checkbox'
+import { checkboxEmits } from './checkbox'
 
 import type { CSSProperties } from 'vue'
+import type { CheckboxProps } from './checkbox'
 
 defineOptions({
   name: 'ElCheckboxButton',
 })
 
-const props = defineProps(checkboxProps)
+const props = defineProps<CheckboxProps>()
 defineEmits(checkboxEmits)
 const slots = useSlots()
 

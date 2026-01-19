@@ -2,12 +2,57 @@ import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import { buildProps, definePropType, isArray } from '@element-plus/utils'
 
-import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
 import type checkboxGroup from './checkbox-group.vue'
 import type { CheckboxPropsPublic, CheckboxValueType } from './checkbox'
 
 export type CheckboxGroupValueType = Exclude<CheckboxValueType, boolean>[]
 
+export interface CheckboxGroupProps {
+  /**
+   * @description binding value
+   */
+  modelValue: CheckboxGroupValueType
+  /**
+   * @description whether the nesting checkboxes are disabled
+   */
+  disabled?: boolean
+  /**
+   * @description minimum number of checkbox checked
+   */
+  min?: number
+  /**
+   * @description maximum number of checkbox checked
+   */
+  max?: number
+  /**
+   * @description size of checkbox
+   */
+  size?: string
+  /**
+   * @description border and background color when button is active
+   */
+  fill?: string
+  /**
+   * @description font color when button is active
+   */
+  textColor?: string
+  /**
+   * @description type of checkbox group
+   */
+  tag?: string
+  /**
+   * @description whether to trigger form validation
+   */
+  validateEvent?: boolean
+  options?: CheckboxOption[]
+  props?: CheckboxOptionProps
+  type?: 'checkbox' | 'button'
+  ariaLabel?: string
+}
+/**
+ * @deprecated Removed after 3.0.0, Use `CheckboxGroupProps` instead.
+ */
 export const checkboxGroupProps = buildProps({
   /**
    * @description binding value
@@ -77,7 +122,9 @@ export const checkboxGroupEmits = {
   change: (val: CheckboxValueType[]) => isArray(val),
 }
 
-export type CheckboxGroupProps = ExtractPropTypes<typeof checkboxGroupProps>
+/**
+ * @deprecated Removed after 3.0.0, Use `CheckboxGroupProps` instead.
+ */
 export type CheckboxGroupPropsPublic = ExtractPublicPropTypes<
   typeof checkboxGroupProps
 >
