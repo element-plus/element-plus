@@ -3,10 +3,15 @@ import { useEventListener, useThrottleFn } from '@vueuse/core'
 import { throwError } from '@element-plus/utils'
 
 import type { SetupContext } from 'vue'
-import type { BacktopEmits, BacktopProps } from './backtop'
+import type { PropsWithDefaults } from '@element-plus/utils'
+import type {
+  BacktopEmits,
+  BacktopProps,
+  backtopPropsDefaults,
+} from './backtop'
 
 export const useBackTop = (
-  props: Required<BacktopProps>,
+  props: PropsWithDefaults<BacktopProps, typeof backtopPropsDefaults>,
   emit: SetupContext<BacktopEmits>['emit'],
   componentName: string
 ) => {

@@ -19,13 +19,16 @@ import { CHANGE_EVENT } from '@element-plus/constants'
 import { CAROUSEL_ITEM_NAME, carouselContextKey } from './constants'
 
 import type { SetupContext } from 'vue'
-import type { CarouselItemContext } from './constants'
-import type { CarouselEmits, CarouselProps } from './carousel'
+import type {
+  CarouselItemContext,
+  CarouselPropsWithDefaults,
+} from './constants'
+import type { CarouselEmits } from './carousel'
 
 const THROTTLE_TIME = 300
 
 export const useCarousel = (
-  props: Required<CarouselProps>,
+  props: CarouselPropsWithDefaults,
   emit: SetupContext<CarouselEmits>['emit'],
   componentName: string
 ) => {

@@ -62,3 +62,10 @@ export const backtopEmits = {
   click: (evt: MouseEvent) => evt instanceof MouseEvent,
 }
 export type BacktopEmits = typeof backtopEmits
+
+export const backtopPropsDefaults = {
+  visibilityHeight: 200,
+  target: '',
+  right: 40,
+  bottom: 40,
+} as const

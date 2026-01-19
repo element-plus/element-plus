@@ -9,9 +9,10 @@ import {
 import { debugWarn, isUndefined } from '@element-plus/utils'
 import { CAROUSEL_ITEM_NAME, carouselContextKey } from './constants'
 
-import type { CarouselItemProps } from './carousel-item'
+import type { CarouselItemPropsWithDefaults } from './constants'
 
-export const useCarouselItem = (props: Required<CarouselItemProps>) => {
+export const useCarouselItem = (props: CarouselItemPropsWithDefaults) => {
+  props.label
   const carouselContext = inject(carouselContextKey)!
   // instance
   const instance = getCurrentInstance()!

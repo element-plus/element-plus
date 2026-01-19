@@ -18,7 +18,7 @@ import { computed } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import { CaretTop } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
-import { backtopEmits } from './backtop'
+import { backtopEmits, backtopPropsDefaults } from './backtop'
 import { useBackTop } from './use-backtop'
 
 import type { BacktopProps } from './backtop'
@@ -29,12 +29,7 @@ defineOptions({
   name: COMPONENT_NAME,
 })
 
-const props = withDefaults(defineProps<BacktopProps>(), {
-  visibilityHeight: 200,
-  target: '',
-  right: 40,
-  bottom: 40,
-})
+const props = withDefaults(defineProps<BacktopProps>(), backtopPropsDefaults)
 const emit = defineEmits(backtopEmits)
 
 const ns = useNamespace('backtop')

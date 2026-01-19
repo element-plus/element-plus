@@ -36,3 +36,8 @@ export const carouselItemProps = buildProps({
 export type CarouselItemPropsPublic = ExtractPublicPropTypes<
   typeof carouselItemProps
 >
+
+export const carouselItemPropsDefaults = {
+  name: '',
+  label: '',
+} as const

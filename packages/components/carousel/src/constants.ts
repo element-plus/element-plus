@@ -1,5 +1,20 @@
+import { carouselPropsDefaults } from './carousel'
+import { carouselItemPropsDefaults } from './carousel-item'
+
 import type { InjectionKey, Ref, VNode } from 'vue'
+import type { PropsWithDefaults } from '@element-plus/utils'
 import type { CarouselItemProps } from './carousel-item'
+import type { CarouselProps } from './carousel'
+
+export type CarouselPropsWithDefaults = PropsWithDefaults<
+  CarouselProps,
+  typeof carouselPropsDefaults
+>
+
+export type CarouselItemPropsWithDefaults = PropsWithDefaults<
+  CarouselItemProps,
+  typeof carouselItemPropsDefaults
+>
 
 export type CarouselItemStates = {
   hover: boolean
@@ -12,7 +27,7 @@ export type CarouselItemStates = {
 }
 
 export type CarouselItemContext = {
-  props: Required<CarouselItemProps>
+  props: CarouselItemPropsWithDefaults
   states: CarouselItemStates
   uid: number
   getVnode: () => VNode

@@ -170,3 +170,18 @@ export const carouselEmits = {
  */
 export type CarouselPropsPublic = ExtractPublicPropTypes<typeof carouselProps>
 export type CarouselEmits = typeof carouselEmits
+
+export const carouselPropsDefaults = {
+  initialIndex: 0,
+  height: '',
+  trigger: 'hover',
+  autoplay: true,
+  interval: 3000,
+  indicatorPosition: '',
+  arrow: 'hover',
+  type: '',
+  cardScale: 0.83,
+  loop: true,
+  direction: 'horizontal',
+  pauseOnHover: true,
+} as const

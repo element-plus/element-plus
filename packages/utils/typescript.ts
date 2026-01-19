@@ -92,3 +92,31 @@ type Path<T> =
  * FieldPath<{ 1: number; a: number; b: string; c: { d: number; e: string }; f: [{ value: string }]; g: { value: string }[]; h: Date; i: FileList; j: File; k: Blob; l: RegExp }> => '1' | 'a' | 'b' | 'c' | 'f' | 'g' | 'c.d' | 'c.e' | 'f.0' | 'f.0.value' | 'g.number' | 'g.number.value' | 'h' | 'i' | 'j' | 'k' | 'l'
  */
 export type FieldPath<T> = T extends object ? Path<T> : never
+
+type BooleanLike<T> = [Extract<T, true | false>] extends [never] ? false : true
+
+/**
+ * Derive runtime type based on the Props class and defaults object declared
+ *
+ * 根据声明的 Props 类和 defaults 对象推导出运行时类型
+ *
+ * @example
+ * const defaults = { foo: '', bar: undefined }
+ * PropsWithDefaults<{ foo?: string, bar?: boolean }, typeof defaults> => { readonly foo: string; readonly bar: boolean | undefined }
+ *
+ * @example
+ * const defaults = { foo: '' }
+ * PropsWithDefaults<{ foo?: string, bar?: boolean }, typeof defaults> => { readonly foo: string; readonly bar: boolean }
+ */
+export type PropsWithDefaults<
+  Props,
+  Defaults extends Partial<Props> = Props,
+> = {
+  readonly [K in keyof Props | keyof Defaults]: K extends keyof Defaults
+    ? Defaults[K] extends undefined
+      ? Props[K & keyof Props]
+      : Exclude<Props[K & keyof Props], undefined>
+    : BooleanLike<Props[K & keyof Props]> extends false
+      ? Props[K & keyof Props]
+      : Exclude<Props[K & keyof Props], undefined>
+}
