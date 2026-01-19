@@ -57,6 +57,8 @@ const props = withDefaults(defineProps<SegmentedProps>(), {
   options: () => [],
   props: () => defaultProps,
   validateEvent: true,
+  modelValue: undefined,
+  disabled: undefined,
 })
 const emit = defineEmits(segmentedEmits)
 
