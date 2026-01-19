@@ -75,7 +75,7 @@ defineOptions({
 const props = withDefaults(defineProps<PopconfirmProps>(), {
   confirmButtonType: 'primary',
   cancelButtonType: 'text',
-  icon: () => QuestionFilled,
+  icon: markRaw(QuestionFilled),
   iconColor: '#f90',
   hideAfter: 200,
   effect: 'light',
