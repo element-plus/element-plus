@@ -142,7 +142,11 @@ const clearQuery = (which: TransferDirection) => {
   }
 }
 
-const hasButtonTexts = computed(() => props.buttonTexts.length === 2)
+const hasButtonTexts = computed(
+  () =>
+    props.buttonTexts.length === 2 &&
+    props.buttonTexts.every((text) => text !== '')
+)
 
 const leftPanelTitle = computed(
   () => props.titles[0] || t('el.transfer.titles.0')
