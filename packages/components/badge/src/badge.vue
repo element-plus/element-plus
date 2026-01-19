@@ -35,6 +35,7 @@ defineOptions({
 })
 
 const props = withDefaults(defineProps<BadgeProps>(), {
+  badgeStyle: undefined,
   value: '',
   max: 99,
   type: 'danger',
