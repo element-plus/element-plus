@@ -19,9 +19,15 @@ export const {
   useModelToggle: useTooltipModelToggle,
 } = createModelToggleComposable('visible' as const)
 
+type ModelToggleProps = ExtractPublicPropTypes<
+  // @vue-ignore
+  typeof useTooltipModelToggleProps
+>
+
 export interface UseTooltipProps
   extends
     PopperProps,
+    Omit<ModelToggleProps, 'visible'>,
     ElTooltipContentProps,
     UseTooltipTriggerProps,
     PopperArrowProps {

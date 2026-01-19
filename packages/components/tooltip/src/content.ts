@@ -3,10 +3,13 @@ import {
   popperContentProps,
   popperContentPropsDefaults,
 } from '@element-plus/components/popper'
-import { useAriaProps, useDelayedToggleProps } from '@element-plus/hooks'
+import {
+  useAriaProps,
+  useDelayedToggleProps,
+  useDelayedTogglePropsDefaults,
+} from '@element-plus/hooks'
 import { teleportProps } from '@element-plus/components/teleport'
 
-import type { TeleportProps } from '@element-plus/components/teleport'
 import type { AriaProps, UseDelayedToggleProps } from '@element-plus/hooks'
 import type { PopperContentProps } from '@element-plus/components/popper'
 import type TooltipContent from './content.vue'
@@ -17,7 +20,7 @@ export interface ElTooltipContentProps
   /**
    * @description which element the tooltip CONTENT appends to
    */
-  appendTo?: TeleportProps['to']
+  appendTo?: string | HTMLElement
   /**
    * @description display content, can be overridden by `slot#content`
    */
@@ -54,9 +57,7 @@ export interface ElTooltipContentProps
 }
 
 export const useTooltipContentPropsDefaults = {
-  showAfter: 0,
-  hideAfter: 200,
-  autoClose: 0,
+  ...useDelayedTogglePropsDefaults,
   ...popperContentPropsDefaults,
   content: '',
   visible: null,

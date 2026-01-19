@@ -51,6 +51,12 @@ export type DelayedToggle = {
   close: (event?: Event) => void
 } & ToRefs<Required<UseDelayedToggleProps>>
 
+export const useDelayedTogglePropsDefaults = {
+  showAfter: 0,
+  hideAfter: 200,
+  autoClose: 0,
+} as const
+
 export const useDelayedToggle = ({
   showAfter,
   hideAfter,
