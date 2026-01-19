@@ -8,17 +8,17 @@ import {
 } from '@element-plus/utils'
 import { isEqual } from 'lodash-unified'
 
-import type { ExtractPropTypes, InjectionKey, Ref } from 'vue'
+import type { InjectionKey, Ref } from 'vue'
 
 export interface UseEmptyValuesProps {
   emptyValues?: unknown[]
-  valueOnClear?: string | number | boolean | (() => unknown) | null
+  valueOnClear?: string | number | boolean | (() => unknown) | null | undefined
 }
 
 /**
  * @deprecated Removed after 3.0.0, Use `UseEmptyValuesProps` instead.
  */
-type EmptyValuesContext = ExtractPropTypes<typeof useEmptyValuesProps>
+// type EmptyValuesContext = ExtractPropTypes<typeof useEmptyValuesProps>
 
 export const emptyValuesContextKey: InjectionKey<Ref<UseEmptyValuesProps>> =
   Symbol('emptyValuesContextKey')
@@ -54,12 +54,12 @@ export const useEmptyValuesProps = buildProps({
 } as const)
 
 export const useEmptyValues = (
-  props: EmptyValuesContext,
+  props: UseEmptyValuesProps,
   defaultValue?: null | undefined
 ) => {
   const config = getCurrentInstance()
-    ? inject(emptyValuesContextKey, ref<EmptyValuesContext>({}))
-    : ref<EmptyValuesContext>({})
+    ? inject(emptyValuesContextKey, ref<UseEmptyValuesProps>({}))
+    : ref<UseEmptyValuesProps>({})
 
   const emptyValues = computed(
     () => props.emptyValues || config.value.emptyValues || DEFAULT_EMPTY_VALUES
@@ -90,7 +90,6 @@ export const useEmptyValues = (
     }
     return result
   }
-
   if (!isEmptyValue(valueOnClear.value)) {
     debugWarn(SCOPE, 'value-on-clear should be a value of empty-values')
   }

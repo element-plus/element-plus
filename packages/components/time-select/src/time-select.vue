@@ -74,6 +74,7 @@ const props = withDefaults(defineProps<TimeSelectProps>(), {
   prefixIcon: markRaw(IconClock),
   clearIcon: markRaw(IconCircleClose),
   popperClass: '',
+  valueOnClear: undefined,
 })
 
 const nsInput = useNamespace('input')
