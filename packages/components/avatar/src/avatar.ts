@@ -7,12 +7,13 @@ import {
 import { componentSizes } from '@element-plus/constants'
 
 import type { CSSProperties, Component, ExtractPublicPropTypes } from 'vue'
+import type { ComponentSize } from '@element-plus/constants'
 
 export interface AvatarProps {
   /**
    * @description avatar size.
    */
-  size?: number | string
+  size?: ComponentSize
   /**
    * @description avatar shape.
    */

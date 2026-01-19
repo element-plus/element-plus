@@ -1,13 +1,13 @@
 import { placements } from '@popperjs/core'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
-import { buildProps, definePropType, isNumber } from '@element-plus/utils'
+import { definePropType, isNumber } from '@element-plus/utils'
 import { componentSizes } from '@element-plus/constants'
 
 import type { AvatarProps } from './avatar'
 import type { ExtractPropTypes, ExtractPublicPropTypes, StyleValue } from 'vue'
 import type { Placement, PopperEffect } from '@element-plus/components/popper'
 
-export const avatarGroupProps = buildProps({
+export const avatarGroupProps = {
   /**
    * @description control the size of avatars in this avatar-group
    */
@@ -71,7 +71,7 @@ export const avatarGroupProps = buildProps({
   collapseStyle: {
     type: definePropType<StyleValue>([String, Array, Object]),
   },
-} as const)
+} as const
 export type AvatarGroupProps = ExtractPropTypes<typeof avatarGroupProps>
 export type AvatarGroupPropsPublic = ExtractPublicPropTypes<
   typeof avatarGroupProps
