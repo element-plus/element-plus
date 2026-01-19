@@ -3,25 +3,20 @@ import { buildProps } from '@element-plus/utils'
 import type SkeletonItem from './skeleton-item.vue'
 import type { ExtractPublicPropTypes } from 'vue'
 
-export const SkeletonItemValues = [
-  'circle',
-  'rect',
-  'h1',
-  'h3',
-  'text',
-  'caption',
-  'p',
-  'image',
-  'button',
-] as const
-
-export type SkeletonItemValue = (typeof SkeletonItemValues)[number]
-
 export interface SkeletonItemProps {
   /**
    * @description the current rendering skeleton type
    */
-  variant?: SkeletonItemValue
+  variant?:
+    | 'circle'
+    | 'rect'
+    | 'h1'
+    | 'h3'
+    | 'text'
+    | 'caption'
+    | 'p'
+    | 'image'
+    | 'button'
 }
 
 /**
