@@ -63,7 +63,8 @@ const getField: FormContext['getField'] = (prop) => {
 const addField: FormContext['addField'] = (field) => {
   fields.push(field)
   if (field.prop) {
-    if (initialValuesCache[field.propString] !== undefined) {
+    // Use existence check instead of !== undefined to support initial value being undefined
+    if (field.propString in initialValuesCache) {
       field.setInitialValue(initialValuesCache[field.propString])
     } else {
       initialValuesCache[field.propString] = clone(
@@ -126,7 +127,8 @@ const resetFields: FormContext['resetFields'] = (properties = []) => {
         )
   for (const prop of propsToReset) {
     if (filteredFields.some((f) => f.propString === prop)) continue
-    if (initialValuesCache[prop] !== undefined) {
+    // Use existence check instead of !== undefined to support cached value being undefined
+    if (prop in initialValuesCache) {
       getProp(props.model, prop).value = clone(initialValuesCache[prop])
     }
   }
