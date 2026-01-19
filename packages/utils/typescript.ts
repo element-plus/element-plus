@@ -110,7 +110,7 @@ type BooleanLike<T> = [Extract<T, true | false>] extends [never] ? false : true
  */
 export type PropsWithDefaults<
   Props,
-  Defaults extends Partial<Props> = Props,
+  Defaults extends Partial<Props> = object,
 > = {
   readonly [K in keyof Props | keyof Defaults]: K extends keyof Defaults
     ? Defaults[K] extends undefined
