@@ -15,9 +15,12 @@ export interface UseEmptyValuesProps {
   valueOnClear?: string | number | boolean | (() => unknown) | null
 }
 
+/**
+ * @deprecated Removed after 3.0.0, Use `UseEmptyValuesProps` instead.
+ */
 type EmptyValuesContext = ExtractPropTypes<typeof useEmptyValuesProps>
 
-export const emptyValuesContextKey: InjectionKey<Ref<EmptyValuesContext>> =
+export const emptyValuesContextKey: InjectionKey<Ref<UseEmptyValuesProps>> =
   Symbol('emptyValuesContextKey')
 export const SCOPE = 'use-empty-values'
 export const DEFAULT_EMPTY_VALUES = ['', undefined, null]
