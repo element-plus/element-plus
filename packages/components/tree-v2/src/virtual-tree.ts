@@ -46,7 +46,9 @@ const itemSize = {
   default: 26,
 }
 
-// props
+/**
+ * @deprecated Removed after 3.0.0, Use `TreeProps` instead.
+ */
 export const treeProps = buildProps({
   data: {
     type: definePropType<TreeData>(Array),
@@ -119,6 +121,9 @@ export const treeProps = buildProps({
   scrollbarAlwaysOn: Boolean,
 } as const)
 
+/**
+ * @deprecated Removed after 3.0.0, Use `TreeNodeProps` instead.
+ */
 export const treeNodeProps = buildProps({
   node: {
     type: definePropType<TreeNode>(Object),
@@ -134,6 +139,9 @@ export const treeNodeProps = buildProps({
   itemSize,
 } as const)
 
+/**
+ * @deprecated Removed after 3.0.0, Use `TreeNodeContentProps` instead.
+ */
 export const treeNodeContentProps = buildProps({
   node: {
     type: definePropType<TreeNode>(Object),

@@ -87,7 +87,7 @@ const indent = computed(() => tree?.props.indent ?? 16)
 const icon = computed(() => tree?.props.icon ?? CaretRight)
 
 const getNodeClass = (node: TreeNode) => {
-  const nodeClassFunc = tree?.props.props.class
+  const nodeClassFunc = tree?.props.props!.class
   if (!nodeClassFunc) return {}
 
   let className
