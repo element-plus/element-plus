@@ -54,8 +54,7 @@ import { uploadContextKey } from './constants'
 import UploadList from './upload-list.vue'
 import UploadContent from './upload-content.vue'
 import { useHandlers } from './use-handlers'
-import { NOOP, mutable } from '@element-plus/utils'
-import { ajaxUpload } from './ajax'
+import { uploadPropsDefaults } from './upload'
 
 import type { UploadProps } from './upload'
 import type {
@@ -67,27 +66,7 @@ defineOptions({
   name: 'ElUpload',
 })
 
-const props = withDefaults(defineProps<UploadProps>(), {
-  action: '#',
-  method: 'post',
-  data: () => mutable({}),
-  name: 'file',
-  showFileList: true,
-  accept: '',
-  fileList: () => mutable([]),
-  autoUpload: true,
-  listType: 'text',
-  httpRequest: ajaxUpload,
-  disabled: undefined,
-  beforeUpload: NOOP,
-  onRemove: NOOP,
-  onChange: NOOP,
-  onPreview: NOOP,
-  onSuccess: NOOP,
-  onProgress: NOOP,
-  onError: NOOP,
-  onExceed: NOOP,
-})
+const props = withDefaults(defineProps<UploadProps>(), uploadPropsDefaults)
 
 const disabled = useFormDisabled()
 

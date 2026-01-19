@@ -1,5 +1,9 @@
 import { NOOP, buildProps, definePropType } from '@element-plus/utils'
-import { UploadBaseProps, uploadBaseProps } from './upload'
+import {
+  UploadBaseProps,
+  uploadBaseProps,
+  uploadBasePropsDefaults,
+} from './upload'
 
 import type { ExtractPublicPropTypes } from 'vue'
 import type {
@@ -71,3 +75,14 @@ export type UploadContentPropsPublic = ExtractPublicPropTypes<
 >
 
 export type UploadContentInstance = InstanceType<typeof UploadContent> & unknown
+
+export const uploadContentPropsDefaults = {
+  ...uploadBasePropsDefaults,
+  beforeUpload: NOOP,
+  onRemove: NOOP,
+  onStart: NOOP,
+  onSuccess: NOOP,
+  onProgress: NOOP,
+  onError: NOOP,
+  onExceed: NOOP,
+} as const

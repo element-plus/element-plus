@@ -26,19 +26,18 @@ const revokeFileObjectURL = (file: UploadFile) => {
 }
 
 export const useHandlers = (
-  props: Required<
-    Pick<
-      UploadProps,
-      | 'listType'
-      | 'onChange'
-      | 'onError'
-      | 'onProgress'
-      | 'onSuccess'
-      | 'onRemove'
-    >
-  > & {
-    beforeRemove?: UploadProps['beforeRemove']
-  },
+  props: UploadProps &
+    Required<
+      Pick<
+        UploadProps,
+        | 'listType'
+        | 'onChange'
+        | 'onError'
+        | 'onProgress'
+        | 'onSuccess'
+        | 'onRemove'
+      >
+    >,
   uploadRef: ShallowRef<UploadContentInstance | undefined>
 ) => {
   const uploadFiles = useVModel(

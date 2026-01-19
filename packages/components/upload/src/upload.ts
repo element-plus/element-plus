@@ -396,3 +396,29 @@ export const uploadProps = buildProps({
 export type UploadPropsPublic = ExtractPublicPropTypes<typeof uploadProps>
 
 export type UploadInstance = InstanceType<typeof Upload> & unknown
+
+export const uploadBasePropsDefaults = {
+  action: '#',
+  method: 'post',
+  data: () => mutable({}),
+  name: 'file',
+  showFileList: true,
+  accept: '',
+  fileList: () => mutable([]),
+  autoUpload: true,
+  listType: 'text',
+  httpRequest: ajaxUpload,
+  disabled: undefined,
+} as const
+
+export const uploadPropsDefaults = {
+  ...uploadBasePropsDefaults,
+  beforeUpload: NOOP,
+  onRemove: NOOP,
+  onChange: NOOP,
+  onPreview: NOOP,
+  onSuccess: NOOP,
+  onProgress: NOOP,
+  onError: NOOP,
+  onExceed: NOOP,
+} as const
