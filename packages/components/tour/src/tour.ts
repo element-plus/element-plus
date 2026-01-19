@@ -6,7 +6,6 @@ import {
   isNumber,
 } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { teleportProps } from '@element-plus/components/teleport'
 import { tourContentProps } from './content'
 
 import type { TourContentProps } from './content'
@@ -164,7 +163,7 @@ export const tourProps = buildProps({
    * @description which element the TourContent appends to
    */
   appendTo: {
-    type: teleportProps.to.type,
+    type: definePropType<string | HTMLElement>([String, Object]),
     default: 'body',
   },
   /**

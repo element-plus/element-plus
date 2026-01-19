@@ -1,5 +1,5 @@
 <template>
-  <el-teleport :disabled="!teleported" :to="appendTo">
+  <teleport :disabled="!teleported" :to="appendTo">
     <transition
       v-if="shouldRender || !ariaHidden"
       :name="transitionClass"
@@ -42,7 +42,7 @@
         <slot />
       </el-popper-content>
     </transition>
-  </el-teleport>
+  </teleport>
 </template>
 
 <script lang="ts" setup>
@@ -55,7 +55,6 @@ import {
   focusElement,
 } from '@element-plus/utils'
 import { ElPopperContent } from '@element-plus/components/popper'
-import ElTeleport from '@element-plus/components/teleport'
 import { TOOLTIP_INJECTION_KEY } from './constants'
 import { useTooltipContentProps } from './content'
 import { isTriggerType } from './utils'

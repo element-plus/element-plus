@@ -1,5 +1,5 @@
 <template>
-  <el-teleport
+  <teleport
     :to="appendTo"
     :disabled="appendTo !== 'body' ? false : !appendToBody"
   >
@@ -102,7 +102,7 @@
         </el-focus-trap>
       </el-overlay>
     </transition>
-  </el-teleport>
+  </teleport>
 </template>
 
 <script lang="ts" setup>
@@ -110,7 +110,6 @@ import { computed, ref, useSlots } from 'vue'
 import { Close } from '@element-plus/icons-vue'
 import { ElOverlay } from '@element-plus/components/overlay'
 import ElFocusTrap from '@element-plus/components/focus-trap'
-import ElTeleport from '@element-plus/components/teleport'
 import { useDialog } from '@element-plus/components/dialog'
 import ElIcon from '@element-plus/components/icon'
 import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
