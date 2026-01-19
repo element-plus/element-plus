@@ -35,10 +35,10 @@ export const useHandlers = (
       | 'onProgress'
       | 'onSuccess'
       | 'onRemove'
-    > & {
-      beforeRemove: UploadProps['beforeRemove']
-    }
-  >,
+    >
+  > & {
+    beforeRemove?: UploadProps['beforeRemove']
+  },
   uploadRef: ShallowRef<UploadContentInstance | undefined>
 ) => {
   const uploadFiles = useVModel(
