@@ -14,11 +14,11 @@ export interface SkeletonProps {
    */
   count?: number
   /**
-   * @description whether showing the real DOM
+   * @description numbers of the row, only useful when no template slot were given
    */
   rows?: number
   /**
-   * @description numbers of the row, only useful when no template slot were given
+   * @description whether showing the real DOM
    */
   loading?: boolean
   /**
@@ -42,14 +42,14 @@ export const skeletonProps = buildProps({
     default: 1,
   },
   /**
-   * @description whether showing the real DOM
+   * @description numbers of the row, only useful when no template slot were given
    */
   rows: {
     type: Number,
     default: 3,
   },
   /**
-   * @description numbers of the row, only useful when no template slot were given
+   * @description whether showing the real DOM
    */
   loading: {
     type: Boolean,
