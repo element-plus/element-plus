@@ -62,15 +62,25 @@ import ElIcon from '@element-plus/components/icon'
 import ElTooltip from '@element-plus/components/tooltip'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { addUnit } from '@element-plus/utils'
-import { popconfirmEmits, popconfirmProps } from './popconfirm'
+import { QuestionFilled } from '@element-plus/icons-vue'
+import { popconfirmEmits } from './popconfirm'
 
 import type { TooltipInstance } from '@element-plus/components/tooltip'
+import type { PopconfirmProps } from './popconfirm'
 
 defineOptions({
   name: 'ElPopconfirm',
 })
 
-const props = defineProps(popconfirmProps)
+const props = withDefaults(defineProps<PopconfirmProps>(), {
+  confirmButtonType: 'primary',
+  cancelButtonType: 'text',
+  icon: () => QuestionFilled,
+  iconColor: '#f90',
+  hideAfter: 200,
+  effect: 'light',
+  width: 150,
+})
 const emit = defineEmits(popconfirmEmits)
 
 const { t } = useLocale()
