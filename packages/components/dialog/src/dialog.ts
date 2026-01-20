@@ -247,3 +247,15 @@ export interface DialogConfigContext {
 
 export const dialogContextKey: InjectionKey<DialogConfigContext> =
   Symbol('dialogContextKey')
+
+export const DialogPropsDefaults = {
+  appendTo: 'body',
+  closeOnClickModal: true,
+  closeOnPressEscape: true,
+  lockScroll: true,
+  modal: true,
+  openDelay: 0,
+  closeDelay: 0,
+  headerAriaLevel: '2',
+  transition: undefined,
+} as const

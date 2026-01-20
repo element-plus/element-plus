@@ -113,6 +113,8 @@ import ElFocusTrap from '@element-plus/components/focus-trap'
 import ElTeleport from '@element-plus/components/teleport'
 import { useDialog } from '@element-plus/components/dialog'
 import ElIcon from '@element-plus/components/icon'
+import { DialogPropsDefaults } from '@element-plus/components/dialog/src/dialog'
+import { dialogContentPropsDefaults } from '@element-plus/components/dialog/src/dialog-content'
 import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
 import { drawerEmits } from './drawer'
 import { useResizable } from './composables/useResizable'
@@ -125,12 +127,15 @@ defineOptions({
 })
 
 const props = withDefaults(defineProps<DrawerAdvancedProps>(), {
+  ...DialogPropsDefaults,
+  ...dialogContentPropsDefaults,
   direction: 'rtl',
   resizable: false,
   size: '30%',
   withHeader: true,
   modalFade: true,
   headerAriaLevel: '2',
+  title: '',
 })
 const emit = defineEmits(drawerEmits)
 const slots = useSlots()

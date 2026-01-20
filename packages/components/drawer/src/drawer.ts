@@ -1,9 +1,10 @@
 import { buildProps } from '@element-plus/utils'
-import { dialogEmits, dialogProps, DialogContentProps } from '@element-plus/components/dialog'
+import { dialogEmits, dialogProps } from '@element-plus/components/dialog'
 
+import type { DialogProps } from '@element-plus/components/dialog'
 import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 
-export interface DrawerAdvancedProps extends DialogContentProps {
+export interface DrawerAdvancedProps extends DialogProps {
   /**
    * @description  Set the direction in which the Drawer opens
    */
@@ -27,10 +28,10 @@ export interface DrawerAdvancedProps extends DialogContentProps {
   /**
    * @description  Help assistive technologies such as screen readers identify content hierarchies
    */
-  headerAriaLevel: string
+  headerAriaLevel?: string
 }
 /**
- * @deprecated Removed after 3.0.0, Use `CountdownProps` instead.
+ * @deprecated Removed after 3.0.0, Use `drawerProps` instead.
  */
 export const drawerProps = buildProps({
   ...dialogProps,
@@ -39,10 +40,7 @@ export const drawerProps = buildProps({
     default: 'rtl',
     values: ['ltr', 'rtl', 'ttb', 'btt'],
   },
-  resizable: {
-    type: Boolean,
-    default: false,
-  },
+  resizable: Boolean,
   size: {
     type: [String, Number],
     default: '30%',
@@ -61,7 +59,7 @@ export const drawerProps = buildProps({
   },
 } as const)
 /**
- * @deprecated Removed after 3.0.0, Use `CountdownProps` instead.
+ * @deprecated Removed after 3.0.0, Use `DrawerProps` instead.
  */
 export type DrawerProps = ExtractPropTypes<typeof drawerProps>
 export type DrawerPropsPublic = ExtractPublicPropTypes<typeof drawerProps>
