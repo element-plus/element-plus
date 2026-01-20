@@ -8,7 +8,7 @@ import { notificationTypes } from '../src/notification'
 import Notification from '../src/notification.vue'
 
 import type { VNode } from 'vue'
-// import type { MockInstance } from 'vitest'
+import type { MockInstance } from 'vitest'
 import type { NotificationProps } from '../src/notification'
 
 const AXIOM = 'Rem is the best girl'
@@ -129,8 +129,7 @@ describe('Notification.vue', () => {
     })
 
     test('should not be able to render invalid type icon', () => {
-      // TODO: Uncomment after runtime validation is added
-      // vi.spyOn(console, 'warn').mockImplementation(() => vi.fn)
+      vi.spyOn(console, 'warn').mockImplementation(() => vi.fn)
       const type = 'some-type'
       const wrapper = _mount({
         props: {
@@ -142,7 +141,7 @@ describe('Notification.vue', () => {
       expect(wrapper.find('.el-notification__icon').exists()).toBe(false)
       // TODO: Uncomment after runtime validation is added
       // expect(console.warn).toHaveBeenCalled()
-      // ;(console.warn as any as MockInstance).mockRestore()
+      ;(console.warn as any as MockInstance).mockRestore()
     })
   })
 
