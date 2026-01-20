@@ -1,6 +1,6 @@
 import { buildProps, iconPropType } from '@element-plus/utils'
 
-import type { Component, ExtractPropTypes } from 'vue'
+import type { Component } from 'vue'
 
 /**
  * @description dialog-content component props
@@ -129,13 +129,6 @@ export const dialogContentProps = buildProps({
     default: '2',
   },
 } as const)
-
-/**
- * @deprecated Removed after 3.0.0, Use `DialogContentProps` instead.
- */
-export type DialogContentPropsLegacy = ExtractPropTypes<
-  typeof dialogContentProps
->
 
 export const dialogContentEmits = {
   close: () => true,

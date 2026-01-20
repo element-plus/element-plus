@@ -98,27 +98,20 @@ defineOptions({
 })
 
 const props = withDefaults(defineProps<DialogProps>(), {
-  appendToBody: false,
   appendTo: 'body',
-  destroyOnClose: false,
   closeOnClickModal: true,
   closeOnPressEscape: true,
   lockScroll: true,
   modal: true,
-  modalPenetrable: false,
   openDelay: 0,
   closeDelay: 0,
-  modelValue: false,
-  trapFocus: false,
   headerAriaLevel: '2',
   showClose: true,
   title: '',
   ariaLevel: '2',
-  center: false,
   alignCenter: undefined,
   draggable: undefined,
   overflow: undefined,
-  fullscreen: false,
 })
 defineEmits(dialogEmits)
 const slots = useSlots()
