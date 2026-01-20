@@ -142,6 +142,7 @@
           </el-tooltip>
           <input
             v-if="filterable && !isDisabled"
+            ref="searchInputRef"
             v-model="searchInputValue"
             type="text"
             :class="nsCascader.e('search-input')"
@@ -233,6 +234,7 @@ import {
   onBeforeUnmount,
   onMounted,
   ref,
+  shallowRef,
   useAttrs,
   watch,
 } from 'vue'
@@ -370,6 +372,7 @@ const { isComposing, handleComposition } = useComposition({
 const tooltipRef = ref<TooltipInstance>()
 const tagTooltipRef = ref<TooltipInstance>()
 const inputRef = ref<InputInstance>()
+const searchInputRef = ref<HTMLInputElement>()
 const tagWrapper = ref<HTMLDivElement>()
 // Note: Unlike Select component which uses a wrapper div with 'selected-item' class,
 // Cascader directly uses ref on el-tag component, so we need ComponentPublicInstance
@@ -430,20 +433,42 @@ const checkedNodes: ComputedRef<CascaderNode[]> = computed(
   () => cascaderPanelRef.value?.checkedNodes || []
 )
 
-const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
-  disabled: isDisabled,
-  beforeBlur(event) {
-    return (
-      tooltipRef.value?.isFocusInsideContent(event) ||
-      tagTooltipRef.value?.isFocusInsideContent(event)
-    )
-  },
-  afterBlur() {
-    if (props.validateEvent) {
-      formItem?.validate?.('blur').catch((err) => debugWarn(err))
-    }
+const getTargetInput = (): InputInstance | HTMLInputElement | undefined => {
+  if (
+    props.filterable &&
+    multiple.value &&
+    !isDisabled.value &&
+    searchInputRef.value
+  ) {
+    return searchInputRef.value
+  }
+  return inputRef.value
+}
+
+// Create a focus target that routes to the correct input based on mode
+const focusTargetRef = shallowRef<{ focus: () => void }>({
+  focus() {
+    getTargetInput()?.focus()
   },
 })
+
+const { wrapperRef, isFocused, handleBlur } = useFocusController(
+  focusTargetRef,
+  {
+    disabled: isDisabled,
+    beforeBlur(event) {
+      return (
+        tooltipRef.value?.isFocusInsideContent(event) ||
+        tagTooltipRef.value?.isFocusInsideContent(event)
+      )
+    },
+    afterBlur() {
+      if (props.validateEvent) {
+        formItem?.validate?.('blur').catch((err) => debugWarn(err))
+      }
+    },
+  }
+)
 
 const clearBtnVisible = computed(() => {
   if (
@@ -856,11 +881,11 @@ const getHorizontalBoxExtraWidth = () => {
 }
 
 const focus = () => {
-  inputRef.value?.focus()
+  getTargetInput()?.focus()
 }
 
 const blur = () => {
-  inputRef.value?.blur()
+  getTargetInput()?.blur()
 }
 
 const tagStyle = computed(() => {
