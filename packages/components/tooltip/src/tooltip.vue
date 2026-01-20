@@ -81,6 +81,7 @@ import ElTooltipContent from './content.vue'
 import { useTooltipContentPropsDefaults } from './content'
 import { useTooltipTriggerPropsDefaults } from './trigger'
 
+import type { Mutable } from '@element-plus/utils'
 import type { TooltipContentInstance } from './content'
 import type { UseTooltipProps } from './tooltip'
 import type { PopperInstance } from '@element-plus/components/popper'
@@ -96,7 +97,7 @@ const props = withDefaults(defineProps<UseTooltipProps>(), {
   ...popperArrowPropsDefaults,
   showArrow: true,
 })
-const emit = defineEmits(tooltipEmits)
+const emit = defineEmits(tooltipEmits as Mutable<typeof tooltipEmits>)
 
 usePopperContainer()
 
