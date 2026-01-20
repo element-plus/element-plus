@@ -12,7 +12,7 @@ export interface CheckboxGroupProps extends Pick<AriaProps, 'ariaLabel'> {
   /**
    * @description binding value
    */
-  modelValue: CheckboxGroupValueType
+  modelValue?: CheckboxGroupValueType
   /**
    * @description whether the nesting checkboxes are disabled
    */
