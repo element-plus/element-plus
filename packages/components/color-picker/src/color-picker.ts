@@ -187,7 +187,7 @@ export type ColorPickerEmits = typeof colorPickerEmits
 export type ColorPickerInstance = InstanceType<typeof ColorPicker> & unknown
 
 /**
- * @description default values for ColorPickerProps, used in components that extend ColorPickerProps like Autocomplete
+ * @description default values for ColorPickerProps, used in components that extend ColorPickerProps
  */
 export const ColorPickerPropsDefaults = {
   persistent: true,
