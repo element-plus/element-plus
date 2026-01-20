@@ -11,11 +11,12 @@ import { debugWarn, getProp, isFunction } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { useFormSize } from './hooks'
 import { formContextKey } from './constants'
-import { formEmits, formProps } from './form'
+import { formEmits } from './form'
 import { filterFields, useFormLabelWidth } from './utils'
 
 import type { ValidateFieldsError } from 'async-validator'
 import type { Arrayable } from '@element-plus/utils'
+import type { FormProps } from './form'
 import type {
   FormContext,
   FormItemContext,
@@ -28,7 +29,15 @@ const COMPONENT_NAME = 'ElForm'
 defineOptions({
   name: COMPONENT_NAME,
 })
-const props = defineProps(formProps)
+const props = withDefaults(defineProps<FormProps>(), {
+  labelPosition: 'right',
+  requireAsteriskPosition: 'left',
+  labelWidth: '',
+  labelSuffix: '',
+  showMessage: true,
+  validateOnRuleChange: true,
+  scrollIntoViewOptions: true,
+})
 const emit = defineEmits(formEmits)
 
 const formRef = ref<HTMLElement>()
