@@ -45,7 +45,14 @@ defineOptions({
   name: 'ElCheckboxGroup',
 })
 
-const props = defineProps<CheckboxGroupProps>()
+const props = withDefaults(defineProps<CheckboxGroupProps>(), {
+  modelValue: () => [],
+  disabled: undefined,
+  tag: 'div',
+  validateEvent: true,
+  props: () => checkboxDefaultProps,
+  type: 'checkbox',
+})
 const emit = defineEmits(checkboxGroupEmits)
 const ns = useNamespace('checkbox')
 

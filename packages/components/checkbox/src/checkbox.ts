@@ -1,13 +1,17 @@
-import { UPDATE_MODEL_EVENT, ComponentSize } from '@element-plus/constants'
-import { useAriaProps, useSizeProp } from '@element-plus/hooks'
+import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { AriaProps, useAriaProps, useSizeProp } from '@element-plus/hooks'
 import { isBoolean, isNumber, isString } from '@element-plus/utils'
 
 import type { ExtractPublicPropTypes } from 'vue'
+import type { ComponentSize } from '@element-plus/constants'
 import type Checkbox from './checkbox.vue'
 
 export type CheckboxValueType = string | number | boolean
 
-export interface CheckboxProps {
+export interface CheckboxProps extends Pick<
+  AriaProps,
+  'ariaLabel' | 'ariaControls'
+> {
   /**
    * @description binding value
    */
@@ -74,8 +78,6 @@ export interface CheckboxProps {
    * @description whether to trigger form validation
    */
   validateEvent?: boolean
-  ariaLabel?: string
-  ariaControls?: string
 }
 /**
  * @deprecated Removed after 3.0.0, Use `CheckboxProps` instead.
@@ -196,3 +198,17 @@ export const checkboxEmits = {
 export type CheckboxPropsPublic = ExtractPublicPropTypes<typeof checkboxProps>
 export type CheckboxEmits = typeof checkboxEmits
 export type CheckboxInstance = InstanceType<typeof Checkbox> & unknown
+
+export const checkboxPropsDefaults = {
+  modelValue: undefined,
+  label: undefined,
+  value: undefined,
+  disabled: undefined,
+  name: undefined,
+  trueValue: undefined,
+  falseValue: undefined,
+  trueLabel: undefined,
+  falseLabel: undefined,
+  id: undefined,
+  validateEvent: true,
+} as const

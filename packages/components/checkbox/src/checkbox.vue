@@ -36,7 +36,7 @@
 <script lang="ts" setup>
 import { computed, useSlots } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { checkboxEmits } from './checkbox'
+import { checkboxEmits, checkboxPropsDefaults } from './checkbox'
 import { useCheckbox } from './composables'
 
 import type { CheckboxProps } from './checkbox'
@@ -45,7 +45,7 @@ defineOptions({
   name: 'ElCheckbox',
 })
 
-const props = defineProps<CheckboxProps>()
+const props = withDefaults(defineProps<CheckboxProps>(), checkboxPropsDefaults)
 defineEmits(checkboxEmits)
 const slots = useSlots()
 

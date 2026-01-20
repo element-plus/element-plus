@@ -1,14 +1,14 @@
-import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { useAriaProps, useSizeProp } from '@element-plus/hooks'
+import { ComponentSize, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { AriaProps, useAriaProps, useSizeProp } from '@element-plus/hooks'
 import { buildProps, definePropType, isArray } from '@element-plus/utils'
 
 import type { ExtractPublicPropTypes } from 'vue'
 import type checkboxGroup from './checkbox-group.vue'
-import type { CheckboxPropsPublic, CheckboxValueType } from './checkbox'
+import type { CheckboxProps, CheckboxValueType } from './checkbox'
 
 export type CheckboxGroupValueType = Exclude<CheckboxValueType, boolean>[]
 
-export interface CheckboxGroupProps {
+export interface CheckboxGroupProps extends Pick<AriaProps, 'ariaLabel'> {
   /**
    * @description binding value
    */
@@ -28,7 +28,7 @@ export interface CheckboxGroupProps {
   /**
    * @description size of checkbox
    */
-  size?: string
+  size?: ComponentSize
   /**
    * @description border and background color when button is active
    */
@@ -45,10 +45,18 @@ export interface CheckboxGroupProps {
    * @description whether to trigger form validation
    */
   validateEvent?: boolean
+  /**
+   * @description data of the options, the key of `value` and `label` and `disabled` can be customize by `props`
+   */
   options?: CheckboxOption[]
+  /**
+   * @description configuration options
+   */
   props?: CheckboxOptionProps
+  /**
+   * @description component type to render options (e.g. `'button'`)
+   */
   type?: 'checkbox' | 'button'
-  ariaLabel?: string
 }
 /**
  * @deprecated Removed after 3.0.0, Use `CheckboxGroupProps` instead.
@@ -131,7 +139,7 @@ export type CheckboxGroupPropsPublic = ExtractPublicPropTypes<
 export type CheckboxGroupEmits = typeof checkboxGroupEmits
 export type CheckboxGroupInstance = InstanceType<typeof checkboxGroup> & unknown
 
-export type CheckboxOption = CheckboxPropsPublic & Record<string, any>
+export type CheckboxOption = CheckboxProps & Record<string, any>
 
 type CheckboxOptionProps = {
   value?: string
