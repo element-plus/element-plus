@@ -230,6 +230,7 @@ import {
   computed,
   markRaw,
   nextTick,
+  onBeforeUnmount,
   onMounted,
   ref,
   useAttrs,
@@ -694,6 +695,12 @@ const scheduleUpdateStyle = () => {
     updateStyle()
   })
 }
+
+onBeforeUnmount(() => {
+  if (updateStyleRafId) {
+    window.cancelAnimationFrame(updateStyleRafId)
+  }
+})
 
 const getCheckedNodes = (leafOnly: boolean) => {
   return cascaderPanelRef.value?.getCheckedNodes(leafOnly)
