@@ -36,7 +36,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, markRaw, ref } from 'vue'
+import { computed, ref } from 'vue'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat.js'
 import ElSelect from '@element-plus/components/select'
@@ -71,8 +71,8 @@ const props = withDefaults(defineProps<TimeSelectProps>(), {
   start: '09:00',
   end: '18:00',
   step: '00:30',
-  prefixIcon: markRaw(IconClock),
-  clearIcon: markRaw(IconCircleClose),
+  prefixIcon: () => IconClock,
+  clearIcon: () => IconCircleClose,
   popperClass: '',
   valueOnClear: undefined,
   popperStyle: undefined,

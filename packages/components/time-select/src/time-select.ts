@@ -9,24 +9,81 @@ import type { CSSProperties, Component, ExtractPublicPropTypes } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 
 export interface TimeSelectProps extends UseEmptyValuesProps {
+  /**
+   * @description set format of time
+   */
   format?: string
+  /**
+   * @description binding value
+   */
   modelValue?: string | null
+  /**
+   * @description whether TimeSelect is disabled
+   */
   disabled?: boolean
+  /**
+   * @description whether the input is editable
+   */
   editable?: boolean
+  /**
+   * @description Tooltip theme, built-in theme: `dark` / `light`
+   */
   effect?: PopperEffect
+  /**
+   * @description whether to show clear button
+   */
   clearable?: boolean
+  /**
+   * @description size of Input
+   */
   size?: ComponentSize
+  /**
+   * @description placeholder in non-range mode
+   */
   placeholder?: string
+  /**
+   * @description start time
+   */
   start?: string
+  /**
+   * @description end time
+   */
   end?: string
+  /**
+   * @description time step
+   */
   step?: string
+  /**
+   * @description minimum time, any time before this time will be disabled
+   */
   minTime?: string | null
+  /**
+   * @description maximum time, any time after this time will be disabled
+   */
   maxTime?: string | null
+  /**
+   * @description whether `end` is included in options
+   */
   includeEndTime?: boolean
+  /**
+   * @description same as `name` in native input
+   */
   name?: string
+  /**
+   * @description custom prefix icon component
+   */
   prefixIcon?: string | Component
+  /**
+   * @description custom clear icon component
+   */
   clearIcon?: string | Component
+  /**
+   * @description custom class name for TimeSelect's dropdown
+   */
   popperClass?: string
+  /**
+   * @description custom style for TimeSelect's dropdown
+   */
   popperStyle?: string | CSSProperties
 }
 

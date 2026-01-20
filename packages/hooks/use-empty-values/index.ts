@@ -97,6 +97,7 @@ export const useEmptyValues = (
     }
     return result
   }
+
   if (!isEmptyValue(valueOnClear.value)) {
     debugWarn(SCOPE, 'value-on-clear should be a value of empty-values')
   }
