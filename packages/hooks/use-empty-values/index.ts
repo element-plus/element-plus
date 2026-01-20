@@ -10,15 +10,19 @@ import { isEqual } from 'lodash-unified'
 
 import type { InjectionKey, Ref } from 'vue'
 
-export interface UseEmptyValuesProps {
-  emptyValues?: unknown[]
-  valueOnClear?: string | number | boolean | (() => unknown) | null | undefined
-}
+// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
+type ValueOnClear = string | number | boolean | Function | null
 
-/**
- * @deprecated Removed after 3.0.0, Use `UseEmptyValuesProps` instead.
- */
-// type EmptyValuesContext = ExtractPropTypes<typeof useEmptyValuesProps>
+export interface UseEmptyValuesProps {
+  /**
+   * @description empty values supported by the component
+   */
+  emptyValues?: unknown[]
+  /**
+   * @description return value when cleared, if you want to set `undefined`, use `() => undefined`
+   */
+  valueOnClear?: ValueOnClear
+}
 
 export const emptyValuesContextKey: InjectionKey<Ref<UseEmptyValuesProps>> =
   Symbol('emptyValuesContextKey')
@@ -26,6 +30,9 @@ export const SCOPE = 'use-empty-values'
 export const DEFAULT_EMPTY_VALUES = ['', undefined, null]
 export const DEFAULT_VALUE_ON_CLEAR = undefined
 
+/**
+ * @deprecated Removed after 3.0.0, Use `UseEmptyValuesProps` instead.
+ */
 export const useEmptyValuesProps = buildProps({
   /**
    * @description empty values supported by the component
