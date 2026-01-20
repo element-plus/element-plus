@@ -1,8 +1,18 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 
-import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
 import type Color from '../utils/color'
 
+export interface PredefineProps {
+  colors: string[]
+  color: Color
+  enableAlpha: boolean
+  disabled?: boolean
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `PredefineProps` instead.
+ */
 export const predefineProps = buildProps({
   colors: {
     type: definePropType<string[]>(Array),
@@ -19,5 +29,7 @@ export const predefineProps = buildProps({
   disabled: Boolean,
 } as const)
 
-export type PredefineProps = ExtractPropTypes<typeof predefineProps>
+/**
+ * @deprecated Removed after 3.0.0, Use `PredefineProps` instead.
+ */
 export type PredefinePropsPublic = ExtractPublicPropTypes<typeof predefineProps>

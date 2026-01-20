@@ -1,18 +1,34 @@
 import { buildProps } from '@element-plus/utils'
 
-import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
 import type Arrow from './arrow.vue'
 
+export interface PopperArrowProps {
+  /**
+   * @description arrow offset
+   */
+  arrowOffset?: number
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `PopperArrowProps` instead.
+ */
 export const popperArrowProps = buildProps({
   arrowOffset: {
     type: Number,
     default: 5,
   },
 } as const)
-export type PopperArrowProps = ExtractPropTypes<typeof popperArrowProps>
+/**
+ * @deprecated Removed after 3.0.0, Use `PopperArrowProps` instead.
+ */
 export type PopperArrowPropsPublic = ExtractPublicPropTypes<
   typeof popperArrowProps
 >
+
+export const popperArrowPropsDefaults = {
+  arrowOffset: 5,
+} as const
 
 export type PopperArrowInstance = InstanceType<typeof Arrow> & unknown
 
