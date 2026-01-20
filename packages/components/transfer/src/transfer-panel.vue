@@ -57,22 +57,32 @@
 
 <script lang="ts" setup>
 import { computed, reactive, toRefs, useSlots } from 'vue'
-import { isEmpty } from '@element-plus/utils'
+import { isEmpty, mutable } from '@element-plus/utils'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { ElCheckbox, ElCheckboxGroup } from '@element-plus/components/checkbox'
 import { ElInput } from '@element-plus/components/input'
 import { Search } from '@element-plus/icons-vue'
-import { transferPanelEmits, transferPanelProps } from './transfer-panel'
+import { transferPanelEmits } from './transfer-panel'
 import { useCheck, usePropsAlias } from './composables'
 
 import type { VNode } from 'vue'
-import type { TransferPanelState } from './transfer-panel'
+import type { TransferPanelProps, TransferPanelState } from './transfer-panel'
 
 defineOptions({
   name: 'ElTransferPanel',
 })
 
-const props = defineProps(transferPanelProps)
+const props = withDefaults(defineProps<TransferPanelProps>(), {
+  data: () => [],
+  format: () => ({}),
+  defaultChecked: () => [],
+  props: () =>
+    mutable({
+      label: 'label',
+      key: 'key',
+      disabled: 'disabled',
+    }),
+})
 const emit = defineEmits(transferPanelEmits)
 const slots = useSlots()
 
