@@ -1,10 +1,12 @@
-import { ComponentSize, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { AriaProps, useAriaProps, useSizeProp } from '@element-plus/hooks'
+import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import { buildProps, definePropType, isArray } from '@element-plus/utils'
 
 import type { ExtractPublicPropTypes } from 'vue'
 import type checkboxGroup from './checkbox-group.vue'
 import type { CheckboxProps, CheckboxValueType } from './checkbox'
+import type { ComponentSize } from '@element-plus/constants'
+import type { AriaProps } from '@element-plus/hooks'
 
 export type CheckboxGroupValueType = Exclude<CheckboxValueType, boolean>[]
 
