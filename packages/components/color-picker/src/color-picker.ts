@@ -10,11 +10,12 @@ import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
 import type { ExtractPublicPropTypes } from 'vue'
 import type ColorPicker from './color-picker.vue'
-import type { UseEmptyValuesProps } from '@element-plus/hooks'
+import type { AriaProps, UseEmptyValuesProps } from '@element-plus/hooks'
 import type { ComponentSize } from '@element-plus/constants'
 import type { ElTooltipContentProps } from '@element-plus/components/tooltip'
 
-export interface ColorPickerProps extends UseEmptyValuesProps {
+export interface ColorPickerProps
+  extends UseEmptyValuesProps, Pick<AriaProps, 'ariaLabel'> {
   /**
    * @description when color-picker inactive and persistent is false, the color panel will be destroyed
    */
@@ -75,10 +76,6 @@ export interface ColorPickerProps extends UseEmptyValuesProps {
    * @description whether to trigger form validation
    */
   validateEvent?: boolean
-  /**
-   * @description native `aria-label` attribute
-   */
-  ariaLabel?: string
 }
 
 /**
@@ -189,14 +186,14 @@ export type ColorPickerInstance = InstanceType<typeof ColorPicker> & unknown
 /**
  * @description default values for ColorPickerProps, used in components that extend ColorPickerProps
  */
-export const ColorPickerPropsDefaults = {
+export const colorPickerPropsDefaults = {
   persistent: true,
   modelValue: undefined,
-  clearable: true,
-  tabindex: 0,
-  validateEvent: true,
   disabled: undefined,
-  teleported: true,
-  valueOnClear: undefined,
+  clearable: true,
   popperStyle: undefined,
+  tabindex: 0,
+  teleported: true,
+  validateEvent: true,
+  valueOnClear: undefined,
 } as const
