@@ -9,12 +9,6 @@
   border-bottom: 1px solid getCssVar('collapse-border-color');
 }
 
-@include b(collapse-item) {
-  @include e(header) {
-    box-sizing: border-box;
-  }
-}
-
 .#{$namespace}-collapse-icon-position {
   &-left {
     .#{$namespace}-collapse-item__ {
