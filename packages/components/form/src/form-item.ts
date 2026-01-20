@@ -1,3 +1,4 @@
+import { ExtractPublicPropTypes } from 'vue'
 import { componentSizes } from '@element-plus/constants'
 import { buildProps, definePropType } from '@element-plus/utils'
 
@@ -144,3 +145,8 @@ export const formItemProps = buildProps({
     values: componentSizes,
   },
 } as const)
+
+/**
+ * @deprecated Removed after 3.0.0, Use `FormItemProps` instead.
+ */
+export type FormItemPropsPublic = ExtractPublicPropTypes<typeof formItemProps>

@@ -1,3 +1,4 @@
+import { ExtractPublicPropTypes } from 'vue'
 import { componentSizes } from '@element-plus/constants'
 import {
   buildProps,
@@ -185,6 +186,16 @@ export const formProps = buildProps({
     default: true,
   },
 } as const)
+
+/**
+ * @deprecated Removed after 3.0.0, Use `FormProps` instead.
+ */
+export type FormPropsPublic = ExtractPublicPropTypes<typeof formProps>
+
+/**
+ * @deprecated Removed after 3.0.0, Use `FormMetaProps` instead.
+ */
+export type FormMetaPropsPublic = ExtractPublicPropTypes<typeof formMetaProps>
 
 export const formEmits = {
   validate: (prop: FormItemProp, isValid: boolean, message: string) =>
