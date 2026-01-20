@@ -1,4 +1,3 @@
-import { ExtractPublicPropTypes } from 'vue'
 import { componentSizes } from '@element-plus/constants'
 import {
   buildProps,
@@ -8,6 +7,7 @@ import {
   isString,
 } from '@element-plus/utils'
 
+import type { ExtractPublicPropTypes } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 import type { FormItemProp } from './form-item'
 import type { FormRules } from './types'

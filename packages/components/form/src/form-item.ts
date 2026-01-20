@@ -1,7 +1,7 @@
-import { ExtractPublicPropTypes } from 'vue'
 import { componentSizes } from '@element-plus/constants'
 import { buildProps, definePropType } from '@element-plus/utils'
 
+import type { ExtractPublicPropTypes } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 import type { Arrayable } from '@element-plus/utils'
 import type { FormItemRule } from './types'
