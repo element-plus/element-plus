@@ -75,6 +75,7 @@ const props = withDefaults(defineProps<TimeSelectProps>(), {
   clearIcon: markRaw(IconCircleClose),
   popperClass: '',
   valueOnClear: undefined,
+  popperStyle: undefined,
 })
 
 const nsInput = useNamespace('input')
