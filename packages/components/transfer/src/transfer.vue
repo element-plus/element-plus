@@ -61,7 +61,7 @@
 
 <script lang="ts" setup>
 import { Comment, computed, h, reactive, ref, useSlots, watch } from 'vue'
-import { debugWarn, isEmpty, isUndefined, mutable } from '@element-plus/utils'
+import { debugWarn, isEmpty, isUndefined } from '@element-plus/utils'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { ElButton } from '@element-plus/components/button'
 import { ElIcon } from '@element-plus/components/icon'
@@ -90,18 +90,17 @@ defineOptions({
 
 const props = withDefaults(defineProps<TransferProps>(), {
   data: () => [],
-  titles: () => ['', ''],
-  buttonTexts: () => ['', ''],
+  titles: () => [] as unknown as [string, string],
+  buttonTexts: () => [] as unknown as [string, string],
   leftDefaultChecked: () => [],
   rightDefaultChecked: () => [],
   modelValue: () => [],
   format: () => ({}),
-  props: () =>
-    mutable({
-      label: 'label',
-      key: 'key',
-      disabled: 'disabled',
-    }),
+  props: () => ({
+    label: 'label',
+    key: 'key',
+    disabled: 'disabled',
+  }),
   targetOrder: 'original',
   validateEvent: true,
 })
@@ -142,11 +141,7 @@ const clearQuery = (which: TransferDirection) => {
   }
 }
 
-const hasButtonTexts = computed(
-  () =>
-    props.buttonTexts.length === 2 &&
-    props.buttonTexts.every((text) => text !== '')
-)
+const hasButtonTexts = computed(() => props.buttonTexts.length === 2)
 
 const leftPanelTitle = computed(
   () => props.titles[0] || t('el.transfer.titles.0')
