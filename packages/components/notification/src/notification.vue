@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, markRaw, onMounted, ref } from 'vue'
 import { useEventListener, useTimeoutFn } from '@vueuse/core'
 import { TypeComponentsMap, getEventCode } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
@@ -66,7 +66,7 @@ const props = withDefaults(defineProps<NotificationProps>(), {
   showClose: true,
   title: '',
   type: '',
-  closeIcon: Close,
+  closeIcon: markRaw(Close),
 })
 defineEmits(notificationEmits)
 
