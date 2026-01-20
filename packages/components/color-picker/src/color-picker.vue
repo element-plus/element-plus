@@ -126,7 +126,7 @@ import {
 } from '@element-plus/constants'
 import { debugWarn, getEventCode } from '@element-plus/utils'
 import { ArrowDown, Close } from '@element-plus/icons-vue'
-import { colorPickerEmits, colorPickerProps } from './color-picker'
+import { ColorPickerPropsDefaults, colorPickerEmits } from './color-picker'
 import {
   ElColorPickerPanel,
   ROOT_COMMON_COLOR_INJECTION_KEY,
@@ -137,11 +137,14 @@ import { useCommonColor } from '@element-plus/components/color-picker-panel/src/
 
 import type { ColorPickerPanelInstance } from '@element-plus/components/color-picker-panel'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
+import type { ColorPickerProps } from './color-picker'
 
 defineOptions({
   name: 'ElColorPicker',
 })
-const props = defineProps(colorPickerProps)
+const props = withDefaults(defineProps<ColorPickerProps>(), {
+  ...ColorPickerPropsDefaults,
+})
 
 const emit = defineEmits(colorPickerEmits)
 
