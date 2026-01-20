@@ -322,7 +322,7 @@ export function useTree(
   )
 
   watch(
-    () => props.data,
+    () => props.data!,
     (data: TreeData) => {
       setData(data)
     },
