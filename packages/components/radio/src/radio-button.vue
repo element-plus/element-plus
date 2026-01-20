@@ -36,15 +36,18 @@
 import { computed } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { useRadio } from './use-radio'
-import { radioButtonProps } from './radio-button'
+import { radioButtonPropsDefaults } from './radio-button'
 
+import type { RadioButtonProps } from './radio-button'
 import type { CSSProperties } from 'vue'
 
 defineOptions({
   name: 'ElRadioButton',
 })
 
-const props = defineProps(radioButtonProps)
+const props = withDefaults(defineProps<RadioButtonProps>(), {
+  ...radioButtonPropsDefaults,
+})
 
 const ns = useNamespace('radio')
 const { radioRef, focus, size, disabled, modelValue, radioGroup, actualValue } =

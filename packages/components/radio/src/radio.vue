@@ -44,14 +44,16 @@
 import { nextTick } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { CHANGE_EVENT } from '@element-plus/constants'
-import { radioEmits, radioProps } from './radio'
+import { type RadioProps, radioEmits, radioPropsDefaults } from './radio'
 import { useRadio } from './use-radio'
 
 defineOptions({
   name: 'ElRadio',
 })
 
-const props = defineProps(radioProps)
+const props = withDefaults(defineProps<RadioProps>(), {
+  ...radioPropsDefaults,
+})
 const emit = defineEmits(radioEmits)
 
 const ns = useNamespace('radio')
