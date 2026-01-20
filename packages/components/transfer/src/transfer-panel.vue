@@ -29,16 +29,18 @@
         :validate-event="false"
         :class="[ns.is('filterable', filterable), ns.be('panel', 'list')]"
       >
-        <el-checkbox
-          v-for="item in filteredData"
-          :key="item[propsAlias.key]"
-          :class="ns.be('panel', 'item')"
-          :value="item[propsAlias.key]"
-          :disabled="item[propsAlias.disabled]"
-          :validate-event="false"
-        >
-          <option-content :option="optionRender?.(item)" />
-        </el-checkbox>
+        <el-scrollbar :class="ns.be('panel', 'scrollbar')">
+          <el-checkbox
+            v-for="item in filteredData"
+            :key="item[propsAlias.key]"
+            :class="ns.be('panel', 'item')"
+            :value="item[propsAlias.key]"
+            :disabled="item[propsAlias.disabled]"
+            :validate-event="false"
+          >
+            <option-content :option="optionRender?.(item)" />
+          </el-checkbox>
+        </el-scrollbar>
       </el-checkbox-group>
       <div
         v-show="hasNoMatch || isEmpty(data)"
@@ -62,6 +64,7 @@ import { useLocale, useNamespace } from '@element-plus/hooks'
 import { ElCheckbox, ElCheckboxGroup } from '@element-plus/components/checkbox'
 import { ElInput } from '@element-plus/components/input'
 import { Search } from '@element-plus/icons-vue'
+import ElScrollbar from '@element-plus/components/scrollbar'
 import { transferPanelEmits, transferPanelProps } from './transfer-panel'
 import { useCheck, usePropsAlias } from './composables'
 
