@@ -58,7 +58,7 @@ export const tooltipEmits = [
   'hide',
   'open',
   'close',
-]
+] as const
 
 /**
  * @deprecated Removed after 3.0.0, Use `UseTooltipProps` instead.
