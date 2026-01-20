@@ -114,15 +114,24 @@ import ElTeleport from '@element-plus/components/teleport'
 import { useDialog } from '@element-plus/components/dialog'
 import ElIcon from '@element-plus/components/icon'
 import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
-import { drawerEmits, drawerProps } from './drawer'
+import { drawerEmits } from './drawer'
 import { useResizable } from './composables/useResizable'
+
+import type { DrawerAdvancedProps } from './drawer'
 
 defineOptions({
   name: 'ElDrawer',
   inheritAttrs: false,
 })
 
-const props = defineProps(drawerProps)
+const props = withDefaults(defineProps<DrawerAdvancedProps>(), {
+  direction: 'rtl',
+  resizable: false,
+  size: '30%',
+  withHeader: true,
+  modalFade: true,
+  headerAriaLevel: '2',
+})
 const emit = defineEmits(drawerEmits)
 const slots = useSlots()
 
