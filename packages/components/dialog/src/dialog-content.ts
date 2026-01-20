@@ -133,3 +133,12 @@ export const dialogContentProps = buildProps({
 export const dialogContentEmits = {
   close: () => true,
 }
+
+export const dialogContentPropsDefaults = {
+  alignCenter: undefined,
+  draggable: undefined,
+  overflow: undefined,
+  showClose: true,
+  title: '',
+  ariaLevel: '2',
+} as const

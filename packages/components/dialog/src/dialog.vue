@@ -89,6 +89,7 @@ import ElDialogContent from './dialog-content.vue'
 import { dialogInjectionKey } from './constants'
 import { dialogEmits } from './dialog'
 import { useDialog } from './use-dialog'
+import { dialogContentPropsDefaults } from './dialog-content'
 
 import type { DialogProps } from './dialog'
 
@@ -98,6 +99,7 @@ defineOptions({
 })
 
 const props = withDefaults(defineProps<DialogProps>(), {
+  ...dialogContentPropsDefaults,
   appendTo: 'body',
   closeOnClickModal: true,
   closeOnPressEscape: true,
@@ -106,12 +108,7 @@ const props = withDefaults(defineProps<DialogProps>(), {
   openDelay: 0,
   closeDelay: 0,
   headerAriaLevel: '2',
-  showClose: true,
-  title: '',
-  ariaLevel: '2',
-  alignCenter: undefined,
-  draggable: undefined,
-  overflow: undefined,
+  transition: undefined,
 })
 defineEmits(dialogEmits)
 const slots = useSlots()
