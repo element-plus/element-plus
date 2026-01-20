@@ -60,9 +60,7 @@ defineOptions({
   name: 'ElPopover',
 })
 
-const props = withDefaults(defineProps<PopoverProps>(), {
-  ...popoverPropsDefaults,
-})
+const props = withDefaults(defineProps<PopoverProps>(), popoverPropsDefaults)
 const emit = defineEmits(popoverEmits)
 
 const updateEventKeyRaw = `onUpdate:visible` as const

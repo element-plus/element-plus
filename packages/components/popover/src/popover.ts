@@ -6,20 +6,24 @@ import {
 import { dropdownProps } from '@element-plus/components/dropdown'
 import { EVENT_CODE } from '@element-plus/constants'
 
-import type { ExtractPublicPropTypes, PropType, StyleValue } from 'vue'
+import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type Popover from './popover.vue'
 import type { Placement } from '@element-plus/components/popper'
 import type { Options } from '@popperjs/core'
+import type {
+  ElTooltipContentProps,
+  UseTooltipTriggerProps,
+} from '@element-plus/components/tooltip'
 
 export interface PopoverProps {
   /**
    * @description how the popover is triggered, not valid in controlled mode
    */
-  trigger?: 'click' | 'hover' | 'focus' | 'contextmenu'
+  trigger?: UseTooltipTriggerProps['trigger']
   /**
    * @description When you click the mouse to focus on the trigger element, you can define a set of keyboard codes to control the display of popover through the keyboard, not valid in controlled mode
    */
-  triggerKeys?: string[]
+  triggerKeys?: UseTooltipTriggerProps['triggerKeys']
   /**
    * @description popover placement
    */
@@ -27,15 +31,15 @@ export interface PopoverProps {
   /**
    * @description whether Popover is disabled
    */
-  disabled?: boolean
+  disabled?: UseTooltipTriggerProps['disabled']
   /**
    * @description whether popover is visible
    */
-  visible?: boolean | null
+  visible?: ElTooltipContentProps['visible']
   /**
    * @description popover transition animation
    */
-  transition?: string
+  transition?: ElTooltipContentProps['transition']
   /**
    * @description parameters for [popper.js](https://popper.js.org/docs/v2/)
    */
@@ -47,31 +51,31 @@ export interface PopoverProps {
   /**
    * @description popover content, can be replaced with a default `slot`
    */
-  content?: string
+  content?: ElTooltipContentProps['content']
   /**
    * @description custom style for popover
    */
-  popperStyle?: StyleValue
+  popperStyle?: ElTooltipContentProps['popperStyle']
   /**
    * @description custom class name for popover
    */
-  popperClass?: string
+  popperClass?: ElTooltipContentProps['popperClass']
   /**
    * @description whether the mouse can enter the popover
    */
-  enterable?: boolean
+  enterable?: ElTooltipContentProps['enterable']
   /**
    * @description Tooltip theme, built-in theme: `dark` / `light`
    */
-  effect?: 'dark' | 'light' | string
+  effect?: ElTooltipContentProps['effect']
   /**
    * @description whether popover dropdown is teleported to the body
    */
-  teleported?: boolean
+  teleported?: ElTooltipContentProps['teleported']
   /**
    * @description which select dropdown appends to
    */
-  appendTo?: string | HTMLElement
+  appendTo?: ElTooltipContentProps['appendTo']
   /**
    * @description popover title
    */
@@ -255,20 +259,21 @@ export type PopoverInstance = InstanceType<typeof Popover> & unknown
  * @description default values for PopoverProps
  */
 export const popoverPropsDefaults = {
-  trigger: 'hover' as const,
+  trigger: 'hover',
   triggerKeys: () => [
     EVENT_CODE.enter,
     EVENT_CODE.numpadEnter,
     EVENT_CODE.space,
   ],
-  placement: 'bottom' as Placement,
+  placement: 'bottom',
+  visible: null,
   popperOptions: () => ({}),
   tabindex: 0,
   content: '',
-  visible: null,
-  teleported: true,
+  popperStyle: undefined,
   enterable: true,
-  effect: 'light' as const,
+  effect: 'light',
+  teleported: true,
   width: 150,
   offset: undefined,
   showAfter: 0,
@@ -276,4 +281,4 @@ export const popoverPropsDefaults = {
   autoClose: 0,
   showArrow: true,
   persistent: true,
-}
+} as const
