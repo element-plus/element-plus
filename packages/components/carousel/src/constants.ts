@@ -12,7 +12,7 @@ export type CarouselItemStates = {
 }
 
 export type CarouselItemContext = {
-  props: CarouselItemProps
+  props: Required<CarouselItemProps>
   states: CarouselItemStates
   uid: number
   getVnode: () => VNode

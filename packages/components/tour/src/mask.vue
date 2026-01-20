@@ -15,17 +15,21 @@
 import { computed, inject, toRef } from 'vue'
 import { useLockscreen } from '@element-plus/hooks'
 import { useWindowSize } from '@vueuse/core'
-import { maskProps } from './mask'
 import { tourKey } from './helper'
 
 import type { CSSProperties } from 'vue'
+import type { MaskProps } from './mask'
 
 defineOptions({
   name: 'ElTourMask',
   inheritAttrs: false,
 })
 
-const props = defineProps(maskProps)
+const props = withDefaults(defineProps<MaskProps>(), {
+  zIndex: 1001,
+  fill: 'rgba(0,0,0,0.5)',
+  targetAreaClickable: true,
+})
 
 const { ns } = inject(tourKey)!
 const radius = computed(() => props.pos?.radius ?? 2)

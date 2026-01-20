@@ -8,12 +8,16 @@
 import { computed } from 'vue'
 import { CHANGE_EVENT } from '@element-plus/constants'
 import { useNamespace } from '@element-plus/hooks'
-import { checkTagEmits, checkTagProps } from './check-tag'
+import { checkTagEmits } from './check-tag'
+
+import type { CheckTagProps } from './check-tag'
 
 defineOptions({
   name: 'ElCheckTag',
 })
-const props = defineProps(checkTagProps)
+const props = withDefaults(defineProps<CheckTagProps>(), {
+  type: 'primary',
+})
 const emit = defineEmits(checkTagEmits)
 
 const ns = useNamespace('check-tag')

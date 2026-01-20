@@ -19,16 +19,16 @@ import { ElOnlyChild } from '@element-plus/components/slot'
 import { useForwardRef } from '@element-plus/hooks'
 import { isElement, isFocusable } from '@element-plus/utils'
 import { POPPER_INJECTION_KEY } from './constants'
-import { popperTriggerProps } from './trigger'
 
 import type { WatchStopHandle } from 'vue'
+import type { PopperTriggerProps } from './trigger'
 
 defineOptions({
   name: 'ElPopperTrigger',
   inheritAttrs: false,
 })
 
-const props = defineProps(popperTriggerProps)
+const props = withDefaults(defineProps<PopperTriggerProps>(), {})
 
 const { role, triggerRef } = inject(POPPER_INJECTION_KEY, undefined)!
 

@@ -1,9 +1,48 @@
 import { buildProps } from '@element-plus/utils'
 import { componentSizes } from '@element-plus/constants'
 
+import type { ComponentSize } from '@element-plus/constants'
 import type Tag from './tag.vue'
-import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
 
+export interface TagProps {
+  /**
+   * @description type of Tag
+   */
+  type?: 'primary' | 'success' | 'info' | 'warning' | 'danger'
+  /**
+   * @description whether Tag can be removed
+   */
+  closable?: boolean
+  /**
+   * @description whether to disable animations
+   */
+  disableTransitions?: boolean
+  /**
+   * @description whether Tag has a highlighted border
+   */
+  hit?: boolean
+  /**
+   * @description background color of the Tag
+   */
+  color?: string
+  /**
+   * @description size of Tag
+   */
+  size?: ComponentSize
+  /**
+   * @description theme of Tag
+   */
+  effect?: 'dark' | 'light' | 'plain'
+  /**
+   * @description whether Tag is rounded
+   */
+  round?: boolean
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `TagProps` instead.
+ */
 export const tagProps = buildProps({
   /**
    * @description type of Tag
@@ -49,7 +88,10 @@ export const tagProps = buildProps({
    */
   round: Boolean,
 } as const)
-export type TagProps = ExtractPropTypes<typeof tagProps>
+
+/**
+ * @deprecated Removed after 3.0.0, Use `TagProps` instead.
+ */
 export type TagPropsPublic = ExtractPublicPropTypes<typeof tagProps>
 
 export const tagEmits = {

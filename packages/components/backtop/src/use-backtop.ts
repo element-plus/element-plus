@@ -6,7 +6,7 @@ import type { SetupContext } from 'vue'
 import type { BacktopEmits, BacktopProps } from './backtop'
 
 export const useBackTop = (
-  props: BacktopProps,
+  props: Required<BacktopProps>,
   emit: SetupContext<BacktopEmits>['emit'],
   componentName: string
 ) => {

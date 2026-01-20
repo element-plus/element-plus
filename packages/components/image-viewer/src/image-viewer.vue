@@ -145,10 +145,14 @@ import {
   ZoomIn,
   ZoomOut,
 } from '@element-plus/icons-vue'
-import { imageViewerEmits, imageViewerProps } from './image-viewer'
+import { imageViewerEmits } from './image-viewer'
 
 import type { CSSProperties } from 'vue'
-import type { ImageViewerAction, ImageViewerMode } from './image-viewer'
+import type {
+  ImageViewerAction,
+  ImageViewerMode,
+  ImageViewerProps,
+} from './image-viewer'
 
 const modes: Record<'CONTAIN' | 'ORIGINAL', ImageViewerMode> = {
   CONTAIN: {
@@ -165,7 +169,16 @@ defineOptions({
   name: 'ElImageViewer',
 })
 
-const props = defineProps(imageViewerProps)
+const props = withDefaults(defineProps<ImageViewerProps>(), {
+  urlList: () => [],
+  initialIndex: 0,
+  infinite: true,
+  closeOnPressEscape: true,
+  zoomRate: 1.2,
+  scale: 1,
+  minScale: 0.2,
+  maxScale: 7,
+})
 const emit = defineEmits(imageViewerEmits)
 
 let stopWheelListener: (() => void) | undefined
