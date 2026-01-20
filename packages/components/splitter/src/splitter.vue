@@ -10,10 +10,11 @@ import {
 } from 'vue'
 import { useNamespace, useOrderedChildren } from '@element-plus/hooks'
 import { useContainer, useResize, useSize } from './hooks'
-import { splitterEmits, splitterProps } from './splitter'
+import { splitterEmits } from './splitter'
 import { splitterRootContextKey } from './type'
 
 import type { PanelItemState } from './type'
+import type { SplitterProps } from './splitter'
 
 const ns = useNamespace('splitter')
 
@@ -23,7 +24,9 @@ defineOptions({
 
 const emits = defineEmits(splitterEmits)
 
-const props = defineProps(splitterProps)
+const props = withDefaults(defineProps<SplitterProps>(), {
+  layout: 'horizontal',
+})
 const layout = toRef(props, 'layout')
 const lazy = toRef(props, 'lazy')
 

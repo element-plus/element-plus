@@ -63,7 +63,6 @@ import {
 } from '@element-plus/utils'
 import { useId, useNamespace } from '@element-plus/hooks'
 import { useFormSize } from './hooks'
-import { formItemProps } from './form-item'
 import FormLabelWrap from './form-label-wrap'
 import { formContextKey, formItemContextKey } from './constants'
 
@@ -75,12 +74,17 @@ import type {
   FormItemRule,
   FormValidateFailure,
 } from './types'
-import type { FormItemValidateState } from './form-item'
+import type { FormItemProps, FormItemValidateState } from './form-item'
 
 defineOptions({
   name: 'ElFormItem',
 })
-const props = defineProps(formItemProps)
+const props = withDefaults(defineProps<FormItemProps>(), {
+  labelPosition: '',
+  showMessage: true,
+  required: undefined,
+  inlineMessage: undefined,
+})
 const slots = useSlots()
 
 const formContext = inject(formContextKey, undefined)

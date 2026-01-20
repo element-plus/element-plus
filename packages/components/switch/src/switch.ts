@@ -15,9 +15,95 @@ import {
 import { useAriaProps } from '@element-plus/hooks'
 
 import type { ComponentSize } from '@element-plus/constants'
+import type { Component, ExtractPublicPropTypes, PropType } from 'vue'
 import type Switch from './switch.vue'
-import type { ExtractPropTypes, ExtractPublicPropTypes, PropType } from 'vue'
 
+export interface SwitchProps {
+  /**
+   * @description binding value, it should be equivalent to either `active-value` or `inactive-value`, by default it's `boolean` type
+   */
+  modelValue?: boolean | string | number
+  /**
+   * @description whether Switch is disabled
+   */
+  disabled?: boolean
+  /**
+   * @description whether Switch is in loading state
+   */
+  loading?: boolean
+  /**
+   * @description size of Switch
+   */
+  size?: ComponentSize
+  /**
+   * @description width of Switch
+   */
+  width?: string | number
+  /**
+   * @description whether icon or text is displayed inside dot, only the first character will be rendered for text
+   */
+  inlinePrompt?: boolean
+  /**
+   * @description component of the icon displayed in action when in `off` state
+   */
+  inactiveActionIcon?: string | Component
+  /**
+   * @description component of the icon displayed in action when in `on` state
+   */
+  activeActionIcon?: string | Component
+  /**
+   * @description component of the icon displayed when in `on` state, overrides `active-text`
+   */
+  activeIcon?: string | Component
+  /**
+   * @description component of the icon displayed when in `off` state, overrides `inactive-text`
+   */
+  inactiveIcon?: string | Component
+  /**
+   * @description text displayed when in `on` state
+   */
+  activeText?: string
+  /**
+   * @description text displayed when in `off` state
+   */
+  inactiveText?: string
+  /**
+   * @description switch value when in `on` state
+   */
+  activeValue?: boolean | string | number
+  /**
+   * @description switch value when in `off` state
+   */
+  inactiveValue?: boolean | string | number
+  /**
+   * @description input name of Switch
+   */
+  name?: string
+  /**
+   * @description whether to trigger form validation
+   */
+  validateEvent?: boolean
+  /**
+   * @description before-change hook before the switch state changes. If `false` is returned or a `Promise` is returned and then is rejected, will stop switching
+   */
+  beforeChange?: () => Promise<boolean> | boolean
+  /**
+   * @description id for input
+   */
+  id?: string
+  /**
+   * @description tabindex for input
+   */
+  tabindex?: string | number
+  /**
+   * @description native `aria-label` attribute
+   */
+  ariaLabel?: string
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `SwitchProps` instead.
+ */
 export const switchProps = buildProps({
   /**
    * @description binding value, it should be equivalent to either `active-value` or `inactive-value`, by default it's `boolean` type
@@ -140,7 +226,9 @@ export const switchProps = buildProps({
   ...useAriaProps(['ariaLabel']),
 } as const)
 
-export type SwitchProps = ExtractPropTypes<typeof switchProps>
+/**
+ * @deprecated Removed after 3.0.0, Use `SwitchProps` instead.
+ */
 export type SwitchPropsPublic = ExtractPublicPropTypes<typeof switchProps>
 
 export const switchEmits = {

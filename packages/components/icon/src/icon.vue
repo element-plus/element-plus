@@ -8,15 +8,17 @@
 import { computed } from 'vue'
 import { addUnit } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
-import { iconProps } from './icon'
 
 import type { CSSProperties } from 'vue'
+import type { IconProps } from './icon'
 
 defineOptions({
   name: 'ElIcon',
   inheritAttrs: false,
 })
-const props = defineProps(iconProps)
+const props = withDefaults(defineProps<IconProps>(), {
+  size: undefined,
+})
 const ns = useNamespace('icon')
 
 const style = computed<CSSProperties>(() => {
