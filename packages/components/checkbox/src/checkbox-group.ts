@@ -38,7 +38,7 @@ export interface CheckboxGroupProps extends Pick<AriaProps, 'ariaLabel'> {
    */
   textColor?: string
   /**
-   * @description type of checkbox group
+   * @description element tag of the checkbox group
    */
   tag?: string
   /**
