@@ -60,13 +60,15 @@ import { useGlobalComponentSettings } from '@element-plus/components/config-prov
 import { ElIcon } from '@element-plus/components/icon'
 import {
   MESSAGE_DEFAULT_PLACEMENT,
+  messageDefaults,
   messageEmits,
-  messageProps,
 } from './message'
 import { getLastOffset, getOffsetOrSpace } from './instance'
+import { omit } from 'lodash-unified'
 
 import type { BadgeProps } from '@element-plus/components/badge'
 import type { CSSProperties } from 'vue'
+import type { MessageProps } from './message'
 
 const { Close } = TypeComponents
 
@@ -74,7 +76,10 @@ defineOptions({
   name: 'ElMessage',
 })
 
-const props = defineProps(messageProps)
+const props = withDefaults(
+  defineProps<MessageProps>(),
+  omit(messageDefaults, 'appendTo')
+)
 const emit = defineEmits(messageEmits)
 
 const isStartTransition = ref(false)

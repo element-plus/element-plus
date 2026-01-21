@@ -1,10 +1,40 @@
 import { buildProps, definePropType, isNumber } from '@element-plus/utils'
 import { CHANGE_EVENT } from '@element-plus/constants'
 
-import type { ExtractPropTypes, ExtractPublicPropTypes, StyleValue } from 'vue'
+import type { ExtractPublicPropTypes, StyleValue } from 'vue'
 import type { Dayjs } from 'dayjs'
 import type Countdown from './countdown.vue'
 
+export interface CountdownProps {
+  /**
+   * @description Formatting the countdown display
+   */
+  format?: string
+  /**
+   * @description Sets the prefix of a countdown
+   */
+  prefix?: string
+  /**
+   * @description Sets the suffix of a countdown
+   */
+  suffix?: string
+  /**
+   * @description countdown titles
+   */
+  title?: string
+  /**
+   * @description target time
+   */
+  value?: number | Dayjs
+  /**
+   * @description Styles countdown values
+   */
+  valueStyle?: StyleValue
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `CountdownProps` instead.
+ */
 export const countdownProps = buildProps({
   /**
    * @description Formatting the countdown display
@@ -39,7 +69,9 @@ export const countdownProps = buildProps({
     type: definePropType<StyleValue>([String, Object, Array]),
   },
 } as const)
-export type CountdownProps = ExtractPropTypes<typeof countdownProps>
+/**
+ * @deprecated Removed after 3.0.0, Use `CountdownProps` instead.
+ */
 export type CountdownPropsPublic = ExtractPublicPropTypes<typeof countdownProps>
 
 export const countdownEmits = {

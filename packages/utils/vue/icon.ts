@@ -12,6 +12,8 @@ import { definePropType } from './props'
 
 import type { Component } from 'vue'
 
+export type IconPropType = string | Component
+
 export const iconPropType = definePropType<string | Component>([
   String,
   Object,
