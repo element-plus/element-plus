@@ -7,12 +7,7 @@ import {
 } from '@element-plus/utils'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
-import type {
-  ExtractPropTypes,
-  ExtractPublicPropTypes,
-  h as H,
-  VNode,
-} from 'vue'
+import type { ExtractPublicPropTypes, h as H, VNode } from 'vue'
 import type Transfer from './transfer.vue'
 
 export type TransferKey = string | number
@@ -44,6 +39,68 @@ export interface TransferCheckedState {
 export const LEFT_CHECK_CHANGE_EVENT = 'left-check-change'
 export const RIGHT_CHECK_CHANGE_EVENT = 'right-check-change'
 
+export interface TransferProps {
+  /**
+   * @description data source
+   */
+  data?: TransferDataItem[]
+  /**
+   * @description custom list titles
+   */
+  titles?: [string, string]
+  /**
+   * @description custom button texts
+   */
+  buttonTexts?: [string, string]
+  /**
+   * @description placeholder for the filter input
+   */
+  filterPlaceholder?: string
+  /**
+   * @description custom filter method
+   */
+  filterMethod?: (query: string, item: TransferDataItem) => boolean
+  /**
+   * @description key array of initially checked data items of the left list
+   */
+  leftDefaultChecked?: TransferKey[]
+  /**
+   * @description key array of initially checked data items of the right list
+   */
+  rightDefaultChecked?: TransferKey[]
+  /**
+   * @description custom render function for data items
+   */
+  renderContent?: renderContent
+  /**
+   * @description binding value
+   */
+  modelValue?: TransferKey[]
+  /**
+   * @description texts for checking status in list header
+   */
+  format?: TransferFormat
+  /**
+   * @description whether Transfer is filterable
+   */
+  filterable?: boolean
+  /**
+   * @description prop aliases for data source
+   */
+  props?: TransferPropsAlias
+  /**
+   * @description order strategy for elements in the target list. If set to `original`, the elements will keep the same order as the data source. If set to `push`, the newly added elements will be pushed to the bottom. If set to `unshift`, the newly added elements will be inserted on the top
+   */
+  targetOrder?: 'original' | 'push' | 'unshift'
+  /**
+   * @description whether to trigger form validation
+   */
+  validateEvent?: boolean
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `TransferProps` instead.
+ */
 export const transferProps = buildProps({
   /**
    * @description data source
@@ -144,7 +201,10 @@ export const transferProps = buildProps({
     default: true,
   },
 } as const)
-export type TransferProps = ExtractPropTypes<typeof transferProps>
+
+/**
+ * @deprecated Removed after 3.0.0, Use `TransferProps` instead.
+ */
 export type TransferPropsPublic = ExtractPublicPropTypes<typeof transferProps>
 
 export const transferCheckedChangeFn = (
