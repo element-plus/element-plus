@@ -1,7 +1,10 @@
 import { buildProps, definePropType, isBoolean } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { teleportProps } from '@element-plus/components/teleport'
-import { dialogContentProps } from './dialog-content'
+import {
+  dialogContentProps,
+  dialogContentPropsDefaults,
+} from './dialog-content'
 
 import type { ExtractPublicPropTypes, InjectionKey, TransitionProps } from 'vue'
 import type { DialogContentProps } from './dialog-content'
@@ -247,3 +250,16 @@ export interface DialogConfigContext {
 
 export const dialogContextKey: InjectionKey<DialogConfigContext> =
   Symbol('dialogContextKey')
+
+export const dialogPropsDefaults = {
+  ...dialogContentPropsDefaults,
+  appendTo: 'body',
+  closeOnClickModal: true,
+  closeOnPressEscape: true,
+  lockScroll: true,
+  modal: true,
+  openDelay: 0,
+  closeDelay: 0,
+  headerAriaLevel: '2',
+  transition: undefined,
+} as const
