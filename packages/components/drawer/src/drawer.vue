@@ -112,7 +112,6 @@ import { ElOverlay } from '@element-plus/components/overlay'
 import ElFocusTrap from '@element-plus/components/focus-trap'
 import ElTeleport from '@element-plus/components/teleport'
 import { dialogPropsDefaults, useDialog } from '@element-plus/components/dialog'
-import { dialogContentPropsDefaults } from '@element-plus/components/dialog/src/dialog-content'
 import ElIcon from '@element-plus/components/icon'
 import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
 import { drawerEmits } from './drawer'
@@ -127,7 +126,6 @@ defineOptions({
 
 const props = withDefaults(defineProps<DrawerProps>(), {
   ...dialogPropsDefaults,
-  ...dialogContentPropsDefaults,
   direction: 'rtl',
   size: '30%',
   withHeader: true,

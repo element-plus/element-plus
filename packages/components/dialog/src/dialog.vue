@@ -89,7 +89,6 @@ import ElDialogContent from './dialog-content.vue'
 import { dialogInjectionKey } from './constants'
 import { dialogEmits, dialogPropsDefaults } from './dialog'
 import { useDialog } from './use-dialog'
-import { dialogContentPropsDefaults } from './dialog-content'
 
 import type { DialogProps } from './dialog'
 
@@ -98,10 +97,7 @@ defineOptions({
   inheritAttrs: false,
 })
 
-const props = withDefaults(defineProps<DialogProps>(), {
-  ...dialogContentPropsDefaults,
-  ...dialogPropsDefaults,
-})
+const props = withDefaults(defineProps<DialogProps>(), dialogPropsDefaults)
 defineEmits(dialogEmits)
 const slots = useSlots()
 
