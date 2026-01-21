@@ -4,7 +4,7 @@
   </component>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { computed, inject } from 'vue'
 import { isNumber, isObject } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
