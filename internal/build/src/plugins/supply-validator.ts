@@ -59,55 +59,56 @@ export function SupplyValidator(): Plugin {
   }
   return {
     name: 'supply-validator-plugin',
-    // @ts-expect-error this should be an effective config
-    enforce: 'post',
-    async transform(code, id) {
-      const isVueFile = id.includes('.vue')
-      if (cacheId.has(id) || !isVueFile) {
-        return
-      }
+    transform: {
+      order: 'post',
+      async handler(code, id) {
+        const isVueFile = id.includes('.vue')
+        if (cacheId.has(id) || !isVueFile) {
+          return
+        }
 
-      const vueFilePath = id.split('?')[0]
-      if (!vueFilePath.endsWith('.vue')) {
-        return
-      }
+        const vueFilePath = id.split('?')[0]
+        if (!vueFilePath.endsWith('.vue')) {
+          return
+        }
 
-      const rawContent = await fs.promises.readFile(vueFilePath, 'utf-8')
-      const propsType = rawContent.match(/defineProps<(\w+)>/)?.[1]
-      if (!propsType) {
-        cacheId.set(id, true)
-        return
-      }
+        const rawContent = await fs.promises.readFile(vueFilePath, 'utf-8')
+        const propsType = rawContent.match(/defineProps<(\w+)>/)?.[1]
+        if (!propsType) {
+          cacheId.set(id, true)
+          return
+        }
 
-      const propsIndex = extractPropsIndexes(vueFilePath, code)
-      if (propsIndex.length !== 2) {
+        const propsIndex = extractPropsIndexes(vueFilePath, code)
+        if (propsIndex.length !== 2) {
+          cacheId.set(id, true)
+          return
+        }
+        const extractImportFile = extractImportPropsStatements(
+          vueFilePath,
+          rawContent.split(/<script lang="ts" setup>|<\/script>/g)[1],
+          propsType
+        )
+        if (!extractImportFile) {
+          cacheId.set(id, true)
+          return
+        }
+        const propsName = propsType[0].toLowerCase() + propsType.slice(1)
+        const s = new MagicString(code)
+        s.prepend(
+          `import { ${reMapPropsName[propsName] || propsName} } from '${reMapImportFile[extractImportFile] || extractImportFile}'\n`
+        )
+        s.overwrite(
+          propsIndex[0],
+          propsIndex[1],
+          `props: ${reMapPropsName[propsName] || propsName}`
+        )
         cacheId.set(id, true)
-        return
-      }
-      const extractImportFile = extractImportPropsStatements(
-        vueFilePath,
-        rawContent.split(/<script lang="ts" setup>|<\/script>/g)[1],
-        propsType
-      )
-      if (!extractImportFile) {
-        cacheId.set(id, true)
-        return
-      }
-      const propsName = propsType[0].toLowerCase() + propsType.slice(1)
-      const s = new MagicString(code)
-      s.prepend(
-        `import { ${reMapPropsName[propsName] || propsName} } from '${reMapImportFile[extractImportFile] || extractImportFile}'\n`
-      )
-      s.overwrite(
-        propsIndex[0],
-        propsIndex[1],
-        `props: ${reMapPropsName[propsName] || propsName}`
-      )
-      cacheId.set(id, true)
-      return {
-        code: s.toString(),
-        map: s.generateMap({ hires: true }),
-      }
+        return {
+          code: s.toString(),
+          map: s.generateMap({ hires: true }),
+        }
+      },
     },
   }
 }
