@@ -21,6 +21,12 @@ timeline/basic
 
 Use `mode` to control the relative position of timeline and content.
 
+:::tip
+
+After ^(2.13.1), `el-timeline` explicitly set the padding style.
+
+:::
+
 :::demo
 
 timeline/mode
