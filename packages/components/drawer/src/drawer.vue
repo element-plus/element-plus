@@ -111,31 +111,28 @@ import { Close } from '@element-plus/icons-vue'
 import { ElOverlay } from '@element-plus/components/overlay'
 import ElFocusTrap from '@element-plus/components/focus-trap'
 import ElTeleport from '@element-plus/components/teleport'
-import { useDialog } from '@element-plus/components/dialog'
+import { dialogPropsDefaults, useDialog } from '@element-plus/components/dialog'
 import ElIcon from '@element-plus/components/icon'
-import { DialogPropsDefaults } from '@element-plus/components/dialog/src/dialog'
 import { dialogContentPropsDefaults } from '@element-plus/components/dialog/src/dialog-content'
 import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
 import { drawerEmits } from './drawer'
 import { useResizable } from './composables/useResizable'
 
-import type { DrawerAdvancedProps } from './drawer'
+import type { DrawerProps } from './drawer'
 
 defineOptions({
   name: 'ElDrawer',
   inheritAttrs: false,
 })
 
-const props = withDefaults(defineProps<DrawerAdvancedProps>(), {
-  ...DialogPropsDefaults,
+const props = withDefaults(defineProps<DrawerProps>(), {
+  ...dialogPropsDefaults,
   ...dialogContentPropsDefaults,
   direction: 'rtl',
-  resizable: false,
   size: '30%',
   withHeader: true,
   modalFade: true,
   headerAriaLevel: '2',
-  title: '',
 })
 const emit = defineEmits(drawerEmits)
 const slots = useSlots()

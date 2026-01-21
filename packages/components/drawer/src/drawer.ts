@@ -1,10 +1,10 @@
 import { buildProps } from '@element-plus/utils'
 import { dialogEmits, dialogProps } from '@element-plus/components/dialog'
 
+import type { ExtractPublicPropTypes } from 'vue'
 import type { DialogProps } from '@element-plus/components/dialog'
-import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 
-export interface DrawerAdvancedProps extends DialogProps {
+export interface DrawerProps extends DialogProps {
   /**
    * @description  Set the direction in which the Drawer opens
    */
@@ -30,8 +30,9 @@ export interface DrawerAdvancedProps extends DialogProps {
    */
   headerAriaLevel?: string
 }
+
 /**
- * @deprecated Removed after 3.0.0, Use `drawerProps` instead.
+ * @deprecated Removed after 3.0.0, Use `DrawerProps` instead.
  */
 export const drawerProps = buildProps({
   ...dialogProps,
@@ -58,10 +59,10 @@ export const drawerProps = buildProps({
     default: '2',
   },
 } as const)
+
 /**
  * @deprecated Removed after 3.0.0, Use `DrawerProps` instead.
  */
-export type DrawerProps = ExtractPropTypes<typeof drawerProps>
 export type DrawerPropsPublic = ExtractPublicPropTypes<typeof drawerProps>
 
 export const drawerEmits = {

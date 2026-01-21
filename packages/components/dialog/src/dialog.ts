@@ -248,7 +248,7 @@ export interface DialogConfigContext {
 export const dialogContextKey: InjectionKey<DialogConfigContext> =
   Symbol('dialogContextKey')
 
-export const DialogPropsDefaults = {
+export const dialogPropsDefaults = {
   appendTo: 'body',
   closeOnClickModal: true,
   closeOnPressEscape: true,

@@ -87,7 +87,7 @@ import ElFocusTrap from '@element-plus/components/focus-trap'
 import ElTeleport from '@element-plus/components/teleport'
 import ElDialogContent from './dialog-content.vue'
 import { dialogInjectionKey } from './constants'
-import { DialogPropsDefaults, dialogEmits } from './dialog'
+import { dialogEmits, dialogPropsDefaults } from './dialog'
 import { useDialog } from './use-dialog'
 import { dialogContentPropsDefaults } from './dialog-content'
 
@@ -100,7 +100,7 @@ defineOptions({
 
 const props = withDefaults(defineProps<DialogProps>(), {
   ...dialogContentPropsDefaults,
-  ...DialogPropsDefaults,
+  ...dialogPropsDefaults,
 })
 defineEmits(dialogEmits)
 const slots = useSlots()
