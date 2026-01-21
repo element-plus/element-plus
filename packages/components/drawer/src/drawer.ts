@@ -18,6 +18,14 @@ export interface DrawerProps extends DialogProps {
    */
   size?: string | number
   /**
+   * @description The minimum size of the Drawer form, when using the number type, is measured in pixels. When using the string type, please pass in 'x%'; otherwise, it will be interpreted as the number type
+   */
+  minSize?: string | number
+  /**
+   * @description The maximum size of the Drawer form, when using the number type, is measured in pixels. When using the string type, please pass in 'x%'; otherwise, it will be interpreted as the number type
+   */
+  maxSize?: string | number
+  /**
    * @description You can remove the title from the drawer, so that your drawer will have more space on the screen. If you want to be visited, you must set the title attribute.
    */
   withHeader?: boolean
@@ -45,6 +53,14 @@ export const drawerProps = buildProps({
   size: {
     type: [String, Number],
     default: '30%',
+  },
+  minSize: {
+    type: [String, Number],
+    default: null,
+  },
+  maxSize: {
+    type: [String, Number],
+    default: null,
   },
   withHeader: {
     type: Boolean,
