@@ -4,9 +4,16 @@ import MagicString from 'magic-string'
 
 import type { Plugin } from 'rollup'
 
-function extractPropsIndexes(file: string, code: string): number[] {
+function extractPropsIndexesAndMergeProp(
+  file: string,
+  code: string
+): {
+  propsIndexes: number[]
+  mergePropsIndexes: number[]
+} {
   const result = parseSync(file, code)
   const propsIndexes: number[] = []
+  const mergePropsIndexes: number[] = []
 
   const visitor = new Visitor({
     Property(node) {
@@ -17,9 +24,24 @@ function extractPropsIndexes(file: string, code: string): number[] {
         propsIndexes.push(node.start, node.end)
       }
     },
+    ImportDeclaration(node) {
+      for (const specifier of node.specifiers) {
+        if (
+          specifier.type === 'ImportSpecifier' &&
+          specifier.imported.type === 'Identifier' &&
+          specifier.imported.name === 'mergeDefaults'
+        ) {
+          mergePropsIndexes.push(specifier.start, specifier.end + 1)
+        }
+      }
+    },
   })
   visitor.visit(result.program)
-  return propsIndexes
+
+  return {
+    propsIndexes,
+    mergePropsIndexes,
+  }
 }
 
 function extractImportPropsStatements(
@@ -79,8 +101,9 @@ export function SupplyValidator(): Plugin {
           return
         }
 
-        const propsIndex = extractPropsIndexes(vueFilePath, code)
-        if (propsIndex.length !== 2) {
+        const { propsIndexes, mergePropsIndexes } =
+          extractPropsIndexesAndMergeProp(vueFilePath, code)
+        if (propsIndexes.length !== 2) {
           cacheId.set(id, true)
           return
         }
@@ -95,12 +118,17 @@ export function SupplyValidator(): Plugin {
         }
         const propsName = propsType[0].toLowerCase() + propsType.slice(1)
         const s = new MagicString(code)
+        const importFilePath =
+          reMapImportFile[extractImportFile] || extractImportFile
+        if (mergePropsIndexes.length === 2) {
+          s.remove(mergePropsIndexes[0], mergePropsIndexes[1])
+        }
         s.prepend(
-          `import { ${reMapPropsName[propsName] || propsName} } from '${reMapImportFile[extractImportFile] || extractImportFile}'\n`
+          `import { ${reMapPropsName[propsName] || propsName} } from '${importFilePath}'\n`
         )
         s.overwrite(
-          propsIndex[0],
-          propsIndex[1],
+          propsIndexes[0],
+          propsIndexes[1],
           `props: ${reMapPropsName[propsName] || propsName}`
         )
         cacheId.set(id, true)
