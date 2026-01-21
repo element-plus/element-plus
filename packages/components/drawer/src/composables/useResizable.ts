@@ -6,15 +6,15 @@ import type { Ref, SetupContext } from 'vue'
 import type { DrawerEmits, DrawerProps } from '../drawer'
 
 export function useResizable(
-  props: Required<DrawerProps>,
+  props: DrawerProps,
   target: Ref<HTMLElement | undefined>,
   emit: SetupContext<DrawerEmits>['emit']
 ) {
   const { width, height } = useWindowSize()
 
-  const isHorizontal = computed(() => ['ltr', 'rtl'].includes(props.direction))
+  const isHorizontal = computed(() => ['ltr', 'rtl'].includes(props.direction!))
   const sign = computed(() =>
-    ['ltr', 'ttb'].includes(props.direction) ? 1 : -1
+    ['ltr', 'ttb'].includes(props.direction!) ? 1 : -1
   )
   const windowSize = computed(() =>
     isHorizontal.value ? width.value : height.value
