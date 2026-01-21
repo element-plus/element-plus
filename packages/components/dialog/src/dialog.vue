@@ -87,15 +87,29 @@ import ElFocusTrap from '@element-plus/components/focus-trap'
 import ElTeleport from '@element-plus/components/teleport'
 import ElDialogContent from './dialog-content.vue'
 import { dialogInjectionKey } from './constants'
-import { dialogEmits, dialogProps } from './dialog'
+import { dialogEmits } from './dialog'
 import { useDialog } from './use-dialog'
+import { dialogContentPropsDefaults } from './dialog-content'
+
+import type { DialogProps } from './dialog'
 
 defineOptions({
   name: 'ElDialog',
   inheritAttrs: false,
 })
 
-const props = defineProps(dialogProps)
+const props = withDefaults(defineProps<DialogProps>(), {
+  ...dialogContentPropsDefaults,
+  appendTo: 'body',
+  closeOnClickModal: true,
+  closeOnPressEscape: true,
+  lockScroll: true,
+  modal: true,
+  openDelay: 0,
+  closeDelay: 0,
+  headerAriaLevel: '2',
+  transition: undefined,
+})
 defineEmits(dialogEmits)
 const slots = useSlots()
 

@@ -27,16 +27,20 @@ import {
 } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { TOOLTIP_INJECTION_KEY } from './constants'
-import { useTooltipTriggerProps } from './trigger'
 import { whenTrigger } from './utils'
+import { useTooltipTriggerPropsDefaults } from './trigger'
 
+import type { UseTooltipTriggerProps } from './trigger'
 import type { OnlyChildExpose } from '@element-plus/components/slot'
 
 defineOptions({
   name: 'ElTooltipTrigger',
 })
 
-const props = defineProps(useTooltipTriggerProps)
+const props = withDefaults(
+  defineProps<UseTooltipTriggerProps>(),
+  useTooltipTriggerPropsDefaults
+)
 
 const ns = useNamespace('tooltip')
 const { controlled, id, open, onOpen, onClose, onToggle } = inject(
