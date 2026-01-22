@@ -2,7 +2,12 @@ import { isNil } from 'lodash-unified'
 import { buildProps, definePropType, isString } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
-import type { ComputedRef, ExtractPublicPropTypes, InjectionKey } from 'vue'
+import type {
+  ComputedRef,
+  ExtractPublicPropTypes,
+  InjectionKey,
+  StyleValue,
+} from 'vue'
 import type ColorPickerPanel from './color-picker-panel.vue'
 import type Color from './utils/color'
 
@@ -38,11 +43,11 @@ export interface ColorPickerPanelProps {
   /**
    * @description class names will passed to <hue-slider />
    */
-  hueSliderClass?: any
+  hueSliderClass?: string | string[] | Record<string, boolean>
   /**
    * @description styles will passed to <hue-slider />
    */
-  hueSliderStyle?: CSSStyleValue
+  hueSliderStyle?: StyleValue
 }
 
 /**
