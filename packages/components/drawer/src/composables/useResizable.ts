@@ -47,7 +47,9 @@ export function useResizable(
     return Number(size) || fallback
   }
 
-  const minSizePixels = computed(() => parseSizeToPixels(props.minSize, 200))
+  const minSizePixels = computed(() =>
+    parseSizeToPixels(props.minSize, parseSizeToPixels(props.size, 200))
+  )
   const maxSizePixels = computed(() =>
     parseSizeToPixels(props.maxSize, windowSize.value)
   )

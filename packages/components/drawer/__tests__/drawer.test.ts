@@ -761,9 +761,9 @@ describe('Drawer', () => {
       })
 
       await simulateDrag(dragger, 'horizontal', 300, 100)
-      expect(drawerEl.style.width).toEqual('200px')
+      expect(drawerEl.style.width).toEqual('300px')
 
-      await simulateDrag(dragger, 'horizontal', 200, 1200)
+      await simulateDrag(dragger, 'horizontal', 300, 1200)
       expect(drawerEl.style.width).toEqual('1000px')
 
       cleanup()
