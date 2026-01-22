@@ -67,9 +67,9 @@ color-picker-panel/disabled
 
 ### Slots
 
-| Name   | Description                    |
-| ------ | ------------------------------ |
-| footer | content append after the Input |
+| Name   | Description                       |
+| ------ | --------------------------------- |
+| footer | content to append after the Input |
 
 ### Exposes
 
