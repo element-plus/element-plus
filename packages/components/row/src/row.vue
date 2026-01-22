@@ -4,7 +4,7 @@
   </component>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { computed, provide } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { rowContextKey } from './constants'
