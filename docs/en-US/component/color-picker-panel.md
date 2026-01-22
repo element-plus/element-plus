@@ -65,6 +65,12 @@ color-picker-panel/disabled
 | predefine                | predefined color options                   | ^[array]`string[]`                                                                                               | —       |
 | validate-event ^(2.11.7) | whether to trigger form validation         | ^[boolean]                                                                                                       | true    |
 
+### Slots
+
+| Name   | Description                    |
+| ------ | ------------------------------ |
+| footer | content append after the Input |
+
 ### Exposes
 
 | Name             | Description           | Type                     |
