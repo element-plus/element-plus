@@ -1,6 +1,6 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { afterAll, describe, expect, it, vi } from 'vitest'
+import { afterAll, assert, describe, expect, it, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
 import ColorPickerPanel from '../color-picker-panel.vue'
 import HueSlider from '../components/hue-slider.vue'
@@ -684,5 +684,24 @@ describe('Color-picker-panel', () => {
 
       wrapper.unmount()
     })
+  })
+
+  it('passed class names and styles into hue-slider', async () => {
+    const TEST_STYLE = '--test: 1px'
+    const wrapper = mount(() => (
+      <ColorPickerPanel hueSliderClass={'custom'} hueSliderStyle={TEST_STYLE} />
+    ))
+    await nextTick()
+
+    const hueSlider = wrapper.find('.el-color-hue-slider')
+    assert.isNotNull(hueSlider)
+
+    // Got class name
+    expect(hueSlider.attributes('class')).toContain('custom')
+
+    // Got style
+    expect(hueSlider.attributes('style')).toContain(TEST_STYLE)
+
+    wrapper.unmount()
   })
 })
