@@ -35,6 +35,14 @@ export interface ColorPickerPanelProps {
    * @description whether to trigger form validation
    */
   validateEvent?: boolean
+  /**
+   * @description class names will passed to <hue-slider />
+   */
+  hueSliderClass?: any
+  /**
+   * @description styles will passed to <hue-slider />
+   */
+  hueSliderStyle?: CSSStyleValue
 }
 
 /**
