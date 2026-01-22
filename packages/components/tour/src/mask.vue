@@ -11,7 +11,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { computed, inject, toRef } from 'vue'
 import { useLockscreen } from '@element-plus/hooks'
 import { useWindowSize } from '@vueuse/core'

@@ -40,7 +40,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { computed, nextTick, ref, watch } from 'vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { scrollIntoView } from '@element-plus/utils'
