@@ -24,12 +24,14 @@
     "components-helper": "^2.1.4",
     "consola": "^2.15.3",
     "esbuild": "^0.27.2",
-    "tinyglobby": "^0.2.15",
     "fs-extra": "^10.1.0",
     "gulp": "^4.0.2",
     "lodash": "^4.17.21",
+    "magic-string": "^0.30.21",
+    "oxc-parser": "^0.110.0",
     "rollup": "^4.55.1",
-    "rollup-plugin-esbuild": "^4.9.1"
+    "rollup-plugin-esbuild": "^4.9.1",
+    "tinyglobby": "^0.2.15"
   },
   "devDependencies": {
     "@pnpm/types": "^8.4.0",
