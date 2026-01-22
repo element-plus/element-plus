@@ -9,6 +9,7 @@ import {
 } from '@element-plus/utils'
 import NotificationConstructor from './notification.vue'
 import { notificationTypes } from './notification'
+import { debounce } from 'lodash-unified'
 
 import type { Ref, VNode } from 'vue'
 import type {
@@ -30,6 +31,8 @@ const notifications: Record<NotificationPosition, NotificationQueue> = {
 // the gap size between each notification
 const GAP_SIZE = 16
 let seed = 1
+
+const updateOffsetsDebounced = debounce(updateOffsets)
 
 const notify: NotifyFn & Partial<Notify> = function (options = {}, context) {
   if (!isClient) return { close: () => undefined }
@@ -95,6 +98,8 @@ const notify: NotifyFn & Partial<Notify> = function (options = {}, context) {
   render(vm, container)
   notifications[position].push({ vm })
   appendTo.appendChild(container.firstElementChild!)
+
+  updateOffsetsDebounced(position)
 
   return {
     // instead of calling the onClose function directly, setting this value so that we can have the full lifecycle
