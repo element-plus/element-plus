@@ -164,7 +164,7 @@
               <input
                 :id="inputId"
                 ref="inputRef"
-                v-model="states.inputValue"
+                :value="states.inputValue"
                 :style="inputStyle"
                 :autocomplete="autocomplete"
                 :tabindex="tabindex"
