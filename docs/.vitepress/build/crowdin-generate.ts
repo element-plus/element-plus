@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import { pathToFileURL } from 'node:url'
 import chalk from 'chalk'
 import consola from 'consola'
 import { docRoot, errorAndExit } from '@element-plus/build-utils'
@@ -72,7 +73,9 @@ async function traverseDir(
           path.resolve(targetPath, c.name)
         )
       } else if (c.isFile()) {
-        const content = require(path.resolve(dir, c.name))
+        const content = await import(
+          pathToFileURL(path.resolve(dir, c.name)).href
+        )
 
         const contentToWrite = {
           'en-US': content,
@@ -80,7 +83,9 @@ async function traverseDir(
 
         await Promise.all(
           paths.map(async (p) => {
-            const content = require(path.resolve(p.pathname, c.name))
+            const content = await import(
+              pathToFileURL(path.resolve(p.pathname, c.name)).href
+            )
 
             contentToWrite[p.name] = content
           })

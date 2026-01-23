@@ -9,6 +9,7 @@ catalog:
   '@element-plus/icons-vue': ^2.3.2
   '@floating-ui/dom': ^1.0.1
   '@popperjs/core': npm:@sxzz/popperjs-es@^2.11.7
+  '@types/fs-extra': ^9.0.13
   '@types/lodash': ^4.17.21
   '@types/lodash-es': ^4.17.12
   '@vitejs/plugin-vue': ^5.1.4
@@ -17,12 +18,12 @@ catalog:
   '@vue/shared': ^3.5.22
   '@vue/test-utils': ^2.4.6
   '@vueuse/core': ^10.11.0
+  fs-extra: ^10.1.0
   lodash: ^4.17.21
   lodash-es: ^4.17.21
   lodash-unified: ^1.0.3
   normalize-wheel-es: ^1.2.0
   vue: ^3.5.22
-  # vitest: ^2.0.5
 
 onlyBuiltDependencies:
   - '@parcel/watcher'
@@ -33,11 +34,11 @@ onlyBuiltDependencies:
   - vue-demi
 
 overrides:
-  jwa: ^1.4.2 # 20697
+  jwa: ^1.4.2
   typescript: $typescript
 
 patchedDependencies:
-  async-validator@4.2.5: patches/async-validator@4.2.5.patch #16757
+  async-validator@4.2.5: patches/async-validator@4.2.5.patch
 
 peerDependencyRules:
   ignoreMissing:

@@ -126,9 +126,7 @@ async function generateLLms() {
 }
 
 ;(async () => {
-  if (require.main === module) {
-    await generateLLms()
-  }
+  await generateLLms()
 })().catch((e) => {
   console.error(e)
   process.exit(1)
