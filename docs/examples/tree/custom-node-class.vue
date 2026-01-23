@@ -81,7 +81,7 @@ const data: Tree[] = [
 </script>
 
 <style>
-.is-penultimate > .el-tree-node__content {
+.is-penultimate > .el-tree-node__content .el-tree-node__label {
   color: #626aef;
 }
 .is-penultimate > .el-tree-node__children > div {

@@ -12,13 +12,9 @@ export const calcColumnStyle = (
     ...(fixed
       ? {}
       : {
-          flexGrow: column.flexGrow || 0,
-          flexShrink: column.flexShrink || 1,
+          flexGrow: column.flexGrow ?? 0,
+          flexShrink: column.flexShrink ?? 1,
         }),
-  }
-
-  if (!fixed) {
-    flex.flexShrink = 1
   }
 
   const style = {

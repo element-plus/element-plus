@@ -44,8 +44,13 @@ import { useFormDisabled } from '@element-plus/components/form'
 import ElIcon from '@element-plus/components/icon'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { timeSelectProps } from './time-select'
+import {
+  CircleClose as IconCircleClose,
+  Clock as IconClock,
+} from '@element-plus/icons-vue'
 import { compareTime, formatTime, nextTime, parseTime } from './utils'
+
+import type { TimeSelectProps } from './time-select'
 
 dayjs.extend(customParseFormat)
 
@@ -57,7 +62,21 @@ defineOptions({
 
 defineEmits([CHANGE_EVENT, 'blur', 'focus', 'clear', UPDATE_MODEL_EVENT])
 
-const props = defineProps(timeSelectProps)
+const props = withDefaults(defineProps<TimeSelectProps>(), {
+  format: 'HH:mm',
+  disabled: undefined,
+  editable: true,
+  effect: 'light',
+  clearable: true,
+  start: '09:00',
+  end: '18:00',
+  step: '00:30',
+  prefixIcon: () => IconClock,
+  clearIcon: () => IconCircleClose,
+  popperClass: '',
+  valueOnClear: undefined,
+  popperStyle: undefined,
+})
 
 const nsInput = useNamespace('input')
 const select = ref<typeof ElSelect>()

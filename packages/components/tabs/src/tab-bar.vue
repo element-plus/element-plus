@@ -13,15 +13,18 @@ import { useResizeObserver } from '@vueuse/core'
 import { capitalize, isUndefined, throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { tabsRootContextKey } from './constants'
-import { tabBarProps } from './tab-bar'
 
+import type { TabBarProps } from './tab-bar'
 import type { CSSProperties } from 'vue'
 
 const COMPONENT_NAME = 'ElTabBar'
 defineOptions({
   name: COMPONENT_NAME,
 })
-const props = defineProps(tabBarProps)
+const props = withDefaults(defineProps<TabBarProps>(), {
+  tabs: () => [],
+  tabRefs: () => ({}),
+})
 
 const rootTabs = inject(tabsRootContextKey)
 if (!rootTabs) throwError(COMPONENT_NAME, '<el-tabs><el-tab-bar /></el-tabs>')

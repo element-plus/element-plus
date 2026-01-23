@@ -43,15 +43,23 @@ import {
 } from '@element-plus/components/form'
 import { debugWarn, isObject } from '@element-plus/utils'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { defaultProps, segmentedEmits, segmentedProps } from './segmented'
+import { defaultProps, segmentedEmits } from './segmented'
 
 import type { Option } from './types'
+import type { SegmentedProps } from './segmented'
 
 defineOptions({
   name: 'ElSegmented',
 })
 
-const props = defineProps(segmentedProps)
+const props = withDefaults(defineProps<SegmentedProps>(), {
+  direction: 'horizontal',
+  options: () => [],
+  props: () => defaultProps,
+  validateEvent: true,
+  modelValue: undefined,
+  disabled: undefined,
+})
 const emit = defineEmits(segmentedEmits)
 
 const ns = useNamespace('segmented')
