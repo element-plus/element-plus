@@ -53,7 +53,9 @@ import {
   isComment,
 } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
-import { alertEmits, alertProps } from './alert'
+import { alertEmits } from './alert'
+
+import type { AlertProps } from './alert'
 
 const { Close } = TypeComponents
 
@@ -61,7 +63,14 @@ defineOptions({
   name: 'ElAlert',
 })
 
-const props = defineProps(alertProps)
+const props = withDefaults(defineProps<AlertProps>(), {
+  title: '',
+  description: '',
+  type: 'info',
+  closable: true,
+  closeText: '',
+  effect: 'light',
+})
 const emit = defineEmits(alertEmits)
 const slots = useSlots()
 
