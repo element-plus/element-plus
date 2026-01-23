@@ -67,6 +67,12 @@ color-picker-panel/disabled
 | hue-slider-class ^(2.13.2) | class names will append to hue-slider      | ^[object]`string \|string[] \| Record<string, boolean>`                                                          | —       |
 | hue-slider-style ^(2.13.2) | styles will append to hue-slider           | ^[string] / ^[object]`StyleValue`                                                                                | —       |
 
+### Slots
+
+| Name   | Description                       |
+| ------ | --------------------------------- |
+| footer | content to append after the Input |
+
 ### Exposes
 
 | Name             | Description           | Type                     |
