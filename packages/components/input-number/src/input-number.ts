@@ -95,6 +95,14 @@ export interface InputNumberProps {
    * @description whether to disable scientific notation input (e.g. 'e', 'E')
    */
   disabledScientific?: boolean
+  /**
+   * @description format content
+   */
+  formatter?: (value: string) => string
+  /**
+   * @description parse content
+   */
+  parser?: (value: string) => string
 }
 
 /**

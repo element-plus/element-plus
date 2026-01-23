@@ -40,7 +40,6 @@
         </el-icon>
       </slot>
     </span>
-
     <el-input
       :id="id"
       ref="input"
