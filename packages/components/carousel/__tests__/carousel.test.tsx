@@ -411,4 +411,43 @@ describe('Carousel', () => {
     vm.$refs.carousel.prev()
     expect(vm.$refs.carousel.activeIndex).toBe(1)
   })
+
+  it('should continue auto play after adding new items dynamically', async () => {
+    const data = reactive([1, 2, 3])
+
+    wrapper = mount({
+      setup() {
+        return () => (
+          <div>
+            <Carousel interval={30} ref={'carousel'}>
+              {data.map((value) => (
+                <CarouselItem label={value} key={value}>
+                  {value}
+                </CarouselItem>
+              ))}
+            </Carousel>
+          </div>
+        )
+      },
+    })
+
+    await nextTick()
+    const vm = wrapper.vm
+
+    expect(vm.$refs.carousel.activeIndex).toBe(0)
+
+    await wait(40)
+    expect(vm.$refs.carousel.activeIndex).toBe(1)
+
+    data.push(4)
+    await nextTick()
+
+    expect(wrapper.findAll('.el-carousel__item').length).toBe(4)
+    expect(vm.$refs.carousel.activeIndex).toBe(0)
+
+    await wait(80)
+    const currentIndex = vm.$refs.carousel.activeIndex
+    expect(currentIndex).toBeGreaterThan(0)
+    expect(currentIndex).toBeLessThanOrEqual(3)
+  })
 })
