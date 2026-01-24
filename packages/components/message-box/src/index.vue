@@ -194,6 +194,7 @@ import type {
   MessageBoxState,
   MessageBoxType,
 } from './message-box.type'
+import type { InputInstance } from '@element-plus/components/input'
 
 export default defineComponent({
   name: 'ElMessageBox',
@@ -330,7 +331,7 @@ export default defineComponent({
     const rootRef = ref<HTMLElement>()
     const headerRef = ref<HTMLElement>()
     const focusStartRef = ref<HTMLElement>()
-    const inputRef = ref<ComponentPublicInstance>()
+    const inputRef = ref<InputInstance>()
     const confirmRef = ref<ComponentPublicInstance>()
 
     const confirmButtonClasses = computed(() => state.confirmButtonClass)
