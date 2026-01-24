@@ -101,7 +101,7 @@ For precision purposes, the input number is limited from [Number.MIN_SAFE_INTEGE
 
 :::
 
-## Formatter ^(2.13.2)
+## Formatter ^(2.14.0)
 
 Display value within its situation with `formatter`, and we usually use `parser` at the same time.
 
@@ -138,8 +138,8 @@ input-number/formatter
 | inputmode ^(2.10.3)           | same as `inputmode` in native input                 | ^[string]                                     | —                       |
 | align ^(2.10.5)               | alignment for the inner input text                  | ^[enum]`'left' \| 'center' \| 'right'`        | 'center'                |
 | disabled-scientific ^(2.10.5) | disables input of scientific notation (e.g. 'e')    | ^[boolean]                                    | false                   |
-| formatter ^(2.13.2)           | specifies the format of the value presented input.  | ^[Function]`(value: string) => string`        | —                       |
-| parser ^(2.13.2)              | specifies the value extracted from formatter input. | ^[Function]`(value: string) => string`        | —                       |
+| formatter ^(2.14.0)           | specifies the format of the value presented input.  | ^[Function]`(value: string) => string`        | —                       |
+| parser ^(2.14.0)              | specifies the value extracted from formatter input. | ^[Function]`(value: string) => string`        | —                       |
 
 ### Slots
 
