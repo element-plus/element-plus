@@ -2,6 +2,7 @@ import path from 'path'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import { glob } from 'tinyglobby'
+import { rolldown } from 'rolldown'
 import {
   epRoot,
   excludeFiles,
@@ -14,13 +15,12 @@ import { buildConfigEntries } from '../build-info'
 import { SupplyValidator } from '../plugins/supply-validator'
 
 import type { OutputOptions, Plugin } from 'rolldown'
-import { rolldown } from 'rolldown'
 
 const plugins: Plugin[] = [
   ElementPlusAlias(),
   vue() as Plugin,
   vueJsx() as Plugin,
-  SupplyValidator(),
+  SupplyValidator() as Plugin,
 ]
 
 async function buildModulesComponents() {
