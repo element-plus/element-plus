@@ -411,8 +411,7 @@ export default defineComponent({
     const overlayEvent = useSameTarget(handleWrapperClick)
 
     const handleInputEnter = (e: KeyboardEvent | Event) => {
-      if ((e as KeyboardEvent).isComposing) return
-      if (state.inputType !== 'textarea') {
+      if (state.inputType !== 'textarea' && !inputRef.value?.isComposing) {
         e.preventDefault()
         return handleAction('confirm')
       }
