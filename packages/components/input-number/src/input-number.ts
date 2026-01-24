@@ -96,11 +96,11 @@ export interface InputNumberProps {
    */
   disabledScientific?: boolean
   /**
-   * @description format content
+   * @description specifies the format of the value presented in the input
    */
   formatter?: (value: string) => string
   /**
-   * @description parse content
+   * @description specifies the value extracted from the formatted input
    */
   parser?: (value: string) => string
 }
@@ -229,13 +229,13 @@ export const inputNumberProps = buildProps({
    */
   disabledScientific: Boolean,
   /**
-   * @description format content
+   * @description specifies the format of the value presented in the input
    */
   formatter: {
     type: Function,
   },
   /**
-   * @description parse content
+   * @description specifies the value extracted from the formatted input
    */
   parser: {
     type: Function,
