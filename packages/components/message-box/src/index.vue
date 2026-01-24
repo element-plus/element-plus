@@ -93,6 +93,7 @@
                 </div>
               </div>
               <div v-show="showInput" :class="ns.e('input')">
+                123
                 <el-input
                   :id="inputId"
                   ref="inputRef"
@@ -411,6 +412,7 @@ export default defineComponent({
     const overlayEvent = useSameTarget(handleWrapperClick)
 
     const handleInputEnter = (e: KeyboardEvent | Event) => {
+      if ((e as KeyboardEvent).isComposing) return
       if (state.inputType !== 'textarea') {
         e.preventDefault()
         return handleAction('confirm')
