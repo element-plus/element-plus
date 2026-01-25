@@ -14,14 +14,9 @@ import { ElementPlusAlias } from '../plugins/element-plus-alias'
 import { buildConfigEntries } from '../build-info'
 import { SupplyValidator } from '../plugins/supply-validator'
 
-import type { OutputOptions, Plugin } from 'rolldown'
+import type { OutputOptions } from 'rolldown'
 
-const plugins: Plugin[] = [
-  ElementPlusAlias(),
-  vue() as Plugin,
-  vueJsx() as Plugin,
-  SupplyValidator() as Plugin,
-]
+const plugins = [ElementPlusAlias(), vue(), vueJsx(), SupplyValidator()]
 
 async function buildModulesComponents() {
   const input = excludeFiles(

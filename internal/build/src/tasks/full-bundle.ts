@@ -31,42 +31,11 @@ async function buildFullEntry(minify: boolean) {
     ElementPlusAlias(),
     vue() as Plugin,
     vueJsx() as Plugin,
-    //nodeResolve({
-    //  extensions: ['.mjs', '.js', '.json', '.ts'],
-    //}),
-    //esbuild({
-    //  exclude: [],
-    //  sourceMap: minify,
-    //  target,
-    //  loaders: {
-    //    '.vue': 'ts',
-    //  },
-    //  define: {
-    //    'process.env.NODE_ENV': '"production"',
-    //  },
-    //  treeShaking: true,
-    //  legalComments: 'eof',
-    //}),
     replacePlugin({
       'process.env.NODE_ENV': '"production"',
     }),
     SupplyValidator(),
   ]
-  if (minify) {
-    //minifyPlugin({
-    //  target,
-    //  sourceMap: true,
-    //})
-    plugins.push({
-      name: 'minify',
-      outputOptions: {
-        handler(options) {
-          options.sourcemap = true
-          return options
-        },
-      },
-    })
-  }
 
   const bundle = await rolldown({
     input: path.resolve(epRoot, 'index.ts'),
@@ -89,6 +58,7 @@ async function buildFullEntry(minify: boolean) {
       },
       sourcemap: minify,
       banner,
+      minify,
     },
     {
       format: 'esm',
@@ -99,6 +69,7 @@ async function buildFullEntry(minify: boolean) {
       ),
       sourcemap: minify,
       banner,
+      minify,
     },
   ])
 }
@@ -115,18 +86,6 @@ async function buildFullLocale(minify: boolean) {
 
       const bundle = await rolldown({
         input: file,
-        plugins: [
-          {
-            name: 'minify',
-            outputOptions: {
-              handler: (options) => {
-                options.minify = minify
-                options.sourcemap = minify
-                return options
-              },
-            },
-          },
-        ],
       })
       await writeBundles(bundle, [
         {
@@ -140,6 +99,7 @@ async function buildFullLocale(minify: boolean) {
           name: `${PKG_CAMELCASE_LOCAL_NAME}${name}`,
           sourcemap: minify,
           banner,
+          minify,
         },
         {
           format: 'esm',
@@ -150,6 +110,7 @@ async function buildFullLocale(minify: boolean) {
           ),
           sourcemap: minify,
           banner,
+          minify,
         },
       ])
     })

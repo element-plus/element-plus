@@ -2,7 +2,7 @@ import fs from 'fs'
 import { Visitor, parseSync } from 'oxc-parser'
 import MagicString from 'magic-string'
 
-import type { Plugin } from 'rollup'
+import type { Plugin } from 'rolldown'
 
 function extractPropsIndexesAndMergeProp(
   file: string,
