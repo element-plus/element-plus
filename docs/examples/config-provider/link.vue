@@ -28,11 +28,13 @@
 <script lang="ts" setup>
 import { reactive } from 'vue'
 
+import type { LinkConfigContext } from 'element-plus'
+
 const linkTypes = ['primary', 'success', 'warning', 'info', 'danger', 'default']
 const underlineOptions = ['always', 'never', 'hover']
 
-const config = reactive({
-  type: 'success',
+const config = reactive<LinkConfigContext>({
+  type: 'primary',
   underline: 'always',
 })
 </script>
