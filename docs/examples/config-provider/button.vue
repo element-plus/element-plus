@@ -30,7 +30,7 @@ import type { ButtonConfigContext } from 'element-plus'
 
 const config = reactive<ButtonConfigContext>({
   autoInsertSpace: true,
-  type: 'primary',
+  type: 'default',
   plain: true,
   round: true,
   text: false,
