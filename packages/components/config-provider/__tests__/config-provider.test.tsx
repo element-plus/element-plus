@@ -162,7 +162,7 @@ describe('config-provider', () => {
     it('should have shadow="hover" instead of \'always\'', async () => {
       const config = reactive({
         shadow: 'hover',
-      })
+      } as const)
       const overrideShadow = ref('')
 
       const wrapper = mount(() => (
