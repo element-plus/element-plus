@@ -53,7 +53,10 @@ const processfiles = async (scssFiles: string[]) => {
 }
 
 async function buildThemeChalk() {
-  const scssFiles = await glob(path.resolve(__dirname, 'src/*.scss'))
+  const scssFiles = await glob('src/*.scss', {
+    cwd: __dirname,
+    absolute: true,
+  })
   const chunks = chunk(scssFiles, Math.ceil(scssFiles.length / 5))
   return Promise.all(chunks.map(processfiles))
 }
