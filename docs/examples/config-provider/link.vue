@@ -34,7 +34,7 @@ const linkTypes = ['primary', 'success', 'warning', 'info', 'danger', 'default']
 const underlineOptions = ['always', 'never', 'hover']
 
 const config = reactive<LinkConfigContext>({
-  type: 'primary',
+  type: 'success',
   underline: 'always',
 })
 </script>
