@@ -42,7 +42,6 @@ export async function generateTypesDefinitions() {
     output: {
       preserveModules: true,
       preserveModulesRoot: epRoot,
-      entryFileNames: '[name].d.ts',
       dir: path.resolve(buildOutput, 'types'),
     },
   }
