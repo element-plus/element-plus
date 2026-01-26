@@ -81,7 +81,7 @@ export const cardProps = buildProps({
 } as const)
 export type CardPropsPublic = ExtractPublicPropTypes<typeof cardProps>
 export interface CardConfigContext {
-  shadow?: string
+  shadow?: CardProps['shadow']
 }
 
 export const cardContextKey: InjectionKey<CardConfigContext> =

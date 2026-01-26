@@ -218,9 +218,9 @@ export type ButtonPropsPublic = ExtractPublicPropTypes<typeof buttonProps>
 export type ButtonEmits = typeof buttonEmits
 
 export interface ButtonConfigContext {
-  type?: string
-  plain?: boolean
-  text?: boolean
-  round?: boolean
-  autoInsertSpace?: boolean
+  type?: ButtonProps['type']
+  plain?: ButtonProps['plain']
+  text?: ButtonProps['text']
+  round?: ButtonProps['round']
+  autoInsertSpace?: ButtonProps['autoInsertSpace']
 }
