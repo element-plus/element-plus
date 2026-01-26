@@ -92,6 +92,6 @@ export type LinkEmits = typeof linkEmits
 
 export type LinkInstance = InstanceType<typeof Link> & unknown
 export interface LinkConfigContext {
-  type?: string
-  underline?: string | boolean
+  type?: LinkProps['type']
+  underline?: LinkProps['underline']
 }
