@@ -25,13 +25,13 @@ export type GetDisabledMinutes = (
   hour: number,
   role: string,
   comparingDate?: Dayjs
-) => number[]
+) => number[] | undefined
 export type GetDisabledSeconds = (
   hour: number,
   minute: number,
   role: string,
   comparingDate?: Dayjs
-) => number[]
+) => number[] | undefined
 
 export const timePickerDefaultProps = buildProps({
   /**
