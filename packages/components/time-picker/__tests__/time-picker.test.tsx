@@ -1001,6 +1001,33 @@ describe('TimePicker(range)', () => {
     expect(endInput.element.value).toBe('')
   })
 
+  it('should keep empty input on focus when saveOnBlur is false', async () => {
+    const value = ref('')
+    const wrapper = mount(() => (
+      <TimePicker v-model={value.value} saveOnBlur={false} />
+    ))
+
+    const input = wrapper.find('input')
+    await input.trigger('focus')
+    await nextTick()
+
+    expect(input.element.value).toBe('')
+  })
+
+  it('should keep range inputs empty on focus when saveOnBlur is false', async () => {
+    const value = ref<[Date, Date] | []>([])
+    const wrapper = mount(() => (
+      <TimePicker v-model={value.value} is-range saveOnBlur={false} />
+    ))
+
+    const [startInput, endInput] = wrapper.findAll('input')
+    await startInput.trigger('focus')
+    await nextTick()
+
+    expect(startInput.element.value).toBe('')
+    expect(endInput.element.value).toBe('')
+  })
+
   it('avoid update initial value when using disabledHours', async () => {
     const value = ref([])
 

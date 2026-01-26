@@ -106,6 +106,13 @@ export const timePickerDefaultProps = buildProps({
     default: true,
   },
   /**
+   * @description Whether to keep the input empty on focus when no value is selected.
+   */
+  saveOnBlur: {
+    type: Boolean,
+    default: true,
+  },
+  /**
    * @description Custom prefix icon component
    */
   prefixIcon: {

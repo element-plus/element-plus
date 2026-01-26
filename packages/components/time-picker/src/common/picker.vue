@@ -407,6 +407,7 @@ const displayValue = computed<UserInput>(() => {
   } else if (userInput.value !== null) {
     return userInput.value
   }
+  if (isTimePicker.value && valueIsEmpty.value && !props.saveOnBlur) return ''
   if (!isTimePicker.value && valueIsEmpty.value) return ''
   if (!pickerVisible.value && valueIsEmpty.value) return ''
   if (formattedValue) {
