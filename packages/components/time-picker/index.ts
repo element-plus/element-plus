@@ -6,8 +6,8 @@ import TimePickPanel from './src/time-picker-com/panel-time-pick.vue'
 import type { SFCWithInstall } from '@element-plus/utils'
 
 export type TimePickerInstance = InstanceType<typeof TimePicker> &
-  timePickerExpose
-export type timePickerExpose = {
+  TimePickerExpose
+export type TimePickerExpose = {
   focus: () => void
   blur: () => void
   handleOpen: () => void
