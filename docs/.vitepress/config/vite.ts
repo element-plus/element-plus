@@ -43,18 +43,6 @@ const alias: AliasOptions = [
     find: '~/',
     replacement: `${path.resolve(__dirname, '../vitepress')}/`,
   },
-  ...(process.env.DOC_ENV === 'production'
-    ? []
-    : [
-        {
-          find: /^element-plus(\/(es|lib))?$/,
-          replacement: path.resolve(projRoot, 'packages/element-plus/index.ts'),
-        },
-        {
-          find: /^element-plus\/(es|lib)\/(.*)$/,
-          replacement: `${path.resolve(projRoot, 'packages')}/$2`,
-        },
-      ]),
 ]
 
 export const getViteConfig = ({ mode }: { mode: string }) => {
