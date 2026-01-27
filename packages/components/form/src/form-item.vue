@@ -102,7 +102,6 @@ const validateMessage = ref('')
 const formItemRef = ref<HTMLDivElement>()
 // special inline value.
 let initialValue: any = undefined
-let initialValueSet = false
 let isResettingField = false
 
 const labelPosition = computed(
@@ -369,7 +368,6 @@ const removeInputId: FormItemContext['removeInputId'] = (id: string) => {
 
 const setInitialValue: FormItemContext['setInitialValue'] = (value: any) => {
   initialValue = clone(value)
-  initialValueSet = true
 }
 
 watch(
@@ -411,8 +409,9 @@ provide(formItemContextKey, context)
 onMounted(() => {
   if (props.prop) {
     formContext?.addField(context)
-    // Only set from current model value if not already set by form's cache
-    if (!initialValueSet) {
+    // If form didn't set initial value via setInitialValues() (legacy behavior),
+    // use current model value as initial value for backward compatibility
+    if (initialValue === undefined) {
       initialValue = clone(fieldValue.value)
     }
   }

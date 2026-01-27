@@ -48,8 +48,16 @@ const emit = defineEmits(formEmits)
 
 const formRef = ref<HTMLElement>()
 const fields = reactive<FormItemContext[]>([])
-/** Cache initial value per prop so that resetFields can restore model for form-items hidden by v-if */
+/**
+ * Store initial values set by setInitialValues() for reset behavior.
+ * This is the single source of truth for reset when setInitialValues() is called.
+ */
 const initialValuesCache: Record<string, any> = {}
+/**
+ * Flag indicating whether setInitialValues() has been called.
+ * When false, reset behavior falls back to legacy mode (only reset mounted form-items).
+ */
+let initialValuesSet = false
 
 const formSize = useFormSize()
 const ns = useNamespace('form')
@@ -71,15 +79,13 @@ const getField: FormContext['getField'] = (prop) => {
 
 const addField: FormContext['addField'] = (field) => {
   fields.push(field)
-  if (field.prop) {
-    // Use existence check instead of !== undefined to support initial value being undefined
-    if (field.propString in initialValuesCache) {
-      field.setInitialValue(initialValuesCache[field.propString])
-    } else if (props.model) {
-      initialValuesCache[field.propString] = clone(
-        getProp(props.model, field.prop).value
-      )
-    }
+  // If setInitialValues() was called and cache exists for this field, sync to form-item
+  if (
+    field.prop &&
+    initialValuesSet &&
+    field.propString in initialValuesCache
+  ) {
+    field.setInitialValue(initialValuesCache[field.propString])
   }
 }
 
@@ -103,18 +109,22 @@ const setInitialValues: FormContext['setInitialValues'] = (
     )
     return
   }
-  // 1. Write top-level keys of initModel to cache to support restoring props hidden by v-if when reset
-  for (const k of Object.keys(initModel)) {
-    if (has(initModel, k)) {
-      initialValuesCache[k] = clone(getProp(initModel, k).value)
+
+  // Mark that setInitialValues() has been called
+  initialValuesSet = true
+
+  // Save all fields in initModel to cache (single source of truth for reset)
+  for (const key of Object.keys(initModel)) {
+    if (has(initModel, key)) {
+      const value = getProp(initModel, key).value
+      initialValuesCache[key] = clone(value)
     }
   }
-  // 2. Update cache for props in fields and sync to form-items
+
+  // Sync to currently mounted form-items
   fields.forEach((field) => {
-    if (field.prop && has(initModel, field.prop)) {
-      const initValue = getProp(initModel, field.prop).value
-      initialValuesCache[field.propString] = clone(initValue)
-      field.setInitialValue(initValue)
+    if (field.prop && field.propString in initialValuesCache) {
+      field.setInitialValue(initialValuesCache[field.propString])
     }
   })
 }
@@ -124,23 +134,44 @@ const resetFields: FormContext['resetFields'] = (properties = []) => {
     debugWarn(COMPONENT_NAME, 'model is required for resetFields to work.')
     return
   }
-  const filteredFields = filterFields(fields, properties)
-  filteredFields.forEach((field) => field.resetField())
 
-  // For items in the target prop list but not in fields (e.g., hidden by v-if), write back to model using cache
-  const propsToReset =
-    ensureArray(properties).length === 0
-      ? Object.keys(initialValuesCache)
-      : ensureArray(properties).map((p) =>
-          isArray(p) ? (p as string[]).join('.') : String(p)
-        )
-  for (const prop of propsToReset) {
-    if (filteredFields.some((f) => f.propString === prop)) continue
-    // Use existence check instead of !== undefined to support cached value being undefined
-    if (prop in initialValuesCache) {
-      getProp(props.model, prop).value = clone(initialValuesCache[prop])
+  if (!initialValuesSet) {
+    // Legacy behavior: only reset mounted form-items
+    filterFields(fields, properties).forEach((field) => field.resetField())
+    return
+  }
+
+  // New behavior when setInitialValues() was called:
+  // 1. Reset fields in cache directly from cache (works even if unmounted)
+  // 2. Also reset mounted fields not in cache using their own initialValue
+  const filteredFields = filterFields(fields, properties)
+  const propsArray = ensureArray(properties)
+  const resetAll = propsArray.length === 0
+
+  // Build set of props to reset from cache
+  const cachePropsToReset = resetAll
+    ? Object.keys(initialValuesCache)
+    : propsArray
+        .map((p) => (isArray(p) ? (p as string[]).join('.') : String(p)))
+        .filter((p) => p in initialValuesCache)
+
+  // Reset from cache (single source of truth)
+  for (const prop of cachePropsToReset) {
+    getProp(props.model, prop).value = clone(initialValuesCache[prop])
+    // If form-item is mounted, clear its validation state
+    const field = fields.find((f) => f.propString === prop)
+    if (field) {
+      field.clearValidate()
     }
   }
+
+  // Also reset mounted form-items that are NOT in cache (maintain their own initialValue)
+  const cachePropsSet = new Set(cachePropsToReset)
+  filteredFields.forEach((field) => {
+    if (!cachePropsSet.has(field.propString)) {
+      field.resetField()
+    }
+  })
 }
 
 const clearValidate: FormContext['clearValidate'] = (props = []) => {
