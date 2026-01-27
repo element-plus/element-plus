@@ -37,7 +37,7 @@ function useExpand<T extends DefaultRow>(watcherData: WatcherPropsData<T>) {
   const toggleRowExpansion = (row: T, expanded?: boolean) => {
     const dataArr = watcherData.data.value || []
     const rowIndex = dataArr.indexOf(row)
-    if (!canRowExpand(row, rowIndex)) return
+    if (rowIndex > -1 && !canRowExpand(row, rowIndex)) return
 
     const changed = toggleRowStatus(
       expandRows.value,
