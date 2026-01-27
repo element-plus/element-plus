@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import {
   computed,
   getCurrentInstance,
@@ -14,9 +14,11 @@ import { useNamespace } from '@element-plus/hooks'
 import { throwError } from '@element-plus/utils'
 import { getCollapsible, isCollapsible } from './hooks/usePanel'
 import SplitBar from './split-bar.vue'
-import { splitterPanelEmits, splitterPanelProps } from './split-panel'
+import { splitterPanelEmits } from './split-panel'
 import { getPct, getPx, isPct, isPx } from './hooks'
 import { splitterRootContextKey } from './type'
+
+import type { SplitterPanelProps } from './split-panel'
 
 const ns = useNamespace('splitter-panel')
 
@@ -25,7 +27,9 @@ defineOptions({
   name: COMPONENT_NAME,
 })
 
-const props = defineProps(splitterPanelProps)
+const props = withDefaults(defineProps<SplitterPanelProps>(), {
+  resizable: true,
+})
 
 const emits = defineEmits(splitterPanelEmits)
 const splitterContext = inject(splitterRootContextKey)

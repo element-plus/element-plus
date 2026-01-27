@@ -140,7 +140,7 @@ describe('config-provider', () => {
         round: true,
         autoInsertSpace: true,
         text: true,
-      })
+      } as const)
 
       const wrapper = mount(() => (
         <ConfigProvider button={config}>
@@ -162,7 +162,7 @@ describe('config-provider', () => {
     it('should have shadow="hover" instead of \'always\'', async () => {
       const config = reactive({
         shadow: 'hover',
-      })
+      } as const)
       const overrideShadow = ref('')
 
       const wrapper = mount(() => (
@@ -183,7 +183,7 @@ describe('config-provider', () => {
       const config = reactive({
         type: 'success',
         underline: 'always',
-      })
+      } as const)
 
       const wrapper = mount(() => (
         <ConfigProvider link={config}>

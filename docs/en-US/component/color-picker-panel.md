@@ -62,8 +62,14 @@ color-picker-panel/disabled
 | disabled                 | whether to disable the color picker        | ^[boolean]                                                                                                       | false   |
 | show-alpha               | whether to display the alpha slider        | ^[boolean]                                                                                                       | false   |
 | color-format             | color format of v-model                    | ^[enum]`'hsl' \| 'hsv' \| 'hex' \| 'rgb' \| 'hex' (when show-alpha is false) \| 'rgb' (when show-alpha is true)` | —       |
-| predefine                | predefined color options                   | ^[object]`string[]`                                                                                              | —       |
+| predefine                | predefined color options                   | ^[array]`string[]`                                                                                               | —       |
 | validate-event ^(2.11.7) | whether to trigger form validation         | ^[boolean]                                                                                                       | true    |
+
+### Slots
+
+| Name   | Description                       |
+| ------ | --------------------------------- |
+| footer | content to append after the Input |
 
 ### Exposes
 

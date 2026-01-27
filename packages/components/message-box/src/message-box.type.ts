@@ -1,12 +1,15 @@
+import { buttonTypes } from '@element-plus/components/button'
+
 import type { AppContext, CSSProperties, Component, VNode } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 import type { InputType } from '@element-plus/components/input/src/input'
 
 type MessageType = '' | 'primary' | 'success' | 'warning' | 'info' | 'error'
+type MessageBoxButtonType = (typeof buttonTypes)[number]
 
 export type Action = 'confirm' | 'close' | 'cancel'
 export type MessageBoxType = '' | 'prompt' | 'alert' | 'confirm'
-export type MessageBoxData = MessageBoxInputData & Action
+export type MessageBoxData = MessageBoxInputData | Action
 export interface MessageBoxInputData {
   value: string
   action: Action
@@ -38,6 +41,8 @@ export declare interface MessageBoxState {
   dangerouslyUseHTMLString: boolean
   confirmButtonText: string
   cancelButtonText: string
+  confirmButtonType: MessageBoxButtonType
+  cancelButtonType: MessageBoxButtonType
   confirmButtonLoading: boolean
   cancelButtonLoading: boolean
   confirmButtonLoadingIcon: string | Component
@@ -99,6 +104,12 @@ export interface ElMessageBoxOptions {
 
   /** Text content of confirm button */
   confirmButtonText?: string
+
+  /** Type of cancel button */
+  cancelButtonType?: MessageBoxButtonType
+
+  /** Type of confirm button */
+  confirmButtonType?: MessageBoxButtonType
 
   /** Loading Icon content of cancel button */
   cancelButtonLoadingIcon?: string | Component

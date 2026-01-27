@@ -17,6 +17,16 @@ timeline/basic
 
 :::
 
+## Mode ^(2.13.1)
+
+Use `mode` to control the relative position of timeline and content.
+
+:::demo
+
+timeline/mode
+
+:::
+
 ## Custom node
 
 Size, color, and icons can be customized in node.
@@ -61,9 +71,10 @@ timeline/reverse
 
 ### Timeline Attributes
 
-| Name              | Description           | Type       | Default |
-| ----------------- | --------------------- | ---------- | ------- |
-| reverse ^(2.11.9) | whether reverse order | ^[boolean] | false   |
+| Name              | Description                               | Type                                                            | Default |
+| ----------------- | ----------------------------------------- | --------------------------------------------------------------- | ------- |
+| reverse ^(2.11.9) | whether reverse order                     | ^[boolean]                                                      | false   |
+| mode ^(2.13.1)    | relative position of timeline and content | ^[enum]`'start' \| 'alternate' \| 'alternate-reverse' \| 'end'` | start   |
 
 ### Timeline Slots
 

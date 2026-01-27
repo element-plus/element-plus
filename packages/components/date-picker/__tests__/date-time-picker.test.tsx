@@ -681,32 +681,41 @@ describe('Datetimerange', () => {
   })
 
   it('clear button should empty the input value', async () => {
-    const value = ref('')
+    const value = ref([])
+    const onClear = vi.fn()
     const wrapper = _mount(() => (
-      <DatePicker v-model={value.value} type="datetimerange" />
+      <DatePicker
+        v-model={value.value}
+        type="datetimerange"
+        //@ts-expect-error
+        onClear={onClear}
+      />
     ))
     const input = wrapper.find('input')
-    input.trigger('focus')
-    await nextTick()
+    await input.trigger('focus')
     const dateRow = document.querySelectorAll('.el-date-table__row')
     const dateCell = dateRow[1].querySelectorAll<HTMLElement>('.available')
-    dateCell[0].click()
-    dateCell[3].click()
+    triggerEvent(dateCell[0], 'mousemove', true)
+    triggerEvent(dateCell[0], 'click', true)
+    await nextTick()
+    triggerEvent(dateCell[3], 'mousemove', true)
+    triggerEvent(dateCell[3], 'click', true)
     await nextTick()
     const headerValue = document.querySelectorAll<HTMLInputElement>(
       '.el-date-range-picker__time-header input'
     )
     expect(headerValue[0].value).not.toBe('')
     expect(headerValue[1].value).not.toBe('')
+    expect(value.value).toHaveLength(2)
     const clearBtn = document.querySelectorAll<HTMLButtonElement>(
       '.el-picker-panel__footer button'
     )[0]
     clearBtn.click()
     await nextTick()
-    input.trigger('blur')
-    await nextTick()
-    input.trigger('focus')
-    await nextTick()
+    expect(onClear).toHaveBeenCalledOnce()
+    expect(value.value).toBe(null)
+    await input.trigger('blur')
+    await input.trigger('focus')
     expect(headerValue[0].value).toBe('')
     expect(headerValue[1].value).toBe('')
   })
@@ -1153,7 +1162,7 @@ describe('Datetimerange', () => {
   it('should show clear btn on focus', async () => {
     const wrapper = _mount(() => (
       <DatePicker
-        type="datetimerange"
+        type="datetime"
         modelValue={new Date(2016, 9, 10, 18, 40)}
         clearable
       />
@@ -1230,6 +1239,70 @@ describe('Datetimerange', () => {
       document.querySelectorAll('.el-time-spinner__list .is-active')[2]
         .textContent
     ).toBe('01')
+  })
+
+  it('should not duplicate panels after confirm left time input', async () => {
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date(2000, 0))
+    const modelValue = ref([])
+    const wrapper = _mount(() => (
+      <DatePicker v-model={modelValue.value} type="datetimerange" />
+    ))
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    const rangePicker = wrapper.findComponent(DatePickerRange)
+    const pickerss = rangePicker.findAll('.el-picker-panel__content')
+    const cells = pickerss[1].findAll('.available .el-date-table-cell')
+    await cells[0].trigger('click')
+    await cells[1].trigger('click')
+    const leftTimeInput = rangePicker.findAll<HTMLInputElement>(
+      '.el-date-range-picker__time-picker-wrap input'
+    )[1]
+    await leftTimeInput.trigger('focus')
+    await rangePicker.find('.el-time-panel__btn.confirm').trigger('click')
+    const leftHeader = pickerss[0].findAll(
+      '.el-date-range-picker__header-label'
+    )[1]
+    const rightHeader = pickerss[1].findAll(
+      '.el-date-range-picker__header-label'
+    )[1]
+
+    expect(leftHeader.text()).toBe('January')
+    expect(rightHeader.text()).toBe('February')
+    vi.useRealTimers()
+  })
+
+  it('should not duplicate panels after confirm right time input', async () => {
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date(2000, 0))
+    const modelValue = ref([])
+    const wrapper = _mount(() => (
+      <DatePicker v-model={modelValue.value} type="datetimerange" />
+    ))
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    await input.trigger('focus')
+    const rangePicker = wrapper.findComponent(DatePickerRange)
+    const cells = rangePicker.findAll('.available .el-date-table-cell')
+    await cells[0].trigger('click')
+    await cells[1].trigger('click')
+    const pickerss = rangePicker.findAll('.el-date-range-picker__header')
+    const rightTimeInput = rangePicker.findAll<HTMLInputElement>(
+      '.el-date-range-picker__time-picker-wrap input'
+    )[3]
+    await rightTimeInput.trigger('focus')
+    await rangePicker.find('.el-time-panel__btn.confirm').trigger('click')
+    const leftHeader = pickerss[0].findAll(
+      '.el-date-range-picker__header-label'
+    )[1]
+    const rightHeader = pickerss[1].findAll(
+      '.el-date-range-picker__header-label'
+    )[1]
+
+    expect(leftHeader.text()).toBe('January')
+    expect(rightHeader.text()).toBe('February')
+    vi.useRealTimers()
   })
 
   it('should work with editable prop', async () => {

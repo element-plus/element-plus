@@ -114,7 +114,18 @@ const useTableGrid = (props: TableV2GridProps) => {
   }
 
   function scrollToRow(row: number, strategy: ScrollStrategy) {
-    unref(bodyRef)?.scrollToItem(row, 1, strategy)
+    const body = unref(bodyRef)
+    if (!body) return
+
+    const prevScrollLeft = scrollLeft.value
+
+    body.scrollToItem(row, 0, strategy)
+
+    if (prevScrollLeft) {
+      scrollTo({
+        scrollLeft: prevScrollLeft,
+      })
+    }
   }
 
   function forceUpdate() {

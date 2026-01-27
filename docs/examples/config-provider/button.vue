@@ -26,7 +26,9 @@
 import { reactive } from 'vue'
 import { buttonTypes } from 'element-plus'
 
-const config = reactive({
+import type { ButtonConfigContext } from 'element-plus'
+
+const config = reactive<ButtonConfigContext>({
   autoInsertSpace: true,
   type: 'default',
   plain: true,

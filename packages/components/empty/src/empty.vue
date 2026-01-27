@@ -21,15 +21,18 @@ import { computed } from 'vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { addUnit } from '@element-plus/utils'
 import ImgEmpty from './img-empty.vue'
-import { emptyProps } from './empty'
 
 import type { CSSProperties } from 'vue'
+import type { EmptyProps } from './empty'
 
 defineOptions({
   name: 'ElEmpty',
 })
 
-const props = defineProps(emptyProps)
+const props = withDefaults(defineProps<EmptyProps>(), {
+  image: '',
+  description: '',
+})
 
 const { t } = useLocale()
 const ns = useNamespace('empty')

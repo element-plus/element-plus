@@ -76,6 +76,7 @@ interface SelectProps {
   popperAppendToBody?: boolean
   placeholder?: string
   debounce?: number
+  automaticDropdown?: boolean
   [key: string]: any
 }
 
@@ -146,6 +147,7 @@ const createSelect = (
         :teleported="teleported"
         :tabindex="tabindex"
         :default-first-option="defaultFirstOption"
+        :automatic-dropdown="automaticDropdown"
         ${
           options.methods && options.methods.filterMethod
             ? `:filter-method="filterMethod"`
@@ -198,6 +200,7 @@ const createSelect = (
           teleported: undefined,
           tabindex: undefined,
           defaultFirstOption: false,
+          automaticDropdown: false,
           ...(options.data && options.data()),
         }
       },
@@ -2727,5 +2730,103 @@ describe('Select', () => {
     expect(handleVisibleChange).toHaveBeenCalledTimes(1)
     await input.trigger('blur')
     expect(handleVisibleChange).toHaveBeenCalledTimes(2)
+  })
+
+  it('should show empty slot correctly in remote search scenarios', async () => {
+    vi.useFakeTimers()
+    const wrapper = _mount(
+      `
+      <el-select
+        v-model="value"
+        filterable
+        remote
+        :remote-method="remoteMethod"
+        :options="options"
+      >
+        <template #empty>
+          <div class="custom-empty">NO DATA</div>
+        </template>
+      </el-select>
+      `,
+      {
+        data() {
+          return {
+            value: '',
+            options: [],
+          }
+        },
+        methods: {
+          remoteMethod(query: string) {
+            if (!query || query === 'empty') {
+              this.options = []
+            } else {
+              this.options = [{ value: '1', label: 'Option 1' }]
+            }
+          },
+        },
+      }
+    )
+
+    const select = wrapper.findComponent({ name: 'ElSelectV2' })
+    const input = wrapper.find('input')
+    const vm = select.vm as any
+
+    await input.trigger('click')
+    expect(vm.options.length).toBe(0)
+    expect(vm.dropdownMenuVisible).toBe(true)
+    expect(document.querySelector('.custom-empty')).not.toBeNull()
+
+    await input.setValue('a')
+    vi.runAllTimers()
+    await nextTick()
+    expect(vm.options.length).toBe(1)
+    expect(vm.dropdownMenuVisible).toBe(true)
+    expect(document.querySelector('.custom-empty')).toBeNull()
+
+    await input.setValue('empty')
+    vi.runAllTimers()
+    await nextTick()
+
+    expect(vm.options.length).toBe(0)
+    expect(vm.dropdownMenuVisible).toBe(true)
+    expect(document.querySelector('.custom-empty')).not.toBeNull()
+
+    vi.useRealTimers()
+  })
+
+  it('should not open popper when automatic-dropdown not set', async () => {
+    const wrapper = createSelect()
+    await nextTick()
+    const select = wrapper.findComponent(Select)
+    const input = select.find('input')
+    await input.trigger('focus')
+    expect((select.vm as any).expanded).toBe(false)
+  })
+
+  it('should open popper when automatic-dropdown is set', async () => {
+    const wrapper = createSelect({
+      data: () => ({ automaticDropdown: true }),
+    })
+    await nextTick()
+    const select = wrapper.findComponent(Select)
+    const input = select.find('input')
+    await input.trigger('focus')
+    expect((select.vm as any).expanded).toBe(true)
+  })
+
+  it('automatic dropdown should cooperate with click to open the dropdown', async () => {
+    const wrapper = createSelect({
+      data: () => ({ automaticDropdown: true }),
+    })
+    await nextTick()
+    const select = wrapper.findComponent(Select)
+    const input = select.find('input')
+    await input.trigger('focus')
+    expect((select.vm as any).expanded).toBe(true)
+    await input.trigger('keydown', { key: EVENT_CODE.down })
+    await input.trigger('keydown', { key: EVENT_CODE.enter })
+    expect((select.vm as any).expanded).toBe(false)
+    await input.trigger('click')
+    expect((select.vm as any).expanded).toBe(true)
   })
 })
