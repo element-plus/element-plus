@@ -399,8 +399,6 @@ const getSuggestionContext = () => {
 }
 
 const stopHandle = onClickOutside(listboxRef, () => {
-  // Prevent closing if focus is inside popper content
-  if (popperRef.value?.isFocusInsideContent()) return
   handleBlur(new FocusEvent('blur'))
 })
 
