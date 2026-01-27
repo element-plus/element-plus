@@ -295,7 +295,6 @@ const handleBlur = (evt: FocusEvent) => {
       ignoreFocusEvent = true
       return
     }
-    ignoreFocusEvent = false
     activated.value && close()
     emit('blur', evt)
   })
@@ -398,8 +397,13 @@ const getSuggestionContext = () => {
   return [suggestion, suggestionList] as const
 }
 
-const stopHandle = onClickOutside(listboxRef, () => {
-  handleBlur(new FocusEvent('blur'))
+const stopHandle = onClickOutside(listboxRef, (event: FocusEvent) => {
+  // Prevent closing if focus is inside popper content
+  if (popperRef.value?.isFocusInsideContent()) return
+  if (suggestionVisible.value) {
+    ignoreFocusEvent = false
+    handleBlur(new FocusEvent('blur', event))
+  }
 })
 
 const handleKeydown = (e: KeyboardEvent | Event) => {
