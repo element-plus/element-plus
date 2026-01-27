@@ -145,11 +145,10 @@ export const cellForced = {
         e.stopPropagation()
         store.toggleRowExpansion(row)
       }
-      const isRowExpandable = store.states.rowExpandable.value
-        ? store.states.rowExpandable.value(row, $index)
-        : true
+      const isRowExpandable =
+        store.states.rowExpandable.value?.(row, $index) ?? true
       if (!isRowExpandable) {
-        classes.push(ns.is('disabled', true))
+        classes.push(ns.is('disabled'))
       }
       return h(
         'button',

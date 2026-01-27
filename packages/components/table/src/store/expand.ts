@@ -12,7 +12,7 @@ function useExpand<T extends DefaultRow>(watcherData: WatcherPropsData<T>) {
 
   const canRowExpand = (row: T, index: number) => {
     const expandableFn = instance.store.states.rowExpandable.value
-    return !expandableFn || expandableFn(row, index)
+    return expandableFn?.(row, index) ?? true
   }
 
   const updateExpandRows = () => {
@@ -36,12 +36,7 @@ function useExpand<T extends DefaultRow>(watcherData: WatcherPropsData<T>) {
 
   const toggleRowExpansion = (row: T, expanded?: boolean) => {
     const dataArr = watcherData.data.value || []
-    const rowKey = watcherData.rowKey.value
-    const rowIndex = rowKey
-      ? dataArr.findIndex(
-          (r) => getRowIdentity(r, rowKey) === getRowIdentity(row, rowKey)
-        )
-      : dataArr.indexOf(row)
+    const rowIndex = dataArr.indexOf(row)
     if (!canRowExpand(row, rowIndex)) return
 
     const changed = toggleRowStatus(
