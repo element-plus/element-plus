@@ -68,9 +68,48 @@ datePickerRef.value?.handleOpen()
 
 Components that currently use `defineExpose`:
 
-| Component | Instance type(s) |
-| --------- | ---------------- |
-| Affix     | `AffixInstance`  |
+| Component        | Instance type(s)                                |
+| ---------------- | ----------------------------------------------- |
+| Button           | `ButtonInstance`, `ButtonGroupInstance`         |
+| Scrollbar        | `ScrollbarPublicExpose`                         |
+| Splitter         | `SplitterInstance`, `SplitterPanelInstance`     |
+| Autocomplete     | `AutocompleteInstance`                          |
+| Cascader         | `CascaderInstance`                              |
+| CascaderPanel    | `CascaderPanelInstance`, `CascaderMenuInstance` |
+| ColorPickerPanel | `ColorPickerPanelInstance`                      |
+| ColorPicker      | `ColorPickerInstance`                           |
+| Form             | `FormInstance`, `FormItemInstance`              |
+| Input            | `InputInstance`                                 |
+| InputNumber      | `InputNumberInstance`                           |
+| InputTag         | `InputTagInstance`                              |
+| Mention          | `MentionInstance`                               |
+| Rate             | `RateInstance`                                  |
+| Switch           | `SwitchInstance`                                |
+| TimePicker       | `TimePickerInstance`                            |
+| TimeSelect       | `TimeSelectInstance`                            |
+| Transfer         | `TransferInstance`, `TransferPanelInstance`     |
+| Upload           | `UploadInstance`                                |
+| Calendar         | `CalendarInstance`                              |
+| Carousel         | `CarouselInstance`                              |
+| Collapse         | `CollapseInstance`, `CollapseItemInstance`      |
+| Image            | `ImageInstance`                                 |
+| ImageViewer      | `ImageViewerInstance`                           |
+| Table            | `TableInstance`                                 |
+| TableV2          | `TableInstance`                                 |
+| TreeV2           | `TreeV2Instance`                                |
+| Statistic        | `StatisticInstance`                             |
+| Countdown        | `CountdownInstance`                             |
+| Affix            | `AffixInstance`                                 |
+| Anchor           | `AnchorInstance`                                |
+| Dropdown         | `DropdownInstance`                              |
+| Menu             | `MenuInstance`                                  |
+| Tabs             | `TabsInstance`, `TabNavInstance`,               |
+| Dialog           | `DialogInstance`                                |
+| Drawer           | `DrawerInstance`                                |
+| Notification     | `NotificationInstance`                          |
+| Popconfirm       | `PopconfirmInstance`                            |
+| Popover          | `PopoverInstance`                               |
+| Tooltip          | `TooltipInstance`                               |
 
 ## The following commands are also useful during development
 
