@@ -51,6 +51,27 @@ will start the local development environment.
 
 Modify `App.vue` file per your needs to get things work.
 
+## Component instance types
+
+If a component uses `defineExpose`, you can get type hints on a `ref` by using
+its exported `*Instance` type.
+
+```ts
+import { ref } from 'vue'
+
+import type { DatePickerInstance } from 'element-plus'
+
+const datePickerRef = ref<DatePickerInstance>()
+
+datePickerRef.value?.handleOpen()
+```
+
+Components that currently use `defineExpose`:
+
+| Component | Instance type(s) |
+| --------- | ---------------- |
+| Affix     | `AffixInstance`  |
+
 ## The following commands are also useful during development
 
 ### Generate component template

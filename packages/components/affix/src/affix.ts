@@ -95,4 +95,9 @@ export const affixEmits = {
 }
 export type AffixEmits = typeof affixEmits
 
-export type AffixInstance = InstanceType<typeof Affix> & unknown
+export type AffixExpose = {
+  update: () => void
+  updateRoot: () => void
+}
+
+export type AffixInstance = InstanceType<typeof Affix> & AffixExpose
