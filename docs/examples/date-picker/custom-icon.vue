@@ -4,7 +4,6 @@
       <div class="block">
         <div class="demonstration">date</div>
         <el-date-picker
-          ref="datepickerref"
           v-model="value1"
           type="date"
           placeholder="Pick a day"
@@ -217,9 +216,6 @@
 import { ref } from 'vue'
 import { CaretLeft, CaretRight } from '@element-plus/icons-vue'
 
-import type { DatePickerInstance } from 'element-plus'
-
-const datepickerref = ref<DatePickerInstance>()
 const value1 = ref('')
 const value2 = ref('')
 const value3 = ref('')
