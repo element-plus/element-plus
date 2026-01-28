@@ -21,6 +21,12 @@ timeline/basic
 
 Use `mode` to control the relative position of timeline and content.
 
+:::tip
+
+After ^(2.13.1), `el-timeline` explicitly sets padding styles. If you have overridden padding styles of `ul` tag in your project, please check to ensure the layout is correct.
+
+:::
+
 :::demo
 
 timeline/mode
