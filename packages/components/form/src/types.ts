@@ -1,4 +1,4 @@
-import type { ComputedRef, Ref, SetupContext, UnwrapRef } from 'vue'
+import type { SetupContext, UnwrapRef } from 'vue'
 import type {
   RuleItem,
   ValidateError,
@@ -73,32 +73,5 @@ export interface FormItemContext extends FormItemProps {
   ) => FormValidationResult
   resetField(): void
   clearValidate(): void
-  setInitialValue: (value: any) => void
-}
-
-export type FormExpose = {
-  validate: (callback?: FormValidateCallback) => FormValidationResult
-  validateField: (
-    props?: Arrayable<FormItemProp>,
-    callback?: FormValidateCallback
-  ) => FormValidationResult
-  resetFields: (props?: Arrayable<FormItemProp>) => void
-  scrollToField: (prop: FormItemProp) => void
-  clearValidate: (props?: Arrayable<FormItemProp>) => void
-  fields: FormItemContext[]
-  getField: (prop: FormItemProp) => FormItemContext | undefined
-  setInitialValues: (initModel: Record<string, any>) => void
-}
-
-export type FormItemExpose = {
-  size: ComputedRef<ComponentSize>
-  validateMessage: Ref<string>
-  validateState: Ref<FormItemValidateState>
-  validate: (
-    trigger: string,
-    callback?: FormValidateCallback
-  ) => FormValidationResult
-  resetField: () => void
-  clearValidate: () => void
   setInitialValue: (value: any) => void
 }

@@ -197,19 +197,4 @@ export const scrollbarEmits = {
 export type ScrollbarEmits = typeof scrollbarEmits
 export type ScrollbarDirection = 'top' | 'bottom' | 'left' | 'right'
 
-export type ScrollbarPublicExpose = {
-  handleScroll: () => void
-  scrollTo: (options: ScrollToOptions | number, yCoord?: number) => void
-  setScrollTop: (scrollTop: number) => void
-  setScrollLeft: (scrollLeft: number) => void
-  update: () => void
-  wrapRef: HTMLDivElement
-}
-
-/**
- * @deprecated Prefer `ScrollbarPublicExpose` to avoid name collisions.
- */
-export type ScrollbarExpose = ScrollbarPublicExpose
-
-export type ScrollbarInstance = InstanceType<typeof Scrollbar> &
-  ScrollbarPublicExpose
+export type ScrollbarInstance = InstanceType<typeof Scrollbar> & unknown

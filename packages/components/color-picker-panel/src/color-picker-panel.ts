@@ -2,15 +2,9 @@ import { isNil } from 'lodash-unified'
 import { buildProps, definePropType, isString } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
-import type {
-  ComputedRef,
-  ExtractPublicPropTypes,
-  InjectionKey,
-  Ref,
-} from 'vue'
+import type { ComputedRef, ExtractPublicPropTypes, InjectionKey } from 'vue'
 import type ColorPickerPanel from './color-picker-panel.vue'
 import type Color from './utils/color'
-import type { InputInstance } from '@element-plus/components/input'
 
 export interface ColorPickerPanelProps {
   /**
@@ -98,14 +92,8 @@ export type ColorPickerPanelPropsPublic = ExtractPublicPropTypes<
   typeof colorPickerPanelProps
 >
 export type ColorPickerPanelEmits = typeof colorPickerPanelEmits
-export type ColorPickerPanelExpose = {
-  color: Color
-  inputRef: Ref<InputInstance>
-  update: () => void
-}
-
 export type ColorPickerPanelInstance = InstanceType<typeof ColorPickerPanel> &
-  ColorPickerPanelExpose
+  unknown
 
 export interface ColorPickerPanelContext {
   currentColor: ComputedRef<string>

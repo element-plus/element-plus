@@ -7,7 +7,6 @@ import {
 } from '@element-plus/hooks'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import Color from '@element-plus/components/color-picker-panel/src/utils/color'
 
 import type { ExtractPublicPropTypes } from 'vue'
 import type ColorPicker from './color-picker.vue'
@@ -182,16 +181,7 @@ export type ColorPickerPropsPublic = ExtractPublicPropTypes<
   typeof colorPickerProps
 >
 export type ColorPickerEmits = typeof colorPickerEmits
-export type ColorPickerExpose = {
-  color: Color
-  show: () => void
-  hide: () => void
-  focus: () => void
-  blur: () => void
-}
-
-export type ColorPickerInstance = InstanceType<typeof ColorPicker> &
-  ColorPickerExpose
+export type ColorPickerInstance = InstanceType<typeof ColorPicker> & unknown
 
 /**
  * @description default values for ColorPickerProps, used in components that extend ColorPickerProps
