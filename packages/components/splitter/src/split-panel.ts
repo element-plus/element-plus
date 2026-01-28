@@ -1,6 +1,6 @@
 import { buildProps } from '@element-plus/utils'
 
-import type { ExtractPublicPropTypes, Ref } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
 import type SplitterPanel from './split-panel.vue'
 
 export interface SplitterPanelProps {
@@ -37,12 +37,7 @@ export const splitterPanelProps = buildProps({
 export type SplitterPanelPropsPublic = ExtractPublicPropTypes<
   typeof splitterPanelProps
 >
-export type SplitterPanelExpose = {
-  splitterPanelRef: Ref<HTMLDivElement>
-}
-
-export type SplitterPanelInstance = InstanceType<typeof SplitterPanel> &
-  SplitterPanelExpose
+export type SplitterPanelInstance = InstanceType<typeof SplitterPanel> & unknown
 
 export const splitterPanelEmits = {
   'update:size': (value: number | string) =>

@@ -14,15 +14,12 @@ import {
 } from '@element-plus/constants'
 import { inputProps } from '@element-plus/components/input'
 
-import type { ExtractPublicPropTypes, Ref } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
 import type Autocomplete from './autocomplete.vue'
 import type { Placement } from '@element-plus/components/popper'
 import type { Awaitable } from '@element-plus/utils'
-import type { InputInstance, InputProps } from '@element-plus/components/input'
-import type {
-  ElTooltipContentProps,
-  TooltipInstance,
-} from '@element-plus/components/tooltip'
+import type { InputProps } from '@element-plus/components/input'
+import type { ElTooltipContentProps } from '@element-plus/components/tooltip'
 
 export type AutocompleteData = Record<string, any>[]
 export type AutocompleteFetchSuggestionsCallback = (
@@ -222,21 +219,4 @@ export const autocompleteEmits = {
 }
 export type AutocompleteEmits = typeof autocompleteEmits
 
-export type AutocompleteExpose = {
-  activated: Ref<boolean>
-  blur: () => void
-  close: () => void
-  focus: () => void
-  handleSelect: (item: any) => Promise<void>
-  handleKeyEnter: () => Promise<void>
-  highlightedIndex: Ref<number>
-  highlight: (itemIndex: number) => void
-  inputRef: Ref<InputInstance>
-  loading: Ref<boolean>
-  popperRef: Ref<TooltipInstance>
-  suggestions: Ref<Record<string, any>[]>
-  getData: (queryString: string) => Promise<void>
-}
-
-export type AutocompleteInstance = InstanceType<typeof Autocomplete> &
-  AutocompleteExpose
+export type AutocompleteInstance = InstanceType<typeof Autocomplete> & unknown

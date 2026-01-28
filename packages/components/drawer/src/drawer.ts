@@ -2,6 +2,7 @@ import { buildProps } from '@element-plus/utils'
 import { dialogEmits, dialogProps } from '@element-plus/components/dialog'
 
 import type { ExtractPublicPropTypes } from 'vue'
+import type Drawer from './drawer.vue'
 import type { DialogProps } from '@element-plus/components/dialog'
 
 export interface DrawerProps extends DialogProps {
@@ -76,3 +77,11 @@ export const drawerEmits = {
 }
 
 export type DrawerEmits = typeof drawerEmits
+
+export type DrawerExpose = {
+  handleClose: () => void
+  afterEnter: () => void
+  afterLeave: () => void
+}
+
+export type DrawerInstance = InstanceType<typeof Drawer> & DrawerExpose

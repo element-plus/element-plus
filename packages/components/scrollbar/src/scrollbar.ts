@@ -1,7 +1,7 @@
 import { buildProps, definePropType, isNumber } from '@element-plus/utils'
 import { useAriaProps } from '@element-plus/hooks'
 
-import type { ExtractPublicPropTypes, Ref, StyleValue } from 'vue'
+import type { ExtractPublicPropTypes, StyleValue } from 'vue'
 import type Scrollbar from './scrollbar.vue'
 
 export interface ScrollbarProps {
@@ -197,13 +197,19 @@ export const scrollbarEmits = {
 export type ScrollbarEmits = typeof scrollbarEmits
 export type ScrollbarDirection = 'top' | 'bottom' | 'left' | 'right'
 
-export type ScrollbarExpose = {
+export type ScrollbarPublicExpose = {
   handleScroll: () => void
   scrollTo: (options: ScrollToOptions | number, yCoord?: number) => void
   setScrollTop: (scrollTop: number) => void
   setScrollLeft: (scrollLeft: number) => void
   update: () => void
-  wrapRef: Ref<HTMLDivElement>
+  wrapRef: HTMLDivElement
 }
 
-export type ScrollbarInstance = InstanceType<typeof Scrollbar> & ScrollbarExpose
+/**
+ * @deprecated Prefer `ScrollbarPublicExpose` to avoid name collisions.
+ */
+export type ScrollbarExpose = ScrollbarPublicExpose
+
+export type ScrollbarInstance = InstanceType<typeof Scrollbar> &
+  ScrollbarPublicExpose
