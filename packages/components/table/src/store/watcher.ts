@@ -82,6 +82,8 @@ function useWatcher<T extends DefaultRow>() {
   const reserveSelection = ref(false)
   const selectOnIndeterminate = ref(false)
   const selectable: Ref<((row: T, index: number) => boolean) | null> = ref(null)
+  const rowExpandable: Ref<((row: T, index: number) => boolean) | null> =
+    ref(null)
   const filters: Ref<StoreFilter> = ref({})
   const filteredData: Ref<T[] | null> = ref(null)
   const sortingColumn: Ref<TableColumnCtx<T> | null> = ref(null)
@@ -577,6 +579,7 @@ function useWatcher<T extends DefaultRow>() {
       reserveSelection,
       selectOnIndeterminate,
       selectable,
+      rowExpandable,
       filters,
       filteredData,
       sortingColumn,

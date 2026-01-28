@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import {
   computed,
   getCurrentInstance,
@@ -160,7 +160,6 @@ watch(
 )
 
 const _panel = reactive({
-  el: panelEl.value!,
   uid,
   getVnode: () => instance.vnode,
   setIndex,

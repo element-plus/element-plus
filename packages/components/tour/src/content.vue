@@ -25,7 +25,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { computed, inject, ref, toRef, watch } from 'vue'
 import ElFocusTrap from '@element-plus/components/focus-trap'
 import { tourContentEmits } from './content'

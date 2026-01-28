@@ -40,10 +40,8 @@ export const useBasicDateTable = (
     .map((_) => _.toLowerCase())
 
   const offsetDay = computed(() => {
-    // Sunday 7(0), calculate the offset days to adjust the position of the first two rows of dates
-    // For weekStart <= 3: offset = weekStart (e.g., Monday = 1, Tuesday = 2, Wednesday = 3)
-    // For weekStart > 3: offset = 7 - weekStart (e.g., Thursday = 3, Friday = 2, Saturday = 1)
-    return firstDayOfWeek > 3 ? 7 - firstDayOfWeek : firstDayOfWeek
+    // Sunday 7(0), cal the left and right offset days, 3217654, such as Monday is -1, the is to adjust the position of the first two rows of dates
+    return firstDayOfWeek > 3 ? 7 - firstDayOfWeek : -firstDayOfWeek
   })
 
   const startDate = computed(() => {
@@ -224,9 +222,18 @@ export const useBasicDateTable = (
   }
 
   const getDateOfCell = (row: number, column: number) => {
-    const offsetFromStart =
-      row * 7 + (column - (props.showWeekNumber ? 1 : 0)) - unref(offsetDay)
-    return unref(startDate).add(offsetFromStart, 'day')
+    //NOTE: because relying of startDate is not reliable in every weekStart (especially 2, 3); we re-create it
+    const startOfMonthDay = unref(days).startOfMonthDay
+    const offset = unref(offsetDay)
+    const numberOfDaysFromPreviousMonth =
+      startOfMonthDay + offset < 0
+        ? 7 + startOfMonthDay + offset
+        : startOfMonthDay + offset
+    const offsetFromStart = row * 7 + (column - (props.showWeekNumber ? 1 : 0))
+    return props.date
+      .startOf('month')
+      .subtract(numberOfDaysFromPreviousMonth, 'day')
+      .add(offsetFromStart, 'day')
   }
 
   const handleMouseMove = (event: MouseEvent) => {

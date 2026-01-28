@@ -132,6 +132,7 @@ interface TableProps<T extends DefaultRow> {
   emptyText?: string
   expandRowKeys?: Array<string>
   defaultExpandAll?: boolean
+  rowExpandable?: (row: T, index: number) => boolean
   defaultSort?: Sort
   tooltipEffect?: string
   tooltipOptions?: TableOverflowTooltipOptions
@@ -154,7 +155,7 @@ interface TableProps<T extends DefaultRow> {
   load?: (row: T, treeNode: TreeNode, resolve: (data: T[]) => void) => void
   className?: string
   style?: StyleValue
-  tableLayout: Layout
+  tableLayout?: Layout
   scrollbarAlwaysOn?: boolean
   flexible?: boolean
   showOverflowTooltip?: boolean | TableOverflowTooltipOptions
@@ -323,6 +324,12 @@ export default {
    * @description whether expand all rows by default, works when the table has a column type="expand" or contains tree structure data
    */
   defaultExpandAll: Boolean,
+  /**
+   * @description enable expandable rows, works when the table has a column type="expand"
+   */
+  rowExpandable: {
+    type: Function as PropType<TableProps<any>['rowExpandable']>,
+  },
   /**
    * @description set the default sort column and order. property `prop` is used to set default sort column, property `order` is used to set default sort order
    */
