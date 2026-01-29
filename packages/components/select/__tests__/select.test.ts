@@ -1505,10 +1505,20 @@ describe('Select', () => {
 
     wrapper = _mount(
       `
-      <el-select v-model="selectedList" multiple collapseTags collapse-tags-tooltip placeholder="请选择">
-        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-        </el-option>
-      </el-select>
+      <div>
+        <div class="append-target"></div>
+        <el-select
+          v-model="selectedList"
+          multiple
+          collapseTags
+          collapse-tags-tooltip
+          collapse-tags-tooltip-append-to=".append-target"
+          placeholder="请选择"
+        >
+          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+          </el-option>
+        </el-select>
+      </div>
     `,
       () => ({
         options: [
@@ -1545,6 +1555,11 @@ describe('Select', () => {
     await nextTick()
     options[2].click()
     await nextTick()
+
+    const select = wrapper.findComponent(Select)
+    const tagTooltip = select.findComponent({ ref: 'tagTooltipRef' })
+    expect(tagTooltip.props('appendTo')).toBe('.append-target')
+
     const triggerWrappers = wrapper.findAll('.el-tooltip__trigger')
     expect(triggerWrappers[0]).toBeDefined()
     const tags = document.querySelectorAll('.el-select__tags-text')
