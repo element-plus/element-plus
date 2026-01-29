@@ -161,7 +161,7 @@ onMounted(() => {
 })
 
 onActivated(() => {
-  nextTick().then(() => updateRootRect())
+  nextTick(updateRootRect)
 })
 
 onDeactivated(() => {
