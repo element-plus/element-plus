@@ -85,6 +85,7 @@ Components that currently use `defineExpose`:
 | Mention          | `MentionInstance`                               |
 | Rate             | `RateInstance`                                  |
 | Switch           | `SwitchInstance`                                |
+| DatePicker       | `DatePickerInstance`                            |
 | TimePicker       | `TimePickerInstance`                            |
 | TimeSelect       | `TimeSelectInstance`                            |
 | Transfer         | `TransferInstance`, `TransferPanelInstance`     |
@@ -95,7 +96,7 @@ Components that currently use `defineExpose`:
 | Image            | `ImageInstance`                                 |
 | ImageViewer      | `ImageViewerInstance`                           |
 | Table            | `TableInstance`                                 |
-| TableV2          | `TableInstance`                                 |
+| TableV2          | `TableV2Instance`                               |
 | TreeV2           | `TreeV2Instance`                                |
 | Statistic        | `StatisticInstance`                             |
 | Countdown        | `CountdownInstance`                             |
@@ -103,7 +104,7 @@ Components that currently use `defineExpose`:
 | Anchor           | `AnchorInstance`                                |
 | Dropdown         | `DropdownInstance`                              |
 | Menu             | `MenuInstance`                                  |
-| Tabs             | `TabsInstance`, `TabNavInstance`,               |
+| Tabs             | `TabsInstance`, `TabNavInstance`                |
 | Dialog           | `DialogInstance`                                |
 | Drawer           | `DrawerInstance`                                |
 | Notification     | `NotificationInstance`                          |
