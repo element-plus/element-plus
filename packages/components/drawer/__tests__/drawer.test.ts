@@ -345,6 +345,7 @@ describe('Drawer', () => {
     const opened = vi.fn()
     const close = vi.fn()
     const closed = vi.fn()
+    vi.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => cb())
     const wrapper = _mount(
       `
       <el-drawer
@@ -369,16 +370,18 @@ describe('Drawer', () => {
           open,
           opened,
         },
+        global: {
+          stubs: {
+            transition: false,
+          },
+        },
       }
     )
     const vm = wrapper.vm as any
-    const drawer = wrapper.vm.$refs.drawer as any
-
     vm.visible = true
     await nextTick()
     await nextTick()
     expect(open).toHaveBeenCalled()
-    drawer.afterEnter()
     expect(opened).toHaveBeenCalled()
     expect(close).not.toHaveBeenCalled()
     expect(closed).not.toHaveBeenCalled()
@@ -386,7 +389,6 @@ describe('Drawer', () => {
     vm.visible = false
     await nextTick()
     expect(close).toHaveBeenCalled()
-    drawer.afterLeave()
     expect(closed).toHaveBeenCalled()
   })
 

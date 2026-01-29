@@ -175,7 +175,5 @@ const penetrable = computed(() => props.modalPenetrable && !props.modal)
 
 defineExpose({
   handleClose,
-  afterEnter,
-  afterLeave,
 })
 </script>
