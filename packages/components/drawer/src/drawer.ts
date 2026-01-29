@@ -78,10 +78,4 @@ export const drawerEmits = {
 
 export type DrawerEmits = typeof drawerEmits
 
-export type DrawerExpose = {
-  handleClose: () => void
-  afterEnter: () => void
-  afterLeave: () => void
-}
-
-export type DrawerInstance = InstanceType<typeof Drawer> & DrawerExpose
+export type DrawerInstance = InstanceType<typeof Drawer> & unknown
