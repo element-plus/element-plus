@@ -169,3 +169,5 @@ Drawer provides an API called `destroy-on-close`, which is a flag variable that 
 | Name        | Description                                                     |
 | ----------- | --------------------------------------------------------------- |
 | handleClose | In order to close Drawer, this method will call `before-close`. |
+| afterEnter  | Called after the enter transition and emits `opened`.           |
+| afterLeave  | Called after the leave transition and emits `closed`.           |
