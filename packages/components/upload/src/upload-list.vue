@@ -71,6 +71,7 @@
         <el-icon
           v-if="!disabled"
           :class="nsIcon.m('close')"
+          :aria-label="t('el.upload.delete')"
           role="button"
           tabindex="0"
           @click="handleRemove(file)"
