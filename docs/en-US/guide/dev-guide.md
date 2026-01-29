@@ -71,7 +71,7 @@ Components that currently use `defineExpose`:
 | Component        | Instance type(s)                                |
 | ---------------- | ----------------------------------------------- |
 | Button           | `ButtonInstance`, `ButtonGroupInstance`         |
-| Scrollbar        | `ScrollbarPublicExpose`                         |
+| Scrollbar        | `ScrollbarInstance`                             |
 | Splitter         | `SplitterInstance`, `SplitterPanelInstance`     |
 | Autocomplete     | `AutocompleteInstance`                          |
 | Cascader         | `CascaderInstance`                              |
