@@ -313,8 +313,16 @@ export function useTree(
 
   watch(
     () => props.defaultExpandedKeys,
-    (key) => {
-      expandedKeySet.value = new Set<TreeKey>(key)
+    (keys) => {
+      const newSet = new Set<TreeKey>(keys)
+      expandedKeySet.value = newSet
+      // Update the expanded state of existing tree nodes
+      const nodeMap = tree.value?.treeNodeMap
+      if (nodeMap) {
+        nodeMap.forEach((node) => {
+          node.expanded = newSet.has(node.key)
+        })
+      }
     },
     {
       immediate: true,
