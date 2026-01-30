@@ -243,6 +243,10 @@
         display: inline-flex;
       }
 
+      .#{bem('icon', '', 'close-tip')} {
+        right: 24px;
+      }
+
       .#{bem('progress', 'text')} {
         display: none;
       }
