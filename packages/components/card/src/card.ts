@@ -79,6 +79,10 @@ export const cardProps = buildProps({
     default: undefined,
   },
 } as const)
+
+/**
+ * @deprecated Removed after 3.0.0, Use `CardProps` instead.
+ */
 export type CardPropsPublic = ExtractPublicPropTypes<typeof cardProps>
 export interface CardConfigContext {
   shadow?: CardProps['shadow']

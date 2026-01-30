@@ -1,8 +1,9 @@
 import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 import { ArrowRight } from '@element-plus/icons-vue'
 
-import type { Component, ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
 import type { CollapseActiveName } from './collapse'
+import type { IconPropType } from '@element-plus/utils'
 
 export interface CollapseItemProps {
   /**
@@ -16,7 +17,7 @@ export interface CollapseItemProps {
   /**
    * @description icon of the collapse item
    */
-  icon?: string | Component
+  icon?: IconPropType
   /**
    * @description disable the collapse item
    */

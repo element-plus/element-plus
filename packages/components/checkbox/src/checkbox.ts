@@ -1,10 +1,11 @@
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { AriaProps, useAriaProps, useSizeProp } from '@element-plus/hooks'
+import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import { isBoolean, isNumber, isString } from '@element-plus/utils'
 
 import type { ExtractPublicPropTypes } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 import type Checkbox from './checkbox.vue'
+import type { AriaProps } from '@element-plus/hooks'
 
 export type CheckboxValueType = string | number | boolean
 
@@ -192,6 +193,7 @@ export const checkboxEmits = {
   change: (val: CheckboxValueType) =>
     isString(val) || isNumber(val) || isBoolean(val),
 }
+
 /**
  * @deprecated Removed after 3.0.0, Use `CheckboxProps` instead.
  */
