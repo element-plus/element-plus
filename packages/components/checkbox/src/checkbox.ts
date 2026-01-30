@@ -4,8 +4,8 @@ import { isBoolean, isNumber, isString } from '@element-plus/utils'
 
 import type { ExtractPublicPropTypes } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
-import type Checkbox from './checkbox.vue'
 import type { AriaProps } from '@element-plus/hooks'
+import type Checkbox from './checkbox.vue'
 
 export type CheckboxValueType = string | number | boolean
 

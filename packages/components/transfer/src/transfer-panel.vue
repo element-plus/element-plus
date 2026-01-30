@@ -57,7 +57,7 @@
 
 <script lang="ts" setup>
 import { computed, reactive, toRefs, useSlots } from 'vue'
-import { isEmpty } from '@element-plus/utils'
+import { isEmpty, mutable } from '@element-plus/utils'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { ElCheckbox, ElCheckboxGroup } from '@element-plus/components/checkbox'
 import { ElInput } from '@element-plus/components/input'
@@ -76,11 +76,12 @@ const props = withDefaults(defineProps<TransferPanelProps>(), {
   data: () => [],
   format: () => ({}),
   defaultChecked: () => [],
-  props: () => ({
-    label: 'label',
-    key: 'key',
-    disabled: 'disabled',
-  }),
+  props: () =>
+    mutable({
+      label: 'label',
+      key: 'key',
+      disabled: 'disabled',
+    }),
 })
 const emit = defineEmits(transferPanelEmits)
 const slots = useSlots()
