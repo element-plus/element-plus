@@ -2694,6 +2694,19 @@ describe('Select', () => {
     })
   })
 
+  test('should show empty content when duplicated values are filtered out', async () => {
+    wrapper = getSelectVm({ filterable: true }, [
+      { label: 'Test 1', value: 1 },
+      { label: 'Test 2', value: 1 },
+    ])
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+    const input = wrapper.find('.el-select__input')
+    await input.setValue('zzz')
+    await nextTick()
+    const empty = document.querySelector('.el-select-dropdown__empty')
+    expect(empty).not.toBeNull()
+  })
+
   describe('after search', () => {
     async function testAfterSearch({
       multiple,

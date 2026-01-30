@@ -69,6 +69,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     inputValue: '',
     options: new Map(),
     cachedOptions: new Map(),
+    optionsList: [],
     optionValues: [], // sorted value of options
     selected: [],
     selectionWidth: 0,
@@ -235,7 +236,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     if (props.filterable && isFunction(props.filterMethod)) return
     if (props.filterable && props.remote && isFunction(props.remoteMethod))
       return
-    optionsArray.value.forEach((option) => {
+    states.optionsList.forEach((option) => {
       option.updateOption?.(states.inputValue)
     })
   }
@@ -643,11 +644,16 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   const onOptionCreate = (vm: OptionPublicInstance) => {
     states.options.set(vm.value, vm)
     states.cachedOptions.set(vm.value, vm)
+    states.optionsList.push(vm)
   }
 
   const onOptionDestroy = (key: OptionValue, vm: OptionPublicInstance) => {
     if (states.options.get(key) === vm) {
       states.options.delete(key)
+    }
+    const index = states.optionsList.indexOf(vm)
+    if (index > -1) {
+      states.optionsList.splice(index, 1)
     }
   }
 
