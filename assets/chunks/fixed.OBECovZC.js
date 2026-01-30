@@ -1,0 +1,1 @@
+import{aA as n,ad as e,A as s,B as c,H as t,G as f,V as r}from"./framework.Bh1IZrEZ.js";const _={};function p(i,x){const o=e("el-button"),a=e("el-affix");return c(),s(a,{position:"bottom",offset:20},{default:t(()=>[f(o,{type:"primary"},{default:t(()=>[r("Offset bottom 20px")]),_:1})]),_:1})}const m=n(_,[["render",p]]);export{m as E};
