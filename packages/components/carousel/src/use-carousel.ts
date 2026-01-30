@@ -25,7 +25,7 @@ import type { CarouselEmits, CarouselProps } from './carousel'
 const THROTTLE_TIME = 300
 
 export const useCarousel = (
-  props: CarouselProps,
+  props: Required<CarouselProps>,
   emit: SetupContext<CarouselEmits>['emit'],
   componentName: string
 ) => {

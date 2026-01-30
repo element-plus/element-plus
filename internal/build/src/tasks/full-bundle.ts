@@ -24,6 +24,7 @@ import {
   writeBundles,
 } from '../utils'
 import { target } from '../build-info'
+import { SupplyValidator } from '../plugins/supply-validator'
 
 import type { TaskFunction } from 'gulp'
 import type { Plugin } from 'rollup'
@@ -55,6 +56,7 @@ async function buildFullEntry(minify: boolean) {
     replace({
       'process.env.NODE_ENV': '"production"',
     }),
+    SupplyValidator(),
   ]
   if (minify) {
     plugins.push(

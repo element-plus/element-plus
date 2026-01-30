@@ -76,6 +76,7 @@ interface SelectProps {
   popperAppendToBody?: boolean
   placeholder?: string
   debounce?: number
+  automaticDropdown?: boolean
   [key: string]: any
 }
 
@@ -146,6 +147,7 @@ const createSelect = (
         :teleported="teleported"
         :tabindex="tabindex"
         :default-first-option="defaultFirstOption"
+        :automatic-dropdown="automaticDropdown"
         ${
           options.methods && options.methods.filterMethod
             ? `:filter-method="filterMethod"`
@@ -198,6 +200,7 @@ const createSelect = (
           teleported: undefined,
           tabindex: undefined,
           defaultFirstOption: false,
+          automaticDropdown: false,
           ...(options.data && options.data()),
         }
       },
@@ -2789,5 +2792,41 @@ describe('Select', () => {
     expect(document.querySelector('.custom-empty')).not.toBeNull()
 
     vi.useRealTimers()
+  })
+
+  it('should not open popper when automatic-dropdown not set', async () => {
+    const wrapper = createSelect()
+    await nextTick()
+    const select = wrapper.findComponent(Select)
+    const input = select.find('input')
+    await input.trigger('focus')
+    expect((select.vm as any).expanded).toBe(false)
+  })
+
+  it('should open popper when automatic-dropdown is set', async () => {
+    const wrapper = createSelect({
+      data: () => ({ automaticDropdown: true }),
+    })
+    await nextTick()
+    const select = wrapper.findComponent(Select)
+    const input = select.find('input')
+    await input.trigger('focus')
+    expect((select.vm as any).expanded).toBe(true)
+  })
+
+  it('automatic dropdown should cooperate with click to open the dropdown', async () => {
+    const wrapper = createSelect({
+      data: () => ({ automaticDropdown: true }),
+    })
+    await nextTick()
+    const select = wrapper.findComponent(Select)
+    const input = select.find('input')
+    await input.trigger('focus')
+    expect((select.vm as any).expanded).toBe(true)
+    await input.trigger('keydown', { key: EVENT_CODE.down })
+    await input.trigger('keydown', { key: EVENT_CODE.enter })
+    expect((select.vm as any).expanded).toBe(false)
+    await input.trigger('click')
+    expect((select.vm as any).expanded).toBe(true)
   })
 })

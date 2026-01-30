@@ -49,12 +49,13 @@ import { ElIcon } from '@element-plus/components/icon'
 import {
   TypeComponents,
   TypeComponentsMap,
-  debugWarn,
   flattedChildren,
   isComment,
 } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
-import { alertEmits, alertProps } from './alert'
+import { alertEmits } from './alert'
+
+import type { AlertProps } from './alert'
 
 const { Close } = TypeComponents
 
@@ -62,7 +63,14 @@ defineOptions({
   name: 'ElAlert',
 })
 
-const props = defineProps(alertProps)
+const props = withDefaults(defineProps<AlertProps>(), {
+  title: '',
+  description: '',
+  type: 'info',
+  closable: true,
+  closeText: '',
+  effect: 'light',
+})
 const emit = defineEmits(alertEmits)
 const slots = useSlots()
 
@@ -84,12 +92,5 @@ const hasDesc = computed(() => {
 const close = (evt: MouseEvent) => {
   visible.value = false
   emit('close', evt)
-}
-
-if (props.showAfter || props.hideAfter || props.autoClose) {
-  debugWarn(
-    'el-alert',
-    'The `show-after`, `hide-after`, and `auto-close` attributes were removed after 2.11.8. Please use `v-if` and `v-show` to manually replace them, visit: https://github.com/element-plus/element-plus/pull/22560'
-  )
 }
 </script>

@@ -1,8 +1,8 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 import { transferCheckedChangeFn, transferProps } from './transfer'
 
-import type { ExtractPropTypes, ExtractPublicPropTypes, VNode } from 'vue'
-import type { TransferDataItem, TransferKey } from './transfer'
+import type { ExtractPublicPropTypes, VNode } from 'vue'
+import type { TransferDataItem, TransferKey, TransferProps } from './transfer'
 import type TransferPanel from './transfer-panel.vue'
 
 export interface TransferPanelState {
@@ -14,6 +14,21 @@ export interface TransferPanelState {
 
 export const CHECKED_CHANGE_EVENT = 'checked-change'
 
+export interface TransferPanelProps {
+  data?: TransferProps['data']
+  optionRender?: (option: TransferDataItem) => VNode | VNode[]
+  placeholder?: string
+  title?: string
+  filterable?: boolean
+  format?: TransferProps['format']
+  filterMethod?: TransferProps['filterMethod']
+  defaultChecked?: TransferProps['leftDefaultChecked']
+  props?: TransferProps['props']
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `TransferPanelProps` instead.
+ */
 export const transferPanelProps = buildProps({
   data: transferProps.data,
   optionRender: {
@@ -29,7 +44,10 @@ export const transferPanelProps = buildProps({
   defaultChecked: transferProps.leftDefaultChecked,
   props: transferProps.props,
 } as const)
-export type TransferPanelProps = ExtractPropTypes<typeof transferPanelProps>
+
+/**
+ * @deprecated Removed after 3.0.0, Use `TransferPanelProps` instead.
+ */
 export type TransferPanelPropsPublic = ExtractPublicPropTypes<
   typeof transferPanelProps
 >

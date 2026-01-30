@@ -9,7 +9,7 @@ type MessageBoxButtonType = (typeof buttonTypes)[number]
 
 export type Action = 'confirm' | 'close' | 'cancel'
 export type MessageBoxType = '' | 'prompt' | 'alert' | 'confirm'
-export type MessageBoxData = MessageBoxInputData & Action
+export type MessageBoxData = MessageBoxInputData | Action
 export interface MessageBoxInputData {
   value: string
   action: Action

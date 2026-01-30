@@ -905,6 +905,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
       states.inputValue = ''
       states.previousQuery = null
       states.isBeforeHide = true
+      states.menuVisibleOnFocus = false
       createNewOption('')
     }
   })
