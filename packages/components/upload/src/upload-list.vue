@@ -75,8 +75,7 @@
           role="button"
           tabindex="0"
           @click="handleRemove(file)"
-          @keydown.enter.prevent="handleRemove(file)"
-          @keydown.space.prevent="handleRemove(file)"
+          @keydown.enter.space.prevent="handleRemove(file)"
         >
           <Close />
         </el-icon>
