@@ -1,5 +1,5 @@
 <template>
-  <div :class="switchKls" @click.prevent="switchValue">
+  <div :class="switchKls" @click.prevent.stop="switchValue">
     <input
       :id="inputId"
       ref="input"
