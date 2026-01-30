@@ -75,7 +75,7 @@ time-picker/range
 | tabindex                     | input tabindex                                                                                                       | ^[string] / ^[number]                                                                           | 0                                  |
 | empty-values ^(2.7.0)        | empty values of component, [see config-provider](./config-provider.md#empty-values-configurations)                   | ^[array]                                                                                        | —                                  |
 | value-on-clear ^(2.7.0)      | clear return value, [see config-provider](./config-provider.md#empty-values-configurations)                          | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                | —                                  |
-| save-on-blur ^(2.13.2)       | Whether to keep the input empty on focus when no value is selected                                                   | ^[boolean]                                                                                      | true                               |
+| save-on-blur ^(2.13.3)       | Whether to keep the input empty on focus when no value is selected                                                   | ^[boolean]                                                                                      | true                               |
 | label ^(a11y) ^(deprecated)  | same as `aria-label` in native input                                                                                 | ^[string]                                                                                       | —                                  |
 
 ### Events
