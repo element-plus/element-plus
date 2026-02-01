@@ -21,7 +21,7 @@
           :name="name"
           :disabled="getDisabled(item)"
           :checked="getSelected(item)"
-          @change="handleChange(item)"
+          @change="handleChange($event, item)"
         />
         <div :class="ns.e('item-label')">
           <slot :item="intoAny(item)">{{ getLabel(item) }}</slot>
@@ -43,15 +43,23 @@ import {
 } from '@element-plus/components/form'
 import { debugWarn, isObject } from '@element-plus/utils'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { defaultProps, segmentedEmits, segmentedProps } from './segmented'
+import { defaultProps, segmentedEmits } from './segmented'
 
 import type { Option } from './types'
+import type { SegmentedProps } from './segmented'
 
 defineOptions({
   name: 'ElSegmented',
 })
 
-const props = defineProps(segmentedProps)
+const props = withDefaults(defineProps<SegmentedProps>(), {
+  direction: 'horizontal',
+  options: () => [],
+  props: () => defaultProps,
+  validateEvent: true,
+  modelValue: undefined,
+  disabled: undefined,
+})
 const emit = defineEmits(segmentedEmits)
 
 const ns = useNamespace('segmented')
@@ -75,10 +83,11 @@ const state = reactive({
   focusVisible: false,
 })
 
-const handleChange = (item: Option) => {
+const handleChange = (evt: Event, item: Option) => {
   const value = getValue(item)
   emit(UPDATE_MODEL_EVENT, value)
   emit(CHANGE_EVENT, value)
+  ;(evt.target as HTMLInputElement).checked = value === props.modelValue
 }
 
 const aliasProps = computed(() => ({ ...defaultProps, ...props.props }))

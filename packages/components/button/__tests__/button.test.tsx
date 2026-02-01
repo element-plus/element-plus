@@ -310,6 +310,25 @@ describe('Button Group', () => {
     expect(btn.emitted('click')).toBeUndefined()
   })
 
+  it('The disabled state of a component has higher priority than that of a form', async () => {
+    const wrapper = mount({
+      setup: () => () => (
+        <Form disabled>
+          <Button
+            disabled={false}
+            v-slots={{
+              default: () => AXIOM,
+            }}
+          />
+        </Form>
+      ),
+    })
+    const btn = wrapper.findComponent(Button)
+    expect(btn.classes()).not.toContain('is-disabled')
+    await btn.trigger('click')
+    expect(btn.emitted('click')).toBeDefined()
+  })
+
   it('should use size of form-item', async () => {
     const wrapper = mount({
       setup: () => () => (
@@ -358,9 +377,10 @@ describe('Button Group', () => {
   })
 
   it('direction prop', async () => {
+    const direction = ref<'horizontal' | 'vertical'>('horizontal')
     const wrapper = mount({
       setup: () => () => (
-        <ButtonGroup type="warning">
+        <ButtonGroup type="warning" direction={direction.value}>
           <Button type="primary">Prev</Button>
           <Button>Next</Button>
         </ButtonGroup>
@@ -370,7 +390,8 @@ describe('Button Group', () => {
     expect(wrapper.classes()).toContain(ns.bm('group', 'horizontal'))
     expect(wrapper.classes()).not.toContain(ns.bm('group', 'vertical'))
 
-    await wrapper.setProps({ direction: 'vertical' })
+    direction.value = 'vertical'
+    await nextTick()
 
     expect(wrapper.classes()).toContain(ns.bm('group', 'vertical'))
     expect(wrapper.classes()).not.toContain(ns.bm('group', 'horizontal'))

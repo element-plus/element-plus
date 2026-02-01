@@ -26,26 +26,37 @@ import { isEqual, omit, pick } from 'lodash-unified'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { debugWarn } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
-import { useFormItem, useFormItemInputId } from '@element-plus/components/form'
 import {
-  checkboxDefaultProps,
-  checkboxGroupEmits,
-  checkboxGroupProps,
-} from './checkbox-group'
+  useFormDisabled,
+  useFormItem,
+  useFormItemInputId,
+} from '@element-plus/components/form'
+import { checkboxDefaultProps, checkboxGroupEmits } from './checkbox-group'
 import { checkboxGroupContextKey } from './constants'
 import ElCheckbox from './checkbox.vue'
 import ElCheckboxButton from './checkbox-button.vue'
 
-import type { CheckboxGroupValueType } from './checkbox-group'
+import type {
+  CheckboxGroupProps,
+  CheckboxGroupValueType,
+} from './checkbox-group'
 
 defineOptions({
   name: 'ElCheckboxGroup',
 })
 
-const props = defineProps(checkboxGroupProps)
+const props = withDefaults(defineProps<CheckboxGroupProps>(), {
+  modelValue: () => [],
+  disabled: undefined,
+  tag: 'div',
+  validateEvent: true,
+  props: () => checkboxDefaultProps,
+  type: 'checkbox',
+})
 const emit = defineEmits(checkboxGroupEmits)
 const ns = useNamespace('checkbox')
 
+const checkboxDisabled = useFormDisabled()
 const { formItem } = useFormItem()
 const { inputId: groupId, isLabeledByFormItem } = useFormItemInputId(props, {
   formItemContext: formItem,
@@ -89,11 +100,11 @@ provide(checkboxGroupContextKey, {
     'size',
     'min',
     'max',
-    'disabled',
     'validateEvent',
     'fill',
     'textColor',
   ]),
+  disabled: checkboxDisabled,
   modelValue,
   changeEvent,
 })

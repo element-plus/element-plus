@@ -121,15 +121,22 @@ import {
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElProgress from '@element-plus/components/progress'
 import { useFormDisabled } from '@element-plus/components/form'
-import { uploadListEmits, uploadListProps } from './upload-list'
+import { uploadListEmits } from './upload-list'
+import { NOOP, mutable } from '@element-plus/utils'
 
+import type { UploadListProps } from './upload-list'
 import type { UploadFile } from './upload'
 
 defineOptions({
   name: 'ElUploadList',
 })
 
-const props = defineProps(uploadListProps)
+const props = withDefaults(defineProps<UploadListProps>(), {
+  files: () => mutable([]),
+  disabled: undefined,
+  handlePreview: NOOP,
+  listType: 'text',
+})
 const emit = defineEmits(uploadListEmits)
 
 const { t } = useLocale()
@@ -143,7 +150,7 @@ const focusing = ref(false)
 const containerKls = computed(() => [
   nsUpload.b('list'),
   nsUpload.bm('list', props.listType),
-  nsUpload.is('disabled', props.disabled),
+  nsUpload.is('disabled', disabled.value),
 ])
 
 const handleRemove = (file: UploadFile) => {

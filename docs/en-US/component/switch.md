@@ -37,7 +37,7 @@ switch/text-description
 
 :::tip
 
-Use the `active-icon` and `inactive-icon` attribute to add icon. You can pass either string for the component name (registered in advance) or the component itself which is a SVG Vue component. Element Plus has provided a set of icon that you can find at [icon](/en-US/component/icon)
+Use the `active-icon` and `inactive-icon` attribute to add icon. You can pass either string for the component name (registered in advance) or the component itself which is a SVG Vue component. Element Plus has provided a set of icon that you can find at [icon](./icon.md)
 
 :::
 
@@ -134,10 +134,12 @@ switch/custom-action-slot
 
 ### Switch Slots
 
-| Name                     | Description               |
-| ------------------------ | ------------------------- |
-| active-action ^(2.4.4)   | customize active action   |
-| inactive-action ^(2.4.4) | customize inactive action |
+| Name                     | Description                |
+| ------------------------ | -------------------------- |
+| active-action ^(2.4.4)   | customize active action    |
+| inactive-action ^(2.4.4) | customize inactive action  |
+| active ^(2.13.0)         | customize active content   |
+| inactive ^(2.13.0)       | customize inactive content |
 
 ### Exposes
 

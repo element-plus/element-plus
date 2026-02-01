@@ -5,6 +5,7 @@ import type {
   ComponentInternalInstance,
   PropType,
   Ref,
+  StyleValue,
   VNode,
 } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
@@ -131,6 +132,7 @@ interface TableProps<T extends DefaultRow> {
   emptyText?: string
   expandRowKeys?: Array<string>
   defaultExpandAll?: boolean
+  rowExpandable?: (row: T, index: number) => boolean
   defaultSort?: Sort
   tooltipEffect?: string
   tooltipOptions?: TableOverflowTooltipOptions
@@ -152,7 +154,7 @@ interface TableProps<T extends DefaultRow> {
   lazy?: boolean
   load?: (row: T, treeNode: TreeNode, resolve: (data: T[]) => void) => void
   className?: string
-  style?: CSSProperties
+  style?: StyleValue
   tableLayout?: Layout
   scrollbarAlwaysOn?: boolean
   flexible?: boolean
@@ -323,6 +325,12 @@ export default {
    */
   defaultExpandAll: Boolean,
   /**
+   * @description enable expandable rows, works when the table has a column type="expand"
+   */
+  rowExpandable: {
+    type: Function as PropType<TableProps<any>['rowExpandable']>,
+  },
+  /**
    * @description set the default sort column and order. property `prop` is used to set default sort column, property `order` is used to set default sort order
    */
   defaultSort: Object as PropType<TableProps<any>['defaultSort']>,
@@ -374,7 +382,7 @@ export default {
    */
   load: Function as PropType<TableProps<any>['load']>,
   style: {
-    type: Object as PropType<CSSProperties>,
+    type: [String, Object, Array] as PropType<TableProps<any>['style']>,
     default: () => ({}),
   },
   className: {

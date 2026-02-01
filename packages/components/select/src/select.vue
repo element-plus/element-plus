@@ -101,6 +101,7 @@
                 :popper-class="popperClass"
                 :popper-style="popperStyle"
                 :teleported="teleported"
+                :popper-options="popperOptions"
               >
                 <template #default>
                   <div
@@ -163,7 +164,7 @@
               <input
                 :id="inputId"
                 ref="inputRef"
-                v-model="states.inputValue"
+                :value="states.inputValue"
                 type="text"
                 :name="name"
                 :class="[nsSelect.e('input'), nsSelect.is(selectSize)]"

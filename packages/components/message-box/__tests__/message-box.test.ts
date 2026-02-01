@@ -210,6 +210,32 @@ describe('MessageBox', () => {
     expect(msgAction).toEqual('cancel')
   })
 
+  test('prompt: should not confirm when pressing Enter during IME composition', async () => {
+    const callback = vi.fn()
+    MessageBox.prompt('请输入内容', {
+      title: '标题',
+      callback,
+    })
+    await rAF()
+    const input = document
+      .querySelector(selector)!
+      .querySelector('.el-message-box__input input') as HTMLInputElement
+    input.dispatchEvent(
+      new CompositionEvent('compositionstart', { bubbles: true })
+    )
+    await rAF()
+    input.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        key: 'Enter',
+        bubbles: true,
+        cancelable: true,
+      })
+    )
+    await rAF()
+    expect(callback).not.toHaveBeenCalled()
+    expect(document.querySelector(selector)).not.toBeNull()
+  })
+
   test('beforeClose', async () => {
     let msgAction = ''
     MessageBox({
@@ -397,5 +423,27 @@ describe('MessageBox', () => {
       expect(inputValidator).toHaveBeenCalledTimes(1)
       expect(error.textContent).toBe('error message')
     })
+  })
+
+  test('should work with confirmButtonType and cancelButtonType props', async () => {
+    MessageBox({
+      type: 'error',
+      title: '消息',
+      message: '这是一段内容',
+      showCancelButton: true,
+      confirmButtonType: 'danger',
+      cancelButtonType: 'warning',
+    })
+
+    await rAF()
+    const cancelBtn = document.querySelector(
+      '.el-message-box__btns .el-button--warning'
+    )
+    const confirmBtn = document.querySelector(
+      '.el-message-box__btns .el-button--danger'
+    )
+
+    expect(cancelBtn).not.toBeNull()
+    expect(confirmBtn).not.toBeNull()
   })
 })

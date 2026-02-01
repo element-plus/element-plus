@@ -4,11 +4,10 @@ import { rollup } from 'rollup'
 import replace from '@rollup/plugin-replace'
 import commonjs from '@rollup/plugin-commonjs'
 import vue from '@vitejs/plugin-vue'
-import VueMacros from 'unplugin-vue-macros/rollup'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import esbuild, { minify as minifyPlugin } from 'rollup-plugin-esbuild'
 import { parallel } from 'gulp'
-import glob from 'fast-glob'
+import { glob } from 'tinyglobby'
 import { camelCase, upperFirst } from 'lodash-unified'
 import {
   PKG_BRAND_NAME,
@@ -25,6 +24,7 @@ import {
   writeBundles,
 } from '../utils'
 import { target } from '../build-info'
+import { SupplyValidator } from '../plugins/supply-validator'
 
 import type { TaskFunction } from 'gulp'
 import type { Plugin } from 'rollup'
@@ -34,22 +34,8 @@ const banner = `/*! ${PKG_BRAND_NAME} v${version} */\n`
 async function buildFullEntry(minify: boolean) {
   const plugins: Plugin[] = [
     ElementPlusAlias(),
-    VueMacros({
-      setupComponent: false,
-      setupSFC: false,
-      plugins: {
-        vue: vue({
-          isProduction: true,
-          template: {
-            compilerOptions: {
-              hoistStatic: false,
-              cacheHandlers: false,
-            },
-          },
-        }),
-        vueJsx: vueJsx(),
-      },
-    }),
+    vue() as Plugin,
+    vueJsx() as Plugin,
     nodeResolve({
       extensions: ['.mjs', '.js', '.json', '.ts'],
     }),
@@ -70,6 +56,7 @@ async function buildFullEntry(minify: boolean) {
     replace({
       'process.env.NODE_ENV': '"production"',
     }),
+    SupplyValidator(),
   ]
   if (minify) {
     plugins.push(

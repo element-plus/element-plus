@@ -18,7 +18,7 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
     [() => tree.value, () => props.defaultCheckedKeys],
     () => {
       return nextTick(() => {
-        _setCheckedKeys(props.defaultCheckedKeys)
+        _setCheckedKeys(props.defaultCheckedKeys!)
       })
     },
     {

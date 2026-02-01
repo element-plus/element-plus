@@ -27,18 +27,32 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, markRaw } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
+import { Loading } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
 import { useButton } from './use-button'
-import { buttonEmits, buttonProps } from './button'
+import { buttonEmits } from './button'
 import { useButtonCustomStyle } from './button-custom'
+
+import type { ButtonProps } from './button'
 
 defineOptions({
   name: 'ElButton',
 })
 
-const props = defineProps(buttonProps)
+const props = withDefaults(defineProps<ButtonProps>(), {
+  disabled: undefined,
+  type: '',
+  nativeType: 'button',
+  loadingIcon: markRaw(Loading),
+  plain: undefined,
+  text: undefined,
+  round: undefined,
+  autoInsertSpace: undefined,
+  tag: 'button',
+})
+
 const emit = defineEmits(buttonEmits)
 
 const buttonStyle = useButtonCustomStyle(props)

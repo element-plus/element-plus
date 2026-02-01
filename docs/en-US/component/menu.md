@@ -59,7 +59,7 @@ menu/collapse
 
 ## Popper Offset ^(2.4.4)
 
-Menu with popperOffset will override Submenu's `popper-offset`.
+Submenu with popperOffset will override Menu's `popper-offset`.
 
 :::demo
 
@@ -79,15 +79,15 @@ menu/popper-offset
 | ellipsis-icon ^(2.4.4)          | custom ellipsis icon (available only in horizontal mode and ellipsis is true)                                                                                         | ^[string] / ^[Component]               | —        |
 | popper-offset ^(2.4.4)          | offset of the popper (effective for all submenus)                                                                                                                     | ^[number]                              | 6        |
 | default-active                  | index of active menu on page load                                                                                                                                     | ^[string]                              | ''       |
-| default-openeds                 | array that contains indexes of currently active sub-menus                                                                                                             | ^[object]`string[]`                    | []       |
+| default-openeds                 | array that contains indexes of currently active sub-menus                                                                                                             | ^[array]`string[]`                     | []       |
 | unique-opened                   | whether only one sub-menu can be active                                                                                                                               | ^[boolean]                             | false    |
 | menu-trigger                    | how sub-menus are triggered, only works when `mode` is 'horizontal'                                                                                                   | ^[enum]`'hover' \| 'click'`            | hover    |
 | router                          | whether `vue-router` mode is activated. If true, index will be used as 'path' to activate the route action. Use with `default-active` to set the active item on load. | ^[boolean]                             | false    |
 | collapse-transition             | whether to enable the collapse transition                                                                                                                             | ^[boolean]                             | true     |
 | popper-effect ^(2.2.26)         | Tooltip theme, built-in theme: `dark` / `light` when menu is collapsed                                                                                                | ^[enum]`'dark' \| 'light'` / ^[string] | dark     |
 | close-on-click-outside ^(2.4.4) | optional, whether menu is collapsed when clicking outside                                                                                                             | ^[boolean]                             | false    |
-| popper-class ^(2.5.0)           | custom class name for all popup menus                                                                                                                                 | ^[string]                              | —        |
-| popper-style ^(2.11.5)          | custom style for all popup menus                                                                                                                                      | ^[string] / ^[object]                  | —        |
+| popper-class ^(2.5.0)           | custom class name for all popup menus and titles' tooltips                                                                                                            | ^[string]                              | —        |
+| popper-style ^(2.11.5)          | custom style for all popup menus and titles' tooltips                                                                                                                 | ^[string] / ^[object]                  | —        |
 | show-timeout ^(2.5.0)           | control timeout for all menus before showing                                                                                                                          | ^[number]                              | 300      |
 | hide-timeout ^(2.5.0)           | control timeout for all menus before hiding                                                                                                                           | ^[number]                              | 300      |
 | background-color ^(deprecated)  | background color of Menu (hex format) (use `--el-menu-bg-color` in a style class instead)                                                                             | ^[string]                              | #ffffff  |

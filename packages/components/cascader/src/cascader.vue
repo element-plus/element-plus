@@ -144,7 +144,7 @@
             type="text"
             :class="nsCascader.e('search-input')"
             :placeholder="presentText ? '' : inputPlaceholder"
-            @input="(e) => handleInput(searchInputValue, e as KeyboardEvent)"
+            @input="(e) => handleInput(searchInputValue, e as InputEvent)"
             @click.stop="togglePopperVisible(true)"
             @keydown.delete="handleDelete"
             @compositionstart="handleComposition"
@@ -216,7 +216,15 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, nextTick, onMounted, ref, useAttrs, watch } from 'vue'
+import {
+  computed,
+  markRaw,
+  nextTick,
+  onMounted,
+  ref,
+  useAttrs,
+  watch,
+} from 'vue'
 import { cloneDeep } from 'lodash-unified'
 import { useCssVar, useDebounceFn, useResizeObserver } from '@vueuse/core'
 import {
@@ -251,8 +259,8 @@ import {
   EVENT_CODE,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import { ArrowDown, Check } from '@element-plus/icons-vue'
-import { cascaderEmits, cascaderProps } from './cascader'
+import { ArrowDown, Check, CircleClose } from '@element-plus/icons-vue'
+import { cascaderEmits } from './cascader'
 
 import type { Options } from '@element-plus/components/popper'
 import type { ComputedRef, StyleValue } from 'vue'
@@ -265,6 +273,7 @@ import type {
   CascaderValue,
   Tag,
 } from '@element-plus/components/cascader-panel'
+import type { CascaderComponentProps } from './cascader'
 
 const popperOptions: Partial<Options> = {
   modifiers: [
@@ -288,15 +297,51 @@ defineOptions({
   name: 'ElCascader',
 })
 
-const props = defineProps(cascaderProps)
+const props = withDefaults(defineProps<CascaderComponentProps>(), {
+  options: () => [],
+  props: () => ({}),
+  disabled: undefined,
+  clearIcon: markRaw(CircleClose),
+  filterMethod: (node, keyword) => node.text.includes(keyword),
+  separator: ' / ',
+  showAllLevels: true,
+  maxCollapseTags: 1,
+  debounce: 300,
+  beforeFilter: () => true,
+  placement: 'bottom-start',
+  fallbackPlacements: () => [
+    'bottom-start',
+    'bottom',
+    'top-start',
+    'top',
+    'right',
+    'left',
+  ],
+  teleported: true,
+  effect: 'light',
+  tagType: 'info',
+  tagEffect: 'light',
+  validateEvent: true,
+  persistent: true,
+  showCheckedStrategy: 'child',
+  showPrefix: true,
+  popperStyle: undefined,
+  valueOnClear: undefined,
+})
 const emit = defineEmits(cascaderEmits)
 const attrs = useAttrs()
+const slots = defineSlots()
 
 let inputInitialHeight = 0
 let pressDeleteCount = 0
 
 const nsCascader = useNamespace('cascader')
 const nsInput = useNamespace('input')
+const sizeMapPadding = {
+  small: 7,
+  default: 11,
+  large: 15,
+}
 
 const { t } = useLocale()
 const { formItem } = useFormItem()
@@ -459,7 +504,8 @@ const togglePopperVisible = (visible?: boolean) => {
 
     if (visible) {
       updatePopperPosition()
-      nextTick(cascaderPanelRef.value?.scrollToExpandingNode)
+      cascaderPanelRef.value &&
+        nextTick(cascaderPanelRef.value.scrollToExpandingNode)
     } else if (props.filterable) {
       syncPresentTextValue()
     }
@@ -584,6 +630,22 @@ const updateStyle = () => {
         ? `${Math.max(offsetHeight, inputInitialHeight) - 2}px`
         : `${inputInitialHeight}px`
     inputInner.style.height = height
+    // if prefix slot exists, update tagWrapperEl left position
+    if (slots.prefix) {
+      const prefix = inputRef.value?.$el.querySelector(
+        `.${nsInput.e('prefix')}`
+      ) as HTMLElement
+      let left = 0
+      if (prefix) {
+        left = prefix.offsetWidth
+        if (left > 0) {
+          left += sizeMapPadding[realSize.value || 'default'] // this is the default padding of el-input__wrapper
+        }
+      }
+      tagWrapperEl.style.left = `${left}px`
+    } else {
+      tagWrapperEl.style.left = `0`
+    }
     updatePopperPosition()
   }
 }
@@ -712,7 +774,7 @@ const handleFilter = useDebounceFn(() => {
   }
 }, debounce)
 
-const handleInput = (val: string, e?: KeyboardEvent) => {
+const handleInput = (val: string, e?: InputEvent) => {
   !popperVisible.value && togglePopperVisible(true)
 
   if (e?.isComposing) return

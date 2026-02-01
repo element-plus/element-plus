@@ -1,8 +1,27 @@
 import { buildProps } from '@element-plus/utils'
 
 import type SkeletonItem from './skeleton-item.vue'
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
 
+export interface SkeletonItemProps {
+  /**
+   * @description the current rendering skeleton type
+   */
+  variant?:
+    | 'circle'
+    | 'rect'
+    | 'h1'
+    | 'h3'
+    | 'text'
+    | 'caption'
+    | 'p'
+    | 'image'
+    | 'button'
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `SkeletonItemProps` instead.
+ */
 export const skeletonItemProps = buildProps({
   /**
    * @description the current rendering skeleton type
@@ -23,8 +42,10 @@ export const skeletonItemProps = buildProps({
     default: 'text',
   },
 } as const)
-export type SkeletonItemProps = ExtractPropTypes<typeof skeletonItemProps>
-export type SkeletonItemPropsPublic = __ExtractPublicPropTypes<
+/**
+ * @deprecated Removed after 3.0.0, Use `SkeletonItemProps` instead.
+ */
+export type SkeletonItemPropsPublic = ExtractPublicPropTypes<
   typeof skeletonItemProps
 >
 

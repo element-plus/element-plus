@@ -218,7 +218,7 @@ function useStyle<T extends DefaultRow>(
       useEventListener(window, 'resize', resizeListener)
     }
 
-    useResizeObserver(table.refs.bodyWrapper, () => {
+    useResizeObserver(table.refs.tableInnerWrapper, () => {
       resizeListener()
       table.refs?.scrollBarRef?.update()
     })
@@ -281,7 +281,7 @@ function useStyle<T extends DefaultRow>(
 
   const tableLayout = computed(() => {
     if (props.maxHeight) return 'fixed'
-    return props.tableLayout
+    return props.tableLayout!
   })
 
   const emptyBlockStyle = computed(() => {

@@ -53,6 +53,7 @@
 <script lang="ts" setup>
 import {
   computed,
+  onBeforeUnmount,
   onDeactivated,
   provide,
   readonly,
@@ -61,7 +62,11 @@ import {
   unref,
   watch,
 } from 'vue'
-import { ElPopper, ElPopperArrow } from '@element-plus/components/popper'
+import {
+  ElPopper,
+  ElPopperArrow,
+  popperArrowPropsDefaults,
+} from '@element-plus/components/popper'
 import { isBoolean } from '@element-plus/utils'
 import {
   useDelayedToggle,
@@ -70,19 +75,29 @@ import {
   usePopperContainer,
 } from '@element-plus/hooks'
 import { TOOLTIP_INJECTION_KEY } from './constants'
-import { tooltipEmits, useTooltipModelToggle, useTooltipProps } from './tooltip'
+import { tooltipEmits, useTooltipModelToggle } from './tooltip'
 import ElTooltipTrigger from './trigger.vue'
 import ElTooltipContent from './content.vue'
+import { useTooltipContentPropsDefaults } from './content'
+import { useTooltipTriggerPropsDefaults } from './trigger'
 
+import type { Mutable } from '@element-plus/utils'
 import type { TooltipContentInstance } from './content'
+import type { UseTooltipProps } from './tooltip'
 import type { PopperInstance } from '@element-plus/components/popper'
 
 defineOptions({
   name: 'ElTooltip',
 })
 
-const props = defineProps(useTooltipProps)
-const emit = defineEmits(tooltipEmits)
+const props = withDefaults(defineProps<UseTooltipProps>(), {
+  role: 'tooltip',
+  ...useTooltipContentPropsDefaults,
+  ...useTooltipTriggerPropsDefaults,
+  ...popperArrowPropsDefaults,
+  showArrow: true,
+})
+const emit = defineEmits(tooltipEmits as Mutable<typeof tooltipEmits>)
 
 usePopperContainer()
 
@@ -164,6 +179,10 @@ const isFocusInsideContent = (event?: FocusEvent) => {
 }
 
 onDeactivated(() => open.value && hide())
+
+onBeforeUnmount(() => {
+  toggleReason.value = undefined
+})
 
 defineExpose({
   /**

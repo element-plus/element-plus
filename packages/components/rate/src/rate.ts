@@ -9,9 +9,100 @@ import {
 } from '@element-plus/utils'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 
-import type { Component, ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { Component, ExtractPublicPropTypes } from 'vue'
+import type { ComponentSize } from '@element-plus/constants'
 import type Rate from './rate.vue'
 
+export interface RateProps {
+  /**
+   * @description binding value
+   */
+  modelValue?: number
+  /**
+   * @description native `id` attribute
+   */
+  id?: string
+  /**
+   * @description threshold value between low and medium level. The value itself will be included in low level
+   */
+  lowThreshold?: number
+  /**
+   * @description threshold value between medium and high level. The value itself will be included in high level
+   */
+  highThreshold?: number
+  /**
+   * @description max rating score
+   */
+  max?: number
+  /**
+   * @description colors for icons. If array, it should have 3 elements, each of which corresponds with a score level, else if object, the key should be threshold value between two levels, and the value should be corresponding color
+   */
+  colors?: string[] | Record<number, string>
+  /**
+   * @description color of unselected icons
+   */
+  voidColor?: string
+  /**
+   * @description color of unselected read-only icons
+   */
+  disabledVoidColor?: string
+  /**
+   * @description icon components. If array, it should have 3 elements, each of which corresponds with a score level, else if object, the key should be threshold value between two levels, and the value should be corresponding icon component
+   */
+  icons?: Array<string | Component> | Record<number, string | Component>
+  /**
+   * @description component of unselected icons
+   */
+  voidIcon?: string | Component
+  /**
+   * @description component of unselected read-only icons
+   */
+  disabledVoidIcon?: string | Component
+  /**
+   * @description whether Rate is read-only
+   */
+  disabled?: boolean
+  /**
+   * @description whether picking half start is allowed
+   */
+  allowHalf?: boolean
+  /**
+   * @description whether to display texts
+   */
+  showText?: boolean
+  /**
+   * @description whether to display current score. show-score and show-text cannot be true at the same time
+   */
+  showScore?: boolean
+  /**
+   * @description color of texts
+   */
+  textColor?: string
+  /**
+   * @description text array
+   */
+  texts?: string[]
+  /**
+   * @description score template
+   */
+  scoreTemplate?: string
+  /**
+   * @description size of Rate
+   */
+  size?: ComponentSize
+  /**
+   * @description whether value can be reset to `0`
+   */
+  clearable?: boolean
+  /**
+   * @description native `aria-label` attribute
+   */
+  ariaLabel?: string
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `RateProps` instead.
+ */
 export const rateProps = buildProps({
   /**
    * @description binding value
@@ -96,7 +187,10 @@ export const rateProps = buildProps({
   /**
    * @description whether Rate is read-only
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description whether picking half start is allowed
    */
@@ -148,8 +242,10 @@ export const rateProps = buildProps({
   ...useAriaProps(['ariaLabel']),
 } as const)
 
-export type RateProps = ExtractPropTypes<typeof rateProps>
-export type RatePropsPublic = __ExtractPublicPropTypes<typeof rateProps>
+/**
+ * @deprecated Removed after 3.0.0, Use `RateProps` instead.
+ */
+export type RatePropsPublic = ExtractPublicPropTypes<typeof rateProps>
 
 export const rateEmits = {
   [CHANGE_EVENT]: (value: number) => isNumber(value),
