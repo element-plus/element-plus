@@ -446,8 +446,6 @@ describe('Carousel', () => {
     expect(vm.$refs.carousel.activeIndex).toBe(0)
 
     await wait(80)
-    const currentIndex = vm.$refs.carousel.activeIndex
-    expect(currentIndex).toBeGreaterThan(0)
-    expect(currentIndex).toBeLessThanOrEqual(3)
+    expect(vm.$refs.carousel.activeIndex).toBe(2)
   })
 })
