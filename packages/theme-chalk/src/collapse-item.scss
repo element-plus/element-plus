@@ -9,6 +9,7 @@
       cursor: not-allowed;
     }
   }
+
   @include e(header) {
     width: 100%;
     padding: 0;
@@ -25,9 +26,12 @@
     font-weight: 500;
     transition: border-bottom-color getCssVar('transition-duration');
     outline: none;
+    box-sizing: border-box;
+
     @include e(arrow) {
       transition: transform getCssVar('transition-duration');
       font-weight: 300;
+
       @include when(active) {
         transform: rotate(90deg);
       }
@@ -41,6 +45,7 @@
     &.focusing:focus:not(:hover) {
       color: getCssVar('color-primary');
     }
+
     @include when(active) {
       border-bottom-color: transparent;
     }

@@ -18,14 +18,6 @@ export const rightBigLogoSponsors: Sponsor[] = []
 
 export const rightLogoSmallSponsors: Sponsor[] = [
   {
-    name: 'BuildAdmin',
-    img: '/images/buildadmin.png',
-    imgL: '/images/buildadmin-l.png',
-    url: 'https://doc.buildadmin.com/?from=element-plus',
-    slogan: 'Vue3 open source admin system',
-    slogan_cn: 'Vue3企业级开源后台管理系统',
-  },
-  {
     name: 'frsimple',
     img: '/images/frsimple.png',
     imgL: '/images/frsimple-l.png',

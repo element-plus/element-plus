@@ -38,11 +38,11 @@ const useWheel = (
 
     const newOffset = layout.value === HORIZONTAL ? deltaX : deltaY
 
-    if (hasReachedEdge(offset) && hasReachedEdge(offset + newOffset)) return
+    if (hasReachedEdge(newOffset)) return
 
     offset += newOffset
 
-    if (!isFirefox()) {
+    if (!isFirefox() && newOffset !== 0) {
       e.preventDefault()
     }
 

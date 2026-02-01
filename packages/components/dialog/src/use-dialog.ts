@@ -241,6 +241,7 @@ export const useDialog = (
     (val) => {
       if (val) {
         closed.value = false
+        closing.value = false
         open()
         rendered.value = true // enables lazy rendering
         zIndex.value = props.zIndex ?? nextZIndex()

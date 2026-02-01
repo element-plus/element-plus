@@ -11,6 +11,7 @@ import { epRoot, excludeFiles, pkgRoot } from '@element-plus/build-utils'
 import { generateExternal, withTaskName, writeBundles } from '../utils'
 import { ElementPlusAlias } from '../plugins/element-plus-alias'
 import { buildConfigEntries, target } from '../build-info'
+import { SupplyValidator } from '../plugins/supply-validator'
 
 import type { TaskFunction } from 'gulp'
 import type { OutputOptions, Plugin } from 'rollup'
@@ -30,6 +31,7 @@ const plugins: Plugin[] = [
       '.vue': 'ts',
     },
   }),
+  SupplyValidator(),
 ]
 
 async function buildModulesComponents() {

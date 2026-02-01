@@ -17,8 +17,122 @@ import {
 import { tagProps } from '@element-plus/components/tag/src/tag'
 import { CircleClose } from '@element-plus/icons-vue'
 
-import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
+import type { Component, ExtractPublicPropTypes } from 'vue'
+import type { ComponentSize } from '@element-plus/constants'
+import type { PopperEffect } from '@element-plus/components/popper'
+import type { TagProps } from '@element-plus/components/tag'
 
+export interface InputTagProps {
+  /**
+   * @description binding value
+   */
+  modelValue?: string[]
+  /**
+   * @description max number tags that can be enter
+   */
+  max?: number
+  /**
+   * @description tag type
+   */
+  tagType?: TagProps['type']
+  /**
+   * @description tag effect
+   */
+  tagEffect?: TagProps['effect']
+  /**
+   * @description tooltip theme, built-in theme: `dark` / `light`
+   */
+  effect?: PopperEffect
+  /**
+   * @description the key to trigger input tag
+   */
+  trigger?: 'Enter' | 'Space'
+  /**
+   * @description whether tags can be dragged
+   */
+  draggable?: boolean
+  /**
+   * @description add a tag when a delimiter is matched
+   */
+  delimiter?: string | RegExp
+  /**
+   * @description input box size
+   */
+  size?: ComponentSize
+  /**
+   * @description whether to show clear button
+   */
+  clearable?: boolean
+  /**
+   * @description custom clear icon component
+   */
+  clearIcon?: string | Component
+  /**
+   * @description whether to disable input-tag
+   */
+  disabled?: boolean
+  /**
+   * @description whether to trigger form validation
+   */
+  validateEvent?: boolean
+  /**
+   * @description native input readonly
+   */
+  readonly?: boolean
+  /**
+   * @description native input autofocus
+   */
+  autofocus?: boolean
+  /**
+   * @description same as `id` in native input
+   */
+  id?: string
+  /**
+   * @description same as `tabindex` in native input
+   */
+  tabindex?: string | number
+  /**
+   * @description same as `maxlength` in native input
+   */
+  maxlength?: string | number
+  /**
+   * @description same as `minlength` in native input
+   */
+  minlength?: string | number
+  /**
+   * @description placeholder of input
+   */
+  placeholder?: string
+  /**
+   * @description native input autocomplete
+   * - When the number of literal types in a union exceeds 315, the TS2590 error occurs. see: https://github.com/vuejs/core/issues/10514
+   */
+  autocomplete?: string // HTMLInputElement['autocomplete']
+  /**
+   * @description whether to save the input value when the input loses focus
+   */
+  saveOnBlur?: boolean
+  /**
+   * @description whether to collapse tags to a text
+   */
+  collapseTags?: boolean
+  /**
+   * @description whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true
+   */
+  collapseTagsTooltip?: boolean
+  /**
+   * @description the max tags number to be shown. To use this, `collapse-tags` must be true
+   */
+  maxCollapseTags?: number
+  /**
+   * @description native `aria-label` attribute
+   */
+  ariaLabel?: string
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `InputTagProps` instead.
+ */
 export const inputTagProps = buildProps({
   /**
    * @description binding value
@@ -38,6 +152,13 @@ export const inputTagProps = buildProps({
    * @description tag effect
    */
   tagEffect: tagProps.effect,
+  /**
+   * @description tooltip theme, built-in theme: `dark` / `light`
+   */
+  effect: {
+    type: definePropType<PopperEffect>(String),
+    default: 'light',
+  },
   /**
    * @description the key to trigger input tag
    */
@@ -157,7 +278,10 @@ export const inputTagProps = buildProps({
    */
   ariaLabel: String,
 } as const)
-export type InputTagProps = ExtractPropTypes<typeof inputTagProps>
+
+/**
+ * @deprecated Removed after 3.0.0, Use `InputTagProps` instead.
+ */
 export type InputTagPropsPublic = ExtractPublicPropTypes<typeof inputTagProps>
 
 export const inputTagEmits = {

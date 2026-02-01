@@ -1523,6 +1523,15 @@ $avatar-size: map.merge(
   $avatar-size
 );
 
+$avatar-group: () !default;
+$avatar-group: map.merge(
+  (
+    'item-gap': -8px,
+    'collapse-item-gap': 4px,
+  ),
+  $avatar-group
+);
+
 // Empty
 // css3 var in packages/theme-chalk/src/empty.scss
 $empty: () !default;
