@@ -4,6 +4,7 @@ import { Loading } from '@element-plus/icons-vue'
 
 import type { Component, ExtractPublicPropTypes } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
+import type { IconPropType } from '@element-plus/utils'
 
 export const buttonTypes = [
   'default',
@@ -40,7 +41,7 @@ export interface ButtonProps {
   /**
    * @description icon component
    */
-  icon?: string | Component
+  icon?: IconPropType
   /**
    * @description native button type
    */
@@ -52,7 +53,7 @@ export interface ButtonProps {
   /**
    * @description customize loading icon component
    */
-  loadingIcon?: string | Component
+  loadingIcon?: IconPropType
   /**
    * @description determine whether it's a plain button
    */

@@ -6,8 +6,9 @@ import {
 } from '@element-plus/utils'
 import { componentSizes } from '@element-plus/constants'
 
-import type { CSSProperties, Component, ExtractPublicPropTypes } from 'vue'
+import type { CSSProperties, ExtractPublicPropTypes } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
+import type { IconPropType } from '@element-plus/utils'
 
 export interface AvatarProps {
   /**
@@ -21,7 +22,7 @@ export interface AvatarProps {
   /**
    * @description representation type to icon, more info on icon component.
    */
-  icon?: string | Component
+  icon?: IconPropType
   /**
    * @description the source of the image for an image avatar.
    */

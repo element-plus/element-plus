@@ -24,6 +24,10 @@ export const thumbProps = buildProps({
   },
   always: Boolean,
 } as const)
+
+/**
+ * @deprecated Removed after 3.0.0, Use `ThumbProps` instead.
+ */
 export type ThumbPropsPublic = ExtractPublicPropTypes<typeof thumbProps>
 
 export type ThumbInstance = InstanceType<typeof Thumb> & unknown

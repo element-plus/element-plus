@@ -44,10 +44,7 @@ import { useFormDisabled } from '@element-plus/components/form'
 import ElIcon from '@element-plus/components/icon'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import {
-  CircleClose as IconCircleClose,
-  Clock as IconClock,
-} from '@element-plus/icons-vue'
+import { CircleClose, Clock } from '@element-plus/icons-vue'
 import { compareTime, formatTime, nextTime, parseTime } from './utils'
 
 import type { TimeSelectProps } from './time-select'
@@ -71,8 +68,8 @@ const props = withDefaults(defineProps<TimeSelectProps>(), {
   start: '09:00',
   end: '18:00',
   step: '00:30',
-  prefixIcon: () => IconClock,
-  clearIcon: () => IconCircleClose,
+  prefixIcon: () => Clock,
+  clearIcon: () => CircleClose,
   popperClass: '',
   valueOnClear: undefined,
   popperStyle: undefined,

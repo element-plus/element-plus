@@ -48,9 +48,10 @@ defineOptions({
   name: 'ElRadioGroup',
 })
 
-const props = withDefaults(defineProps<RadioGroupProps>(), {
-  ...radioGroupPropsDefaults,
-})
+const props = withDefaults(
+  defineProps<RadioGroupProps>(),
+  radioGroupPropsDefaults
+)
 const emit = defineEmits(radioGroupEmits)
 
 const ns = useNamespace('radio')
