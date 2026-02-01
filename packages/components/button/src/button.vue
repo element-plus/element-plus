@@ -49,6 +49,7 @@ const props = withDefaults(defineProps<ButtonProps>(), {
   plain: undefined,
   text: undefined,
   round: undefined,
+  dashed: undefined,
   autoInsertSpace: undefined,
   tag: 'button',
 })

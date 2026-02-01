@@ -116,7 +116,7 @@ In this section, you can learn how to use Config Provider to provide experimenta
 | plain ^(2.9.11)  | determine whether it's a plain button                                                                                                                | ^[boolean]                                                                                | false   |
 | text ^(2.11.0)   | determine whether it's a text button                                                                                                                 | ^[boolean]                                                                                | false   |
 | round ^(2.9.11)  | determine whether it's a round button                                                                                                                | ^[boolean]                                                                                | false   |
-| dashed ^(2.11.9) | determine whether it's a dashed button                                                                                                               | ^[boolean]                                                                                | false   |
+| dashed ^(2.13.3) | determine whether it's a dashed button                                                                                                               | ^[boolean]                                                                                | false   |
 
 ### Link Attribute
 
