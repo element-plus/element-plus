@@ -47,6 +47,7 @@
     }
 
     .#{$namespace}-picker-panel__content {
+      display: block;
       position: relative;
       margin: 15px;
       width: 292px;

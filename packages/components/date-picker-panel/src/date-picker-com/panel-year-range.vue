@@ -1,14 +1,5 @@
 <template>
-  <div
-    :class="[
-      ppNs.b(),
-      drpNs.b(),
-      {
-        'has-sidebar': Boolean($slots.sidebar) || hasShortcuts,
-        'single-panel': singlePanel,
-      },
-    ]"
-  >
+  <div :class="panelKls">
     <div :class="ppNs.e('body-wrapper')">
       <slot name="sidebar" :class="ppNs.e('sidebar')" />
       <div v-if="hasShortcuts" :class="ppNs.e('sidebar')">
@@ -171,20 +162,6 @@ const {
   step,
   unit,
   sortDates,
-const leftPanelKls = computed(() => {
-  return {
-    content: [
-      ppNs.e('content'),
-      drpNs.e('content'),
-      { 'is-left': !props.singlePanel },
-    ],
-    arrowLeftBtn: [ppNs.e('icon-btn'), 'd-arrow-left'],
-    arrowRightBtn: [
-      ppNs.e('icon-btn'),
-      { [ppNs.is('disabled')]: !enableYearArrow.value },
-      'd-arrow-right',
-    ],
-  }
 })
 
 const {
@@ -213,12 +190,17 @@ const panelKls = computed(() => [
   ppNs.is('disabled', yearRangeDisabled.value),
   {
     'has-sidebar': Boolean(useSlots().sidebar) || hasShortcuts.value,
+    'single-panel': props.singlePanel,
   },
 ])
 
 const leftPanelKls = computed(() => {
   return {
-    content: [ppNs.e('content'), drpNs.e('content'), 'is-left'],
+    content: [
+      ppNs.e('content'),
+      drpNs.e('content'),
+      drpNs.is('left', !props.singlePanel),
+    ],
     arrowLeftBtn: [ppNs.e('icon-btn'), 'd-arrow-left'],
     arrowRightBtn: [
       ppNs.e('icon-btn'),
