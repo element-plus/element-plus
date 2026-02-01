@@ -94,14 +94,6 @@
       position: static;
       transform: none;
 
-      // Horizontal direction: indicators below carousel
-      .#{$namespace}-carousel--horizontal & {
-        bottom: calc(
-          getCssVar('carousel-indicator-height') +
-            getCssVar('carousel-indicator-padding-vertical') * 2
-        );
-      }
-
       .#{$namespace}-carousel__indicator:hover button {
         opacity: 0.64;
       }
