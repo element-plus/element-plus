@@ -114,7 +114,7 @@
           :class="[
             ppNs.e('content'),
             drpNs.e('content'),
-            { 'is-left': !singlePanel },
+            drpNs.is('left', !singlePanel),
           ]"
         >
           <div :class="drpNs.e('header')">
