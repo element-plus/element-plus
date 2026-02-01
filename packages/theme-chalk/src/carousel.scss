@@ -22,7 +22,7 @@
     flex-direction: row;
     align-items: center;
 
-    .#{$namespace}-carousel__container {
+    @include e(container) {
       flex: 1;
     }
   }
