@@ -43,7 +43,6 @@
     <el-input
       :id="id"
       ref="input"
-      type="number"
       :step="step"
       :model-value="displayValue"
       :placeholder="placeholder"
@@ -323,6 +322,7 @@ const setCurrentValue = (
   data.currentValue = newVal
 }
 const handleInput = (value: string) => {
+  value = value.replace(/。/g, '.').replace(/[^\d.e-]+/gi, '')
   data.userInput = value
   const newVal = value === '' ? null : Number(value)
   emit(INPUT_EVENT, newVal)
