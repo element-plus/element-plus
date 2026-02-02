@@ -11,8 +11,9 @@
     :aria-valuetext="text || undefined"
     aria-valuemin="0"
     :aria-valuemax="max"
-    tabindex="0"
     :style="rateStyles"
+    :tabindex="rateDisabled ? undefined : 0"
+    :aria-disabled="rateDisabled"
     @keydown="handleKey"
   >
     <span
@@ -273,9 +274,6 @@ function selectValue(value: number) {
 }
 
 function handleKey(e: KeyboardEvent) {
-  if (rateDisabled.value) {
-    return
-  }
   const code = getEventCode(e)
   const step = props.allowHalf ? 0.5 : 1
   let _currentValue = currentValue.value
