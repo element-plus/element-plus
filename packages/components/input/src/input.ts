@@ -10,13 +10,9 @@ import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import { CircleClose } from '@element-plus/icons-vue'
 
-import type {
-  Component,
-  ExtractPublicPropTypes,
-  HTMLAttributes,
-  StyleValue,
-} from 'vue'
+import type { ExtractPublicPropTypes, HTMLAttributes, StyleValue } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
+import type { IconPropType } from '@element-plus/utils'
 
 export type InputModelModifiers = {
   lazy?: true
@@ -109,7 +105,7 @@ export interface InputProps {
   /**
    * @description custom clear icon component
    */
-  clearIcon?: string | Component
+  clearIcon?: IconPropType
   /**
    * @description toggleable password input
    */
@@ -125,11 +121,11 @@ export interface InputProps {
   /**
    * @description suffix icon
    */
-  suffixIcon?: string | Component
+  suffixIcon?: IconPropType
   /**
    * @description prefix icon
    */
-  prefixIcon?: string | Component
+  prefixIcon?: IconPropType
   /**
    * @description container role, internal properties provided for use by the picker component
    */

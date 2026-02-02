@@ -1,9 +1,17 @@
 import { describe, expect, it, vi } from 'vitest'
-import { focusElement, isFocusable, triggerEvent } from '../..'
+import { focusElement, isFocusable, isShadowRoot, triggerEvent } from '../..'
 
 const CE = (tag: string) => document.createElement(tag)
 
 describe('Aria Utils', () => {
+  describe('isShadowRoot', () => {
+    it('should return true when element is a shadow root', () => {
+      const $el = CE('div')
+      const shadowRoot = $el.attachShadow({ mode: 'open' })
+      expect(isShadowRoot(shadowRoot)).toBe(true)
+    })
+  })
+
   describe('Trigger Event', () => {
     it('Util trigger event to trigger event correctly', () => {
       const div = document.createElement('div')

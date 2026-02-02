@@ -175,7 +175,7 @@ import {
 import { useResizeObserver } from '@vueuse/core'
 import { isNil } from 'lodash-unified'
 import { ElIcon } from '@element-plus/components/icon'
-import { Hide as IconHide, View as IconView } from '@element-plus/icons-vue'
+import { Hide, View } from '@element-plus/icons-vue'
 import {
   useFormDisabled,
   useFormItem,
@@ -214,9 +214,7 @@ defineOptions({
   name: COMPONENT_NAME,
   inheritAttrs: false,
 })
-const props = withDefaults(defineProps<InputProps>(), {
-  ...inputPropsDefaults,
-})
+const props = withDefaults(defineProps<InputProps>(), inputPropsDefaults)
 const emit = defineEmits(inputEmits)
 
 const rawAttrs = useRawAttrs()
@@ -282,9 +280,7 @@ const validateState = computed(() => elFormItem?.validateState || '')
 const validateIcon = computed(
   () => validateState.value && ValidateComponentsMap[validateState.value]
 )
-const passwordIcon = computed(() =>
-  passwordVisible.value ? IconView : IconHide
-)
+const passwordIcon = computed(() => (passwordVisible.value ? View : Hide))
 const containerStyle = computed<StyleValue>(() => [
   rawAttrs.style as StyleValue,
 ])
