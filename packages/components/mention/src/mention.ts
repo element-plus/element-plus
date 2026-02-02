@@ -198,6 +198,7 @@ export const mentionEmits = {
 }
 
 export type MentionEmits = typeof mentionEmits
+
 /**
  * @deprecated Removed after 3.0.0, Use `MentionProps` instead.
  */

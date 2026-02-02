@@ -6,12 +6,13 @@ import {
   useTooltipTriggerProps,
 } from '@element-plus/components/tooltip'
 
-import type { Component, ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
 import type { ButtonType } from '@element-plus/components/button'
 import type {
   ElTooltipContentProps,
   ElTooltipTriggerProps,
 } from '@element-plus/components/tooltip'
+import type { IconPropType } from '@element-plus/utils'
 import type Popconfirm from './popconfirm.vue'
 
 export interface PopconfirmProps {
@@ -38,7 +39,7 @@ export interface PopconfirmProps {
   /**
    * @description Icon Component
    */
-  icon?: string | Component
+  icon?: IconPropType
   /**
    * @description Icon color
    */

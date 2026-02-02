@@ -42,6 +42,7 @@ export const skeletonItemProps = buildProps({
     default: 'text',
   },
 } as const)
+
 /**
  * @deprecated Removed after 3.0.0, Use `SkeletonItemProps` instead.
  */
