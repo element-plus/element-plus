@@ -6,6 +6,9 @@ import type { ComputedRef, ExtractPublicPropTypes, InjectionKey } from 'vue'
 import type ColorPickerPanel from './color-picker-panel.vue'
 import type Color from './utils/color'
 
+export const colorFormats = ['hsl', 'hsv', 'hex', 'rgb'] as const
+export type ColorFormat = (typeof colorFormats)[number]
+
 export interface ColorPickerPanelProps {
   /**
    * @description binding value
@@ -22,7 +25,7 @@ export interface ColorPickerPanelProps {
   /**
    * @description color format of v-model
    */
-  colorFormat?: string
+  colorFormat?: ColorFormat
   /**
    * @description whether to disable the color picker
    */
@@ -62,7 +65,10 @@ export const colorPickerPanelProps = buildProps({
   /**
    * @description color format of v-model
    */
-  colorFormat: String,
+  colorFormat: {
+    type: definePropType<ColorFormat>(String),
+    values: colorFormats,
+  },
   /**
    * @description whether to disable the color picker
    */
