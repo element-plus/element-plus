@@ -192,7 +192,10 @@ export const selectProps = buildProps({
    * @description whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true
    */
   collapseTagsTooltip: Boolean,
-  collapseTagsTooltipAppendTo: useTooltipContentProps.appendTo,
+  /**
+   * @description which element the tooltip content appends to. To use this, `collapse-tags` and `collapse-tags-tooltip` must be true
+   */
+  tooltipAppendTo: useTooltipContentProps.appendTo,
   /**
    * @description the max tags number to be shown. To use this, `collapse-tags` must be true
    */

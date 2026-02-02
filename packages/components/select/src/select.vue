@@ -101,7 +101,7 @@
                 :popper-class="popperClass"
                 :popper-style="popperStyle"
                 :teleported="teleported"
-                :append-to="collapseTagsTooltipAppendTo ?? appendTo"
+                :append-to="tooltipAppendTo ?? appendTo"
                 :popper-options="popperOptions"
               >
                 <template #default>

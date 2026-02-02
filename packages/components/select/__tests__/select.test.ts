@@ -1512,7 +1512,7 @@ describe('Select', () => {
           multiple
           collapseTags
           collapse-tags-tooltip
-          collapse-tags-tooltip-append-to=".append-target"
+          tooltip-append-to=".append-target"
           placeholder="请选择"
         >
           <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
