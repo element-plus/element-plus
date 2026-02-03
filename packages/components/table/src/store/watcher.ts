@@ -79,6 +79,7 @@ function useWatcher<T extends DefaultRow>() {
   const rightFixedLeafColumnsLength = ref(0)
   const isAllSelected = ref(false)
   const selection: Ref<T[]> = ref([])
+  const selectionIndeterminate = ref<Record<string, boolean>>({})
   const reserveSelection = ref(false)
   const selectOnIndeterminate = ref(false)
   const selectable: Ref<((row: T, index: number) => boolean) | null> = ref(null)
@@ -198,10 +199,129 @@ function useWatcher<T extends DefaultRow>() {
     }
   }
 
+  // 定位选中项索引
+  const getSelectionIndex = (row: T) => {
+    if (!rowKey.value) {
+      return selection.value.indexOf(row)
+    }
+    const id = getRowIdentity(row, rowKey.value)
+    return selection.value.findIndex(
+      (item) => getRowIdentity(item, rowKey.value) === id
+    )
+  }
+
+  // 构建树形数据的顺序索引映射，用于 selectable 计算
+  const buildRowIndexMap = () => {
+    const rowIndexMap = new Map<string, number>()
+    if (!rowKey.value) return rowIndexMap
+    const { childrenColumnName, lazyTreeNodeMap } = instance.store.states
+    let rowIndex = 0
+    // 递归遍历树形数据，构建顺序索引映射
+    const _traverse = (rows: T[]) => {
+      if (!isArray(rows)) return
+      rows.forEach((row) => {
+        const id = getRowIdentity(row, rowKey.value)
+        rowIndexMap.set(id, rowIndex)
+        rowIndex += 1
+        const lazyChildren = lazyTreeNodeMap.value?.[id]
+        const children = lazyChildren || row[childrenColumnName.value]
+        if (isArray(children) && children.length) {
+          _traverse(children)
+        }
+      })
+    }
+    _traverse(data.value || [])
+    return rowIndexMap
+  }
+
+  // 依据子节点选中状态更新父节点选中与半选态
+  const updateSelectionByChildren = (
+    options: { emitChange?: boolean } = {}
+  ) => {
+    const { emitChange = true } = options
+    if (instance.store.states.checkStrictly.value) {
+      selectionIndeterminate.value = {}
+      return
+    }
+    if (!rowKey.value) {
+      selectionIndeterminate.value = {}
+      return
+    }
+    const { childrenColumnName, lazyTreeNodeMap } = instance.store.states
+    const rowIndexMap = buildRowIndexMap()
+    const indeterminateMap: Record<string, boolean> = {}
+    let selectionChanged = false
+    // 在不触发外部 select 事件的前提下同步父节点选中
+    const _updateSelectionForRow = (row: T, selected: boolean) => {
+      const id = getRowIdentity(row, rowKey.value)
+      const rowIndex = rowIndexMap.get(id) ?? 0
+      const rowSelectable = selectable.value
+        ? selectable.value.call(null, row, rowIndex)
+        : true
+      if (!rowSelectable) return
+      const index = getSelectionIndex(row)
+      if (selected && index === -1) {
+        selection.value.push(row)
+        selectionChanged = true
+      } else if (!selected && index !== -1) {
+        selection.value.splice(index, 1)
+        selectionChanged = true
+      }
+    }
+    // 递归统计可选与已选数量，生成半选状态映射
+    const _walk = (rows: T[]) => {
+      let selectedCount = 0
+      let selectableCount = 0
+      if (!isArray(rows)) return { selectedCount, selectableCount }
+      rows.forEach((row) => {
+        const id = getRowIdentity(row, rowKey.value)
+        const lazyChildren = lazyTreeNodeMap.value?.[id]
+        const children = lazyChildren || row[childrenColumnName.value]
+        let childSelectedCount = 0
+        let childSelectableCount = 0
+        if (isArray(children) && children.length) {
+          const childResult = _walk(children)
+          childSelectedCount = childResult.selectedCount
+          childSelectableCount = childResult.selectableCount
+        }
+        if (childSelectableCount > 0) {
+          const allSelected = childSelectedCount === childSelectableCount
+          const noneSelected = childSelectedCount === 0
+          indeterminateMap[id] = !allSelected && !noneSelected
+          _updateSelectionForRow(row, allSelected)
+        } else {
+          indeterminateMap[id] = false
+        }
+        const rowIndex = rowIndexMap.get(id) ?? 0
+        const rowSelectable = selectable.value
+          ? selectable.value.call(null, row, rowIndex)
+          : true
+        if (rowSelectable) {
+          selectableCount += 1
+          if (isSelected(row)) {
+            selectedCount += 1
+          }
+        }
+        selectedCount += childSelectedCount
+        selectableCount += childSelectableCount
+      })
+      return { selectedCount, selectableCount }
+    }
+    _walk(data.value || [])
+    selectionIndeterminate.value = indeterminateMap
+    if (selectionChanged && emitChange) {
+      instance.emit(
+        'selection-change',
+        selection.value ? selection.value.slice() : []
+      )
+    }
+  }
+
   const clearSelection = () => {
     isAllSelected.value = false
     const oldSelection = selection.value
     selection.value = []
+    selectionIndeterminate.value = {}
     if (oldSelection.length) {
       instance.emit('selection-change', [])
     }
@@ -226,7 +346,8 @@ function useWatcher<T extends DefaultRow>() {
         (item) => !deleted.includes(item)
       )
       selection.value = newSelection
-      instance.emit('selection-change', newSelection.slice())
+      updateSelectionByChildren({ emitChange: false })
+      instance.emit('selection-change', selection.value.slice())
     }
   }
 
@@ -254,6 +375,7 @@ function useWatcher<T extends DefaultRow>() {
       rowKey.value
     )
     if (changed) {
+      updateSelectionByChildren({ emitChange: false })
       const newSelection = (selection.value || []).slice()
       // 调用 API 修改选中值，不触发 select 事件
       if (emitChange) {
@@ -297,6 +419,8 @@ function useWatcher<T extends DefaultRow>() {
       }
       childrenCount += getChildrenCount(getRowIdentity(row, rowKey))
     })
+
+    updateSelectionByChildren({ emitChange: false })
 
     if (selectionChanged) {
       instance.emit(
@@ -344,6 +468,13 @@ function useWatcher<T extends DefaultRow>() {
 
     const isAllSelected_ = checkSelectedStatus(data.value || [])
     isAllSelected.value = selectedCount === 0 ? false : isAllSelected_
+  }
+
+  // 获取行半选状态
+  const getRowIndeterminate = (row: T) => {
+    if (!rowKey.value) return false
+    const id = getRowIdentity(row, rowKey.value)
+    return !!selectionIndeterminate.value[id]
   }
 
   const getChildrenCount = (rowKey: string) => {
@@ -538,6 +669,8 @@ function useWatcher<T extends DefaultRow>() {
     _toggleAllSelection,
     toggleAllSelection: null as (() => void) | null,
     updateAllSelected,
+    updateSelectionByChildren,
+    getRowIndeterminate,
     updateFilters,
     updateCurrentRow,
     updateSort,
@@ -576,6 +709,7 @@ function useWatcher<T extends DefaultRow>() {
       rightFixedLeafColumnsLength,
       isAllSelected,
       selection,
+      selectionIndeterminate,
       reserveSelection,
       selectOnIndeterminate,
       selectable,
