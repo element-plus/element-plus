@@ -322,14 +322,8 @@ const setCurrentValue = (
   data.currentValue = newVal
 }
 const handleInput = (value: string) => {
-  const handleInput = (value: string) => {
-    const allowedChars = props.disabledScientific ? /[^\d.-]+/g : /[^\d.e-]+/gi
-    value = value.replace(/。/g, '.').replace(allowedChars, '')
-    data.userInput = value
-    const newVal = value === '' ? null : Number(value)
-    emit(INPUT_EVENT, newVal)
-    setCurrentValue(newVal, false)
-  }
+  const allowedChars = props.disabledScientific ? /[^\d.-]+/g : /[^\d.e-]+/gi
+  value = value.replace(/。/g, '.').replace(allowedChars, '')
   data.userInput = value
   const newVal = value === '' ? null : Number(value)
   emit(INPUT_EVENT, newVal)
