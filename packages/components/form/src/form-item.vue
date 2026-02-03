@@ -51,7 +51,6 @@ import {
   watch,
 } from 'vue'
 import AsyncValidator from 'async-validator'
-import { clone } from 'lodash-unified'
 import { refDebounced } from '@vueuse/core'
 import {
   addUnit,
@@ -101,7 +100,6 @@ const validateStateDebounced = refDebounced(validateState, 100)
 const validateMessage = ref('')
 const formItemRef = ref<HTMLDivElement>()
 // special inline value.
-let initialValue: any = undefined
 let isResettingField = false
 
 const labelPosition = computed(
@@ -340,15 +338,12 @@ const clearValidate: FormItemContext['clearValidate'] = () => {
 }
 
 const resetField: FormItemContext['resetField'] = async () => {
-  const model = formContext?.model
-  if (!model || !props.prop) return
-
-  const computedValue = getProp(model, props.prop)
+  if (!formContext?.model || !props.prop) return
 
   // prevent validation from being triggered
   isResettingField = true
 
-  computedValue.value = clone(initialValue)
+  formContext.resetField(props.prop)
 
   await nextTick()
   clearValidate()
@@ -367,7 +362,9 @@ const removeInputId: FormItemContext['removeInputId'] = (id: string) => {
 }
 
 const setInitialValue: FormItemContext['setInitialValue'] = (value: any) => {
-  initialValue = clone(value)
+  if (!formContext?.model || !props.prop) return
+
+  formContext.setInitialValue(props.prop, value)
 }
 
 watch(
@@ -409,7 +406,6 @@ provide(formItemContextKey, context)
 onMounted(() => {
   if (props.prop) {
     formContext?.addField(context)
-    initialValue = clone(fieldValue.value)
   }
 })
 

@@ -5,8 +5,8 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, provide, reactive, ref, toRefs, watch } from 'vue'
-import { has } from 'lodash-unified'
+import { computed, onMounted, provide, reactive, ref, toRefs, watch } from 'vue'
+import { cloneDeep, has } from 'lodash-unified'
 import { debugWarn, getProp, isFunction } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { useFormSize } from './hooks'
@@ -43,6 +43,15 @@ const emit = defineEmits(formEmits)
 const formRef = ref<HTMLElement>()
 const fields = reactive<FormItemContext[]>([])
 
+// initial values for resetFields
+let initialValues: any = undefined
+// prop cache for removed fields
+const removedFieldPropCache = new Set<string>()
+// record initial values when mounted
+onMounted(() => {
+  initialValues = cloneDeep(props.model)
+})
+
 const formSize = useFormSize()
 const ns = useNamespace('form')
 const formClasses = computed(() => {
@@ -65,15 +74,30 @@ const addField: FormContext['addField'] = (field) => {
   fields.push(field)
 }
 
+const resetField: FormContext['resetField'] = (prop) => {
+  if (!props.model) return
+
+  const computedValue = getProp(props.model, prop)
+  computedValue.value = cloneDeep(getProp(initialValues, prop).value)
+}
+
 const removeField: FormContext['removeField'] = (field) => {
   if (field.prop) {
     fields.splice(fields.indexOf(field), 1)
+    removedFieldPropCache.add(field.propString)
   }
 }
 
-const setInitialValues: FormContext['setInitialValues'] = (
-  initModel: Partial<typeof props.model>
-) => {
+const setInitialValue: FormContext['setInitialValue'] = (prop, value) => {
+  if (!initialValues) {
+    debugWarn(COMPONENT_NAME, 'initialValues is not initialized yet.')
+    return
+  }
+  const computedValue = getProp(initialValues, prop)
+  computedValue.value = cloneDeep(value)
+}
+
+const setInitialValues: FormContext['setInitialValues'] = (initModel) => {
   if (!props.model) {
     debugWarn(COMPONENT_NAME, 'model is required for setInitialValues to work.')
     return
@@ -85,16 +109,7 @@ const setInitialValues: FormContext['setInitialValues'] = (
     )
     return
   }
-  fields.forEach((field) => {
-    if (field.prop) {
-      // Check if the property path actually exists in initModel
-      // This allows setting undefined/null values while skipping non-existent properties
-      if (has(initModel, field.prop)) {
-        const initValue = getProp(initModel, field.prop).value
-        field.setInitialValue(initValue)
-      }
-    }
-  })
+  initialValues = cloneDeep(initModel)
 }
 
 const resetFields: FormContext['resetFields'] = (properties = []) => {
@@ -102,7 +117,23 @@ const resetFields: FormContext['resetFields'] = (properties = []) => {
     debugWarn(COMPONENT_NAME, 'model is required for resetFields to work.')
     return
   }
-  filterFields(fields, properties).forEach((field) => field.resetField())
+
+  // first reset the existing or specified fields
+  filterFields(fields, properties).forEach((field) => {
+    field.resetField()
+
+    // if exists in removedFieldPropCache, remove it
+    removedFieldPropCache.delete(field.propString)
+  })
+
+  // then reset the removed fields if no specific properties are provided
+  if (properties.length === 0) {
+    removedFieldPropCache.forEach((prop) => {
+      if (has(initialValues, prop)) {
+        resetField(prop)
+      }
+    })
+  }
 }
 
 const clearValidate: FormContext['clearValidate'] = (props = []) => {
@@ -216,7 +247,9 @@ provide(
     validateField,
     getField,
     addField,
+    resetField,
     removeField,
+    setInitialValue,
     setInitialValues,
 
     ...useFormLabelWidth(),
