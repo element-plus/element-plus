@@ -165,6 +165,7 @@
     cursor: pointer;
     transition: getCssVar('transition-duration');
 
+    // To prevent styles from being overridden
     // When labels exist, use auto size so button content can center correctly
     .#{$namespace}-carousel__indicators--labels & {
       height: auto;
