@@ -2245,6 +2245,92 @@ describe('Table.vue', () => {
       expect(wrapper.vm.selected.length).toEqual(getTestData().length + 2)
     })
 
+    it('selectable tree linkage parent status with children', async () => {
+      const wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table
+            :data="testData"
+            :tree-props="treeProps"
+            row-key="id"
+            default-expand-all
+          >
+            <el-table-column type="selection" :selectable="selectable" />
+            <el-table-column prop="name" label="name" />
+          </el-table>
+        `,
+        data() {
+          return {
+            checkStrictly: false,
+            testData: [
+              {
+                id: 1,
+                name: 'parent',
+                childrenTest: [
+                  { id: 11, name: 'child-1' },
+                  { id: 12, name: 'child-2' },
+                  { id: 13, name: 'child-3' },
+                ],
+              },
+            ],
+          }
+        },
+        computed: {
+          treeProps() {
+            return {
+              children: 'childrenTest',
+              checkStrictly: this.checkStrictly,
+            }
+          },
+        },
+        methods: {
+          selectable: (row) => row.id !== 12,
+        },
+      })
+      await doubleWait()
+      const bodyCheckboxes = wrapper.findAll('.el-table__body .el-checkbox')
+      const parentCheckbox = bodyCheckboxes[0]
+      const childCheckbox1 = bodyCheckboxes[1]
+      const childCheckbox2 = bodyCheckboxes[2]
+      const childCheckbox3 = bodyCheckboxes[3]
+      const parentInput = parentCheckbox.find('.el-checkbox__input')
+
+      expect(childCheckbox2.classes()).toContain('is-disabled')
+
+      await childCheckbox1.trigger('click')
+      await doubleWait()
+      // partial selectable children selected -> parent indeterminate
+      expect(parentInput.classes()).toContain('is-indeterminate')
+
+      await childCheckbox3.trigger('click')
+      await doubleWait()
+      // all selectable children selected -> parent checked
+      expect(parentCheckbox.classes()).toContain('is-checked')
+      expect(parentInput.classes()).not.toContain('is-indeterminate')
+
+      await childCheckbox3.trigger('click')
+      await doubleWait()
+      // deselect one child -> parent indeterminate again
+      expect(parentInput.classes()).toContain('is-indeterminate')
+
+      await childCheckbox1.trigger('click')
+      await doubleWait()
+      // no selectable children selected -> parent unchecked
+      expect(parentCheckbox.classes()).not.toContain('is-checked')
+      expect(parentInput.classes()).not.toContain('is-indeterminate')
+
+      await (wrapper.vm.checkStrictly = true)
+      await doubleWait()
+      await childCheckbox1.trigger('click')
+      await doubleWait()
+      expect(childCheckbox1.classes()).toContain('is-checked')
+      expect(parentCheckbox.classes()).not.toContain('is-checked')
+      expect(parentInput.classes()).not.toContain('is-indeterminate')
+    })
+
     it('a11y', async () => {
       wrapper = mount({
         components: {
