@@ -237,9 +237,10 @@ export default defineComponent({
     const setChecked = (
       data: TreeKey | TreeNodeData,
       checked: boolean,
-      deep: boolean
+      deep: boolean,
+      ignoreCheckStrictly?: boolean
     ) => {
-      store.value.setChecked(data, checked, deep)
+      store.value.setChecked(data, checked, deep, ignoreCheckStrictly)
     }
 
     const getHalfCheckedNodes = (): TreeNodeData[] => {

@@ -26,8 +26,12 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
     }
   )
 
-  const updateCheckedKeys = () => {
-    if (!tree.value || !props.showCheckbox || props.checkStrictly) {
+  const updateCheckedKeys = (ignoreCheckStrictly = false) => {
+    if (
+      !tree.value ||
+      !props.showCheckbox ||
+      (props.checkStrictly && !ignoreCheckStrictly)
+    ) {
       return
     }
     const { levelTreeNodeMap, maxLevel } = tree.value
@@ -88,11 +92,16 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
     node: TreeNode,
     isChecked: CheckboxValueType,
     nodeClick = true,
-    immediateUpdate = true
+    immediateUpdate = true,
+    ignoreCheckStrictly = false
   ) => {
     const checkedKeySet = checkedKeys.value
     const children = node.children
-    if (!props.checkStrictly && nodeClick && children?.length) {
+    if (
+      (!props.checkStrictly || ignoreCheckStrictly) &&
+      nodeClick &&
+      children?.length
+    ) {
       isChecked = children.some((node) => !node.isEffectivelyChecked)
     }
 
@@ -101,7 +110,7 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
         node.key
       )
       const children = node.children
-      if (!props.checkStrictly && children) {
+      if ((!props.checkStrictly || ignoreCheckStrictly) && children) {
         children.forEach((childNode) => {
           if (!childNode.disabled || childNode.children) {
             toggle(childNode, checked)
@@ -199,11 +208,15 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
     })
   }
 
-  function setChecked(key: TreeKey, isChecked: boolean) {
+  function setChecked(
+    key: TreeKey,
+    isChecked: boolean,
+    ignoreCheckStrictly?: boolean
+  ) {
     if (tree?.value && props.showCheckbox) {
       const node = tree.value.treeNodeMap.get(key)
       if (node) {
-        toggleCheckbox(node, isChecked, false)
+        toggleCheckbox(node, isChecked, false, undefined, ignoreCheckStrictly)
       }
     }
   }

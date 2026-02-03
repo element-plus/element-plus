@@ -388,12 +388,19 @@ export default class TreeStore {
   setChecked(
     data: TreeKey | TreeNodeData,
     checked: boolean,
-    deep: boolean
+    deep: boolean,
+    ignoreCheckStrictly?: boolean
   ): void {
     const node = this.getNode(data)
 
     if (node) {
-      node.setChecked(!!checked, deep)
+      node.setChecked(
+        !!checked,
+        deep,
+        undefined,
+        undefined,
+        ignoreCheckStrictly
+      )
     }
   }
 

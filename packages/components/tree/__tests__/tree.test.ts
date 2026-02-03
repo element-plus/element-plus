@@ -785,6 +785,22 @@ describe('Tree.vue', () => {
     expect(tree.getCheckedKeys().length).toEqual(0)
   })
 
+  test('method setChecked with checkStrictly', async () => {
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" checkStrictly show-checkbox node-key="id"`
+    )
+    const treeWrapper = wrapper.findComponent(Tree)
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
+
+    tree.setChecked(111, true, true)
+    expect(tree.getCheckedNodes().length).toEqual(1)
+    expect(tree.getCheckedKeys().length).toEqual(1)
+
+    tree.setChecked(tree.data[0], true, true, true)
+    expect(tree.getCheckedNodes().length).toEqual(3)
+    expect(tree.getCheckedKeys().length).toEqual(3)
+  })
+
   test('setCheckedKeys with leafOnly=false', async () => {
     const { wrapper } = getTreeVm(
       `:props="defaultProps" show-checkbox node-key="id"`
