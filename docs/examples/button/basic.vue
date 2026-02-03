@@ -28,6 +28,15 @@
     </div>
 
     <div class="button-row">
+      <el-button dashed>Dashed</el-button>
+      <el-button type="primary" dashed>Primary</el-button>
+      <el-button type="success" dashed>Success</el-button>
+      <el-button type="info" dashed>Info</el-button>
+      <el-button type="warning" dashed>Warning</el-button>
+      <el-button type="danger" dashed>Danger</el-button>
+    </div>
+
+    <div class="button-row">
       <el-button :icon="Search" circle />
       <el-button type="primary" :icon="Edit" circle />
       <el-button type="success" :icon="Check" circle />

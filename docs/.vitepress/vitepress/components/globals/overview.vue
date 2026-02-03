@@ -7,6 +7,7 @@
         :prefix-icon="Search"
         size="large"
         placeholder="Search Components"
+        clearable
       />
     </div>
 
@@ -103,7 +104,7 @@ const filteredSidebars = computed(() =>
     .map((group) => ({
       ...group,
       children: group.children.filter((item) => {
-        const value = query.value.trim().toLowerCase()
+        const value = query.value.trim().toLowerCase().replace(/-/g, ' ')
         return (
           group.text.toLowerCase().includes(value) ||
           item.text.toLowerCase().includes(value) ||
