@@ -7,7 +7,13 @@
 <script lang="ts" setup>
 import { computed, onMounted, provide, reactive, ref, toRefs, watch } from 'vue'
 import { cloneDeep, has } from 'lodash-unified'
-import { debugWarn, getProp, isFunction } from '@element-plus/utils'
+import {
+  debugWarn,
+  ensureArray,
+  getProp,
+  isArray,
+  isFunction,
+} from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { useFormSize } from './hooks'
 import { formContextKey } from './constants'
@@ -118,22 +124,34 @@ const resetFields: FormContext['resetFields'] = (properties = []) => {
     return
   }
 
+  const isSpecificProps = properties.length > 0
+  const propStrings = ensureArray(properties).map((prop) =>
+    isArray(prop) ? prop.join('.') : prop
+  )
+
   // first reset the existing or specified fields
-  filterFields(fields, properties).forEach((field) => {
+  filterFields(fields, propStrings, true).forEach((field) => {
     field.resetField()
 
     // if exists in removedFieldPropCache, remove it
     removedFieldPropCache.delete(field.propString)
+
+    // if specific properties are provided, remove the prop from propStrings
+    if (isSpecificProps) {
+      const index = propStrings.indexOf(field.propString)
+      if (index > -1) {
+        propStrings.splice(index, 1)
+      }
+    }
   })
 
-  // then reset the removed fields if no specific properties are provided
-  if (properties.length === 0) {
-    removedFieldPropCache.forEach((prop) => {
-      if (has(initialValues, prop)) {
-        resetField(prop)
-      }
-    })
-  }
+  // if no specific properties are provided, reset the removed fields
+  // else reset the remaining properties
+  ;(isSpecificProps ? propStrings : removedFieldPropCache).forEach((prop) => {
+    if (has(initialValues, prop)) {
+      resetField(prop)
+    }
+  })
 }
 
 const clearValidate: FormContext['clearValidate'] = (props = []) => {
