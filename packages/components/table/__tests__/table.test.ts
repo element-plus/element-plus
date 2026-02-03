@@ -2246,7 +2246,7 @@ describe('Table.vue', () => {
     })
 
     it('selectable tree linkage parent status with children', async () => {
-      const wrapper = mount({
+      wrapper = mount({
         components: {
           ElTable,
           ElTableColumn,
@@ -2326,9 +2326,15 @@ describe('Table.vue', () => {
       await doubleWait()
       await childCheckbox1.trigger('click')
       await doubleWait()
+      // Strict mode: child select should not update parent
       expect(childCheckbox1.classes()).toContain('is-checked')
       expect(parentCheckbox.classes()).not.toContain('is-checked')
       expect(parentInput.classes()).not.toContain('is-indeterminate')
+
+      await (wrapper.vm.checkStrictly = false)
+      await doubleWait()
+      // Switch to non-strict: parent should reflect child selection
+      expect(parentInput.classes()).toContain('is-indeterminate')
     })
 
     it('a11y', async () => {

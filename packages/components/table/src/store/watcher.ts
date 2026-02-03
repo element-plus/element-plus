@@ -239,7 +239,7 @@ function useWatcher<T extends DefaultRow>() {
     options: { emitChange?: boolean } = {}
   ) => {
     const { emitChange = true } = options
-    if (instance.store.states.checkStrictly.value) {
+    if (treeStates.checkStrictly.value) {
       selectionIndeterminate.value = {}
       return
     }
@@ -656,6 +656,18 @@ function useWatcher<T extends DefaultRow>() {
       toggleTreeExpansion(row, expanded)
     }
   }
+
+  watch(
+    () => treeStates.checkStrictly.value,
+    (value) => {
+      if (value) {
+        selectionIndeterminate.value = {}
+      } else {
+        updateSelectionByChildren()
+      }
+      updateAllSelected()
+    }
+  )
 
   return {
     assertRowKey,
