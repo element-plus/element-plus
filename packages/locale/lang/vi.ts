@@ -2,22 +2,22 @@ export default {
   name: 'vi',
   el: {
     breadcrumb: {
-      label: 'Breadcrumb', // to be translated
+      label: 'Đường dẫn',
     },
     colorpicker: {
       confirm: 'OK',
       clear: 'Xóa',
-      defaultLabel: 'color picker', // to be translated
+      defaultLabel: 'bộ chọn màu',
       description:
-        'current color is {color}. press enter to select a new color.', // to be translated
-      alphaLabel: 'pick alpha value', // to be translated
-      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
-      hueLabel: 'pick hue value', // to be translated
-      hueDescription: 'hue {hue}, current color is {color}', // to be translated
-      svLabel: 'pick saturation and brightness value', // to be translated
+        'màu hiện tại là {color}. nhấn enter để chọn màu mới.',
+      alphaLabel: 'chọn độ trong suốt',
+      alphaDescription: 'độ trong suốt {alpha}, màu hiện tại là {color}',
+      hueLabel: 'chọn tông màu',
+      hueDescription: 'tông màu {hue}, màu hiện tại là {color}',
+      svLabel: 'chọn độ bão hòa và độ sáng',
       svDescription:
-        'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
-      predefineDescription: 'select {value} as the color', // to be translated
+        'độ bão hòa {saturation}, độ sáng {brightness}, màu hiện tại là {color}',
+      predefineDescription: 'chọn {value} làm màu',
     },
     datepicker: {
       now: 'Hiện tại',
@@ -26,10 +26,10 @@ export default {
       clear: 'Xóa',
       confirm: 'OK',
       dateTablePrompt:
-        'Use the arrow keys and enter to select the day of the month', // to be translated
-      monthTablePrompt: 'Use the arrow keys and enter to select the month', // to be translated
-      yearTablePrompt: 'Use the arrow keys and enter to select the year', // to be translated
-      selectedDate: 'Selected date', // to be translated
+        'Sử dụng các phím mũi tên và enter để chọn ngày',
+      monthTablePrompt: 'Sử dụng các phím mũi tên và enter để chọn tháng',
+      yearTablePrompt: 'Sử dụng các phím mũi tên và enter để chọn năm',
+      selectedDate: 'Ngày đã chọn',
       selectDate: 'Chọn ngày',
       selectTime: 'Chọn giờ',
       startDate: 'Ngày bắt đầu',
@@ -63,13 +63,13 @@ export default {
         sat: 'T7',
       },
       weeksFull: {
-        sun: 'Sunday', // to be translated
-        mon: 'Monday', // to be translated
-        tue: 'Tuesday', // to be translated
-        wed: 'Wednesday', // to be translated
-        thu: 'Thursday', // to be translated
-        fri: 'Friday', // to be translated
-        sat: 'Saturday', // to be translated
+        sun: 'Chủ nhật',
+        mon: 'Thứ hai',
+        tue: 'Thứ ba',
+        wed: 'Thứ tư',
+        thu: 'Thứ năm',
+        fri: 'Thứ sáu',
+        sat: 'Thứ bảy',
       },
       months: {
         jan: 'Th.1',
@@ -87,53 +87,53 @@ export default {
       },
     },
     inputNumber: {
-      decrease: 'decrease number', // to be translated
-      increase: 'increase number', // to be translated
+      decrease: 'giảm số',
+      increase: 'tăng số',
     },
     select: {
       loading: 'Đang tải',
       noMatch: 'Dữ liệu không phù hợp',
-      noData: 'Không tìm thấy dữ liệu',
+      noData: 'Không có dữ liệu',
       placeholder: 'Chọn',
     },
     mention: {
       loading: 'Đang tải',
     },
     dropdown: {
-      toggleDropdown: 'Toggle Dropdown', // to be translated
+      toggleDropdown: 'Bật/tắt menu thả xuống',
     },
     cascader: {
       noMatch: 'Dữ liệu không phù hợp',
       loading: 'Đang tải',
       placeholder: 'Chọn',
-      noData: 'Không tìm thấy dữ liệu',
+      noData: 'Không có dữ liệu',
     },
     pagination: {
-      goto: 'Nhảy tới',
+      goto: 'Đến trang',
       pagesize: '/trang',
       total: 'Tổng {total}',
       pageClassifier: '',
-      page: 'Page', // to be translated
-      prev: 'Go to previous page', // to be translated
-      next: 'Go to next page', // to be translated
-      currentPage: 'page {pager}', // to be translated
-      prevPages: 'Previous {pager} pages', // to be translated
-      nextPages: 'Next {pager} pages', // to be translated
+      page: 'Trang',
+      prev: 'Đến trang trước',
+      next: 'Đến trang sau',
+      currentPage: 'trang {pager}',
+      prevPages: '{pager} trang trước',
+      nextPages: '{pager} trang sau',
       deprecationWarning:
-        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
+        'Phát hiện cách sử dụng không còn được hỗ trợ, vui lòng tham khảo tài liệu el-pagination để biết thêm chi tiết',
     },
     dialog: {
-      close: 'Close this dialog', // to be translated
+      close: 'Đóng hộp thoại này',
     },
     drawer: {
-      close: 'Close this dialog', // to be translated
+      close: 'Đóng hộp thoại này',
     },
     messagebox: {
       title: 'Thông báo',
       confirm: 'OK',
       cancel: 'Hủy',
       error: 'Dữ liệu không hợp lệ',
-      close: 'Close this dialog', // to be translated
+      close: 'Đóng hộp thoại này',
     },
     upload: {
       deleteTip: 'Nhấn xoá để xoá',
@@ -142,42 +142,42 @@ export default {
       continue: 'Tiếp tục',
     },
     slider: {
-      defaultLabel: 'slider between {min} and {max}', // to be translated
-      defaultRangeStartLabel: 'pick start value', // to be translated
-      defaultRangeEndLabel: 'pick end value', // to be translated
+      defaultLabel: 'thanh trượt giữa {min} và {max}',
+      defaultRangeStartLabel: 'chọn giá trị bắt đầu',
+      defaultRangeEndLabel: 'chọn giá trị kết thúc',
     },
     table: {
       emptyText: 'Không có dữ liệu',
       confirmFilter: 'Xác nhận',
       resetFilter: 'Làm mới',
-      clearFilter: 'Xóa hết',
+      clearFilter: 'Tất cả',
       sumText: 'Tổng',
-      selectAllLabel: 'Select all rows', // to be translated
-      selectRowLabel: 'Select this row', // to be translated
-      expandRowLabel: 'Expand this row', // to be translated
-      collapseRowLabel: 'Collapse this row', // to be translated
-      sortLabel: 'Sort by {column}', // to be translated
-      filterLabel: 'Filter by {column}', // to be translated
+      selectAllLabel: 'Chọn tất cả các hàng',
+      selectRowLabel: 'Chọn hàng này',
+      expandRowLabel: 'Mở rộng hàng này',
+      collapseRowLabel: 'Thu gọn hàng này',
+      sortLabel: 'Sắp xếp theo {column}',
+      filterLabel: 'Lọc theo {column}',
     },
     tag: {
-      close: 'Close this tag', // to be translated
+      close: 'Đóng thẻ này',
     },
     tour: {
       next: 'Tiếp',
       previous: 'Trước',
       finish: 'Hoàn thành',
-      close: 'Close this dialog', // to be translated
+      close: 'Đóng hộp thoại này',
     },
     tree: {
       emptyText: 'Không có dữ liệu',
     },
     transfer: {
       noMatch: 'Dữ liệu không phù hợp',
-      noData: 'Không tìm thấy dữ liệu',
+      noData: 'Không có dữ liệu',
       titles: ['Danh sách 1', 'Danh sách 2'],
       filterPlaceholder: 'Nhập từ khóa',
       noCheckedFormat: '{total} mục',
-      hasCheckedFormat: '{checked}/{total} đã chọn ',
+      hasCheckedFormat: '{checked}/{total} đã chọn',
     },
     image: {
       error: 'LỖI',
@@ -186,13 +186,13 @@ export default {
       title: 'Quay lại',
     },
     popconfirm: {
-      confirmButtonText: 'Ok',
-      cancelButtonText: 'Huỷ',
+      confirmButtonText: 'Có',
+      cancelButtonText: 'Không',
     },
     carousel: {
-      leftArrow: 'Carousel arrow left', // to be translated
-      rightArrow: 'Carousel arrow right', // to be translated
-      indicator: 'Carousel switch to index {index}', // to be translated
+      leftArrow: 'Mũi tên qua trái',
+      rightArrow: 'Mũi tên qua phải',
+      indicator: 'Chuyển carousel đến mục {index}',
     },
   },
 }
