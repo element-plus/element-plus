@@ -296,6 +296,13 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     }
   }
 
+  const getOptionExtraWidth = (option: OptionType) => {
+    const extra = isFunction(props.optionExtraWidth)
+      ? props.optionExtraWidth(option)
+      : props.optionExtraWidth
+    return isNumber(extra) && extra > 0 ? extra : 0
+  }
+
   // TODO Caching implementation
   // 1. There is no need to calculate options that have already been calculated
   // 2. Repeatedly expand and close when persistent is set to false, no need for repeated calculations
@@ -316,7 +323,8 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     )}`
     const maxWidth = filteredOptions.value.reduce((max, option) => {
       const metrics = ctx.measureText(getLabel(option))
-      return Math.max(metrics.width, max)
+      const optionWidth = metrics.width + getOptionExtraWidth(option)
+      return Math.max(optionWidth, max)
     }, 0)
     return maxWidth + padding
   }
@@ -888,6 +896,15 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     () => props.fitInputWidth,
     () => {
       calculatePopperSize()
+    }
+  )
+
+  watch(
+    () => props.optionExtraWidth,
+    () => {
+      if (!props.fitInputWidth) {
+        calculatePopperSize()
+      }
     }
   )
 

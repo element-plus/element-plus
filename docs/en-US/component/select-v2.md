@@ -231,6 +231,16 @@ select-v2/custom-width
 
 :::
 
+## Slot Width Compensation
+
+When you're using the default slot to render extra content (icons, tags, etc.) before the label, the automatically calculated dropdown width might still only consider the text. Use `option-extra-width` to hint how many extra pixels should be reserved so the dropdown can fully display the slot content.
+
+::::demo
+
+select-v2/slot-extra-width
+
+::::
+
 ## API
 
 ### Attributes
@@ -270,6 +280,7 @@ select-v2/custom-width
 | popper-options                      | [popper.js](https://popper.js.org/docs/v2/) parameters                                                                                   | ^[object]refer to [popper.js](https://popper.js.org/docs/v2/) doc                                                                                                           | {}                                             |
 | automatic-dropdown                  | for non-filterable Select, this prop decides if the option menu pops up when the input is focused                                        | ^[boolean]                                                                                                                                                                  | false                                          |
 | fit-input-width ^(2.9.2)            | whether the width of the dropdown is the same as the input, if the value is `number`, then the width is fixed                            | ^[boolean] / ^[number]                                                                                                                                                      | true                                           |
+| option-extra-width                  | extra width (in px) added to each option when auto-calculating dropdown width; can also be a function returning the additional width     | ^[number] / ^[Function]`(option: Option) => number`                                                                                                                         | 0                                              |
 | suffix-icon ^(2.9.8)                | custom suffix icon component                                                                                                             | ^[string] / ^[object]`Component`                                                                                                                                            | ArrowDown                                      |
 | height                              | The height of the dropdown panel, 34px for each item                                                                                     | ^[number]                                                                                                                                                                   | 274                                            |
 | item-height                         | The height of the dropdown item                                                                                                          | ^[number]                                                                                                                                                                   | 34                                             |

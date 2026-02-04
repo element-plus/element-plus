@@ -319,6 +319,16 @@ export const selectV2Props = buildProps({
       return isBoolean(val) || isNumber(val)
     },
   },
+  /**
+   * @description extra width that will be added to each option when calculating dropdown width
+   */
+  optionExtraWidth: {
+    type: definePropType<number | ((option: OptionType) => number)>([
+      Number,
+      Function,
+    ]),
+    default: 0,
+  },
   suffixIcon: {
     type: iconPropType,
     default: ArrowDown,
