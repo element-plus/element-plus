@@ -1,6 +1,7 @@
 import { buildProps, iconPropType } from '@element-plus/utils'
 
-import type { Component, ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
+import type { IconPropType } from '@element-plus/utils'
 
 export interface BreadcrumbProps {
   /**
@@ -10,7 +11,7 @@ export interface BreadcrumbProps {
   /**
    * @description icon component of icon separator
    */
-  separatorIcon?: string | Component
+  separatorIcon?: IconPropType
 }
 
 /**

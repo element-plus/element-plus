@@ -7,6 +7,7 @@ import type { PopperEffect } from '@element-plus/components/popper'
 import type TimeSelect from './time-select.vue'
 import type { CSSProperties, Component, ExtractPublicPropTypes } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
+import type { IconPropType } from '@element-plus/utils'
 
 export interface TimeSelectProps extends UseEmptyValuesProps {
   /**
@@ -72,11 +73,11 @@ export interface TimeSelectProps extends UseEmptyValuesProps {
   /**
    * @description custom prefix icon component
    */
-  prefixIcon?: string | Component
+  prefixIcon?: IconPropType
   /**
    * @description custom clear icon component
    */
-  clearIcon?: string | Component
+  clearIcon?: IconPropType
   /**
    * @description custom class name for TimeSelect's dropdown
    */
@@ -211,6 +212,9 @@ export const timeSelectProps = buildProps({
   ...useEmptyValuesProps,
 } as const)
 
+/**
+ * @deprecated Removed after 3.0.0, Use `TimeSelectProps` instead.
+ */
 export type TimeSelectPropsPublic = ExtractPublicPropTypes<
   typeof timeSelectProps
 >

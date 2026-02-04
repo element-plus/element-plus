@@ -87,8 +87,8 @@ importers:
         specifier: ^1.0.1
         version: 1.7.4
       '@popperjs/core':
-        specifier: npm:@sxzz/popperjs-es@^2.11.7
-        version: '@sxzz/popperjs-es@2.11.7'
+        specifier: npm:@sxzz/popperjs-es@^2.11.8
+        version: '@sxzz/popperjs-es@2.11.8'
       '@types/lodash':
         specifier: ^4.17.20
         version: 4.17.21
@@ -314,8 +314,8 @@ importers:
         specifier: ^1.2.3
         version: 1.6.4(@algolia/client-search@5.46.0)(@types/node@22.19.3)(async-validator@4.2.5(patch_hash=cc6d77b35ed2a1683012935ca9ed998d418912785fcf78c6497d3268ac596d23))(axios@1.13.2)(change-case@5.4.4)(nprogress@0.2.0)(postcss@8.5.6)(sass@1.96.0)(search-insights@2.17.3)(typescript@5.5.4)
       vitepress-plugin-group-icons:
-        specifier: ^1.6.7
-        version: 1.6.7(vite@7.3.0(@types/node@22.19.3)(jiti@2.6.1)(sass@1.96.0)(tsx@4.21.0)(yaml@2.8.2))
+        specifier: ^1.7.1
+        version: 1.7.1(vite@7.3.0(@types/node@22.19.3)(jiti@2.6.1)(sass@1.96.0)(tsx@4.21.0)(yaml@2.8.2))
       vue:
         specifier: 3.4.31
         version: 3.4.31(typescript@5.5.4)
@@ -2754,6 +2754,9 @@ packages:
 
   '@sxzz/popperjs-es@2.11.7':
     resolution: {integrity: sha512-Ccy0NlLkzr0Ex2FKvh2X+OyERHXJ88XJ1MXtsI9y9fGexlaXaVTPzBCRBwIxFkORuOb+uBqeu+RqnpgYTEZRUQ==}
+
+  '@sxzz/popperjs-es@2.11.8':
+    resolution: {integrity: sha512-wOwESXvvED3S8xBmcPWHs2dUuzrE4XiZeFu7e1hROIJkm02a49N120pmOXxY33sBb6hArItm5W5tcg1cBtV+HQ==}
 
   '@szmarczak/http-timer@4.0.6':
     resolution: {integrity: sha512-4BAffykYOgO+5nzBWYwE3W90sBgLJoUPRWWcL8wlyiM8IB8ipJz3UMJ9KXQd1RKQXpKp8Tutn80HZtWsu2u76w==}
@@ -8936,8 +8939,8 @@ packages:
       yaml:
         optional: true
 
-  vitepress-plugin-group-icons@1.6.7:
-    resolution: {integrity: sha512-SYp3yA3eB72JIR/TF9MJFwUhDpygt5ql18cqnoJQd5YnG3189rGy2k7+RjHh+6IZZm+1ZEaO2MlNI74NUn8ofw==}
+  vitepress-plugin-group-icons@1.7.1:
+    resolution: {integrity: sha512-3ZPcIqwHNBg1btrOOSecOqv8yJxHdu3W2ugxE5LusclDF005LAm60URMEmBQrkgl4JvM32AqJirqghK6lGIk8g==}
     peerDependencies:
       vite: '>=3'
     peerDependenciesMeta:
@@ -11619,6 +11622,8 @@ snapshots:
   '@standard-schema/spec@1.1.0': {}
 
   '@sxzz/popperjs-es@2.11.7': {}
+
+  '@sxzz/popperjs-es@2.11.8': {}
 
   '@szmarczak/http-timer@4.0.6':
     dependencies:
@@ -19049,7 +19054,7 @@ snapshots:
       tsx: 4.21.0
       yaml: 2.8.2
 
-  vitepress-plugin-group-icons@1.6.7(vite@7.3.0(@types/node@22.19.3)(jiti@2.6.1)(sass@1.96.0)(tsx@4.21.0)(yaml@2.8.2)):
+  vitepress-plugin-group-icons@1.7.1(vite@7.3.0(@types/node@22.19.3)(jiti@2.6.1)(sass@1.96.0)(tsx@4.21.0)(yaml@2.8.2)):
     dependencies:
       '@iconify-json/logos': 1.2.10
       '@iconify-json/vscode-icons': 1.2.39

@@ -51,6 +51,7 @@ export const dateTableProps = buildProps({
     type: Boolean,
   },
 } as const)
+
 /**
  *  @deprecated Removed after 3.0.0, Use `DateTableProps` instead.
  */

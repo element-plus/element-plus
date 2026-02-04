@@ -90,6 +90,7 @@ export const alertProps = buildProps({
     default: 'light',
   },
 } as const)
+
 /**
  * @deprecated Removed after 3.0.0, Use `AlertProps` instead.
  */

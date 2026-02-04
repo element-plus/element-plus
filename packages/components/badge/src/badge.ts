@@ -101,7 +101,7 @@ export const badgeProps = buildProps({
    */
   offset: {
     type: definePropType<[number, number]>(Array),
-    default: [0, 0],
+    default: () => [0, 0],
   },
   /**
    * @description custom class name of badge

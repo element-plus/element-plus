@@ -1,6 +1,7 @@
 import { buildProps, iconPropType } from '@element-plus/utils'
 
-import type { Component, ExtractPublicPropTypes, PropType } from 'vue'
+import type { ExtractPublicPropTypes, PropType } from 'vue'
+import type { IconPropType } from '@element-plus/utils'
 import type Link from './link.vue'
 
 export interface LinkProps {
@@ -34,7 +35,7 @@ export interface LinkProps {
   /**
    * @description icon component
    */
-  icon?: string | Component
+  icon?: IconPropType
 }
 
 /**
@@ -92,6 +93,6 @@ export type LinkEmits = typeof linkEmits
 
 export type LinkInstance = InstanceType<typeof Link> & unknown
 export interface LinkConfigContext {
-  type?: string
-  underline?: string | boolean
+  type?: LinkProps['type']
+  underline?: LinkProps['underline']
 }

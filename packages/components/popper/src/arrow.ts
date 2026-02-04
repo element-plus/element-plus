@@ -19,6 +19,7 @@ export const popperArrowProps = buildProps({
     default: 5,
   },
 } as const)
+
 /**
  * @deprecated Removed after 3.0.0, Use `PopperArrowProps` instead.
  */

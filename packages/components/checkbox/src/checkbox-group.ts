@@ -60,6 +60,7 @@ export interface CheckboxGroupProps extends Pick<AriaProps, 'ariaLabel'> {
    */
   type?: 'checkbox' | 'button'
 }
+
 /**
  * @deprecated Removed after 3.0.0, Use `CheckboxGroupProps` instead.
  */

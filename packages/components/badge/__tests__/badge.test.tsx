@@ -56,6 +56,15 @@ describe('Badge', () => {
     ).toBe(true)
   })
 
+  test('hidden', async () => {
+    const hidden = ref(true)
+    const wrapper = mount(() => <Badge hidden={hidden.value} value={10} />)
+    expect(wrapper.find('.el-badge__content').isVisible()).toBe(false)
+    hidden.value = false
+    await nextTick()
+    expect(wrapper.find('.el-badge__content').isVisible()).toBe(true)
+  })
+
   test('max', async () => {
     const badgeValue = ref(200)
     const wrapper = mount(() => <Badge max={100} value={badgeValue.value} />)
