@@ -84,6 +84,7 @@ const resetField: FormContext['resetField'] = (prop) => {
   if (!props.model) return
 
   const computedValue = getProp(props.model, prop)
+  // initialValue is undefined, reset to undefined
   computedValue.value = cloneDeep(getProp(initialValues, prop).value)
 }
 
