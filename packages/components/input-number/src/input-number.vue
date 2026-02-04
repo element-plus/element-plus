@@ -322,8 +322,23 @@ const setCurrentValue = (
   data.currentValue = newVal
 }
 const handleInput = (value: string) => {
-  const allowedChars = props.disabledScientific ? /[^\d.-]+/g : /[^\d.e-]+/gi
-  value = value.replace(/。/g, '.').replace(allowedChars, '')
+  // single pass: filter valid chars, keep first dot/e, minus only at start
+  let hasDot = false
+  let hasE = false
+  const allowE = !props.disabledScientific
+  value = [...value.replace(/。/g, '.')].reduce((acc, c) => {
+    if (/\d/.test(c)) return acc + c
+    if (c === '-' && acc.length === 0) return acc + c
+    if (c === '.' && !hasDot) {
+      hasDot = true
+      return acc + c
+    }
+    if (allowE && /e/i.test(c) && !hasE) {
+      hasE = true
+      return acc + c
+    }
+    return acc
+  }, '')
   data.userInput = value
   const newVal = value === '' ? null : Number(value)
   emit(INPUT_EVENT, newVal)
