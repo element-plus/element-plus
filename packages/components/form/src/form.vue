@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, provide, reactive, ref, toRefs, watch } from 'vue'
+import { computed, provide, reactive, ref, toRefs, watch } from 'vue'
 import { cloneDeep } from 'lodash-unified'
 import {
   debugWarn,
@@ -50,13 +50,9 @@ const formRef = ref<HTMLElement>()
 const fields = reactive<FormItemContext[]>([])
 
 // initial values for resetFields
-let initialValues: any = undefined
+let initialValues: any = cloneDeep(props.model)
 // prop cache for removed fields
 const removedFieldPropCache = new Set<string>()
-// record initial values when mounted
-onMounted(() => {
-  initialValues = cloneDeep(props.model)
-})
 
 const formSize = useFormSize()
 const ns = useNamespace('form')
