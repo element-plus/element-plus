@@ -274,6 +274,9 @@ function selectValue(value: number) {
 }
 
 function handleKey(e: KeyboardEvent) {
+  if (rateDisabled.value) {
+    return
+  }
   const code = getEventCode(e)
   const step = props.allowHalf ? 0.5 : 1
   let _currentValue = currentValue.value
