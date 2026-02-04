@@ -242,3 +242,83 @@ export const inputNumberEmits = {
 export type InputNumberEmits = typeof inputNumberEmits
 
 export type InputNumberInstance = InstanceType<typeof InputNumber> & unknown
+
+/**
+ * Filter input value to mimic native number input behavior.
+ * - Only one decimal point allowed (before 'e')
+ * - Only one 'e' allowed (must follow a digit)
+ * - Minus sign only at start or immediately after 'e'
+ * - Plus sign only immediately after 'e'
+ */
+export const filterNumberInput = (
+  value: string,
+  allowScientific: boolean
+): string => {
+  let result = ''
+  let hasDot = false
+  let hasE = false
+
+  for (const c of value) {
+    const code = c.charCodeAt(0)
+
+    // digit 0-9 (charCode 48-57)
+    if (code >= 48 && code <= 57) {
+      result += c
+      continue
+    }
+
+    // Chinese period → treat as dot
+    if (code === 12290) {
+      if (!hasDot && !hasE) {
+        hasDot = true
+        result += '.'
+      }
+      continue
+    }
+
+    // minus (charCode 45)
+    if (code === 45) {
+      if (result.length === 0) {
+        result += c
+      } else if (allowScientific && hasE) {
+        const last = result.charCodeAt(result.length - 1)
+        // immediately after e (101) or E (69)
+        if (last === 101 || last === 69) result += c
+      }
+      continue
+    }
+
+    // plus (charCode 43)
+    if (code === 43) {
+      if (allowScientific && hasE) {
+        const last = result.charCodeAt(result.length - 1)
+        if (last === 101 || last === 69) result += c
+      }
+      continue
+    }
+
+    // dot (charCode 46)
+    if (code === 46) {
+      if (!hasDot && !hasE) {
+        hasDot = true
+        result += c
+      }
+      continue
+    }
+
+    // e (101) or E (69)
+    if (code === 101 || code === 69) {
+      if (allowScientific && !hasE && result.length > 0) {
+        const last = result.charCodeAt(result.length - 1)
+        // must follow a digit
+        if (last >= 48 && last <= 57) {
+          hasE = true
+          result += c
+        }
+      }
+      continue
+    }
+  }
+
+  return result
+}
