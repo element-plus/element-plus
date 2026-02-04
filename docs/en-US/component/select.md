@@ -274,6 +274,12 @@ select/custom-label
 
 ### tag-tooltip
 
+:::tip Fallback Mechanism
+
+Any field omitted in `tag-tooltip` follows a fallback mechanism: it first inherits from the corresponding prop of the `el-select` component (e.g., `append-to`, `effect`, `popper-class`, `popper-style`, `teleported`, `popper-options`), and then falls back to the default value of the underlying `el-tooltip` component. Note that Select-level `append-to`, `effect`, `popper-class`, `popper-style`, `teleported`, and `popper-options` apply to both the Select dropdown and the collapse-tags tooltip unless specifically overridden here.
+
+:::
+
 | Attribute           | Description                                                                                                          | Type                                                                                                                                                                        | Default                            |
 | ------------------- | -------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
 | append-to           | which element the tooltip CONTENT appends to                                                                         | ^[CSSSelector] / ^[HTMLElement]                                                                                                                                             | —                                  |
