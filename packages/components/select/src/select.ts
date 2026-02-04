@@ -34,7 +34,7 @@ export interface TagTooltipProps {
   appendTo?: string | HTMLElement
   placement?: Placement
   fallbackPlacements?: Placement[]
-  effect?: PopperEffect | string
+  effect?: PopperEffect
   popperClass?: string
   popperStyle?: CSSProperties
   teleported?: boolean
