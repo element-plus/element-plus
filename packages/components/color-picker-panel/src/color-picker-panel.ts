@@ -11,6 +11,9 @@ import type {
 import type ColorPickerPanel from './color-picker-panel.vue'
 import type Color from './utils/color'
 
+type ClassObjectType = Record<string, boolean>
+type ClassType = string | ClassObjectType | ClassType[]
+
 export interface ColorPickerPanelProps {
   /**
    * @description binding value
@@ -92,6 +95,18 @@ export const colorPickerPanelProps = buildProps({
   validateEvent: {
     type: Boolean,
     default: true,
+  },
+  /**
+   * @description class names will passed to <hue-slider />
+   */
+  hueSliderClass: {
+    type: definePropType<ClassType>([String, Array, Object]),
+  },
+  /**
+   * @description styles will passed to <hue-slider />
+   */
+  hueSliderStyle: {
+    type: definePropType<StyleValue>([String, Array, Object]),
   },
 } as const)
 export const colorPickerPanelEmits = {
