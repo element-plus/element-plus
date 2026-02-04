@@ -8,8 +8,7 @@ export default {
       confirm: 'OK',
       clear: 'Xóa',
       defaultLabel: 'bộ chọn màu',
-      description:
-        'màu hiện tại là {color}. nhấn enter để chọn màu mới.',
+      description: 'màu hiện tại là {color}. nhấn enter để chọn màu mới.',
       alphaLabel: 'chọn độ trong suốt',
       alphaDescription: 'độ trong suốt {alpha}, màu hiện tại là {color}',
       hueLabel: 'chọn tông màu',
@@ -25,8 +24,7 @@ export default {
       cancel: 'Hủy',
       clear: 'Xóa',
       confirm: 'OK',
-      dateTablePrompt:
-        'Sử dụng các phím mũi tên và enter để chọn ngày',
+      dateTablePrompt: 'Sử dụng các phím mũi tên và enter để chọn ngày',
       monthTablePrompt: 'Sử dụng các phím mũi tên và enter để chọn tháng',
       yearTablePrompt: 'Sử dụng các phím mũi tên và enter để chọn năm',
       selectedDate: 'Ngày đã chọn',
