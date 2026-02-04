@@ -6,7 +6,7 @@
 
 <script lang="ts" setup>
 import { computed, onMounted, provide, reactive, ref, toRefs, watch } from 'vue'
-import { cloneDeep, has } from 'lodash-unified'
+import { cloneDeep } from 'lodash-unified'
 import {
   debugWarn,
   ensureArray,
@@ -149,9 +149,7 @@ const resetFields: FormContext['resetFields'] = (properties = []) => {
   // if no specific properties are provided, reset the removed fields
   // else reset the remaining properties
   ;(isSpecificProps ? propStrings : removedFieldPropCache).forEach((prop) => {
-    if (has(initialValues, prop)) {
-      resetField(prop)
-    }
+    resetField(prop)
   })
 }
 
