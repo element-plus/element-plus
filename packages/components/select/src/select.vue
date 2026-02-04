@@ -95,14 +95,23 @@
                 v-if="collapseTags && states.selected.length > maxCollapseTags"
                 ref="tagTooltipRef"
                 :disabled="dropdownMenuVisible || !collapseTagsTooltip"
-                :fallback-placements="['bottom', 'top', 'right', 'left']"
-                :effect="effect"
-                placement="bottom"
-                :popper-class="popperClass"
-                :popper-style="popperStyle"
-                :teleported="teleported"
-                :append-to="tooltipAppendTo ?? appendTo"
-                :popper-options="popperOptions"
+                :fallback-placements="
+                  tagTooltip.fallbackPlacements ?? [
+                    'bottom',
+                    'top',
+                    'right',
+                    'left',
+                  ]
+                "
+                :effect="tagTooltip.effect ?? effect"
+                :placement="tagTooltip.placement ?? 'bottom'"
+                :popper-class="tagTooltip.popperClass ?? popperClass"
+                :popper-style="tagTooltip.popperStyle ?? popperStyle"
+                :teleported="tagTooltip.teleported ?? teleported"
+                :append-to="tagTooltip.appendTo ?? appendTo"
+                :popper-options="tagTooltip.popperOptions ?? popperOptions"
+                :show-after="tagTooltip.showAfter"
+                :offset="tagTooltip.offset"
               >
                 <template #default>
                   <div

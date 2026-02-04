@@ -27,6 +27,22 @@ import type {
 import type { OptionValue } from './type'
 import type { Props } from '@element-plus/components/select-v2/src/useProps'
 
+/**
+ * @description Tag tooltip configuration interface
+ */
+export interface TagTooltipProps {
+  appendTo?: string | HTMLElement
+  placement?: Placement
+  fallbackPlacements?: Placement[]
+  effect?: PopperEffect | string
+  popperClass?: string
+  popperStyle?: CSSProperties
+  teleported?: boolean
+  popperOptions?: Partial<Options>
+  showAfter?: number
+  offset?: number
+}
+
 export const selectProps = buildProps({
   /**
    * @description the name attribute of select input
@@ -193,9 +209,12 @@ export const selectProps = buildProps({
    */
   collapseTagsTooltip: Boolean,
   /**
-   * @description which element the tooltip content appends to. To use this, `collapse-tags` and `collapse-tags-tooltip` must be true
+   * @description configuration object for the collapse-tags tooltip. To use this, `collapse-tags` and `collapse-tags-tooltip` must be true
    */
-  tooltipAppendTo: useTooltipContentProps.appendTo,
+  tagTooltip: {
+    type: definePropType<TagTooltipProps>(Object),
+    default: () => ({}),
+  },
   /**
    * @description the max tags number to be shown. To use this, `collapse-tags` must be true
    */
