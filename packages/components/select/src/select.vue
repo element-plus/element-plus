@@ -110,7 +110,10 @@
                 :teleported="tagTooltip.teleported ?? teleported"
                 :append-to="tagTooltip.appendTo ?? appendTo"
                 :popper-options="tagTooltip.popperOptions ?? popperOptions"
+                :transition="tagTooltip.transition"
                 :show-after="tagTooltip.showAfter"
+                :hide-after="tagTooltip.hideAfter"
+                :auto-close="tagTooltip.autoClose"
                 :offset="tagTooltip.offset"
               >
                 <template #default>

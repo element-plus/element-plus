@@ -36,10 +36,13 @@ export interface TagTooltipProps {
   fallbackPlacements?: Placement[]
   effect?: PopperEffect
   popperClass?: string
-  popperStyle?: CSSProperties
+  popperStyle?: string | CSSProperties
+  transition?: string
   teleported?: boolean
   popperOptions?: Partial<Options>
   showAfter?: number
+  hideAfter?: number
+  autoClose?: number
   offset?: number
 }
 
