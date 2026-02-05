@@ -276,7 +276,18 @@ select/custom-label
 
 :::tip Fallback Mechanism
 
-Any field omitted in `tag-tooltip` follows a fallback mechanism: it first inherits from the corresponding prop of the `el-select` component (e.g., `append-to`, `effect`, `popper-class`, `popper-style`, `teleported`, `popper-options`), and then falls back to the default value of the underlying `el-tooltip` component. Note that Select-level `append-to`, `effect`, `popper-class`, `popper-style`, `teleported`, and `popper-options` apply to both the Select dropdown and the collapse-tags tooltip unless specifically overridden here.
+Properties in tag-tooltip follow this priority order:
+
+1. Explicitly defined fields within the tag-tooltip object.
+2. Shared props inherited from el-select (e.g., effect, teleported, popper-class, popper-options).
+3. Default values of the underlying el-tooltip component.
+   This allows you to override specific tooltip behaviors for tags while maintaining consistency with the Select dropdown by default.
+
+:::
+
+:::tip Custom Container Positioning
+
+When appending the Tooltip to a custom container (via the `append-to` attribute), the container should be configured with `position: relative` or `position: absolute` to ensure accurate positioning. Additionally, you can apply `overflow: hidden` to the container if you need to prevent the Tooltip from overflowing its boundaries.
 
 :::
 
@@ -288,9 +299,12 @@ Any field omitted in `tag-tooltip` follows a fallback mechanism: it first inheri
 | effect              | Tooltip theme, built-in theme: `dark` / `light`                                                                      | ^[enum]`'dark' \| 'light'`                                                                                                                                                  | —                                  |
 | popper-class        | custom class name for Tooltip's popper                                                                               | ^[string]                                                                                                                                                                   | —                                  |
 | popper-style        | custom style for Tooltip's popper                                                                                    | ^[string] / ^[object]                                                                                                                                                       | —                                  |
+| transition          | animation name                                                                                                       | ^[string]                                                                                                                                                                   | —                                  |
 | teleported          | whether tooltip content is teleported, if `true` it will be teleported to where `append-to` sets                     | ^[boolean]                                                                                                                                                                  | —                                  |
 | popper-options      | [popper.js](https://popper.js.org/docs/v2/) parameters                                                               | ^[object]refer to [popper.js](https://popper.js.org/docs/v2/) doc                                                                                                           | —                                  |
 | show-after          | delay of appearance, in millisecond                                                                                  | ^[number]                                                                                                                                                                   | —                                  |
+| hide-after          | delay of disappear, in millisecond                                                                                   | ^[number]                                                                                                                                                                   | —                                  |
+| auto-close          | timeout in milliseconds to hide tooltip                                                                              | ^[number]                                                                                                                                                                   | —                                  |
 | offset              | offset of the Tooltip                                                                                                | ^[number]                                                                                                                                                                   | —                                  |
 
 ### Select Events
