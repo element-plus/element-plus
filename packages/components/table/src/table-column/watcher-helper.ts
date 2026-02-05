@@ -1,6 +1,7 @@
 import { getCurrentInstance, watch } from 'vue'
 import { hasOwn, isUndefined } from '@element-plus/utils'
 import { parseMinWidth, parseWidth } from '../util'
+import { useGlobalConfig } from '@element-plus/components/config-provider'
 
 import type { ComputedRef } from 'vue'
 import type { DefaultRow } from '../table/defaults'
@@ -98,6 +99,25 @@ function useWatcher<T extends DefaultRow>(
         )
       }
     })
+
+    const globalConfig = useGlobalConfig('table')
+    if (
+      globalConfig.value &&
+      hasOwn(globalConfig.value, 'showOverflowTooltip')
+    ) {
+      watch(
+        () => globalConfig.value?.showOverflowTooltip,
+        (newVal) => {
+          if (instance.columnConfig.value.type === 'selection') return
+          if (
+            !isUndefined(props_['showOverflowTooltip']) ||
+            !isUndefined(owner.value.props['tooltipFormatter'])
+          )
+            return
+          instance.columnConfig.value['showOverflowTooltip'] = newVal as never
+        }
+      )
+    }
   }
 
   return {

@@ -203,6 +203,13 @@ interface RenderRowData<T extends DefaultRow> {
   expanded: boolean
 }
 
+interface TableConfigContext {
+  showOverflowTooltip?: boolean
+  tooltipEffect?: string
+  tooltipOptions?: TableOverflowTooltipOptions
+  tooltipFormatter?: TableOverflowTooltipFormatter<any>
+}
+
 export default {
   /**
    * @description table data
@@ -407,9 +414,10 @@ export default {
   /**
    * @description whether to hide extra content and show them in a tooltip when hovering on the cell.It will affect all the table columns
    */
-  showOverflowTooltip: [Boolean, Object] as PropType<
-    TableProps<any>['showOverflowTooltip']
-  >,
+  showOverflowTooltip: {
+    type: [Boolean, Object] as PropType<TableProps<any>['showOverflowTooltip']>,
+    default: undefined,
+  },
   /**
    * @description function that formats cell tooltip content, works when `show-overflow-tooltip` is `true`
    */
@@ -454,4 +462,5 @@ export type {
   TableTooltipData,
   TableSortOrder,
   RenderExpanded,
+  TableConfigContext,
 }
