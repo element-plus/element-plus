@@ -76,7 +76,11 @@ export function calcTextareaHeight(
 ): TextAreaHeight {
   if (!hiddenTextarea) {
     hiddenTextarea = document.createElement('textarea')
-    ;(targetElement.parentNode ?? document.body).appendChild(hiddenTextarea)
+    let hostNode = document.body
+    if (!isFirefox() && targetElement.parentNode) {
+      hostNode = targetElement.parentNode as HTMLElement
+    }
+    hostNode.appendChild(hiddenTextarea)
   }
 
   const { paddingSize, borderSize, boxSizing, contextStyle } =
