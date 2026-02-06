@@ -16,7 +16,7 @@ export const withPropsDefaultsSetter = (target: any) => {
       const prop = props[key]
 
       if (!hasOwn(props, key)) {
-        return
+        continue
       }
 
       if (isPlainObject(prop)) {
@@ -25,7 +25,7 @@ export const withPropsDefaultsSetter = (target: any) => {
           ...prop,
           default: value,
         }
-        return
+        continue
       }
 
       props[key] = {
