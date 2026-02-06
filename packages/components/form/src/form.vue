@@ -94,6 +94,7 @@ const setInitialValues: FormContext['setInitialValues'] = (initModel) => {
 
   const eachCallback = (field: FormItemContext) => {
     if (field.prop) {
+      // getProp will return undefined if the prop is not found
       field.setInitialValue(getProp(initModel, field.prop).value)
     }
   }
