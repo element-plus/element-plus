@@ -1,5 +1,5 @@
 import { hasOwn, isArray } from '@vue/shared'
-import { isPlainObject, zipObject } from 'lodash-unified'
+import { fromPairs, isPlainObject } from 'lodash-unified'
 import { NOOP } from '../functions'
 
 import type { App, Directive } from 'vue'
@@ -7,12 +7,7 @@ import type { SFCInstallWithContext, SFCWithInstall } from './typescript'
 
 export const withPropsDefaultsSetter = (target: any) => {
   const _p = target.props
-  const props = isArray(_p)
-    ? zipObject(
-        _p,
-        _p.map(() => ({}))
-      )
-    : _p
+  const props = isArray(_p) ? fromPairs(_p.map((key) => [key, {}])) : _p
 
   target.setPropsDefaults = (defaults: Record<string, any>) => {
     if (!props) {
