@@ -1,4 +1,4 @@
-import { hasOwn } from '@vue/shared'
+import { hasOwn, isArray } from '@vue/shared'
 import { isPlainObject } from 'lodash-unified'
 import { NOOP } from '../functions'
 
@@ -6,7 +6,11 @@ import type { App, Directive } from 'vue'
 import type { SFCInstallWithContext, SFCWithInstall } from './typescript'
 
 export const withPropsDefaultsSetter = (target: any) => {
-  const props = target.props
+  const _p = target.props
+  const props = isArray(_p)
+    ? Object.fromEntries(_p.map((key) => [key, {}]))
+    : _p
+
   target.setPropsDefaults = (defaults: Record<string, any>) => {
     if (!props) {
       return
@@ -33,6 +37,8 @@ export const withPropsDefaultsSetter = (target: any) => {
         default: value,
       }
     }
+
+    target.props = props
   }
 }
 

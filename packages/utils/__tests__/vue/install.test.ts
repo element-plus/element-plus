@@ -142,4 +142,33 @@ describe('withPropsDefaultsSetter', () => {
       },
     })
   })
+
+  it('array props', () => {
+    const component: Record<string, any> = {
+      name: 'MainComponent',
+      props: ['foo', 'bar', 'baz'],
+      render: () => null,
+    }
+
+    withPropsDefaultsSetter(component)
+
+    component.setPropsDefaults({
+      foo: 'default',
+      bar: true,
+      baz: 1,
+      nonExist: true,
+    })
+
+    expect(component.props).toStrictEqual({
+      foo: {
+        default: 'default',
+      },
+      bar: {
+        default: true,
+      },
+      baz: {
+        default: 1,
+      },
+    })
+  })
 })
