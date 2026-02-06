@@ -9,7 +9,7 @@
     <el-tabs v-model="activeTab">
       <el-tab-pane name="personal">
         <template #label>
-          <span :class="{ 'tab-error': personalHasError }">
+          <span :class="{ 'tab-error': isTabError(personalValidations) }">
             Personal Information
           </span>
         </template>
@@ -28,7 +28,7 @@
 
       <el-tab-pane name="contact">
         <template #label>
-          <span :class="{ 'tab-error': contactHasError }">
+          <span :class="{ 'tab-error': isTabError(contactValidations) }">
             Contact Information
           </span>
         </template>
@@ -80,8 +80,11 @@ const personalSectionRef = ref<FormSectionInstance>()
 const contactSectionRef = ref<FormSectionInstance>()
 
 const activeTab = ref('personal')
-const personalHasError = ref(false)
-const contactHasError = ref(false)
+const personalValidations = reactive(new Map<string, boolean>())
+const contactValidations = reactive(new Map<string, boolean>())
+const isTabError = (validations: Map<string, boolean>) => {
+  return Array.from(validations.values()).includes(false)
+}
 
 const form = reactive<FormData>({
   name: '',
@@ -101,11 +104,11 @@ const rules = reactive<FormRules<FormData>>({
 })
 
 const onPersonalValidate = (_prop: FormItemProp, isValid: boolean) => {
-  personalHasError.value = !isValid
+  personalValidations.set(_prop.toString(), isValid)
 }
 
 const onContactValidate = (_prop: FormItemProp, isValid: boolean) => {
-  contactHasError.value = !isValid
+  contactValidations.set(_prop.toString(), isValid)
 }
 
 const validateAll = async () => {
@@ -137,18 +140,18 @@ const validateContact = async () => {
 
 const resetAll = () => {
   formRef.value?.resetFields()
-  personalHasError.value = false
-  contactHasError.value = false
+  personalValidations.clear()
+  contactValidations.clear()
 }
 
 const resetPersonal = () => {
   personalSectionRef.value?.resetFields()
-  personalHasError.value = false
+  personalValidations.clear()
 }
 
 const resetContact = () => {
   contactSectionRef.value?.resetFields()
-  contactHasError.value = false
+  contactValidations.clear()
 }
 </script>
 
