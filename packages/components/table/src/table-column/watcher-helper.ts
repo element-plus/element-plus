@@ -110,11 +110,11 @@ function useWatcher<T extends DefaultRow>(
         (newVal) => {
           if (instance.columnConfig.value.type === 'selection') return
           if (
-            !isUndefined(props_['showOverflowTooltip']) ||
-            !isUndefined(owner.value.props['showOverflowTooltip'])
+            !isUndefined(props_.showOverflowTooltip) ||
+            !isUndefined(owner.value.props.showOverflowTooltip)
           )
             return
-          instance.columnConfig.value['showOverflowTooltip'] = newVal as never
+          instance.columnConfig.value.showOverflowTooltip = newVal as never
         }
       )
     }
