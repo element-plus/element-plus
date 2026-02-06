@@ -8,7 +8,7 @@ export type SFCInstallWithContext<T> = SFCWithInstall<T> & {
 
 export type SFCWithPropsDefaultsSetter<T> = T extends new (...args: any) => any
   ? {
-      setPropsDefaults: (defaults: InstanceType<T>['$props']) => void
+      setPropsDefaults: (defaults: Partial<InstanceType<T>['$props']>) => void
     }
   : unknown
 
