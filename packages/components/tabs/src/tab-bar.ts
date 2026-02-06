@@ -22,6 +22,7 @@ export type TabBarProps = {
   tabs?: TabsPaneContext[]
   tabRefs?: { [key: TabPaneName]: HTMLDivElement }
 }
+
 /**
  * @deprecated Removed after 3.0.0, Use `TabBarProps` instead.
  */

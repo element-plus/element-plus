@@ -12,6 +12,8 @@
 import {
   computed,
   nextTick,
+  onActivated,
+  onDeactivated,
   onMounted,
   ref,
   shallowRef,
@@ -156,6 +158,14 @@ onMounted(() => {
   }
   scrollContainer.value = getScrollContainer(root.value!, true)
   updateRoot()
+})
+
+onActivated(() => {
+  nextTick(updateRootRect)
+})
+
+onDeactivated(() => {
+  fixed.value = false
 })
 
 useEventListener(scrollContainer, 'scroll', handleScroll)

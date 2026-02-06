@@ -26,6 +26,7 @@ export interface SkeletonProps {
    */
   throttle?: ThrottleType
 }
+
 /**
  * @deprecated Removed after 3.0.0, Use `SkeletonProps` instead.
  */
@@ -62,6 +63,7 @@ export const skeletonProps = buildProps({
     type: definePropType<ThrottleType>([Number, Object]),
   },
 } as const)
+
 /**
  * @deprecated Removed after 3.0.0, Use `SkeletonProps` instead.
  */

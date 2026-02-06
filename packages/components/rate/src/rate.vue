@@ -11,8 +11,9 @@
     :aria-valuetext="text || undefined"
     aria-valuemin="0"
     :aria-valuemax="max"
-    tabindex="0"
     :style="rateStyles"
+    :tabindex="rateDisabled ? undefined : 0"
+    :aria-disabled="rateDisabled"
     @keydown="handleKey"
   >
     <span

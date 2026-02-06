@@ -5,7 +5,6 @@ export type Layout = 'horizontal' | 'vertical'
 export type PanelItemState = UnwrapRef<{
   uid: number
   getVnode: () => VNode
-  el: HTMLElement
   collapsible: { start?: boolean; end?: boolean }
   max?: number | string
   min?: number | string

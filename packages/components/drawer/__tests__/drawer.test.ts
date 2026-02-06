@@ -372,13 +372,11 @@ describe('Drawer', () => {
       }
     )
     const vm = wrapper.vm as any
-    const drawer = wrapper.vm.$refs.drawer as any
-
     vm.visible = true
     await nextTick()
     await nextTick()
     expect(open).toHaveBeenCalled()
-    drawer.afterEnter()
+    await rAF()
     expect(opened).toHaveBeenCalled()
     expect(close).not.toHaveBeenCalled()
     expect(closed).not.toHaveBeenCalled()
@@ -386,7 +384,7 @@ describe('Drawer', () => {
     vm.visible = false
     await nextTick()
     expect(close).toHaveBeenCalled()
-    drawer.afterLeave()
+    await rAF()
     expect(closed).toHaveBeenCalled()
   })
 
