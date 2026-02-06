@@ -6,7 +6,6 @@
 
 <script lang="ts" setup>
 import { computed, provide, reactive, ref, toRefs, watch } from 'vue'
-import { cloneDeep } from 'lodash-unified'
 import {
   debugWarn,
   ensureArray,
@@ -48,11 +47,7 @@ const emit = defineEmits(formEmits)
 
 const formRef = ref<HTMLElement>()
 const fields = reactive<FormItemContext[]>([])
-
-// initial values for resetFields
-let initialValues: any = cloneDeep(props.model)
-// prop cache for removed fields
-const removedFieldPropCache = new Set<string>()
+const removedFields = new Map<string, FormItemContext>()
 
 const formSize = useFormSize()
 const ns = useNamespace('form')
@@ -76,28 +71,12 @@ const addField: FormContext['addField'] = (field) => {
   fields.push(field)
 }
 
-const resetField: FormContext['resetField'] = (prop) => {
-  if (!props.model) return
-
-  const computedValue = getProp(props.model, prop)
-  // initialValue is undefined, reset to undefined
-  computedValue.value = cloneDeep(getProp(initialValues, prop).value)
-}
-
 const removeField: FormContext['removeField'] = (field) => {
   if (field.prop) {
     fields.splice(fields.indexOf(field), 1)
-    removedFieldPropCache.add(field.propString)
+    // When field unmounts, propString remains unchanged, so it can be used as the key
+    removedFields.set(field.propString, field)
   }
-}
-
-const setInitialValue: FormContext['setInitialValue'] = (prop, value) => {
-  if (!initialValues) {
-    debugWarn(COMPONENT_NAME, 'initialValues is not initialized yet.')
-    return
-  }
-  const computedValue = getProp(initialValues, prop)
-  computedValue.value = cloneDeep(value)
 }
 
 const setInitialValues: FormContext['setInitialValues'] = (initModel) => {
@@ -112,7 +91,14 @@ const setInitialValues: FormContext['setInitialValues'] = (initModel) => {
     )
     return
   }
-  initialValues = cloneDeep(initModel)
+
+  const eachCallback = (field: FormItemContext) => {
+    if (field.prop) {
+      field.setInitialValue(getProp(initModel, field.prop).value)
+    }
+  }
+  removedFields.forEach(eachCallback)
+  fields.forEach(eachCallback)
 }
 
 const resetFields: FormContext['resetFields'] = (properties = []) => {
@@ -126,14 +112,15 @@ const resetFields: FormContext['resetFields'] = (properties = []) => {
     isArray(prop) ? prop.join('.') : prop
   )
 
-  // first reset the existing or specified fields
+  // First reset the existing or specified fields
   filterFields(fields, propStrings, true).forEach((field) => {
     field.resetField()
 
-    // if exists in removedFieldPropCache, remove it
-    removedFieldPropCache.delete(field.propString)
+    // The key in removedFields is fixed at unmount time, so if the same propString exists in fields,
+    // it means the field is duplicated and we need to remove the cache from removedFields
+    removedFields.delete(field.propString)
 
-    // if specific properties are provided, remove the prop from propStrings
+    // If propStrings are provided, remove the already reset field from propStrings
     if (isSpecificProps) {
       const index = propStrings.indexOf(field.propString)
       if (index > -1) {
@@ -142,11 +129,18 @@ const resetFields: FormContext['resetFields'] = (properties = []) => {
     }
   })
 
-  // if no specific properties are provided, reset the removed fields
-  // else reset the remaining properties
-  ;(isSpecificProps ? propStrings : removedFieldPropCache).forEach((prop) => {
-    resetField(prop)
-  })
+  // If propStrings are provided, search for fields not yet reset in removedFields,
+  // otherwise reset all removedFields
+  if (isSpecificProps) {
+    // propStrings.length > 0 means there are fields not yet reset, otherwise all fields have been reset
+    if (propStrings.length > 0) {
+      filterFields([...removedFields.values()], propStrings, true).forEach(
+        (field) => field.resetField()
+      )
+    }
+  } else {
+    removedFields.forEach((field) => field.resetField())
+  }
 }
 
 const clearValidate: FormContext['clearValidate'] = (props = []) => {
@@ -260,9 +254,7 @@ provide(
     validateField,
     getField,
     addField,
-    resetField,
     removeField,
-    setInitialValue,
     setInitialValues,
 
     ...useFormLabelWidth(),
