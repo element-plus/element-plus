@@ -3,8 +3,8 @@
 </p>
 
 <p align="center">
-  <a href="https://npmx.dev/element-plus">
-    <img src="https://npmx.dev/api/registry/badge/element-plus" />
+  <a href="https://npmx.dev/package/element-plus">
+    <img src="https://npmx.dev/api/registry/badge/version/element-plus" />
   </a>
   <a href="https://github.com/element-plus/element-plus">
     <img src="https://img.shields.io/badge/node-%20%3E%3D%2020-47c219" />
