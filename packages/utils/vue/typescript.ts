@@ -6,12 +6,10 @@ export type SFCInstallWithContext<T> = SFCWithInstall<T> & {
   _context: AppContext | null
 }
 
-export type SFCWithPropsDefaultsSetter<T> = {
-  setPropsDefaults: (
-    defaults: T extends new (...args: any) => any
-      ? InstanceType<T>['$props']
-      : Record<string, any>
-  ) => void
-}
+export type SFCWithPropsDefaultsSetter<T> = T extends new (...args: any) => any
+  ? {
+      setPropsDefaults: (defaults: InstanceType<T>['$props']) => void
+    }
+  : unknown
 
 export type EmitFn<E extends EmitsOptions> = SetupContext<E>['emit']
