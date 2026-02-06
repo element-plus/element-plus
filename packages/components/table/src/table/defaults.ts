@@ -204,7 +204,7 @@ interface RenderRowData<T extends DefaultRow> {
 }
 
 interface TableConfigContext {
-  showOverflowTooltip?: boolean
+  showOverflowTooltip?: boolean | TableOverflowTooltipOptions
   tooltipEffect?: string
   tooltipOptions?: TableOverflowTooltipOptions
   tooltipFormatter?: TableOverflowTooltipFormatter<any>
