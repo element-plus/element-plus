@@ -5,15 +5,6 @@ import '@element-plus/theme-chalk/src/notification.scss'
 import '@element-plus/theme-chalk/src/message-box.scss'
 import '@element-plus/theme-chalk/src/message.scss'
 
-import { ElButton, ElButtonGroup } from 'element-plus'
-
-ElButtonGroup.setPropsDefaults({
-  direction: 'vertical',
-})
-ElButton.setPropsDefaults({
-  type: 'primary',
-})
-
 // #21498
 window.addEventListener('error', (e: ErrorEvent) => {
   console.error(`%c${e.message}`, 'color: #e74c3c; font-weight: bold;')

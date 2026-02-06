@@ -5,16 +5,14 @@ import { NOOP } from '../functions'
 import type { App, Directive } from 'vue'
 import type { SFCInstallWithContext, SFCWithInstall } from './typescript'
 
-export function withPropsDefaultsSetter(
-  target: any,
-  props?: Record<string, any>
-) {
+export const withPropsDefaultsSetter = (target: any) => {
+  const props = target.props
   target.setPropsDefaults = (defaults: Record<string, any>) => {
     if (!props) {
       return
     }
 
-    Object.entries(defaults).forEach(([key, value]) => {
+    for (const [key, value] of Object.entries(defaults)) {
       const prop = props[key]
 
       if (!hasOwn(props, key)) {
@@ -34,7 +32,7 @@ export function withPropsDefaultsSetter(
         type: prop,
         default: value,
       }
-    })
+    }
   }
 }
 
@@ -53,7 +51,7 @@ export const withInstall = <T, E extends Record<string, any>>(
       ;(main as any)[key] = comp
     }
   }
-  withPropsDefaultsSetter(main, (main as any).props)
+  withPropsDefaultsSetter(main)
   return main as SFCWithInstall<T> & E
 }
 
@@ -79,6 +77,6 @@ export const withInstallDirective = <T extends Directive>(
 
 export const withNoopInstall = <T>(component: T) => {
   ;(component as SFCWithInstall<T>).install = NOOP
-  withPropsDefaultsSetter(component, (component as any).props)
+  withPropsDefaultsSetter(component)
   return component as SFCWithInstall<T>
 }
