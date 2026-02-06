@@ -279,7 +279,7 @@ select/custom-label
 Properties in tag-tooltip follow this priority order:
 
 1. Explicitly defined fields within the tag-tooltip object.
-2. Shared props inherited from el-select (e.g. effect, teleported, popper-class, popper-options).
+2. Shared props inherited from el-select (e.g. effect, popper-class, popper-style, teleported, append-to, popper-options).
 3. Default values of the underlying el-tooltip component.
    This allows you to override specific tooltip behaviors for tags while maintaining consistency with the Select dropdown by default.
 
