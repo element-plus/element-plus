@@ -71,13 +71,14 @@
         <el-icon
           v-if="!disabled"
           :class="nsIcon.m('close')"
+          :aria-label="t('el.upload.delete')"
+          role="button"
+          tabindex="0"
           @click="handleRemove(file)"
+          @keydown.enter.space.prevent="handleRemove(file)"
         >
           <Close />
         </el-icon>
-        <!-- Due to close btn only appears when li gets focused disappears after li gets blurred, thus keyboard navigation can never reach close btn-->
-        <!-- This is a bug which needs to be fixed -->
-        <!-- TODO: Fix the incorrect navigation interaction -->
         <i v-if="!disabled" :class="nsIcon.m('close-tip')">{{
           t('el.upload.deleteTip')
         }}</i>
