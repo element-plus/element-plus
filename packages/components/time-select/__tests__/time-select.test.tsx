@@ -243,6 +243,16 @@ describe('TimeSelect', () => {
     expect(option?.textContent).toBe('01:00 PM')
   })
 
+  it('should return empty options when step is 00:00', async () => {
+    const wrapper = mount(() => (
+      <TimeSelect start="09:00" end="10:00" step="00:00" />
+    ))
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    const items = document.querySelectorAll('.el-select-dropdown__item>span')
+    expect(items).toHaveLength(0)
+  })
+
   describe('form item accessibility integration', () => {
     it('automatic id attachment', async () => {
       const wrapper = mount(() => (
