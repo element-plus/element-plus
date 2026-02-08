@@ -80,7 +80,7 @@ export function SupplyValidator(): Plugin {
     './types': './virtual-tree', // tree-node.vue
   }
   // ignored component
-  const ignoredComponent = ['input-otp']
+  const ignoredComponents = ['input-otp']
   return {
     name: 'supply-validator-plugin',
     transform: {
@@ -90,7 +90,7 @@ export function SupplyValidator(): Plugin {
         if (
           cacheId.has(id) ||
           !isVueFile ||
-          ignoredComponent.some((name) => id.includes(name))
+          ignoredComponents.some((name) => id.includes(name))
         ) {
           return
         }
