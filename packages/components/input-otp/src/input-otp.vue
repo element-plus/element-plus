@@ -114,8 +114,8 @@ const handleKeydown = (event: KeyboardEvent, index: number) => {
       updateModelValue()
       break
     case EVENT_CODE.delete:
-      innerValue.value[Math.min(index + 1, length.value - 1)] = ''
-      currentInputRef?.focus()
+      innerValue.value[index] = ''
+      rAF(() => currentInputRef?.select())
       emit(INPUT_EVENT, innerValue.value.slice(0, length.value))
       updateModelValue()
       break
