@@ -23,7 +23,7 @@
         type="text"
         :disabled="disabled"
         :readonly="readonly"
-        :maxlength="length"
+        :maxlength="1"
         :inputmode="type === 'number' ? 'numeric' : undefined"
         autocomplete="one-time-code"
         :aria-label="t('el.inputOTP.defaultLabel', { index: index + 1 })"
@@ -112,7 +112,7 @@ const handleKeydown = (event: KeyboardEvent, index: number) => {
       updateModelValue()
       break
     case EVENT_CODE.delete:
-      innerValue.value[index + 1] = ''
+      innerValue.value[Math.min(index + 1, length.value - 1)] = ''
       currentInputRef?.focus()
       emit(INPUT_EVENT, innerValue.value.slice(0, length.value))
       updateModelValue()
