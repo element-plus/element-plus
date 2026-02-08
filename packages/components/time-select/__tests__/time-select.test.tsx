@@ -243,6 +243,12 @@ describe('TimeSelect', () => {
     expect(option?.textContent).toBe('01:00 PM')
   })
 
+  it('should pass name to inner input', () => {
+    const wrapper = mount(() => <TimeSelect name="timeSelectName" />)
+    const input = wrapper.find('input')
+    expect(input.attributes('name')).toBe('timeSelectName')
+  })
+
   describe('form item accessibility integration', () => {
     it('automatic id attachment', async () => {
       const wrapper = mount(() => (
