@@ -156,13 +156,89 @@ describe('InputOtp.vue', () => {
 
     const inputs = wrapper.findAll('input')
     // Simulate pasting '123456' into the first input
-    await inputs[0].setValue('123456')
+    await inputs[0].trigger('paste', {
+      clipboardData: {
+        getData: () => '123456',
+      },
+    })
     expect(model.value).toBe('123456')
 
     await nextTick()
     for (let i = 0; i < 6; i++) {
       expect(inputs[i].element.value).toBe(`${i + 1}`)
     }
+  })
+
+  test('should ignore non-digits when type is number on paste', async () => {
+    const model = ref('')
+    const wrapper = mount(() => (
+      <InputOtp v-model={model.value} type="number" />
+    ))
+
+    const inputs = wrapper.findAll('input')
+    await inputs[0].trigger('paste', {
+      clipboardData: {
+        getData: () => '1a2b3c',
+      },
+    })
+
+    expect(model.value).toBe('123')
+    await nextTick()
+    expect(inputs[0].element.value).toBe('1')
+    expect(inputs[1].element.value).toBe('2')
+    expect(inputs[2].element.value).toBe('3')
+    expect(inputs[3].element.value).toBe('')
+  })
+
+  test('should fill from the first empty index and focus next empty index on paste', async () => {
+    const model = ref('')
+    const wrapper = mount(() => <InputOtp v-model={model.value} />, {
+      attachTo: document.body,
+    })
+
+    const inputs = wrapper.findAll('input')
+    await inputs[3].trigger('paste', {
+      clipboardData: {
+        getData: () => '123',
+      },
+    })
+
+    expect(model.value).toBe('123')
+
+    await nextTick()
+    expect(inputs[0].element.value).toBe('1')
+    expect(inputs[1].element.value).toBe('2')
+    expect(inputs[2].element.value).toBe('3')
+    expect(inputs[3].element.value).toBe('')
+
+    expect(document.activeElement).toBe(inputs[3].element)
+
+    wrapper.unmount()
+  })
+
+  test('should overwrite from current index if current input has value', async () => {
+    const model = ref('1234')
+    const wrapper = mount(() => <InputOtp v-model={model.value} length={6} />, {
+      attachTo: document.body,
+    })
+    const inputs = wrapper.findAll('input')
+
+    await nextTick()
+    await inputs[1].trigger('paste', {
+      clipboardData: {
+        getData: () => '56',
+      },
+    })
+
+    expect(model.value).toBe('1564')
+    await nextTick()
+    expect(inputs[0].element.value).toBe('1')
+    expect(inputs[1].element.value).toBe('5')
+    expect(inputs[2].element.value).toBe('6')
+    expect(inputs[3].element.value).toBe('4')
+    expect(document.activeElement).toBe(inputs[3].element)
+
+    wrapper.unmount()
   })
 
   test('should fill from the first empty index', async () => {

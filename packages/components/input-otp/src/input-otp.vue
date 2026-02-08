@@ -23,12 +23,13 @@
         type="text"
         :disabled="disabled"
         :readonly="readonly"
-        :maxlength="index === 0 ? length : 1"
+        :maxlength="length"
         :inputmode="type === 'number' ? 'numeric' : undefined"
         autocomplete="one-time-code"
         :aria-label="t('el.inputOTP.defaultLabel', { index: index + 1 })"
         @click="handleFocus"
         @focus="handleFocus"
+        @paste="handlePaste($event, index)"
         @keydown="handleKeydown($event, index)"
         @input="handleInput($event, index)"
       />
@@ -124,12 +125,37 @@ const handleKeydown = (event: KeyboardEvent, index: number) => {
   }
 }
 
+const getFirstIndex = (maxIndex: number) => {
+  const index = innerValue.value.findIndex((char, i) => !char && i <= maxIndex)
+  return index === -1 ? maxIndex : index
+}
+
+const handlePaste = (event: ClipboardEvent, index: number) => {
+  const pasteData = event.clipboardData?.getData('text') ?? ''
+  if (!pasteData) return
+
+  const targetIndex = getFirstIndex(index)
+  let chars = pasteData.split('')
+  if (props.type === 'number') {
+    chars = chars.filter((ch) => /^\d$/.test(ch))
+  }
+  chars = chars.slice(0, props.length - targetIndex)
+  chars.forEach((char, i) => (innerValue.value[targetIndex + i] = char))
+
+  const nextInputRef =
+    inputRefs.value[targetIndex + chars.length] ??
+    inputRefs.value[props.length - 1]
+
+  ;(event.target as HTMLInputElement | null)?.blur()
+  nextInputRef?.focus()
+  updateModelValue()
+  emit(INPUT_EVENT, innerValue.value.slice(0, props.length))
+  event.preventDefault()
+}
+
 const handleInput = (event: Event, index: number) => {
   const target = event.target as HTMLInputElement
-  const firstEmptyIndex = innerValue.value.findIndex(
-    (char, i) => !char && i <= index
-  )
-  const targetIndex = firstEmptyIndex === -1 ? index : firstEmptyIndex
+  const targetIndex = getFirstIndex(index)
   let value = target.value
   let forward = true
 
