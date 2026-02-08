@@ -4,6 +4,11 @@ import '@element-plus/theme-chalk/src/dark/css-vars.scss'
 import '@element-plus/theme-chalk/src/notification.scss'
 import '@element-plus/theme-chalk/src/message-box.scss'
 import '@element-plus/theme-chalk/src/message.scss'
+import { ElInput } from 'element-plus'
+
+ElInput.setPropsDefaults({
+  maxlength: 1,
+})
 
 // #21498
 window.addEventListener('error', (e: ErrorEvent) => {
