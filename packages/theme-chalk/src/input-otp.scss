@@ -10,7 +10,6 @@
 
 @include b(input-otp) {
   @include set-component-css-var('input-otp', $input-otp);
-  @include css-var-from-global('input-otp-height', 'component-size');
   @include set-css-var-value(
     ('input-otp', 'gap'),
     map.get($input-otp-gap, default)
