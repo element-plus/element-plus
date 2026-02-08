@@ -139,6 +139,22 @@ describe('InputOtp.vue', () => {
     wrapper.unmount()
   })
 
+  test('handle delete', async () => {
+    const model = ref('123456')
+    const wrapper = mount(() => <InputOtp v-model={model.value} />, {
+      attachTo: document.body,
+    })
+
+    await nextTick()
+    const inputs = wrapper.findAll('input')
+    await inputs[1].trigger('focus')
+    await inputs[1].trigger('keydown', { code: EVENT_CODE.delete })
+    expect(model.value).toBe('12456')
+    expect(document.activeElement).toBe(inputs[1].element)
+
+    wrapper.unmount()
+  })
+
   test('should auto focus next input', async () => {
     const wrapper = mount(() => <InputOtp />, {
       attachTo: document.body,

@@ -77,9 +77,10 @@ input-otp/number
 | variant               | The variant of the OTP fields                                                                                                              | ^[enum]`'outlined' \| 'filled' \| 'underlined'` | 'outlined' |
 | size                  | The size of the OTP fields                                                                                                                 | ^[enum]`'large' \| 'default' \| 'small'`        | 'default'  |
 | disabled              | Whether the OTP fields are disabled                                                                                                        | ^[boolean]                                      | undefined  |
-| readonly              | Same as `readonly` in native input                                                                                                         | ^[boolean]                                      | false      |
-| id                    | Same as `id` in native input                                                                                                               | ^[string]                                       | —          |
 | validate-event        | Whether to trigger form validation                                                                                                         | ^[boolean]                                      | true       |
+| readonly              | Same as `readonly` in native input                                                                                                         | ^[boolean]                                      | false      |
+| id                    | native `id` attribute                                                                                                                      | ^[string]                                       | —          |
+| aria-label ^(a11y)    | native `aria-label` attribute                                                                                                              | ^[string]                                       | —          |
 
 ### InputOtp Events
 

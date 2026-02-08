@@ -101,13 +101,19 @@ const handleKeydown = (event: KeyboardEvent, index: number) => {
   const code = getEventCode(event)
   const prevInputRef = inputRefs.value[index - 1]
   const nextInputRef = inputRefs.value[index + 1]
+  const currentInputRef = inputRefs.value[index]
   let preventDefault = true
 
   switch (code) {
     case EVENT_CODE.backspace:
-    case EVENT_CODE.delete:
       innerValue.value[index] = ''
       prevInputRef?.focus()
+      emit(INPUT_EVENT, innerValue.value.slice(0, length.value))
+      updateModelValue()
+      break
+    case EVENT_CODE.delete:
+      innerValue.value[index + 1] = ''
+      currentInputRef?.focus()
       emit(INPUT_EVENT, innerValue.value.slice(0, length.value))
       updateModelValue()
       break
