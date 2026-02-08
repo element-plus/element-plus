@@ -312,7 +312,7 @@ describe('InputOtp.vue', () => {
 
   test('should emit input event', async () => {
     const onInput = vi.fn()
-    const wrapper = mount(<InputOtp modelValue="" onInput={onInput} />)
+    const wrapper = mount(() => <InputOtp modelValue="" onInput={onInput} />)
 
     const inputs = wrapper.findAll('input')
     await inputs[0].setValue('1')
