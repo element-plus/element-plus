@@ -192,5 +192,8 @@ export default {
       rightArrow: 'Neste bilde',
       indicator: 'Bytt bilde til indeks {index}',
     },
+    inputOTP: {
+      defaultLabel: 'Please enter OTP character {index}', // to be translated
+    },
   },
 }

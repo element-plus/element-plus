@@ -194,5 +194,8 @@ export default {
       rightArrow: 'Слайдер стрелка вправо',
       indicator: 'Слайдер перейти на страницу под номером {index}',
     },
+    inputOTP: {
+      defaultLabel: 'Please enter OTP character {index}', // to be translated
+    },
   },
 }

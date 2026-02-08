@@ -196,5 +196,8 @@ export default {
       rightArrow: 'कैरोसेल तीर दाएँ',
       indicator: 'कैरोसेल इंडेक्स {index} पर स्विच करें',
     },
+    inputOTP: {
+      defaultLabel: 'Please enter OTP character {index}', // to be translated
+    },
   },
 }

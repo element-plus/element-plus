@@ -196,5 +196,8 @@ export default {
       rightArrow: 'Flèche du carrousel vers la droite',
       indicator: 'Passer au carrousel index {index}',
     },
+    inputOTP: {
+      defaultLabel: 'Please enter OTP character {index}', // to be translated
+    },
   },
 }

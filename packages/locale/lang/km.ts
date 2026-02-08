@@ -196,5 +196,8 @@ export default {
       rightArrow: 'ស្លាយបន្ទាប់',
       indicator: 'ប្តូរទៅស្លាយទី {index}',
     },
+    inputOTP: {
+      defaultLabel: 'Please enter OTP character {index}', // to be translated
+    },
   },
 }

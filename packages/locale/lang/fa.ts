@@ -196,5 +196,8 @@ export default {
       rightArrow: 'پیکان چرخان به جهت راست',
       indicator: 'سوئیچ چرخان به شاخص {index}',
     },
+    inputOTP: {
+      defaultLabel: 'Please enter OTP character {index}', // to be translated
+    },
   },
 }

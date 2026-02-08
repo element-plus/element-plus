@@ -196,5 +196,8 @@ export default {
       rightArrow: 'ကာရူဆယ် မြား ညာဘက်',
       indicator: 'ကာရူဆယ် အညွှန်း {index} သို့ ပြောင်းရန်',
     },
+    inputOTP: {
+      defaultLabel: 'Please enter OTP character {index}', // to be translated
+    },
   },
 }

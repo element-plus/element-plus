@@ -79,13 +79,19 @@ export function SupplyValidator(): Plugin {
   const reMapImportFile: Record<string, string> = {
     './types': './virtual-tree', // tree-node.vue
   }
+  // ignored component
+  const ignoredComponent = ['input-otp']
   return {
     name: 'supply-validator-plugin',
     transform: {
       order: 'post',
       async handler(code, id) {
         const isVueFile = id.includes('.vue')
-        if (cacheId.has(id) || !isVueFile) {
+        if (
+          cacheId.has(id) ||
+          !isVueFile ||
+          ignoredComponent.some((name) => id.includes(name))
+        ) {
           return
         }
 

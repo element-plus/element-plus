@@ -191,5 +191,8 @@ export default {
       rightArrow: '下一张幻灯片',
       indicator: '幻灯片切换至索引 {index}',
     },
+    inputOTP: {
+      defaultLabel: 'Please enter OTP character {index}', // to be translated
+    },
   },
 }

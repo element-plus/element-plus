@@ -198,5 +198,8 @@ export default {
       rightArrow: 'Anak panah karusel ke kanan',
       indicator: 'Tukar karusel kepada indeks {index}',
     },
+    inputOTP: {
+      defaultLabel: 'Please enter OTP character {index}', // to be translated
+    },
   },
 }

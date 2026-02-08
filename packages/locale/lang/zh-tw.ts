@@ -192,5 +192,8 @@ export default {
       rightArrow: '下一張投影片',
       indicator: '投影片切換至索引 {index}',
     },
+    inputOTP: {
+      defaultLabel: 'Please enter OTP character {index}', // to be translated
+    },
   },
 }

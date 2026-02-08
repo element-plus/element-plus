@@ -194,6 +194,9 @@ export default {
       rightArrow: 'Carousel arrow right', // to be translated
       indicator: 'Carousel switch to index {index}', // to be translated
     },
+    inputOTP: {
+      defaultLabel: 'Please enter OTP character {index}', // to be translated
+    },
     empty: {
       description: 'Məlumat yoxdur',
     },
