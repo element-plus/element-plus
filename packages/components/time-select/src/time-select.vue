@@ -46,6 +46,7 @@ import { useLocale, useNamespace } from '@element-plus/hooks'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { CircleClose, Clock } from '@element-plus/icons-vue'
 import { compareTime, formatTime, nextTime, parseTime } from './utils'
+import { debugWarn } from '@element-plus/utils'
 
 import type { TimeSelectProps } from './time-select'
 
@@ -119,6 +120,10 @@ const items = computed(() => {
   }
 
   if (props.start && props.end && props.step) {
+    if (step.value === '00:00') {
+      debugWarn('ElTimeSelect', 'step should not be 00:00.')
+      return result
+    }
     let current = start.value
     let currentTime: string
     while (current && end.value && compareTime(current, end.value) <= 0) {
