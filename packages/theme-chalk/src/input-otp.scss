@@ -114,7 +114,7 @@
 
       &:focus-within {
         background-color: getCssVar('fill-color', 'blank');
-        outline: 1px solid getCssVar('color-primary');
+        @include mixed-input-border(#{getCssVar('color-primary')});
       }
     }
 
