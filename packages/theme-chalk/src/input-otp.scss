@@ -11,8 +11,20 @@
 @include b(input-otp) {
   @include set-component-css-var('input-otp', $input-otp);
   @include css-var-from-global('input-otp-height', 'component-size');
+  @include set-css-var-value(
+    ('input-otp', 'gap'),
+    map.get($input-otp-gap, default)
+  );
+  @include set-css-var-value(
+    ('input-otp', 'font-size'),
+    map.get($input-font-size, default)
+  );
+  @include set-css-var-value(
+    ('input-otp', 'size'),
+    map.get($input-height, default)
+  );
 
-  @each $size in (default, large, small) {
+  @each $size in (large, small) {
     @include m($size) {
       @include set-css-var-value(
         ('input-otp', 'gap'),
