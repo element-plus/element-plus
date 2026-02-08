@@ -43,7 +43,7 @@ After applying the customization, the following two usages are equivalent:
 
 It is not recommended to set default values for components that are internally used by other components.
 
-For Examples:
+For example:
 
 ```ts
 // This will cause the behavior of the el-autocomplete component to change.
