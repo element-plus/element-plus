@@ -196,6 +196,7 @@ export default {
       indicator: 'క్యారసెల్ సూచిక {index} కి మార్చు',
     },
     inputOTP: {
+      groupLabel: 'input-otp', // to be translated
       defaultLabel: 'Please enter OTP character {index}', // to be translated
     },
   },

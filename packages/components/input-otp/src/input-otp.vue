@@ -3,7 +3,11 @@
     :id="inputId"
     :class="[ns.b(), ns.m(size), ns.m(variant), ns.is('disabled', disabled)]"
     role="group"
-    :aria-label="!isLabeledByFormItem ? ariaLabel || 'input-otp' : undefined"
+    :aria-label="
+      !isLabeledByFormItem
+        ? ariaLabel || t('el.inputOTP.groupLabel')
+        : undefined
+    "
     :aria-labelledby="isLabeledByFormItem ? formItem?.labelId : undefined"
   >
     <label

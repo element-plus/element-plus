@@ -192,6 +192,7 @@ export default {
       indicator: '幻灯片切换至索引 {index}',
     },
     inputOTP: {
+      groupLabel: 'input-otp', // to be translated
       defaultLabel: 'Please enter OTP character {index}', // to be translated
     },
   },

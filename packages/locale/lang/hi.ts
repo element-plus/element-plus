@@ -197,6 +197,7 @@ export default {
       indicator: 'कैरोसेल इंडेक्स {index} पर स्विच करें',
     },
     inputOTP: {
+      groupLabel: 'input-otp', // to be translated
       defaultLabel: 'Please enter OTP character {index}', // to be translated
     },
   },

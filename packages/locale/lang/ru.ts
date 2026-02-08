@@ -195,6 +195,7 @@ export default {
       indicator: 'Слайдер перейти на страницу под номером {index}',
     },
     inputOTP: {
+      groupLabel: 'input-otp', // to be translated
       defaultLabel: 'Please enter OTP character {index}', // to be translated
     },
   },

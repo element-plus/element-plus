@@ -197,6 +197,7 @@ export default {
       indicator: 'ប្តូរទៅស្លាយទី {index}',
     },
     inputOTP: {
+      groupLabel: 'input-otp', // to be translated
       defaultLabel: 'Please enter OTP character {index}', // to be translated
     },
   },
