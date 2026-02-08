@@ -300,8 +300,14 @@ describe('InputOtp.vue', () => {
     const inputs = wrapper.findAll('input')
     await inputs[0].setValue('1')
 
+    expect(onChange).not.toHaveBeenCalled()
+
+    for (let i = 1; i < 6; i++) {
+      await inputs[i].setValue(i + 1)
+    }
+
     expect(onChange).toHaveBeenCalled()
-    expect(onChange).toHaveBeenCalledWith('1')
+    expect(onChange).toHaveBeenCalledWith('123456')
   })
 
   test('should emit input event', async () => {

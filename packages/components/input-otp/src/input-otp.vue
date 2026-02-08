@@ -93,7 +93,9 @@ const updateModelValue = () => {
   const value = innerValue.value.join('').slice(0, length.value)
   if (value !== props.modelValue) {
     emit(UPDATE_MODEL_EVENT, value)
-    emit(CHANGE_EVENT, value)
+    if (value.length === length.value) {
+      emit(CHANGE_EVENT, value)
+    }
   }
 }
 
