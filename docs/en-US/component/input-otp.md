@@ -10,7 +10,9 @@ Used to enter a one-time password (OTP).
 ## Basic Usage
 
 :::demo
+
 input-otp/basic
+
 :::
 
 ## Custom Length
@@ -18,7 +20,9 @@ input-otp/basic
 The length of the input fields can be customized by setting the `length` prop.
 
 :::demo
+
 input-otp/custom-length
+
 :::
 
 ## Variants
@@ -26,7 +30,9 @@ input-otp/custom-length
 There are three variants available: `outlined` (default), `filled`, and `underlined`.
 
 :::demo
+
 input-otp/variants
+
 :::
 
 ## Sizes
@@ -34,7 +40,9 @@ input-otp/variants
 There are three sizes available: `large`, `default`, and `small`.
 
 :::demo
+
 input-otp/sizes
+
 :::
 
 ## Disabled & Readonly
@@ -42,7 +50,9 @@ input-otp/sizes
 Disabled and readonly states are supported.
 
 :::demo
+
 input-otp/disabled
+
 :::
 
 ## Number Input
@@ -50,7 +60,9 @@ input-otp/disabled
 You can set the `type` prop to `number` to allow only numeric input.
 
 :::demo
+
 input-otp/number
+
 :::
 
 ## API
@@ -58,7 +70,7 @@ input-otp/number
 ### InputOtp Attributes
 
 | Name                  | Description                                                                                                                                | Type                                            | Default    |
-| :-------------------- | :----------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------- | :--------- |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------- | ---------- |
 | model-value / v-model | The value of the OTP fields. Since numbers must not have leading zeros, `modelValue` is allowed to be a number only during initialization. | ^[string] / ^[number]                           | undefined  |
 | length                | The OTP fields length                                                                                                                      | ^[number]                                       | 6          |
 | type                  | The type of the OTP fields                                                                                                                 | ^[enum]`'text' \| 'number'`                     | 'text'     |
@@ -71,8 +83,8 @@ input-otp/number
 
 ### InputOtp Events
 
-| Name              | Description                       | Type                                           |
-| :---------------- | :-------------------------------- | :--------------------------------------------- |
-| update:modelValue | triggers when value updates       | ^[Function]`(value: string \| number) => void` |
-| change            | triggers when the value changes   | ^[Function]`(value: string) => void`           |
-| input             | triggers when input value changes | ^[Function]`(value: string[]) => void`         |
+| Name              | Description                       | Type                                   |
+| ----------------- | --------------------------------- | -------------------------------------- |
+| update:modelValue | triggers when value updates       | ^[Function]`(value: string) => void`   |
+| change            | triggers when the value changes   | ^[Function]`(value: string) => void`   |
+| input             | triggers when input value changes | ^[Function]`(value: string[]) => void` |

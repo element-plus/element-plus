@@ -3,6 +3,7 @@ import {
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
+import { isString } from '@element-plus/utils'
 
 import type { ComponentSize } from '@element-plus/constants'
 import type { AriaProps } from '@element-plus/hooks'
@@ -55,12 +56,10 @@ export interface InputOtpProps extends Pick<AriaProps, 'ariaLabel'> {
   validateEvent?: boolean
 }
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
 export const inputOtpEmits = {
-  [UPDATE_MODEL_EVENT]: (value: string | number | undefined) => true,
-  [INPUT_EVENT]: (value: string[]) => true,
-  [CHANGE_EVENT]: (value: string) => true,
+  [UPDATE_MODEL_EVENT]: (value: string) => isString(value),
+  [INPUT_EVENT]: (value: string[]) => value.every((item) => isString(item)),
+  [CHANGE_EVENT]: (value: string) => isString(value),
 }
-/* eslint-enable @typescript-eslint/no-unused-vars */
 
 export type InputOtpEmits = typeof inputOtpEmits
