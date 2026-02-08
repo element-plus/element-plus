@@ -38,7 +38,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
+import { clamp } from '@vueuse/core'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { debugWarn, getEventCode, rAF } from '@element-plus/utils'
 import {
@@ -71,6 +72,8 @@ const props = withDefaults(defineProps<InputOtpProps>(), {
 })
 const emit = defineEmits(inputOtpEmits)
 
+const length = computed(() => clamp(props.length, 4, 8))
+
 const inputRefs = ref<HTMLInputElement[]>([])
 const innerValue = ref<string[]>([])
 
@@ -87,7 +90,7 @@ const handleFocus = (event: FocusEvent) => {
 }
 
 const updateModelValue = () => {
-  const value = innerValue.value.join('').slice(0, props.length)
+  const value = innerValue.value.join('').slice(0, length.value)
   if (value !== props.modelValue) {
     emit(UPDATE_MODEL_EVENT, value)
     emit(CHANGE_EVENT, value)
@@ -105,7 +108,7 @@ const handleKeydown = (event: KeyboardEvent, index: number) => {
     case EVENT_CODE.delete:
       innerValue.value[index] = ''
       prevInputRef?.focus()
-      emit(INPUT_EVENT, innerValue.value.slice(0, props.length))
+      emit(INPUT_EVENT, innerValue.value.slice(0, length.value))
       updateModelValue()
       break
     case EVENT_CODE.up:
@@ -139,17 +142,17 @@ const handlePaste = (event: ClipboardEvent, index: number) => {
   if (props.type === 'number') {
     chars = chars.filter((ch) => /^\d$/.test(ch))
   }
-  chars = chars.slice(0, props.length - targetIndex)
+  chars = chars.slice(0, length.value - targetIndex)
   chars.forEach((char, i) => (innerValue.value[targetIndex + i] = char))
 
   const nextInputRef =
     inputRefs.value[targetIndex + chars.length] ??
-    inputRefs.value[props.length - 1]
+    inputRefs.value[length.value - 1]
 
   ;(event.target as HTMLInputElement | null)?.blur()
   nextInputRef?.focus()
   updateModelValue()
-  emit(INPUT_EVENT, innerValue.value.slice(0, props.length))
+  emit(INPUT_EVENT, innerValue.value.slice(0, length.value))
   event.preventDefault()
 }
 
@@ -167,13 +170,13 @@ const handleInput = (event: Event, index: number) => {
 
   const nextInputRef =
     inputRefs.value[targetIndex + (forward ? 1 : 0)] ??
-    inputRefs.value[props.length - 1]
+    inputRefs.value[length.value - 1]
 
   innerValue.value[targetIndex] = value
   target.blur()
   nextInputRef?.focus()
   updateModelValue()
-  emit(INPUT_EVENT, innerValue.value.slice(0, props.length))
+  emit(INPUT_EVENT, innerValue.value.slice(0, length.value))
 }
 
 watch(
@@ -184,9 +187,9 @@ watch(
       formattedValue = formattedValue.filter((char) => /^\d$/.test(char))
     }
     formattedValue = [
-      ...formattedValue.slice(0, props.length),
+      ...formattedValue.slice(0, length.value),
       ...Array.from({
-        length: props.length - formattedValue.length,
+        length: length.value - formattedValue.length,
       }).fill(''),
     ] as string[]
     innerValue.value = formattedValue

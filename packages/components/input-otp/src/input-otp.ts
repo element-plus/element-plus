@@ -19,6 +19,8 @@ export interface InputOtpProps extends Pick<AriaProps, 'ariaLabel'> {
   modelValue?: string | number
   /**
    * @description The OTP fields length
+   * @min 4
+   * @max 8
    * @default 6
    */
   length?: number

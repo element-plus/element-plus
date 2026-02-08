@@ -20,6 +20,14 @@ describe('InputOtp.vue', () => {
     expect(wrapper.findAll('input').length).toBe(4)
   })
 
+  test('should clamp length between 4 and 8', async () => {
+    const wrapper = mount(() => <InputOtp length={2} />)
+    expect(wrapper.findAll('input').length).toBe(4)
+
+    const wrapper2 = mount(() => <InputOtp length={10} />)
+    expect(wrapper2.findAll('input').length).toBe(8)
+  })
+
   test('variant', async () => {
     const variant = ref<InputOtpProps['variant']>('filled')
     const wrapper = mount(() => <InputOtp variant={variant.value} />)
