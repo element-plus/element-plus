@@ -149,7 +149,7 @@ describe('InputOtp.vue', () => {
     const inputs = wrapper.findAll('input')
     await inputs[1].trigger('focus')
     await inputs[1].trigger('keydown', { code: EVENT_CODE.delete })
-    expect(model.value).toBe('12456')
+    expect(model.value).toBe('13456')
     expect(document.activeElement).toBe(inputs[1].element)
 
     wrapper.unmount()
