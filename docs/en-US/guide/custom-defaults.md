@@ -15,7 +15,9 @@ You can customize a component’s default props using the static `setPropsDefaul
 
 :::tip
 
-Note that default customization **only applies to declarative usage** and **must be performed before the component is initialized**.
+Note that default customization **only applies to declarative components** and **must be performed before the component is initialized**.
+
+Once the component is rendered for the first time, the defaults become immutable and can no longer be changed.
 
 :::
 
