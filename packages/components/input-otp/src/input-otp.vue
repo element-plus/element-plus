@@ -75,7 +75,7 @@ const emit = defineEmits(inputOtpEmits)
 const length = computed(() => clamp(props.length, 4, 8))
 
 const inputRefs = ref<HTMLInputElement[]>([])
-const innerValue = ref<string[]>([])
+const innerValue = ref<string[]>(castValue(props.modelValue))
 
 const ns = useNamespace('input-otp')
 const { t } = useLocale()
@@ -84,6 +84,20 @@ const { inputId, isLabeledByFormItem } = useFormItemInputId(props, {
   formItemContext: formItem,
 })
 const disabled = useFormDisabled()
+
+function castValue(value: string | number | undefined) {
+  let formattedValue = `${value ?? ''}`.split('')
+  if (props.type === 'number') {
+    formattedValue = formattedValue.filter((char) => /^\d$/.test(char))
+  }
+  formattedValue = [
+    ...formattedValue.slice(0, length.value),
+    ...Array.from({
+      length: length.value - formattedValue.length,
+    }).fill(''),
+  ] as string[]
+  return formattedValue
+}
 
 const getFirstIndex = (maxIndex: number) => {
   const index = innerValue.value.findIndex((char, i) => !char && i <= maxIndex)
@@ -191,23 +205,12 @@ const handleInput = (event: Event, index: number) => {
 watch(
   () => props.modelValue,
   (value) => {
-    let formattedValue = `${value ?? ''}`.split('')
-    if (props.type === 'number') {
-      formattedValue = formattedValue.filter((char) => /^\d$/.test(char))
-    }
-    formattedValue = [
-      ...formattedValue.slice(0, length.value),
-      ...Array.from({
-        length: length.value - formattedValue.length,
-      }).fill(''),
-    ] as string[]
-    innerValue.value = formattedValue
+    innerValue.value = castValue(value)
 
     if (props.validateEvent) {
       formItem?.validate?.('change').catch((err) => debugWarn(err))
     }
-  },
-  { immediate: true }
+  }
 )
 
 watch(length, updateModelValue)
