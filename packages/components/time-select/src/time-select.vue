@@ -48,6 +48,7 @@ import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { CircleClose, Clock } from '@element-plus/icons-vue'
 import { compareTime, formatTime, nextTime, parseTime } from './utils'
 import { debugWarn } from '@element-plus/utils'
+import { DEFAULT_STEP } from './time-select'
 
 import type { TimeSelectProps } from './time-select'
 
@@ -69,7 +70,7 @@ const props = withDefaults(defineProps<TimeSelectProps>(), {
   clearable: true,
   start: '09:00',
   end: '18:00',
-  step: '00:30',
+  step: DEFAULT_STEP,
   prefixIcon: () => Clock,
   clearIcon: () => CircleClose,
   popperClass: '',
@@ -91,11 +92,6 @@ const start = computed(() => {
 
 const end = computed(() => {
   const time = parseTime(props.end)
-  return time ? formatTime(time) : null
-})
-
-const step = computed(() => {
-  const time = parseTime(props.step)
   return time ? formatTime(time) : null
 })
 
@@ -122,15 +118,18 @@ const items = computed(() => {
 
   if (props.start && props.end && props.step) {
     const stepValue = parseTime(props.step)
-    if (
+    const isInvalidStep =
       !stepValue ||
       Number.isNaN(stepValue.hours) ||
       Number.isNaN(stepValue.minutes) ||
       (stepValue.hours === 0 && stepValue.minutes === 0)
-    ) {
-      debugWarn('ElTimeSelect', 'step should be a valid time and not 00:00.')
-      return result
+    if (isInvalidStep) {
+      debugWarn(
+        'ElTimeSelect',
+        `invalid step, fallback to default step (${DEFAULT_STEP}).`
+      )
     }
+    const step = !isInvalidStep ? formatTime(stepValue) : DEFAULT_STEP
     let current = start.value
     let currentTime: string
     while (current && end.value && compareTime(current, end.value) <= 0) {
@@ -138,7 +137,7 @@ const items = computed(() => {
         .locale(lang.value)
         .format(props.format)
       push(currentTime, current)
-      current = nextTime(current, step.value!)
+      current = nextTime(current, step)
     }
     if (
       props.includeEndTime &&
