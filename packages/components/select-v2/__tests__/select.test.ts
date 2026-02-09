@@ -68,6 +68,7 @@ interface SelectProps {
   multiple?: boolean
   collapseTags?: boolean
   collapseTagsTooltip?: boolean
+  tagTooltip?: Record<string, any>
   maxCollapseTags?: number
   filterable?: boolean
   remote?: boolean
@@ -136,6 +137,7 @@ const createSelect = (
         :multiple="multiple"
         :collapseTags="collapseTags"
         :collapseTagsTooltip="collapseTagsTooltip"
+        :tag-tooltip="tagTooltip"
         :max-collapse-tags="maxCollapseTags"
         :filterable="filterable"
         :multiple-limit="multipleLimit"
@@ -189,6 +191,7 @@ const createSelect = (
           multiple: false,
           collapseTags: false,
           collapseTagsTooltip: false,
+          tagTooltip: undefined,
           maxCollapseTags: 1,
           remote: false,
           filterable: false,
@@ -915,6 +918,43 @@ describe('Select', () => {
         return !hasClass(item.element, 'in-tooltip')
       })
       expect(tags.length).toBe(4)
+    })
+
+    it('use tag-tooltip', async () => {
+      const appendTarget = document.createElement('div')
+      appendTarget.className = 'append-target'
+      document.body.appendChild(appendTarget)
+      const wrapper = createSelect({
+        data: () => {
+          return {
+            multiple: true,
+            collapseTags: true,
+            collapseTagsTooltip: true,
+            tagTooltip: { appendTo: '.append-target' },
+            value: [],
+          }
+        },
+      })
+      await nextTick()
+      const options = getOptions()
+      options[0].click()
+      await nextTick()
+      options[1].click()
+      await nextTick()
+      options[2].click()
+      await nextTick()
+
+      const select = wrapper.findComponent(Select)
+      const tagTooltip = select.findComponent({ ref: 'tagTooltipRef' })
+      expect(tagTooltip.props('appendTo')).toBe('.append-target')
+
+      const triggerWrappers = wrapper.findAll('.el-tooltip__trigger')
+      expect(triggerWrappers[0]).toBeDefined()
+      const tags = wrapper.findAll('.el-tag').filter((item) => {
+        return !hasClass(item.element, 'in-tooltip')
+      })
+      expect(tags.length).toBe(2)
+      expect(tags[1].element.textContent.trim()).toBe('+ 2')
     })
   })
 
