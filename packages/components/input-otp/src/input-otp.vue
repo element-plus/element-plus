@@ -175,7 +175,7 @@ const handlePaste = (event: ClipboardEvent, index: number) => {
   ;(event.target as HTMLInputElement | null)?.blur()
   nextInputRef?.focus()
   updateModelValue()
-  emit(INPUT_EVENT, innerValue.value)
+  emit(INPUT_EVENT, [...innerValue.value])
   event.preventDefault()
 }
 
@@ -199,7 +199,7 @@ const handleInput = (event: Event, index: number) => {
   target.blur()
   nextInputRef?.focus()
   updateModelValue()
-  emit(INPUT_EVENT, innerValue.value)
+  emit(INPUT_EVENT, [...innerValue.value])
 }
 
 watch(
