@@ -92,7 +92,9 @@
               </div>
 
               <el-tooltip
-                v-if="collapseTags && modelValue.length > maxCollapseTags"
+                v-if="
+                  collapseTags && states.cachedOptions.length > maxCollapseTags
+                "
                 ref="tagTooltipRef"
                 :disabled="dropdownMenuVisible || !collapseTagsTooltip"
                 :fallback-placements="
@@ -130,7 +132,7 @@
                       disable-transitions
                     >
                       <span :class="nsSelect.e('tags-text')">
-                        + {{ modelValue.length - maxCollapseTags }}
+                        + {{ states.cachedOptions.length - maxCollapseTags }}
                       </span>
                     </el-tag>
                   </div>
