@@ -96,25 +96,25 @@
                 ref="tagTooltipRef"
                 :disabled="dropdownMenuVisible || !collapseTagsTooltip"
                 :fallback-placements="
-                  tagTooltip.fallbackPlacements ?? [
+                  tagTooltip?.fallbackPlacements ?? [
                     'bottom',
                     'top',
                     'right',
                     'left',
                   ]
                 "
-                :effect="tagTooltip.effect ?? effect"
-                :placement="tagTooltip.placement ?? 'bottom'"
-                :popper-class="tagTooltip.popperClass ?? popperClass"
-                :popper-style="tagTooltip.popperStyle ?? popperStyle"
-                :teleported="tagTooltip.teleported ?? teleported"
-                :append-to="tagTooltip.appendTo ?? appendTo"
-                :popper-options="tagTooltip.popperOptions ?? popperOptions"
-                :transition="tagTooltip.transition"
-                :show-after="tagTooltip.showAfter"
-                :hide-after="tagTooltip.hideAfter"
-                :auto-close="tagTooltip.autoClose"
-                :offset="tagTooltip.offset"
+                :effect="tagTooltip?.effect ?? effect"
+                :placement="tagTooltip?.placement ?? 'bottom'"
+                :popper-class="tagTooltip?.popperClass ?? popperClass"
+                :popper-style="tagTooltip?.popperStyle ?? popperStyle"
+                :teleported="tagTooltip?.teleported ?? teleported"
+                :append-to="tagTooltip?.appendTo ?? appendTo"
+                :popper-options="tagTooltip?.popperOptions ?? popperOptions"
+                :transition="tagTooltip?.transition"
+                :show-after="tagTooltip?.showAfter"
+                :hide-after="tagTooltip?.hideAfter"
+                :auto-close="tagTooltip?.autoClose"
+                :offset="tagTooltip?.offset"
               >
                 <template #default>
                   <div
