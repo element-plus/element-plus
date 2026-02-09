@@ -243,6 +243,12 @@ describe('TimeSelect', () => {
     expect(option?.textContent).toBe('01:00 PM')
   })
 
+  it('should pass name to inner input', () => {
+    const wrapper = mount(() => <TimeSelect name="timeSelectName" />)
+    const input = wrapper.find('input')
+    expect(input.attributes('name')).toBe('timeSelectName')
+  })
+
   it('should return empty options when step is 00:00', async () => {
     const wrapper = mount(() => (
       <TimeSelect start="09:00" end="10:00" step="00:00" />

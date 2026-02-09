@@ -1,6 +1,7 @@
 <template>
   <el-select
     ref="select"
+    :name="name"
     :model-value="value"
     :disabled="_disabled"
     :clearable="clearable"
