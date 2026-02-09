@@ -13,7 +13,7 @@
     <label
       v-for="(_, index) in length"
       :key="index"
-      :class="[ns.e('input-field')]"
+      :class="ns.e('input-field')"
     >
       <input
         v-bind="$attrs"
@@ -85,6 +85,11 @@ const { inputId, isLabeledByFormItem } = useFormItemInputId(props, {
 })
 const disabled = useFormDisabled()
 
+const getFirstIndex = (maxIndex: number) => {
+  const index = innerValue.value.findIndex((char, i) => !char && i <= maxIndex)
+  return index === -1 ? maxIndex : index
+}
+
 const handleFocus = (event: FocusEvent) => {
   rAF(() => (event.target as HTMLInputElement | null)?.select())
 }
@@ -110,14 +115,14 @@ const handleKeydown = (event: KeyboardEvent, index: number) => {
     case EVENT_CODE.backspace:
       innerValue.value[index] = ''
       prevInputRef?.focus()
-      emit(INPUT_EVENT, innerValue.value.slice(0, length.value))
+      emit(INPUT_EVENT, innerValue.value)
       updateModelValue()
       break
     case EVENT_CODE.delete:
       innerValue.value[index] = ''
       currentInputRef?.focus()
       rAF(() => currentInputRef?.select())
-      emit(INPUT_EVENT, innerValue.value.slice(0, length.value))
+      emit(INPUT_EVENT, innerValue.value)
       updateModelValue()
       break
     case EVENT_CODE.up:
@@ -135,11 +140,6 @@ const handleKeydown = (event: KeyboardEvent, index: number) => {
   if (preventDefault) {
     event.preventDefault()
   }
-}
-
-const getFirstIndex = (maxIndex: number) => {
-  const index = innerValue.value.findIndex((char, i) => !char && i <= maxIndex)
-  return index === -1 ? maxIndex : index
 }
 
 const handlePaste = (event: ClipboardEvent, index: number) => {
@@ -161,7 +161,7 @@ const handlePaste = (event: ClipboardEvent, index: number) => {
   ;(event.target as HTMLInputElement | null)?.blur()
   nextInputRef?.focus()
   updateModelValue()
-  emit(INPUT_EVENT, innerValue.value.slice(0, length.value))
+  emit(INPUT_EVENT, innerValue.value)
   event.preventDefault()
 }
 
@@ -185,7 +185,7 @@ const handleInput = (event: Event, index: number) => {
   target.blur()
   nextInputRef?.focus()
   updateModelValue()
-  emit(INPUT_EVENT, innerValue.value.slice(0, length.value))
+  emit(INPUT_EVENT, innerValue.value)
 }
 
 watch(
@@ -209,4 +209,6 @@ watch(
   },
   { immediate: true }
 )
+
+watch(length, updateModelValue)
 </script>

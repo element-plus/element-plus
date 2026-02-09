@@ -28,6 +28,25 @@ describe('InputOtp.vue', () => {
     expect(wrapper2.findAll('input').length).toBe(8)
   })
 
+  test('should update when length changes', async () => {
+    const length = ref(6)
+    const modelValue = ref('123456')
+    const wrapper = mount(() => (
+      <InputOtp v-model={modelValue.value} length={length.value} />
+    ))
+    expect(wrapper.findAll('input').length).toBe(6)
+
+    length.value = 4
+    await nextTick()
+    expect(wrapper.findAll('input').length).toBe(4)
+    expect(modelValue.value).toBe('1234')
+
+    length.value = 8
+    await nextTick()
+    expect(wrapper.findAll('input').length).toBe(8)
+    expect(modelValue.value).toBe('1234')
+  })
+
   test('variant', async () => {
     const variant = ref<InputOtpProps['variant']>('filled')
     const wrapper = mount(() => <InputOtp variant={variant.value} />)
