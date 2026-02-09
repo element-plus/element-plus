@@ -109,10 +109,11 @@ const maxTime = computed(() => {
 })
 
 const items = computed(() => {
-  const result: { value: string; disabled: boolean }[] = []
+  const result: { value: string; rawValue: string; disabled: boolean }[] = []
   const push = (formattedValue: string, rawValue: string) => {
     result.push({
       value: formattedValue,
+      rawValue,
       disabled:
         compareTime(rawValue, minTime.value || '-1:-1') <= 0 ||
         compareTime(rawValue, maxTime.value || '100:100') >= 0,
@@ -132,7 +133,7 @@ const items = computed(() => {
     if (
       props.includeEndTime &&
       end.value &&
-      result[result.length - 1]?.value !== end.value
+      result[result.length - 1]?.rawValue !== end.value
     ) {
       const formattedValue = dayjs(end.value, 'HH:mm')
         .locale(lang.value)

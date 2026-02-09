@@ -161,6 +161,26 @@ describe('TimeSelect', () => {
     expect([...items].at(-1)?.textContent).toBe('23:59')
   })
 
+  it('should not duplicate end time when includeEndTime with custom format', async () => {
+    const wrapper = mount(() => (
+      <TimeSelect
+        start="08:30"
+        step="00:15"
+        end="09:30"
+        format="hh:mm A"
+        includeEndTime
+      />
+    ))
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    const items = document.querySelectorAll('.el-select-dropdown__item>span')
+    expect(items).toHaveLength(5)
+    const last = [...items].at(-1)?.textContent
+    const secondLast = [...items].at(-2)?.textContent
+    expect(last).toBe('09:30 AM')
+    expect(last).not.toBe(secondLast)
+  })
+
   it('should not include end time', async () => {
     const wrapper = mount(() => (
       <TimeSelect start="00:00" step="00:05" end="23:59" />
