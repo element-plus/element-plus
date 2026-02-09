@@ -121,8 +121,14 @@ const items = computed(() => {
   }
 
   if (props.start && props.end && props.step) {
-    if (step.value === '00:00') {
-      debugWarn('ElTimeSelect', 'step should not be 00:00.')
+    const stepValue = parseTime(props.step)
+    if (
+      !stepValue ||
+      Number.isNaN(stepValue.hours) ||
+      Number.isNaN(stepValue.minutes) ||
+      (stepValue.hours === 0 && stepValue.minutes === 0)
+    ) {
+      debugWarn('ElTimeSelect', 'step should be a valid time and not 00:00.')
       return result
     }
     let current = start.value
