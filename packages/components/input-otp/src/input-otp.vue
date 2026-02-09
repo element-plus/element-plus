@@ -115,14 +115,14 @@ const handleKeydown = (event: KeyboardEvent, index: number) => {
     case EVENT_CODE.backspace:
       innerValue.value[index] = ''
       prevInputRef?.focus()
-      emit(INPUT_EVENT, innerValue.value)
+      emit(INPUT_EVENT, [...innerValue.value])
       updateModelValue()
       break
     case EVENT_CODE.delete:
       innerValue.value[index] = ''
       currentInputRef?.focus()
       rAF(() => currentInputRef?.select())
-      emit(INPUT_EVENT, innerValue.value)
+      emit(INPUT_EVENT, [...innerValue.value])
       updateModelValue()
       break
     case EVENT_CODE.up:
