@@ -29,6 +29,7 @@ const otp3 = ref('')
   flex-direction: column;
   gap: 20px;
 }
+
 p {
   margin-bottom: 8px;
   font-size: 14px;
