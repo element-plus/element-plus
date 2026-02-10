@@ -89,7 +89,7 @@ const filteredAllDisabled = computed(
 const hoverOption = computed(() => props.options[hoveringIndex.value])
 
 const selectHoverOption = () => {
-  if (!hoverOption.value) return
+  if (!hoverOption.value || hoverOption.value.disabled || props.disabled) return
   emit('select', hoverOption.value)
 }
 
