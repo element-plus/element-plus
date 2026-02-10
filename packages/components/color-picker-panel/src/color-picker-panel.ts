@@ -3,11 +3,9 @@ import { buildProps, definePropType, isString } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
 import type { ComputedRef, ExtractPublicPropTypes, InjectionKey } from 'vue'
+import type { ColorFormats } from '@ctrl/tinycolor'
 import type ColorPickerPanel from './color-picker-panel.vue'
 import type Color from './utils/color'
-
-export const colorFormats = ['hsl', 'hsv', 'hex', 'rgb'] as const
-export type ColorFormat = (typeof colorFormats)[number]
 
 export interface ColorPickerPanelProps {
   /**
@@ -25,7 +23,7 @@ export interface ColorPickerPanelProps {
   /**
    * @description color format of v-model
    */
-  colorFormat?: ColorFormat
+  colorFormat?: ColorFormats
   /**
    * @description whether to disable the color picker
    */
@@ -66,8 +64,7 @@ export const colorPickerPanelProps = buildProps({
    * @description color format of v-model
    */
   colorFormat: {
-    type: definePropType<ColorFormat>(String),
-    values: colorFormats,
+    type: definePropType<ColorFormats>(String),
   },
   /**
    * @description whether to disable the color picker

@@ -6,15 +6,14 @@ import {
   useSizeProp,
 } from '@element-plus/hooks'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
-import { colorFormats } from '@element-plus/components/color-picker-panel'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
 import type { ExtractPublicPropTypes } from 'vue'
+import type { ColorFormats } from '@ctrl/tinycolor'
 import type ColorPicker from './color-picker.vue'
 import type { AriaProps, UseEmptyValuesProps } from '@element-plus/hooks'
 import type { ComponentSize } from '@element-plus/constants'
 import type { ElTooltipContentProps } from '@element-plus/components/tooltip'
-import type { ColorFormat } from '@element-plus/components/color-picker-panel'
 
 export interface ColorPickerProps
   extends UseEmptyValuesProps, Pick<AriaProps, 'ariaLabel'> {
@@ -37,7 +36,7 @@ export interface ColorPickerProps
   /**
    * @description color format of v-model
    */
-  colorFormat?: ColorFormat
+  colorFormat?: ColorFormats
   /**
    * @description whether to disable the ColorPicker
    */
@@ -110,8 +109,7 @@ export const colorPickerProps = buildProps({
    * @description color format of v-model
    */
   colorFormat: {
-    type: definePropType<ColorFormat>(String),
-    values: colorFormats,
+    type: definePropType<ColorFormats>(String),
   },
   /**
    * @description whether to disable the ColorPicker
