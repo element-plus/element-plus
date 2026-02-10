@@ -109,10 +109,11 @@ describe('InputOtp.vue', () => {
     expect(model.value).toBe('12')
   })
 
-  test('should support number input type', async () => {
+  test('validate', async () => {
     const model = ref('')
+    const validate = (char: string) => /^\d$/.test(char)
     const wrapper = mount(() => (
-      <InputOtp v-model={model.value} type="number" />
+      <InputOtp v-model={model.value} validate={validate} />
     ))
 
     const inputs = wrapper.findAll('input')
@@ -214,8 +215,9 @@ describe('InputOtp.vue', () => {
 
   test('should ignore non-digits when type is number on paste', async () => {
     const model = ref('')
+    const validate = (char: string) => /^\d$/.test(char)
     const wrapper = mount(() => (
-      <InputOtp v-model={model.value} type="number" />
+      <InputOtp v-model={model.value} validate={validate} />
     ))
 
     const inputs = wrapper.findAll('input')
@@ -331,7 +333,7 @@ describe('InputOtp.vue', () => {
 
   test('should emit input event', async () => {
     const onInput = vi.fn()
-    const wrapper = mount(() => <InputOtp modelValue="" onInput={onInput} />)
+    const wrapper = mount(() => <InputOtp onInput={onInput} />)
 
     const inputs = wrapper.findAll('input')
     await inputs[0].setValue('1')

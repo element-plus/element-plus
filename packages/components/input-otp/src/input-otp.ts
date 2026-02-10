@@ -5,6 +5,7 @@ import {
 } from '@element-plus/constants'
 import { isString } from '@element-plus/utils'
 
+import type { InputHTMLAttributes } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 import type { AriaProps } from '@element-plus/hooks'
 
@@ -25,10 +26,14 @@ export interface InputOtpProps extends Pick<AriaProps, 'ariaLabel'> {
    */
   length?: number
   /**
-   * @description The type of the OTP fields
-   * @default 'text'
+   * @description Custom validator function
+   * @default () => true
    */
-  type?: 'text' | 'number'
+  validate?: (char: string, index: number) => boolean
+  /**
+   * @description Native input mode for virtual keyboards
+   */
+  inputmode?: InputHTMLAttributes['inputmode']
   /**
    * @description The variant of the OTP fields
    * @default 'outlined'

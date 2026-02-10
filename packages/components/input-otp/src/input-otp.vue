@@ -24,7 +24,7 @@
         :disabled="disabled"
         :readonly="readonly"
         :maxlength="1"
-        :inputmode="type === 'number' ? 'numeric' : undefined"
+        :inputmode="inputmode"
         autocomplete="one-time-code"
         :aria-label="t('el.inputOTP.defaultLabel', { index: index + 1 })"
         @click="handleFocus"
@@ -64,7 +64,7 @@ defineOptions({
 
 const props = withDefaults(defineProps<InputOtpProps>(), {
   length: 6,
-  type: 'text',
+  validate: () => true,
   variant: 'outlined',
   size: 'default',
   disabled: undefined,
@@ -75,7 +75,12 @@ const emit = defineEmits(inputOtpEmits)
 const length = computed(() => clamp(props.length, 4, 8))
 
 const inputRefs = ref<HTMLInputElement[]>([])
-const innerValue = ref<string[]>(castValue(props.modelValue))
+const innerValue = ref<string[]>(
+  Array.from(
+    { length: length.value },
+    (_, i) => `${props.modelValue ?? ''}`.charAt(i) ?? ''
+  )
+)
 
 const ns = useNamespace('input-otp')
 const { t } = useLocale()
@@ -84,20 +89,6 @@ const { inputId, isLabeledByFormItem } = useFormItemInputId(props, {
   formItemContext: formItem,
 })
 const disabled = useFormDisabled()
-
-function castValue(value: string | number | undefined) {
-  let formattedValue = `${value ?? ''}`.split('')
-  if (props.type === 'number') {
-    formattedValue = formattedValue.filter((char) => /^\d$/.test(char))
-  }
-  formattedValue = [
-    ...formattedValue.slice(0, length.value),
-    ...Array.from({
-      length: length.value - formattedValue.length,
-    }).fill(''),
-  ] as string[]
-  return formattedValue
-}
 
 const getFirstIndex = (maxIndex: number) => {
   const index = innerValue.value.findIndex((char, i) => !char && i <= maxIndex)
@@ -160,23 +151,18 @@ const handlePaste = (event: ClipboardEvent, index: number) => {
   const pasteData = event.clipboardData?.getData('text') ?? ''
   if (!pasteData) return
 
+  event.preventDefault()
+
   const targetIndex = getFirstIndex(index)
-  let chars = pasteData.split('')
-  if (props.type === 'number') {
-    chars = chars.filter((ch) => /^\d$/.test(ch))
-  }
-  chars = chars.slice(0, length.value - targetIndex)
+  const chars = castValues(pasteData, targetIndex)
+  const focusIndex = Math.min(targetIndex + chars.length, length.value - 1)
+
   chars.forEach((char, i) => (innerValue.value[targetIndex + i] = char))
-
-  const nextInputRef =
-    inputRefs.value[targetIndex + chars.length] ??
-    inputRefs.value[length.value - 1]
-
   ;(event.target as HTMLInputElement | null)?.blur()
-  nextInputRef?.focus()
+  inputRefs.value[focusIndex]?.focus()
+
   updateModelValue()
   emit(INPUT_EVENT, [...innerValue.value])
-  event.preventDefault()
 }
 
 const handleInput = (event: Event, index: number) => {
@@ -185,27 +171,42 @@ const handleInput = (event: Event, index: number) => {
   let value = target.value
   let forward = true
 
-  if (props.type === 'number' && !/^\d$/.test(value)) {
+  if (!props.validate(value, targetIndex)) {
     target.value = innerValue.value[targetIndex] ?? ''
     value = target.value
     forward = false
   }
 
-  const nextInputRef =
-    inputRefs.value[targetIndex + (forward ? 1 : 0)] ??
-    inputRefs.value[length.value - 1]
+  const focusIndex = Math.min(targetIndex + (forward ? 1 : 0), length.value - 1)
 
   innerValue.value[targetIndex] = value
   target.blur()
-  nextInputRef?.focus()
+  inputRefs.value[focusIndex]?.focus()
   updateModelValue()
   emit(INPUT_EVENT, [...innerValue.value])
+}
+
+const castValues = (value: InputOtpProps['modelValue'], startIndex = 0) => {
+  const chars = `${value ?? ''}`.split('')
+  const result: string[] = []
+  for (const char of chars) {
+    if (result.length + startIndex >= length.value) {
+      break
+    }
+    if (props.validate(char, result.length + startIndex)) {
+      result.push(char)
+    }
+  }
+  return result
 }
 
 watch(
   () => props.modelValue,
   (value) => {
-    innerValue.value = castValue(value)
+    innerValue.value = Array.from(
+      { length: length.value },
+      (_, i) => `${value ?? ''}`.charAt(i) ?? ''
+    )
 
     if (props.validateEvent) {
       formItem?.validate?.('change').catch((err) => debugWarn(err))
