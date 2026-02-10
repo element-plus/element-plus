@@ -76,7 +76,7 @@
     "@pnpm/types": "^8.4.0",
     "@types/fs-extra": "^9.0.13",
     "@types/gulp": "^4.0.9",
-    "@types/jsdom": "^16.2.14",
+    "@types/jsdom": "^27.0.0",
     "@types/node": "^22.9.0",
     "@vitest/coverage-v8": "^4.0.16",
     "@vitest/ui": "^4.0.16",
