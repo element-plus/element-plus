@@ -83,6 +83,14 @@ config-provider/empty-values
 
 :::
 
+## Table Configurations ^(2.13.3)
+
+:::demo
+
+config-provider/table
+
+:::
+
 ## Experimental features
 
 In this section, you can learn how to use Config Provider to provide experimental features. For now, we haven't added any experimental features, but in the feature roadmap, we will add some experimental features. You can use this config to manage the features you want or not.
@@ -106,6 +114,7 @@ In this section, you can learn how to use Config Provider to provide experimenta
 | experimental-features   | features at experimental stage to be added, all features are default to be set to false                                                                                | ^[object]                                                                                                                                                                                                                                                      | —                                                                                      |
 | empty-values ^(2.7.0)   | global empty values of components                                                                                                                                      | ^[array]                                                                                                                                                                                                                                                       | —                                                                                      |
 | value-on-clear ^(2.7.0) | global clear return value                                                                                                                                              | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                                                                                                                                                                               | —                                                                                      |
+| table ^(2.13.3)         | table related configuration, [see the following table](#table-attribute)                                                                                               | ^[object]`{showOverflowTooltip?: boolean \| object, tooltipEffect?: string, tooltipOptions?: object, tooltipFormatter?: Function}`                                                                                                                             | see the following table                                                                |
 
 ### Button Attribute
 
@@ -151,6 +160,15 @@ In this section, you can learn how to use Config Provider to provide experimenta
 | offset ^(2.8.2)     | set the distance to the top of viewport                                        | ^[number]                                                                                  | —       |
 | plain ^(2.9.11)     | whether message is plain                                                       | ^[boolean]                                                                                 | —       |
 | placement ^(2.11.0) | message placement position                                                     | ^[enum]`'top' \| 'top-left' \| 'top-right' \| 'bottom' \| 'bottom-left' \| 'bottom-right'` | —       |
+
+### Table Attribute ^(2.13.3)
+
+| Attribute             | Description                                                                                                                                             | Type                                                                                                                                                                 | Default                                                                                                                 |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| show-overflow-tooltip | whether to hide extra content and show them in a tooltip when hovering on the cell.It will affect all the table columns, refer to table tooltip-options | ^[boolean] / [`object`]                                                                                                                                              | —                                                                                                                       |
+| tooltip-effect        | the `effect` of the overflow tooltip                                                                                                                    | ^[enum]`'dark' \| 'light'`                                                                                                                                           | dark                                                                                                                    |
+| tooltip-options       | the options for the overflow tooltip, [see the following tooltip component](tooltip.html#attributes)                                                    | ^[object]`Pick<ElTooltipProps, 'effect' \| 'enterable' \| 'hideAfter' \| 'offset' \| 'placement' \| 'popperClass' \| 'popperOptions' \| 'showAfter' \| 'showArrow'>` | ^[object]`{ enterable: true, placement: 'top', showArrow: true, hideAfter: 200, popperOptions: { strategy: 'fixed' } }` |
+| tooltip-formatter     | customize tooltip content when using `show-overflow-tooltip`                                                                                            | ^[Function]`(data: { row: any, column: TableColumnCtx<T>, cellValue: any }) => VNode \| string`                                                                      | —                                                                                                                       |
 
 ### Config Provider Slots
 
