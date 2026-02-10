@@ -53,7 +53,7 @@
               nsSelect.e('selection'),
               nsSelect.is(
                 'near',
-                multiple && !$slots.prefix && !!modelValue.length
+                multiple && !$slots.prefix && !!states.cachedOptions.length
               ),
             ]"
           >
@@ -92,7 +92,9 @@
               </div>
 
               <el-tooltip
-                v-if="collapseTags && modelValue.length > maxCollapseTags"
+                v-if="
+                  collapseTags && states.cachedOptions.length > maxCollapseTags
+                "
                 ref="tagTooltipRef"
                 :disabled="dropdownMenuVisible || !collapseTagsTooltip"
                 :fallback-placements="['bottom', 'top', 'right', 'left']"
@@ -117,7 +119,7 @@
                       disable-transitions
                     >
                       <span :class="nsSelect.e('tags-text')">
-                        + {{ modelValue.length - maxCollapseTags }}
+                        + {{ states.cachedOptions.length - maxCollapseTags }}
                       </span>
                     </el-tag>
                   </div>
