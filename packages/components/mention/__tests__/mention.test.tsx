@@ -1,6 +1,7 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { EVENT_CODE } from '@element-plus/constants'
 import Form from '@element-plus/components/form'
 import Mention from '../src/mention.vue'
 import * as helper from '../src/helper'
@@ -31,6 +32,29 @@ describe('Mention.vue', () => {
     {
       label: 'btea',
       value: 'btea',
+    },
+  ]
+
+  const optionsWithDisabled = [
+    {
+      id: 'Fuphoenixes',
+      name: 'Fuphoenixes',
+      unable: true,
+    },
+    {
+      id: 'kooriookami',
+      name: 'kooriookami',
+      unable: false,
+    },
+    {
+      id: 'Jeremy',
+      name: 'Jeremy',
+      unable: true,
+    },
+    {
+      id: 'btea',
+      name: 'btea',
+      unable: false,
     },
   ]
 
@@ -259,5 +283,83 @@ describe('Mention.vue', () => {
     expect(cursorStyles).toContain('top: 108px')
 
     vi.restoreAllMocks()
+  })
+
+  test('should select first non-disabled option when pressing enter', async () => {
+    const props = { value: 'id', label: 'name', disabled: 'unable' }
+
+    const wrapper = mount(Mention, {
+      attachTo: document.body,
+      props: {
+        modelValue: '',
+        options: optionsWithDisabled,
+        props,
+        'onUpdate:modelValue': (val: string) => {
+          wrapper.setProps({ modelValue: val })
+        },
+      },
+    })
+
+    const inputEl = wrapper.find('input')
+    inputEl.element.focus()
+    await inputEl.setValue('@')
+
+    vi.advanceTimersByTime(150)
+    await nextTick()
+
+    expect(document.querySelector('.el-mention-dropdown')).not.toEqual(null)
+
+    await inputEl.trigger('keydown', {
+      code: EVENT_CODE.enter,
+      key: EVENT_CODE.enter,
+    })
+    await nextTick()
+
+    expect(inputEl.element.value).toBe('@kooriookami ')
+  })
+
+  test('should not select disabled option when pressing enter', async () => {
+    const props = { value: 'id', label: 'name', disabled: 'unable' }
+
+    const wrapper = mount(Mention, {
+      attachTo: document.body,
+      props: {
+        modelValue: '',
+        options: optionsWithDisabled,
+        props,
+        'onUpdate:modelValue': (val: string) => {
+          wrapper.setProps({ modelValue: val })
+        },
+      },
+    })
+
+    const inputEl = wrapper.find('input')
+    inputEl.element.focus()
+    await inputEl.setValue('@')
+
+    vi.advanceTimersByTime(150)
+    await nextTick()
+
+    expect(document.querySelector('.el-mention-dropdown')).not.toEqual(null)
+
+    const dropdown = wrapper.findComponent({ name: 'ElMentionDropdown' })
+    const dropdownVm = dropdown.vm as any
+    dropdownVm.hoveringIndex = 0
+
+    await nextTick()
+
+    const dropdownItems = document.querySelectorAll(
+      '.el-mention-dropdown__item'
+    )
+    expect(dropdownItems[0].classList.contains('is-hovering')).toBe(true)
+    expect(dropdownItems[0].classList.contains('is-disabled')).toBe(true)
+
+    await inputEl.trigger('keydown', {
+      code: EVENT_CODE.enter,
+      key: EVENT_CODE.enter,
+    })
+    await nextTick()
+
+    expect(inputEl.element.value).toBe('@')
   })
 })
