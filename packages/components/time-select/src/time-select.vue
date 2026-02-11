@@ -105,6 +105,25 @@ const maxTime = computed(() => {
   return time ? formatTime(time) : null
 })
 
+const stepValue = computed(() => parseTime(props.step))
+const isInvalidStep = computed(() => {
+  const value = stepValue.value
+  return (
+    !value ||
+    value.hours < 0 ||
+    value.minutes < 0 ||
+    Number.isNaN(value.hours) ||
+    Number.isNaN(value.minutes) ||
+    (value.hours === 0 && value.minutes === 0)
+  )
+})
+
+const step = computed(() =>
+  !isInvalidStep.value && stepValue.value
+    ? formatTime(stepValue.value)
+    : DEFAULT_STEP
+)
+
 const items = computed(() => {
   const result: { value: string; disabled: boolean }[] = []
   const push = (formattedValue: string, rawValue: string) => {
@@ -117,19 +136,12 @@ const items = computed(() => {
   }
 
   if (props.start && props.end && props.step) {
-    const stepValue = parseTime(props.step)
-    const isInvalidStep =
-      !stepValue ||
-      Number.isNaN(stepValue.hours) ||
-      Number.isNaN(stepValue.minutes) ||
-      (stepValue.hours === 0 && stepValue.minutes === 0)
-    if (isInvalidStep) {
+    if (isInvalidStep.value) {
       debugWarn(
         'ElTimeSelect',
         `invalid step, fallback to default step (${DEFAULT_STEP}).`
       )
     }
-    const step = !isInvalidStep ? formatTime(stepValue) : DEFAULT_STEP
     let current = start.value
     let currentTime: string
     while (current && end.value && compareTime(current, end.value) <= 0) {
@@ -137,7 +149,7 @@ const items = computed(() => {
         .locale(lang.value)
         .format(props.format)
       push(currentTime, current)
-      current = nextTime(current, step)
+      current = nextTime(current, step.value)
     }
     if (
       props.includeEndTime &&
