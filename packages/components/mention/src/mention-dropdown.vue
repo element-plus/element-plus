@@ -137,9 +137,7 @@ const resetHoveringIndex = () => {
   if (filteredAllDisabled.value || props.options.length === 0) {
     hoveringIndex.value = -1
   } else {
-    // Find the first non-disabled option
-    const firstEnabledIndex = props.options.findIndex((item) => !item.disabled)
-    hoveringIndex.value = firstEnabledIndex !== -1 ? firstEnabledIndex : -1
+    hoveringIndex.value = props.options.findIndex((item) => !item.disabled)
   }
 }
 
