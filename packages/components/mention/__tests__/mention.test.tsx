@@ -35,28 +35,10 @@ describe('Mention.vue', () => {
     },
   ]
 
-  const optionsWithDisabled = [
-    {
-      id: 'Fuphoenixes',
-      name: 'Fuphoenixes',
-      unable: true,
-    },
-    {
-      id: 'kooriookami',
-      name: 'kooriookami',
-      unable: false,
-    },
-    {
-      id: 'Jeremy',
-      name: 'Jeremy',
-      unable: true,
-    },
-    {
-      id: 'btea',
-      name: 'btea',
-      unable: false,
-    },
-  ]
+  const optionsWithDisabled = options.map((item, index) => ({
+    ...item,
+    disabled: !(index & 1),
+  }))
 
   test('should work with `options` prop', async () => {
     const wrapper = mount(Mention, {
