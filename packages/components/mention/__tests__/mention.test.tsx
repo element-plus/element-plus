@@ -268,19 +268,11 @@ describe('Mention.vue', () => {
   })
 
   test('should select first non-disabled option when pressing enter', async () => {
-    const props = { value: 'id', label: 'name', disabled: 'unable' }
-
-    const wrapper = mount(Mention, {
-      attachTo: document.body,
-      props: {
-        modelValue: '',
-        options: optionsWithDisabled,
-        props,
-        'onUpdate:modelValue': (val: string) => {
-          wrapper.setProps({ modelValue: val })
-        },
-      },
-    })
+    const model = ref('')
+    const wrapper = mount(
+      () => <Mention v-model={model.value} options={optionsWithDisabled} />,
+      { attachTo: document.body }
+    )
 
     const inputEl = wrapper.find('input')
     inputEl.element.focus()
