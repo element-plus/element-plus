@@ -106,6 +106,7 @@ const maxTime = computed(() => {
 })
 
 const stepValue = computed(() => parseTime(props.step))
+
 const isInvalidStep = computed(() => {
   const value = stepValue.value
   return (
