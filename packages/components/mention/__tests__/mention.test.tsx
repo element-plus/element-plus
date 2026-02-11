@@ -331,5 +331,6 @@ describe('Mention.vue', () => {
     await nextTick()
 
     expect(inputEl.element.value).toBe('@')
+    expect(model.value).toBe('@')
   })
 })
