@@ -139,7 +139,7 @@ const resetHoveringIndex = () => {
   } else {
     // Find the first non-disabled option
     const firstEnabledIndex = props.options.findIndex((item) => !item.disabled)
-    hoveringIndex.value = firstEnabledIndex !== -1 ? firstEnabledIndex : 0
+    hoveringIndex.value = firstEnabledIndex !== -1 ? firstEnabledIndex : -1
   }
 }
 
