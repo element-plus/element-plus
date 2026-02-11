@@ -283,6 +283,10 @@ describe('Mention.vue', () => {
 
     expect(document.querySelector('.el-mention-dropdown')).not.toEqual(null)
 
+    const dropdown = wrapper.findComponent({ name: 'ElMentionDropdown' })
+    const dropdownVm = dropdown.vm as any
+    expect(dropdownVm.hoveringIndex).toBe(1)
+
     await inputEl.trigger('keydown', {
       code: EVENT_CODE.enter,
       key: EVENT_CODE.enter,
