@@ -294,6 +294,7 @@ describe('Mention.vue', () => {
     await nextTick()
 
     expect(inputEl.element.value).toBe('@kooriookami ')
+    expect(model.value).toBe('@kooriookami ')
   })
 
   test('should not select disabled option when pressing enter', async () => {
