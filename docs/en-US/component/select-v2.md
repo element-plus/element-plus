@@ -303,7 +303,7 @@ select-v2/custom-width
 | options   | specify which key of node object is used as the node's children | ^[string] | options  |
 | disabled  | specify which key of node object is used as the node's disabled | ^[string] | disabled |
 
-### tag-tooltip
+### tag-tooltip ^(2.13.3)
 
 :::tip Fallback Mechanism
 
