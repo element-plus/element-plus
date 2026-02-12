@@ -3,13 +3,18 @@
 
 @include b(popconfirm) {
   outline: none;
+
   @include e(main) {
     display: flex;
     align-items: center;
   }
+
   @include e(icon) {
     margin-right: 5px;
+    align-self: flex-start;
+    margin-top: 2px;
   }
+
   @include e(action) {
     text-align: right;
     margin-top: 8px;
