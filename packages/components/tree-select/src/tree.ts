@@ -173,10 +173,10 @@ export const useTree = (
     onNodeClick: (data, node, e) => {
       attrs.onNodeClick?.(data, node, e)
 
-      // `onCheck` is trigger when [checkOnClickNode](file://d:\github\element-plus\packages\components\tree\src\tree.type.ts#L107-L107)
+      // `onCheck` is trigger when [checkOnClickNode]
       if (props.showCheckbox && props.checkOnClickNode) return
 
-      // now [checkOnClickNode](file://d:\github\element-plus\packages\components\tree\src\tree.type.ts#L107-L107) is false, only no checkbox and [checkStrictly](file://d:\github\element-plus\packages\components\tree\src\tree.type.ts#L53-L53) or [isLeaf](file://d:\github\element-plus\packages\components\tree\src\tree.type.ts#L65-L65)
+      // now [checkOnClickNode]
       if (!props.showCheckbox && (props.checkStrictly || node.isLeaf)) {
         if (!getNodeValByProp('disabled', data)) {
           const option = select.value?.states.options.get(
@@ -189,7 +189,7 @@ export const useTree = (
       }
     },
     onCheck: (data, params) => {
-      // ignore when no checkbox, like only [checkOnClickNode](file://d:\github\element-plus\packages\components\tree\src\tree.type.ts#L107-L107) is true
+      // ignore when no checkbox, like only [checkOnClickNode]
       if (!props.showCheckbox) return
 
       const dataValue = getNodeValByProp('value', data)
