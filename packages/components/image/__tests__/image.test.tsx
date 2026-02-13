@@ -56,6 +56,7 @@ describe('Image.vue', () => {
   afterEach(() => {
     intersectionCallback = undefined
   })
+
   test('render test', () => {
     const wrapper = mount(Image)
     expect(wrapper.find('.el-image').exists()).toBe(true)
