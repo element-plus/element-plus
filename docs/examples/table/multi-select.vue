@@ -39,7 +39,7 @@ interface User {
 const multipleTableRef = ref<TableInstance>()
 const multipleSelection = ref<User[]>([])
 
-const selectable = (row: User) => ![1, 2].includes(row.id)
+const selectable = (row: User) => ![].includes(row.id)
 const toggleSelection = (rows?: User[], ignoreSelectable?: boolean) => {
   if (rows) {
     rows.forEach((row) => {
