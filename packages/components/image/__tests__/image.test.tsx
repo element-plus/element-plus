@@ -1,6 +1,6 @@
 import { nextTick } from 'vue'
 import { flushPromises, mount } from '@vue/test-utils'
-import { describe, expect, test, vi } from 'vitest'
+import { afterEach, describe, expect, test, vi } from 'vitest'
 import {
   IMAGE_FAIL,
   IMAGE_SUCCESS,
@@ -19,7 +19,7 @@ type ElImageProps = ImgHTMLAttributes &
   AnchorHTMLAttributes &
   Partial<ImageProps>
 
-let intersectionCallback: IntersectionObserverCallback
+let intersectionCallback: IntersectionObserverCallback | undefined
 
 vi.mock('@vueuse/core', async () => {
   return {
@@ -53,6 +53,9 @@ const _mount = (template: string, data: Record<string, any>) =>
   })
 
 describe('Image.vue', () => {
+  afterEach(() => {
+    intersectionCallback = undefined
+  })
   test('render test', () => {
     const wrapper = mount(Image)
     expect(wrapper.find('.el-image').exists()).toBe(true)
