@@ -335,19 +335,29 @@ describe('InputOtp.vue', () => {
     })
 
     test('should emit input event', async () => {
+      const length = ref(6)
       const onInput = vi.fn()
-      const wrapper = mount(() => <InputOtp onInput={onInput} />)
+      const wrapper = mount(() => (
+        <InputOtp onInput={onInput} length={length.value} />
+      ))
 
       const inputs = wrapper.findAll('input')
       await inputs[0].setValue('1')
 
-      expect(onInput).toHaveBeenCalled()
-      expect(onInput).toHaveBeenCalledWith(['1', '', '', '', '', ''])
+      expect(onInput).toHaveBeenNthCalledWith(1, ['1', '', '', '', '', ''])
+
+      length.value = 4
+      await nextTick()
+      await inputs[0].setValue('1')
+      expect(onInput).toHaveBeenNthCalledWith(2, ['1', '', '', ''])
     })
 
-    test('should emit focus event', async () => {
+    test('should emit focus and blur event', async () => {
       const onFocus = vi.fn()
-      const wrapper = mount(() => <InputOtp onFocus={onFocus} />)
+      const onBlur = vi.fn()
+      const wrapper = mount(() => (
+        <InputOtp onFocus={onFocus} onBlur={onBlur} />
+      ))
 
       const inputs = wrapper.findAll('input')
       await inputs[0].trigger('focus')
@@ -355,13 +365,7 @@ describe('InputOtp.vue', () => {
 
       expect(onFocus).toHaveBeenCalled()
       expect(onFocus).toHaveBeenCalledWith(expect.any(FocusEvent), 0)
-    })
 
-    test('should emit blur event', async () => {
-      const onBlur = vi.fn()
-      const wrapper = mount(() => <InputOtp onBlur={onBlur} />)
-
-      const inputs = wrapper.findAll('input')
       await inputs[0].trigger('blur')
 
       expect(onBlur).toHaveBeenCalled()

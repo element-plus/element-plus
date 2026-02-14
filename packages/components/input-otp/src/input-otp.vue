@@ -74,14 +74,15 @@ const props = withDefaults(defineProps<InputOtpProps>(), {
 const emit = defineEmits(inputOtpEmits)
 
 const length = computed(() => clamp(props.length, 4, 8))
-
-const inputRefs = ref<HTMLInputElement[]>([])
-const innerValue = ref<string[]>(
-  Array.from(
+const initialValue = computed(() => {
+  return Array.from(
     { length: length.value },
     (_, i) => `${props.modelValue ?? ''}`.charAt(i) ?? ''
   )
-)
+})
+
+const inputRefs = ref<HTMLInputElement[]>([])
+const innerValue = ref<string[]>(initialValue.value)
 
 const ns = useNamespace('input-otp')
 const { t } = useLocale()
@@ -215,11 +216,8 @@ const castValues = (value: InputOtpProps['modelValue'], startIndex = 0) => {
 
 watch(
   () => props.modelValue,
-  (value) => {
-    innerValue.value = Array.from(
-      { length: length.value },
-      (_, i) => `${value ?? ''}`.charAt(i) ?? ''
-    )
+  () => {
+    innerValue.value = initialValue.value
 
     if (props.validateEvent) {
       formItem?.validate?.('change').catch((err) => debugWarn(err))
@@ -227,7 +225,10 @@ watch(
   }
 )
 
-watch(length, updateModelValue)
+watch(length, () => {
+  innerValue.value = initialValue.value
+  updateModelValue()
+})
 
 defineExpose({
   /**
