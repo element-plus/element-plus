@@ -228,4 +228,11 @@ watch(
 )
 
 watch(length, updateModelValue)
+
+defineExpose({
+  /**
+   * @description HTML input elements array
+   */
+  inputRefs,
+})
 </script>

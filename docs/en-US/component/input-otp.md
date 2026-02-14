@@ -92,3 +92,9 @@ input-otp/validate
 | input             | triggers when input value changes | ^[Function]`(value: string[]) => void`                  |
 | focus             | triggers when input is focused    | ^[Function]`(event: FocusEvent, index: number) => void` |
 | blur              | triggers when input is blurred    | ^[Function]`(event: FocusEvent, index: number) => void` |
+
+### Exposes
+
+| Name      | Description               | Type                             |
+| --------- | ------------------------- | -------------------------------- |
+| inputRefs | HTML input elements array | ^[object]`Ref<HTMLInputElement>` |
