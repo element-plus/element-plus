@@ -47,15 +47,15 @@ describe('InputOtp.vue', () => {
     expect(modelValue.value).toBe('1234')
   })
 
-  test('variant', async () => {
-    const variant = ref<InputOtpProps['variant']>('filled')
-    const wrapper = mount(() => <InputOtp variant={variant.value} />)
+  test('type', async () => {
+    const type = ref<InputOtpProps['type']>('filled')
+    const wrapper = mount(() => <InputOtp type={type.value} />)
     await nextTick()
     expect(wrapper.classes()).toContain('el-input-otp--filled')
-    variant.value = 'outlined'
+    type.value = 'outlined'
     await nextTick()
     expect(wrapper.classes()).toContain('el-input-otp--outlined')
-    variant.value = 'underlined'
+    type.value = 'underlined'
     await nextTick()
     expect(wrapper.classes()).toContain('el-input-otp--underlined')
   })

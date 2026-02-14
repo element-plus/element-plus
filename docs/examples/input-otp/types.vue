@@ -2,15 +2,15 @@
   <div class="demo-input-otp">
     <div>
       <p>Outlined (Default)</p>
-      <el-input-otp v-model="otp1" variant="outlined" />
+      <el-input-otp v-model="otp1" type="outlined" />
     </div>
     <div>
       <p>Filled</p>
-      <el-input-otp v-model="otp2" variant="filled" />
+      <el-input-otp v-model="otp2" type="filled" />
     </div>
     <div>
       <p>Underlined</p>
-      <el-input-otp v-model="otp3" variant="underlined" />
+      <el-input-otp v-model="otp3" type="underlined" />
     </div>
   </div>
 </template>

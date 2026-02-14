@@ -35,10 +35,10 @@ export interface InputOtpProps extends Pick<AriaProps, 'ariaLabel'> {
    */
   inputmode?: InputHTMLAttributes['inputmode']
   /**
-   * @description The variant of the OTP fields
+   * @description The type of the OTP fields
    * @default 'outlined'
    */
-  variant?: 'outlined' | 'filled' | 'underlined'
+  type?: 'outlined' | 'filled' | 'underlined'
   /**
    * @description The size of the OTP fields
    * @default 'default'

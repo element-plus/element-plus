@@ -1,7 +1,7 @@
 <template>
   <div
     :id="inputId"
-    :class="[ns.b(), ns.m(size), ns.m(variant), ns.is('disabled', disabled)]"
+    :class="[ns.b(), ns.m(size), ns.m(type), ns.is('disabled', disabled)]"
     role="group"
     :aria-label="
       !isLabeledByFormItem
@@ -66,7 +66,7 @@ defineOptions({
 const props = withDefaults(defineProps<InputOtpProps>(), {
   length: 6,
   validate: () => true,
-  variant: 'outlined',
+  type: 'outlined',
   size: 'default',
   disabled: undefined,
   validateEvent: true,

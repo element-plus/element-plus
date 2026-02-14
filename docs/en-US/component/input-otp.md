@@ -25,13 +25,13 @@ input-otp/custom-length
 
 :::
 
-## Variants
+## Type
 
-There are three variants available: `outlined` (default), `filled`, and `underlined`.
+There are three types available: `outlined` (default), `filled`, and `underlined`.
 
 :::demo
 
-input-otp/variants
+input-otp/types
 
 :::
 
@@ -75,7 +75,7 @@ input-otp/validate
 | length                | The OTP fields length, range [4, 8]                                                                                                        | ^[number]                                             | 6          |
 | validate              | Custom validator function                                                                                                                  | ^[Function]`(char: string, index: number) => boolean` | () => true |
 | inputmode             | Native `inputmode` attribute                                                                                                               | ^[string]                                             | —          |
-| variant               | The variant of the OTP fields                                                                                                              | ^[enum]`'outlined' \| 'filled' \| 'underlined'`       | 'outlined' |
+| type                  | The type of the OTP fields                                                                                                                 | ^[enum]`'outlined' \| 'filled' \| 'underlined'`       | 'outlined' |
 | size                  | The size of the OTP fields                                                                                                                 | ^[enum]`'large' \| 'default' \| 'small'`              | 'default'  |
 | disabled              | Whether the OTP fields are disabled                                                                                                        | ^[boolean]                                            | undefined  |
 | validate-event        | Whether to trigger form validation                                                                                                         | ^[boolean]                                            | true       |
@@ -85,8 +85,10 @@ input-otp/validate
 
 ### InputOtp Events
 
-| Name              | Description                       | Type                                   |
-| ----------------- | --------------------------------- | -------------------------------------- |
-| update:modelValue | triggers when value updates       | ^[Function]`(value: string) => void`   |
-| change            | triggers when the value changes   | ^[Function]`(value: string) => void`   |
-| input             | triggers when input value changes | ^[Function]`(value: string[]) => void` |
+| Name              | Description                       | Type                                                    |
+| ----------------- | --------------------------------- | ------------------------------------------------------- |
+| update:modelValue | triggers when value updates       | ^[Function]`(value: string) => void`                    |
+| change            | triggers when the value changes   | ^[Function]`(value: string) => void`                    |
+| input             | triggers when input value changes | ^[Function]`(value: string[]) => void`                  |
+| focus             | triggers when input is focused    | ^[Function]`(event: FocusEvent, index: number) => void` |
+| blur              | triggers when input is blurred    | ^[Function]`(event: FocusEvent, index: number) => void` |
