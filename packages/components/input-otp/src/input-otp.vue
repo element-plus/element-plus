@@ -27,8 +27,9 @@
         :inputmode="inputmode"
         autocomplete="one-time-code"
         :aria-label="t('el.inputOTP.defaultLabel', { index: index + 1 })"
-        @click="handleFocus"
-        @focus="handleFocus"
+        @click="handleFocus($event, index)"
+        @focus="handleFocus($event, index)"
+        @blur="handleBlur($event, index)"
         @paste="handlePaste($event, index)"
         @keydown="handleKeydown($event, index)"
         @input="handleInput($event, index)"
@@ -95,7 +96,10 @@ const getFirstIndex = (maxIndex: number) => {
   return index === -1 ? maxIndex : index
 }
 
-const handleFocus = (event: FocusEvent) => {
+const handleFocus = (event: FocusEvent | PointerEvent, index: number) => {
+  if (event.type === 'focus') {
+    emit('focus', event, index)
+  }
   rAF(() => {
     // When it is called, the focus may have already been captured by another element.
     // e.g. typing quickly and deleting.
@@ -103,6 +107,10 @@ const handleFocus = (event: FocusEvent) => {
       ;(event.target as HTMLInputElement | null)?.select()
     }
   })
+}
+
+const handleBlur = (event: FocusEvent, index: number) => {
+  emit('blur', event, index)
 }
 
 const updateModelValue = () => {

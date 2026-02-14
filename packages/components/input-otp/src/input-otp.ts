@@ -3,7 +3,7 @@ import {
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import { isString } from '@element-plus/utils'
+import { isNumber, isString } from '@element-plus/utils'
 
 import type { InputHTMLAttributes } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
@@ -67,6 +67,10 @@ export const inputOtpEmits = {
   [UPDATE_MODEL_EVENT]: (value: string) => isString(value),
   [INPUT_EVENT]: (value: string[]) => value.every((item) => isString(item)),
   [CHANGE_EVENT]: (value: string) => isString(value),
+  focus: (eve: FocusEvent, index: number) =>
+    eve instanceof FocusEvent && isNumber(index),
+  blur: (eve: FocusEvent, index: number) =>
+    eve instanceof FocusEvent && isNumber(index),
 }
 
 export type InputOtpEmits = typeof inputOtpEmits

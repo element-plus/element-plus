@@ -314,31 +314,58 @@ describe('InputOtp.vue', () => {
     expect(inputs[3].element.value).toBe('')
   })
 
-  test('should emit change event', async () => {
-    const onChange = vi.fn()
-    const wrapper = mount(() => <InputOtp modelValue="" onChange={onChange} />)
+  describe('event', () => {
+    test('should emit change event', async () => {
+      const onChange = vi.fn()
+      const wrapper = mount(() => (
+        <InputOtp modelValue="" onChange={onChange} />
+      ))
 
-    const inputs = wrapper.findAll('input')
-    await inputs[0].setValue('1')
+      const inputs = wrapper.findAll('input')
+      await inputs[0].setValue('1')
 
-    expect(onChange).not.toHaveBeenCalled()
+      expect(onChange).not.toHaveBeenCalled()
 
-    for (let i = 1; i < 6; i++) {
-      await inputs[i].setValue(i + 1)
-    }
+      for (let i = 1; i < 6; i++) {
+        await inputs[i].setValue(i + 1)
+      }
 
-    expect(onChange).toHaveBeenCalled()
-    expect(onChange).toHaveBeenCalledWith('123456')
-  })
+      expect(onChange).toHaveBeenCalled()
+      expect(onChange).toHaveBeenCalledWith('123456')
+    })
 
-  test('should emit input event', async () => {
-    const onInput = vi.fn()
-    const wrapper = mount(() => <InputOtp onInput={onInput} />)
+    test('should emit input event', async () => {
+      const onInput = vi.fn()
+      const wrapper = mount(() => <InputOtp onInput={onInput} />)
 
-    const inputs = wrapper.findAll('input')
-    await inputs[0].setValue('1')
+      const inputs = wrapper.findAll('input')
+      await inputs[0].setValue('1')
 
-    expect(onInput).toHaveBeenCalled()
-    expect(onInput).toHaveBeenCalledWith(['1', '', '', '', '', ''])
+      expect(onInput).toHaveBeenCalled()
+      expect(onInput).toHaveBeenCalledWith(['1', '', '', '', '', ''])
+    })
+
+    test('should emit focus event', async () => {
+      const onFocus = vi.fn()
+      const wrapper = mount(() => <InputOtp onFocus={onFocus} />)
+
+      const inputs = wrapper.findAll('input')
+      await inputs[0].trigger('focus')
+      await inputs[0].trigger('click')
+
+      expect(onFocus).toHaveBeenCalled()
+      expect(onFocus).toHaveBeenCalledWith(expect.any(FocusEvent), 0)
+    })
+
+    test('should emit blur event', async () => {
+      const onBlur = vi.fn()
+      const wrapper = mount(() => <InputOtp onBlur={onBlur} />)
+
+      const inputs = wrapper.findAll('input')
+      await inputs[0].trigger('blur')
+
+      expect(onBlur).toHaveBeenCalled()
+      expect(onBlur).toHaveBeenCalledWith(expect.any(FocusEvent), 0)
+    })
   })
 })
