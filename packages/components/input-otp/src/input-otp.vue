@@ -96,7 +96,13 @@ const getFirstIndex = (maxIndex: number) => {
 }
 
 const handleFocus = (event: FocusEvent) => {
-  rAF(() => (event.target as HTMLInputElement | null)?.select())
+  rAF(() => {
+    // When it is called, the focus may have already been captured by another element.
+    // e.g. typing quickly and deleting.
+    if (document.activeElement === event.target) {
+      ;(event.target as HTMLInputElement | null)?.select()
+    }
+  })
 }
 
 const updateModelValue = () => {
@@ -126,7 +132,6 @@ const handleKeydown = (event: KeyboardEvent, index: number) => {
     case EVENT_CODE.delete:
       innerValue.value[index] = ''
       currentInputRef?.focus()
-      rAF(() => currentInputRef?.select())
       emit(INPUT_EVENT, [...innerValue.value])
       updateModelValue()
       break
