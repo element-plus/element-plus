@@ -1,9 +1,12 @@
 import path from 'path'
+import { glob } from 'tinyglobby'
 import {
   buildOutput,
   epPackage,
   epRoot,
+  excludeFiles,
   getPackageDependencies,
+  pkgRoot,
   projRoot,
 } from '@element-plus/build-utils'
 import { build } from 'rolldown'
@@ -20,7 +23,13 @@ const external = [/^@floating-ui/, /^@vue/, /^vue/, /^csstype/].concat(
 )
 
 export async function generateTypesDefinitions() {
-  const input = path.resolve(epRoot, 'index.ts')
+  const input = excludeFiles(
+    await glob(['**/index.ts', '!**/style/index.ts'], {
+      cwd: pkgRoot,
+      absolute: true,
+      onlyFiles: true,
+    })
+  )
   const options: BuildOptions = {
     input,
     external,
