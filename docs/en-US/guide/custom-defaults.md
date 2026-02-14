@@ -17,6 +17,8 @@ You can customize a component’s default props using the static `setPropsDefaul
 
 Note that default customization **only applies to declarative components** and **must be performed before the component is initialized**.
 
+The configured defaults are global. Once set, they will apply to all Vue applications where the component is registered.
+
 Once the component is rendered for the first time, the defaults become immutable and can no longer be changed.
 
 :::
