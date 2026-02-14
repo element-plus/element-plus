@@ -67,7 +67,7 @@ input-otp/validate
 
 ## API
 
-### InputOtp Attributes
+### Attributes
 
 | Name                  | Description                                                                                                                                | Type                                                  | Default    |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------- | ---------- |
@@ -83,7 +83,7 @@ input-otp/validate
 | id                    | Native `id` attribute                                                                                                                      | ^[string]                                             | —          |
 | aria-label ^(a11y)    | Native `aria-label` attribute                                                                                                              | ^[string]                                             | —          |
 
-### InputOtp Events
+### Events
 
 | Name              | Description                       | Type                                                    |
 | ----------------- | --------------------------------- | ------------------------------------------------------- |
@@ -95,6 +95,6 @@ input-otp/validate
 
 ### Exposes
 
-| Name      | Description               | Type                             |
-| --------- | ------------------------- | -------------------------------- |
-| inputRefs | HTML input elements array | ^[object]`Ref<HTMLInputElement>` |
+| Name      | Description               | Type                               |
+| --------- | ------------------------- | ---------------------------------- |
+| inputRefs | HTML input elements array | ^[object]`Ref<HTMLInputElement[]>` |
