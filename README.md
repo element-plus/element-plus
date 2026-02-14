@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <a href="https://npmx.dev/element-plus">
+  <a href="https://npmx.dev/package/element-plus">
     <img src="https://npmx.dev/api/registry/badge/version/element-plus" />
   </a>
   <a href="https://github.com/element-plus/element-plus">
