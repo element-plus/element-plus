@@ -114,6 +114,9 @@ const handleBlur = (event: FocusEvent) => {
   if (!inputRefs.value.includes(relatedTarget as any)) {
     isFocused.value = false
     emit('blur', event)
+    if (props.validateEvent) {
+      formItem?.validate?.('blur').catch((err) => debugWarn(err))
+    }
   }
 }
 
@@ -184,7 +187,7 @@ const handleInput = (event: Event, index: number) => {
   let forward = true
 
   if (!props.validate(value, targetIndex)) {
-    target.value = innerValue.value[targetIndex] ?? ''
+    target.value = innerValue.value[index] ?? ''
     value = target.value
     forward = false
   }
@@ -193,8 +196,9 @@ const handleInput = (event: Event, index: number) => {
 
   innerValue.value[targetIndex] = value
   inputRefs.value[focusIndex]?.focus()
-  if (focusIndex === length.value - 1) {
-    inputRefs.value[focusIndex]?.select()
+  inputRefs.value[focusIndex]?.select()
+  if (targetIndex !== index) {
+    target.value = innerValue.value[index] ?? ''
   }
   updateModelValue()
 }
