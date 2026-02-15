@@ -17,10 +17,8 @@ import type { BuildOptions } from 'rolldown'
 
 const tsconfig = path.resolve(projRoot, 'tsconfig.web.json')
 const epDeps = getPackageDependencies(epPackage)
-const pkgExternal: any = Object.values(epDeps).flat()
-const external = [/^@floating-ui/, /^@vue/, /^vue/, /^csstype/].concat(
-  pkgExternal
-)
+const pkgExternal = Object.values(epDeps).flat()
+const external = [/^@floating-ui/, /^@vue/, /^vue/, /^csstype/, ...pkgExternal]
 
 export async function generateTypesDefinitions() {
   const input = excludeFiles(
