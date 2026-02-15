@@ -176,7 +176,7 @@ export default defineComponent({
     }
 
     const getNodeKey = (node: Node) => {
-      return getNodeKeyUtil(props.nodeKey, node.data)
+      return props.nodeKey ? getNodeKeyUtil(props.nodeKey, node.data) : node.id
     }
 
     const requireNodeKey = (methodName: string) => {
