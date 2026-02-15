@@ -69,7 +69,6 @@ function extractImportPropsStatements(
 }
 
 export function SupplyValidator(): Plugin {
-  const cacheId = new Map<string, boolean>()
   // some props type name and prop name are not consistent and require remapping
   const reMapPropsName: Record<string, string> = {
     elTooltipContentProps: 'useTooltipContentProps', // tooltip/src/conent.vue
@@ -79,64 +78,51 @@ export function SupplyValidator(): Plugin {
   const reMapImportFile: Record<string, string> = {
     './types': './virtual-tree', // tree-node.vue
   }
+
   return {
     name: 'supply-validator-plugin',
-    transform: {
-      order: 'post',
-      async handler(code, id) {
-        const isVueFile = id.includes('.vue')
-        if (cacheId.has(id) || !isVueFile) {
-          return
-        }
+    transform(code, id) {
+      if (!id.includes('.vue')) return
+      if (!id.includes('type=script')) return
 
-        const vueFilePath = id.split('?')[0]
-        if (!vueFilePath.endsWith('.vue')) {
-          return
-        }
+      const vueFilePath = id.slice(0, id.indexOf('?'))
+      const rawContent = fs.readFileSync(vueFilePath, 'utf-8')
+      const propsType = rawContent.match(/defineProps<(\w+)>/)?.[1]
+      if (!propsType) return
 
-        const rawContent = await fs.promises.readFile(vueFilePath, 'utf-8')
-        const propsType = rawContent.match(/defineProps<(\w+)>/)?.[1]
-        if (!propsType) {
-          cacheId.set(id, true)
-          return
-        }
+      const { propsIndexes, mergePropsIndexes } =
+        extractPropsIndexesAndMergeProp(id, code)
+      if (propsIndexes.length !== 2) return
 
-        const { propsIndexes, mergePropsIndexes } =
-          extractPropsIndexesAndMergeProp(vueFilePath, code)
-        if (propsIndexes.length !== 2) {
-          cacheId.set(id, true)
-          return
-        }
-        const extractImportFile = extractImportPropsStatements(
-          vueFilePath,
-          rawContent.split(/<script lang="ts" setup>|<\/script>/g)[1],
-          propsType
-        )
-        if (!extractImportFile) {
-          cacheId.set(id, true)
-          return
-        }
-        const propsName = propsType[0].toLowerCase() + propsType.slice(1)
-        const s = new MagicString(code)
-        const importFilePath =
-          reMapImportFile[extractImportFile] || extractImportFile
-        if (mergePropsIndexes.length === 2) {
-          s.remove(mergePropsIndexes[0], mergePropsIndexes[1])
-        }
-        s.prepend(
-          `import { ${reMapPropsName[propsName] || propsName} } from '${importFilePath}'\n`
-        )
-        s.overwrite(
-          propsIndexes[0],
-          propsIndexes[1],
-          `props: ${reMapPropsName[propsName] || propsName}`
-        )
-        cacheId.set(id, true)
-        return {
-          code: s.toString(),
-          map: s.generateMap({ hires: true }),
-        }
-      },
+      const scriptContent = rawContent.split(
+        /<script lang="ts" setup>|<\/script>/g
+      )[1]
+      const extractImportFile = extractImportPropsStatements(
+        vueFilePath,
+        scriptContent,
+        propsType
+      )
+      if (!extractImportFile) return
+
+      const propsName = propsType[0].toLowerCase() + propsType.slice(1)
+      const s = new MagicString(code)
+      const importFilePath =
+        reMapImportFile[extractImportFile] || extractImportFile
+      if (mergePropsIndexes.length === 2) {
+        s.remove(mergePropsIndexes[0], mergePropsIndexes[1])
+      }
+      s.prepend(
+        `import { ${reMapPropsName[propsName] || propsName} } from '${importFilePath}'\n`
+      )
+      s.overwrite(
+        propsIndexes[0],
+        propsIndexes[1],
+        `props: ${reMapPropsName[propsName] || propsName}`
+      )
+      return {
+        code: s.toString(),
+        map: s.generateMap({ hires: true }),
+      }
     },
   }
 }
