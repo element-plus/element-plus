@@ -1301,6 +1301,25 @@ describe('Select', () => {
     expect((wrapper.vm as any).value).toBe('new')
   })
 
+  test('allow create should clear input after creating a tag with reserveKeyword', async () => {
+    wrapper = getSelectVm({
+      filterable: true,
+      allowCreate: true,
+      multiple: true,
+    })
+    const selectVm = wrapper.findComponent({ name: 'ElSelect' }).vm as any
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    await input.setValue('new tag')
+    selectVm.debouncedOnInputChange()
+    await nextTick()
+    getOptions()
+      .find((o) => o.textContent === 'new tag')!
+      .click()
+    await nextTick()
+    expect(selectVm.states.inputValue).toBe('')
+  })
+
   test('allow create with default first option', async () => {
     wrapper = getSelectVm(
       {

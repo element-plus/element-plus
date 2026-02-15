@@ -1293,6 +1293,27 @@ describe('Select', () => {
       })
       expect(selectVm.filteredOptions.length).toBe(3)
     })
+
+    it('should clear input value after creating a tag with reserveKeyword', async () => {
+      const wrapper = createSelect({
+        data: () => ({
+          allowCreate: true,
+          filterable: true,
+          multiple: true,
+          reserveKeyword: true,
+          options: [{ value: '1', label: 'option 1' }],
+        }),
+      })
+      await nextTick()
+      const selectVm = wrapper.findComponent(Select).vm as any
+      const input = wrapper.find('input')
+      input.element.value = 'new tag'
+      await input.trigger('input')
+      await nextTick()
+      selectVm.onSelect(selectVm.filteredOptions.find((o: any) => o.created))
+      await nextTick()
+      expect(selectVm.states.inputValue).toBe('')
+    })
   })
 
   it('reserve-keyword', async () => {
