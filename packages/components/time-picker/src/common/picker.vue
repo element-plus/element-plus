@@ -205,7 +205,7 @@ import {
 import ElInput from '@element-plus/components/input'
 import ElIcon from '@element-plus/components/icon'
 import ElTooltip from '@element-plus/components/tooltip'
-import { NOOP, debugWarn, getEventCode, isArray } from '@element-plus/utils'
+import { NOOP, getEventCode, isArray } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
   EVENT_CODE,
@@ -298,8 +298,7 @@ const { isFocused, handleFocus, handleBlur } = useFocusController(inputRef, {
     handleChange()
     pickerVisible.value = false
     hasJustTabExitedInput = false
-    props.validateEvent &&
-      formItem?.validate('blur').catch((err) => debugWarn(err))
+    props.validateEvent && formItem?.validate('blur').catch(NOOP)
   },
 })
 
@@ -345,8 +344,7 @@ const emitChange = (
     emit(CHANGE_EVENT, val)
     // Set the value of valueOnOpen when clearing to avoid triggering change events multiple times.
     isClear && (valueOnOpen.value = val)
-    props.validateEvent &&
-      formItem?.validate('change').catch((err) => debugWarn(err))
+    props.validateEvent && formItem?.validate('change').catch(NOOP)
   }
 }
 const emitKeydown = (e: KeyboardEvent) => {
