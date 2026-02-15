@@ -139,11 +139,13 @@ const handleKeydown = (event: KeyboardEvent, index: number) => {
 
   switch (code) {
     case EVENT_CODE.backspace:
+      if (props.readonly) break
       innerValue.value[index] = ''
       prevInputRef?.focus()
       updateModelValue()
       break
     case EVENT_CODE.delete:
+      if (props.readonly) break
       innerValue.value[index] = ''
       currentInputRef?.focus()
       updateModelValue()
@@ -167,7 +169,7 @@ const handleKeydown = (event: KeyboardEvent, index: number) => {
 
 const handlePaste = (event: ClipboardEvent, index: number) => {
   const pasteData = event.clipboardData?.getData('text') ?? ''
-  if (!pasteData) return
+  if (!pasteData || props.readonly) return
 
   event.preventDefault()
 
