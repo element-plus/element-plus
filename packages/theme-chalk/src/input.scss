@@ -335,6 +335,10 @@
     margin-left: 8px;
   }
 
+  & .#{$namespace}-input__clear {
+    transition: color getCssVar('transition-duration');
+  }
+
   @include e(validateIcon) {
     pointer-events: none;
   }

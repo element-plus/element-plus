@@ -69,8 +69,9 @@
               </el-icon>
             </template>
             <el-icon
-              v-if="showClear"
+              v-if="clearable"
               :class="[nsInput.e('icon'), nsInput.e('clear')]"
+              :style="{ visibility: showClear ? 'visible' : 'hidden' }"
               @mousedown.prevent="NOOP"
               @click="clear"
             >
@@ -322,7 +323,7 @@ const suffixVisible = computed(
   () =>
     !!slots.suffix ||
     !!props.suffixIcon ||
-    showClear.value ||
+    props.clearable ||
     props.showPassword ||
     isWordLimitVisible.value ||
     (!!validateState.value && needStatusIcon.value)
