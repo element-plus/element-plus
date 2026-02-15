@@ -85,13 +85,13 @@ input-otp/validate
 
 ### Events
 
-| Name              | Description                       | Type                                                    |
-| ----------------- | --------------------------------- | ------------------------------------------------------- |
-| update:modelValue | triggers when value updates       | ^[Function]`(value: string) => void`                    |
-| change            | triggers when the value changes   | ^[Function]`(value: string) => void`                    |
-| input             | triggers when input value changes | ^[Function]`(value: string[]) => void`                  |
-| focus             | triggers when input is focused    | ^[Function]`(event: FocusEvent, index: number) => void` |
-| blur              | triggers when input is blurred    | ^[Function]`(event: FocusEvent, index: number) => void` |
+| Name              | Description                                      | Type                                     |
+| ----------------- | ------------------------------------------------ | ---------------------------------------- |
+| update:modelValue | Triggers when value updates                      | ^[Function]`(value: string) => void`     |
+| change            | Triggers when the value changes after input blur | ^[Function]`(value: string) => void`     |
+| finish            | Fires when all fields have been filled           | ^[Function]`(value: string) => void`     |
+| focus             | Triggers when input is focused                   | ^[Function]`(event: FocusEvent) => void` |
+| blur              | Triggers when input is blurred                   | ^[Function]`(event: FocusEvent) => void` |
 
 ### Exposes
 

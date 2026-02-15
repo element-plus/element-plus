@@ -316,40 +316,22 @@ describe('InputOtp.vue', () => {
 
   describe('event', () => {
     test('should emit change event', async () => {
+      const model = ref()
       const onChange = vi.fn()
       const wrapper = mount(() => (
-        <InputOtp modelValue="" onChange={onChange} />
+        <InputOtp v-model={model.value} onChange={onChange} />
       ))
-
       const inputs = wrapper.findAll('input')
-      await inputs[0].setValue('1')
 
-      expect(onChange).not.toHaveBeenCalled()
-
-      for (let i = 1; i < 6; i++) {
+      await inputs[0].trigger('focus')
+      for (let i = 0; i < 6; i++) {
         await inputs[i].setValue(i + 1)
       }
 
+      expect(onChange).not.toHaveBeenCalled()
+      await inputs[0].trigger('blur')
       expect(onChange).toHaveBeenCalled()
       expect(onChange).toHaveBeenCalledWith('123456')
-    })
-
-    test('should emit input event', async () => {
-      const length = ref(6)
-      const onInput = vi.fn()
-      const wrapper = mount(() => (
-        <InputOtp onInput={onInput} length={length.value} />
-      ))
-
-      const inputs = wrapper.findAll('input')
-      await inputs[0].setValue('1')
-
-      expect(onInput).toHaveBeenNthCalledWith(1, ['1', '', '', '', '', ''])
-
-      length.value = 4
-      await nextTick()
-      await inputs[0].setValue('1')
-      expect(onInput).toHaveBeenNthCalledWith(2, ['1', '', '', ''])
     })
 
     test('should emit focus and blur event', async () => {
@@ -358,18 +340,31 @@ describe('InputOtp.vue', () => {
       const wrapper = mount(() => (
         <InputOtp onFocus={onFocus} onBlur={onBlur} />
       ))
-
       const inputs = wrapper.findAll('input')
-      await inputs[0].trigger('focus')
-      await inputs[0].trigger('click')
 
-      expect(onFocus).toHaveBeenCalled()
-      expect(onFocus).toHaveBeenCalledWith(expect.any(FocusEvent), 0)
+      for (let i = 0; i < 6; i++) {
+        await inputs[i].trigger('focus', {
+          relatedTarget: inputs[i - 1]?.element ?? null,
+        })
+      }
+      await inputs[5].trigger('blur')
 
-      await inputs[0].trigger('blur')
+      expect(onFocus).toHaveBeenCalledTimes(1)
+      expect(onBlur).toHaveBeenCalledTimes(1)
+    })
 
-      expect(onBlur).toHaveBeenCalled()
-      expect(onBlur).toHaveBeenCalledWith(expect.any(FocusEvent), 0)
+    test('should emit finish event', async () => {
+      const onFinish = vi.fn()
+      const wrapper = mount(() => <InputOtp onFinish={onFinish} />)
+      const inputs = wrapper.findAll('input')
+
+      for (let i = 0; i < 5; i++) {
+        await inputs[i].setValue(i + 1)
+      }
+      expect(onFinish).not.toHaveBeenCalled()
+      await inputs[5].setValue(6)
+
+      expect(onFinish).toHaveBeenNthCalledWith(1, '123456')
     })
   })
 })

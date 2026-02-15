@@ -27,9 +27,9 @@
         :inputmode="inputmode"
         autocomplete="one-time-code"
         :aria-label="t('el.inputOTP.defaultLabel', { index: index + 1 })"
-        @click="handleFocus($event, index)"
-        @focus="handleFocus($event, index)"
-        @blur="handleBlur($event, index)"
+        @click="handleFocus"
+        @focus="handleFocus"
+        @blur="handleBlur"
         @paste="handlePaste($event, index)"
         @keydown="handleKeydown($event, index)"
         @input="handleInput($event, index)"
@@ -51,7 +51,6 @@ import {
 import {
   CHANGE_EVENT,
   EVENT_CODE,
-  INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import { inputOtpEmits } from './input-otp'
@@ -75,14 +74,13 @@ const emit = defineEmits(inputOtpEmits)
 
 const length = computed(() => clamp(props.length, 4, 8))
 const initialValue = computed(() => {
-  return Array.from(
-    { length: length.value },
-    (_, i) => `${props.modelValue ?? ''}`.charAt(i) ?? ''
-  )
+  const value = String(props.modelValue ?? '')
+  return Array.from({ length: length.value }, (_, i) => value.charAt(i))
 })
 
 const inputRefs = ref<HTMLInputElement[]>([])
 const innerValue = ref<string[]>(initialValue.value)
+const isFocused = ref(false)
 
 const ns = useNamespace('input-otp')
 const { t } = useLocale()
@@ -91,35 +89,42 @@ const { inputId, isLabeledByFormItem } = useFormItemInputId(props, {
   formItemContext: formItem,
 })
 const disabled = useFormDisabled()
+let modelValueOnFocus = props.modelValue
 
 const getFirstIndex = (maxIndex: number) => {
   const index = innerValue.value.findIndex((char, i) => !char && i <= maxIndex)
   return index === -1 ? maxIndex : index
 }
 
-const handleFocus = (event: FocusEvent | PointerEvent, index: number) => {
-  if (event.type === 'focus') {
-    emit('focus', event, index)
+const handleFocus = (event: FocusEvent | PointerEvent) => {
+  const { target, type, relatedTarget } = event
+  if (type === 'focus' && !inputRefs.value.includes(relatedTarget as any)) {
+    isFocused.value = true
+    emit('focus', event)
   }
   rAF(() => {
     // When it is called, the focus may have already been captured by another element.
     // e.g. typing quickly and deleting.
-    if (document.activeElement === event.target) {
-      ;(event.target as HTMLInputElement | null)?.select()
+    if (document.activeElement === target) {
+      ;(target as HTMLInputElement | null)?.select()
     }
   })
 }
 
-const handleBlur = (event: FocusEvent, index: number) => {
-  emit('blur', event, index)
+const handleBlur = (event: FocusEvent) => {
+  const { relatedTarget } = event
+  if (!inputRefs.value.includes(relatedTarget as any)) {
+    isFocused.value = false
+    emit('blur', event)
+  }
 }
 
-const updateModelValue = () => {
+const updateModelValue = (emitFinish = true) => {
   const value = innerValue.value.join('').slice(0, length.value)
   if (value !== props.modelValue) {
     emit(UPDATE_MODEL_EVENT, value)
-    if (value.length === 0 || value.length === length.value) {
-      emit(CHANGE_EVENT, value)
+    if (emitFinish && value.length === length.value) {
+      emit('finish', value)
     }
   }
 }
@@ -135,13 +140,11 @@ const handleKeydown = (event: KeyboardEvent, index: number) => {
     case EVENT_CODE.backspace:
       innerValue.value[index] = ''
       prevInputRef?.focus()
-      emit(INPUT_EVENT, [...innerValue.value])
       updateModelValue()
       break
     case EVENT_CODE.delete:
       innerValue.value[index] = ''
       currentInputRef?.focus()
-      emit(INPUT_EVENT, [...innerValue.value])
       updateModelValue()
       break
     case EVENT_CODE.up:
@@ -172,11 +175,8 @@ const handlePaste = (event: ClipboardEvent, index: number) => {
   const focusIndex = Math.min(targetIndex + chars.length, length.value - 1)
 
   chars.forEach((char, i) => (innerValue.value[targetIndex + i] = char))
-  ;(event.target as HTMLInputElement | null)?.blur()
   inputRefs.value[focusIndex]?.focus()
-
   updateModelValue()
-  emit(INPUT_EVENT, [...innerValue.value])
 }
 
 const handleInput = (event: Event, index: number) => {
@@ -194,10 +194,11 @@ const handleInput = (event: Event, index: number) => {
   const focusIndex = Math.min(targetIndex + (forward ? 1 : 0), length.value - 1)
 
   innerValue.value[targetIndex] = value
-  target.blur()
   inputRefs.value[focusIndex]?.focus()
+  if (focusIndex === length.value - 1) {
+    inputRefs.value[focusIndex]?.select()
+  }
   updateModelValue()
-  emit(INPUT_EVENT, [...innerValue.value])
 }
 
 const castValues = (value: InputOtpProps['modelValue'], startIndex = 0) => {
@@ -227,7 +228,17 @@ watch(
 
 watch(length, () => {
   innerValue.value = initialValue.value
-  updateModelValue()
+  updateModelValue(false)
+})
+
+watch(isFocused, (value) => {
+  if (value) {
+    modelValueOnFocus = props.modelValue
+    return
+  }
+  if (modelValueOnFocus !== props.modelValue) {
+    emit(CHANGE_EVENT, props.modelValue as string)
+  }
 })
 
 defineExpose({

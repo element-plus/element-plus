@@ -2,7 +2,11 @@
   <div class="demo-input-otp">
     <div>
       <p>Numbers only</p>
-      <el-input-otp v-model="otp1" :validate="onlyAllowNumber" />
+      <el-input-otp
+        v-model="otp1"
+        :validate="onlyAllowNumber"
+        inputmode="numeric"
+      />
     </div>
     <div>
       <p>Letters only</p>
