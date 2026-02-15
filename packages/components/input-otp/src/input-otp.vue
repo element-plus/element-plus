@@ -16,7 +16,6 @@
       :class="ns.e('input-field')"
     >
       <input
-        v-bind="$attrs"
         ref="inputRefs"
         :value="innerValue[index]"
         :class="[ns.e('input')]"
@@ -59,7 +58,6 @@ import type { InputOtpProps } from './input-otp'
 
 defineOptions({
   name: 'ElInputOtp',
-  inheritAttrs: false,
 })
 
 const props = withDefaults(defineProps<InputOtpProps>(), {
