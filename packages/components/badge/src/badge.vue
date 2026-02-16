@@ -4,7 +4,7 @@
     <transition :name="`${ns.namespace.value}-zoom-in-center`">
       <sup
         v-show="!hidden && (content || isDot || $slots.content)"
-        :key="isDot"
+        :key="isDot ? 'dot' : 'badge'"
         :class="[
           ns.e('content'),
           ns.em('content', type),
