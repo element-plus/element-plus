@@ -7,7 +7,13 @@ import {
 } from '@element-plus/utils'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
-import type { ExtractPublicPropTypes, h as H, VNode } from 'vue'
+import type {
+  ComponentPublicInstance,
+  ExtractPublicPropTypes,
+  h as H,
+  VNode,
+} from 'vue'
+import type { ComponentExposed } from 'vue-component-type-helpers'
 import type Transfer from './transfer.vue'
 
 export type TransferKey = string | number
@@ -15,9 +21,9 @@ export type TransferDirection = 'left' | 'right'
 
 export type TransferDataItem = Record<string, any>
 
-export type renderContent = (
+export type renderContent<T extends TransferDataItem = TransferDataItem> = (
   h: typeof H,
-  option: TransferDataItem
+  option: T
 ) => VNode | VNode[]
 
 export interface TransferFormat {
@@ -39,11 +45,11 @@ export interface TransferCheckedState {
 export const LEFT_CHECK_CHANGE_EVENT = 'left-check-change'
 export const RIGHT_CHECK_CHANGE_EVENT = 'right-check-change'
 
-export interface TransferProps {
+export interface TransferProps<T extends TransferDataItem = TransferDataItem> {
   /**
    * @description data source
    */
-  data?: TransferDataItem[]
+  data?: T[]
   /**
    * @description custom list titles
    */
@@ -59,7 +65,7 @@ export interface TransferProps {
   /**
    * @description custom filter method
    */
-  filterMethod?: (query: string, item: TransferDataItem) => boolean
+  filterMethod?: (query: string, item: T) => boolean
   /**
    * @description key array of initially checked data items of the left list
    */
@@ -71,7 +77,7 @@ export interface TransferProps {
   /**
    * @description custom render function for data items
    */
-  renderContent?: renderContent
+  renderContent?: renderContent<T>
   /**
    * @description binding value
    */
@@ -225,4 +231,5 @@ export const transferEmits = {
 }
 export type TransferEmits = typeof transferEmits
 
-export type TransferInstance = InstanceType<typeof Transfer> & unknown
+export type TransferInstance = ComponentPublicInstance &
+  ComponentExposed<typeof Transfer>
