@@ -109,11 +109,11 @@ describe('InputOtp.vue', () => {
     expect(model.value).toBe('12')
   })
 
-  test('validate', async () => {
+  test('validator', async () => {
     const model = ref('')
-    const validate = (char: string) => /^\d$/.test(char)
+    const validator = (char: string) => /^\d$/.test(char)
     const wrapper = mount(() => (
-      <InputOtp v-model={model.value} validate={validate} />
+      <InputOtp v-model={model.value} validator={validator} />
     ))
 
     const inputs = wrapper.findAll('input')
@@ -215,9 +215,9 @@ describe('InputOtp.vue', () => {
 
   test('should ignore non-digits when type is number on paste', async () => {
     const model = ref('')
-    const validate = (char: string) => /^\d$/.test(char)
+    const validator = (char: string) => /^\d$/.test(char)
     const wrapper = mount(() => (
-      <InputOtp v-model={model.value} validate={validate} />
+      <InputOtp v-model={model.value} validator={validator} />
     ))
 
     const inputs = wrapper.findAll('input')

@@ -57,11 +57,11 @@ input-otp/disabled
 
 ## Custom Validation
 
-You can set the `validate` prop to validate the input character, and use `inputmode` to specify the keyboard type.
+You can set the `validator` prop to validate the input character, and use `inputmode` to specify the keyboard type.
 
 :::demo
 
-input-otp/validate
+input-otp/validator
 
 :::
 

@@ -4,13 +4,13 @@
       <p>Numbers only</p>
       <el-input-otp
         v-model="otp1"
-        :validate="onlyAllowNumber"
+        :validator="onlyAllowNumber"
         inputmode="numeric"
       />
     </div>
     <div>
       <p>Letters only</p>
-      <el-input-otp v-model="otp2" :validate="onlyAllowLetter" />
+      <el-input-otp v-model="otp2" :validator="onlyAllowLetter" />
     </div>
   </div>
 </template>

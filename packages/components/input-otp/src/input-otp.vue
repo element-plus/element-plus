@@ -62,7 +62,7 @@ defineOptions({
 
 const props = withDefaults(defineProps<InputOtpProps>(), {
   length: 6,
-  validate: () => true,
+  validator: () => true,
   type: 'outlined',
   size: 'default',
   disabled: undefined,
@@ -188,7 +188,7 @@ const handleInput = (event: Event, index: number) => {
   let value = target.value
   let forward = true
 
-  if (!props.validate(value, targetIndex)) {
+  if (!props.validator(value, targetIndex)) {
     target.value = innerValue.value[index] ?? ''
     value = target.value
     forward = false
@@ -212,7 +212,7 @@ const castValues = (value: InputOtpProps['modelValue'], startIndex = 0) => {
     if (result.length + startIndex >= length.value) {
       break
     }
-    if (props.validate(char, result.length + startIndex)) {
+    if (props.validator(char, result.length + startIndex)) {
       result.push(char)
     }
   }

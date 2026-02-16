@@ -25,7 +25,7 @@ export interface InputOtpProps extends Pick<AriaProps, 'ariaLabel'> {
    * @description Custom validator function
    * @default () => true
    */
-  validate?: (char: string, index: number) => boolean
+  validator?: (char: string, index: number) => boolean
   /**
    * @description Native input mode for virtual keyboards
    */
