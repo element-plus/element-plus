@@ -59,7 +59,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup generic="T extends TransferDataItem = TransferDataItem">
 import { Comment, computed, h, reactive, ref, useSlots, watch } from 'vue'
 import { debugWarn, isEmpty, isUndefined } from '@element-plus/utils'
 import { useLocale, useNamespace } from '@element-plus/hooks'
@@ -88,7 +88,7 @@ defineOptions({
   name: 'ElTransfer',
 })
 
-const props = withDefaults(defineProps<TransferProps>(), {
+const props = withDefaults(defineProps<TransferProps<T>>(), {
   data: () => [],
   titles: () => [] as unknown as [string, string],
   buttonTexts: () => [] as unknown as [string, string],
@@ -164,7 +164,7 @@ watch(
   }
 )
 
-const optionRender = computed(() => (option: TransferDataItem) => {
+const optionRender = computed(() => (option: T) => {
   if (props.renderContent) return props.renderContent(h, option)
 
   const defaultSlotVNodes = (slots.default?.({ option }) || []).filter(
