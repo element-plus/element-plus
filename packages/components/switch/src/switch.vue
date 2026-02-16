@@ -14,7 +14,7 @@
       :false-value="inactiveValue"
       :disabled="switchDisabled"
       :tabindex="tabindex"
-      @change="handleChange"
+      @change.stop="handleChange"
       @keydown.enter="switchValue"
     />
     <span

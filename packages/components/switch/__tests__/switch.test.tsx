@@ -443,4 +443,17 @@ describe('Switch.vue', () => {
       expect(s.classes()).not.toContain('is-disabled')
     })
   })
+
+  test('should not bubble native change event from checkbox input', async () => {
+    const nativeChangeHandler = vi.fn()
+    const wrapper = mount(() => (
+      <div onChange={nativeChangeHandler}>
+        <Switch />
+      </div>
+    ))
+
+    const input = wrapper.find('input')
+    await input.trigger('change')
+    expect(nativeChangeHandler).not.toHaveBeenCalled()
+  })
 })
