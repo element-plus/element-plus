@@ -1,10 +1,11 @@
 {
   "files": [],
   "references": [
-    { "path": "./tsconfig.web.json" },
-    { "path": "./tsconfig.play.json" },
-    { "path": "./tsconfig.node.json" },
-    { "path": "./tsconfig.vite-config.json" },
-    { "path": "./tsconfig.vitest.json" }
+    // { "path": "./tsconfig.web.json" },
+    // { "path": "./tsconfig.play.json" },
+    // { "path": "./tsconfig.node.json" },
+    // { "path": "./tsconfig.vite-config.json" }
+    // { "path": "./tsconfig.vitest.json" }
+    // { "path": "./play/tsconfig.json" }
   ]
 }

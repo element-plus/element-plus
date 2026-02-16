@@ -67,6 +67,7 @@ jobs:
       - name: Build & publish
         run: sh ./scripts/publish.sh
         env:
+          NIGHTLY: true
           TAG_VERSION: 0.0.${{ steps.date.outputs.date }}
           GIT_HEAD: ${{env.GIT_HEAD}}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

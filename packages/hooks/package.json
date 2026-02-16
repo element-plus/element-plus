@@ -12,7 +12,10 @@
     "vue": "catalog:"
   },
   "dependencies": {
-    "@floating-ui/dom": "^1.0.1",
+    "@element-plus/constants": "workspace:*",
+    "@element-plus/locale": "workspace:*",
+    "@element-plus/utils": "workspace:*",
+    "@floating-ui/dom": "catalog:",
     "@popperjs/core": "catalog:",
     "@vueuse/core": "catalog:",
     "lodash-unified": "catalog:"

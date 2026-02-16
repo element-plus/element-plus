@@ -7,18 +7,27 @@ packages:
 catalog:
   '@ctrl/tinycolor': ^3.4.1
   '@element-plus/icons-vue': ^2.3.2
-  '@floating-ui/dom': ^1.0.1
-  '@popperjs/core': npm:@sxzz/popperjs-es@^2.11.7
+  '@floating-ui/dom': ^1.7.5
+  '@popperjs/core': npm:@sxzz/popperjs-es@^2.11.8
+  '@types/lodash': ^4.17.23
+  '@types/lodash-es': ^4.17.12
   '@vitejs/plugin-vue': ^5.1.4
   '@vitejs/plugin-vue-jsx': ^4.0.1
   '@vue/server-renderer': ^3.5.22
   '@vue/shared': ^3.5.22
   '@vue/test-utils': ^2.4.6
   '@vueuse/core': ^10.11.0
+  async-validator: ^4.2.5
+  dayjs: 1.11.19
+  lodash: ^4.17.23
+  lodash-es: ^4.17.23
   lodash-unified: ^1.0.3
+  memoize-one: ^6.0.0
   normalize-wheel-es: ^1.2.0
+  unplugin-vue-components: ^0.27.5
   vue: ^3.5.22
-  # vitest: ^2.0.5
+
+hoist: false
 
 onlyBuiltDependencies:
   - '@parcel/watcher'
@@ -29,19 +38,17 @@ onlyBuiltDependencies:
   - vue-demi
 
 overrides:
-  jwa: ^1.4.2 # 20697
+  jwa: ^1.4.2
   typescript: $typescript
 
 patchedDependencies:
-  async-validator@4.2.5: patches/async-validator@4.2.5.patch #16757
+  async-validator@4.2.5: patches/async-validator@4.2.5.patch
 
 peerDependencyRules:
   ignoreMissing:
     - vite
     - react
     - react-dom
-
-shamefullyHoist: true
 
 shellEmulator: true
 

@@ -1,0 +1,9 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "target": "ESNext",
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true
+  }
+}

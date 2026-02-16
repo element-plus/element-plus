@@ -16,12 +16,18 @@
     "@element-plus/hooks": "workspace:^",
     "@element-plus/icons-vue": "catalog:",
     "@element-plus/utils": "workspace:^",
+    "@floating-ui/dom": "catalog:",
     "@popperjs/core": "catalog:",
     "@vueuse/core": "catalog:",
-    "lodash-unified": "catalog:"
+    "async-validator": "catalog:",
+    "dayjs": "catalog:",
+    "lodash-unified": "catalog:",
+    "memoize-one": "catalog:"
   },
   "devDependencies": {
+    "@element-plus/components": "workspace:*",
     "@element-plus/test-utils": "workspace:^",
+    "@element-plus/theme-chalk": "workspace:*",
     "@vue/test-utils": "catalog:",
     "vue": "catalog:"
   },

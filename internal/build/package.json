@@ -1,32 +1,28 @@
 {
   "name": "@element-plus/build",
-  "version": "0.0.1",
   "private": true,
+  "type": "module",
   "description": "Build Toolchain for Element Plus",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
   "scripts": {
-    "start": "gulp --require tsx/dist/loader.cjs -f gulpfile.ts",
-    "dev": "pnpm run stub",
-    "stub": "unbuild --stub"
+    "start": "gulp --preload tsx/dist/loader.mjs --preload ./workaround.js -f gulpfile.ts"
   },
   "dependencies": {
     "@element-plus/build-constants": "workspace:*",
     "@pnpm/find-workspace-packages": "^4.0.16",
     "@pnpm/logger": "^4.0.0",
-    "@rollup/plugin-commonjs": "^22.0.1",
-    "@rollup/plugin-node-resolve": "^13.3.0",
+    "@rollup/plugin-commonjs": "^29.0.0",
+    "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-replace": "^5.0.5",
     "@vitejs/plugin-vue": "catalog:",
     "@vitejs/plugin-vue-jsx": "catalog:",
     "chalk": "^5.0.1",
     "components-helper": "^2.1.4",
     "consola": "^2.15.3",
+    "element-plus": "workspace:*",
     "esbuild": "^0.27.2",
     "fs-extra": "^10.1.0",
-    "gulp": "^4.0.2",
-    "lodash": "^4.17.23",
+    "gulp": "^5.0.1",
+    "lodash": "catalog:",
     "magic-string": "^0.30.21",
     "oxc-parser": "^0.110.0",
     "rollup": "^4.55.1",
@@ -35,7 +31,8 @@
   },
   "devDependencies": {
     "@pnpm/types": "^8.4.0",
-    "tsx": "^4.19.3",
-    "unbuild": "^2.0.0"
+    "@types/fs-extra": "^9.0.13",
+    "@types/gulp": "^4.0.18",
+    "tsx": "^4.19.3"
   }
 }

@@ -1,4 +1,3 @@
-import path from 'path'
 import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
@@ -6,41 +5,43 @@ import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import Inspect from 'vite-plugin-inspect'
 import mkcert from 'vite-plugin-mkcert'
-import { glob } from 'tinyglobby'
-import {
-  epPackage,
-  epRoot,
-  getPackageDependencies,
-  pkgRoot,
-  projRoot,
-} from '@element-plus/build-utils'
+import { globSync } from 'tinyglobby'
+import { fileURLToPath } from 'node:url'
+
+const elementPlusRoot = import.meta.resolve('element-plus/')
+const themeChalkRoot = import.meta.resolve(
+  '@element-plus/theme-chalk/',
+  elementPlusRoot
+)
+const componentsRoot = import.meta.resolve(
+  '@element-plus/components/',
+  elementPlusRoot
+)
 
 export default defineConfig(async ({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
-  let { dependencies } = getPackageDependencies(epPackage)
-  dependencies = dependencies.filter((dep) => !dep.startsWith('@types/')) // exclude dts deps
-  const optimizeDeps = await glob(['dayjs/(locale|plugin)/*.js'], {
-    cwd: path.resolve(projRoot, 'node_modules'),
-  })
 
   return {
     css: {
       preprocessorOptions: {
         scss: {
           // additionalData: `@use "/styles/custom.scss" as *;`,
-          silenceDeprecations: ['legacy-js-api'],
         },
       },
     },
     resolve: {
       alias: [
         {
-          find: /^element-plus(\/(es|lib))?$/,
-          replacement: path.resolve(epRoot, 'index.ts'),
+          find: /^element-plus\/es$/,
+          replacement: 'element-plus',
         },
         {
-          find: /^element-plus\/(es|lib)\/(.*)$/,
-          replacement: `${pkgRoot}/$2`,
+          find: /^element-plus\/es\/components\/(.+)$/,
+          replacement: `${componentsRoot}$1`,
+        },
+        {
+          find: /^element-plus\/theme-chalk\/(.+)$/,
+          replacement: `${themeChalkRoot}$1`,
         },
       ],
     },
@@ -48,9 +49,6 @@ export default defineConfig(async ({ mode }) => {
       port: 3000,
       host: true,
       https: !!env.HTTPS ? {} : false,
-    },
-    build: {
-      sourcemap: true,
     },
     plugins: [
       vue(),
@@ -66,12 +64,15 @@ export default defineConfig(async ({ mode }) => {
       mkcert(),
       Inspect(),
     ],
-
     optimizeDeps: {
-      include: ['vue', '@vue/shared', ...dependencies, ...optimizeDeps],
-    },
-    esbuild: {
-      target: 'chrome64',
+      noDiscovery: true,
+      include: [
+        'element-plus > lodash-unified',
+        'element-plus > dayjs',
+        ...globSync(['(locale|plugin)/*.js'], {
+          cwd: fileURLToPath(import.meta.resolve('dayjs/', elementPlusRoot)),
+        }).map((path) => `element-plus > dayjs/${path}`),
+      ],
     },
   }
 })

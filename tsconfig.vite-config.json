@@ -1,9 +1,8 @@
 {
-  "extends": "./tsconfig.node.json",
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "composite": true,
-    "types": ["node"]
+    "types": []
   },
-  "include": ["**/vite.config.*", "**/vitest.config.*"],
-  "exclude": ["docs"]
+  "include": ["play/vite.config.ts"],
+  "exclude": ["docs", "node_modules"]
 }

@@ -1,13 +1,12 @@
 {
-  "extends": "./tsconfig.web.json",
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "allowJs": true,
+    "noUncheckedSideEffectImports": true,
+
     "lib": ["ESNext", "DOM", "DOM.Iterable"]
   },
   "include": [
-    "packages",
     "typings/global.d.ts",
-    "typings/env.d.ts",
 
     // playground
     "play/main.ts",

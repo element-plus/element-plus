@@ -3,7 +3,8 @@ import { epPackage, getPackageDependencies } from '@element-plus/build-utils'
 import type { OutputOptions, RollupBuild } from 'rollup'
 
 export const generateExternal = async (options: { full: boolean }) => {
-  const { dependencies, peerDependencies } = getPackageDependencies(epPackage)
+  const { dependencies, peerDependencies } =
+    await getPackageDependencies(epPackage)
 
   return (id: string) => {
     const packages: string[] = [...peerDependencies]

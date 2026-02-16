@@ -1,33 +1,34 @@
 {
   "cSpell.words": ["Element Plus", "element-plus", "vnode"],
   "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.preferences.includePackageJsonAutoImports": "off",
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
   "npm.packageManager": "pnpm",
-  "eslint.probe": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact",
-    "html",
-    "vue",
-    "markdown",
-    "json",
-    "jsonc"
-  ],
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact",
-    "html",
-    "vue",
-    "markdown",
-    "json",
-    "jsonc"
-  ],
+  // "eslint.probe": [
+  //   "javascript",
+  //   "javascriptreact",
+  //   "typescript",
+  //   "typescriptreact",
+  //   "html",
+  //   "vue",
+  //   "markdown",
+  //   "json",
+  //   "jsonc"
+  // ],
+  // "eslint.validate": [
+  //   "javascript",
+  //   "javascriptreact",
+  //   "typescript",
+  //   "typescriptreact",
+  //   "html",
+  //   "vue",
+  //   "markdown",
+  //   "json",
+  //   "jsonc"
+  // ],
   "[markdown]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
@@ -43,5 +44,6 @@
     "package.json": "pnpm-lock.yaml, pnpm-workspace.yaml",
     "tsconfig.json": "tsconfig.*.json",
     "vitest.config.mts": "vitest.setup.ts, vitest.workspace.ts"
-  }
+  },
+  "typescript.tsserver.log": "verbose"
 }

@@ -2,7 +2,7 @@ import consola from 'consola'
 import chalk from 'chalk'
 import { errorAndExit, getWorkspacePackages } from '@element-plus/build-utils'
 
-import type { Project } from '@pnpm/find-workspace-packages'
+import type { Project } from '@element-plus/build-utils'
 
 async function main() {
   const tagVersion = process.env.TAG_VERSION
@@ -21,30 +21,28 @@ async function main() {
 
   consola.debug(chalk.yellow(`Updating package.json for element-plus`))
 
-  const pkgs = Object.fromEntries(
-    (await getWorkspacePackages()).map((pkg) => [pkg.manifest.name!, pkg])
+  const pkgs = (await getWorkspacePackages()).filter(
+    (pkg) => !pkg.manifest.private
   )
-  const elementPlus = pkgs['element-plus'] || pkgs['@element-plus/nightly']
-  const eslintConfig = pkgs['@element-plus/eslint-config']
-  const metadata = pkgs['@element-plus/metadata']
 
   const writeVersion = async (project: Project) => {
     await project.writeProjectManifest({
       ...project.manifest,
       version: tagVersion,
+      // @ts-expect-error
       gitHead,
-    } as any)
+    })
   }
 
   try {
-    await writeVersion(elementPlus)
-    await writeVersion(eslintConfig)
-    await writeVersion(metadata)
+    for (const pkg of pkgs) {
+      await writeVersion(pkg)
+    }
   } catch (err: any) {
     errorAndExit(err)
   }
 
-  consola.debug(chalk.green(`$GIT_HEAD: ${gitHead}`))
+  consola.success(chalk.green(`Version updated to ${tagVersion}`))
   consola.success(chalk.green(`Git head updated to ${gitHead}`))
 }
 

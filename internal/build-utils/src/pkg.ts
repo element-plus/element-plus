@@ -1,7 +1,9 @@
+import { pathToFileURL } from 'node:url'
 import findWorkspacePackages from '@pnpm/find-workspace-packages'
 import { normalizePath, projRoot } from './paths'
 
 import type { ProjectManifest } from '@pnpm/types'
+export type { Project } from '@pnpm/find-workspace-packages'
 
 export const getWorkspacePackages = () => findWorkspacePackages(projRoot)
 export const getWorkspaceNames = async (dir = projRoot) => {
@@ -12,14 +14,12 @@ export const getWorkspaceNames = async (dir = projRoot) => {
     .filter((name): name is string => !!name)
 }
 
-export const getPackageManifest = (pkgPath: string) => {
-  return require(pkgPath) as ProjectManifest
+export const getPackageManifest = async (pkgPath: string) => {
+  return (await import(pathToFileURL(pkgPath).toString())) as ProjectManifest
 }
 
-export const getPackageDependencies = (
-  pkgPath: string
-): Record<'dependencies' | 'peerDependencies', string[]> => {
-  const manifest = getPackageManifest(pkgPath)
+export const getPackageDependencies = async (pkgPath: string) => {
+  const manifest = await getPackageManifest(pkgPath)
   const { dependencies = {}, peerDependencies = {} } = manifest
 
   return {

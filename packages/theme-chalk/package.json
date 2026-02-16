@@ -27,7 +27,6 @@
     "build": "gulp --require tsx/dist/loader.cjs"
   },
   "devDependencies": {
-    "@element-plus/build": "workspace:*",
     "@types/gulp-autoprefixer": "^0.0.33",
     "@types/gulp-rename": "^2.0.1",
     "@types/gulp-sass": "^5.0.0",

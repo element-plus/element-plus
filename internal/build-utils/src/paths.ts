@@ -1,5 +1,7 @@
-import { resolve } from 'path'
+import { dirname, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
+const __dirname = dirname(fileURLToPath(import.meta.url))
 export const projRoot = resolve(__dirname, '..', '..', '..')
 export const pkgRoot = resolve(projRoot, 'packages')
 export const compRoot = resolve(pkgRoot, 'components')

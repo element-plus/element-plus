@@ -23,8 +23,8 @@ type ViteConfig = Required<UserConfig>['vite']
 type ResolveOptions = Required<ViteConfig>['resolve']
 type AliasOptions = Required<ResolveOptions>['alias']
 
-const { dependencies: epDeps } = getPackageDependencies(epPackage)
-const { dependencies: docsDeps } = getPackageDependencies(docPackage)
+const { dependencies: epDeps } = await getPackageDependencies(epPackage)
+const { dependencies: docsDeps } = await getPackageDependencies(docPackage)
 const optimizeDeps = [...new Set([...epDeps, ...docsDeps])].filter(
   (dep) =>
     !dep.startsWith('@types/') &&

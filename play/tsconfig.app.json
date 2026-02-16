@@ -1,0 +1,10 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "preserve",
+    "jsxImportSource": "vue",
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "types": ["element-plus/global.d.ts"]
+  },
+  "include": ["main.ts", "src/**/*"]
+}

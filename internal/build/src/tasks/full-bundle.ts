@@ -15,7 +15,7 @@ import {
   PKG_CAMELCASE_NAME,
 } from '@element-plus/build-constants'
 import { epOutput, epRoot, localeRoot } from '@element-plus/build-utils'
-import { version } from '../../../../packages/element-plus/version'
+import manifest from 'element-plus/package.json'
 import { ElementPlusAlias } from '../plugins/element-plus-alias'
 import {
   formatBundleFilename,
@@ -29,7 +29,7 @@ import { SupplyValidator } from '../plugins/supply-validator'
 import type { TaskFunction } from 'gulp'
 import type { Plugin } from 'rollup'
 
-const banner = `/*! ${PKG_BRAND_NAME} v${version} */\n`
+const banner = `/*! ${PKG_BRAND_NAME} v${manifest.version} */\n`
 
 async function buildFullEntry(minify: boolean) {
   const plugins: Plugin[] = [

@@ -1,9 +1,9 @@
 import { Component, createApp } from 'vue'
-import '@element-plus/theme-chalk/src/var.scss'
-import '@element-plus/theme-chalk/src/dark/css-vars.scss'
-import '@element-plus/theme-chalk/src/notification.scss'
-import '@element-plus/theme-chalk/src/message-box.scss'
-import '@element-plus/theme-chalk/src/message.scss'
+import 'element-plus/theme-chalk/src/var.scss'
+import 'element-plus/theme-chalk/src/dark/css-vars.scss'
+import 'element-plus/theme-chalk/src/notification.scss'
+import 'element-plus/theme-chalk/src/message-box.scss'
+import 'element-plus/theme-chalk/src/message.scss'
 
 // #21498
 window.addEventListener('error', (e: ErrorEvent) => {
