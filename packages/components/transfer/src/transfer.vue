@@ -105,6 +105,13 @@ const props = withDefaults(defineProps<TransferProps<T>>(), {
   validateEvent: true,
 })
 const emit = defineEmits(transferEmits)
+defineSlots<{
+  default?: (props: { option: T }) => any
+  'left-empty'?: () => any
+  'left-footer'?: () => any
+  'right-empty'?: () => any
+  'right-footer'?: () => any
+}>()
 const slots = useSlots()
 
 const { t } = useLocale()
