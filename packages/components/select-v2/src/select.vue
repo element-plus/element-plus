@@ -207,6 +207,7 @@
                 type="text"
                 :name="name"
                 @input="onInput"
+                @change.stop
                 @compositionstart="handleCompositionStart"
                 @compositionupdate="handleCompositionUpdate"
                 @compositionend="handleCompositionEnd"

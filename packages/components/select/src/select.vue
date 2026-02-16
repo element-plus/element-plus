@@ -204,6 +204,7 @@
                 @compositionupdate="handleCompositionUpdate"
                 @compositionend="handleCompositionEnd"
                 @input="onInput"
+                @change.stop
                 @click.stop="toggleMenu"
               />
               <span
