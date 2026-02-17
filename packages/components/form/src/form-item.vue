@@ -408,8 +408,8 @@ provide(formItemContextKey, context)
 
 onMounted(() => {
   if (props.prop) {
-    formContext?.addField(context)
     setInitialValue(fieldValue.value)
+    formContext?.addField(context)
   }
 })
 
