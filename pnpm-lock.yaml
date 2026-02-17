@@ -655,8 +655,8 @@ importers:
         specifier: ^2.0.1
         version: 2.0.7
       '@types/gulp-sass':
-        specifier: ^5.0.0
-        version: 5.0.4
+        specifier: ^6.0.0
+        version: 6.0.0
       cssnano:
         specifier: ^6.0.5
         version: 6.1.2(postcss@8.5.6)
@@ -2721,6 +2721,9 @@ packages:
   '@rtsao/scc@1.1.0':
     resolution: {integrity: sha512-zt6OdqaDoOnJ1ZYsCYGt9YmWzDXl4vQdKTyJev62gFhRGKdx7mcT54V9KIjg+d2wi9EXsPvAPKe7i7WjfVWB8g==}
 
+  '@sass/types@1.97.3':
+    resolution: {integrity: sha512-iEpFQVo1UZkGDzSGdWDhbNSK0G0iVixxpOY1R8fCzB4Yk7loo+Oqd+uMLxoP3b1ElrLx9WJ4r9tUQ/mXWLFMbg==}
+
   '@shikijs/core@2.5.0':
     resolution: {integrity: sha512-uu/8RExTKtavlpH7XqnVYBrfBkUc20ngXiX9NSrBhOVZYv/7XQRKUyhtkeflY5QsxC0GbJThCerruZfsUaSldg==}
 
@@ -2821,8 +2824,8 @@ packages:
   '@types/gulp-rename@2.0.7':
     resolution: {integrity: sha512-W1xIGdui1w4AB1ylt/b8jrpV1MTNfeKmMFfJXsN/NOtSHjRg2w4Wp9H96J+Ld9tZenTtU0u5LatpGFJvOBN5EA==}
 
-  '@types/gulp-sass@5.0.4':
-    resolution: {integrity: sha512-wDgpyM9fRq/k7kn1ZGcoY69Pj8+AlB50U9TKmBdbmHUduy+4b7WZ1zrDl4df43W+IqJegEgen6XAKO2+/RQILA==}
+  '@types/gulp-sass@6.0.0':
+    resolution: {integrity: sha512-i+aa3mmC7Xoi5Al8zsFGKtYnk7AulMvQeluO3CRiRvqvYg1eyra6xerfxobXjmHGlJsWnNx71OTQa3yH33FH4w==}
 
   '@types/gulp@4.0.18':
     resolution: {integrity: sha512-IqkYa4sXkwH2uwqO2aXYOoAisJpLX13BPaS6lmEAoG4BbgOay3qqGQFsT9LMSSQVMQlEKU7wTUW0sPV46V0olw==}
@@ -2868,9 +2871,6 @@ packages:
 
   '@types/ms@2.1.0':
     resolution: {integrity: sha512-GsCCIZDE/p3i96vtEqx+7dBUGXrc7zeSK3wwPHIaRThS+9OhWIXRqzs4d6k1SVU8g91DrNRWxWUGhp5KXQb2VA==}
-
-  '@types/node-sass@4.11.8':
-    resolution: {integrity: sha512-dWWMGPX8uselSQ1MLzDvQnVz5Qy1pe7SJuUl1Yqi2NCNRkrk5DmHlP44VZmTWm+buR2T217+5zEAPbAmTwKIOQ==}
 
   '@types/node@13.13.52':
     resolution: {integrity: sha512-s3nugnZumCC//n4moGGe6tkNMyYEdaDBitVjwPxXmR5lnMG5dHePinH2EdxkG3Rh1ghFHHixAG4NJhpJW1rthQ==}
@@ -11583,6 +11583,8 @@ snapshots:
 
   '@rtsao/scc@1.1.0': {}
 
+  '@sass/types@1.97.3': {}
+
   '@shikijs/core@2.5.0':
     dependencies:
       '@shikijs/engine-javascript': 2.5.0
@@ -11699,10 +11701,10 @@ snapshots:
       '@types/node': 22.19.3
       '@types/vinyl': 2.0.12
 
-  '@types/gulp-sass@5.0.4':
+  '@types/gulp-sass@6.0.0':
     dependencies:
+      '@sass/types': 1.97.3
       '@types/node': 22.19.3
-      '@types/node-sass': 4.11.8
 
   '@types/gulp@4.0.18':
     dependencies:
@@ -11756,10 +11758,6 @@ snapshots:
   '@types/mdurl@2.0.0': {}
 
   '@types/ms@2.1.0': {}
-
-  '@types/node-sass@4.11.8':
-    dependencies:
-      '@types/node': 22.19.3
 
   '@types/node@13.13.52': {}
 
