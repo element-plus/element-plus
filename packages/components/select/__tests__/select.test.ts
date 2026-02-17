@@ -2707,6 +2707,47 @@ describe('Select', () => {
     expect(empty).not.toBeNull()
   })
 
+  test('keyboard navigation should reach all options with duplicate values', async () => {
+    wrapper = _mount(
+      `<el-select v-model="value">
+        <el-option
+          v-for="item in options"
+          :key="item.label"
+          :label="item.label"
+          :value="item.value"
+        />
+      </el-select>`,
+      () => ({
+        options: [
+          { label: 'Apple', value: 'fruit' },
+          { label: 'Banana', value: 'fruit' },
+          { label: 'Carrot', value: 'vegetable' },
+        ],
+        value: '',
+      })
+    )
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const vm = select.vm as any
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+    await nextTick()
+
+    // Navigate through all 3 options — duplicates must not be skipped
+    vm.navigateOptions('next')
+    expect(vm.states.hoveringIndex).toBe(0)
+    vm.navigateOptions('next')
+    expect(vm.states.hoveringIndex).toBe(1)
+    vm.navigateOptions('next')
+    expect(vm.states.hoveringIndex).toBe(2)
+
+    // Wrap around back to 0
+    vm.navigateOptions('next')
+    expect(vm.states.hoveringIndex).toBe(0)
+
+    // Navigate prev from 0 wraps to last
+    vm.navigateOptions('prev')
+    expect(vm.states.hoveringIndex).toBe(2)
+  })
+
   describe('after search', () => {
     async function testAfterSearch({
       multiple,
