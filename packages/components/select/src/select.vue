@@ -515,6 +515,7 @@ export default defineComponent({
         }
         // Reset current options snapshot before re-collecting from slots.
         API.states.options.clear()
+        API.states.optionsList.length = 0
         manuallyRenderSlots(slots.default?.())
       },
       {
