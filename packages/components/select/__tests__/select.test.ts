@@ -2748,6 +2748,49 @@ describe('Select', () => {
     expect(vm.states.hoveringIndex).toBe(2)
   })
 
+  test('should hover each option when duplicate values', async () => {
+    wrapper = _mount(
+      `<el-select v-model="value">
+        <el-option
+          v-for="item in options"
+          :key="item.label"
+          :label="item.label"
+          :value="item.value"
+        />
+      </el-select>`,
+      () => ({
+        options: [
+          { label: 'Apple', value: 'fruit' },
+          { label: 'Banana', value: 'fruit' },
+          { label: 'Carrot', value: 'vegetable' },
+        ],
+        value: '',
+      })
+    )
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const vm = select.vm as any
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+    await nextTick()
+
+    const options = getOptions()
+    expect(options).toHaveLength(3)
+
+    vm.navigateOptions('next')
+    await nextTick()
+    expect(options[0].classList).toContain('is-hovering')
+    expect(options[1].classList).not.toContain('is-hovering')
+
+    vm.navigateOptions('next')
+    await nextTick()
+    expect(options[0].classList).not.toContain('is-hovering')
+    expect(options[1].classList).toContain('is-hovering')
+
+    vm.navigateOptions('next')
+    await nextTick()
+    expect(options[1].classList).not.toContain('is-hovering')
+    expect(options[2].classList).toContain('is-hovering')
+  })
+
   describe('after search', () => {
     async function testAfterSearch({
       multiple,
