@@ -294,10 +294,14 @@ $checkbox: map.merge(
 $checkbox-button: () !default;
 $checkbox-button: map.merge(
   (
+    'bg-color': getCssVar('fill-color', 'blank'),
+    'text-color': getCssVar('text-color', 'regular'),
     'checked-bg-color': getCssVar('color-primary'),
     'checked-text-color': getCssVar('color-white'),
     'checked-border-color': getCssVar('color-primary'),
     'disabled-checked-fill': getCssVar('border-color-extra-light'),
+    'disabled-bg-color': getCssVar('fill-color', 'blank'),
+    'disabled-border-color': getCssVar('border-color-light'),
   ),
   $checkbox-button
 );
@@ -347,9 +351,14 @@ $radio-height: map.merge($common-component-size, $radio-height);
 $radio-button: () !default;
 $radio-button: map.merge(
   (
+    'bg-color': getCssVar('fill-color', 'blank'),
+    'font-weight': getCssVar('font-weight-primary'),
+    'text-color': getCssVar('text-color', 'regular'),
     'checked-bg-color': getCssVar('color-primary'),
     'checked-text-color': getCssVar('color-white'),
     'checked-border-color': getCssVar('color-primary'),
+    'disabled-bg-color': getCssVar('fill-color', 'blank'),
+    'disabled-border-color': getCssVar('border-color-light'),
     'disabled-checked-fill': getCssVar('border-color-extra-light'),
   ),
   $radio-button
