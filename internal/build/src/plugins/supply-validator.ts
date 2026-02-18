@@ -81,48 +81,50 @@ export function SupplyValidator(): Plugin {
 
   return {
     name: 'supply-validator-plugin',
-    transform(code, id) {
-      if (!id.includes('.vue')) return
-      if (!id.includes('type=script')) return
+    transform: {
+      filter: {
+        id: /\.vue.*type=script/,
+      },
+      handler(code, id) {
+        const vueFilePath = id.slice(0, id.indexOf('?'))
+        const rawContent = fs.readFileSync(vueFilePath, 'utf-8')
+        const propsType = rawContent.match(/defineProps<(\w+)>/)?.[1]
+        if (!propsType) return
 
-      const vueFilePath = id.slice(0, id.indexOf('?'))
-      const rawContent = fs.readFileSync(vueFilePath, 'utf-8')
-      const propsType = rawContent.match(/defineProps<(\w+)>/)?.[1]
-      if (!propsType) return
+        const { propsIndexes, mergePropsIndexes } =
+          extractPropsIndexesAndMergeProp(id, code)
+        if (propsIndexes.length !== 2) return
 
-      const { propsIndexes, mergePropsIndexes } =
-        extractPropsIndexesAndMergeProp(id, code)
-      if (propsIndexes.length !== 2) return
+        const scriptContent = rawContent.split(
+          /<script lang="ts" setup>|<\/script>/g
+        )[1]
+        const extractImportFile = extractImportPropsStatements(
+          vueFilePath,
+          scriptContent,
+          propsType
+        )
+        if (!extractImportFile) return
 
-      const scriptContent = rawContent.split(
-        /<script lang="ts" setup>|<\/script>/g
-      )[1]
-      const extractImportFile = extractImportPropsStatements(
-        vueFilePath,
-        scriptContent,
-        propsType
-      )
-      if (!extractImportFile) return
-
-      const propsName = propsType[0].toLowerCase() + propsType.slice(1)
-      const s = new MagicString(code)
-      const importFilePath =
-        reMapImportFile[extractImportFile] || extractImportFile
-      if (mergePropsIndexes.length === 2) {
-        s.remove(mergePropsIndexes[0], mergePropsIndexes[1])
-      }
-      s.prepend(
-        `import { ${reMapPropsName[propsName] || propsName} } from '${importFilePath}'\n`
-      )
-      s.overwrite(
-        propsIndexes[0],
-        propsIndexes[1],
-        `props: ${reMapPropsName[propsName] || propsName}`
-      )
-      return {
-        code: s.toString(),
-        map: s.generateMap({ hires: true }),
-      }
+        const propsName = propsType[0].toLowerCase() + propsType.slice(1)
+        const s = new MagicString(code)
+        const importFilePath =
+          reMapImportFile[extractImportFile] || extractImportFile
+        if (mergePropsIndexes.length === 2) {
+          s.remove(mergePropsIndexes[0], mergePropsIndexes[1])
+        }
+        s.prepend(
+          `import { ${reMapPropsName[propsName] || propsName} } from '${importFilePath}'\n`
+        )
+        s.overwrite(
+          propsIndexes[0],
+          propsIndexes[1],
+          `props: ${reMapPropsName[propsName] || propsName}`
+        )
+        return {
+          code: s.toString(),
+          map: s.generateMap({ hires: true }),
+        }
+      },
     },
   }
 }
