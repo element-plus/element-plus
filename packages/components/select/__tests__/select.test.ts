@@ -4333,14 +4333,12 @@ describe('Select', () => {
 
       // Focus the input
       await input.trigger('focus')
-      await nextTick()
 
       // When focused, input-wrapper should not have hidden class
       expect(inputWrapper.classes()).not.toContain('is-hidden')
 
       // Blur the input
       await input.trigger('blur')
-      await nextTick()
 
       // When blurred and empty, input-wrapper should have hidden class again
       expect(inputWrapper.classes()).toContain('is-hidden')
@@ -4359,14 +4357,12 @@ describe('Select', () => {
 
       // Set input value
       await input.setValue('test')
-      await nextTick()
 
       // When input has value, input-wrapper should not have hidden class
       expect(inputWrapper.classes()).not.toContain('is-hidden')
 
       // Clear input
       await input.setValue('')
-      await nextTick()
 
       // When empty again, should be hidden
       expect(inputWrapper.classes()).toContain('is-hidden')
