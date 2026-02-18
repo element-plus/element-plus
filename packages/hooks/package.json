@@ -2,12 +2,17 @@
   "name": "@element-plus/hooks",
   "version": "0.0.5",
   "description": "Element Plus composables",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/es/index.mjs",
+      "require": "./dist/lib/index.js"
+    },
+    "./*": "./*"
+  },
   "license": "MIT",
-  "main": "index.ts",
-  "module": "index.ts",
-  "unpkg": "index.js",
-  "jsdelivr": "index.js",
-  "types": "index.d.ts",
   "peerDependencies": {
     "vue": "catalog:"
   },

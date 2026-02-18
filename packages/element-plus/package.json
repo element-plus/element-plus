@@ -18,12 +18,12 @@
   "types": "es/index.d.ts",
   "unpkg": "dist/index.full.js",
   "jsdelivr": "dist/index.full.js",
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/element-plus/element-plus.git"
-  },
-  "publishConfig": {
-    "access": "public"
   },
   "style": "dist/index.css",
   "sideEffects": [

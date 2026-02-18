@@ -45,5 +45,5 @@
     "tsconfig.json": "tsconfig.*.json",
     "vitest.config.mts": "vitest.setup.ts, vitest.workspace.ts"
   },
-  "typescript.tsserver.log": "verbose"
+  "typescript.tsserver.log": "off"
 }

@@ -14,7 +14,7 @@ catalog:
   '@vitejs/plugin-vue': ^5.1.4
   '@vitejs/plugin-vue-jsx': ^4.0.1
   '@vue/server-renderer': ^3.5.22
-  '@vue/shared': ^3.5.22
+  '@vue/shared': ^3.5.28
   '@vue/test-utils': ^2.4.6
   '@vueuse/core': ^10.11.0
   async-validator: ^4.2.5

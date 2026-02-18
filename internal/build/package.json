@@ -8,6 +8,11 @@
   },
   "dependencies": {
     "@element-plus/build-constants": "workspace:*",
+    "@element-plus/constants": "workspace:*",
+    "@element-plus/directives": "workspace:*",
+    "@element-plus/hooks": "workspace:*",
+    "@element-plus/locale": "workspace:*",
+    "@element-plus/utils": "workspace:*",
     "@pnpm/find-workspace-packages": "^4.0.16",
     "@pnpm/logger": "^4.0.0",
     "@rollup/plugin-commonjs": "^29.0.0",

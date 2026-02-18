@@ -1,5 +1,6 @@
 import path from 'path'
-import { series } from 'gulp'
+import url from 'node:url'
+import { series, parallel } from 'gulp'
 import { rollup } from 'rollup'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
@@ -33,6 +34,42 @@ const plugins: Plugin[] = [
   }),
   SupplyValidator(),
 ]
+
+async function build(packageName: string) {
+  const packageManifestPath = url.fileURLToPath(
+    import.meta.resolve(`${packageName}/package.json`)
+  )
+  const packageRoot = path.resolve(packageManifestPath, '..')
+  const input = await glob('**/*.ts', {
+    ignore: ['node_modules', '*.d.ts', '__tests__'],
+    cwd: packageRoot,
+    absolute: true,
+  })
+  // ;(await import('fs')).writeFileSync('./files.log', input.join('\n'), 'utf-8')
+  const bundle = await rollup({
+    input,
+    plugins,
+    external: await generateExternal({
+      packageManifestPath,
+    }),
+    treeshake: { moduleSideEffects: false },
+  })
+
+  await writeBundles(
+    bundle,
+    buildConfigEntries.map(([module, config]): OutputOptions => {
+      return {
+        format: config.format,
+        dir: `${packageRoot}/dist/${module === 'cjs' ? 'lib' : 'es'}`,
+        exports: module === 'cjs' ? 'named' : undefined,
+        preserveModules: true,
+        // preserveModulesRoot: packageRoot,
+        sourcemap: true,
+        entryFileNames: `[name].${config.ext}`,
+      }
+    })
+  )
+}
 
 async function buildModulesComponents() {
   const input = excludeFiles(
@@ -95,7 +132,16 @@ async function buildModulesStyles() {
   )
 }
 
-export const buildModules: TaskFunction = series(
-  withTaskName('buildModulesComponents', buildModulesComponents),
-  withTaskName('buildModulesStyles', buildModulesStyles)
+export const buildModules: TaskFunction = parallel(
+  withTaskName('buildModules:locale', () => build('@element-plus/locale')),
+  withTaskName('buildModules:constants', () =>
+    build('@element-plus/constants')
+  ),
+  withTaskName('buildModules:utils', () => build('@element-plus/utils')),
+  withTaskName('buildModules:hooks', () => build('@element-plus/hooks')),
+  withTaskName('buildModules:directives', () =>
+    build('@element-plus/directives')
+  ),
+  withTaskName('buildModules:element-plus', () => build('element-plus'))
+  // withTaskName('buildModulesStyles', buildModulesStyles)
 )

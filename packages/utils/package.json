@@ -1,20 +1,29 @@
 {
   "name": "@element-plus/utils",
-  "private": true,
+  "version": "0.0.0-dev.1",
+  "description": "Utils for Element Plus",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/es/index.mjs",
+      "require": "./dist/lib/index.js"
+    },
+    "./*": "./*"
+  },
   "license": "MIT",
-  "main": "index.ts",
   "peerDependencies": {
-    "@vue/shared": "catalog:",
     "vue": "catalog:"
   },
   "dependencies": {
     "@element-plus/constants": "workspace:^",
     "@element-plus/icons-vue": "catalog:",
+    "@vue/shared": "catalog:",
     "@vueuse/core": "catalog:",
     "lodash-unified": "catalog:"
   },
   "devDependencies": {
-    "@vue/shared": "catalog:",
     "@vue/test-utils": "catalog:",
     "expect-type": "^0.13.0",
     "vue": "catalog:"

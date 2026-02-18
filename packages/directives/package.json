@@ -2,11 +2,17 @@
   "name": "@element-plus/directives",
   "version": "0.0.5",
   "description": "Element Plus directives",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/es/index.mjs",
+      "require": "./dist/lib/index.js"
+    },
+    "./*": "./*"
+  },
   "license": "MIT",
-  "main": "index.ts",
-  "module": "index.ts",
-  "unpkg": "index.js",
-  "jsdelivr": "index.js",
   "peerDependencies": {
     "vue": "catalog:"
   },
@@ -18,6 +24,5 @@
   "devDependencies": {
     "@vue/test-utils": "catalog:",
     "vue": "catalog:"
-  },
-  "gitHead": "c69724230befa8fede0e6b9c37fb0b7e39fd7cdd"
+  }
 }

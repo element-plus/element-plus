@@ -6,35 +6,11 @@ settings:
 
 catalogs:
   default:
-    '@ctrl/tinycolor':
-      specifier: ^3.4.1
-      version: 3.6.1
     '@element-plus/icons-vue':
       specifier: ^2.3.2
       version: 2.3.2
-    '@floating-ui/dom':
-      specifier: ^1.7.5
-      version: 1.7.5
-    '@popperjs/core':
-      specifier: npm:@sxzz/popperjs-es@^2.11.8
-      version: 2.11.8
-    '@types/lodash':
-      specifier: ^4.17.23
-      version: 4.17.23
-    '@types/lodash-es':
-      specifier: ^4.17.12
-      version: 4.17.12
-    '@vitejs/plugin-vue':
-      specifier: ^5.1.4
-      version: 5.2.4
-    '@vitejs/plugin-vue-jsx':
-      specifier: ^4.0.1
-      version: 4.2.0
-    '@vue/server-renderer':
-      specifier: ^3.5.22
-      version: 3.5.28
     '@vue/shared':
-      specifier: ^3.5.22
+      specifier: ^3.5.28
       version: 3.5.28
     '@vue/test-utils':
       specifier: ^2.4.6
@@ -42,30 +18,9 @@ catalogs:
     '@vueuse/core':
       specifier: ^10.11.0
       version: 10.11.1
-    async-validator:
-      specifier: ^4.2.5
-      version: 4.2.5
-    dayjs:
-      specifier: 1.11.19
-      version: 1.11.19
-    lodash:
-      specifier: ^4.17.23
-      version: 4.17.23
-    lodash-es:
-      specifier: ^4.17.23
-      version: 4.17.23
     lodash-unified:
       specifier: ^1.0.3
       version: 1.0.3
-    memoize-one:
-      specifier: ^6.0.0
-      version: 6.0.0
-    normalize-wheel-es:
-      specifier: ^1.2.0
-      version: 1.2.0
-    unplugin-vue-components:
-      specifier: ^0.27.5
-      version: 0.27.5
     vue:
       specifier: ^3.5.22
       version: 3.5.28
@@ -255,6 +210,21 @@ importers:
       '@element-plus/build-constants':
         specifier: workspace:*
         version: link:../build-constants
+      '@element-plus/constants':
+        specifier: workspace:*
+        version: link:../../packages/constants
+      '@element-plus/directives':
+        specifier: workspace:*
+        version: link:../../packages/directives
+      '@element-plus/hooks':
+        specifier: workspace:*
+        version: link:../../packages/hooks
+      '@element-plus/locale':
+        specifier: workspace:*
+        version: link:../../packages/locale
+      '@element-plus/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
       '@pnpm/find-workspace-packages':
         specifier: ^4.0.16
         version: 4.0.43(@pnpm/logger@4.0.0)(@yarnpkg/core@4.5.0(typanion@3.14.0))(typanion@3.14.0)
@@ -619,6 +589,9 @@ importers:
       '@element-plus/icons-vue':
         specifier: 'catalog:'
         version: 2.3.2(vue@3.5.28(typescript@5.5.4))
+      '@vue/shared':
+        specifier: 'catalog:'
+        version: 3.5.28
       '@vueuse/core':
         specifier: 'catalog:'
         version: 10.11.1(vue@3.5.28(typescript@5.5.4))
@@ -626,9 +599,6 @@ importers:
         specifier: 'catalog:'
         version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.23)(lodash@4.17.23)
     devDependencies:
-      '@vue/shared':
-        specifier: 'catalog:'
-        version: 3.5.28
       '@vue/test-utils':
         specifier: 'catalog:'
         version: 2.4.6

@@ -18,8 +18,8 @@ export const getPackageManifest = async (pkgPath: string) => {
   return (await import(pathToFileURL(pkgPath).toString())) as ProjectManifest
 }
 
-export const getPackageDependencies = async (pkgPath: string) => {
-  const manifest = await getPackageManifest(pkgPath)
+export const getPackageDependencies = async (packagManifestpath: string) => {
+  const manifest = await getPackageManifest(packagManifestpath)
   const { dependencies = {}, peerDependencies = {} } = manifest
 
   return {
