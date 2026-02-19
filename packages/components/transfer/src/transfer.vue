@@ -60,7 +60,7 @@
 </template>
 
 <script lang="ts" setup generic="T extends TransferDataItem = TransferDataItem">
-import { Comment, computed, h, reactive, ref, useSlots, watch } from 'vue'
+import { Comment, computed, h, reactive, ref, watch } from 'vue'
 import { debugWarn, isEmpty, isUndefined } from '@element-plus/utils'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { ElButton } from '@element-plus/components/button'
@@ -76,6 +76,7 @@ import {
 } from './composables'
 import TransferPanel from './transfer-panel.vue'
 
+import type { VNode } from 'vue'
 import type {
   TransferCheckedState,
   TransferDataItem,
@@ -105,14 +106,13 @@ const props = withDefaults(defineProps<TransferProps<T>>(), {
   validateEvent: true,
 })
 const emit = defineEmits(transferEmits)
-defineSlots<{
-  default?: (props: { option: T }) => any
-  'left-empty'?: () => any
-  'left-footer'?: () => any
-  'right-empty'?: () => any
-  'right-footer'?: () => any
+const slots = defineSlots<{
+  default?: (props: { option: T }) => VNode[]
+  'left-empty'?: () => VNode[]
+  'left-footer'?: () => VNode[]
+  'right-empty'?: () => VNode[]
+  'right-footer'?: () => VNode[]
 }>()
-const slots = useSlots()
 
 const { t } = useLocale()
 const ns = useNamespace('transfer')
