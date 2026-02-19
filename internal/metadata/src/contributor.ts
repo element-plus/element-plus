@@ -16,6 +16,7 @@ import {
   REPO_NAME,
   REPO_OWNER,
 } from '@element-plus/build-constants'
+import { fileURLToPath } from 'node:url'
 
 interface FetchOption {
   key: string
@@ -176,7 +177,11 @@ async function getContributors() {
   return contributors
 }
 
-const pathOutput = path.resolve(__dirname, '..', 'dist')
+const pathOutput = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  '..',
+  'dist'
+)
 const pathDest = path.resolve(pathOutput, 'contributors.json')
 
 const octokit = new Octokit({
