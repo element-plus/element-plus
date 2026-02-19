@@ -2869,4 +2869,62 @@ describe('Select', () => {
     await input.trigger('click')
     expect((select.vm as any).expanded).toBe(true)
   })
+
+  describe('input-wrapper in multiple mode', () => {
+    it('should hide input-wrapper when empty and not focused', async () => {
+      const wrapper = createSelect({
+        data: () => ({
+          multiple: true,
+          filterable: true,
+        }),
+      })
+      await nextTick()
+      const select = wrapper.findComponent(Select)
+      const inputWrapper = select.find('.el-select__input-wrapper')
+      const input = select.find('input')
+
+      // When input is empty and not focused, input-wrapper should have hidden class
+      expect(inputWrapper.classes()).toContain('is-hidden')
+
+      // Focus the input
+      await input.trigger('focus')
+
+      // When focused, input-wrapper should not have hidden class
+      expect(inputWrapper.classes()).not.toContain('is-hidden')
+
+      // Blur the input
+      await input.trigger('blur')
+
+      // When blurred and empty, input-wrapper should have hidden class again
+      expect(inputWrapper.classes()).toContain('is-hidden')
+    })
+
+    it('should show input-wrapper when input has value', async () => {
+      const wrapper = createSelect({
+        data: () => ({
+          multiple: true,
+          filterable: true,
+        }),
+      })
+      await nextTick()
+      const select = wrapper.findComponent(Select)
+      const inputWrapper = select.find('.el-select__input-wrapper')
+      const input = select.find('input')
+
+      // Initially empty, should be hidden
+      expect(inputWrapper.classes()).toContain('is-hidden')
+
+      // Set input value
+      await input.setValue('test')
+
+      // When input has value, input-wrapper should not have hidden class
+      expect(inputWrapper.classes()).not.toContain('is-hidden')
+
+      // Clear input
+      await input.setValue('')
+
+      // When empty again, should be hidden
+      expect(inputWrapper.classes()).toContain('is-hidden')
+    })
+  })
 })
