@@ -2,16 +2,6 @@
   "name": "@element-plus/directives",
   "version": "0.0.5",
   "description": "Element Plus directives",
-  "files": [
-    "dist"
-  ],
-  "exports": {
-    ".": {
-      "import": "./dist/es/index.mjs",
-      "require": "./dist/lib/index.js"
-    },
-    "./*": "./*"
-  },
   "license": "MIT",
   "peerDependencies": {
     "vue": "catalog:"
@@ -24,5 +14,8 @@
   "devDependencies": {
     "@vue/test-utils": "catalog:",
     "vue": "catalog:"
+  },
+  "publishConfig": {
+    "directory": "dist"
   }
 }

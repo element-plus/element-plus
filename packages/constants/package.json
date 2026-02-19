@@ -1,13 +1,9 @@
 {
   "name": "@element-plus/constants",
   "version": "0.0.0-dev.1",
-  "description": "Constants for Element Plus",
-  "exports": {
-    ".": {
-      "import": "./dist/es/index.mjs",
-      "require": "./dist/lib/index.js"
-    },
-    "./*": "./*"
-  },
-  "license": "MIT"
+  "description": "@element-plus/constants",
+  "license": "MIT",
+  "publishConfig": {
+    "directory": "dist"
+  }
 }

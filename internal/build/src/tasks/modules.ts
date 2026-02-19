@@ -40,8 +40,8 @@ async function build(packageName: string) {
     import.meta.resolve(`${packageName}/package.json`)
   )
   const packageRoot = path.resolve(packageManifestPath, '..')
-  const input = await glob('**/*.ts', {
-    ignore: ['node_modules', '*.d.ts', '__tests__'],
+  const input = await glob('**/*.{ts,vue}', {
+    ignore: ['node_modules', '*.d.ts', '**/__tests__', '**/style'],
     cwd: packageRoot,
     absolute: true,
   })
@@ -133,14 +133,23 @@ async function buildModulesStyles() {
 }
 
 export const buildModules: TaskFunction = parallel(
-  withTaskName('buildModules:locale', () => build('@element-plus/locale')),
-  withTaskName('buildModules:constants', () =>
+  withTaskName('buildModules:@element-plus/locale', () =>
+    build('@element-plus/locale')
+  ),
+  withTaskName('buildModules:@element-plus/constants', () =>
     build('@element-plus/constants')
   ),
-  withTaskName('buildModules:utils', () => build('@element-plus/utils')),
-  withTaskName('buildModules:hooks', () => build('@element-plus/hooks')),
-  withTaskName('buildModules:directives', () =>
+  withTaskName('buildModules:@element-plus/utils', () =>
+    build('@element-plus/utils')
+  ),
+  withTaskName('buildModules:@element-plus/hooks', () =>
+    build('@element-plus/hooks')
+  ),
+  withTaskName('buildModules:@element-plus/directives', () =>
     build('@element-plus/directives')
+  ),
+  withTaskName('buildModules:@element-plus/components', () =>
+    build('@element-plus/components')
   ),
   withTaskName('buildModules:element-plus', () => build('element-plus'))
   // withTaskName('buildModulesStyles', buildModulesStyles)

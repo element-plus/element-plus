@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@element-plus/build-constants": "workspace:*",
+    "@element-plus/components": "workspace:*",
     "@element-plus/constants": "workspace:*",
     "@element-plus/directives": "workspace:*",
     "@element-plus/hooks": "workspace:*",

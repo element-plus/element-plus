@@ -11,7 +11,7 @@ import {
 } from 'vitest'
 import { usePopperContainer } from '@element-plus/hooks'
 import { TOOLTIP_INJECTION_KEY } from '@element-plus/components/tooltip'
-import { genTooltipProvides } from '../test-helper/provides'
+import { genTooltipProvides } from './provides'
 import ElTooltipContent from '../src/content.vue'
 
 import type { VueWrapper } from '@vue/test-utils'

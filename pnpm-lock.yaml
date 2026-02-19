@@ -6,9 +6,33 @@ settings:
 
 catalogs:
   default:
+    '@ctrl/tinycolor':
+      specifier: ^3.4.1
+      version: 3.6.1
     '@element-plus/icons-vue':
       specifier: ^2.3.2
       version: 2.3.2
+    '@floating-ui/dom':
+      specifier: ^1.7.5
+      version: 1.7.5
+    '@popperjs/core':
+      specifier: npm:@sxzz/popperjs-es@^2.11.8
+      version: 2.11.8
+    '@types/lodash':
+      specifier: ^4.17.23
+      version: 4.17.23
+    '@types/lodash-es':
+      specifier: ^4.17.12
+      version: 4.17.12
+    '@vitejs/plugin-vue':
+      specifier: ^5.1.4
+      version: 5.2.4
+    '@vitejs/plugin-vue-jsx':
+      specifier: ^4.0.1
+      version: 4.2.0
+    '@vue/server-renderer':
+      specifier: ^3.5.22
+      version: 3.5.28
     '@vue/shared':
       specifier: ^3.5.28
       version: 3.5.28
@@ -18,9 +42,30 @@ catalogs:
     '@vueuse/core':
       specifier: ^10.11.0
       version: 10.11.1
+    async-validator:
+      specifier: ^4.2.5
+      version: 4.2.5
+    dayjs:
+      specifier: 1.11.19
+      version: 1.11.19
+    lodash:
+      specifier: ^4.17.23
+      version: 4.17.23
+    lodash-es:
+      specifier: ^4.17.23
+      version: 4.17.23
     lodash-unified:
       specifier: ^1.0.3
       version: 1.0.3
+    memoize-one:
+      specifier: ^6.0.0
+      version: 6.0.0
+    normalize-wheel-es:
+      specifier: ^1.2.0
+      version: 1.2.0
+    unplugin-vue-components:
+      specifier: ^0.27.5
+      version: 0.27.5
     vue:
       specifier: ^3.5.22
       version: 3.5.28
@@ -210,21 +255,24 @@ importers:
       '@element-plus/build-constants':
         specifier: workspace:*
         version: link:../build-constants
+      '@element-plus/components':
+        specifier: workspace:*
+        version: link:../../packages/components/dist
       '@element-plus/constants':
         specifier: workspace:*
-        version: link:../../packages/constants
+        version: link:../../packages/constants/dist
       '@element-plus/directives':
         specifier: workspace:*
-        version: link:../../packages/directives
+        version: link:../../packages/directives/dist
       '@element-plus/hooks':
         specifier: workspace:*
-        version: link:../../packages/hooks
+        version: link:../../packages/hooks/dist
       '@element-plus/locale':
         specifier: workspace:*
         version: link:../../packages/locale
       '@element-plus/utils':
         specifier: workspace:*
-        version: link:../../packages/utils
+        version: link:../../packages/utils/dist
       '@pnpm/find-workspace-packages':
         specifier: ^4.0.16
         version: 4.0.43(@pnpm/logger@4.0.0)(@yarnpkg/core@4.5.0(typanion@3.14.0))(typanion@3.14.0)
@@ -400,19 +448,19 @@ importers:
         version: 3.6.1
       '@element-plus/constants':
         specifier: workspace:^
-        version: link:../constants
+        version: link:../constants/dist
       '@element-plus/directives':
         specifier: workspace:^
-        version: link:../directives
+        version: link:../directives/dist
       '@element-plus/hooks':
         specifier: workspace:^
-        version: link:../hooks
+        version: link:../hooks/dist
       '@element-plus/icons-vue':
         specifier: 'catalog:'
         version: 2.3.2(vue@3.5.28(typescript@5.5.4))
       '@element-plus/utils':
         specifier: workspace:^
-        version: link:../utils
+        version: link:../utils/dist
       '@floating-ui/dom':
         specifier: 'catalog:'
         version: 1.7.5
@@ -437,7 +485,7 @@ importers:
     devDependencies:
       '@element-plus/components':
         specifier: workspace:*
-        version: 'link:'
+        version: link:dist
       '@element-plus/test-utils':
         specifier: workspace:^
         version: link:../test-utils
@@ -450,17 +498,19 @@ importers:
       vue:
         specifier: 'catalog:'
         version: 3.5.28(typescript@5.5.4)
+    publishDirectory: dist
 
-  packages/constants: {}
+  packages/constants:
+    publishDirectory: dist
 
   packages/directives:
     dependencies:
       '@element-plus/constants':
         specifier: workspace:^
-        version: link:../constants
+        version: link:../constants/dist
       '@element-plus/utils':
         specifier: workspace:^
-        version: link:../utils
+        version: link:../utils/dist
       normalize-wheel-es:
         specifier: 'catalog:'
         version: 1.2.0
@@ -471,21 +521,22 @@ importers:
       vue:
         specifier: 'catalog:'
         version: 3.5.28(typescript@5.5.4)
+    publishDirectory: dist
 
   packages/element-plus:
     dependencies:
       '@element-plus/components':
         specifier: workspace:*
-        version: link:../components
+        version: link:../components/dist
       '@element-plus/constants':
         specifier: workspace:*
-        version: link:../constants
+        version: link:../constants/dist
       '@element-plus/directives':
         specifier: workspace:*
-        version: link:../directives
+        version: link:../directives/dist
       '@element-plus/hooks':
         specifier: workspace:*
-        version: link:../hooks
+        version: link:../hooks/dist
       '@element-plus/locale':
         specifier: workspace:*
         version: link:../locale
@@ -510,13 +561,13 @@ importers:
     dependencies:
       '@element-plus/constants':
         specifier: workspace:*
-        version: link:../constants
+        version: link:../constants/dist
       '@element-plus/locale':
         specifier: workspace:*
         version: link:../locale
       '@element-plus/utils':
         specifier: workspace:*
-        version: link:../utils
+        version: link:../utils/dist
       '@floating-ui/dom':
         specifier: 'catalog:'
         version: 1.7.5
@@ -536,6 +587,7 @@ importers:
       vue:
         specifier: 'catalog:'
         version: 3.5.28(typescript@5.5.4)
+    publishDirectory: dist
 
   packages/locale: {}
 
@@ -585,7 +637,7 @@ importers:
     dependencies:
       '@element-plus/constants':
         specifier: workspace:^
-        version: link:../constants
+        version: link:../constants/dist
       '@element-plus/icons-vue':
         specifier: 'catalog:'
         version: 2.3.2(vue@3.5.28(typescript@5.5.4))
@@ -608,6 +660,7 @@ importers:
       vue:
         specifier: 'catalog:'
         version: 3.5.28(typescript@5.5.4)
+    publishDirectory: dist
 
   play:
     dependencies:

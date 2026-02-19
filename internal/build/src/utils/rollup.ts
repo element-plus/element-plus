@@ -1,16 +1,27 @@
-import { epPackage, getPackageDependencies } from '@element-plus/build-utils'
+import {
+  epPackage,
+  getPackageDependencies,
+  getPackageManifest,
+} from '@element-plus/build-utils'
 
 import type { OutputOptions, RollupBuild } from 'rollup'
 
 export const generateExternal = async (options: {
   packageManifestPath: string
 }) => {
-  const { dependencies, peerDependencies } = await getPackageDependencies(
-    options.packageManifestPath
-  )
-  const packages: string[] = [
-    ...new Set([...dependencies, ...peerDependencies]),
-  ]
+  const {
+    dependencies = {},
+    peerDependencies = {},
+    devDependencies = {},
+    name,
+  } = await getPackageManifest(options.packageManifestPath)
+  const packages: string[] = Object.keys({
+    ...dependencies,
+    ...peerDependencies,
+  })
+  // if (Object.hasOwn(devDependencies, name!)) {
+  //   packages.push(name!)
+  // }
   return (id: string) =>
     packages.some((pkg) => id === pkg || id.startsWith(`${pkg}/`))
 }

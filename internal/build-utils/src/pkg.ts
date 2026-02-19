@@ -14,12 +14,14 @@ export const getWorkspaceNames = async (dir = projRoot) => {
     .filter((name): name is string => !!name)
 }
 
-export const getPackageManifest = async (pkgPath: string) => {
-  return (await import(pathToFileURL(pkgPath).toString())) as ProjectManifest
+export const getPackageManifest = async (packagManifestPath: string) => {
+  return (await import(
+    pathToFileURL(packagManifestPath).toString()
+  )) as ProjectManifest
 }
 
-export const getPackageDependencies = async (packagManifestpath: string) => {
-  const manifest = await getPackageManifest(packagManifestpath)
+export const getPackageDependencies = async (packagManifestPath: string) => {
+  const manifest = await getPackageManifest(packagManifestPath)
   const { dependencies = {}, peerDependencies = {} } = manifest
 
   return {
