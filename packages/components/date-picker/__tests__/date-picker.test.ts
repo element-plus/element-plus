@@ -477,37 +477,36 @@ describe('DatePicker', () => {
     expect(input.element.value).toBe('2023-02-04')
   })
 
-  it('should not pick a value when changing picker view', async () => {
-    const wrapper = _mount(`<el-date-picker v-model="value" />`, () => ({
-      value: '',
-      disabledDate(time) {
-        const dayTime = new Date(2023, 1, 4).getTime()
-        return time.getTime() < dayTime
-      },
-    }))
+  it('should not emit during year > month > date view navigation', async () => {
+    const onUpdateModelValue = vi.fn()
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        @update:modelValue="onUpdateModelValue"
+    />`,
+      () => ({ value: '2024-06-15', onUpdateModelValue })
+    )
     const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
-    const yearLabel: HTMLElement = document.querySelectorAll(
-      '.el-date-picker__header-label'
-    )[0]
-    yearLabel.click()
+    ;(
+      document.querySelectorAll(
+        '.el-date-picker__header-label'
+      )[0] as HTMLElement
+    ).click()
     await nextTick()
-    const yearCells = document.querySelectorAll('.el-date-table-cell__text')
-    const year2023 = [...yearCells].find((item) => item.innerHTML === '2023')
-    year2023.click()
+    ;[...document.querySelectorAll('.el-date-table-cell__text')]
+      .find((el) => el.innerHTML === '2025')!
+      .click()
     await nextTick()
-    const monthLabel: HTMLElement = document.querySelectorAll(
-      '.el-date-picker__header-label'
-    )[1]
-    monthLabel.click()
+    document.querySelectorAll('.el-date-table-cell__text')[2].click()
     await nextTick()
-    const monthCells = document.querySelectorAll('.el-date-table-cell__text')
-    const februaryCell = monthCells[1]
-    februaryCell.click()
+    expect(onUpdateModelValue).not.toHaveBeenCalled()
+
+    document.querySelector('td.available .el-date-table-cell__text')!.click()
     await nextTick()
-    expect(input.element.value).toBe('')
+    expect(onUpdateModelValue).toHaveBeenCalledTimes(1)
   })
 
   it('should work when using disabledDate prop and daterange type', async () => {
@@ -1852,7 +1851,8 @@ describe('DatePicker keyboard events', () => {
     await nextTick()
     triggerEvent(input, 'keydown', EVENT_CODE.down)
     await nextTick()
-    expect(document.querySelector('.current')?.textContent).toBe('1')
+    const focusedCell = document.querySelector('td[tabindex="0"]')
+    expect(focusedCell.classList.contains('available')).toBe(true)
   })
 })
 

@@ -148,6 +148,14 @@
     &:focus {
       outline: none;
     }
+
+  }
+
+  &:not(.is-week-mode) td:focus-visible:not(.disabled) {
+    .#{$namespace}-date-table-cell__text {
+      outline: 2px solid getCssVar('datepicker-active-color');
+      outline-offset: 1px;
+    }
   }
 
   th {

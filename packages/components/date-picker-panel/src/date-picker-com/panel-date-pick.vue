@@ -484,7 +484,8 @@ const handleMonthPick = async (
     )
     currentView.value = 'date'
     if (['month', 'year', 'date', 'week'].includes(selectionMode.value)) {
-      // TODO: fallback focus into basic date table
+      await nextTick()
+      handleFocusPicker()
     }
   }
   handlePanelChange('month')
