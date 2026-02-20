@@ -8,7 +8,7 @@ import {
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
 import type {
-  ComponentPublicInstance,
+  ComponentInstance,
   ExtractPublicPropTypes,
   h as H,
   VNode,
