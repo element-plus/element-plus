@@ -1,6 +1,6 @@
 {
-  "name": "@makedopamine/element-plus-hooks",
-  "version": "0.0.20260220182412",
+  "name": "@element-plus/hooks",
+  "version": "0.0.20260220215154",
   "description": "Element Plus composables",
   "license": "MIT",
   "peerDependencies": {
@@ -19,7 +19,7 @@
     "@vue/test-utils": "catalog:",
     "vue": "catalog:"
   },
-  "publishConfig": {
-    "directory": "dist"
-  }
+  "files": [
+    "dist"
+  ]
 }

@@ -1,6 +1,6 @@
 {
-  "name": "@makedopamine/element-plus-directives",
-  "version": "0.0.20260220182412",
+  "name": "@element-plus/directives",
+  "version": "0.0.20260220215154",
   "description": "Element Plus directives",
   "license": "MIT",
   "peerDependencies": {
@@ -15,7 +15,7 @@
     "@vue/test-utils": "catalog:",
     "vue": "catalog:"
   },
-  "publishConfig": {
-    "directory": "dist"
-  }
+  "files": [
+    "dist"
+  ]
 }

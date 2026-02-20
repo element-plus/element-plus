@@ -1,6 +1,6 @@
 {
-  "name": "@makedopamine/element-plus-utils",
-  "version": "0.0.20260220182412",
+  "name": "@element-plus/utils",
+  "version": "0.0.20260220215154",
   "description": "Utils for Element Plus",
   "license": "MIT",
   "peerDependencies": {
@@ -18,7 +18,7 @@
     "expect-type": "^0.13.0",
     "vue": "catalog:"
   },
-  "publishConfig": {
-    "directory": "dist"
-  }
+  "files": [
+    "dist"
+  ]
 }

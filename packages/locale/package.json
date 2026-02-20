@@ -1,6 +1,6 @@
 {
-  "name": "@makedopamine/element-plus-locale",
-  "version": "0.0.20260220182412",
+  "name": "@element-plus/locale",
+  "version": "0.0.20260220215154",
   "description": "@element-plus/locale",
   "exports": {
     ".": {
@@ -19,5 +19,8 @@
     },
     "./*": "./*"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "files": [
+    "dist"
+  ]
 }

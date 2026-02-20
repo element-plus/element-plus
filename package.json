@@ -40,7 +40,7 @@
   "devDependencies": {
     "@commitlint/cli": "^20.2.0",
     "@commitlint/config-conventional": "^20.2.0",
-    "@element-plus/build-utils": "workspace:^0.0.1",
+    "@element-plus/build-utils": "workspace:*",
     "@element-plus/eslint-config": "workspace:*",
     "@types/lodash": "catalog:",
     "@types/lodash-es": "catalog:",

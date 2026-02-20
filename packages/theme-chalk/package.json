@@ -1,6 +1,6 @@
 {
-  "name": "@makedopamine/element-plus-theme-chalk",
-  "version": "0.0.20260220182412",
+  "name": "@element-plus/theme-chalk",
+  "version": "0.0.20260220215154",
   "description": "Element component chalk theme.",
   "keywords": [
     "vue-components",
@@ -36,5 +36,9 @@
     "gulp-sass": "^6.0.0",
     "postcss": "^8.4.35",
     "tsx": "^4.19.3"
-  }
+  },
+  "files": [
+    "dist",
+    "src"
+  ]
 }

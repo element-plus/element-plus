@@ -90,7 +90,7 @@ importers:
         specifier: ^20.2.0
         version: 20.2.0
       '@element-plus/build-utils':
-        specifier: workspace:^0.0.1
+        specifier: workspace:*
         version: link:internal/build-utils
       '@element-plus/eslint-config':
         specifier: workspace:*
@@ -257,22 +257,22 @@ importers:
         version: link:../build-constants
       '@element-plus/components':
         specifier: workspace:*
-        version: link:../../packages/components/dist
+        version: link:../../packages/components
       '@element-plus/constants':
         specifier: workspace:*
-        version: link:../../packages/constants/dist
+        version: link:../../packages/constants
       '@element-plus/directives':
         specifier: workspace:*
-        version: link:../../packages/directives/dist
+        version: link:../../packages/directives
       '@element-plus/hooks':
         specifier: workspace:*
-        version: link:../../packages/hooks/dist
+        version: link:../../packages/hooks
       '@element-plus/locale':
         specifier: workspace:*
         version: link:../../packages/locale
       '@element-plus/utils':
         specifier: workspace:*
-        version: link:../../packages/utils/dist
+        version: link:../../packages/utils
       '@rollup/plugin-commonjs':
         specifier: ^29.0.0
         version: 29.0.0(rollup@4.55.1)
@@ -439,19 +439,19 @@ importers:
         version: 3.6.1
       '@element-plus/constants':
         specifier: workspace:^
-        version: link:../constants/dist
+        version: link:../constants
       '@element-plus/directives':
         specifier: workspace:^
-        version: link:../directives/dist
+        version: link:../directives
       '@element-plus/hooks':
         specifier: workspace:^
-        version: link:../hooks/dist
+        version: link:../hooks
       '@element-plus/icons-vue':
         specifier: 'catalog:'
         version: 2.3.2(vue@3.5.28(typescript@5.5.4))
       '@element-plus/utils':
         specifier: workspace:^
-        version: link:../utils/dist
+        version: link:../utils
       '@floating-ui/dom':
         specifier: 'catalog:'
         version: 1.7.5
@@ -476,7 +476,7 @@ importers:
     devDependencies:
       '@element-plus/components':
         specifier: workspace:*
-        version: link:dist
+        version: 'link:'
       '@element-plus/test-utils':
         specifier: workspace:^
         version: link:../test-utils
@@ -489,19 +489,17 @@ importers:
       vue:
         specifier: 'catalog:'
         version: 3.5.28(typescript@5.5.4)
-    publishDirectory: dist
 
-  packages/constants:
-    publishDirectory: dist
+  packages/constants: {}
 
   packages/directives:
     dependencies:
       '@element-plus/constants':
         specifier: workspace:^
-        version: link:../constants/dist
+        version: link:../constants
       '@element-plus/utils':
         specifier: workspace:^
-        version: link:../utils/dist
+        version: link:../utils
       normalize-wheel-es:
         specifier: 'catalog:'
         version: 1.2.0
@@ -512,22 +510,21 @@ importers:
       vue:
         specifier: 'catalog:'
         version: 3.5.28(typescript@5.5.4)
-    publishDirectory: dist
 
   packages/element-plus:
     dependencies:
       '@element-plus/components':
         specifier: workspace:*
-        version: link:../components/dist
+        version: link:../components
       '@element-plus/constants':
         specifier: workspace:*
-        version: link:../constants/dist
+        version: link:../constants
       '@element-plus/directives':
         specifier: workspace:*
-        version: link:../directives/dist
+        version: link:../directives
       '@element-plus/hooks':
         specifier: workspace:*
-        version: link:../hooks/dist
+        version: link:../hooks
       '@element-plus/locale':
         specifier: workspace:*
         version: link:../locale
@@ -552,13 +549,13 @@ importers:
     dependencies:
       '@element-plus/constants':
         specifier: workspace:*
-        version: link:../constants/dist
+        version: link:../constants
       '@element-plus/locale':
         specifier: workspace:*
         version: link:../locale
       '@element-plus/utils':
         specifier: workspace:*
-        version: link:../utils/dist
+        version: link:../utils
       '@floating-ui/dom':
         specifier: 'catalog:'
         version: 1.7.5
@@ -578,7 +575,6 @@ importers:
       vue:
         specifier: 'catalog:'
         version: 3.5.28(typescript@5.5.4)
-    publishDirectory: dist
 
   packages/locale: {}
 
@@ -628,7 +624,7 @@ importers:
     dependencies:
       '@element-plus/constants':
         specifier: workspace:^
-        version: link:../constants/dist
+        version: link:../constants
       '@element-plus/icons-vue':
         specifier: 'catalog:'
         version: 2.3.2(vue@3.5.28(typescript@5.5.4))
@@ -651,7 +647,6 @@ importers:
       vue:
         specifier: 'catalog:'
         version: 3.5.28(typescript@5.5.4)
-    publishDirectory: dist
 
   play:
     dependencies:
@@ -7202,7 +7197,7 @@ snapshots:
   '@babel/generator@7.28.5':
     dependencies:
       '@babel/parser': 7.29.0
-      '@babel/types': 7.28.5
+      '@babel/types': 7.29.0
       '@jridgewell/gen-mapping': 0.3.13
       '@jridgewell/trace-mapping': 0.3.31
       jsesc: 3.1.0
@@ -7335,7 +7330,7 @@ snapshots:
     dependencies:
       '@babel/code-frame': 7.27.1
       '@babel/parser': 7.29.0
-      '@babel/types': 7.28.5
+      '@babel/types': 7.29.0
 
   '@babel/template@7.28.6':
     dependencies:

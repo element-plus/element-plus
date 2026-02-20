@@ -1,9 +1,9 @@
 {
-  "name": "@makedopamine/element-plus-constants",
-  "version": "0.0.20260220182412",
+  "name": "@element-plus/constants",
+  "version": "0.0.20260220215154",
   "description": "@element-plus/constants",
   "license": "MIT",
-  "publishConfig": {
-    "directory": "dist"
-  }
+  "files": [
+    "dist"
+  ]
 }
