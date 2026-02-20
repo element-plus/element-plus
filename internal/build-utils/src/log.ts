@@ -1,4 +1,5 @@
 import process from 'process'
+import { performance } from 'node:perf_hooks'
 import chalk from 'chalk'
 import consola from 'consola'
 
