@@ -1,6 +1,6 @@
 {
-  "name": "@element-plus/eslint-config",
-  "version": "0.0.1",
+  "name": "@makedopamine/element-plus-eslint-config",
+  "version": "0.0.20260220182412",
   "type": "module",
   "description": "ESLint Config",
   "license": "MIT",

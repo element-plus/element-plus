@@ -1,6 +1,6 @@
 {
-  "name": "@element-plus/components",
-  "version": "0.0.5",
+  "name": "@makedopamine/element-plus-components",
+  "version": "0.0.20260220182412",
   "description": "all components are settled here",
   "license": "MIT",
   "peerDependencies": {
@@ -33,6 +33,5 @@
   ],
   "publishConfig": {
     "directory": "dist"
-  },
-  "gitHead": "c69724230befa8fede0e6b9c37fb0b7e39fd7cdd"
+  }
 }

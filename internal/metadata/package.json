@@ -1,6 +1,6 @@
 {
-  "name": "@element-plus/metadata",
-  "version": "0.0.1",
+  "name": "@makedopamine/element-plus-metadata",
+  "version": "0.0.20260220182412",
   "description": "Metadata for Element Plus",
   "type": "module",
   "keywords": [
