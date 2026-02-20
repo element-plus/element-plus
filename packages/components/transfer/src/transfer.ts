@@ -231,5 +231,5 @@ export const transferEmits = {
 }
 export type TransferEmits = typeof transferEmits
 
-export type TransferInstance = ComponentPublicInstance &
+export type TransferInstance = ComponentInstance<typeof Transfer> &
   ComponentExposed<typeof Transfer>
