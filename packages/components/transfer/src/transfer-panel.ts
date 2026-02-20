@@ -1,11 +1,7 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 import { transferCheckedChangeFn, transferProps } from './transfer'
 
-import type {
-  ComponentPublicInstance,
-  ExtractPublicPropTypes,
-  VNode,
-} from 'vue'
+import type { ComponentInstance, ExtractPublicPropTypes, VNode } from 'vue'
 import type { ComponentExposed } from 'vue-component-type-helpers'
 import type {
   TransferDataItem,
