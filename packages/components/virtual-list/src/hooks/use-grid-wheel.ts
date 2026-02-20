@@ -50,12 +50,12 @@ export const useGridWheel = (
 
     if (hasReachedEdge(x, y)) {
       // #23524
-      if (
-        deltaX < 0 &&
-        deltaY < 0 &&
-        !hasXReachedEdge(deltaX) &&
-        hasYReachedEdge(deltaY)
-      ) {
+      // Prevent browser back navigation when the table can still scroll
+      // horizontally but the Y-axis normalization dropped the X delta and the Y
+      // edge was hit instead. Intentionally *not* preventing default when
+      // hasXReachedEdge(deltaX) is true — at the genuine left edge, allowing
+      // the browser back gesture is acceptable UX.
+      if (deltaX < 0 && !hasXReachedEdge(deltaX) && hasYReachedEdge(deltaY)) {
         e.preventDefault()
       }
       return
