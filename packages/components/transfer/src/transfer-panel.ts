@@ -69,5 +69,5 @@ export const transferPanelEmits = {
 }
 export type TransferPanelEmits = typeof transferPanelEmits
 
-export type TransferPanelInstance = ComponentPublicInstance &
+export type TransferPanelInstance = ComponentInstance<typeof TransferPanel> &
   ComponentExposed<typeof TransferPanel>
