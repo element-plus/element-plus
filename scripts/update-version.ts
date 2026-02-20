@@ -31,6 +31,10 @@ async function main() {
       version: tagVersion,
       // @ts-expect-error
       gitHead,
+      name: project.manifest.name!.replace(
+        '@element-plus/',
+        '@makedopamine/element-plus-'
+      ),
     })
   }
 
