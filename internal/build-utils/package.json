@@ -1,6 +1,7 @@
 {
   "name": "@element-plus/build-utils",
   "private": true,
+  "version": "0.0.0",
   "type": "module",
   "description": "Build utils for Element Plus",
   "exports": "./src/index.ts",

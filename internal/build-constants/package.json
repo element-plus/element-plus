@@ -1,6 +1,7 @@
 {
   "name": "@element-plus/build-constants",
   "private": true,
+  "version": "0.0.0",
   "type": "module",
   "description": "Build constants for Element Plus",
   "exports": "./src/index.ts"

@@ -1,6 +1,6 @@
 {
-  "name": "@element-plus/utils",
-  "version": "0.0.20260220215154",
+  "name": "@makedopamine/element-plus-utils",
+  "version": "0.0.20260220223327",
   "description": "Utils for Element Plus",
   "license": "MIT",
   "peerDependencies": {

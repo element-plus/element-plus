@@ -29,10 +29,13 @@ async function main() {
     await project.writeProjectManifest({
       ...project.manifest,
       version: tagVersion,
-      name: project.manifest.name!.replace(
-        '@element-plus/',
-        '@makedopamine/element-plus-'
-      ),
+      name:
+        project.manifest.name === 'element-plus'
+          ? '@makedopamine/element-plus'
+          : project.manifest.name!.replace(
+              '@element-plus/',
+              '@makedopamine/element-plus-'
+            ),
     })
   }
 
