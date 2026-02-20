@@ -19,22 +19,19 @@ export const useGridWheel = (
   let xOffset = 0
   let yOffset = 0
 
-  const hasXReachedEdge = (x: number) => {
-    return (x < 0 && atXStartEdge.value) || (x > 0 && atXEndEdge.value)
-  }
-  const hasYReachedEdge = (y: number) => {
-    return (y < 0 && atYStartEdge.value) || (y > 0 && atYEndEdge.value)
-  }
   const hasReachedEdge = (x: number, y: number) => {
-    return hasXReachedEdge(x) || hasYReachedEdge(y)
+    const xEdgeReached =
+      (x < 0 && atXStartEdge.value) || (x > 0 && atXEndEdge.value)
+    const yEdgeReached =
+      (y < 0 && atYStartEdge.value) || (y > 0 && atYEndEdge.value)
+    return xEdgeReached || yEdgeReached
   }
 
   const onWheel = (e: WheelEvent) => {
     cAF(frameHandle!)
 
-    const { deltaX, deltaY } = e
-    let x = deltaX
-    let y = deltaY
+    let x = e.deltaX
+    let y = e.deltaY
     // Simulate native behavior when using touch pad/track pad for wheeling.
     if (Math.abs(x) > Math.abs(y)) {
       y = 0
@@ -51,11 +48,8 @@ export const useGridWheel = (
     if (hasReachedEdge(x, y)) {
       // #23524
       // Prevent browser back navigation when the table can still scroll
-      // horizontally but the Y-axis normalization dropped the X delta and the Y
-      // edge was hit instead. Intentionally *not* preventing default when
-      // hasXReachedEdge(deltaX) is true — at the genuine left edge, allowing
-      // the browser back gesture is acceptable UX.
-      if (deltaX < 0 && !hasXReachedEdge(deltaX) && hasYReachedEdge(deltaY)) {
+      // horizontally but the Y-axis normalization dropped the X delta and the Y edge was hit instead.
+      if (e.deltaX !== 0 && x === 0) {
         e.preventDefault()
       }
       return
