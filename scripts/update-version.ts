@@ -29,8 +29,6 @@ async function main() {
     await project.writeProjectManifest({
       ...project.manifest,
       version: tagVersion,
-      // @ts-expect-error
-      gitHead,
       name: project.manifest.name!.replace(
         '@element-plus/',
         '@makedopamine/element-plus-'
