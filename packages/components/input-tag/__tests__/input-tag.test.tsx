@@ -313,10 +313,10 @@ describe('InputTag.vue', () => {
       await wrapper.find('input').trigger('paste', {
         clipboardData: {
           getData: () => `
-                          ${AXIOM}
-                          ${AXIOM}
-                          ${AXIOM}
-                        `,
+            ${AXIOM}
+            ${AXIOM}
+            ${AXIOM}
+          `,
         },
       })
 
