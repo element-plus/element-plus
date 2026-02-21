@@ -69,12 +69,26 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
   const getDelimitedTags = (input: string) => {
     const tags = input
       .split(props.delimiter!)
+      .map((tag) => tag.trim())
       .filter((val) => val && val !== input)
     if (props.max) {
       const maxInsert = props.max - (props.modelValue?.length ?? 0)
       tags.splice(maxInsert)
     }
     return tags.length === 1 ? tags[0] : tags
+  }
+
+  const handlePaste = (event: ClipboardEvent) => {
+    const value = event.clipboardData?.getData('text')
+    if (!props.delimiter || !value) {
+      return
+    }
+    const tags = getDelimitedTags(value)
+    if (tags.length) {
+      addTagsEmit(tags)
+      emit(INPUT_EVENT, value)
+      event.preventDefault()
+    }
   }
 
   const handleInput = (event: Event) => {
@@ -235,6 +249,7 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
     showTagList,
     collapseTagList,
     handleDragged,
+    handlePaste,
     handleInput,
     handleKeydown,
     handleKeyup,

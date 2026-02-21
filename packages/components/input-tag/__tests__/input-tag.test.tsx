@@ -298,6 +298,36 @@ describe('InputTag.vue', () => {
         .forEach((tag) => expect(tag.text()).toBe(AXIOM))
       expect(inputValue.value).toEqual(result)
     })
+
+    test('paste multiple /\r?\n/ delimiter', async () => {
+      const inputValue = ref<string[]>()
+      const addTag = vi.fn()
+      const wrapper = mount(() => (
+        <InputTag
+          v-model={inputValue.value}
+          delimiter={/\r?\n/}
+          onAdd-tag={addTag}
+        />
+      ))
+
+      await wrapper.find('input').trigger('paste', {
+        clipboardData: {
+          getData: () => `
+                          ${AXIOM}
+                          ${AXIOM}
+                          ${AXIOM}
+                        `,
+        },
+      })
+
+      const result = [AXIOM, AXIOM, AXIOM]
+      expect(wrapper.findAll('.el-tag').length).toBe(3)
+      expect(addTag).toBeCalledWith(result)
+      wrapper
+        .findAll('.el-tag')
+        .forEach((tag) => expect(tag.text()).toBe(AXIOM))
+      expect(inputValue.value).toEqual(result)
+    })
   })
 
   describe('events', () => {
