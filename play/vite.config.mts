@@ -51,6 +51,7 @@ export default defineConfig(async ({ mode }) => {
     },
     build: {
       sourcemap: true,
+      target: 'chrome64',
     },
     plugins: [
       vue(),
@@ -69,9 +70,6 @@ export default defineConfig(async ({ mode }) => {
 
     optimizeDeps: {
       include: ['vue', '@vue/shared', ...dependencies, ...optimizeDeps],
-    },
-    esbuild: {
-      target: 'chrome64',
     },
   }
 })

@@ -9,8 +9,8 @@ catalog:
   '@element-plus/icons-vue': ^2.3.2
   '@floating-ui/dom': ^1.0.1
   '@popperjs/core': npm:@sxzz/popperjs-es@^2.11.7
-  '@vitejs/plugin-vue': ^5.1.4
-  '@vitejs/plugin-vue-jsx': ^4.0.1
+  '@vitejs/plugin-vue': ^6.0.4
+  '@vitejs/plugin-vue-jsx': ^5.1.4
   '@vue/server-renderer': ^3.5.22
   '@vue/shared': ^3.5.22
   '@vue/test-utils': ^2.4.6
@@ -26,6 +26,7 @@ onlyBuiltDependencies:
   - esbuild
   - fsevents
   - puppeteer
+  - rolldown
   - vue-demi
 
 overrides:
