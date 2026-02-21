@@ -4,5 +4,7 @@
     "jsx": "preserve",
     "jsxImportSource": "vue",
     "lib": ["ESNext", "DOM", "DOM.Iterable"]
-  }
+  },
+  "include": ["**/*.ts", "**/*.vue"],
+  "exclude": ["**/__tests__"]
 }
