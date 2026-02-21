@@ -80,7 +80,7 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
 
   const handlePaste = (event: ClipboardEvent) => {
     const value = event.clipboardData?.getData('text')
-    if (!props.delimiter || !value) {
+    if (props.readonly || inputLimit.value || !props.delimiter || !value) {
       return
     }
     const tags = getDelimitedTags(value)
