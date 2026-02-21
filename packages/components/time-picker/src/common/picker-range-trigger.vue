@@ -42,7 +42,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, reactive, ref } from 'vue'
+import { computed, reactive, ref, useTemplateRef } from 'vue'
 import { useAttrs, useFocusController, useNamespace } from '@element-plus/hooks'
 import { timePickerRangeTriggerProps } from './props'
 import { useFormItem, useFormItemInputId } from '@element-plus/components/form'
@@ -80,11 +80,13 @@ const attrs = useAttrs()
 const nsDate = useNamespace('date')
 const nsRange = useNamespace('range')
 
+const wrapperRef = useTemplateRef<HTMLElement>('wrapperRef')
+
 const inputRef = ref<HTMLInputElement>()
 const endInputRef = ref<HTMLInputElement>()
-
-const { wrapperRef, isFocused } = useFocusController(inputRef, {
+const { isFocused } = useFocusController(inputRef, {
   disabled: computed(() => props.disabled),
+  wrapperRef,
 })
 
 const handleClick = (evt: MouseEvent) => {

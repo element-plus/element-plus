@@ -223,6 +223,7 @@ import {
   onMounted,
   ref,
   useAttrs,
+  useTemplateRef,
   watch,
 } from 'vue'
 import { cloneDeep } from 'lodash-unified'
@@ -354,6 +355,8 @@ const { isComposing, handleComposition } = useComposition({
   },
 })
 
+const wrapperRef = useTemplateRef<HTMLElement>('wrapperRef')
+
 const tooltipRef = ref<TooltipInstance>()
 const tagTooltipRef = ref<TooltipInstance>()
 const inputRef = ref<InputInstance>()
@@ -409,8 +412,9 @@ const checkedNodes: ComputedRef<CascaderNode[]> = computed(
   () => cascaderPanelRef.value?.checkedNodes || []
 )
 
-const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
+const { isFocused, handleBlur } = useFocusController(inputRef, {
   disabled: isDisabled,
+  wrapperRef,
   beforeBlur(event) {
     return (
       tooltipRef.value?.isFocusInsideContent(event) ||

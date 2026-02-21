@@ -15,7 +15,7 @@ import type {
   FixedSizeList,
   Alignment as ScrollStrategy,
 } from '@element-plus/components/virtual-list'
-import type { SetupContext } from 'vue'
+import type { Ref, SetupContext } from 'vue'
 import type { treeEmits } from '../virtual-tree'
 import type { CheckboxValueType } from '@element-plus/components/checkbox'
 import type {
@@ -29,12 +29,12 @@ import type {
 
 export function useTree(
   props: TreeProps,
-  emit: SetupContext<typeof treeEmits>['emit']
+  emit: SetupContext<typeof treeEmits>['emit'],
+  listRef: Readonly<Ref<InstanceType<typeof FixedSizeList> | null>>
 ) {
   const expandedKeySet = ref<Set<TreeKey>>(new Set())
   const currentKey = ref<TreeKey | undefined>()
   const tree = shallowRef<Tree | undefined>()
-  const listRef = ref<typeof FixedSizeList | undefined>()
 
   const {
     isIndeterminate,

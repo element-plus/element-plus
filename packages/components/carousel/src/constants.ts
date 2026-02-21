@@ -20,7 +20,7 @@ export type CarouselItemContext = {
 }
 
 export type CarouselContext = {
-  root: Ref<HTMLElement | undefined>
+  root: Readonly<Ref<HTMLElement | null>>
   items: Ref<CarouselItemContext[]>
   isCardType: Ref<boolean>
   isVertical: Ref<boolean>
