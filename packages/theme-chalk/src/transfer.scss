@@ -171,10 +171,6 @@
   }
 
   .#{$namespace}-transfer-panel__footer {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: flex-start;
     height: getCssVar('transfer-panel-footer-height');
     background: getCssVar('bg-color', 'overlay');
     margin: 0;
@@ -182,6 +178,8 @@
     border: 1px solid getCssVar('transfer-border-color');
     border-bottom-left-radius: getCssVar('transfer-border-radius');
     border-bottom-right-radius: getCssVar('transfer-border-radius');
+    white-space: nowrap;
+    @include utils-vertical-center;
 
     .#{$namespace}-checkbox {
       color: getCssVar('text-color', 'regular');
