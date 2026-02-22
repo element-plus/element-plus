@@ -182,6 +182,7 @@
     @include utils-vertical-center;
 
     .#{$namespace}-checkbox {
+      padding-left: 20px;
       color: getCssVar('text-color', 'regular');
     }
   }
