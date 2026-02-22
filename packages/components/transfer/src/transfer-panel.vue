@@ -7,8 +7,10 @@
         :validate-event="false"
         @change="handleAllCheckedChange"
       >
-        {{ title }}
-        <span>{{ checkedSummary }}</span>
+        <span :class="ns.be('panel', 'header-title')">{{ title }}</span>
+        <span :class="ns.be('panel', 'header-count')">
+          {{ checkedSummary }}
+        </span>
       </el-checkbox>
     </p>
 
