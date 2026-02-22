@@ -179,7 +179,6 @@
     border: 1px solid getCssVar('transfer-border-color');
     border-bottom-left-radius: getCssVar('transfer-border-radius');
     border-bottom-right-radius: getCssVar('transfer-border-radius');
-    white-space: nowrap;
     @include utils-vertical-center;
 
     .#{$namespace}-checkbox {
