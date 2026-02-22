@@ -146,7 +146,7 @@
 
       .#{$namespace}-checkbox__label {
         display: flex;
-        flex-grow: 1;
+        flex: 1;
         align-items: center;
         min-width: 0;
         font-size: 16px;
@@ -158,7 +158,7 @@
 
   .#{$namespace}-transfer-panel__header-title {
     @include utils-ellipsis;
-    flex-grow: 1;
+    flex: 1;
     min-width: 0;
   }
 
