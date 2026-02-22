@@ -174,6 +174,7 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
+    align-items: flex-start;
     height: getCssVar('transfer-panel-footer-height');
     background: getCssVar('bg-color', 'overlay');
     margin: 0;
