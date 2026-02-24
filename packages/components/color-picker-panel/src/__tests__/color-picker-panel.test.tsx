@@ -689,7 +689,7 @@ describe('Color-picker-panel', () => {
   it('passed class names and styles into hue-slider', async () => {
     const TEST_STYLE = '--test: 1px'
     const wrapper = mount(() => (
-      <ColorPickerPanel hueSliderClass={'custom'} hueSliderStyle={TEST_STYLE} />
+      <ColorPickerPanel hueSliderClass="custom" hueSliderStyle={TEST_STYLE} />
     ))
     await nextTick()
 

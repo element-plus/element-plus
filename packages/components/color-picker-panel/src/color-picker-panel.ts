@@ -44,11 +44,11 @@ export interface ColorPickerPanelProps {
    */
   validateEvent?: boolean
   /**
-   * @description class names will passed to <hue-slider />
+   * @description class names will be passed to hue-slider
    */
   hueSliderClass?: string | string[] | Record<string, boolean>
   /**
-   * @description styles will passed to <hue-slider />
+   * @description styles will be passed to hue-slider
    */
   hueSliderStyle?: StyleValue
 }

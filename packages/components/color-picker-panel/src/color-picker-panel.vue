@@ -9,8 +9,8 @@
         :color="color"
         vertical
         :disabled="disabled"
-        :class="['hue-slider', props.hueSliderClass]"
-        :style="props.hueSliderStyle"
+        :class="['hue-slider', hueSliderClass]"
+        :style="hueSliderStyle"
       />
       <sv-panel ref="svRef" :color="color" :disabled="disabled" />
     </div>
