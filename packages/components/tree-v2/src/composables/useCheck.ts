@@ -26,12 +26,8 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
     }
   )
 
-  const updateCheckedKeys = (ignoreCheckStrictly = false) => {
-    if (
-      !tree.value ||
-      !props.showCheckbox ||
-      (props.checkStrictly && !ignoreCheckStrictly)
-    ) {
+  const updateCheckedKeys = (deep = false) => {
+    if (!tree.value || !props.showCheckbox || (props.checkStrictly && !deep)) {
       return
     }
     const { levelTreeNodeMap, maxLevel } = tree.value
@@ -93,15 +89,11 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
     isChecked: CheckboxValueType,
     nodeClick = true,
     immediateUpdate = true,
-    ignoreCheckStrictly = false
+    deep = false
   ) => {
     const checkedKeySet = checkedKeys.value
     const children = node.children
-    if (
-      (!props.checkStrictly || ignoreCheckStrictly) &&
-      nodeClick &&
-      children?.length
-    ) {
+    if ((!props.checkStrictly || deep) && nodeClick && children?.length) {
       isChecked = children.some((node) => !node.isEffectivelyChecked)
     }
 
@@ -110,7 +102,7 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
         node.key
       )
       const children = node.children
-      if ((!props.checkStrictly || ignoreCheckStrictly) && children) {
+      if ((!props.checkStrictly || deep) && children) {
         children.forEach((childNode) => {
           if (!childNode.disabled || childNode.children) {
             toggle(childNode, checked)
@@ -208,15 +200,11 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
     })
   }
 
-  function setChecked(
-    key: TreeKey,
-    isChecked: boolean,
-    ignoreCheckStrictly?: boolean
-  ) {
+  function setChecked(key: TreeKey, isChecked: boolean, deep?: boolean) {
     if (tree?.value && props.showCheckbox) {
       const node = tree.value.treeNodeMap.get(key)
       if (node) {
-        toggleCheckbox(node, isChecked, false, undefined, ignoreCheckStrictly)
+        toggleCheckbox(node, isChecked, false, undefined, deep)
       }
     }
   }

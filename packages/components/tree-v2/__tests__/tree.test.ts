@@ -1494,7 +1494,7 @@ describe('Virtual Tree', () => {
       expect(halfCheckedKeys.toString()).toBe(['1'].toString())
     })
 
-    test('setChecked ignoreCheckStrictly', async () => {
+    test('setChecked with checkStrictly', async () => {
       const { treeRef } = createTree({
         data() {
           return {
@@ -1544,11 +1544,14 @@ describe('Virtual Tree', () => {
         },
       })
       await nextTick()
-      treeRef.setChecked('1-1', true, true, true)
-      const checkedKeys = treeRef.getCheckedKeys()
-      const halfCheckedKeys = treeRef.getHalfCheckedKeys()
-      expect(checkedKeys.toString()).toBe(['1-1', '1-1-1', '1-1-2'].toString())
-      expect(halfCheckedKeys.length).toBe(0)
+
+      treeRef.setChecked('1-1', true)
+      expect(treeRef.getCheckedKeys().toString()).toBe(['1-1'].toString())
+
+      treeRef.setChecked('1-1', true, true)
+      expect(treeRef.getCheckedKeys().toString()).toBe(
+        ['1-1', '1-1-1', '1-1-2'].toString()
+      )
     })
 
     test('getCurrent', async () => {

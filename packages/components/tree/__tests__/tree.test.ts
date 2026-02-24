@@ -792,11 +792,11 @@ describe('Tree.vue', () => {
     const treeWrapper = wrapper.findComponent(Tree)
     const tree = treeWrapper.vm as InstanceType<typeof Tree>
 
-    tree.setChecked(111, true, true)
+    tree.setChecked(111, true)
     expect(tree.getCheckedNodes().length).toEqual(1)
     expect(tree.getCheckedKeys().length).toEqual(1)
 
-    tree.setChecked(tree.data[0], true, true, true)
+    tree.setChecked(tree.data[0], true, true)
     expect(tree.getCheckedNodes().length).toEqual(3)
     expect(tree.getCheckedKeys().length).toEqual(3)
   })

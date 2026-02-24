@@ -457,15 +457,14 @@ class Node {
     value?: boolean | string,
     deep?: boolean,
     recursion?: boolean,
-    passValue?: boolean,
-    ignoreCheckStrictly?: boolean
+    passValue?: boolean
   ) {
     this.indeterminate = value === 'half'
     this.checked = value === true
     this.isEffectivelyChecked =
       !this.childNodes.length && (this.disabled || this.checked)
 
-    if (this.store.checkStrictly && !ignoreCheckStrictly) return
+    if (this.store.checkStrictly && !deep) return
 
     if (!(this.shouldLoadData() && !this.store.checkDescendants)) {
       const handleDescendants = (): void => {
@@ -476,13 +475,7 @@ class Node {
             passValue = passValue || value !== false
             const isCheck =
               child.disabled && child.isLeaf ? child.checked : passValue
-            child.setChecked(
-              isCheck,
-              deep,
-              true,
-              passValue,
-              ignoreCheckStrictly
-            )
+            child.setChecked(isCheck, deep, true, passValue)
           }
           const { half, all, isEffectivelyChecked } = getChildState(childNodes)
           if (!all) {
