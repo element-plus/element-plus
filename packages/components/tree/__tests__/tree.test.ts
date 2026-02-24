@@ -1514,12 +1514,13 @@ describe('Tree.vue', () => {
       components: { 'el-tree': Tree },
       data: () => ({ data }),
     })
-    const treeNodes = wrapper
-      .findAllComponents({ name: 'ElTree' })[1]
-      .findAll('.is-focusable[role=treeitem]')
-    await treeNodes[0].trigger('click')
+    await nextTick()
+    let focused = false
+    const secondTree = wrapper.findAllComponents({ name: 'ElTree' })[1]
+    const treeNodes = secondTree.findAll('.is-focusable[role=treeitem]')
+    defineGetter(treeNodes[1].element, 'focus', () => () => (focused = true))
     await treeNodes[0].trigger('keydown', { code: 'ArrowDown' })
-    expect(treeNodes[0].classes()).toContain('is-current')
+    expect(focused).toBe(true)
   })
 
   test('collapse and navigate down and up', async () => {
