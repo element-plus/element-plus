@@ -1,6 +1,6 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { afterAll, assert, describe, expect, it, vi } from 'vitest'
+import { afterAll, describe, expect, it, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
 import ColorPickerPanel from '../color-picker-panel.vue'
 import HueSlider from '../components/hue-slider.vue'
@@ -694,7 +694,7 @@ describe('Color-picker-panel', () => {
     await nextTick()
 
     const hueSlider = wrapper.find('.el-color-hue-slider')
-    assert.isNotNull(hueSlider)
+    expect(hueSlider.exists()).toBe(true)
 
     // Got class name
     expect(hueSlider.attributes('class')).toContain('custom')
