@@ -28,14 +28,30 @@
       :disabled="disabled"
     />
     <div :class="ns.e('footer')">
-      <el-input
-        ref="inputRef"
-        v-model="customInput"
-        :validate-event="false"
-        size="small"
-        :disabled="disabled"
-        @change="handleConfirm"
-      />
+      <div :class="ns.e('color-content')">
+        <el-select
+          v-if="allowFormatSelect"
+          :model-value="effectiveFormat"
+          size="small"
+          :disabled="disabled"
+          @update:model-value="handleFormatChange"
+        >
+          <el-option
+            v-for="item in COLOR_FORMAT_OPTIONS"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+        <el-input
+          ref="inputRef"
+          v-model="customInput"
+          :validate-event="false"
+          size="small"
+          :disabled="disabled"
+          @change="handleConfirm"
+        />
+      </div>
       <slot name="footer" />
     </div>
   </div>
@@ -44,6 +60,7 @@
 <script lang="ts" setup>
 import { computed, inject, nextTick, onMounted, provide, ref, watch } from 'vue'
 import { ElInput } from '@element-plus/components/input'
+import { ElOption, ElSelect } from '@element-plus/components/select'
 import { useFormDisabled, useFormItem } from '@element-plus/components/form'
 import { useNamespace } from '@element-plus/hooks'
 import { debugWarn } from '@element-plus/utils'
@@ -53,12 +70,14 @@ import HueSlider from './components/hue-slider.vue'
 import Predefine from './components/predefine.vue'
 import SvPanel from './components/sv-panel.vue'
 import {
+  COLOR_FORMAT_OPTIONS,
   ROOT_COMMON_COLOR_INJECTION_KEY,
   colorPickerPanelContextKey,
   colorPickerPanelEmits,
 } from './color-picker-panel'
 import { useCommonColor } from './composables/use-common-color'
 
+import type { ColorFormats } from '@ctrl/tinycolor'
 import type { ColorPickerPanelProps } from './color-picker-panel'
 import type { InputInstance } from '@element-plus/components/input'
 
@@ -69,6 +88,7 @@ const props = withDefaults(defineProps<ColorPickerPanelProps>(), {
   modelValue: undefined,
   border: true,
   validateEvent: true,
+  allowFormatSelect: false,
 })
 const emit = defineEmits(colorPickerPanelEmits)
 
@@ -80,6 +100,14 @@ const svRef = ref<InstanceType<typeof SvPanel>>()
 const alphaRef = ref<InstanceType<typeof AlphaSlider>>()
 const inputRef = ref<InputInstance>()
 const customInput = ref('')
+const localFormat = ref<ColorFormats>(
+  (props.showAlpha ? 'rgb' : 'hex') as ColorFormats
+)
+const effectiveFormat = computed(
+  () =>
+    (props.colorFormat ?? localFormat.value) ||
+    (props.showAlpha ? 'rgb' : 'hex')
+)
 
 const { color } = inject(
   ROOT_COMMON_COLOR_INJECTION_KEY,
@@ -91,6 +119,17 @@ function handleConfirm() {
   color.fromString(customInput.value)
   if (color.value !== customInput.value) {
     customInput.value = color.value
+  }
+}
+
+function handleFormatChange(val: ColorFormats) {
+  emit('update:colorFormat', val)
+  if (props.colorFormat === undefined) {
+    localFormat.value = val
+    color.format = val
+    color.doOnChange()
+    customInput.value = color.value
+    emit(UPDATE_MODEL_EVENT, color.value)
   }
 }
 

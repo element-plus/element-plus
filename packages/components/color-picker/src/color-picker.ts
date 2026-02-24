@@ -42,6 +42,10 @@ export interface ColorPickerProps
    */
   disabled?: boolean
   /**
+   * @description whether to show the format selector in panel so user can change color format manually
+   */
+  allowFormatSelect?: boolean
+  /**
    * @description whether to show clear button
    */
   clearable?: boolean
@@ -118,6 +122,10 @@ export const colorPickerProps = buildProps({
     type: Boolean,
     default: undefined,
   },
+  /**
+   * @description whether to show the format selector in panel so user can change color format manually
+   */
+  allowFormatSelect: Boolean,
   /**
    * @description whether to show clear button
    */

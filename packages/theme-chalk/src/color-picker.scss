@@ -148,6 +148,12 @@ $color-picker-size: map.merge($common-component-size, $color-picker-size);
     &.#{$namespace}-popper {
       border: 1px solid getCssVar('border-color-lighter');
     }
+
+    @include when(format-select) {
+      .#{$namespace}-color-picker-panel__color-content .#{$namespace}-input {
+        width: 100px;
+      }
+    }
   }
 }
 

@@ -7,6 +7,20 @@ import type { ColorFormats } from '@ctrl/tinycolor'
 import type ColorPickerPanel from './color-picker-panel.vue'
 import type Color from './utils/color'
 
+/** Color format options for the format selector (subset of ColorFormats used by panel) */
+export const COLOR_FORMAT_OPTIONS: { value: ColorFormats; label: string }[] = [
+  { value: 'rgb', label: 'RGB' },
+  { value: 'prgb', label: 'PRGB' },
+  { value: 'hex', label: 'HEX' },
+  { value: 'hex3', label: 'HEX3' },
+  { value: 'hex4', label: 'HEX4' },
+  { value: 'hex6', label: 'HEX6' },
+  { value: 'hex8', label: 'HEX8' },
+  { value: 'name', label: 'NAME' },
+  { value: 'hsl', label: 'HSL' },
+  { value: 'hsv', label: 'HSV' },
+]
+
 export interface ColorPickerPanelProps {
   /**
    * @description binding value
@@ -28,6 +42,10 @@ export interface ColorPickerPanelProps {
    * @description whether to disable the color picker
    */
   disabled?: boolean
+  /**
+   * @description whether to show the format selector so user can change color format manually
+   */
+  allowFormatSelect?: boolean
   /**
    * @description predefined color options
    */
@@ -71,6 +89,10 @@ export const colorPickerPanelProps = buildProps({
    */
   disabled: Boolean,
   /**
+   * @description whether to show the format selector so user can change color format manually
+   */
+  allowFormatSelect: Boolean,
+  /**
    * @description predefined color options
    */
   predefine: {
@@ -86,6 +108,7 @@ export const colorPickerPanelProps = buildProps({
 } as const)
 export const colorPickerPanelEmits = {
   [UPDATE_MODEL_EVENT]: (val: string | null) => isString(val) || isNil(val),
+  'update:colorFormat': (val: ColorFormats) => isString(val),
 }
 
 /**
