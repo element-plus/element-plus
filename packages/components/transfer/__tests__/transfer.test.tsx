@@ -97,7 +97,7 @@ describe('Transfer', () => {
     expect(
       wrapper.find('.el-transfer-panel__list .el-checkbox__label span').text()
     ).toBe('1 - 备选项 1')
-    expect(label.find('span').text()).toBe('no')
+    expect(label.find('.el-transfer-panel__header-count').text()).toBe('no')
   })
 
   it('check', () => {
