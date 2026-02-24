@@ -8,6 +8,7 @@ import type {
   InjectionKey,
   StyleValue,
 } from 'vue'
+import type { ColorFormats } from '@ctrl/tinycolor'
 import type ColorPickerPanel from './color-picker-panel.vue'
 import type Color from './utils/color'
 
@@ -30,7 +31,7 @@ export interface ColorPickerPanelProps {
   /**
    * @description color format of v-model
    */
-  colorFormat?: string
+  colorFormat?: ColorFormats
   /**
    * @description whether to disable the color picker
    */
@@ -78,7 +79,9 @@ export const colorPickerPanelProps = buildProps({
   /**
    * @description color format of v-model
    */
-  colorFormat: String,
+  colorFormat: {
+    type: definePropType<ColorFormats>(String),
+  },
   /**
    * @description whether to disable the color picker
    */
