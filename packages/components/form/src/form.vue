@@ -281,7 +281,7 @@ defineExpose({
    */
   fields,
   /**
-   * @description Set initial values for form fields. When `resetFields` is called, fields will reset to these values. Only fields present in `initModel` will be updated.
+   * @description Set initial values for form fields. When `resetFields` is called, fields will reset to these values.
    */
   setInitialValues,
 })
