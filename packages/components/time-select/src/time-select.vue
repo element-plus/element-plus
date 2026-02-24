@@ -47,6 +47,8 @@ import { useLocale, useNamespace } from '@element-plus/hooks'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { CircleClose, Clock } from '@element-plus/icons-vue'
 import { compareTime, formatTime, nextTime, parseTime } from './utils'
+import { debugWarn } from '@element-plus/utils'
+import { DEFAULT_STEP } from './time-select'
 
 import type { TimeSelectProps } from './time-select'
 
@@ -68,7 +70,7 @@ const props = withDefaults(defineProps<TimeSelectProps>(), {
   clearable: true,
   start: '09:00',
   end: '18:00',
-  step: '00:30',
+  step: DEFAULT_STEP,
   prefixIcon: () => Clock,
   clearIcon: () => CircleClose,
   popperClass: '',
@@ -93,11 +95,6 @@ const end = computed(() => {
   return time ? formatTime(time) : null
 })
 
-const step = computed(() => {
-  const time = parseTime(props.step)
-  return time ? formatTime(time) : null
-})
-
 const minTime = computed(() => {
   const time = parseTime(props.minTime || '')
   return time ? formatTime(time) : null
@@ -106,6 +103,24 @@ const minTime = computed(() => {
 const maxTime = computed(() => {
   const time = parseTime(props.maxTime || '')
   return time ? formatTime(time) : null
+})
+
+const step = computed(() => {
+  const time = parseTime(props.step)
+  const isInvalidStep =
+    !time ||
+    time.hours < 0 ||
+    time.minutes < 0 ||
+    Number.isNaN(time.hours) ||
+    Number.isNaN(time.minutes) ||
+    (time.hours === 0 && time.minutes === 0)
+  if (isInvalidStep) {
+    debugWarn(
+      'ElTimeSelect',
+      `invalid step, fallback to default step (${DEFAULT_STEP}).`
+    )
+  }
+  return !isInvalidStep ? formatTime(time) : DEFAULT_STEP
 })
 
 const items = computed(() => {

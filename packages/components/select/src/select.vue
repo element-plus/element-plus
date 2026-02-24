@@ -95,13 +95,26 @@
                 v-if="collapseTags && states.selected.length > maxCollapseTags"
                 ref="tagTooltipRef"
                 :disabled="dropdownMenuVisible || !collapseTagsTooltip"
-                :fallback-placements="['bottom', 'top', 'right', 'left']"
-                :effect="effect"
-                placement="bottom"
-                :popper-class="popperClass"
-                :popper-style="popperStyle"
-                :teleported="teleported"
-                :popper-options="popperOptions"
+                :fallback-placements="
+                  tagTooltip?.fallbackPlacements ?? [
+                    'bottom',
+                    'top',
+                    'right',
+                    'left',
+                  ]
+                "
+                :effect="tagTooltip?.effect ?? effect"
+                :placement="tagTooltip?.placement ?? 'bottom'"
+                :popper-class="tagTooltip?.popperClass ?? popperClass"
+                :popper-style="tagTooltip?.popperStyle ?? popperStyle"
+                :teleported="tagTooltip?.teleported ?? teleported"
+                :append-to="tagTooltip?.appendTo ?? appendTo"
+                :popper-options="tagTooltip?.popperOptions ?? popperOptions"
+                :transition="tagTooltip?.transition"
+                :show-after="tagTooltip?.showAfter"
+                :hide-after="tagTooltip?.hideAfter"
+                :auto-close="tagTooltip?.autoClose"
+                :offset="tagTooltip?.offset"
               >
                 <template #default>
                   <div
@@ -158,7 +171,12 @@
               :class="[
                 nsSelect.e('selected-item'),
                 nsSelect.e('input-wrapper'),
-                nsSelect.is('hidden', !filterable || selectDisabled),
+                nsSelect.is(
+                  'hidden',
+                  !filterable ||
+                    selectDisabled ||
+                    (!states.inputValue && !isFocused)
+                ),
               ]"
             >
               <input

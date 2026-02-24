@@ -310,7 +310,7 @@ export default defineComponent({
     }
 
     const updateKeyChildren = (key: TreeKey, data: TreeData) => {
-      requireNodeKey('updateKeyChild')
+      requireNodeKey('updateKeyChildren')
 
       store.value.updateChildren(key, data)
     }

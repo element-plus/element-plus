@@ -1505,10 +1505,19 @@ describe('Select', () => {
 
     wrapper = _mount(
       `
-      <el-select v-model="selectedList" multiple collapseTags collapse-tags-tooltip placeholder="请选择">
-        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-        </el-option>
-      </el-select>
+      <div>
+        <div class="append-target"></div>
+        <el-select
+          v-model="selectedList"
+          multiple
+          collapseTags
+          collapse-tags-tooltip
+          :tag-tooltip="{ appendTo: '.append-target' }"
+          placeholder="请选择"
+        >
+          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+        </el-select>
+      </div>
     `,
       () => ({
         options: [
@@ -1545,6 +1554,11 @@ describe('Select', () => {
     await nextTick()
     options[2].click()
     await nextTick()
+
+    const select = wrapper.findComponent(Select)
+    const tagTooltip = select.findComponent({ ref: 'tagTooltipRef' })
+    expect(tagTooltip.props('appendTo')).toBe('.append-target')
+
     const triggerWrappers = wrapper.findAll('.el-tooltip__trigger')
     expect(triggerWrappers[0]).toBeDefined()
     const tags = document.querySelectorAll('.el-select__tags-text')
@@ -4317,5 +4331,55 @@ describe('Select', () => {
     expect(document.querySelector('.custom-empty')).not.toBeNull()
 
     vi.useRealTimers()
+  })
+
+  describe('input-wrapper in multiple mode', () => {
+    test('should hide input-wrapper when empty and not focused', async () => {
+      wrapper = getSelectVm({
+        multiple: true,
+        filterable: true,
+      })
+      const inputWrapper = wrapper.find('.el-select__input-wrapper')
+      const input = wrapper.find('input')
+
+      // When input is empty and not focused, input-wrapper should have hidden class
+      expect(inputWrapper.classes()).toContain('is-hidden')
+
+      // Focus the input
+      await input.trigger('focus')
+
+      // When focused, input-wrapper should not have hidden class
+      expect(inputWrapper.classes()).not.toContain('is-hidden')
+
+      // Blur the input
+      await input.trigger('blur')
+
+      // When blurred and empty, input-wrapper should have hidden class again
+      expect(inputWrapper.classes()).toContain('is-hidden')
+    })
+
+    test('should show input-wrapper when input has value', async () => {
+      wrapper = getSelectVm({
+        multiple: true,
+        filterable: true,
+      })
+      const inputWrapper = wrapper.find('.el-select__input-wrapper')
+      const input = wrapper.find('input')
+
+      // Initially empty, should be hidden
+      expect(inputWrapper.classes()).toContain('is-hidden')
+
+      // Set input value
+      await input.setValue('test')
+
+      // When input has value, input-wrapper should not have hidden class
+      expect(inputWrapper.classes()).not.toContain('is-hidden')
+
+      // Clear input
+      await input.setValue('')
+
+      // When empty again, should be hidden
+      expect(inputWrapper.classes()).toContain('is-hidden')
+    })
   })
 })
