@@ -1,5 +1,5 @@
 import { isNil } from 'lodash-unified'
-import { isArray, throwError } from '@element-plus/utils'
+import { isArray, isString, throwError } from '@element-plus/utils'
 
 import type {
   UploadProgressEvent,
