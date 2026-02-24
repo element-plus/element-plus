@@ -79,7 +79,9 @@ export const ajaxUpload: UploadRequestHandler = (option) => {
         ) {
           formData.append(key, value[0], value[1])
         } else {
-          value.forEach((item) => formData.append(key, item))
+          value.forEach((item) => {
+            formData.append(key, item)
+          })
         }
       } else formData.append(key, value)
     }
