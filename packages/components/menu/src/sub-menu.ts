@@ -359,28 +359,29 @@ export default defineComponent({
     return () => {
       const titleTag: VNodeArrayChildren = [
         slots.title?.(),
-        h(
-          ElIcon,
-          {
-            class: nsSubMenu.e('icon-arrow'),
-            style: {
-              transform: opened.value
-                ? (props.expandCloseIcon && props.expandOpenIcon) ||
-                  (props.collapseCloseIcon &&
-                    props.collapseOpenIcon &&
-                    rootMenu.props.collapse)
-                  ? 'none'
-                  : 'rotateZ(180deg)'
-                : 'none',
+        slots.expand?.() ??
+          h(
+            ElIcon,
+            {
+              class: nsSubMenu.e('icon-arrow'),
+              style: {
+                transform: opened.value
+                  ? (props.expandCloseIcon && props.expandOpenIcon) ||
+                    (props.collapseCloseIcon &&
+                      props.collapseOpenIcon &&
+                      rootMenu.props.collapse)
+                    ? 'none'
+                    : 'rotateZ(180deg)'
+                  : 'none',
+              },
             },
-          },
-          {
-            default: () =>
-              isString(subMenuTitleIcon.value)
-                ? h(instance.appContext.components[subMenuTitleIcon.value])
-                : h(subMenuTitleIcon.value),
-          }
-        ),
+            {
+              default: () =>
+                isString(subMenuTitleIcon.value)
+                  ? h(instance.appContext.components[subMenuTitleIcon.value])
+                  : h(subMenuTitleIcon.value),
+            }
+          ),
       ]
 
       // this render function is only used for bypass `Vue`'s compiler caused patching issue.
