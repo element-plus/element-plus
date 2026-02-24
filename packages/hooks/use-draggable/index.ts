@@ -45,9 +45,8 @@ export const useDraggable = (
       transform.offsetX = moveX
       transform.offsetY = moveY
 
-      targetRef.value.style.transform = `translate(${addUnit(moveX)}, ${addUnit(
-        moveY
-      )})`
+      targetRef.value.style.top = addUnit(moveY)!
+      targetRef.value.style.left = addUnit(moveX)!
     }
   }
 
@@ -95,7 +94,8 @@ export const useDraggable = (
     transform.offsetY = 0
 
     if (targetRef.value) {
-      targetRef.value.style.transform = ''
+      targetRef.value.style.top = '0px'
+      targetRef.value.style.left = '0px'
     }
   }
 
