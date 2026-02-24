@@ -75,7 +75,7 @@ export const ajaxUpload: UploadRequestHandler = (option) => {
         if (
           value.length === 2 &&
           value[0] instanceof Blob &&
-          typeof value[1] === 'string'
+          isString(value[1])
         ) {
           formData.append(key, value[0], value[1])
         } else {
