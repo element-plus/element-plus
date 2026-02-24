@@ -100,13 +100,13 @@ export const colorPickerPanelProps = buildProps({
     default: true,
   },
   /**
-   * @description class names will passed to <hue-slider />
+   * @description class names will be passed to <hue-slider />
    */
   hueSliderClass: {
     type: definePropType<ClassType>([String, Array, Object]),
   },
   /**
-   * @description styles will passed to <hue-slider />
+   * @description styles will be passed to <hue-slider />
    */
   hueSliderStyle: {
     type: definePropType<StyleValue>([String, Array, Object]),

@@ -55,29 +55,17 @@ color-picker-panel/disabled
 
 ### Attributes
 
-<<<<<<< dev
-| Name                       | Description                                | Type                                                                                                             | Default |
-| -------------------------- | ------------------------------------------ | ---------------------------------------------------------------------------------------------------------------- | ------- |
-| model-value / v-model      | binding value                              | ^[string]                                                                                                        | —       |
-| border                     | whether the color picker panel is bordered | ^[boolean]                                                                                                       | true    |
-| disabled                   | whether to disable the color picker        | ^[boolean]                                                                                                       | false   |
-| show-alpha                 | whether to display the alpha slider        | ^[boolean]                                                                                                       | false   |
-| color-format               | color format of v-model                    | ^[enum]`'hsl' \| 'hsv' \| 'hex' \| 'rgb' \| 'hex' (when show-alpha is false) \| 'rgb' (when show-alpha is true)` | —       |
-| predefine                  | predefined color options                   | ^[array]`string[]`                                                                                               | —       |
-| validate-event ^(2.11.7)   | whether to trigger form validation         | ^[boolean]                                                                                                       | true    |
-| hue-slider-class ^(2.13.2) | class names will be passed to hue-slider   | ^[object]`string \|string[] \| Record<string, boolean>`                                                          | —       |
-| hue-slider-style ^(2.13.2) | styles will be passed to hue-slider        | ^[string] / ^[object]`StyleValue`                                                                                | —       |
-=======
-| Name                     | Description                                | Type                                                                                                  | Default                                                                      |
-| ------------------------ | ------------------------------------------ | ----------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| model-value / v-model    | binding value                              | ^[string]                                                                                             | —                                                                            |
-| border                   | whether the color picker panel is bordered | ^[boolean]                                                                                            | true                                                                         |
-| disabled                 | whether to disable the color picker        | ^[boolean]                                                                                            | false                                                                        |
-| show-alpha               | whether to display the alpha slider        | ^[boolean]                                                                                            | false                                                                        |
-| color-format             | color format of v-model                    | ^[enum]`'rgb' \| 'prgb' \| 'hex' \| 'hex3' \| 'hex4' \| 'hex6' \| 'hex8' \| 'name' \| 'hsl' \| 'hsv'` | ^[enum]`'hex' (when show-alpha is false) \| 'rgb' (when show-alpha is true)` |
-| predefine                | predefined color options                   | ^[array]`string[]`                                                                                    | —                                                                            |
-| validate-event ^(2.11.7) | whether to trigger form validation         | ^[boolean]                                                                                            | true                                                                         |
->>>>>>> dev
+| Name                       | Description                                | Type                                                                                                  | Default                                                                      |
+| -------------------------- | ------------------------------------------ | ----------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| model-value / v-model      | binding value                              | ^[string]                                                                                             | —                                                                            |
+| border                     | whether the color picker panel is bordered | ^[boolean]                                                                                            | true                                                                         |
+| disabled                   | whether to disable the color picker        | ^[boolean]                                                                                            | false                                                                        |
+| show-alpha                 | whether to display the alpha slider        | ^[boolean]                                                                                            | false                                                                        |
+| color-format               | color format of v-model                    | ^[enum]`'rgb' \| 'prgb' \| 'hex' \| 'hex3' \| 'hex4' \| 'hex6' \| 'hex8' \| 'name' \| 'hsl' \| 'hsv'` | ^[enum]`'hex' (when show-alpha is false) \| 'rgb' (when show-alpha is true)` |
+| predefine                  | predefined color options                   | ^[array]`string[]`                                                                                    | —                                                                            |
+| validate-event ^(2.11.7)   | whether to trigger form validation         | ^[boolean]                                                                                            | true                                                                         |
+| hue-slider-class ^(2.13.2) | class names will be passed to hue-slider   | ^[object]`string \| string[] \| Record<string, boolean>`                                              | —                                                                            |
+| hue-slider-style ^(2.13.2) | styles will be passed to hue-slider        | ^[string] / ^[object]`StyleValue`                                                                     | —                                                                            |
 
 ### Slots
 
