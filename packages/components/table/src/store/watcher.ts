@@ -355,6 +355,51 @@ function useWatcher<T extends DefaultRow>() {
     return (selection.value || []).slice()
   }
 
+  // 懒加载场景下补齐子节点的选中联动
+  const cascadeToLazyChildren = (
+    row: T,
+    selected: boolean,
+    rowIndexMap: Map<string, number>
+  ) => {
+    if (
+      !rowKey.value ||
+      treeStates.checkStrictly.value ||
+      !treeStates.lazy.value
+    )
+      return
+    const { lazyTreeNodeMap, childrenColumnName } = instance.store.states
+    const id = getRowIdentity(row, rowKey.value)
+    const lazyChildren = lazyTreeNodeMap.value?.[id]
+    const inlineChildren = row[childrenColumnName.value]
+    const treeProps = {
+      children: childrenColumnName.value,
+      checkStrictly: false,
+    }
+    // 先处理 lazy 子节点
+    if (isArray(lazyChildren) && lazyChildren.length) {
+      lazyChildren.forEach((child: T) => {
+        const childId = getRowIdentity(child, rowKey.value)
+        const rowIndex = rowIndexMap.get(childId) ?? 0
+        toggleRowStatus(
+          selection.value,
+          child,
+          selected,
+          treeProps,
+          selectable.value,
+          rowIndex,
+          rowKey.value
+        )
+        cascadeToLazyChildren(child, selected, rowIndexMap)
+      })
+    }
+    // 递归处理内联子节点，保证深层 lazy 也能联动
+    if (isArray(inlineChildren) && inlineChildren.length) {
+      inlineChildren.forEach((child: T) => {
+        cascadeToLazyChildren(child, selected, rowIndexMap)
+      })
+    }
+  }
+
   const toggleRowSelection = (
     row: T,
     selected?: boolean,
@@ -375,6 +420,12 @@ function useWatcher<T extends DefaultRow>() {
       rowKey.value
     )
     if (changed) {
+      // lazy 且非严格模式时，补齐 lazy 子节点的选中状态
+      if (treeStates.lazy.value && !treeStates.checkStrictly.value) {
+        const rowIndexMap = buildRowIndexMap()
+        const finalSelected = selected ?? isSelected(row)
+        cascadeToLazyChildren(row, finalSelected, rowIndexMap)
+      }
       updateSelectionByChildren({ emitChange: false })
       const newSelection = (selection.value || []).slice()
       // 调用 API 修改选中值，不触发 select 事件
@@ -419,6 +470,32 @@ function useWatcher<T extends DefaultRow>() {
       }
       childrenCount += getChildrenCount(getRowIdentity(row, rowKey))
     })
+
+    if (treeStates.lazy.value && !treeStates.checkStrictly.value && rowKey) {
+      // 全选时补齐已加载的 lazy 子节点，并继续向下级联
+      const rowIndexMap = buildRowIndexMap()
+      const { lazyTreeNodeMap } = instance.store.states
+      Object.values(lazyTreeNodeMap.value).forEach((lazyRows) => {
+        ;(lazyRows as T[]).forEach((child) => {
+          const childId = getRowIdentity(child, rowKey)
+          const rowIndex = rowIndexMap.get(childId) ?? 0
+          if (
+            toggleRowStatus(
+              selection.value,
+              child,
+              value,
+              treeProps,
+              selectable.value,
+              rowIndex,
+              rowKey
+            )
+          ) {
+            selectionChanged = true
+          }
+          cascadeToLazyChildren(child, value, rowIndexMap)
+        })
+      })
+    }
 
     updateSelectionByChildren({ emitChange: false })
 
@@ -667,6 +744,46 @@ function useWatcher<T extends DefaultRow>() {
       }
       updateAllSelected()
     }
+  )
+
+  watch(
+    () => treeStates.lazyTreeNodeMap.value,
+    () => {
+      // lazy 子节点加载后，若父节点已选中则自动补齐，并重算半选/全选状态
+      if (
+        !treeStates.lazy.value ||
+        treeStates.checkStrictly.value ||
+        !rowKey.value
+      )
+        return
+      const rowIndexMap = buildRowIndexMap()
+      const { lazyTreeNodeMap, childrenColumnName } = instance.store.states
+      const treeProps = {
+        children: childrenColumnName.value,
+        checkStrictly: false,
+      }
+      Object.entries(lazyTreeNodeMap.value).forEach(([parentId, lazyRows]) => {
+        if (selectedMap.value?.[parentId]) {
+          ;(lazyRows as T[]).forEach((child) => {
+            const childId = getRowIdentity(child, rowKey.value)
+            const rowIndex = rowIndexMap.get(childId) ?? 0
+            toggleRowStatus(
+              selection.value,
+              child,
+              true,
+              treeProps,
+              selectable.value,
+              rowIndex,
+              rowKey.value
+            )
+            cascadeToLazyChildren(child, true, rowIndexMap)
+          })
+        }
+      })
+      updateSelectionByChildren()
+      updateAllSelected()
+    },
+    { deep: true }
   )
 
   return {
