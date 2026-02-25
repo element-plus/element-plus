@@ -108,7 +108,6 @@ export const colorPickerPanelProps = buildProps({
 } as const)
 export const colorPickerPanelEmits = {
   [UPDATE_MODEL_EVENT]: (val: string | null) => isString(val) || isNil(val),
-  'update:colorFormat': (val: ColorFormats) => isString(val),
 }
 
 /**

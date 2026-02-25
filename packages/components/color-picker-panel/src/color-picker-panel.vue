@@ -100,19 +100,17 @@ const svRef = ref<InstanceType<typeof SvPanel>>()
 const alphaRef = ref<InstanceType<typeof AlphaSlider>>()
 const inputRef = ref<InputInstance>()
 const customInput = ref('')
-const localFormat = ref<ColorFormats>(
-  (props.showAlpha ? 'rgb' : 'hex') as ColorFormats
-)
-const effectiveFormat = computed(
-  () =>
-    (props.colorFormat ?? localFormat.value) ||
-    (props.showAlpha ? 'rgb' : 'hex')
-)
 
 const { color } = inject(
   ROOT_COMMON_COLOR_INJECTION_KEY,
   () => useCommonColor(props, emit),
   true
+)
+
+const effectiveFormat = computed(
+  () =>
+    (color.format as ColorFormats) ||
+    ((props.showAlpha ? 'rgb' : 'hex') as ColorFormats)
 )
 
 function handleConfirm() {
@@ -123,14 +121,9 @@ function handleConfirm() {
 }
 
 function handleFormatChange(val: ColorFormats) {
-  emit('update:colorFormat', val)
-  if (props.colorFormat === undefined) {
-    localFormat.value = val
-    color.format = val
-    color.doOnChange()
-    customInput.value = color.value
-    emit(UPDATE_MODEL_EVENT, color.value)
-  }
+  color.format = val
+  color.doOnChange()
+  customInput.value = color.value
 }
 
 function handleFocusout() {

@@ -150,8 +150,13 @@ $color-picker-size: map.merge($common-component-size, $color-picker-size);
     }
 
     @include when(format-select) {
-      .#{$namespace}-color-picker-panel__color-content .#{$namespace}-input {
-        width: 100px;
+      .#{$namespace}-color-picker-panel__color-content {
+        min-width: 0;
+        flex: 1;
+
+        .#{$namespace}-input {
+          flex: 1;
+        }
       }
     }
   }
