@@ -235,7 +235,10 @@ function useWatcher<T extends DefaultRow>() {
 
   // 依据子节点选中状态更新父节点选中与半选态
   const updateSelectionByChildren = (
-    options: { emitChange?: boolean } = {}
+    options: {
+      emitChange?: boolean
+      rowIndexMap?: Map<string, number>
+    } = {}
   ) => {
     const { emitChange = true } = options
     if (treeStates.checkStrictly.value) {
@@ -247,7 +250,7 @@ function useWatcher<T extends DefaultRow>() {
       return
     }
     const { childrenColumnName, lazyTreeNodeMap } = instance.store.states
-    const rowIndexMap = buildRowIndexMap()
+    const rowIndexMap = options.rowIndexMap ?? buildRowIndexMap()
     const indeterminateMap: Record<string, boolean> = {}
     let selectionChanged = false
     // 在不触发外部 select 事件的前提下同步父节点选中
@@ -337,6 +340,18 @@ function useWatcher<T extends DefaultRow>() {
       deleted = []
       const childrenKey = instance?.store?.states?.childrenColumnName.value
       const dataMap = getKeysMap(data.value, rowKey.value, true, childrenKey)
+      // Include lazy-loaded children so they are not treated as deleted
+      const { lazyTreeNodeMap } = instance.store.states
+      if (lazyTreeNodeMap.value) {
+        Object.values(lazyTreeNodeMap.value).forEach((lazyRows) => {
+          ;(lazyRows as T[]).forEach((row) => {
+            const id = getRowIdentity(row, rowKey.value)
+            if (!dataMap[id]) {
+              dataMap[id] = { row, index: -1 }
+            }
+          })
+        })
+      }
       for (const key in selectedMap.value) {
         if (hasOwn(selectedMap.value, key) && !dataMap[key]) {
           deleted.push(selectedMap.value[key].row)
@@ -429,8 +444,10 @@ function useWatcher<T extends DefaultRow>() {
         const rowIndexMap = buildRowIndexMap()
         const finalSelected = selected ?? isSelected(row)
         cascadeToLazyChildren(row, finalSelected, rowIndexMap)
+        updateSelectionByChildren({ emitChange: false, rowIndexMap })
+      } else {
+        updateSelectionByChildren({ emitChange: false })
       }
-      updateSelectionByChildren({ emitChange: false })
       const newSelection = (selection.value || []).slice()
       // 调用 API 修改选中值，不触发 select 事件
       if (emitChange) {
@@ -475,19 +492,12 @@ function useWatcher<T extends DefaultRow>() {
       childrenCount += getChildrenCount(getRowIdentity(row, rowKey))
     })
 
+    const rowIndexMap = buildRowIndexMap()
+
     if (treeStates.lazy.value && !treeStates.checkStrictly.value && rowKey) {
       // 全选时补齐已加载的 lazy 子节点，并继续向下级联
-      const rowIndexMap = buildRowIndexMap()
       const { lazyTreeNodeMap } = instance.store.states
-      // 过滤掉非根 lazy 节点，防止重复处理和性能浪费
-      const childIdSet = new Set<string>()
-      Object.values(lazyTreeNodeMap.value).forEach((lazyRows) => {
-        ;(lazyRows as T[]).forEach((child) => {
-          childIdSet.add(getRowIdentity(child, rowKey))
-        })
-      })
-      Object.entries(lazyTreeNodeMap.value).forEach(([parentId, lazyRows]) => {
-        if (childIdSet.has(parentId)) return
+      Object.entries(lazyTreeNodeMap.value).forEach(([, lazyRows]) => {
         ;(lazyRows as T[]).forEach((child) => {
           const childId = getRowIdentity(child, rowKey)
           const rowIndex = rowIndexMap.get(childId) ?? 0
@@ -509,7 +519,7 @@ function useWatcher<T extends DefaultRow>() {
       })
     }
 
-    updateSelectionByChildren({ emitChange: false })
+    updateSelectionByChildren({ emitChange: false, rowIndexMap })
 
     if (selectionChanged) {
       instance.emit(
@@ -527,7 +537,7 @@ function useWatcher<T extends DefaultRow>() {
       return
     }
 
-    const { childrenColumnName } = instance.store.states
+    const { childrenColumnName, lazyTreeNodeMap } = instance.store.states
     let rowIndex = 0
     let selectedCount = 0
 
@@ -550,6 +560,19 @@ function useWatcher<T extends DefaultRow>() {
           !checkSelectedStatus(row[childrenColumnName.value])
         ) {
           return false
+        }
+
+        // Also check lazy-loaded children
+        if (rowKey.value) {
+          const id = getRowIdentity(row, rowKey.value)
+          const lazyChildren = lazyTreeNodeMap.value?.[id]
+          if (
+            isArray(lazyChildren) &&
+            lazyChildren.length &&
+            !checkSelectedStatus(lazyChildren)
+          ) {
+            return false
+          }
         }
       }
       return true
@@ -760,23 +783,7 @@ function useWatcher<T extends DefaultRow>() {
   )
 
   watch(
-    () => {
-      // 避免deep watch的任何子字段变化都触发回调
-      const map = treeStates.lazyTreeNodeMap.value || {}
-      const keys = Object.keys(map).sort()
-      if (!rowKey.value) return keys.join('|')
-      return keys
-        .map((key) => {
-          const rows = map[key] || []
-          const ids = isArray(rows)
-            ? (rows as T[])
-                .map((row) => getRowIdentity(row, rowKey.value))
-                .join('|')
-            : ''
-          return `${key}:${rows.length}:${ids}`
-        })
-        .join('||')
-    },
+    () => treeStates.lazyTreeNodeMap.value,
     () => {
       // lazy 子节点加载后，若父节点已选中则自动补齐，并重算半选/全选状态
       if (
@@ -809,7 +816,7 @@ function useWatcher<T extends DefaultRow>() {
           })
         }
       })
-      updateSelectionByChildren()
+      updateSelectionByChildren({ rowIndexMap })
       updateAllSelected()
     }
   )
