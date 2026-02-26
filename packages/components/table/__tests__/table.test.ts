@@ -394,10 +394,10 @@ describe('Table.vue', () => {
           ElTableColumn,
         },
         template: `
-        <el-table 
-          :data="testData" 
-          row-key="id" 
-          highlight-current-row 
+        <el-table
+          :data="testData"
+          row-key="id"
+          highlight-current-row
           :current-row-key="currentRowKey"
           @current-change="handleCurrentChange">
           <el-table-column prop="name" label="片名" />
@@ -2317,6 +2317,83 @@ describe('Table.vue', () => {
       // deselect nested child -> parent indeterminate
       expect(parentInput.classes()).toContain('is-indeterminate')
       expect(parentCheckbox.classes()).not.toContain('is-checked')
+    })
+
+    it('eager parent select cascades to lazy grandchildren on expand', async () => {
+      wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table
+            ref="table"
+            :data="testData"
+            row-key="id"
+            lazy
+            :load="load"
+            :tree-props="treeProps"
+            @selection-change="onSelect"
+          >
+            <el-table-column type="selection" />
+            <el-table-column prop="name" label="name" />
+          </el-table>
+        `,
+        data() {
+          return {
+            selectedIds: [],
+            treeProps: {
+              children: 'children',
+              hasChildren: 'hasChildren',
+            },
+            testData: [
+              {
+                id: 3,
+                name: 'Row 3 (eager parent)',
+                children: [
+                  { id: 31, name: 'Eager child 3-1' },
+                  {
+                    id: 32,
+                    name: 'Child 3-2 (lazy grandparent)',
+                    hasChildren: true,
+                  },
+                  { id: 33, name: 'Eager child 3-3' },
+                ],
+              },
+            ],
+          }
+        },
+        methods: {
+          load(row, treeNode, resolve) {
+            if (row.id === 32) {
+              resolve([
+                { id: 321, name: 'Lazy grandchild 3-2-1' },
+                { id: 322, name: 'Lazy grandchild 3-2-2' },
+              ])
+              return
+            }
+            resolve([])
+          },
+          onSelect(rows) {
+            this.selectedIds = rows.map((r) => r.id)
+          },
+        },
+      })
+      await doubleWait()
+      const parentCheckbox = wrapper.findAll('.el-table__body .el-checkbox')[0]
+      await parentCheckbox.trigger('click')
+      await doubleWait()
+      expect((wrapper.vm as any).selectedIds).toContain(3)
+      expect((wrapper.vm as any).selectedIds).toContain(32)
+      const expandIcons = wrapper.findAll('.el-table__expand-icon')
+      await expandIcons[0].trigger('click')
+      await doubleWait()
+      const expandIcons2 = wrapper.findAll('.el-table__expand-icon')
+      await expandIcons2[1].trigger('click')
+      await doubleWait()
+      const ids = (wrapper.vm as any).selectedIds
+      expect(ids).toContain(321)
+      expect(ids).toContain(322)
     })
 
     it('select-all includes loaded lazy children', async () => {

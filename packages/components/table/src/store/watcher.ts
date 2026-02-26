@@ -798,26 +798,40 @@ function useWatcher<T extends DefaultRow>() {
         children: childrenColumnName.value,
         checkStrictly: false,
       }
+      let cascadeChanged = false
       Object.entries(lazyTreeNodeMap.value).forEach(([parentId, lazyRows]) => {
         if (selectedMap.value?.[parentId]) {
           ;(lazyRows as T[]).forEach((child) => {
             const childId = getRowIdentity(child, rowKey.value)
             const rowIndex = rowIndexMap.get(childId) ?? 0
-            toggleRowStatus(
-              selection.value,
-              child,
-              true,
-              treeProps,
-              selectable.value,
-              rowIndex,
-              rowKey.value
-            )
+            if (
+              toggleRowStatus(
+                selection.value,
+                child,
+                true,
+                treeProps,
+                selectable.value,
+                rowIndex,
+                rowKey.value
+              )
+            ) {
+              cascadeChanged = true
+            }
             cascadeToLazyChildren(child, true, rowIndexMap)
           })
         }
       })
-      updateSelectionByChildren({ rowIndexMap })
+      updateSelectionByChildren({
+        emitChange: !cascadeChanged,
+        rowIndexMap,
+      })
       updateAllSelected()
+      if (cascadeChanged) {
+        instance.emit(
+          'selection-change',
+          selection.value ? selection.value.slice() : []
+        )
+      }
     }
   )
 
