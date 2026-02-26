@@ -20,7 +20,7 @@ export const useMarks = (props: SliderProps) => {
     const max = unref(props.max)
 
     const marksKeys = isArray(marks)
-      ? marks
+      ? [...marks]
       : Object.keys(marks).map(Number.parseFloat)
 
     return marksKeys

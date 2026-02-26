@@ -135,7 +135,9 @@ slider/restrict-value
   <summary>Show declarations</summary>
 
 ```ts
-type SliderMarks = Record<number, string | { style: CSSProperties; label: any }>
+type SliderMarks =
+  | Record<number, string | { style: CSSProperties; label: any }>
+  | number[]
 type Arrayable<T> = T | T[]
 ```
 

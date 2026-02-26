@@ -174,11 +174,19 @@ export const useSliderButton = (
   }
 
   const onPageDownKeyDown = () => {
-    incrementPosition(-step.value * 4)
+    if (restrictToMarks.value) {
+      moveToMark(-4)
+    } else {
+      incrementPosition(-step.value * 4)
+    }
   }
 
   const onPageUpKeyDown = () => {
-    incrementPosition(step.value * 4)
+    if (restrictToMarks.value) {
+      moveToMark(4)
+    } else {
+      incrementPosition(step.value * 4)
+    }
   }
 
   const onHomeKeyDown = () => {
