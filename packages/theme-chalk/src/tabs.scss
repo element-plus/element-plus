@@ -105,6 +105,11 @@
     color: getCssVar('text-color', 'secondary');
     width: 20px;
     text-align: center;
+
+    @include when(disabled) {
+      color: getCssVar('text-color', 'disabled');
+      cursor: not-allowed;
+    }
   }
   @include e(nav-next) {
     right: 0;
