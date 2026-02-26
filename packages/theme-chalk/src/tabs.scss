@@ -395,6 +395,10 @@
         i {
           transform: rotateZ(90deg);
         }
+
+        @include when(disabled) {
+          cursor: not-allowed;
+        }
       }
 
       > .#{$namespace}-tabs__nav-prev {
