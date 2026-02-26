@@ -66,7 +66,6 @@ const targetRect = useElementBounding(target)
 const fixed = ref(false)
 const scrollTop = ref(0)
 const transform = ref(0)
-let isUpdating = false
 
 const teleportDisabled = computed(() => {
   return !props.teleported || !fixed.value
@@ -74,6 +73,7 @@ const teleportDisabled = computed(() => {
 
 const rootStyle = computed<CSSProperties>(() => {
   return {
+    overflow: 'hidden',
     height: fixed.value ? `${rootHeight.value}px` : '',
     width: fixed.value ? `${rootWidth.value}px` : '',
   }
@@ -96,8 +96,6 @@ const affixStyle = computed<CSSProperties>(() => {
 
 const update = () => {
   if (!scrollContainer.value) return
-  if (isUpdating) return
-  isUpdating = true
 
   scrollTop.value =
     scrollContainer.value instanceof Window
@@ -125,8 +123,6 @@ const update = () => {
   } else {
     fixed.value = windowHeight.value - offset < rootBottom.value
   }
-
-  isUpdating = false
 }
 
 const updateRootRect = async () => {
