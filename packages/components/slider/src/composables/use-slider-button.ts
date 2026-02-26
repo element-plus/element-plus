@@ -132,25 +132,41 @@ export const useSliderButton = (
     emitChange()
   }
 
-  const moveToMark = (direction: number) => {
+  const moveToMark = (amount: number) => {
     if (disabled.value || !markList.value.length) return
 
     const current = props.modelValue
     const epsilon = 0.000001
+    const stride = Math.abs(amount)
     let target: number | undefined
 
-    if (direction > 0) {
-      target = markList.value.find((m) => m.point > current + epsilon)?.point
+    if (amount > 0) {
+      const startIndex = markList.value.findIndex(
+        (m) => m.point > current + epsilon
+      )
+      if (startIndex !== -1) {
+        const targetIndex = Math.min(
+          startIndex + stride - 1,
+          markList.value.length - 1
+        )
+        target = markList.value[targetIndex].point
+      }
     } else {
+      let startIndex = -1
       for (let i = markList.value.length - 1; i >= 0; i--) {
         if (markList.value[i].point < current - epsilon) {
-          target = markList.value[i].point
+          startIndex = i
           break
         }
       }
+
+      if (startIndex !== -1) {
+        const targetIndex = Math.max(startIndex - (stride - 1), 0)
+        target = markList.value[targetIndex].point
+      }
     }
 
-    if (target !== undefined) {
+    if (target !== undefined && target !== current) {
       const newPos = ((target - min.value) / (max.value - min.value)) * 100
       setPosition(newPos)
       emitChange()
