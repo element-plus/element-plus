@@ -1518,6 +1518,27 @@ describe('Tree.vue', () => {
     expect(flag).toBe(true)
   })
 
+  test('navigate down with multiple trees', async () => {
+    const data = [{ label: 'one' }, { label: 'two' }]
+    const wrapper = mount({
+      template: `
+        <div>
+          <el-tree :data="data" default-expand-all />
+          <el-tree :data="data" default-expand-all />
+        </div>
+      `,
+      components: { 'el-tree': Tree },
+      data: () => ({ data }),
+    })
+    await nextTick()
+    let focused = false
+    const secondTree = wrapper.findAllComponents({ name: 'ElTree' })[1]
+    const treeNodes = secondTree.findAll('.is-focusable[role=treeitem]')
+    defineGetter(treeNodes[1].element, 'focus', () => () => (focused = true))
+    await treeNodes[0].trigger('keydown', { code: 'ArrowDown' })
+    expect(focused).toBe(true)
+  })
+
   test('collapse and navigate down and up', async () => {
     const { wrapper } = getTreeVm(``, {
       template: `

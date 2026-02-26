@@ -98,6 +98,12 @@
         map.get($button, 'disabled-border-color')
       );
     }
+
+    @include when(checked) {
+      .#{$namespace}-checkbox-button__inner {
+        background-color: getCssVar('checkbox-button-disabled-checked-fill');
+      }
+    }
   }
 
   &:first-child {
