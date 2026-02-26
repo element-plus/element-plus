@@ -81,6 +81,14 @@ slider/show-marks
 
 :::
 
+## Restrict value ^(2.13.3)
+
+:::demo Setting `restrict-to-marks` attribute can restrict the value of slider to the marks.
+
+slider/restrict-value
+
+:::
+
 ## API
 
 ### Attributes
@@ -108,7 +116,8 @@ slider/show-marks
 | format-value-text           | format to display the `aria-valuenow` attribute for screen readers                                                                                   | ^[Function]`(value: number) => string`                                                                                                                                      | —       |
 | tooltip-class               | custom class name for the tooltip                                                                                                                    | ^[string]                                                                                                                                                                   | —       |
 | placement                   | position of Tooltip                                                                                                                                  | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | top     |
-| marks                       | marks, type of key must be `number` and must in closed interval `[min, max]`, each mark can custom style                                             | ^[object]`SliderMarks`                                                                                                                                                      | —       |
+| marks                       | marks, type of key must be `number` and must in closed interval `[min, max]`, each mark can custom style                                             | ^[object]`SliderMarks` / ^[array]`number[]`                                                                                                                                 | —       |
+| restrict-to-marks ^(2.13.3) | whether to restrict value to marks                                                                                                                   | ^[boolean]                                                                                                                                                                  | false   |
 | validate-event              | whether to trigger form validation                                                                                                                   | ^[boolean]                                                                                                                                                                  | true    |
 | persistent ^(2.9.5)         | when slider tooltip inactive and `persistent` is `false` , tooltip will be destroyed. `persistent` always be `false` when `show-tooltip ` is `false` | ^[boolean]                                                                                                                                                                  | true    |
 | label ^(a11y) ^(deprecated) | native `aria-label` attribute                                                                                                                        | ^[string]                                                                                                                                                                   | —       |

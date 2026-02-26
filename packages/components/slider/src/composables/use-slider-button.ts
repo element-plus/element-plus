@@ -1,9 +1,10 @@
-import { computed, inject, nextTick, ref, watch } from 'vue'
+import { computed, inject, nextTick, reactive, ref, watch } from 'vue'
 import { clamp, debounce } from 'lodash-unified'
 import { useEventListener } from '@vueuse/core'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { getEventCode } from '@element-plus/utils'
 import { sliderContextKey } from '../constants'
+import { useMarks } from './use-marks'
 
 import type { CSSProperties, ComputedRef, Ref, SetupContext } from 'vue'
 import type { SliderProps } from '../slider'
@@ -69,12 +70,22 @@ export const useSliderButton = (
     emitChange,
     resetSize,
     updateDragging,
+    marks,
+    restrictToMarks = ref(false),
   } = inject(sliderContextKey)!
 
   const { tooltip, tooltipVisible, formatValue, displayTooltip, hideTooltip } =
     useTooltip(props, formatTooltip!, showTooltip)
 
   const button = ref<HTMLDivElement>()
+
+  const markList = useMarks(
+    reactive({
+      min,
+      max,
+      marks,
+    }) as SliderProps
+  )
 
   const currentPosition = computed(() => {
     return `${
@@ -121,12 +132,45 @@ export const useSliderButton = (
     emitChange()
   }
 
+  const moveToMark = (direction: number) => {
+    if (disabled.value || !markList.value.length) return
+
+    const current = props.modelValue
+    const epsilon = 0.000001
+    let target: number | undefined
+
+    if (direction > 0) {
+      target = markList.value.find((m) => m.point > current + epsilon)?.point
+    } else {
+      for (let i = markList.value.length - 1; i >= 0; i--) {
+        if (markList.value[i].point < current - epsilon) {
+          target = markList.value[i].point
+          break
+        }
+      }
+    }
+
+    if (target !== undefined) {
+      const newPos = ((target - min.value) / (max.value - min.value)) * 100
+      setPosition(newPos)
+      emitChange()
+    }
+  }
+
   const onLeftKeyDown = () => {
-    incrementPosition(-step.value)
+    if (restrictToMarks.value) {
+      moveToMark(-1)
+    } else {
+      incrementPosition(-step.value)
+    }
   }
 
   const onRightKeyDown = () => {
-    incrementPosition(step.value)
+    if (restrictToMarks.value) {
+      moveToMark(1)
+    } else {
+      incrementPosition(step.value)
+    }
   }
 
   const onPageDownKeyDown = () => {
@@ -258,20 +302,32 @@ export const useSliderButton = (
     if (newPosition === null || Number.isNaN(+newPosition)) return
 
     newPosition = clamp(newPosition, 0, 100)
-    const fullSteps = Math.floor((max.value - min.value) / step.value)
-    const fullRangePercentage =
-      ((fullSteps * step.value) / (max.value - min.value)) * 100
-    const threshold = fullRangePercentage + (100 - fullRangePercentage) / 2
-    let value
-    if (newPosition < fullRangePercentage) {
-      const valueBetween = fullRangePercentage / fullSteps
-      const steps = Math.round(newPosition / valueBetween)
-      value = min.value + steps * step.value
-    } else if (newPosition < threshold) {
-      value = min.value + fullSteps * step.value
+    let value: number
+
+    if (restrictToMarks.value && markList.value.length > 0) {
+      const closestMark = markList.value.reduce((prev, curr) => {
+        return Math.abs(curr.position - newPosition) <
+          Math.abs(prev.position - newPosition)
+          ? curr
+          : prev
+      })
+      value = closestMark.point
     } else {
-      value = max.value
+      const fullSteps = Math.floor((max.value - min.value) / step.value)
+      const fullRangePercentage =
+        ((fullSteps * step.value) / (max.value - min.value)) * 100
+      const threshold = fullRangePercentage + (100 - fullRangePercentage) / 2
+      if (newPosition < fullRangePercentage) {
+        const valueBetween = fullRangePercentage / fullSteps
+        const steps = Math.round(newPosition / valueBetween)
+        value = min.value + steps * step.value
+      } else if (newPosition < threshold) {
+        value = min.value + fullSteps * step.value
+      } else {
+        value = max.value
+      }
     }
+
     value = Number.parseFloat(value.toFixed(precision.value))
 
     if (value !== props.modelValue) {
