@@ -480,6 +480,42 @@ describe('Slider', () => {
       await nextTick()
       expect(value.value).toBe(30)
 
+      // Keyboard navigation
+      await slider.trigger('keydown', {
+        key: EVENT_CODE.right,
+        code: EVENT_CODE.right,
+      })
+      await nextTick()
+      expect(value.value).toBe(50)
+
+      await slider.trigger('keydown', {
+        key: EVENT_CODE.left,
+        code: EVENT_CODE.left,
+      })
+      await nextTick()
+      expect(value.value).toBe(30)
+
+      await slider.trigger('keydown', {
+        key: EVENT_CODE.pageUp,
+        code: EVENT_CODE.pageUp,
+      })
+      await nextTick()
+      expect(value.value).toBe(50)
+
+      await slider.trigger('keydown', {
+        key: EVENT_CODE.home,
+        code: EVENT_CODE.home,
+      })
+      await nextTick()
+      expect(value.value).toBe(0)
+
+      await slider.trigger('keydown', {
+        key: EVENT_CODE.end,
+        code: EVENT_CODE.end,
+      })
+      await nextTick()
+      expect(value.value).toBe(50)
+
       mockRect.mockRestore()
     }
   )

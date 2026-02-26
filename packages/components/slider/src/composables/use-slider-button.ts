@@ -158,7 +158,7 @@ export const useSliderButton = (
   }
 
   const onLeftKeyDown = () => {
-    if (restrictToMarks.value) {
+    if (restrictToMarks.value && markList.value.length > 0) {
       moveToMark(-1)
     } else {
       incrementPosition(-step.value)
@@ -166,7 +166,7 @@ export const useSliderButton = (
   }
 
   const onRightKeyDown = () => {
-    if (restrictToMarks.value) {
+    if (restrictToMarks.value && markList.value.length > 0) {
       moveToMark(1)
     } else {
       incrementPosition(step.value)
@@ -174,7 +174,7 @@ export const useSliderButton = (
   }
 
   const onPageDownKeyDown = () => {
-    if (restrictToMarks.value) {
+    if (restrictToMarks.value && markList.value.length > 0) {
       moveToMark(-4)
     } else {
       incrementPosition(-step.value * 4)
@@ -182,7 +182,7 @@ export const useSliderButton = (
   }
 
   const onPageUpKeyDown = () => {
-    if (restrictToMarks.value) {
+    if (restrictToMarks.value && markList.value.length > 0) {
       moveToMark(4)
     } else {
       incrementPosition(step.value * 4)
@@ -334,9 +334,8 @@ export const useSliderButton = (
       } else {
         value = max.value
       }
+      value = Number.parseFloat(value.toFixed(precision.value))
     }
-
-    value = Number.parseFloat(value.toFixed(precision.value))
 
     if (value !== props.modelValue) {
       emit(UPDATE_MODEL_EVENT, value)
