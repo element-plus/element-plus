@@ -101,7 +101,11 @@
         display: flex;
         gap: 10px;
         @include b(select) {
-          width: 70px;
+          width: fit-content;
+          .#{$namespace}-select__placeholder {
+            position: static;
+            transform: none;
+          }
         }
         @include b(input) {
           line-height: 26px;
