@@ -508,7 +508,7 @@ class Node {
     const parent = this.parent
     if (!parent || parent.level === 0) return
 
-    if (!recursion) {
+    if (!recursion && !this.store.checkStrictly) {
       reInitChecked(parent)
     }
   }
