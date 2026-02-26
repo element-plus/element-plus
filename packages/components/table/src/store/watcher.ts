@@ -96,6 +96,15 @@ function useWatcher<T extends DefaultRow>() {
     return rowKey.value ? getKeysMap(selection.value, rowKey.value) : undefined
   })
 
+  const getRowChildren = (row: T): T[] => {
+    const { childrenColumnName, lazyTreeNodeMap } = instance.store.states
+    const inlineChildren = (row[childrenColumnName.value] ?? []) as T[]
+    if (!rowKey.value) return inlineChildren
+    const id = getRowIdentity(row, rowKey.value)
+    const lazyChildren = (lazyTreeNodeMap.value?.[id] ?? []) as T[]
+    return [...lazyChildren, ...inlineChildren]
+  }
+
   watch(
     data,
     () => {
@@ -112,12 +121,10 @@ function useWatcher<T extends DefaultRow>() {
     }
   )
 
-  // 检查 rowKey 是否存在
   const assertRowKey = () => {
     if (!rowKey.value) throw new Error('[ElTable] prop row-key is required')
   }
 
-  // 更新 fixed
   const updateChildFixed = (column: TableColumnCtx<T>) => {
     column.children?.forEach((childColumn) => {
       childColumn.fixed = column.fixed
@@ -125,7 +132,6 @@ function useWatcher<T extends DefaultRow>() {
     })
   }
 
-  // 更新列
   const updateColumns = () => {
     _columns.value.forEach((column) => {
       updateChildFixed(column)
@@ -178,7 +184,6 @@ function useWatcher<T extends DefaultRow>() {
       fixedColumns.value.length > 0 || rightFixedColumns.value.length > 0
   }
 
-  // 更新 DOM
   const scheduleLayout = (needUpdateColumns?: boolean, immediate = false) => {
     if (needUpdateColumns) {
       updateColumns()
@@ -190,7 +195,6 @@ function useWatcher<T extends DefaultRow>() {
     }
   }
 
-  // 选择
   const isSelected = (row: T) => {
     if (selectedMap.value) {
       return !!selectedMap.value[getRowIdentity(row, rowKey.value)]
@@ -199,34 +203,19 @@ function useWatcher<T extends DefaultRow>() {
     }
   }
 
-  // 定位选中项索引
-  const getSelectionIndex = (row: T) => {
-    if (!rowKey.value) {
-      return selection.value.indexOf(row)
-    }
-    const id = getRowIdentity(row, rowKey.value)
-    return selection.value.findIndex(
-      (item) => getRowIdentity(item, rowKey.value) === id
-    )
-  }
-
-  // 构建树形数据的顺序索引映射，用于 selectable 计算
+  // Used by selectable to compute row indices in tree-shaped data
   const buildRowIndexMap = () => {
     const rowIndexMap = new Map<string, number>()
-    if (!rowKey.value) return rowIndexMap
-    const { childrenColumnName, lazyTreeNodeMap } = instance.store.states
+    if (!rowKey.value || !selectable.value) return rowIndexMap
     let rowIndex = 0
-    // 递归遍历树形数据，构建顺序索引映射
     const _traverse = (rows: T[]) => {
       if (!isArray(rows)) return
       rows.forEach((row) => {
         const id = getRowIdentity(row, rowKey.value)
         rowIndexMap.set(id, rowIndex)
         rowIndex += 1
-        const lazyChildren = lazyTreeNodeMap.value?.[id] ?? []
-        const inlineChildren = row[childrenColumnName.value] ?? []
-        const children: T[] = [...lazyChildren, ...inlineChildren]
-        if (isArray(children) && children.length) _traverse(children)
+        const children = getRowChildren(row)
+        if (children.length) _traverse(children)
       })
     }
     _traverse(data.value || [])
@@ -249,7 +238,6 @@ function useWatcher<T extends DefaultRow>() {
       selectionIndeterminate.value = {}
       return
     }
-    const { childrenColumnName, lazyTreeNodeMap } = instance.store.states
     const rowIndexMap = options.rowIndexMap ?? buildRowIndexMap()
     const indeterminateMap: Record<string, boolean> = {}
     let selectionChanged = false
@@ -261,7 +249,9 @@ function useWatcher<T extends DefaultRow>() {
         ? selectable.value.call(null, row, rowIndex)
         : true
       if (!rowSelectable) return
-      const index = getSelectionIndex(row)
+      const index = selection.value.findIndex(
+        (item) => getRowIdentity(item, rowKey.value) === id
+      )
       if (selected && index === -1) {
         selection.value.push(row)
         selectionChanged = true
@@ -270,16 +260,13 @@ function useWatcher<T extends DefaultRow>() {
         selectionChanged = true
       }
     }
-    // 递归统计可选与已选数量，生成半选状态映射
     const _walk = (rows: T[]) => {
       let selectedCount = 0
       let selectableCount = 0
       if (!isArray(rows)) return { selectedCount, selectableCount }
       rows.forEach((row) => {
         const id = getRowIdentity(row, rowKey.value)
-        const lazyChildren = lazyTreeNodeMap.value?.[id] ?? []
-        const inlineChildren = row[childrenColumnName.value] ?? []
-        const children: T[] = [...lazyChildren, ...inlineChildren]
+        const children = getRowChildren(row)
         let childSelectedCount = 0
         let childSelectableCount = 0
         if (isArray(children) && children.length) {
@@ -374,7 +361,6 @@ function useWatcher<T extends DefaultRow>() {
     return (selection.value || []).slice()
   }
 
-  // 懒加载场景下补齐子节点的选中联动
   const cascadeToLazyChildren = (
     row: T,
     selected: boolean,
@@ -388,34 +374,27 @@ function useWatcher<T extends DefaultRow>() {
       return
     const { lazyTreeNodeMap, childrenColumnName } = instance.store.states
     const id = getRowIdentity(row, rowKey.value)
-    const lazyChildren = lazyTreeNodeMap.value?.[id]
-    const inlineChildren = row[childrenColumnName.value]
+    const lazyChildren = (lazyTreeNodeMap.value?.[id] ?? []) as T[]
     const treeProps = {
       children: childrenColumnName.value,
       checkStrictly: false,
     }
-    // 先处理 lazy 子节点
-    if (isArray(lazyChildren) && lazyChildren.length) {
-      lazyChildren.forEach((child: T) => {
-        const childId = getRowIdentity(child, rowKey.value)
-        const rowIndex = rowIndexMap.get(childId) ?? 0
-        toggleRowStatus(
-          selection.value,
-          child,
-          selected,
-          treeProps,
-          selectable.value,
-          rowIndex,
-          rowKey.value
-        )
-        cascadeToLazyChildren(child, selected, rowIndexMap)
-      })
+
+    for (const child of lazyChildren) {
+      const childIndex =
+        rowIndexMap.get(getRowIdentity(child, rowKey.value)) ?? 0
+      toggleRowStatus(
+        selection.value,
+        child,
+        selected,
+        treeProps,
+        selectable.value,
+        childIndex,
+        rowKey.value
+      )
     }
-    // 递归处理内联子节点，保证深层 lazy 也能联动
-    if (isArray(inlineChildren) && inlineChildren.length) {
-      inlineChildren.forEach((child: T) => {
-        cascadeToLazyChildren(child, selected, rowIndexMap)
-      })
+    for (const child of getRowChildren(row)) {
+      cascadeToLazyChildren(child, selected, rowIndexMap)
     }
   }
 
@@ -495,12 +474,9 @@ function useWatcher<T extends DefaultRow>() {
     const rowIndexMap = buildRowIndexMap()
 
     if (treeStates.lazy.value && !treeStates.checkStrictly.value && rowKey) {
-      // 全选时补齐已加载的 lazy 子节点，并继续向下级联
-      const { lazyTreeNodeMap } = instance.store.states
-      Object.entries(lazyTreeNodeMap.value).forEach(([, lazyRows]) => {
-        ;(lazyRows as T[]).forEach((child) => {
-          const childId = getRowIdentity(child, rowKey)
-          const rowIndex = rowIndexMap.get(childId) ?? 0
+      for (const lazyRows of Object.values(treeStates.lazyTreeNodeMap.value)) {
+        for (const child of lazyRows as T[]) {
+          const childIndex = rowIndexMap.get(getRowIdentity(child, rowKey)) ?? 0
           if (
             toggleRowStatus(
               selection.value,
@@ -508,15 +484,14 @@ function useWatcher<T extends DefaultRow>() {
               value,
               treeProps,
               selectable.value,
-              rowIndex,
+              childIndex,
               rowKey
             )
-          ) {
+          )
             selectionChanged = true
-          }
           cascadeToLazyChildren(child, value, rowIndexMap)
-        })
-      })
+        }
+      }
     }
 
     updateSelectionByChildren({ emitChange: false, rowIndexMap })
@@ -537,12 +512,11 @@ function useWatcher<T extends DefaultRow>() {
       return
     }
 
-    const { childrenColumnName, lazyTreeNodeMap } = instance.store.states
     let rowIndex = 0
     let selectedCount = 0
 
-    const checkSelectedStatus = (data: T[]) => {
-      for (const row of data) {
+    const checkSelectedStatus = (rows: T[]) => {
+      for (const row of rows) {
         const isRowSelectable =
           selectable.value && selectable.value.call(null, row, rowIndex)
 
@@ -555,24 +529,9 @@ function useWatcher<T extends DefaultRow>() {
         }
         rowIndex++
 
-        if (
-          row[childrenColumnName.value]?.length &&
-          !checkSelectedStatus(row[childrenColumnName.value])
-        ) {
+        const children = getRowChildren(row)
+        if (children.length && !checkSelectedStatus(children)) {
           return false
-        }
-
-        // Also check lazy-loaded children
-        if (rowKey.value) {
-          const id = getRowIdentity(row, rowKey.value)
-          const lazyChildren = lazyTreeNodeMap.value?.[id]
-          if (
-            isArray(lazyChildren) &&
-            lazyChildren.length &&
-            !checkSelectedStatus(lazyChildren)
-          ) {
-            return false
-          }
         }
       }
       return true
@@ -582,7 +541,6 @@ function useWatcher<T extends DefaultRow>() {
     isAllSelected.value = selectedCount === 0 ? false : isAllSelected_
   }
 
-  // 获取行半选状态
   const getRowIndeterminate = (row: T) => {
     if (!rowKey.value) return false
     const id = getRowIdentity(row, rowKey.value)
@@ -603,7 +561,6 @@ function useWatcher<T extends DefaultRow>() {
     return count
   }
 
-  // 过滤与排序
   const updateFilters = (column: TableColumnCtx<T>, values: string[]) => {
     const filters_: Record<string, string[]> = {}
     ensureArray(column).forEach((col) => {
@@ -785,7 +742,6 @@ function useWatcher<T extends DefaultRow>() {
   watch(
     () => treeStates.lazyTreeNodeMap.value,
     () => {
-      // lazy 子节点加载后，若父节点已选中则自动补齐，并重算半选/全选状态
       if (
         !treeStates.lazy.value ||
         treeStates.checkStrictly.value ||
@@ -793,44 +749,22 @@ function useWatcher<T extends DefaultRow>() {
       )
         return
       const rowIndexMap = buildRowIndexMap()
-      const { lazyTreeNodeMap, childrenColumnName } = instance.store.states
-      const treeProps = {
-        children: childrenColumnName.value,
-        checkStrictly: false,
+      const prevLen = selection.value.length
+
+      for (const parentId of Object.keys(treeStates.lazyTreeNodeMap.value)) {
+        if (!selectedMap.value?.[parentId]) continue
+        cascadeToLazyChildren(
+          selectedMap.value[parentId].row,
+          true,
+          rowIndexMap
+        )
       }
-      let cascadeChanged = false
-      Object.entries(lazyTreeNodeMap.value).forEach(([parentId, lazyRows]) => {
-        if (selectedMap.value?.[parentId]) {
-          ;(lazyRows as T[]).forEach((child) => {
-            const childId = getRowIdentity(child, rowKey.value)
-            const rowIndex = rowIndexMap.get(childId) ?? 0
-            if (
-              toggleRowStatus(
-                selection.value,
-                child,
-                true,
-                treeProps,
-                selectable.value,
-                rowIndex,
-                rowKey.value
-              )
-            ) {
-              cascadeChanged = true
-            }
-            cascadeToLazyChildren(child, true, rowIndexMap)
-          })
-        }
-      })
-      updateSelectionByChildren({
-        emitChange: !cascadeChanged,
-        rowIndexMap,
-      })
+
+      const cascadeChanged = selection.value.length !== prevLen
+      updateSelectionByChildren({ emitChange: !cascadeChanged, rowIndexMap })
       updateAllSelected()
       if (cascadeChanged) {
-        instance.emit(
-          'selection-change',
-          selection.value ? selection.value.slice() : []
-        )
+        instance.emit('selection-change', selection.value.slice())
       }
     }
   )
