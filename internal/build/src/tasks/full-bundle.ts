@@ -1,6 +1,5 @@
 import path from 'path'
 import { rolldown } from 'rolldown'
-//@ts-expect-error
 import { replacePlugin } from 'rolldown/plugins'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'

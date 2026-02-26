@@ -9,12 +9,16 @@ export function ElementPlusAlias(): Plugin {
 
   return {
     name: 'element-plus-alias-plugin',
-    resolveId(id) {
-      if (!id.startsWith(sourceThemeChalk)) return
-      return {
-        id: id.replaceAll(sourceThemeChalk, bundleThemeChalk),
-        external: 'absolute',
-      }
+    resolveId: {
+      filter: {
+        id: /^@element-plus\/theme-chalk/,
+      },
+      handler(id) {
+        return {
+          id: id.replaceAll(sourceThemeChalk, bundleThemeChalk),
+          external: 'absolute',
+        }
+      },
     },
   }
 }
