@@ -104,7 +104,8 @@
 .#{$namespace}-message-fade-enter-from,
 .#{$namespace}-message-fade-leave-to {
   opacity: 0;
-  &:is(.is-left, .is-right) {
+  &.is-left,
+  &.is-right {
     transform: translateY(-100%);
 
     &.is-bottom {
