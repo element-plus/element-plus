@@ -228,7 +228,7 @@ import {
 import { cloneDeep } from 'lodash-unified'
 import { useCssVar, useDebounceFn, useResizeObserver } from '@vueuse/core'
 import {
-  debugWarn,
+  NOOP,
   focusNode,
   getEventCode,
   getSibling,
@@ -419,7 +419,7 @@ const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
   },
   afterBlur() {
     if (props.validateEvent) {
-      formItem?.validate?.('blur').catch((err) => debugWarn(err))
+      formItem?.validate?.('blur').catch(NOOP)
     }
   },
 })
@@ -457,7 +457,7 @@ const checkedValue = computed<CascaderValue>({
     emit(UPDATE_MODEL_EVENT, value)
     emit(CHANGE_EVENT, value)
     if (props.validateEvent) {
-      formItem?.validate('change').catch((err) => debugWarn(err))
+      formItem?.validate('change').catch(NOOP)
     }
   },
 })

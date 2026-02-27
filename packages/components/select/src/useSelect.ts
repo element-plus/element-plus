@@ -11,8 +11,8 @@ import {
 import { clamp, findLastIndex, get, isEqual, isNil } from 'lodash-unified'
 import { useDebounceFn, useResizeObserver } from '@vueuse/core'
 import {
+  NOOP,
   ValidateComponentsMap,
-  debugWarn,
   ensureArray,
   getEventCode,
   isArray,
@@ -133,7 +133,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       expanded.value = false
       states.menuVisibleOnFocus = false
       if (props.validateEvent) {
-        formItem?.validate?.('blur').catch((err) => debugWarn(err))
+        formItem?.validate?.('blur').catch(NOOP)
       }
     },
   })
@@ -295,7 +295,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       }
       setSelected()
       if (!isEqual(val, oldVal) && props.validateEvent) {
-        formItem?.validate('change').catch((err) => debugWarn(err))
+        formItem?.validate('change').catch(NOOP)
       }
     },
     {

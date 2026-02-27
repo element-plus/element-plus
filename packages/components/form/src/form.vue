@@ -7,7 +7,7 @@
 <script lang="ts" setup>
 import { computed, provide, reactive, ref, toRefs, watch } from 'vue'
 import { has } from 'lodash-unified'
-import { debugWarn, getProp, isFunction } from '@element-plus/utils'
+import { NOOP, debugWarn, getProp, isFunction } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { useFormSize } from './hooks'
 import { formContextKey } from './constants'
@@ -199,7 +199,7 @@ watch(
   () => props.rules,
   () => {
     if (props.validateOnRuleChange) {
-      validate().catch((err) => debugWarn(err))
+      validate().catch(NOOP)
     }
   },
   { deep: true, flush: 'post' }

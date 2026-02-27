@@ -6,7 +6,7 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import {
-  debugWarn,
+  NOOP,
   ensureArray,
   getEventCode,
   isAndroid,
@@ -218,7 +218,7 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
       }
 
       if (props.validateEvent) {
-        formItem?.validate?.('blur').catch((err) => debugWarn(err))
+        formItem?.validate?.('blur').catch(NOOP)
       }
     },
   })
@@ -234,7 +234,7 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
     () => props.modelValue,
     () => {
       if (props.validateEvent) {
-        formItem?.validate?.(CHANGE_EVENT).catch((err) => debugWarn(err))
+        formItem?.validate?.(CHANGE_EVENT).catch(NOOP)
       }
     }
   )
