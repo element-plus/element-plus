@@ -93,7 +93,7 @@
       ref="input"
       :model-value="firstValue"
       :class="ns.e('input')"
-      :step="step"
+      :step="sliderInputStep"
       :disabled="sliderDisabled"
       :controls="showInputControls"
       :min="min"
@@ -224,6 +224,10 @@ const sliderKls = computed(() => [
 const markList = useMarks(props)
 
 useWatch(props, initData, minValue, maxValue, emit, elFormItem!)
+
+const sliderInputStep = computed(() => {
+  return isNumber(props.step) ? props.step : 1
+})
 
 const precision = computed(() => {
   const stepValue = isNumber(props.step) ? props.step : 1
