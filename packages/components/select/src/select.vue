@@ -204,6 +204,7 @@
                 @compositionupdate="handleCompositionUpdate"
                 @compositionend="handleCompositionEnd"
                 @input="onInput"
+                @change.stop
                 @click.stop="toggleMenu"
               />
               <span
@@ -521,7 +522,12 @@ export default defineComponent({
       })
     }
     watch(
-      () => [slots.default?.(), modelValue.value],
+      () => [
+        props.persistent || API.expanded.value || !slots.default
+          ? undefined
+          : slots.default?.(),
+        modelValue.value,
+      ],
       () => {
         // When persistent is false and the dropdown is closed, the menu is unmounted.
         // We should always re-hydrate option data from slots so labels stay in sync

@@ -1301,6 +1301,25 @@ describe('Select', () => {
     expect((wrapper.vm as any).value).toBe('new')
   })
 
+  test('allow create should clear input after creating a tag with reserveKeyword', async () => {
+    wrapper = getSelectVm({
+      filterable: true,
+      allowCreate: true,
+      multiple: true,
+    })
+    const selectVm = wrapper.findComponent({ name: 'ElSelect' }).vm as any
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    await input.setValue('new tag')
+    selectVm.debouncedOnInputChange()
+    await nextTick()
+    getOptions()
+      .find((o) => o.textContent === 'new tag')!
+      .click()
+    await nextTick()
+    expect(selectVm.states.inputValue).toBe('')
+  })
+
   test('allow create with default first option', async () => {
     wrapper = getSelectVm(
       {
@@ -4381,5 +4400,30 @@ describe('Select', () => {
       // When empty again, should be hidden
       expect(inputWrapper.classes()).toContain('is-hidden')
     })
+  })
+
+  it('should not bubble native change event from filter input', async () => {
+    const wrapper = mount({
+      template: `
+        <div>
+          <el-select filterable v-model="value">
+            <el-option label="a" value="a" />
+          </el-select>
+        </div>
+      `,
+      components: { 'el-select': Select, 'el-option': Option },
+      setup() {
+        return {
+          value: ref(''),
+        }
+      },
+    })
+
+    const nativeChangeHandler = vi.fn()
+    const parent = wrapper.element as HTMLElement
+    parent.addEventListener('change', nativeChangeHandler)
+
+    await wrapper.find('input').trigger('change')
+    expect(nativeChangeHandler).not.toHaveBeenCalled()
   })
 })
