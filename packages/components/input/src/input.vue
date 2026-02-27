@@ -59,7 +59,7 @@
 
         <!-- suffix slot -->
         <span v-if="suffixVisible" :class="nsInput.e('suffix')">
-          <span :class="nsInput.e('suffix-inner')">
+          <span :class="nsInput.e('suffix-inner')" @click.capture="handleClick">
             <template
               v-if="!showClear || !showPwdVisible || !isWordLimitVisible"
             >
@@ -505,6 +505,11 @@ const clear = () => {
   emit(CHANGE_EVENT, '')
   emit('clear')
   emit(INPUT_EVENT, '')
+}
+
+const handleClick = (evt: MouseEvent) => {
+  // @ts-expect-error The events passed are bound to the input, so clicking the suffix icon failed to trigger the click event.
+  attrs.value.onClick?.(evt)
 }
 
 watch(
