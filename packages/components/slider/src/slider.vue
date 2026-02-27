@@ -13,7 +13,7 @@
       ref="slider"
       :class="[
         ns.e('runway'),
-        { 'show-input': showInput && !range },
+        { 'show-input': renderInput },
         ns.is('disabled', sliderDisabled),
       ]"
       :style="runwayStyle"
@@ -89,7 +89,7 @@
       </template>
     </div>
     <el-input-number
-      v-if="showInput && !range"
+      v-if="renderInput"
       ref="input"
       :model-value="firstValue"
       :class="ns.e('input')"
@@ -123,6 +123,7 @@ import {
   useStops,
   useWatch,
 } from './composables'
+import { isNumber } from '@element-plus/utils'
 
 import type { SliderInitData } from './slider'
 
@@ -175,6 +176,10 @@ const sliderInputSize = computed(
   () => props.inputSize || sliderWrapperSize.value
 )
 
+const renderInput = computed(() => {
+  return props.showInput && !props.range && props.step !== 'mark'
+})
+
 const groupLabel = computed<string>(() => {
   return (
     props.ariaLabel ||
@@ -221,7 +226,8 @@ const markList = useMarks(props)
 useWatch(props, initData, minValue, maxValue, emit, elFormItem!)
 
 const precision = computed(() => {
-  const precisions = [props.min, props.max, props.step].map((item) => {
+  const stepValue = isNumber(props.step) ? props.step : 1
+  const precisions = [props.min, props.max, stepValue].map((item) => {
     const decimal = `${item}`.split('.')[1]
     return decimal ? decimal.length : 0
   })

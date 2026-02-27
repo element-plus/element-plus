@@ -1,5 +1,4 @@
-import { computed, unref } from 'vue'
-import { isArray } from '@element-plus/utils'
+import { computed } from 'vue'
 
 import type { SliderProps } from '../slider'
 import type { SliderMarkerProps } from '../marker'
@@ -11,26 +10,20 @@ export interface Mark extends SliderMarkerProps {
 
 export const useMarks = (props: SliderProps) => {
   return computed(() => {
-    const marks = unref(props.marks)
-    if (!marks) {
+    if (!props.marks) {
       return []
     }
 
-    const min = unref(props.min)
-    const max = unref(props.max)
-
-    const marksKeys = isArray(marks)
-      ? [...marks]
-      : Object.keys(marks).map(Number.parseFloat)
-
+    const marksKeys = Object.keys(props.marks)
     return marksKeys
+      .map(Number.parseFloat)
       .sort((a, b) => a - b)
-      .filter((point) => point <= max && point >= min)
+      .filter((point) => point <= props.max && point >= props.min)
       .map(
         (point): Mark => ({
           point,
-          position: ((point - min) * 100) / (max - min),
-          mark: isArray(marks) ? { style: {}, label: point } : marks[point],
+          position: ((point - props.min) * 100) / (props.max - props.min),
+          mark: props.marks![point],
         })
       )
   })

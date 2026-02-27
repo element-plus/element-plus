@@ -2,7 +2,7 @@ import { computed, inject, nextTick, reactive, ref, watch } from 'vue'
 import { clamp, debounce } from 'lodash-unified'
 import { useEventListener } from '@vueuse/core'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { getEventCode } from '@element-plus/utils'
+import { getEventCode, isNumber } from '@element-plus/utils'
 import { sliderContextKey } from '../constants'
 import { useMarks } from './use-marks'
 
@@ -71,7 +71,6 @@ export const useSliderButton = (
     resetSize,
     updateDragging,
     marks,
-    restrictToMarks = ref(false),
   } = inject(sliderContextKey)!
 
   const { tooltip, tooltipVisible, formatValue, displayTooltip, hideTooltip } =
@@ -174,33 +173,33 @@ export const useSliderButton = (
   }
 
   const onLeftKeyDown = () => {
-    if (restrictToMarks.value && markList.value.length > 0) {
+    if (step.value === 'mark' && markList.value.length > 0) {
       moveToMark(-1)
-    } else {
+    } else if (isNumber(step.value)) {
       incrementPosition(-step.value)
     }
   }
 
   const onRightKeyDown = () => {
-    if (restrictToMarks.value && markList.value.length > 0) {
+    if (step.value === 'mark' && markList.value.length > 0) {
       moveToMark(1)
-    } else {
+    } else if (isNumber(step.value)) {
       incrementPosition(step.value)
     }
   }
 
   const onPageDownKeyDown = () => {
-    if (restrictToMarks.value && markList.value.length > 0) {
+    if (step.value === 'mark' && markList.value.length > 0) {
       moveToMark(-4)
-    } else {
+    } else if (isNumber(step.value)) {
       incrementPosition(-step.value * 4)
     }
   }
 
   const onPageUpKeyDown = () => {
-    if (restrictToMarks.value && markList.value.length > 0) {
+    if (step.value === 'mark' && markList.value.length > 0) {
       moveToMark(4)
-    } else {
+    } else if (isNumber(step.value)) {
       incrementPosition(step.value * 4)
     }
   }
@@ -328,7 +327,7 @@ export const useSliderButton = (
     newPosition = clamp(newPosition, 0, 100)
     let value: number
 
-    if (restrictToMarks.value && markList.value.length > 0) {
+    if (step.value === 'mark' && markList.value.length > 0) {
       const closestMark = markList.value.reduce((prev, curr) => {
         return Math.abs(curr.position - newPosition) <
           Math.abs(prev.position - newPosition)
@@ -336,7 +335,7 @@ export const useSliderButton = (
           : prev
       })
       value = closestMark.point
-    } else {
+    } else if (isNumber(step.value)) {
       const fullSteps = Math.floor((max.value - min.value) / step.value)
       const fullRangePercentage =
         ((fullSteps * step.value) / (max.value - min.value)) * 100
@@ -351,6 +350,8 @@ export const useSliderButton = (
         value = max.value
       }
       value = Number.parseFloat(value.toFixed(precision.value))
+    } else {
+      value = min.value
     }
 
     if (value !== props.modelValue) {

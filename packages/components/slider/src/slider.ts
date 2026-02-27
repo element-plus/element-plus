@@ -17,7 +17,7 @@ import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type { SliderMarkerProps } from './marker'
 import type Slider from './slider.vue'
 
-type SliderMarks = Record<number, string | SliderMarkerProps['mark']> | number[]
+type SliderMarks = Record<number, string | SliderMarkerProps['mark']>
 
 export interface SliderInitData {
   firstValue: number
@@ -54,10 +54,10 @@ export const sliderProps = buildProps({
     default: 100,
   },
   /**
-   * @description step size
+   * @description step size, can be a number or 'mark' to restrict values to marks
    */
   step: {
-    type: Number,
+    type: definePropType<number | 'mark'>([Number, String]),
     default: 1,
   },
   /**
@@ -156,12 +156,8 @@ export const sliderProps = buildProps({
    * @description marks, type of key must be `number` and must in closed interval `[min, max]`, each mark can custom style
    */
   marks: {
-    type: definePropType<SliderMarks>([Object, Array]),
+    type: definePropType<SliderMarks>(Object),
   },
-  /**
-   * @description whether to restrict value to marks
-   */
-  restrictToMarks: Boolean,
   /**
    * @description whether to trigger form validation
    */

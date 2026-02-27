@@ -420,105 +420,127 @@ describe('Slider', () => {
     mockRect.mockRestore()
   })
 
-  it.each([
-    [
-      'marks',
+  it('should restrict value when step is mark', async () => {
+    const value = ref(0)
+    const wrapper = mount(
+      () => (
+        <div style="width: 200px;">
+          <Slider
+            v-model={value.value}
+            min={0}
+            max={100}
+            marks={{
+              0: '0',
+              10: '10',
+              30: '30',
+              50: '50',
+            }}
+            step="mark"
+          />
+        </div>
+      ),
       {
-        0: '0',
-        10: '10',
-        30: '30',
-        50: '50',
-      },
-    ],
-    ['array marks', [0, 10, 30, 50]],
-  ])(
-    'should restrict value to %s when restrict-to-marks is true',
-    async (_, marks) => {
-      const value = ref(0)
-      const wrapper = mount(
-        () => (
-          <div style="width: 200px;">
-            <Slider
-              v-model={value.value}
-              min={0}
-              max={100}
-              marks={marks}
-              restrict-to-marks
-            />
-          </div>
-        ),
-        {
-          attachTo: document.body,
-        }
-      )
+        attachTo: document.body,
+      }
+    )
 
-      const slider = wrapper.findComponent({ name: 'ElSliderButton' })
-      const mockRect = mockBoundingClientRect(
-        wrapper.find('.el-slider__runway').element,
-        { width: 200, left: 0 }
-      )
+    const slider = wrapper.findComponent({ name: 'ElSliderButton' })
+    const mockRect = mockBoundingClientRect(
+      wrapper.find('.el-slider__runway').element,
+      { width: 200, left: 0 }
+    )
 
-      await nextTick()
+    await nextTick()
 
-      // Mouse down at 0
-      await slider.trigger('mousedown', { clientX: 0, clientY: 0 })
+    // Mouse down at 0
+    await slider.trigger('mousedown', { clientX: 0, clientY: 0 })
 
-      // Mouse move to 50px (value 25)
-      // 25 is closer to 30 (diff 5) than 10 (diff 15)
-      const mousemove = new MouseEvent('mousemove', {
-        clientX: 50,
-        clientY: 0,
-        bubbles: true,
-      })
-      window.dispatchEvent(mousemove)
+    // Mouse move to 50px (value 25)
+    // 25 is closer to 30 (diff 5) than 10 (diff 15)
+    const mousemove = new MouseEvent('mousemove', {
+      clientX: 50,
+      clientY: 0,
+      bubbles: true,
+    })
+    window.dispatchEvent(mousemove)
 
-      const mouseup = new MouseEvent('mouseup', {
-        bubbles: true,
-      })
-      window.dispatchEvent(mouseup)
+    const mouseup = new MouseEvent('mouseup', {
+      bubbles: true,
+    })
+    window.dispatchEvent(mouseup)
 
-      await nextTick()
-      expect(value.value).toBe(30)
+    await nextTick()
+    expect(value.value).toBe(30)
 
-      // Keyboard navigation
-      await slider.trigger('keydown', {
-        key: EVENT_CODE.right,
-        code: EVENT_CODE.right,
-      })
-      await nextTick()
-      expect(value.value).toBe(50)
+    // Keyboard navigation
+    await slider.trigger('keydown', {
+      key: EVENT_CODE.right,
+      code: EVENT_CODE.right,
+    })
+    await nextTick()
+    expect(value.value).toBe(50)
 
-      await slider.trigger('keydown', {
-        key: EVENT_CODE.left,
-        code: EVENT_CODE.left,
-      })
-      await nextTick()
-      expect(value.value).toBe(30)
+    await slider.trigger('keydown', {
+      key: EVENT_CODE.left,
+      code: EVENT_CODE.left,
+    })
+    await nextTick()
+    expect(value.value).toBe(30)
 
-      await slider.trigger('keydown', {
-        key: EVENT_CODE.pageUp,
-        code: EVENT_CODE.pageUp,
-      })
-      await nextTick()
-      expect(value.value).toBe(50)
+    await slider.trigger('keydown', {
+      key: EVENT_CODE.pageUp,
+      code: EVENT_CODE.pageUp,
+    })
+    await nextTick()
+    expect(value.value).toBe(50)
 
-      await slider.trigger('keydown', {
-        key: EVENT_CODE.home,
-        code: EVENT_CODE.home,
-      })
-      await nextTick()
-      expect(value.value).toBe(0)
+    await slider.trigger('keydown', {
+      key: EVENT_CODE.pageDown,
+      code: EVENT_CODE.pageDown,
+    })
+    await nextTick()
+    expect(value.value).toBe(0)
 
-      await slider.trigger('keydown', {
-        key: EVENT_CODE.end,
-        code: EVENT_CODE.end,
-      })
-      await nextTick()
-      expect(value.value).toBe(50)
+    await slider.trigger('keydown', {
+      key: EVENT_CODE.home,
+      code: EVENT_CODE.home,
+    })
+    await nextTick()
+    expect(value.value).toBe(0)
 
-      mockRect.mockRestore()
-    }
-  )
+    await slider.trigger('keydown', {
+      key: EVENT_CODE.end,
+      code: EVENT_CODE.end,
+    })
+    await nextTick()
+    expect(value.value).toBe(50)
+
+    mockRect.mockRestore()
+  })
+
+  it('should keep mark precision when step is mark', async () => {
+    const value = ref(3.14159)
+    const wrapper = mount(() => (
+      <div style="width: 200px;">
+        <Slider
+          v-model={value.value}
+          min={0}
+          max={5}
+          marks={{ 2.71828: 'e', 3.14159: 'π' }}
+          step="mark"
+        />
+      </div>
+    ))
+
+    const slider = wrapper.findComponent({ name: 'ElSliderButton' })
+
+    await slider.trigger('keydown', {
+      key: EVENT_CODE.left,
+      code: EVENT_CODE.left,
+    })
+    await nextTick()
+    expect(value.value).toBe(2.71828)
+  })
 
   it('click', async () => {
     vi.useRealTimers()

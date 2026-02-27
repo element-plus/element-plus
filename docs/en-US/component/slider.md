@@ -83,7 +83,7 @@ slider/show-marks
 
 ## Restrict value ^(2.13.3)
 
-:::demo Setting `restrict-to-marks` attribute can restrict the value of slider to the marks.
+:::demo Set `step="mark"` to restrict the slider value to marks.
 
 slider/restrict-value
 
@@ -99,8 +99,8 @@ slider/restrict-value
 | min                         | minimum value                                                                                                                                        | ^[number]                                                                                                                                                                   | 0       |
 | max                         | maximum value                                                                                                                                        | ^[number]                                                                                                                                                                   | 100     |
 | disabled                    | whether Slider is disabled                                                                                                                           | ^[boolean]                                                                                                                                                                  | false   |
-| step                        | step size                                                                                                                                            | ^[number]                                                                                                                                                                   | 1       |
-| show-input                  | whether to display an input box, works when `range` is false                                                                                         | ^[boolean]                                                                                                                                                                  | false   |
+| step                        | step size                                                                                                                                            | ^[number] / ^[string]`'mark'`                                                                                                                                               | 1       |
+| show-input                  | whether to display an input box, works when `range` is false and `step` is number                                                                    | ^[boolean]                                                                                                                                                                  | false   |
 | show-input-controls         | whether to display control buttons when `show-input` is true                                                                                         | ^[boolean]                                                                                                                                                                  | true    |
 | size                        | size of the slider wrapper, will not work in vertical mode                                                                                           | ^[enum]`'' \| 'large' \| 'default' \| 'small'`                                                                                                                              | default |
 | input-size                  | size of the input box, when set `size`, the default is the value of `size`                                                                           | ^[enum]`'' \| 'large' \| 'default' \| 'small'`                                                                                                                              | default |
@@ -116,8 +116,7 @@ slider/restrict-value
 | format-value-text           | format to display the `aria-valuenow` attribute for screen readers                                                                                   | ^[Function]`(value: number) => string`                                                                                                                                      | —       |
 | tooltip-class               | custom class name for the tooltip                                                                                                                    | ^[string]                                                                                                                                                                   | —       |
 | placement                   | position of Tooltip                                                                                                                                  | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | top     |
-| marks                       | marks. **Object form**: keys must be numbers in `[min, max]` and values may include custom style. **Array form**: accepts `number[]` positions       | ^[object]`SliderMarks` / ^[array]`number[]`                                                                                                                                 | —       |
-| restrict-to-marks ^(2.13.3) | whether to restrict value to marks (effective when `marks` provides valid points) marks                                                              | ^[boolean]                                                                                                                                                                  | false   |
+| marks                       | marks, type of key must be `number` and must in closed interval `[min, max]`, each mark can custom style                                             | ^[object]`SliderMarks`                                                                                                                                                      | —       |
 | validate-event              | whether to trigger form validation                                                                                                                   | ^[boolean]                                                                                                                                                                  | true    |
 | persistent ^(2.9.5)         | when slider tooltip inactive and `persistent` is `false` , tooltip will be destroyed. `persistent` always be `false` when `show-tooltip ` is `false` | ^[boolean]                                                                                                                                                                  | true    |
 | label ^(a11y) ^(deprecated) | native `aria-label` attribute                                                                                                                        | ^[string]                                                                                                                                                                   | —       |
@@ -135,9 +134,7 @@ slider/restrict-value
   <summary>Show declarations</summary>
 
 ```ts
-type SliderMarks =
-  | Record<number, string | { style: CSSProperties; label: any }>
-  | number[]
+type SliderMarks = Record<number, string | { style: CSSProperties; label: any }>
 type Arrayable<T> = T | T[]
 ```
 

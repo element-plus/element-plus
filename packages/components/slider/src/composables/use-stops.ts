@@ -16,7 +16,8 @@ export const useStops = (
   maxValue: ComputedRef<number>
 ): Stops => {
   const stops = computed(() => {
-    if (!props.showStops || props.min > props.max) return []
+    if (!props.showStops || props.min > props.max || props.step === 'mark')
+      return []
     if (props.step === 0) {
       debugWarn('ElSlider', 'step should not be 0.')
       return []
