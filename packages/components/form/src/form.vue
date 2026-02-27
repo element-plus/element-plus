@@ -261,7 +261,7 @@ defineExpose({
    */
   validateField,
   /**
-   * @description Reset specified fields and remove validation results.
+   * @description Reset specified fields and remove validation result.
    */
   resetFields,
   /**
