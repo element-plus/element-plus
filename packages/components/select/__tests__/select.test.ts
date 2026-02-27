@@ -4401,4 +4401,29 @@ describe('Select', () => {
       expect(inputWrapper.classes()).toContain('is-hidden')
     })
   })
+
+  it('should not bubble native change event from filter input', async () => {
+    const wrapper = mount({
+      template: `
+        <div>
+          <el-select filterable v-model="value">
+            <el-option label="a" value="a" />
+          </el-select>
+        </div>
+      `,
+      components: { 'el-select': Select, 'el-option': Option },
+      setup() {
+        return {
+          value: ref(''),
+        }
+      },
+    })
+
+    const nativeChangeHandler = vi.fn()
+    const parent = wrapper.element as HTMLElement
+    parent.addEventListener('change', nativeChangeHandler)
+
+    await wrapper.find('input').trigger('change')
+    expect(nativeChangeHandler).not.toHaveBeenCalled()
+  })
 })

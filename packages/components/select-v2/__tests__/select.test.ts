@@ -2948,4 +2948,20 @@ describe('Select', () => {
       expect(inputWrapper.classes()).toContain('is-hidden')
     })
   })
+
+  it('should not bubble native change event from filter input', async () => {
+    const wrapper = createSelect({
+      data: () => ({ filterable: true }),
+    })
+
+    const nativeChangeHandler = vi.fn()
+    const parent = document.createElement('div')
+    parent.addEventListener('change', nativeChangeHandler)
+    parent.appendChild(wrapper.element)
+
+    await wrapper.find('input').trigger('change')
+    expect(nativeChangeHandler).not.toHaveBeenCalled()
+
+    parent.remove()
+  })
 })
