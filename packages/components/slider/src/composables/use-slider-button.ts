@@ -327,14 +327,18 @@ export const useSliderButton = (
     newPosition = clamp(newPosition, 0, 100)
     let value: number
 
-    if (step.value === 'mark' && markList.value.length > 0) {
-      const closestMark = markList.value.reduce((prev, curr) => {
-        return Math.abs(curr.position - newPosition) <
-          Math.abs(prev.position - newPosition)
-          ? curr
-          : prev
-      })
-      value = closestMark.point
+    if (step.value === 'mark') {
+      if (markList.value.length === 0) {
+        value = props.modelValue
+      } else {
+        const closestMark = markList.value.reduce((prev, curr) => {
+          return Math.abs(curr.position - newPosition) <
+            Math.abs(prev.position - newPosition)
+            ? curr
+            : prev
+        })
+        value = closestMark.point
+      }
     } else if (isNumber(step.value)) {
       const fullSteps = Math.floor((max.value - min.value) / step.value)
       const fullRangePercentage =

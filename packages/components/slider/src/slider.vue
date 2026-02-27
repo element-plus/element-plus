@@ -218,7 +218,7 @@ const sliderKls = computed(() => [
   ns.b(),
   ns.m(sliderWrapperSize.value),
   ns.is('vertical', props.vertical),
-  { [ns.m('with-input')]: props.showInput },
+  { [ns.m('with-input')]: renderInput.value },
 ])
 
 const markList = useMarks(props)
