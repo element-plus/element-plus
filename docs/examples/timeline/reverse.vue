@@ -1,7 +1,7 @@
 <template>
   <el-switch v-model="reverse" active-text="reverse" />
 
-  <el-timeline class="mt-2" style="max-width: 600px" :reverse="reverse">
+  <el-timeline class="mt-2" :reverse="reverse">
     <el-timeline-item
       v-for="(activity, index) in activities"
       :key="index"

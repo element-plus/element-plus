@@ -297,6 +297,7 @@ $checkbox-button: map.merge(
     'checked-bg-color': getCssVar('color-primary'),
     'checked-text-color': getCssVar('color-white'),
     'checked-border-color': getCssVar('color-primary'),
+    'disabled-checked-fill': getCssVar('border-color-extra-light'),
   ),
   $checkbox-button
 );
@@ -1521,6 +1522,15 @@ $avatar-size: map.merge(
     'small': 24px,
   ),
   $avatar-size
+);
+
+$avatar-group: () !default;
+$avatar-group: map.merge(
+  (
+    'item-gap': -8px,
+    'collapse-item-gap': 4px,
+  ),
+  $avatar-group
 );
 
 // Empty

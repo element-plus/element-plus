@@ -5,9 +5,47 @@ import {
   isUndefined,
 } from '@element-plus/utils'
 
-import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
 import type Anchor from './anchor.vue'
 
+export interface AnchorProps {
+  /**
+   * @description scroll container
+   */
+  container?: string | HTMLElement | Window | null
+  /**
+   * @description Set the offset of the anchor scroll
+   */
+  offset?: number
+  /**
+   * @description The offset of the element starting to trigger the anchor
+   */
+  bound?: number
+  /**
+   * @description Set the scroll duration of the container when the anchor is clicked, in milliseconds
+   */
+  duration?: number
+  /**
+   * @description Whether to show the marker
+   */
+  marker?: boolean
+  /**
+   * @description Set Anchor type
+   */
+  type?: 'default' | 'underline'
+  /**
+   * @description Set Anchor direction
+   */
+  direction?: 'vertical' | 'horizontal'
+  /**
+   * @description Scroll whether link is selected at the top
+   */
+  selectScrollTop?: boolean
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `AnchorProps` instead.
+ */
 export const anchorProps = buildProps({
   /**
    * @description scroll container
@@ -66,7 +104,9 @@ export const anchorProps = buildProps({
   selectScrollTop: Boolean,
 })
 
-export type AnchorProps = ExtractPropTypes<typeof anchorProps>
+/**
+ * @deprecated Removed after 3.0.0, Use `AnchorProps` instead.
+ */
 export type AnchorPropsPublic = ExtractPublicPropTypes<typeof anchorProps>
 export type AnchorInstance = InstanceType<typeof Anchor> & unknown
 

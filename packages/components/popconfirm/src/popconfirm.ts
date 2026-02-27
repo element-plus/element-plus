@@ -6,9 +6,81 @@ import {
   useTooltipTriggerProps,
 } from '@element-plus/components/tooltip'
 
-import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
+import type { ButtonType } from '@element-plus/components/button'
+import type {
+  ElTooltipContentProps,
+  ElTooltipTriggerProps,
+} from '@element-plus/components/tooltip'
+import type { IconPropType } from '@element-plus/utils'
 import type Popconfirm from './popconfirm.vue'
 
+export interface PopconfirmProps {
+  /**
+   * @description Title
+   */
+  title?: string
+  /**
+   * @description Confirm button text
+   */
+  confirmButtonText?: string
+  /**
+   * @description Cancel button text
+   */
+  cancelButtonText?: string
+  /**
+   * @description Confirm button type
+   */
+  confirmButtonType?: ButtonType
+  /**
+   * @description Cancel button type
+   */
+  cancelButtonType?: ButtonType
+  /**
+   * @description Icon Component
+   */
+  icon?: IconPropType
+  /**
+   * @description Icon color
+   */
+  iconColor?: string
+  /**
+   * @description is hide Icon
+   */
+  hideIcon?: boolean
+  /**
+   * @description delay of disappear, in millisecond
+   */
+  hideAfter?: number
+  /**
+   * @description Tooltip theme, built-in theme: `dark` / `light`
+   */
+  effect?: ElTooltipContentProps['effect']
+  /**
+   * @description whether popconfirm is teleported to the body
+   */
+  teleported?: ElTooltipContentProps['teleported']
+  /**
+   * @description when popconfirm inactive and `persistent` is `false` , popconfirm will be destroyed
+   */
+  persistent?: ElTooltipContentProps['persistent']
+  /**
+   * @description popconfirm width, min width 150px
+   */
+  width?: string | number
+  /**
+   * @description Indicates whether virtual triggering is enabled
+   */
+  virtualTriggering?: ElTooltipTriggerProps['virtualTriggering']
+  /**
+   * @description Indicates the reference element to which the popper is attached
+   */
+  virtualRef?: ElTooltipTriggerProps['virtualRef']
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `PopconfirmProps` instead.
+ */
 export const popconfirmProps = buildProps({
   /**
    * @description Title
@@ -102,7 +174,9 @@ export const popconfirmEmits = {
 
 export type PopconfirmEmits = typeof popconfirmEmits
 
-export type PopconfirmProps = ExtractPropTypes<typeof popconfirmProps>
+/**
+ * @deprecated Removed after 3.0.0, Use `PopconfirmProps` instead.
+ */
 export type PopconfirmPropsPublic = ExtractPublicPropTypes<
   typeof popconfirmProps
 >

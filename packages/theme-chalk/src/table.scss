@@ -87,6 +87,11 @@
     width: min(23px, 100%);
     height: 23px;
 
+    @include when(disabled) {
+      color: getCssVar('disabled-text-color');
+      cursor: not-allowed;
+    }
+
     @include m(expanded) {
       transform: rotate(90deg);
     }

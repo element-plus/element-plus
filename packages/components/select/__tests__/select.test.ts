@@ -1301,6 +1301,25 @@ describe('Select', () => {
     expect((wrapper.vm as any).value).toBe('new')
   })
 
+  test('allow create should clear input after creating a tag with reserveKeyword', async () => {
+    wrapper = getSelectVm({
+      filterable: true,
+      allowCreate: true,
+      multiple: true,
+    })
+    const selectVm = wrapper.findComponent({ name: 'ElSelect' }).vm as any
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    await input.setValue('new tag')
+    selectVm.debouncedOnInputChange()
+    await nextTick()
+    getOptions()
+      .find((o) => o.textContent === 'new tag')!
+      .click()
+    await nextTick()
+    expect(selectVm.states.inputValue).toBe('')
+  })
+
   test('allow create with default first option', async () => {
     wrapper = getSelectVm(
       {
@@ -1505,10 +1524,19 @@ describe('Select', () => {
 
     wrapper = _mount(
       `
-      <el-select v-model="selectedList" multiple collapseTags collapse-tags-tooltip placeholder="请选择">
-        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-        </el-option>
-      </el-select>
+      <div>
+        <div class="append-target"></div>
+        <el-select
+          v-model="selectedList"
+          multiple
+          collapseTags
+          collapse-tags-tooltip
+          :tag-tooltip="{ appendTo: '.append-target' }"
+          placeholder="请选择"
+        >
+          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+        </el-select>
+      </div>
     `,
       () => ({
         options: [
@@ -1545,6 +1573,11 @@ describe('Select', () => {
     await nextTick()
     options[2].click()
     await nextTick()
+
+    const select = wrapper.findComponent(Select)
+    const tagTooltip = select.findComponent({ ref: 'tagTooltipRef' })
+    expect(tagTooltip.props('appendTo')).toBe('.append-target')
+
     const triggerWrappers = wrapper.findAll('.el-tooltip__trigger')
     expect(triggerWrappers[0]).toBeDefined()
     const tags = document.querySelectorAll('.el-select__tags-text')
@@ -1943,6 +1976,19 @@ describe('Select', () => {
     const select = wrapper.findComponent({ name: 'ElSelect' })
     const input = select.find('input')
     await input.trigger('focus')
+    expect((select.vm as any).expanded).toBe(true)
+  })
+
+  test('automatic dropdown should cooperate with click to open the dropdown', async () => {
+    wrapper = getSelectVm({ automaticDropdown: true })
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const input = select.find('input')
+    await input.trigger('focus')
+    expect((select.vm as any).expanded).toBe(true)
+    await input.trigger('keydown', { key: EVENT_CODE.down })
+    await input.trigger('keydown', { key: EVENT_CODE.enter })
+    expect((select.vm as any).expanded).toBe(false)
+    await input.trigger('click')
     expect((select.vm as any).expanded).toBe(true)
   })
 
@@ -4238,5 +4284,146 @@ describe('Select', () => {
     expect(handleVisibleChange).toHaveBeenCalledTimes(1)
     await input.trigger('blur')
     expect(handleVisibleChange).toHaveBeenCalledTimes(2)
+  })
+
+  test('should show empty slot correctly in remote search scenarios', async () => {
+    vi.useFakeTimers()
+    const wrapper = mount({
+      components: {
+        'el-select': Select,
+        'el-option': Option,
+      },
+      template: `
+        <el-select
+          v-model="value"
+          filterable
+          remote
+          :remote-method="remoteMethod"
+        >
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+          <template #empty>
+            <div class="custom-empty">NO DATA</div>
+          </template>
+        </el-select>
+      `,
+      setup() {
+        const value = ref('')
+        const options = ref<any[]>([])
+
+        const remoteMethod = (query: string) => {
+          if (!query || query === 'empty') {
+            options.value = []
+          } else {
+            options.value = [{ value: '1', label: 'Option 1' }]
+          }
+        }
+        return { value, options, remoteMethod }
+      },
+    })
+
+    const select = wrapper.findComponent(Select)
+    const input = wrapper.find('input')
+    const vm = select.vm as any
+
+    await input.trigger('click')
+    expect(vm.states.options.size).toBe(0)
+    expect(vm.dropdownMenuVisible).toBe(true)
+    expect(document.querySelector('.custom-empty')).not.toBeNull()
+
+    await input.setValue('a')
+    vi.runAllTimers()
+    await nextTick()
+    expect(vm.states.options.size).toBe(1)
+    expect(vm.dropdownMenuVisible).toBe(true)
+    expect(document.querySelector('.custom-empty')).toBeNull()
+
+    await input.setValue('empty')
+    vi.runAllTimers()
+    await nextTick()
+    expect(vm.states.options.size).toBe(0)
+    expect(vm.dropdownMenuVisible).toBe(true)
+    expect(document.querySelector('.custom-empty')).not.toBeNull()
+
+    vi.useRealTimers()
+  })
+
+  describe('input-wrapper in multiple mode', () => {
+    test('should hide input-wrapper when empty and not focused', async () => {
+      wrapper = getSelectVm({
+        multiple: true,
+        filterable: true,
+      })
+      const inputWrapper = wrapper.find('.el-select__input-wrapper')
+      const input = wrapper.find('input')
+
+      // When input is empty and not focused, input-wrapper should have hidden class
+      expect(inputWrapper.classes()).toContain('is-hidden')
+
+      // Focus the input
+      await input.trigger('focus')
+
+      // When focused, input-wrapper should not have hidden class
+      expect(inputWrapper.classes()).not.toContain('is-hidden')
+
+      // Blur the input
+      await input.trigger('blur')
+
+      // When blurred and empty, input-wrapper should have hidden class again
+      expect(inputWrapper.classes()).toContain('is-hidden')
+    })
+
+    test('should show input-wrapper when input has value', async () => {
+      wrapper = getSelectVm({
+        multiple: true,
+        filterable: true,
+      })
+      const inputWrapper = wrapper.find('.el-select__input-wrapper')
+      const input = wrapper.find('input')
+
+      // Initially empty, should be hidden
+      expect(inputWrapper.classes()).toContain('is-hidden')
+
+      // Set input value
+      await input.setValue('test')
+
+      // When input has value, input-wrapper should not have hidden class
+      expect(inputWrapper.classes()).not.toContain('is-hidden')
+
+      // Clear input
+      await input.setValue('')
+
+      // When empty again, should be hidden
+      expect(inputWrapper.classes()).toContain('is-hidden')
+    })
+  })
+
+  it('should not bubble native change event from filter input', async () => {
+    const wrapper = mount({
+      template: `
+        <div>
+          <el-select filterable v-model="value">
+            <el-option label="a" value="a" />
+          </el-select>
+        </div>
+      `,
+      components: { 'el-select': Select, 'el-option': Option },
+      setup() {
+        return {
+          value: ref(''),
+        }
+      },
+    })
+
+    const nativeChangeHandler = vi.fn()
+    const parent = wrapper.element as HTMLElement
+    parent.addEventListener('change', nativeChangeHandler)
+
+    await wrapper.find('input').trigger('change')
+    expect(nativeChangeHandler).not.toHaveBeenCalled()
   })
 })

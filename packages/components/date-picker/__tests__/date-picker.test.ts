@@ -1748,6 +1748,8 @@ describe('DatePicker months', () => {
   })
 
   it('remove same months from different years', async () => {
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date('2025-03-05'))
     const wrapper = _mount(
       `<el-date-picker
         type="months"
@@ -1774,6 +1776,7 @@ describe('DatePicker months', () => {
     expect(vm.value.length).toBe(1)
     expect(vm.value[0].getFullYear()).toBe(2025)
     expect(vm.value[0].getMonth()).toBe(2) // March is month 2 (0-indexed)
+    vi.useRealTimers()
   })
 })
 

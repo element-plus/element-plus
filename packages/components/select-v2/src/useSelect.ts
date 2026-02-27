@@ -4,6 +4,7 @@ import {
   onMounted,
   reactive,
   ref,
+  useSlots,
   watch,
   watchEffect,
 } from 'vue'
@@ -52,6 +53,7 @@ import type { SelectDropdownInstance } from './select-dropdown'
 const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   // inject
   const { t } = useLocale()
+  const slots = useSlots()
   const nsSelect = useNamespace('select')
   const nsInput = useNamespace('input')
   const { form: elForm, formItem: elFormItem } = useFormItem()
@@ -392,7 +394,9 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     get() {
       return (
         expanded.value &&
-        (props.loading || !isRemoteSearchEmpty.value) &&
+        (props.loading ||
+          !isRemoteSearchEmpty.value ||
+          (props.remote && !!slots.empty)) &&
         (!debouncing.value || !isEmpty(states.previousQuery))
       )
     },
@@ -604,7 +608,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
       if (option.created) {
         handleQueryChange('')
       }
-      if (props.filterable && !props.reserveKeyword) {
+      if (props.filterable && (option.created || !props.reserveKeyword)) {
         states.inputValue = ''
       }
     } else {
@@ -901,6 +905,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
       states.inputValue = ''
       states.previousQuery = null
       states.isBeforeHide = true
+      states.menuVisibleOnFocus = false
       createNewOption('')
     }
   })

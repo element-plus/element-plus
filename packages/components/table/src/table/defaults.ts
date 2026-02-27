@@ -132,6 +132,7 @@ interface TableProps<T extends DefaultRow> {
   emptyText?: string
   expandRowKeys?: Array<string>
   defaultExpandAll?: boolean
+  rowExpandable?: (row: T, index: number) => boolean
   defaultSort?: Sort
   tooltipEffect?: string
   tooltipOptions?: TableOverflowTooltipOptions
@@ -154,7 +155,7 @@ interface TableProps<T extends DefaultRow> {
   load?: (row: T, treeNode: TreeNode, resolve: (data: T[]) => void) => void
   className?: string
   style?: StyleValue
-  tableLayout: Layout
+  tableLayout?: Layout
   scrollbarAlwaysOn?: boolean
   flexible?: boolean
   showOverflowTooltip?: boolean | TableOverflowTooltipOptions
@@ -200,6 +201,13 @@ interface RenderRowData<T extends DefaultRow> {
   cellIndex: number
   treeNode?: TreeNode
   expanded: boolean
+}
+
+interface TableConfigContext {
+  showOverflowTooltip?: boolean | TableOverflowTooltipOptions
+  tooltipEffect?: string
+  tooltipOptions?: TableOverflowTooltipOptions
+  tooltipFormatter?: TableOverflowTooltipFormatter<any>
 }
 
 export default {
@@ -324,6 +332,12 @@ export default {
    */
   defaultExpandAll: Boolean,
   /**
+   * @description enable expandable rows, works when the table has a column type="expand"
+   */
+  rowExpandable: {
+    type: Function as PropType<TableProps<any>['rowExpandable']>,
+  },
+  /**
    * @description set the default sort column and order. property `prop` is used to set default sort column, property `order` is used to set default sort order
    */
   defaultSort: Object as PropType<TableProps<any>['defaultSort']>,
@@ -400,9 +414,10 @@ export default {
   /**
    * @description whether to hide extra content and show them in a tooltip when hovering on the cell.It will affect all the table columns
    */
-  showOverflowTooltip: [Boolean, Object] as PropType<
-    TableProps<any>['showOverflowTooltip']
-  >,
+  showOverflowTooltip: {
+    type: [Boolean, Object] as PropType<TableProps<any>['showOverflowTooltip']>,
+    default: undefined,
+  },
   /**
    * @description function that formats cell tooltip content, works when `show-overflow-tooltip` is `true`
    */
@@ -447,4 +462,5 @@ export type {
   TableTooltipData,
   TableSortOrder,
   RenderExpanded,
+  TableConfigContext,
 }

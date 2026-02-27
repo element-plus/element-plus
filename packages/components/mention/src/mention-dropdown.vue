@@ -40,20 +40,23 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { computed, nextTick, ref, watch } from 'vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { scrollIntoView } from '@element-plus/utils'
 import ElScrollbar from '@element-plus/components/scrollbar'
-import { mentionDropdownEmits, mentionDropdownProps } from './mention-dropdown'
+import { mentionDropdownEmits } from './mention-dropdown'
 
+import type { MentionDropdownProps } from './mention-dropdown'
 import type { MentionOption } from './types'
 
 defineOptions({
   name: 'ElMentionDropdown',
 })
 
-const props = defineProps(mentionDropdownProps)
+const props = withDefaults(defineProps<MentionDropdownProps>(), {
+  options: () => [],
+})
 const emit = defineEmits(mentionDropdownEmits)
 
 const ns = useNamespace('mention')
@@ -86,7 +89,7 @@ const filteredAllDisabled = computed(
 const hoverOption = computed(() => props.options[hoveringIndex.value])
 
 const selectHoverOption = () => {
-  if (!hoverOption.value) return
+  if (!hoverOption.value || hoverOption.value.disabled || props.disabled) return
   emit('select', hoverOption.value)
 }
 
@@ -134,7 +137,7 @@ const resetHoveringIndex = () => {
   if (filteredAllDisabled.value || props.options.length === 0) {
     hoveringIndex.value = -1
   } else {
-    hoveringIndex.value = 0
+    hoveringIndex.value = props.options.findIndex((item) => !item.disabled)
   }
 }
 

@@ -81,6 +81,16 @@ upload/drag-and-drop
 
 :::
 
+## Upload Directory ^(2.13.1)
+
+Enable folder upload via the `directory` prop.
+
+:::demo After enabling it, only folders can be selected, and after selecting a folder, the files within the folder will be flattened.
+
+upload/directory
+
+:::
+
 ## Manual Upload
 
 :::demo
@@ -121,6 +131,7 @@ upload/manual
 | http-request                  | override default xhr behavior, allowing you to implement your own upload-file's request.                                                                                              | ^[Function]`(options: UploadRequestOptions) => XMLHttpRequest \| Promise<unknown>`                                                         | ajaxUpload [see](https://github.com/element-plus/element-plus/blob/dev/packages/components/upload/src/ajax.ts#L55) |
 | disabled                      | whether to disable upload.                                                                                                                                                            | ^[boolean]                                                                                                                                 | false                                                                                                              |
 | limit                         | maximum number of uploads allowed.                                                                                                                                                    | ^[number]                                                                                                                                  | —                                                                                                                  |
+| directory ^(2.13.1)           | whether to support uploading directory. After enabling it, only folders can be selected, and after selecting a folder, the files within the folder will be flattened.                 | ^[boolean]                                                                                                                                 | false                                                                                                              |
 
 ### Slots
 
@@ -133,13 +144,13 @@ upload/manual
 
 ### Exposes
 
-| Name         | Description                                                                                            | Type                                                                              |
-| ------------ | ------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------- |
-| abort        | cancel upload request.                                                                                 | ^[Function]`(file: UploadFile) => void`                                           |
-| submit       | upload the file list manually.                                                                         | ^[Function]`() => void`                                                           |
-| clearFiles   | clear the file list (this method is not supported in the `before-upload` hook).                        | ^[Function]`(status?: UploadStatus[]) => void`                                    |
-| handleStart  | select the file manually.                                                                              | ^[Function]`(rawFile: UploadRawFile) => void`                                     |
-| handleRemove | remove the file manually. `file` and `rawFile` has been merged. `rawFile` will be removed in `v2.2.0`. | ^[Function]`(file: UploadFile \| UploadRawFile, rawFile?: UploadRawFile) => void` |
+| Name         | Description                                                                                                                                      | Type                                                                              |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------- |
+| abort        | cancel upload request. When a `file` is specified, abort the corresponding pending upload; when no file is specified, abort all pending uploads. | ^[Function]`(file?: UploadFile) => void`                                          |
+| submit       | upload the file list manually.                                                                                                                   | ^[Function]`() => void`                                                           |
+| clearFiles   | clear the file list (this method is not supported in the `before-upload` hook).                                                                  | ^[Function]`(status?: UploadStatus[]) => void`                                    |
+| handleStart  | select the file manually.                                                                                                                        | ^[Function]`(rawFile: UploadRawFile) => void`                                     |
+| handleRemove | remove the file manually. `file` and `rawFile` has been merged. `rawFile` will be removed in `v2.2.0`.                                           | ^[Function]`(file: UploadFile \| UploadRawFile, rawFile?: UploadRawFile) => void` |
 
 ## Type Declarations
 
@@ -181,7 +192,7 @@ interface UploadRawFile extends File {
 interface UploadRequestOptions {
   action: string
   method: string
-  data: Record<string, string | Blob | [string | Blob, string]>
+  data: Record<string, string | Blob | [string | Blob, string] | string[]>
   filename: string
   file: UploadRawFile
   headers: Headers | Record<string, string | number | null | undefined>

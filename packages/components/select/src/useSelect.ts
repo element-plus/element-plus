@@ -4,6 +4,7 @@ import {
   onMounted,
   reactive,
   ref,
+  useSlots,
   watch,
   watchEffect,
 } from 'vue'
@@ -59,6 +60,7 @@ import type {
 
 export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   const { t } = useLocale()
+  const slots = useSlots()
   const contentId = useId()
   const nsSelect = useNamespace('select')
   const nsInput = useNamespace('input')
@@ -248,7 +250,9 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     get() {
       return (
         expanded.value &&
-        (props.loading || !isRemoteSearchEmpty.value) &&
+        (props.loading ||
+          !isRemoteSearchEmpty.value ||
+          (props.remote && !!slots.empty)) &&
         (!debouncing.value || !isEmpty(states.previousQuery))
       )
     },
@@ -309,6 +313,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
         states.inputValue = ''
         states.previousQuery = null
         states.isBeforeHide = true
+        states.menuVisibleOnFocus = false
       }
     }
   )
@@ -581,7 +586,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       if (option.created) {
         handleQueryChange('')
       }
-      if (props.filterable && !props.reserveKeyword) {
+      if (props.filterable && (option.created || !props.reserveKeyword)) {
         states.inputValue = ''
       }
     } else {
