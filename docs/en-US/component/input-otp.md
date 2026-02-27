@@ -55,9 +55,19 @@ input-otp/disabled
 
 :::
 
+## Separator
+
+Customize the separator between OTP fields.
+
+:::demo
+
+input-otp/separator
+
+:::
+
 ## Custom Validation
 
-You can set the `validator` prop to validate the input character, and use `inputmode` to specify the keyboard type.
+Set the `validator` prop to validate the input character, and use `inputmode` to specify the keyboard type.
 
 :::demo
 
@@ -69,19 +79,20 @@ input-otp/validator
 
 ### Attributes
 
-| Name                  | Description                                                                                                                                | Type                                                  | Default    |
-| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------- | ---------- |
-| model-value / v-model | The value of the OTP fields. Since numbers must not have leading zeros, `modelValue` is allowed to be a number only during initialization. | ^[string] / ^[number]                                 | undefined  |
-| length                | The OTP fields length, range [4, 8]                                                                                                        | ^[number]                                             | 6          |
-| validate              | Custom validator function                                                                                                                  | ^[Function]`(char: string, index: number) => boolean` | () => true |
-| inputmode             | Native `inputmode` attribute                                                                                                               | ^[string]                                             | —          |
-| type                  | The type of the OTP fields                                                                                                                 | ^[enum]`'outlined' \| 'filled' \| 'underlined'`       | 'outlined' |
-| size                  | The size of the OTP fields                                                                                                                 | ^[enum]`'large' \| 'default' \| 'small'`              | 'default'  |
-| disabled              | Whether the OTP fields are disabled                                                                                                        | ^[boolean]                                            | undefined  |
-| validate-event        | Whether to trigger form validation                                                                                                         | ^[boolean]                                            | true       |
-| readonly              | Same as `readonly` in native input                                                                                                         | ^[boolean]                                            | false      |
-| id                    | Native `id` attribute                                                                                                                      | ^[string]                                             | —          |
-| aria-label ^(a11y)    | Native `aria-label` attribute                                                                                                              | ^[string]                                             | —          |
+| Name                  | Description                                                                                                                                | Type                                                      | Default    |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------- | ---------- |
+| model-value / v-model | The value of the OTP fields. Since numbers must not have leading zeros, `modelValue` is allowed to be a number only during initialization. | ^[string] / ^[number]                                     | undefined  |
+| length                | The OTP fields length, range [4, 8]                                                                                                        | ^[number]                                                 | 6          |
+| validate              | Custom validator function                                                                                                                  | ^[Function]`(char: string, index: number) => boolean`     | () => true |
+| inputmode             | Native `inputmode` attribute                                                                                                               | ^[string]                                                 | —          |
+| type                  | The type of the OTP fields                                                                                                                 | ^[enum]`'outlined' \| 'filled' \| 'underlined'`           | 'outlined' |
+| size                  | The size of the OTP fields                                                                                                                 | ^[enum]`'large' \| 'default' \| 'small'`                  | 'default'  |
+| disabled              | Whether the OTP fields are disabled                                                                                                        | ^[boolean]                                                | undefined  |
+| validate-event        | Whether to trigger form validation                                                                                                         | ^[boolean]                                                | true       |
+| readonly              | Same as `readonly` in native input                                                                                                         | ^[boolean]                                                | false      |
+| id                    | Native `id` attribute                                                                                                                      | ^[string]                                                 | —          |
+| aria-label ^(a11y)    | Native `aria-label` attribute                                                                                                              | ^[string]                                                 | —          |
+| separator             | The separator between OTP fields                                                                                                           | ^[string] / ^[VNode] / ^[Function]`() => string \| VNode` | —          |
 
 ### Events
 
@@ -92,6 +103,12 @@ input-otp/validator
 | finish            | Fires when all fields have been filled           | ^[Function]`(value: string) => void`     |
 | focus             | Triggers when input is focused                   | ^[Function]`(event: FocusEvent) => void` |
 | blur              | Triggers when input is blurred                   | ^[Function]`(event: FocusEvent) => void` |
+
+### Slots
+
+| Name      | Description                      | Type                         |
+| --------- | -------------------------------- | ---------------------------- |
+| separator | The separator between OTP fields | ^[Object]`{ index: number }` |
 
 ### Exposes
 

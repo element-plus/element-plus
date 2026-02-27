@@ -1,7 +1,7 @@
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { isString } from '@element-plus/utils'
 
-import type { InputHTMLAttributes } from 'vue'
+import type { InputHTMLAttributes, VNode } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 import type { AriaProps } from '@element-plus/hooks'
 
@@ -57,6 +57,10 @@ export interface InputOtpProps extends Pick<AriaProps, 'ariaLabel'> {
    * @description Whether to trigger form validation
    */
   validateEvent?: boolean
+  /**
+   * @description The separator between OTP fields
+   */
+  separator?: string | VNode | ((index: number) => string | VNode)
 }
 
 export const inputOtpEmits = {

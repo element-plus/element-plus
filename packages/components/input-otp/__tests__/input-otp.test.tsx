@@ -367,4 +367,36 @@ describe('InputOtp.vue', () => {
       expect(onFinish).toHaveBeenNthCalledWith(1, '123456')
     })
   })
+
+  describe('separator', () => {
+    test('render with separator prop', () => {
+      const wrapper = mount(() => <InputOtp separator="-" />)
+      const separators = wrapper.findAll('.el-input-otp__separator')
+
+      expect(separators.length).toBe(5)
+      separators.forEach((node) => expect(node.text()).toBe('-'))
+    })
+
+    test('render with separator function', () => {
+      const separator = (index: number) => (index & 1 ? '-' : '/')
+      const wrapper = mount(() => <InputOtp separator={separator} />)
+      const separators = wrapper.findAll('.el-input-otp__separator')
+
+      separators.forEach((node, index) =>
+        expect(node.text()).toBe(index & 1 ? '-' : '/')
+      )
+    })
+
+    test('render with separator slot', () => {
+      const wrapper = mount(() => (
+        <InputOtp
+          v-slots={{ separator: ({ index }: { index: number }) => index }}
+        />
+      ))
+      const separators = wrapper.findAll('.el-input-otp__separator')
+      separators.forEach((node, index) =>
+        expect(node.text()).toBe(String(index))
+      )
+    })
+  })
 })

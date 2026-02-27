@@ -10,30 +10,36 @@
     "
     :aria-labelledby="isLabeledByFormItem ? formItem?.labelId : undefined"
   >
-    <label
-      v-for="(_, index) in length"
-      :key="index"
-      :class="ns.e('input-field')"
-    >
-      <input
-        ref="inputRefs"
-        :value="innerValue[index]"
-        :class="[ns.e('input')]"
-        type="text"
-        :disabled="disabled"
-        :readonly="readonly"
-        :maxlength="1"
-        :inputmode="inputmode"
-        autocomplete="one-time-code"
-        :aria-label="t('el.inputOTP.defaultLabel', { index: index + 1 })"
-        @click="handleFocus"
-        @focus="handleFocus"
-        @blur="handleBlur"
-        @paste="handlePaste($event, index)"
-        @keydown="handleKeydown($event, index)"
-        @input="handleInput($event, index)"
-      />
-    </label>
+    <template v-for="(_, index) in length" :key="index">
+      <label :class="ns.e('input-field')">
+        <input
+          ref="inputRefs"
+          :value="innerValue[index]"
+          :class="ns.e('input')"
+          type="text"
+          :disabled="disabled"
+          :readonly="readonly"
+          :maxlength="1"
+          :inputmode="inputmode"
+          autocomplete="one-time-code"
+          :aria-label="t('el.inputOTP.defaultLabel', { index: index + 1 })"
+          @click="handleFocus"
+          @focus="handleFocus"
+          @blur="handleBlur"
+          @paste="handlePaste($event, index)"
+          @keydown="handleKeydown($event, index)"
+          @input="handleInput($event, index)"
+        />
+      </label>
+      <div
+        v-if="($slots.separator || separator) && index < length - 1"
+        :class="ns.e('separator')"
+      >
+        <slot name="separator" :index="index">
+          <component :is="getSeparator(index)" />
+        </slot>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -41,7 +47,7 @@
 import { computed, ref, watch } from 'vue'
 import { clamp } from '@vueuse/core'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import { debugWarn, getEventCode, rAF } from '@element-plus/utils'
+import { debugWarn, getEventCode, isFunction, rAF } from '@element-plus/utils'
 import {
   useFormDisabled,
   useFormItem,
@@ -92,6 +98,11 @@ let modelValueOnFocus = props.modelValue
 const getFirstIndex = (maxIndex: number) => {
   const index = innerValue.value.findIndex((char, i) => !char && i <= maxIndex)
   return index === -1 ? maxIndex : index
+}
+
+const getSeparator = (index: number) => {
+  const { separator } = props
+  return () => (isFunction(separator) ? separator(index) : separator)
 }
 
 const handleFocus = (event: FocusEvent | PointerEvent) => {
