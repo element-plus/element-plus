@@ -192,8 +192,8 @@ export default {
       indicator: '幻灯片切换至索引 {index}',
     },
     inputOTP: {
-      groupLabel: '一次性密码输入框', // to be translated
-      defaultLabel: 'Please enter OTP character {index}', // to be translated
+      groupLabel: '一次性密码输入框',
+      defaultLabel: '请输入第 {index} 位 OTP 字符',
     },
   },
 }

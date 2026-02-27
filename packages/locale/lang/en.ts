@@ -195,7 +195,7 @@ export default {
       indicator: 'Carousel switch to index {index}',
     },
     inputOTP: {
-      groupLabel: 'input-otp',
+      groupLabel: 'OTP Input',
       defaultLabel: 'Please enter OTP character {index}',
     },
   },

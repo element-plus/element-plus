@@ -193,7 +193,7 @@ export default {
       indicator: 'Chuyển carousel đến mục {index}',
     },
     inputOTP: {
-      groupLabel: 'input-otp', // to be translated
+      groupLabel: 'OTP Input', // to be translated
       defaultLabel: 'Please enter OTP character {index}', // to be translated
     },
   },

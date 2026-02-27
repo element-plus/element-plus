@@ -193,8 +193,8 @@ export default {
       indicator: '幻燈片切換至索引 {index}',
     },
     inputOTP: {
-      groupLabel: 'input-otp', // to be translated
-      defaultLabel: 'Please enter OTP character {index}', // to be translated
+      groupLabel: '一次性密碼輸入框',
+      defaultLabel: '請輸入第 {index} 位 OTP 字元',
     },
   },
 }

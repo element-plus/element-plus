@@ -197,7 +197,7 @@ export default {
       indicator: 'Carousel switch to index {index}', // to be translated
     },
     inputOTP: {
-      groupLabel: 'input-otp', // to be translated
+      groupLabel: 'OTP Input', // to be translated
       defaultLabel: 'Please enter OTP character {index}', // to be translated
     },
   },

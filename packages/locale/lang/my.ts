@@ -197,7 +197,7 @@ export default {
       indicator: 'ကာရူဆယ် အညွှန်း {index} သို့ ပြောင်းရန်',
     },
     inputOTP: {
-      groupLabel: 'input-otp', // to be translated
+      groupLabel: 'OTP Input', // to be translated
       defaultLabel: 'Please enter OTP character {index}', // to be translated
     },
   },
