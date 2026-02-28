@@ -2730,7 +2730,6 @@ describe('Select', () => {
     const vm = select.vm as any
     await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
 
-    // Navigate through all 3 options — duplicates must not be skipped
     vm.navigateOptions('next')
     expect(vm.states.hoveringIndex).toBe(0)
     vm.navigateOptions('next')
@@ -2738,11 +2737,9 @@ describe('Select', () => {
     vm.navigateOptions('next')
     expect(vm.states.hoveringIndex).toBe(2)
 
-    // Wrap around back to 0
     vm.navigateOptions('next')
     expect(vm.states.hoveringIndex).toBe(0)
 
-    // Navigate prev from 0 wraps to last
     vm.navigateOptions('prev')
     expect(vm.states.hoveringIndex).toBe(2)
   })
