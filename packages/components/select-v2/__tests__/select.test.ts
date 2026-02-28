@@ -68,6 +68,7 @@ interface SelectProps {
   multiple?: boolean
   collapseTags?: boolean
   collapseTagsTooltip?: boolean
+  tagTooltip?: Record<string, any>
   maxCollapseTags?: number
   filterable?: boolean
   remote?: boolean
@@ -136,6 +137,7 @@ const createSelect = (
         :multiple="multiple"
         :collapseTags="collapseTags"
         :collapseTagsTooltip="collapseTagsTooltip"
+        :tag-tooltip="tagTooltip"
         :max-collapse-tags="maxCollapseTags"
         :filterable="filterable"
         :multiple-limit="multipleLimit"
@@ -189,6 +191,7 @@ const createSelect = (
           multiple: false,
           collapseTags: false,
           collapseTagsTooltip: false,
+          tagTooltip: undefined,
           maxCollapseTags: 1,
           remote: false,
           filterable: false,
@@ -916,6 +919,43 @@ describe('Select', () => {
       })
       expect(tags.length).toBe(4)
     })
+
+    it('use tag-tooltip', async () => {
+      const appendTarget = document.createElement('div')
+      appendTarget.className = 'append-target'
+      document.body.appendChild(appendTarget)
+      const wrapper = createSelect({
+        data: () => {
+          return {
+            multiple: true,
+            collapseTags: true,
+            collapseTagsTooltip: true,
+            tagTooltip: { appendTo: '.append-target' },
+            value: [],
+          }
+        },
+      })
+      await nextTick()
+      const options = getOptions()
+      options[0].click()
+      await nextTick()
+      options[1].click()
+      await nextTick()
+      options[2].click()
+      await nextTick()
+
+      const select = wrapper.findComponent(Select)
+      const tagTooltip = select.findComponent({ ref: 'tagTooltipRef' })
+      expect(tagTooltip.props('appendTo')).toBe('.append-target')
+
+      const triggerWrappers = wrapper.findAll('.el-tooltip__trigger')
+      expect(triggerWrappers[0]).toBeDefined()
+      const tags = wrapper.findAll('.el-tag').filter((item) => {
+        return !hasClass(item.element, 'in-tooltip')
+      })
+      expect(tags.length).toBe(2)
+      expect(tags[1].element.textContent.trim()).toBe('+ 2')
+    })
   })
 
   describe('manually set modelValue', () => {
@@ -1252,6 +1292,27 @@ describe('Select', () => {
         key: EVENT_CODE.backspace,
       })
       expect(selectVm.filteredOptions.length).toBe(3)
+    })
+
+    it('should clear input value after creating a tag with reserveKeyword', async () => {
+      const wrapper = createSelect({
+        data: () => ({
+          allowCreate: true,
+          filterable: true,
+          multiple: true,
+          reserveKeyword: true,
+          options: [{ value: '1', label: 'option 1' }],
+        }),
+      })
+      await nextTick()
+      const selectVm = wrapper.findComponent(Select).vm as any
+      const input = wrapper.find('input')
+      input.element.value = 'new tag'
+      await input.trigger('input')
+      await nextTick()
+      selectVm.onSelect(selectVm.filteredOptions.find((o: any) => o.created))
+      await nextTick()
+      expect(selectVm.states.inputValue).toBe('')
     })
   })
 
@@ -2828,5 +2889,79 @@ describe('Select', () => {
     expect((select.vm as any).expanded).toBe(false)
     await input.trigger('click')
     expect((select.vm as any).expanded).toBe(true)
+  })
+
+  describe('input-wrapper in multiple mode', () => {
+    it('should hide input-wrapper when empty and not focused', async () => {
+      const wrapper = createSelect({
+        data: () => ({
+          multiple: true,
+          filterable: true,
+        }),
+      })
+      await nextTick()
+      const select = wrapper.findComponent(Select)
+      const inputWrapper = select.find('.el-select__input-wrapper')
+      const input = select.find('input')
+
+      // When input is empty and not focused, input-wrapper should have hidden class
+      expect(inputWrapper.classes()).toContain('is-hidden')
+
+      // Focus the input
+      await input.trigger('focus')
+
+      // When focused, input-wrapper should not have hidden class
+      expect(inputWrapper.classes()).not.toContain('is-hidden')
+
+      // Blur the input
+      await input.trigger('blur')
+
+      // When blurred and empty, input-wrapper should have hidden class again
+      expect(inputWrapper.classes()).toContain('is-hidden')
+    })
+
+    it('should show input-wrapper when input has value', async () => {
+      const wrapper = createSelect({
+        data: () => ({
+          multiple: true,
+          filterable: true,
+        }),
+      })
+      await nextTick()
+      const select = wrapper.findComponent(Select)
+      const inputWrapper = select.find('.el-select__input-wrapper')
+      const input = select.find('input')
+
+      // Initially empty, should be hidden
+      expect(inputWrapper.classes()).toContain('is-hidden')
+
+      // Set input value
+      await input.setValue('test')
+
+      // When input has value, input-wrapper should not have hidden class
+      expect(inputWrapper.classes()).not.toContain('is-hidden')
+
+      // Clear input
+      await input.setValue('')
+
+      // When empty again, should be hidden
+      expect(inputWrapper.classes()).toContain('is-hidden')
+    })
+  })
+
+  it('should not bubble native change event from filter input', async () => {
+    const wrapper = createSelect({
+      data: () => ({ filterable: true }),
+    })
+
+    const nativeChangeHandler = vi.fn()
+    const parent = document.createElement('div')
+    parent.addEventListener('change', nativeChangeHandler)
+    parent.appendChild(wrapper.element)
+
+    await wrapper.find('input').trigger('change')
+    expect(nativeChangeHandler).not.toHaveBeenCalled()
+
+    parent.remove()
   })
 })

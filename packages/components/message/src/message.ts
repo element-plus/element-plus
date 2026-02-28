@@ -6,8 +6,8 @@ import {
   mutable,
 } from '@element-plus/utils'
 
-import type { AppContext, Component, ExtractPublicPropTypes, VNode } from 'vue'
-import type { Mutable } from '@element-plus/utils'
+import type { AppContext, ExtractPublicPropTypes, VNode } from 'vue'
+import type { IconPropType, Mutable } from '@element-plus/utils'
 import type MessageConstructor from './message.vue'
 
 export interface MessageProps {
@@ -26,7 +26,7 @@ export interface MessageProps {
   /**
    * @description custom icon component, overrides `type`
    */
-  icon?: string | Component
+  icon?: IconPropType
   /**
    * @description message dom id
    */
@@ -242,6 +242,7 @@ export const messageProps = buildProps({
     default: messageDefaults.repeatNum,
   },
 } as const)
+
 /**
  * @deprecated Removed after 3.0.0, Use `MessageProps` instead.
  */

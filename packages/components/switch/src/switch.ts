@@ -15,7 +15,8 @@ import {
 import { useAriaProps } from '@element-plus/hooks'
 
 import type { ComponentSize } from '@element-plus/constants'
-import type { Component, ExtractPublicPropTypes, PropType } from 'vue'
+import type { ExtractPublicPropTypes, PropType } from 'vue'
+import type { IconPropType } from '@element-plus/utils'
 import type Switch from './switch.vue'
 
 export interface SwitchProps {
@@ -46,19 +47,19 @@ export interface SwitchProps {
   /**
    * @description component of the icon displayed in action when in `off` state
    */
-  inactiveActionIcon?: string | Component
+  inactiveActionIcon?: IconPropType
   /**
    * @description component of the icon displayed in action when in `on` state
    */
-  activeActionIcon?: string | Component
+  activeActionIcon?: IconPropType
   /**
    * @description component of the icon displayed when in `on` state, overrides `active-text`
    */
-  activeIcon?: string | Component
+  activeIcon?: IconPropType
   /**
    * @description component of the icon displayed when in `off` state, overrides `inactive-text`
    */
-  inactiveIcon?: string | Component
+  inactiveIcon?: IconPropType
   /**
    * @description text displayed when in `on` state
    */

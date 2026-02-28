@@ -222,6 +222,9 @@ export const inputNumberProps = buildProps({
   disabledScientific: Boolean,
 } as const)
 
+/**
+ * @deprecated Removed after 3.0.0, Use `InputNumberProps` instead.
+ */
 export type InputNumberPropsPublic = ExtractPublicPropTypes<
   typeof inputNumberProps
 >

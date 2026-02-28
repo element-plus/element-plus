@@ -1,6 +1,7 @@
 import { buildProps, iconPropType } from '@element-plus/utils'
 
-import type { Component, ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
+import type { IconPropType } from '@element-plus/utils'
 import type TimelineItem from './timeline-item.vue'
 
 export interface TimelineItemProps {
@@ -35,7 +36,7 @@ export interface TimelineItemProps {
   /**
    * @description icon component
    */
-  icon?: string | Component
+  icon?: IconPropType
   /**
    * @description icon is hollow
    */

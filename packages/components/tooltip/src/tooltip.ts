@@ -64,6 +64,10 @@ export const tooltipEmits = [
  * @deprecated Removed after 3.0.0, Use `UseTooltipProps` instead.
  */
 export type ElTooltipProps = UseTooltipProps
+
+/**
+ * @deprecated Removed after 3.0.0, Use `UseTooltipProps` instead.
+ */
 export type ElTooltipPropsPublic = ExtractPublicPropTypes<
   typeof useTooltipProps
 >

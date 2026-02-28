@@ -592,7 +592,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       if (option.created) {
         handleQueryChange('')
       }
-      if (props.filterable && !props.reserveKeyword) {
+      if (props.filterable && (option.created || !props.reserveKeyword)) {
         states.inputValue = ''
       }
     } else {
