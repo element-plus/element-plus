@@ -144,9 +144,9 @@ const updateModelValue = (emitFinish = true) => {
 
 const handleKeydown = (event: KeyboardEvent, index: number) => {
   const code = getEventCode(event)
-  const prevInputRef = inputRefs.value[index - 1]
-  const nextInputRef = inputRefs.value[index + 1]
   const currentInputRef = inputRefs.value[index]
+  const prevInputRef = inputRefs.value[index - 1] ?? currentInputRef
+  const nextInputRef = inputRefs.value[index + 1] ?? currentInputRef
   let preventDefault = true
 
   switch (code) {
@@ -154,12 +154,14 @@ const handleKeydown = (event: KeyboardEvent, index: number) => {
       if (props.readonly) break
       innerValue.value[index] = ''
       prevInputRef?.focus()
+      rAF(() => prevInputRef?.select())
       updateModelValue()
       break
     case EVENT_CODE.delete:
       if (props.readonly) break
       innerValue.value[index] = ''
       currentInputRef?.focus()
+      rAF(() => currentInputRef?.select())
       updateModelValue()
       break
     case EVENT_CODE.up:
