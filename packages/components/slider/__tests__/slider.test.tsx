@@ -518,6 +518,81 @@ describe('Slider', () => {
     mockRect.mockRestore()
   })
 
+  it('should restrict value when step is mark with range', async () => {
+    const value = ref([10, 50])
+    const wrapper = mount(
+      () => (
+        <div style="width: 200px;">
+          <Slider
+            v-model={value.value}
+            min={0}
+            max={100}
+            marks={{
+              0: '0',
+              13: '13',
+              42: '42',
+              58: '58',
+              89: '89',
+              100: '100',
+            }}
+            step="mark"
+            range
+          />
+        </div>
+      ),
+      {
+        attachTo: document.body,
+      }
+    )
+
+    const buttons = wrapper.findAllComponents({ name: 'ElSliderButton' })
+    const firstButton = buttons[0]
+    const secondButton = buttons[1]
+
+    const mockRect = mockBoundingClientRect(
+      wrapper.find('.el-slider__runway').element,
+      { width: 200, left: 0 }
+    )
+
+    await nextTick()
+
+    // Move first button from 10 (20px) to near 13 (26px)
+    await firstButton.trigger('mousedown', { clientX: 20, clientY: 0 })
+
+    const mousemove1 = new MouseEvent('mousemove', {
+      clientX: 25, // 12.5 -> closest mark 13
+      clientY: 0,
+      bubbles: true,
+    })
+    window.dispatchEvent(mousemove1)
+
+    const mouseup1 = new MouseEvent('mouseup', { bubbles: true })
+    window.dispatchEvent(mouseup1)
+
+    await nextTick()
+    expect(value.value[0]).toBe(13)
+    expect(value.value[1]).toBe(50)
+
+    // Move second button from 50 (100px) to near 58 (116px)
+    await secondButton.trigger('mousedown', { clientX: 100, clientY: 0 })
+
+    const mousemove2 = new MouseEvent('mousemove', {
+      clientX: 110, // 55 -> closest mark 58
+      clientY: 0,
+      bubbles: true,
+    })
+    window.dispatchEvent(mousemove2)
+
+    const mouseup2 = new MouseEvent('mouseup', { bubbles: true })
+    window.dispatchEvent(mouseup2)
+
+    await nextTick()
+    expect(value.value[0]).toBe(13)
+    expect(value.value[1]).toBe(58)
+
+    mockRect.mockRestore()
+  })
+
   it('should keep mark precision when step is mark', async () => {
     const value = ref(3.14159)
     const wrapper = mount(() => (

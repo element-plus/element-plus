@@ -1,10 +1,9 @@
-import { computed, inject, nextTick, reactive, ref, watch } from 'vue'
+import { computed, inject, nextTick, ref, watch } from 'vue'
 import { clamp, debounce } from 'lodash-unified'
 import { useEventListener } from '@vueuse/core'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { getEventCode, isNumber } from '@element-plus/utils'
 import { sliderContextKey } from '../constants'
-import { useMarks } from './use-marks'
 
 import type { CSSProperties, ComputedRef, Ref, SetupContext } from 'vue'
 import type { SliderProps } from '../slider'
@@ -70,21 +69,13 @@ export const useSliderButton = (
     emitChange,
     resetSize,
     updateDragging,
-    marks,
+    markList,
   } = inject(sliderContextKey)!
 
   const { tooltip, tooltipVisible, formatValue, displayTooltip, hideTooltip } =
     useTooltip(props, formatTooltip!, showTooltip)
 
   const button = ref<HTMLDivElement>()
-
-  const markList = useMarks(
-    reactive({
-      min,
-      max,
-      marks,
-    }) as SliderProps
-  )
 
   const currentPosition = computed(() => {
     return `${
@@ -135,7 +126,7 @@ export const useSliderButton = (
     if (disabled.value || !markList.value.length) return
 
     const current = props.modelValue
-    const epsilon = 0.000001
+    const epsilon = Number.EPSILON
     const stride = Math.abs(amount)
     let target: number | undefined
 

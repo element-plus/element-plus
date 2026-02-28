@@ -13,6 +13,9 @@
   <div class="slider-demo-block">
     <el-slider v-model="value2" :marks="marks2" step="mark" />
   </div>
+  <div class="slider-demo-block">
+    <el-slider v-model="value3" range :marks="marks3" step="mark" />
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -43,7 +46,15 @@ const marks2 = shallowReactive<Marks>({
   75: '75cm',
   100: '100cm',
 })
-const showStops = ref(true)
+const value3 = ref([13, 42])
+const marks3 = shallowReactive<Marks>({
+  0: '0',
+  13: '13',
+  42: '42',
+  58: '58',
+  89: '89',
+  100: '100',
+})
 </script>
 
 <style scoped>
