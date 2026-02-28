@@ -10,7 +10,8 @@ import { teleportProps } from '@element-plus/components/teleport'
 import { tourContentProps } from './content'
 
 import type { TourContentProps } from './content'
-import type { CSSProperties, Component, ExtractPublicPropTypes } from 'vue'
+import type { CSSProperties, ExtractPublicPropTypes } from 'vue'
+import type { IconPropType } from '@element-plus/utils'
 import type Tour from './tour.vue'
 import type { TourGap, TourMask } from './types'
 
@@ -34,7 +35,7 @@ export interface TourProps {
   /**
    * @description custom close icon
    */
-  closeIcon?: string | Component
+  closeIcon?: IconPropType
   /**
    * @description position of the guide card relative to the target element
    */

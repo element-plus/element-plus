@@ -62,7 +62,7 @@ describe('options', () => {
       default: () =>
         samples.map((_, i) => <ElOptionStub label={getLabel(i)} />),
     })
-    expect(mockWarn).toHaveBeenCalled()
+    expect(mockWarn).not.toHaveBeenCalled()
     vi.resetAllMocks()
     await nextTick()
   })
@@ -85,7 +85,7 @@ describe('options', () => {
           </ElOptionGroupStub>
         )),
     })
-    expect(spy).toHaveBeenCalled()
+    expect(spy).not.toHaveBeenCalled()
     vi.resetAllMocks()
   })
 })

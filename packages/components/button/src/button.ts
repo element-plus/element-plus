@@ -4,6 +4,7 @@ import { Loading } from '@element-plus/icons-vue'
 
 import type { Component, ExtractPublicPropTypes } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
+import type { IconPropType } from '@element-plus/utils'
 
 export const buttonTypes = [
   'default',
@@ -40,7 +41,7 @@ export interface ButtonProps {
   /**
    * @description icon component
    */
-  icon?: string | Component
+  icon?: IconPropType
   /**
    * @description native button type
    */
@@ -52,7 +53,7 @@ export interface ButtonProps {
   /**
    * @description customize loading icon component
    */
-  loadingIcon?: string | Component
+  loadingIcon?: IconPropType
   /**
    * @description determine whether it's a plain button
    */
@@ -81,6 +82,10 @@ export interface ButtonProps {
    * @description determine whether it's a circle button
    */
   circle?: boolean
+  /**
+   * @description determine whether it's a dashed button
+   */
+  dashed?: boolean
   /**
    * @description custom button color, automatically calculate `hover` and `active` color
    */
@@ -185,6 +190,13 @@ export const buttonProps = buildProps({
    */
   circle: Boolean,
   /**
+   * @description determine whether it's a dashed button
+   */
+  dashed: {
+    type: Boolean,
+    default: undefined,
+  },
+  /**
    * @description custom button color, automatically calculate `hover` and `active` color
    */
   color: String,
@@ -222,5 +234,6 @@ export interface ButtonConfigContext {
   plain?: ButtonProps['plain']
   text?: ButtonProps['text']
   round?: ButtonProps['round']
+  dashed?: ButtonProps['dashed']
   autoInsertSpace?: ButtonProps['autoInsertSpace']
 }

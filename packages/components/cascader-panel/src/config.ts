@@ -71,7 +71,7 @@ export const DefaultProps: CascaderConfig = {
   /**
    * @description when checked nodes change, whether to emit an array of node's path, if false, only emit the value of node.
    */
-  emitPath: true, // wether to emit an array of all levels value in which node is located
+  emitPath: true, // whether to emit an array of all levels value in which node is located
   /**
    * @description whether to dynamic load child nodes, use with `lazyload` attribute
    */

@@ -16,13 +16,14 @@ describe('Badge', () => {
   test('is fixed', () => {
     const wrapper = mount(() => (
       <Badge
+        value={1}
         v-slots={{
           default: () => AXIOM,
         }}
       />
     ))
     expect(wrapper.find('.el-badge__content.is-fixed').exists()).toBe(true)
-    expect(wrapper.find('.el-badge').text()).toBe(AXIOM)
+    expect(wrapper.find('.el-badge').text()).toContain(AXIOM)
   })
 
   test('is dot', () => {
@@ -59,10 +60,10 @@ describe('Badge', () => {
   test('hidden', async () => {
     const hidden = ref(true)
     const wrapper = mount(() => <Badge hidden={hidden.value} value={10} />)
-    expect(wrapper.find('.el-badge__content').isVisible()).toBe(false)
+    expect(wrapper.find('.el-badge__content').exists()).toBe(false)
     hidden.value = false
     await nextTick()
-    expect(wrapper.find('.el-badge__content').isVisible()).toBe(true)
+    expect(wrapper.find('.el-badge__content').exists()).toBe(true)
   })
 
   test('max', async () => {

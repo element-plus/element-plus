@@ -22,6 +22,9 @@ export const barProps = buildProps({
   },
 } as const)
 
+/**
+ * @deprecated Removed after 3.0.0, Use `BarProps` instead.
+ */
 export type BarPropsPublic = ExtractPublicPropTypes<typeof barProps>
 
 export type BarInstance = InstanceType<typeof Bar> & unknown

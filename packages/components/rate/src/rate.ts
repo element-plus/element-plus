@@ -11,6 +11,7 @@ import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 
 import type { Component, ExtractPublicPropTypes } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
+import type { IconPropType } from '@element-plus/utils'
 import type Rate from './rate.vue'
 
 export interface RateProps {
@@ -49,15 +50,15 @@ export interface RateProps {
   /**
    * @description icon components. If array, it should have 3 elements, each of which corresponds with a score level, else if object, the key should be threshold value between two levels, and the value should be corresponding icon component
    */
-  icons?: Array<string | Component> | Record<number, string | Component>
+  icons?: Array<IconPropType> | Record<number, IconPropType>
   /**
    * @description component of unselected icons
    */
-  voidIcon?: string | Component
+  voidIcon?: IconPropType
   /**
    * @description component of unselected read-only icons
    */
-  disabledVoidIcon?: string | Component
+  disabledVoidIcon?: IconPropType
   /**
    * @description whether Rate is read-only
    */
