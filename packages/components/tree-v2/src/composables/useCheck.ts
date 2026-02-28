@@ -9,7 +9,11 @@ import type { CheckboxValueType } from '@element-plus/components/checkbox'
 import type { Ref } from 'vue'
 import type { Tree, TreeKey, TreeNode, TreeNodeData, TreeProps } from '../types'
 
-export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
+export function useCheck(
+  props: TreeProps,
+  tree: Ref<Tree | undefined>,
+  hiddenNodeKeySet?: Ref<Set<TreeKey>>
+) {
   const checkedKeys = ref<Set<TreeKey>>(new Set())
   const indeterminateKeys = ref<Set<TreeKey>>(new Set())
   const { emit } = getCurrentInstance()!
@@ -156,6 +160,7 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
     if (tree?.value && props.showCheckbox) {
       const { treeNodeMap } = tree.value
       checkedKeys.value.forEach((key) => {
+        if (hiddenNodeKeySet?.value.has(key)) return
         const node = treeNodeMap.get(key)
         if (node && (!leafOnly || (leafOnly && node.isLeaf))) {
           keys.push(key)
@@ -178,6 +183,7 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
     if (tree?.value && props.showCheckbox) {
       const { treeNodeMap } = tree.value
       indeterminateKeys.value.forEach((key) => {
+        if (hiddenNodeKeySet?.value.has(key)) return
         const node = treeNodeMap.get(key)
         if (node) {
           halfCheckedKeys.push(key)
