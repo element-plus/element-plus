@@ -31,14 +31,13 @@
           @input="handleInput($event, index)"
         />
       </label>
-      <div
-        v-if="($slots.separator || separator) && index < length - 1"
-        :class="ns.e('separator')"
+      <slot
+        v-if="($slots.separator || separators[index]) && index < length - 1"
+        name="separator"
+        :index="index"
       >
-        <slot name="separator" :index="index">
-          <component :is="getSeparator(index)" />
-        </slot>
-      </div>
+        <component :is="() => separators[index]" />
+      </slot>
     </template>
   </div>
 </template>
@@ -77,9 +76,16 @@ const props = withDefaults(defineProps<InputOtpProps>(), {
 const emit = defineEmits(inputOtpEmits)
 
 const length = computed(() => clamp(props.length, 4, 8))
+
 const initialValue = computed(() => {
   const value = String(props.modelValue ?? '')
   return Array.from({ length: length.value }, (_, i) => value.charAt(i))
+})
+
+const separators = computed(() => {
+  const { separator } = props
+  const _separator = isFunction(separator) ? separator : () => separator
+  return Array.from({ length: length.value - 1 }, (_, i) => _separator(i))
 })
 
 const inputRefs = ref<HTMLInputElement[]>([])
@@ -98,11 +104,6 @@ let modelValueOnFocus = props.modelValue
 const getFirstIndex = (maxIndex: number) => {
   const index = innerValue.value.findIndex((char, i) => !char && i <= maxIndex)
   return index === -1 ? maxIndex : index
-}
-
-const getSeparator = (index: number) => {
-  const { separator } = props
-  return () => (isFunction(separator) ? separator(index) : separator)
 }
 
 const handleFocus = (event: FocusEvent | PointerEvent) => {

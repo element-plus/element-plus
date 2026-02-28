@@ -12,8 +12,7 @@
 import { h } from 'vue'
 
 const castSeparator = (index: number) => {
-  const color = index & 1 ? 'primary' : 'danger'
-  return h('span', { style: { color: `var(--el-color-${color})` } }, '—')
+  return index & 1 ? h('span', null, '—') : ''
 }
 </script>
 
