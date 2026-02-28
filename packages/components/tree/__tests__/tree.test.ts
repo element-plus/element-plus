@@ -785,20 +785,24 @@ describe('Tree.vue', () => {
     expect(tree.getCheckedKeys().length).toEqual(0)
   })
 
-  test('method setChecked with checkStrictly', async () => {
+  test('should respect deep option when calling setChecked in checkStrictly mode', async () => {
     const { wrapper } = getTreeVm(
-      `:props="defaultProps" checkStrictly show-checkbox node-key="id"`
+      `:props="defaultProps" check-strictly show-checkbox node-key="id"`
     )
     const treeWrapper = wrapper.findComponent(Tree)
     const tree = treeWrapper.vm as InstanceType<typeof Tree>
 
     tree.setChecked(111, true)
-    expect(tree.getCheckedNodes().length).toEqual(1)
-    expect(tree.getCheckedKeys().length).toEqual(1)
+    expect(tree.getCheckedNodes()).toEqual(tree.data[0].children[0].children)
+    expect(tree.getCheckedKeys()).toEqual([111])
 
     tree.setChecked(tree.data[0], true, true)
-    expect(tree.getCheckedNodes().length).toEqual(3)
-    expect(tree.getCheckedKeys().length).toEqual(3)
+    expect(tree.getCheckedNodes()).toEqual([
+      tree.data[0],
+      tree.data[0].children[0],
+      tree.data[0].children[0].children[0],
+    ])
+    expect(tree.getCheckedKeys()).toEqual([1, 11, 111])
   })
 
   test('setCheckedKeys with leafOnly=false', async () => {
