@@ -226,7 +226,6 @@ export function useTree(
   }
 
   function handleNodeCheck(node: TreeNode, checked: CheckboxValueType) {
-    console.log('handleNodeCheck', node, checked)
     toggleCheckbox(node, checked)
   }
 
