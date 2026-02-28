@@ -25,7 +25,7 @@ input-otp/custom-length
 
 :::
 
-## Type
+## Types
 
 There are three types available: `outlined` (default), `filled`, and `underlined`.
 
@@ -108,7 +108,7 @@ input-otp/validator
 
 | Name      | Description                      | Type                         |
 | --------- | -------------------------------- | ---------------------------- |
-| separator | The separator between OTP fields | ^[Object]`{ index: number }` |
+| separator | The separator between OTP fields | ^[object]`{ index: number }` |
 
 ### Exposes
 
