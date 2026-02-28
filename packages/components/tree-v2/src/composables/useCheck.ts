@@ -37,6 +37,8 @@ export function useCheck(
     const { levelTreeNodeMap, maxLevel } = tree.value
     const checkedKeySet = checkedKeys.value
     const indeterminateKeySet = new Set<TreeKey>()
+    const hiddenKeys = hiddenNodeKeySet?.value
+
     // It is easier to determine the indeterminate state by
     // traversing from bottom to top
     // leaf nodes not have indeterminate status and can be skipped
@@ -48,15 +50,20 @@ export function useCheck(
         let isEffectivelyChecked =
           !node.isLeaf || node.disabled || checkedKeySet.has(node.key)
         if (children) {
-          // Whether all child nodes are selected
+          // Whether all visible child nodes are selected
           let allChecked = true
-          // Whether a child node is selected
+          // Whether a visible child node is selected
           let hasChecked = false
+          // Whether there is at least one visible child
+          let hasVisibleChild = false
           for (const childNode of children) {
             const key = childNode.key
             if (!childNode.isEffectivelyChecked) {
               isEffectivelyChecked = false
             }
+            // Skip hidden children when computing parent check state
+            if (hiddenKeys?.has(key)) continue
+            hasVisibleChild = true
             if (checkedKeySet.has(key)) {
               hasChecked = true
             } else if (indeterminateKeySet.has(key)) {
@@ -67,7 +74,9 @@ export function useCheck(
               allChecked = false
             }
           }
-          if (allChecked) {
+          if (!hasVisibleChild) {
+            // All children are hidden; do not update parent's checked state
+          } else if (allChecked) {
             checkedKeySet.add(node.key)
           } else if (hasChecked) {
             indeterminateKeySet.add(node.key)

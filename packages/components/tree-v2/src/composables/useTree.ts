@@ -42,6 +42,7 @@ export function useTree(
   )
 
   const {
+    updateCheckedKeys,
     isIndeterminate,
     isChecked,
     toggleCheckbox,
@@ -147,6 +148,7 @@ export function useTree(
     if (keys) {
       expandedKeySet.value = keys
     }
+    updateCheckedKeys()
   }
 
   function getChildren(node: TreeNodeData): TreeNodeData[] {
