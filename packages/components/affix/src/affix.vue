@@ -73,6 +73,7 @@ const teleportDisabled = computed(() => {
 
 const rootStyle = computed<CSSProperties>(() => {
   return {
+    display: 'flow-root', // https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Display/Formatting_contexts#explicitly_creating_a_bfc_using_display_flow-root
     height: fixed.value ? `${rootHeight.value}px` : '',
     width: fixed.value ? `${rootWidth.value}px` : '',
   }

@@ -6,6 +6,7 @@
       </el-checkbox>
       <el-checkbox v-model="config.plain"> plain </el-checkbox>
       <el-checkbox v-model="config.round"> round </el-checkbox>
+      <el-checkbox v-model="config.dashed"> dashed </el-checkbox>
       <el-checkbox v-model="config.text"> text </el-checkbox>
       <el-select v-model="config.type" class="ml-5" style="max-width: 150px">
         <el-option
@@ -34,5 +35,6 @@ const config = reactive<ButtonConfigContext>({
   plain: true,
   round: true,
   text: false,
+  dashed: false,
 })
 </script>

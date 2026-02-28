@@ -88,6 +88,8 @@ export interface TimeSelectProps extends UseEmptyValuesProps {
   popperStyle?: string | CSSProperties
 }
 
+export const DEFAULT_STEP = '00:30'
+
 /**
  * @deprecated Removed after 3.0.0, Use `TimeSelectProps` instead.
  */
@@ -160,7 +162,7 @@ export const timeSelectProps = buildProps({
    */
   step: {
     type: String,
-    default: '00:30',
+    default: DEFAULT_STEP,
   },
   /**
    * @description minimum time, any time before this time will be disabled

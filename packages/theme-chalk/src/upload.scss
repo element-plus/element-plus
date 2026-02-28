@@ -235,11 +235,16 @@
       font-style: normal;
     }
 
-    &:hover {
+    &:hover,
+    &:focus-within {
       background-color: getCssVar('fill-color', 'light');
 
       .#{bem('icon', '', 'close')} {
         display: inline-flex;
+      }
+
+      .#{bem('icon', '', 'close-tip')} {
+        right: 24px;
       }
 
       .#{bem('progress', 'text')} {
@@ -284,7 +289,8 @@
       }
 
       &:hover,
-      &:focus {
+      &:focus,
+      &:focus-within {
         .#{bem('upload-list', 'item-status-label')} {
           display: none;
           opacity: 0;
