@@ -191,4 +191,5 @@ emit('set-picker-option', ['parseUserInput', parseUserInput])
 emit('set-picker-option', ['handleKeydownInput', handleKeydown])
 emit('set-picker-option', ['getRangeAvailableTime', getRangeAvailableTime])
 emit('set-picker-option', ['getDefaultValue', getDefaultValue])
+emit('set-picker-option', ['handleCancel', handleCancel])
 </script>

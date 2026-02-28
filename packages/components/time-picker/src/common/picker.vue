@@ -295,7 +295,11 @@ const { isFocused, handleFocus, handleBlur } = useFocusController(inputRef, {
     )
   },
   afterBlur() {
-    handleChange()
+    if (isTimePicker.value && !props.saveOnBlur) {
+      pickerOptions.value.handleCancel?.()
+    } else {
+      handleChange()
+    }
     pickerVisible.value = false
     hasJustTabExitedInput = false
     props.validateEvent &&

@@ -288,6 +288,7 @@ export interface PickerOptions {
   panelReady: boolean
   handleClear: () => void
   handleFocusPicker?: () => void
+  handleCancel?: () => void
 }
 
 export const timePickerRangeTriggerProps = buildProps({
