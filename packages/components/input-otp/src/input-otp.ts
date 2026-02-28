@@ -41,6 +41,10 @@ export interface InputOtpProps extends Pick<AriaProps, 'ariaLabel'> {
    */
   size?: ComponentSize
   /**
+   * @description Whether to enable password mode
+   */
+  mask?: boolean
+  /**
    * @description Whether the OTP fields are disabled
    * @default undefined
    */

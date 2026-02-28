@@ -16,7 +16,7 @@
           ref="inputRefs"
           :value="innerValue[index]"
           :class="ns.e('input')"
-          type="text"
+          :type="mask ? 'password' : 'text'"
           :disabled="disabled"
           :readonly="readonly"
           :maxlength="1"

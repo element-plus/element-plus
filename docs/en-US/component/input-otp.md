@@ -55,6 +55,16 @@ input-otp/disabled
 
 :::
 
+## Mask
+
+Use the `mask` prop to hide the input characters.
+
+:::demo
+
+input-otp/mask
+
+:::
+
 ## Separator
 
 Customize the separator between OTP fields.
@@ -87,6 +97,7 @@ input-otp/validator
 | inputmode             | Native `inputmode` attribute                                                                                                               | ^[string]                                                 | —          |
 | type                  | The type of the OTP fields                                                                                                                 | ^[enum]`'outlined' \| 'filled' \| 'underlined'`           | 'outlined' |
 | size                  | The size of the OTP fields                                                                                                                 | ^[enum]`'large' \| 'default' \| 'small'`                  | 'default'  |
+| mask                  | Whether to enable password mode                                                                                                            | ^[boolean]                                                | —          |
 | disabled              | Whether the OTP fields are disabled                                                                                                        | ^[boolean]                                                | undefined  |
 | validate-event        | Whether to trigger form validation                                                                                                         | ^[boolean]                                                | true       |
 | readonly              | Same as `readonly` in native input                                                                                                         | ^[boolean]                                                | false      |
