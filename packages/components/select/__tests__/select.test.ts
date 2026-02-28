@@ -2729,7 +2729,6 @@ describe('Select', () => {
     const select = wrapper.findComponent({ name: 'ElSelect' })
     const vm = select.vm as any
     await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
-    await nextTick()
 
     // Navigate through all 3 options — duplicates must not be skipped
     vm.navigateOptions('next')
