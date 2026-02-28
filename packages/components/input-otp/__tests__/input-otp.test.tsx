@@ -60,6 +60,12 @@ describe('InputOtp.vue', () => {
     expect(wrapper.classes()).toContain('el-input-otp--underlined')
   })
 
+  test('mask', async () => {
+    const wrapper = mount(() => <InputOtp mask />)
+    const input = wrapper.find('.el-input-otp__input')
+    expect((input.element as HTMLInputElement).type).toBe('password')
+  })
+
   test('render with custom size', async () => {
     const size = ref<InputOtpProps['size']>('default')
     const wrapper = mount(() => <InputOtp size={size.value} />)
@@ -371,17 +377,33 @@ describe('InputOtp.vue', () => {
   describe('separator', () => {
     test('render with separator prop', () => {
       const wrapper = mount(() => <InputOtp separator="-" />)
-      const separators = wrapper.findAll('.el-input-otp__separator')
+      const inputFields = wrapper.findAll('.el-input-otp__input-field')
+      let num = 0
 
-      expect(separators.length).toBe(5)
-      separators.forEach((node) => expect(node.text()).toBe('-'))
+      inputFields.pop()
+      inputFields.forEach((node) => {
+        let next = node.element.nextSibling
+        while (
+          next &&
+          next.nodeType === Node.TEXT_NODE &&
+          !next.nodeValue?.trim()
+        ) {
+          next = next.nextSibling
+        }
+        num += 1
+        expect(next?.nodeValue).toBe('-')
+      })
+      expect(num).toBe(5)
     })
 
     test('render with separator function', () => {
-      const separator = (index: number) => (index & 1 ? '-' : '/')
+      const separator = (index: number) => (
+        <span data-testid="separator">{index & 1 ? '-' : '/'}</span>
+      )
       const wrapper = mount(() => <InputOtp separator={separator} />)
-      const separators = wrapper.findAll('.el-input-otp__separator')
+      const separators = wrapper.findAll('[data-testid="separator"]')
 
+      expect(separators.length).toBe(5)
       separators.forEach((node, index) =>
         expect(node.text()).toBe(index & 1 ? '-' : '/')
       )
@@ -390,12 +412,17 @@ describe('InputOtp.vue', () => {
     test('render with separator slot', () => {
       const wrapper = mount(() => (
         <InputOtp
-          v-slots={{ separator: ({ index }: { index: number }) => index }}
+          v-slots={{
+            separator: ({ index }: { index: number }) => (
+              <span data-testid="separator">{index & 1 ? '-' : '/'}</span>
+            ),
+          }}
         />
       ))
-      const separators = wrapper.findAll('.el-input-otp__separator')
+      const separators = wrapper.findAll('[data-testid="separator"]')
+      expect(separators.length).toBe(5)
       separators.forEach((node, index) =>
-        expect(node.text()).toBe(String(index))
+        expect(node.text()).toBe(index & 1 ? '-' : '/')
       )
     })
   })
