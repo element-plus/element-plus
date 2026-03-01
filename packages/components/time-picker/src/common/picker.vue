@@ -296,7 +296,9 @@ const { isFocused, handleFocus, handleBlur } = useFocusController(inputRef, {
   },
   afterBlur() {
     if (isTimePicker.value && !props.saveOnBlur) {
-      pickerOptions.value.handleCancel?.()
+      if (!valueIsEmpty.value) {
+        pickerOptions.value.handleCancel?.()
+      }
     } else {
       handleChange()
     }
@@ -523,6 +525,8 @@ onBeforeUnmount(() => {
 })
 
 const handleChange = () => {
+  if (isTimePicker.value && !props.saveOnBlur) return
+
   if (userInput.value) {
     const value = parseUserInputToDayjs(displayValue.value)
     if (value) {
