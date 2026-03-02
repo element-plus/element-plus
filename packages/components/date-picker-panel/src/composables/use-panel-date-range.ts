@@ -19,12 +19,12 @@ export const usePanelDateRange = (
   props: PanelDateRangeProps,
   emit: Emits,
   leftDate: Ref<Dayjs>,
-  rightDate: Ref<Dayjs>
+  rightDate: Ref<Dayjs>,
+  leftCurrentViewRef: Ref<CurrentViewRef | null>,
+  rightCurrentViewRef: Ref<CurrentViewRef | null>
 ) => {
   const leftCurrentView = ref<CurrentView>('date')
-  const leftCurrentViewRef = ref<CurrentViewRef>()
   const rightCurrentView = ref<CurrentView>('date')
-  const rightCurrentViewRef = ref<CurrentViewRef>()
   const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
   const { disabledDate } = pickerBase.props
   const { t, lang } = useLocale()
@@ -59,7 +59,7 @@ export const usePanelDateRange = (
     return `${yearValue.value} ${yearTranslation}`
   }
 
-  function focusPicker(currentViewRef?: CurrentViewRef) {
+  function focusPicker(currentViewRef?: CurrentViewRef | null) {
     currentViewRef?.focus()
   }
 

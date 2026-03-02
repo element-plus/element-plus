@@ -107,7 +107,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, provide, reactive, toRefs } from 'vue'
+import { computed, provide, reactive, toRefs, useTemplateRef } from 'vue'
 import { useEventListener } from '@vueuse/core'
 import ElInputNumber from '@element-plus/components/input-number'
 import { useFormItemInputId, useFormSize } from '@element-plus/components/form'
@@ -124,6 +124,7 @@ import {
   useWatch,
 } from './composables'
 
+import type { SliderButtonInstance } from './button'
 import type { SliderInitData } from './slider'
 
 defineOptions({
@@ -136,6 +137,10 @@ const emit = defineEmits(sliderEmits)
 const ns = useNamespace('slider')
 const { t } = useLocale()
 
+const slider = useTemplateRef<HTMLElement>('slider')
+const firstButton = useTemplateRef<SliderButtonInstance>('firstButton')
+const secondButton = useTemplateRef<SliderButtonInstance>('secondButton')
+
 const initData = reactive<SliderInitData>({
   firstValue: 0,
   secondValue: 0,
@@ -146,9 +151,6 @@ const initData = reactive<SliderInitData>({
 
 const {
   elFormItem,
-  slider,
-  firstButton,
-  secondButton,
   sliderDisabled,
   minValue,
   maxValue,
@@ -162,7 +164,7 @@ const {
   onSliderMarkerDown,
   setFirstValue,
   setSecondValue,
-} = useSlide(props, initData, emit)
+} = useSlide(props, initData, emit, slider, firstButton, secondButton)
 
 const { stops, getStopStyle } = useStops(props, initData, minValue, maxValue)
 

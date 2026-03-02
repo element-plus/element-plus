@@ -9,9 +9,13 @@ import {
 import { debugWarn, isUndefined } from '@element-plus/utils'
 import { CAROUSEL_ITEM_NAME, carouselContextKey } from './constants'
 
+import type { Ref } from 'vue'
 import type { CarouselItemProps } from './carousel-item'
 
-export const useCarouselItem = (props: Required<CarouselItemProps>) => {
+export const useCarouselItem = (
+  props: Required<CarouselItemProps>,
+  carouselItemRef: Readonly<Ref<HTMLElement | null>>
+) => {
   const carouselContext = inject(carouselContextKey)!
   // instance
   const instance = getCurrentInstance()!
@@ -29,7 +33,6 @@ export const useCarouselItem = (props: Required<CarouselItemProps>) => {
     )
   }
 
-  const carouselItemRef = ref<HTMLElement>()
   const hover = ref(false)
   const translate = ref(0)
   const scale = ref(1)

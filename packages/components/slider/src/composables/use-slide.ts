@@ -1,4 +1,4 @@
-import { computed, nextTick, ref, shallowRef } from 'vue'
+import { computed, nextTick } from 'vue'
 import {
   CHANGE_EVENT,
   INPUT_EVENT,
@@ -6,7 +6,7 @@ import {
 } from '@element-plus/constants'
 import { useFormDisabled, useFormItem } from '@element-plus/components/form'
 
-import type { CSSProperties, Ref, SetupContext } from 'vue'
+import type { CSSProperties, Ref, SetupContext, ShallowRef } from 'vue'
 import type { Arrayable } from '@element-plus/utils'
 import type { SliderEmits, SliderInitData, SliderProps } from '../slider'
 import type { ButtonRefs, SliderButtonInstance } from '../button'
@@ -14,15 +14,12 @@ import type { ButtonRefs, SliderButtonInstance } from '../button'
 export const useSlide = (
   props: SliderProps,
   initData: SliderInitData,
-  emit: SetupContext<SliderEmits>['emit']
+  emit: SetupContext<SliderEmits>['emit'],
+  slider: Readonly<ShallowRef<HTMLElement | null>>,
+  firstButton: Ref<SliderButtonInstance | null>,
+  secondButton: Ref<SliderButtonInstance | null>
 ) => {
   const { formItem: elFormItem } = useFormItem()
-
-  const slider = shallowRef<HTMLElement>()
-
-  const firstButton = ref<SliderButtonInstance>()
-
-  const secondButton = ref<SliderButtonInstance>()
 
   const buttonRefs: ButtonRefs = {
     firstButton,
@@ -73,14 +70,14 @@ export const useSlide = (
 
   const resetSize = () => {
     if (slider.value) {
-      const rect = slider.value.getBoundingClientRect()
+      const rect = slider.value!.getBoundingClientRect()
       initData.sliderSize = rect[props.vertical ? 'height' : 'width']
     }
   }
 
   const getButtonRefByPercent = (
     percent: number
-  ): Ref<SliderButtonInstance | undefined> => {
+  ): Ref<SliderButtonInstance | null> => {
     const targetValue = props.min + (percent * (props.max - props.min)) / 100
     if (!props.range) {
       return firstButton
@@ -103,9 +100,7 @@ export const useSlide = (
     return buttonRefs[buttonRefName]
   }
 
-  const setPosition = (
-    percent: number
-  ): Ref<SliderButtonInstance | undefined> => {
+  const setPosition = (percent: number): Ref<SliderButtonInstance | null> => {
     const buttonRef = getButtonRefByPercent(percent)
     buttonRef.value!.setPosition(percent)
     return buttonRef
@@ -141,7 +136,7 @@ export const useSlide = (
 
   const handleSliderPointerEvent = (
     event: MouseEvent | TouchEvent
-  ): Ref<SliderButtonInstance | undefined> | undefined => {
+  ): Ref<SliderButtonInstance | null> | undefined => {
     if (sliderDisabled.value || initData.dragging) return
     resetSize()
     let newPercent = 0

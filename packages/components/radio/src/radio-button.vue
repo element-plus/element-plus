@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, useTemplateRef } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { useRadio } from './use-radio'
 import { radioButtonPropsDefaults } from './radio-button'
@@ -51,8 +51,11 @@ const props = withDefaults(
 )
 
 const ns = useNamespace('radio')
-const { radioRef, focus, size, disabled, modelValue, radioGroup, actualValue } =
-  useRadio(props)
+const radioRef = useTemplateRef<HTMLInputElement>('radioRef')
+const { focus, size, disabled, modelValue, radioGroup, actualValue } = useRadio(
+  props,
+  radioRef
+)
 
 const activeStyle = computed<CSSProperties>(() => {
   return {

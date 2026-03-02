@@ -134,7 +134,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, markRaw, useSlots } from 'vue'
+import { computed, markRaw, useSlots, useTemplateRef } from 'vue'
 import { useAttrs, useCalcInputWidth } from '@element-plus/hooks'
 import { NOOP, ValidateComponentsMap } from '@element-plus/utils'
 import { CircleClose } from '@element-plus/icons-vue'
@@ -185,10 +185,16 @@ const validateIcon = computed(() => {
   return validateState.value && ValidateComponentsMap[validateState.value]
 })
 
+const inputRef = useTemplateRef<HTMLInputElement>('inputRef')
+const wrapperRef = useTemplateRef<HTMLElement>('wrapperRef')
+const tagTooltipRef =
+  useTemplateRef<InstanceType<typeof ElTooltip>>('tagTooltipRef')
+const calculatorRef = useTemplateRef<HTMLElement>('calculatorRef')
+const dropIndicatorRef = useTemplateRef<HTMLElement>('dropIndicatorRef')
+const collapseItemRef = useTemplateRef<HTMLElement>('collapseItemRef')
+const innerRef = useTemplateRef<HTMLElement>('innerRef')
+
 const {
-  inputRef,
-  wrapperRef,
-  tagTooltipRef,
   isFocused,
   inputValue,
   size,
@@ -210,16 +216,16 @@ const {
   handleCompositionEnd,
   focus,
   blur,
-} = useInputTag({ props, emit, formItem })
+} = useInputTag({ props, emit, formItem, inputRef, wrapperRef, tagTooltipRef })
 const { hovering, handleMouseEnter, handleMouseLeave } = useHovering()
-const { calculatorRef, inputStyle } = useCalcInputWidth()
-const {
-  dropIndicatorRef,
-  showDropIndicator,
-  handleDragStart,
-  handleDragOver,
-  handleDragEnd,
-} = useDragTag({ wrapperRef, handleDragged, afterDragged: focus })
+const { inputStyle } = useCalcInputWidth(calculatorRef)
+const { showDropIndicator, handleDragStart, handleDragOver, handleDragEnd } =
+  useDragTag({
+    wrapperRef,
+    dropIndicatorRef,
+    handleDragged,
+    afterDragged: focus,
+  })
 const {
   ns,
   nsInput,
@@ -229,8 +235,6 @@ const {
   showClear,
   showSuffix,
   tagStyle,
-  collapseItemRef,
-  innerRef,
 } = useInputTagDom({
   props,
   hovering,
@@ -241,6 +245,8 @@ const {
   validateState,
   validateIcon,
   needStatusIcon,
+  collapseItemRef,
+  innerRef,
 })
 
 defineExpose({
