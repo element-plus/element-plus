@@ -78,15 +78,15 @@ const { t, lang } = useLocale()
 const selectionRange = ref([0, 2])
 const oldValue = useOldValue(props)
 
+const { valueOnClear } = pickerBase.emptyValues
 watch(
   () => pickerBase.props.modelValue,
   (value) => {
-    const { valueOnClear } = pickerBase.emptyValues
-    if (value === valueOnClear.value) {
-      oldValue.value = valueOnClear.value
-    }
+    if (value !== valueOnClear.value) return
+    oldValue.value = valueOnClear.value
   }
 )
+
 // computed
 const transitionName = computed(() => {
   return isUndefined(props.actualVisible)
