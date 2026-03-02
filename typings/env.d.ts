@@ -10,8 +10,8 @@ declare global {
 
   namespace JSX {
     interface IntrinsicAttributes {
-      class?: unknown
-      style?: unknown
+      class?: import('vue').ClassValue
+      style?: import('vue').StyleValue
     }
   }
 }
