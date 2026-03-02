@@ -132,10 +132,11 @@ const handleCancel = () => {
   })
 }
 
-const { valueOnClear } = pickerBase.emptyValues
+const valueOnClear = pickerBase.emptyValues?.valueOnClear
 watch(
   () => pickerBase.props.modelValue,
   (value) => {
+    if (!valueOnClear) return
     if (value !== valueOnClear.value) return
     oldValue.value = valueOnClear.value
   }

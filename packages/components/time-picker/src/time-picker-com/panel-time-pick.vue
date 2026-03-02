@@ -78,10 +78,11 @@ const { t, lang } = useLocale()
 const selectionRange = ref([0, 2])
 const oldValue = useOldValue(props)
 
-const { valueOnClear } = pickerBase.emptyValues
+const valueOnClear = pickerBase.emptyValues?.valueOnClear
 watch(
   () => pickerBase.props.modelValue,
   (value) => {
+    if (!valueOnClear) return
     if (value !== valueOnClear.value) return
     oldValue.value = valueOnClear.value
   }
