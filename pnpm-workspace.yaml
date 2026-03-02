@@ -26,6 +26,7 @@ onlyBuiltDependencies:
   - esbuild
   - fsevents
   - puppeteer
+  - rolldown
   - vue-demi
 
 overrides:
