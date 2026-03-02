@@ -18,7 +18,7 @@ async function compress(filename: string, css: string) {
     minify: true,
     sourceMap: false,
     targets: {
-      chrome: 95 << 16,
+      chrome: 85 << 16,
       firefox: 78 << 16,
       safari: 12 << 16,
       edge: 79 << 16,
@@ -29,6 +29,7 @@ async function compress(filename: string, css: string) {
 
 const processfiles = async (scssFiles: string[]) => {
   const noElPrefixFile = /(index|base|display)/
+  await mkdir(distFolder, { recursive: true })
   for (const scssFile of scssFiles) {
     const fullPath = path.resolve(__dirname, scssFile)
     const baseName = path.basename(scssFile, '.scss')
@@ -41,7 +42,6 @@ const processfiles = async (scssFiles: string[]) => {
       : `el-${baseName}.css`
 
     const outputPath = path.join(distFolder, outputName)
-    await mkdir(distFolder, { recursive: true })
     await writeFile(outputPath, compressed)
 
     consola.success(
