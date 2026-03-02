@@ -56,7 +56,7 @@ div {
     }
   }
 
-  @include respond-to('xs') {
+  @include respond-to('sm') {
     width: 196px;
   }
 }

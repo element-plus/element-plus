@@ -10,7 +10,7 @@
     "crowdin-credentials": "tsx .vitepress/build/crowdin-credentials.ts"
   },
   "dependencies": {
-    "@docsearch/js": "^3.1.0",
+    "@docsearch/js": "^4.5.3",
     "@element-plus/icons-vue": "^2.3.2",
     "@element-plus/metadata": "workspace:*",
     "@vue/shared": "catalog:",
@@ -32,10 +32,11 @@
     "consola": "^2.15.3",
     "tinyglobby": "^0.2.15",
     "markdown-it-container": "^4.0.0",
+    "oxc-minify": "^0.116.0",
     "unocss": "^66.5.6",
     "unplugin-icons": "^0.14.15",
     "unplugin-vue-components": "^0.27.4",
-    "vite-plugin-inspect": "^0.8.7",
+    "vite-plugin-inspect": "^11.3.3",
     "vite-plugin-mkcert": "^1.17.6",
     "vitepress": "2.0.0-alpha.16",
     "vitepress-plugin-group-icons": "^1.7.1",
