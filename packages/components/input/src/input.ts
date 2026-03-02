@@ -373,7 +373,7 @@ export const inputEmits = {
     isString(value) && (evt instanceof Event || evt === undefined),
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
   blur: (evt: FocusEvent) => evt instanceof FocusEvent,
-  clear: () => true,
+  clear: (evt: MouseEvent) => evt instanceof MouseEvent,
   mouseleave: (evt: MouseEvent) => evt instanceof MouseEvent,
   mouseenter: (evt: MouseEvent) => evt instanceof MouseEvent,
   // NOTE: when autofill by browser, the keydown event is instanceof Event, not KeyboardEvent
