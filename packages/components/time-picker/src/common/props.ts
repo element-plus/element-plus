@@ -106,7 +106,7 @@ export const timePickerDefaultProps = buildProps({
     default: true,
   },
   /**
-   * @description Whether to keep the input empty on focus when no value is selected.
+   * @description Whether to auto-fill the input with the current time on focus when no value is selected.
    */
   saveOnBlur: {
     type: Boolean,
