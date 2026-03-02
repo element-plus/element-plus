@@ -41,7 +41,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, nextTick, ref } from 'vue'
+import { computed, inject, nextTick, ref, watch } from 'vue'
 import dayjs from 'dayjs'
 import { EVENT_CODE } from '@element-plus/constants'
 import { useLocale, useNamespace } from '@element-plus/hooks'
@@ -77,6 +77,16 @@ const { t, lang } = useLocale()
 // data
 const selectionRange = ref([0, 2])
 const oldValue = useOldValue(props)
+
+watch(
+  () => pickerBase.props.modelValue,
+  (value) => {
+    const { valueOnClear } = pickerBase.emptyValues
+    if (value === valueOnClear.value) {
+      oldValue.value = valueOnClear.value
+    }
+  }
+)
 // computed
 const transitionName = computed(() => {
   return isUndefined(props.actualVisible)
