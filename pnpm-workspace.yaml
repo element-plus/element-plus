@@ -42,8 +42,6 @@ peerDependencyRules:
     - react
     - react-dom
 
-shamefullyHoist: true
-
 shellEmulator: true
 
 strictPeerDependencies: false
