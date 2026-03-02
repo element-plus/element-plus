@@ -1191,6 +1191,163 @@ describe('Virtual Tree', () => {
     expect(wrapper.findAll('.expanded').length).toBe(2)
   })
 
+  describe('filter with checkbox', () => {
+    const filterTreeData = [
+      {
+        id: '1',
+        label: 'node-1',
+        children: [
+          {
+            id: '1-1',
+            label: 'node-1-1',
+            children: [
+              { id: '1-1-1', label: 'node-1-1-1' },
+              { id: '1-1-2', label: 'node-1-1-2' },
+            ],
+          },
+          {
+            id: '1-2',
+            label: 'node-1-2',
+            children: [{ id: '1-2-1', label: 'node-1-2-1' }],
+          },
+        ],
+      },
+      { id: '2', label: 'node-2' },
+    ]
+
+    test('getCheckedNodes/getCheckedKeys excludes filtered-out nodes', async () => {
+      const { treeRef } = createTree({
+        data() {
+          return {
+            showCheckbox: true,
+            defaultCheckedKeys: ['1-1-2'],
+            data: filterTreeData,
+            filterMethod(query: string, node: TreeNodeData) {
+              return node.label.includes(query)
+            },
+          }
+        },
+      })
+      await nextTick()
+
+      expect(treeRef.getCheckedKeys().toString()).toBe(['1-1-2'].toString())
+      expect(treeRef.getHalfCheckedKeys().toString()).toBe(
+        ['1-1', '1'].toString()
+      )
+
+      // Filter: visible = node-1, node-1-1, node-1-1-1; hidden = node-1-1-2 (checked), node-1-2, node-1-2-1, node-2
+      treeRef.filter('1-1-1')
+      await nextTick()
+
+      expect(treeRef.getCheckedKeys()).toHaveLength(0)
+      expect(treeRef.getCheckedNodes()).toHaveLength(0)
+      expect(treeRef.getHalfCheckedKeys()).toHaveLength(0)
+      expect(treeRef.getHalfCheckedNodes()).toHaveLength(0)
+    })
+
+    test('parent checkbox state reflects visible children only after filtering', async () => {
+      const { treeRef } = createTree({
+        data() {
+          return {
+            showCheckbox: true,
+            defaultCheckedKeys: ['1-1-1'],
+            data: filterTreeData,
+            filterMethod(query: string, node: TreeNodeData) {
+              return node.label.includes(query)
+            },
+          }
+        },
+      })
+      await nextTick()
+
+      // Before filter: 1-1-1 checked, 1-1 and 1 are indeterminate
+      expect(treeRef.getCheckedKeys().toString()).toBe(['1-1-1'].toString())
+      expect(treeRef.getHalfCheckedKeys().toString()).toBe(
+        ['1-1', '1'].toString()
+      )
+
+      // Filter: visible = node-1, node-1-1, node-1-1-1
+      // 1-1-2 (unchecked) is hidden → 1-1's only visible child (1-1-1) is checked → 1-1 should appear fully checked
+      // 1-2 subtree is hidden → 1's only visible child (1-1) is fully checked → 1 should appear fully checked
+      treeRef.filter('1-1-1')
+      await nextTick()
+
+      expect(treeRef.getCheckedKeys().toString()).toBe(
+        ['1-1-1', '1-1', '1'].toString()
+      )
+      expect(treeRef.getHalfCheckedKeys()).toHaveLength(0)
+    })
+
+    test('checkbox states are restored correctly when filter is cleared', async () => {
+      const { treeRef } = createTree({
+        data() {
+          return {
+            showCheckbox: true,
+            defaultCheckedKeys: ['1-1-1'],
+            data: filterTreeData,
+            filterMethod(query: string, node: TreeNodeData) {
+              return node.label.includes(query)
+            },
+          }
+        },
+      })
+      await nextTick()
+
+      // Apply filter: parents appear fully checked due to visible-only aggregation
+      treeRef.filter('1-1-1')
+      await nextTick()
+      expect(treeRef.getCheckedKeys().toString()).toBe(
+        ['1-1-1', '1-1', '1'].toString()
+      )
+
+      // Clear filter: all nodes visible again, states should revert to original
+      treeRef.filter('')
+      await nextTick()
+
+      expect(treeRef.getCheckedKeys().toString()).toBe(['1-1-1'].toString())
+      expect(treeRef.getHalfCheckedKeys().toString()).toBe(
+        ['1-1', '1'].toString()
+      )
+    })
+
+    test('check event payload excludes filtered-out nodes', async () => {
+      const onNodeCheck = vi.fn()
+      const { treeRef, wrapper } = createTree({
+        data() {
+          return {
+            showCheckbox: true,
+            defaultCheckedKeys: ['1-1-2'],
+            defaultExpandedKeys: ['1', '1-1'],
+            data: filterTreeData,
+            filterMethod(query: string, node: TreeNodeData) {
+              return node.label.includes(query)
+            },
+          }
+        },
+        methods: { onNodeCheck },
+      })
+      await nextTick()
+
+      // Filter: node-1-1-2 (already checked) becomes hidden
+      treeRef.filter('1-1-1')
+      await nextTick()
+
+      // Click checkbox of node-1-1-1 (3rd visible node)
+      const nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+      await nodes[2].find('.el-checkbox').trigger('click')
+
+      expect(onNodeCheck).toHaveBeenCalledTimes(1)
+      const [, checkInfo] = onNodeCheck.mock.calls[0]
+      // node-1-1-2 is checked but hidden, must NOT appear in event payload
+      expect(checkInfo.checkedKeys).not.toContain('1-1-2')
+      // node-1-2-1 and node-2 are also hidden, must NOT appear
+      expect(checkInfo.checkedKeys).not.toContain('1-2-1')
+      expect(checkInfo.checkedKeys).not.toContain('2')
+      // visible checked node must appear
+      expect(checkInfo.checkedKeys).toContain('1-1-1')
+    })
+  })
+
   describe('events', () => {
     test('current-change', async () => {
       const onCurrentChange = vi.fn()
