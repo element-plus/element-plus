@@ -1,6 +1,6 @@
 <template>
   <div
-    ref="button"
+    ref="buttonRef"
     :class="[ns.e('button-wrapper'), { hover: hovering, dragging }]"
     :style="wrapperStyle"
     :tabindex="disabled ? undefined : 0"
@@ -12,7 +12,7 @@
     @keydown="onKeyDown"
   >
     <el-tooltip
-      ref="tooltip"
+      ref="tooltipRef"
       :visible="tooltipVisible"
       :placement="placement"
       :fallback-placements="['top', 'bottom', 'right', 'left']"
@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, reactive, toRefs } from 'vue'
+import { computed, reactive, toRefs, useTemplateRef } from 'vue'
 import { ElTooltip } from '@element-plus/components/tooltip'
 import { useNamespace } from '@element-plus/hooks'
 import { useSliderButton } from './composables'
@@ -46,6 +46,9 @@ const props = defineProps(sliderButtonProps)
 const emit = defineEmits(sliderButtonEmits)
 
 const ns = useNamespace('slider')
+
+const buttonRef = useTemplateRef<HTMLDivElement>('buttonRef')
+const tooltipRef = useTemplateRef<InstanceType<typeof ElTooltip>>('tooltipRef')
 
 const initData = reactive<SliderButtonInitData>({
   hovering: false,
@@ -66,8 +69,6 @@ const tooltipPersistent = computed(() =>
 
 const {
   disabled,
-  button,
-  tooltip,
   showTooltip,
   persistent,
   tooltipVisible,
@@ -78,7 +79,7 @@ const {
   onButtonDown,
   onKeyDown,
   setPosition,
-} = useSliderButton(props, initData, emit)
+} = useSliderButton(props, initData, emit, buttonRef, tooltipRef)
 
 const { hovering, dragging } = toRefs(initData)
 

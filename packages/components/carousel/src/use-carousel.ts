@@ -18,7 +18,7 @@ import { useOrderedChildren } from '@element-plus/hooks'
 import { CHANGE_EVENT } from '@element-plus/constants'
 import { CAROUSEL_ITEM_NAME, carouselContextKey } from './constants'
 
-import type { SetupContext } from 'vue'
+import type { Ref, SetupContext } from 'vue'
 import type { CarouselItemContext } from './constants'
 import type { CarouselEmits, CarouselProps } from './carousel'
 
@@ -27,7 +27,8 @@ const THROTTLE_TIME = 300
 export const useCarousel = (
   props: Required<CarouselProps>,
   emit: SetupContext<CarouselEmits>['emit'],
-  componentName: string
+  componentName: string,
+  root: Readonly<Ref<HTMLDivElement | null>>
 ) => {
   const {
     children: items,
@@ -45,7 +46,6 @@ export const useCarousel = (
   const activeIndex = ref(-1)
   const timer = ref<ReturnType<typeof setInterval> | null>(null)
   const hover = ref(false)
-  const root = ref<HTMLDivElement>()
   const containerHeight = ref<number>(0)
   const isItemsTwoLength = ref(true)
 

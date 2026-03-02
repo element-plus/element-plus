@@ -57,7 +57,7 @@
 </template>
 
 <script lang="ts" setup generic="T extends MentionOption = MentionOption">
-import { computed, mergeProps, nextTick, ref } from 'vue'
+import { computed, mergeProps, nextTick, ref, useTemplateRef } from 'vue'
 import { pick } from 'lodash-unified'
 import { useFocusController, useId, useNamespace } from '@element-plus/hooks'
 import ElInput, {
@@ -115,9 +115,10 @@ const ns = useNamespace('mention')
 const disabled = useFormDisabled()
 const contentId = useId()
 
-const elInputRef = ref<InputInstance>()
-const tooltipRef = ref<TooltipInstance>()
-const dropdownRef = ref<InstanceType<typeof ElMentionDropdown>>()
+const elInputRef = useTemplateRef<InputInstance>('elInputRef')
+const tooltipRef = useTemplateRef<TooltipInstance>('tooltipRef')
+const dropdownRef =
+  useTemplateRef<InstanceType<typeof ElMentionDropdown>>('dropdownRef')
 
 const visible = ref(false)
 const cursorStyle = ref<CSSProperties>()

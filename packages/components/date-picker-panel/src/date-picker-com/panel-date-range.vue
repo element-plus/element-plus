@@ -405,7 +405,16 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, nextTick, ref, toRef, unref, watch } from 'vue'
+import {
+  computed,
+  inject,
+  nextTick,
+  ref,
+  toRef,
+  unref,
+  useTemplateRef,
+  watch,
+} from 'vue'
 import dayjs from 'dayjs'
 import { ClickOutside as vClickoutside } from '@element-plus/directives'
 import { useLocale } from '@element-plus/hooks'
@@ -470,6 +479,13 @@ const format: Ref<string | undefined> = toRef(pickerBase.props, 'format')
 const shortcuts = toRef(pickerBase.props, 'shortcuts')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 const { lang } = useLocale()
+const leftCurrentViewRef = useTemplateRef<{ focus: () => void }>(
+  'leftCurrentViewRef'
+)
+const rightCurrentViewRef = useTemplateRef<{ focus: () => void }>(
+  'rightCurrentViewRef'
+)
+
 const leftDate = ref<Dayjs>(dayjs().locale(lang.value))
 const rightDate = ref<Dayjs>(dayjs().locale(lang.value).add(1, unit))
 
@@ -517,8 +533,6 @@ const timeUserInput = ref<UserInput>({
 const {
   leftCurrentView,
   rightCurrentView,
-  leftCurrentViewRef,
-  rightCurrentViewRef,
   leftYear,
   rightYear,
   leftMonth,
@@ -533,7 +547,14 @@ const {
   handleRightMonthPick,
   handlePanelChange,
   adjustDateByView,
-} = usePanelDateRange(props, emit, leftDate, rightDate)
+} = usePanelDateRange(
+  props,
+  emit,
+  leftDate,
+  rightDate,
+  leftCurrentViewRef,
+  rightCurrentViewRef
+)
 
 const hasShortcuts = computed(() => !!shortcuts.value.length)
 

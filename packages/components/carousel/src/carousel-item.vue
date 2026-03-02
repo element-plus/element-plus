@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, unref } from 'vue'
+import { computed, unref, useTemplateRef } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { useCarouselItem } from './use-carousel-item'
 import { CAROUSEL_ITEM_NAME } from './constants'
@@ -30,9 +30,10 @@ const props = withDefaults(defineProps<CarouselItemProps>(), {
 })
 const ns = useNamespace('carousel')
 
+const carouselItemRef = useTemplateRef<HTMLElement>('carouselItemRef')
+
 // inject
 const {
-  carouselItemRef,
   active,
   animating,
   hover,
@@ -43,7 +44,7 @@ const {
   scale,
   ready,
   handleItemClick,
-} = useCarouselItem(props)
+} = useCarouselItem(props, carouselItemRef)
 
 const itemKls = computed(() => [
   ns.e('item'),
