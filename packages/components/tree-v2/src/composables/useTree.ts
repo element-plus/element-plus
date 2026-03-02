@@ -182,9 +182,8 @@ export function useTree(
     const nodeMap = tree.value!.treeNodeMap
 
     expandedKeySet.value.forEach((key) => {
-      const node = nodeMap.get(key)!
-      expandedKeySet.value.delete(node.key)
-      node.expanded = false
+      const node = nodeMap.get(key)
+      if (node) node.expanded = false
     })
 
     keys.forEach((k) => {
@@ -313,8 +312,10 @@ export function useTree(
 
   watch(
     () => props.defaultExpandedKeys,
-    (key) => {
-      expandedKeySet.value = new Set<TreeKey>(key)
+    (keys) => {
+      if (tree.value) {
+        setExpandedKeys(keys || [])
+      }
     },
     {
       immediate: true,
@@ -325,6 +326,9 @@ export function useTree(
     () => props.data!,
     (data: TreeData) => {
       setData(data)
+      if (props.defaultExpandedKeys?.length) {
+        setExpandedKeys(props.defaultExpandedKeys)
+      }
     },
     {
       immediate: true,
