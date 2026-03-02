@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { computed, useTemplateRef } from 'vue'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat.js'
 import ElSelect from '@element-plus/components/select'
@@ -79,7 +79,7 @@ const props = withDefaults(defineProps<TimeSelectProps>(), {
 })
 
 const nsInput = useNamespace('input')
-const select = ref<typeof ElSelect>()
+const select = useTemplateRef<InstanceType<typeof ElSelect>>('select')
 
 const _disabled = useFormDisabled()
 const { lang } = useLocale()

@@ -5,15 +5,16 @@ import { useDeprecated } from '@element-plus/hooks'
 import { isPropAbsent } from '@element-plus/utils'
 import { radioGroupKey } from './constants'
 
+import type { Ref, SetupContext } from 'vue'
 import type { RadioButtonProps } from './radio-button'
-import type { SetupContext } from 'vue'
 import type { RadioEmits, RadioProps } from './radio'
 
 export const useRadio = (
   props: RadioProps | RadioButtonProps,
+  radioRef?: Readonly<Ref<HTMLInputElement | null | undefined>>,
   emit?: SetupContext<RadioEmits>['emit']
 ) => {
-  const radioRef = ref<HTMLInputElement>()
+  const _radioRef = radioRef ?? ref<HTMLInputElement>()
   const radioGroup = inject(radioGroupKey, undefined)
   const isGroup = computed(() => !!radioGroup)
   const actualValue = computed(() => {
@@ -34,7 +35,7 @@ export const useRadio = (
       } else {
         emit && emit(UPDATE_MODEL_EVENT, val)
       }
-      radioRef.value!.checked = props.modelValue === actualValue.value
+      _radioRef.value!.checked = props.modelValue === actualValue.value
     },
   })
 
@@ -60,7 +61,7 @@ export const useRadio = (
   )
 
   return {
-    radioRef,
+    radioRef: _radioRef,
     isGroup,
     radioGroup,
     focus,

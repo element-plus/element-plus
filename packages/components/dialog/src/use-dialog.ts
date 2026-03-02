@@ -97,12 +97,7 @@ export const useDialog = (
       props.transition ??
       globalConfig.value?.transition ??
       DEFAULT_DIALOG_TRANSITION
-    const baseConfig = {
-      name: transition,
-      onAfterEnter: afterEnter,
-      onBeforeLeave: beforeLeave,
-      onAfterLeave: afterLeave,
-    }
+
     if (isObject(transition)) {
       const config = { ...transition } as TransitionProps
       const _mergeHook = (
@@ -133,7 +128,12 @@ export const useDialog = (
       return config
     }
 
-    return baseConfig
+    return {
+      name: transition,
+      onAfterEnter: afterEnter,
+      onBeforeLeave: beforeLeave,
+      onAfterLeave: afterLeave,
+    }
   })
 
   function afterEnter() {
