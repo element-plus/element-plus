@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts" setup>
-import { inject, provide } from 'vue'
+import { inject, onUnmounted, provide } from 'vue'
 import { debugWarn } from '@element-plus/utils'
 import { formContextKey } from './constants'
 import { formSectionEmits } from './form-section'
@@ -24,8 +24,11 @@ const emit = defineEmits(formSectionEmits)
 
 const formContext = inject(formContextKey, undefined)
 
-// Collected form fields within this section
-const sectionFields: FormItemContext[] = []
+// Collected form fields within this section, reset on unmount
+let sectionFields: FormItemContext[] = []
+onUnmounted(() => {
+  sectionFields = []
+})
 
 /**
  * Provide a proxied form context to child components.
