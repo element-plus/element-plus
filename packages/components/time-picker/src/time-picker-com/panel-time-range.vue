@@ -68,7 +68,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, nextTick, ref, unref } from 'vue'
+import { computed, inject, nextTick, ref, unref, watch } from 'vue'
 import dayjs from 'dayjs'
 import { union } from 'lodash-unified'
 import { useLocale, useNamespace } from '@element-plus/hooks'
@@ -131,6 +131,16 @@ const handleCancel = () => {
     oldValue.value = old
   })
 }
+
+const { valueOnClear } = pickerBase.emptyValues
+watch(
+  () => pickerBase.props.modelValue,
+  (value) => {
+    if (value !== valueOnClear.value) return
+    oldValue.value = valueOnClear.value
+  }
+)
+
 const showSeconds = computed(() => {
   return props.format.includes('ss')
 })
