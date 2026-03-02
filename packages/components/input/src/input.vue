@@ -500,7 +500,7 @@ const select = () => {
   _ref.value?.select()
 }
 
-const clear = (evt: MouseEvent) => {
+const clear = (evt?: MouseEvent) => {
   emit(UPDATE_MODEL_EVENT, '')
   emit(CHANGE_EVENT, '')
   emit('clear', evt)
