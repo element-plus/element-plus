@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, useTemplateRef } from 'vue'
 import { useLocale } from '@element-plus/hooks/use-locale'
 import { useSvPanel, useSvPanelDOM } from '../composables/use-sv-panel'
 
@@ -30,8 +30,9 @@ defineOptions({
 
 const props = defineProps<SvPanelProps>()
 
+const cursorRef = useTemplateRef<HTMLElement>('cursorRef')
+
 const {
-  cursorRef,
   cursorTop,
   cursorLeft,
   background,
@@ -40,7 +41,7 @@ const {
   handleClick,
   handleDrag,
   handleKeydown,
-} = useSvPanel(props)
+} = useSvPanel(props, cursorRef)
 
 const { rootKls, cursorKls, rootStyle, cursorStyle, update } = useSvPanelDOM(
   props,

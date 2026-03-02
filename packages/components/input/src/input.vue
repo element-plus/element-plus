@@ -184,6 +184,7 @@ import {
   toRef,
   useAttrs as useRawAttrs,
   useSlots,
+  useTemplateRef,
   watch,
 } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
@@ -266,6 +267,8 @@ const inputDisabled = useFormDisabled()
 const nsInput = useNamespace('input')
 const nsTextarea = useNamespace('textarea')
 
+const wrapperRef = useTemplateRef<HTMLElement>('wrapperRef')
+
 const input = shallowRef<HTMLInputElement>()
 const textarea = shallowRef<HTMLTextAreaElement>()
 
@@ -277,17 +280,15 @@ const textareaCalcStyle = shallowRef(props.inputStyle)
 const _ref = computed(() => input.value || textarea.value)
 
 // wrapperRef for type="text", handleFocus and handleBlur for type="textarea"
-const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
-  _ref,
-  {
-    disabled: inputDisabled,
-    afterBlur() {
-      if (props.validateEvent) {
-        elFormItem?.validate?.('blur').catch((err) => debugWarn(err))
-      }
-    },
-  }
-)
+const { isFocused, handleFocus, handleBlur } = useFocusController(_ref, {
+  disabled: inputDisabled,
+  wrapperRef,
+  afterBlur() {
+    if (props.validateEvent) {
+      elFormItem?.validate?.('blur').catch((err) => debugWarn(err))
+    }
+  },
+})
 
 const needStatusIcon = computed(() => elForm?.statusIcon ?? false)
 const validateState = computed(() => elFormItem?.validateState || '')
