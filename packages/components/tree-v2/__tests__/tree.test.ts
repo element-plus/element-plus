@@ -1346,6 +1346,43 @@ describe('Virtual Tree', () => {
       // visible checked node must appear
       expect(checkInfo.checkedKeys).toContain('1-1-1')
     })
+
+    test('clicking parent checkbox selects only visible children', async () => {
+      const { treeRef, wrapper } = createTree({
+        data() {
+          return {
+            showCheckbox: true,
+            defaultExpandedKeys: ['1', '1-1'],
+            data: filterTreeData,
+            filterMethod(query: string, node: TreeNodeData) {
+              return node.label.includes(query)
+            },
+          }
+        },
+      })
+      await nextTick()
+
+      // Filter: visible = node-1, node-1-1, node-1-1-1; hidden = node-1-1-2, node-1-2, node-1-2-1, node-2
+      treeRef.filter('1-1-1')
+      await nextTick()
+
+      // Click the parent node-1 checkbox (first visible node)
+      const nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+      await nodes[0].find('.el-checkbox').trigger('click')
+
+      const checkedKeys = treeRef.getCheckedKeys()
+
+      // Visible nodes must be checked
+      expect(checkedKeys).toContain('1')
+      expect(checkedKeys).toContain('1-1')
+      expect(checkedKeys).toContain('1-1-1')
+
+      // Hidden nodes must not appear in the result
+      expect(checkedKeys).not.toContain('1-1-2')
+      expect(checkedKeys).not.toContain('1-2')
+      expect(checkedKeys).not.toContain('1-2-1')
+      expect(checkedKeys).not.toContain('2')
+    })
   })
 
   describe('events', () => {
