@@ -8,6 +8,7 @@ import type { CardConfigContext } from '@element-plus/components/card'
 import type { DialogConfigContext } from '@element-plus/components/dialog'
 import type { MessageConfigContext } from '@element-plus/components/message'
 import type { LinkConfigContext } from '@element-plus/components/link'
+import type { TableConfigContext } from '@element-plus/components/table'
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export type ExperimentalFeatures = {
@@ -85,6 +86,12 @@ export const configProviderProps = buildProps({
   namespace: {
     type: String,
     default: 'el',
+  },
+  /**
+   * @description table related configuration, [see the following table](https://element-plus.org/en-US/component/config-provider.html#table-attribute)
+   */
+  table: {
+    type: definePropType<TableConfigContext>(Object),
   },
   ...useEmptyValuesProps,
 } as const)

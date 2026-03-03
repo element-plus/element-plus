@@ -1137,8 +1137,8 @@ describe('Form', () => {
       // name and age should reset to new initial values
       expect(form.name).toBe('NewInitName')
       expect(form.age).toBe('25')
-      // address has no new initial value set, should keep original mounted value
-      expect(form.address).toBe('DefaultAddress')
+      // address has no new initial value set in partial update, resets to undefined with unified cache
+      expect(form.address).toBeUndefined()
 
       vi.useRealTimers()
     })

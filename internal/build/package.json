@@ -7,7 +7,7 @@
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "start": "gulp --require tsx/dist/loader.cjs -f gulpfile.ts",
+    "start": "jiti buildfile.ts",
     "dev": "pnpm run stub",
     "stub": "unbuild --stub"
   },
@@ -15,27 +15,21 @@
     "@element-plus/build-constants": "workspace:*",
     "@pnpm/find-workspace-packages": "^4.0.16",
     "@pnpm/logger": "^4.0.0",
-    "@rollup/plugin-commonjs": "^22.0.1",
-    "@rollup/plugin-node-resolve": "^13.3.0",
-    "@rollup/plugin-replace": "^5.0.5",
     "@vitejs/plugin-vue": "catalog:",
     "@vitejs/plugin-vue-jsx": "catalog:",
     "chalk": "^5.0.1",
     "components-helper": "^2.1.4",
     "consola": "^2.15.3",
-    "esbuild": "^0.27.2",
-    "fs-extra": "^10.1.0",
-    "gulp": "^4.0.2",
     "lodash": "^4.17.23",
     "magic-string": "^0.30.21",
     "oxc-parser": "^0.110.0",
-    "rollup": "^4.55.1",
-    "rollup-plugin-esbuild": "^4.9.1",
+    "rolldown": "^1.0.0-rc.6",
+    "rolldown-plugin-dts": "^0.22.2",
     "tinyglobby": "^0.2.15"
   },
   "devDependencies": {
     "@pnpm/types": "^8.4.0",
-    "tsx": "^4.19.3",
-    "unbuild": "^2.0.0"
+    "unbuild": "^3.0.0",
+    "vue-tsc": "^3.2.3"
   }
 }

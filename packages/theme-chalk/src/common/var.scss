@@ -297,6 +297,7 @@ $checkbox-button: map.merge(
     'checked-bg-color': getCssVar('color-primary'),
     'checked-text-color': getCssVar('color-white'),
     'checked-border-color': getCssVar('color-primary'),
+    'disabled-checked-fill': getCssVar('border-color-extra-light'),
   ),
   $checkbox-button
 );
