@@ -1230,10 +1230,8 @@ describe('Virtual Tree', () => {
       })
       await nextTick()
 
-      expect(treeRef.getCheckedKeys().toString()).toBe(['1-1-2'].toString())
-      expect(treeRef.getHalfCheckedKeys().toString()).toBe(
-        ['1-1', '1'].toString()
-      )
+      expect(treeRef.getCheckedKeys()).toEqual(['1-1-2'])
+      expect(treeRef.getHalfCheckedKeys()).toEqual(['1-1', '1'])
 
       // Filter: visible = node-1, node-1-1, node-1-1-1; hidden = node-1-1-2 (checked), node-1-2, node-1-2-1, node-2
       treeRef.filter('1-1-1')
