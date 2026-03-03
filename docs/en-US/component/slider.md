@@ -81,7 +81,7 @@ slider/show-marks
 
 :::
 
-## Restrict value ^(2.13.3)
+## Restrict value ^(2.13.4)
 
 :::demo Set `step="mark"` to restrict the slider value to marks.
 
