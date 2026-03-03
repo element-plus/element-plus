@@ -19,9 +19,9 @@ async function compress(filename: string, css: string) {
     sourceMap: false,
     targets: {
       chrome: 85 << 16,
-      firefox: 78 << 16,
-      safari: 12 << 16,
-      edge: 79 << 16,
+      firefox: 79 << 16,
+      safari: (14 << 16) | (1 << 8),
+      edge: 85 << 16,
     },
   })
   return result.code
