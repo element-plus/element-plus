@@ -146,6 +146,14 @@
         @change="handleChange"
         @keydown="handleKeydown"
       />
+      <el-icon
+        v-if="showClear"
+        :class="[nsTextarea.e('icon'), nsTextarea.e('clear')]"
+        @mousedown.prevent="NOOP"
+        @click="clear"
+      >
+        <component :is="clearIcon" />
+      </el-icon>
       <span
         v-if="isWordLimitVisible"
         :style="countStyle"

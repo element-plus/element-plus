@@ -53,7 +53,8 @@
     position: relative;
     display: block;
     resize: vertical;
-    padding: 5px map.get($input-padding-horizontal, 'default')-$border-width;
+    padding: 5px map.get($input-padding-horizontal, 'default') + 14px 5px
+      map.get($input-padding-horizontal, 'default')-$border-width;
     line-height: 1.5;
     box-sizing: border-box;
     width: 100%;
@@ -96,6 +97,20 @@
     &:focus {
       outline: none;
       @include inset-input-border(#{getCssVar('input', 'focus-border-color')});
+    }
+  }
+
+  @include e(clear) {
+    position: absolute;
+    right: 11px;
+    top: 15px;
+    transform: translateY(-50%);
+    color: getCssVar('input-icon-color');
+    font-size: map.get($input-font-size, 'default');
+    cursor: pointer;
+
+    &:hover {
+      color: getCssVar('input-clear-hover-color');
     }
   }
 
