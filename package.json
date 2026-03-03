@@ -75,7 +75,6 @@
     "@pnpm/logger": "^4.0.0",
     "@pnpm/types": "^8.4.0",
     "@types/fs-extra": "^9.0.13",
-    "@types/gulp": "^4.0.9",
     "@types/jsdom": "^27.0.0",
     "@types/node": "^22.9.0",
     "@vitest/coverage-v8": "^4.0.16",
@@ -95,14 +94,13 @@
     "puppeteer": "^24.26.1",
     "resize-observer-polyfill": "^1.5.1",
     "rimraf": "^4.4.1",
-    "sass": "^1.79.3",
     "tinyglobby": "^0.2.15",
     "tsx": "^4.19.3",
     "typescript": "~5.5.4",
     "vitest": "^4.0.16",
     "vue": "catalog:",
     "vue-router": "^4.0.16",
-    "vue-tsc": "=3.1.0"
+    "vue-tsc": "=3.1.5"
   },
   "engines": {
     "node": ">= 20"
