@@ -97,11 +97,22 @@
       justify-content: space-between;
       margin-top: 12px;
       text-align: right;
-      @include b(input) {
-        line-height: 26px;
-        font-size: 12px;
-        color: $color-black;
-        width: 160px;
+      @include e(color-content) {
+        display: flex;
+        gap: 10px;
+        @include b(select) {
+          width: fit-content;
+          .#{$namespace}-select__placeholder {
+            position: static;
+            transform: none;
+          }
+        }
+        @include b(input) {
+          line-height: 26px;
+          font-size: 12px;
+          color: $color-black;
+          width: 160px;
+        }
       }
     }
   }

@@ -519,6 +519,36 @@ describe('Color-picker-panel', () => {
     wrapper.unmount()
   })
 
+  it('format selector shows options and input updates when selecting a format', async () => {
+    const color = ref('#20a0ff')
+    const wrapper = mount(() => (
+      <ColorPickerPanel v-model={color.value} allow-format-select />
+    ))
+
+    await nextTick()
+    const panel = wrapper.findComponent(ColorPickerPanel)
+    const colorInput = panel.findComponent({ ref: 'inputRef' })
+    expect(
+      colorInput.find<HTMLInputElement>('.el-input__inner').element.value.trim()
+    ).toBe('#20a0ff')
+
+    await panel.find('.el-select__wrapper').trigger('click')
+    const options = document.querySelectorAll('.el-select-dropdown__item')
+    expect(options.length).toBe(10)
+
+    const rgbOption = Array.from(options).find(
+      (el) => el.textContent?.trim() === 'RGB'
+    )
+    expect(rgbOption).toBeTruthy()
+    ;(rgbOption as HTMLElement).click()
+    await nextTick()
+
+    expect(
+      colorInput.find<HTMLInputElement>('.el-input__inner').element.value.trim()
+    ).toBe('rgb(32, 160, 255)')
+    wrapper.unmount()
+  })
+
   it('should clear the color when color is empty', async () => {
     const color = ref<string | undefined>('#20a0ff')
     const wrapper = mount(() => <ColorPickerPanel v-model={color.value} />)

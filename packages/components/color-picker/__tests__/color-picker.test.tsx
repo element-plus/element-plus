@@ -451,6 +451,39 @@ describe('Color-picker', () => {
     wrapper.unmount()
   })
 
+  it('format selector shows options and color input updates when selecting a format', async () => {
+    const color = ref('#20a0ff')
+    const wrapper = mount(() => (
+      <ColorPicker
+        v-model={color.value}
+        allow-format-select
+        teleported={false}
+      />
+    ))
+
+    await wrapper.find('.el-color-picker__trigger').trigger('click')
+    const panel = wrapper.findComponent(ColorPickerPanel)
+    await panel.find('.el-select__wrapper').trigger('click')
+
+    const options = document.querySelectorAll('.el-select-dropdown__item')
+    expect(options.length).toBe(10)
+
+    const rgbOption = Array.from(options).find(
+      (el) => el.textContent?.trim() === 'RGB'
+    )
+    expect(rgbOption).toBeTruthy()
+    ;(rgbOption as HTMLElement).click()
+    await nextTick()
+
+    const customInput = panel.findComponent({ ref: 'inputRef' })
+    expect(
+      customInput
+        .find<HTMLInputElement>('.el-input__inner')
+        .element.value.trim()
+    ).toBe('rgb(32, 160, 255)')
+    wrapper.unmount()
+  })
+
   it('should update the colorFormat and selected color when the colorFormat prop changes', async () => {
     const color = ref('#00ff00')
     const colorFormat = ref('hex')
