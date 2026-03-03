@@ -62,7 +62,7 @@ export function useCheck(
               isEffectivelyChecked = false
             }
             // Skip hidden children when computing parent check state
-            if (hiddenKeys?.has(key)) continue
+            if (hiddenKeySet?.has(key)) continue
             hasVisibleChild = true
             if (checkedKeySet.has(key)) {
               hasChecked = true
@@ -74,16 +74,16 @@ export function useCheck(
               allChecked = false
             }
           }
-          if (!hasVisibleChild) {
-            // All children are hidden; do not update parent's checked state
-          } else if (allChecked) {
-            checkedKeySet.add(node.key)
-          } else if (hasChecked) {
-            indeterminateKeySet.add(node.key)
-            checkedKeySet.delete(node.key)
-          } else {
-            checkedKeySet.delete(node.key)
-            indeterminateKeySet.delete(node.key)
+          if (hasVisibleChild) {
+            if (allChecked) {
+              checkedKeySet.add(node.key)
+            } else if (hasChecked) {
+              indeterminateKeySet.add(node.key)
+              checkedKeySet.delete(node.key)
+            } else {
+              checkedKeySet.delete(node.key)
+              indeterminateKeySet.delete(node.key)
+            }
           }
         }
         node.isEffectivelyChecked = isEffectivelyChecked
