@@ -37,7 +37,7 @@ export function useCheck(
     const { levelTreeNodeMap, maxLevel } = tree.value
     const checkedKeySet = checkedKeys.value
     const indeterminateKeySet = new Set<TreeKey>()
-    const hiddenKeys = hiddenNodeKeySet?.value
+    const hiddenKeySet = hiddenNodeKeySet?.value
 
     // It is easier to determine the indeterminate state by
     // traversing from bottom to top
