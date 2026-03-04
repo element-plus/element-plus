@@ -28,8 +28,13 @@ const TYPE_MAP: Record<string, ChangelogEntry['type']> = {
 }
 
 function normalizeComponentNames(raw: string): string[] {
-  const parts = Array.from(new Set([...raw.split('/'), ...raw.split(',')])).map(
-    (s) => s.trim().toLowerCase()
+  const parts = Array.from(
+    new Set(
+      raw
+        .split(/[/,]/)
+        .map((s) => s.trim().toLowerCase())
+        .filter(Boolean)
+    )
   )
 
   const result: string[] = []

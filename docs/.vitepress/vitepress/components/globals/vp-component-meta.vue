@@ -55,9 +55,20 @@ const getTimelineItemType = (
   return 'info'
 }
 
+const HTML_ESCAPE: Record<string, string> = {
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&#39;',
+}
+
+const escapeHtml = (text: string) =>
+  text.replace(/[&<>"']/g, (ch) => HTML_ESCAPE[ch])
+
 const renderDescription = (desc: string) => {
   // Convert `code` to <code> tags
-  let html = desc.replace(/`([^`]+)`/g, '<code>$1</code>')
+  let html = escapeHtml(desc).replace(/`([^`]+)`/g, '<code>$1</code>')
   // Convert #PR to links
   html = html
     .replace(
@@ -81,7 +92,11 @@ const fetchIssueCount = async () => {
     if (res.ok) {
       const data = await res.json()
       issueCount.value = data.total_count ?? 0
+    } else {
+      issueCount.value = 0
     }
+  } catch {
+    issueCount.value = 0
   } finally {
     issueLoading.value = false
   }
@@ -100,9 +115,9 @@ fetchIssueCount()
 
 <template>
   <ClientOnly>
-    <div v-if="hasChangelog" class="vp-component-changelog">
+    <div class="vp-component-changelog">
       <el-button-group class="component-meta-card">
-        <el-button :icon="Clock" @click="openDrawer">
+        <el-button v-if="hasChangelog" :icon="Clock" @click="openDrawer">
           {{ locale['title'] }}
         </el-button>
         <el-button :icon="Warning" @click="openIssues">
@@ -115,6 +130,7 @@ fetchIssueCount()
       </el-button-group>
 
       <el-drawer
+        v-if="hasChangelog"
         v-model="drawerVisible"
         class="changelog-drawer"
         :size="drawerSize"
