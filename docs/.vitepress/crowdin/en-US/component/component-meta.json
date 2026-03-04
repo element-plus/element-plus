@@ -1,6 +1,5 @@
 {
-  "title": "Changelog",
+  "changelog": "Changelog",
   "view-full-changelog": "View full changelog",
-  "no-changelog": "No changelog available",
   "open-issues": "Open issues"
 }
