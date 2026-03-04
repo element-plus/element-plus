@@ -477,7 +477,7 @@ describe('Input.vue', () => {
             v-model={textareaContent.value}
             onClear={handleTextareaClear}
             onInput={handleTextareaInput}
-          ></Input>
+          />
         </>
       ))
 
