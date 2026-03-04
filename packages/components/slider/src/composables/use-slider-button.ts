@@ -89,6 +89,10 @@ export const useSliderButton = (
       : { left: currentPosition.value }
   })
 
+  const shouldMoveToMark = computed(() => {
+    return step.value === 'mark' && markList.value.length > 0
+  })
+
   const handleMouseEnter = () => {
     initData.hovering = true
     displayTooltip()
@@ -164,7 +168,7 @@ export const useSliderButton = (
   }
 
   const onLeftKeyDown = () => {
-    if (step.value === 'mark' && markList.value.length > 0) {
+    if (shouldMoveToMark.value) {
       moveToMark(-1)
     } else if (isNumber(step.value)) {
       incrementPosition(-step.value)
@@ -172,7 +176,7 @@ export const useSliderButton = (
   }
 
   const onRightKeyDown = () => {
-    if (step.value === 'mark' && markList.value.length > 0) {
+    if (shouldMoveToMark.value) {
       moveToMark(1)
     } else if (isNumber(step.value)) {
       incrementPosition(step.value)
@@ -180,7 +184,7 @@ export const useSliderButton = (
   }
 
   const onPageDownKeyDown = () => {
-    if (step.value === 'mark' && markList.value.length > 0) {
+    if (shouldMoveToMark.value) {
       moveToMark(-4)
     } else if (isNumber(step.value)) {
       incrementPosition(-step.value * 4)
@@ -188,7 +192,7 @@ export const useSliderButton = (
   }
 
   const onPageUpKeyDown = () => {
-    if (step.value === 'mark' && markList.value.length > 0) {
+    if (shouldMoveToMark.value) {
       moveToMark(4)
     } else if (isNumber(step.value)) {
       incrementPosition(step.value * 4)
@@ -320,7 +324,7 @@ export const useSliderButton = (
 
     if (step.value === 'mark') {
       if (markList.value.length === 0) {
-        value = props.modelValue
+        value = newPosition <= 50 ? min.value : max.value
       } else {
         const closestMark = markList.value.reduce((prev, curr) => {
           return Math.abs(curr.position - newPosition) <
@@ -330,7 +334,7 @@ export const useSliderButton = (
         })
         value = closestMark.point
       }
-    } else if (isNumber(step.value)) {
+    } else {
       const fullSteps = Math.floor((max.value - min.value) / step.value)
       const fullRangePercentage =
         ((fullSteps * step.value) / (max.value - min.value)) * 100
@@ -345,8 +349,6 @@ export const useSliderButton = (
         value = max.value
       }
       value = Number.parseFloat(value.toFixed(precision.value))
-    } else {
-      value = min.value
     }
 
     if (value !== props.modelValue) {

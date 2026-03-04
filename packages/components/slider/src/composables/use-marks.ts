@@ -1,4 +1,5 @@
-import { computed } from 'vue'
+import { computed, watchEffect } from 'vue'
+import { debugWarn } from '@element-plus/utils'
 
 import type { SliderProps } from '../slider'
 import type { SliderMarkerProps } from '../marker'
@@ -9,6 +10,12 @@ export interface Mark extends SliderMarkerProps {
 }
 
 export const useMarks = (props: SliderProps) => {
+  watchEffect(() => {
+    if (props.step === 'mark' && !props.marks) {
+      debugWarn('ElSlider', 'marks prop must be provided when step is mark')
+    }
+  })
+
   return computed(() => {
     if (!props.marks) {
       return []
