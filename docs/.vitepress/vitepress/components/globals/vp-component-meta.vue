@@ -73,7 +73,7 @@ const renderDescription = (desc: string) => {
   html = html
     .replace(
       /#(\d+)/g,
-      '<a href="https://github.com/element-plus/element-plus/pull/$1" target="_blank">#$1</a>'
+      '<a href="https://github.com/element-plus/element-plus/pull/$1" target="_blank" rel="noopener noreferrer" >#$1</a>'
     )
     .replace(/([^.]$)/, '$1.')
   return html
@@ -107,7 +107,7 @@ const openDrawer = () => {
 }
 
 const openIssues = () => {
-  window.open(issuesUrl.value, '_blank')
+  window.open(issuesUrl.value, '_blank', 'noopener,noreferrer')
 }
 
 onMounted(() => {
@@ -145,6 +145,7 @@ onMounted(() => {
               type="primary"
               href="https://github.com/element-plus/element-plus/releases"
               target="_blank"
+              rel="noopener noreferrer"
             >
               {{ locale['view-full-changelog'] }}
             </el-link>
@@ -167,8 +168,8 @@ onMounted(() => {
             </div>
             <ul class="changelog-entries">
               <li
-                v-for="{ type, description, pr, author } in entries"
-                :key="pr || description"
+                v-for="({ type, description, pr, author }, idx) in entries"
+                :key="idx"
                 class="changelog-entry"
               >
                 <span class="changelog-entry-icon">
@@ -184,6 +185,7 @@ onMounted(() => {
                   :href="`https://github.com/element-plus/element-plus/pull/${pr}`"
                   underline="always"
                   target="_blank"
+                  rel="noopener noreferrer"
                 >
                   #{{ pr }}
                 </el-link>
@@ -192,6 +194,7 @@ onMounted(() => {
                   :href="`https://github.com/${author}`"
                   underline="always"
                   target="_blank"
+                  rel="noopener noreferrer"
                 >
                   @{{ author }}
                 </el-link>
