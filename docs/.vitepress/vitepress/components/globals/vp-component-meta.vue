@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { Clock, Loading, Warning } from '@element-plus/icons-vue'
 import { useWindowSize } from '@vueuse/core'
 import { useLocale } from '../../composables/locale'
