@@ -46,7 +46,7 @@
 import { computed, ref, watch } from 'vue'
 import { clamp } from '@vueuse/core'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import { debugWarn, getEventCode, isFunction, rAF } from '@element-plus/utils'
+import { NOOP, getEventCode, isFunction, rAF } from '@element-plus/utils'
 import {
   useFormDisabled,
   useFormItem,
@@ -127,7 +127,7 @@ const handleBlur = (event: FocusEvent) => {
     isFocused.value = false
     emit('blur', event)
     if (props.validateEvent) {
-      formItem?.validate?.('blur').catch((err) => debugWarn(err))
+      formItem?.validate?.('blur').catch(NOOP)
     }
   }
 }
@@ -239,7 +239,7 @@ watch(
     innerValue.value = initialValue.value
 
     if (props.validateEvent) {
-      formItem?.validate?.('change').catch((err) => debugWarn(err))
+      formItem?.validate?.('change').catch(NOOP)
     }
   }
 )
