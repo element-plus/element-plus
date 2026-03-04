@@ -110,7 +110,9 @@ const openIssues = () => {
   window.open(issuesUrl.value, '_blank')
 }
 
-fetchIssueCount()
+onMounted(() => {
+  fetchIssueCount()
+})
 </script>
 
 <template>
