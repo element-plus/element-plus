@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { Clock, Loading, Warning } from '@element-plus/icons-vue'
 import { useWindowSize } from '@vueuse/core'
+import { useIssueCount } from '../../composables/use-issue-count'
 import { useLocale } from '../../composables/locale'
 import changelogLocale from '../../../i18n/component/component-meta.json'
 import allChangelogs from 'virtual:component-changelog-data'
@@ -26,8 +27,9 @@ const TYPE_ICONS: Record<string, string> = {
 const locale = useLocale(changelogLocale)
 const drawerVisible = ref(false)
 
-const issueCount = ref<number | null>(null)
-const issueLoading = ref(false)
+const { count: issueCount, loading: issueLoading } = useIssueCount(
+  props.component
+)
 
 const hasChangelog = computed(() => changelogs.value.length > 0)
 
@@ -40,7 +42,7 @@ const issuesUrl = computed(() => {
 })
 
 const { width: windowWidth } = useWindowSize()
-const drawerSize = computed(() => (windowWidth.value < 768 ? '100%' : '60%'))
+const drawerSize = computed(() => (windowWidth.value < 768 ? '100%' : '40%'))
 
 const getTypeIcon = (type: string) => {
   return TYPE_ICONS[type] || TYPE_ICONS['refactor']
@@ -69,49 +71,9 @@ const escapeHtml = (text: string) =>
 const renderDescription = (desc: string) => {
   // Convert `code` to <code> tags
   let html = escapeHtml(desc).replace(/`([^`]+)`/g, '<code>$1</code>')
-  // Convert #PR to links
-  html = html
-    .replace(
-      /#(\d+)/g,
-      '<a href="https://github.com/element-plus/element-plus/pull/$1" target="_blank" rel="noopener noreferrer" >#$1</a>'
-    )
-    .replace(/([^.]$)/, '$1.')
+  // Ensure description ends with a period
+  html = html.replace(/([^.]$)/, '$1.')
   return html
-}
-
-const issueCountCache = new Map<string, { count: number; timestamp: number }>()
-const CACHE_TTL = 5 * 60 * 1000 // 5 minutes
-
-const fetchIssueCount = async () => {
-  const { component } = props
-
-  const cached = issueCountCache.get(component)
-  if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
-    issueCount.value = cached.count
-    return
-  }
-
-  issueLoading.value = true
-  try {
-    const q = encodeURIComponent(
-      `repo:element-plus/element-plus is:open is:issue in:title [${component}]`
-    )
-    const res = await fetch(
-      `https://api.github.com/search/issues?q=${q}&per_page=1`
-    )
-    if (res.ok) {
-      const data = await res.json()
-      const count = data.total_count ?? 0
-      issueCount.value = count
-      issueCountCache.set(component, { count, timestamp: Date.now() })
-    } else {
-      issueCount.value = 0
-    }
-  } catch {
-    issueCount.value = 0
-  } finally {
-    issueLoading.value = false
-  }
 }
 
 const openDrawer = () => {
@@ -121,10 +83,6 @@ const openDrawer = () => {
 const openIssues = () => {
   window.open(issuesUrl.value, '_blank', 'noopener,noreferrer')
 }
-
-onMounted(() => {
-  fetchIssueCount()
-})
 </script>
 
 <template>
@@ -132,13 +90,13 @@ onMounted(() => {
     <div class="vp-component-changelog">
       <el-button-group class="component-meta-card" size="small">
         <el-button v-if="hasChangelog" :icon="Clock" @click="openDrawer">
-          {{ locale['title'] }}
+          {{ locale['changelog'] }}
         </el-button>
         <el-button :icon="Warning" @click="openIssues">
           {{ locale['open-issues'] }}
           <div class="issue-count">
             <span v-if="!issueLoading">{{ issueCount ?? 0 }}</span>
-            <el-icon v-else class="is-loading"><Loading /></el-icon>
+            <el-icon v-else><Loading /></el-icon>
           </div>
         </el-button>
       </el-button-group>
@@ -148,11 +106,14 @@ onMounted(() => {
         v-model="drawerVisible"
         class="changelog-drawer"
         :size="drawerSize"
+        resizable
         append-to-body
       >
         <template #header>
           <div class="changelog-drawer-header">
-            <span class="changelog-drawer-title">{{ locale['title'] }}</span>
+            <span class="changelog-drawer-title">
+              {{ locale['changelog'] }}
+            </span>
             <el-link
               type="primary"
               href="https://github.com/element-plus/element-plus/releases"
@@ -173,7 +134,14 @@ onMounted(() => {
             size="large"
           >
             <div class="changelog-version-header">
-              <span class="changelog-version">{{ version }}</span>
+              <el-link
+                :href="`https://github.com/element-plus/element-plus/releases/tag/${version}`"
+                class="changelog-version"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {{ version }}
+              </el-link>
               <el-tag size="small" round effect="plain">
                 {{ date }}
               </el-tag>
@@ -252,6 +220,7 @@ onMounted(() => {
     align-items: center;
     gap: 8px;
     margin-bottom: 8px;
+    line-height: 1;
   }
 
   .changelog-version {
@@ -263,24 +232,23 @@ onMounted(() => {
   .changelog-entries {
     margin: 0;
     padding: 0;
-    list-style: circle;
+    list-style: none;
   }
 
   .changelog-entry {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 4px;
     margin-bottom: 6px;
     font-size: 14px;
     line-height: 1.6;
     color: var(--el-text-color-regular);
+
+    & > span,
+    & > a {
+      margin-right: 6px;
+    }
   }
 
   .changelog-entry-icon {
-    flex-shrink: 0;
     width: 20px;
-    text-align: center;
   }
 
   .changelog-entry-desc {
