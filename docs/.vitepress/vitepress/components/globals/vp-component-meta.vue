@@ -34,8 +34,13 @@ const hasChangelog = computed(() => changelogs.value.length > 0)
 const changelogs = computed<VersionChangelog[]>(
   () => allChangelogs[props.component] || []
 )
+const issueQuery = computed(
+  () =>
+    `repo:element-plus/element-plus is:open is:issue in:title [${props.component}]`
+)
+
 const issuesUrl = computed(() => {
-  const q = encodeURIComponent(`is:open is:issue in:title [${props.component}]`)
+  const q = encodeURIComponent(issueQuery.value)
   return `https://github.com/element-plus/element-plus/issues?q=${q}`
 })
 
@@ -93,9 +98,7 @@ const fetchIssueCount = async () => {
 
   issueLoading.value = true
   try {
-    const q = encodeURIComponent(
-      `repo:element-plus/element-plus is:open is:issue in:title [${component}]`
-    )
+    const q = encodeURIComponent(issueQuery.value)
     const res = await fetch(
       `https://api.github.com/search/issues?q=${q}&per_page=1`
     )
