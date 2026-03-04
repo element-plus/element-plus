@@ -226,7 +226,6 @@ const openIssues = () => {
   .changelog-version {
     font-size: 16px;
     font-weight: 600;
-    color: var(--el-text-color-primary);
   }
 
   .changelog-entries {
