@@ -5,7 +5,7 @@
     "module": "esnext",
     "baseUrl": ".",
     "sourceMap": false,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "allowJs": false,
     "strict": true,
     "noUnusedLocals": true,

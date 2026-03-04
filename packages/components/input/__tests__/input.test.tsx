@@ -477,6 +477,7 @@ describe('Input.vue', () => {
       await nextTick()
       expect(content.value).toEqual('')
       expect(handleClear).toBeCalled()
+      expect(handleClear).toBeCalledWith(expect.any(MouseEvent))
       expect(handleInput).toBeCalled()
     })
 
