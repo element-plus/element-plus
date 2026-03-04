@@ -79,8 +79,18 @@ const renderDescription = (desc: string) => {
   return html
 }
 
+const issueCountCache = new Map<string, { count: number; timestamp: number }>()
+const CACHE_TTL = 5 * 60 * 1000 // 5 minutes
+
 const fetchIssueCount = async () => {
   const { component } = props
+
+  const cached = issueCountCache.get(component)
+  if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+    issueCount.value = cached.count
+    return
+  }
+
   issueLoading.value = true
   try {
     const q = encodeURIComponent(
@@ -91,7 +101,9 @@ const fetchIssueCount = async () => {
     )
     if (res.ok) {
       const data = await res.json()
-      issueCount.value = data.total_count ?? 0
+      const count = data.total_count ?? 0
+      issueCount.value = count
+      issueCountCache.set(component, { count, timestamp: Date.now() })
     } else {
       issueCount.value = 0
     }
@@ -118,7 +130,7 @@ onMounted(() => {
 <template>
   <ClientOnly>
     <div class="vp-component-changelog">
-      <el-button-group class="component-meta-card">
+      <el-button-group class="component-meta-card" size="small">
         <el-button v-if="hasChangelog" :icon="Clock" @click="openDrawer">
           {{ locale['title'] }}
         </el-button>
