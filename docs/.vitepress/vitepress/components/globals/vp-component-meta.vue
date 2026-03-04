@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { Clock, Loading, Warning } from '@element-plus/icons-vue'
+import { useWindowSize } from '@vueuse/core'
 import { useLocale } from '../../composables/locale'
 import changelogLocale from '../../../i18n/component/component-meta.json'
 import allChangelogs from 'virtual:component-changelog-data'
-import { useWindowSize } from '@vueuse/core'
 
 import type { TimelineItemProps } from 'element-plus'
 import type { VersionChangelog } from '../../../utils/changelog-parser'
@@ -135,22 +135,22 @@ fetchIssueCount()
 
         <el-timeline class="changelog-timeline">
           <el-timeline-item
-            v-for="item in changelogs"
-            :key="item.version"
-            :type="getTimelineItemType(item.entries)"
+            v-for="{ version, date, entries } in changelogs"
+            :key="version"
+            :type="getTimelineItemType(entries)"
             :hollow="true"
             size="large"
           >
             <div class="changelog-version-header">
-              <span class="changelog-version">{{ item.version }}</span>
+              <span class="changelog-version">{{ version }}</span>
               <el-tag size="small" round effect="plain">
-                {{ item.date }}
+                {{ date }}
               </el-tag>
             </div>
             <ul class="changelog-entries">
               <li
-                v-for="({ type, description, pr, author }, idx) in item.entries"
-                :key="idx"
+                v-for="{ type, description, pr, author } in entries"
+                :key="pr || description"
                 class="changelog-entry"
               >
                 <span class="changelog-entry-icon">
