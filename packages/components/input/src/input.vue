@@ -121,7 +121,11 @@
       <textarea
         :id="inputId"
         ref="textarea"
-        :class="[nsTextarea.e('inner'), nsInput.is('focus', isFocused)]"
+        :class="[
+          nsTextarea.e('inner'),
+          nsInput.is('focus', isFocused),
+          nsTextarea.is('clearable', showClear),
+        ]"
         v-bind="attrs"
         :name="name"
         :minlength="minlength"

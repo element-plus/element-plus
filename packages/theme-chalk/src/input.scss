@@ -53,8 +53,7 @@
     position: relative;
     display: block;
     resize: vertical;
-    padding: 5px map.get($input-padding-horizontal, 'default') + 14px 5px
-      map.get($input-padding-horizontal, 'default')-$border-width;
+    padding: 5px map.get($input-padding-horizontal, 'default')-$border-width;
     line-height: 1.5;
     box-sizing: border-box;
     width: 100%;
@@ -82,6 +81,11 @@
     );
     transition: getCssVar('transition-box-shadow');
     border: none;
+
+    @include when(clearable) {
+      padding: 5px map.get($input-padding-horizontal, 'default') + 14px 5px
+        map.get($input-padding-horizontal, 'default')-$border-width;
+    }
 
     &::placeholder {
       color: getCssVarWithDefault(
