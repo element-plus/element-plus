@@ -125,8 +125,8 @@ const transformComponentMarkdown = (
     const h1Match = code.match(/^#\s+.+$/m)
     if (h1Match) {
       const h1End = code.indexOf(h1Match[0]) + h1Match[0].length
-      const changelogTag = `\n\n<VpComponentChangelog component="${componentId}" />\n`
-      code = code.slice(0, h1End) + changelogTag + code.slice(h1End)
+      const componentMetaTag = `\n\n<VpComponentMeta component="${componentId}" />\n`
+      code = code.slice(0, h1End) + componentMetaTag + code.slice(h1End)
     }
   }
 

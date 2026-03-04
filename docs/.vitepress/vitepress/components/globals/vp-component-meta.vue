@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue'
 import { Clock, Loading, Warning } from '@element-plus/icons-vue'
 import { useLocale } from '../../composables/locale'
-import changelogLocale from '../../../i18n/component/component-changelog.json'
+import changelogLocale from '../../../i18n/component/component-meta.json'
 import allChangelogs from 'virtual:component-changelog-data'
 import { useWindowSize } from '@vueuse/core'
 
