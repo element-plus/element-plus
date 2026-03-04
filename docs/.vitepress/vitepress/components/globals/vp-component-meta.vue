@@ -169,7 +169,7 @@ onMounted(() => {
             v-for="{ version, date, entries } in changelogs"
             :key="version"
             :type="getTimelineItemType(entries)"
-            :hollow="true"
+            hollow
             size="large"
           >
             <div class="changelog-version-header">
