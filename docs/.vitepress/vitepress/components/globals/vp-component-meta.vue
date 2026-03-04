@@ -1,0 +1,279 @@
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { Clock, Loading, Warning } from '@element-plus/icons-vue'
+import { useLocale } from '../../composables/locale'
+import changelogLocale from '../../../i18n/component/component-changelog.json'
+import allChangelogs from 'virtual:component-changelog-data'
+import { useWindowSize } from '@vueuse/core'
+
+import type { TimelineItemProps } from 'element-plus'
+import type { VersionChangelog } from '../../../utils/changelog-parser'
+
+const props = defineProps({
+  component: {
+    type: String,
+    required: true,
+  },
+})
+
+const TYPE_ICONS: Record<string, string> = {
+  feature: '✨',
+  bugfix: '🐛',
+  refactor: '🔨',
+  breaking: '⚠️',
+}
+
+const locale = useLocale(changelogLocale)
+const drawerVisible = ref(false)
+
+const issueCount = ref<number | null>(null)
+const issueLoading = ref(false)
+
+const hasChangelog = computed(() => changelogs.value.length > 0)
+
+const changelogs = computed<VersionChangelog[]>(
+  () => allChangelogs[props.component] || []
+)
+const issuesUrl = computed(() => {
+  const q = encodeURIComponent(`is:open is:issue in:title [${props.component}]`)
+  return `https://github.com/element-plus/element-plus/issues?q=${q}`
+})
+
+const { width: windowWidth } = useWindowSize()
+const drawerSize = computed(() => (windowWidth.value < 768 ? '100%' : '60%'))
+
+const getTypeIcon = (type: string) => {
+  return TYPE_ICONS[type] || TYPE_ICONS['refactor']
+}
+
+const getTimelineItemType = (
+  entries: VersionChangelog['entries']
+): TimelineItemProps['type'] => {
+  if (entries.some((e) => e.type === 'breaking')) return 'danger'
+  if (entries.some((e) => e.type === 'feature')) return 'success'
+  if (entries.some((e) => e.type === 'bugfix')) return 'primary'
+  return 'info'
+}
+
+const renderDescription = (desc: string) => {
+  // Convert `code` to <code> tags
+  let html = desc.replace(/`([^`]+)`/g, '<code>$1</code>')
+  // Convert #PR to links
+  html = html
+    .replace(
+      /#(\d+)/g,
+      '<a href="https://github.com/element-plus/element-plus/pull/$1" target="_blank">#$1</a>'
+    )
+    .replace(/([^.]$)/, '$1.')
+  return html
+}
+
+const fetchIssueCount = async () => {
+  const { component } = props
+  issueLoading.value = true
+  try {
+    const q = encodeURIComponent(
+      `repo:element-plus/element-plus is:open is:issue in:title [${component}]`
+    )
+    const res = await fetch(
+      `https://api.github.com/search/issues?q=${q}&per_page=1`
+    )
+    if (res.ok) {
+      const data = await res.json()
+      issueCount.value = data.total_count ?? 0
+    }
+  } finally {
+    issueLoading.value = false
+  }
+}
+
+const openDrawer = () => {
+  drawerVisible.value = true
+}
+
+const openIssues = () => {
+  window.open(issuesUrl.value, '_blank')
+}
+
+fetchIssueCount()
+</script>
+
+<template>
+  <ClientOnly>
+    <div v-if="hasChangelog" class="vp-component-changelog">
+      <el-button-group class="component-meta-card">
+        <el-button :icon="Clock" @click="openDrawer">
+          {{ locale['title'] }}
+        </el-button>
+        <el-button :icon="Warning" @click="openIssues">
+          {{ locale['open-issues'] }}
+          <div class="issue-count">
+            <span v-if="!issueLoading">{{ issueCount ?? 0 }}</span>
+            <el-icon v-else class="is-loading"><Loading /></el-icon>
+          </div>
+        </el-button>
+      </el-button-group>
+
+      <el-drawer
+        v-model="drawerVisible"
+        class="changelog-drawer"
+        :size="drawerSize"
+        append-to-body
+      >
+        <template #header>
+          <div class="changelog-drawer-header">
+            <span class="changelog-drawer-title">{{ locale['title'] }}</span>
+            <el-link
+              type="primary"
+              href="https://github.com/element-plus/element-plus/releases"
+              target="_blank"
+            >
+              {{ locale['view-full-changelog'] }}
+            </el-link>
+          </div>
+        </template>
+
+        <el-timeline class="changelog-timeline">
+          <el-timeline-item
+            v-for="item in changelogs"
+            :key="item.version"
+            :type="getTimelineItemType(item.entries)"
+            :hollow="true"
+            size="large"
+          >
+            <div class="changelog-version-header">
+              <span class="changelog-version">{{ item.version }}</span>
+              <el-tag size="small" round effect="plain">
+                {{ item.date }}
+              </el-tag>
+            </div>
+            <ul class="changelog-entries">
+              <li
+                v-for="({ type, description, pr, author }, idx) in item.entries"
+                :key="idx"
+                class="changelog-entry"
+              >
+                <span class="changelog-entry-icon">
+                  {{ getTypeIcon(type) }}
+                </span>
+                <span
+                  class="changelog-entry-desc"
+                  v-html="renderDescription(description)"
+                />
+                <el-link
+                  v-if="pr"
+                  type="primary"
+                  :href="`https://github.com/element-plus/element-plus/pull/${pr}`"
+                  underline="always"
+                  target="_blank"
+                >
+                  #{{ pr }}
+                </el-link>
+                <el-link
+                  v-if="author"
+                  :href="`https://github.com/${author}`"
+                  underline="always"
+                  target="_blank"
+                >
+                  @{{ author }}
+                </el-link>
+              </li>
+            </ul>
+          </el-timeline-item>
+        </el-timeline>
+      </el-drawer>
+    </div>
+  </ClientOnly>
+</template>
+
+<style lang="scss" scoped>
+.vp-component-changelog {
+  margin-top: 12px;
+  margin-bottom: 16px;
+
+  .component-meta-card {
+    .issue-count {
+      margin-left: 6px;
+      min-width: 14px;
+    }
+  }
+}
+
+.changelog-drawer {
+  .changelog-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding-right: 16px;
+  }
+
+  .changelog-drawer-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--el-text-color-primary);
+  }
+
+  .changelog-version-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .changelog-version {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--el-text-color-primary);
+  }
+
+  .changelog-entries {
+    margin: 0;
+    padding: 0;
+    list-style: circle;
+  }
+
+  .changelog-entry {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px;
+    margin-bottom: 6px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--el-text-color-regular);
+  }
+
+  .changelog-entry-icon {
+    flex-shrink: 0;
+    width: 20px;
+    text-align: center;
+  }
+
+  .changelog-entry-desc {
+    margin-right: 6px;
+    min-width: 0;
+    word-break: break-word;
+
+    :deep(code) {
+      padding: 2px 6px;
+      color: var(--el-color-primary);
+      background-color: var(--el-color-primary-light-9);
+      border-radius: 4px;
+    }
+
+    :deep(a) {
+      color: var(--el-color-primary);
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.changelog-timeline {
+  padding-left: 16px;
+}
+</style>

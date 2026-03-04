@@ -94,6 +94,9 @@ const transformVpScriptSetup = (code: string, append: Append) => {
 
 const GITHUB_BLOB_URL = `https://github.com/${REPO_PATH}/blob/${REPO_BRANCH}`
 const GITHUB_TREE_URL = `https://github.com/${REPO_PATH}/tree/${REPO_BRANCH}`
+
+const EXCLUDE_CHANGELOG_COMPONENTS = new Set(['overview'])
+
 const transformComponentMarkdown = (
   id: string,
   componentId: string,
@@ -116,6 +119,16 @@ const transformComponentMarkdown = (
 
   const isComponent = fs.existsSync(componentPath)
   const isHaveComponentStyle = fs.existsSync(stylePath)
+
+  // Inject changelog component after H1 title
+  if (!EXCLUDE_CHANGELOG_COMPONENTS.has(componentId)) {
+    const h1Match = code.match(/^#\s+.+$/m)
+    if (h1Match) {
+      const h1End = code.indexOf(h1Match[0]) + h1Match[0].length
+      const changelogTag = `\n\n<VpComponentChangelog component="${componentId}" />\n`
+      code = code.slice(0, h1End) + changelogTag + code.slice(h1End)
+    }
+  }
 
   const links = [[footerLocale[lang].docs, docUrl]]
 
