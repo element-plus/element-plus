@@ -68,7 +68,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, nextTick, ref, unref, watch } from 'vue'
+import { computed, inject, nextTick, ref, unref } from 'vue'
 import dayjs from 'dayjs'
 import { union } from 'lodash-unified'
 import { useLocale, useNamespace } from '@element-plus/hooks'
@@ -123,7 +123,12 @@ const endContainerKls = computed(() => [
 
 const startTime = computed(() => props.parsedValue![0])
 const endTime = computed(() => props.parsedValue![1])
-const oldValue = useOldValue(props)
+const oldValue = useOldValue(props, {
+  saveOnBlur: () => pickerBase.props.saveOnBlur,
+  modelValue: () => pickerBase.props.modelValue,
+  valueOnClear: () =>
+    pickerBase?.emptyValues ? pickerBase.emptyValues.valueOnClear.value : null,
+})
 const handleCancel = () => {
   const old = oldValue.value
   emit('pick', old, false)
@@ -131,16 +136,6 @@ const handleCancel = () => {
     oldValue.value = old
   })
 }
-
-const valueOnClear = pickerBase.emptyValues?.valueOnClear
-watch(
-  () => pickerBase.props.modelValue,
-  (value) => {
-    if (!valueOnClear) return
-    if (value !== valueOnClear.value) return
-    oldValue.value = valueOnClear.value
-  }
-)
 
 const showSeconds = computed(() => {
   return props.format.includes('ss')

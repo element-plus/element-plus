@@ -88,15 +88,28 @@ export const buildAvailableTimeSlotGetter = (
   }
 }
 
-export const useOldValue = (props: {
-  parsedValue?: string | Dayjs | Dayjs[]
-  visible: boolean
-}) => {
+export const useOldValue = (
+  props: {
+    parsedValue?: string | Dayjs | Dayjs[]
+    visible: boolean
+  },
+  options: {
+    saveOnBlur: () => boolean
+    modelValue: () => unknown
+    valueOnClear: () => unknown
+  }
+) => {
   const oldValue = ref(props.parsedValue)
 
   watch(
     () => props.visible,
     (val) => {
+      const modelValue = options.modelValue()
+      const valueOnClear = options.valueOnClear()
+      if (val && modelValue === valueOnClear) {
+        oldValue.value = valueOnClear as typeof oldValue.value
+        return
+      }
       if (!val) {
         oldValue.value = props.parsedValue
       }
