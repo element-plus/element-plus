@@ -230,7 +230,7 @@ const adjustSpinner = (type: TimeUnit, value: number) => {
   if (scrollbar && scrollbar.$el) {
     if (!saveOnBlur) {
       ignoreScroll[type] = true
-      requestAnimationFrame(() => {
+      rAF(() => {
         ignoreScroll[type] = false
       })
     }
