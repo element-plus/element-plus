@@ -23,7 +23,7 @@ const input = ref('')
 const textareaInput = ref('')
 </script>
 
-<style>
+<style scoped>
 .input-group {
   display: flex;
   align-items: center;
