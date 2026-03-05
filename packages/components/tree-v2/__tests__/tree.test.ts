@@ -1259,29 +1259,23 @@ describe('Virtual Tree', () => {
       await nextTick()
 
       // Before filter: 1-1-1 checked, 1-1 and 1 are indeterminate
-      expect(treeRef.getCheckedKeys().toString()).toBe(['1-1-1'].toString())
-      expect(treeRef.getHalfCheckedKeys().toString()).toBe(
-        ['1-1', '1'].toString()
-      )
+      expect(treeRef.getCheckedKeys()).toEqual(['1-1-1'])
+      expect(treeRef.getHalfCheckedKeys()).toEqual(['1-1', '1'])
 
       // After filter: 1-1-2 hidden → 1-1's only visible child is checked → 1-1 fully checked
       // 1-2 subtree hidden → 1's only visible child (1-1) is fully checked → 1 fully checked
       treeRef.filter('1-1-1')
       await nextTick()
 
-      expect(treeRef.getCheckedKeys().toString()).toBe(
-        ['1-1-1', '1-1', '1'].toString()
-      )
+      expect(treeRef.getCheckedKeys()).toEqual(['1-1-1', '1-1', '1'])
       expect(treeRef.getHalfCheckedKeys()).toHaveLength(0)
 
       // Clear filter: all nodes visible again, states should revert to original
       treeRef.filter('')
       await nextTick()
 
-      expect(treeRef.getCheckedKeys().toString()).toBe(['1-1-1'].toString())
-      expect(treeRef.getHalfCheckedKeys().toString()).toBe(
-        ['1-1', '1'].toString()
-      )
+      expect(treeRef.getCheckedKeys()).toEqual(['1-1-1'])
+      expect(treeRef.getHalfCheckedKeys()).toEqual(['1-1', '1'])
     })
 
     test('clicking checkbox only affects visible nodes: event payload and getCheckedKeys exclude hidden nodes', async () => {
