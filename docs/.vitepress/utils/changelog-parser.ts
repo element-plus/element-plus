@@ -18,7 +18,7 @@ export interface VersionChangelog {
 export type ComponentChangelogs = Record<string, VersionChangelog[]>
 
 const COMPONENT_ENTRY_RE =
-  /^-\s+(?:Components?\s*)?\[([^\]]+)\]\s+(.+?)(?:\s*\(#(\d+)(?:\s+by\s+@(\S+))?\))?$/
+  /^-\s+(?:[^[]*?\s?)?\[([^\]]+)\]:?\s+(.+?)(?:\s*\(#(\d+)(?:\s+by\s+@(\S+))?\))?$/
 
 const TYPE_MAP: Record<string, ChangelogEntry['type']> = {
   Features: 'feature',
@@ -27,45 +27,119 @@ const TYPE_MAP: Record<string, ChangelogEntry['type']> = {
   'Breaking Changes': 'breaking',
 }
 
+// Alias map for sub-components or shorthand references
+const ALIAS_MAP: Record<string, string> = {
+  // Sub-components → parent
+  textarea: 'input',
+  'breadcrumb-item': 'breadcrumb',
+  'button-group': 'button',
+  'carousel-item': 'carousel',
+  'checkbox-button': 'checkbox',
+  'checkbox-group': 'checkbox',
+  'collapse-item': 'collapse',
+  'collapse-transition': 'collapse',
+  'descriptions-item': 'descriptions',
+  'dropdown-item': 'dropdown',
+  'dropdown-menu': 'dropdown',
+  'form-item': 'form',
+  'form-label-wrap': 'form',
+  'label-wrap': 'form',
+  'menu-item': 'menu',
+  'menu-item-group': 'menu',
+  'sub-menu': 'menu',
+  option: 'select',
+  'option-group': 'select',
+  'radio-button': 'radio',
+  'radio-group': 'radio',
+  'skeleton-item': 'skeleton',
+  'splitter-panel': 'splitter',
+  step: 'steps',
+  'tab-pane': 'tabs',
+  'tab-bar': 'tabs',
+  tab: 'tabs',
+  bar: 'tabs',
+  'table-column': 'table',
+  'table-body': 'table',
+  'table-header': 'table',
+  'table-footer': 'table',
+  'timeline-item': 'timeline',
+  'tour-step': 'tour',
+  'anchor-link': 'anchor',
+  'avatar-group': 'avatar',
+
+  // Container sub-components
+  aside: 'container',
+  footer: 'container',
+  header: 'container',
+  main: 'container',
+
+  // Layout
+  col: 'layout',
+  row: 'layout',
+
+  // Standalone → canonical parent
+  'virtual-table': 'table-v2',
+  'image-viewer': 'image',
+  'cascader-panel': 'cascader',
+  'check-tag': 'tag',
+  'upload-dragger': 'upload',
+
+  // Internal sub-components
+  'popper-trigger': 'popper',
+  'popper-container': 'popper',
+  'tree-node-content': 'tree',
+
+  // Changelog typos & alternate names
+  description: 'descriptions',
+  'description-item': 'descriptions',
+  'descriptions-cell': 'descriptions',
+  'data-picker': 'date-picker',
+  'date-time-picker': 'datetime-picker',
+  timepicker: 'time-picker',
+  calender: 'calendar',
+  'number-input': 'input-number',
+  checkout: 'checkbox',
+  opover: 'popover',
+  'pop-confirm': 'popconfirm',
+}
+
 function normalizeComponentNames(raw: string): string[] {
   const parts = Array.from(
     new Set(
       raw
-        .split(/[/,]/)
-        .map((s) => s.trim().toLowerCase())
+        .split(/[/,&]/)
+        .map((s) => s.trim())
         .filter(Boolean)
     )
   )
 
   const result: string[] = []
 
-  // Alias map for sub-components or shorthand references
-  const aliasMap: Record<string, string> = {
-    textarea: 'input',
-    'collapse-item': 'collapse',
-    'menu-item': 'menu',
-    'dropdown-item': 'dropdown',
-    'tab-pane': 'tabs',
-    'tab-bar': 'tabs',
-    'timeline-item': 'timeline',
-    'form-item': 'form',
-    'virtual-table': 'table-v2',
-  }
-
   for (let i = 0; i < parts.length; i++) {
     let name = parts[i]
 
-    // Handle shorthand like [select/v2] → ['select', 'select-v2']
-    if (i > 0 && !name.includes('-') && name.length <= 3) {
-      const combined = `${parts[0]}-${name}`
-      result.push(parts[0])
+    // Strip 'el-' / 'El' prefix
+    name = name.replace(/^[Ee]l-?/, '')
+
+    // Convert camelCase / PascalCase → kebab-case:
+    //   timelineItem → timeline-item, DatePickerPanel → date-picker-panel
+    name = name
+      .replace(/([a-z])([A-Z])/g, '$1-$2')
+      .replace(/([A-Z]+)([A-Z][a-z])/g, '$1-$2')
+      .toLowerCase()
+
+    // Handle version shorthand like [select/v2] → ['select', 'select-v2']
+    if (i > 0 && /^v\d+$/.test(name)) {
+      const base = normalizeComponentNames(parts[0])[0]
+      const combined = `${base}-${name}`
+      result.push(base)
       result.push(combined)
       continue
     }
 
     // Apply alias mapping
-    if (aliasMap[name]) {
-      name = aliasMap[name]
+    if (ALIAS_MAP[name]) {
+      name = ALIAS_MAP[name]
     }
 
     result.push(name)
@@ -75,7 +149,7 @@ function normalizeComponentNames(raw: string): string[] {
 }
 
 export function parseChangelog(content: string): ComponentChangelogs {
-  const lines = content.split('\n')
+  const lines = content.replace(/\r\n?/g, '\n').split('\n')
   const componentMap: ComponentChangelogs = {}
 
   let currentVersion = ''
