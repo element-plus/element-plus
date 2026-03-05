@@ -108,7 +108,7 @@ popover/directive-usage
 
 | Name      | Description                                                                     | Type                          |
 | --------- | ------------------------------------------------------------------------------- | ----------------------------- |
-| default   | content of popover, version ^(2.13.3) and later can receive the hide parameter. | ^[object]`{hide: () => void}` |
+| default   | content of popover, version ^(2.13.4) and later can receive the hide parameter. | ^[object]`{hide: () => void}` |
 | reference | HTML element that triggers popover, only a single root element is accepted      | -                             |
 
 ### Events
