@@ -86,7 +86,7 @@ import ElScrollbar from '@element-plus/components/scrollbar'
 import ElIcon from '@element-plus/components/icon'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
-import { getStyle, isNumber } from '@element-plus/utils'
+import { getStyle, isNumber, rAF } from '@element-plus/utils'
 import { CHANGE_EVENT } from '@element-plus/constants'
 import {
   DEFAULT_FORMATS_TIME,
