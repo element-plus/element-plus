@@ -1305,13 +1305,7 @@ describe('Virtual Tree', () => {
 
       expect(onNodeCheck).toHaveBeenCalledTimes(1)
       const [, checkInfo] = onNodeCheck.mock.calls[0]
-      expect(checkInfo.checkedKeys).toContain('1')
-      expect(checkInfo.checkedKeys).toContain('1-1')
-      expect(checkInfo.checkedKeys).toContain('1-1-1')
-      expect(checkInfo.checkedKeys).not.toContain('1-1-2')
-      expect(checkInfo.checkedKeys).not.toContain('1-2')
-      expect(checkInfo.checkedKeys).not.toContain('1-2-1')
-      expect(checkInfo.checkedKeys).not.toContain('2')
+      expect(checkInfo.checkedKeys).toEqual(['1', '1-1', '1-1-1'])
 
       const checkedKeys = treeRef.getCheckedKeys()
       expect(checkedKeys).toContain('1')
