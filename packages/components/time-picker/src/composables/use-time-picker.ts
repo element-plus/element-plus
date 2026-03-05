@@ -95,8 +95,8 @@ export const useOldValue = (
     visible: boolean
   },
   options: {
-    modelValue: MaybeRefOrGetter<any>
-    valueOnClear: MaybeRefOrGetter<any>
+    modelValue: MaybeRefOrGetter<unknown>
+    valueOnClear: MaybeRefOrGetter<unknown>
   }
 ) => {
   const oldValue = ref(props.parsedValue)
