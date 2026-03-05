@@ -42,7 +42,7 @@ const issuesUrl = computed(() => {
 })
 
 const { width: windowWidth } = useWindowSize()
-const drawerSize = computed(() => (windowWidth.value < 768 ? '100%' : '40%'))
+const drawerSize = computed(() => (windowWidth.value < 768 ? '100%' : '700px'))
 
 const getTypeIcon = (type: string) => {
   return TYPE_ICONS[type] || TYPE_ICONS['refactor']
@@ -87,22 +87,21 @@ const openIssues = () => {
 
 <template>
   <ClientOnly>
-    <div class="vp-component-changelog">
+    <div v-if="hasChangelog" class="vp-component-changelog">
       <el-button-group class="component-meta-card" size="small">
-        <el-button v-if="hasChangelog" :icon="Clock" @click="openDrawer">
+        <el-button :icon="Clock" @click="openDrawer">
           {{ locale['changelog'] }}
         </el-button>
         <el-button :icon="Warning" @click="openIssues">
           {{ locale['open-issues'] }}
           <div class="issue-count">
             <span v-if="!issueLoading">{{ issueCount ?? 0 }}</span>
-            <el-icon v-else><Loading /></el-icon>
+            <el-icon v-else class="is-loading"><Loading /></el-icon>
           </div>
         </el-button>
       </el-button-group>
 
       <el-drawer
-        v-if="hasChangelog"
         v-model="drawerVisible"
         class="changelog-drawer"
         :size="drawerSize"
