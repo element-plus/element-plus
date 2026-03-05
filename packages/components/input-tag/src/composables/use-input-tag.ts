@@ -67,14 +67,34 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
   }
 
   const getDelimitedTags = (input: string) => {
-    const tags = input
-      .split(props.delimiter)
-      .filter((val) => val && val !== input)
+    const parts = input.split(props.delimiter!)
+    const tags =
+      parts.length > 1 ? parts.map((val) => val.trim()).filter(Boolean) : []
     if (props.max) {
       const maxInsert = props.max - (props.modelValue?.length ?? 0)
       tags.splice(maxInsert)
     }
     return tags.length === 1 ? tags[0] : tags
+  }
+
+  const handlePaste = (event: ClipboardEvent) => {
+    const pasted = event.clipboardData?.getData('text')
+    if (props.readonly || inputLimit.value || !props.delimiter || !pasted) {
+      return
+    }
+    const {
+      selectionStart = 0,
+      selectionEnd = 0,
+      value,
+    } = event.target as HTMLInputElement
+    const nextValue =
+      value.slice(0, selectionStart!) + pasted + value.slice(selectionEnd!)
+    const tags = getDelimitedTags(nextValue)
+    if (tags.length) {
+      addTagsEmit(tags)
+      emit(INPUT_EVENT, nextValue)
+      event.preventDefault()
+    }
   }
 
   const handleInput = (event: Event) => {
@@ -235,6 +255,7 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
     showTagList,
     collapseTagList,
     handleDragged,
+    handlePaste,
     handleInput,
     handleKeydown,
     handleKeyup,

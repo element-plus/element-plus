@@ -1,8 +1,34 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 
-import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
 import type { PosInfo } from './types'
 
+export interface MaskProps {
+  /**
+   * @description mask's zIndex
+   */
+  zIndex?: number
+  /**
+   * @description whether to show the mask
+   */
+  visible?: boolean
+  /**
+   * @description mask's fill
+   */
+  fill?: string
+  /***
+   * @description mask's transparent space position
+   */
+  pos?: PosInfo | null
+  /**
+   * @description whether the target element can be clickable, when using mask
+   */
+  targetAreaClickable?: boolean
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `MaskProps` instead.
+ */
 export const maskProps = buildProps({
   /**
    * @description mask's zIndex
@@ -37,5 +63,7 @@ export const maskProps = buildProps({
   },
 })
 
-export type MaskProps = ExtractPropTypes<typeof maskProps>
+/**
+ * @deprecated Removed after 3.0.0, Use `MaskProps` instead.
+ */
 export type MaskPropsPublic = ExtractPublicPropTypes<typeof maskProps>

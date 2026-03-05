@@ -1,9 +1,32 @@
 import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 import { ArrowRight } from '@element-plus/icons-vue'
 
-import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
+import type { IconPropType } from '@element-plus/utils'
 import type { CollapseActiveName } from './collapse'
 
+export interface CollapseItemProps {
+  /**
+   * @description title of the panel
+   */
+  title?: string
+  /**
+   * @description unique identification of the panel
+   */
+  name?: CollapseActiveName
+  /**
+   * @description icon of the collapse item
+   */
+  icon?: IconPropType
+  /**
+   * @description disable the collapse item
+   */
+  disabled?: boolean
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `CollapseItemProps` instead.
+ */
 export const collapseItemProps = buildProps({
   /**
    * @description title of the panel
@@ -31,7 +54,10 @@ export const collapseItemProps = buildProps({
    */
   disabled: Boolean,
 } as const)
-export type CollapseItemProps = ExtractPropTypes<typeof collapseItemProps>
+
+/**
+ * @deprecated Removed after 3.0.0, Use `CollapseItemProps` instead.
+ */
 export type CollapseItemPropsPublic = ExtractPublicPropTypes<
   typeof collapseItemProps
 >

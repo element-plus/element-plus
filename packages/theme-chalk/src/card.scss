@@ -35,7 +35,7 @@
   }
 
   @include e(body) {
-    flex: 1;
+    flex-grow: 1; // #23538
     overflow: auto;
     padding: getCssVar('card', 'padding');
   }

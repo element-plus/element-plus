@@ -907,6 +907,9 @@ describe('table column', () => {
           refreshData() {
             this.testData = getTestData()
           },
+          expandable(row) {
+            return row.id % 2 === 0
+          },
         },
       })
     }
@@ -915,6 +918,20 @@ describe('table column', () => {
       const wrapper = createInstance()
       await doubleWait()
       expect(wrapper.findAll('td.el-table__expand-column').length).toEqual(5)
+      wrapper.unmount()
+    })
+
+    it('should respect row-expandable prop', async () => {
+      const wrapper = createInstance(
+        ':row-expandable="expandable" default-expand-all'
+      )
+      await doubleWait()
+      expect(
+        wrapper.findAll('.el-table__expand-icon--expanded').length
+      ).toEqual(2)
+      expect(
+        wrapper.findAll('.el-table__expand-icon.is-disabled').length
+      ).toEqual(3)
       wrapper.unmount()
     })
 

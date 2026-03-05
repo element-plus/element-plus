@@ -1,6 +1,24 @@
 import { pick } from 'lodash-unified'
 import { buildProps } from '@element-plus/utils'
 
+export interface AriaProps {
+  /**
+   * @description native `aria-label` attribute
+   */
+  ariaLabel?: string
+  /**
+   * @description native `aria-orientation` attribute
+   */
+  ariaOrientation?: 'horizontal' | 'vertical' | 'undefined'
+  /**
+   * @description native `aria-controls` attribute
+   */
+  ariaControls?: string
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `AriaProps` instead.
+ */
 export const ariaProps = buildProps({
   /**
    * @description native `aria-label` attribute

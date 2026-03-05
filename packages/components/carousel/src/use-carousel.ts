@@ -25,7 +25,7 @@ import type { CarouselEmits, CarouselProps } from './carousel'
 const THROTTLE_TIME = 300
 
 export const useCarousel = (
-  props: CarouselProps,
+  props: Required<CarouselProps>,
   emit: SetupContext<CarouselEmits>['emit'],
   componentName: string
 ) => {
@@ -214,7 +214,7 @@ export const useCarousel = (
 
   function resetTimer() {
     pauseTimer()
-    if (!props.pauseOnHover) startTimer()
+    if (!props.pauseOnHover || !hover.value) startTimer()
   }
 
   function setContainerHeight(height: number) {

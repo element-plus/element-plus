@@ -248,7 +248,10 @@
               v-if="unlinkPanels"
               type="button"
               :disabled="!enableYearArrow || dateRangeDisabled"
-              :class="ppNs.e('icon-btn')"
+              :class="[
+                ppNs.e('icon-btn'),
+                ppNs.is('disabled', !enableYearArrow || dateRangeDisabled),
+              ]"
               :aria-label="t(`el.datepicker.prevYear`)"
               class="d-arrow-left"
               @click="rightPrevYear"
@@ -263,7 +266,10 @@
               v-if="unlinkPanels && rightCurrentView === 'date'"
               type="button"
               :disabled="!enableMonthArrow || dateRangeDisabled"
-              :class="ppNs.e('icon-btn')"
+              :class="[
+                ppNs.e('icon-btn'),
+                ppNs.is('disabled', !enableMonthArrow || dateRangeDisabled),
+              ]"
               :aria-label="t(`el.datepicker.prevMonth`)"
               class="arrow-left"
               @click="rightPrevMonth"

@@ -80,7 +80,7 @@
     "vue": "^3.3.0"
   },
   "dependencies": {
-    "@ctrl/tinycolor": "^3.4.1",
+    "@ctrl/tinycolor": "^4.2.0",
     "@element-plus/icons-vue": "^2.3.2",
     "@floating-ui/dom": "^1.0.1",
     "@popperjs/core": "npm:@sxzz/popperjs-es@^2.11.7",
@@ -89,8 +89,8 @@
     "@vueuse/core": "catalog:",
     "async-validator": "^4.2.5",
     "dayjs": "^1.11.19",
-    "lodash": "^4.17.21",
-    "lodash-es": "^4.17.21",
+    "lodash": "^4.17.23",
+    "lodash-es": "^4.17.23",
     "lodash-unified": "^1.0.3",
     "memoize-one": "^6.0.0",
     "normalize-wheel-es": "^1.2.0"

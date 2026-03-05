@@ -21,6 +21,12 @@ timeline/basic
 
 Use `mode` to control the relative position of timeline and content.
 
+:::tip
+
+After ^(2.13.1), `el-timeline` explicitly sets padding styles. If you have overridden padding styles of `ul` tag in your project, please check to ensure the layout is correct.
+
+:::
+
 :::demo
 
 timeline/mode
@@ -93,7 +99,7 @@ timeline/reverse
 | center         | whether vertically centered | ^[boolean]                                                         | false   |
 | placement      | position of timestamp       | ^[enum]`'top' \| 'bottom'`                                         | bottom  |
 | type           | node type                   | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | ''      |
-| color          | background color of node    | ^[enum]`'hsl' \| 'hsv' \| 'hex' \| 'rgb'`                          | ''      |
+| color          | background color of node    | ^[string]                                                          | ''      |
 | size           | node size                   | ^[enum]`'normal' \| 'large'`                                       | normal  |
 | icon           | icon component              | ^[string] / ^[Component]                                           | —       |
 | hollow         | icon is hollow              | ^[boolean]                                                         | false   |

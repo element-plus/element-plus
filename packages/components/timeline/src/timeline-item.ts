@@ -1,8 +1,51 @@
 import { buildProps, iconPropType } from '@element-plus/utils'
 
-import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
+import type { IconPropType } from '@element-plus/utils'
 import type TimelineItem from './timeline-item.vue'
 
+export interface TimelineItemProps {
+  /**
+   * @description timestamp content
+   */
+  timestamp?: string
+  /**
+   * @description whether to show timestamp
+   */
+  hideTimestamp?: boolean
+  /**
+   * @description whether vertically centered
+   */
+  center?: boolean
+  /**
+   * @description position of timestamp
+   */
+  placement?: 'top' | 'bottom'
+  /**
+   * @description node type
+   */
+  type?: 'primary' | 'success' | 'warning' | 'danger' | 'info' | ''
+  /**
+   * @description background color of node
+   */
+  color?: string
+  /**
+   * @description node size
+   */
+  size?: 'normal' | 'large'
+  /**
+   * @description icon component
+   */
+  icon?: IconPropType
+  /**
+   * @description icon is hollow
+   */
+  hollow?: boolean
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `TimelineItemProps` instead.
+ */
 export const timelineItemProps = buildProps({
   /**
    * @description timestamp content
@@ -61,7 +104,10 @@ export const timelineItemProps = buildProps({
    */
   hollow: Boolean,
 } as const)
-export type TimelineItemProps = ExtractPropTypes<typeof timelineItemProps>
+
+/**
+ * @deprecated Removed after 3.0.0, Use `TimelineItemProps` instead.
+ */
 export type TimelineItemPropsPublic = ExtractPublicPropTypes<
   typeof timelineItemProps
 >

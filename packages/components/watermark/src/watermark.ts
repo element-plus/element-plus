@@ -1,12 +1,12 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 
-import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
 import type Watermark from './watermark.vue'
 
 export interface WatermarkFontType {
   color?: string
   fontSize?: number | string
-  fontWeight?: 'normal' | 'light' | 'weight' | number
+  fontWeight?: 'normal' | 'bold' | 'lighter' | 'bolder' | number
   fontStyle?: 'none' | 'normal' | 'italic' | 'oblique'
   fontFamily?: string
   fontGap?: number
@@ -20,6 +20,48 @@ export interface WatermarkFontType {
     | 'bottom'
 }
 
+export interface WatermarkProps {
+  /**
+   * @description The z-index of the appended watermark element
+   */
+  zIndex?: number
+  /**
+   * @description The rotation angle of the watermark
+   */
+  rotate?: number
+  /**
+   * @description The width of the watermark
+   */
+  width?: number
+  /**
+   * @description The height of the watermark
+   */
+  height?: number
+  /**
+   * @description Image source, it is recommended to export 2x or 3x image, high priority (support base64 format)
+   */
+  image?: string
+  /**
+   * @description Watermark text content
+   */
+  content?: string | string[]
+  /**
+   * @description Text style
+   */
+  font?: WatermarkFontType
+  /**
+   * @description The spacing between watermarks
+   */
+  gap?: [number, number]
+  /**
+   * @description The offset of the watermark from the upper left corner of the container. The default is gap/2
+   */
+  offset?: [number, number]
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `WatermarkProps` instead.
+ */
 export const watermarkProps = buildProps({
   /**
    * @description The z-index of the appended watermark element
@@ -75,6 +117,8 @@ export const watermarkProps = buildProps({
   },
 } as const)
 
-export type WatermarkProps = ExtractPropTypes<typeof watermarkProps>
+/**
+ * @deprecated Removed after 3.0.0, Use `WatermarkProps` instead.
+ */
 export type WatermarkPropsPublic = ExtractPublicPropTypes<typeof watermarkProps>
 export type WatermarkInstance = InstanceType<typeof Watermark> & unknown

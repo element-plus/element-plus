@@ -34,22 +34,24 @@ import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useId, useNamespace } from '@element-plus/hooks'
 import { debugWarn } from '@element-plus/utils'
 import {
+  type RadioGroupProps,
   radioDefaultProps,
   radioGroupEmits,
-  radioGroupProps,
+  radioGroupPropsDefaults,
 } from './radio-group'
 import { radioGroupKey } from './constants'
 import { isEqual, omit } from 'lodash-unified'
 import ElRadio from './radio.vue'
 import ElRadioButton from './radio-button.vue'
 
-import type { RadioGroupProps } from './radio-group'
-
 defineOptions({
   name: 'ElRadioGroup',
 })
 
-const props = defineProps(radioGroupProps)
+const props = withDefaults(
+  defineProps<RadioGroupProps>(),
+  radioGroupPropsDefaults
+)
 const emit = defineEmits(radioGroupEmits)
 
 const ns = useNamespace('radio')

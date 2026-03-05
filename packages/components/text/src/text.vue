@@ -14,13 +14,18 @@ import { computed, onMounted, onUpdated, ref, useAttrs } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { useFormSize } from '@element-plus/components/form'
 import { isUndefined } from '@element-plus/utils'
-import { textProps } from './text'
+
+import type { TextProps } from './text'
 
 defineOptions({
   name: 'ElText',
 })
 
-const props = defineProps(textProps)
+const props = withDefaults(defineProps<TextProps>(), {
+  type: '',
+  size: '',
+  tag: 'span',
+})
 const textRef = ref<HTMLElement>()
 
 const textSize = useFormSize()

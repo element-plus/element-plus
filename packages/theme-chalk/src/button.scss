@@ -149,6 +149,23 @@ $button-icon-span-gap: map.merge(
   @include when(round) {
     border-radius: getCssVar('border-radius', 'round');
   }
+
+  @include when(dashed) {
+    border-style: dashed;
+    @include css-var-from-global(
+      ('button', 'hover', 'text-color'),
+      ('color', 'primary')
+    );
+    @include css-var-from-global(
+      ('button', 'hover', 'bg-color'),
+      ('fill-color', 'blank')
+    );
+    @include css-var-from-global(
+      ('button', 'hover', 'border-color'),
+      ('color', 'primary')
+    );
+  }
+
   @include when(circle) {
     width: map.get($input-height, 'default');
     border-radius: 50%;

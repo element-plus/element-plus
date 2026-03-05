@@ -121,7 +121,7 @@ input/length-limiting
 | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ----------- |
 | type                          | type of input, see more in [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types)               | ^[string]`'text' \| 'textarea' \| 'number' \| 'password' \| 'email' \| 'search' \| 'tel' \|  'url'` | text        |
 | model-value / v-model         | binding value                                                                                                                          | ^[string] / ^[number]                                                                               | —           |
-| model-modifiers ^(2.11.5)     | v-model modifiers, reference [Vue modifiers](https://vuejs.org/guide/essentials/forms.html#modifiers)                                  | ^[object]`{ lazy?: boolean, number?: boolean, trim?: boolean }`                                     | —           |
+| model-modifiers ^(2.11.5)     | v-model modifiers, reference [Vue modifiers](https://vuejs.org/guide/essentials/forms.html#modifiers)                                  | ^[object]`{ lazy?: true, number?: true, trim?: true }`                                              | —           |
 | maxlength                     | same as `maxlength` in native input                                                                                                    | ^[string] / ^[number]                                                                               | —           |
 | minlength                     | same as `minlength` in native input                                                                                                    | ^[string] / ^[number]                                                                               | —           |
 | show-word-limit               | whether show word count, only works when `type` is 'text' or 'textarea'                                                                | ^[boolean]                                                                                          | false       |
@@ -156,19 +156,19 @@ input/length-limiting
 
 ### Events
 
-| Name              | Description                                                                                           | Type                                                        |
-| ----------------- | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
-| blur              | triggers when Input blurs                                                                             | ^[Function]`(event: FocusEvent) => void`                    |
-| focus             | triggers when Input focuses                                                                           | ^[Function]`(event: FocusEvent) => void`                    |
-| change            | triggers when the input box loses focus or the user presses Enter, only if the modelValue has changed | ^[Function]`(value: string \| number, evt?: Event) => void` |
-| input             | triggers when the Input value change                                                                  | ^[Function]`(value: string \| number) => void`              |
-| clear             | triggers when the Input is cleared by clicking the clear button                                       | ^[Function]`() => void`                                     |
-| keydown           | triggers when a key is pressed down                                                                   | ^[Function]`(event: KeyboardEvent \| Event) => void`        |
-| mouseleave        | triggers when the mouse leaves the Input element                                                      | ^[Function]`(event: MouseEvent) => void`                    |
-| mouseenter        | triggers when the mouse enters the Input element                                                      | ^[Function]`(event: MouseEvent) => void`                    |
-| compositionstart  | triggers when the composition starts                                                                  | ^[Function]`(event: CompositionEvent) => void`              |
-| compositionupdate | triggers when the composition is updated                                                              | ^[Function]`(event: CompositionEvent) => void`              |
-| compositionend    | triggers when the composition ends                                                                    | ^[Function]`(event: CompositionEvent) => void`              |
+| Name              | Description                                                                                           | Type                                                                                              |
+| ----------------- | ----------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| blur              | triggers when Input blurs                                                                             | ^[Function]`(event: FocusEvent) => void`                                                          |
+| focus             | triggers when Input focuses                                                                           | ^[Function]`(event: FocusEvent) => void`                                                          |
+| change            | triggers when the input box loses focus or the user presses Enter, only if the modelValue has changed | ^[Function]`(value: string \| number, evt?: Event) => void`                                       |
+| input             | triggers when the Input value change                                                                  | ^[Function]`(value: string \| number) => void`                                                    |
+| clear             | triggers when the Input is cleared by clicking the clear button                                       | ^[Function]`(evt?: MouseEvent) => void (After version 2.13.4, the evt parameter can be received)` |
+| keydown           | triggers when a key is pressed down                                                                   | ^[Function]`(event: KeyboardEvent \| Event) => void`                                              |
+| mouseleave        | triggers when the mouse leaves the Input element                                                      | ^[Function]`(event: MouseEvent) => void`                                                          |
+| mouseenter        | triggers when the mouse enters the Input element                                                      | ^[Function]`(event: MouseEvent) => void`                                                          |
+| compositionstart  | triggers when the composition starts                                                                  | ^[Function]`(event: CompositionEvent) => void`                                                    |
+| compositionupdate | triggers when the composition is updated                                                              | ^[Function]`(event: CompositionEvent) => void`                                                    |
+| compositionend    | triggers when the composition ends                                                                    | ^[Function]`(event: CompositionEvent) => void`                                                    |
 
 ### Slots
 

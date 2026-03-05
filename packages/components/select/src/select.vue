@@ -95,13 +95,26 @@
                 v-if="collapseTags && states.selected.length > maxCollapseTags"
                 ref="tagTooltipRef"
                 :disabled="dropdownMenuVisible || !collapseTagsTooltip"
-                :fallback-placements="['bottom', 'top', 'right', 'left']"
-                :effect="effect"
-                placement="bottom"
-                :popper-class="popperClass"
-                :popper-style="popperStyle"
-                :teleported="teleported"
-                :popper-options="popperOptions"
+                :fallback-placements="
+                  tagTooltip?.fallbackPlacements ?? [
+                    'bottom',
+                    'top',
+                    'right',
+                    'left',
+                  ]
+                "
+                :effect="tagTooltip?.effect ?? effect"
+                :placement="tagTooltip?.placement ?? 'bottom'"
+                :popper-class="tagTooltip?.popperClass ?? popperClass"
+                :popper-style="tagTooltip?.popperStyle ?? popperStyle"
+                :teleported="tagTooltip?.teleported ?? teleported"
+                :append-to="tagTooltip?.appendTo ?? appendTo"
+                :popper-options="tagTooltip?.popperOptions ?? popperOptions"
+                :transition="tagTooltip?.transition"
+                :show-after="tagTooltip?.showAfter"
+                :hide-after="tagTooltip?.hideAfter"
+                :auto-close="tagTooltip?.autoClose"
+                :offset="tagTooltip?.offset"
               >
                 <template #default>
                   <div
@@ -158,13 +171,18 @@
               :class="[
                 nsSelect.e('selected-item'),
                 nsSelect.e('input-wrapper'),
-                nsSelect.is('hidden', !filterable || selectDisabled),
+                nsSelect.is(
+                  'hidden',
+                  !filterable ||
+                    selectDisabled ||
+                    (!states.inputValue && !isFocused)
+                ),
               ]"
             >
               <input
                 :id="inputId"
                 ref="inputRef"
-                v-model="states.inputValue"
+                :value="states.inputValue"
                 type="text"
                 :name="name"
                 :class="[nsSelect.e('input'), nsSelect.is(selectSize)]"
@@ -186,6 +204,7 @@
                 @compositionupdate="handleCompositionUpdate"
                 @compositionend="handleCompositionEnd"
                 @input="onInput"
+                @change.stop
                 @click.stop="toggleMenu"
               />
               <span
@@ -503,7 +522,12 @@ export default defineComponent({
       })
     }
     watch(
-      () => [slots.default?.(), modelValue.value],
+      () => [
+        props.persistent || API.expanded.value || !slots.default
+          ? undefined
+          : slots.default?.(),
+        modelValue.value,
+      ],
       () => {
         // When persistent is false and the dropdown is closed, the menu is unmounted.
         // We should always re-hydrate option data from slots so labels stay in sync

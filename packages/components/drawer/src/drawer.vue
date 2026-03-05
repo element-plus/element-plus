@@ -111,18 +111,27 @@ import { Close } from '@element-plus/icons-vue'
 import { ElOverlay } from '@element-plus/components/overlay'
 import ElFocusTrap from '@element-plus/components/focus-trap'
 import ElTeleport from '@element-plus/components/teleport'
-import { useDialog } from '@element-plus/components/dialog'
+import { dialogPropsDefaults, useDialog } from '@element-plus/components/dialog'
 import ElIcon from '@element-plus/components/icon'
 import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
-import { drawerEmits, drawerProps } from './drawer'
+import { drawerEmits } from './drawer'
 import { useResizable } from './composables/useResizable'
+
+import type { DrawerProps } from './drawer'
 
 defineOptions({
   name: 'ElDrawer',
   inheritAttrs: false,
 })
 
-const props = defineProps(drawerProps)
+const props = withDefaults(defineProps<DrawerProps>(), {
+  ...dialogPropsDefaults,
+  direction: 'rtl',
+  size: '30%',
+  withHeader: true,
+  modalFade: true,
+  headerAriaLevel: '2',
+})
 const emit = defineEmits(drawerEmits)
 const slots = useSlots()
 
@@ -166,7 +175,9 @@ const penetrable = computed(() => props.modalPenetrable && !props.modal)
 
 defineExpose({
   handleClose,
+  /** @deprecated Will be removed after 2.14.0. */
   afterEnter,
+  /** @deprecated Will be removed after 2.14.0. */
   afterLeave,
 })
 </script>

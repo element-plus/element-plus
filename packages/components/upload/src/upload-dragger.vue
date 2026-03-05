@@ -16,8 +16,9 @@ import { useFormDisabled } from '@element-plus/components/form'
 import { throwError } from '@element-plus/utils/error'
 import { flatten } from 'lodash-unified'
 import { uploadContextKey } from './constants'
-import { uploadDraggerEmits, uploadDraggerProps } from './upload-dragger'
+import { uploadDraggerEmits } from './upload-dragger'
 
+import type { UploadDraggerProps } from './upload-dragger'
 import type { UploadRawFile } from './upload'
 
 const COMPONENT_NAME = 'ElUploadDrag'
@@ -26,7 +27,9 @@ defineOptions({
   name: COMPONENT_NAME,
 })
 
-const props = defineProps(uploadDraggerProps)
+const props = withDefaults(defineProps<UploadDraggerProps>(), {
+  disabled: undefined,
+})
 const emit = defineEmits(uploadDraggerEmits)
 
 const uploaderContext = inject(uploadContextKey)
