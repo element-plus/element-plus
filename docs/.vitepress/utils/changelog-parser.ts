@@ -217,9 +217,9 @@ export function parseChangelog(content: string): ComponentChangelogs {
     }
   }
 
-  // Limit to most recent 10 versions per component
+  // Limit to most recent 20 versions per component
   for (const key of Object.keys(componentMap)) {
-    componentMap[key] = componentMap[key].slice(0, 10)
+    componentMap[key] = componentMap[key].slice(0, 20)
   }
 
   return componentMap
