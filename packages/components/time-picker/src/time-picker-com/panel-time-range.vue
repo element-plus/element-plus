@@ -124,10 +124,10 @@ const endContainerKls = computed(() => [
 const startTime = computed(() => props.parsedValue![0])
 const endTime = computed(() => props.parsedValue![1])
 const oldValue = useOldValue(props, {
-  saveOnBlur: () => pickerBase.props.saveOnBlur,
-  modelValue: () => pickerBase.props.modelValue,
-  valueOnClear: () =>
-    pickerBase?.emptyValues ? pickerBase.emptyValues.valueOnClear.value : null,
+  modelValue: computed(() => pickerBase.props.modelValue),
+  valueOnClear: computed(() =>
+    pickerBase?.emptyValues ? pickerBase.emptyValues.valueOnClear.value : null
+  ),
 })
 const handleCancel = () => {
   const old = oldValue.value

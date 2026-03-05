@@ -1,6 +1,7 @@
-import { ref, watch } from 'vue'
+import { ref, toValue, watch } from 'vue'
 import { makeList } from '../utils'
 
+import type { MaybeRefOrGetter } from 'vue'
 import type { Dayjs } from 'dayjs'
 import type {
   GetDisabledHours,
@@ -94,9 +95,8 @@ export const useOldValue = (
     visible: boolean
   },
   options: {
-    saveOnBlur: () => boolean
-    modelValue: () => unknown
-    valueOnClear: () => unknown
+    modelValue: MaybeRefOrGetter<any>
+    valueOnClear: MaybeRefOrGetter<any>
   }
 ) => {
   const oldValue = ref(props.parsedValue)
@@ -104,8 +104,8 @@ export const useOldValue = (
   watch(
     () => props.visible,
     (val) => {
-      const modelValue = options.modelValue()
-      const valueOnClear = options.valueOnClear()
+      const modelValue = toValue(options.modelValue)
+      const valueOnClear = toValue(options.valueOnClear)
       if (val && modelValue === valueOnClear) {
         oldValue.value = valueOnClear as typeof oldValue.value
         return

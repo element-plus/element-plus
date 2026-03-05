@@ -78,10 +78,10 @@ const { t, lang } = useLocale()
 const selectionRange = ref([0, 2])
 
 const oldValue = useOldValue(props, {
-  saveOnBlur: () => pickerBase.props.saveOnBlur,
-  modelValue: () => pickerBase.props.modelValue,
-  valueOnClear: () =>
-    pickerBase?.emptyValues ? pickerBase.emptyValues.valueOnClear.value : null,
+  modelValue: computed(() => pickerBase.props.modelValue),
+  valueOnClear: computed(() =>
+    pickerBase?.emptyValues ? pickerBase.emptyValues.valueOnClear.value : null
+  ),
 })
 
 // computed
