@@ -1308,13 +1308,7 @@ describe('Virtual Tree', () => {
       expect(checkInfo.checkedKeys).toEqual(['1', '1-1', '1-1-1'])
 
       const checkedKeys = treeRef.getCheckedKeys()
-      expect(checkedKeys).toContain('1')
-      expect(checkedKeys).toContain('1-1')
-      expect(checkedKeys).toContain('1-1-1')
-      expect(checkedKeys).not.toContain('1-1-2')
-      expect(checkedKeys).not.toContain('1-2')
-      expect(checkedKeys).not.toContain('1-2-1')
-      expect(checkedKeys).not.toContain('2')
+      expect(checkedKeys).toEqual(['1', '1-1', '1-1-1'])
     })
   })
 
