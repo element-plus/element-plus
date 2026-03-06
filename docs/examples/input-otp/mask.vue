@@ -1,6 +1,7 @@
 <template>
   <div>
     <el-input-otp v-model="otp" mask />
+    <div style="margin-top: 20px">Value: {{ otp }}</div>
   </div>
 </template>
 

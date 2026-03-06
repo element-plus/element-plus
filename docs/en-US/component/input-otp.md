@@ -99,11 +99,11 @@ input-otp/validator
 | size                  | The size of the OTP fields                                                                                                                 | ^[enum]`'large' \| 'default' \| 'small'`                  | 'default'  |
 | mask                  | Whether to enable password mode                                                                                                            | ^[boolean]                                                | —          |
 | disabled              | Whether the OTP fields are disabled                                                                                                        | ^[boolean]                                                | undefined  |
+| separator             | The separator between OTP fields                                                                                                           | ^[string] / ^[VNode] / ^[Function]`() => string \| VNode` | —          |
 | validate-event        | Whether to trigger form validation                                                                                                         | ^[boolean]                                                | true       |
 | readonly              | Same as `readonly` in native input                                                                                                         | ^[boolean]                                                | false      |
 | id                    | Native `id` attribute                                                                                                                      | ^[string]                                                 | —          |
 | aria-label ^(a11y)    | Native `aria-label` attribute                                                                                                              | ^[string]                                                 | —          |
-| separator             | The separator between OTP fields                                                                                                           | ^[string] / ^[VNode] / ^[Function]`() => string \| VNode` | —          |
 
 ### Events
 

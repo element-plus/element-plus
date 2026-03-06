@@ -22,7 +22,7 @@
           :inputmode="inputmode"
           autocomplete="one-time-code"
           :aria-label="t('el.inputOTP.defaultLabel', { index: index + 1 })"
-          @click="handleFocus($event, index)"
+          @click="focus(index)"
           @focus="handleFocus($event, index)"
           @blur="handleBlur"
           @keydown="handleKeydown($event, index)"
@@ -225,10 +225,6 @@ const castValues = (value: InputOtpProps['modelValue'], startIndex = 0) => {
   return result
 }
 
-/**
- * @description Focus an OTP input field and select its content.
- * If `index` is not provided, focuses the first empty field.
- */
 const focus = (index?: number) => {
   const focusIndex = clamp(index ?? 0, 0, length.value - 1)
   const target = inputRefs.value[focusIndex]
@@ -245,9 +241,6 @@ const focus = (index?: number) => {
   })
 }
 
-/**
- * @description Blur the currently focused OTP input field.
- */
 const blur = () => {
   const target = inputRefs.value.find(
     (input) => document.activeElement === input
