@@ -22,9 +22,9 @@
           :inputmode="inputmode"
           autocomplete="one-time-code"
           :aria-label="t('el.inputOTP.defaultLabel', { index: index + 1 })"
-          @click="focus(index)"
-          @focus="handleFocus($event, index)"
+          @focus="handleFocus"
           @blur="handleBlur"
+          @click="focus(index)"
           @keydown="handleKeydown($event, index)"
           @input="handleInput($event, index)"
         />
@@ -104,23 +104,24 @@ const getFirstIndex = (maxIndex: number) => {
   return index === -1 ? maxIndex : index
 }
 
-const handleFocus = (event: FocusEvent | PointerEvent, index: number) => {
-  const { type, relatedTarget } = event
-  if (type === 'focus' && !inputRefs.value.includes(relatedTarget as any)) {
-    isFocused.value = true
-    emit('focus', event)
+const handleFocus = (event: FocusEvent) => {
+  if (inputRefs.value.includes(event.relatedTarget as any)) {
+    return
   }
-  focus(index)
+
+  isFocused.value = true
+  emit('focus', event)
 }
 
 const handleBlur = (event: FocusEvent) => {
-  const { relatedTarget } = event
-  if (!inputRefs.value.includes(relatedTarget as any)) {
-    isFocused.value = false
-    emit('blur', event)
-    if (props.validateEvent) {
-      formItem?.validate?.('blur').catch(NOOP)
-    }
+  if (inputRefs.value.includes(event.relatedTarget as any)) {
+    return
+  }
+
+  isFocused.value = false
+  emit('blur', event)
+  if (props.validateEvent) {
+    formItem?.validate?.('blur').catch(NOOP)
   }
 }
 
@@ -168,46 +169,37 @@ const handleKeydown = (event: KeyboardEvent, index: number) => {
   }
 }
 
-const handlePaste = (pasteData: string, targetIndex: number) => {
-  if (!pasteData || props.readonly) return
-
-  const chars = castValues(pasteData, targetIndex)
-  const focusIndex = Math.min(targetIndex + chars.length, length.value - 1)
-
-  // Avoid innerValue inconsistency with the input box value after pasting when char has no change
-  inputRefs.value[targetIndex].value = innerValue.value[targetIndex] ?? ''
-  chars.forEach((char, i) => (innerValue.value[targetIndex + i] = char))
-  focus(focusIndex)
-  updateModelValue()
-}
-
 const handleInput = (event: Event, index: number) => {
   const target = event.target as HTMLInputElement
   const targetIndex = getFirstIndex(index)
+  let focusIndex = targetIndex + 1
   let value = target.value
 
+  // Safari and Firefox do not trigger the paste event during autofill,
+  // so the paste logic needs to be handled in the input event
   if (value.length > 1) {
-    // Safari and Firefox do not trigger the paste event during autofill,
-    // so the paste logic needs to be handled in the input event
-    handlePaste(value, targetIndex)
+    const chars = castValues(value, targetIndex)
+
+    // Avoid innerValue inconsistency with the input box value after pasting when char has no change
+    target.value = innerValue.value[index] ?? ''
+
+    chars.forEach((char, i) => (innerValue.value[targetIndex + i] = char))
+    focus(targetIndex + chars.length)
+    updateModelValue()
     return
   }
-
-  let forward = true
 
   if (!props.validator(value, targetIndex)) {
     target.value = innerValue.value[index] ?? ''
     value = target.value
-    forward = false
+    focusIndex = targetIndex
   }
 
-  const focusIndex = Math.min(targetIndex + (forward ? 1 : 0), length.value - 1)
-
   innerValue.value[targetIndex] = value
-  focus(focusIndex)
   if (targetIndex !== index) {
     target.value = innerValue.value[index] ?? ''
   }
+  focus(focusIndex)
   updateModelValue()
 }
 
@@ -235,7 +227,7 @@ const focus = (index?: number) => {
   rAF(() => {
     // When it is called, the focus may have already been captured by another element.
     // e.g. typing quickly and deleting.
-    if (document.activeElement === target) {
+    if (!props.readonly && document.activeElement === target) {
       ;(target as HTMLInputElement | null)?.select()
     }
   })
