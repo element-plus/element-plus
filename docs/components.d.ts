@@ -155,6 +155,7 @@ declare module 'vue' {
     VpApiTyping: typeof import('./.vitepress/vitepress/components/globals/vp-api-typing.vue')['default']
     VpApp: typeof import('./.vitepress/vitepress/components/vp-app.vue')['default']
     VpChangelog: typeof import('./.vitepress/vitepress/components/globals/vp-changelog.vue')['default']
+    VpComponentMeta: typeof import('./.vitepress/vitepress/components/globals/vp-component-meta.vue')['default']
     VpContent: typeof import('./.vitepress/vitepress/components/vp-content.vue')['default']
     VpDemo: typeof import('./.vitepress/vitepress/components/vp-demo.vue')['default']
     VpDocContent: typeof import('./.vitepress/vitepress/components/vp-doc-content.vue')['default']
