@@ -18,14 +18,6 @@ export const rightBigLogoSponsors: Sponsor[] = []
 
 export const rightLogoSmallSponsors: Sponsor[] = [
   {
-    name: 'frsimple',
-    img: '/images/frsimple.png',
-    imgL: '/images/frsimple-l.png',
-    url: 'https://el.frsimple.com',
-    slogan: 'A simple and efficient front-end framework',
-    slogan_cn: '信创开发平台',
-  },
-  {
     name: 'bit',
     img: '/images/bit.svg',
     imgL: '/images/bit-l.png',

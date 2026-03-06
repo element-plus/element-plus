@@ -106,6 +106,13 @@ export const timePickerDefaultProps = buildProps({
     default: true,
   },
   /**
+   * @description Whether to auto-fill the input with the current time on focus when no value is selected.
+   */
+  saveOnBlur: {
+    type: Boolean,
+    default: true,
+  },
+  /**
    * @description Custom prefix icon component
    */
   prefixIcon: {
@@ -281,6 +288,7 @@ export interface PickerOptions {
   panelReady: boolean
   handleClear: () => void
   handleFocusPicker?: () => void
+  handleCancel?: () => void
 }
 
 export const timePickerRangeTriggerProps = buildProps({
