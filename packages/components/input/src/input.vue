@@ -121,7 +121,11 @@
       <textarea
         :id="inputId"
         ref="textarea"
-        :class="[nsTextarea.e('inner'), nsInput.is('focus', isFocused)]"
+        :class="[
+          nsTextarea.e('inner'),
+          nsInput.is('focus', isFocused),
+          nsTextarea.is('clearable', clearable),
+        ]"
         v-bind="attrs"
         :name="name"
         :minlength="minlength"
@@ -146,6 +150,14 @@
         @change="handleChange"
         @keydown="handleKeydown"
       />
+      <el-icon
+        v-if="showClear"
+        :class="[nsTextarea.e('icon'), nsTextarea.e('clear')]"
+        @mousedown.prevent="NOOP"
+        @click="clear"
+      >
+        <component :is="clearIcon" />
+      </el-icon>
       <span
         v-if="isWordLimitVisible"
         :style="countStyle"

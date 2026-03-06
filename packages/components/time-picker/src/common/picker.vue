@@ -295,7 +295,13 @@ const { isFocused, handleFocus, handleBlur } = useFocusController(inputRef, {
     )
   },
   afterBlur() {
-    handleChange()
+    if (isTimePicker.value && !props.saveOnBlur) {
+      if (!valueIsEmpty.value) {
+        pickerOptions.value.handleCancel?.()
+      }
+    } else {
+      handleChange()
+    }
     pickerVisible.value = false
     hasJustTabExitedInput = false
     props.validateEvent &&
@@ -407,6 +413,7 @@ const displayValue = computed<UserInput>(() => {
   } else if (userInput.value !== null) {
     return userInput.value
   }
+  if (isTimePicker.value && valueIsEmpty.value && !props.saveOnBlur) return ''
   if (!isTimePicker.value && valueIsEmpty.value) return ''
   if (!pickerVisible.value && valueIsEmpty.value) return ''
   if (formattedValue) {
@@ -518,6 +525,8 @@ onBeforeUnmount(() => {
 })
 
 const handleChange = () => {
+  if (isTimePicker.value && !props.saveOnBlur) return
+
   if (userInput.value) {
     const value = parseUserInputToDayjs(displayValue.value)
     if (value) {

@@ -25,7 +25,7 @@ input/disabled
 
 ## Clearable
 
-:::demo Make the Input clearable with the `clearable` attribute.
+:::demo Make the Input clearable with the `clearable` attribute. After version ^(2.13.4), the clearable feature is also available for textarea type of Input.
 
 input/clearable
 
