@@ -69,6 +69,7 @@ const props = withDefaults(defineProps<ColorPickerPanelProps>(), {
   modelValue: undefined,
   border: true,
   validateEvent: true,
+  showAlpha: false,
 })
 const emit = defineEmits(colorPickerPanelEmits)
 
