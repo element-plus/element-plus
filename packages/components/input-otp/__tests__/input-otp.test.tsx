@@ -5,6 +5,7 @@ import { EVENT_CODE } from '@element-plus/constants'
 import InputOtp from '../src/input-otp.vue'
 
 import type { InputOtpProps } from '../src/input-otp'
+import type { InputOtpInstance } from '../src/instance'
 
 describe('InputOtp.vue', () => {
   test('render with default props', () => {
@@ -200,98 +201,6 @@ describe('InputOtp.vue', () => {
     wrapper.unmount()
   })
 
-  test('should support pasting content', async () => {
-    const model = ref('')
-    const wrapper = mount(() => <InputOtp v-model={model.value} />)
-
-    const inputs = wrapper.findAll('input')
-    // Simulate pasting '123456' into the first input
-    await inputs[0].trigger('paste', {
-      clipboardData: {
-        getData: () => '123456',
-      },
-    })
-    expect(model.value).toBe('123456')
-
-    await nextTick()
-    for (let i = 0; i < 6; i++) {
-      expect(inputs[i].element.value).toBe(`${i + 1}`)
-    }
-  })
-
-  test('should ignore non-digits when type is number on paste', async () => {
-    const model = ref('')
-    const validator = (char: string) => /^\d$/.test(char)
-    const wrapper = mount(() => (
-      <InputOtp v-model={model.value} validator={validator} />
-    ))
-
-    const inputs = wrapper.findAll('input')
-    await inputs[0].trigger('paste', {
-      clipboardData: {
-        getData: () => '1a2b3c',
-      },
-    })
-
-    expect(model.value).toBe('123')
-    await nextTick()
-    expect(inputs[0].element.value).toBe('1')
-    expect(inputs[1].element.value).toBe('2')
-    expect(inputs[2].element.value).toBe('3')
-    expect(inputs[3].element.value).toBe('')
-  })
-
-  test('should fill from the first empty index and focus next empty index on paste', async () => {
-    const model = ref('')
-    const wrapper = mount(() => <InputOtp v-model={model.value} />, {
-      attachTo: document.body,
-    })
-
-    const inputs = wrapper.findAll('input')
-    await inputs[3].trigger('paste', {
-      clipboardData: {
-        getData: () => '123',
-      },
-    })
-
-    expect(model.value).toBe('123')
-
-    await nextTick()
-    expect(inputs[0].element.value).toBe('1')
-    expect(inputs[1].element.value).toBe('2')
-    expect(inputs[2].element.value).toBe('3')
-    expect(inputs[3].element.value).toBe('')
-
-    expect(document.activeElement).toBe(inputs[3].element)
-
-    wrapper.unmount()
-  })
-
-  test('should overwrite from current index if current input has value', async () => {
-    const model = ref('1234')
-    const wrapper = mount(() => <InputOtp v-model={model.value} length={6} />, {
-      attachTo: document.body,
-    })
-    const inputs = wrapper.findAll('input')
-
-    await nextTick()
-    await inputs[1].trigger('paste', {
-      clipboardData: {
-        getData: () => '56',
-      },
-    })
-
-    expect(model.value).toBe('1564')
-    await nextTick()
-    expect(inputs[0].element.value).toBe('1')
-    expect(inputs[1].element.value).toBe('5')
-    expect(inputs[2].element.value).toBe('6')
-    expect(inputs[3].element.value).toBe('4')
-    expect(document.activeElement).toBe(inputs[3].element)
-
-    wrapper.unmount()
-  })
-
   test('should fill from the first empty index', async () => {
     const model = ref('')
     const wrapper = mount(() => <InputOtp v-model={model.value} />)
@@ -374,6 +283,144 @@ describe('InputOtp.vue', () => {
     })
   })
 
+  describe('paste', () => {
+    test('should support pasting content', async () => {
+      const model = ref('')
+      const wrapper = mount(() => <InputOtp v-model={model.value} />)
+
+      const inputs = wrapper.findAll('input')
+      // Simulate pasting '123456' into the first input
+      inputs[0].element.value = '123456'
+      await inputs[0].trigger('input')
+      expect(model.value).toBe('123456')
+
+      await nextTick()
+      for (let i = 0; i < 6; i++) {
+        expect(inputs[i].element.value).toBe(`${i + 1}`)
+      }
+    })
+
+    test('should ignore non-digits when type is number on paste', async () => {
+      const model = ref('')
+      const validator = (char: string) => /^\d$/.test(char)
+      const wrapper = mount(() => (
+        <InputOtp v-model={model.value} validator={validator} />
+      ))
+
+      const inputs = wrapper.findAll('input')
+      inputs[0].element.value = '1a2b3c'
+      await inputs[0].trigger('input')
+
+      expect(model.value).toBe('123')
+      await nextTick()
+      expect(inputs[0].element.value).toBe('1')
+      expect(inputs[1].element.value).toBe('2')
+      expect(inputs[2].element.value).toBe('3')
+      expect(inputs[3].element.value).toBe('')
+    })
+
+    test('should fill from the first empty index and focus next empty index on paste', async () => {
+      const model = ref('')
+      const wrapper = mount(() => <InputOtp v-model={model.value} />, {
+        attachTo: document.body,
+      })
+
+      const inputs = wrapper.findAll('input')
+      inputs[3].element.value = '123'
+      await inputs[3].trigger('input')
+
+      expect(model.value).toBe('123')
+
+      await nextTick()
+      expect(inputs[0].element.value).toBe('1')
+      expect(inputs[1].element.value).toBe('2')
+      expect(inputs[2].element.value).toBe('3')
+      expect(inputs[3].element.value).toBe('')
+
+      expect(document.activeElement).toBe(inputs[3].element)
+
+      wrapper.unmount()
+    })
+
+    test('should overwrite from current index if current input has value', async () => {
+      const model = ref('1234')
+      const wrapper = mount(
+        () => <InputOtp v-model={model.value} length={6} />,
+        {
+          attachTo: document.body,
+        }
+      )
+      const inputs = wrapper.findAll('input')
+
+      await nextTick()
+      inputs[1].element.value = '56'
+      await inputs[1].trigger('input')
+
+      expect(model.value).toBe('1564')
+      await nextTick()
+      expect(inputs[0].element.value).toBe('1')
+      expect(inputs[1].element.value).toBe('5')
+      expect(inputs[2].element.value).toBe('6')
+      expect(inputs[3].element.value).toBe('4')
+      expect(document.activeElement).toBe(inputs[3].element)
+
+      wrapper.unmount()
+    })
+
+    test('should apply validator when distributing multi-character input', async () => {
+      const model = ref('')
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const validator = vi.fn((char: string, _index: number) =>
+        /^\d$/.test(char)
+      )
+      const wrapper = mount(
+        () => <InputOtp v-model={model.value} validator={validator} />,
+        {
+          attachTo: document.body,
+        }
+      )
+      const inputs = wrapper.findAll('input')
+
+      ;(inputs[0].element as HTMLInputElement).value = '1a2b3c'
+      await inputs[0].trigger('input')
+
+      expect(model.value).toBe('123')
+      await nextTick()
+      expect(inputs[0].element.value).toBe('1')
+      expect(inputs[1].element.value).toBe('2')
+      expect(inputs[2].element.value).toBe('3')
+      expect(inputs[3].element.value).toBe('')
+      expect(document.activeElement).toBe(inputs[3].element)
+      expect(validator).toHaveBeenCalledTimes(6)
+      expect(validator.mock.calls).toEqual([
+        ['1', 0],
+        ['a', 1],
+        ['2', 1],
+        ['b', 2],
+        ['3', 2],
+        ['c', 3],
+      ])
+
+      wrapper.unmount()
+    })
+
+    test('should avoid innerValue mismatch with the input value after pasting when the character does not change', async () => {
+      const model = ref('123456')
+      const wrapper = mount(() => <InputOtp v-model={model.value} />, {
+        attachTo: document.body,
+      })
+      const inputs = wrapper.findAll('input')
+
+      ;(inputs[5].element as HTMLInputElement).value = '777'
+      await inputs[5].trigger('input')
+      expect(model.value).toBe('123457')
+      ;(inputs[5].element as HTMLInputElement).value = '777'
+      await inputs[5].trigger('input')
+      expect(inputs[5].element.value).toBe('7')
+      wrapper.unmount()
+    })
+  })
+
   describe('separator', () => {
     test('render with separator prop', () => {
       const wrapper = mount(() => <InputOtp separator="-" />)
@@ -424,6 +471,49 @@ describe('InputOtp.vue', () => {
       separators.forEach((node, index) =>
         expect(node.text()).toBe(index & 1 ? '-' : '/')
       )
+    })
+  })
+
+  describe('exposed methods', () => {
+    test('focus', async () => {
+      const onFocus = vi.fn()
+      const wrapper = mount(<InputOtp onFocus={onFocus} />, {
+        attachTo: document.body,
+      })
+
+      const { focus } = wrapper.vm as unknown as InputOtpInstance
+      const inputs = wrapper.findAll('input')
+
+      focus()
+      await nextTick()
+      expect(document.activeElement).toBe(inputs[0].element)
+
+      focus(2)
+      await nextTick()
+      expect(document.activeElement).toBe(inputs[2].element)
+      expect(onFocus).toHaveBeenCalledTimes(1)
+
+      wrapper.unmount()
+    })
+
+    test('blur', async () => {
+      const onBlur = vi.fn()
+      const wrapper = mount(<InputOtp onBlur={onBlur} />, {
+        attachTo: document.body,
+      })
+      const { focus, blur } = wrapper.vm as unknown as InputOtpInstance
+      const inputs = wrapper.findAll('input')
+
+      focus()
+      await nextTick()
+      expect(document.activeElement).toBe(inputs[0].element)
+
+      blur()
+      await nextTick()
+      expect(document.activeElement).not.toBe(inputs[0].element)
+      expect(onBlur).toHaveBeenCalledTimes(1)
+
+      wrapper.unmount()
     })
   })
 })

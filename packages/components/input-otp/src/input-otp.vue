@@ -19,14 +19,12 @@
           :type="mask ? 'password' : 'text'"
           :disabled="disabled"
           :readonly="readonly"
-          :maxlength="1"
           :inputmode="inputmode"
           autocomplete="one-time-code"
           :aria-label="t('el.inputOTP.defaultLabel', { index: index + 1 })"
-          @click="handleFocus"
-          @focus="handleFocus"
+          @click="handleFocus($event, index)"
+          @focus="handleFocus($event, index)"
           @blur="handleBlur"
-          @paste="handlePaste($event, index)"
           @keydown="handleKeydown($event, index)"
           @input="handleInput($event, index)"
         />
@@ -106,19 +104,13 @@ const getFirstIndex = (maxIndex: number) => {
   return index === -1 ? maxIndex : index
 }
 
-const handleFocus = (event: FocusEvent | PointerEvent) => {
-  const { target, type, relatedTarget } = event
+const handleFocus = (event: FocusEvent | PointerEvent, index: number) => {
+  const { type, relatedTarget } = event
   if (type === 'focus' && !inputRefs.value.includes(relatedTarget as any)) {
     isFocused.value = true
     emit('focus', event)
   }
-  rAF(() => {
-    // When it is called, the focus may have already been captured by another element.
-    // e.g. typing quickly and deleting.
-    if (document.activeElement === target) {
-      ;(target as HTMLInputElement | null)?.select()
-    }
-  })
+  focus(index)
 }
 
 const handleBlur = (event: FocusEvent) => {
@@ -144,33 +136,28 @@ const updateModelValue = (emitFinish = true) => {
 
 const handleKeydown = (event: KeyboardEvent, index: number) => {
   const code = getEventCode(event)
-  const currentInputRef = inputRefs.value[index]
-  const prevInputRef = inputRefs.value[index - 1] ?? currentInputRef
-  const nextInputRef = inputRefs.value[index + 1] ?? currentInputRef
   let preventDefault = true
 
   switch (code) {
     case EVENT_CODE.backspace:
       if (props.readonly) break
       innerValue.value[index] = ''
-      prevInputRef?.focus()
-      rAF(() => prevInputRef?.select())
+      focus(index - 1)
       updateModelValue()
       break
     case EVENT_CODE.delete:
       if (props.readonly) break
       innerValue.value[index] = ''
-      currentInputRef?.focus()
-      rAF(() => currentInputRef?.select())
+      focus(index)
       updateModelValue()
       break
     case EVENT_CODE.up:
     case EVENT_CODE.left:
-      prevInputRef?.focus()
+      focus(index - 1)
       break
     case EVENT_CODE.down:
     case EVENT_CODE.right:
-      nextInputRef?.focus()
+      focus(index + 1)
       break
     default:
       preventDefault = false
@@ -181,18 +168,16 @@ const handleKeydown = (event: KeyboardEvent, index: number) => {
   }
 }
 
-const handlePaste = (event: ClipboardEvent, index: number) => {
-  const pasteData = event.clipboardData?.getData('text') ?? ''
+const handlePaste = (pasteData: string, targetIndex: number) => {
   if (!pasteData || props.readonly) return
 
-  event.preventDefault()
-
-  const targetIndex = getFirstIndex(index)
   const chars = castValues(pasteData, targetIndex)
   const focusIndex = Math.min(targetIndex + chars.length, length.value - 1)
 
+  // Avoid innerValue inconsistency with the input box value after pasting when char has no change
+  inputRefs.value[targetIndex].value = innerValue.value[targetIndex] ?? ''
   chars.forEach((char, i) => (innerValue.value[targetIndex + i] = char))
-  inputRefs.value[focusIndex]?.focus()
+  focus(focusIndex)
   updateModelValue()
 }
 
@@ -200,6 +185,14 @@ const handleInput = (event: Event, index: number) => {
   const target = event.target as HTMLInputElement
   const targetIndex = getFirstIndex(index)
   let value = target.value
+
+  if (value.length > 1) {
+    // Safari and Firefox do not trigger the paste event during autofill,
+    // so the paste logic needs to be handled in the input event
+    handlePaste(value, targetIndex)
+    return
+  }
+
   let forward = true
 
   if (!props.validator(value, targetIndex)) {
@@ -211,8 +204,7 @@ const handleInput = (event: Event, index: number) => {
   const focusIndex = Math.min(targetIndex + (forward ? 1 : 0), length.value - 1)
 
   innerValue.value[targetIndex] = value
-  inputRefs.value[focusIndex]?.focus()
-  inputRefs.value[focusIndex]?.select()
+  focus(focusIndex)
   if (targetIndex !== index) {
     target.value = innerValue.value[index] ?? ''
   }
@@ -231,6 +223,36 @@ const castValues = (value: InputOtpProps['modelValue'], startIndex = 0) => {
     }
   }
   return result
+}
+
+/**
+ * @description Focus an OTP input field and select its content.
+ * If `index` is not provided, focuses the first empty field.
+ */
+const focus = (index?: number) => {
+  const focusIndex = clamp(index ?? 0, 0, length.value - 1)
+  const target = inputRefs.value[focusIndex]
+
+  if (document.activeElement !== target) {
+    target?.focus()
+  }
+  rAF(() => {
+    // When it is called, the focus may have already been captured by another element.
+    // e.g. typing quickly and deleting.
+    if (document.activeElement === target) {
+      ;(target as HTMLInputElement | null)?.select()
+    }
+  })
+}
+
+/**
+ * @description Blur the currently focused OTP input field.
+ */
+const blur = () => {
+  const target = inputRefs.value.find(
+    (input) => document.activeElement === input
+  )
+  target?.blur()
 }
 
 watch(
@@ -264,5 +286,13 @@ defineExpose({
    * @description HTML input elements array
    */
   inputRefs,
+  /**
+   * @description Focus an OTP input field
+   */
+  focus,
+  /**
+   * @description Blur the focused OTP input field
+   */
+  blur,
 })
 </script>

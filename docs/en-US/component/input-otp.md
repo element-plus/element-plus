@@ -123,6 +123,8 @@ input-otp/validator
 
 ### Exposes
 
-| Name      | Description               | Type                               |
-| --------- | ------------------------- | ---------------------------------- |
-| inputRefs | HTML input elements array | ^[object]`Ref<HTMLInputElement[]>` |
+| Name      | Description                      | Type                                  |
+| --------- | -------------------------------- | ------------------------------------- |
+| inputRefs | HTML input elements array        | ^[object]`Ref<HTMLInputElement[]>`    |
+| focus     | Focus an OTP input field         | ^[Function]`(index?: number) => void` |
+| blur      | Blur the focused OTP input field | ^[Function]`() => void`               |
