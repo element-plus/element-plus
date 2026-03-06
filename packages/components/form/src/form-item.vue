@@ -42,7 +42,6 @@ import {
   inject,
   nextTick,
   onBeforeUnmount,
-  onMounted,
   provide,
   reactive,
   ref,
@@ -406,12 +405,25 @@ const context: FormItemContext = reactive({
 
 provide(formItemContextKey, context)
 
-onMounted(() => {
-  if (props.prop) {
-    setInitialValue(fieldValue.value)
-    formContext?.addField(context)
-  }
-})
+let oldPropString = ''
+
+watch(
+  () => props.prop,
+  () => {
+    if (oldPropString !== propString.value) {
+      if (oldPropString) {
+        const contextWithOldProp = { ...context, propString: oldPropString }
+        formContext?.removeField(contextWithOldProp as FormItemContext)
+      }
+      if (props.prop) {
+        setInitialValue(fieldValue.value)
+        formContext?.addField(context)
+      }
+      oldPropString = propString.value
+    }
+  },
+  { immediate: true }
+)
 
 onBeforeUnmount(() => {
   formContext?.removeField(context)

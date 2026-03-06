@@ -81,7 +81,14 @@ const addField: FormContext['addField'] = (field) => {
 
 const removeField: FormContext['removeField'] = (field) => {
   if (field.prop) {
-    fields.splice(fields.indexOf(field), 1)
+    const index = fields.indexOf(field)
+    if (index !== -1) {
+      fields.splice(index, 1)
+    }
+    const propString = field.propString
+    if (propString) {
+      initialValues.set(propString, cloneDeep(field.fieldValue))
+    }
   }
 }
 
@@ -122,7 +129,7 @@ const resetFields: FormContext['resetFields'] = (properties = []) => {
   const propsToCheck =
     properties.length > 0
       ? ensureArray(properties).map((p) => (isArray(p) ? p.join('.') : p))
-      : [...initialValues.keys()]
+      : [...activePropStrings]
 
   for (const propString of propsToCheck) {
     if (!activePropStrings.has(propString) && initialValues.has(propString)) {

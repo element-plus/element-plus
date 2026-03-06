@@ -821,14 +821,24 @@ const handleTimeChange = (_value: string | null, type: ChangeType) => {
   if (type === 'min') {
     leftDate.value = minDate.value!
     minTimePickerVisible.value = false
-    if (!maxDate.value || maxDate.value.isBefore(minDate.value)) {
+    if (!maxDate.value) {
       maxDate.value = minDate.value
+    } else if (maxDate.value.isBefore(minDate.value)) {
+      const maxTime = maxDate.value
+      maxDate.value = minDate.value
+        .hour(maxTime.hour())
+        .minute(maxTime.minute())
+        .second(maxTime.second())
     }
   } else {
     rightDate.value = maxDate.value!
     maxTimePickerVisible.value = false
     if (maxDate.value && maxDate.value.isBefore(minDate.value)) {
+      const minTime = minDate.value!
       minDate.value = maxDate.value
+        .hour(minTime.hour())
+        .minute(minTime.minute())
+        .second(minTime.second())
     }
   }
   handleRangeConfirm(true)
@@ -847,12 +857,22 @@ const handleMinTimePick = (value: Dayjs, visible: boolean, first: boolean) => {
     minTimePickerVisible.value = visible
   }
 
-  if (!maxDate.value || maxDate.value.isBefore(minDate.value)) {
+  if (!maxDate.value) {
     maxDate.value = minDate.value
     rightDate.value = value
     nextTick(() => {
       parseValue(props.parsedValue)
     })
+  } else if (maxDate.value.isBefore(minDate.value)) {
+    if (defaultTime) {
+      const maxTime = maxDate.value
+      maxDate.value = minDate.value
+        .hour(maxTime.hour())
+        .minute(maxTime.minute())
+        .second(maxTime.second())
+    } else {
+      maxDate.value = minDate.value
+    }
   }
   handleRangeConfirm(true)
 }
@@ -875,7 +895,11 @@ const handleMaxTimePick = (
   }
 
   if (maxDate.value && maxDate.value.isBefore(minDate.value)) {
+    const minTime = minDate.value!
     minDate.value = maxDate.value
+      .hour(minTime.hour())
+      .minute(minTime.minute())
+      .second(minTime.second())
   }
   handleRangeConfirm(true)
 }
