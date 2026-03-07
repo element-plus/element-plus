@@ -61,7 +61,7 @@ export const sliderProps = buildProps({
     default: 1,
   },
   /**
-   * @description whether to display an input box, works when `range` is false
+   * @description whether to display an input box, works when `range` is false and `step` is not `'mark'`
    */
   showInput: Boolean,
   /**
