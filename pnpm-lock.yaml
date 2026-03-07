@@ -31,8 +31,8 @@ catalogs:
       specifier: ^2.4.6
       version: 2.4.6
     '@vueuse/core':
-      specifier: ^10.11.0
-      version: 10.11.1
+      specifier: ^12.8.2
+      version: 12.8.2
     lodash-unified:
       specifier: ^1.0.3
       version: 1.0.3
@@ -97,7 +97,7 @@ importers:
         version: 4.17.12
       '@vueuse/core':
         specifier: 'catalog:'
-        version: 10.11.1(vue@3.5.25(typescript@5.5.4))
+        version: 12.8.2(typescript@5.5.4)
       async-validator:
         specifier: ^4.2.5
         version: 4.2.5(patch_hash=cc6d77b35ed2a1683012935ca9ed998d418912785fcf78c6497d3268ac596d23)
@@ -242,7 +242,7 @@ importers:
         version: 3.5.25
       '@vueuse/core':
         specifier: 'catalog:'
-        version: 10.11.1(vue@3.4.31(typescript@5.5.4))
+        version: 12.8.2(typescript@5.5.4)
       clipboard-copy:
         specifier: ^4.0.1
         version: 4.0.1
@@ -492,7 +492,7 @@ importers:
         version: '@sxzz/popperjs-es@2.11.7'
       '@vueuse/core':
         specifier: 'catalog:'
-        version: 10.11.1(vue@3.5.25(typescript@5.5.4))
+        version: 12.8.2(typescript@5.5.4)
       lodash-unified:
         specifier: 'catalog:'
         version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.23)(lodash@4.17.23)
@@ -550,7 +550,7 @@ importers:
         version: 4.17.12
       '@vueuse/core':
         specifier: 'catalog:'
-        version: 10.11.1(vue@3.4.31(typescript@5.5.4))
+        version: 12.8.2(typescript@5.5.4)
       async-validator:
         specifier: ^4.2.5
         version: 4.2.5(patch_hash=cc6d77b35ed2a1683012935ca9ed998d418912785fcf78c6497d3268ac596d23)
@@ -593,7 +593,7 @@ importers:
         version: '@sxzz/popperjs-es@2.11.7'
       '@vueuse/core':
         specifier: 'catalog:'
-        version: 10.11.1(vue@3.5.25(typescript@5.5.4))
+        version: 12.8.2(typescript@5.5.4)
       lodash-unified:
         specifier: 'catalog:'
         version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.23)(lodash@4.17.23)
@@ -647,7 +647,7 @@ importers:
         version: 2.3.2(vue@3.5.25(typescript@5.5.4))
       '@vueuse/core':
         specifier: 'catalog:'
-        version: 10.11.1(vue@3.5.25(typescript@5.5.4))
+        version: 12.8.2(typescript@5.5.4)
       lodash-unified:
         specifier: 'catalog:'
         version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.23)(lodash@4.17.23)
@@ -11397,16 +11397,6 @@ snapshots:
       - '@vue/composition-api'
       - vue
 
-  '@vueuse/core@10.11.1(vue@3.5.25(typescript@5.5.4))':
-    dependencies:
-      '@types/web-bluetooth': 0.0.20
-      '@vueuse/metadata': 10.11.1
-      '@vueuse/shared': 10.11.1(vue@3.5.25(typescript@5.5.4))
-      vue-demi: 0.14.10(vue@3.5.25(typescript@5.5.4))
-    transitivePeerDependencies:
-      - '@vue/composition-api'
-      - vue
-
   '@vueuse/core@12.8.2(typescript@5.5.4)':
     dependencies:
       '@types/web-bluetooth': 0.0.21
@@ -11437,13 +11427,6 @@ snapshots:
   '@vueuse/shared@10.11.1(vue@3.4.31(typescript@5.5.4))':
     dependencies:
       vue-demi: 0.14.10(vue@3.4.31(typescript@5.5.4))
-    transitivePeerDependencies:
-      - '@vue/composition-api'
-      - vue
-
-  '@vueuse/shared@10.11.1(vue@3.5.25(typescript@5.5.4))':
-    dependencies:
-      vue-demi: 0.14.10(vue@3.5.25(typescript@5.5.4))
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
@@ -17025,10 +17008,6 @@ snapshots:
   vue-demi@0.14.10(vue@3.4.31(typescript@5.5.4)):
     dependencies:
       vue: 3.4.31(typescript@5.5.4)
-
-  vue-demi@0.14.10(vue@3.5.25(typescript@5.5.4)):
-    dependencies:
-      vue: 3.5.25(typescript@5.5.4)
 
   vue-eslint-parser@10.2.0(eslint@9.39.2(jiti@2.6.1)):
     dependencies:
