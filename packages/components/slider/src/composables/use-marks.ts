@@ -14,6 +14,19 @@ export const useMarks = (props: SliderProps) => {
     if (props.step === 'mark' && !props.marks) {
       debugWarn('ElSlider', 'marks prop must be provided when step is mark')
     }
+    if (props.marks) {
+      const keys = Object.keys(props.marks)
+      const invalidKeys = keys.filter((key) => {
+        const parsed = Number.parseFloat(key)
+        return Number.isNaN(parsed) || parsed < props.min || parsed > props.max
+      })
+      if (invalidKeys.length > 0) {
+        debugWarn(
+          'ElSlider',
+          `Some marks keys are invalid (not a number or out of [min, max]): [${invalidKeys.map((k) => `'${k}'`).join(', ')}] and will be ignored.`
+        )
+      }
+    }
   })
 
   return computed(() => {
