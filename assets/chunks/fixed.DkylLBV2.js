@@ -1,1 +1,0 @@
-import{aB as n,ah as e,J as s,K as c,Q as t,P as f,_}from"./framework.CNBbb2Q2.js";const r={};function p(i,x){const o=e("el-button"),a=e("el-affix");return c(),s(a,{position:"bottom",offset:20},{default:t(()=>[f(o,{type:"primary"},{default:t(()=>[_("Offset bottom 20px")]),_:1})]),_:1})}const m=n(r,[["render",p]]);export{m as E};
