@@ -133,6 +133,10 @@ $tag-icon-span-gap: map.merge(
       outline: 2px solid getCssVar('color-primary');
       outline-offset: 2px;
     }
+
+    .#{$namespace}-icon {
+      display: flex; // #22530
+    }
   }
 
   @include m(dark) {
