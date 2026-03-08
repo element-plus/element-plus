@@ -1,6 +1,7 @@
 <template>
   <el-card
     class="content"
+    body-class="card-body"
     @click="handleClick"
     @contextmenu="handleContextmenu"
   >
@@ -74,5 +75,9 @@ const handleContextmenu = (event: MouseEvent) => {
   justify-content: center;
   align-items: center;
   height: 200px;
+}
+  
+:deep(.card-body) {
+  flex-grow: 0;
 }
 </style>
