@@ -7,7 +7,7 @@
     <img src="https://npmx.dev/api/registry/badge/version/element-plus" />
   </a>
   <a href="https://github.com/element-plus/element-plus">
-    <img src="https://img.shields.io/badge/node-%20%3E%3D%2022-47c219" />
+    <img src="https://img.shields.io/badge/node-%20%3E%3D%2022-47c219" alt="Node.js >= 22" />
   </a>
   <a href="https://npmcharts.com/compare/element-plus?minimal=true">
     <img src="https://img.shields.io/npm/dm/element-plus.svg" />
