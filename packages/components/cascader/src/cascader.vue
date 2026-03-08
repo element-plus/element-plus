@@ -784,7 +784,7 @@ const handleInput = (val: string, e?: InputEvent) => {
 
 const getInputInnerHeight = (inputInner: HTMLElement): number =>
   Number.parseFloat(
-    useCssVar(nsInput.cssVarName('input-height'), inputInner).value
+    useCssVar(nsInput.cssVarName('input-height'), inputInner).value!
   ) - 2
 
 const focus = () => {

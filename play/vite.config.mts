@@ -65,7 +65,7 @@ export default defineConfig(async ({ mode }) => {
       }),
       mkcert(),
       Inspect(),
-    ],
+    ] as any,
 
     optimizeDeps: {
       include: ['vue', '@vue/shared', ...dependencies, ...optimizeDeps],
