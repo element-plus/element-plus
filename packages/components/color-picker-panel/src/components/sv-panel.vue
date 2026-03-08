@@ -4,7 +4,8 @@
       ref="cursorRef"
       :class="cursorKls"
       :style="cursorStyle"
-      tabindex="0"
+      :tabindex="disabled ? undefined : 0"
+      :aria-disabled="disabled"
       role="slider"
       aria-valuemin="0,0"
       aria-valuemax="100,100"
@@ -19,14 +20,15 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useLocale } from '@element-plus/hooks/use-locale'
-import { svPanelProps } from '../props/sv-panel'
 import { useSvPanel, useSvPanelDOM } from '../composables/use-sv-panel'
+
+import type { SvPanelProps } from '../props/sv-panel'
 
 defineOptions({
   name: 'ElSvPanel',
 })
 
-const props = defineProps(svPanelProps)
+const props = defineProps<SvPanelProps>()
 
 const {
   cursorRef,

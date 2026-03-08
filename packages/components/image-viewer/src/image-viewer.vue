@@ -100,6 +100,7 @@
               @load="handleImgLoad"
               @error="handleImgError"
               @mousedown="handleMouseDown"
+              @touchstart="handleTouchStart"
             />
           </div>
           <slot />
@@ -144,10 +145,14 @@ import {
   ZoomIn,
   ZoomOut,
 } from '@element-plus/icons-vue'
-import { imageViewerEmits, imageViewerProps } from './image-viewer'
+import { imageViewerEmits } from './image-viewer'
 
 import type { CSSProperties } from 'vue'
-import type { ImageViewerAction, ImageViewerMode } from './image-viewer'
+import type {
+  ImageViewerAction,
+  ImageViewerMode,
+  ImageViewerProps,
+} from './image-viewer'
 
 const modes: Record<'CONTAIN' | 'ORIGINAL', ImageViewerMode> = {
   CONTAIN: {
@@ -164,7 +169,16 @@ defineOptions({
   name: 'ElImageViewer',
 })
 
-const props = defineProps(imageViewerProps)
+const props = withDefaults(defineProps<ImageViewerProps>(), {
+  urlList: () => [],
+  initialIndex: 0,
+  infinite: true,
+  closeOnPressEscape: true,
+  zoomRate: 1.2,
+  scale: 1,
+  minScale: 0.2,
+  maxScale: 7,
+})
 const emit = defineEmits(imageViewerEmits)
 
 let stopWheelListener: (() => void) | undefined
@@ -329,8 +343,33 @@ function handleMouseDown(e: MouseEvent) {
     }
   })
   const removeMousemove = useEventListener(document, 'mousemove', dragHandler)
-  useEventListener(document, 'mouseup', () => {
+  const removeMouseup = useEventListener(document, 'mouseup', () => {
     removeMousemove()
+    removeMouseup()
+  })
+
+  e.preventDefault()
+}
+
+function handleTouchStart(e: TouchEvent) {
+  if (loading.value || !wrapper.value || e.touches.length !== 1) return
+  transform.value.enableTransition = false
+
+  const { offsetX, offsetY } = transform.value
+  const { pageX: startX, pageY: startY } = e.touches[0]
+
+  const dragHandler = throttle((ev: TouchEvent) => {
+    const targetTouch = ev.touches[0]
+    transform.value = {
+      ...transform.value,
+      offsetX: offsetX + targetTouch.pageX - startX,
+      offsetY: offsetY + targetTouch.pageY - startY,
+    }
+  })
+  const removeTouchmove = useEventListener(document, 'touchmove', dragHandler)
+  const removeTouchend = useEventListener(document, 'touchend', () => {
+    removeTouchmove()
+    removeTouchend()
   })
 
   e.preventDefault()

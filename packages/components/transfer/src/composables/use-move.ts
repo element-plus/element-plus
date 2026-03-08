@@ -12,7 +12,9 @@ import type {
 } from '../transfer'
 
 export const useMove = (
-  props: TransferProps,
+  props: Required<
+    Omit<TransferProps, 'filterPlaceholder' | 'filterMethod' | 'renderContent'>
+  >,
   checkedState: TransferCheckedState,
   emit: SetupContext<TransferEmits>['emit']
 ) => {

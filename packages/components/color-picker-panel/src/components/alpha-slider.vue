@@ -12,7 +12,8 @@
       :aria-valuemin="minValue"
       :aria-valuemax="maxValue"
       role="slider"
-      tabindex="0"
+      :tabindex="disabled ? undefined : 0"
+      :aria-disabled="disabled"
       @keydown="handleKeydown"
     />
   </div>
@@ -21,14 +22,15 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useLocale } from '@element-plus/hooks'
-import { alphaSliderProps } from '../props/slider'
 import { useSlider, useSliderDOM } from '../composables/use-slider'
+
+import type { AlphaSliderProps } from '../props/slider'
 
 defineOptions({
   name: 'ElColorAlphaSlider',
 })
 
-const props = defineProps(alphaSliderProps)
+const props = defineProps<AlphaSliderProps>()
 const minValue = 0
 const maxValue = 100
 

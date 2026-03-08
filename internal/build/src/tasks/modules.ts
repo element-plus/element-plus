@@ -1,51 +1,22 @@
 import path from 'path'
-import { series } from 'gulp'
-import { rollup } from 'rollup'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
-import VueMacros from 'unplugin-vue-macros/rollup'
-import { nodeResolve } from '@rollup/plugin-node-resolve'
-import commonjs from '@rollup/plugin-commonjs'
-import esbuild from 'rollup-plugin-esbuild'
-import glob from 'fast-glob'
-import { epRoot, excludeFiles, pkgRoot } from '@element-plus/build-utils'
-import { generateExternal, withTaskName, writeBundles } from '../utils'
+import { glob } from 'tinyglobby'
+import { rolldown } from 'rolldown'
+import {
+  epRoot,
+  excludeFiles,
+  execCommand,
+  pkgRoot,
+} from '@element-plus/build-utils'
+import { generateExternal, writeBundles } from '../utils'
 import { ElementPlusAlias } from '../plugins/element-plus-alias'
-import { buildConfigEntries, target } from '../build-info'
+import { buildConfigEntries } from '../build-info'
+import { SupplyValidator } from '../plugins/supply-validator'
 
-import type { TaskFunction } from 'gulp'
-import type { OutputOptions, Plugin } from 'rollup'
+import type { OutputOptions } from 'rolldown'
 
-const plugins: Plugin[] = [
-  ElementPlusAlias(),
-  VueMacros({
-    setupComponent: false,
-    setupSFC: false,
-    plugins: {
-      vue: vue({
-        isProduction: true,
-        template: {
-          compilerOptions: {
-            hoistStatic: false,
-            cacheHandlers: false,
-          },
-        },
-      }),
-      vueJsx: vueJsx(),
-    },
-  }),
-  nodeResolve({
-    extensions: ['.mjs', '.js', '.json', '.ts'],
-  }),
-  commonjs(),
-  esbuild({
-    sourceMap: true,
-    target,
-    loaders: {
-      '.vue': 'ts',
-    },
-  }),
-]
+const plugins = [ElementPlusAlias(), vue(), vueJsx(), SupplyValidator()]
 
 async function buildModulesComponents() {
   const input = excludeFiles(
@@ -55,10 +26,10 @@ async function buildModulesComponents() {
       onlyFiles: true,
     })
   )
-  const bundle = await rollup({
+  const bundle = await rolldown({
     input,
     plugins,
-    external: await generateExternal({ full: false }),
+    external: generateExternal({ full: false }),
     treeshake: { moduleSideEffects: false },
   })
 
@@ -86,7 +57,7 @@ async function buildModulesStyles() {
       onlyFiles: true,
     })
   )
-  const bundle = await rollup({
+  const bundle = await rolldown({
     input,
     plugins,
     treeshake: false,
@@ -108,7 +79,8 @@ async function buildModulesStyles() {
   )
 }
 
-export const buildModules: TaskFunction = series(
-  withTaskName('buildModulesComponents', buildModulesComponents),
-  withTaskName('buildModulesStyles', buildModulesStyles)
-)
+export const buildModules = () =>
+  Promise.all([
+    execCommand(buildModulesComponents),
+    execCommand(buildModulesStyles),
+  ])

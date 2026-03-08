@@ -193,6 +193,35 @@ describe('Table.vue', () => {
       wrapper.unmount()
     })
 
+    it('updates height and maxHeight sequentially without recursive error', async () => {
+      const errorSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      const wrapper = createTable(':height="height" :max-height="maxHeight"', {
+        data() {
+          return {
+            height: 200,
+            maxHeight: 400,
+          }
+        },
+      })
+
+      await doubleWait()
+      wrapper.vm.maxHeight = 500
+      await doubleWait()
+      wrapper.vm.height = 250
+      await doubleWait()
+
+      wrapper.unmount()
+      const hasRecursiveError = errorSpy.mock.calls.some((call) =>
+        call.some(
+          (msg) =>
+            typeof msg === 'string' &&
+            msg.includes('Maximum recursive updates exceeded')
+        )
+      )
+      errorSpy.mockRestore()
+      expect(hasRecursiveError).toBe(false)
+    })
+
     it('stripe', async () => {
       const wrapper = createTable('stripe')
       await doubleWait()
@@ -354,6 +383,93 @@ describe('Table.vue', () => {
       await doubleWait()
       expect(tr.classes()).not.toContain('current-row')
       expect(rows[1].classes()).toContain('current-row')
+      wrapper.unmount()
+    })
+
+    it('current-change event should pass correct oldCurrentRow when using current-row-key', async () => {
+      const currentChangeCalls: Array<[any, any]> = []
+      const wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+        <el-table 
+          :data="testData" 
+          row-key="id" 
+          highlight-current-row 
+          :current-row-key="currentRowKey"
+          @current-change="handleCurrentChange">
+          <el-table-column prop="name" label="片名" />
+          <el-table-column prop="release" label="发行日期" />
+          <el-table-column prop="director" label="导演" />
+          <el-table-column prop="runtime" label="时长（分）" />
+        </el-table>
+      `,
+        created() {
+          this.testData = getTestData()
+        },
+        data() {
+          return { currentRowKey: null }
+        },
+        methods: {
+          handleCurrentChange(currentRow, oldCurrentRow) {
+            currentChangeCalls.push([currentRow, oldCurrentRow])
+          },
+        },
+      })
+
+      await doubleWait()
+
+      // 第一次设置 current-row-key: oldCurrentRow 应该为 null
+      wrapper.vm.currentRowKey = 1
+      await doubleWait()
+      expect(currentChangeCalls.length).toBe(1)
+      expect(currentChangeCalls[0][0]).toMatchObject({
+        id: 1,
+        name: 'Toy Story',
+      })
+      expect(currentChangeCalls[0][1]).toBeNull()
+
+      // 从第1行切到第2行: oldCurrentRow 应该是第1行的数据
+      wrapper.vm.currentRowKey = 2
+      await doubleWait()
+      expect(currentChangeCalls.length).toBe(2)
+      expect(currentChangeCalls[1][0]).toMatchObject({
+        id: 2,
+        name: "A Bug's Life",
+      })
+      expect(currentChangeCalls[1][1]).toMatchObject({
+        id: 1,
+        name: 'Toy Story',
+      })
+
+      // 从第2行切到第3行: oldCurrentRow 应该是第2行的数据
+      wrapper.vm.currentRowKey = 3
+      await doubleWait()
+      expect(currentChangeCalls.length).toBe(3)
+      expect(currentChangeCalls[2][0]).toMatchObject({
+        id: 3,
+        name: 'Toy Story 2',
+      })
+      expect(currentChangeCalls[2][1]).toMatchObject({
+        id: 2,
+        name: "A Bug's Life",
+      })
+
+      // 从第3行切到第4行: oldCurrentRow 应该是第3行的数据
+      wrapper.vm.currentRowKey = 4
+      await doubleWait()
+      expect(currentChangeCalls.length).toBe(4)
+      expect(currentChangeCalls[3][0]).toMatchObject({
+        id: 4,
+        name: 'Monsters, Inc.',
+      })
+      expect(currentChangeCalls[3][1]).toMatchObject({
+        id: 3,
+        name: 'Toy Story 2',
+      })
+
       wrapper.unmount()
     })
   })
@@ -2127,6 +2243,52 @@ describe('Table.vue', () => {
       wrapper.findAll('.el-checkbox')[0].trigger('click')
       await doubleWait()
       expect(wrapper.vm.selected.length).toEqual(getTestData().length + 2)
+    })
+
+    it('a11y', async () => {
+      wrapper = mount({
+        components: {
+          ElTableColumn,
+          ElTable,
+        },
+        template: `
+          <el-table :data="testData" row-key="release">
+            <el-table-column prop="name" label="片名" />
+            <el-table-column prop="release" label="发行日期" />
+            <el-table-column prop="director" label="导演" />
+            <el-table-column prop="runtime" label="时长（分）" />
+          </el-table>
+        `,
+        data() {
+          const testData = getTestData() as any
+          testData[1].children = [
+            {
+              name: "A Bug's Life copy 1",
+              release: '1998-11-25-1',
+              director: 'John Lasseter',
+              runtime: 95,
+            },
+            {
+              name: "A Bug's Life copy 2",
+              release: '1998-11-25-2',
+              director: 'John Lasseter',
+              runtime: 95,
+            },
+          ]
+          return {
+            testData,
+          }
+        },
+      })
+      await doubleWait()
+      const button = wrapper.find('.el-table__expand-icon')
+      expect(button.attributes('aria-label')).toBe('Expand this row')
+      expect(button.attributes('aria-expanded')).toBe('false')
+
+      await button.trigger('click')
+      await doubleWait()
+      expect(button.attributes('aria-label')).toBe('Collapse this row')
+      expect(button.attributes('aria-expanded')).toBe('true')
     })
   })
 

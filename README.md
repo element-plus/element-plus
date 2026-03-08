@@ -3,8 +3,8 @@
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.org/package/element-plus">
-    <img src="https://img.shields.io/npm/v/element-plus.svg" />
+  <a href="https://npmx.dev/package/element-plus">
+    <img src="https://npmx.dev/api/registry/badge/version/element-plus" />
   </a>
   <a href="https://github.com/element-plus/element-plus">
     <img src="https://img.shields.io/badge/node-%20%3E%3D%2020-47c219" />
@@ -67,11 +67,6 @@ You can also try out Element Plus with its built-in component playground.
   <tbody>
     <tr>
       <td align="center" valign="middle">
-        <a href="https://melecode.com/" target="_blank">
-          <img width="150px" src="https://github.com/element-plus/element-plus/assets/82012629/9ca4269c-7545-4463-9bdc-8e5a1fbd0b08">
-        </a>
-      </td>
-      <td align="center" valign="middle">
         <a href="https://www.jnpfsoft.com/index.html?from=elementUI" target="_blank">
           <img width="150px" src="https://github.com/element-plus/element-plus/assets/17680888/6a044d82-c393-48ab-90b8-de0d3aad1624">
         </a>
@@ -91,11 +86,6 @@ You can also try out Element Plus with its built-in component playground.
   <tbody>
     <tr>
       <td align="center" valign="middle">
-        <a href="https://doc.buildadmin.com/?from=element-plus" target="_blank">
-          <img width="130px" src="https://user-images.githubusercontent.com/17680888/173179536-30e35fd1-cd5a-482a-bc41-9d5f0aa66fd4.png">
-        </a>
-      </td>
-      <td align="center" valign="middle">
         <a href="https://bit.dev/?from=element-ui" target="_blank">
           <img width="130px" src="https://user-images.githubusercontent.com/10095631/41342907-e44e7196-6f2f-11e8-92f2-47702dc8f059.png">
         </a>
@@ -108,8 +98,7 @@ You can also try out Element Plus with its built-in component playground.
 
 ## Translations
 
-Element Plus has been translated into multiple languages. You can click the badge to help us update the translations or apply to become
-a proofreader. [![Crowdin](https://badges.crowdin.net/element-plus/localized.svg)](https://crowdin.com/project/element-plus)
+Element Plus has been translated into multiple languages. You can click [here](https://crowdin.com/project/element-plus) to help us update the translations or apply to become a proofreader.
 
 For now, we are only providing English and Chinese versions due to limited resources, but we are looking forward to translating it into more languages. Please visit the link
 above and leave a message if you would like to help translate Element Plus into your preferred language.

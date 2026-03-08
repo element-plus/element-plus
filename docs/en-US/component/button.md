@@ -9,7 +9,7 @@ Commonly used button.
 
 ## Basic usage
 
-:::demo Use `type`, `plain`, `round` and `circle` to define Button's style.
+:::demo Use `type`, `plain`, `round`, `dashed` and `circle` to define Button's style.
 
 button/basic
 
@@ -74,6 +74,8 @@ button/icon
 ## Button Group
 
 Displayed as a button group, can be used to group a series of similar operations.
+
+In ^(2.11.9) you can use the `direction` attribute.
 
 :::demo Use tag `<el-button-group>` to group your buttons.
 
@@ -147,6 +149,7 @@ button/custom
 | link ^(2.2.1)     | determine whether it's a link button                                                                                                                 | ^[boolean]                                                                                                   | false   |
 | round             | determine whether it's a round button                                                                                                                | ^[boolean]                                                                                                   | false   |
 | circle            | determine whether it's a circle button                                                                                                               | ^[boolean]                                                                                                   | false   |
+| dashed ^(2.13.3)  | determine whether it's a dashed button                                                                                                               | ^[boolean]                                                                                                   | false   |
 | loading           | determine whether it's loading                                                                                                                       | ^[boolean]                                                                                                   | false   |
 | loading-icon      | customize loading icon component                                                                                                                     | ^[string] / ^[Component]                                                                                     | Loading |
 | disabled          | disable the button                                                                                                                                   | ^[boolean]                                                                                                   | false   |
@@ -180,10 +183,11 @@ button/custom
 
 ### ButtonGroup Attributes
 
-| Name | Description                                      | Type                                                               | Default |
-| ---- | ------------------------------------------------ | ------------------------------------------------------------------ | ------- |
-| size | control the size of buttons in this button-group | ^[enum]`'large' \| 'default' \| 'small'`                           | —       |
-| type | control the type of buttons in this button-group | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | —       |
+| Name                | Description                                      | Type                                                               | Default    |
+| ------------------- | ------------------------------------------------ | ------------------------------------------------------------------ | ---------- |
+| size                | control the size of buttons in this button-group | ^[enum]`'large' \| 'default' \| 'small'`                           | —          |
+| type                | control the type of buttons in this button-group | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | —          |
+| direction ^(2.11.9) | display direction                                | ^[enum]`'horizontal' \| 'vertical'`                                | horizontal |
 
 ### ButtonGroup Slots
 

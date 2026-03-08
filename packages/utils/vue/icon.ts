@@ -12,6 +12,8 @@ import { definePropType } from './props'
 
 import type { Component } from 'vue'
 
+export type IconPropType = string | Component
+
 export const iconPropType = definePropType<string | Component>([
   String,
   Object,
@@ -43,3 +45,6 @@ export const ValidateComponentsMap = {
   success: CircleCheck,
   error: CircleClose,
 }
+
+// All icon components have the same type, so we can pick any one of them to get the type
+export type IconComponent = typeof Loading

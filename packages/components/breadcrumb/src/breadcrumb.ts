@@ -1,7 +1,22 @@
 import { buildProps, iconPropType } from '@element-plus/utils'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
+import type { IconPropType } from '@element-plus/utils'
 
+export interface BreadcrumbProps {
+  /**
+   * @description separator character
+   */
+  separator?: string
+  /**
+   * @description icon component of icon separator
+   */
+  separatorIcon?: IconPropType
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `BreadcrumbProps` instead.
+ */
 export const breadcrumbProps = buildProps({
   /**
    * @description separator character
@@ -17,7 +32,10 @@ export const breadcrumbProps = buildProps({
     type: iconPropType,
   },
 } as const)
-export type BreadcrumbProps = ExtractPropTypes<typeof breadcrumbProps>
-export type BreadcrumbPropsPublic = __ExtractPublicPropTypes<
+
+/**
+ * @deprecated Removed after 3.0.0, Use `BreadcrumbProps` instead.
+ */
+export type BreadcrumbPropsPublic = ExtractPublicPropTypes<
   typeof breadcrumbProps
 >

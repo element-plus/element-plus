@@ -5,8 +5,8 @@ import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import type {
   ComponentPublicInstance,
   ExtractPropTypes,
+  ExtractPublicPropTypes,
   Ref,
-  __ExtractPublicPropTypes,
 } from 'vue'
 import type Button from './button.vue'
 
@@ -24,7 +24,7 @@ export const sliderButtonProps = buildProps({
   },
 } as const)
 export type SliderButtonProps = ExtractPropTypes<typeof sliderButtonProps>
-export type SliderButtonPropsPublic = __ExtractPublicPropTypes<
+export type SliderButtonPropsPublic = ExtractPublicPropTypes<
   typeof sliderButtonProps
 >
 

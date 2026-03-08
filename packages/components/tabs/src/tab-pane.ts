@@ -1,8 +1,11 @@
 import { buildProps } from '@element-plus/utils'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
 import type TabPane from './tab-pane.vue'
 
+/**
+ * @deprecated Removed after 3.0.0, Use `TabPaneProps` instead.
+ */
 export const tabPaneProps = buildProps({
   /**
    * @description title of the tab
@@ -34,7 +37,32 @@ export const tabPaneProps = buildProps({
   lazy: Boolean,
 } as const)
 
-export type TabPaneProps = ExtractPropTypes<typeof tabPaneProps>
-export type TabPanePropsPublic = __ExtractPublicPropTypes<typeof tabPaneProps>
+export type TabPaneProps = {
+  /**
+   * @description title of the tab
+   */
+  label?: string
+  /**
+   * @description identifier corresponding to the name of Tabs, representing the alias of the tab-pane, the default is ordinal number of the tab-pane in the sequence, e.g. the first tab-pane is '0'
+   */
+  name?: string | number
+  /**
+   * @description whether Tab is closable
+   */
+  closable?: boolean
+  /**
+   * @description whether Tab is disabled
+   */
+  disabled?: boolean
+  /**
+   * @description whether Tab is lazily rendered
+   */
+  lazy?: boolean
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `TabPaneProps` instead.
+ */
+export type TabPanePropsPublic = ExtractPublicPropTypes<typeof tabPaneProps>
 
 export type TabPaneInstance = InstanceType<typeof TabPane> & unknown

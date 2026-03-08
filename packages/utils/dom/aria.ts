@@ -1,5 +1,10 @@
 const FOCUSABLE_ELEMENT_SELECTORS = `a[href],button:not([disabled]),button:not([hidden]),:not([tabindex="-1"]),input:not([disabled]),input:not([type="hidden"]),select:not([disabled]),textarea:not([disabled])`
 
+export const isShadowRoot = (e: unknown): e is ShadowRoot => {
+  if (typeof ShadowRoot === 'undefined') return false
+  return e instanceof ShadowRoot
+}
+
 const isHTMLElement = (e: unknown): e is Element => {
   if (typeof Element === 'undefined') return false
   return e instanceof Element
@@ -9,8 +14,7 @@ const isHTMLElement = (e: unknown): e is Element => {
  * Determine if the testing element is visible on screen no matter if its on the viewport or not
  */
 export const isVisible = (element: HTMLElement) => {
-  if (typeof process !== 'undefined' && process.env.NODE_ENV === 'test')
-    return true
+  if (process.env.NODE_ENV === 'test') return true
   const computed = getComputedStyle(element)
   // element.offsetParent won't work on fix positioned
   // WARNING: potential issue here, going to need some expert advices on this issue

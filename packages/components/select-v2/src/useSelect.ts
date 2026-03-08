@@ -4,6 +4,7 @@ import {
   onMounted,
   reactive,
   ref,
+  useSlots,
   watch,
   watchEffect,
 } from 'vue'
@@ -35,6 +36,7 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import {
+  useFormDisabled,
   useFormItem,
   useFormItemInputId,
   useFormSize,
@@ -51,6 +53,7 @@ import type { SelectDropdownInstance } from './select-dropdown'
 const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   // inject
   const { t } = useLocale()
+  const slots = useSlots()
   const nsSelect = useNamespace('select')
   const nsInput = useNamespace('input')
   const { form: elForm, formItem: elFormItem } = useFormItem()
@@ -101,7 +104,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     afterComposition: (e) => onInput(e),
   })
 
-  const selectDisabled = computed(() => props.disabled || !!elForm?.disabled)
+  const selectDisabled = useFormDisabled()
 
   const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
     disabled: selectDisabled,
@@ -160,7 +163,9 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   })
 
   const iconComponent = computed(() =>
-    props.remote && props.filterable ? '' : props.suffixIcon
+    props.remote && props.filterable && !props.remoteShowSuffix
+      ? ''
+      : props.suffixIcon
   )
 
   const iconReverse = computed(
@@ -389,7 +394,9 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     get() {
       return (
         expanded.value &&
-        (props.loading || !isRemoteSearchEmpty.value) &&
+        (props.loading ||
+          !isRemoteSearchEmpty.value ||
+          (props.remote && !!slots.empty)) &&
         (!debouncing.value || !isEmpty(states.previousQuery))
       )
     },
@@ -425,8 +432,15 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   } = useAllowCreate(props, states)
 
   // methods
-  const toggleMenu = () => {
-    if (selectDisabled.value) return
+  const toggleMenu = (event?: Event) => {
+    if (
+      selectDisabled.value ||
+      (props.filterable &&
+        expanded.value &&
+        event &&
+        !suffixRef.value?.contains(event.target as Node))
+    )
+      return
 
     if (states.menuVisibleOnFocus) {
       // controlled by automaticDropdown
@@ -594,7 +608,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
       if (option.created) {
         handleQueryChange('')
       }
-      if (props.filterable && !props.reserveKeyword) {
+      if (props.filterable && (option.created || !props.reserveKeyword)) {
         states.inputValue = ''
       }
     } else {
@@ -760,12 +774,15 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
         return getValueKey(getValue(item)) === getValueKey(props.modelValue)
       })
     } else {
-      states.hoveringIndex = filteredOptions.value.findIndex((item) =>
-        props.modelValue.some(
-          (modelValue: unknown) =>
-            getValueKey(modelValue) === getValueKey(getValue(item))
+      const length = props.modelValue.length
+      if (length > 0) {
+        const lastValue = props.modelValue[length - 1]
+        states.hoveringIndex = filteredOptions.value.findIndex(
+          (item) => getValueKey(lastValue) === getValueKey(getValue(item))
         )
-      )
+      } else {
+        states.hoveringIndex = -1
+      }
     }
   }
 
@@ -888,9 +905,9 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
       states.inputValue = ''
       states.previousQuery = null
       states.isBeforeHide = true
+      states.menuVisibleOnFocus = false
       createNewOption('')
     }
-    emit('visible-change', val)
   })
 
   watch(
@@ -972,10 +989,24 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   })
   useResizeObserver(selectRef, handleResize)
   useResizeObserver(selectionRef, resetSelectionWidth)
-  useResizeObserver(menuRef, updateTooltip)
   useResizeObserver(wrapperRef, updateTooltip)
   useResizeObserver(tagMenuRef, updateTagTooltip)
   useResizeObserver(collapseItemRef, resetCollapseItemWidth)
+
+  // #21498
+  let stop: (() => void) | undefined
+  watch(
+    () => dropdownMenuVisible.value,
+    (newVal) => {
+      if (newVal) {
+        stop = useResizeObserver(menuRef, updateTooltip).stop
+      } else {
+        stop?.()
+        stop = undefined
+      }
+      emit('visible-change', newVal)
+    }
+  )
 
   return {
     // data exports

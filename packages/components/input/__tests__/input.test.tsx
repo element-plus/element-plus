@@ -2,7 +2,7 @@ import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import defineGetter from '@element-plus/test-utils/define-getter'
-import { ElFormItem as FormItem } from '@element-plus/components/form'
+import { ElForm, ElFormItem as FormItem } from '@element-plus/components/form'
 import Input from '../src/input.vue'
 
 import type { CSSProperties } from 'vue'
@@ -457,27 +457,49 @@ describe('Input.vue', () => {
       const handleClear = vi.fn()
       const handleInput = vi.fn()
       const content = ref('a')
+      const handleTextareaClear = vi.fn()
+      const handleTextareaInput = vi.fn()
+      const textareaContent = ref('a')
 
       const wrapper = mount(() => (
-        <Input
-          placeholder="请输入内容"
-          clearable
-          v-model={content.value}
-          onClear={handleClear}
-          onInput={handleInput}
-        />
+        <>
+          <Input
+            placeholder="请输入内容"
+            clearable
+            v-model={content.value}
+            onClear={handleClear}
+            onInput={handleInput}
+          />
+          <Input
+            type="textarea"
+            placeholder="请输入内容"
+            clearable
+            v-model={textareaContent.value}
+            onClear={handleTextareaClear}
+            onInput={handleTextareaInput}
+          />
+        </>
       ))
 
       const input = wrapper.find('input')
-      const vm = wrapper.vm
+      const textarea = wrapper.find('textarea')
       // focus to show clear button
       await input.trigger('focus')
       await nextTick()
-      vm.$el.querySelector('.el-input__clear').click()
+      wrapper.find('.el-input__clear').trigger('click')
       await nextTick()
       expect(content.value).toEqual('')
       expect(handleClear).toBeCalled()
+      expect(handleClear).toBeCalledWith(expect.any(MouseEvent))
       expect(handleInput).toBeCalled()
+      // textarea
+      await textarea.trigger('focus')
+      await nextTick()
+      wrapper.find('.el-textarea__clear').trigger('click')
+      await nextTick()
+      expect(textareaContent.value).toEqual('')
+      expect(handleTextareaClear).toBeCalled()
+      expect(handleTextareaInput).toBeCalled()
     })
 
     test('event:input', async () => {
@@ -635,6 +657,18 @@ describe('Input.vue', () => {
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
+    })
+
+    test('The disabled state of a component has higher priority than that of a form', async () => {
+      const wrapper = mount(() => (
+        <ElForm disabled>
+          <Input disabled={false} />
+        </ElForm>
+      ))
+
+      await nextTick()
+      const input = wrapper.find('.el-input')
+      expect(input.classes()).not.toContain('is-disabled')
     })
   })
 

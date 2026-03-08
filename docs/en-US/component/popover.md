@@ -78,7 +78,7 @@ popover/directive-usage
 
 | Name                               | Description                                                                                                                                                                           | Type                                                                                                                                                                        | Default                                                                    |
 | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| trigger                            | how the popover is triggered, not valid in controlled mode                                                                                                                            | ^[enum]`'click' \| 'focus' \| 'hover' \| 'contextmenu'` / ^[object]`Array<'click' \| 'focus' \| 'hover' \| 'contextmenu'>`                                                  | hover                                                                      |
+| trigger                            | how the popover is triggered, not valid in controlled mode                                                                                                                            | ^[enum]`'click' \| 'focus' \| 'hover' \| 'contextmenu'` / ^[array]`Array<'click' \| 'focus' \| 'hover' \| 'contextmenu'>`                                                   | hover                                                                      |
 | trigger-keys ^(2.9.8)              | When you click the mouse to focus on the trigger element, you can define a set of keyboard codes to control the display of popover through the keyboard, not valid in controlled mode | ^[Array]                                                                                                                                                                    | ['Enter','Space']                                                          |
 | title                              | popover title                                                                                                                                                                         | ^[string]                                                                                                                                                                   | —                                                                          |
 | effect                             | Tooltip theme, built-in theme: `dark` / `light`                                                                                                                                       | ^[enum]`'dark' \| 'light'` / ^[string]                                                                                                                                      | light                                                                      |
@@ -106,10 +106,10 @@ popover/directive-usage
 
 ### Slots
 
-| Name      | Description                                                                |
-| --------- | -------------------------------------------------------------------------- |
-| default   | text content of popover                                                    |
-| reference | HTML element that triggers popover, only a single root element is accepted |
+| Name      | Description                                                                     | Type                          |
+| --------- | ------------------------------------------------------------------------------- | ----------------------------- |
+| default   | content of popover, version ^(2.13.4) and later can receive the hide parameter. | ^[object]`{hide: () => void}` |
+| reference | HTML element that triggers popover, only a single root element is accepted      | -                             |
 
 ### Events
 

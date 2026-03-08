@@ -86,7 +86,7 @@
             v-if="showClearBtn && clearIcon"
             :class="`${nsInput.e('icon')} clear-icon`"
             @mousedown.prevent="NOOP"
-            @click="onClearIconClick"
+            @click="onClear"
           >
             <component :is="clearIcon" />
           </el-icon>
@@ -145,7 +145,7 @@
             v-if="clearIcon"
             :class="clearIconKls"
             @mousedown.prevent="NOOP"
-            @click="onClearIconClick"
+            @click="onClear"
           >
             <component :is="clearIcon" />
           </el-icon>
@@ -171,6 +171,7 @@
         @select-range="setSelectionRange"
         @set-picker-option="onSetPickerOption"
         @calendar-change="onCalendarChange"
+        @clear="onClear"
         @panel-change="onPanelChange"
         @mousedown.stop
       />
@@ -274,11 +275,8 @@ const {
   valueIsEmpty,
   emitInput,
   onPick,
-  //@ts-ignore
   onSetPickerOption,
-  //@ts-ignore
   onCalendarChange,
-  //@ts-ignore
   onPanelChange,
 } = commonPicker
 
@@ -297,7 +295,13 @@ const { isFocused, handleFocus, handleBlur } = useFocusController(inputRef, {
     )
   },
   afterBlur() {
-    handleChange()
+    if (isTimePicker.value && !props.saveOnBlur) {
+      if (!valueIsEmpty.value) {
+        pickerOptions.value.handleCancel?.()
+      }
+    } else {
+      handleChange()
+    }
     pickerVisible.value = false
     hasJustTabExitedInput = false
     props.validateEvent &&
@@ -409,6 +413,7 @@ const displayValue = computed<UserInput>(() => {
   } else if (userInput.value !== null) {
     return userInput.value
   }
+  if (isTimePicker.value && valueIsEmpty.value && !props.saveOnBlur) return ''
   if (!isTimePicker.value && valueIsEmpty.value) return ''
   if (!pickerVisible.value && valueIsEmpty.value) return ''
   if (formattedValue) {
@@ -442,10 +447,10 @@ const showClearBtn = computed(
     (hovering.value || isFocused.value)
 )
 
-const onClearIconClick = (event: MouseEvent) => {
+const onClear = (event?: MouseEvent) => {
   if (props.readonly || pickerDisabled.value) return
   if (showClearBtn.value) {
-    event.stopPropagation()
+    event?.stopPropagation()
     // When the handleClear Function was provided, emit null will be executed inside it
     // There is no need for us to execute emit null twice. #14752
     if (pickerOptions.value.handleClear) {
@@ -520,13 +525,15 @@ onBeforeUnmount(() => {
 })
 
 const handleChange = () => {
+  if (isTimePicker.value && !props.saveOnBlur) return
+
   if (userInput.value) {
     const value = parseUserInputToDayjs(displayValue.value)
     if (value) {
       if (isValidValue(value)) {
         emitInput(dayOrDaysToDate(value))
-        userInput.value = null
       }
+      userInput.value = null
     }
   }
   if (userInput.value === '') {

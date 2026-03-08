@@ -11,6 +11,7 @@ import { EVENT_CODE } from '@element-plus/constants'
 import TimePicker from '../src/time-picker'
 import Picker from '../src/common/picker.vue'
 import PanelTimePick from '../src/time-picker-com/panel-time-pick.vue'
+import PanelTimeRangePick from '../src/time-picker-com/panel-time-range.vue'
 
 const makeRange = (start, end) => {
   const result = []
@@ -294,6 +295,33 @@ describe('TimePicker', () => {
     await nextTick()
     await rAF()
     expect(handleVisibleChange).toHaveBeenCalledTimes(3)
+  })
+
+  it('should cancel correctly the right value after manual input', async () => {
+    const value = ref<[Date, Date]>([
+      new Date(2016, 9, 10, 8, 40),
+      new Date(2016, 9, 10, 9, 40),
+    ])
+    const wrapper = mount(() => (
+      <>
+        <TimePicker v-model={value.value} is-range />
+        <button>click me</button>
+      </>
+    ))
+    const input = wrapper.find('input')
+    await input.trigger('focus')
+
+    const picker = wrapper.findComponent(PanelTimeRangePick)
+    const secondPanel = picker.findAll('.el-time-range-picker__cell')[1]
+    const currentHour = secondPanel.find('.el-time-spinner__item.is-active')
+    expect(currentHour.text()).toBe('09')
+    await currentHour.trigger('mouseover')
+    await picker.find('.el-time-panel__btn.cancel').trigger('click')
+    const secondInput = wrapper.findAll('.el-range-input')[1]
+    await secondInput.setValue('07:40:00')
+    expect(secondInput.element.value).toBe('07:40:00')
+    await input.trigger('blur')
+    expect(secondInput.element.value).toBe('09:40:00')
   })
 
   it('selectableRange ', async () => {
@@ -662,7 +690,10 @@ describe('TimePicker(range)', () => {
       new Date(2016, 9, 10, 9, 40),
       new Date(2016, 9, 10, 15, 40),
     ])
-    const wrapper = mount(() => <TimePicker v-model={value.value} is-range />)
+    const onClear = vi.fn()
+    const wrapper = mount(() => (
+      <TimePicker v-model={value.value} is-range onClear={onClear} />
+    ))
 
     const findInputWrapper = () => wrapper.find('.el-date-editor')
     const findClear = () => wrapper.find('.el-range__close-icon')
@@ -675,6 +706,7 @@ describe('TimePicker(range)', () => {
     await clearIcon.trigger('click')
     await nextTick()
     expect(value.value).toEqual(null)
+    expect(onClear).toHaveBeenCalledOnce()
   })
 
   it('should close pick when click the clear button on pick opened', async () => {
@@ -967,6 +999,94 @@ describe('TimePicker(range)', () => {
     const [startInput, endInput] = wrapper.findAll('input')
     expect(startInput.element.value).toBe('')
     expect(endInput.element.value).toBe('')
+  })
+
+  it('should keep empty input on focus when saveOnBlur is false', async () => {
+    const value = ref('')
+    const wrapper = mount(() => (
+      <TimePicker v-model={value.value} saveOnBlur={false} />
+    ))
+
+    const input = wrapper.find('input')
+    await input.trigger('focus')
+    await nextTick()
+
+    expect(input.element.value).toBe('')
+  })
+
+  it('should keep range inputs empty on focus when saveOnBlur is false', async () => {
+    const value = ref<[Date, Date] | []>([])
+    const wrapper = mount(() => (
+      <TimePicker v-model={value.value} is-range saveOnBlur={false} />
+    ))
+
+    const [startInput, endInput] = wrapper.findAll('input')
+    await startInput.trigger('focus')
+    await nextTick()
+
+    expect(startInput.element.value).toBe('')
+    expect(endInput.element.value).toBe('')
+  })
+
+  it('should keep clear state and restore confirmed value on cancel when saveOnBlur is false', async () => {
+    const value = ref('')
+    const wrapper = mount(
+      () => <TimePicker v-model={value.value} saveOnBlur={false} clearable />,
+      {
+        attachTo: document.body,
+      }
+    )
+    const input = wrapper.find('input')
+
+    const openPanel = async () => {
+      await input.trigger('blur')
+      await input.trigger('focus')
+      await nextTick()
+      await rAF()
+    }
+
+    const selectTime = async (hour: number, minute: number, second: number) => {
+      const list = document.querySelectorAll('.el-time-spinner__list')
+      ;(list[0].querySelectorAll('.el-time-spinner__item')[hour] as any).click()
+      await nextTick()
+      ;(
+        list[1].querySelectorAll('.el-time-spinner__item')[minute] as any
+      ).click()
+      await nextTick()
+      ;(
+        list[2].querySelectorAll('.el-time-spinner__item')[second] as any
+      ).click()
+      await nextTick()
+    }
+
+    await openPanel()
+    await selectTime(21, 36, 20)
+    ;(document.querySelector('.el-time-panel__btn.confirm') as any).click()
+    await nextTick()
+    expect(input.element.value).toBe('21:36:20')
+
+    await wrapper.find('.el-input').trigger('mouseenter')
+    await rAF()
+    await wrapper.find('.clear-icon').trigger('click')
+    await nextTick()
+    expect(input.element.value).toBe('')
+
+    await openPanel()
+    ;(document.querySelector('.el-time-panel__btn.cancel') as any).click()
+    await nextTick()
+    expect(input.element.value).toBe('')
+
+    await openPanel()
+    await selectTime(5, 10, 0)
+    ;(document.querySelector('.el-time-panel__btn.confirm') as any).click()
+    await nextTick()
+    expect(input.element.value).toBe('05:10:00')
+
+    await openPanel()
+    await selectTime(6, 20, 30)
+    ;(document.querySelector('.el-time-panel__btn.cancel') as any).click()
+    await nextTick()
+    expect(input.element.value).toBe('05:10:00')
   })
 
   it('avoid update initial value when using disabledHours', async () => {

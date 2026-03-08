@@ -1,6 +1,8 @@
 import {
   Comment,
+  Fragment,
   computed,
+  createTextVNode,
   getCurrentInstance,
   h,
   ref,
@@ -16,7 +18,7 @@ import {
   getDefaultClassName,
   treeCellPrefix,
 } from '../config'
-import { parseMinWidth, parseWidth } from '../util'
+import { ensureValidVNode, parseMinWidth, parseWidth } from '../util'
 
 import type { ComputedRef, RendererNode, Slots, VNode } from 'vue'
 import type { TableColumn, TableColumnCtx } from './defaults'
@@ -122,7 +124,17 @@ function useRender<T extends DefaultRow>(
       column.renderHeader = (scope) => {
         // help render
         instance.columnConfig.value['label']
-        return renderSlot(slots, 'header', scope, () => [column.label])
+
+        if (slots.header) {
+          const slotResult = slots.header(scope)
+          // Manual valid check to support v-if fallback
+          // and bypass renderSlot to support HMR
+          if (ensureValidVNode(slotResult)) {
+            return h(Fragment, slotResult)
+          }
+        }
+
+        return createTextVNode(column.label)
       }
     }
 

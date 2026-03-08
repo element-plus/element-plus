@@ -5,7 +5,7 @@ import dayjs from 'dayjs'
 import { CircleClose } from '@element-plus/icons-vue'
 import customParseFormat from 'dayjs/plugin/customParseFormat.js'
 import Select from '@element-plus/components/select'
-import { ElFormItem } from '@element-plus/components/form'
+import { ElForm, ElFormItem } from '@element-plus/components/form'
 import TimeSelect from '../src/time-select.vue'
 
 dayjs.extend(customParseFormat)
@@ -161,6 +161,26 @@ describe('TimeSelect', () => {
     expect([...items].at(-1)?.textContent).toBe('23:59')
   })
 
+  it('should not duplicate end time when includeEndTime with custom format', async () => {
+    const wrapper = mount(() => (
+      <TimeSelect
+        start="08:30"
+        step="00:15"
+        end="09:30"
+        format="hh:mm A"
+        includeEndTime
+      />
+    ))
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    const items = document.querySelectorAll('.el-select-dropdown__item>span')
+    expect(items).toHaveLength(5)
+    const last = [...items].at(-1)?.textContent
+    const secondLast = [...items].at(-2)?.textContent
+    expect(last).toBe('09:30 AM')
+    expect(last).not.toBe(secondLast)
+  })
+
   it('should not include end time', async () => {
     const wrapper = mount(() => (
       <TimeSelect start="00:00" step="00:05" end="23:59" />
@@ -243,6 +263,23 @@ describe('TimeSelect', () => {
     expect(option?.textContent).toBe('01:00 PM')
   })
 
+  it('should pass name to inner input', () => {
+    const wrapper = mount(() => <TimeSelect name="timeSelectName" />)
+    const input = wrapper.find('input')
+    expect(input.attributes('name')).toBe('timeSelectName')
+  })
+
+  it('should fallback to default step when step is 00:00', async () => {
+    const wrapper = mount(() => (
+      <TimeSelect start="09:00" end="10:00" step="00:00" />
+    ))
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    const items = document.querySelectorAll('.el-select-dropdown__item>span')
+    expect(items).toHaveLength(3)
+    expect([...items].at(-1)?.textContent).toBe('10:00')
+  })
+
   describe('form item accessibility integration', () => {
     it('automatic id attachment', async () => {
       const wrapper = mount(() => (
@@ -294,6 +331,18 @@ describe('TimeSelect', () => {
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
+    })
+
+    it('The disabled state of a component has higher priority than that of a form', async () => {
+      const wrapper = mount(() => (
+        <ElForm disabled>
+          <TimeSelect disabled={false} />
+        </ElForm>
+      ))
+
+      await nextTick()
+      const input = wrapper.find('input')
+      expect(input.attributes('disabled')).toBeUndefined()
     })
   })
 })

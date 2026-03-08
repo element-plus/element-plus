@@ -121,7 +121,11 @@
       <textarea
         :id="inputId"
         ref="textarea"
-        :class="[nsTextarea.e('inner'), nsInput.is('focus', isFocused)]"
+        :class="[
+          nsTextarea.e('inner'),
+          nsInput.is('focus', isFocused),
+          nsTextarea.is('clearable', clearable),
+        ]"
         v-bind="attrs"
         :name="name"
         :minlength="minlength"
@@ -146,6 +150,14 @@
         @change="handleChange"
         @keydown="handleKeydown"
       />
+      <el-icon
+        v-if="showClear"
+        :class="[nsTextarea.e('icon'), nsTextarea.e('clear')]"
+        @mousedown.prevent="NOOP"
+        @click="clear"
+      >
+        <component :is="clearIcon" />
+      </el-icon>
       <span
         v-if="isWordLimitVisible"
         :style="countStyle"
@@ -175,7 +187,7 @@ import {
 import { useResizeObserver } from '@vueuse/core'
 import { isNil } from 'lodash-unified'
 import { ElIcon } from '@element-plus/components/icon'
-import { Hide as IconHide, View as IconView } from '@element-plus/icons-vue'
+import { Hide, View } from '@element-plus/icons-vue'
 import {
   useFormDisabled,
   useFormItem,
@@ -202,9 +214,10 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import { calcTextareaHeight, looseToNumber } from './utils'
-import { inputEmits, inputProps } from './input'
+import { inputEmits, inputPropsDefaults } from './input'
 
 import type { StyleValue } from 'vue'
+import type { InputProps } from './input'
 
 type TargetElement = HTMLInputElement | HTMLTextAreaElement
 
@@ -213,7 +226,7 @@ defineOptions({
   name: COMPONENT_NAME,
   inheritAttrs: false,
 })
-const props = defineProps(inputProps)
+const props = withDefaults(defineProps<InputProps>(), inputPropsDefaults)
 const emit = defineEmits(inputEmits)
 
 const rawAttrs = useRawAttrs()
@@ -279,9 +292,7 @@ const validateState = computed(() => elFormItem?.validateState || '')
 const validateIcon = computed(
   () => validateState.value && ValidateComponentsMap[validateState.value]
 )
-const passwordIcon = computed(() =>
-  passwordVisible.value ? IconView : IconHide
-)
+const passwordIcon = computed(() => (passwordVisible.value ? View : Hide))
 const containerStyle = computed<StyleValue>(() => [
   rawAttrs.style as StyleValue,
 ])
@@ -501,10 +512,10 @@ const select = () => {
   _ref.value?.select()
 }
 
-const clear = () => {
+const clear = (evt?: MouseEvent) => {
   emit(UPDATE_MODEL_EVENT, '')
   emit(CHANGE_EVENT, '')
-  emit('clear')
+  emit('clear', evt)
   emit(INPUT_EVENT, '')
 }
 

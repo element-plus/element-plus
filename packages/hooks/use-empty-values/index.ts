@@ -8,16 +8,31 @@ import {
 } from '@element-plus/utils'
 import { isEqual } from 'lodash-unified'
 
-import type { ExtractPropTypes, InjectionKey, Ref } from 'vue'
+import type { InjectionKey, Ref } from 'vue'
 
-type EmptyValuesContext = ExtractPropTypes<typeof useEmptyValuesProps>
+// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
+type ValueOnClear = string | number | boolean | Function | null
 
-export const emptyValuesContextKey: InjectionKey<Ref<EmptyValuesContext>> =
+export interface UseEmptyValuesProps {
+  /**
+   * @description empty values supported by the component
+   */
+  emptyValues?: unknown[]
+  /**
+   * @description return value when cleared, if you want to set `undefined`, use `() => undefined`
+   */
+  valueOnClear?: ValueOnClear
+}
+
+export const emptyValuesContextKey: InjectionKey<Ref<UseEmptyValuesProps>> =
   Symbol('emptyValuesContextKey')
 export const SCOPE = 'use-empty-values'
 export const DEFAULT_EMPTY_VALUES = ['', undefined, null]
 export const DEFAULT_VALUE_ON_CLEAR = undefined
 
+/**
+ * @deprecated Removed after 3.0.0, Use `UseEmptyValuesProps` instead.
+ */
 export const useEmptyValuesProps = buildProps({
   /**
    * @description empty values supported by the component
@@ -46,12 +61,12 @@ export const useEmptyValuesProps = buildProps({
 } as const)
 
 export const useEmptyValues = (
-  props: EmptyValuesContext,
+  props: UseEmptyValuesProps,
   defaultValue?: null | undefined
 ) => {
   const config = getCurrentInstance()
-    ? inject(emptyValuesContextKey, ref<EmptyValuesContext>({}))
-    : ref<EmptyValuesContext>({})
+    ? inject(emptyValuesContextKey, ref<UseEmptyValuesProps>({}))
+    : ref<UseEmptyValuesProps>({})
 
   const emptyValues = computed(
     () => props.emptyValues || config.value.emptyValues || DEFAULT_EMPTY_VALUES

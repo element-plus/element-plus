@@ -21,7 +21,10 @@
           :aria-label="title || undefined"
           :aria-labelledby="!title ? titleId : undefined"
           :aria-describedby="bodyId"
-          :class="`${ns.namespace.value}-overlay-dialog`"
+          :class="[
+            `${ns.namespace.value}-overlay-dialog`,
+            ns.is('closing', closing),
+          ]"
           :style="overlayDialogStyle"
           @click="overlayEvent.onClick"
           @mousedown="overlayEvent.onMousedown"
@@ -84,15 +87,17 @@ import ElFocusTrap from '@element-plus/components/focus-trap'
 import ElTeleport from '@element-plus/components/teleport'
 import ElDialogContent from './dialog-content.vue'
 import { dialogInjectionKey } from './constants'
-import { dialogEmits, dialogProps } from './dialog'
+import { dialogEmits, dialogPropsDefaults } from './dialog'
 import { useDialog } from './use-dialog'
+
+import type { DialogProps } from './dialog'
 
 defineOptions({
   name: 'ElDialog',
   inheritAttrs: false,
 })
 
-const props = defineProps(dialogProps)
+const props = withDefaults(defineProps<DialogProps>(), dialogPropsDefaults)
 defineEmits(dialogEmits)
 const slots = useSlots()
 
@@ -130,6 +135,7 @@ const {
   onCloseAutoFocus,
   onCloseRequested,
   onFocusoutPrevented,
+  closing,
 } = useDialog(props, dialogRef)
 
 provide(dialogInjectionKey, {

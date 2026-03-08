@@ -133,7 +133,7 @@ export const useCalendar = (
     const firstMonth = firstDay.get('month')
     const lastMonth = lastDay.get('month')
 
-    // Current mouth
+    // Current month
     if (firstMonth === lastMonth) {
       return [[firstDay, lastDay]]
     }
@@ -178,6 +178,14 @@ export const useCalendar = (
     }
   }
 
+  const handleDateChange = (date: Dayjs | 'today') => {
+    if (date === 'today') {
+      selectDate('today')
+    } else {
+      pickDay(date)
+    }
+  }
+
   return {
     calculateValidatedDateRange,
     date,
@@ -185,5 +193,6 @@ export const useCalendar = (
     pickDay,
     selectDate,
     validatedRange,
+    handleDateChange,
   }
 }

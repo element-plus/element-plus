@@ -5,7 +5,7 @@ import { NOOP, hasClass } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { makeMountFunc } from '@element-plus/test-utils/make-mount'
 import { rAF } from '@element-plus/test-utils/tick'
-import { CircleClose } from '@element-plus/icons-vue'
+import { ArrowDown, CircleClose } from '@element-plus/icons-vue'
 import { usePopperContainerId } from '@element-plus/hooks'
 import { ElForm, ElFormItem } from '@element-plus/components/form'
 import Select from '../src/select.vue'
@@ -68,6 +68,7 @@ interface SelectProps {
   multiple?: boolean
   collapseTags?: boolean
   collapseTagsTooltip?: boolean
+  tagTooltip?: Record<string, any>
   maxCollapseTags?: number
   filterable?: boolean
   remote?: boolean
@@ -76,6 +77,7 @@ interface SelectProps {
   popperAppendToBody?: boolean
   placeholder?: string
   debounce?: number
+  automaticDropdown?: boolean
   [key: string]: any
 }
 
@@ -135,6 +137,7 @@ const createSelect = (
         :multiple="multiple"
         :collapseTags="collapseTags"
         :collapseTagsTooltip="collapseTagsTooltip"
+        :tag-tooltip="tagTooltip"
         :max-collapse-tags="maxCollapseTags"
         :filterable="filterable"
         :multiple-limit="multipleLimit"
@@ -146,6 +149,7 @@ const createSelect = (
         :teleported="teleported"
         :tabindex="tabindex"
         :default-first-option="defaultFirstOption"
+        :automatic-dropdown="automaticDropdown"
         ${
           options.methods && options.methods.filterMethod
             ? `:filter-method="filterMethod"`
@@ -187,6 +191,7 @@ const createSelect = (
           multiple: false,
           collapseTags: false,
           collapseTagsTooltip: false,
+          tagTooltip: undefined,
           maxCollapseTags: 1,
           remote: false,
           filterable: false,
@@ -198,6 +203,7 @@ const createSelect = (
           teleported: undefined,
           tabindex: undefined,
           defaultFirstOption: false,
+          automaticDropdown: false,
           ...(options.data && options.data()),
         }
       },
@@ -913,6 +919,43 @@ describe('Select', () => {
       })
       expect(tags.length).toBe(4)
     })
+
+    it('use tag-tooltip', async () => {
+      const appendTarget = document.createElement('div')
+      appendTarget.className = 'append-target'
+      document.body.appendChild(appendTarget)
+      const wrapper = createSelect({
+        data: () => {
+          return {
+            multiple: true,
+            collapseTags: true,
+            collapseTagsTooltip: true,
+            tagTooltip: { appendTo: '.append-target' },
+            value: [],
+          }
+        },
+      })
+      await nextTick()
+      const options = getOptions()
+      options[0].click()
+      await nextTick()
+      options[1].click()
+      await nextTick()
+      options[2].click()
+      await nextTick()
+
+      const select = wrapper.findComponent(Select)
+      const tagTooltip = select.findComponent({ ref: 'tagTooltipRef' })
+      expect(tagTooltip.props('appendTo')).toBe('.append-target')
+
+      const triggerWrappers = wrapper.findAll('.el-tooltip__trigger')
+      expect(triggerWrappers[0]).toBeDefined()
+      const tags = wrapper.findAll('.el-tag').filter((item) => {
+        return !hasClass(item.element, 'in-tooltip')
+      })
+      expect(tags.length).toBe(2)
+      expect(tags[1].element.textContent.trim()).toBe('+ 2')
+    })
   })
 
   describe('manually set modelValue', () => {
@@ -1180,10 +1223,10 @@ describe('Select', () => {
       // selected the new option
       selectVm.onSelect(selectVm.filteredOptions[0])
       expect(vm.value).toBe('1111')
-      await input.trigger('click')
+      await wrapper.find('.el-select__suffix').trigger('click')
       await nextTick()
       await rAF()
-      await input.trigger('click')
+      await wrapper.find('.el-select__suffix').trigger('click')
       await nextTick()
       await rAF()
       expect(selectVm.filteredOptions.length).toBe(4)
@@ -1249,6 +1292,27 @@ describe('Select', () => {
         key: EVENT_CODE.backspace,
       })
       expect(selectVm.filteredOptions.length).toBe(3)
+    })
+
+    it('should clear input value after creating a tag with reserveKeyword', async () => {
+      const wrapper = createSelect({
+        data: () => ({
+          allowCreate: true,
+          filterable: true,
+          multiple: true,
+          reserveKeyword: true,
+          options: [{ value: '1', label: 'option 1' }],
+        }),
+      })
+      await nextTick()
+      const selectVm = wrapper.findComponent(Select).vm as any
+      const input = wrapper.find('input')
+      input.element.value = 'new tag'
+      await input.trigger('input')
+      await nextTick()
+      selectVm.onSelect(selectVm.filteredOptions.find((o: any) => o.created))
+      await nextTick()
+      expect(selectVm.states.inputValue).toBe('')
     })
   })
 
@@ -1875,6 +1939,23 @@ describe('Select', () => {
       await nextTick()
       const options = getOptions()
       expect(options.length).toBe(3)
+    })
+
+    it('should keep the select dropdown open when using the filterable', async () => {
+      const wrapper = createSelect({
+        data() {
+          return {
+            filterable: true,
+          }
+        },
+      })
+      const select = wrapper.findComponent({ name: 'ElSelectV2' })
+      const input = wrapper.find('input')
+      await input.trigger('click')
+      expect((select.vm as any).expanded).toBe(true)
+
+      await input.trigger('click')
+      expect((select.vm as any).expanded).toBe(true)
     })
   })
 
@@ -2539,6 +2620,32 @@ describe('Select', () => {
       await nextTick()
       expect(wrapper.find('.custom-tag').text()).toBe('enabled')
     })
+
+    it('The disabled state of a component has higher priority than that of a form', async () => {
+      const options = [
+        { value: 'a', label: 'A' },
+        { value: 'b', label: 'B' },
+        { value: 'c', label: 'C' },
+      ]
+      const wrapper = _mount(
+        `<el-form disabled>
+          <el-select :disabled="false" v-model="value" :options="options">
+          </el-select>
+        </el-form>`,
+        {
+          data() {
+            return {
+              value: 'a',
+              options,
+            }
+          },
+        }
+      )
+
+      await nextTick()
+      const innerInput = wrapper.find('.el-select__input')
+      expect(innerInput.attributes('disabled')).toBeUndefined()
+    })
   })
 
   it('loading appears on first click when remote', async () => {
@@ -2573,5 +2680,288 @@ describe('Select', () => {
     const input = wrapper.find('input')
     await input.trigger('click')
     expect(selectVm.dropdownMenuVisible).toBeTruthy()
+  })
+
+  it('should show suffix', async () => {
+    const wrapper = _mount(
+      `
+        <el-select
+          v-model="value"
+          filterable
+          remote
+          :remote-method="remoteMethod"
+          :options="options"
+          remote-show-suffix
+        >
+        </el-select>`,
+      {
+        data() {
+          return { options: [], value: '' }
+        },
+        methods: {
+          remoteMethod() {
+            this.loading = true
+            setTimeout(() => {
+              this.loading = false
+            }, 1000)
+          },
+        },
+      }
+    )
+
+    const suffixIcon = wrapper.findComponent(ArrowDown)
+    expect(suffixIcon.exists()).toBe(true)
+  })
+
+  it('hoveringIndex should stay on the most recently selected option when using multiple', async () => {
+    const wrapper = createSelect({
+      data() {
+        return {
+          multiple: true,
+          options: [
+            {
+              value: 1,
+              label: 'option 1',
+            },
+            {
+              value: 2,
+              label: 'option 2',
+            },
+            {
+              value: 3,
+              label: 'option 3',
+            },
+            {
+              value: 4,
+              label: 'option 4',
+            },
+            {
+              value: 5,
+              label: 'option 5',
+            },
+          ],
+          value: [1, 2],
+        }
+      },
+    })
+
+    const select = wrapper.findComponent(Select)
+    const selectVm = select.vm as any
+    const input = wrapper.find('input')
+
+    await input.trigger('click')
+    expect(selectVm.states.hoveringIndex).toBe(1)
+  })
+
+  it('should trigger visible-change when dropdownMenuVisible changes', async () => {
+    const states = ['Alabama', 'Alaska']
+    const list = states.map((item): ListItem => {
+      return { value: `value:${item}`, label: `label:${item}` }
+    })
+    const options = ref([])
+    const handleVisibleChange = vi.fn()
+    const remoteMethod = (query: string) => {
+      if (query !== '') {
+        options.value = list.filter((item) => {
+          return item.label.toLowerCase().includes(query.toLowerCase())
+        })
+      } else {
+        options.value = []
+      }
+    }
+    const wrapper = createSelect({
+      data() {
+        return {
+          filterable: true,
+          remote: true,
+          options,
+          value: [],
+        }
+      },
+      methods: {
+        remoteMethod,
+        onVisibleChange: handleVisibleChange,
+      },
+    })
+
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    expect(handleVisibleChange).not.toHaveBeenCalled()
+    await input.setValue('label:Alabama')
+    expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+    await input.trigger('blur')
+    expect(handleVisibleChange).toHaveBeenCalledTimes(2)
+  })
+
+  it('should show empty slot correctly in remote search scenarios', async () => {
+    vi.useFakeTimers()
+    const wrapper = _mount(
+      `
+      <el-select
+        v-model="value"
+        filterable
+        remote
+        :remote-method="remoteMethod"
+        :options="options"
+      >
+        <template #empty>
+          <div class="custom-empty">NO DATA</div>
+        </template>
+      </el-select>
+      `,
+      {
+        data() {
+          return {
+            value: '',
+            options: [],
+          }
+        },
+        methods: {
+          remoteMethod(query: string) {
+            if (!query || query === 'empty') {
+              this.options = []
+            } else {
+              this.options = [{ value: '1', label: 'Option 1' }]
+            }
+          },
+        },
+      }
+    )
+
+    const select = wrapper.findComponent({ name: 'ElSelectV2' })
+    const input = wrapper.find('input')
+    const vm = select.vm as any
+
+    await input.trigger('click')
+    expect(vm.options.length).toBe(0)
+    expect(vm.dropdownMenuVisible).toBe(true)
+    expect(document.querySelector('.custom-empty')).not.toBeNull()
+
+    await input.setValue('a')
+    vi.runAllTimers()
+    await nextTick()
+    expect(vm.options.length).toBe(1)
+    expect(vm.dropdownMenuVisible).toBe(true)
+    expect(document.querySelector('.custom-empty')).toBeNull()
+
+    await input.setValue('empty')
+    vi.runAllTimers()
+    await nextTick()
+
+    expect(vm.options.length).toBe(0)
+    expect(vm.dropdownMenuVisible).toBe(true)
+    expect(document.querySelector('.custom-empty')).not.toBeNull()
+
+    vi.useRealTimers()
+  })
+
+  it('should not open popper when automatic-dropdown not set', async () => {
+    const wrapper = createSelect()
+    await nextTick()
+    const select = wrapper.findComponent(Select)
+    const input = select.find('input')
+    await input.trigger('focus')
+    expect((select.vm as any).expanded).toBe(false)
+  })
+
+  it('should open popper when automatic-dropdown is set', async () => {
+    const wrapper = createSelect({
+      data: () => ({ automaticDropdown: true }),
+    })
+    await nextTick()
+    const select = wrapper.findComponent(Select)
+    const input = select.find('input')
+    await input.trigger('focus')
+    expect((select.vm as any).expanded).toBe(true)
+  })
+
+  it('automatic dropdown should cooperate with click to open the dropdown', async () => {
+    const wrapper = createSelect({
+      data: () => ({ automaticDropdown: true }),
+    })
+    await nextTick()
+    const select = wrapper.findComponent(Select)
+    const input = select.find('input')
+    await input.trigger('focus')
+    expect((select.vm as any).expanded).toBe(true)
+    await input.trigger('keydown', { key: EVENT_CODE.down })
+    await input.trigger('keydown', { key: EVENT_CODE.enter })
+    expect((select.vm as any).expanded).toBe(false)
+    await input.trigger('click')
+    expect((select.vm as any).expanded).toBe(true)
+  })
+
+  describe('input-wrapper in multiple mode', () => {
+    it('should hide input-wrapper when empty and not focused', async () => {
+      const wrapper = createSelect({
+        data: () => ({
+          multiple: true,
+          filterable: true,
+        }),
+      })
+      await nextTick()
+      const select = wrapper.findComponent(Select)
+      const inputWrapper = select.find('.el-select__input-wrapper')
+      const input = select.find('input')
+
+      // When input is empty and not focused, input-wrapper should have hidden class
+      expect(inputWrapper.classes()).toContain('is-hidden')
+
+      // Focus the input
+      await input.trigger('focus')
+
+      // When focused, input-wrapper should not have hidden class
+      expect(inputWrapper.classes()).not.toContain('is-hidden')
+
+      // Blur the input
+      await input.trigger('blur')
+
+      // When blurred and empty, input-wrapper should have hidden class again
+      expect(inputWrapper.classes()).toContain('is-hidden')
+    })
+
+    it('should show input-wrapper when input has value', async () => {
+      const wrapper = createSelect({
+        data: () => ({
+          multiple: true,
+          filterable: true,
+        }),
+      })
+      await nextTick()
+      const select = wrapper.findComponent(Select)
+      const inputWrapper = select.find('.el-select__input-wrapper')
+      const input = select.find('input')
+
+      // Initially empty, should be hidden
+      expect(inputWrapper.classes()).toContain('is-hidden')
+
+      // Set input value
+      await input.setValue('test')
+
+      // When input has value, input-wrapper should not have hidden class
+      expect(inputWrapper.classes()).not.toContain('is-hidden')
+
+      // Clear input
+      await input.setValue('')
+
+      // When empty again, should be hidden
+      expect(inputWrapper.classes()).toContain('is-hidden')
+    })
+  })
+
+  it('should not bubble native change event from filter input', async () => {
+    const wrapper = createSelect({
+      data: () => ({ filterable: true }),
+    })
+
+    const nativeChangeHandler = vi.fn()
+    const parent = document.createElement('div')
+    parent.addEventListener('change', nativeChangeHandler)
+    parent.appendChild(wrapper.element)
+
+    await wrapper.find('input').trigger('change')
+    expect(nativeChangeHandler).not.toHaveBeenCalled()
+
+    parent.remove()
   })
 })

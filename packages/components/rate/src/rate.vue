@@ -11,8 +11,9 @@
     :aria-valuetext="text || undefined"
     aria-valuemin="0"
     :aria-valuemax="max"
-    tabindex="0"
     :style="rateStyles"
+    :tabindex="rateDisabled ? undefined : 0"
+    :aria-disabled="rateDisabled"
     @keydown="handleKey"
   >
     <span
@@ -74,17 +75,19 @@ import {
 } from '@element-plus/constants'
 import { getEventCode, isArray, isObject, isString } from '@element-plus/utils'
 import {
-  formContextKey,
   formItemContextKey,
+  useFormDisabled,
   useFormItemInputId,
   useFormSize,
 } from '@element-plus/components/form'
 import { ElIcon } from '@element-plus/components/icon'
+import { Star, StarFilled } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
-import { rateEmits, rateProps } from './rate'
+import { rateEmits } from './rate'
 
 import type { CSSProperties, Component } from 'vue'
 import type { IconInstance } from '@element-plus/components/icon'
+import type { RateProps } from './rate'
 
 function getValueFromMap<T>(
   value: number,
@@ -110,10 +113,31 @@ defineOptions({
   name: 'ElRate',
 })
 
-const props = defineProps(rateProps)
+const props = withDefaults(defineProps<RateProps>(), {
+  modelValue: 0,
+  id: undefined,
+  lowThreshold: 2,
+  highThreshold: 4,
+  max: 5,
+  colors: () => ['', '', ''],
+  voidColor: '',
+  disabledVoidColor: '',
+  icons: () => [StarFilled, StarFilled, StarFilled],
+  voidIcon: () => Star,
+  disabledVoidIcon: () => StarFilled,
+  disabled: undefined,
+  textColor: '',
+  texts: () => [
+    'Extremely bad',
+    'Disappointed',
+    'Fair',
+    'Satisfied',
+    'Surprise',
+  ],
+  scoreTemplate: '{value}',
+})
 const emit = defineEmits(rateEmits)
 
-const formContext = inject(formContextKey, undefined)
 const formItemContext = inject(formItemContextKey, undefined)
 const rateSize = useFormSize()
 const ns = useNamespace('rate')
@@ -121,7 +145,7 @@ const { inputId, isLabeledByFormItem } = useFormItemInputId(props, {
   formItemContext,
 })
 
-const currentValue = ref(props.modelValue)
+const currentValue = ref(clamp(props.modelValue, 0, props.max))
 const hoverIndex = ref(-1)
 const pointerAtLeftHalf = ref(true)
 
@@ -130,7 +154,7 @@ const iconClientWidths = computed<number[]>(() =>
   iconRefs.value.map((icon) => icon.$el.clientWidth)
 )
 const rateClasses = computed(() => [ns.b(), ns.m(rateSize.value)])
-const rateDisabled = computed(() => props.disabled || formContext?.disabled)
+const rateDisabled = useFormDisabled()
 const rateStyles = computed(() => {
   return ns.cssVarBlock({
     'void-color': props.voidColor,
@@ -302,14 +326,14 @@ function resetCurrentValue() {
   if (props.allowHalf) {
     pointerAtLeftHalf.value = props.modelValue !== Math.floor(props.modelValue)
   }
-  currentValue.value = props.modelValue
+  currentValue.value = clamp(props.modelValue, 0, props.max)
   hoverIndex.value = -1
 }
 
 watch(
   () => props.modelValue,
   (val) => {
-    currentValue.value = val
+    currentValue.value = clamp(val, 0, props.max)
     pointerAtLeftHalf.value = props.modelValue !== Math.floor(props.modelValue)
   }
 )

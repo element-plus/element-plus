@@ -18,6 +18,8 @@
       :effect="rootMenu.props.popperEffect"
       placement="right"
       :fallback-placements="['left']"
+      :popper-class="rootMenu.props.popperClass"
+      :popper-style="rootMenu.props.popperStyle"
       :persistent="rootMenu.props.persistent"
       focus-on-target
     >
@@ -50,16 +52,19 @@ import ElTooltip from '@element-plus/components/tooltip'
 import { debugWarn, isPropAbsent, throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import useMenu from './use-menu'
-import { menuItemEmits, menuItemProps } from './menu-item'
+import { menuItemEmits } from './menu-item'
 import { MENU_INJECTION_KEY, SUB_MENU_INJECTION_KEY } from './tokens'
 
+import type { MenuItemProps } from './menu-item'
 import type { MenuItemRegistered, MenuProvider, SubMenuProvider } from './types'
 
 const COMPONENT_NAME = 'ElMenuItem'
 defineOptions({
   name: COMPONENT_NAME,
 })
-const props = defineProps(menuItemProps)
+const props = withDefaults(defineProps<MenuItemProps>(), {
+  index: null,
+})
 const emit = defineEmits(menuItemEmits)
 
 isPropAbsent(props.index) &&

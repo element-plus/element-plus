@@ -2,7 +2,7 @@ import path from 'path'
 import Inspect from 'vite-plugin-inspect'
 import UnoCSS from 'unocss/vite'
 import mkcert from 'vite-plugin-mkcert'
-import glob from 'fast-glob'
+import { glob } from 'tinyglobby'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import Components from 'unplugin-vue-components/vite'
 import Icons from 'unplugin-icons/vite'
@@ -16,6 +16,7 @@ import {
   projRoot,
 } from '@element-plus/build-utils'
 import { MarkdownTransform } from '../plugins/markdown-transform'
+import { ComponentChangelogPlugin } from '../plugins/component-changelog'
 
 import type { Plugin, UserConfig } from 'vitepress'
 
@@ -107,6 +108,7 @@ export const getViteConfig = ({ mode }: { mode: string }) => {
       }),
 
       MarkdownTransform() as Plugin,
+      ComponentChangelogPlugin() as Plugin,
       Inspect(),
       groupIconVitePlugin() as Plugin,
       env.HTTPS ? (mkcert() as Plugin) : undefined,

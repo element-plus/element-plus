@@ -20,7 +20,7 @@ import type {
   WritableArray,
   epPropKey,
 } from '../..'
-import type { ExtractPropTypes, PropType, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes, PropType } from 'vue'
 
 describe('Types', () => {
   it('Writable', () => {
@@ -391,7 +391,7 @@ describe('buildProp', () => {
       }),
     } as const
 
-    type ExtractedPublic = __ExtractPublicPropTypes<typeof props>
+    type ExtractedPublic = ExtractPublicPropTypes<typeof props>
 
     expectTypeOf<ExtractedPublic>().toEqualTypeOf<{
       readonly key1?: string | undefined
@@ -557,9 +557,10 @@ describe('runtime', () => {
       } as const),
       template: `{{ $props }}`,
     })
-    const props = mount(Foo as any, {
+    const props = mount(Foo, {
       props: {
         baz: undefined,
+        // @ts-expect-error
         qux2: undefined,
       },
       global: {

@@ -9,7 +9,7 @@ import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { CircleClose } from '@element-plus/icons-vue'
 import { disabledTimeListsProps } from '../props/shared'
 
-import type { Component, ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { Component, ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type { Options } from '@popperjs/core'
 import type { Dayjs } from 'dayjs'
 import type { Placement } from '@element-plus/components/popper'
@@ -106,6 +106,13 @@ export const timePickerDefaultProps = buildProps({
     default: true,
   },
   /**
+   * @description Whether to auto-fill the input with the current time on focus when no value is selected.
+   */
+  saveOnBlur: {
+    type: Boolean,
+    default: true,
+  },
+  /**
    * @description Custom prefix icon component
    */
   prefixIcon: {
@@ -123,7 +130,10 @@ export const timePickerDefaultProps = buildProps({
   /**
    * @description whether TimePicker is disabled
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description placeholder in non-range mode
    */
@@ -265,7 +275,7 @@ export const timePickerDefaultProps = buildProps({
 export type TimePickerDefaultProps = ExtractPropTypes<
   typeof timePickerDefaultProps
 >
-export type TimePickerDefaultPropsPublic = __ExtractPublicPropTypes<
+export type TimePickerDefaultPropsPublic = ExtractPublicPropTypes<
   typeof timePickerDefaultProps
 >
 
@@ -278,6 +288,7 @@ export interface PickerOptions {
   panelReady: boolean
   handleClear: () => void
   handleFocusPicker?: () => void
+  handleCancel?: () => void
 }
 
 export const timePickerRangeTriggerProps = buildProps({

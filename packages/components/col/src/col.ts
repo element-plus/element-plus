@@ -1,6 +1,6 @@
 import { buildProps, definePropType, mutable } from '@element-plus/utils'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
 import type Col from './col.vue'
 
 export type ColSizeObject = {
@@ -11,6 +11,52 @@ export type ColSizeObject = {
 }
 export type ColSize = number | ColSizeObject
 
+export interface ColProps {
+  /**
+   * @description custom element tag
+   */
+  tag?: string
+  /**
+   * @description number of column the grid spans
+   */
+  span?: number
+  /**
+   * @description number of spacing on the left side of the grid
+   */
+  offset?: number
+  /**
+   * @description number of columns that grid moves to the left
+   */
+  pull?: number
+  /**
+   * @description number of columns that grid moves to the right
+   */
+  push?: number
+  /**
+   * @description `<768px` Responsive columns or column props object
+   */
+  xs?: ColSize
+  /**
+   * @description `≥768px` Responsive columns or column props object
+   */
+  sm?: ColSize
+  /**
+   * @description `≥992px` Responsive columns or column props object
+   */
+  md?: ColSize
+  /**
+   * @description `≥1200px` Responsive columns or column props object
+   */
+  lg?: ColSize
+  /**
+   * @description `≥1920px` Responsive columns or column props object
+   */
+  xl?: ColSize
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `ColProps` instead.
+ */
 export const colProps = buildProps({
   /**
    * @description custom element tag
@@ -83,6 +129,9 @@ export const colProps = buildProps({
     default: () => mutable({} as const),
   },
 } as const)
-export type ColProps = ExtractPropTypes<typeof colProps>
-export type ColPropsPublic = __ExtractPublicPropTypes<typeof colProps>
+
+/**
+ * @deprecated Removed after 3.0.0, Use `ColProps` instead.
+ */
+export type ColPropsPublic = ExtractPublicPropTypes<typeof colProps>
 export type ColInstance = InstanceType<typeof Col> & unknown

@@ -25,12 +25,13 @@
     <div v-else-if="isEmpty" :class="ns.e('empty-text')">
       <slot name="empty">{{ t('el.cascader.noData') }}</slot>
     </div>
-    <!-- eslint-disable-next-line vue/html-self-closing -->
+    <!-- eslint-disable vue/html-self-closing -->
     <svg
       v-else-if="panel?.isHoverMenu"
       ref="hoverZone"
       :class="ns.e('hover-zone')"
     ></svg>
+    <!-- eslint-enable vue/html-self-closing -->
   </el-scrollbar>
 </template>
 
@@ -93,10 +94,11 @@ const handleMouseMove = (e: MouseEvent) => {
     const startX = e.clientX - left
     const top = activeNode.offsetTop
     const bottom = top + activeNode.offsetHeight
+    const scrollTop = el.querySelector(`.${ns.e('wrap')}`)?.scrollTop || 0
 
     hoverZone.value.innerHTML = `
-          <path style="pointer-events: auto;" fill="transparent" d="M${startX} ${top} L${offsetWidth} 0 V${top} Z" />
-          <path style="pointer-events: auto;" fill="transparent" d="M${startX} ${bottom} L${offsetWidth} ${offsetHeight} V${bottom} Z" />
+          <path style="pointer-events: auto;" fill="transparent" d="M${startX} ${top} L${offsetWidth} ${scrollTop} V${top} Z" />
+          <path style="pointer-events: auto;" fill="transparent" d="M${startX} ${bottom} L${offsetWidth} ${offsetHeight + scrollTop} V${bottom} Z" />
         `
   } else if (!hoverTimer) {
     hoverTimer = window.setTimeout(clearHoverZone, panel.config.hoverThreshold)

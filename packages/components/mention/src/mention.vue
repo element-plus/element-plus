@@ -45,7 +45,7 @@
           :content-id="contentId"
           :aria-label="ariaLabel"
           @select="handleSelect"
-          @click.stop="elInputRef?.focus"
+          @click.stop="elInputRef?.focus()"
         >
           <template v-for="(_, name) in $slots" #[name]="slotProps">
             <slot :name="name" v-bind="slotProps" />
@@ -60,7 +60,10 @@
 import { computed, mergeProps, nextTick, ref } from 'vue'
 import { pick } from 'lodash-unified'
 import { useFocusController, useId, useNamespace } from '@element-plus/hooks'
-import ElInput, { inputProps } from '@element-plus/components/input'
+import ElInput, {
+  inputProps,
+  inputPropsDefaults,
+} from '@element-plus/components/input'
 import ElTooltip from '@element-plus/components/tooltip'
 import {
   EVENT_CODE,
@@ -69,10 +72,11 @@ import {
 } from '@element-plus/constants'
 import { useFormDisabled } from '@element-plus/components/form'
 import { getEventCode, isFunction } from '@element-plus/utils'
-import { mentionDefaultProps, mentionEmits, mentionProps } from './mention'
-import { getCursorPosition, getMentionCtx } from './helper'
+import { mentionDefaultProps, mentionEmits } from './mention'
+import { filterOption, getCursorPosition, getMentionCtx } from './helper'
 import ElMentionDropdown from './mention-dropdown.vue'
 
+import type { MentionProps } from './mention'
 import type { Placement } from '@popperjs/core'
 import type { CSSProperties } from 'vue'
 import type { InputInstance } from '@element-plus/components/input'
@@ -84,7 +88,17 @@ defineOptions({
   inheritAttrs: false,
 })
 
-const props = defineProps(mentionProps)
+const props = withDefaults(defineProps<MentionProps>(), {
+  ...inputPropsDefaults,
+  options: () => [],
+  prefix: '@',
+  split: ' ',
+  filterOption: () => filterOption,
+  placement: 'bottom',
+  offset: 0,
+  popperOptions: () => ({}),
+  props: () => mentionDefaultProps,
+})
 const emit = defineEmits(mentionEmits)
 
 const passInputProps = computed(() => pick(props, Object.keys(inputProps)))

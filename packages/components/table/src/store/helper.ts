@@ -9,10 +9,10 @@ import type { DefaultRow, Table, TableProps } from '../table/defaults'
 const InitialStateMap = {
   rowKey: 'rowKey',
   defaultExpandAll: 'defaultExpandAll',
+  rowExpandable: 'rowExpandable',
   selectOnIndeterminate: 'selectOnIndeterminate',
   indent: 'indent',
   lazy: 'lazy',
-  data: 'data',
   ['treeProps.hasChildren']: {
     key: 'lazyColumnIdentifier',
     default: 'hasChildren',

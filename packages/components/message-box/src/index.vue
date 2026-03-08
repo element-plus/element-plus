@@ -116,6 +116,8 @@
             <div :class="ns.e('btns')">
               <el-button
                 v-if="showCancelButton"
+                :type="cancelButtonType === 'text' ? '' : cancelButtonType"
+                :text="cancelButtonType === 'text'"
                 :loading="cancelButtonLoading"
                 :loading-icon="cancelButtonLoadingIcon"
                 :class="[cancelButtonClass]"
@@ -129,7 +131,8 @@
               <el-button
                 v-show="showConfirmButton"
                 ref="confirmRef"
-                type="primary"
+                :type="confirmButtonType === 'text' ? '' : confirmButtonType"
+                :text="confirmButtonType === 'text'"
                 :loading="confirmButtonLoading"
                 :loading-icon="confirmButtonLoadingIcon"
                 :class="[confirmButtonClasses]"
@@ -191,6 +194,7 @@ import type {
   MessageBoxState,
   MessageBoxType,
 } from './message-box.type'
+import type { InputInstance } from '@element-plus/components/input'
 
 export default defineComponent({
   name: 'ElMessageBox',
@@ -275,6 +279,8 @@ export default defineComponent({
       cancelButtonClass: '',
       confirmButtonText: '',
       confirmButtonClass: '',
+      cancelButtonType: '',
+      confirmButtonType: 'primary',
       customClass: '',
       customStyle: {},
       dangerouslyUseHTMLString: false,
@@ -325,7 +331,7 @@ export default defineComponent({
     const rootRef = ref<HTMLElement>()
     const headerRef = ref<HTMLElement>()
     const focusStartRef = ref<HTMLElement>()
-    const inputRef = ref<ComponentPublicInstance>()
+    const inputRef = ref<InputInstance>()
     const confirmRef = ref<ComponentPublicInstance>()
 
     const confirmButtonClasses = computed(() => state.confirmButtonClass)
@@ -406,7 +412,7 @@ export default defineComponent({
     const overlayEvent = useSameTarget(handleWrapperClick)
 
     const handleInputEnter = (e: KeyboardEvent | Event) => {
-      if (state.inputType !== 'textarea') {
+      if (state.inputType !== 'textarea' && !inputRef.value?.isComposing) {
         e.preventDefault()
         return handleAction('confirm')
       }
