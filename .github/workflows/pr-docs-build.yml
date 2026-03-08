@@ -13,10 +13,10 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20]
+        node-version: [22]
         os: [ubuntu-latest, windows-latest]
         include:
-          - node-version: 20
+          - node-version: 22
             node-name: LTS
 
       fail-fast: false
