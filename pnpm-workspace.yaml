@@ -3,6 +3,7 @@ packages:
   - docs
   - play
   - internal/*
+
 allowBuilds:
   '@parcel/watcher': true
   esbuild: true
@@ -27,13 +28,6 @@ catalog:
 
 
 nodeLinker: hoisted
-onlyBuiltDependencies:
-  - '@parcel/watcher'
-  - es5-ext
-  - esbuild
-  - fsevents
-  - puppeteer
-  - vue-demi
 
 overrides:
   jwa: ^1.4.2 # 20697
