@@ -32,6 +32,11 @@ const sourceCodeRef = ref<HTMLButtonElement>()
 
 const locale = computed(() => demoBlockLocale[lang.value])
 const decodedDescription = computed(() => decodeURIComponent(props.description))
+const sourceVisibilityLabel = computed(() =>
+  sourceVisible.value
+    ? locale.value['hide-source']
+    : locale.value['view-source']
+)
 
 const onSourceVisibleKeydown = (e: KeyboardEvent) => {
   if (
@@ -125,16 +130,14 @@ const copyCode = async () => {
         </ElIcon>
       </ElTooltip>
       <ElTooltip
-        :content="locale['view-source']"
+        :content="sourceVisibilityLabel"
         :show-arrow="false"
         :trigger="['hover', 'focus']"
         :trigger-keys="[]"
       >
         <button
           ref="sourceCodeRef"
-          :aria-label="
-            sourceVisible ? locale['hide-source'] : locale['view-source']
-          "
+          :aria-label="sourceVisibilityLabel"
           class="reset-btn el-icon op-btn"
           @click="toggleSourceVisible()"
         >
