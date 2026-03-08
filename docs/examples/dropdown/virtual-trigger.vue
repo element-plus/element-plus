@@ -76,8 +76,8 @@ const handleContextmenu = (event: MouseEvent) => {
   align-items: center;
   height: 200px;
 }
-  
-:deep(.card-body) {
+
+.content :deep(.card-body) {
   flex-grow: 0;
 }
 </style>
