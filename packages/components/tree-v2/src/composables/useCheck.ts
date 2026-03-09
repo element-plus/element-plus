@@ -192,7 +192,7 @@ export function useCheck(
     if (tree?.value && props.showCheckbox) {
       const { treeNodeMap } = tree.value
       indeterminateKeys.value.forEach((key) => {
-        if (hiddenNodeKeySet?.value.has(key)) return
+        if (hiddenNodeKeySet.value.has(key)) return
         const node = treeNodeMap.get(key)
         if (node) {
           halfCheckedKeys.push(key)
