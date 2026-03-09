@@ -62,7 +62,7 @@ export function useCheck(
               isEffectivelyChecked = false
             }
             // Skip hidden children when computing parent check state
-            if (hiddenKeySet?.has(key)) continue
+            if (hiddenKeySet.has(key)) continue
             hasVisibleChild = true
             if (checkedKeySet.has(key)) {
               hasChecked = true
