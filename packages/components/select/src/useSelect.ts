@@ -653,12 +653,13 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   }
 
   const onOptionDestroy = (key: OptionValue, vm: OptionPublicInstance) => {
-    if (states.options.get(key) === vm) {
-      states.options.delete(key)
-    }
     const index = states.optionsList.indexOf(vm)
     if (index > -1) {
       states.optionsList.splice(index, 1)
+    }
+    if (states.options.get(key) === vm) {
+      const next = states.optionsList.find((opt) => opt.value === key)
+      next ? states.options.set(key, next) : states.options.delete(key)
     }
   }
 
