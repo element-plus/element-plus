@@ -81,7 +81,7 @@ slider/show-marks
 
 :::
 
-## Restrict value ^(2.13.4)
+## Restrict value ^(2.13.6)
 
 :::demo Set `step="mark"` to restrict the slider value to marks.
 
@@ -99,7 +99,7 @@ slider/restrict-value
 | min                         | minimum value                                                                                                                                        | ^[number]                                                                                                                                                                   | 0       |
 | max                         | maximum value                                                                                                                                        | ^[number]                                                                                                                                                                   | 100     |
 | disabled                    | whether Slider is disabled                                                                                                                           | ^[boolean]                                                                                                                                                                  | false   |
-| step                        | step size, can be a number or `'mark'` ^(2.13.4) to restrict values to marks. When set to `'mark'`, the `marks` attribute must be set                | ^[number] / ^[string]`'mark'`                                                                                                                                               | 1       |
+| step                        | step size, can be a number or `'mark'` ^(2.13.6) to restrict values to marks. When set to `'mark'`, the `marks` attribute must be set                | ^[number] / ^[string]`'mark'`                                                                                                                                               | 1       |
 | show-input                  | whether to display an input box, works when `range` is false and `step` is not `'mark'`                                                              | ^[boolean]                                                                                                                                                                  | false   |
 | show-input-controls         | whether to display control buttons when `show-input` is true                                                                                         | ^[boolean]                                                                                                                                                                  | true    |
 | size                        | size of the slider wrapper, will not work in vertical mode                                                                                           | ^[enum]`'' \| 'large' \| 'default' \| 'small'`                                                                                                                              | default |
