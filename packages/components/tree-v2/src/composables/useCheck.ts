@@ -169,7 +169,7 @@ export function useCheck(
     if (tree?.value && props.showCheckbox) {
       const { treeNodeMap } = tree.value
       checkedKeys.value.forEach((key) => {
-        if (hiddenNodeKeySet?.value.has(key)) return
+        if (hiddenNodeKeySet.value.has(key)) return
         const node = treeNodeMap.get(key)
         if (node && (!leafOnly || (leafOnly && node.isLeaf))) {
           keys.push(key)
