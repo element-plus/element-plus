@@ -14,7 +14,6 @@
     @include when(with-text) {
       display: flex;
       align-items: center;
-      height: auto;
       border-top: none;
     }
   }
