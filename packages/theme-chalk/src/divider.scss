@@ -29,7 +29,6 @@
   }
 
   @include e(line) {
-    height: 1px;
     border-top: 1px getCssVar('border-color') getCssVar('border-style');
   }
 
