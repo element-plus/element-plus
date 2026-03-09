@@ -3,9 +3,7 @@
     :class="[
       ns.b(),
       ns.m(direction),
-      {
-        [ns.is('with-text')]: $slots.default && direction !== 'vertical',
-      },
+      ns.is('with-text', $slots.default && direction !== 'vertical'),
     ]"
     :style="dividerStyle"
     role="separator"
@@ -15,27 +13,19 @@
         :class="[
           ns.e('line'),
           ns.is('left'),
-          {
-            [ns.is('short')]: props.contentPosition === 'left',
-            [ns.is('full')]:
-              props.contentPosition === 'right' ||
-              props.contentPosition === 'center',
-          },
+          ns.is('short', contentPosition === 'left'),
+          ns.is('full', ['right', 'center'].includes(contentPosition)),
         ]"
       />
-      <span :class="[ns.e('text'), ns.is(props.contentPosition)]">
+      <span :class="[ns.e('text'), ns.is(contentPosition)]">
         <slot />
       </span>
       <div
         :class="[
           ns.e('line'),
           ns.is('right'),
-          {
-            [ns.is('short')]: props.contentPosition === 'right',
-            [ns.is('full')]:
-              props.contentPosition === 'left' ||
-              props.contentPosition === 'center',
-          },
+          ns.is('short', contentPosition === 'right'),
+          ns.is('full', ['left', 'center'].includes(contentPosition)),
         ]"
       />
     </template>
