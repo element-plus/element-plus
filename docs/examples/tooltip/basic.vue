@@ -54,12 +54,7 @@
         </template>
         <el-button class="mt-3 mb-3">left</el-button>
       </el-tooltip>
-      <el-tooltip
-        class="box-item"
-        effect="dark"
-        content="Right Center prompts info"
-        placement="right"
-      >
+      <el-tooltip class="box-item" effect="dark" placement="right">
         <template #content>
           Right Center
           <br />
