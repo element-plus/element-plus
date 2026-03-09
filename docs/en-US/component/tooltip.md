@@ -214,8 +214,8 @@ tooltip/append-to
 | contentRef           | el-tooltip-content component instance                             | ^[object]`Ref<TooltipContentInstance \| undefined>` |
 | isFocusInsideContent | Validate current focus event is trigger inside el-tooltip-content | ^[Function]`() => boolean \| undefined`             |
 | updatePopper         | Update el-popper component instance                               | ^[Function]`() => void`                             |
-| onOpen               | Expose onOpen function to mange el-tooltip open state             | ^[Function]`(event?: Event \| undefined) => void`   |
-| onClose              | Expose onClose function to mange el-tooltip open state            | ^[Function]`(event?: Event \| undefined) => void`   |
+| onOpen               | Expose onOpen function to manage el-tooltip open state            | ^[Function]`(event?: Event \| undefined) => void`   |
+| onClose              | Expose onClose function to manage el-tooltip open state           | ^[Function]`(event?: Event \| undefined) => void`   |
 | hide                 | Expose hide function                                              | ^[Function]`(event?: Event \| undefined) => void`   |
 
 ## FAQ
