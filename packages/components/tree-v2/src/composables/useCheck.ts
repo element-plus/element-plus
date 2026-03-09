@@ -12,7 +12,7 @@ import type { Tree, TreeKey, TreeNode, TreeNodeData, TreeProps } from '../types'
 export function useCheck(
   props: TreeProps,
   tree: Ref<Tree | undefined>,
-  hiddenNodeKeySet?: Ref<Set<TreeKey>>
+  hiddenNodeKeySet: Ref<Set<TreeKey>>
 ) {
   const checkedKeys = ref<Set<TreeKey>>(new Set())
   const indeterminateKeys = ref<Set<TreeKey>>(new Set())
