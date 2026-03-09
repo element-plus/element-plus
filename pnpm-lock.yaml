@@ -31,8 +31,8 @@ catalogs:
       specifier: ^2.4.6
       version: 2.4.6
     '@vueuse/core':
-      specifier: ^10.11.0
-      version: 10.11.1
+      specifier: 12.0.0
+      version: 12.0.0
     lodash-unified:
       specifier: ^1.0.3
       version: 1.0.3
@@ -97,7 +97,7 @@ importers:
         version: 4.17.12
       '@vueuse/core':
         specifier: 'catalog:'
-        version: 10.11.1(vue@3.5.25(typescript@5.5.4))
+        version: 12.0.0(typescript@5.5.4)
       async-validator:
         specifier: ^4.2.5
         version: 4.2.5(patch_hash=cc6d77b35ed2a1683012935ca9ed998d418912785fcf78c6497d3268ac596d23)
@@ -242,7 +242,7 @@ importers:
         version: 3.5.25
       '@vueuse/core':
         specifier: 'catalog:'
-        version: 10.11.1(vue@3.4.31(typescript@5.5.4))
+        version: 12.0.0(typescript@5.5.4)
       clipboard-copy:
         specifier: ^4.0.1
         version: 4.0.1
@@ -492,7 +492,7 @@ importers:
         version: '@sxzz/popperjs-es@2.11.7'
       '@vueuse/core':
         specifier: 'catalog:'
-        version: 10.11.1(vue@3.5.25(typescript@5.5.4))
+        version: 12.0.0(typescript@5.5.4)
       lodash-unified:
         specifier: 'catalog:'
         version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.23)(lodash@4.17.23)
@@ -550,7 +550,7 @@ importers:
         version: 4.17.12
       '@vueuse/core':
         specifier: 'catalog:'
-        version: 10.11.1(vue@3.4.31(typescript@5.5.4))
+        version: 12.0.0(typescript@5.5.4)
       async-validator:
         specifier: ^4.2.5
         version: 4.2.5(patch_hash=cc6d77b35ed2a1683012935ca9ed998d418912785fcf78c6497d3268ac596d23)
@@ -593,7 +593,7 @@ importers:
         version: '@sxzz/popperjs-es@2.11.7'
       '@vueuse/core':
         specifier: 'catalog:'
-        version: 10.11.1(vue@3.5.25(typescript@5.5.4))
+        version: 12.0.0(typescript@5.5.4)
       lodash-unified:
         specifier: 'catalog:'
         version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.23)(lodash@4.17.23)
@@ -647,7 +647,7 @@ importers:
         version: 2.3.2(vue@3.5.25(typescript@5.5.4))
       '@vueuse/core':
         specifier: 'catalog:'
-        version: 10.11.1(vue@3.5.25(typescript@5.5.4))
+        version: 12.0.0(typescript@5.5.4)
       lodash-unified:
         specifier: 'catalog:'
         version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.23)(lodash@4.17.23)
@@ -3210,6 +3210,9 @@ packages:
   '@vueuse/core@10.11.1':
     resolution: {integrity: sha512-guoy26JQktXPcz+0n3GukWIy/JDNKti9v6VEMu6kV2sYBsWuGiTU8OWdg+ADfUbHg3/3DlqySDe7JmdHrktiww==}
 
+  '@vueuse/core@12.0.0':
+    resolution: {integrity: sha512-C12RukhXiJCbx4MGhjmd/gH52TjJsc3G0E0kQj/kb19H3Nt6n1CA4DRWuTdWWcaFRdlTe0npWDS942mvacvNBw==}
+
   '@vueuse/core@12.8.2':
     resolution: {integrity: sha512-HbvCmZdzAu3VGi/pWYm5Ut+Kd9mn1ZHnn4L5G8kOQTPs/IwIAmJoBrmYk2ckLArgMXZj0AW3n5CAejLUO+PhdQ==}
 
@@ -3257,11 +3260,17 @@ packages:
   '@vueuse/metadata@10.11.1':
     resolution: {integrity: sha512-IGa5FXd003Ug1qAZmyE8wF3sJ81xGLSqTqtQ6jaVfkeZ4i5kS2mwQF61yhVqojRnenVew5PldLyRgvdl4YYuSw==}
 
+  '@vueuse/metadata@12.0.0':
+    resolution: {integrity: sha512-Yzimd1D3sjxTDOlF05HekU5aSGdKjxhuhRFHA7gDWLn57PRbBIh+SF5NmjhJ0WRgF3my7T8LBucyxdFJjIfRJQ==}
+
   '@vueuse/metadata@12.8.2':
     resolution: {integrity: sha512-rAyLGEuoBJ/Il5AmFHiziCPdQzRt88VxR+Y/A/QhJ1EWtWqPBBAxTAFaSkviwEuOEZNtW8pvkPgoCZQ+HxqW1A==}
 
   '@vueuse/shared@10.11.1':
     resolution: {integrity: sha512-LHpC8711VFZlDaYUXEBbFBCQ7GS3dVU9mjOhhMhXP6txTV4EhYQg/KGnQuvt/sPAtoUKq7VVUnL6mVtFoL42sA==}
+
+  '@vueuse/shared@12.0.0':
+    resolution: {integrity: sha512-3i6qtcq2PIio5i/vVYidkkcgvmTjCqrf26u+Fd4LhnbBmIT6FN8y6q/GJERp8lfcB9zVEfjdV0Br0443qZuJpw==}
 
   '@vueuse/shared@12.8.2':
     resolution: {integrity: sha512-dznP38YzxZoNloI0qpEfpkms8knDtaoQ6Y/sfS0L7Yki4zh40LFHEhur0odJC6xTHG5dxWVPiUWBXn+wCG2s5w==}
@@ -11397,15 +11406,14 @@ snapshots:
       - '@vue/composition-api'
       - vue
 
-  '@vueuse/core@10.11.1(vue@3.5.25(typescript@5.5.4))':
+  '@vueuse/core@12.0.0(typescript@5.5.4)':
     dependencies:
       '@types/web-bluetooth': 0.0.20
-      '@vueuse/metadata': 10.11.1
-      '@vueuse/shared': 10.11.1(vue@3.5.25(typescript@5.5.4))
-      vue-demi: 0.14.10(vue@3.5.25(typescript@5.5.4))
+      '@vueuse/metadata': 12.0.0
+      '@vueuse/shared': 12.0.0(typescript@5.5.4)
+      vue: 3.5.25(typescript@5.5.4)
     transitivePeerDependencies:
-      - '@vue/composition-api'
-      - vue
+      - typescript
 
   '@vueuse/core@12.8.2(typescript@5.5.4)':
     dependencies:
@@ -11432,6 +11440,8 @@ snapshots:
 
   '@vueuse/metadata@10.11.1': {}
 
+  '@vueuse/metadata@12.0.0': {}
+
   '@vueuse/metadata@12.8.2': {}
 
   '@vueuse/shared@10.11.1(vue@3.4.31(typescript@5.5.4))':
@@ -11441,12 +11451,11 @@ snapshots:
       - '@vue/composition-api'
       - vue
 
-  '@vueuse/shared@10.11.1(vue@3.5.25(typescript@5.5.4))':
+  '@vueuse/shared@12.0.0(typescript@5.5.4)':
     dependencies:
-      vue-demi: 0.14.10(vue@3.5.25(typescript@5.5.4))
+      vue: 3.5.25(typescript@5.5.4)
     transitivePeerDependencies:
-      - '@vue/composition-api'
-      - vue
+      - typescript
 
   '@vueuse/shared@12.8.2(typescript@5.5.4)':
     dependencies:
@@ -17025,10 +17034,6 @@ snapshots:
   vue-demi@0.14.10(vue@3.4.31(typescript@5.5.4)):
     dependencies:
       vue: 3.4.31(typescript@5.5.4)
-
-  vue-demi@0.14.10(vue@3.5.25(typescript@5.5.4)):
-    dependencies:
-      vue: 3.5.25(typescript@5.5.4)
 
   vue-eslint-parser@10.2.0(eslint@9.39.2(jiti@2.6.1)):
     dependencies:
