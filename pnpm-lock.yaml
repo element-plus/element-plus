@@ -531,7 +531,7 @@ importers:
   packages/element-plus:
     dependencies:
       '@ctrl/tinycolor':
-        specifier: ^4.2.0
+        specifier: 'catalog:'
         version: 4.2.0
       '@element-plus/icons-vue':
         specifier: ^2.3.2
