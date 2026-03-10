@@ -2063,10 +2063,17 @@ describe('Table.vue', () => {
       childRows = wrapper.findAll('.el-table__row--level-1')
       childRows.forEach((item, index) => {
         if (index < 2) {
-          expect(item.attributes('style')).toBe('')
+          expect(item.attributes('style')).not.toContain('display: none')
         } else {
           expect(item.attributes('style')).toContain('display: none')
         }
+      })
+
+      wrapper.vm.expandRowKeys.push('1999-3-31')
+      await doubleWait()
+      childRows = wrapper.findAll('.el-table__row--level-1')
+      childRows.forEach((item) => {
+        expect(item.attributes('style')).not.toContain('display: none')
       })
     })
 
