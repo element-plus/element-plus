@@ -5,6 +5,10 @@
 
 _2026-03-07_
 
+#### Bug fixes
+
+- Chore: fix build (#23737 by @btea)
+- Chore: fix locale/lang/*.ts dts default export (#23741 by @rzzf)
 
 ### 2.13.4
 
