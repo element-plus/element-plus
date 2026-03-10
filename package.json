@@ -1,6 +1,6 @@
 {
   "private": true,
-  "packageManager": "pnpm@11.0.0-alpha.13",
+  "packageManager": "pnpm@10.32.0",
   "workspaces": [
     "packages/*",
     "play",
@@ -106,7 +106,7 @@
     "vue-tsc": "=3.1.5"
   },
   "engines": {
-    "node": ">= 22"
+    "node": ">= 20"
   },
   "config": {
     "commitizen": {
