@@ -1,5 +1,5 @@
 import path from 'path'
-import { defineConfig, loadEnv } from 'vite'
+import { defineConfig, loadEnv, type UserConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import Components from 'unplugin-vue-components/vite'
@@ -15,7 +15,7 @@ import {
   projRoot,
 } from '@element-plus/build-utils'
 
-export default defineConfig(async ({ mode }) => {
+export default defineConfig(async ({ mode }): Promise<UserConfig> => {
   const env = loadEnv(mode, process.cwd(), '')
   let { dependencies } = getPackageDependencies(epPackage)
   dependencies = dependencies.filter((dep) => !dep.startsWith('@types/')) // exclude dts deps
@@ -47,7 +47,7 @@ export default defineConfig(async ({ mode }) => {
     server: {
       port: 3000,
       host: true,
-      https: !!env.HTTPS ? {} : false,
+      ...(env.HTTPS ? { https: {} } : {}),
     },
     build: {
       sourcemap: true,
@@ -63,7 +63,7 @@ export default defineConfig(async ({ mode }) => {
         }),
         dts: false,
       }),
-      mkcert(),
+      env.HTTPS && mkcert(),
       Inspect(),
     ] as any,
 

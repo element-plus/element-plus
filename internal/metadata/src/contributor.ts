@@ -98,7 +98,7 @@ const fetchCommits = async (
       const index = +key.replace('path', '')
       return [index, result]
     })
-  )
+  ) as Record<string, ApiResult>
 }
 
 const calcContributors = (commits: ApiResult['nodes']) => {

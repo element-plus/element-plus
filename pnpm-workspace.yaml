@@ -27,8 +27,6 @@ catalog:
   # vitest: ^2.0.5
 
 
-nodeLinker: hoisted
-
 overrides:
   jwa: ^1.4.2 # 20697
   typescript: $typescript
@@ -43,5 +41,4 @@ peerDependencyRules:
     - react-dom
 
 shellEmulator: true
-
 strictPeerDependencies: false
