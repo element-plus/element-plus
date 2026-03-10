@@ -326,9 +326,7 @@ export function useTree(
     () => props.data!,
     (data: TreeData) => {
       setData(data)
-      if (props.defaultExpandedKeys?.length) {
-        setExpandedKeys(props.defaultExpandedKeys)
-      }
+      setExpandedKeys(props.defaultExpandedKeys || [])
     },
     {
       immediate: true,
