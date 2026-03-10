@@ -2056,6 +2056,18 @@ describe('Table.vue', () => {
       childRows.forEach((item) => {
         expect(item.attributes('style')).toContain('')
       })
+
+      // #23759
+      wrapper.vm.expandRowKeys.splice(1, 1)
+      await doubleWait()
+      childRows = wrapper.findAll('.el-table__row--level-1')
+      childRows.forEach((item, index) => {
+        if (index < 2) {
+          expect(item.attributes('style')).toBe('')
+        } else {
+          expect(item.attributes('style')).toContain('display: none')
+        }
+      })
     })
 
     it('expand-row-keys & toggleRowExpansion', async () => {
