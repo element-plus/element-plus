@@ -614,6 +614,36 @@ describe('Input.vue', () => {
     expect(input.element.selectionEnd).toBe(4)
   })
 
+  test('password-icon slot', async () => {
+    const wrapper = mount(() => (
+      <Input
+        modelValue="123"
+        showPassword
+        v-slots={{
+          'password-icon': ({ visible }: { visible: boolean }) => (
+            <span class="custom-password-icon">
+              {visible ? 'Hide' : 'Show'}
+            </span>
+          ),
+        }}
+      />
+    ))
+
+    const icon = wrapper.find('.el-input__password')
+    expect(icon.exists()).toBe(true)
+
+    // Initial state: password hidden
+    expect(wrapper.find('.custom-password-icon').text()).toBe('Show')
+
+    // Click to toggle
+    await icon.trigger('click')
+    expect(wrapper.find('.custom-password-icon').text()).toBe('Hide')
+
+    // Click again
+    await icon.trigger('click')
+    expect(wrapper.find('.custom-password-icon').text()).toBe('Show')
+  })
+
   describe('form item accessibility integration', () => {
     test('automatic id attachment', async () => {
       const wrapper = mount(() => (
