@@ -147,8 +147,8 @@ export function useTree(
     const keys = doFilter(query)
     if (keys) {
       expandedKeySet.value = keys
+      updateCheckedKeys()
     }
-    updateCheckedKeys()
   }
 
   function getChildren(node: TreeNodeData): TreeNodeData[] {
