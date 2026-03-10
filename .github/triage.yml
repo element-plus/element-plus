@@ -4,8 +4,10 @@ firstTimePRLabels:
   - 1st contribution
 labelsWhenPROpened:
   - Needs Review
+guidelineUrl: https://github.com/element-plus/element-plus/blob/dev/.github/CONTRIBUTING.en-US.md
+COCUrl: https://github.com/element-plus/element-plus/blob/dev/CODE_OF_CONDUCT.md
 firstTimePRGreetings: |
   👋 @{user}, seems like this is your first time contribution to {repo}.
-  Please make sure that you have read our [guidelines](#{guideline_url}) and [code of conduct]({coc_url}) before making a contribution.
+  Please make sure that you have read our [guidelines]({guidelineUrl}) and [code of conduct]({COCUrl}) before making a contribution.
 firstPRMergeComment: >
   Thank you for your contribution!
