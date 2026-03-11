@@ -236,9 +236,9 @@ const TabNav = defineComponent({
 
       props.stretch && tabBarRef.value?.update()
 
-      const navSize = nav$.value[`offset${capitalize(sizeName.value)}`]
+      const navSize = nav$.value.getBoundingClientRect()[sizeName.value]
       const containerSize =
-        navScroll$.value[`offset${capitalize(sizeName.value)}`]
+        navScroll$.value.getBoundingClientRect()[sizeName.value]
       const currentOffset = navOffset.value
 
       if (containerSize < navSize) {
