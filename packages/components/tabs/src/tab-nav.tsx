@@ -154,13 +154,15 @@ const TabNav = defineComponent({
           0,
           navSize.value - navContainerSize.value
         )
-        isWheelScrolling.value = false
       }
     )
 
     const handleWheel = (event: WheelEvent) => {
       isWheelScrolling.value = true
       onWheel(event)
+      rAF(() => {
+        isWheelScrolling.value = false
+      })
     }
 
     const scrollPrev = () => {
