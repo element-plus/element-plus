@@ -243,6 +243,9 @@ importers:
 
   docs:
     dependencies:
+      '@docsearch/css':
+        specifier: ^3.1.0
+        version: 3.9.0
       '@docsearch/js':
         specifier: ^3.1.0
         version: 3.9.0(@algolia/client-search@5.46.0)(search-insights@2.17.3)
@@ -264,6 +267,9 @@ importers:
       element-plus:
         specifier: npm:element-plus@latest
         version: 2.13.5(typescript@5.5.4)(vue@3.5.25(typescript@5.5.4))
+      markdown-it:
+        specifier: ^14.1.0
+        version: 14.1.0
       normalize.css:
         specifier: ^8.0.1
         version: 8.0.1
