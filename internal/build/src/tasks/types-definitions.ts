@@ -44,6 +44,7 @@ export async function generateTypesDefinitions() {
       compilerOptions: {
         emitDeclarationOnly: true,
         declaration: true,
+        preserveSymlinks: true,
       },
     }),
     output: {
