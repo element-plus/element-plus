@@ -107,6 +107,7 @@ const TabNav = defineComponent({
     const navOffset = ref(0)
     const isFocus = ref(false)
     const focusable = ref(true)
+    const isWheelScrolling = ref(false)
     const tracker = shallowRef()
 
     const isHorizontal = computed(() =>
@@ -117,6 +118,7 @@ const TabNav = defineComponent({
     const navStyle = computed<CSSProperties>(() => {
       const dir = sizeName.value === 'width' ? 'X' : 'Y'
       return {
+        transition: isWheelScrolling.value ? 'none' : undefined,
         transform: `translate${dir}(-${navOffset.value}px)`,
       }
     })
@@ -154,6 +156,14 @@ const TabNav = defineComponent({
         )
       }
     )
+
+    const handleWheel = (event: WheelEvent) => {
+      isWheelScrolling.value = true
+      onWheel(event)
+      rAF(() => {
+        isWheelScrolling.value = false
+      })
+    }
 
     const scrollPrev = () => {
       if (!navScroll$.value) return
@@ -465,7 +475,7 @@ const TabNav = defineComponent({
                 style={navStyle.value}
                 role="tablist"
                 onKeydown={changeTab}
-                onWheel={onWheel}
+                onWheel={handleWheel}
               >
                 {...[
                   !props.type ? (
