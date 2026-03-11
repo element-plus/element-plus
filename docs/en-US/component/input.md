@@ -1,4 +1,4 @@
-﻿---
+---
 title: Input
 lang: en-US
 ---
@@ -51,7 +51,7 @@ input/formatter
 
 ## Password box
 
-:::demo Make a toggle-able password Input with the `show-password` attribute.
+:::demo Make a toggle-able password Input with the `show-password` attribute. Since ^(2.13.6), the `password-icon` slot is supported to override the default icon.
 
 input/password
 
@@ -172,12 +172,13 @@ input/length-limiting
 
 ### Slots
 
-| Name    | Description                                                               |
-| ------- | ------------------------------------------------------------------------- |
-| prefix  | content as Input prefix, only works when `type` is not 'textarea'         |
-| suffix  | content as Input suffix, only works when `type` is not 'textarea'         |
-| prepend | content to prepend before Input, only works when `type` is not 'textarea' |
-| append  | content to append after Input, only works when `type` is not 'textarea'   |
+| Name                    | Description                                                                                                           |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| prefix                  | content as Input prefix, only works when `type` is not 'textarea'                                                     |
+| suffix                  | content as Input suffix, only works when `type` is not 'textarea'                                                     |
+| prepend                 | content to prepend before Input, only works when `type` is not 'textarea'                                             |
+| append                  | content to append after Input, only works when `type` is not 'textarea'                                               |
+| password-icon ^(2.13.6) | content as Input password icon, only works when `show-password` is true. The scope variable is `{ visible: boolean }` |
 
 ### Exposes
 
