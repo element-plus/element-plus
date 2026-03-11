@@ -297,6 +297,7 @@
               :created="true"
             />
             <el-options>
+              options: {{ options }}
               <slot>
                 <template v-for="(option, index) in options" :key="index">
                   <el-option-group
@@ -523,7 +524,11 @@ export default defineComponent({
     }
     watch(
       () => [
-        props.persistent || API.expanded.value || !slots.default
+        // NOTE: !slots.default must be checked BEFORE API.expanded.value to avoid
+        // tracking expanded as a reactive dependency when there is no slot content.
+        // When using the :options prop (no slot), options self-register via lifecycle
+        // hooks (onOptionCreate/onOptionDestroy) and do not need manual rendering.
+        props.persistent || !slots.default || API.expanded.value
           ? undefined
           : slots.default?.(),
         modelValue.value,
@@ -535,6 +540,13 @@ export default defineComponent({
         // when the dropdown is currently expanded (mounted options will manage themselves).
         if (props.persistent || API.expanded.value) {
           // If persistent is true, we don't need to manually render slots.
+          return
+        }
+        // When using :options prop (no slot content), el-option components register
+        // and unregister themselves via onOptionCreate/onOptionDestroy lifecycle hooks.
+        // Calling options.clear() here would prematurely wipe options that are still
+        // mounted, causing a "No Data" flash during rapid open/close toggling.
+        if (!slots.default) {
           return
         }
         // Reset current options snapshot before re-collecting from slots.
