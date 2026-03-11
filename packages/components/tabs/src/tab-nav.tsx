@@ -18,7 +18,6 @@ import {
 } from '@vueuse/core'
 import {
   buildProps,
-  capitalize,
   definePropType,
   getEventCode,
   mutable,
@@ -159,7 +158,7 @@ const TabNav = defineComponent({
       if (!navScroll$.value) return
 
       const containerSize =
-        navScroll$.value[`offset${capitalize(sizeName.value)}`]
+        navScroll$.value.getBoundingClientRect()[sizeName.value]
       const currentOffset = navOffset.value
 
       if (!currentOffset) return
@@ -173,9 +172,9 @@ const TabNav = defineComponent({
     const scrollNext = () => {
       if (!navScroll$.value || !nav$.value) return
 
-      const navSize = nav$.value[`offset${capitalize(sizeName.value)}`]
+      const navSize = nav$.value.getBoundingClientRect()[sizeName.value]
       const containerSize =
-        navScroll$.value[`offset${capitalize(sizeName.value)}`]
+        navScroll$.value.getBoundingClientRect()[sizeName.value]
       const currentOffset = navOffset.value
 
       if (navSize - currentOffset <= containerSize) return
@@ -240,13 +239,17 @@ const TabNav = defineComponent({
       const containerSize =
         navScroll$.value.getBoundingClientRect()[sizeName.value]
       const currentOffset = navOffset.value
+      const edgeEpsilon = 0.05
 
       if (containerSize < navSize) {
+        const maxOffset = navSize - containerSize
+        const remaining = maxOffset - currentOffset
+        const atEnd = remaining <= edgeEpsilon
         scrollable.value = scrollable.value || {}
         scrollable.value.prev = currentOffset
-        scrollable.value.next = currentOffset + containerSize < navSize
-        if (navSize - currentOffset < containerSize) {
-          navOffset.value = navSize - containerSize
+        scrollable.value.next = !atEnd
+        if (atEnd) {
+          navOffset.value = maxOffset
         }
       } else {
         scrollable.value = false
