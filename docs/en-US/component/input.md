@@ -51,7 +51,7 @@ input/formatter
 
 ## Password box
 
-:::demo Make a toggle-able password Input with the `show-password` attribute. Since ^(2.13.6) , the `password-icon` slot is supported to override the default icon.
+:::demo Make a toggle-able password Input with the `show-password` attribute. Since ^(2.13.6), the `password-icon` slot is supported to override the default icon.
 
 input/password
 
