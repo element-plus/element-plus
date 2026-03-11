@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-2">
+  <div class="input-group">
     <el-input
       v-model="input"
       style="width: 240px"
@@ -30,3 +30,11 @@ import { Lock, Unlock } from '@element-plus/icons-vue'
 
 const input = ref('')
 </script>
+
+<style scoped>
+.input-group {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+</style>
