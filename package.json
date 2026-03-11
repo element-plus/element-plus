@@ -68,6 +68,7 @@
   "devDependencies": {
     "@commitlint/cli": "^20.2.0",
     "@commitlint/config-conventional": "^20.2.0",
+    "@ctrl/tinycolor": "catalog:",
     "@element-plus/build": "workspace:^0.0.1",
     "@element-plus/build-utils": "workspace:^0.0.1",
     "@element-plus/eslint-config": "workspace:*",
@@ -82,6 +83,7 @@
     "@vitest/coverage-v8": "^4.0.16",
     "@vitest/ui": "^4.0.16",
     "@vue/server-renderer": "catalog:",
+    "@vue/shared": "catalog:",
     "@vue/test-utils": "catalog:",
     "chalk": "^5.0.1",
     "consola": "^2.15.3",

@@ -126,6 +126,9 @@ importers:
       '@commitlint/config-conventional':
         specifier: ^20.2.0
         version: 20.2.0
+      '@ctrl/tinycolor':
+        specifier: 'catalog:'
+        version: 4.2.0
       '@element-plus/build':
         specifier: workspace:^0.0.1
         version: link:internal/build
@@ -168,6 +171,9 @@ importers:
       '@vue/server-renderer':
         specifier: 'catalog:'
         version: 3.5.25(vue@3.5.25(typescript@5.5.4))
+      '@vue/shared':
+        specifier: 'catalog:'
+        version: 3.5.25
       '@vue/test-utils':
         specifier: 'catalog:'
         version: 2.4.6
@@ -16676,7 +16682,7 @@ snapshots:
       '@types/markdown-it': 14.1.2
       '@vitejs/plugin-vue': 5.2.4(vite@5.4.21(@types/node@22.19.3)(lightningcss@1.31.1)(sass-embedded@1.97.3)(sass@1.97.3))(vue@3.5.25(typescript@5.5.4))
       '@vue/devtools-api': 7.7.9
-      '@vue/shared': 3.5.25
+      '@vue/shared': 3.5.27
       '@vueuse/core': 12.8.2(typescript@5.5.4)
       '@vueuse/integrations': 12.8.2(async-validator@4.2.5(patch_hash=cc6d77b35ed2a1683012935ca9ed998d418912785fcf78c6497d3268ac596d23))(axios@1.13.2)(change-case@5.4.4)(focus-trap@7.6.6)(nprogress@0.2.0)(typescript@5.5.4)
       focus-trap: 7.6.6
