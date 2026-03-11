@@ -297,7 +297,6 @@
               :created="true"
             />
             <el-options>
-              options: {{ options }}
               <slot>
                 <template v-for="(option, index) in options" :key="index">
                   <el-option-group
