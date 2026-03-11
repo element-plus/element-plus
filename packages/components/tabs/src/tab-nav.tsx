@@ -47,6 +47,10 @@ interface Scrollable {
   prev?: number
 }
 
+function isGreaterThan(a: number, b: number, epsilon = 0.03) {
+  return a - b > epsilon
+}
+
 export const tabNavProps = buildProps({
   panes: {
     type: definePropType<TabsPaneContext[]>(Array),
@@ -239,17 +243,16 @@ const TabNav = defineComponent({
       const containerSize =
         navScroll$.value.getBoundingClientRect()[sizeName.value]
       const currentOffset = navOffset.value
-      const edgeEpsilon = 0.05
 
       if (containerSize < navSize) {
-        const maxOffset = navSize - containerSize
-        const remaining = maxOffset - currentOffset
-        const atEnd = remaining <= edgeEpsilon
         scrollable.value = scrollable.value || {}
         scrollable.value.prev = currentOffset
-        scrollable.value.next = !atEnd
-        if (atEnd) {
-          navOffset.value = maxOffset
+        scrollable.value.next = isGreaterThan(
+          navSize,
+          currentOffset + containerSize
+        )
+        if (isGreaterThan(containerSize, navSize - currentOffset)) {
+          navOffset.value = navSize - containerSize
         }
       } else {
         scrollable.value = false
