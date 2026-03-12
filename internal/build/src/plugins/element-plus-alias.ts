@@ -1,17 +1,17 @@
-import { PKG_NAME, PKG_PREFIX } from '@element-plus/build-constants'
+import { PKG_NAME } from '@element-plus/build-constants'
 
 import type { Plugin } from 'rolldown'
 
 export function ElementPlusAlias(): Plugin {
   const themeChalk = 'theme-chalk'
-  const sourceThemeChalk = `${PKG_PREFIX}/${themeChalk}` as const
+  const sourceThemeChalk = `@element-plus/${themeChalk}` as const
   const bundleThemeChalk = `${PKG_NAME}/${themeChalk}` as const
 
   return {
     name: 'element-plus-alias-plugin',
     resolveId: {
       filter: {
-        id: /^@guwave\/theme-chalk/,
+        id: /^@element-plus\/theme-chalk/,
       },
       handler(id) {
         return {
