@@ -178,7 +178,7 @@ const TabNav = defineComponent({
         navScroll$.value.getBoundingClientRect()[sizeName.value]
       const currentOffset = navOffset.value
 
-      if (navSize - currentOffset <= containerSize) return
+      if (!isGreaterThan(navSize - currentOffset, containerSize)) return
 
       const newOffset =
         navSize - currentOffset > containerSize * 2
@@ -201,9 +201,10 @@ const TabNav = defineComponent({
 
       const activeTabBounding = activeTab.getBoundingClientRect()
       const navScrollBounding = navScroll.getBoundingClientRect()
+      const navBounding = nav.getBoundingClientRect()
       const maxOffset = isHorizontal.value
-        ? nav.offsetWidth - navScrollBounding.width
-        : nav.offsetHeight - navScrollBounding.height
+        ? navBounding.width - navScrollBounding.width
+        : navBounding.height - navScrollBounding.height
       const currentOffset = navOffset.value
       let newOffset = currentOffset
 
