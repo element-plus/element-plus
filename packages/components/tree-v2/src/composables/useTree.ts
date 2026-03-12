@@ -311,19 +311,17 @@ export function useTree(
   )
 
   watch(
-    () => props.data!,
-    (data: TreeData) => {
-      setData(data)
-    },
-    {
-      immediate: true,
+    () => props.defaultExpandedKeys,
+    (keys) => {
+      setExpandedKeys(keys || [])
     }
   )
 
   watch(
-    () => props.defaultExpandedKeys,
-    (keys) => {
-      setExpandedKeys(keys || [])
+    () => props.data!,
+    (data: TreeData) => {
+      setData(data)
+      setExpandedKeys(props.defaultExpandedKeys || [])
     },
     {
       immediate: true,
