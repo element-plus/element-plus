@@ -1,5 +1,5 @@
 <template>
-  <el-teleport :disabled="!teleported" :to="appendTo">
+  <g-teleport :disabled="!teleported" :to="appendTo">
     <transition
       v-if="shouldRender || !ariaHidden"
       :name="transitionClass"
@@ -9,7 +9,7 @@
       @after-enter="onAfterShow"
       @before-leave="onBeforeLeave"
     >
-      <el-popper-content
+      <g-popper-content
         v-show="shouldShow"
         :id="id"
         ref="contentRef"
@@ -40,9 +40,9 @@
         @close="onClose"
       >
         <slot />
-      </el-popper-content>
+      </g-popper-content>
     </transition>
-  </el-teleport>
+  </g-teleport>
 </template>
 
 <script lang="ts" setup>
@@ -54,22 +54,22 @@ import {
   composeEventHandlers,
   focusElement,
 } from '@element-plus/utils'
-import { ElPopperContent } from '@element-plus/components/popper'
-import ElTeleport from '@element-plus/components/teleport'
+import { GPopperContent } from '@element-plus/components/popper'
+import GTeleport from '@element-plus/components/teleport'
 import { TOOLTIP_INJECTION_KEY } from './constants'
 import { isTriggerType } from './utils'
 import { useTooltipContentPropsDefaults } from './content'
 
-import type { ElTooltipContentProps } from './content'
+import type { GTooltipContentProps } from './content'
 import type { PopperContentInstance } from '@element-plus/components/popper'
 
 defineOptions({
-  name: 'ElTooltipContent',
+  name: 'GTooltipContent',
   inheritAttrs: false,
 })
 
 const props = withDefaults(
-  defineProps<ElTooltipContentProps>(),
+  defineProps<GTooltipContentProps>(),
   useTooltipContentPropsDefaults
 )
 
@@ -210,11 +210,11 @@ watch(
 
 defineExpose({
   /**
-   * @description el-popper-content component instance
+   * @description g-popper-content component instance
    */
   contentRef,
   /**
-   * @description validate current focus event is trigger inside el-popper-content
+   * @description validate current focus event is trigger inside g-popper-content
    */
   isFocusInsideContent,
 })

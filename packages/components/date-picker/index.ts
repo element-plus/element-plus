@@ -3,9 +3,9 @@ import DatePicker from './src/date-picker'
 
 import type { SFCWithInstall } from '@element-plus/utils'
 
-export const ElDatePicker: SFCWithInstall<typeof DatePicker> =
+export const GDatePicker: SFCWithInstall<typeof DatePicker> =
   withInstall(DatePicker)
 
-export default ElDatePicker
+export default GDatePicker
 export * from './src/props'
 export type { DatePickerInstance } from './src/instance'

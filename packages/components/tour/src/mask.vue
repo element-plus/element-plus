@@ -21,7 +21,7 @@ import type { CSSProperties } from 'vue'
 import type { MaskProps } from './mask'
 
 defineOptions({
-  name: 'ElTourMask',
+  name: 'GTourMask',
   inheritAttrs: false,
 })
 

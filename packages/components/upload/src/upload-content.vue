@@ -58,7 +58,7 @@ import type {
 } from './upload'
 
 defineOptions({
-  name: 'ElUploadContent',
+  name: 'GUploadContent',
   inheritAttrs: false,
 })
 

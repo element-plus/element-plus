@@ -28,7 +28,7 @@
       :disabled="disabled"
     />
     <div :class="ns.e('footer')">
-      <el-input
+      <g-input
         ref="inputRef"
         v-model="customInput"
         :validate-event="false"
@@ -43,7 +43,7 @@
 
 <script lang="ts" setup>
 import { computed, inject, nextTick, onMounted, provide, ref, watch } from 'vue'
-import { ElInput } from '@element-plus/components/input'
+import { GInput } from '@element-plus/components/input'
 import { useFormDisabled, useFormItem } from '@element-plus/components/form'
 import { useNamespace } from '@element-plus/hooks'
 import { debugWarn } from '@element-plus/utils'
@@ -63,7 +63,7 @@ import type { ColorPickerPanelProps } from './color-picker-panel'
 import type { InputInstance } from '@element-plus/components/input'
 
 defineOptions({
-  name: 'ElColorPickerPanel',
+  name: 'GColorPickerPanel',
 })
 const props = withDefaults(defineProps<ColorPickerPanelProps>(), {
   modelValue: undefined,

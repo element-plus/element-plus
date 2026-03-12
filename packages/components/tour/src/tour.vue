@@ -1,7 +1,7 @@
 <template>
-  <el-teleport :to="appendTo">
+  <g-teleport :to="appendTo">
     <div :class="kls" v-bind="$attrs">
-      <el-tour-mask
+      <g-tour-mask
         :visible="mergedShowMask"
         :fill="mergedMaskStyle?.color"
         :style="mergedMaskStyle?.style"
@@ -9,7 +9,7 @@
         :z-index="mergedZIndex"
         :target-area-clickable="targetAreaClickable"
       />
-      <el-tour-content
+      <g-tour-content
         v-if="modelValue"
         :key="current"
         :reference="triggerTarget"
@@ -19,12 +19,12 @@
         :style="mergedContentStyle"
         @close="onEscClose"
       >
-        <el-tour-steps :current="current" @update-total="onUpdateTotal">
+        <g-tour-steps :current="current" @update-total="onUpdateTotal">
           <slot />
-        </el-tour-steps>
-      </el-tour-content>
+        </g-tour-steps>
+      </g-tour-content>
     </div>
-  </el-teleport>
+  </g-teleport>
   <!-- just for IDE -->
   <slot v-if="false" name="indicators" :current="current + 1" :total="total" />
 </template>
@@ -34,11 +34,11 @@ import { computed, provide, ref, toRef, useSlots, watch } from 'vue'
 import { useVModel } from '@vueuse/core'
 import { useNamespace, useZIndex } from '@element-plus/hooks'
 import { isBoolean } from '@element-plus/utils'
-import ElTeleport from '@element-plus/components/teleport'
+import GTeleport from '@element-plus/components/teleport'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import ElTourMask from './mask.vue'
-import ElTourContent from './content.vue'
-import ElTourSteps from './steps'
+import GTourMask from './mask.vue'
+import GTourContent from './content.vue'
+import GTourSteps from './steps'
 import { tourEmits } from './tour'
 import { tourKey, useTarget } from './helper'
 
@@ -46,7 +46,7 @@ import type { TourStepProps } from './step'
 import type { TourProps } from './tour'
 
 defineOptions({
-  name: 'ElTour',
+  name: 'GTour',
   inheritAttrs: false,
 })
 

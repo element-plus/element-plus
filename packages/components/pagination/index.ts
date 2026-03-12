@@ -3,9 +3,9 @@ import Pagination from './src/pagination'
 
 import type { SFCWithInstall } from '@element-plus/utils'
 
-export const ElPagination: SFCWithInstall<typeof Pagination> =
+export const GPagination: SFCWithInstall<typeof Pagination> =
   withInstall(Pagination)
-export default ElPagination
+export default GPagination
 
 export * from './src/pagination'
 export * from './src/constants'

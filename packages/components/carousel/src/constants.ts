@@ -35,4 +35,4 @@ export type CarouselContext = {
 export const carouselContextKey: InjectionKey<CarouselContext> =
   Symbol('carouselContextKey')
 
-export const CAROUSEL_ITEM_NAME = 'ElCarouselItem'
+export const CAROUSEL_ITEM_NAME = 'GCarouselItem'

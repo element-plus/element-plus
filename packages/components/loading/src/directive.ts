@@ -7,7 +7,7 @@ import type { Directive, DirectiveBinding, UnwrapRef } from 'vue'
 import type { LoadingOptions } from './types'
 import type { LoadingInstance } from './loading'
 
-const INSTANCE_KEY = Symbol('ElLoading')
+const INSTANCE_KEY = Symbol('GLoading')
 const getAttributeName = (name: string) => {
   return `element-loading-${hyphenate(name)}`
 }

@@ -1,6 +1,6 @@
 export default {
   name: 'te',
-  el: {
+  g: {
     breadcrumb: {
       label: 'బ్రెడ్‌క్రంబ్',
     },
@@ -121,7 +121,7 @@ export default {
       prevPages: 'మునుపటి {pager} పేజీలు',
       nextPages: 'తదుపరి {pager} పేజీలు',
       deprecationWarning:
-        'పాత పద్ధతులు గుర్తించబడ్డాయి, మరిన్ని వివరాల కోసం el-pagination డాక్యుమెంటేషన్ చూడండి',
+        'పాత పద్ధతులు గుర్తించబడ్డాయి, మరిన్ని వివరాల కోసం g-pagination డాక్యుమెంటేషన్ చూడండి',
     },
     dialog: {
       close: 'ఈ డైలాగ్ మూసివేయి',

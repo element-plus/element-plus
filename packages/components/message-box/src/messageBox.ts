@@ -15,9 +15,9 @@ import type { AppContext, ComponentPublicInstance, VNode } from 'vue'
 import type {
   Action,
   Callback,
-  ElMessageBoxOptions,
-  ElMessageBoxShortcutMethod,
-  IElMessageBox,
+  GMessageBoxOptions,
+  GMessageBoxShortcutMethod,
+  IGMessageBox,
   MessageBoxData,
   MessageBoxState,
 } from './message-box.type'
@@ -47,7 +47,7 @@ const getAppendToElement = (props: any): HTMLElement => {
     // should fallback to default value with a warning
     if (!isElement(appendTo)) {
       debugWarn(
-        'ElMessageBox',
+        'GMessageBox',
         'the appendTo option is not an HTMLElement. Falling back to document.body.'
       )
       appendTo = document.body
@@ -146,11 +146,11 @@ const showMessage = (options: any, appContext?: AppContext | null) => {
 }
 
 async function MessageBox(
-  options: ElMessageBoxOptions,
+  options: GMessageBoxOptions,
   appContext?: AppContext | null
 ): Promise<MessageBoxData>
 function MessageBox(
-  options: ElMessageBoxOptions | string | VNode,
+  options: GMessageBoxOptions | string | VNode,
   appContext: AppContext | null = null
 ): Promise<{ value: string; action: Action } | Action> {
   if (!isClient) return Promise.reject()
@@ -166,7 +166,7 @@ function MessageBox(
   return new Promise((resolve, reject) => {
     const vm = showMessage(
       options,
-      appContext ?? (MessageBox as IElMessageBox)._context
+      appContext ?? (MessageBox as IGMessageBox)._context
     )
     // collect this vm in order to handle upcoming events.
     messageInstance.set(vm, {
@@ -181,7 +181,7 @@ function MessageBox(
 const MESSAGE_BOX_VARIANTS = ['alert', 'confirm', 'prompt'] as const
 const MESSAGE_BOX_DEFAULT_OPTS: Record<
   (typeof MESSAGE_BOX_VARIANTS)[number],
-  Partial<ElMessageBoxOptions>
+  Partial<GMessageBoxOptions>
 > = {
   alert: { closeOnPressEscape: false, closeOnClickModal: false },
   confirm: { showCancelButton: true },
@@ -189,21 +189,21 @@ const MESSAGE_BOX_DEFAULT_OPTS: Record<
 }
 
 MESSAGE_BOX_VARIANTS.forEach((boxType) => {
-  ;(MessageBox as IElMessageBox)[boxType] = messageBoxFactory(
+  ;(MessageBox as IGMessageBox)[boxType] = messageBoxFactory(
     boxType
-  ) as ElMessageBoxShortcutMethod
+  ) as GMessageBoxShortcutMethod
 })
 
 function messageBoxFactory(boxType: (typeof MESSAGE_BOX_VARIANTS)[number]) {
   return (
     message: string | VNode,
-    title: string | ElMessageBoxOptions,
-    options?: ElMessageBoxOptions,
+    title: string | GMessageBoxOptions,
+    options?: GMessageBoxOptions,
     appContext?: AppContext | null
   ) => {
     let titleOrOpts = ''
     if (isObject(title)) {
-      options = title as ElMessageBoxOptions
+      options = title as GMessageBoxOptions
       titleOrOpts = ''
     } else if (isUndefined(title)) {
       titleOrOpts = ''
@@ -239,6 +239,6 @@ MessageBox.close = () => {
 
   messageInstance.clear()
 }
-;(MessageBox as IElMessageBox)._context = null
+;(MessageBox as IGMessageBox)._context = null
 
-export default MessageBox as IElMessageBox
+export default MessageBox as IGMessageBox

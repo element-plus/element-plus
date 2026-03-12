@@ -13,8 +13,8 @@ import {
 import { rAF } from '@element-plus/test-utils/tick'
 import installStyle from '@element-plus/test-utils/style-plugin'
 import {
-  ElCheckbox as Checkbox,
-  ElCheckboxGroup as CheckboxGroup,
+  GCheckbox as Checkbox,
+  GCheckboxGroup as CheckboxGroup,
 } from '@element-plus/components/checkbox'
 import Button from '@element-plus/components/button/src/button.vue'
 import Input from '@element-plus/components/input'
@@ -53,7 +53,7 @@ describe('Form', () => {
         )
       },
     })
-    expect(findStyle(wrapper, '.el-form-item__label').width).toBe('80px')
+    expect(findStyle(wrapper, '.g-form-item__label').width).toBe('80px')
   })
 
   it('auto label width', async () => {
@@ -84,7 +84,7 @@ describe('Form', () => {
 
     await nextTick()
 
-    const formItems = wrapper.findAll<HTMLElement>('.el-form-item__content')
+    const formItems = wrapper.findAll<HTMLElement>('.g-form-item__content')
     const marginLeft = Number.parseInt(
       formItems[0].element.style.marginLeft,
       10
@@ -98,7 +98,7 @@ describe('Form', () => {
     labelPosition.value = 'left'
     await nextTick()
 
-    const formItems1 = wrapper.findAll<HTMLElement>('.el-form-item__content')
+    const formItems1 = wrapper.findAll<HTMLElement>('.g-form-item__content')
     const marginRight = Number.parseInt(
       formItems1[0].element.style.marginRight,
       10
@@ -144,9 +144,9 @@ describe('Form', () => {
 
     await nextTick()
 
-    const formItemLabels = wrapper.findAll<HTMLElement>('.el-form-item__label')
+    const formItemLabels = wrapper.findAll<HTMLElement>('.g-form-item__label')
     const formItemLabelWraps = wrapper.findAll<HTMLElement>(
-      '.el-form-item__label-wrap'
+      '.g-form-item__label-wrap'
     )
 
     const labelWrapMarginLeft1 = formItemLabelWraps[0].element.style.marginLeft
@@ -184,7 +184,7 @@ describe('Form', () => {
         )
       },
     })
-    expect(wrapper.classes()).toContain('el-form--inline')
+    expect(wrapper.classes()).toContain('g-form--inline')
   })
 
   it('label position', () => {
@@ -225,13 +225,13 @@ describe('Form', () => {
       },
     })
     expect(wrapper.findComponent({ ref: 'labelTop' }).classes()).toContain(
-      'el-form--label-top'
+      'g-form--label-top'
     )
     expect(wrapper.findComponent({ ref: 'labelLeft' }).classes()).toContain(
-      'el-form--label-left'
+      'g-form--label-left'
     )
     expect(wrapper.findComponent({ ref: 'labelRight' }).classes()).toContain(
-      'el-form--label-right'
+      'g-form--label-right'
     )
   })
 
@@ -255,7 +255,7 @@ describe('Form', () => {
       },
     })
     expect(wrapper.findComponent(FormItem).classes()).toContain(
-      'el-form-item--small'
+      'g-form-item--small'
     )
   })
 
@@ -297,7 +297,7 @@ describe('Form', () => {
 
     await nextTick()
     expect(valid).toBe(false)
-    expect(wrapper.find('.el-form-item__error').exists()).toBe(false)
+    expect(wrapper.find('.g-form-item__error').exists()).toBe(false)
   })
 
   it('reset field', async () => {
@@ -367,7 +367,7 @@ describe('Form', () => {
     expect(form.name).toBe('')
     expect(form.address).toBe('')
     expect(form.type.length).toBe(0)
-    expect(wrapper.findAll('.el-form-item__error')).toHaveLength(0)
+    expect(wrapper.findAll('.g-form-item__error')).toHaveLength(0)
     vi.useRealTimers()
   })
 
@@ -637,7 +637,7 @@ describe('Form', () => {
     expect(res.valid).toBe(false)
     expect(callEl.textContent).contain('name')
     expect(callEl.className).toBe(
-      'el-form-item is-error is-required asterisk-left el-form-item--label-right'
+      'g-form-item is-error is-required asterisk-left el-form-item--label-right'
     )
     window.HTMLElement.prototype.scrollIntoView = oldScrollIntoView
   })
@@ -751,7 +751,7 @@ describe('Form', () => {
     await nextTick()
     expect(value.value).toBe(1)
     expect(rules.value.age[0].message).toBe('age is: 1')
-    expect(wrapper.find('.el-form-item__error').text()).toBe('age is: 1')
+    expect(wrapper.find('.g-form-item__error').text()).toBe('age is: 1')
   })
 
   it('should use form disabled input not trigger @blur', async () => {
@@ -800,7 +800,7 @@ describe('Form', () => {
     await input.trigger('blur')
     expect(blurHandler).toHaveBeenCalledTimes(0)
     await nextTick()
-    const inputWrapper = wrapper.find('.el-input__wrapper')
+    const inputWrapper = wrapper.find('.g-input__wrapper')
     expect(inputWrapper.attributes('tabindex')).toBeUndefined()
   })
 
@@ -886,7 +886,7 @@ describe('Form', () => {
     vi.runAllTimers()
     await nextTick()
     expect(wrapper.find('.is-error').exists()).toBe(true)
-    expect(wrapper.find('.el-form-item__error').text()).toBe(
+    expect(wrapper.find('.g-form-item__error').text()).toBe(
       'Please input name'
     )
 
@@ -902,7 +902,7 @@ describe('Form', () => {
     vi.runAllTimers()
     await nextTick()
     expect(wrapper.find('.is-error').exists()).toBe(true)
-    expect(wrapper.find('.el-form-item__error').text()).toBe('name is error')
+    expect(wrapper.find('.g-form-item__error').text()).toBe('name is error')
     vi.useRealTimers()
   })
 

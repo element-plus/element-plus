@@ -16,7 +16,7 @@ import zhCn from '@element-plus/locale/lang/zh-cn'
 import enUs from '@element-plus/locale/lang/en'
 import 'dayjs/locale/zh-cn'
 import { EVENT_CODE } from '@element-plus/constants'
-import { ElForm, ElFormItem } from '@element-plus/components/form'
+import { GForm, GFormItem } from '@element-plus/components/form'
 import DatePicker from '../src/date-picker'
 import DatePickerRange from '@element-plus/components/date-picker-panel/src/date-picker-com/panel-date-range.vue'
 
@@ -24,10 +24,10 @@ const _mount = (template: string, data = () => ({}), otherObj?) =>
   mount(
     {
       components: {
-        'el-date-picker': DatePicker,
-        'el-form': ElForm,
-        'el-form-item': ElFormItem,
-        'el-config-provider': ConfigProvider,
+        'g-date-picker': DatePicker,
+        'g-form': GForm,
+        'g-form-item': GFormItem,
+        'g-config-provider': ConfigProvider,
       },
       template,
       data,
@@ -45,7 +45,7 @@ afterEach(() => {
 const testDatePickerPanelChange = async (type: 'date' | 'daterange') => {
   let mode
   const wrapper = _mount(
-    `<el-date-picker
+    `<g-date-picker
         type="${type}"
         v-model="value"
         @panel-change="onPanelChange"
@@ -94,7 +94,7 @@ describe('DatePicker', () => {
     const popperClassName = 'popper-class-test'
     const customClassName = 'custom-class-test'
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
         :readonly="true"
         placeholder='test_'
         format='HH-mm-ss'
@@ -107,7 +107,7 @@ describe('DatePicker', () => {
     const input = wrapper.find('input')
     expect(input.attributes('placeholder')).toBe('test_')
     expect(input.attributes('readonly')).not.toBeUndefined()
-    const outterInput = wrapper.find('.el-input')
+    const outterInput = wrapper.find('.g-input')
     expect(outterInput.classes()).toContain(customClassName)
     expect(outterInput.attributes().style).toBeDefined()
     input.trigger('blur')
@@ -115,14 +115,14 @@ describe('DatePicker', () => {
     await nextTick()
     expect(
       document
-        .querySelector('.el-picker__popper')
+        .querySelector('.g-picker__popper')
         .classList.contains(popperClassName)
     ).toBe(true)
   })
 
   it('select date', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
         v-model="value"
     />`,
       () => ({ value: '' })
@@ -133,17 +133,17 @@ describe('DatePicker', () => {
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
-    const spans = document.querySelectorAll('.el-date-picker__header-label')
+    const spans = document.querySelectorAll('.g-date-picker__header-label')
     const arrowLeftElm = document.querySelector(
-      '.el-date-picker__prev-btn .arrow-left'
+      '.g-date-picker__prev-btn .arrow-left'
     ) as HTMLElement
     const arrowRightElm = document.querySelector(
-      '.el-date-picker__next-btn .arrow-right'
+      '.g-date-picker__next-btn .arrow-right'
     ) as HTMLElement
     expect(spans[0].textContent).toContain(date.year())
     expect(spans[1].textContent).toContain(date.format('MMMM'))
     const arrowLeftYeayElm = document.querySelector(
-      '.el-date-picker__prev-btn .d-arrow-left'
+      '.g-date-picker__prev-btn .d-arrow-left'
     ) as HTMLElement
     arrowLeftYeayElm.click()
     let count = 20
@@ -167,7 +167,7 @@ describe('DatePicker', () => {
     it('type:daterange', async () => {
       const value = ['2025-01-01', '2025-01-02']
       const wrapper = _mount(
-        `<el-date-picker
+        `<g-date-picker
           v-model="value"
           type="daterange"
           :empty-values="[[]]"
@@ -177,7 +177,7 @@ describe('DatePicker', () => {
       )
       await nextTick()
       expect(wrapper.vm.value).toEqual(value)
-      const clearBtn = wrapper.find('.el-range__close-icon')
+      const clearBtn = wrapper.find('.g-range__close-icon')
       clearBtn.trigger('click')
       expect(wrapper.vm.value).toEqual([])
     })
@@ -185,7 +185,7 @@ describe('DatePicker', () => {
     it('type:monthrange', async () => {
       const value = ['2025-01-01', '2025-01-02']
       const wrapper = _mount(
-        `<el-date-picker
+        `<g-date-picker
           v-model="value"
           type="monthrange"
           :empty-values="[[]]"
@@ -195,7 +195,7 @@ describe('DatePicker', () => {
       )
       await nextTick()
       expect(wrapper.vm.value).toEqual(value)
-      const clearBtn = wrapper.find('.el-range__close-icon')
+      const clearBtn = wrapper.find('.g-range__close-icon')
       clearBtn.trigger('click')
       expect(wrapper.vm.value).toEqual([])
     })
@@ -203,7 +203,7 @@ describe('DatePicker', () => {
     it('type:yearrange', async () => {
       const value = ['2025-01-01', '2025-01-02']
       const wrapper = _mount(
-        `<el-date-picker
+        `<g-date-picker
           v-model="value"
           type="yearrange"
           :empty-values="[[]]"
@@ -213,7 +213,7 @@ describe('DatePicker', () => {
       )
       await nextTick()
       expect(wrapper.vm.value).toEqual(value)
-      const clearBtn = wrapper.find('.el-range__close-icon')
+      const clearBtn = wrapper.find('.g-range__close-icon')
       clearBtn.trigger('click')
       expect(wrapper.vm.value).toEqual([])
     })
@@ -221,7 +221,7 @@ describe('DatePicker', () => {
 
   it('defaultTime and clear value', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
         v-model="value"
         :default-time="new Date(2011,1,1,12,0,1)"
     />`,
@@ -247,7 +247,7 @@ describe('DatePicker', () => {
 
   it('defaultValue', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
         v-model="value"
         :default-value="defaultValue"
     />`,
@@ -292,7 +292,7 @@ describe('DatePicker', () => {
     const keydownHandler = vi.fn()
     let onChangeValue: Date | undefined
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
         v-model="value"
         @change="onChange"
         @focus="onFocus"
@@ -339,7 +339,7 @@ describe('DatePicker', () => {
 
   it('should show clear btn on focus', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
         v-model="value"
         clearable
       />`,
@@ -354,7 +354,7 @@ describe('DatePicker', () => {
   it('emits focus on click when not currently focused', async () => {
     const focusHandler = vi.fn()
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
         v-model="value"
         @focus="onFocus"
       />`,
@@ -377,10 +377,10 @@ describe('DatePicker', () => {
   })
 
   it('opens popper on click when input is focused', async () => {
-    const wrapper = _mount(`<el-date-picker v-model="value" />`, () => ({
+    const wrapper = _mount(`<g-date-picker v-model="value" />`, () => ({
       value: new Date(2016, 9, 10, 18, 40),
     }))
-    const popperEl = document.querySelector('.el-picker__popper') as HTMLElement
+    const popperEl = document.querySelector('.g-picker__popper') as HTMLElement
     expect(popperEl.style.display).toBe('none')
     const input = wrapper.find('input')
     input.element.focus()
@@ -396,7 +396,7 @@ describe('DatePicker', () => {
     const value = new Date(Date.now() - 86400000)
     value.setHours(0, 0, 0, 0)
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
         v-model="value"
         :shortcuts="shortcuts"
     />`,
@@ -414,9 +414,9 @@ describe('DatePicker', () => {
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
-    const shortcut = document.querySelector('.el-picker-panel__shortcut')
+    const shortcut = document.querySelector('.g-picker-panel__shortcut')
     expect(shortcut.textContent).toBe(text)
-    expect(document.querySelector('.el-picker-panel__sidebar')).not.toBeNull()
+    expect(document.querySelector('.g-picker-panel__sidebar')).not.toBeNull()
     ;(shortcut as HTMLElement).click()
     await nextTick()
     const vm = wrapper.vm as any
@@ -425,7 +425,7 @@ describe('DatePicker', () => {
 
   it('disabledDate', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
         v-model="value"
         :disabledDate="disabledDate"
     />`,
@@ -445,7 +445,7 @@ describe('DatePicker', () => {
 
   it('select year picker when using disabledDate prop', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
         v-model="value"
         :disabledDate="disabledDate"
     />`,
@@ -462,11 +462,11 @@ describe('DatePicker', () => {
     input.trigger('focus')
     await nextTick()
     const yearLabel: HTMLElement = document.querySelectorAll(
-      '.el-date-picker__header-label'
+      '.g-date-picker__header-label'
     )[0]
     yearLabel.click()
     await nextTick()
-    const yearCells = document.querySelectorAll('.el-date-table-cell__text')
+    const yearCells = document.querySelectorAll('.g-date-table-cell__text')
     const year2023 = [...yearCells].find((item) => item.innerHTML === '2023')
     year2023.click()
     await nextTick()
@@ -475,7 +475,7 @@ describe('DatePicker', () => {
 
   it('select month picker when using disabledDate prop', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
         v-model="value"
         :disabledDate="disabledDate"
     />`,
@@ -492,11 +492,11 @@ describe('DatePicker', () => {
     input.trigger('focus')
     await nextTick()
     const monthLabel: HTMLElement = document.querySelectorAll(
-      '.el-date-picker__header-label'
+      '.g-date-picker__header-label'
     )[1]
     monthLabel.click()
     await nextTick()
-    const monthCells = document.querySelectorAll('.el-date-table-cell__text')
+    const monthCells = document.querySelectorAll('.g-date-table-cell__text')
     const februaryCell = monthCells[1]
     februaryCell.click()
     await nextTick()
@@ -505,7 +505,7 @@ describe('DatePicker', () => {
 
   it('should work when using disabledDate prop and daterange type', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
         v-model="value"
         type="daterange"
         :disabledDate="disabledDate"
@@ -531,7 +531,7 @@ describe('DatePicker', () => {
 
   it('validate user input', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
         v-model="value"
         />`,
       () => ({
@@ -558,7 +558,7 @@ describe('DatePicker', () => {
 
   it('validate manual change value with format', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
         v-model="value"
         format="DD.MM.YYYY"
         />`,
@@ -581,7 +581,7 @@ describe('DatePicker', () => {
 
   it('ref focus', async () => {
     _mount(
-      `<el-date-picker
+      `<g-date-picker
         v-model="value"
         ref="input"
       />`,
@@ -594,14 +594,14 @@ describe('DatePicker', () => {
     )
     await nextTick()
     await rAF()
-    const popperEl = document.querySelector('.el-picker__popper')
+    const popperEl = document.querySelector('.g-picker__popper')
     const attr = popperEl.getAttribute('aria-hidden')
     expect(attr).toEqual('false')
   })
 
   it('ref handleOpen', async () => {
     _mount(
-      `<el-date-picker
+      `<g-date-picker
         v-model="value"
         ref="input"
       />`,
@@ -613,7 +613,7 @@ describe('DatePicker', () => {
       }
     )
     await nextTick()
-    const popperEl = document.querySelector('.el-picker__popper')
+    const popperEl = document.querySelector('.g-picker__popper')
     const attr = popperEl.getAttribute('aria-hidden')
     expect(attr).toEqual('false')
   })
@@ -622,7 +622,7 @@ describe('DatePicker', () => {
     vi.useFakeTimers()
 
     _mount(
-      `<el-date-picker
+      `<g-date-picker
         v-model="value"
         ref="input"
       />`,
@@ -640,7 +640,7 @@ describe('DatePicker', () => {
 
     vi.runAllTimers()
     await nextTick()
-    const popperEl = document.querySelector('.el-picker__popper')
+    const popperEl = document.querySelector('.g-picker__popper')
     const attr = popperEl.getAttribute('aria-hidden')
     expect(attr).toEqual('true')
 
@@ -673,13 +673,13 @@ describe('DatePicker', () => {
     }
     const wrapper = _mount(
       `
-      <el-date-picker :cellClassName="() => 'hello'">
+      <g-date-picker :cellClassName="() => 'hello'">
         <template #default="cell">
           <div class="custom-cell" data-testid="" @click="testCellData(cell)">
             click me
           </div>
         </template>
-      </el-date-picker>
+      </g-date-picker>
       `,
       () => ({ testCellData })
     )
@@ -707,15 +707,15 @@ describe('DatePicker', () => {
 
   it('custom content', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
         v-model="value"
         ref="input">
         <template #default="{ isCurrent, text }">
-          <div class="el-date-table-cell__text" :class="{ current: isCurrent }">
+          <div class="g-date-table-cell__text" :class="{ current: isCurrent }">
             <div>{{ text }}</div>
           </div>
         </template>
-      </el-date-picker>`,
+      </g-date-picker>`,
       () => ({ value: '' }),
       {
         mounted() {
@@ -731,7 +731,7 @@ describe('DatePicker', () => {
     {
       ;(
         document.querySelector(
-          'td.available .el-date-table-cell__text'
+          'td.available .g-date-table-cell__text'
         ) as HTMLElement
       ).click()
     }
@@ -739,14 +739,14 @@ describe('DatePicker', () => {
     await nextTick()
     expect(
       document
-        .querySelector('td.available .el-date-table-cell__text')
+        .querySelector('td.available .g-date-table-cell__text')
         .classList.contains('current')
     ).toBeTruthy()
   })
 
   it('custom content comment', async () => {
     _mount(
-      `<el-date-picker
+      `<g-date-picker
         v-model="value"
         ref="input">
         <template #default="{ isCurrent, text }">
@@ -754,7 +754,7 @@ describe('DatePicker', () => {
             <div>{{ text + "csw" }}</div>
           </div> -->
         </template>
-      </el-date-picker>`,
+      </g-date-picker>`,
       () => ({ value: '' }),
       {
         mounted() {
@@ -763,22 +763,22 @@ describe('DatePicker', () => {
       }
     )
     await nextTick()
-    const el = document.querySelector('td.available .el-date-table-cell')
+    const el = document.querySelector('td.available .g-date-table-cell')
     const text = el.textContent
     expect(text.includes('csw')).toBeFalsy()
   })
 
   it('custom content value validate', async () => {
     _mount(
-      `<el-date-picker
+      `<g-date-picker
         v-model="value"
         ref="input">
         <template #default="{ isCurrent, text }">
-          <div class="el-date-table-cell__text" :class="{ current: isCurrent }">
+          <div class="g-date-table-cell__text" :class="{ current: isCurrent }">
             <div>{{ text + "csw" }}</div>
           </div>
         </template>
-      </el-date-picker>`,
+      </g-date-picker>`,
       () => ({ value: '' }),
       {
         mounted() {
@@ -787,18 +787,18 @@ describe('DatePicker', () => {
       }
     )
     await nextTick()
-    const el = document.querySelector('td.available .el-date-table-cell__text')
+    const el = document.querySelector('td.available .g-date-table-cell__text')
     const text = el.textContent
     expect(text.includes('csw')).toBeTruthy()
   })
 
   it('custom content bail out slot compoent', async () => {
     _mount(
-      `<el-date-picker
+      `<g-date-picker
         v-model="value"
         ref="input">
         <slot name="testest"></slot>
-      </el-date-picker>`,
+      </g-date-picker>`,
       () => ({ value: '' }),
       {
         mounted() {
@@ -814,16 +814,16 @@ describe('DatePicker', () => {
 
   it('custom content for type is month', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
         type="month"
         v-model="value"
         ref="input">
         <template #default="{ text }">
-          <div class="el-date-table-cell">
-            <div class="el-date-table-cell__text">{{ text }}期</div>
+          <div class="g-date-table-cell">
+            <div class="g-date-table-cell__text">{{ text }}期</div>
           </div>
         </template>
-      </el-date-picker>`,
+      </g-date-picker>`,
       () => ({ value: '' }),
       {
         mounted() {
@@ -837,26 +837,26 @@ describe('DatePicker', () => {
     input.trigger('focus')
     await nextTick()
     {
-      ;(document.querySelector('td .el-date-table-cell') as HTMLElement).click()
+      ;(document.querySelector('td .g-date-table-cell') as HTMLElement).click()
     }
     input.trigger('focus')
     await nextTick()
-    const el = document.querySelector('td.current .el-date-table-cell')
+    const el = document.querySelector('td.current .g-date-table-cell')
     expect(el.textContent.includes('期')).toBeTruthy()
   })
 
   it('custom content comment for type is month', async () => {
     _mount(
-      `<el-date-picker
+      `<g-date-picker
         v-model="value"
         type="month"
         ref="input">
         <template #default="{ text }">
-          <!-- <div class="el-date-table-cell">
+          <!-- <div class="g-date-table-cell">
             <div>{{ text + "csw" }}</div>
           </div> -->
         </template>
-      </el-date-picker>`,
+      </g-date-picker>`,
       () => ({ value: '' }),
       {
         mounted() {
@@ -865,23 +865,23 @@ describe('DatePicker', () => {
       }
     )
     await nextTick()
-    const el = document.querySelector('td .el-date-table-cell')
+    const el = document.querySelector('td .g-date-table-cell')
     const text = el.textContent
     expect(text.includes('csw')).toBeFalsy()
   })
 
   it('custom content for type is year', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
         type="year"
         v-model="value"
         ref="input">
         <template #default="{ text }">
-          <div class="el-date-table-cell">
-            <div class="el-date-table-cell__text">{{ text }}y</div>
+          <div class="g-date-table-cell">
+            <div class="g-date-table-cell__text">{{ text }}y</div>
           </div>
         </template>
-      </el-date-picker>`,
+      </g-date-picker>`,
       () => ({ value: '' }),
       {
         mounted() {
@@ -895,40 +895,40 @@ describe('DatePicker', () => {
     input.trigger('focus')
     await nextTick()
     {
-      ;(document.querySelector('td .el-date-table-cell') as HTMLElement).click()
+      ;(document.querySelector('td .g-date-table-cell') as HTMLElement).click()
     }
     input.trigger('focus')
     await nextTick()
-    const el = document.querySelector('td.current .el-date-table-cell')
+    const el = document.querySelector('td.current .g-date-table-cell')
     expect(el.textContent.includes('y')).toBeTruthy()
   })
 
   it('should toggle visibility of confirm button through show-confirm', async () => {
-    const wrapper = _mount(`<el-date-picker type="datetime" show-confirm />`)
+    const wrapper = _mount(`<g-date-picker type="datetime" show-confirm />`)
     const input = wrapper.find('input')
     await input.trigger('blur')
     await input.trigger('focus')
     expect(
-      document.querySelectorAll('.el-picker-panel__footer button')
+      document.querySelectorAll('.g-picker-panel__footer button')
     ).toHaveLength(2)
     await wrapper.setProps({ showConfirm: false })
     expect(
-      document.querySelectorAll('.el-picker-panel__footer button')
+      document.querySelectorAll('.g-picker-panel__footer button')
     ).toHaveLength(1)
   })
 
   it('custom content comment for type is year', async () => {
     _mount(
-      `<el-date-picker
+      `<g-date-picker
         v-model="value"
         type="year"
         ref="input">
         <template #default="{ text }">
-          <!-- <div class="el-date-table-cell">
+          <!-- <div class="g-date-table-cell">
             <div>{{ text + "csw" }}</div>
           </div> -->
         </template>
-      </el-date-picker>`,
+      </g-date-picker>`,
       () => ({ value: '' }),
       {
         mounted() {
@@ -937,14 +937,14 @@ describe('DatePicker', () => {
       }
     )
     await nextTick()
-    const el = document.querySelector('td .el-date-table-cell')
+    const el = document.querySelector('td .g-date-table-cell')
     const text = el.textContent
     expect(text.includes('csw')).toBeFalsy()
   })
 
   it('shows weekNumber', async () => {
     _mount(
-      `<el-date-picker
+      `<g-date-picker
         v-model="value"
         show-week-number
       />`,
@@ -971,7 +971,7 @@ describe('DatePicker', () => {
       const value = day.format(valueFormat)
       const wrapper = _mount(
         `
-        <el-date-picker
+        <g-date-picker
           ref="compo"
           v-model="value"
           type="date"
@@ -1019,7 +1019,7 @@ describe('DatePicker', () => {
       const value = Date.now()
       const wrapper = _mount(
         `
-        <el-date-picker
+        <g-date-picker
           ref="compo"
           v-model="value"
           type="date"
@@ -1057,7 +1057,7 @@ describe('DatePicker', () => {
   describe('It should generate accessible attributes', () => {
     it('should generate aria attributes', async () => {
       const wrapper = _mount(
-        `<el-date-picker
+        `<g-date-picker
           v-model="value"
           type="date"
           aria-label="Date picker"
@@ -1073,7 +1073,7 @@ describe('DatePicker', () => {
 
       input.trigger('focus')
       await nextTick()
-      const popper = document.querySelector('.el-picker__popper')
+      const popper = document.querySelector('.g-picker__popper')
 
       expect(input.attributes('aria-expanded')).toBe('true')
       expect(input.attributes('aria-controls')).toBe(popper.getAttribute('id'))
@@ -1084,14 +1084,14 @@ describe('DatePicker', () => {
 
     it('should append set dates when model value change on daterange', async () => {
       const wrapper = _mount(
-        `<el-date-picker
+        `<g-date-picker
           type="daterange"
           date-format="YYYY-MM-DD"
           value-format="YYYY-MM-DD"
         />`
       )
       await nextTick()
-      await wrapper.find('.el-date-editor').trigger('click')
+      await wrapper.find('.g-date-editor').trigger('click')
       let startDate = document.querySelector('td.start-date')
       let endDate = document.querySelector('td.end-date')
       expect(startDate).toBeNull()
@@ -1107,14 +1107,14 @@ describe('DatePicker', () => {
 
     it('should append set dates when model value change on monthrange', async () => {
       const wrapper = _mount(
-        `<el-date-picker
+        `<g-date-picker
           type="monthrange"
           date-format="YYYY-MM"
           value-format="YYYY-MM"
         />`
       )
       await nextTick()
-      await wrapper.find('.el-date-editor').trigger('click')
+      await wrapper.find('.g-date-editor').trigger('click')
       let startDate = document.querySelector('td.start-date')
       let endDate = document.querySelector('td.end-date')
       expect(startDate).toBeNull()
@@ -1130,14 +1130,14 @@ describe('DatePicker', () => {
 
     it('should append set dates when model value change on yearrange', async () => {
       const wrapper = _mount(
-        `<el-date-picker
+        `<g-date-picker
           type="yearrange"
           date-format="YYYY"
           value-format="YYYY"
         />`
       )
       await nextTick()
-      await wrapper.find('.el-date-editor').trigger('click')
+      await wrapper.find('.g-date-editor').trigger('click')
       let startDate = document.querySelector('td.start-date')
       let endDate = document.querySelector('td.end-date')
       expect(startDate).toBeNull()
@@ -1153,7 +1153,7 @@ describe('DatePicker', () => {
 
     it('should generate aria attributes for range', async () => {
       const wrapper = _mount(
-        `<el-date-picker
+        `<g-date-picker
           v-model="value"
           type="daterange"
           aria-label="Date picker"
@@ -1178,7 +1178,7 @@ describe('DatePicker', () => {
 
       wrapper.find('input').trigger('focus')
       await nextTick()
-      const popper = document.querySelector('.el-picker__popper')
+      const popper = document.querySelector('.g-picker__popper')
 
       expect(inputs[0].attributes('aria-expanded')).toBe('true')
       expect(inputs[0].attributes('aria-controls')).toBe(
@@ -1195,7 +1195,7 @@ describe('DatePicker', () => {
       const changeHandler = vi.fn()
       const clearHandler = vi.fn()
       const wrapper = _mount(
-        `<el-date-picker
+        `<g-date-picker
           v-model="value"
           @change="changeHandler"
           @clear="clearHandler"
@@ -1204,7 +1204,7 @@ describe('DatePicker', () => {
       )
 
       await wrapper.find('input').trigger('focus')
-      await wrapper.find('.el-input').trigger('mouseenter')
+      await wrapper.find('.g-input').trigger('mouseenter')
       await wrapper.find('.clear-icon').trigger('click')
       expect(changeHandler).toHaveBeenCalledTimes(1)
       expect(clearHandler).toHaveBeenCalledTimes(1)
@@ -1213,7 +1213,7 @@ describe('DatePicker', () => {
     it('manually clear date', async () => {
       const changeHandler = vi.fn()
       const wrapper = _mount(
-        `<el-date-picker
+        `<g-date-picker
           v-model="value"
           @change="changeHandler"
         />`,
@@ -1230,7 +1230,7 @@ describe('DatePicker', () => {
 
   it('should handle array value for datetime type without errors', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
         v-model="value"
         type="datetime"
       />`,
@@ -1245,10 +1245,10 @@ describe('DatePicker', () => {
     await nextTick()
 
     const dateInput = document.querySelector(
-      '.el-date-picker__time-header > span:nth-child(1) input'
+      '.g-date-picker__time-header > span:nth-child(1) input'
     ) as HTMLInputElement
     const timeInput = document.querySelector(
-      '.el-date-picker__time-header > span:nth-child(2) input'
+      '.g-date-picker__time-header > span:nth-child(2) input'
     ) as HTMLInputElement
 
     expect(dateInput?.value).toBe('2025-09-01')
@@ -1257,7 +1257,7 @@ describe('DatePicker', () => {
 
   it('should convert array value to proper format when changed', async () => {
     const wrapper = _mount(
-      `<el-date-picker v-model="value" type="datetime" />`,
+      `<g-date-picker v-model="value" type="datetime" />`,
       () => ({ value: ['2025-09-04'] })
     )
 
@@ -1268,7 +1268,7 @@ describe('DatePicker', () => {
     await input.trigger('focus')
     await nextTick()
 
-    const dateCell = document.querySelector('.el-date-table td.available')
+    const dateCell = document.querySelector('.g-date-table td.available')
     await (dateCell as HTMLElement)?.click()
     await nextTick()
 
@@ -1282,7 +1282,7 @@ describe('DatePicker Navigation', () => {
 
   const initNavigationTest = async (value) => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
         v-model="value"
     />`,
       () => ({ value })
@@ -1297,9 +1297,9 @@ describe('DatePicker Navigation', () => {
     nextMonth = document.querySelector('button.arrow-right')
     nextYear = document.querySelector('button.d-arrow-right')
     getYearLabel = () =>
-      document.querySelectorAll('.el-date-picker__header-label')[0].textContent
+      document.querySelectorAll('.g-date-picker__header-label')[0].textContent
     getMonthLabel = () =>
-      document.querySelectorAll('.el-date-picker__header-label')[1].textContent
+      document.querySelectorAll('.g-date-picker__header-label')[1].textContent
   }
 
   it('month, year', async () => {
@@ -1349,24 +1349,24 @@ describe('DatePicker Navigation', () => {
   it('month label with fewer dates', async () => {
     await initNavigationTest(new Date(2000, 6, 31))
     const yearLabel = document.querySelectorAll(
-      '.el-date-picker__header-label'
+      '.g-date-picker__header-label'
     )[0]
     ;(yearLabel as HTMLElement).click()
     await nextTick()
-    const year1999Label = document.querySelectorAll('.el-year-table td')[1]
+    const year1999Label = document.querySelectorAll('.g-year-table td')[1]
     ;(year1999Label as HTMLElement).click()
     await nextTick()
-    const juneLabel = document.querySelectorAll('.el-month-table td')[5]
+    const juneLabel = document.querySelectorAll('.g-month-table td')[5]
     ;(juneLabel as HTMLElement).click()
     await nextTick()
     expect(getYearLabel()).toContain('2001')
     expect(getMonthLabel()).toContain('June')
     const monthLabel = document.querySelectorAll(
-      '.el-date-picker__header-label'
+      '.g-date-picker__header-label'
     )[1]
     ;(monthLabel as HTMLElement).click()
     await nextTick()
-    const janLabel = document.querySelectorAll('.el-month-table td')[0]
+    const janLabel = document.querySelectorAll('.g-month-table td')[0]
     ;(janLabel as HTMLElement).click()
     await nextTick()
     expect(getYearLabel()).toContain('2001')
@@ -1381,7 +1381,7 @@ describe('DatePicker Navigation', () => {
 describe('MonthPicker', () => {
   it('basic', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
     type='month'
     v-model="value"
   />`,
@@ -1392,12 +1392,12 @@ describe('MonthPicker', () => {
     input.trigger('focus')
     await nextTick()
     expect(
-      (document.querySelector('.el-month-table') as HTMLElement).style.display
+      (document.querySelector('.g-month-table') as HTMLElement).style.display
     ).toBe('')
-    expect(document.querySelector('.el-year-table')).toBeNull()
+    expect(document.querySelector('.g-year-table')).toBeNull()
     ;(
       document.querySelector(
-        '.el-month-table .el-date-table-cell__text'
+        '.g-month-table .g-date-table-cell__text'
       ) as HTMLElement
     ).click()
     await nextTick()
@@ -1409,11 +1409,11 @@ describe('MonthPicker', () => {
     const valueFormat = '[Element-Plus] YYYY.MM'
     const wrapper = _mount(
       `
-      <el-date-picker
+      <g-date-picker
         type="month"
         v-model="value"
         value-format="${valueFormat}"
-      ></el-date-picker>
+      ></g-date-picker>
     `,
       () => ({ value: dayjs(new Date(2020, 7, 1)).format(valueFormat) })
     )
@@ -1426,7 +1426,7 @@ describe('MonthPicker', () => {
     {
       ;(
         document.querySelector(
-          '.el-month-table .el-date-table-cell__text'
+          '.g-month-table .g-date-table-cell__text'
         ) as HTMLElement
       ).click()
     }
@@ -1440,7 +1440,7 @@ describe('MonthPicker', () => {
     const CurrentMonth = Number(dayjs().format('M'))
     const CurrentMonthForamt = dayjs().format('YYYY-MM')
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
         type="month"
         v-model="value"
         :disabledDate="disabledDate"
@@ -1456,7 +1456,7 @@ describe('MonthPicker', () => {
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
-    const monthTds = Array.from(document.querySelectorAll('.el-month-table td'))
+    const monthTds = Array.from(document.querySelectorAll('.g-month-table td'))
     const currentMonthTd = monthTds[CurrentMonth - 1]
     const otherMonthTds = monthTds.filter(
       (td, index) => index !== CurrentMonth - 1
@@ -1471,7 +1471,7 @@ describe('MonthPicker', () => {
 describe('YearPicker', () => {
   it('basic', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
     type='year'
     v-model="value"
   />`,
@@ -1482,9 +1482,9 @@ describe('YearPicker', () => {
     input.trigger('focus')
     await nextTick()
     expect(
-      (document.querySelector('.el-year-table') as HTMLElement).style.display
+      (document.querySelector('.g-year-table') as HTMLElement).style.display
     ).toBe('')
-    expect(document.querySelector('.el-month-table')).toBeNull()
+    expect(document.querySelector('.g-month-table')).toBeNull()
 
     const leftBtn = document.querySelector('.d-arrow-left') as HTMLElement
     const rightBtn = document.querySelector('.d-arrow-right') as HTMLElement
@@ -1501,7 +1501,7 @@ describe('YearPicker', () => {
     await nextTick()
     ;(
       document.querySelector(
-        '.el-year-table .el-date-table-cell__text'
+        '.g-year-table .g-date-table-cell__text'
       ) as HTMLElement
     ).click()
     await nextTick()
@@ -1513,11 +1513,11 @@ describe('YearPicker', () => {
     const valueFormat = '[Element-Plus] YYYY'
     const wrapper = _mount(
       `
-      <el-date-picker
+      <g-date-picker
         type="year"
         v-model="value"
         value-format="${valueFormat}"
-      ></el-date-picker>
+      ></g-date-picker>
     `,
       () => ({ value: dayjs(new Date(2005, 7, 1)).format(valueFormat) })
     )
@@ -1528,7 +1528,7 @@ describe('YearPicker', () => {
     input.trigger('focus')
     await nextTick()
     const cell = document.querySelector(
-      '.el-year-table .el-date-table-cell__text'
+      '.g-year-table .g-date-table-cell__text'
     ) as HTMLElement
     cell.click()
     await nextTick()
@@ -1543,7 +1543,7 @@ describe('YearPicker', () => {
 describe('WeekPicker', () => {
   it('create', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
     type='week'
     v-model="value"
   />`,
@@ -1557,22 +1557,22 @@ describe('WeekPicker', () => {
     // select month still is in week-mode
     ;(
       document.querySelectorAll(
-        '.el-date-picker__header-label'
+        '.g-date-picker__header-label'
       )[1] as HTMLElement
     ).click()
     await nextTick()
     ;(
       document.querySelectorAll(
-        '.el-month-table .el-date-table-cell__text'
+        '.g-month-table .g-date-table-cell__text'
       )[7] as HTMLElement
     ).click()
     await nextTick()
     expect(document.querySelector('.is-week-mode')).not.toBeNull()
     const numberOfHighlightRows = () =>
-      document.querySelectorAll('.el-date-table__row.current').length
+      document.querySelectorAll('.g-date-table__row.current').length
     ;(
       document.querySelector(
-        '.el-date-table__row ~ .el-date-table__row td.available'
+        '.g-date-table__row ~ .g-date-table__row td.available'
       ) as HTMLElement
     ).click()
     await nextTick()
@@ -1601,16 +1601,16 @@ describe('WeekPicker', () => {
       const wrapper = mount(
         {
           components: {
-            'el-date-picker': DatePicker,
-            'el-config-provider': ConfigProvider,
+            'g-date-picker': DatePicker,
+            'g-config-provider': ConfigProvider,
           },
           template: `
-          <el-config-provider :locale="locale">
-            <el-date-picker
+          <g-config-provider :locale="locale">
+            <g-date-picker
               type='week'
               v-model="value"
             />
-          </el-config-provider>
+          </g-config-provider>
         `,
           data() {
             return {
@@ -1630,7 +1630,7 @@ describe('WeekPicker', () => {
       // click Wednesday
       ;(
         document.querySelectorAll(
-          '.el-date-table__row ~ .el-date-table__row td'
+          '.g-date-table__row ~ .g-date-table__row td'
         )[3] as HTMLElement
       ).click()
       await nextTick()
@@ -1647,7 +1647,7 @@ describe('WeekPicker', () => {
 describe('DatePicker dates', () => {
   it('create', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
     type='dates'
     v-model="value"
   />`,
@@ -1658,7 +1658,7 @@ describe('DatePicker dates', () => {
     input.trigger('focus')
     await nextTick()
     const td = document.querySelectorAll(
-      '.el-date-table__row .available'
+      '.g-date-table__row .available'
     ) as NodeListOf<HTMLElement>
     const vm = wrapper.vm as any
     td[0].click()
@@ -1668,7 +1668,7 @@ describe('DatePicker dates', () => {
     await nextTick()
     expect(vm.value.length).toBe(2)
     expect(
-      document.querySelectorAll('.el-date-table__row .selected').length
+      document.querySelectorAll('.g-date-table__row .selected').length
     ).toBe(2)
     td[0].click()
     await nextTick()
@@ -1680,7 +1680,7 @@ describe('DatePicker dates', () => {
 
   it('selected', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
         type="dates"
         v-model="value"
       />`,
@@ -1691,7 +1691,7 @@ describe('DatePicker dates', () => {
     input.trigger('focus')
     await nextTick()
     expect(
-      document.querySelectorAll('.el-date-table__row .selected').length
+      document.querySelectorAll('.g-date-table__row .selected').length
     ).toBe(1)
   })
 })
@@ -1699,7 +1699,7 @@ describe('DatePicker dates', () => {
 describe('DatePicker months', () => {
   it('create', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
     type='months'
     v-model="value"
   />`,
@@ -1710,7 +1710,7 @@ describe('DatePicker months', () => {
     input.trigger('focus')
     await nextTick()
     const td = document.querySelectorAll(
-      '.el-month-table tr td'
+      '.g-month-table tr td'
     ) as NodeListOf<HTMLElement>
     const vm = wrapper.vm as any
     td[0].click()
@@ -1720,7 +1720,7 @@ describe('DatePicker months', () => {
     await nextTick()
     expect(vm.value.length).toBe(2)
     expect(
-      document.querySelectorAll('.el-month-table tr .current').length
+      document.querySelectorAll('.g-month-table tr .current').length
     ).toBe(2)
     td[0].click()
     await nextTick()
@@ -1732,7 +1732,7 @@ describe('DatePicker months', () => {
 
   it('selected', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
         type="months"
         v-model="value"
       />`,
@@ -1743,7 +1743,7 @@ describe('DatePicker months', () => {
     input.trigger('focus')
     await nextTick()
     expect(
-      document.querySelectorAll('.el-month-table tr .current').length
+      document.querySelectorAll('.g-month-table tr .current').length
     ).toBe(1)
   })
 
@@ -1751,7 +1751,7 @@ describe('DatePicker months', () => {
     vi.useFakeTimers()
     vi.setSystemTime(new Date('2025-03-05'))
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
         type="months"
         v-model="value"
       />`,
@@ -1767,7 +1767,7 @@ describe('DatePicker months', () => {
     await nextTick()
 
     const currentMonth: HTMLElement = document.querySelector(
-      '.el-month-table tr .current'
+      '.g-month-table tr .current'
     )
     currentMonth.click()
     await nextTick()
@@ -1783,18 +1783,18 @@ describe('DatePicker months', () => {
 describe('DatePicker keyboard events', () => {
   it('enter', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
     type='date'
     v-model="value"
   />`,
       () => ({ value: '' })
     )
-    const input = wrapper.find('.el-input__inner')
+    const input = wrapper.find('.g-input__inner')
     await input.trigger('focus')
     await input.trigger('click')
     await nextTick()
 
-    const popperEl = document.querySelectorAll('.el-picker__popper')[0]
+    const popperEl = document.querySelectorAll('.g-picker__popper')[0]
     const attr = popperEl.getAttribute('aria-hidden')
     expect(attr).toEqual('false')
 
@@ -1802,25 +1802,25 @@ describe('DatePicker keyboard events', () => {
       code: EVENT_CODE.enter,
     })
     await rAF()
-    const popperEl2 = document.querySelectorAll('.el-picker__popper')[0]
+    const popperEl2 = document.querySelectorAll('.g-picker__popper')[0]
     const attr2 = popperEl2.getAttribute('aria-hidden')
     expect(attr2).toEqual('true')
   })
 
   it('numpadEnter', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
     type='date'
     v-model="value"
   />`,
       () => ({ value: '' })
     )
-    const input = wrapper.find('.el-input__inner')
+    const input = wrapper.find('.g-input__inner')
     await input.trigger('focus')
     await input.trigger('click')
     await nextTick()
 
-    const popperEl = document.querySelectorAll('.el-picker__popper')[0]
+    const popperEl = document.querySelectorAll('.g-picker__popper')[0]
     const attr = popperEl.getAttribute('aria-hidden')
     expect(attr).toEqual('false')
 
@@ -1828,13 +1828,13 @@ describe('DatePicker keyboard events', () => {
       code: EVENT_CODE.numpadEnter,
     })
     await rAF()
-    const popperEl2 = document.querySelectorAll('.el-picker__popper')[0]
+    const popperEl2 = document.querySelectorAll('.g-picker__popper')[0]
     const attr2 = popperEl2.getAttribute('aria-hidden')
     expect(attr2).toEqual('true')
   })
 
   it('should be able to enter in date picker table through keyboard navigation', async () => {
-    _mount('<el-date-picker v-model="value" type="date" />', () => ({
+    _mount('<g-date-picker v-model="value" type="date" />', () => ({
       value: '',
     }))
     await nextTick()
@@ -1856,7 +1856,7 @@ describe('DateRangePicker', () => {
     const popperClassName = 'popper-class-test'
     const customClassName = 'custom-class-test'
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
         type='daterange'
         v-model="value"
         @calendarChange="onCalendarChange"
@@ -1879,10 +1879,10 @@ describe('DateRangePicker', () => {
     inputs[0].trigger('focus')
     await nextTick()
 
-    const outterInput = wrapper.find('.el-range-editor.el-input__wrapper')
+    const outterInput = wrapper.find('.g-range-editor.g-input__wrapper')
     expect(outterInput.classes()).toContain(customClassName)
     expect(outterInput.attributes().style).toBeDefined()
-    const panels = document.querySelectorAll('.el-date-range-picker__content')
+    const panels = document.querySelectorAll('.g-date-range-picker__content')
     expect(panels.length).toBe(2)
     ;(panels[0].querySelector('td.available') as HTMLElement).click()
     await nextTick()
@@ -1894,7 +1894,7 @@ describe('DateRangePicker', () => {
     // popperClassName
     expect(
       document
-        .querySelector('.el-picker__popper')
+        .querySelector('.g-picker__popper')
         .classList.contains(popperClassName)
     ).toBe(true)
     // correct highlight
@@ -1921,20 +1921,20 @@ describe('DateRangePicker', () => {
     const onUpdateModelValue = vi.fn()
     const wrapper = _mount(
       `
-        <el-date-picker :model-value="value" type="daterange" @update:modelValue="onUpdateModelValue" />
+        <g-date-picker :model-value="value" type="daterange" @update:modelValue="onUpdateModelValue" />
       `,
       () => ({
         value: ['2024', '2025'],
         onUpdateModelValue,
       })
     )
-    await wrapper.find('.el-date-editor').trigger('click')
+    await wrapper.find('.g-date-editor').trigger('click')
     expect(onUpdateModelValue).not.toHaveBeenCalled()
   })
 
   it('daterange should be reopen successfully', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
         v-model="value"
         type='daterange'
       />`,
@@ -1951,7 +1951,7 @@ describe('DateRangePicker', () => {
     expect(rangePanelWrapper.exists()).toBe(true)
     expect(rangePanelWrapper.vm.visible).toBe(true)
 
-    const cells = document.querySelectorAll('.available .el-date-table-cell')
+    const cells = document.querySelectorAll('.available .g-date-table-cell')
     ;(cells[0] as HTMLElement).click()
     await nextTick()
     ;(cells[1] as HTMLElement).click()
@@ -1964,7 +1964,7 @@ describe('DateRangePicker', () => {
 
   it('daterange should be reopen successfully with value-format', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
         v-model="value"
         type='daterange'
         value-format="YYYY-MM-DD"
@@ -1982,7 +1982,7 @@ describe('DateRangePicker', () => {
     expect(rangePanelWrapper.exists()).toBe(true)
     expect(rangePanelWrapper.vm.visible).toBe(true)
 
-    const cells = document.querySelectorAll('.available .el-date-table-cell')
+    const cells = document.querySelectorAll('.available .g-date-table-cell')
     ;(cells[0] as HTMLElement).click()
     await nextTick()
     ;(cells[1] as HTMLElement).click()
@@ -1995,7 +1995,7 @@ describe('DateRangePicker', () => {
 
   it('reverse selection', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
       type='daterange'
       v-model="value"
     />`,
@@ -2006,7 +2006,7 @@ describe('DateRangePicker', () => {
     inputs[0].trigger('focus')
     await nextTick()
 
-    const panels = document.querySelectorAll('.el-date-range-picker__content')
+    const panels = document.querySelectorAll('.g-date-range-picker__content')
     ;(panels[1].querySelector('td.available') as HTMLElement).click()
     await nextTick()
     ;(panels[0].querySelector('td.available') as HTMLElement).click()
@@ -2027,7 +2027,7 @@ describe('DateRangePicker', () => {
 
   it('reset selection', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
       type='daterange'
       v-model="value"
     />`,
@@ -2038,7 +2038,7 @@ describe('DateRangePicker', () => {
     inputs[0].trigger('blur')
     inputs[0].trigger('focus')
     await nextTick()
-    const panels = document.querySelectorAll('.el-date-range-picker__content')
+    const panels = document.querySelectorAll('.g-date-range-picker__content')
     ;(panels[1].querySelector('td.available') as HTMLElement).click()
     await nextTick()
     ;(panels[0].querySelector('td.available') as HTMLElement).click()
@@ -2053,14 +2053,14 @@ describe('DateRangePicker', () => {
 
   it('range, start-date and end-date', async () => {
     _mount(
-      `<el-date-picker
+      `<g-date-picker
       type='daterange'
       v-model="value"
     />`,
       () => ({ value: '' })
     )
 
-    const table = document.querySelector('.el-date-table')
+    const table = document.querySelector('.g-date-table')
     const availableTds = (table as HTMLTableElement).querySelectorAll(
       'td.available'
     )
@@ -2094,7 +2094,7 @@ describe('DateRangePicker', () => {
 
   it('unlink:true', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
       type='daterange'
       v-model="value"
       unlink-panels
@@ -2105,10 +2105,10 @@ describe('DateRangePicker', () => {
     inputs[0].trigger('blur')
     inputs[0].trigger('focus')
     await nextTick()
-    const panels = document.querySelectorAll('.el-date-range-picker__content')
-    const left = panels[0].querySelector('.el-date-range-picker__header')
+    const panels = document.querySelectorAll('.g-date-range-picker__content')
+    const left = panels[0].querySelector('.g-date-range-picker__header')
     const right = panels[1].querySelector(
-      '.is-right .el-date-range-picker__header'
+      '.is-right .g-date-range-picker__header'
     )
     expect(left.textContent).toBe('2000 October')
     expect(right.textContent).toBe('2000 December')
@@ -2125,7 +2125,7 @@ describe('DateRangePicker', () => {
     // The following test uses Australian Eastern Daylight Time (AEDT)
     // AEST -> AEDT shift happened on 2016-10-02 02:00:00
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
       type='daterange'
       v-model="value"
       unlink-panels
@@ -2148,7 +2148,7 @@ describe('DateRangePicker', () => {
     const valueFormat = 'DD/MM YYYY'
     const wrapper = _mount(
       `
-      <el-date-picker
+      <g-date-picker
         v-model="value"
         type="daterange"
         format="YYYY-MM-DD"
@@ -2168,7 +2168,7 @@ describe('DateRangePicker', () => {
     startInput.trigger('blur')
     startInput.trigger('focus')
     await nextTick()
-    const panels = document.querySelectorAll('.el-date-range-picker__content')
+    const panels = document.querySelectorAll('.g-date-range-picker__content')
     expect(panels.length).toBe(2)
     ;(panels[0].querySelector('td.available') as HTMLElement).click()
     await nextTick()
@@ -2186,7 +2186,7 @@ describe('DateRangePicker', () => {
   it('display value', async () => {
     const wrapper = _mount(
       `
-      <el-date-picker
+      <g-date-picker
         v-model="value"
         type="daterange"
     />`,
@@ -2204,26 +2204,26 @@ describe('DateRangePicker', () => {
 
   it('range, select-year', async () => {
     _mount(
-      `<el-date-picker
+      `<g-date-picker
       type="daterange"
       v-model="value"
     />`,
       () => ({ value: [new Date(2025, 0, 1), new Date(2025, 1, 1)] })
     )
 
-    const panels = document.querySelectorAll('.el-date-range-picker__content')
-    const left = panels[0].querySelector('.el-date-range-picker__header')
-    const right = panels[1].querySelector('.el-date-range-picker__header')
+    const panels = document.querySelectorAll('.g-date-range-picker__content')
+    const left = panels[0].querySelector('.g-date-range-picker__header')
+    const right = panels[1].querySelector('.g-date-range-picker__header')
 
     const selectYearAndMonth = async (panel, yearIndex, monthIndex) => {
       const yearLabel = panel.querySelector(
-        '.el-date-range-picker__header-label'
+        '.g-date-range-picker__header-label'
       )
       yearLabel.click()
       await nextTick()
-      panel.querySelectorAll('.el-year-table td')[yearIndex].click()
+      panel.querySelectorAll('.g-year-table td')[yearIndex].click()
       await nextTick()
-      panel.querySelectorAll('.el-month-table td')[monthIndex].click()
+      panel.querySelectorAll('.g-month-table td')[monthIndex].click()
       await nextTick()
     }
 
@@ -2238,7 +2238,7 @@ describe('DateRangePicker', () => {
 
   it('range, select-year with unlink option', async () => {
     _mount(
-      `<el-date-picker
+      `<g-date-picker
       type="daterange"
       v-model="value"
       unlink-panels
@@ -2246,19 +2246,19 @@ describe('DateRangePicker', () => {
       () => ({ value: [new Date(2025, 0, 1), new Date(2025, 1, 1)] })
     )
 
-    const panels = document.querySelectorAll('.el-date-range-picker__content')
-    const left = panels[0].querySelector('.el-date-range-picker__header')
-    const right = panels[1].querySelector('.el-date-range-picker__header')
+    const panels = document.querySelectorAll('.g-date-range-picker__content')
+    const left = panels[0].querySelector('.g-date-range-picker__header')
+    const right = panels[1].querySelector('.g-date-range-picker__header')
 
     const selectYearAndMonth = async (panel, yearIndex, monthIndex) => {
       const yearLabel = panel.querySelector(
-        '.el-date-range-picker__header-label'
+        '.g-date-range-picker__header-label'
       )
       yearLabel.click()
       await nextTick()
-      panel.querySelectorAll('.el-year-table td')[yearIndex].click()
+      panel.querySelectorAll('.g-year-table td')[yearIndex].click()
       await nextTick()
-      panel.querySelectorAll('.el-month-table td')[monthIndex].click()
+      panel.querySelectorAll('.g-month-table td')[monthIndex].click()
       await nextTick()
     }
 
@@ -2270,24 +2270,24 @@ describe('DateRangePicker', () => {
 
   it('range, select-month', async () => {
     _mount(
-      `<el-date-picker
+      `<g-date-picker
       type="daterange"
       v-model="value"
     />`,
       () => ({ value: [new Date(2025, 0, 1), new Date(2025, 1, 1)] })
     )
 
-    const panels = document.querySelectorAll('.el-date-range-picker__content')
-    const left = panels[0].querySelector('.el-date-range-picker__header')
-    const right = panels[1].querySelector('.el-date-range-picker__header')
+    const panels = document.querySelectorAll('.g-date-range-picker__content')
+    const left = panels[0].querySelector('.g-date-range-picker__header')
+    const right = panels[1].querySelector('.g-date-range-picker__header')
 
     const selectYearAndMonth = async (panel, monthIndex) => {
       const monthLabel = panel.querySelector(
-        '.el-date-range-picker__header-label:last-child'
+        '.g-date-range-picker__header-label:last-child'
       )
       monthLabel.click()
       await nextTick()
-      panel.querySelectorAll('.el-month-table td')[monthIndex].click()
+      panel.querySelectorAll('.g-month-table td')[monthIndex].click()
       await nextTick()
     }
 
@@ -2302,7 +2302,7 @@ describe('DateRangePicker', () => {
 
   it('range, select-month with unlink option', async () => {
     _mount(
-      `<el-date-picker
+      `<g-date-picker
       type="daterange"
       v-model="value"
       unlink-panels
@@ -2310,17 +2310,17 @@ describe('DateRangePicker', () => {
       () => ({ value: [new Date(2025, 0, 1), new Date(2025, 1, 1)] })
     )
 
-    const panels = document.querySelectorAll('.el-date-range-picker__content')
-    const left = panels[0].querySelector('.el-date-range-picker__header')
-    const right = panels[1].querySelector('.el-date-range-picker__header')
+    const panels = document.querySelectorAll('.g-date-range-picker__content')
+    const left = panels[0].querySelector('.g-date-range-picker__header')
+    const right = panels[1].querySelector('.g-date-range-picker__header')
 
     const selectYearAndMonth = async (panel, monthIndex) => {
       const monthLabel = panel.querySelector(
-        '.el-date-range-picker__header-label:last-child'
+        '.g-date-range-picker__header-label:last-child'
       )
       monthLabel.click()
       await nextTick()
-      panel.querySelectorAll('.el-month-table td')[monthIndex].click()
+      panel.querySelectorAll('.g-month-table td')[monthIndex].click()
       await nextTick()
     }
 
@@ -2332,7 +2332,7 @@ describe('DateRangePicker', () => {
 
   it('range, shows weekNumber', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
         v-model="value"
         type="daterange"
         show-week-number
@@ -2365,7 +2365,7 @@ describe('DateRangePicker', () => {
     const onChange = vi.fn()
     const onUpdateModelValue = vi.fn()
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
         v-model="value"
         type="daterange"
         @change="onChange"
@@ -2384,7 +2384,7 @@ describe('DateRangePicker', () => {
     const rangePanelWrapper = wrapper.findComponent(DatePickerRange)
     expect(rangePanelWrapper.exists()).toBe(true)
     expect(rangePanelWrapper.vm.visible).toBe(true)
-    const cells = document.querySelectorAll('.available .el-date-table-cell')
+    const cells = document.querySelectorAll('.available .g-date-table-cell')
     ;(cells[0] as HTMLElement).click()
     await flushPromises()
     expect(onChange).not.toHaveBeenCalled()
@@ -2402,7 +2402,7 @@ describe('DateRangePicker', () => {
     const baseValue = [new Date(2025, 0, 1), new Date(2025, 0, 2)]
     const newVal = [new Date(2025, 0, 3), new Date(2025, 0, 4)]
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
         v-model="value"
         type="daterange"
         />
@@ -2419,7 +2419,7 @@ describe('DateRangePicker', () => {
     )
     await nextTick()
     const rangePanelWrapper = wrapper.findComponent(DatePickerRange)
-    const inputRange = wrapper.findAll('.el-range-input')
+    const inputRange = wrapper.findAll('.g-range-input')
     expect(rangePanelWrapper.exists()).toBe(true)
     expect(rangePanelWrapper.vm.visible).toBe(false)
     expect(inputRange[0].element.value).toBe('2025-01-01')
@@ -2441,7 +2441,7 @@ describe('DateRangePicker', () => {
 describe('MonthRange', () => {
   it('works', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
       type='monthrange'
       v-model="value"
     />`,
@@ -2452,7 +2452,7 @@ describe('MonthRange', () => {
     inputs[0].trigger('blur')
     inputs[0].trigger('focus')
     await nextTick()
-    const panels = document.querySelectorAll('.el-date-range-picker__content')
+    const panels = document.querySelectorAll('.g-date-range-picker__content')
     expect(panels.length).toBe(2)
     const p0 = <HTMLElement>panels[0].querySelector('td:not(.disabled)')
     p0.click()
@@ -2488,14 +2488,14 @@ describe('MonthRange', () => {
 
   it('range, start-date and end-date', async () => {
     _mount(
-      `<el-date-picker
+      `<g-date-picker
       type='monthrange'
       v-model="value"
     />`,
       () => ({ value: '' })
     )
 
-    const table = document.querySelector('.el-month-table')
+    const table = document.querySelector('.g-month-table')
     const tds = (table as HTMLTableElement).querySelectorAll('td')
 
     ;(tds[0] as HTMLElement).click()
@@ -2527,7 +2527,7 @@ describe('MonthRange', () => {
 
   it('type:monthrange unlink:true', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
       type='monthrange'
       v-model="value"
       unlink-panels
@@ -2539,10 +2539,10 @@ describe('MonthRange', () => {
     inputs[0].trigger('blur')
     inputs[0].trigger('focus')
     await nextTick()
-    const panels = document.querySelectorAll('.el-date-range-picker__content')
-    const left = panels[0].querySelector('.el-date-range-picker__header')
+    const panels = document.querySelectorAll('.g-date-range-picker__content')
+    const left = panels[0].querySelector('.g-date-range-picker__header')
     const right = panels[1].querySelector(
-      '.is-right .el-date-range-picker__header'
+      '.is-right .g-date-range-picker__header'
     )
     expect(left.textContent).toContain(2000)
     expect(right.textContent).toContain(2002)
@@ -2554,7 +2554,7 @@ describe('MonthRange', () => {
 
   it('daylight saving time highlight', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
       type='monthrange'
       v-model="value"
       unlink-panels
@@ -2573,11 +2573,11 @@ describe('MonthRange', () => {
   })
 
   it('should accept popper options and pass down', async () => {
-    const ElPopperOptions = {
+    const GPopperOptions = {
       strategy: 'fixed',
     }
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
         type='monthrange'
         v-model="value"
         :popper-options="options"
@@ -2585,12 +2585,12 @@ describe('MonthRange', () => {
       />`,
       () => ({
         value: [new Date(2016, 6), new Date(2016, 12)],
-        options: ElPopperOptions,
+        options: GPopperOptions,
       }),
       {
         provide() {
           return {
-            [PICKER_POPPER_OPTIONS_INJECTION_KEY]: ElPopperOptions,
+            [PICKER_POPPER_OPTIONS_INJECTION_KEY]: GPopperOptions,
           }
         },
       }
@@ -2600,12 +2600,12 @@ describe('MonthRange', () => {
 
     expect(
       (wrapper.findComponent(CommonPicker).vm as any).elPopperOptions
-    ).toEqual(ElPopperOptions)
+    ).toEqual(GPopperOptions)
   })
 
   it('user input', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
       type='monthrange'
       v-model="value"
       valueFormat="YYYY-MM"
@@ -2631,16 +2631,16 @@ describe('MonthRange', () => {
   describe('form item accessibility integration', () => {
     it('automatic id attachment', async () => {
       const wrapper = _mount(
-        `<el-form-item label="Foobar" data-test-ref="item">
-          <el-date-picker />
-        </el-form-item>`,
+        `<g-form-item label="Foobar" data-test-ref="item">
+          <g-date-picker />
+        </g-form-item>`,
         () => ({})
       )
 
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
-      const formItemLabel = formItem.find('.el-form-item__label')
-      const datePickerInput = wrapper.find('.el-input__inner')
+      const formItemLabel = formItem.find('.g-form-item__label')
+      const datePickerInput = wrapper.find('.g-input__inner')
       expect(formItem.attributes().role).toBeFalsy()
       expect(formItemLabel.attributes().for).toBe(
         datePickerInput.attributes().id
@@ -2649,16 +2649,16 @@ describe('MonthRange', () => {
 
     it('specified id attachment', async () => {
       const wrapper = _mount(
-        `<el-form-item label="Foobar" data-test-ref="item">
-          <el-date-picker id="foobar" />
-        </el-form-item>`,
+        `<g-form-item label="Foobar" data-test-ref="item">
+          <g-date-picker id="foobar" />
+        </g-form-item>`,
         () => ({})
       )
 
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
-      const formItemLabel = formItem.find('.el-form-item__label')
-      const datePickerInput = wrapper.find('.el-input__inner')
+      const formItemLabel = formItem.find('.g-form-item__label')
+      const datePickerInput = wrapper.find('.g-input__inner')
       expect(formItem.attributes().role).toBeFalsy()
       expect(datePickerInput.attributes().id).toBe('foobar')
       expect(formItemLabel.attributes().for).toBe(
@@ -2668,10 +2668,10 @@ describe('MonthRange', () => {
 
     it('form item role is group when multiple inputs', async () => {
       const wrapper = _mount(
-        `<el-form-item label="Foobar" data-test-ref="item">
-          <el-date-picker />
-          <el-date-picker />
-        </el-form-item>`,
+        `<g-form-item label="Foobar" data-test-ref="item">
+          <g-date-picker />
+          <g-date-picker />
+        </g-form-item>`,
         () => ({})
       )
 
@@ -2682,21 +2682,21 @@ describe('MonthRange', () => {
 
     it('should give its own disabled prop higher priority within a form', async () => {
       const wrapper = _mount(
-        `<el-form :disabled="true">
-          <el-form-item>
-            <el-date-picker :disabled="false" v-model="value"/>
-          </el-form-item>
-        </el-form>`,
+        `<g-form :disabled="true">
+          <g-form-item>
+            <g-date-picker :disabled="false" v-model="value"/>
+          </g-form-item>
+        </g-form>`,
         () => ({ value: '' })
       )
 
       await nextTick()
-      const datePickerInput = wrapper.find('.el-input__inner')
+      const datePickerInput = wrapper.find('.g-input__inner')
       expect(datePickerInput.attributes('disabled')).toBeUndefined()
 
       datePickerInput.trigger('focus')
       await nextTick()
-      const panel = document.querySelector('.el-picker-panel')
+      const panel = document.querySelector('.g-picker-panel')
       expect(panel?.classList.contains('is-disabled')).toBeFalsy()
     })
   })
@@ -2704,7 +2704,7 @@ describe('MonthRange', () => {
   it('The year which is disabled should not be selectable', async () => {
     const pickHandler = vi.fn()
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
         v-model="yearValue"
         type="year"
         :disabled-date="validateYear"
@@ -2737,7 +2737,7 @@ describe('MonthRange', () => {
 
   it('prop defaultTime should not confilt with prop shortcuts', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
           v-model="value"
           type="datetime"
           :shortcuts="[
@@ -2754,7 +2754,7 @@ describe('MonthRange', () => {
     input.trigger('focus')
     await nextTick()
     document
-      .querySelector('.el-picker-panel__sidebar .el-picker-panel__shortcut')
+      .querySelector('.g-picker-panel__sidebar .g-picker-panel__shortcut')
       .click()
     await nextTick()
     const vm = wrapper.vm as any
@@ -2767,7 +2767,7 @@ describe('MonthRange', () => {
   it('format allows dynamic changes', async () => {
     const format = 'YYYY/MM/DD HH:mm:ss'
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
           v-model="value"
           type="datetimerange"
           :format="format"
@@ -2786,7 +2786,7 @@ describe('MonthRange', () => {
       }
     )
     await nextTick()
-    const inputRange = wrapper.findAll('.el-range-input')
+    const inputRange = wrapper.findAll('.g-range-input')
     expect(inputRange[0].element.value).toBe('2024/06/14 00:00:00')
     expect(inputRange[1].element.value).toBe('2024/06/15 00:00:00')
     await wrapper.find('button').trigger('click')
@@ -2799,7 +2799,7 @@ describe('MonthRange', () => {
 describe('YearRange', () => {
   it('works', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
       type='yearrange'
       v-model="value"
     />`,
@@ -2810,7 +2810,7 @@ describe('YearRange', () => {
     inputs[0].trigger('blur')
     inputs[0].trigger('focus')
     await nextTick()
-    const panels = document.querySelectorAll('.el-date-range-picker__content')
+    const panels = document.querySelectorAll('.g-date-range-picker__content')
     expect(panels.length).toBe(2)
     const p0 = <HTMLElement>panels[0].querySelector('td:not(.disabled)')
     p0.click()
@@ -2843,14 +2843,14 @@ describe('YearRange', () => {
 
   it('range, start-date and end-date', async () => {
     _mount(
-      `<el-date-picker
+      `<g-date-picker
       type='yearrange'
       v-model="value"
     />`,
       () => ({ value: '' })
     )
 
-    const table = document.querySelector('.el-year-table')
+    const table = document.querySelector('.g-year-table')
     const tds = (table as HTMLTableElement).querySelectorAll('td')
 
     ;(tds[0] as HTMLElement).click()
@@ -2882,7 +2882,7 @@ describe('YearRange', () => {
 
   it('type:yearrange unlink:true', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
       type='yearrange'
       v-model="value"
       unlink-panels
@@ -2894,9 +2894,9 @@ describe('YearRange', () => {
     inputs[0].trigger('blur')
     inputs[0].trigger('focus')
     await nextTick()
-    const panels = document.querySelectorAll('.el-date-range-picker__content')
-    const left = panels[0].querySelector('.el-date-range-picker__header')
-    const right = panels[1].querySelector('.el-date-range-picker__header')
+    const panels = document.querySelectorAll('.g-date-range-picker__content')
+    const left = panels[0].querySelector('.g-date-range-picker__header')
+    const right = panels[1].querySelector('.g-date-range-picker__header')
     expect(left.textContent).toContain('2020-2029')
     expect(right.textContent).toContain('2030-2039')
     ;(panels[1].querySelector('.d-arrow-right') as HTMLElement).click()
@@ -2907,7 +2907,7 @@ describe('YearRange', () => {
 
   it('daylight saving time highlight', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
       type='yearrange'
       v-model="value"
       unlink-panels
@@ -2926,11 +2926,11 @@ describe('YearRange', () => {
   })
 
   it('should accept popper options and pass down', async () => {
-    const ElPopperOptions = {
+    const GPopperOptions = {
       strategy: 'fixed',
     }
     const wrapper = _mount(
-      `<el-date-picker
+      `<g-date-picker
         type='yearrange'
         v-model="value"
         :popper-options="options"
@@ -2938,12 +2938,12 @@ describe('YearRange', () => {
       />`,
       () => ({
         value: [new Date(2024, 0), new Date(2036, 0)],
-        options: ElPopperOptions,
+        options: GPopperOptions,
       }),
       {
         provide() {
           return {
-            [PICKER_POPPER_OPTIONS_INJECTION_KEY]: ElPopperOptions,
+            [PICKER_POPPER_OPTIONS_INJECTION_KEY]: GPopperOptions,
           }
         },
       }
@@ -2953,13 +2953,13 @@ describe('YearRange', () => {
 
     expect(
       (wrapper.findComponent(CommonPicker).vm as any).elPopperOptions
-    ).toEqual(ElPopperOptions)
+    ).toEqual(GPopperOptions)
   })
 
   describe('should show default value when persistent is false', () => {
     it('type:date', async () => {
       const wrapper = _mount(
-        `<el-date-picker
+        `<g-date-picker
           v-model="value"
           format="YYYY-MM-DD"
           :persistent="false"
@@ -2975,7 +2975,7 @@ describe('YearRange', () => {
 
     it('type:datetime', async () => {
       const wrapper = _mount(
-        `<el-date-picker
+        `<g-date-picker
           v-model="value"
           type="datetime"
           format="YYYY-MM-DD HH:mm:ss"
@@ -2992,7 +2992,7 @@ describe('YearRange', () => {
 
     it('type:daterange', async () => {
       const wrapper = _mount(
-        `<el-date-picker
+        `<g-date-picker
           v-model="value"
           type="daterange"
           format="YYYY-MM-DD"
@@ -3012,54 +3012,54 @@ describe('YearRange', () => {
   describe('value-on-clear in config-provider should take effect', () => {
     it('type:daterange', async () => {
       const wrapper = _mount(
-        `<el-config-provider value-on-clear="">
-          <el-date-picker
+        `<g-config-provider value-on-clear="">
+          <g-date-picker
             v-model="value"
             type="daterange"
           />
-         </el-config-provider>`,
+         </g-config-provider>`,
         () => ({
           value: ['2025-01-01', '2025-01-02'],
         })
       )
       await nextTick()
-      const clearBtn = wrapper.find('.el-range__close-icon')
+      const clearBtn = wrapper.find('.g-range__close-icon')
       clearBtn.trigger('click')
       expect(wrapper.vm.value).toEqual('')
     })
 
     it('type:monthrange', async () => {
       const wrapper = _mount(
-        `<el-config-provider value-on-clear="">
-          <el-date-picker
+        `<g-config-provider value-on-clear="">
+          <g-date-picker
             v-model="value"
             type="monthrange"
           />
-         </el-config-provider>`,
+         </g-config-provider>`,
         () => ({
           value: ['2025-01-01', '2025-01-02'],
         })
       )
       await nextTick()
-      const clearBtn = wrapper.find('.el-range__close-icon')
+      const clearBtn = wrapper.find('.g-range__close-icon')
       clearBtn.trigger('click')
       expect(wrapper.vm.value).toEqual('')
     })
 
     it('type:yearrange', async () => {
       const wrapper = _mount(
-        `<el-config-provider value-on-clear="">
-          <el-date-picker
+        `<g-config-provider value-on-clear="">
+          <g-date-picker
             v-model="value"
             type="yearrange"
           />
-         </el-config-provider>`,
+         </g-config-provider>`,
         () => ({
           value: ['2025-01-01', '2025-01-02'],
         })
       )
       await nextTick()
-      const clearBtn = wrapper.find('.el-range__close-icon')
+      const clearBtn = wrapper.find('.g-range__close-icon')
       clearBtn.trigger('click')
       expect(wrapper.vm.value).toEqual('')
     })
@@ -3067,7 +3067,7 @@ describe('YearRange', () => {
 
   it('the selected row has .current class when show-week-number', async () => {
     _mount(
-      `<el-date-picker
+      `<g-date-picker
         v-model="value"
         type="week"
         show-week-number
@@ -3077,8 +3077,8 @@ describe('YearRange', () => {
       })
     )
     await nextTick()
-    const rows = document.querySelectorAll('.el-date-table__row')
-    const selectedRow = document.querySelectorAll('.el-date-table__row.current')
+    const rows = document.querySelectorAll('.g-date-table__row')
+    const selectedRow = document.querySelectorAll('.g-date-table__row.current')
     expect(rows[3].classList.contains('current')).toBeTruthy()
     expect(selectedRow.length).toBe(1)
   })

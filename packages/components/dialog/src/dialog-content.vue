@@ -11,14 +11,14 @@
       </slot>
       <button
         v-if="showClose"
-        :aria-label="t('el.dialog.close')"
+        :aria-label="t('g.dialog.close')"
         :class="ns.e('headerbtn')"
         type="button"
         @click="$emit('close')"
       >
-        <el-icon :class="ns.e('close')">
+        <g-icon :class="ns.e('close')">
           <component :is="closeIcon || Close" />
-        </el-icon>
+        </g-icon>
       </button>
     </header>
     <div :id="bodyId" :class="[ns.e('body'), bodyClass]">
@@ -32,7 +32,7 @@
 
 <script lang="ts" setup>
 import { computed, inject } from 'vue'
-import { ElIcon } from '@element-plus/components/icon'
+import { GIcon } from '@element-plus/components/icon'
 import { FOCUS_TRAP_INJECTION_KEY } from '@element-plus/components/focus-trap'
 import { useDraggable, useLocale } from '@element-plus/hooks'
 import { CloseComponents, composeRefs } from '@element-plus/utils'
@@ -47,7 +47,7 @@ import type { DialogContentProps } from './dialog-content'
 const { t } = useLocale()
 const { Close } = CloseComponents
 
-defineOptions({ name: 'ElDialogContent' })
+defineOptions({ name: 'GDialogContent' })
 const props = withDefaults(
   defineProps<DialogContentProps>(),
   dialogContentPropsDefaults

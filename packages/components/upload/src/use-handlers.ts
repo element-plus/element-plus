@@ -17,7 +17,7 @@ import type {
   UploadStatus,
 } from './upload'
 
-const SCOPE = 'ElUpload'
+const SCOPE = 'GUpload'
 
 const revokeFileObjectURL = (file: UploadFile) => {
   if (file.url?.startsWith('blob:')) {

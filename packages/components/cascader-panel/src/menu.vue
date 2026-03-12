@@ -1,5 +1,5 @@
 <template>
-  <el-scrollbar
+  <g-scrollbar
     :key="menuId"
     tag="ul"
     role="menu"
@@ -9,7 +9,7 @@
     @mousemove="handleMouseMove"
     @mouseleave="clearHoverZone"
   >
-    <el-cascader-node
+    <g-cascader-node
       v-for="node in nodes"
       :key="node.uid"
       :node="node"
@@ -17,13 +17,13 @@
       @expand="handleExpand"
     />
     <div v-if="isLoading" :class="ns.e('empty-text')">
-      <el-icon size="14" :class="ns.is('loading')">
+      <g-icon size="14" :class="ns.is('loading')">
         <loading />
-      </el-icon>
-      {{ t('el.cascader.loading') }}
+      </g-icon>
+      {{ t('g.cascader.loading') }}
     </div>
     <div v-else-if="isEmpty" :class="ns.e('empty-text')">
-      <slot name="empty">{{ t('el.cascader.noData') }}</slot>
+      <slot name="empty">{{ t('g.cascader.noData') }}</slot>
     </div>
     <!-- eslint-disable vue/html-self-closing -->
     <svg
@@ -32,23 +32,23 @@
       :class="ns.e('hover-zone')"
     ></svg>
     <!-- eslint-enable vue/html-self-closing -->
-  </el-scrollbar>
+  </g-scrollbar>
 </template>
 
 <script lang="ts" setup>
 import { computed, getCurrentInstance, inject, ref } from 'vue'
-import ElScrollbar from '@element-plus/components/scrollbar'
+import GScrollbar from '@element-plus/components/scrollbar'
 import { useId, useLocale, useNamespace } from '@element-plus/hooks'
 import { Loading } from '@element-plus/icons-vue'
-import ElIcon from '@element-plus/components/icon'
-import ElCascaderNode from './node.vue'
+import GIcon from '@element-plus/components/icon'
+import GCascaderNode from './node.vue'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
 
 import type { CascaderNode } from './types'
 import type { PropType } from 'vue'
 
 defineOptions({
-  name: 'ElCascaderMenu',
+  name: 'GCascaderMenu',
 })
 
 const props = defineProps({

@@ -21,7 +21,7 @@ import { uploadDraggerEmits } from './upload-dragger'
 import type { UploadDraggerProps } from './upload-dragger'
 import type { UploadRawFile } from './upload'
 
-const COMPONENT_NAME = 'ElUploadDrag'
+const COMPONENT_NAME = 'GUploadDrag'
 
 defineOptions({
   name: COMPONENT_NAME,
@@ -36,7 +36,7 @@ const uploaderContext = inject(uploadContextKey)
 if (!uploaderContext) {
   throwError(
     COMPONENT_NAME,
-    'usage: <el-upload><el-upload-dragger /></el-upload>'
+    'usage: <g-upload><g-upload-dragger /></g-upload>'
   )
 }
 

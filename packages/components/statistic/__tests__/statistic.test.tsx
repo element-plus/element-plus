@@ -3,10 +3,10 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 import Statistic from '../src/statistic.vue'
 
-const TITLE_CLASS = '.el-statistic__head'
-const CONTENT_CLASS = '.el-statistic__content'
-const PREFIX_CLASS = '.el-statistic__prefix'
-const SUFFIX_CLASS = '.el-statistic__suffix'
+const TITLE_CLASS = '.g-statistic__head'
+const CONTENT_CLASS = '.g-statistic__content'
+const PREFIX_CLASS = '.g-statistic__prefix'
+const SUFFIX_CLASS = '.g-statistic__suffix'
 
 describe('Statistic.vue', () => {
   it('render test', () => {

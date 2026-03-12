@@ -1,6 +1,6 @@
 <template>
   <transition name="fade-in-linear" @after-leave="$emit('vanish')">
-    <el-overlay
+    <g-overlay
       v-show="visible"
       :z-index="zIndex"
       :overlay-class="[ns.is('message-box'), modalClass]"
@@ -16,7 +16,7 @@
         @mousedown="overlayEvent.onMousedown"
         @mouseup="overlayEvent.onMouseup"
       >
-        <el-focus-trap
+        <g-focus-trap
           loop
           :trapped="visible"
           :focus-trap-el="rootRef"
@@ -42,19 +42,19 @@
               :class="[ns.e('header'), { 'show-close': showClose }]"
             >
               <div :class="ns.e('title')">
-                <el-icon
+                <g-icon
                   v-if="iconComponent && center"
                   :class="[ns.e('status'), typeClass]"
                 >
                   <component :is="iconComponent" />
-                </el-icon>
+                </g-icon>
                 <span>{{ title }}</span>
               </div>
               <button
                 v-if="showClose"
                 type="button"
                 :class="ns.e('headerbtn')"
-                :aria-label="t('el.messagebox.close')"
+                :aria-label="t('g.messagebox.close')"
                 @click="
                   handleAction(distinguishCancelAndClose ? 'close' : 'cancel')
                 "
@@ -62,19 +62,19 @@
                   handleAction(distinguishCancelAndClose ? 'close' : 'cancel')
                 "
               >
-                <el-icon :class="ns.e('close')">
+                <g-icon :class="ns.e('close')">
                   <component :is="closeIcon || 'close'" />
-                </el-icon>
+                </g-icon>
               </button>
             </div>
             <div :id="contentId" :class="ns.e('content')">
               <div :class="ns.e('container')">
-                <el-icon
+                <g-icon
                   v-if="iconComponent && !center && hasMessage"
                   :class="[ns.e('status'), typeClass]"
                 >
                   <component :is="iconComponent" />
-                </el-icon>
+                </g-icon>
                 <div v-if="hasMessage" :class="ns.e('message')">
                   <slot>
                     <component
@@ -93,7 +93,7 @@
                 </div>
               </div>
               <div v-show="showInput" :class="ns.e('input')">
-                <el-input
+                <g-input
                   :id="inputId"
                   ref="inputRef"
                   v-model="inputValue"
@@ -114,7 +114,7 @@
               </div>
             </div>
             <div :class="ns.e('btns')">
-              <el-button
+              <g-button
                 v-if="showCancelButton"
                 :type="cancelButtonType === 'text' ? '' : cancelButtonType"
                 :text="cancelButtonType === 'text'"
@@ -126,9 +126,9 @@
                 @click="handleAction('cancel')"
                 @keydown.prevent.enter="handleAction('cancel')"
               >
-                {{ cancelButtonText || t('el.messagebox.cancel') }}
-              </el-button>
-              <el-button
+                {{ cancelButtonText || t('g.messagebox.cancel') }}
+              </g-button>
+              <g-button
                 v-show="showConfirmButton"
                 ref="confirmRef"
                 :type="confirmButtonType === 'text' ? '' : confirmButtonType"
@@ -142,13 +142,13 @@
                 @click="handleAction('confirm')"
                 @keydown.prevent.enter="handleAction('confirm')"
               >
-                {{ confirmButtonText || t('el.messagebox.confirm') }}
-              </el-button>
+                {{ confirmButtonText || t('g.messagebox.confirm') }}
+              </g-button>
             </div>
           </div>
-        </el-focus-trap>
+        </g-focus-trap>
       </div>
-    </el-overlay>
+    </g-overlay>
   </transition>
 </template>
 
@@ -165,7 +165,7 @@ import {
   toRefs,
   watch,
 } from 'vue'
-import ElButton from '@element-plus/components/button'
+import GButton from '@element-plus/components/button'
 import { TrapFocus } from '@element-plus/directives'
 import {
   useDraggable,
@@ -173,8 +173,8 @@ import {
   useLockscreen,
   useSameTarget,
 } from '@element-plus/hooks'
-import ElInput from '@element-plus/components/input'
-import { ElOverlay } from '@element-plus/components/overlay'
+import GInput from '@element-plus/components/input'
+import { GOverlay } from '@element-plus/components/overlay'
 import {
   TypeComponents,
   TypeComponentsMap,
@@ -182,9 +182,9 @@ import {
   isString,
   isValidComponentSize,
 } from '@element-plus/utils'
-import { ElIcon } from '@element-plus/components/icon'
+import { GIcon } from '@element-plus/components/icon'
 import { Loading } from '@element-plus/icons-vue'
-import ElFocusTrap from '@element-plus/components/focus-trap'
+import GFocusTrap from '@element-plus/components/focus-trap'
 import { useGlobalComponentSettings } from '@element-plus/components/config-provider'
 
 import type { ComponentPublicInstance, PropType } from 'vue'
@@ -197,16 +197,16 @@ import type {
 import type { InputInstance } from '@element-plus/components/input'
 
 export default defineComponent({
-  name: 'ElMessageBox',
+  name: 'GMessageBox',
   directives: {
     TrapFocus,
   },
   components: {
-    ElButton,
-    ElFocusTrap,
-    ElInput,
-    ElOverlay,
-    ElIcon,
+    GButton,
+    GFocusTrap,
+    GInput,
+    GOverlay,
+    GIcon,
     ...TypeComponents,
   },
   inheritAttrs: false,
@@ -437,7 +437,7 @@ export default defineComponent({
         const inputPattern = state.inputPattern
         if (inputPattern && !inputPattern.test(state.inputValue || '')) {
           state.editorErrorMessage =
-            state.inputErrorMessage || t('el.messagebox.error')
+            state.inputErrorMessage || t('g.messagebox.error')
           state.validateError = true
           return false
         }
@@ -446,7 +446,7 @@ export default defineComponent({
           const validateResult = inputValidator(state.inputValue)
           if (validateResult === false) {
             state.editorErrorMessage =
-              state.inputErrorMessage || t('el.messagebox.error')
+              state.inputErrorMessage || t('g.messagebox.error')
             state.validateError = true
             return false
           }

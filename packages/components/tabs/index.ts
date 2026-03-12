@@ -4,14 +4,14 @@ import TabPane from './src/tab-pane.vue'
 
 import type { SFCWithInstall } from '@element-plus/utils'
 
-export const ElTabs: SFCWithInstall<typeof Tabs> & {
+export const GTabs: SFCWithInstall<typeof Tabs> & {
   TabPane: typeof TabPane
 } = withInstall(Tabs, {
   TabPane,
 })
-export const ElTabPane: SFCWithInstall<typeof TabPane> =
+export const GTabPane: SFCWithInstall<typeof TabPane> =
   withNoopInstall(TabPane)
-export default ElTabs
+export default GTabs
 
 export * from './src/tabs'
 export * from './src/tab-bar'

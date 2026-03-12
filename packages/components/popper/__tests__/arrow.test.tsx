@@ -2,7 +2,7 @@ import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { POPPER_CONTENT_INJECTION_KEY } from '@element-plus/components/popper'
-import ElArrow from '../src/arrow.vue'
+import GArrow from '../src/arrow.vue'
 
 import type { VueWrapper } from '@vue/test-utils'
 import type { PopperArrowInstance } from '../src/arrow'
@@ -12,7 +12,7 @@ const popperContentInjection = {
 }
 
 const mountArrow = () =>
-  mount(<ElArrow />, {
+  mount(<GArrow />, {
     global: {
       provide: {
         [POPPER_CONTENT_INJECTION_KEY as symbol]: popperContentInjection,
@@ -20,7 +20,7 @@ const mountArrow = () =>
     },
   }) as unknown as VueWrapper<PopperArrowInstance>
 
-describe('<ElPopperArrow />', () => {
+describe('<GPopperArrow />', () => {
   let wrapper: VueWrapper<PopperArrowInstance>
 
   beforeEach(() => {

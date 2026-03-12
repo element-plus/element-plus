@@ -1,1 +1,1 @@
-export const COMPONENT_NAME = 'ElDescriptionsItem'
+export const COMPONENT_NAME = 'GDescriptionsItem'

@@ -3,7 +3,7 @@ import { computed, nextTick, toRefs, watch } from 'vue'
 import { isEqual, isNil, pick } from 'lodash-unified'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { escapeStringRegexp, isEmpty, isFunction } from '@element-plus/utils'
-import ElTree from '@element-plus/components/tree'
+import GTree from '@element-plus/components/tree'
 import TreeSelectOption from './tree-select-option'
 import {
   isValidArray,
@@ -133,7 +133,7 @@ export const useTree = (
   }
 
   return {
-    ...pick(toRefs(props), Object.keys(ElTree.props)),
+    ...pick(toRefs(props), Object.keys(GTree.props)),
     ...attrs,
     nodeKey: key,
 

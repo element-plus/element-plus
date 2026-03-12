@@ -178,7 +178,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
 
   const emptyText = computed(() => {
     if (props.loading) {
-      return props.loadingText || t('el.select.loading')
+      return props.loadingText || t('g.select.loading')
     } else {
       if (
         props.filterable &&
@@ -186,10 +186,10 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
         states.options.size > 0 &&
         filteredOptionsCount.value === 0
       ) {
-        return props.noMatchText || t('el.select.noMatch')
+        return props.noMatchText || t('g.select.noMatch')
       }
       if (states.options.size === 0) {
-        return props.noDataText || t('el.select.noData')
+        return props.noDataText || t('g.select.noData')
       }
     }
     return null
@@ -272,7 +272,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   })
 
   const currentPlaceholder = computed(() => {
-    const _placeholder = props.placeholder ?? t('el.select.placeholder')
+    const _placeholder = props.placeholder ?? t('g.select.placeholder')
     return props.multiple || !hasModelValue.value
       ? _placeholder
       : states.selectedLabel

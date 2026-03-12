@@ -28,7 +28,7 @@ describe('Breadcrumb.vue', () => {
         <BreadcrumbItem>A</BreadcrumbItem>
       </Breadcrumb>
     ))
-    expect(wrapper.find('.el-breadcrumb__separator').text()).toBe('?')
+    expect(wrapper.find('.g-breadcrumb__separator').text()).toBe('?')
   })
 
   it('separatorIcon', () => {
@@ -37,7 +37,7 @@ describe('Breadcrumb.vue', () => {
         <BreadcrumbItem>A</BreadcrumbItem>
       </Breadcrumb>
     ))
-    expect(wrapper.find('.el-breadcrumb__separator').text()).toBe('')
+    expect(wrapper.find('.g-breadcrumb__separator').text()).toBe('')
     expect(wrapper.findComponent(Check).exists()).toBe(true)
   })
 
@@ -47,13 +47,13 @@ describe('Breadcrumb.vue', () => {
         <BreadcrumbItem to="/index">A</BreadcrumbItem>
       </Breadcrumb>
     ))
-    expect(wrapper.find('.el-breadcrumb__inner').classes()).toContain('is-link')
+    expect(wrapper.find('.g-breadcrumb__inner').classes()).toContain('is-link')
   })
 
   it('single', () => {
     const wrapper = _mount(() => <BreadcrumbItem>A</BreadcrumbItem>)
-    expect(wrapper.find('.el-breadcrumb__inner').text()).toBe('A')
-    expect(wrapper.find('.el-breadcrumb__separator').text()).toBe('')
+    expect(wrapper.find('.g-breadcrumb__inner').text()).toBe('A')
+    expect(wrapper.find('.g-breadcrumb__separator').text()).toBe('')
   })
 
   describe('BreadcrumbItem', () => {
@@ -83,7 +83,7 @@ describe('Breadcrumb.vue', () => {
           push,
         }
       )
-      await wrapper.find('.el-breadcrumb__inner').trigger('click')
+      await wrapper.find('.g-breadcrumb__inner').trigger('click')
       expect(push).toHaveBeenCalled()
       wrapper.unmount()
       wrapper = _mount(
@@ -100,7 +100,7 @@ describe('Breadcrumb.vue', () => {
         }
       )
 
-      await wrapper.find('.el-breadcrumb__inner').trigger('click')
+      await wrapper.find('.g-breadcrumb__inner').trigger('click')
       expect(replace).toHaveBeenCalled()
     })
   })

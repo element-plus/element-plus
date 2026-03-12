@@ -1,7 +1,7 @@
 <template>
   <table
     role="grid"
-    :aria-label="t('el.datepicker.monthTablePrompt')"
+    :aria-label="t('g.datepicker.monthTablePrompt')"
     :class="ns.b()"
     @click="handleMonthTableClick"
     @mousemove="handleMouseMove"
@@ -14,15 +14,15 @@
           :ref="(el) => cell.isSelected && (currentCellRef = el as HTMLElement)"
           :class="getCellStyle(cell)"
           :aria-selected="!!cell.isSelected"
-          :aria-label="t(`el.datepicker.month${+cell.text + 1}`)"
+          :aria-label="t(`g.datepicker.month${+cell.text + 1}`)"
           :tabindex="cell.isSelected ? 0 : -1"
           @keydown.space.prevent.stop="handleMonthTableClick"
           @keydown.enter.prevent.stop="handleMonthTableClick"
         >
-          <el-date-picker-cell
+          <g-date-picker-cell
             :cell="{
               ...cell,
-              renderText: t('el.datepicker.months.' + months[cell.text]),
+              renderText: t('g.datepicker.months.' + months[cell.text]),
             }"
           />
         </td>
@@ -38,7 +38,7 @@ import { useLocale, useNamespace } from '@element-plus/hooks'
 import { castArray, hasClass } from '@element-plus/utils'
 import { basicMonthTableProps } from '../props/basic-month-table'
 import { datesInMonth, getValidDateOfMonth } from '../utils'
-import ElDatePickerCell from './basic-cell-render'
+import GDatePickerCell from './basic-cell-render'
 
 import type { Dayjs } from 'dayjs'
 

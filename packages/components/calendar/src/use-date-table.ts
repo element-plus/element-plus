@@ -79,11 +79,11 @@ export const useDateTable = (
   const weekDays = computed(() => {
     const start = firstDayOfWeek
     if (start === 0) {
-      return WEEK_DAYS.map((_) => t(`el.datepicker.weeks.${_}`))
+      return WEEK_DAYS.map((_) => t(`g.datepicker.weeks.${_}`))
     } else {
       return WEEK_DAYS.slice(start)
         .concat(WEEK_DAYS.slice(0, start))
-        .map((_) => t(`el.datepicker.weeks.${_}`))
+        .map((_) => t(`g.datepicker.weeks.${_}`))
     }
   })
 

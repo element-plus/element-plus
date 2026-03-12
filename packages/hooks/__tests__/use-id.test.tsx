@@ -29,7 +29,7 @@ describe('no injection value', () => {
       render: () => undefined,
     })
 
-    expect(wrapper.vm.id).toMatch(/^el-id-\d{0,4}-\d+$/)
+    expect(wrapper.vm.id).toMatch(/^g-id-\d{0,4}-\d+$/)
   })
 })
 
@@ -70,7 +70,7 @@ describe('with injection value', () => {
       render: () => undefined,
     })
 
-    expect(wrapper.vm.id).toBe('el-id-1024-0')
+    expect(wrapper.vm.id).toBe('g-id-1024-0')
   })
 })
 

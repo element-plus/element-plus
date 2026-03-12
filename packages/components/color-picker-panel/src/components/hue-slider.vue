@@ -27,7 +27,7 @@ import { useSlider, useSliderDOM } from '../composables/use-slider'
 import type { HueSliderProps } from '../props/slider'
 
 defineOptions({
-  name: 'ElColorHueSlider',
+  name: 'GColorHueSlider',
 })
 
 const props = defineProps<HueSliderProps>()
@@ -49,9 +49,9 @@ const { rootKls, barKls, thumbKls, thumbStyle, thumbTop, update } =
 
 const { t } = useLocale()
 
-const ariaLabel = computed(() => t('el.colorpicker.hueLabel'))
+const ariaLabel = computed(() => t('g.colorpicker.hueLabel'))
 const ariaValuetext = computed(() => {
-  return t('el.colorpicker.hueDescription', {
+  return t('g.colorpicker.hueDescription', {
     hue: currentValue.value,
     color: props.color.value,
   })

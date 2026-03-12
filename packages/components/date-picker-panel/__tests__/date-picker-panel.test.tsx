@@ -92,9 +92,9 @@ describe('DatePickerPanel', () => {
         expect(currentType.value).toBe(wrapper.vm.type)
         const prevHtml = wrapper.html()
         const allCells = wrapper.findAll('tr > td')
-        const shortcuts = wrapper.findAll('.el-picker-panel__shortcut')
-        const headerEls = wrapper.findAll('.el-date-picker__header-label')
-        const headerIconsEls = wrapper.findAll('.el-picker-panel__icon-btn')
+        const shortcuts = wrapper.findAll('.g-picker-panel__shortcut')
+        const headerEls = wrapper.findAll('.g-date-picker__header-label')
+        const headerIconsEls = wrapper.findAll('.g-picker-panel__icon-btn')
 
         for (const cell of [
           ...allCells,
@@ -148,10 +148,10 @@ describe('DatePickerPanel', () => {
         ))
 
         const dateInput = wrapper.find(
-          '.el-date-picker__time-header > span:nth-child(1) input'
+          '.g-date-picker__time-header > span:nth-child(1) input'
         ).element as HTMLInputElement
         const timeInput = wrapper.find(
-          '.el-date-picker__time-header > span:nth-child(2) input'
+          '.g-date-picker__time-header > span:nth-child(2) input'
         ).element as HTMLInputElement
         timeInput.focus()
         await nextTick()
@@ -179,10 +179,10 @@ describe('DatePickerPanel', () => {
         ))
 
         const dateInput = wrapper.find(
-          '.el-date-picker__time-header > span:nth-child(1) input'
+          '.g-date-picker__time-header > span:nth-child(1) input'
         )
         const timeInput = wrapper.find(
-          '.el-date-picker__time-header > span:nth-child(2) input'
+          '.g-date-picker__time-header > span:nth-child(2) input'
         )
         await timeInput.trigger('focus')
         // both input shows correct value
@@ -190,7 +190,7 @@ describe('DatePickerPanel', () => {
         expect((timeInput.element as HTMLInputElement).value).toBe('10:00:01')
         // time spinner highlight is correct
         let spinners = wrapper
-          .findAll('.el-time-spinner ul li.is-active')
+          .findAll('.g-time-spinner ul li.is-active')
           .map((s) => s.element)
         expect(spinners[0].textContent).toBe('10')
         expect(spinners[1].textContent).toBe('00')
@@ -199,7 +199,7 @@ describe('DatePickerPanel', () => {
 
         await nextTick()
         spinners = wrapper
-          .findAll('.el-time-spinner ul li.is-active')
+          .findAll('.g-time-spinner ul li.is-active')
           .map((s) => s.element)
         expect((dateInput.element as HTMLInputElement).value).toBe('2001-11-02')
         expect((timeInput.element as HTMLInputElement).value).toBe('11:01:02')
@@ -214,7 +214,7 @@ describe('DatePickerPanel', () => {
           <DatePickerPanel v-model={value.value} type="datetime" showFooter />
         ))
 
-        await wrapper.find('.el-picker-panel__link-btn').trigger('click')
+        await wrapper.find('.g-picker-panel__link-btn').trigger('click')
         await nextTick()
         // test if is current time (deviation 10 seconds)
         expect(dayjs(value.value).diff(dayjs()) < 10).toBeTruthy()
@@ -226,15 +226,15 @@ describe('DatePickerPanel', () => {
           <DatePickerPanel v-model={value.value} type="datetime" />
         ))
 
-        const inputs = wrapper.findAll('.el-date-picker__editor-wrap input')
+        const inputs = wrapper.findAll('.g-date-picker__editor-wrap input')
         const input_ = inputs[1]
         await input_.trigger('focus')
         await nextTick()
-        const timePanel = wrapper.find('.el-time-panel').element
+        const timePanel = wrapper.find('.g-time-panel').element
         expect(
-          timePanel!.querySelector('.el-time-spinner')!.innerHTML
+          timePanel!.querySelector('.g-time-spinner')!.innerHTML
         ).not.toBeNull()
-        const button = wrapper.find('.el-time-panel .confirm')
+        const button = wrapper.find('.g-time-panel .confirm')
         await button.trigger('click')
         expect(value.value).not.toBe('')
         const timeInput = inputs[1].element as HTMLInputElement
@@ -269,7 +269,7 @@ describe('DatePickerPanel', () => {
         ))
 
         // click now button
-        const btn = wrapper.find('.el-picker-panel__footer .is-text')
+        const btn = wrapper.find('.g-picker-panel__footer .is-text')
           .element as HTMLElement
         btn.click()
         await nextTick()
@@ -289,7 +289,7 @@ describe('DatePickerPanel', () => {
         ))
 
         // now button is disabled
-        const btn = wrapper.find('.el-picker-panel__footer .is-text')
+        const btn = wrapper.find('.g-picker-panel__footer .is-text')
           .element as HTMLElement
         expect(btn.getAttribute('disabled')).not.toBeUndefined()
       })
@@ -307,13 +307,13 @@ describe('DatePickerPanel', () => {
 
         // changed month / year should not effect picked time
         await wrapper
-          .find('.el-date-picker__header .arrow-right')
+          .find('.g-date-picker__header .arrow-right')
           .trigger('click')
         await wrapper
-          .find('.el-date-picker__header .d-arrow-right')
+          .find('.g-date-picker__header .d-arrow-right')
           .trigger('click')
         // click confirm button
-        const buttons = wrapper.findAll('.el-picker-panel__footer .el-button')
+        const buttons = wrapper.findAll('.g-picker-panel__footer .g-button')
         await buttons[1].trigger('click')
 
         expect(dayjs(value.value).format(formatStr)).toBe('2000-10-01 12:00:00')
@@ -366,10 +366,10 @@ describe('DatePickerPanel', () => {
         ))
 
         const inputTime = wrapper.findAll(
-          '.el-date-picker__editor-wrap input'
+          '.g-date-picker__editor-wrap input'
         )[1]
         await inputTime.trigger('focus')
-        const list = wrapper.findAll('.el-time-spinner__list')
+        const list = wrapper.findAll('.g-time-spinner__list')
         const hoursEl = list[0].element
         const disabledHours = Array.from(
           hoursEl.querySelectorAll('.is-disabled')
@@ -394,17 +394,17 @@ describe('DatePickerPanel', () => {
         ))
 
         const someDateTd = wrapper.find(
-          '.el-picker-panel__content tr:nth-child(3) td:nth-child(4)'
+          '.g-picker-panel__content tr:nth-child(3) td:nth-child(4)'
         )
         const timeInput = wrapper.find(
-          '.el-date-picker__time-header > span:nth-child(2) input'
+          '.g-date-picker__time-header > span:nth-child(2) input'
         )
         await someDateTd.trigger('click')
         await timeInput.trigger('focus')
         expect((timeInput.element as HTMLInputElement).value).toBe('12:24:48')
         // time spinner highlight is correct
         const spinners = wrapper
-          .findAll('.el-time-spinner ul li.is-active')
+          .findAll('.g-time-spinner ul li.is-active')
           .map((s) => s.element)
         expect(spinners[0].textContent).toBe('12')
         expect(spinners[1].textContent).toBe('24')
@@ -422,16 +422,16 @@ describe('DatePickerPanel', () => {
           />
         ))
 
-        const cells = wrapper.findAll('.available .el-date-table-cell')
+        const cells = wrapper.findAll('.available .g-date-table-cell')
         await cells[0].trigger('click')
         await nextTick()
         const timeInput = wrapper.find(
-          '.el-date-picker__time-header > span:nth-child(2) input'
+          '.g-date-picker__time-header > span:nth-child(2) input'
         )
         expect((timeInput.element as HTMLInputElement).value).toBe('12:00:00')
         await timeInput.trigger('focus')
         await nextTick()
-        const spinner = wrapper.find('.el-time-spinner ul li.is-active')
+        const spinner = wrapper.find('.g-time-spinner ul li.is-active')
         ;(spinner.element.nextSibling as HTMLElement).click()
         await nextTick()
         expect((timeInput.element as HTMLInputElement).value).toBe('13:00:00')
@@ -443,14 +443,14 @@ describe('DatePickerPanel', () => {
           <DatePickerPanel v-model={value.value} type="datetime" />
         ))
 
-        const headerPanel = wrapper.findAll('.el-date-picker__header-label')
+        const headerPanel = wrapper.findAll('.g-date-picker__header-label')
         await headerPanel[1].trigger('click')
         await nextTick()
-        const firstMonth = wrapper.find('.el-month-table td')
+        const firstMonth = wrapper.find('.g-month-table td')
           .element as HTMLSpanElement
         firstMonth.click()
         const timeInput = wrapper.find(
-          '.el-date-picker__time-header > span:nth-child(2) input'
+          '.g-date-picker__time-header > span:nth-child(2) input'
         ).element as HTMLInputElement
         expect(timeInput.value).toBe('10:10:00')
       })
@@ -461,7 +461,7 @@ describe('DatePickerPanel', () => {
         const wrapper = mount(() => (
           <DatePickerPanel v-model={value.value} type="datetime" />
         ))
-        const dayItems = wrapper.findAll('.el-date-table-cell__text')
+        const dayItems = wrapper.findAll('.g-date-table-cell__text')
         const targetDay = dayItems[15].element as HTMLElement // Try to make sure the date is this month
         const dayText = targetDay.textContent
         await dayItems[15].trigger('click')
@@ -499,12 +499,12 @@ describe('DatePickerPanel', () => {
         await nextTick()
 
         const dateInput = wrapper.find(
-          '.el-date-picker__time-header > span:nth-child(1) input'
+          '.g-date-picker__time-header > span:nth-child(1) input'
         ).element as HTMLInputElement
         expect(dateInput.value).toBe('2025-09-01')
 
         const timeInput = wrapper.find(
-          '.el-date-picker__time-header > span:nth-child(2) input'
+          '.g-date-picker__time-header > span:nth-child(2) input'
         ).element as HTMLInputElement
         expect(timeInput.value).toBe('00:00:00')
       })
@@ -604,7 +604,7 @@ describe('DatePickerPanel', () => {
           />
         ))
 
-        const pickers = wrapper.findAll('.el-date-range-picker__content')
+        const pickers = wrapper.findAll('.g-date-range-picker__content')
         const leftCell = pickers[0].find('td.available')!
         const rightCell = pickers[1].find('td.available')!
         await leftCell.trigger('mousemove')
@@ -618,22 +618,22 @@ describe('DatePickerPanel', () => {
           value.value.map((_) => dayjs(_).format(formatStr))
         ).toStrictEqual(['2000-11-01 01:01:01', '2000-12-01 01:01:01'])
         const pickerss = wrapper.findAll(
-          '.el-date-range-picker__time-header .el-date-range-picker__editors-wrap'
+          '.g-date-range-picker__time-header .g-date-range-picker__editors-wrap'
         )
         const left = {
           dateInput: pickerss[0].find(
-            '.el-date-range-picker__time-picker-wrap:nth-child(1) input'
+            '.g-date-range-picker__time-picker-wrap:nth-child(1) input'
           ).element,
           timeInput: pickerss[0].find(
-            '.el-date-range-picker__time-picker-wrap:nth-child(2) input'
+            '.g-date-range-picker__time-picker-wrap:nth-child(2) input'
           ).element,
         }
         const right = {
           dateInput: pickerss[1].find(
-            '.el-date-range-picker__time-picker-wrap:nth-child(1) input'
+            '.g-date-range-picker__time-picker-wrap:nth-child(1) input'
           ).element,
           timeInput: pickerss[1].find(
-            '.el-date-range-picker__time-picker-wrap:nth-child(2) input'
+            '.g-date-range-picker__time-picker-wrap:nth-child(2) input'
           ).element,
         }
         await nextTick()
@@ -671,7 +671,7 @@ describe('DatePickerPanel', () => {
         ))
 
         const timeInput = wrapper.findAll(
-          '.el-date-range-picker__editors-wrap input'
+          '.g-date-range-picker__editors-wrap input'
         )[3]
         await timeInput.trigger('blur')
         await timeInput.trigger('focus')
@@ -688,19 +688,19 @@ describe('DatePickerPanel', () => {
         ))
 
         const pickerss = wrapper.findAll(
-          '.el-date-range-picker__time-header .el-date-range-picker__editors-wrap'
+          '.g-date-range-picker__time-header .g-date-range-picker__editors-wrap'
         )
         const leftDateInput = pickerss[0].find(
-          '.el-date-range-picker__time-picker-wrap:nth-child(1) input'
+          '.g-date-range-picker__time-picker-wrap:nth-child(1) input'
         ).element as HTMLInputElement
         const rightDateInput = pickerss[1].find(
-          '.el-date-range-picker__time-picker-wrap:nth-child(1) input'
+          '.g-date-range-picker__time-picker-wrap:nth-child(1) input'
         ).element as HTMLInputElement
         leftDateInput.value = '1999-03-04'
         leftDateInput.dispatchEvent(new Event('input'))
         leftDateInput.dispatchEvent(new Event('change'))
         await nextTick()
-        const pickers = wrapper.findAll('.el-date-range-picker__content')
+        const pickers = wrapper.findAll('.g-date-range-picker__content')
         const leftCell = pickers[0].find('td.available')!
         const rightCell = pickers[1].find('td.available')!
         await leftCell.trigger('mousemove')
@@ -731,13 +731,13 @@ describe('DatePickerPanel', () => {
 
         expect(value.value).toBe('')
         const timeInput = wrapper.findAll(
-          '.el-date-range-picker__editors-wrap input'
+          '.g-date-range-picker__editors-wrap input'
         )[1]
         await timeInput.trigger('blur')
         await timeInput.trigger('focus')
         await timeInput.trigger('blur')
         const button = wrapper.find(
-          '.el-date-range-picker__time-picker-wrap .el-time-panel .confirm'
+          '.g-date-range-picker__time-picker-wrap .g-time-panel .confirm'
         )
         await button.trigger('click')
         expect(value.value).not.toBe('')
@@ -754,18 +754,18 @@ describe('DatePickerPanel', () => {
             onClear={onClear}
           />
         ))
-        const dateRow = wrapper.findAll('.el-date-table__row')
+        const dateRow = wrapper.findAll('.g-date-table__row')
         const dateCell = dateRow[1].findAll('.available')
         await dateCell[0].trigger('click')
         await dateCell[3].trigger('click')
         const headerValue = wrapper.findAll<HTMLInputElement>(
-          '.el-date-range-picker__time-header input'
+          '.g-date-range-picker__time-header input'
         )
         expect(headerValue[0].element.value).not.toBe('')
         expect(headerValue[1].element.value).not.toBe('')
         expect(value.value).toHaveLength(2)
         const clearBtn = wrapper.findAll<HTMLButtonElement>(
-          '.el-picker-panel__footer button'
+          '.g-picker-panel__footer button'
         )[0].element
         clearBtn.click()
         await nextTick()
@@ -791,10 +791,10 @@ describe('DatePickerPanel', () => {
 
         // simulate user input of invalid date
         const pickerss = wrapper.findAll(
-          '.el-date-range-picker__time-header .el-date-range-picker__editors-wrap'
+          '.g-date-range-picker__time-header .g-date-range-picker__editors-wrap'
         )
         const leftDateInput = pickerss[0].find(
-          '.el-date-range-picker__time-picker-wrap:nth-child(1) input'
+          '.g-date-range-picker__time-picker-wrap:nth-child(1) input'
         ).element as HTMLInputElement
         leftDateInput.value = '2000-09-01'
         leftDateInput.dispatchEvent(new Event('input'))
@@ -831,32 +831,32 @@ describe('DatePickerPanel', () => {
         ))
 
         const pickerss = wrapper.findAll(
-          '.el-date-range-picker__time-header .el-date-range-picker__editors-wrap'
+          '.g-date-range-picker__time-header .g-date-range-picker__editors-wrap'
         )
         const leftDateInput = pickerss[0].find(
-          '.el-date-range-picker__time-picker-wrap:nth-child(2) input'
+          '.g-date-range-picker__time-picker-wrap:nth-child(2) input'
         )
         const rightDateInput = pickerss[1].find(
-          '.el-date-range-picker__time-picker-wrap:nth-child(2) input'
+          '.g-date-range-picker__time-picker-wrap:nth-child(2) input'
         )
         await leftDateInput.trigger('blur')
         await leftDateInput.trigger('focus')
         const hoursEl = wrapper.find(
-          '.el-date-range-picker__editors-wrap .el-time-spinner__list'
+          '.g-date-range-picker__editors-wrap .g-time-spinner__list'
         ).element
         const disabledHours = Array.from(
           hoursEl.querySelectorAll('.is-disabled')
         ).map((node) => Number(node.textContent))
         expect(disabledHours).toStrictEqual(disabledHoursArr)
         const button = wrapper.find(
-          '.el-date-range-picker__time-picker-wrap .el-time-panel .confirm'
+          '.g-date-range-picker__time-picker-wrap .g-time-panel .confirm'
         )
         await button.trigger('click')
         await rightDateInput.trigger('blur')
         await rightDateInput.trigger('focus')
         const listRight = wrapper
           .findAll(
-            '.el-date-range-picker__editors-wrap.is-right .el-time-spinner__list'
+            '.g-date-range-picker__editors-wrap.is-right .g-time-spinner__list'
           )
           .map((el) => el.element)
         const hoursEl2 = listRight[0]
@@ -877,19 +877,19 @@ describe('DatePickerPanel', () => {
           />
         ))
 
-        const pickers = wrapper.findAll('.el-date-range-picker__content')!
+        const pickers = wrapper.findAll('.g-date-range-picker__content')!
         const leftCell = pickers[0].find('td.available')!
         await leftCell.trigger('mousemove')
         await leftCell.trigger('click')
         await leftCell.trigger('mousemove')
         await leftCell.trigger('click')
         const leftTimeInput = wrapper.findAll(
-          '.el-date-range-picker__editors-wrap input'
+          '.g-date-range-picker__editors-wrap input'
         )[1]
         await leftTimeInput.trigger('blur')
         await leftTimeInput.trigger('focus')
         const leftList = wrapper
-          .findAll('.el-time-spinner__list')
+          .findAll('.g-time-spinner__list')
           .map((el) => el.element)
         triggerEvent(leftList[0].children[+leftSelect[0]], 'click', true)
         await nextTick()
@@ -897,25 +897,25 @@ describe('DatePickerPanel', () => {
         await nextTick()
         triggerEvent(leftList[2].children[+leftSelect[2]], 'click', true)
         await nextTick()
-        await wrapper.find('.el-time-panel__btn.confirm').trigger('click')
+        await wrapper.find('.g-time-panel__btn.confirm').trigger('click')
         const rightTimeInput = wrapper.findAll(
-          '.el-date-range-picker__editors-wrap input'
+          '.g-date-range-picker__editors-wrap input'
         )[3]
         await rightTimeInput.trigger('blur')
         await rightTimeInput.trigger('focus')
-        const rightList = wrapper.findAll('.is-right .el-time-spinner__list')
+        const rightList = wrapper.findAll('.is-right .g-time-spinner__list')
         // auto set left time to right time
         expect(
           rightList[0].element?.querySelector(
-            '.el-time-spinner__item.is-active'
+            '.g-time-spinner__item.is-active'
           )?.innerHTML
         ).toBe(leftSelect[0])
         expect(
-          rightList[1].element.querySelector('.el-time-spinner__item.is-active')
+          rightList[1].element.querySelector('.g-time-spinner__item.is-active')
             ?.innerHTML
         ).toBe(leftSelect[1])
         expect(
-          rightList[2].element.querySelector('.el-time-spinner__item.is-active')
+          rightList[2].element.querySelector('.g-time-spinner__item.is-active')
             ?.innerHTML
         ).toBe(leftSelect[2])
         triggerEvent(rightList[0].element.children[12], 'click', true)
@@ -925,7 +925,7 @@ describe('DatePickerPanel', () => {
         triggerEvent(rightList[2].element.children[12], 'click', true)
         await nextTick()
         await wrapper
-          .find('.is-right .el-time-panel__btn.confirm')
+          .find('.is-right .g-time-panel__btn.confirm')
           .trigger('click')
         await nextTick()
 
@@ -949,7 +949,7 @@ describe('DatePickerPanel', () => {
           />
         ))
         await wrapper
-          .find('.el-picker-panel__sidebar .el-picker-panel__shortcut')
+          .find('.g-picker-panel__sidebar .g-picker-panel__shortcut')
           .trigger('click')
         await nextTick()
         expect(value.value).toBeDefined()
@@ -993,13 +993,13 @@ describe('DatePickerPanel', () => {
         ))
         await nextTick()
         let pickerss = wrapper.findAll(
-          '.el-date-range-picker__time-header .el-date-range-picker__editors-wrap'
+          '.g-date-range-picker__time-header .g-date-range-picker__editors-wrap'
         )
         const leftDateInput = pickerss[0].find(
-          '.el-date-range-picker__time-picker-wrap:nth-child(1) input'
+          '.g-date-range-picker__time-picker-wrap:nth-child(1) input'
         ).element as HTMLInputElement
         const rightDateInput = pickerss[1].find(
-          '.el-date-range-picker__time-picker-wrap:nth-child(1) input'
+          '.g-date-range-picker__time-picker-wrap:nth-child(1) input'
         ).element as HTMLInputElement
         expect(leftDateInput.value).toBe('2025-01-01')
         expect(rightDateInput.value).toBe('2025-01-05')
@@ -1008,12 +1008,12 @@ describe('DatePickerPanel', () => {
         rightDateInput.dispatchEvent(new Event('change'))
         await nextTick()
         expect(value.value[1]).toStrictEqual(new Date(2025, 0, 6))
-        pickerss = wrapper.findAll('.el-date-range-picker__header')
+        pickerss = wrapper.findAll('.g-date-range-picker__header')
         const leftHeader = pickerss[0].findAll(
-          '.el-date-range-picker__header-label'
+          '.g-date-range-picker__header-label'
         )[1]
         const rightHeader = pickerss[1].findAll(
-          '.el-date-range-picker__header-label'
+          '.g-date-range-picker__header-label'
         )[1]
 
         expect(leftHeader.text()).toBe('January')
@@ -1030,20 +1030,20 @@ describe('DatePickerPanel', () => {
         const input = wrapper.find('input')
         await input.trigger('blur')
         await input.trigger('focus')
-        const pickerss = wrapper.findAll('.el-picker-panel__content')
-        const cells = pickerss[1].findAll('.available .el-date-table-cell')
+        const pickerss = wrapper.findAll('.g-picker-panel__content')
+        const cells = pickerss[1].findAll('.available .g-date-table-cell')
         await cells[0].trigger('click')
         await cells[1].trigger('click')
         const leftTimeInput = wrapper.findAll<HTMLInputElement>(
-          '.el-date-range-picker__time-picker-wrap input'
+          '.g-date-range-picker__time-picker-wrap input'
         )[1]
         await leftTimeInput.trigger('focus')
-        await wrapper.find('.el-time-panel__btn.confirm').trigger('click')
+        await wrapper.find('.g-time-panel__btn.confirm').trigger('click')
         const leftHeader = pickerss[0].findAll(
-          '.el-date-range-picker__header-label'
+          '.g-date-range-picker__header-label'
         )[1]
         const rightHeader = pickerss[1].findAll(
-          '.el-date-range-picker__header-label'
+          '.g-date-range-picker__header-label'
         )[1]
 
         expect(leftHeader.text()).toBe('January')
@@ -1058,20 +1058,20 @@ describe('DatePickerPanel', () => {
         const wrapper = mount(() => (
           <DatePickerPanel v-model={modelValue.value} type="datetimerange" />
         ))
-        const cells = wrapper.findAll('.available .el-date-table-cell')
+        const cells = wrapper.findAll('.available .g-date-table-cell')
         await cells[0].trigger('click')
         await cells[1].trigger('click')
-        const pickerss = wrapper.findAll('.el-date-range-picker__header')
+        const pickerss = wrapper.findAll('.g-date-range-picker__header')
         const rightTimeInput = wrapper.findAll<HTMLInputElement>(
-          '.el-date-range-picker__time-picker-wrap input'
+          '.g-date-range-picker__time-picker-wrap input'
         )[3]
         await rightTimeInput.trigger('focus')
-        await wrapper.find('.el-time-panel__btn.confirm').trigger('click')
+        await wrapper.find('.g-time-panel__btn.confirm').trigger('click')
         const leftHeader = pickerss[0].findAll(
-          '.el-date-range-picker__header-label'
+          '.g-date-range-picker__header-label'
         )[1]
         const rightHeader = pickerss[1].findAll(
-          '.el-date-range-picker__header-label'
+          '.g-date-range-picker__header-label'
         )[1]
 
         expect(leftHeader.text()).toBe('January')
@@ -1091,9 +1091,9 @@ describe('DatePickerPanel', () => {
         ))
 
         await nextTick()
-        const pickers = wrapper.findAll('.el-date-range-picker__content')
+        const pickers = wrapper.findAll('.g-date-range-picker__content')
         const leftBtns = pickers[0].findAll(
-          '.el-date-range-picker__header .el-picker-panel__icon-btn'
+          '.g-date-range-picker__header .g-picker-panel__icon-btn'
         )!
         expect(leftBtns[0].classes()).not.toContain('is-disabled')
         expect(leftBtns[0].attributes('disabled')).toBeUndefined()
@@ -1104,7 +1104,7 @@ describe('DatePickerPanel', () => {
         expect(leftBtns[3].classes()).toContain('is-disabled')
         expect(leftBtns[3].attributes('disabled')).toBe('')
         const rightBtns = pickers[1].findAll(
-          '.el-date-range-picker__header .el-picker-panel__icon-btn'
+          '.g-date-range-picker__header .g-picker-panel__icon-btn'
         )!
         expect(rightBtns[0].classes()).toContain('is-disabled')
         expect(rightBtns[0].attributes('disabled')).toBe('')

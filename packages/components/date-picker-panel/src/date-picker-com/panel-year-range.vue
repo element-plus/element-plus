@@ -24,7 +24,7 @@
               @click="leftPrevYear"
             >
               <slot name="prev-year">
-                <el-icon><d-arrow-left /></el-icon>
+                <g-icon><d-arrow-left /></g-icon>
               </slot>
             </button>
             <button
@@ -35,7 +35,7 @@
               @click="leftNextYear"
             >
               <slot name="next-year">
-                <el-icon><d-arrow-right /></el-icon>
+                <g-icon><d-arrow-right /></g-icon>
               </slot>
             </button>
             <div>{{ leftLabel }}</div>
@@ -64,7 +64,7 @@
               @click="rightPrevYear"
             >
               <slot name="prev-year">
-                <el-icon><d-arrow-left /></el-icon>
+                <g-icon><d-arrow-left /></g-icon>
               </slot>
             </button>
             <button
@@ -74,7 +74,7 @@
               @click="rightNextYear"
             >
               <slot name="next-year">
-                <el-icon><d-arrow-right /></el-icon>
+                <g-icon><d-arrow-right /></g-icon>
               </slot>
             </button>
             <div>{{ rightLabel }}</div>
@@ -102,7 +102,7 @@
 import { computed, inject, ref, toRef, unref, useSlots, watch } from 'vue'
 import dayjs from 'dayjs'
 import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
-import ElIcon from '@element-plus/components/icon'
+import GIcon from '@element-plus/components/icon'
 import { useLocale } from '@element-plus/hooks'
 import { PICKER_BASE_INJECTION_KEY } from '@element-plus/components/time-picker'
 import {

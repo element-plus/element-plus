@@ -3,7 +3,7 @@
     :class="[ns.b('panel'), ns.is('bordered', border)]"
     @keydown="handleKeyDown"
   >
-    <el-cascader-menu
+    <g-cascader-menu
       v-for="(menu, index) in menus"
       :key="index"
       :ref="(item) => (menuList[index] = item as CascaderMenuInstance)"
@@ -13,7 +13,7 @@
       <template #empty>
         <slot name="empty" />
       </template>
-    </el-cascader-menu>
+    </g-cascader-menu>
   </div>
 </template>
 
@@ -46,7 +46,7 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import { useNamespace } from '@element-plus/hooks'
-import ElCascaderMenu from './menu.vue'
+import GCascaderMenu from './menu.vue'
 import Store from './store'
 import Node from './node'
 import { cascaderPanelEmits, useCascaderConfig } from './config'
@@ -59,13 +59,13 @@ import type {
   CascaderOption,
   CascaderProps,
   CascaderValue,
-  ElCascaderPanelContext,
+  GCascaderPanelContext,
 } from './types'
 import type { CascaderMenuInstance } from './instance'
 import type { CascaderPanelProps } from './config'
 
 defineOptions({
-  name: 'ElCascaderPanel',
+  name: 'GCascaderPanel',
 })
 
 const props = withDefaults(defineProps<CascaderPanelProps>(), {
@@ -117,7 +117,7 @@ const initStore = () => {
   }
 }
 
-const lazyLoad: ElCascaderPanelContext['lazyLoad'] = (node, cb) => {
+const lazyLoad: GCascaderPanelContext['lazyLoad'] = (node, cb) => {
   const cfg = config.value
   node! = node || new Node({}, cfg, undefined, true)
   node.loading = true
@@ -146,7 +146,7 @@ const lazyLoad: ElCascaderPanelContext['lazyLoad'] = (node, cb) => {
   cfg.lazyLoad(node, resolve, reject)
 }
 
-const expandNode: ElCascaderPanelContext['expandNode'] = (node, silent) => {
+const expandNode: GCascaderPanelContext['expandNode'] = (node, silent) => {
   const { level } = node
   const newMenus = menus.value.slice(0, level)
   let newExpandingNode: CascaderNode
@@ -165,7 +165,7 @@ const expandNode: ElCascaderPanelContext['expandNode'] = (node, silent) => {
   }
 }
 
-const handleCheckChange: ElCascaderPanelContext['handleCheckChange'] = (
+const handleCheckChange: GCascaderPanelContext['handleCheckChange'] = (
   node,
   checked,
   emitClose = true

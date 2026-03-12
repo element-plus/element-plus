@@ -40,13 +40,13 @@ describe('Card.vue', () => {
   test('body style', () => {
     const style = 'font-size: 14px;'
     const wrapper = mount(() => <Card bodyStyle={style}>{AXIOM}</Card>)
-    expect(wrapper.find('.el-card__body').attributes('style')).toBe(style)
+    expect(wrapper.find('.g-card__body').attributes('style')).toBe(style)
   })
 
   test('body style with object', () => {
     const style = { 'font-size': '14px' }
     const wrapper = mount(() => <Card bodyStyle={style}>{AXIOM}</Card>)
-    expect(wrapper.find('.el-card__body').attributes('style')).toBe(
+    expect(wrapper.find('.g-card__body').attributes('style')).toBe(
       'font-size: 14px;'
     )
   })
@@ -55,7 +55,7 @@ describe('Card.vue', () => {
     const style = [{ 'font-size': '14px' }, { color: 'blue' }]
     const wrapper = mount(() => <Card bodyStyle={style}>{AXIOM}</Card>)
     expect(
-      wrapper.find('.el-card__body').attributes('style')?.replace(/[ ]/g, '')
+      wrapper.find('.g-card__body').attributes('style')?.replace(/[ ]/g, '')
     ).toBe('font-size:14px;color:blue;')
   })
 
@@ -72,9 +72,9 @@ describe('Card.vue', () => {
       />
     ))
 
-    expect(wrapper.find('.el-card__body').classes()).toContain(bodyClass)
-    expect(wrapper.find('.el-card__header').classes()).toContain(headerClass)
-    expect(wrapper.find('.el-card__footer').classes()).toContain(footerClass)
+    expect(wrapper.find('.g-card__body').classes()).toContain(bodyClass)
+    expect(wrapper.find('.g-card__header').classes()).toContain(headerClass)
+    expect(wrapper.find('.g-card__footer').classes()).toContain(footerClass)
   })
 
   test('shadow', () => {

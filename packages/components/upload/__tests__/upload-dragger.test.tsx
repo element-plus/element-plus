@@ -26,7 +26,7 @@ describe('<upload-dragger />', () => {
   describe('functionality', () => {
     test('onDrag works', async () => {
       const wrapper = _mount()
-      await wrapper.find('.el-upload-dragger').trigger('dragover')
+      await wrapper.find('.g-upload-dragger').trigger('dragover')
       expect(wrapper.classes('is-dragover')).toBe(true)
     })
 

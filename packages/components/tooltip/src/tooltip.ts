@@ -8,7 +8,7 @@ import type {
   PopperArrowProps,
   PopperProps,
 } from '@element-plus/components/popper'
-import type { ElTooltipContentProps } from './content'
+import type { GTooltipContentProps } from './content'
 import type { UseTooltipTriggerProps } from './trigger'
 import type Tooltip from './tooltip.vue'
 import type { ExtractPublicPropTypes } from 'vue'
@@ -22,7 +22,7 @@ export const {
 export interface UseTooltipProps
   extends
     PopperProps,
-    ElTooltipContentProps,
+    GTooltipContentProps,
     UseTooltipTriggerProps,
     PopperArrowProps {
   /**
@@ -63,12 +63,12 @@ export const tooltipEmits = [
 /**
  * @deprecated Removed after 3.0.0, Use `UseTooltipProps` instead.
  */
-export type ElTooltipProps = UseTooltipProps
+export type GTooltipProps = UseTooltipProps
 
 /**
  * @deprecated Removed after 3.0.0, Use `UseTooltipProps` instead.
  */
-export type ElTooltipPropsPublic = ExtractPublicPropTypes<
+export type GTooltipPropsPublic = ExtractPublicPropTypes<
   typeof useTooltipProps
 >
 

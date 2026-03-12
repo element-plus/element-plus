@@ -7,7 +7,7 @@ import type { Component, VNode, VNodeNormalizedChildren } from 'vue'
 import type { OptionValue } from './type'
 
 export default defineComponent({
-  name: 'ElOptions',
+  name: 'GOptions',
   setup(_, { slots }) {
     const select = inject(selectKey)
     let cachedValueList: OptionValue[] = []
@@ -21,7 +21,7 @@ export default defineComponent({
         ;(children as VNode[]).forEach((item) => {
           const name = ((item?.type || {}) as Component)?.name
 
-          if (name === 'ElOptionGroup') {
+          if (name === 'GOptionGroup') {
             filterOptions(
               !isString(item.children) &&
                 !isArray(item.children) &&
@@ -29,7 +29,7 @@ export default defineComponent({
                 ? item.children?.default()
                 : item.children
             )
-          } else if (name === 'ElOption') {
+          } else if (name === 'GOption') {
             valueList.push(item.props?.value)
           } else if (isArray(item.children)) {
             filterOptions(item.children)

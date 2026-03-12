@@ -1,14 +1,14 @@
 <template>
   <button
     v-if="mergedShowClose"
-    :aria-label="t('el.tour.close')"
+    :aria-label="t('g.tour.close')"
     :class="ns.e('closebtn')"
     type="button"
     @click="onClose"
   >
-    <el-icon :class="ns.e('close')">
+    <g-icon :class="ns.e('close')">
       <component :is="mergedCloseIcon" />
-    </el-icon>
+    </g-icon>
   </button>
   <header :class="[ns.e('header'), { 'show-close': showClose }]">
     <slot name="header">
@@ -39,16 +39,16 @@
       </template>
     </div>
     <div :class="ns.b('buttons')">
-      <el-button
+      <g-button
         v-if="current > 0"
         size="small"
         :type="mergedType"
         v-bind="filterButtonProps(prevButtonProps)"
         @click="onPrev"
       >
-        {{ prevButtonProps?.children ?? t('el.tour.previous') }}
-      </el-button>
-      <el-button
+        {{ prevButtonProps?.children ?? t('g.tour.previous') }}
+      </g-button>
+      <g-button
         v-if="current <= total - 1"
         size="small"
         :type="mergedType === 'primary' ? 'default' : 'primary'"
@@ -57,9 +57,9 @@
       >
         {{
           nextButtonProps?.children ??
-          (current === total - 1 ? t('el.tour.finish') : t('el.tour.next'))
+          (current === total - 1 ? t('g.tour.finish') : t('g.tour.next'))
         }}
-      </el-button>
+      </g-button>
     </div>
   </footer>
 </template>
@@ -68,8 +68,8 @@
 import { computed, inject, onBeforeUnmount, onMounted, watch } from 'vue'
 import { EVENT_CODE } from '@element-plus/constants'
 import { omit } from 'lodash-unified'
-import { ElButton } from '@element-plus/components/button'
-import { ElIcon } from '@element-plus/components/icon'
+import { GButton } from '@element-plus/components/button'
+import { GIcon } from '@element-plus/components/icon'
 import { CloseComponents, getEventCode } from '@element-plus/utils'
 import { useLocale } from '@element-plus/hooks'
 import { tourStepEmits } from './step'
@@ -79,7 +79,7 @@ import type { TourBtnProps } from './types'
 import type { TourStepProps } from './step'
 
 defineOptions({
-  name: 'ElTourStep',
+  name: 'GTourStep',
 })
 
 const props = withDefaults(defineProps<TourStepProps>(), {

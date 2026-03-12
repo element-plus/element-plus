@@ -18,7 +18,7 @@ interface ContainerProps {
 }
 
 defineOptions({
-  name: 'ElContainer',
+  name: 'GContainer',
 })
 
 const props = defineProps<ContainerProps>()
@@ -36,7 +36,7 @@ const isVertical = computed(() => {
     const vNodes: VNode[] = slots.default()
     return vNodes.some((vNode) => {
       const tag = (vNode.type as Component).name
-      return tag === 'ElHeader' || tag === 'ElFooter'
+      return tag === 'GHeader' || tag === 'GFooter'
     })
   } else {
     return false

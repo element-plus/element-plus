@@ -18,13 +18,13 @@
         <slot name="title" :is-active="isActive">{{ title }}</slot>
       </span>
       <slot name="icon" :is-active="isActive">
-        <el-icon :class="arrowKls">
+        <g-icon :class="arrowKls">
           <component :is="icon" />
-        </el-icon>
+        </g-icon>
       </slot>
     </div>
 
-    <el-collapse-transition>
+    <g-collapse-transition>
       <div
         v-show="isActive"
         :id="scopedContentId"
@@ -37,21 +37,21 @@
           <slot />
         </div>
       </div>
-    </el-collapse-transition>
+    </g-collapse-transition>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { markRaw } from 'vue'
-import ElCollapseTransition from '@element-plus/components/collapse-transition'
-import ElIcon from '@element-plus/components/icon'
+import GCollapseTransition from '@element-plus/components/collapse-transition'
+import GIcon from '@element-plus/components/icon'
 import { ArrowRight } from '@element-plus/icons-vue'
 import { useCollapseItem, useCollapseItemDOM } from './use-collapse-item'
 
 import type { CollapseItemProps } from './collapse-item'
 
 defineOptions({
-  name: 'ElCollapseItem',
+  name: 'GCollapseItem',
 })
 
 const props = withDefaults(defineProps<CollapseItemProps>(), {

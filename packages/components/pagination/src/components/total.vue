@@ -1,7 +1,7 @@
 <template>
   <span :class="ns.e('total')" :disabled="disabled">
     {{
-      t('el.pagination.total', {
+      t('g.pagination.total', {
         total,
       })
     }}
@@ -18,7 +18,7 @@ const ns = useNamespace('pagination')
 const { disabled } = usePagination()
 
 defineOptions({
-  name: 'ElPaginationTotal',
+  name: 'GPaginationTotal',
 })
 
 defineProps(paginationTotalProps)

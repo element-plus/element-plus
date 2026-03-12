@@ -81,7 +81,7 @@ describe('virtual scrollbar', () => {
     const initializeStyle =
       'height: 24px; transform: translateY(0px); width: 100%;'
 
-    expect(wrapper.find('.el-scrollbar__thumb').attributes('style')).toContain(
+    expect(wrapper.find('.g-scrollbar__thumb').attributes('style')).toContain(
       initializeStyle
     )
 
@@ -109,7 +109,7 @@ describe('virtual scrollbar', () => {
     await nextTick()
 
     expect(
-      wrapper.find('.el-scrollbar__thumb').attributes('style')
+      wrapper.find('.g-scrollbar__thumb').attributes('style')
     ).not.toContain(initializeStyle)
   })
 
@@ -142,11 +142,11 @@ describe('virtual scrollbar', () => {
     await nextTick()
 
     expect(
-      (wrapper.find('.el-virtual-scrollbar').element as HTMLElement).style.width
+      (wrapper.find('.g-virtual-scrollbar').element as HTMLElement).style.width
     ).toContain('198px') // clientSize - props.endGap = 200 - 2 = 198
 
     expect(
-      (wrapper.find('.el-virtual-scrollbar').element as HTMLElement).style
+      (wrapper.find('.g-virtual-scrollbar').element as HTMLElement).style
         .height
     ).toContain('6px') // fixed 6
   })
@@ -172,12 +172,12 @@ describe('virtual scrollbar', () => {
     await nextTick()
 
     expect(
-      (wrapper.find('.el-virtual-scrollbar').element as HTMLElement).style
+      (wrapper.find('.g-virtual-scrollbar').element as HTMLElement).style
         .height
     ).toContain('98px') // clientSize - props.endGap = 100 - 2 = 98
 
     expect(
-      (wrapper.find('.el-virtual-scrollbar').element as HTMLElement).style.width
+      (wrapper.find('.g-virtual-scrollbar').element as HTMLElement).style.width
     ).toContain('6px') // fixed 6
   })
 
@@ -203,7 +203,7 @@ describe('virtual scrollbar', () => {
     await nextTick()
 
     expect(
-      (wrapper.find('.el-virtual-scrollbar').element as HTMLElement).style
+      (wrapper.find('.g-virtual-scrollbar').element as HTMLElement).style
         .height
     ).toContain('92px') // clientSize - props.endGap = 100 - 8 = 92
   })

@@ -1,7 +1,7 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
-import { ElForm, ElFormItem as FormItem } from '@element-plus/components/form'
+import { GForm, GFormItem as FormItem } from '@element-plus/components/form'
 import Rate from '../src/rate.vue'
 
 import type { RateInstance } from '../src/rate'
@@ -13,7 +13,7 @@ describe('Rate.vue', () => {
         max: 10,
       },
     })
-    const stars = wrapper.findAll('.el-rate__item')
+    const stars = wrapper.findAll('.g-rate__item')
     expect(stars.length).toMatchInlineSnapshot('10')
   })
 
@@ -23,9 +23,9 @@ describe('Rate.vue', () => {
         size: 'large',
       },
     })
-    expect(wrapper.find('.el-rate--large').exists()).toBe(true)
+    expect(wrapper.find('.g-rate--large').exists()).toBe(true)
     await wrapper.setProps({ size: '' })
-    expect(wrapper.find('.el-rate').exists()).toBe(true)
+    expect(wrapper.find('.g-rate').exists()).toBe(true)
   })
 
   it('allow half', async () => {
@@ -33,7 +33,7 @@ describe('Rate.vue', () => {
     const wrapper = mount(() => <Rate v-model={value.value} allowHalf />)
     const vm = wrapper.getComponent(Rate).vm as RateInstance
 
-    const secondStar = wrapper.findAll('.el-rate__item')[1]
+    const secondStar = wrapper.findAll('.g-rate__item')[1]
       .element as HTMLElement
     vm.setCurrentValue(1, {
       target: secondStar,
@@ -52,7 +52,7 @@ describe('Rate.vue', () => {
         texts: ['1', '2', '3', '4', '5'],
       },
     })
-    const text = wrapper.find('.el-rate__text').element
+    const text = wrapper.find('.g-rate__text').element
     expect(text.textContent).toMatchInlineSnapshot('"4"')
   })
 
@@ -64,7 +64,7 @@ describe('Rate.vue', () => {
         textColor: 'red',
       },
     })
-    const text = wrapper.find('.el-rate__text').element as HTMLSpanElement
+    const text = wrapper.find('.g-rate__text').element as HTMLSpanElement
     expect(text.style.color).toEqual('red')
   })
 
@@ -83,7 +83,7 @@ describe('Rate.vue', () => {
     const value1 = ref(0)
     const wrapper = mount(() => <Rate v-model={value1.value} />)
 
-    const thirdStar = wrapper.findAll('.el-rate__item')[2]
+    const thirdStar = wrapper.findAll('.g-rate__item')[2]
       .element as HTMLElement
     thirdStar.click()
 
@@ -96,8 +96,8 @@ describe('Rate.vue', () => {
       <Rate v-model={value.value} colors={['#99A9BF', '#F7BA2A', '#FF9900']} />
     ))
 
-    const rateEl = wrapper.find('.el-rate').element as HTMLElement
-    expect(rateEl.style.getPropertyValue('--el-rate-fill-color')).toBe(
+    const rateEl = wrapper.find('.g-rate').element as HTMLElement
+    expect(rateEl.style.getPropertyValue('--g-rate-fill-color')).toBe(
       '#FF9900'
     )
   })
@@ -112,13 +112,13 @@ describe('Rate.vue', () => {
       <Rate v-model={value.value} onChange={handleChange} />
     ))
 
-    const fourthStar = wrapper.findAll('.el-rate__item')[3]
+    const fourthStar = wrapper.findAll('.g-rate__item')[3]
       .element as HTMLElement
     fourthStar.click()
 
     expect(value.value).toEqual(4)
     expect(changeCount.value).toEqual(0)
-    const fifthStar = wrapper.findAll('.el-rate__item')[4]
+    const fifthStar = wrapper.findAll('.g-rate__item')[4]
       .element as HTMLElement
     fifthStar.click()
     expect(value.value).toEqual(5)
@@ -135,13 +135,13 @@ describe('Rate.vue', () => {
       <Rate v-model={value.value} clearable onChange={handleChange} />
     ))
 
-    const fourthStar = wrapper.findAll('.el-rate__item')[3]
+    const fourthStar = wrapper.findAll('.g-rate__item')[3]
       .element as HTMLElement
     fourthStar.click()
 
     expect(value.value).toEqual(0)
     expect(changeCount.value).toEqual(1)
-    const fifthStar = wrapper.findAll('.el-rate__item')[4]
+    const fifthStar = wrapper.findAll('.g-rate__item')[4]
       .element as HTMLElement
     fifthStar.click()
     expect(value.value).toEqual(5)
@@ -151,24 +151,24 @@ describe('Rate.vue', () => {
   it('show background icon when allow-half attribute is true', async () => {
     const value = ref(3.5)
     const wrapper = mount(() => <Rate v-model={value.value} allow-half />)
-    expect(wrapper.find('.el-rate__decimal--box').exists()).toBe(true)
+    expect(wrapper.find('.g-rate__decimal--box').exists()).toBe(true)
     expect(
-      wrapper.findAll('.el-rate__decimal--box')[3].attributes('style')
+      wrapper.findAll('.g-rate__decimal--box')[3].attributes('style')
     ).toBe(undefined)
     value.value = 3.4
     await nextTick()
-    expect(wrapper.find('.el-rate__decimal--box').exists()).toBe(true)
+    expect(wrapper.find('.g-rate__decimal--box').exists()).toBe(true)
     expect(
-      wrapper.findAll('.el-rate__decimal--box')[3].attributes('style')
+      wrapper.findAll('.g-rate__decimal--box')[3].attributes('style')
     ).contain('display: none;')
   })
 
   it('show background icon when disabled attribute is true', async () => {
     const value = ref(3.2)
     const wrapper = mount(() => <Rate v-model={value.value} disabled />)
-    expect(wrapper.find('.el-rate__decimal--box').exists()).toBe(true)
+    expect(wrapper.find('.g-rate__decimal--box').exists()).toBe(true)
     expect(
-      wrapper.findAll('.el-rate__decimal--box')[3].attributes('style')
+      wrapper.findAll('.g-rate__decimal--box')[3].attributes('style')
     ).toBe(undefined)
   })
 
@@ -179,10 +179,10 @@ describe('Rate.vue', () => {
         max: 5,
       },
     })
-    const stars = wrapper.findAll('.el-rate__item')
+    const stars = wrapper.findAll('.g-rate__item')
     expect(stars.length).toBe(5)
     // All stars should be active since value is clamped to max (5)
-    const activeIcons = wrapper.findAll('.el-rate__icon.is-active')
+    const activeIcons = wrapper.findAll('.g-rate__icon.is-active')
     expect(activeIcons.length).toBe(5)
   })
 
@@ -195,7 +195,7 @@ describe('Rate.vue', () => {
         texts: ['1', '2', '3', '4', '5'],
       },
     })
-    const text = wrapper.find('.el-rate__text').element
+    const text = wrapper.find('.g-rate__text').element
     // When value is clamped to max (5), text should show texts[4] which is '5'
     expect(text.textContent).toBe('5')
   })
@@ -211,7 +211,7 @@ describe('Rate.vue', () => {
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
       const rate = wrapper.find('[data-test-ref="rate"]')
-      const formItemLabel = formItem.find('.el-form-item__label')
+      const formItemLabel = formItem.find('.g-form-item__label')
       expect(formItem.attributes().role).toBeFalsy()
       expect(formItemLabel.attributes().for).toBe(rate.attributes().id)
     })
@@ -226,7 +226,7 @@ describe('Rate.vue', () => {
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
       const rate = wrapper.find('[data-test-ref="rate"]')
-      const formItemLabel = formItem.find('.el-form-item__label')
+      const formItemLabel = formItem.find('.g-form-item__label')
       expect(formItem.attributes().role).toBeFalsy()
       expect(rate.attributes().id).toBe('foobar')
       expect(formItemLabel.attributes().for).toBe(rate.attributes().id)
@@ -247,9 +247,9 @@ describe('Rate.vue', () => {
 
     it('The disabled state of a component has higher priority than that of a form', async () => {
       const wrapper = mount(() => (
-        <ElForm disabled>
+        <GForm disabled>
           <Rate disabled={false} />
-        </ElForm>
+        </GForm>
       ))
 
       await nextTick()

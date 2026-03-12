@@ -42,7 +42,7 @@ import { useCheckbox } from './composables'
 import type { CheckboxProps } from './checkbox'
 
 defineOptions({
-  name: 'ElCheckbox',
+  name: 'GCheckbox',
 })
 
 const props = withDefaults(defineProps<CheckboxProps>(), checkboxPropsDefaults)

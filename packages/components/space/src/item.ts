@@ -13,7 +13,7 @@ export type SpaceItemProps = ExtractPropTypes<typeof spaceItemProps>
 export type SpaceItemPropsPublic = ExtractPublicPropTypes<typeof spaceItemProps>
 
 const SpaceItem = defineComponent({
-  name: 'ElSpaceItem',
+  name: 'GSpaceItem',
 
   props: spaceItemProps,
 

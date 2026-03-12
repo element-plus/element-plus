@@ -5,12 +5,12 @@ import { useLocale, useNamespace } from '@element-plus/hooks'
 import Chinese from '@element-plus/locale/lang/zh-cn'
 import English from '@element-plus/locale/lang/en'
 import {
-  ElButton,
-  ElCard,
-  ElDialog,
-  ElLink,
-  ElMessage,
-  ElPagination,
+  GButton,
+  GCard,
+  GDialog,
+  GLink,
+  GMessage,
+  GPagination,
   MessageConfigContext,
 } from '@element-plus/components'
 import { rAF } from '@element-plus/test-utils/tick'
@@ -32,7 +32,7 @@ const TestComp = defineComponent({
   setup() {
     const { t } = useLocale()
     return () => (
-      <div class="locale-manifest">{t('el.popconfirm.confirmButtonText')}</div>
+      <div class="locale-manifest">{t('g.popconfirm.confirmButtonText')}</div>
     )
   },
 })
@@ -78,28 +78,28 @@ describe('config-provider', () => {
 
     it('should provide locale properly', async () => {
       expect(wrapper.find('.current-locale').text()).toBe(
-        English.el.popconfirm.confirmButtonText
+        English.g.popconfirm.confirmButtonText
       )
       expect(wrapper.find('.opposite-locale').text()).toBe(
-        Chinese.el.popconfirm.confirmButtonText
+        Chinese.g.popconfirm.confirmButtonText
       )
     })
 
     it('should reactively update the text on page', async () => {
       expect(wrapper.find('.current-locale').text()).toBe(
-        English.el.popconfirm.confirmButtonText
+        English.g.popconfirm.confirmButtonText
       )
       expect(wrapper.find('.opposite-locale').text()).toBe(
-        Chinese.el.popconfirm.confirmButtonText
+        Chinese.g.popconfirm.confirmButtonText
       )
 
       await wrapper.find('.to-zh').trigger('click')
 
       expect(wrapper.find('.current-locale').text()).toBe(
-        Chinese.el.popconfirm.confirmButtonText
+        Chinese.g.popconfirm.confirmButtonText
       )
       expect(wrapper.find('.opposite-locale').text()).toBe(
-        English.el.popconfirm.confirmButtonText
+        English.g.popconfirm.confirmButtonText
       )
     })
   })
@@ -113,7 +113,7 @@ describe('config-provider', () => {
       const wrapper = mount(() => (
         <>
           <ConfigProvider button={config}>
-            <ElButton>中文</ElButton>
+            <GButton>中文</GButton>
           </ConfigProvider>
           <button
             class="toggle"
@@ -126,11 +126,11 @@ describe('config-provider', () => {
 
       await nextTick()
       expect(
-        wrapper.find('.el-button .el-button__text--expand').exists()
+        wrapper.find('.g-button .g-button__text--expand').exists()
       ).toBeTruthy()
       await wrapper.find('.toggle').trigger('click')
       expect(
-        wrapper.find('.el-button .el-button__text--expand').exists()
+        wrapper.find('.g-button .g-button__text--expand').exists()
       ).toBeFalsy()
     })
     it('fully configured', async () => {
@@ -145,14 +145,14 @@ describe('config-provider', () => {
 
       const wrapper = mount(() => (
         <ConfigProvider button={config}>
-          <ElButton>中文</ElButton>
+          <GButton>中文</GButton>
         </ConfigProvider>
       ))
       await nextTick()
       expect(
         wrapper
           .find(
-            '.el-button.el-button--warning.is-plain.is-round.is-text.is-dashed .el-button__text--expand'
+            '.g-button.g-button--warning.is-plain.is-round.is-text.is-dashed .g-button__text--expand'
           )
           .exists()
       ).toBe(true)
@@ -168,14 +168,14 @@ describe('config-provider', () => {
 
       const wrapper = mount(() => (
         <ConfigProvider card={config}>
-          <ElCard shadow={overrideShadow.value as any}>I love rem!</ElCard>
+          <GCard shadow={overrideShadow.value as any}>I love rem!</GCard>
         </ConfigProvider>
       ))
       await nextTick()
-      expect(wrapper.find('.el-card.is-hover-shadow').exists()).toBe(true)
+      expect(wrapper.find('.g-card.is-hover-shadow').exists()).toBe(true)
       overrideShadow.value = 'never'
       await nextTick()
-      expect(wrapper.find('.el-card.is-never-shadow').exists()).toBe(true)
+      expect(wrapper.find('.g-card.is-never-shadow').exists()).toBe(true)
     })
   })
 
@@ -188,11 +188,11 @@ describe('config-provider', () => {
 
       const wrapper = mount(() => (
         <ConfigProvider link={config}>
-          <ElLink>中文</ElLink>
+          <GLink>中文</GLink>
         </ConfigProvider>
       ))
       await nextTick()
-      expect(wrapper.find('.el-link--success.is-underline').exists()).toBe(true)
+      expect(wrapper.find('.g-link--success.is-underline').exists()).toBe(true)
     })
   })
 
@@ -204,14 +204,14 @@ describe('config-provider', () => {
 
       const wrapper = mount(() => (
         <ConfigProvider dialog={config}>
-          <ElDialog modelValue={true} title="Hello">
+          <GDialog modelValue={true} title="Hello">
             test
-          </ElDialog>
+          </GDialog>
         </ConfigProvider>
       ))
 
       await nextTick()
-      const overlay = wrapper.find('.el-overlay-dialog')
+      const overlay = wrapper.find('.g-overlay-dialog')
       expect(overlay.exists()).toBe(true)
       expect(overlay.attributes('style') || '').toContain('display: flex')
     })
@@ -223,14 +223,14 @@ describe('config-provider', () => {
 
       const wrapper = mount(() => (
         <ConfigProvider dialog={config}>
-          <ElDialog modelValue={true} title="Hello">
+          <GDialog modelValue={true} title="Hello">
             test
-          </ElDialog>
+          </GDialog>
         </ConfigProvider>
       ))
 
       await nextTick()
-      const dialog = wrapper.find('.el-dialog')
+      const dialog = wrapper.find('.g-dialog')
       expect(dialog.exists()).toBe(true)
       expect(dialog.classes()).toContain('is-draggable')
     })
@@ -254,9 +254,9 @@ describe('config-provider', () => {
                 },
               }}
             >
-              <ElDialog modelValue={visible.value} title="Hello">
+              <GDialog modelValue={visible.value} title="Hello">
                 content
-              </ElDialog>
+              </GDialog>
             </ConfigProvider>
           )
         },
@@ -285,12 +285,12 @@ describe('config-provider', () => {
 
       const wrapper = mount(() => (
         <ConfigProvider namespace={namespace.value}>
-          <ElButton>test str</ElButton>
+          <GButton>test str</GButton>
         </ConfigProvider>
       ))
 
       await nextTick()
-      expect(wrapper.find('button').classes().join('')).toBe('el-button')
+      expect(wrapper.find('button').classes().join('')).toBe('g-button')
       namespace.value = 'ep'
       await nextTick()
       expect(wrapper.find('button').classes().join('')).toBe('ep-button')
@@ -299,7 +299,7 @@ describe('config-provider', () => {
 
   describe('message-config', () => {
     afterEach(() => {
-      ElMessage.closeAll()
+      GMessage.closeAll()
       Object.keys(messageConfig).forEach(
         (key) => (messageConfig[key as keyof MessageConfigContext] = undefined)
       )
@@ -310,31 +310,31 @@ describe('config-provider', () => {
         max: 3,
       })
       const open = () => {
-        ElMessage('this is a message.')
+        GMessage('this is a message.')
       }
 
       const wrapper = mount(() => (
         <ConfigProvider message={config}>
-          <ElButton onClick={open}>open</ElButton>
+          <GButton onClick={open}>open</GButton>
         </ConfigProvider>
       ))
 
       await nextTick()
-      wrapper.find('.el-button').trigger('click')
-      wrapper.find('.el-button').trigger('click')
-      wrapper.find('.el-button').trigger('click')
-      wrapper.find('.el-button').trigger('click')
+      wrapper.find('.g-button').trigger('click')
+      wrapper.find('.g-button').trigger('click')
+      wrapper.find('.g-button').trigger('click')
+      wrapper.find('.g-button').trigger('click')
       await nextTick()
-      expect(document.querySelectorAll('.el-message').length).toBe(3)
+      expect(document.querySelectorAll('.g-message').length).toBe(3)
 
       config.max = 10
       await nextTick()
-      wrapper.find('.el-button').trigger('click')
-      wrapper.find('.el-button').trigger('click')
-      wrapper.find('.el-button').trigger('click')
-      wrapper.find('.el-button').trigger('click')
+      wrapper.find('.g-button').trigger('click')
+      wrapper.find('.g-button').trigger('click')
+      wrapper.find('.g-button').trigger('click')
+      wrapper.find('.g-button').trigger('click')
       await nextTick()
-      expect(document.querySelectorAll('.el-message').length).toBe(7)
+      expect(document.querySelectorAll('.g-message').length).toBe(7)
     })
 
     it('new config parameters effective', async () => {
@@ -345,23 +345,23 @@ describe('config-provider', () => {
         plain: true,
       })
       const open = () => {
-        ElMessage('this is a message.')
+        GMessage('this is a message.')
       }
 
       const wrapper = mount(() => (
         <ConfigProvider message={config}>
-          <ElButton onClick={open}>open</ElButton>
+          <GButton onClick={open}>open</GButton>
         </ConfigProvider>
       ))
 
       await rAF()
 
-      wrapper.find('.el-button').trigger('click')
-      wrapper.find('.el-button').trigger('click')
+      wrapper.find('.g-button').trigger('click')
+      wrapper.find('.g-button').trigger('click')
       await nextTick()
-      const elements = document.querySelectorAll('.el-message')
+      const elements = document.querySelectorAll('.g-message')
       expect(elements.length).toBe(1)
-      expect(document.querySelectorAll('.el-message__closeBtn').length).toBe(1)
+      expect(document.querySelectorAll('.g-message__closeBtn').length).toBe(1)
       expect(document.querySelectorAll('.is-plain').length).toBe(1)
 
       const getTopValue = (elm: Element): number =>
@@ -372,7 +372,7 @@ describe('config-provider', () => {
     it('provide global config', async () => {
       const open = () => {
         for (let i = 0; i < 20; i++) {
-          ElMessage('this is a message.')
+          GMessage('this is a message.')
         }
       }
       const TestComponent = defineComponent({
@@ -385,16 +385,16 @@ describe('config-provider', () => {
         },
         render: () => (
           <ConfigProvider>
-            <ElButton onClick={open}>open</ElButton>
+            <GButton onClick={open}>open</GButton>
           </ConfigProvider>
         ),
       })
       const wrapper = mount(() => <TestComponent />)
 
       await rAF()
-      await wrapper.find('.el-button').trigger('click')
+      await wrapper.find('.g-button').trigger('click')
       await nextTick()
-      expect(document.querySelectorAll('.el-message').length).toBe(1)
+      expect(document.querySelectorAll('.g-message').length).toBe(1)
     })
 
     it('multiple config-provider config override', async () => {
@@ -406,24 +406,24 @@ describe('config-provider', () => {
         placement: 'bottom-left',
       })
       const open = () => {
-        ElMessage('this is a message.')
+        GMessage('this is a message.')
       }
 
       const wrapper = mount(() => (
         <ConfigProvider message={config}>
           <ConfigProvider message={overrideConfig}>
-            <ElButton onClick={open}>open</ElButton>
+            <GButton onClick={open}>open</GButton>
           </ConfigProvider>
         </ConfigProvider>
       ))
 
       await rAF()
-      await wrapper.find('.el-button').trigger('click')
-      await wrapper.find('.el-button').trigger('click')
-      await wrapper.find('.el-button').trigger('click')
+      await wrapper.find('.g-button').trigger('click')
+      await wrapper.find('.g-button').trigger('click')
+      await wrapper.find('.g-button').trigger('click')
       await nextTick()
-      const messages = document.querySelectorAll('.el-message')
-      expect(document.querySelectorAll('.el-message').length).toBe(1)
+      const messages = document.querySelectorAll('.g-message')
+      expect(document.querySelectorAll('.g-message').length).toBe(1)
 
       const classList = messages[0].classList
       expect(classList.contains('is-left')).toBe(true)
@@ -512,12 +512,12 @@ describe('config-provider', () => {
       const size = ref<ComponentSize>('small')
       const wrapper = mount(() => (
         <ConfigProvider size={size.value}>
-          <ElButton />
-          <ElPagination total={100} background={true} />
+          <GButton />
+          <GPagination total={100} background={true} />
         </ConfigProvider>
       ))
-      const button = wrapper.findComponent(ElButton)
-      const pagination = wrapper.findComponent(ElPagination)
+      const button = wrapper.findComponent(GButton)
+      const pagination = wrapper.findComponent(GPagination)
       expect(button.vm.$el.className.includes('small')).toBe(true)
       expect(pagination.vm.$el.className.includes('small')).toBe(true)
 
@@ -633,21 +633,21 @@ describe('config-provider', () => {
     it('should provide locale correctly', async () => {
       await nextTick()
       expect(wrapper.find('.locale-manifest').text()).toBe(
-        Chinese.el.popconfirm.confirmButtonText
+        Chinese.g.popconfirm.confirmButtonText
       )
     })
 
     it('should update the text reactively', async () => {
       await nextTick()
       expect(wrapper.find('.locale-manifest').text()).toBe(
-        Chinese.el.popconfirm.confirmButtonText
+        Chinese.g.popconfirm.confirmButtonText
       )
       await wrapper.setProps({
         locale: English,
       })
 
       expect(wrapper.find('.locale-manifest').text()).toBe(
-        English.el.popconfirm.confirmButtonText
+        English.g.popconfirm.confirmButtonText
       )
     })
   })

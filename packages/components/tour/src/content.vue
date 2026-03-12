@@ -6,7 +6,7 @@
     :data-side="side"
     tabindex="-1"
   >
-    <el-focus-trap
+    <g-focus-trap
       loop
       trapped
       focus-start-el="container"
@@ -15,7 +15,7 @@
       @focusout-prevented="onFocusoutPrevented"
     >
       <slot />
-    </el-focus-trap>
+    </g-focus-trap>
     <span
       v-if="showArrow"
       ref="arrowRef"
@@ -27,14 +27,14 @@
 
 <script lang="ts" setup>
 import { computed, inject, ref, toRef, watch } from 'vue'
-import ElFocusTrap from '@element-plus/components/focus-trap'
+import GFocusTrap from '@element-plus/components/focus-trap'
 import { tourContentEmits } from './content'
 import { tourKey, useFloating } from './helper'
 
 import type { TourContentProps } from './content'
 
 defineOptions({
-  name: 'ElTourContent',
+  name: 'GTourContent',
 })
 
 const props = withDefaults(defineProps<TourContentProps>(), {

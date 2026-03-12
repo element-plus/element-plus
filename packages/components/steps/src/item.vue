@@ -10,21 +10,21 @@
         :class="[ns.e('icon'), ns.is(icon || $slots.icon ? 'icon' : 'text')]"
       >
         <slot name="icon">
-          <el-icon v-if="icon" :class="ns.e('icon-inner')">
+          <g-icon v-if="icon" :class="ns.e('icon-inner')">
             <component :is="icon" />
-          </el-icon>
-          <el-icon
+          </g-icon>
+          <g-icon
             v-else-if="currentStatus === 'success'"
             :class="[ns.e('icon-inner'), ns.is('status')]"
           >
             <Check />
-          </el-icon>
-          <el-icon
+          </g-icon>
+          <g-icon
             v-else-if="currentStatus === 'error'"
             :class="[ns.e('icon-inner'), ns.is('status')]"
           >
             <Close />
-          </el-icon>
+          </g-icon>
           <div v-else-if="!isSimple" :class="ns.e('icon-inner')">
             {{ index + 1 }}
           </div>
@@ -55,7 +55,7 @@ import {
   watch,
 } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { ElIcon } from '@element-plus/components/icon'
+import { GIcon } from '@element-plus/components/icon'
 import { Check, Close } from '@element-plus/icons-vue'
 import { isNumber } from '@element-plus/utils'
 import { STEPS_INJECTION_KEY } from './tokens'
@@ -81,7 +81,7 @@ export interface IStepsInject {
 }
 
 defineOptions({
-  name: 'ElStep',
+  name: 'GStep',
 })
 
 const props = withDefaults(defineProps<StepProps>(), {

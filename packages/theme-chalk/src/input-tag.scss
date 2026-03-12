@@ -161,7 +161,7 @@
       position: absolute;
       top: 0;
       width: 1px;
-      height: var(--el-input-tag-line-height);
+      height: var(--#{$namespace}-input-tag-line-height);
       background-color: getCssVar('color-primary');
     }
 

@@ -18,7 +18,7 @@ export const useStops = (
   const stops = computed(() => {
     if (!props.showStops || props.min > props.max) return []
     if (props.step === 0) {
-      debugWarn('ElSlider', 'step should not be 0.')
+      debugWarn('GSlider', 'step should not be 0.')
       return []
     }
 

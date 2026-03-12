@@ -1,6 +1,6 @@
 export default {
   name: 'ko',
-  el: {
+  g: {
     breadcrumb: {
       label: 'Breadcrumb', // to be translated
     },
@@ -120,7 +120,7 @@ export default {
       prevPages: '이전 {pager} 페이지',
       nextPages: '다음 {pager} 페이지',
       deprecationWarning:
-        '더 이상 사용되지 않는 동작이 감지되었습니다. 자세한 내용은 el-pagination 문서를 참조하세요.',
+        '더 이상 사용되지 않는 동작이 감지되었습니다. 자세한 내용은 g-pagination 문서를 참조하세요.',
     },
     dialog: {
       close: '대화 상자 닫기',

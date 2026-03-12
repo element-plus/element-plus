@@ -3,8 +3,8 @@ import Upload from './src/upload.vue'
 
 import type { SFCWithInstall } from '@element-plus/utils'
 
-export const ElUpload: SFCWithInstall<typeof Upload> = withInstall(Upload)
-export default ElUpload
+export const GUpload: SFCWithInstall<typeof Upload> = withInstall(Upload)
+export default GUpload
 
 export * from './src/upload'
 export * from './src/upload-content'

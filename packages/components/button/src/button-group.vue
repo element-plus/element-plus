@@ -12,7 +12,7 @@ import { buttonGroupContextKey } from './constants'
 import type { ButtonGroupProps } from './button-group'
 
 defineOptions({
-  name: 'ElButtonGroup',
+  name: 'GButtonGroup',
 })
 const props = withDefaults(defineProps<ButtonGroupProps>(), {
   direction: 'horizontal',

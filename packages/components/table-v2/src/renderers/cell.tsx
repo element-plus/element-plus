@@ -106,7 +106,7 @@ const CellRenderer: FunctionalComponent<CellRendererProps> = (
           size={iconSize}
           expanded={expanded}
           ariaLabel={t(
-            expanded ? 'el.table.collapseRowLabel' : 'el.table.expandRowLabel'
+            expanded ? 'g.table.collapseRowLabel' : 'g.table.expandRowLabel'
           )}
           style={iconStyle}
           expandable

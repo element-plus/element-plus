@@ -23,7 +23,7 @@ import { useLocale } from '@element-plus/hooks/use-locale'
 import type { PredefineProps } from '../props/predefine'
 
 defineOptions({
-  name: 'ElColorPredefine',
+  name: 'GColorPredefine',
 })
 
 const props = defineProps<PredefineProps>()
@@ -33,6 +33,6 @@ const { rootKls, colorsKls, colorSelectorKls } = usePredefineDOM(props)
 const { t } = useLocale()
 
 const ariaLabel = (value: string) => {
-  return t('el.colorpicker.predefineDescription', { value })
+  return t('g.colorpicker.predefineDescription', { value })
 }
 </script>

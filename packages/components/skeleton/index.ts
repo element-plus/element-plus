@@ -4,14 +4,14 @@ import SkeletonItem from './src/skeleton-item.vue'
 
 import type { SFCWithInstall } from '@element-plus/utils'
 
-export const ElSkeleton: SFCWithInstall<typeof Skeleton> & {
+export const GSkeleton: SFCWithInstall<typeof Skeleton> & {
   SkeletonItem: typeof SkeletonItem
 } = withInstall(Skeleton, {
   SkeletonItem,
 })
-export const ElSkeletonItem: SFCWithInstall<typeof SkeletonItem> =
+export const GSkeletonItem: SFCWithInstall<typeof SkeletonItem> =
   withNoopInstall(SkeletonItem)
-export default ElSkeleton
+export default GSkeleton
 
 export * from './src/skeleton'
 export * from './src/skeleton-item'

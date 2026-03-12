@@ -18,7 +18,7 @@ import type { MaybeRef } from '@vueuse/core'
 import type { App, Ref } from 'vue'
 import type { ConfigProviderContext } from '../constants'
 
-// this is meant to fix global methods like `ElMessage(opts)`, this way we can inject current locale
+// this is meant to fix global methods like `GMessage(opts)`, this way we can inject current locale
 // into the component as default injection value.
 // refer to: https://github.com/element-plus/element-plus/issues/2610#issuecomment-887965266
 const globalConfig = ref<ConfigProviderContext>()
@@ -45,7 +45,7 @@ export function useGlobalConfig(
   }
 }
 
-// for components like `ElMessage` `ElNotification` `ElMessageBox`.
+// for components like `GMessage` `GNotification` `GMessageBox`.
 export function useGlobalComponentSettings(
   block: string,
   sizeFallback?: MaybeRef<ConfigProviderContext['size']>

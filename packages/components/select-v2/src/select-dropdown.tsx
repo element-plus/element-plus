@@ -58,7 +58,7 @@ export type SelectDropdownInstance = ComponentPublicInstance<
   SelectDropdownExposed
 >
 export default defineComponent({
-  name: 'ElSelectDropdown',
+  name: 'GSelectDropdown',
   props,
   setup(props, { slots, expose }) {
     const select = inject(selectV2InjectionKey)!

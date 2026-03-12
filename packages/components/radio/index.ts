@@ -5,17 +5,17 @@ import RadioGroup from './src/radio-group.vue'
 
 import type { SFCWithInstall } from '@element-plus/utils'
 
-export const ElRadio: SFCWithInstall<typeof Radio> & {
+export const GRadio: SFCWithInstall<typeof Radio> & {
   RadioButton: typeof RadioButton
   RadioGroup: typeof RadioGroup
 } = withInstall(Radio, {
   RadioButton,
   RadioGroup,
 })
-export default ElRadio
-export const ElRadioGroup: SFCWithInstall<typeof RadioGroup> =
+export default GRadio
+export const GRadioGroup: SFCWithInstall<typeof RadioGroup> =
   withNoopInstall(RadioGroup)
-export const ElRadioButton: SFCWithInstall<typeof RadioButton> =
+export const GRadioButton: SFCWithInstall<typeof RadioButton> =
   withNoopInstall(RadioButton)
 
 export * from './src/radio'

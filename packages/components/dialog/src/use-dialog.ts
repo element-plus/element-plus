@@ -29,7 +29,7 @@ import type { CSSProperties, Ref, SetupContext, TransitionProps } from 'vue'
 import type { Arrayable } from '@element-plus/utils'
 import type { DialogEmits, DialogProps } from './dialog'
 
-const COMPONENT_NAME = 'ElDialog'
+const COMPONENT_NAME = 'GDialog'
 
 export const useDialog = (
   props: DialogProps,

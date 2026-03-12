@@ -1,6 +1,6 @@
 export default {
   name: 'fa',
-  el: {
+  g: {
     breadcrumb: {
       label: 'مسیر راهنما',
     },
@@ -122,7 +122,7 @@ export default {
       prevPages: '{pager} صفحات قبلی',
       nextPages: '{pager} صفحات بعدی',
       deprecationWarning:
-        'استفاده‌های منسوخ شناسایی شد، لطفاً به مستندات el-pagination مراجعه کنید',
+        'استفاده‌های منسوخ شناسایی شد، لطفاً به مستندات g-pagination مراجعه کنید',
     },
     dialog: {
       close: 'بستن این دیالوگ',

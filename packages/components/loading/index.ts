@@ -5,7 +5,7 @@ import type { App, AppContext, Directive } from 'vue'
 import type { ElementLoading, LoadingBinding } from './src/directive'
 
 // installer and everything in all
-export const ElLoading = {
+export const GLoading = {
   install(app: App) {
     Loading._context = app._context
     ;(
@@ -20,8 +20,8 @@ export const ElLoading = {
   service: Loading,
 }
 
-export default ElLoading
-export { vLoading, vLoading as ElLoadingDirective, Loading as ElLoadingService }
+export default GLoading
+export { vLoading, vLoading as GLoadingDirective, Loading as GLoadingService }
 
 export * from './src/types'
 export type { LoadingInstance } from './src/loading'

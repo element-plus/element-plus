@@ -1,2 +1,2 @@
 import '@element-plus/components/base/style/css'
-import '@element-plus/theme-chalk/el-segmented.css'
+import '@element-plus/theme-chalk/g-segmented.css'

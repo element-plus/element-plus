@@ -11,7 +11,7 @@ import { useCollapse, useCollapseDOM } from './use-collapse'
 import type { CollapseProps } from './collapse'
 
 defineOptions({
-  name: 'ElCollapse',
+  name: 'GCollapse',
 })
 const props = withDefaults(defineProps<CollapseProps>(), {
   modelValue: () => [],

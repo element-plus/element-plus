@@ -35,7 +35,7 @@ import type { CSSProperties } from 'vue'
 import type { CheckboxProps } from './checkbox'
 
 defineOptions({
-  name: 'ElCheckboxButton',
+  name: 'GCheckboxButton',
 })
 
 const props = withDefaults(defineProps<CheckboxProps>(), checkboxPropsDefaults)

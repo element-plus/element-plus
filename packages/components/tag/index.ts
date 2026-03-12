@@ -3,7 +3,7 @@ import Tag from './src/tag.vue'
 
 import type { SFCWithInstall } from '@element-plus/utils'
 
-export const ElTag: SFCWithInstall<typeof Tag> = withInstall(Tag)
-export default ElTag
+export const GTag: SFCWithInstall<typeof Tag> = withInstall(Tag)
+export default GTag
 
 export * from './src/tag'

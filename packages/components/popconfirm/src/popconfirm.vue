@@ -1,5 +1,5 @@
 <template>
-  <el-tooltip
+  <g-tooltip
     ref="tooltipRef"
     trigger="click"
     :effect="effect"
@@ -18,33 +18,33 @@
     <template #content>
       <div ref="rootRef" tabindex="-1" :class="ns.b()">
         <div :class="ns.e('main')">
-          <el-icon
+          <g-icon
             v-if="!hideIcon && icon"
             :class="ns.e('icon')"
             :style="{ color: iconColor }"
           >
             <component :is="icon" />
-          </el-icon>
+          </g-icon>
           {{ title }}
         </div>
         <div :class="ns.e('action')">
           <slot name="actions" :confirm="confirm" :cancel="cancel">
-            <el-button
+            <g-button
               size="small"
               :type="cancelButtonType === 'text' ? '' : cancelButtonType"
               :text="cancelButtonType === 'text'"
               @click="cancel"
             >
               {{ finalCancelButtonText }}
-            </el-button>
-            <el-button
+            </g-button>
+            <g-button
               size="small"
               :type="confirmButtonType === 'text' ? '' : confirmButtonType"
               :text="confirmButtonType === 'text'"
               @click="confirm"
             >
               {{ finalConfirmButtonText }}
-            </el-button>
+            </g-button>
           </slot>
         </div>
       </div>
@@ -52,14 +52,14 @@
     <template v-if="$slots.reference">
       <slot name="reference" />
     </template>
-  </el-tooltip>
+  </g-tooltip>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref, unref } from 'vue'
-import ElButton from '@element-plus/components/button'
-import ElIcon from '@element-plus/components/icon'
-import ElTooltip from '@element-plus/components/tooltip'
+import GButton from '@element-plus/components/button'
+import GIcon from '@element-plus/components/icon'
+import GTooltip from '@element-plus/components/tooltip'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { addUnit } from '@element-plus/utils'
 import { QuestionFilled } from '@element-plus/icons-vue'
@@ -69,7 +69,7 @@ import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { PopconfirmProps } from './popconfirm'
 
 defineOptions({
-  name: 'ElPopconfirm',
+  name: 'GPopconfirm',
 })
 
 const props = withDefaults(defineProps<PopconfirmProps>(), {
@@ -117,10 +117,10 @@ const cancel = (e: MouseEvent) => {
 }
 
 const finalConfirmButtonText = computed(
-  () => props.confirmButtonText || t('el.popconfirm.confirmButtonText')
+  () => props.confirmButtonText || t('g.popconfirm.confirmButtonText')
 )
 const finalCancelButtonText = computed(
-  () => props.cancelButtonText || t('el.popconfirm.cancelButtonText')
+  () => props.cancelButtonText || t('g.popconfirm.cancelButtonText')
 )
 
 defineExpose({

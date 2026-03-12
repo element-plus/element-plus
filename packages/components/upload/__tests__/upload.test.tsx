@@ -25,7 +25,7 @@ describe('<upload />', () => {
 
       drag.value = true
       await nextTick()
-      expect(wrapper.find('.el-upload-dragger').exists()).toBe(true)
+      expect(wrapper.find('.g-upload-dragger').exists()).toBe(true)
     })
   })
 

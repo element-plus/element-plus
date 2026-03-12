@@ -5,7 +5,7 @@ export const timeUnits = ['hours', 'minutes', 'seconds'] as const
 
 export const PICKER_BASE_INJECTION_KEY = 'EP_PICKER_BASE'
 
-export const PICKER_POPPER_OPTIONS_INJECTION_KEY = 'ElPopperOptions'
+export const PICKER_POPPER_OPTIONS_INJECTION_KEY = 'GPopperOptions'
 
 export const ROOT_COMMON_PICKER_INJECTION_KEY: InjectionKey<CommonPickerContext> =
   Symbol('commonPickerContextKey')

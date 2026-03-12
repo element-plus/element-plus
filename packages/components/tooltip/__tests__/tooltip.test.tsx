@@ -2,8 +2,8 @@ import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { rAF } from '@element-plus/test-utils/tick'
-import { ElPopperTrigger } from '@element-plus/components/popper'
-import { ElInput } from '@element-plus/components/input'
+import { GPopperTrigger } from '@element-plus/components/popper'
+import { GInput } from '@element-plus/components/input'
 import Tooltip from '../src/tooltip.vue'
 
 import type { VNode } from 'vue'
@@ -16,7 +16,7 @@ vi.mock('@element-plus/utils/error', () => ({
 
 const AXIOM = 'Rem is the best girl'
 
-describe('<ElTooltip />', () => {
+describe('<GTooltip />', () => {
   const createComponent = (props = {}, content: string | VNode = '') =>
     mount(
       <Tooltip
@@ -31,7 +31,7 @@ describe('<ElTooltip />', () => {
       }
     ) as unknown as VueWrapper<TooltipInstance>
   let wrapper: ReturnType<typeof createComponent>
-  const findTrigger = () => wrapper.findComponent(ElPopperTrigger)
+  const findTrigger = () => wrapper.findComponent(GPopperTrigger)
 
   afterEach(() => {
     wrapper?.unmount()
@@ -51,7 +51,7 @@ describe('<ElTooltip />', () => {
       wrapper = createComponent({ appendTo: '#test' }, 'test appendTo props')
       await nextTick()
       const trigger$ = findTrigger()
-      const triggerEl = trigger$.find('.el-tooltip__trigger')
+      const triggerEl = trigger$.find('.g-tooltip__trigger')
       await triggerEl.trigger('mouseenter')
       expect(document.querySelector('#test')?.innerHTML).toContain(
         'test appendTo props'
@@ -76,7 +76,7 @@ describe('<ElTooltip />', () => {
       await nextTick()
 
       const trigger$ = findTrigger()
-      const triggerEl = trigger$.find('.el-tooltip__trigger')
+      const triggerEl = trigger$.find('.g-tooltip__trigger')
 
       vi.useFakeTimers()
       await triggerEl.trigger('mouseenter')
@@ -105,7 +105,7 @@ describe('<ElTooltip />', () => {
       await nextTick()
 
       const trigger$ = findTrigger()
-      const triggerEl = trigger$.find('.el-tooltip__trigger')
+      const triggerEl = trigger$.find('.g-tooltip__trigger')
 
       vi.useFakeTimers()
       await triggerEl.trigger('focus')
@@ -134,7 +134,7 @@ describe('<ElTooltip />', () => {
       await nextTick()
 
       const trigger$ = findTrigger()
-      const triggerEl = trigger$.find('.el-tooltip__trigger')
+      const triggerEl = trigger$.find('.g-tooltip__trigger')
 
       vi.useFakeTimers()
       await triggerEl.trigger('click')
@@ -157,7 +157,7 @@ describe('<ElTooltip />', () => {
           trigger="focus"
           content={content}
           v-slots={{
-            default: () => <ElInput placeholder="Focus me" />,
+            default: () => <GInput placeholder="Focus me" />,
           }}
         />,
         {
@@ -176,7 +176,7 @@ describe('<ElTooltip />', () => {
       await rAF()
 
       expect(wrapper.emitted()).toHaveProperty('show')
-      expect(document.querySelector('.el-popper')).toBeTruthy()
+      expect(document.querySelector('.g-popper')).toBeTruthy()
 
       vi.useFakeTimers()
       await inputEl.trigger('blur')
@@ -198,7 +198,7 @@ describe('<ElTooltip />', () => {
       await nextTick()
 
       const trigger$ = findTrigger()
-      const triggerEl = trigger$.find('.el-tooltip__trigger')
+      const triggerEl = trigger$.find('.g-tooltip__trigger')
 
       expect(document.activeElement).not.toBe(triggerEl.element)
 
@@ -223,7 +223,7 @@ describe('<ElTooltip />', () => {
       await nextTick()
 
       const trigger$ = findTrigger()
-      const triggerEl = trigger$.find('.el-tooltip__trigger')
+      const triggerEl = trigger$.find('.g-tooltip__trigger')
 
       expect(document.activeElement).not.toBe(triggerEl.element)
 

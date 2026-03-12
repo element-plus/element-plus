@@ -4,13 +4,13 @@ import TableColumn from './src/tableColumn'
 
 import type { SFCWithInstall } from '@element-plus/utils'
 
-export const ElTable: SFCWithInstall<typeof Table> & {
+export const GTable: SFCWithInstall<typeof Table> & {
   TableColumn: typeof TableColumn
 } = withInstall(Table, {
   TableColumn,
 })
-export default ElTable
-export const ElTableColumn: SFCWithInstall<typeof TableColumn> =
+export default GTable
+export const GTableColumn: SFCWithInstall<typeof TableColumn> =
   withNoopInstall(TableColumn)
 
 export type TableInstance = InstanceType<typeof Table> & unknown

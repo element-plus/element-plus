@@ -1,6 +1,6 @@
 export default {
   name: 'bn',
-  el: {
+  g: {
     breadcrumb: {
       label: 'Breadcrumb', // to be translated
     },
@@ -120,7 +120,7 @@ export default {
       prevPages: 'Previous {pager} pages', // to be translated
       nextPages: 'Next {pager} pages', // to be translated
       deprecationWarning:
-        'অপ্রচলিত (Deprecated) ব্যাবহার পওয়া গেছে, আরও জানতে চাইলে, দয়া করে el-pagination এর ডকুমেন্টেশন দেখুন',
+        'অপ্রচলিত (Deprecated) ব্যাবহার পওয়া গেছে, আরও জানতে চাইলে, দয়া করে g-pagination এর ডকুমেন্টেশন দেখুন',
     },
     dialog: {
       close: 'Close this dialog', // to be translated

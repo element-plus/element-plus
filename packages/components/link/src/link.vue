@@ -5,7 +5,7 @@
     :target="disabled || !href ? undefined : target"
     @click="handleClick"
   >
-    <el-icon v-if="icon"><component :is="icon" /></el-icon>
+    <g-icon v-if="icon"><component :is="icon" /></g-icon>
     <span v-if="$slots.default" :class="ns.e('inner')">
       <slot />
     </span>
@@ -16,7 +16,7 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { ElIcon } from '@element-plus/components/icon'
+import { GIcon } from '@element-plus/components/icon'
 import { useGlobalConfig } from '@element-plus/components/config-provider'
 import { useDeprecated, useNamespace } from '@element-plus/hooks'
 import { isBoolean } from '@element-plus/utils'
@@ -25,7 +25,7 @@ import { linkEmits } from './link'
 import type { LinkProps } from './link'
 
 defineOptions({
-  name: 'ElLink',
+  name: 'GLink',
 })
 const props = withDefaults(defineProps<LinkProps>(), {
   type: undefined,
@@ -38,7 +38,7 @@ const globalConfig = useGlobalConfig('link')
 
 useDeprecated(
   {
-    scope: 'el-link',
+    scope: 'g-link',
     from: 'The underline option (boolean)',
     replacement: "'always' | 'hover' | 'never'",
     version: '3.0.0',

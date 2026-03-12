@@ -67,7 +67,7 @@ const notify: NotifyFn & Partial<Notify> = function (options = {}, context) {
   // should fallback to default value with a warning
   if (!isElement(appendTo)) {
     debugWarn(
-      'ElNotification',
+      'GNotification',
       'the appendTo option is not an HTMLElement. Falling back to document.body.'
     )
     appendTo = document.body

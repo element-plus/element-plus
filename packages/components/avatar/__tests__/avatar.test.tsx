@@ -16,27 +16,27 @@ describe('Avatar.vue', () => {
 
   test('render test', () => {
     const wrapper = mount(() => <Avatar />)
-    expect(wrapper.find('.el-avatar').exists()).toBe(true)
+    expect(wrapper.find('.g-avatar').exists()).toBe(true)
   })
 
   test('size is number', () => {
     const wrapper = mount(() => <Avatar size={50} />)
-    expect(wrapper.attributes('style')).toContain('--el-avatar-size: 50px;')
+    expect(wrapper.attributes('style')).toContain('--g-avatar-size: 50px;')
   })
 
   test('size is string', () => {
     const wrapper = mount(() => <Avatar size="small" />)
-    expect(wrapper.classes()).toContain('el-avatar--small')
+    expect(wrapper.classes()).toContain('g-avatar--small')
   })
 
   test('shape', () => {
     const wrapper = mount(() => <Avatar size="small" shape="square" />)
-    expect(wrapper.classes()).toContain('el-avatar--square')
+    expect(wrapper.classes()).toContain('g-avatar--square')
   })
 
   test('icon avatar', () => {
     const wrapper = mount(() => <Avatar icon={markRaw(User)} />)
-    expect(wrapper.classes()).toContain('el-avatar--icon')
+    expect(wrapper.classes()).toContain('g-avatar--icon')
     expect(wrapper.findComponent(User).exists()).toBe(true)
   })
 
@@ -114,11 +114,11 @@ describe('Avatar Group', () => {
       </AvatarGroup>
     )
 
-    expect(wrapper.findAll('.el-avatar').length).toBe(5)
-    expect(wrapper.findAll('.el-avatar--small').length).toBe(3)
-    expect(wrapper.findAll('.el-avatar--large').length).toBe(2)
-    expect(wrapper.findAll('.el-avatar--circle').length).toBe(2)
-    expect(wrapper.findAll('.el-avatar--square').length).toBe(3)
+    expect(wrapper.findAll('.g-avatar').length).toBe(5)
+    expect(wrapper.findAll('.g-avatar--small').length).toBe(3)
+    expect(wrapper.findAll('.g-avatar--large').length).toBe(2)
+    expect(wrapper.findAll('.g-avatar--circle').length).toBe(2)
+    expect(wrapper.findAll('.g-avatar--square').length).toBe(3)
   })
 
   test('collapse-class & collapse-style', () => {
@@ -134,7 +134,7 @@ describe('Avatar Group', () => {
       </AvatarGroup>
     )
 
-    const collapseAvatar = wrapper.findAll('.el-avatar')[1]
+    const collapseAvatar = wrapper.findAll('.g-avatar')[1]
     expect(collapseAvatar.text()).toBe('+ 1')
     expect(collapseAvatar.classes()).toContain('collapse-avatar')
     expect(collapseAvatar.attributes('style')).toContain(
@@ -150,12 +150,12 @@ describe('Avatar Group', () => {
       </AvatarGroup>
     )
 
-    const collapseAvatar = wrapper.findAll('.el-avatar')[1]
+    const collapseAvatar = wrapper.findAll('.g-avatar')[1]
     await collapseAvatar.trigger('mouseenter')
     await nextTick()
 
-    const tooltip = wrapper.findComponent({ name: 'ElTooltip' })
+    const tooltip = wrapper.findComponent({ name: 'GTooltip' })
     expect(tooltip.exists()).toBe(true)
-    expect(tooltip.html()).toContain('el-avatar')
+    expect(tooltip.html()).toContain('g-avatar')
   })
 })

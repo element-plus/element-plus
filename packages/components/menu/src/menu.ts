@@ -14,7 +14,7 @@ import {
 } from 'vue'
 import { unrefElement, useResizeObserver } from '@vueuse/core'
 import { isNil } from 'lodash-unified'
-import ElIcon from '@element-plus/components/icon'
+import GIcon from '@element-plus/components/icon'
 import { More } from '@element-plus/icons-vue'
 import {
   buildProps,
@@ -30,8 +30,8 @@ import {
 import { useNamespace } from '@element-plus/hooks'
 import { ClickOutside as vClickoutside } from '@element-plus/directives'
 import Menubar from './utils/menu-bar'
-import ElMenuCollapseTransition from './menu-collapse-transition.vue'
-import ElSubMenu from './sub-menu'
+import GMenuCollapseTransition from './menu-collapse-transition.vue'
+import GSubMenu from './sub-menu'
 import { useMenuCssVar } from './use-menu-css-var'
 import { MENU_INJECTION_KEY, SUB_MENU_INJECTION_KEY } from './tokens'
 
@@ -207,7 +207,7 @@ export type MenuEmits = typeof menuEmits
 const DEFAULT_MORE_ITEM_WIDTH = 64
 
 export default defineComponent({
-  name: 'ElMenu',
+  name: 'GMenu',
 
   props: menuProps,
   emits: menuEmits,
@@ -509,7 +509,7 @@ export default defineComponent({
           slot = slotDefault
           vShowMore.push(
             h(
-              ElSubMenu,
+              GSubMenu,
               {
                 ref: subMenu,
                 index: 'sub-menu-more',
@@ -519,7 +519,7 @@ export default defineComponent({
               {
                 title: () =>
                   h(
-                    ElIcon,
+                    GIcon,
                     {
                       class: nsSubMenu.e('icon-more'),
                     },
@@ -573,7 +573,7 @@ export default defineComponent({
       )
 
       if (props.collapseTransition && props.mode === 'vertical') {
-        return h(ElMenuCollapseTransition, () => vMenu)
+        return h(GMenuCollapseTransition, () => vMenu)
       }
 
       return vMenu

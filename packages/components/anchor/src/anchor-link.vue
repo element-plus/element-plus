@@ -27,7 +27,7 @@ import { anchorKey } from './constants'
 import type { AnchorLinkProps } from './anchor-link'
 
 defineOptions({
-  name: 'ElAnchorLink',
+  name: 'GAnchorLink',
 })
 
 const props = withDefaults(defineProps<AnchorLinkProps>(), {

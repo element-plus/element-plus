@@ -1,7 +1,7 @@
 <template>
   <span :class="ns.e('jump')" :disabled="disabled">
-    <span :class="[ns.e('goto')]">{{ t('el.pagination.goto') }}</span>
-    <el-input
+    <span :class="[ns.e('goto')]">{{ t('g.pagination.goto') }}</span>
+    <g-input
       :size="size"
       :class="[ns.e('editor'), ns.is('in-pagination')]"
       :min="1"
@@ -9,13 +9,13 @@
       :disabled="disabled"
       :model-value="innerValue"
       :validate-event="false"
-      :aria-label="t('el.pagination.page')"
+      :aria-label="t('g.pagination.page')"
       type="number"
       @update:model-value="handleInput"
       @change="handleChange"
     />
     <span :class="[ns.e('classifier')]">{{
-      t('el.pagination.pageClassifier')
+      t('g.pagination.pageClassifier')
     }}</span>
   </span>
 </template>
@@ -23,12 +23,12 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import ElInput from '@element-plus/components/input'
+import GInput from '@element-plus/components/input'
 import { usePagination } from '../usePagination'
 import { paginationJumperProps } from './jumper'
 
 defineOptions({
-  name: 'ElPaginationJumper',
+  name: 'GPaginationJumper',
 })
 
 defineProps(paginationJumperProps)

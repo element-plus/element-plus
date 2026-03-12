@@ -1,8 +1,8 @@
 // @ts-nocheck
 import { describe, expect, it, vi } from 'vitest'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
-import ElTable from '../src/table.vue'
-import ElTableColumn from '../src/table-column'
+import GTable from '../src/table.vue'
+import GTableColumn from '../src/table-column'
 import {
   doubleWait,
   getMultiRowTestData,
@@ -35,16 +35,16 @@ describe('table column', () => {
         Object.assign(
           {
             components: {
-              ElTable,
-              ElTableColumn,
+              GTable,
+              GTableColumn,
             },
             template: `
-          <el-table :data="testData" ${tableProps || ''}>
-            <el-table-column prop="name" ${props1 || ''} />
-            <el-table-column prop="release" ${props2 || ''} />
-            <el-table-column prop="director" ${props3 || ''} />
-            <el-table-column prop="runtime" ${props4 || ''} />
-          </el-table>
+          <g-table :data="testData" ${tableProps || ''}>
+            <g-table-column prop="name" ${props1 || ''} />
+            <g-table-column prop="release" ${props2 || ''} />
+            <g-table-column prop="director" ${props3 || ''} />
+            <g-table-column prop="runtime" ${props4 || ''} />
+          </g-table>
         `,
 
             created() {
@@ -72,7 +72,7 @@ describe('table column', () => {
       const wrapper = createTable('width="123px"', ':width="102"', 'width="39"')
       await doubleWait()
       const ths = wrapper
-        .findAll('.el-table__header-wrapper col')
+        .findAll('.g-table__header-wrapper col')
         .map((node) => node.attributes('width'))
         .filter((o) => o)
       expect(ths).toContain('123')
@@ -89,16 +89,16 @@ describe('table column', () => {
       )
       await doubleWait()
       const leftFixedHeaderColumns = wrapper.findAll(
-        '.el-table__header .el-table-fixed-column--left'
+        '.g-table__header .g-table-fixed-column--left'
       )
       const leftFixedBodyColumns = wrapper.findAll(
-        '.el-table__body .el-table-fixed-column--left'
+        '.g-table__body .g-table-fixed-column--left'
       )
       const rightFixedHeaderColumns = wrapper.findAll(
-        '.el-table__header .el-table-fixed-column--right'
+        '.g-table__header .g-table-fixed-column--right'
       )
       const rightFixedBodyColumns = wrapper.findAll(
-        '.el-table__body .el-table-fixed-column--right'
+        '.g-table__body .g-table-fixed-column--right'
       )
       expect(leftFixedHeaderColumns).toHaveLength(2)
       expect(leftFixedBodyColumns).toHaveLength(10)
@@ -150,7 +150,7 @@ describe('table column', () => {
 
       await doubleWait()
       const cells = wrapper.findAll(
-        '.el-table__body-wrapper tbody tr td:first-child'
+        '.g-table__body-wrapper tbody tr td:first-child'
       )
       expect(cells.map((n) => n.text())).toEqual(
         getTestData().map((o) => `[${o.name}]`)
@@ -161,7 +161,7 @@ describe('table column', () => {
     it('show-overflow-tooltip', async () => {
       const wrapper = createTable('show-overflow-tooltip')
       await doubleWait()
-      expect(wrapper.findAll('.el-tooltip').length).toEqual(5)
+      expect(wrapper.findAll('.g-tooltip').length).toEqual(5)
       wrapper.unmount()
     })
 
@@ -196,17 +196,17 @@ describe('table column', () => {
     it('selectable === false & check selectAll status', async () => {
       const wrapper = mount({
         components: {
-          ElTable,
-          ElTableColumn,
+          GTable,
+          GTableColumn,
         },
         template: `
-          <el-table :data="testData" @selection-change="change">
-            <el-table-column type="selection" :selectable="filterSelect" />
-            <el-table-column prop="name" label="name" />
-            <el-table-column prop="release" label="release" />
-            <el-table-column prop="director" label="director" />
-            <el-table-column prop="runtime" label="runtime" />
-          </el-table>
+          <g-table :data="testData" @selection-change="change">
+            <g-table-column type="selection" :selectable="filterSelect" />
+            <g-table-column prop="name" label="name" />
+            <g-table-column prop="release" label="release" />
+            <g-table-column prop="director" label="director" />
+            <g-table-column prop="runtime" label="runtime" />
+          </g-table>
         `,
 
         data() {
@@ -225,7 +225,7 @@ describe('table column', () => {
       })
 
       await doubleWait()
-      expect(wrapper.find('.el-checkbox').attributes('checked')).toBeFalsy()
+      expect(wrapper.find('.g-checkbox').attributes('checked')).toBeFalsy()
       await doubleWait()
       expect(wrapper.vm.selected.length).toEqual(0)
       wrapper.unmount()
@@ -235,17 +235,17 @@ describe('table column', () => {
       const createTable = function (type) {
         return mount({
           components: {
-            ElTable,
-            ElTableColumn,
+            GTable,
+            GTableColumn,
           },
           template: `
-            <el-table :data="testData" @selection-change="change">
-              <el-table-column type="${type}" />
-              <el-table-column prop="name" label="name" />
-              <el-table-column prop="release" label="release" />
-              <el-table-column prop="director" label="director" />
-              <el-table-column prop="runtime" label="runtime" />
-            </el-table>
+            <g-table :data="testData" @selection-change="change">
+              <g-table-column type="${type}" />
+              <g-table-column prop="name" label="name" />
+              <g-table-column prop="release" label="release" />
+              <g-table-column prop="director" label="director" />
+              <g-table-column prop="runtime" label="runtime" />
+            </g-table>
           `,
 
           created() {
@@ -268,7 +268,7 @@ describe('table column', () => {
         it('render', async () => {
           const wrapper = createTable('selection')
           await doubleWait()
-          expect(wrapper.findAll('.el-checkbox').length).toEqual(
+          expect(wrapper.findAll('.g-checkbox').length).toEqual(
             getTestData().length + 1
           )
         })
@@ -276,7 +276,7 @@ describe('table column', () => {
         it('select all', async () => {
           const wrapper = createTable('selection')
           await doubleWait()
-          wrapper.find('.el-checkbox').trigger('click')
+          wrapper.find('.g-checkbox').trigger('click')
           await doubleWait()
           expect(wrapper.vm.selected.length).toEqual(5)
           wrapper.unmount()
@@ -286,7 +286,7 @@ describe('table column', () => {
           const wrapper = createTable('selection')
 
           await doubleWait()
-          wrapper.findAll('.el-checkbox')[1].trigger('click')
+          wrapper.findAll('.g-checkbox')[1].trigger('click')
 
           await doubleWait()
           expect(wrapper.vm.selected.length).toEqual(1)
@@ -300,14 +300,14 @@ describe('table column', () => {
           const actualIndexes = []
           const wrapper = mount({
             components: {
-              ElTable,
-              ElTableColumn,
+              GTable,
+              GTableColumn,
             },
             template: `
-          <el-table :data="testData" @selection-change="change">
-            <el-table-column type="selection" :selectable="selectableFn" />
-            <el-table-column prop="desc" />
-          </el-table>`,
+          <g-table :data="testData" @selection-change="change">
+            <g-table-column type="selection" :selectable="selectableFn" />
+            <g-table-column prop="desc" />
+          </g-table>`,
 
             data() {
               return {
@@ -335,7 +335,7 @@ describe('table column', () => {
           })
           await doubleWait()
 
-          wrapper.findAll('.el-table__row .el-checkbox').forEach((checkbox) => {
+          wrapper.findAll('.g-table__row .g-checkbox').forEach((checkbox) => {
             checkbox.trigger('click')
           })
           await doubleWait()
@@ -348,14 +348,14 @@ describe('table column', () => {
         it('Maintain child selection states during data updates', async () => {
           const wrapper = mount({
             components: {
-              ElTable,
-              ElTableColumn,
+              GTable,
+              GTableColumn,
             },
             template: `
-              <el-table ref="tableRef" :data="testData" row-key="id" default-expand-all>
-                <el-table-column type="selection" />
-                <el-table-column prop="desc" />
-              </el-table>
+              <g-table ref="tableRef" :data="testData" row-key="id" default-expand-all>
+                <g-table-column type="selection" />
+                <g-table-column prop="desc" />
+              </g-table>
             `,
 
             data() {
@@ -389,7 +389,7 @@ describe('table column', () => {
           await doubleWait()
 
           const getSelection = wrapper.vm.$refs.tableRef.getSelectionRows
-          const domArr = wrapper.findAll('.el-table__row .el-checkbox')
+          const domArr = wrapper.findAll('.g-table__row .g-checkbox')
 
           let selectionKeys = []
 
@@ -433,21 +433,21 @@ describe('table column', () => {
         it('reserve selection', async () => {
           const wrapper = mount({
             components: {
-              ElTable,
-              ElTableColumn,
+              GTable,
+              GTableColumn,
             },
             template: `
-              <el-table
+              <g-table
                 :data="testData"
                 row-key="id"
                 default-expand-all
               >
-                <el-table-column type="selection" reserve-selection />
-                <el-table-column prop="name" label="name" />
-                <el-table-column prop="release" label="release" />
-                <el-table-column prop="director" label="director" />
-                <el-table-column prop="runtime" label="runtime" />
-              </el-table>
+                <g-table-column type="selection" reserve-selection />
+                <g-table-column prop="name" label="name" />
+                <g-table-column prop="release" label="release" />
+                <g-table-column prop="director" label="director" />
+                <g-table-column prop="runtime" label="runtime" />
+              </g-table>
             `,
             data() {
               return { testData: [] }
@@ -492,53 +492,53 @@ describe('table column', () => {
 
           await doubleWait()
 
-          wrapper.findAll('.el-checkbox')[1].trigger('click')
+          wrapper.findAll('.g-checkbox')[1].trigger('click')
           await doubleWait()
-          expect(wrapper.findAll('.el-checkbox.is-checked')).toHaveLength(1)
-          expect(wrapper.findAll('.el-checkbox')[1].classes()).include(
+          expect(wrapper.findAll('.g-checkbox.is-checked')).toHaveLength(1)
+          expect(wrapper.findAll('.g-checkbox')[1].classes()).include(
             'is-checked'
           )
 
           wrapper.vm.updateTestData(2)
           await doubleWait()
-          expect(wrapper.findAll('.el-checkbox.is-checked')).toHaveLength(0)
+          expect(wrapper.findAll('.g-checkbox.is-checked')).toHaveLength(0)
 
           wrapper.vm.updateTestData(1)
           await doubleWait()
-          expect(wrapper.findAll('.el-checkbox.is-checked')).toHaveLength(1)
-          expect(wrapper.findAll('.el-checkbox')[1].classes()).include(
+          expect(wrapper.findAll('.g-checkbox.is-checked')).toHaveLength(1)
+          expect(wrapper.findAll('.g-checkbox')[1].classes()).include(
             'is-checked'
           )
 
-          wrapper.findAll('.el-checkbox')[1].trigger('click')
+          wrapper.findAll('.g-checkbox')[1].trigger('click')
           await doubleWait()
-          expect(wrapper.findAll('.el-checkbox.is-checked')).toHaveLength(0)
+          expect(wrapper.findAll('.g-checkbox.is-checked')).toHaveLength(0)
 
           // test children
 
-          wrapper.findAll('.el-checkbox')[3].trigger('click')
+          wrapper.findAll('.g-checkbox')[3].trigger('click')
           await doubleWait()
-          expect(wrapper.findAll('.el-checkbox.is-checked')).toHaveLength(1)
-          expect(wrapper.findAll('.el-checkbox')[3].classes()).include(
+          expect(wrapper.findAll('.g-checkbox.is-checked')).toHaveLength(1)
+          expect(wrapper.findAll('.g-checkbox')[3].classes()).include(
             'is-checked'
           )
 
           wrapper.vm.updateTestData(2)
           await doubleWait()
-          expect(wrapper.findAll('.el-checkbox.is-checked')).toHaveLength(0)
+          expect(wrapper.findAll('.g-checkbox.is-checked')).toHaveLength(0)
 
           wrapper.vm.updateTestData(1)
           await doubleWait()
-          expect(wrapper.findAll('.el-checkbox.is-checked')).toHaveLength(1)
-          expect(wrapper.findAll('.el-checkbox')[3].classes()).include(
+          expect(wrapper.findAll('.g-checkbox.is-checked')).toHaveLength(1)
+          expect(wrapper.findAll('.g-checkbox')[3].classes()).include(
             'is-checked'
           )
 
           // #20987
 
-          wrapper.findAll('.el-checkbox')[3].trigger('click')
+          wrapper.findAll('.g-checkbox')[3].trigger('click')
           await doubleWait()
-          expect(wrapper.findAll('.el-checkbox.is-checked')).toHaveLength(0)
+          expect(wrapper.findAll('.g-checkbox.is-checked')).toHaveLength(0)
 
           wrapper.unmount()
         })
@@ -546,7 +546,7 @@ describe('table column', () => {
         it('a11y', async () => {
           const wrapper = createTable('selection')
           await doubleWait()
-          const checkboxs = wrapper.findAll('.el-checkbox')
+          const checkboxs = wrapper.findAll('.g-checkbox')
           expect(checkboxs[0].attributes('aria-label')).toBe('Select all rows')
           expect(checkboxs[0].attributes('for')).toBeDefined()
           expect(checkboxs[0].attributes('for')).toBe(
@@ -564,7 +564,7 @@ describe('table column', () => {
           await doubleWait()
           expect(
             wrapper
-              .findAll('.el-table__body-wrapper tbody tr td:first-child')
+              .findAll('.g-table__body-wrapper tbody tr td:first-child')
               .map((node) => node.text())
           ).toEqual(['1', '2', '3', '4', '5'])
           wrapper.unmount()
@@ -576,20 +576,20 @@ describe('table column', () => {
           extra = extra || ''
           return mount({
             components: {
-              ElTableColumn,
-              ElTable,
+              GTableColumn,
+              GTable,
             },
             template: `
-            <el-table row-key="id" :data="testData" @expand-change="handleExpand" ${extra}>
-              <el-table-column type="expand">
+            <g-table row-key="id" :data="testData" @expand-change="handleExpand" ${extra}>
+              <g-table-column type="expand">
                 <template #default="props">
                   <div>{{props.row.name}}</div>
                 </template>
-              </el-table-column>
-              <el-table-column prop="release" label="release" />
-              <el-table-column prop="director" label="director" />
-              <el-table-column prop="runtime" label="runtime" />
-            </el-table>
+              </g-table-column>
+              <g-table-column prop="release" label="release" />
+              <g-table-column prop="director" label="director" />
+              <g-table-column prop="runtime" label="runtime" />
+            </g-table>
           `,
 
             data() {
@@ -614,7 +614,7 @@ describe('table column', () => {
         it('works', async () => {
           const wrapper = createInstance()
           await doubleWait()
-          expect(wrapper.findAll('td.el-table__expand-column').length).toEqual(
+          expect(wrapper.findAll('td.g-table__expand-column').length).toEqual(
             5
           )
           wrapper.unmount()
@@ -624,7 +624,7 @@ describe('table column', () => {
           const wrapper = createInstance()
           await doubleWait()
           const buttons = wrapper.findAll(
-            'td.el-table__expand-column .el-table__expand-icon'
+            'td.g-table__expand-column .g-table__expand-icon'
           )
           expect(buttons[0].attributes('aria-label')).toBe('Expand this row')
           expect(buttons[0].attributes('aria-expanded')).toBe('false')
@@ -634,8 +634,8 @@ describe('table column', () => {
           expect(wrapper.vm.expandCount).toEqual(1)
           expect(buttons[0].attributes('aria-label')).toBe('Collapse this row')
           expect(buttons[0].attributes('aria-expanded')).toBe('true')
-          expect(wrapper.findAll('.el-table__expanded-cell').length).toEqual(1)
-          expect(wrapper.find('.el-table__expanded-cell').text()).toContain(
+          expect(wrapper.findAll('.g-table__expanded-cell').length).toEqual(1)
+          expect(wrapper.find('.g-table__expanded-cell').text()).toContain(
             'Toy Story'
           )
           wrapper.unmount()
@@ -666,7 +666,7 @@ describe('table column', () => {
 
         await doubleWait()
         const lastCells = wrapper.findAll(
-          '.el-table__body-wrapper tbody tr td:last-child'
+          '.g-table__body-wrapper tbody tr td:last-child'
         )
         expect(lastCells.map((node) => node.text())).toEqual([
           '100',
@@ -706,7 +706,7 @@ describe('table column', () => {
 
         await doubleWait()
         const lastCells = wrapper.findAll(
-          '.el-table__body-wrapper tbody tr td:last-child'
+          '.g-table__body-wrapper tbody tr td:last-child'
         )
         expect(lastCells.map((node) => node.text())).toEqual([
           '100',
@@ -733,7 +733,7 @@ describe('table column', () => {
 
         await doubleWait()
         const lastCells = wrapper.findAll(
-          '.el-table__body-wrapper tbody tr td:last-child'
+          '.g-table__body-wrapper tbody tr td:last-child'
         )
         expect(lastCells.map((node) => node.text())).toEqual([
           '100',
@@ -760,7 +760,7 @@ describe('table column', () => {
 
         await doubleWait()
         const lastCells = wrapper.findAll(
-          '.el-table__body-wrapper tbody tr td:last-child'
+          '.g-table__body-wrapper tbody tr td:last-child'
         )
         expect(lastCells.map((node) => node.text())).toEqual([
           '80',
@@ -782,7 +782,7 @@ describe('table column', () => {
         elm.trigger('click')
         await doubleWait()
         const lastCells = wrapper.findAll(
-          '.el-table__body-wrapper tbody tr td:last-child'
+          '.g-table__body-wrapper tbody tr td:last-child'
         )
         expect(lastCells.map((node) => node.text())).toEqual([
           '80',
@@ -799,7 +799,7 @@ describe('table column', () => {
         elm.trigger('click')
         await doubleWait()
         const lastCells = wrapper.findAll(
-          '.el-table__body-wrapper tbody tr td:last-child'
+          '.g-table__body-wrapper tbody tr td:last-child'
         )
         expect(lastCells.map((node) => node.text())).toEqual([
           '100',
@@ -815,8 +815,8 @@ describe('table column', () => {
     it('change column configuration', async () => {
       const wrapper = mount({
         components: {
-          ElTable,
-          ElTableColumn,
+          GTable,
+          GTableColumn,
         },
         template: `
           <template>
@@ -836,14 +836,14 @@ describe('table column', () => {
                 }
               "
               >-</button>
-            <el-table :data="data">
-              <el-table-column
+            <g-table :data="data">
+              <g-table-column
                 v-for="item of cols"
                 :prop="item"
                 :label="item"
                 :key="item"
-              ></el-table-column>
-            </el-table>
+              ></g-table-column>
+            </g-table>
           </template>
         `,
 
@@ -853,21 +853,21 @@ describe('table column', () => {
       })
 
       await doubleWait()
-      expect(wrapper.findAll('.el-table__header-wrapper th').length).toEqual(3)
+      expect(wrapper.findAll('.g-table__header-wrapper th').length).toEqual(3)
       const addBut = wrapper.find('#addBut')
       const delBut = wrapper.find('#delBut')
       addBut.trigger('click')
       await doubleWait()
-      expect(wrapper.findAll('.el-table__header-wrapper th').length).toEqual(4)
+      expect(wrapper.findAll('.g-table__header-wrapper th').length).toEqual(4)
       addBut.trigger('click')
       await doubleWait()
-      expect(wrapper.findAll('.el-table__header-wrapper th').length).toEqual(5)
+      expect(wrapper.findAll('.g-table__header-wrapper th').length).toEqual(5)
       delBut.trigger('click')
       await doubleWait()
-      expect(wrapper.findAll('.el-table__header-wrapper th').length).toEqual(4)
+      expect(wrapper.findAll('.g-table__header-wrapper th').length).toEqual(4)
       delBut.trigger('click')
       await doubleWait()
-      expect(wrapper.findAll('.el-table__header-wrapper th').length).toEqual(3)
+      expect(wrapper.findAll('.g-table__header-wrapper th').length).toEqual(3)
     })
   })
 
@@ -876,20 +876,20 @@ describe('table column', () => {
       extra = extra || ''
       return mount({
         components: {
-          ElTableColumn,
-          ElTable,
+          GTableColumn,
+          GTable,
         },
         template: `
-          <el-table row-key="id" :data="testData" @expand-change="handleExpand" ${extra}>
-            <el-table-column type="expand">
+          <g-table row-key="id" :data="testData" @expand-change="handleExpand" ${extra}>
+            <g-table-column type="expand">
               <template #default="props">
                 <div>{{props.row.name}}</div>
               </template>
-            </el-table-column>
-            <el-table-column prop="release" label="release" />
-            <el-table-column prop="director" label="director" />
-            <el-table-column prop="runtime" label="runtime" />
-          </el-table>
+            </g-table-column>
+            <g-table-column prop="release" label="release" />
+            <g-table-column prop="director" label="director" />
+            <g-table-column prop="runtime" label="runtime" />
+          </g-table>
         `,
 
         data() {
@@ -917,7 +917,7 @@ describe('table column', () => {
     it('should render expand column correctly', async () => {
       const wrapper = createInstance()
       await doubleWait()
-      expect(wrapper.findAll('td.el-table__expand-column').length).toEqual(5)
+      expect(wrapper.findAll('td.g-table__expand-column').length).toEqual(5)
       wrapper.unmount()
     })
 
@@ -927,10 +927,10 @@ describe('table column', () => {
       )
       await doubleWait()
       expect(
-        wrapper.findAll('.el-table__expand-icon--expanded').length
+        wrapper.findAll('.g-table__expand-icon--expanded').length
       ).toEqual(2)
       expect(
-        wrapper.findAll('.el-table__expand-icon.is-disabled').length
+        wrapper.findAll('.g-table__expand-icon.is-disabled').length
       ).toEqual(3)
       wrapper.unmount()
     })
@@ -941,10 +941,10 @@ describe('table column', () => {
         await doubleWait()
 
         // Click expand icon and verify initial state
-        const expandIcon = wrapper.find('.el-table__expand-icon')
+        const expandIcon = wrapper.find('.g-table__expand-icon')
         await expandIcon.trigger('click')
         await doubleWait()
-        expect(wrapper.findAll('.el-table__expanded-cell')).toHaveLength(1)
+        expect(wrapper.findAll('.g-table__expanded-cell')).toHaveLength(1)
 
         // Clear and replace data
         wrapper.vm.testData = []
@@ -953,10 +953,10 @@ describe('table column', () => {
         await doubleWait()
 
         // Without preserve-expanded-content, expanded state should be lost
-        expect(wrapper.findAll('.el-table__expanded-cell')).toHaveLength(0)
+        expect(wrapper.findAll('.g-table__expanded-cell')).toHaveLength(0)
         // All expand icons should be in collapsed state
         expect(
-          wrapper.find('.el-table__expand-icon--expanded').exists()
+          wrapper.find('.g-table__expand-icon--expanded').exists()
         ).toBeFalsy()
 
         wrapper.unmount()
@@ -967,12 +967,12 @@ describe('table column', () => {
         await doubleWait()
 
         // First expand the row
-        const expandEl = wrapper.find('.el-table__expand-icon')
+        const expandEl = wrapper.find('.g-table__expand-icon')
         await expandEl.trigger('click')
 
         // Verify initial expand
-        expect(wrapper.find('.el-table__expanded-cell').exists()).toBeTruthy()
-        const expandedContent = wrapper.find('.el-table__expanded-cell').text()
+        expect(wrapper.find('.g-table__expanded-cell').exists()).toBeTruthy()
+        const expandedContent = wrapper.find('.g-table__expanded-cell').text()
         expect(expandedContent).toContain(wrapper.vm.testData[0].name)
 
         // Refresh data
@@ -980,8 +980,8 @@ describe('table column', () => {
         await doubleWait()
 
         // With preserve-expanded-content, expanded state and content should persist
-        expect(wrapper.find('.el-table__expanded-cell').exists()).toBeTruthy()
-        expect(wrapper.find('.el-table__expanded-cell').text()).toBe(
+        expect(wrapper.find('.g-table__expanded-cell').exists()).toBeTruthy()
+        expect(wrapper.find('.g-table__expanded-cell').text()).toBe(
           expandedContent
         )
 
@@ -994,7 +994,7 @@ describe('table column', () => {
 
         // Find first two expand icons
         const expandIcons = wrapper
-          .findAll('.el-table__expand-icon')
+          .findAll('.g-table__expand-icon')
           .slice(0, 2)
 
         // Expand first two rows
@@ -1005,12 +1005,12 @@ describe('table column', () => {
 
         // Verify both rows are expanded
         const expandedIcons = wrapper.findAll(
-          '.el-table__expand-icon--expanded'
+          '.g-table__expand-icon--expanded'
         )
         expect(expandedIcons).toHaveLength(2)
 
         // Store expanded content
-        const expandedRows = wrapper.findAll('.el-table__expanded-cell')
+        const expandedRows = wrapper.findAll('.g-table__expanded-cell')
         const initialContents = expandedRows.map((row) => row.text())
 
         // Replace data with new reference
@@ -1019,11 +1019,11 @@ describe('table column', () => {
 
         // Verify expansions and content are preserved
         const expandedIconsAfter = wrapper.findAll(
-          '.el-table__expand-icon--expanded'
+          '.g-table__expand-icon--expanded'
         )
         expect(expandedIconsAfter).toHaveLength(2)
 
-        const expandedRowsAfter = wrapper.findAll('.el-table__expanded-cell')
+        const expandedRowsAfter = wrapper.findAll('.g-table__expanded-cell')
         const preservedContents = expandedRowsAfter.map((row) => row.text())
         expect(preservedContents).toEqual(initialContents)
 
@@ -1036,18 +1036,18 @@ describe('table column', () => {
     it('should works', async () => {
       const wrapper = mount({
         components: {
-          ElTable,
-          ElTableColumn,
+          GTable,
+          GTableColumn,
         },
         template: `
-          <el-table :data="testData">
-            <el-table-column prop="name" />
-            <el-table-column label="group">
-              <el-table-column prop="release"/>
-              <el-table-column prop="director"/>
-            </el-table-column>
-            <el-table-column prop="runtime"/>
-          </el-table>
+          <g-table :data="testData">
+            <g-table-column prop="name" />
+            <g-table-column label="group">
+              <g-table-column prop="release"/>
+              <g-table-column prop="director"/>
+            </g-table-column>
+            <g-table-column prop="runtime"/>
+          </g-table>
         `,
 
         created() {
@@ -1056,7 +1056,7 @@ describe('table column', () => {
       })
 
       await doubleWait()
-      const trs = wrapper.findAll('.el-table__header tr')
+      const trs = wrapper.findAll('.g-table__header tr')
       expect(trs.length).toEqual(2)
       const firstRowHeader = trs[0].findAll('th .cell').length
       const secondRowHeader = trs[1].findAll('th .cell').length
@@ -1071,21 +1071,21 @@ describe('table column', () => {
     it('should works', async () => {
       const wrapper = mount({
         components: {
-          ElTable,
-          ElTableColumn,
+          GTable,
+          GTableColumn,
         },
         template: `
-          <el-table :data="testData">
-            <el-table-column prop="name" />
-            <el-table-column label="group">
-              <el-table-column label="group's group">
-                <el-table-column prop="release" />
-                <el-table-column prop="runtime"/>
-              </el-table-column>
-              <el-table-column prop="director" />
-            </el-table-column>
-            <el-table-column prop="runtime"/>
-          </el-table>
+          <g-table :data="testData">
+            <g-table-column prop="name" />
+            <g-table-column label="group">
+              <g-table-column label="group's group">
+                <g-table-column prop="release" />
+                <g-table-column prop="runtime"/>
+              </g-table-column>
+              <g-table-column prop="director" />
+            </g-table-column>
+            <g-table-column prop="runtime"/>
+          </g-table>
         `,
 
         created() {
@@ -1094,7 +1094,7 @@ describe('table column', () => {
       })
 
       await doubleWait()
-      const trs = wrapper.findAll('.el-table__header tr')
+      const trs = wrapper.findAll('.g-table__header tr')
       expect(trs.length).toEqual(3)
       const firstRowHeader = trs[0].findAll('th .cell').length
       const secondRowHeader = trs[1].findAll('th .cell').length
@@ -1114,15 +1114,15 @@ describe('table column', () => {
     it('should work in one column', async () => {
       const wrapper = mount({
         components: {
-          ElTable,
-          ElTableColumn,
+          GTable,
+          GTableColumn,
         },
         template: `
-          <el-table :data="testData">
-            <el-table-column label="group">
-              <el-table-column prop="release"/>
-            </el-table-column>
-          </el-table>
+          <g-table :data="testData">
+            <g-table-column label="group">
+              <g-table-column prop="release"/>
+            </g-table-column>
+          </g-table>
         `,
 
         created() {
@@ -1131,7 +1131,7 @@ describe('table column', () => {
       })
 
       await doubleWait()
-      const trs = wrapper.findAll('.el-table__header tr')
+      const trs = wrapper.findAll('.g-table__header tr')
       expect(trs.length).toEqual(2)
       const firstRowLength = trs[0].findAll('th .cell').length
       const secondRowLength = trs[1].findAll('th .cell').length
@@ -1146,27 +1146,27 @@ describe('table column', () => {
     it('should work with fixed', async () => {
       const wrapper = mount({
         components: {
-          ElTable,
-          ElTableColumn,
+          GTable,
+          GTableColumn,
         },
         template: `
-          <el-table :data="testData">
-            <el-table-column prop="name" />
-            <el-table-column label="group" fixed="left">
-              <el-table-column label="group's group">
-                <el-table-column prop="runtime" width="100" fixed="right"/>
-                <el-table-column prop="director" width="100" fixed="right"/>
-              </el-table-column>
-              <el-table-column prop="director"/>
-            </el-table-column>
-            <el-table-column prop="director"/>
-            <el-table-column prop="runtime"/>
-            <el-table-column label="group2" fixed="right">
-              <el-table-column prop="runtime" width="100" fixed="left"/>
-              <el-table-column prop="director" width="50"/>
-            </el-table-column>
-            <el-table-column prop="runtime"/>
-          </el-table>
+          <g-table :data="testData">
+            <g-table-column prop="name" />
+            <g-table-column label="group" fixed="left">
+              <g-table-column label="group's group">
+                <g-table-column prop="runtime" width="100" fixed="right"/>
+                <g-table-column prop="director" width="100" fixed="right"/>
+              </g-table-column>
+              <g-table-column prop="director"/>
+            </g-table-column>
+            <g-table-column prop="director"/>
+            <g-table-column prop="runtime"/>
+            <g-table-column label="group2" fixed="right">
+              <g-table-column prop="runtime" width="100" fixed="left"/>
+              <g-table-column prop="director" width="50"/>
+            </g-table-column>
+            <g-table-column prop="runtime"/>
+          </g-table>
         `,
 
         created() {
@@ -1176,16 +1176,16 @@ describe('table column', () => {
 
       await doubleWait()
       const lfhcolumns = wrapper
-        .findAll('.el-table__header tr')
-        .map((item) => item.findAll('.el-table-fixed-column--left'))
+        .findAll('.g-table__header tr')
+        .map((item) => item.findAll('.g-table-fixed-column--left'))
       const lfbcolumns = wrapper.findAll(
-        '.el-table__body .el-table-fixed-column--left'
+        '.g-table__body .g-table-fixed-column--left'
       )
       const rfhcolumns = wrapper
-        .findAll('.el-table__header tr')
-        .map((item) => item.findAll('.el-table-fixed-column--right'))
+        .findAll('.g-table__header tr')
+        .map((item) => item.findAll('.g-table-fixed-column--right'))
       const rfbcolumns = wrapper.findAll(
-        '.el-table__body .el-table-fixed-column--right'
+        '.g-table__body .g-table-fixed-column--right'
       )
       expect(lfbcolumns).toHaveLength(15)
       expect(rfbcolumns).toHaveLength(10)
@@ -1205,32 +1205,32 @@ describe('table column', () => {
       wrapper.unmount()
     })
 
-    it('el-table-column should callback itself', async () => {
+    it('g-table-column should callback itself', async () => {
       const TableColumn = {
         name: 'TableColumn',
         components: {
-          ElTableColumn,
+          GTableColumn,
         },
         props: {
           item: Object,
         },
         template: `
-          <el-table-column :prop="item.prop" :label="item.label">
+          <g-table-column :prop="item.prop" :label="item.label">
             <template v-if="item.children" #default>
               <table-column v-for="c in item.children" :key="c.prop" :item="c"/>
             </template>
-          </el-table-column>
+          </g-table-column>
         `,
       }
       const App = {
         template: `
-          <el-table :data="data">
+          <g-table :data="data">
             <table-column v-for="item in column" :key="item.prop" :item="item"/>
-          </el-table>
+          </g-table>
         `,
         components: {
-          ElTable,
-          ElTableColumn,
+          GTable,
+          GTableColumn,
           TableColumn,
         },
         setup() {
@@ -1275,8 +1275,8 @@ describe('table column', () => {
       }
       const wrapper = mount(App)
       await doubleWait()
-      expect(wrapper.find('.el-table__header-wrapper').text()).toMatch('姓名')
-      expect(wrapper.find('.el-table__header-wrapper').text()).toMatch('地址')
+      expect(wrapper.find('.g-table__header-wrapper').text()).toMatch('姓名')
+      expect(wrapper.find('.g-table__header-wrapper').text()).toMatch('地址')
     })
 
     it('should not rendered other components in hidden-columns', async () => {
@@ -1287,16 +1287,16 @@ describe('table column', () => {
       }
       const wrapper = mount({
         components: {
-          ElTableColumn,
-          ElTable,
+          GTableColumn,
+          GTable,
           Comp,
         },
         template: `
-          <el-table :data="testData">
-            <el-table-column prop="name">
+          <g-table :data="testData">
+            <g-table-column prop="name">
               <comp></comp>
-            </el-table-column>
-          </el-table>
+            </g-table-column>
+          </g-table>
         `,
         data() {
           return {
@@ -1314,28 +1314,28 @@ describe('table column', () => {
       const TableColumn = {
         name: 'TableColumn',
         components: {
-          ElTableColumn,
+          GTableColumn,
         },
         template: `
-          <el-table-column>
+          <g-table-column>
             <template v-if="$slots.default" #default="scope">
               <slot v-bind="scope" />
             </template>
-          </el-table-column>
+          </g-table-column>
         `,
       }
       const wrapper = mount({
         components: {
-          ElTableColumn,
-          ElTable,
+          GTableColumn,
+          GTable,
           TableColumn,
         },
         template: `
-          <el-table :data="testData">
+          <g-table :data="testData">
             <table-column>
               <template #default="{ row }">Hello World</template>
             </table-column>
-          </el-table>
+          </g-table>
         `,
         data() {
           return {
@@ -1354,16 +1354,16 @@ describe('table column', () => {
     it('label', async () => {
       const wrapper = mount({
         components: {
-          ElTable,
-          ElTableColumn,
+          GTable,
+          GTableColumn,
         },
         template: `
-          <el-table :data="testData">
-            <el-table-column prop="name" :label="label"/>
-            <el-table-column prop="release" />
-            <el-table-column prop="director" />
-            <el-table-column prop="runtime" />
-          </el-table>
+          <g-table :data="testData">
+            <g-table-column prop="name" :label="label"/>
+            <g-table-column prop="release" />
+            <g-table-column prop="director" />
+            <g-table-column prop="runtime" />
+          </g-table>
         `,
         data() {
           return {
@@ -1377,10 +1377,10 @@ describe('table column', () => {
       })
 
       await doubleWait()
-      expect(wrapper.find('.el-table__header th .cell').text()).toEqual('name')
+      expect(wrapper.find('.g-table__header th .cell').text()).toEqual('name')
       wrapper.vm.label = 'NAME'
       wrapper.vm.$nextTick(() => {
-        expect(wrapper.find('.el-table__header th .cell').text()).toEqual(
+        expect(wrapper.find('.g-table__header th .cell').text()).toEqual(
           'NAME'
         )
         wrapper.unmount()
@@ -1390,13 +1390,13 @@ describe('table column', () => {
     it('align', async () => {
       const wrapper = mount({
         components: {
-          ElTable,
-          ElTableColumn,
+          GTable,
+          GTableColumn,
         },
         template: `
-          <el-table :data="testData">
-            <el-table-column prop="name" :align="align"/>
-          </el-table>
+          <g-table :data="testData">
+            <g-table-column prop="name" :align="align"/>
+          </g-table>
         `,
 
         data() {
@@ -1411,11 +1411,11 @@ describe('table column', () => {
       })
 
       await doubleWait()
-      expect(wrapper.findAll('.el-table__body td.is-right').length).toEqual(0)
+      expect(wrapper.findAll('.g-table__body td.is-right').length).toEqual(0)
       wrapper.vm.align = 'right'
       wrapper.vm.$nextTick(() => {
         expect(
-          wrapper.findAll('.el-table__body td.is-right').length > 0
+          wrapper.findAll('.g-table__body td.is-right').length > 0
         ).toBeTruthy()
         wrapper.unmount()
       })
@@ -1423,13 +1423,13 @@ describe('table column', () => {
     it('header-align', async () => {
       const wrapper = mount({
         components: {
-          ElTable,
-          ElTableColumn,
+          GTable,
+          GTableColumn,
         },
         template: `
-          <el-table :data="testData">
-            <el-table-column prop="name" :align="align" :header-align="headerAlign"/>
-          </el-table>
+          <g-table :data="testData">
+            <g-table-column prop="name" :align="align" :header-align="headerAlign"/>
+          </g-table>
         `,
 
         data() {
@@ -1445,36 +1445,36 @@ describe('table column', () => {
       })
       await doubleWait()
       expect(
-        wrapper.findAll('.el-table__header th.is-left').length
+        wrapper.findAll('.g-table__header th.is-left').length
       ).toBeGreaterThanOrEqual(0)
-      expect(wrapper.findAll('.el-table__header th.is-center').length).toEqual(
+      expect(wrapper.findAll('.g-table__header th.is-center').length).toEqual(
         0
       )
-      expect(wrapper.findAll('.el-table__header th.is-right').length).toEqual(0)
+      expect(wrapper.findAll('.g-table__header th.is-right').length).toEqual(0)
       wrapper.vm.align = 'right'
       await doubleWait()
-      expect(wrapper.findAll('.el-table__header th.is-left').length).toEqual(0)
-      expect(wrapper.findAll('.el-table__header th.is-center').length).toEqual(
+      expect(wrapper.findAll('.g-table__header th.is-left').length).toEqual(0)
+      expect(wrapper.findAll('.g-table__header th.is-center').length).toEqual(
         0
       )
       expect(
-        wrapper.findAll('.el-table__header th.is-right').length
+        wrapper.findAll('.g-table__header th.is-right').length
       ).toBeGreaterThanOrEqual(0)
       wrapper.vm.headerAlign = 'center'
       await doubleWait()
-      expect(wrapper.findAll('.el-table__header th.is-left').length).toEqual(0)
+      expect(wrapper.findAll('.g-table__header th.is-left').length).toEqual(0)
       expect(
-        wrapper.findAll('.el-table__header th.is-center').length
+        wrapper.findAll('.g-table__header th.is-center').length
       ).toBeGreaterThanOrEqual(0)
-      expect(wrapper.findAll('.el-table__header th.is-right').length).toEqual(0)
+      expect(wrapper.findAll('.g-table__header th.is-right').length).toEqual(0)
       wrapper.vm.headerAlign = null
       await doubleWait()
-      expect(wrapper.findAll('.el-table__header th.is-left').length).toEqual(0)
-      expect(wrapper.findAll('.el-table__header th.is-center').length).toEqual(
+      expect(wrapper.findAll('.g-table__header th.is-left').length).toEqual(0)
+      expect(wrapper.findAll('.g-table__header th.is-center').length).toEqual(
         0
       )
       expect(
-        wrapper.findAll('.el-table__header th.is-right').length
+        wrapper.findAll('.g-table__header th.is-right').length
       ).toBeGreaterThanOrEqual(0)
       wrapper.unmount()
     })
@@ -1482,13 +1482,13 @@ describe('table column', () => {
     it('width', async () => {
       const wrapper = mount({
         components: {
-          ElTable,
-          ElTableColumn,
+          GTable,
+          GTableColumn,
         },
         template: `
-          <el-table :data="testData" :fit="false">
-            <el-table-column prop="name" :width="width"/>
-          </el-table>
+          <g-table :data="testData" :fit="false">
+            <g-table-column prop="name" :width="width"/>
+          </g-table>
         `,
 
         data() {
@@ -1503,19 +1503,19 @@ describe('table column', () => {
       })
 
       await doubleWait()
-      expect(wrapper.find('.el-table__body col').attributes('width')).toEqual(
+      expect(wrapper.find('.g-table__body col').attributes('width')).toEqual(
         '100'
       )
 
       wrapper.vm.width = 200
       await doubleWait()
-      expect(wrapper.find('.el-table__body col').attributes('width')).toEqual(
+      expect(wrapper.find('.g-table__body col').attributes('width')).toEqual(
         '200'
       )
 
       wrapper.vm.width = '300px'
       await doubleWait()
-      expect(wrapper.find('.el-table__body col').attributes('width')).toEqual(
+      expect(wrapper.find('.g-table__body col').attributes('width')).toEqual(
         '300'
       )
       wrapper.unmount()
@@ -1524,13 +1524,13 @@ describe('table column', () => {
     it('min-width', async () => {
       const wrapper = mount({
         components: {
-          ElTable,
-          ElTableColumn,
+          GTable,
+          GTableColumn,
         },
         template: `
-          <el-table :data="testData" :fit="false">
-            <el-table-column prop="name" :min-width="width"/>
-          </el-table>
+          <g-table :data="testData" :fit="false">
+            <g-table-column prop="name" :min-width="width"/>
+          </g-table>
         `,
 
         data() {
@@ -1545,19 +1545,19 @@ describe('table column', () => {
       })
 
       await doubleWait()
-      expect(wrapper.find('.el-table__body col').attributes('width')).toEqual(
+      expect(wrapper.find('.g-table__body col').attributes('width')).toEqual(
         '100'
       )
 
       wrapper.vm.width = 200
       await doubleWait()
-      expect(wrapper.find('.el-table__body col').attributes('width')).toEqual(
+      expect(wrapper.find('.g-table__body col').attributes('width')).toEqual(
         '200'
       )
 
       wrapper.vm.width = '300px'
       await doubleWait()
-      expect(wrapper.find('.el-table__body col').attributes('width')).toEqual(
+      expect(wrapper.find('.g-table__body col').attributes('width')).toEqual(
         '300'
       )
       wrapper.unmount()
@@ -1566,17 +1566,17 @@ describe('table column', () => {
     it('fixed', async () => {
       const wrapper = mount({
         components: {
-          ElTable,
-          ElTableColumn,
+          GTable,
+          GTableColumn,
         },
         template: `
-          <el-table :data="testData">
-            <el-table-column :fixed="selectFixed" type="selection" />
-            <el-table-column :fixed="fixed" prop="name" />
-            <el-table-column :fixed="fixed" prop="release" />
-            <el-table-column prop="director" />
-            <el-table-column prop="runtime" />
-          </el-table>
+          <g-table :data="testData">
+            <g-table-column :fixed="selectFixed" type="selection" />
+            <g-table-column :fixed="fixed" prop="name" />
+            <g-table-column :fixed="fixed" prop="release" />
+            <g-table-column prop="director" />
+            <g-table-column prop="runtime" />
+          </g-table>
         `,
 
         data() {
@@ -1594,50 +1594,50 @@ describe('table column', () => {
       const rowLength = wrapper.vm.testData.length + 1 // include header
       const dynamicFixCols = 2
 
-      expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(0)
+      expect(wrapper.findAll('.g-table-fixed-column--left').length).toEqual(0)
       wrapper.vm.fixed = true
       await doubleWait()
-      expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(
+      expect(wrapper.findAll('.g-table-fixed-column--left').length).toEqual(
         rowLength * (dynamicFixCols + 1)
       )
       wrapper.vm.fixed = false
       await doubleWait()
-      expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(0)
+      expect(wrapper.findAll('.g-table-fixed-column--left').length).toEqual(0)
 
       wrapper.vm.selectFixed = true
       await doubleWait()
-      expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(
+      expect(wrapper.findAll('.g-table-fixed-column--left').length).toEqual(
         rowLength
       )
       wrapper.vm.fixed = true
       await doubleWait()
-      expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(
+      expect(wrapper.findAll('.g-table-fixed-column--left').length).toEqual(
         rowLength * (dynamicFixCols + 1)
       )
       wrapper.vm.fixed = false
       await doubleWait()
-      expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(
+      expect(wrapper.findAll('.g-table-fixed-column--left').length).toEqual(
         rowLength
       )
 
       wrapper.vm.selectFixed = 'right'
       await doubleWait()
-      expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(0)
-      expect(wrapper.findAll('.el-table-fixed-column--right').length).toEqual(
+      expect(wrapper.findAll('.g-table-fixed-column--left').length).toEqual(0)
+      expect(wrapper.findAll('.g-table-fixed-column--right').length).toEqual(
         rowLength
       )
       wrapper.vm.fixed = true
       await doubleWait()
-      expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(
+      expect(wrapper.findAll('.g-table-fixed-column--left').length).toEqual(
         rowLength * dynamicFixCols
       )
-      expect(wrapper.findAll('.el-table-fixed-column--right').length).toEqual(
+      expect(wrapper.findAll('.g-table-fixed-column--right').length).toEqual(
         rowLength
       )
       wrapper.vm.fixed = false
       await doubleWait()
-      expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(0)
-      expect(wrapper.findAll('.el-table-fixed-column--right').length).toEqual(
+      expect(wrapper.findAll('.g-table-fixed-column--left').length).toEqual(0)
+      expect(wrapper.findAll('.g-table-fixed-column--right').length).toEqual(
         rowLength
       )
 
@@ -1647,15 +1647,15 @@ describe('table column', () => {
     it('correct render selection column when it is not in the first', async () => {
       const wrapper = mount({
         components: {
-          ElTable,
-          ElTableColumn,
+          GTable,
+          GTableColumn,
         },
         template: `
-          <el-table :data="data">
-            <el-table-column fixed="left" prop="name" />
-            <el-table-column fixed="left" type="selection" />
-            <el-table-column fixed="left" prop="date" />
-          </el-table>
+          <g-table :data="data">
+            <g-table-column fixed="left" prop="name" />
+            <g-table-column fixed="left" type="selection" />
+            <g-table-column fixed="left" prop="date" />
+          </g-table>
         `,
 
         data() {
@@ -1688,22 +1688,22 @@ describe('table column', () => {
       })
 
       await doubleWait()
-      expect(wrapper.findAll('.el-table-column--selection').length).toEqual(5)
+      expect(wrapper.findAll('.g-table-column--selection').length).toEqual(5)
     })
 
     it('prop', async () => {
       const wrapper = mount({
         components: {
-          ElTable,
-          ElTableColumn,
+          GTable,
+          GTableColumn,
         },
         template: `
-          <el-table :data="testData">
-            <el-table-column :prop="prop" />
-            <el-table-column prop="release" />
-            <el-table-column prop="director" />
-            <el-table-column prop="runtime" />
-          </el-table>
+          <g-table :data="testData">
+            <g-table-column :prop="prop" />
+            <g-table-column prop="release" />
+            <g-table-column prop="director" />
+            <g-table-column prop="runtime" />
+          </g-table>
         `,
 
         data() {
@@ -1718,16 +1718,16 @@ describe('table column', () => {
       })
 
       await doubleWait()
-      let firstColumnContent = wrapper.find('.el-table__body td .cell').text()
+      let firstColumnContent = wrapper.find('.g-table__body td .cell').text()
       let secondColumnContent = wrapper
-        .find('.el-table__body td:nth-child(2) .cell')
+        .find('.g-table__body td:nth-child(2) .cell')
         .text()
       expect(firstColumnContent).not.toEqual(secondColumnContent)
       wrapper.vm.prop = 'release'
       await doubleWait()
-      firstColumnContent = wrapper.find('.el-table__body td .cell').text()
+      firstColumnContent = wrapper.find('.g-table__body td .cell').text()
       secondColumnContent = wrapper
-        .find('.el-table__body td:nth-child(2) .cell')
+        .find('.g-table__body td:nth-child(2) .cell')
         .text()
       expect(firstColumnContent).toEqual(secondColumnContent)
       wrapper.unmount()
@@ -1812,11 +1812,11 @@ describe('table column', () => {
       return mount(
         Object.assign({
           components: {
-            ElTable,
-            ElTableColumn,
+            GTable,
+            GTableColumn,
           },
           template: `
-              <el-table
+              <g-table
                 ref="table"
                 :data="testData"
                 row-key="id"
@@ -1824,26 +1824,26 @@ describe('table column', () => {
                 default-expand-all
                 :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
               >
-                <el-table-column type="index"></el-table-column>
-                <el-table-column type="selection" :selectable="selectable"></el-table-column>
-                <el-table-column prop="id" label="id"></el-table-column>
-                <el-table-column
+                <g-table-column type="index"></g-table-column>
+                <g-table-column type="selection" :selectable="selectable"></g-table-column>
+                <g-table-column prop="id" label="id"></g-table-column>
+                <g-table-column
                   prop="date"
                   label="Date"
                   sortable
                   width="180">
-                </el-table-column>
-                <el-table-column
+                </g-table-column>
+                <g-table-column
                   prop="name"
                   label="Name"
                   sortable
                   width="180">
-                </el-table-column>
-                <el-table-column
+                </g-table-column>
+                <g-table-column
                   prop="address"
                   label="Address">
-                </el-table-column>
-              </el-table>
+                </g-table-column>
+              </g-table>
           `,
           methods: {
             selectable(row) {

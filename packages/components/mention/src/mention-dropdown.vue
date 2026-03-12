@@ -3,7 +3,7 @@
     <div v-if="$slots.header" :class="ns.be('dropdown', 'header')">
       <slot name="header" />
     </div>
-    <el-scrollbar
+    <g-scrollbar
       v-show="options.length > 0 && !loading"
       :id="contentId"
       ref="scrollbarRef"
@@ -30,9 +30,9 @@
           <span>{{ item.label ?? item.value }}</span>
         </slot>
       </li>
-    </el-scrollbar>
+    </g-scrollbar>
     <div v-if="loading" :class="ns.be('dropdown', 'loading')">
-      <slot name="loading"> {{ t('el.mention.loading') }} </slot>
+      <slot name="loading"> {{ t('g.mention.loading') }} </slot>
     </div>
     <div v-if="$slots.footer" :class="ns.be('dropdown', 'footer')">
       <slot name="footer" />
@@ -44,14 +44,14 @@
 import { computed, nextTick, ref, watch } from 'vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { scrollIntoView } from '@element-plus/utils'
-import ElScrollbar from '@element-plus/components/scrollbar'
+import GScrollbar from '@element-plus/components/scrollbar'
 import { mentionDropdownEmits } from './mention-dropdown'
 
 import type { MentionDropdownProps } from './mention-dropdown'
 import type { MentionOption } from './types'
 
 defineOptions({
-  name: 'ElMentionDropdown',
+  name: 'GMentionDropdown',
 })
 
 const props = withDefaults(defineProps<MentionDropdownProps>(), {
@@ -63,7 +63,7 @@ const ns = useNamespace('mention')
 const { t } = useLocale()
 const hoveringIndex = ref(-1)
 
-const scrollbarRef = ref<InstanceType<typeof ElScrollbar>>()
+const scrollbarRef = ref<InstanceType<typeof GScrollbar>>()
 const optionRefs = ref<HTMLElement[]>()
 const dropdownRef = ref<HTMLElement>()
 

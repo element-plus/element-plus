@@ -1,6 +1,6 @@
 export default {
   name: 'fr',
-  el: {
+  g: {
     breadcrumb: {
       label: "Fil d'Ariane",
     },
@@ -122,7 +122,7 @@ export default {
       prevPages: '{pager} pages précédentes',
       nextPages: '{pager} pages suivantes',
       deprecationWarning:
-        'Utilisations obsolètes détectées, veuillez vous référer à la documentation el-pagination pour plus de détails',
+        'Utilisations obsolètes détectées, veuillez vous référer à la documentation g-pagination pour plus de détails',
     },
     dialog: {
       close: 'Fermer la boîte de dialogue',

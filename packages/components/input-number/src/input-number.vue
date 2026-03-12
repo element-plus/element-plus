@@ -14,33 +14,33 @@
       v-if="controls"
       v-repeat-click="decrease"
       role="button"
-      :aria-label="t('el.inputNumber.decrease')"
+      :aria-label="t('g.inputNumber.decrease')"
       :class="[ns.e('decrease'), ns.is('disabled', minDisabled)]"
       @keydown.enter="decrease"
     >
       <slot name="decrease-icon">
-        <el-icon>
+        <g-icon>
           <arrow-down v-if="controlsAtRight" />
           <minus v-else />
-        </el-icon>
+        </g-icon>
       </slot>
     </span>
     <span
       v-if="controls"
       v-repeat-click="increase"
       role="button"
-      :aria-label="t('el.inputNumber.increase')"
+      :aria-label="t('g.inputNumber.increase')"
       :class="[ns.e('increase'), ns.is('disabled', maxDisabled)]"
       @keydown.enter="increase"
     >
       <slot name="increase-icon">
-        <el-icon>
+        <g-icon>
           <arrow-up v-if="controlsAtRight" />
           <plus v-else />
-        </el-icon>
+        </g-icon>
       </slot>
     </span>
-    <el-input
+    <g-input
       :id="id"
       ref="input"
       type="number"
@@ -68,15 +68,15 @@
       <template v-if="$slots.suffix" #suffix>
         <slot name="suffix" />
       </template>
-    </el-input>
+    </g-input>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { computed, onMounted, onUpdated, reactive, ref, watch } from 'vue'
 import { isNil } from 'lodash-unified'
-import { ElInput } from '@element-plus/components/input'
-import { ElIcon } from '@element-plus/components/icon'
+import { GInput } from '@element-plus/components/input'
+import { GIcon } from '@element-plus/components/icon'
 import {
   useFormDisabled,
   useFormItem,
@@ -106,7 +106,7 @@ import type { InputInstance } from '@element-plus/components/input'
 import type { InputNumberProps } from './input-number'
 
 defineOptions({
-  name: 'ElInputNumber',
+  name: 'GInputNumber',
 })
 
 const props = withDefaults(defineProps<InputNumberProps>(), {

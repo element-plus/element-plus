@@ -49,7 +49,7 @@ import type { ScrollbarDirection, ScrollbarProps } from './scrollbar'
 import type { BarInstance } from './bar'
 import type { CSSProperties, StyleValue } from 'vue'
 
-const COMPONENT_NAME = 'ElScrollbar'
+const COMPONENT_NAME = 'GScrollbar'
 
 defineOptions({
   name: COMPONENT_NAME,

@@ -1,7 +1,7 @@
 import { nextTick, reactive, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
-import { ElForm, ElFormItem } from '@element-plus/components/form'
+import { GForm, GFormItem } from '@element-plus/components/form'
 import Checkbox from '../src/checkbox.vue'
 import CheckboxButton from '../src/checkbox-button.vue'
 import CheckboxGroup from '../src/checkbox-group.vue'
@@ -13,7 +13,7 @@ describe('Checkbox', () => {
     const checked = ref(false)
     const wrapper = mount(() => <Checkbox v-model={checked.value} label="a" />)
 
-    expect(wrapper.classes()).toContain('el-checkbox')
+    expect(wrapper.classes()).toContain('g-checkbox')
     expect(wrapper.classes()).not.toContain('is-disabled')
     await wrapper.trigger('click')
     expect(wrapper.classes()).toContain('is-checked')
@@ -23,7 +23,7 @@ describe('Checkbox', () => {
 
   test('label set to number 0', async () => {
     const wrapper = mount(() => <Checkbox label={0} />)
-    expect(wrapper.find('.el-checkbox__label').text()).toBe('0')
+    expect(wrapper.find('.g-checkbox__label').text()).toBe('0')
   })
 
   describe('no v-model', () => {
@@ -48,9 +48,9 @@ describe('Checkbox', () => {
     test('checkbox without label', async () => {
       const checked = ref(false)
       const wrapper = mount(() => (
-        <ElFormItem label="test">
+        <GFormItem label="test">
           <Checkbox v-model={checked.value} disabled />
-        </ElFormItem>
+        </GFormItem>
       ))
 
       const checkbox = wrapper.findComponent(Checkbox)
@@ -79,9 +79,9 @@ describe('Checkbox', () => {
     test('The disabled state of a component has higher priority than that of a form', async () => {
       const checked = ref(false)
       const wrapper = mount(() => (
-        <ElForm disabled>
+        <GForm disabled>
           <Checkbox v-model={checked.value} disabled={false} />
-        </ElForm>
+        </GForm>
       ))
 
       const checkbox = wrapper.findComponent(Checkbox)
@@ -100,9 +100,9 @@ describe('Checkbox', () => {
       const data = ref()
       const onChange = (val: CheckboxValueType) => (data.value = val)
       const wrapper = mount(() => (
-        <ElFormItem label="test">
+        <GFormItem label="test">
           <Checkbox v-model={checked.value} onChange={onChange} />
-        </ElFormItem>
+        </GFormItem>
       ))
 
       await wrapper.findComponent(Checkbox).trigger('click')
@@ -140,11 +140,11 @@ describe('Checkbox', () => {
       const data = ref()
       const onChange = (val: CheckboxValueType) => (data.value = val)
       const wrapper = mount(() => (
-        <ElFormItem label="test">
+        <GFormItem label="test">
           <label>
             <Checkbox v-model={checked.value} onChange={onChange} />
           </label>
-        </ElFormItem>
+        </GFormItem>
       ))
 
       await wrapper.findComponent(Checkbox).trigger('click')
@@ -190,7 +190,7 @@ describe('Checkbox', () => {
       <CheckboxGroup v-model={checkedValues.value} options={options} />
     ))
     await nextTick()
-    const checkboxes = wrapper.findAll('.el-checkbox')
+    const checkboxes = wrapper.findAll('.g-checkbox')
     expect(checkboxes[1].classes()).toContain('is-checked')
     await checkboxes[0].trigger('click')
     expect(checkedValues.value).toEqual(['b', 'a'])
@@ -218,7 +218,7 @@ describe('Checkbox', () => {
       />
     ))
     await nextTick()
-    const checkboxes = wrapper.findAll('.el-checkbox-button')
+    const checkboxes = wrapper.findAll('.g-checkbox-button')
     expect(checkboxes[1].classes()).toContain('is-checked')
     await checkboxes[0].trigger('click')
     expect(checkedValues.value).toEqual(['b', 'a'])
@@ -242,7 +242,7 @@ describe('Checkbox', () => {
       />
     ))
     await nextTick()
-    const checkbox = wrapper.find('.el-checkbox')
+    const checkbox = wrapper.find('.g-checkbox')
     expect(checkbox.find('input').attributes('name')).not.toBe('Option A')
   })
 
@@ -251,8 +251,8 @@ describe('Checkbox', () => {
     const wrapper = mount({
       setup() {
         return () => (
-          <ElForm model={form}>
-            <ElFormItem
+          <GForm model={form}>
+            <GFormItem
               prop="check"
               rules={[
                 { required: true, message: 'Must has one check box checked' },
@@ -267,8 +267,8 @@ describe('Checkbox', () => {
                 <Checkbox label="a" value="a" ref="a"></Checkbox>
                 <Checkbox label="b" value="b" ref="b"></Checkbox>
               </CheckboxGroup>
-            </ElFormItem>
-          </ElForm>
+            </GFormItem>
+          </GForm>
         )
       },
     })
@@ -348,9 +348,9 @@ describe('Checkbox', () => {
     test('without label', async () => {
       const checked = ref('a')
       const wrapper = mount(() => (
-        <ElFormItem label="test">
+        <GFormItem label="test">
           <Checkbox true-value="a" false-value={3} v-model={checked.value} />
-        </ElFormItem>
+        </GFormItem>
       ))
 
       const checkbox = wrapper.findComponent(Checkbox)
@@ -403,9 +403,9 @@ describe('Checkbox', () => {
       const checked = ref(true)
 
       const wrapper = mount(() => (
-        <ElFormItem label="test">
+        <GFormItem label="test">
           <Checkbox v-model={checked.value} />
-        </ElFormItem>
+        </GFormItem>
       ))
 
       const checkbox = wrapper.findComponent(Checkbox)
@@ -421,9 +421,9 @@ describe('Checkbox', () => {
       const checked = ref(true)
 
       const wrapper = mount(() => (
-        <ElFormItem label="test">
+        <GFormItem label="test">
           <Checkbox v-model={checked.value} falseValue={'a'} />
-        </ElFormItem>
+        </GFormItem>
       ))
 
       const checkbox = wrapper.findComponent(Checkbox)
@@ -439,9 +439,9 @@ describe('Checkbox', () => {
       const checked = ref(true)
 
       const wrapper = mount(() => (
-        <ElFormItem label="test">
+        <GFormItem label="test">
           <Checkbox v-model={checked.value} trueValue={'a'} />
-        </ElFormItem>
+        </GFormItem>
       ))
 
       const checkbox = wrapper.findComponent(Checkbox)
@@ -457,9 +457,9 @@ describe('Checkbox', () => {
       const checked = ref(true)
 
       const wrapper = mount(() => (
-        <ElFormItem label="test">
+        <GFormItem label="test">
           <Checkbox v-model={checked.value} trueValue={'a'} falseValue={1} />
-        </ElFormItem>
+        </GFormItem>
       ))
 
       const checkbox = wrapper.findComponent(Checkbox)
@@ -504,7 +504,7 @@ describe('Checkbox', () => {
       </CheckboxGroup>
     ))
 
-    const checkbox = wrapper.find('.el-checkbox')
+    const checkbox = wrapper.find('.g-checkbox')
     await checkbox.trigger('click')
     expect(checklist.value[0]).toEqual('')
   })
@@ -519,7 +519,7 @@ describe('Checkbox', () => {
       </CheckboxGroup>
     ))
 
-    const checkbox = wrapper.find('.el-checkbox')
+    const checkbox = wrapper.find('.g-checkbox')
     await checkbox.trigger('click')
     expect(checklist.value[0]).toEqual({ a: 1 })
     expect(checkbox.classes()).contains('is-checked')
@@ -563,7 +563,7 @@ describe('check-button', () => {
       <CheckboxButton v-model={checked.value} label="a" value="a" />
     ))
 
-    expect(wrapper.classes()).toContain('el-checkbox-button')
+    expect(wrapper.classes()).toContain('g-checkbox-button')
     await wrapper.trigger('click')
     expect(wrapper.classes()).toContain('is-checked')
     await wrapper.trigger('click')
@@ -640,7 +640,7 @@ describe('check-button', () => {
     expect(checkList.value.length).toBe(2)
     expect(checkbox.classes()).contains('is-checked')
     expect(
-      checkbox.find('.el-checkbox-button__inner').attributes('style')
+      checkbox.find('.g-checkbox-button__inner').attributes('style')
     ).contains('border-color: #ff0000;')
   })
 
@@ -655,7 +655,7 @@ describe('check-button', () => {
       </CheckboxGroup>
     ))
 
-    expect(wrapper.find('tr').classes('el-checkbox-group')).toBeTruthy()
+    expect(wrapper.find('tr').classes('g-checkbox-group')).toBeTruthy()
   })
 
   test('button group min and max', async () => {
@@ -764,22 +764,22 @@ describe('check-button', () => {
     test('checked', () => {
       const wrapper = mount(() => <Checkbox checked />)
 
-      expect(wrapper.find('.el-checkbox').classes()).contains('is-checked')
+      expect(wrapper.find('.g-checkbox').classes()).contains('is-checked')
     })
   })
 
   describe('form item accessibility integration', () => {
     test('checkbox, no label, automatic label attachment', async () => {
       const wrapper = mount(() => (
-        <ElFormItem label="test">
+        <GFormItem label="test">
           <Checkbox />
-        </ElFormItem>
+        </GFormItem>
       ))
 
-      const formItem = await wrapper.findComponent(ElFormItem)
+      const formItem = await wrapper.findComponent(GFormItem)
       const checkbox = await wrapper.findComponent(Checkbox)
-      const formItemLabel = formItem.find('.el-form-item__label')
-      const checkboxInput = checkbox.find('.el-checkbox__original')
+      const formItemLabel = formItem.find('.g-form-item__label')
+      const checkboxInput = checkbox.find('.g-checkbox__original')
       expect(checkboxInput.attributes('id')).toBe(
         formItemLabel.attributes('for')
       )
@@ -787,15 +787,15 @@ describe('check-button', () => {
 
     test('checkbox with label, form item is group', async () => {
       const wrapper = mount(() => (
-        <ElFormItem label="test">
+        <GFormItem label="test">
           <Checkbox label="Foo" value="Foo" />
-        </ElFormItem>
+        </GFormItem>
       ))
 
-      const formItem = await wrapper.findComponent(ElFormItem)
+      const formItem = await wrapper.findComponent(GFormItem)
       const checkbox = await wrapper.findComponent(Checkbox)
-      const checkboxLabel = checkbox.find('.el-checkbox__label')
-      const checkboxInput = checkbox.find('.el-checkbox__original')
+      const checkboxLabel = checkbox.find('.g-checkbox__label')
+      const checkboxInput = checkbox.find('.g-checkbox__original')
       expect(checkboxLabel.element.textContent).toBe('Foo')
       expect(checkboxInput.attributes('id')).toBeFalsy()
       expect(formItem.attributes('role')).toBe('group')
@@ -803,17 +803,17 @@ describe('check-button', () => {
 
     test('single checkbox group in form item', async () => {
       const wrapper = mount(() => (
-        <ElFormItem label="test">
+        <GFormItem label="test">
           <CheckboxGroup>
             <Checkbox label="Foo" value="Foo" />
             <Checkbox label="Bar" value="Bar" />
           </CheckboxGroup>
-        </ElFormItem>
+        </GFormItem>
       ))
 
-      const formItem = await wrapper.findComponent(ElFormItem)
+      const formItem = await wrapper.findComponent(GFormItem)
       const checkboxGroup = await wrapper.findComponent(CheckboxGroup)
-      const formItemLabel = formItem.find('.el-form-item__label')
+      const formItemLabel = formItem.find('.g-form-item__label')
       expect(formItem.attributes('role')).toBeFalsy()
       expect(checkboxGroup.attributes('role')).toBe('group')
       expect(formItemLabel.attributes('for')).toBe(
@@ -826,17 +826,17 @@ describe('check-button', () => {
 
     test('single checkbox group in form item, override label', async () => {
       const wrapper = mount(() => (
-        <ElFormItem label="test">
+        <GFormItem label="test">
           <CheckboxGroup aria-label="Foo">
             <Checkbox label="Foo" value="Foo" />
             <Checkbox label="Bar" value="Bar" />
           </CheckboxGroup>
-        </ElFormItem>
+        </GFormItem>
       ))
 
-      const formItem = await wrapper.findComponent(ElFormItem)
+      const formItem = await wrapper.findComponent(GFormItem)
       const checkboxGroup = await wrapper.findComponent(CheckboxGroup)
-      const formItemLabel = formItem.find('.el-form-item__label')
+      const formItemLabel = formItem.find('.g-form-item__label')
       expect(formItemLabel.attributes('for')).toBe(
         checkboxGroup.attributes('id')
       )
@@ -849,7 +849,7 @@ describe('check-button', () => {
       const wrapper = mount({
         setup() {
           return () => (
-            <ElFormItem label="test">
+            <GFormItem label="test">
               <CheckboxGroup aria-label="Foo" ref="checkboxGroup1">
                 <Checkbox label="Foo" value="Foo" />
                 <Checkbox label="Bar" value="Bar" />
@@ -858,19 +858,19 @@ describe('check-button', () => {
                 <Checkbox label="Foo" value="Foo" />
                 <Checkbox label="Bar" value="Bar" />
               </CheckboxGroup>
-            </ElFormItem>
+            </GFormItem>
           )
         },
       })
 
-      const formItem = await wrapper.findComponent(ElFormItem)
+      const formItem = await wrapper.findComponent(GFormItem)
       const checkboxGroup1 = await wrapper.findComponent({
         ref: 'checkboxGroup1',
       })
       const checkboxGroup2 = await wrapper.findComponent({
         ref: 'checkboxGroup2',
       })
-      const formItemLabel = formItem.find('.el-form-item__label')
+      const formItemLabel = formItem.find('.g-form-item__label')
       expect(formItem.attributes('role')).toBe('group')
       expect(formItem.attributes()['aria-labelledby']).toBe(
         formItemLabel.attributes('id')

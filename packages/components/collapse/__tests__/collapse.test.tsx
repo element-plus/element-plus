@@ -55,7 +55,7 @@ describe('Collapse.vue', () => {
       CollapseItem
     ) as VueWrapper<CollapseItemInstance>[]
     const collapseItemHeaderEls = vm.$el.querySelectorAll(
-      '.el-collapse-item__header'
+      '.g-collapse-item__header'
     )
     expect(collapseItemWrappers[0].vm.isActive).toBe(true)
 
@@ -103,7 +103,7 @@ describe('Collapse.vue', () => {
       CollapseItem
     ) as VueWrapper<CollapseItemInstance>[]
     const collapseItemHeaderEls = vm.$el.querySelectorAll(
-      '.el-collapse-item__header'
+      '.g-collapse-item__header'
     )
     expect(collapseItemWrappers[0].vm.isActive).toBe(true)
 
@@ -153,7 +153,7 @@ describe('Collapse.vue', () => {
       CollapseItem
     ) as VueWrapper<CollapseItemInstance>[]
     const collapseItemHeaderEls = vm.$el.querySelectorAll(
-      '.el-collapse-item__header'
+      '.g-collapse-item__header'
     )
     expect(collapseItemWrappers[0].vm.isActive).toBe(true)
     expect(vm.activeNames).toEqual(['1'])
@@ -235,7 +235,7 @@ describe('Collapse.vue', () => {
     })
 
     expect(wrapper.find('.title-wrapper').text()).toBe(AXIOM)
-    await wrapper.find('.el-collapse-item__header').trigger('click')
+    await wrapper.find('.g-collapse-item__header').trigger('click')
     expect(wrapper.find('.title-wrapper').classes()).toContain('is-active')
   })
 
@@ -274,7 +274,7 @@ describe('Collapse.vue', () => {
       CollapseItem
     ) as VueWrapper<CollapseItemInstance>[]
     const collapseItemHeaderEls = vm.$el.querySelectorAll(
-      '.el-collapse-item__header'
+      '.g-collapse-item__header'
     )
 
     vi.useFakeTimers()
@@ -331,7 +331,7 @@ describe('Collapse.vue', () => {
       CollapseItem
     ) as VueWrapper<CollapseItemInstance>[]
     const collapseItemHeaderEls = vm.$el.querySelectorAll(
-      '.el-collapse-item__header'
+      '.g-collapse-item__header'
     )
 
     collapseItemHeaderEls[0].click()
@@ -393,7 +393,7 @@ describe('Collapse.vue', () => {
     test('should not toggle collapse when clicking on input', async () => {
       const wrapper = createWrapper(true)
       const input = wrapper.find('[data-testid="test-input"]')
-      const header = wrapper.find('.el-collapse-item__header')
+      const header = wrapper.find('.g-collapse-item__header')
 
       await input.trigger('click')
       await nextTick()
@@ -409,7 +409,7 @@ describe('Collapse.vue', () => {
     test('should not toggle collapse when pressing enter on input', async () => {
       const wrapper = createWrapper(true)
       const input = wrapper.find('[data-testid="test-input"]')
-      const header = wrapper.find('.el-collapse-item__header')
+      const header = wrapper.find('.g-collapse-item__header')
 
       await input.trigger('keydown.enter')
       await nextTick()
@@ -425,7 +425,7 @@ describe('Collapse.vue', () => {
     test('should not toggle collapse when pressing space on input', async () => {
       const wrapper = createWrapper(true)
       const input = wrapper.find('[data-testid="test-input"]')
-      const header = wrapper.find('.el-collapse-item__header')
+      const header = wrapper.find('.g-collapse-item__header')
 
       await input.trigger('keydown.space')
       await nextTick()
@@ -473,8 +473,8 @@ describe('Collapse.vue', () => {
       ) as VueWrapper<CollapseItemInstance>[]
 
       collapseItemWrappers.forEach((item, index) => {
-        const header = item.find('.el-collapse-item__header')
-        const content = item.find('.el-collapse-item__wrap')
+        const header = item.find('.g-collapse-item__header')
+        const content = item.find('.g-collapse-item__wrap')
         const isDisabled = item.props('disabled')
 
         expect(header.attributes('role')).toBe('button')

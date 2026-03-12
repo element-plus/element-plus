@@ -26,7 +26,7 @@ import type { CSSProperties } from 'vue'
 import type { EmptyProps } from './empty'
 
 defineOptions({
-  name: 'ElEmpty',
+  name: 'GEmpty',
 })
 
 const props = withDefaults(defineProps<EmptyProps>(), {
@@ -37,7 +37,7 @@ const props = withDefaults(defineProps<EmptyProps>(), {
 const { t } = useLocale()
 const ns = useNamespace('empty')
 const emptyDescription = computed(
-  () => props.description || t('el.table.emptyText')
+  () => props.description || t('g.table.emptyText')
 )
 const imageStyle = computed<CSSProperties>(() => ({
   width: addUnit(props.imageSize),

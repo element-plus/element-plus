@@ -18,8 +18,8 @@ export const vpRoot = resolve(docRoot, '.vitepress')
 
 /** `/dist` */
 export const buildOutput = resolve(projRoot, 'dist')
-/** `/dist/element-plus` */
-export const epOutput = resolve(buildOutput, 'element-plus')
+/** `/dist/guwave-ui` */
+export const epOutput = resolve(buildOutput, 'guwave-ui')
 
 export const projPackage = resolve(projRoot, 'package.json')
 export const compPackage = resolve(compRoot, 'package.json')

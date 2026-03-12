@@ -7,7 +7,7 @@ import defineGetter from '@element-plus/test-utils/define-getter'
 import type { NotificationHandle } from '../src/notification'
 import type { VNode } from 'vue'
 
-const selector = '.el-notification'
+const selector = '.g-notification'
 
 describe('Notification on command', () => {
   afterEach(() => {
@@ -146,7 +146,7 @@ describe('Notification on command', () => {
   it('it should be able to render all types notification', () => {
     for (const type of ['success', 'warning', 'error', 'info'] as const) {
       Notification[type]({})
-      expect(document.querySelector(`.el-icon-${type}`)).toBeDefined()
+      expect(document.querySelector(`.g-icon-${type}`)).toBeDefined()
     }
   })
 
@@ -226,7 +226,7 @@ describe('Notification on command', () => {
 
     await rAF()
     expect(
-      document.querySelector('.el-notification__content')!.textContent
+      document.querySelector('.g-notification__content')!.textContent
     ).toBe(text)
     close()
   })

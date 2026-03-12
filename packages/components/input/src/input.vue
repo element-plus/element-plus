@@ -23,9 +23,9 @@
         <span v-if="$slots.prefix || prefixIcon" :class="nsInput.e('prefix')">
           <span :class="nsInput.e('prefix-inner')">
             <slot name="prefix" />
-            <el-icon v-if="prefixIcon" :class="nsInput.e('icon')">
+            <g-icon v-if="prefixIcon" :class="nsInput.e('icon')">
               <component :is="prefixIcon" />
-            </el-icon>
+            </g-icon>
           </span>
         </span>
 
@@ -64,19 +64,19 @@
               v-if="!showClear || !showPwdVisible || !isWordLimitVisible"
             >
               <slot name="suffix" />
-              <el-icon v-if="suffixIcon" :class="nsInput.e('icon')">
+              <g-icon v-if="suffixIcon" :class="nsInput.e('icon')">
                 <component :is="suffixIcon" />
-              </el-icon>
+              </g-icon>
             </template>
-            <el-icon
+            <g-icon
               v-if="showClear"
               :class="[nsInput.e('icon'), nsInput.e('clear')]"
               @mousedown.prevent="NOOP"
               @click="clear"
             >
               <component :is="clearIcon" />
-            </el-icon>
-            <el-icon
+            </g-icon>
+            <g-icon
               v-if="showPwdVisible"
               :class="[nsInput.e('icon'), nsInput.e('password')]"
               @click="handlePasswordVisible"
@@ -84,7 +84,7 @@
               @mouseup.prevent="NOOP"
             >
               <component :is="passwordIcon" />
-            </el-icon>
+            </g-icon>
             <span
               v-if="isWordLimitVisible"
               :class="[
@@ -96,7 +96,7 @@
                 {{ textLength }} / {{ maxlength }}
               </span>
             </span>
-            <el-icon
+            <g-icon
               v-if="validateState && validateIcon && needStatusIcon"
               :class="[
                 nsInput.e('icon'),
@@ -105,7 +105,7 @@
               ]"
             >
               <component :is="validateIcon" />
-            </el-icon>
+            </g-icon>
           </span>
         </span>
       </div>
@@ -150,14 +150,14 @@
         @change="handleChange"
         @keydown="handleKeydown"
       />
-      <el-icon
+      <g-icon
         v-if="showClear"
         :class="[nsTextarea.e('icon'), nsTextarea.e('clear')]"
         @mousedown.prevent="NOOP"
         @click="clear"
       >
         <component :is="clearIcon" />
-      </el-icon>
+      </g-icon>
       <span
         v-if="isWordLimitVisible"
         :style="countStyle"
@@ -186,7 +186,7 @@ import {
 } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
 import { isNil } from 'lodash-unified'
-import { ElIcon } from '@element-plus/components/icon'
+import { GIcon } from '@element-plus/components/icon'
 import { Hide, View } from '@element-plus/icons-vue'
 import {
   useFormDisabled,
@@ -221,7 +221,7 @@ import type { InputProps } from './input'
 
 type TargetElement = HTMLInputElement | HTMLTextAreaElement
 
-const COMPONENT_NAME = 'ElInput'
+const COMPONENT_NAME = 'GInput'
 defineOptions({
   name: COMPONENT_NAME,
   inheritAttrs: false,
@@ -395,8 +395,8 @@ const createOnceInitResize = (resizeTextarea: () => void) => {
   let isInit = false
   return () => {
     if (isInit || !props.autosize) return
-    const isElHidden = textarea.value?.offsetParent === null
-    if (!isElHidden) {
+    const isGHidden = textarea.value?.offsetParent === null
+    if (!isGHidden) {
       setTimeout(resizeTextarea)
       isInit = true
     }

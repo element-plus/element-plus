@@ -10,7 +10,7 @@
     ]"
     role="tree"
   >
-    <el-tree-node
+    <g-tree-node
       v-for="child in root.childNodes"
       :key="getNodeKey(child)"
       :node="child"
@@ -24,7 +24,7 @@
     <div v-if="isEmpty" :class="ns.e('empty-block')">
       <slot name="empty">
         <span :class="ns.e('empty-text')">
-          {{ emptyText ?? t('el.tree.emptyText') }}
+          {{ emptyText ?? t('g.tree.emptyText') }}
         </span>
       </slot>
     </div>
@@ -50,7 +50,7 @@ import { useLocale, useNamespace } from '@element-plus/hooks'
 import { formItemContextKey } from '@element-plus/components/form'
 import TreeStore from './model/tree-store'
 import { getNodeKey as getNodeKeyUtil, handleCurrentChange } from './model/util'
-import ElTreeNode from './tree-node.vue'
+import GTreeNode from './tree-node.vue'
 import { useNodeExpandEventBroadcast } from './model/useNodeExpandEventBroadcast'
 import { useDragNodeHandler } from './model/useDragNode'
 import { useKeydown } from './model/useKeydown'
@@ -63,8 +63,8 @@ import type { Nullable } from '@element-plus/utils'
 import type { FilterValue, TreeData, TreeKey, TreeNodeData } from './tree.type'
 
 export default defineComponent({
-  name: 'ElTree',
-  components: { ElTreeNode },
+  name: 'GTree',
+  components: { GTreeNode },
   props: treeProps,
   emits: treeEmits,
   setup(props, ctx) {
@@ -113,7 +113,7 @@ export default defineComponent({
     const isSelectTree = computed(() => {
       let parent = instance?.parent
       while (parent) {
-        if (parent.type.name === 'ElTreeSelect') {
+        if (parent.type.name === 'GTreeSelect') {
           return true
         }
         parent = parent.parent

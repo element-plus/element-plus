@@ -5,14 +5,14 @@
       :class="[ns.b(), ns.m(type), ns.is('center', center), ns.is(effect)]"
       role="alert"
     >
-      <el-icon
+      <g-icon
         v-if="showIcon && ($slots.icon || iconComponent)"
         :class="[ns.e('icon'), ns.is('big', hasDesc)]"
       >
         <slot name="icon">
           <component :is="iconComponent" />
         </slot>
-      </el-icon>
+      </g-icon>
 
       <div :class="ns.e('content')">
         <span
@@ -34,9 +34,9 @@
           >
             {{ closeText }}
           </div>
-          <el-icon v-else :class="ns.e('close-btn')" @click="close">
+          <g-icon v-else :class="ns.e('close-btn')" @click="close">
             <Close />
-          </el-icon>
+          </g-icon>
         </template>
       </div>
     </div>
@@ -45,7 +45,7 @@
 
 <script lang="ts" setup>
 import { computed, ref, useSlots } from 'vue'
-import { ElIcon } from '@element-plus/components/icon'
+import { GIcon } from '@element-plus/components/icon'
 import {
   TypeComponents,
   TypeComponentsMap,
@@ -60,7 +60,7 @@ import type { AlertProps } from './alert'
 const { Close } = TypeComponents
 
 defineOptions({
-  name: 'ElAlert',
+  name: 'GAlert',
 })
 
 const props = withDefaults(defineProps<AlertProps>(), {

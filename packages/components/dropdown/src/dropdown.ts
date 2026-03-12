@@ -13,7 +13,7 @@ import type { ButtonProps, ButtonType } from '@element-plus/components/button'
 import type { ComponentInternalInstance, ComputedRef } from 'vue'
 import type { Arrayable, Nullable } from '@element-plus/utils'
 
-export interface IElDropdownInstance {
+export interface IGDropdownInstance {
   instance?: ComponentInternalInstance
   dropdownSize?: ComputedRef<string>
   handleClick?: () => void

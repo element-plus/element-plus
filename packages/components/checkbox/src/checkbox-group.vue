@@ -33,8 +33,8 @@ import {
 } from '@element-plus/components/form'
 import { checkboxDefaultProps, checkboxGroupEmits } from './checkbox-group'
 import { checkboxGroupContextKey } from './constants'
-import ElCheckbox from './checkbox.vue'
-import ElCheckboxButton from './checkbox-button.vue'
+import GCheckbox from './checkbox.vue'
+import GCheckboxButton from './checkbox-button.vue'
 
 import type {
   CheckboxGroupProps,
@@ -42,7 +42,7 @@ import type {
 } from './checkbox-group'
 
 defineOptions({
-  name: 'ElCheckboxGroup',
+  name: 'GCheckboxGroup',
 })
 
 const props = withDefaults(defineProps<CheckboxGroupProps>(), {
@@ -92,7 +92,7 @@ const getOptionProps = (option: Record<string, any>) => {
 }
 
 const optionComponent = computed(() =>
-  props.type === 'button' ? ElCheckboxButton : ElCheckbox
+  props.type === 'button' ? GCheckboxButton : GCheckbox
 )
 
 provide(checkboxGroupContextKey, {

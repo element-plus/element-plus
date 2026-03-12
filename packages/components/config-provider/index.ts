@@ -3,9 +3,9 @@ import ConfigProvider from './src/config-provider'
 
 import type { SFCWithInstall } from '@element-plus/utils'
 
-export const ElConfigProvider: SFCWithInstall<typeof ConfigProvider> =
+export const GConfigProvider: SFCWithInstall<typeof ConfigProvider> =
   withInstall(ConfigProvider)
-export default ElConfigProvider
+export default GConfigProvider
 
 export * from './src/config-provider'
 export * from './src/config-provider-props'

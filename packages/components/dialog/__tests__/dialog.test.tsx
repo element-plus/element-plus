@@ -17,7 +17,7 @@ describe('Dialog.vue', () => {
     await nextTick()
     await rAF()
     await nextTick()
-    expect(wrapper.find('.el-dialog__body').text()).toEqual(AXIOM)
+    expect(wrapper.find('.g-dialog__body').text()).toEqual(AXIOM)
   })
 
   test('dialog should have a title and header when it has been given', async () => {
@@ -34,7 +34,7 @@ describe('Dialog.vue', () => {
     )
 
     await nextTick()
-    expect(wrapper.find('.el-dialog__header').text()).toBe(HEADER)
+    expect(wrapper.find('.g-dialog__header').text()).toBe(HEADER)
 
     mount(
       <Dialog modelValue={true} title={HEADER}>
@@ -43,7 +43,7 @@ describe('Dialog.vue', () => {
     )
     await nextTick()
 
-    expect(wrapper.find('.el-dialog__header').text()).toBe(HEADER)
+    expect(wrapper.find('.g-dialog__header').text()).toBe(HEADER)
   })
 
   test('dialog header should have slot props', async () => {
@@ -76,7 +76,7 @@ describe('Dialog.vue', () => {
     const headerButton = wrapper.find('button')
     expect(headerButton.attributes()['data-title-id']).toBeTruthy()
     expect(headerButton.attributes()['data-title-class']).toBe(
-      'el-dialog__title'
+      'g-dialog__title'
     )
     expect(wrapper.emitted().close).toBeFalsy()
     headerButton.trigger('click')
@@ -92,8 +92,8 @@ describe('Dialog.vue', () => {
     )
 
     await nextTick()
-    expect(wrapper.find('.el-dialog__footer').exists()).toBe(true)
-    expect(wrapper.find('.el-dialog__footer').text()).toBe(AXIOM)
+    expect(wrapper.find('.g-dialog__footer').exists()).toBe(true)
+    expect(wrapper.find('.g-dialog__footer').text()).toBe(AXIOM)
   })
 
   test('should append dialog to body when appendToBody is true', async () => {
@@ -105,7 +105,7 @@ describe('Dialog.vue', () => {
 
     await nextTick()
     expect(
-      document.body.firstElementChild!.classList.contains('el-overlay')
+      document.body.firstElementChild!.classList.contains('g-overlay')
     ).toBe(true)
     wrapper.unmount()
   })
@@ -118,14 +118,14 @@ describe('Dialog.vue', () => {
     )
 
     await nextTick()
-    expect(wrapper.find('.el-dialog--center').exists()).toBe(true)
+    expect(wrapper.find('.g-dialog--center').exists()).toBe(true)
   })
 
   test('should show close button', async () => {
     const wrapper = mount(<Dialog modelValue={true}>{AXIOM}</Dialog>)
 
     await nextTick()
-    expect(wrapper.find('.el-dialog__close').exists()).toBe(true)
+    expect(wrapper.find('.g-dialog__close').exists()).toBe(true)
   })
 
   test('should hide close button when showClose = false', async () => {
@@ -136,14 +136,14 @@ describe('Dialog.vue', () => {
     )
 
     await nextTick()
-    expect(wrapper.find('.el-dialog__headerbtn').exists()).toBe(false)
+    expect(wrapper.find('.g-dialog__headerbtn').exists()).toBe(false)
   })
 
   test('should close dialog when click on close button', async () => {
     const wrapper = mount(<Dialog modelValue={true}>{AXIOM}</Dialog>)
 
     await nextTick()
-    await wrapper.find('.el-dialog__headerbtn').trigger('click')
+    await wrapper.find('.g-dialog__headerbtn').trigger('click')
     expect(wrapper.vm.visible).toBe(false)
   })
 
@@ -230,7 +230,7 @@ describe('Dialog.vue', () => {
     await rAF()
     await nextTick()
 
-    expect(wrapper.find('.el-dialog').exists()).toBe(true)
+    expect(wrapper.find('.g-dialog').exists()).toBe(true)
     const button = wrapper.find('.test-button')
     await button.trigger('click')
     expect(handleClick).toHaveBeenCalledTimes(1)
@@ -238,7 +238,7 @@ describe('Dialog.vue', () => {
     visible.value = false
     await nextTick()
 
-    const overlayDialog = wrapper.find('.el-overlay-dialog')
+    const overlayDialog = wrapper.find('.g-overlay-dialog')
     expect(overlayDialog.classes()).toContain('is-closing')
     expect(onClose).toHaveBeenCalled()
 
@@ -263,7 +263,7 @@ describe('Dialog.vue', () => {
     await rAF()
     await nextTick()
 
-    const overlayDialog = wrapper.find('.el-overlay-dialog')
+    const overlayDialog = wrapper.find('.g-overlay-dialog')
     visible.value = false
     await nextTick()
     expect(overlayDialog.classes()).toContain('is-closing')
@@ -282,17 +282,17 @@ describe('Dialog.vue', () => {
       )
 
       await nextTick()
-      expect(wrapper.find('.el-overlay').exists()).toBe(false)
+      expect(wrapper.find('.g-overlay').exists()).toBe(false)
     })
 
     test('should close the modal when clicking on mask when `closeOnClickModal` is true', async () => {
       const wrapper = mount(<Dialog modelValue={true}>{AXIOM}</Dialog>)
 
       await nextTick()
-      expect(wrapper.find('.el-overlay').exists()).toBe(true)
-      expect(wrapper.find('.el-overlay-dialog').exists()).toBe(true)
+      expect(wrapper.find('.g-overlay').exists()).toBe(true)
+      expect(wrapper.find('.g-overlay-dialog').exists()).toBe(true)
 
-      await triggerCompositeClick(wrapper.find('.el-overlay-dialog'))
+      await triggerCompositeClick(wrapper.find('.g-overlay-dialog'))
       expect(wrapper.vm.visible).toBe(false)
     })
 
@@ -308,8 +308,8 @@ describe('Dialog.vue', () => {
         </>
       ))
 
-      const overlay = wrapper.findComponent({ name: 'ElOverlay' })
-      const dialog = wrapper.findComponent({ name: 'ElDialog' })
+      const overlay = wrapper.findComponent({ name: 'GOverlay' })
+      const dialog = wrapper.findComponent({ name: 'GDialog' })
       expect(overlay.exists()).toBe(true)
       expect(overlay.classes()).toContain('is-penetrable')
 
@@ -330,7 +330,7 @@ describe('Dialog.vue', () => {
       )
 
       await nextTick()
-      await wrapper.find('.el-dialog__headerbtn').trigger('click')
+      await wrapper.find('.g-dialog__headerbtn').trigger('click')
       expect(beforeClose).toHaveBeenCalled()
     })
 
@@ -345,7 +345,7 @@ describe('Dialog.vue', () => {
         </Dialog>
       )
       await nextTick()
-      await wrapper.find('.el-dialog__headerbtn').trigger('click')
+      await wrapper.find('.g-dialog__headerbtn').trigger('click')
       expect(beforeClose).toHaveBeenCalled()
       expect(wrapper.vm.visible).toBe(true)
     })
@@ -391,7 +391,7 @@ describe('Dialog.vue', () => {
       await nextTick()
       await rAF()
       await nextTick()
-      await wrapper.find('.el-dialog__headerbtn').trigger('click')
+      await wrapper.find('.g-dialog__headerbtn').trigger('click')
       await wrapper.setProps({
         // manually setting this prop because that Transition is not available in testing,
         // updating model value event was emitted via transition hooks.
@@ -400,7 +400,7 @@ describe('Dialog.vue', () => {
       await nextTick()
       await rAF()
       await nextTick()
-      expect(wrapper.find('.el-dialog__body').exists()).toBe(false)
+      expect(wrapper.find('.g-dialog__body').exists()).toBe(false)
     })
 
     test('should emit close event', async () => {
@@ -423,7 +423,7 @@ describe('Dialog.vue', () => {
       await rAF()
       await nextTick()
 
-      await triggerCompositeClick(wrapper.find('.el-overlay-dialog'))
+      await triggerCompositeClick(wrapper.find('.g-overlay-dialog'))
       await nextTick()
       await rAF()
       await nextTick()
@@ -493,7 +493,7 @@ describe('Dialog.vue', () => {
       )
       await nextTick()
       const dialog = wrapper.find('[role="dialog"]')
-      const dialogTitle = wrapper.find('.el-dialog__title')
+      const dialogTitle = wrapper.find('.g-dialog__title')
       expect(dialog.attributes()['aria-label']).toBeFalsy()
       expect(dialog.attributes()['aria-labelledby']).toBe(
         dialogTitle.attributes().id
@@ -504,7 +504,7 @@ describe('Dialog.vue', () => {
       const wrapper = mount(<Dialog modelValue={true}>{AXIOM}</Dialog>)
       await nextTick()
       const dialog = wrapper.find('[role="dialog"]')
-      const dialogBody = wrapper.find('.el-dialog__body')
+      const dialogBody = wrapper.find('.g-dialog__body')
       expect(dialog.attributes()['aria-describedby']).toBe(
         dialogBody.attributes().id
       )

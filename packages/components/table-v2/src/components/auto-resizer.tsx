@@ -4,7 +4,7 @@ import { autoResizerProps } from '../auto-resizer'
 import { useAutoResize } from '../composables'
 
 const AutoResizer = defineComponent({
-  name: 'ElAutoResizer',
+  name: 'GAutoResizer',
   props: autoResizerProps,
   setup(props, { slots }) {
     const ns = useNamespace('auto-resizer')

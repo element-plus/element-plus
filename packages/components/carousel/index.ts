@@ -4,15 +4,15 @@ import CarouselItem from './src/carousel-item.vue'
 
 import type { SFCWithInstall } from '@element-plus/utils'
 
-export const ElCarousel: SFCWithInstall<typeof Carousel> & {
+export const GCarousel: SFCWithInstall<typeof Carousel> & {
   CarouselItem: typeof CarouselItem
 } = withInstall(Carousel, {
   CarouselItem,
 })
 
-export default ElCarousel
+export default GCarousel
 
-export const ElCarouselItem: SFCWithInstall<typeof CarouselItem> =
+export const GCarouselItem: SFCWithInstall<typeof CarouselItem> =
   withNoopInstall(CarouselItem)
 
 export * from './src/carousel'

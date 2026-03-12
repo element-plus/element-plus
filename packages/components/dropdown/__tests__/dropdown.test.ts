@@ -4,7 +4,7 @@ import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import { rAF } from '@element-plus/test-utils/tick'
 import { EVENT_CODE } from '@element-plus/constants'
-import { ElTooltip } from '@element-plus/components/tooltip'
+import { GTooltip } from '@element-plus/components/tooltip'
 import Button from '@element-plus/components/button'
 import { usePopperContainerId } from '@element-plus/hooks'
 import Dropdown from '../src/dropdown.vue'
@@ -36,30 +36,30 @@ describe('Dropdown', () => {
   test('create', async () => {
     const wrapper = _mount(
       `
-        <el-dropdown ref="b" placement="right">
-          <span class="el-dropdown-link" ref="a">
-            dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+        <g-dropdown ref="b" placement="right">
+          <span class="g-dropdown-link" ref="a">
+            dropdown<i class="g-icon-arrow-down el-icon--right"></i>
           </span>
           <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item>Apple</el-dropdown-item>
-              <el-dropdown-item>Orange</el-dropdown-item>
-              <el-dropdown-item>Cherry</el-dropdown-item>
-              <el-dropdown-item disabled>Peach</el-dropdown-item>
-              <el-dropdown-item divided>Pear</el-dropdown-item>
-            </el-dropdown-menu>
+            <g-dropdown-menu>
+              <g-dropdown-item>Apple</g-dropdown-item>
+              <g-dropdown-item>Orange</g-dropdown-item>
+              <g-dropdown-item>Cherry</g-dropdown-item>
+              <g-dropdown-item disabled>Peach</g-dropdown-item>
+              <g-dropdown-item divided>Pear</g-dropdown-item>
+            </g-dropdown-menu>
           </template>
-        </el-dropdown>
+        </g-dropdown>
       `,
       () => ({})
     )
     await nextTick()
-    const content = wrapper.findComponent(ElTooltip).vm as InstanceType<
-      typeof ElTooltip
+    const content = wrapper.findComponent(GTooltip).vm as InstanceType<
+      typeof GTooltip
     >
 
     vi.useFakeTimers()
-    const triggerElm = wrapper.find('.el-tooltip__trigger')
+    const triggerElm = wrapper.find('.g-tooltip__trigger')
     expect(content.open).toBe(false)
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
     vi.runAllTimers()
@@ -74,20 +74,20 @@ describe('Dropdown', () => {
     const commandHandler = vi.fn()
     const wrapper = _mount(
       `
-      <el-dropdown ref="b" @command="commandHandler" placement="right">
-        <span class="el-dropdown-link" ref="a">
-          dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+      <g-dropdown ref="b" @command="commandHandler" placement="right">
+        <span class="g-dropdown-link" ref="a">
+          dropdown<i class="g-icon-arrow-down el-icon--right"></i>
         </span>
         <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item command="a">Apple</el-dropdown-item>
-            <el-dropdown-item command="b">Orange</el-dropdown-item>
-            <el-dropdown-item ref="c" :command="myCommandObject">Cherry</el-dropdown-item>
-            <el-dropdown-item command="d">Peach</el-dropdown-item>
-            <el-dropdown-item command="e">Pear</el-dropdown-item>
-          </el-dropdown-menu>
+          <g-dropdown-menu>
+            <g-dropdown-item command="a">Apple</g-dropdown-item>
+            <g-dropdown-item command="b">Orange</g-dropdown-item>
+            <g-dropdown-item ref="c" :command="myCommandObject">Cherry</g-dropdown-item>
+            <g-dropdown-item command="d">Peach</g-dropdown-item>
+            <g-dropdown-item command="e">Pear</g-dropdown-item>
+          </g-dropdown-menu>
         </template>
-      </el-dropdown>
+      </g-dropdown>
       `,
       () => ({
         myCommandObject: { name: 'CommandC' },
@@ -101,7 +101,7 @@ describe('Dropdown', () => {
     )
     await nextTick()
     // const content = wrapper.findComponent({ ref: 'b' }).vm as any
-    const triggerElm = wrapper.find('.el-tooltip__trigger')
+    const triggerElm = wrapper.find('.g-tooltip__trigger')
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
     await nextTick()
     await wrapper
@@ -109,7 +109,7 @@ describe('Dropdown', () => {
       .findComponent({
         name: 'DropdownItemImpl',
       })
-      .find('.el-dropdown-menu__item')
+      .find('.g-dropdown-menu__item')
       .trigger('click')
     await nextTick()
     expect(commandHandler).toHaveBeenCalled()
@@ -118,20 +118,20 @@ describe('Dropdown', () => {
   test('trigger', async () => {
     const wrapper = _mount(
       `
-      <el-dropdown trigger="click" ref="b" placement="right">
-        <span class="el-dropdown-link" ref="a">
-          dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+      <g-dropdown trigger="click" ref="b" placement="right">
+        <span class="g-dropdown-link" ref="a">
+          dropdown<i class="g-icon-arrow-down el-icon--right"></i>
         </span>
         <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item command="a">Apple</el-dropdown-item>
-            <el-dropdown-item command="b">Orange</el-dropdown-item>
-            <el-dropdown-item ref="c" :command="myCommandObject">Cherry</el-dropdown-item>
-            <el-dropdown-item command="d">Peach</el-dropdown-item>
-            <el-dropdown-item command="e">Pear</el-dropdown-item>
-          </el-dropdown-menu>
+          <g-dropdown-menu>
+            <g-dropdown-item command="a">Apple</g-dropdown-item>
+            <g-dropdown-item command="b">Orange</g-dropdown-item>
+            <g-dropdown-item ref="c" :command="myCommandObject">Cherry</g-dropdown-item>
+            <g-dropdown-item command="d">Peach</g-dropdown-item>
+            <g-dropdown-item command="e">Pear</g-dropdown-item>
+          </g-dropdown-menu>
         </template>
-      </el-dropdown>
+      </g-dropdown>
       `,
       () => ({
         myCommandObject: { name: 'CommandC' },
@@ -139,10 +139,10 @@ describe('Dropdown', () => {
       })
     )
     await nextTick()
-    const content = wrapper.findComponent(ElTooltip).vm as InstanceType<
-      typeof ElTooltip
+    const content = wrapper.findComponent(GTooltip).vm as InstanceType<
+      typeof GTooltip
     >
-    const triggerElm = wrapper.find('.el-dropdown-link')
+    const triggerElm = wrapper.find('.g-dropdown-link')
     expect(content.open).toBe(false)
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
     expect(content.open).toBe(false)
@@ -156,20 +156,20 @@ describe('Dropdown', () => {
   test('trigger contextmenu', async () => {
     const wrapper = _mount(
       `
-      <el-dropdown trigger="contextmenu" ref="b" placement="right">
-        <span class="el-dropdown-link" ref="a">
-          dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+      <g-dropdown trigger="contextmenu" ref="b" placement="right">
+        <span class="g-dropdown-link" ref="a">
+          dropdown<i class="g-icon-arrow-down el-icon--right"></i>
         </span>
         <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item command="a">Apple</el-dropdown-item>
-            <el-dropdown-item command="b">Orange</el-dropdown-item>
-            <el-dropdown-item ref="c" :command="myCommandObject">Cherry</el-dropdown-item>
-            <el-dropdown-item command="d">Peach</el-dropdown-item>
-            <el-dropdown-item command="e">Pear</el-dropdown-item>
-          </el-dropdown-menu>
+          <g-dropdown-menu>
+            <g-dropdown-item command="a">Apple</g-dropdown-item>
+            <g-dropdown-item command="b">Orange</g-dropdown-item>
+            <g-dropdown-item ref="c" :command="myCommandObject">Cherry</g-dropdown-item>
+            <g-dropdown-item command="d">Peach</g-dropdown-item>
+            <g-dropdown-item command="e">Pear</g-dropdown-item>
+          </g-dropdown-menu>
         </template>
-      </el-dropdown>
+      </g-dropdown>
       `,
       () => ({
         myCommandObject: { name: 'CommandC' },
@@ -177,10 +177,10 @@ describe('Dropdown', () => {
       })
     )
     await nextTick()
-    const content = wrapper.findComponent(ElTooltip).vm as InstanceType<
-      typeof ElTooltip
+    const content = wrapper.findComponent(GTooltip).vm as InstanceType<
+      typeof GTooltip
     >
-    const triggerElm = wrapper.find('.el-dropdown-link')
+    const triggerElm = wrapper.find('.g-dropdown-link')
     expect(content.open).toBe(false)
     await triggerElm.trigger(CONTEXTMENU)
     await rAF()
@@ -190,10 +190,10 @@ describe('Dropdown', () => {
   test('virtual ref', async () => {
     const wrapper = _mount(
       `
-      <el-button style="height: 400px; width: 400px" @click="handleClick" @contextmenu="handleContextmenu">
+      <g-button style="height: 400px; width: 400px" @click="handleClick" @contextmenu="handleContextmenu">
         Right click
-      </el-button>
-      <el-dropdown
+      </g-button>
+      <g-dropdown
         ref="dropdownRef"
         popper-class="virtual-ref-cls"
         :virtual-ref="triggerRef"
@@ -201,13 +201,13 @@ describe('Dropdown', () => {
         :popper-options="popperOptions"
       >
         <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item>Apple</el-dropdown-item>
-            <el-dropdown-item>Orange</el-dropdown-item>
-            <el-dropdown-item>Cherry</el-dropdown-item>
-          </el-dropdown-menu>
+          <g-dropdown-menu>
+            <g-dropdown-item>Apple</g-dropdown-item>
+            <g-dropdown-item>Orange</g-dropdown-item>
+            <g-dropdown-item>Cherry</g-dropdown-item>
+          </g-dropdown-menu>
         </template>
-      </el-dropdown>
+      </g-dropdown>
       `,
       function () {
         return {
@@ -258,10 +258,10 @@ describe('Dropdown', () => {
     )
 
     await nextTick()
-    const content = wrapper.findComponent(ElTooltip).vm as InstanceType<
-      typeof ElTooltip
+    const content = wrapper.findComponent(GTooltip).vm as InstanceType<
+      typeof GTooltip
     >
-    const triggerElm = wrapper.find('.el-button')
+    const triggerElm = wrapper.find('.g-button')
 
     expect(content.open).toBe(false)
     vi.useFakeTimers()
@@ -285,20 +285,20 @@ describe('Dropdown', () => {
   test('handleOpen and handleClose', async () => {
     const wrapper = _mount(
       `
-      <el-dropdown trigger="click" ref="refDropdown" placement="right">
-        <span class="el-dropdown-link" ref="a">
-          dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+      <g-dropdown trigger="click" ref="refDropdown" placement="right">
+        <span class="g-dropdown-link" ref="a">
+          dropdown<i class="g-icon-arrow-down el-icon--right"></i>
         </span>
         <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item command="a">Apple</el-dropdown-item>
-            <el-dropdown-item command="b">Orange</el-dropdown-item>
-            <el-dropdown-item command="c">Cherry</el-dropdown-item>
-            <el-dropdown-item command="d">Peach</el-dropdown-item>
-            <el-dropdown-item command="e">Pear</el-dropdown-item>
-          </el-dropdown-menu>
+          <g-dropdown-menu>
+            <g-dropdown-item command="a">Apple</g-dropdown-item>
+            <g-dropdown-item command="b">Orange</g-dropdown-item>
+            <g-dropdown-item command="c">Cherry</g-dropdown-item>
+            <g-dropdown-item command="d">Peach</g-dropdown-item>
+            <g-dropdown-item command="e">Pear</g-dropdown-item>
+          </g-dropdown-menu>
         </template>
-      </el-dropdown>
+      </g-dropdown>
       `,
       () => ({
         name: '',
@@ -306,8 +306,8 @@ describe('Dropdown', () => {
     )
     await nextTick()
     const dropdown = wrapper.vm
-    const content = wrapper.findComponent(ElTooltip).vm as InstanceType<
-      typeof ElTooltip
+    const content = wrapper.findComponent(GTooltip).vm as InstanceType<
+      typeof GTooltip
     >
     expect(content.open).toBe(false)
     await dropdown.$refs.refDropdown.handleOpen()
@@ -322,18 +322,18 @@ describe('Dropdown', () => {
     const handleClick = vi.fn()
     const wrapper = _mount(
       `
-      <el-dropdown  @click="handleClick" split-button type="primary" ref="b" placement="right">
+      <g-dropdown  @click="handleClick" split-button type="primary" ref="b" placement="right">
         dropdown
         <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item command="a">Apple</el-dropdown-item>
-            <el-dropdown-item command="b">Orange</el-dropdown-item>
-            <el-dropdown-item ref="c" :command="myCommandObject">Cherry</el-dropdown-item>
-            <el-dropdown-item command="d">Peach</el-dropdown-item>
-            <el-dropdown-item command="e">Pear</el-dropdown-item>
-          </el-dropdown-menu>
+          <g-dropdown-menu>
+            <g-dropdown-item command="a">Apple</g-dropdown-item>
+            <g-dropdown-item command="b">Orange</g-dropdown-item>
+            <g-dropdown-item ref="c" :command="myCommandObject">Cherry</g-dropdown-item>
+            <g-dropdown-item command="d">Peach</g-dropdown-item>
+            <g-dropdown-item command="e">Pear</g-dropdown-item>
+          </g-dropdown-menu>
         </template>
-      </el-dropdown>
+      </g-dropdown>
       `,
       () => ({
         myCommandObject: { name: 'CommandC' },
@@ -346,11 +346,11 @@ describe('Dropdown', () => {
       }
     )
     await nextTick()
-    const content = wrapper.findComponent(ElTooltip).vm as InstanceType<
-      typeof ElTooltip
+    const content = wrapper.findComponent(GTooltip).vm as InstanceType<
+      typeof GTooltip
     >
-    const triggerElm = wrapper.find('.el-dropdown__caret-button')
-    const button = wrapper.find('.el-button')
+    const triggerElm = wrapper.find('.g-dropdown__caret-button')
+    const button = wrapper.find('.g-button')
     expect(content.open).toBe(false)
     await button.trigger('click')
     expect(handleClick).toHaveBeenCalled()
@@ -364,29 +364,29 @@ describe('Dropdown', () => {
   test('hide on click', async () => {
     const wrapper = _mount(
       `
-      <el-dropdown ref="b" placement="right" :hide-on-click="false">
-        <span class="el-dropdown-link" ref="a">
-          dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+      <g-dropdown ref="b" placement="right" :hide-on-click="false">
+        <span class="g-dropdown-link" ref="a">
+          dropdown<i class="g-icon-arrow-down el-icon--right"></i>
         </span>
         <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item>Apple</el-dropdown-item>
-            <el-dropdown-item>Orange</el-dropdown-item>
-            <el-dropdown-item ref="c">Cherry</el-dropdown-item>
-            <el-dropdown-item disabled>Peach</el-dropdown-item>
-            <el-dropdown-item divided>Pear</el-dropdown-item>
-          </el-dropdown-menu>
+          <g-dropdown-menu>
+            <g-dropdown-item>Apple</g-dropdown-item>
+            <g-dropdown-item>Orange</g-dropdown-item>
+            <g-dropdown-item ref="c">Cherry</g-dropdown-item>
+            <g-dropdown-item disabled>Peach</g-dropdown-item>
+            <g-dropdown-item divided>Pear</g-dropdown-item>
+          </g-dropdown-menu>
         </template>
-      </el-dropdown>
+      </g-dropdown>
       `,
       () => ({})
     )
     await nextTick()
-    const content = wrapper.findComponent(ElTooltip).vm as InstanceType<
-      typeof ElTooltip
+    const content = wrapper.findComponent(GTooltip).vm as InstanceType<
+      typeof GTooltip
     >
     expect(content.open).toBe(false)
-    const triggerElm = wrapper.find('.el-tooltip__trigger')
+    const triggerElm = wrapper.find('.g-tooltip__trigger')
     vi.useFakeTimers()
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
     vi.runAllTimers()
@@ -405,28 +405,28 @@ describe('Dropdown', () => {
   test('triggerElm keydown', async () => {
     const wrapper = _mount(
       `
-      <el-dropdown ref="b" placement="right" :hide-on-click="false">
-        <span class="el-dropdown-link" ref="a">
-          dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+      <g-dropdown ref="b" placement="right" :hide-on-click="false">
+        <span class="g-dropdown-link" ref="a">
+          dropdown<i class="g-icon-arrow-down el-icon--right"></i>
         </span>
         <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item>Apple</el-dropdown-item>
-            <el-dropdown-item>Orange</el-dropdown-item>
-            <el-dropdown-item ref="c">Cherry</el-dropdown-item>
-            <el-dropdown-item disabled>Peach</el-dropdown-item>
-            <el-dropdown-item divided>Pear</el-dropdown-item>
-          </el-dropdown-menu>
+          <g-dropdown-menu>
+            <g-dropdown-item>Apple</g-dropdown-item>
+            <g-dropdown-item>Orange</g-dropdown-item>
+            <g-dropdown-item ref="c">Cherry</g-dropdown-item>
+            <g-dropdown-item disabled>Peach</g-dropdown-item>
+            <g-dropdown-item divided>Pear</g-dropdown-item>
+          </g-dropdown-menu>
         </template>
-      </el-dropdown>
+      </g-dropdown>
       `,
       () => ({})
     )
     await nextTick()
-    const content = wrapper.findComponent(ElTooltip).vm as InstanceType<
-      typeof ElTooltip
+    const content = wrapper.findComponent(GTooltip).vm as InstanceType<
+      typeof GTooltip
     >
-    const triggerElm = wrapper.find('.el-tooltip__trigger')
+    const triggerElm = wrapper.find('.g-tooltip__trigger')
 
     vi.useFakeTimers()
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
@@ -450,20 +450,20 @@ describe('Dropdown', () => {
   test('max height', async () => {
     const wrapper = _mount(
       `
-      <el-dropdown ref="b" max-height="60px">
-        <span class="el-dropdown-link" ref="a">
-          dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+      <g-dropdown ref="b" max-height="60px">
+        <span class="g-dropdown-link" ref="a">
+          dropdown<i class="g-icon-arrow-down el-icon--right"></i>
         </span>
         <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item>Apple</el-dropdown-item>
-            <el-dropdown-item>Orange</el-dropdown-item>
-            <el-dropdown-item>Cherry</el-dropdown-item>
-            <el-dropdown-item disabled>Peach</el-dropdown-item>
-            <el-dropdown-item divided>Pear</el-dropdown-item>
-          </el-dropdown-menu>
+          <g-dropdown-menu>
+            <g-dropdown-item>Apple</g-dropdown-item>
+            <g-dropdown-item>Orange</g-dropdown-item>
+            <g-dropdown-item>Cherry</g-dropdown-item>
+            <g-dropdown-item disabled>Peach</g-dropdown-item>
+            <g-dropdown-item divided>Pear</g-dropdown-item>
+          </g-dropdown-menu>
         </template>
-      </el-dropdown>
+      </g-dropdown>
       `,
       () => ({})
     )
@@ -473,7 +473,7 @@ describe('Dropdown', () => {
         ref: 'b',
       })
       .findComponent({ ref: 'scrollbar' })
-    expect(scrollbar.find('.el-scrollbar__wrap').attributes('style')).toContain(
+    expect(scrollbar.find('.g-scrollbar__wrap').attributes('style')).toContain(
       'max-height: 60px;'
     )
   })
@@ -481,27 +481,27 @@ describe('Dropdown', () => {
   test('tooltip debounce', async () => {
     const wrapper = _mount(
       `
-      <el-dropdown ref="b">
-        <span class="el-dropdown-link">
-          dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+      <g-dropdown ref="b">
+        <span class="g-dropdown-link">
+          dropdown<i class="g-icon-arrow-down el-icon--right"></i>
         </span>
         <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item>Apple</el-dropdown-item>
-            <el-dropdown-item>Orange</el-dropdown-item>
-            <el-dropdown-item>Cherry</el-dropdown-item>
-            <el-dropdown-item>Peach</el-dropdown-item>
-            <el-dropdown-item>Pear</el-dropdown-item>
-          </el-dropdown-menu>
+          <g-dropdown-menu>
+            <g-dropdown-item>Apple</g-dropdown-item>
+            <g-dropdown-item>Orange</g-dropdown-item>
+            <g-dropdown-item>Cherry</g-dropdown-item>
+            <g-dropdown-item>Peach</g-dropdown-item>
+            <g-dropdown-item>Pear</g-dropdown-item>
+          </g-dropdown-menu>
         </template>
-      </el-dropdown>
+      </g-dropdown>
       `,
       () => ({})
     )
-    const content = wrapper.findComponent(ElTooltip).vm as InstanceType<
-      typeof ElTooltip
+    const content = wrapper.findComponent(GTooltip).vm as InstanceType<
+      typeof GTooltip
     >
-    const triggerElm = wrapper.find('.el-tooltip__trigger')
+    const triggerElm = wrapper.find('.g-tooltip__trigger')
     expect(content.open).toBe(false)
 
     vi.useFakeTimers()
@@ -516,26 +516,26 @@ describe('Dropdown', () => {
   test('popperClass', async () => {
     const wrapper = await _mount(
       `
-      <el-dropdown ref="b" max-height="60px" popper-class="custom-popper-class">
-        <span class="el-dropdown-link" ref="a">
-          dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+      <g-dropdown ref="b" max-height="60px" popper-class="custom-popper-class">
+        <span class="g-dropdown-link" ref="a">
+          dropdown<i class="g-icon-arrow-down el-icon--right"></i>
         </span>
         <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item>Apple</el-dropdown-item>
-            <el-dropdown-item>Orange</el-dropdown-item>
-            <el-dropdown-item>Cherry</el-dropdown-item>
-            <el-dropdown-item disabled>Peach</el-dropdown-item>
-            <el-dropdown-item divided>Pear</el-dropdown-item>
-          </el-dropdown-menu>
+          <g-dropdown-menu>
+            <g-dropdown-item>Apple</g-dropdown-item>
+            <g-dropdown-item>Orange</g-dropdown-item>
+            <g-dropdown-item>Cherry</g-dropdown-item>
+            <g-dropdown-item disabled>Peach</g-dropdown-item>
+            <g-dropdown-item divided>Pear</g-dropdown-item>
+          </g-dropdown-menu>
         </template>
-      </el-dropdown>
+      </g-dropdown>
       `,
       () => ({})
     )
 
     const popperElement = wrapper.findComponent({
-      name: 'ElPopperContent',
+      name: 'GPopperContent',
     }).element
 
     expect(popperElement.classList.contains('custom-popper-class')).toBe(true)
@@ -544,16 +544,16 @@ describe('Dropdown', () => {
   test('custom attributes for dropdown items', async () => {
     const wrapper = _mount(
       `
-      <el-dropdown>
-        <span class="el-dropdown-link">
+      <g-dropdown>
+        <span class="g-dropdown-link">
           Custom Attributes
         </span>
         <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item data-custom-attribute="hello">Item</el-dropdown-item>
-          </el-dropdown-menu>
+          <g-dropdown-menu>
+            <g-dropdown-item data-custom-attribute="hello">Item</g-dropdown-item>
+          </g-dropdown-menu>
         </template>
-      </el-dropdown>
+      </g-dropdown>
       `,
       () => ({})
     )
@@ -563,23 +563,23 @@ describe('Dropdown', () => {
         .findComponent({
           name: 'DropdownItemImpl',
         })
-        .find('.el-dropdown-menu__item').element.dataset.customAttribute
+        .find('.g-dropdown-menu__item').element.dataset.customAttribute
     ).toBe('hello')
   })
 
   test('disable normal dropdown', async () => {
     const wrapper = _mount(
       `
-      <el-dropdown disabled>
-        <span class="el-dropdown-link">
+      <g-dropdown disabled>
+        <span class="g-dropdown-link">
           Dropdown List
         </span>
         <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item data-custom-attribute="hello">Item</el-dropdown-item>
-          </el-dropdown-menu>
+          <g-dropdown-menu>
+            <g-dropdown-item data-custom-attribute="hello">Item</g-dropdown-item>
+          </g-dropdown-menu>
         </template>
-      </el-dropdown>
+      </g-dropdown>
       `,
       () => ({})
     )
@@ -587,7 +587,7 @@ describe('Dropdown', () => {
     expect(
       wrapper
         .findComponent({
-          name: 'ElDropdown',
+          name: 'GDropdown',
         })
         .classes()
     ).toContain('is-disabled')
@@ -595,16 +595,16 @@ describe('Dropdown', () => {
   test('disable dropdown with split button', async () => {
     const wrapper = _mount(
       `
-      <el-dropdown disabled split-button>
-        <span class="el-dropdown-link">
+      <g-dropdown disabled split-button>
+        <span class="g-dropdown-link">
           Dropdown List
         </span>
         <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item data-custom-attribute="hello">Item</el-dropdown-item>
-          </el-dropdown-menu>
+          <g-dropdown-menu>
+            <g-dropdown-item data-custom-attribute="hello">Item</g-dropdown-item>
+          </g-dropdown-menu>
         </template>
-      </el-dropdown>
+      </g-dropdown>
       `,
       () => ({})
     )
@@ -612,14 +612,14 @@ describe('Dropdown', () => {
     expect(
       wrapper
         .findAllComponents({
-          name: 'ElButton',
+          name: 'GButton',
         })[0]
         .classes()
     ).toContain('is-disabled')
     expect(
       wrapper
         .findAllComponents({
-          name: 'ElButton',
+          name: 'GButton',
         })[1]
         .classes()
     ).toContain('is-disabled')
@@ -628,21 +628,21 @@ describe('Dropdown', () => {
   test('set show-timeout/hide-timeout when trigger is hover', async () => {
     const wrapper = _mount(
       `
-      <el-dropdown trigger="hover" :show-timeout="200" :hide-timeout="300">
-        <span class="el-dropdown-link">
+      <g-dropdown trigger="hover" :show-timeout="200" :hide-timeout="300">
+        <span class="g-dropdown-link">
           Dropdown List
         </span>
         <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item>Item</el-dropdown-item>
-          </el-dropdown-menu>
+          <g-dropdown-menu>
+            <g-dropdown-item>Item</g-dropdown-item>
+          </g-dropdown-menu>
         </template>
-      </el-dropdown>
+      </g-dropdown>
       `,
       () => ({})
     )
     const tooltipElement = wrapper.getComponent({
-      name: 'ElTooltip',
+      name: 'GTooltip',
     })
     expect(tooltipElement.vm.showAfter).toBe(200)
     expect(tooltipElement.vm.hideAfter).toBe(300)
@@ -651,21 +651,21 @@ describe('Dropdown', () => {
   test('ignore show-timeout/hide-timeout when trigger is not hover', async () => {
     const wrapper = _mount(
       `
-      <el-dropdown trigger="click" :show-timeout="200" :hide-timeout="300">
-        <span class="el-dropdown-link">
+      <g-dropdown trigger="click" :show-timeout="200" :hide-timeout="300">
+        <span class="g-dropdown-link">
           Dropdown List
         </span>
         <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item>Item</el-dropdown-item>
-          </el-dropdown-menu>
+          <g-dropdown-menu>
+            <g-dropdown-item>Item</g-dropdown-item>
+          </g-dropdown-menu>
         </template>
-      </el-dropdown>
+      </g-dropdown>
       `,
       () => ({})
     )
     const tooltipElement = wrapper.getComponent({
-      name: 'ElTooltip',
+      name: 'GTooltip',
     })
     expect(tooltipElement.vm.showAfter).toBe(0)
     expect(tooltipElement.vm.hideAfter).toBe(0)
@@ -675,16 +675,16 @@ describe('Dropdown', () => {
     test('Custom span trigger has proper attributes', async () => {
       const wrapper = _mount(
         `
-        <el-dropdown>
-          <span class="el-dropdown-link" data-test-ref="trigger">
+        <g-dropdown>
+          <span class="g-dropdown-link" data-test-ref="trigger">
             Dropdown List
           </span>
           <template #dropdown>
-            <el-dropdown-menu ref="menu">
-              <el-dropdown-item>Item</el-dropdown-item>
-            </el-dropdown-menu>
+            <g-dropdown-menu ref="menu">
+              <g-dropdown-item>Item</g-dropdown-item>
+            </g-dropdown-menu>
           </template>
-        </el-dropdown>
+        </g-dropdown>
         `,
         () => ({})
       )
@@ -702,19 +702,19 @@ describe('Dropdown', () => {
       )
     })
 
-    test('ElButton trigger has proper attributes', async () => {
+    test('GButton trigger has proper attributes', async () => {
       const wrapper = _mount(
         `
-        <el-dropdown>
-          <el-button ref="trigger">
+        <g-dropdown>
+          <g-button ref="trigger">
             Dropdown List
-          </el-button>
+          </g-button>
           <template #dropdown>
-            <el-dropdown-menu ref="menu">
-              <el-dropdown-item>Item</el-dropdown-item>
-            </el-dropdown-menu>
+            <g-dropdown-menu ref="menu">
+              <g-dropdown-item>Item</g-dropdown-item>
+            </g-dropdown-menu>
           </template>
-        </el-dropdown>
+        </g-dropdown>
         `,
         () => ({})
       )
@@ -735,18 +735,18 @@ describe('Dropdown', () => {
     test('Split button trigger has proper attributes', async () => {
       const wrapper = _mount(
         `
-        <el-dropdown split-button>
+        <g-dropdown split-button>
           <template #dropdown>
-            <el-dropdown-menu ref="menu">
-              <el-dropdown-item>Item</el-dropdown-item>
-            </el-dropdown-menu>
+            <g-dropdown-menu ref="menu">
+              <g-dropdown-item>Item</g-dropdown-item>
+            </g-dropdown-menu>
           </template>
-        </el-dropdown>
+        </g-dropdown>
         `,
         () => ({})
       )
       await nextTick()
-      const trigger = wrapper.find('.el-dropdown__caret-button')
+      const trigger = wrapper.find('.g-dropdown__caret-button')
       const menu = wrapper.findComponent({ ref: 'menu' })
       expect(trigger.attributes()['role']).toBe('button')
       expect(trigger.attributes()['tabindex']).toBe('0')
@@ -762,18 +762,18 @@ describe('Dropdown', () => {
     test('Menu items with "menu" role', async () => {
       const wrapper = _mount(
         `
-        <el-dropdown split-button>
+        <g-dropdown split-button>
           <template #dropdown>
-            <el-dropdown-menu ref="menu">
-              <el-dropdown-item ref="menu-item">Item</el-dropdown-item>
-            </el-dropdown-menu>
+            <g-dropdown-menu ref="menu">
+              <g-dropdown-item ref="menu-item">Item</g-dropdown-item>
+            </g-dropdown-menu>
           </template>
-        </el-dropdown>
+        </g-dropdown>
         `,
         () => ({})
       )
       const menu = wrapper.findComponent({ ref: 'menu' })
-      const menuItem = menu.find('.el-dropdown-menu__item')
+      const menuItem = menu.find('.g-dropdown-menu__item')
       expect(menu.attributes()['role']).toBe('menu')
       expect(menuItem.attributes()['role']).toBe('menuitem')
     })
@@ -781,18 +781,18 @@ describe('Dropdown', () => {
     test('Menu items with "navigation" role', async () => {
       const wrapper = _mount(
         `
-        <el-dropdown split-button role="navigation">
+        <g-dropdown split-button role="navigation">
           <template #dropdown>
-            <el-dropdown-menu ref="menu">
-              <el-dropdown-item ref="menu-item">Item</el-dropdown-item>
-            </el-dropdown-menu>
+            <g-dropdown-menu ref="menu">
+              <g-dropdown-item ref="menu-item">Item</g-dropdown-item>
+            </g-dropdown-menu>
           </template>
-        </el-dropdown>
+        </g-dropdown>
         `,
         () => ({})
       )
       const menu = wrapper.findComponent({ ref: 'menu' })
-      const menuItem = menu.find('.el-dropdown-menu__item')
+      const menuItem = menu.find('.g-dropdown-menu__item')
       expect(menu.attributes()['role']).toBe('navigation')
       expect(menuItem.attributes()['role']).toBe('link')
     })
@@ -800,18 +800,18 @@ describe('Dropdown', () => {
     test('Menu items with "group" role', async () => {
       const wrapper = _mount(
         `
-        <el-dropdown split-button role="group">
+        <g-dropdown split-button role="group">
           <template #dropdown>
-            <el-dropdown-menu ref="menu">
-              <el-dropdown-item ref="menu-item">Item</el-dropdown-item>
-            </el-dropdown-menu>
+            <g-dropdown-menu ref="menu">
+              <g-dropdown-item ref="menu-item">Item</g-dropdown-item>
+            </g-dropdown-menu>
           </template>
-        </el-dropdown>
+        </g-dropdown>
         `,
         () => ({})
       )
       const menu = wrapper.findComponent({ ref: 'menu' })
-      const menuItem = menu.find('.el-dropdown-menu__item')
+      const menuItem = menu.find('.g-dropdown-menu__item')
       expect(menu.attributes()['role']).toBe('group')
       expect(menuItem.attributes()['role']).toBe('button')
     })
@@ -819,24 +819,24 @@ describe('Dropdown', () => {
     test('Trigger dropdown via hover', async () => {
       const wrapper = _mount(
         `
-        <el-dropdown trigger="hover" :show-timeout="0" :hide-timeout="0">
-          <span class="el-dropdown-link">
+        <g-dropdown trigger="hover" :show-timeout="0" :hide-timeout="0">
+          <span class="g-dropdown-link">
             Dropdown List
           </span>
           <template #dropdown>
-            <el-dropdown-menu ref="menu">
-              <el-dropdown-item class="item-1" disabled>Item</el-dropdown-item>
-              <el-dropdown-item class="item-2">Item</el-dropdown-item>
-              <el-dropdown-item class="item-3">Item</el-dropdown-item>
-            </el-dropdown-menu>
+            <g-dropdown-menu ref="menu">
+              <g-dropdown-item class="item-1" disabled>Item</g-dropdown-item>
+              <g-dropdown-item class="item-2">Item</g-dropdown-item>
+              <g-dropdown-item class="item-3">Item</g-dropdown-item>
+            </g-dropdown-menu>
           </template>
-        </el-dropdown>
+        </g-dropdown>
         `,
         () => ({})
       )
       await nextTick()
 
-      const trigger = wrapper.find('.el-tooltip__trigger')
+      const trigger = wrapper.find('.g-tooltip__trigger')
       await trigger.trigger(MOUSE_ENTER_EVENT)
       await rAF()
       const menuItem = wrapper.findComponent({ ref: 'menu' })
@@ -854,24 +854,24 @@ describe('Dropdown', () => {
     test('Trigger dropdown via click', async () => {
       const wrapper = _mount(
         `
-        <el-dropdown trigger="click" :show-timeout="0" :hide-timeout="0">
-          <span class="el-dropdown-link">
+        <g-dropdown trigger="click" :show-timeout="0" :hide-timeout="0">
+          <span class="g-dropdown-link">
             Dropdown List
           </span>
           <template #dropdown>
-            <el-dropdown-menu ref="menu">
-              <el-dropdown-item class="item-1" disabled>Item</el-dropdown-item>
-              <el-dropdown-item class="item-2">Item</el-dropdown-item>
-              <el-dropdown-item class="item-3">Item</el-dropdown-item>
-            </el-dropdown-menu>
+            <g-dropdown-menu ref="menu">
+              <g-dropdown-item class="item-1" disabled>Item</g-dropdown-item>
+              <g-dropdown-item class="item-2">Item</g-dropdown-item>
+              <g-dropdown-item class="item-3">Item</g-dropdown-item>
+            </g-dropdown-menu>
           </template>
-        </el-dropdown>
+        </g-dropdown>
         `,
         () => ({})
       )
       await nextTick()
 
-      const trigger = wrapper.find('.el-tooltip__trigger')
+      const trigger = wrapper.find('.g-tooltip__trigger')
       await trigger.trigger('click')
       await rAF()
       const menuItem = wrapper.findComponent({ ref: 'menu' })
@@ -891,24 +891,24 @@ describe('Dropdown', () => {
     test('Trigger dropdown via focus', async () => {
       const wrapper = _mount(
         `
-        <el-dropdown trigger="focus" :show-timeout="0" :hide-timeout="0">
-          <span class="el-dropdown-link">
+        <g-dropdown trigger="focus" :show-timeout="0" :hide-timeout="0">
+          <span class="g-dropdown-link">
             Dropdown List
           </span>
           <template #dropdown>
-            <el-dropdown-menu ref="menu">
-              <el-dropdown-item class="item-1" disabled>Item</el-dropdown-item>
-              <el-dropdown-item class="item-2">Item</el-dropdown-item>
-              <el-dropdown-item class="item-3">Item</el-dropdown-item>
-            </el-dropdown-menu>
+            <g-dropdown-menu ref="menu">
+              <g-dropdown-item class="item-1" disabled>Item</g-dropdown-item>
+              <g-dropdown-item class="item-2">Item</g-dropdown-item>
+              <g-dropdown-item class="item-3">Item</g-dropdown-item>
+            </g-dropdown-menu>
           </template>
-        </el-dropdown>
+        </g-dropdown>
         `,
         () => ({})
       )
       await nextTick()
 
-      const trigger = wrapper.find('.el-tooltip__trigger')
+      const trigger = wrapper.find('.g-tooltip__trigger')
       await trigger.trigger('focus')
       await trigger.trigger('keydown', { code: EVENT_CODE.down })
       await rAF()
@@ -924,20 +924,20 @@ describe('Dropdown', () => {
       expect(document.body.innerHTML).toBe('')
       _mount(
         `
-        <el-dropdown ref="b" placement="right">
-          <span class="el-dropdown-link" ref="a">
-            dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+        <g-dropdown ref="b" placement="right">
+          <span class="g-dropdown-link" ref="a">
+            dropdown<i class="g-icon-arrow-down el-icon--right"></i>
           </span>
           <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item>Apple</el-dropdown-item>
-              <el-dropdown-item>Orange</el-dropdown-item>
-              <el-dropdown-item>Cherry</el-dropdown-item>
-              <el-dropdown-item disabled>Peach</el-dropdown-item>
-              <el-dropdown-item divided>Pear</el-dropdown-item>
-            </el-dropdown-menu>
+            <g-dropdown-menu>
+              <g-dropdown-item>Apple</g-dropdown-item>
+              <g-dropdown-item>Orange</g-dropdown-item>
+              <g-dropdown-item>Cherry</g-dropdown-item>
+              <g-dropdown-item disabled>Peach</g-dropdown-item>
+              <g-dropdown-item divided>Pear</g-dropdown-item>
+            </g-dropdown-menu>
           </template>
-        </el-dropdown>`,
+        </g-dropdown>`,
         () => ({})
       )
 
@@ -950,20 +950,20 @@ describe('Dropdown', () => {
       expect(document.body.innerHTML).toBe('')
       _mount(
         `
-        <el-dropdown ref="b" placement="right" :teleported="false">
-          <span class="el-dropdown-link" ref="a">
-            dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+        <g-dropdown ref="b" placement="right" :teleported="false">
+          <span class="g-dropdown-link" ref="a">
+            dropdown<i class="g-icon-arrow-down el-icon--right"></i>
           </span>
           <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item>Apple</el-dropdown-item>
-              <el-dropdown-item>Orange</el-dropdown-item>
-              <el-dropdown-item>Cherry</el-dropdown-item>
-              <el-dropdown-item disabled>Peach</el-dropdown-item>
-              <el-dropdown-item divided>Pear</el-dropdown-item>
-            </el-dropdown-menu>
+            <g-dropdown-menu>
+              <g-dropdown-item>Apple</g-dropdown-item>
+              <g-dropdown-item>Orange</g-dropdown-item>
+              <g-dropdown-item>Cherry</g-dropdown-item>
+              <g-dropdown-item disabled>Peach</g-dropdown-item>
+              <g-dropdown-item divided>Pear</g-dropdown-item>
+            </g-dropdown-menu>
           </template>
-        </el-dropdown>`,
+        </g-dropdown>`,
         () => ({})
       )
 
@@ -978,20 +978,20 @@ describe('Dropdown', () => {
       document.body.appendChild(el)
       _mount(
         `
-        <el-dropdown append-to=".target_desu">
-          <span class="el-dropdown-link">
-            dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+        <g-dropdown append-to=".target_desu">
+          <span class="g-dropdown-link">
+            dropdown<i class="g-icon-arrow-down el-icon--right"></i>
           </span>
           <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item>Apple</el-dropdown-item>
-              <el-dropdown-item>Orange</el-dropdown-item>
-              <el-dropdown-item>Cherry</el-dropdown-item>
-              <el-dropdown-item disabled>Peach</el-dropdown-item>
-              <el-dropdown-item divided>Pear</el-dropdown-item>
-            </el-dropdown-menu>
+            <g-dropdown-menu>
+              <g-dropdown-item>Apple</g-dropdown-item>
+              <g-dropdown-item>Orange</g-dropdown-item>
+              <g-dropdown-item>Cherry</g-dropdown-item>
+              <g-dropdown-item disabled>Peach</g-dropdown-item>
+              <g-dropdown-item divided>Pear</g-dropdown-item>
+            </g-dropdown-menu>
           </template>
-        </el-dropdown>
+        </g-dropdown>
 `,
         () => ({})
       )
@@ -1000,7 +1000,7 @@ describe('Dropdown', () => {
       expect(
         document
           .querySelector('.target_desu')
-          ?.children[0].classList.contains('el-popper')
+          ?.children[0].classList.contains('g-popper')
       ).toBe(true)
     })
   })
@@ -1008,26 +1008,26 @@ describe('Dropdown', () => {
   test('hover trigger: click dropdown-item should close immediately', async () => {
     const wrapper = _mount(
       `
-      <el-dropdown trigger="hover" :hide-timeout="3000">
-        <span class="el-dropdown-link">
-          dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+      <g-dropdown trigger="hover" :hide-timeout="3000">
+        <span class="g-dropdown-link">
+          dropdown<i class="g-icon-arrow-down el-icon--right"></i>
         </span>
         <template #dropdown>
-          <el-dropdown-menu ref="menu">
-            <el-dropdown-item ref="item">Apple</el-dropdown-item>
-          </el-dropdown-menu>
+          <g-dropdown-menu ref="menu">
+            <g-dropdown-item ref="item">Apple</g-dropdown-item>
+          </g-dropdown-menu>
         </template>
-      </el-dropdown>
+      </g-dropdown>
       `,
       () => ({})
     )
 
     await nextTick()
-    const content = wrapper.findComponent(ElTooltip).vm as InstanceType<
-      typeof ElTooltip
+    const content = wrapper.findComponent(GTooltip).vm as InstanceType<
+      typeof GTooltip
     >
     vi.useFakeTimers()
-    const triggerElm = wrapper.find('.el-tooltip__trigger')
+    const triggerElm = wrapper.find('.g-tooltip__trigger')
     expect(content.open).toBe(false)
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
     vi.runAllTimers()
@@ -1040,7 +1040,7 @@ describe('Dropdown', () => {
     const item = wrapper
       .findComponent({ ref: 'item' })
       .findComponent({ name: 'DropdownItemImpl' })
-      .find('.el-dropdown-menu__item')
+      .find('.g-dropdown-menu__item')
 
     await item.trigger('click')
     await nextTick()
@@ -1056,34 +1056,34 @@ describe('Dropdown', () => {
 
   test('render icon slot content', async () => {
     const wrapper = _mount(`
-      <el-dropdown trigger="hover">
-        <span class="el-dropdown-link">
+      <g-dropdown trigger="hover">
+        <span class="g-dropdown-link">
           Trigger
         </span>
         <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item>
+          <g-dropdown-menu>
+            <g-dropdown-item>
               <template #icon>
                 <i class="test-icon">ICON</i>
               </template>
               Action
-            </el-dropdown-item>
-          </el-dropdown-menu>
+            </g-dropdown-item>
+          </g-dropdown-menu>
         </template>
-      </el-dropdown>
+      </g-dropdown>
     `)
 
     await nextTick()
 
     // Open dropdown
-    const triggerElm = wrapper.find('.el-dropdown-link')
+    const triggerElm = wrapper.find('.g-dropdown-link')
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
     await nextTick()
 
     // The el-icon should be rendered
     const icon = wrapper
       .findComponent({ name: 'DropdownItemImpl' })
-      .findComponent({ name: 'ElIcon' })
+      .findComponent({ name: 'GIcon' })
     expect(icon.exists()).toBe(true)
 
     // The icon content should be rendered
@@ -1094,31 +1094,31 @@ describe('Dropdown', () => {
 
   test("no el-icon rendered if icon didn't passed in ", async () => {
     const wrapper = _mount(`
-      <el-dropdown trigger="hover">
-        <span class="el-dropdown-link">
+      <g-dropdown trigger="hover">
+        <span class="g-dropdown-link">
           Trigger
         </span>
         <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item>
+          <g-dropdown-menu>
+            <g-dropdown-item>
               Action
-            </el-dropdown-item>
-          </el-dropdown-menu>
+            </g-dropdown-item>
+          </g-dropdown-menu>
         </template>
-      </el-dropdown>
+      </g-dropdown>
     `)
 
     await nextTick()
 
     // Open dropdown
-    const triggerElm = wrapper.find('.el-dropdown-link')
+    const triggerElm = wrapper.find('.g-dropdown-link')
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
     await nextTick()
 
     // Find icon element
     const icon = wrapper
       .findComponent({ name: 'DropdownItemImpl' })
-      .findComponent({ name: 'ElIcon' })
+      .findComponent({ name: 'GIcon' })
 
     // The icon slot content shouldn't be rendered
     expect(icon.exists()).toBe(false)

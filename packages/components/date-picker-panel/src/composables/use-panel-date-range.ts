@@ -47,7 +47,7 @@ export const usePanelDateRange = (
     currentView: Ref<CurrentView>,
     yearValue: ComputedRef<number>
   ) {
-    const yearTranslation = t('el.datepicker.year')
+    const yearTranslation = t('g.datepicker.year')
     if (currentView.value === 'year') {
       const startYear = Math.floor(yearValue.value! / 10) * 10
       return yearTranslation

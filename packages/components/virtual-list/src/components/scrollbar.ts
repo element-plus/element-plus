@@ -25,7 +25,7 @@ interface ScrollState {
 }
 
 const ScrollBar = defineComponent({
-  name: 'ElVirtualScrollBar',
+  name: 'GVirtualScrollBar',
   props: virtualizedScrollbarProps,
   emits: ['scroll', 'start-move', 'stop-move'],
   setup(props, { emit }) {

@@ -2,7 +2,7 @@ import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { POPPER_INJECTION_KEY } from '@element-plus/components/popper'
-import ElTrigger from '../src/trigger.vue'
+import GTrigger from '../src/trigger.vue'
 
 import type { VueWrapper } from '@vue/test-utils'
 import type { PopperTriggerInstance } from '../src/trigger'
@@ -16,7 +16,7 @@ const popperInjection = {
 }
 
 const mountTrigger = (props = {}) =>
-  mount(<ElTrigger {...props}>{AXIOM}</ElTrigger>, {
+  mount(<GTrigger {...props}>{AXIOM}</GTrigger>, {
     global: {
       provide: {
         [POPPER_INJECTION_KEY as symbol]: popperInjection,
@@ -24,7 +24,7 @@ const mountTrigger = (props = {}) =>
     },
   }) as unknown as VueWrapper<PopperTriggerInstance>
 
-describe('<ElPopperTrigger />', () => {
+describe('<GPopperTrigger />', () => {
   let wrapper: VueWrapper<PopperTriggerInstance>
 
   afterEach(() => {

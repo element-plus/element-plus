@@ -17,7 +17,7 @@ import type { CSSProperties, Ref, UnwrapRef } from 'vue'
 import type { TableV2HeaderProps } from '../header'
 import type { UseColumnsReturn } from '../composables/use-columns'
 
-const COMPONENT_NAME = 'ElTableV2Header'
+const COMPONENT_NAME = 'GTableV2Header'
 const TableV2Header = defineComponent({
   name: COMPONENT_NAME,
   props: tableV2HeaderProps,

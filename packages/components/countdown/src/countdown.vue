@@ -1,5 +1,5 @@
 <template>
-  <el-statistic
+  <g-statistic
     :value="rawValue"
     :title="title"
     :prefix="prefix"
@@ -10,12 +10,12 @@
     <template v-for="(_, name) in $slots" #[name]>
       <slot :name="name" />
     </template>
-  </el-statistic>
+  </g-statistic>
 </template>
 
 <script lang="ts" setup>
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import { ElStatistic } from '@element-plus/components/statistic'
+import { GStatistic } from '@element-plus/components/statistic'
 import { cAF, rAF } from '@element-plus/utils'
 import { CHANGE_EVENT } from '@element-plus/constants'
 import { countdownEmits } from './countdown'
@@ -24,7 +24,7 @@ import { formatTime, getTime } from './utils'
 import type { CountdownProps } from './countdown'
 
 defineOptions({
-  name: 'ElCountdown',
+  name: 'GCountdown',
 })
 const props = withDefaults(defineProps<CountdownProps>(), {
   format: 'HH:mm:ss',

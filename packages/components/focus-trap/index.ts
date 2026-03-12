@@ -1,7 +1,7 @@
-import ElFocusTrap from './src/focus-trap.vue'
+import GFocusTrap from './src/focus-trap.vue'
 
-export { ElFocusTrap }
+export { GFocusTrap }
 
-export default ElFocusTrap
+export default GFocusTrap
 export * from './src/tokens'
 export * from './src/utils'

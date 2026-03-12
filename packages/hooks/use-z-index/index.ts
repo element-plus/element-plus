@@ -3,11 +3,11 @@ import { debugWarn, isClient, isNumber } from '@element-plus/utils'
 
 import type { InjectionKey, Ref } from 'vue'
 
-export interface ElZIndexInjectionContext {
+export interface GZIndexInjectionContext {
   current: number
 }
 
-const initial: ElZIndexInjectionContext = {
+const initial: GZIndexInjectionContext = {
   current: 0,
 }
 
@@ -16,7 +16,7 @@ const zIndex = ref(0)
 export const defaultInitialZIndex = 2000
 
 // For SSR
-export const ZINDEX_INJECTION_KEY: InjectionKey<ElZIndexInjectionContext> =
+export const ZINDEX_INJECTION_KEY: InjectionKey<GZIndexInjectionContext> =
   Symbol('elZIndexContextKey')
 
 export const zIndexContextKey: InjectionKey<Ref<number | undefined>> =

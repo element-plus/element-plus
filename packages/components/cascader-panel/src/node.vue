@@ -19,7 +19,7 @@
     @click="handleClick"
   >
     <!-- prefix -->
-    <el-checkbox
+    <g-checkbox
       v-if="multiple && showPrefix"
       :model-value="node.checked"
       :indeterminate="node.indeterminate"
@@ -27,7 +27,7 @@
       @click.stop
       @update:model-value="handleSelectCheck"
     />
-    <el-radio
+    <g-radio
       v-else-if="checkStrictly && showPrefix"
       :model-value="checkedNodeId"
       :label="node.uid"
@@ -40,30 +40,30 @@
         do not use empty fragment here for https://github.com/vuejs/vue-next/pull/2485
       -->
       <span />
-    </el-radio>
-    <el-icon v-else-if="isLeaf && node.checked" :class="ns.e('prefix')">
+    </g-radio>
+    <g-icon v-else-if="isLeaf && node.checked" :class="ns.e('prefix')">
       <check />
-    </el-icon>
+    </g-icon>
 
     <!-- content -->
     <node-content :node="node" />
     <!-- postfix -->
     <template v-if="!isLeaf">
-      <el-icon v-if="node.loading" :class="[ns.is('loading'), ns.e('postfix')]">
+      <g-icon v-if="node.loading" :class="[ns.is('loading'), ns.e('postfix')]">
         <loading />
-      </el-icon>
-      <el-icon v-else :class="['arrow-right', ns.e('postfix')]">
+      </g-icon>
+      <g-icon v-else :class="['arrow-right', ns.e('postfix')]">
         <arrow-right />
-      </el-icon>
+      </g-icon>
     </template>
   </li>
 </template>
 
 <script lang="ts" setup>
 import { computed, inject } from 'vue'
-import ElCheckbox from '@element-plus/components/checkbox'
-import ElRadio from '@element-plus/components/radio'
-import ElIcon from '@element-plus/components/icon'
+import GCheckbox from '@element-plus/components/checkbox'
+import GRadio from '@element-plus/components/radio'
+import GIcon from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
 import { ArrowRight, Check, Loading } from '@element-plus/icons-vue'
 import NodeContent from './node-content'
@@ -74,7 +74,7 @@ import type { PropType } from 'vue'
 import type { CheckboxValueType } from '@element-plus/components/checkbox'
 
 defineOptions({
-  name: 'ElCascaderNode',
+  name: 'GCascaderNode',
 })
 
 const props = defineProps({

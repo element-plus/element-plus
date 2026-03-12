@@ -10,8 +10,8 @@ import type { VueWrapper } from '@vue/test-utils'
 describe('options', () => {
   let wrapper: ReturnType<typeof mount>
 
-  const ElOptionStub = defineComponent({
-    name: 'ElOption',
+  const GOptionStub = defineComponent({
+    name: 'GOption',
     props: {
       label: String,
       value: [String, Number, Boolean, Object] as PropType<
@@ -23,8 +23,8 @@ describe('options', () => {
 
   const getLabel = (i: number | string) => `label-${i}`
 
-  const ElOptionGroupStub = defineComponent({
-    name: 'ElOptionGroup',
+  const GOptionGroupStub = defineComponent({
+    name: 'GOptionGroup',
     props: {
       label: String,
     },
@@ -43,8 +43,8 @@ describe('options', () => {
       {
         global: {
           components: {
-            ElOption: ElOptionStub,
-            ElOptionGroup: ElOptionGroupStub,
+            GOption: GOptionStub,
+            GOptionGroup: GOptionGroupStub,
           },
         },
         slots,
@@ -60,7 +60,7 @@ describe('options', () => {
     const mockWarn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     createWrapper({
       default: () =>
-        samples.map((_, i) => <ElOptionStub label={getLabel(i)} />),
+        samples.map((_, i) => <GOptionStub label={getLabel(i)} />),
     })
     expect(mockWarn).not.toHaveBeenCalled()
     vi.resetAllMocks()
@@ -72,17 +72,17 @@ describe('options', () => {
     createWrapper({
       default: () =>
         samples.map((_, i) => (
-          <ElOptionGroupStub label={getLabel(i)}>
+          <GOptionGroupStub label={getLabel(i)}>
             {{
               default: () =>
                 samples.map((_, j) => (
-                  <ElOptionStub
+                  <GOptionStub
                     label={getLabel(`${i}-${j}`)}
                     value={j}
-                  ></ElOptionStub>
+                  ></GOptionStub>
                 )),
             }}
-          </ElOptionGroupStub>
+          </GOptionGroupStub>
         )),
     })
     expect(spy).not.toHaveBeenCalled()

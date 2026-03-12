@@ -68,11 +68,11 @@ export const useTooltipTriggerProps = buildProps({
 /**
  * @deprecated Removed after 3.0.0, Use `UseTooltipTriggerProps` instead.
  */
-export type ElTooltipTriggerProps = UseTooltipTriggerProps
+export type GTooltipTriggerProps = UseTooltipTriggerProps
 
 /**
  * @deprecated Removed after 3.0.0, Use `UseTooltipTriggerProps` instead.
  */
-export type ElTooltipTriggerPropsPublic = ExtractPublicPropTypes<
+export type GTooltipTriggerPropsPublic = ExtractPublicPropTypes<
   typeof useTooltipTriggerProps
 >

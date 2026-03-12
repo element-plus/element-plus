@@ -3,7 +3,7 @@ import Drawer from './src/drawer.vue'
 
 import type { SFCWithInstall } from '@element-plus/utils'
 
-export const ElDrawer: SFCWithInstall<typeof Drawer> = withInstall(Drawer)
-export default ElDrawer
+export const GDrawer: SFCWithInstall<typeof Drawer> = withInstall(Drawer)
+export default GDrawer
 
 export * from './src/drawer'

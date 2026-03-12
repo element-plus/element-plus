@@ -18,7 +18,7 @@ interface FooterProps {
 }
 
 defineOptions({
-  name: 'ElFooter',
+  name: 'GFooter',
 })
 const props = withDefaults(defineProps<FooterProps>(), {
   height: null,

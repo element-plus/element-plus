@@ -13,6 +13,6 @@ const Footer: FunctionalComponent<FooterRendererProps> = (props, { slots }) => {
   )
 }
 
-Footer.displayName = 'ElTableV2Footer'
+Footer.displayName = 'GTableV2Footer'
 
 export default Footer

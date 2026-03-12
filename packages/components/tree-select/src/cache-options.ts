@@ -5,7 +5,7 @@ import { isClient } from '@element-plus/utils'
 import type { SelectContext } from '@element-plus/components/select'
 import type { PropType } from 'vue'
 
-// same as el-option instance,
+// same as g-option instance,
 // these are required for `cachedOptions`
 export type CacheOption = {
   value: string | number | boolean | object

@@ -3,8 +3,8 @@ import Calendar from './src/calendar.vue'
 
 import type { SFCWithInstall } from '@element-plus/utils'
 
-export const ElCalendar: SFCWithInstall<typeof Calendar> = withInstall(Calendar)
-export default ElCalendar
+export const GCalendar: SFCWithInstall<typeof Calendar> = withInstall(Calendar)
+export default GCalendar
 
 export * from './src/calendar'
 export type {

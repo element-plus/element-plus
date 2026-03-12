@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent, h, inject, renderSlot } from 'vue'
-import ElText from '@element-plus/components/text'
+import GText from '@element-plus/components/text'
 import { useNamespace } from '@element-plus/hooks'
 import { NODE_INSTANCE_INJECTION_KEY, ROOT_TREE_INJECTION_KEY } from './tokens'
 
@@ -8,7 +8,7 @@ import type { ComponentInternalInstance } from 'vue'
 import type { RootTreeType } from './tree.type'
 
 export default defineComponent({
-  name: 'ElTreeNodeContent',
+  name: 'GTreeNodeContent',
   props: {
     node: {
       type: Object,
@@ -29,7 +29,7 @@ export default defineComponent({
         ? props.renderContent(h, { _self: nodeInstance, node, data, store })
         : renderSlot(tree.ctx.slots, 'default', { node, data }, () => [
             h(
-              ElText,
+              GText,
               { tag: 'span', truncated: true, class: ns.be('node', 'label') },
               () => [node.label]
             ),

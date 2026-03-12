@@ -26,7 +26,7 @@ import type { CardProps } from './card'
 const globalConfig = useGlobalConfig('card')
 
 defineOptions({
-  name: 'ElCard',
+  name: 'GCard',
 })
 
 withDefaults(defineProps<CardProps>(), {

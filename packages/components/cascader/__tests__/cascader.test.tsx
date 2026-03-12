@@ -6,14 +6,14 @@ import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { ArrowDown, Check, CircleClose } from '@element-plus/icons-vue'
 import { usePopperContainerId } from '@element-plus/hooks'
 import { hasClass } from '@element-plus/utils'
-import ElForm, { ElFormItem } from '@element-plus/components/form'
-import ElScrollbar from '@element-plus/components/scrollbar'
-import ElTag from '@element-plus/components/tag'
-import ElTooltip from '@element-plus/components/tooltip'
+import GForm, { GFormItem } from '@element-plus/components/form'
+import GScrollbar from '@element-plus/components/scrollbar'
+import GTag from '@element-plus/components/tag'
+import GTooltip from '@element-plus/components/tooltip'
 import Cascader from '../src/cascader.vue'
 
 import type { VNode } from 'vue'
-import type ElCascader from '@element-plus/components/cascader'
+import type GCascader from '@element-plus/components/cascader'
 
 vi.mock('lodash-unified', async () => {
   return {
@@ -58,14 +58,14 @@ const OPTIONS = [
 
 const AXIOM = 'Rem is the best girl'
 
-const TRIGGER = '.el-cascader'
-const MENU = '.el-cascader-menu'
-const NODE = '.el-cascader-node'
-const NODE_LABEL = '.el-cascader-node__label'
-const TAG = '.el-tag'
-const SUGGESTION_ITEM = '.el-cascader__suggestion-item'
-const SUGGESTION_PANEL = '.el-cascader__suggestion-panel'
-const DROPDOWN = '.el-cascader__dropdown'
+const TRIGGER = '.g-cascader'
+const MENU = '.g-cascader-menu'
+const NODE = '.g-cascader-node'
+const NODE_LABEL = '.g-cascader-node__label'
+const TAG = '.g-tag'
+const SUGGESTION_ITEM = '.g-cascader__suggestion-item'
+const SUGGESTION_PANEL = '.g-cascader__suggestion-panel'
+const DROPDOWN = '.g-cascader__dropdown'
 
 const _mount = (render: () => VNode) =>
   mount(render, {
@@ -269,7 +269,7 @@ describe('Cascader.vue', () => {
     expect(tags.length).toBe(2)
     expect(firstTag.text()).toBe('Zhejiang / Hangzhou')
     expect(secondTag.text()).toBe('Zhejiang / Ningbo')
-    await firstTag.find('.el-tag__close').trigger('click')
+    await firstTag.find('.g-tag__close').trigger('click')
     expect(wrapper.findAll(TAG).length).toBe(1)
     expect(value.value).toEqual([['zhejiang', 'ningbo']])
   })
@@ -315,7 +315,7 @@ describe('Cascader.vue', () => {
 
     await nextTick()
     const tooltipTags = document.querySelectorAll(
-      `.el-cascader__collapse-tags ${TAG}`
+      `.g-cascader__collapse-tags ${TAG}`
     )
     expect(tooltipTags.length).toBe(2)
     expect(tooltipTags[0].textContent).toBe('Zhejiang / Ningbo')
@@ -348,7 +348,7 @@ describe('Cascader.vue', () => {
     expect(secondTag.text()).toBe('Zhejiang / Ningbo')
     expect(thirdTag.text()).toBe('+ 1')
     const tooltipTags = document.querySelectorAll(
-      `.el-cascader__collapse-tags ${TAG}`
+      `.g-cascader__collapse-tags ${TAG}`
     )
     expect(tooltipTags.length).toBe(1)
     max.value = 1
@@ -359,7 +359,7 @@ describe('Cascader.vue', () => {
     expect(_firstTag.text()).toBe('Zhejiang / Hangzhou')
     expect(_secondTag.text()).toBe('+ 2')
     const _tooltipTags = document.querySelectorAll(
-      `.el-cascader__collapse-tags ${TAG}`
+      `.g-cascader__collapse-tags ${TAG}`
     )
     expect(_tooltipTags.length).toBe(2)
   })
@@ -389,7 +389,7 @@ describe('Cascader.vue', () => {
     expect(secondTag.text()).toBe('Zhejiang / Ningbo')
     expect(thirdTag.text()).toBe('+ 1')
     const tooltipTags = document.querySelectorAll(
-      `.el-cascader__collapse-tags ${TAG}`
+      `.g-cascader__collapse-tags ${TAG}`
     )
     expect(tooltipTags.length).toBe(1)
   })
@@ -461,25 +461,25 @@ describe('Cascader.vue', () => {
       />
     ))
     await nextTick()
-    const tagTriggers = wrapper.findAllComponents(ElTag)
+    const tagTriggers = wrapper.findAllComponents(GTag)
     const collapseTags = tagTriggers.filter((item) => {
       return !hasClass(item.element, 'is-closable')
     })
     expect(collapseTags.length).toBe(1)
     const collapseTag = collapseTags[0]
     await collapseTag.trigger('hover')
-    const scrollbars = wrapper.findAllComponents(ElScrollbar).filter((item) => {
-      return !hasClass(item.element, 'el-cascader-menu')
+    const scrollbars = wrapper.findAllComponents(GScrollbar).filter((item) => {
+      return !hasClass(item.element, 'g-cascader-menu')
     })
     expect(scrollbars.length).toBe(1)
     const scrollbar = scrollbars[0]
     expect(scrollbar).toBeDefined()
     expect(scrollbar?.vm.maxHeight).toBe(200)
-    const tooltip = wrapper.findComponent(ElTooltip)
+    const tooltip = wrapper.findComponent(GTooltip)
     expect(tooltip).toBeDefined()
     await tooltip.trigger('hover')
     expect(
-      scrollbar?.find('.el-scrollbar__wrap').attributes('style')
+      scrollbar?.find('.g-scrollbar__wrap').attributes('style')
     ).toContain('max-height: 200px;')
   })
 
@@ -495,7 +495,7 @@ describe('Cascader.vue', () => {
     ))
 
     await nextTick()
-    expect(wrapper.find('.el-tag').classes()).toContain('el-tag--success')
+    expect(wrapper.find('.g-tag').classes()).toContain('g-tag--success')
   })
 
   test('tag effect', async () => {
@@ -510,7 +510,7 @@ describe('Cascader.vue', () => {
     ))
 
     await nextTick()
-    expect(wrapper.find('.el-tag').classes()).toContain('el-tag--dark')
+    expect(wrapper.find('.g-tag').classes()).toContain('g-tag--dark')
   })
 
   test('should expose delete-tag through slot & be able to delete a value', async () => {
@@ -600,7 +600,7 @@ describe('Cascader.vue', () => {
       />
     ))
 
-    const input = wrapper.find('.el-cascader__search-input')
+    const input = wrapper.find('.g-cascader__search-input')
     ;(input.element as HTMLInputElement).value = 'Ha'
     await input.trigger('input')
     await nextTick()
@@ -695,23 +695,23 @@ describe('Cascader.vue', () => {
     })
 
     const wrapper = _mount(() => (
-      <ElForm model={model}>
-        <ElFormItem label="Activity name" prop="name">
+      <GForm model={model}>
+        <GFormItem label="Activity name" prop="name">
           <Cascader
             v-model={model.name}
             options={OPTIONS}
             filterable
             placeholder={AXIOM}
           />
-        </ElFormItem>
-      </ElForm>
+        </GFormItem>
+      </GForm>
     ))
 
     model.name = ['zhejiang', 'hangzhou']
     await nextTick()
     expect(wrapper.find('input').element.placeholder).toBe('')
 
-    wrapper.findComponent(ElForm).vm.$.exposed!.resetFields()
+    wrapper.findComponent(GForm).vm.$.exposed!.resetFields()
     await nextTick()
     expect(wrapper.find('input').element.placeholder).toBe(AXIOM)
   })
@@ -722,11 +722,11 @@ describe('Cascader.vue', () => {
     })
 
     const wrapper = _mount(() => (
-      <ElForm model={model} disabled>
-        <ElFormItem>
+      <GForm model={model} disabled>
+        <GFormItem>
           <Cascader disabled={false} v-model={model.name} options={OPTIONS} />
-        </ElFormItem>
-      </ElForm>
+        </GFormItem>
+      </GForm>
     ))
 
     model.name = ['zhejiang', 'hangzhou']
@@ -735,7 +735,7 @@ describe('Cascader.vue', () => {
   })
 
   test('should be able to trigger togglePopperVisible outside the component', async () => {
-    let cascader: InstanceType<typeof ElCascader>
+    let cascader: InstanceType<typeof GCascader>
     const clickFn = () => {
       cascader.togglePopperVisible()
     }
@@ -770,7 +770,7 @@ describe('Cascader.vue', () => {
 
     for (const size in sizeMap) {
       cascaderSize.value = size as 'small' | 'default' | 'large'
-      inputEl.style.setProperty('--el-input-height', `${sizeMap[size]}px`)
+      inputEl.style.setProperty('--g-input-height', `${sizeMap[size]}px`)
       // first is wait for the watch callback function of realSize which is to be called after nextTick
       await nextTick()
       // second is wait for input to set the height attribute
@@ -827,7 +827,7 @@ describe('Cascader.vue', () => {
     expect(handleFocus).toHaveBeenCalledTimes(1)
     expect(handleBlur).not.toHaveBeenCalled()
 
-    const firstNode = document.querySelector(`.el-checkbox`) as HTMLElement
+    const firstNode = document.querySelector(`.g-checkbox`) as HTMLElement
     firstNode.click()
     await nextTick()
     await cascader.trigger('mouseenter')
@@ -892,7 +892,7 @@ describe('Cascader.vue', () => {
 
     await input.trigger('focus')
     expect(handleFocus).toHaveBeenCalledTimes(1)
-    const tagCloseIcons = wrapper.findAll('.el-tag__close')
+    const tagCloseIcons = wrapper.findAll('.g-tag__close')
     await tagCloseIcons[1].trigger('click')
     await tagCloseIcons[0].trigger('click')
     expect(handleFocus).toHaveBeenCalledTimes(1)
@@ -913,7 +913,7 @@ describe('Cascader.vue', () => {
     const input = cascader.find('input')
     await input.trigger('focus')
 
-    const inputWrapper = wrapper.find('.el-input')
+    const inputWrapper = wrapper.find('.g-input')
 
     expect(inputWrapper.classes()).toContain('is-focus')
 
@@ -936,7 +936,7 @@ describe('Cascader.vue', () => {
 
       await wrapper.find(TRIGGER).trigger('click')
       const emptySlotEl = document.querySelector(
-        '.el-cascader-menu__empty-text'
+        '.g-cascader-menu__empty-text'
       )
       expect(emptySlotEl?.textContent).toBe('-=-empty-=-')
     })
@@ -953,7 +953,7 @@ describe('Cascader.vue', () => {
       const input = wrapper.find('input')
       await input.trigger('focus')
       const emptySlotEl = document.querySelector(
-        '.el-cascader-menu__empty-text'
+        '.g-cascader-menu__empty-text'
       )
       expect(emptySlotEl?.textContent).toBe('-=-empty-=-no-data')
     })
@@ -970,7 +970,7 @@ describe('Cascader.vue', () => {
       ))
 
       await wrapper.find(TRIGGER).trigger('click')
-      const defaultSlotEl = document.querySelector('.el-cascader-node__label')
+      const defaultSlotEl = document.querySelector('.g-cascader-node__label')
       expect(defaultSlotEl?.textContent).toBe('default slot!')
     })
 
@@ -984,7 +984,7 @@ describe('Cascader.vue', () => {
       ))
 
       await wrapper.find(TRIGGER).trigger('click')
-      const defaultSlotEl = document.querySelector('.el-cascader-node__label')
+      const defaultSlotEl = document.querySelector('.g-cascader-node__label')
       expect(defaultSlotEl?.textContent).toBe(OPTIONS[0].label)
     })
 
@@ -998,7 +998,7 @@ describe('Cascader.vue', () => {
       ))
 
       await wrapper.find(TRIGGER).trigger('click')
-      const defaultSlotEl = document.querySelector('.el-cascader-node__label')
+      const defaultSlotEl = document.querySelector('.g-cascader-node__label')
       expect(defaultSlotEl?.textContent).toBe(OPTIONS[0].label)
     })
   })
@@ -1013,7 +1013,7 @@ describe('Cascader.vue', () => {
         </Cascader>
       ))
 
-      const prefixSlotEl = document.querySelector('.el-input__prefix-inner')
+      const prefixSlotEl = document.querySelector('.g-input__prefix-inner')
       expect(prefixSlotEl?.textContent).toBe('-=-prefix-=-')
     })
   })
@@ -1043,7 +1043,7 @@ describe('Cascader.vue', () => {
             tag: ({ data }: any) => {
               const list = getTopLevelTags(data)
               return list.map((item: string) => (
-                <ElTag key={item}>{item}</ElTag>
+                <GTag key={item}>{item}</GTag>
               ))
             },
           }}
@@ -1063,7 +1063,7 @@ describe('Cascader.vue', () => {
       ]
       await nextTick()
       await nextTick()
-      const tags = wrapper.findAll('span.el-tag')
+      const tags = wrapper.findAll('span.g-tag')
       expect(tags.length).toBe(1)
       expect(tags[0].text()).toContain('Zhejiang')
     })
@@ -1094,7 +1094,7 @@ describe('Cascader.vue', () => {
           teleported={false}
         />
       ))
-      const cascaderNodes = wrapper.findAll('.el-cascader-node')
+      const cascaderNodes = wrapper.findAll('.g-cascader-node')
 
       expect(cascaderNodes.length).toBe(3)
       expect(cascaderNodes[0].text()).toBe('Guide')
@@ -1106,7 +1106,7 @@ describe('Cascader.vue', () => {
         label: 'Testing',
       })
       await nextTick()
-      const newCascaderNodes = wrapper.findAll('.el-cascader-node')
+      const newCascaderNodes = wrapper.findAll('.g-cascader-node')
       expect(newCascaderNodes.length).toBe(4)
       expect(newCascaderNodes[3].text()).toBe('Testing')
     })

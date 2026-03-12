@@ -112,7 +112,7 @@ export type SpaceProps = ExtractPropTypes<typeof spaceProps>
 export type SpacePropsPublic = ExtractPublicPropTypes<typeof spaceProps>
 
 const Space = defineComponent({
-  name: 'ElSpace',
+  name: 'GSpace',
 
   props: spaceProps,
 

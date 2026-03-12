@@ -4,7 +4,7 @@ import { ROOT_PICKER_INJECTION_KEY } from '../constants'
 import { basicCellProps } from '../props/basic-cell'
 
 export default defineComponent({
-  name: 'ElDatePickerCell',
+  name: 'GDatePickerCell',
   props: basicCellProps,
   setup(props) {
     const ns = useNamespace('date-table-cell')

@@ -6,7 +6,7 @@ describe('<skeleton-item />', () => {
   it('should render correctly', () => {
     const wrapper = mount(<SkeletonItem />)
 
-    expect(wrapper.find('.el-skeleton__text').exists()).toBe(true)
+    expect(wrapper.find('.g-skeleton__text').exists()).toBe(true)
   })
 
   it('should render image placeholder', () => {

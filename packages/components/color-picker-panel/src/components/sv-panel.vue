@@ -25,7 +25,7 @@ import { useSvPanel, useSvPanelDOM } from '../composables/use-sv-panel'
 import type { SvPanelProps } from '../props/sv-panel'
 
 defineOptions({
-  name: 'ElSvPanel',
+  name: 'GSvPanel',
 })
 
 const props = defineProps<SvPanelProps>()
@@ -54,9 +54,9 @@ const { rootKls, cursorKls, rootStyle, cursorStyle, update } = useSvPanelDOM(
 
 const { t } = useLocale()
 
-const ariaLabel = computed(() => t('el.colorpicker.svLabel'))
+const ariaLabel = computed(() => t('g.colorpicker.svLabel'))
 const ariaValuetext = computed(() => {
-  return t('el.colorpicker.svDescription', {
+  return t('g.colorpicker.svDescription', {
     saturation: saturation.value,
     brightness: brightness.value,
     color: props.color.value,

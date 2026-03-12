@@ -3,8 +3,8 @@ import Teleport from './src/teleport.vue'
 
 import type { SFCWithInstall } from '@element-plus/utils'
 
-export const ElTeleport: SFCWithInstall<typeof Teleport> = withInstall(Teleport)
+export const GTeleport: SFCWithInstall<typeof Teleport> = withInstall(Teleport)
 
-export default ElTeleport
+export default GTeleport
 
 export * from './src/teleport'

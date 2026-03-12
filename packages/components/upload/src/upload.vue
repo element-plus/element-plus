@@ -63,7 +63,7 @@ import type {
 } from './upload-content'
 
 defineOptions({
-  name: 'ElUpload',
+  name: 'GUpload',
 })
 
 const props = withDefaults(defineProps<UploadProps>(), uploadPropsDefaults)

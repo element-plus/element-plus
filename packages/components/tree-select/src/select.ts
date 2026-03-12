@@ -2,7 +2,7 @@
 import { computed, nextTick, onMounted, toRefs, watch } from 'vue'
 import { useEventListener } from '@vueuse/core'
 import { pick } from 'lodash-unified'
-import ElSelect from '@element-plus/components/select'
+import GSelect from '@element-plus/components/select'
 import { useNamespace } from '@element-plus/hooks'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { getEventCode } from '@element-plus/utils'
@@ -72,7 +72,7 @@ export const useSelect = (
               focusLastNode(listNode)
               return
             }
-            // el-select-dropdown__item => el-tree-node__content => el-tree-node__content
+            // g-select-dropdown__item => g-tree-node__content => g-tree-node__content
             select.value.optionsArray[
               select.value.states.hoveringIndex
             ].$el?.parentNode?.parentNode?.focus({ preventScroll: true })
@@ -86,7 +86,7 @@ export const useSelect = (
   })
 
   const result = {
-    ...pick(toRefs(props), Object.keys(ElSelect.props)),
+    ...pick(toRefs(props), Object.keys(GSelect.props)),
     ...attrs,
     class: computed(() => attrs.class),
     style: computed(() => attrs.style),

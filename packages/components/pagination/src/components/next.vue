@@ -3,25 +3,25 @@
     type="button"
     class="btn-next"
     :disabled="internalDisabled"
-    :aria-label="nextText || t('el.pagination.next')"
+    :aria-label="nextText || t('g.pagination.next')"
     :aria-disabled="internalDisabled"
     @click="$emit('click', $event)"
   >
     <span v-if="nextText">{{ nextText }}</span>
-    <el-icon v-else>
+    <g-icon v-else>
       <component :is="nextIcon" />
-    </el-icon>
+    </g-icon>
   </button>
 </template>
 
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useLocale } from '@element-plus/hooks'
-import { ElIcon } from '@element-plus/components/icon'
+import { GIcon } from '@element-plus/components/icon'
 import { paginationNextProps } from './next'
 
 defineOptions({
-  name: 'ElPaginationNext',
+  name: 'GPaginationNext',
 })
 
 const props = defineProps(paginationNextProps)

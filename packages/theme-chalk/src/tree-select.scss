@@ -29,11 +29,11 @@
       flex: 1;
       background: transparent !important;
 
-      // padding-left move to `el-tree-node__expand-icon`
+      // padding-left move to `g-tree-node__expand-icon`
       padding-left: 0;
 
       // fix: select height > tree node height
-      // https://github.com/yujinpan/el-select-tree/pull/33
+      // https://github.com/yujinpan/g-select-tree/pull/33
       height: 20px;
       line-height: 20px;
     }

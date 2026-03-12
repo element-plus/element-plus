@@ -11,7 +11,7 @@ import type Popover from './popover.vue'
 import type { Placement } from '@element-plus/components/popper'
 import type { Options } from '@popperjs/core'
 import type {
-  ElTooltipContentProps,
+  GTooltipContentProps,
   UseTooltipTriggerProps,
 } from '@element-plus/components/tooltip'
 
@@ -35,11 +35,11 @@ export interface PopoverProps {
   /**
    * @description whether popover is visible
    */
-  visible?: ElTooltipContentProps['visible']
+  visible?: GTooltipContentProps['visible']
   /**
    * @description popover transition animation
    */
-  transition?: ElTooltipContentProps['transition']
+  transition?: GTooltipContentProps['transition']
   /**
    * @description parameters for [popper.js](https://popper.js.org/docs/v2/)
    */
@@ -51,31 +51,31 @@ export interface PopoverProps {
   /**
    * @description popover content, can be replaced with a default `slot`
    */
-  content?: ElTooltipContentProps['content']
+  content?: GTooltipContentProps['content']
   /**
    * @description custom style for popover
    */
-  popperStyle?: ElTooltipContentProps['popperStyle']
+  popperStyle?: GTooltipContentProps['popperStyle']
   /**
    * @description custom class name for popover
    */
-  popperClass?: ElTooltipContentProps['popperClass']
+  popperClass?: GTooltipContentProps['popperClass']
   /**
    * @description whether the mouse can enter the popover
    */
-  enterable?: ElTooltipContentProps['enterable']
+  enterable?: GTooltipContentProps['enterable']
   /**
    * @description Tooltip theme, built-in theme: `dark` / `light`
    */
-  effect?: ElTooltipContentProps['effect']
+  effect?: GTooltipContentProps['effect']
   /**
    * @description whether popover dropdown is teleported to the body
    */
-  teleported?: ElTooltipContentProps['teleported']
+  teleported?: GTooltipContentProps['teleported']
   /**
    * @description which select dropdown appends to
    */
-  appendTo?: ElTooltipContentProps['appendTo']
+  appendTo?: GTooltipContentProps['appendTo']
   /**
    * @description popover title
    */
@@ -101,7 +101,7 @@ export interface PopoverProps {
    */
   autoClose?: number
   /**
-   * @description whether a tooltip arrow is displayed or not. For more info, please refer to [ElPopper](https://github.com/element-plus/element-plus/tree/dev/packages/components/popper)
+   * @description whether a tooltip arrow is displayed or not. For more info, please refer to [GPopper](https://github.com/element-plus/element-plus/tree/dev/packages/components/popper)
    */
   showArrow?: boolean
   /**
@@ -221,7 +221,7 @@ export const popoverProps = buildProps({
     default: 0,
   },
   /**
-   * @description whether a tooltip arrow is displayed or not. For more info, please refer to [ElPopper](https://github.com/element-plus/element-plus/tree/dev/packages/components/popper)
+   * @description whether a tooltip arrow is displayed or not. For more info, please refer to [GPopper](https://github.com/element-plus/element-plus/tree/dev/packages/components/popper)
    */
   showArrow: {
     type: Boolean,

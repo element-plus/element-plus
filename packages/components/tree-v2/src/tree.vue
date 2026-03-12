@@ -15,7 +15,7 @@
       :scrollbar-always-on="scrollbarAlwaysOn"
     >
       <template #default="{ data, index, style }">
-        <el-tree-node
+        <g-tree-node
           :key="data[index].key"
           :style="style"
           :node="data[index]"
@@ -37,7 +37,7 @@
     <div v-else :class="ns.e('empty-block')">
       <slot name="empty">
         <span :class="ns.e('empty-text')">
-          {{ emptyText ?? t('el.tree.emptyText') }}
+          {{ emptyText ?? t('g.tree.emptyText') }}
         </span>
       </slot>
     </div>
@@ -50,7 +50,7 @@ import { useLocale, useNamespace } from '@element-plus/hooks'
 import { formItemContextKey } from '@element-plus/components/form'
 import { FixedSizeList } from '@element-plus/components/virtual-list'
 import { useTree } from './composables/useTree'
-import ElTreeNode from './tree-node.vue'
+import GTreeNode from './tree-node.vue'
 import {
   ROOT_TREE_INJECTION_KEY,
   TreeOptionsEnum,
@@ -61,7 +61,7 @@ import { mutable } from '@element-plus/utils'
 import type { TreeProps } from './types'
 
 defineOptions({
-  name: 'ElTreeV2',
+  name: 'GTreeV2',
 })
 
 const props = withDefaults(defineProps<TreeProps>(), {

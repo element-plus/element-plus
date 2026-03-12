@@ -6,14 +6,14 @@ import TestCollection, {
 } from '../test-helper'
 
 import type { ComponentPublicInstance } from 'vue'
-import type { ElCollectionInjectionContext } from '../src/tokens'
+import type { GCollectionInjectionContext } from '../src/tokens'
 
-const { ElCollection } = TestCollection
+const { GCollection } = TestCollection
 const AXIOM = 'rem is the best girl'
 
-describe('<ElCollection />', () => {
+describe('<GCollection />', () => {
   const createComponent = (props = {}) =>
-    mount(ElCollection as any, {
+    mount(GCollection as any, {
       props,
       slots: {
         default: () =>
@@ -43,7 +43,7 @@ describe('<ElCollection />', () => {
 
       const childComponent = wrapper.findComponent(ChildComponent as any)
       const vm =
-        childComponent.vm as ComponentPublicInstance<ElCollectionInjectionContext>
+        childComponent.vm as ComponentPublicInstance<GCollectionInjectionContext>
       expect([...vm.itemMap.values()]).toHaveLength(0)
       expect(vm.getItems()).toHaveLength(0)
       expect(vm.collectionRef).toBe(childComponent.element)

@@ -1,1 +1,1 @@
-export const STEPS_INJECTION_KEY = 'ElSteps'
+export const STEPS_INJECTION_KEY = 'GSteps'

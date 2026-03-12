@@ -1,2 +1,2 @@
 import '@element-plus/components/base/style/css'
-import '@element-plus/theme-chalk/el-anchor.css'
+import '@element-plus/theme-chalk/g-anchor.css'

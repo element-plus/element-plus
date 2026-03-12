@@ -255,7 +255,7 @@ describe('InfiniteScroll', () => {
     restoreClientHeight()
     restoreScrollHeight()
 
-    wrapper.vm.$refs.ulRef.ElInfiniteScroll.instance.count++
+    wrapper.vm.$refs.ulRef.GInfiniteScroll.instance.count++
     await nextTick()
     expect(countListItem(wrapper)).toBe(INITIAL_VALUE)
   })

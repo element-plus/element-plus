@@ -17,7 +17,7 @@ import { formContextKey, formItemContextKey } from './constants'
 
 import type { CSSProperties } from 'vue'
 
-const COMPONENT_NAME = 'ElLabelWrap'
+const COMPONENT_NAME = 'GLabelWrap'
 export default defineComponent({
   name: COMPONENT_NAME,
   props: {
@@ -31,7 +31,7 @@ export default defineComponent({
     if (!formItemContext)
       throwError(
         COMPONENT_NAME,
-        'usage: <el-form-item><label-wrap /></el-form-item>'
+        'usage: <g-form-item><label-wrap /></g-form-item>'
       )
 
     const ns = useNamespace('form')

@@ -19,24 +19,24 @@
       <slot name="left-footer" />
     </transfer-panel>
     <div :class="ns.e('buttons')">
-      <el-button
+      <g-button
         type="primary"
         :class="[ns.e('button'), ns.is('with-texts', hasButtonTexts)]"
         :disabled="isEmpty(checkedState.rightChecked)"
         @click="addToLeft"
       >
-        <el-icon><arrow-left /></el-icon>
+        <g-icon><arrow-left /></g-icon>
         <span v-if="!isUndefined(buttonTexts[0])">{{ buttonTexts[0] }}</span>
-      </el-button>
-      <el-button
+      </g-button>
+      <g-button
         type="primary"
         :class="[ns.e('button'), ns.is('with-texts', hasButtonTexts)]"
         :disabled="isEmpty(checkedState.leftChecked)"
         @click="addToRight"
       >
         <span v-if="!isUndefined(buttonTexts[1])">{{ buttonTexts[1] }}</span>
-        <el-icon><arrow-right /></el-icon>
-      </el-button>
+        <g-icon><arrow-right /></g-icon>
+      </g-button>
     </div>
     <transfer-panel
       ref="rightPanel"
@@ -63,8 +63,8 @@
 import { Comment, computed, h, reactive, ref, useSlots, watch } from 'vue'
 import { debugWarn, isEmpty, isUndefined } from '@element-plus/utils'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import { ElButton } from '@element-plus/components/button'
-import { ElIcon } from '@element-plus/components/icon'
+import { GButton } from '@element-plus/components/button'
+import { GIcon } from '@element-plus/components/icon'
 import { useFormItem } from '@element-plus/components/form'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
 import { transferEmits } from './transfer'
@@ -85,7 +85,7 @@ import type {
 import type { TransferPanelInstance } from './transfer-panel'
 
 defineOptions({
-  name: 'ElTransfer',
+  name: 'GTransfer',
 })
 
 const props = withDefaults(defineProps<TransferProps>(), {
@@ -144,15 +144,15 @@ const clearQuery = (which: TransferDirection) => {
 const hasButtonTexts = computed(() => props.buttonTexts.length === 2)
 
 const leftPanelTitle = computed(
-  () => props.titles[0] || t('el.transfer.titles.0')
+  () => props.titles[0] || t('g.transfer.titles.0')
 )
 
 const rightPanelTitle = computed(
-  () => props.titles[1] || t('el.transfer.titles.1')
+  () => props.titles[1] || t('g.transfer.titles.1')
 )
 
 const panelFilterPlaceholder = computed(
-  () => props.filterPlaceholder || t('el.transfer.filterPlaceholder')
+  () => props.filterPlaceholder || t('g.transfer.filterPlaceholder')
 )
 
 watch(

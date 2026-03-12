@@ -2,7 +2,7 @@ import { computed, defineComponent, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { POPPER_INJECTION_KEY } from '@element-plus/components/popper'
-import ElContent from '../src/content.vue'
+import GContent from '../src/content.vue'
 
 import type { VueWrapper } from '@vue/test-utils'
 import type { PopperContentInstance } from '../src/content'
@@ -23,15 +23,15 @@ const TestComponent = defineComponent({
   },
   render() {
     return (
-      <ElContent ref="contentRef" {...this.$attrs}>
+      <GContent ref="contentRef" {...this.$attrs}>
         {AXIOM}
-      </ElContent>
+      </GContent>
     )
   },
 })
 
 const mountContent = (props = {}) =>
-  mount(<ElContent {...props}>{AXIOM}</ElContent>, {
+  mount(<GContent {...props}>{AXIOM}</GContent>, {
     global: {
       provide: {
         [POPPER_INJECTION_KEY as symbol]: popperInjection,
@@ -48,9 +48,9 @@ const mountWrappedContent = (props = {}) =>
     },
   }) as unknown as VueWrapper<InstanceType<typeof TestComponent>>
 
-describe('<ElPopperContent />', () => {
+describe('<GPopperContent />', () => {
   describe('with triggerRef provided', () => {
-    const triggerKls = 'el-popper__trigger'
+    const triggerKls = 'g-popper__trigger'
     let wrapper: VueWrapper<PopperContentInstance>
 
     beforeEach(() => {
@@ -72,7 +72,7 @@ describe('<ElPopperContent />', () => {
       expect(popperInjection.triggerRef).toBeDefined()
       expect(wrapper.html()).toContain(AXIOM)
       expect(popperInjection.popperInstanceRef.value).toBeDefined()
-      expect(wrapper.classes()).toEqual(['el-popper', 'is-dark'])
+      expect(wrapper.classes()).toEqual(['g-popper', 'is-dark'])
       expect(wrapper.vm.contentStyle).toHaveLength(3)
       expect(wrapper.vm.contentStyle[0]).toHaveProperty('zIndex')
       expect(wrapper.vm.contentStyle[1]).toEqual(
@@ -94,7 +94,7 @@ describe('<ElPopperContent />', () => {
         effect: 'custom',
       })
 
-      expect(wrapper.classes()).toEqual(['el-popper', 'is-pure', 'is-custom'])
+      expect(wrapper.classes()).toEqual(['g-popper', 'is-pure', 'is-custom'])
     })
 
     it('should be able to set customized styles', async () => {

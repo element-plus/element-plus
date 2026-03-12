@@ -2,7 +2,7 @@ import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import Segmented from '../src/segmented.vue'
-import { ElForm } from '@element-plus/components/form'
+import { GForm } from '@element-plus/components/form'
 
 describe('Segmented.vue', () => {
   test('render test', async () => {
@@ -34,10 +34,10 @@ describe('Segmented.vue', () => {
       <Segmented v-model={value.value} options={options.value}></Segmented>
     ))
     await nextTick()
-    expect(wrapper.findAll('.el-segmented__item').length).toEqual(2)
+    expect(wrapper.findAll('.g-segmented__item').length).toEqual(2)
     options.value.push('c')
     await nextTick()
-    expect(wrapper.findAll('.el-segmented__item').length).toEqual(3)
+    expect(wrapper.findAll('.g-segmented__item').length).toEqual(3)
   })
 
   test('render block', async () => {
@@ -61,7 +61,7 @@ describe('Segmented.vue', () => {
       ></Segmented>
     ))
     await nextTick()
-    expect(wrapper.find('.el-segmented--large').exists()).toBe(true)
+    expect(wrapper.find('.g-segmented--large').exists()).toBe(true)
   })
 
   test('render disabled', async () => {
@@ -71,7 +71,7 @@ describe('Segmented.vue', () => {
       <Segmented v-model={value.value} options={options} disabled></Segmented>
     ))
     await nextTick()
-    // 8 = options.length + .el-segmented__item-selected
+    // 8 = options.length + .g-segmented__item-selected
     expect(wrapper.findAll('.is-disabled').length).toBe(8)
   })
 
@@ -114,7 +114,7 @@ describe('Segmented.vue', () => {
       <Segmented v-model={value.value} options={options}></Segmented>
     ))
     await nextTick()
-    // 4 = the disabled options + .el-segmented__item-selected
+    // 4 = the disabled options + .g-segmented__item-selected
     expect(wrapper.findAll('.is-disabled').length).toBe(4)
   })
 
@@ -166,7 +166,7 @@ describe('Segmented.vue', () => {
       ></Segmented>
     ))
     await nextTick()
-    // 4 = the disabled options + .el-segmented__item-selected
+    // 4 = the disabled options + .g-segmented__item-selected
     expect(wrapper.findAll('.is-disabled').length).toBe(4)
   })
 
@@ -205,7 +205,7 @@ describe('Segmented.vue', () => {
     await nextTick()
     expect(
       wrapper
-        .find('.el-segmented__item-selected')
+        .find('.g-segmented__item-selected')
         .classes()
         .includes('is-disabled')
     ).toBeTruthy()
@@ -223,7 +223,7 @@ describe('Segmented.vue', () => {
       />
     ))
     expect(wrapper.find('.is-selected').text()).toEqual('Mon')
-    const secondOption = wrapper.findAll('.el-segmented__item')[1]
+    const secondOption = wrapper.findAll('.g-segmented__item')[1]
     await secondOption.trigger('click')
     expect(onChange).toHaveBeenCalledTimes(1)
     await secondOption.trigger('click')
@@ -238,17 +238,17 @@ describe('Segmented.vue', () => {
     const value = ref('Mon')
     const options = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
     const wrapper = mount(() => (
-      <ElForm disabled>
+      <GForm disabled>
         <Segmented
           disabled={false}
           modelValue={value.value}
           options={options}
         />
-      </ElForm>
+      </GForm>
     ))
     await nextTick()
 
-    const segmenteds = wrapper.findAll('.el-segmented__item')
+    const segmenteds = wrapper.findAll('.g-segmented__item')
     segmenteds.forEach((s) => {
       expect(s.classes()).not.toContain('is-disabled')
     })

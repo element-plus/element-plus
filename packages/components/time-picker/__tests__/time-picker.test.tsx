@@ -6,7 +6,7 @@ import dayjs from 'dayjs'
 import { CircleClose } from '@element-plus/icons-vue'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { rAF } from '@element-plus/test-utils/tick'
-import { ElFormItem } from '@element-plus/components/form'
+import { GFormItem } from '@element-plus/components/form'
 import { EVENT_CODE } from '@element-plus/constants'
 import TimePicker from '../src/time-picker'
 import Picker from '../src/common/picker.vue'
@@ -47,7 +47,7 @@ describe('TimePicker', () => {
     const input = wrapper.find('input')
     expect(input.attributes('placeholder')).toBe('test_')
     expect(input.attributes('readonly')).not.toBeUndefined()
-    const outterInput = wrapper.find('.el-input')
+    const outterInput = wrapper.find('.g-input')
     expect(outterInput.classes()).toContain('customClass')
     expect(outterInput.attributes().style).toBeDefined()
   })
@@ -75,18 +75,18 @@ describe('TimePicker', () => {
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
-    const list = document.querySelectorAll('.el-time-spinner__list')
+    const list = document.querySelectorAll('.g-time-spinner__list')
     const hoursEl = list[0]
-    const items = hoursEl.querySelectorAll('.el-time-spinner__item')
+    const items = hoursEl.querySelectorAll('.g-time-spinner__item')
     expect(items[0].textContent).toBe('12 AM') // am pm
     expect(items[1].textContent).toBe('01 AM')
     expect(items[12].textContent).toBe('12 PM')
     expect(items[15].textContent).toBe('03 PM')
-    const times = document.querySelectorAll('.el-time-spinner__list .is-active')
+    const times = document.querySelectorAll('.g-time-spinner__list .is-active')
     expect(times[0].textContent).toBe('06 PM')
     expect(times[1].textContent).toBe('40') // default value
     expect(times[2].textContent).toBe('00')
-    const panel = document.querySelector('.el-time-panel') as any
+    const panel = document.querySelector('.g-time-panel') as any
     expect(panel.classList.contains('customClass')).toBeFalsy()
   })
 
@@ -98,16 +98,16 @@ describe('TimePicker', () => {
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
-    const list = document.querySelectorAll('.el-time-spinner__list')
+    const list = document.querySelectorAll('.g-time-spinner__list')
     const hoursEl = list[0]
     const minutesEl = list[1]
     const secondsEl = list[2]
-    const hourEl = hoursEl.querySelectorAll('.el-time-spinner__item')[4] as any
+    const hourEl = hoursEl.querySelectorAll('.g-time-spinner__item')[4] as any
     const minuteEl = minutesEl.querySelectorAll(
-      '.el-time-spinner__item'
+      '.g-time-spinner__item'
     )[36] as any
     const secondEl = secondsEl.querySelectorAll(
-      '.el-time-spinner__item'
+      '.g-time-spinner__item'
     )[20] as any
     // click hour, minute, second one at a time.
     hourEl.click()
@@ -134,13 +134,13 @@ describe('TimePicker', () => {
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
-    ;(document.querySelector('.el-time-panel__btn.cancel') as any).click()
+    ;(document.querySelector('.g-time-panel__btn.cancel') as any).click()
 
     expect(value.value).toBe('')
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
-    ;(document.querySelector('.el-time-panel__btn.confirm') as any).click()
+    ;(document.querySelector('.g-time-panel__btn.confirm') as any).click()
 
     expect(value.value).toBeInstanceOf(Date)
   })
@@ -153,12 +153,12 @@ describe('TimePicker', () => {
     const input = wrapper.find('input')
     await input.trigger('blur')
     await input.trigger('focus')
-    await picker.find('.el-time-panel__btn.cancel').trigger('click')
+    await picker.find('.g-time-panel__btn.cancel').trigger('click')
     expect(value.value).toBeUndefined()
 
     await input.trigger('blur')
     await input.trigger('focus')
-    await picker.find('.el-time-panel__btn.cancel').trigger('click')
+    await picker.find('.g-time-panel__btn.cancel').trigger('click')
     expect(value.value).toBeUndefined()
   })
 
@@ -173,16 +173,16 @@ describe('TimePicker', () => {
     await nextTick()
 
     // select time
-    const list = document.querySelectorAll('.el-time-spinner__list')
+    const list = document.querySelectorAll('.g-time-spinner__list')
     const hoursEl = list[0]
     const minutesEl = list[1]
     const secondsEl = list[2]
-    const hourEl = hoursEl.querySelectorAll('.el-time-spinner__item')[4] as any
+    const hourEl = hoursEl.querySelectorAll('.g-time-spinner__item')[4] as any
     const minuteEl = minutesEl.querySelectorAll(
-      '.el-time-spinner__item'
+      '.g-time-spinner__item'
     )[36] as any
     const secondEl = secondsEl.querySelectorAll(
-      '.el-time-spinner__item'
+      '.g-time-spinner__item'
     )[20] as any
     hourEl.click()
     await nextTick()
@@ -192,7 +192,7 @@ describe('TimePicker', () => {
     await nextTick()
 
     // click confirm button
-    ;(document.querySelector('.el-time-panel__btn.confirm') as any).click()
+    ;(document.querySelector('.g-time-panel__btn.confirm') as any).click()
     const date = value.value
     expect(date.getHours()).toBe(4)
     expect(date.getMinutes()).toBe(36)
@@ -202,7 +202,7 @@ describe('TimePicker', () => {
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
-    ;(document.querySelector('.el-time-panel__btn.cancel') as any).click()
+    ;(document.querySelector('.g-time-panel__btn.cancel') as any).click()
     expect(date.getHours()).toBe(4)
     expect(date.getMinutes()).toBe(36)
     expect(date.getSeconds()).toBe(20)
@@ -218,7 +218,7 @@ describe('TimePicker', () => {
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
-    const spinnerDom = document.querySelectorAll('.el-time-spinner__wrapper')
+    const spinnerDom = document.querySelectorAll('.g-time-spinner__wrapper')
     const minutesDom = spinnerDom[1]
     const secondsDom = spinnerDom[2]
     expect(minutesDom).not.toBeUndefined()
@@ -260,13 +260,13 @@ describe('TimePicker', () => {
     input.trigger('focus')
     await nextTick()
     await rAF()
-    const list = document.querySelectorAll('.el-time-spinner__list')
+    const list = document.querySelectorAll('.g-time-spinner__list')
     const hoursEl = list[0]
-    const hourEl = hoursEl.querySelectorAll('.el-time-spinner__item')[4] as any
+    const hourEl = hoursEl.querySelectorAll('.g-time-spinner__item')[4] as any
     hourEl.click()
     await nextTick()
     expect(changeHandler).toHaveBeenCalledTimes(0)
-    ;(document.querySelector('.el-time-panel__btn.confirm') as any).click()
+    ;(document.querySelector('.g-time-panel__btn.confirm') as any).click()
     await nextTick()
     await nextTick() // onchange is triggered by props.modelValue update
     expect(changeHandler).toHaveBeenCalledTimes(1)
@@ -312,12 +312,12 @@ describe('TimePicker', () => {
     await input.trigger('focus')
 
     const picker = wrapper.findComponent(PanelTimeRangePick)
-    const secondPanel = picker.findAll('.el-time-range-picker__cell')[1]
-    const currentHour = secondPanel.find('.el-time-spinner__item.is-active')
+    const secondPanel = picker.findAll('.g-time-range-picker__cell')[1]
+    const currentHour = secondPanel.find('.g-time-spinner__item.is-active')
     expect(currentHour.text()).toBe('09')
     await currentHour.trigger('mouseover')
-    await picker.find('.el-time-panel__btn.cancel').trigger('click')
-    const secondInput = wrapper.findAll('.el-range-input')[1]
+    await picker.find('.g-time-panel__btn.cancel').trigger('click')
+    const secondInput = wrapper.findAll('.g-range-input')[1]
     await secondInput.setValue('07:40:00')
     expect(secondInput.element.value).toBe('07:40:00')
     await input.trigger('blur')
@@ -372,13 +372,13 @@ describe('TimePicker', () => {
     input.trigger('focus')
     await nextTick()
 
-    const list = document.querySelectorAll('.el-time-spinner__list')
+    const list = document.querySelectorAll('.g-time-spinner__list')
     const hoursEl = list[0]
     const minutesEl = list[1]
     const secondsEl = list[2]
     const disabledHours = getSpinnerTextAsArray(hoursEl, '.is-disabled')
     expect(disabledHours).toEqual(disabledHoursArr)
-    const hourSpinners = hoursEl.querySelectorAll('.el-time-spinner__item')
+    const hourSpinners = hoursEl.querySelectorAll('.g-time-spinner__item')
     ;(hourSpinners[18] as any).click()
     await nextTick()
     const disabledMinutes = getSpinnerTextAsArray(minutesEl, '.is-disabled')
@@ -418,7 +418,7 @@ describe('TimePicker', () => {
     timePickerExposed.handleOpen()
 
     await nextTick()
-    const popperEl = document.querySelector('.el-picker__popper')
+    const popperEl = document.querySelector('.g-picker__popper')
     const attr = popperEl.getAttribute('aria-hidden')
     expect(attr).toEqual('false')
   })
@@ -434,7 +434,7 @@ describe('TimePicker', () => {
     timePickerExposed.handleClose()
 
     await rAF()
-    const popperEl = document.querySelector('.el-picker__popper')
+    const popperEl = document.querySelector('.g-picker__popper')
     const attr = popperEl.getAttribute('aria-hidden')
     expect(attr).toEqual('true')
   })
@@ -547,37 +547,37 @@ describe('TimePicker', () => {
     input.trigger('focus')
     await nextTick()
 
-    const list = document.querySelectorAll('.el-time-spinner__list')
+    const list = document.querySelectorAll('.g-time-spinner__list')
     const hoursEl = list[0]
     let activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
 
     expect(activeHours).toEqual(20)
-    const hoursElWrapperList = document.querySelectorAll(
-      '.el-time-spinner__wrapper'
+    const hoursGWrapperList = document.querySelectorAll(
+      '.g-time-spinner__wrapper'
     )
-    const hoursElWrapper = hoursElWrapperList[0]
-    const hoursElArrowDown: Element | null =
-      hoursElWrapper.querySelector('.arrow-down')
-    expect(hoursElArrowDown).toBeTruthy()
+    const hoursGWrapper = hoursGWrapperList[0]
+    const hoursGArrowDown: Element | null =
+      hoursGWrapper.querySelector('.arrow-down')
+    expect(hoursGArrowDown).toBeTruthy()
 
     const mousedownEvt = new MouseEvent('mousedown')
     const mouseupEvt = new MouseEvent('mouseup')
 
     const testTime = 130
-    hoursElArrowDown.dispatchEvent(mousedownEvt)
-    hoursElArrowDown.dispatchEvent(mouseupEvt)
+    hoursGArrowDown.dispatchEvent(mousedownEvt)
+    hoursGArrowDown.dispatchEvent(mouseupEvt)
     vi.advanceTimersByTime(testTime)
     await nextTick()
     activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
     expect(activeHours).toEqual(21)
-    hoursElArrowDown.dispatchEvent(mousedownEvt)
-    hoursElArrowDown.dispatchEvent(mouseupEvt)
+    hoursGArrowDown.dispatchEvent(mousedownEvt)
+    hoursGArrowDown.dispatchEvent(mouseupEvt)
     vi.advanceTimersByTime(testTime)
     await nextTick()
     activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
     expect(activeHours).toEqual(22)
-    hoursElArrowDown.dispatchEvent(new MouseEvent('mousedown'))
-    hoursElArrowDown.dispatchEvent(new MouseEvent('mouseup'))
+    hoursGArrowDown.dispatchEvent(new MouseEvent('mousedown'))
+    hoursGArrowDown.dispatchEvent(new MouseEvent('mouseup'))
     vi.advanceTimersByTime(testTime)
     await nextTick()
     activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
@@ -600,7 +600,7 @@ describe('TimePicker(range)', () => {
       }
     )
 
-    expect(wrapper.find('.el-range-editor--small').exists()).toBeTruthy()
+    expect(wrapper.find('.g-range-editor--small').exists()).toBeTruthy()
     const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')
@@ -608,7 +608,7 @@ describe('TimePicker(range)', () => {
     // For skipping Transition animation
     await rAF()
     const list = document.querySelectorAll(
-      '.el-time-spinner__list .el-time-spinner__item.is-active'
+      '.g-time-spinner__list .g-time-spinner__item.is-active'
     )
 
     ;['18', '40', '00', '19', '40', '00'].forEach((_, i) => {
@@ -642,7 +642,7 @@ describe('TimePicker(range)', () => {
     // For skipping Transition animation
     await rAF()
     const list = document.querySelectorAll(
-      '.el-time-spinner__list .el-time-spinner__item.is-active'
+      '.g-time-spinner__list .g-time-spinner__item.is-active'
     )
 
     ;['10', '20', '00', '11', '10', '00'].forEach((_, i) => {
@@ -667,18 +667,18 @@ describe('TimePicker(range)', () => {
     await nextTick()
     // For skipping Transition animation
     await rAF()
-    ;(document.querySelector('.el-time-panel__btn.cancel') as any).click()
+    ;(document.querySelector('.g-time-panel__btn.cancel') as any).click()
     await rAF()
 
     expect(value.value).toEqual(cancelDates)
     expect((wrapper.findComponent(Picker).vm as any).pickerVisible).toEqual(
       false
     )
-    expect(document.querySelector('.el-picker-panel')).toBeNull()
+    expect(document.querySelector('.g-picker-panel')).toBeNull()
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
-    ;(document.querySelector('.el-time-panel__btn.confirm') as any).click()
+    ;(document.querySelector('.g-time-panel__btn.confirm') as any).click()
     expect(Array.isArray(value.value)).toBeTruthy()
     value.value.forEach((v: unknown) => {
       expect(v).toBeInstanceOf(Date)
@@ -695,8 +695,8 @@ describe('TimePicker(range)', () => {
       <TimePicker v-model={value.value} is-range onClear={onClear} />
     ))
 
-    const findInputWrapper = () => wrapper.find('.el-date-editor')
-    const findClear = () => wrapper.find('.el-range__close-icon')
+    const findInputWrapper = () => wrapper.find('.g-date-editor')
+    const findClear = () => wrapper.find('.g-range__close-icon')
 
     await nextTick()
     const inputWrapper = findInputWrapper()
@@ -715,9 +715,9 @@ describe('TimePicker(range)', () => {
       new Date(2016, 9, 10, 15, 40),
     ])
     const wrapper = mount(() => <TimePicker v-model={value.value} is-range />)
-    const findInputWrapper = () => wrapper.find('.el-date-editor')
-    const findClear = () => wrapper.find('.el-range__close-icon')
-    const findPicker = () => wrapper.find('.el-picker-panel')
+    const findInputWrapper = () => wrapper.find('.g-date-editor')
+    const findClear = () => wrapper.find('.g-range__close-icon')
+    const findPicker = () => wrapper.find('.g-picker-panel')
 
     await nextTick()
     const inputWrapper = findInputWrapper()
@@ -762,7 +762,7 @@ describe('TimePicker(range)', () => {
     // For skipping Transition animation
     await rAF()
 
-    const list = document.querySelectorAll('.el-time-spinner__list')
+    const list = document.querySelectorAll('.g-time-spinner__list')
     const leftHoursEl = list[0]
     const leftEndbledHours = getSpinnerTextAsArray(
       leftHoursEl,
@@ -775,7 +775,7 @@ describe('TimePicker(range)', () => {
       ':not(.is-disabled)'
     )
     expect(rightEndbledHours).toEqual([11, 12, 13, 14, 15, 16])
-    ;(leftHoursEl.querySelectorAll('.el-time-spinner__item')[12] as any).click()
+    ;(leftHoursEl.querySelectorAll('.g-time-spinner__item')[12] as any).click()
     await nextTick()
     const NextRightEndbledHours = getSpinnerTextAsArray(
       rightHoursEl,
@@ -808,11 +808,11 @@ describe('TimePicker(range)', () => {
   })
 
   it('should be able to inherit options from parent injection', async () => {
-    const ElPopperOptions = {
+    const GPopperOptions = {
       strategy: 'fixed',
     }
     const value = ref(new Date(2016, 9, 10, 18, 40))
-    const options = ref(ElPopperOptions)
+    const options = ref(GPopperOptions)
     const wrapper = mount(
       () => (
         <TimePicker
@@ -825,7 +825,7 @@ describe('TimePicker(range)', () => {
         global: {
           provide() {
             return {
-              ElPopperOptions,
+              GPopperOptions,
             }
           },
         },
@@ -835,7 +835,7 @@ describe('TimePicker(range)', () => {
     await nextTick()
 
     expect((wrapper.findComponent(Picker).vm as any).elPopperOptions).toEqual(
-      ElPopperOptions
+      GPopperOptions
     )
   })
 
@@ -865,20 +865,20 @@ describe('TimePicker(range)', () => {
     // For skipping Transition animation
     await rAF()
 
-    const list = document.querySelectorAll('.el-time-spinner__list')
+    const list = document.querySelectorAll('.g-time-spinner__list')
     expect(
       list[0]
-        .querySelector('.el-time-spinner__item.is-active')
+        .querySelector('.g-time-spinner__item.is-active')
         .innerHTML.split(' ').length
     ).toBe(2)
     expect(
       list[1]
-        .querySelector('.el-time-spinner__item.is-active')
+        .querySelector('.g-time-spinner__item.is-active')
         .innerHTML.split(' ').length
     ).toBe(1)
     expect(
       list[2]
-        .querySelector('.el-time-spinner__item.is-active')
+        .querySelector('.g-time-spinner__item.is-active')
         .innerHTML.split(' ').length
     ).toBe(1)
   })
@@ -886,15 +886,15 @@ describe('TimePicker(range)', () => {
   describe('form item accessibility integration', () => {
     it('automatic id attachment', async () => {
       const wrapper = mount(() => (
-        <ElFormItem label="Foobar" data-test-ref="item">
+        <GFormItem label="Foobar" data-test-ref="item">
           <TimePicker />
-        </ElFormItem>
+        </GFormItem>
       ))
 
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
-      const formItemLabel = formItem.find('.el-form-item__label')
-      const timePickerInput = wrapper.find('.el-input__inner')
+      const formItemLabel = formItem.find('.g-form-item__label')
+      const timePickerInput = wrapper.find('.g-input__inner')
       expect(formItem.attributes().role).toBeFalsy()
       expect(formItemLabel.attributes().for).toBe(
         timePickerInput.attributes().id
@@ -903,15 +903,15 @@ describe('TimePicker(range)', () => {
 
     it('specified id attachment', async () => {
       const wrapper = mount(() => (
-        <ElFormItem label="Foobar" data-test-ref="item">
+        <GFormItem label="Foobar" data-test-ref="item">
           <TimePicker id="foobar" />
-        </ElFormItem>
+        </GFormItem>
       ))
 
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
-      const formItemLabel = formItem.find('.el-form-item__label')
-      const timePickerInput = wrapper.find('.el-input__inner')
+      const formItemLabel = formItem.find('.g-form-item__label')
+      const timePickerInput = wrapper.find('.g-input__inner')
       expect(formItem.attributes().role).toBeFalsy()
       expect(timePickerInput.attributes().id).toBe('foobar')
       expect(formItemLabel.attributes().for).toBe(
@@ -921,10 +921,10 @@ describe('TimePicker(range)', () => {
 
     it('form item role is group when multiple inputs', async () => {
       const wrapper = mount(() => (
-        <ElFormItem label="Foobar" data-test-ref="item">
+        <GFormItem label="Foobar" data-test-ref="item">
           <TimePicker />
           <TimePicker />
-        </ElFormItem>
+        </GFormItem>
       ))
 
       await nextTick()
@@ -938,7 +938,7 @@ describe('TimePicker(range)', () => {
 
     const findInput = () =>
       wrapper.findComponent({
-        name: 'ElInput',
+        name: 'GInput',
       })
     const findClear = () => wrapper.find('.clear-icon')
     const findPicker = () =>
@@ -966,10 +966,10 @@ describe('TimePicker(range)', () => {
       await clearIcon.trigger('click')
       await rAF()
       expect(document.activeElement).toBe(wrapper.find('input').element)
-      expect(document.querySelector('.el-time-panel')).toBeFalsy()
+      expect(document.querySelector('.g-time-panel')).toBeFalsy()
       await input.vm.$emit('input', 'a')
       await rAF()
-      expect(document.querySelector('.el-time-panel')).toBeTruthy()
+      expect(document.querySelector('.g-time-panel')).toBeTruthy()
     })
 
     it('should be able to focus back and callout picker after pick', async () => {
@@ -978,15 +978,15 @@ describe('TimePicker(range)', () => {
       const input = findInput()
       input.vm.$emit('input', 'a')
       await rAF()
-      expect(document.querySelector('.el-time-panel')).toBeTruthy()
+      expect(document.querySelector('.g-time-panel')).toBeTruthy()
       picker.vm.onPick('', false)
       await rAF() // Picker triggers popup close, event propagation
       await rAF() // Focus trap recognizes focusout event, and propagation
       expect(document.activeElement).toBe(wrapper.find('input').element)
-      expect(document.querySelector('.el-time-panel')).toBeFalsy()
+      expect(document.querySelector('.g-time-panel')).toBeFalsy()
       input.vm.$emit('input', 'a')
       await rAF()
-      expect(document.querySelector('.el-time-panel')).toBeTruthy()
+      expect(document.querySelector('.g-time-panel')).toBeTruthy()
     })
   })
 
@@ -1046,45 +1046,45 @@ describe('TimePicker(range)', () => {
     }
 
     const selectTime = async (hour: number, minute: number, second: number) => {
-      const list = document.querySelectorAll('.el-time-spinner__list')
-      ;(list[0].querySelectorAll('.el-time-spinner__item')[hour] as any).click()
+      const list = document.querySelectorAll('.g-time-spinner__list')
+      ;(list[0].querySelectorAll('.g-time-spinner__item')[hour] as any).click()
       await nextTick()
       ;(
-        list[1].querySelectorAll('.el-time-spinner__item')[minute] as any
+        list[1].querySelectorAll('.g-time-spinner__item')[minute] as any
       ).click()
       await nextTick()
       ;(
-        list[2].querySelectorAll('.el-time-spinner__item')[second] as any
+        list[2].querySelectorAll('.g-time-spinner__item')[second] as any
       ).click()
       await nextTick()
     }
 
     await openPanel()
     await selectTime(21, 36, 20)
-    ;(document.querySelector('.el-time-panel__btn.confirm') as any).click()
+    ;(document.querySelector('.g-time-panel__btn.confirm') as any).click()
     await nextTick()
     expect(input.element.value).toBe('21:36:20')
 
-    await wrapper.find('.el-input').trigger('mouseenter')
+    await wrapper.find('.g-input').trigger('mouseenter')
     await rAF()
     await wrapper.find('.clear-icon').trigger('click')
     await nextTick()
     expect(input.element.value).toBe('')
 
     await openPanel()
-    ;(document.querySelector('.el-time-panel__btn.cancel') as any).click()
+    ;(document.querySelector('.g-time-panel__btn.cancel') as any).click()
     await nextTick()
     expect(input.element.value).toBe('')
 
     await openPanel()
     await selectTime(5, 10, 0)
-    ;(document.querySelector('.el-time-panel__btn.confirm') as any).click()
+    ;(document.querySelector('.g-time-panel__btn.confirm') as any).click()
     await nextTick()
     expect(input.element.value).toBe('05:10:00')
 
     await openPanel()
     await selectTime(6, 20, 30)
-    ;(document.querySelector('.el-time-panel__btn.cancel') as any).click()
+    ;(document.querySelector('.g-time-panel__btn.cancel') as any).click()
     await nextTick()
     expect(input.element.value).toBe('05:10:00')
   })
@@ -1141,8 +1141,8 @@ describe('TimePicker(range)', () => {
     ))
 
     await nextTick()
-    const findInputWrapper = () => wrapper.find('.el-date-editor')
-    const findClear = () => wrapper.find('.el-range__close-icon')
+    const findInputWrapper = () => wrapper.find('.g-date-editor')
+    const findClear = () => wrapper.find('.g-range__close-icon')
 
     await nextTick()
     const inputWrapper = findInputWrapper()
@@ -1166,7 +1166,7 @@ describe('TimePicker(range)', () => {
       input.trigger('focus')
       await nextTick()
       await rAF()
-      const popper = document.querySelector('.el-picker__popper')
+      const popper = document.querySelector('.g-picker__popper')
       expect(input.attributes('aria-expanded')).toBe('true')
       expect(input.attributes('aria-controls')).toBe(popper?.getAttribute('id'))
       expect(popper?.getAttribute('role')).toBe('dialog')
@@ -1197,7 +1197,7 @@ describe('TimePicker(range)', () => {
       wrapper.find('input').trigger('focus')
       await nextTick()
       await rAF()
-      const popper = document.querySelector('.el-picker__popper')
+      const popper = document.querySelector('.g-picker__popper')
       expect(inputs[0].attributes('aria-expanded')).toBe('true')
       expect(inputs[1].attributes('aria-expanded')).toBe('true')
       expect(inputs[0].attributes('aria-controls')).toBe(

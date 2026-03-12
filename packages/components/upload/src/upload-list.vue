@@ -35,9 +35,9 @@
             :class="nsUpload.be('list', 'item-name')"
             @click.prevent="handlePreview(file)"
           >
-            <el-icon :class="nsIcon.m('document')">
+            <g-icon :class="nsIcon.m('document')">
               <Document />
-            </el-icon>
+            </g-icon>
             <span
               :class="nsUpload.be('list', 'item-file-name')"
               :title="file.name"
@@ -45,7 +45,7 @@
               {{ file.name }}
             </span>
           </a>
-          <el-progress
+          <g-progress
             v-if="file.status === 'uploading'"
             :type="listType === 'picture-card' ? 'circle' : 'line'"
             :stroke-width="listType === 'picture-card' ? 6 : 2"
@@ -55,32 +55,32 @@
         </div>
 
         <label :class="nsUpload.be('list', 'item-status-label')">
-          <el-icon
+          <g-icon
             v-if="listType === 'text'"
             :class="[nsIcon.m('upload-success'), nsIcon.m('circle-check')]"
           >
             <circle-check />
-          </el-icon>
-          <el-icon
+          </g-icon>
+          <g-icon
             v-else-if="['picture-card', 'picture'].includes(listType)"
             :class="[nsIcon.m('upload-success'), nsIcon.m('check')]"
           >
             <Check />
-          </el-icon>
+          </g-icon>
         </label>
-        <el-icon
+        <g-icon
           v-if="!disabled"
           :class="nsIcon.m('close')"
-          :aria-label="t('el.upload.delete')"
+          :aria-label="t('g.upload.delete')"
           role="button"
           tabindex="0"
           @click="handleRemove(file)"
           @keydown.enter.space.prevent="handleRemove(file)"
         >
           <Close />
-        </el-icon>
+        </g-icon>
         <i v-if="!disabled" :class="nsIcon.m('close-tip')">{{
-          t('el.upload.deleteTip')
+          t('g.upload.deleteTip')
         }}</i>
         <span
           v-if="listType === 'picture-card'"
@@ -90,16 +90,16 @@
             :class="nsUpload.be('list', 'item-preview')"
             @click="handlePreview(file)"
           >
-            <el-icon :class="nsIcon.m('zoom-in')"><zoom-in /></el-icon>
+            <g-icon :class="nsIcon.m('zoom-in')"><zoom-in /></g-icon>
           </span>
           <span
             v-if="!disabled"
             :class="nsUpload.be('list', 'item-delete')"
             @click="handleRemove(file)"
           >
-            <el-icon :class="nsIcon.m('delete')">
+            <g-icon :class="nsIcon.m('delete')">
               <Delete />
-            </el-icon>
+            </g-icon>
           </span>
         </span>
       </slot>
@@ -110,7 +110,7 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { ElIcon } from '@element-plus/components/icon'
+import { GIcon } from '@element-plus/components/icon'
 import {
   Check,
   CircleCheck,
@@ -120,7 +120,7 @@ import {
   ZoomIn,
 } from '@element-plus/icons-vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import ElProgress from '@element-plus/components/progress'
+import GProgress from '@element-plus/components/progress'
 import { useFormDisabled } from '@element-plus/components/form'
 import { uploadListEmits } from './upload-list'
 import { NOOP, mutable } from '@element-plus/utils'
@@ -129,7 +129,7 @@ import type { UploadListProps } from './upload-list'
 import type { UploadFile } from './upload'
 
 defineOptions({
-  name: 'ElUploadList',
+  name: 'GUploadList',
 })
 
 const props = withDefaults(defineProps<UploadListProps>(), {

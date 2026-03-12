@@ -202,7 +202,7 @@ export const paginationEmits = {
 }
 export type PaginationEmits = typeof paginationEmits
 
-const componentName = 'ElPagination'
+const componentName = 'GPagination'
 export default defineComponent({
   name: componentName,
 
@@ -222,7 +222,7 @@ export default defineComponent({
         from: 'small',
         replacement: 'size',
         version: '3.0.0',
-        scope: 'el-pagination',
+        scope: 'g-pagination',
         ref: 'https://element-plus.org/zh-CN/component/pagination.html',
       },
       computed(() => !!props.small)
@@ -239,7 +239,7 @@ export default defineComponent({
     const assertValidUsage = computed(() => {
       // Users have to set either one, otherwise count of pages cannot be determined
       if (isAbsent(props.total) && isAbsent(props.pageCount)) return false
-      // <el-pagination ...otherProps :current-page="xxx" /> without corresponding listener is forbidden now
+      // <g-pagination ...otherProps :current-page="xxx" /> without corresponding listener is forbidden now
       // Users have to use two way binding of `currentPage`
       // If users just want to provide a default value, `defaultCurrentPage` is here for you
       if (!isAbsent(props.currentPage) && !hasCurrentPageListener) return false
@@ -264,7 +264,7 @@ export default defineComponent({
             }
           } else {
             // (else block just for explaination)
-            // else page size is controlled by el-pagination internally
+            // else page size is controlled by g-pagination internally
           }
         }
       }
@@ -381,7 +381,7 @@ export default defineComponent({
 
     return () => {
       if (!assertValidUsage.value) {
-        debugWarn(componentName, t('el.pagination.deprecationWarning'))
+        debugWarn(componentName, t('g.pagination.deprecationWarning'))
         return null
       }
       if (!props.layout) return null

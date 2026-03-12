@@ -5,8 +5,8 @@ import Countdown from '../src/countdown.vue'
 
 import type { VueWrapper } from '@vue/test-utils'
 
-const TITLE_CLASS = '.el-statistic__head'
-const CONTENT_CLASS = '.el-statistic__content'
+const TITLE_CLASS = '.g-statistic__head'
+const CONTENT_CLASS = '.g-statistic__content'
 
 describe('Countdown.vue', () => {
   let wrapper: VueWrapper<any>

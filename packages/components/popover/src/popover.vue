@@ -1,5 +1,5 @@
 <template>
-  <el-tooltip
+  <g-tooltip
     ref="tooltipRef"
     v-bind="$attrs"
     :trigger="trigger"
@@ -43,12 +43,12 @@
         {{ content }}
       </slot>
     </template>
-  </el-tooltip>
+  </g-tooltip>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref, unref } from 'vue'
-import { ElTooltip } from '@element-plus/components/tooltip'
+import { GTooltip } from '@element-plus/components/tooltip'
 import { addUnit } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { popoverEmits, popoverPropsDefaults } from './popover'
@@ -57,7 +57,7 @@ import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { PopoverProps } from './popover'
 
 defineOptions({
-  name: 'ElPopover',
+  name: 'GPopover',
 })
 
 const props = withDefaults(defineProps<PopoverProps>(), popoverPropsDefaults)

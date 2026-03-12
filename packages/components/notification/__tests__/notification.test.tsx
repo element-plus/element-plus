@@ -138,7 +138,7 @@ describe('Notification.vue', () => {
         },
       })
 
-      expect(wrapper.find('.el-notification__icon').exists()).toBe(false)
+      expect(wrapper.find('.g-notification__icon').exists()).toBe(false)
       // TODO: Uncomment after runtime validation is added
       // expect(console.warn).toHaveBeenCalled()
       ;(console.warn as any as MockInstance).mockRestore()
@@ -156,7 +156,7 @@ describe('Notification.vue', () => {
       })
       await nextTick()
 
-      const closeBtn = wrapper.find('.el-notification__closeBtn')
+      const closeBtn = wrapper.find('.g-notification__closeBtn')
       expect(closeBtn.exists()).toBe(true)
       await closeBtn.trigger('click')
       expect(onClose).toHaveBeenCalled()

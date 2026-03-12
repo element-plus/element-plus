@@ -15,7 +15,7 @@ import type { PopperContentProps } from '@element-plus/components/popper'
 import type TooltipContent from './content.vue'
 import type { ExtractPublicPropTypes } from 'vue'
 
-export interface ElTooltipContentProps
+export interface GTooltipContentProps
   extends UseDelayedToggleProps, Omit<PopperContentProps, 'visible'> {
   /**
    * @description which element the tooltip CONTENT appends to
@@ -65,7 +65,7 @@ export const useTooltipContentPropsDefaults = {
 } as const
 
 /**
- * @deprecated Removed after 3.0.0, Use `ElTooltipContentProps` instead.
+ * @deprecated Removed after 3.0.0, Use `GTooltipContentProps` instead.
  */
 export const useTooltipContentProps = buildProps({
   ...useDelayedToggleProps,
@@ -121,9 +121,9 @@ export const useTooltipContentProps = buildProps({
 } as const)
 
 /**
- * @deprecated Removed after 3.0.0, Use `ElTooltipContentProps` instead.
+ * @deprecated Removed after 3.0.0, Use `GTooltipContentProps` instead.
  */
-export type ElTooltipContentPropsPublic = ExtractPublicPropTypes<
+export type GTooltipContentPropsPublic = ExtractPublicPropTypes<
   typeof useTooltipContentProps
 >
 

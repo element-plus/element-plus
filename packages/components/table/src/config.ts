@@ -1,6 +1,6 @@
 import { h } from 'vue'
-import ElCheckbox from '@element-plus/components/checkbox'
-import { ElIcon } from '@element-plus/components/icon'
+import GCheckbox from '@element-plus/components/checkbox'
+import { GIcon } from '@element-plus/components/icon'
 import { ArrowRight, Loading } from '@element-plus/icons-vue'
 import { getProp, isBoolean, isFunction, isNumber } from '@element-plus/utils'
 
@@ -49,7 +49,7 @@ export const cellForced = {
       function isDisabled() {
         return store.states.data.value && store.states.data.value.length === 0
       }
-      return h(ElCheckbox, {
+      return h(GCheckbox, {
         disabled: isDisabled(),
         size: store.states.tableSize.value,
         indeterminate:
@@ -57,7 +57,7 @@ export const cellForced = {
           !store.states.isAllSelected.value,
         'onUpdate:modelValue': store.toggleAllSelection ?? undefined,
         modelValue: store.states.isAllSelected.value,
-        ariaLabel: store.t('el.table.selectAllLabel'),
+        ariaLabel: store.t('g.table.selectAllLabel'),
       })
     },
     renderCell<T extends DefaultRow>({
@@ -71,7 +71,7 @@ export const cellForced = {
       store: Store<T>
       $index: number
     }) {
-      return h(ElCheckbox, {
+      return h(GCheckbox, {
         disabled: column.selectable
           ? !column.selectable.call(null, row, $index)
           : false,
@@ -81,7 +81,7 @@ export const cellForced = {
         },
         onClick: (event: Event) => event.stopPropagation(),
         modelValue: store.isSelected(row),
-        ariaLabel: store.t('el.table.selectRowLabel'),
+        ariaLabel: store.t('g.table.selectRowLabel'),
       })
     },
     sortable: false,
@@ -156,7 +156,7 @@ export const cellForced = {
           type: 'button',
           disabled: !isRowExpandable,
           'aria-label': store.t(
-            expanded ? 'el.table.collapseRowLabel' : 'el.table.expandRowLabel'
+            expanded ? 'g.table.collapseRowLabel' : 'g.table.expandRowLabel'
           ),
           'aria-expanded': expanded,
           class: classes,
@@ -174,7 +174,7 @@ export const cellForced = {
             }
 
             return [
-              h(ElIcon, null, {
+              h(GIcon, null, {
                 default: () => {
                   return [h(ArrowRight)]
                 },
@@ -262,8 +262,8 @@ export function treeCellPrefix<T extends DefaultRow>(
           type: 'button',
           'aria-label': store.t(
             treeNode.expanded
-              ? 'el.table.collapseRowLabel'
-              : 'el.table.expandRowLabel'
+              ? 'g.table.collapseRowLabel'
+              : 'g.table.expandRowLabel'
           ),
           'aria-expanded': treeNode.expanded,
           class: expandClasses,
@@ -273,7 +273,7 @@ export function treeCellPrefix<T extends DefaultRow>(
           default: () => {
             return [
               h(
-                ElIcon,
+                GIcon,
                 { class: ns.is('loading', treeNode.loading) },
                 {
                   default: () => [h(icon)],

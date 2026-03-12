@@ -1,7 +1,7 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
-import { ElSplitter, ElSplitterPanel } from '../index'
+import { GSplitter, GSplitterPanel } from '../index'
 import { useElementSize } from './__mocks__/vueuse'
 
 // jsdom does not support useElementSize and useResizeObserver so mock
@@ -26,25 +26,25 @@ describe('Splitter', () => {
 
   it('should render correctly', () => {
     const wrapper = mount(() => (
-      <ElSplitter>
-        <ElSplitterPanel>Left Panel</ElSplitterPanel>
-        <ElSplitterPanel>Right Panel</ElSplitterPanel>
-      </ElSplitter>
+      <GSplitter>
+        <GSplitterPanel>Left Panel</GSplitterPanel>
+        <GSplitterPanel>Right Panel</GSplitterPanel>
+      </GSplitter>
     ))
 
-    expect(wrapper.find('.el-splitter').exists()).toBe(true)
-    expect(wrapper.findAll('.el-splitter-panel')).toHaveLength(2)
+    expect(wrapper.find('.g-splitter').exists()).toBe(true)
+    expect(wrapper.findAll('.g-splitter-panel')).toHaveLength(2)
   })
 
   it('should render with vertical layout', () => {
     const wrapper = mount(() => (
-      <ElSplitter layout="vertical">
-        <ElSplitterPanel>Top Panel</ElSplitterPanel>
-        <ElSplitterPanel>Bottom Panel</ElSplitterPanel>
-      </ElSplitter>
+      <GSplitter layout="vertical">
+        <GSplitterPanel>Top Panel</GSplitterPanel>
+        <GSplitterPanel>Bottom Panel</GSplitterPanel>
+      </GSplitter>
     ))
 
-    expect(wrapper.find('.el-splitter__vertical').exists()).toBe(true)
+    expect(wrapper.find('.g-splitter__vertical').exists()).toBe(true)
   })
 
   it('should keep panels size consistent with props.size when containerSize is 0.', async () => {
@@ -57,19 +57,19 @@ describe('Splitter', () => {
 
     const wrapper = mount(() => (
       <div style={{ width: splitterWidth.value, height: '400px' }}>
-        <ElSplitter>
-          <ElSplitterPanel>
+        <GSplitter>
+          <GSplitterPanel>
             <div class="demo-panel">1</div>
-          </ElSplitterPanel>
-          <ElSplitterPanel size={size.value}>
+          </GSplitterPanel>
+          <GSplitterPanel size={size.value}>
             <div class="demo-panel">2</div>
-          </ElSplitterPanel>
-        </ElSplitter>
+          </GSplitterPanel>
+        </GSplitter>
       </div>
     ))
 
     await nextTick()
-    const panels = wrapper.findAll('.el-splitter-panel')
+    const panels = wrapper.findAll('.g-splitter-panel')
 
     // default size
     expect(panels[0].attributes('style')).toContain('flex-basis: 70px;')
@@ -84,7 +84,7 @@ describe('Splitter', () => {
     expect(panels[0].attributes('style')).toContain('flex-basis: 0px;')
     expect(panels[1].attributes('style')).toContain('flex-basis: 0px;')
 
-    const panelComps = wrapper.findComponent({ name: 'ElSplitter' }).vm.panels
+    const panelComps = wrapper.findComponent({ name: 'GSplitter' }).vm.panels
 
     expect(panelComps[0].size).toBeUndefined()
     expect(panelComps[1].size).toBe('80%')
@@ -95,23 +95,23 @@ describe('Splitter', () => {
   it('should respect min and max size constraints', async () => {
     const wrapper = mount(() => (
       <div style={{ width: '400px', height: '400px' }}>
-        <ElSplitter>
-          <ElSplitterPanel size={150} min={100} max={200}>
+        <GSplitter>
+          <GSplitterPanel size={150} min={100} max={200}>
             Left Panel
-          </ElSplitterPanel>
-          <ElSplitterPanel>Right Panel</ElSplitterPanel>
-        </ElSplitter>
+          </GSplitterPanel>
+          <GSplitterPanel>Right Panel</GSplitterPanel>
+        </GSplitter>
       </div>
     ))
     await nextTick()
-    const panels = wrapper.findAll('.el-splitter-panel')
+    const panels = wrapper.findAll('.g-splitter-panel')
 
     // default size
     expect(panels[0].attributes('style')).toContain('flex-basis: 150px;')
 
     // mock mouse event
     const simulateDrag = async (startPos: number, endPos: number) => {
-      const splitBar = wrapper.find('.el-splitter-bar__dragger')
+      const splitBar = wrapper.find('.g-splitter-bar__dragger')
 
       // Simulate mouse down
       const mousedown = new MouseEvent('mousedown', { bubbles: true })
@@ -143,22 +143,22 @@ describe('Splitter', () => {
   it('should handle collapse', async () => {
     const wrapper = mount(() => (
       <div style={{ width: '400px', height: '400px' }}>
-        <ElSplitter>
-          <ElSplitterPanel size={150} collapsible>
+        <GSplitter>
+          <GSplitterPanel size={150} collapsible>
             Left Panel
-          </ElSplitterPanel>
-          <ElSplitterPanel collapsible>Right Panel</ElSplitterPanel>
-        </ElSplitter>
+          </GSplitterPanel>
+          <GSplitterPanel collapsible>Right Panel</GSplitterPanel>
+        </GSplitter>
       </div>
     ))
     await nextTick()
 
-    const panels = wrapper.findAll('.el-splitter-panel')
+    const panels = wrapper.findAll('.g-splitter-panel')
     const startCollapseButton = wrapper.find(
-      '.el-splitter-bar__horizontal-collapse-icon-start'
+      '.g-splitter-bar__horizontal-collapse-icon-start'
     )
     const endCollapseButton = wrapper.find(
-      '.el-splitter-bar__horizontal-collapse-icon-end'
+      '.g-splitter-bar__horizontal-collapse-icon-end'
     )
 
     // default size
@@ -186,21 +186,21 @@ describe('Splitter', () => {
 
     const wrapper = mount(() => (
       <div style={{ width: '400px', height: '400px' }}>
-        <ElSplitter
+        <GSplitter
           onResizeStart={onResizeStart}
           onResize={onResize}
           onResizeEnd={onResizeEnd}
         >
-          <ElSplitterPanel>Left Panel</ElSplitterPanel>
-          <ElSplitterPanel>Right Panel</ElSplitterPanel>
-        </ElSplitter>
+          <GSplitterPanel>Left Panel</GSplitterPanel>
+          <GSplitterPanel>Right Panel</GSplitterPanel>
+        </GSplitter>
       </div>
     ))
     await nextTick()
 
     // mock mouse event
     const simulateDrag = async (startPos: number, endPos: number) => {
-      const splitBar = wrapper.find('.el-splitter-bar__dragger')
+      const splitBar = wrapper.find('.g-splitter-bar__dragger')
 
       // Simulate mouse down
       const mousedown = new MouseEvent('mousedown', { bubbles: true })
@@ -238,19 +238,19 @@ describe('Splitter', () => {
     const onCollapse = vi.fn()
     const wrapper = mount(() => (
       <div style={{ width: '400px', height: '400px' }}>
-        <ElSplitter onCollapse={onCollapse}>
-          <ElSplitterPanel collapsible>Left Panel</ElSplitterPanel>
-          <ElSplitterPanel collapsible>Right Panel</ElSplitterPanel>
-        </ElSplitter>
+        <GSplitter onCollapse={onCollapse}>
+          <GSplitterPanel collapsible>Left Panel</GSplitterPanel>
+          <GSplitterPanel collapsible>Right Panel</GSplitterPanel>
+        </GSplitter>
       </div>
     ))
     await nextTick()
 
     const startCollapseButton = wrapper.find(
-      '.el-splitter-bar__horizontal-collapse-icon-start'
+      '.g-splitter-bar__horizontal-collapse-icon-start'
     )
     const endCollapseButton = wrapper.find(
-      '.el-splitter-bar__horizontal-collapse-icon-end'
+      '.g-splitter-bar__horizontal-collapse-icon-end'
     )
 
     // Click collapse button
@@ -268,27 +268,27 @@ describe('Splitter', () => {
     const size = ref(150)
     const wrapper = mount(() => (
       <div style={{ width: '400px', height: '400px' }}>
-        <ElSplitter>
-          <ElSplitterPanel
+        <GSplitter>
+          <GSplitterPanel
             v-model:size={size.value}
             collapsible
             min={50}
             max={200}
           >
             Left Panel
-          </ElSplitterPanel>
-          <ElSplitterPanel collapsible>Right Panel</ElSplitterPanel>
-        </ElSplitter>
+          </GSplitterPanel>
+          <GSplitterPanel collapsible>Right Panel</GSplitterPanel>
+        </GSplitter>
       </div>
     ))
     await nextTick()
 
-    const panels = wrapper.findAll('.el-splitter-panel')
+    const panels = wrapper.findAll('.g-splitter-panel')
     const startCollapseButton = wrapper.find(
-      '.el-splitter-bar__horizontal-collapse-icon-start'
+      '.g-splitter-bar__horizontal-collapse-icon-start'
     )
     const endCollapseButton = wrapper.find(
-      '.el-splitter-bar__horizontal-collapse-icon-end'
+      '.g-splitter-bar__horizontal-collapse-icon-end'
     )
 
     // default size
@@ -319,15 +319,15 @@ describe('Splitter', () => {
   it('should not update panel size until drag ends when lazy is true', async () => {
     const wrapper = mount(() => (
       <div style={{ width: '400px', height: '400px' }}>
-        <ElSplitter lazy>
-          <ElSplitterPanel>Left Panel</ElSplitterPanel>
-          <ElSplitterPanel>Right Panel</ElSplitterPanel>
-        </ElSplitter>
+        <GSplitter lazy>
+          <GSplitterPanel>Left Panel</GSplitterPanel>
+          <GSplitterPanel>Right Panel</GSplitterPanel>
+        </GSplitter>
       </div>
     ))
     await nextTick()
-    const panels = wrapper.findAll('.el-splitter-panel')
-    const splitBar = wrapper.find('.el-splitter-bar__dragger')
+    const panels = wrapper.findAll('.g-splitter-panel')
+    const splitBar = wrapper.find('.g-splitter-bar__dragger')
 
     const mousedown = new MouseEvent('mousedown', { bubbles: true })
     Object.defineProperty(mousedown, 'pageX', { value: 200 })
@@ -349,15 +349,15 @@ describe('Splitter', () => {
   it('should update panel size immediately when lazy is false', async () => {
     const wrapper = mount(() => (
       <div style={{ width: '400px', height: '400px' }}>
-        <ElSplitter>
-          <ElSplitterPanel>Left Panel</ElSplitterPanel>
-          <ElSplitterPanel>Right Panel</ElSplitterPanel>
-        </ElSplitter>
+        <GSplitter>
+          <GSplitterPanel>Left Panel</GSplitterPanel>
+          <GSplitterPanel>Right Panel</GSplitterPanel>
+        </GSplitter>
       </div>
     ))
     await nextTick()
-    const panels = wrapper.findAll('.el-splitter-panel')
-    const splitBar = wrapper.find('.el-splitter-bar__dragger')
+    const panels = wrapper.findAll('.g-splitter-panel')
+    const splitBar = wrapper.find('.g-splitter-bar__dragger')
 
     const mousedown = new MouseEvent('mousedown', { bubbles: true })
     Object.defineProperty(mousedown, 'pageX', { value: 200 })
@@ -380,15 +380,15 @@ describe('Splitter', () => {
     const onResizeEnd = vi.fn()
     const wrapper = mount(() => (
       <div style={{ width: '400px', height: '400px' }}>
-        <ElSplitter lazy onResizeEnd={onResizeEnd}>
-          <ElSplitterPanel>Left Panel</ElSplitterPanel>
-          <ElSplitterPanel>Right Panel</ElSplitterPanel>
-        </ElSplitter>
+        <GSplitter lazy onResizeEnd={onResizeEnd}>
+          <GSplitterPanel>Left Panel</GSplitterPanel>
+          <GSplitterPanel>Right Panel</GSplitterPanel>
+        </GSplitter>
       </div>
     ))
     await nextTick()
 
-    const splitBar = wrapper.find('.el-splitter-bar__dragger')
+    const splitBar = wrapper.find('.g-splitter-bar__dragger')
 
     const mousedown = new MouseEvent('mousedown', { bubbles: true })
     Object.defineProperty(mousedown, 'pageX', { value: 200 })
@@ -407,7 +407,7 @@ describe('Splitter', () => {
 
     expect(onResizeEnd).toHaveBeenCalledWith(0, [150, 250])
 
-    const panels = wrapper.findAll('.el-splitter-panel')
+    const panels = wrapper.findAll('.g-splitter-panel')
     expect(panels[0].attributes('style')).toContain('flex-basis: 150px;')
     expect(panels[1].attributes('style')).toContain('flex-basis: 250px;')
   })
@@ -415,22 +415,22 @@ describe('Splitter', () => {
   it('should not still display the mask after the panel updates', async () => {
     const show = ref(true)
     const wrapper = mount(() => (
-      <ElSplitter onResizeStart={() => (show.value = false)}>
+      <GSplitter onResizeStart={() => (show.value = false)}>
         {show.value ? (
-          <ElSplitterPanel v-if={show.value}>Left Panel</ElSplitterPanel>
+          <GSplitterPanel v-if={show.value}>Left Panel</GSplitterPanel>
         ) : null}
-        <ElSplitterPanel>Right Panel</ElSplitterPanel>
-      </ElSplitter>
+        <GSplitterPanel>Right Panel</GSplitterPanel>
+      </GSplitter>
     ))
     await nextTick()
 
-    expect(wrapper.find('.el-splitter__mask').exists()).toBeFalsy()
+    expect(wrapper.find('.g-splitter__mask').exists()).toBeFalsy()
 
-    const splitBar = wrapper.find('.el-splitter-bar__dragger')
+    const splitBar = wrapper.find('.g-splitter-bar__dragger')
     const mousedown = new MouseEvent('mousedown', { bubbles: true })
     Object.defineProperty(mousedown, 'pageX', { value: 200 })
     splitBar.element.dispatchEvent(mousedown)
     await nextTick()
-    expect(wrapper.find('.el-splitter__mask').exists()).toBeFalsy()
+    expect(wrapper.find('.g-splitter__mask').exists()).toBeFalsy()
   })
 })

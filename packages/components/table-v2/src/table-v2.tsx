@@ -25,7 +25,7 @@ import type {
 } from './components'
 import type { KeyType } from './types'
 
-const COMPONENT_NAME = 'ElTableV2'
+const COMPONENT_NAME = 'GTableV2'
 
 const TableV2 = defineComponent({
   name: COMPONENT_NAME,

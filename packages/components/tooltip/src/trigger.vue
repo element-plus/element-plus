@@ -1,5 +1,5 @@
 <template>
-  <el-popper-trigger
+  <g-popper-trigger
     :id="id"
     :virtual-ref="virtualRef"
     :open="open"
@@ -14,12 +14,12 @@
     @keydown="onKeydown"
   >
     <slot />
-  </el-popper-trigger>
+  </g-popper-trigger>
 </template>
 
 <script lang="ts" setup>
 import { inject, nextTick, ref, toRef, unref } from 'vue'
-import { ElPopperTrigger } from '@element-plus/components/popper'
+import { GPopperTrigger } from '@element-plus/components/popper'
 import {
   composeEventHandlers,
   focusElement,
@@ -34,7 +34,7 @@ import type { UseTooltipTriggerProps } from './trigger'
 import type { OnlyChildExpose } from '@element-plus/components/slot'
 
 defineOptions({
-  name: 'ElTooltipTrigger',
+  name: 'GTooltipTrigger',
 })
 
 const props = withDefaults(

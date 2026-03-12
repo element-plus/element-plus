@@ -31,7 +31,7 @@ dayjs.extend(isSameOrAfter)
 dayjs.extend(isSameOrBefore)
 
 export default defineComponent({
-  name: 'ElDatePickerPanel',
+  name: 'GDatePickerPanel',
   install: null,
   inheritAttrs: false,
   props: datePickerPanelProps,

@@ -16,8 +16,8 @@ describe('Space.vue', () => {
       wrap: true,
     })
 
-    expect(wrapper.find('.el-space--vertical').exists()).toBe(true)
-    expect(wrapper.find('.el-space').attributes('style')).toContain(
+    expect(wrapper.find('.g-space--vertical').exists()).toBe(true)
+    expect(wrapper.find('.g-space').attributes('style')).toContain(
       'flex-wrap: wrap'
     )
   })
@@ -40,23 +40,23 @@ describe('Space.vue', () => {
     )
 
     await nextTick()
-    expect(wrapper.find('.el-space').attributes('style')).toContain('gap: 16px')
+    expect(wrapper.find('.g-space').attributes('style')).toContain('gap: 16px')
 
     await wrapper.setProps({
       size: 30,
     })
 
     await nextTick()
-    expect(wrapper.find('.el-space').attributes('style')).toContain('gap: 30px')
+    expect(wrapper.find('.g-space').attributes('style')).toContain('gap: 30px')
 
     await wrapper.setProps({
       size: [10, 20],
     })
 
-    expect(wrapper.find('.el-space').attributes('style')).toContain(
+    expect(wrapper.find('.g-space').attributes('style')).toContain(
       'column-gap: 10px'
     )
-    expect(wrapper.find('.el-space').attributes('style')).toContain(
+    expect(wrapper.find('.g-space').attributes('style')).toContain(
       'row-gap: 20px'
     )
     await wrapper.setProps({
@@ -65,7 +65,7 @@ describe('Space.vue', () => {
 
     expect(warnHandler).toHaveBeenCalled()
 
-    expect(wrapper.find('.el-space').attributes('style')).toContain('gap: 8px')
+    expect(wrapper.find('.g-space').attributes('style')).toContain('gap: 8px')
   })
 
   it('should render with spacer', async () => {
@@ -106,13 +106,13 @@ describe('Space.vue', () => {
     )
 
     await nextTick()
-    expect(wrapper.find('.el-space').attributes('style')).toContain(
+    expect(wrapper.find('.g-space').attributes('style')).toContain(
       'flex-wrap: wrap'
     )
-    expect(wrapper.find('.el-space__item').attributes('style')).toContain(
+    expect(wrapper.find('.g-space__item').attributes('style')).toContain(
       'flex-grow: 1'
     )
-    expect(wrapper.find('.el-space__item').attributes('style')).toContain(
+    expect(wrapper.find('.g-space__item').attributes('style')).toContain(
       'min-width: 100%'
     )
 
@@ -122,7 +122,7 @@ describe('Space.vue', () => {
     })
 
     await nextTick()
-    expect(wrapper.find('.el-space__item').attributes('style')).toContain(
+    expect(wrapper.find('.g-space__item').attributes('style')).toContain(
       'min-width: 50%'
     )
   })
@@ -131,15 +131,15 @@ describe('Space.vue', () => {
     // Test with a component that uses v-if to simulate empty templates
     const TestComponent = {
       template: `
-        <el-space spacer="|">
+        <g-space spacer="|">
           <span>Item 1</span>
           <template v-if="false"></template>
           <span>Item 2</span>
           <template v-if="false"></template>
-        </el-space>
+        </g-space>
       `,
       components: {
-        'el-space': Space,
+        'g-space': Space,
       },
     }
 
@@ -153,7 +153,7 @@ describe('Space.vue', () => {
       .filter((el) => el.text() === '|')
     expect(spacerElements.length).toBe(1)
 
-    const spaceChildren = wrapper.find('.el-space').element.children
+    const spaceChildren = wrapper.find('.g-space').element.children
     expect(spaceChildren.length).toBe(3)
   })
 })

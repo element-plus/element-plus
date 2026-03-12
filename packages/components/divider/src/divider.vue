@@ -21,7 +21,7 @@ import type { CSSProperties } from 'vue'
 import type { DividerProps } from './divider'
 
 defineOptions({
-  name: 'ElDivider',
+  name: 'GDivider',
 })
 const props = withDefaults(defineProps<DividerProps>(), {
   direction: 'horizontal',

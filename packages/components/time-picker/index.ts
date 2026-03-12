@@ -17,8 +17,8 @@ export * from './src/utils'
 export * from './src/constants'
 export * from './src/common/props'
 
-export const ElTimePicker: SFCWithInstall<typeof TimePicker> =
+export const GTimePicker: SFCWithInstall<typeof TimePicker> =
   withInstall(TimePicker)
 
 export { CommonPicker, TimePickPanel }
-export default ElTimePicker
+export default GTimePicker

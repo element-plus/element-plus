@@ -19,7 +19,7 @@ import type { SplitterProps } from './splitter'
 const ns = useNamespace('splitter')
 
 defineOptions({
-  name: 'ElSplitter',
+  name: 'GSplitter',
 })
 
 const emits = defineEmits(splitterEmits)
@@ -37,7 +37,7 @@ const {
   children: panels,
   addChild: registerPanel,
   ChildrenSorter: PanelsSorter,
-} = useOrderedChildren<PanelItemState>(getCurrentInstance()!, 'ElSplitterPanel')
+} = useOrderedChildren<PanelItemState>(getCurrentInstance()!, 'GSplitterPanel')
 
 watch(panels, () => {
   movingIndex.value = null

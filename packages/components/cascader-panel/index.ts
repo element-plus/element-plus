@@ -3,10 +3,10 @@ import CascaderPanel from './src/index.vue'
 
 import type { SFCWithInstall } from '@element-plus/utils'
 
-export const ElCascaderPanel: SFCWithInstall<typeof CascaderPanel> =
+export const GCascaderPanel: SFCWithInstall<typeof CascaderPanel> =
   withInstall(CascaderPanel)
 
-export default ElCascaderPanel
+export default GCascaderPanel
 export * from './src/types'
 export * from './src/config'
 export * from './src/instance'

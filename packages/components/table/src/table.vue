@@ -60,7 +60,7 @@
         </table>
       </div>
       <div ref="bodyWrapper" :class="ns.e('body-wrapper')">
-        <el-scrollbar
+        <g-scrollbar
           ref="scrollBarRef"
           :view-style="scrollbarViewStyle"
           :wrap-style="scrollbarStyle"
@@ -131,7 +131,7 @@
           >
             <slot name="append" />
           </div>
-        </el-scrollbar>
+        </g-scrollbar>
       </div>
       <div
         v-if="showSummary && tableLayout === 'fixed'"
@@ -182,7 +182,7 @@ import { debounce } from 'lodash-unified'
 import { Mousewheel } from '@element-plus/directives'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { useGlobalConfig } from '@element-plus/components/config-provider'
-import ElScrollbar from '@element-plus/components/scrollbar'
+import GScrollbar from '@element-plus/components/scrollbar'
 import { createStore } from './store/helper'
 import TableLayout from './table-layout'
 import TableHeader from './table-header'
@@ -201,7 +201,7 @@ import type { Table } from './table/defaults'
 
 let tableIdSeed = 1
 export default defineComponent({
-  name: 'ElTable',
+  name: 'GTable',
   directives: {
     Mousewheel,
   },
@@ -209,7 +209,7 @@ export default defineComponent({
     TableHeader,
     TableBody,
     TableFooter,
-    ElScrollbar,
+    GScrollbar,
     hColgroup,
   },
   props: defaultProps,
@@ -301,11 +301,11 @@ export default defineComponent({
       debouncedUpdateLayout,
     }
     const computedSumText = computed(
-      () => props.sumText ?? t('el.table.sumText')
+      () => props.sumText ?? t('g.table.sumText')
     )
 
     const computedEmptyText = computed(() => {
-      return props.emptyText ?? t('el.table.emptyText')
+      return props.emptyText ?? t('g.table.emptyText')
     })
 
     const computedTooltipEffect = computed(

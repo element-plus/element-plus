@@ -8,16 +8,16 @@
       :style="fitStyle"
       @error="handleError"
     />
-    <el-icon v-else-if="icon">
+    <g-icon v-else-if="icon">
       <component :is="icon" />
-    </el-icon>
+    </g-icon>
     <slot v-else />
   </span>
 </template>
 
 <script lang="ts" setup>
 import { computed, inject, ref, watch } from 'vue'
-import { ElIcon } from '@element-plus/components/icon'
+import { GIcon } from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
 import { addUnit, isNumber, isString } from '@element-plus/utils'
 import { avatarEmits } from './avatar'
@@ -27,7 +27,7 @@ import type { AvatarProps } from './avatar'
 import type { CSSProperties } from 'vue'
 
 defineOptions({
-  name: 'ElAvatar',
+  name: 'GAvatar',
 })
 
 const props = withDefaults(defineProps<AvatarProps>(), {

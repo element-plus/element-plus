@@ -1,44 +1,44 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
-import ElTag from '@element-plus/components/tag'
-import ElDescriptions from '../src/description.vue'
-import ElDescriptionsItem from '../src/description-item'
+import GTag from '@element-plus/components/tag'
+import GDescriptions from '../src/description.vue'
+import GDescriptionsItem from '../src/description-item'
 
 describe('Descriptions.vue', () => {
   test('render test', () => {
     const wrapper = mount(() => (
-      <ElDescriptions title="title" extra="extra">
+      <GDescriptions title="title" extra="extra">
         {Array.from({ length: 4 }).map((_, index) => (
-          <ElDescriptionsItem label={String(index)} />
+          <GDescriptionsItem label={String(index)} />
         ))}
-      </ElDescriptions>
+      </GDescriptions>
     ))
 
-    expect(wrapper.find('.el-descriptions__title').text()).toEqual('title')
-    expect(wrapper.find('.el-descriptions__extra').text()).toEqual('extra')
-    expect(wrapper.findAll('.el-descriptions__label').length).toEqual(4)
-    expect(wrapper.findAll('.el-descriptions__content').length).toEqual(4)
+    expect(wrapper.find('.g-descriptions__title').text()).toEqual('title')
+    expect(wrapper.find('.g-descriptions__extra').text()).toEqual('extra')
+    expect(wrapper.findAll('.g-descriptions__label').length).toEqual(4)
+    expect(wrapper.findAll('.g-descriptions__content').length).toEqual(4)
   })
 
   test('render empty label', () => {
     const wrapper = mount(() => (
-      <ElDescriptions>
+      <GDescriptions>
         {Array.from({ length: 3 }).map(() => (
-          <ElDescriptionsItem />
+          <GDescriptionsItem />
         ))}
-      </ElDescriptions>
+      </GDescriptions>
     ))
 
-    expect(wrapper.findAll('.el-descriptions__label').length).toEqual(0)
-    expect(wrapper.findAll('.el-descriptions__content').length).toEqual(3)
+    expect(wrapper.findAll('.g-descriptions__label').length).toEqual(0)
+    expect(wrapper.findAll('.g-descriptions__content').length).toEqual(3)
   })
 
   test('should render border props', () => {
     const wrapper = mount(() => (
-      <ElDescriptions border>
-        <ElDescriptionsItem />
-      </ElDescriptions>
+      <GDescriptions border>
+        <GDescriptionsItem />
+      </GDescriptions>
     ))
 
     expect(wrapper.find('table').classes()).toContain('is-bordered')
@@ -46,54 +46,54 @@ describe('Descriptions.vue', () => {
 
   test('should render align props', () => {
     const wrapper = mount(() => (
-      <ElDescriptions border>
+      <GDescriptions border>
         {Array.from({ length: 3 }).map(() => (
-          <ElDescriptionsItem align="right" labelAlign="center" />
+          <GDescriptionsItem align="right" labelAlign="center" />
         ))}
-      </ElDescriptions>
+      </GDescriptions>
     ))
 
-    expect(wrapper.find('.el-descriptions__label').classes()).toContain(
+    expect(wrapper.find('.g-descriptions__label').classes()).toContain(
       'is-center'
     )
-    expect(wrapper.find('.el-descriptions__content').classes()).toContain(
+    expect(wrapper.find('.g-descriptions__content').classes()).toContain(
       'is-right'
     )
   })
 
   test('should render width props', () => {
     const wrapper = mount(() => (
-      <ElDescriptions border>
+      <GDescriptions border>
         {Array.from({ length: 3 }).map(() => (
-          <ElDescriptionsItem width="50px" min-width="60px" />
+          <GDescriptionsItem width="50px" min-width="60px" />
         ))}
-      </ElDescriptions>
+      </GDescriptions>
     ))
 
     expect(
-      wrapper.find('.el-descriptions__label').attributes('style')
+      wrapper.find('.g-descriptions__label').attributes('style')
     ).toContain('width: 50px; min-width: 60px;')
     expect(
-      wrapper.find('.el-descriptions__content').attributes('style')
+      wrapper.find('.g-descriptions__content').attributes('style')
     ).toContain('width: 50px; min-width: 60px;')
   })
 
   test('should render class props', () => {
     const wrapper = mount(() => (
-      <ElDescriptions border>
+      <GDescriptions border>
         {Array.from({ length: 3 }).map(() => (
-          <ElDescriptionsItem
+          <GDescriptionsItem
             class-name="class-name"
             label-class-name="label-class-name"
           />
         ))}
-      </ElDescriptions>
+      </GDescriptions>
     ))
 
-    expect(wrapper.find('.el-descriptions__label').classes()).toContain(
+    expect(wrapper.find('.g-descriptions__label').classes()).toContain(
       'label-class-name'
     )
-    expect(wrapper.find('.el-descriptions__content').classes()).toContain(
+    expect(wrapper.find('.g-descriptions__content').classes()).toContain(
       'class-name'
     )
   })
@@ -102,11 +102,11 @@ describe('Descriptions.vue', () => {
     const border = ref(false)
 
     const wrapper = mount(() => (
-      <ElDescriptions column={5} border={border.value}>
+      <GDescriptions column={5} border={border.value}>
         {Array.from({ length: 10 }).map(() => (
-          <ElDescriptionsItem />
+          <GDescriptionsItem />
         ))}
-      </ElDescriptions>
+      </GDescriptions>
     ))
 
     expect(wrapper.find('tr').element.children.length).toEqual(5)
@@ -122,13 +122,13 @@ describe('Descriptions.vue', () => {
     const direction = ref<'horizontal' | 'vertical'>('horizontal')
 
     const wrapper = mount(() => (
-      <ElDescriptions column={5} direction={direction.value} border>
+      <GDescriptions column={5} direction={direction.value} border>
         {Array.from({ length: 10 }).map((item) => (
-          <ElDescriptionsItem label={String(item)}>
+          <GDescriptionsItem label={String(item)}>
             {String(item)}
-          </ElDescriptionsItem>
+          </GDescriptionsItem>
         ))}
-      </ElDescriptions>
+      </GDescriptions>
     ))
 
     expect(wrapper.find('tr').element.children.length).toEqual(10)
@@ -147,28 +147,28 @@ describe('Descriptions.vue', () => {
 
   test('should render title slots', async () => {
     const wrapper = mount(() => (
-      <ElDescriptions
+      <GDescriptions
         v-slots={{
           title: () => 'title',
           default: () =>
-            Array.from({ length: 10 }).map(() => <ElDescriptionsItem />),
+            Array.from({ length: 10 }).map(() => <GDescriptionsItem />),
         }}
-      ></ElDescriptions>
+      ></GDescriptions>
     ))
 
-    expect(wrapper.find('.el-descriptions__title').text()).toEqual('title')
+    expect(wrapper.find('.g-descriptions__title').text()).toEqual('title')
   })
 
   test('should render span props', async () => {
     const wrapper = mount(() => (
-      <ElDescriptions>
-        <ElDescriptionsItem label="1">1</ElDescriptionsItem>
-        <ElDescriptionsItem label="2" span={2}>
+      <GDescriptions>
+        <GDescriptionsItem label="1">1</GDescriptionsItem>
+        <GDescriptionsItem label="2" span={2}>
           2
-        </ElDescriptionsItem>
-        <ElDescriptionsItem label="3">3</ElDescriptionsItem>
-        <ElDescriptionsItem label="4">4</ElDescriptionsItem>
-      </ElDescriptions>
+        </GDescriptionsItem>
+        <GDescriptionsItem label="3">3</GDescriptionsItem>
+        <GDescriptionsItem label="4">4</GDescriptionsItem>
+      </GDescriptions>
     ))
 
     expect(wrapper.findAll('td')[1].element.getAttribute('colSpan')).toEqual(
@@ -190,11 +190,11 @@ describe('Descriptions.vue', () => {
     const wrapper = mount(() => (
       <>
         {remarks.value.map((remark, index) => (
-          <ElDescriptions key={index} title={remark}>
-            <ElDescriptionsItem label={remark}>
-              <ElTag size="small">{remark}</ElTag>
-            </ElDescriptionsItem>
-          </ElDescriptions>
+          <GDescriptions key={index} title={remark}>
+            <GDescriptionsItem label={remark}>
+              <GTag size="small">{remark}</GTag>
+            </GDescriptionsItem>
+          </GDescriptions>
         ))}
         <button onClick={onClick}>click</button>
       </>
@@ -202,116 +202,116 @@ describe('Descriptions.vue', () => {
 
     wrapper.find('button').trigger('click')
     await nextTick()
-    expect(wrapper.findComponent(ElTag).text()).toBe(CHANGE_VALUE)
+    expect(wrapper.findComponent(GTag).text()).toBe(CHANGE_VALUE)
   })
 
   test('should render labelWidth prop of DescriptionsItem', () => {
     const wrapper = mount(() => (
-      <ElDescriptions border>
+      <GDescriptions border>
         {Array.from({ length: 3 }).map(() => (
-          <ElDescriptionsItem label="测试标签" labelWidth="150px" />
+          <GDescriptionsItem label="测试标签" labelWidth="150px" />
         ))}
-      </ElDescriptions>
+      </GDescriptions>
     ))
 
     expect(
-      wrapper.find('.el-descriptions__label').attributes('style')
+      wrapper.find('.g-descriptions__label').attributes('style')
     ).toContain('width: 150px')
   })
 
   test('should render labelWidth prop of Descriptions', () => {
     const wrapper = mount(() => (
-      <ElDescriptions label-width="150px" border>
+      <GDescriptions label-width="150px" border>
         {Array.from({ length: 3 }).map(() => (
-          <ElDescriptionsItem label="测试标签" />
+          <GDescriptionsItem label="测试标签" />
         ))}
-      </ElDescriptions>
+      </GDescriptions>
     ))
 
     expect(
-      wrapper.find('.el-descriptions__label').attributes('style')
+      wrapper.find('.g-descriptions__label').attributes('style')
     ).toContain('width: 150px')
   })
 
   test('should render labelWidth prop of Descriptions and DescriptionsItem with higher priority', () => {
     const wrapper = mount(() => (
-      <ElDescriptions label-width="100px" border>
-        <ElDescriptionsItem label="测试标签" />
+      <GDescriptions label-width="100px" border>
+        <GDescriptionsItem label="测试标签" />
         {Array.from({ length: 2 }).map(() => (
-          <ElDescriptionsItem label="测试标签" label-width="150px" />
+          <GDescriptionsItem label="测试标签" label-width="150px" />
         ))}
-      </ElDescriptions>
+      </GDescriptions>
     ))
 
     expect(
-      wrapper.findAll('.el-descriptions__label')[0].attributes('style')
+      wrapper.findAll('.g-descriptions__label')[0].attributes('style')
     ).toContain('width: 100px')
     expect(
-      wrapper.findAll('.el-descriptions__label')[1].attributes('style')
+      wrapper.findAll('.g-descriptions__label')[1].attributes('style')
     ).toContain('width: 150px')
   })
 
   test('should render labelWidth prop of DescriptionsItem with no border', () => {
     const wrapper = mount(() => (
-      <ElDescriptions>
+      <GDescriptions>
         {Array.from({ length: 3 }).map(() => (
-          <ElDescriptionsItem label="测试标签" labelWidth="150px" />
+          <GDescriptionsItem label="测试标签" labelWidth="150px" />
         ))}
-      </ElDescriptions>
+      </GDescriptions>
     ))
 
     expect(
-      wrapper.find('.el-descriptions__label').attributes('style')
+      wrapper.find('.g-descriptions__label').attributes('style')
     ).toContain('width: 150px')
   })
 
   test('should render labelWidth prop of Descriptions with no border', () => {
     const wrapper = mount(() => (
-      <ElDescriptions label-width="150px">
+      <GDescriptions label-width="150px">
         {Array.from({ length: 3 }).map(() => (
-          <ElDescriptionsItem label="测试标签" />
+          <GDescriptionsItem label="测试标签" />
         ))}
-      </ElDescriptions>
+      </GDescriptions>
     ))
 
     expect(
-      wrapper.find('.el-descriptions__label').attributes('style')
+      wrapper.find('.g-descriptions__label').attributes('style')
     ).toContain('width: 150px')
   })
 
   test('should render labelWidth prop of Descriptions and DescriptionsItem with higher priority with no border', () => {
     const wrapper = mount(() => (
-      <ElDescriptions label-width="100px">
-        <ElDescriptionsItem label="测试标签" />
+      <GDescriptions label-width="100px">
+        <GDescriptionsItem label="测试标签" />
         {Array.from({ length: 2 }).map(() => (
-          <ElDescriptionsItem label="测试标签" label-width="150px" />
+          <GDescriptionsItem label="测试标签" label-width="150px" />
         ))}
-      </ElDescriptions>
+      </GDescriptions>
     ))
 
     expect(
-      wrapper.findAll('.el-descriptions__label')[0].attributes('style')
+      wrapper.findAll('.g-descriptions__label')[0].attributes('style')
     ).toContain('width: 100px')
     expect(
-      wrapper.findAll('.el-descriptions__label')[1].attributes('style')
+      wrapper.findAll('.g-descriptions__label')[1].attributes('style')
     ).toContain('width: 150px')
   })
 
   test('render customize functional components', () => {
     const CustomComponent = () => {
-      return <ElDescriptionsItem label="label">123</ElDescriptionsItem>
+      return <GDescriptionsItem label="label">123</GDescriptionsItem>
     }
     const wrapper = mount(() => (
-      <ElDescriptions title="title" extra="extra">
+      <GDescriptions title="title" extra="extra">
         <CustomComponent />
         <CustomComponent />
-        <ElDescriptionsItem label="label">123</ElDescriptionsItem>
-      </ElDescriptions>
+        <GDescriptionsItem label="label">123</GDescriptionsItem>
+      </GDescriptions>
     ))
 
-    expect(wrapper.find('.el-descriptions__title').text()).toEqual('title')
-    expect(wrapper.find('.el-descriptions__extra').text()).toEqual('extra')
-    expect(wrapper.findAll('.el-descriptions__label').length).toEqual(3)
-    expect(wrapper.findAll('.el-descriptions__content').length).toEqual(3)
+    expect(wrapper.find('.g-descriptions__title').text()).toEqual('title')
+    expect(wrapper.find('.g-descriptions__extra').text()).toEqual('extra')
+    expect(wrapper.findAll('.g-descriptions__label').length).toEqual(3)
+    expect(wrapper.findAll('.g-descriptions__content').length).toEqual(3)
   })
 })

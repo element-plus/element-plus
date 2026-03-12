@@ -3,8 +3,8 @@ import Result from './src/result.vue'
 
 import type { SFCWithInstall } from '@element-plus/utils'
 
-export const ElResult: SFCWithInstall<typeof Result> = withInstall(Result)
+export const GResult: SFCWithInstall<typeof Result> = withInstall(Result)
 
-export default ElResult
+export default GResult
 
 export * from './src/result'

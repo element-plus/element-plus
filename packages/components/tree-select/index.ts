@@ -3,9 +3,9 @@ import TreeSelect from './src/tree-select.vue'
 
 import type { SFCWithInstall } from '@element-plus/utils'
 
-export const ElTreeSelect: SFCWithInstall<typeof TreeSelect> =
+export const GTreeSelect: SFCWithInstall<typeof TreeSelect> =
   withInstall(TreeSelect)
 
-export default ElTreeSelect
+export default GTreeSelect
 
 export type { TreeSelectInstance } from './src/instance'

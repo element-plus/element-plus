@@ -5,7 +5,7 @@ import { hasClass } from '@element-plus/utils'
 import { useLockscreen } from '../use-lockscreen'
 import { useNamespace } from '../use-namespace'
 
-const kls = 'el-popup-parent--hidden'
+const kls = 'g-popup-parent--hidden'
 
 const Comp = defineComponent({
   setup() {

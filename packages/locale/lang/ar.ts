@@ -1,6 +1,6 @@
 export default {
   name: 'ar',
-  el: {
+  g: {
     breadcrumb: {
       label: 'Breadcrumb', // to be translated
     },
@@ -119,7 +119,7 @@ export default {
       prevPages: 'Previous {pager} pages', // to be translated
       nextPages: 'Next {pager} pages', // to be translated
       deprecationWarning:
-        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
+        'Deprecated usages detected, please refer to the g-pagination documentation for more details', // to be translated
     },
     dialog: {
       close: 'أغلق هذا التبويب',

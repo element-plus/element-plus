@@ -13,7 +13,7 @@ import type { ColorFormats } from '@ctrl/tinycolor'
 import type ColorPicker from './color-picker.vue'
 import type { AriaProps, UseEmptyValuesProps } from '@element-plus/hooks'
 import type { ComponentSize } from '@element-plus/constants'
-import type { ElTooltipContentProps } from '@element-plus/components/tooltip'
+import type { GTooltipContentProps } from '@element-plus/components/tooltip'
 
 export interface ColorPickerProps
   extends UseEmptyValuesProps, Pick<AriaProps, 'ariaLabel'> {
@@ -52,11 +52,11 @@ export interface ColorPickerProps
   /**
    * @description custom class name for ColorPicker's dropdown
    */
-  popperClass?: ElTooltipContentProps['popperClass']
+  popperClass?: GTooltipContentProps['popperClass']
   /**
    * @description custom style for ColorPicker's dropdown
    */
-  popperStyle?: ElTooltipContentProps['popperStyle']
+  popperStyle?: GTooltipContentProps['popperStyle']
   /**
    * @description ColorPicker tabindex
    */
@@ -64,11 +64,11 @@ export interface ColorPickerProps
   /**
    * @description whether color-picker popper is teleported to the body
    */
-  teleported?: ElTooltipContentProps['teleported']
+  teleported?: GTooltipContentProps['teleported']
   /**
    * @description which color-picker panel appends to
    */
-  appendTo?: ElTooltipContentProps['appendTo']
+  appendTo?: GTooltipContentProps['appendTo']
   /**
    * @description predefined color options
    */

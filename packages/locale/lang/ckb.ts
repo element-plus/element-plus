@@ -1,6 +1,6 @@
 export default {
   name: 'ckb',
-  el: {
+  g: {
     breadcrumb: {
       label: 'Breadcrumb', // to be translated
     },
@@ -120,7 +120,7 @@ export default {
       prevPages: 'Previous {pager} pages', // to be translated
       nextPages: 'Next {pager} pages', // to be translated
       deprecationWarning:
-        'بەکارهێنانی بەکارنەهێنراو دۆزراوەتەوە، تکایە بۆ وردەکاری زیاتر سەردانی بەڵگەنامەکانی el-pagination بکە',
+        'بەکارهێنانی بەکارنەهێنراو دۆزراوەتەوە، تکایە بۆ وردەکاری زیاتر سەردانی بەڵگەنامەکانی g-pagination بکە',
     },
     dialog: {
       close: 'داخستنی ئەم دیالۆگە',

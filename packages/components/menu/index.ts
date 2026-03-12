@@ -6,7 +6,7 @@ import SubMenu from './src/sub-menu'
 
 import type { SFCWithInstall } from '@element-plus/utils'
 
-export const ElMenu: SFCWithInstall<typeof Menu> & {
+export const GMenu: SFCWithInstall<typeof Menu> & {
   MenuItem: typeof MenuItem
   MenuItemGroup: typeof MenuItemGroup
   SubMenu: typeof SubMenu
@@ -15,12 +15,12 @@ export const ElMenu: SFCWithInstall<typeof Menu> & {
   MenuItemGroup,
   SubMenu,
 })
-export default ElMenu
-export const ElMenuItem: SFCWithInstall<typeof MenuItem> =
+export default GMenu
+export const GMenuItem: SFCWithInstall<typeof MenuItem> =
   withNoopInstall(MenuItem)
-export const ElMenuItemGroup: SFCWithInstall<typeof MenuItemGroup> =
+export const GMenuItemGroup: SFCWithInstall<typeof MenuItemGroup> =
   withNoopInstall(MenuItemGroup)
-export const ElSubMenu: SFCWithInstall<typeof SubMenu> =
+export const GSubMenu: SFCWithInstall<typeof SubMenu> =
   withNoopInstall(SubMenu)
 
 export * from './src/menu'

@@ -7,7 +7,7 @@ import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, test, vi } from 'vitest'
 import { NOOP } from '@element-plus/utils'
 import { usePopperContainerId } from '@element-plus/hooks'
-import { ElFormItem as FormItem } from '@element-plus/components/form'
+import { GFormItem as FormItem } from '@element-plus/components/form'
 import Autocomplete from '../src/autocomplete.vue'
 import {
   AutocompleteFetchSuggestionsCallback,
@@ -180,21 +180,21 @@ describe('Autocomplete.vue', () => {
 
     await wrapper.setProps({ popperClass: 'error' })
     expect(
-      document.body.querySelector('.el-popper')?.classList.contains('error')
+      document.body.querySelector('.g-popper')?.classList.contains('error')
     ).toBe(true)
 
     await wrapper.setProps({ popperClass: 'success' })
     expect(
-      document.body.querySelector('.el-popper')?.classList.contains('error')
+      document.body.querySelector('.g-popper')?.classList.contains('error')
     ).toBe(false)
     expect(
-      document.body.querySelector('.el-popper')?.classList.contains('success')
+      document.body.querySelector('.g-popper')?.classList.contains('success')
     ).toBe(true)
   })
 
   test('teleported', async () => {
     _mount({ teleported: false })
-    expect(document.body.querySelector('.el-popper__mask')).toBeNull()
+    expect(document.body.querySelector('.g-popper__mask')).toBeNull()
   })
 
   test('debounce / fetchSuggestions', async () => {
@@ -326,9 +326,9 @@ describe('Autocomplete.vue', () => {
     vi.runAllTimers()
     await nextTick()
 
-    expect(document.body.querySelector('.el-icon.is-loading')).toBeDefined()
+    expect(document.body.querySelector('.g-icon.is-loading')).toBeDefined()
     await wrapper.setProps({ hideLoading: true })
-    expect(document.body.querySelector('.el-icon.is-loading')).toBeNull()
+    expect(document.body.querySelector('.g-icon.is-loading')).toBeNull()
   })
 
   test('selectWhenUnmatched', async () => {
@@ -518,7 +518,7 @@ describe('Autocomplete.vue', () => {
     })
     await nextTick()
 
-    const inputDom = wrapper.find('.el-input').element
+    const inputDom = wrapper.find('.g-input').element
     const mockInputWidth = vi
       .spyOn(inputDom as HTMLElement, 'offsetWidth', 'get')
       .mockReturnValue(200)
@@ -531,7 +531,7 @@ describe('Autocomplete.vue', () => {
     expect(
       (
         document.body.querySelector(
-          '.el-autocomplete-suggestion'
+          '.g-autocomplete-suggestion'
         ) as HTMLElement
       ).style.width
     ).toBe('200px')
@@ -571,7 +571,7 @@ describe('Autocomplete.vue', () => {
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
       const input = await wrapper.find('[data-test-ref="input"]')
-      const formItemLabel = formItem.find('.el-form-item__label')
+      const formItemLabel = formItem.find('.g-form-item__label')
       expect(formItem.attributes().role).toBeFalsy()
       expect(formItemLabel.attributes().for).toBe(input.attributes().id)
     })
@@ -587,7 +587,7 @@ describe('Autocomplete.vue', () => {
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
       const input = await wrapper.find('[data-test-ref="input"]')
-      const formItemLabel = formItem.find('.el-form-item__label')
+      const formItemLabel = formItem.find('.g-form-item__label')
       expect(formItem.attributes().role).toBeFalsy()
       expect(input.attributes().id).toBe('foobar')
       expect(formItemLabel.attributes().for).toBe(input.attributes().id)
@@ -658,7 +658,7 @@ describe('Autocomplete.vue', () => {
       const wrapper = _mount()
       await nextTick()
 
-      const container = wrapper.find('.el-autocomplete')
+      const container = wrapper.find('.g-autocomplete')
       expect(container.attributes('role')).toBe('combobox')
       expect(container.attributes('aria-haspopup')).toBe('listbox')
       expect(container.attributes('aria-expanded')).toBe('false')
@@ -681,7 +681,7 @@ describe('Autocomplete.vue', () => {
       await nextTick()
 
       const headerEl = document.body.querySelector(
-        '.el-autocomplete-suggestion__header'
+        '.g-autocomplete-suggestion__header'
       )
       expect(headerEl).not.toBeNull()
       expect(headerEl!.textContent).toBe('Custom Header')
@@ -697,7 +697,7 @@ describe('Autocomplete.vue', () => {
       await nextTick()
 
       const footerEl = document.body.querySelector(
-        '.el-autocomplete-suggestion__footer'
+        '.g-autocomplete-suggestion__footer'
       )
       expect(footerEl).not.toBeNull()
       expect(footerEl!.textContent).toBe('Custom Footer')

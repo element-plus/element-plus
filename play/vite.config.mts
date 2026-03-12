@@ -3,7 +3,6 @@ import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import Components from 'unplugin-vue-components/vite'
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import Inspect from 'vite-plugin-inspect'
 import mkcert from 'vite-plugin-mkcert'
 import { glob } from 'tinyglobby'
@@ -35,11 +34,11 @@ export default defineConfig(async ({ mode }) => {
     resolve: {
       alias: [
         {
-          find: /^element-plus(\/(es|lib))?$/,
+          find: /^@guwave\/ui(\/(es|lib))?$/,
           replacement: path.resolve(epRoot, 'index.ts'),
         },
         {
-          find: /^element-plus\/(es|lib)\/(.*)$/,
+          find: /^@guwave\/ui\/(es|lib)\/(.*)$/,
           replacement: `${pkgRoot}/$2`,
         },
       ],
@@ -57,10 +56,22 @@ export default defineConfig(async ({ mode }) => {
       vueJsx(),
       Components({
         include: `${__dirname}/**`,
-        resolvers: ElementPlusResolver({
-          version: '2.0.0-dev.1',
-          importStyle: 'sass',
-        }),
+        resolvers: [
+          (componentName) => {
+            if (componentName.startsWith('G')) {
+              const name = componentName.slice(1)
+              const kebab = name
+                .replace(/([A-Z])/g, '-$1')
+                .toLowerCase()
+                .slice(1)
+              return {
+                name: componentName,
+                from: '@guwave/ui',
+                sideEffects: `@guwave/ui/es/components/${kebab}/style/css`,
+              }
+            }
+          },
+        ],
         dts: false,
       }),
       mkcert(),

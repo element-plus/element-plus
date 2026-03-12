@@ -1,5 +1,5 @@
 <template>
-  <el-only-child
+  <g-only-child
     v-if="!virtualTriggering"
     v-bind="$attrs"
     :aria-controls="ariaControls"
@@ -8,14 +8,14 @@
     :aria-haspopup="ariaHaspopup"
   >
     <slot />
-  </el-only-child>
+  </g-only-child>
 </template>
 
 <script lang="ts" setup>
 import { computed, inject, onBeforeUnmount, onMounted, watch } from 'vue'
 import { isNil } from 'lodash-unified'
 import { unrefElement } from '@vueuse/core'
-import { ElOnlyChild } from '@element-plus/components/slot'
+import { GOnlyChild } from '@element-plus/components/slot'
 import { useForwardRef } from '@element-plus/hooks'
 import { isElement, isFocusable } from '@element-plus/utils'
 import { POPPER_INJECTION_KEY } from './constants'
@@ -24,7 +24,7 @@ import type { WatchStopHandle } from 'vue'
 import type { PopperTriggerProps } from './trigger'
 
 defineOptions({
-  name: 'ElPopperTrigger',
+  name: 'GPopperTrigger',
   inheritAttrs: false,
 })
 

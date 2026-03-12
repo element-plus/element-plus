@@ -18,7 +18,7 @@ import { isUndefined } from '@element-plus/utils'
 import type { TextProps } from './text'
 
 defineOptions({
-  name: 'ElText',
+  name: 'GText',
 })
 
 const props = withDefaults(defineProps<TextProps>(), {

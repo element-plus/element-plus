@@ -2,7 +2,7 @@ import { computed, getCurrentInstance, inject, ref, unref } from 'vue'
 
 import type { InjectionKey, Ref } from 'vue'
 
-export const defaultNamespace = 'el'
+export const defaultNamespace = 'g'
 const statePrefix = 'is-'
 
 const _bem = (
@@ -78,7 +78,7 @@ export const useNamespace = (
   }
 
   // for css var
-  // --el-xxx: value;
+  // --g-xxx: value;
   const cssVar = (object: Record<string, string>) => {
     const styles: Record<string, string> = {}
     for (const key in object) {

@@ -220,4 +220,4 @@ export type UsePopperCoreConfigProps = PopperCoreConfigProps
 export type UsePopperContentProps = PopperContentProps
 
 /** @deprecated use `PopperContentInstance` instead, and it will be deprecated in the next major version */
-export type ElPopperArrowContent = PopperContentInstance
+export type GPopperArrowContent = PopperContentInstance

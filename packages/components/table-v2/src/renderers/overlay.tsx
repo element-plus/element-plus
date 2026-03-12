@@ -8,6 +8,6 @@ const Overlay: SimpleFunctionalComponent = (props, { slots }) => {
   )
 }
 
-Overlay.displayName = 'ElTableV2Overlay'
+Overlay.displayName = 'GTableV2Overlay'
 
 export default Overlay

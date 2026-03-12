@@ -1,7 +1,7 @@
 <template>
   <div ref="container" v-bind="containerAttrs" :class="[ns.b(), $attrs.class]">
     <slot v-if="hasLoadError" name="error">
-      <div :class="ns.e('error')">{{ t('el.image.error') }}</div>
+      <div :class="ns.e('error')">{{ t('g.image.error') }}</div>
     </slot>
     <template v-else>
       <img
@@ -85,7 +85,7 @@ import type { ImageProps } from './image'
 import type { CSSProperties } from 'vue'
 
 defineOptions({
-  name: 'ElImage',
+  name: 'GImage',
   inheritAttrs: false,
 })
 

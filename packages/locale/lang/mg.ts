@@ -1,6 +1,6 @@
 export default {
   name: 'mg',
-  el: {
+  g: {
     breadcrumb: {
       label: 'Breadcrumb', // to be translated
     },
@@ -120,7 +120,7 @@ export default {
       prevPages: 'Previous {pager} pages', // to be translated
       nextPages: 'Next {pager} pages', // to be translated
       deprecationWarning:
-        'Fampiasana tsy ampiasaina intsony no hita, azafady mba jereo ny tahirin-kevitra el-pagination raha mila fanazavana fanampiny',
+        'Fampiasana tsy ampiasaina intsony no hita, azafady mba jereo ny tahirin-kevitra g-pagination raha mila fanazavana fanampiny',
     },
     dialog: {
       close: 'Close this dialog', // to be translated

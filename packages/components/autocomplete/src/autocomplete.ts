@@ -19,7 +19,7 @@ import type Autocomplete from './autocomplete.vue'
 import type { Placement } from '@element-plus/components/popper'
 import type { Awaitable } from '@element-plus/utils'
 import type { InputProps } from '@element-plus/components/input'
-import type { ElTooltipContentProps } from '@element-plus/components/tooltip'
+import type { GTooltipContentProps } from '@element-plus/components/tooltip'
 
 export type AutocompleteData = Record<string, any>[]
 export type AutocompleteFetchSuggestionsCallback = (
@@ -64,11 +64,11 @@ export interface AutocompleteProps extends InputProps {
   /**
    * @description custom class name for autocomplete's dropdown
    */
-  popperClass?: ElTooltipContentProps['popperClass']
+  popperClass?: GTooltipContentProps['popperClass']
   /**
    * @description custom style for autocomplete's dropdown
    */
-  popperStyle?: ElTooltipContentProps['popperStyle']
+  popperStyle?: GTooltipContentProps['popperStyle']
   /**
    * @description whether show suggestions when input focus
    */
@@ -84,11 +84,11 @@ export interface AutocompleteProps extends InputProps {
   /**
    * @description whether select dropdown is teleported to the body
    */
-  teleported?: ElTooltipContentProps['teleported']
+  teleported?: GTooltipContentProps['teleported']
   /**
    * @description which select dropdown appends to
    */
-  appendTo?: ElTooltipContentProps['appendTo']
+  appendTo?: GTooltipContentProps['appendTo']
   /**
    * @description whether to highlight first item in remote search suggestions by default
    */

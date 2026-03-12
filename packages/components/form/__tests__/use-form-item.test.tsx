@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 import { NOOP } from '@element-plus/utils'
 import {
-  ElButton,
+  GButton,
   buttonGroupContextKey,
 } from '@element-plus/components/button'
 import { formContextKey, formItemContextKey } from '../src/constants'
@@ -17,7 +17,7 @@ const mountComponent = (setup = NOOP, options = {}) =>
     defineComponent({
       setup,
       render() {
-        return <ElButton {...this.$attrs}>{AXIOM}</ElButton>
+        return <GButton {...this.$attrs}>{AXIOM}</GButton>
       },
     }),
     options
@@ -26,7 +26,7 @@ const mountComponent = (setup = NOOP, options = {}) =>
 describe('use-form-item', () => {
   it('should return local value', () => {
     const wrapper = mountComponent()
-    expect(wrapper.find('.el-button').exists()).toBe(true)
+    expect(wrapper.find('.g-button').exists()).toBe(true)
   })
 
   it('should return props.size instead of injected.size', () => {
@@ -42,7 +42,7 @@ describe('use-form-item', () => {
       }
     )
 
-    expect(wrapper.find(`.el-button--${propSize}`).exists()).toBe(true)
+    expect(wrapper.find(`.g-button--${propSize}`).exists()).toBe(true)
   })
 
   it('should return fallback.size instead inject.size', () => {
@@ -57,7 +57,7 @@ describe('use-form-item', () => {
       } as FormItemContext)
     })
 
-    expect(wrapper.find(`.el-button--${fallbackSize}`).exists()).toBe(true)
+    expect(wrapper.find(`.g-button--${fallbackSize}`).exists()).toBe(true)
   })
 
   it('should return formItem.size instead form.size', () => {
@@ -72,6 +72,6 @@ describe('use-form-item', () => {
       } as FormContext)
     })
 
-    expect(wrapper.find(`.el-button--${itemSize}`).exists()).toBe(true)
+    expect(wrapper.find(`.g-button--${itemSize}`).exists()).toBe(true)
   })
 })

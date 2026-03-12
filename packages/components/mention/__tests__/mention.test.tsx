@@ -51,8 +51,8 @@ describe('Mention.vue', () => {
 
     vi.advanceTimersByTime(150)
     await nextTick()
-    expect(document.querySelector('.el-mention-dropdown')).not.toEqual(null)
-    expect(document.querySelectorAll('.el-mention-dropdown__item').length).toBe(
+    expect(document.querySelector('.g-mention-dropdown')).not.toEqual(null)
+    expect(document.querySelectorAll('.g-mention-dropdown__item').length).toBe(
       4
     )
   })
@@ -82,7 +82,7 @@ describe('Mention.vue', () => {
     await wrapper.find('input').setValue('@')
     vi.advanceTimersByTime(150)
     await nextTick()
-    expect(document.querySelector('.el-mention-dropdown__loading')).not.toEqual(
+    expect(document.querySelector('.g-mention-dropdown__loading')).not.toEqual(
       null
     )
   })
@@ -97,8 +97,8 @@ describe('Mention.vue', () => {
     await wrapper.find('input').setValue('#')
     vi.advanceTimersByTime(150)
     await nextTick()
-    expect(document.querySelector('.el-mention-dropdown')).not.toEqual(null)
-    expect(document.querySelectorAll('.el-mention-dropdown__item').length).toBe(
+    expect(document.querySelector('.g-mention-dropdown')).not.toEqual(null)
+    expect(document.querySelectorAll('.g-mention-dropdown__item').length).toBe(
       4
     )
   })
@@ -122,9 +122,9 @@ describe('Mention.vue', () => {
     wrapper.find('input').trigger('input')
     vi.advanceTimersByTime(150)
     await nextTick()
-    const dropdown = wrapper.findComponent({ name: 'ElMentionDropdown' })
-    const list = dropdown.find('.el-mention-dropdown__list')
-    const option = dropdown.find('.el-mention-dropdown__item')
+    const dropdown = wrapper.findComponent({ name: 'GMentionDropdown' })
+    const list = dropdown.find('.g-mention-dropdown__list')
+    const option = dropdown.find('.g-mention-dropdown__item')
 
     expect(list.attributes('id')).toBeTruthy()
     expect(list.attributes('role')).toBe('listbox')
@@ -144,10 +144,10 @@ describe('Mention.vue', () => {
       ),
     })
 
-    const dropdown = wrapper.findComponent({ name: 'ElMentionDropdown' })
-    const option = dropdown.find('.el-mention-dropdown__item')
+    const dropdown = wrapper.findComponent({ name: 'GMentionDropdown' })
+    const option = dropdown.find('.g-mention-dropdown__item')
 
-    expect(wrapper.find('.el-input').classes()).toContain('is-disabled')
+    expect(wrapper.find('.g-input').classes()).toContain('is-disabled')
     expect(wrapper.find('input').attributes()).toHaveProperty('disabled')
     expect(option.attributes('aria-disabled')).toBe('true')
     expect(option.classes()).toContain('is-disabled')
@@ -191,8 +191,8 @@ describe('Mention.vue', () => {
 
     vi.advanceTimersByTime(150)
     await nextTick()
-    expect(document.querySelector('.el-mention-dropdown')).not.toEqual(null)
-    expect(document.querySelectorAll('.el-mention-dropdown__item').length).toBe(
+    expect(document.querySelector('.g-mention-dropdown')).not.toEqual(null)
+    expect(document.querySelectorAll('.g-mention-dropdown__item').length).toBe(
       4
     )
     expect(document.querySelectorAll('.is-disabled').length).toBe(2)
@@ -210,7 +210,7 @@ describe('Mention.vue', () => {
       props: { options, style: { marginTop: '100px', marginLeft: '100px' } },
     })
 
-    const elInputEl = wrapper.find('.el-input').element
+    const elInputEl = wrapper.find('.g-input').element
     const inputEl = wrapper.find('input').element
 
     const mockBoundingClientRect = (
@@ -258,7 +258,7 @@ describe('Mention.vue', () => {
     await nextTick()
 
     const cursorStyles = wrapper
-      .find('.el-tooltip__trigger')
+      .find('.g-tooltip__trigger')
       .attributes('style')
 
     expect(cursorStyles).toContain('left: 125px')
@@ -281,9 +281,9 @@ describe('Mention.vue', () => {
     vi.advanceTimersByTime(150)
     await nextTick()
 
-    expect(document.querySelector('.el-mention-dropdown')).not.toEqual(null)
+    expect(document.querySelector('.g-mention-dropdown')).not.toEqual(null)
 
-    const dropdown = wrapper.findComponent({ name: 'ElMentionDropdown' })
+    const dropdown = wrapper.findComponent({ name: 'GMentionDropdown' })
     const dropdownVm = dropdown.vm as any
     expect(dropdownVm.hoveringIndex).toBe(1)
 
@@ -311,16 +311,16 @@ describe('Mention.vue', () => {
     vi.advanceTimersByTime(150)
     await nextTick()
 
-    expect(document.querySelector('.el-mention-dropdown')).not.toEqual(null)
+    expect(document.querySelector('.g-mention-dropdown')).not.toEqual(null)
 
-    const dropdown = wrapper.findComponent({ name: 'ElMentionDropdown' })
+    const dropdown = wrapper.findComponent({ name: 'GMentionDropdown' })
     const dropdownVm = dropdown.vm as any
     dropdownVm.hoveringIndex = 0
 
     await nextTick()
 
     const dropdownItems = document.querySelectorAll(
-      '.el-mention-dropdown__item'
+      '.g-mention-dropdown__item'
     )
     expect(dropdownItems[0].classList.contains('is-hovering')).toBe(true)
     expect(dropdownItems[0].classList.contains('is-disabled')).toBe(true)

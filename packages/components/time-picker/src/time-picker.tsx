@@ -14,7 +14,7 @@ import { timePickerDefaultProps } from './common/props'
 dayjs.extend(customParseFormat)
 
 export default defineComponent({
-  name: 'ElTimePicker',
+  name: 'GTimePicker',
   install: null,
   props: {
     ...timePickerDefaultProps,

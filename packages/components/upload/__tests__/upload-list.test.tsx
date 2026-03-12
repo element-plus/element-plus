@@ -32,14 +32,14 @@ describe('<upload-list />', () => {
         },
       })
 
-      await wrapper.find('.el-upload-list__item-name').trigger('click')
+      await wrapper.find('.g-upload-list__item-name').trigger('click')
       expect(preview).toHaveBeenCalled()
 
       await wrapper.setProps({
         listType: 'picture-card',
       })
 
-      await wrapper.find('.el-upload-list__item-preview').trigger('click')
+      await wrapper.find('.g-upload-list__item-preview').trigger('click')
       expect(preview).toHaveBeenCalledTimes(2)
     })
 
@@ -52,10 +52,10 @@ describe('<upload-list />', () => {
         },
       })
 
-      await wrapper.find('.el-icon--close').trigger('click')
+      await wrapper.find('.g-icon--close').trigger('click')
       expect(remove).toHaveBeenCalled()
 
-      await wrapper.find('.el-upload-list__item').trigger('keydown', {
+      await wrapper.find('.g-upload-list__item').trigger('keydown', {
         key: EVENT_CODE.delete,
       })
 
@@ -65,15 +65,15 @@ describe('<upload-list />', () => {
         listType: 'picture-card',
       })
 
-      await wrapper.find('.el-upload-list__item-delete').trigger('click')
+      await wrapper.find('.g-upload-list__item-delete').trigger('click')
       expect(remove).toHaveBeenCalledTimes(3)
 
-      await wrapper.find('.el-icon--close').trigger('keydown', {
+      await wrapper.find('.g-icon--close').trigger('keydown', {
         key: EVENT_CODE.enter,
       })
       expect(remove).toHaveBeenCalledTimes(4)
 
-      await wrapper.find('.el-icon--close').trigger('keydown', {
+      await wrapper.find('.g-icon--close').trigger('keydown', {
         key: EVENT_CODE.space,
       })
       expect(remove).toHaveBeenCalledTimes(5)

@@ -40,4 +40,4 @@ export const usePopperArrowProps = popperArrowProps
 export type UsePopperArrowProps = PopperArrowProps
 
 /** @deprecated use `PopperArrowInstance` instead, and it will be deprecated in the next major version */
-export type ElPopperArrowInstance = PopperArrowInstance
+export type GPopperArrowInstance = PopperArrowInstance

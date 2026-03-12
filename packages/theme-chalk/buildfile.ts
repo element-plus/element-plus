@@ -28,7 +28,7 @@ async function compress(filename: string, css: string) {
 }
 
 const processfiles = async (scssFiles: string[]) => {
-  const noElPrefixFile = /(index|base|display)/
+  const noPrefixFile = /(index|base|display)/
   await mkdir(distFolder, { recursive: true })
   for (const scssFile of scssFiles) {
     const fullPath = path.resolve(__dirname, scssFile)
@@ -37,9 +37,9 @@ const processfiles = async (scssFiles: string[]) => {
     const cssResult = await compileAsync(fullPath)
     const compressed = await compress(baseName, cssResult.css)
 
-    const outputName = noElPrefixFile.test(baseName)
+    const outputName = noPrefixFile.test(baseName)
       ? `${baseName}.css`
-      : `el-${baseName}.css`
+      : `g-${baseName}.css`
 
     const outputPath = path.join(distFolder, outputName)
     await writeFile(outputPath, compressed)

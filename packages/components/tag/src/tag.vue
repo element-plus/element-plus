@@ -10,14 +10,14 @@
     </span>
     <button
       v-if="closable"
-      :aria-label="t('el.tag.close')"
+      :aria-label="t('g.tag.close')"
       :class="ns.e('close')"
       type="button"
       @click.stop="handleClose"
     >
-      <el-icon>
+      <g-icon>
         <Close />
-      </el-icon>
+      </g-icon>
     </button>
   </span>
   <transition
@@ -36,14 +36,14 @@
       </span>
       <button
         v-if="closable"
-        :aria-label="t('el.tag.close')"
+        :aria-label="t('g.tag.close')"
         :class="ns.e('close')"
         type="button"
         @click.stop="handleClose"
       >
-        <el-icon>
+        <g-icon>
           <Close />
-        </el-icon>
+        </g-icon>
       </button>
     </span>
   </transition>
@@ -51,7 +51,7 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import ElIcon from '@element-plus/components/icon'
+import GIcon from '@element-plus/components/icon'
 import { Close } from '@element-plus/icons-vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { useFormSize } from '@element-plus/components/form'
@@ -61,7 +61,7 @@ import type { VNode } from 'vue'
 import type { TagProps } from './tag'
 
 defineOptions({
-  name: 'ElTag',
+  name: 'GTag',
 })
 const props = withDefaults(defineProps<TagProps>(), {
   type: 'primary',

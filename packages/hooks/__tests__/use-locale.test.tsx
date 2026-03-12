@@ -19,7 +19,7 @@ const TestComp = defineComponent({
   setup(props) {
     const { t } = useLocale(computed(() => props.locale))
     return () => (
-      <div class="locale-manifest">{t('el.popconfirm.confirmButtonText')}</div>
+      <div class="locale-manifest">{t('g.popconfirm.confirmButtonText')}</div>
     )
   },
 })
@@ -58,7 +58,7 @@ describe('use-locale', () => {
 
   it('return key name if not defined', () => {
     const t = buildTranslator(English)
-    expect(t('el.popconfirm.someThing')).toBe('el.popconfirm.someThing')
+    expect(t('g.popconfirm.someThing')).toBe('g.popconfirm.someThing')
   })
 
   describe('overrides', () => {

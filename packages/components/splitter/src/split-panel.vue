@@ -22,7 +22,7 @@ import type { SplitterPanelProps } from './split-panel'
 
 const ns = useNamespace('splitter-panel')
 
-const COMPONENT_NAME = 'ElSplitterPanel'
+const COMPONENT_NAME = 'GSplitterPanel'
 defineOptions({
   name: COMPONENT_NAME,
 })
@@ -36,7 +36,7 @@ const splitterContext = inject(splitterRootContextKey)
 if (!splitterContext)
   throwError(
     COMPONENT_NAME,
-    'usage: <el-splitter><el-splitter-panel /></el-splitter/>'
+    'usage: <g-splitter><g-splitter-panel /></g-splitter/>'
   )
 
 const { panels, layout, lazy, containerSize, pxSizes } = toRefs(splitterContext)

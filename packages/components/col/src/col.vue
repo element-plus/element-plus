@@ -14,7 +14,7 @@ import type { CSSProperties } from 'vue'
 import type { ColProps } from './col'
 
 defineOptions({
-  name: 'ElCol',
+  name: 'GCol',
 })
 
 const props = withDefaults(defineProps<ColProps>(), {

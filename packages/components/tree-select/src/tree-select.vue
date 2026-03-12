@@ -1,8 +1,8 @@
 <script lang="ts">
 import { computed, defineComponent, h, onMounted, reactive, ref } from 'vue'
 import { pick } from 'lodash-unified'
-import { ElSelect, selectProps } from '@element-plus/components/select'
-import { ElTree, treeProps } from '@element-plus/components/tree'
+import { GSelect, selectProps } from '@element-plus/components/select'
+import { GTree, treeProps } from '@element-plus/components/tree'
 import { useSelect } from './select'
 import { useTree } from './tree'
 import CacheOptions from './cache-options'
@@ -11,8 +11,8 @@ import type { TreeInstance } from '@element-plus/components/tree'
 import type { SelectInstance } from '@element-plus/components/select'
 
 export default defineComponent({
-  name: 'ElTreeSelect',
-  // disable `ElSelect` inherit current attrs
+  name: 'GTreeSelect',
+  // disable `GSelect` inherit current attrs
   inheritAttrs: false,
   props: {
     ...selectProps,
@@ -48,7 +48,7 @@ export default defineComponent({
       }
     )
 
-    // expose ElTree/ElSelect methods
+    // expose GTree/GSelect methods
     const methods = reactive({})
     expose(methods)
     onMounted(() => {
@@ -82,7 +82,7 @@ export default defineComponent({
 
     return () =>
       h(
-        ElSelect,
+        GSelect,
         /**
          * 1. The `props` is processed into `Refs`, but `v-bind` and
          * render function props cannot read `Refs`, so use `reactive`
@@ -99,7 +99,7 @@ export default defineComponent({
           default: () => [
             h(CacheOptions, { data: cacheOptions.value }),
             h(
-              ElTree,
+              GTree,
               reactive({
                 ...treeProps,
                 ref: (ref: TreeInstance) => (tree.value = ref),

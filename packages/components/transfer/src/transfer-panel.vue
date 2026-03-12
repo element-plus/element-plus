@@ -1,7 +1,7 @@
 <template>
   <div :class="ns.b('panel')">
     <p :class="ns.be('panel', 'header')">
-      <el-checkbox
+      <g-checkbox
         v-model="allChecked"
         :indeterminate="isIndeterminate"
         :validate-event="false"
@@ -11,11 +11,11 @@
         <span :class="ns.be('panel', 'header-count')">
           {{ checkedSummary }}
         </span>
-      </el-checkbox>
+      </g-checkbox>
     </p>
 
     <div :class="[ns.be('panel', 'body'), ns.is('with-footer', hasFooter)]">
-      <el-input
+      <g-input
         v-if="filterable"
         v-model="query"
         :class="ns.be('panel', 'filter')"
@@ -25,13 +25,13 @@
         clearable
         :validate-event="false"
       />
-      <el-checkbox-group
+      <g-checkbox-group
         v-show="!hasNoMatch && !isEmpty(data)"
         v-model="checked"
         :validate-event="false"
         :class="[ns.is('filterable', filterable), ns.be('panel', 'list')]"
       >
-        <el-checkbox
+        <g-checkbox
           v-for="item in filteredData"
           :key="item[propsAlias.key]"
           :class="ns.be('panel', 'item')"
@@ -40,14 +40,14 @@
           :validate-event="false"
         >
           <option-content :option="optionRender?.(item)" />
-        </el-checkbox>
-      </el-checkbox-group>
+        </g-checkbox>
+      </g-checkbox-group>
       <div
         v-show="hasNoMatch || isEmpty(data)"
         :class="ns.be('panel', 'empty')"
       >
         <slot name="empty">
-          {{ hasNoMatch ? t('el.transfer.noMatch') : t('el.transfer.noData') }}
+          {{ hasNoMatch ? t('g.transfer.noMatch') : t('g.transfer.noData') }}
         </slot>
       </div>
     </div>
@@ -61,8 +61,8 @@
 import { computed, reactive, toRefs, useSlots } from 'vue'
 import { isEmpty, mutable } from '@element-plus/utils'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import { ElCheckbox, ElCheckboxGroup } from '@element-plus/components/checkbox'
-import { ElInput } from '@element-plus/components/input'
+import { GCheckbox, GCheckboxGroup } from '@element-plus/components/checkbox'
+import { GInput } from '@element-plus/components/input'
 import { Search } from '@element-plus/icons-vue'
 import { transferPanelEmits } from './transfer-panel'
 import { useCheck, usePropsAlias } from './composables'
@@ -71,7 +71,7 @@ import type { VNode } from 'vue'
 import type { TransferPanelProps, TransferPanelState } from './transfer-panel'
 
 defineOptions({
-  name: 'ElTransferPanel',
+  name: 'GTransferPanel',
 })
 
 const props = withDefaults(defineProps<TransferPanelProps>(), {

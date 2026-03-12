@@ -4,26 +4,26 @@ import CollectionItem from './collection-item.vue'
 
 import type { InjectionKey, SetupContext } from 'vue'
 import type {
-  ElCollectionInjectionContext,
-  ElCollectionItemInjectionContext,
+  GCollectionInjectionContext,
+  GCollectionItemInjectionContext,
 } from './tokens'
 
-export const COLLECTION_ITEM_SIGN = `data-el-collection-item`
+export const COLLECTION_ITEM_SIGN = `data-g-collection-item`
 
 // Make sure the first letter of name is capitalized
 export const createCollectionWithScope = (name: string) => {
-  const COLLECTION_NAME = `El${name}Collection`
+  const COLLECTION_NAME = `G${name}Collection`
   const COLLECTION_ITEM_NAME = `${COLLECTION_NAME}Item`
-  const COLLECTION_INJECTION_KEY: InjectionKey<ElCollectionInjectionContext> =
+  const COLLECTION_INJECTION_KEY: InjectionKey<GCollectionInjectionContext> =
     Symbol(COLLECTION_NAME)
-  const COLLECTION_ITEM_INJECTION_KEY: InjectionKey<ElCollectionItemInjectionContext> =
+  const COLLECTION_ITEM_INJECTION_KEY: InjectionKey<GCollectionItemInjectionContext> =
     Symbol(COLLECTION_ITEM_NAME)
 
-  const ElCollection = Object.assign({}, Collection, {
+  const GCollection = Object.assign({}, Collection, {
     name: COLLECTION_NAME,
     setup() {
       const collectionRef = ref<HTMLElement>()
-      const itemMap: ElCollectionInjectionContext['itemMap'] = new Map()
+      const itemMap: GCollectionInjectionContext['itemMap'] = new Map()
       const getItems = (() => {
         const collectionEl = unref(collectionRef)
 
@@ -37,7 +37,7 @@ export const createCollectionWithScope = (name: string) => {
         return items.sort(
           (a, b) => orderedNodes.indexOf(a.ref!) - orderedNodes.indexOf(b.ref!)
         )
-      }) as ElCollectionInjectionContext['getItems']
+      }) as GCollectionInjectionContext['getItems']
 
       provide(COLLECTION_INJECTION_KEY, {
         itemMap,
@@ -47,7 +47,7 @@ export const createCollectionWithScope = (name: string) => {
     },
   })
 
-  const ElCollectionItem = Object.assign({}, CollectionItem, {
+  const GCollectionItem = Object.assign({}, CollectionItem, {
     name: COLLECTION_ITEM_NAME,
     setup(_: unknown, { attrs }: SetupContext) {
       const collectionItemRef = ref<HTMLElement>()
@@ -77,7 +77,7 @@ export const createCollectionWithScope = (name: string) => {
   return {
     COLLECTION_INJECTION_KEY,
     COLLECTION_ITEM_INJECTION_KEY,
-    ElCollection,
-    ElCollectionItem,
+    GCollection,
+    GCollectionItem,
   }
 }

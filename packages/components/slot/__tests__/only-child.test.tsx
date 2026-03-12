@@ -28,7 +28,7 @@ const createComponent = (slot?: () => VNodeArrayChildren) => {
   })
 }
 
-describe('ElOnlyChild', () => {
+describe('GOnlyChild', () => {
   let wrapper: ReturnType<typeof createComponent>
 
   afterEach(() => {

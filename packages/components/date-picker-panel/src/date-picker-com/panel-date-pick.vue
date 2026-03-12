@@ -28,8 +28,8 @@
       <div :class="ppNs.e('body')">
         <div v-if="showTime" :class="dpNs.e('time-header')">
           <span :class="dpNs.e('editor-wrap')">
-            <el-input
-              :placeholder="t('el.datepicker.selectDate')"
+            <g-input
+              :placeholder="t('g.datepicker.selectDate')"
               :model-value="visibleDate"
               size="small"
               :validate-event="false"
@@ -43,8 +43,8 @@
             v-click-outside="handleTimePickClose"
             :class="dpNs.e('editor-wrap')"
           >
-            <el-input
-              :placeholder="t('el.datepicker.selectTime')"
+            <g-input
+              :placeholder="t('g.datepicker.selectTime')"
               :model-value="visibleTime"
               size="small"
               :validate-event="false"
@@ -73,27 +73,27 @@
           <span :class="dpNs.e('prev-btn')">
             <button
               type="button"
-              :aria-label="t(`el.datepicker.prevYear`)"
+              :aria-label="t(`g.datepicker.prevYear`)"
               class="d-arrow-left"
               :class="ppNs.e('icon-btn')"
               :disabled="dateDisabled"
               @click="moveByYear(false)"
             >
               <slot name="prev-year">
-                <el-icon><d-arrow-left /></el-icon>
+                <g-icon><d-arrow-left /></g-icon>
               </slot>
             </button>
             <button
               v-show="currentView === 'date'"
               type="button"
-              :aria-label="t(`el.datepicker.prevMonth`)"
+              :aria-label="t(`g.datepicker.prevMonth`)"
               :class="ppNs.e('icon-btn')"
               class="arrow-left"
               :disabled="dateDisabled"
               @click="moveByMonth(false)"
             >
               <slot name="prev-month">
-                <el-icon><arrow-left /></el-icon>
+                <g-icon><arrow-left /></g-icon>
               </slot>
             </button>
           </span>
@@ -119,32 +119,32 @@
             ]"
             @keydown.enter="showPicker('month')"
             @click="showPicker('month')"
-            >{{ t(`el.datepicker.month${month + 1}`) }}</span
+            >{{ t(`g.datepicker.month${month + 1}`) }}</span
           >
           <span :class="dpNs.e('next-btn')">
             <button
               v-show="currentView === 'date'"
               type="button"
-              :aria-label="t(`el.datepicker.nextMonth`)"
+              :aria-label="t(`g.datepicker.nextMonth`)"
               :class="ppNs.e('icon-btn')"
               class="arrow-right"
               :disabled="dateDisabled"
               @click="moveByMonth(true)"
             >
               <slot name="next-month">
-                <el-icon><arrow-right /></el-icon>
+                <g-icon><arrow-right /></g-icon>
               </slot>
             </button>
             <button
               type="button"
-              :aria-label="t(`el.datepicker.nextYear`)"
+              :aria-label="t(`g.datepicker.nextYear`)"
               :class="ppNs.e('icon-btn')"
               class="d-arrow-right"
               :disabled="dateDisabled"
               @click="moveByYear(true)"
             >
               <slot name="next-year">
-                <el-icon><d-arrow-right /></el-icon>
+                <g-icon><d-arrow-right /></g-icon>
               </slot>
             </button>
           </span>
@@ -191,7 +191,7 @@
       v-if="showFooter && footerVisible && footerFilled"
       :class="ppNs.e('footer')"
     >
-      <el-button
+      <g-button
         v-show="!isMultipleType && showNow"
         text
         size="small"
@@ -199,9 +199,9 @@
         :disabled="disabledNow"
         @click="changeToNow"
       >
-        {{ t('el.datepicker.now') }}
-      </el-button>
-      <el-button
+        {{ t('g.datepicker.now') }}
+      </g-button>
+      <g-button
         v-if="showConfirm"
         plain
         size="small"
@@ -209,8 +209,8 @@
         :disabled="disabledConfirm"
         @click="onConfirm"
       >
-        {{ t('el.datepicker.confirm') }}
-      </el-button>
+        {{ t('g.datepicker.confirm') }}
+      </g-button>
     </div>
   </div>
 </template>
@@ -227,10 +227,10 @@ import {
   watch,
 } from 'vue'
 import dayjs from 'dayjs'
-import ElButton from '@element-plus/components/button'
+import GButton from '@element-plus/components/button'
 import { ClickOutside as vClickOutside } from '@element-plus/directives'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import ElInput from '@element-plus/components/input'
+import GInput from '@element-plus/components/input'
 import {
   DEFAULT_FORMATS_DATE,
   DEFAULT_FORMATS_TIME,
@@ -239,7 +239,7 @@ import {
   extractDateFormat,
   extractTimeFormat,
 } from '@element-plus/components/time-picker'
-import { ElIcon } from '@element-plus/components/icon'
+import { GIcon } from '@element-plus/components/icon'
 import {
   extractFirst,
   getEventCode,
@@ -400,7 +400,7 @@ const moveByYear = (forward: boolean) => {
 const currentView = ref('date')
 
 const yearLabel = computed(() => {
-  const yearTranslation = t('el.datepicker.year')
+  const yearTranslation = t('g.datepicker.year')
   if (currentView.value === 'year') {
     const startYear = Math.floor(year.value / 10) * 10
     if (yearTranslation) {

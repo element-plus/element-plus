@@ -4,7 +4,7 @@ import Teleport from '../src/teleport.vue'
 
 const AXIOM = 'rem is the best girl'
 
-describe('ElTeleport', () => {
+describe('GTeleport', () => {
   afterEach(() => {
     document.body.innerHTML = ''
   })

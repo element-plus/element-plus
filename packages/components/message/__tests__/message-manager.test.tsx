@@ -2,11 +2,11 @@ import { h, nextTick, ref } from 'vue'
 import { describe, expect, it, test, vi } from 'vitest'
 import { getStyle } from '@element-plus/utils'
 import { rAF } from '@element-plus/test-utils/tick'
-import { ElMessage } from '..'
+import { GMessage } from '..'
 import Message from '../src/method'
 import { messageTypes } from '../src/message'
 
-const selector = '.el-message'
+const selector = '.g-message'
 // TODO: testing the original transition with `nextTick`'
 
 describe('Message on command', () => {
@@ -251,18 +251,18 @@ describe('Message on command', () => {
 
   describe('context inheritance', () => {
     it('should globally inherit context correctly', () => {
-      expect(ElMessage._context).toBe(null)
+      expect(GMessage._context).toBe(null)
       const testContext = {
         config: {
           globalProperties: {},
         },
         _context: {},
       }
-      ElMessage.install?.(testContext as any)
-      expect(ElMessage._context).not.toBe(null)
-      expect(ElMessage._context).toBe(testContext._context)
+      GMessage.install?.(testContext as any)
+      expect(GMessage._context).not.toBe(null)
+      expect(GMessage._context).toBe(testContext._context)
       // clean up
-      ElMessage._context = null
+      GMessage._context = null
     })
   })
 

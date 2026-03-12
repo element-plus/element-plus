@@ -39,7 +39,7 @@ describe('TimeLine.vue', () => {
       </TimeLine>
     ))
 
-    const contentWrappers = wrapper.findAll('.el-timeline-item__content')
+    const contentWrappers = wrapper.findAll('.g-timeline-item__content')
 
     contentWrappers.forEach((content, index) => {
       expect(content.text()).toEqual(activities[index].content)
@@ -57,7 +57,7 @@ describe('TimeLine.vue', () => {
       </TimeLine>
     ))
 
-    const timestampWrapper = wrapper.findAll('.el-timeline-item__timestamp')[0]
+    const timestampWrapper = wrapper.findAll('.g-timeline-item__timestamp')[0]
 
     expect(timestampWrapper.classes('is-top')).toBe(true)
   })
@@ -72,8 +72,8 @@ describe('TimeLine.vue', () => {
         </TimeLine>
       ))
 
-      const timeline = wrapper.find('.el-timeline')
-      const timelineItems = wrapper.findAll('.el-timeline-item')
+      const timeline = wrapper.find('.g-timeline')
+      const timelineItems = wrapper.findAll('.g-timeline-item')
 
       expect(timeline.classes('is-start')).toBe(true)
       timelineItems.forEach((item) => {
@@ -90,8 +90,8 @@ describe('TimeLine.vue', () => {
         </TimeLine>
       ))
 
-      const timeline = wrapper.find('.el-timeline')
-      const timelineItems = wrapper.findAll('.el-timeline-item')
+      const timeline = wrapper.find('.g-timeline')
+      const timelineItems = wrapper.findAll('.g-timeline-item')
 
       expect(timeline.classes('is-alternate')).toBe(true)
       timelineItems.forEach((item) => {
@@ -108,8 +108,8 @@ describe('TimeLine.vue', () => {
         </TimeLine>
       ))
 
-      const timeline = wrapper.find('.el-timeline')
-      const timelineItems = wrapper.findAll('.el-timeline-item')
+      const timeline = wrapper.find('.g-timeline')
+      const timelineItems = wrapper.findAll('.g-timeline-item')
 
       expect(timeline.classes('is-alternate-reverse')).toBe(true)
       timelineItems.forEach((item) => {
@@ -126,8 +126,8 @@ describe('TimeLine.vue', () => {
         </TimeLine>
       ))
 
-      const timeline = wrapper.find('.el-timeline')
-      const timelineItems = wrapper.findAll('.el-timeline-item')
+      const timeline = wrapper.find('.g-timeline')
+      const timelineItems = wrapper.findAll('.g-timeline-item')
 
       expect(timeline.classes('is-end')).toBe(true)
       timelineItems.forEach((item) => {
@@ -147,7 +147,7 @@ describe('TimeLine.vue', () => {
       </TimeLine>
     ))
 
-    const timestampWrappers = wrapper.findAll('.el-timeline-item__timestamp')
+    const timestampWrappers = wrapper.findAll('.g-timeline-item__timestamp')
 
     expect(timestampWrappers.length).toEqual(2)
   })
@@ -160,7 +160,7 @@ describe('TimeLine.vue', () => {
     ))
 
     const vm = wrapper.vm
-    const nodeElm = vm.$el.querySelector('.el-timeline-item__node')
+    const nodeElm = vm.$el.querySelector('.g-timeline-item__node')
 
     expect(nodeElm.style.backgroundColor).toEqual('rgb(255, 0, 0)')
   })
@@ -172,9 +172,9 @@ describe('TimeLine.vue', () => {
       </TimeLine>
     ))
 
-    const nodeWrapper = wrapper.find('.el-timeline-item__node')
+    const nodeWrapper = wrapper.find('.g-timeline-item__node')
 
-    expect(nodeWrapper.classes('el-timeline-item__node--primary')).toBe(true)
+    expect(nodeWrapper.classes('g-timeline-item__node--primary')).toBe(true)
   })
 
   test('size', () => {
@@ -184,9 +184,9 @@ describe('TimeLine.vue', () => {
       </TimeLine>
     ))
 
-    const nodeWrapper = wrapper.find('.el-timeline-item__node')
+    const nodeWrapper = wrapper.find('.g-timeline-item__node')
 
-    expect(nodeWrapper.classes('el-timeline-item__node--large')).toBe(true)
+    expect(nodeWrapper.classes('g-timeline-item__node--large')).toBe(true)
   })
 
   test('icon', () => {
@@ -196,7 +196,7 @@ describe('TimeLine.vue', () => {
       </TimeLine>
     ))
 
-    expect(wrapper.find('.el-timeline-item__icon').exists()).toBe(true)
+    expect(wrapper.find('.g-timeline-item__icon').exists()).toBe(true)
     expect(wrapper.findComponent(MoreFilled).exists()).toBe(true)
   })
 
@@ -207,7 +207,7 @@ describe('TimeLine.vue', () => {
       </TimeLine>
     ))
 
-    const nodeWrapper = wrapper.find('.el-timeline-item__node')
+    const nodeWrapper = wrapper.find('.g-timeline-item__node')
 
     expect(nodeWrapper.classes('is-hollow')).toBe(true)
   })
@@ -223,10 +223,10 @@ describe('TimeLine.vue', () => {
       </TimeLine>
     ))
 
-    const dotWrapper = wrapper.find('.el-timeline-item__dot')
+    const dotWrapper = wrapper.find('.g-timeline-item__dot')
 
     expect(dotWrapper.text()).toEqual('dot')
-    expect(wrapper.find('.el-timeline-item__node').exists()).toBe(false)
+    expect(wrapper.find('.g-timeline-item__node').exists()).toBe(false)
   })
 
   test('center', () => {
@@ -238,9 +238,9 @@ describe('TimeLine.vue', () => {
       </TimeLine>
     ))
 
-    const timestampWrappers = wrapper.findAll('.el-timeline-item')
+    const timestampWrappers = wrapper.findAll('.g-timeline-item')
 
-    expect(timestampWrappers[1].classes()).toContain('el-timeline-item__center')
+    expect(timestampWrappers[1].classes()).toContain('g-timeline-item__center')
   })
 
   test('The content that is not a timeline item in the sub-slot should be rendered', () => {
@@ -279,11 +279,11 @@ describe('TimeLine.vue', () => {
         },
       })
 
-      let firstTimelineItem = wrapper.find('.el-timeline-item__content')
+      let firstTimelineItem = wrapper.find('.g-timeline-item__content')
       expect(firstTimelineItem.text()).toMatchInlineSnapshot(`"Step 3: xxxxxx"`)
 
       await wrapper.setData({ reverse: false })
-      firstTimelineItem = wrapper.find('.el-timeline-item__content')
+      firstTimelineItem = wrapper.find('.g-timeline-item__content')
       expect(firstTimelineItem.text()).toMatchInlineSnapshot(`"Step 1: xxxxxx"`)
     })
 
@@ -297,12 +297,12 @@ describe('TimeLine.vue', () => {
         </TimeLine>
       ))
 
-      let firstTimelineItem = wrapper.find('.el-timeline-item__content')
+      let firstTimelineItem = wrapper.find('.g-timeline-item__content')
       expect(firstTimelineItem.text()).toMatchInlineSnapshot(`"Step 3: xxxxxx"`)
 
       reverse.value = false
       await nextTick()
-      firstTimelineItem = wrapper.find('.el-timeline-item__content')
+      firstTimelineItem = wrapper.find('.g-timeline-item__content')
       expect(firstTimelineItem.text()).toMatchInlineSnapshot(`"Step 1: xxxxxx"`)
     })
   })

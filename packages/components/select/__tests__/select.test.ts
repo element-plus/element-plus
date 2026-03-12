@@ -9,7 +9,7 @@ import { BORDER_HORIZONTAL_WIDTH, EVENT_CODE } from '@element-plus/constants'
 import { ArrowDown, CaretTop, CircleClose } from '@element-plus/icons-vue'
 import { usePopperContainerId } from '@element-plus/hooks'
 import { hasClass } from '@element-plus/utils'
-import { ElForm, ElFormItem } from '@element-plus/components/form'
+import { GForm, GFormItem } from '@element-plus/components/form'
 import Select from '../src/select.vue'
 import Group from '../src/option-group.vue'
 import Option from '../src/option.vue'
@@ -57,11 +57,11 @@ const _mount = (template: string, data: any = () => ({}), otherObj?) =>
   mount(
     {
       components: {
-        'el-select': Select,
-        'el-option': Option,
-        'el-group-option': Group,
-        'el-form-item': ElFormItem,
-        'el-form': ElForm,
+        'g-select': Select,
+        'g-option': Option,
+        'g-group-option': Group,
+        'g-form-item': GFormItem,
+        'g-form': GForm,
       },
       template,
       data,
@@ -83,7 +83,7 @@ const _mount = (template: string, data: any = () => ({}), otherObj?) =>
 function getOptions(): HTMLElement[] {
   return Array.from(
     document.querySelectorAll<HTMLElement>(
-      'body > div:last-child .el-select-dropdown__item'
+      'body > div:last-child .g-select-dropdown__item'
     )
   )
 }
@@ -135,7 +135,7 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
 
   return _mount(
     `
-    <el-select
+    <g-select
       ref="select"
       v-model="value"
       :multiple="multiple"
@@ -154,14 +154,14 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
       :automatic-dropdown="automaticDropdown"
       :size="size"
       :fit-input-width="fitInputWidth">
-      <el-option
+      <g-option
         v-for="item in options"
         :label="item.label"
         :key="item.value"
         :disabled="item.disabled"
         :value="item.value">
-      </el-option>
-    </el-select>
+      </g-option>
+    </g-select>
   `,
     () => ({
       options,
@@ -270,7 +270,7 @@ const getGroupSelectVm = (configs: SelectProps = {}, options?) => {
   }
   return _mount(
     `
-    <el-select
+    <g-select
       ref="select"
       v-model="value"
       :multiple="multiple"
@@ -286,18 +286,18 @@ const getGroupSelectVm = (configs: SelectProps = {}, options?) => {
       :remoteMethod="remoteMethod"
       :automatic-dropdown="automaticDropdown"
       :fit-input-width="fitInputWidth">
-     <el-group-option
+     <g-group-option
         v-for="group in options"
         :key="group.label"
         :disabled="group.disabled"
         :label="group.label">
-        <el-option
+        <g-option
           v-for="item in group.options"
           :key="item.value"
           :label="item.label"
           :value="item.value"/>
-      </el-group-option>
-    </el-select>
+      </g-group-option>
+    </g-select>
 `,
     () => ({
       options,
@@ -319,12 +319,12 @@ const getGroupSelectVm = (configs: SelectProps = {}, options?) => {
   )
 }
 
-const CLASS_NAME = 'el-select'
-const WRAPPER_CLASS_NAME = 'el-select__wrapper'
-const OPTION_ITEM_CLASS_NAME = 'el-select-dropdown__item'
-const PLACEHOLDER_CLASS_NAME = 'el-select__placeholder'
+const CLASS_NAME = 'g-select'
+const WRAPPER_CLASS_NAME = 'g-select__wrapper'
+const OPTION_ITEM_CLASS_NAME = 'g-select-dropdown__item'
+const PLACEHOLDER_CLASS_NAME = 'g-select__placeholder'
 const DEFAULT_PLACEHOLDER = 'Select'
-const TAG_NAME = `${WRAPPER_CLASS_NAME} .el-tag`
+const TAG_NAME = `${WRAPPER_CLASS_NAME} .g-tag`
 
 describe('Select', () => {
   let wrapper: ReturnType<typeof _mount>
@@ -333,14 +333,14 @@ describe('Select', () => {
   })
 
   test('create', async () => {
-    wrapper = _mount(`<el-select v-model="value"></el-select>`, () => ({
+    wrapper = _mount(`<g-select v-model="value"></g-select>`, () => ({
       value: '',
     }))
     expect(wrapper.classes()).toContain(CLASS_NAME)
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe(
       DEFAULT_PLACEHOLDER
     )
-    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const select = wrapper.findComponent({ name: 'GSelect' })
     const trigger = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
     await trigger.trigger('mouseenter')
     await trigger.trigger('click')
@@ -363,27 +363,27 @@ describe('Select', () => {
 
   test('custom dropdown class', () => {
     wrapper = getSelectVm({ popperClass: 'custom-dropdown' })
-    const dropdown = wrapper.findComponent({ name: 'ElSelectDropdown' })
+    const dropdown = wrapper.findComponent({ name: 'GSelectDropdown' })
     expect(dropdown.classes()).toContain('custom-dropdown')
   })
 
   test('custom popper style', async () => {
     wrapper = getSelectVm({ popperStyle: 'background: red;' })
-    const popper = document.querySelector('.el-popper') as HTMLElement
+    const popper = document.querySelector('.g-popper') as HTMLElement
     expect(popper.style.background).toBe('red')
   })
 
   test('default value', async () => {
     wrapper = _mount(
       `
-      <el-select v-model="value">
-        <el-option
+      <g-select v-model="value">
+        <g-option
           v-for="item in options"
           :label="item.label"
           :key="item.value"
           :value="item.value">
-        </el-option>
-      </el-select>
+        </g-option>
+      </g-select>
     `,
       () => ({
         options: [
@@ -409,14 +409,14 @@ describe('Select', () => {
     process.env.RUN_TEST_WITH_PERSISTENT = 'true'
     wrapper = _mount(
       `
-      <el-select v-model="value" :persistent="false">
-        <el-option
+      <g-select v-model="value" :persistent="false">
+        <g-option
           v-for="item in options"
           :label="item.label"
           :key="item.value"
           :value="item.value">
-        </el-option>
-      </el-select>
+        </g-option>
+      </g-select>
     `,
       () => ({
         options: [
@@ -442,14 +442,14 @@ describe('Select', () => {
     process.env.RUN_TEST_WITH_PERSISTENT = 'true'
     wrapper = _mount(
       `
-      <el-select v-model="value" :persistent="false">
-        <el-option
+      <g-select v-model="value" :persistent="false">
+        <g-option
           v-for="item in options"
           :label="item.label"
           :key="item.value"
           :value="item.value">
-        </el-option>
-      </el-select>
+        </g-option>
+      </g-select>
     `,
       () => ({
         options: [
@@ -482,14 +482,14 @@ describe('Select', () => {
     process.env.RUN_TEST_WITH_PERSISTENT = 'true'
     wrapper = _mount(
       `
-      <el-select v-model="value" :persistent="false">
-        <el-option
+      <g-select v-model="value" :persistent="false">
+        <g-option
           v-for="item in options"
           :label="item.label"
           :key="item.value"
           :value="item.value">
-        </el-option>
-      </el-select>
+        </g-option>
+      </g-select>
     `,
       () => ({
         options: [],
@@ -522,17 +522,17 @@ describe('Select', () => {
   test('should not render the empty slot when multiple is true and persistent is false', async () => {
     wrapper = _mount(
       `
-      <el-select v-model="value" multiple :persistent="false">
-        <el-option
+      <g-select v-model="value" multiple :persistent="false">
+        <g-option
           v-for="item in options"
           :label="item.label"
           :key="item.value"
           :value="item.value">
-        </el-option>
+        </g-option>
         <template #empty>
           <div class="empty-slot">EmptySlot</div>
         </template>
-      </el-select>
+      </g-select>
     `,
       () => ({
         options: [
@@ -549,7 +549,7 @@ describe('Select', () => {
       })
     )
     await nextTick()
-    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const select = wrapper.findComponent({ name: 'GSelect' })
     const selectVm = select.vm as any
     expect(selectVm.selectedLabel).toStrictEqual([])
     await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
@@ -567,14 +567,14 @@ describe('Select', () => {
     process.env.RUN_TEST_WITH_PERSISTENT = 'true'
     wrapper = _mount(
       `
-      <el-select v-model="value" :persistent="false" multiple>
-        <el-option
+      <g-select v-model="value" :persistent="false" multiple>
+        <g-option
           v-for="item in options"
           :label="item.label"
           :key="item.value"
           :value="item.value">
-        </el-option>
-      </el-select>
+        </g-option>
+      </g-select>
     `,
       () => ({
         options: [
@@ -601,14 +601,14 @@ describe('Select', () => {
   test('multiple is true and persistent is false, render the label and dynamically modify options', async () => {
     wrapper = _mount(
       `
-      <el-select v-model="value" :persistent="false" multiple>
-        <el-option
+      <g-select v-model="value" :persistent="false" multiple>
+        <g-option
           v-for="item in options"
           :label="item.label"
           :key="item.value"
           :value="item.value">
-        </el-option>
-      </el-select>
+        </g-option>
+      </g-select>
     `,
       () => ({
         options: [],
@@ -637,14 +637,14 @@ describe('Select', () => {
   test('expose select label', async () => {
     wrapper = _mount(
       `
-      <el-select v-model="value" :multiple="multiple">
-        <el-option
+      <g-select v-model="value" :multiple="multiple">
+        <g-option
           v-for="item in options"
           :label="item.label"
           :key="item.value"
           :value="item.value">
-        </el-option>
-      </el-select>
+        </g-option>
+      </g-select>
     `,
       () => ({
         options: [
@@ -656,7 +656,7 @@ describe('Select', () => {
       })
     )
     await nextTick()
-    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const select = wrapper.findComponent({ name: 'GSelect' })
     const vm = wrapper.vm as any
     const selectVm = select.vm as any
 
@@ -682,14 +682,14 @@ describe('Select', () => {
   test('set default value to object', async () => {
     wrapper = _mount(
       `
-      <el-select v-model="value">
-        <el-option
+      <g-select v-model="value">
+        <g-option
           v-for="item in options"
           :label="item.label"
           :key="item.value.value"
           :value="item.value">
-        </el-option>
-      </el-select>
+        </g-option>
+      </g-select>
     `,
       () => ({
         options: [
@@ -719,14 +719,14 @@ describe('Select', () => {
   test('custom label', async () => {
     wrapper = _mount(
       `
-      <el-select v-model="value">
-        <el-option
+      <g-select v-model="value">
+        <g-option
           v-for="item in options"
           :label="item.name"
           :key="item.id"
           :value="item.id">
-        </el-option>
-      </el-select>
+        </g-option>
+      </g-select>
     `,
       () => ({
         options: [
@@ -750,14 +750,14 @@ describe('Select', () => {
   test('custom label with object', async () => {
     wrapper = _mount(
       `
-      <el-select v-model="value" value-key="id">
-        <el-option
+      <g-select v-model="value" value-key="id">
+        <g-option
           v-for="item in options"
           :label="item.name"
           :key="item.id"
           :value="item">
-        </el-option>
-      </el-select>
+        </g-option>
+      </g-select>
     `,
       () => ({
         options: [
@@ -783,14 +783,14 @@ describe('Select', () => {
   test('value bind object with value-key', async () => {
     wrapper = _mount(
       `
-      <el-select v-model="value" value-key="id">
-        <el-option
+      <g-select v-model="value" value-key="id">
+        <g-option
           v-for="item in options"
           :key="item.id"
           :label="item.label"
           :value="item"
         />
-      </el-select>
+      </g-select>
     `,
       () => ({
         options: [
@@ -818,14 +818,14 @@ describe('Select', () => {
   test('set default value to object with value-key', async () => {
     wrapper = _mount(
       `
-      <el-select v-model="value" value-key="id">
-        <el-option
+      <g-select v-model="value" value-key="id">
+        <g-option
           v-for="item in options"
           :key="item.id"
           :label="item.label"
           :value="item"
         />
-      </el-select>
+      </g-select>
     `,
       () => ({
         options: [
@@ -846,14 +846,14 @@ describe('Select', () => {
   test('sync set value and options', async () => {
     wrapper = _mount(
       `
-    <el-select v-model="value">
-      <el-option
+    <g-select v-model="value">
+      <g-option
         v-for="item in options"
         :label="item.label"
         :key="item.value"
         :value="item.value">
-      </el-option>
-    </el-select>
+      </g-option>
+    </g-select>
   `,
       () => ({
         options: [
@@ -884,15 +884,15 @@ describe('Select', () => {
   test('single select', async () => {
     wrapper = _mount(
       `
-      <el-select v-model="value" @change="handleChange">
-        <el-option
+      <g-select v-model="value" @change="handleChange">
+        <g-option
           v-for="item in options"
           :label="item.label"
           :key="item.value"
           :value="item.value">
           <p>{{item.label}} {{item.value}}</p>
-        </el-option>
-      </el-select>
+        </g-option>
+      </g-select>
     `,
       () => ({
         options: [
@@ -962,7 +962,7 @@ describe('Select', () => {
   })
 
   test('disabled select', () => {
-    wrapper = _mount(`<el-select disabled></el-select>`)
+    wrapper = _mount(`<g-select disabled></g-select>`)
     expect(wrapper.find(`.${WRAPPER_CLASS_NAME}`).classes()).toContain(
       'is-disabled'
     )
@@ -1029,7 +1029,7 @@ describe('Select', () => {
       },
     ]
     wrapper = getGroupSelectVm({}, optionGroupData)
-    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const select = wrapper.findComponent({ name: 'GSelect' })
     const vm = select.vm as any
     let i = 8
     while (i--) {
@@ -1047,14 +1047,14 @@ describe('Select', () => {
   test('visible event', async () => {
     wrapper = _mount(
       `
-    <el-select v-model="value" @visible-change="handleVisibleChange">
-      <el-option
+    <g-select v-model="value" @visible-change="handleVisibleChange">
+      <g-option
         v-for="item in options"
         :label="item.label"
         :key="item.value"
         :value="item.value">
-      </el-option>
-    </el-select>`,
+      </g-option>
+    </g-select>`,
       () => ({
         options: [],
         value: '',
@@ -1068,7 +1068,7 @@ describe('Select', () => {
         },
       }
     )
-    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const select = wrapper.findComponent({ name: 'GSelect' })
     const vm = wrapper.vm as any
     const selectVm = select.vm as any
     selectVm.expanded = true
@@ -1079,7 +1079,7 @@ describe('Select', () => {
   test('keyboard operations', async () => {
     vi.useFakeTimers()
     wrapper = getSelectVm()
-    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const select = wrapper.findComponent({ name: 'GSelect' })
     const vm = select.vm as any
     let i = 8
     while (i--) {
@@ -1106,18 +1106,18 @@ describe('Select', () => {
 
   test('keyboard operations when options have the same label', async () => {
     wrapper = _mount(
-      `<el-select
+      `<g-select
         v-model="value"
         clearable
         filterable
       >
-        <el-option
+        <g-option
           v-for="item in options"
           :label="item.label"
           :key="item.value"
           :value="item.value"
         />
-      </el-select>`,
+      </g-select>`,
       () => ({
         options: [
           {
@@ -1144,7 +1144,7 @@ describe('Select', () => {
         value: 'Option1',
       })
     )
-    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const select = wrapper.findComponent({ name: 'GSelect' })
     const selectVm = select.vm as any
     const input = wrapper.find('input')
     await input.trigger('click')
@@ -1162,7 +1162,7 @@ describe('Select', () => {
   // #19136
   test('keyboard operations when options are disabled due to multiple-limit', async () => {
     wrapper = getSelectVm({ multiple: true, multipleLimit: 2 })
-    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const select = wrapper.findComponent({ name: 'GSelect' })
     await wrapper.setProps({
       modelValue: ['选项1', '选项2'],
     })
@@ -1178,7 +1178,7 @@ describe('Select', () => {
 
   test('clearable', async () => {
     wrapper = getSelectVm({ clearable: true })
-    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const select = wrapper.findComponent({ name: 'GSelect' })
     const vm = wrapper.vm as any
     const selectVm = select.vm as any
     vm.value = '选项1'
@@ -1192,7 +1192,7 @@ describe('Select', () => {
   })
 
   test('suffix icon', async () => {
-    wrapper = _mount(`<el-select></el-select>`)
+    wrapper = _mount(`<g-select></g-select>`)
     let suffixIcon = wrapper.findComponent(ArrowDown)
     expect(suffixIcon.exists()).toBe(true)
     await wrapper.setProps({ suffixIcon: markRaw(CaretTop) })
@@ -1201,7 +1201,7 @@ describe('Select', () => {
   })
 
   test('test remote show suffix', async () => {
-    wrapper = _mount(`<el-select></el-select>`)
+    wrapper = _mount(`<g-select></g-select>`)
     await wrapper.setProps({
       remote: true,
       filters: true,
@@ -1214,7 +1214,7 @@ describe('Select', () => {
 
   test('fitInputWidth', async () => {
     wrapper = getSelectVm({ fitInputWidth: true })
-    const selectRef = wrapper.findComponent({ name: 'ElSelect' })
+    const selectRef = wrapper.findComponent({ name: 'GSelect' })
     const selectDom = selectRef.element
     const selectRect = {
       height: 40,
@@ -1226,7 +1226,7 @@ describe('Select', () => {
     const mockSelectWidth = vi
       .spyOn(selectDom, 'getBoundingClientRect')
       .mockReturnValue(selectRect as DOMRect)
-    const dropdown = wrapper.findComponent({ name: 'ElSelectDropdown' })
+    const dropdown = wrapper.findComponent({ name: 'GSelectDropdown' })
     dropdown.vm.minWidth = `${
       selectRef.element.getBoundingClientRect().width - BORDER_HORIZONTAL_WIDTH
     }px`
@@ -1240,7 +1240,7 @@ describe('Select', () => {
       filterable: true,
       defaultFirstOption: true,
     })
-    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const select = wrapper.findComponent({ name: 'GSelect' })
     const selectVm = select.vm as any
     const input = wrapper.find('input')
     await input.trigger('click')
@@ -1274,7 +1274,7 @@ describe('Select', () => {
       },
       demoOptions
     )
-    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const select = wrapper.findComponent({ name: 'GSelect' })
     const selectVm = select.vm as any
     const input = wrapper.find('input')
     await input.trigger('click')
@@ -1288,7 +1288,7 @@ describe('Select', () => {
 
   test('allow create', async () => {
     wrapper = getSelectVm({ filterable: true, allowCreate: true })
-    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const select = wrapper.findComponent({ name: 'GSelect' })
     const selectVm = select.vm as any
     const input = wrapper.find('input')
     await input.trigger('click')
@@ -1307,7 +1307,7 @@ describe('Select', () => {
       allowCreate: true,
       multiple: true,
     })
-    const selectVm = wrapper.findComponent({ name: 'ElSelect' }).vm as any
+    const selectVm = wrapper.findComponent({ name: 'GSelect' }).vm as any
     const input = wrapper.find('input')
     await input.trigger('click')
     await input.setValue('new tag')
@@ -1342,7 +1342,7 @@ describe('Select', () => {
         },
       ]
     )
-    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const select = wrapper.findComponent({ name: 'GSelect' })
     const selectVm = select.vm as any
     const input = wrapper.find('input')
     await input.trigger('click')
@@ -1368,18 +1368,18 @@ describe('Select', () => {
     ]
     wrapper = _mount(
       `
-      <el-select
+      <g-select
         v-model="value"
         filterable
         allowCreate
       >
-        <el-option
+        <g-option
           v-for="item in options"
           :label="item.label"
           :key="item.value"
           :value="item.value">
-        </el-option>
-      </el-select>
+        </g-option>
+      </g-select>
     `,
       () => ({
         options: [],
@@ -1407,7 +1407,7 @@ describe('Select', () => {
     options[3].click()
     await nextTick()
     expect(vm.value.includes('选项2') && vm.value.includes('选项4')).toBe(true)
-    const tagCloseIcons = wrapper.findAll('.el-tag__close')
+    const tagCloseIcons = wrapper.findAll('.g-tag__close')
     await tagCloseIcons[0].trigger('click')
     expect(vm.value.indexOf('选项1')).toBe(-1)
   })
@@ -1415,10 +1415,10 @@ describe('Select', () => {
   test('multiple select when content overflow', async () => {
     wrapper = _mount(
       `
-      <el-select v-model="selectedList" multiple placeholder="请选择">
-        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-        </el-option>
-      </el-select>
+      <g-select v-model="selectedList" multiple placeholder="请选择">
+        <g-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+        </g-option>
+      </g-select>
     `,
       () => ({
         options: [
@@ -1458,7 +1458,7 @@ describe('Select', () => {
     await nextTick()
     options[2].click()
     await nextTick()
-    const tagWrappers = wrapper.findAll('.el-tag')
+    const tagWrappers = wrapper.findAll('.g-tag')
     for (const tagWrapper of tagWrappers) {
       const tagWrapperDom = tagWrapper.element
       expect(tagWrapperDom.style.maxWidth).toBe('200px')
@@ -1468,10 +1468,10 @@ describe('Select', () => {
   test('multiple select with collapseTags when content overflow', async () => {
     wrapper = _mount(
       `
-      <el-select v-model="selectedList" multiple collapseTags placeholder="请选择">
-        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-        </el-option>
-      </el-select>
+      <g-select v-model="selectedList" multiple collapseTags placeholder="请选择">
+        <g-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+        </g-option>
+      </g-select>
     `,
       () => ({
         options: [
@@ -1507,7 +1507,7 @@ describe('Select', () => {
     selectRef.vm.states.selectionWidth = 200
     options[0].click()
     await nextTick()
-    const tagWrappers = wrapper.findAll('.el-tag')
+    const tagWrappers = wrapper.findAll('.g-tag')
     const tagWrapperDom = tagWrappers[0].element
     expect(tagWrapperDom.style.maxWidth).toBe('200px')
     options[1].click()
@@ -1526,7 +1526,7 @@ describe('Select', () => {
       `
       <div>
         <div class="append-target"></div>
-        <el-select
+        <g-select
           v-model="selectedList"
           multiple
           collapseTags
@@ -1534,8 +1534,8 @@ describe('Select', () => {
           :tag-tooltip="{ appendTo: '.append-target' }"
           placeholder="请选择"
         >
-          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
-        </el-select>
+          <g-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+        </g-select>
       </div>
     `,
       () => ({
@@ -1578,9 +1578,9 @@ describe('Select', () => {
     const tagTooltip = select.findComponent({ ref: 'tagTooltipRef' })
     expect(tagTooltip.props('appendTo')).toBe('.append-target')
 
-    const triggerWrappers = wrapper.findAll('.el-tooltip__trigger')
+    const triggerWrappers = wrapper.findAll('.g-tooltip__trigger')
     expect(triggerWrappers[0]).toBeDefined()
-    const tags = document.querySelectorAll('.el-select__tags-text')
+    const tags = document.querySelectorAll('.g-select__tags-text')
     expect(tags.length).toBe(2)
     expect(tags[1].textContent).toBe(' + 2')
 
@@ -1590,10 +1590,10 @@ describe('Select', () => {
   test('multiple select with maxCollapseTags', async () => {
     wrapper = _mount(
       `
-      <el-select v-model="selectedList" multiple collapseTags :max-collapse-tags="3" placeholder="请选择">
-        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-        </el-option>
-      </el-select>
+      <g-select v-model="selectedList" multiple collapseTags :max-collapse-tags="3" placeholder="请选择">
+        <g-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+        </g-option>
+      </g-select>
     `,
       () => ({
         options: [
@@ -1630,9 +1630,9 @@ describe('Select', () => {
     await nextTick()
     options[2].click()
     await nextTick()
-    const triggerWrappers = wrapper.findAll('.el-tooltip__trigger')
+    const triggerWrappers = wrapper.findAll('.g-tooltip__trigger')
     expect(triggerWrappers[0]).toBeDefined()
-    const tags = document.querySelectorAll('.el-select__tags-text')
+    const tags = document.querySelectorAll('.g-select__tags-text')
     expect(tags.length).toBe(3)
   })
 
@@ -1641,15 +1641,15 @@ describe('Select', () => {
 
     wrapper = _mount(
       `
-      <el-select v-model="value" multiple @remove-tag="handleRemoveTag">
-        <el-option
+      <g-select v-model="value" multiple @remove-tag="handleRemoveTag">
+        <g-option
           v-for="item in options"
           :label="item.label"
           :key="item.value"
           :value="item.value">
           <p>{{item.label}} {{item.value}}</p>
-        </el-option>
-      </el-select>
+        </g-option>
+      </g-select>
     `,
       () => ({
         options: [
@@ -1682,7 +1682,7 @@ describe('Select', () => {
     const vm = wrapper.vm as any
     await nextTick()
     expect(vm.value.length).toBe(2)
-    const tagCloseIcons = wrapper.findAll('.el-tag__close')
+    const tagCloseIcons = wrapper.findAll('.g-tag__close')
     await tagCloseIcons[1].trigger('click')
     expect(vm.value.length).toBe(1)
 
@@ -1695,14 +1695,14 @@ describe('Select', () => {
   test('allow remove non existant option', async () => {
     wrapper = _mount(
       `
-      <el-select v-model="value" multiple filterable>
-        <el-option
+      <g-select v-model="value" multiple filterable>
+        <g-option
           v-for="item in options"
           :label="item.label"
           :key="item.value"
           :value="item.value">
-        </el-option>
-      </el-select>
+        </g-option>
+      </g-select>
     `,
       () => ({
         options: [],
@@ -1713,7 +1713,7 @@ describe('Select', () => {
     await nextTick()
     const vm = wrapper.vm as any
     expect(vm.value.length).toBe(1)
-    expect(wrapper.findAll('.el-tag').length).toBe(1)
+    expect(wrapper.findAll('.g-tag').length).toBe(1)
 
     const input = wrapper.find('input')
     await input.trigger('keydown', {
@@ -1721,7 +1721,7 @@ describe('Select', () => {
       key: EVENT_CODE.backspace,
     })
 
-    expect(wrapper.findAll('.el-tag').length).toBe(0)
+    expect(wrapper.findAll('.g-tag').length).toBe(0)
     expect(vm.value.length).toBe(0)
   })
 
@@ -1740,10 +1740,10 @@ describe('Select', () => {
 
   test('event:focus', async () => {
     const handleFocus = vi.fn()
-    wrapper = _mount(`<el-select @focus="handleFocus" />`, () => ({
+    wrapper = _mount(`<g-select @focus="handleFocus" />`, () => ({
       handleFocus,
     }))
-    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const select = wrapper.findComponent({ name: 'GSelect' })
     const input = select.find('input')
 
     expect(input.exists()).toBe(true)
@@ -1753,7 +1753,7 @@ describe('Select', () => {
 
   test('should show clear btn on focus', async () => {
     const wrapper = _mount(
-      `<el-select v-model="value" :options="options" clearable />`,
+      `<g-select v-model="value" :options="options" clearable />`,
       () => ({
         options: [
           {
@@ -1773,10 +1773,10 @@ describe('Select', () => {
 
   test('event:blur', async () => {
     const handleBlur = vi.fn()
-    wrapper = _mount(`<el-select @blur="handleBlur" />`, () => ({
+    wrapper = _mount(`<g-select @blur="handleBlur" />`, () => ({
       handleBlur,
     }))
-    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const select = wrapper.findComponent({ name: 'GSelect' })
     const input = select.find('input')
 
     expect(input.exists()).toBe(true)
@@ -1788,20 +1788,20 @@ describe('Select', () => {
     const handleFocus = vi.fn()
     const handleBlur = vi.fn()
     wrapper = _mount(
-      `<el-select
+      `<g-select
         v-model="value"
         clearable
         filterable
         @focus="handleFocus"
         @blur="handleBlur"
       >
-        <el-option
+        <g-option
           v-for="item in options"
           :label="item.label"
           :key="item.value"
           :value="item.value"
         />
-      </el-select>`,
+      </g-select>`,
       () => ({
         options: [
           {
@@ -1815,7 +1815,7 @@ describe('Select', () => {
       })
     )
 
-    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const select = wrapper.findComponent({ name: 'GSelect' })
     const vm = wrapper.vm as any
     const selectVm = select.vm as any
     selectVm.states.inputHovering = true
@@ -1847,7 +1847,7 @@ describe('Select', () => {
     const handleBlur = vi.fn()
     wrapper = _mount(
       `
-    <el-select
+    <g-select
       @focus="handleFocus"
       @blur="handleBlur"
       multiple
@@ -1858,7 +1858,7 @@ describe('Select', () => {
         handleBlur,
       })
     )
-    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const select = wrapper.findComponent({ name: 'GSelect' })
     const input = select.find('input')
 
     expect(input.exists()).toBe(true)
@@ -1877,20 +1877,20 @@ describe('Select', () => {
     const handleFocus = vi.fn()
     const handleBlur = vi.fn()
     wrapper = _mount(
-      `<el-select
+      `<g-select
         v-model="value"
         multiple
         @focus="handleFocus"
         @blur="handleBlur"
       >
-        <el-option
+        <g-option
           v-for="item in options"
           :label="item.label"
           :key="item.value"
           :value="item.value">
           <p>{{item.label}} {{item.value}}</p>
-        </el-option>
-      </el-select>`,
+        </g-option>
+      </g-select>`,
       () => ({
         options: [
           {
@@ -1920,12 +1920,12 @@ describe('Select', () => {
       })
     )
 
-    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const select = wrapper.findComponent({ name: 'GSelect' })
     const input = select.find('input')
 
     await input.trigger('focus')
     expect(handleFocus).toHaveBeenCalledTimes(1)
-    const tagCloseIcons = wrapper.findAll('.el-tag__close')
+    const tagCloseIcons = wrapper.findAll('.g-tag__close')
     await tagCloseIcons[1].trigger('click')
     await tagCloseIcons[0].trigger('click')
     expect(handleFocus).toHaveBeenCalledTimes(1)
@@ -1938,12 +1938,12 @@ describe('Select', () => {
     const handleBlur = vi.fn()
     wrapper = _mount(
       `
-      <el-select @blur="handleBlur" />
+      <g-select @blur="handleBlur" />
       <button>button</button>
       `,
       () => ({ handleBlur })
     )
-    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const select = wrapper.findComponent({ name: 'GSelect' })
     const input = select.find('input')
     await input.trigger('focus')
 
@@ -1965,7 +1965,7 @@ describe('Select', () => {
 
   test('should not open popper when automatic-dropdown not set', async () => {
     wrapper = getSelectVm()
-    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const select = wrapper.findComponent({ name: 'GSelect' })
     const input = select.find('input')
     await input.trigger('focus')
     expect((select.vm as any).expanded).toBe(false)
@@ -1973,7 +1973,7 @@ describe('Select', () => {
 
   test('should open popper when automatic-dropdown is set', async () => {
     wrapper = getSelectVm({ automaticDropdown: true })
-    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const select = wrapper.findComponent({ name: 'GSelect' })
     const input = select.find('input')
     await input.trigger('focus')
     expect((select.vm as any).expanded).toBe(true)
@@ -1981,7 +1981,7 @@ describe('Select', () => {
 
   test('automatic dropdown should cooperate with click to open the dropdown', async () => {
     wrapper = getSelectVm({ automaticDropdown: true })
-    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const select = wrapper.findComponent({ name: 'GSelect' })
     const input = select.find('input')
     await input.trigger('focus')
     expect((select.vm as any).expanded).toBe(true)
@@ -1996,11 +1996,11 @@ describe('Select', () => {
     let callCount = 0
     wrapper = _mount(
       `
-    <el-select v-model="value" @change="change" ref="select">
-      <el-option label="1" value="1" />
-      <el-option label="2" value="2" />
-      <el-option label="3" value="3" />
-    </el-select>`,
+    <g-select v-model="value" @change="change" ref="select">
+      <g-option label="1" value="1" />
+      <g-option label="2" value="2" />
+      <g-option label="3" value="3" />
+    </g-select>`,
       () => ({
         value: '1',
         change: () => ++callCount,
@@ -2017,11 +2017,11 @@ describe('Select', () => {
   test('render slot `empty`', async () => {
     wrapper = _mount(
       `
-      <el-select v-model="value">
+      <g-select v-model="value">
         <template #empty>
           <div class="empty-slot">EmptySlot</div>
         </template>
-      </el-select>`,
+      </g-select>`,
       () => ({
         value: '1',
       })
@@ -2035,16 +2035,16 @@ describe('Select', () => {
   test('should set placeholder to label of selected option when filterable is true and multiple is false', async () => {
     wrapper = _mount(
       `
-      <el-select ref="select" v-model="value" filterable>
-        <el-option label="test" value="test" />
-      </el-select>`,
+      <g-select ref="select" v-model="value" filterable>
+        <g-option label="test" value="test" />
+      </g-select>`,
       () => ({ value: 'test' })
     )
     const vm = wrapper.vm as any
     const trigger = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
     await trigger.trigger('mouseenter')
     await trigger.trigger('click')
-    const selectVm = wrapper.findComponent({ name: 'ElSelect' }).vm as any
+    const selectVm = wrapper.findComponent({ name: 'GSelect' }).vm as any
     expect(selectVm.expanded).toBe(true)
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('test')
     expect(vm.value).toBe('test')
@@ -2053,14 +2053,14 @@ describe('Select', () => {
   test('default value is null or undefined', async () => {
     wrapper = _mount(
       `
-    <el-select v-model="value">
-      <el-option
+    <g-select v-model="value">
+      <g-option
         v-for="item in options"
         :label="item.label"
         :key="item.value"
         :value="item.value">
-      </el-option>
-    </el-select>`,
+      </g-option>
+    </g-select>`,
       () => ({
         options: [
           {
@@ -2089,14 +2089,14 @@ describe('Select', () => {
   test('emptyText error show', async () => {
     wrapper = _mount(
       `
-    <el-select :model-value="value" filterable placeholder="Select">
-      <el-option
+    <g-select :model-value="value" filterable placeholder="Select">
+      <g-option
         v-for="item in options"
         :key="item.value"
         :label="item.label"
         :value="item.value">
-      </el-option>
-    </el-select>`,
+      </g-option>
+    </g-select>`,
       () => ({
         options: [
           {
@@ -2128,17 +2128,17 @@ describe('Select', () => {
     await trigger.trigger('click')
     await nextTick()
     expect(
-      !!(document.querySelector('.el-select__popper') as HTMLElement).style
+      !!(document.querySelector('.g-select__popper') as HTMLElement).style
         .display
     ).toBeFalsy()
-    expect(wrapper.findAll('.el-select-dropdown__empty').length).toBe(0)
+    expect(wrapper.findAll('.g-select-dropdown__empty').length).toBe(0)
   })
 
   test('multiple select with remote load', async () => {
     vi.useFakeTimers()
     wrapper = mount({
       template: `
-      <el-select
+      <g-select
         v-model="value"
         multiple
         filterable
@@ -2148,14 +2148,14 @@ describe('Select', () => {
         :remote-method="remoteMethod"
         :loading="loading"
       >
-        <el-option
+        <g-option
           v-for="item in options"
           :key="item.value"
           :label="item.label"
           :value="item"
         />
-      </el-select>`,
-      components: { ElSelect: Select, ElOption: Option },
+      </g-select>`,
+      components: { GSelect: Select, GOption: Option },
       data() {
         return {
           options: [],
@@ -2238,7 +2238,7 @@ describe('Select', () => {
       },
     })
 
-    const select = wrapper.findComponent({ name: 'ElSelect' }).vm
+    const select = wrapper.findComponent({ name: 'GSelect' }).vm
     select.onInput({
       target: {
         value: '',
@@ -2274,20 +2274,20 @@ describe('Select', () => {
   test('disabled group', async () => {
     wrapper = _mount(
       `
-    <el-select v-model="value">
-      <el-group-option
+    <g-select v-model="value">
+      <g-group-option
         v-for="group in options"
         :key="group.label"
         :label="group.label"
         :disabled="group.disabled">
-        <el-option
+        <g-option
           v-for="item in group.options"
           :key="item.value"
           :label="item.label"
           :value="item.value">
-        </el-option>
-      </el-group-option>
-    </el-select>`,
+        </g-option>
+      </g-group-option>
+    </g-select>`,
       () => ({
         options: [
           {
@@ -2327,10 +2327,10 @@ describe('Select', () => {
     expect(vm.value).toBe('Shanghai')
   })
 
-  test('el-option-group should visible when el-option in a component', async () => {
+  test('g-option-group should visible when el-option in a component', async () => {
     const Options = defineComponent({
       components: {
-        'el-option': Option,
+        'g-option': Option,
       },
       props: {
         options: {
@@ -2339,7 +2339,7 @@ describe('Select', () => {
         },
       },
       template: `
-        <el-option
+        <g-option
           v-for="item in options"
           :key="item.value"
           :label="item.label"
@@ -2350,19 +2350,19 @@ describe('Select', () => {
 
     wrapper = mount({
       template: `
-        <el-select v-model="value">
-          <el-option-group
+        <g-select v-model="value">
+          <g-option-group
             v-for="group in options"
             :key="group.label"
             :label="group.label"
           >
             <Options :options="group.options" />
-          </el-option-group>
-        </el-select>
+          </g-option-group>
+        </g-select>
       `,
       components: {
-        'el-select': Select,
-        'el-option-group': Group,
+        'g-select': Select,
+        'g-option-group': Group,
         Options,
       },
       data() {
@@ -2390,10 +2390,10 @@ describe('Select', () => {
     expect(wrapper.findComponent(Group).vm.visible).toBe(true)
   })
 
-  test('el-option-group should visible when custom option component', async () => {
+  test('g-option-group should visible when custom option component', async () => {
     const CustomOptions = defineComponent({
       components: {
-        'el-option': Option,
+        'g-option': Option,
       },
       props: {
         label: {
@@ -2406,19 +2406,19 @@ describe('Select', () => {
         },
       },
       template: `
-        <el-option
+        <g-option
           :label="label"
           :value="value"
         >
           {{label}} - some extra text
-        </el-option>
+        </g-option>
       `,
     })
 
     wrapper = mount({
       template: `
-        <el-select v-model="value">
-          <el-option-group
+        <g-select v-model="value">
+          <g-option-group
             v-for="group in options"
             :key="group.label"
             :label="group.label"
@@ -2429,12 +2429,12 @@ describe('Select', () => {
               :label="item.label"
               :value="item.value"
             />
-          </el-option-group>
-        </el-select>
+          </g-option-group>
+        </g-select>
       `,
       components: {
-        'el-select': Select,
-        'el-option-group': Group,
+        'g-select': Select,
+        'g-option-group': Group,
         CustomOptions,
       },
       data() {
@@ -2465,16 +2465,16 @@ describe('Select', () => {
   test('tag of disabled option is not closable', async () => {
     wrapper = _mount(
       `
-    <el-select v-model="vendors" multiple :collapse-tags="isCollapsed" :clearable="isClearable" placeholder="Select Business Unit">
-    <el-option
+    <g-select v-model="vendors" multiple :collapse-tags="isCollapsed" :clearable="isClearable" placeholder="Select Business Unit">
+    <g-option
       v-for="(vendor, index) in options"
       :key="index"
       :value="index + 1"
       :label="vendor.name"
       :disabled="vendor.isDisabled"
     >
-    </el-option>
-  </el-select>`,
+    </g-option>
+  </g-select>`,
       () => ({
         vendors: [2, 3, 4],
         isCollapsed: false,
@@ -2489,13 +2489,13 @@ describe('Select', () => {
     )
     const vm = wrapper.vm as any
     await nextTick()
-    const selectVm = wrapper.findComponent({ name: 'ElSelect' }).vm as any
-    expect(wrapper.findAll('.el-tag').length).toBe(3)
-    const tagCloseIcons = wrapper.findAll('.el-tag__close')
+    const selectVm = wrapper.findComponent({ name: 'GSelect' }).vm as any
+    expect(wrapper.findAll('.g-tag').length).toBe(3)
+    const tagCloseIcons = wrapper.findAll('.g-tag__close')
     expect(tagCloseIcons.length).toBe(1)
     await tagCloseIcons[0].trigger('click')
-    expect(wrapper.findAll('.el-tag__close').length).toBe(0)
-    expect(wrapper.findAll('.el-tag').length).toBe(2)
+    expect(wrapper.findAll('.g-tag__close').length).toBe(0)
+    expect(wrapper.findAll('.g-tag').length).toBe(2)
 
     //test if is clearable
     vm.isClearable = true
@@ -2504,9 +2504,9 @@ describe('Select', () => {
     selectVm.states.inputHovering = true
     await selectVm.$nextTick()
     const iconClear = wrapper.findComponent(CircleClose)
-    expect(wrapper.findAll('.el-tag').length).toBe(3)
+    expect(wrapper.findAll('.g-tag').length).toBe(3)
     await iconClear.trigger('click')
-    expect(wrapper.findAll('.el-tag').length).toBe(2)
+    expect(wrapper.findAll('.g-tag').length).toBe(2)
 
     // test for collapse select
     vm.vendors = [1, 2, 4]
@@ -2514,17 +2514,17 @@ describe('Select', () => {
     vm.isClearable = false
     await nextTick()
     expect(
-      wrapper.findAll('.el-tag').filter((item) => {
+      wrapper.findAll('.g-tag').filter((item) => {
         return !hasClass(item.element, 'in-tooltip')
       }).length
     ).toBe(2)
-    await wrapper.find('.el-tag__close').trigger('click')
+    await wrapper.find('.g-tag__close').trigger('click')
     expect(
-      wrapper.findAll('.el-tag').filter((item) => {
+      wrapper.findAll('.g-tag').filter((item) => {
         return !hasClass(item.element, 'in-tooltip')
       }).length
     ).toBe(2)
-    expect(wrapper.findAll('.el-tag__close').length).toBe(0)
+    expect(wrapper.findAll('.g-tag__close').length).toBe(0)
 
     // test for collapse select if is clearable
     vm.vendors = [1, 2, 4]
@@ -2532,31 +2532,31 @@ describe('Select', () => {
     vm.isClearable = true
     await nextTick()
     expect(
-      wrapper.findAll('.el-tag__close').filter((item) => {
+      wrapper.findAll('.g-tag__close').filter((item) => {
         return !hasClass(item.element.parentElement, 'in-tooltip')
       }).length
     ).toBe(1)
-    await wrapper.find('.el-tag__close').trigger('click')
+    await wrapper.find('.g-tag__close').trigger('click')
     expect(
-      wrapper.findAll('.el-tag').filter((item) => {
+      wrapper.findAll('.g-tag').filter((item) => {
         return !hasClass(item.element, 'in-tooltip')
       }).length
     ).toBe(2)
-    expect(wrapper.findAll('.el-tag__close').length).toBe(0)
+    expect(wrapper.findAll('.g-tag__close').length).toBe(0)
   })
 
   test('tag type', async () => {
     wrapper = _mount(
       `
-      <el-select v-model="value" multiple tag-type="success">
-        <el-option
+      <g-select v-model="value" multiple tag-type="success">
+        <g-option
           v-for="item in options"
           :key="item.value"
           :label="item.label"
           :value="item.value"
         >
-        </el-option>
-      </el-select>
+        </g-option>
+      </g-select>
     `,
       () => ({
         options: [
@@ -2577,21 +2577,21 @@ describe('Select', () => {
     const options = getOptions()
     options[1].click()
     await nextTick()
-    expect(wrapper.find('.el-tag').classes()).toContain('el-tag--success')
+    expect(wrapper.find('.g-tag').classes()).toContain('g-tag--success')
   })
 
   test('modelValue should be deep reactive in multiple mode', async () => {
     wrapper = _mount(
       `
-    <el-select v-model="modelValue" multiple>
-      <el-option
+    <g-select v-model="modelValue" multiple>
+      <g-option
         v-for="option in options"
         :key="option.value"
         :value="option.value"
         :label="option.label"
       >
-      </el-option>
-    </el-select>`,
+      </g-option>
+    </g-select>`,
       () => ({
         modelValue: [1],
         options: [
@@ -2604,21 +2604,21 @@ describe('Select', () => {
     )
     const vm = wrapper.vm as any
     await nextTick()
-    expect(wrapper.findAll('.el-tag').length).toBe(1)
+    expect(wrapper.findAll('.g-tag').length).toBe(1)
 
     vm._.data.modelValue.splice(0, 1)
 
     await nextTick()
-    expect(wrapper.findAll('.el-tag').length).toBe(0)
+    expect(wrapper.findAll('.g-tag').length).toBe(0)
   })
 
   test('should reset placeholder after clear when both multiple and filterable are true', async () => {
     const placeholder = 'placeholder'
     wrapper = _mount(
       `
-    <el-select v-model="modelValue" multiple filterable placeholder=${placeholder}>
-      <el-option label="1" value="1" />
-    </el-select>`,
+    <g-select v-model="modelValue" multiple filterable placeholder=${placeholder}>
+      <g-option label="1" value="1" />
+    </g-select>`,
       () => ({
         modelValue: ['1'],
       })
@@ -2627,7 +2627,7 @@ describe('Select', () => {
 
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).exists()).toBe(false)
 
-    const tagCloseIcon = wrapper.find('.el-tag__close')
+    const tagCloseIcon = wrapper.find('.g-tag__close')
     await tagCloseIcon.trigger('click')
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe(placeholder)
 
@@ -2645,8 +2645,8 @@ describe('Select', () => {
       filterable: true,
       clearable: true,
     })
-    const select = wrapper.findComponent({ name: 'ElSelect' })
-    const trigger = wrapper.find('.el-select__suffix')
+    const select = wrapper.findComponent({ name: 'GSelect' })
+    const trigger = wrapper.find('.g-select__suffix')
     await trigger.trigger('click')
     expect((select.vm as any).expanded).toBe(true)
     await trigger.trigger('click')
@@ -2658,7 +2658,7 @@ describe('Select', () => {
       filterable: false,
       clearable: true,
     })
-    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const select = wrapper.findComponent({ name: 'GSelect' })
     const trigger = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
     await trigger.trigger('click')
     expect((select.vm as any).expanded).toBe(true)
@@ -2672,7 +2672,7 @@ describe('Select', () => {
       filterable: true,
       clearable: true,
     })
-    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const select = wrapper.findComponent({ name: 'GSelect' })
     const trigger = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
     await trigger.trigger('click')
     expect((select.vm as any).expanded).toBe(true)
@@ -2684,7 +2684,7 @@ describe('Select', () => {
   describe('should show all options when open select dropdown', () => {
     async function testShowOptions({ filterable, multiple }: SelectProps = {}) {
       wrapper = getSelectVm({ filterable, multiple })
-      const options = wrapper.findAllComponents({ name: 'ElOption' })
+      const options = wrapper.findAllComponents({ name: 'GOption' })
 
       await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
       expect(options.every((option) => option.vm.visible)).toBe(true)
@@ -2784,15 +2784,15 @@ describe('Select', () => {
       expect(document.body.innerHTML).toBe('')
       wrapper = _mount(
         `
-      <el-select v-model="modelValue" multiple>
-        <el-option
+      <g-select v-model="modelValue" multiple>
+        <g-option
           v-for="option in options"
           :key="option.value"
           :value="option.value"
           :label="option.label"
         >
-        </el-option>
-      </el-select>`,
+        </g-option>
+      </g-select>`,
         () => ({
           modelValue: [1],
           options: [
@@ -2813,15 +2813,15 @@ describe('Select', () => {
       expect(document.body.innerHTML).toBe('')
       wrapper = _mount(
         `
-      <el-select v-model="modelValue" multiple :teleported="false">
-        <el-option
+      <g-select v-model="modelValue" multiple :teleported="false">
+        <g-option
           v-for="option in options"
           :key="option.value"
           :value="option.value"
           :label="option.label"
         >
-        </el-option>
-      </el-select>`,
+        </g-option>
+      </g-select>`,
         () => ({
           modelValue: [1],
           options: [
@@ -2844,30 +2844,30 @@ describe('Select', () => {
     const modelValue = [{ value: `value:Alaska`, label: `label:Alaska` }]
     const wrapper = _mount(
       `
-    <el-select v-model="modelValue"
+    <g-select v-model="modelValue"
       multiple
       value-key="value"
       filterable>
-      <el-option
+      <g-option
         v-for="option in options"
         :key="option.value"
         :value="option.value"
         :label="option.label"
       >
-      </el-option>
-    </el-select>`,
+      </g-option>
+    </g-select>`,
       () => ({
         modelValue,
         options,
       })
     )
-    const select = wrapper.findComponent({ name: 'ElSelect' }).vm
+    const select = wrapper.findComponent({ name: 'GSelect' }).vm
     expect(select.states.selected[0].currentLabel).toBe(options[0].label)
   })
 
   test('should reset selectedLabel when toggle multiple', async () => {
     wrapper = getSelectVm({ multiple: false })
-    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const select = wrapper.findComponent({ name: 'GSelect' })
     const vm = wrapper.vm as any
     const selectVm = select.vm as any
     vm.value = '选项1'
@@ -2886,11 +2886,11 @@ describe('Select', () => {
   describe('form item accessibility integration', () => {
     it('automatic id attachment', async () => {
       const wrapper = _mount(
-        `<el-form-item label="Foobar" data-test-ref="item">
-          <el-select v-model="modelValue">
-            <el-option label="1" value="1" />
-          </el-select>
-        </el-form-item>`,
+        `<g-form-item label="Foobar" data-test-ref="item">
+          <g-select v-model="modelValue">
+            <g-option label="1" value="1" />
+          </g-select>
+        </g-form-item>`,
         () => ({
           modelValue: 1,
         })
@@ -2898,7 +2898,7 @@ describe('Select', () => {
 
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
-      const formItemLabel = formItem.find('.el-form-item__label')
+      const formItemLabel = formItem.find('.g-form-item__label')
       const innerInput = wrapper.find('input')
       expect(formItem.attributes().role).toBeFalsy()
       expect(formItemLabel.attributes().for).toBe(innerInput.attributes().id)
@@ -2906,11 +2906,11 @@ describe('Select', () => {
 
     it('specified id attachment', async () => {
       const wrapper = _mount(
-        `<el-form-item label="Foobar" data-test-ref="item">
-          <el-select id="foobar" v-model="modelValue">
-            <el-option label="1" value="1" />
-          </el-select>
-        </el-form-item>`,
+        `<g-form-item label="Foobar" data-test-ref="item">
+          <g-select id="foobar" v-model="modelValue">
+            <g-option label="1" value="1" />
+          </g-select>
+        </g-form-item>`,
         () => ({
           modelValue: 1,
         })
@@ -2918,7 +2918,7 @@ describe('Select', () => {
 
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
-      const formItemLabel = formItem.find('.el-form-item__label')
+      const formItemLabel = formItem.find('.g-form-item__label')
       const innerInput = wrapper.find('input')
       expect(formItem.attributes().role).toBeFalsy()
       expect(innerInput.attributes().id).toBe('foobar')
@@ -2927,14 +2927,14 @@ describe('Select', () => {
 
     it('form item role is group when multiple inputs', async () => {
       const wrapper = _mount(
-        `<el-form-item label="Foobar" data-test-ref="item">
-          <el-select v-model="modelValue">
-            <el-option label="1" value="1" />
-          </el-select>
-          <el-select v-model="modelValue">
-            <el-option label="1" value="1" />
-          </el-select>
-        </el-form-item>`,
+        `<g-form-item label="Foobar" data-test-ref="item">
+          <g-select v-model="modelValue">
+            <g-option label="1" value="1" />
+          </g-select>
+          <g-select v-model="modelValue">
+            <g-option label="1" value="1" />
+          </g-select>
+        </g-form-item>`,
         () => ({
           modelValue: 1,
         })
@@ -2947,18 +2947,18 @@ describe('Select', () => {
 
     it('The disabled state of a component has higher priority than that of a form', async () => {
       const wrapper = _mount(
-        `<el-form disabled>
-          <el-select :disabled="false" v-model="modelValue">
-            <el-option label="1" value="1" />
-          </el-select>
-        </el-form>`,
+        `<g-form disabled>
+          <g-select :disabled="false" v-model="modelValue">
+            <g-option label="1" value="1" />
+          </g-select>
+        </g-form>`,
         () => ({
           modelValue: 1,
         })
       )
 
       await nextTick()
-      const innerInput = wrapper.find('.el-select__input')
+      const innerInput = wrapper.find('.g-select__input')
       expect(innerInput.attributes('disabled')).toBeUndefined()
     })
   })
@@ -3048,7 +3048,7 @@ describe('Select', () => {
     nativeInput.focus()
     vm.options = options
     await nextTick()
-    expect(wrapper.findAll('.el-tag')[0].text()).toBe('option 1')
+    expect(wrapper.findAll('.g-tag')[0].text()).toBe('option 1')
   })
 
   // fix: https://github.com/element-plus/element-plus/issues/11991
@@ -3068,19 +3068,19 @@ describe('Select', () => {
     const value = ['Option2', 'Option1']
     const wrapper = _mount(
       `
-          <el-select v-model="value"
+          <g-select v-model="value"
             multiple
             filterable
           >
-            <el-option
+            <g-option
               v-for="option in options"
               :key="option.value"
               :value="option.value"
               :label="option.label"
               :disabled="option.disable"
             >
-            </el-option>
-          </el-select>
+            </g-option>
+          </g-select>
         `,
       () => ({
         value,
@@ -3088,35 +3088,35 @@ describe('Select', () => {
       })
     )
     await nextTick()
-    const selectInput = wrapper.find('.el-select__input')
-    expect(wrapper.findAll('.el-tag').length).toBe(2)
-    // after deletion, an el-tag will be deleted
+    const selectInput = wrapper.find('.g-select__input')
+    expect(wrapper.findAll('.g-tag').length).toBe(2)
+    // after deletion, an g-tag will be deleted
     await selectInput.trigger('keydown', {
       code: EVENT_CODE.backspace,
       key: EVENT_CODE.backspace,
     })
     await nextTick()
-    expect(wrapper.findAll('.el-tag').length).toBe(1)
+    expect(wrapper.findAll('.g-tag').length).toBe(1)
     await selectInput.trigger('keydown', {
       code: EVENT_CODE.backspace,
       key: EVENT_CODE.backspace,
     })
     await nextTick()
-    // after deletion, an el-tag still exist
-    expect(wrapper.findAll('.el-tag').length).toBe(1)
+    // after deletion, an g-tag still exist
+    expect(wrapper.findAll('.g-tag').length).toBe(1)
   })
 
   it('should render label slot with index', async () => {
     const wrapper = _mount(
       `
-      <el-select :model-value="'foo'">
-        <el-option
+      <g-select :model-value="'foo'">
+        <g-option
           label="foo"
           value="foo"
         >
-        </el-option>
+        </g-option>
         <template #label="{ label, index }">{{ label }} = {{ index }}</template>
-      </el-select>
+      </g-select>
     `
     )
     await nextTick()
@@ -3138,15 +3138,15 @@ describe('Select', () => {
     ])
     const wrapper = _mount(
       `
-        <el-select v-model="value" multiple>
-          <el-option
+        <g-select v-model="value" multiple>
+          <g-option
             v-for="option in options"
             :key="option.value"
             :value="option.value"
             :label="option.label"
           />
           <template #label="{ label, index }">{{ label }} = {{ index }}</template>
-        </el-select>
+        </g-select>
       `,
       () => ({
         value,
@@ -3154,7 +3154,7 @@ describe('Select', () => {
       })
     )
     await nextTick()
-    const tag = wrapper.find('.el-tag')
+    const tag = wrapper.find('.g-tag')
     expect(tag.text()).toBe('Label1 = 0')
     options.value.shift()
     await nextTick()
@@ -3163,7 +3163,7 @@ describe('Select', () => {
     await nextTick()
     value.value.push('Option2', 'Option3')
     await nextTick()
-    const tags = wrapper.findAll('.el-tag')
+    const tags = wrapper.findAll('.g-tag')
     expect(tags[1].text()).toBe('Label2 = 0')
     expect(tags[2].text()).toBe('Label3 = 1')
   })
@@ -3172,14 +3172,14 @@ describe('Select', () => {
     const disabled = ref(false)
     const wrapper = _mount(
       `
-            <el-select v-model="value" multiple clearable>
-              <el-option
+            <g-select v-model="value" multiple clearable>
+              <g-option
                 label="foo"
                 value="foo"
                 :disabled="disabled"
               >
-              </el-option>
-            </el-select>
+              </g-option>
+            </g-select>
           `,
       () => ({
         value: ['foo'],
@@ -3187,39 +3187,39 @@ describe('Select', () => {
       })
     )
     disabled.value = true
-    const selectVm = wrapper.findComponent({ name: 'ElSelect' }).vm
+    const selectVm = wrapper.findComponent({ name: 'GSelect' }).vm
     selectVm.states.inputHovering = true
     await nextTick()
     const iconClear = wrapper.findComponent(CircleClose)
     await iconClear.trigger('click')
-    expect(wrapper.findAll('.el-tag').length).toBe(1)
-    const selectInput = wrapper.find('.el-select__input')
+    expect(wrapper.findAll('.g-tag').length).toBe(1)
+    const selectInput = wrapper.find('.g-select__input')
     await selectInput.trigger('keydown', {
       code: EVENT_CODE.backspace,
       key: EVENT_CODE.backspace,
     })
     await nextTick()
-    expect(wrapper.findAll('.el-tag').length).toBe(1)
+    expect(wrapper.findAll('.g-tag').length).toBe(1)
     await selectInput.trigger('keydown', {
       code: EVENT_CODE.enter,
       key: EVENT_CODE.enter,
     })
     await nextTick()
-    expect(wrapper.findAll('.el-tag').length).toBe(1)
+    expect(wrapper.findAll('.g-tag').length).toBe(1)
   })
 
   it('should return slot tag data correctly & dont have tag component', async () => {
     const value = [1, 3, 5]
     const wrapper = _mount(
       `
-        <el-select v-model="value" multiple>
-          <el-option v-for="option in options" :value="option.value" :label="option.label"></el-option>
+        <g-select v-model="value" multiple>
+          <g-option v-for="option in options" :value="option.value" :label="option.label"></g-option>
           <template #tag="{ data }">
             <span v-for="option in data" class="no-tag" :key="option.value">
               {{ option.value }} -  {{ option.currentLabel }}
             </span>
           </template>
-        </el-select>
+        </g-select>
       `,
       () => ({
         value,
@@ -3236,7 +3236,7 @@ describe('Select', () => {
     await nextTick()
     const slotTagEls = wrapper.findAll('.no-tag')
     expect(slotTagEls).toHaveLength(3)
-    expect(wrapper.find('.el-tag').exists()).toBe(false)
+    expect(wrapper.find('.g-tag').exists()).toBe(false)
     slotTagEls.forEach((el, idx) => {
       expect(el.text()).toBe(`${value[idx]} - Test ${value[idx]}`)
     })
@@ -3245,14 +3245,14 @@ describe('Select', () => {
   it('should expose delete-tag through slot & be able to delete a value', async () => {
     const wrapper = _mount(
       `
-        <el-select v-model="value" multiple>
-          <el-option v-for="option in options" :value="option.value" :label="option.label"></el-option>
+        <g-select v-model="value" multiple>
+          <g-option v-for="option in options" :value="option.value" :label="option.label"></g-option>
           <template #tag="{ data, deleteTag }">
             <span v-for="option in data" class="no-tag" :key="option.value" @click="deleteTag($event, option)">
               {{ option.value }} -  {{ option.currentLabel }}
             </span>
           </template>
-        </el-select>
+        </g-select>
       `,
       () => ({
         value: [2, 3, 5],
@@ -3278,19 +3278,19 @@ describe('Select', () => {
 
   it('It should generate accessible attributes', async () => {
     wrapper = _mount(
-      `<el-select v-model="value">
-        <el-option label="label" value="1" />
-        <el-option label="disabled" value="2" disabled />
-      </el-select>`,
+      `<g-select v-model="value">
+        <g-option label="label" value="1" />
+        <g-option label="disabled" value="2" disabled />
+      </g-select>`,
       () => ({ value: '1' })
     )
 
-    const dropdown = wrapper.findComponent({ name: 'ElSelectDropdown' })
+    const dropdown = wrapper.findComponent({ name: 'GSelectDropdown' })
     const input = wrapper.find('input')
-    const list = dropdown.find('.el-select-dropdown__list')
-    const option = dropdown.find('.el-select-dropdown__item')
+    const list = dropdown.find('.g-select-dropdown__list')
+    const option = dropdown.find('.g-select-dropdown__item')
     const disabledOption = dropdown.find(
-      '.el-select-dropdown__item:nth-child(2)'
+      '.g-select-dropdown__item:nth-child(2)'
     )
 
     expect(input.attributes('role')).toBe('combobox')
@@ -3314,10 +3314,10 @@ describe('Select', () => {
 
   it('tabindex', async () => {
     wrapper = _mount(
-      `<el-select v-model="value" tabindex="1">
-        <el-option label="label" value="1" />
-        <el-option label="disabled" value="2" disabled />
-      </el-select>`,
+      `<g-select v-model="value" tabindex="1">
+        <g-option label="label" value="1" />
+        <g-option label="disabled" value="2" disabled />
+      </g-select>`,
       () => ({ value: '1' })
     )
 
@@ -3327,7 +3327,7 @@ describe('Select', () => {
 
   it('should be trigger the click event', async () => {
     const handleClick = vi.fn()
-    const wrapper = _mount(`<el-select @click="handleClick" />`, () => ({
+    const wrapper = _mount(`<g-select @click="handleClick" />`, () => ({
       handleClick,
     }))
 
@@ -3350,14 +3350,14 @@ describe('Select', () => {
     const value = null
     const wrapper = _mount(
       `
-        <el-select v-model="value"
+        <g-select v-model="value"
           filterable
           automatic-dropdown
           disabled
         >
-          <el-option value="1">1</el-option>
-          <el-option value="2">2</el-option>
-        </el-select>
+          <g-option value="1">1</g-option>
+          <g-option value="2">2</g-option>
+        </g-select>
       `,
       () => ({
         value,
@@ -3367,7 +3367,7 @@ describe('Select', () => {
     await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('focus')
     await nextTick()
     expect(
-      (document.querySelector('.el-select__popper') as HTMLElement).style
+      (document.querySelector('.g-select__popper') as HTMLElement).style
         .display
     ).toBe('none')
   })
@@ -3380,7 +3380,7 @@ describe('Select', () => {
         defaultFirstOption: true,
       })
 
-      const select = wrapper.findComponent({ name: 'ElSelect' })
+      const select = wrapper.findComponent({ name: 'GSelect' })
       const selectVm = select.vm as any
       const input = wrapper.find('input')
       input.element.focus()
@@ -3406,7 +3406,7 @@ describe('Select', () => {
         defaultFirstOption: true,
       })
 
-      const select = wrapper.findComponent({ name: 'ElSelect' })
+      const select = wrapper.findComponent({ name: 'GSelect' })
       const selectVm = select.vm as any
       const input = wrapper.find('input')
       input.element.focus()
@@ -3432,7 +3432,7 @@ describe('Select', () => {
         valueKey: 'label',
       })
 
-      const select = wrapper.findComponent({ name: 'ElSelect' })
+      const select = wrapper.findComponent({ name: 'GSelect' })
       const selectVm = select.vm as any
       const input = wrapper.find('input')
       input.element.focus()
@@ -3454,14 +3454,14 @@ describe('Select', () => {
       vi.useFakeTimers()
       wrapper = _mount(
         `
-        <el-select v-model="value" value-key="id" filterable default-first-option>
-          <el-option
+        <g-select v-model="value" value-key="id" filterable default-first-option>
+          <g-option
             v-for="item in options"
             :label="item.name"
             :key="item.id"
             :value="item">
-          </el-option>
-        </el-select>
+          </g-option>
+        </g-select>
       `,
         () => ({
           options: [
@@ -3482,7 +3482,7 @@ describe('Select', () => {
         })
       )
 
-      const select = wrapper.findComponent({ name: 'ElSelect' })
+      const select = wrapper.findComponent({ name: 'GSelect' })
       const selectVm = select.vm as any
       const input = wrapper.find('input')
       input.element.focus()
@@ -3506,14 +3506,14 @@ describe('Select', () => {
 
       const wrapper = _mount(
         `
-        <el-select v-model="value" filterable remote default-first-option :remoteMethod="remoteMethod">
-          <el-option
+        <g-select v-model="value" filterable remote default-first-option :remoteMethod="remoteMethod">
+          <g-option
             v-for="option in options"
             :key="option.value"
             :value="option.value"
             :label="option.label"
           />
-        </el-select>
+        </g-select>
       `,
         () => ({
           value: '',
@@ -3540,7 +3540,7 @@ describe('Select', () => {
         }
       )
 
-      const select = wrapper.findComponent({ name: 'ElSelect' })
+      const select = wrapper.findComponent({ name: 'GSelect' })
       const selectVm = select.vm as any
       const input = wrapper.find('input')
       input.element.focus()
@@ -3579,14 +3579,14 @@ describe('Select', () => {
 
     const wrapper = _mount(
       `
-        <el-select v-model="value">
-          <el-option
+        <g-select v-model="value">
+          <g-option
             v-for="option in options"
             :key="option.value"
             :value="option.value"
             :label="option.label"
           />
-        </el-select>
+        </g-select>
       `,
       () => ({
         value: 'aa',
@@ -3635,14 +3635,14 @@ describe('Select', () => {
   test('display correct when label is 0 or ""', async () => {
     wrapper = _mount(
       `
-      <el-select>
-        <el-option
+      <g-select>
+        <g-option
           v-for="item in options"
           :label="item.label"
           :key="item.value"
           :value="item.value">
-        </el-option>
-      </el-select>
+        </g-option>
+      </g-select>
     `,
       () => ({
         options: [
@@ -3664,12 +3664,12 @@ describe('Select', () => {
   test('passes disabled prop to custom #tag slot', async () => {
     const wrapper = _mount(
       `
-      <el-select
+      <g-select
         v-model="value"
         multiple
         :disabled="isDisabled"
       >
-        <el-option
+        <g-option
           v-for="item in options"
           :key="item.value"
           :label="item.label"
@@ -3680,7 +3680,7 @@ describe('Select', () => {
             {{ selectDisabled ? 'selectDisabled' : 'enabled' }}
           </span>
         </template>
-      </el-select>
+      </g-select>
       `,
       () => ({
         value: ['a', 'b'],
@@ -3703,10 +3703,10 @@ describe('Select', () => {
   test('disabled prop from el-form is passed to el-select and tag slot', async () => {
     const wrapper = _mount(
       `
-      <el-form :disabled="formDisabled">
-        <el-form-item label="Test Select">
-          <el-select v-model="value" multiple>
-            <el-option
+      <g-form :disabled="formDisabled">
+        <g-form-item label="Test Select">
+          <g-select v-model="value" multiple>
+            <g-option
               v-for="item in options"
               :key="item.value"
               :label="item.label"
@@ -3715,9 +3715,9 @@ describe('Select', () => {
             <template #tag="{ selectDisabled }">
               <span class="custom-tag">{{ selectDisabled ? 'selectDisabled' : 'enabled' }}</span>
             </template>
-          </el-select>
-        </el-form-item>
-      </el-form>
+          </g-select>
+        </g-form-item>
+      </g-form>
       `,
       () => ({
         value: ['a'],
@@ -3738,7 +3738,7 @@ describe('Select', () => {
 
   test('renders options via props', async () => {
     wrapper = _mount(
-      `<el-select v-model="value" @change="handleChange" :options="options"/>`,
+      `<g-select v-model="value" @change="handleChange" :options="options"/>`,
       () => ({
         options: [
           {
@@ -3795,7 +3795,7 @@ describe('Select', () => {
 
   test('renders options with custom field names', async () => {
     wrapper = _mount(
-      `<el-select v-model="value" @change="handleChange" :options="options" :props="{
+      `<g-select v-model="value" @change="handleChange" :options="options" :props="{
         value:'id'
       }"/>`,
       () => ({
@@ -3855,20 +3855,20 @@ describe('Select', () => {
   test('loading appears on first click when remote', async () => {
     wrapper = _mount(
       `
-      <el-select
+      <g-select
         v-model="value"
         filterable
         remote
         :remote-method="remoteMethod"
         :loading="loading"
       >
-        <el-option
+        <g-option
           v-for="item in options"
           :key="item.value"
           :label="item.label"
           :value="item"
         />
-      </el-select>`,
+      </g-select>`,
       () => ({
         options: [],
         value: '',
@@ -3886,7 +3886,7 @@ describe('Select', () => {
       }
     )
 
-    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const select = wrapper.findComponent({ name: 'GSelect' })
     const selectVm = select.vm as any
     const input = wrapper.find('input')
     await input.trigger('click')
@@ -3896,14 +3896,14 @@ describe('Select', () => {
   test('should trigger scroll when option value is 0', async () => {
     wrapper = _mount(
       `
-      <el-select v-model="value" :teleported="false">
-        <el-option
+      <g-select v-model="value" :teleported="false">
+        <g-option
           v-for="{ label, value } in options"
           :key="value"
           :label="label"
           :value="value"
         />
-      </el-select>`,
+      </g-select>`,
       () => ({
         options: Array.from({ length: 10 }).map((_, i) => ({
           label: `label-${i}`,
@@ -3913,10 +3913,10 @@ describe('Select', () => {
       })
     )
 
-    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const select = wrapper.findComponent({ name: 'GSelect' })
     const selectVm = select.vm as any
-    const wrapEl = wrapper.find('.el-select-dropdown__wrap').element
-    const optionEls = wrapper.findAll('.el-select-dropdown__item')
+    const wrapEl = wrapper.find('.g-select-dropdown__wrap').element
+    const optionEls = wrapper.findAll('.g-select-dropdown__item')
     const cleanup = optionEls.map((item, i) =>
       vi.spyOn(item.element, 'offsetTop', 'get').mockReturnValue(i * 30)
     )
@@ -3944,19 +3944,19 @@ describe('Select', () => {
 
     const wrapper = _mount(
       `
-    <el-select
+    <g-select
       ref="select"
       v-model="value"
       filterable
     >
-      <el-option
+      <g-option
         v-for="item in options"
         :key="item.value"
         :label="item.label"
         :value="item.value"
         :disabled="item.disabled"
       />
-    </el-select>
+    </g-select>
     `,
       () => ({
         value: '',
@@ -3996,19 +3996,19 @@ describe('Select', () => {
   test('should support selecting options with both Enter and Numpad Enter', async () => {
     const wrapper = _mount(
       `
-    <el-select
+    <g-select
       ref="select"
       v-model="value"
       filterable
     >
-      <el-option
+      <g-option
         v-for="item in options"
         :key="item.value"
         :label="item.label"
         :value="item.value"
         :disabled="item.disabled"
       />
-    </el-select>
+    </g-select>
     `,
       () => ({
         options: Array.from({ length: 2 }).map((_, i) => ({
@@ -4034,18 +4034,18 @@ describe('Select', () => {
 
   test('hoveringIndex should stay on the most recently selected option when using multiple', async () => {
     wrapper = _mount(
-      `<el-select
+      `<g-select
         v-model="value"
         clearable
         multiple
       >
-        <el-option
+        <g-option
           v-for="item in options"
           :label="item.label"
           :key="item.value"
           :value="item.value"
         />
-      </el-select>`,
+      </g-select>`,
       () => ({
         options: [
           {
@@ -4073,7 +4073,7 @@ describe('Select', () => {
       })
     )
 
-    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const select = wrapper.findComponent({ name: 'GSelect' })
     const selectVm = select.vm as any
     const input = wrapper.find('input')
 
@@ -4084,14 +4084,14 @@ describe('Select', () => {
   test('should locate the most recently selected option when using multiple', async () => {
     wrapper = _mount(
       `
-      <el-select v-model="value" :teleported="false" multiple>
-        <el-option
+      <g-select v-model="value" :teleported="false" multiple>
+        <g-option
           v-for="{ label, value } in options"
           :key="value"
           :label="label"
           :value="value"
         />
-      </el-select>`,
+      </g-select>`,
       () => ({
         options: Array.from({ length: 10 }).map((_, i) => ({
           label: `label-${i}`,
@@ -4101,8 +4101,8 @@ describe('Select', () => {
       })
     )
 
-    const wrapEl = wrapper.find('.el-select-dropdown__wrap').element
-    const optionEls = wrapper.findAll('.el-select-dropdown__item')
+    const wrapEl = wrapper.find('.g-select-dropdown__wrap').element
+    const optionEls = wrapper.findAll('.g-select-dropdown__item')
     const cleanup = optionEls.map((item, i) =>
       vi.spyOn(item.element, 'offsetTop', 'get').mockReturnValue(i * 30)
     )
@@ -4120,8 +4120,8 @@ describe('Select', () => {
     const warnHandler = vi.fn()
     const Parent = defineComponent({
       components: {
-        'el-select': Select,
-        'el-option': Option,
+        'g-select': Select,
+        'g-option': Option,
       },
       setup() {
         const showFirst = ref(true)
@@ -4148,22 +4148,22 @@ describe('Select', () => {
       },
       template: `
         <div>
-          <el-select v-if="showFirst" v-model="value">
-            <el-option
+          <g-select v-if="showFirst" v-model="value">
+            <g-option
               v-for="item in options"
               :key="item.value"
               :label="item.label"
               :value="item.value"
             />
-          </el-select>
-          <el-select v-if="showSecond" v-model="value">
-            <el-option
+          </g-select>
+          <g-select v-if="showSecond" v-model="value">
+            <g-option
               v-for="item in options"
               :key="item.value"
               :label="item.label"
               :value="item.value"
             />
-          </el-select>
+          </g-select>
         </div>
       `,
     })
@@ -4198,9 +4198,9 @@ describe('Select', () => {
   test('limitReached: hovering via DOM event should not update index nor add class', async () => {
     wrapper = _mount(
       `
-    <el-select v-model="value" multiple :multiple-limit="1">
-      <el-option v-for="o in options" :key="o.value" :label="o.label" :value="o.value" />
-    </el-select>
+    <g-select v-model="value" multiple :multiple-limit="1">
+      <g-option v-for="o in options" :key="o.value" :label="o.label" :value="o.value" />
+    </g-select>
     `,
       () => ({
         value: [],
@@ -4212,10 +4212,10 @@ describe('Select', () => {
       })
     )
 
-    const selectVm = wrapper.findComponent({ name: 'ElSelect' }).vm as any
-    await wrapper.find('.el-select__wrapper').trigger('click')
+    const selectVm = wrapper.findComponent({ name: 'GSelect' }).vm as any
+    await wrapper.find('.g-select__wrapper').trigger('click')
     await nextTick()
-    const optionCmps = wrapper.findAllComponents({ name: 'ElOption' })
+    const optionCmps = wrapper.findAllComponents({ name: 'GOption' })
     await optionCmps[0].trigger('click')
     await nextTick()
     selectVm.states.hoveringIndex = 0
@@ -4230,21 +4230,21 @@ describe('Select', () => {
     const handleVisibleChange = vi.fn()
     wrapper = mount({
       template: `
-      <el-select
+      <g-select
         v-model="value"
         remote
         :remote-method="remoteMethod"
         :loading="loading"
         @visible-change="handleVisibleChange"
       >
-        <el-option
+        <g-option
           v-for="item in options"
           :key="item.value"
           :label="item.label"
           :value="item"
         />
-      </el-select>`,
-      components: { ElSelect: Select, ElOption: Option },
+      </g-select>`,
+      components: { GSelect: Select, GOption: Option },
       data() {
         return {
           options: [],
@@ -4290,17 +4290,17 @@ describe('Select', () => {
     vi.useFakeTimers()
     const wrapper = mount({
       components: {
-        'el-select': Select,
-        'el-option': Option,
+        'g-select': Select,
+        'g-option': Option,
       },
       template: `
-        <el-select
+        <g-select
           v-model="value"
           filterable
           remote
           :remote-method="remoteMethod"
         >
-          <el-option
+          <g-option
             v-for="item in options"
             :key="item.value"
             :label="item.label"
@@ -4309,7 +4309,7 @@ describe('Select', () => {
           <template #empty>
             <div class="custom-empty">NO DATA</div>
           </template>
-        </el-select>
+        </g-select>
       `,
       setup() {
         const value = ref('')
@@ -4358,7 +4358,7 @@ describe('Select', () => {
         multiple: true,
         filterable: true,
       })
-      const inputWrapper = wrapper.find('.el-select__input-wrapper')
+      const inputWrapper = wrapper.find('.g-select__input-wrapper')
       const input = wrapper.find('input')
 
       // When input is empty and not focused, input-wrapper should have hidden class
@@ -4382,7 +4382,7 @@ describe('Select', () => {
         multiple: true,
         filterable: true,
       })
-      const inputWrapper = wrapper.find('.el-select__input-wrapper')
+      const inputWrapper = wrapper.find('.g-select__input-wrapper')
       const input = wrapper.find('input')
 
       // Initially empty, should be hidden
@@ -4406,12 +4406,12 @@ describe('Select', () => {
     const wrapper = mount({
       template: `
         <div>
-          <el-select filterable v-model="value">
-            <el-option label="a" value="a" />
-          </el-select>
+          <g-select filterable v-model="value">
+            <g-option label="a" value="a" />
+          </g-select>
         </div>
       `,
-      components: { 'el-select': Select, 'el-option': Option },
+      components: { 'g-select': Select, 'g-option': Option },
       setup() {
         return {
           value: ref(''),

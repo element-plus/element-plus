@@ -1,5 +1,5 @@
 <template>
-  <el-tooltip
+  <g-tooltip
     ref="tooltipRef"
     :offset="0"
     :placement="placement"
@@ -24,20 +24,20 @@
         :class="ns.e('multiple')"
       >
         <div :class="ns.e('content')">
-          <el-scrollbar :wrap-class="ns.e('wrap')">
-            <el-checkbox-group
+          <g-scrollbar :wrap-class="ns.e('wrap')">
+            <g-checkbox-group
               v-model="filteredValue"
               :class="ns.e('checkbox-group')"
             >
-              <el-checkbox
+              <g-checkbox
                 v-for="filter in filters"
                 :key="filter.value"
                 :value="filter.value"
               >
                 {{ filter.text }}
-              </el-checkbox>
-            </el-checkbox-group>
-          </el-scrollbar>
+              </g-checkbox>
+            </g-checkbox-group>
+          </g-scrollbar>
         </div>
         <div :class="ns.e('bottom')">
           <button
@@ -46,10 +46,10 @@
             type="button"
             @click="handleConfirm"
           >
-            {{ t('el.table.confirmFilter') }}
+            {{ t('g.table.confirmFilter') }}
           </button>
           <button type="button" @click="handleReset">
-            {{ t('el.table.resetFilter') }}
+            {{ t('g.table.resetFilter') }}
           </button>
         </div>
       </div>
@@ -71,7 +71,7 @@
           :aria-checked="isPropAbsent(filterValue)"
           @click="handleSelect(null, 0)"
         >
-          {{ t('el.table.clearFilter') }}
+          {{ t('g.table.clearFilter') }}
         </li>
         <li
           v-for="(filter, idx) in filters"
@@ -90,31 +90,31 @@
       <button
         type="button"
         :class="`${ns.namespace.value}-table__column-filter-trigger`"
-        :aria-label="t('el.table.filterLabel', { column: column?.label || '' })"
+        :aria-label="t('g.table.filterLabel', { column: column?.label || '' })"
       >
-        <el-icon>
+        <g-icon>
           <slot name="filter-icon">
             <arrow-up v-if="column?.filterOpened" />
             <arrow-down v-else />
           </slot>
-        </el-icon>
+        </g-icon>
       </button>
     </template>
-  </el-tooltip>
+  </g-tooltip>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, getCurrentInstance, ref } from 'vue'
-import { ElCheckbox, ElCheckboxGroup } from '@element-plus/components/checkbox'
-import { ElIcon } from '@element-plus/components/icon'
+import { GCheckbox, GCheckboxGroup } from '@element-plus/components/checkbox'
+import { GIcon } from '@element-plus/components/icon'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { EVENT_CODE } from '@element-plus/constants'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import {
-  ElTooltip,
+  GTooltip,
   useTooltipContentProps,
 } from '@element-plus/components/tooltip'
-import ElScrollbar from '@element-plus/components/scrollbar'
+import GScrollbar from '@element-plus/components/scrollbar'
 import { getEventCode, isPropAbsent } from '@element-plus/utils'
 
 import type { DefaultRow } from './table/defaults'
@@ -126,13 +126,13 @@ import type { TableHeader } from './table-header'
 import type { Store } from './store'
 
 export default defineComponent({
-  name: 'ElTableFilterPanel',
+  name: 'GTableFilterPanel',
   components: {
-    ElCheckbox,
-    ElCheckboxGroup,
-    ElScrollbar,
-    ElTooltip,
-    ElIcon,
+    GCheckbox,
+    GCheckboxGroup,
+    GScrollbar,
+    GTooltip,
+    GIcon,
     ArrowDown,
     ArrowUp,
   },

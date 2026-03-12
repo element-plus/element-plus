@@ -4,14 +4,14 @@ import TourStep from './src/step.vue'
 
 import type { SFCWithInstall } from '@element-plus/utils'
 
-export const ElTour: SFCWithInstall<typeof Tour> & {
+export const GTour: SFCWithInstall<typeof Tour> & {
   TourStep: typeof TourStep
 } = withInstall(Tour, {
   TourStep,
 })
-export const ElTourStep: SFCWithInstall<typeof TourStep> =
+export const GTourStep: SFCWithInstall<typeof TourStep> =
   withNoopInstall(TourStep)
-export default ElTour
+export default GTour
 
 export * from './src/tour'
 export * from './src/step'

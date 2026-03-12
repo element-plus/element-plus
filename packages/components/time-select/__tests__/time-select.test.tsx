@@ -5,7 +5,7 @@ import dayjs from 'dayjs'
 import { CircleClose } from '@element-plus/icons-vue'
 import customParseFormat from 'dayjs/plugin/customParseFormat.js'
 import Select from '@element-plus/components/select'
-import { ElForm, ElFormItem } from '@element-plus/components/form'
+import { GForm, GFormItem } from '@element-plus/components/form'
 import TimeSelect from '../src/time-select.vue'
 
 dayjs.extend(customParseFormat)
@@ -16,8 +16,8 @@ afterEach(() => {
   document.documentElement.innerHTML = ''
 })
 
-const WRAPPER_CLASS_NAME = 'el-select__wrapper'
-const PLACEHOLDER_CLASS_NAME = 'el-select__placeholder'
+const WRAPPER_CLASS_NAME = 'g-select__wrapper'
+const PLACEHOLDER_CLASS_NAME = 'g-select__placeholder'
 
 describe('TimeSelect', () => {
   it('create', async () => {
@@ -25,7 +25,7 @@ describe('TimeSelect', () => {
       <TimeSelect style={{ color: 'red' }} class="customClass" />
     ))
 
-    const outerInput = wrapper.find('.el-select')
+    const outerInput = wrapper.find('.g-select')
     expect(outerInput.classes()).toContain('customClass')
     expect(outerInput.attributes().style).toBeDefined()
   })
@@ -86,7 +86,7 @@ describe('TimeSelect', () => {
     value.value = '10:30'
     await nextTick()
 
-    expect(wrapper.findComponent({ name: 'ElTimeSelect' }).vm.value).toBe(
+    expect(wrapper.findComponent({ name: 'GTimeSelect' }).vm.value).toBe(
       '10:30'
     )
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('10:30')
@@ -97,7 +97,7 @@ describe('TimeSelect', () => {
     const wrapper = mount(() => <TimeSelect v-model={value.value} />)
 
     await nextTick()
-    const vm = wrapper.findComponent({ name: 'ElTimeSelect' }).vm
+    const vm = wrapper.findComponent({ name: 'GTimeSelect' }).vm
     expect(vm.value).toBe('10:00')
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('10:00')
 
@@ -119,7 +119,7 @@ describe('TimeSelect', () => {
       <TimeSelect v-model={value.value} disabled={disabled.value} />
     ))
 
-    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const select = wrapper.findComponent({ name: 'GSelect' })
     expect(select.props().disabled).toBe(false)
 
     disabled.value = true
@@ -134,7 +134,7 @@ describe('TimeSelect', () => {
       <TimeSelect v-model={value.value} editable={editable.value} />
     ))
 
-    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const select = wrapper.findComponent({ name: 'GSelect' })
     expect(select.props().filterable).toBe(false)
 
     editable.value = true
@@ -151,10 +151,10 @@ describe('TimeSelect', () => {
         includeEndTime={true}
       />
     ))
-    const select = wrapper.findComponent({ name: 'ElTimeSelect' })
+    const select = wrapper.findComponent({ name: 'GTimeSelect' })
     const input = wrapper.find('input')
     await input.trigger('click')
-    const items = document.querySelectorAll('.el-select-dropdown__item>span')
+    const items = document.querySelectorAll('.g-select-dropdown__item>span')
 
     expect(select.props().includeEndTime).toBe(true)
     expect(items).toHaveLength(289)
@@ -173,7 +173,7 @@ describe('TimeSelect', () => {
     ))
     const input = wrapper.find('input')
     await input.trigger('click')
-    const items = document.querySelectorAll('.el-select-dropdown__item>span')
+    const items = document.querySelectorAll('.g-select-dropdown__item>span')
     expect(items).toHaveLength(5)
     const last = [...items].at(-1)?.textContent
     const secondLast = [...items].at(-2)?.textContent
@@ -185,10 +185,10 @@ describe('TimeSelect', () => {
     const wrapper = mount(() => (
       <TimeSelect start="00:00" step="00:05" end="23:59" />
     ))
-    const select = wrapper.findComponent({ name: 'ElTimeSelect' })
+    const select = wrapper.findComponent({ name: 'GTimeSelect' })
     const input = wrapper.find('input')
     await input.trigger('click')
-    const items = document.querySelectorAll('.el-select-dropdown__item>span')
+    const items = document.querySelectorAll('.g-select-dropdown__item>span')
 
     expect(select.props().includeEndTime).toBe(false)
     expect(items).toHaveLength(288)
@@ -199,10 +199,10 @@ describe('TimeSelect', () => {
     const wrapper = mount(() => (
       <TimeSelect start="00:10" end="00:20" step="00:02" />
     ))
-    const select = wrapper.findComponent({ name: 'ElTimeSelect' })
+    const select = wrapper.findComponent({ name: 'GTimeSelect' })
     const input = wrapper.find('input')
     await input.trigger('click')
-    const items = document.querySelectorAll('.el-select-dropdown__item>span')
+    const items = document.querySelectorAll('.g-select-dropdown__item>span')
 
     expect(select.props().includeEndTime).toBe(false)
     expect(items).toHaveLength(6)
@@ -221,7 +221,7 @@ describe('TimeSelect', () => {
     await nextTick()
     await nextTick()
 
-    const popperEl = document.querySelector('.el-select__popper')
+    const popperEl = document.querySelector('.g-select__popper')
     const attr = popperEl?.getAttribute('aria-hidden')
     expect(attr).toEqual('false')
   })
@@ -239,7 +239,7 @@ describe('TimeSelect', () => {
     await nextTick()
     await nextTick()
 
-    const popperEl = document.querySelector('.el-select__popper')
+    const popperEl = document.querySelector('.g-select__popper')
     const attr = popperEl?.getAttribute('aria-hidden')
     expect(attr).toEqual('true')
   })
@@ -259,7 +259,7 @@ describe('TimeSelect', () => {
     const input = wrapper.find('input')
     await input.trigger('click')
     await nextTick()
-    const option = document.querySelector('.el-select-dropdown__item')
+    const option = document.querySelector('.g-select-dropdown__item')
     expect(option?.textContent).toBe('01:00 PM')
   })
 
@@ -275,7 +275,7 @@ describe('TimeSelect', () => {
     ))
     const input = wrapper.find('input')
     await input.trigger('click')
-    const items = document.querySelectorAll('.el-select-dropdown__item>span')
+    const items = document.querySelectorAll('.g-select-dropdown__item>span')
     expect(items).toHaveLength(3)
     expect([...items].at(-1)?.textContent).toBe('10:00')
   })
@@ -283,14 +283,14 @@ describe('TimeSelect', () => {
   describe('form item accessibility integration', () => {
     it('automatic id attachment', async () => {
       const wrapper = mount(() => (
-        <ElFormItem label="Foobar" data-test-ref="item">
+        <GFormItem label="Foobar" data-test-ref="item">
           <TimeSelect />
-        </ElFormItem>
+        </GFormItem>
       ))
 
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
-      const formItemLabel = formItem.find('.el-form-item__label')
+      const formItemLabel = formItem.find('.g-form-item__label')
       const timeSelectInput = wrapper.find('input')
       expect(formItem.attributes().role).toBeFalsy()
       expect(formItemLabel.attributes().for).toBe(
@@ -300,18 +300,18 @@ describe('TimeSelect', () => {
 
     it('specified id attachment', async () => {
       const wrapper = mount(() => (
-        <ElFormItem label="Foobar" data-test-ref="item">
+        <GFormItem label="Foobar" data-test-ref="item">
           <TimeSelect
             // type checking failed as `id` is a fallthrough attribute
             // @ts-ignore
             id="foobar"
           />
-        </ElFormItem>
+        </GFormItem>
       ))
 
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
-      const formItemLabel = formItem.find('.el-form-item__label')
+      const formItemLabel = formItem.find('.g-form-item__label')
       const timeSelectInput = wrapper.find('input')
       expect(formItem.attributes().role).toBeFalsy()
       expect(timeSelectInput.attributes().id).toBe('foobar')
@@ -322,10 +322,10 @@ describe('TimeSelect', () => {
 
     it('form item role is group when multiple inputs', async () => {
       const wrapper = mount(() => (
-        <ElFormItem label="Foobar" data-test-ref="item">
+        <GFormItem label="Foobar" data-test-ref="item">
           <TimeSelect />
           <TimeSelect />
-        </ElFormItem>
+        </GFormItem>
       ))
 
       await nextTick()
@@ -335,9 +335,9 @@ describe('TimeSelect', () => {
 
     it('The disabled state of a component has higher priority than that of a form', async () => {
       const wrapper = mount(() => (
-        <ElForm disabled>
+        <GForm disabled>
           <TimeSelect disabled={false} />
-        </ElForm>
+        </GForm>
       ))
 
       await nextTick()

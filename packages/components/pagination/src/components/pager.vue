@@ -8,7 +8,7 @@
       ]"
       class="number"
       :aria-current="currentPage === 1"
-      :aria-label="t('el.pagination.currentPage', { pager: 1 })"
+      :aria-label="t('g.pagination.currentPage', { pager: 1 })"
       :tabindex="tabindex"
     >
       1
@@ -17,7 +17,7 @@
       v-if="showPrevMore"
       :class="prevMoreKls"
       :tabindex="tabindex"
-      :aria-label="t('el.pagination.prevPages', { pager: pagerCount - 2 })"
+      :aria-label="t('g.pagination.prevPages', { pager: pagerCount - 2 })"
       @mouseenter="onMouseEnter(true)"
       @mouseleave="quickPrevHover = false"
       @focus="onFocus(true)"
@@ -35,7 +35,7 @@
       ]"
       class="number"
       :aria-current="currentPage === pager"
-      :aria-label="t('el.pagination.currentPage', { pager })"
+      :aria-label="t('g.pagination.currentPage', { pager })"
       :tabindex="tabindex"
     >
       {{ pager }}
@@ -44,7 +44,7 @@
       v-if="showNextMore"
       :class="nextMoreKls"
       :tabindex="tabindex"
-      :aria-label="t('el.pagination.nextPages', { pager: pagerCount - 2 })"
+      :aria-label="t('g.pagination.nextPages', { pager: pagerCount - 2 })"
       @mouseenter="onMouseEnter()"
       @mouseleave="quickNextHover = false"
       @focus="onFocus()"
@@ -61,7 +61,7 @@
       ]"
       class="number"
       :aria-current="currentPage === pageCount"
-      :aria-label="t('el.pagination.currentPage', { pager: pageCount })"
+      :aria-label="t('g.pagination.currentPage', { pager: pageCount })"
       :tabindex="tabindex"
     >
       {{ pageCount }}
@@ -77,7 +77,7 @@ import { CHANGE_EVENT } from '@element-plus/constants'
 import { paginationPagerProps } from './pager'
 
 defineOptions({
-  name: 'ElPaginationPager',
+  name: 'GPaginationPager',
 })
 const props = defineProps(paginationPagerProps)
 const emit = defineEmits([CHANGE_EVENT])

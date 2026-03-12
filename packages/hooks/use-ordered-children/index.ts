@@ -91,7 +91,7 @@ export const useOrderedChildren = <T extends ChildEssential>(
     return props.render()
   }
 
-  // TODO: Refactor `el-description` before converting this to a functional component
+  // TODO: Refactor `g-description` before converting this to a functional component
   const ChildrenSorter = defineComponent({
     setup(_, { slots }) {
       return () => {

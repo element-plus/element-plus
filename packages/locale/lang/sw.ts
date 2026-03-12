@@ -1,6 +1,6 @@
 export default {
   name: 'sw',
-  el: {
+  g: {
     breadcrumb: {
       label: 'Breadcrumb', // to be translated
     },
@@ -121,7 +121,7 @@ export default {
       prevPages: 'Kurasa za {pager} zilizopita',
       nextPages: 'Kurasa {pager} zinazofuata',
       deprecationWarning:
-        'Matumizi yaliyoacha kutumika yamegunduliwa, tafadhali rejelea hati za el-pagination kwa maelezo zaidi',
+        'Matumizi yaliyoacha kutumika yamegunduliwa, tafadhali rejelea hati za g-pagination kwa maelezo zaidi',
     },
     dialog: {
       close: 'funga kidirisha hiki',

@@ -155,7 +155,7 @@ export default {
    */
   sortBy: [String, Function, Array] as PropType<TableColumnCtx<any>['sortBy']>,
   /**
-   * @description whether column width can be resized, works when `border` of `el-table` is `true`
+   * @description whether column width can be resized, works when `border` of `g-table` is `true`
    */
   resizable: {
     type: Boolean,

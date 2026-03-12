@@ -51,7 +51,7 @@ const createList = ({
   validateProps,
 }: ListConstructorProps<VirtualizedListProps>) => {
   return defineComponent({
-    name: name ?? 'ElVirtualList',
+    name: name ?? 'GVirtualList',
     props: virtualizedListProps,
     emits: [ITEM_RENDER_EVT, SCROLL_EVT],
     setup(props, { emit, expose }) {

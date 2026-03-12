@@ -46,7 +46,7 @@ const normalizeAppendTo = (normalized: MessageOptions) => {
     // should fallback to default value with a warning
     if (!isElement(appendTo)) {
       debugWarn(
-        'ElMessage',
+        'GMessage',
         'the appendTo option is not an HTMLElement. Falling back to document.body.'
       )
       appendTo = document.body
@@ -73,7 +73,7 @@ const normalizePlacement = (normalized: MessageOptions) => {
   // if placement is not valid, use default config
   if (!messagePlacement.includes(normalized.placement!)) {
     debugWarn(
-      'ElMessage',
+      'GMessage',
       `Invalid placement: ${normalized.placement}. Falling back to '${MESSAGE_DEFAULT_PLACEMENT}'.`
     )
     normalized.placement = MESSAGE_DEFAULT_PLACEMENT

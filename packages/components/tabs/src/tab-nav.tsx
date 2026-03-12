@@ -26,7 +26,7 @@ import {
   throwError,
 } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
-import { ElIcon } from '@element-plus/components/icon'
+import { GIcon } from '@element-plus/components/icon'
 import { ArrowLeft, ArrowRight, Close } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
 import useWheel from '@element-plus/components/virtual-list/src/hooks/use-wheel'
@@ -83,14 +83,14 @@ export type TabNavProps = ExtractPropTypes<typeof tabNavProps>
 export type TabNavPropsPublic = ExtractPublicPropTypes<typeof tabNavProps>
 export type TabNavEmits = typeof tabNavEmits
 
-const COMPONENT_NAME = 'ElTabNav'
+const COMPONENT_NAME = 'GTabNav'
 const TabNav = defineComponent({
   name: COMPONENT_NAME,
   props: tabNavProps,
   emits: tabNavEmits,
   setup(props, { expose, emit }) {
     const rootTabs = inject(tabsRootContextKey)
-    if (!rootTabs) throwError(COMPONENT_NAME, `<el-tabs><tab-nav /></el-tabs>`)
+    if (!rootTabs) throwError(COMPONENT_NAME, `<g-tabs><tab-nav /></g-tabs>`)
 
     const ns = useNamespace('tabs')
     const visibility = useDocumentVisibility()
@@ -352,9 +352,9 @@ const TabNav = defineComponent({
               ]}
               onClick={scrollPrev}
             >
-              <ElIcon>
+              <GIcon>
                 <ArrowLeft />
-              </ElIcon>
+              </GIcon>
             </span>,
             <span
               class={[
@@ -363,9 +363,9 @@ const TabNav = defineComponent({
               ]}
               onClick={scrollNext}
             >
-              <ElIcon>
+              <GIcon>
                 <ArrowRight />
-              </ElIcon>
+              </GIcon>
             </span>,
           ]
         : null
@@ -380,7 +380,7 @@ const TabNav = defineComponent({
         pane.index = `${index}`
 
         const btnClose = closable ? (
-          <ElIcon
+          <GIcon
             class="is-icon-close"
             // `onClick` not exist when generate dts
 
@@ -388,7 +388,7 @@ const TabNav = defineComponent({
             onClick={(ev: MouseEvent) => emit('tabRemove', pane, ev)}
           >
             <Close />
-          </ElIcon>
+          </GIcon>
         ) : null
 
         const tabLabelContent = pane.slots.label?.() || pane.props.label

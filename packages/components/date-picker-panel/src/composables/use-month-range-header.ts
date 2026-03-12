@@ -36,11 +36,11 @@ export const useMonthRangeHeader = ({
     rightDate.value = rightDate.value.subtract(1, 'year')
   }
   const leftLabel = computed(() => {
-    return `${leftDate.value.year()} ${t('el.datepicker.year')}`
+    return `${leftDate.value.year()} ${t('g.datepicker.year')}`
   })
 
   const rightLabel = computed(() => {
-    return `${rightDate.value.year()} ${t('el.datepicker.year')}`
+    return `${rightDate.value.year()} ${t('g.datepicker.year')}`
   })
 
   const leftYear = computed(() => {

@@ -1,7 +1,7 @@
 <template>
   <div :class="[ns.b('spinner'), { 'has-seconds': showSeconds }]">
     <template v-if="!arrowControl">
-      <el-scrollbar
+      <g-scrollbar
         v-for="item in spinnerItems"
         :key="item"
         :ref="(scrollbar: unknown) => setRef(scrollbar as any, item)"
@@ -31,7 +31,7 @@
             {{ ('0' + key).slice(-2) }}
           </template>
         </li>
-      </el-scrollbar>
+      </g-scrollbar>
     </template>
     <template v-if="arrowControl">
       <div
@@ -40,18 +40,18 @@
         :class="[ns.be('spinner', 'wrapper'), ns.is('arrow')]"
         @mouseenter="emitSelectRange(item)"
       >
-        <el-icon
+        <g-icon
           v-repeat-click="onDecrement"
           :class="['arrow-up', ns.be('spinner', 'arrow')]"
         >
           <arrow-up />
-        </el-icon>
-        <el-icon
+        </g-icon>
+        <g-icon
           v-repeat-click="onIncrement"
           :class="['arrow-down', ns.be('spinner', 'arrow')]"
         >
           <arrow-down />
-        </el-icon>
+        </g-icon>
         <ul :class="ns.be('spinner', 'list')">
           <li
             v-for="(time, key) in arrowControlTimeList[item]"
@@ -82,8 +82,8 @@
 import { computed, inject, nextTick, onMounted, ref, unref, watch } from 'vue'
 import { debounce } from 'lodash-unified'
 import { vRepeatClick } from '@element-plus/directives'
-import ElScrollbar from '@element-plus/components/scrollbar'
-import ElIcon from '@element-plus/components/icon'
+import GScrollbar from '@element-plus/components/scrollbar'
+import GIcon from '@element-plus/components/icon'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
 import { getStyle, isNumber, rAF } from '@element-plus/utils'

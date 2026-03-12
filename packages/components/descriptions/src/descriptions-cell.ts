@@ -12,7 +12,7 @@ import type {
 import type { DescriptionItemVNode } from './description-item'
 
 export default defineComponent({
-  name: 'ElDescriptionsCell',
+  name: 'GDescriptionsCell',
   props: {
     cell: {
       type: Object as PropType<DescriptionItemVNode>,

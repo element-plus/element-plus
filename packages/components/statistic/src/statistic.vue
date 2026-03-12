@@ -31,7 +31,7 @@ import { isFunction, isNumber } from '@element-plus/utils'
 import type { StatisticProps } from './statistic'
 
 defineOptions({
-  name: 'ElStatistic',
+  name: 'GStatistic',
 })
 
 const props = withDefaults(defineProps<StatisticProps>(), {

@@ -1,6 +1,6 @@
 export default {
   name: 'no',
-  el: {
+  g: {
     breadcrumb: {
       label: 'Brødsmuler',
     },
@@ -118,7 +118,7 @@ export default {
       prevPages: 'Forrige {pager} sider',
       nextPages: 'Neste {pager} sider',
       deprecationWarning:
-        'Du bruker noen foreldede metoder, se den offisielle dokumentasjonen for el-pagination',
+        'Du bruker noen foreldede metoder, se den offisielle dokumentasjonen for g-pagination',
     },
     dialog: {
       close: 'Lukk denne dialogboksen',

@@ -1,7 +1,7 @@
 import type { PopperProps } from '@element-plus/components/popper'
 import type { ComputedRef, InjectionKey, Ref } from 'vue'
 
-export type ElDropdownInjectionContext = {
+export type GDropdownInjectionContext = {
   contentRef: Ref<HTMLElement | undefined>
   role: ComputedRef<PopperProps['role']>
   triggerId: ComputedRef<string>
@@ -11,7 +11,7 @@ export type ElDropdownInjectionContext = {
   handleClose: () => void
 }
 
-export const DROPDOWN_INJECTION_KEY: InjectionKey<ElDropdownInjectionContext> =
+export const DROPDOWN_INJECTION_KEY: InjectionKey<GDropdownInjectionContext> =
   Symbol('elDropdown')
 
 export const DROPDOWN_INSTANCE_INJECTION_KEY = 'elDropdown'

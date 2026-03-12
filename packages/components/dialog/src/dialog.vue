@@ -1,10 +1,10 @@
 <template>
-  <el-teleport
+  <g-teleport
     :to="appendTo"
     :disabled="appendTo !== 'body' ? false : !appendToBody"
   >
     <transition v-bind="transitionConfig">
-      <el-overlay
+      <g-overlay
         v-show="visible"
         custom-mask-event
         :mask="modal"
@@ -30,7 +30,7 @@
           @mousedown="overlayEvent.onMousedown"
           @mouseup="overlayEvent.onMouseup"
         >
-          <el-focus-trap
+          <g-focus-trap
             loop
             :trapped="visible"
             focus-start-el="container"
@@ -39,7 +39,7 @@
             @focusout-prevented="onFocusoutPrevented"
             @release-requested="onCloseRequested"
           >
-            <el-dialog-content
+            <g-dialog-content
               v-if="rendered"
               ref="dialogContentRef"
               v-bind="$attrs"
@@ -71,21 +71,21 @@
               <template v-if="$slots.footer" #footer>
                 <slot name="footer" />
               </template>
-            </el-dialog-content>
-          </el-focus-trap>
+            </g-dialog-content>
+          </g-focus-trap>
         </div>
-      </el-overlay>
+      </g-overlay>
     </transition>
-  </el-teleport>
+  </g-teleport>
 </template>
 
 <script lang="ts" setup>
 import { computed, provide, ref, useSlots } from 'vue'
-import { ElOverlay } from '@element-plus/components/overlay'
+import { GOverlay } from '@element-plus/components/overlay'
 import { useDeprecated, useNamespace, useSameTarget } from '@element-plus/hooks'
-import ElFocusTrap from '@element-plus/components/focus-trap'
-import ElTeleport from '@element-plus/components/teleport'
-import ElDialogContent from './dialog-content.vue'
+import GFocusTrap from '@element-plus/components/focus-trap'
+import GTeleport from '@element-plus/components/teleport'
+import GDialogContent from './dialog-content.vue'
 import { dialogInjectionKey } from './constants'
 import { dialogEmits, dialogPropsDefaults } from './dialog'
 import { useDialog } from './use-dialog'
@@ -93,7 +93,7 @@ import { useDialog } from './use-dialog'
 import type { DialogProps } from './dialog'
 
 defineOptions({
-  name: 'ElDialog',
+  name: 'GDialog',
   inheritAttrs: false,
 })
 
@@ -103,7 +103,7 @@ const slots = useSlots()
 
 useDeprecated(
   {
-    scope: 'el-dialog',
+    scope: 'g-dialog',
     from: 'the title slot',
     replacement: 'the header slot',
     version: '3.0.0',

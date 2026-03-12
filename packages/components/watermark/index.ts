@@ -3,8 +3,8 @@ import Watermark from './src/watermark.vue'
 
 import type { SFCWithInstall } from '@element-plus/utils'
 
-export const ElWatermark: SFCWithInstall<typeof Watermark> =
+export const GWatermark: SFCWithInstall<typeof Watermark> =
   withInstall(Watermark)
-export default ElWatermark
+export default GWatermark
 
 export * from './src/watermark'

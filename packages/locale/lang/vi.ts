@@ -1,6 +1,6 @@
 export default {
   name: 'vi',
-  el: {
+  g: {
     breadcrumb: {
       label: 'Đường dẫn',
     },
@@ -118,7 +118,7 @@ export default {
       prevPages: '{pager} trang trước',
       nextPages: '{pager} trang sau',
       deprecationWarning:
-        'Phát hiện cách sử dụng không còn được hỗ trợ, vui lòng tham khảo tài liệu el-pagination để biết thêm chi tiết',
+        'Phát hiện cách sử dụng không còn được hỗ trợ, vui lòng tham khảo tài liệu g-pagination để biết thêm chi tiết',
     },
     dialog: {
       close: 'Đóng hộp thoại này',

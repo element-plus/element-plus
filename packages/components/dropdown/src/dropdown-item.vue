@@ -1,6 +1,6 @@
 <template>
-  <el-roving-focus-item :focusable="!disabled">
-    <el-dropdown-item-impl
+  <g-roving-focus-item :focusable="!disabled">
+    <g-dropdown-item-impl
       v-bind="propsAndAttrs"
       @pointerleave="handlePointerLeave"
       @pointermove="handlePointerMove"
@@ -11,24 +11,24 @@
       </template>
 
       <slot />
-    </el-dropdown-item-impl>
-  </el-roving-focus-item>
+    </g-dropdown-item-impl>
+  </g-roving-focus-item>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, getCurrentInstance, inject } from 'vue'
-import { ElRovingFocusItem } from '@element-plus/components/roving-focus-group'
+import { GRovingFocusItem } from '@element-plus/components/roving-focus-group'
 import { composeEventHandlers, whenMouse } from '@element-plus/utils'
-import ElDropdownItemImpl from './dropdown-item-impl.vue'
+import GDropdownItemImpl from './dropdown-item-impl.vue'
 import { useDropdown } from './useDropdown'
 import { dropdownItemProps } from './dropdown'
 import { DROPDOWN_INJECTION_KEY } from './tokens'
 
 export default defineComponent({
-  name: 'ElDropdownItem',
+  name: 'GDropdownItem',
   components: {
-    ElRovingFocusItem,
-    ElDropdownItemImpl,
+    GRovingFocusItem,
+    GDropdownItemImpl,
   },
   inheritAttrs: false,
   props: dropdownItemProps,

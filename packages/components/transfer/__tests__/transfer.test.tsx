@@ -20,7 +20,7 @@ describe('Transfer', () => {
 
   it('create', () => {
     const wrapper = mount(() => <Transfer data={getTestData()} />)
-    expect(wrapper.findComponent({ name: 'ElTransfer' })).toBeTruthy()
+    expect(wrapper.findComponent({ name: 'GTransfer' })).toBeTruthy()
   })
 
   it('default target list', () => {
@@ -28,8 +28,8 @@ describe('Transfer', () => {
     const wrapper = mount(() => (
       <Transfer v-model={value.value} data={getTestData()} />
     ))
-    const ElTransfer: any = wrapper.findComponent({ name: 'ElTransfer' })
-    expect(ElTransfer.vm.sourceData.length).toBe(13)
+    const GTransfer: any = wrapper.findComponent({ name: 'GTransfer' })
+    expect(GTransfer.vm.sourceData.length).toBe(13)
   })
 
   it('filterable', async () => {
@@ -46,7 +46,7 @@ describe('Transfer', () => {
         filter-method={method}
       />
     ))
-    const leftList: any = wrapper.findComponent({ name: 'ElTransferPanel' })
+    const leftList: any = wrapper.findComponent({ name: 'GTransferPanel' })
     leftList.vm.query = '1'
     await leftList.find('input').setValue('1')
     expect(leftList.vm.filteredData.length).toBe(1)
@@ -63,14 +63,14 @@ describe('Transfer', () => {
       />
     ))
 
-    const ElTransfer: any = wrapper.findComponent({ name: 'ElTransfer' })
+    const GTransfer: any = wrapper.findComponent({ name: 'GTransfer' })
 
-    ElTransfer.vm.addToLeft()
+    GTransfer.vm.addToLeft()
     await nextTick()
-    expect(ElTransfer.vm.sourceData.length).toBe(14)
-    ElTransfer.vm.addToRight()
+    expect(GTransfer.vm.sourceData.length).toBe(14)
+    GTransfer.vm.addToRight()
     await nextTick()
-    expect(ElTransfer.vm.sourceData.length).toBe(12)
+    expect(GTransfer.vm.sourceData.length).toBe(12)
   })
 
   it('customize', () => {
@@ -92,12 +92,12 @@ describe('Transfer', () => {
       />
     ))
 
-    const label = wrapper.find('.el-transfer-panel__header .el-checkbox__label')
+    const label = wrapper.find('.g-transfer-panel__header .g-checkbox__label')
     expect(label.text().includes('表1')).toBeTruthy()
     expect(
-      wrapper.find('.el-transfer-panel__list .el-checkbox__label span').text()
+      wrapper.find('.g-transfer-panel__list .g-checkbox__label span').text()
     ).toBe('1 - 备选项 1')
-    expect(label.find('.el-transfer-panel__header-count').text()).toBe('no')
+    expect(label.find('.g-transfer-panel__header-count').text()).toBe('no')
   })
 
   it('check', () => {
@@ -106,7 +106,7 @@ describe('Transfer', () => {
       <Transfer v-model={value.value} data={getTestData()} />
     ))
 
-    const leftList: any = wrapper.findComponent({ name: 'ElTransferPanel' })
+    const leftList: any = wrapper.findComponent({ name: 'GTransferPanel' })
     leftList.vm.handleAllCheckedChange({ target: { checked: true } })
     expect(leftList.vm.checked.length).toBe(12)
   })
@@ -122,11 +122,11 @@ describe('Transfer', () => {
         />
       ))
 
-      const ElTransfer: any = wrapper.findComponent({ name: 'ElTransfer' })
-      ElTransfer.vm.addToRight()
+      const GTransfer: any = wrapper.findComponent({ name: 'GTransfer' })
+      GTransfer.vm.addToRight()
       await nextTick()
       const targetItems = wrapper.findAll(
-        '.el-transfer__buttons + .el-transfer-panel .el-transfer-panel__body .el-checkbox__label span'
+        '.g-transfer__buttons + .g-transfer-panel .g-transfer-panel__body .g-checkbox__label span'
       )
       expect(targetItems.map((item) => item.text())).toStrictEqual([
         '备选项 1',
@@ -147,11 +147,11 @@ describe('Transfer', () => {
         />
       ))
 
-      const ElTransfer: any = wrapper.findComponent({ name: 'ElTransfer' })
-      ElTransfer.vm.addToRight()
+      const GTransfer: any = wrapper.findComponent({ name: 'GTransfer' })
+      GTransfer.vm.addToRight()
       await nextTick()
       const targetItems = wrapper.findAll(
-        '.el-transfer__buttons + .el-transfer-panel .el-transfer-panel__body .el-checkbox__label span'
+        '.g-transfer__buttons + .g-transfer-panel .g-transfer-panel__body .g-checkbox__label span'
       )
       expect(targetItems.map((item) => item.text())).toStrictEqual([
         '备选项 1',
@@ -172,11 +172,11 @@ describe('Transfer', () => {
         />
       ))
 
-      const ElTransfer: any = wrapper.findComponent({ name: 'ElTransfer' })
-      ElTransfer.vm.addToRight()
+      const GTransfer: any = wrapper.findComponent({ name: 'GTransfer' })
+      GTransfer.vm.addToRight()
       await nextTick()
       const targetItems = wrapper.findAll(
-        '.el-transfer__buttons + .el-transfer-panel .el-transfer-panel__body .el-checkbox__label span'
+        '.g-transfer__buttons + .g-transfer-panel .g-transfer-panel__body .g-checkbox__label span'
       )
       expect(targetItems.map((item) => item.text())).toStrictEqual([
         '备选项 2',
@@ -198,8 +198,8 @@ describe('Transfer', () => {
         />
       ))
 
-      const ElTransfer: any = wrapper.findComponent({ name: 'ElTransfer' })
-      const app = ElTransfer.vm
+      const GTransfer: any = wrapper.findComponent({ name: 'GTransfer' })
+      const app = GTransfer.vm
       app.leftPanel.query = '11'
       app.rightPanel.query = '22'
       await nextTick()
@@ -227,9 +227,9 @@ describe('Transfer', () => {
         },
       })
 
-      const leftPanel = wrapper.find('.el-transfer-panel')
+      const leftPanel = wrapper.find('.g-transfer-panel')
       const labels = leftPanel.findAll(
-        '.el-transfer-panel__body .el-checkbox__label'
+        '.g-transfer-panel__body .g-checkbox__label'
       )
 
       expect(labels.map((l) => l.text())).toMatchInlineSnapshot(`
@@ -266,9 +266,9 @@ describe('Transfer', () => {
         },
       })
 
-      const leftPanel = wrapper.find('.el-transfer-panel')
+      const leftPanel = wrapper.find('.g-transfer-panel')
       const labels = leftPanel.findAll(
-        '.el-transfer-panel__body .el-checkbox__label'
+        '.g-transfer-panel__body .g-checkbox__label'
       )
 
       expect(labels.map((l) => l.text())).toMatchInlineSnapshot(`
@@ -307,9 +307,9 @@ describe('Transfer', () => {
         },
       })
 
-      const leftPanel = wrapper.find('.el-transfer-panel')
+      const leftPanel = wrapper.find('.g-transfer-panel')
       const labels = leftPanel.findAll(
-        '.el-transfer-panel__body .el-checkbox__label'
+        '.g-transfer-panel__body .g-checkbox__label'
       )
 
       expect(labels.map((l) => l.text())).toMatchInlineSnapshot(`
@@ -346,7 +346,7 @@ describe('Transfer', () => {
         />
       ))
 
-      const panels = wrapper.findAll('.el-transfer-panel__empty')
+      const panels = wrapper.findAll('.g-transfer-panel__empty')
       expect(panels).toHaveLength(2)
       expect(panels[0].text()).toBe('No data')
       expect(panels[1].text()).toBe('No data')
@@ -355,7 +355,7 @@ describe('Transfer', () => {
     it('render default empty content when slots not provided', () => {
       const wrapper = mount(() => <Transfer data={[]} />)
 
-      const panels = wrapper.findAll('.el-transfer-panel__empty')
+      const panels = wrapper.findAll('.g-transfer-panel__empty')
       expect(panels).toHaveLength(2)
       expect(panels[0].text()).toBe('No data')
       expect(panels[1].text()).toBe('No data')
@@ -372,11 +372,11 @@ describe('Transfer', () => {
         />
       ))
 
-      const leftPanel: any = wrapper.findComponent({ name: 'ElTransferPanel' })
+      const leftPanel: any = wrapper.findComponent({ name: 'GTransferPanel' })
       leftPanel.vm.query = 'non-existing-data'
       await nextTick()
 
-      const emptyContent = wrapper.find('.el-transfer-panel__empty')
+      const emptyContent = wrapper.find('.g-transfer-panel__empty')
       expect(emptyContent.exists()).toBe(true)
       expect(emptyContent.text()).toBe('No data')
     })

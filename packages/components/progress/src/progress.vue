@@ -73,9 +73,9 @@
     >
       <slot :percentage="percentage">
         <span v-if="!status">{{ content }}</span>
-        <el-icon v-else>
+        <g-icon v-else>
           <component :is="statusIcon" />
-        </el-icon>
+        </g-icon>
       </slot>
     </div>
   </div>
@@ -83,7 +83,7 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { ElIcon } from '@element-plus/components/icon'
+import { GIcon } from '@element-plus/components/icon'
 import {
   Check,
   CircleCheck,
@@ -98,7 +98,7 @@ import type { CSSProperties } from 'vue'
 import type { ProgressColor, ProgressProps } from './progress'
 
 defineOptions({
-  name: 'ElProgress',
+  name: 'GProgress',
 })
 
 const STATUS_COLOR_MAP: Record<string, string> = {

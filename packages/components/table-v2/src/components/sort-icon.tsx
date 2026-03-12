@@ -1,4 +1,4 @@
-import ElIcon from '@element-plus/components/icon'
+import GIcon from '@element-plus/components/icon'
 import { SortDown, SortUp } from '@element-plus/icons-vue'
 import { SortOrder } from '../constants'
 
@@ -15,9 +15,9 @@ const SortIcon: FunctionalComponent<SortIconProps> = (props) => {
 
   return (
     <button type="button" aria-label={props.ariaLabel} class={props.class}>
-      <ElIcon size={14}>
+      <GIcon size={14}>
         {sortOrder === SortOrder.ASC ? <SortUp /> : <SortDown />}
-      </ElIcon>
+      </GIcon>
     </button>
   )
 }

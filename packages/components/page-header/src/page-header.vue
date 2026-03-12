@@ -22,20 +22,20 @@
         >
           <div
             v-if="icon || $slots.icon"
-            :aria-label="title || t('el.pageHeader.title')"
+            :aria-label="title || t('g.pageHeader.title')"
             :class="ns.e('icon')"
           >
             <slot name="icon">
-              <el-icon v-if="icon">
+              <g-icon v-if="icon">
                 <component :is="icon" />
-              </el-icon>
+              </g-icon>
             </slot>
           </div>
           <div :class="ns.e('title')">
-            <slot name="title">{{ title || t('el.pageHeader.title') }}</slot>
+            <slot name="title">{{ title || t('g.pageHeader.title') }}</slot>
           </div>
         </div>
-        <el-divider direction="vertical" />
+        <g-divider direction="vertical" />
         <div :class="ns.e('content')">
           <slot name="content">{{ content }}</slot>
         </div>
@@ -53,8 +53,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ElIcon } from '@element-plus/components/icon'
-import { ElDivider } from '@element-plus/components/divider'
+import { GIcon } from '@element-plus/components/icon'
+import { GDivider } from '@element-plus/components/divider'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { Back } from '@element-plus/icons-vue'
 import { pageHeaderEmits } from './page-header'
@@ -62,7 +62,7 @@ import { pageHeaderEmits } from './page-header'
 import type { PageHeaderProps } from './page-header'
 
 defineOptions({
-  name: 'ElPageHeader',
+  name: 'GPageHeader',
 })
 
 withDefaults(defineProps<PageHeaderProps>(), {

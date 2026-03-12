@@ -43,7 +43,7 @@ import type { AnchorProps } from './anchor'
 import type { AnchorLinkState } from './constants'
 
 defineOptions({
-  name: 'ElAnchor',
+  name: 'GAnchor',
 })
 
 const props = withDefaults(defineProps<AnchorProps>(), {

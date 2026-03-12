@@ -13,8 +13,8 @@ export { default as TableV2 } from './src/table-v2'
 export * from './src/auto-resizer'
 export { placeholderSign as TableV2Placeholder } from './src/private'
 
-export const ElTableV2: SFCWithInstall<typeof TableV2> = withInstall(TableV2)
-export const ElAutoResizer: SFCWithInstall<typeof AutoResizer> =
+export const GTableV2: SFCWithInstall<typeof TableV2> = withInstall(TableV2)
+export const GAutoResizer: SFCWithInstall<typeof AutoResizer> =
   withInstall(AutoResizer)
 
 export type {

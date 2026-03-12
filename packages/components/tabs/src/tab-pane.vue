@@ -31,7 +31,7 @@ import { tabsRootContextKey } from './constants'
 
 import type { TabPaneProps } from './tab-pane'
 
-const COMPONENT_NAME = 'ElTabPane'
+const COMPONENT_NAME = 'GTabPane'
 defineOptions({
   name: COMPONENT_NAME,
 })
@@ -45,7 +45,7 @@ const slots = useSlots()
 
 const tabsRoot = inject(tabsRootContextKey)
 if (!tabsRoot)
-  throwError(COMPONENT_NAME, 'usage: <el-tabs><el-tab-pane /></el-tabs/>')
+  throwError(COMPONENT_NAME, 'usage: <g-tabs><g-tab-pane /></g-tabs/>')
 
 const ns = useNamespace('tab-pane')
 

@@ -190,7 +190,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   // filteredOptions includes flatten the data into one dimensional array.
   const emptyText = computed(() => {
     if (props.loading) {
-      return props.loadingText || t('el.select.loading')
+      return props.loadingText || t('g.select.loading')
     } else {
       if (
         props.filterable &&
@@ -198,10 +198,10 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
         hasOptions.value &&
         filteredOptions.value.length === 0
       ) {
-        return props.noMatchText || t('el.select.noMatch')
+        return props.noMatchText || t('g.select.noMatch')
       }
       if (!hasOptions.value) {
-        return props.noDataText || t('el.select.noData')
+        return props.noDataText || t('g.select.noData')
       }
     }
     return null
@@ -356,7 +356,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   })
 
   const currentPlaceholder = computed(() => {
-    const _placeholder = props.placeholder ?? t('el.select.placeholder')
+    const _placeholder = props.placeholder ?? t('g.select.placeholder')
     return props.multiple || !hasModelValue.value
       ? _placeholder
       : states.selectedLabel
@@ -974,7 +974,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
       }
       if (duplicateValue.get(v)) {
         debugWarn(
-          'ElSelectV2',
+          'GSelectV2',
           `The option values you provided seem to be duplicated, which may cause some problems, please check.`
         )
         break

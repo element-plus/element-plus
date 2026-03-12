@@ -17,7 +17,7 @@ import type {
   CollapseProps,
 } from './collapse'
 
-const SCOPE = 'ElCollapse'
+const SCOPE = 'GCollapse'
 export const useCollapse = (
   props: CollapseProps,
   emit: SetupContext<CollapseEmits>['emit']

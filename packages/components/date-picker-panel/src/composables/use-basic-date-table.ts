@@ -423,7 +423,7 @@ export const useBasicDateTableDOM = (
     ns.is('week-mode', props.selectionMode === 'week' && !props.disabled),
   ])
 
-  const tableLabel = computed(() => t('el.datepicker.dateTablePrompt'))
+  const tableLabel = computed(() => t('g.datepicker.dateTablePrompt'))
 
   const getCellClasses = (cell: DateCell) => {
     const classes: string[] = []

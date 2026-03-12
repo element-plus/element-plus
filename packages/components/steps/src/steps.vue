@@ -16,7 +16,7 @@ import type { StepsProps } from './steps'
 import type { StepItemState } from './item.vue'
 
 defineOptions({
-  name: 'ElSteps',
+  name: 'GSteps',
 })
 
 const props = withDefaults(defineProps<StepsProps>(), {
@@ -34,7 +34,7 @@ const {
   addChild: addStep,
   removeChild: removeStep,
   ChildrenSorter: StepsSorter,
-} = useOrderedChildren<StepItemState>(getCurrentInstance()!, 'ElStep')
+} = useOrderedChildren<StepItemState>(getCurrentInstance()!, 'GStep')
 
 watch(steps, () => {
   steps.value.forEach((instance: StepItemState, index: number) => {

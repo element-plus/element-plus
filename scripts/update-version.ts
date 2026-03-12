@@ -19,14 +19,12 @@ async function main() {
   consola.log(chalk.cyan(`$TAG_VERSION: ${tagVersion}`))
   consola.log(chalk.cyan(`$GIT_HEAD: ${gitHead}`))
 
-  consola.debug(chalk.yellow(`Updating package.json for element-plus`))
+  consola.debug(chalk.yellow(`Updating package.json for @guwave/ui`))
 
   const pkgs = Object.fromEntries(
     (await getWorkspacePackages()).map((pkg) => [pkg.manifest.name!, pkg])
   )
-  const elementPlus = pkgs['element-plus'] || pkgs['@element-plus/nightly']
-  const eslintConfig = pkgs['@element-plus/eslint-config']
-  const metadata = pkgs['@element-plus/metadata']
+  const guboUI = pkgs['@guwave/ui']
 
   const writeVersion = async (project: Project) => {
     await project.writeProjectManifest({
@@ -37,9 +35,7 @@ async function main() {
   }
 
   try {
-    await writeVersion(elementPlus)
-    await writeVersion(eslintConfig)
-    await writeVersion(metadata)
+    await writeVersion(guboUI)
   } catch (err: any) {
     errorAndExit(err)
   }

@@ -1,5 +1,5 @@
 <template>
-  <el-tooltip
+  <g-tooltip
     ref="tooltipRef"
     :visible="popperVisible"
     :teleported="teleported"
@@ -27,7 +27,7 @@
         @mouseenter="inputHover = true"
         @mouseleave="inputHover = false"
       >
-        <el-input
+        <g-input
           ref="inputRef"
           v-model="inputValue"
           :placeholder="currentPlaceholder"
@@ -46,24 +46,24 @@
             <slot name="prefix" />
           </template>
           <template #suffix>
-            <el-icon
+            <g-icon
               v-if="clearBtnVisible"
               key="clear"
               :class="[nsInput.e('icon'), 'icon-circle-close']"
               @click.stop="handleClear"
             >
               <component :is="clearIcon" />
-            </el-icon>
-            <el-icon
+            </g-icon>
+            <g-icon
               v-else
               key="arrow-down"
               :class="cascaderIconKls"
               @click.stop="togglePopperVisible()"
             >
               <arrow-down />
-            </el-icon>
+            </g-icon>
           </template>
-        </el-input>
+        </g-input>
 
         <div
           v-if="multiple"
@@ -74,7 +74,7 @@
           ]"
         >
           <slot name="tag" :data="tags" :delete-tag="deleteTag">
-            <el-tag
+            <g-tag
               v-for="tag in showTagList"
               :key="tag.key"
               :type="tagType"
@@ -86,9 +86,9 @@
               @close="deleteTag(tag)"
             >
               <span>{{ tag.text }}</span>
-            </el-tag>
+            </g-tag>
           </slot>
-          <el-tooltip
+          <g-tooltip
             v-if="collapseTags && tags.length > maxCollapseTags"
             ref="tagTooltipRef"
             :disabled="popperVisible || !collapseTagsTooltip"
@@ -100,7 +100,7 @@
             :persistent="persistent"
           >
             <template #default>
-              <el-tag
+              <g-tag
                 :closable="false"
                 :size="tagSize"
                 :type="tagType"
@@ -110,17 +110,17 @@
                 <span :class="nsCascader.e('tags-text')">
                   + {{ tags.length - maxCollapseTags }}
                 </span>
-              </el-tag>
+              </g-tag>
             </template>
             <template #content>
-              <el-scrollbar :max-height="maxCollapseTagsTooltipHeight">
+              <g-scrollbar :max-height="maxCollapseTagsTooltipHeight">
                 <div :class="nsCascader.e('collapse-tags')">
                   <div
                     v-for="(tag, idx) in collapseTagList"
                     :key="idx"
                     :class="nsCascader.e('collapse-tag')"
                   >
-                    <el-tag
+                    <g-tag
                       :key="tag.key"
                       class="in-tooltip"
                       :type="tagType"
@@ -132,12 +132,12 @@
                       @close="deleteTag(tag)"
                     >
                       <span>{{ tag.text }}</span>
-                    </el-tag>
+                    </g-tag>
                   </div>
                 </div>
-              </el-scrollbar>
+              </g-scrollbar>
             </template>
-          </el-tooltip>
+          </g-tooltip>
           <input
             v-if="filterable && !isDisabled"
             v-model="searchInputValue"
@@ -159,7 +159,7 @@
       <div v-if="$slots.header" :class="nsCascader.e('header')" @click.stop>
         <slot name="header" />
       </div>
-      <el-cascader-panel
+      <g-cascader-panel
         v-show="!filtering"
         ref="cascaderPanelRef"
         v-model="checkedValue"
@@ -173,8 +173,8 @@
         <template #empty>
           <slot name="empty" />
         </template>
-      </el-cascader-panel>
-      <el-scrollbar
+      </g-cascader-panel>
+      <g-scrollbar
         v-if="filterable"
         v-show="filtering"
         ref="suggestionPanel"
@@ -196,23 +196,23 @@
           >
             <slot name="suggestion-item" :item="item">
               <span>{{ item.text }}</span>
-              <el-icon v-if="item.checked">
+              <g-icon v-if="item.checked">
                 <check />
-              </el-icon>
+              </g-icon>
             </slot>
           </li>
         </template>
         <slot v-else name="empty">
           <li :class="nsCascader.e('empty-text')">
-            {{ t('el.cascader.noMatch') }}
+            {{ t('g.cascader.noMatch') }}
           </li>
         </slot>
-      </el-scrollbar>
+      </g-scrollbar>
       <div v-if="$slots.footer" :class="nsCascader.e('footer')" @click.stop>
         <slot name="footer" />
       </div>
     </template>
-  </el-tooltip>
+  </g-tooltip>
 </template>
 
 <script lang="ts" setup>
@@ -235,12 +235,12 @@ import {
   isClient,
   isPromise,
 } from '@element-plus/utils'
-import ElCascaderPanel from '@element-plus/components/cascader-panel'
-import ElInput from '@element-plus/components/input'
-import ElTooltip from '@element-plus/components/tooltip'
-import ElScrollbar from '@element-plus/components/scrollbar'
-import ElTag from '@element-plus/components/tag'
-import ElIcon from '@element-plus/components/icon'
+import GCascaderPanel from '@element-plus/components/cascader-panel'
+import GInput from '@element-plus/components/input'
+import GTooltip from '@element-plus/components/tooltip'
+import GScrollbar from '@element-plus/components/scrollbar'
+import GTag from '@element-plus/components/tag'
+import GIcon from '@element-plus/components/icon'
 import {
   useFormDisabled,
   useFormItem,
@@ -294,7 +294,7 @@ const popperOptions: Partial<Options> = {
 }
 
 defineOptions({
-  name: 'ElCascader',
+  name: 'GCascader',
 })
 
 const props = withDefaults(defineProps<CascaderComponentProps>(), {
@@ -389,7 +389,7 @@ const cascaderStyle = computed(() => {
 })
 
 const inputPlaceholder = computed(
-  () => props.placeholder ?? t('el.cascader.placeholder')
+  () => props.placeholder ?? t('g.cascader.placeholder')
 )
 const currentPlaceholder = computed(() =>
   searchInputValue.value || tags.value.length > 0 || isComposing.value

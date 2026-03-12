@@ -29,7 +29,7 @@
       :class="ns.be('node', 'content')"
       :style="{ paddingLeft: (node.level - 1) * tree.props.indent + 'px' }"
     >
-      <el-icon
+      <g-icon
         v-if="tree.props.icon || CaretRight"
         :class="[
           ns.be('node', 'expand-icon'),
@@ -41,8 +41,8 @@
         @click.stop="handleExpandIconClick"
       >
         <component :is="tree.props.icon || CaretRight" />
-      </el-icon>
-      <el-checkbox
+      </g-icon>
+      <g-checkbox
         v-if="showCheckbox"
         :model-value="node.checked"
         :indeterminate="node.indeterminate"
@@ -50,15 +50,15 @@
         @click.stop
         @change="handleCheckChange"
       />
-      <el-icon
+      <g-icon
         v-if="node.loading"
         :class="[ns.be('node', 'loading-icon'), ns.is('loading')]"
       >
         <loading />
-      </el-icon>
+      </g-icon>
       <node-content :node="node" :render-content="renderContent" />
     </div>
-    <el-collapse-transition>
+    <g-collapse-transition>
       <div
         v-if="!renderAfterExpand || childNodeRendered"
         v-show="expanded"
@@ -67,7 +67,7 @@
         :aria-expanded="expanded"
         @click.stop
       >
-        <el-tree-node
+        <g-tree-node
           v-for="child in node.childNodes"
           :key="getNodeKey(child)"
           :render-content="renderContent"
@@ -79,7 +79,7 @@
           @node-expand="handleChildNodeExpand"
         />
       </div>
-    </el-collapse-transition>
+    </g-collapse-transition>
   </div>
 </template>
 
@@ -94,9 +94,9 @@ import {
   watch,
 } from 'vue'
 import { debugWarn, isFunction, isString } from '@element-plus/utils'
-import ElCollapseTransition from '@element-plus/components/collapse-transition'
-import ElCheckbox from '@element-plus/components/checkbox'
-import { ElIcon } from '@element-plus/components/icon'
+import GCollapseTransition from '@element-plus/components/collapse-transition'
+import GCheckbox from '@element-plus/components/checkbox'
+import { GIcon } from '@element-plus/components/icon'
 import { CaretRight, Loading } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
 import NodeContent from './tree-node-content.vue'
@@ -111,12 +111,12 @@ import type { RootTreeType, TreeNodeData, TreeOptionProps } from './tree.type'
 import type { CheckboxValueType } from '@element-plus/components/checkbox'
 
 export default defineComponent({
-  name: 'ElTreeNode',
+  name: 'GTreeNode',
   components: {
-    ElCollapseTransition,
-    ElCheckbox,
+    GCollapseTransition,
+    GCheckbox,
     NodeContent,
-    ElIcon,
+    GIcon,
     Loading,
   },
   props: {

@@ -49,7 +49,7 @@ import type { Option } from './types'
 import type { SegmentedProps } from './segmented'
 
 defineOptions({
-  name: 'ElSegmented',
+  name: 'GSegmented',
 })
 
 const props = withDefaults(defineProps<SegmentedProps>(), {

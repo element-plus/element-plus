@@ -160,7 +160,7 @@ export interface TourContext {
   onChange(): void
 }
 
-export const tourKey: InjectionKey<TourContext> = Symbol('ElTour')
+export const tourKey: InjectionKey<TourContext> = Symbol('GTour')
 
 function isInViewPort(element: HTMLElement) {
   const viewWidth = window.innerWidth || document.documentElement.clientWidth

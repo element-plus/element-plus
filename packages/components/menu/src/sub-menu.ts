@@ -16,8 +16,8 @@ import {
   withDirectives,
 } from 'vue'
 import { useTimeoutFn } from '@vueuse/core'
-import ElCollapseTransition from '@element-plus/components/collapse-transition'
-import ElTooltip from '@element-plus/components/tooltip'
+import GCollapseTransition from '@element-plus/components/collapse-transition'
+import GTooltip from '@element-plus/components/tooltip'
 import {
   buildProps,
   definePropType,
@@ -29,7 +29,7 @@ import {
 } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { ArrowDown, ArrowRight } from '@element-plus/icons-vue'
-import { ElIcon } from '@element-plus/components/icon'
+import { GIcon } from '@element-plus/components/icon'
 import useMenu from './use-menu'
 import { useMenuCssVar } from './use-menu-css-var'
 import { MENU_INJECTION_KEY, SUB_MENU_INJECTION_KEY } from './tokens'
@@ -113,7 +113,7 @@ export const subMenuProps = buildProps({
 export type SubMenuProps = ExtractPropTypes<typeof subMenuProps>
 export type SubMenuPropsPublic = ExtractPublicPropTypes<typeof subMenuProps>
 
-const COMPONENT_NAME = 'ElSubMenu'
+const COMPONENT_NAME = 'GSubMenu'
 export default defineComponent({
   name: COMPONENT_NAME,
   props: subMenuProps,
@@ -360,7 +360,7 @@ export default defineComponent({
       const titleTag: VNodeArrayChildren = [
         slots.title?.(),
         h(
-          ElIcon,
+          GIcon,
           {
             class: nsSubMenu.e('icon-arrow'),
             style: {
@@ -386,7 +386,7 @@ export default defineComponent({
       // this render function is only used for bypass `Vue`'s compiler caused patching issue.
       const child = rootMenu.isMenuPopup
         ? h(
-            ElTooltip,
+            GTooltip,
             {
               ref: vPopper,
               visible: opened.value,
@@ -455,7 +455,7 @@ export default defineComponent({
               titleTag
             ),
             h(
-              ElCollapseTransition,
+              GCollapseTransition,
               {},
               {
                 default: () =>

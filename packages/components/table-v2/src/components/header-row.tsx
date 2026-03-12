@@ -7,7 +7,7 @@ import type { ColumnCellsType } from '../types'
 import type { TableV2HeaderRowProps } from '../header-row'
 
 const TableV2HeaderRow = defineComponent({
-  name: 'ElTableV2HeaderRow',
+  name: 'GTableV2HeaderRow',
   props: tableV2HeaderRowProps,
   setup(props, { slots }) {
     return () => {

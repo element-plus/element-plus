@@ -13,7 +13,7 @@ import { checkTagEmits } from './check-tag'
 import type { CheckTagProps } from './check-tag'
 
 defineOptions({
-  name: 'ElCheckTag',
+  name: 'GCheckTag',
 })
 const props = withDefaults(defineProps<CheckTagProps>(), {
   type: 'primary',

@@ -10,7 +10,7 @@ import { useNamespace } from '@element-plus/hooks'
 import type { RendererElement } from 'vue'
 
 defineOptions({
-  name: 'ElCollapseTransition',
+  name: 'GCollapseTransition',
 })
 
 const ns = useNamespace('collapse-transition')

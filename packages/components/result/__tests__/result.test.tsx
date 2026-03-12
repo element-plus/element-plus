@@ -10,43 +10,43 @@ const AXIOM = 'Rem is the best girl'
 describe('Result.vue', () => {
   test('render test', () => {
     const wrapper = mount(() => <Result />)
-    expect(wrapper.find('.el-result__icon').exists()).toBe(true)
-    expect(wrapper.classes()).toContain('el-result')
+    expect(wrapper.find('.g-result__icon').exists()).toBe(true)
+    expect(wrapper.classes()).toContain('g-result')
   })
 
   test('should render title props', () => {
     const wrapper = mount(() => <Result title={AXIOM} />)
-    expect(wrapper.find('.el-result__title').text()).toBe(AXIOM)
+    expect(wrapper.find('.g-result__title').text()).toBe(AXIOM)
   })
 
   test('should render sub-title props', () => {
     const wrapper = mount(() => <Result subTitle={AXIOM} />)
-    expect(wrapper.find('.el-result__subtitle').text()).toBe(AXIOM)
+    expect(wrapper.find('.g-result__subtitle').text()).toBe(AXIOM)
   })
 
   test('should render icon props', async () => {
     const icon = ref<ResultProps['icon']>('success')
     const wrapper = mount(() => <Result icon={icon.value} />)
-    expect(wrapper.find('.el-result__icon svg').exists()).toBe(true)
-    expect(wrapper.find('.el-result__icon svg').classes()).toContain(
+    expect(wrapper.find('.g-result__icon svg').exists()).toBe(true)
+    expect(wrapper.find('.g-result__icon svg').classes()).toContain(
       'icon-success'
     )
     icon.value = 'error'
     await nextTick()
-    expect(wrapper.find('.el-result__icon svg').exists()).toBe(true)
-    expect(wrapper.find('.el-result__icon svg').classes()).toContain(
+    expect(wrapper.find('.g-result__icon svg').exists()).toBe(true)
+    expect(wrapper.find('.g-result__icon svg').classes()).toContain(
       'icon-error'
     )
     icon.value = 'warning'
     await nextTick()
-    expect(wrapper.find('.el-result__icon svg').exists()).toBe(true)
-    expect(wrapper.find('.el-result__icon svg').classes()).toContain(
+    expect(wrapper.find('.g-result__icon svg').exists()).toBe(true)
+    expect(wrapper.find('.g-result__icon svg').classes()).toContain(
       'icon-warning'
     )
     icon.value = 'info'
     await nextTick()
-    expect(wrapper.find('.el-result__icon svg').exists()).toBe(true)
-    expect(wrapper.find('.el-result__icon svg').classes()).toContain(
+    expect(wrapper.find('.g-result__icon svg').exists()).toBe(true)
+    expect(wrapper.find('.g-result__icon svg').classes()).toContain(
       'icon-info'
     )
   })
@@ -59,8 +59,8 @@ describe('Result.vue', () => {
         }}
       />
     ))
-    expect(wrapper.find('.el-result__icon').exists()).toBe(true)
-    expect(wrapper.find('.el-result__icon').text()).toBe(AXIOM)
+    expect(wrapper.find('.g-result__icon').exists()).toBe(true)
+    expect(wrapper.find('.g-result__icon').text()).toBe(AXIOM)
   })
 
   test('should render title slots', () => {
@@ -71,8 +71,8 @@ describe('Result.vue', () => {
         }}
       />
     ))
-    expect(wrapper.find('.el-result__title').exists()).toBe(true)
-    expect(wrapper.find('.el-result__title').text()).toBe(AXIOM)
+    expect(wrapper.find('.g-result__title').exists()).toBe(true)
+    expect(wrapper.find('.g-result__title').text()).toBe(AXIOM)
   })
 
   test('should render sub-title slots', () => {
@@ -83,8 +83,8 @@ describe('Result.vue', () => {
         }}
       />
     ))
-    expect(wrapper.find('.el-result__subtitle').exists()).toBe(true)
-    expect(wrapper.find('.el-result__subtitle').text()).toBe(AXIOM)
+    expect(wrapper.find('.g-result__subtitle').exists()).toBe(true)
+    expect(wrapper.find('.g-result__subtitle').text()).toBe(AXIOM)
   })
 
   test('should render extra slots', () => {
@@ -95,7 +95,7 @@ describe('Result.vue', () => {
         }}
       />
     ))
-    expect(wrapper.find('.el-result__extra').exists()).toBe(true)
-    expect(wrapper.find('.el-result__extra').text()).toBe(AXIOM)
+    expect(wrapper.find('.g-result__extra').exists()).toBe(true)
+    expect(wrapper.find('.g-result__extra').text()).toBe(AXIOM)
   })
 })

@@ -8,9 +8,9 @@
         backgroundColor: color,
       }"
     >
-      <el-icon v-if="icon" :class="ns.e('icon')">
+      <g-icon v-if="icon" :class="ns.e('icon')">
         <component :is="icon" />
-      </el-icon>
+      </g-icon>
     </div>
     <div v-if="$slots.dot" :class="ns.e('dot')">
       <slot name="dot" />
@@ -40,7 +40,7 @@
 
 <script lang="ts" setup>
 import { computed, inject } from 'vue'
-import { ElIcon } from '@element-plus/components/icon'
+import { GIcon } from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
 import { TIMELINE_INJECTION_KEY } from './tokens'
 
@@ -48,7 +48,7 @@ import type { TimelineProvider } from './tokens'
 import type { TimelineItemProps } from './timeline-item'
 
 defineOptions({
-  name: 'ElTimelineItem',
+  name: 'GTimelineItem',
 })
 
 const props = withDefaults(defineProps<TimelineItemProps>(), {

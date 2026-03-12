@@ -11,7 +11,7 @@ export function ElementPlusAlias(): Plugin {
     name: 'element-plus-alias-plugin',
     resolveId: {
       filter: {
-        id: /^@element-plus\/theme-chalk/,
+        id: /^@guwave\/theme-chalk/,
       },
       handler(id) {
         return {

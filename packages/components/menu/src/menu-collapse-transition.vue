@@ -11,7 +11,7 @@ import { addClass, hasClass, removeClass } from '@element-plus/utils'
 import type { BaseTransitionProps, TransitionProps } from 'vue'
 
 defineOptions({
-  name: 'ElMenuCollapseTransition',
+  name: 'GMenuCollapseTransition',
 })
 
 const ns = useNamespace('menu')

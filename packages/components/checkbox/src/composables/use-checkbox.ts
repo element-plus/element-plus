@@ -56,7 +56,7 @@ export const useCheckbox = (
       from: 'label act as value',
       replacement: 'value',
       version: '3.0.0',
-      scope: 'el-checkbox',
+      scope: 'g-checkbox',
       ref: 'https://element-plus.org/en-US/component/checkbox.html',
     },
     computed(() => isGroup.value && isPropAbsent(props.value))
@@ -67,7 +67,7 @@ export const useCheckbox = (
       from: 'true-label',
       replacement: 'true-value',
       version: '3.0.0',
-      scope: 'el-checkbox',
+      scope: 'g-checkbox',
       ref: 'https://element-plus.org/en-US/component/checkbox.html',
     },
     computed(() => !!props.trueLabel)
@@ -78,7 +78,7 @@ export const useCheckbox = (
       from: 'false-label',
       replacement: 'false-value',
       version: '3.0.0',
-      scope: 'el-checkbox',
+      scope: 'g-checkbox',
       ref: 'https://element-plus.org/en-US/component/checkbox.html',
     },
     computed(() => !!props.falseLabel)

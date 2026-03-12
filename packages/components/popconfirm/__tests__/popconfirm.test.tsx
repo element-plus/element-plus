@@ -9,7 +9,7 @@ import { EVENT_CODE } from '@element-plus/constants'
 
 const AXIOM = 'rem is the best girl'
 const FUN = 'dQw4w9WgXcQ'
-const selector = '.el-popper'
+const selector = '.g-popper'
 
 describe('Popconfirm.vue', () => {
   afterEach(() => {
@@ -180,7 +180,7 @@ describe('Popconfirm.vue', () => {
 
       const content = document.querySelector(selector)!.innerHTML
       expect(content).toContain(FUN)
-      expect(content).not.toContain('.el-button')
+      expect(content).not.toContain('.g-button')
     })
 
     it('should pass handlers that can emit events', async () => {

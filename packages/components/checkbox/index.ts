@@ -5,18 +5,18 @@ import CheckboxGroup from './src/checkbox-group.vue'
 
 import type { SFCWithInstall } from '@element-plus/utils'
 
-export const ElCheckbox: SFCWithInstall<typeof Checkbox> & {
+export const GCheckbox: SFCWithInstall<typeof Checkbox> & {
   CheckboxButton: typeof CheckboxButton
   CheckboxGroup: typeof CheckboxGroup
 } = withInstall(Checkbox, {
   CheckboxButton,
   CheckboxGroup,
 })
-export default ElCheckbox
+export default GCheckbox
 
-export const ElCheckboxButton: SFCWithInstall<typeof CheckboxButton> =
+export const GCheckboxButton: SFCWithInstall<typeof CheckboxButton> =
   withNoopInstall(CheckboxButton)
-export const ElCheckboxGroup: SFCWithInstall<typeof CheckboxGroup> =
+export const GCheckboxGroup: SFCWithInstall<typeof CheckboxGroup> =
   withNoopInstall(CheckboxGroup)
 
 export * from './src/checkbox-group'

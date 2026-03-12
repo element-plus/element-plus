@@ -1,6 +1,6 @@
 <template>
   <span :class="ns.e('sizes')">
-    <el-select
+    <g-select
       :model-value="innerPageSize"
       :disabled="disabled"
       :popper-class="popperClass"
@@ -11,27 +11,27 @@
       :append-to="appendSizeTo"
       @change="handleChange"
     >
-      <el-option
+      <g-option
         v-for="item in innerPageSizes"
         :key="item"
         :value="item"
-        :label="item + t('el.pagination.pagesize')"
+        :label="item + t('g.pagination.pagesize')"
       />
-    </el-select>
+    </g-select>
   </span>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue'
 import { isEqual } from 'lodash-unified'
-import { ElOption, ElSelect } from '@element-plus/components/select'
+import { GOption, GSelect } from '@element-plus/components/select'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { isArray } from '@element-plus/utils'
 import { usePagination } from '../usePagination'
 import { paginationSizesProps } from './sizes'
 
 defineOptions({
-  name: 'ElPaginationSizes',
+  name: 'GPaginationSizes',
 })
 
 const props = defineProps(paginationSizesProps)

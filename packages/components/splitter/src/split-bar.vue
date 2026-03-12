@@ -11,7 +11,7 @@ import { useNamespace } from '@element-plus/hooks'
 const ns = useNamespace('splitter-bar')
 
 defineOptions({
-  name: 'ElSplitterBar',
+  name: 'GSplitterBar',
 })
 
 const props = defineProps({

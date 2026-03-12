@@ -7,14 +7,14 @@ import {
   toRef,
 } from 'vue'
 import { flattedChildren } from '@element-plus/utils'
-import ElTooltip from '@element-plus/components/tooltip'
+import GTooltip from '@element-plus/components/tooltip'
 import { useNamespace } from '@element-plus/hooks'
-import ElAvatar from './avatar.vue'
+import GAvatar from './avatar.vue'
 import { avatarGroupContextKey } from './constants'
 import { avatarGroupProps } from './avatar-group-props'
 
 export default defineComponent({
-  name: 'ElAvatarGroup',
+  name: 'GAvatarGroup',
   props: avatarGroupProps,
   setup(props, { slots }) {
     const ns = useNamespace('avatar-group')
@@ -39,7 +39,7 @@ export default defineComponent({
         const hiddenAvatars = avatars.slice(props.maxCollapseAvatars)
 
         visibleAvatars.push(
-          <ElTooltip
+          <GTooltip
             popperClass={props.popperClass}
             popperStyle={props.popperStyle}
             placement={props.placement}
@@ -48,14 +48,14 @@ export default defineComponent({
           >
             {{
               default: () => (
-                <ElAvatar
+                <GAvatar
                   size={props.size}
                   shape={props.shape}
                   class={props.collapseClass}
                   style={props.collapseStyle}
                 >
                   + {hiddenAvatars.length}
-                </ElAvatar>
+                </GAvatar>
               ),
               content: () => (
                 <div class={ns.e('collapse-avatars')}>
@@ -67,7 +67,7 @@ export default defineComponent({
                 </div>
               ),
             }}
-          </ElTooltip>
+          </GTooltip>
         )
       }
 

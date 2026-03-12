@@ -1,5 +1,5 @@
 <template>
-  <el-select
+  <g-select
     ref="select"
     :name="name"
     :model-value="value"
@@ -21,7 +21,7 @@
     @focus="(event) => $emit('focus', event)"
     @clear="() => $emit('clear')"
   >
-    <el-option
+    <g-option
       v-for="item in items"
       :key="item.value"
       :label="item.value"
@@ -29,20 +29,20 @@
       :disabled="item.disabled"
     />
     <template #prefix>
-      <el-icon v-if="prefixIcon" :class="nsInput.e('prefix-icon')">
+      <g-icon v-if="prefixIcon" :class="nsInput.e('prefix-icon')">
         <component :is="prefixIcon" />
-      </el-icon>
+      </g-icon>
     </template>
-  </el-select>
+  </g-select>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat.js'
-import ElSelect from '@element-plus/components/select'
+import GSelect from '@element-plus/components/select'
 import { useFormDisabled } from '@element-plus/components/form'
-import ElIcon from '@element-plus/components/icon'
+import GIcon from '@element-plus/components/icon'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { CircleClose, Clock } from '@element-plus/icons-vue'
@@ -54,10 +54,10 @@ import type { TimeSelectProps } from './time-select'
 
 dayjs.extend(customParseFormat)
 
-const { Option: ElOption } = ElSelect
+const { Option: GOption } = GSelect
 
 defineOptions({
-  name: 'ElTimeSelect',
+  name: 'GTimeSelect',
 })
 
 defineEmits([CHANGE_EVENT, 'blur', 'focus', 'clear', UPDATE_MODEL_EVENT])
@@ -79,7 +79,7 @@ const props = withDefaults(defineProps<TimeSelectProps>(), {
 })
 
 const nsInput = useNamespace('input')
-const select = ref<typeof ElSelect>()
+const select = ref<typeof GSelect>()
 
 const _disabled = useFormDisabled()
 const { lang } = useLocale()
@@ -116,7 +116,7 @@ const step = computed(() => {
     (time.hours === 0 && time.minutes === 0)
   if (isInvalidStep) {
     debugWarn(
-      'ElTimeSelect',
+      'GTimeSelect',
       `invalid step, fallback to default step (${DEFAULT_STEP}).`
     )
   }

@@ -3,8 +3,8 @@
     <div :class="[ns.b(), ns.is('animated', animated)]" v-bind="$attrs">
       <template v-for="i in count" :key="i">
         <slot v-if="uiLoading" :key="i" name="template">
-          <el-skeleton-item :class="ns.is('first')" variant="p" />
-          <el-skeleton-item
+          <g-skeleton-item :class="ns.is('first')" variant="p" />
+          <g-skeleton-item
             v-for="item in rows"
             :key="item"
             :class="[
@@ -25,12 +25,12 @@
 <script lang="ts" setup>
 import { toRef } from 'vue'
 import { useNamespace, useThrottleRender } from '@element-plus/hooks'
-import ElSkeletonItem from './skeleton-item.vue'
+import GSkeletonItem from './skeleton-item.vue'
 
 import type { SkeletonProps } from './skeleton.ts'
 
 defineOptions({
-  name: 'ElSkeleton',
+  name: 'GSkeleton',
 })
 const props = withDefaults(defineProps<SkeletonProps>(), {
   loading: true,

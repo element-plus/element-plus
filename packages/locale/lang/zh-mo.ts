@@ -1,6 +1,6 @@
 export default {
   name: 'zh-mo',
-  el: {
+  g: {
     breadcrumb: {
       label: '麵包屑',
     },
@@ -118,7 +118,7 @@ export default {
       prevPages: '向前 {pager} 頁',
       nextPages: '向後 {pager} 頁',
       deprecationWarning:
-        '檢測到已過時的使用方式，請參閱 el-pagination 說明文件以了解更多資訊',
+        '檢測到已過時的使用方式，請參閱 g-pagination 說明文件以了解更多資訊',
     },
     dialog: {
       close: '關閉此對話框',

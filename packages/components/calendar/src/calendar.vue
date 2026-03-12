@@ -7,17 +7,17 @@
           v-if="validatedRange.length === 0 && controllerType === 'button'"
           :class="ns.e('button-group')"
         >
-          <el-button-group>
-            <el-button size="small" @click="selectDate('prev-month')">
-              {{ t('el.datepicker.prevMonth') }}
-            </el-button>
-            <el-button size="small" @click="selectDate('today')">
-              {{ t('el.datepicker.today') }}
-            </el-button>
-            <el-button size="small" @click="selectDate('next-month')">
-              {{ t('el.datepicker.nextMonth') }}
-            </el-button>
-          </el-button-group>
+          <g-button-group>
+            <g-button size="small" @click="selectDate('prev-month')">
+              {{ t('g.datepicker.prevMonth') }}
+            </g-button>
+            <g-button size="small" @click="selectDate('today')">
+              {{ t('g.datepicker.today') }}
+            </g-button>
+            <g-button size="small" @click="selectDate('next-month')">
+              {{ t('g.datepicker.nextMonth') }}
+            </g-button>
+          </g-button-group>
         </div>
         <div
           v-else-if="validatedRange.length === 0 && controllerType === 'select'"
@@ -58,7 +58,7 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { ElButton, ElButtonGroup } from '@element-plus/components/button'
+import { GButton, GButtonGroup } from '@element-plus/components/button'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import DateTable from './date-table.vue'
 import { useCalendar } from './use-calendar'
@@ -69,7 +69,7 @@ import type { CalendarProps } from './calendar'
 
 const ns = useNamespace('calendar')
 
-const COMPONENT_NAME = 'ElCalendar'
+const COMPONENT_NAME = 'GCalendar'
 defineOptions({
   name: COMPONENT_NAME,
 })
@@ -92,8 +92,8 @@ const {
 const { t } = useLocale()
 
 const i18nDate = computed(() => {
-  const pickedMonth = `el.datepicker.month${date.value.format('M')}`
-  return `${date.value.year()} ${t('el.datepicker.year')} ${t(pickedMonth)}`
+  const pickedMonth = `g.datepicker.month${date.value.format('M')}`
+  return `${date.value.year()} ${t('g.datepicker.year')} ${t(pickedMonth)}`
 })
 
 defineExpose({

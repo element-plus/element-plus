@@ -24,10 +24,10 @@
   @include set-css-var-value('font-weight-primary', 500);
   @include set-css-var-value('font-line-height-primary', 24px);
 
-  // z-index --el-index-#{$type}
+  // z-index --g-index-#{$type}
   @include set-component-css-var('index', $z-index);
 
-  // --el-border-radius-#{$type}
+  // --g-border-radius-#{$type}
   @include set-component-css-var('border-radius', $border-radius);
 
   // Transition
@@ -46,24 +46,24 @@
 :root {
   color-scheme: light;
 
-  // --el-color-#{$type}
-  // --el-color-#{$type}-light-{$i}
+  // --g-color-#{$type}
+  // --g-color-#{$type}-light-{$i}
   @each $type in (primary, success, warning, danger, error, info) {
     @include set-css-color-type($colors, $type);
   }
 
   // color-scheme
-  // Background --el-bg-color-#{$type}
+  // Background --g-bg-color-#{$type}
   @include set-component-css-var('bg-color', $bg-color);
-  // --el-text-color-#{$type}
+  // --g-text-color-#{$type}
   @include set-component-css-var('text-color', $text-color);
-  // --el-border-color-#{$type}
+  // --g-border-color-#{$type}
   @include set-component-css-var('border-color', $border-color);
-  // Fill --el-fill-color-#{$type}
+  // Fill --g-fill-color-#{$type}
   @include set-component-css-var('fill-color', $fill-color);
 
   // Box-shadow
-  // --el-box-shadow-#{$type}
+  // --g-box-shadow-#{$type}
   @include set-component-css-var('box-shadow', $box-shadow);
   // Disable base
   @include set-component-css-var('disabled', $disabled);

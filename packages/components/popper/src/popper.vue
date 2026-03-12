@@ -7,11 +7,11 @@ import { computed, provide, ref } from 'vue'
 import { POPPER_INJECTION_KEY } from './constants'
 
 import type { Instance as PopperInstance } from '@popperjs/core'
-import type { ElPopperInjectionContext } from './constants'
+import type { GPopperInjectionContext } from './constants'
 import type { PopperProps } from './popper'
 
 defineOptions({
-  name: 'ElPopper',
+  name: 'GPopper',
   inheritAttrs: false,
 })
 const props = withDefaults(defineProps<PopperProps>(), {
@@ -45,7 +45,7 @@ const popperProvides = {
    * @description role determines how aria attributes are distributed
    */
   role,
-} as ElPopperInjectionContext
+} as GPopperInjectionContext
 
 defineExpose(popperProvides)
 

@@ -9,7 +9,7 @@ import {
   onMounted,
   ref,
 } from 'vue'
-import ElCheckbox from '@element-plus/components/checkbox'
+import GCheckbox from '@element-plus/components/checkbox'
 import { useGlobalConfig } from '@element-plus/components/config-provider'
 import { isArray, isString, isUndefined } from '@element-plus/utils'
 import { cellStarts } from '../config'
@@ -26,9 +26,9 @@ let columnIdSeed = 1
 
 //TODO: when vue 3.3 we can set this component a generic: https://github.com/vuejs/core/pull/7963
 export default defineComponent({
-  name: 'ElTableColumn',
+  name: 'GTableColumn',
   components: {
-    ElCheckbox,
+    GCheckbox,
   },
   props: defaultProps,
   setup(props, { slots }) {
@@ -56,7 +56,7 @@ export default defineComponent({
       setColumnForcedProps,
       setColumnRenders,
       getPropsData,
-      getColumnElIndex,
+      getColumnGIndex,
       realAlign,
       updateColumnOrder,
     } = useRender(props as unknown as TableColumnCtx<DefaultRow>, slots, owner)
@@ -104,7 +104,7 @@ export default defineComponent({
         sortable,
         // index 列
         index: props.index,
-        // <el-table-column key="xxx" />
+        // <g-table-column key="xxx" />
         rawColumnKey: instance.vnode.key,
       }
 
@@ -153,7 +153,7 @@ export default defineComponent({
         ? parent.vnode.el?.children
         : parent.refs.hiddenColumns?.children
       const getColumnIndex = () =>
-        getColumnElIndex(children || [], instance.vnode.el)
+        getColumnGIndex(children || [], instance.vnode.el)
       columnConfig.value.getColumnIndex = getColumnIndex
       const columnIndex = getColumnIndex()
       columnIndex > -1 &&
@@ -195,7 +195,7 @@ export default defineComponent({
       if (isArray(renderDefault)) {
         for (const childNode of renderDefault) {
           if (
-            (childNode.type as any)?.name === 'ElTableColumn' ||
+            (childNode.type as any)?.name === 'GTableColumn' ||
             childNode.shapeFlag & 2
           ) {
             children.push(childNode)

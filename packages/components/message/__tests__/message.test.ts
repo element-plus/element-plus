@@ -111,7 +111,7 @@ describe('Message.vue', () => {
         },
       })
 
-      const closeBtn = wrapper.find('.el-message__closeBtn')
+      const closeBtn = wrapper.find('.g-message__closeBtn')
       expect(closeBtn.exists()).toBe(true)
       await closeBtn.trigger('click')
       expect(wrapper.vm.visible).toBe(false)

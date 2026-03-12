@@ -5,7 +5,7 @@ import type { Arrayable } from '@element-plus/utils'
 import type { FormItemContext } from './types'
 import type { FormItemProp } from './form-item'
 
-const SCOPE = 'ElForm'
+const SCOPE = 'GForm'
 
 export function useFormLabelWidth() {
   const potentialLabelWidthArr = ref<number[]>([])

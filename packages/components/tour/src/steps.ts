@@ -5,7 +5,7 @@ import type { FlattenVNodes } from '@element-plus/utils'
 import type { Component, VNode } from 'vue'
 
 export default defineComponent({
-  name: 'ElTourSteps',
+  name: 'GTourSteps',
   props: {
     current: {
       type: Number,
@@ -26,7 +26,7 @@ export default defineComponent({
         ;(children as VNode[]).forEach((item) => {
           const name = ((item?.type || {}) as Component)?.name
 
-          if (name === 'ElTourStep') {
+          if (name === 'GTourStep') {
             result.push(item)
             total += 1
           }

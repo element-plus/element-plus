@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { usePopperContainerId, useZIndex } from '@element-plus/hooks'
 import { rAF } from '@element-plus/test-utils/tick'
-import { ElPopperTrigger } from '@element-plus/components/popper'
+import { GPopperTrigger } from '@element-plus/components/popper'
 import Popover from '../src/popover.vue'
 
 import type { VueWrapper } from '@vue/test-utils'
@@ -31,7 +31,7 @@ describe('Popover.vue', () => {
   let wrapper: VueWrapper<any>
   const findContentComp = () =>
     wrapper.findComponent({
-      name: 'ElPopperContent',
+      name: 'GPopperContent',
     })
 
   afterEach(() => {
@@ -107,8 +107,8 @@ describe('Popover.vue', () => {
     const wrapper = _mount({ trigger: 'click' })
 
     await nextTick()
-    const trigger$ = wrapper.findComponent(ElPopperTrigger)
-    const triggerEl = trigger$.find('.el-tooltip__trigger')
+    const trigger$ = wrapper.findComponent(GPopperTrigger)
+    const triggerEl = trigger$.find('.g-tooltip__trigger')
     vi.useFakeTimers()
     await triggerEl.trigger('click')
     vi.runAllTimers()
@@ -131,9 +131,9 @@ describe('Popover.vue', () => {
   it('test visible controlled mode trigger invalid', async () => {
     const wrapper = _mount({ visible: false, trigger: 'click' })
     await nextTick()
-    const trigger$ = wrapper.findComponent(ElPopperTrigger)
-    const triggerEl = trigger$.find('.el-tooltip__trigger')
-    const popoverDom: HTMLElement = document.querySelector('.el-popper')!
+    const trigger$ = wrapper.findComponent(GPopperTrigger)
+    const triggerEl = trigger$.find('.g-tooltip__trigger')
+    const popoverDom: HTMLElement = document.querySelector('.g-popper')!
 
     vi.useFakeTimers()
     await triggerEl.trigger('click')
@@ -177,9 +177,9 @@ describe('Popover.vue', () => {
       }
     )
     await nextTick()
-    const trigger$ = wrapper.findComponent(ElPopperTrigger)
-    const triggerEl = trigger$.find('.el-tooltip__trigger')
-    const popoverDom: HTMLElement = document.querySelector('.el-popper')!
+    const trigger$ = wrapper.findComponent(GPopperTrigger)
+    const triggerEl = trigger$.find('.g-tooltip__trigger')
+    const popoverDom: HTMLElement = document.querySelector('.g-popper')!
 
     vi.useFakeTimers()
     await triggerEl.trigger('click')

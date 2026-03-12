@@ -7,26 +7,26 @@ const AXIOM = 'Rem is the best girl'
 describe('Empty.vue', () => {
   test('render test', () => {
     const wrapper = mount(() => <Empty>{AXIOM}</Empty>)
-    expect(wrapper.find('.el-empty__image').exists()).toBe(true)
-    expect(wrapper.find('.el-empty__description').exists()).toBe(true)
-    expect(wrapper.find('.el-empty__bottom').exists()).toBe(true)
+    expect(wrapper.find('.g-empty__image').exists()).toBe(true)
+    expect(wrapper.find('.g-empty__description').exists()).toBe(true)
+    expect(wrapper.find('.g-empty__bottom').exists()).toBe(true)
   })
 
   test('should render image props', () => {
     const wrapper = mount(() => <Empty image={AXIOM} />)
-    expect(wrapper.find('.el-empty__image img').exists()).toBe(true)
+    expect(wrapper.find('.g-empty__image img').exists()).toBe(true)
   })
 
   test('should render imageSize props', async () => {
     const wrapper = mount(() => <Empty imageSize={500} />)
-    expect(wrapper.find('.el-empty__image').attributes('style')).toContain(
+    expect(wrapper.find('.g-empty__image').attributes('style')).toContain(
       'width: 500px'
     )
   })
 
   test('should render description props', () => {
     const wrapper = mount(() => <Empty description={AXIOM} />)
-    expect(wrapper.find('.el-empty__description').text()).toEqual(AXIOM)
+    expect(wrapper.find('.g-empty__description').text()).toEqual(AXIOM)
   })
 
   test('should render image slots', () => {
@@ -37,7 +37,7 @@ describe('Empty.vue', () => {
         }}
       />
     ))
-    expect(wrapper.find('.el-empty__image').text()).toEqual(AXIOM)
+    expect(wrapper.find('.g-empty__image').text()).toEqual(AXIOM)
   })
 
   test('should render description slots', () => {
@@ -48,7 +48,7 @@ describe('Empty.vue', () => {
         }}
       />
     ))
-    expect(wrapper.find('.el-empty__description').text()).toEqual(AXIOM)
+    expect(wrapper.find('.g-empty__description').text()).toEqual(AXIOM)
   })
 
   test('should render default slots', async () => {
@@ -59,6 +59,6 @@ describe('Empty.vue', () => {
         }}
       />
     ))
-    expect(wrapper.find('.el-empty__bottom').text()).toEqual(AXIOM)
+    expect(wrapper.find('.g-empty__bottom').text()).toEqual(AXIOM)
   })
 })

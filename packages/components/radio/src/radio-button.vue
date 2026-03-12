@@ -42,7 +42,7 @@ import type { RadioButtonProps } from './radio-button'
 import type { CSSProperties } from 'vue'
 
 defineOptions({
-  name: 'ElRadioButton',
+  name: 'GRadioButton',
 })
 
 const props = withDefaults(

@@ -18,7 +18,7 @@ interface HeaderProps {
 }
 
 defineOptions({
-  name: 'ElHeader',
+  name: 'GHeader',
 })
 
 const props = withDefaults(defineProps<HeaderProps>(), {

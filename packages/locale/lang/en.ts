@@ -1,6 +1,6 @@
 export default {
   name: 'en',
-  el: {
+  g: {
     breadcrumb: {
       label: 'Breadcrumb',
     },
@@ -120,7 +120,7 @@ export default {
       prevPages: 'Previous {pager} pages',
       nextPages: 'Next {pager} pages',
       deprecationWarning:
-        'Deprecated usages detected, please refer to the el-pagination documentation for more details',
+        'Deprecated usages detected, please refer to the g-pagination documentation for more details',
     },
     dialog: {
       close: 'Close this dialog',

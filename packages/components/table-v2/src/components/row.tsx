@@ -125,7 +125,7 @@ const useTableRow = (props: TableV2RowProps) => {
   return { isScrolling, measurable, measured, rowRef, eventHandlers, onExpand }
 }
 
-const COMPONENT_NAME = 'ElTableV2TableRow'
+const COMPONENT_NAME = 'GTableV2TableRow'
 
 const TableV2Row = defineComponent({
   name: COMPONENT_NAME,

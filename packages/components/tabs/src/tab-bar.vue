@@ -17,7 +17,7 @@ import { tabsRootContextKey } from './constants'
 import type { TabBarProps } from './tab-bar'
 import type { CSSProperties } from 'vue'
 
-const COMPONENT_NAME = 'ElTabBar'
+const COMPONENT_NAME = 'GTabBar'
 defineOptions({
   name: COMPONENT_NAME,
 })
@@ -27,7 +27,7 @@ const props = withDefaults(defineProps<TabBarProps>(), {
 })
 
 const rootTabs = inject(tabsRootContextKey)
-if (!rootTabs) throwError(COMPONENT_NAME, '<el-tabs><el-tab-bar /></el-tabs>')
+if (!rootTabs) throwError(COMPONENT_NAME, '<g-tabs><g-tab-bar /></g-tabs>')
 
 const ns = useNamespace('tabs')
 

@@ -1,5 +1,5 @@
 <template>
-  <el-tooltip
+  <g-tooltip
     ref="popperRef"
     :visible="suggestionVisible"
     :placement="placement"
@@ -28,7 +28,7 @@
       :aria-expanded="suggestionVisible"
       :aria-owns="listboxId"
     >
-      <el-input
+      <g-input
         ref="inputRef"
         v-bind="mergeProps(passInputProps, $attrs)"
         :model-value="modelValue"
@@ -53,7 +53,7 @@
         <template v-if="$slots.suffix" #suffix>
           <slot name="suffix" />
         </template>
-      </el-input>
+      </g-input>
     </div>
     <template #content>
       <div
@@ -72,7 +72,7 @@
         >
           <slot name="header" />
         </div>
-        <el-scrollbar
+        <g-scrollbar
           :id="listboxId"
           tag="ul"
           :wrap-class="ns.be('suggestion', 'wrap')"
@@ -81,9 +81,9 @@
         >
           <li v-if="suggestionLoading">
             <slot name="loading">
-              <el-icon :class="ns.is('loading')">
+              <g-icon :class="ns.is('loading')">
                 <Loading />
-              </el-icon>
+              </g-icon>
             </slot>
           </li>
           <template v-else>
@@ -99,7 +99,7 @@
               <slot :item="item">{{ item[valueKey] }}</slot>
             </li>
           </template>
-        </el-scrollbar>
+        </g-scrollbar>
         <div
           v-if="$slots.footer"
           :class="ns.be('suggestion', 'footer')"
@@ -109,7 +109,7 @@
         </div>
       </div>
     </template>
-  </el-tooltip>
+  </g-tooltip>
 </template>
 
 <script lang="ts" setup>
@@ -132,13 +132,13 @@ import {
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import ElInput, {
+import GInput, {
   inputProps,
   inputPropsDefaults,
 } from '@element-plus/components/input'
-import ElScrollbar from '@element-plus/components/scrollbar'
-import ElTooltip from '@element-plus/components/tooltip'
-import ElIcon from '@element-plus/components/icon'
+import GScrollbar from '@element-plus/components/scrollbar'
+import GTooltip from '@element-plus/components/tooltip'
+import GIcon from '@element-plus/components/icon'
 import { useFormDisabled } from '@element-plus/components/form'
 import { autocompleteEmits } from './autocomplete'
 
@@ -147,7 +147,7 @@ import type { StyleValue } from 'vue'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { InputInstance } from '@element-plus/components/input'
 
-const COMPONENT_NAME = 'ElAutocomplete'
+const COMPONENT_NAME = 'GAutocomplete'
 defineOptions({
   name: COMPONENT_NAME,
   inheritAttrs: false,
@@ -289,7 +289,7 @@ const handleFocus = (evt: FocusEvent) => {
 
 const handleBlur = (evt: FocusEvent) => {
   setTimeout(() => {
-    // validate current focus event is inside el-tooltip-content
+    // validate current focus event is inside g-tooltip-content
     // if so, ignore the blur event and the next focus event
     if (popperRef.value?.isFocusInsideContent()) {
       ignoreFocusEvent = true
@@ -482,7 +482,7 @@ defineExpose({
   loading,
   /** @description el-input component instance */
   inputRef,
-  /** @description el-tooltip component instance */
+  /** @description g-tooltip component instance */
   popperRef,
   /** @description fetch suggestions result */
   suggestions,

@@ -11,7 +11,7 @@ import { useDeprecated } from '@element-plus/hooks'
 
 import type { ComponentPublicInstance, ObjectDirective } from 'vue'
 
-export const SCOPE = 'ElInfiniteScroll'
+export const SCOPE = 'GInfiniteScroll'
 export const CHECK_INTERVAL = 50
 export const DEFAULT_DELAY = 200
 export const DEFAULT_DISTANCE = 0
@@ -128,7 +128,7 @@ const InfiniteScroll: ObjectDirective<
       {
         scope: SCOPE,
         from: 'the directive v-infinite-scroll',
-        replacement: 'the el-scrollbar infinite scroll',
+        replacement: 'the g-scrollbar infinite scroll',
         version: '3.0.0',
         ref: 'https://element-plus.org/en-US/component/scrollbar#infinite-scroll',
       },

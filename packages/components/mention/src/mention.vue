@@ -1,6 +1,6 @@
 <template>
   <div ref="wrapperRef" :class="ns.b()">
-    <el-input
+    <g-input
       v-bind="mergeProps(passInputProps, $attrs)"
       ref="elInputRef"
       :model-value="modelValue"
@@ -19,8 +19,8 @@
       <template v-for="(_, name) in $slots" #[name]="slotProps">
         <slot :name="name" v-bind="slotProps" />
       </template>
-    </el-input>
-    <el-tooltip
+    </g-input>
+    <g-tooltip
       ref="tooltipRef"
       :visible="dropdownVisible"
       :popper-class="[ns.e('popper'), popperClass!]"
@@ -37,7 +37,7 @@
         <div :style="cursorStyle" />
       </template>
       <template #content>
-        <el-mention-dropdown
+        <g-mention-dropdown
           ref="dropdownRef"
           :options="filteredOptions"
           :disabled="disabled"
@@ -50,9 +50,9 @@
           <template v-for="(_, name) in $slots" #[name]="slotProps">
             <slot :name="name" v-bind="slotProps" />
           </template>
-        </el-mention-dropdown>
+        </g-mention-dropdown>
       </template>
-    </el-tooltip>
+    </g-tooltip>
   </div>
 </template>
 
@@ -60,11 +60,11 @@
 import { computed, mergeProps, nextTick, ref } from 'vue'
 import { pick } from 'lodash-unified'
 import { useFocusController, useId, useNamespace } from '@element-plus/hooks'
-import ElInput, {
+import GInput, {
   inputProps,
   inputPropsDefaults,
 } from '@element-plus/components/input'
-import ElTooltip from '@element-plus/components/tooltip'
+import GTooltip from '@element-plus/components/tooltip'
 import {
   EVENT_CODE,
   INPUT_EVENT,
@@ -74,7 +74,7 @@ import { useFormDisabled } from '@element-plus/components/form'
 import { getEventCode, isFunction } from '@element-plus/utils'
 import { mentionDefaultProps, mentionEmits } from './mention'
 import { filterOption, getCursorPosition, getMentionCtx } from './helper'
-import ElMentionDropdown from './mention-dropdown.vue'
+import GMentionDropdown from './mention-dropdown.vue'
 
 import type { MentionProps } from './mention'
 import type { Placement } from '@popperjs/core'
@@ -84,7 +84,7 @@ import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { MentionCtx, MentionOption } from './types'
 
 defineOptions({
-  name: 'ElMention',
+  name: 'GMention',
   inheritAttrs: false,
 })
 
@@ -109,7 +109,7 @@ const contentId = useId()
 
 const elInputRef = ref<InputInstance>()
 const tooltipRef = ref<TooltipInstance>()
-const dropdownRef = ref<InstanceType<typeof ElMentionDropdown>>()
+const dropdownRef = ref<InstanceType<typeof GMentionDropdown>>()
 
 const visible = ref(false)
 const cursorStyle = ref<CSSProperties>()

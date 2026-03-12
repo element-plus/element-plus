@@ -30,7 +30,7 @@ $tag-icon-span-gap: map.merge(
   @return $list;
 }
 
-// false mean --el-color-white
+// false mean --g-color-white
 @mixin genTheme($backgroundColorWeight, $borderColorWeight, $hoverColorWeight) {
   @include css-var-from-global(
     ('tag', 'bg-color'),

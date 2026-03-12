@@ -1,5 +1,5 @@
 <template>
-  <el-tooltip
+  <g-tooltip
     ref="refPopper"
     :visible="pickerVisible"
     effect="light"
@@ -23,7 +23,7 @@
     @hide="onHide"
   >
     <template #default>
-      <el-input
+      <g-input
         v-if="!isRangeInput"
         :id="
           // https://github.com/vuejs/language-tools/issues/2104#issuecomment-3092541527
@@ -72,26 +72,26 @@
         @click.stop
       >
         <template #prefix>
-          <el-icon
+          <g-icon
             v-if="triggerIcon"
             :class="nsInput.e('icon')"
             @mousedown.prevent="onMouseDownInput"
             @touchstart.passive="onTouchStartInput"
           >
             <component :is="triggerIcon" />
-          </el-icon>
+          </g-icon>
         </template>
         <template #suffix>
-          <el-icon
+          <g-icon
             v-if="showClearBtn && clearIcon"
             :class="`${nsInput.e('icon')} clear-icon`"
             @mousedown.prevent="NOOP"
             @click="onClear"
           >
             <component :is="clearIcon" />
-          </el-icon>
+          </g-icon>
         </template>
-      </el-input>
+      </g-input>
       <picker-range-trigger
         v-else
         :id="
@@ -128,12 +128,12 @@
         @keydown="handleKeydownInput"
       >
         <template #prefix>
-          <el-icon
+          <g-icon
             v-if="triggerIcon"
             :class="[nsInput.e('icon'), nsRange.e('icon')]"
           >
             <component :is="triggerIcon" />
-          </el-icon>
+          </g-icon>
         </template>
         <template #range-separator>
           <slot name="range-separator">
@@ -141,14 +141,14 @@
           </slot>
         </template>
         <template #suffix>
-          <el-icon
+          <g-icon
             v-if="clearIcon"
             :class="clearIconKls"
             @mousedown.prevent="NOOP"
             @click="onClear"
           >
             <component :is="clearIcon" />
-          </el-icon>
+          </g-icon>
         </template>
       </picker-range-trigger>
     </template>
@@ -176,7 +176,7 @@
         @mousedown.stop
       />
     </template>
-  </el-tooltip>
+  </g-tooltip>
 </template>
 
 <script lang="ts" setup>
@@ -202,9 +202,9 @@ import {
   useFormItem,
   useFormSize,
 } from '@element-plus/components/form'
-import ElInput from '@element-plus/components/input'
-import ElIcon from '@element-plus/components/icon'
-import ElTooltip from '@element-plus/components/tooltip'
+import GInput from '@element-plus/components/input'
+import GIcon from '@element-plus/components/icon'
+import GTooltip from '@element-plus/components/tooltip'
 import { NOOP, debugWarn, getEventCode, isArray } from '@element-plus/utils'
 import {
   CHANGE_EVENT,

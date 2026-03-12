@@ -28,7 +28,7 @@
         height: itemSize + 'px',
       }"
     >
-      <el-icon
+      <g-icon
         v-if="icon"
         :class="[
           ns.is('leaf', !!node?.isLeaf),
@@ -41,8 +41,8 @@
         @click.stop="handleExpandIconClick"
       >
         <component :is="icon" />
-      </el-icon>
-      <el-checkbox
+      </g-icon>
+      <g-checkbox
         v-if="showCheckbox"
         :model-value="checked"
         :indeterminate="indeterminate"
@@ -50,19 +50,19 @@
         @change="handleCheckChange"
         @click.stop
       />
-      <el-node-content :node="{ ...node, expanded }" />
+      <g-node-content :node="{ ...node, expanded }" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { computed, inject } from 'vue'
-import ElIcon from '@element-plus/components/icon'
+import GIcon from '@element-plus/components/icon'
 import { CaretRight } from '@element-plus/icons-vue'
-import ElCheckbox from '@element-plus/components/checkbox'
+import GCheckbox from '@element-plus/components/checkbox'
 import { useNamespace } from '@element-plus/hooks'
 import { isFunction, isString, mutable } from '@element-plus/utils'
-import ElNodeContent from './tree-node-content'
+import GNodeContent from './tree-node-content'
 import {
   EMPTY_NODE,
   NODE_CONTEXTMENU,
@@ -74,7 +74,7 @@ import type { TreeNode, TreeNodeProps } from './types'
 import type { CheckboxValueType } from '@element-plus/components/checkbox'
 
 defineOptions({
-  name: 'ElTreeNode',
+  name: 'GTreeNode',
 })
 
 const props = withDefaults(defineProps<TreeNodeProps>(), {

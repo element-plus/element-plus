@@ -8,19 +8,19 @@ describe('Text.vue', () => {
   test('create', () => {
     const wrapper = mount(() => <Text />)
 
-    expect(wrapper.classes()).toContain('el-text')
+    expect(wrapper.classes()).toContain('g-text')
   })
 
   test('type', () => {
     const wrapper = mount(() => <Text type="success" />)
 
-    expect(wrapper.classes()).toContain('el-text--success')
+    expect(wrapper.classes()).toContain('g-text--success')
   })
 
   test('size', () => {
     const wrapper = mount(() => <Text size="large" />)
 
-    expect(wrapper.classes()).toContain('el-text--large')
+    expect(wrapper.classes()).toContain('g-text--large')
   })
 
   test('truncated', () => {
@@ -38,7 +38,7 @@ describe('Text.vue', () => {
   test('tag', () => {
     const wrapper = mount(() => <Text tag="del" />)
 
-    expect(wrapper.vm.$el.tagName).toEqual('DEL')
+    expect(wrapper.vm.$g.tagName).toEqual('DEL')
   })
 
   test('default slot', () => {

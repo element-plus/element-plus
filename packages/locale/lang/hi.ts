@@ -1,6 +1,6 @@
 export default {
   name: 'hi',
-  el: {
+  g: {
     breadcrumb: {
       label: 'ब्रेडक्रंब',
     },

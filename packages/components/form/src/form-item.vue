@@ -77,7 +77,7 @@ import type {
 import type { FormItemProps, FormItemValidateState } from './form-item'
 
 defineOptions({
-  name: 'ElFormItem',
+  name: 'GFormItem',
 })
 const props = withDefaults(defineProps<FormItemProps>(), {
   labelPosition: '',

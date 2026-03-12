@@ -33,7 +33,7 @@ import { dropdownMenuProps } from './dropdown'
 import { useDropdown } from './useDropdown'
 
 export default defineComponent({
-  name: 'ElDropdownMenu',
+  name: 'GDropdownMenu',
   props: dropdownMenuProps,
   setup(props) {
     const ns = useNamespace('dropdown')

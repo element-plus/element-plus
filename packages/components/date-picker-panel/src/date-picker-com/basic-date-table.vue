@@ -16,10 +16,10 @@
         <th
           v-for="(week, key) in WEEKS"
           :key="key"
-          :aria-label="t('el.datepicker.weeksFull.' + week)"
+          :aria-label="t('g.datepicker.weeksFull.' + week)"
           scope="col"
         >
-          {{ t('el.datepicker.weeks.' + week) }}
+          {{ t('g.datepicker.weeks.' + week) }}
         </th>
       </tr>
       <tr
@@ -43,7 +43,7 @@
           :aria-disabled="disabled"
           @focus="handleFocus"
         >
-          <el-date-picker-cell :cell="cell" />
+          <g-date-picker-cell :cell="cell" />
         </td>
       </tr>
     </tbody>
@@ -60,7 +60,7 @@ import {
   useBasicDateTable,
   useBasicDateTableDOM,
 } from '../composables/use-basic-date-table'
-import ElDatePickerCell from './basic-cell-render'
+import GDatePickerCell from './basic-cell-render'
 
 const props = defineProps(basicDateTableProps)
 const emit = defineEmits(basicDateTableEmits)

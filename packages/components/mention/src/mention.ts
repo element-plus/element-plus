@@ -15,7 +15,7 @@ import type Mention from './mention.vue'
 import type { MentionOption } from './types'
 import type { Options } from '@element-plus/components/popper'
 import type { InputProps } from '@element-plus/components/input'
-import type { ElTooltipContentProps } from '@element-plus/components/tooltip'
+import type { GTooltipContentProps } from '@element-plus/components/tooltip'
 
 export interface MentionProps extends InputProps {
   /**
@@ -65,11 +65,11 @@ export interface MentionProps extends InputProps {
   /**
    * @description custom class name for dropdown panel
    */
-  popperClass?: ElTooltipContentProps['popperClass']
+  popperClass?: GTooltipContentProps['popperClass']
   /**
    * @description custom style for dropdown panel
    */
-  popperStyle?: ElTooltipContentProps['popperStyle']
+  popperStyle?: GTooltipContentProps['popperStyle']
   /**
    * @description [popper.js](https://popper.js.org/docs/v2/) parameters
    */

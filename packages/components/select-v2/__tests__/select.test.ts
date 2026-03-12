@@ -7,7 +7,7 @@ import { makeMountFunc } from '@element-plus/test-utils/make-mount'
 import { rAF } from '@element-plus/test-utils/tick'
 import { ArrowDown, CircleClose } from '@element-plus/icons-vue'
 import { usePopperContainerId } from '@element-plus/hooks'
-import { ElForm, ElFormItem } from '@element-plus/components/form'
+import { GForm, GFormItem } from '@element-plus/components/form'
 import Select from '../src/select.vue'
 
 import type { Props } from '../useProps'
@@ -34,9 +34,9 @@ vi.mock('@vueuse/core', async () => {
 
 const _mount = makeMountFunc({
   components: {
-    'el-select': Select,
-    'el-form-item': ElFormItem,
-    'el-form': ElForm,
+    'g-select': Select,
+    'g-form-item': GFormItem,
+    'g-form': GForm,
   },
 })
 
@@ -127,7 +127,7 @@ const createSelect = (
 
   return _mount(
     `
-      <el-select
+      <g-select
         :options="options"
         :props="props"
         :popper-class="popperClass"
@@ -170,7 +170,7 @@ const createSelect = (
         ${emptySlot}
         ${labelSlot}
         ${tagSlot}
-      </el-select>
+      </g-select>
     `,
     {
       data() {
@@ -225,10 +225,10 @@ function getOptions(): HTMLElement[] {
   )
 }
 
-const CLASS_NAME = 'el-select'
-const WRAPPER_CLASS_NAME = 'el-select__wrapper'
-const OPTION_ITEM_CLASS_NAME = 'el-select-dropdown__item'
-const PLACEHOLDER_CLASS_NAME = 'el-select__placeholder'
+const CLASS_NAME = 'g-select'
+const WRAPPER_CLASS_NAME = 'g-select__wrapper'
+const OPTION_ITEM_CLASS_NAME = 'g-select-dropdown__item'
+const PLACEHOLDER_CLASS_NAME = 'g-select__placeholder'
 const DEFAULT_PLACEHOLDER = 'Select'
 
 describe('Select', () => {
@@ -274,16 +274,16 @@ describe('Select', () => {
       }),
     })
     await nextTick()
-    expect([...document.querySelector('.el-popper').classList]).toContain(
+    expect([...document.querySelector('.g-popper').classList]).toContain(
       'custom-dropdown'
     )
   })
 
   it('should show placeholder when no model-value setted', async () => {
-    const wrapper = _mount('<el-select :options="[]"></el-select>')
+    const wrapper = _mount('<g-select :options="[]"></g-select>')
     expect(
       wrapper
-        .find('.el-select__selected-item.el-select__placeholder > span')
+        .find('.g-select__selected-item.g-select__placeholder > span')
         .text()
     ).toBe('Select')
   })
@@ -468,7 +468,7 @@ describe('Select', () => {
     const vm = wrapper.vm as any
     const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
     const option = document.querySelector<HTMLElement>(
-      `.el-select-dropdown__item.is-disabled`
+      `.g-select-dropdown__item.is-disabled`
     )
     expect(option.textContent).toBe(vm.options[1].label)
     option.click()
@@ -478,7 +478,7 @@ describe('Select', () => {
     vm.options[2].disabled = true
     await nextTick()
     const options = document.querySelectorAll<HTMLElement>(
-      `.el-select-dropdown__item.is-disabled`
+      `.g-select-dropdown__item.is-disabled`
     )
     expect(options.length).toBe(2)
     expect(options.item(1).textContent).toBe(vm.options[2].label)
@@ -681,7 +681,7 @@ describe('Select', () => {
       await nextTick()
       expect(vm.value.length).toBe(2)
       expect(vm.value[1]).toBe(vm.options[3].value)
-      const tagIcon = wrapper.find('.el-tag__close')
+      const tagIcon = wrapper.find('.g-tag__close')
       await tagIcon.trigger('click')
       expect(vm.value.length).toBe(1)
     })
@@ -709,7 +709,7 @@ describe('Select', () => {
       options[2].click()
       await nextTick()
       expect(vm.value.length).toBe(3)
-      const tagCloseIcons = wrapper.findAll('.el-tag__close')
+      const tagCloseIcons = wrapper.findAll('.g-tag__close')
       await tagCloseIcons[1].trigger('click')
       expect(vm.value.length).toBe(2)
       await tagCloseIcons[0].trigger('click')
@@ -825,9 +825,9 @@ describe('Select', () => {
 
       await nextTick()
       const vm = wrapper.vm as any
-      expect(wrapper.findAll('.el-tag').length).toBe(1)
-      expect(wrapper.find('.el-select__tags-text').text()).toBe('option')
-      const tagCloseIcons = wrapper.findAll('.el-tag__close')
+      expect(wrapper.findAll('.g-tag').length).toBe(1)
+      expect(wrapper.find('.g-select__tags-text').text()).toBe('option')
+      const tagCloseIcons = wrapper.findAll('.g-tag__close')
       await tagCloseIcons[0].trigger('click')
       expect(vm.value.length).toBe(0)
     })
@@ -856,7 +856,7 @@ describe('Select', () => {
       options[2].click()
       await nextTick()
       expect(vm.value.length).toBe(3)
-      const tags = wrapper.findAll('.el-tag').filter((item) => {
+      const tags = wrapper.findAll('.g-tag').filter((item) => {
         return !hasClass(item.element, 'in-tooltip')
       })
       expect(tags.length).toBe(2)
@@ -885,7 +885,7 @@ describe('Select', () => {
       options[2].click()
       await nextTick()
       expect(vm.value.length).toBe(3)
-      expect(wrapper.findAll('.el-tag')[1].element.textContent.trim()).toBe(
+      expect(wrapper.findAll('.g-tag')[1].element.textContent.trim()).toBe(
         '+ 2'
       )
     })
@@ -914,7 +914,7 @@ describe('Select', () => {
       options[3].click()
       await nextTick()
       expect(vm.value.length).toBe(4)
-      const tags = wrapper.findAll('.el-tag').filter((item) => {
+      const tags = wrapper.findAll('.g-tag').filter((item) => {
         return !hasClass(item.element, 'in-tooltip')
       })
       expect(tags.length).toBe(4)
@@ -948,9 +948,9 @@ describe('Select', () => {
       const tagTooltip = select.findComponent({ ref: 'tagTooltipRef' })
       expect(tagTooltip.props('appendTo')).toBe('.append-target')
 
-      const triggerWrappers = wrapper.findAll('.el-tooltip__trigger')
+      const triggerWrappers = wrapper.findAll('.g-tooltip__trigger')
       expect(triggerWrappers[0]).toBeDefined()
-      const tags = wrapper.findAll('.el-tag').filter((item) => {
+      const tags = wrapper.findAll('.g-tag').filter((item) => {
         return !hasClass(item.element, 'in-tooltip')
       })
       expect(tags.length).toBe(2)
@@ -1008,13 +1008,13 @@ describe('Select', () => {
 
       vm.value = ['option_1']
       await nextTick()
-      expect(wrapper.find('.el-select__tags-text').text()).toBe('a0')
+      expect(wrapper.find('.g-select__tags-text').text()).toBe('a0')
       placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
       expect(placeholder.exists()).toBeFalsy()
 
       vm.value = []
       await nextTick()
-      expect(wrapper.find('.el-select__tags-text').exists()).toBeFalsy()
+      expect(wrapper.find('.g-select__tags-text').exists()).toBeFalsy()
       placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
       expect(placeholder.exists()).toBeTruthy()
     })
@@ -1036,7 +1036,7 @@ describe('Select', () => {
       await input.trigger('input')
       vm.value = ['option_1']
       await nextTick()
-      expect(wrapper.find('.el-select__tags-text').text()).toBe('a0')
+      expect(wrapper.find('.g-select__tags-text').text()).toBe('a0')
     })
 
     it('set object modelValue in single select', async () => {
@@ -1223,10 +1223,10 @@ describe('Select', () => {
       // selected the new option
       selectVm.onSelect(selectVm.filteredOptions[0])
       expect(vm.value).toBe('1111')
-      await wrapper.find('.el-select__suffix').trigger('click')
+      await wrapper.find('.g-select__suffix').trigger('click')
       await nextTick()
       await rAF()
-      await wrapper.find('.el-select__suffix').trigger('click')
+      await wrapper.find('.g-select__suffix').trigger('click')
       await nextTick()
       await rAF()
       expect(selectVm.filteredOptions.length).toBe(4)
@@ -1283,7 +1283,7 @@ describe('Select', () => {
       await input.trigger('click')
       expect(selectVm.filteredOptions.length).toBe(5)
       // remove tag
-      const tagCloseIcons = wrapper.findAll('.el-tag__close')
+      const tagCloseIcons = wrapper.findAll('.g-tag__close')
       await tagCloseIcons[1].trigger('click')
       await rAF()
       expect(selectVm.filteredOptions.length).toBe(4)
@@ -1395,7 +1395,7 @@ describe('Select', () => {
     expect(
       wrapper
         .findComponent({
-          name: 'ElPopperContent',
+          name: 'GPopperContent',
         })
         .find('.empty-slot')
         .exists()
@@ -1444,7 +1444,7 @@ describe('Select', () => {
       },
     })
     await nextTick()
-    const tag = wrapper.find('.el-tag')
+    const tag = wrapper.find('.g-tag')
     expect(tag.text()).toBe('Label1 = 0')
     options.value.shift()
     await nextTick()
@@ -1453,7 +1453,7 @@ describe('Select', () => {
     await nextTick()
     value.value.push('Option2', 'Option3')
     await nextTick()
-    const tags = wrapper.findAll('.el-tag')
+    const tags = wrapper.findAll('.g-tag')
     expect(tags[1].text()).toBe('Label2 = 0')
     expect(tags[2].text()).toBe('Label3 = 1')
   })
@@ -1696,7 +1696,7 @@ describe('Select', () => {
         default: `
           <div class="custom-renderer">
             <span style="margin-right: 8px;">{{ item.label }}</span>
-            <span style="color: var(--el-text-color-secondary); font-size: 13px">
+            <span style="color: var(--g-text-color-secondary); font-size: 13px">
               {{ item.value }}
             </span>
           </div>
@@ -1707,7 +1707,7 @@ describe('Select', () => {
     expect(
       wrapper
         .findComponent({
-          name: 'ElPopperContent',
+          name: 'GPopperContent',
         })
         .findAll('.custom-renderer').length
     ).toBeGreaterThan(0)
@@ -1739,12 +1739,12 @@ describe('Select', () => {
       },
     })
     await nextTick()
-    expect(wrapper.findAll('.el-tag').length).toBe(2)
-    const tagCloseIcons = wrapper.findAll('.el-tag__close')
+    expect(wrapper.findAll('.g-tag').length).toBe(2)
+    const tagCloseIcons = wrapper.findAll('.g-tag__close')
     expect(tagCloseIcons.length).toBe(1)
     await tagCloseIcons[0].trigger('click')
-    expect(wrapper.findAll('.el-tag__close').length).toBe(0)
-    expect(wrapper.findAll('.el-tag').length).toBe(1)
+    expect(wrapper.findAll('.g-tag__close').length).toBe(0)
+    expect(wrapper.findAll('.g-tag').length).toBe(1)
   })
 
   it('modelValue should be deep reactive in multiple mode', async () => {
@@ -1757,16 +1757,16 @@ describe('Select', () => {
       },
     })
     await nextTick()
-    expect(wrapper.findAll('.el-tag').length).toBe(3)
+    expect(wrapper.findAll('.g-tag').length).toBe(3)
     const vm = wrapper.vm as any
     vm.value.splice(0, 1)
     await nextTick()
-    expect(wrapper.findAll('.el-tag').length).toBe(2)
+    expect(wrapper.findAll('.g-tag').length).toBe(2)
   })
 
   it('tag list should be empty when model-value is empty', async () => {
     const wrapper = _mount(
-      `<el-select
+      `<g-select
         model-value=""
         :options="[
           {
@@ -1784,13 +1784,13 @@ describe('Select', () => {
     option.click()
     option.click()
 
-    const tags = await vi.waitUntil(() => wrapper.findAll('.el-tag'))
+    const tags = await vi.waitUntil(() => wrapper.findAll('.g-tag'))
     expect(tags.length).toBe(0)
   })
 
   it('The tag list in the multiple select should remain synchronized when the model value is unchanged', async () => {
     const wrapper = _mount(
-      `<el-select
+      `<g-select
         :model-value="[1]"
         :options="[
           {
@@ -1811,14 +1811,14 @@ describe('Select', () => {
     await clickClearButton(wrapper)
     const option = document.querySelector(`.${OPTION_ITEM_CLASS_NAME}`)
     option.click()
-    const tags = await vi.waitUntil(() => wrapper.findAll('.el-tag'))
+    const tags = await vi.waitUntil(() => wrapper.findAll('.g-tag'))
 
     expect(tags.length).toBe(1)
   })
 
   it('The tag list in the single select should remain synchronized when the model value is unchanged', async () => {
     const wrapper = _mount(
-      `<el-select
+      `<g-select
         :model-value="1"
         :options="[
           {
@@ -1855,7 +1855,7 @@ describe('Select', () => {
     await nextTick()
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).exists()).toBeFalsy()
     // When all tags are removed, the placeholder should be displayed
-    const tagCloseIcon = wrapper.find('.el-tag__close')
+    const tagCloseIcon = wrapper.find('.g-tag__close')
     await tagCloseIcon.trigger('click')
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe(
       DEFAULT_PLACEHOLDER
@@ -1949,7 +1949,7 @@ describe('Select', () => {
           }
         },
       })
-      const select = wrapper.findComponent({ name: 'ElSelectV2' })
+      const select = wrapper.findComponent({ name: 'GSelectV2' })
       const input = wrapper.find('input')
       await input.trigger('click')
       expect((select.vm as any).expanded).toBe(true)
@@ -2022,7 +2022,7 @@ describe('Select', () => {
     input.element.value = 'A'
     await input.trigger('input')
 
-    const tag = wrapper.find('.el-select__tags-text')
+    const tag = wrapper.find('.g-select__tags-text')
     // filter or remote-search scenarios should be not initialized
     expect(tag.text()).toBe('label:Alabama')
 
@@ -2071,7 +2071,7 @@ describe('Select', () => {
     optionElements[0].click()
     await nextTick()
     const tags = await vi.waitUntil(() =>
-      wrapper.findAll('.el-select__tags-text')
+      wrapper.findAll('.g-select__tags-text')
     )
     expect(tags[0].text()).toBe('Option1')
     expect(tags[1].text()).toBe('1')
@@ -2192,7 +2192,7 @@ describe('Select', () => {
     })
     const select = wrapper.findComponent(Select)
     const selectVm = select.vm as any
-    const selectDom = wrapper.find('.el-select__wrapper').element
+    const selectDom = wrapper.find('.g-select__wrapper').element
     const selectRect = {
       height: 40,
       width: 221,
@@ -2211,7 +2211,7 @@ describe('Select', () => {
     await nextTick()
     options[2].click()
     await nextTick()
-    const tagWrappers = wrapper.findAll('.el-select__tags-text')
+    const tagWrappers = wrapper.findAll('.g-select__tags-text')
     for (const tagWrapper of tagWrappers) {
       const tagWrapperDom = tagWrapper.element
       expect(
@@ -2229,7 +2229,7 @@ describe('Select', () => {
       const tipDefWrapper = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
       await tipDefWrapper.trigger('click')
       expect((select.vm as any).expanded).toBeTruthy()
-      const box = document.querySelector<HTMLElement>('.el-vl__wrapper')
+      const box = document.querySelector<HTMLElement>('.g-vl__wrapper')
       expect(hasClass(box, 'always-on')).toBe(false)
     })
 
@@ -2246,7 +2246,7 @@ describe('Select', () => {
       const tipDefWrapper = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
       await tipDefWrapper.trigger('click')
       expect((select.vm as any).expanded).toBeTruthy()
-      const box = document.querySelector<HTMLElement>('.el-vl__wrapper')
+      const box = document.querySelector<HTMLElement>('.g-vl__wrapper')
       expect(hasClass(box, 'always-on')).toBe(true)
     })
   })
@@ -2390,22 +2390,22 @@ describe('Select', () => {
       },
     })
     await nextTick()
-    const selectInput = wrapper.find('.el-select__input')
-    expect(wrapper.findAll('.el-tag').length).toBe(2)
-    // after deletion, an el-tag will be deleted
+    const selectInput = wrapper.find('.g-select__input')
+    expect(wrapper.findAll('.g-tag').length).toBe(2)
+    // after deletion, an g-tag will be deleted
     await selectInput.trigger('keydown', {
       code: EVENT_CODE.backspace,
       key: EVENT_CODE.backspace,
     })
     await nextTick()
-    expect(wrapper.findAll('.el-tag').length).toBe(1)
+    expect(wrapper.findAll('.g-tag').length).toBe(1)
     await selectInput.trigger('keydown', {
       code: EVENT_CODE.backspace,
       key: EVENT_CODE.backspace,
     })
     await nextTick()
-    // after deletion, an el-tag still exist
-    expect(wrapper.findAll('.el-tag').length).toBe(1)
+    // after deletion, an g-tag still exist
+    expect(wrapper.findAll('.g-tag').length).toBe(1)
   })
 
   it('should return slot tag data correctly & dont have tag component', async () => {
@@ -2435,7 +2435,7 @@ describe('Select', () => {
     await nextTick()
     const slotTagEls = wrapper.findAll('.no-tag')
     expect(slotTagEls).toHaveLength(3)
-    expect(wrapper.find('.el-tag').exists()).toBe(false)
+    expect(wrapper.find('.g-tag').exists()).toBe(false)
     slotTagEls.forEach((el, idx) => {
       expect(el.text()).toBe(`${value[idx]} - Test ${value[idx]}`)
     })
@@ -2477,7 +2477,7 @@ describe('Select', () => {
 
   it('should be trigger the click event', async () => {
     const handleClick = vi.fn()
-    const wrapper = _mount(`<el-select :options="[]" @click="handleClick" />`, {
+    const wrapper = _mount(`<g-select :options="[]" @click="handleClick" />`, {
       methods: {
         handleClick,
       },
@@ -2504,12 +2504,12 @@ describe('Select', () => {
         },
       })
 
-      const dropdown = wrapper.findComponent({ name: 'ElSelectDropdown' })
+      const dropdown = wrapper.findComponent({ name: 'GSelectDropdown' })
       const input = wrapper.find('input')
-      const list = dropdown.find('.el-select-dropdown__list > ul')
-      const option = dropdown.find('.el-select-dropdown__item')
+      const list = dropdown.find('.g-select-dropdown__list > ul')
+      const option = dropdown.find('.g-select-dropdown__item')
       const disabledOption = dropdown.find(
-        '.el-select-dropdown__item:nth-child(2)'
+        '.g-select-dropdown__item:nth-child(2)'
       )
 
       expect(input.attributes('role')).toBe('combobox')
@@ -2553,7 +2553,7 @@ describe('Select', () => {
     const createSelect = ({ disabled = false } = {}) =>
       _mount(
         `
-      <el-select
+      <g-select
         v-model="value"
         :options="options"
         multiple
@@ -2564,7 +2564,7 @@ describe('Select', () => {
             {{ selectDisabled ? 'selectDisabled' : 'enabled' }}
           </span>
         </template>
-      </el-select>
+      </g-select>
       `,
         {
           data() {
@@ -2590,17 +2590,17 @@ describe('Select', () => {
     it('should inherit disabled from el-form', async () => {
       const wrapper = _mount(
         `
-      <el-form :disabled="formDisabled">
-        <el-form-item>
-          <el-select v-model="value" multiple :options="options">
+      <g-form :disabled="formDisabled">
+        <g-form-item>
+          <g-select v-model="value" multiple :options="options">
             <template #tag="{ selectDisabled }">
               <span class="custom-tag">
                 {{ selectDisabled ? 'selectDisabled' : 'enabled' }}
               </span>
             </template>
-          </el-select>
-        </el-form-item>
-      </el-form>
+          </g-select>
+        </g-form-item>
+      </g-form>
       `,
         {
           data() {
@@ -2628,10 +2628,10 @@ describe('Select', () => {
         { value: 'c', label: 'C' },
       ]
       const wrapper = _mount(
-        `<el-form disabled>
-          <el-select :disabled="false" v-model="value" :options="options">
-          </el-select>
-        </el-form>`,
+        `<g-form disabled>
+          <g-select :disabled="false" v-model="value" :options="options">
+          </g-select>
+        </g-form>`,
         {
           data() {
             return {
@@ -2643,7 +2643,7 @@ describe('Select', () => {
       )
 
       await nextTick()
-      const innerInput = wrapper.find('.el-select__input')
+      const innerInput = wrapper.find('.g-select__input')
       expect(innerInput.attributes('disabled')).toBeUndefined()
     })
   })
@@ -2651,7 +2651,7 @@ describe('Select', () => {
   it('loading appears on first click when remote', async () => {
     const wrapper = _mount(
       `
-        <el-select
+        <g-select
           v-model="value"
           filterable
           remote
@@ -2659,7 +2659,7 @@ describe('Select', () => {
           :loading="loading"
           :options="options"
         >
-        </el-select>`,
+        </g-select>`,
       {
         data() {
           return { options: [], value: '', loading: false }
@@ -2685,7 +2685,7 @@ describe('Select', () => {
   it('should show suffix', async () => {
     const wrapper = _mount(
       `
-        <el-select
+        <g-select
           v-model="value"
           filterable
           remote
@@ -2693,7 +2693,7 @@ describe('Select', () => {
           :options="options"
           remote-show-suffix
         >
-        </el-select>`,
+        </g-select>`,
       {
         data() {
           return { options: [], value: '' }
@@ -2797,7 +2797,7 @@ describe('Select', () => {
     vi.useFakeTimers()
     const wrapper = _mount(
       `
-      <el-select
+      <g-select
         v-model="value"
         filterable
         remote
@@ -2807,7 +2807,7 @@ describe('Select', () => {
         <template #empty>
           <div class="custom-empty">NO DATA</div>
         </template>
-      </el-select>
+      </g-select>
       `,
       {
         data() {
@@ -2828,7 +2828,7 @@ describe('Select', () => {
       }
     )
 
-    const select = wrapper.findComponent({ name: 'ElSelectV2' })
+    const select = wrapper.findComponent({ name: 'GSelectV2' })
     const input = wrapper.find('input')
     const vm = select.vm as any
 
@@ -2901,7 +2901,7 @@ describe('Select', () => {
       })
       await nextTick()
       const select = wrapper.findComponent(Select)
-      const inputWrapper = select.find('.el-select__input-wrapper')
+      const inputWrapper = select.find('.g-select__input-wrapper')
       const input = select.find('input')
 
       // When input is empty and not focused, input-wrapper should have hidden class
@@ -2929,7 +2929,7 @@ describe('Select', () => {
       })
       await nextTick()
       const select = wrapper.findComponent(Select)
-      const inputWrapper = select.find('.el-select__input-wrapper')
+      const inputWrapper = select.find('.g-select__input-wrapper')
       const input = select.find('input')
 
       // Initially empty, should be hidden

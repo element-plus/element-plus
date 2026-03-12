@@ -57,16 +57,16 @@ describe('TableV2.vue', () => {
         }}
       />
     ))
-    expect(wrapper.find('.el-table-v2').exists()).toBe(true)
-    const cell = wrapper.findAll('.el-table-v2__row-cell')
+    expect(wrapper.find('.g-table-v2').exists()).toBe(true)
+    const cell = wrapper.findAll('.g-table-v2__row-cell')
 
-    expect(cell[0].find('.el-table-v2__cell-text').exists()).toBe(false)
+    expect(cell[0].find('.g-table-v2__cell-text').exists()).toBe(false)
     expect(cell[0].find('span').exists()).toBe(true)
     expect(cell[0].find('span').text()).toBe(customText)
 
     expect(cell[1].find('span').exists()).toBe(false)
-    expect(cell[1].find('.el-table-v2__cell-text').exists()).toBe(true)
-    expect(cell[1].find('.el-table-v2__cell-text').text()).toBe('Row 0 - Col 1')
+    expect(cell[1].find('.g-table-v2__cell-text').exists()).toBe(true)
+    expect(cell[1].find('.g-table-v2__cell-text').text()).toBe('Row 0 - Col 1')
   })
 
   test('slots header-cell', async () => {
@@ -87,15 +87,15 @@ describe('TableV2.vue', () => {
         }}
       />
     ))
-    expect(wrapper.find('.el-table-v2').exists()).toBe(true)
-    const cell = wrapper.findAll('.el-table-v2__header-cell')
-    expect(cell[0].find('.el-table-v2__header-cell-text').exists()).toBe(false)
+    expect(wrapper.find('.g-table-v2').exists()).toBe(true)
+    const cell = wrapper.findAll('.g-table-v2__header-cell')
+    expect(cell[0].find('.g-table-v2__header-cell-text').exists()).toBe(false)
     expect(cell[0].find('span').exists()).toBe(true)
     expect(cell[0].find('span').text()).toBe(customText)
 
     expect(cell[1].find('span').exists()).toBe(false)
-    expect(cell[1].find('.el-table-v2__header-cell-text').exists()).toBe(true)
-    expect(cell[1].find('.el-table-v2__header-cell-text').text()).toBe(
+    expect(cell[1].find('.g-table-v2__header-cell-text').exists()).toBe(true)
+    expect(cell[1].find('.g-table-v2__header-cell-text').text()).toBe(
       'Column 1'
     )
   })
@@ -118,10 +118,10 @@ describe('TableV2.vue', () => {
         }}
       />
     ))
-    expect(wrapper.find('.el-table-v2').exists()).toBe(true)
+    expect(wrapper.find('.g-table-v2').exists()).toBe(true)
     let customEmpty = wrapper.find('span.custom-empty')
     expect(customEmpty.exists()).toBe(true)
-    let defaultEmpty = wrapper.find('.el-empty')
+    let defaultEmpty = wrapper.find('.g-empty')
     expect(defaultEmpty.exists()).toBe(false)
 
     isCustomEmpty.value = false
@@ -129,7 +129,7 @@ describe('TableV2.vue', () => {
 
     customEmpty = wrapper.find('span.custom-empty')
     expect(customEmpty.exists()).toBe(false)
-    defaultEmpty = wrapper.find('.el-empty')
+    defaultEmpty = wrapper.find('.g-empty')
     expect(defaultEmpty.exists()).toBe(true)
   })
 
@@ -153,8 +153,8 @@ describe('TableV2.vue', () => {
         }}
       />
     ))
-    expect(wrapper.find('.el-table-v2').exists()).toBe(true)
-    const cell = wrapper.find('.el-table-v2__row-cell')
+    expect(wrapper.find('.g-table-v2').exists()).toBe(true)
+    const cell = wrapper.find('.g-table-v2__row-cell')
     expect(cell.exists()).toBe(true)
     expect(cell.find('span').text()).toBe(
       `${data.value[0][columns.value[0].dataKey]}${customText}`
@@ -181,8 +181,8 @@ describe('TableV2.vue', () => {
         }}
       />
     ))
-    expect(wrapper.find('.el-table-v2').exists()).toBe(true)
-    const cell = wrapper.find('.el-table-v2__header-cell')
+    expect(wrapper.find('.g-table-v2').exists()).toBe(true)
+    const cell = wrapper.find('.g-table-v2__header-cell')
     expect(cell.exists()).toBe(true)
     expect(cell.find('span').text()).toBe(
       `${columns.value[0].title}${customText}`
@@ -223,7 +223,7 @@ describe('TableV2.vue', () => {
       />
     ))
 
-    const rowCells = wrapper.findAll('.el-table-v2__row-cell')
+    const rowCells = wrapper.findAll('.g-table-v2__row-cell')
     expect(rowCells.length).toBeGreaterThanOrEqual(2)
     expect(rowCells[0].attributes('style')).toContain('flex-shrink: 0;')
     expect(rowCells[1].attributes('style')).toContain('flex-shrink: 0;')
@@ -256,8 +256,8 @@ describe('TableV2.vue', () => {
         height={400}
       />
     ))
-    expect(wrapper.find('.el-table-v2').exists()).toBe(true)
-    const cell = wrapper.find('.el-table-v2__row-cell')
+    expect(wrapper.find('.g-table-v2').exists()).toBe(true)
+    const cell = wrapper.find('.g-table-v2__row-cell')
     expect(cell.exists()).toBe(true)
     expect(cell.find('div [style^=margin-inline-star]').exists()).toBe(false)
   })
@@ -314,7 +314,7 @@ describe('TableV2.vue', () => {
         />
       ))
 
-      const expandButton = wrapper.find('.el-table-v2__expand-icon')
+      const expandButton = wrapper.find('.g-table-v2__expand-icon')
       expect(expandButton.attributes('arialabel')).toBe('Expand this row')
       expect(expandButton.attributes('ariaexpanded')).toBe('false')
 
@@ -342,8 +342,8 @@ describe('TableV2.vue', () => {
         />
       ))
 
-      const sortButton = wrapper.find('.el-table-v2__sort-icon')
-      const header = wrapper.find('.el-table-v2__header-cell.is-sortable')
+      const sortButton = wrapper.find('.g-table-v2__sort-icon')
+      const header = wrapper.find('.g-table-v2__header-cell.is-sortable')
       console.log(header.attributes())
 
       expect(sortButton.attributes('aria-label')).toBe('Sort by Column 0')
@@ -392,11 +392,11 @@ describe('TableV2.vue', () => {
       />
     ))
 
-    const expandButton = wrapper.find('.el-table-v2__expand-icon')
+    const expandButton = wrapper.find('.g-table-v2__expand-icon')
     await expandButton.trigger('click')
     await nextTick()
 
-    const subExpandButton = wrapper.findAll('.el-table-v2__expand-icon')[1]
+    const subExpandButton = wrapper.findAll('.g-table-v2__expand-icon')[1]
     expect(subExpandButton.attributes('style')).toBeFalsy()
   })
 })

@@ -35,7 +35,7 @@ describe('Affix.vue', () => {
 
     expect(wrapper.text()).toEqual(AXIOM)
     const mockAffixRect = vi
-      .spyOn(wrapper.find('.el-affix').element, 'getBoundingClientRect')
+      .spyOn(wrapper.find('.g-affix').element, 'getBoundingClientRect')
       .mockReturnValue({
         height: 40,
         width: 1000,
@@ -50,9 +50,9 @@ describe('Affix.vue', () => {
         top: 0,
         bottom: 200,
       } as DOMRect)
-    expect(wrapper.find('.el-affix--fixed').exists()).toBe(false)
+    expect(wrapper.find('.g-affix--fixed').exists()).toBe(false)
     await makeScroll(document.documentElement, 'scrollTop', 200)
-    expect(wrapper.find('.el-affix--fixed').exists()).toBe(true)
+    expect(wrapper.find('.g-affix--fixed').exists()).toBe(true)
     mockAffixRect.mockRestore()
     mockDocumentRect.mockRestore()
   })
@@ -61,7 +61,7 @@ describe('Affix.vue', () => {
     const wrapper = _mount(() => <Affix offset={30}>{AXIOM}</Affix>)
     await nextTick()
     const mockAffixRect = vi
-      .spyOn(wrapper.find('.el-affix').element, 'getBoundingClientRect')
+      .spyOn(wrapper.find('.g-affix').element, 'getBoundingClientRect')
       .mockReturnValue({
         height: 40,
         width: 1000,
@@ -77,8 +77,8 @@ describe('Affix.vue', () => {
         bottom: 200,
       } as DOMRect)
     await makeScroll(document.documentElement, 'scrollTop', 200)
-    expect(wrapper.find('.el-affix--fixed').exists()).toBe(true)
-    expect(wrapper.find('.el-affix--fixed').attributes('style')).toContain(
+    expect(wrapper.find('.g-affix--fixed').exists()).toBe(true)
+    expect(wrapper.find('.g-affix--fixed').attributes('style')).toContain(
       'top: 30px;'
     )
     mockAffixRect.mockRestore()
@@ -94,7 +94,7 @@ describe('Affix.vue', () => {
     await nextTick()
 
     const mockAffixRect = vi
-      .spyOn(wrapper.find('.el-affix').element, 'getBoundingClientRect')
+      .spyOn(wrapper.find('.g-affix').element, 'getBoundingClientRect')
       .mockReturnValue({
         height: 40,
         width: 1000,
@@ -110,8 +110,8 @@ describe('Affix.vue', () => {
         bottom: 200,
       } as DOMRect)
     await makeScroll(document.documentElement, 'scrollTop', 0)
-    expect(wrapper.find('.el-affix--fixed').exists()).toBe(true)
-    expect(wrapper.find('.el-affix--fixed').attributes('style')).toContain(
+    expect(wrapper.find('.g-affix--fixed').exists()).toBe(true)
+    expect(wrapper.find('.g-affix--fixed').attributes('style')).toContain(
       'bottom: 20px;'
     )
     mockAffixRect.mockRestore()
@@ -130,7 +130,7 @@ describe('Affix.vue', () => {
     await nextTick()
 
     const mockAffixRect = vi
-      .spyOn(wrapper.find('.el-affix').element, 'getBoundingClientRect')
+      .spyOn(wrapper.find('.g-affix').element, 'getBoundingClientRect')
       .mockReturnValue({
         height: 40,
         width: 1000,
@@ -146,7 +146,7 @@ describe('Affix.vue', () => {
         bottom: 100,
       } as DOMRect)
     await makeScroll(document.documentElement, 'scrollTop', 100)
-    expect(wrapper.find('.el-affix--fixed').exists()).toBe(true)
+    expect(wrapper.find('.g-affix--fixed').exists()).toBe(true)
     mockAffixRect.mockReturnValue({
       height: 40,
       width: 1000,
@@ -160,7 +160,7 @@ describe('Affix.vue', () => {
       bottom: -260,
     } as DOMRect)
     await makeScroll(document.documentElement, 'scrollTop', 300)
-    expect(wrapper.find('.el-affix--fixed').exists()).toBe(false)
+    expect(wrapper.find('.g-affix--fixed').exists()).toBe(false)
     mockAffixRect.mockRestore()
     mockTargetRect.mockRestore()
   })
@@ -169,7 +169,7 @@ describe('Affix.vue', () => {
     const wrapper = _mount(() => <Affix zIndex={1000}>{AXIOM}</Affix>)
     await nextTick()
     const mockAffixRect = vi
-      .spyOn(wrapper.find('.el-affix').element, 'getBoundingClientRect')
+      .spyOn(wrapper.find('.g-affix').element, 'getBoundingClientRect')
       .mockReturnValue({
         height: 40,
         width: 1000,
@@ -185,8 +185,8 @@ describe('Affix.vue', () => {
         bottom: 200,
       } as DOMRect)
     await makeScroll(document.documentElement, 'scrollTop', 200)
-    expect(wrapper.find('.el-affix--fixed').exists()).toBe(true)
-    expect(wrapper.find('.el-affix--fixed').attributes('style')).toContain(
+    expect(wrapper.find('.g-affix--fixed').exists()).toBe(true)
+    expect(wrapper.find('.g-affix--fixed').attributes('style')).toContain(
       'z-index: 1000;'
     )
     mockAffixRect.mockRestore()
@@ -207,7 +207,7 @@ describe('Affix.vue', () => {
 
     expect(wrapper.text()).toEqual(AXIOM)
     const mockAffixRect = vi
-      .spyOn(wrapper.find('.el-affix').element, 'getBoundingClientRect')
+      .spyOn(wrapper.find('.g-affix').element, 'getBoundingClientRect')
       .mockReturnValue({
         height: 40,
         width: 1000,
@@ -222,10 +222,10 @@ describe('Affix.vue', () => {
         top: 0,
         bottom: 200,
       } as DOMRect)
-    expect(wrapper.find('.el-affix--fixed').exists()).toBe(false)
-    expect(teleportTarget.find('.el-affix--fixed').exists()).toBe(false)
+    expect(wrapper.find('.g-affix--fixed').exists()).toBe(false)
+    expect(teleportTarget.find('.g-affix--fixed').exists()).toBe(false)
     await makeScroll(document.documentElement, 'scrollTop', 200)
-    expect(teleportTarget.find('.el-affix--fixed').exists()).toBe(true)
+    expect(teleportTarget.find('.g-affix--fixed').exists()).toBe(true)
     mockAffixRect.mockRestore()
     mockDocumentRect.mockRestore()
   })

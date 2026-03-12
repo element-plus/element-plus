@@ -4,14 +4,14 @@ import AvatarGroup from './src/avatar-group'
 
 import type { SFCWithInstall } from '@element-plus/utils'
 
-export const ElAvatar: SFCWithInstall<typeof Avatar> & {
+export const GAvatar: SFCWithInstall<typeof Avatar> & {
   AvatarGroup: typeof AvatarGroup
 } = withInstall(Avatar, {
   AvatarGroup,
 })
-export const ElAvatarGroup: SFCWithInstall<typeof AvatarGroup> =
+export const GAvatarGroup: SFCWithInstall<typeof AvatarGroup> =
   withNoopInstall(AvatarGroup)
-export default ElAvatar
+export default GAvatar
 
 export * from './src/avatar'
 export * from './src/constants'

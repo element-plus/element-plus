@@ -9,7 +9,7 @@ export const messageConfig: MessageConfigContext = {
 }
 
 const ConfigProvider = defineComponent({
-  name: 'ElConfigProvider',
+  name: 'GConfigProvider',
   props: configProviderProps,
 
   setup(props, { slots }) {

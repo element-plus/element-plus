@@ -1,5 +1,5 @@
 <template>
-  <el-tooltip
+  <g-tooltip
     ref="popper"
     :visible="showPicker"
     :show-arrow="false"
@@ -22,7 +22,7 @@
     @hide="setShowPicker(false)"
   >
     <template #content>
-      <el-color-picker-panel
+      <g-color-picker-panel
         ref="pickerPanelRef"
         v-bind="panelProps"
         v-click-outside:[triggerRef]="handleClickOutside"
@@ -32,26 +32,26 @@
       >
         <template #footer>
           <div>
-            <el-button
+            <g-button
               v-if="clearable"
               :class="ns.be('footer', 'link-btn')"
               text
               size="small"
               @click="clear"
             >
-              {{ t('el.colorpicker.clear') }}
-            </el-button>
-            <el-button
+              {{ t('g.colorpicker.clear') }}
+            </g-button>
+            <g-button
               plain
               size="small"
               :class="ns.be('footer', 'btn')"
               @click="confirmValue"
             >
-              {{ t('el.colorpicker.confirm') }}
-            </el-button>
+              {{ t('g.colorpicker.confirm') }}
+            </g-button>
           </div>
         </template>
-      </el-color-picker-panel>
+      </g-color-picker-panel>
     </template>
     <template #default>
       <div
@@ -63,7 +63,7 @@
         :aria-label="buttonAriaLabel"
         :aria-labelledby="buttonAriaLabelledby"
         :aria-description="
-          t('el.colorpicker.description', { color: modelValue || '' })
+          t('g.colorpicker.description', { color: modelValue || '' })
         "
         :aria-disabled="colorDisabled"
         :tabindex="colorDisabled ? undefined : tabindex"
@@ -79,34 +79,34 @@
                 backgroundColor: displayedColor,
               }"
             >
-              <el-icon
+              <g-icon
                 v-show="modelValue || showPanelColor"
                 :class="[ns.be('picker', 'icon'), ns.is('icon-arrow-down')]"
               >
                 <arrow-down />
-              </el-icon>
-              <el-icon
+              </g-icon>
+              <g-icon
                 v-show="!modelValue && !showPanelColor"
                 :class="[ns.be('picker', 'empty'), ns.is('icon-close')]"
               >
                 <close />
-              </el-icon>
+              </g-icon>
             </span>
           </span>
         </div>
       </div>
     </template>
-  </el-tooltip>
+  </g-tooltip>
 </template>
 
 <script lang="ts" setup>
 import { computed, nextTick, provide, ref, watch } from 'vue'
 import { debounce, pick } from 'lodash-unified'
-import { ElIcon } from '@element-plus/components/icon'
+import { GIcon } from '@element-plus/components/icon'
 import { reactiveComputed } from '@vueuse/core'
 import { ClickOutside as vClickOutside } from '@element-plus/directives'
-import { ElTooltip } from '@element-plus/components/tooltip'
-import { ElButton } from '@element-plus/components/button'
+import { GTooltip } from '@element-plus/components/tooltip'
+import { GButton } from '@element-plus/components/button'
 import {
   useFormDisabled,
   useFormItem,
@@ -128,7 +128,7 @@ import { debugWarn, getEventCode } from '@element-plus/utils'
 import { ArrowDown, Close } from '@element-plus/icons-vue'
 import { colorPickerEmits, colorPickerPropsDefaults } from './color-picker'
 import {
-  ElColorPickerPanel,
+  GColorPickerPanel,
   ROOT_COMMON_COLOR_INJECTION_KEY,
   colorPickerPanelProps,
 } from '@element-plus/components/color-picker-panel'
@@ -140,7 +140,7 @@ import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { ColorPickerProps } from './color-picker'
 
 defineOptions({
-  name: 'ElColorPicker',
+  name: 'GColorPicker',
 })
 const props = withDefaults(
   defineProps<ColorPickerProps>(),
@@ -204,7 +204,7 @@ const currentColor = computed(() => {
 
 const buttonAriaLabel = computed<string | undefined>(() => {
   return !isLabeledByFormItem.value
-    ? props.ariaLabel || t('el.colorpicker.defaultLabel')
+    ? props.ariaLabel || t('g.colorpicker.defaultLabel')
     : undefined
 })
 

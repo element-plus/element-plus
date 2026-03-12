@@ -30,8 +30,8 @@ import type { Component, VNode, VNodeArrayChildren } from 'vue'
 import type { OptionInternalInstance, OptionPublicInstance } from './type'
 
 export default defineComponent({
-  name: 'ElOptionGroup',
-  componentName: 'ElOptionGroup',
+  name: 'GOptionGroup',
+  componentName: 'GOptionGroup',
 
   props: {
     /**
@@ -63,7 +63,7 @@ export default defineComponent({
     const isOption = (
       node: VNode
     ): node is VNode & { component: OptionInternalInstance } =>
-      (node.type as Component).name === 'ElOption' && !!node.component?.proxy
+      (node.type as Component).name === 'GOption' && !!node.component?.proxy
 
     // get all instances of options
     const flattedChildren = (node: VNode | VNodeArrayChildren) => {

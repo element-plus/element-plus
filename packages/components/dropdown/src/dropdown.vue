@@ -1,6 +1,6 @@
 <template>
   <div :class="[ns.b(), ns.is('disabled', disabled)]">
-    <el-tooltip
+    <g-tooltip
       ref="popperRef"
       :role="role"
       :effect="effect"
@@ -30,36 +30,36 @@
       @before-hide="handleBeforeHideTooltip"
     >
       <template #content>
-        <el-scrollbar
+        <g-scrollbar
           ref="scrollbar"
           :wrap-style="wrapStyle"
           tag="div"
           :view-class="ns.e('list')"
         >
-          <el-roving-focus-group
+          <g-roving-focus-group
             :loop="loop"
             :current-tab-id="currentTabId"
             orientation="horizontal"
             @current-tab-id-change="handleCurrentTabIdChange"
           >
             <slot name="dropdown" />
-          </el-roving-focus-group>
-        </el-scrollbar>
+          </g-roving-focus-group>
+        </g-scrollbar>
       </template>
       <template v-if="!splitButton" #default>
-        <el-only-child
+        <g-only-child
           :id="triggerId"
           ref="triggeringElementRef"
           role="button"
           :tabindex="tabindex"
         >
           <slot name="default" />
-        </el-only-child>
+        </g-only-child>
       </template>
-    </el-tooltip>
+    </g-tooltip>
     <template v-if="splitButton">
-      <el-button-group>
-        <el-button
+      <g-button-group>
+        <g-button
           ref="referenceElementRef"
           v-bind="buttonProps"
           :size="dropdownSize"
@@ -69,8 +69,8 @@
           @click="handlerMainButtonClick"
         >
           <slot name="default" />
-        </el-button>
-        <el-button
+        </g-button>
+        <g-button
           :id="triggerId"
           ref="triggeringElementRef"
           v-bind="buttonProps"
@@ -80,11 +80,11 @@
           :class="ns.e('caret-button')"
           :disabled="disabled"
           :tabindex="tabindex"
-          :aria-label="t('el.dropdown.toggleDropdown')"
+          :aria-label="t('g.dropdown.toggleDropdown')"
         >
-          <el-icon :class="ns.e('icon')"><arrow-down /></el-icon>
-        </el-button>
-      </el-button-group>
+          <g-icon :class="ns.e('icon')"><arrow-down /></g-icon>
+        </g-button>
+      </g-button-group>
     </template>
   </div>
 </template>
@@ -99,12 +99,12 @@ import {
   toRef,
   unref,
 } from 'vue'
-import ElButton from '@element-plus/components/button'
-import ElTooltip from '@element-plus/components/tooltip'
-import ElScrollbar from '@element-plus/components/scrollbar'
-import ElIcon from '@element-plus/components/icon'
-import ElRovingFocusGroup from '@element-plus/components/roving-focus-group'
-import { ElOnlyChild } from '@element-plus/components/slot'
+import GButton from '@element-plus/components/button'
+import GTooltip from '@element-plus/components/tooltip'
+import GScrollbar from '@element-plus/components/scrollbar'
+import GIcon from '@element-plus/components/icon'
+import GRovingFocusGroup from '@element-plus/components/roving-focus-group'
+import { GOnlyChild } from '@element-plus/components/slot'
 import { useFormSize } from '@element-plus/components/form'
 import { addUnit, ensureArray } from '@element-plus/utils'
 import { ArrowDown } from '@element-plus/icons-vue'
@@ -118,18 +118,18 @@ import {
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { CSSProperties } from 'vue'
 
-const { ButtonGroup: ElButtonGroup } = ElButton
+const { ButtonGroup: GButtonGroup } = GButton
 
 export default defineComponent({
-  name: 'ElDropdown',
+  name: 'GDropdown',
   components: {
-    ElButton,
-    ElButtonGroup,
-    ElScrollbar,
-    ElTooltip,
-    ElRovingFocusGroup,
-    ElOnlyChild,
-    ElIcon,
+    GButton,
+    GButtonGroup,
+    GScrollbar,
+    GTooltip,
+    GRovingFocusGroup,
+    GOnlyChild,
+    GIcon,
     ArrowDown,
   },
   props: dropdownProps,

@@ -1,6 +1,6 @@
 import Overlay from './src/overlay'
 
-export const ElOverlay = Overlay
-export default ElOverlay
+export const GOverlay = Overlay
+export default GOverlay
 
 export * from './src/overlay'

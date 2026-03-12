@@ -32,11 +32,11 @@ const removeTag = (str: string) => {
 }
 
 const reComponentName: ReComponentName = (title) => {
-  return `el-${hyphenate(removeTag(title)).replace(/[ ]+/g, '-')}`
+  return `g-${hyphenate(removeTag(title)).replace(/[ ]+/g, '-')}`
 }
 
 const reDocUrl: ReDocUrl = (fileName, header) => {
-  const docs = 'https://element-plus.org/en-US/component/'
+  const docs = 'https://gubo-ui.guwave.com/component/'
   const _header = header
     ? removeTag(header).replaceAll(/\s+/g, '-').toLowerCase()
     : ''
@@ -45,7 +45,7 @@ const reDocUrl: ReDocUrl = (fileName, header) => {
 }
 
 const reWebTypesSource: ReWebTypesSource = (title) => {
-  const symbol = `El${removeTag(title)
+  const symbol = `G${removeTag(title)
     .replaceAll(/-/g, ' ')
     .replaceAll(/^\w|\s+\w/g, (item) => {
       return item.trim().toUpperCase()
@@ -93,8 +93,8 @@ const reAttribute: ReAttribute = (value, key) => {
       : str.replaceAll(/`/g, '').replaceAll(/\([^)]*\)(?!\s*=>)/g, '')
   } else if (key === 'Subtags') {
     return str
-      ? `el-${str
-          .replaceAll(/\s*\/\s*/g, '/el-')
+      ? `g-${str
+          .replaceAll(/\s*\/\s*/g, '/g-')
           .replaceAll(/\B([A-Z])/g, '-$1')
           .replaceAll(/\s+/g, '-')
           .toLowerCase()}`

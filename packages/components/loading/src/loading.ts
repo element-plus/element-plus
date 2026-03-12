@@ -52,10 +52,10 @@ export function createLoadingComponent(
       }
       removeClass(target, ns.bm('parent', 'hidden'))
     }
-    removeElLoadingChild()
+    removeGLoadingChild()
     loadingInstance.unmount()
   }
-  function removeElLoadingChild(): void {
+  function removeGLoadingChild(): void {
     vm.$el?.parentNode?.removeChild(vm.$el)
   }
   function close() {
@@ -79,7 +79,7 @@ export function createLoadingComponent(
   }
 
   const elLoadingComponent = defineComponent({
-    name: 'ElLoading',
+    name: 'GLoading',
     setup(_, { expose }) {
       const { ns, zIndex } = useGlobalComponentSettings('loading')
 
@@ -159,7 +159,7 @@ export function createLoadingComponent(
   return {
     ...toRefs(data),
     setText,
-    removeElLoadingChild,
+    removeGLoadingChild,
     close,
     handleAfterLeave,
     vm,

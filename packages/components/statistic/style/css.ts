@@ -1,2 +1,2 @@
 import '@element-plus/components/base/style/css'
-import '@element-plus/theme-chalk/el-statistic.css'
+import '@element-plus/theme-chalk/g-statistic.css'

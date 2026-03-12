@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import { debugWarn } from '@element-plus/utils'
 import { Checked, CircleClose, Hide, View } from '@element-plus/icons-vue'
-import { ElForm, ElFormItem } from '@element-plus/components/form'
+import { GForm, GFormItem } from '@element-plus/components/form'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import Switch from '../src/switch.vue'
 
@@ -28,20 +28,20 @@ describe('Switch.vue', () => {
     const wrapper = mount(() => <Switch {...props} />)
     const vm = wrapper.vm
     expect(vm.$el.classList.contains('is-checked')).false
-    const coreEl = vm.$el.querySelector('.el-switch__core')
+    const coreEl = vm.$el.querySelector('.g-switch__core')
     expect(coreEl.style.width).toEqual('100px')
-    const leftLabelWrapper = wrapper.find('.el-switch__label--left span')
+    const leftLabelWrapper = wrapper.find('.g-switch__label--left span')
     expect(leftLabelWrapper.text()).toEqual('off')
   })
 
   test('size', () => {
     const wrapper = mount(() => <Switch size="large" />)
-    expect(wrapper.find('.el-switch--large').exists()).toBe(true)
+    expect(wrapper.find('.g-switch--large').exists()).toBe(true)
   })
 
   test('tabindex', () => {
     const wrapper = mount(() => <Switch tabindex="0" />)
-    expect(wrapper.find('.el-switch__input').attributes().tabindex).toBe('0')
+    expect(wrapper.find('.g-switch__input').attributes().tabindex).toBe('0')
   })
 
   test('inline prompt', () => {
@@ -54,9 +54,9 @@ describe('Switch.vue', () => {
     const wrapper = mount(() => <Switch {...props} />)
     const vm = wrapper.vm
     expect(vm.$el.classList.contains('is-checked')).false
-    const coreEl = vm.$el.querySelector('.el-switch__core')
+    const coreEl = vm.$el.querySelector('.g-switch__core')
     expect(coreEl.style.width).toEqual('100px')
-    const label = wrapper.find('.el-switch__inner span')
+    const label = wrapper.find('.g-switch__inner span')
     expect(label.text()).toEqual('off')
   })
 
@@ -76,7 +76,7 @@ describe('Switch.vue', () => {
     const wrapper = mount(() => <Switch v-model={value.value} />)
     const vm = wrapper.vm
     expect(vm.$el.classList.contains('is-checked')).true
-    const coreWrapper = wrapper.find('.el-switch__core')
+    const coreWrapper = wrapper.find('.g-switch__core')
     await coreWrapper.trigger('click')
     expect(vm.$el.classList.contains('is-checked')).false
     expect(value.value).toEqual(false)
@@ -96,7 +96,7 @@ describe('Switch.vue', () => {
     ))
 
     expect(target.value).toEqual(1)
-    const coreWrapper = wrapper.find('.el-switch__core')
+    const coreWrapper = wrapper.find('.g-switch__core')
     await coreWrapper.trigger('click')
     const switchWrapper = wrapper.findComponent(Switch)
     expect(switchWrapper.emitted()[UPDATE_MODEL_EVENT]).toBeTruthy()
@@ -108,7 +108,7 @@ describe('Switch.vue', () => {
     const wrapper = mount(() => <Switch disabled v-model={value.value} />)
 
     expect(value.value).toEqual(true)
-    const coreWrapper = wrapper.find('.el-switch__core')
+    const coreWrapper = wrapper.find('.g-switch__core')
     await coreWrapper.trigger('click')
     expect(value.value).toEqual(true)
   })
@@ -127,7 +127,7 @@ describe('Switch.vue', () => {
       </div>
     ))
 
-    const coreWrapper = wrapper.find('.el-switch__core')
+    const coreWrapper = wrapper.find('.g-switch__core')
     await coreWrapper.trigger('click')
     expect(value.value).toEqual('0')
     await coreWrapper.trigger('click')
@@ -148,7 +148,7 @@ describe('Switch.vue', () => {
       </div>
     ))
 
-    const coreWrapper = wrapper.find('.el-switch__core')
+    const coreWrapper = wrapper.find('.g-switch__core')
     await coreWrapper.trigger('click')
     expect(value.value).toEqual(true)
     await coreWrapper.trigger('click')
@@ -159,7 +159,7 @@ describe('Switch.vue', () => {
     const wrapper = mount(() => <Switch modelValue={true} />)
 
     const vm = wrapper.vm
-    const coreWrapper = wrapper.find('.el-switch__core')
+    const coreWrapper = wrapper.find('.g-switch__core')
     const switchWrapper: VueWrapper<SwitchInstance> =
       wrapper.findComponent(Switch)
     const switchVm = switchWrapper.vm
@@ -178,7 +178,7 @@ describe('Switch.vue', () => {
     const wrapper = mount(() => <Switch model-value={true} />)
 
     const vm = wrapper.vm
-    const coreWrapper = wrapper.find('.el-switch__core')
+    const coreWrapper = wrapper.find('.g-switch__core')
     const switchWrapper: VueWrapper<SwitchInstance> =
       wrapper.findComponent(Switch)
     const switchVm = switchWrapper.vm
@@ -236,7 +236,7 @@ describe('Switch.vue', () => {
       </div>
     ))
 
-    const coreWrapper = wrapper.find('.el-switch__core')
+    const coreWrapper = wrapper.find('.g-switch__core')
 
     vi.useFakeTimers()
 
@@ -274,7 +274,7 @@ describe('Switch.vue', () => {
       </div>
     ))
 
-    const coreWrapper = wrapper.find('.el-switch__core')
+    const coreWrapper = wrapper.find('.g-switch__core')
 
     await coreWrapper.trigger('click')
     expect(value.value).toEqual(true)
@@ -300,7 +300,7 @@ describe('Switch.vue', () => {
       </div>
     ))
 
-    const coreWrapper = wrapper.find('.el-switch__core')
+    const coreWrapper = wrapper.find('.g-switch__core')
     const switchWrapper = wrapper.findComponent(Switch)
     const switchVm = switchWrapper.vm
     const inputEl = switchVm.$el.querySelector('input')
@@ -317,30 +317,30 @@ describe('Switch.vue', () => {
   describe('form item accessibility integration', () => {
     test('automatic id attachment', async () => {
       const wrapper = mount(() => (
-        <ElFormItem label="Foobar" data-test-ref="item">
+        <GFormItem label="Foobar" data-test-ref="item">
           <Switch />
-        </ElFormItem>
+        </GFormItem>
       ))
 
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
-      const formItemLabel = formItem.find('.el-form-item__label')
-      const switchInput = wrapper.find('.el-switch__input')
+      const formItemLabel = formItem.find('.g-form-item__label')
+      const switchInput = wrapper.find('.g-switch__input')
       expect(formItem.attributes().role).toBeFalsy()
       expect(formItemLabel.attributes().for).toBe(switchInput.attributes().id)
     })
 
     test('specified id attachment', async () => {
       const wrapper = mount(() => (
-        <ElFormItem label="Foobar" data-test-ref="item">
+        <GFormItem label="Foobar" data-test-ref="item">
           <Switch id="foobar" />
-        </ElFormItem>
+        </GFormItem>
       ))
 
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
-      const formItemLabel = formItem.find('.el-form-item__label')
-      const switchInput = wrapper.find('.el-switch__input')
+      const formItemLabel = formItem.find('.g-form-item__label')
+      const switchInput = wrapper.find('.g-switch__input')
       expect(formItem.attributes().role).toBeFalsy()
       expect(switchInput.attributes().id).toBe('foobar')
       expect(formItemLabel.attributes().for).toBe(switchInput.attributes().id)
@@ -348,10 +348,10 @@ describe('Switch.vue', () => {
 
     test('form item role is group when multiple inputs', async () => {
       const wrapper = mount(() => (
-        <ElFormItem label="Foobar" data-test-ref="item">
+        <GFormItem label="Foobar" data-test-ref="item">
           <Switch />
           <Switch />
-        </ElFormItem>
+        </GFormItem>
       ))
 
       await nextTick()
@@ -378,8 +378,8 @@ describe('Switch.vue', () => {
       })
       await nextTick()
 
-      const coreWrapper = wrapper.find('.el-switch__core')
-      const actionWrapper = coreWrapper.find('.el-switch__action')
+      const coreWrapper = wrapper.find('.g-switch__core')
+      const actionWrapper = coreWrapper.find('.g-switch__action')
       expect(actionWrapper.find('.custom-active-action').exists()).toBeTruthy()
     })
 
@@ -433,13 +433,13 @@ describe('Switch.vue', () => {
     })
     test('The disabled state of a component has higher priority than that of a form', async () => {
       const wrapper = mount(() => (
-        <ElForm disabled>
+        <GForm disabled>
           <Switch disabled={false} />
-        </ElForm>
+        </GForm>
       ))
 
       await nextTick()
-      const s = wrapper.find('.el-switch')
+      const s = wrapper.find('.g-switch')
       expect(s.classes()).not.toContain('is-disabled')
     })
   })

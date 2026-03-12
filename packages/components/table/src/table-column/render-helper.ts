@@ -107,7 +107,7 @@ function useRender<T extends DefaultRow>(
       check(children)
     }
     function check(item: any) {
-      if (item?.type?.name === 'ElTableColumn') {
+      if (item?.type?.name === 'GTableColumn') {
         item.vParent = instance
       }
     }
@@ -217,7 +217,7 @@ function useRender<T extends DefaultRow>(
       {} as Record<string, any>
     )
   }
-  const getColumnElIndex = (children: T[], child: RendererNode | null) => {
+  const getColumnGIndex = (children: T[], child: RendererNode | null) => {
     return Array.prototype.indexOf.call(children, child)
   }
 
@@ -235,7 +235,7 @@ function useRender<T extends DefaultRow>(
     setColumnForcedProps,
     setColumnRenders,
     getPropsData,
-    getColumnElIndex,
+    getColumnGIndex,
     updateColumnOrder,
   }
 }

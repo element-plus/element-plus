@@ -33,7 +33,7 @@ import { IconComponentMap, IconMap } from './result'
 import type { ResultProps } from './result'
 
 defineOptions({
-  name: 'ElResult',
+  name: 'GResult',
 })
 
 const props = withDefaults(defineProps<ResultProps>(), {

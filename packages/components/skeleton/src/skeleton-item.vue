@@ -11,7 +11,7 @@ import { PictureFilled } from '@element-plus/icons-vue'
 import type { SkeletonItemProps } from './skeleton-item.ts'
 
 defineOptions({
-  name: 'ElSkeletonItem',
+  name: 'GSkeletonItem',
 })
 withDefaults(defineProps<SkeletonItemProps>(), {
   variant: 'text',

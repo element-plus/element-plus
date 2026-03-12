@@ -12,13 +12,13 @@ import {
 import { usePopperContainer } from '@element-plus/hooks'
 import { TOOLTIP_INJECTION_KEY } from '@element-plus/components/tooltip'
 import { genTooltipProvides } from '../test-helper/provides'
-import ElTooltipContent from '../src/content.vue'
+import GTooltipContent from '../src/content.vue'
 
 import type { VueWrapper } from '@vue/test-utils'
 
 const AXIOM = 'rem is the best girl'
 
-describe('<ElTooltipContent />', () => {
+describe('<GTooltipContent />', () => {
   const {
     controlled,
     id,
@@ -56,7 +56,7 @@ describe('<ElTooltipContent />', () => {
         setup() {
           usePopperContainer()
 
-          return () => <ElTooltipContent {...props}>{AXIOM}</ElTooltipContent>
+          return () => <GTooltipContent {...props}>{AXIOM}</GTooltipContent>
         },
       },
       {
@@ -65,14 +65,14 @@ describe('<ElTooltipContent />', () => {
             ...defaultProvide,
             ...provides,
           },
-          stubs: ['ElPopperContent'],
+          stubs: ['GPopperContent'],
         },
         attachTo: document.body,
       }
     )
 
     unmount = () => wrapper.unmount()
-    return wrapper.findComponent(ElTooltipContent)
+    return wrapper.findComponent(GTooltipContent)
   }
 
   let wrapper: VueWrapper<any>

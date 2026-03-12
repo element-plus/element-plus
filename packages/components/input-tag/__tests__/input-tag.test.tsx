@@ -32,11 +32,11 @@ describe('InputTag.vue', () => {
   test('modelValue', async () => {
     const wrapper = mount(() => <InputTag modelValue={[AXIOM]} />)
 
-    const tags = wrapper.findAll('.el-tag')
+    const tags = wrapper.findAll('.g-tag')
 
     expect(tags.length).toBe(1)
     expect(tags[0].text()).toBe(AXIOM)
-    expect(wrapper.find('.el-tag__close').exists()).toBe(true)
+    expect(wrapper.find('.g-tag__close').exists()).toBe(true)
   })
 
   test('v-model', async () => {
@@ -45,25 +45,25 @@ describe('InputTag.vue', () => {
 
     await wrapper.find('input').setValue(AXIOM)
     await wrapper.find('input').trigger('keydown', { code: EVENT_CODE.enter })
-    expect(wrapper.findAll('.el-tag').length).toBe(1)
-    expect(wrapper.find('.el-tag').text()).toBe(AXIOM)
+    expect(wrapper.findAll('.g-tag').length).toBe(1)
+    expect(wrapper.find('.g-tag').text()).toBe(AXIOM)
     expect(inputValue.value).toEqual([AXIOM])
 
     await wrapper.find('input').setValue('--')
     await wrapper.find('input').trigger('keydown', { code: EVENT_CODE.enter })
-    expect(wrapper.findAll('.el-tag').length).toBe(2)
-    expect(wrapper.findAll('.el-tag')[1].text()).toBe('--')
+    expect(wrapper.findAll('.g-tag').length).toBe(2)
+    expect(wrapper.findAll('.g-tag')[1].text()).toBe('--')
     expect(inputValue.value).toEqual([AXIOM, '--'])
 
     await wrapper
       .find('input')
       .trigger('keydown', { code: EVENT_CODE.backspace })
-    expect(wrapper.findAll('.el-tag').length).toBe(1)
-    expect(wrapper.find('.el-tag').text()).toBe(AXIOM)
+    expect(wrapper.findAll('.g-tag').length).toBe(1)
+    expect(wrapper.find('.g-tag').text()).toBe(AXIOM)
     expect(inputValue.value).toEqual([AXIOM])
 
-    await wrapper.find('.el-tag__close').trigger('click')
-    expect(wrapper.findAll('.el-tag').length).toBe(0)
+    await wrapper.find('.g-tag__close').trigger('click')
+    expect(wrapper.findAll('.g-tag').length).toBe(0)
   })
 
   test('trigger', async () => {
@@ -74,22 +74,22 @@ describe('InputTag.vue', () => {
 
     await wrapper.find('input').setValue(AXIOM)
     await wrapper.find('input').trigger('keydown', { code: EVENT_CODE.enter })
-    expect(wrapper.findAll('.el-tag').length).toBe(0)
+    expect(wrapper.findAll('.g-tag').length).toBe(0)
 
     await wrapper.find('input').trigger('keydown', { code: EVENT_CODE.space })
-    expect(wrapper.findAll('.el-tag').length).toBe(1)
-    expect(wrapper.find('.el-tag').text()).toBe(AXIOM)
+    expect(wrapper.findAll('.g-tag').length).toBe(1)
+    expect(wrapper.find('.g-tag').text()).toBe(AXIOM)
   })
 
   test('max', async () => {
     const inputValue = ref<string[]>(['Rem'])
     const wrapper = mount(() => <InputTag v-model={inputValue.value} max={1} />)
 
-    expect(wrapper.findAll('.el-tag').length).toBe(1)
+    expect(wrapper.findAll('.g-tag').length).toBe(1)
 
     await wrapper.find('input').setValue(AXIOM)
     await wrapper.find('input').trigger('keydown', { code: EVENT_CODE.enter })
-    expect(wrapper.findAll('.el-tag').length).toBe(1)
+    expect(wrapper.findAll('.g-tag').length).toBe(1)
   })
 
   test('id', async () => {
@@ -104,24 +104,24 @@ describe('InputTag.vue', () => {
       <InputTag modelValue={[AXIOM]} size={size.value} />
     ))
 
-    expect(wrapper.find('.el-input-tag').classes()).toContain(
-      'el-input-tag--default'
+    expect(wrapper.find('.g-input-tag').classes()).toContain(
+      'g-input-tag--default'
     )
-    expect(wrapper.find('.el-tag').classes()).toContain('el-tag--default')
+    expect(wrapper.find('.g-tag').classes()).toContain('g-tag--default')
 
     size.value = 'large'
     await nextTick()
-    expect(wrapper.find('.el-input-tag').classes()).toContain(
-      'el-input-tag--large'
+    expect(wrapper.find('.g-input-tag').classes()).toContain(
+      'g-input-tag--large'
     )
-    expect(wrapper.find('.el-tag').classes()).toContain('el-tag--default')
+    expect(wrapper.find('.g-tag').classes()).toContain('g-tag--default')
 
     size.value = 'small'
     await nextTick()
-    expect(wrapper.find('.el-input-tag').classes()).toContain(
-      'el-input-tag--small'
+    expect(wrapper.find('.g-input-tag').classes()).toContain(
+      'g-input-tag--small'
     )
-    expect(wrapper.find('.el-tag').classes()).toContain('el-tag--small')
+    expect(wrapper.find('.g-tag').classes()).toContain('g-tag--small')
   })
 
   test('disabled', async () => {
@@ -131,12 +131,12 @@ describe('InputTag.vue', () => {
     ))
 
     expect(wrapper.find('input').attributes('disabled')).toBe('')
-    expect(wrapper.find('.el-tag__close').exists()).toBe(false)
+    expect(wrapper.find('.g-tag__close').exists()).toBe(false)
 
     disabled.value = false
     await nextTick()
     expect(wrapper.find('input').attributes('disabled')).toBe(undefined)
-    expect(wrapper.find('.el-tag__close').exists()).toBe(true)
+    expect(wrapper.find('.g-tag__close').exists()).toBe(true)
   })
 
   test('placeholder', async () => {
@@ -163,12 +163,12 @@ describe('InputTag.vue', () => {
     ))
 
     expect(wrapper.find('input').attributes('readonly')).toBe('')
-    expect(wrapper.find('.el-tag__close').exists()).toBe(false)
+    expect(wrapper.find('.g-tag__close').exists()).toBe(false)
 
     readonly.value = false
     await nextTick()
     expect(wrapper.find('input').attributes('readonly')).toBe(undefined)
-    expect(wrapper.find('.el-tag__close').exists()).toBe(true)
+    expect(wrapper.find('.g-tag__close').exists()).toBe(true)
   })
 
   test('clearable', async () => {
@@ -179,11 +179,11 @@ describe('InputTag.vue', () => {
 
     await wrapper.find('input').trigger('focus')
     await wrapper.find('input').setValue(AXIOM)
-    expect(wrapper.find('.el-input-tag__clear').exists()).toBe(true)
+    expect(wrapper.find('.g-input-tag__clear').exists()).toBe(true)
     expect(wrapper.find('input').element).toHaveProperty('value', AXIOM)
 
-    await wrapper.find('.el-input-tag__clear').trigger('click')
-    expect(wrapper.findAll('.el-tag').length).toBe(0)
+    await wrapper.find('.g-input-tag__clear').trigger('click')
+    expect(wrapper.findAll('.g-tag').length).toBe(0)
     expect(inputValue.value).toBe(undefined)
     expect(wrapper.find('input').element).toHaveProperty('value', '')
   })
@@ -206,23 +206,23 @@ describe('InputTag.vue', () => {
       <InputTag modelValue={[AXIOM]} tagType={type.value} />
     ))
 
-    expect(wrapper.find('.el-tag').classes()).toContain('el-tag--info')
+    expect(wrapper.find('.g-tag').classes()).toContain('g-tag--info')
 
     type.value = 'primary'
     await nextTick()
-    expect(wrapper.find('.el-tag').classes()).toContain(`el-tag--primary`)
+    expect(wrapper.find('.g-tag').classes()).toContain(`g-tag--primary`)
 
     type.value = 'success'
     await nextTick()
-    expect(wrapper.find('.el-tag').classes()).toContain(`el-tag--success`)
+    expect(wrapper.find('.g-tag').classes()).toContain(`g-tag--success`)
 
     type.value = 'warning'
     await nextTick()
-    expect(wrapper.find('.el-tag').classes()).toContain(`el-tag--warning`)
+    expect(wrapper.find('.g-tag').classes()).toContain(`g-tag--warning`)
 
     type.value = 'danger'
     await nextTick()
-    expect(wrapper.find('.el-tag').classes()).toContain(`el-tag--danger`)
+    expect(wrapper.find('.g-tag').classes()).toContain(`g-tag--danger`)
   })
 
   test('tagEffect', async () => {
@@ -231,11 +231,11 @@ describe('InputTag.vue', () => {
       <InputTag modelValue={[AXIOM]} tagEffect={effect.value} />
     ))
 
-    expect(wrapper.find('.el-tag').classes()).toContain('el-tag--light')
+    expect(wrapper.find('.g-tag').classes()).toContain('g-tag--light')
 
     effect.value = 'dark'
     await nextTick()
-    expect(wrapper.find('.el-tag').classes()).toContain(`el-tag--dark`)
+    expect(wrapper.find('.g-tag').classes()).toContain(`g-tag--dark`)
   })
 
   test('$attrs', async () => {
@@ -254,8 +254,8 @@ describe('InputTag.vue', () => {
       await wrapper.find('input').setValue(`${AXIOM},`)
 
       expect(addTag).toBeCalledWith(AXIOM)
-      expect(wrapper.findAll('.el-tag').length).toBe(1)
-      expect(wrapper.find('.el-tag').text()).toBe(AXIOM)
+      expect(wrapper.findAll('.g-tag').length).toBe(1)
+      expect(wrapper.find('.g-tag').text()).toBe(AXIOM)
       expect(inputValue.value).toEqual([AXIOM])
     })
     test('with RegExp', async () => {
@@ -271,8 +271,8 @@ describe('InputTag.vue', () => {
       await wrapper.find('input').setValue(`${AXIOM}.`)
 
       expect(addTag).toBeCalledWith(AXIOM)
-      expect(wrapper.findAll('.el-tag').length).toBe(1)
-      expect(wrapper.find('.el-tag').text()).toBe(AXIOM)
+      expect(wrapper.findAll('.g-tag').length).toBe(1)
+      expect(wrapper.find('.g-tag').text()).toBe(AXIOM)
       expect(inputValue.value).toEqual([AXIOM])
     })
     test('paste multiple delimiter', async () => {
@@ -291,10 +291,10 @@ describe('InputTag.vue', () => {
         .setValue(`${AXIOM}.${AXIOM}.${AXIOM}.${AXIOM}.`)
 
       const result = [AXIOM, AXIOM, AXIOM, AXIOM]
-      expect(wrapper.findAll('.el-tag').length).toBe(4)
+      expect(wrapper.findAll('.g-tag').length).toBe(4)
       expect(addTag).toBeCalledWith(result)
       wrapper
-        .findAll('.el-tag')
+        .findAll('.g-tag')
         .forEach((tag) => expect(tag.text()).toBe(AXIOM))
       expect(inputValue.value).toEqual(result)
     })
@@ -321,10 +321,10 @@ describe('InputTag.vue', () => {
       })
 
       const result = [AXIOM, AXIOM, AXIOM]
-      expect(wrapper.findAll('.el-tag').length).toBe(3)
+      expect(wrapper.findAll('.g-tag').length).toBe(3)
       expect(addTag).toBeCalledWith(result)
       wrapper
-        .findAll('.el-tag')
+        .findAll('.g-tag')
         .forEach((tag) => expect(tag.text()).toBe(AXIOM))
       expect(inputValue.value).toEqual(result)
     })
@@ -417,7 +417,7 @@ describe('InputTag.vue', () => {
         <InputTag v-model={inputValue.value} onRemove-tag={handleTagRemove} />
       ))
 
-      await wrapper.find('.el-tag__close').trigger('click')
+      await wrapper.find('.g-tag__close').trigger('click')
       expect(handleTagRemove).toHaveBeenCalledOnce()
       expect(handleTagRemove).toHaveBeenCalledWith(AXIOM, 0)
       expect(inputValue.value).toEqual([AXIOM])
@@ -443,7 +443,7 @@ describe('InputTag.vue', () => {
       ))
 
       await wrapper.find('input').trigger('focus')
-      await wrapper.find('.el-input-tag__clear').trigger('click')
+      await wrapper.find('.g-input-tag__clear').trigger('click')
       expect(handleClear).toHaveBeenCalledOnce()
       expect(inputValue.value).toBe(undefined)
     })
@@ -455,7 +455,7 @@ describe('InputTag.vue', () => {
         <InputTag v-slots={{ prefix: () => AXIOM }} />
       ))
 
-      expect(wrapper.find('.el-input-tag__prefix').text()).toBe(AXIOM)
+      expect(wrapper.find('.g-input-tag__prefix').text()).toBe(AXIOM)
     })
 
     test('suffix', async () => {
@@ -463,7 +463,7 @@ describe('InputTag.vue', () => {
         <InputTag v-slots={{ suffix: () => AXIOM }} />
       ))
 
-      expect(wrapper.find('.el-input-tag__suffix').text()).toBe(AXIOM)
+      expect(wrapper.find('.g-input-tag__suffix').text()).toBe(AXIOM)
     })
 
     test('tag', async () => {
@@ -474,7 +474,7 @@ describe('InputTag.vue', () => {
         />
       ))
 
-      expect(wrapper.find('.el-tag').text()).toBe(`-${AXIOM}-`)
+      expect(wrapper.find('.g-tag').text()).toBe(`-${AXIOM}-`)
     })
   })
 
@@ -499,7 +499,7 @@ describe('InputTag.vue', () => {
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
       const input = wrapper.find('[data-test-ref="input"]')
-      const formItemLabel = formItem.find('.el-form-item__label')
+      const formItemLabel = formItem.find('.g-form-item__label')
       expect(formItem.attributes().role).toBeFalsy()
       expect(formItemLabel.attributes().for).toBe(input.attributes().id)
     })
@@ -514,7 +514,7 @@ describe('InputTag.vue', () => {
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
       const input = wrapper.find('[data-test-ref="input"]')
-      const formItemLabel = formItem.find('.el-form-item__label')
+      const formItemLabel = formItem.find('.g-form-item__label')
       expect(formItem.attributes().role).toBeFalsy()
       expect(input.attributes().id).toBe('input-tag')
       expect(formItemLabel.attributes().for).toBe(input.attributes().id)
@@ -528,7 +528,7 @@ describe('InputTag.vue', () => {
         />
       ))
 
-      const tags = wrapper.findAll('.el-tag')
+      const tags = wrapper.findAll('.g-tag')
       expect(tags.length).toBe(2)
       expect(tags[0].text()).toBe('tag1')
       expect(tags[1].text()).toBe('+ 4')
@@ -543,7 +543,7 @@ describe('InputTag.vue', () => {
         />
       ))
 
-      const tags = wrapper.findAll('.el-tag')
+      const tags = wrapper.findAll('.g-tag')
       expect(tags.length).toBe(2)
       expect(tags[0].text()).toBe('tag1')
       expect(tags[1].text()).toBe('+ 4')
@@ -551,7 +551,7 @@ describe('InputTag.vue', () => {
       await tags[1].trigger('mouseenter')
       await nextTick()
 
-      const tooltip = wrapper.findComponent({ name: 'ElTooltip' })
+      const tooltip = wrapper.findComponent({ name: 'GTooltip' })
       expect(tooltip.exists()).toBe(true)
     })
 
@@ -564,7 +564,7 @@ describe('InputTag.vue', () => {
         />
       ))
 
-      const tags = wrapper.findAll('.el-tag')
+      const tags = wrapper.findAll('.g-tag')
       expect(tags.length).toBe(4)
       expect(tags[0].text()).toBe('tag1')
       expect(tags[1].text()).toBe('tag2')
@@ -589,7 +589,7 @@ describe('InputTag.vue', () => {
       )
 
       await nextTick()
-      const tags = wrapper.findAll('.el-tag')
+      const tags = wrapper.findAll('.g-tag')
       const firstTag = tags[0]
       const tagStyle = firstTag.attributes('style')
       // 100(innerWidth) - 40(collapseItemWidth) - 6(gap) - 17(inputSlotWidth) = 37

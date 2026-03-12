@@ -26,7 +26,7 @@ export type SliderMarkerPropsPublic = ExtractPublicPropTypes<
 >
 
 export default defineComponent({
-  name: 'ElSliderMarker',
+  name: 'GSliderMarker',
   props: sliderMarkerProps,
   setup(props) {
     const ns = useNamespace('slider')

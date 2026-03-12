@@ -6,7 +6,7 @@
     @mouseenter="states.inputHovering = true"
     @mouseleave="states.inputHovering = false"
   >
-    <el-tooltip
+    <g-tooltip
       ref="tooltipRef"
       :visible="dropdownMenuVisible"
       :teleported="teleported"
@@ -69,7 +69,7 @@
                 :key="getValueKey(getValue(item))"
                 :class="nsSelect.e('selected-item')"
               >
-                <el-tag
+                <g-tag
                   :closable="!selectDisabled && !getDisabled(item)"
                   :size="collapseTagSize"
                   :type="tagType"
@@ -88,10 +88,10 @@
                       {{ getLabel(item) }}
                     </slot>
                   </span>
-                </el-tag>
+                </g-tag>
               </div>
 
-              <el-tooltip
+              <g-tooltip
                 v-if="
                   collapseTags && states.cachedOptions.length > maxCollapseTags
                 "
@@ -123,7 +123,7 @@
                     ref="collapseItemRef"
                     :class="nsSelect.e('selected-item')"
                   >
-                    <el-tag
+                    <g-tag
                       :closable="false"
                       :size="collapseTagSize"
                       :type="tagType"
@@ -134,7 +134,7 @@
                       <span :class="nsSelect.e('tags-text')">
                         + {{ states.cachedOptions.length - maxCollapseTags }}
                       </span>
-                    </el-tag>
+                    </g-tag>
                   </div>
                 </template>
                 <template #content>
@@ -144,7 +144,7 @@
                       :key="getValueKey(getValue(selected))"
                       :class="nsSelect.e('selected-item')"
                     >
-                      <el-tag
+                      <g-tag
                         class="in-tooltip"
                         :closable="!selectDisabled && !getDisabled(selected)"
                         :size="collapseTagSize"
@@ -163,11 +163,11 @@
                             {{ getLabel(selected) }}
                           </slot>
                         </span>
-                      </el-tag>
+                      </g-tag>
                     </div>
                   </div>
                 </template>
-              </el-tooltip>
+              </g-tooltip>
             </slot>
             <div
               :class="[
@@ -250,14 +250,14 @@
             </div>
           </div>
           <div ref="suffixRef" :class="nsSelect.e('suffix')">
-            <el-icon
+            <g-icon
               v-if="iconComponent"
               v-show="!showClearBtn"
               :class="[nsSelect.e('caret'), nsInput.e('icon'), iconReverse]"
             >
               <component :is="iconComponent" />
-            </el-icon>
-            <el-icon
+            </g-icon>
+            <g-icon
               v-if="showClearBtn && clearIcon"
               :class="[
                 nsSelect.e('caret'),
@@ -267,8 +267,8 @@
               @click.prevent.stop="handleClear"
             >
               <component :is="clearIcon" />
-            </el-icon>
-            <el-icon
+            </g-icon>
+            <g-icon
               v-if="validateState && validateIcon && needStatusIcon"
               :class="[
                 nsInput.e('icon'),
@@ -277,12 +277,12 @@
               ]"
             >
               <component :is="validateIcon" />
-            </el-icon>
+            </g-icon>
           </div>
         </div>
       </template>
       <template #content>
-        <el-select-menu
+        <g-select-menu
           :id="contentId"
           ref="menuRef"
           :data="filteredOptions"
@@ -316,9 +316,9 @@
               <slot name="footer" />
             </div>
           </template>
-        </el-select-menu>
+        </g-select-menu>
       </template>
-    </el-tooltip>
+    </g-tooltip>
   </div>
 </template>
 
@@ -326,23 +326,23 @@
 import { computed, defineComponent, provide, reactive, toRefs } from 'vue'
 import { isArray } from '@element-plus/utils'
 import { ClickOutside } from '@element-plus/directives'
-import ElTooltip from '@element-plus/components/tooltip'
-import ElTag from '@element-plus/components/tag'
-import ElIcon from '@element-plus/components/icon'
+import GTooltip from '@element-plus/components/tooltip'
+import GTag from '@element-plus/components/tag'
+import GIcon from '@element-plus/components/icon'
 import { useCalcInputWidth, useId } from '@element-plus/hooks'
-import ElSelectMenu from './select-dropdown'
+import GSelectMenu from './select-dropdown'
 import useSelect from './useSelect'
 import { selectV2Emits, selectV2Props } from './defaults'
 import { selectV2InjectionKey } from './token'
 import { BORDER_HORIZONTAL_WIDTH } from '@element-plus/constants'
 
 export default defineComponent({
-  name: 'ElSelectV2',
+  name: 'GSelectV2',
   components: {
-    ElSelectMenu,
-    ElTag,
-    ElTooltip,
-    ElIcon,
+    GSelectMenu,
+    GTag,
+    GTooltip,
+    GIcon,
   },
   directives: { ClickOutside },
   props: selectV2Props,

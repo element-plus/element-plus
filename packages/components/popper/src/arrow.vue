@@ -13,7 +13,7 @@ import { useNamespace } from '@element-plus/hooks'
 import { POPPER_CONTENT_INJECTION_KEY } from './constants'
 
 defineOptions({
-  name: 'ElPopperArrow',
+  name: 'GPopperArrow',
   inheritAttrs: false,
 })
 

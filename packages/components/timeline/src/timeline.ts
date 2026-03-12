@@ -25,7 +25,7 @@ export type TimelineProps = ExtractPropTypes<typeof timelineProps>
 export type TimelinePropsPublic = ExtractPublicPropTypes<typeof timelineProps>
 
 const Timeline = defineComponent({
-  name: 'ElTimeline',
+  name: 'GTimeline',
   props: timelineProps,
 
   setup(props, { slots }) {

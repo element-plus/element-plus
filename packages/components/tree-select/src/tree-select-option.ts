@@ -1,10 +1,10 @@
 import { defineComponent, getCurrentInstance, nextTick, watch } from 'vue'
-import { ElOption } from '@element-plus/components/select'
+import { GOption } from '@element-plus/components/select'
 
 const component = defineComponent({
-  extends: ElOption,
+  extends: GOption,
   setup(props, ctx) {
-    const result = (ElOption.setup as NonNullable<any>)(props, ctx)
+    const result = (GOption.setup as NonNullable<any>)(props, ctx)
 
     // use methods.selectOptionClick
     delete result.selectOptionClick
@@ -12,12 +12,12 @@ const component = defineComponent({
     const vm = (getCurrentInstance() as NonNullable<any>).proxy
 
     // Fix: https://github.com/element-plus/element-plus/issues/7917
-    // `el-option` will delete the cache before unmount,
-    // This is normal for flat arrays `<el-select><el-option v-for="3"></el-select>`,
+    // `g-option` will delete the cache before unmount,
+    // This is normal for flat arrays `<g-select><g-option v-for="3"></g-select>`,
     // Because the same node key does not create a difference node,
     // But in tree data, the same key at different levels will create diff nodes,
-    // So the destruction of `el-option` in `nextTick` will be slower than
-    // the creation of new `el-option`, which will delete the new node,
+    // So the destruction of `g-option` in `nextTick` will be slower than
+    // the creation of new `g-option`, which will delete the new node,
     // here restore the deleted node.
     // @link https://github.com/element-plus/element-plus/blob/6df6e49db07b38d6cc3b5e9a960782bd30879c11/packages/components/select/src/option.vue#L78
     nextTick(() => {
@@ -42,7 +42,7 @@ const component = defineComponent({
   },
   methods: {
     selectOptionClick() {
-      // $el.parentElement => el-tree-node__content
+      // $el.parentElement => g-tree-node__content
       this.$el.parentElement.click()
     },
   },

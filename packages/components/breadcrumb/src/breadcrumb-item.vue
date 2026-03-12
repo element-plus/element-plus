@@ -7,9 +7,9 @@
     >
       <slot />
     </span>
-    <el-icon v-if="breadcrumbContext?.separatorIcon" :class="ns.e('separator')">
+    <g-icon v-if="breadcrumbContext?.separatorIcon" :class="ns.e('separator')">
       <component :is="breadcrumbContext.separatorIcon" />
-    </el-icon>
+    </g-icon>
     <span v-else :class="ns.e('separator')" role="presentation">
       {{ breadcrumbContext?.separator }}
     </span>
@@ -18,7 +18,7 @@
 
 <script lang="ts" setup>
 import { getCurrentInstance, inject } from 'vue'
-import ElIcon from '@element-plus/components/icon'
+import GIcon from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
 import { breadcrumbKey } from './constants'
 
@@ -26,7 +26,7 @@ import type { Router } from 'vue-router'
 import type { BreadcrumbItemProps } from './breadcrumb-item'
 
 defineOptions({
-  name: 'ElBreadcrumbItem',
+  name: 'GBreadcrumbItem',
 })
 
 const props = withDefaults(defineProps<BreadcrumbItemProps>(), {

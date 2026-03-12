@@ -10,7 +10,7 @@ const HeaderCell: FunctionalComponent<TableV2HeaderCell> = (props, { slots }) =>
     </div>,
   ])
 
-HeaderCell.displayName = 'ElTableV2HeaderCell'
+HeaderCell.displayName = 'GTableV2HeaderCell'
 HeaderCell.inheritAttrs = false
 
 export default HeaderCell

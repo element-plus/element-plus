@@ -9,4 +9,4 @@ interface DatePickerContext {
 export const ROOT_PICKER_INJECTION_KEY: InjectionKey<DatePickerContext> =
   Symbol('rootPickerContextKey')
 
-export const ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY = 'ElIsDefaultFormat'
+export const ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY = 'GIsDefaultFormat'

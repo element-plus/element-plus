@@ -9,9 +9,9 @@
     tabindex="-1"
     @click="handleClick"
   >
-    <el-tooltip
+    <g-tooltip
       v-if="
-        parentMenu.type.name === 'ElMenu' &&
+        parentMenu.type.name === 'GMenu' &&
         rootMenu.props.collapse &&
         $slots.title
       "
@@ -29,7 +29,7 @@
       <div :class="nsMenu.be('tooltip', 'trigger')">
         <slot />
       </div>
-    </el-tooltip>
+    </g-tooltip>
     <template v-else>
       <slot />
       <slot name="title" />
@@ -48,7 +48,7 @@ import {
   reactive,
   toRef,
 } from 'vue'
-import ElTooltip from '@element-plus/components/tooltip'
+import GTooltip from '@element-plus/components/tooltip'
 import { debugWarn, isPropAbsent, throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import useMenu from './use-menu'
@@ -58,7 +58,7 @@ import { MENU_INJECTION_KEY, SUB_MENU_INJECTION_KEY } from './tokens'
 import type { MenuItemProps } from './menu-item'
 import type { MenuItemRegistered, MenuProvider, SubMenuProvider } from './types'
 
-const COMPONENT_NAME = 'ElMenuItem'
+const COMPONENT_NAME = 'GMenuItem'
 defineOptions({
   name: COMPONENT_NAME,
 })

@@ -1,21 +1,21 @@
 <template>
-  <el-focus-group-collection>
-    <el-roving-focus-group-impl v-bind="$attrs">
+  <g-focus-group-collection>
+    <g-roving-focus-group-impl v-bind="$attrs">
       <slot />
-    </el-roving-focus-group-impl>
-  </el-focus-group-collection>
+    </g-roving-focus-group-impl>
+  </g-focus-group-collection>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import ElRovingFocusGroupImpl from './roving-focus-group-impl.vue'
-import { ElCollection as ElFocusGroupCollection } from './roving-focus-group'
+import GRovingFocusGroupImpl from './roving-focus-group-impl.vue'
+import { GCollection as GFocusGroupCollection } from './roving-focus-group'
 
 export default defineComponent({
-  name: 'ElRovingFocusGroup',
+  name: 'GRovingFocusGroup',
   components: {
-    ElFocusGroupCollection,
-    ElRovingFocusGroupImpl,
+    GFocusGroupCollection,
+    GRovingFocusGroupImpl,
   },
 })
 </script>

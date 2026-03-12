@@ -18,7 +18,7 @@ interface AsideProps {
 }
 
 defineOptions({
-  name: 'ElAside',
+  name: 'GAside',
 })
 const props = withDefaults(defineProps<AsideProps>(), {
   width: null,

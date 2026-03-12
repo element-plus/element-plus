@@ -3,25 +3,25 @@
     type="button"
     class="btn-prev"
     :disabled="internalDisabled"
-    :aria-label="prevText || t('el.pagination.prev')"
+    :aria-label="prevText || t('g.pagination.prev')"
     :aria-disabled="internalDisabled"
     @click="$emit('click', $event)"
   >
     <span v-if="prevText">{{ prevText }}</span>
-    <el-icon v-else>
+    <g-icon v-else>
       <component :is="prevIcon" />
-    </el-icon>
+    </g-icon>
   </button>
 </template>
 
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useLocale } from '@element-plus/hooks'
-import { ElIcon } from '@element-plus/components/icon'
+import { GIcon } from '@element-plus/components/icon'
 import { paginationPrevEmits, paginationPrevProps } from './prev'
 
 defineOptions({
-  name: 'ElPaginationPrev',
+  name: 'GPaginationPrev',
 })
 
 const props = defineProps(paginationPrevProps)

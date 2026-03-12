@@ -13,17 +13,17 @@ html.dark {
     @include set-css-color-type($colors, $type);
   }
 
-  // --el-box-shadow-#{$type}
+  // --g-box-shadow-#{$type}
   @include set-component-css-var('box-shadow', $box-shadow);
 
   // color-scheme
-  // Background --el-bg-color-#{$type}
+  // Background --g-bg-color-#{$type}
   @include set-component-css-var('bg-color', $bg-color);
-  // --el-text-color-#{$type}
+  // --g-text-color-#{$type}
   @include set-component-css-var('text-color', $text-color);
-  // --el-border-color-#{$type}
+  // --g-border-color-#{$type}
   @include set-component-css-var('border-color', $border-color);
-  // Fill --el-fill-color-#{$type}
+  // Fill --g-fill-color-#{$type}
   @include set-component-css-var('fill-color', $fill-color);
   @include set-component-css-var('mask-color', $mask-color);
 }

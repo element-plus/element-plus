@@ -2,7 +2,7 @@
   <div
     ref="breadcrumb"
     :class="ns.b()"
-    :aria-label="t('el.breadcrumb.label')"
+    :aria-label="t('g.breadcrumb.label')"
     role="navigation"
   >
     <slot />
@@ -17,7 +17,7 @@ import { breadcrumbKey } from './constants'
 import type { BreadcrumbProps } from './breadcrumb'
 
 defineOptions({
-  name: 'ElBreadcrumb',
+  name: 'GBreadcrumb',
 })
 
 const { t } = useLocale()

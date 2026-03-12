@@ -18,7 +18,7 @@ export const useCarouselItem = (props: Required<CarouselItemProps>) => {
   if (!carouselContext) {
     debugWarn(
       CAROUSEL_ITEM_NAME,
-      'usage: <el-carousel></el-carousel-item></el-carousel>'
+      'usage: <g-carousel></g-carousel-item></g-carousel>'
     )
   }
 

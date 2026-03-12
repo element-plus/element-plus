@@ -3,6 +3,6 @@ import type { SelectContext, SelectGroupContext } from './type'
 
 // For individual build sharing injection key, we had to make `Symbol` to string
 export const selectGroupKey: InjectionKey<SelectGroupContext> =
-  Symbol('ElSelectGroup')
+  Symbol('GSelectGroup')
 
-export const selectKey: InjectionKey<SelectContext> = Symbol('ElSelect')
+export const selectKey: InjectionKey<SelectContext> = Symbol('GSelect')

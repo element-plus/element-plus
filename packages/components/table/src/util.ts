@@ -13,8 +13,8 @@ import {
   isUndefined,
   throwError,
 } from '@element-plus/utils'
-import ElTooltip, {
-  type ElTooltipProps,
+import GTooltip, {
+  type GTooltipProps,
 } from '@element-plus/components/tooltip'
 
 import type { DefaultRow, Table, TreeProps } from './table/defaults'
@@ -23,7 +23,7 @@ import type { CSSProperties, VNode, VNodeArrayChildren } from 'vue'
 
 export type TableOverflowTooltipOptions = Partial<
   Pick<
-    ElTooltipProps,
+    GTooltipProps,
     | 'appendTo'
     | 'effect'
     | 'enterable'
@@ -160,7 +160,7 @@ export const getColumnByKey = function <T extends DefaultRow>(
     }
   }
   if (!column)
-    throwError('ElTable', `No column matching with column-key: ${columnKey}`)
+    throwError('GTable', `No column matching with column-key: ${columnKey}`)
   return column
 }
 
@@ -484,7 +484,7 @@ export function createTablePopper<T extends DefaultRow>(
   const parentNode = table?.refs.tableWrapper
   const ns = parentNode?.dataset.prefix
   const vm = createVNode(
-    ElTooltip,
+    GTooltip,
     {
       virtualTriggering: true,
       virtualRef: trigger,

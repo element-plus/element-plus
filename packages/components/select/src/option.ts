@@ -1,6 +1,6 @@
 import { buildProps } from '@element-plus/utils'
 
-export const COMPONENT_NAME = 'ElOption'
+export const COMPONENT_NAME = 'GOption'
 export const optionProps = buildProps({
   /**
    * @description value of option

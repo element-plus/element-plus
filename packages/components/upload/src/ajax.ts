@@ -7,7 +7,7 @@ import type {
   UploadRequestOptions,
 } from './upload'
 
-const SCOPE = 'ElUpload'
+const SCOPE = 'GUpload'
 
 export class UploadAjaxError extends Error {
   name = 'UploadAjaxError'

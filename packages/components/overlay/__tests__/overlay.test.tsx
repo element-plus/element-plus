@@ -1,7 +1,7 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
-import { ElMessageBox } from '@element-plus/components/message-box'
+import { GMessageBox } from '@element-plus/components/message-box'
 import ConfigProvider from '@element-plus/components/config-provider'
 import Overlay from '../src/overlay'
 
@@ -21,7 +21,7 @@ describe('Overlay.vue', () => {
 
   test('should emit click event', async () => {
     const wrapper = mount(() => <Overlay>{AXIOM}</Overlay>)
-    await wrapper.find('.el-overlay').trigger('click')
+    await wrapper.find('.g-overlay').trigger('click')
     expect(wrapper.emitted()).toBeTruthy()
   })
 
@@ -29,7 +29,7 @@ describe('Overlay.vue', () => {
     const mask = ref(true)
     const wrapper = mount(() => <Overlay mask={mask.value}>{AXIOM}</Overlay>)
 
-    const selector = '.el-overlay'
+    const selector = '.g-overlay'
     expect(wrapper.find(selector).exists()).toBe(true)
 
     mask.value = false
@@ -48,7 +48,7 @@ describe('Overlay.vue', () => {
   test('global', async () => {
     const testNamespace = 'test'
     const callout = () => {
-      ElMessageBox.prompt('Title', 'Description')
+      GMessageBox.prompt('Title', 'Description')
     }
     const wrapper = mount(() => {
       return (

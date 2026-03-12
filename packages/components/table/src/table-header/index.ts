@@ -10,7 +10,7 @@ import {
   ref,
   watch,
 } from 'vue'
-import ElCheckbox from '@element-plus/components/checkbox'
+import GCheckbox from '@element-plus/components/checkbox'
 import { useNamespace } from '@element-plus/hooks'
 import { useLocale } from '@element-plus/hooks/use-locale'
 import FilterPanel from '../filter-panel.vue'
@@ -41,9 +41,9 @@ export interface TableHeaderProps<T extends DefaultRow> {
 }
 
 export default defineComponent({
-  name: 'ElTableHeader',
+  name: 'GTableHeader',
   components: {
-    ElCheckbox,
+    GCheckbox,
   },
   props: {
     fixed: {
@@ -279,7 +279,7 @@ export default defineComponent({
                         {
                           type: 'button',
                           class: 'caret-wrapper',
-                          'aria-label': t('el.table.sortLabel', {
+                          'aria-label': t('g.table.sortLabel', {
                             column: column.label || '',
                           }),
                           onClick: ($event: Event) =>

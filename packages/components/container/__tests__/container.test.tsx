@@ -55,45 +55,45 @@ describe('Container.vue', () => {
 describe('Header', () => {
   test('create header', () => {
     const wrapper = mount(() => <Header />)
-    expect(wrapper.classes()).toContain('el-header')
+    expect(wrapper.classes()).toContain('g-header')
   })
 
   test('header height', () => {
     const wrapper = mount(() => <Header height="100px" />)
     const vm = wrapper.vm
-    expect(getCssVariable(vm.$el, '--el-header-height')).toEqual('100px')
+    expect(getCssVariable(vm.$el, '--g-header-height')).toEqual('100px')
   })
 })
 
 describe('Aside', () => {
   test('aside create', () => {
     const wrapper = mount(() => <Aside />)
-    expect(wrapper.classes()).toContain('el-aside')
+    expect(wrapper.classes()).toContain('g-aside')
   })
 
   test('aside width', () => {
     const wrapper = mount(() => <Aside width="200px" />)
     const vm = wrapper.vm
-    expect(getCssVariable(vm.$el, '--el-aside-width')).toEqual('200px')
+    expect(getCssVariable(vm.$el, '--g-aside-width')).toEqual('200px')
   })
 })
 
 describe('Main', () => {
   test('main create', () => {
     const wrapper = mount(() => <Main />)
-    expect(wrapper.classes()).toContain('el-main')
+    expect(wrapper.classes()).toContain('g-main')
   })
 })
 
 describe('Footer', () => {
   test('footer create', () => {
     const wrapper = mount(() => <Footer />)
-    expect(wrapper.classes()).toContain('el-footer')
+    expect(wrapper.classes()).toContain('g-footer')
   })
 
   test('footer height', () => {
     const wrapper = mount(() => <Footer height="100px" />)
     const vm = wrapper.vm
-    expect(getCssVariable(vm.$el, '--el-footer-height')).toEqual('100px')
+    expect(getCssVariable(vm.$el, '--g-footer-height')).toEqual('100px')
   })
 })

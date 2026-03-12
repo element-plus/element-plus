@@ -24,7 +24,7 @@
       @mouseleave="resetCurrentValue"
       @click="selectValue(item)"
     >
-      <el-icon
+      <g-icon
         ref="iconRefs"
         :class="[
           ns.e('icon'),
@@ -46,14 +46,14 @@
           v-show="showDecimalIcon(item)"
           :class="[ns.em('decimal', 'box')]"
         />
-        <el-icon
+        <g-icon
           v-show="showDecimalIcon(item)"
           :style="decimalStyle"
           :class="[ns.e('icon'), ns.e('decimal')]"
         >
           <component :is="decimalIconComponent" />
-        </el-icon>
-      </el-icon>
+        </g-icon>
+      </g-icon>
     </span>
     <span
       v-if="showText || showScore"
@@ -80,7 +80,7 @@ import {
   useFormItemInputId,
   useFormSize,
 } from '@element-plus/components/form'
-import { ElIcon } from '@element-plus/components/icon'
+import { GIcon } from '@element-plus/components/icon'
 import { Star, StarFilled } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
 import { rateEmits } from './rate'
@@ -110,7 +110,7 @@ function getValueFromMap<T>(
 }
 
 defineOptions({
-  name: 'ElRate',
+  name: 'GRate',
 })
 
 const props = withDefaults(defineProps<RateProps>(), {

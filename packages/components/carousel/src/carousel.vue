@@ -10,14 +10,14 @@
         v-show="(arrow === 'always' || hover) && (loop || activeIndex > 0)"
         type="button"
         :class="[ns.e('arrow'), ns.em('arrow', 'left')]"
-        :aria-label="t('el.carousel.leftArrow')"
+        :aria-label="t('g.carousel.leftArrow')"
         @mouseenter="handleButtonEnter('left')"
         @mouseleave="handleButtonLeave"
         @click.stop="throttledArrowClick(activeIndex - 1)"
       >
-        <ElIcon>
+        <GIcon>
           <ArrowLeft />
-        </ElIcon>
+        </GIcon>
       </button>
     </transition>
     <transition v-if="arrowDisplay" name="carousel-arrow-right">
@@ -28,14 +28,14 @@
         "
         type="button"
         :class="[ns.e('arrow'), ns.em('arrow', 'right')]"
-        :aria-label="t('el.carousel.rightArrow')"
+        :aria-label="t('g.carousel.rightArrow')"
         @mouseenter="handleButtonEnter('right')"
         @mouseleave="handleButtonLeave"
         @click.stop="throttledArrowClick(activeIndex + 1)"
       >
-        <ElIcon>
+        <GIcon>
           <ArrowRight />
-        </ElIcon>
+        </GIcon>
       </button>
     </transition>
     <div
@@ -63,7 +63,7 @@
         >
           <button
             :class="ns.e('button')"
-            :aria-label="t('el.carousel.indicator', { index: index + 1 })"
+            :aria-label="t('g.carousel.indicator', { index: index + 1 })"
           >
             <span v-if="hasLabel">{{ item.props.label }}</span>
           </button>
@@ -90,7 +90,7 @@
 
 <script lang="ts" setup>
 import { computed, unref } from 'vue'
-import { ElIcon } from '@element-plus/components/icon'
+import { GIcon } from '@element-plus/components/icon'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { carouselEmits } from './carousel'
@@ -98,7 +98,7 @@ import { useCarousel } from './use-carousel'
 
 import type { CarouselProps } from './carousel'
 
-const COMPONENT_NAME = 'ElCarousel'
+const COMPONENT_NAME = 'GCarousel'
 defineOptions({
   name: COMPONENT_NAME,
 })
@@ -197,7 +197,7 @@ function handleTransitionEnd(e: TransitionEvent) {
 defineExpose({
   /** @description active slide index */
   activeIndex: exposeActiveIndex,
-  /** @description manually switch slide, index of the slide to be switched to, starting from 0; or the `name` of corresponding `el-carousel-item` */
+  /** @description manually switch slide, index of the slide to be switched to, starting from 0; or the `name` of corresponding `g-carousel-item` */
   setActiveItem,
   /** @description switch to the previous slide */
   prev,

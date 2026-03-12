@@ -27,7 +27,7 @@ import { useSlider, useSliderDOM } from '../composables/use-slider'
 import type { AlphaSliderProps } from '../props/slider'
 
 defineOptions({
-  name: 'ElColorAlphaSlider',
+  name: 'GColorAlphaSlider',
 })
 
 const props = defineProps<AlphaSliderProps>()
@@ -50,9 +50,9 @@ const { rootKls, barKls, barStyle, thumbKls, thumbStyle, update } =
 
 const { t } = useLocale()
 
-const ariaLabel = computed(() => t('el.colorpicker.alphaLabel'))
+const ariaLabel = computed(() => t('g.colorpicker.alphaLabel'))
 const ariaValuetext = computed(() => {
-  return t('el.colorpicker.alphaDescription', {
+  return t('g.colorpicker.alphaDescription', {
     alpha: currentValue.value,
     color: props.color.value,
   })

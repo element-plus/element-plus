@@ -1,4 +1,4 @@
-import ElIcon from '@element-plus/components/icon'
+import GIcon from '@element-plus/components/icon'
 import { ArrowRight } from '@element-plus/icons-vue'
 
 import type { StyleValue } from 'vue'
@@ -25,9 +25,9 @@ const ExpandIcon = (
 
   return (
     <button {...expandIconProps} type="button">
-      <ElIcon size={size} style={style}>
+      <GIcon size={size} style={style}>
         <ArrowRight />
-      </ElIcon>
+      </GIcon>
     </button>
   )
 }

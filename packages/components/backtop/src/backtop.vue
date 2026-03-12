@@ -7,7 +7,7 @@
       @click.stop="handleClick"
     >
       <slot>
-        <el-icon :class="ns.e('icon')"><caret-top /></el-icon>
+        <g-icon :class="ns.e('icon')"><caret-top /></g-icon>
       </slot>
     </div>
   </transition>
@@ -15,7 +15,7 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { ElIcon } from '@element-plus/components/icon'
+import { GIcon } from '@element-plus/components/icon'
 import { CaretTop } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
 import { backtopEmits } from './backtop'
@@ -23,7 +23,7 @@ import { useBackTop } from './use-backtop'
 
 import type { BacktopProps } from './backtop'
 
-const COMPONENT_NAME = 'ElBacktop'
+const COMPONENT_NAME = 'GBacktop'
 
 defineOptions({
   name: COMPONENT_NAME,

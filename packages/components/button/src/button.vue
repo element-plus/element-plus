@@ -9,14 +9,14 @@
   >
     <template v-if="loading">
       <slot v-if="$slots.loading" name="loading" />
-      <el-icon v-else :class="ns.is('loading')">
+      <g-icon v-else :class="ns.is('loading')">
         <component :is="loadingIcon" />
-      </el-icon>
+      </g-icon>
     </template>
-    <el-icon v-else-if="icon || $slots.icon">
+    <g-icon v-else-if="icon || $slots.icon">
       <component :is="icon" v-if="icon" />
       <slot v-else name="icon" />
-    </el-icon>
+    </g-icon>
     <span
       v-if="$slots.default"
       :class="{ [ns.em('text', 'expand')]: shouldAddSpace }"
@@ -28,7 +28,7 @@
 
 <script lang="ts" setup>
 import { computed, markRaw } from 'vue'
-import { ElIcon } from '@element-plus/components/icon'
+import { GIcon } from '@element-plus/components/icon'
 import { Loading } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
 import { useButton } from './use-button'
@@ -38,7 +38,7 @@ import { useButtonCustomStyle } from './button-custom'
 import type { ButtonProps } from './button'
 
 defineOptions({
-  name: 'ElButton',
+  name: 'GButton',
 })
 
 const props = withDefaults(defineProps<ButtonProps>(), {

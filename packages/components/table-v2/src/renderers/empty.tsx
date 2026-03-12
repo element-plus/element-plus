@@ -1,5 +1,5 @@
 import { renderSlot } from 'vue'
-import ElEmpty from '@element-plus/components/empty'
+import GEmpty from '@element-plus/components/empty'
 
 import type { CSSProperties, FunctionalComponent } from 'vue'
 
@@ -9,7 +9,7 @@ type EmptyRendererProps = {
 }
 
 const Footer: FunctionalComponent<EmptyRendererProps> = (props, { slots }) => {
-  const defaultSlot = renderSlot(slots, 'default', {}, () => [<ElEmpty />])
+  const defaultSlot = renderSlot(slots, 'default', {}, () => [<GEmpty />])
   return (
     <div class={props.class} style={props.style}>
       {defaultSlot}
@@ -17,6 +17,6 @@ const Footer: FunctionalComponent<EmptyRendererProps> = (props, { slots }) => {
   )
 }
 
-Footer.displayName = 'ElTableV2Empty'
+Footer.displayName = 'GTableV2Empty'
 
 export default Footer

@@ -33,7 +33,7 @@ type ColorPickerVM = ComponentPublicInstance<{
 describe('Color-picker-panel', () => {
   it('Mount Color-picker-panel', () => {
     const wrapper = mount(ColorPickerPanel)
-    expect(wrapper.html()).toContain('el-color-picker')
+    expect(wrapper.html()).toContain('g-color-picker')
     wrapper.unmount()
   })
 
@@ -59,7 +59,7 @@ describe('Color-picker-panel', () => {
       const hueSlideWrapper = wrapper.findComponent(HueSlider)
       const hueSlideDom = hueSlideWrapper.element as HTMLElement
       const thumbDom = hueSlideWrapper.find<HTMLElement>(
-        '.el-color-hue-slider__thumb'
+        '.g-color-hue-slider__thumb'
       ).element
       const mockHueSlideRect = vi
         .spyOn(hueSlideDom, 'getBoundingClientRect')
@@ -103,7 +103,7 @@ describe('Color-picker-panel', () => {
           left: 0,
         } as DOMRect)
       const thumbDom = alphaWrapper.find<HTMLElement>(
-        '.el-color-alpha-slider__thumb'
+        '.g-color-alpha-slider__thumb'
       ).element
       const mockThumbDom = vi
         .spyOn(thumbDom, 'offsetWidth', 'get')
@@ -121,7 +121,7 @@ describe('Color-picker-panel', () => {
       mockThumbDom.mockRestore()
     })
     it('predefine color disabled', async () => {
-      await wrapper.find('.el-color-predefine__color-selector').trigger('click')
+      await wrapper.find('.g-color-predefine__color-selector').trigger('click')
       expect(updateModelValue).not.toHaveBeenCalled()
     })
     it('sv panel disabled', async () => {
@@ -142,7 +142,7 @@ describe('Color-picker-panel', () => {
       <ColorPickerPanel v-model={color.value} show-alpha={true} />
     ))
 
-    const alphaSlider = wrapper.find('.el-color-alpha-slider')
+    const alphaSlider = wrapper.find('.g-color-alpha-slider')
     expect(alphaSlider.exists()).toBe(true)
     wrapper.unmount()
   })
@@ -173,19 +173,19 @@ describe('Color-picker-panel', () => {
       <ColorPickerPanel v-model={color.value} show-alpha />
     ))
 
-    const alphaSlider = wrapper.findComponent('.el-color-alpha-slider')
-    await alphaSlider.find('.el-color-alpha-slider__thumb').trigger('keydown', {
+    const alphaSlider = wrapper.findComponent('.g-color-alpha-slider')
+    await alphaSlider.find('.g-color-alpha-slider__thumb').trigger('keydown', {
       key: EVENT_CODE.down,
       code: EVENT_CODE.down,
     })
-    await alphaSlider.find('.el-color-alpha-slider__thumb').trigger('keydown', {
+    await alphaSlider.find('.g-color-alpha-slider__thumb').trigger('keydown', {
       key: EVENT_CODE.left,
       code: EVENT_CODE.left,
     })
     const input = wrapper.find<HTMLInputElement>('input').element
     expect(input!.value).toEqual('rgba(19, 206, 102, 0.16)')
 
-    await alphaSlider.find('.el-color-alpha-slider__thumb').trigger('keydown', {
+    await alphaSlider.find('.g-color-alpha-slider__thumb').trigger('keydown', {
       key: EVENT_CODE.up,
       code: EVENT_CODE.up,
     })
@@ -200,7 +200,7 @@ describe('Color-picker-panel', () => {
     const hueSlideWrapper = wrapper.findComponent(HueSlider)
     const hueSlideDom = hueSlideWrapper.element as HTMLElement
     const thumbDom = hueSlideWrapper.find<HTMLElement>(
-      '.el-color-hue-slider__thumb'
+      '.g-color-hue-slider__thumb'
     ).element
     const mockHueSlideHeight = vi
       .spyOn(hueSlideDom, 'offsetHeight', 'get')
@@ -222,7 +222,7 @@ describe('Color-picker-panel', () => {
     const hueSlideWrapper = wrapper.findComponent(HueSlider)
     const hueSlideDom = hueSlideWrapper.element
     const thumbDom = hueSlideWrapper.find<HTMLElement>(
-      '.el-color-hue-slider__thumb'
+      '.g-color-hue-slider__thumb'
     ).element
     const mockHueBarHeight = vi
       .spyOn(hueSlideDom, 'getBoundingClientRect')
@@ -256,7 +256,7 @@ describe('Color-picker-panel', () => {
     const hueSlideWrapper = wrapper.findComponent(HueSlider)
     const hueSlideDom = hueSlideWrapper.element as HTMLElement
     const thumbDom = hueSlideWrapper.find<HTMLElement>(
-      '.el-color-hue-slider__thumb'
+      '.g-color-hue-slider__thumb'
     ).element
     const mockHueSlideRect = vi
       .spyOn(hueSlideDom, 'getBoundingClientRect')
@@ -306,7 +306,7 @@ describe('Color-picker-panel', () => {
         left: 0,
       } as DOMRect)
     const thumbDom = alphaWrapper.find<HTMLElement>(
-      '.el-color-alpha-slider__thumb'
+      '.g-color-alpha-slider__thumb'
     ).element
     const mockThumbDom = vi
       .spyOn(thumbDom, 'offsetWidth', 'get')
@@ -370,12 +370,12 @@ describe('Color-picker-panel', () => {
     })
     const predefineDom = predefineWrapper.element as HTMLElement
     expect(
-      predefineDom.querySelectorAll('.el-color-predefine__color-selector')
+      predefineDom.querySelectorAll('.g-color-predefine__color-selector')
         .length === 9
     ).toBeTruthy()
     predefineDom
       .querySelector<HTMLElement>(
-        '.el-color-predefine__color-selector:nth-child(4)'
+        '.g-color-predefine__color-selector:nth-child(4)'
       )
       ?.click()
     await nextTick()
@@ -386,7 +386,7 @@ describe('Color-picker-panel', () => {
 
     predefineDom
       .querySelector<HTMLElement>(
-        '.el-color-predefine__color-selector:nth-child(3)'
+        '.g-color-predefine__color-selector:nth-child(3)'
       )
       ?.click()
     await nextTick()
@@ -424,19 +424,19 @@ describe('Color-picker-panel', () => {
     const predefineDom = predefineWrapper.element as HTMLElement
     predefineDom
       .querySelector<HTMLElement>(
-        '.el-color-predefine__color-selector:nth-child(4)'
+        '.g-color-predefine__color-selector:nth-child(4)'
       )
       ?.click()
     await nextTick()
     expect(
       predefineWrapper
-        .find('.el-color-predefine__color-selector:nth-child(4)')
+        .find('.g-color-predefine__color-selector:nth-child(4)')
         .classes()
     ).toContain('selected')
     const hueSlideWrapper = colorPickerWrapper.findComponent({ ref: 'hueRef' })
     const hueSlideDom = hueSlideWrapper.element
     const thumbDom = hueSlideWrapper.find<HTMLElement>(
-      '.el-color-hue-slider__thumb'
+      '.g-color-hue-slider__thumb'
     ).element
     const mockHueSlideRect = vi
       .spyOn(hueSlideDom, 'getBoundingClientRect')
@@ -462,7 +462,7 @@ describe('Color-picker-panel', () => {
     await nextTick()
     expect(
       predefineWrapper
-        .find('.el-color-predefine__color-selector:nth-child(4)')
+        .find('.g-color-predefine__color-selector:nth-child(4)')
         .classes()
     ).not.toContain('selected')
     mockHueSlideRect.mockRestore()
@@ -489,7 +489,7 @@ describe('Color-picker-panel', () => {
     expect(colorPickerWrapper.vm.color.format).toBe('rgb')
     expect(color.value).toBe('rgb(0, 255, 0)')
     expect(
-      customInput.find<HTMLInputElement>('.el-input__inner').element.value
+      customInput.find<HTMLInputElement>('.g-input__inner').element.value
     ).toBe('rgb(0, 255, 0)')
     wrapper.unmount()
   })
@@ -514,7 +514,7 @@ describe('Color-picker-panel', () => {
     expect(colorPickerWrapper.vm.color.enableAlpha).toBe(false)
     expect(color.value).toBe('#00ff00')
     expect(
-      customInput.find<HTMLInputElement>('.el-input__inner').element.value
+      customInput.find<HTMLInputElement>('.g-input__inner').element.value
     ).toBe('#00ff00')
     wrapper.unmount()
   })
@@ -545,19 +545,19 @@ describe('Color-picker-panel', () => {
     const color = ref('#409eff')
     const wrapper = mount(() => <ColorPickerPanel v-model={color.value} />)
 
-    const alphaSlider = wrapper.findComponent('.el-color-hue-slider')
-    await alphaSlider.find('.el-color-hue-slider__thumb').trigger('keydown', {
+    const alphaSlider = wrapper.findComponent('.g-color-hue-slider')
+    await alphaSlider.find('.g-color-hue-slider__thumb').trigger('keydown', {
       key: EVENT_CODE.down,
       code: EVENT_CODE.down,
     })
-    await alphaSlider.find('.el-color-hue-slider__thumb').trigger('keydown', {
+    await alphaSlider.find('.g-color-hue-slider__thumb').trigger('keydown', {
       key: EVENT_CODE.left,
       code: EVENT_CODE.left,
     })
     const input = wrapper.find<HTMLInputElement>('input').element
     expect(input!.value).toEqual('#4099ff')
 
-    await alphaSlider.find('.el-color-hue-slider__thumb').trigger('keydown', {
+    await alphaSlider.find('.g-color-hue-slider__thumb').trigger('keydown', {
       key: EVENT_CODE.up,
       code: EVENT_CODE.up,
     })
@@ -569,7 +569,7 @@ describe('Color-picker-panel', () => {
     const color = ref('#409eff')
     const wrapper = mount(() => <ColorPickerPanel v-model={color.value} />)
 
-    const cursor = wrapper.find('.el-color-svpanel__cursor')
+    const cursor = wrapper.find('.g-color-svpanel__cursor')
     await cursor.trigger('keydown', {
       key: EVENT_CODE.down,
       code: EVENT_CODE.down,
@@ -610,7 +610,7 @@ describe('Color-picker-panel', () => {
       />
     ))
 
-    const bg = wrapper.find('.el-color-predefine__color-selector div')
+    const bg = wrapper.find('.g-color-predefine__color-selector div')
     expect(bg.attributes('style')).include(predefine[0])
 
     showAlpha.value = false
@@ -622,7 +622,7 @@ describe('Color-picker-panel', () => {
     it('default', async () => {
       const color = ref('#409eff')
       const wrapper = mount(() => <ColorPickerPanel v-model={color.value} />)
-      const svPanel = wrapper.find('.el-color-svpanel__cursor')
+      const svPanel = wrapper.find('.g-color-svpanel__cursor')
 
       expect(svPanel.attributes('tabindex')).toBe('0')
       expect(svPanel.attributes('role')).toBe('slider')
@@ -636,7 +636,7 @@ describe('Color-picker-panel', () => {
         'saturation 75, brightness 100, current color is #409eff'
       )
 
-      const hueSlider = wrapper.find('.el-color-hue-slider__thumb')
+      const hueSlider = wrapper.find('.g-color-hue-slider__thumb')
       expect(hueSlider.attributes('tabindex')).toBe('0')
       expect(hueSlider.attributes('role')).toBe('slider')
       expect(hueSlider.attributes('aria-valuemin')).toBe('0')
@@ -655,7 +655,7 @@ describe('Color-picker-panel', () => {
       const wrapper = mount(() => (
         <ColorPickerPanel v-model={color.value} show-alpha />
       ))
-      const alphaSlider = wrapper.find('.el-color-alpha-slider__thumb')
+      const alphaSlider = wrapper.find('.g-color-alpha-slider__thumb')
       expect(alphaSlider.attributes('tabindex')).toBe('0')
       expect(alphaSlider.attributes('role')).toBe('slider')
       expect(alphaSlider.attributes('aria-valuemin')).toBe('0')
@@ -675,7 +675,7 @@ describe('Color-picker-panel', () => {
       const wrapper = mount(() => (
         <ColorPickerPanel v-model={color.value} predefine={predefine} />
       ))
-      const predefineColor = wrapper.find('.el-color-predefine__color-selector')
+      const predefineColor = wrapper.find('.g-color-predefine__color-selector')
 
       expect(predefineColor.attributes('type')).toBe('button')
       expect(predefineColor.attributes('aria-label')).toBe(

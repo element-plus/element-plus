@@ -57,21 +57,21 @@ describe('use-namespace', () => {
   it('should provide bem correctly', async () => {
     await nextTick()
     expect(wrapper.find('#testId').classes()).toEqual([
-      'el-table', // b()
-      'el-table-body', // b('body')
-      'el-table__content', // e('content')
-      'el-table--active', // m('active')
-      'el-table-content__active', // be('content', 'active')
-      'el-table__content--active', // em('content', 'active')
-      'el-table-body__content--active', // bem('body', 'content', 'active')
+      'g-table', // b()
+      'g-table-body', // b('body')
+      'g-table__content', // e('content')
+      'g-table--active', // m('active')
+      'g-table-content__active', // be('content', 'active')
+      'g-table__content--active', // em('content', 'active')
+      'g-table-body__content--active', // bem('body', 'content', 'active')
       'is-focus', // is('focus')
     ])
 
     const style = wrapper.find('#testId').attributes('style')
-    expect(style).toMatch('--el-border-style: solid;')
-    expect(style).not.toMatch('--el-border-width:')
-    expect(style).toMatch('--el-table-text-color: #409eff;')
-    expect(style).not.toMatch('--el-table-active-color:')
+    expect(style).toMatch('--g-border-style: solid;')
+    expect(style).not.toMatch('--g-border-width:')
+    expect(style).toMatch('--g-table-text-color: #409eff;')
+    expect(style).not.toMatch('--g-table-active-color:')
   })
 
   it('overrides namespace', () => {

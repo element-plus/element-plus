@@ -1,6 +1,6 @@
 export default {
   name: 'lo',
-  el: {
+  g: {
     breadcrumb: {
       label: 'ເມນູນຳທາງ',
     },
@@ -118,7 +118,7 @@ export default {
       prevPages: 'ຍ້ອນກັບ {pager} ໜ້າ',
       nextPages: 'ຖັດໄປ {pager} ໜ້າ',
       deprecationWarning:
-        'ພົບການໃຊ້ງານທີ່ບໍ່ຖືກຕ້ອງ, ກະລຸນາເບິ່ງເອກະສານການໃຊ້ງານ el-pagination ສຳລັບລາຍລະອຽດເພີ່ມເຕີມ',
+        'ພົບການໃຊ້ງານທີ່ບໍ່ຖືກຕ້ອງ, ກະລຸນາເບິ່ງເອກະສານການໃຊ້ງານ g-pagination ສຳລັບລາຍລະອຽດເພີ່ມເຕີມ',
     },
     dialog: {
       close: 'ປິດກ່ອງຂໍ້ຄວາມນີ້',

@@ -88,7 +88,7 @@
         </div>
       </template>
     </div>
-    <el-input-number
+    <g-input-number
       v-if="showInput && !range"
       ref="input"
       :model-value="firstValue"
@@ -109,7 +109,7 @@
 <script lang="ts" setup>
 import { computed, provide, reactive, toRefs } from 'vue'
 import { useEventListener } from '@vueuse/core'
-import ElInputNumber from '@element-plus/components/input-number'
+import GInputNumber from '@element-plus/components/input-number'
 import { useFormItemInputId, useFormSize } from '@element-plus/components/form'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { sliderContextKey } from './constants'
@@ -127,7 +127,7 @@ import {
 import type { SliderInitData } from './slider'
 
 defineOptions({
-  name: 'ElSlider',
+  name: 'GSlider',
 })
 
 const props = defineProps(sliderProps)
@@ -178,7 +178,7 @@ const sliderInputSize = computed(
 const groupLabel = computed<string>(() => {
   return (
     props.ariaLabel ||
-    t('el.slider.defaultLabel', {
+    t('g.slider.defaultLabel', {
       min: props.min,
       max: props.max,
     })
@@ -187,7 +187,7 @@ const groupLabel = computed<string>(() => {
 
 const firstButtonLabel = computed<string>(() => {
   if (props.range) {
-    return props.rangeStartLabel || t('el.slider.defaultRangeStartLabel')
+    return props.rangeStartLabel || t('g.slider.defaultRangeStartLabel')
   } else {
     return groupLabel.value
   }
@@ -200,7 +200,7 @@ const firstValueText = computed<string>(() => {
 })
 
 const secondButtonLabel = computed<string>(() => {
-  return props.rangeEndLabel || t('el.slider.defaultRangeEndLabel')
+  return props.rangeEndLabel || t('g.slider.defaultRangeEndLabel')
 })
 
 const secondValueText = computed<string>(() => {

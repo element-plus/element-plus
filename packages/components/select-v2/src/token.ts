@@ -15,6 +15,6 @@ export interface SelectV2Context {
 }
 
 export const selectV2InjectionKey: InjectionKey<SelectV2Context> = Symbol(
-  'ElSelectV2Injection'
+  'GSelectV2Injection'
 )
 export type { SelectV2Instance, OptionV2Props, SelectV2Props }

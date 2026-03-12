@@ -3,8 +3,8 @@ import ColorPickerPanel from './src/color-picker-panel.vue'
 
 import type { SFCWithInstall } from '@element-plus/utils'
 
-export const ElColorPickerPanel: SFCWithInstall<typeof ColorPickerPanel> =
+export const GColorPickerPanel: SFCWithInstall<typeof ColorPickerPanel> =
   withInstall(ColorPickerPanel)
-export default ElColorPickerPanel
+export default GColorPickerPanel
 
 export * from './src/color-picker-panel'

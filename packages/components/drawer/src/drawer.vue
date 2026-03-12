@@ -1,5 +1,5 @@
 <template>
-  <el-teleport
+  <g-teleport
     :to="appendTo"
     :disabled="appendTo !== 'body' ? false : !appendToBody"
   >
@@ -9,7 +9,7 @@
       @after-leave="afterLeave"
       @before-leave="beforeLeave"
     >
-      <el-overlay
+      <g-overlay
         v-show="visible"
         :mask="modal"
         :overlay-class="[
@@ -21,7 +21,7 @@
         :z-index="zIndex"
         @click="onModalClick"
       >
-        <el-focus-trap
+        <g-focus-trap
           loop
           :trapped="visible"
           :focus-trap-el="drawerRef"
@@ -74,14 +74,14 @@
               </template>
               <button
                 v-if="showClose"
-                :aria-label="t('el.drawer.close')"
+                :aria-label="t('g.drawer.close')"
                 :class="ns.e('close-btn')"
                 type="button"
                 @click="handleClose"
               >
-                <el-icon :class="ns.e('close')">
+                <g-icon :class="ns.e('close')">
                   <close />
-                </el-icon>
+                </g-icon>
               </button>
             </header>
             <template v-if="rendered">
@@ -99,20 +99,20 @@
               :class="ns.e('dragger')"
             />
           </div>
-        </el-focus-trap>
-      </el-overlay>
+        </g-focus-trap>
+      </g-overlay>
     </transition>
-  </el-teleport>
+  </g-teleport>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref, useSlots } from 'vue'
 import { Close } from '@element-plus/icons-vue'
-import { ElOverlay } from '@element-plus/components/overlay'
-import ElFocusTrap from '@element-plus/components/focus-trap'
-import ElTeleport from '@element-plus/components/teleport'
+import { GOverlay } from '@element-plus/components/overlay'
+import GFocusTrap from '@element-plus/components/focus-trap'
+import GTeleport from '@element-plus/components/teleport'
 import { dialogPropsDefaults, useDialog } from '@element-plus/components/dialog'
-import ElIcon from '@element-plus/components/icon'
+import GIcon from '@element-plus/components/icon'
 import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
 import { drawerEmits } from './drawer'
 import { useResizable } from './composables/useResizable'
@@ -120,7 +120,7 @@ import { useResizable } from './composables/useResizable'
 import type { DrawerProps } from './drawer'
 
 defineOptions({
-  name: 'ElDrawer',
+  name: 'GDrawer',
   inheritAttrs: false,
 })
 
@@ -137,7 +137,7 @@ const slots = useSlots()
 
 useDeprecated(
   {
-    scope: 'el-drawer',
+    scope: 'g-drawer',
     from: 'the title slot',
     replacement: 'the header slot',
     version: '3.0.0',
