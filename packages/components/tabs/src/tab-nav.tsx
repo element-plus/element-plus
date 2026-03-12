@@ -20,6 +20,7 @@ import {
   buildProps,
   definePropType,
   getEventCode,
+  isGreaterThan,
   mutable,
   rAF,
   throwError,
@@ -45,10 +46,6 @@ import type { TabPaneName, TabsPaneContext } from './constants'
 interface Scrollable {
   next?: boolean
   prev?: number
-}
-
-function isGreaterThan(a: number, b: number, epsilon = 0.03) {
-  return a - b > epsilon
 }
 
 export const tabNavProps = buildProps({
