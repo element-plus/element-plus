@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, watch } from 'vue'
+import { isDark } from '~/composables/dark'
 
 const config = reactive({
   content: 'Element Plus',
@@ -12,6 +13,16 @@ const config = reactive({
   gap: [100, 100] as [number, number],
   offset: [] as unknown as [number, number],
 })
+
+watch(
+  isDark,
+  (value) => {
+    config.font.color = value
+      ? 'rgba(255, 255, 255, .15)'
+      : 'rgba(0, 0, 0, .15)'
+  },
+  { immediate: true }
+)
 </script>
 
 <template>

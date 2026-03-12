@@ -1,6 +1,31 @@
 ## Changelog
 
 
+### 2.13.5
+
+_2026-03-07_
+
+#### Bug fixes
+
+- Chore: fix build (#23737 by @btea)
+- Chore: fix locale/lang/*.ts dts default export (#23741 by @rzzf)
+
+### 2.13.4
+
+_2026-03-06_
+
+#### Features
+
+- Components [input] emit clear event pass event parameter (#23696 by @btea)
+- Components [input] textarea supports clearing effects (#23723 by @btea)
+- Components [time-picker] add `save-on-blur` prop (#23531 by @snowbitx)
+- Components [popover] expose hide() through slot (#23694 by @ZacharyBear)
+
+#### Bug fixes
+
+- Components [tree] reconcile parent states in setCheckedKeys (#23697 by @Dsaquel)
+- Components [color-picker-panel] set showAlpha default to false (#23709 by @snowbitx)
+
 ### 2.13.3
 
 _2026-02-28_

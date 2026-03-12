@@ -457,28 +457,49 @@ describe('Input.vue', () => {
       const handleClear = vi.fn()
       const handleInput = vi.fn()
       const content = ref('a')
+      const handleTextareaClear = vi.fn()
+      const handleTextareaInput = vi.fn()
+      const textareaContent = ref('a')
 
       const wrapper = mount(() => (
-        <Input
-          placeholder="请输入内容"
-          clearable
-          v-model={content.value}
-          onClear={handleClear}
-          onInput={handleInput}
-        />
+        <>
+          <Input
+            placeholder="请输入内容"
+            clearable
+            v-model={content.value}
+            onClear={handleClear}
+            onInput={handleInput}
+          />
+          <Input
+            type="textarea"
+            placeholder="请输入内容"
+            clearable
+            v-model={textareaContent.value}
+            onClear={handleTextareaClear}
+            onInput={handleTextareaInput}
+          />
+        </>
       ))
 
       const input = wrapper.find('input')
-      const vm = wrapper.vm
+      const textarea = wrapper.find('textarea')
       // focus to show clear button
       await input.trigger('focus')
       await nextTick()
-      vm.$el.querySelector('.el-input__clear').click()
+      wrapper.find('.el-input__clear').trigger('click')
       await nextTick()
       expect(content.value).toEqual('')
       expect(handleClear).toBeCalled()
       expect(handleClear).toBeCalledWith(expect.any(MouseEvent))
       expect(handleInput).toBeCalled()
+      // textarea
+      await textarea.trigger('focus')
+      await nextTick()
+      wrapper.find('.el-textarea__clear').trigger('click')
+      await nextTick()
+      expect(textareaContent.value).toEqual('')
+      expect(handleTextareaClear).toBeCalled()
+      expect(handleTextareaInput).toBeCalled()
     })
 
     test('event:input', async () => {
@@ -591,6 +612,36 @@ describe('Input.vue', () => {
     await icon.trigger('click')
     expect(input.element.selectionStart).toBe(1)
     expect(input.element.selectionEnd).toBe(4)
+  })
+
+  test('password-icon slot', async () => {
+    const wrapper = mount(() => (
+      <Input
+        modelValue="123"
+        showPassword
+        v-slots={{
+          'password-icon': ({ visible }: { visible: boolean }) => (
+            <span class="custom-password-icon">
+              {visible ? 'Hide' : 'Show'}
+            </span>
+          ),
+        }}
+      />
+    ))
+
+    const icon = wrapper.find('.el-input__password')
+    expect(icon.exists()).toBe(true)
+
+    // Initial state: password hidden
+    expect(wrapper.find('.custom-password-icon').text()).toBe('Show')
+
+    // Click to toggle
+    await icon.trigger('click')
+    expect(wrapper.find('.custom-password-icon').text()).toBe('Hide')
+
+    // Click again
+    await icon.trigger('click')
+    expect(wrapper.find('.custom-password-icon').text()).toBe('Show')
   })
 
   describe('form item accessibility integration', () => {

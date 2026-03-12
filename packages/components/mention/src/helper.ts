@@ -24,7 +24,10 @@ export const getMentionCtx = (
   let mentionCtx: MentionCtx | undefined
   for (let i = selectionEnd - 1; i >= 0; --i) {
     const char = inputValue[i]
-    if (char === split || char === '\n' || char === '\r') {
+    if (
+      splitIndex === -1 &&
+      (char === split || char === '\n' || char === '\r')
+    ) {
       splitIndex = i
       continue
     }

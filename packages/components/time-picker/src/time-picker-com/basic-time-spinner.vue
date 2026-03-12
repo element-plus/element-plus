@@ -86,7 +86,7 @@ import ElScrollbar from '@element-plus/components/scrollbar'
 import ElIcon from '@element-plus/components/icon'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
-import { getStyle, isNumber } from '@element-plus/utils'
+import { getStyle, isNumber, rAF } from '@element-plus/utils'
 import { CHANGE_EVENT } from '@element-plus/constants'
 import {
   DEFAULT_FORMATS_TIME,
@@ -104,7 +104,7 @@ import type { TimeList } from '../utils'
 
 const props = defineProps(basicTimeSpinnerProps)
 const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
-const { isRange, format } = pickerBase.props
+const { isRange, format, saveOnBlur } = pickerBase.props
 const emit = defineEmits([CHANGE_EVENT, 'select-range', 'set-option'])
 
 const ns = useNamespace('time')
@@ -117,6 +117,11 @@ const { getHoursList, getMinutesList, getSecondsList } = getTimeLists(
 
 // data
 let isScrolling = false
+const ignoreScroll = {
+  hours: false,
+  minutes: false,
+  seconds: false,
+}
 
 const currentScrollbar = ref<TimeUnit>()
 const listHoursRef = ref<ScrollbarInstance>()
@@ -223,6 +228,12 @@ const adjustSpinner = (type: TimeUnit, value: number) => {
   if (props.arrowControl) return
   const scrollbar = unref(listRefsMap[type])
   if (scrollbar && scrollbar.$el) {
+    if (!saveOnBlur) {
+      ignoreScroll[type] = true
+      rAF(() => {
+        ignoreScroll[type] = false
+      })
+    }
     getScrollbarElement(scrollbar.$el).scrollTop = Math.max(
       0,
       value * typeItemHeight(type)
@@ -310,6 +321,7 @@ const handleClick = (
 }
 
 const handleScroll = (type: TimeUnit) => {
+  if (!saveOnBlur && ignoreScroll[type]) return
   const scrollbar = unref(listRefsMap[type])
   if (!scrollbar) return
 
