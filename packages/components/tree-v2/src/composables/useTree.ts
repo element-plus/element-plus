@@ -311,11 +311,9 @@ export function useTree(
   )
 
   watch(
-    () => props.defaultExpandedKeys,
-    (keys) => {
-      if (tree.value) {
-        setExpandedKeys(keys || [])
-      }
+    () => props.data!,
+    (data: TreeData) => {
+      setData(data)
     },
     {
       immediate: true,
@@ -323,10 +321,9 @@ export function useTree(
   )
 
   watch(
-    () => props.data!,
-    (data: TreeData) => {
-      setData(data)
-      setExpandedKeys(props.defaultExpandedKeys || [])
+    () => props.defaultExpandedKeys,
+    (keys) => {
+      setExpandedKeys(keys || [])
     },
     {
       immediate: true,
