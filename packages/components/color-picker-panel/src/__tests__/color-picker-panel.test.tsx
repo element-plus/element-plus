@@ -685,4 +685,23 @@ describe('Color-picker-panel', () => {
       wrapper.unmount()
     })
   })
+
+  it('passed class names and styles into hue-slider', async () => {
+    const TEST_STYLE = '--test: 1px'
+    const wrapper = mount(() => (
+      <ColorPickerPanel hueSliderClass="custom" hueSliderStyle={TEST_STYLE} />
+    ))
+    await nextTick()
+
+    const hueSlider = wrapper.find('.el-color-hue-slider')
+    expect(hueSlider.exists()).toBe(true)
+
+    // Got class name
+    expect(hueSlider.attributes('class')).toContain('custom')
+
+    // Got style
+    expect(hueSlider.attributes('style')).toContain(TEST_STYLE)
+
+    wrapper.unmount()
+  })
 })
