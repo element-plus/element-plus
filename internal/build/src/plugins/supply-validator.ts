@@ -71,7 +71,7 @@ function extractImportPropsStatements(
 export function SupplyValidator(): Plugin {
   // some props type name and prop name are not consistent and require remapping
   const reMapPropsName: Record<string, string> = {
-    elTooltipContentProps: 'useTooltipContentProps', // tooltip/src/conent.vue
+    gTooltipContentProps: 'useTooltipContentProps', // tooltip/src/content.vue
     cascaderComponentProps: 'cascaderProps',
   }
   // some import file need remapping
