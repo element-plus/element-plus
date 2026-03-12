@@ -145,6 +145,7 @@
   @include e(message) {
     margin: 0;
     min-width: 0;
+    flex: 1;
 
     & p {
       margin: 0;
