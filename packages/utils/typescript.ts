@@ -93,25 +93,32 @@ type Path<T> =
  */
 export type FieldPath<T> = T extends object ? Path<T> : never
 
+type Globals = 'inherit' | 'initial' | 'revert' | 'unset' | 'revert-layer'
+
 export type ObjectFit =
   | 'fill'
   | 'contain'
   | 'cover'
   | 'none'
   | 'scale-down'
-  | 'inherit'
-  | 'initial'
-  | 'revert'
-  | 'unset'
-  | 'revert-layer'
+  | Globals
 
-export type ZindexType =
-  | 'inherit'
-  | 'initial'
-  | 'revert'
-  | 'unset'
-  | 'revert-layer'
-  | 'auto'
-  | number
+export type ZindexType = Globals | 'auto' | number
 
-export type AlignItems = 'start' | 'end' | 'center' | 'baseline' | 'stretch'
+export type AlignItems =
+  | 'normal'
+  | 'stretch'
+  | 'center'
+  | 'start'
+  | 'end'
+  | 'flex-start'
+  | 'flex-end'
+  | 'self-start'
+  | 'self-end'
+  | 'anchor-center'
+  | 'baseline'
+  | 'first baseline'
+  | 'last baseline'
+  | 'safe center'
+  | 'unsafe center'
+  | Globals
