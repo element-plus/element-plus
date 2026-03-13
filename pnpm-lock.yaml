@@ -178,8 +178,8 @@ importers:
         specifier: ^9.37.0
         version: 9.39.2(jiti@2.6.1)
       expect-type:
-        specifier: ^0.13.0
-        version: 0.13.0
+        specifier: ^1.3.0
+        version: 1.3.0
       happy-dom:
         specifier: ^17.4.4
         version: 17.6.3
@@ -659,8 +659,8 @@ importers:
         specifier: 'catalog:'
         version: 2.4.6
       expect-type:
-        specifier: ^0.13.0
-        version: 0.13.0
+        specifier: ^1.3.0
+        version: 1.3.0
       vue:
         specifier: 'catalog:'
         version: 3.5.25(typescript@5.5.4)
@@ -4643,9 +4643,6 @@ packages:
   execa@8.0.1:
     resolution: {integrity: sha512-VyhnebXciFV2DESc+p6B+y0LjSm0krU4OgJN44qFAhBY0TJ+1V61tYD2+wHusZ6F9n5K+vl8k0sTy7PEfV4qpg==}
     engines: {node: '>=16.17'}
-
-  expect-type@0.13.0:
-    resolution: {integrity: sha512-CclevazQfrqo8EvbLPmP7osnb1SZXkw47XPPvUUpeMz4HuGzDltE7CaIt3RLyT9UQrwVK/LDn+KVcC0hcgjgDg==}
 
   expect-type@1.3.0:
     resolution: {integrity: sha512-knvyeauYhqjOYvQ66MznSMs83wmHrCycNEN6Ao+2AeYEfxUIkuiVxdEa1qlGEPK+We3n0THiDciYSsCcgW/DoA==}
@@ -13099,8 +13096,6 @@ snapshots:
       onetime: 6.0.0
       signal-exit: 4.1.0
       strip-final-newline: 3.0.0
-
-  expect-type@0.13.0: {}
 
   expect-type@1.3.0: {}
 
