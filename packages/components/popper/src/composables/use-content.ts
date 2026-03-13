@@ -7,6 +7,7 @@ import {
   unref,
   watch,
 } from 'vue'
+import { useResizeObserver } from '@vueuse/core'
 import { isUndefined } from 'lodash-unified'
 import { usePopper } from '@element-plus/hooks'
 import { POPPER_INJECTION_KEY } from '../constants'
@@ -81,6 +82,8 @@ export const usePopperContent = (props: PopperContentProps) => {
       }
     )
   })
+
+  useResizeObserver(contentRef, update)
 
   onBeforeUnmount(() => {
     popperInstanceRef.value = undefined
