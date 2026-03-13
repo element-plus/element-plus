@@ -7,7 +7,7 @@ import type {
   ExtractPropTypes,
   ExtractPublicPropTypes,
 } from 'vue'
-import type { ZindexType } from '@element-plus/utils'
+import type { ZIndexType } from '@element-plus/utils'
 
 export const overlayProps = buildProps({
   mask: {
@@ -23,7 +23,7 @@ export const overlayProps = buildProps({
     ]),
   },
   zIndex: {
-    type: definePropType<ZindexType>([String, Number]),
+    type: definePropType<ZIndexType>([String, Number]),
   },
 } as const)
 export type OverlayProps = ExtractPropTypes<typeof overlayProps>

@@ -103,7 +103,7 @@ export type ObjectFit =
   | 'scale-down'
   | Globals
 
-export type ZindexType = Globals | 'auto' | number
+export type ZIndexType = Globals | 'auto' | number
 
 export type AlignItems =
   | 'normal'

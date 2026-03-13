@@ -9,20 +9,13 @@ import { teleportProps } from '@element-plus/components/teleport'
 
 import type { ExtractPublicPropTypes } from 'vue'
 import type Affix from './affix.vue'
+import type { ZIndexType } from '@element-plus/utils'
 
-type ZindexType =
-  | 'inherit'
-  | 'initial'
-  | 'revert'
-  | 'unset'
-  | 'revert-layer'
-  | 'auto'
-  | number
 export interface AffixProps {
   /**
    * @description affix element zIndex value
    * */
-  zIndex?: ZindexType
+  zIndex?: ZIndexType
   /**
    * @description target container. (CSS selector)
    */
@@ -53,7 +46,7 @@ export const affixProps = buildProps({
    * @description affix element zIndex value
    * */
   zIndex: {
-    type: definePropType<ZindexType>([Number, String]),
+    type: definePropType<ZIndexType>([Number, String]),
     default: 100,
   },
   /**
