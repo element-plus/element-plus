@@ -1,6 +1,7 @@
 import {
   computed,
   nextTick,
+  onBeforeUnmount,
   onMounted,
   reactive,
   ref,
@@ -922,6 +923,10 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
 
   onMounted(() => {
     setSelected()
+  })
+
+  onBeforeUnmount(() => {
+    dropdownMenuVisible.value = false
   })
 
   return {
