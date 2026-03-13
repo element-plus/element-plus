@@ -523,11 +523,7 @@ export default defineComponent({
     }
     watch(
       () => [
-        // NOTE: !slots.default must be checked BEFORE API.expanded.value to avoid
-        // tracking expanded as a reactive dependency when there is no slot content.
-        // When using the :options prop (no slot), options self-register via lifecycle
-        // hooks (onOptionCreate/onOptionDestroy) and do not need manual rendering.
-        props.persistent || !slots.default || API.expanded.value
+        props.persistent || API.expanded.value || !slots.default
           ? undefined
           : slots.default?.(),
         modelValue.value,
