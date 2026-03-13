@@ -83,7 +83,18 @@ export const usePopperContent = (props: PopperContentProps) => {
     )
   })
 
-  useResizeObserver(contentRef, update)
+  // todo: Replace with onCleanup when vue in peerDependencies is ^3.5.0.
+  let stopResizeObserver: (() => void) | undefined
+  watch(
+    () => props.visible,
+    (visible) => {
+      stopResizeObserver?.()
+      stopResizeObserver = undefined
+      if (visible) {
+        stopResizeObserver = useResizeObserver(contentRef, update).stop
+      }
+    }
+  )
 
   onBeforeUnmount(() => {
     popperInstanceRef.value = undefined
