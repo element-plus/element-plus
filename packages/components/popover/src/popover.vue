@@ -39,7 +39,7 @@
       <div v-if="title" :class="ns.e('title')" role="title">
         {{ title }}
       </div>
-      <slot>
+      <slot :hide="hide">
         {{ content }}
       </slot>
     </template>
