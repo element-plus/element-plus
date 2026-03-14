@@ -10,6 +10,7 @@
     "crowdin-credentials": "tsx .vitepress/build/crowdin-credentials.ts"
   },
   "dependencies": {
+    "@docsearch/css": "^3.1.0",
     "@docsearch/js": "^3.1.0",
     "@element-plus/icons-vue": "^2.3.2",
     "@element-plus/metadata": "workspace:*",
@@ -17,6 +18,7 @@
     "@vueuse/core": "catalog:",
     "clipboard-copy": "^4.0.1",
     "element-plus": "npm:element-plus@latest",
+    "markdown-it": "^14.1.0",
     "normalize.css": "^8.0.1",
     "nprogress": "^0.2.0"
   },
@@ -39,6 +41,6 @@
     "vite-plugin-mkcert": "^1.17.6",
     "vitepress": "^1.2.3",
     "vitepress-plugin-group-icons": "^1.7.1",
-    "vue": "3.4.31"
+    "vue": "catalog:"
   }
 }

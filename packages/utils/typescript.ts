@@ -92,3 +92,33 @@ type Path<T> =
  * FieldPath<{ 1: number; a: number; b: string; c: { d: number; e: string }; f: [{ value: string }]; g: { value: string }[]; h: Date; i: FileList; j: File; k: Blob; l: RegExp }> => '1' | 'a' | 'b' | 'c' | 'f' | 'g' | 'c.d' | 'c.e' | 'f.0' | 'f.0.value' | 'g.number' | 'g.number.value' | 'h' | 'i' | 'j' | 'k' | 'l'
  */
 export type FieldPath<T> = T extends object ? Path<T> : never
+
+type Globals = 'inherit' | 'initial' | 'revert' | 'unset' | 'revert-layer'
+
+export type ObjectFit =
+  | 'fill'
+  | 'contain'
+  | 'cover'
+  | 'none'
+  | 'scale-down'
+  | Globals
+
+export type ZIndexType = Globals | 'auto' | number
+
+export type AlignItems =
+  | 'normal'
+  | 'stretch'
+  | 'center'
+  | 'start'
+  | 'end'
+  | 'flex-start'
+  | 'flex-end'
+  | 'self-start'
+  | 'self-end'
+  | 'anchor-center'
+  | 'baseline'
+  | 'first baseline'
+  | 'last baseline'
+  | 'safe center'
+  | 'unsafe center'
+  | Globals

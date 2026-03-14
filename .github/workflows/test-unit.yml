@@ -21,8 +21,6 @@ jobs:
             node-name: LTS
           - node-version: 22
             node-name: Current
-          - node-version: 24
-            node-name: New
 
     steps:
       - uses: actions/checkout@v4
