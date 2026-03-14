@@ -1,6 +1,6 @@
 {
   "private": true,
-  "packageManager": "pnpm@10.18.2",
+  "packageManager": "pnpm@10.32.0",
   "workspaces": [
     "packages/*",
     "play",
@@ -68,6 +68,7 @@
   "devDependencies": {
     "@commitlint/cli": "^20.2.0",
     "@commitlint/config-conventional": "^20.2.0",
+    "@ctrl/tinycolor": "catalog:",
     "@element-plus/build": "workspace:^0.0.1",
     "@element-plus/build-utils": "workspace:^0.0.1",
     "@element-plus/eslint-config": "workspace:*",
@@ -77,9 +78,13 @@
     "@types/fs-extra": "^9.0.13",
     "@types/jsdom": "^27.0.0",
     "@types/node": "^22.9.0",
+    "@vitejs/plugin-vue": "catalog:",
+    "@vitejs/plugin-vue-jsx": "catalog:",
     "@vitest/coverage-v8": "^4.0.16",
     "@vitest/ui": "^4.0.16",
     "@vue/server-renderer": "catalog:",
+    "@vue/shared": "catalog:",
+    "@vue/test-utils": "catalog:",
     "chalk": "^5.0.1",
     "consola": "^2.15.3",
     "cz-git": "^1.11.1",
