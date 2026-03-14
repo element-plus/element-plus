@@ -1,9 +1,9 @@
 import path from 'path'
 import { existsSync } from 'fs'
+import { styleText } from 'util'
 import { glob } from 'tinyglobby'
 import { Octokit } from 'octokit'
 import consola from 'consola'
-import chalk from 'chalk'
 import { chunk, mapValues, uniqBy } from 'lodash-unified'
 import {
   ensureDir,
@@ -170,7 +170,7 @@ async function getContributors() {
       ...(await getContributorsByComponents(chunkComponents)),
     }
     consola.success(
-      chalk.green(`Fetched contributors: ${chunkComponents.join(', ')}`)
+      styleText('green', `Fetched contributors: ${chunkComponents.join(', ')}`)
     )
   }
   return contributors
@@ -197,7 +197,7 @@ async function main() {
   }
 
   await writeJson(pathDest, contributors)
-  consola.success(chalk.green('Contributors generated'))
+  consola.success(styleText('green', 'Contributors generated'))
 }
 
 main()
