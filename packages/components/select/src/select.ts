@@ -329,6 +329,7 @@ export const selectEmits = {
   [UPDATE_MODEL_EVENT]: (val: SelectProps['modelValue']) => true,
   [CHANGE_EVENT]: (val: SelectProps['modelValue']) => true,
   'popup-scroll': scrollbarEmits.scroll,
+  'end-reached': scrollbarEmits['end-reached'],
   'remove-tag': (val: unknown) => true,
   'visible-change': (visible: boolean) => true,
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
