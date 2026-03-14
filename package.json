@@ -107,7 +107,7 @@
     "vue-tsc": "=3.1.5"
   },
   "engines": {
-    "node": ">= 20"
+    "node": ">= 20.19.0"
   },
   "config": {
     "commitizen": {
