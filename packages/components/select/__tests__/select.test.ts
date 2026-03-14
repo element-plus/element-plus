@@ -4617,7 +4617,9 @@ describe('Select', () => {
 
       expect(handleEndReached).toHaveBeenCalledWith('bottom')
     } finally {
-      cleanup.forEach((fn) => fn())
+      cleanup.forEach((fn) => {
+        fn()
+      })
     }
   })
 })
