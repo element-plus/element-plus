@@ -177,9 +177,6 @@ importers:
       '@vue/test-utils':
         specifier: 'catalog:'
         version: 2.4.6
-      chalk:
-        specifier: ^5.0.1
-        version: 5.6.2
       consola:
         specifier: ^2.15.3
         version: 2.15.3
@@ -298,9 +295,6 @@ importers:
       '@vitejs/plugin-vue-jsx':
         specifier: 'catalog:'
         version: 4.2.0(vite@7.3.0(@types/node@22.19.3)(jiti@2.6.1)(lightningcss@1.31.1)(sass-embedded@1.97.3)(sass@1.97.3)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.25(typescript@5.5.4))
-      chalk:
-        specifier: ^4.1.2
-        version: 4.1.2
       consola:
         specifier: ^2.15.3
         version: 2.15.3
@@ -352,9 +346,6 @@ importers:
       '@vitejs/plugin-vue-jsx':
         specifier: 'catalog:'
         version: 4.2.0(vite@7.3.0(@types/node@22.19.3)(jiti@2.6.1)(lightningcss@1.31.1)(sass-embedded@1.97.3)(sass@1.97.3)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.25(typescript@5.5.4))
-      chalk:
-        specifier: ^5.0.1
-        version: 5.6.2
       components-helper:
         specifier: ^2.1.4
         version: 2.2.0
@@ -472,9 +463,6 @@ importers:
       '@types/lodash-es':
         specifier: ^4.17.12
         version: 4.17.12
-      chalk:
-        specifier: ^5.3.0
-        version: 5.6.2
       consola:
         specifier: ^2.15.3
         version: 2.15.3

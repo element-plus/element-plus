@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import chalk from 'chalk'
+import { styleText } from 'util'
 import consola from 'consola'
 import { docRoot, errorAndExit } from '@element-plus/build-utils'
 
@@ -15,7 +15,7 @@ async function main() {
     throw new Error(exists)
   }
 
-  consola.trace(chalk.cyan('Starting for build doc for developing'))
+  consola.trace(styleText('cyan', 'Starting for build doc for developing'))
   // all language should be identical since it is mirrored from crowdin.
   const dirs = await fs.promises.readdir(componentLocaleRoot, {
     withFileTypes: true,
@@ -100,7 +100,9 @@ async function traverseDir(
 
 main()
   .then(() => {
-    consola.success(chalk.green('Locale for website development generated'))
+    consola.success(
+      styleText('green', 'Locale for website development generated')
+    )
   })
   .catch((err) => {
     if (err.message === exists) {
