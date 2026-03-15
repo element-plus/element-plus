@@ -47,6 +47,7 @@ import { useProps } from './useProps'
 import type { Option, OptionType, SelectStates } from './select.types'
 import type { SelectV2Props } from './token'
 import type { SelectV2EmitFn } from './defaults'
+import type { ScrollbarDirection } from '@element-plus/components/scrollbar'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { SelectDropdownInstance } from './select-dropdown'
 
@@ -563,6 +564,10 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
 
   const handleResize = () => {
     calculatePopperSize()
+  }
+
+  const onEndReached = (direction: ScrollbarDirection) => {
+    emit('end-reached', direction)
   }
 
   const resetSelectionWidth = () => {
@@ -1084,6 +1089,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     onInput,
     onKeyboardNavigate,
     onKeyboardSelect,
+    onEndReached,
     onSelect,
     onHover: onHoverOption,
     handleCompositionStart,
