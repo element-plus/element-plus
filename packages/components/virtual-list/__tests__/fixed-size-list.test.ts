@@ -194,14 +194,37 @@ describe('<fixed-size-list />', () => {
     await nextTick()
 
     const track = wrapper.find('.el-virtual-scrollbar').element
+
+    // Stub getBoundingClientRect so clickTrackHandler resolves the click
+    // position deterministically instead of relying on jsdom's default zeros.
+    const trackTop = 10
+    const trackHeight = 98 // clientSize(100) - GAP(2)
+    vi.spyOn(track, 'getBoundingClientRect').mockReturnValue({
+      top: trackTop,
+      left: 0,
+      bottom: trackTop + trackHeight,
+      right: 6,
+      width: 6,
+      height: trackHeight,
+      x: 0,
+      y: trackTop,
+      toJSON: () => ({}),
+    })
+
+    // clientY at the bottom edge of the track so the click maps past
+    // totalSteps and clamps to the maximum scroll offset.
     const event = new MouseEvent('mousedown', {
       bubbles: true,
       cancelable: true,
-      clientY: 100,
+      clientY: trackTop + trackHeight,
     })
     track.dispatchEvent(event)
 
     await nextTick()
+
+    // maxOffset = estimatedTotalSize - clientSize = 100*25 - 100 = 2400
+    const listRef = wrapper.vm.$refs.listRef as ListRef
+    expect(listRef.states.scrollOffset).toBe(2400)
 
     expect(onEndReached).toHaveBeenNthCalledWith(1, 'bottom')
     expect(onEndReached).toHaveBeenCalledOnce()
