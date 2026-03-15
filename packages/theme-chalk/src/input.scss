@@ -82,6 +82,11 @@
     transition: getCssVar('transition-box-shadow');
     border: none;
 
+    @include when(clearable) {
+      padding: 5px map.get($input-padding-horizontal, 'default') + 14px 5px
+        map.get($input-padding-horizontal, 'default')-$border-width;
+    }
+
     &::placeholder {
       color: getCssVarWithDefault(
         'input-placeholder-color',
@@ -99,6 +104,20 @@
     }
   }
 
+  @include e(clear) {
+    position: absolute;
+    right: 11px;
+    top: 15px;
+    transform: translateY(-50%);
+    color: getCssVar('input-icon-color');
+    font-size: map.get($input-font-size, 'default');
+    cursor: pointer;
+
+    &:hover {
+      color: getCssVar('input-clear-hover-color');
+    }
+  }
+
   & .#{$namespace}-input__count {
     color: getCssVar('color-info');
     background: getCssVar('fill-color', 'blank');
@@ -107,6 +126,7 @@
     line-height: 14px;
     bottom: 5px;
     right: 10px;
+
     @include when(outside) {
       position: absolute;
       background: transparent;
@@ -182,12 +202,14 @@
       display: inline-block;
       padding-left: 8px;
     }
+
     @include when(outside) {
       height: unset;
       position: absolute;
       padding-top: 2px;
       top: 100%;
       right: 0;
+
       .#{$namespace}-input__count-inner {
         background: transparent;
         padding-left: 0px;
@@ -401,6 +423,7 @@
         padding: $border-width
           map.get($input-padding-horizontal, $size)-$border-width;
       }
+
       & {
         @include set-css-var-value(
           'input-inner-height',

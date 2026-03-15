@@ -1,7 +1,7 @@
 import path from 'path'
 import { copyFile, mkdir, writeFile } from 'fs/promises'
+import { styleText } from 'util'
 import { epOutput, execCommand } from '@element-plus/build-utils'
-import chalk from 'chalk'
 import consola from 'consola'
 import { transform } from 'lightningcss'
 import { glob } from 'tinyglobby'
@@ -45,9 +45,10 @@ const processfiles = async (scssFiles: string[]) => {
     await writeFile(outputPath, compressed)
 
     consola.success(
-      `${chalk.cyan(outputName)}: ${chalk.yellow(
-        cssResult.css.length / 1000
-      )} KB -> ${chalk.green(compressed.length / 1000)} KB`
+      `${styleText('cyan', outputName)}: ${styleText(
+        'yellow',
+        `${cssResult.css.length / 1000}`
+      )} KB -> ${styleText('green', `${compressed.length / 1000}`)} KB`
     )
   }
 }
