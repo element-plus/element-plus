@@ -537,6 +537,13 @@ export default defineComponent({
           // If persistent is true, we don't need to manually render slots.
           return
         }
+        // When using :options prop (no slot content), el-option components register
+        // and unregister themselves via onOptionCreate/onOptionDestroy lifecycle hooks.
+        // Calling options.clear() here would prematurely wipe options that are still
+        // mounted, causing a "No Data" flash during rapid open/close toggling.
+        if (!slots.default) {
+          return
+        }
         // Reset current options snapshot before re-collecting from slots.
         API.states.options.clear()
         manuallyRenderSlots(slots.default?.())
