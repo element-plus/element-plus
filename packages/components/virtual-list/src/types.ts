@@ -123,8 +123,8 @@ export type GridExposes = {
   states: {
     scrollLeft: number
     scrollTop: number
-    xAxisScrollDir: Direction
-    yAxisScrollDir: Direction
+    xAxisScrollDir: ScrollDirection
+    yAxisScrollDir: ScrollDirection
   } & ExposesStates
   touchStartX: Ref<number>
   touchStartY: Ref<number>
