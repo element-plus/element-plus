@@ -508,14 +508,14 @@ export default defineComponent({
             const flatData = flatTreeSelectData(treeData)
             flatData.forEach((treeItem: any) => {
               treeItem.currentLabel =
-                treeItem.label ||
+                treeItem.label ??
                 (isObject(treeItem.value) ? '' : treeItem.value)
               API.onOptionCreate(treeItem)
             })
           } else if (_name === 'ElOption') {
             const obj = { ...item.props } as any
             obj.currentLabel =
-              obj.label || (isObject(obj.value) ? '' : obj.value)
+              obj.label ?? (isObject(obj.value) ? '' : obj.value)
             API.onOptionCreate(obj)
           }
         }
