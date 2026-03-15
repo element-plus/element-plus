@@ -3,6 +3,7 @@ import { nextTick } from 'vue'
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import makeMount from '@element-plus/test-utils/make-mount'
 import makeScroll from '@element-plus/test-utils/make-scroll'
+import { rAF } from '@element-plus/test-utils/tick'
 import {
   CENTERED_ALIGNMENT,
   END_ALIGNMENT,
@@ -135,6 +136,72 @@ describe('<fixed-size-list />', () => {
     // the total items rendered is 3 + 4 + 1 (index 3) inclusive
     // so the total number is 10
     expect(wrapper.findAll(ITEM_SELECTOR)).toHaveLength(8)
+  })
+
+  it('should emit end-reached when wheel scrolling reaches bottom', async () => {
+    const onEndReached = vi.fn()
+    const wrapper = mount({
+      props: {
+        onEndReached,
+      },
+    })
+
+    await nextTick()
+
+    const { windowRef } = wrapper.vm.$refs.listRef as ListRef
+    windowRef.dispatchEvent(
+      new WheelEvent('wheel', {
+        bubbles: true,
+        cancelable: true,
+        deltaY: 3000,
+      })
+    )
+
+    await rAF()
+    await nextTick()
+
+    expect(onEndReached).toHaveBeenCalledWith('bottom')
+  })
+
+  it('should emit end-reached when native scrolling reaches bottom', async () => {
+    const onEndReached = vi.fn()
+    const wrapper = mount({
+      props: {
+        onEndReached,
+      },
+    })
+
+    await nextTick()
+
+    const { windowRef } = wrapper.vm.$refs.listRef as ListRef
+
+    await makeScroll(windowRef, 'scrollTop', 2400)
+    await nextTick()
+
+    expect(onEndReached).toHaveBeenCalledWith('bottom')
+  })
+
+  it('should emit end-reached when clicking scrollbar track to bottom', async () => {
+    const onEndReached = vi.fn()
+    const wrapper = mount({
+      props: {
+        onEndReached,
+      },
+    })
+
+    await nextTick()
+
+    const track = wrapper.find('.el-virtual-scrollbar').element
+    const event = new MouseEvent('mousedown', {
+      bubbles: true,
+      cancelable: true,
+      clientY: 100,
+    })
+    track.dispatchEvent(event)
+
+    await nextTick()
+
+    expect(onEndReached).toHaveBeenCalledWith('bottom')
   })
 
   it('should set initial offset', async () => {
@@ -288,6 +355,35 @@ describe('<fixed-size-list />', () => {
 
       // when it reaches the boundary, it should only render visible ones.
       expect(wrapper.findAll(ITEM_SELECTOR)).toHaveLength(4)
+    })
+
+    it('should emit end-reached again after total increases and bottom is reached again', async () => {
+      const onEndReached = vi.fn()
+      const wrapper = mount({
+        props: {
+          onEndReached,
+        },
+      })
+
+      await nextTick()
+
+      const listRef = wrapper.vm.$refs.listRef as ListExposes
+
+      listRef.scrollTo(2400)
+      await nextTick()
+
+      expect(onEndReached).toHaveBeenCalledTimes(1)
+      expect(onEndReached).toHaveBeenLastCalledWith('bottom')
+
+      await wrapper.setProps({
+        total: 200,
+      })
+
+      listRef.scrollTo(4900)
+      await nextTick()
+
+      expect(onEndReached).toHaveBeenCalledTimes(2)
+      expect(onEndReached).toHaveBeenLastCalledWith('bottom')
     })
   })
 

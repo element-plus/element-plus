@@ -341,14 +341,15 @@ When appending the Tooltip to a custom container (via the `append-to` attribute)
 
 ### Events
 
-| Name           | Description                                                                                                | Type                                     |
-| -------------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
-| change         | triggers when the selected value changes, the param is current selected value                              | ^[Function]`(val: any) => void`          |
-| visible-change | triggers when the dropdown appears/disappears, the param will be true when it appears, and false otherwise | ^[Function]`(visible: boolean) => void`  |
-| remove-tag     | triggers when a tag is removed in multiple mode, the param is removed tag value                            | ^[Function]`(tagValue: any) => void`     |
-| clear          | triggers when the clear icon is clicked in a clearable Select                                              | ^[Function]`() => void`                  |
-| blur           | triggers when Input blurs                                                                                  | ^[Function]`(event: FocusEvent) => void` |
-| focus          | triggers when Input focuses                                                                                | ^[Function]`(event: FocusEvent) => void` |
+| Name                  | Description                                                                                                | Type                                                                     |
+| --------------------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| change                | triggers when the selected value changes, the param is current selected value                              | ^[Function]`(val: any) => void`                                          |
+| visible-change        | triggers when the dropdown appears/disappears, the param will be true when it appears, and false otherwise | ^[Function]`(visible: boolean) => void`                                  |
+| remove-tag            | triggers when a tag is removed in multiple mode, the param is removed tag value                            | ^[Function]`(tagValue: any) => void`                                     |
+| clear                 | triggers when the clear icon is clicked in a clearable Select                                              | ^[Function]`() => void`                                                  |
+| blur                  | triggers when Input blurs                                                                                  | ^[Function]`(event: FocusEvent) => void`                                 |
+| focus                 | triggers when Input focuses                                                                                | ^[Function]`(event: FocusEvent) => void`                                 |
+| end-reached ^(2.13.6) | triggers when dropdown scroll reaches an end                                                               | ^[Function]`(direction: 'top' \| 'bottom' \| 'left' \| 'right') => void` |
 
 ### Slots
 
