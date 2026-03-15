@@ -196,6 +196,7 @@ describe('<dynamic-size-list />', () => {
       await nextTick()
 
       expect(onEndReached).toHaveBeenCalledWith('bottom')
+      expect(onEndReached).toHaveBeenCalledOnce()
     })
 
     it('should emit end-reached when native scrolling reaches bottom', async () => {
@@ -215,6 +216,7 @@ describe('<dynamic-size-list />', () => {
       await nextTick()
 
       expect(onEndReached).toHaveBeenCalledWith('bottom')
+      expect(onEndReached).toHaveBeenCalledOnce()
     })
 
     it('should emit end-reached when clicking scrollbar track to bottom', async () => {
@@ -238,6 +240,7 @@ describe('<dynamic-size-list />', () => {
       await nextTick()
 
       expect(onEndReached).toHaveBeenCalledWith('bottom')
+      expect(onEndReached).toHaveBeenCalledOnce()
     })
 
     it('should emit end-reached again after total increases and bottom is reached again', async () => {
@@ -258,8 +261,7 @@ describe('<dynamic-size-list />', () => {
       listRef.scrollTo(getBottomOffset())
       await nextTick()
 
-      expect(onEndReached).toHaveBeenCalledTimes(1)
-      expect(onEndReached).toHaveBeenLastCalledWith('bottom')
+      expect(onEndReached).toHaveBeenNthCalledWith(1, 'bottom')
 
       await wrapper.setProps({
         total: 100,
@@ -268,8 +270,8 @@ describe('<dynamic-size-list />', () => {
       listRef.scrollTo(getBottomOffset())
       await nextTick()
 
+      expect(onEndReached).toHaveBeenNthCalledWith(2, 'bottom')
       expect(onEndReached).toHaveBeenCalledTimes(2)
-      expect(onEndReached).toHaveBeenLastCalledWith('bottom')
     })
 
     // make sure to scroll with in [0, 30), thus we won't get offset issue since

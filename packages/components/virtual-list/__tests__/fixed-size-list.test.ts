@@ -160,7 +160,8 @@ describe('<fixed-size-list />', () => {
     await rAF()
     await nextTick()
 
-    expect(onEndReached).toHaveBeenCalledWith('bottom')
+    expect(onEndReached).toHaveBeenNthCalledWith(1, 'bottom')
+    expect(onEndReached).toHaveBeenCalledOnce()
   })
 
   it('should emit end-reached when native scrolling reaches bottom', async () => {
@@ -178,7 +179,8 @@ describe('<fixed-size-list />', () => {
     await makeScroll(windowRef, 'scrollTop', 2400)
     await nextTick()
 
-    expect(onEndReached).toHaveBeenCalledWith('bottom')
+    expect(onEndReached).toHaveBeenNthCalledWith(1, 'bottom')
+    expect(onEndReached).toHaveBeenCalledOnce()
   })
 
   it('should emit end-reached when clicking scrollbar track to bottom', async () => {
@@ -201,7 +203,8 @@ describe('<fixed-size-list />', () => {
 
     await nextTick()
 
-    expect(onEndReached).toHaveBeenCalledWith('bottom')
+    expect(onEndReached).toHaveBeenNthCalledWith(1, 'bottom')
+    expect(onEndReached).toHaveBeenCalledOnce()
   })
 
   it('should emit rtl horizontal end-reached payloads based on visual direction', async () => {
@@ -227,6 +230,7 @@ describe('<fixed-size-list />', () => {
     await nextTick()
 
     expect(onEndReached).toHaveBeenNthCalledWith(2, 'right')
+    expect(onEndReached).toHaveBeenCalledTimes(2)
   })
 
   it('should set initial offset', async () => {
@@ -397,8 +401,7 @@ describe('<fixed-size-list />', () => {
       listRef.scrollTo(2400)
       await nextTick()
 
-      expect(onEndReached).toHaveBeenCalledTimes(1)
-      expect(onEndReached).toHaveBeenLastCalledWith('bottom')
+      expect(onEndReached).toHaveBeenNthCalledWith(1, 'bottom')
 
       await wrapper.setProps({
         total: 200,
@@ -407,8 +410,8 @@ describe('<fixed-size-list />', () => {
       listRef.scrollTo(4900)
       await nextTick()
 
+      expect(onEndReached).toHaveBeenNthCalledWith(2, 'bottom')
       expect(onEndReached).toHaveBeenCalledTimes(2)
-      expect(onEndReached).toHaveBeenLastCalledWith('bottom')
     })
   })
 
