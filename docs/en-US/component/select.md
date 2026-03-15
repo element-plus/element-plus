@@ -318,7 +318,7 @@ When appending the Tooltip to a custom container (via the `append-to` attribute)
 | blur                  | triggers when Input blurs                                     | ^[Function]`(event: FocusEvent) => void`                                 |
 | focus                 | triggers when Input focuses                                   | ^[Function]`(event: FocusEvent) => void`                                 |
 | popup-scroll ^(2.9.4) | triggers when dropdown scrolls                                | ^[Function]`(data:{scrollTop: number, scrollLeft: number}) => void`      |
-| end-reached           | triggers when dropdown scroll reaches an end                  | ^[Function]`(direction: 'top' \| 'bottom' \| 'left' \| 'right') => void` |
+| end-reached ^(2.13.6) | triggers when dropdown scroll reaches an end                  | ^[Function]`(direction: 'top' \| 'bottom' \| 'left' \| 'right') => void` |
 
 ### Select Slots
 
