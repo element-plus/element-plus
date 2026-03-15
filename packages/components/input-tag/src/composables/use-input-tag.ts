@@ -121,13 +121,21 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
       case props.trigger:
         event.preventDefault()
         event.stopPropagation()
-        handleAddTag()
+        Promise.resolve().then(() => {
+          if (!isComposing.value) {
+            handleAddTag()
+          }
+        })
         break
       case EVENT_CODE.numpadEnter:
         if (props.trigger === EVENT_CODE.enter) {
           event.preventDefault()
           event.stopPropagation()
-          handleAddTag()
+          Promise.resolve().then(() => {
+            if (!isComposing.value) {
+              handleAddTag()
+            }
+          })
         }
         break
       case EVENT_CODE.backspace:
