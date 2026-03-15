@@ -170,6 +170,19 @@ describe('Input.vue', () => {
     expect(textarea.style.resize).toEqual(resize.value)
   })
 
+  test('inputmode', () => {
+    const wrapper = mount(() => (
+      <>
+        <Input inputmode="numeric" />
+        <Input type="textarea" inputmode="decimal" />
+      </>
+    ))
+    const input = wrapper.find('input')
+    const textarea = wrapper.find('textarea')
+    expect(input.attributes('inputmode')).toBe('numeric')
+    expect(textarea.attributes('inputmode')).toBe('decimal')
+  })
+
   test('sets value on textarea / input type change', async () => {
     const type = ref('text')
     const val = ref('123')
