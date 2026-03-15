@@ -224,13 +224,15 @@ const createList = ({
         offset: number
       ) => {
         const nextEdgeState = getEdgeState(offset)
+        const horizontalEnd = props.direction === RTL ? 'left' : 'right'
+        const horizontalStart = props.direction === RTL ? 'right' : 'left'
 
         if (
           direction === FORWARD &&
           nextEdgeState.end &&
           !edgeState.value.end
         ) {
-          emit(END_REACHED_EVT, _isHorizontal.value ? 'right' : 'bottom')
+          emit(END_REACHED_EVT, _isHorizontal.value ? horizontalEnd : 'bottom')
         }
 
         if (
@@ -238,7 +240,7 @@ const createList = ({
           nextEdgeState.start &&
           !edgeState.value.start
         ) {
-          emit(END_REACHED_EVT, _isHorizontal.value ? 'left' : 'top')
+          emit(END_REACHED_EVT, _isHorizontal.value ? horizontalStart : 'top')
         }
 
         edgeState.value = nextEdgeState

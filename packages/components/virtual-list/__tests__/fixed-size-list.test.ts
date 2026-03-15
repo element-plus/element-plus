@@ -204,6 +204,31 @@ describe('<fixed-size-list />', () => {
     expect(onEndReached).toHaveBeenCalledWith('bottom')
   })
 
+  it('should emit rtl horizontal end-reached payloads based on visual direction', async () => {
+    const onEndReached = vi.fn()
+    const wrapper = mount({
+      props: {
+        direction: RTL,
+        layout: HORIZONTAL,
+        onEndReached,
+      },
+    })
+
+    await nextTick()
+
+    const listRef = wrapper.vm.$refs.listRef as ListRef
+
+    listRef.scrollTo(2450)
+    await nextTick()
+
+    expect(onEndReached).toHaveBeenNthCalledWith(1, 'left')
+
+    listRef.scrollTo(0)
+    await nextTick()
+
+    expect(onEndReached).toHaveBeenNthCalledWith(2, 'right')
+  })
+
   it('should set initial offset', async () => {
     const wrapper = mount({
       props: {
