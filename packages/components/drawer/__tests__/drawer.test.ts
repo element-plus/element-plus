@@ -673,6 +673,99 @@ describe('Drawer', () => {
       mouseupCleanup()
       cleanup()
     })
+
+    test('should respect minSize and maxSize limits during resize', async () => {
+      const cleanup = defineGetter(window, 'innerWidth', '1000')
+      const wrapper = _mount(
+        `
+        <el-drawer v-model='visible' direction='ltr' resizable size='30%' min-size='200px' max-size='800px'>
+          <span>${content}</span>
+        </el-drawer>
+        `,
+        () => ({
+          visible: true,
+        })
+      )
+
+      await nextTick()
+
+      const dragger = wrapper.find('.el-drawer__dragger')
+      const drawerEl = wrapper.find('.el-drawer').element as HTMLDivElement
+      Object.defineProperty(drawerEl, 'offsetWidth', {
+        value: 300,
+        configurable: true,
+      })
+
+      await simulateDrag(dragger, 'horizontal', 300, 100)
+      expect(drawerEl.style.width).toEqual('200px')
+
+      await simulateDrag(dragger, 'horizontal', 200, 900)
+      expect(drawerEl.style.width).toEqual('800px')
+
+      cleanup()
+    })
+
+    test('should work with percentage-based minSize and maxSize', async () => {
+      const cleanup = defineGetter(window, 'innerWidth', '1000')
+      const wrapper = _mount(
+        `
+        <el-drawer v-model='visible' direction='ltr' resizable size='30%' min-size='10%' max-size='70%'>
+          <span>${content}</span>
+        </el-drawer>
+        `,
+        () => ({
+          visible: true,
+        })
+      )
+
+      await nextTick()
+
+      const dragger = wrapper.find('.el-drawer__dragger')
+      const drawerEl = wrapper.find('.el-drawer').element as HTMLDivElement
+      Object.defineProperty(drawerEl, 'offsetWidth', {
+        value: 300,
+        configurable: true,
+      })
+
+      await simulateDrag(dragger, 'horizontal', 300, 50)
+      expect(drawerEl.style.width).toEqual('100px')
+
+      await simulateDrag(dragger, 'horizontal', 100, 800)
+      expect(drawerEl.style.width).toEqual('700px')
+
+      cleanup()
+    })
+
+    test('should use default values when minSize and maxSize are not provided', async () => {
+      const cleanup = defineGetter(window, 'innerWidth', '1000')
+      const wrapper = _mount(
+        `
+        <el-drawer v-model='visible' direction='ltr' resizable size='30%'>
+          <span>${content}</span>
+        </el-drawer>
+        `,
+        () => ({
+          visible: true,
+        })
+      )
+
+      await nextTick()
+
+      const dragger = wrapper.find('.el-drawer__dragger')
+      const drawerEl = wrapper.find('.el-drawer').element as HTMLDivElement
+      Object.defineProperty(drawerEl, 'offsetWidth', {
+        value: 300,
+        configurable: true,
+      })
+
+      await simulateDrag(dragger, 'horizontal', 300, 100)
+      expect(drawerEl.style.width).toEqual('300px')
+
+      await simulateDrag(dragger, 'horizontal', 300, 1200)
+      expect(drawerEl.style.width).toEqual('1000px')
+
+      cleanup()
+    })
   })
 
   describe('accessibility', () => {

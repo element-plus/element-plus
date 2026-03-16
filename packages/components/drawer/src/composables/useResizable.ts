@@ -1,5 +1,11 @@
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { addUnit } from '@element-plus/utils'
+import {
+  getPct,
+  getPx,
+  isPct,
+  isPx,
+} from '@element-plus/components/splitter/src/hooks/useSize'
 import { clamp, useEventListener, useWindowSize } from '@vueuse/core'
 
 import type { Ref, SetupContext } from 'vue'
@@ -19,11 +25,40 @@ export function useResizable(
   const windowSize = computed(() =>
     isHorizontal.value ? width.value : height.value
   )
+
+  /**
+   * Parse size string/number to pixels using splitter utilities
+   */
+  const parseSizeToPixels = (
+    size: string | number | undefined,
+    fallback: number
+  ): number => {
+    if (size === undefined) return fallback
+    if (typeof size === 'number') return size
+
+    // Use splitter utilities for % and px (same logic as getLimitSize)
+    if (isPct(size)) {
+      return getPct(size) * windowSize.value
+    }
+    if (isPx(size)) {
+      return getPx(size)
+    }
+
+    return Number(size) || fallback
+  }
+
+  const minSizePixels = computed(() =>
+    parseSizeToPixels(props.minSize, parseSizeToPixels(props.size, 200))
+  )
+  const maxSizePixels = computed(() =>
+    parseSizeToPixels(props.maxSize, windowSize.value)
+  )
+
   const getSize = computed(() => {
     return clamp(
       startSize.value + sign.value * offset.value,
-      4,
-      windowSize.value
+      minSizePixels.value,
+      maxSizePixels.value
     )
   })
 
