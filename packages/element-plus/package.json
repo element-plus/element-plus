@@ -80,7 +80,7 @@
     "vue": "^3.3.0"
   },
   "dependencies": {
-    "@ctrl/tinycolor": "^3.4.1",
+    "@ctrl/tinycolor": "catalog:",
     "@element-plus/icons-vue": "^2.3.2",
     "@floating-ui/dom": "^1.0.1",
     "@popperjs/core": "npm:@sxzz/popperjs-es@^2.11.7",

@@ -805,8 +805,22 @@ describe('Tree.vue', () => {
     const tree = treeWrapper.vm as InstanceType<typeof Tree>
 
     tree.setCheckedKeys([2], true)
-    expect(tree.getCheckedNodes().length).toEqual(2)
-    expect(tree.getCheckedKeys().length).toEqual(2)
+    expect(tree.getCheckedNodes().length).toEqual(3)
+    expect(tree.getCheckedKeys().length).toEqual(3)
+  })
+
+  test('setCheckedKeys with leafOnly=true produces consistent parent states', async () => {
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" show-checkbox node-key="id"`
+    )
+    const treeWrapper = wrapper.findComponent(Tree)
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
+
+    tree.setCheckedKeys([1], true)
+
+    expect(tree.getCheckedKeys().sort()).toEqual([1, 11, 111])
+    expect(tree.getHalfCheckedNodes()).toEqual([])
+    expect(tree.getHalfCheckedKeys()).toEqual([])
   })
 
   test('setCurrentKey', async () => {
@@ -1500,6 +1514,27 @@ describe('Tree.vue', () => {
       })
     )
     expect(flag).toBe(true)
+  })
+
+  test('navigate down with multiple trees', async () => {
+    const data = [{ label: 'one' }, { label: 'two' }]
+    const wrapper = mount({
+      template: `
+        <div>
+          <el-tree :data="data" default-expand-all />
+          <el-tree :data="data" default-expand-all />
+        </div>
+      `,
+      components: { 'el-tree': Tree },
+      data: () => ({ data }),
+    })
+    await nextTick()
+    let focused = false
+    const secondTree = wrapper.findAllComponents({ name: 'ElTree' })[1]
+    const treeNodes = secondTree.findAll('.is-focusable[role=treeitem]')
+    defineGetter(treeNodes[1].element, 'focus', () => () => (focused = true))
+    await treeNodes[0].trigger('keydown', { code: 'ArrowDown' })
+    expect(focused).toBe(true)
   })
 
   test('collapse and navigate down and up', async () => {

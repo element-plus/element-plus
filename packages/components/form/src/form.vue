@@ -6,8 +6,14 @@
 
 <script lang="ts" setup>
 import { computed, provide, reactive, ref, toRefs, watch } from 'vue'
-import { has } from 'lodash-unified'
-import { debugWarn, getProp, isFunction } from '@element-plus/utils'
+import { cloneDeep } from 'lodash-unified'
+import {
+  debugWarn,
+  ensureArray,
+  getProp,
+  isArray,
+  isFunction,
+} from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { useFormSize } from './hooks'
 import { formContextKey } from './constants'
@@ -42,6 +48,7 @@ const emit = defineEmits(formEmits)
 
 const formRef = ref<HTMLElement>()
 const fields = reactive<FormItemContext[]>([])
+const initialValues = new Map<string, any>()
 
 const formSize = useFormSize()
 const ns = useNamespace('form')
@@ -63,6 +70,13 @@ const getField: FormContext['getField'] = (prop) => {
 
 const addField: FormContext['addField'] = (field) => {
   fields.push(field)
+  if (field.propString) {
+    if (initialValues.has(field.propString)) {
+      field.setInitialValue(initialValues.get(field.propString))
+    } else {
+      initialValues.set(field.propString, cloneDeep(field.fieldValue))
+    }
+  }
 }
 
 const removeField: FormContext['removeField'] = (field) => {
@@ -71,9 +85,7 @@ const removeField: FormContext['removeField'] = (field) => {
   }
 }
 
-const setInitialValues: FormContext['setInitialValues'] = (
-  initModel: Partial<typeof props.model>
-) => {
+const setInitialValues: FormContext['setInitialValues'] = (initModel) => {
   if (!props.model) {
     debugWarn(COMPONENT_NAME, 'model is required for setInitialValues to work.')
     return
@@ -85,14 +97,13 @@ const setInitialValues: FormContext['setInitialValues'] = (
     )
     return
   }
+
+  for (const key of initialValues.keys()) {
+    initialValues.set(key, cloneDeep(getProp(initModel, key).value))
+  }
   fields.forEach((field) => {
     if (field.prop) {
-      // Check if the property path actually exists in initModel
-      // This allows setting undefined/null values while skipping non-existent properties
-      if (has(initModel, field.prop)) {
-        const initValue = getProp(initModel, field.prop).value
-        field.setInitialValue(initValue)
-      }
+      field.setInitialValue(getProp(initModel, field.prop).value)
     }
   })
 }
@@ -102,7 +113,24 @@ const resetFields: FormContext['resetFields'] = (properties = []) => {
     debugWarn(COMPONENT_NAME, 'model is required for resetFields to work.')
     return
   }
+
   filterFields(fields, properties).forEach((field) => field.resetField())
+
+  const activePropStrings = new Set(
+    fields.map((f) => f.propString).filter(Boolean)
+  )
+  const propsToCheck =
+    properties.length > 0
+      ? ensureArray(properties).map((p) => (isArray(p) ? p.join('.') : p))
+      : [...initialValues.keys()]
+
+  for (const propString of propsToCheck) {
+    if (!activePropStrings.has(propString) && initialValues.has(propString)) {
+      getProp(props.model, propString).value = cloneDeep(
+        initialValues.get(propString)
+      )
+    }
+  }
 }
 
 const clearValidate: FormContext['clearValidate'] = (props = []) => {
@@ -253,7 +281,7 @@ defineExpose({
    */
   fields,
   /**
-   * @description Set initial values for form fields. When `resetFields` is called, fields will reset to these values. Only fields present in `initModel` will be updated.
+   * @description Set initial values for form fields. When `resetFields` is called, fields will reset to these values.
    */
   setInitialValues,
 })

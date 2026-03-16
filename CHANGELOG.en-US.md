@@ -1,6 +1,75 @@
 ## Changelog
 
 
+### 2.13.5
+
+_2026-03-07_
+
+#### Bug fixes
+
+- Chore: fix build (#23737 by @btea)
+- Chore: fix locale/lang/*.ts dts default export (#23741 by @rzzf)
+
+### 2.13.4
+
+_2026-03-06_
+
+#### Features
+
+- Components [input] emit clear event pass event parameter (#23696 by @btea)
+- Components [input] textarea supports clearing effects (#23723 by @btea)
+- Components [time-picker] add `save-on-blur` prop (#23531 by @snowbitx)
+- Components [popover] expose hide() through slot (#23694 by @ZacharyBear)
+
+#### Bug fixes
+
+- Components [tree] reconcile parent states in setCheckedKeys (#23697 by @Dsaquel)
+- Components [color-picker-panel] set showAlpha default to false (#23709 by @snowbitx)
+
+### 2.13.3
+
+_2026-02-28_
+
+#### Features
+
+- Utils [dom] add support for ShadowDom (#23235 by @yinfoyuan)
+- Components [button] add `dashed` prop (#22738 by @lxKylin)
+- Components [time-select] add `name` prop (#23633 by @snowbitx)
+- Components [config-provider] add table config (#23610 by @btea)
+- Components [select/select-v2] add `tag-tooltip` config object prop (#23556 by @LostElkByte)
+- Utils add `setPropsDefaults` method (#23612 by @rzzf)
+
+#### Bug fixes
+
+- Components [carousel] avoid stopping autoplay after children change (#23494 by @E66Crisp)
+- Components [carousel] fix vertical indicator layout with label and outside (#23368 by @E66Crisp)
+- Locale [vi] refine translations and fill missing keys (#23592 by @vacnex)
+- Components [rate] avoid capturing focus when disabled (#23589 by @snowbitx)
+- Types [message-box] MessageBoxData cross type (#23614 by @btea)
+- Components [upload] keep delete icon visible on focus-within (#23561 by @snowbitx)
+- Components [time-select] duplicate end time with format (#23626 by @snowbitx)
+- Components [watermark] correct fontWeight type definition (#23641 by @E66Crisp)
+- Components [textarea] unexpected page scrolling when typing in Firefox (#23606 by @rzzf)
+- Components [mention] avoid selecting disabled items by pressing Enter (#23645 by @E66Crisp)
+- Components [time-select] prevent freeze when step is invalid (#23635 by @snowbitx)
+- Components [color-picker] add colorFormat prop validation (#23587 by @E66Crisp)
+- Components [autocomplete] reset ignoreFocusEvent on outside click (#23513 by @E66Crisp)
+- Components [tree-select] emit change when toggling node labels (#22863 by @yicheny)
+- Components [badge] dot becomes rectangle on transition leave (#23667 by @Dsaquel)
+- Components [select/select-v2] prevent empty input from causing unnecessary line breaks (#23394 by @E66Crisp)
+- Components [table-v2] navigation back triggered by trackpad scrolling (#23673 by @rzzf)
+- Components [transfer] prevent title width overflow (#23166 by @E66Crisp)
+- Components [tree] `requireNodeKey` arg in `updateKeyChildren` (#23676 by @E66Crisp)
+- Components [select/v2] always clear input after create option (#23662 by @Dsaquel)
+- Components [tree] focus error after switching tree (#23659 by @Dsaquel)
+- Components [upload] append all values in formdata (#23664 by @Dsaquel)
+- Components [form] support nested `FormRules` (#23668 by @Dsaquel)
+- Components [input-tag] delimiter does not support pasted line breaks (#23674 by @rzzf)
+- Components [select] Slot default invoked outside of the render (#23232 by @littlezo)
+- Components [select/v2] stop change event bubbling (#23669 by @Dsaquel)
+- Components [affix] update logic caused infinite loop (#23599 by @btea)
+- Components [form/form-item] initial value and reset func (#23597 by @l246804)
+
 ### 2.13.2
 
 _2026-01-30_
