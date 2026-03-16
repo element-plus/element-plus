@@ -1152,4 +1152,18 @@ describe('TreeSelect.vue', () => {
     expect(tree.find('.el-tree').exists()).toBe(true)
     expect(tree.find('.el-tree__empty-block').exists()).toBe(false)
   })
+
+  test('node-expand should be called once when the node is clicked', async () => {
+    const onNodeExpand = vi.fn()
+    const { tree } = createComponent({
+      props: {
+        onNodeExpand,
+      },
+    })
+
+    await nextTick()
+    await tree.find('.el-tree-node').trigger('click')
+    await nextTick()
+    expect(onNodeExpand).toBeCalledTimes(1)
+  })
 })
