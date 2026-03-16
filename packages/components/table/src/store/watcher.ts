@@ -1,4 +1,12 @@
-import { computed, getCurrentInstance, ref, toRefs, unref, watch } from 'vue'
+import {
+  computed,
+  getCurrentInstance,
+  ref,
+  toRaw,
+  toRefs,
+  unref,
+  watch,
+} from 'vue'
 import { ensureArray, hasOwn, isArray, isString } from '@element-plus/utils'
 import {
   getColumnById,
@@ -93,6 +101,14 @@ function useWatcher<T extends DefaultRow>() {
 
   const selectedMap = computed(() => {
     return rowKey.value ? getKeysMap(selection.value, rowKey.value) : undefined
+  })
+
+  // 无 rowKey 时用 WeakSet 做 O(1) 查找，避免 includes() 的 O(n) 开销
+  const selectionSet = computed(() => {
+    if (rowKey.value) return undefined
+    const sel = selection.value
+    const _len = sel.length // eslint-disable-line @typescript-eslint/no-unused-vars
+    return new WeakSet(toRaw(sel))
   })
 
   watch(
@@ -193,6 +209,8 @@ function useWatcher<T extends DefaultRow>() {
   const isSelected = (row: T) => {
     if (selectedMap.value) {
       return !!selectedMap.value[getRowIdentity(row, rowKey.value)]
+    } else if (selectionSet.value) {
+      return selectionSet.value.has(row)
     } else {
       return selection.value.includes(row)
     }

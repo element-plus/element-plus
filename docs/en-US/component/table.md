@@ -255,6 +255,34 @@ table/tooltip-formatter
 
 :::
 
+## Virtual scrolling
+
+When dealing with large amounts of data, you can enable virtual scrolling to improve performance.
+
+### Basic virtual scrolling
+
+:::demo Enable virtual scrolling by setting `use-virtual` to `true`. You must also set `height` or `max-height`, and `row-height` to specify the height of each row. The `excess-rows` attribute controls how many extra rows are rendered outside the visible area to ensure smooth scrolling.
+
+table/virtual-scroll
+
+:::
+
+### Tree data virtual scrolling
+
+:::demo Virtual scrolling also supports tree data. When using virtual scrolling with tree data, you must set the `row-key` attribute. The table will automatically handle the virtual scrolling logic for expanded and collapsed nodes.
+
+table/virtual-scroll-tree
+
+:::
+
+### Lazy loading tree data with virtual scrolling
+
+:::demo Combine lazy loading with virtual scrolling for optimal performance with large tree datasets. Set `lazy` to `true` and provide a `load` function to load child nodes on demand. The `hasChildren` property determines whether a node can be expanded.
+
+table/virtual-scroll-tree-lazy
+
+:::
+
 ## Table API
 
 ### Table Attributes
@@ -306,6 +334,9 @@ table/tooltip-formatter
 | preserve-expanded-content ^(2.9.7) | whether to preserve expanded row content in DOM when collapsed                                                                                                                                                                                                             | ^[boolean]                                                                                                                                                           | false                                                                                                                   |
 | native-scrollbar ^(2.10.5)         | whether to use native scrollbars                                                                                                                                                                                                                                           | ^[boolean]                                                                                                                                                           | false                                                                                                                   |
 | row-expandable ^(2.13.2)           | enable expandable rows, works when the table has a column type="expand"                                                                                                                                                                                                    | ^[Function]`(row: any, index: number) => boolean`                                                                                                                    | —                                                                                                                       |
+| use-virtual                        | whether to enable virtual scrolling. When enabled, only visible rows are rendered, which significantly improves performance for large datasets. Must be used with `height` or `max-height` and `row-height`                                                                | ^[boolean]                                                                                                                                                           | false                                                                                                                   |
+| row-height                         | height of each row in pixels. Required when `use-virtual` is true. Must match the actual row height for accurate scrolling                                                                                                                                                 | ^[number]                                                                                                                                                            | 32                                                                                                                      |
+| excess-rows                        | number of extra rows to render outside the visible area when using virtual scrolling. Larger values provide smoother scrolling but increase memory usage. Recommended: 3-5 for normal scrolling, 5-10 for fast scrolling                                                   | ^[number]                                                                                                                                                            | 3                                                                                                                       |
 
 ### Table Events
 

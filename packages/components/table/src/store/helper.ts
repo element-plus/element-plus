@@ -38,7 +38,64 @@ export function createStore<T extends DefaultRow>(
   const store = useStore<T>()
   // fix https://github.com/ElemeFE/element/issues/14075
   // related pr https://github.com/ElemeFE/element/pull/14146
-  store.toggleAllSelection = debounce(store._toggleAllSelection, 10)
+  // 修复在虚拟滚动下，取消全选/全选时卡顿的问题
+  store.toggleAllSelection = debounce(() => {
+    if (props.useVirtual) {
+      const { selectOnIndeterminate, isAllSelected, selection, selectable } =
+        store.states
+      const value = selectOnIndeterminate.value
+        ? !isAllSelected.value
+        : !(isAllSelected.value || selection.value.length)
+      isAllSelected.value = value
+
+      const allRows: any[] = []
+      const collectRows = (rows: any[]) => {
+        rows.forEach((row) => {
+          allRows.push(row)
+          // 收集树形子节点
+          const children = row[store.states.childrenColumnName.value]
+          if (children && children.length) {
+            collectRows(children)
+          }
+        })
+      }
+      collectRows(store.states.data.value || [])
+
+      // 收集懒加载子节点
+      const lazyTreeNodeMap = store.states.lazyTreeNodeMap?.value
+      if (lazyTreeNodeMap) {
+        Object.values(lazyTreeNodeMap).forEach((children: any) => {
+          if (children && children.length) {
+            collectRows(children)
+          }
+        })
+      }
+
+      if (value) {
+        // 全选：添加所有可选行
+        const newSelection: any[] = []
+        let rowIndex = 0
+        allRows.forEach((row) => {
+          if (!selectable.value || selectable.value.call(null, row, rowIndex)) {
+            newSelection.push(row)
+          }
+          rowIndex++
+        })
+        selection.value = newSelection
+      } else {
+        // 取消全选
+        selection.value = []
+      }
+
+      table.emit(
+        'selection-change',
+        selection.value ? selection.value.slice() : []
+      )
+      table.emit('select-all', (selection.value || []).slice())
+    } else {
+      store._toggleAllSelection()
+    }
+  }, 10)
   Object.keys(InitialStateMap).forEach((key) => {
     handleValue(getArrKeysValue(props, key), key, store)
   })

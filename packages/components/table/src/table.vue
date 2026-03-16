@@ -67,53 +67,64 @@
           :always="scrollbarAlwaysOn"
           :tabindex="scrollbarTabindex"
           :native="nativeScrollbar"
-          @scroll="$emit('scroll', $event)"
+          @scroll="
+            ($event) => {
+              handleScroll($event)
+              $emit('scroll', $event)
+            }
+          "
         >
-          <table
-            ref="tableBody"
-            :class="ns.e('body')"
-            cellspacing="0"
-            cellpadding="0"
-            border="0"
-            :style="{
-              width: bodyWidth,
-              tableLayout,
-            }"
-          >
-            <hColgroup
-              :columns="store.states.columns.value"
-              :table-layout="tableLayout"
-            />
-            <table-header
-              v-if="showHeader && tableLayout === 'auto'"
-              ref="tableHeaderRef"
-              :class="ns.e('body-header')"
-              :border="border"
-              :default-sort="defaultSort"
-              :store="store"
-              :append-filter-panel-to="appendFilterPanelTo"
-              @set-drag-visible="setDragVisible"
-            />
-            <table-body
-              :context="context"
-              :highlight="highlightCurrentRow"
-              :row-class-name="rowClassName"
-              :tooltip-effect="computedTooltipEffect"
-              :tooltip-options="computedTooltipOptions"
-              :row-style="rowStyle"
-              :store="store"
-              :stripe="stripe"
-            />
-            <table-footer
-              v-if="showSummary && tableLayout === 'auto'"
-              :class="ns.e('body-footer')"
-              :border="border"
-              :default-sort="defaultSort"
-              :store="store"
-              :sum-text="computedSumText"
-              :summary-method="summaryMethod"
-            />
-          </table>
+          <div :style="useVirtual ? `height: ${virtualBodyHeight}px;` : ''">
+            <div
+              :style="useVirtual ? `position: sticky; top: ${innerTop}px;` : ''"
+            >
+              <table
+                ref="tableBody"
+                :class="ns.e('body')"
+                cellspacing="0"
+                cellpadding="0"
+                border="0"
+                :style="{
+                  width: bodyWidth,
+                  tableLayout,
+                }"
+              >
+                <hColgroup
+                  :columns="store.states.columns.value"
+                  :table-layout="tableLayout"
+                />
+                <table-header
+                  v-if="showHeader && tableLayout === 'auto'"
+                  ref="tableHeaderRef"
+                  :class="ns.e('body-header')"
+                  :border="border"
+                  :default-sort="defaultSort"
+                  :store="store"
+                  :append-filter-panel-to="appendFilterPanelTo"
+                  @set-drag-visible="setDragVisible"
+                />
+                <table-body
+                  :context="context"
+                  :highlight="highlightCurrentRow"
+                  :row-class-name="rowClassName"
+                  :tooltip-effect="computedTooltipEffect"
+                  :tooltip-options="computedTooltipOptions"
+                  :row-style="rowStyle"
+                  :store="store"
+                  :stripe="stripe"
+                />
+                <table-footer
+                  v-if="showSummary && tableLayout === 'auto'"
+                  :class="ns.e('body-footer')"
+                  :border="border"
+                  :default-sort="defaultSort"
+                  :store="store"
+                  :sum-text="computedSumText"
+                  :summary-method="summaryMethod"
+                />
+              </table>
+            </div>
+          </div>
           <div
             v-if="isEmpty"
             ref="emptyBlock"
@@ -175,10 +186,14 @@ import {
   computed,
   defineComponent,
   getCurrentInstance,
+  nextTick,
   onBeforeUnmount,
   provide,
+  ref,
+  shallowRef,
+  watch,
 } from 'vue'
-import { debounce } from 'lodash-unified'
+import { debounce, throttle } from 'lodash-unified'
 import { Mousewheel } from '@element-plus/directives'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { useGlobalConfig } from '@element-plus/components/config-provider'
@@ -195,6 +210,7 @@ import useKeyRender from './table/key-render-helper'
 import defaultProps from './table/defaults'
 import { TABLE_INJECTION_KEY } from './tokens'
 import { hColgroup } from './h-helper'
+import { getRowIdentity } from './util'
 import { useScrollbar } from './composables/use-scrollbar'
 
 import type { Table } from './table/defaults'
@@ -287,8 +303,26 @@ export default defineComponent({
       scrollbarStyle,
     } = useStyle<Row>(props, layout, store, table)
 
-    const { scrollBarRef, scrollTo, setScrollLeft, setScrollTop } =
-      useScrollbar()
+    const {
+      scrollBarRef,
+      scrollTo: scrollToOld,
+      setScrollLeft,
+      setScrollTop: setScrollTopOld,
+    } = useScrollbar()
+    const scrollTo = function (
+      options: number | ScrollToOptions,
+      yCoord?: number | undefined
+    ) {
+      scrollToOld(options, yCoord)
+      handleScroll({
+        scrollTop:
+          (typeof options === 'number' ? options : options.top) || yCoord,
+      })
+    }
+    const setScrollTop = function (value: number | undefined) {
+      setScrollTopOld(value)
+      handleScroll({ scrollTop: value })
+    }
 
     const debouncedUpdateLayout = debounce(doLayout, 50)
 
@@ -325,8 +359,236 @@ export default defineComponent({
     onBeforeUnmount(() => {
       debouncedUpdateLayout.cancel()
     })
+    const { data, treeData } = store.states
+    const start = ref(0)
+    const end = ref(25)
+    const treeStart = ref(0)
+    const realTreeStart = ref(0)
+    const realTreeEnd = ref(25)
+    table.useVirtual = props.useVirtual
+    table.rowHeight = props.rowHeight
+    table.start = start
+    table.end = end
+    table.treeStart = treeStart
+    const innerTop = ref(0)
+    const scrollTop = ref(0)
+
+    // 性能优化：使用 Set 存储展开节点缓存，查找性能 O(1)
+    const expandedKeysCache = shallowRef<Set<string>>(new Set())
+
+    const visibleCount = computed(() =>
+      Math.ceil(
+        Number.parseFloat((props.height || props.maxHeight || 0).toString()) /
+          props.rowHeight
+      )
+    )
+    const handleScroll = function (event: { scrollTop: number | undefined }) {
+      if (props.useVirtual) {
+        const top = event.scrollTop || 0
+        scrollTop.value = top
+        const expectIdx = Math.floor(top / props.rowHeight)
+        innerTop.value = expectIdx * props.rowHeight - top
+        setVirtualParams(expectIdx)
+      }
+    }
+    const setVirtualParams = throttle(
+      (expectIdx) => {
+        const newStart = expectIdx
+        const newEnd = expectIdx + visibleCount.value + props.excessRows + 1
+
+        // 只有当范围真正改变时才更新
+        if (start.value !== newStart || end.value !== newEnd) {
+          start.value = newStart
+          end.value = newEnd
+          // 计算 treeStart 和 realTreeEnd
+          calculateTreeStart()
+          calculateTreeEnd()
+        }
+
+        // 使用 requestAnimationFrame 优化滚动条更新
+        requestAnimationFrame(() => {
+          scrollBarRef.value?.update()
+        })
+      },
+      16, // 优化为60fps
+      {
+        leading: true,
+        trailing: true, // 确保最后一次滚动也被处理
+      }
+    )
+    // 递归计算某个展开节点的所有可见后代数量
+    const getVisibleDescendantCount = (rowKey: string): number => {
+      if (!expandedKeysCache.value.has(rowKey)) return 0
+      const children = treeData.value[rowKey]?.children
+      if (!children || !children.length) return 0
+      let count = children.length
+      for (const childKey of children) {
+        count += getVisibleDescendantCount(childKey)
+      }
+      return count
+    }
+
+    // 更新展开节点缓存
+    const updateExpandedKeysCache = () => {
+      if (!props.useVirtual || !Object.keys(treeData.value).length) {
+        expandedKeysCache.value = new Set()
+        return
+      }
+
+      const expandedKeys = Object.keys(treeData.value).filter(
+        (key) =>
+          treeData.value[key].expanded &&
+          (!props.lazy || treeData.value[key].loaded)
+      )
+      expandedKeysCache.value = new Set(expandedKeys)
+    }
+    const virtualBodyHeight = computed(() => {
+      if (!props.useVirtual || !data.value) {
+        return 0
+      }
+
+      if (expandedKeysCache.value.size) {
+        let totalDescendants = 0
+        for (let i = 0; i < data.value.length; i++) {
+          const rowKey = getRowIdentity(data.value[i], props.rowKey || null)
+          totalDescendants += getVisibleDescendantCount(rowKey)
+        }
+        return (data.value.length + totalDescendants) * props.rowHeight
+      } else {
+        return data.value.length * props.rowHeight
+      }
+    })
+    watch(virtualBodyHeight, () => {
+      nextTick(() => {
+        // fix scrollbar's position
+        scrollBarRef.value.update()
+      })
+    })
+    // 计算 treeStart 的函数
+    const calculateTreeStart = () => {
+      const expandedKeys = expandedKeysCache.value
+      if (
+        !data.value ||
+        !Object.keys(treeData.value).length ||
+        !expandedKeys.size
+      ) {
+        treeStart.value = start.value
+        realTreeStart.value = start.value
+        return
+      }
+
+      let ci = -1
+      for (let i = 0; i < data.value.length; i++) {
+        ci++
+        const rowKey = getRowIdentity(data.value[i], props.rowKey || null)
+        const descendantCount = getVisibleDescendantCount(rowKey)
+        ci += descendantCount
+        if (ci >= start.value) {
+          realTreeStart.value = i
+          treeStart.value = ci - descendantCount
+          return
+        }
+      }
+
+      // 兜底：start 超出数据范围时，定位到最后一条数据
+      realTreeStart.value = data.value.length - 1
+      treeStart.value = ci
+    }
+
+    // 计算 realTreeEnd 的函数
+    const calculateTreeEnd = () => {
+      const expandedKeys = expandedKeysCache.value
+      if (
+        !data.value ||
+        !Object.keys(treeData.value).length ||
+        !expandedKeys.size
+      ) {
+        return
+      }
+
+      let ci = treeStart.value - 1
+      for (let i = realTreeStart.value; i < data.value.length; i++) {
+        ci++
+        const rowKey = getRowIdentity(data.value[i], props.rowKey || null)
+        ci += getVisibleDescendantCount(rowKey)
+        if (ci >= end.value) {
+          realTreeEnd.value = i
+          return
+        }
+      }
+
+      // 如果没有找到,说明 end 超出了数据范围
+      realTreeEnd.value = data.value.length - 1
+    }
+
+    const virtualData = computed(() => {
+      if (!data.value) {
+        return []
+      }
+
+      if (expandedKeysCache.value.size) {
+        return data.value.slice(realTreeStart.value, realTreeEnd.value + 1)
+      } else {
+        return data.value.slice(start.value, end.value)
+      }
+    })
+
+    table.virtualData = virtualData
+
+    // 优化监听器
+    watch(
+      () => props.data,
+      () => {
+        handleScroll({ scrollTop: 0 })
+      },
+      { flush: 'post', immediate: true }
+    )
+
+    watch(
+      () => props.height,
+      () => handleScroll({ scrollTop: scrollTop.value })
+    )
+
+    watch(
+      () => props.maxHeight,
+      () => handleScroll({ scrollTop: scrollTop.value })
+    )
+
+    // 监听 treeData 变化,更新展开节点缓存并重新计算
+    watch(
+      () => treeData.value,
+      () => {
+        if (props.useVirtual) {
+          updateExpandedKeysCache()
+          calculateTreeStart()
+          calculateTreeEnd()
+        }
+      },
+      { deep: true, immediate: true }
+    )
+
+    // 监听 data 变化,重新计算
+    watch(
+      () => data.value,
+      () => {
+        if (props.useVirtual) {
+          updateExpandedKeysCache()
+          calculateTreeStart()
+          calculateTreeEnd()
+        }
+      },
+      { immediate: true }
+    )
 
     return {
+      start,
+      end,
+      rowHeight: props.rowHeight,
+      treeStart,
+      scrollTop,
+      handleScroll,
+      virtualBodyHeight,
+      innerTop,
       ns,
       layout,
       store,

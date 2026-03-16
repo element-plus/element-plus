@@ -63,6 +63,13 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
     treeRowData?: TreeNode,
     expanded = false
   ) => {
+    if (
+      props.context?.useVirtual &&
+      ($index < (props.context?.start.value as number) ||
+        $index > (props.context?.end.value as number))
+    ) {
+      return ''
+    }
     const { tooltipEffect, tooltipOptions, store } = props
     const { indent, columns } = store!.states
     const rowClasses = []
@@ -82,7 +89,15 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
     return h(
       'tr',
       {
-        style: [displayStyle, getRowStyle(row, $index)],
+        style: [
+          {
+            height: props.context?.useVirtual
+              ? `${props.context?.rowHeight}px`
+              : undefined,
+          },
+          displayStyle,
+          getRowStyle(row, $index),
+        ],
         class: rowClasses,
         key: getKeyOfRow(row, $index),
         onDblclick: ($event: Event) => handleDoubleClick($event, row),
@@ -114,6 +129,7 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
         if (cellIndex === firstDefaultColumnIndex.value && treeRowData) {
           data.treeNode = {
             indent: treeRowData.level && treeRowData.level * indent.value,
+            childIndex: treeRowData.childIndex, // 记录子节点序号, 用于自定义行号渲染
             level: treeRowData.level,
           }
           if (isBoolean(treeRowData.expanded)) {
@@ -192,25 +208,28 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
 
       // 仅在需要时创建展开行（保留模式或展开状态）
       if (parent.props.preserveExpandedContent || expanded) {
-        rows[0].push(
-          h(
-            'tr',
-            {
-              key: `expanded-row__${tr.key as string}`,
-              style: { display: expanded ? '' : 'none' },
-            },
-            [
-              h(
-                'td',
-                {
-                  colspan: columns.length,
-                  class: `${ns.e('cell')} ${ns.e('expanded-cell')}`,
-                },
-                [renderExpanded({ row, $index, store, expanded })]
-              ),
-            ]
+        // 确保 tr 不是空字符串
+        if (tr) {
+          rows[0].push(
+            h(
+              'tr',
+              {
+                key: `expanded-row__${tr.key as string}`,
+                style: { display: expanded ? '' : 'none' },
+              },
+              [
+                h(
+                  'td',
+                  {
+                    colspan: columns.length,
+                    class: `${ns.e('cell')} ${ns.e('expanded-cell')}`,
+                  },
+                  [renderExpanded({ row, $index, store, expanded })]
+                ),
+              ]
+            )
           )
-        )
+        }
       }
 
       return rows
@@ -239,15 +258,19 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
       const tmp = [rowRender(row, $index, treeRowData ?? undefined)]
       // 渲染嵌套数据
       if (cur) {
+        if (props.context?.useVirtual && !cur.expanded) {
+          return tmp
+        }
         // currentRow 记录的是 index，所以还需主动增加 TreeTable 的 index
         let i = 0
         const traverse = (children: T[], parent: TreeData) => {
           if (!(children && children.length && parent)) return
-          children.forEach((node) => {
+          children.forEach((node, childIndex) => {
             // 父节点的 display 状态影响子节点的显示状态
             const innerTreeRowData: Partial<Record<string, any>> = {
               display: parent.display && parent.expanded,
               level: parent.level! + 1,
+              childIndex,
               expanded: false,
               noLazyChildren: false,
               loading: false,
@@ -277,10 +300,12 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
             i++
             tmp.push(rowRender(node, $index + i, innerTreeRowData))
             if (cur) {
-              const nodes =
-                lazyTreeNodeMap.value[childKey] ||
-                node[childrenColumnName.value]
-              traverse(nodes, cur)
+              if (!(props.context?.useVirtual && !cur.expanded)) {
+                const nodes =
+                  lazyTreeNodeMap.value[childKey] ||
+                  node[childrenColumnName.value]
+                traverse(nodes, cur)
+              }
             }
           })
         }

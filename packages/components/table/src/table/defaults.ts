@@ -81,6 +81,12 @@ interface Table<T extends DefaultRow = any> extends ComponentInternalInstance {
   refs: TableRefs
   tableId: string
   state: TableState
+  useVirtual: boolean
+  rowHeight: number
+  start: Ref<number>
+  end: Ref<number>
+  treeStart: Ref<number>
+  virtualData: Ref<T[]>
 }
 
 type ColumnCls<T> = string | ((data: { row: T; rowIndex: number }) => string)
@@ -105,6 +111,9 @@ type CellStyle<T extends DefaultRow> =
     }) => CSSProperties)
 type Layout = 'fixed' | 'auto'
 interface TableProps<T extends DefaultRow> {
+  useVirtual?: boolean
+  rowHeight?: number
+  excessRows?: number
   data: T[]
   size?: ComponentSize
   width?: string | number
@@ -190,6 +199,7 @@ interface TreeNode {
   indent?: number
   level?: number
   display?: boolean
+  childIndex?: number
 }
 
 interface RenderRowData<T extends DefaultRow> {
@@ -211,6 +221,15 @@ interface TableConfigContext {
 }
 
 export default {
+  useVirtual: Boolean,
+  rowHeight: {
+    type: Number,
+    default: 32,
+  },
+  excessRows: {
+    type: Number,
+    default: 3,
+  },
   /**
    * @description table data
    */

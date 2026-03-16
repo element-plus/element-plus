@@ -79,8 +79,18 @@ export default defineComponent({
 
       rAF(() => {
         // just get first level children; fix #9723
-        const oldRow = rows[oldVal]
-        const newRow = rows[newVal]
+        const oldRow =
+          rows[
+            props.context.useVirtual
+              ? oldVal - props.context.start.value
+              : oldVal
+          ]
+        const newRow =
+          rows[
+            props.context.useVirtual
+              ? newVal - props.context.start.value
+              : newVal
+          ]
         // when there is fixed row, hover on rowSpan > 1 should not clear the class
         if (oldRow && !oldRow.classList.contains('hover-fixed-row')) {
           removeClass(oldRow, 'hover-row')
@@ -105,17 +115,38 @@ export default defineComponent({
     }
   },
   render() {
-    const { wrappedRowRender, store } = this
-    const data = store?.states.data.value || []
-    // Why do we need tabIndex: -1 ?
-    // If you set the tabindex attribute on an element ,
-    // then its child content cannot be scrolled with the arrow keys,
-    // unless you set tabindex on the content too
-    // See https://github.com/facebook/react/issues/25462#issuecomment-1274775248 or https://developer.mozilla.org/zh-CN/docs/Web/HTML/Global_attributes/tabindex
-    return h('tbody', { tabIndex: -1 }, [
-      data.reduce((acc: VNode[], row) => {
-        return acc.concat(wrappedRowRender(row, acc.length) as VNode[])
-      }, []),
-    ])
+    if (this.context.props.useVirtual) {
+      const { wrappedRowRender } = this
+      const body = h('tbody', { tabIndex: -1 }, [
+        this.context.virtualData.value.reduce((acc: VNode[], row) => {
+          if (Object.keys(this.context.store.states.treeData.value).length) {
+            return acc.concat(
+              wrappedRowRender(
+                row,
+                acc.length + this.context.treeStart.value
+              ) as VNode[]
+            )
+          } else {
+            const index = acc.length + this.context.start.value
+            const tr = wrappedRowRender(row, index) as VNode[]
+            return acc.concat(tr)
+          }
+        }, []),
+      ])
+      return body
+    } else {
+      const { wrappedRowRender, store } = this
+      const data = store?.states.data.value || []
+      // Why do we need tabIndex: -1 ?
+      // If you set the tabindex attribute on an element ,
+      // then its child content cannot be scrolled with the arrow keys,
+      // unless you set tabindex on the content too
+      // See https://github.com/facebook/react/issues/25462#issuecomment-1274775248 or https://developer.mozilla.org/zh-CN/docs/Web/HTML/Global_attributes/tabindex
+      return h('tbody', { tabIndex: -1 }, [
+        data.reduce((acc: VNode[], row) => {
+          return acc.concat(wrappedRowRender(row, acc.length) as VNode[])
+        }, []),
+      ])
+    }
   },
 })
