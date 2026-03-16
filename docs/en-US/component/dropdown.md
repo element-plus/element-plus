@@ -162,16 +162,19 @@ dropdown/virtual-trigger
 
 ### Dropdown-Item Attributes
 
-| Name     | Description                                                 | Type                              | Default |
-| -------- | ----------------------------------------------------------- | --------------------------------- | ------- |
-| command  | a command to be dispatched to Dropdown's `command` callback | ^[string] / ^[number] / ^[object] | —       |
-| disabled | whether the item is disabled                                | ^[boolean]                        | false   |
-| divided  | whether a divider is displayed                              | ^[boolean]                        | false   |
-| icon     | custom icon                                                 | ^[string] / ^[Component]          | —       |
+| Name                  | Description                                                 | Type                              | Default |
+| --------------------- | ----------------------------------------------------------- | --------------------------------- | ------- |
+| command               | a command to be dispatched to Dropdown's `command` callback | ^[string] / ^[number] / ^[object] | —       |
+| disabled              | whether the item is disabled                                | ^[boolean]                        | false   |
+| divided               | whether a divider is displayed                              | ^[boolean]                        | false   |
+| icon                  | custom icon                                                 | ^[string] / ^[Component]          | —       |
+| loading(^2.13.6)      | whether the item is loading                                 | ^[boolean]                        | false   |
+| loading-icon(^2.13.6) | custom loading icon                                         | ^[string] / ^[Component]          | —       |
 
 ### Dropdown-Item Slots
 
-| Name           | Description                                 |
-| -------------- | ------------------------------------------- |
-| default        | customize of Dropdown Item                  |
-| icon ^(2.13.1) | custom icon, it will override the icon prop |
+| Name              | Description                                 |
+| ----------------- | ------------------------------------------- |
+| default           | customize of Dropdown Item                  |
+| icon ^(2.13.1)    | custom icon, it will override the icon prop |
+| loading ^(2.13.6) | custom loading icon                         |
