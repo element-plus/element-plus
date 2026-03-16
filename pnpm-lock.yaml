@@ -9,12 +9,6 @@ catalogs:
     '@ctrl/tinycolor':
       specifier: ^4.2.0
       version: 4.2.0
-    '@element-plus/icons-vue':
-      specifier: ^2.3.2
-      version: 2.3.2
-    '@popperjs/core':
-      specifier: npm:@sxzz/popperjs-es@^2.11.7
-      version: 2.11.7
     '@vitejs/plugin-vue':
       specifier: ^5.1.4
       version: 5.2.4
@@ -33,12 +27,6 @@ catalogs:
     '@vueuse/core':
       specifier: 12.0.0
       version: 12.0.0
-    lodash-unified:
-      specifier: ^1.0.3
-      version: 1.0.3
-    normalize-wheel-es:
-      specifier: ^1.2.0
-      version: 1.2.0
     vue:
       specifier: ^3.5.22
       version: 3.5.25
@@ -147,9 +135,6 @@ importers:
       '@pnpm/types':
         specifier: ^8.4.0
         version: 8.10.0
-      '@types/fs-extra':
-        specifier: ^11.0.4
-        version: 11.0.4
       '@types/jsdom':
         specifier: ^27.0.0
         version: 27.0.0
@@ -2770,9 +2755,6 @@ packages:
   '@types/estree@1.0.8':
     resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
 
-  '@types/fs-extra@11.0.4':
-    resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
-
   '@types/hast@3.0.4':
     resolution: {integrity: sha512-WPs+bbQw5aCj+x6laNGWLH3wviHtoCv/P3+otBhbOhJgG8qtpdAMlTCxLtsTWA7LH1Oh/bFCHsBn0TPS5m30EQ==}
 
@@ -2790,9 +2772,6 @@ packages:
 
   '@types/json5@0.0.29':
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
-
-  '@types/jsonfile@6.1.4':
-    resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
 
   '@types/jsonwebtoken@9.0.10':
     resolution: {integrity: sha512-asx5hIG9Qmf/1oStypjanR7iKTv0gXQ1Ov/jfrX6kS/EO0OFni8orbmGCn0672NHR3kXHwpAwR+B368ZGN/2rA==}
@@ -10620,11 +10599,6 @@ snapshots:
 
   '@types/estree@1.0.8': {}
 
-  '@types/fs-extra@11.0.4':
-    dependencies:
-      '@types/jsonfile': 6.1.4
-      '@types/node': 22.19.3
-
   '@types/hast@3.0.4':
     dependencies:
       '@types/unist': 3.0.3
@@ -10642,10 +10616,6 @@ snapshots:
   '@types/json-schema@7.0.15': {}
 
   '@types/json5@0.0.29': {}
-
-  '@types/jsonfile@6.1.4':
-    dependencies:
-      '@types/node': 22.19.3
 
   '@types/jsonwebtoken@9.0.10':
     dependencies:
