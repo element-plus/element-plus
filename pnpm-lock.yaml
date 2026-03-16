@@ -30,6 +30,9 @@ catalogs:
     vue:
       specifier: ^3.5.22
       version: 3.5.25
+    vue-component-type-helpers:
+      specifier: ^3.2.4
+      version: 3.2.4
 
 overrides:
   jwa: ^1.4.2
@@ -503,6 +506,9 @@ importers:
       vue:
         specifier: 'catalog:'
         version: 3.5.25(typescript@5.5.4)
+      vue-component-type-helpers:
+        specifier: 'catalog:'
+        version: 3.2.4
 
   packages/constants: {}
 
@@ -572,6 +578,9 @@ importers:
       vue:
         specifier: ^3.3.0
         version: 3.5.25(typescript@5.5.4)
+      vue-component-type-helpers:
+        specifier: 'catalog:'
+        version: 3.2.4
     devDependencies:
       '@types/node':
         specifier: '*'
@@ -7981,6 +7990,9 @@ packages:
 
   vue-component-type-helpers@2.2.12:
     resolution: {integrity: sha512-YbGqHZ5/eW4SnkPNR44mKVc6ZKQoRs/Rux1sxC6rdwXb4qpbOSYfDr9DsTHolOTGmIKgM9j141mZbBeg05R1pw==}
+
+  vue-component-type-helpers@3.2.4:
+    resolution: {integrity: sha512-05lR16HeZDcDpB23ku5b5f1fBOoHqFnMiKRr2CiEvbG5Ux4Yi0McmQBOET0dR0nxDXosxyVqv67q6CzS3AK8rw==}
 
   vue-eslint-parser@10.2.0:
     resolution: {integrity: sha512-CydUvFOQKD928UzZhTp4pr2vWz1L+H99t7Pkln2QSPdvmURT0MoC4wUccfCnuEaihNsu9aYYyk+bep8rlfkUXw==}
@@ -16735,6 +16747,8 @@ snapshots:
   vscode-uri@3.1.0: {}
 
   vue-component-type-helpers@2.2.12: {}
+
+  vue-component-type-helpers@3.2.4: {}
 
   vue-eslint-parser@10.2.0(eslint@9.39.2(jiti@2.6.1)):
     dependencies:
