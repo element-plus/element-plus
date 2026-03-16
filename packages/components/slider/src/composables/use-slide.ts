@@ -70,7 +70,7 @@ export const useSlide = (
 
   const resetSize = () => {
     if (slider.value) {
-      const rect = slider.value!.getBoundingClientRect()
+      const rect = slider.value.getBoundingClientRect()
       initData.sliderSize = rect[props.vertical ? 'height' : 'width']
     }
   }
