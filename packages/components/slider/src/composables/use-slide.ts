@@ -16,8 +16,8 @@ export const useSlide = (
   initData: SliderInitData,
   emit: SetupContext<SliderEmits>['emit'],
   slider: Readonly<ShallowRef<HTMLElement | null>>,
-  firstButton: Ref<SliderButtonInstance | null>,
-  secondButton: Ref<SliderButtonInstance | null>
+  firstButton: Readonly<Ref<SliderButtonInstance | null>>,
+  secondButton: Readonly<Ref<SliderButtonInstance | null>>
 ) => {
   const { formItem: elFormItem } = useFormItem()
 
@@ -77,7 +77,7 @@ export const useSlide = (
 
   const getButtonRefByPercent = (
     percent: number
-  ): Ref<SliderButtonInstance | null> => {
+  ): Readonly<Ref<SliderButtonInstance | null>> => {
     const targetValue = props.min + (percent * (props.max - props.min)) / 100
     if (!props.range) {
       return firstButton
@@ -100,7 +100,9 @@ export const useSlide = (
     return buttonRefs[buttonRefName]
   }
 
-  const setPosition = (percent: number): Ref<SliderButtonInstance | null> => {
+  const setPosition = (
+    percent: number
+  ): Readonly<Ref<SliderButtonInstance | null>> => {
     const buttonRef = getButtonRefByPercent(percent)
     buttonRef.value!.setPosition(percent)
     return buttonRef
@@ -136,7 +138,7 @@ export const useSlide = (
 
   const handleSliderPointerEvent = (
     event: MouseEvent | TouchEvent
-  ): Ref<SliderButtonInstance | null> | undefined => {
+  ): Readonly<Ref<SliderButtonInstance | null>> | undefined => {
     if (sliderDisabled.value || initData.dragging) return
     resetSize()
     let newPercent = 0
