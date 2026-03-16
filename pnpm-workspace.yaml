@@ -4,6 +4,12 @@ packages:
   - play
   - internal/*
 
+allowBuilds:
+  '@parcel/watcher': true
+  esbuild: true
+  puppeteer: true
+  vue-demi: true
+
 catalog:
   '@ctrl/tinycolor': ^4.2.0
   '@element-plus/icons-vue': ^2.3.2
@@ -20,14 +26,6 @@ catalog:
   vue: ^3.5.22
   # vitest: ^2.0.5
 
-onlyBuiltDependencies:
-  - '@parcel/watcher'
-  - es5-ext
-  - esbuild
-  - fsevents
-  - puppeteer
-  - vue-demi
-
 overrides:
   jwa: ^1.4.2 # 20697
   typescript: $typescript
@@ -41,8 +39,5 @@ peerDependencyRules:
     - react
     - react-dom
 
-shamefullyHoist: true
-
 shellEmulator: true
-
 strictPeerDependencies: false

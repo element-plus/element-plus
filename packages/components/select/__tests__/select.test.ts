@@ -477,6 +477,39 @@ describe('Select', () => {
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('A2')
     delete process.env.RUN_TEST_WITH_PERSISTENT
   })
+
+  test('keeps empty string label after label update when closed and persistent=false', async () => {
+    process.env.RUN_TEST_WITH_PERSISTENT = 'true'
+    wrapper = _mount(
+      `
+      <el-select v-model="value" :persistent="false">
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value">
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [
+          {
+            value: 'value1',
+            label: '',
+          },
+          {
+            value: 'value2',
+            label: 'B',
+          },
+        ],
+        value: 'value1',
+      })
+    )
+    await nextTick()
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('')
+    delete process.env.RUN_TEST_WITH_PERSISTENT
+  })
+
   test('when there is a default value and persistent is false, render the label and dynamically modify options and modelValue', async () => {
     // This is convenient for testing the default value label rendering when persistent is false.
     process.env.RUN_TEST_WITH_PERSISTENT = 'true'
