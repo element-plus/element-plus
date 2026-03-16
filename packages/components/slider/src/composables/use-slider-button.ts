@@ -360,7 +360,7 @@ export const useSliderButton = (
 
     await nextTick()
     initData.dragging && displayTooltip()
-    tooltipRef.value!.updatePopper()
+    tooltipRef.value?.updatePopper()
   }
 
   watch(
