@@ -9,12 +9,6 @@ catalogs:
     '@ctrl/tinycolor':
       specifier: ^4.2.0
       version: 4.2.0
-    '@element-plus/icons-vue':
-      specifier: ^2.3.2
-      version: 2.3.2
-    '@popperjs/core':
-      specifier: npm:@sxzz/popperjs-es@^2.11.7
-      version: 2.11.7
     '@vitejs/plugin-vue':
       specifier: ^5.1.4
       version: 5.2.4
@@ -33,12 +27,6 @@ catalogs:
     '@vueuse/core':
       specifier: 12.0.0
       version: 12.0.0
-    lodash-unified:
-      specifier: ^1.0.3
-      version: 1.0.3
-    normalize-wheel-es:
-      specifier: ^1.2.0
-      version: 1.2.0
     vue:
       specifier: ^3.5.22
       version: 3.5.25
@@ -147,9 +135,6 @@ importers:
       '@pnpm/types':
         specifier: ^8.4.0
         version: 8.10.0
-      '@types/fs-extra':
-        specifier: ^9.0.13
-        version: 9.0.13
       '@types/jsdom':
         specifier: ^27.0.0
         version: 27.0.0
@@ -2769,9 +2754,6 @@ packages:
 
   '@types/estree@1.0.8':
     resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
-
-  '@types/fs-extra@9.0.13':
-    resolution: {integrity: sha512-nEnwB++1u5lVDM2UI4c1+5R+FYaKfaAzS4OococimjVm3nQw3TuzH5UNsocrcTBbhnerblyHj4A49qXbIiZdpA==}
 
   '@types/hast@3.0.4':
     resolution: {integrity: sha512-WPs+bbQw5aCj+x6laNGWLH3wviHtoCv/P3+otBhbOhJgG8qtpdAMlTCxLtsTWA7LH1Oh/bFCHsBn0TPS5m30EQ==}
@@ -10616,10 +10598,6 @@ snapshots:
   '@types/emscripten@1.41.5': {}
 
   '@types/estree@1.0.8': {}
-
-  '@types/fs-extra@9.0.13':
-    dependencies:
-      '@types/node': 22.19.3
 
   '@types/hast@3.0.4':
     dependencies:

@@ -75,7 +75,6 @@
     "@pnpm/find-workspace-packages": "^4.0.16",
     "@pnpm/logger": "^4.0.0",
     "@pnpm/types": "^8.4.0",
-    "@types/fs-extra": "^9.0.13",
     "@types/jsdom": "^27.0.0",
     "@types/node": "^22.9.0",
     "@vitejs/plugin-vue": "catalog:",

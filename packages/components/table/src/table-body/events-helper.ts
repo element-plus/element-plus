@@ -1,6 +1,11 @@
 import { h, inject, ref } from 'vue'
 import { debounce } from 'lodash-unified'
-import { addClass, hasClass, removeClass } from '@element-plus/utils'
+import {
+  addClass,
+  hasClass,
+  isGreaterThan,
+  removeClass,
+} from '@element-plus/utils'
 import {
   createTablePopper,
   getCell,
@@ -13,10 +18,6 @@ import type { TableColumnCtx } from '../table-column/defaults'
 import type { TableBodyProps } from './defaults'
 import type { TableOverflowTooltipOptions } from '../util'
 import type { DefaultRow } from '../table/defaults'
-
-function isGreaterThan(a: number, b: number, epsilon = 0.03) {
-  return a - b > epsilon
-}
 
 function useEvents<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
   const parent = inject(TABLE_INJECTION_KEY)
