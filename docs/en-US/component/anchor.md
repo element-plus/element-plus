@@ -79,7 +79,7 @@ anchor/affix
 
 | Property                   | Description                                                | Type                                   | Default    |
 | -------------------------- | ---------------------------------------------------------- | -------------------------------------- | ---------- |
-| container                  | Scroll container.                                          | `string` \| `HTMLElement` \| `Window ` | —          |
+| container                  | Scroll container.                                          | `string` \| `HTMLElement` \| `Window`  | —          |
 | offset                     | Set the offset of the anchor scroll.                       | `number`                               | 0          |
 | bound                      | The offset of the element starting to trigger the anchor.  | `number`                               | 15         |
 | duration                   | Set the scroll duration of the container, in milliseconds. | `number`                               | 300        |
