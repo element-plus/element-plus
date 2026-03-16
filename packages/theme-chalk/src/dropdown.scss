@@ -188,6 +188,11 @@ $dropdown-menu-padding-vertical: map.merge(
       cursor: not-allowed;
       color: getCssVar('text-color-disabled');
     }
+
+    @include when(loading) {
+      color: getCssVar('text-color-disabled');
+      pointer-events: none;
+    }
   }
 
   @each $size in (large, small) {

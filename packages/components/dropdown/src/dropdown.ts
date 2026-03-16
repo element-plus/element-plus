@@ -1,3 +1,4 @@
+import { type ComponentInternalInstance, type ComputedRef, markRaw } from 'vue'
 import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import {
@@ -5,12 +6,12 @@ import {
   useTooltipTriggerProps,
 } from '@element-plus/components/tooltip'
 import { roleTypes } from '@element-plus/components/popper'
+import { Loading } from '@element-plus/icons-vue'
 
 import type { TooltipTriggerType } from '@element-plus/components/tooltip'
 import type { Placement } from '@element-plus/components/popper'
 import type { Options } from '@popperjs/core'
 import type { ButtonProps, ButtonType } from '@element-plus/components/button'
-import type { ComponentInternalInstance, ComputedRef } from 'vue'
 import type { Arrayable, Nullable } from '@element-plus/utils'
 
 export interface IElDropdownInstance {
@@ -201,6 +202,14 @@ export const dropdownItemProps = buildProps({
   icon: {
     type: iconPropType,
   },
+  /**
+   * @description whether the item is loading
+   */
+  loading: Boolean,
+  /**
+   * @description custom loading icon
+   */
+  loadingIcon: { type: iconPropType, default: markRaw(Loading) },
 } as const)
 
 export const dropdownMenuProps = buildProps({

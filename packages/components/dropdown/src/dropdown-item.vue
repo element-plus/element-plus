@@ -83,14 +83,14 @@ export default defineComponent({
 
     const handleClick = composeEventHandlers(
       (e: PointerEvent) => {
-        if (props.disabled) {
+        if (props.disabled || props.loading) {
           return
         }
         emit('click', e)
         return e.type !== 'keydown' && e.defaultPrevented
       },
       (e) => {
-        if (props.disabled) {
+        if (props.disabled || props.loading) {
           e.stopImmediatePropagation()
           return
         }

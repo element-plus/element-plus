@@ -8,7 +8,11 @@
     :ref="itemRef"
     v-bind="{ ...dataset, ...$attrs }"
     :aria-disabled="disabled"
-    :class="[ns.be('menu', 'item'), ns.is('disabled', disabled)]"
+    :class="[
+      ns.be('menu', 'item'),
+      ns.is('disabled', disabled),
+      ns.is('loading', loading),
+    ]"
     :tabindex="tabIndex"
     :role="role"
     @click="(e) => $emit('clickimpl', e)"
@@ -18,7 +22,13 @@
     @pointermove="(e) => $emit('pointermove', e)"
     @pointerleave="(e) => $emit('pointerleave', e)"
   >
-    <el-icon v-if="icon || $slots.icon">
+    <template v-if="loading">
+      <slot v-if="$slots.loading" name="loading" />
+      <el-icon v-else :class="ns.is('loading')">
+        <component :is="loadingIcon" />
+      </el-icon>
+    </template>
+    <el-icon v-else-if="icon || $slots.icon">
       <slot name="icon">
         <component :is="icon" />
       </slot>
