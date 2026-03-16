@@ -18,7 +18,7 @@ const useTooltip = (
   props: SliderButtonProps,
   formatTooltip: Ref<SliderProps['formatTooltip']>,
   showTooltip: Ref<SliderProps['showTooltip']>,
-  tooltip: Ref<TooltipInstance | null>
+  tooltip: Readonly<Ref<TooltipInstance | null>>
 ) => {
   const tooltipVisible = ref(false)
 
@@ -54,8 +54,8 @@ export const useSliderButton = (
   props: SliderButtonProps,
   initData: SliderButtonInitData,
   emit: SetupContext<SliderButtonEmits>['emit'],
-  buttonRef: Ref<HTMLDivElement | null>,
-  tooltipRef: Ref<TooltipInstance | null>
+  buttonRef: Readonly<Ref<HTMLDivElement | null>>,
+  tooltipRef: Readonly<Ref<TooltipInstance | null>>
 ) => {
   const {
     disabled,
