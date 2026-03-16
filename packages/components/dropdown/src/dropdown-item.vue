@@ -9,6 +9,9 @@
       <template v-if="$slots.icon" #icon>
         <slot name="icon" />
       </template>
+      <template v-if="$slots.loading" #loading>
+        <slot name="loading" />
+      </template>
 
       <slot />
     </el-dropdown-item-impl>
