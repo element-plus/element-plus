@@ -106,7 +106,22 @@ export function useCheck(
     const checkedKeySet = checkedKeys.value
     const children = node.children
     if (!props.checkStrictly && nodeClick && children?.length) {
-      isChecked = children.some((node) => !node.isEffectivelyChecked)
+      const hiddenKeys = hiddenNodeKeySet.value
+      if (hiddenKeys.size > 0) {
+        // When filter is active, determine toggle direction based on visible
+        // children's check state only, to avoid needing two clicks to uncheck
+        // a parent whose visible children are all checked but hidden children are not
+        const visibleChildren = children.filter(
+          (child) => !hiddenKeys.has(child.key)
+        )
+        const checkTargets =
+          visibleChildren.length > 0 ? visibleChildren : children
+        isChecked = checkTargets.some(
+          (child) => !child.disabled && !checkedKeySet.has(child.key)
+        )
+      } else {
+        isChecked = children.some((node) => !node.isEffectivelyChecked)
+      }
     }
 
     const toggle = (node: TreeNode, checked: CheckboxValueType) => {
