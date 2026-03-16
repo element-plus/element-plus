@@ -6,7 +6,7 @@ export const optionProps = buildProps({
    * @description value of option
    */
   value: {
-    type: [String, Number, Boolean, Object],
+    type: [String, Number, Boolean, Object, null, undefined],
     required: true as const,
   },
   /**
