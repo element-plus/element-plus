@@ -1,5 +1,4 @@
 import { nextTick, ref } from 'vue'
-import { isKorean } from '@element-plus/utils'
 
 interface UseCompositionOptions {
   afterComposition: (event: CompositionEvent) => void
@@ -21,9 +20,6 @@ export function useComposition({
 
   const handleCompositionUpdate = (event: CompositionEvent) => {
     emit?.('compositionupdate', event)
-    const text = (event.target as HTMLInputElement)?.value
-    const lastCharacter = text[text.length - 1] || ''
-    isComposing.value = !isKorean(lastCharacter)
   }
 
   const handleCompositionEnd = (event: CompositionEvent) => {
