@@ -82,6 +82,7 @@
               :effect="tagEffect"
               :hit="tag.hitState"
               :closable="tag.closable"
+              :style="tagStyle"
               disable-transitions
               @close="deleteTag(tag)"
             >
@@ -101,6 +102,7 @@
           >
             <template #default>
               <el-tag
+                ref="collapseItemRef"
                 :closable="false"
                 :size="tagSize"
                 :type="tagType"
@@ -140,16 +142,25 @@
           </el-tooltip>
           <input
             v-if="filterable && !isDisabled"
+            ref="searchInputRef"
             v-model="searchInputValue"
             type="text"
             :class="nsCascader.e('search-input')"
             :placeholder="presentText ? '' : inputPlaceholder"
+            :style="inputStyle"
             @input="(e) => handleInput(searchInputValue, e as InputEvent)"
             @click.stop="togglePopperVisible(true)"
             @keydown.delete="handleDelete"
             @compositionstart="handleComposition"
             @compositionupdate="handleComposition"
             @compositionend="handleComposition"
+          />
+          <span
+            v-if="filterable"
+            ref="calculatorRef"
+            aria-hidden="true"
+            :class="nsCascader.e('search-input-calculator')"
+            v-text="searchInputValue"
           />
         </div>
       </div>
@@ -220,8 +231,10 @@ import {
   computed,
   markRaw,
   nextTick,
+  onBeforeUnmount,
   onMounted,
   ref,
+  shallowRef,
   useAttrs,
   watch,
 } from 'vue'
@@ -248,6 +261,7 @@ import {
 } from '@element-plus/components/form'
 import { ClickOutside as vClickoutside } from '@element-plus/directives'
 import {
+  useCalcInputWidth,
   useComposition,
   useEmptyValues,
   useFocusController,
@@ -257,13 +271,14 @@ import {
 import {
   CHANGE_EVENT,
   EVENT_CODE,
+  MINIMUM_INPUT_WIDTH,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import { ArrowDown, Check, CircleClose } from '@element-plus/icons-vue'
 import { cascaderEmits } from './cascader'
 
 import type { Options } from '@element-plus/components/popper'
-import type { ComputedRef, StyleValue } from 'vue'
+import type { ComponentPublicInstance, ComputedRef, StyleValue } from 'vue'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { InputInstance } from '@element-plus/components/input'
 import type { ScrollbarInstance } from '@element-plus/components/scrollbar'
@@ -357,7 +372,12 @@ const { isComposing, handleComposition } = useComposition({
 const tooltipRef = ref<TooltipInstance>()
 const tagTooltipRef = ref<TooltipInstance>()
 const inputRef = ref<InputInstance>()
+const searchInputRef = ref<HTMLInputElement>()
 const tagWrapper = ref<HTMLDivElement>()
+// Note: Unlike Select component which uses a wrapper div with 'selected-item' class,
+// Cascader directly uses ref on el-tag component, so we need ComponentPublicInstance
+// to access the DOM element via $el property
+const collapseItemRef = ref<ComponentPublicInstance>()
 const cascaderPanelRef = ref<CascaderPanelInstance>()
 const suggestionPanel = ref<ScrollbarInstance>()
 const popperVisible = ref(false)
@@ -367,6 +387,10 @@ const inputValue = ref('')
 const searchInputValue = ref('')
 const tags = ref<Tag[]>([])
 const suggestions = ref<CascaderNode[]>([])
+const tagWrapperWidth = ref(0)
+const collapseItemWidth = ref(0)
+
+const { calculatorRef, inputStyle } = useCalcInputWidth()
 
 const showTagList = computed(() => {
   if (!props.props.multiple) {
@@ -409,20 +433,42 @@ const checkedNodes: ComputedRef<CascaderNode[]> = computed(
   () => cascaderPanelRef.value?.checkedNodes || []
 )
 
-const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
-  disabled: isDisabled,
-  beforeBlur(event) {
-    return (
-      tooltipRef.value?.isFocusInsideContent(event) ||
-      tagTooltipRef.value?.isFocusInsideContent(event)
-    )
-  },
-  afterBlur() {
-    if (props.validateEvent) {
-      formItem?.validate?.('blur').catch((err) => debugWarn(err))
-    }
+const getTargetInput = (): InputInstance | HTMLInputElement | undefined => {
+  if (
+    props.filterable &&
+    multiple.value &&
+    !isDisabled.value &&
+    searchInputRef.value
+  ) {
+    return searchInputRef.value
+  }
+  return inputRef.value
+}
+
+// Create a focus target that routes to the correct input based on mode
+const focusTargetRef = shallowRef<{ focus: () => void }>({
+  focus() {
+    getTargetInput()?.focus()
   },
 })
+
+const { wrapperRef, isFocused, handleBlur } = useFocusController(
+  focusTargetRef,
+  {
+    disabled: isDisabled,
+    beforeBlur(event) {
+      return (
+        tooltipRef.value?.isFocusInsideContent(event) ||
+        tagTooltipRef.value?.isFocusInsideContent(event)
+      )
+    },
+    afterBlur() {
+      if (props.validateEvent) {
+        formItem?.validate?.('blur').catch((err) => debugWarn(err))
+      }
+    },
+  }
+)
 
 const clearBtnVisible = computed(() => {
   if (
@@ -646,9 +692,40 @@ const updateStyle = () => {
     } else {
       tagWrapperEl.style.left = `0`
     }
+    // Measure tag wrapper width for tagStyle calculation
+    tagWrapperWidth.value = tagWrapperEl.getBoundingClientRect().width
+    // Measure collapse item width when maxCollapseTags === 1
+    // Note: We use $el to access DOM element because collapseItemRef is on el-tag component,
+    // unlike Select component where ref is on a wrapper div element
+    if (
+      props.collapseTags &&
+      props.maxCollapseTags === 1 &&
+      collapseItemRef.value?.$el
+    ) {
+      collapseItemWidth.value =
+        collapseItemRef.value.$el.getBoundingClientRect().width
+    } else {
+      collapseItemWidth.value = 0
+    }
     updatePopperPosition()
   }
 }
+
+let updateStyleRafId = 0
+const scheduleUpdateStyle = () => {
+  if (!isClient) return
+  if (updateStyleRafId) return
+  updateStyleRafId = window.requestAnimationFrame(() => {
+    updateStyleRafId = 0
+    updateStyle()
+  })
+}
+
+onBeforeUnmount(() => {
+  if (updateStyleRafId) {
+    window.cancelAnimationFrame(updateStyleRafId)
+  }
+})
 
 const getCheckedNodes = (leafOnly: boolean) => {
   return cascaderPanelRef.value?.getCheckedNodes(leafOnly)
@@ -787,13 +864,48 @@ const getInputInnerHeight = (inputInner: HTMLElement): number =>
     useCssVar(nsInput.cssVarName('input-height'), inputInner).value!
   ) - 2
 
+const getGapWidth = () => {
+  if (!tagWrapper.value) return 0
+  const style = window.getComputedStyle(tagWrapper.value)
+  return Number.parseFloat(style.gap || '6px')
+}
+
+const getHorizontalBoxExtraWidth = () => {
+  if (!tagWrapper.value) return 0
+  const style = window.getComputedStyle(tagWrapper.value)
+  const paddingLeft = Number.parseFloat(style.paddingLeft || '0')
+  const paddingRight = Number.parseFloat(style.paddingRight || '0')
+  const borderLeftWidth = Number.parseFloat(style.borderLeftWidth || '0')
+  const borderRightWidth = Number.parseFloat(style.borderRightWidth || '0')
+  return paddingLeft + paddingRight + borderLeftWidth + borderRightWidth
+}
+
 const focus = () => {
-  inputRef.value?.focus()
+  getTargetInput()?.focus()
 }
 
 const blur = () => {
-  inputRef.value?.blur()
+  getTargetInput()?.blur()
 }
+
+const tagStyle = computed(() => {
+  if (!multiple.value || !tagWrapperWidth.value) {
+    return {}
+  }
+  const gapWidth = getGapWidth()
+  const horizontalPaddingWidth = getHorizontalBoxExtraWidth()
+  const inputSlotWidth =
+    props.filterable && !isDisabled.value ? gapWidth + MINIMUM_INPUT_WIDTH : 0
+  const maxWidth =
+    collapseItemRef.value && props.maxCollapseTags === 1
+      ? tagWrapperWidth.value -
+        collapseItemWidth.value -
+        gapWidth -
+        inputSlotWidth
+      : tagWrapperWidth.value - inputSlotWidth
+
+  return { maxWidth: `${Math.max(maxWidth - horizontalPaddingWidth, 0)}px` }
+})
 
 watch(filtering, updatePopperPosition)
 
@@ -836,6 +948,7 @@ onMounted(() => {
 
   inputInitialHeight = inputInner.offsetHeight || inputInnerHeight
   useResizeObserver(inputInner, updateStyle)
+  useResizeObserver(tagWrapper, scheduleUpdateStyle)
 })
 
 defineExpose({

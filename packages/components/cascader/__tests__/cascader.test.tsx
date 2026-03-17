@@ -613,6 +613,44 @@ describe('Cascader.vue', () => {
     expect(value.value).toEqual([])
   })
 
+  test('filterable: click anywhere inside component should focus input', async () => {
+    // Test multiple mode with filterable (main use case)
+    const wrapperMultiple = _mount(() => (
+      <Cascader props={{ multiple: true }} filterable options={OPTIONS} />
+    ))
+    const triggerMultiple = wrapperMultiple.find(TRIGGER)
+    const searchInput = wrapperMultiple.find('.el-cascader__search-input')
+
+    // Ensure search input exists
+    expect(searchInput.exists()).toBe(true)
+
+    // Click on the wrapper (not directly on search-input)
+    // Use mousedown + mouseup to simulate a real click
+    await triggerMultiple.trigger('mousedown')
+    await triggerMultiple.trigger('mouseup')
+    await triggerMultiple.trigger('click')
+    await nextTick()
+    // Wait a bit more for focus to settle
+    await new Promise((resolve) => setTimeout(resolve, 50))
+    expect(document.activeElement).toBe(searchInput.element)
+
+    // Test clicking on tags area should also focus search-input
+    const tagWrapper = wrapperMultiple.find('.el-cascader__tags')
+    if (tagWrapper.exists()) {
+      // Blur first to reset focus state
+      if (document.activeElement instanceof HTMLElement) {
+        document.activeElement.blur()
+      }
+      await nextTick()
+      await tagWrapper.trigger('mousedown')
+      await tagWrapper.trigger('mouseup')
+      await tagWrapper.trigger('click')
+      await nextTick()
+      await new Promise((resolve) => setTimeout(resolve, 50))
+      expect(document.activeElement).toBe(searchInput.element)
+    }
+  })
+
   test('filter method', async () => {
     const filterMethod = vi.fn((node, keyword) => {
       const { text, value } = node

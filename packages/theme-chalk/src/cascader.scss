@@ -169,12 +169,18 @@
     border-top: map.get($cascader-dropdown, 'border');
   }
 
+  // NOTE:
+  // The tags wrapper grows in height when tags/input wrap.
+  // Using `top: 50%` + `translateY(-50%)` makes its Y-position depend on its own height,
+  // so wrapping causes a visible vertical "jump".
+  // Keep it anchored to the top instead.
+  // Also avoid `top: 0; bottom: 0;` here because the component measures
+  // `tagWrapper.offsetHeight` to resize the input; stretching the wrapper would break that.
   @include e(tags) {
     position: absolute;
     left: 0;
     right: 30px;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 0;
     display: flex;
     flex-wrap: wrap;
     padding: map.get($cascader-wrapper-padding, 'default');
@@ -245,7 +251,7 @@
   @include e(search-input) {
     flex: 1;
     height: map.get($cascader-item-height, 'default');
-    min-width: 60px;
+    width: 100%;
     margin-left: map.get($cascader-search-input-margin-left, 'default');
     padding: 0;
     color: getCssVar('cascader', 'menu-text-color');
@@ -258,5 +264,15 @@
       // two input overlap
       color: transparent;
     }
+  }
+
+  @include e(search-input-calculator) {
+    position: absolute;
+    left: 0;
+    top: 0;
+    max-width: 100%;
+    visibility: hidden;
+    white-space: pre;
+    overflow: hidden;
   }
 }
