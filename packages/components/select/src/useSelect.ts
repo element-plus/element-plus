@@ -253,7 +253,9 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
         (props.loading ||
           !isRemoteSearchEmpty.value ||
           (props.remote && !!slots.empty)) &&
-        (!debouncing.value || !isEmpty(states.previousQuery))
+        (!debouncing.value ||
+          !isEmpty(states.previousQuery) ||
+          states.options.size > 0)
       )
     },
     set(val: boolean) {
