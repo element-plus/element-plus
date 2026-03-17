@@ -725,3 +725,109 @@ describe('InputNumber.vue', () => {
     expect(input.element.value).toBe('10')
   })
 })
+
+describe('filterNumberInput', () => {
+  const triggerInput = async (
+    wrapper: ReturnType<typeof mount>,
+    value: string
+  ) => {
+    const input = wrapper.find('input')
+    input.element.value = value
+    await input.trigger('input')
+  }
+
+  test('converts Chinese full-width period (。) to decimal point', async () => {
+    const handleInput = vi.fn()
+    const num = ref(0)
+    const wrapper = mount(() => (
+      <InputNumber v-model={num.value} onInput={handleInput} />
+    ))
+    await triggerInput(wrapper, '1。5')
+    expect(handleInput).toHaveBeenCalledWith(1.5)
+  })
+
+  test('strips non-numeric characters', async () => {
+    const handleInput = vi.fn()
+    const num = ref(0)
+    const wrapper = mount(() => (
+      <InputNumber v-model={num.value} onInput={handleInput} />
+    ))
+    await triggerInput(wrapper, 'abc')
+    expect(handleInput).toHaveBeenCalledWith(null)
+  })
+
+  test('allows intermediate trailing decimal point in display', async () => {
+    const handleInput = vi.fn()
+    const num = ref(0)
+    const wrapper = mount(() => (
+      <InputNumber v-model={num.value} onInput={handleInput} />
+    ))
+    await triggerInput(wrapper, '1.')
+    // numeric value is 1, but display keeps '1.' for continued typing
+    expect(handleInput).toHaveBeenCalledWith(1)
+    expect(wrapper.find('input').element.value).toBe('1.')
+  })
+
+  test('allows negative numbers', async () => {
+    const handleInput = vi.fn()
+    const num = ref(0)
+    const wrapper = mount(() => (
+      <InputNumber v-model={num.value} onInput={handleInput} />
+    ))
+    await triggerInput(wrapper, '-1.5')
+    expect(handleInput).toHaveBeenCalledWith(-1.5)
+  })
+
+  test('strips extra decimal points, keeping only the first', async () => {
+    const handleInput = vi.fn()
+    const num = ref(0)
+    const wrapper = mount(() => (
+      <InputNumber v-model={num.value} onInput={handleInput} />
+    ))
+    await triggerInput(wrapper, '1.2.3')
+    expect(handleInput).toHaveBeenCalledWith(1.23)
+  })
+
+  test('allows scientific notation by default', async () => {
+    const handleInput = vi.fn()
+    const num = ref(0)
+    const wrapper = mount(() => (
+      <InputNumber v-model={num.value} onInput={handleInput} />
+    ))
+    await triggerInput(wrapper, '1e5')
+    expect(handleInput).toHaveBeenCalledWith(100000)
+  })
+
+  test('strips scientific notation when disabledScientific is set', async () => {
+    const handleInput = vi.fn()
+    const num = ref(0)
+    const wrapper = mount(() => (
+      <InputNumber
+        v-model={num.value}
+        onInput={handleInput}
+        disabledScientific
+      />
+    ))
+    await triggerInput(wrapper, '1e5')
+    // 'e' is stripped, result is '15'
+    expect(handleInput).toHaveBeenCalledWith(15)
+  })
+
+  test('default inputmode attribute is decimal', () => {
+    const num = ref(0)
+    const wrapper = mount(() => <InputNumber v-model={num.value} />)
+    expect(wrapper.find('input').element.getAttribute('inputmode')).toBe(
+      'decimal'
+    )
+  })
+
+  test('inputmode prop overrides the default', () => {
+    const num = ref(0)
+    const wrapper = mount(() => (
+      <InputNumber v-model={num.value} inputmode="numeric" />
+    ))
+    expect(wrapper.find('input').element.getAttribute('inputmode')).toBe(
+      'numeric'
+    )
+  })
+})
