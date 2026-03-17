@@ -219,10 +219,7 @@ const createList = ({
         emit(SCROLL_EVT, scrollDir, scrollOffset, updateRequested)
       }
 
-      const emitEndReached = (
-        direction: 'forward' | 'backward',
-        offset: number
-      ) => {
+      const emitEndReached = (direction: ScrollDirection, offset: number) => {
         const nextEdgeState = getEdgeState(offset)
         const horizontalEnd = props.direction === RTL ? 'left' : 'right'
         const horizontalStart = props.direction === RTL ? 'right' : 'left'

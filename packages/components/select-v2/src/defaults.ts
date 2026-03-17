@@ -12,6 +12,7 @@ import {
   isNumber,
 } from '@element-plus/utils'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { scrollbarEmits } from '@element-plus/components/scrollbar'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { ArrowDown, CircleClose } from '@element-plus/icons-vue'
 import { tagProps } from '../../tag'
@@ -21,7 +22,6 @@ import type SelectV2 from './select.vue'
 import type { Option, OptionType } from './select.types'
 import type { Props } from './useProps'
 import type { EmitFn } from '@element-plus/utils/vue/typescript'
-import type { ScrollbarDirection } from '@element-plus/components/scrollbar'
 import type {
   CSSProperties,
   ExtractPropTypes,
@@ -376,7 +376,7 @@ export const optionV2Props = buildProps({
 export const selectV2Emits = {
   [UPDATE_MODEL_EVENT]: (val: SelectV2Props['modelValue']) => true,
   [CHANGE_EVENT]: (val: SelectV2Props['modelValue']) => true,
-  'end-reached': (direction: ScrollbarDirection) => !!direction,
+  'end-reached': scrollbarEmits['end-reached'],
   'remove-tag': (val: unknown) => true,
   'visible-change': (visible: boolean) => true,
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
