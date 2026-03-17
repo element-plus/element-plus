@@ -33,7 +33,9 @@ function createDemoContainer(md: MarkdownRenderer): ContainerOpts {
         if (!source) throw new Error(`Incorrect source file: ${sourceFile}`)
         const jsSource = sfcTs2js(source)
         const mdRender = (code: string) =>
-          md.render(`\`\`\` vue\n${code}\`\`\``)
+          md.render(
+            `\`\`\` vue\n${code}${code.endsWith('\n') ? '' : '\n'}\`\`\``
+          )
         const encode = (code: string) =>
           encodeURIComponent(code).replace(/'/g, "\\'")
         const sources = `['${encode(mdRender(source))}', '${encode(mdRender(jsSource))}']`
