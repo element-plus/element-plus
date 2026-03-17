@@ -43,19 +43,16 @@
     <el-input
       :id="id"
       ref="input"
-      type="number"
-      :step="step"
+      type="text"
       :model-value="displayValue"
       :placeholder="placeholder"
       :readonly="readonly"
       :disabled="inputNumberDisabled"
       :size="inputNumberSize"
-      :max="max"
-      :min="min"
       :name="name"
       :aria-label="ariaLabel"
       :validate-event="false"
-      :inputmode="inputmode"
+      :inputmode="inputmode ?? 'decimal'"
       @keydown="handleKeydown"
       @blur="handleBlur"
       @focus="handleFocus"
@@ -307,10 +304,41 @@ const setCurrentValue = (
   }
   data.currentValue = newVal
 }
-const handleInput = (value: string) => {
+const filterNumberInput = (value: string): string => {
+  // Convert full-width period to half-width
   value = value.replace(/。/g, '.')
-  data.userInput = value
-  const newVal = value === '' ? null : Number(value)
+  const allowScientific = !props.disabledScientific
+  let result = ''
+  let hasDot = false
+  let hasExp = false
+  for (const ch of value) {
+    if (ch >= '0' && ch <= '9') {
+      result += ch
+    } else if (ch === '-' || ch === '+') {
+      // Sign allowed at start, or immediately after e/E
+      if (result === '' || /[eE]$/.test(result)) {
+        result += ch
+      }
+    } else if (ch === '.') {
+      // At most one dot, not after exponent
+      if (!hasDot && !hasExp) {
+        hasDot = true
+        result += ch
+      }
+    } else if ((ch === 'e' || ch === 'E') && allowScientific) {
+      // At most one exponent, must follow a digit
+      if (!hasExp && /\d$/.test(result)) {
+        hasExp = true
+        result += ch
+      }
+    }
+  }
+  return result
+}
+const handleInput = (value: string) => {
+  const filtered = filterNumberInput(value)
+  data.userInput = filtered
+  const newVal = filtered === '' ? null : Number(filtered)
   emit(INPUT_EVENT, newVal)
   setCurrentValue(newVal, false)
 }
