@@ -153,9 +153,9 @@ Drawer provides an API called `destroy-on-close`, which is a flag variable that 
 
 | Name                | Description                                                                                   |
 | ------------------- | --------------------------------------------------------------------------------------------- |
-| default             | Drawer's Content                                                                              |
-| header              | Drawer header section; Replacing this removes the title, but does not remove the close button |
-| footer              | Drawer footer Section                                                                         |
+| default             | Drawer's content                                                                              |
+| header              | Drawer header section; replacing this removes the title, but does not remove the close button |
+| footer              | Drawer footer section                                                                         |
 | title ^(deprecated) | Works the same as the header slot. Use that instead                                           |
 
 :::warning
@@ -166,6 +166,6 @@ Drawer provides an API called `destroy-on-close`, which is a flag variable that 
 
 ### Exposes
 
-| Name        | Description                                                    |
-| ----------- | -------------------------------------------------------------- |
-| handleClose | In order to close Drawer, this method will call `before-close` |
+| Name        | Description                                           |
+| ----------- | ----------------------------------------------------- |
+| handleClose | To close the Drawer, this method calls `before-close` |

@@ -105,9 +105,9 @@ segmented/custom-style
 
 ### Events
 
-| Name   | Description                                                                   | Type                            |
-| ------ | ----------------------------------------------------------------------------- | ------------------------------- |
-| change | Triggers when the selected value changes, the param is current selected value | ^[Function]`(val: any) => void` |
+| Name   | Description                                                                             | Type                            |
+| ------ | --------------------------------------------------------------------------------------- | ------------------------------- |
+| change | Triggers when the selected value changes, the parameter is the currently selected value | ^[Function]`(val: any) => void` |
 
 ### Slots
 
