@@ -31,7 +31,14 @@ function createDemoContainer(md: MarkdownRenderer): ContainerOpts {
           )
         }
         if (!source) throw new Error(`Incorrect source file: ${sourceFile}`)
-        const jsSource = sfcTs2js(source)
+        let jsSource
+        try {
+          jsSource = sfcTs2js(source)
+        } catch (e: any) {
+          throw new Error(
+            `Error transforming source file ${sourceFile} to js: ${e}`
+          )
+        }
         const mdRender = (code: string) =>
           md.render(
             `\`\`\` vue\n${code}${code.endsWith('\n') ? '' : '\n'}\`\`\``
