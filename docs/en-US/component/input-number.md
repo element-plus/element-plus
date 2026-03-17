@@ -107,48 +107,48 @@ For precision purposes, the input number is limited from [Number.MIN_SAFE_INTEGE
 
 | Name                          | Description                                      | Type                                          | Default                 |
 | ----------------------------- | ------------------------------------------------ | --------------------------------------------- | ----------------------- |
-| model-value / v-model         | binding value                                    | ^[number] / ^[null]                           | —                       |
-| min                           | the minimum allowed value                        | ^[number]                                     | Number.MIN_SAFE_INTEGER |
-| max                           | the maximum allowed value                        | ^[number]                                     | Number.MAX_SAFE_INTEGER |
-| step                          | incremental step                                 | ^[number]                                     | 1                       |
-| step-strictly                 | whether input value can only be multiple of step | ^[boolean]                                    | false                   |
-| precision                     | precision of input value                         | ^[number]                                     | —                       |
-| size                          | size of the component                            | ^[enum]`'large' \| 'default' \| 'small'`      | default                 |
-| readonly ^(2.2.16)            | same as `readonly` in native input               | ^[boolean]                                    | false                   |
-| disabled                      | whether the component is disabled                | ^[boolean]                                    | false                   |
-| controls                      | whether to enable the control buttons            | ^[boolean]                                    | true                    |
-| controls-position             | position of the control buttons                  | ^[enum]`'' \| 'right'`                        | —                       |
-| name                          | same as `name` in native input                   | ^[string]                                     | —                       |
-| aria-label ^(a11y) ^(2.7.2)   | same as `aria-label` in native input             | ^[string]                                     | —                       |
-| placeholder                   | same as `placeholder` in native input            | ^[string]                                     | —                       |
-| id                            | same as `id` in native input                     | ^[string]                                     | —                       |
-| value-on-clear ^(2.2.0)       | value should be set when input box is cleared    | ^[number] / ^[null] / ^[enum]`'min' \| 'max'` | —                       |
-| validate-event                | whether to trigger form validation               | ^[boolean]                                    | true                    |
-| label ^(a11y) ^(deprecated)   | same as `aria-label` in native input             | ^[string]                                     | —                       |
-| inputmode ^(2.10.3)           | same as `inputmode` in native input              | ^[string]                                     | —                       |
-| align ^(2.10.5)               | alignment for the inner input text               | ^[enum]`'left' \| 'center' \| 'right'`        | 'center'                |
-| disabled-scientific ^(2.10.5) | disables input of scientific notation (e.g. 'e') | ^[boolean]                                    | false                   |
+| model-value / v-model         | Binding value                                    | ^[number] / ^[null]                           | —                       |
+| min                           | The minimum allowed value                        | ^[number]                                     | Number.MIN_SAFE_INTEGER |
+| max                           | The maximum allowed value                        | ^[number]                                     | Number.MAX_SAFE_INTEGER |
+| step                          | Incremental step                                 | ^[number]                                     | 1                       |
+| step-strictly                 | Whether input value can only be multiple of step | ^[boolean]                                    | false                   |
+| precision                     | Precision of input value                         | ^[number]                                     | —                       |
+| size                          | Size of the component                            | ^[enum]`'large' \| 'default' \| 'small'`      | default                 |
+| readonly ^(2.2.16)            | Same as `readonly` in native input               | ^[boolean]                                    | false                   |
+| disabled                      | Whether the component is disabled                | ^[boolean]                                    | false                   |
+| controls                      | Whether to enable the control buttons            | ^[boolean]                                    | true                    |
+| controls-position             | Position of the control buttons                  | ^[enum]`'' \| 'right'`                        | —                       |
+| name                          | Same as `name` in native input                   | ^[string]                                     | —                       |
+| aria-label ^(a11y) ^(2.7.2)   | Same as `aria-label` in native input             | ^[string]                                     | —                       |
+| placeholder                   | Same as `placeholder` in native input            | ^[string]                                     | —                       |
+| id                            | Same as `id` in native input                     | ^[string]                                     | —                       |
+| value-on-clear ^(2.2.0)       | Value should be set when input box is cleared    | ^[number] / ^[null] / ^[enum]`'min' \| 'max'` | —                       |
+| validate-event                | Whether to trigger form validation               | ^[boolean]                                    | true                    |
+| label ^(a11y) ^(deprecated)   | Same as `aria-label` in native input             | ^[string]                                     | —                       |
+| inputmode ^(2.10.3)           | Same as `inputmode` in native input              | ^[string]                                     | —                       |
+| align ^(2.10.5)               | Alignment for the inner input text               | ^[enum]`'left' \| 'center' \| 'right'`        | 'center'                |
+| disabled-scientific ^(2.10.5) | Disables input of scientific notation (e.g. 'e') | ^[boolean]                                    | false                   |
 
 ### Slots
 
 | Name                   | Description                           |
 | ---------------------- | ------------------------------------- |
-| decrease-icon ^(2.6.3) | custom input box button decrease icon |
-| increase-icon ^(2.6.3) | custom input box button increase icon |
-| prefix ^(2.8.4)        | content as Input prefix               |
-| suffix ^(2.8.4)        | content as Input suffix               |
+| decrease-icon ^(2.6.3) | Custom input box button decrease icon |
+| increase-icon ^(2.6.3) | Custom input box button increase icon |
+| prefix ^(2.8.4)        | Content as Input prefix               |
+| suffix ^(2.8.4)        | Content as Input suffix               |
 
 ### Events
 
 | Name   | Description                     | Type                                                                                    |
 | ------ | ------------------------------- | --------------------------------------------------------------------------------------- |
-| change | triggers when the value changes | ^[Function]`(currentValue: number \| undefined, oldValue: number \| undefined) => void` |
-| blur   | triggers when Input blurs       | ^[Function]`(event: FocusEvent) => void`                                                |
-| focus  | triggers when Input focuses     | ^[Function]`(event: FocusEvent) => void`                                                |
+| change | Triggers when the value changes | ^[Function]`(currentValue: number \| undefined, oldValue: number \| undefined) => void` |
+| blur   | Triggers when Input blurs       | ^[Function]`(event: FocusEvent) => void`                                                |
+| focus  | Triggers when Input focuses     | ^[Function]`(event: FocusEvent) => void`                                                |
 
 ### Exposes
 
 | Name  | Description                      | Type                    |
 | ----- | -------------------------------- | ----------------------- |
-| focus | get focus the input component    | ^[Function]`() => void` |
-| blur  | remove focus the input component | ^[Function]`() => void` |
+| focus | Get focus the input component    | ^[Function]`() => void` |
+| blur  | Remove focus the input component | ^[Function]`() => void` |

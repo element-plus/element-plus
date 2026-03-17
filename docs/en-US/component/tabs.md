@@ -97,41 +97,41 @@ tabs/default-value
 
 | Name                    | Description                                                                                                                             | Type                                                                                             | Default    |
 | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | ---------- |
-| model-value / v-model   | binding value, name of the selected tab, the default value is the name of first tab                                                     | ^[string] / ^[number]                                                                            | —          |
+| model-value / v-model   | Binding value, name of the selected tab, the default value is the name of first tab                                                     | ^[string] / ^[number]                                                                            | —          |
 | default-value ^(2.11.9) | The value of the tab that should be active when initially rendered. (avoid initial transition)                                          | ^[string] / ^[number]                                                                            | —          |
-| type                    | type of Tab                                                                                                                             | ^[enum]`'' \| 'card' \| 'border-card'`                                                           | ''         |
-| closable                | whether Tab is closable                                                                                                                 | ^[boolean]                                                                                       | false      |
-| addable                 | whether Tab is addable                                                                                                                  | ^[boolean]                                                                                       | false      |
-| editable                | whether Tab is addable and closable                                                                                                     | ^[boolean]                                                                                       | false      |
-| tab-position            | position of tabs                                                                                                                        | ^[enum]`'top' \| 'right' \| 'bottom' \| 'left'`                                                  | top        |
-| stretch                 | whether width of tab automatically fits its container                                                                                   | ^[boolean]                                                                                       | false      |
-| before-leave            | hook function before switching tab. If `false` is returned or a `Promise` is returned and then is rejected, switching will be prevented | ^[Function]`(activeName: TabPaneName, oldActiveName: TabPaneName) => Awaitable<void \| boolean>` | () => true |
-| tabindex ^(2.11.7)      | tabs tabindex                                                                                                                           | ^[string] / ^[number]                                                                            | 0          |
+| type                    | Type of Tab                                                                                                                             | ^[enum]`'' \| 'card' \| 'border-card'`                                                           | ''         |
+| closable                | Whether Tab is closable                                                                                                                 | ^[boolean]                                                                                       | false      |
+| addable                 | Whether Tab is addable                                                                                                                  | ^[boolean]                                                                                       | false      |
+| editable                | Whether Tab is addable and closable                                                                                                     | ^[boolean]                                                                                       | false      |
+| tab-position            | Position of tabs                                                                                                                        | ^[enum]`'top' \| 'right' \| 'bottom' \| 'left'`                                                  | top        |
+| stretch                 | Whether width of tab automatically fits its container                                                                                   | ^[boolean]                                                                                       | false      |
+| before-leave            | Hook function before switching tab. If `false` is returned or a `Promise` is returned and then is rejected, switching will be prevented | ^[Function]`(activeName: TabPaneName, oldActiveName: TabPaneName) => Awaitable<void \| boolean>` | () => true |
+| tabindex ^(2.11.7)      | Tabs tabindex                                                                                                                           | ^[string] / ^[number]                                                                            | 0          |
 
 ### Tabs Events
 
 | Name       | Description                                           | Parameters                                                                           |
 | ---------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------ |
-| tab-click  | triggers when a tab is clicked                        | ^[Function]`(pane: TabsPaneContext, ev: Event) => void`                              |
-| tab-change | triggers when `activeName` is changed                 | ^[Function]`(name: TabPaneName) => void`                                             |
-| tab-remove | triggers when tab-remove button is clicked            | ^[Function]`(name: TabPaneName) => void`                                             |
-| tab-add    | triggers when tab-add button is clicked               | ^[Function]`() => void`                                                              |
-| edit       | triggers when tab-add button or tab-remove is clicked | ^[Function]`(paneName: TabPaneName \| undefined, action: 'remove' \| 'add') => void` |
+| tab-click  | Triggers when a tab is clicked                        | ^[Function]`(pane: TabsPaneContext, ev: Event) => void`                              |
+| tab-change | Triggers when `activeName` is changed                 | ^[Function]`(name: TabPaneName) => void`                                             |
+| tab-remove | Triggers when tab-remove button is clicked            | ^[Function]`(name: TabPaneName) => void`                                             |
+| tab-add    | Triggers when tab-add button is clicked               | ^[Function]`() => void`                                                              |
+| edit       | Triggers when tab-add button or tab-remove is clicked | ^[Function]`(paneName: TabPaneName \| undefined, action: 'remove' \| 'add') => void` |
 
 ### Tabs Slots
 
 | Name                           | Description               | Subtags  |
 | ------------------------------ | ------------------------- | -------- |
-| default                        | customize default content | Tab-pane |
-| add-icon ^(2.5.4)              | customize add button icon | —        |
-| addIcon ^(2.4.0) ^(deprecated) | customize add button icon | —        |
+| default                        | Customize default content | Tab-pane |
+| add-icon ^(2.5.4)              | Customize add button icon | —        |
+| addIcon ^(2.4.0) ^(deprecated) | Customize add button icon | —        |
 
 ### Tabs Exposes
 
 | Name                | Description                | Type                                        |
 | ------------------- | -------------------------- | ------------------------------------------- |
-| currentName         | current active pane name   | ^[object]`Ref<TabPaneName>`                 |
-| tabNavRef ^(2.9.10) | tab-nav component instance | ^[object]`Ref<TabNavInstance \| undefined>` |
+| currentName         | Current active pane name   | ^[object]`Ref<TabPaneName>`                 |
+| tabNavRef ^(2.9.10) | Tab-nav component instance | ^[object]`Ref<TabNavInstance \| undefined>` |
 
 ## Tab-nav API
 
@@ -139,8 +139,8 @@ tabs/default-value
 
 | Name                 | Description                 | Type                                        |
 | -------------------- | --------------------------- | ------------------------------------------- |
-| scrollToActiveTab    | scroll to the active tab    | ^[Function]`() => Promise<void>`            |
-| removeFocus          | remove focus status         | ^[Function]`() => boolean`                  |
+| scrollToActiveTab    | Scroll to the active tab    | ^[Function]`() => Promise<void>`            |
+| removeFocus          | Remove focus status         | ^[Function]`() => boolean`                  |
 | tabListRef ^(2.9.10) | el_tabs\_\_nav html element | ^[object]`Ref<HTMLDivElement \| undefined>` |
 | tabBarRef ^(2.9.10)  | el_tabs\_\_nav bar instance | ^[object]`Ref<TabBarInstance \| undefined>` |
 
@@ -150,11 +150,11 @@ tabs/default-value
 
 | Name     | Description                                                                                                                                                                         | Type                  | Default |
 | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- | ------- |
-| label    | title of the tab                                                                                                                                                                    | ^[string]             | ''      |
-| disabled | whether Tab is disabled                                                                                                                                                             | ^[boolean]            | false   |
-| name     | identifier corresponding to the name of Tabs, representing the alias of the tab-pane, the default is ordinal number of the tab-pane in the sequence, e.g. the first tab-pane is '0' | ^[string] / ^[number] | —       |
-| closable | whether Tab is closable                                                                                                                                                             | ^[boolean]            | false   |
-| lazy     | whether Tab is lazily rendered                                                                                                                                                      | ^[boolean]            | false   |
+| label    | Title of the tab                                                                                                                                                                    | ^[string]             | ''      |
+| disabled | Whether Tab is disabled                                                                                                                                                             | ^[boolean]            | false   |
+| name     | Identifier corresponding to the name of Tabs, representing the alias of the tab-pane, the default is ordinal number of the tab-pane in the sequence, e.g. the first tab-pane is '0' | ^[string] / ^[number] | —       |
+| closable | Whether Tab is closable                                                                                                                                                             | ^[boolean]            | false   |
+| lazy     | Whether Tab is lazily rendered                                                                                                                                                      | ^[boolean]            | false   |
 
 ### Tab-pane Slots
 

@@ -141,43 +141,43 @@ button/custom
 
 | Name              | Description                                                                                                                                          | Type                                                                                                         | Default |
 | ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ------- |
-| size              | button size                                                                                                                                          | ^[enum]`'large' \| 'default' \| 'small'`                                                                     | —       |
-| type              | button type, when setting `color`, the latter prevails                                                                                               | ^[enum]`'default' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| '' \| 'text' (deprecated)` | —       |
-| plain             | determine whether it's a plain button                                                                                                                | ^[boolean]                                                                                                   | false   |
-| text ^(2.2.0)     | determine whether it's a text button                                                                                                                 | ^[boolean]                                                                                                   | false   |
-| bg ^(2.2.0)       | determine whether the text button background color is always on                                                                                      | ^[boolean]                                                                                                   | false   |
-| link ^(2.2.1)     | determine whether it's a link button                                                                                                                 | ^[boolean]                                                                                                   | false   |
-| round             | determine whether it's a round button                                                                                                                | ^[boolean]                                                                                                   | false   |
-| circle            | determine whether it's a circle button                                                                                                               | ^[boolean]                                                                                                   | false   |
-| dashed ^(2.13.3)  | determine whether it's a dashed button                                                                                                               | ^[boolean]                                                                                                   | false   |
-| loading           | determine whether it's loading                                                                                                                       | ^[boolean]                                                                                                   | false   |
-| loading-icon      | customize loading icon component                                                                                                                     | ^[string] / ^[Component]                                                                                     | Loading |
-| disabled          | disable the button                                                                                                                                   | ^[boolean]                                                                                                   | false   |
-| icon              | icon component                                                                                                                                       | ^[string] / ^[Component]                                                                                     | —       |
-| autofocus         | same as native button's `autofocus`                                                                                                                  | ^[boolean]                                                                                                   | false   |
-| native-type       | same as native button's `type`                                                                                                                       | ^[enum]`'button' \| 'submit' \| 'reset'`                                                                     | button  |
-| auto-insert-space | automatically insert a space between two chinese characters(this will only take effect when the text length is 2 and all characters are in Chinese.) | ^[boolean]                                                                                                   | false   |
-| color             | custom button color, automatically calculate `hover` and `active` color                                                                              | ^[string]                                                                                                    | —       |
-| dark              | dark mode, which automatically converts `color` to dark mode colors                                                                                  | ^[boolean]                                                                                                   | false   |
-| tag ^(2.3.4)      | custom element tag                                                                                                                                   | ^[string] / ^[Component]                                                                                     | button  |
+| size              | Button size                                                                                                                                          | ^[enum]`'large' \| 'default' \| 'small'`                                                                     | —       |
+| type              | Button type, when setting `color`, the latter prevails                                                                                               | ^[enum]`'default' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| '' \| 'text' (deprecated)` | —       |
+| plain             | Determine whether it's a plain button                                                                                                                | ^[boolean]                                                                                                   | false   |
+| text ^(2.2.0)     | Determine whether it's a text button                                                                                                                 | ^[boolean]                                                                                                   | false   |
+| bg ^(2.2.0)       | Determine whether the text button background color is always on                                                                                      | ^[boolean]                                                                                                   | false   |
+| link ^(2.2.1)     | Determine whether it's a link button                                                                                                                 | ^[boolean]                                                                                                   | false   |
+| round             | Determine whether it's a round button                                                                                                                | ^[boolean]                                                                                                   | false   |
+| circle            | Determine whether it's a circle button                                                                                                               | ^[boolean]                                                                                                   | false   |
+| dashed ^(2.13.3)  | Determine whether it's a dashed button                                                                                                               | ^[boolean]                                                                                                   | false   |
+| loading           | Determine whether it's loading                                                                                                                       | ^[boolean]                                                                                                   | false   |
+| loading-icon      | Customize loading icon component                                                                                                                     | ^[string] / ^[Component]                                                                                     | Loading |
+| disabled          | Disable the button                                                                                                                                   | ^[boolean]                                                                                                   | false   |
+| icon              | Icon component                                                                                                                                       | ^[string] / ^[Component]                                                                                     | —       |
+| autofocus         | Same as native button's `autofocus`                                                                                                                  | ^[boolean]                                                                                                   | false   |
+| native-type       | Same as native button's `type`                                                                                                                       | ^[enum]`'button' \| 'submit' \| 'reset'`                                                                     | button  |
+| auto-insert-space | Automatically insert a space between two chinese characters(this will only take effect when the text length is 2 and all characters are in Chinese.) | ^[boolean]                                                                                                   | false   |
+| color             | Custom button color, automatically calculate `hover` and `active` color                                                                              | ^[string]                                                                                                    | —       |
+| dark              | Dark mode, which automatically converts `color` to dark mode colors                                                                                  | ^[boolean]                                                                                                   | false   |
+| tag ^(2.3.4)      | Custom element tag                                                                                                                                   | ^[string] / ^[Component]                                                                                     | button  |
 
 ### Button Slots
 
 | Name    | Description                 |
 | ------- | --------------------------- |
-| default | customize default content   |
-| loading | customize loading component |
-| icon    | customize icon component    |
+| default | Customize default content   |
+| loading | Customize loading component |
+| icon    | Customize icon component    |
 
 ### Button Exposes
 
 | Name           | Description          | Type                                                                                                           |
 | -------------- | -------------------- | -------------------------------------------------------------------------------------------------------------- |
-| ref            | button html element  | ^[object]`Ref<HTMLButtonElement>`                                                                              |
-| size           | button size          | ^[object]`ComputedRef<'' \| 'small' \| 'default' \| 'large'>`                                                  |
-| type           | button type          | ^[object]`ComputedRef<'' \| 'default' \| 'primary' \| 'success' \| 'warning' \| 'info' \| 'danger' \| 'text'>` |
-| disabled       | button disabled      | ^[object]`ComputedRef<boolean>`                                                                                |
-| shouldAddSpace | whether adding space | ^[object]`ComputedRef<boolean>`                                                                                |
+| ref            | Button html element  | ^[object]`Ref<HTMLButtonElement>`                                                                              |
+| size           | Button size          | ^[object]`ComputedRef<'' \| 'small' \| 'default' \| 'large'>`                                                  |
+| type           | Button type          | ^[object]`ComputedRef<'' \| 'default' \| 'primary' \| 'success' \| 'warning' \| 'info' \| 'danger' \| 'text'>` |
+| disabled       | Button disabled      | ^[object]`ComputedRef<boolean>`                                                                                |
+| shouldAddSpace | Whether adding space | ^[object]`ComputedRef<boolean>`                                                                                |
 
 ## ButtonGroup API
 
@@ -185,12 +185,12 @@ button/custom
 
 | Name                | Description                                      | Type                                                               | Default    |
 | ------------------- | ------------------------------------------------ | ------------------------------------------------------------------ | ---------- |
-| size                | control the size of buttons in this button-group | ^[enum]`'large' \| 'default' \| 'small'`                           | —          |
-| type                | control the type of buttons in this button-group | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | —          |
-| direction ^(2.11.9) | display direction                                | ^[enum]`'horizontal' \| 'vertical'`                                | horizontal |
+| size                | Control the size of buttons in this button-group | ^[enum]`'large' \| 'default' \| 'small'`                           | —          |
+| type                | Control the type of buttons in this button-group | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | —          |
+| direction ^(2.11.9) | Display direction                                | ^[enum]`'horizontal' \| 'vertical'`                                | horizontal |
 
 ### ButtonGroup Slots
 
 | Name    | Description                    | Subtags |
 | ------- | ------------------------------ | ------- |
-| default | customize button group content | Button  |
+| default | Customize button group content | Button  |

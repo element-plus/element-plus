@@ -129,21 +129,21 @@ ElNotification({}, appContext)
 
 | Name                     | Description                                                                                                        | Type                                                                             | Default   |
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------- | --------- |
-| title                    | title                                                                                                              | ^[string]                                                                        | ''        |
-| message                  | description text                                                                                                   | ^[string] / ^[VNode] / ^[Function]`() => VNode`                                  | ''        |
-| dangerouslyUseHTMLString | whether `message` is treated as HTML string                                                                        | ^[boolean]                                                                       | false     |
-| type                     | notification type                                                                                                  | ^[enum]`'primary' (2.9.11) \| 'success' \| 'warning' \| 'info' \| 'error' \| ''` | ''        |
-| icon                     | custom icon component. It will be overridden by `type`                                                             | ^[string] / ^[Component]                                                         | —         |
-| customClass              | custom class name for Notification                                                                                 | ^[string]                                                                        | ''        |
-| duration                 | duration before close. It will not automatically close if set 0                                                    | ^[number]                                                                        | 4500      |
-| position                 | custom position                                                                                                    | ^[enum]`'top-right' \| 'top-left' \| 'bottom-right' \| 'bottom-left'`            | top-right |
-| showClose                | whether to show a close button                                                                                     | ^[boolean]                                                                       | true      |
-| onClose                  | callback function when closed                                                                                      | ^[Function]`() => void`                                                          | —         |
-| onClick                  | callback function when notification clicked                                                                        | ^[Function]`() => void`                                                          | —         |
-| offset                   | offset from the top edge of the screen. Every Notification instance of the same moment should have the same offset | ^[number]                                                                        | 0         |
-| appendTo                 | set the root element for the notification, default to `document.body`                                              | ^[CSSSelector] / ^[HTMLElement]                                                  | —         |
-| zIndex                   | initial zIndex                                                                                                     | ^[number]                                                                        | 0         |
-| closeIcon ^(2.9.8)       | custom close icon                                                                                                  | ^[string] / ^[Component]                                                         | Close     |
+| title                    | Title                                                                                                              | ^[string]                                                                        | ''        |
+| message                  | Description text                                                                                                   | ^[string] / ^[VNode] / ^[Function]`() => VNode`                                  | ''        |
+| dangerouslyUseHTMLString | Whether `message` is treated as HTML string                                                                        | ^[boolean]                                                                       | false     |
+| type                     | Notification type                                                                                                  | ^[enum]`'primary' (2.9.11) \| 'success' \| 'warning' \| 'info' \| 'error' \| ''` | ''        |
+| icon                     | Custom icon component. It will be overridden by `type`                                                             | ^[string] / ^[Component]                                                         | —         |
+| customClass              | Custom class name for Notification                                                                                 | ^[string]                                                                        | ''        |
+| duration                 | Duration before close. It will not automatically close if set 0                                                    | ^[number]                                                                        | 4500      |
+| position                 | Custom position                                                                                                    | ^[enum]`'top-right' \| 'top-left' \| 'bottom-right' \| 'bottom-left'`            | top-right |
+| showClose                | Whether to show a close button                                                                                     | ^[boolean]                                                                       | true      |
+| onClose                  | Callback function when closed                                                                                      | ^[Function]`() => void`                                                          | —         |
+| onClick                  | Callback function when notification clicked                                                                        | ^[Function]`() => void`                                                          | —         |
+| offset                   | Offset from the top edge of the screen. Every Notification instance of the same moment should have the same offset | ^[number]                                                                        | 0         |
+| appendTo                 | Set the root element for the notification, default to `document.body`                                              | ^[CSSSelector] / ^[HTMLElement]                                                  | —         |
+| zIndex                   | Initial zIndex                                                                                                     | ^[number]                                                                        | 0         |
+| closeIcon ^(2.9.8)       | Custom close icon                                                                                                  | ^[string] / ^[Component]                                                         | Close     |
 
 ### Method
 
@@ -151,4 +151,4 @@ ElNotification({}, appContext)
 
 | Name  | Description            | Type                    |
 | ----- | ---------------------- | ----------------------- |
-| close | close the Notification | ^[Function]`() => void` |
+| close | Close the Notification | ^[Function]`() => void` |

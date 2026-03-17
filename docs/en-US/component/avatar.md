@@ -61,27 +61,27 @@ avatar/group
 
 ### Avatar Attributes
 
-| Name    | Description                                               | Type                                                              | Default |
-| ------- | --------------------------------------------------------- | ----------------------------------------------------------------- | ------- |
-| icon    | representation type to icon, more info on icon component. | ^[string] / ^[Component]                                          | —       |
-| size    | avatar size.                                              | ^[number] / ^[enum]`'large' \| 'default' \| 'small'`              | —       |
-| shape   | avatar shape.                                             | ^[enum]`'circle' \| 'square'`                                     | —       |
-| src     | the source of the image for an image avatar.              | `string`                                                          | —       |
-| src-set | native attribute `srcset` of image avatar.                | `string`                                                          | —       |
-| alt     | native attribute `alt` of image avatar.                   | `string`                                                          | —       |
-| fit     | set how the image fit its container for an image avatar.  | ^[enum]`'fill' \| 'contain' \| 'cover' \| 'none' \| 'scale-down'` | cover   |
+| Name    | Description                                              | Type                                                              | Default |
+| ------- | -------------------------------------------------------- | ----------------------------------------------------------------- | ------- |
+| icon    | Representation type to icon, more info on icon component | ^[string] / ^[Component]                                          | —       |
+| size    | Avatar size                                              | ^[number] / ^[enum]`'large' \| 'default' \| 'small'`              | —       |
+| shape   | Avatar shape                                             | ^[enum]`'circle' \| 'square'`                                     | —       |
+| src     | The source of the image for an image avatar              | `string`                                                          | —       |
+| src-set | Native attribute `srcset` of image avatar                | `string`                                                          | —       |
+| alt     | Native attribute `alt` of image avatar                   | `string`                                                          | —       |
+| fit     | Set how the image fit its container for an image avatar  | ^[enum]`'fill' \| 'contain' \| 'cover' \| 'none' \| 'scale-down'` | cover   |
 
 ### Avatar Events
 
-| Name  | Description                    | Type                            |
-| ----- | ------------------------------ | ------------------------------- |
-| error | trigger when image load error. | ^[Function]`(e: Event) => void` |
+| Name  | Description                   | Type                            |
+| ----- | ----------------------------- | ------------------------------- |
+| error | Trigger when image load error | ^[Function]`(e: Event) => void` |
 
 ### Avatar Slots
 
-| Name    | Description               |
-| ------- | ------------------------- |
-| default | customize avatar content. |
+| Name    | Description              |
+| ------- | ------------------------ |
+| default | Customize avatar content |
 
 ## AvatarGroup API ^(2.13.1)
 
@@ -89,14 +89,14 @@ avatar/group
 
 | Name                     | Description                                                                                                                   | Type                                                                                                                                                                        | Default |
 | ------------------------ | ----------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
-| size                     | control the size of avatars in this avatar-group                                                                              | ^[number] / ^[enum]`'large' \| 'default' \| 'small'`                                                                                                                        | —       |
-| shape                    | control the shape of avatars in this avatar-group                                                                             | ^[enum]`'circle' \| 'square'`                                                                                                                                               | —       |
-| collapse-avatars         | whether to collapse avatars                                                                                                   | ^[boolean]                                                                                                                                                                  | false   |
-| collapse-avatars-tooltip | whether show all collapsed avatars when mouse hover text of the collapse-avatar. To use this, `collapse-avatars` must be true | ^[boolean]                                                                                                                                                                  | false   |
-| max-collapse-avatars     | the max avatars number to be shown. To use this, `collapse-avatars` must be true                                              | ^[number]                                                                                                                                                                   | 1       |
-| effect                   | tooltip theme, built-in theme: `dark` / `light`                                                                               | ^[enum]`'dark' \| 'light'` / ^[string]                                                                                                                                      | light   |
-| placement                | placement of tooltip                                                                                                          | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | top     |
-| popper-class             | custom class name for tooltip                                                                                                 | ^[string]                                                                                                                                                                   | ''      |
-| popper-style             | custom style for tooltip                                                                                                      | ^[string] / ^[object]                                                                                                                                                       | —       |
-| collapse-class           | custom class name for the collapse-avatar                                                                                     | ^[string]                                                                                                                                                                   | ''      |
-| collapse-style           | custom style for the collapse-avatar                                                                                          | ^[string] / ^[object]                                                                                                                                                       | —       |
+| size                     | Control the size of avatars in this avatar-group                                                                              | ^[number] / ^[enum]`'large' \| 'default' \| 'small'`                                                                                                                        | —       |
+| shape                    | Control the shape of avatars in this avatar-group                                                                             | ^[enum]`'circle' \| 'square'`                                                                                                                                               | —       |
+| collapse-avatars         | Whether to collapse avatars                                                                                                   | ^[boolean]                                                                                                                                                                  | false   |
+| collapse-avatars-tooltip | Whether show all collapsed avatars when mouse hover text of the collapse-avatar. To use this, `collapse-avatars` must be true | ^[boolean]                                                                                                                                                                  | false   |
+| max-collapse-avatars     | The max avatars number to be shown. To use this, `collapse-avatars` must be true                                              | ^[number]                                                                                                                                                                   | 1       |
+| effect                   | Tooltip theme, built-in theme: `dark` / `light`                                                                               | ^[enum]`'dark' \| 'light'` / ^[string]                                                                                                                                      | light   |
+| placement                | Placement of tooltip                                                                                                          | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | top     |
+| popper-class             | Custom class name for tooltip                                                                                                 | ^[string]                                                                                                                                                                   | ''      |
+| popper-style             | Custom style for tooltip                                                                                                      | ^[string] / ^[object]                                                                                                                                                       | —       |
+| collapse-class           | Custom class name for the collapse-avatar                                                                                     | ^[string]                                                                                                                                                                   | ''      |
+| collapse-style           | Custom style for the collapse-avatar                                                                                          | ^[string] / ^[object]                                                                                                                                                       | —       |

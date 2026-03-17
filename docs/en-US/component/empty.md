@@ -72,14 +72,14 @@ But usually, if you want to change style, you need to change all color, because 
 
 | Name        | Description                 | Type      | Default |
 | ----------- | --------------------------- | --------- | ------- |
-| image       | image URL of empty          | ^[string] | ''      |
-| image-size  | image size (width) of empty | ^[number] | —       |
-| description | description of empty        | ^[string] | ''      |
+| image       | Image URL of empty          | ^[string] | ''      |
+| image-size  | Image size (width) of empty | ^[number] | —       |
+| description | Description of empty        | ^[string] | ''      |
 
 ### Slots
 
 | Name        | Description               |
 | ----------- | ------------------------- |
-| default     | content as bottom content |
-| image       | content as image          |
-| description | content as description    |
+| default     | Content as bottom content |
+| image       | Content as image          |
+| description | Content as description    |

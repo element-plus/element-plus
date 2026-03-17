@@ -173,7 +173,7 @@ tooltip/append-to
 | offset                    | Offset of the Tooltip                                                                                                                                                                 | ^[number]                                                                                                                                                                   | 12                |
 | transition                | Animation name                                                                                                                                                                        | ^[string]                                                                                                                                                                   | —                 |
 | popper-options            | [popper.js](https://popper.js.org/docs/v2/) parameters                                                                                                                                | ^[object]refer to [popper.js](https://popper.js.org/docs/v2/) doc                                                                                                           | {}                |
-| arrow-offset ^(2.9.10)    | Controls the offset (padding) of the tooltip’s arrow relative to the popper.                                                                                                          | ^[number]                                                                                                                                                                   | 5                 |
+| arrow-offset ^(2.9.10)    | Controls the offset (padding) of the tooltip’s arrow relative to the popper                                                                                                           | ^[number]                                                                                                                                                                   | 5                 |
 | show-after                | Delay of appearance, in millisecond, not valid in controlled mode                                                                                                                     | ^[number]                                                                                                                                                                   | 0                 |
 | show-arrow                | Whether the tooltip content has an arrow                                                                                                                                              | ^[boolean]                                                                                                                                                                  | true              |
 | hide-after                | Delay of disappear, in millisecond, not valid in controlled mode                                                                                                                      | ^[number]                                                                                                                                                                   | 200               |
@@ -192,12 +192,12 @@ tooltip/append-to
 
 ### Events
 
-| Name        | Description                                                           | Type                                 |
-| ----------- | --------------------------------------------------------------------- | ------------------------------------ |
-| before-show | Triggers before tooltip is shown. Passes trigger reason as argument.  | ^[Function]`(event?: Event) => void` |
-| show        | Triggers when tooltip is shown. Passes trigger reason as argument.    | ^[Function]`(event?: Event) => void` |
-| before-hide | Triggers before tooltip is hidden. Passes trigger reason as argument. | ^[Function]`(event?: Event) => void` |
-| hide        | Triggers when tooltip is hidden. Passes trigger reason as argument.   | ^[Function]`(event?: Event) => void` |
+| Name        | Description                                                          | Type                                 |
+| ----------- | -------------------------------------------------------------------- | ------------------------------------ |
+| before-show | Triggers before tooltip is shown. Passes trigger reason as argument  | ^[Function]`(event?: Event) => void` |
+| show        | Triggers when tooltip is shown. Passes trigger reason as argument    | ^[Function]`(event?: Event) => void` |
+| before-hide | Triggers before tooltip is hidden. Passes trigger reason as argument | ^[Function]`(event?: Event) => void` |
+| hide        | Triggers when tooltip is hidden. Passes trigger reason as argument   | ^[Function]`(event?: Event) => void` |
 
 ### Slots
 

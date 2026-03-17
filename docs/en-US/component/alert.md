@@ -79,27 +79,27 @@ alert/icon-description
 
 ### Attributes
 
-| Name        | Description                              | Type                                                                       | Default |
-| ----------- | ---------------------------------------- | -------------------------------------------------------------------------- | ------- |
-| title       | alert title.                             | ^[string]                                                                  | —       |
-| type        | alert type.                              | ^[enum]`'primary' (2.9.11) \| 'success' \| 'warning' \| 'info' \| 'error'` | info    |
-| description | descriptive text.                        | ^[string]                                                                  | —       |
-| closable    | whether alert can be dismissed.          | ^[boolean]                                                                 | true    |
-| center      | whether content is placed in the center. | ^[boolean]                                                                 | false   |
-| close-text  | customized close button text.            | ^[string]                                                                  | —       |
-| show-icon   | whether a type icon is displayed.        | ^[boolean]                                                                 | false   |
-| effect      | theme style.                             | ^[enum]`'light' \| 'dark'`                                                 | light   |
+| Name        | Description                             | Type                                                                       | Default |
+| ----------- | --------------------------------------- | -------------------------------------------------------------------------- | ------- |
+| title       | Alert title                             | ^[string]                                                                  | —       |
+| type        | Alert type                              | ^[enum]`'primary' (2.9.11) \| 'success' \| 'warning' \| 'info' \| 'error'` | info    |
+| description | Descriptive text                        | ^[string]                                                                  | —       |
+| closable    | Whether alert can be dismissed          | ^[boolean]                                                                 | true    |
+| center      | Whether content is placed in the center | ^[boolean]                                                                 | false   |
+| close-text  | Customized close button text            | ^[string]                                                                  | —       |
+| show-icon   | Whether a type icon is displayed        | ^[boolean]                                                                 | false   |
+| effect      | Theme style                             | ^[enum]`'light' \| 'dark'`                                                 | light   |
 
 ### Events
 
-| Name  | Description                   | Type                                     |
-| ----- | ----------------------------- | ---------------------------------------- |
-| close | trigger when alert is closed. | ^[Function]`(event: MouseEvent) => void` |
+| Name  | Description                  | Type                                     |
+| ----- | ---------------------------- | ---------------------------------------- |
+| close | Trigger when alert is closed | ^[Function]`(event: MouseEvent) => void` |
 
 ### Slots
 
-| Name          | Description                       |
-| ------------- | --------------------------------- |
-| default       | content of the alert description. |
-| title         | content of the alert title.       |
-| icon ^(2.9.7) | content of the alert icon.        |
+| Name          | Description                      |
+| ------------- | -------------------------------- |
+| default       | Content of the alert description |
+| title         | Content of the alert title       |
+| icon ^(2.9.7) | Content of the alert icon        |

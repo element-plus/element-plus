@@ -43,29 +43,29 @@ affix/fixed
 
 | Name                 | Description                                                                                    | Type                            | Default |
 | -------------------- | ---------------------------------------------------------------------------------------------- | ------------------------------- | ------- |
-| offset               | offset distance                                                                                | ^[number]                       | 0       |
-| position             | position of affix                                                                              | ^[enum]`'top' \| 'bottom'`      | top     |
-| target               | target container (CSS selector)                                                                | ^[string]                       | —       |
+| offset               | Offset distance                                                                                | ^[number]                       | 0       |
+| position             | Position of affix                                                                              | ^[enum]`'top' \| 'bottom'`      | top     |
+| target               | Target container (CSS selector)                                                                | ^[string]                       | —       |
 | z-index              | `z-index` of affix                                                                             | ^[number]                       | 100     |
-| teleported ^(2.13.0) | whether affix element is teleported, if `true` it will be teleported to where `append-to` sets | ^[boolean]                      | false   |
-| append-to ^(2.13.0)  | which element the affix element appends to                                                     | ^[CSSSelector] / ^[HTMLElement] | body    |
+| teleported ^(2.13.0) | Whether affix element is teleported, if `true` it will be teleported to where `append-to` sets | ^[boolean]                      | false   |
+| append-to ^(2.13.0)  | Which element the affix element appends to                                                     | ^[CSSSelector] / ^[HTMLElement] | body    |
 
 ### Events
 
 | Name   | Description                       | Type                                                                |
 | ------ | --------------------------------- | ------------------------------------------------------------------- |
-| change | triggers when fixed state changed | ^[Function]`(fixed: boolean) => void`                               |
-| scroll | triggers when scrolling           | ^[Function]`(value: { scrollTop: number, fixed: boolean }) => void` |
+| change | Triggers when fixed state changed | ^[Function]`(fixed: boolean) => void`                               |
+| scroll | Triggers when scrolling           | ^[Function]`(value: { scrollTop: number, fixed: boolean }) => void` |
 
 ### Slots
 
 | Name    | Description               |
 | ------- | ------------------------- |
-| default | customize default content |
+| default | Customize default content |
 
 ### Exposes
 
 | Name       | Description                 | Type                    |
 | ---------- | --------------------------- | ----------------------- |
-| update     | update affix state manually | ^[Function]`() => void` |
-| updateRoot | update rootRect info        | ^[Function]`() => void` |
+| update     | Update affix state manually | ^[Function]`() => void` |
+| updateRoot | Update rootRect info        | ^[Function]`() => void` |
