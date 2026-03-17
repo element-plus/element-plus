@@ -1,6 +1,7 @@
 import path from 'path'
 import fs from 'fs'
 import { docRoot } from '@element-plus/build-utils'
+import { sfcTs2js } from '../utils/ts2js'
 
 import type { MarkdownRenderer } from 'vitepress'
 
@@ -30,13 +31,16 @@ function createDemoContainer(md: MarkdownRenderer): ContainerOpts {
           )
         }
         if (!source) throw new Error(`Incorrect source file: ${sourceFile}`)
-
-        return `<Demo source="${encodeURIComponent(
-          md.render(`\`\`\` vue\n${source}\`\`\``)
-        )}" path="${sourceFile}" raw-source="${encodeURIComponent(
-          source
-        )}" description="${encodeURIComponent(md.render(description))}">
+        const jsSource = sfcTs2js(source)
+        const mdRender = (code: string) =>
+          md.render(`\`\`\` vue\n${code}\`\`\``)
+        const encode = (code: string) =>
+          encodeURIComponent(code).replace(/'/g, "\\'")
+        const sources = `['${encode(mdRender(source))}', '${encode(mdRender(jsSource))}']`
+        const rawSources = `['${encode(source)}', '${encode(jsSource)}']`
+        const res = `<Demo :sources="${sources}" path="${sourceFile}" :raw-sources="${rawSources}" description="${encodeURIComponent(md.render(description))}">
   <template #source><ep-${sourceFile.replaceAll('/', '-')}/></template>`
+        return res
       } else {
         return '</Demo>\n'
       }

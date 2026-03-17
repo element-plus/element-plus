@@ -1,4 +1,4 @@
-import { onMounted, ref, watch } from 'vue'
+import { ComputedRef, computed, onMounted, ref, watch } from 'vue'
 import { isClient } from '@vueuse/core'
 import { utoa } from '../utils'
 import { isDark } from './dark'
@@ -12,35 +12,37 @@ export const usePreview = () => isClient && location.host.startsWith('preview')
 export const usePreviewPR = () =>
   isClient ? location.host.split('-', 2)[1] : ''
 
-export const usePlayground = (source: string) => {
-  const code = source ? decodeURIComponent(source) : source
-  const originCode = {
-    [MAIN_FILE_NAME]: code,
-  }
+export const usePlayground = (source: ComputedRef<string>) => {
+  const code = computed(() =>
+    source.value ? decodeURIComponent(source.value) : source.value
+  )
+  const originCode = computed(() => ({
+    [MAIN_FILE_NAME]: code.value,
+  }))
+  const encoded = computed(() =>
+    code.value ? utoa(JSON.stringify(originCode.value)) : ''
+  )
 
-  const encoded = code ? utoa(JSON.stringify(originCode)) : ''
+  const link = computed(() => {
+    const _link = new URL('https://element-plus.run/')
 
-  const link = new URL('https://element-plus.run/')
-
-  if (usePreview()) {
-    link.searchParams.append('pr', usePreviewPR())
-  }
-
-  if (isDark.value) {
-    link.searchParams.append('theme', 'dark')
-  }
-
-  if (code.includes('@vueuse/core')) {
-    link.searchParams.append('extra_packages', '@vueuse/core')
-  }
-
-  if (code) {
-    link.hash = encoded
-  }
+    if (usePreview()) {
+      _link.searchParams.append('pr', usePreviewPR())
+    }
+    if (isDark.value) {
+      _link.searchParams.append('theme', 'dark')
+    }
+    if (code.value.includes('@vueuse/core')) {
+      _link.searchParams.append('extra_packages', '@vueuse/core')
+    }
+    if (code.value) {
+      _link.hash = encoded.value
+    }
+    return _link.toString()
+  })
 
   return {
-    encoded,
-    link: link.toString(),
+    link,
   }
 }
 
