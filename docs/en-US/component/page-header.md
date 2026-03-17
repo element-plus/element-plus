@@ -104,23 +104,23 @@ The component is consisted of these parts
 
 | Name    | Description                                                   | Type                     | Default |
 | ------- | ------------------------------------------------------------- | ------------------------ | ------- |
-| icon    | icon component of page header                                 | ^[string] / ^[Component] | Back    |
-| title   | main title of page header, default is Back that built-in a11y | ^[string]                | ''      |
-| content | content of page header                                        | ^[string]                | ''      |
+| icon    | Icon component of page header                                 | ^[string] / ^[Component] | Back    |
+| title   | Main title of page header, default is Back that built-in a11y | ^[string]                | ''      |
+| content | Content of page header                                        | ^[string]                | ''      |
 
 ### Events
 
 | Name | Description                         | Type                    |
 | ---- | ----------------------------------- | ----------------------- |
-| back | triggers when right side is clicked | ^[Function]`() => void` |
+| back | Triggers when right side is clicked | ^[Function]`() => void` |
 
 ### Slots
 
 | Name       | Description           |
 | ---------- | --------------------- |
-| icon       | content as icon       |
-| title      | content as title      |
-| content    | content               |
-| extra      | extra                 |
-| breadcrumb | content as breadcrumb |
-| default    | main content          |
+| icon       | Content as icon       |
+| title      | Content as title      |
+| content    | Content               |
+| extra      | Extra                 |
+| breadcrumb | Content as breadcrumb |
+| default    | Main content          |

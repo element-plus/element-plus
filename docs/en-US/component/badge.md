@@ -59,22 +59,22 @@ badge/offset
 
 ### Attributes
 
-| Name                 | Description                                                                   | Type                                                               | Default |
-| -------------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------------------ | ------- |
-| value                | display value.                                                                | ^[string] / ^[number]                                              | ''      |
-| max                  | maximum value, shows `{max}+` when exceeded. Only works if value is a number. | ^[number]                                                          | 99      |
-| is-dot               | if a little dot is displayed.                                                 | ^[boolean]                                                         | false   |
-| hidden               | hidden badge.                                                                 | ^[boolean]                                                         | false   |
-| type                 | badge type.                                                                   | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | danger  |
-| show-zero ^(2.6.0)   | Whether to show badge when value is zero.                                     | ^[boolean]                                                         | true    |
-| color ^(2.6.3)       | background color of the dot                                                   | ^[string]                                                          |         |
-| offset ^(2.7.0)      | offset of badge                                                               | ^[array]`[number, number]`                                         | [0, 0]  |
-| badge-style ^(2.7.1) | custom style of badge                                                         | ^[object]`CSSProperties`                                           | —       |
-| badge-class ^(2.7.1) | custom class of badge                                                         | ^[string]                                                          | —       |
+| Name                 | Description                                                                  | Type                                                               | Default |
+| -------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------ | ------- |
+| value                | Display value                                                                | ^[string] / ^[number]                                              | ''      |
+| max                  | Maximum value, shows `{max}+` when exceeded. Only works if value is a number | ^[number]                                                          | 99      |
+| is-dot               | If a little dot is displayed                                                 | ^[boolean]                                                         | false   |
+| hidden               | Hidden badge                                                                 | ^[boolean]                                                         | false   |
+| type                 | Badge type                                                                   | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | danger  |
+| show-zero ^(2.6.0)   | Whether to show badge when value is zero                                     | ^[boolean]                                                         | true    |
+| color ^(2.6.3)       | Background color of the dot                                                  | ^[string]                                                          |         |
+| offset ^(2.7.0)      | Offset of badge                                                              | ^[array]`[number, number]`                                         | [0, 0]  |
+| badge-style ^(2.7.1) | Custom style of badge                                                        | ^[object]`CSSProperties`                                           | —       |
+| badge-class ^(2.7.1) | Custom class of badge                                                        | ^[string]                                                          | —       |
 
 ### Slots
 
 | Name             | Description               | Type                         |
 | ---------------- | ------------------------- | ---------------------------- |
-| default          | customize default content | -                            |
-| content ^(2.9.1) | customize badge content   | ^[object]`{ value: string }` |
+| default          | Customize default content | -                            |
+| content ^(2.9.1) | Customize badge content   | ^[object]`{ value: string }` |

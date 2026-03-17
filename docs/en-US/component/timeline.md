@@ -79,14 +79,14 @@ timeline/reverse
 
 | Name              | Description                               | Type                                                            | Default |
 | ----------------- | ----------------------------------------- | --------------------------------------------------------------- | ------- |
-| reverse ^(2.11.9) | whether reverse order                     | ^[boolean]                                                      | false   |
-| mode ^(2.13.1)    | relative position of timeline and content | ^[enum]`'start' \| 'alternate' \| 'alternate-reverse' \| 'end'` | start   |
+| reverse ^(2.11.9) | Whether reverse order                     | ^[boolean]                                                      | false   |
+| mode ^(2.13.1)    | Relative position of timeline and content | ^[enum]`'start' \| 'alternate' \| 'alternate-reverse' \| 'end'` | start   |
 
 ### Timeline Slots
 
 | Name    | Description                            | Subtags       |
 | ------- | -------------------------------------- | ------------- |
-| default | customize default content for timeline | Timeline-Item |
+| default | Customize default content for timeline | Timeline-Item |
 
 ## Timeline-Item API
 
@@ -94,19 +94,19 @@ timeline/reverse
 
 | Name           | Description                 | Type                                                               | Default |
 | -------------- | --------------------------- | ------------------------------------------------------------------ | ------- |
-| timestamp      | timestamp content           | ^[string]                                                          | ''      |
-| hide-timestamp | whether to show timestamp   | ^[boolean]                                                         | false   |
-| center         | whether vertically centered | ^[boolean]                                                         | false   |
-| placement      | position of timestamp       | ^[enum]`'top' \| 'bottom'`                                         | bottom  |
-| type           | node type                   | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | ''      |
-| color          | background color of node    | ^[string]                                                          | ''      |
-| size           | node size                   | ^[enum]`'normal' \| 'large'`                                       | normal  |
-| icon           | icon component              | ^[string] / ^[Component]                                           | —       |
-| hollow         | icon is hollow              | ^[boolean]                                                         | false   |
+| timestamp      | Timestamp content           | ^[string]                                                          | ''      |
+| hide-timestamp | Whether to show timestamp   | ^[boolean]                                                         | false   |
+| center         | Whether vertically centered | ^[boolean]                                                         | false   |
+| placement      | Position of timestamp       | ^[enum]`'top' \| 'bottom'`                                         | bottom  |
+| type           | Node type                   | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | ''      |
+| color          | Background color of node    | ^[string]                                                          | ''      |
+| size           | Node size                   | ^[enum]`'normal' \| 'large'`                                       | normal  |
+| icon           | Icon component              | ^[string] / ^[Component]                                           | —       |
+| hollow         | Icon is hollow              | ^[boolean]                                                         | false   |
 
 ### Timeline-Item Slots
 
 | Name    | Description                                 |
 | ------- | ------------------------------------------- |
-| default | customize default content for timeline item |
-| dot     | customize defined node for timeline item    |
+| default | Customize default content for timeline item |
+| dot     | Customize defined node for timeline item    |

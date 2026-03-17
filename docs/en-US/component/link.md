@@ -104,16 +104,16 @@ link/with-icon
 
 | Name      | Description                         | Type                                                                            | Default |
 | --------- | ----------------------------------- | ------------------------------------------------------------------------------- | ------- |
-| type      | type                                | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'default'` | default |
-| underline | when underlines should appear       | ^[enum]`'always' \| 'hover' \| 'never' \| boolean`                              | hover   |
-| disabled  | whether the component is disabled   | ^[boolean]                                                                      | false   |
-| href      | same as native hyperlink's `href`   | ^[string]                                                                       | —       |
-| target    | same as native hyperlink's `target` | ^[enum]`'_blank' \| '_parent' \| '_self' \| '_top'`                             | \_self  |
-| icon      | icon component                      | ^[string] / ^[Component]                                                        | —       |
+| type      | Type                                | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'default'` | default |
+| underline | When underlines should appear       | ^[enum]`'always' \| 'hover' \| 'never' \| boolean`                              | hover   |
+| disabled  | Whether the component is disabled   | ^[boolean]                                                                      | false   |
+| href      | Same as native hyperlink's `href`   | ^[string]                                                                       | —       |
+| target    | Same as native hyperlink's `target` | ^[enum]`'_blank' \| '_parent' \| '_self' \| '_top'`                             | \_self  |
+| icon      | Icon component                      | ^[string] / ^[Component]                                                        | —       |
 
 ### Slots
 
 | Name    | Description               |
 | ------- | ------------------------- |
-| default | customize default content |
-| icon    | customize icon component  |
+| default | Customize default content |
+| icon    | Customize icon component  |

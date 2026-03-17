@@ -57,27 +57,27 @@ Note, date time locale (month name, first day of the week ...) are also configur
 
 ### Attributes
 
-| Name                      | Description                                                                                                                                                    | Type                                                                      | Default |
-| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------- |
-| model-value / v-model     | binding value                                                                                                                                                  | ^[Date]                                                                   | —       |
-| range                     | time range, including start time and end time. Start time must be start day of week, end time must be end day of week, the time span cannot exceed two months. | ^[array]`[Date, Date]`                                                    | —       |
-| controller-type ^(2.13.1) | type of the controller for Calendar header                                                                                                                     | ^[enum]`'button' \| 'select'`                                             | button  |
-| formatter ^(2.13.1)       | format label when `controller-type` is 'select'                                                                                                                | ^[Function]`(value: number, type: 'year' \| 'month') => string \| number` | —       |
+| Name                      | Description                                                                                                                                                   | Type                                                                      | Default |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------- |
+| model-value / v-model     | Binding value                                                                                                                                                 | ^[Date]                                                                   | —       |
+| range                     | Time range, including start time and end time. Start time must be start day of week, end time must be end day of week, the time span cannot exceed two months | ^[array]`[Date, Date]`                                                    | —       |
+| controller-type ^(2.13.1) | Type of the controller for Calendar header                                                                                                                    | ^[enum]`'button' \| 'select'`                                             | button  |
+| formatter ^(2.13.1)       | Format label when `controller-type` is 'select'                                                                                                               | ^[Function]`(value: number, type: 'year' \| 'month') => string \| number` | —       |
 
 ### Slots
 
 | Name      | Description                                                                                                                                                                                                                                               | Type                                                                                                                         |
 | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
 | date-cell | `type` indicates which month the date belongs, optional values are prev-month, current-month, next-month; `isSelected` indicates whether the date is selected; `day` is the formatted date in the format `YYYY-MM-DD`; `date` is date the cell represents | ^[object]`{ data: { type: 'prev-month' \| 'current-month' \| 'next-month', isSelected: boolean, day: string, date: Date } }` |
-| header    | content of the Calendar header                                                                                                                                                                                                                            | ^[object]`{ date: string }`                                                                                                  |
+| header    | Content of the Calendar header                                                                                                                                                                                                                            | ^[object]`{ date: string }`                                                                                                  |
 
 ### Exposes
 
 | Name                        | Description                                                            | Type                                                                                          |
 | --------------------------- | ---------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| selectedDay                 | currently selected date                                                | ^[object]`ComputedRef<Dayjs \| undefined>`                                                    |
-| pickDay                     | select a specific date                                                 | ^[Function]`(day: dayjs.Dayjs) => void`                                                       |
-| selectDate                  | select date                                                            | ^[Function]`(type: CalendarDateType) => void`                                                 |
+| selectedDay                 | Currently selected date                                                | ^[object]`ComputedRef<Dayjs \| undefined>`                                                    |
+| pickDay                     | Select a specific date                                                 | ^[Function]`(day: dayjs.Dayjs) => void`                                                       |
+| selectDate                  | Select date                                                            | ^[Function]`(type: CalendarDateType) => void`                                                 |
 | calculateValidatedDateRange | Calculate the validate date range according to the start and end dates | ^[Function]`(startDayjs: dayjs.Dayjs, endDayjs: dayjs.Dayjs) => [dayjs.Dayjs, dayjs.Dayjs][]` |
 
 ## Type Declarations

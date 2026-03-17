@@ -305,26 +305,26 @@ table-v2/manual-scroll
 | header-props              | Customized props name passed to header component                                                                           | `object` / Function<[HeaderPropsGetter](#typings)>     | —         |
 | header-cell-props         | Customized props name passed to header cell component                                                                      | `object` / Function<[HeaderCellPropsGetter](#typings)> | —         |
 | header-height             | The height of the header is set by `height`. If given an array, it renders header rows equal to its length                 | `number`/ `number[]`                                   | 50        |
-| footer-height             | The height of the footer element, when provided, will be part to the calculation of the table's height.                    | `number`                                               | 0         |
+| footer-height             | The height of the footer element, when provided, will be part to the calculation of the table's height                     | `number`                                               | 0         |
 | row-class                 | Customized class name passed to row wrapper                                                                                | `string` / Function<[RowClassGetter](#typings)>        | —         |
 | row-key                   | The key of each row, if not provided, will be the index of the row                                                         | `string` / `Symbol` / `number`                         | id        |
 | row-props                 | Customized props name passed to row component                                                                              | `object` / Function<[RowPropsGetter](#typings)>        | —         |
 | row-height                | The height of each row, used for calculating the total height of the table                                                 | `number`                                               | 50        |
 | row-event-handlers        | A collection of handlers attached to each row                                                                              | `object`\<[RowEventHandlers](#typings)\>               | —         |
-| cell-props                | extra props passed to each cell (except header cells)                                                                      | `object` / Function<[CellPropsGetter](#typings)>       | —         |
-| columns                   | An array of column definitions.                                                                                            | [Column[]](#column-attribute)                          | —         |
-| data                      | An array of data to be rendered in the table.                                                                              | [Data[]](#typings)                                     | []        |
-| data-getter               | A method to customize data fetch from the data source.                                                                     | Function<[DataGetter\<T\>](#typings)>                  | —         |
+| cell-props                | Extra props passed to each cell (except header cells)                                                                      | `object` / Function<[CellPropsGetter](#typings)>       | —         |
+| columns                   | An array of column definitions                                                                                             | [Column[]](#column-attribute)                          | —         |
+| data                      | An array of data to be rendered in the table                                                                               | [Data[]](#typings)                                     | []        |
+| data-getter               | A method to customize data fetch from the data source                                                                      | Function<[DataGetter\<T\>](#typings)>                  | —         |
 | fixed-data                | Data for rendering rows above the main content and below the header                                                        | `object`\<[Data](#typings)\>                           | —         |
 | expand-column-key         | The column key indicates which row is expandable                                                                           | `string`                                               | —         |
 | expanded-row-keys         | An array of keys for expanded rows, can be used with `v-model`                                                             | [KeyType[]](#typings)                                  | —         |
 | default-expanded-row-keys | An array of keys for default expanded rows, **NON REACTIVE**                                                               | [KeyType[]](#typings)                                  | —         |
 | class                     | Class name for the virtual table, will be applied to all three tables (left, right, main)                                  | `string` / `array` / `object`                          | —         |
-| fixed                     | Flag indicates the table column's width to be fixed or flexible.                                                           | `boolean`                                              | false     |
+| fixed                     | Flag indicates the table column's width to be fixed or flexible                                                            | `boolean`                                              | false     |
 | width ^(required)         | Width of the table                                                                                                         | `number`                                               | —         |
 | height ^(required)        | Height of the table                                                                                                        | `number`                                               | —         |
 | max-height                | Maximum height of the table                                                                                                | `number`                                               | —         |
-| indent-size               | horizontal indentation of tree table                                                                                       | `number`                                               | 12        |
+| indent-size               | Horizontal indentation of tree table                                                                                       | `number`                                               | 12        |
 | h-scrollbar-size          | Indicates the horizontal scrollbar's size for the table, used to prevent the horizontal and vertical scrollbar to collapse | `number`                                               | 6         |
 | v-scrollbar-size          | Indicates the vertical scrollbar's size for the table, used to prevent the horizontal and vertical scrollbar to collapse   | `number`                                               | 6         |
 | scrollbar-always-on       | If true, the scrollbar will always be shown instead of when mouse is placed above the table                                | `boolean`                                              | false     |
@@ -345,14 +345,14 @@ table-v2/manual-scroll
 
 ### TableV2 Events
 
-| Name                 | Description                                                                                                                     | Parameters                                    |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- |
-| column-sort          | Invoked when column sorted                                                                                                      | `object`\<[ColumnSortParam](#typings)\>       |
-| expanded-rows-change | Invoked when expanded rows changed                                                                                              | [KeyType[]](#typings)                         |
-| end-reached          | Invoked when the end of the table is reached. The callback contain the remain distance, it is the usually the scrollbar height. | ^[Function]`(remainDistance: number) => void` |
-| scroll               | Invoked after scrolling                                                                                                         | `object`\<[ScrollParams](#typings)\>          |
-| rows-rendered        | Invoked when rows are rendered                                                                                                  | `object`\<[RowsRenderedParams](#typings)\>    |
-| row-expand           | Invoked when expand/collapse the tree node by clicking the arrow icon                                                           | `object`\<[RowExpandParams](#typings)\>       |
+| Name                 | Description                                                                                                                    | Parameters                                    |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------- |
+| column-sort          | Invoked when column sorted                                                                                                     | `object`\<[ColumnSortParam](#typings)\>       |
+| expanded-rows-change | Invoked when expanded rows changed                                                                                             | [KeyType[]](#typings)                         |
+| end-reached          | Invoked when the end of the table is reached. The callback contain the remain distance, it is the usually the scrollbar height | ^[Function]`(remainDistance: number) => void` |
+| scroll               | Invoked after scrolling                                                                                                        | `object`\<[ScrollParams](#typings)\>          |
+| rows-rendered        | Invoked when rows are rendered                                                                                                 | `object`\<[RowsRenderedParams](#typings)\>    |
+| row-expand           | Invoked when expand/collapse the tree node by clicking the arrow icon                                                          | `object`\<[RowExpandParams](#typings)\>       |
 
 ### TableV2 Exposes
 
@@ -361,7 +361,7 @@ table-v2/manual-scroll
 | scrollTo     | Scroll to a given position                           | ^[Function]`(param: {scrollLeft?: number, scrollTop?: number}) => void`                |
 | scrollToLeft | Scroll to a given horizontal position                | ^[Function]`(scrollLeft: number) => void`                                              |
 | scrollToTop  | Scroll to a given vertical position                  | ^[Function]`(scrollTop: number) => void`                                               |
-| scrollToRow  | scroll to a given row with specified scroll strategy | ^[Function]`(row: number, strategy?: 'center' \| 'end' \| 'start' \| 'smart') => void` |
+| scrollToRow  | Scroll to a given row with specified scroll strategy | ^[Function]`(row: number, strategy?: 'center' \| 'end' \| 'start' \| 'smart') => void` |
 
 :::tip
 

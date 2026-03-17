@@ -61,30 +61,30 @@ popconfirm/trigger-event
 | cancel-button-type                 | Cancel button type                                                                                  | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'text'` | text           |
 | icon                               | Icon Component                                                                                      | ^[string] / ^[Component]                                                     | QuestionFilled |
 | icon-color                         | Icon color                                                                                          | ^[string]                                                                    | #f90           |
-| hide-icon                          | is hide Icon                                                                                        | ^[boolean]                                                                   | false          |
-| hide-after                         | delay of disappear, in millisecond                                                                  | ^[number]                                                                    | 200            |
-| teleported                         | whether popconfirm is teleported to the body                                                        | ^[boolean]                                                                   | true           |
-| persistent                         | when popconfirm inactive and `persistent` is `false` , popconfirm will be destroyed                 | ^[boolean]                                                                   | false          |
-| width                              | popconfirm width, min width 150px                                                                   | ^[string] / ^[number]                                                        | 150            |
+| hide-icon                          | Is hide Icon                                                                                        | ^[boolean]                                                                   | false          |
+| hide-after                         | Delay of disappear, in millisecond                                                                  | ^[number]                                                                    | 200            |
+| teleported                         | Whether popconfirm is teleported to the body                                                        | ^[boolean]                                                                   | true           |
+| persistent                         | When popconfirm inactive and `persistent` is `false` , popconfirm will be destroyed                 | ^[boolean]                                                                   | false          |
+| width                              | Popconfirm width, min width 150px                                                                   | ^[string] / ^[number]                                                        | 150            |
 | [tooltip](./tooltip.md#attributes) | Inherits all attributes from Tooltip, except: `popper-class`, `popper-style`, `fallback-placements` | —                                                                            | —              |
 
 ### Events
 
 | Name    | Description                        | Type                                 |
 | ------- | ---------------------------------- | ------------------------------------ |
-| confirm | triggers when click confirm button | ^[Function]`(e: MouseEvent) => void` |
-| cancel  | triggers when click cancel button  | ^[Function]`(e: MouseEvent) => void` |
+| confirm | Triggers when click confirm button | ^[Function]`(e: MouseEvent) => void` |
+| cancel  | Triggers when click cancel button  | ^[Function]`(e: MouseEvent) => void` |
 
 ### Slots
 
 | Name             | Description                           | Type                                                                             |
 | ---------------- | ------------------------------------- | -------------------------------------------------------------------------------- |
 | reference        | HTML element that triggers Popconfirm | —                                                                                |
-| actions ^(2.8.1) | content of the Popconfirm footer      | ^[object]`{ confirm: (e: MouseEvent) => void, cancel: (e: MouseEvent) => void }` |
+| actions ^(2.8.1) | Content of the Popconfirm footer      | ^[object]`{ confirm: (e: MouseEvent) => void, cancel: (e: MouseEvent) => void }` |
 
 ### Exposes
 
 | Name                | Description                  | Type                                        |
 | ------------------- | ---------------------------- | ------------------------------------------- |
 | popperRef ^(2.10.7) | el-popper component instance | ^[object]`Ref<PopperInstance \| undefined>` |
-| hide ^(2.10.7)      | hide popconfirm              | ^[Function]`() => void`                     |
+| hide ^(2.10.7)      | Hide popconfirm              | ^[Function]`() => void`                     |
