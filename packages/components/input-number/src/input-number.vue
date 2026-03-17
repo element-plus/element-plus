@@ -308,6 +308,7 @@ const setCurrentValue = (
   data.currentValue = newVal
 }
 const handleInput = (value: string) => {
+  value = value.replace(/。/g, '.')
   data.userInput = value
   const newVal = value === '' ? null : Number(value)
   emit(INPUT_EVENT, newVal)
@@ -335,6 +336,9 @@ const handleFocus = (event: MouseEvent | FocusEvent) => {
 }
 
 const handleBlur = (event: MouseEvent | FocusEvent) => {
+  if (typeof data.userInput === 'string' && data.userInput.endsWith('.')) {
+    data.userInput = data.userInput.slice(0, -1)
+  }
   data.userInput = null
   // When non-numeric content is entered into a numeric input box,
   // the content displayed on the page is not cleared after the value is cleared. #18533
