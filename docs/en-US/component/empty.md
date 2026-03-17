@@ -55,16 +55,16 @@ But usually, if you want to change style, you need to change all color, because 
 
 | Variable                | Color                 |
 | ----------------------- | --------------------- |
-| --el-empty-fill-color-0 | Var(--el-color-white) |
-| --el-empty-fill-color-1 | #Fcfcfd               |
-| --el-empty-fill-color-2 | #F8f9fb               |
-| --el-empty-fill-color-3 | #F7f8fc               |
-| --el-empty-fill-color-4 | #Eeeff3               |
-| --el-empty-fill-color-5 | #Edeef2               |
-| --el-empty-fill-color-6 | #E9ebef               |
-| --el-empty-fill-color-7 | #E5e7e9               |
-| --el-empty-fill-color-8 | #E0e3e9               |
-| --el-empty-fill-color-9 | #D5d7de               |
+| --el-empty-fill-color-0 | var(--el-color-white) |
+| --el-empty-fill-color-1 | #fcfcfd               |
+| --el-empty-fill-color-2 | #f8f9fb               |
+| --el-empty-fill-color-3 | #f7f8fc               |
+| --el-empty-fill-color-4 | #eeeff3               |
+| --el-empty-fill-color-5 | #edeef2               |
+| --el-empty-fill-color-6 | #e9ebef               |
+| --el-empty-fill-color-7 | #e5e7e9               |
+| --el-empty-fill-color-8 | #e0e3e9               |
+| --el-empty-fill-color-9 | #d5d7de               |
 
 ## API
 

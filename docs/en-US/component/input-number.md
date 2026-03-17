@@ -148,7 +148,7 @@ For precision purposes, the input number is limited from [Number.MIN_SAFE_INTEGE
 
 ### Exposes
 
-| Name  | Description                      | Type                    |
-| ----- | -------------------------------- | ----------------------- |
-| focus | Get focus the input component    | ^[Function]`() => void` |
-| blur  | Remove focus the input component | ^[Function]`() => void` |
+| Name  | Description               | Type                    |
+| ----- | ------------------------- | ----------------------- |
+| focus | Focus the input component | ^[Function]`() => void` |
+| blur  | Blur the input component  | ^[Function]`() => void` |

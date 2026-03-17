@@ -118,12 +118,12 @@ autocomplete/custom-header-footer
 | blur             | Blur the input element                      | ^[Function]`() => void`                             |
 | close            | Collapse suggestion list                    | ^[Function]`() => void`                             |
 | focus            | Focus the input element                     | ^[Function]`() => void`                             |
-| handleSelect     | Triggers when a suggestion is clicked       | ^[Function]`(item: any) => promise<void>`           |
-| handleKeyEnter   | Handle keyboard enter event                 | ^[Function]`() => promise<void>`                    |
+| handleSelect     | Triggers when a suggestion is clicked       | ^[Function]`(item: any) => Promise<void>`           |
+| handleKeyEnter   | Handle keyboard enter event                 | ^[Function]`() => Promise<void>`                    |
 | highlightedIndex | The index of the currently highlighted item | ^[object]`Ref<number>`                              |
 | highlight        | Highlight an item in a suggestion           | ^[Function]`(itemIndex: number) => void`            |
 | inputRef         | el-input component instance                 | ^[object]`Ref<ElInputInstance>`                     |
 | loading          | Remote search loading indicator             | ^[object]`Ref<boolean>`                             |
 | popperRef        | el-tooltip component instance               | ^[object]`Ref<ElTooltipInstance>`                   |
-| suggestions      | Fetch suggestions result                    | ^[object]`Ref<record<string, any>[]>`               |
-| getData ^(2.8.4) | Loading suggestion list                     | ^[Function]`(queryString: string) => promise<void>` |
+| suggestions      | Fetch suggestions result                    | ^[object]`Ref<Record<string, any>[]>`               |
+| getData ^(2.8.4) | Loading suggestion list                     | ^[Function]`(queryString: string) => Promise<void>` |

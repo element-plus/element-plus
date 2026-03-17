@@ -40,9 +40,9 @@ backtop/custom
 
 ### Events
 
-| Name  | Description         | Parameters                             |
-| ----- | ------------------- | -------------------------------------- |
-| click | Triggers when click | ^[Function]`(evt: MouseEvent) => void` |
+| Name  | Description           | Parameters                             |
+| ----- | --------------------- | -------------------------------------- |
+| click | Triggers when clicked | ^[Function]`(evt: MouseEvent) => void` |
 
 ### Slots
 

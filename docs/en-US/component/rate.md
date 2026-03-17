@@ -78,10 +78,10 @@ Use `css/scss` language to change the global or local color. We set some global 
 
 | Variable                      | Default Color                 |
 | ----------------------------- | ----------------------------- |
-| --el-rate-void-color          | Var(--el-border-color-darker) |
-| --el-rate-fill-color          | #F7ba2a                       |
-| --el-rate-disabled-void-color | Var(--el-fill-color)          |
-| --el-rate-text-color          | Var(--el-text-color-primary)  |
+| --el-rate-void-color          | var(--el-border-color-darker) |
+| --el-rate-fill-color          | #f7ba2a                       |
+| --el-rate-disabled-void-color | var(--el-fill-color)          |
+| --el-rate-text-color          | var(--el-text-color-primary)  |
 
 ## API
 

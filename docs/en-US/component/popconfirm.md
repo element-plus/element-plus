@@ -61,8 +61,8 @@ popconfirm/trigger-event
 | cancel-button-type                 | Cancel button type                                                                                  | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'text'` | text           |
 | icon                               | Icon Component                                                                                      | ^[string] / ^[Component]                                                     | QuestionFilled |
 | icon-color                         | Icon color                                                                                          | ^[string]                                                                    | #f90           |
-| hide-icon                          | Is hide Icon                                                                                        | ^[boolean]                                                                   | false          |
-| hide-after                         | Delay of disappear, in millisecond                                                                  | ^[number]                                                                    | 200            |
+| hide-icon                          | Whether to hide the icon                                                                            | ^[boolean]                                                                   | false          |
+| hide-after                         | Delay before hiding, in milliseconds                                                                | ^[number]                                                                    | 200            |
 | teleported                         | Whether popconfirm is teleported to the body                                                        | ^[boolean]                                                                   | true           |
 | persistent                         | When popconfirm inactive and `persistent` is `false` , popconfirm will be destroyed                 | ^[boolean]                                                                   | false          |
 | width                              | Popconfirm width, min width 150px                                                                   | ^[string] / ^[number]                                                        | 150            |
@@ -70,10 +70,10 @@ popconfirm/trigger-event
 
 ### Events
 
-| Name    | Description                        | Type                                 |
-| ------- | ---------------------------------- | ------------------------------------ |
-| confirm | Triggers when click confirm button | ^[Function]`(e: MouseEvent) => void` |
-| cancel  | Triggers when click cancel button  | ^[Function]`(e: MouseEvent) => void` |
+| Name    | Description                               | Type                                 |
+| ------- | ----------------------------------------- | ------------------------------------ |
+| confirm | Triggers when clicking the confirm button | ^[Function]`(e: MouseEvent) => void` |
+| cancel  | Triggers when clicking the cancel button  | ^[Function]`(e: MouseEvent) => void` |
 
 ### Slots
 
