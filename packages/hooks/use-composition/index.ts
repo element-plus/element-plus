@@ -20,6 +20,7 @@ export function useComposition({
 
   const handleCompositionUpdate = (event: CompositionEvent) => {
     emit?.('compositionupdate', event)
+    isComposing.value = true
   }
 
   const handleCompositionEnd = (event: CompositionEvent) => {
