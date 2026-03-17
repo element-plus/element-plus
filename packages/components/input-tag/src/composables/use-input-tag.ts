@@ -33,6 +33,7 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
   const inputRef = shallowRef<HTMLInputElement>()
   const inputValue = ref<string>()
   const tagTooltipRef = ref<TooltipInstance>()
+  const pendingAddTag = ref(false)
 
   const tagSize = computed(() => {
     return ['small'].includes(size.value) ? 'small' : 'default'
@@ -114,8 +115,13 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
   }
 
   const handleKeydown = (event: KeyboardEvent) => {
-    if (isComposing.value) return
     const code = getEventCode(event)
+    if (isComposing.value || event.isComposing) {
+      if (code === props.trigger && props.trigger === EVENT_CODE.space) {
+        pendingAddTag.value = true
+      }
+      return
+    }
 
     switch (code) {
       case props.trigger:
@@ -141,7 +147,7 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
   }
 
   const handleKeyup = (event: KeyboardEvent) => {
-    if (isComposing.value || !isAndroid()) return
+    if (isComposing.value || event.isComposing || !isAndroid()) return
     const code = getEventCode(event)
 
     switch (code) {
@@ -227,8 +233,16 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
     isComposing,
     handleCompositionStart,
     handleCompositionUpdate,
-    handleCompositionEnd,
+    handleCompositionEnd: onCompositionEnd,
   } = useComposition({ afterComposition: handleInput })
+
+  const handleCompositionEnd = (event: CompositionEvent) => {
+    onCompositionEnd(event)
+    if (pendingAddTag.value) {
+      pendingAddTag.value = false
+      handleAddTag()
+    }
+  }
 
   watch(
     () => props.modelValue,
