@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import prettierSync from '@prettier/sync'
-import { ModuleKind, ScriptTarget, transpileModule } from 'typescript'
+import { JsxEmit, ModuleKind, ScriptTarget, transpileModule } from 'typescript'
 
 const prettierOptions = JSON.parse(
   readFileSync(resolve(__dirname, '../../../.prettierrc'), 'utf-8')
@@ -30,6 +30,7 @@ function ts2Js(content: string): string {
       target: ScriptTarget.ESNext,
       // Ensures the import is not removed or changed
       verbatimModuleSyntax: true,
+      jsx: JsxEmit.Preserve,
     },
   })
   const formatted = prettierSync.format(result.outputText, {
