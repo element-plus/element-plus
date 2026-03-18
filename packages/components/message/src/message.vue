@@ -32,13 +32,16 @@
       <el-icon v-if="iconComponent" :class="[ns.e('icon'), typeClass]">
         <component :is="iconComponent" />
       </el-icon>
-      <slot>
-        <p v-if="!dangerouslyUseHTMLString" :class="ns.e('content')">
+      <p
+        v-if="!dangerouslyUseHTMLString || $slots.default"
+        :class="ns.e('content')"
+      >
+        <slot>
           {{ message }}
-        </p>
-        <!-- Caution here, message could've been compromised, never use user's input as message -->
-        <p v-else :class="ns.e('content')" v-html="message" />
-      </slot>
+        </slot>
+      </p>
+      <!-- Caution here, message could've been compromised, never use user's input as message -->
+      <p v-else :class="ns.e('content')" v-html="message" />
       <el-icon v-if="showClose" :class="ns.e('closeBtn')" @click.stop="close">
         <Close />
       </el-icon>
