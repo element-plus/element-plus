@@ -1,5 +1,5 @@
-import { ComputedRef, computed, onMounted, ref, watch } from 'vue'
-import { isClient } from '@vueuse/core'
+import { computed, onMounted, ref, watch } from 'vue'
+import { MaybeRefOrGetter, isClient, toValue } from '@vueuse/core'
 import { utoa } from '../utils'
 import { isDark } from './dark'
 
@@ -12,10 +12,8 @@ export const usePreview = () => isClient && location.host.startsWith('preview')
 export const usePreviewPR = () =>
   isClient ? location.host.split('-', 2)[1] : ''
 
-export const usePlayground = (source: ComputedRef<string>) => {
-  const code = computed(() =>
-    source.value ? decodeURIComponent(source.value) : source.value
-  )
+export const usePlayground = (source: MaybeRefOrGetter<string>) => {
+  const code = computed<string>(() => toValue(source))
   const originCode = computed(() => ({
     [MAIN_FILE_NAME]: code.value,
   }))
@@ -57,7 +55,7 @@ export const usePlaygroundPreview = (
     if (props.item.text === 'Playground') {
       const { link } = usePlayground('')
 
-      targetLink.value = link
+      targetLink.value = link.value
     }
   }
 

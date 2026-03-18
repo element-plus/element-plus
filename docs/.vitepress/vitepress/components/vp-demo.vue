@@ -23,7 +23,8 @@ const sourceLangs = ['TS', 'JS'] satisfies ['TS', 'JS']
 const sourceCodeRef = ref<HTMLButtonElement>()
 const tsOrjs = useLocalStorage<(typeof sourceLangs)[number]>(
   'epJsOrTs',
-  sourceLangs[0]
+  sourceLangs[0],
+  { initOnMounted: true }
 )
 
 const locale = computed(() => demoBlockLocale[lang.value])
@@ -46,7 +47,7 @@ const { copy, isSupported } = useClipboard({
 const [sourceVisible, toggleSourceVisible] = useToggle()
 const lang = useLang()
 const demoSourceUrl = useSourceCode(toRef(props, 'path'))
-const { link: playgroundUrl } = usePlayground(rawSource)
+const { link: playgroundUrl } = usePlayground(decodedRawSource)
 
 const onSourceVisibleKeydown = (e: KeyboardEvent) => {
   if (
