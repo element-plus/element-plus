@@ -291,6 +291,8 @@ describe('Input.vue', () => {
         v-model={val.value}
         formatter={formatter}
         parser={parser}
+        maxlength={10}
+        showWordLimit
         onInput={handleEvent}
         onChange={handleEvent}
       />
@@ -298,13 +300,18 @@ describe('Input.vue', () => {
 
     const vm = wrapper.vm
     const event = new Event('input', { bubbles: true })
+    const elCount = wrapper.find('.el-input__count-inner')
     expect(vm.$el.querySelector('input').value).toEqual('10,000')
     expect(vm.$el.querySelector('input').value).not.toEqual('1000')
+    expect(elCount.text()).toMatchInlineSnapshot(`"6 / 10"`)
     vm.$el.querySelector('input').value = '1,000,000'
 
     vm.$el.querySelector('input').dispatchEvent(event)
     expect(val.value).toEqual('1000000')
     expect(_val.value).toEqual('1000000')
+
+    await nextTick()
+    expect(elCount.text()).toMatchInlineSnapshot(`"9 / 10"`)
 
     vm.$el
       .querySelector('input')

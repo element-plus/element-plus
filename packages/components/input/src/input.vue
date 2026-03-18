@@ -327,7 +327,7 @@ const isWordLimitVisible = computed(
     !props.readonly &&
     !props.showPassword
 )
-const textLength = computed(() => nativeInputValue.value.length)
+const textLength = computed(() => formatterValue.value.length)
 const inputExceed = computed(
   () =>
     // show exceed style if length of initial value greater then maxlength
@@ -344,6 +344,11 @@ const suffixVisible = computed(
 )
 const hasModelModifiers = computed(
   () => !!Object.keys(props.modelModifiers).length
+)
+const formatterValue = computed(() =>
+  props.formatter
+    ? props.formatter(nativeInputValue.value)
+    : nativeInputValue.value
 )
 
 const [recordCursor, setCursor] = useCursor(input)
@@ -410,11 +415,9 @@ const onceInitSizeTextarea = createOnceInitResize(resizeTextarea)
 
 const setNativeInputValue = () => {
   const input = _ref.value
-  const formatterValue = props.formatter
-    ? props.formatter(nativeInputValue.value)
-    : nativeInputValue.value
-  if (!input || input.value === formatterValue || props.type === 'file') return
-  input.value = formatterValue
+  if (!input || input.value === formatterValue.value || props.type === 'file')
+    return
+  input.value = formatterValue.value
 }
 
 const formatValue = (value: string) => {
