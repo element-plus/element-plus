@@ -46,7 +46,11 @@ export const useCheckboxModel = (props: CheckboxProps) => {
         !isGroup.value &&
         (val === null || val === undefined)
       ) {
-        const falseVal = props.falseValue ?? props.falseLabel ?? false
+        const falseVal = !isPropAbsent(props.falseValue)
+          ? props.falseValue
+          : !isPropAbsent(props.falseLabel)
+            ? props.falseLabel
+            : false
         emit(UPDATE_MODEL_EVENT, falseVal)
       }
     }
