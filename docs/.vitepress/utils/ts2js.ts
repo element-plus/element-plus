@@ -8,13 +8,16 @@ const prettierOptions = JSON.parse(
 )
 
 export function sfcTs2js(content: string): string {
-  const scriptReg = /<script[\s\S]*?>([\s\S]*?)<\/script>/
+  const scriptReg =
+    /<script[\s\S]*?(?:lang="(ts|tsx)")[\s\S]*?>([\s\S]*?)<\/script>/
   const matched = content.match(scriptReg)
   if (matched && matched.index !== undefined) {
-    const script = matched[1]
+    const lang = matched[1]
+    const jsLangAttr = lang === 'tsx' ? ' lang="jsx"' : ''
+    const script = matched[2]
     const header = content.slice(0, matched.index)
     const footer = content.slice(matched.index + matched[0].length)
-    return `${header}<script setup>\n${ts2Js(script)}\n</script>${footer}`
+    return `${header}<script${jsLangAttr} setup>\n${ts2Js(script)}\n</script>${footer}`
   }
   return content
 }
@@ -22,7 +25,7 @@ export function sfcTs2js(content: string): string {
 function ts2Js(content: string): string {
   const beforeTransformContent = content.replace(
     /\n(\s)*\n/g,
-    '\n__blankline\n'
+    '\n// blankline\n'
   )
   const result = transpileModule(beforeTransformContent, {
     compilerOptions: {
@@ -37,5 +40,5 @@ function ts2Js(content: string): string {
     ...prettierOptions,
     parser: 'babel',
   })
-  return formatted.trim().replace(/(__blankline(\n)?)+/g, '\n')
+  return formatted.trim().replace(/(\/\/ blankline(\n)?)+/g, '\n')
 }
