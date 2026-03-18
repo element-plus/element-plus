@@ -25,27 +25,16 @@ export const useCheckboxStatus = (
   })
   const isChecked = computed<boolean>(() => {
     const value = model.value
-    const hasCustomValue =
-      !isPropAbsent(props.trueValue) ||
-      !isPropAbsent(props.falseValue) ||
-      !isPropAbsent(props.trueLabel) ||
-      !isPropAbsent(props.falseLabel)
-
-    if (isArray(value)) {
+    if (isBoolean(value)) {
+      return value
+    } else if (isArray(value)) {
       if (isObject(actualValue.value)) {
         return value.map(toRaw).some((o) => isEqual(o, actualValue.value))
       } else {
         return value.map(toRaw).includes(actualValue.value)
       }
-    } else if (hasCustomValue) {
-      const hasCustomTrueValue =
-        !isPropAbsent(props.trueValue) || !isPropAbsent(props.trueLabel)
-      if (!hasCustomTrueValue) {
-        return value === true
-      }
+    } else if (value !== null && value !== undefined) {
       return value === props.trueValue || value === props.trueLabel
-    } else if (isBoolean(value)) {
-      return value
     } else {
       return !!value
     }
