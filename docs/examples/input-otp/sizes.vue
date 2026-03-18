@@ -1,16 +1,16 @@
 <template>
   <div class="demo-input-otp">
     <div>
-      <p>Small</p>
-      <el-input-otp v-model="otp1" size="small" />
+      <p>Large</p>
+      <el-input-otp v-model="otp1" size="large" />
     </div>
     <div>
       <p>Default</p>
       <el-input-otp v-model="otp2" size="default" />
     </div>
     <div>
-      <p>Large</p>
-      <el-input-otp v-model="otp3" size="large" />
+      <p>Small</p>
+      <el-input-otp v-model="otp3" size="small" />
     </div>
   </div>
 </template>
