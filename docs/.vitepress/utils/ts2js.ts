@@ -2,9 +2,10 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import prettierSync from '@prettier/sync'
 import { JsxEmit, ModuleKind, ScriptTarget, transpileModule } from 'typescript'
+import { projRoot } from '@element-plus/build-utils'
 
 const prettierOptions = JSON.parse(
-  readFileSync(resolve(__dirname, '../../../.prettierrc'), 'utf-8')
+  readFileSync(resolve(projRoot, '.prettierrc'), 'utf-8')
 )
 
 export function sfcTs2js(content: string): string {
