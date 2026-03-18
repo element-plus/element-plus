@@ -15,6 +15,8 @@ export interface MessageBoxInputData {
   action: Action
 }
 
+export type MessageBoxIconPlacement = '' | 'title' | 'message'
+
 export type MessageBoxInputValidator =
   | ((value: string) => boolean | string)
   | undefined
@@ -146,6 +148,9 @@ export interface ElMessageBoxOptions {
 
   /** Custom icon component */
   icon?: string | Component
+
+  /** Custom icon placement */
+  iconPlacement?: MessageBoxIconPlacement
 
   /** Custom close icon component */
   closeIcon?: string | Component

@@ -101,7 +101,7 @@ message-box/centered-content
 
 ## Customized Icon
 
-The icon can be customized to any Vue component or [render function (JSX)](https://vuejs.org/guide/extras/render-function.html).
+The icon can be customized to any Vue component or [render function (JSX)](https://vuejs.org/guide/extras/render-function.html). Set `iconPlacement` ^(2.11.10) to customize the placement of the icon.
 
 :::demo
 
@@ -166,6 +166,7 @@ The corresponding methods are: `ElMessageBox`, `ElMessageBox.alert`, `ElMessageB
 | dangerouslyUseHTMLString          | whether `message` is treated as HTML string                                                                                              | ^[boolean]                                                                                          | false                                            |
 | type                              | message type, used for icon display                                                                                                      | ^[enum]`'primary' (2.9.11) \| 'success' \| 'info' \| 'warning' \| 'error'`                          | ''                                               |
 | icon                              | custom icon component, overrides `type`                                                                                                  | ^[string] / ^[Component]                                                                            | ''                                               |
+| iconPlacement ^(2.11.10)          | custom icon component placement                                                                                                          | ^[enum]`'' \| 'title' \| 'message'`                                                                 | ''                                               |
 | closeIcon ^(2.9.5)                | custom close icon component, default is Close                                                                                            | ^[string] / ^[Component]                                                                            | ''                                               |
 | customClass                       | custom class name for MessageBox                                                                                                         | ^[string]                                                                                           | ''                                               |
 | customStyle                       | custom inline style for MessageBox                                                                                                       | ^[CSSProperties]                                                                                    | {}                                               |
