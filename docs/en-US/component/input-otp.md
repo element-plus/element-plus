@@ -92,7 +92,7 @@ input-otp/validator
 | Name                  | Description                                                                                                                                | Type                                                      | Default    |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------- | ---------- |
 | model-value / v-model | The value of the OTP fields. Since numbers must not have leading zeros, `modelValue` is allowed to be a number only during initialization. | ^[string] / ^[number]                                     | undefined  |
-| length                | The OTP fields length, range [4, 8]                                                                                                        | ^[number]                                                 | 6          |
+| length                | The OTP fields length                                                                                                                      | ^[number]                                                 | 6          |
 | validator             | Custom validator function                                                                                                                  | ^[Function]`(char: string, index: number) => boolean`     | () => true |
 | inputmode             | Native `inputmode` attribute                                                                                                               | ^[string]                                                 | —          |
 | type                  | The type of the OTP fields                                                                                                                 | ^[enum]`'outlined' \| 'filled' \| 'underlined'`           | 'outlined' |
@@ -123,8 +123,8 @@ input-otp/validator
 
 ### Exposes
 
-| Name      | Description                      | Type                                  |
-| --------- | -------------------------------- | ------------------------------------- |
-| inputRefs | HTML input elements array        | ^[object]`Ref<HTMLInputElement[]>`    |
-| focus     | Focus an OTP input field         | ^[Function]`(index?: number) => void` |
-| blur      | Blur the focused OTP input field | ^[Function]`() => void`               |
+| Name      | Description                      | Type                                               |
+| --------- | -------------------------------- | -------------------------------------------------- |
+| inputRefs | HTML input elements array        | ^[object]`TemplateRef<HTMLInputElement[] \| null>` |
+| focus     | Focus an OTP input field         | ^[Function]`(index?: number) => void`              |
+| blur      | Blur the focused OTP input field | ^[Function]`() => void`                            |

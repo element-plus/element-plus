@@ -41,7 +41,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue'
+import { computed, ref, useTemplateRef, watch } from 'vue'
 import { clamp } from '@vueuse/core'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { NOOP, getEventCode, isFunction, rAF } from '@element-plus/utils'
@@ -73,22 +73,20 @@ const props = withDefaults(defineProps<InputOtpProps>(), {
 })
 const emit = defineEmits(inputOtpEmits)
 
-const length = computed(() => clamp(props.length, 4, 8))
-
 const initialValue = computed(() => {
   const value = String(props.modelValue ?? '')
-  return Array.from({ length: length.value }, (_, i) => value.charAt(i))
+  return Array.from({ length: props.length }, (_, i) => value.charAt(i))
 })
 
 const separators = computed(() => {
   const { separator } = props
   const _separator = isFunction(separator) ? separator : () => separator
-  return Array.from({ length: length.value - 1 }, (_, i) => _separator(i))
+  return Array.from({ length: props.length - 1 }, (_, i) => _separator(i))
 })
 
-const inputRefs = ref<HTMLInputElement[]>([])
 const innerValue = ref<string[]>(initialValue.value)
 const isFocused = ref(false)
+const inputRefs = useTemplateRef('inputRefs')
 
 const ns = useNamespace('input-otp')
 const { t } = useLocale()
@@ -105,7 +103,7 @@ const getFirstIndex = (maxIndex: number) => {
 }
 
 const handleFocus = (event: FocusEvent) => {
-  if (inputRefs.value.includes(event.relatedTarget as any)) {
+  if (inputRefs.value?.includes(event.relatedTarget as any)) {
     return
   }
 
@@ -114,7 +112,7 @@ const handleFocus = (event: FocusEvent) => {
 }
 
 const handleBlur = (event: FocusEvent) => {
-  if (inputRefs.value.includes(event.relatedTarget as any)) {
+  if (inputRefs.value?.includes(event.relatedTarget as any)) {
     return
   }
 
@@ -126,10 +124,10 @@ const handleBlur = (event: FocusEvent) => {
 }
 
 const updateModelValue = (emitFinish = true) => {
-  const value = innerValue.value.join('').slice(0, length.value)
+  const value = innerValue.value.join('').slice(0, props.length)
   if (value !== props.modelValue) {
     emit(UPDATE_MODEL_EVENT, value)
-    if (emitFinish && value.length === length.value) {
+    if (emitFinish && value.length === props.length) {
       emit('finish', value)
     }
   }
@@ -207,7 +205,7 @@ const castValues = (value: InputOtpProps['modelValue'], startIndex = 0) => {
   const chars = `${value ?? ''}`.split('')
   const result: string[] = []
   for (const char of chars) {
-    if (result.length + startIndex >= length.value) {
+    if (result.length + startIndex >= props.length) {
       break
     }
     if (props.validator(char, result.length + startIndex)) {
@@ -217,9 +215,9 @@ const castValues = (value: InputOtpProps['modelValue'], startIndex = 0) => {
   return result
 }
 
-const focus = (index?: number) => {
-  const focusIndex = clamp(index ?? 0, 0, length.value - 1)
-  const target = inputRefs.value[focusIndex]
+const focus = (index: number = 0) => {
+  const focusIndex = clamp(index, 0, props.length - 1)
+  const target = inputRefs.value?.[focusIndex]
 
   if (document.activeElement !== target) {
     target?.focus()
@@ -234,7 +232,7 @@ const focus = (index?: number) => {
 }
 
 const blur = () => {
-  const target = inputRefs.value.find(
+  const target = inputRefs.value?.find(
     (input) => document.activeElement === input
   )
   target?.blur()
@@ -251,10 +249,13 @@ watch(
   }
 )
 
-watch(length, () => {
-  innerValue.value = initialValue.value
-  updateModelValue(false)
-})
+watch(
+  () => props.length,
+  () => {
+    innerValue.value = initialValue.value
+    updateModelValue(false)
+  }
+)
 
 watch(isFocused, (value) => {
   if (value) {
