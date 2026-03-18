@@ -21,7 +21,7 @@ const vm = getCurrentInstance()!
 const sourceLangs = ['TS', 'JS'] satisfies ['TS', 'JS']
 
 const sourceCodeRef = ref<HTMLButtonElement>()
-const jsOrTs = useLocalStorage<(typeof sourceLangs)[number]>(
+const tsOrjs = useLocalStorage<(typeof sourceLangs)[number]>(
   'epJsOrTs',
   sourceLangs[0]
 )
@@ -34,10 +34,10 @@ const sourceVisibilityLabel = computed(() =>
     : locale.value['view-source']
 )
 const rawSource = computed(
-  () => props.rawSources[jsOrTs.value === 'TS' ? 0 : 1]
+  () => props.rawSources[tsOrjs.value === 'TS' ? 0 : 1]
 )
 const decodedRawSource = computed(() => decodeURIComponent(rawSource.value))
-const source = computed(() => props.sources[jsOrTs.value === 'TS' ? 0 : 1])
+const source = computed(() => props.sources[tsOrjs.value === 'TS' ? 0 : 1])
 
 const { copy, isSupported } = useClipboard({
   source: decodedRawSource,
@@ -86,7 +86,18 @@ const copyCode = async () => {
     <ElDivider class="m-0" />
 
     <div class="op-btns">
-      <ElSegmented v-model="jsOrTs" :options="sourceLangs" size="small" />
+      <ElSegmented
+        v-model="tsOrjs"
+        :options="sourceLangs"
+        size="small"
+        class="mr-1"
+        :style="{
+          '--el-segmented-item-selected-bg-color':
+            tsOrjs === 'TS'
+              ? 'var(--el-color-primary)'
+              : 'var(--el-color-warning)',
+        }"
+      />
       <ElTooltip
         :content="locale['edit-in-editor']"
         :show-arrow="false"
