@@ -77,16 +77,16 @@ anchor/affix
 
 ### Anchor Attributes
 
-| Property                   | Description                                                | Type                                  | Default    |
-| -------------------------- | ---------------------------------------------------------- | ------------------------------------- | ---------- |
-| container                  | Scroll container.                                          | `string` \| `HTMLElement` \| `Window` | —          |
-| offset                     | Set the offset of the anchor scroll.                       | `number`                              | 0          |
-| bound                      | The offset of the element starting to trigger the anchor.  | `number`                              | 15         |
-| duration                   | Set the scroll duration of the container, in milliseconds. | `number`                              | 300        |
-| marker                     | Whether to show the marker.                                | ^[boolean]                            | true       |
-| type                       | Set Anchor type.                                           | ^[enum]`'default' \| 'underline'`     | `default`  |
-| direction                  | Set Anchor direction.                                      | ^[enum]`'vertical' \| 'horizontal'`   | `vertical` |
-| select-scroll-top ^(2.9.2) | Scroll whether link is selected at the top                 | ^[boolean]                            | false      |
+| Property                   | Description                                               | Type                                  | Default    |
+| -------------------------- | --------------------------------------------------------- | ------------------------------------- | ---------- |
+| container                  | Scroll container                                          | `string` \| `HTMLElement` \| `Window` | —          |
+| offset                     | Set the offset of the anchor scroll                       | `number`                              | 0          |
+| bound                      | The offset of the element starting to trigger the anchor  | `number`                              | 15         |
+| duration                   | Set the scroll duration of the container, in milliseconds | `number`                              | 300        |
+| marker                     | Whether to show the marker                                | ^[boolean]                            | true       |
+| type                       | Set Anchor type                                           | ^[enum]`'default' \| 'underline'`     | `default`  |
+| direction                  | Set Anchor direction                                      | ^[enum]`'vertical' \| 'horizontal'`   | `vertical` |
+| select-scroll-top ^(2.9.2) | Scroll whether link is selected at the top                | ^[boolean]                            | false      |
 
 ### Anchor Events
 
@@ -97,9 +97,9 @@ anchor/affix
 
 ### Anchor Exposes
 
-| Name     | Description                               | Type                                |
-| -------- | ----------------------------------------- | ----------------------------------- |
-| scrollTo | Manually scroll to the specific position. | ^[Function]`(href: string) => void` |
+| Name     | Description                              | Type                                |
+| -------- | ---------------------------------------- | ----------------------------------- |
+| scrollTo | Manually scroll to the specific position | ^[Function]`(href: string) => void` |
 
 ### Anchor Slots
 
@@ -109,14 +109,14 @@ anchor/affix
 
 ### AnchorLink Attributes
 
-| Property | Description                          | Type     | Default |
-| -------- | ------------------------------------ | -------- | ------- |
-| title    | The text content of the anchor link. | `string` | —       |
-| href     | The address of the anchor link.      | `string` | —       |
+| Property | Description                         | Type     | Default |
+| -------- | ----------------------------------- | -------- | ------- |
+| title    | The text content of the anchor link | `string` | —       |
+| href     | The address of the anchor link      | `string` | —       |
 
 ### AnchorLink Slots
 
-| Name     | Description                     |
-| -------- | ------------------------------- |
-| default  | The content of the anchor link. |
-| sub-link | Slots for child links.          |
+| Name     | Description                    |
+| -------- | ------------------------------ |
+| default  | The content of the anchor link |
+| sub-link | Slots for child links          |
