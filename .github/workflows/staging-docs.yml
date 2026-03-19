@@ -3,8 +3,10 @@ name: Staging Docs
 on:
   push:
     branches:
-      - 'dev'
-
+      - "dev"
+  pull_request:
+    branches:
+      - "dev"
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
   cancel-in-progress: true
@@ -26,7 +28,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20.19.0
-          cache: 'pnpm'
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
@@ -71,7 +73,7 @@ jobs:
         run: pnpm docs:build
         env:
           DOC_ENV: staging
-          NODE_OPTIONS: --max-old-space-size=6144
+          NODE_OPTIONS: --max-old-space-size=8192
 
       - name: Deploy staging website
         uses: JamesIves/github-pages-deploy-action@v4.4.1
