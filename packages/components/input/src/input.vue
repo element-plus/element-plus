@@ -203,7 +203,6 @@ import {
   debugWarn,
   isClient,
   isFunction,
-  isKorean,
   isObject,
 } from '@element-plus/utils'
 import {
@@ -235,8 +234,17 @@ const props = withDefaults(defineProps<InputProps>(), inputPropsDefaults)
 const emit = defineEmits(inputEmits)
 
 const rawAttrs = useRawAttrs()
-const attrs = useAttrs()
 const slots = useSlots()
+
+const containerAttrs = computed(() => {
+  const comboBoxAttrs: Record<string, unknown> = {}
+  if (props.containerRole === 'combobox') {
+    comboBoxAttrs['aria-haspopup'] = rawAttrs['aria-haspopup']
+    comboBoxAttrs['aria-owns'] = rawAttrs['aria-owns']
+    comboBoxAttrs['aria-expanded'] = rawAttrs['aria-expanded']
+  }
+  return comboBoxAttrs
+})
 
 const containerKls = computed(() => [
   props.type === 'textarea' ? nsTextarea.b() : nsInput.b(),
@@ -271,7 +279,7 @@ const attrs = useAttrs({
 })
 const maxlength = computed(() => {
   if (props.showWordLimit && rawAttrs.maxlength) {
-    return rawAttrs.maxlength
+    return rawAttrs.maxlength as string
   }
   return 0
 })
@@ -472,7 +480,7 @@ const handleInput = async (event: Event) => {
   }
 
   value = formatValue(value)
-  
+
   if (props.countGraphemes && isFunction(props.countGraphemes)) {
     const graphemes = props.countGraphemes(value)
     const saveGraphemes = props.countGraphemes(saveValue.value)

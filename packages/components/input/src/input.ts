@@ -162,6 +162,10 @@ export interface InputProps {
    * @description same as `name` in native input
    */
   name?: string
+  /**
+   * @description Count graphemes of input value. If it's set, native maxlength and minlength won't be used.
+   */
+  countGraphemes?: (value: string) => number
 }
 
 /**
