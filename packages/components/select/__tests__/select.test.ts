@@ -4476,78 +4476,86 @@ describe('Select', () => {
 
     // Temporarily restore useDebounceFn to use real debounce with fake timers
     const { useDebounceFn } = await vi.importActual('@vueuse/core')
-    vi.mocked(
-      vi.mocked(await import('@vueuse/core')).useDebounceFn
-    ).mockImplementation(useDebounceFn)
-
-    wrapper = mount(
-      {
-        components: {
-          'el-select': Select,
-          'el-option': Option,
-        },
-        template: `
-          <el-select
-            v-model="value"
-            filterable
-            remote
-            :debounce="300"
-            :remote-method="remoteMethod"
-            @visible-change="handleVisibleChange"
-          >
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-        `,
-        setup() {
-          return {
-            value: ref(''),
-            options,
-            remoteMethod,
-            handleVisibleChange,
-          }
-        },
-      },
-      {
-        attachTo: 'body',
-      }
+    const mockedUseDebounceFn = vi.mocked(
+      (await import('@vueuse/core')).useDebounceFn
     )
+    const originalUseDebounceFnImpl =
+      mockedUseDebounceFn.getMockImplementation()
+    mockedUseDebounceFn.mockImplementation(useDebounceFn)
 
-    const select = wrapper.findComponent(Select)
-    const vm = select.vm as any
-    const input = wrapper.find('input')
+    try {
+      wrapper = mount(
+        {
+          components: {
+            'el-select': Select,
+            'el-option': Option,
+          },
+          template: `
+            <el-select
+              v-model="value"
+              filterable
+              remote
+              :debounce="300"
+              :remote-method="remoteMethod"
+              @visible-change="handleVisibleChange"
+            >
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          `,
+          setup() {
+            return {
+              value: ref(''),
+              options,
+              remoteMethod,
+              handleVisibleChange,
+            }
+          },
+        },
+        {
+          attachTo: 'body',
+        }
+      )
 
-    // Open dropdown first
-    await input.trigger('click')
-    await nextTick()
-    expect(vm.dropdownMenuVisible).toBe(true)
-    expect(vm.states.options.size).toBe(1) // initial option exists
-    expect(handleVisibleChange).toHaveBeenCalledTimes(1)
-    expect(handleVisibleChange).toHaveBeenLastCalledWith(true)
+      const select = wrapper.findComponent(Select)
+      const vm = select.vm as any
+      const input = wrapper.find('input')
 
-    // Start typing to trigger remote search and debouncing
-    await input.setValue('a')
-    await nextTick()
-    vi.advanceTimersByTime(50) // Advance time but don't complete debounce
-    await nextTick()
+      // Open dropdown first
+      await input.trigger('click')
+      await nextTick()
+      expect(vm.dropdownMenuVisible).toBe(true)
+      expect(vm.states.options.size).toBe(1) // initial option exists
+      expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+      expect(handleVisibleChange).toHaveBeenLastCalledWith(true)
 
-    // During debouncing (before debounce completes), check dropdown and event count
-    expect(vm.dropdownMenuVisible).toBe(true)
-    expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+      // Start typing to trigger remote search and debouncing
+      await input.setValue('a')
+      await nextTick()
+      vi.advanceTimersByTime(50) // Advance time but don't complete debounce
+      await nextTick()
 
-    // Complete the debounce
-    vi.advanceTimersByTime(300)
-    await nextTick()
+      // During debouncing (before debounce completes), check dropdown and event count
+      expect(vm.dropdownMenuVisible).toBe(true)
+      expect(handleVisibleChange).toHaveBeenCalledTimes(1)
 
-    expect(remoteMethod).toHaveBeenCalledWith('a')
-    expect(vm.dropdownMenuVisible).toBe(true)
-    // Should still only have been called once - dropdown never closed
-    expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+      // Complete the debounce
+      vi.advanceTimersByTime(300)
+      await nextTick()
 
-    vi.useRealTimers()
+      expect(remoteMethod).toHaveBeenCalledWith('a')
+      expect(vm.dropdownMenuVisible).toBe(true)
+      // Should still only have been called once - dropdown never closed
+      expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+    } finally {
+      mockedUseDebounceFn.mockImplementation(
+        originalUseDebounceFnImpl ?? ((fn: any) => fn)
+      )
+      vi.useRealTimers()
+    }
   })
 })
