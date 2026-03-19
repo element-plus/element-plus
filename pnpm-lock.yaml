@@ -292,6 +292,9 @@ importers:
       '@mdit-vue/shared':
         specifier: ^2.1.3
         version: 2.1.4
+      '@prettier/sync':
+        specifier: ^0.6.1
+        version: 0.6.1(prettier@3.7.4)
       '@vitejs/plugin-vue-jsx':
         specifier: 'catalog:'
         version: 4.2.0(vite@7.3.0(@types/node@22.19.3)(jiti@2.6.1)(lightningcss@1.31.1)(sass-embedded@1.97.3)(sass@1.97.3)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.25(typescript@5.5.4))
@@ -2410,6 +2413,11 @@ packages:
 
   '@polka/url@1.0.0-next.29':
     resolution: {integrity: sha512-wwQAWhWSuHaag8c4q/KN/vCoeOJYshAIvMQwD4GpSb3OiZklFfvAgmj0VCBBImRpuF/aFgIRzllXlVX93Jevww==}
+
+  '@prettier/sync@0.6.1':
+    resolution: {integrity: sha512-yF9G8vK/LYUTF3Cijd7VC9La3b20F20/J/fgoR4H0B8JGOWnZVZX6+I6+vODPosjmMcpdlUV+gUqJQZp3kLOcw==}
+    peerDependencies:
+      prettier: '*'
 
   '@puppeteer/browsers@2.11.0':
     resolution: {integrity: sha512-n6oQX6mYkG8TRPuPXmbPidkUbsSRalhmaaVAQxvH1IkQy63cwsH+kOjB3e4cpCDHg0aSvsiX9bQ4s2VB6mGWUQ==}
@@ -5758,6 +5766,9 @@ packages:
   make-fetch-happen@10.2.1:
     resolution: {integrity: sha512-NgOPbRiaQM10DYXvN3/hhGVI2M5MtITFryzBGxHM5p4wnFxsVCbxkrBrDsk+EZ5OB4jEOT7AjDxtdF+KVEFT7w==}
     engines: {node: ^12.13.0 || ^14.15.0 || >=16.0.0}
+
+  make-synchronized@0.8.0:
+    resolution: {integrity: sha512-DZu4lwc0ffoFz581BSQa/BJl+1ZqIkoRQ+VejMlH0VrP4E86StAODnZujZ4sepumQj8rcP7wUnUBGM8Gu+zKUA==}
 
   map-age-cleaner@0.1.3:
     resolution: {integrity: sha512-bJzx6nMoP6PDLPBFmg7+xRKeFZvFboMrGlxmNj9ClvX53KrmvM5bXFXEWjbz4cz1AFn+jWJ9z/DJSz7hrs0w3w==}
@@ -10349,6 +10360,11 @@ snapshots:
 
   '@polka/url@1.0.0-next.29': {}
 
+  '@prettier/sync@0.6.1(prettier@3.7.4)':
+    dependencies:
+      make-synchronized: 0.8.0
+      prettier: 3.7.4
+
   '@puppeteer/browsers@2.11.0':
     dependencies:
       debug: 4.4.3
@@ -14104,6 +14120,8 @@ snapshots:
     transitivePeerDependencies:
       - bluebird
       - supports-color
+
+  make-synchronized@0.8.0: {}
 
   map-age-cleaner@0.1.3:
     dependencies:
