@@ -11,12 +11,12 @@ import type { ButtonType } from '@element-plus/components/button'
 import type {
   ElTooltipContentProps,
   ElTooltipTriggerProps,
+  UseTooltipProps,
 } from '@element-plus/components/tooltip'
 import type { IconPropType } from '@element-plus/utils'
-import type { Placement } from '@element-plus/components/popper'
 import type Popconfirm from './popconfirm.vue'
 
-export interface PopconfirmProps {
+export interface PopconfirmProps extends UseTooltipProps {
   /**
    * @description Title
    */
@@ -26,6 +26,10 @@ export interface PopconfirmProps {
    */
   confirmButtonText?: string
   /**
+   * @description popover placement
+   */
+  placement?: UseTooltipProps['placement']
+  /**
    * @description Cancel button text
    */
   cancelButtonText?: string
@@ -33,10 +37,6 @@ export interface PopconfirmProps {
    * @description Confirm button type
    */
   confirmButtonType?: ButtonType
-  /**
-   * @description popover placement
-   */
-  placement?: Placement
   /**
    * @description Cancel button type
    */

@@ -65,17 +65,14 @@ import { addUnit } from '@element-plus/utils'
 import { QuestionFilled } from '@element-plus/icons-vue'
 import { popconfirmEmits } from './popconfirm'
 
-import type {
-  TooltipInstance,
-  UseTooltipProps,
-} from '@element-plus/components/tooltip'
+import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { PopconfirmProps } from './popconfirm'
 
 defineOptions({
   name: 'ElPopconfirm',
 })
 
-const props = withDefaults(defineProps<PopconfirmProps & UseTooltipProps>(), {
+const props = withDefaults(defineProps<PopconfirmProps>(), {
   confirmButtonType: 'primary',
   cancelButtonType: 'text',
   icon: () => QuestionFilled,
