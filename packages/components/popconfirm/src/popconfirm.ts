@@ -16,7 +16,10 @@ import type {
 import type { IconPropType } from '@element-plus/utils'
 import type Popconfirm from './popconfirm.vue'
 
-export interface PopconfirmProps {
+export interface PopconfirmProps extends Omit<
+  UseTooltipProps,
+  'content' | 'rawContent'
+> {
   /**
    * @description Title
    */
@@ -25,10 +28,6 @@ export interface PopconfirmProps {
    * @description Confirm button text
    */
   confirmButtonText?: string
-  /**
-   * @description popover placement
-   */
-  placement?: UseTooltipProps['placement']
   /**
    * @description Cancel button text
    */
