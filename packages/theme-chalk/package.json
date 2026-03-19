@@ -28,10 +28,10 @@
   },
   "devDependencies": {
     "@element-plus/build": "workspace:*",
-    "lightningcss": "^1.30.2",
+    "lightningcss": "^1.32.0",
     "tinyglobby": "^0.2.15",
-    "sass-embedded": "^1.97.3",
-    "tsx": "^4.19.3"
+    "sass-embedded": "^1.98.0",
+    "tsx": "^4.21.0"
   },
   "gitHead": "c69724230befa8fede0e6b9c37fb0b7e39fd7cdd"
 }
