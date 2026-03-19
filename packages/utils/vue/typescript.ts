@@ -9,7 +9,7 @@ import type {
 type PickProps<T> = {
   [P in keyof T as P extends keyof VNodeProps
     ? never
-    : P extends `on${string}`
+    : P extends `on${Capitalize<string>}`
       ? never
       : P]: T[P]
 }
