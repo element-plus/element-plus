@@ -16,7 +16,7 @@ import type {
 import type { IconPropType } from '@element-plus/utils'
 import type Popconfirm from './popconfirm.vue'
 
-export interface PopconfirmProps extends UseTooltipProps {
+export interface PopconfirmProps {
   /**
    * @description Title
    */
