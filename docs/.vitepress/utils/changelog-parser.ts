@@ -151,6 +151,9 @@ function normalizeComponentNames(raw: string): string[] {
 export function parseChangelog(content: string): ComponentChangelogs {
   const lines = content.replace(/\r\n?/g, '\n').split('\n')
   const componentMap: ComponentChangelogs = {}
+  const matchVersionReg = /^###\s+(\d+\.\d+\.\d+.*)$/
+  const matchDateReg = /^_(.+)_$/
+  const matchTypeReg = /^####\s+(.+)$/
 
   let currentVersion = ''
   let currentDate = ''
@@ -158,7 +161,7 @@ export function parseChangelog(content: string): ComponentChangelogs {
 
   for (const line of lines) {
     // Match version: ### 2.13.3
-    const versionMatch = line.match(/^###\s+(\d+\.\d+\.\d+.*)$/)
+    const versionMatch = line.match(matchVersionReg)
     if (versionMatch) {
       currentVersion = versionMatch[1].trim()
       currentDate = ''
@@ -166,14 +169,14 @@ export function parseChangelog(content: string): ComponentChangelogs {
     }
 
     // Match date: _2026-02-28_
-    const dateMatch = line.match(/^_(.+)_$/)
+    const dateMatch = line.match(matchDateReg)
     if (dateMatch) {
       currentDate = dateMatch[1].trim()
       continue
     }
 
     // Match section type: #### Features
-    const typeMatch = line.match(/^####\s+(.+)$/)
+    const typeMatch = line.match(matchTypeReg)
     if (typeMatch) {
       const typeKey = typeMatch[1].trim()
       currentType = TYPE_MAP[typeKey] || 'refactor'
