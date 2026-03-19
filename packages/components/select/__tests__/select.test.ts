@@ -4536,8 +4536,6 @@ describe('Select', () => {
     await nextTick()
 
     // During debouncing (before debounce completes), check dropdown and event count
-    // With the fix: dropdown stays visible, visible-change called only once
-    // Without the fix: dropdown becomes hidden then visible again, visible-change called 3 times
     expect(vm.dropdownMenuVisible).toBe(true)
     expect(handleVisibleChange).toHaveBeenCalledTimes(1)
 
