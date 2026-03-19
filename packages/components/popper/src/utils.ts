@@ -43,10 +43,10 @@ function genModifiers(options: PopperCoreConfigProps) {
       name: 'preventOverflow',
       options: {
         padding: {
-          top: 2,
-          bottom: 2,
-          left: 5,
-          right: 5,
+          top: 0,
+          bottom: 0,
+          left: 0,
+          right: 0,
         },
       },
     },
@@ -68,7 +68,7 @@ function genModifiers(options: PopperCoreConfigProps) {
 
 function deriveExtraModifiers(
   options: any,
-  modifiers: PopperCoreConfigProps['popperOptions']['modifiers']
+  modifiers: NonNullable<PopperCoreConfigProps['popperOptions']>['modifiers']
 ) {
   if (modifiers) {
     options.modifiers = [...options.modifiers, ...(modifiers ?? [])]

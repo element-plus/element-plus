@@ -85,6 +85,7 @@
 
     &.#{$namespace}-checkbox {
       color: getCssVar('text-color', 'regular');
+      margin-right: 30px;
     }
 
     &:hover {
@@ -117,7 +118,6 @@
       font-size: 12px;
       display: inline-block;
       box-sizing: border-box;
-      border-radius: calc(#{getCssVar('transfer-filter-height')} / 2);
     }
 
     .#{$namespace}-icon-circle-close {
@@ -145,21 +145,29 @@
       align-items: center;
 
       .#{$namespace}-checkbox__label {
+        display: flex;
+        flex: 1;
+        align-items: center;
+        min-width: 0;
         font-size: 16px;
         color: getCssVar('text-color', 'primary');
         font-weight: normal;
-
-        span {
-          position: absolute;
-          right: 15px;
-          top: 50%;
-          transform: translate3d(0, -50%, 0);
-          color: getCssVar('text-color', 'secondary');
-          font-size: 12px;
-          font-weight: normal;
-        }
       }
     }
+  }
+
+  .#{$namespace}-transfer-panel__header-title {
+    @include utils-ellipsis;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .#{$namespace}-transfer-panel__header-count {
+    flex-shrink: 0;
+    margin-left: 8px;
+    margin-right: 15px;
+    color: getCssVar('text-color', 'secondary');
+    font-size: 12px;
   }
 
   .#{$namespace}-transfer-panel__footer {
@@ -189,16 +197,5 @@
 
   .#{$namespace}-checkbox__label {
     padding-left: 8px;
-  }
-
-  .#{$namespace}-checkbox__inner {
-    height: 14px;
-    width: 14px;
-    border-radius: 3px;
-    &::after {
-      height: 6px;
-      width: 3px;
-      left: 4px;
-    }
   }
 }

@@ -24,7 +24,7 @@
       :props="props"
       collapse-tags
       collapse-tags-tooltip
-      max-collapse-tags="3"
+      :max-collapse-tags="3"
       clearable
     />
   </div>

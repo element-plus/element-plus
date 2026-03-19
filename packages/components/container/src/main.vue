@@ -3,6 +3,7 @@
     <slot />
   </main>
 </template>
+
 <script lang="ts" setup>
 import { useNamespace } from '@element-plus/hooks'
 

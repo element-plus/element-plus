@@ -1,36 +1,47 @@
 import {
   computed,
   defineComponent,
-  getCurrentInstance,
   inject,
   nextTick,
   onMounted,
   onUpdated,
   ref,
+  shallowRef,
+  triggerRef,
   watch,
 } from 'vue'
 import {
   useDocumentVisibility,
+  useElementSize,
   useResizeObserver,
   useWindowFocus,
 } from '@vueuse/core'
 import {
   buildProps,
-  capitalize,
   definePropType,
+  getEventCode,
+  isGreaterThan,
   mutable,
+  rAF,
   throwError,
 } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowLeft, ArrowRight, Close } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
+import useWheel from '@element-plus/components/virtual-list/src/hooks/use-wheel'
+import { clamp } from 'lodash-unified'
 import TabBar from './tab-bar.vue'
 import { tabsRootContextKey } from './constants'
 
-import type { CSSProperties, ExtractPropTypes } from 'vue'
-import type { TabsPaneContext } from './constants'
-import type { TabPaneName } from './tabs'
+import type {
+  CSSProperties,
+  ComponentPublicInstance,
+  ExtractPropTypes,
+  ExtractPublicPropTypes,
+} from 'vue'
+import type { TabBarInstance } from './tab-bar'
+import type { TabPaneName, TabsPaneContext } from './constants'
 
 interface Scrollable {
   next?: boolean
@@ -53,6 +64,13 @@ export const tabNavProps = buildProps({
     default: '',
   },
   stretch: Boolean,
+  /**
+   * @description tab-nav tabindex
+   */
+  tabindex: {
+    type: [String, Number],
+    default: undefined,
+  },
 } as const)
 
 export const tabNavEmits = {
@@ -62,6 +80,7 @@ export const tabNavEmits = {
 }
 
 export type TabNavProps = ExtractPropTypes<typeof tabNavProps>
+export type TabNavPropsPublic = ExtractPublicPropTypes<typeof tabNavProps>
 export type TabNavEmits = typeof tabNavEmits
 
 const COMPONENT_NAME = 'ElTabNav'
@@ -70,8 +89,6 @@ const TabNav = defineComponent({
   props: tabNavProps,
   emits: tabNavEmits,
   setup(props, { expose, emit }) {
-    const vm = getCurrentInstance()!
-
     const rootTabs = inject(tabsRootContextKey)
     if (!rootTabs) throwError(COMPONENT_NAME, `<el-tabs><tab-nav /></el-tabs>`)
 
@@ -82,31 +99,77 @@ const TabNav = defineComponent({
     const navScroll$ = ref<HTMLDivElement>()
     const nav$ = ref<HTMLDivElement>()
     const el$ = ref<HTMLDivElement>()
+    const tabRefsMap = ref<{ [key: TabPaneName]: HTMLDivElement }>({})
 
-    const tabBarRef = ref<InstanceType<typeof TabBar>>()
+    const tabBarRef = ref<TabBarInstance>()
 
     const scrollable = ref<false | Scrollable>(false)
     const navOffset = ref(0)
     const isFocus = ref(false)
     const focusable = ref(true)
+    const isWheelScrolling = ref(false)
+    const tracker = shallowRef()
 
-    const sizeName = computed(() =>
+    const isHorizontal = computed(() =>
       ['top', 'bottom'].includes(rootTabs.props.tabPosition)
-        ? 'width'
-        : 'height'
     )
+
+    const sizeName = computed(() => (isHorizontal.value ? 'width' : 'height'))
     const navStyle = computed<CSSProperties>(() => {
       const dir = sizeName.value === 'width' ? 'X' : 'Y'
       return {
+        transition: isWheelScrolling.value ? 'none' : undefined,
         transform: `translate${dir}(-${navOffset.value}px)`,
       }
     })
+
+    const { width: navContainerWidth, height: navContainerHeight } =
+      useElementSize(navScroll$)
+    const { width: navWidth, height: navHeight } = useElementSize(
+      nav$,
+      { width: 0, height: 0 },
+      { box: 'border-box' }
+    )
+
+    const navContainerSize = computed(() =>
+      isHorizontal.value ? navContainerWidth.value : navContainerHeight.value
+    )
+    const navSize = computed(() =>
+      isHorizontal.value ? navWidth.value : navHeight.value
+    )
+
+    const { onWheel } = useWheel(
+      {
+        atStartEdge: computed(() => navOffset.value <= 0),
+        atEndEdge: computed(
+          () => navSize.value - navOffset.value <= navContainerSize.value
+        ),
+        layout: computed(() =>
+          isHorizontal.value ? 'horizontal' : 'vertical'
+        ),
+      },
+      (offset) => {
+        navOffset.value = clamp(
+          navOffset.value + offset,
+          0,
+          navSize.value - navContainerSize.value
+        )
+      }
+    )
+
+    const handleWheel = (event: WheelEvent) => {
+      isWheelScrolling.value = true
+      onWheel(event)
+      rAF(() => {
+        isWheelScrolling.value = false
+      })
+    }
 
     const scrollPrev = () => {
       if (!navScroll$.value) return
 
       const containerSize =
-        navScroll$.value[`offset${capitalize(sizeName.value)}`]
+        navScroll$.value.getBoundingClientRect()[sizeName.value]
       const currentOffset = navOffset.value
 
       if (!currentOffset) return
@@ -120,12 +183,12 @@ const TabNav = defineComponent({
     const scrollNext = () => {
       if (!navScroll$.value || !nav$.value) return
 
-      const navSize = nav$.value[`offset${capitalize(sizeName.value)}`]
+      const navSize = nav$.value.getBoundingClientRect()[sizeName.value]
       const containerSize =
-        navScroll$.value[`offset${capitalize(sizeName.value)}`]
+        navScroll$.value.getBoundingClientRect()[sizeName.value]
       const currentOffset = navOffset.value
 
-      if (navSize - currentOffset <= containerSize) return
+      if (!isGreaterThan(navSize - currentOffset, containerSize)) return
 
       const newOffset =
         navSize - currentOffset > containerSize * 2
@@ -141,29 +204,29 @@ const TabNav = defineComponent({
 
       await nextTick()
 
-      const activeTab = el$.value.querySelector('.is-active')
+      const activeTab = tabRefsMap.value[props.currentName]
       if (!activeTab) return
 
       const navScroll = navScroll$.value
-      const isHorizontal = ['top', 'bottom'].includes(
-        rootTabs.props.tabPosition
-      )
+
       const activeTabBounding = activeTab.getBoundingClientRect()
       const navScrollBounding = navScroll.getBoundingClientRect()
-      const maxOffset = isHorizontal
-        ? nav.offsetWidth - navScrollBounding.width
-        : nav.offsetHeight - navScrollBounding.height
+      // nav has a 1px border width
+      const navScrollLeft = navScrollBounding.left + 1
+      const navScrollRight = navScrollBounding.right - 1
+      const navBounding = nav.getBoundingClientRect()
+      const maxOffset = isHorizontal.value
+        ? navBounding.width - navScrollBounding.width
+        : navBounding.height - navScrollBounding.height
       const currentOffset = navOffset.value
       let newOffset = currentOffset
 
-      if (isHorizontal) {
-        if (activeTabBounding.left < navScrollBounding.left) {
-          newOffset =
-            currentOffset - (navScrollBounding.left - activeTabBounding.left)
+      if (isHorizontal.value) {
+        if (activeTabBounding.left < navScrollLeft) {
+          newOffset = currentOffset - (navScrollLeft - activeTabBounding.left)
         }
-        if (activeTabBounding.right > navScrollBounding.right) {
-          newOffset =
-            currentOffset + activeTabBounding.right - navScrollBounding.right
+        if (activeTabBounding.right > navScrollRight) {
+          newOffset = currentOffset + activeTabBounding.right - navScrollRight
         }
       } else {
         if (activeTabBounding.top < navScrollBounding.top) {
@@ -185,16 +248,19 @@ const TabNav = defineComponent({
 
       props.stretch && tabBarRef.value?.update()
 
-      const navSize = nav$.value[`offset${capitalize(sizeName.value)}`]
+      const navSize = nav$.value.getBoundingClientRect()[sizeName.value]
       const containerSize =
-        navScroll$.value[`offset${capitalize(sizeName.value)}`]
+        navScroll$.value.getBoundingClientRect()[sizeName.value]
       const currentOffset = navOffset.value
 
       if (containerSize < navSize) {
         scrollable.value = scrollable.value || {}
         scrollable.value.prev = currentOffset
-        scrollable.value.next = currentOffset + containerSize < navSize
-        if (navSize - currentOffset < containerSize) {
+        scrollable.value.next = isGreaterThan(
+          navSize,
+          currentOffset + containerSize
+        )
+        if (isGreaterThan(containerSize, navSize - currentOffset)) {
           navOffset.value = navSize - containerSize
         }
       } else {
@@ -205,38 +271,37 @@ const TabNav = defineComponent({
       }
     }
 
-    const changeTab = (e: KeyboardEvent) => {
-      const code = e.code
+    const changeTab = (event: KeyboardEvent) => {
+      const code = getEventCode(event)
+      let step = 0
 
-      const { up, down, left, right } = EVENT_CODE
-      if (![up, down, left, right].includes(code)) return
-
-      // 左右上下键更换tab
-      const tabList = Array.from(
-        (e.currentTarget as HTMLDivElement).querySelectorAll<HTMLDivElement>(
-          '[role=tab]:not(.is-disabled)'
-        )
-      )
-      const currentIndex = tabList.indexOf(e.target as HTMLDivElement)
-
-      let nextIndex: number
-      if (code === left || code === up) {
-        // left
-        if (currentIndex === 0) {
-          // first
-          nextIndex = tabList.length - 1
-        } else {
-          nextIndex = currentIndex - 1
-        }
-      } else {
-        // right
-        if (currentIndex < tabList.length - 1) {
-          // not last
-          nextIndex = currentIndex + 1
-        } else {
-          nextIndex = 0
-        }
+      switch (code) {
+        case EVENT_CODE.left:
+        case EVENT_CODE.up:
+          step = -1
+          break
+        case EVENT_CODE.right:
+        case EVENT_CODE.down:
+          step = 1
+          break
+        default:
+          return
       }
+
+      const tabList = Array.from(
+        (
+          event.currentTarget as HTMLDivElement
+        ).querySelectorAll<HTMLDivElement>('[role=tab]:not(.is-disabled)')
+      )
+      const currentIndex = tabList.indexOf(event.target as HTMLDivElement)
+      let nextIndex = currentIndex + step
+
+      if (nextIndex < 0) {
+        nextIndex = tabList.length - 1
+      } else if (nextIndex >= tabList.length) {
+        nextIndex = 0
+      }
+
       tabList[nextIndex].focus({ preventScroll: true }) // 改变焦点元素
       tabList[nextIndex].click() // 选中下一个tab
       setFocus()
@@ -246,6 +311,20 @@ const TabNav = defineComponent({
       if (focusable.value) isFocus.value = true
     }
     const removeFocus = () => (isFocus.value = false)
+
+    const setRefs = (
+      el: Element | ComponentPublicInstance | null,
+      key: TabPaneName
+    ) => {
+      tabRefsMap.value[key] = el as HTMLDivElement
+    }
+
+    const focusActiveTab = async () => {
+      await nextTick()
+
+      const activeTab = tabRefsMap.value[props.currentName]
+      activeTab?.focus({ preventScroll: true })
+    }
 
     watch(visibility, (visibility) => {
       if (visibility === 'hidden') {
@@ -262,7 +341,9 @@ const TabNav = defineComponent({
       }
     })
 
-    useResizeObserver(el$, update)
+    useResizeObserver(el$, () => {
+      rAF(update)
+    })
 
     onMounted(() => setTimeout(() => scrollToActiveTab(), 0))
     onUpdated(() => update())
@@ -270,13 +351,11 @@ const TabNav = defineComponent({
     expose({
       scrollToActiveTab,
       removeFocus,
+      focusActiveTab,
+      tabListRef: nav$,
+      tabBarRef,
+      scheduleRender: () => triggerRef(tracker),
     })
-
-    watch(
-      () => props.panes,
-      () => vm.update(),
-      { flush: 'post', deep: true }
-    )
 
     return () => {
       const scrollBtn = scrollable.value
@@ -310,14 +389,16 @@ const TabNav = defineComponent({
         const uid = pane.uid
         const disabled = pane.props.disabled
         const tabName = pane.props.name ?? pane.index ?? `${index}`
-        const closable = !disabled && (pane.isClosable || props.editable)
+        const closable =
+          !disabled &&
+          (pane.isClosable || (pane.props.closable !== false && props.editable))
         pane.index = `${index}`
 
         const btnClose = closable ? (
           <ElIcon
             class="is-icon-close"
             // `onClick` not exist when generate dts
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+
             // @ts-ignore
             onClick={(ev: MouseEvent) => emit('tabRemove', pane, ev)}
           >
@@ -326,11 +407,14 @@ const TabNav = defineComponent({
         ) : null
 
         const tabLabelContent = pane.slots.label?.() || pane.props.label
-        const tabindex = !disabled && pane.active ? 0 : -1
+        const tabindex =
+          !disabled && pane.active
+            ? (props.tabindex ?? rootTabs.props.tabindex)
+            : -1
 
         return (
           <div
-            ref={`tab-${uid}`}
+            ref={(el) => setRefs(el, tabName)}
             class={[
               ns.e('item'),
               ns.is(rootTabs.props.tabPosition),
@@ -352,10 +436,10 @@ const TabNav = defineComponent({
               emit('tabClick', pane, tabName, ev)
             }}
             onKeydown={(ev: KeyboardEvent) => {
+              const code = getEventCode(ev)
               if (
                 closable &&
-                (ev.code === EVENT_CODE.delete ||
-                  ev.code === EVENT_CODE.backspace)
+                (code === EVENT_CODE.delete || code === EVENT_CODE.backspace)
               ) {
                 emit('tabRemove', pane, ev)
               }
@@ -365,6 +449,10 @@ const TabNav = defineComponent({
           </div>
         )
       })
+
+      // By tracking the value property, we can schedule a job to re-render `TabNav` when needed.
+      // Unlike `instance.update`, the scheduler ensures the job is queued only once even if we trigger it multiple times.
+      tracker.value
 
       return (
         <div
@@ -377,28 +465,35 @@ const TabNav = defineComponent({
         >
           {scrollBtn}
           <div class={ns.e('nav-scroll')} ref={navScroll$}>
-            <div
-              class={[
-                ns.e('nav'),
-                ns.is(rootTabs.props.tabPosition),
-                ns.is(
-                  'stretch',
-                  props.stretch &&
-                    ['top', 'bottom'].includes(rootTabs.props.tabPosition)
-                ),
-              ]}
-              ref={nav$}
-              style={navStyle.value}
-              role="tablist"
-              onKeydown={changeTab}
-            >
-              {...[
-                !props.type ? (
-                  <TabBar ref={tabBarRef} tabs={[...props.panes]} />
-                ) : null,
-                tabs,
-              ]}
-            </div>
+            {props.panes.length > 0 ? (
+              <div
+                class={[
+                  ns.e('nav'),
+                  ns.is(rootTabs.props.tabPosition),
+                  ns.is(
+                    'stretch',
+                    props.stretch &&
+                      ['top', 'bottom'].includes(rootTabs.props.tabPosition)
+                  ),
+                ]}
+                ref={nav$}
+                style={navStyle.value}
+                role="tablist"
+                onKeydown={changeTab}
+                onWheel={handleWheel}
+              >
+                {...[
+                  !props.type ? (
+                    <TabBar
+                      ref={tabBarRef}
+                      tabs={[...props.panes]}
+                      tabRefs={tabRefsMap.value}
+                    />
+                  ) : null,
+                  tabs,
+                ]}
+              </div>
+            ) : null}
           </div>
         </div>
       )
@@ -406,5 +501,13 @@ const TabNav = defineComponent({
   },
 })
 
-export type TabNavInstance = InstanceType<typeof TabNav>
+export type TabNavInstance = InstanceType<typeof TabNav> & {
+  scrollToActiveTab: () => Promise<void>
+  removeFocus: () => void
+  focusActiveTab: () => void
+  scheduleRender: () => void
+  tabListRef: HTMLDivElement | undefined
+  tabBarRef: TabBarInstance | undefined
+}
+
 export default TabNav

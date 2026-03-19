@@ -6,6 +6,7 @@
       :trigger-keys="triggerKeys"
       :virtual-ref="virtualRef"
       :virtual-triggering="virtualTriggering"
+      :focus-on-target="focusOnTarget"
     >
       <slot v-if="$slots.default" />
     </el-tooltip-trigger>
@@ -22,10 +23,11 @@
       :gpu-acceleration="gpuAcceleration"
       :offset="offset"
       :persistent="persistent"
-      :popper-class="popperClass"
+      :popper-class="kls"
       :popper-style="popperStyle"
       :placement="placement"
       :popper-options="popperOptions"
+      :arrow-offset="arrowOffset"
       :pure="pure"
       :raw-content="rawContent"
       :reference-el="referenceEl"
@@ -37,12 +39,13 @@
       :virtual-triggering="virtualTriggering"
       :z-index="zIndex"
       :append-to="appendTo"
+      :loop="loop"
     >
       <slot name="content">
         <span v-if="rawContent" v-html="content" />
         <span v-else>{{ content }}</span>
       </slot>
-      <el-popper-arrow v-if="showArrow" :arrow-offset="arrowOffset" />
+      <el-popper-arrow v-if="showArrow" />
     </el-tooltip-content>
   </el-popper>
 </template>
@@ -50,6 +53,7 @@
 <script lang="ts" setup>
 import {
   computed,
+  onBeforeUnmount,
   onDeactivated,
   provide,
   readonly,
@@ -58,33 +62,49 @@ import {
   unref,
   watch,
 } from 'vue'
-import { ElPopper, ElPopperArrow } from '@element-plus/components/popper'
-
+import {
+  ElPopper,
+  ElPopperArrow,
+  popperArrowPropsDefaults,
+} from '@element-plus/components/popper'
 import { isBoolean } from '@element-plus/utils'
 import {
   useDelayedToggle,
   useId,
+  useNamespace,
   usePopperContainer,
 } from '@element-plus/hooks'
 import { TOOLTIP_INJECTION_KEY } from './constants'
-import { tooltipEmits, useTooltipModelToggle, useTooltipProps } from './tooltip'
+import { tooltipEmits, useTooltipModelToggle } from './tooltip'
 import ElTooltipTrigger from './trigger.vue'
 import ElTooltipContent from './content.vue'
+import { useTooltipContentPropsDefaults } from './content'
+import { useTooltipTriggerPropsDefaults } from './trigger'
+
+import type { Mutable } from '@element-plus/utils'
+import type { TooltipContentInstance } from './content'
+import type { UseTooltipProps } from './tooltip'
 import type { PopperInstance } from '@element-plus/components/popper'
 
 defineOptions({
   name: 'ElTooltip',
 })
 
-const props = defineProps(useTooltipProps)
-const emit = defineEmits(tooltipEmits)
+const props = withDefaults(defineProps<UseTooltipProps>(), {
+  role: 'tooltip',
+  ...useTooltipContentPropsDefaults,
+  ...useTooltipTriggerPropsDefaults,
+  ...popperArrowPropsDefaults,
+  showArrow: true,
+})
+const emit = defineEmits(tooltipEmits as Mutable<typeof tooltipEmits>)
 
 usePopperContainer()
 
+const ns = useNamespace('tooltip')
 const id = useId()
 const popperRef = ref<PopperInstance>()
-// TODO any is temporary, replace with `TooltipContentInstance` later
-const contentRef = ref<any>()
+const contentRef = ref<TooltipContentInstance>()
 
 const updatePopper = () => {
   const popperComponent = unref(popperRef)
@@ -112,17 +132,17 @@ const controlled = computed(
   () => isBoolean(props.visible) && !hasUpdateHandler.value
 )
 
+const kls = computed(() => {
+  return [ns.b(), props.popperClass!]
+})
+
 provide(TOOLTIP_INJECTION_KEY, {
   controlled,
   id,
   open: readonly(open),
   trigger: toRef(props, 'trigger'),
-  onOpen: (event?: Event) => {
-    onOpen(event)
-  },
-  onClose: (event?: Event) => {
-    onClose(event)
-  },
+  onOpen,
+  onClose,
   onToggle: (event?: Event) => {
     if (unref(open)) {
       onClose(event)
@@ -151,18 +171,21 @@ watch(
     if (disabled && open.value) {
       open.value = false
     }
+    if (!disabled && isBoolean(props.visible)) {
+      open.value = props.visible
+    }
   }
 )
 
 const isFocusInsideContent = (event?: FocusEvent) => {
-  const popperContent: HTMLElement | undefined =
-    contentRef.value?.contentRef?.popperContentRef
-  const activeElement = (event?.relatedTarget as Node) || document.activeElement
-
-  return popperContent && popperContent.contains(activeElement)
+  return contentRef.value?.isFocusInsideContent(event)
 }
 
 onDeactivated(() => open.value && hide())
+
+onBeforeUnmount(() => {
+  toggleReason.value = undefined
+})
 
 defineExpose({
   /**
@@ -186,7 +209,7 @@ defineExpose({
    */
   onOpen,
   /**
-   * @description expose onOpen function to mange el-tooltip open state
+   * @description expose onClose function to manage el-tooltip close state
    */
   onClose,
   /**

@@ -1,4 +1,5 @@
 import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { focusElement } from '@element-plus/utils'
 import { FOCUSOUT_PREVENTED, FOCUSOUT_PREVENTED_OPTS } from './tokens'
 
 const focusReason = ref<'pointer' | 'keyboard'>()
@@ -79,10 +80,12 @@ export const tryFocus = (
   element?: HTMLElement | { focus: () => void } | null,
   shouldSelect?: boolean
 ) => {
-  if (element && element.focus) {
+  if (element) {
     const prevFocusedElement = document.activeElement
-    element.focus({ preventScroll: true })
+
+    focusElement(element, { preventScroll: true })
     lastAutomatedFocusTimestamp.value = window.performance.now()
+
     if (
       element !== prevFocusedElement &&
       isSelectable(element) &&

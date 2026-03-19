@@ -2,7 +2,6 @@ import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
 import { CircleClose } from '@element-plus/icons-vue'
-
 import Progress from '../src/progress.vue'
 
 describe('Progress.vue', () => {

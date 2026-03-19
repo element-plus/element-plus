@@ -1,0 +1,77 @@
+import path from 'path'
+import { defineConfig, loadEnv, type UserConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import vueJsx from '@vitejs/plugin-vue-jsx'
+import Components from 'unplugin-vue-components/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import Inspect from 'vite-plugin-inspect'
+import mkcert from 'vite-plugin-mkcert'
+import { glob } from 'tinyglobby'
+import {
+  epPackage,
+  epRoot,
+  getPackageDependencies,
+  pkgRoot,
+  projRoot,
+} from '@element-plus/build-utils'
+
+export default defineConfig(async ({ mode }): Promise<UserConfig> => {
+  const env = loadEnv(mode, process.cwd(), '')
+  let { dependencies } = getPackageDependencies(epPackage)
+  dependencies = dependencies.filter((dep) => !dep.startsWith('@types/')) // exclude dts deps
+  const optimizeDeps = await glob(['dayjs/(locale|plugin)/*.js'], {
+    cwd: path.resolve(projRoot, 'node_modules'),
+  })
+
+  return {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          // additionalData: `@use "/styles/custom.scss" as *;`,
+          silenceDeprecations: ['legacy-js-api'],
+        },
+      },
+    },
+    resolve: {
+      alias: [
+        {
+          find: /^element-plus(\/(es|lib))?$/,
+          replacement: path.resolve(epRoot, 'index.ts'),
+        },
+        {
+          find: /^element-plus\/(es|lib)\/(.*)$/,
+          replacement: `${pkgRoot}/$2`,
+        },
+      ],
+    },
+    server: {
+      port: 3000,
+      host: true,
+      ...(env.HTTPS ? { https: {} } : {}),
+    },
+    build: {
+      sourcemap: true,
+    },
+    plugins: [
+      vue(),
+      vueJsx(),
+      Components({
+        include: `${__dirname}/**`,
+        resolvers: ElementPlusResolver({
+          version: '2.0.0-dev.1',
+          importStyle: 'sass',
+        }),
+        dts: false,
+      }),
+      env.HTTPS && mkcert(),
+      Inspect(),
+    ] as any,
+
+    optimizeDeps: {
+      include: ['vue', '@vue/shared', ...dependencies, ...optimizeDeps],
+    },
+    esbuild: {
+      target: 'chrome64',
+    },
+  }
+})

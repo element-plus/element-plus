@@ -1,5 +1,14 @@
 <template>
-  <div :class="kls">
+  <div
+    :class="[
+      ns.b(),
+      ns.is('contentful', !!$slots.default),
+      {
+        [ns.m('has-breadcrumb')]: !!$slots.breadcrumb,
+        [ns.m('has-extra')]: !!$slots.extra,
+      },
+    ]"
+  >
     <div v-if="$slots.breadcrumb" :class="ns.e('breadcrumb')">
       <slot name="breadcrumb" />
     </div>
@@ -42,34 +51,28 @@
     </div>
   </div>
 </template>
+
 <script lang="ts" setup>
-import { computed, useSlots } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import { ElDivider } from '@element-plus/components/divider'
-
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import { pageHeaderEmits, pageHeaderProps } from './page-header'
+import { Back } from '@element-plus/icons-vue'
+import { pageHeaderEmits } from './page-header'
+
+import type { PageHeaderProps } from './page-header'
 
 defineOptions({
   name: 'ElPageHeader',
 })
 
-defineProps(pageHeaderProps)
+withDefaults(defineProps<PageHeaderProps>(), {
+  icon: () => Back,
+  content: '',
+})
 const emit = defineEmits(pageHeaderEmits)
-const slots = useSlots()
 
 const { t } = useLocale()
 const ns = useNamespace('page-header')
-const kls = computed(() => {
-  return [
-    ns.b(),
-    {
-      [ns.m('has-breadcrumb')]: !!slots.breadcrumb,
-      [ns.m('has-extra')]: !!slots.extra,
-      [ns.is('contentful')]: !!slots.default,
-    },
-  ]
-})
 
 function handleClick() {
   emit('back')

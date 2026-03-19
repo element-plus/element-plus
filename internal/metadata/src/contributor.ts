@@ -1,10 +1,10 @@
 import path from 'path'
 import { existsSync } from 'fs'
-import glob from 'fast-glob'
+import { styleText } from 'util'
+import { glob } from 'tinyglobby'
 import { Octokit } from 'octokit'
 import consola from 'consola'
-import chalk from 'chalk'
-import { chunk, mapValues, uniqBy } from 'lodash-es'
+import { chunk, mapValues, uniqBy } from 'lodash-unified'
 import {
   ensureDir,
   errorAndExit,
@@ -98,7 +98,7 @@ const fetchCommits = async (
       const index = +key.replace('path', '')
       return [index, result]
     })
-  )
+  ) as Record<string, ApiResult>
 }
 
 const calcContributors = (commits: ApiResult['nodes']) => {
@@ -155,10 +155,12 @@ const getContributorsByComponents = async (components: string[]) => {
 async function getContributors() {
   if (!process.env.GITHUB_TOKEN) throw new Error('GITHUB_TOKEN is empty')
 
-  const components = await glob('*', {
-    cwd: path.resolve(projRoot, 'packages/components'),
-    onlyDirectories: true,
-  })
+  const components = (
+    await glob('*', {
+      cwd: path.resolve(projRoot, 'packages/components'),
+      onlyDirectories: true,
+    })
+  ).map((name) => name.replace(/\/$/, ''))
   let contributors: Record<string, ContributorInfo[]> = {}
 
   consola.info('Fetching contributors...')
@@ -168,7 +170,7 @@ async function getContributors() {
       ...(await getContributorsByComponents(chunkComponents)),
     }
     consola.success(
-      chalk.green(`Fetched contributors: ${chunkComponents.join(', ')}`)
+      styleText('green', `Fetched contributors: ${chunkComponents.join(', ')}`)
     )
   }
   return contributors
@@ -195,7 +197,7 @@ async function main() {
   }
 
   await writeJson(pathDest, contributors)
-  consola.success(chalk.green('Contributors generated'))
+  consola.success(styleText('green', 'Contributors generated'))
 }
 
 main()

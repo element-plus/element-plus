@@ -2,17 +2,14 @@ import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import { TypeComponentsMap } from '@element-plus/utils'
+import { Close, CloseBold } from '@element-plus/icons-vue'
 import { EVENT_CODE } from '@element-plus/constants'
 import { notificationTypes } from '../src/notification'
 import Notification from '../src/notification.vue'
 
 import type { VNode } from 'vue'
-import type { VueWrapper } from '@vue/test-utils'
-import type { SpyInstance } from 'vitest'
-import type {
-  NotificationInstance,
-  NotificationProps,
-} from '../src/notification'
+import type { MockInstance } from 'vitest'
+import type { NotificationProps } from '../src/notification'
 
 const AXIOM = 'Rem is the best girl'
 
@@ -95,14 +92,32 @@ describe('Notification.vue', () => {
         })
       )
     })
+
+    test('should be able to render default close icon', () => {
+      const wrapper = _mount({
+        slots: {
+          default: () => AXIOM,
+        },
+      })
+
+      expect(wrapper.findComponent(Close).exists()).toBe(true)
+    })
+
+    test('should be able to render custom close icon', () => {
+      const wrapper = _mount({
+        props: {
+          closeIcon: CloseBold,
+        },
+      })
+
+      expect(wrapper.findComponent(CloseBold).exists()).toBe(true)
+    })
   })
 
   describe('Notification.type', () => {
     test('should be able to render typed notification', () => {
-      let wrapper: VueWrapper<NotificationInstance>
-
       for (const type of notificationTypes) {
-        wrapper = _mount({
+        const wrapper = _mount({
           props: {
             type,
           },
@@ -115,7 +130,6 @@ describe('Notification.vue', () => {
 
     test('should not be able to render invalid type icon', () => {
       vi.spyOn(console, 'warn').mockImplementation(() => vi.fn)
-
       const type = 'some-type'
       const wrapper = _mount({
         props: {
@@ -125,8 +139,9 @@ describe('Notification.vue', () => {
       })
 
       expect(wrapper.find('.el-notification__icon').exists()).toBe(false)
-      expect(console.warn).toHaveBeenCalled()
-      ;(console.warn as any as SpyInstance).mockRestore()
+      // TODO: Uncomment after runtime validation is added
+      // expect(console.warn).toHaveBeenCalled()
+      ;(console.warn as any as MockInstance).mockRestore()
     })
   })
 

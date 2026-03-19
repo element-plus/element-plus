@@ -29,6 +29,7 @@
               ns.b(),
               customClass,
               ns.is('draggable', draggable),
+              ns.is('dragging', isDragging),
               { [ns.m('center')]: center },
             ]"
             :style="customStyle"
@@ -38,7 +39,7 @@
             <div
               v-if="title !== null && title !== undefined"
               ref="headerRef"
-              :class="ns.e('header')"
+              :class="[ns.e('header'), { 'show-close': showClose }]"
             >
               <div :class="ns.e('title')">
                 <el-icon
@@ -62,7 +63,7 @@
                 "
               >
                 <el-icon :class="ns.e('close')">
-                  <close />
+                  <component :is="closeIcon || 'close'" />
                 </el-icon>
               </button>
             </div>
@@ -80,9 +81,8 @@
                       :is="showInput ? 'label' : 'p'"
                       v-if="!dangerouslyUseHTMLString"
                       :for="showInput ? inputId : undefined"
-                    >
-                      {{ !dangerouslyUseHTMLString ? message : '' }}
-                    </component>
+                      v-text="message"
+                    />
                     <component
                       :is="showInput ? 'label' : 'p'"
                       v-else
@@ -116,7 +116,10 @@
             <div :class="ns.e('btns')">
               <el-button
                 v-if="showCancelButton"
+                :type="cancelButtonType === 'text' ? '' : cancelButtonType"
+                :text="cancelButtonType === 'text'"
                 :loading="cancelButtonLoading"
+                :loading-icon="cancelButtonLoadingIcon"
                 :class="[cancelButtonClass]"
                 :round="roundButton"
                 :size="btnSize"
@@ -128,8 +131,10 @@
               <el-button
                 v-show="showConfirmButton"
                 ref="confirmRef"
-                type="primary"
+                :type="confirmButtonType === 'text' ? '' : confirmButtonType"
+                :text="confirmButtonType === 'text'"
                 :loading="confirmButtonLoading"
+                :loading-icon="confirmButtonLoadingIcon"
                 :class="[confirmButtonClasses]"
                 :round="roundButton"
                 :disabled="confirmButtonDisabled"
@@ -146,11 +151,12 @@
     </el-overlay>
   </transition>
 </template>
+
 <script lang="ts">
-// @ts-nocheck
 import {
   computed,
   defineComponent,
+  markRaw,
   nextTick,
   onBeforeUnmount,
   onMounted,
@@ -172,19 +178,23 @@ import { ElOverlay } from '@element-plus/components/overlay'
 import {
   TypeComponents,
   TypeComponentsMap,
+  isFunction,
+  isString,
   isValidComponentSize,
 } from '@element-plus/utils'
 import { ElIcon } from '@element-plus/components/icon'
+import { Loading } from '@element-plus/icons-vue'
 import ElFocusTrap from '@element-plus/components/focus-trap'
 import { useGlobalComponentSettings } from '@element-plus/components/config-provider'
 
-import type { ComponentPublicInstance, DefineComponent, PropType } from 'vue'
+import type { ComponentPublicInstance, PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 import type {
   Action,
   MessageBoxState,
   MessageBoxType,
 } from './message-box.type'
+import type { InputInstance } from '@element-plus/components/input'
 
 export default defineComponent({
   name: 'ElMessageBox',
@@ -231,10 +241,8 @@ export default defineComponent({
     },
     center: Boolean,
     draggable: Boolean,
-    roundButton: {
-      default: false,
-      type: Boolean,
-    },
+    overflow: Boolean,
+    roundButton: Boolean,
     container: {
       type: String, // default append to body
       default: 'body',
@@ -271,18 +279,21 @@ export default defineComponent({
       cancelButtonClass: '',
       confirmButtonText: '',
       confirmButtonClass: '',
+      cancelButtonType: '',
+      confirmButtonType: 'primary',
       customClass: '',
       customStyle: {},
       dangerouslyUseHTMLString: false,
       distinguishCancelAndClose: false,
       icon: '',
+      closeIcon: '',
       inputPattern: null,
       inputPlaceholder: '',
       inputType: 'text',
-      inputValue: null,
-      inputValidator: null,
+      inputValue: '',
+      inputValidator: undefined,
       inputErrorMessage: '',
-      message: null,
+      message: '',
       modalFade: true,
       modalClass: '',
       showCancelButton: false,
@@ -293,6 +304,8 @@ export default defineComponent({
       action: '' as Action,
       confirmButtonLoading: false,
       cancelButtonLoading: false,
+      confirmButtonLoadingIcon: markRaw(Loading),
+      cancelButtonLoadingIcon: markRaw(Loading),
       confirmButtonDisabled: false,
       editorErrorMessage: '',
       // refer to: https://github.com/ElemeFE/element/commit/2999279ae34ef10c373ca795c87b020ed6753eed
@@ -310,14 +323,15 @@ export default defineComponent({
     const contentId = useId()
     const inputId = useId()
 
-    const iconComponent = computed(
-      () => state.icon || TypeComponentsMap[state.type] || ''
-    )
+    const iconComponent = computed(() => {
+      const type = state.type
+      return state.icon || (type && TypeComponentsMap[type]) || ''
+    })
     const hasMessage = computed(() => !!state.message)
     const rootRef = ref<HTMLElement>()
     const headerRef = ref<HTMLElement>()
     const focusStartRef = ref<HTMLElement>()
-    const inputRef = ref<ComponentPublicInstance>()
+    const inputRef = ref<InputInstance>()
     const confirmRef = ref<ComponentPublicInstance>()
 
     const confirmButtonClasses = computed(() => state.confirmButtonClass)
@@ -326,7 +340,7 @@ export default defineComponent({
       () => state.inputValue,
       async (val) => {
         await nextTick()
-        if (props.boxType === 'prompt' && val !== null) {
+        if (props.boxType === 'prompt' && val) {
           validate()
         }
       },
@@ -365,7 +379,8 @@ export default defineComponent({
     )
 
     const draggable = computed(() => props.draggable)
-    useDraggable(rootRef, headerRef, draggable)
+    const overflow = computed(() => props.overflow)
+    const { isDragging } = useDraggable(rootRef, headerRef, draggable, overflow)
 
     onMounted(async () => {
       await nextTick()
@@ -396,8 +411,8 @@ export default defineComponent({
 
     const overlayEvent = useSameTarget(handleWrapperClick)
 
-    const handleInputEnter = (e: KeyboardEvent) => {
-      if (state.inputType !== 'textarea') {
+    const handleInputEnter = (e: KeyboardEvent | Event) => {
+      if (state.inputType !== 'textarea' && !inputRef.value?.isComposing) {
         e.preventDefault()
         return handleAction('confirm')
       }
@@ -427,7 +442,7 @@ export default defineComponent({
           return false
         }
         const inputValidator = state.inputValidator
-        if (typeof inputValidator === 'function') {
+        if (isFunction(inputValidator)) {
           const validateResult = inputValidator(state.inputValue)
           if (validateResult === false) {
             state.editorErrorMessage =
@@ -435,7 +450,7 @@ export default defineComponent({
             state.validateError = true
             return false
           }
-          if (typeof validateResult === 'string') {
+          if (isString(validateResult)) {
             state.editorErrorMessage = validateResult
             state.validateError = true
             return false
@@ -448,8 +463,8 @@ export default defineComponent({
     }
 
     const getInputElement = () => {
-      const inputRefs = inputRef.value.$refs
-      return (inputRefs.input || inputRefs.textarea) as HTMLElement
+      const inputRefs = inputRef.value?.$refs
+      return (inputRefs?.input ?? inputRefs?.textarea) as HTMLElement
     }
 
     const handleClose = () => {
@@ -460,7 +475,7 @@ export default defineComponent({
     // any other message box and close any other dialog-ish elements
     // e.g. Dialog has a close on press esc feature, and when it closes, it calls
     // props.beforeClose method to make a intermediate state by callout a message box
-    // for some verification or alerting. then if we allow global event liek this
+    // for some verification or alerting. then if we allow global event like this
     // to dispatch, it could callout another message box.
     const onCloseRequested = () => {
       if (props.closeOnPressEscape) {
@@ -470,7 +485,7 @@ export default defineComponent({
 
     // locks the screen to prevent scroll
     if (props.lockScroll) {
-      useLockscreen(visible)
+      useLockscreen(visible, { ns })
     }
 
     return {
@@ -489,6 +504,7 @@ export default defineComponent({
       focusStartRef,
       headerRef,
       inputRef,
+      isDragging,
       confirmRef,
       doClose, // for outside usage
       handleClose, // for out side usage
@@ -499,5 +515,5 @@ export default defineComponent({
       t,
     }
   },
-}) as DefineComponent
+})
 </script>

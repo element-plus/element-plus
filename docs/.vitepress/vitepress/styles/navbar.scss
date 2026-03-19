@@ -23,6 +23,10 @@
     padding: 0 32px;
   }
 
+  @include respond-to('max') {
+    padding: 0 48px;
+  }
+
   .header-container {
     display: flex;
     justify-content: space-between;
@@ -33,15 +37,6 @@
       justify-content: flex-end;
       align-items: center;
       flex-grow: 1;
-    }
-
-    @include respond-to('xxl') {
-      max-width: calc(var(--vp-screen-max-width));
-    }
-
-    @include respond-to('max') {
-      // 36 = 2 * 18 for each side.
-      max-width: calc(var(--vp-screen-max-width));
     }
   }
 

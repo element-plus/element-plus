@@ -1,5 +1,5 @@
 <template>
-  <ul v-show="visible" :class="ns.be('group', 'wrap')">
+  <ul v-show="visible" ref="groupRef" :class="ns.be('group', 'wrap')">
     <li :class="ns.be('group', 'title')">{{ label }}</li>
     <li>
       <ul :class="ns.b('group')">
@@ -10,21 +10,24 @@
 </template>
 
 <script lang="ts">
-// @ts-nocheck
 import {
+  computed,
   defineComponent,
   getCurrentInstance,
-  inject,
+  isVNode,
   onMounted,
   provide,
   reactive,
   ref,
-  toRaw,
   toRefs,
-  watch,
 } from 'vue'
+import { useMutationObserver } from '@vueuse/core'
+import { ensureArray, isArray } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
-import { selectGroupKey, selectKey } from './token'
+import { selectGroupKey } from './token'
+
+import type { Component, VNode, VNodeArrayChildren } from 'vue'
+import type { OptionInternalInstance, OptionPublicInstance } from './type'
 
 export default defineComponent({
   name: 'ElOptionGroup',
@@ -42,9 +45,9 @@ export default defineComponent({
   },
   setup(props) {
     const ns = useNamespace('select')
-    const visible = ref(true)
-    const instance = getCurrentInstance()
-    const children = ref([])
+    const groupRef = ref<HTMLElement>()
+    const instance = getCurrentInstance()!
+    const children = ref<OptionPublicInstance[]>([])
 
     provide(
       selectGroupKey,
@@ -53,42 +56,51 @@ export default defineComponent({
       })
     )
 
-    const select = inject(selectKey)
+    const visible = computed(() =>
+      children.value.some((option) => option.visible === true)
+    )
 
-    onMounted(() => {
-      children.value = flattedChildren(instance.subTree)
-    })
+    const isOption = (
+      node: VNode
+    ): node is VNode & { component: OptionInternalInstance } =>
+      (node.type as Component).name === 'ElOption' && !!node.component?.proxy
 
     // get all instances of options
-    const flattedChildren = (node) => {
-      const children = []
-      if (Array.isArray(node.children)) {
-        node.children.forEach((child) => {
-          if (
-            child.type &&
-            child.type.name === 'ElOption' &&
-            child.component &&
-            child.component.proxy
-          ) {
-            children.push(child.component.proxy)
-          } else if (child.children?.length) {
-            children.push(...flattedChildren(child))
-          }
-        })
-      }
+    const flattedChildren = (node: VNode | VNodeArrayChildren) => {
+      const nodes = ensureArray(node) as VNode[] | VNodeArrayChildren
+      const children: OptionPublicInstance[] = []
+
+      nodes.forEach((child) => {
+        if (!isVNode(child)) return
+
+        if (isOption(child)) {
+          children.push(child.component.proxy)
+        } else if (isArray(child.children) && child.children.length) {
+          children.push(...flattedChildren(child.children))
+        } else if (child.component?.subTree) {
+          children.push(...flattedChildren(child.component.subTree))
+        }
+      })
+
       return children
     }
 
-    const { groupQueryChange } = toRaw(select)
-    watch(
-      groupQueryChange,
-      () => {
-        visible.value = children.value.some((option) => option.visible === true)
-      },
-      { flush: 'post' }
-    )
+    const updateChildren = () => {
+      children.value = flattedChildren(instance.subTree)
+    }
+
+    onMounted(() => {
+      updateChildren()
+    })
+
+    useMutationObserver(groupRef, updateChildren, {
+      attributes: true,
+      subtree: true,
+      childList: true,
+    })
 
     return {
+      groupRef,
       visible,
       ns,
     }

@@ -1,17 +1,13 @@
-import { ref, watch } from 'vue'
+import { ref, toValue, watch } from 'vue'
 import { makeList } from '../utils'
 
+import type { MaybeRefOrGetter } from 'vue'
 import type { Dayjs } from 'dayjs'
-import type {
-  GetDisabledHoursState,
-  GetDisabledMinutesState,
-  GetDisabledSecondsState,
-} from '../types'
 import type {
   GetDisabledHours,
   GetDisabledMinutes,
   GetDisabledSeconds,
-} from '../props/shared'
+} from '../common/props'
 
 const makeAvailableArr = (disabledList: boolean[]): number[] => {
   const trueOrNumber = (isDisabled: boolean, index: number) =>
@@ -69,19 +65,15 @@ export const buildAvailableTimeSlotGetter = (
     disabledSeconds
   )
 
-  const getAvailableHours: GetDisabledHoursState = (role, compare?) => {
+  const getAvailableHours: GetDisabledHours = (role, compare?) => {
     return makeAvailableArr(getHoursList(role, compare))
   }
 
-  const getAvailableMinutes: GetDisabledMinutesState = (
-    hour,
-    role,
-    compare?
-  ) => {
+  const getAvailableMinutes: GetDisabledMinutes = (hour, role, compare?) => {
     return makeAvailableArr(getMinutesList(hour, role, compare))
   }
 
-  const getAvailableSeconds: GetDisabledSecondsState = (
+  const getAvailableSeconds: GetDisabledSeconds = (
     hour,
     minute,
     role,
@@ -97,15 +89,27 @@ export const buildAvailableTimeSlotGetter = (
   }
 }
 
-export const useOldValue = (props: {
-  parsedValue?: string | Dayjs | Dayjs[]
-  visible: boolean
-}) => {
+export const useOldValue = (
+  props: {
+    parsedValue?: string | Dayjs | Dayjs[]
+    visible: boolean
+  },
+  options: {
+    modelValue: MaybeRefOrGetter<unknown>
+    valueOnClear: MaybeRefOrGetter<unknown>
+  }
+) => {
   const oldValue = ref(props.parsedValue)
 
   watch(
     () => props.visible,
     (val) => {
+      const modelValue = toValue(options.modelValue)
+      const valueOnClear = toValue(options.valueOnClear)
+      if (val && modelValue === valueOnClear) {
+        oldValue.value = valueOnClear as typeof oldValue.value
+        return
+      }
       if (!val) {
         oldValue.value = props.parsedValue
       }

@@ -1,12 +1,23 @@
 <template>
   <div
-    :class="[ns.b(), ns.m(listType), ns.is('drag', drag)]"
-    tabindex="0"
+    :class="[
+      ns.b(),
+      ns.m(listType),
+      ns.is('drag', drag),
+      ns.is('disabled', disabled),
+    ]"
+    :tabindex="disabled ? undefined : 0"
+    :aria-disabled="disabled"
+    role="button"
     @click="handleClick"
     @keydown.self.enter.space="handleKeydown"
   >
     <template v-if="drag">
-      <upload-dragger :disabled="disabled" @file="uploadFiles">
+      <upload-dragger
+        :disabled="disabled"
+        :directory="directory"
+        @file="uploadFiles"
+      >
         <slot />
       </upload-dragger>
     </template>
@@ -17,8 +28,10 @@
       ref="inputRef"
       :class="ns.e('input')"
       :name="name"
+      :disabled="disabled"
       :multiple="multiple"
       :accept="accept"
+      :webkitdirectory="directory || undefined"
       type="file"
       @change="handleChange"
       @click.stop
@@ -28,16 +41,15 @@
 
 <script lang="ts" setup>
 import { shallowRef } from 'vue'
-import { isPlainObject } from '@vue/shared'
 import { cloneDeep, isEqual } from 'lodash-unified'
+import { entriesOf, isFunction, isPlainObject } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
-import { entriesOf, isFunction } from '@element-plus/utils'
 import { useFormDisabled } from '@element-plus/components/form'
 import UploadDragger from './upload-dragger.vue'
-import { uploadContentProps } from './upload-content'
 import { genFileId } from './upload'
-import type { UploadContentProps } from './upload-content'
+import { uploadContentPropsDefaults } from './upload-content'
 
+import type { UploadContentProps } from './upload-content'
 import type {
   UploadFile,
   UploadHooks,
@@ -50,7 +62,10 @@ defineOptions({
   inheritAttrs: false,
 })
 
-const props = defineProps(uploadContentProps)
+const props = withDefaults(
+  defineProps<UploadContentProps>(),
+  uploadContentPropsDefaults
+)
 const ns = useNamespace('upload')
 const disabled = useFormDisabled()
 
@@ -136,7 +151,7 @@ const resolveData = async (
     return data(rawFile)
   }
 
-  return data
+  return data!
 }
 
 const doUpload = async (

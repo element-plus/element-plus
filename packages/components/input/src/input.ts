@@ -1,17 +1,172 @@
-import { isString } from '@vue/shared'
+import { markRaw } from 'vue'
 import {
   buildProps,
   definePropType,
   iconPropType,
+  isString,
   mutable,
 } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { useSizeProp } from '@element-plus/hooks'
-import type Input from './input.vue'
-import type { ExtractPropTypes, StyleValue } from 'vue'
+import { useAriaProps, useSizeProp } from '@element-plus/hooks'
+import { CircleClose } from '@element-plus/icons-vue'
 
+import type { ExtractPublicPropTypes, HTMLAttributes, StyleValue } from 'vue'
+import type { ComponentSize } from '@element-plus/constants'
+import type { IconPropType } from '@element-plus/utils'
+
+export type InputModelModifiers = {
+  lazy?: true
+  number?: true
+  trim?: true
+}
 export type InputAutoSize = { minRows?: number; maxRows?: number } | boolean
+// Some commonly used values for input type
+export type InputType =
+  | 'text'
+  | 'textarea'
+  | 'number'
+  | 'password'
+  | 'email'
+  | 'search'
+  | 'tel'
+  | 'url'
+  | (string & NonNullable<unknown>)
 
+export interface InputProps {
+  /**
+   * @description native input id
+   */
+  id?: string
+  /**
+   * @description input box size
+   */
+  size?: ComponentSize
+  /**
+   * @description whether to disable
+   */
+  disabled?: boolean
+  /**
+   * @description binding value
+   */
+  modelValue?: string | number | null | undefined
+  /**
+   * @description v-model modifiers, reference [Vue modifiers](https://vuejs.org/guide/essentials/forms.html#modifiers)
+   */
+  modelModifiers?: InputModelModifiers
+  /**
+   * @description same as `maxlength` in native input
+   */
+  maxlength?: string | number
+  /**
+   * @description same as `minlength` in native input
+   */
+  minlength?: string | number
+  /**
+   * @description type of input, see more in [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types)
+   */
+  type?: InputType
+  /**
+   * @description control the resizability
+   */
+  resize?: 'none' | 'both' | 'horizontal' | 'vertical'
+  /**
+   * @description whether textarea has an adaptive height
+   */
+  autosize?: InputAutoSize
+  /**
+   * @description native input autocomplete
+   * - When the number of literal types in a union exceeds 315, the TS2590 error occurs. see: https://github.com/vuejs/core/issues/10514
+   */
+  autocomplete?: string // HTMLInputElement['autocomplete']
+  /**
+   * @description format content
+   */
+  formatter?: (value: string) => string
+  /**
+   * @description parse content
+   */
+  parser?: (value: string) => string
+  /**
+   * @description placeholder
+   */
+  placeholder?: string
+  /**
+   * @description native input form
+   */
+  form?: string
+  /**
+   * @description native input readonly
+   */
+  readonly?: boolean
+  /**
+   * @description whether to show clear button
+   */
+  clearable?: boolean
+  /**
+   * @description custom clear icon component
+   */
+  clearIcon?: IconPropType
+  /**
+   * @description toggleable password input
+   */
+  showPassword?: boolean
+  /**
+   * @description word count
+   */
+  showWordLimit?: boolean
+  /**
+   * @description word count position, valid when `show-word-limit` is true
+   */
+  wordLimitPosition?: 'inside' | 'outside'
+  /**
+   * @description suffix icon
+   */
+  suffixIcon?: IconPropType
+  /**
+   * @description prefix icon
+   */
+  prefixIcon?: IconPropType
+  /**
+   * @description container role, internal properties provided for use by the picker component
+   */
+  containerRole?: string
+  /**
+   * @description input tabindex
+   */
+  tabindex?: string | number
+  /**
+   * @description whether to trigger form validation
+   */
+  validateEvent?: boolean
+  /**
+   * @description input or textarea element style
+   */
+  inputStyle?: StyleValue
+  /**
+   * @description native input autofocus
+   */
+  autofocus?: boolean
+  /**
+   * @description number of rows of textarea, only works when `type` is 'textarea'
+   */
+  rows?: number
+  /**
+   * @description native `aria-label` attribute
+   */
+  ariaLabel?: string
+  /**
+   * @description native input mode for virtual keyboards
+   */
+  inputmode?: HTMLAttributes['inputmode']
+  /**
+   * @description same as `name` in native input
+   */
+  name?: string
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `InputProps` instead.
+ */
 export const inputProps = buildProps({
   /**
    * @description native input id
@@ -27,7 +182,10 @@ export const inputProps = buildProps({
   /**
    * @description whether to disable
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description binding value
    */
@@ -40,10 +198,29 @@ export const inputProps = buildProps({
     default: '',
   },
   /**
-   * @description type of input
+   * @description v-model modifiers, reference [Vue modifiers](https://vuejs.org/guide/essentials/forms.html#modifiers)
+   */
+  modelModifiers: {
+    type: definePropType<InputModelModifiers>(Object),
+    default: () => ({}),
+  },
+  /**
+   * @description same as `maxlength` in native input
+   */
+  maxlength: {
+    type: [String, Number],
+  },
+  /**
+   * @description same as `minlength` in native input
+   */
+  minlength: {
+    type: [String, Number],
+  },
+  /**
+   * @description type of input, see more in [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types)
    */
   type: {
-    type: String,
+    type: definePropType<InputType>(String),
     default: 'text',
   },
   /**
@@ -64,7 +241,7 @@ export const inputProps = buildProps({
    * @description native input autocomplete
    */
   autocomplete: {
-    type: String,
+    type: definePropType<HTMLInputElement['autocomplete']>(String),
     default: 'off',
   },
   /**
@@ -94,30 +271,33 @@ export const inputProps = buildProps({
   /**
    * @description native input readonly
    */
-  readonly: {
-    type: Boolean,
-    default: false,
-  },
+  readonly: Boolean,
   /**
-   * @description native input readonly
+   * @description whether to show clear button
    */
-  clearable: {
-    type: Boolean,
-    default: false,
+  clearable: Boolean,
+  /**
+   * @description custom clear icon component
+   */
+  clearIcon: {
+    type: iconPropType,
+    default: CircleClose,
   },
   /**
    * @description toggleable password input
    */
-  showPassword: {
-    type: Boolean,
-    default: false,
-  },
+  showPassword: Boolean,
   /**
    * @description word count
    */
-  showWordLimit: {
-    type: Boolean,
-    default: false,
+  showWordLimit: Boolean,
+  /**
+   * @description word count position, valid when `show-word-limit` is true
+   */
+  wordLimitPosition: {
+    type: String,
+    values: ['inside', 'outside'],
+    default: 'inside',
   },
   /**
    * @description suffix icon
@@ -135,13 +315,6 @@ export const inputProps = buildProps({
    * @description container role, internal properties provided for use by the picker component
    */
   containerRole: {
-    type: String,
-    default: undefined,
-  },
-  /**
-   * @description native input aria-label
-   */
-  label: {
     type: String,
     default: undefined,
   },
@@ -175,20 +348,39 @@ export const inputProps = buildProps({
   /**
    * @description native input autofocus
    */
-  autofocus: {
-    type: Boolean,
-    default: false,
+  autofocus: Boolean,
+  rows: {
+    type: Number,
+    default: 2,
   },
+  ...useAriaProps(['ariaLabel']),
+  /**
+   * @description native input mode for virtual keyboards
+   */
+  inputmode: {
+    type: definePropType<HTMLAttributes['inputmode']>(String),
+    default: undefined,
+  },
+  /**
+   * @description same as `name` in native input
+   */
+  name: String,
 } as const)
-export type InputProps = ExtractPropTypes<typeof inputProps>
+
+/**
+ * @deprecated Removed after 3.0.0, Use `InputProps` instead.
+ */
+export type InputPropsPublic = ExtractPublicPropTypes<typeof inputProps>
 
 export const inputEmits = {
   [UPDATE_MODEL_EVENT]: (value: string) => isString(value),
   input: (value: string) => isString(value),
-  change: (value: string) => isString(value),
+  change: (value: string, evt?: Event) =>
+    isString(value) && (evt instanceof Event || evt === undefined),
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
   blur: (evt: FocusEvent) => evt instanceof FocusEvent,
-  clear: () => true,
+  clear: (evt: MouseEvent | undefined) =>
+    evt === undefined || evt instanceof MouseEvent,
   mouseleave: (evt: MouseEvent) => evt instanceof MouseEvent,
   mouseenter: (evt: MouseEvent) => evt instanceof MouseEvent,
   // NOTE: when autofill by browser, the keydown event is instanceof Event, not KeyboardEvent
@@ -200,4 +392,19 @@ export const inputEmits = {
 }
 export type InputEmits = typeof inputEmits
 
-export type InputInstance = InstanceType<typeof Input>
+/**
+ * @description default values for InputProps, used in components that extend InputProps like Autocomplete
+ */
+export const inputPropsDefaults = {
+  disabled: undefined,
+  modelValue: '',
+  modelModifiers: () => ({}),
+  type: 'text' as InputType,
+  autocomplete: 'off',
+  clearIcon: markRaw(CircleClose),
+  wordLimitPosition: 'inside',
+  tabindex: 0,
+  validateEvent: true,
+  inputStyle: () => ({}),
+  rows: 2,
+} as const

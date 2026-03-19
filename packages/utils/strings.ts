@@ -1,9 +1,7 @@
-import { capitalize as toCapitalize } from '@vue/shared'
-export {
-  camelize,
-  hyphenate,
-  hyphenate as kebabCase, // alias
-} from '@vue/shared'
+import { camelize, hyphenate, capitalize as toCapitalize } from '@vue/shared'
+
+export { camelize, hyphenate }
+export const kebabCase = hyphenate
 
 /**
  * fork from {@link https://github.com/sindresorhus/escape-string-regexp}

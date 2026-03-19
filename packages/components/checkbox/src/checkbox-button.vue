@@ -1,29 +1,13 @@
 <template>
   <label :class="labelKls">
     <input
-      v-if="trueLabel || falseLabel"
       v-model="model"
       :class="ns.be('button', 'original')"
       type="checkbox"
       :name="name"
       :tabindex="tabindex"
       :disabled="isDisabled"
-      :true-value="trueLabel"
-      :false-value="falseLabel"
-      @change="handleChange"
-      @focus="isFocused = true"
-      @blur="isFocused = false"
-      @click.stop
-    />
-    <input
-      v-else
-      v-model="model"
-      :class="ns.be('button', 'original')"
-      type="checkbox"
-      :name="name"
-      :tabindex="tabindex"
-      :disabled="isDisabled"
-      :value="label"
+      v-bind="inputBindings"
       @change="handleChange"
       @focus="isFocused = true"
       @blur="isFocused = false"
@@ -45,15 +29,16 @@ import { computed, inject, useSlots } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { checkboxGroupContextKey } from './constants'
 import { useCheckbox } from './composables'
-import { checkboxEmits, checkboxProps } from './checkbox'
+import { checkboxEmits, checkboxPropsDefaults } from './checkbox'
 
 import type { CSSProperties } from 'vue'
+import type { CheckboxProps } from './checkbox'
 
 defineOptions({
   name: 'ElCheckboxButton',
 })
 
-const props = defineProps(checkboxProps)
+const props = withDefaults(defineProps<CheckboxProps>(), checkboxPropsDefaults)
 defineEmits(checkboxEmits)
 const slots = useSlots()
 
@@ -63,8 +48,27 @@ const {
   isDisabled,
   checkboxButtonSize,
   model,
+  actualValue,
   handleChange,
 } = useCheckbox(props, slots)
+
+const inputBindings = computed(() => {
+  if (
+    props.trueValue ||
+    props.falseValue ||
+    props.trueLabel ||
+    props.falseLabel
+  ) {
+    return {
+      'true-value': props.trueValue ?? props.trueLabel ?? true,
+      'false-value': props.falseValue ?? props.falseLabel ?? false,
+    }
+  }
+  return {
+    value: actualValue.value,
+  }
+})
+
 const checkboxGroup = inject(checkboxGroupContextKey, undefined)
 const ns = useNamespace('checkbox')
 

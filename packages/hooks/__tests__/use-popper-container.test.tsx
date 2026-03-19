@@ -1,4 +1,4 @@
-import { defineComponent, nextTick } from 'vue'
+import { DefineComponent, defineComponent, nextTick } from 'vue'
 import { config, mount, shallowMount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import * as vueuse from '@vueuse/core'
@@ -24,7 +24,7 @@ const mountComponent = () =>
         expose(exposes)
         return () => <div>{AXIOM}</div>
       },
-    })
+    }) as DefineComponent<unknown, ReturnType<typeof usePopperContainer>>
   )
 
 describe('usePopperContainer', () => {
@@ -36,7 +36,23 @@ describe('usePopperContainer', () => {
     const { vm } = mountComponent()
     await nextTick()
     const { selector } = vm
-    expect(document.body.querySelector(selector.value)).toBeDefined()
+    expect(
+      document.body.querySelector(selector)?.id === selector.slice(1)
+    ).toBeTruthy()
+  })
+
+  it('should append container from the DOM root again when container is destroyed', async () => {
+    mountComponent()
+    await nextTick()
+    document.body.innerHTML = ''
+    process.env.NODE_ENV = ''
+    const { vm } = mountComponent()
+    await nextTick()
+    process.env.NODE_ENV = 'test'
+    const { selector } = vm
+    expect(
+      document.body.querySelector(selector)?.id === selector.slice(1)
+    ).toBeTruthy()
   })
 
   it('should not append container to the DOM root', async () => {
@@ -44,7 +60,7 @@ describe('usePopperContainer', () => {
     const { vm } = mountComponent()
     await nextTick()
     const { selector } = vm
-    expect(document.body.querySelector(selector.value)).toBeNull()
+    expect(document.body.querySelector(selector)).toBeNull()
   })
 })
 

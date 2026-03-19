@@ -1,6 +1,6 @@
-import type MarkdownIt from 'markdown-it'
+import type { MarkdownRenderer } from 'vitepress'
 
-export default (md: MarkdownIt): void => {
+export default (md: MarkdownRenderer): void => {
   md.renderer.rules.tooltip = (tokens, idx) => {
     const token = tokens[idx]
 

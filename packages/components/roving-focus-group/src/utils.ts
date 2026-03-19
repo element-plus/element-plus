@@ -1,4 +1,6 @@
 import { EVENT_CODE } from '@element-plus/constants'
+import { getEventCode } from '@element-plus/utils'
+
 import type { HTMLAttributes } from 'vue'
 
 type Orientation = HTMLAttributes['aria-orientation']
@@ -34,7 +36,8 @@ export const getFocusIntent = (
   orientation?: Orientation,
   dir?: Direction
 ) => {
-  const key = getDirectionAwareKey(event.key, dir)
+  const code = getEventCode(event)
+  const key = getDirectionAwareKey(code, dir)
   if (
     orientation === 'vertical' &&
     [EVENT_CODE.left, EVENT_CODE.right].includes(key)

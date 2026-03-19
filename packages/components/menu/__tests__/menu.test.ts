@@ -2,7 +2,8 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
-
+import { rAF } from '@element-plus/test-utils/tick'
+import defineGetter from '@element-plus/test-utils/define-getter'
 import Menu from '../src/menu'
 import MenuGroup from '../src/menu-item-group.vue'
 import MenuItem from '../src/menu-item.vue'
@@ -420,6 +421,7 @@ describe('other', () => {
 
     vi.runAllTimers()
     vi.useRealTimers()
+    vi.clearAllTimers()
 
     expect(onOpen).toHaveBeenCalled()
   })
@@ -476,5 +478,117 @@ describe('other', () => {
     expect(
       instance.$el.querySelector('.el-menu-item.is-active').innerHTML
     ).toEqual('new')
+  })
+
+  test('should not generate nodes from comments, issue 21750', async () => {
+    const itemWidth = 100
+    const wrapper = _mount(
+      `<el-menu mode="horizontal" default-active="1">
+        <!-- comment -->
+        <el-menu-item index="1">Workbenches</el-menu-item>
+        <!-- comment -->
+        <el-menu-item index="2">Users</el-menu-item>
+        <!-- comment -->
+        <!-- comment -->
+        <!-- comment -->
+      </el-menu>`
+    )
+
+    const menu = wrapper.findComponent({ name: 'ElMenu' })
+    const menuItems = wrapper.findAllComponents({ name: 'ElMenuItem' })
+    expect(menu.exists()).toBeTruthy()
+
+    // mock size
+    const styleSpy = vi
+      .spyOn(window, 'getComputedStyle')
+      .mockImplementation(() => {
+        return {
+          offsetWidth: itemWidth,
+          marginLeft: 0,
+          marginRight: 0,
+          paddingLeft: 0,
+          paddingRight: 0,
+        }
+      })
+    const menuItemSpy = vi
+      .spyOn(menu.element, 'clientWidth', 'get')
+      .mockReturnValue(itemWidth * 10)
+    const menuItemsCleanups = menuItems.map((item) => {
+      return defineGetter(item.element, 'offsetWidth', itemWidth)
+    })
+
+    menu.vm.$.exposed.handleResize()
+    await rAF()
+    await nextTick()
+
+    expect(wrapper.findComponent({ name: 'ElSubMenu' }).exists()).toBeFalsy()
+    expect(menuItems.length).toBe(2)
+
+    wrapper.unmount()
+    menuItemsCleanups.forEach((fn) => fn())
+    styleSpy.mockRestore()
+    menuItemSpy.mockRestore()
+  })
+
+  test('should not generate more when width is sufficient, issue 15868', async () => {
+    const itemWidth = 100
+
+    const wrapper = _mount(
+      `<el-menu mode="horizontal" default-active="1">
+        <!-- comment -->
+        <el-menu-item index="1">选项1</el-menu-item>
+        <!-- comment -->
+        <el-menu-item index="2">选项2</el-menu-item>
+        <!-- comment -->
+        <el-menu-item index="3">选项3</el-menu-item>
+        <!-- comment -->
+        <el-menu-item index="4">选项4</el-menu-item>
+        <!-- comment -->
+        <el-menu-item index="5">选项5</el-menu-item>
+      </el-menu>`
+    )
+
+    const menu = wrapper.findComponent({ name: 'ElMenu' })
+    const menuItems = wrapper.findAllComponents({ name: 'ElMenuItem' })
+    expect(menu.exists()).toBeTruthy()
+
+    // mock size
+    const styleSpy = vi
+      .spyOn(window, 'getComputedStyle')
+      .mockImplementation(() => {
+        return {
+          offsetWidth: itemWidth,
+          marginLeft: 0,
+          marginRight: 0,
+          paddingLeft: 0,
+          paddingRight: 0,
+        }
+      })
+    const menuItemSpy = vi
+      .spyOn(menu.element, 'clientWidth', 'get')
+      .mockReturnValue(itemWidth * 2)
+    const menuItemsCleanups = menuItems.map((item) => {
+      return defineGetter(item.element, 'offsetWidth', itemWidth)
+    })
+
+    menu.vm.$.exposed.handleResize()
+    await rAF()
+    await nextTick()
+
+    expect(menu.element.querySelectorAll('.el-menu-item').length).toBe(1)
+    expect(wrapper.findComponent({ name: 'ElSubMenu' }).exists()).toBeTruthy()
+
+    menuItemSpy.mockReturnValue(itemWidth * 6)
+    menu.vm.$.exposed.handleResize()
+
+    await rAF()
+    await nextTick()
+    expect(menu.element.querySelectorAll('.el-menu-item').length).toBe(5)
+    expect(wrapper.findComponent({ name: 'ElSubMenu' }).exists()).toBeFalsy()
+
+    wrapper.unmount()
+    menuItemsCleanups.forEach((fn) => fn())
+    styleSpy.mockRestore()
+    menuItemSpy.mockRestore()
   })
 })

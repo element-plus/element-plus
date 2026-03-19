@@ -13,6 +13,9 @@
       :props="props.props"
       @checked-change="onSourceCheckedChange"
     >
+      <template #empty>
+        <slot name="left-empty" />
+      </template>
       <slot name="left-footer" />
     </transfer-panel>
     <div :class="ns.e('buttons')">
@@ -48,20 +51,23 @@
       :props="props.props"
       @checked-change="onTargetCheckedChange"
     >
+      <template #empty>
+        <slot name="right-empty" />
+      </template>
       <slot name="right-footer" />
     </transfer-panel>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, h, reactive, ref, useSlots, watch } from 'vue'
+import { Comment, computed, h, reactive, ref, useSlots, watch } from 'vue'
 import { debugWarn, isEmpty, isUndefined } from '@element-plus/utils'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { ElButton } from '@element-plus/components/button'
 import { ElIcon } from '@element-plus/components/icon'
 import { useFormItem } from '@element-plus/components/form'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
-import { transferEmits, transferProps } from './transfer'
+import { transferEmits } from './transfer'
 import {
   useCheckedChange,
   useComputedData,
@@ -74,6 +80,7 @@ import type {
   TransferCheckedState,
   TransferDataItem,
   TransferDirection,
+  TransferProps,
 } from './transfer'
 import type { TransferPanelInstance } from './transfer-panel'
 
@@ -81,7 +88,22 @@ defineOptions({
   name: 'ElTransfer',
 })
 
-const props = defineProps(transferProps)
+const props = withDefaults(defineProps<TransferProps>(), {
+  data: () => [],
+  titles: () => [] as unknown as [string, string],
+  buttonTexts: () => [] as unknown as [string, string],
+  leftDefaultChecked: () => [],
+  rightDefaultChecked: () => [],
+  modelValue: () => [],
+  format: () => ({}),
+  props: () => ({
+    label: 'label',
+    key: 'key',
+    disabled: 'disabled',
+  }),
+  targetOrder: 'original',
+  validateEvent: true,
+})
 const emit = defineEmits(transferEmits)
 const slots = useSlots()
 
@@ -145,7 +167,12 @@ watch(
 const optionRender = computed(() => (option: TransferDataItem) => {
   if (props.renderContent) return props.renderContent(h, option)
 
-  if (slots.default) return slots.default({ option })
+  const defaultSlotVNodes = (slots.default?.({ option }) || []).filter(
+    (node) => node.type !== Comment
+  )
+  if (defaultSlotVNodes.length) {
+    return defaultSlotVNodes
+  }
 
   return h(
     'span',
@@ -158,7 +185,7 @@ defineExpose({
   clearQuery,
   /** @description left panel ref */
   leftPanel,
-  /** @description left panel ref */
+  /** @description right panel ref */
   rightPanel,
 })
 </script>

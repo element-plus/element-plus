@@ -1,9 +1,18 @@
-import { defineConfig, presetAttributify, presetIcons, presetUno } from 'unocss'
+import {
+  defineConfig,
+  presetAttributify,
+  presetIcons,
+  presetWind3,
+} from 'unocss'
 
 export default defineConfig({
-  presets: [presetUno(), presetAttributify(), presetIcons()],
-  include: [`${__dirname}/**/*`],
-  exclude: [`${__dirname}/node_modules/**/*`],
+  presets: [presetWind3(), presetAttributify(), presetIcons()],
+  content: {
+    pipeline: {
+      include: [`./**/*`],
+      exclude: [`./node_modules/**/*`, `./.vitepress/cache/**/*`],
+    },
+  },
   theme: {
     breakpoints: {
       sm: '640px',

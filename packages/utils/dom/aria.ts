@@ -1,5 +1,15 @@
 const FOCUSABLE_ELEMENT_SELECTORS = `a[href],button:not([disabled]),button:not([hidden]),:not([tabindex="-1"]),input:not([disabled]),input:not([type="hidden"]),select:not([disabled]),textarea:not([disabled])`
 
+export const isShadowRoot = (e: unknown): e is ShadowRoot => {
+  if (typeof ShadowRoot === 'undefined') return false
+  return e instanceof ShadowRoot
+}
+
+const isHTMLElement = (e: unknown): e is Element => {
+  if (typeof Element === 'undefined') return false
+  return e instanceof Element
+}
+
 /**
  * Determine if the testing element is visible on screen no matter if its on the viewport or not
  */
@@ -31,8 +41,11 @@ export const isFocusable = (element: HTMLElement): boolean => {
   ) {
     return true
   }
-  // HTMLButtonElement has disabled
-  if ((element as HTMLButtonElement).disabled) {
+  if (
+    element.tabIndex < 0 ||
+    element.hasAttribute('disabled') ||
+    element.getAttribute('aria-disabled') === 'true'
+  ) {
     return false
   }
 
@@ -59,22 +72,6 @@ export const isFocusable = (element: HTMLElement): boolean => {
       return false
     }
   }
-}
-
-/**
- * @desc Set Attempt to set focus on the current node.
- * @param element
- *          The node to attempt to focus on.
- * @returns
- *  true if element is focused.
- */
-export const attemptFocus = (element: HTMLElement): boolean => {
-  if (!isFocusable(element)) {
-    return false
-  }
-  // Remove the old try catch block since there will be no error to be thrown
-  element.focus?.()
-  return document.activeElement === element
 }
 
 /**
@@ -119,8 +116,27 @@ export const getSibling = (
   return siblings[index + distance] || null
 }
 
+export const focusElement = (
+  el?: HTMLElement | { focus: () => void } | null,
+  options?: FocusOptions
+) => {
+  if (!el || !el.focus) return
+  let cleanup: boolean = false
+
+  if (isHTMLElement(el) && !isFocusable(el) && !el.getAttribute('tabindex')) {
+    el.setAttribute('tabindex', '-1')
+    cleanup = true
+  }
+
+  el.focus(options)
+
+  if (isHTMLElement(el) && cleanup) {
+    el.removeAttribute('tabindex')
+  }
+}
+
 export const focusNode = (el: HTMLElement) => {
   if (!el) return
-  el.focus()
+  focusElement(el)
   !isLeaf(el) && el.click()
 }

@@ -1,1 +1,1 @@
-export { NOOP } from '@vue/shared'
+export { NOOP, toRawType } from '@vue/shared'

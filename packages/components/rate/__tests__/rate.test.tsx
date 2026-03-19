@@ -1,7 +1,7 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
-import { ElFormItem as FormItem } from '@element-plus/components/form'
+import { ElForm, ElFormItem as FormItem } from '@element-plus/components/form'
 import Rate from '../src/rate.vue'
 
 import type { RateInstance } from '../src/rate'
@@ -148,6 +148,58 @@ describe('Rate.vue', () => {
     expect(changeCount.value).toEqual(2)
   })
 
+  it('show background icon when allow-half attribute is true', async () => {
+    const value = ref(3.5)
+    const wrapper = mount(() => <Rate v-model={value.value} allow-half />)
+    expect(wrapper.find('.el-rate__decimal--box').exists()).toBe(true)
+    expect(
+      wrapper.findAll('.el-rate__decimal--box')[3].attributes('style')
+    ).toBe(undefined)
+    value.value = 3.4
+    await nextTick()
+    expect(wrapper.find('.el-rate__decimal--box').exists()).toBe(true)
+    expect(
+      wrapper.findAll('.el-rate__decimal--box')[3].attributes('style')
+    ).contain('display: none;')
+  })
+
+  it('show background icon when disabled attribute is true', async () => {
+    const value = ref(3.2)
+    const wrapper = mount(() => <Rate v-model={value.value} disabled />)
+    expect(wrapper.find('.el-rate__decimal--box').exists()).toBe(true)
+    expect(
+      wrapper.findAll('.el-rate__decimal--box')[3].attributes('style')
+    ).toBe(undefined)
+  })
+
+  it('should clamp modelValue to max when modelValue exceeds max', () => {
+    const wrapper = mount(Rate, {
+      props: {
+        modelValue: 10,
+        max: 5,
+      },
+    })
+    const stars = wrapper.findAll('.el-rate__item')
+    expect(stars.length).toBe(5)
+    // All stars should be active since value is clamped to max (5)
+    const activeIcons = wrapper.findAll('.el-rate__icon.is-active')
+    expect(activeIcons.length).toBe(5)
+  })
+
+  it('should display correct text when modelValue exceeds max and showText is enabled', () => {
+    const wrapper = mount(Rate, {
+      props: {
+        modelValue: 10,
+        max: 5,
+        showText: true,
+        texts: ['1', '2', '3', '4', '5'],
+      },
+    })
+    const text = wrapper.find('.el-rate__text').element
+    // When value is clamped to max (5), text should show texts[4] which is '5'
+    expect(text.textContent).toBe('5')
+  })
+
   describe('form item accessibility integration', () => {
     it('automatic id attachment', async () => {
       const wrapper = mount(() => (
@@ -191,6 +243,18 @@ describe('Rate.vue', () => {
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
+    })
+
+    it('The disabled state of a component has higher priority than that of a form', async () => {
+      const wrapper = mount(() => (
+        <ElForm disabled>
+          <Rate disabled={false} />
+        </ElForm>
+      ))
+
+      await nextTick()
+      const rate = await wrapper.findComponent(Rate)
+      expect(rate.classes()).not.toContain('is-disabled')
     })
   })
 })

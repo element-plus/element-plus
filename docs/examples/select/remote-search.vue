@@ -11,6 +11,7 @@
         placeholder="Please enter a keyword"
         :remote-method="remoteMethod"
         :loading="loading"
+        style="width: 240px"
       >
         <el-option
           v-for="item in options"
@@ -32,6 +33,7 @@
         remote-show-suffix
         :remote-method="remoteMethod"
         :loading="loading"
+        style="width: 240px"
       >
         <el-option
           v-for="item in options"

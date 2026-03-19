@@ -1,5 +1,6 @@
 <template>
   <el-tree
+    style="max-width: 600px"
     :data="data"
     show-checkbox
     node-key="id"

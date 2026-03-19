@@ -1,6 +1,5 @@
 import { describe, expect, test, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
-
 import makeMount from '@element-plus/test-utils/make-mount'
 import UploadList from '../src/upload-list.vue'
 
@@ -68,6 +67,16 @@ describe('<upload-list />', () => {
 
       await wrapper.find('.el-upload-list__item-delete').trigger('click')
       expect(remove).toHaveBeenCalledTimes(3)
+
+      await wrapper.find('.el-icon--close').trigger('keydown', {
+        key: EVENT_CODE.enter,
+      })
+      expect(remove).toHaveBeenCalledTimes(4)
+
+      await wrapper.find('.el-icon--close').trigger('keydown', {
+        key: EVENT_CODE.space,
+      })
+      expect(remove).toHaveBeenCalledTimes(5)
     })
   })
 })

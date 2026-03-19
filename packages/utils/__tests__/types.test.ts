@@ -1,4 +1,3 @@
-import * as vue from 'vue'
 import * as vueShared from '@vue/shared'
 import { describe, expect, it } from 'vitest'
 import {
@@ -15,7 +14,6 @@ import {
   isString,
   isSymbol,
   isUndefined,
-  isVNode,
 } from '..'
 
 describe('types', () => {
@@ -27,10 +25,6 @@ describe('types', () => {
     expect(isPromise).toBe(vueShared.isPromise)
     expect(isString).toBe(vueShared.isString)
     expect(isSymbol).toBe(vueShared.isSymbol)
-  })
-
-  it('re-export from vue', () => {
-    expect(isVNode).toBe(vue.isVNode)
   })
 
   it('isBoolean and isNumber should work', () => {

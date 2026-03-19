@@ -1,5 +1,9 @@
 import { isClient } from '../browser'
+import { easeInOutCubic } from '../easings'
+import { isFunction, isWindow } from '../types'
+import { cAF, rAF } from '../raf'
 import { getStyle } from './style'
+import { isShadowRoot } from './aria'
 
 export const isScroll = (el: HTMLElement, isVertical?: boolean): boolean => {
   if (!isClient) return false
@@ -28,7 +32,11 @@ export const getScrollContainer = (
 
     if (isScroll(parent, isVertical)) return parent
 
-    parent = parent.parentNode as HTMLElement
+    if (isShadowRoot(parent)) {
+      parent = parent.host as HTMLElement
+    } else {
+      parent = parent.parentNode as HTMLElement
+    }
   }
 
   return parent
@@ -98,4 +106,60 @@ export function scrollIntoView(
   } else if (bottom > viewRectBottom) {
     container.scrollTop = bottom - container.clientHeight
   }
+}
+
+export function animateScrollTo(
+  container: HTMLElement | Window,
+  from: number,
+  to: number,
+  duration: number,
+  callback?: unknown
+) {
+  const startTime = Date.now()
+
+  let handle: number | undefined
+  const scroll = () => {
+    const timestamp = Date.now()
+    const time = timestamp - startTime
+    const nextScrollTop = easeInOutCubic(
+      time > duration ? duration : time,
+      from,
+      to,
+      duration
+    )
+
+    if (isWindow(container)) {
+      container.scrollTo(window.pageXOffset, nextScrollTop)
+    } else {
+      container.scrollTop = nextScrollTop
+    }
+    if (time < duration) {
+      handle = rAF(scroll)
+    } else if (isFunction(callback)) {
+      callback()
+    }
+  }
+
+  scroll()
+
+  return () => {
+    handle && cAF(handle)
+  }
+}
+
+export const getScrollElement = (
+  target: HTMLElement,
+  container: HTMLElement | Window
+) => {
+  if (isWindow(container)) {
+    return target.ownerDocument.documentElement
+  }
+  return container
+}
+
+export const getScrollTop = (container: HTMLElement | Window) => {
+  if (isWindow(container)) {
+    return window.scrollY
+  }
+  return container.scrollTop
 }

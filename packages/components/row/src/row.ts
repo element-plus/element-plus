@@ -1,5 +1,6 @@
 import { buildProps } from '@element-plus/utils'
-import type { ExtractPropTypes } from 'vue'
+
+import type { ExtractPublicPropTypes } from 'vue'
 import type Row from './row.vue'
 
 export const RowJustify = [
@@ -13,6 +14,28 @@ export const RowJustify = [
 
 export const RowAlign = ['top', 'middle', 'bottom'] as const
 
+export interface RowProps {
+  /**
+   * @description custom element tag
+   */
+  tag?: string
+  /**
+   * @description grid spacing
+   */
+  gutter?: number
+  /**
+   * @description horizontal alignment of flex layout
+   */
+  justify?: (typeof RowJustify)[number]
+  /**
+   * @description vertical alignment of flex layout
+   */
+  align?: (typeof RowAlign)[number]
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `RowProps` instead.
+ */
 export const rowProps = buildProps({
   /**
    * @description custom element tag
@@ -45,5 +68,8 @@ export const rowProps = buildProps({
   },
 } as const)
 
-export type RowProps = ExtractPropTypes<typeof rowProps>
-export type RowInstance = InstanceType<typeof Row>
+/**
+ * @deprecated Removed after 3.0.0, Use `RowProps` instead.
+ */
+export type RowPropsPublic = ExtractPublicPropTypes<typeof rowProps>
+export type RowInstance = InstanceType<typeof Row> & unknown

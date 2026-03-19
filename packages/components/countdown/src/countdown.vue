@@ -12,22 +12,29 @@
     </template>
   </el-statistic>
 </template>
+
 <script lang="ts" setup>
-import { computed, onBeforeUnmount, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { ElStatistic } from '@element-plus/components/statistic'
 import { cAF, rAF } from '@element-plus/utils'
-import { countdownEmits, countdownProps } from './countdown'
+import { CHANGE_EVENT } from '@element-plus/constants'
+import { countdownEmits } from './countdown'
 import { formatTime, getTime } from './utils'
+
+import type { CountdownProps } from './countdown'
 
 defineOptions({
   name: 'ElCountdown',
 })
-
-const props = defineProps(countdownProps)
+const props = withDefaults(defineProps<CountdownProps>(), {
+  format: 'HH:mm:ss',
+  value: 0,
+  valueStyle: undefined,
+})
 const emit = defineEmits(countdownEmits)
 
 let timer: ReturnType<typeof rAF> | undefined
-const rawValue = ref(getTime(props.value) - Date.now())
+const rawValue = ref<number>(0)
 const displayValue = computed(() => formatTime(rawValue.value, props.format))
 
 const formatter = (val: number) => formatTime(val, props.format)
@@ -43,7 +50,7 @@ const startTimer = () => {
   const timestamp = getTime(props.value)
   const frameFunc = () => {
     let diff = timestamp - Date.now()
-    emit('change', diff)
+    emit(CHANGE_EVENT, diff)
     if (diff <= 0) {
       diff = 0
       stopTimer()
@@ -56,16 +63,20 @@ const startTimer = () => {
   timer = rAF(frameFunc)
 }
 
-watch(
-  () => [props.value, props.format],
-  () => {
-    stopTimer()
-    startTimer()
-  },
-  {
-    immediate: true,
-  }
-)
+onMounted(() => {
+  rawValue.value = getTime(props.value) - Date.now()
+
+  watch(
+    () => [props.value, props.format],
+    () => {
+      stopTimer()
+      startTimer()
+    },
+    {
+      immediate: true,
+    }
+  )
+})
 
 onBeforeUnmount(() => {
   stopTimer()

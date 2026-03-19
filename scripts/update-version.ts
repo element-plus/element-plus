@@ -1,6 +1,7 @@
+import { styleText } from 'util'
 import consola from 'consola'
-import chalk from 'chalk'
 import { errorAndExit, getWorkspacePackages } from '@element-plus/build-utils'
+
 import type { Project } from '@pnpm/find-workspace-packages'
 
 async function main() {
@@ -14,11 +15,11 @@ async function main() {
     )
   }
 
-  consola.log(chalk.cyan('Start updating version'))
-  consola.log(chalk.cyan(`$TAG_VERSION: ${tagVersion}`))
-  consola.log(chalk.cyan(`$GIT_HEAD: ${gitHead}`))
+  consola.log(styleText('cyan', 'Start updating version'))
+  consola.log(styleText('cyan', `$TAG_VERSION: ${tagVersion}`))
+  consola.log(styleText('cyan', `$GIT_HEAD: ${gitHead}`))
 
-  consola.debug(chalk.yellow(`Updating package.json for element-plus`))
+  consola.debug(styleText('yellow', `Updating package.json for element-plus`))
 
   const pkgs = Object.fromEntries(
     (await getWorkspacePackages()).map((pkg) => [pkg.manifest.name!, pkg])
@@ -43,8 +44,8 @@ async function main() {
     errorAndExit(err)
   }
 
-  consola.debug(chalk.green(`$GIT_HEAD: ${gitHead}`))
-  consola.success(chalk.green(`Git head updated to ${gitHead}`))
+  consola.debug(styleText('green', `$GIT_HEAD: ${gitHead}`))
+  consola.success(styleText('green', `Git head updated to ${gitHead}`))
 }
 
 main()

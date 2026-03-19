@@ -1,28 +1,22 @@
 <template>
-  <transition-group
-    tag="ul"
-    :class="[
-      nsUpload.b('list'),
-      nsUpload.bm('list', listType),
-      nsUpload.is('disabled', disabled),
-    ]"
-    :name="nsList.b()"
-  >
+  <transition-group tag="ul" :class="containerKls" :name="nsList.b()">
     <li
-      v-for="file in files"
+      v-for="(file, index) in files"
       :key="file.uid || file.name"
       :class="[
         nsUpload.be('list', 'item'),
         nsUpload.is(file.status),
         { focusing },
       ]"
-      tabindex="0"
+      :tabindex="disabled ? undefined : 0"
+      :aria-disabled="disabled"
+      role="button"
       @keydown.delete="!disabled && handleRemove(file)"
       @focus="focusing = true"
       @blur="focusing = false"
       @click="focusing = false"
     >
-      <slot :file="file">
+      <slot :file="file" :index="index">
         <img
           v-if="
             listType === 'picture' ||
@@ -30,6 +24,7 @@
           "
           :class="nsUpload.be('list', 'item-thumbnail')"
           :src="file.url"
+          :crossorigin="crossorigin"
           alt=""
         />
         <div
@@ -76,13 +71,14 @@
         <el-icon
           v-if="!disabled"
           :class="nsIcon.m('close')"
+          :aria-label="t('el.upload.delete')"
+          role="button"
+          tabindex="0"
           @click="handleRemove(file)"
+          @keydown.enter.space.prevent="handleRemove(file)"
         >
           <Close />
         </el-icon>
-        <!-- Due to close btn only appears when li gets focused disappears after li gets blurred, thus keyboard navigation can never reach close btn-->
-        <!-- This is a bug which needs to be fixed -->
-        <!-- TODO: Fix the incorrect navigation interaction -->
         <i v-if="!disabled" :class="nsIcon.m('close-tip')">{{
           t('el.upload.deleteTip')
         }}</i>
@@ -111,8 +107,9 @@
     <slot name="append" />
   </transition-group>
 </template>
+
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import {
   Check,
@@ -125,15 +122,22 @@ import {
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElProgress from '@element-plus/components/progress'
 import { useFormDisabled } from '@element-plus/components/form'
+import { uploadListEmits } from './upload-list'
+import { NOOP, mutable } from '@element-plus/utils'
 
-import { uploadListEmits, uploadListProps } from './upload-list'
+import type { UploadListProps } from './upload-list'
 import type { UploadFile } from './upload'
 
 defineOptions({
   name: 'ElUploadList',
 })
 
-defineProps(uploadListProps)
+const props = withDefaults(defineProps<UploadListProps>(), {
+  files: () => mutable([]),
+  disabled: undefined,
+  handlePreview: NOOP,
+  listType: 'text',
+})
 const emit = defineEmits(uploadListEmits)
 
 const { t } = useLocale()
@@ -143,6 +147,12 @@ const nsList = useNamespace('list')
 const disabled = useFormDisabled()
 
 const focusing = ref(false)
+
+const containerKls = computed(() => [
+  nsUpload.b('list'),
+  nsUpload.bm('list', props.listType),
+  nsUpload.is('disabled', disabled.value),
+])
 
 const handleRemove = (file: UploadFile) => {
   emit('remove', file)

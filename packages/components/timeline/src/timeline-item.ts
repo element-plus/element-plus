@@ -1,7 +1,51 @@
 import { buildProps, iconPropType } from '@element-plus/utils'
-import type { ExtractPropTypes } from 'vue'
+
+import type { ExtractPublicPropTypes } from 'vue'
+import type { IconPropType } from '@element-plus/utils'
 import type TimelineItem from './timeline-item.vue'
 
+export interface TimelineItemProps {
+  /**
+   * @description timestamp content
+   */
+  timestamp?: string
+  /**
+   * @description whether to show timestamp
+   */
+  hideTimestamp?: boolean
+  /**
+   * @description whether vertically centered
+   */
+  center?: boolean
+  /**
+   * @description position of timestamp
+   */
+  placement?: 'top' | 'bottom'
+  /**
+   * @description node type
+   */
+  type?: 'primary' | 'success' | 'warning' | 'danger' | 'info' | ''
+  /**
+   * @description background color of node
+   */
+  color?: string
+  /**
+   * @description node size
+   */
+  size?: 'normal' | 'large'
+  /**
+   * @description icon component
+   */
+  icon?: IconPropType
+  /**
+   * @description icon is hollow
+   */
+  hollow?: boolean
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `TimelineItemProps` instead.
+ */
 export const timelineItemProps = buildProps({
   /**
    * @description timestamp content
@@ -13,17 +57,11 @@ export const timelineItemProps = buildProps({
   /**
    * @description whether to show timestamp
    */
-  hideTimestamp: {
-    type: Boolean,
-    default: false,
-  },
+  hideTimestamp: Boolean,
   /**
    * @description whether vertically centered
    */
-  center: {
-    type: Boolean,
-    default: false,
-  },
+  center: Boolean,
   /**
    * @description position of timestamp
    */
@@ -64,11 +102,14 @@ export const timelineItemProps = buildProps({
   /**
    * @description icon is hollow
    */
-  hollow: {
-    type: Boolean,
-    default: false,
-  },
+  hollow: Boolean,
 } as const)
-export type TimelineItemProps = ExtractPropTypes<typeof timelineItemProps>
 
-export type TimelineItemInstance = InstanceType<typeof TimelineItem>
+/**
+ * @deprecated Removed after 3.0.0, Use `TimelineItemProps` instead.
+ */
+export type TimelineItemPropsPublic = ExtractPublicPropTypes<
+  typeof timelineItemProps
+>
+
+export type TimelineItemInstance = InstanceType<typeof TimelineItem> & unknown

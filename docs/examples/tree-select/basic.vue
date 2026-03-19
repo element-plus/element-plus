@@ -1,5 +1,10 @@
 <template>
-  <el-tree-select v-model="value" :data="data" :render-after-expand="false" />
+  <el-tree-select
+    v-model="value"
+    :data="data"
+    :render-after-expand="false"
+    style="width: 240px"
+  />
   <el-divider />
   show checkbox:
   <el-tree-select
@@ -7,6 +12,7 @@
     :data="data"
     :render-after-expand="false"
     show-checkbox
+    style="width: 240px"
   />
 </template>
 

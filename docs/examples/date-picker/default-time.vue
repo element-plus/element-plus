@@ -7,6 +7,7 @@
         type="daterange"
         start-placeholder="Start date"
         end-placeholder="End date"
+        value-format="YYYY-MM-DD HH:mm:ss"
         :default-time="defaultTime"
       />
     </div>
@@ -22,6 +23,7 @@ const defaultTime = ref<[Date, Date]>([
   new Date(2000, 2, 1, 23, 59, 59),
 ])
 </script>
+
 <style scoped>
 .demo-date-picker {
   display: flex;

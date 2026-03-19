@@ -1,5 +1,5 @@
 <template>
-  <div :class="switchKls" :style="styles" @click.prevent="switchValue">
+  <div :class="switchKls" @click.prevent="switchValue">
     <input
       :id="inputId"
       ref="input"
@@ -8,6 +8,7 @@
       role="switch"
       :aria-checked="checked"
       :aria-disabled="switchDisabled"
+      :aria-label="ariaLabel"
       :name="name"
       :true-value="activeValue"
       :false-value="inactiveValue"
@@ -17,66 +18,78 @@
       @keydown.enter="switchValue"
     />
     <span
-      v-if="!inlinePrompt && (inactiveIcon || inactiveText)"
+      v-if="!inlinePrompt && (inactiveIcon || inactiveText || $slots.inactive)"
       :class="labelLeftKls"
     >
-      <el-icon v-if="inactiveIcon">
-        <component :is="inactiveIcon" />
-      </el-icon>
-      <span v-if="!inactiveIcon && inactiveText" :aria-hidden="checked">{{
-        inactiveText
-      }}</span>
+      <slot name="inactive">
+        <el-icon v-if="inactiveIcon">
+          <component :is="inactiveIcon" />
+        </el-icon>
+        <span v-if="!inactiveIcon && inactiveText" :aria-hidden="checked">{{
+          inactiveText
+        }}</span>
+      </slot>
     </span>
-    <span ref="core" :class="ns.e('core')" :style="coreStyle">
+    <span :class="ns.e('core')" :style="coreStyle">
       <div v-if="inlinePrompt" :class="ns.e('inner')">
-        <template v-if="activeIcon || inactiveIcon">
-          <el-icon :class="ns.is('icon')">
-            <component :is="checked ? activeIcon : inactiveIcon" />
-          </el-icon>
-        </template>
-        <template v-else-if="activeText || inactiveText">
-          <span :class="ns.is('text')" :aria-hidden="!checked">
-            {{ checked ? activeText : inactiveText }}
-          </span>
-        </template>
+        <div v-if="!checked" :class="ns.e('inner-wrapper')">
+          <slot name="inactive">
+            <el-icon v-if="inactiveIcon">
+              <component :is="inactiveIcon" />
+            </el-icon>
+            <span v-if="!inactiveIcon && inactiveText">{{ inactiveText }}</span>
+          </slot>
+        </div>
+        <div v-else :class="ns.e('inner-wrapper')">
+          <slot name="active">
+            <el-icon v-if="activeIcon">
+              <component :is="activeIcon" />
+            </el-icon>
+            <span v-if="!activeIcon && activeText">{{ activeText }}</span>
+          </slot>
+        </div>
       </div>
       <div :class="ns.e('action')">
         <el-icon v-if="loading" :class="ns.is('loading')">
           <loading />
         </el-icon>
-        <el-icon v-else-if="activeActionIcon && checked">
-          <component :is="activeActionIcon" />
-        </el-icon>
-        <el-icon v-else-if="inactiveActionIcon && !checked">
-          <component :is="inactiveActionIcon" />
-        </el-icon>
+        <slot v-else-if="checked" name="active-action">
+          <el-icon v-if="activeActionIcon">
+            <component :is="activeActionIcon" />
+          </el-icon>
+        </slot>
+        <slot v-else-if="!checked" name="inactive-action">
+          <el-icon v-if="inactiveActionIcon">
+            <component :is="inactiveActionIcon" />
+          </el-icon>
+        </slot>
       </div>
     </span>
     <span
-      v-if="!inlinePrompt && (activeIcon || activeText)"
+      v-if="!inlinePrompt && (activeIcon || activeText || $slots.active)"
       :class="labelRightKls"
     >
-      <el-icon v-if="activeIcon">
-        <component :is="activeIcon" />
-      </el-icon>
-      <span v-if="!activeIcon && activeText" :aria-hidden="!checked">{{
-        activeText
-      }}</span>
+      <slot name="active">
+        <el-icon v-if="activeIcon">
+          <component :is="activeIcon" />
+        </el-icon>
+        <span v-if="!activeIcon && activeText" :aria-hidden="!checked">{{
+          activeText
+        }}</span>
+      </slot>
     </span>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { computed, nextTick, onMounted, ref, shallowRef, watch } from 'vue'
 import {
-  computed,
-  getCurrentInstance,
-  nextTick,
-  onMounted,
-  ref,
-  watch,
-} from 'vue'
-import { isPromise } from '@vue/shared'
-import { addUnit, debugWarn, isBoolean, throwError } from '@element-plus/utils'
+  addUnit,
+  debugWarn,
+  isBoolean,
+  isPromise,
+  throwError,
+} from '@element-plus/utils'
 import ElIcon from '@element-plus/components/icon'
 import {
   useFormDisabled,
@@ -90,53 +103,48 @@ import {
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import { useDeprecated, useNamespace } from '@element-plus/hooks'
-import { switchEmits, switchProps } from './switch'
+import { useNamespace } from '@element-plus/hooks'
+import { switchEmits } from './switch'
+
 import type { CSSProperties } from 'vue'
+import type { SwitchProps } from './switch'
 
 const COMPONENT_NAME = 'ElSwitch'
 defineOptions({
   name: COMPONENT_NAME,
 })
 
-const props = defineProps(switchProps)
+const props = withDefaults(defineProps<SwitchProps>(), {
+  modelValue: false,
+  disabled: undefined,
+  activeText: '',
+  inactiveText: '',
+  activeValue: true,
+  inactiveValue: false,
+  name: '',
+  validateEvent: true,
+  width: '',
+})
 const emit = defineEmits(switchEmits)
 
-const vm = getCurrentInstance()!
 const { formItem } = useFormItem()
 const switchSize = useFormSize()
 const ns = useNamespace('switch')
-
-const useBatchDeprecated = (list: string[][]) => {
-  list.forEach((param) => {
-    useDeprecated(
-      {
-        from: param[0],
-        replacement: param[1],
-        scope: COMPONENT_NAME,
-        version: '2.3.0',
-        ref: 'https://element-plus.org/en-US/component/switch.html#attributes',
-        type: 'Attribute',
-      },
-      computed(() => !!vm.vnode.props?.[param[2]])
-    )
-  })
-}
-useBatchDeprecated([
-  ['"value"', '"model-value" or "v-model"', 'value'],
-  ['"active-color"', 'CSS var `--el-switch-on-color`', 'activeColor'],
-  ['"inactive-color"', 'CSS var `--el-switch-off-color`', 'inactiveColor'],
-  ['"border-color"', 'CSS var `--el-switch-border-color`', 'borderColor'],
-])
 
 const { inputId } = useFormItemInputId(props, {
   formItemContext: formItem,
 })
 
-const switchDisabled = useFormDisabled(computed(() => props.loading))
+const switchDisabled = useFormDisabled(
+  computed(() => {
+    if (props.loading) {
+      return true
+    }
+    return undefined
+  })
+)
 const isControlled = ref(props.modelValue !== false)
-const input = ref<HTMLInputElement>()
-const core = ref<HTMLSpanElement>()
+const input = shallowRef<HTMLInputElement>()
 
 const switchKls = computed(() => [
   ns.b(),
@@ -168,15 +176,8 @@ watch(
   }
 )
 
-watch(
-  () => props.value,
-  () => {
-    isControlled.value = false
-  }
-)
-
 const actualValue = computed(() => {
-  return isControlled.value ? props.modelValue : props.value
+  return isControlled.value ? props.modelValue : false
 })
 
 const checked = computed(() => actualValue.value === props.activeValue)
@@ -241,14 +242,6 @@ const switchValue = () => {
     handleChange()
   }
 }
-
-const styles = computed(() => {
-  return ns.cssVarBlock({
-    ...(props.activeColor ? { 'on-color': props.activeColor } : null),
-    ...(props.inactiveColor ? { 'off-color': props.inactiveColor } : null),
-    ...(props.borderColor ? { 'border-color': props.borderColor } : null),
-  })
-})
 
 const focus = (): void => {
   input.value?.focus?.()

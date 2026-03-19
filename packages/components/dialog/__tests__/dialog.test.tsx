@@ -1,10 +1,12 @@
-import { markRaw, nextTick } from 'vue'
+import { markRaw, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import { rAF } from '@element-plus/test-utils/tick'
 import triggerCompositeClick from '@element-plus/test-utils/composite-click'
 import { Delete } from '@element-plus/icons-vue'
 import Dialog from '../src/dialog.vue'
+import triggerEvent from '@element-plus/test-utils/trigger-event'
+import { EVENT_CODE } from '@element-plus/constants'
 
 const AXIOM = 'Rem is the best girl'
 
@@ -145,6 +147,132 @@ describe('Dialog.vue', () => {
     expect(wrapper.vm.visible).toBe(false)
   })
 
+  test('should render header-class, body-class and footer-class if setted', async () => {
+    const headerCls = 'test-header-class'
+    const bodyCls = 'test-body-class'
+    const footerCls = 'test-footer-class'
+    const wrapper = mount(
+      <Dialog
+        modelValue={true}
+        headerClass={headerCls}
+        bodyClass={bodyCls}
+        footerClass={footerCls}
+        v-slots={{
+          default: () => AXIOM,
+          header: () => 'header desu',
+          footer: () => 'footer desu',
+        }}
+      />
+    )
+
+    await nextTick()
+    expect(wrapper.find('.test-header-class').exists()).toBe(true)
+    expect(wrapper.find('.test-body-class').exists()).toBe(true)
+    expect(wrapper.find('.test-footer-class').exists()).toBe(true)
+
+    await wrapper.setProps({
+      headerClass: undefined,
+      bodyClass: undefined,
+      footerClass: undefined,
+    })
+
+    expect(wrapper.find('.test-header-class').exists()).toBe(false)
+    expect(wrapper.find('.test-body-class').exists()).toBe(false)
+    expect(wrapper.find('.test-footer-class').exists()).toBe(false)
+  })
+
+  test('should close the modal when pressing Escape when `closeOnPressEscape` is true', async () => {
+    const onClose = vi.fn()
+    const wrapper = mount(
+      <Dialog modelValue={true} onClose={onClose} closeOnPressEscape={false}>
+        {AXIOM}
+      </Dialog>
+    )
+
+    await nextTick()
+
+    triggerEvent(document.body, 'keydown', EVENT_CODE.esc)
+    await nextTick()
+    expect(wrapper.vm.visible).toBeTruthy()
+
+    await wrapper.setProps({ closeOnPressEscape: true })
+    triggerEvent(document.body, 'keydown', EVENT_CODE.esc)
+    await nextTick()
+
+    expect(wrapper.vm.visible).toBeFalsy()
+    expect(onClose).toHaveBeenCalledTimes(1)
+  })
+
+  test('dialog content should not be clickable during close animation', async () => {
+    const visible = ref(true)
+    const handleClick = vi.fn()
+    const onClose = vi.fn()
+    const onClosed = vi.fn()
+
+    const wrapper = mount({
+      setup() {
+        return () => (
+          <Dialog
+            modelValue={visible.value}
+            onUpdate:modelValue={(val: boolean) => (visible.value = val)}
+            onClose={onClose}
+            onClosed={onClosed}
+          >
+            <button class="test-button" onClick={handleClick}>
+              Click me
+            </button>
+          </Dialog>
+        )
+      },
+    })
+
+    await nextTick()
+    await rAF()
+    await nextTick()
+
+    expect(wrapper.find('.el-dialog').exists()).toBe(true)
+    const button = wrapper.find('.test-button')
+    await button.trigger('click')
+    expect(handleClick).toHaveBeenCalledTimes(1)
+
+    visible.value = false
+    await nextTick()
+
+    const overlayDialog = wrapper.find('.el-overlay-dialog')
+    expect(overlayDialog.classes()).toContain('is-closing')
+    expect(onClose).toHaveBeenCalled()
+
+    await rAF()
+    await rAF()
+    await nextTick()
+
+    expect(onClosed).toHaveBeenCalled()
+  })
+
+  // #23248
+  test('should clear `closing` state', async () => {
+    const visible = ref(true)
+
+    const wrapper = mount({
+      setup() {
+        return () => <Dialog v-model={visible.value} />
+      },
+    })
+
+    await nextTick()
+    await rAF()
+    await nextTick()
+
+    const overlayDialog = wrapper.find('.el-overlay-dialog')
+    visible.value = false
+    await nextTick()
+    expect(overlayDialog.classes()).toContain('is-closing')
+    visible.value = true
+    await rAF()
+    await nextTick()
+    expect(overlayDialog.classes()).not.toContain('is-closing')
+  })
+
   describe('mask related', () => {
     test('should not have overlay mask when mask is false', async () => {
       const wrapper = mount(
@@ -166,6 +294,29 @@ describe('Dialog.vue', () => {
 
       await triggerCompositeClick(wrapper.find('.el-overlay-dialog'))
       expect(wrapper.vm.visible).toBe(false)
+    })
+
+    test('should not click the mask to close when it is penetrable', async () => {
+      const onClick = vi.fn()
+
+      const wrapper = mount(() => (
+        <>
+          <Dialog modelValue={true} modal={false} modalPenetrable={true}>
+            {AXIOM}
+          </Dialog>
+          <button onClick={onClick}>button</button>
+        </>
+      ))
+
+      const overlay = wrapper.findComponent({ name: 'ElOverlay' })
+      const dialog = wrapper.findComponent({ name: 'ElDialog' })
+      expect(overlay.exists()).toBe(true)
+      expect(overlay.classes()).toContain('is-penetrable')
+
+      await overlay.trigger('click')
+      await wrapper.find('button').trigger('click')
+      expect(dialog.vm.visible).toBe(true)
+      expect(onClick).toHaveBeenCalled()
     })
   })
 
@@ -357,6 +508,56 @@ describe('Dialog.vue', () => {
       expect(dialog.attributes()['aria-describedby']).toBe(
         dialogBody.attributes().id
       )
+    })
+  })
+
+  describe('transition', () => {
+    test('dialog supports transition as string', async () => {
+      const wrapper = mount(
+        <Dialog modelValue={true} transition="slide">
+          {AXIOM}
+        </Dialog>
+      )
+      await nextTick()
+      expect(wrapper.find('.slide-enter-active').exists()).toBe(true)
+    })
+
+    test('dialog supports transition as object config', async () => {
+      vi.useFakeTimers()
+      const rAFSpy = vi
+        .spyOn(window, 'requestAnimationFrame')
+        .mockImplementation((cb) => {
+          cb(0)
+          return 0
+        })
+      const afterEnter = vi.fn()
+      const transitionConfig = {
+        name: 'dialog-custom-object',
+        appear: true,
+        duration: 500,
+        enterActiveClass: 'dialog-custom-object-enter-active',
+        leaveActiveClass: 'dialog-custom-object-leave-active',
+        enterFromClass: 'dialog-custom-object-enter-from',
+        leaveToClass: 'dialog-custom-object-leave-to',
+        onAfterEnter: afterEnter,
+      }
+
+      const wrapper = mount(
+        <Dialog modelValue={true} transition={transitionConfig}>
+          {AXIOM}
+        </Dialog>
+      )
+
+      await nextTick()
+      expect(wrapper.find('.dialog-custom-object-enter-active').exists()).toBe(
+        true
+      )
+
+      vi.advanceTimersByTime(500)
+      await nextTick()
+      expect(afterEnter).toHaveBeenCalled()
+      vi.useRealTimers()
+      rAFSpy.mockRestore()
     })
   })
 })

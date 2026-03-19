@@ -1,23 +1,27 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { withBase } from 'vitepress'
 import { rightRichTextSponsors } from '../../../config/sponsors'
 import { sendEvent } from '../../../config/analytics'
 import { useLang } from '../../composables/lang'
 import { isDark } from '../../composables/dark'
+
+import type { Sponsor } from '../../../config/sponsors'
+
 const lang = useLang()
 const langZhCN = 'zh-CN'
 const isZhCn = computed(() => lang.value === langZhCN)
-const onItemClick = (item: any) => {
+const onItemClick = (item: Sponsor) => {
   sendEvent('sp_click', item.name, 'right_richtext_list')
 }
 </script>
 
 <template>
-  <div class="m-t-16px">
+  <div class="right-rich">
     <a
       v-for="item in rightRichTextSponsors"
       :key="item.name"
-      :href="item.url"
+      :href="withBase(item.url)"
       :title="`${item.name_cn || item.name} - ${item.slogan_cn || item.slogan}`"
       target="_blank"
       @click="onItemClick(item)"
@@ -31,7 +35,7 @@ const onItemClick = (item: any) => {
         <div class="w-32px m-r-8px h-56px">
           <img
             class="mt-2px rd-4px w-32px h-32px"
-            :src="item.img"
+            :src="withBase(item.img)"
             :alt="item.name"
           />
         </div>
@@ -57,3 +61,9 @@ const onItemClick = (item: any) => {
     </a>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.right-rich {
+  margin-top: 16px;
+}
+</style>

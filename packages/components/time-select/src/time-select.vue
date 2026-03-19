@@ -1,6 +1,7 @@
 <template>
   <el-select
     ref="select"
+    :name="name"
     :model-value="value"
     :disabled="_disabled"
     :clearable="clearable"
@@ -10,10 +11,15 @@
     :placeholder="placeholder"
     default-first-option
     :filterable="editable"
-    @update:model-value="(event) => $emit('update:modelValue', event)"
-    @change="(event) => $emit('change', event)"
+    :empty-values="emptyValues"
+    :value-on-clear="valueOnClear"
+    :popper-class="popperClass"
+    :popper-style="popperStyle"
+    @update:model-value="(event) => $emit(UPDATE_MODEL_EVENT, event)"
+    @change="(event) => $emit(CHANGE_EVENT, event)"
     @blur="(event) => $emit('blur', event)"
     @focus="(event) => $emit('focus', event)"
+    @clear="() => $emit('clear')"
   >
     <el-option
       v-for="item in items"
@@ -37,9 +43,14 @@ import customParseFormat from 'dayjs/plugin/customParseFormat.js'
 import ElSelect from '@element-plus/components/select'
 import { useFormDisabled } from '@element-plus/components/form'
 import ElIcon from '@element-plus/components/icon'
-import { useNamespace } from '@element-plus/hooks'
-import { timeSelectProps } from './time-select'
+import { useLocale, useNamespace } from '@element-plus/hooks'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { CircleClose, Clock } from '@element-plus/icons-vue'
 import { compareTime, formatTime, nextTime, parseTime } from './utils'
+import { debugWarn } from '@element-plus/utils'
+import { DEFAULT_STEP } from './time-select'
+
+import type { TimeSelectProps } from './time-select'
 
 dayjs.extend(customParseFormat)
 
@@ -49,14 +60,29 @@ defineOptions({
   name: 'ElTimeSelect',
 })
 
-defineEmits(['change', 'blur', 'focus', 'update:modelValue'])
+defineEmits([CHANGE_EVENT, 'blur', 'focus', 'clear', UPDATE_MODEL_EVENT])
 
-const props = defineProps(timeSelectProps)
+const props = withDefaults(defineProps<TimeSelectProps>(), {
+  format: 'HH:mm',
+  disabled: undefined,
+  editable: true,
+  effect: 'light',
+  clearable: true,
+  start: '09:00',
+  end: '18:00',
+  step: DEFAULT_STEP,
+  prefixIcon: () => Clock,
+  clearIcon: () => CircleClose,
+  popperClass: '',
+  valueOnClear: undefined,
+  popperStyle: undefined,
+})
 
 const nsInput = useNamespace('input')
 const select = ref<typeof ElSelect>()
 
 const _disabled = useFormDisabled()
+const { lang } = useLocale()
 
 const value = computed(() => props.modelValue)
 const start = computed(() => {
@@ -66,11 +92,6 @@ const start = computed(() => {
 
 const end = computed(() => {
   const time = parseTime(props.end)
-  return time ? formatTime(time) : null
-})
-
-const step = computed(() => {
-  const time = parseTime(props.step)
   return time ? formatTime(time) : null
 })
 
@@ -84,20 +105,55 @@ const maxTime = computed(() => {
   return time ? formatTime(time) : null
 })
 
+const step = computed(() => {
+  const time = parseTime(props.step)
+  const isInvalidStep =
+    !time ||
+    time.hours < 0 ||
+    time.minutes < 0 ||
+    Number.isNaN(time.hours) ||
+    Number.isNaN(time.minutes) ||
+    (time.hours === 0 && time.minutes === 0)
+  if (isInvalidStep) {
+    debugWarn(
+      'ElTimeSelect',
+      `invalid step, fallback to default step (${DEFAULT_STEP}).`
+    )
+  }
+  return !isInvalidStep ? formatTime(time) : DEFAULT_STEP
+})
+
 const items = computed(() => {
-  const result: { value: string; disabled: boolean }[] = []
+  const result: { value: string; rawValue: string; disabled: boolean }[] = []
+  const push = (formattedValue: string, rawValue: string) => {
+    result.push({
+      value: formattedValue,
+      rawValue,
+      disabled:
+        compareTime(rawValue, minTime.value || '-1:-1') <= 0 ||
+        compareTime(rawValue, maxTime.value || '100:100') >= 0,
+    })
+  }
+
   if (props.start && props.end && props.step) {
     let current = start.value
     let currentTime: string
     while (current && end.value && compareTime(current, end.value) <= 0) {
-      currentTime = dayjs(current, 'HH:mm').format(props.format)
-      result.push({
-        value: currentTime,
-        disabled:
-          compareTime(current, minTime.value || '-1:-1') <= 0 ||
-          compareTime(current, maxTime.value || '100:100') >= 0,
-      })
+      currentTime = dayjs(current, 'HH:mm')
+        .locale(lang.value)
+        .format(props.format)
+      push(currentTime, current)
       current = nextTime(current, step.value!)
+    }
+    if (
+      props.includeEndTime &&
+      end.value &&
+      result[result.length - 1]?.rawValue !== end.value
+    ) {
+      const formattedValue = dayjs(end.value, 'HH:mm')
+        .locale(lang.value)
+        .format(props.format)
+      push(formattedValue, end.value)
     }
   }
   return result
@@ -113,11 +169,11 @@ const focus = () => {
 
 defineExpose({
   /**
-   * @description focus the Input component
+   * @description blur the Input component
    */
   blur,
   /**
-   * @description blur the Input component
+   * @description focus the Input component
    */
   focus,
 })

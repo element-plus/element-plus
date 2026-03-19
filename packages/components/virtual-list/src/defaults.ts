@@ -22,11 +22,6 @@ export const RTL_OFFSET_NAG = 'negative'
 export const RTL_OFFSET_POS_ASC = 'positive-ascending'
 export const RTL_OFFSET_POS_DESC = 'positive-descending'
 
-export const PageKey = {
-  [HORIZONTAL]: 'pageX',
-  [VERTICAL]: 'pageY',
-}
-
 export const ScrollbarSizeKey = {
   [HORIZONTAL]: 'height',
   [VERTICAL]: 'width',

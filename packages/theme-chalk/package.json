@@ -24,19 +24,14 @@
   "style": "index.css",
   "scripts": {
     "clean": "rimraf dist",
-    "build": "gulp --require @esbuild-kit/cjs-loader"
+    "build": "tsx buildfile.ts"
   },
   "devDependencies": {
     "@element-plus/build": "workspace:*",
-    "@esbuild-kit/cjs-loader": "^2.2.1",
-    "@types/gulp-autoprefixer": "^0.0.33",
-    "@types/gulp-clean-css": "^4.3.0",
-    "@types/gulp-rename": "^2.0.1",
-    "@types/gulp-sass": "^5.0.0",
-    "gulp-autoprefixer": "^8.0.0",
-    "gulp-clean-css": "^4.3.0",
-    "gulp-rename": "^2.0.0",
-    "gulp-sass": "^5.1.0"
+    "lightningcss": "^1.30.2",
+    "tinyglobby": "^0.2.15",
+    "sass-embedded": "^1.97.3",
+    "tsx": "^4.19.3"
   },
   "gitHead": "c69724230befa8fede0e6b9c37fb0b7e39fd7cdd"
 }

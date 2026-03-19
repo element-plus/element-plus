@@ -39,7 +39,7 @@ page-header/custom-icon
 ## No icon
 
 Sometimes the page is just full of elements, and you might not want the icon to show up on the page,
-you can set the `icon` attribute to `null` to get rid of it.
+you can set the `icon` attribute to `""` to get rid of it.
 
 :::demo
 

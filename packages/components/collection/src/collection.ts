@@ -2,8 +2,7 @@ import { inject, onBeforeUnmount, onMounted, provide, ref, unref } from 'vue'
 import Collection from './collection.vue'
 import CollectionItem from './collection-item.vue'
 
-import type { InjectionKey } from 'vue'
-import type { SetupContext } from '@vue/runtime-core'
+import type { InjectionKey, SetupContext } from 'vue'
 import type {
   ElCollectionInjectionContext,
   ElCollectionItemInjectionContext,
@@ -20,13 +19,12 @@ export const createCollectionWithScope = (name: string) => {
   const COLLECTION_ITEM_INJECTION_KEY: InjectionKey<ElCollectionItemInjectionContext> =
     Symbol(COLLECTION_ITEM_NAME)
 
-  const ElCollection = {
-    ...Collection,
+  const ElCollection = Object.assign({}, Collection, {
     name: COLLECTION_NAME,
     setup() {
-      const collectionRef = ref<HTMLElement | null>(null)
+      const collectionRef = ref<HTMLElement>()
       const itemMap: ElCollectionInjectionContext['itemMap'] = new Map()
-      const getItems = () => {
+      const getItems = (() => {
         const collectionEl = unref(collectionRef)
 
         if (!collectionEl) return []
@@ -39,7 +37,7 @@ export const createCollectionWithScope = (name: string) => {
         return items.sort(
           (a, b) => orderedNodes.indexOf(a.ref!) - orderedNodes.indexOf(b.ref!)
         )
-      }
+      }) as ElCollectionInjectionContext['getItems']
 
       provide(COLLECTION_INJECTION_KEY, {
         itemMap,
@@ -47,13 +45,12 @@ export const createCollectionWithScope = (name: string) => {
         collectionRef,
       })
     },
-  }
+  })
 
-  const ElCollectionItem = {
-    ...CollectionItem,
+  const ElCollectionItem = Object.assign({}, CollectionItem, {
     name: COLLECTION_ITEM_NAME,
     setup(_: unknown, { attrs }: SetupContext) {
-      const collectionItemRef = ref<HTMLElement | null>(null)
+      const collectionItemRef = ref<HTMLElement>()
       const collectionInjection = inject(COLLECTION_INJECTION_KEY, undefined)!
 
       provide(COLLECTION_ITEM_INJECTION_KEY, {
@@ -75,7 +72,7 @@ export const createCollectionWithScope = (name: string) => {
         collectionInjection.itemMap.delete(collectionItemEl)
       })
     },
-  }
+  })
 
   return {
     COLLECTION_INJECTION_KEY,

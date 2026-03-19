@@ -2,7 +2,7 @@ import { provideGlobalConfig } from '@element-plus/components/config-provider'
 import { INSTALLED_KEY } from '@element-plus/constants'
 import { version } from './version'
 
-import type { App, Plugin } from '@vue/runtime-core'
+import type { App, Plugin } from 'vue'
 import type { ConfigProviderContext } from '@element-plus/components/config-provider'
 
 export const makeInstaller = (components: Plugin[] = []) => {

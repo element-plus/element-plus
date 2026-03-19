@@ -1,6 +1,7 @@
 import { computed, getCurrentInstance, inject, nextTick, watch } from 'vue'
 import { useFormItem } from '@element-plus/components/form'
 import { debugWarn } from '@element-plus/utils'
+import { CHANGE_EVENT } from '@element-plus/constants'
 import { checkboxGroupContextKey } from '../constants'
 
 import type { useFormItemInputId } from '@element-plus/components/form'
@@ -29,23 +30,23 @@ export const useCheckboxEvent = (
   const { emit } = getCurrentInstance()!
 
   function getLabeledValue(value: string | number | boolean) {
-    return value === props.trueLabel || value === true
-      ? props.trueLabel ?? true
-      : props.falseLabel ?? false
+    return [true, props.trueValue, props.trueLabel].includes(value)
+      ? (props.trueValue ?? props.trueLabel ?? true)
+      : (props.falseValue ?? props.falseLabel ?? false)
   }
 
   function emitChangeEvent(
     checked: string | number | boolean,
     e: InputEvent | MouseEvent
   ) {
-    emit('change', getLabeledValue(checked), e)
+    emit(CHANGE_EVENT, getLabeledValue(checked), e)
   }
 
   function handleChange(e: Event) {
     if (isLimitExceeded.value) return
 
     const target = e.target as HTMLInputElement
-    emit('change', getLabeledValue(target.checked), e)
+    emit(CHANGE_EVENT, getLabeledValue(target.checked), e)
   }
 
   async function onClickRoot(e: MouseEvent) {
@@ -59,7 +60,7 @@ export const useCheckboxEvent = (
       )
       if (!hasLabel) {
         model.value = getLabeledValue(
-          [false, props.falseLabel].includes(model.value)
+          [false, props.falseValue, props.falseLabel].includes(model.value)
         )
         await nextTick()
         emitChangeEvent(model.value, e)

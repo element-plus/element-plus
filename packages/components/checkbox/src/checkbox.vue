@@ -1,44 +1,24 @@
 <template>
   <component
     :is="!hasOwnLabel && isLabeledByFormItem ? 'span' : 'label'"
+    :for="!hasOwnLabel && isLabeledByFormItem ? null : inputId"
     :class="compKls"
-    :aria-controls="indeterminate ? controls : null"
+    :aria-controls="indeterminate ? ariaControls : null"
+    :aria-checked="indeterminate ? 'mixed' : undefined"
+    :aria-label="ariaLabel"
     @click="onClickRoot"
   >
-    <span
-      :class="spanKls"
-      :tabindex="indeterminate ? 0 : undefined"
-      :role="indeterminate ? 'checkbox' : undefined"
-      :aria-checked="indeterminate ? 'mixed' : undefined"
-    >
+    <span :class="spanKls">
       <input
-        v-if="trueLabel || falseLabel"
         :id="inputId"
         v-model="model"
         :class="ns.e('original')"
         type="checkbox"
-        :aria-hidden="indeterminate ? 'true' : 'false'"
+        :indeterminate="indeterminate"
         :name="name"
         :tabindex="tabindex"
         :disabled="isDisabled"
-        :true-value="trueLabel"
-        :false-value="falseLabel"
-        @change="handleChange"
-        @focus="isFocused = true"
-        @blur="isFocused = false"
-        @click.stop
-      />
-      <input
-        v-else
-        :id="inputId"
-        v-model="model"
-        :class="ns.e('original')"
-        type="checkbox"
-        :aria-hidden="indeterminate ? 'true' : 'false'"
-        :disabled="isDisabled"
-        :value="label"
-        :name="name"
-        :tabindex="tabindex"
+        v-bind="inputBindings"
         @change="handleChange"
         @focus="isFocused = true"
         @blur="isFocused = false"
@@ -56,14 +36,16 @@
 <script lang="ts" setup>
 import { computed, useSlots } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { checkboxEmits, checkboxProps } from './checkbox'
+import { checkboxEmits, checkboxPropsDefaults } from './checkbox'
 import { useCheckbox } from './composables'
+
+import type { CheckboxProps } from './checkbox'
 
 defineOptions({
   name: 'ElCheckbox',
 })
 
-const props = defineProps(checkboxProps)
+const props = withDefaults(defineProps<CheckboxProps>(), checkboxPropsDefaults)
 defineEmits(checkboxEmits)
 const slots = useSlots()
 
@@ -76,9 +58,27 @@ const {
   checkboxSize,
   hasOwnLabel,
   model,
+  actualValue,
   handleChange,
   onClickRoot,
 } = useCheckbox(props, slots)
+
+const inputBindings = computed(() => {
+  if (
+    props.trueValue ||
+    props.falseValue ||
+    props.trueLabel ||
+    props.falseLabel
+  ) {
+    return {
+      'true-value': props.trueValue ?? props.trueLabel ?? true,
+      'false-value': props.falseValue ?? props.falseLabel ?? false,
+    }
+  }
+  return {
+    value: actualValue.value,
+  }
+})
 
 const ns = useNamespace('checkbox')
 

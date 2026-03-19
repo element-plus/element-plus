@@ -27,6 +27,7 @@
     </el-table>
   </div>
 </template>
+
 <script lang="ts" setup>
 interface User {
   id: number
@@ -40,7 +41,7 @@ interface User {
 const load = (
   row: User,
   treeNode: unknown,
-  resolve: (date: User[]) => void
+  resolve: (data: User[]) => void
 ) => {
   setTimeout(() => {
     resolve([

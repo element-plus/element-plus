@@ -11,6 +11,7 @@
 <style scoped>
 .scrollbar-flex-content {
   display: flex;
+  width: fit-content;
 }
 .scrollbar-demo-item {
   flex-shrink: 0;

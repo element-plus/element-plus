@@ -18,8 +18,8 @@ For Nuxt users, we provide a [Nuxt module](https://github.com/element-plus/eleme
 The provided value is used to generate the unique ID in Element Plus.
 Because the different IDs are prone to hydrate errors in SSR, in order to ensure that the server side and client side generate the same ID, we need to inject the `ID_injection_key` into Vue.
 
-```ts
-// src/main.js (irrelevant code omitted)
+```ts [main.ts]
+// irrelevant code omitted
 import { createApp } from 'vue'
 import { ID_INJECTION_KEY } from 'element-plus'
 import App from './App.vue'
@@ -29,6 +29,20 @@ app.provide(ID_INJECTION_KEY, {
   prefix: 1024,
   current: 0,
 })
+```
+
+## Provide ZIndex
+
+When you using SSR for development, you may encounter hydration errors caused by `z-index`. In this case, we recommend injecting an initial value to avoid such errors.
+
+```ts [main.ts]
+// irrelevant code omitted
+import { createApp } from 'vue'
+import { ZINDEX_INJECTION_KEY } from 'element-plus'
+import App from './App.vue'
+
+const app = createApp(App)
+app.provide(ZINDEX_INJECTION_KEY, { current: 0 })
 ```
 
 ## Teleports
@@ -73,16 +87,6 @@ onMounted(() => {
 
 Another way is to inject the teleport markup into the correct location in your final page HTML.
 
-:::warning
-
-There may be some [SSR problems with teleport](https://github.com/vuejs/core/issues?q=is%3Aissue+is%3Aopen+ssr+teleport+), so you should pay attention to the following precautions.
-
-1. The `teleported` attribute in all components based on ElTooltip should be consistent, it is recommended to use the default value.
-2. The `append-to-body` attribute value of ElDialog and ElDrawer should be consistent, it is recommended to enable the `append-to-body`.
-3. When the ElSubMenu component has a multi-layer popup, It is recommended to enable the `popper-append-to-body`
-
-:::
-
 You need to inject the teleport markup close to the `<body>` tag.
 
 ```html
@@ -106,8 +110,8 @@ If you modify the [Namespace](./namespace.md) or `append-to` attribute, you need
 
 :::
 
-```js
-// src/entry-server.js (irrelevant code omitted)
+```js [src/entry-server.js]
+// irrelevant code omitted
 import { renderToString } from 'vue/server-renderer'
 import { createApp } from './main'
 
@@ -132,8 +136,8 @@ function renderTeleports(teleports) {
 }
 ```
 
-```js
-// server.js or prerender.js (irrelevant code omitted)
+```js [server.js or prerender.js]
+// irrelevant code omitted
 const [appHtml, preloadLinks, teleports] = await render(url, manifest)
 
 const html = template
