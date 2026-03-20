@@ -7,15 +7,19 @@ import type {
   VNodeProps,
 } from 'vue'
 
-type ExtractEmitNames<E> = E extends readonly any[]
-  ? never
+type ExtractEmitNames<E> = E extends readonly string[]
+  ? string extends E[number]
+    ? never
+    : E[number]
   : E extends object
     ? Extract<keyof E, string>
     : never
 
 type ExtractEventNames<T> =
   T extends ComponentOptionsBase<any, any, any, any, any, any, any, any>
-    ? `on${Capitalize<ExtractEmitNames<T['emits']>>}`
+    ? ExtractEmitNames<T['emits']> extends never
+      ? never
+      : `on${Capitalize<ExtractEmitNames<T['emits']>>}`
     : never
 
 export type SFCWithInstall<T> = T & ObjectPlugin & SFCWithPropsDefaultsSetter<T>
