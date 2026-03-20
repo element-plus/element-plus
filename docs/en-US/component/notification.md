@@ -102,6 +102,29 @@ ElNotification({
 
 In this case you should call `ElNotification(options)`. We have also registered methods for different types, e.g. `ElNotification.success(options)`. You can call `ElNotification.closeAll()` to manually close all the instances. In ^(2.10.5) you can manually update the offsets of all instances in a specific direction by calling `ElNotification.updateOffsets(position)`.
 
+:::tip
+
+When displaying multiple notifications, it's recommended to call them asynchronously. If you need to show multiple notifications, add `await nextTick()` between each call to ensure proper animation behavior. Synchronous calls may result in unexpected animation effects.
+
+```ts
+import { nextTick } from 'vue'
+import { ElNotification } from 'element-plus'
+
+// Recommended: async calls
+ElNotification({ message: 'First notification' })
+await nextTick()
+ElNotification({ message: 'Second notification' })
+await nextTick()
+ElNotification({ message: 'Third notification' })
+
+// Not recommended: synchronous calls
+// ElNotification({ message: 'First' })
+// ElNotification({ message: 'Second' })
+// ElNotification({ message: 'Third' })
+```
+
+:::
+
 ## App context inheritance <el-tag>> 2.0.4</el-tag>
 
 Now notification accepts a `context` as second parameter of the message constructor which allows you to inject current app's context to notification which allows you to inherit all the properties of the app.
