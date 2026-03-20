@@ -69,6 +69,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     inputValue: '',
     options: new Map(),
     cachedOptions: new Map(),
+    optionsList: [],
     optionValues: [], // sorted value of options
     selected: [],
     selectionWidth: 0,
@@ -173,7 +174,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   const debounce = computed(() => (props.remote ? props.debounce : 0))
 
   const isRemoteSearchEmpty = computed(
-    () => props.remote && !states.inputValue && states.options.size === 0
+    () => props.remote && !states.inputValue && optionsArray.value.length === 0
   )
 
   const emptyText = computed(() => {
@@ -183,12 +184,12 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       if (
         props.filterable &&
         states.inputValue &&
-        states.options.size > 0 &&
+        optionsArray.value.length > 0 &&
         filteredOptionsCount.value === 0
       ) {
         return props.noMatchText || t('el.select.noMatch')
       }
-      if (states.options.size === 0) {
+      if (optionsArray.value.length === 0) {
         return props.noDataText || t('el.select.noData')
       }
     }
@@ -200,11 +201,16 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   )
 
   const optionsArray = computed(() => {
-    const list = Array.from(states.options.values())
+    const list = states.optionsList
+    if (states.optionValues.length === 0) return list
     const newList: OptionPublicInstance[] = []
-    states.optionValues.forEach((item) => {
-      const index = list.findIndex((i) => i.value === item)
+    const used = new Set<number>()
+    states.optionValues.forEach((val) => {
+      const index = list.findIndex(
+        (i, idx) => i.value === val && !used.has(idx)
+      )
       if (index > -1) {
+        used.add(index)
         newList.push(list[index])
       }
     })
@@ -235,7 +241,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     if (props.filterable && isFunction(props.filterMethod)) return
     if (props.filterable && props.remote && isFunction(props.remoteMethod))
       return
-    optionsArray.value.forEach((option) => {
+    states.optionsList.forEach((option) => {
       option.updateOption?.(states.inputValue)
     })
   }
@@ -323,7 +329,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   watch(
     // fix `Array.prototype.push/splice/..` cannot trigger non-deep watcher
     // https://github.com/vuejs/vue-next/issues/2116
-    () => states.options.entries(),
+    () => [states.options.entries(), states.optionsList.length],
     () => {
       if (!isClient) return
       // tooltipRef.value?.updatePopper?.()
@@ -645,11 +651,17 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   const onOptionCreate = (vm: OptionPublicInstance) => {
     states.options.set(vm.value, vm)
     states.cachedOptions.set(vm.value, vm)
+    states.optionsList.push(vm)
   }
 
   const onOptionDestroy = (key: OptionValue, vm: OptionPublicInstance) => {
+    const index = states.optionsList.indexOf(vm)
+    if (index > -1) {
+      states.optionsList.splice(index, 1)
+    }
     if (states.options.get(key) === vm) {
-      states.options.delete(key)
+      const next = states.optionsList.find((opt) => opt.value === key)
+      next ? states.options.set(key, next) : states.options.delete(key)
     }
   }
 
@@ -768,7 +780,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       return
     }
     if (
-      states.options.size === 0 ||
+      optionsArray.value.length === 0 ||
       filteredOptionsCount.value === 0 ||
       isComposing.value
     )
@@ -777,13 +789,13 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     if (!optionsAllDisabled.value) {
       if (direction === 'next') {
         states.hoveringIndex++
-        if (states.hoveringIndex === states.options.size) {
+        if (states.hoveringIndex === optionsArray.value.length) {
           states.hoveringIndex = 0
         }
       } else if (direction === 'prev') {
         states.hoveringIndex--
         if (states.hoveringIndex < 0) {
-          states.hoveringIndex = states.options.size - 1
+          states.hoveringIndex = optionsArray.value.length - 1
         }
       }
       const option = optionsArray.value[states.hoveringIndex]
@@ -810,7 +822,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   }
 
   const focusOption = (targetIndex: number, mode: 'up' | 'down') => {
-    const len = states.options.size
+    const len = optionsArray.value.length
     if (len === 0) return
     const start = clamp(targetIndex, 0, len - 1)
     const options = optionsArray.value
@@ -854,7 +866,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
         break
       case EVENT_CODE.end:
         if (!expanded.value) return
-        focusOption(states.options.size - 1, 'up')
+        focusOption(optionsArray.value.length - 1, 'up')
         break
       case EVENT_CODE.pageUp:
         if (!expanded.value) return
