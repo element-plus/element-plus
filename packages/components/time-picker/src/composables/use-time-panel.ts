@@ -30,7 +30,7 @@ export const useTimePanel = ({
     let result = date
     ;(['hour', 'minute', 'second'] as const).forEach((type) => {
       if (availableTimeGetters[type]) {
-        let availableTimeSlots: number[]
+        let availableTimeSlots: number[] | undefined
         const method = availableTimeGetters[type]
         switch (type) {
           case 'minute': {
