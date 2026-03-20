@@ -1,10 +1,46 @@
 ## Changelog
 
 
+### 2.13.6
+
+_2026-03-20_
+
+#### Features
+
+- Components [slider] allow `step` to be set to "mark" (#23685 by @zhixiaotong)
+- Components [input] add `password-icon` slot (#23772 by @zhixiaotong)
+- Components [color-picker-panel] add hue-slider-class and hue-slider-style props (#23499 by @ZacharyBear)
+- Components [input] support inputmode for textarea (#23813 by @snowbitx)
+
+#### Bug fixes
+
+- Components [tooltip] sync visible after disabled toggle (#23738 by @snowbitx)
+- Components [mention] remove the whole input containing a split (#23753 by @rzzf)
+- Components [tab] incorrect boundary detection when container size is a float number (#23774 by @rzzf)
+- Components [table] expanded rows cannot be updated using array methods (#23761 by @rzzf)
+- Components [tree-v2] update expanded state when defaultExpandedKeys change (#23557 by @hellomrbigshot)
+- Components [select] using the options prop can cause list data loss when quickly switching between dropdowns (#23780 by @lw56777)
+- Components [select] allow empty labels when persistent is false (#23809 by @snowbitx)
+- Components [popper] update popover style when content size changes (#23802 by @rzzf)
+- Components [tabs] incorrect boundary detection when container size is a float number (#23776 by @rzzf)
+- Hooks [use-composition] abnormal state in Korean input composition (#23831 by @rzzf)
+- Components [select/select-v2] avoid hiding the dropdown when there is data in `options` (#23838 by @keeplearning66)
+- Improvement(components): [tabs] navigation wheel scrolling experience (#23775 by @rzzf)
+- Style(components): [tag] fix icon in slot causing text wrap (#23725 by @zmyjs)
+
+#### Refactors
+
+- Components [segmented] make component generic (#23678 by @rzzf)
+- Docs avoid duplicate create regexp (#23848 by @btea)
+
 ### 2.13.5
 
 _2026-03-07_
 
+#### Bug fixes
+
+- Chore: fix build (#23737 by @btea)
+- Chore: fix locale/lang/*.ts dts default export (#23741 by @rzzf)
 
 ### 2.13.4
 

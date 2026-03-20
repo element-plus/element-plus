@@ -23,7 +23,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 20.19.0
           cache: 'pnpm'
 
       - name: Install dependencies
@@ -58,7 +58,7 @@ jobs:
         run: pnpm docs:build
         env:
           DOC_ENV: production
-          NODE_OPTIONS: --max-old-space-size=6144
+          NODE_OPTIONS: --max-old-space-size=8192
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4.4.1

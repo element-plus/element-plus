@@ -9,7 +9,8 @@ import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
 import type { Option } from './types'
-import type { ExtractPublicPropTypes } from 'vue'
+import type { ComponentInstance, ExtractPublicPropTypes } from 'vue'
+import type { ComponentExposed } from 'vue-component-type-helpers'
 import type { ComponentSize } from '@element-plus/constants'
 import type Segmented from './segmented.vue'
 
@@ -25,12 +26,12 @@ export const defaultProps: Required<Props> = {
   disabled: 'disabled',
 }
 
-export interface SegmentedProps {
+export interface SegmentedProps<T extends Option = Option> {
   direction?: 'vertical' | 'horizontal'
   /**
    * @description options of segmented
    */
-  options?: Option[]
+  options?: T[]
   /**
    * @description binding value
    */
@@ -144,4 +145,5 @@ export const segmentedEmits = {
 }
 export type SegmentedEmits = typeof segmentedEmits
 
-export type SegmentedInstance = InstanceType<typeof Segmented> & unknown
+export type SegmentedInstance = ComponentInstance<typeof Segmented> &
+  ComponentExposed<typeof Segmented>

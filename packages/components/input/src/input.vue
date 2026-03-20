@@ -83,7 +83,9 @@
               @mousedown.prevent="NOOP"
               @mouseup.prevent="NOOP"
             >
-              <component :is="passwordIcon" />
+              <slot name="password-icon" :visible="passwordVisible">
+                <component :is="passwordIcon" />
+              </slot>
             </el-icon>
             <span
               v-if="isWordLimitVisible"
@@ -141,6 +143,7 @@
         :autofocus="autofocus"
         :rows="rows"
         :role="containerRole"
+        :inputmode="inputmode"
         @compositionstart="handleCompositionStart"
         @compositionupdate="handleCompositionUpdate"
         @compositionend="handleCompositionEnd"

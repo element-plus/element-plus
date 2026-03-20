@@ -170,6 +170,19 @@ describe('Input.vue', () => {
     expect(textarea.style.resize).toEqual(resize.value)
   })
 
+  test('inputmode', () => {
+    const wrapper = mount(() => (
+      <>
+        <Input inputmode="numeric" />
+        <Input type="textarea" inputmode="decimal" />
+      </>
+    ))
+    const input = wrapper.find('input')
+    const textarea = wrapper.find('textarea')
+    expect(input.attributes('inputmode')).toBe('numeric')
+    expect(textarea.attributes('inputmode')).toBe('decimal')
+  })
+
   test('sets value on textarea / input type change', async () => {
     const type = ref('text')
     const val = ref('123')
@@ -612,6 +625,36 @@ describe('Input.vue', () => {
     await icon.trigger('click')
     expect(input.element.selectionStart).toBe(1)
     expect(input.element.selectionEnd).toBe(4)
+  })
+
+  test('password-icon slot', async () => {
+    const wrapper = mount(() => (
+      <Input
+        modelValue="123"
+        showPassword
+        v-slots={{
+          'password-icon': ({ visible }: { visible: boolean }) => (
+            <span class="custom-password-icon">
+              {visible ? 'Hide' : 'Show'}
+            </span>
+          ),
+        }}
+      />
+    ))
+
+    const icon = wrapper.find('.el-input__password')
+    expect(icon.exists()).toBe(true)
+
+    // Initial state: password hidden
+    expect(wrapper.find('.custom-password-icon').text()).toBe('Show')
+
+    // Click to toggle
+    await icon.trigger('click')
+    expect(wrapper.find('.custom-password-icon').text()).toBe('Hide')
+
+    // Click again
+    await icon.trigger('click')
+    expect(wrapper.find('.custom-password-icon').text()).toBe('Show')
   })
 
   describe('form item accessibility integration', () => {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, getCurrentInstance, ref, toRef } from 'vue'
-import { useClipboard, useToggle } from '@vueuse/core'
+import { useClipboard, useLocalStorage, useToggle } from '@vueuse/core'
 import { EVENT_CODE } from 'element-plus'
 import { CaretTop } from '@element-plus/icons-vue'
 import { useLang } from '../composables/lang'
@@ -10,28 +10,44 @@ import demoBlockLocale from '../../i18n/component/demo-block.json'
 import SourceCode from './demo/vp-source-code.vue'
 
 const props = defineProps<{
-  source: string
+  sources: [string, string]
   path: string
-  rawSource: string
+  rawSources: [string, string]
   description: string
 }>()
 
 const vm = getCurrentInstance()!
 
-const { copy, isSupported } = useClipboard({
-  source: decodeURIComponent(props.rawSource),
-  read: false,
-})
-
-const [sourceVisible, toggleSourceVisible] = useToggle()
-const lang = useLang()
-const demoSourceUrl = useSourceCode(toRef(props, 'path'))
-const { link: playgroundUrl } = usePlayground(props.rawSource)
+const sourceLangs = ['TS', 'JS'] satisfies ['TS', 'JS']
 
 const sourceCodeRef = ref<HTMLButtonElement>()
+const tsOrjs = useLocalStorage<(typeof sourceLangs)[number]>(
+  'epJsOrTs',
+  sourceLangs[0],
+  { initOnMounted: true }
+)
 
 const locale = computed(() => demoBlockLocale[lang.value])
 const decodedDescription = computed(() => decodeURIComponent(props.description))
+const sourceVisibilityLabel = computed(() =>
+  sourceVisible.value
+    ? locale.value['hide-source']
+    : locale.value['view-source']
+)
+const rawSource = computed(
+  () => props.rawSources[tsOrjs.value === 'TS' ? 0 : 1]
+)
+const decodedRawSource = computed(() => decodeURIComponent(rawSource.value))
+const source = computed(() => props.sources[tsOrjs.value === 'TS' ? 0 : 1])
+
+const { copy, isSupported } = useClipboard({
+  source: decodedRawSource,
+  read: false,
+})
+const [sourceVisible, toggleSourceVisible] = useToggle()
+const lang = useLang()
+const demoSourceUrl = useSourceCode(toRef(props, 'path'))
+const { link: playgroundUrl } = usePlayground(decodedRawSource)
 
 const onSourceVisibleKeydown = (e: KeyboardEvent) => {
   if (
@@ -71,6 +87,18 @@ const copyCode = async () => {
     <ElDivider class="m-0" />
 
     <div class="op-btns">
+      <ElSegmented
+        v-model="tsOrjs"
+        :options="sourceLangs"
+        size="small"
+        class="mr-1"
+        :style="{
+          '--el-segmented-item-selected-bg-color':
+            tsOrjs === 'TS'
+              ? 'var(--el-color-primary)'
+              : 'var(--el-color-warning)',
+        }"
+      />
       <ElTooltip
         :content="locale['edit-in-editor']"
         :show-arrow="false"
@@ -88,6 +116,7 @@ const copyCode = async () => {
           </a>
         </ElIcon>
       </ElTooltip>
+
       <ElTooltip
         :content="locale['edit-on-github']"
         :show-arrow="false"
@@ -105,6 +134,7 @@ const copyCode = async () => {
           </a>
         </ElIcon>
       </ElTooltip>
+
       <ElTooltip
         :content="locale['copy-code']"
         :show-arrow="false"
@@ -125,16 +155,14 @@ const copyCode = async () => {
         </ElIcon>
       </ElTooltip>
       <ElTooltip
-        :content="locale['view-source']"
+        :content="sourceVisibilityLabel"
         :show-arrow="false"
         :trigger="['hover', 'focus']"
         :trigger-keys="[]"
       >
         <button
           ref="sourceCodeRef"
-          :aria-label="
-            sourceVisible ? locale['hide-source'] : locale['view-source']
-          "
+          :aria-label="sourceVisibilityLabel"
           class="reset-btn el-icon op-btn"
           @click="toggleSourceVisible()"
         >
@@ -178,6 +206,7 @@ const copyCode = async () => {
     background-color: var(--bg-color);
     border-radius: var(--el-border-radius-base);
     overflow: auto;
+
     &:has(.el-affix) {
       overflow: visible;
     }
@@ -231,6 +260,7 @@ const copyCode = async () => {
     right: 0;
     bottom: 0;
     z-index: 10;
+
     span {
       font-size: 14px;
       margin-left: 10px;

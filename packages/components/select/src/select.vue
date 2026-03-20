@@ -508,14 +508,14 @@ export default defineComponent({
             const flatData = flatTreeSelectData(treeData)
             flatData.forEach((treeItem: any) => {
               treeItem.currentLabel =
-                treeItem.label ||
+                treeItem.label ??
                 (isObject(treeItem.value) ? '' : treeItem.value)
               API.onOptionCreate(treeItem)
             })
           } else if (_name === 'ElOption') {
             const obj = { ...item.props } as any
             obj.currentLabel =
-              obj.label || (isObject(obj.value) ? '' : obj.value)
+              obj.label ?? (isObject(obj.value) ? '' : obj.value)
             API.onOptionCreate(obj)
           }
         }
@@ -535,6 +535,13 @@ export default defineComponent({
         // when the dropdown is currently expanded (mounted options will manage themselves).
         if (props.persistent || API.expanded.value) {
           // If persistent is true, we don't need to manually render slots.
+          return
+        }
+        // When using :options prop (no slot content), el-option components register
+        // and unregister themselves via onOptionCreate/onOptionDestroy lifecycle hooks.
+        // Calling options.clear() here would prematurely wipe options that are still
+        // mounted, causing a "No Data" flash during rapid open/close toggling.
+        if (!slots.default) {
           return
         }
         // Reset current options snapshot before re-collecting from slots.
