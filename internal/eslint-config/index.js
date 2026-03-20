@@ -461,6 +461,7 @@ export default defineConfig([
             },
             {
               group: [
+                '@element-plus/components',
                 '@element-plus/element-plus',
                 '@element-plus/theme-chalk',
                 '@element-plus/build',

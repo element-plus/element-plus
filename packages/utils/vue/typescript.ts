@@ -1,4 +1,3 @@
-import type { UploadProps } from '@element-plus/components/upload'
 import type {
   AppContext,
   EmitsOptions,
@@ -7,19 +6,8 @@ import type {
   VNodeProps,
 } from 'vue'
 
-// Keep 'on-' prefixed props to avoid conflict with `on${Capitalize<string>}` handlers
-type PropsWhiteListUnion<Props> = [keyof UploadProps] extends [keyof Props]
-  ? keyof UploadProps
-  : never
-
-type PickProps<Props> = {
-  [Key in keyof Props as Key extends PropsWhiteListUnion<Props>
-    ? Key
-    : Key extends keyof VNodeProps
-      ? never
-      : Key extends `on${Capitalize<string>}`
-        ? never
-        : Key]: Props[Key]
+type PickProps<T> = {
+  [P in keyof T as P extends keyof VNodeProps ? never : P]: T[P]
 }
 
 export type SFCWithInstall<T> = T & ObjectPlugin & SFCWithPropsDefaultsSetter<T>
