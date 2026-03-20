@@ -229,6 +229,20 @@ export const useDialog = (
     }
   }
 
+  function bringToFront() {
+    if (
+      !visible.value ||
+      !props.modalPenetrable ||
+      props.modal ||
+      props.fullscreen ||
+      props.zIndex
+    ) {
+      return
+    }
+
+    zIndex.value = nextZIndex()
+  }
+
   watch(
     () => props.zIndex,
     () => {
@@ -296,6 +310,7 @@ export const useDialog = (
     onCloseAutoFocus,
     onCloseRequested,
     onFocusoutPrevented,
+    bringToFront,
     titleId,
     bodyId,
     closed,

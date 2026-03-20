@@ -56,6 +56,7 @@
               :title="title"
               :aria-level="headerAriaLevel"
               @close="handleClose"
+              @mousedown="bringToFront"
             >
               <template #header>
                 <slot
@@ -135,6 +136,7 @@ const {
   onCloseAutoFocus,
   onCloseRequested,
   onFocusoutPrevented,
+  bringToFront,
   closing,
 } = useDialog(props, dialogRef)
 
