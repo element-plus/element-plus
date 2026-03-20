@@ -56,6 +56,7 @@
               :title="title"
               :aria-level="headerAriaLevel"
               @close="handleClose"
+              @click="onModifyIndex"
             >
               <template #header>
                 <slot
@@ -129,6 +130,7 @@ const {
   _draggable,
   _alignCenter,
   _overflow,
+  onModifyIndex,
   handleClose,
   onModalClick,
   onOpenAutoFocus,
