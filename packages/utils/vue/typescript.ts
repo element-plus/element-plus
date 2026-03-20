@@ -1,14 +1,22 @@
 import type {
   AppContext,
+  ComponentOptionsBase,
   EmitsOptions,
   ObjectPlugin,
   SetupContext,
   VNodeProps,
 } from 'vue'
 
-type PickProps<T> = {
-  [P in keyof T as P extends keyof VNodeProps ? never : P]: T[P]
-}
+type ExtractEmitNames<E> = E extends readonly any[]
+  ? never
+  : E extends object
+    ? Extract<keyof E, string>
+    : never
+
+type ExtractEventNames<T> =
+  T extends ComponentOptionsBase<any, any, any, any, any, any, any, any>
+    ? `on${Capitalize<ExtractEmitNames<T['emits']>>}`
+    : never
 
 export type SFCWithInstall<T> = T & ObjectPlugin & SFCWithPropsDefaultsSetter<T>
 
@@ -19,7 +27,12 @@ export type SFCInstallWithContext<T> = SFCWithInstall<T> & {
 export type SFCWithPropsDefaultsSetter<T> = T extends new (...args: any) => any
   ? {
       setPropsDefaults: (
-        defaults: Partial<PickProps<InstanceType<T>['$props']>>
+        defaults: Partial<
+          Omit<
+            InstanceType<T>['$props'],
+            ExtractEventNames<T> | keyof VNodeProps
+          >
+        >
       ) => void
     }
   : unknown
