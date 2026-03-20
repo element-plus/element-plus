@@ -1,4 +1,5 @@
 import type {
+  AllowedComponentProps,
   AppContext,
   ComponentOptionsBase,
   EmitsOptions,
@@ -34,7 +35,9 @@ export type SFCWithPropsDefaultsSetter<T> = T extends new (...args: any) => any
         defaults: Partial<
           Omit<
             InstanceType<T>['$props'],
-            ExtractEventNames<T> | keyof VNodeProps
+            | ExtractEventNames<T>
+            | keyof VNodeProps
+            | keyof AllowedComponentProps
           >
         >
       ) => void
