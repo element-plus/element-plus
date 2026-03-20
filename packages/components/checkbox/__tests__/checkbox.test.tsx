@@ -554,6 +554,21 @@ describe('Checkbox', () => {
     expect(checklist.value).toEqual([{ a: 2 }])
     expect(checkboxA1.classes()).not.contains('is-checked')
   })
+  test('should clear checked status when v-model is set to null', async () => {
+    const checked = ref<boolean | null>(true)
+
+    const wrapper = mount(() => (
+      <Checkbox v-model={checked.value}>Option</Checkbox>
+    ))
+
+    const checkbox = wrapper.findComponent(Checkbox)
+    expect(checkbox.classes()).toContain('is-checked')
+    expect(wrapper.find('input').element.checked).toBe(true)
+    checked.value = null
+    await nextTick()
+    expect(checkbox.classes()).not.toContain('is-checked')
+    expect(wrapper.find('input').element.checked).toBe(false)
+  })
 })
 
 describe('check-button', () => {
