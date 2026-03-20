@@ -4459,4 +4459,103 @@ describe('Select', () => {
     await wrapper.find('input').trigger('change')
     expect(nativeChangeHandler).not.toHaveBeenCalled()
   })
+  // #23838
+  test('should keep dropdown visible during debouncing when options exist (remote)', async () => {
+    vi.useFakeTimers()
+
+    const options = ref([{ value: 'test', label: 'test' }])
+    const handleVisibleChange = vi.fn()
+    const remoteMethod = vi.fn((query: string) => {
+      if (query) {
+        options.value = [
+          { value: 'Alabama', label: 'Alabama' },
+          { value: 'Alaska', label: 'Alaska' },
+        ]
+      }
+    })
+
+    // Temporarily restore useDebounceFn to use real debounce with fake timers
+    const { useDebounceFn } = await vi.importActual('@vueuse/core')
+    const mockedUseDebounceFn = vi.mocked(
+      (await import('@vueuse/core')).useDebounceFn
+    )
+    const originalUseDebounceFnImpl =
+      mockedUseDebounceFn.getMockImplementation()
+    mockedUseDebounceFn.mockImplementation(useDebounceFn)
+
+    try {
+      wrapper = mount(
+        {
+          components: {
+            'el-select': Select,
+            'el-option': Option,
+          },
+          template: `
+            <el-select
+              v-model="value"
+              filterable
+              remote
+              :debounce="300"
+              :remote-method="remoteMethod"
+              @visible-change="handleVisibleChange"
+            >
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          `,
+          setup() {
+            return {
+              value: ref(''),
+              options,
+              remoteMethod,
+              handleVisibleChange,
+            }
+          },
+        },
+        {
+          attachTo: 'body',
+        }
+      )
+
+      const select = wrapper.findComponent(Select)
+      const vm = select.vm as any
+      const input = wrapper.find('input')
+
+      // Open dropdown first
+      await input.trigger('click')
+      await nextTick()
+      expect(vm.dropdownMenuVisible).toBe(true)
+      expect(vm.states.options.size).toBe(1) // initial option exists
+      expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+      expect(handleVisibleChange).toHaveBeenLastCalledWith(true)
+
+      // Start typing to trigger remote search and debouncing
+      await input.setValue('a')
+      await nextTick()
+      vi.advanceTimersByTime(50) // Advance time but don't complete debounce
+      await nextTick()
+
+      // During debouncing (before debounce completes), check dropdown and event count
+      expect(vm.dropdownMenuVisible).toBe(true)
+      expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+
+      // Complete the debounce
+      vi.advanceTimersByTime(300)
+      await nextTick()
+
+      expect(remoteMethod).toHaveBeenCalledWith('a')
+      expect(vm.dropdownMenuVisible).toBe(true)
+      // Should still only have been called once - dropdown never closed
+      expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+    } finally {
+      mockedUseDebounceFn.mockImplementation(
+        originalUseDebounceFnImpl ?? ((fn: any) => fn)
+      )
+      vi.useRealTimers()
+    }
+  })
 })

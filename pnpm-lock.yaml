@@ -9,6 +9,12 @@ catalogs:
     '@ctrl/tinycolor':
       specifier: ^4.2.0
       version: 4.2.0
+    '@element-plus/icons-vue':
+      specifier: ^2.3.2
+      version: 2.3.2
+    '@popperjs/core':
+      specifier: npm:@sxzz/popperjs-es@^2.11.7
+      version: 2.11.8
     '@vitejs/plugin-vue':
       specifier: ^5.1.4
       version: 5.2.4
@@ -27,9 +33,18 @@ catalogs:
     '@vueuse/core':
       specifier: 12.0.0
       version: 12.0.0
+    lodash-unified:
+      specifier: ^1.0.3
+      version: 1.0.3
+    normalize-wheel-es:
+      specifier: ^1.2.0
+      version: 1.2.0
     vue:
       specifier: ^3.5.22
       version: 3.5.25
+    vue-component-type-helpers:
+      specifier: ^3.2.4
+      version: 3.2.4
 
 overrides:
   jwa: ^1.4.2
@@ -136,8 +151,8 @@ importers:
         specifier: ^8.4.0
         version: 8.10.0
       '@types/jsdom':
-        specifier: ^27.0.0
-        version: 27.0.0
+        specifier: ^28.0.0
+        version: 28.0.0
       '@types/node':
         specifier: ^22.9.0
         version: 22.19.3
@@ -277,6 +292,9 @@ importers:
       '@mdit-vue/shared':
         specifier: ^2.1.3
         version: 2.1.4
+      '@prettier/sync':
+        specifier: ^0.6.1
+        version: 0.6.1(prettier@3.7.4)
       '@vitejs/plugin-vue-jsx':
         specifier: 'catalog:'
         version: 4.2.0(vite@7.3.0(@types/node@22.19.3)(jiti@2.6.1)(lightningcss@1.31.1)(sass-embedded@1.97.3)(sass@1.97.3)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.25(typescript@5.5.4))
@@ -486,7 +504,7 @@ importers:
         version: link:../utils
       '@popperjs/core':
         specifier: 'catalog:'
-        version: '@sxzz/popperjs-es@2.11.7'
+        version: '@sxzz/popperjs-es@2.11.8'
       '@vueuse/core':
         specifier: 'catalog:'
         version: 12.0.0(typescript@5.5.4)
@@ -503,6 +521,9 @@ importers:
       vue:
         specifier: 'catalog:'
         version: 3.5.25(typescript@5.5.4)
+      vue-component-type-helpers:
+        specifier: 'catalog:'
+        version: 3.2.4
 
   packages/constants: {}
 
@@ -572,6 +593,9 @@ importers:
       vue:
         specifier: ^3.3.0
         version: 3.5.25(typescript@5.5.4)
+      vue-component-type-helpers:
+        specifier: 'catalog:'
+        version: 3.2.4
     devDependencies:
       '@types/node':
         specifier: '*'
@@ -587,7 +611,7 @@ importers:
         version: 1.7.4
       '@popperjs/core':
         specifier: 'catalog:'
-        version: '@sxzz/popperjs-es@2.11.7'
+        version: '@sxzz/popperjs-es@2.11.8'
       '@vueuse/core':
         specifier: 'catalog:'
         version: 12.0.0(typescript@5.5.4)
@@ -2390,6 +2414,11 @@ packages:
   '@polka/url@1.0.0-next.29':
     resolution: {integrity: sha512-wwQAWhWSuHaag8c4q/KN/vCoeOJYshAIvMQwD4GpSb3OiZklFfvAgmj0VCBBImRpuF/aFgIRzllXlVX93Jevww==}
 
+  '@prettier/sync@0.6.1':
+    resolution: {integrity: sha512-yF9G8vK/LYUTF3Cijd7VC9La3b20F20/J/fgoR4H0B8JGOWnZVZX6+I6+vODPosjmMcpdlUV+gUqJQZp3kLOcw==}
+    peerDependencies:
+      prettier: '*'
+
   '@puppeteer/browsers@2.11.0':
     resolution: {integrity: sha512-n6oQX6mYkG8TRPuPXmbPidkUbsSRalhmaaVAQxvH1IkQy63cwsH+kOjB3e4cpCDHg0aSvsiX9bQ4s2VB6mGWUQ==}
     engines: {node: '>=18'}
@@ -2761,8 +2790,8 @@ packages:
   '@types/http-cache-semantics@4.0.4':
     resolution: {integrity: sha512-1m0bIFVc7eJWyve9S0RnuRgcQqF/Xd5QsUZAZeQFr1Q3/p9JWoQQEqmVy+DPTNpGXwhgIetAoYF8JSc33q29QA==}
 
-  '@types/jsdom@27.0.0':
-    resolution: {integrity: sha512-NZyFl/PViwKzdEkQg96gtnB8wm+1ljhdDay9ahn4hgb+SfVtPCbm3TlmDUFXTA+MGN3CijicnMhG18SI5H3rFw==}
+  '@types/jsdom@28.0.0':
+    resolution: {integrity: sha512-A8TBQQC/xAOojy9kM8E46cqT00sF0h7dWjV8t8BJhUi2rG6JRh7XXQo/oLoENuZIQEpXsxLccLCnknyQd7qssQ==}
 
   '@types/jsesc@2.5.1':
     resolution: {integrity: sha512-9VN+6yxLOPLOav+7PwjZbxiID2bVaeq0ED4qSQmdQTdjnXJSaCVKTR58t15oqH1H5t8Ng2ZX1SabJVoN9Q34bw==}
@@ -5738,6 +5767,9 @@ packages:
     resolution: {integrity: sha512-NgOPbRiaQM10DYXvN3/hhGVI2M5MtITFryzBGxHM5p4wnFxsVCbxkrBrDsk+EZ5OB4jEOT7AjDxtdF+KVEFT7w==}
     engines: {node: ^12.13.0 || ^14.15.0 || >=16.0.0}
 
+  make-synchronized@0.8.0:
+    resolution: {integrity: sha512-DZu4lwc0ffoFz581BSQa/BJl+1ZqIkoRQ+VejMlH0VrP4E86StAODnZujZ4sepumQj8rcP7wUnUBGM8Gu+zKUA==}
+
   map-age-cleaner@0.1.3:
     resolution: {integrity: sha512-bJzx6nMoP6PDLPBFmg7+xRKeFZvFboMrGlxmNj9ClvX53KrmvM5bXFXEWjbz4cz1AFn+jWJ9z/DJSz7hrs0w3w==}
     engines: {node: '>=6'}
@@ -7699,6 +7731,9 @@ packages:
   undici-types@6.21.0:
     resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
 
+  undici-types@7.24.3:
+    resolution: {integrity: sha512-frL/LoWYV3AWaHtW+Oa3oNLX1k6fVDBd/4gspN4nkRwzO9tRj/R1HzDQpyXnt0H/5DKHbFpdn2BktNQl1tbFYA==}
+
   unicorn-magic@0.1.0:
     resolution: {integrity: sha512-lRfVq8fE8gz6QMBuDM6a+LO3IAzTi05H6gCVaUpir2E1Rwpo4ZUog45KpNXKC/Mn3Yb9UDuHumeFTo9iV/D9FQ==}
     engines: {node: '>=18'}
@@ -7981,6 +8016,9 @@ packages:
 
   vue-component-type-helpers@2.2.12:
     resolution: {integrity: sha512-YbGqHZ5/eW4SnkPNR44mKVc6ZKQoRs/Rux1sxC6rdwXb4qpbOSYfDr9DsTHolOTGmIKgM9j141mZbBeg05R1pw==}
+
+  vue-component-type-helpers@3.2.4:
+    resolution: {integrity: sha512-05lR16HeZDcDpB23ku5b5f1fBOoHqFnMiKRr2CiEvbG5Ux4Yi0McmQBOET0dR0nxDXosxyVqv67q6CzS3AK8rw==}
 
   vue-eslint-parser@10.2.0:
     resolution: {integrity: sha512-CydUvFOQKD928UzZhTp4pr2vWz1L+H99t7Pkln2QSPdvmURT0MoC4wUccfCnuEaihNsu9aYYyk+bep8rlfkUXw==}
@@ -10322,6 +10360,11 @@ snapshots:
 
   '@polka/url@1.0.0-next.29': {}
 
+  '@prettier/sync@0.6.1(prettier@3.7.4)':
+    dependencies:
+      make-synchronized: 0.8.0
+      prettier: 3.7.4
+
   '@puppeteer/browsers@2.11.0':
     dependencies:
       debug: 4.4.3
@@ -10605,11 +10648,12 @@ snapshots:
 
   '@types/http-cache-semantics@4.0.4': {}
 
-  '@types/jsdom@27.0.0':
+  '@types/jsdom@28.0.0':
     dependencies:
       '@types/node': 22.19.3
       '@types/tough-cookie': 4.0.5
       parse5: 7.3.0
+      undici-types: 7.24.3
 
   '@types/jsesc@2.5.1': {}
 
@@ -14077,6 +14121,8 @@ snapshots:
       - bluebird
       - supports-color
 
+  make-synchronized@0.8.0: {}
+
   map-age-cleaner@0.1.3:
     dependencies:
       p-defer: 1.0.0
@@ -16386,6 +16432,8 @@ snapshots:
 
   undici-types@6.21.0: {}
 
+  undici-types@7.24.3: {}
+
   unicorn-magic@0.1.0: {}
 
   unique-filename@2.0.1:
@@ -16735,6 +16783,8 @@ snapshots:
   vscode-uri@3.1.0: {}
 
   vue-component-type-helpers@2.2.12: {}
+
+  vue-component-type-helpers@3.2.4: {}
 
   vue-eslint-parser@10.2.0(eslint@9.39.2(jiti@2.6.1)):
     dependencies:
