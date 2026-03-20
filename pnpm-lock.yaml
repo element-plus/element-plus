@@ -660,6 +660,9 @@ importers:
 
   packages/utils:
     dependencies:
+      '@element-plus/components':
+        specifier: workspace:^
+        version: link:../components
       '@element-plus/constants':
         specifier: workspace:^
         version: link:../constants

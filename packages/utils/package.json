@@ -8,6 +8,7 @@
     "vue": "catalog:"
   },
   "dependencies": {
+    "@element-plus/components": "workspace:^",
     "@element-plus/constants": "workspace:^",
     "@element-plus/icons-vue": "catalog:",
     "@vueuse/core": "catalog:",
