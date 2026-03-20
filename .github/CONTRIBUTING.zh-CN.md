@@ -14,6 +14,8 @@ Element Plus 的成长离不开大家的支持，如果你愿意为 Element Plus
 
 - 请说明 Element Plus 和 Vue 的版本号，并提供操作系统和浏览器信息。推荐使用 [Playground](https://element-plus.run/) 生成在线 demo，这能够更直观地重现问题。
 
+- 如果你需要批量关闭 issue，可以先在 GitHub 的 issue 列表里筛选目标 issue，再通过复选框选中它们，并使用批量操作菜单进行关闭。如果需要脚本化处理，也可以使用 GitHub CLI 或 GitHub API。
+
 ## Pull Request 规范
 
 - 请先 fork 一份到自己的项目下，不要直接在仓库下建分支。

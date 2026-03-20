@@ -14,6 +14,8 @@ We are excited that you are interested in contributing to Element Plus. Before s
 
 - Please specify which version of `Element Plus` and `Vue` you are using, and provide OS and browser information. [Playground](https://element-plus.run/) is recommended to build a live demo so that your issue can be reproduced clearly.
 
+- If you need to close several issues at once, filter the target issues in GitHub's issue list, select them with the checkboxes, and use the bulk action menu to close them. For scripted workflows, you can also use GitHub CLI or the GitHub API.
+
 ## Pull Request Guidelines
 
 - Fork this repository to your own account. Do not create branches here.

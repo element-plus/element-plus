@@ -10,6 +10,8 @@
 
 - Issues with feature requests should be submitted to [RFCs](https://github.com/element-plus/rfcs/issues). This helps us manage feature requests more efficiently.
 
+- If you need to close several issues at once, filter the target issues in GitHub's issue list, select them with the checkboxes, and use the bulk action menu to close them. For scripted workflows, you can also use GitHub CLI or the GitHub API.
+
 Next section is for those who wants to help develop Element Plus.
 
 ## Prerequisites
